@@ -1,3 +1,11 @@
+.classpath
+.project
+target
+bin
+dist
+test-db
+src/main/config/build.properties
+
 *.class
 
 # Package Files #
