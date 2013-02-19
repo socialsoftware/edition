@@ -7,8 +7,3 @@ test-db
 src/main/config/build.properties
 
 *.class
-
-# Package Files #
-*.jar
-*.war
-*.ear
