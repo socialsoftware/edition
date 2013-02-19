@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project basedir="." default="compile" name="edition">
+	<description>Edition Build File</description>
+
+    <!-- The project configuration properties -->
+    <property file="build.properties"/>
+    <!-- User configuration properties - used if not alread defined at project level -->
+    <property file="${user.home}/build.properties"/>
+    <!-- Environment properties - used if not defined yet -->
+    <property environment="env" />
+
+	<property name="application.name" value="${ant.project.name}" />
+    <property name="javac.encoding" value="UTF-8" />
+    <property name="java.file.encoding" value="UTF-8" />
+	
+    <!-- Main directories-->
+	<property name="src.rel-dir" value="src/main" />
+	<property name="test.src.rel-dir" value="src/test"/>
+	<property name="build.rel-dir" value="target" />
+	<property name="lib.rel-dir" value="lib" />
+	<property name="db.rel-dir" value="db"/>
+	<property name="test-db.rel-dir" value="test-db"/>
+	<property name="eclipse.build.rel-dir" value="bin"/>
+	
+    <!-- Directories with the source, e.g. java, dml, webapps -->
+	<property name="java.src.rel-dir" value="${src.rel-dir}/java" />
+	<property name="java.test.src.rel-dir" value="${test.src.rel-dir}/java"/>
+	<property name="dml.src.rel-dir" value="${src.rel-dir}/dml" />
+	<property name="config.src.rel-dir" value="${src.rel-dir}/config"/>
+	
+    <!-- DML files -->
+	<property name="dml.filename" value="${application.name}.dml" />
+	<property name="dml.rel-file" value="${dml.src.rel-dir}/${dml.filename}" />
+	
+	<!-- Directories with generated source -->
+	<property name="generated-src.build.rel-dir" value="${build.rel-dir}/src" />
+    
+    <!-- Directories with the .class, .e.g used to build the wars -->
+     <property name="classes.build.rel-dir" value="${build.rel-dir}/classes" />
+
+	<!-- User specific properties files files -->
+	<property name="build.properties.filename" value="build.properties" />
+	<property name="build.properties.rel-dir" value="${config.src.rel-dir}/${build.properties.filename}"/>
+	
+	<property file="${build.properties.rel-dir}" />
+	
+
+	<!-- Project Classpath -->
+	<path id="project.classpath">
+		<pathelement location="${classes.build.rel-dir}" />
+		<fileset dir="${lib.rel-dir}">
+			<include name="**/*.jar" />
+		</fileset>
+	</path>
+
+	<taskdef resource="pt/ist/fenixframework/dml-ant.xml" classpathref="project.classpath" />
+
+	<!-- Prepare -->
+	<target name="prepare">
+		<echo message="Preparing the project for build..." />
+		<mkdir dir="${classes.build.rel-dir}" />
+		<!-- <mkdir dir="${db.rel-dir}"/> -->
+	    <mkdir dir="${test-db.rel-dir}"/>
+	</target>
+	
+	<!-- Generate Domain -->
+	<target name="generate-domain" depends="prepare">
+		<echo message="Generating base domain classes..." />
+		<echo message="Using: ${dml.rel-file}" />
+		<dml-domain-generator destDirectory="${java.src.rel-dir}" destDirectoryBase="${generated-src.build.rel-dir}">
+			<fileset file="${dml.rel-file}" />
+		</dml-domain-generator>
+	</target>
+	
+	<!-- Compile -->
+	<target name="compile" depends="generate-domain, prepare">
+		<echo message="Compiling sources..." />
+		<javac destdir="${classes.build.rel-dir}" debug="true" debuglevel="lines,vars,source" optimize="true" deprecation="true" verbose="false" includeantruntime="false">
+			<classpath refid="project.classpath" />
+			<src>
+				<pathelement path="${generated-src.build.rel-dir}:${java.src.rel-dir}" />
+			</src>
+			<compilerarg line="" />
+		</javac>
+	</target>
+	
+	<!-- Compile Tests -->
+	<target name="compile-tests" depends="compile, instrument-classes" description="Compile the tests">
+		<javac destdir="${classes.build.rel-dir}" debug="true" debuglevel="lines,vars,source" optimize="true" deprecation="true" verbose="false" includeantruntime="false" encoding="${javac.encoding}">
+	      <classpath refid="project.classpath" />
+	      <src>
+	        <pathelement path="${java.test.src.rel-dir}"/>
+	      </src>
+		</javac>
+	</target>
+	
+	<!-- Instrument Classes -->
+	<target name="instrument-classes" depends="compile">
+		<echo message="Injecting FenixFramework Voodoo Magic..." />
+		<dml-post-processor dir="${classes.build.rel-dir}">
+			<fileset file="${dml.rel-file}" />
+			<classpath refid="project.classpath" />
+		</dml-post-processor>
+	</target>
+	
+	<!-- Clean -->
+	<target name="clean" description="Cleans the compiled classes and generated sources">
+		<delete dir="${build.rel-dir}" />
+		<delete dir="${eclipse.build.rel-dir}" />
+		<delete dir="${test-db.rel-dir}"/>
+		<delete dir="${db.rel-dir}"/>
+	</target>
+	
+	<!-- Clean -->
+	<target name="clean-test" description="Cleans the compiled classes and generated sources">
+		<delete dir="${test-db.rel-dir}"/>
+	</target>
+		
+	<!-- Test All -->
+	<target name="test-service:All" depends="compile-tests" description="Run the tests">
+		<echo message="Testing all services..." />
+		<junit>
+			<classpath refid="project.classpath" />
+			<formatter type="brief" usefile="false" />
+<!--			<test name="pt.ist.socialsoftware.blendedworkflow.engines.bwengine.servicelayer.test.LoadBWSpecificationServiceTest" />
+			<test name="pt.ist.socialsoftware.blendedworkflow.engines.bwengine.servicelayer.test.CreateBWInstanceServiceTest" />
+			<test name="pt.ist.socialsoftware.blendedworkflow.adapters.test.ProcessItemLevelExceptionEventTest" />
+			<test name="pt.ist.socialsoftware.blendedworkflow.engines.bwengine.servicelayer.test.CreateGoalInstanceServiceTest" />
+			<test name="pt.ist.socialsoftware.blendedworkflow.engines.bwengine.servicelayer.test.ManageGoalConditionServiceTest" />
+			<test name="pt.ist.socialsoftware.blendedworkflow.engines.bwengine.servicelayer.test.EnableGoalWorkItemsServiceTest" />
+			<test name="pt.ist.socialsoftware.blendedworkflow.engines.bwengine.servicelayer.test.CheckInWorkItemServiceTest" />
+			<test name="pt.ist.socialsoftware.blendedworkflow.engines.bwengine.servicelayer.test.SkipWorkItemServiceTest" />
+			<test name="pt.ist.socialsoftware.blendedworkflow.engines.bwengine.servicelayer.test.RedoGoalWorkItemServiceTest" />
+			<test name="pt.ist.socialsoftware.blendedworkflow.engines.bwengine.servicelayer.test.CreateNewGoalServiceTest" />
+			-->
+		</junit>
+	</target>
+	
+	<!-- Test LoadBWSpecification 		-->
+	<!-- <target name="test-service-1:LoadBWSpecification" depends="compile-tests">
+		<junit>
+			<classpath refid="project.classpath" />
+			<formatter type="brief" usefile="false" />
+			<test name="pt.ist.socialsoftware.blendedworkflow.engines.bwengine.servicelayer.test.LoadBWSpecificationServiceTest" />
+		</junit>
+	</target> -->
+
+
+	<!-- Test All Domain -->
+	<!-- <target name="test-domain:All" depends="compile-tests" description="Run the Domain tests">
+		<echo message="Testing all services..." />
+		<junit>
+			<classpath refid="project.classpath" />
+			<formatter type="brief" usefile="false" />
+				<test name="pt.ist.socialsoftware.blendedworkflow.engines.domain.test.DataModelTest" />
+				<test name="pt.ist.socialsoftware.blendedworkflow.engines.domain.test.ForAllConditionTest" />
+				<test name="pt.ist.socialsoftware.blendedworkflow.engines.domain.test.ExistsOneConditionTest" />
+		</junit>
+	</target> -->
+		
+</project>
