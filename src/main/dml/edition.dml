@@ -1,0 +1,10 @@
+package pt.ist.socialsoftware.edition.domain;
+
+enum pt.ist.socialsoftware.edition.domain.DataModel.DataState as DataState;
+enum pt.ist.socialsoftware.edition.domain.MaintainGoal.GoalState as GoalState;
+enum pt.ist.socialsoftware.edition.domain.Task.TaskState as TaskState;
+enum pt.ist.socialsoftware.edition.domain.WorkItem.WorkItemState as WorkItemState;
+
+class LdoD {
+	String name;
+}
