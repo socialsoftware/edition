@@ -1,10 +1,40 @@
 package pt.ist.socialsoftware.edition.domain;
 
-enum pt.ist.socialsoftware.edition.domain.DataModel.DataState as DataState;
-enum pt.ist.socialsoftware.edition.domain.MaintainGoal.GoalState as GoalState;
-enum pt.ist.socialsoftware.edition.domain.Task.TaskState as TaskState;
-enum pt.ist.socialsoftware.edition.domain.WorkItem.WorkItemState as WorkItemState;
-
 class LdoD {
+	String title;
+	String author;
+	String editor;
+	String sponsor;
+	String funder;
+	String principal;
+}
+
+class Edition {
+	String title;
+	String author;
+	String editor;
+	DateTime date;
+}
+
+relation LdoDHasEditions {
+	LdoD playsRole ldoD {multiplicity 1..1;}
+	Edition playsRole editions {multiplicity 0..*;}
+}
+
+class Taxonomy {
 	String name;
+}
+
+class Category {
+	String name;
+}
+
+relation LdoDHasTaxonomies {
+	LdoD playsRole ldoD {multiplicity 1..1;}
+	Taxonomy playsRole taxonomies {multiplicity 0..*;}
+}
+
+relation TaxonomyHasCategories {
+	Taxonomy playsRole taxonomy {multiplicity 1..1;}
+	Category playsRole categories {multiplicity 0..*;}
 }

@@ -1,9 +1,15 @@
 package pt.ist.socialsoftware.edition.domain;
 
+import pt.ist.fenixframework.FenixFramework;
+
 public class LdoD extends LdoD_Base {
-    
-    public  LdoD() {
-        super();
-    }
-    
+
+	public static LdoD getInstance() {
+		return FenixFramework.getRoot();
+	}
+
+	public LdoD() {
+		super();
+	}
+
 }

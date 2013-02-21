@@ -117,45 +117,18 @@
 	</target>
 		
 	<!-- Test All -->
-	<target name="test-service:All" depends="compile-tests" description="Run the tests">
-		<echo message="Testing all services..." />
+	<target name="test:all" depends="clean-test, compile-tests, test:readers" description="Run the tests">
+		<echo message="Testing al" />
+	</target>
+
+	<!-- Test Readers -->
+	<target name="test:readers" depends="compile-tests" description="Run the tests">
+		<echo message="Testing readers" />
 		<junit>
 			<classpath refid="project.classpath" />
 			<formatter type="brief" usefile="false" />
-<!--			<test name="pt.ist.socialsoftware.blendedworkflow.engines.bwengine.servicelayer.test.LoadBWSpecificationServiceTest" />
-			<test name="pt.ist.socialsoftware.blendedworkflow.engines.bwengine.servicelayer.test.CreateBWInstanceServiceTest" />
-			<test name="pt.ist.socialsoftware.blendedworkflow.adapters.test.ProcessItemLevelExceptionEventTest" />
-			<test name="pt.ist.socialsoftware.blendedworkflow.engines.bwengine.servicelayer.test.CreateGoalInstanceServiceTest" />
-			<test name="pt.ist.socialsoftware.blendedworkflow.engines.bwengine.servicelayer.test.ManageGoalConditionServiceTest" />
-			<test name="pt.ist.socialsoftware.blendedworkflow.engines.bwengine.servicelayer.test.EnableGoalWorkItemsServiceTest" />
-			<test name="pt.ist.socialsoftware.blendedworkflow.engines.bwengine.servicelayer.test.CheckInWorkItemServiceTest" />
-			<test name="pt.ist.socialsoftware.blendedworkflow.engines.bwengine.servicelayer.test.SkipWorkItemServiceTest" />
-			<test name="pt.ist.socialsoftware.blendedworkflow.engines.bwengine.servicelayer.test.RedoGoalWorkItemServiceTest" />
-			<test name="pt.ist.socialsoftware.blendedworkflow.engines.bwengine.servicelayer.test.CreateNewGoalServiceTest" />
-			-->
+			<test name="pt.ist.socialsoftware.edition.readers.ImportLdoDFromTEITest" />
 		</junit>
 	</target>
-	
-	<!-- Test LoadBWSpecification 		-->
-	<!-- <target name="test-service-1:LoadBWSpecification" depends="compile-tests">
-		<junit>
-			<classpath refid="project.classpath" />
-			<formatter type="brief" usefile="false" />
-			<test name="pt.ist.socialsoftware.blendedworkflow.engines.bwengine.servicelayer.test.LoadBWSpecificationServiceTest" />
-		</junit>
-	</target> -->
-
-
-	<!-- Test All Domain -->
-	<!-- <target name="test-domain:All" depends="compile-tests" description="Run the Domain tests">
-		<echo message="Testing all services..." />
-		<junit>
-			<classpath refid="project.classpath" />
-			<formatter type="brief" usefile="false" />
-				<test name="pt.ist.socialsoftware.blendedworkflow.engines.domain.test.DataModelTest" />
-				<test name="pt.ist.socialsoftware.blendedworkflow.engines.domain.test.ForAllConditionTest" />
-				<test name="pt.ist.socialsoftware.blendedworkflow.engines.domain.test.ExistsOneConditionTest" />
-		</junit>
-	</target> -->
-		
+			
 </project>
