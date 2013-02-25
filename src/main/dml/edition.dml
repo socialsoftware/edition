@@ -38,3 +38,76 @@ relation TaxonomyHasCategories {
 	Taxonomy playsRole taxonomy {multiplicity 1..1;}
 	Category playsRole categories {multiplicity 0..*;}
 }
+
+class Heteronym {
+	String name;
+}
+
+relation LdoDHasHeteronyms {
+	LdoD playsRole ldoD {multiplicity 1..1;}
+	Heteronym playsRole heteronyms {multiplicity 0..*;}
+}
+
+class Fragment {
+	String title;
+}
+
+relation LdoDHasFragments {
+	LdoD playsRole ldoD {multiplicity 1..1;}
+	Fragment playsRole fragments {multiplicity 0..*;}
+}
+
+class FragmentInterpretation {
+	DateTime date;
+}
+
+relation FragmentHasFragmentInterpretations {
+	Fragment playsRole fragment {multiplicity 1..1;}
+	FragmentInterpretation playsRole fragmentInter {multiplicity 0..*;}
+}
+
+relation FragmentInterpretationAttributesHeronym {
+	FragmentInterpretation playsRole fragmentInterpretation {multiplicity 0..*;}
+	Heteronym playsRole heteronym {multiplicity 0..1;}
+}
+
+relation FragmentInterpretationHasCategories {
+	FragmentInterpretation playsRole fragmentInterpretations {multiplicity 0..*;}
+	Category playsRole categories {multiplicity 0..1;}
+}
+
+class EditionInterpretation extends FragmentInterpretation;
+
+class SourceInterpretation extends FragmentInterpretation;
+
+relation EditionHasEditionInterpretations {
+	Edition playsRole edition {multiplicity 1..1;}
+	EditionInterpretation playsRole editionInterpretations {multiplicity 0..*;}
+}
+
+class Source {
+	Boolean hasLdoDLabel;
+}
+
+relation FragmentHasSources {
+	Fragment playsRole fragment {multiplicity 1..1;}
+	Source playsRole sources {multiplicity 0..*;}
+}
+
+relation SourceHasSourceInterpretations {
+	Source playsRole source {multiplicity 1..1;}
+	SourceInterpretation playsRole sourceInterpretations {multiplicity 0..*;}
+}
+
+class ManuscriptSource extends Source {
+	String settlement;
+	String repository;
+	String idno;
+}
+
+class PrintedSource extends Source {
+	String title;
+	String pubPlace;
+	String issue;
+	DateTime date;
+}

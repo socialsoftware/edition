@@ -14,7 +14,15 @@ import pt.ist.fenixframework.pstm.Transaction;
 import pt.ist.socialsoftware.edition.domain.Category;
 import pt.ist.socialsoftware.edition.domain.DatabaseBootstrap;
 import pt.ist.socialsoftware.edition.domain.Edition;
+import pt.ist.socialsoftware.edition.domain.EditionInterpretation;
+import pt.ist.socialsoftware.edition.domain.Fragment;
+import pt.ist.socialsoftware.edition.domain.FragmentInterpretation;
+import pt.ist.socialsoftware.edition.domain.Heteronym;
 import pt.ist.socialsoftware.edition.domain.LdoD;
+import pt.ist.socialsoftware.edition.domain.ManuscriptSource;
+import pt.ist.socialsoftware.edition.domain.PrintedSource;
+import pt.ist.socialsoftware.edition.domain.Source;
+import pt.ist.socialsoftware.edition.domain.SourceInterpretation;
 import pt.ist.socialsoftware.edition.domain.Taxonomy;
 
 public class ImportLdoDFromTEITest {
@@ -37,6 +45,10 @@ public class ImportLdoDFromTEITest {
 			editions.clear();
 			Set<Taxonomy> taxonomies = ldoD.getTaxonomiesSet();
 			taxonomies.clear();
+			Set<Heteronym> heteronyms = ldoD.getHeteronymsSet();
+			heteronyms.clear();
+			Set<Fragment> fragments = ldoD.getFragmentsSet();
+			fragments.clear();
 			Transaction.commit();
 			committed = true;
 		} finally {
@@ -57,9 +69,69 @@ public class ImportLdoDFromTEITest {
 		checkTitleStmtLoad(ldoD);
 		checkListBiblLoad(ldoD);
 		checkTaxonomiesLoad(ldoD);
+		checkHeteronymsLoad(ldoD);
+
+		Fragment fragment = checkFragmentLoad(ldoD);
+		checkLoadSources(fragment);
+		checkLoadWintnesses(fragment);
 
 		Transaction.commit();
 
+	}
+
+	private void checkLoadWintnesses(Fragment fragment) {
+		assertEquals(7, fragment.getFragmentInter().size());
+		for (FragmentInterpretation fragmentInter : fragment.getFragmentInter()) {
+			if (fragmentInter instanceof EditionInterpretation) {
+				assertTrue(((EditionInterpretation) fragmentInter).hasEdition());
+			} else if (fragmentInter instanceof SourceInterpretation) {
+				assertTrue(((SourceInterpretation) fragmentInter).hasSource());
+			}
+		}
+	}
+
+	private void checkLoadSources(Fragment fragment) {
+		assertEquals(3, fragment.getSources().size());
+		for (Source source : fragment.getSources()) {
+			if (source instanceof ManuscriptSource) {
+				ManuscriptSource manuscript = (ManuscriptSource) source;
+				assertEquals("Lisbon", manuscript.getSettlement());
+				assertEquals("BN", manuscript.getRepository());
+				assertTrue(manuscript.getIdno().equals(
+						"bn-acpc-e-e3-4-1-87_0007_4_t24-C-R0150")
+						|| manuscript.getIdno().equals(
+								"bn-acpc-e-e3-4-1-87_0005_3_t24-C-R0150"));
+			} else if (source instanceof PrintedSource) {
+				PrintedSource printedSource = (PrintedSource) source;
+				assertEquals("Revista Descobrimento", printedSource.getTitle());
+				assertEquals("Lisbon", printedSource.getPubPlace());
+				assertEquals("3", printedSource.getIssue());
+				assertEquals(1931, printedSource.getDate().getYear());
+			}
+
+		}
+	}
+
+	private Fragment checkFragmentLoad(LdoD ldoD) {
+		assertEquals(1, ldoD.getFragments().size());
+
+		Fragment returnFragment = null;
+		for (Fragment fragment : ldoD.getFragments()) {
+			assertEquals("Prefiro a prosa ao verso...", fragment.getTitle());
+
+			returnFragment = fragment;
+		}
+
+		return returnFragment;
+
+	}
+
+	private void checkHeteronymsLoad(LdoD ldoD) {
+		assertEquals(2, ldoD.getHeteronyms().size());
+		for (Heteronym heteronym : ldoD.getHeteronyms()) {
+			assertTrue(heteronym.getName().equals("Bernardo Soares")
+					|| heteronym.getName().equals("Vicente Guedes"));
+		}
 	}
 
 	private void checkTaxonomiesLoad(LdoD ldoD) {
@@ -78,10 +150,15 @@ public class ImportLdoDFromTEITest {
 		assertEquals(4, ldoD.getEditions().size());
 		for (Edition edition : ldoD.getEditions()) {
 			assertEquals("Fernando Pessoa", edition.getAuthor());
-			if (edition.getEditor().equals("Jacinto Prado Coelho")) {
-				assertEquals("O Livro do Desassossego", edition.getTitle());
-				assertEquals(1982, edition.getDate().getYear());
-			}
+			assertEquals("O Livro do Desassossego", edition.getTitle());
+			assertTrue((edition.getEditor().equals("Jacinto Prado Coelho") && edition
+					.getDate().getYear() == 1982)
+					|| (edition.getEditor().equals("Teresa Sobral Cunha") && edition
+							.getDate().getYear() == 1997)
+					|| (edition.getEditor().equals("Richard Zenith") && edition
+							.getDate().getYear() == 2007)
+					|| (edition.getEditor().equals("Jerónimo Pizarro") && edition
+							.getDate().getYear() == 2010));
 		}
 	}
 
