@@ -1,19 +1,20 @@
 package pt.ist.socialsoftware.edition.domain;
 
-public class PrintedSource extends PrintedSource_Base {
+public class SourceInter extends SourceInter_Base {
 
-	public PrintedSource() {
+	public SourceInter() {
 		super();
 	}
 
 	@Override
 	public void print() {
-		System.out.print(getTitle() + ":");
+		getSource().print();
+
 	}
 
 	@Override
 	public String getName() {
-		return getTitle();
+		return getSource().getName();
 	}
 
 }

@@ -75,7 +75,7 @@
 	<!-- Compile -->
 	<target name="compile" depends="generate-domain, prepare">
 		<echo message="Compiling sources..." />
-		<javac destdir="${classes.build.rel-dir}" debug="true" debuglevel="lines,vars,source" optimize="true" deprecation="true" verbose="false" includeantruntime="false">
+		<javac destdir="${classes.build.rel-dir}" source ="1.6" debug="true" debuglevel="lines,vars,source" optimize="true" deprecation="true" verbose="false" includeantruntime="false">
 			<classpath refid="project.classpath" />
 			<src>
 				<pathelement path="${generated-src.build.rel-dir}:${java.src.rel-dir}" />
@@ -86,14 +86,14 @@
 	
 	<!-- Compile Tests -->
 	<target name="compile-tests" depends="compile, instrument-classes" description="Compile the tests">
-		<javac destdir="${classes.build.rel-dir}" debug="true" debuglevel="lines,vars,source" optimize="true" deprecation="true" verbose="false" includeantruntime="false" encoding="${javac.encoding}">
+		<javac destdir="${classes.build.rel-dir}" source ="1.6" debug="true" debuglevel="lines,vars,source" optimize="true" deprecation="true" verbose="false" includeantruntime="false" encoding="${javac.encoding}">
 	      <classpath refid="project.classpath" />
 	      <src>
 	        <pathelement path="${java.test.src.rel-dir}"/>
 	      </src>
 		</javac>
 	</target>
-	
+		
 	<!-- Instrument Classes -->
 	<target name="instrument-classes" depends="compile">
 		<echo message="Injecting FenixFramework Voodoo Magic..." />
@@ -117,17 +117,19 @@
 	</target>
 		
 	<!-- Test All -->
-	<target name="test:all" depends="clean-test, compile-tests, test:readers" description="Run the tests">
+	<target name="test:all" depends="clean-test, compile-tests, test:loaders" description="Run the tests">
 		<echo message="Testing al" />
 	</target>
 
-	<!-- Test Readers -->
-	<target name="test:readers" depends="compile-tests" description="Run the tests">
-		<echo message="Testing readers" />
-		<junit>
+	<!-- Test Loaders -->
+	<target name="test:loaders" depends="compile-tests" description="Run the tests">
+		<echo message="Testing loaders" />
+		<junit fork="yes">
+			<jvmarg value="-Dfile.encoding=UTF-8"/>
 			<classpath refid="project.classpath" />
 			<formatter type="brief" usefile="false" />
-			<test name="pt.ist.socialsoftware.edition.readers.ImportLdoDFromTEITest" />
+			<assertions><enable/></assertions>
+			<test name="pt.ist.socialsoftware.edition.loaders.ImportLdoDFromTEITest" />
 		</junit>
 	</target>
 			

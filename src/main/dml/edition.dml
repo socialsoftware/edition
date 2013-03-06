@@ -1,5 +1,9 @@
 package pt.ist.socialsoftware.edition.domain;
 
+enum pt.ist.socialsoftware.edition.domain.Reading.ReadingType as ReadingType;
+enum pt.ist.socialsoftware.edition.domain.SpaceText.SpaceDim as SpaceDim;
+enum pt.ist.socialsoftware.edition.domain.SpaceText.SpaceUnit as SpaceUnit;
+
 class LdoD {
 	String title;
 	String author;
@@ -57,32 +61,32 @@ relation LdoDHasFragments {
 	Fragment playsRole fragments {multiplicity 0..*;}
 }
 
-class FragmentInterpretation {
+class FragInter {
 	DateTime date;
 }
 
-relation FragmentHasFragmentInterpretations {
+relation FragmentHasFragInters {
 	Fragment playsRole fragment {multiplicity 1..1;}
-	FragmentInterpretation playsRole fragmentInter {multiplicity 0..*;}
+	FragInter playsRole fragmentInter {multiplicity 0..*;}
 }
 
-relation FragmentInterpretationAttributesHeronym {
-	FragmentInterpretation playsRole fragmentInterpretation {multiplicity 0..*;}
+relation FragInterAttributesHeronym {
+	FragInter playsRole fragInter {multiplicity 0..*;}
 	Heteronym playsRole heteronym {multiplicity 0..1;}
 }
 
-relation FragmentInterpretationHasCategories {
-	FragmentInterpretation playsRole fragmentInterpretations {multiplicity 0..*;}
+relation FragInterHasCategories {
+	FragInter playsRole fragInters {multiplicity 0..*;}
 	Category playsRole categories {multiplicity 0..1;}
 }
 
-class EditionInterpretation extends FragmentInterpretation;
+class EditionInter extends FragInter;
 
-class SourceInterpretation extends FragmentInterpretation;
+class SourceInter extends FragInter;
 
-relation EditionHasEditionInterpretations {
+relation EditionHasEditionInters {
 	Edition playsRole edition {multiplicity 1..1;}
-	EditionInterpretation playsRole editionInterpretations {multiplicity 0..*;}
+	EditionInter playsRole editionInters {multiplicity 0..*;}
 }
 
 class Source {
@@ -94,9 +98,9 @@ relation FragmentHasSources {
 	Source playsRole sources {multiplicity 0..*;}
 }
 
-relation SourceHasSourceInterpretations {
+relation SourceHasSourceInters {
 	Source playsRole source {multiplicity 1..1;}
-	SourceInterpretation playsRole sourceInterpretations {multiplicity 0..*;}
+	SourceInter playsRole sourceInters {multiplicity 0..*;}
 }
 
 class ManuscriptSource extends Source {
@@ -111,3 +115,64 @@ class PrintedSource extends Source {
 	String issue;
 	DateTime date;
 }
+
+class VariationPoint {
+}
+
+class Reading {
+	ReadingType type;
+}
+
+relation FragmentHasVariationPoint {
+	Fragment playsRole fragment {multiplicity 0..1;}
+	VariationPoint playsRole variationPoint {multiplicity 0..1;}
+}
+
+relation VariationPointHasInReadings {
+	VariationPoint playsRole nextVariationPoint {multiplicity 1..1;}
+	Reading playsRole inReadings {multiplicity 0..*;}
+}
+
+relation VariationPointHasOutReadings {
+	VariationPoint playsRole previousVariationPoint {multiplicity 1..1;}
+	Reading playsRole outReadings {multiplicity 0..*;}
+}
+
+relation FragInterHasReadings {
+	FragInter playsRole fragInters {multiplicity 0..*;}
+	Reading playsRole readings {multiplicity 0..*;}
+}
+
+class LdoDText {
+}
+
+relation ReadingHasText {
+	Reading playsRole reading {multiplicity 0..1;}
+	LdoDText playsRole text {multiplicity 1..1;}
+}
+
+relation TextHasText {
+	LdoDText playsRole prevText {multiplicity 0..1;}
+	LdoDText playsRole nextText {multiplicity 0..1;}
+}
+
+class SimpleText extends LdoDText {
+	String value;
+}
+
+class LbText extends LdoDText {
+	Boolean breakWord;
+	Boolean hyphenated;
+}
+
+class PbText extends LdoDText;
+
+class SpaceText extends LdoDText {
+	SpaceDim dim;
+	int quantity;
+	SpaceUnit unit;
+}
+
+class FormatText extends LdoDText;
+
+class EmptyText extends LdoDText;

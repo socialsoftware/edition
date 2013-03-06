@@ -1,4 +1,4 @@
-package pt.ist.socialsoftware.edition.readers;
+package pt.ist.socialsoftware.edition.loaders;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -14,16 +14,17 @@ import pt.ist.fenixframework.pstm.Transaction;
 import pt.ist.socialsoftware.edition.domain.Category;
 import pt.ist.socialsoftware.edition.domain.DatabaseBootstrap;
 import pt.ist.socialsoftware.edition.domain.Edition;
-import pt.ist.socialsoftware.edition.domain.EditionInterpretation;
+import pt.ist.socialsoftware.edition.domain.EditionInter;
 import pt.ist.socialsoftware.edition.domain.Fragment;
-import pt.ist.socialsoftware.edition.domain.FragmentInterpretation;
+import pt.ist.socialsoftware.edition.domain.FragInter;
 import pt.ist.socialsoftware.edition.domain.Heteronym;
 import pt.ist.socialsoftware.edition.domain.LdoD;
 import pt.ist.socialsoftware.edition.domain.ManuscriptSource;
 import pt.ist.socialsoftware.edition.domain.PrintedSource;
 import pt.ist.socialsoftware.edition.domain.Source;
-import pt.ist.socialsoftware.edition.domain.SourceInterpretation;
+import pt.ist.socialsoftware.edition.domain.SourceInter;
 import pt.ist.socialsoftware.edition.domain.Taxonomy;
+import pt.ist.socialsoftware.edition.loaders.LoadLdoDFromTEI;
 
 public class ImportLdoDFromTEITest {
 
@@ -31,7 +32,7 @@ public class ImportLdoDFromTEITest {
 	public void setUp() {
 		DatabaseBootstrap.initDatabase();
 
-		ImportLdoDFromTEI importLdoD = new ImportLdoDFromTEI();
+		LoadLdoDFromTEI importLdoD = new LoadLdoDFromTEI();
 		importLdoD.loadLdoDTEI();
 	}
 
@@ -73,21 +74,22 @@ public class ImportLdoDFromTEITest {
 
 		Fragment fragment = checkFragmentLoad(ldoD);
 		checkLoadSources(fragment);
-		checkLoadWintnesses(fragment);
+		checkLoadWitnesses(fragment);
 
 		Transaction.commit();
 
 	}
 
-	private void checkLoadWintnesses(Fragment fragment) {
+	private void checkLoadWitnesses(Fragment fragment) {
 		assertEquals(7, fragment.getFragmentInter().size());
-		for (FragmentInterpretation fragmentInter : fragment.getFragmentInter()) {
-			if (fragmentInter instanceof EditionInterpretation) {
-				assertTrue(((EditionInterpretation) fragmentInter).hasEdition());
-			} else if (fragmentInter instanceof SourceInterpretation) {
-				assertTrue(((SourceInterpretation) fragmentInter).hasSource());
+		for (FragInter fragmentInter : fragment.getFragmentInter()) {
+			if (fragmentInter instanceof EditionInter) {
+				assertTrue(((EditionInter) fragmentInter).hasEdition());
+			} else if (fragmentInter instanceof SourceInter) {
+				assertTrue(((SourceInter) fragmentInter).hasSource());
 			}
 		}
+
 	}
 
 	private void checkLoadSources(Fragment fragment) {

@@ -1,12 +1,13 @@
 package pt.ist.socialsoftware.edition.domain;
 
-public abstract class Source extends Source_Base {
+public abstract class FragInter extends FragInter_Base {
 
-	public Source() {
+	public FragInter() {
 		super();
 	}
 
 	public abstract void print();
 
 	public abstract String getName();
+
 }
