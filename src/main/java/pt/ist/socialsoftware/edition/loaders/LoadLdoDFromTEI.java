@@ -8,8 +8,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import jvstm.Atomic;
-
 import org.jdom2.Attribute;
 import org.jdom2.Content;
 import org.jdom2.Content.CType;
@@ -25,7 +23,6 @@ import org.jdom2.xpath.XPathFactory;
 import org.joda.time.DateTime;
 
 import pt.ist.socialsoftware.edition.domain.Category;
-import pt.ist.socialsoftware.edition.domain.DatabaseBootstrap;
 import pt.ist.socialsoftware.edition.domain.Edition;
 import pt.ist.socialsoftware.edition.domain.EditionInter;
 import pt.ist.socialsoftware.edition.domain.EmptyText;
@@ -45,9 +42,8 @@ import pt.ist.socialsoftware.edition.domain.SpaceText.SpaceUnit;
 import pt.ist.socialsoftware.edition.domain.Taxonomy;
 import pt.ist.socialsoftware.edition.domain.VariationPoint;
 import pt.ist.socialsoftware.edition.visitors.CanonicalCleaner;
-import pt.ist.socialsoftware.edition.visitors.CheckGraphConsistency;
-import pt.ist.socialsoftware.edition.visitors.DebugText;
-import pt.ist.socialsoftware.edition.visitors.WritePlainText4Inter;
+import pt.ist.socialsoftware.edition.visitors.GraphConsistencyChecker;
+import pt.ist.socialsoftware.edition.visitors.GraphWriter;
 
 public class LoadLdoDFromTEI {
 
@@ -113,9 +109,7 @@ public class LoadLdoDFromTEI {
 		loadLdoDTEIElements();
 	}
 
-	@Atomic
 	private void loadLdoDTEIElements() {
-		DatabaseBootstrap.initDatabase();
 		ldoD = LdoD.getInstance();
 
 		loadCorpusHeader();
@@ -178,29 +172,22 @@ public class LoadLdoDFromTEI {
 			startPoint = endPoint;
 		}
 
-		// DebugText debugText = new DebugText();
-		// fragment.getVariationPoint().accept(debugText);
-		// System.out.println(debugText.getResult());
-
 		CanonicalCleaner cleaner = new CanonicalCleaner();
 		fragment.getVariationPoint().accept(cleaner);
 
-		// DebugText debugText3 = new DebugText();
-		// fragment.getVariationPoint().accept(debugText3);
-		// System.out.println(debugText3.getResult());
-
-		CheckGraphConsistency checkConsistency = new CheckGraphConsistency();
+		GraphConsistencyChecker checkConsistency = new GraphConsistencyChecker();
 		fragment.getVariationPoint().accept(checkConsistency);
 
-		DebugText debugText2 = new DebugText();
-		fragment.getVariationPoint().accept(debugText2);
-		System.out.println(debugText2.getResult());
-
-		for (FragInter fragInter : fragment.getFragmentInter()) {
-			WritePlainText4Inter writer = new WritePlainText4Inter(fragInter);
-			fragment.getVariationPoint().accept(writer);
-			System.out.println(writer.getResult());
-		}
+		GraphWriter graphWriter = new GraphWriter();
+		fragment.getVariationPoint().accept(graphWriter);
+		System.out.println(graphWriter.getResult());
+		//
+		// for (FragInter fragInter : fragment.getFragmentInter()) {
+		// PlainText4InterWriter interWriter = new PlainText4InterWriter(
+		// fragInter);
+		// fragment.getVariationPoint().accept(interWriter);
+		// System.out.println(interWriter.getResult());
+		// }
 	}
 
 	private VariationPoint loadContent(Element element,

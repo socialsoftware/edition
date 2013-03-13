@@ -15,8 +15,8 @@ import pt.ist.socialsoftware.edition.domain.Category;
 import pt.ist.socialsoftware.edition.domain.DatabaseBootstrap;
 import pt.ist.socialsoftware.edition.domain.Edition;
 import pt.ist.socialsoftware.edition.domain.EditionInter;
-import pt.ist.socialsoftware.edition.domain.Fragment;
 import pt.ist.socialsoftware.edition.domain.FragInter;
+import pt.ist.socialsoftware.edition.domain.Fragment;
 import pt.ist.socialsoftware.edition.domain.Heteronym;
 import pt.ist.socialsoftware.edition.domain.LdoD;
 import pt.ist.socialsoftware.edition.domain.ManuscriptSource;
@@ -24,7 +24,7 @@ import pt.ist.socialsoftware.edition.domain.PrintedSource;
 import pt.ist.socialsoftware.edition.domain.Source;
 import pt.ist.socialsoftware.edition.domain.SourceInter;
 import pt.ist.socialsoftware.edition.domain.Taxonomy;
-import pt.ist.socialsoftware.edition.loaders.LoadLdoDFromTEI;
+import pt.ist.socialsoftware.edition.services.LoadLdoDFromTEIService;
 
 public class ImportLdoDFromTEITest {
 
@@ -32,8 +32,8 @@ public class ImportLdoDFromTEITest {
 	public void setUp() {
 		DatabaseBootstrap.initDatabase();
 
-		LoadLdoDFromTEI importLdoD = new LoadLdoDFromTEI();
-		importLdoD.loadLdoDTEI();
+		LoadLdoDFromTEIService service = new LoadLdoDFromTEIService();
+		service.atomicExecution();
 	}
 
 	@After
