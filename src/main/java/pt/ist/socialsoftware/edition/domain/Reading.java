@@ -14,6 +14,17 @@ public class Reading extends Reading_Base implements GraphElement {
 		setType(ReadingType.NO_TYPE);
 	}
 
+	public void remove() {
+		removePreviousVariationPoint();
+		removeNextVariationPoint();
+		for (FragInter fragInter : getFragInters()) {
+			removeFragInters(fragInter);
+		}
+		removeText();
+
+		deleteDomainObject();
+	}
+
 	public void print() {
 		getText().printAll();
 		getNextVariationPoint().print();

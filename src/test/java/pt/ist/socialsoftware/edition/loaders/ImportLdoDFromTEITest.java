@@ -2,9 +2,6 @@ package pt.ist.socialsoftware.edition.loaders;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
-import java.util.Set;
 
 import org.junit.After;
 import org.junit.Before;
@@ -12,7 +9,6 @@ import org.junit.Test;
 
 import pt.ist.fenixframework.pstm.Transaction;
 import pt.ist.socialsoftware.edition.domain.Category;
-import pt.ist.socialsoftware.edition.domain.DatabaseBootstrap;
 import pt.ist.socialsoftware.edition.domain.Edition;
 import pt.ist.socialsoftware.edition.domain.EditionInter;
 import pt.ist.socialsoftware.edition.domain.FragInter;
@@ -25,45 +21,50 @@ import pt.ist.socialsoftware.edition.domain.Source;
 import pt.ist.socialsoftware.edition.domain.SourceInter;
 import pt.ist.socialsoftware.edition.domain.Taxonomy;
 import pt.ist.socialsoftware.edition.services.LoadLdoDFromTEIService;
+import pt.ist.socialsoftware.edition.utils.Bootstrap;
 
 public class ImportLdoDFromTEITest {
 
 	@Before
 	public void setUp() {
-		DatabaseBootstrap.initDatabase();
+		Bootstrap.initDatabase();
+
+		Transaction.begin();
 
 		LoadLdoDFromTEIService service = new LoadLdoDFromTEIService();
-		service.atomicExecution();
+		service.execution();
 	}
 
 	@After
 	public void tearDown() {
-		boolean committed = false;
-		try {
-			Transaction.begin();
-			LdoD ldoD = LdoD.getInstance();
-			Set<Edition> editions = ldoD.getEditionsSet();
-			editions.clear();
-			Set<Taxonomy> taxonomies = ldoD.getTaxonomiesSet();
-			taxonomies.clear();
-			Set<Heteronym> heteronyms = ldoD.getHeteronymsSet();
-			heteronyms.clear();
-			Set<Fragment> fragments = ldoD.getFragmentsSet();
-			fragments.clear();
-			Transaction.commit();
-			committed = true;
-		} finally {
-			if (!committed) {
-				Transaction.abort();
-				fail("failed @TearDown.");
-			}
-		}
+		Transaction.abort();
+
+		// boolean committed = false;
+		// try {
+		// Transaction.begin();
+		// LdoD ldoD = LdoD.getInstance();
+		// Set<Edition> editions = ldoD.getEditionsSet();
+		// editions.clear();
+		// Set<Taxonomy> taxonomies = ldoD.getTaxonomiesSet();
+		// taxonomies.clear();
+		// Set<Heteronym> heteronyms = ldoD.getHeteronymsSet();
+		// heteronyms.clear();
+		// Set<Fragment> fragments = ldoD.getFragmentsSet();
+		// fragments.clear();
+		// Transaction.commit();
+		// committed = true;
+		// } finally {
+		// if (!committed) {
+		//
+		// Transaction.abort();
+		// fail("failed @TearDown.");
+		// }
+		// }
 
 	}
 
 	@Test
 	public void TestSucessfulLoading() {
-		Transaction.begin();
 
 		LdoD ldoD = LdoD.getInstance();
 
@@ -75,8 +76,6 @@ public class ImportLdoDFromTEITest {
 		Fragment fragment = checkFragmentLoad(ldoD);
 		checkLoadSources(fragment);
 		checkLoadWitnesses(fragment);
-
-		Transaction.commit();
 
 	}
 
@@ -108,7 +107,7 @@ public class ImportLdoDFromTEITest {
 				assertEquals("Revista Descobrimento", printedSource.getTitle());
 				assertEquals("Lisbon", printedSource.getPubPlace());
 				assertEquals("3", printedSource.getIssue());
-				assertEquals(1931, printedSource.getDate().getYear());
+				assertEquals("1931", printedSource.getDate());
 			}
 
 		}
@@ -154,13 +153,13 @@ public class ImportLdoDFromTEITest {
 			assertEquals("Fernando Pessoa", edition.getAuthor());
 			assertEquals("O Livro do Desassossego", edition.getTitle());
 			assertTrue((edition.getEditor().equals("Jacinto Prado Coelho") && edition
-					.getDate().getYear() == 1982)
+					.getDate().equals("1982"))
 					|| (edition.getEditor().equals("Teresa Sobral Cunha") && edition
-							.getDate().getYear() == 1997)
+							.getDate().equals("1997"))
 					|| (edition.getEditor().equals("Richard Zenith") && edition
-							.getDate().getYear() == 2007)
+							.getDate().equals("2007"))
 					|| (edition.getEditor().equals("Jerónimo Pizarro") && edition
-							.getDate().getYear() == 2010));
+							.getDate().equals("2010")));
 		}
 	}
 

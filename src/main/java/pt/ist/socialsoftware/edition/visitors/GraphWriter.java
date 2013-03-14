@@ -57,6 +57,9 @@ public class GraphWriter implements GraphVisitor {
 			Set<VariationPoint> nextVariationPoints = new HashSet<VariationPoint>();
 
 			for (Reading rdg : variationPoint.getOutReadings()) {
+				assert rdg.getNextVariationPoint() != null : "READING DOES NOT HAVE NEXT VARIATION POINT:"
+						+ rdg;
+
 				VariationPoint nextPoint = rdg.getNextVariationPoint();
 				nextVariationPoints.add(nextPoint);
 				Integer nextPointNumber = getVariationPointNumber(nextPoint);

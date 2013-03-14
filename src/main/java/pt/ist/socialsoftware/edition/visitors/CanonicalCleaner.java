@@ -41,7 +41,10 @@ public class CanonicalCleaner implements GraphVisitor {
 
 			previousRdg.addText(reading.getText());
 			previousRdg.setNextVariationPoint(nextPoint);
-			nextPoint.removeInReadings(reading);
+
+			reading.remove();
+			previousPoint.remove();
+
 		}
 		nextPoint.accept(this);
 	}

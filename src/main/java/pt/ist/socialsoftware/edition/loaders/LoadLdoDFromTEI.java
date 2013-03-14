@@ -20,7 +20,6 @@ import org.jdom2.filter.Filters;
 import org.jdom2.input.SAXBuilder;
 import org.jdom2.xpath.XPathExpression;
 import org.jdom2.xpath.XPathFactory;
-import org.joda.time.DateTime;
 
 import pt.ist.socialsoftware.edition.domain.Category;
 import pt.ist.socialsoftware.edition.domain.Edition;
@@ -43,7 +42,7 @@ import pt.ist.socialsoftware.edition.domain.Taxonomy;
 import pt.ist.socialsoftware.edition.domain.VariationPoint;
 import pt.ist.socialsoftware.edition.visitors.CanonicalCleaner;
 import pt.ist.socialsoftware.edition.visitors.GraphConsistencyChecker;
-import pt.ist.socialsoftware.edition.visitors.GraphWriter;
+import pt.ist.socialsoftware.edition.visitors.PlainText4InterWriter;
 
 public class LoadLdoDFromTEI {
 
@@ -178,16 +177,16 @@ public class LoadLdoDFromTEI {
 		GraphConsistencyChecker checkConsistency = new GraphConsistencyChecker();
 		fragment.getVariationPoint().accept(checkConsistency);
 
-		GraphWriter graphWriter = new GraphWriter();
-		fragment.getVariationPoint().accept(graphWriter);
-		System.out.println(graphWriter.getResult());
-		//
-		// for (FragInter fragInter : fragment.getFragmentInter()) {
-		// PlainText4InterWriter interWriter = new PlainText4InterWriter(
-		// fragInter);
-		// fragment.getVariationPoint().accept(interWriter);
-		// System.out.println(interWriter.getResult());
-		// }
+		// GraphWriter graphWriter = new GraphWriter();
+		// fragment.getVariationPoint().accept(graphWriter);
+		// System.out.println(graphWriter.getResult());
+
+		for (FragInter fragInter : fragment.getFragmentInter()) {
+			PlainText4InterWriter interWriter = new PlainText4InterWriter(
+					fragInter);
+			fragment.getVariationPoint().accept(interWriter);
+			System.out.println(interWriter.getResult());
+		}
 	}
 
 	private VariationPoint loadContent(Element element,
@@ -452,8 +451,8 @@ public class LoadLdoDFromTEI {
 			emptyRdg.addFragInters(fragInter);
 		}
 
-		startPoint.addOutReadings(emptyRdg);
-		endPoint.addInReadings(emptyRdg);
+		emptyRdg.setPreviousVariationPoint(startPoint);
+		emptyRdg.setNextVariationPoint(endPoint);
 	}
 
 	private Boolean isHiphenated(Element element) {
@@ -601,8 +600,7 @@ public class LoadLdoDFromTEI {
 			printedSource.setTitle(bibl.getChildText("title", namespace));
 			printedSource.setPubPlace(bibl.getChildText("pubPlace", namespace));
 			printedSource.setIssue(bibl.getChildText("biblScope", namespace));
-			printedSource.setDate(new DateTime(bibl.getChildText("date",
-					namespace)));
+			printedSource.setDate(bibl.getChildText("date", namespace));
 		}
 
 	}
@@ -750,8 +748,8 @@ public class LoadLdoDFromTEI {
 			edition.setTitle(bibl.getChild("title", namespace).getText());
 			edition.setEditor(bibl.getChild("editor", namespace)
 					.getChild("persName", namespace).getText());
-			edition.setDate(new DateTime(bibl.getChild("date", namespace)
-					.getAttributeValue("when")));
+			edition.setDate(bibl.getChild("date", namespace).getAttributeValue(
+					"when"));
 		}
 	}
 

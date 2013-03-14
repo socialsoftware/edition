@@ -9,15 +9,15 @@ class LdoD {
 	String author;
 	String editor;
 	String sponsor;
-	String funder;
 	String principal;
+	String funder;
 }
 
 class Edition {
 	String title;
 	String author;
 	String editor;
-	DateTime date;
+	String date;
 }
 
 relation LdoDHasEditions {
@@ -62,7 +62,7 @@ relation LdoDHasFragments {
 }
 
 class FragInter {
-	DateTime date;
+	String date;
 }
 
 relation FragmentHasFragInters {
@@ -113,7 +113,7 @@ class PrintedSource extends Source {
 	String title;
 	String pubPlace;
 	String issue;
-	DateTime date;
+	String date;
 }
 
 class VariationPoint {

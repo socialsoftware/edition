@@ -11,6 +11,21 @@ public class VariationPoint extends VariationPoint_Base {
 		super();
 	}
 
+	public void remove() {
+
+		removeFragment();
+
+		for (Reading reading : getInReadings()) {
+			removeInReadings(reading);
+		}
+
+		for (Reading reading : getOutReadings()) {
+			removeOutReadings(reading);
+		}
+
+		deleteDomainObject();
+	}
+
 	public void print() {
 		// Set<VariationPoint> nextPoints = new HashSet<VariationPoint>();
 		for (Reading reading : getOutReadings()) {

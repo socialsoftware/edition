@@ -2,30 +2,37 @@ package pt.ist.socialsoftware.edition.services;
 
 import static org.junit.Assert.assertEquals;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import pt.ist.fenixframework.pstm.Transaction;
-import pt.ist.socialsoftware.edition.domain.DatabaseBootstrap;
 import pt.ist.socialsoftware.edition.domain.FragInter;
 import pt.ist.socialsoftware.edition.domain.Fragment;
 import pt.ist.socialsoftware.edition.domain.LdoD;
+import pt.ist.socialsoftware.edition.utils.Bootstrap;
 
 public class PlainTransByInterTest {
 
 	@Before
 	public void setUp() {
-		DatabaseBootstrap.initDatabase();
+		Bootstrap.initDatabase();
+
+		Transaction.begin();
 
 		LoadLdoDFromTEIService service = new LoadLdoDFromTEIService();
-		service.atomicExecution();
+		service.execution();
+	}
+
+	@After
+	public void tearDown() {
+		Transaction.abort();
 	}
 
 	@Test
 	public void test() {
 		String fragInterExternalID = null;
 
-		Transaction.begin();
 		LdoD ldoD = LdoD.getInstance();
 
 		for (Fragment frag : ldoD.getFragments()) {
@@ -35,11 +42,10 @@ public class PlainTransByInterTest {
 				}
 			}
 		}
-		Transaction.commit();
 
 		PlainTransByInter service = new PlainTransByInter();
 		service.setFragInterExternalID(fragInterExternalID);
-		service.atomicExecution();
+		service.execution();
 
 		assertEquals(
 				"Teresa Sobral Cunha: 18-10-1931 Prefiro a prosa ao verso, como modo de arte, por duas razões,",
