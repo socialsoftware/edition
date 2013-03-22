@@ -4,19 +4,17 @@ import pt.ist.socialsoftware.edition.visitors.GraphVisitor;
 
 public class FormatText extends FormatText_Base {
 
+	public enum Rendition {
+		RIGHT, LEFT, CENTER, BOLD, RED, UNDERLINED;
+	};
+
 	public FormatText() {
 		super();
 	}
 
 	@Override
-	public void print() {
-		System.out.println("FORMAT ");
-	}
-
-	@Override
 	public void accept(GraphVisitor visitor) {
-		// TODO Auto-generated method stub
-
+		visitor.visit(this);
 	}
 
 }

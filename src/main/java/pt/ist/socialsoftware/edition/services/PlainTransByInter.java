@@ -6,7 +6,7 @@ package pt.ist.socialsoftware.edition.services;
 import pt.ist.fenixframework.pstm.AbstractDomainObject;
 import pt.ist.socialsoftware.edition.domain.FragInter;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDException;
-import pt.ist.socialsoftware.edition.visitors.PlainText4InterWriter;
+import pt.ist.socialsoftware.edition.visitors.HtmlWriter4Interpretation;
 
 /**
  * Given an interpretation and a fragment provides a plain transcription for the
@@ -36,7 +36,7 @@ public class PlainTransByInter extends LdoDService {
 		this.fragInter = (FragInter) AbstractDomainObject
 				.fromExternalId(this.fragInterExternalID);
 
-		PlainText4InterWriter writer = new PlainText4InterWriter(this.fragInter);
+		HtmlWriter4Interpretation writer = new HtmlWriter4Interpretation(this.fragInter);
 		this.fragInter.getFragment().getVariationPoint().accept(writer);
 		transcription = writer.getResult();
 

@@ -2,6 +2,9 @@ package pt.ist.socialsoftware.edition.services;
 
 import static org.junit.Assert.assertEquals;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -10,6 +13,8 @@ import pt.ist.fenixframework.pstm.Transaction;
 import pt.ist.socialsoftware.edition.domain.FragInter;
 import pt.ist.socialsoftware.edition.domain.Fragment;
 import pt.ist.socialsoftware.edition.domain.LdoD;
+import pt.ist.socialsoftware.edition.loaders.LoadTEICorpus;
+import pt.ist.socialsoftware.edition.loaders.LoadTEIFragments;
 import pt.ist.socialsoftware.edition.utils.Bootstrap;
 
 public class PlainTransByInterTest {
@@ -20,8 +25,23 @@ public class PlainTransByInterTest {
 
 		Transaction.begin();
 
-		LoadLdoDFromTEIService service = new LoadLdoDFromTEIService();
-		service.execution();
+		LoadTEICorpus corpusLoader = new LoadTEICorpus();
+		try {
+			corpusLoader.loadTEICorpus(new FileInputStream(
+					"/Users/ars/Desktop/Frg.1_TEI-encoded_testing.xml"));
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		LoadTEIFragments fragmentsLoader = new LoadTEIFragments();
+		try {
+			fragmentsLoader.loadFragments(new FileInputStream(
+					"/Users/ars/Desktop/Frg.1_TEI-encoded_testing.xml"));
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@After
@@ -46,6 +66,8 @@ public class PlainTransByInterTest {
 		PlainTransByInter service = new PlainTransByInter();
 		service.setFragInterExternalID(fragInterExternalID);
 		service.execution();
+
+		System.out.println(service.getTranscription());
 
 		assertEquals(
 				"Teresa Sobral Cunha: 18-10-1931 Prefiro a prosa ao verso, como modo de arte, por duas razões,",

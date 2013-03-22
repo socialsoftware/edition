@@ -3,13 +3,17 @@
  */
 package pt.ist.socialsoftware.edition.visitors;
 
+import pt.ist.socialsoftware.edition.domain.AddText;
+import pt.ist.socialsoftware.edition.domain.DelText;
 import pt.ist.socialsoftware.edition.domain.EmptyText;
 import pt.ist.socialsoftware.edition.domain.FormatText;
 import pt.ist.socialsoftware.edition.domain.LbText;
+import pt.ist.socialsoftware.edition.domain.ParagraphText;
 import pt.ist.socialsoftware.edition.domain.PbText;
 import pt.ist.socialsoftware.edition.domain.Reading;
 import pt.ist.socialsoftware.edition.domain.SimpleText;
 import pt.ist.socialsoftware.edition.domain.SpaceText;
+import pt.ist.socialsoftware.edition.domain.SubstText;
 import pt.ist.socialsoftware.edition.domain.VariationPoint;
 
 /**
@@ -34,4 +38,13 @@ public interface GraphVisitor {
 	public void visit(SpaceText spaceText);
 
 	public void visit(EmptyText emptyText);
+
+	public void visit(AddText addText);
+
+	public void visit(DelText delText);
+
+	public void visit(SubstText substText);
+
+	public void visit(ParagraphText paragraphText);
+
 }

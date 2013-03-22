@@ -1,8 +1,8 @@
 package pt.ist.socialsoftware.edition.loaders;
 
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -21,16 +21,23 @@ import org.jdom2.input.SAXBuilder;
 import org.jdom2.xpath.XPathExpression;
 import org.jdom2.xpath.XPathFactory;
 
+import pt.ist.socialsoftware.edition.domain.AddText;
+import pt.ist.socialsoftware.edition.domain.AddText.Place;
 import pt.ist.socialsoftware.edition.domain.Category;
+import pt.ist.socialsoftware.edition.domain.DelText;
+import pt.ist.socialsoftware.edition.domain.DelText.HowDel;
 import pt.ist.socialsoftware.edition.domain.Edition;
 import pt.ist.socialsoftware.edition.domain.EditionInter;
 import pt.ist.socialsoftware.edition.domain.EmptyText;
+import pt.ist.socialsoftware.edition.domain.FormatText;
+import pt.ist.socialsoftware.edition.domain.FormatText.Rendition;
 import pt.ist.socialsoftware.edition.domain.FragInter;
 import pt.ist.socialsoftware.edition.domain.Fragment;
-import pt.ist.socialsoftware.edition.domain.Heteronym;
 import pt.ist.socialsoftware.edition.domain.LbText;
 import pt.ist.socialsoftware.edition.domain.LdoD;
+import pt.ist.socialsoftware.edition.domain.LdoDText.OpenClose;
 import pt.ist.socialsoftware.edition.domain.ManuscriptSource;
+import pt.ist.socialsoftware.edition.domain.ParagraphText;
 import pt.ist.socialsoftware.edition.domain.PrintedSource;
 import pt.ist.socialsoftware.edition.domain.Reading;
 import pt.ist.socialsoftware.edition.domain.SimpleText;
@@ -38,17 +45,17 @@ import pt.ist.socialsoftware.edition.domain.SourceInter;
 import pt.ist.socialsoftware.edition.domain.SpaceText;
 import pt.ist.socialsoftware.edition.domain.SpaceText.SpaceDim;
 import pt.ist.socialsoftware.edition.domain.SpaceText.SpaceUnit;
+import pt.ist.socialsoftware.edition.domain.SubstText;
 import pt.ist.socialsoftware.edition.domain.Taxonomy;
 import pt.ist.socialsoftware.edition.domain.VariationPoint;
+import pt.ist.socialsoftware.edition.shared.exception.LdoDException;
 import pt.ist.socialsoftware.edition.visitors.CanonicalCleaner;
+import pt.ist.socialsoftware.edition.visitors.EmptyTextCleaner;
 import pt.ist.socialsoftware.edition.visitors.GraphConsistencyChecker;
-import pt.ist.socialsoftware.edition.visitors.PlainText4InterWriter;
+import pt.ist.socialsoftware.edition.visitors.GraphWriter;
+import pt.ist.socialsoftware.edition.visitors.HtmlWriter4Interpretation;
 
-public class LoadLdoDFromTEI {
-
-	public static void main(String[] args) {
-		new LoadLdoDFromTEI().loadLdoDTEI();
-	}
+public class LoadTEIFragments {
 
 	private Element ldoDTEI = null;
 	private Namespace namespace = null;
@@ -82,15 +89,27 @@ public class LoadLdoDFromTEI {
 		return objects;
 	}
 
+	private void getCorpusXmlIds() {
+		for (Edition edition : ldoD.getEditions()) {
+			putObjectByXmlID(edition.getXmlId(), edition);
+		}
+
+		for (Taxonomy taxonomy : ldoD.getTaxonomies()) {
+			putObjectByXmlID(taxonomy.getXmlId(), taxonomy);
+			for (Category category : taxonomy.getCategories()) {
+				putObjectByXmlID(category.getXmlId(), category);
+			}
+		}
+	}
+
 	XPathFactory xpfac = XPathFactory.instance();
 
-	public void loadLdoDTEI() {
+	private void parseTEIFile(InputStream file) {
 		SAXBuilder builder = new SAXBuilder();
 		builder.setIgnoringElementContentWhitespace(true);
 		try {
 			// TODO: create a config variable for the xml file
-			doc = builder.build(new FileInputStream(
-					"/Users/ars/Desktop/Frg.1_TEI-encoded_testing.xml"));
+			doc = builder.build(file);
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -102,22 +121,23 @@ public class LoadLdoDFromTEI {
 			e.printStackTrace();
 		}
 
+		if (doc == null) {
+			LdoDException ex = new LdoDException(
+					"Ficheiro inexistente ou sem formato TEI");
+			throw ex;
+		}
+
 		ldoDTEI = doc.getRootElement();
 		namespace = ldoDTEI.getNamespace();
-
-		loadLdoDTEIElements();
 	}
 
-	private void loadLdoDTEIElements() {
+	public void loadFragments(InputStream file) {
+		parseTEIFile(file);
+
 		ldoD = LdoD.getInstance();
 
-		loadCorpusHeader();
+		getCorpusXmlIds();
 
-		loadFragments();
-
-	}
-
-	private void loadFragments() {
 		XPathExpression<Element> xp = xpfac.compile(
 				"/def:teiCorpus/def:TEI/def:teiHeader", Filters.element(),
 				null, Namespace.getNamespace("def", namespace.getURI()));
@@ -125,6 +145,10 @@ public class LoadLdoDFromTEI {
 		for (Element fragmentTEI : xp.evaluate(doc)) {
 			String fragmentTEIID = fragmentTEI.getParentElement()
 					.getAttributeValue("id", fragmentTEI.getNamespace("xml"));
+
+			if (fragmentTEIID == null) {
+				throw new LdoDException("falta xml:id de um fragmento");
+			}
 
 			assert fragmentTEIID != null : "MISSING xml:id ATTRIBUTE IN FRAGMENT <TEI > ELEMENT";
 
@@ -137,10 +161,16 @@ public class LoadLdoDFromTEI {
 			fragment.setLdoD(ldoD);
 			fragment.setTitle(fragmentTEITitle);
 
+			if (getObjectsByXmlID(fragmentTEIID) != null) {
+				throw new LdoDException("xml:id:" + fragmentTEIID
+						+ " já está declarado");
+			}
+
 			assert getObjectsByXmlID(fragmentTEIID) == null : "xml:id:"
 					+ fragmentTEIID + " IS ALREADY DECLARED";
 
 			putObjectByXmlID(fragmentTEIID, fragment);
+			fragment.setXmlId(fragmentTEIID);
 
 			loadSourceManuscripts(fragment, fragmentTEIID);
 			loadPrintedSources(fragment, fragmentTEIID);
@@ -167,25 +197,57 @@ public class LoadLdoDFromTEI {
 		List<FragInter> fragInters = new ArrayList<FragInter>(
 				fragment.getFragmentInter());
 		for (Element paragraph : xp.evaluate(doc)) {
+			endPoint = addReading4Paragraph(startPoint, fragInters,
+					OpenClose.OPEN);
+
+			startPoint = endPoint;
+
 			endPoint = loadContent(paragraph, startPoint, fragInters);
+
+			startPoint = endPoint;
+
+			endPoint = addReading4Paragraph(startPoint, fragInters,
+					OpenClose.CLOSE);
+
 			startPoint = endPoint;
 		}
 
-		CanonicalCleaner cleaner = new CanonicalCleaner();
-		fragment.getVariationPoint().accept(cleaner);
+		postParsing(fragment);
+	}
+
+	private VariationPoint addReading4Paragraph(VariationPoint startPoint,
+			List<FragInter> pendingFragInterps, OpenClose openClose) {
+
+		VariationPoint endPoint = new VariationPoint();
+
+		ParagraphText text = new ParagraphText();
+		text.setOpenClose(openClose);
+		text.setNextText(null);
+
+		Reading.addReading(startPoint, endPoint, pendingFragInterps, text);
+
+		return endPoint;
+	}
+
+	private void postParsing(Fragment fragment) {
+		EmptyTextCleaner eCleaner = new EmptyTextCleaner();
+		fragment.getVariationPoint().accept(eCleaner);
+
+		CanonicalCleaner cCleaner = new CanonicalCleaner();
+		fragment.getVariationPoint().accept(cCleaner);
 
 		GraphConsistencyChecker checkConsistency = new GraphConsistencyChecker();
 		fragment.getVariationPoint().accept(checkConsistency);
 
-		// GraphWriter graphWriter = new GraphWriter();
-		// fragment.getVariationPoint().accept(graphWriter);
-		// System.out.println(graphWriter.getResult());
+		GraphWriter graphWriter = new GraphWriter();
+		fragment.getVariationPoint().accept(graphWriter);
+		System.out.println(graphWriter.getResult());
 
 		for (FragInter fragInter : fragment.getFragmentInter()) {
-			PlainText4InterWriter interWriter = new PlainText4InterWriter(
+			HtmlWriter4Interpretation writer = new HtmlWriter4Interpretation(
 					fragInter);
-			fragment.getVariationPoint().accept(interWriter);
-			System.out.println(interWriter.getResult());
+			fragment.getVariationPoint().accept(writer);
+			System.out.println(writer.getResult());
 		}
 	}
 
@@ -208,11 +270,13 @@ public class LoadLdoDFromTEI {
 				} else if (element2.getName().equals("space")) {
 					endPoint = loadSpace(element2, startPoint, fragInters);
 				} else if (element2.getName().equals("seg")) {
-					endPoint = startPoint;
+					endPoint = loadSeg(element2, startPoint, fragInters);
 				} else if (element2.getName().equals("subst")) {
-					endPoint = startPoint;
+					endPoint = loadSubst(element2, startPoint, fragInters);
 				} else if (element2.getName().equals("add")) {
-					endPoint = startPoint;
+					endPoint = loadAdd(element2, startPoint, fragInters);
+				} else if (element2.getName().equals("del")) {
+					endPoint = loadDel(element2, startPoint, fragInters);
 				} else {
 					assert false : "DOES NOT HANDLE LOAD OF:" + element2
 							+ " OF TYPE:" + element2.getCType().toString();
@@ -224,34 +288,287 @@ public class LoadLdoDFromTEI {
 		return endPoint;
 	}
 
-	// private VariationPoint loadSeg(Element element, VariationPoint
-	// startPoint) {
-	// for (Content content : element.getChildren()) {
-	// loadContent(content, startPoint);
-	// }
-	// }
-	//
-	// private void loadDel(Element element, VariationPoint startPoint,
-	// VariationPoint endPoint) {
-	// for (Content content : element.getChildren()) {
-	// loadContent(content, startPoint, endPoint);
-	// }
-	// }
-	//
-	// private void loadAdd(Element element, VariationPoint startPoint,
-	// VariationPoint endPoint) {
-	// for (Content content : element.getChildren()) {
-	// loadContent(content, startPoint, endPoint);
-	// }
-	// }
-	//
-	// private void loadSubst(Element element, VariationPoint startPoint,
-	// VariationPoint endPoint) {
-	// for (Content content : element.getChildren()) {
-	// loadContent(content, startPoint, endPoint);
-	// }
-	//
-	// }
+	private VariationPoint loadSubst(Element element,
+			VariationPoint startPoint, List<FragInter> fragInters) {
+
+		VariationPoint initialPoint = startPoint;
+		VariationPoint endPoint = null;
+
+		for (Content content : element.getContent()) {
+			if (content.getCType() == CType.Text) {
+				if (content.getValue().trim() != "") {
+					endPoint = startPoint;
+				} else {
+					throw new LdoDException(
+							"elementos inesperado dentro de subst"
+									+ content.getValue());
+
+					// assert false : "UNEXPECTED TEXT ELEMENT WITHIN <subst>"
+					// + content.getValue();
+				}
+			} else if (content.getCType() == CType.Comment) {
+				// ignore comments
+				endPoint = startPoint;
+			} else if (content.getCType() == CType.Element) {
+				Element element2 = (Element) content;
+				if (element2.getName().equals("add")) {
+					endPoint = loadAdd(element2, startPoint, fragInters);
+				} else if (element2.getName().equals("del")) {
+					endPoint = loadDel(element2, startPoint, fragInters);
+				} else {
+					throw new LdoDException("não carrega elementos: "
+							+ element2 + " do tipo:"
+							+ element2.getCType().toString()
+							+ "dentro de <subst>");
+
+					// assert false : "DOES NOT HANDLE LOAD OF:" + element2
+					// + " OF TYPE:" + element2.getCType().toString()
+					// + "WITHIN <subst>";
+				}
+			}
+			startPoint = endPoint;
+
+		}
+
+		SubstText openSubstText = new SubstText();
+		openSubstText.setOpenClose(OpenClose.OPEN);
+		openSubstText.setNextText(null);
+		Reading initialRdg = initialPoint.getOutReadings().get(0);
+		initialRdg.addBeginText(openSubstText);
+
+		SubstText closeSubstText = new SubstText();
+		closeSubstText.setOpenClose(OpenClose.CLOSE);
+		closeSubstText.setNextText(null);
+		Reading endRdg = endPoint.getInReadings().get(0);
+		endRdg.addEndText(closeSubstText);
+
+		return endPoint;
+	}
+
+	private VariationPoint loadDel(Element element, VariationPoint startPoint,
+			List<FragInter> fragInters) {
+		List<Content> contentList = element.getContent();
+
+		if (contentList.size() != 1)
+			throw new LdoDException(
+					"del contém outros elementos para além de texto"
+							+ element.getValue());
+
+		assert contentList.size() == 1 : "<del> DOES NOT CONTAIN SIMPLE TEXT"
+				+ element;
+
+		if (contentList.get(0).getCType() != CType.Text)
+			throw new LdoDException(
+					"del contém outros elementos para além de texto"
+							+ element.getValue());
+
+		assert contentList.get(0).getCType() == CType.Text : "<del> DOES NOT CONTAIN SIMPLE TEXT"
+				+ element;
+
+		VariationPoint endPoint = loadSimpleText((Text) contentList.get(0),
+				startPoint, fragInters);
+		Reading rdg = endPoint.getInReadings().get(0);
+
+		Attribute howDelAttribute = element.getAttribute("rend");
+
+		HowDel how = getHowDelAttribute(howDelAttribute);
+
+		DelText openDelText = new DelText();
+		openDelText.setOpenClose(OpenClose.OPEN);
+		openDelText.setHow(how);
+		openDelText.setNextText(null);
+
+		DelText closeDelText = new DelText();
+		closeDelText.setOpenClose(OpenClose.CLOSE);
+		closeDelText.setHow(how);
+		closeDelText.setNextText(null);
+
+		rdg.addBeginText(openDelText);
+		rdg.addEndText(closeDelText);
+
+		return endPoint;
+
+	}
+
+	private HowDel getHowDelAttribute(Attribute howDelAttribute) {
+		HowDel howDel = HowDel.UNSPECIFIED;
+		if (howDelAttribute != null) {
+			String howDelValue = howDelAttribute.getValue();
+
+			if (howDelValue.equals("overtyped")) {
+				howDel = HowDel.OVERTYPED;
+			} else if (howDelValue.equals("overstrike")) {
+				howDel = HowDel.OVERSTRIKE;
+			} else if (howDelValue.equals("overwritten")) {
+				howDel = HowDel.OVERWRITTEN;
+			} else {
+				throw new LdoDException(
+						"valor desconhecido para atributo rend=" + howDelValue
+								+ " dentro de del");
+				// assert false : "UNKOWN rend ATTRIBUTE VALUE=" + howDelValue
+				// + " FOR <del>";
+			}
+		}
+		return howDel;
+	}
+
+	/**
+	 * In this project a <add> element can only contain simple text
+	 * 
+	 * @param element
+	 * @param startPoint
+	 * @param fragInters
+	 */
+	private VariationPoint loadAdd(Element element, VariationPoint startPoint,
+			List<FragInter> fragInters) {
+		List<Content> contentList = element.getContent();
+
+		if (contentList.size() != 1)
+			throw new LdoDException(
+					"add contém outros elementos para além de texto"
+							+ element.getValue());
+
+		assert contentList.size() == 1 : "<add> DOES NOT CONTAIN SIMPLE TEXT"
+				+ element;
+
+		if (contentList.get(0).getCType() != CType.Text)
+			throw new LdoDException(
+					"add contém outros elementos para além de texto"
+							+ element.getValue());
+
+		assert contentList.get(0).getCType() == CType.Text : "<add> DOES NOT CONTAIN SIMPLE TEXT"
+				+ element;
+
+		VariationPoint endPoint = loadSimpleText((Text) contentList.get(0),
+				startPoint, fragInters);
+		Reading rdg = endPoint.getInReadings().get(0);
+
+		Attribute placeAttribute = element.getAttribute("place");
+
+		Place place = getPlaceAttribute(placeAttribute);
+
+		AddText openAddText = new AddText();
+		openAddText.setOpenClose(OpenClose.OPEN);
+		openAddText.setPlace(place);
+		openAddText.setNextText(null);
+
+		AddText closeAddText = new AddText();
+		closeAddText.setOpenClose(OpenClose.CLOSE);
+		closeAddText.setPlace(place);
+		closeAddText.setNextText(null);
+
+		rdg.addBeginText(openAddText);
+		rdg.addEndText(closeAddText);
+
+		return endPoint;
+	}
+
+	private Place getPlaceAttribute(Attribute placeAttribute) {
+		Place place = Place.UNSPECIFIED;
+		if (placeAttribute != null) {
+			String placeValue = placeAttribute.getValue();
+
+			if (placeValue.equals("above")) {
+				place = Place.ABOVE;
+			} else if (placeValue.equals("superimposed")) {
+				place = Place.SUPERIMPOSED;
+			} else if (placeValue.equals("margin")) {
+				place = Place.MARGIN;
+			} else if (placeValue.equals("top")) {
+				place = Place.TOP;
+			} else if (placeValue.equals("inline")) {
+				place = Place.INLINE;
+			} else {
+				throw new LdoDException(
+						"valor desconhecido para atributo place=" + place);
+				// assert false : "UNKOWN place ATTRIBUTE VALUE=" + place;
+			}
+		}
+
+		return place;
+	}
+
+	/**
+	 * In the this project a <seg> element can only contain simple text, it is
+	 * used for formating
+	 * 
+	 * @param element
+	 * @param startPoint
+	 * @param fragInters
+	 * @return
+	 */
+	private VariationPoint loadSeg(Element element, VariationPoint startPoint,
+			List<FragInter> fragInters) {
+		List<Content> contentList = element.getContent();
+
+		if (contentList.size() != 1)
+			throw new LdoDException("seg não contém apenas texto" + element);
+
+		assert contentList.size() == 1 : "<seg> DOES NOT CONTAIN SIMPLE TEXT"
+				+ element;
+
+		if (contentList.get(0).getCType() != CType.Text)
+			throw new LdoDException("seg não contém apenas texto" + element);
+
+		assert contentList.get(0).getCType() == CType.Text : "<seg> DOES NOT CONTAIN SIMPLE TEXT"
+				+ element;
+
+		VariationPoint endPoint = loadSimpleText((Text) contentList.get(0),
+				startPoint, fragInters);
+		Reading rdg = endPoint.getInReadings().get(0);
+
+		String[] listRendXmlId = null;
+
+		Attribute rendAttribute = element.getAttribute("rendition");
+
+		if (rendAttribute != null) {
+
+			listRendXmlId = element.getAttribute("rendition").getValue()
+					.split("\\s+");
+
+			for (int i = listRendXmlId.length - 1; i >= 0; i--) {
+
+				FormatText openFormatText = new FormatText();
+				FormatText closeFormatText = new FormatText();
+
+				openFormatText.setOpenClose(OpenClose.OPEN);
+				openFormatText.setNextText(null);
+				closeFormatText.setOpenClose(OpenClose.CLOSE);
+				closeFormatText.setNextText(null);
+
+				String rendXmlId = listRendXmlId[i].substring(1);
+
+				if (rendXmlId.equals("right")) {
+					openFormatText.setRend(Rendition.RIGHT);
+					closeFormatText.setRend(Rendition.RIGHT);
+				} else if (rendXmlId.equals("left")) {
+					openFormatText.setRend(Rendition.LEFT);
+					closeFormatText.setRend(Rendition.LEFT);
+				} else if (rendXmlId.equals("center")) {
+					openFormatText.setRend(Rendition.CENTER);
+					closeFormatText.setRend(Rendition.CENTER);
+				} else if (rendXmlId.equals("bold")) {
+					openFormatText.setRend(Rendition.BOLD);
+					closeFormatText.setRend(Rendition.BOLD);
+				} else if (rendXmlId.equals("red")) {
+					openFormatText.setRend(Rendition.RED);
+					closeFormatText.setRend(Rendition.RED);
+				} else if (rendXmlId.equals("u")) {
+					openFormatText.setRend(Rendition.UNDERLINED);
+					closeFormatText.setRend(Rendition.UNDERLINED);
+				} else {
+					throw new LdoDException("valor desconhecido para rend="
+							+ listRendXmlId[i]);
+					// assert false : "UNKNOWN rend VALUE" + listRendXmlId[i];
+				}
+
+				rdg.addBeginText(openFormatText);
+				rdg.addEndText(closeFormatText);
+			}
+		}
+
+		return endPoint;
+	}
 
 	private VariationPoint loadSpace(Element element,
 			VariationPoint startPoint, List<FragInter> fragInters) {
@@ -288,8 +605,12 @@ public class LoadLdoDFromTEI {
 			try {
 				quantity = Integer.parseInt(quantityAttribute.getValue());
 			} catch (NumberFormatException e) {
-				assert false : "VALUE FOR ATTRIBUTE quantity IN NOT INTEGER=\""
-						+ quantityAttribute.getValue() + "\"";
+				throw new LdoDException(
+						"valor para atributo quantity não é um número="
+								+ quantityAttribute.getValue());
+				// assert false :
+				// "VALUE FOR ATTRIBUTE quantity IS NOT INTEGER=\""
+				// + quantityAttribute.getValue() + "\"";
 			}
 		}
 		return quantity;
@@ -303,8 +624,10 @@ public class LoadLdoDFromTEI {
 		} else if (unitAttribute.getValue().equals("minims")) {
 			unit = SpaceUnit.MINIMS;
 		} else {
-			assert false : "UNKNOWN VALUE FOR ATTRIBUTE unit=\""
-					+ unitAttribute.getValue() + "\"";
+			throw new LdoDException("valor desconhecido para atributo unit="
+					+ unitAttribute.getValue());
+			// assert false : "UNKNOWN VALUE FOR ATTRIBUTE unit=\""
+			// + unitAttribute.getValue() + "\"";
 		}
 
 		return unit;
@@ -321,8 +644,11 @@ public class LoadLdoDFromTEI {
 		} else if (dimAttribute.getValue().equals("horizontal")) {
 			dim = SpaceDim.HORIZONTAL;
 		} else {
-			assert false : "UNKNOWN VALUE FOR ATTRIBUTE dim=\""
-					+ dimAttribute.getValue() + "\"";
+			throw new LdoDException("valor desconhecido para atributo dim="
+					+ dimAttribute.getValue());
+
+			// assert false : "UNKNOWN VALUE FOR ATTRIBUTE dim=\""
+			// + dimAttribute.getValue() + "\"";
 		}
 		return dim;
 	}
@@ -346,7 +672,10 @@ public class LoadLdoDFromTEI {
 					}
 				}
 			} else {
-				assert false : "UNEXPECTED ELEMENT NESTED WITHIN APP";
+				throw new LdoDException("valor inesperado entre app e /app"
+						+ rdgElement.getName());
+				// assert false : "UNEXPECTED ELEMENT NESTED WITHIN APP" +
+				// rdgElement.getName();
 			}
 		}
 
@@ -356,7 +685,7 @@ public class LoadLdoDFromTEI {
 		}
 
 		if (!pendingFragInters.isEmpty()) {
-			addEmptyReading(startPoint, endPoint, pendingFragInters);
+			addReading4Empty(startPoint, endPoint, pendingFragInters, true);
 		}
 
 		return endPoint;
@@ -377,6 +706,11 @@ public class LoadLdoDFromTEI {
 
 	private VariationPoint loadRdg(Element rdgElement, VariationPoint startPoint) {
 		Attribute witAttribute = rdgElement.getAttribute("wit");
+
+		if (witAttribute == null)
+			throw new LdoDException("elemento rdg necessita de atributo wit "
+					+ rdgElement);
+
 		assert witAttribute != null : "rdg ELEMENT REQUIRES VALUE FOR ATTRIBUTE wit"
 				+ rdgElement;
 
@@ -385,8 +719,11 @@ public class LoadLdoDFromTEI {
 		List<FragInter> fragInters = getFragItersByListXmlID(listInterXmlId);
 		VariationPoint endPoint = new VariationPoint();
 
-		endPoint = loadContent(rdgElement, startPoint, fragInters);
-
+		if (rdgElement.getContent().isEmpty()) {
+			addReading4Empty(startPoint, endPoint, fragInters, true);
+		} else {
+			endPoint = loadContent(rdgElement, startPoint, fragInters);
+		}
 		return endPoint;
 	}
 
@@ -410,7 +747,6 @@ public class LoadLdoDFromTEI {
 		if (edAttribute == null) {
 			toFragInters = fragInters;
 		} else {
-
 			String[] listInterXmlId = element.getAttribute("ed").getValue()
 					.split("\\s+");
 			toFragInters = getFragItersByListXmlID(listInterXmlId);
@@ -434,25 +770,22 @@ public class LoadLdoDFromTEI {
 		endPoint.addInReadings(reading);
 
 		if (!pendingFragInterps.isEmpty()) {
-			addEmptyReading(startPoint, endPoint, pendingFragInterps);
+			addReading4Empty(startPoint, endPoint, pendingFragInterps,
+					isBreak(element));
 		}
 
 		return endPoint;
 	}
 
-	private void addEmptyReading(VariationPoint startPoint,
-			VariationPoint endPoint, List<FragInter> pendingFragInterps) {
-		Reading emptyRdg = new Reading();
-		EmptyText emptyText = new EmptyText();
-		emptyText.setReading(emptyRdg);
-		emptyText.setNextText(null);
+	private void addReading4Empty(VariationPoint startPoint,
+			VariationPoint endPoint, List<FragInter> pendingFragInterps,
+			Boolean isBreak) {
 
-		for (FragInter fragInter : pendingFragInterps) {
-			emptyRdg.addFragInters(fragInter);
-		}
+		EmptyText text = new EmptyText();
+		text.setIsBreak(isBreak);
+		text.setNextText(null);
 
-		emptyRdg.setPreviousVariationPoint(startPoint);
-		emptyRdg.setNextVariationPoint(endPoint);
+		Reading.addReading(startPoint, endPoint, pendingFragInterps, text);
 	}
 
 	private Boolean isHiphenated(Element element) {
@@ -468,8 +801,11 @@ public class LoadLdoDFromTEI {
 		} else if (hyphenated.equals("hyphenated")) {
 			toHyphenate = true;
 		} else {
-			assert false : "UNEXPECTED PARAMETER FOR hyphenated ATTRIBUTE"
-					+ element;
+			throw new LdoDException(
+					"valor inesperado para atribute hyphenated=" + hyphenated);
+
+			// assert false : "UNEXPECTED PARAMETER FOR hyphenated ATTRIBUTE"
+			// + hyphenated;
 		}
 		return toHyphenate;
 	}
@@ -487,7 +823,10 @@ public class LoadLdoDFromTEI {
 		} else if (breakWord.equals("no")) {
 			toBreak = false;
 		} else {
-			assert false : "INVALID PARAMETER FOR break ATTRIBUTE" + element;
+			throw new LdoDException("valor inesperado para atribute break="
+					+ breakWord);
+			// assert false : "INVALID PARAMETER FOR break ATTRIBUTE" +
+			// breakWord;
 		}
 		return toBreak;
 	}
@@ -498,7 +837,7 @@ public class LoadLdoDFromTEI {
 
 		VariationPoint endPoint = new VariationPoint();
 		if (value.equals("")) {
-			// ignore empty text
+			// ignore empty space
 			endPoint = startPoint;
 		} else {
 			Reading reading = new Reading();
@@ -534,6 +873,11 @@ public class LoadLdoDFromTEI {
 
 			List<Object> objects = getObjectsByXmlID(sourceOrEditionXmlID);
 
+			if ((objects == null) || (objects.isEmpty()))
+				throw new LdoDException(
+						"não existe uma fonte declarada para o atributo xml:id="
+								+ sourceOrEditionXmlID);
+
 			assert (objects != null) && (!objects.isEmpty()) : "MISSING SOURCE OBJECT FOR xml:id:"
 					+ sourceOrEditionXmlID;
 
@@ -545,10 +889,23 @@ public class LoadLdoDFromTEI {
 					.getParentElement()
 					.getAttributeValue("id", witness.getNamespace("xml"));
 
+			if (witnessXmlID == null)
+				throw new LdoDException("elemento wit sem atributo xml:id="
+						+ witnessXmlID);
 			assert witnessXmlID != null : "MISSING xml:id FOR WITNESS";
+
+			if (getObjectsByXmlID(witnessXmlID) != null)
+				throw new LdoDException("já está declarado o atributo xml:id="
+						+ witnessXmlID);
 			assert getObjectsByXmlID(witnessXmlID) == null : "xml:id:"
 					+ witnessXmlID + " IS ALREADY DECLARED";
+
+			if (witnessListXmlID == null)
+				throw new LdoDException("falta atributo xml:id para listWit");
 			assert witnessListXmlID != null : "MISSING xml:id FOR WITNESS LIST";
+
+			if (witnessListXmlID2 == null)
+				throw new LdoDException("falta atributo xml:id para listWit");
 			assert witnessListXmlID2 != null : "MISSING xml:id FOR WITNESS LIST";
 
 			Object object = objects.get(0);
@@ -592,10 +949,15 @@ public class LoadLdoDFromTEI {
 			String biblID = bibl.getAttributeValue("id",
 					bibl.getNamespace("xml"));
 
+			if (getObjectsByXmlID(biblID) != null)
+				throw new LdoDException("já está declarado o atributo xml:id="
+						+ biblID);
 			assert getObjectsByXmlID(biblID) == null : "xml:id:" + biblID
 					+ " IS ALREADY DECLARED";
 
 			putObjectByXmlID(biblID, printedSource);
+
+			printedSource.setXmlId(biblID);
 
 			printedSource.setTitle(bibl.getChildText("title", namespace));
 			printedSource.setPubPlace(bibl.getChildText("pubPlace", namespace));
@@ -629,10 +991,16 @@ public class LoadLdoDFromTEI {
 			String manuscriptID = msDesc.getAttributeValue("id",
 					msDesc.getNamespace("xml"));
 
+			if (getObjectsByXmlID(manuscriptID) != null)
+				throw new LdoDException("já está declarado o atributo xml:id="
+						+ manuscriptID);
+
 			assert getObjectsByXmlID(manuscriptID) == null : "xml:id:"
 					+ manuscriptID + " IS ALREADY DECLARED";
 
 			putObjectByXmlID(manuscriptID, manuscript);
+
+			manuscript.setXmlId(manuscriptID);
 
 			Element msId = msDesc.getChild("msIdentifier", namespace);
 			manuscript
@@ -642,135 +1010,6 @@ public class LoadLdoDFromTEI {
 			manuscript.setIdno(msId.getChildText("idno", namespace));
 		}
 
-	}
-
-	private void loadCorpusHeader() {
-		loadTitleStmt();
-
-		loadListBibl();
-
-		loadTaxonomies();
-
-		loadHeteronyms();
-	}
-
-	private void loadHeteronyms() {
-		Element corpusHeteronyms = ldoDTEI.getChild("teiHeader", namespace)
-				.getChild("profileDesc", namespace)
-				.getChild("particDesc", namespace)
-				.getChild("listPerson", namespace);
-
-		for (Element heteronymTEI : corpusHeteronyms.getChildren("person",
-				namespace)) {
-			Heteronym heteronym = new Heteronym();
-			heteronym.setLdoD(ldoD);
-
-			String heteronymXmlID = heteronymTEI.getAttributeValue("id",
-					heteronymTEI.getNamespace("xml"));
-
-			assert getObjectsByXmlID(heteronymXmlID) == null : "xml:id:"
-					+ heteronymXmlID + " IS ALREADY DECLARED";
-
-			putObjectByXmlID(heteronymXmlID, heteronym);
-
-			heteronym.setName(heteronymTEI.getChildText("persName", namespace));
-		}
-	}
-
-	private void loadTaxonomies() {
-		List<Element> corpusTaxonomies = ldoDTEI
-				.getChild("teiHeader", namespace)
-				.getChild("encodingDesc", namespace)
-				.getChild("classDecl", namespace)
-				.getChildren("taxonomy", namespace);
-
-		for (Element taxonomyTEI : corpusTaxonomies) {
-			Taxonomy taxonomy = new Taxonomy();
-			taxonomy.setLdoD(ldoD);
-
-			String tononomyID = taxonomyTEI.getAttributeValue("id",
-					taxonomyTEI.getNamespace("xml"));
-
-			assert getObjectsByXmlID(tononomyID) == null : "xml:id:"
-					+ tononomyID + " IS ALREADY DECLARED";
-
-			putObjectByXmlID(tononomyID, taxonomy);
-
-			taxonomy.setName(taxonomyTEI.getChild("bibl", namespace).getText());
-
-			for (Element categoryTEI : taxonomyTEI.getChildren("category",
-					namespace)) {
-				Category category = new Category();
-				category.setTaxonomy(taxonomy);
-
-				String categoryID = categoryTEI.getAttributeValue("id",
-						categoryTEI.getNamespace("xml"));
-
-				assert getObjectsByXmlID(categoryID) == null : "xml:id:"
-						+ categoryID + " IS ALREADY DECLARED";
-
-				putObjectByXmlID(categoryID, category);
-
-				category.setName(categoryTEI.getChild("catDesc", namespace)
-						.getText());
-			}
-
-		}
-	}
-
-	private void loadListBibl() {
-		Element corpusHeaderListBibl = ldoDTEI.getChild("teiHeader", namespace)
-				.getChild("fileDesc", namespace)
-				.getChild("sourceDesc", namespace)
-				.getChild("listBibl", namespace);
-
-		String listEditionsXmlID = corpusHeaderListBibl.getAttributeValue("id",
-				corpusHeaderListBibl.getNamespace("xml"));
-
-		assert getObjectsByXmlID(listEditionsXmlID) == null : "xml:id:"
-				+ listEditionsXmlID + " IS ALREADY DECLARED";
-
-		for (Element bibl : corpusHeaderListBibl.getChildren("bibl", namespace)) {
-			Edition edition = new Edition();
-			edition.setLdoD(ldoD);
-
-			String editionXmlID = bibl.getAttributeValue("id",
-					bibl.getNamespace("xml"));
-
-			assert getObjectsByXmlID(editionXmlID) == null : "xml:id:"
-					+ editionXmlID + " IS ALREADY DECLARED";
-
-			putObjectByXmlID(editionXmlID, edition);
-			putObjectByXmlID(listEditionsXmlID, edition);
-
-			edition.setAuthor(bibl.getChild("author", namespace)
-					.getChild("persName", namespace).getText());
-			edition.setTitle(bibl.getChild("title", namespace).getText());
-			edition.setEditor(bibl.getChild("editor", namespace)
-					.getChild("persName", namespace).getText());
-			edition.setDate(bibl.getChild("date", namespace).getAttributeValue(
-					"when"));
-		}
-	}
-
-	private void loadTitleStmt() {
-		Element corpusHeaderTitleStmt = ldoDTEI
-				.getChild("teiHeader", namespace)
-				.getChild("fileDesc", namespace)
-				.getChild("titleStmt", namespace);
-
-		ldoD.setTitle(corpusHeaderTitleStmt.getChild("title", namespace)
-				.getText());
-		ldoD.setAuthor(corpusHeaderTitleStmt.getChild("author", namespace)
-				.getText());
-		ldoD.setEditor(corpusHeaderTitleStmt.getChild("editor", namespace)
-				.getText());
-		ldoD.setSponsor(corpusHeaderTitleStmt.getChild("sponsor", namespace)
-				.getText());
-		ldoD.setFunder(corpusHeaderTitleStmt.getChild("funder", namespace)
-				.getText());
-		ldoD.setPrincipal(corpusHeaderTitleStmt
-				.getChild("principal", namespace).getText());
 	}
 
 }

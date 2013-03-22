@@ -6,14 +6,18 @@ package pt.ist.socialsoftware.edition.visitors;
 import java.util.HashSet;
 import java.util.Set;
 
+import pt.ist.socialsoftware.edition.domain.AddText;
+import pt.ist.socialsoftware.edition.domain.DelText;
 import pt.ist.socialsoftware.edition.domain.EmptyText;
 import pt.ist.socialsoftware.edition.domain.FormatText;
 import pt.ist.socialsoftware.edition.domain.FragInter;
 import pt.ist.socialsoftware.edition.domain.LbText;
+import pt.ist.socialsoftware.edition.domain.ParagraphText;
 import pt.ist.socialsoftware.edition.domain.PbText;
 import pt.ist.socialsoftware.edition.domain.Reading;
 import pt.ist.socialsoftware.edition.domain.SimpleText;
 import pt.ist.socialsoftware.edition.domain.SpaceText;
+import pt.ist.socialsoftware.edition.domain.SubstText;
 import pt.ist.socialsoftware.edition.domain.VariationPoint;
 
 /**
@@ -118,6 +122,29 @@ public class GraphConsistencyChecker implements GraphVisitor {
 
 	@Override
 	public void visit(EmptyText emptyText) {
+		assert false;
+
+	}
+
+	@Override
+	public void visit(AddText addText) {
+		assert false;
+	}
+
+	@Override
+	public void visit(DelText delText) {
+		assert false;
+
+	}
+
+	@Override
+	public void visit(SubstText substText) {
+		assert false;
+
+	}
+
+	@Override
+	public void visit(ParagraphText paragraphText) {
 		assert false;
 
 	}

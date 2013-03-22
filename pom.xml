@@ -19,7 +19,12 @@
 		<version.javax.servlet.jstl>1.2</version.javax.servlet.jstl>
 		<version.javax.servlet.servlet.api>2.5</version.javax.servlet.servlet.api>
 		<version.commons.lang.commons.lang>2.6</version.commons.lang.commons.lang>
-		
+		<version.junit.junit>4.11</version.junit.junit>
+		<version.org.jdom.jdom>2.0.4</version.org.jdom.jdom>
+		<version.jaxen.jaxen>1.1</version.jaxen.jaxen>
+		<version.com.ibm.icu.icu4j>50.1.1</version.com.ibm.icu.icu4j>
+		<version.commons-fileupload.commons-fileupload>1.2.2</version.commons-fileupload.commons-fileupload>
+				
 		<version.dml.dml.maven.plugin>1.1.2</version.dml.dml.maven.plugin>
 		<version.pt.ist.fenix.framework.core>1.1.4</version.pt.ist.fenix.framework.core>
 	</properties>
@@ -102,24 +107,30 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.11</version>
+			<version>${version.junit.junit}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.jdom</groupId>
 			<artifactId>jdom2</artifactId>
-			<version>2.0.4</version>
+			<version>${version.org.jdom.jdom}</version>
 		</dependency>
 		<dependency>
 			<groupId>jaxen</groupId>
 			<artifactId>jaxen</artifactId>
-			<version>1.1</version>
+			<version>${version.jaxen.jaxen}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.ibm.icu</groupId>
 			<artifactId>icu4j</artifactId>
-			<version>50.1.1</version>
+			<version>${version.com.ibm.icu.icu4j}</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-fileupload</groupId>
+			<artifactId>commons-fileupload</artifactId>
+			<version>1.2.2</version> 
 		</dependency>
 	</dependencies>
+
 	
 	<repositories>
 		<repository>

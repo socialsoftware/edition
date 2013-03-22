@@ -10,4 +10,8 @@ public abstract class FragInter extends FragInter_Base {
 
 	public abstract String getName();
 
+	public String getTranscription() {
+		return getFragment().getTranscription(this);
+	}
+
 }

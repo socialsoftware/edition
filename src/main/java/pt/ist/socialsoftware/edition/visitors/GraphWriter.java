@@ -8,13 +8,17 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import pt.ist.socialsoftware.edition.domain.AddText;
+import pt.ist.socialsoftware.edition.domain.DelText;
 import pt.ist.socialsoftware.edition.domain.EmptyText;
 import pt.ist.socialsoftware.edition.domain.FormatText;
 import pt.ist.socialsoftware.edition.domain.LbText;
+import pt.ist.socialsoftware.edition.domain.ParagraphText;
 import pt.ist.socialsoftware.edition.domain.PbText;
 import pt.ist.socialsoftware.edition.domain.Reading;
 import pt.ist.socialsoftware.edition.domain.SimpleText;
 import pt.ist.socialsoftware.edition.domain.SpaceText;
+import pt.ist.socialsoftware.edition.domain.SubstText;
 import pt.ist.socialsoftware.edition.domain.VariationPoint;
 
 /**
@@ -107,7 +111,6 @@ public class GraphWriter implements GraphVisitor {
 		reading.getText().accept(this);
 
 		result = result + "[/R" + readingCounter + "]";
-
 	}
 
 	@Override
@@ -117,7 +120,6 @@ public class GraphWriter implements GraphVisitor {
 		if (text.getNextText() != null) {
 			text.getNextText().accept(this);
 		}
-
 	}
 
 	@Override
@@ -133,8 +135,10 @@ public class GraphWriter implements GraphVisitor {
 
 	@Override
 	public void visit(FormatText formatText) {
-		result = result + "[FT]" + "[/FT]";
-		if (formatText.getPrevText() != null) {
+		result = result + "[FT," + formatText.getRend().toString() + ","
+				+ formatText.getOpenClose().toString() + "]";
+
+		if (formatText.getNextText() != null) {
 			formatText.getNextText().accept(this);
 		}
 
@@ -143,14 +147,14 @@ public class GraphWriter implements GraphVisitor {
 	@Override
 	public void visit(PbText pbText) {
 		result = result + "[PBT]" + "[/PBT]";
-		if (pbText.getPrevText() != null) {
+
+		if (pbText.getNextText() != null) {
 			pbText.getNextText().accept(this);
 		}
 	}
 
 	@Override
 	public void visit(SpaceText spaceText) {
-
 		result = result + "[SP](QT=" + spaceText.getQuantity() + ",DIM="
 				+ spaceText.getDim() + ",UNIT=" + spaceText.getUnit()
 				+ ")[/SP]";
@@ -165,10 +169,43 @@ public class GraphWriter implements GraphVisitor {
 	public void visit(EmptyText emptyText) {
 		result = result + "[ET][/ET]";
 
-		if (emptyText.getPrevText() != null) {
+		if (emptyText.getNextText() != null) {
 			emptyText.getNextText().accept(this);
 		}
+	}
 
+	@Override
+	public void visit(AddText addText) {
+		result = result + "[ADD," + addText.getPlace() + ","
+				+ addText.getOpenClose() + "]";
+
+		if (addText.getNextText() != null) {
+			addText.getNextText().accept(this);
+		}
+	}
+
+	@Override
+	public void visit(DelText delText) {
+		result = result + "[DEL," + delText.getOpenClose() + "]";
+		if (delText.getNextText() != null) {
+			delText.getNextText().accept(this);
+		}
+	}
+
+	@Override
+	public void visit(SubstText substText) {
+		result = result + "[SUBST," + substText.getOpenClose() + "]";
+		if (substText.getNextText() != null) {
+			substText.getNextText().accept(this);
+		}
+	}
+
+	@Override
+	public void visit(ParagraphText paragraphText) {
+		result = result + "[PAR," + paragraphText.getOpenClose() + "]";
+		if (paragraphText.getNextText() != null) {
+			paragraphText.getNextText().accept(this);
+		}
 	}
 
 }

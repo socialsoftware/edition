@@ -7,6 +7,7 @@ import pt.ist.socialsoftware.edition.domain.AddText;
 import pt.ist.socialsoftware.edition.domain.DelText;
 import pt.ist.socialsoftware.edition.domain.EmptyText;
 import pt.ist.socialsoftware.edition.domain.FormatText;
+import pt.ist.socialsoftware.edition.domain.FragInter;
 import pt.ist.socialsoftware.edition.domain.LbText;
 import pt.ist.socialsoftware.edition.domain.ParagraphText;
 import pt.ist.socialsoftware.edition.domain.PbText;
@@ -16,7 +17,7 @@ import pt.ist.socialsoftware.edition.domain.SpaceText;
 import pt.ist.socialsoftware.edition.domain.SubstText;
 import pt.ist.socialsoftware.edition.domain.VariationPoint;
 
-public class CanonicalCleaner implements GraphVisitor {
+public class EmptyTextCleaner implements GraphVisitor {
 
 	Set<VariationPoint> visited = new HashSet<VariationPoint>();
 
@@ -28,34 +29,68 @@ public class CanonicalCleaner implements GraphVisitor {
 			for (Reading rdg : variationPoint.getOutReadings()) {
 				rdg.accept(this);
 			}
+
+			for (Reading rdg : variationPoint.getOutReadings()) {
+				rdg.getNextVariationPoint().accept(this);
+			}
+
 		}
+
 	}
 
 	@Override
 	public void visit(Reading reading) {
-		VariationPoint previousPoint = reading.getPreviousVariationPoint();
-		VariationPoint nextPoint = reading.getNextVariationPoint();
-		if (previousPoint != null
-				&& previousPoint.getInReadingsCount() == 1
-				&& previousPoint.getOutReadingsCount() == 1
-				&& previousPoint.getInReadingsInterpretations().equals(
-						previousPoint.getOutReadingsInterpretations())) {
 
-			Reading previousRdg = previousPoint.getInReadings().get(0);
+		if (reading.getText() instanceof EmptyText) {
+			EmptyText text = (EmptyText) reading.getText();
+			if (!text.getIsBreak()) {
+				assert text.getNextText() == null : "CLEANING EMPTY-TEXT FAILED";
 
-			previousRdg.addEndText(reading.getText());
-			previousRdg.setNextVariationPoint(nextPoint);
+				Reading nextReading = reading.getNextVariationPoint()
+						.getOutReadings().get(0);
 
-			reading.remove();
-			previousPoint.remove();
+				for (Reading prevReading : reading.getPreviousVariationPoint()
+						.getInReadings()) {
 
+					SimpleText prevText = (SimpleText) prevReading.getText();
+					SimpleText nextText = (SimpleText) nextReading.getText();
+					SimpleText composedText = new SimpleText();
+					composedText.setValue(prevText.getValue()
+							+ nextText.getValue());
+					composedText.setNextText(null);
+
+					Reading composedReading = new Reading();
+					composedReading.setText(composedText);
+
+					VariationPoint prevPoint = prevReading
+							.getPreviousVariationPoint();
+					VariationPoint nextPoint = nextReading
+							.getNextVariationPoint();
+
+					for (FragInter fragInter : reading.getFragInters()) {
+						if (prevReading.getFragIntersSet().contains(fragInter)) {
+							composedReading.addFragInters(fragInter);
+							prevReading.removeFragInters(fragInter);
+							nextReading.removeFragInters(fragInter);
+							reading.removeFragInters(fragInter);
+						}
+					}
+
+					composedReading.setPreviousVariationPoint(prevPoint);
+					composedReading.setNextVariationPoint(nextPoint);
+				}
+				text.remove();
+				reading.remove();
+			}
 		}
-		nextPoint.accept(this);
+
 	}
 
 	@Override
 	public void visit(SimpleText text) {
-		assert false;
+		if (text.getNextText() != null) {
+			text.getNextText().accept(this);
+		}
 	}
 
 	@Override

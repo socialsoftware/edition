@@ -3,17 +3,25 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<title>LdoD</title>
+		<title>Mensagens</title>
 		<link rel="stylesheet" type="text/css" href="/static/css/bootstrap.css" />
 		<link rel="stylesheet" type="text/css" href="/static/css/style.css" />
+		<script type="text/javascript" src="/static/js/bootstrap.js"></script>
 	</head>
 	<body>
 		<%@ include file="/WEB-INF/jsp/common/header.jsp" %>
 		
 		<div class="container">
 			<div class="hero-unit">
-				<h1>Arquivo do LdoD</h1>
-				<p>O Arquivo Digital Colaborativo do Livro do Desassossego de Fernando Pessoa, </p>
+				<h1>Mensagem</h1>
+				<br>
+				<div class="alert alert-info">  
+  					<a class="close" data-dismiss="alert">×</a>  
+  					<strong>${type}:</strong>${message}  
+				</div> 
+				<p>
+					<a class="btn btn-large btn-primary" href="${page}"><i class="icon-list icon-white"></i> Voltar</a>
+				</p>
 			</div>
 		</div>
 	</body>

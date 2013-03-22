@@ -4,25 +4,24 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<title>Recipes</title>
+		<title>Carregar Corpus</title>
 		<link rel="stylesheet" type="text/css" href="/static/css/bootstrap.css" />
 		<link rel="stylesheet" type="text/css" href="/static/css/style.css" />
 		<script type="text/javascript" src="/static/js/bootstrap.js"></script>
 	</head>
 	<body>
 		<%@ include file="/WEB-INF/jsp/common/header.jsp" %>
-	
+				
 		<div class="container">
-			<div class="hero-unit">
-				<h1>Pesquisa</h1>
-				<br>
-				<p>
-					<a class="btn btn-large btn-primary" href="/search/fragments"><i class="icon-list icon-white"></i> Fragmentos</a><br><br>
-					<a class="btn btn-large btn-primary" href="/search/sources"><i class="icon-list icon-white"></i> Testemunhos Autorais</a>
-					
-				</p>
-			</div>
-		</div>
-
+				<form method="POST" action="/load/corpus" enctype="multipart/form-data">
+						<form:errors path="*" />
+				
+				    <fieldset>
+	    			<legend>Carregar Ficheiro TEI com Corpus</legend>	    			
+	    			<input type="file" class="input-block-level" name="file" />
+	    			<button type="submit" class="btn pull-left">Submeter</button>
+	  			    </fieldset>
+	  		    </form>
+	    </div>
 	</body>
 </html>

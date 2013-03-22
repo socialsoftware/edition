@@ -3,6 +3,9 @@ package pt.ist.socialsoftware.edition.loaders;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,7 +23,6 @@ import pt.ist.socialsoftware.edition.domain.PrintedSource;
 import pt.ist.socialsoftware.edition.domain.Source;
 import pt.ist.socialsoftware.edition.domain.SourceInter;
 import pt.ist.socialsoftware.edition.domain.Taxonomy;
-import pt.ist.socialsoftware.edition.services.LoadLdoDFromTEIService;
 import pt.ist.socialsoftware.edition.utils.Bootstrap;
 
 public class ImportLdoDFromTEITest {
@@ -31,8 +33,23 @@ public class ImportLdoDFromTEITest {
 
 		Transaction.begin();
 
-		LoadLdoDFromTEIService service = new LoadLdoDFromTEIService();
-		service.execution();
+		LoadTEICorpus corpusLoader = new LoadTEICorpus();
+		try {
+			corpusLoader.loadTEICorpus(new FileInputStream(
+					"/Users/ars/Desktop/Frg.1_TEI-encoded_testing.xml"));
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		LoadTEIFragments fragmentsLoader = new LoadTEIFragments();
+		try {
+			fragmentsLoader.loadFragments(new FileInputStream(
+					"/Users/ars/Desktop/Frg.1_TEI-encoded_testing.xml"));
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@After

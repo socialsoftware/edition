@@ -1,5 +1,7 @@
 package pt.ist.socialsoftware.edition.domain;
 
+import java.util.List;
+
 import pt.ist.socialsoftware.edition.visitors.GraphVisitor;
 
 public class Reading extends Reading_Base implements GraphElement {
@@ -14,6 +16,22 @@ public class Reading extends Reading_Base implements GraphElement {
 		setType(ReadingType.NO_TYPE);
 	}
 
+	public static void addReading(VariationPoint startPoint,
+			VariationPoint endPoint, List<FragInter> pendingFragInterps,
+			LdoDText text) {
+
+		Reading rdg = new Reading();
+		text.setReading(rdg);
+		text.setNextText(null);
+
+		for (FragInter fragInter : pendingFragInterps) {
+			rdg.addFragInters(fragInter);
+		}
+
+		rdg.setPreviousVariationPoint(startPoint);
+		rdg.setNextVariationPoint(endPoint);
+	}
+
 	public void remove() {
 		removePreviousVariationPoint();
 		removeNextVariationPoint();
@@ -25,24 +43,19 @@ public class Reading extends Reading_Base implements GraphElement {
 		deleteDomainObject();
 	}
 
-	public void print() {
-		getText().printAll();
-		getNextVariationPoint().print();
-	}
-
-	public void print(FragInter fragInter) {
-		if (getFragIntersSet().contains(fragInter)) {
-			getText().printAll();
-		}
-		getNextVariationPoint().print(fragInter);
-	}
-
 	@Override
 	public void accept(GraphVisitor visitor) {
 		visitor.visit(this);
 	}
 
-	public void addText(LdoDText text) {
+	public void addBeginText(LdoDText text) {
+		LdoDText ldoDText = getText();
+
+		text.setNextText(ldoDText);
+		this.setText(text);
+	}
+
+	public void addEndText(LdoDText text) {
 		LdoDText ldoDText = getText();
 
 		while (ldoDText.getNextText() != null) {

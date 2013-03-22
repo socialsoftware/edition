@@ -2,22 +2,19 @@ package pt.ist.socialsoftware.edition.domain;
 
 import pt.ist.socialsoftware.edition.visitors.GraphVisitor;
 
-/**
- * Contains the simple text, no line or pages breaks, spaces, formating, etc
- * 
- * @author ars
- * 
- */
-public class SimpleText extends SimpleText_Base {
+public class AddText extends AddText_Base {
 
-	public SimpleText() {
+	public enum Place {
+		ABOVE, SUPERIMPOSED, MARGIN, TOP, INLINE, UNSPECIFIED;
+	};
+
+	public AddText() {
 		super();
 	}
 
 	@Override
 	public void accept(GraphVisitor visitor) {
 		visitor.visit(this);
-
 	}
 
 }

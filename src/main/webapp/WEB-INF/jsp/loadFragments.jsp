@@ -4,28 +4,24 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<title>Fragmentos do LdoD</title>
+		<title>Carregar Fragmentos</title>
 		<link rel="stylesheet" type="text/css" href="/static/css/bootstrap.css" />
 		<link rel="stylesheet" type="text/css" href="/static/css/style.css" />
+		<script type="text/javascript" src="/static/js/bootstrap.js"></script>
 	</head>
 	<body>
 		<%@ include file="/WEB-INF/jsp/common/header.jsp" %>
-		
+				
 		<div class="container">
-			<h1>Fragmentos do LdoD</h1>
-			<table class="table table-striped table-bordered table-condensed">
-				<thead>
-					<tr>
-						<th>Nome do Fragmento</th>
-					</tr>
-				<tbody>
-				<c:forEach var="fragment" items='${fragments}'>
-					<tr>
-						<td><a href="/fragments/${fragment.externalId}">${fragment.title}</a></td>
-					</tr>
-				</c:forEach>
-				</tbody>
-			</table>
-		</div>
+				<form method="POST" action="/load/fragments" enctype="multipart/form-data">
+						<form:errors path="*" />
+				
+				    <fieldset>
+	    			<legend>Carregar Ficheiro TEI com Fragmentos</legend>	    			
+	    			<input type="file" class="input-block-level" name="file" />
+	    			<button type="submit" class="btn pull-left">Submeter</button>
+	  			    </fieldset>
+	  		    </form>
+	    </div>
 	</body>
 </html>

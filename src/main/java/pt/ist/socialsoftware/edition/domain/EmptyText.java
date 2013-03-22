@@ -14,10 +14,4 @@ public class EmptyText extends EmptyText_Base {
 
 	}
 
-	@Override
-	public void print() {
-		System.out.println("EMPTY");
-
-	}
-
 }

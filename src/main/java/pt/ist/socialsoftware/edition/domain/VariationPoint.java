@@ -26,36 +26,6 @@ public class VariationPoint extends VariationPoint_Base {
 		deleteDomainObject();
 	}
 
-	public void print() {
-		// Set<VariationPoint> nextPoints = new HashSet<VariationPoint>();
-		for (Reading reading : getOutReadings()) {
-			reading.print();
-			// nextPoints.add(reading.getNextVariationPoint());
-		}
-		// for (VariationPoint vp : nextPoints) {
-		// vp.print();
-		// }
-	}
-
-	public void print(FragInter fragInter) {
-		// Boolean exists = false;
-		// Set<VariationPoint> nextPoints = new HashSet<VariationPoint>();
-		for (Reading reading : getOutReadings()) {
-			reading.print(fragInter);
-			// if (reading.getFragmentInterSet().contains(fragInter)) {
-			// reading.print();
-			// reading.getNextVariationPoint().print(fragInter);
-			// nextPoints.add(reading.getNextVariationPoint());
-			// exists = true;
-			// break;
-			// }
-		}
-		// if (!exists)
-		// for (VariationPoint nextPoint : nextPoints) {
-		// nextPoint.print(fragInter);
-		// }
-	}
-
 	public void accept(GraphVisitor visitor) {
 		visitor.visit(this);
 	}

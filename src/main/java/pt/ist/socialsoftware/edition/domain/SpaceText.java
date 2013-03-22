@@ -17,11 +17,6 @@ public class SpaceText extends SpaceText_Base {
 	}
 
 	@Override
-	public void print() {
-		System.out.println("SPACE ");
-	}
-
-	@Override
 	public void accept(GraphVisitor visitor) {
 		visitor.visit(this);
 	}

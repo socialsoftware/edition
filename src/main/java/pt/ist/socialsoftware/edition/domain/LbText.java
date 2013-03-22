@@ -11,12 +11,6 @@ public class LbText extends LbText_Base {
 	}
 
 	@Override
-	public void print() {
-		System.out.print("LB(BW:" + getBreakWord() + ",H:" + getHyphenated()
-				+ ") ");
-	}
-
-	@Override
 	public void accept(GraphVisitor visitor) {
 		visitor.visit(this);
 

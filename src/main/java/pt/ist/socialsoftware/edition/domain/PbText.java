@@ -9,11 +9,6 @@ public class PbText extends PbText_Base {
 	}
 
 	@Override
-	public void print() {
-		System.out.print("PB ");
-	}
-
-	@Override
 	public void accept(GraphVisitor visitor) {
 		// TODO Auto-generated method stub
 
