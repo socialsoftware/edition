@@ -7,14 +7,13 @@ public class EditionInter extends EditionInter_Base {
 	}
 
 	@Override
-	public void print() {
-		System.out.print(getEdition().getEditor() + ":");
-
+	public String getName() {
+		return getEdition().getEditor();
 	}
 
 	@Override
-	public String getName() {
-		return getEdition().getEditor();
+	public SourceType getSourceType() {
+		return SourceType.EDITORIAL;
 	}
 
 }

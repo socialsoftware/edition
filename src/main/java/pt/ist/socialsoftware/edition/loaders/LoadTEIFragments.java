@@ -33,6 +33,7 @@ import pt.ist.socialsoftware.edition.domain.FormatText;
 import pt.ist.socialsoftware.edition.domain.FormatText.Rendition;
 import pt.ist.socialsoftware.edition.domain.FragInter;
 import pt.ist.socialsoftware.edition.domain.Fragment;
+import pt.ist.socialsoftware.edition.domain.Heteronym;
 import pt.ist.socialsoftware.edition.domain.LbText;
 import pt.ist.socialsoftware.edition.domain.LdoD;
 import pt.ist.socialsoftware.edition.domain.LdoDText.OpenClose;
@@ -84,7 +85,11 @@ public class LoadTEIFragments {
 	private List<Object> getObjectsByListXmlID(String[] listXmlId) {
 		List<Object> objects = new ArrayList<Object>();
 		for (String xmlId : listXmlId) {
-			objects.addAll(getObjectsByXmlID(xmlId.substring(1)));
+			List<Object> objects2 = getObjectsByXmlID(xmlId.substring(1));
+			if (objects2 == null) {
+				throw new LdoDException("identificador não declarado " + xmlId);
+			}
+			objects.addAll(objects2);
 		}
 		return objects;
 	}
@@ -100,6 +105,10 @@ public class LoadTEIFragments {
 				putObjectByXmlID(category.getXmlId(), category);
 			}
 		}
+
+		for (Heteronym heteronym : ldoD.getHeteronyms()) {
+			putObjectByXmlID(heteronym.getXmlId(), heteronym);
+		}
 	}
 
 	XPathFactory xpfac = XPathFactory.instance();
@@ -111,14 +120,11 @@ public class LoadTEIFragments {
 			// TODO: create a config variable for the xml file
 			doc = builder.build(file);
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new LdoDException("Ficheiro não encontrado");
 		} catch (JDOMException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new LdoDException("Ficheiro com problemas de codificação TEI");
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new LdoDException("Problemas com o ficheiro, tipo ou formato");
 		}
 
 		if (doc == null) {
@@ -131,7 +137,7 @@ public class LoadTEIFragments {
 		namespace = ldoDTEI.getNamespace();
 	}
 
-	public void loadFragments(InputStream file) {
+	public void loadFragments(InputStream file) throws LdoDException {
 		parseTEIFile(file);
 
 		ldoD = LdoD.getInstance();
@@ -924,12 +930,86 @@ public class LoadTEIFragments {
 				fragInter = new EditionInter();
 				fragInter.setFragment(fragment);
 				((EditionInter) fragInter).setEdition((Edition) object);
+
+				Element bibl = witness.getChild("bibl", namespace);
+
+				Heteronym heteronym = getHeteronym(bibl);
+				if (heteronym != null)
+					fragInter.setHeteronym(heteronym);
+
+				((EditionInter) fragInter).setTitle(bibl.getChildTextTrim(
+						"title", namespace));
+				fragInter.setDate(bibl.getChildTextTrim("date", namespace));
+				((EditionInter) fragInter)
+						.setChapter(getBiblScope(bibl, "chap"));
+				((EditionInter) fragInter).setPage(getBiblScope(bibl, "pp"));
+				((EditionInter) fragInter).setNotes(getBiblNotes(bibl));
 			}
 			putObjectByXmlID(witnessXmlID, fragInter);
 			putObjectByXmlID(witnessListXmlID, fragInter);
 			putObjectByXmlID(witnessListXmlID2, fragInter);
 		}
 
+	}
+
+	private String getBiblNotes(Element bibl) {
+		String notes = "";
+		List<Element> notesList = bibl.getChildren("note", namespace);
+		for (Element noteElement : notesList) {
+			notes = notes + noteElement.getTextTrim() + ";";
+		}
+		return notes;
+	}
+
+	private int getBiblScope(Element bibl, String type) {
+		int scope = 0;
+		for (Element biblScope : bibl.getChildren("biblScope", namespace)) {
+			Attribute typeAtt = biblScope.getAttribute("type");
+			if (typeAtt.getValue().equals(type)) {
+				String scopeText = biblScope.getTextTrim();
+				if (scopeText != "") {
+					scope = Integer.parseInt(scopeText);
+				}
+				return scope;
+			}
+		}
+		return scope;
+	}
+
+	private Heteronym getHeteronym(Element bibl) {
+		Heteronym heteronym;
+		String hetXmlId = null;
+		Element respStmt = bibl.getChild("respStmt", namespace);
+		if (respStmt != null) {
+			Element persName = respStmt.getChild("persName", namespace);
+			if (persName != null) {
+				Attribute correspAtt = persName.getAttribute("corresp");
+				if (correspAtt != null) {
+					hetXmlId = persName.getAttributeValue("corresp").substring(
+							1);
+
+					List<Object> heteronymList = getObjectsByXmlID(hetXmlId);
+					if (heteronymList != null) {
+						heteronym = (Heteronym) heteronymList.get(0);
+					} else {
+						throw new LdoDException("atributo corresp=" + hetXmlId
+								+ " para persName em witness "
+								+ bibl.getValue() + " não está declarado");
+					}
+				} else {
+					throw new LdoDException(
+							"falta atributo corresp para persName em witness"
+									+ bibl.getValue());
+				}
+			} else {
+				throw new LdoDException(
+						"falta atributo element persName em witness respStmt"
+								+ bibl.getValue());
+			}
+		} else {
+			heteronym = null;
+		}
+		return heteronym;
 	}
 
 	private void loadPrintedSources(Fragment fragment, String fragmentTEIID) {

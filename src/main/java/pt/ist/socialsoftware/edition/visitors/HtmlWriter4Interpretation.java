@@ -37,7 +37,7 @@ public class HtmlWriter4Interpretation implements GraphVisitor {
 
 	public HtmlWriter4Interpretation(FragInter fragInter) {
 		this.fragInter = fragInter;
-		transcription = fragInter.getName() + ":" + "<br><br><br>";
+		transcription = "";
 	}
 
 	@Override

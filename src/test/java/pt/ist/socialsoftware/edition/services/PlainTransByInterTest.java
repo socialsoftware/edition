@@ -34,6 +34,8 @@ public class PlainTransByInterTest {
 			e.printStackTrace();
 		}
 
+		// /Users/ars/Desktop/Frg.1_TEI-encoded_testing.xml
+
 		LoadTEIFragments fragmentsLoader = new LoadTEIFragments();
 		try {
 			fragmentsLoader.loadFragments(new FileInputStream(

@@ -90,7 +90,12 @@ relation FragInterHasCategories {
 	Category playsRole categories {multiplicity 0..1;}
 }
 
-class EditionInter extends FragInter;
+class EditionInter extends FragInter {
+	String title;
+	int chapter;
+	int page;
+	String notes;
+}
 
 class SourceInter extends FragInter;
 

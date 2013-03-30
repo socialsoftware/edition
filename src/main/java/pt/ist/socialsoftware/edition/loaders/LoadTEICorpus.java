@@ -57,14 +57,11 @@ public class LoadTEICorpus {
 			// TODO: create a config variable for the xml file
 			doc = builder.build(file);
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new LdoDException("Ficheiro não encontrado");
 		} catch (JDOMException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new LdoDException("Ficheiro com problemas de codificação TEI");
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new LdoDException("Problemas com o ficheiro, tipo ou formato");
 		}
 
 		if (doc == null) {

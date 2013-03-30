@@ -1,6 +1,8 @@
 package pt.ist.socialsoftware.edition.shared.exception;
 
-public class LdoDException extends RuntimeException {
+import java.io.Serializable;
+
+public class LdoDException extends RuntimeException implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 

@@ -13,10 +13,12 @@
 	<!-- Queremos ligar a anotação @Controller para definir controladores -->
 	<mvc:annotation-driven />
 	
+	<mvc:default-servlet-handler/>
+	
 	<!-- Serve pedidos HTTP GET para /static/** de forma eficiente para recursos estáticos na pasta webapp/resources -->
 	<mvc:resources mapping="/static/**" location="/resources/" />
 
-	<!-- Resolve vistas seleccionadas para renderização pelos @Controllers para páginas .jsp na pasta webapp/views -->
+	<!-- Resolve vistas seleccionadas para renderização pelos @Controllers para páginas .jsp na pasta webapp/jsp -->
 	<beans:bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver"
 		p:order="1">

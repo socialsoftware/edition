@@ -8,12 +8,14 @@
 		<link rel="stylesheet" type="text/css" href="/static/css/style.css" />
 	</head>
 	<body>
+		<c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 		<%@ include file="/WEB-INF/jsp/common/header.jsp" %>
 		
 		<div class="container">
 			<div class="hero-unit">
 				<h1>Arquivo do LdoD</h1>
 				<p>O Arquivo Digital Colaborativo do Livro do Desassossego de Fernando Pessoa, </p>
+				<p><strong>Versão BETA - Protótipo em desenvolvimento</strong></p>
 			</div>
 		</div>
 	</body>

@@ -4,7 +4,7 @@
 <div class="navbar navbar-fixed-top">
   <div class="navbar-inner">
   	<div class="container">
-    	<a class="brand" href="/">Arquivo do LdoD</a>
+    	<a class="brand" href="${contextPath}/">Arquivo do LdoD</a>
     	<div class="offset3">
     	<ul class="nav">
   			<li class="dropdown">
@@ -33,7 +33,7 @@
   			<li class="dropdown">
     			<a class="dropdown-toggle" data-toggle="dropdown" href="#">Pesquisa<b class="caret"></b></a>
     			<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-      				<li><a href="/search/fragments">Fragmentos</a></li>
+      				<li><a href="${contextPath}/search/fragments">Fragmentos</a></li>
 					<li><a href="#">Testemunhos Autorais</a></li>   
 				</ul> 			
   			</li>
@@ -51,8 +51,8 @@
   			<li class="dropdown">
     			<a class="dropdown-toggle" data-toggle="dropdown" href="#">Carregar<b class="caret"></b></a>
     			<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-      				<li><a href="/load/corpusForm">Corpus</a></li>
-					<li><a href="/load/fragmentForm">Fragmento</a></li>   
+      				<li><a href="${contextPath}/load/corpusForm">Corpus</a></li>
+					<li><a href="${contextPath}/load/fragmentForm">Fragmento</a></li>   
 				</ul> 			
   			</li>
 		</ul>

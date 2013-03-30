@@ -13,6 +13,7 @@ import jvstm.Transaction;
 
 public class TransactionFilter implements Filter {
 
+	@Override
 	public void doFilter(ServletRequest request, ServletResponse response,
 			FilterChain chain) throws IOException, ServletException {
 		try {
@@ -22,14 +23,19 @@ public class TransactionFilter implements Filter {
 			Transaction.abort();
 			throw (ServletException) e;
 		}
-		Transaction.commit();
+
+		if (Transaction.isInTransaction()) {
+			Transaction.commit();
+		}
 	}
 
+	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void destroy() {
 		// TODO Auto-generated method stub
 

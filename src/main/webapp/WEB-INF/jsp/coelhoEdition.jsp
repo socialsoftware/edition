@@ -4,25 +4,29 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<title>Carregar Corpus</title>
+		<title>Edição de Jacinto Prado Coelho</title>
 		<link rel="stylesheet" type="text/css" href="/static/css/bootstrap.css" />
 		<link rel="stylesheet" type="text/css" href="/static/css/style.css" />
-		<script type="text/javascript" src="/static/js/bootstrap.js"></script>
 	</head>
 	<body>
 		<c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 		<%@ include file="/WEB-INF/jsp/common/header.jsp" %>
-				
+		
 		<div class="container">
-				<form method="POST" action="${contextPath}/load/corpus" enctype="multipart/form-data">
-						<form:errors path="*" />
-				
-				    <fieldset>
-	    			<legend>Carregar Ficheiro TEI com Corpus</legend>	    			
-	    			<input type="file" class="input-block-level" name="file" />
-	    			<button type="submit" class="btn pull-left">Submeter</button>
-	  			    </fieldset>
-	  		    </form>
-	    </div>
+			<h1>Edição de Jacinto Prado Coelho</h1>
+			<table class="table table-striped table-bordered table-condensed">
+				<thead>
+					<tr>
+						<th>Nome do Fragmento</th>
+					</tr>
+				<tbody>
+				<c:forEach var="fragment" items='${fragments}'>
+					<tr>
+						<td><a href="${contextPath}/fragments/${fragment.externalId}">${fragment.title}</a></td>
+					</tr>
+				</c:forEach>
+				</tbody>
+			</table>
+		</div>
 	</body>
 </html>

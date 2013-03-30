@@ -10,10 +10,11 @@
 		<script type="text/javascript" src="/static/js/bootstrap.js"></script>
 	</head>
 	<body>
+		<c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 		<%@ include file="/WEB-INF/jsp/common/header.jsp" %>
 				
 		<div class="container">
-				<form method="POST" action="/load/fragments" enctype="multipart/form-data">
+				<form method="POST" action="${contextPath}/load/fragments" enctype="multipart/form-data">
 						<form:errors path="*" />
 				
 				    <fieldset>

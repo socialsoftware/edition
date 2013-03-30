@@ -9,6 +9,7 @@
 		<link rel="stylesheet" type="text/css" href="/static/css/style.css" />
 	</head>
 	<body>
+		<c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 		<%@ include file="/WEB-INF/jsp/common/header.jsp" %>
 		
 		<div class="container">
@@ -21,7 +22,7 @@
 				<tbody>
 				<c:forEach var="fragment" items='${fragments}'>
 					<tr>
-						<td><a href="/fragments/${fragment.externalId}">${fragment.title}</a></td>
+						<td><a href="${contextPath}/fragments/${fragment.externalId}">${fragment.title}</a></td>
 					</tr>
 				</c:forEach>
 				</tbody>
