@@ -26,40 +26,46 @@
 				<a
 					href="${contextPath}/fragments/${fragment.externalId}/${fragInter.externalId}">
 					${fragInter.name}</a>
-					<br>
+				<br>
 				<!-- 	</label> -->
 			</c:forEach>
 		</div>
 		<br>
 		<div class="row">
-			<strong>Testemunho <c:choose>
-					<c:when test="${interpretation.sourceType=='EDITORIAL'}"> Editorial
+			<c:choose>
+					<c:when test="${interpretation.sourceType=='EDITORIAL'}"><em>Testemunho Editorial</em>
 					</c:when>
-					<c:otherwise> Autoral
+					<c:otherwise><em>Testemunho Autoral</em>
 					</c:otherwise>
 				</c:choose>: ${interpretation.name}
-			</strong>
+			
 		</div>
-		<div class="row">
-			<c:choose>
-				<c:when test="${interpretation.sourceType=='EDITORIAL'}">
-					Título: ${interpretation.title}, Heterónimo:
-					${interpretation.heteronym.name}, Número: ${interpretation.number}
-					Página: ${interpretation.page}, Data: ${interpretation.date} <br> Notas: ${interpretation.notes}.
-				</c:when>
-				<c:otherwise>
-				</c:otherwise>
-			</c:choose>
-		</div>
-		<br>
 		<div class="row">
 			<div class="addBorder">
 				<p>${interpretation.transcription}</p>
 			</div>
 		</div>
+		<br>
+		<div class="row">
+			<div class="addBorder">
+				<c:choose>
+					<c:when test="${interpretation.sourceType=='EDITORIAL'}">
+					<c:if test="${interpretation.title!=''}"><em>Título</em>: ${interpretation.title}</c:if> <br>
+					<c:if test="${interpretation.heteronym.name!=''}"><em>Heterónimo</em>: ${interpretation.heteronym.name}</c:if> <br>
+					<c:if test="${interpretation.number!=''}"><em>Número</em>: ${interpretation.number}</c:if> <br>
+					<c:if test="${interpretation.page!=''}"><em>Página</em>: ${interpretation.page}</c:if> <br>
+					<c:if test="${interpretation.date!=''}"><em>Data</em>: ${interpretation.date}</c:if> <br> 
+					<c:if test="${interpretation.notes!=''}"><em>Notas</em>: ${interpretation.notes}</c:if>
+				</c:when>
+					<c:otherwise>
+					</c:otherwise>
+				</c:choose>
+			</div>
+		</div>
 	</div>
 	<style>
 .addBorder {
+	border-radius: 5px;
 	border: 1px solid black;
 	padding: 5px;
 }
