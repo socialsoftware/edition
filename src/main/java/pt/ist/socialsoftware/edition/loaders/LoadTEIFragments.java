@@ -298,6 +298,7 @@ public class LoadTEIFragments {
 			VariationPoint startPoint, List<FragInter> fragInters) {
 
 		VariationPoint initialPoint = startPoint;
+		Reading initialRdg = null;
 		VariationPoint endPoint = null;
 
 		for (Content content : element.getContent()) {
@@ -332,6 +333,10 @@ public class LoadTEIFragments {
 					// + "WITHIN <subst>";
 				}
 			}
+
+			if (endPoint.getInReadings().get(0).getPreviousVariationPoint() == initialPoint) {
+				initialRdg = endPoint.getInReadings().get(0);
+			}
 			startPoint = endPoint;
 
 		}
@@ -339,7 +344,6 @@ public class LoadTEIFragments {
 		SubstText openSubstText = new SubstText();
 		openSubstText.setOpenClose(OpenClose.OPEN);
 		openSubstText.setNextText(null);
-		Reading initialRdg = initialPoint.getOutReadings().get(0);
 		initialRdg.addBeginText(openSubstText);
 
 		SubstText closeSubstText = new SubstText();
@@ -678,7 +682,7 @@ public class LoadTEIFragments {
 					}
 				}
 			} else {
-				throw new LdoDException("valor inesperado entre app e /app"
+				throw new LdoDException("valor inesperado dentro de app"
 						+ rdgElement.getName());
 				// assert false : "UNEXPECTED ELEMENT NESTED WITHIN APP" +
 				// rdgElement.getName();
@@ -940,8 +944,8 @@ public class LoadTEIFragments {
 				((EditionInter) fragInter).setTitle(bibl.getChildTextTrim(
 						"title", namespace));
 				fragInter.setDate(bibl.getChildTextTrim("date", namespace));
-				((EditionInter) fragInter)
-						.setChapter(getBiblScope(bibl, "chap"));
+				((EditionInter) fragInter).setNumber(getBiblScope(bibl,
+						"number"));
 				((EditionInter) fragInter).setPage(getBiblScope(bibl, "pp"));
 				((EditionInter) fragInter).setNotes(getBiblNotes(bibl));
 			}

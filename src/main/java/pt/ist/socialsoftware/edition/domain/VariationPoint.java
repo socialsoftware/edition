@@ -26,15 +26,25 @@ public class VariationPoint extends VariationPoint_Base {
 		deleteDomainObject();
 	}
 
+	@Override
+	public Fragment getFragment() {
+		if (getInReadings().isEmpty()) {
+			return super.getFragment();
+		} else {
+			return getInReadings().get(0).getPreviousVariationPoint()
+					.getFragment();
+		}
+	}
+
 	public void accept(GraphVisitor visitor) {
 		visitor.visit(this);
 	}
 
-	public Set<FragInter> getInReadingsInterpretations() {
+	public Set<FragInter> getInReadingsInters() {
 		Set<FragInter> allFragInters;
 		if (getInReadings().isEmpty()) {
-			allFragInters = new HashSet<FragInter>(getOutReadings().get(0)
-					.getFragInters().get(0).getFragment().getFragmentInterSet());
+			allFragInters = new HashSet<FragInter>(getFragment()
+					.getFragmentInterSet());
 		} else {
 			allFragInters = new HashSet<FragInter>();
 			for (Reading rdg : getInReadings()) {
@@ -44,11 +54,11 @@ public class VariationPoint extends VariationPoint_Base {
 		return allFragInters;
 	}
 
-	public Set<FragInter> getOutReadingsInterpretations() {
+	public Set<FragInter> getOutReadingsInters() {
 		Set<FragInter> allFragInters;
 		if (getOutReadings().isEmpty()) {
-			allFragInters = new HashSet<FragInter>(getInReadings().get(0)
-					.getFragInters().get(0).getFragment().getFragmentInterSet());
+			allFragInters = new HashSet<FragInter>(getFragment()
+					.getFragmentInterSet());
 		} else {
 			allFragInters = new HashSet<FragInter>();
 			for (Reading rdg : getOutReadings()) {

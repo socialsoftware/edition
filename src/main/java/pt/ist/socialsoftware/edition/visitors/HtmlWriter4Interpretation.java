@@ -226,10 +226,11 @@ public class HtmlWriter4Interpretation implements GraphVisitor {
 	public void visit(SubstText substText) {
 		switch (substText.getOpenClose()) {
 		case CLOSE:
-			transcription = transcription + "</em>";
+			transcription = transcription + "</span>";
 			break;
 		case OPEN:
-			transcription = transcription + "<em>";
+			transcription = transcription
+					+ "<span style=\"background-color: rgb(220,220,220);\">";
 			break;
 		}
 

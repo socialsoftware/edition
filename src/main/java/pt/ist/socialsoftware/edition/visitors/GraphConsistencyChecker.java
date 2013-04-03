@@ -19,6 +19,7 @@ import pt.ist.socialsoftware.edition.domain.SimpleText;
 import pt.ist.socialsoftware.edition.domain.SpaceText;
 import pt.ist.socialsoftware.edition.domain.SubstText;
 import pt.ist.socialsoftware.edition.domain.VariationPoint;
+import pt.ist.socialsoftware.edition.shared.exception.LdoDException;
 
 /**
  * Checks the consistency of the graph: (1) Interpretations for outReadings of a
@@ -45,15 +46,22 @@ public class GraphConsistencyChecker implements GraphVisitor {
 			Set<FragInter> pathFragInters = new HashSet<FragInter>();
 
 			Set<FragInter> allInFragInters = point
-					.getInReadingsInterpretations();
-			Set<FragInter> allOutFRagInters = point
-					.getOutReadingsInterpretations();
+					.getInReadingsInters();
+			Set<FragInter> allOutFragInters = point
+					.getOutReadingsInters();
 
 			GraphWriter debugTextVisitor = new GraphWriter();
 			if (!allInFragInters.isEmpty()) {
 				point.accept(debugTextVisitor);
 			}
-			assert (allInFragInters.equals(allOutFRagInters)) : "INCONSISTENT GRAPGH: OUT-READINGS <> IN-READINGS"
+
+			if (!allInFragInters.equals(allOutFragInters)) {
+				throw new LdoDException(
+						"os testemunhos de entrada são diferentes do testemunhos de saída, neste ponto="
+								+ debugTextVisitor.getResult());
+			}
+
+			assert (allInFragInters.equals(allOutFragInters)) : "INCONSISTENT GRAPGH: OUT-READINGS <> IN-READINGS"
 					+ debugTextVisitor.getResult();
 
 			if (!point.getOutReadings().isEmpty()) {
@@ -68,6 +76,13 @@ public class GraphConsistencyChecker implements GraphVisitor {
 					if (!intersection.isEmpty()) {
 						point.accept(debugTextVisitor2);
 					}
+
+					if (!intersection.isEmpty()) {
+						throw new LdoDException(
+								"existem rdgs de um mesmo app com testemunhos sobrepostos "
+										+ debugTextVisitor.getResult());
+					}
+
 					assert intersection.isEmpty() : "INCONSISTENT GRAPH: AT LEAST TWO OUT-READINGS HAVE INTERPRETATIONS IN COMMON"
 							+ debugTextVisitor.getResult();
 

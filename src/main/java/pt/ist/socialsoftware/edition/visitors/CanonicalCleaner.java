@@ -38,8 +38,8 @@ public class CanonicalCleaner implements GraphVisitor {
 		if (previousPoint != null
 				&& previousPoint.getInReadingsCount() == 1
 				&& previousPoint.getOutReadingsCount() == 1
-				&& previousPoint.getInReadingsInterpretations().equals(
-						previousPoint.getOutReadingsInterpretations())) {
+				&& previousPoint.getInReadingsInters().equals(
+						previousPoint.getOutReadingsInters())) {
 
 			Reading previousRdg = previousPoint.getInReadings().get(0);
 

@@ -92,7 +92,7 @@ relation FragInterHasCategories {
 
 class EditionInter extends FragInter {
 	String title;
-	int chapter;
+	int number;
 	int page;
 	String notes;
 }

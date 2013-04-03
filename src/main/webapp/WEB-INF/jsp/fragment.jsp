@@ -44,7 +44,7 @@
 			<c:choose>
 				<c:when test="${interpretation.sourceType=='EDITORIAL'}">
 					Título: ${interpretation.title}, Heterónimo:
-					${interpretation.heteronym.name}, Capítulo: ${interpretation.chapter}
+					${interpretation.heteronym.name}, Número: ${interpretation.number}
 					Página: ${interpretation.page}, Data: ${interpretation.date} <br> Notas: ${interpretation.notes}.
 				</c:when>
 				<c:otherwise>
