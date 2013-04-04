@@ -9,7 +9,8 @@ public class Fragment extends Fragment_Base {
 	}
 
 	public String getTranscription(FragInter fragInter) {
-		HtmlWriter4Interpretation writer = new HtmlWriter4Interpretation(fragInter);
+		HtmlWriter4Interpretation writer = new HtmlWriter4Interpretation(
+				fragInter);
 		writer.visit(this.getVariationPoint());
 		return writer.getResult();
 	}

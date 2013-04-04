@@ -12,4 +12,13 @@ public class LdoD extends LdoD_Base {
 		super();
 	}
 
+	public Edition getEdition(String acronym) {
+		for (Edition edition : getEditions()) {
+			if (edition.hasAcronym(acronym)) {
+				return edition;
+			}
+		}
+		return null;
+	}
+
 }
