@@ -1,7 +1,6 @@
 package pt.ist.socialsoftware.edition.domain;
 
-public class EditionInter extends EditionInter_Base implements
-		Comparable<EditionInter> {
+public class EditionInter extends EditionInter_Base {
 
 	public EditionInter() {
 		super();
@@ -17,8 +16,31 @@ public class EditionInter extends EditionInter_Base implements
 		return SourceType.EDITORIAL;
 	}
 
-	@Override
-	public int compareTo(EditionInter other) {
+	public int compareEditionInter(EditionInter other) {
+		String myEditor = getEdition().getEditor();
+		String otherEditor = other.getEdition().getEditor();
+
+		if (myEditor.equals(otherEditor)) {
+			return compareNumber(other);
+		} else if (myEditor.equals(Edition.COELHO)) {
+			return -1;
+		} else if (otherEditor.equals(Edition.COELHO)) {
+			return 1;
+		} else if (myEditor.equals(Edition.CUNHA)) {
+			return -1;
+		} else if (otherEditor.equals(Edition.CUNHA)) {
+			return 1;
+		} else if (myEditor.equals(Edition.ZENITH)) {
+			return -1;
+		} else if (otherEditor.equals(Edition.ZENITH)) {
+			return 1;
+		} else {
+			assert false : "To include more code when virtual editions are suported";
+			return 0;
+		}
+	}
+
+	public int compareNumber(EditionInter other) {
 		if (getNumber() == other.getNumber()) {
 			return comparePage(getPage(), other.getPage());
 		} else if (getNumber() < other.getNumber()) {
@@ -36,4 +58,5 @@ public class EditionInter extends EditionInter_Base implements
 			return 1;
 
 	}
+
 }

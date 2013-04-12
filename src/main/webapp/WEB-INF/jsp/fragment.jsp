@@ -48,7 +48,7 @@
 			<h1>${fragment.title}</h1>
 
 			<div class="btn-group" id="interps" data-toggle="buttons-radio">
-				<c:forEach var="fragInter" items='${fragment.fragmentInter}'>
+				<c:forEach var="fragInter" items='${fragment.sortedInterps}'>
 					<label class="radio inline"> <c:choose>
 							<c:when test="${fragInter.externalId==interpretation.externalId}">
 								<input type="radio" class="btn" name="inter"

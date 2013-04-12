@@ -15,4 +15,8 @@ public class SourceInter extends SourceInter_Base {
 	public SourceType getSourceType() {
 		return SourceType.AUTHORIAL;
 	}
+
+	public int compareSourceInter(SourceInter other) {
+		return getName().compareTo(other.getName());
+	}
 }
