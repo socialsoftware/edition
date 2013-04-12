@@ -1,6 +1,3 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<script type="text/javascript" src="/static/js/jquery.js"></script>
-<script type="text/javascript" src="/static/js/bootstrap.js"></script>
 <div class="navbar navbar-fixed-top">
   <div class="navbar-inner">
   	<div class="container">
@@ -19,13 +16,13 @@
 		</ul>
     	<ul class="nav">
   			<li class="dropdown">
-    			<a class="dropdown-toggle" data-toggle="dropdown" href="#">EdiÃ§Ãµes<b class="caret"></b></a>
+    			<a class="dropdown-toggle" data-toggle="dropdown" href="#">Edições<b class="caret"></b></a>
     			<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
       				<li><a href="${contextPath}/edition/JPC">Jacinto Prado Coelho</a></li>
 					<li><a href="${contextPath}/edition/TSC">Teresa Sobral Cunha</a></li>    			
 					<li><a href="${contextPath}/edition/RZ">Richard Zenith</a></li>    			
-					<li><a href="${contextPath}/edition/JP">JerÃ³nimo Pizarro</a></li>    			
-					<li><a href="#">EdiÃ§Ãµes Virtuals</a></li>   
+					<li><a href="${contextPath}/edition/JP">Jerónimo Pizarro</a></li>    			
+					<li><a href="#">Edições Virtuals</a></li>   
 				</ul> 			
   			</li>
 		</ul>

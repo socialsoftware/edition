@@ -57,11 +57,6 @@
 				<groupId>org.mortbay.jetty</groupId>
 				<artifactId>jetty-maven-plugin</artifactId>
 				<version>${version.org.mortbay.jetty.jetty.maven.plugin}</version>
-				<configuration>
-					<scanIntervalSeconds>10</scanIntervalSeconds>
-					<stopKey>stop</stopKey>
-					<stopPort>9999</stopPort>
-				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>dml</groupId>

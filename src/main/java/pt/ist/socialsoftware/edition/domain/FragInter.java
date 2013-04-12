@@ -15,7 +15,7 @@ public abstract class FragInter extends FragInter_Base {
 	public abstract SourceType getSourceType();
 
 	public String getTranscription() {
-		return getFragment().getTranscription(this);
+		return getFragment().getTranscription(this).trim();
 	}
 
 }
