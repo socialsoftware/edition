@@ -21,10 +21,11 @@ public abstract class FragInter extends FragInter_Base implements
 
 	@Override
 	public int compareTo(FragInter other) {
-		if ((this instanceof EditionInter) && (other instanceof SourceInter)) {
+		if ((getSourceType() == SourceType.EDITORIAL)
+				&& (other.getSourceType() == SourceType.AUTHORIAL)) {
 			return -1;
-		} else if ((this instanceof EditionInter)
-				&& (other instanceof EditionInter)) {
+		} else if ((getSourceType() == SourceType.EDITORIAL)
+				&& (other.getSourceType() == SourceType.EDITORIAL)) {
 			return ((EditionInter) this)
 					.compareEditionInter((EditionInter) other);
 		} else {

@@ -49,6 +49,7 @@
 
 			<div class="btn-group" id="interps" data-toggle="buttons-radio">
 				<c:forEach var="fragInter" items='${fragment.sortedInterps}'>
+					<c:if test="${fragInter.sourceType=='EDITORIAL'}">
 					<label class="radio inline"> <c:choose>
 							<c:when test="${fragInter.externalId==interpretation.externalId}">
 								<input type="radio" class="btn" name="inter"
@@ -61,6 +62,24 @@
 							</c:otherwise>
 						</c:choose>
 					</label>
+					</c:if>
+				</c:forEach>
+				<br>
+				<c:forEach var="fragInter" items='${fragment.sortedInterps}'>
+					<c:if test="${fragInter.sourceType=='AUTHORIAL'}">
+					<label class="radio inline"> <c:choose>
+							<c:when test="${fragInter.externalId==interpretation.externalId}">
+								<input type="radio" class="btn" name="inter"
+									value="${fragInter.externalId}" checked> ${fragInter.name} </input>
+							</c:when>
+							<c:otherwise>
+								<input type="radio" class="btn" name="inter"
+									value="${fragInter.externalId}">
+									${fragInter.name} </input>
+							</c:otherwise>
+						</c:choose>
+					</label>
+					</c:if>
 				</c:forEach>
 			</div>
 		</div>
