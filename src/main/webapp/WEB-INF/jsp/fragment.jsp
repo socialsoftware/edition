@@ -51,7 +51,7 @@
 					<c:if test="${fragInter.sourceType=='EDITORIAL'}">
 						<label class="radio inline"> <c:choose>
 								<c:when
-									test="${fragInter.externalId==interpretation.externalId}">
+									test="${fragInter.externalId==inter.externalId}">
 									<input type="radio" class="btn" name="inter"
 										value="${fragInter.externalId}" checked> ${fragInter.name} </input>
 								</c:when>
@@ -69,7 +69,7 @@
 					<c:if test="${fragInter.sourceType=='AUTHORIAL'}">
 						<label class="radio inline"> <c:choose>
 								<c:when
-									test="${fragInter.externalId==interpretation.externalId}">
+									test="${fragInter.externalId==inter.externalId}">
 									<input type="radio" class="btn" name="inter"
 										value="${fragInter.externalId}" checked> ${fragInter.name} </input>
 								</c:when>

@@ -38,7 +38,7 @@ public class FragmentController {
 		Fragment fragment = fragInter.getFragment();
 
 		model.addAttribute("fragment", fragment);
-		model.addAttribute("interpretation", fragInter);
+		model.addAttribute("inter", fragInter);
 		return "fragmentInterpretation";
 	}
 
@@ -51,10 +51,14 @@ public class FragmentController {
 		FragInter fragInter2Compare = AbstractDomainObject
 				.fromExternalId(interID2Compare);
 
-		System.out.println(interID + " " + interID2Compare);
-
-		model.addAttribute("interpretation", fragInter2Compare);
-		return "fragmentTextual";
+		if (interID.equals(interID2Compare)) {
+			model.addAttribute("inter", fragInter);
+			return "fragmentTextual";
+		} else {
+			model.addAttribute("inter", fragInter);
+			model.addAttribute("inter2Compare", fragInter2Compare);
+			return "fragmentTextualCompare";
+		}
 	}
 
 }

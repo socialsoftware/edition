@@ -20,11 +20,9 @@
 	});
 </script>
 
-<c:set var="contextPath" value="${pageContext.request.contextPath}" />
-
 <div id="fragmentInterpretation" class="row">
 
-	<c:if test="${interpretation!=null}">
+	<c:if test="${inter!=null}">
 		<br />
 		<div id="menu" class="row span12">
 			<div class="row">
@@ -33,7 +31,7 @@
 						<c:forEach var="fragInter" items='${fragment.sortedInterps}'>
 							<label class="radio inline"> <c:choose>
 									<c:when
-										test="${fragInter.externalId==interpretation.externalId}">
+										test="${fragInter.externalId==inter.externalId}">
 										<input type="radio" class="btn" name="inter2"
 											value="${fragInter.externalId}" checked>
 							${fragInter.name} </input>
@@ -51,7 +49,7 @@
 
 			<div>
 				<c:choose>
-					<c:when test="${interpretation.sourceType=='EDITORIAL'}">
+					<c:when test="${inter.sourceType=='EDITORIAL'}">
 						<label>Testemunho Editorial</label>
 					</c:when>
 					<c:otherwise>

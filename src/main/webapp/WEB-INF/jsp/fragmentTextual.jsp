@@ -7,31 +7,31 @@
 <div id=fragmentTextual class="row span12">
 	<div id="transcription" class="row">
 		<div class="addBorder">
-			<p>${interpretation.transcription}</p>
+			<p>${inter.transcription}</p>
 		</div>
 	</div>
 
 	<div id="metatextual" class="row">
 		<div class="addBorder">
 			<c:choose>
-				<c:when test="${interpretation.sourceType=='EDITORIAL'}">
-					<c:if test="${interpretation.title!=''}">
-						<em>Título</em>: ${interpretation.title}</c:if>
+				<c:when test="${inter.sourceType=='EDITORIAL'}">
+					<c:if test="${inter.title!=''}">
+						<em>Título</em>: ${inter.title}</c:if>
 					<br>
-					<c:if test="${interpretation.heteronym.name!=''}">
-						<em>Heterónimo</em>: ${interpretation.heteronym.name}</c:if>
+					<c:if test="${inter.heteronym.name!=''}">
+						<em>Heterónimo</em>: ${inter.heteronym.name}</c:if>
 					<br>
-					<c:if test="${interpretation.number!=''}">
-						<em>Número</em>: ${interpretation.number}</c:if>
+					<c:if test="${inter.number!=''}">
+						<em>Número</em>: ${inter.number}</c:if>
 					<br>
-					<c:if test="${interpretation.page!=''}">
-						<em>Página</em>: ${interpretation.page}</c:if>
+					<c:if test="${inter.page!=''}">
+						<em>Página</em>: ${inter.page}</c:if>
 					<br>
-					<c:if test="${interpretation.date!=''}">
-						<em>Data</em>: ${interpretation.date}</c:if>
+					<c:if test="${inter.date!=''}">
+						<em>Data</em>: ${inter.date}</c:if>
 					<br>
-					<c:if test="${interpretation.notes!=''}">
-						<em>Notas</em>: ${interpretation.notes}</c:if>
+					<c:if test="${inter.notes!=''}">
+						<em>Notas</em>: ${inter.notes}</c:if>
 				</c:when>
 				<c:otherwise>
 				</c:otherwise>
