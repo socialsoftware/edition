@@ -15,10 +15,6 @@ import pt.ist.socialsoftware.edition.domain.Fragment;
 @RequestMapping("/fragments/fragment")
 public class FragmentController {
 
-	@RequestMapping(method = RequestMethod.GET)
-	public void fragment() {
-	}
-
 	@RequestMapping(method = RequestMethod.GET, value = "/{id}")
 	public String getFragment(Model model, @PathVariable String id) {
 		Fragment fragment = AbstractDomainObject.fromExternalId(id);
@@ -32,24 +28,33 @@ public class FragmentController {
 
 			return "fragment";
 		}
-
 	}
 
-	@RequestMapping(method = RequestMethod.POST)
-	public String processSubmit(
+	@RequestMapping(method = RequestMethod.GET)
+	public String getInterpretation(
 			@RequestParam(value = "interp", required = true) String interID,
 			Model model) {
 		FragInter fragInter = AbstractDomainObject.fromExternalId(interID);
 		Fragment fragment = fragInter.getFragment();
 
-		System.out.println(interID + fragInter + fragment);
-
 		model.addAttribute("fragment", fragment);
 		model.addAttribute("interpretation", fragInter);
-		model.addAttribute("name", fragInter.getName());
-		model.addAttribute("transcription", fragInter.getTranscription());
 		return "fragmentInterpretation";
+	}
 
+	@RequestMapping(method = RequestMethod.GET, value = "/textual")
+	public String getTextual(
+			@RequestParam(value = "interp", required = true) String interID,
+			@RequestParam(value = "interp2Compare", required = true) String interID2Compare,
+			Model model) {
+		FragInter fragInter = AbstractDomainObject.fromExternalId(interID);
+		FragInter fragInter2Compare = AbstractDomainObject
+				.fromExternalId(interID2Compare);
+
+		System.out.println(interID + " " + interID2Compare);
+
+		model.addAttribute("interpretation", fragInter2Compare);
+		return "fragmentTextual";
 	}
 
 }

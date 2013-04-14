@@ -4,59 +4,64 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="s"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ page session="false"%>
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('[id="interps2"][data-toggle="buttons-radio"]').on('click', function() {
+			var fragInter1 = $('input:radio[name=inter]:checked').val();
+			var fragInter2 = $('input:radio[name=inter2]:checked').val();
+			alert(fragInter2);
+			$.get("${contextPath}/fragments/fragment/textual", {
+				interp : fragInter1,
+				interp2Compare : fragInter2
+			}, function(html) {
+				$("#fragmentTextual").replaceWith(html);
+			});
+		});
+	});
+</script>
+
+<c:set var="contextPath" value="${pageContext.request.contextPath}" />
 
 <div id="fragmentInterpretation" class="row">
 
 	<c:if test="${interpretation!=null}">
-
+		<br />
 		<div id="menu" class="row span12">
-			<c:choose>
-				<c:when test="${interpretation.sourceType=='EDITORIAL'}">
-					<em>Testemunho Editorial</em>
-				</c:when>
-				<c:otherwise>
-					<em>Testemunho Autoral</em>
-				</c:otherwise>
-			</c:choose>
-			: ${interpretation.name}
-		</div>
-
-		<div id=textual class="row span6">
-			<div id="transcription" class="row">
-
-				<div class="addBorder">
-					<p>${interpretation.transcription}</p>
-				</div>
-
+			<div class="row">
+				<label> Comparar: </label>
+					<div class="btn-group" id="interps2" data-toggle="buttons-radio">
+						<c:forEach var="fragInter" items='${fragment.sortedInterps}'>
+							<label class="radio inline"> <c:choose>
+									<c:when
+										test="${fragInter.externalId==interpretation.externalId}">
+										<input type="radio" class="btn" name="inter2"
+											value="${fragInter.externalId}" checked>
+							${fragInter.name} </input>
+									</c:when>
+									<c:otherwise>
+										<input type="radio" class="btn" name="inter2"
+											value="${fragInter.externalId}">
+							${fragInter.name} </input>
+									</c:otherwise>
+								</c:choose>
+							</label>
+						</c:forEach>
+					</div>
 			</div>
 
-			<div id="metatextual" class="row">
-				<div class="addBorder">
-					<c:choose>
-						<c:when test="${interpretation.sourceType=='EDITORIAL'}">
-							<c:if test="${interpretation.title!=''}">
-								<em>Título</em>: ${interpretation.title}</c:if>
-							<br>
-							<c:if test="${interpretation.heteronym.name!=''}">
-								<em>Heterónimo</em>: ${interpretation.heteronym.name}</c:if>
-							<br>
-							<c:if test="${interpretation.number!=''}">
-								<em>Número</em>: ${interpretation.number}</c:if>
-							<br>
-							<c:if test="${interpretation.page!=''}">
-								<em>Página</em>: ${interpretation.page}</c:if>
-							<br>
-							<c:if test="${interpretation.date!=''}">
-								<em>Data</em>: ${interpretation.date}</c:if>
-							<br>
-							<c:if test="${interpretation.notes!=''}">
-								<em>Notas</em>: ${interpretation.notes}</c:if>
-						</c:when>
-						<c:otherwise>
-						</c:otherwise>
-					</c:choose>
-				</div>
+			<div>
+				<c:choose>
+					<c:when test="${interpretation.sourceType=='EDITORIAL'}">
+						<label>Testemunho Editorial</label>
+					</c:when>
+					<c:otherwise>
+						<label>Testemunho Autoral</label>
+					</c:otherwise>
+				</c:choose>
 			</div>
 		</div>
+
+		<%@ include file="/WEB-INF/jsp/fragmentTextual.jsp"%>
+
 	</c:if>
 </div>
