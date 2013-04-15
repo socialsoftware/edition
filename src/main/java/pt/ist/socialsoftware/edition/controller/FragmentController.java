@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import pt.ist.fenixframework.pstm.AbstractDomainObject;
 import pt.ist.socialsoftware.edition.domain.FragInter;
 import pt.ist.socialsoftware.edition.domain.Fragment;
+import pt.ist.socialsoftware.edition.visitors.HtmlWriter4OneInter;
 
 @Controller
 @RequestMapping("/fragments/fragment")
@@ -23,8 +24,6 @@ public class FragmentController {
 			return "fragmentNotFound";
 		} else {
 			model.addAttribute("fragment", fragment);
-			model.addAttribute("transcription",
-					"Selecione um testemunho para obter a transcrição");
 
 			return "fragment";
 		}
@@ -35,10 +34,12 @@ public class FragmentController {
 			@RequestParam(value = "interp", required = true) String interID,
 			Model model) {
 		FragInter fragInter = AbstractDomainObject.fromExternalId(interID);
-		Fragment fragment = fragInter.getFragment();
 
-		model.addAttribute("fragment", fragment);
+		HtmlWriter4OneInter writer = new HtmlWriter4OneInter(fragInter);
+		writer.visit(fragInter.getFragment().getVariationPoint());
+
 		model.addAttribute("inter", fragInter);
+		model.addAttribute("writer", writer);
 		return "fragmentInterpretation";
 	}
 
@@ -51,12 +52,21 @@ public class FragmentController {
 		FragInter fragInter2Compare = AbstractDomainObject
 				.fromExternalId(interID2Compare);
 
+		HtmlWriter4OneInter writer = new HtmlWriter4OneInter(fragInter);
+		writer.visit(fragInter.getFragment().getVariationPoint());
+
+		HtmlWriter4OneInter writer2 = new HtmlWriter4OneInter(fragInter2Compare);
+		writer2.visit(fragInter2Compare.getFragment().getVariationPoint());
+
 		if (interID.equals(interID2Compare)) {
 			model.addAttribute("inter", fragInter);
+			model.addAttribute("writer", writer);
 			return "fragmentTextual";
 		} else {
 			model.addAttribute("inter", fragInter);
+			model.addAttribute("writer", writer);
 			model.addAttribute("inter2Compare", fragInter2Compare);
+			model.addAttribute("writer2", writer2);
 			return "fragmentTextualCompare";
 		}
 	}

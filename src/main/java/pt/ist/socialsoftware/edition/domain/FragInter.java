@@ -1,5 +1,6 @@
 package pt.ist.socialsoftware.edition.domain;
 
+
 public abstract class FragInter extends FragInter_Base implements
 		Comparable<FragInter> {
 
@@ -15,15 +16,14 @@ public abstract class FragInter extends FragInter_Base implements
 
 	public abstract SourceType getSourceType();
 
-	public String getTranscription() {
-		return getFragment().getTranscription(this).trim();
-	}
-
 	@Override
 	public int compareTo(FragInter other) {
 		if ((getSourceType() == SourceType.EDITORIAL)
 				&& (other.getSourceType() == SourceType.AUTHORIAL)) {
 			return -1;
+		} else if ((getSourceType() == SourceType.AUTHORIAL)
+				&& (other.getSourceType() == SourceType.EDITORIAL)) {
+			return 1;
 		} else if ((getSourceType() == SourceType.EDITORIAL)
 				&& (other.getSourceType() == SourceType.EDITORIAL)) {
 			return ((EditionInter) this)
@@ -32,5 +32,4 @@ public abstract class FragInter extends FragInter_Base implements
 			return ((SourceInter) this).compareSourceInter((SourceInter) other);
 		}
 	}
-
 }

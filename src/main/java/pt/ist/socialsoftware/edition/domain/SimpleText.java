@@ -10,8 +10,9 @@ import pt.ist.socialsoftware.edition.visitors.GraphVisitor;
  */
 public class SimpleText extends SimpleText_Base {
 
-	public SimpleText() {
+	public SimpleText(String value) {
 		super();
+		setValue(value);
 	}
 
 	@Override

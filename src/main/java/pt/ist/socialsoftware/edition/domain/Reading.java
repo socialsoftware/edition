@@ -21,6 +21,7 @@ public class Reading extends Reading_Base implements GraphElement {
 			LdoDText text) {
 
 		Reading rdg = new Reading();
+		text.setReadingOfFirst(rdg);
 		text.setReading(rdg);
 		text.setNextText(null);
 
@@ -35,10 +36,16 @@ public class Reading extends Reading_Base implements GraphElement {
 	public void remove() {
 		removePreviousVariationPoint();
 		removeNextVariationPoint();
+
 		for (FragInter fragInter : getFragInters()) {
 			removeFragInters(fragInter);
 		}
-		removeText();
+
+		for (LdoDText text : getText()) {
+			removeText(text);
+		}
+
+		removeFirstText();
 
 		deleteDomainObject();
 	}
@@ -49,17 +56,24 @@ public class Reading extends Reading_Base implements GraphElement {
 	}
 
 	public void addBeginText(LdoDText text) {
-		LdoDText ldoDText = getText();
+		LdoDText ldoDText = getFirstText();
 
 		text.setNextText(ldoDText);
-		this.setText(text);
+
+		this.addText(text);
+		this.setFirstText(text);
 	}
 
 	public void addEndText(LdoDText text) {
-		LdoDText ldoDText = getText();
+		LdoDText ldoDText = getFirstText();
 
 		while (ldoDText.getNextText() != null) {
 			ldoDText = ldoDText.getNextText();
+		}
+
+		for (LdoDText tmpText = text; tmpText != null; tmpText = tmpText
+				.getNextText()) {
+			this.addText(tmpText);
 		}
 
 		ldoDText.setNextText(text);

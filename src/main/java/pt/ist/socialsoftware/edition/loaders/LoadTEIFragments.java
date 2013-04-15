@@ -54,7 +54,7 @@ import pt.ist.socialsoftware.edition.visitors.CanonicalCleaner;
 import pt.ist.socialsoftware.edition.visitors.EmptyTextCleaner;
 import pt.ist.socialsoftware.edition.visitors.GraphConsistencyChecker;
 import pt.ist.socialsoftware.edition.visitors.GraphWriter;
-import pt.ist.socialsoftware.edition.visitors.HtmlWriter4Interpretation;
+import pt.ist.socialsoftware.edition.visitors.HtmlWriter4OneInter;
 
 public class LoadTEIFragments {
 
@@ -228,7 +228,6 @@ public class LoadTEIFragments {
 
 		ParagraphText text = new ParagraphText();
 		text.setOpenClose(openClose);
-		text.setNextText(null);
 
 		Reading.addReading(startPoint, endPoint, pendingFragInterps, text);
 
@@ -250,10 +249,9 @@ public class LoadTEIFragments {
 		System.out.println(graphWriter.getResult());
 
 		for (FragInter fragInter : fragment.getFragmentInter()) {
-			HtmlWriter4Interpretation writer = new HtmlWriter4Interpretation(
-					fragInter);
+			HtmlWriter4OneInter writer = new HtmlWriter4OneInter(fragInter);
 			fragment.getVariationPoint().accept(writer);
-			System.out.println(writer.getResult());
+			System.out.println(writer.getTranscription());
 		}
 	}
 
@@ -341,14 +339,10 @@ public class LoadTEIFragments {
 
 		}
 
-		SubstText openSubstText = new SubstText();
-		openSubstText.setOpenClose(OpenClose.OPEN);
-		openSubstText.setNextText(null);
+		SubstText openSubstText = new SubstText(OpenClose.OPEN);
 		initialRdg.addBeginText(openSubstText);
 
-		SubstText closeSubstText = new SubstText();
-		closeSubstText.setOpenClose(OpenClose.CLOSE);
-		closeSubstText.setNextText(null);
+		SubstText closeSubstText = new SubstText(OpenClose.CLOSE);
 		Reading endRdg = endPoint.getInReadings().get(0);
 		endRdg.addEndText(closeSubstText);
 
@@ -383,15 +377,9 @@ public class LoadTEIFragments {
 
 		HowDel how = getHowDelAttribute(howDelAttribute);
 
-		DelText openDelText = new DelText();
-		openDelText.setOpenClose(OpenClose.OPEN);
-		openDelText.setHow(how);
-		openDelText.setNextText(null);
+		DelText openDelText = new DelText(OpenClose.OPEN, how);
 
-		DelText closeDelText = new DelText();
-		closeDelText.setOpenClose(OpenClose.CLOSE);
-		closeDelText.setHow(how);
-		closeDelText.setNextText(null);
+		DelText closeDelText = new DelText(OpenClose.CLOSE, how);
 
 		rdg.addBeginText(openDelText);
 		rdg.addEndText(closeDelText);
@@ -457,15 +445,9 @@ public class LoadTEIFragments {
 
 		Place place = getPlaceAttribute(placeAttribute);
 
-		AddText openAddText = new AddText();
-		openAddText.setOpenClose(OpenClose.OPEN);
-		openAddText.setPlace(place);
-		openAddText.setNextText(null);
+		AddText openAddText = new AddText(OpenClose.OPEN, place);
 
-		AddText closeAddText = new AddText();
-		closeAddText.setOpenClose(OpenClose.CLOSE);
-		closeAddText.setPlace(place);
-		closeAddText.setNextText(null);
+		AddText closeAddText = new AddText(OpenClose.CLOSE, place);
 
 		rdg.addBeginText(openAddText);
 		rdg.addEndText(closeAddText);
@@ -538,13 +520,8 @@ public class LoadTEIFragments {
 
 			for (int i = listRendXmlId.length - 1; i >= 0; i--) {
 
-				FormatText openFormatText = new FormatText();
-				FormatText closeFormatText = new FormatText();
-
-				openFormatText.setOpenClose(OpenClose.OPEN);
-				openFormatText.setNextText(null);
-				closeFormatText.setOpenClose(OpenClose.CLOSE);
-				closeFormatText.setNextText(null);
+				FormatText openFormatText = new FormatText(OpenClose.OPEN);
+				FormatText closeFormatText = new FormatText(OpenClose.CLOSE);
 
 				String rendXmlId = listRendXmlId[i].substring(1);
 
@@ -589,12 +566,8 @@ public class LoadTEIFragments {
 		int quantity = getQuantityAttribute(element);
 
 		Reading reading = new Reading();
-		SpaceText text = new SpaceText();
-		text.setReading(reading);
-		text.setDim(dim);
-		text.setQuantity(quantity);
-		text.setUnit(unit);
-		text.setNextText(null);
+		SpaceText text = new SpaceText(dim, quantity, unit);
+		reading.addBeginText(text);
 
 		for (FragInter fragIter : fragInters) {
 			reading.addFragInters(fragIter);
@@ -765,11 +738,8 @@ public class LoadTEIFragments {
 		VariationPoint endPoint = new VariationPoint();
 
 		Reading reading = new Reading();
-		LbText text = new LbText();
-		text.setReading(reading);
-		text.setBreakWord(isBreak(element));
-		text.setHyphenated(isHiphenated(element));
-		text.setNextText(null);
+		LbText text = new LbText(isBreak(element), isHiphenated(element));
+		reading.addBeginText(text);
 
 		for (FragInter fragIter : toFragInters) {
 			reading.addFragInters(fragIter);
@@ -791,9 +761,7 @@ public class LoadTEIFragments {
 			VariationPoint endPoint, List<FragInter> pendingFragInterps,
 			Boolean isBreak) {
 
-		EmptyText text = new EmptyText();
-		text.setIsBreak(isBreak);
-		text.setNextText(null);
+		EmptyText text = new EmptyText(isBreak);
 
 		Reading.addReading(startPoint, endPoint, pendingFragInterps, text);
 	}
@@ -851,10 +819,8 @@ public class LoadTEIFragments {
 			endPoint = startPoint;
 		} else {
 			Reading reading = new Reading();
-			SimpleText simpleText = new SimpleText();
-			simpleText.setReading(reading);
-			simpleText.setValue(value);
-			simpleText.setNextText(null);
+			SimpleText simpleText = new SimpleText(value);
+			reading.addBeginText(simpleText);
 
 			for (FragInter fragInter : fragInters) {
 				reading.addFragInters(fragInter);

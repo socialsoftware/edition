@@ -108,7 +108,7 @@ public class GraphWriter implements GraphVisitor {
 
 		result = result + "[R" + readingCounter + "]";
 
-		reading.getText().accept(this);
+		reading.getFirstText().accept(this);
 
 		result = result + "[/R" + readingCounter + "]";
 	}

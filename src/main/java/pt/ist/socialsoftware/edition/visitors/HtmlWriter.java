@@ -1,8 +1,5 @@
 package pt.ist.socialsoftware.edition.visitors;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import pt.ist.socialsoftware.edition.domain.AddText;
 import pt.ist.socialsoftware.edition.domain.DelText;
 import pt.ist.socialsoftware.edition.domain.EmptyText;
@@ -16,98 +13,77 @@ import pt.ist.socialsoftware.edition.domain.SpaceText;
 import pt.ist.socialsoftware.edition.domain.SubstText;
 import pt.ist.socialsoftware.edition.domain.VariationPoint;
 
-public class CanonicalCleaner implements GraphVisitor {
-
-	Set<VariationPoint> visited = new HashSet<VariationPoint>();
+public class HtmlWriter implements GraphVisitor {
 
 	@Override
 	public void visit(VariationPoint variationPoint) {
-		if (!visited.contains(variationPoint)) {
-			visited.add(variationPoint);
+		// TODO Auto-generated method stub
 
-			for (Reading rdg : variationPoint.getOutReadings()) {
-				rdg.accept(this);
-			}
-		}
 	}
 
 	@Override
 	public void visit(Reading reading) {
-		VariationPoint previousPoint = reading.getPreviousVariationPoint();
-		VariationPoint nextPoint = reading.getNextVariationPoint();
-		if (previousPoint != null
-				&& previousPoint.getInReadingsCount() == 1
-				&& previousPoint.getOutReadingsCount() == 1
-				&& previousPoint.getInReadingsInters().equals(
-						previousPoint.getOutReadingsInters())) {
+		// TODO Auto-generated method stub
 
-			Reading previousRdg = previousPoint.getInReadings().get(0);
-
-			previousRdg.addEndText(reading.getFirstText());
-			previousRdg.setNextVariationPoint(nextPoint);
-
-			reading.remove();
-			previousPoint.remove();
-
-		}
-		nextPoint.accept(this);
 	}
 
 	@Override
 	public void visit(SimpleText text) {
-		assert false;
+		// TODO Auto-generated method stub
+
 	}
 
 	@Override
 	public void visit(LbText lbText) {
-		assert false;
+		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void visit(FormatText formatText) {
-		assert false;
+		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void visit(PbText pbText) {
-		assert false;
+		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void visit(SpaceText spaceText) {
-		assert false;
+		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void visit(EmptyText emptyText) {
-		assert false;
+		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void visit(AddText addText) {
-		assert false;
+		// TODO Auto-generated method stub
+
 	}
 
 	@Override
 	public void visit(DelText delText) {
-		assert false;
+		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void visit(SubstText substText) {
-		assert false;
+		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void visit(ParagraphText paragraphText) {
-		assert false;
+		// TODO Auto-generated method stub
 
 	}
 

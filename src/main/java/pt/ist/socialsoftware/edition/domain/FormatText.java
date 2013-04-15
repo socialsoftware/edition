@@ -8,8 +8,9 @@ public class FormatText extends FormatText_Base {
 		RIGHT, LEFT, CENTER, BOLD, RED, UNDERLINED;
 	};
 
-	public FormatText() {
+	public FormatText(OpenClose value) {
 		super();
+		setOpenClose(value);
 	}
 
 	@Override

@@ -8,8 +8,10 @@ public class AddText extends AddText_Base {
 		ABOVE, SUPERIMPOSED, MARGIN, TOP, INLINE, UNSPECIFIED;
 	};
 
-	public AddText() {
+	public AddText(OpenClose open, Place place) {
 		super();
+		setOpenClose(open);
+		setPlace(place);
 	}
 
 	@Override

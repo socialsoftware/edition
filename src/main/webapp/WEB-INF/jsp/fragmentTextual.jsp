@@ -4,14 +4,14 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="s"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ page session="false"%>
-<div id=fragmentTextual class="row span12">
-	<div id="transcription" class="row">
+<div id=fragmentTextual class="row-fluid span12">
+	<div id="transcription" class="row-fluid">
 		<div class="addBorder">
-			<p>${inter.transcription}</p>
+			<p>${writer.transcription}</p>
 		</div>
 	</div>
-
-	<div id="metatextual" class="row">
+	<br>
+	<div id="metatextual" class="row-fluid">
 		<div class="addBorder">
 			<c:choose>
 				<c:when test="${inter.sourceType=='EDITORIAL'}">

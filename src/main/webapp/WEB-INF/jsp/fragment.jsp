@@ -41,10 +41,11 @@
 
 
 	<div class="container">
+<h1>${fragment.title}</h1>
 
-		<div class="row span12">
+		<div class="row-fluid">
 
-			<h1>${fragment.title}</h1>
+			
 
 			<div class="btn-group" id="interps" data-toggle="buttons-radio">
 				<c:forEach var="fragInter" items='${fragment.sortedInterps}'>

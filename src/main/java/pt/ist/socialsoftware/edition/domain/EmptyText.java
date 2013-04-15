@@ -4,8 +4,9 @@ import pt.ist.socialsoftware.edition.visitors.GraphVisitor;
 
 public class EmptyText extends EmptyText_Base {
 
-	public EmptyText() {
+	public EmptyText(Boolean isBreak) {
 		super();
+		setIsBreak(isBreak);
 	}
 
 	@Override

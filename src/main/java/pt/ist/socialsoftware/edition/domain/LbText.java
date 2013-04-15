@@ -4,10 +4,10 @@ import pt.ist.socialsoftware.edition.visitors.GraphVisitor;
 
 public class LbText extends LbText_Base {
 
-	public LbText() {
+	public LbText(Boolean isBreak, Boolean isHyphenated) {
 		super();
-		setBreakWord(true);
-		setHyphenated(false);
+		setBreakWord(isBreak);
+		setHyphenated(isHyphenated);
 	}
 
 	@Override

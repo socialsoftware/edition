@@ -3,6 +3,9 @@
  */
 package pt.ist.socialsoftware.edition.visitors;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import pt.ist.socialsoftware.edition.domain.AddText;
 import pt.ist.socialsoftware.edition.domain.DelText;
 import pt.ist.socialsoftware.edition.domain.EmptyText;
@@ -24,28 +27,38 @@ import pt.ist.socialsoftware.edition.domain.VariationPoint;
  * @author ars
  * 
  */
-public class HtmlWriter4Interpretation implements GraphVisitor {
+public class HtmlWriter4OneInter extends HtmlWriter {
+
+	private final Map<FragInter, Integer> interpsChar = new HashMap<FragInter, Integer>();
+	private int totalChar = 0;
+	private Boolean isDel = false;
 
 	private FragInter fragInter = null;
 	private String transcription = "";
 	private String notes = "";
 	private int refsCounter = 1;
 
-	public String getResult() {
-		return transcription + notes;
+	public String getTranscription() {
+		return transcription + "<br>" + notes;
 	}
 
-	public HtmlWriter4Interpretation(FragInter fragInter) {
+	public Integer getInterPercentage(FragInter inter) {
+		return (interpsChar.get(inter) * 100) / totalChar;
+	}
+
+	public HtmlWriter4OneInter(FragInter fragInter) {
 		this.fragInter = fragInter;
 		transcription = "";
+
+		for (FragInter inter : fragInter.getFragment().getFragmentInter()) {
+			interpsChar.put(inter, 0);
+		}
+
 	}
 
 	@Override
 	public void visit(VariationPoint variationPoint) {
-		if (variationPoint.getOutReadingsSet().isEmpty()) {
-			transcription = transcription + "<br>";
-		} else {
-
+		if (!variationPoint.getOutReadingsSet().isEmpty()) {
 			for (Reading rdg : variationPoint.getOutReadings()) {
 				if (rdg.getFragIntersSet().contains(fragInter)) {
 					rdg.accept(this);
@@ -56,7 +69,7 @@ public class HtmlWriter4Interpretation implements GraphVisitor {
 
 	@Override
 	public void visit(Reading reading) {
-		reading.getText().accept(this);
+		reading.getFirstText().accept(this);
 		reading.getNextVariationPoint().accept(this);
 	}
 
@@ -72,6 +85,15 @@ public class HtmlWriter4Interpretation implements GraphVisitor {
 			separator = "";
 		} else {
 			separator = " ";
+		}
+
+		if (!isDel) {
+			totalChar = totalChar + toAdd.length();
+			for (FragInter inter : text.getReading().getFragInters()) {
+				Integer value = interpsChar.get(inter);
+				value = value + toAdd.length();
+				interpsChar.put(inter, value);
+			}
 		}
 
 		transcription = transcription + separator + toAdd;
@@ -204,9 +226,11 @@ public class HtmlWriter4Interpretation implements GraphVisitor {
 	public void visit(DelText delText) {
 		switch (delText.getOpenClose()) {
 		case CLOSE:
+			isDel = false;
 			transcription = transcription + "</a></del>";
 			break;
 		case OPEN:
+			isDel = true;
 			transcription = transcription + "<del><a href=\"#"
 					+ Integer.toString(refsCounter) + "\">";
 			notes = notes + "<a id =\"" + Integer.toString(refsCounter)

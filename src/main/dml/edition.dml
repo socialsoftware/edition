@@ -163,8 +163,13 @@ class LdoDText {
 }
 
 relation ReadingHasText {
-	Reading playsRole reading {multiplicity 0..1;}
-	LdoDText playsRole text {multiplicity 1..1;}
+	Reading playsRole readingOfFirst {multiplicity 0..1;}
+	LdoDText playsRole firstText {multiplicity 1..1;}
+}
+
+relation TextBelongs2Reading {
+	Reading playsRole reading {multiplicity 1..1;}
+	LdoDText playsRole text {multiplicity 0..*;}
 }
 
 relation TextHasText {

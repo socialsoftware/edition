@@ -8,8 +8,10 @@ public class DelText extends DelText_Base {
 		OVERSTRIKE, OVERTYPED, OVERWRITTEN, UNSPECIFIED;
 	};
 
-	public DelText() {
+	public DelText(OpenClose value, HowDel how) {
 		super();
+		setOpenClose(value);
+		setHow(how);
 	}
 
 	@Override

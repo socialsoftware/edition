@@ -41,8 +41,8 @@ public class EmptyTextCleaner implements GraphVisitor {
 	@Override
 	public void visit(Reading reading) {
 
-		if (reading.getText() instanceof EmptyText) {
-			EmptyText text = (EmptyText) reading.getText();
+		if (reading.getFirstText() instanceof EmptyText) {
+			EmptyText text = (EmptyText) reading.getFirstText();
 			if (!text.getIsBreak()) {
 				assert text.getNextText() == null : "CLEANING EMPTY-TEXT FAILED";
 
@@ -52,15 +52,15 @@ public class EmptyTextCleaner implements GraphVisitor {
 				for (Reading prevReading : reading.getPreviousVariationPoint()
 						.getInReadings()) {
 
-					SimpleText prevText = (SimpleText) prevReading.getText();
-					SimpleText nextText = (SimpleText) nextReading.getText();
-					SimpleText composedText = new SimpleText();
-					composedText.setValue(prevText.getValue()
-							+ nextText.getValue());
-					composedText.setNextText(null);
+					SimpleText prevText = (SimpleText) prevReading
+							.getFirstText();
+					SimpleText nextText = (SimpleText) nextReading
+							.getFirstText();
+					SimpleText composedText = new SimpleText(
+							prevText.getValue() + nextText.getValue());
 
 					Reading composedReading = new Reading();
-					composedReading.setText(composedText);
+					composedReading.addBeginText(composedText);
 
 					VariationPoint prevPoint = prevReading
 							.getPreviousVariationPoint();

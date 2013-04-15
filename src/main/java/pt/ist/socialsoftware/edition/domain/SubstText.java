@@ -4,8 +4,9 @@ import pt.ist.socialsoftware.edition.visitors.GraphVisitor;
 
 public class SubstText extends SubstText_Base {
 
-	public SubstText() {
+	public SubstText(OpenClose value) {
 		super();
+		setOpenClose(value);
 	}
 
 	@Override

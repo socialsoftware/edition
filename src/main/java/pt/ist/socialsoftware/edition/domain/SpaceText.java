@@ -12,8 +12,11 @@ public class SpaceText extends SpaceText_Base {
 		MINIMS, UNKNOWN;
 	};
 
-	public SpaceText() {
+	public SpaceText(SpaceDim dim, int quantity, SpaceUnit unit) {
 		super();
+		setDim(dim);
+		setQuantity(quantity);
+		setUnit(unit);
 	}
 
 	@Override
