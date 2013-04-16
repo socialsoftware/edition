@@ -8,6 +8,7 @@ import java.util.Map;
 
 import pt.ist.socialsoftware.edition.domain.AddText;
 import pt.ist.socialsoftware.edition.domain.DelText;
+import pt.ist.socialsoftware.edition.domain.EmptyText;
 import pt.ist.socialsoftware.edition.domain.FormatText;
 import pt.ist.socialsoftware.edition.domain.FormatText.Rendition;
 import pt.ist.socialsoftware.edition.domain.FragInter;
@@ -29,6 +30,7 @@ public class HtmlWriter4OneInter extends HtmlWriter {
 	private final Map<FragInter, Integer> interpsChar = new HashMap<FragInter, Integer>();
 	private int totalChar = 0;
 	private Boolean isDel = false;
+	private Boolean breakWord = true;
 
 	private String notes = "";
 	private int refsCounter = 1;
@@ -38,6 +40,7 @@ public class HtmlWriter4OneInter extends HtmlWriter {
 	private Boolean highlightSubst = false;
 	private Boolean showNotes = true;
 
+	@Override
 	public String getTranscription() {
 		return showNotes ? transcription + "<br>" + notes : transcription;
 	}
@@ -88,8 +91,9 @@ public class HtmlWriter4OneInter extends HtmlWriter {
 
 		String firstChar = toAdd.substring(0, 1);
 
-		if (separators.contains(firstChar)) {
+		if (separators.contains(firstChar) || !breakWord) {
 			separator = "";
+			breakWord = true;
 		} else {
 			separator = " ";
 		}
@@ -271,6 +275,15 @@ public class HtmlWriter4OneInter extends HtmlWriter {
 			text.getNextText().accept(this);
 		}
 
+	}
+
+	@Override
+	public void visit(EmptyText text) {
+		breakWord = text.getIsBreak();
+
+		if (text.getNextText() != null) {
+			text.getNextText().accept(this);
+		}
 	}
 
 	public Boolean getDisplayDel() {

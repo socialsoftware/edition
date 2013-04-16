@@ -51,7 +51,6 @@ import pt.ist.socialsoftware.edition.domain.Taxonomy;
 import pt.ist.socialsoftware.edition.domain.VariationPoint;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDException;
 import pt.ist.socialsoftware.edition.visitors.CanonicalCleaner;
-import pt.ist.socialsoftware.edition.visitors.EmptyTextCleaner;
 import pt.ist.socialsoftware.edition.visitors.GraphConsistencyChecker;
 import pt.ist.socialsoftware.edition.visitors.GraphWriter;
 import pt.ist.socialsoftware.edition.visitors.HtmlWriter4OneInter;
@@ -235,8 +234,8 @@ public class LoadTEIFragments {
 	}
 
 	private void postParsing(Fragment fragment) {
-		EmptyTextCleaner eCleaner = new EmptyTextCleaner();
-		fragment.getVariationPoint().accept(eCleaner);
+		// EmptyTextCleaner eCleaner = new EmptyTextCleaner();
+		// fragment.getVariationPoint().accept(eCleaner);
 
 		CanonicalCleaner cCleaner = new CanonicalCleaner();
 		fragment.getVariationPoint().accept(cCleaner);
@@ -770,7 +769,8 @@ public class LoadTEIFragments {
 		String hyphenated = null;
 		Attribute hyphenatedAttribute = element.getAttribute("type");
 		if (hyphenatedAttribute != null) {
-			hyphenated = element.getAttributeValue("type");
+			hyphenated = hyphenatedAttribute.getValue();
+			System.out.println("HIPHEN:" + hyphenated);
 		}
 
 		Boolean toHyphenate = false;
@@ -792,7 +792,8 @@ public class LoadTEIFragments {
 		String breakWord = "yes";
 		Attribute breakAttribute = element.getAttribute("break");
 		if (breakAttribute != null) {
-			breakWord = element.getAttributeValue("break");
+			breakWord = breakAttribute.getValue();
+			System.out.println("ISBREAK:" + breakWord);
 		}
 
 		Boolean toBreak = false;

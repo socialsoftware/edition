@@ -1,5 +1,8 @@
 package pt.ist.socialsoftware.edition.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -61,9 +64,11 @@ public class FragmentController {
 			model.addAttribute("writer", writer);
 			return "fragmentTextual";
 		} else {
-			HtmlWriterCompareInters writer = new HtmlWriterCompareInters(
-					fragInter, fragInter2Compare);
-			writer.write();
+			List<FragInter> list = new ArrayList<FragInter>();
+			list.add(fragInter);
+			list.add(fragInter2Compare);
+			HtmlWriterCompareInters writer = new HtmlWriterCompareInters(list);
+			writer.write(list);
 
 			model.addAttribute("inter", fragInter);
 			model.addAttribute("inter2Compare", fragInter2Compare);
@@ -72,7 +77,7 @@ public class FragmentController {
 		}
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "/textual")
+	@RequestMapping(method = RequestMethod.GET, value = "/textualauthorial")
 	public String getInterpretationTextual(
 			@RequestParam(value = "interp", required = true) String interID,
 			@RequestParam(value = "del", required = true) boolean displayDel,
@@ -90,4 +95,21 @@ public class FragmentController {
 
 	}
 
+	@RequestMapping(method = RequestMethod.GET, value = "/textualeditorial")
+	public String getInterpretationTextual(
+			@RequestParam(value = "interp", required = true) String interID,
+			@RequestParam(value = "diff", required = true) boolean displayDiff,
+			Model model) {
+		FragInter fragInter = AbstractDomainObject.fromExternalId(interID);
+
+		List<FragInter> list = new ArrayList<FragInter>();
+		list.add(fragInter);
+		HtmlWriterCompareInters writer = new HtmlWriterCompareInters(fragInter
+				.getFragment().getFragmentInter());
+		writer.write(list);
+
+		model.addAttribute("writer", writer);
+		return "fragmentTranscription";
+
+	}
 }

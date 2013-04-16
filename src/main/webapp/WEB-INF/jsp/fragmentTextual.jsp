@@ -9,7 +9,7 @@
 			.ready(
 					function() {
 						$(
-								'[id="visualisation-properties"][data-toggle="buttons-checkbox"]')
+								'[id="visualisation-properties-authorial"][data-toggle="buttons-checkbox"]')
 								.on(
 										'click',
 										function() {
@@ -30,7 +30,7 @@
 													.is(':checked');
 											$
 													.get(
-															"${contextPath}/fragments/fragment/textual",
+															"${contextPath}/fragments/fragment/textualauthorial",
 															{
 																interp : fragInter2,
 																del : selDel,
@@ -47,17 +47,55 @@
 										});
 					});
 </script>
+<script type="text/javascript">
+	$(document)
+			.ready(
+					function() {
+						$(
+								'[id="visualisation-properties-editorial"][data-toggle="buttons-checkbox"]')
+								.on(
+										'click',
+										function() {
+											var fragInter2 = $(
+													'input:radio[name=inter2]:checked')
+													.val();
+											var selDiff = $(
+													'input:checkbox[name=diff]')
+													.is(':checked');
+											$
+											.get(
+													"${contextPath}/fragments/fragment/textualeditorial",
+													{
+														interp : fragInter2,
+														diff : selDiff
+													},
+													function(html) {
+														$(
+																"#fragmentTranscription")
+																.replaceWith(
+																		html);
+													});
+									
+										});
+					});
+</script>
 
 <div id=fragmentTextual class="row-fluid">
 	<div>
 
 		<c:choose>
 			<c:when test="${inter.sourceType=='EDITORIAL'}">
+				<legend>Atributos de Visualisação do Testemunho Editorial</legend>
+				<div class="btn-group well" id="visualisation-properties-editorial"
+					data-toggle="buttons-checkbox">
+					<label class="checkbox inline"> <input type="checkbox"
+						class="btn" name=diff value="Yes"> Realçar Diferenças
+					</label>
+				</div>
 			</c:when>
 			<c:otherwise>
 				<legend>Atributos de Visualisação do Testemunho Autoral</legend>
-
-				<div class="btn-group well" id="visualisation-properties"
+				<div class="btn-group well" id="visualisation-properties-authorial"
 					data-toggle="buttons-checkbox">
 					<label class="checkbox inline"> <input type="checkbox"
 						class="btn" name=del value="Yes"> Mostrar Apagados

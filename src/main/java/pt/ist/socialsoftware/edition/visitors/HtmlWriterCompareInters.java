@@ -1,9 +1,12 @@
 package pt.ist.socialsoftware.edition.visitors;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import pt.ist.socialsoftware.edition.domain.DelText;
+import pt.ist.socialsoftware.edition.domain.EmptyText;
 import pt.ist.socialsoftware.edition.domain.FragInter;
 import pt.ist.socialsoftware.edition.domain.LbText;
 import pt.ist.socialsoftware.edition.domain.Reading;
@@ -13,33 +16,53 @@ import pt.ist.socialsoftware.edition.domain.VariationPoint;
 public class HtmlWriterCompareInters extends HtmlWriter {
 
 	private final Map<FragInter, String> transcriptionsMap = new HashMap<FragInter, String>();
-	private final Map<FragInter, Integer> differencesMap = new HashMap<FragInter, Integer>();
+	private final List<FragInter> compareAgaints = new ArrayList<FragInter>();
 
 	private Boolean isDel = false;
 	private Boolean breakWord = true;
+	private int differences = 0;
 
-	public HtmlWriterCompareInters(FragInter interBase, FragInter interCompare) {
-		transcriptionsMap.put(interBase, "");
-		transcriptionsMap.put(interCompare, "");
-
-		differencesMap.put(interBase, 0);
-		differencesMap.put(interCompare, 0);
+	/**
+	 * @param list
+	 *            compare against interpretations in the list
+	 */
+	public HtmlWriterCompareInters(List<FragInter> list) {
+		for (FragInter inter : list) {
+			compareAgaints.add(inter);
+		}
 	}
 
-	public void write() {
-		for (FragInter inter : transcriptionsMap.keySet()) {
+	/**
+	 * 
+	 * @param interList
+	 *            write comparisons for this elements
+	 */
+	public void write(List<FragInter> interList) {
+		for (FragInter inter : interList) {
 			fragInter = inter;
 			transcription = "";
+			isDel = false;
+			breakWord = true;
+			differences = 0;
 			visit(inter.getFragment().getVariationPoint());
 			transcriptionsMap.put(inter, transcription);
-
-			System.out.println(transcription);
-			System.out.println("XXXXXXXX");
 		}
 	}
 
 	public String getTranscription(FragInter inter) {
 		return transcriptionsMap.get(inter);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see pt.ist.socialsoftware.edition.visitors.HtmlWriter#getTranscription()
+	 * should be invoked when there is a single fragInter
+	 */
+	@Override
+	public String getTranscription() {
+		assert transcriptionsMap.keySet().size() == 1;
+		return transcriptionsMap.get(fragInter);
 	}
 
 	@Override
@@ -48,14 +71,14 @@ public class HtmlWriterCompareInters extends HtmlWriter {
 			for (Reading rdg : variationPoint.getOutReadings()) {
 				if (rdg.getFragIntersSet().contains(fragInter)) {
 					int count = 0;
-					for (FragInter tmpInter : transcriptionsMap.keySet()) {
+					for (FragInter tmpInter : compareAgaints) {
 						if ((tmpInter != fragInter)
 								&& (!rdg.getFragIntersSet().contains(tmpInter))) {
 							count = count + 1;
 						}
 					}
 
-					differencesMap.put(fragInter, count);
+					differences = count;
 
 					rdg.accept(this);
 				}
@@ -79,9 +102,10 @@ public class HtmlWriterCompareInters extends HtmlWriter {
 		}
 
 		if (!isDel) {
-			if (differencesMap.get(fragInter) > 0) {
-				toAdd = "<span style=\"background-color: rgb(0,255,255);\">"
-						+ toAdd + "</span>";
+			if (differences > 0) {
+				int color = 255 - (255 / compareAgaints.size()) * differences;
+				toAdd = "<span style=\"background-color: rgb(0," + color
+						+ ",255);\">" + toAdd + "</span>";
 			}
 			transcription = transcription + separator + toAdd;
 		}
@@ -98,7 +122,6 @@ public class HtmlWriterCompareInters extends HtmlWriter {
 		if (text.getNextText() != null) {
 			text.getNextText().accept(this);
 		}
-
 	}
 
 	@Override
@@ -116,7 +139,15 @@ public class HtmlWriterCompareInters extends HtmlWriter {
 		if (text.getNextText() != null) {
 			text.getNextText().accept(this);
 		}
+	}
 
+	@Override
+	public void visit(EmptyText text) {
+		breakWord = text.getIsBreak();
+
+		if (text.getNextText() != null) {
+			text.getNextText().accept(this);
+		}
 	}
 
 }
