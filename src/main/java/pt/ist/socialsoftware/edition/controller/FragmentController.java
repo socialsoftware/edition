@@ -11,6 +11,7 @@ import pt.ist.fenixframework.pstm.AbstractDomainObject;
 import pt.ist.socialsoftware.edition.domain.FragInter;
 import pt.ist.socialsoftware.edition.domain.Fragment;
 import pt.ist.socialsoftware.edition.visitors.HtmlWriter4OneInter;
+import pt.ist.socialsoftware.edition.visitors.HtmlWriterCompareInters;
 
 @Controller
 @RequestMapping("/fragments/fragment")
@@ -36,7 +37,7 @@ public class FragmentController {
 		FragInter fragInter = AbstractDomainObject.fromExternalId(interID);
 
 		HtmlWriter4OneInter writer = new HtmlWriter4OneInter(fragInter);
-		writer.visit(fragInter.getFragment().getVariationPoint());
+		writer.write();
 
 		model.addAttribute("inter", fragInter);
 		model.addAttribute("writer", writer);
@@ -44,7 +45,7 @@ public class FragmentController {
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/interpretation")
-	public String getInterpretation(
+	public String getInterpretationMenu(
 			@RequestParam(value = "interp", required = true) String interID,
 			@RequestParam(value = "interp2Compare", required = true) String interID2Compare,
 			Model model) {
@@ -52,27 +53,27 @@ public class FragmentController {
 		FragInter fragInter2Compare = AbstractDomainObject
 				.fromExternalId(interID2Compare);
 
-		HtmlWriter4OneInter writer = new HtmlWriter4OneInter(fragInter);
-		writer.visit(fragInter.getFragment().getVariationPoint());
-
-		HtmlWriter4OneInter writer2 = new HtmlWriter4OneInter(fragInter2Compare);
-		writer2.visit(fragInter2Compare.getFragment().getVariationPoint());
-
 		if (interID.equals(interID2Compare)) {
+			HtmlWriter4OneInter writer = new HtmlWriter4OneInter(fragInter);
+			writer.write();
+
 			model.addAttribute("inter", fragInter);
 			model.addAttribute("writer", writer);
 			return "fragmentTextual";
 		} else {
+			HtmlWriterCompareInters writer = new HtmlWriterCompareInters(
+					fragInter, fragInter2Compare);
+			writer.write();
+
 			model.addAttribute("inter", fragInter);
-			model.addAttribute("writer", writer);
 			model.addAttribute("inter2Compare", fragInter2Compare);
-			model.addAttribute("writer2", writer2);
+			model.addAttribute("writer", writer);
 			return "fragmentTextualCompare";
 		}
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/textual")
-	public String getTextual(
+	public String getInterpretationTextual(
 			@RequestParam(value = "interp", required = true) String interID,
 			@RequestParam(value = "del", required = true) boolean displayDel,
 			@RequestParam(value = "ins", required = true) boolean highlightIns,
@@ -81,15 +82,8 @@ public class FragmentController {
 			Model model) {
 		FragInter fragInter = AbstractDomainObject.fromExternalId(interID);
 
-		System.out.println(interID + displayDel + highlightIns + highlightSubst
-				+ showNotes);
-
 		HtmlWriter4OneInter writer = new HtmlWriter4OneInter(fragInter);
-		writer.setDisplayDel(displayDel);
-		writer.setHighlightIns(highlightIns);
-		writer.setHighlightSubst(highlightSubst);
-		writer.setShowNotes(showNotes);
-		writer.visit(fragInter.getFragment().getVariationPoint());
+		writer.write(displayDel, highlightIns, highlightSubst, showNotes);
 
 		model.addAttribute("writer", writer);
 		return "fragmentTranscription";

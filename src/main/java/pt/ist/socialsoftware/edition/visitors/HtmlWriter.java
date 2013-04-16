@@ -1,19 +1,20 @@
 package pt.ist.socialsoftware.edition.visitors;
 
 import pt.ist.socialsoftware.edition.domain.AddText;
-import pt.ist.socialsoftware.edition.domain.DelText;
 import pt.ist.socialsoftware.edition.domain.EmptyText;
 import pt.ist.socialsoftware.edition.domain.FormatText;
-import pt.ist.socialsoftware.edition.domain.LbText;
+import pt.ist.socialsoftware.edition.domain.FragInter;
 import pt.ist.socialsoftware.edition.domain.ParagraphText;
 import pt.ist.socialsoftware.edition.domain.PbText;
 import pt.ist.socialsoftware.edition.domain.Reading;
-import pt.ist.socialsoftware.edition.domain.SimpleText;
 import pt.ist.socialsoftware.edition.domain.SpaceText;
 import pt.ist.socialsoftware.edition.domain.SubstText;
 import pt.ist.socialsoftware.edition.domain.VariationPoint;
 
-public class HtmlWriter implements GraphVisitor {
+public abstract class HtmlWriter implements GraphVisitor {
+
+	protected FragInter fragInter = null;
+	protected String transcription = "";
 
 	@Override
 	public void visit(VariationPoint variationPoint) {
@@ -23,68 +24,64 @@ public class HtmlWriter implements GraphVisitor {
 
 	@Override
 	public void visit(Reading reading) {
-		// TODO Auto-generated method stub
-
+		reading.getFirstText().accept(this);
+		reading.getNextVariationPoint().accept(this);
 	}
 
 	@Override
-	public void visit(SimpleText text) {
-		// TODO Auto-generated method stub
-
+	public void visit(FormatText text) {
+		if (text.getNextText() != null) {
+			text.getNextText().accept(this);
+		}
 	}
 
 	@Override
-	public void visit(LbText lbText) {
-		// TODO Auto-generated method stub
-
+	public void visit(PbText text) {
+		assert false;
 	}
 
 	@Override
-	public void visit(FormatText formatText) {
-		// TODO Auto-generated method stub
-
+	public void visit(SpaceText text) {
+		if (text.getNextText() != null) {
+			text.getNextText().accept(this);
+		}
 	}
 
 	@Override
-	public void visit(PbText pbText) {
-		// TODO Auto-generated method stub
-
+	public void visit(EmptyText text) {
+		if (text.getNextText() != null) {
+			text.getNextText().accept(this);
+		}
 	}
 
 	@Override
-	public void visit(SpaceText spaceText) {
-		// TODO Auto-generated method stub
-
+	public void visit(AddText text) {
+		if (text.getNextText() != null) {
+			text.getNextText().accept(this);
+		}
 	}
 
 	@Override
-	public void visit(EmptyText emptyText) {
-		// TODO Auto-generated method stub
-
+	public void visit(SubstText text) {
+		if (text.getNextText() != null) {
+			text.getNextText().accept(this);
+		}
 	}
 
 	@Override
-	public void visit(AddText addText) {
-		// TODO Auto-generated method stub
+	public void visit(ParagraphText text) {
+		switch (text.getOpenClose()) {
+		case CLOSE:
+			transcription = transcription + "</p>";
+			break;
+		case OPEN:
+			transcription = transcription + "<p>";
+			break;
+		}
 
-	}
-
-	@Override
-	public void visit(DelText delText) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void visit(SubstText substText) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void visit(ParagraphText paragraphText) {
-		// TODO Auto-generated method stub
-
+		if (text.getNextText() != null) {
+			text.getNextText().accept(this);
+		}
 	}
 
 }

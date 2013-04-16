@@ -81,8 +81,6 @@
 				
 			</div>
 
-
-
 		<%@ include file="/WEB-INF/jsp/fragmentTextual.jsp"%>
 
 	</c:if>

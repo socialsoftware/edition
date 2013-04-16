@@ -8,14 +8,11 @@ import java.util.Map;
 
 import pt.ist.socialsoftware.edition.domain.AddText;
 import pt.ist.socialsoftware.edition.domain.DelText;
-import pt.ist.socialsoftware.edition.domain.EmptyText;
 import pt.ist.socialsoftware.edition.domain.FormatText;
 import pt.ist.socialsoftware.edition.domain.FormatText.Rendition;
 import pt.ist.socialsoftware.edition.domain.FragInter;
 import pt.ist.socialsoftware.edition.domain.LbText;
 import pt.ist.socialsoftware.edition.domain.LdoDText.OpenClose;
-import pt.ist.socialsoftware.edition.domain.ParagraphText;
-import pt.ist.socialsoftware.edition.domain.PbText;
 import pt.ist.socialsoftware.edition.domain.Reading;
 import pt.ist.socialsoftware.edition.domain.SimpleText;
 import pt.ist.socialsoftware.edition.domain.SpaceText;
@@ -33,23 +30,12 @@ public class HtmlWriter4OneInter extends HtmlWriter {
 	private int totalChar = 0;
 	private Boolean isDel = false;
 
-	private FragInter fragInter = null;
-	private String transcription = "";
 	private String notes = "";
 	private int refsCounter = 1;
 
 	private Boolean displayDel = false;
 	private Boolean highlightIns = true;
 	private Boolean highlightSubst = false;
-
-	public Boolean getHighlightSubst() {
-		return highlightSubst;
-	}
-
-	public void setHighlightSubst(Boolean highlightSubst) {
-		this.highlightSubst = highlightSubst;
-	}
-
 	private Boolean showNotes = true;
 
 	public String getTranscription() {
@@ -70,6 +56,19 @@ public class HtmlWriter4OneInter extends HtmlWriter {
 
 	}
 
+	public void write() {
+		visit(fragInter.getFragment().getVariationPoint());
+	}
+
+	public void write(Boolean displayDel, Boolean highlightIns,
+			Boolean highlightSubst, Boolean showNotes) {
+		setDisplayDel(displayDel);
+		setHighlightIns(highlightIns);
+		setHighlightSubst(highlightSubst);
+		setShowNotes(showNotes);
+		visit(fragInter.getFragment().getVariationPoint());
+	}
+
 	@Override
 	public void visit(VariationPoint variationPoint) {
 		if (!variationPoint.getOutReadingsSet().isEmpty()) {
@@ -79,12 +78,6 @@ public class HtmlWriter4OneInter extends HtmlWriter {
 				}
 			}
 		}
-	}
-
-	@Override
-	public void visit(Reading reading) {
-		reading.getFirstText().accept(this);
-		reading.getNextVariationPoint().accept(this);
 	}
 
 	@Override
@@ -182,12 +175,6 @@ public class HtmlWriter4OneInter extends HtmlWriter {
 	}
 
 	@Override
-	public void visit(PbText pbText) {
-		// TODO Auto-generated method stub
-		assert false;
-	}
-
-	@Override
 	public void visit(SpaceText spaceText) {
 		String separator = "";
 		if (spaceText.getDim() == SpaceDim.VERTICAL) {
@@ -202,15 +189,6 @@ public class HtmlWriter4OneInter extends HtmlWriter {
 
 		if (spaceText.getNextText() != null) {
 			spaceText.getNextText().accept(this);
-		}
-
-	}
-
-	@Override
-	public void visit(EmptyText emptyText) {
-
-		if (emptyText.getNextText() != null) {
-			emptyText.getNextText().accept(this);
 		}
 
 	}
@@ -274,8 +252,8 @@ public class HtmlWriter4OneInter extends HtmlWriter {
 	}
 
 	@Override
-	public void visit(SubstText substText) {
-		switch (substText.getOpenClose()) {
+	public void visit(SubstText text) {
+		switch (text.getOpenClose()) {
 		case CLOSE:
 			if (displayDel && highlightSubst) {
 				transcription = transcription + "</span>";
@@ -289,26 +267,10 @@ public class HtmlWriter4OneInter extends HtmlWriter {
 			break;
 		}
 
-		if (substText.getNextText() != null) {
-			substText.getNextText().accept(this);
+		if (text.getNextText() != null) {
+			text.getNextText().accept(this);
 		}
 
-	}
-
-	@Override
-	public void visit(ParagraphText paragraphText) {
-		switch (paragraphText.getOpenClose()) {
-		case CLOSE:
-			transcription = transcription + "</p>";
-			break;
-		case OPEN:
-			transcription = transcription + "<p>";
-			break;
-		}
-
-		if (paragraphText.getNextText() != null) {
-			paragraphText.getNextText().accept(this);
-		}
 	}
 
 	public Boolean getDisplayDel() {
@@ -325,6 +287,14 @@ public class HtmlWriter4OneInter extends HtmlWriter {
 
 	public void setHighlightIns(Boolean highlightIns) {
 		this.highlightIns = highlightIns;
+	}
+
+	public Boolean getHighlightSubst() {
+		return highlightSubst;
+	}
+
+	public void setHighlightSubst(Boolean highlightSubst) {
+		this.highlightSubst = highlightSubst;
 	}
 
 	public Boolean getShowNotes() {

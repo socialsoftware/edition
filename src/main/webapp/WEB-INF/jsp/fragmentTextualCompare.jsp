@@ -3,18 +3,19 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="s"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@ taglib uri="/WEB-INF/ldoD.tld" prefix="ldod"%>
 <%@ page session="false"%>
-<div id=fragmentTextual class="row">
+<div id=fragmentTextual class="row-fluid">
 	<div class="row">
 		<div id="transcription" class="span6">
 			<div class="addBorder">
-				<p>${writer.transcription}</p>
+				<p>${ldod:getTranscription(writer,inter)}</p>
 			</div>
 		</div>
 
 		<div id="fragmentTranscription" class="span6">
 			<div class="addBorder">
-				<p>${writer2.transcription}</p>
+				<p>${ldod:getTranscription(writer,inter2Compare)}</p>
 			</div>
 		</div>
 	</div>

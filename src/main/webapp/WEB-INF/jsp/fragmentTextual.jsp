@@ -35,7 +35,7 @@
 																interp : fragInter2,
 																del : selDel,
 																ins : selIns,
-																subst: selSubst,
+																subst : selSubst,
 																notes : selNotes
 															},
 															function(html) {
@@ -49,62 +49,62 @@
 </script>
 
 <div id=fragmentTextual class="row-fluid">
+	<div>
 
-
-	<c:choose>
-		<c:when test="${inter.sourceType=='EDITORIAL'}">
-		</c:when>
-		<c:otherwise>
-			<legend>Atributos de Visualisação do Testemunho Autoral</legend>
-
-			<div class="btn-group well" id="visualisation-properties"
-				data-toggle="buttons-checkbox">
-				<label class="checkbox inline"> <input type="checkbox"
-					class="btn" name=del value="Yes"> Mostrar Apagados
-				</label> <label class="checkbox inline"> <input type="checkbox"
-					class="btn" name=ins value="Yes" checked> Realçar Inseridos
-				</label> <label class="checkbox inline"> <input type="checkbox"
-					class="btn" name=subst value="Yes"> Realçar
-					Substituições
-				</label> <label class="checkbox inline"> <input type="checkbox"
-					class="btn" name=notes value="Yes" checked> Mostrar Notas
-				</label>
-			</div>
-		</c:otherwise>
-	</c:choose>
-</div>
-
-
-
-<%@ include file="/WEB-INF/jsp/fragmentTranscription.jsp"%>
-
-<br>
-<div id="metatextual" class="row">
-	<div class="addBorder">
 		<c:choose>
 			<c:when test="${inter.sourceType=='EDITORIAL'}">
-				<c:if test="${inter.title!=''}">
-					<em>Título</em>: ${inter.title}</c:if>
-				<br>
-				<c:if test="${inter.heteronym.name!=''}">
-					<em>Heterónimo</em>: ${inter.heteronym.name}</c:if>
-				<br>
-				<c:if test="${inter.number!=''}">
-					<em>Número</em>: ${inter.number}</c:if>
-				<br>
-				<c:if test="${inter.page!=''}">
-					<em>Página</em>: ${inter.page}</c:if>
-				<br>
-				<c:if test="${inter.date!=''}">
-					<em>Data</em>: ${inter.date}</c:if>
-				<br>
-				<c:if test="${inter.notes!=''}">
-					<em>Notas</em>: ${inter.notes}</c:if>
 			</c:when>
 			<c:otherwise>
-				TODO: Incluir meta informação da fonte manuscrita ou impressa
-				</c:otherwise>
+				<legend>Atributos de Visualisação do Testemunho Autoral</legend>
+
+				<div class="btn-group well" id="visualisation-properties"
+					data-toggle="buttons-checkbox">
+					<label class="checkbox inline"> <input type="checkbox"
+						class="btn" name=del value="Yes"> Mostrar Apagados
+					</label> <label class="checkbox inline"> <input type="checkbox"
+						class="btn" name=ins value="Yes" checked> Realçar
+						Inseridos
+					</label> <label class="checkbox inline"> <input type="checkbox"
+						class="btn" name=subst value="Yes"> Realçar Substituições
+					</label> <label class="checkbox inline"> <input type="checkbox"
+						class="btn" name=notes value="Yes" checked> Mostrar Notas
+					</label>
+				</div>
+			</c:otherwise>
 		</c:choose>
 	</div>
-</div>
+
+
+
+	<%@ include file="/WEB-INF/jsp/fragmentTranscription.jsp"%>
+
+	<br>
+	<div id="metatextual" class="row">
+		<div class="addBorder">
+			<c:choose>
+				<c:when test="${inter.sourceType=='EDITORIAL'}">
+					<c:if test="${inter.title!=''}">
+						<em>Título</em>: ${inter.title}</c:if>
+					<br>
+					<c:if test="${inter.heteronym.name!=''}">
+						<em>Heterónimo</em>: ${inter.heteronym.name}</c:if>
+					<br>
+					<c:if test="${inter.number!=''}">
+						<em>Número</em>: ${inter.number}</c:if>
+					<br>
+					<c:if test="${inter.page!=''}">
+						<em>Página</em>: ${inter.page}</c:if>
+					<br>
+					<c:if test="${inter.date!=''}">
+						<em>Data</em>: ${inter.date}</c:if>
+					<br>
+					<c:if test="${inter.notes!=''}">
+						<em>Notas</em>: ${inter.notes}</c:if>
+				</c:when>
+				<c:otherwise>
+				TODO: Incluir meta informação da fonte manuscrita ou impressa
+				</c:otherwise>
+			</c:choose>
+		</div>
+	</div>
 </div>
