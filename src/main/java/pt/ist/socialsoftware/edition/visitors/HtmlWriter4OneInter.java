@@ -38,8 +38,22 @@ public class HtmlWriter4OneInter extends HtmlWriter {
 	private String notes = "";
 	private int refsCounter = 1;
 
+	private Boolean displayDel = false;
+	private Boolean highlightIns = true;
+	private Boolean highlightSubst = false;
+
+	public Boolean getHighlightSubst() {
+		return highlightSubst;
+	}
+
+	public void setHighlightSubst(Boolean highlightSubst) {
+		this.highlightSubst = highlightSubst;
+	}
+
+	private Boolean showNotes = true;
+
 	public String getTranscription() {
-		return transcription + "<br>" + notes;
+		return showNotes ? transcription + "<br>" + notes : transcription;
 	}
 
 	public Integer getInterPercentage(FragInter inter) {
@@ -96,7 +110,9 @@ public class HtmlWriter4OneInter extends HtmlWriter {
 			}
 		}
 
-		transcription = transcription + separator + toAdd;
+		if (!isDel || displayDel) {
+			transcription = transcription + separator + toAdd;
+		}
 
 		if (text.getNextText() != null) {
 			text.getNextText().accept(this);
@@ -204,15 +220,20 @@ public class HtmlWriter4OneInter extends HtmlWriter {
 
 		switch (addText.getOpenClose()) {
 		case CLOSE:
-			transcription = transcription + "</a></ins>";
+			if (highlightIns) {
+				transcription = transcription + "</a></ins>";
+			}
 			break;
 		case OPEN:
-			transcription = transcription + "<ins><a href=\"#"
-					+ Integer.toString(refsCounter) + "\">";
-			notes = notes + "<a id =\"" + Integer.toString(refsCounter)
-					+ "\"></a>" + "[" + Integer.toString(refsCounter) + "] "
-					+ "Adicionado - " + addText.getPlace().toString() + "<br>";
-			refsCounter++;
+			if (highlightIns) {
+				transcription = transcription + "<ins><a href=\"#"
+						+ Integer.toString(refsCounter) + "\">";
+				notes = notes + "<a id =\"" + Integer.toString(refsCounter)
+						+ "\"></a>" + "[" + Integer.toString(refsCounter)
+						+ "] " + "Adicionado - "
+						+ addText.getPlace().toString() + "<br>";
+				refsCounter++;
+			}
 			break;
 		}
 
@@ -224,19 +245,25 @@ public class HtmlWriter4OneInter extends HtmlWriter {
 
 	@Override
 	public void visit(DelText delText) {
+
 		switch (delText.getOpenClose()) {
 		case CLOSE:
 			isDel = false;
-			transcription = transcription + "</a></del>";
+			if (displayDel) {
+				transcription = transcription + "</a></del>";
+			}
 			break;
 		case OPEN:
 			isDel = true;
-			transcription = transcription + "<del><a href=\"#"
-					+ Integer.toString(refsCounter) + "\">";
-			notes = notes + "<a id =\"" + Integer.toString(refsCounter)
-					+ "\"></a>" + "[" + Integer.toString(refsCounter) + "] "
-					+ "Retirado - " + delText.getHow().toString() + "<br>";
-			refsCounter++;
+			if (displayDel) {
+				transcription = transcription + "<del><a href=\"#"
+						+ Integer.toString(refsCounter) + "\">";
+				notes = notes + "<a id =\"" + Integer.toString(refsCounter)
+						+ "\"></a>" + "[" + Integer.toString(refsCounter)
+						+ "] " + "Retirado - " + delText.getHow().toString()
+						+ "<br>";
+				refsCounter++;
+			}
 			break;
 		}
 
@@ -250,11 +277,15 @@ public class HtmlWriter4OneInter extends HtmlWriter {
 	public void visit(SubstText substText) {
 		switch (substText.getOpenClose()) {
 		case CLOSE:
-			transcription = transcription + "</span>";
+			if (displayDel && highlightSubst) {
+				transcription = transcription + "</span>";
+			}
 			break;
 		case OPEN:
-			transcription = transcription
-					+ "<span style=\"background-color: rgb(220,220,220);\">";
+			if (displayDel && highlightSubst) {
+				transcription = transcription
+						+ "<span style=\"background-color: rgb(220,220,220);\">";
+			}
 			break;
 		}
 
@@ -278,5 +309,29 @@ public class HtmlWriter4OneInter extends HtmlWriter {
 		if (paragraphText.getNextText() != null) {
 			paragraphText.getNextText().accept(this);
 		}
+	}
+
+	public Boolean getDisplayDel() {
+		return displayDel;
+	}
+
+	public void setDisplayDel(Boolean displayDel) {
+		this.displayDel = displayDel;
+	}
+
+	public Boolean getHighlightIns() {
+		return highlightIns;
+	}
+
+	public void setHighlightIns(Boolean highlightIns) {
+		this.highlightIns = highlightIns;
+	}
+
+	public Boolean getShowNotes() {
+		return showNotes;
+	}
+
+	public void setShowNotes(Boolean showNotes) {
+		this.showNotes = showNotes;
 	}
 }

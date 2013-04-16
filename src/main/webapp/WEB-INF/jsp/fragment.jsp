@@ -14,16 +14,24 @@
 <script type="text/javascript" src="/static/js/jquery.js"></script>
 <script type="text/javascript" src="/static/js/bootstrap.js"></script>
 <script type="text/javascript">
-	$(document).ready(function() {
-		$('[id="interps"][data-toggle="buttons-radio"]').on('click', function() {
-			var fragInter = $('input:radio[name=inter]:checked').val();
-			$.get("${contextPath}/fragments/fragment", {
-				interp : fragInter
-			}, function(html) {
-				$("#fragmentInterpretation").replaceWith(html);
+	$(document).ready(
+			function() {
+				$('[id="interps"][data-toggle="buttons-radio"]')
+						.on(
+								'click',
+								function() {
+									var fragInter = $(
+											'input:radio[name=inter]:checked')
+											.val();
+									$.get("${contextPath}/fragments/fragment",
+											{
+												interp : fragInter
+											}, function(html) {
+												$("#fragmentInterpretation")
+														.replaceWith(html);
+											});
+								});
 			});
-		});
-	});
 </script>
 <style>
 .addBorder {
@@ -41,25 +49,23 @@
 
 
 	<div class="container">
-<h1>${fragment.title}</h1>
+		<h1>${fragment.title}</h1>
 
-		<div class="row-fluid">
+		<div class="row">
+			<legend>Testemunho Base:</legend>
 
-			
-
-			<div class="btn-group" id="interps" data-toggle="buttons-radio">
+			<div class="btn-group well" id="interps" data-toggle="buttons-radio">
 				<c:forEach var="fragInter" items='${fragment.sortedInterps}'>
 					<c:if test="${fragInter.sourceType=='EDITORIAL'}">
 						<label class="radio inline"> <c:choose>
-								<c:when
-									test="${fragInter.externalId==inter.externalId}">
+								<c:when test="${fragInter.externalId==inter.externalId}">
 									<input type="radio" class="btn" name="inter"
-										value="${fragInter.externalId}" checked> ${fragInter.name} </input>
+										value="${fragInter.externalId}" checked/> ${fragInter.name} 
 								</c:when>
 								<c:otherwise>
 									<input type="radio" class="btn" name="inter"
-										value="${fragInter.externalId}">
-									${fragInter.name} </input>
+										value="${fragInter.externalId}"/>
+									${fragInter.name}
 								</c:otherwise>
 							</c:choose>
 						</label>
@@ -69,15 +75,14 @@
 				<c:forEach var="fragInter" items='${fragment.sortedInterps}'>
 					<c:if test="${fragInter.sourceType=='AUTHORIAL'}">
 						<label class="radio inline"> <c:choose>
-								<c:when
-									test="${fragInter.externalId==inter.externalId}">
+								<c:when test="${fragInter.externalId==inter.externalId}">
 									<input type="radio" class="btn" name="inter"
-										value="${fragInter.externalId}" checked> ${fragInter.name} </input>
+										value="${fragInter.externalId}" checked/> ${fragInter.name}
 								</c:when>
 								<c:otherwise>
 									<input type="radio" class="btn" name="inter"
-										value="${fragInter.externalId}">
-									${fragInter.name} </input>
+										value="${fragInter.externalId}"/>
+									${fragInter.name}
 								</c:otherwise>
 							</c:choose>
 						</label>

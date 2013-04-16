@@ -4,22 +4,22 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="s"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ page session="false"%>
-<div id=fragmentTextual class="row-fluid span12">
-	<div class="row-fluid">
+<div id=fragmentTextual class="row">
+	<div class="row">
 		<div id="transcription" class="span6">
 			<div class="addBorder">
 				<p>${writer.transcription}</p>
 			</div>
 		</div>
 
-		<div id="transcription" class="span6">
+		<div id="fragmentTranscription" class="span6">
 			<div class="addBorder">
 				<p>${writer2.transcription}</p>
 			</div>
 		</div>
 	</div>
 	<br>
-	<div class="row-fluid">
+	<div class="row">
 		<div id="metatextual" class="span6">
 			<div class="addBorder">
 				<c:choose>
@@ -43,6 +43,7 @@
 							<em>Notas</em>: ${inter.notes}</c:if>
 					</c:when>
 					<c:otherwise>
+					TODO: Incluir meta informação da fonte manuscrita ou impressa
 					</c:otherwise>
 				</c:choose>
 			</div>
@@ -71,6 +72,7 @@
 							<em>Notas</em>: ${inter2Compare.notes}</c:if>
 					</c:when>
 					<c:otherwise>
+					TODO: Incluir meta informação da fonte manuscrita ou impressa
 					</c:otherwise>
 				</c:choose>
 			</div>
