@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import pt.ist.socialsoftware.edition.domain.AddText;
 import pt.ist.socialsoftware.edition.domain.DelText;
 import pt.ist.socialsoftware.edition.domain.EmptyText;
 import pt.ist.socialsoftware.edition.domain.FragInter;
@@ -18,7 +19,6 @@ public class HtmlWriterCompareInters extends HtmlWriter {
 	private final Map<FragInter, String> transcriptionsMap = new HashMap<FragInter, String>();
 	private final List<FragInter> compareAgaints = new ArrayList<FragInter>();
 
-	private Boolean isDel = false;
 	private Boolean breakWord = true;
 	private int differences = 0;
 
@@ -41,7 +41,6 @@ public class HtmlWriterCompareInters extends HtmlWriter {
 		for (FragInter inter : interList) {
 			fragInter = inter;
 			transcription = "";
-			isDel = false;
 			breakWord = true;
 			differences = 0;
 			visit(inter.getFragment().getVariationPoint());
@@ -101,14 +100,15 @@ public class HtmlWriterCompareInters extends HtmlWriter {
 			separator = " ";
 		}
 
-		if (!isDel) {
-			if (differences > 0) {
-				int color = 255 - (255 / compareAgaints.size()) * differences;
-				toAdd = "<span style=\"background-color: rgb(0," + color
-						+ ",255);\">" + toAdd + "</span>";
-			}
-			transcription = transcription + separator + toAdd;
+		if (differences > 0) {
+			int size = compareAgaints.size() == 0 ? 0
+					: compareAgaints.size() - 1;
+
+			int color = 255 - (255 / size) * (differences - 1);
+			toAdd = "<span style=\"background-color: rgb(0," + color
+					+ ",255);\">" + toAdd + "</span>";
 		}
+		transcription = transcription + separator + toAdd;
 
 		if (text.getNextText() != null) {
 			text.getNextText().accept(this);
@@ -125,20 +125,38 @@ public class HtmlWriterCompareInters extends HtmlWriter {
 	}
 
 	@Override
-	public void visit(DelText text) {
-
-		switch (text.getOpenClose()) {
+	public void visit(AddText addText) {
+		switch (addText.getOpenClose()) {
 		case CLOSE:
-			isDel = false;
+			transcription = transcription + "</a></ins>";
 			break;
 		case OPEN:
-			isDel = true;
+			transcription = transcription + "<ins>";
 			break;
 		}
 
-		if (text.getNextText() != null) {
-			text.getNextText().accept(this);
+		if (addText.getNextText() != null) {
+			addText.getNextText().accept(this);
 		}
+
+	}
+
+	@Override
+	public void visit(DelText delText) {
+
+		switch (delText.getOpenClose()) {
+		case CLOSE:
+			transcription = transcription + "</del>";
+			break;
+		case OPEN:
+			transcription = transcription + "<del>";
+			break;
+		}
+
+		if (delText.getNextText() != null) {
+			delText.getNextText().accept(this);
+		}
+
 	}
 
 	@Override
