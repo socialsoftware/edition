@@ -6,7 +6,7 @@
 <%@ taglib uri="/WEB-INF/ldoD.tld" prefix="ldod"%>
 <%@ page session="false"%>
 <div id=fragmentTextual class="row-fluid">
-	<div class="row">
+	<div class="row-fluid">
 		<div id="transcription" class="span6">
 			<div class="addBorder">
 				<p>${ldod:getTranscription(writer,inter)}</p>
@@ -20,7 +20,7 @@
 		</div>
 	</div>
 	<br>
-	<div class="row">
+	<div class="row-fluid">
 		<div id="metatextual" class="span6">
 			<div class="addBorder">
 				<c:choose>

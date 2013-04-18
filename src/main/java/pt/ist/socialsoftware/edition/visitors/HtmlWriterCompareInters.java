@@ -104,7 +104,7 @@ public class HtmlWriterCompareInters extends HtmlWriter {
 			int size = compareAgaints.size() == 0 ? 0
 					: compareAgaints.size() - 1;
 
-			int color = 255 - (255 / size) * (differences - 1);
+			int color = 255 - (200 / size) * (differences - 1);
 			toAdd = "<span style=\"background-color: rgb(0," + color
 					+ ",255);\">" + toAdd + "</span>";
 		}

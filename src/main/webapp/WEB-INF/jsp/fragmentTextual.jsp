@@ -81,11 +81,11 @@
 </script>
 
 <div id=fragmentTextual class="row-fluid">
-	<div>
+	<div class="row-fluid">
 
 		<c:choose>
 			<c:when test="${inter.sourceType=='EDITORIAL'}">
-				<legend>Atributos de Visualisação do Testemunho Editorial</legend>
+				<legend>Atributos de Visualização do Testemunho Editorial</legend>
 				<div class="btn-group well" id="visualisation-properties-editorial"
 					data-toggle="buttons-checkbox">
 					<label class="checkbox inline"> <input type="checkbox"
@@ -94,7 +94,7 @@
 				</div>
 			</c:when>
 			<c:otherwise>
-				<legend>Atributos de Visualisação do Testemunho Autoral</legend>
+				<legend>Atributos de Visualização do Testemunho Autoral</legend>
 				<div class="btn-group well" id="visualisation-properties-authorial"
 					data-toggle="buttons-checkbox">
 					<label class="checkbox inline"> <input type="checkbox"
@@ -117,8 +117,8 @@
 	<%@ include file="/WEB-INF/jsp/fragmentTranscription.jsp"%>
 
 	<br>
-	<div id="metatextual" class="row">
-		<div class="addBorder">
+	<div id="metatextual" class="row-fluid">
+		<div class="addBorder row-fluid">
 			<c:choose>
 				<c:when test="${inter.sourceType=='EDITORIAL'}">
 					<c:if test="${inter.title!=''}">

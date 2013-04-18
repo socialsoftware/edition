@@ -13,12 +13,15 @@
 </head>
 <body>
 	<c:set var="contextPath" value="${pageContext.request.contextPath}" />
-	<%@ include file="/WEB-INF/jsp/common/header.jsp" %>
+	<%@ include file="/WEB-INF/jsp/common/header.jsp"%>
 
 	<div class="container">
-		<h1>Edição de ${edition.editor}</h1>
+		<h3 class="text-center">Edição de ${edition.editor}</h3>
+		<c:if test="${heteronym != null}">
+				<h4 class="text-left">Fragmentos Atribuídos a ${heteronym.name}</h4>
+		</c:if>
+
 		<table class="table table-bordered table-condensed">
-			<caption>Índice:</caption>
 			<thead>
 				<tr>
 					<th>Número</th>
@@ -27,12 +30,14 @@
 				</tr>
 			<tbody>
 				<c:forEach var="interp" items='${edition.sortedInterps}'>
+				<c:if test="${(heteronym == null) || (interp.heteronym == heteronym)}">
 					<tr>
 						<td><c:if test="${interp.number!=0}">${interp.number}</c:if></td>
 						<td><a
-							href="${contextPath}/fragments/fragment/${interp.fragment.externalId}">${interp.fragment.title}</a></td>
+							href="${contextPath}/fragments/fragment/interpretation/${interp.externalId}">${interp.fragment.title}</a></td>
 						<td>${interp.page}</td>
 					</tr>
+					</c:if>
 				</c:forEach>
 			</tbody>
 		</table>

@@ -36,10 +36,10 @@
 					});
 </script>
 
-<div id="fragmentInterpretation" class="row">
+<div id="fragmentInterpretation" class="row-fluid">
 
 	<c:if test="${inter!=null}">
-		<legend>Testemunho a Comparar:</legend>
+		<legend>Testemunho a Comparar</legend>
 			
 				<div class="btn-group well" id="interps2" data-toggle="buttons-radio">
 					<c:forEach var="fragInter" items='${inter.fragment.sortedInterps}'>

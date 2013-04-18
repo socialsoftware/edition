@@ -16,10 +16,12 @@
 
 	<div class="container">
 		<div class="hero-unit">
-			<h1>Arquivo do LdoD</h1>
-			<p>O Arquivo Digital Colaborativo do Livro do Desassossego de
-				Fernando Pessoa,</p>
-			<p>
+			<h1>Arquivo LdoD</h1>
+			<hr>
+			<p>Arquivo Digital Colaborativo do Livro do Desassossego</p>
+			<br>
+			<br>
+			<p class="text-right text-info">
 				<strong>Versão BETA - Protótipo em desenvolvimento</strong>
 			</p>
 		</div>

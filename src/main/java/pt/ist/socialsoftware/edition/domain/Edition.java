@@ -33,4 +33,70 @@ public class Edition extends Edition_Base {
 		return interps;
 	}
 
+	public EditionInter getNextNumberInter(EditionInter inter, int number) {
+		List<EditionInter> interps = new ArrayList<EditionInter>(
+				getEditionInters());
+
+		Collections.sort(interps);
+
+		return findNextElementByNumber(inter, number, interps);
+	}
+
+	public EditionInter getPrevNumberInter(EditionInter inter, int number) {
+		List<EditionInter> interps = new ArrayList<EditionInter>(
+				getEditionInters());
+
+		Collections.sort(interps, Collections.reverseOrder());
+
+		return findNextElementByNumber(inter, number, interps);
+	}
+
+	private EditionInter findNextElementByNumber(EditionInter inter,
+			int number, List<EditionInter> interps) {
+		Boolean stopNext = false;
+		for (EditionInter tmpInter : interps) {
+			if (stopNext) {
+				return tmpInter;
+			}
+			if ((tmpInter.getNumber() == number) && tmpInter == inter) {
+				stopNext = true;
+			}
+		}
+		return interps.get(0);
+	}
+
+	public EditionInter getNextHeteronymInter(EditionInter inter,
+			Heteronym heteronym) {
+		List<EditionInter> interps = new ArrayList<EditionInter>(
+				getEditionInters());
+
+		Collections.sort(interps);
+
+		return findNextElementByHeteronym(inter, heteronym, interps);
+	}
+
+	public EditionInter getPrevHeteronymInter(EditionInter inter,
+			Heteronym heteronym) {
+		List<EditionInter> interps = new ArrayList<EditionInter>(
+				getEditionInters());
+
+		Collections.sort(interps, Collections.reverseOrder());
+
+		return findNextElementByHeteronym(inter, heteronym, interps);
+	}
+
+	private EditionInter findNextElementByHeteronym(EditionInter inter,
+			Heteronym heteronym, List<EditionInter> interps) {
+		Boolean stopNext = false;
+		for (EditionInter tmpInter : interps) {
+			if (stopNext) {
+				return tmpInter;
+			}
+			if ((tmpInter.getHeteronym() == heteronym) && tmpInter == inter) {
+				stopNext = true;
+			}
+		}
+		return interps.get(0);
+	}
+
 }

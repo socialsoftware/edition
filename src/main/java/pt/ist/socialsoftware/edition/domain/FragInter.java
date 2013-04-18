@@ -1,6 +1,5 @@
 package pt.ist.socialsoftware.edition.domain;
 
-
 public abstract class FragInter extends FragInter_Base implements
 		Comparable<FragInter> {
 

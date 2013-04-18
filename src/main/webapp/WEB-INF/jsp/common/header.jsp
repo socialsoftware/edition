@@ -1,7 +1,7 @@
 <div class="navbar navbar-fixed-top">
   <div class="navbar-inner">
   	<div class="container">
-    	<a class="brand" href="${contextPath}/">Arquivo do LdoD</a>
+    	<a class="brand" href="${contextPath}/">Arquivo LdoD</a>
     	<div class="offset3">
     	<ul class="nav">
   			<li class="dropdown">
@@ -18,10 +18,10 @@
   			<li class="dropdown">
     			<a class="dropdown-toggle" data-toggle="dropdown" href="#">Edições<b class="caret"></b></a>
     			<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-      				<li><a href="${contextPath}/edition/JPC">Jacinto Prado Coelho</a></li>
-					<li><a href="${contextPath}/edition/TSC">Teresa Sobral Cunha</a></li>    			
-					<li><a href="${contextPath}/edition/RZ">Richard Zenith</a></li>    			
-					<li><a href="${contextPath}/edition/JP">Jerónimo Pizarro</a></li>    			
+      				<li><a href="${contextPath}/edition/acronym/JPC">Jacinto Prado Coelho</a></li>
+					<li><a href="${contextPath}/edition/acronym/TSC">Teresa Sobral Cunha</a></li>    			
+					<li><a href="${contextPath}/edition/acronym/RZ">Richard Zenith</a></li>    			
+					<li><a href="${contextPath}/edition/acronym/JP">Jerónimo Pizarro</a></li>    			
 					<li><a href="#">Edições Virtuals</a></li>   
 				</ul> 			
   			</li>
