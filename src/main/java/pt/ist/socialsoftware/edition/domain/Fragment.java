@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import pt.ist.socialsoftware.edition.domain.FragInter.SourceType;
+
 public class Fragment extends Fragment_Base {
 
 	public Fragment() {
@@ -16,6 +18,18 @@ public class Fragment extends Fragment_Base {
 		Collections.sort(interps);
 
 		return interps;
+	}
+
+	public EditionInter getEditionInter(String editor) {
+		for (FragInter inter : getFragmentInter()) {
+			if (inter.getSourceType() == SourceType.EDITORIAL) {
+				EditionInter edInter = (EditionInter) inter;
+				if (edInter.getEdition().getEditor().equals(editor)) {
+					return edInter;
+				}
+			}
+		}
+		return null;
 	}
 
 }
