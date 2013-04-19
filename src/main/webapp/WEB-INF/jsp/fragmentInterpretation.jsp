@@ -39,49 +39,52 @@
 <div id="fragmentInterpretation" class="row-fluid">
 
 	<c:if test="${inter!=null}">
-		<legend>Testemunho a Comparar</legend>
-			
-				<div class="btn-group well" id="interps2" data-toggle="buttons-radio">
-					<c:forEach var="fragInter" items='${inter.fragment.sortedInterps}'>
-						<c:if test="${fragInter.sourceType=='EDITORIAL'}">
-							<label class="radio inline"> <c:choose>
-									<c:when test="${fragInter.externalId==inter.externalId}">
-										<input type="radio" class="btn" name="inter2"
-											value="${fragInter.externalId}" checked />
+		<form class="form-horizontal">
+			<div class="control-group">
+				<span class="control-label">Testemunho a Comparar:</span>
+				<div class="controls form-inline">
+					<div class="well" id="interps2" data-toggle="buttons-radio">
+						<c:forEach var="fragInter" items='${inter.fragment.sortedInterps}'>
+							<c:if test="${fragInter.sourceType=='EDITORIAL'}">
+								<label class="radio inline"> <c:choose>
+										<c:when test="${fragInter.externalId==inter.externalId}">
+											<input type="radio" class="btn" name="inter2"
+												value="${fragInter.externalId}" checked />
 							${fragInter.name} (${ldod:getPercentage(writer,fragInter)}%)
 									</c:when>
-									<c:otherwise>
-										<input type="radio" class="btn" name="inter2"
-											value="${fragInter.externalId}" />
+										<c:otherwise>
+											<input type="radio" class="btn" name="inter2"
+												value="${fragInter.externalId}" />
 							${fragInter.name} (${ldod:getPercentage(writer,fragInter)}%)
 									</c:otherwise>
-								</c:choose>
-							</label>
-						</c:if>
-					</c:forEach>
-					<br>
-					<c:forEach var="fragInter" items='${inter.fragment.sortedInterps}'>
-						<c:if test="${fragInter.sourceType=='AUTHORIAL'}">
-							<label class="radio inline"> <c:choose>
-									<c:when test="${fragInter.externalId==inter.externalId}">
-										<input type="radio" class="btn" name="inter2"
-											value="${fragInter.externalId}" checked />
+									</c:choose>
+								</label>
+							</c:if>
+						</c:forEach>
+						<c:forEach var="fragInter" items='${inter.fragment.sortedInterps}'>
+							<c:if test="${fragInter.sourceType=='AUTHORIAL'}">
+								<label class="radio inline"> <c:choose>
+										<c:when test="${fragInter.externalId==inter.externalId}">
+											<input type="radio" class="btn" name="inter2"
+												value="${fragInter.externalId}" checked />
 							${fragInter.name} (${ldod:getPercentage(writer,fragInter)}%)
 									</c:when>
-									<c:otherwise>
-										<input type="radio" class="btn" name="inter2"
-											value="${fragInter.externalId}" />
+										<c:otherwise>
+											<input type="radio" class="btn" name="inter2"
+												value="${fragInter.externalId}" />
 							${fragInter.name} (${ldod:getPercentage(writer,fragInter)}%)
 									</c:otherwise>
-								</c:choose>
-							</label>
-						</c:if>
-					</c:forEach>
-
-				
+									</c:choose>
+								</label>
+							</c:if>
+						</c:forEach>
+					</div>
+				</div>
 			</div>
+		</form>
 
 		<%@ include file="/WEB-INF/jsp/fragmentTextual.jsp"%>
 
 	</c:if>
 </div>
+

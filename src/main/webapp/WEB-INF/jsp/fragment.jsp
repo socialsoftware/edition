@@ -45,8 +45,8 @@
 
 <style>
 .mycontent-left {
-  border-left: 1px solid #333;
-   padding: 5px;
+	border-left: 1px solid #333;
+	padding: 5px;
 }
 </style>
 
@@ -58,62 +58,69 @@
 
 
 	<div class="container-fluid">
-					<h3 class="text-center">${fragment.title}</h3>
-	
+		<h3 class="text-center">${fragment.title}</h3>
+		<hr>
 		<div class="row-fluid">
 			<div class="span10">
 
 				<div class="row-fluid">
 
-					<legend>Testemunho Base</legend>
-					<div class="btn-group well" id="interps"
-						data-toggle="buttons-radio">
-						<c:forEach var="fragInter" items='${fragment.sortedInterps}'>
-							<c:if test="${fragInter.sourceType=='EDITORIAL'}">
-								<label class="radio inline"> <c:choose>
-										<c:when test="${fragInter.externalId==inter.externalId}">
-											<input type="radio" class="btn" name="inter"
-												value="${fragInter.externalId}" checked /> ${fragInter.name} 
+
+					<form class="form-horizontal">
+						<div class="control-group">
+							<span class="control-label">Testemunho Base:</span>
+							<div class="controls form-inline">
+
+								<div class="well" id="interps" data-toggle="buttons-radio">
+									<c:forEach var="fragInter" items='${fragment.sortedInterps}'>
+										<c:if test="${fragInter.sourceType=='EDITORIAL'}">
+											<label class="radio inline"> <c:choose>
+													<c:when test="${fragInter.externalId==inter.externalId}">
+														<input type="radio" class="btn" name="inter"
+															value="${fragInter.externalId}" checked /> ${fragInter.name} 
 								</c:when>
-										<c:otherwise>
-											<input type="radio" class="btn" name="inter"
-												value="${fragInter.externalId}" />
+													<c:otherwise>
+														<input type="radio" class="btn" name="inter"
+															value="${fragInter.externalId}" />
 									${fragInter.name}
 								</c:otherwise>
-									</c:choose>
-								</label>
-							</c:if>
-						</c:forEach>
-						<br>
-						<c:forEach var="fragInter" items='${fragment.sortedInterps}'>
-							<c:if test="${fragInter.sourceType=='AUTHORIAL'}">
-								<label class="radio inline"> <c:choose>
-										<c:when test="${fragInter.externalId==inter.externalId}">
-											<input type="radio" class="btn" name="inter"
-												value="${fragInter.externalId}" checked /> ${fragInter.name}
+												</c:choose>
+											</label>
+										</c:if>
+									</c:forEach>
+									<br>
+									<c:forEach var="fragInter" items='${fragment.sortedInterps}'>
+										<c:if test="${fragInter.sourceType=='AUTHORIAL'}">
+											<label class="radio inline"> <c:choose>
+													<c:when test="${fragInter.externalId==inter.externalId}">
+														<input type="radio" class="btn" name="inter"
+															value="${fragInter.externalId}" checked /> ${fragInter.name}
 								</c:when>
-										<c:otherwise>
-											<input type="radio" class="btn" name="inter"
-												value="${fragInter.externalId}" />
+													<c:otherwise>
+														<input type="radio" class="btn" name="inter"
+															value="${fragInter.externalId}" />
 									${fragInter.name}
 								</c:otherwise>
-									</c:choose>
-								</label>
-							</c:if>
-						</c:forEach>
-					</div>
+												</c:choose>
+											</label>
+										</c:if>
+									</c:forEach>
+
+								</div>
+							</div>
+						</div>
+					</form>
+
+					<%@ include file="/WEB-INF/jsp/fragmentInterpretation.jsp"%>
+
 				</div>
-
-				<%@ include file="/WEB-INF/jsp/fragmentInterpretation.jsp"%>
-
-
 			</div>
 			<div class="span2">
 
-					<%@ include file="/WEB-INF/jsp/navegation.jsp"%>
+				<%@ include file="/WEB-INF/jsp/navegation.jsp"%>
 
 
-				
+
 			</div>
 
 

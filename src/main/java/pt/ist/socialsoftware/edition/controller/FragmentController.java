@@ -47,7 +47,6 @@ public class FragmentController {
 	@RequestMapping(method = RequestMethod.GET, value = "/interpretation/next/number/{id}")
 	public String getNextFragmentWithInterpretationByNumber(Model model,
 			@PathVariable String id) {
-		System.out.println(id);
 
 		EditionInter interpretation = AbstractDomainObject.fromExternalId(id);
 
@@ -61,8 +60,6 @@ public class FragmentController {
 	@RequestMapping(method = RequestMethod.GET, value = "/interpretation/prev/number/{id}")
 	public String getPrevFragmentWithInterpretationByNumber(Model model,
 			@PathVariable String id) {
-		System.out.println(id);
-
 		EditionInter interpretation = AbstractDomainObject.fromExternalId(id);
 
 		Edition edition = interpretation.getEdition();
@@ -75,8 +72,6 @@ public class FragmentController {
 	@RequestMapping(method = RequestMethod.GET, value = "/interpretation/next/heteronym/{id}")
 	public String getNextFragmentWithInterpretationByHeteronym(Model model,
 			@PathVariable String id) {
-		System.out.println(id);
-
 		EditionInter interpretation = AbstractDomainObject.fromExternalId(id);
 
 		Edition edition = interpretation.getEdition();
@@ -89,8 +84,6 @@ public class FragmentController {
 	@RequestMapping(method = RequestMethod.GET, value = "/interpretation/prev/heteronym/{id}")
 	public String getPrevFragmentWithInterpretationByHeteronym(Model model,
 			@PathVariable String id) {
-		System.out.println(id);
-
 		EditionInter interpretation = AbstractDomainObject.fromExternalId(id);
 
 		Edition edition = interpretation.getEdition();

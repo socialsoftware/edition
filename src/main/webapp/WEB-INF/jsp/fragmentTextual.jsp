@@ -83,10 +83,15 @@
 <div id=fragmentTextual class="row-fluid">
 	<div class="row-fluid">
 
+		<form class="form-horizontal">
+			<div class="control-group">
+				<span class="control-label">Atributos de Visualização:</span>
+				<div class="controls form-inline">
+
+
 		<c:choose>
 			<c:when test="${inter.sourceType=='EDITORIAL'}">
-				<legend>Atributos de Visualização do Testemunho Editorial</legend>
-				<div class="btn-group well" id="visualisation-properties-editorial"
+				<div class="well" id="visualisation-properties-editorial"
 					data-toggle="buttons-checkbox">
 					<label class="checkbox inline"> <input type="checkbox"
 						class="btn" name=diff value="Yes"> Realçar Diferenças
@@ -94,8 +99,7 @@
 				</div>
 			</c:when>
 			<c:otherwise>
-				<legend>Atributos de Visualização do Testemunho Autoral</legend>
-				<div class="btn-group well" id="visualisation-properties-authorial"
+				<div class="well" id="visualisation-properties-authorial"
 					data-toggle="buttons-checkbox">
 					<label class="checkbox inline"> <input type="checkbox"
 						class="btn" name=del value="Yes"> Mostrar Apagados
@@ -110,6 +114,11 @@
 				</div>
 			</c:otherwise>
 		</c:choose>
+		
+		</div>
+		</div>
+		</form>
+		
 	</div>
 
 
