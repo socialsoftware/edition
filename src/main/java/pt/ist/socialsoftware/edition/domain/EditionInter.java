@@ -59,4 +59,23 @@ public class EditionInter extends EditionInter_Base {
 
 	}
 
+	@Override
+	public String getMetaTextual() {
+		String result = "";
+
+		result = result + "Título: " + getTitle() + "<br>";
+
+		result = result + "Heterónimo: " + getHeteronym().getName() + "<br>";
+
+		String number = getNumber() == 0 ? "" : Integer.toString(getNumber());
+		result = result + "Número: " + number + "<br>";
+
+		result = result + "Página: " + getPage() + "<br>";
+
+		result = result + "Data: " + getDate() + "<br>";
+
+		result = result + "Notas: " + getNotes();
+
+		return result;
+	}
 }

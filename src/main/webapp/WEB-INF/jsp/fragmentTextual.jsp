@@ -63,19 +63,19 @@
 													'input:checkbox[name=diff]')
 													.is(':checked');
 											$
-											.get(
-													"${contextPath}/fragments/fragment/textualeditorial",
-													{
-														interp : fragInter2,
-														diff : selDiff
-													},
-													function(html) {
-														$(
-																"#fragmentTranscription")
-																.replaceWith(
-																		html);
-													});
-									
+													.get(
+															"${contextPath}/fragments/fragment/textualeditorial",
+															{
+																interp : fragInter2,
+																diff : selDiff
+															},
+															function(html) {
+																$(
+																		"#fragmentTranscription")
+																		.replaceWith(
+																				html);
+															});
+
 										});
 					});
 </script>
@@ -89,36 +89,38 @@
 				<div class="controls form-inline">
 
 
-		<c:choose>
-			<c:when test="${inter.sourceType=='EDITORIAL'}">
-				<div class="well" id="visualisation-properties-editorial"
-					data-toggle="buttons-checkbox">
-					<label class="checkbox inline"> <input type="checkbox"
-						class="btn" name=diff value="Yes"> Realçar Diferenças
-					</label>
+					<c:choose>
+						<c:when test="${inter.sourceType=='EDITORIAL'}">
+							<div class="well" id="visualisation-properties-editorial"
+								data-toggle="buttons-checkbox">
+								<label class="checkbox inline"> <input type="checkbox"
+									class="btn" name=diff value="Yes"> Realçar Diferenças
+								</label>
+							</div>
+						</c:when>
+						<c:otherwise>
+							<div class="well" id="visualisation-properties-authorial"
+								data-toggle="buttons-checkbox">
+								<label class="checkbox inline"> <input type="checkbox"
+									class="btn" name=del value="Yes"> Mostrar Apagados
+								</label> <label class="checkbox inline"> <input type="checkbox"
+									class="btn" name=ins value="Yes" checked> Realçar
+									Inseridos
+								</label> <label class="checkbox inline"> <input type="checkbox"
+									class="btn" name=subst value="Yes"> Realçar
+									Substituições
+								</label> <label class="checkbox inline"> <input type="checkbox"
+									class="btn" name=notes value="Yes" checked> Mostrar
+									Notas
+								</label>
+							</div>
+						</c:otherwise>
+					</c:choose>
+
 				</div>
-			</c:when>
-			<c:otherwise>
-				<div class="well" id="visualisation-properties-authorial"
-					data-toggle="buttons-checkbox">
-					<label class="checkbox inline"> <input type="checkbox"
-						class="btn" name=del value="Yes"> Mostrar Apagados
-					</label> <label class="checkbox inline"> <input type="checkbox"
-						class="btn" name=ins value="Yes" checked> Realçar
-						Inseridos
-					</label> <label class="checkbox inline"> <input type="checkbox"
-						class="btn" name=subst value="Yes"> Realçar Substituições
-					</label> <label class="checkbox inline"> <input type="checkbox"
-						class="btn" name=notes value="Yes" checked> Mostrar Notas
-					</label>
-				</div>
-			</c:otherwise>
-		</c:choose>
-		
-		</div>
-		</div>
+			</div>
 		</form>
-		
+
 	</div>
 
 
@@ -127,31 +129,6 @@
 
 	<br>
 	<div id="metatextual" class="row-fluid">
-		<div class="addBorder row-fluid">
-			<c:choose>
-				<c:when test="${inter.sourceType=='EDITORIAL'}">
-					<c:if test="${inter.title!=''}">
-						<em>Título</em>: ${inter.title}</c:if>
-					<br>
-					<c:if test="${inter.heteronym.name!=''}">
-						<em>Heterónimo</em>: ${inter.heteronym.name}</c:if>
-					<br>
-					<c:if test="${inter.number!=''}">
-						<em>Número</em>: ${inter.number}</c:if>
-					<br>
-					<c:if test="${inter.page!=''}">
-						<em>Página</em>: ${inter.page}</c:if>
-					<br>
-					<c:if test="${inter.date!=''}">
-						<em>Data</em>: ${inter.date}</c:if>
-					<br>
-					<c:if test="${inter.notes!=''}">
-						<em>Notas</em>: ${inter.notes}</c:if>
-				</c:when>
-				<c:otherwise>
-				TODO: Incluir meta informação da fonte manuscrita ou impressa
-				</c:otherwise>
-			</c:choose>
-		</div>
+		<div class="addBorder row-fluid">${inter.metaTextual}</div>
 	</div>
 </div>

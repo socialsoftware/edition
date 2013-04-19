@@ -18,6 +18,10 @@ public abstract class HtmlWriter implements GraphVisitor {
 		return transcription;
 	}
 
+	public String getMetaTextual() {
+		return fragInter.getMetaTextual();
+	}
+
 	@Override
 	public void visit(Reading reading) {
 		reading.getFirstText().accept(this);

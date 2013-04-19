@@ -19,4 +19,9 @@ public class SourceInter extends SourceInter_Base {
 	public int compareSourceInter(SourceInter other) {
 		return getName().compareTo(other.getName());
 	}
+
+	@Override
+	public String getMetaTextual() {
+		return getSource().getMetaTextual();
+	}
 }

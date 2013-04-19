@@ -770,7 +770,6 @@ public class LoadTEIFragments {
 		Attribute hyphenatedAttribute = element.getAttribute("type");
 		if (hyphenatedAttribute != null) {
 			hyphenated = hyphenatedAttribute.getValue();
-			System.out.println("HIPHEN:" + hyphenated);
 		}
 
 		Boolean toHyphenate = false;
@@ -793,7 +792,6 @@ public class LoadTEIFragments {
 		Attribute breakAttribute = element.getAttribute("break");
 		if (breakAttribute != null) {
 			breakWord = breakAttribute.getValue();
-			System.out.println("ISBREAK:" + breakWord);
 		}
 
 		Boolean toBreak = false;
@@ -1025,15 +1023,9 @@ public class LoadTEIFragments {
 				+ selectThisFragment
 				+ "/def:teiHeader/def:fileDesc/def:sourceDesc/def:listBibl/.//def:msDesc";
 
-		// Map<String, Object> vars = new HashMap<String, Object>();
-		// vars.put("xml:id", null);
-
 		XPathExpression<Element> xp = xpfac.compile(queryExpression,
-				// "/def:teiCorpus/def:TEI[@xml:id='Fr1']/def:teiHeader/def:fileDesc/def:sourceDesc/def:listBibl/.//def:msDesc",
 				Filters.element(), null,
 				Namespace.getNamespace("def", namespace.getURI()));
-
-		// xp.setVariable("fragmentTEIID", fragmentTEIID);
 
 		for (Element msDesc : xp.evaluate(doc)) {
 			ManuscriptSource manuscript = new ManuscriptSource();
@@ -1059,6 +1051,42 @@ public class LoadTEIFragments {
 			manuscript
 					.setRepository(msId.getChildText("repository", namespace));
 			manuscript.setIdno(msId.getChildText("idno", namespace));
+
+			Element physDesc = msDesc.getChild("physDesc", namespace);
+
+			Element objectDesc = physDesc.getChild("objectDesc", namespace);
+			if (objectDesc.getAttributeValue("form").equals("leaf")) {
+				manuscript.setForm(ManuscriptSource.Form.LEAF);
+			} else {
+				throw new LdoDException(
+						"não está definido o valor do atributo form="
+								+ objectDesc.getAttributeValue("form"));
+			}
+
+			Element supportDesc = objectDesc.getChild("supportDesc", namespace);
+			if (supportDesc.getAttributeValue("material").equals("paper")) {
+				manuscript.setMaterial(ManuscriptSource.Material.PAPER);
+			} else {
+				throw new LdoDException(
+						"não está definido o valor do atributo material="
+								+ objectDesc.getAttributeValue("material"));
+			}
+
+			Element layoutElement = objectDesc
+					.getChild("layoutDesc", namespace).getChild("layout",
+							namespace);
+			manuscript.setColumns(Integer.parseInt(layoutElement
+					.getAttributeValue("columns")));
+
+			Element handDesc = physDesc.getChild("handDesc", namespace);
+			Element additions = physDesc.getChild("additions", namespace);
+			Element binding = physDesc.getChild("bindingDesc", namespace)
+					.getChild("binding", namespace);
+
+			manuscript.setNotes(handDesc.getTextTrim() + ", "
+					+ additions.getTextTrim() + ", " + binding.getTextTrim());
+
+			System.out.println(manuscript.getNotes());
 		}
 
 	}

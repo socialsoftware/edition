@@ -1,6 +1,8 @@
 package pt.ist.socialsoftware.edition.domain;
 
 enum pt.ist.socialsoftware.edition.domain.Reading.ReadingType as ReadingType;
+enum pt.ist.socialsoftware.edition.domain.ManuscriptSource.Form as Form;
+enum pt.ist.socialsoftware.edition.domain.ManuscriptSource.Material as Material;
 enum pt.ist.socialsoftware.edition.domain.SpaceText.SpaceDim as SpaceDim;
 enum pt.ist.socialsoftware.edition.domain.SpaceText.SpaceUnit as SpaceUnit;
 enum pt.ist.socialsoftware.edition.domain.FormatText.Rendition as Rendition;
@@ -123,6 +125,10 @@ class ManuscriptSource extends Source {
 	String settlement;
 	String repository;
 	String idno;
+	Form form;
+	Material material;
+	int columns;
+	String notes;
 }
 
 class PrintedSource extends Source {

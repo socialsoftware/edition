@@ -8,10 +8,10 @@
 <div class="row-fluid">
 
 	<c:forEach var="fragInter" items='${fragment.sortedInterps}'>
-		<c:if test="${fragInter.sourceType=='EDITORIAL'}">
-			<a class="btn btn-small"
-				href="${contextPath}/edition/internalid/${fragInter.edition.externalId}"><i
-				class="icon-list"></i> ${fragInter.edition.editor}</a>
+		<c:if test="${fragInter.sourceType=='EDITORIAL'}"> Edição: 
+			<a
+				href="${contextPath}/edition/internalid/${fragInter.edition.externalId}">
+				${fragInter.edition.editor}</a>
 			<br>
 			<div class="text-center">
 				<table>
@@ -31,9 +31,9 @@
 						<td><a class="btn btn-mini"
 							href="${contextPath}/fragments/fragment/interpretation/prev/heteronym/${fragInter.externalId}"><i
 								class="icon-backward"></i></a></td>
-						<td><a class="btn-mini btn"
-							href="${contextPath}/edition/internalid/heteronym/${fragInter.edition.externalId}/${fragInter.heteronym.externalId}"><i
-								class="icon-list"></i> ${fragInter.heteronym.name} </a></td>
+						<td><a
+							href="${contextPath}/edition/internalid/heteronym/${fragInter.edition.externalId}/${fragInter.heteronym.externalId}">
+								${fragInter.heteronym.name} </a></td>
 						<td><a class="btn btn-mini"
 							href="${contextPath}/fragments/fragment/interpretation/next/heteronym/${fragInter.externalId}"><i
 								class="icon-forward"></i></a></td>

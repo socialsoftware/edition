@@ -16,4 +16,19 @@ public class PrintedSource extends PrintedSource_Base {
 		return getTitle();
 	}
 
+	@Override
+	public String getMetaTextual() {
+		String result = "";
+
+		result = result + "Título: " + getTitle() + "<br>";
+
+		result = result + "Local de Publicação: " + getPubPlace() + "<br>";
+
+		result = result + "Número: " + getIssue() + "<br>";
+
+		result = result + "Data: " + getDate() + "<br>";
+
+		return result;
+	}
+
 }

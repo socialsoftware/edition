@@ -9,4 +9,7 @@ public abstract class Source extends Source_Base {
 	public abstract void print();
 
 	public abstract String getName();
+
+	public abstract String getMetaTextual();
+
 }

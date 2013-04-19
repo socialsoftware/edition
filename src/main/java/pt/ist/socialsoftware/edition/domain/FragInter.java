@@ -31,4 +31,7 @@ public abstract class FragInter extends FragInter_Base implements
 			return ((SourceInter) this).compareSourceInter((SourceInter) other);
 		}
 	}
+
+	public abstract String getMetaTextual();
+
 }
