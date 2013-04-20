@@ -1078,10 +1078,11 @@ public class LoadTEIFragments {
 			manuscript.setColumns(Integer.parseInt(layoutElement
 					.getAttributeValue("columns")));
 
-			Element handDesc = physDesc.getChild("handDesc", namespace);
+			Element handDesc = physDesc.getChild("handDesc", namespace)
+					.getChild("p", namespace);
 			Element additions = physDesc.getChild("additions", namespace);
 			Element binding = physDesc.getChild("bindingDesc", namespace)
-					.getChild("binding", namespace);
+					.getChild("binding", namespace).getChild("p", namespace);
 
 			manuscript.setNotes(handDesc.getTextTrim() + ", "
 					+ additions.getTextTrim() + ", " + binding.getTextTrim());
