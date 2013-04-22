@@ -16,4 +16,15 @@ public class LbText extends LbText_Base {
 
 	}
 
+	@Override
+	public String writeHtml() {
+		String result = "";
+		if (getHyphenated()) {
+			result = "-";
+		}
+		result = result + "<br>";
+
+		return result;
+	}
+
 }

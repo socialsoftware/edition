@@ -21,4 +21,9 @@ public class SimpleText extends SimpleText_Base {
 
 	}
 
+	@Override
+	public String writeHtml() {
+		return "";
+	}
+
 }

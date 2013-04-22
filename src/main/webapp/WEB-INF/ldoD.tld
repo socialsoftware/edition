@@ -9,7 +9,7 @@
     <function>
         <name>getPercentage</name>
         <function-class>pt.ist.socialsoftware.edition.utils.ElFunctions</function-class>
-        <function-signature>java.lang.Integer getPercentage(pt.ist.socialsoftware.edition.visitors.HtmlWriter4OneInter, pt.ist.socialsoftware.edition.domain.FragInter)</function-signature>
+        <function-signature>java.lang.Integer getPercentage(pt.ist.socialsoftware.edition.visitors.HtmlWriter4AllInter, pt.ist.socialsoftware.edition.domain.FragInter)</function-signature>
     </function>
     
      <function>

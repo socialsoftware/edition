@@ -166,6 +166,7 @@ relation FragInterHasReadings {
 }
 
 class LdoDText {
+	OpenClose openClose;
 }
 
 relation ReadingHasText {
@@ -202,11 +203,9 @@ class SpaceText extends LdoDText {
 
 class FormatText extends LdoDText {
 	Rendition rend;
-	OpenClose openClose;
 }
 
 class ParagraphText extends LdoDText {
-	OpenClose openClose;
 }
 
 class EmptyText extends LdoDText {
@@ -214,15 +213,12 @@ class EmptyText extends LdoDText {
 }
 
 class AddText extends LdoDText {
-	OpenClose openClose;
 	Place place;
 }
 
 class DelText extends LdoDText {
 	HowDel how;
-	OpenClose openClose;
 }
 
 class SubstText extends LdoDText {
-	OpenClose openClose;
 }

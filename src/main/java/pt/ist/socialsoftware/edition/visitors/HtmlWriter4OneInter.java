@@ -1,44 +1,42 @@
-/**
- * 
- */
 package pt.ist.socialsoftware.edition.visitors;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import pt.ist.socialsoftware.edition.domain.AddText;
 import pt.ist.socialsoftware.edition.domain.DelText;
 import pt.ist.socialsoftware.edition.domain.EmptyText;
 import pt.ist.socialsoftware.edition.domain.FormatText;
-import pt.ist.socialsoftware.edition.domain.FormatText.Rendition;
 import pt.ist.socialsoftware.edition.domain.FragInter;
 import pt.ist.socialsoftware.edition.domain.LbText;
+import pt.ist.socialsoftware.edition.domain.LdoDText;
 import pt.ist.socialsoftware.edition.domain.LdoDText.OpenClose;
+import pt.ist.socialsoftware.edition.domain.ParagraphText;
+import pt.ist.socialsoftware.edition.domain.PbText;
 import pt.ist.socialsoftware.edition.domain.Reading;
 import pt.ist.socialsoftware.edition.domain.SimpleText;
 import pt.ist.socialsoftware.edition.domain.SpaceText;
-import pt.ist.socialsoftware.edition.domain.SpaceText.SpaceDim;
 import pt.ist.socialsoftware.edition.domain.SubstText;
 import pt.ist.socialsoftware.edition.domain.VariationPoint;
 
-/**
- * @author ars
- * 
- */
 public class HtmlWriter4OneInter extends HtmlWriter {
 
-	private final Map<FragInter, Integer> interpsChar = new HashMap<FragInter, Integer>();
-	private int totalChar = 0;
-	private Boolean isDel = false;
-	private Boolean breakWord = true;
-
-	private String notes = "";
-	private int refsCounter = 1;
+	private final List<LdoDText> pendingWrite = new ArrayList<LdoDText>();
 
 	private Boolean displayDel = false;
 	private Boolean highlightIns = true;
 	private Boolean highlightSubst = false;
 	private Boolean showNotes = true;
+
+	private final Map<FragInter, Integer> interpsChar = new HashMap<FragInter, Integer>();
+	private int totalChar = 0;
+	private Boolean isBreakWord = true;
+	private boolean isDel = false;
+
+	private String notes = "";
+	private int refsCounter = 1;
 
 	@Override
 	public String getTranscription() {
@@ -56,7 +54,6 @@ public class HtmlWriter4OneInter extends HtmlWriter {
 		for (FragInter inter : fragInter.getFragment().getFragmentInter()) {
 			interpsChar.put(inter, 0);
 		}
-
 	}
 
 	public void write() {
@@ -65,10 +62,10 @@ public class HtmlWriter4OneInter extends HtmlWriter {
 
 	public void write(Boolean displayDel, Boolean highlightIns,
 			Boolean highlightSubst, Boolean showNotes) {
-		setDisplayDel(displayDel);
-		setHighlightIns(highlightIns);
-		setHighlightSubst(highlightSubst);
-		setShowNotes(showNotes);
+		this.displayDel = displayDel;
+		this.highlightIns = highlightIns;
+		this.highlightSubst = highlightSubst;
+		this.showNotes = showNotes;
 		visit(fragInter.getFragment().getVariationPoint());
 	}
 
@@ -84,6 +81,12 @@ public class HtmlWriter4OneInter extends HtmlWriter {
 	}
 
 	@Override
+	public void visit(Reading reading) {
+		reading.getFirstText().accept(this);
+		reading.getNextVariationPoint().accept(this);
+	}
+
+	@Override
 	public void visit(SimpleText text) {
 		String separators = ".,?!:;";
 		String separator = null;
@@ -91,13 +94,15 @@ public class HtmlWriter4OneInter extends HtmlWriter {
 
 		String firstChar = toAdd.substring(0, 1);
 
-		if (separators.contains(firstChar) || !breakWord) {
+		if (separators.contains(firstChar) || !isBreakWord) {
 			separator = "";
-			breakWord = true;
+			isBreakWord = true;
 		} else {
 			separator = " ";
+			System.out.println("SEPARADOR");
 		}
 
+		// deleted parts are not included in the statistics
 		if (!isDel) {
 			totalChar = totalChar + toAdd.length();
 			for (FragInter inter : text.getReading().getFragInters()) {
@@ -107,7 +112,41 @@ public class HtmlWriter4OneInter extends HtmlWriter {
 			}
 		}
 
-		if (!isDel || displayDel) {
+		OpenClose state = OpenClose.NO;
+		for (LdoDText pText : pendingWrite) {
+			// the separator should not be affected by formatting and it is
+			// written before open
+			OpenClose pState = pText.getOpenClose();
+			if (pState == OpenClose.CLOSE) {
+				state = OpenClose.CLOSE;
+			} else if ((pState == OpenClose.OPEN) && (state == OpenClose.CLOSE)) {
+				transcription = transcription + separator;
+				state = OpenClose.OPEN;
+			}
+
+			// writing notes needs to increment counter
+			String reference = pText.writeReference(refsCounter);
+			if (showNotes && (reference != null)) {
+				if (pState == OpenClose.OPEN) {
+					// <del><a href= ....>
+					transcription = transcription + pText.writeHtml()
+							+ reference;
+				} else {
+					// </a></del>
+					transcription = transcription + reference
+							+ pText.writeHtml();
+				}
+				notes = notes + pText.writeNote(refsCounter);
+				refsCounter = refsCounter + 1;
+			} else {
+				transcription = transcription + pText.writeHtml();
+			}
+		}
+		pendingWrite.clear();
+
+		if (state == OpenClose.OPEN) {
+			transcription = transcription + toAdd;
+		} else {
 			transcription = transcription + separator + toAdd;
 		}
 
@@ -117,204 +156,100 @@ public class HtmlWriter4OneInter extends HtmlWriter {
 	}
 
 	@Override
-	public void visit(LbText lbText) {
-		if (lbText.getHyphenated()) {
-			transcription = transcription + "-";
-		}
-		transcription = transcription + "<br>";
+	public void visit(LbText text) {
+		transcription = transcription + text.writeHtml();
 
-		if (lbText.getNextText() != null) {
-			lbText.getNextText().accept(this);
+		if (text.getNextText() != null) {
+			text.getNextText().accept(this);
 		}
 	}
 
 	@Override
-	public void visit(FormatText formatText) {
-		if (formatText.getRend() == Rendition.RIGHT) {
-			if (formatText.getOpenClose() == OpenClose.OPEN) {
-				transcription = transcription + "<div class=\"text-right\">";
-			} else {
-				transcription = transcription + "</div>";
-			}
+	public void visit(ParagraphText text) {
+		transcription = transcription + text.writeHtml();
+	}
 
-		} else if (formatText.getRend() == Rendition.LEFT) {
-			if (formatText.getOpenClose() == OpenClose.OPEN) {
-				transcription = transcription + "<div class=\"text-left\">";
-			} else {
-				transcription = transcription + "</div>";
-			}
+	@Override
+	public void visit(FormatText text) {
+		pendingWrite.add(text);
 
-		} else if (formatText.getRend() == Rendition.CENTER) {
-			if (formatText.getOpenClose() == OpenClose.OPEN) {
-				transcription = transcription + "<div class=\"text-center\">";
-			} else {
-				transcription = transcription + "</div>";
-			}
-		} else if (formatText.getRend() == Rendition.BOLD) {
-			if (formatText.getOpenClose() == OpenClose.OPEN) {
-				transcription = transcription + "<strong>";
-			} else {
-				transcription = transcription + "</strong>";
-			}
-
-		} else if (formatText.getRend() == Rendition.RED) {
-			if (formatText.getOpenClose() == OpenClose.OPEN) {
-				transcription = transcription
-						+ "<span style=\"color: rgb(255,0,0);\"";
-			} else {
-				transcription = transcription + "</span>";
-			}
-		} else if (formatText.getRend() == Rendition.UNDERLINED) {
-			if (formatText.getOpenClose() == OpenClose.OPEN) {
-				transcription = transcription
-						+ "<div style=\"text-decoration: underline;\">";
-			} else {
-				transcription = transcription + "</span>";
-			}
-		}
-
-		if (formatText.getNextText() != null) {
-			formatText.getNextText().accept(this);
+		if (text.getNextText() != null) {
+			text.getNextText().accept(this);
 		}
 	}
 
 	@Override
-	public void visit(SpaceText spaceText) {
-		String separator = "";
-		if (spaceText.getDim() == SpaceDim.VERTICAL) {
-			separator = "<br>";
-		} else if (spaceText.getDim() == SpaceDim.HORIZONTAL) {
-			separator = " ";
+	public void visit(SpaceText text) {
+		transcription = transcription + text.writeHtml();
+
+		if (text.getNextText() != null) {
+			text.getNextText().accept(this);
+		}
+	}
+
+	@Override
+	public void visit(AddText text) {
+		if (highlightIns) {
+			pendingWrite.add(text);
 		}
 
-		for (int i = 0; i < spaceText.getQuantity(); i++) {
-			transcription = transcription + separator;
-		}
-
-		if (spaceText.getNextText() != null) {
-			spaceText.getNextText().accept(this);
+		if (text.getNextText() != null) {
+			text.getNextText().accept(this);
 		}
 
 	}
 
 	@Override
-	public void visit(AddText addText) {
+	public void visit(DelText text) {
+		if (displayDel) {
+			pendingWrite.add(text);
 
-		switch (addText.getOpenClose()) {
-		case CLOSE:
-			if (highlightIns) {
-				transcription = transcription + "</a></ins>";
+			switch (text.getOpenClose()) {
+			case CLOSE:
+				isDel = false;
+				break;
+			case OPEN:
+				isDel = true;
+				break;
+			case NO:
+				assert false;
+				break;
+			default:
+				break;
 			}
-			break;
-		case OPEN:
-			if (highlightIns) {
-				transcription = transcription + "<ins><a href=\"#"
-						+ Integer.toString(refsCounter) + "\">";
-				notes = notes + "<a id =\"" + Integer.toString(refsCounter)
-						+ "\"></a>" + "[" + Integer.toString(refsCounter)
-						+ "] " + "Adicionado - "
-						+ addText.getPlace().toString() + "<br>";
-				refsCounter++;
-			}
-			break;
+
 		}
 
-		if (addText.getNextText() != null) {
-			addText.getNextText().accept(this);
+		if (text.getNextText() != null) {
+			text.getNextText().accept(this);
 		}
-
-	}
-
-	@Override
-	public void visit(DelText delText) {
-
-		switch (delText.getOpenClose()) {
-		case CLOSE:
-			isDel = false;
-			if (displayDel) {
-				transcription = transcription + "</a></del>";
-			}
-			break;
-		case OPEN:
-			isDel = true;
-			if (displayDel) {
-				transcription = transcription + "<del><a href=\"#"
-						+ Integer.toString(refsCounter) + "\">";
-				notes = notes + "<a id =\"" + Integer.toString(refsCounter)
-						+ "\"></a>" + "[" + Integer.toString(refsCounter)
-						+ "] " + "Retirado - " + delText.getHow().toString()
-						+ "<br>";
-				refsCounter++;
-			}
-			break;
-		}
-
-		if (delText.getNextText() != null) {
-			delText.getNextText().accept(this);
-		}
-
 	}
 
 	@Override
 	public void visit(SubstText text) {
-		switch (text.getOpenClose()) {
-		case CLOSE:
-			if (displayDel && highlightSubst) {
-				transcription = transcription + "</span>";
-			}
-			break;
-		case OPEN:
-			if (displayDel && highlightSubst) {
-				transcription = transcription
-						+ "<span style=\"background-color: rgb(220,220,220);\">";
-			}
-			break;
+		if (displayDel && highlightSubst) {
+			pendingWrite.add(text);
 		}
 
 		if (text.getNextText() != null) {
 			text.getNextText().accept(this);
 		}
-
 	}
 
 	@Override
 	public void visit(EmptyText text) {
-		breakWord = text.getIsBreak();
+		isBreakWord = text.getIsBreak();
+
+		System.out.println(isBreakWord);
 
 		if (text.getNextText() != null) {
 			text.getNextText().accept(this);
 		}
 	}
 
-	public Boolean getDisplayDel() {
-		return displayDel;
+	@Override
+	public void visit(PbText text) {
+		assert false;
 	}
 
-	public void setDisplayDel(Boolean displayDel) {
-		this.displayDel = displayDel;
-	}
-
-	public Boolean getHighlightIns() {
-		return highlightIns;
-	}
-
-	public void setHighlightIns(Boolean highlightIns) {
-		this.highlightIns = highlightIns;
-	}
-
-	public Boolean getHighlightSubst() {
-		return highlightSubst;
-	}
-
-	public void setHighlightSubst(Boolean highlightSubst) {
-		this.highlightSubst = highlightSubst;
-	}
-
-	public Boolean getShowNotes() {
-		return showNotes;
-	}
-
-	public void setShowNotes(Boolean showNotes) {
-		this.showNotes = showNotes;
-	}
 }

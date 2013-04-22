@@ -10,8 +10,12 @@ public class PbText extends PbText_Base {
 
 	@Override
 	public void accept(GraphVisitor visitor) {
-		// TODO Auto-generated method stub
+		assert false;
+	}
 
+	@Override
+	public String writeHtml() {
+		return "";
 	}
 
 }

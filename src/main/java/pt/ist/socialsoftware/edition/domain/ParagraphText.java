@@ -13,4 +13,23 @@ public class ParagraphText extends ParagraphText_Base {
 		visitor.visit(this);
 	}
 
+	@Override
+	public String writeHtml() {
+		String result = "";
+		switch (getOpenClose()) {
+		case CLOSE:
+			result = "</p>";
+			break;
+		case OPEN:
+			result = "<p>";
+			break;
+		case NO:
+			assert false;
+			break;
+		default:
+			break;
+		}
+		return result;
+	}
+
 }

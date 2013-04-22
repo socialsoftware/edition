@@ -12,7 +12,11 @@ public class EmptyText extends EmptyText_Base {
 	@Override
 	public void accept(GraphVisitor visitor) {
 		visitor.visit(this);
+	}
 
+	@Override
+	public String writeHtml() {
+		return "";
 	}
 
 }

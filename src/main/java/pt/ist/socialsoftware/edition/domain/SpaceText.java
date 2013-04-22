@@ -24,4 +24,21 @@ public class SpaceText extends SpaceText_Base {
 		visitor.visit(this);
 	}
 
+	@Override
+	public String writeHtml() {
+		String result = "";
+		String separator = "";
+		if (getDim() == SpaceDim.VERTICAL) {
+			separator = "<br>";
+		} else if (getDim() == SpaceDim.HORIZONTAL) {
+			separator = " ";
+		}
+
+		for (int i = 0; i < getQuantity(); i++) {
+			result = result + separator;
+		}
+
+		return result;
+	}
+
 }
