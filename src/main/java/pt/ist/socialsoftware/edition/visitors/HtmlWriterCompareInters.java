@@ -128,7 +128,7 @@ public class HtmlWriterCompareInters extends HtmlWriter {
 	public void visit(AddText addText) {
 		switch (addText.getOpenClose()) {
 		case CLOSE:
-			transcription = transcription + "</a></ins>";
+			transcription = transcription + "</ins>";
 			break;
 		case OPEN:
 			transcription = transcription + "<ins>";

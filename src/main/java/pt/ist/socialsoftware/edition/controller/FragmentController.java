@@ -16,8 +16,8 @@ import pt.ist.socialsoftware.edition.domain.EditionInter;
 import pt.ist.socialsoftware.edition.domain.FragInter;
 import pt.ist.socialsoftware.edition.domain.Fragment;
 import pt.ist.socialsoftware.edition.visitors.HtmlWriter;
+import pt.ist.socialsoftware.edition.visitors.HtmlWriter2CompInters;
 import pt.ist.socialsoftware.edition.visitors.HtmlWriter4OneInter;
-import pt.ist.socialsoftware.edition.visitors.HtmlWriterCompareInters;
 
 @Controller
 @RequestMapping("/fragments/fragment")
@@ -143,7 +143,7 @@ public class FragmentController {
 			List<FragInter> list = new ArrayList<FragInter>();
 			list.add(fragInter);
 			list.add(fragInter2Compare);
-			HtmlWriterCompareInters writer = new HtmlWriterCompareInters(list);
+			HtmlWriter2CompInters writer = new HtmlWriter2CompInters(list);
 			writer.write(list);
 
 			model.addAttribute("inter", fragInter);
@@ -182,9 +182,9 @@ public class FragmentController {
 		if (displayDiff) {
 			List<FragInter> list = new ArrayList<FragInter>();
 			list.add(fragInter);
-			writer = new HtmlWriterCompareInters(fragInter.getFragment()
+			writer = new HtmlWriter2CompInters(fragInter.getFragment()
 					.getFragmentInter());
-			((HtmlWriterCompareInters) writer).write(list);
+			((HtmlWriter2CompInters) writer).write(list);
 		} else {
 			writer = new HtmlWriter4OneInter(fragInter);
 			((HtmlWriter4OneInter) writer).write();

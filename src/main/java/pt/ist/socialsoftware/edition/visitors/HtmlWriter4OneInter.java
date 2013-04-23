@@ -99,7 +99,6 @@ public class HtmlWriter4OneInter extends HtmlWriter {
 			isBreakWord = true;
 		} else {
 			separator = " ";
-			System.out.println("SEPARADOR");
 		}
 
 		// deleted parts are not included in the statistics
@@ -112,42 +111,45 @@ public class HtmlWriter4OneInter extends HtmlWriter {
 			}
 		}
 
-		OpenClose state = OpenClose.NO;
-		for (LdoDText pText : pendingWrite) {
-			// the separator should not be affected by formatting and it is
-			// written before open
-			OpenClose pState = pText.getOpenClose();
-			if (pState == OpenClose.CLOSE) {
-				state = OpenClose.CLOSE;
-			} else if ((pState == OpenClose.OPEN) && (state == OpenClose.CLOSE)) {
-				transcription = transcription + separator;
-				state = OpenClose.OPEN;
-			}
-
-			// writing notes needs to increment counter
-			String reference = pText.writeReference(refsCounter);
-			if (showNotes && (reference != null)) {
-				if (pState == OpenClose.OPEN) {
-					// <del><a href= ....>
-					transcription = transcription + pText.writeHtml()
-							+ reference;
-				} else {
-					// </a></del>
-					transcription = transcription + reference
-							+ pText.writeHtml();
+		if (!isDel || displayDel) {
+			OpenClose state = OpenClose.CLOSE;
+			for (LdoDText pText : pendingWrite) {
+				// the separator should not be affected by formatting and it is
+				// written before open
+				OpenClose pState = pText.getOpenClose();
+				if (pState == OpenClose.CLOSE) {
+					state = OpenClose.CLOSE;
+				} else if ((pState == OpenClose.OPEN)
+						&& (state == OpenClose.CLOSE)) {
+					transcription = transcription + separator;
+					state = OpenClose.OPEN;
 				}
-				notes = notes + pText.writeNote(refsCounter);
-				refsCounter = refsCounter + 1;
-			} else {
-				transcription = transcription + pText.writeHtml();
-			}
-		}
-		pendingWrite.clear();
 
-		if (state == OpenClose.OPEN) {
-			transcription = transcription + toAdd;
-		} else {
-			transcription = transcription + separator + toAdd;
+				// writing notes needs to increment counter
+				String reference = pText.writeReference(refsCounter);
+				if (showNotes && (reference != null)) {
+					if (pState == OpenClose.OPEN) {
+						// <del><a href= ....>
+						transcription = transcription + pText.writeHtml()
+								+ reference;
+					} else {
+						// </a></del>
+						transcription = transcription + reference
+								+ pText.writeHtml();
+					}
+					notes = notes + pText.writeNote(refsCounter);
+					refsCounter = refsCounter + 1;
+				} else {
+					transcription = transcription + pText.writeHtml();
+				}
+			}
+			pendingWrite.clear();
+
+			if (state == OpenClose.OPEN) {
+				transcription = transcription + toAdd;
+			} else {
+				transcription = transcription + separator + toAdd;
+			}
 		}
 
 		if (text.getNextText() != null) {
@@ -167,6 +169,10 @@ public class HtmlWriter4OneInter extends HtmlWriter {
 	@Override
 	public void visit(ParagraphText text) {
 		transcription = transcription + text.writeHtml();
+
+		if (text.getNextText() != null) {
+			text.getNextText().accept(this);
+		}
 	}
 
 	@Override
@@ -203,21 +209,20 @@ public class HtmlWriter4OneInter extends HtmlWriter {
 	public void visit(DelText text) {
 		if (displayDel) {
 			pendingWrite.add(text);
+		}
 
-			switch (text.getOpenClose()) {
-			case CLOSE:
-				isDel = false;
-				break;
-			case OPEN:
-				isDel = true;
-				break;
-			case NO:
-				assert false;
-				break;
-			default:
-				break;
-			}
-
+		switch (text.getOpenClose()) {
+		case CLOSE:
+			isDel = false;
+			break;
+		case OPEN:
+			isDel = true;
+			break;
+		case NO:
+			assert false;
+			break;
+		default:
+			break;
 		}
 
 		if (text.getNextText() != null) {
@@ -239,8 +244,6 @@ public class HtmlWriter4OneInter extends HtmlWriter {
 	@Override
 	public void visit(EmptyText text) {
 		isBreakWord = text.getIsBreak();
-
-		System.out.println(isBreakWord);
 
 		if (text.getNextText() != null) {
 			text.getNextText().accept(this);

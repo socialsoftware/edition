@@ -3,8 +3,8 @@ package pt.ist.socialsoftware.edition.utils;
 import pt.ist.socialsoftware.edition.domain.EditionInter;
 import pt.ist.socialsoftware.edition.domain.FragInter;
 import pt.ist.socialsoftware.edition.domain.Fragment;
+import pt.ist.socialsoftware.edition.visitors.HtmlWriter2CompInters;
 import pt.ist.socialsoftware.edition.visitors.HtmlWriter4OneInter;
-import pt.ist.socialsoftware.edition.visitors.HtmlWriterCompareInters;
 
 public class ElFunctions {
 
@@ -13,7 +13,7 @@ public class ElFunctions {
 		return writer.getInterPercentage(inter);
 	}
 
-	public static String getTranscription(HtmlWriterCompareInters writer,
+	public static String getTranscription(HtmlWriter2CompInters writer,
 			FragInter inter) {
 		return writer.getTranscription(inter);
 	}
