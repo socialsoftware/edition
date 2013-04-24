@@ -13,6 +13,33 @@
 <link rel="stylesheet" type="text/css" href="/static/css/style.css" />
 <script type="text/javascript" src="/static/js/jquery.js"></script>
 <script type="text/javascript" src="/static/js/bootstrap.js"></script>
+<script type="text/javascript">
+	$(document)
+			.ready(
+					function() {
+						$(
+								'[id="fragments-details"][data-toggle="buttons-checkbox"]')
+								.on(
+										'click',
+										function() {
+											var selDetail = $(
+													'input:checkbox[name=detail]')
+													.is(':checked');
+											$
+													.get(
+															"${contextPath}/fragments/list",
+															{
+																detail : selDetail
+															},
+															function(html) {
+																$(
+																		"#fragmentList")
+																		.replaceWith(
+																				html);
+															});
+										});
+					});
+</script>
 </head>
 <body>
 	<c:set var="contextPath" value="${pageContext.request.contextPath}" />
@@ -20,43 +47,15 @@
 
 	<div class="container-fluid">
 		<h1 class="text-center">Fragmentos do LdoD</h1>
-		<table class="table table-striped table-bordered table-condensed">
-			<thead>
-				<tr>
-					<th>Nome</th>
-					<th>Edição Jacinto Prado Coelho</th>
-					<th>Edição Teresa Sobral Cunha</th>
-					<th>Edição Richard Zenith</th>
-					<th>Edição Jerónimo Pizarro</th>
-					<th>Testemunhos Autorais</th>
-				</tr>
-			<tbody>
-				<c:forEach var="fragment" items='${fragments}'>
-					<tr>
-						<td><a
-							href="${contextPath}/fragments/fragment/${fragment.externalId}">${fragment.title}</a>
-						</td>
-						<td>
-							${ldod:getEditionInter(fragment,"Jacinto Prado Coelho").metaTextual}
-						</td>
-						<td>
-							${ldod:getEditionInter(fragment,"Teresa Sobral Cunha").metaTextual}
-						</td>
-						<td>
-							${ldod:getEditionInter(fragment,"Richard Zenith").metaTextual}
-						</td>
-						<td>
-							${ldod:getEditionInter(fragment,"Jerónimo Pizarro").metaTextual}
-						</td>
-						<c:forEach var="fragInter" items='${fragment.sortedInterps}'>
-							<c:if test="${fragInter.sourceType=='AUTHORIAL'}">
-								<td>${fragInter.metaTextual}</td>
-							</c:if>
-						</c:forEach>
-					</tr>
-				</c:forEach>
-			</tbody>
-		</table>
+		<div class="well" id="fragments-details"
+			data-toggle="buttons-checkbox">
+			<label class="checkbox inline"> <input type="checkbox"
+				class="btn" name=detail value="Yes"> Mostrar Detalhes
+			</label>
+		</div>
+		
+		<%@ include file="/WEB-INF/jsp/listFragmentsSimple.jsp"%>
+
 	</div>
 </body>
 </html>
