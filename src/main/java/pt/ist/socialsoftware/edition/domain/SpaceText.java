@@ -31,7 +31,7 @@ public class SpaceText extends SpaceText_Base {
 		if (getDim() == SpaceDim.VERTICAL) {
 			separator = "<br>";
 		} else if (getDim() == SpaceDim.HORIZONTAL) {
-			separator = " ";
+			separator = "&nbsp; ";
 		}
 
 		for (int i = 0; i < getQuantity(); i++) {

@@ -23,9 +23,12 @@ public class HtmlWriter2CompInters extends HtmlWriter {
 	private final List<FragInter> compareAgaints = new ArrayList<FragInter>();
 
 	private final Map<FragInter, List<Reading>> interReadingsMap = new HashMap<FragInter, List<Reading>>();
-	private final List<Reading> interReadings = new ArrayList<Reading>();
+	private List<Reading> interReadings = null;
 
-	private final Map<Reading, String> rdgTranscription = new HashMap<Reading, String>();
+	private final Map<Reading, String> rdgTranscriptionMap = new HashMap<Reading, String>();
+	private final Map<VariationPoint, Integer> pointStartMap = new HashMap<VariationPoint, Integer>();
+	private final Map<Reading, Integer> rdgLengthMap = new HashMap<Reading, Integer>();
+	private int rdgLength = 0;
 
 	private final List<LdoDText> pendingWrite = new ArrayList<LdoDText>();
 
@@ -47,16 +50,66 @@ public class HtmlWriter2CompInters extends HtmlWriter {
 	public void write(List<FragInter> interList) {
 		for (FragInter inter : interList) {
 			fragInter = inter;
-			interReadings.clear();
+			interReadings = new ArrayList<Reading>();
 			breakWord = true;
 			differences = 0;
 			visit(inter.getFragment().getVariationPoint());
 
+			interReadingsMap.put(inter, interReadings);
+
+		}
+		computeReadingsStartPosition(interList);
+		generateTranscriptions(interList);
+	}
+
+	private void generateTranscriptions(List<FragInter> interList) {
+		for (FragInter inter : interList) {
 			transcription = "";
-			for (Reading rdg : interReadings) {
-				transcription = transcription + rdgTranscription.get(rdg);
+			int transcriptionLength = 0;
+			for (Reading rdg : interReadingsMap.get(inter)) {
+				int increaseLength = pointStartMap.get(rdg
+						.getPreviousVariationPoint()) - transcriptionLength;
+
+				String addSpace = "";
+				for (int i = 0; i < increaseLength; i++) {
+					addSpace = addSpace + "&nbsp; ";
+				}
+
+				transcription = transcription + addSpace
+						+ rdgTranscriptionMap.get(rdg);
+
+				increaseLength = increaseLength < 0 ? 0 : increaseLength;
+				transcriptionLength = transcriptionLength + increaseLength
+						+ rdgLengthMap.get(rdg);
+
 			}
 			transcriptionsMap.put(inter, transcription);
+		}
+	}
+
+	private void computeReadingsStartPosition(List<FragInter> interList) {
+		Boolean regenerate = true;
+		// the computation of the starting points of one transcription may
+		// require the recomputation of other
+		while (regenerate) {
+			System.out.println("REGENERATE");
+			regenerate = false;
+			for (FragInter inter : interList) {
+				int transcriptionLength = 0;
+				for (Reading rdg : interReadingsMap.get(inter)) {
+					Integer oldRdgStart = pointStartMap.get(rdg
+							.getPreviousVariationPoint());
+					oldRdgStart = oldRdgStart == null ? 0 : oldRdgStart;
+					int newRdgStart = Math
+							.max(transcriptionLength, oldRdgStart);
+					if (newRdgStart != oldRdgStart)
+						regenerate = true;
+
+					pointStartMap.put(rdg.getPreviousVariationPoint(),
+							newRdgStart);
+					transcriptionLength = newRdgStart + rdgLengthMap.get(rdg);
+				}
+			}
 		}
 	}
 
@@ -97,8 +150,9 @@ public class HtmlWriter2CompInters extends HtmlWriter {
 	@Override
 	public void visit(Reading reading) {
 
-		if (rdgTranscription.get(reading) == null) {
+		if (rdgTranscriptionMap.get(reading) == null) {
 			transcription = "";
+			rdgLength = 0;
 
 			reading.getFirstText().accept(this);
 
@@ -106,25 +160,22 @@ public class HtmlWriter2CompInters extends HtmlWriter {
 				int size = compareAgaints.size() == 0 ? 0 : compareAgaints
 						.size() - 1;
 
-				int color = 255 - (200 / size) * (differences - 1);
+				int colorValue = 255 - (200 / size) * (differences - 1);
+				String colorCode = "<span style=\"background-color: rgb(0,"
+						+ colorValue + ",255);\">";
 
 				if (transcription.equals("")
 						|| !transcription.substring(0, 1).equals(" ")) {
-					transcription = "<span style=\"background-color: rgb(0,"
-							+ color + ",255);\">" + transcription + "</span>";
+					transcription = colorCode + transcription + "</span>";
 				} else {
-					transcription = " "
-							+ "<span style=\"background-color: rgb(0," + color
-							+ ",255);\">" + transcription.substring(1)
-							+ "</span>";
+					transcription = " " + colorCode
+							+ transcription.substring(1) + "</span>";
 				}
 
 			}
 
-			if (differences > 0) {
-				transcription = transcription + "</span>";
-			}
-			rdgTranscription.put(reading, transcription);
+			rdgTranscriptionMap.put(reading, transcription);
+			rdgLengthMap.put(reading, rdgLength);
 		}
 
 		interReadings.add(reading);
@@ -168,6 +219,8 @@ public class HtmlWriter2CompInters extends HtmlWriter {
 		} else {
 			transcription = transcription + separator + toAdd;
 		}
+
+		rdgLength = rdgLength + separator.length() + toAdd.length();
 
 		if (text.getNextText() != null) {
 			text.getNextText().accept(this);
