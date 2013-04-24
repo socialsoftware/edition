@@ -125,6 +125,7 @@ class ManuscriptSource extends Source {
 	String settlement;
 	String repository;
 	String idno;
+	String altIdentifier;
 	Form form;
 	Material material;
 	int columns;

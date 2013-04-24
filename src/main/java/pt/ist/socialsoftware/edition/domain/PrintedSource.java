@@ -7,11 +7,6 @@ public class PrintedSource extends PrintedSource_Base {
 	}
 
 	@Override
-	public void print() {
-		System.out.print(getTitle() + ":");
-	}
-
-	@Override
 	public String getName() {
 		return getTitle();
 	}

@@ -15,18 +15,15 @@ public class ManuscriptSource extends ManuscriptSource_Base {
 	}
 
 	@Override
-	public void print() {
-		System.out.print(getIdno() + ":");
-	}
-
-	@Override
 	public String getName() {
-		return getIdno();
+		return getAltIdentifier();
 	}
 
 	@Override
 	public String getMetaTextual() {
 		String result = "";
+
+		result = result + "Identificação: " + getIdno() + "<br>";
 
 		String form = getForm() == ManuscriptSource.Form.LEAF ? "Folha" : "";
 		result = result + "Formato: " + form + "<br>";

@@ -1052,6 +1052,9 @@ public class LoadTEIFragments {
 					.setRepository(msId.getChildText("repository", namespace));
 			manuscript.setIdno(msId.getChildText("idno", namespace));
 
+			manuscript.setAltIdentifier(msId.getChild("altIdentifier",
+					namespace).getChildText("idno", namespace));
+
 			Element physDesc = msDesc.getChild("physDesc", namespace);
 
 			Element objectDesc = physDesc.getChild("objectDesc", namespace);
