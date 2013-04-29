@@ -74,8 +74,9 @@
 																		"#fragmentTranscription")
 																		.replaceWith(
 																				html);
+																
 															});
-
+											
 										});
 					});
 </script>

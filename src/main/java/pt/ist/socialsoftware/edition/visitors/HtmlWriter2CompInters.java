@@ -20,7 +20,10 @@ import pt.ist.socialsoftware.edition.domain.VariationPoint;
 public class HtmlWriter2CompInters extends HtmlWriter {
 
 	private final Map<FragInter, String> transcriptionsMap = new HashMap<FragInter, String>();
+	private final Map<FragInter, ArrayList<String>> lineByLineMap = new HashMap<FragInter, ArrayList<String>>();
 	private final List<FragInter> compareAgaints = new ArrayList<FragInter>();
+
+	private Boolean lineByLine = false;
 
 	private final Map<FragInter, List<Reading>> interReadingsMap = new HashMap<FragInter, List<Reading>>();
 	private List<Reading> interReadings = null;
@@ -44,6 +47,10 @@ public class HtmlWriter2CompInters extends HtmlWriter {
 		}
 	}
 
+	public void setLineByLine(Boolean lineByLine) {
+		this.lineByLine = lineByLine;
+	}
+
 	/**
 	 * write comparisons for this elements
 	 */
@@ -59,10 +66,14 @@ public class HtmlWriter2CompInters extends HtmlWriter {
 
 		}
 		computeReadingsStartPosition(interList);
-		generateTranscriptions(interList);
+		if (lineByLine) {
+			generateTranscriptionsLineByLine(interList);
+		} else {
+			generateTranscriptionsSideBySide(interList);
+		}
 	}
 
-	private void generateTranscriptions(List<FragInter> interList) {
+	private void generateTranscriptionsSideBySide(List<FragInter> interList) {
 		for (FragInter inter : interList) {
 			transcription = "";
 			int transcriptionLength = 0;
@@ -87,6 +98,44 @@ public class HtmlWriter2CompInters extends HtmlWriter {
 		}
 	}
 
+	private void generateTranscriptionsLineByLine(List<FragInter> interList) {
+		int lineLength = 150;
+		for (FragInter inter : interList) {
+			ArrayList<String> interLineByLine = new ArrayList<String>();
+			lineByLineMap.put(inter, interLineByLine);
+			transcription = "";
+			int transcriptionLength = 0;
+			int lineCounter = 1;
+			for (Reading rdg : interReadingsMap.get(inter)) {
+				int increaseLength = pointStartMap.get(rdg
+						.getPreviousVariationPoint()) - transcriptionLength;
+
+				String addSpace = "";
+				for (int i = 0; i < increaseLength; i++) {
+					addSpace = addSpace + "&nbsp; ";
+				}
+
+				transcription = transcription + addSpace
+						+ rdgTranscriptionMap.get(rdg);
+
+				increaseLength = increaseLength < 0 ? 0 : increaseLength;
+				transcriptionLength = transcriptionLength + increaseLength
+						+ rdgLengthMap.get(rdg);
+
+				if (transcriptionLength >= lineLength * lineCounter) {
+					lineByLineMap.get(inter).add(transcription);
+					transcription = "";
+					lineCounter = lineCounter + 1;
+				}
+
+			}
+			lineByLineMap.get(inter).add(transcription);
+		}
+
+	}
+
+	// this method can be optimized by computing for the longest transcriptions
+	// first
 	private void computeReadingsStartPosition(List<FragInter> interList) {
 		Boolean regenerate = true;
 		// the computation of the starting points of one transcription may
@@ -115,6 +164,20 @@ public class HtmlWriter2CompInters extends HtmlWriter {
 
 	public String getTranscription(FragInter inter) {
 		return transcriptionsMap.get(inter);
+	}
+
+	public String getTranscriptionLineByLine(FragInter inter1, FragInter inter2) {
+		ArrayList<String> inter1LineByline = lineByLineMap.get(inter1);
+		ArrayList<String> inter2LineByline = lineByLineMap.get(inter2);
+		String result = "";
+		int size1 = inter1LineByline.size();
+		int size2 = inter2LineByline.size();
+		int size = Math.min(size1, size2);
+		for (int i = 0; i < size; i++) {
+			result = result + inter1LineByline.get(i) + "<br>"
+					+ inter2LineByline.get(i) + "<br><br>";
+		}
+		return result;
 	}
 
 	/*

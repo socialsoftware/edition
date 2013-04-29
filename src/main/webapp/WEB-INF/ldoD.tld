@@ -17,6 +17,12 @@
         <function-class>pt.ist.socialsoftware.edition.utils.ElFunctions</function-class>
         <function-signature>java.lang.String getTranscription(pt.ist.socialsoftware.edition.visitors.HtmlWriter2CompInters, pt.ist.socialsoftware.edition.domain.FragInter)</function-signature>
     </function>
+    
+     <function>
+        <name>getTranscriptionLineByLine</name>
+        <function-class>pt.ist.socialsoftware.edition.utils.ElFunctions</function-class>
+        <function-signature>java.lang.String getTranscriptionLineByLine(pt.ist.socialsoftware.edition.visitors.HtmlWriter2CompInters, pt.ist.socialsoftware.edition.domain.FragInter, pt.ist.socialsoftware.edition.domain.FragInter)</function-signature>
+    </function>
       
      <function>
         <name>getEditionInter</name>
