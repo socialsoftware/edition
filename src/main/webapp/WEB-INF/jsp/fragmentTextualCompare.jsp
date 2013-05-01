@@ -21,15 +21,19 @@
 											'input:radio[name=inter2]:checked')
 											.val();
 											var selLine = $(
-													'input:checkbox[name=line]')
-													.is(':checked');
+											'input:checkbox[name=line]')
+											.is(':checked');
+											var selSpaces = $(
+											'input:checkbox[name=spaces]')
+											.is(':checked');
 											$
 													.get(
 															"${contextPath}/fragments/fragment/interpretation/mode",
 															{
 																interp : fragInter1,
 																interp2Compare : fragInter2,
-																line : selLine
+																line : selLine,
+																spaces : selSpaces
 															},
 															function(html) {
 																$(
@@ -52,6 +56,9 @@
 						data-toggle="buttons-checkbox">
 						<label class="checkbox inline"> <input type="checkbox"
 							class="btn" name=line value="Yes"> Linha-a-linha
+						</label>
+						<label class="checkbox inline"> <input type="checkbox"
+							class="btn" name=spaces value="Yes"> Colocar espaços
 						</label>
 					</div>
 				</div>

@@ -1052,8 +1052,15 @@ public class LoadTEIFragments {
 					.setRepository(msId.getChildText("repository", namespace));
 			manuscript.setIdno(msId.getChildText("idno", namespace));
 
-			manuscript.setAltIdentifier(msId.getChild("altIdentifier",
-					namespace).getChildText("idno", namespace));
+			Element altElement = msId.getChild("altIdentifier", namespace);
+
+			if (altElement == null) {
+				throw new LdoDException(
+						"falta declarar altIdentifier de um msIdentifier");
+			}
+
+			manuscript.setAltIdentifier(altElement.getChildText("idno",
+					namespace));
 
 			Element physDesc = msDesc.getChild("physDesc", namespace);
 
@@ -1089,8 +1096,6 @@ public class LoadTEIFragments {
 
 			manuscript.setNotes(handDesc.getTextTrim() + ", "
 					+ additions.getTextTrim() + ", " + binding.getTextTrim());
-
-			System.out.println(manuscript.getNotes());
 		}
 
 	}

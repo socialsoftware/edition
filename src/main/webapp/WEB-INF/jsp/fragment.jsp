@@ -74,35 +74,38 @@
 								<div class="well" id="interps" data-toggle="buttons-radio">
 									<c:forEach var="fragInter" items='${fragment.sortedInterps}'>
 										<c:if test="${fragInter.sourceType=='EDITORIAL'}">
-											<label class="radio inline"> <c:choose>
-													<c:when test="${fragInter.externalId==inter.externalId}">
-														<input type="radio" class="btn" name="inter"
-															value="${fragInter.externalId}" checked /> ${fragInter.name} 
+											<label class="radio inline" for="${fragInter.externalId}">
+											</label>
+											<c:choose>
+												<c:when test="${fragInter.externalId==inter.externalId}">
+													<input type="radio" class="btn" name="inter"
+														id="${fragInter.externalId}"
+														value="${fragInter.externalId}" checked /> ${fragInter.name} 
 								</c:when>
-													<c:otherwise>
-														<input type="radio" class="btn" name="inter"
-															value="${fragInter.externalId}" />
+												<c:otherwise>
+													<input type="radio" class="btn" name="inter"
+														value="${fragInter.externalId}" />
 									${fragInter.name}
 								</c:otherwise>
-												</c:choose>
-											</label>
+											</c:choose>
 										</c:if>
 									</c:forEach>
 									<br>
 									<c:forEach var="fragInter" items='${fragment.sortedInterps}'>
 										<c:if test="${fragInter.sourceType=='AUTHORIAL'}">
-											<label class="radio inline"> <c:choose>
-													<c:when test="${fragInter.externalId==inter.externalId}">
-														<input type="radio" class="btn" name="inter"
-															value="${fragInter.externalId}" checked /> ${fragInter.name}
+											<label class="radio inline" for="${fragInter.externalId}"></label>
+											<c:choose>
+												<c:when test="${fragInter.externalId==inter.externalId}">
+													<input type="radio" class="btn" name="inter"
+														id="${fragInter.externalId}"
+														value="${fragInter.externalId}" checked /> ${fragInter.name}
 								</c:when>
-													<c:otherwise>
-														<input type="radio" class="btn" name="inter"
-															value="${fragInter.externalId}" />
+												<c:otherwise>
+													<input type="radio" class="btn" name="inter"
+														value="${fragInter.externalId}" />
 									${fragInter.name}
 								</c:otherwise>
-												</c:choose>
-											</label>
+											</c:choose>
 										</c:if>
 									</c:forEach>
 

@@ -95,7 +95,9 @@ public class FragmentController {
 
 	@RequestMapping(method = RequestMethod.GET)
 	public String getInterpretation(
-			@RequestParam(value = "interp") String interID, Model model) {
+			@RequestParam(value = "interp", required = false) String interID,
+			Model model) {
+
 		FragInter fragInter = AbstractDomainObject.fromExternalId(interID);
 
 		HtmlWriter4OneInter writer = new HtmlWriter4OneInter(fragInter);
@@ -157,6 +159,7 @@ public class FragmentController {
 			@RequestParam(value = "interp", required = true) String interID,
 			@RequestParam(value = "interp2Compare", required = true) String interID2Compare,
 			@RequestParam(value = "line", required = true) boolean lineByLine,
+			@RequestParam(value = "spaces", required = true) boolean showSpaces,
 			Model model) {
 		FragInter fragInter = AbstractDomainObject.fromExternalId(interID);
 		FragInter fragInter2Compare = AbstractDomainObject
@@ -167,6 +170,7 @@ public class FragmentController {
 		list.add(fragInter2Compare);
 		HtmlWriter2CompInters writer = new HtmlWriter2CompInters(list);
 		writer.setLineByLine(lineByLine);
+		writer.setShowSpaces(showSpaces);
 		writer.write(list);
 
 		model.addAttribute("inter", fragInter);

@@ -24,6 +24,7 @@ public class HtmlWriter2CompInters extends HtmlWriter {
 	private final List<FragInter> compareAgaints = new ArrayList<FragInter>();
 
 	private Boolean lineByLine = false;
+	private Boolean showSpaces = false;
 
 	private final Map<FragInter, List<Reading>> interReadingsMap = new HashMap<FragInter, List<Reading>>();
 	private List<Reading> interReadings = null;
@@ -49,6 +50,14 @@ public class HtmlWriter2CompInters extends HtmlWriter {
 
 	public void setLineByLine(Boolean lineByLine) {
 		this.lineByLine = lineByLine;
+	}
+
+	public Boolean getShowSpaces() {
+		return this.showSpaces;
+	}
+
+	public void setShowSpaces(Boolean showSpaces) {
+		this.showSpaces = showSpaces;
 	}
 
 	/**
@@ -78,28 +87,36 @@ public class HtmlWriter2CompInters extends HtmlWriter {
 			transcription = "";
 			int transcriptionLength = 0;
 			for (Reading rdg : interReadingsMap.get(inter)) {
-				int increaseLength = pointStartMap.get(rdg
-						.getPreviousVariationPoint()) - transcriptionLength;
+				if (showSpaces) {
+					int increaseLength = pointStartMap.get(rdg
+							.getPreviousVariationPoint()) - transcriptionLength;
 
-				String addSpace = "";
-				for (int i = 0; i < increaseLength; i++) {
-					addSpace = addSpace + "&nbsp; ";
+					String addSpace = "";
+					for (int i = 0; i < increaseLength; i++) {
+						addSpace = addSpace + "&nbsp;";
+					}
+
+					transcription = transcription + addSpace
+							+ rdgTranscriptionMap.get(rdg);
+
+					increaseLength = increaseLength < 0 ? 0 : increaseLength;
+					transcriptionLength = transcriptionLength + increaseLength
+							+ rdgLengthMap.get(rdg);
+				} else {
+					transcription = transcription
+							+ rdgTranscriptionMap.get(rdg);
 				}
-
-				transcription = transcription + addSpace
-						+ rdgTranscriptionMap.get(rdg);
-
-				increaseLength = increaseLength < 0 ? 0 : increaseLength;
-				transcriptionLength = transcriptionLength + increaseLength
-						+ rdgLengthMap.get(rdg);
 
 			}
 			transcriptionsMap.put(inter, transcription);
 		}
 	}
 
+	// this method must be optimized to avoid repetitions and integrate with
+	// generate side-by-side code
 	private void generateTranscriptionsLineByLine(List<FragInter> interList) {
-		int lineLength = 150;
+		int lineLength = 95;
+		int difference = 5;
 		for (FragInter inter : interList) {
 			ArrayList<String> interLineByLine = new ArrayList<String>();
 			lineByLineMap.put(inter, interLineByLine);
@@ -107,25 +124,51 @@ public class HtmlWriter2CompInters extends HtmlWriter {
 			int transcriptionLength = 0;
 			int lineCounter = 1;
 			for (Reading rdg : interReadingsMap.get(inter)) {
+
 				int increaseLength = pointStartMap.get(rdg
 						.getPreviousVariationPoint()) - transcriptionLength;
 
 				String addSpace = "";
-				for (int i = 0; i < increaseLength; i++) {
-					addSpace = addSpace + "&nbsp; ";
+				if (showSpaces) {
+					for (int i = 0; i < increaseLength; i++) {
+						addSpace = addSpace + "&nbsp;";
+					}
 				}
-
-				transcription = transcription + addSpace
-						+ rdgTranscriptionMap.get(rdg);
 
 				increaseLength = increaseLength < 0 ? 0 : increaseLength;
 				transcriptionLength = transcriptionLength + increaseLength
 						+ rdgLengthMap.get(rdg);
 
-				if (transcriptionLength >= lineLength * lineCounter) {
+				if ((transcriptionLength >= (lineLength * lineCounter)
+						- difference)
+						&& (transcriptionLength <= (lineLength * lineCounter)
+								+ difference)) {
+					if (showSpaces) {
+						transcription = transcription + addSpace
+								+ rdgTranscriptionMap.get(rdg);
+					} else {
+						transcription = transcription
+								+ rdgTranscriptionMap.get(rdg);
+					}
 					lineByLineMap.get(inter).add(transcription);
 					transcription = "";
 					lineCounter = lineCounter + 1;
+				} else if (transcriptionLength > (lineLength * lineCounter)
+						+ difference) {
+					if (showSpaces) {
+						transcription = transcription + addSpace;
+					}
+					lineByLineMap.get(inter).add(transcription);
+					transcription = rdgTranscriptionMap.get(rdg);
+					lineCounter = lineCounter + 1;
+				} else {
+					if (showSpaces) {
+						transcription = transcription + addSpace
+								+ rdgTranscriptionMap.get(rdg);
+					} else {
+						transcription = transcription
+								+ rdgTranscriptionMap.get(rdg);
+					}
 				}
 
 			}
@@ -166,6 +209,8 @@ public class HtmlWriter2CompInters extends HtmlWriter {
 		return transcriptionsMap.get(inter);
 	}
 
+	// this method may be optimized in order to have the same number of lines
+	// for both interpretations
 	public String getTranscriptionLineByLine(FragInter inter1, FragInter inter2) {
 		ArrayList<String> inter1LineByline = lineByLineMap.get(inter1);
 		ArrayList<String> inter2LineByline = lineByLineMap.get(inter2);
@@ -177,6 +222,7 @@ public class HtmlWriter2CompInters extends HtmlWriter {
 			result = result + inter1LineByline.get(i) + "<br>"
 					+ inter2LineByline.get(i) + "<br><br>";
 		}
+
 		return result;
 	}
 
@@ -301,7 +347,6 @@ public class HtmlWriter2CompInters extends HtmlWriter {
 
 	@Override
 	public void visit(ParagraphText text) {
-		transcription = transcription + text.writeHtml();
 
 		if (text.getNextText() != null) {
 			text.getNextText().accept(this);

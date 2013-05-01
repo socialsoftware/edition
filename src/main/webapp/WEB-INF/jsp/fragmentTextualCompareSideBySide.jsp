@@ -9,13 +9,25 @@
 	<div class="row-fluid">
 		<div id="transcription" class="span6">
 			<div class="addBorder">
-				<p>${ldod:getTranscription(writer,inter)}</p>
+				<c:choose>
+					<c:when test="${writer.showSpaces}">
+						<p style="font-family: monospace;">${ldod:getTranscription(writer,inter)}</p>
+					</c:when>
+					<c:otherwise>
+						<p>${ldod:getTranscription(writer,inter)}</p>
+					</c:otherwise>
+				</c:choose>
 			</div>
 		</div>
 
 		<div id="fragmentTranscription" class="span6">
-			<div class="addBorder">
-				<p>${ldod:getTranscription(writer,inter2Compare)}</p>
+			<div class="addBorder"><c:choose>
+					<c:when test="${writer.showSpaces}">
+						<p style="font-family: monospace;">${ldod:getTranscription(writer,inter2Compare)}</p></c:when>
+					<c:otherwise>
+						<p>${ldod:getTranscription(writer,inter2Compare)}</p>
+					</c:otherwise>
+				</c:choose>
 			</div>
 		</div>
 	</div>
