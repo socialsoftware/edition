@@ -112,11 +112,12 @@ public class HtmlWriter2CompInters extends HtmlWriter {
 		}
 	}
 
-	// this method must be optimized to avoid repetitions and integrate with
+	// this method must be optimized to reduce code duplication and integrate
+	// with
 	// generate side-by-side code
 	private void generateTranscriptionsLineByLine(List<FragInter> interList) {
-		int lineLength = 95;
-		int difference = 5;
+		int lineLength = 90;
+		int difference = 4;
 		for (FragInter inter : interList) {
 			ArrayList<String> interLineByLine = new ArrayList<String>();
 			lineByLineMap.put(inter, interLineByLine);
