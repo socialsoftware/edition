@@ -1,9 +1,12 @@
 .classpath
 .project
+.settings
 target
 bin
 dist
+doc
 test-db
+commands
 src/main/config/build.properties
 
 *.class
