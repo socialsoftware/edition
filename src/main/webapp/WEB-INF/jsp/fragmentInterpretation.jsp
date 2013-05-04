@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="s"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
@@ -41,7 +42,7 @@
 	<c:if test="${inter!=null}">
 		<form class="form-horizontal">
 			<div class="control-group">
-				<span class="control-label">Testemunho a Comparar:</span>
+				<span class="control-label"><spring:message code="fragment.compare" /></span>
 				<div class="controls form-inline">
 					<div class="well" id="interps2" data-toggle="buttons-radio">
 						<c:forEach var="fragInter" items='${inter.fragment.sortedInterps}'>

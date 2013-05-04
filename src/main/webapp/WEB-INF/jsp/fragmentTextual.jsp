@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="s"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
@@ -86,7 +87,7 @@
 
 		<form class="form-horizontal">
 			<div class="control-group">
-				<span class="control-label">Atributos de Visualização:</span>
+				<span class="control-label"><spring:message code="fragment.visualization" /></span>
 				<div class="controls form-inline">
 
 
@@ -95,7 +96,7 @@
 							<div class="well" id="visualisation-properties-editorial"
 								data-toggle="buttons-checkbox">
 								<label class="checkbox inline"> <input type="checkbox"
-									class="btn" name=diff value="Yes"> Realçar Diferenças
+									class="btn" name=diff value="Yes"> <spring:message code="fragment.highlightdifferences" />
 								</label>
 							</div>
 						</c:when>
@@ -103,16 +104,13 @@
 							<div class="well" id="visualisation-properties-authorial"
 								data-toggle="buttons-checkbox">
 								<label class="checkbox inline"> <input type="checkbox"
-									class="btn" name=del value="Yes"> Mostrar Apagados
+									class="btn" name=del value="Yes"> <spring:message code="fragment.showdeleted" />
 								</label> <label class="checkbox inline"> <input type="checkbox"
-									class="btn" name=ins value="Yes" checked> Realçar
-									Inseridos
+									class="btn" name=ins value="Yes" checked> <spring:message code="fragment.highlightinserted" />
 								</label> <label class="checkbox inline"> <input type="checkbox"
-									class="btn" name=subst value="Yes"> Realçar
-									Substituições
+									class="btn" name=subst value="Yes"> <spring:message code="fragment.highlightsubstitutions" />
 								</label> <label class="checkbox inline"> <input type="checkbox"
-									class="btn" name=notes value="Yes" checked> Mostrar
-									Notas
+									class="btn" name=notes value="Yes" checked> <spring:message code="fragment.shownotes" />
 								</label>
 							</div>
 						</c:otherwise>

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="s"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
@@ -50,15 +51,15 @@
 	<div class="row-fluid">
 		<form class="form-horizontal">
 			<div class="control-group">
-				<span class="control-label">Atributos de Visualização:</span>
+				<span class="control-label"><spring:message code="fragment.visualization" /></span>
 				<div class="controls form-inline">
 					<div class="well" id="visualisation-properties-comparison"
 						data-toggle="buttons-checkbox">
 						<label class="checkbox inline"> <input type="checkbox"
-							class="btn" name=line value="Yes"> Linha-a-linha
+							class="btn" name=line value="Yes"> <spring:message code="fragment.linebyline" />
 						</label>
 						<label class="checkbox inline"> <input type="checkbox"
-							class="btn" name=spaces value="Yes"> Colocar espaços
+							class="btn" name=spaces value="Yes"> <spring:message code="fragment.alignspace" />
 						</label>
 					</div>
 				</div>

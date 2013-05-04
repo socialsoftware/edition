@@ -1,29 +1,61 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <beans:beans xmlns="http://www.springframework.org/schema/mvc"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:beans="http://www.springframework.org/schema/beans"
 	xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:p="http://www.springframework.org/schema/p"
 	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
         http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
-    <!-- Package base em que se deve procurar controladores -->
-	<context:component-scan base-package="pt.ist.socialsoftware.edition.controller" />
+	<!-- Package base em que se deve procurar controladores -->
+	<context:component-scan base-package="pt.ist.socialsoftware.edition.controller"/>
 
 	<!-- Queremos ligar a anotação @Controller para definir controladores -->
-	<mvc:annotation-driven />
+	<mvc:annotation-driven/>
+
+	<mvc:interceptors>  
+		<beans:bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
+			<beans:property name="paramName" value="lang"></beans:property>
+		</beans:bean>
+	</mvc:interceptors>
 	
 	<mvc:default-servlet-handler/>
-	
-	<!-- Serve pedidos HTTP GET para /static/** de forma eficiente para recursos estáticos na pasta webapp/resources -->
-	<mvc:resources mapping="/static/**" location="/resources/" />
 
-	<!-- Resolve vistas seleccionadas para renderização pelos @Controllers para páginas .jsp na pasta webapp/jsp -->
-	<beans:bean
-		class="org.springframework.web.servlet.view.InternalResourceViewResolver"
-		p:order="1">
-		<beans:property name="prefix" value="/WEB-INF/jsp/" />
-		<beans:property name="suffix" value=".jsp" />
+	<!-- Serve pedidos HTTP GET para /static/** de forma eficiente para recursos estáticos na pasta webapp/resources -->
+	<mvc:resources mapping="/static/**" location="/resources/"/>
+
+	<beans:bean id="messageSource"
+		class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+		<beans:property name="basename" value="classpath:messages"/>
+		<beans:property name="fallbackToSystemLocale" value="false"/>
+		<beans:property name="defaultEncoding" value="UTF-8"/>
+		<beans:property name="fileEncodings" value="UTF-8"/>
+	</beans:bean>
+	
+	<beans:bean id="localeChangeInterceptor"
+		class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
+		<beans:property name="paramName" value="lang"/>
 	</beans:bean>
 
-</beans:beans> 
+	<beans:bean id="localeResolver"
+		class="org.springframework.web.servlet.i18n.SessionLocaleResolver">
+		<beans:property name="defaultLocale" value="pt_PT"/>
+	</beans:bean>
+
+	<beans:bean id="handlerMapping"
+		class="org.springframework.web.servlet.mvc.support.ControllerClassNameHandlerMapping">
+		<beans:property name="interceptors">
+			<beans:ref bean="localeChangeInterceptor"/>
+		</beans:property>
+	</beans:bean>
+	
+	<!-- Resolve vistas seleccionadas para renderização pelos @Controllers para páginas .jsp na pasta webapp/jsp -->
+	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver"
+		p:order="1">
+		<beans:property name="prefix" value="/WEB-INF/jsp/"/>
+		<beans:property name="suffix" value=".jsp"/>
+	</beans:bean>
+
+</beans:beans>

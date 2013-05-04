@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="s"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
@@ -8,7 +9,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Fragmentos do LdoD</title>
+<title><spring:message code="fragmentlist.title" /></title>
 <link rel="stylesheet" type="text/css" href="/static/css/bootstrap.css" />
 <link rel="stylesheet" type="text/css" href="/static/css/style.css" />
 <script type="text/javascript" src="/static/js/jquery.js"></script>
@@ -46,11 +47,11 @@
 	<%@ include file="/WEB-INF/jsp/common/header.jsp"%>
 
 	<div class="container-fluid">
-		<h1 class="text-center">Fragmentos do LdoD</h1>
+		<h1 class="text-center"><spring:message code="fragmentlist.title" /></h1>
 		<div class="well" id="fragments-details"
 			data-toggle="buttons-checkbox">
 			<label class="checkbox inline"> <input type="checkbox"
-				class="btn" name=detail value="Yes"> Mostrar Detalhes
+				class="btn" name=detail value="Yes"> <spring:message code="fragmentlist.showdetails" />
 			</label>
 		</div>
 		

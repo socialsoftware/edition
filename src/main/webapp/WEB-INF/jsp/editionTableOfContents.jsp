@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -16,17 +17,17 @@
 	<%@ include file="/WEB-INF/jsp/common/header.jsp"%>
 
 	<div class="container">
-		<h3 class="text-center">Edição de ${edition.editor}</h3>
+		<h3 class="text-center"><spring:message code="tableofcontents.editionof" /> ${edition.editor}</h3>
 		<c:if test="${heteronym != null}">
-				<h4 class="text-left">Fragmentos Atribuídos a ${heteronym.name}</h4>
+				<h4 class="text-left"><spring:message code="tableofcontents.fragmentsof" /> ${heteronym.name}</h4>
 		</c:if>
 
 		<table class="table table-bordered table-condensed">
 			<thead>
 				<tr>
-					<th>Número</th>
-					<th>Título</th>
-					<th>Página</th>
+					<th><spring:message code="tableofcontents.number" /></th>
+					<th><spring:message code="tableofcontents.title" /></th>
+					<th><spring:message code="tableofcontents.page" /></th>
 				</tr>
 			<tbody>
 				<c:forEach var="interp" items='${edition.sortedInterps}'>

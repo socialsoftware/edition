@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="s"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
@@ -25,7 +26,7 @@
 									var fragInter = $(
 											'input:radio[name=inter]:checked')
 											.val();
-									if (fragInter == null) alert("Escolha um testemumho base");
+									if (fragInter == null) alert("Escolha um testemunho base");
 									else
 									$.get("${contextPath}/fragments/fragment",
 											{
@@ -70,7 +71,7 @@
 
 					<form class="form-horizontal">
 						<div class="control-group">
-							<span class="control-label">Testemunho Base:</span>
+							<span class="control-label"><spring:message code="fragment.base" /></span>
 							<div class="controls form-inline">
 
 								<div class="well" id="interps" data-toggle="buttons-radio">
