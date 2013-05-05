@@ -24,4 +24,13 @@ public class SourceInter extends SourceInter_Base {
 	public String getMetaTextual() {
 		return getSource().getMetaTextual();
 	}
+
+	@Override
+	public void remove() {
+		super.remove();
+
+		removeSource();
+
+		deleteDomainObject();
+	}
 }

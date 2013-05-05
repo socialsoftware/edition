@@ -51,7 +51,7 @@
 							<li><a href="${contextPath}/load/corpusForm"><spring:message code="header.loadcorpus" /></a></li>
 							<li><a href="${contextPath}/load/fragmentForm"><spring:message code="header.loadfragment" /></a></li>
 							<li class="divider"></li>
-							<li><a href="#"><spring:message code="header.deletefragment" /></a></li>
+							<li><a href="${contextPath}/fragments/delete"><spring:message code="header.deletefragment" /></a></li>
 						</ul></li>
 				</ul>
 

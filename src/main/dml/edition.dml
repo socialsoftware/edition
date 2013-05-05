@@ -89,7 +89,7 @@ relation FragInterAttributesHeronym {
 
 relation FragInterHasCategories {
 	FragInter playsRole fragInters {multiplicity 0..*;}
-	Category playsRole categories {multiplicity 0..1;}
+	Category playsRole categories {multiplicity 0..*;}
 }
 
 class EditionInter extends FragInter {

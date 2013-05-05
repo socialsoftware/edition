@@ -32,4 +32,20 @@ public class Fragment extends Fragment_Base {
 		return null;
 	}
 
+	public void remove() {
+		removeLdoD();
+
+		for (FragInter inter : getFragmentInter()) {
+			inter.remove();
+		}
+
+		for (Source source : getSources()) {
+			source.remove();
+		}
+
+		getVariationPoint().remove();
+
+		deleteDomainObject();
+	}
+
 }

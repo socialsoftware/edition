@@ -35,4 +35,18 @@ public abstract class FragInter extends FragInter_Base implements
 
 	public abstract String getMetaTextual();
 
+	public void remove() {
+
+		removeFragment();
+		removeHeteronym();
+		for (Category cat : getCategories()) {
+			removeCategories(cat);
+		}
+
+		for (Reading rdg : getReadings()) {
+			removeReadings(rdg);
+		}
+
+	}
+
 }

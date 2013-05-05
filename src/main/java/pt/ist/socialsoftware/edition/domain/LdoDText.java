@@ -17,6 +17,7 @@ public abstract class LdoDText extends LdoDText_Base implements GraphElement {
 
 		removeReading();
 
+		removePrevText();
 		removeNextText();
 
 		deleteDomainObject();

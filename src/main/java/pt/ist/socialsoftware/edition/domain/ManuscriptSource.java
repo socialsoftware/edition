@@ -41,4 +41,11 @@ public class ManuscriptSource extends ManuscriptSource_Base {
 		return result;
 	}
 
+	@Override
+	public void remove() {
+		super.remove();
+
+		deleteDomainObject();
+	}
+
 }

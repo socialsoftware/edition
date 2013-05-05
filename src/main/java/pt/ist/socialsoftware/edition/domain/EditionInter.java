@@ -78,4 +78,13 @@ public class EditionInter extends EditionInter_Base {
 
 		return result;
 	}
+
+	@Override
+	public void remove() {
+		super.remove();
+
+		removeEdition();
+
+		deleteDomainObject();
+	}
 }

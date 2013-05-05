@@ -11,21 +11,6 @@ public class VariationPoint extends VariationPoint_Base {
 		super();
 	}
 
-	public void remove() {
-
-		removeFragment();
-
-		for (Reading reading : getInReadings()) {
-			removeInReadings(reading);
-		}
-
-		for (Reading reading : getOutReadings()) {
-			removeOutReadings(reading);
-		}
-
-		deleteDomainObject();
-	}
-
 	@Override
 	public Fragment getFragment() {
 		if (getInReadings().isEmpty()) {
@@ -66,6 +51,36 @@ public class VariationPoint extends VariationPoint_Base {
 			}
 		}
 		return allFragInters;
+	}
+
+	public void removeOnlyThis() {
+		removeFragment();
+
+		for (Reading reading : getInReadings()) {
+			removeInReadings(reading);
+		}
+
+		for (Reading reading : getOutReadings()) {
+			removeOutReadings(reading);
+		}
+
+		deleteDomainObject();
+	}
+
+	public void remove() {
+		removeFragment();
+
+		for (Reading reading : getInReadings()) {
+			removeInReadings(reading);
+		}
+
+		for (Reading reading : getOutReadings()) {
+			reading.remove();
+		}
+
+		System.out.println("DELETE=" + getIdInternal());
+
+		deleteDomainObject();
 	}
 
 }

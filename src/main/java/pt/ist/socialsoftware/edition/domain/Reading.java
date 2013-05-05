@@ -2,6 +2,11 @@ package pt.ist.socialsoftware.edition.domain;
 
 import java.util.List;
 
+import pt.ist.socialsoftware.edition.domain.FragInter;
+import pt.ist.socialsoftware.edition.domain.GraphElement;
+import pt.ist.socialsoftware.edition.domain.LdoDText;
+import pt.ist.socialsoftware.edition.domain.Reading_Base;
+import pt.ist.socialsoftware.edition.domain.VariationPoint;
 import pt.ist.socialsoftware.edition.visitors.GraphVisitor;
 
 public class Reading extends Reading_Base implements GraphElement {
@@ -33,23 +38,6 @@ public class Reading extends Reading_Base implements GraphElement {
 		rdg.setNextVariationPoint(endPoint);
 	}
 
-	public void remove() {
-		removePreviousVariationPoint();
-		removeNextVariationPoint();
-
-		for (FragInter fragInter : getFragInters()) {
-			removeFragInters(fragInter);
-		}
-
-		for (LdoDText text : getText()) {
-			removeText(text);
-		}
-
-		removeFirstText();
-
-		deleteDomainObject();
-	}
-
 	@Override
 	public void accept(GraphVisitor visitor) {
 		visitor.visit(this);
@@ -77,6 +65,41 @@ public class Reading extends Reading_Base implements GraphElement {
 		}
 
 		ldoDText.setNextText(text);
+	}
+
+	public void removeOnlyThis() {
+		removePreviousVariationPoint();
+		removeNextVariationPoint();
+
+		for (FragInter fragInter : getFragInters()) {
+			removeFragInters(fragInter);
+		}
+
+		removeFirstText();
+
+		for (LdoDText text : getText()) {
+			removeText(text);
+		}
+
+		deleteDomainObject();
+	}
+
+	public void remove() {
+		removePreviousVariationPoint();
+
+		for (FragInter fragInter : getFragInters()) {
+			removeFragInters(fragInter);
+		}
+
+		for (LdoDText text : getText()) {
+			text.remove();
+		}
+
+		if (getNextVariationPoint() != null) {
+			getNextVariationPoint().remove();
+		}
+
+		deleteDomainObject();
 	}
 
 }
