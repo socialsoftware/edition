@@ -153,7 +153,7 @@ relation FragmentHasStartVariationPoint {
 
 relation FragmentHasVariationPoints {
 	Fragment playsRole fragment {multiplicity 1..1;}
-	VariationPoint playsRole variationPoint {multiplicity 0..*;}
+	VariationPoint playsRole variationPoints {multiplicity 0..*;}
 }
 
 relation VariationPointHasInReadings {

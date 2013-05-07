@@ -218,7 +218,7 @@ public class LoadTEIFragments {
 		}
 
 		// clean empty variations points
-		for (VariationPoint point : fragment.getVariationPoint()) {
+		for (VariationPoint point : fragment.getVariationPoints()) {
 			if (point.getInReadingsCount() == 0
 					&& point.getOutReadingsCount() == 0) {
 				point.remove();

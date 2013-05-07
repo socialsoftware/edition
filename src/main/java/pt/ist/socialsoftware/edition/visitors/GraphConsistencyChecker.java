@@ -45,26 +45,26 @@ public class GraphConsistencyChecker implements GraphVisitor {
 
 			Set<FragInter> pathFragInters = new HashSet<FragInter>();
 
-			Set<FragInter> allInFragInters = point
-					.getInReadingsInters();
-			Set<FragInter> allOutFragInters = point
-					.getOutReadingsInters();
+			Set<FragInter> allInFragInters = point.getInReadingsInters();
+			Set<FragInter> allOutFragInters = point.getOutReadingsInters();
+
+			Boolean inEqualsOut = allInFragInters.equals(allOutFragInters);
 
 			GraphWriter debugTextVisitor = new GraphWriter();
-			if (!allInFragInters.isEmpty()) {
+			if (!inEqualsOut) {
 				point.accept(debugTextVisitor);
 			}
 
-			if (!allInFragInters.equals(allOutFragInters)) {
+			if (!inEqualsOut) {
 				throw new LdoDException(
 						"os testemunhos de entrada são diferentes do testemunhos de saída, neste ponto="
 								+ debugTextVisitor.getResult());
 			}
 
-			assert (allInFragInters.equals(allOutFragInters)) : "INCONSISTENT GRAPGH: OUT-READINGS <> IN-READINGS"
+			assert (inEqualsOut) : "INCONSISTENT GRAPGH: OUT-READINGS <> IN-READINGS"
 					+ debugTextVisitor.getResult();
 
-			if (!point.getOutReadings().isEmpty()) {
+			if (point.getOutReadings().size() != 0) {
 
 				for (Reading rdg : point.getOutReadings()) {
 					Set<FragInter> thisFragInters = rdg.getFragIntersSet();
@@ -73,17 +73,17 @@ public class GraphConsistencyChecker implements GraphVisitor {
 					intersection.retainAll(thisFragInters);
 
 					GraphWriter debugTextVisitor2 = new GraphWriter();
-					if (!intersection.isEmpty()) {
+					if (intersection.size() != 0) {
 						point.accept(debugTextVisitor2);
 					}
 
-					if (!intersection.isEmpty()) {
+					if (intersection.size() != 0) {
 						throw new LdoDException(
 								"existem rdgs de um mesmo app com testemunhos sobrepostos "
 										+ debugTextVisitor.getResult());
 					}
 
-					assert intersection.isEmpty() : "INCONSISTENT GRAPH: AT LEAST TWO OUT-READINGS HAVE INTERPRETATIONS IN COMMON"
+					assert intersection.size() == 0 : "INCONSISTENT GRAPH: AT LEAST TWO OUT-READINGS HAVE INTERPRETATIONS IN COMMON"
 							+ debugTextVisitor.getResult();
 
 					pathFragInters.addAll(thisFragInters);
@@ -102,7 +102,6 @@ public class GraphConsistencyChecker implements GraphVisitor {
 	@Override
 	public void visit(Reading reading) {
 		reading.getNextVariationPoint().accept(this);
-
 	}
 
 	@Override

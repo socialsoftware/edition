@@ -73,9 +73,14 @@ public class HtmlWriter4OneInter extends HtmlWriter {
 	public void visit(VariationPoint variationPoint) {
 		if (!variationPoint.getOutReadingsSet().isEmpty()) {
 			for (Reading rdg : variationPoint.getOutReadings()) {
-				if (rdg.getFragIntersSet().contains(fragInter)) {
-					rdg.accept(this);
+				for (FragInter inter : rdg.getFragInters()) {
+					if (inter == fragInter) {
+						rdg.accept(this);
+					}
 				}
+				// if (rdg.getFragIntersSet().contains(fragInter)) {
+				// rdg.accept(this);
+				// }
 			}
 		}
 	}
