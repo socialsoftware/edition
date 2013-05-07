@@ -128,6 +128,6 @@
 
 	<br>
 	<div id="metatextual" class="row-fluid">
-		<div class="addBorder row-fluid">${inter.metaTextual}</div>
+		<div class="well row-fluid span12">${inter.metaTextual}</div>
 	</div>
 </div>

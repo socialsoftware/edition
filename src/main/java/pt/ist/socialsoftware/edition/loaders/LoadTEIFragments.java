@@ -653,15 +653,6 @@ public class LoadTEIFragments {
 				for (Reading reading : tmpPoint.getInReadings()) {
 					reading.setNextVariationPoint(endPoint);
 				}
-
-				System.out.println(tmpPoint.getIdInternal() + "="
-						+ tmpPoint.getInReadingsCount()
-						+ tmpPoint.getOutReadingsCount()
-						+ tmpPoint.getFragmentOfStart());
-				// needs to explicitly be garbage collected from the database
-				tmpPoint.getInReadings().clear();
-				System.out.println(tmpPoint.getInReadingsCount());
-
 			} else if (rdgElement.getName().equals("rdgGrp")) {
 				List<VariationPoint> endPoints = loadRdgGrp(rdgElement,
 						startPoint);
@@ -669,15 +660,6 @@ public class LoadTEIFragments {
 					for (Reading reading : tmpPoint.getInReadings()) {
 						reading.setNextVariationPoint(endPoint);
 					}
-					System.out.println(tmpPoint.getIdInternal() + "="
-							+ tmpPoint.getInReadingsCount()
-							+ tmpPoint.getOutReadingsCount()
-							+ tmpPoint.getFragmentOfStart());
-					tmpPoint.getInReadings().clear();
-					System.out.println(tmpPoint.getInReadingsCount());
-					// needs to explicitly be garbage collected from the
-					// database
-
 				}
 
 			} else {

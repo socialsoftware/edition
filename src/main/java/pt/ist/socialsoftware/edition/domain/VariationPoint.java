@@ -71,8 +71,6 @@ public class VariationPoint extends VariationPoint_Base {
 			reading.remove();
 		}
 
-		System.out.println("DELETE=" + getIdInternal());
-
 		deleteDomainObject();
 	}
 

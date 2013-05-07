@@ -8,7 +8,7 @@
 <div id=fragmentComparison class="row-fluid">
 	<div class="row-fluid">
 		<div id="transcription" class="span12">
-			<div class="addBorder">
+			<div class="well">
 				<c:choose>
 					<c:when test="${writer.showSpaces}">
 						<p style="font-family: monospace;">${ldod:getTranscriptionLineByLine(writer,inter,inter2Compare)}</p>

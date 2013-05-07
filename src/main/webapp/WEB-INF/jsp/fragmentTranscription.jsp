@@ -5,7 +5,7 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ page session="false"%>
 <div id="fragmentTranscription" class="row-fluid">
-	<div class="addBorder row-fluid">
+	<div class="well row-fluid span12">
 		<p>${writer.transcription}</p>
 	</div>
 </div>
