@@ -7,18 +7,9 @@ import pt.ist.socialsoftware.edition.visitors.GraphVisitor;
 
 public class VariationPoint extends VariationPoint_Base {
 
-	public VariationPoint() {
+	public VariationPoint(Fragment fragment) {
 		super();
-	}
-
-	@Override
-	public Fragment getFragment() {
-		if (getInReadings().isEmpty()) {
-			return super.getFragment();
-		} else {
-			return getInReadings().get(0).getPreviousVariationPoint()
-					.getFragment();
-		}
+		setFragment(fragment);
 	}
 
 	public void accept(GraphVisitor visitor) {
@@ -55,6 +46,7 @@ public class VariationPoint extends VariationPoint_Base {
 
 	public void removeOnlyThis() {
 		removeFragment();
+		removeFragmentOfStart();
 
 		for (Reading reading : getInReadings()) {
 			removeInReadings(reading);
@@ -69,9 +61,10 @@ public class VariationPoint extends VariationPoint_Base {
 
 	public void remove() {
 		removeFragment();
+		removeFragmentOfStart();
 
 		for (Reading reading : getInReadings()) {
-			removeInReadings(reading);
+			reading.remove();
 		}
 
 		for (Reading reading : getOutReadings()) {

@@ -146,9 +146,14 @@ class Reading {
 	ReadingType type;
 }
 
-relation FragmentHasVariationPoint {
-	Fragment playsRole fragment {multiplicity 0..1;}
-	VariationPoint playsRole variationPoint {multiplicity 0..1;}
+relation FragmentHasStartVariationPoint {
+	Fragment playsRole fragmentOfStart {multiplicity 0..1;}
+	VariationPoint playsRole startVariationPoint {multiplicity 0..1;}
+}
+
+relation FragmentHasVariationPoints {
+	Fragment playsRole fragment {multiplicity 1..1;}
+	VariationPoint playsRole variationPoint {multiplicity 0..*;}
 }
 
 relation VariationPointHasInReadings {

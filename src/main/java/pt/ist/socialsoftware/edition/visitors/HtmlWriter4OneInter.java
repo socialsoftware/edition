@@ -57,7 +57,7 @@ public class HtmlWriter4OneInter extends HtmlWriter {
 	}
 
 	public void write() {
-		visit(fragInter.getFragment().getVariationPoint());
+		visit(fragInter.getFragment().getStartVariationPoint());
 	}
 
 	public void write(Boolean displayDel, Boolean highlightIns,
@@ -66,7 +66,7 @@ public class HtmlWriter4OneInter extends HtmlWriter {
 		this.highlightIns = highlightIns;
 		this.highlightSubst = highlightSubst;
 		this.showNotes = showNotes;
-		visit(fragInter.getFragment().getVariationPoint());
+		visit(fragInter.getFragment().getStartVariationPoint());
 	}
 
 	@Override

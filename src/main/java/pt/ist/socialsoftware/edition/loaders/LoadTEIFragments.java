@@ -195,8 +195,8 @@ public class LoadTEIFragments {
 				Filters.element(), null,
 				Namespace.getNamespace("def", namespace.getURI()));
 
-		VariationPoint startPoint = new VariationPoint();
-		startPoint.setFragment(fragment);
+		VariationPoint startPoint = new VariationPoint(fragment);
+		startPoint.setFragmentOfStart(fragment);
 		VariationPoint endPoint = null;
 
 		List<FragInter> fragInters = new ArrayList<FragInter>(
@@ -217,13 +217,21 @@ public class LoadTEIFragments {
 			startPoint = endPoint;
 		}
 
+		// clean empty variations points
+		for (VariationPoint point : fragment.getVariationPoint()) {
+			if (point.getInReadingsCount() == 0
+					&& point.getOutReadingsCount() == 0) {
+				point.remove();
+			}
+		}
+
 		postParsing(fragment);
 	}
 
 	private VariationPoint addReading4Paragraph(VariationPoint startPoint,
 			List<FragInter> pendingFragInterps, OpenClose openClose) {
 
-		VariationPoint endPoint = new VariationPoint();
+		VariationPoint endPoint = new VariationPoint(startPoint.getFragment());
 
 		ParagraphText text = new ParagraphText();
 		text.setOpenClose(openClose);
@@ -238,18 +246,18 @@ public class LoadTEIFragments {
 		// fragment.getVariationPoint().accept(eCleaner);
 
 		CanonicalCleaner cCleaner = new CanonicalCleaner();
-		fragment.getVariationPoint().accept(cCleaner);
+		fragment.getStartVariationPoint().accept(cCleaner);
 
 		GraphConsistencyChecker checkConsistency = new GraphConsistencyChecker();
-		fragment.getVariationPoint().accept(checkConsistency);
+		fragment.getStartVariationPoint().accept(checkConsistency);
 
 		GraphWriter graphWriter = new GraphWriter();
-		fragment.getVariationPoint().accept(graphWriter);
+		fragment.getStartVariationPoint().accept(graphWriter);
 		System.out.println(graphWriter.getResult());
 
 		for (FragInter fragInter : fragment.getFragmentInter()) {
 			HtmlWriter4OneInter writer = new HtmlWriter4OneInter(fragInter);
-			fragment.getVariationPoint().accept(writer);
+			fragment.getStartVariationPoint().accept(writer);
 			System.out.println(writer.getTranscription());
 		}
 	}
@@ -558,7 +566,7 @@ public class LoadTEIFragments {
 
 	private VariationPoint loadSpace(Element element,
 			VariationPoint startPoint, List<FragInter> fragInters) {
-		VariationPoint endPoint = new VariationPoint();
+		VariationPoint endPoint = new VariationPoint(startPoint.getFragment());
 
 		SpaceText.SpaceDim dim = getDimAttribute(element);
 		SpaceText.SpaceUnit unit = getUnitAttribute(element);
@@ -637,7 +645,7 @@ public class LoadTEIFragments {
 
 	private VariationPoint loadApp(Element appElement,
 			VariationPoint startPoint, List<FragInter> fragInters) {
-		VariationPoint endPoint = new VariationPoint();
+		VariationPoint endPoint = new VariationPoint(startPoint.getFragment());
 		for (Element rdgElement : appElement.getChildren()) {
 			if (rdgElement.getName().equals("rdg")) {
 				VariationPoint tmpPoint = loadRdg(rdgElement, startPoint);
@@ -645,6 +653,15 @@ public class LoadTEIFragments {
 				for (Reading reading : tmpPoint.getInReadings()) {
 					reading.setNextVariationPoint(endPoint);
 				}
+
+				System.out.println(tmpPoint.getIdInternal() + "="
+						+ tmpPoint.getInReadingsCount()
+						+ tmpPoint.getOutReadingsCount()
+						+ tmpPoint.getFragmentOfStart());
+				// needs to explicitly be garbage collected from the database
+				tmpPoint.getInReadings().clear();
+				System.out.println(tmpPoint.getInReadingsCount());
+
 			} else if (rdgElement.getName().equals("rdgGrp")) {
 				List<VariationPoint> endPoints = loadRdgGrp(rdgElement,
 						startPoint);
@@ -652,7 +669,17 @@ public class LoadTEIFragments {
 					for (Reading reading : tmpPoint.getInReadings()) {
 						reading.setNextVariationPoint(endPoint);
 					}
+					System.out.println(tmpPoint.getIdInternal() + "="
+							+ tmpPoint.getInReadingsCount()
+							+ tmpPoint.getOutReadingsCount()
+							+ tmpPoint.getFragmentOfStart());
+					tmpPoint.getInReadings().clear();
+					System.out.println(tmpPoint.getInReadingsCount());
+					// needs to explicitly be garbage collected from the
+					// database
+
 				}
+
 			} else {
 				throw new LdoDException("valor inesperado dentro de app"
 						+ rdgElement.getName());
@@ -699,7 +726,7 @@ public class LoadTEIFragments {
 		String[] listInterXmlId = rdgElement.getAttribute("wit").getValue()
 				.split("\\s+");
 		List<FragInter> fragInters = getFragItersByListXmlID(listInterXmlId);
-		VariationPoint endPoint = new VariationPoint();
+		VariationPoint endPoint = new VariationPoint(startPoint.getFragment());
 
 		if (rdgElement.getContent().isEmpty()) {
 			addReading4Empty(startPoint, endPoint, fragInters, true);
@@ -734,7 +761,7 @@ public class LoadTEIFragments {
 			toFragInters = getFragItersByListXmlID(listInterXmlId);
 		}
 
-		VariationPoint endPoint = new VariationPoint();
+		VariationPoint endPoint = new VariationPoint(startPoint.getFragment());
 
 		Reading reading = new Reading();
 		LbText text = new LbText(isBreak(element), isHiphenated(element));
@@ -812,7 +839,7 @@ public class LoadTEIFragments {
 			List<FragInter> fragInters) {
 		String value = text.getTextTrim();
 
-		VariationPoint endPoint = new VariationPoint();
+		VariationPoint endPoint = new VariationPoint(startPoint.getFragment());
 		if (value.equals("")) {
 			// ignore empty space
 			endPoint = startPoint;

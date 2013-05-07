@@ -69,7 +69,7 @@ public class HtmlWriter2CompInters extends HtmlWriter {
 			interReadings = new ArrayList<Reading>();
 			breakWord = true;
 			differences = 0;
-			visit(inter.getFragment().getVariationPoint());
+			visit(inter.getFragment().getStartVariationPoint());
 
 			interReadingsMap.put(inter, interReadings);
 

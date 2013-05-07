@@ -32,7 +32,6 @@ public class FragmentController {
 			return "fragmentNotFound";
 		} else {
 			model.addAttribute("fragment", fragment);
-
 			return "fragment";
 		}
 	}
@@ -43,15 +42,12 @@ public class FragmentController {
 
 		if (fragment == null) {
 			return "fragmentNotFound";
-		} else {
-			LdoD ldoD = fragment.getLdoD();
-
+		} else if (LdoD.getInstance().getFragmentsCount() >= 1) {
 			fragment.remove();
-
-			model.addAttribute("fragments", ldoD.getFragmentsSet());
-
-			return "deleteFragment";
 		}
+		model.addAttribute("fragments", LdoD.getInstance().getFragmentsSet());
+		return "deleteFragment";
+
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/interpretation/{id}")

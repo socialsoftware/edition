@@ -43,7 +43,9 @@ public class Fragment extends Fragment_Base {
 			source.remove();
 		}
 
-		getVariationPoint().remove();
+		for (VariationPoint point : getVariationPoint()) {
+			point.remove();
+		}
 
 		deleteDomainObject();
 	}

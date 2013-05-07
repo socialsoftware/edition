@@ -68,11 +68,13 @@ public class GraphWriter implements GraphVisitor {
 				nextVariationPoints.add(nextPoint);
 				Integer nextPointNumber = getVariationPointNumber(nextPoint);
 
-				result = result + "[P" + pointNumber + "]";
+				result = result + "[P" + pointNumber + " idinternal="
+						+ variationPoint.getExternalId() + "]";
 
 				rdg.accept(this);
 
-				result = result + "[/P" + nextPointNumber + "]" + "\n";
+				result = result + "[/P" + nextPointNumber + " idinternal="
+						+ nextPoint.getExternalId() + "]" + "\n";
 
 			}
 

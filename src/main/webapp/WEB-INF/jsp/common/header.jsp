@@ -57,7 +57,7 @@
 
 			</div>
 			<div class="text-right">
-				<a href="?lang=pt_PT">pt</a> | <a href="?lang=en">en</a>
+				<a href="?lang=pt_PT">pt</a> | <a href="?lang=en">en | <a href="?lang=es">es</a>
 			</div>
 		</div>
 	</div>

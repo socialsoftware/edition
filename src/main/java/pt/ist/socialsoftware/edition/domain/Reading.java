@@ -2,11 +2,6 @@ package pt.ist.socialsoftware.edition.domain;
 
 import java.util.List;
 
-import pt.ist.socialsoftware.edition.domain.FragInter;
-import pt.ist.socialsoftware.edition.domain.GraphElement;
-import pt.ist.socialsoftware.edition.domain.LdoDText;
-import pt.ist.socialsoftware.edition.domain.Reading_Base;
-import pt.ist.socialsoftware.edition.domain.VariationPoint;
 import pt.ist.socialsoftware.edition.visitors.GraphVisitor;
 
 public class Reading extends Reading_Base implements GraphElement {
@@ -86,6 +81,7 @@ public class Reading extends Reading_Base implements GraphElement {
 
 	public void remove() {
 		removePreviousVariationPoint();
+		removeNextVariationPoint();
 
 		for (FragInter fragInter : getFragInters()) {
 			removeFragInters(fragInter);
@@ -93,10 +89,6 @@ public class Reading extends Reading_Base implements GraphElement {
 
 		for (LdoDText text : getText()) {
 			text.remove();
-		}
-
-		if (getNextVariationPoint() != null) {
-			getNextVariationPoint().remove();
 		}
 
 		deleteDomainObject();

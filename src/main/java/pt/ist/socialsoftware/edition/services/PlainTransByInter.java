@@ -37,7 +37,7 @@ public class PlainTransByInter extends LdoDService {
 				.fromExternalId(this.fragInterExternalID);
 
 		HtmlWriter4OneInter writer = new HtmlWriter4OneInter(this.fragInter);
-		this.fragInter.getFragment().getVariationPoint().accept(writer);
+		this.fragInter.getFragment().getStartVariationPoint().accept(writer);
 		transcription = writer.getTranscription();
 
 	}
