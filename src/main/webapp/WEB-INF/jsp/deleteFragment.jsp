@@ -33,10 +33,14 @@
 				<tbody>
 					<c:forEach var="fragment" items='${fragments}'>
 						<tr>
-							<td>${fragment.title}<a class="btn btn-mini pull-right"
-								href="${contextPath}/fragments/fragment/delete/${fragment.externalId}"><i
-								class="icon-remove"></i></a>
-							</td>
+							<td><form class="form-inline" method="POST"
+									action="${contextPath}/fragments/fragment/delete">
+									${fragment.title} <input type="hidden" name="externalId"
+										value="${fragment.externalId}" />
+									<button type="submit" class="btn pull-right">
+										<spring:message code="general.remove" />
+									</button>
+								</form></td>
 						</tr>
 					</c:forEach>
 				</tbody>
@@ -45,3 +49,4 @@
 	</div>
 </body>
 </html>
+

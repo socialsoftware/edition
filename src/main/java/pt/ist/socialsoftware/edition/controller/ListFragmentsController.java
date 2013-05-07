@@ -32,7 +32,7 @@ public class ListFragmentsController {
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/delete")
-	public String deleteFragment(Model model) {
+	public String deleteFragmentsList(Model model) {
 		model.addAttribute("fragments", LdoD.getInstance().getFragmentsSet());
 		return "deleteFragment";
 	}

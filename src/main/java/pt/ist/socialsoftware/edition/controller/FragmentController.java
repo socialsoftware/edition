@@ -36,9 +36,10 @@ public class FragmentController {
 		}
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "/delete/{id}")
-	public String deleteFragment(Model model, @PathVariable String id) {
-		Fragment fragment = AbstractDomainObject.fromExternalId(id);
+	@RequestMapping(method = RequestMethod.POST, value = "/delete")
+	public String deleteFragment(Model model,
+			@RequestParam("externalId") String externalId) {
+		Fragment fragment = AbstractDomainObject.fromExternalId(externalId);
 
 		if (fragment == null) {
 			return "fragmentNotFound";

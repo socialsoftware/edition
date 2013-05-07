@@ -18,14 +18,23 @@ public class TransactionFilter implements Filter {
 			FilterChain chain) throws IOException, ServletException {
 		try {
 			Transaction.begin(false);
+			System.out.println("Transaction.begin");
 			chain.doFilter(request, response);
 		} catch (Exception e) {
+			System.out.println("Transaction.abort");
 			Transaction.abort();
 			throw (ServletException) e;
 		}
 
 		if (Transaction.isInTransaction()) {
-			Transaction.commit();
+			try {
+				System.out.println("Transaction.commit");
+				Transaction.commit();
+			} catch (Exception e) {
+				System.out.println("Transaction.abort");
+				Transaction.abort();
+				throw (ServletException) e;
+			}
 		}
 	}
 
