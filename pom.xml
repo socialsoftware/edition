@@ -21,6 +21,9 @@
 		<version.org.springframework.spring.context>3.2.1.RELEASE</version.org.springframework.spring.context>
 		<version.org.springframework.spring.web>3.2.1.RELEASE</version.org.springframework.spring.web>
 		<version.org.springframework.spring.test>3.2.1.RELEASE</version.org.springframework.spring.test>
+		<version.org.springframework.spring.security.core>3.1.4.RELEASE</version.org.springframework.spring.security.core>
+		<version.org.springframework.spring.security.web>3.1.4.RELEASE</version.org.springframework.spring.security.web>
+		<version.org.springframework.spring.security.config>3.1.4.RELEASE</version.org.springframework.spring.security.config>
 		<version.javax.servlet.jstl>1.2</version.javax.servlet.jstl>
 		<version.javax.servlet.servlet.api>2.5</version.javax.servlet.servlet.api>
 		<version.commons.lang.commons.lang>2.6</version.commons.lang.commons.lang>
@@ -99,8 +102,23 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-test</artifactId>
-			<version>${org.springframework.version}</version>
+			<version>${version.org.springframework.spring.test}</version>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-core</artifactId>
+			<version>${version.org.springframework.spring.security.core}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-web</artifactId>
+			<version>${version.org.springframework.spring.security.web}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-config</artifactId>
+			<version>${version.org.springframework.spring.security.config}</version>
 		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>

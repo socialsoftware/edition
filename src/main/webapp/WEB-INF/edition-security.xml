@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:beans="http://www.springframework.org/schema/beans"
+    xmlns:security="http://www.springframework.org/schema/security"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+    http://www.springframework.org/schema/security
+    http://www.springframework.org/schema/security/spring-security-3.1.xsd">
+
+    <!-- HTTP basic authentication in Spring Security -->
+    <security:http>
+        <security:intercept-url pattern="/*" access="ROLE_USER"/>
+        <security:http-basic/>
+    </security:http>
+
+    <security:authentication-manager>
+        <security:authentication-provider>
+            <password-encoder hash="sha"/>
+            <security:user-service>
+                <security:user name="ars" password="aac92fbc37303ad2f349693b95930a3621889cf4" authorities="ROLE_USER"/>
+                <security:user name="diego" password="d5649cff04452910cfe350590dde9b7d4e593eb8" authorities="ROLE_USER"/>
+                <security:user name="mp" password="25d98c01cb95d433eaee7665b925509504d08b4a" authorities="ROLE_USER"/>
+                <security:user name="tim" password="ff96c8a91692c9492ff0304f52a8d88944992e96" authorities="ROLE_USER"/>
+                <security:user name="carlos" password="dd0ce3a1a9b9b239dabca7ee1b458f2d87830b0f" authorities="ROLE_USER"/>
+            </security:user-service>
+        </security:authentication-provider>
+    </security:authentication-manager>
+
+</beans:beans>
