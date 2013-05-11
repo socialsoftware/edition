@@ -19,6 +19,30 @@ class LdoD {
 	String funder;
 }
 
+class User {
+	String username;
+	String password;
+}
+
+relation LdoDHasUsers {
+	LdoD playsRole ldoD {multiplicity 1..1;}
+	User playsRole users {multiplicity 0..*;}
+}
+
+class Role {
+	String rolename;
+}
+
+relation LdoDHasRoles {
+	LdoD playsRole ldoD {multiplicity 1..1;}
+	Role playsRole roles {multiplicity 0..*;}
+}
+
+relation UsersAndRoles {
+	User playsRole users {multiplicity 0..*;}
+	Role playsRole roles {multiplicity 0..*;}
+}
+
 class Edition {
 	String xmlId;
 	String title;

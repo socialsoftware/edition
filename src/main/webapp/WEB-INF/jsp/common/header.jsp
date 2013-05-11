@@ -40,7 +40,8 @@
 					<li class="dropdown"><a class="dropdown-toggle"
 						data-toggle="dropdown" href="#"><spring:message code="header.virtual" /><b class="caret"></b></a>
 						<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-							<li><a href="#"><spring:message code="header.login" /></a></li>
+							<li><a href="${contextPath}/login"><spring:message code="header.login" /></a></li>
+							<li><a href="<c:url value="j_spring_security_logout"/>"><spring:message code="header.logout" /></a></li>
 							<li><a href="#"><spring:message code="header.communities" /></a></li>
 						</ul></li>
 				</ul>

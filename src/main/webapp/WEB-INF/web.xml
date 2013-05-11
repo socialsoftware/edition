@@ -23,8 +23,7 @@
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>
-			/WEB-INF/edition-servlet.xml,
-			/WEB-INF/edition-security.xml
+			/WEB-INF/edition-servlet.xml
 		</param-value>
 	</context-param>
 	
