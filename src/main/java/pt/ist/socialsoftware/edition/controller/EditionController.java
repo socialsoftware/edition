@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import pt.ist.fenixframework.pstm.AbstractDomainObject;
-import pt.ist.socialsoftware.edition.domain.Edition;
+import pt.ist.socialsoftware.edition.domain.ExpertEdition;
 import pt.ist.socialsoftware.edition.domain.Heteronym;
 import pt.ist.socialsoftware.edition.domain.LdoD;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDException;
@@ -20,7 +20,7 @@ public class EditionController {
 	public String getEditionTableOfContentsbyAcronym(Model model,
 			@PathVariable String acronym) {
 
-		Edition edition = LdoD.getInstance().getEdition(acronym);
+		ExpertEdition edition = LdoD.getInstance().getExpertEdition(acronym);
 
 		if (edition == null) {
 			throw new LdoDException("Não existe uma ediçao com a sigla "
@@ -38,7 +38,7 @@ public class EditionController {
 	public String getEditionTableOfContentsbyId(Model model,
 			@PathVariable String id) {
 
-		Edition edition = AbstractDomainObject.fromExternalId(id);
+		ExpertEdition edition = AbstractDomainObject.fromExternalId(id);
 
 		if (edition == null) {
 			throw new LdoDException(
@@ -56,7 +56,7 @@ public class EditionController {
 	public String getEditionTableOfContents4Heteronym(Model model,
 			@PathVariable String id1, @PathVariable String id2) {
 
-		Edition edition = AbstractDomainObject.fromExternalId(id1);
+		ExpertEdition edition = AbstractDomainObject.fromExternalId(id1);
 		Heteronym heteronym = AbstractDomainObject.fromExternalId(id2);
 
 		if (edition == null) {

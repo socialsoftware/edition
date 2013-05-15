@@ -46,14 +46,37 @@ relation UsersAndRoles {
 class Edition {
 	String xmlId;
 	String title;
-	String author;
-	String editor;
 	String date;
 }
 
-relation LdoDHasEditions {
-	LdoD playsRole ldoD {multiplicity 1..1;}
-	Edition playsRole editions {multiplicity 0..*;}
+class ExpertEdition extends Edition {
+	String author;
+	String editor;
+}
+
+class VirtualEdition extends Edition {
+	String name;
+	Boolean pub;
+}
+
+relation LdoDHasExpertEditions {
+	LdoD playsRole ldoD4Expert {multiplicity 1..1;}
+	ExpertEdition playsRole expertEditions {multiplicity 0..*;}
+}
+
+relation LdoDHasVirtualEditions {
+	LdoD playsRole ldoD4Virtual {multiplicity 1..1;}
+	VirtualEdition playsRole virtualEditions {multiplicity 0..*;}
+}
+
+relation UserParticipatesVirtualEditions {
+	User playsRole participant {multiplicity 1..*;}
+	VirtualEdition playsRole myVirtualEditions {multiplicity 0..*;}
+}
+
+relation UserSelectVirtualEditions {
+	User playsRole selectedBy {multiplicity 0..*;}
+	VirtualEdition playsRole selectedVirtualEditions {multiplicity 0..*;}
 }
 
 class Taxonomy {
@@ -116,18 +139,26 @@ relation FragInterHasCategories {
 	Category playsRole categories {multiplicity 0..*;}
 }
 
-class EditionInter extends FragInter {
+class ExpertEditionInter extends FragInter {
 	String title;
+	String volume;
 	int number;
 	int page;
 	String notes;
 }
 
+class VirtualEditionInter extends FragInter;
+
 class SourceInter extends FragInter;
 
-relation EditionHasEditionInters {
-	Edition playsRole edition {multiplicity 1..1;}
-	EditionInter playsRole editionInters {multiplicity 0..*;}
+relation ExpertEditionHasExpertEditionInters {
+	ExpertEdition playsRole expertEdition {multiplicity 1..1;}
+	ExpertEditionInter playsRole expertEditionInters {multiplicity 0..*;}
+}
+
+relation VirtualEditionHasVirtualEditionInters {
+	VirtualEdition playsRole virtualEdition {multiplicity 1..1;}
+	VirtualEditionInter playsRole virtualEditionInters {multiplicity 0..*;}
 }
 
 class Source {

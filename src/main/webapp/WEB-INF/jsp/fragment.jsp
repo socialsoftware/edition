@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="s"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
@@ -17,26 +17,33 @@
 <script type="text/javascript" src="/static/js/jquery.js"></script>
 <script type="text/javascript" src="/static/js/bootstrap.js"></script>
 <script type="text/javascript">
-	$(document).ready(
-			function() {
-				$('[id="interps"][data-toggle="buttons-radio"]')
-						.on(
-								'click',
-								function() {
-									var fragInter = $(
-											'input:radio[name=inter]:checked')
-											.val();
-									if (fragInter == null) alert("Escolha um testemunho base");
-									else
-									$.get("${contextPath}/fragments/fragment",
-											{
-												interp : fragInter
-											}, function(html) {
-												$("#fragmentInterpretation")
-														.replaceWith(html);
-											});
-								});
-			});
+	$(document)
+			.ready(
+					function() {
+						$('[id="interps"][data-toggle="buttons-radio"]')
+								.on(
+										'click',
+										function() {
+											var fragInter = $(
+													'input:radio[name=inter]:checked')
+													.val();
+											if (fragInter == null)
+												alert("Escolha um testemunho base");
+											else
+												$
+														.get(
+																"${contextPath}/fragments/fragment",
+																{
+																	interp : fragInter
+																},
+																function(html) {
+																	$(
+																			"#fragmentInterpretation")
+																			.replaceWith(
+																					html);
+																});
+										});
+					});
 </script>
 <style>
 .addBorder {
@@ -71,7 +78,8 @@
 
 					<form class="form-horizontal">
 						<div class="control-group">
-							<span class="control-label"><spring:message code="fragment.base" /></span>
+							<span class="control-label"><spring:message
+									code="fragment.base" /></span>
 							<div class="controls form-inline">
 
 								<div class="well" id="interps" data-toggle="buttons-radio">
@@ -83,11 +91,11 @@
 													<c:when test="${fragInter.externalId==inter.externalId}">
 														<input type="radio" class="btn" name="inter"
 															id="${fragInter.externalId}"
-															value="${fragInter.externalId}" checked /> ${fragInter.name} 
+															value="${fragInter.externalId}" checked /> ${fragInter.shortName} 
 													</c:when>
 													<c:otherwise>
 														<input type="radio" class="btn" name="inter"
-															value="${fragInter.externalId}" /> ${fragInter.name}
+															value="${fragInter.externalId}" /> ${fragInter.shortName}
 													</c:otherwise>
 												</c:choose>
 											</label>
@@ -101,13 +109,12 @@
 													<c:when test="${fragInter.externalId==inter.externalId}">
 														<input type="radio" class="btn" name="inter"
 															id="${fragInter.externalId}"
-															value="${fragInter.externalId}" checked /> ${fragInter.name}
-								</c:when>
+															value="${fragInter.externalId}" checked /> ${fragInter.shortName}
+													</c:when>
 													<c:otherwise>
 														<input type="radio" class="btn" name="inter"
-															value="${fragInter.externalId}" />
-									${fragInter.name}
-								</c:otherwise>
+															value="${fragInter.externalId}" /> ${fragInter.shortName}
+													</c:otherwise>
 												</c:choose>
 											</label>
 										</c:if>

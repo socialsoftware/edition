@@ -3,6 +3,7 @@ package pt.ist.socialsoftware.edition.domain;
 import java.util.HashSet;
 import java.util.Set;
 
+import pt.ist.socialsoftware.edition.domain.FragInter.SourceType;
 import pt.ist.socialsoftware.edition.visitors.GraphVisitor;
 
 public class VariationPoint extends VariationPoint_Base {
@@ -17,12 +18,14 @@ public class VariationPoint extends VariationPoint_Base {
 	}
 
 	public Set<FragInter> getInReadingsInters() {
-		Set<FragInter> allFragInters;
+		Set<FragInter> allFragInters = new HashSet<FragInter>();
 		if (getInReadings().isEmpty()) {
-			allFragInters = new HashSet<FragInter>(getFragment()
-					.getFragmentInterSet());
+			for (FragInter inter : getFragment().getFragmentInter()) {
+				if (inter.getSourceType() != SourceType.VIRTUAL) {
+					allFragInters.add(inter);
+				}
+			}
 		} else {
-			allFragInters = new HashSet<FragInter>();
 			for (Reading rdg : getInReadings()) {
 				allFragInters.addAll(rdg.getFragIntersSet());
 			}
@@ -31,10 +34,13 @@ public class VariationPoint extends VariationPoint_Base {
 	}
 
 	public Set<FragInter> getOutReadingsInters() {
-		Set<FragInter> allFragInters;
+		Set<FragInter> allFragInters = new HashSet<FragInter>();
 		if (getOutReadings().isEmpty()) {
-			allFragInters = new HashSet<FragInter>(getFragment()
-					.getFragmentInterSet());
+			for (FragInter inter : getFragment().getFragmentInter()) {
+				if (inter.getSourceType() != SourceType.VIRTUAL) {
+					allFragInters.add(inter);
+				}
+			}
 		} else {
 			allFragInters = new HashSet<FragInter>();
 			for (Reading rdg : getOutReadings()) {

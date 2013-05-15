@@ -25,8 +25,8 @@
     </function>
       
      <function>
-        <name>getEditionInter</name>
+        <name>getExpertEditionInter</name>
         <function-class>pt.ist.socialsoftware.edition.utils.ElFunctions</function-class>
-        <function-signature>pt.ist.socialsoftware.edition.domain.EditionInter getEditionInter(pt.ist.socialsoftware.edition.domain.Fragment, java.lang.String)</function-signature>
+        <function-signature>pt.ist.socialsoftware.edition.domain.EditionInter getExpertEditionInter(pt.ist.socialsoftware.edition.domain.Fragment, java.lang.String)</function-signature>
     </function>
 </taglib>

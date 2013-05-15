@@ -20,11 +20,11 @@ public class Fragment extends Fragment_Base {
 		return interps;
 	}
 
-	public EditionInter getEditionInter(String editor) {
+	public ExpertEditionInter getExpertEditionInter(String editor) {
 		for (FragInter inter : getFragmentInter()) {
 			if (inter.getSourceType() == SourceType.EDITORIAL) {
-				EditionInter edInter = (EditionInter) inter;
-				if (edInter.getEdition().getEditor().equals(editor)) {
+				ExpertEditionInter edInter = (ExpertEditionInter) inter;
+				if (edInter.getExpertEdition().getEditor().equals(editor)) {
 					return edInter;
 				}
 			}

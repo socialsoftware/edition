@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import pt.ist.fenixframework.pstm.AbstractDomainObject;
-import pt.ist.socialsoftware.edition.domain.Edition;
-import pt.ist.socialsoftware.edition.domain.EditionInter;
+import pt.ist.socialsoftware.edition.domain.ExpertEdition;
+import pt.ist.socialsoftware.edition.domain.ExpertEditionInter;
 import pt.ist.socialsoftware.edition.domain.FragInter;
 import pt.ist.socialsoftware.edition.domain.Fragment;
 import pt.ist.socialsoftware.edition.domain.LdoD;
@@ -63,9 +63,10 @@ public class FragmentController {
 	public String getNextFragmentWithInterpretationByNumber(Model model,
 			@PathVariable String id) {
 
-		EditionInter interpretation = AbstractDomainObject.fromExternalId(id);
+		ExpertEditionInter interpretation = AbstractDomainObject
+				.fromExternalId(id);
 
-		Edition edition = interpretation.getEdition();
+		ExpertEdition edition = interpretation.getExpertEdition();
 		interpretation = edition.getNextNumberInter(interpretation,
 				interpretation.getNumber());
 
@@ -75,9 +76,10 @@ public class FragmentController {
 	@RequestMapping(method = RequestMethod.GET, value = "/interpretation/prev/number/{id}")
 	public String getPrevFragmentWithInterpretationByNumber(Model model,
 			@PathVariable String id) {
-		EditionInter interpretation = AbstractDomainObject.fromExternalId(id);
+		ExpertEditionInter interpretation = AbstractDomainObject
+				.fromExternalId(id);
 
-		Edition edition = interpretation.getEdition();
+		ExpertEdition edition = interpretation.getExpertEdition();
 		interpretation = edition.getPrevNumberInter(interpretation,
 				interpretation.getNumber());
 
@@ -87,9 +89,10 @@ public class FragmentController {
 	@RequestMapping(method = RequestMethod.GET, value = "/interpretation/next/heteronym/{id}")
 	public String getNextFragmentWithInterpretationByHeteronym(Model model,
 			@PathVariable String id) {
-		EditionInter interpretation = AbstractDomainObject.fromExternalId(id);
+		ExpertEditionInter interpretation = AbstractDomainObject
+				.fromExternalId(id);
 
-		Edition edition = interpretation.getEdition();
+		ExpertEdition edition = interpretation.getExpertEdition();
 		interpretation = edition.getNextHeteronymInter(interpretation,
 				interpretation.getHeteronym());
 
@@ -99,9 +102,10 @@ public class FragmentController {
 	@RequestMapping(method = RequestMethod.GET, value = "/interpretation/prev/heteronym/{id}")
 	public String getPrevFragmentWithInterpretationByHeteronym(Model model,
 			@PathVariable String id) {
-		EditionInter interpretation = AbstractDomainObject.fromExternalId(id);
+		ExpertEditionInter interpretation = AbstractDomainObject
+				.fromExternalId(id);
 
-		Edition edition = interpretation.getEdition();
+		ExpertEdition edition = interpretation.getExpertEdition();
 		interpretation = edition.getNextHeteronymInter(interpretation,
 				interpretation.getHeteronym());
 

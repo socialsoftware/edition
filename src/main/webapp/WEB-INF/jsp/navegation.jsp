@@ -11,8 +11,8 @@
 	<c:forEach var="fragInter" items='${fragment.sortedInterps}'>
 		<c:if test="${fragInter.sourceType=='EDITORIAL'}"> <spring:message code="navigation.edition"/>
 			<a
-				href="${contextPath}/edition/internalid/${fragInter.edition.externalId}">
-				${fragInter.edition.editor}</a>
+				href="${contextPath}/edition/internalid/${fragInter.expertEdition.externalId}">
+				${fragInter.expertEdition.editor}</a>
 			<br>
 			<div class="text-center">
 				<table>
@@ -33,7 +33,7 @@
 							href="${contextPath}/fragments/fragment/interpretation/prev/heteronym/${fragInter.externalId}"><i
 								class="icon-backward"></i></a></td>
 						<td><a
-							href="${contextPath}/edition/internalid/heteronym/${fragInter.edition.externalId}/${fragInter.heteronym.externalId}">
+							href="${contextPath}/edition/internalid/heteronym/${fragInter.expertEdition.externalId}/${fragInter.heteronym.externalId}">
 								${fragInter.heteronym.name} </a></td>
 						<td><a class="btn btn-mini"
 							href="${contextPath}/fragments/fragment/interpretation/next/heteronym/${fragInter.externalId}"><i

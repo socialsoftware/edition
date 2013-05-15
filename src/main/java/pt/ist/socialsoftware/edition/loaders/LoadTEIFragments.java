@@ -26,9 +26,9 @@ import pt.ist.socialsoftware.edition.domain.AddText.Place;
 import pt.ist.socialsoftware.edition.domain.Category;
 import pt.ist.socialsoftware.edition.domain.DelText;
 import pt.ist.socialsoftware.edition.domain.DelText.HowDel;
-import pt.ist.socialsoftware.edition.domain.Edition;
-import pt.ist.socialsoftware.edition.domain.EditionInter;
 import pt.ist.socialsoftware.edition.domain.EmptyText;
+import pt.ist.socialsoftware.edition.domain.ExpertEdition;
+import pt.ist.socialsoftware.edition.domain.ExpertEditionInter;
 import pt.ist.socialsoftware.edition.domain.FormatText;
 import pt.ist.socialsoftware.edition.domain.FormatText.Rendition;
 import pt.ist.socialsoftware.edition.domain.FragInter;
@@ -94,7 +94,7 @@ public class LoadTEIFragments {
 	}
 
 	private void getCorpusXmlIds() {
-		for (Edition edition : ldoD.getEditions()) {
+		for (ExpertEdition edition : ldoD.getExpertEditions()) {
 			putObjectByXmlID(edition.getXmlId(), edition);
 		}
 
@@ -904,10 +904,11 @@ public class LoadTEIFragments {
 				fragInter = new SourceInter();
 				fragInter.setFragment(fragment);
 				((SourceInter) fragInter).setSource((PrintedSource) object);
-			} else if (object instanceof Edition) {
-				fragInter = new EditionInter();
+			} else if (object instanceof ExpertEdition) {
+				fragInter = new ExpertEditionInter();
 				fragInter.setFragment(fragment);
-				((EditionInter) fragInter).setEdition((Edition) object);
+				((ExpertEditionInter) fragInter)
+						.setExpertEdition((ExpertEdition) object);
 
 				Element bibl = witness.getChild("bibl", namespace);
 
@@ -915,13 +916,14 @@ public class LoadTEIFragments {
 				if (heteronym != null)
 					fragInter.setHeteronym(heteronym);
 
-				((EditionInter) fragInter).setTitle(bibl.getChildTextTrim(
-						"title", namespace));
+				((ExpertEditionInter) fragInter).setTitle(bibl
+						.getChildTextTrim("title", namespace));
 				fragInter.setDate(bibl.getChildTextTrim("date", namespace));
-				((EditionInter) fragInter).setNumber(getBiblScope(bibl,
+				((ExpertEditionInter) fragInter).setNumber(getBiblScope(bibl,
 						"number"));
-				((EditionInter) fragInter).setPage(getBiblScope(bibl, "pp"));
-				((EditionInter) fragInter).setNotes(getBiblNotes(bibl));
+				((ExpertEditionInter) fragInter).setPage(getBiblScope(bibl,
+						"pp"));
+				((ExpertEditionInter) fragInter).setNotes(getBiblNotes(bibl));
 			}
 			putObjectByXmlID(witnessXmlID, fragInter);
 			putObjectByXmlID(witnessListXmlID, fragInter);

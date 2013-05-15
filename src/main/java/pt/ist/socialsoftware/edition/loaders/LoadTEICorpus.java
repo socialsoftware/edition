@@ -16,7 +16,7 @@ import org.jdom2.input.SAXBuilder;
 import org.jdom2.xpath.XPathFactory;
 
 import pt.ist.socialsoftware.edition.domain.Category;
-import pt.ist.socialsoftware.edition.domain.Edition;
+import pt.ist.socialsoftware.edition.domain.ExpertEdition;
 import pt.ist.socialsoftware.edition.domain.Heteronym;
 import pt.ist.socialsoftware.edition.domain.LdoD;
 import pt.ist.socialsoftware.edition.domain.Taxonomy;
@@ -191,9 +191,6 @@ public class LoadTEICorpus {
 				+ listEditionsXmlID + " IS ALREADY DECLARED";
 
 		for (Element bibl : corpusHeaderListBibl.getChildren("bibl", namespace)) {
-			Edition edition = new Edition();
-			edition.setLdoD(ldoD);
-
 			String editionXmlID = bibl.getAttributeValue("id",
 					bibl.getNamespace("xml"));
 
@@ -205,19 +202,22 @@ public class LoadTEICorpus {
 			assert getObjectsByXmlID(editionXmlID) == null : "xml:id:"
 					+ editionXmlID + " IS ALREADY DECLARED";
 
-			putObjectByXmlID(editionXmlID, edition);
+			String author = bibl.getChild("author", namespace)
+					.getChild("persName", namespace).getText();
+			String title = bibl.getChild("title", namespace).getText();
+			String editor = bibl.getChild("editor", namespace)
+					.getChild("persName", namespace).getText();
+			String date = bibl.getChild("date", namespace).getAttributeValue(
+					"when");
+
+			ExpertEdition edition = new ExpertEdition(ldoD, title, author,
+					editor, date);
 
 			edition.setXmlId(editionXmlID);
 
+			putObjectByXmlID(editionXmlID, edition);
 			putObjectByXmlID(listEditionsXmlID, edition);
 
-			edition.setAuthor(bibl.getChild("author", namespace)
-					.getChild("persName", namespace).getText());
-			edition.setTitle(bibl.getChild("title", namespace).getText());
-			edition.setEditor(bibl.getChild("editor", namespace)
-					.getChild("persName", namespace).getText());
-			edition.setDate(bibl.getChild("date", namespace).getAttributeValue(
-					"when"));
 		}
 	}
 

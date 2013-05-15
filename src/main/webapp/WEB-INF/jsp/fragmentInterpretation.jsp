@@ -51,12 +51,12 @@
 										<c:when test="${fragInter.externalId==inter.externalId}">
 											<input type="radio" class="btn" name="inter2"
 												value="${fragInter.externalId}" checked />
-							${fragInter.name} (${ldod:getPercentage(writer,fragInter)}%)
+							${fragInter.shortName} (${ldod:getPercentage(writer,fragInter)}%)
 									</c:when>
 										<c:otherwise>
 											<input type="radio" class="btn" name="inter2"
 												value="${fragInter.externalId}" />
-							${fragInter.name} (${ldod:getPercentage(writer,fragInter)}%)
+							${fragInter.shortName} (${ldod:getPercentage(writer,fragInter)}%)
 									</c:otherwise>
 									</c:choose>
 								</label>
@@ -68,12 +68,12 @@
 										<c:when test="${fragInter.externalId==inter.externalId}">
 											<input type="radio" class="btn" name="inter2"
 												value="${fragInter.externalId}" checked />
-							${fragInter.name} (${ldod:getPercentage(writer,fragInter)}%)
+							${fragInter.shortName} (${ldod:getPercentage(writer,fragInter)}%)
 									</c:when>
 										<c:otherwise>
 											<input type="radio" class="btn" name="inter2"
 												value="${fragInter.externalId}" />
-							${fragInter.name} (${ldod:getPercentage(writer,fragInter)}%)
+							${fragInter.shortName} (${ldod:getPercentage(writer,fragInter)}%)
 									</c:otherwise>
 									</c:choose>
 								</label>

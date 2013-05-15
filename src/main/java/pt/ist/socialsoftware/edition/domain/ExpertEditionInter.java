@@ -1,14 +1,14 @@
 package pt.ist.socialsoftware.edition.domain;
 
-public class EditionInter extends EditionInter_Base {
+public class ExpertEditionInter extends ExpertEditionInter_Base {
 
-	public EditionInter() {
+	public ExpertEditionInter() {
 		super();
 	}
 
 	@Override
-	public String getName() {
-		return getEdition().getEditor();
+	public String getShortName() {
+		return getExpertEdition().getEditorShortName();
 	}
 
 	@Override
@@ -16,31 +16,31 @@ public class EditionInter extends EditionInter_Base {
 		return SourceType.EDITORIAL;
 	}
 
-	public int compareEditionInter(EditionInter other) {
-		String myEditor = getEdition().getEditor();
-		String otherEditor = other.getEdition().getEditor();
+	public int compareExpertEditionInter(ExpertEditionInter other) {
+		String myEditor = getExpertEdition().getEditor();
+		String otherEditor = other.getExpertEdition().getEditor();
 
 		if (myEditor.equals(otherEditor)) {
 			return compareNumber(other);
-		} else if (myEditor.equals(Edition.COELHO)) {
+		} else if (myEditor.equals(ExpertEdition.COELHO)) {
 			return -1;
-		} else if (otherEditor.equals(Edition.COELHO)) {
+		} else if (otherEditor.equals(ExpertEdition.COELHO)) {
 			return 1;
-		} else if (myEditor.equals(Edition.CUNHA)) {
+		} else if (myEditor.equals(ExpertEdition.CUNHA)) {
 			return -1;
-		} else if (otherEditor.equals(Edition.CUNHA)) {
+		} else if (otherEditor.equals(ExpertEdition.CUNHA)) {
 			return 1;
-		} else if (myEditor.equals(Edition.ZENITH)) {
+		} else if (myEditor.equals(ExpertEdition.ZENITH)) {
 			return -1;
-		} else if (otherEditor.equals(Edition.ZENITH)) {
+		} else if (otherEditor.equals(ExpertEdition.ZENITH)) {
 			return 1;
 		} else {
-			assert false : "To include more code when virtual editions are suported";
+			assert false : "To extend when new expert editions are include";
 			return 0;
 		}
 	}
 
-	public int compareNumber(EditionInter other) {
+	public int compareNumber(ExpertEditionInter other) {
 		if (getNumber() == other.getNumber()) {
 			return comparePage(getPage(), other.getPage());
 		} else if (getNumber() < other.getNumber()) {
@@ -83,7 +83,7 @@ public class EditionInter extends EditionInter_Base {
 	public void remove() {
 		super.remove();
 
-		removeEdition();
+		removeExpertEdition();
 
 		deleteDomainObject();
 	}

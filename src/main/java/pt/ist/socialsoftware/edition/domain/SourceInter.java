@@ -7,7 +7,7 @@ public class SourceInter extends SourceInter_Base {
 	}
 
 	@Override
-	public String getName() {
+	public String getShortName() {
 		return getSource().getName();
 	}
 
@@ -17,7 +17,7 @@ public class SourceInter extends SourceInter_Base {
 	}
 
 	public int compareSourceInter(SourceInter other) {
-		return getName().compareTo(other.getName());
+		return getSource().getName().compareTo(other.getSource().getName());
 	}
 
 	@Override

@@ -59,7 +59,7 @@ public class PlainTransByInterTest {
 
 		for (Fragment frag : ldoD.getFragments()) {
 			for (FragInter fragInter : frag.getFragmentInter()) {
-				if (fragInter.getName().equals("Teresa Sobral Cunha")) {
+				if (fragInter.getShortName().equals("Cunha")) {
 					fragInterExternalID = fragInter.getExternalId();
 				}
 			}

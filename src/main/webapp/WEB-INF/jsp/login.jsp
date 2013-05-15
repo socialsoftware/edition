@@ -32,7 +32,7 @@
 				<div class="row">
 					<div class="login-form">
 						<h2>
-							<spring:message code="header.login" />
+							<spring:message code="header.title" />
 						</h2>
 						<form method="POST" action="j_spring_security_check">
 							<fieldset>

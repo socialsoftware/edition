@@ -1,6 +1,6 @@
 package pt.ist.socialsoftware.edition.utils;
 
-import pt.ist.socialsoftware.edition.domain.EditionInter;
+import pt.ist.socialsoftware.edition.domain.ExpertEditionInter;
 import pt.ist.socialsoftware.edition.domain.FragInter;
 import pt.ist.socialsoftware.edition.domain.Fragment;
 import pt.ist.socialsoftware.edition.visitors.HtmlWriter2CompInters;
@@ -23,7 +23,8 @@ public class ElFunctions {
 		return writer.getTranscriptionLineByLine(inter1, inter2);
 	}
 
-	public static EditionInter getEditionInter(Fragment fragment, String editor) {
-		return fragment.getEditionInter(editor);
+	public static ExpertEditionInter getExpertEditionInter(Fragment fragment,
+			String editor) {
+		return fragment.getExpertEditionInter(editor);
 	}
 }

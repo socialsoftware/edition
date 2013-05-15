@@ -12,8 +12,8 @@ import org.junit.Test;
 
 import pt.ist.fenixframework.pstm.Transaction;
 import pt.ist.socialsoftware.edition.domain.Category;
-import pt.ist.socialsoftware.edition.domain.Edition;
-import pt.ist.socialsoftware.edition.domain.EditionInter;
+import pt.ist.socialsoftware.edition.domain.ExpertEdition;
+import pt.ist.socialsoftware.edition.domain.ExpertEditionInter;
 import pt.ist.socialsoftware.edition.domain.FragInter;
 import pt.ist.socialsoftware.edition.domain.Fragment;
 import pt.ist.socialsoftware.edition.domain.Heteronym;
@@ -101,8 +101,9 @@ public class ImportLdoDFromTEITest {
 	private void checkLoadWitnesses(Fragment fragment) {
 		assertEquals(7, fragment.getFragmentInter().size());
 		for (FragInter fragmentInter : fragment.getFragmentInter()) {
-			if (fragmentInter instanceof EditionInter) {
-				assertTrue(((EditionInter) fragmentInter).hasEdition());
+			if (fragmentInter instanceof ExpertEditionInter) {
+				assertTrue(((ExpertEditionInter) fragmentInter)
+						.hasExpertEdition());
 			} else if (fragmentInter instanceof SourceInter) {
 				assertTrue(((SourceInter) fragmentInter).hasSource());
 			}
@@ -167,8 +168,8 @@ public class ImportLdoDFromTEITest {
 	}
 
 	private void checkListBiblLoad(LdoD ldoD) {
-		assertEquals(4, ldoD.getEditions().size());
-		for (Edition edition : ldoD.getEditions()) {
+		assertEquals(4, ldoD.getExpertEditions().size());
+		for (ExpertEdition edition : ldoD.getExpertEditions()) {
 			assertEquals("Fernando Pessoa", edition.getAuthor());
 			assertEquals("O Livro do Desassossego", edition.getTitle());
 			assertTrue((edition.getEditor().equals("Jacinto Prado Coelho") && edition
