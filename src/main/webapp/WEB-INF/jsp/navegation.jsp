@@ -22,7 +22,7 @@
 								class="icon-backward"></i></a></td>
 						<td><c:choose>
 								<c:when test="${fragInter.number !=0}">${fragInter.number}</c:when>
-								<c:otherwise>${fragInter.page}</c:otherwise>
+								<c:otherwise>${fragInter.startPage}</c:otherwise>
 							</c:choose></td>
 						<td><a class="btn btn-mini"
 							href="${contextPath}/fragments/fragment/interpretation/next/number/${fragInter.externalId}"><i

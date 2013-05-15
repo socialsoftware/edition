@@ -919,10 +919,14 @@ public class LoadTEIFragments {
 				((ExpertEditionInter) fragInter).setTitle(bibl
 						.getChildTextTrim("title", namespace));
 				fragInter.setDate(bibl.getChildTextTrim("date", namespace));
-				((ExpertEditionInter) fragInter).setNumber(getBiblScope(bibl,
-						"number"));
-				((ExpertEditionInter) fragInter).setPage(getBiblScope(bibl,
-						"pp"));
+
+				loadFragmentNumberInWitness(fragInter, bibl);
+
+				((ExpertEditionInter) fragInter).setVolume(getBiblScope(bibl,
+						"vol"));
+
+				loadFragmentsPagesInWitness(fragInter, bibl);
+
 				((ExpertEditionInter) fragInter).setNotes(getBiblNotes(bibl));
 			}
 			putObjectByXmlID(witnessXmlID, fragInter);
@@ -930,6 +934,37 @@ public class LoadTEIFragments {
 			putObjectByXmlID(witnessListXmlID2, fragInter);
 		}
 
+	}
+
+	private void loadFragmentsPagesInWitness(FragInter fragInter, Element bibl) {
+		String pp = getBiblScope(bibl, "pp");
+		if (pp != "") {
+			((ExpertEditionInter) fragInter).setStartPage(Integer.parseInt(pp));
+			((ExpertEditionInter) fragInter).setEndPage(Integer.parseInt(pp));
+		} else {
+			for (Element biblScope : bibl.getChildren("biblScope", namespace)) {
+				Attribute unitAtt = biblScope.getAttribute("unit");
+				if (unitAtt.getValue().equals("pp")) {
+					String from = biblScope.getAttributeValue("from");
+					String to = biblScope.getAttributeValue("to");
+
+					((ExpertEditionInter) fragInter).setStartPage(Integer
+							.parseInt(from));
+					((ExpertEditionInter) fragInter).setEndPage(Integer
+							.parseInt(to));
+				}
+			}
+		}
+	}
+
+	private void loadFragmentNumberInWitness(FragInter fragInter, Element bibl) {
+		String ppString = getBiblScope(bibl, "number");
+		if (ppString != "") {
+			((ExpertEditionInter) fragInter).setNumber(Integer
+					.parseInt(ppString));
+		} else {
+			((ExpertEditionInter) fragInter).setNumber(0);
+		}
 	}
 
 	private String getBiblNotes(Element bibl) {
@@ -941,15 +976,12 @@ public class LoadTEIFragments {
 		return notes;
 	}
 
-	private int getBiblScope(Element bibl, String type) {
-		int scope = 0;
+	private String getBiblScope(Element bibl, String unit) {
+		String scope = "";
 		for (Element biblScope : bibl.getChildren("biblScope", namespace)) {
-			Attribute typeAtt = biblScope.getAttribute("type");
-			if (typeAtt.getValue().equals(type)) {
-				String scopeText = biblScope.getTextTrim();
-				if (scopeText != "") {
-					scope = Integer.parseInt(scopeText);
-				}
+			Attribute unitAtt = biblScope.getAttribute("unit");
+			if (unitAtt.getValue().equals(unit)) {
+				scope = biblScope.getTextTrim();
 				return scope;
 			}
 		}

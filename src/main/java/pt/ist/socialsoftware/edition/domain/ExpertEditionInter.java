@@ -42,7 +42,7 @@ public class ExpertEditionInter extends ExpertEditionInter_Base {
 
 	public int compareNumber(ExpertEditionInter other) {
 		if (getNumber() == other.getNumber()) {
-			return comparePage(getPage(), other.getPage());
+			return comparePage(getStartPage(), other.getStartPage());
 		} else if (getNumber() < other.getNumber()) {
 			return -1;
 		} else
@@ -70,7 +70,9 @@ public class ExpertEditionInter extends ExpertEditionInter_Base {
 		String number = getNumber() == 0 ? "" : Integer.toString(getNumber());
 		result = result + "Número: " + number + "<br>";
 
-		result = result + "Página: " + getPage() + "<br>";
+		result = result + "Volume: " + getVolume() + "<br>";
+
+		result = result + "Página: " + getStartPage() + "<br>";
 
 		result = result + "Data: " + getDate() + "<br>";
 

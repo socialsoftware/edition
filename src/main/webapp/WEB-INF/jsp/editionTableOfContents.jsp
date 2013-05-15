@@ -27,6 +27,7 @@
 				<tr>
 					<th><spring:message code="tableofcontents.number" /></th>
 					<th><spring:message code="tableofcontents.title" /></th>
+					<th><spring:message code="tableofcontents.volume" /></th>
 					<th><spring:message code="tableofcontents.page" /></th>
 				</tr>
 			<tbody>
@@ -36,7 +37,8 @@
 						<td><c:if test="${interp.number!=0}">${interp.number}</c:if></td>
 						<td><a
 							href="${contextPath}/fragments/fragment/interpretation/${interp.externalId}">${interp.fragment.title}</a></td>
-						<td>${interp.page}</td>
+						<td>${interp.volume}</td>
+						<td>${interp.startPage}</td>
 					</tr>
 					</c:if>
 				</c:forEach>
