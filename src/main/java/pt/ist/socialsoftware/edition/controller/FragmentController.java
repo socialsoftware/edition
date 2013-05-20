@@ -29,7 +29,7 @@ public class FragmentController {
 		Fragment fragment = AbstractDomainObject.fromExternalId(id);
 
 		if (fragment == null) {
-			return "fragmentNotFound";
+			return "pageNotFound";
 		} else {
 			model.addAttribute("fragment", fragment);
 			return "fragment";

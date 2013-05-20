@@ -47,6 +47,7 @@ class Edition {
 	String xmlId;
 	String title;
 	String date;
+	String acronym;
 }
 
 class ExpertEdition extends Edition {
@@ -70,7 +71,7 @@ relation LdoDHasVirtualEditions {
 }
 
 relation UserParticipatesVirtualEditions {
-	User playsRole participant {multiplicity 1..*;}
+	User playsRole participant {multiplicity 0..*;}
 	VirtualEdition playsRole myVirtualEditions {multiplicity 0..*;}
 }
 

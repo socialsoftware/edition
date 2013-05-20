@@ -19,7 +19,7 @@ import pt.ist.socialsoftware.edition.domain.SimpleText;
 import pt.ist.socialsoftware.edition.domain.SpaceText;
 import pt.ist.socialsoftware.edition.domain.SubstText;
 import pt.ist.socialsoftware.edition.domain.VariationPoint;
-import pt.ist.socialsoftware.edition.shared.exception.LdoDException;
+import pt.ist.socialsoftware.edition.shared.exception.LdoDLoadException;
 
 /**
  * Checks the consistency of the graph: (1) Interpretations for outReadings of a
@@ -56,7 +56,7 @@ public class GraphConsistencyChecker implements GraphVisitor {
 			}
 
 			if (!inEqualsOut) {
-				throw new LdoDException(
+				throw new LdoDLoadException(
 						"os testemunhos de entrada são diferentes do testemunhos de saída, neste ponto="
 								+ debugTextVisitor.getResult());
 			}
@@ -78,7 +78,7 @@ public class GraphConsistencyChecker implements GraphVisitor {
 					}
 
 					if (intersection.size() != 0) {
-						throw new LdoDException(
+						throw new LdoDLoadException(
 								"existem rdgs de um mesmo app com testemunhos sobrepostos "
 										+ debugTextVisitor.getResult());
 					}

@@ -10,7 +10,6 @@ import pt.ist.fenixframework.pstm.AbstractDomainObject;
 import pt.ist.socialsoftware.edition.domain.ExpertEdition;
 import pt.ist.socialsoftware.edition.domain.Heteronym;
 import pt.ist.socialsoftware.edition.domain.LdoD;
-import pt.ist.socialsoftware.edition.shared.exception.LdoDException;
 
 @Controller
 @RequestMapping("/edition")
@@ -23,8 +22,7 @@ public class EditionController {
 		ExpertEdition edition = LdoD.getInstance().getExpertEdition(acronym);
 
 		if (edition == null) {
-			throw new LdoDException("Não existe uma ediçao com a sigla "
-					+ acronym);
+			return "pageNotFound";
 		} else {
 			model.addAttribute("heteronym", null);
 			model.addAttribute("edition", edition);
@@ -41,8 +39,7 @@ public class EditionController {
 		ExpertEdition edition = AbstractDomainObject.fromExternalId(id);
 
 		if (edition == null) {
-			throw new LdoDException(
-					"Não existe uma ediçao com o identificador interno " + id);
+			return "pageNotFound";
 		} else {
 			model.addAttribute("heteronym", null);
 			model.addAttribute("edition", edition);
@@ -60,12 +57,9 @@ public class EditionController {
 		Heteronym heteronym = AbstractDomainObject.fromExternalId(id2);
 
 		if (edition == null) {
-			throw new LdoDException(
-					"Não existe uma ediçao com o identificador interno " + id1);
+			return "pageNotFound";
 		} else if (heteronym == null) {
-			throw new LdoDException(
-					"Não existe uma heterónimo com o identificador interno "
-							+ id2);
+			return "pageNotFound";
 		} else {
 			model.addAttribute("heteronym", heteronym);
 			model.addAttribute("edition", edition);

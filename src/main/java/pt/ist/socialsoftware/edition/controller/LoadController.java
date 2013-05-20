@@ -11,7 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import pt.ist.socialsoftware.edition.loaders.LoadTEICorpus;
 import pt.ist.socialsoftware.edition.loaders.LoadTEIFragments;
-import pt.ist.socialsoftware.edition.shared.exception.LdoDException;
+import pt.ist.socialsoftware.edition.shared.exception.LdoDLoadException;
 
 @Controller
 @RequestMapping("/load")
@@ -24,17 +24,18 @@ public class LoadController {
 
 	@RequestMapping(method = RequestMethod.POST, value = "/corpus")
 	public String loadTEICorpus(Model model,
-			@RequestParam("file") MultipartFile file) throws LdoDException {
+			@RequestParam("file") MultipartFile file) throws LdoDLoadException {
 
 		if (file == null) {
-			throw new LdoDException("Deve escolher um ficheiro");
+			throw new LdoDLoadException("Deve escolher um ficheiro");
 		}
 
 		LoadTEICorpus loader = new LoadTEICorpus();
 		try {
 			loader.loadTEICorpus(file.getInputStream());
 		} catch (IOException e) {
-			throw new LdoDException("Problemas com o ficheiro, tipo ou formato");
+			throw new LdoDLoadException(
+					"Problemas com o ficheiro, tipo ou formato");
 		}
 
 		return writeMessage(model, "Corpus carregado", "/");
@@ -47,17 +48,18 @@ public class LoadController {
 
 	@RequestMapping(method = RequestMethod.POST, value = "/fragments")
 	public String loadTEIFragments(Model model,
-			@RequestParam("file") MultipartFile file) throws LdoDException {
+			@RequestParam("file") MultipartFile file) throws LdoDLoadException {
 
 		if (file == null) {
-			throw new LdoDException("Deve escolher um ficheiro");
+			throw new LdoDLoadException("Deve escolher um ficheiro");
 		}
 
 		LoadTEIFragments loader = new LoadTEIFragments();
 		try {
 			loader.loadFragments(file.getInputStream());
 		} catch (IOException e) {
-			throw new LdoDException("Problemas com o ficheiro, tipo ou formato");
+			throw new LdoDLoadException(
+					"Problemas com o ficheiro, tipo ou formato");
 		}
 
 		return writeMessage(model, "Fragmentos carregados", "/search/fragments");

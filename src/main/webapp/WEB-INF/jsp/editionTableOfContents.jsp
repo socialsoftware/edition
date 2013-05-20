@@ -16,7 +16,7 @@
 	<c:set var="contextPath" value="${pageContext.request.contextPath}" />
 	<%@ include file="/WEB-INF/jsp/common/header.jsp"%>
 
-	<div class="container">
+	<div class="container">	
 		<h3 class="text-center"><spring:message code="tableofcontents.editionof" /> ${edition.editor}</h3>
 		<c:if test="${heteronym != null}">
 				<h4 class="text-left"><spring:message code="tableofcontents.fragmentsof" /> ${heteronym.name}</h4>

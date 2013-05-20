@@ -49,7 +49,7 @@ import pt.ist.socialsoftware.edition.domain.SpaceText.SpaceUnit;
 import pt.ist.socialsoftware.edition.domain.SubstText;
 import pt.ist.socialsoftware.edition.domain.Taxonomy;
 import pt.ist.socialsoftware.edition.domain.VariationPoint;
-import pt.ist.socialsoftware.edition.shared.exception.LdoDException;
+import pt.ist.socialsoftware.edition.shared.exception.LdoDLoadException;
 import pt.ist.socialsoftware.edition.visitors.CanonicalCleaner;
 import pt.ist.socialsoftware.edition.visitors.GraphConsistencyChecker;
 import pt.ist.socialsoftware.edition.visitors.GraphWriter;
@@ -86,7 +86,8 @@ public class LoadTEIFragments {
 		for (String xmlId : listXmlId) {
 			List<Object> objects2 = getObjectsByXmlID(xmlId.substring(1));
 			if (objects2 == null) {
-				throw new LdoDException("identificador não declarado " + xmlId);
+				throw new LdoDLoadException("identificador não declarado "
+						+ xmlId);
 			}
 			objects.addAll(objects2);
 		}
@@ -119,15 +120,17 @@ public class LoadTEIFragments {
 			// TODO: create a config variable for the xml file
 			doc = builder.build(file);
 		} catch (FileNotFoundException e) {
-			throw new LdoDException("Ficheiro não encontrado");
+			throw new LdoDLoadException("Ficheiro não encontrado");
 		} catch (JDOMException e) {
-			throw new LdoDException("Ficheiro com problemas de codificação TEI");
+			throw new LdoDLoadException(
+					"Ficheiro com problemas de codificação TEI");
 		} catch (IOException e) {
-			throw new LdoDException("Problemas com o ficheiro, tipo ou formato");
+			throw new LdoDLoadException(
+					"Problemas com o ficheiro, tipo ou formato");
 		}
 
 		if (doc == null) {
-			LdoDException ex = new LdoDException(
+			LdoDLoadException ex = new LdoDLoadException(
 					"Ficheiro inexistente ou sem formato TEI");
 			throw ex;
 		}
@@ -136,7 +139,7 @@ public class LoadTEIFragments {
 		namespace = ldoDTEI.getNamespace();
 	}
 
-	public void loadFragments(InputStream file) throws LdoDException {
+	public void loadFragments(InputStream file) throws LdoDLoadException {
 		parseTEIFile(file);
 
 		ldoD = LdoD.getInstance();
@@ -152,7 +155,7 @@ public class LoadTEIFragments {
 					.getAttributeValue("id", fragmentTEI.getNamespace("xml"));
 
 			if (fragmentTEIID == null) {
-				throw new LdoDException("falta xml:id de um fragmento");
+				throw new LdoDLoadException("falta xml:id de um fragmento");
 			}
 
 			assert fragmentTEIID != null : "MISSING xml:id ATTRIBUTE IN FRAGMENT <TEI > ELEMENT";
@@ -167,7 +170,7 @@ public class LoadTEIFragments {
 			fragment.setTitle(fragmentTEITitle);
 
 			if (getObjectsByXmlID(fragmentTEIID) != null) {
-				throw new LdoDException("xml:id:" + fragmentTEIID
+				throw new LdoDLoadException("xml:id:" + fragmentTEIID
 						+ " já está declarado");
 			}
 
@@ -311,7 +314,7 @@ public class LoadTEIFragments {
 				if (content.getValue().trim() != "") {
 					endPoint = startPoint;
 				} else {
-					throw new LdoDException(
+					throw new LdoDLoadException(
 							"elementos inesperado dentro de subst"
 									+ content.getValue());
 
@@ -328,7 +331,7 @@ public class LoadTEIFragments {
 				} else if (element2.getName().equals("del")) {
 					endPoint = loadDel(element2, startPoint, fragInters);
 				} else {
-					throw new LdoDException("não carrega elementos: "
+					throw new LdoDLoadException("não carrega elementos: "
 							+ element2 + " do tipo:"
 							+ element2.getCType().toString()
 							+ "dentro de <subst>");
@@ -361,7 +364,7 @@ public class LoadTEIFragments {
 		List<Content> contentList = element.getContent();
 
 		if (contentList.size() != 1)
-			throw new LdoDException(
+			throw new LdoDLoadException(
 					"del contém outros elementos para além de texto"
 							+ element.getValue());
 
@@ -369,7 +372,7 @@ public class LoadTEIFragments {
 				+ element;
 
 		if (contentList.get(0).getCType() != CType.Text)
-			throw new LdoDException(
+			throw new LdoDLoadException(
 					"del contém outros elementos para além de texto"
 							+ element.getValue());
 
@@ -407,7 +410,7 @@ public class LoadTEIFragments {
 			} else if (howDelValue.equals("overwritten")) {
 				howDel = HowDel.OVERWRITTEN;
 			} else {
-				throw new LdoDException(
+				throw new LdoDLoadException(
 						"valor desconhecido para atributo rend=" + howDelValue
 								+ " dentro de del");
 				// assert false : "UNKOWN rend ATTRIBUTE VALUE=" + howDelValue
@@ -429,7 +432,7 @@ public class LoadTEIFragments {
 		List<Content> contentList = element.getContent();
 
 		if (contentList.size() != 1)
-			throw new LdoDException(
+			throw new LdoDLoadException(
 					"add contém outros elementos para além de texto"
 							+ element.getValue());
 
@@ -437,7 +440,7 @@ public class LoadTEIFragments {
 				+ element;
 
 		if (contentList.get(0).getCType() != CType.Text)
-			throw new LdoDException(
+			throw new LdoDLoadException(
 					"add contém outros elementos para além de texto"
 							+ element.getValue());
 
@@ -478,7 +481,7 @@ public class LoadTEIFragments {
 			} else if (placeValue.equals("inline")) {
 				place = Place.INLINE;
 			} else {
-				throw new LdoDException(
+				throw new LdoDLoadException(
 						"valor desconhecido para atributo place=" + place);
 				// assert false : "UNKOWN place ATTRIBUTE VALUE=" + place;
 			}
@@ -501,13 +504,13 @@ public class LoadTEIFragments {
 		List<Content> contentList = element.getContent();
 
 		if (contentList.size() != 1)
-			throw new LdoDException("seg não contém apenas texto" + element);
+			throw new LdoDLoadException("seg não contém apenas texto" + element);
 
 		assert contentList.size() == 1 : "<seg> DOES NOT CONTAIN SIMPLE TEXT"
 				+ element;
 
 		if (contentList.get(0).getCType() != CType.Text)
-			throw new LdoDException("seg não contém apenas texto" + element);
+			throw new LdoDLoadException("seg não contém apenas texto" + element);
 
 		assert contentList.get(0).getCType() == CType.Text : "<seg> DOES NOT CONTAIN SIMPLE TEXT"
 				+ element;
@@ -551,7 +554,7 @@ public class LoadTEIFragments {
 					openFormatText.setRend(Rendition.UNDERLINED);
 					closeFormatText.setRend(Rendition.UNDERLINED);
 				} else {
-					throw new LdoDException("valor desconhecido para rend="
+					throw new LdoDLoadException("valor desconhecido para rend="
 							+ listRendXmlId[i]);
 					// assert false : "UNKNOWN rend VALUE" + listRendXmlId[i];
 				}
@@ -595,7 +598,7 @@ public class LoadTEIFragments {
 			try {
 				quantity = Integer.parseInt(quantityAttribute.getValue());
 			} catch (NumberFormatException e) {
-				throw new LdoDException(
+				throw new LdoDLoadException(
 						"valor para atributo quantity não é um número="
 								+ quantityAttribute.getValue());
 				// assert false :
@@ -614,8 +617,9 @@ public class LoadTEIFragments {
 		} else if (unitAttribute.getValue().equals("minims")) {
 			unit = SpaceUnit.MINIMS;
 		} else {
-			throw new LdoDException("valor desconhecido para atributo unit="
-					+ unitAttribute.getValue());
+			throw new LdoDLoadException(
+					"valor desconhecido para atributo unit="
+							+ unitAttribute.getValue());
 			// assert false : "UNKNOWN VALUE FOR ATTRIBUTE unit=\""
 			// + unitAttribute.getValue() + "\"";
 		}
@@ -634,7 +638,7 @@ public class LoadTEIFragments {
 		} else if (dimAttribute.getValue().equals("horizontal")) {
 			dim = SpaceDim.HORIZONTAL;
 		} else {
-			throw new LdoDException("valor desconhecido para atributo dim="
+			throw new LdoDLoadException("valor desconhecido para atributo dim="
 					+ dimAttribute.getValue());
 
 			// assert false : "UNKNOWN VALUE FOR ATTRIBUTE dim=\""
@@ -663,7 +667,7 @@ public class LoadTEIFragments {
 				}
 
 			} else {
-				throw new LdoDException("valor inesperado dentro de app"
+				throw new LdoDLoadException("valor inesperado dentro de app"
 						+ rdgElement.getName());
 				// assert false : "UNEXPECTED ELEMENT NESTED WITHIN APP" +
 				// rdgElement.getName();
@@ -699,14 +703,15 @@ public class LoadTEIFragments {
 		Attribute witAttribute = rdgElement.getAttribute("wit");
 
 		if (witAttribute == null)
-			throw new LdoDException("elemento rdg necessita de atributo wit "
-					+ rdgElement);
+			throw new LdoDLoadException(
+					"elemento rdg necessita de atributo wit " + rdgElement);
 
 		assert witAttribute != null : "rdg ELEMENT REQUIRES VALUE FOR ATTRIBUTE wit"
 				+ rdgElement;
 
-		String[] listInterXmlId = rdgElement.getAttribute("wit").getValue()
-				.split("\\s+");
+		String witValue = rdgElement.getAttribute("wit").getValue().trim();
+
+		String[] listInterXmlId = witValue.split("\\s+");
 		List<FragInter> fragInters = getFragItersByListXmlID(listInterXmlId);
 		VariationPoint endPoint = new VariationPoint(startPoint.getFragment());
 
@@ -787,7 +792,7 @@ public class LoadTEIFragments {
 		} else if (hyphenated.equals("hyphenated")) {
 			toHyphenate = true;
 		} else {
-			throw new LdoDException(
+			throw new LdoDLoadException(
 					"valor inesperado para atribute hyphenated=" + hyphenated);
 
 			// assert false : "UNEXPECTED PARAMETER FOR hyphenated ATTRIBUTE"
@@ -809,7 +814,7 @@ public class LoadTEIFragments {
 		} else if (breakWord.equals("no")) {
 			toBreak = false;
 		} else {
-			throw new LdoDException("valor inesperado para atribute break="
+			throw new LdoDLoadException("valor inesperado para atribute break="
 					+ breakWord);
 			// assert false : "INVALID PARAMETER FOR break ATTRIBUTE" +
 			// breakWord;
@@ -858,7 +863,7 @@ public class LoadTEIFragments {
 			List<Object> objects = getObjectsByXmlID(sourceOrEditionXmlID);
 
 			if ((objects == null) || (objects.isEmpty()))
-				throw new LdoDException(
+				throw new LdoDLoadException(
 						"não existe uma fonte declarada para o atributo xml:id="
 								+ sourceOrEditionXmlID);
 
@@ -874,22 +879,24 @@ public class LoadTEIFragments {
 					.getAttributeValue("id", witness.getNamespace("xml"));
 
 			if (witnessXmlID == null)
-				throw new LdoDException("elemento wit sem atributo xml:id="
+				throw new LdoDLoadException("elemento wit sem atributo xml:id="
 						+ witnessXmlID);
 			assert witnessXmlID != null : "MISSING xml:id FOR WITNESS";
 
 			if (getObjectsByXmlID(witnessXmlID) != null)
-				throw new LdoDException("já está declarado o atributo xml:id="
-						+ witnessXmlID);
+				throw new LdoDLoadException(
+						"já está declarado o atributo xml:id=" + witnessXmlID);
 			assert getObjectsByXmlID(witnessXmlID) == null : "xml:id:"
 					+ witnessXmlID + " IS ALREADY DECLARED";
 
 			if (witnessListXmlID == null)
-				throw new LdoDException("falta atributo xml:id para listWit");
+				throw new LdoDLoadException(
+						"falta atributo xml:id para listWit");
 			assert witnessListXmlID != null : "MISSING xml:id FOR WITNESS LIST";
 
 			if (witnessListXmlID2 == null)
-				throw new LdoDException("falta atributo xml:id para listWit");
+				throw new LdoDLoadException(
+						"falta atributo xml:id para listWit");
 			assert witnessListXmlID2 != null : "MISSING xml:id FOR WITNESS LIST";
 
 			Object object = objects.get(0);
@@ -1004,17 +1011,17 @@ public class LoadTEIFragments {
 					if (heteronymList != null) {
 						heteronym = (Heteronym) heteronymList.get(0);
 					} else {
-						throw new LdoDException("atributo corresp=" + hetXmlId
-								+ " para persName em witness "
+						throw new LdoDLoadException("atributo corresp="
+								+ hetXmlId + " para persName em witness "
 								+ bibl.getValue() + " não está declarado");
 					}
 				} else {
-					throw new LdoDException(
+					throw new LdoDLoadException(
 							"falta atributo corresp para persName em witness"
 									+ bibl.getValue());
 				}
 			} else {
-				throw new LdoDException(
+				throw new LdoDLoadException(
 						"falta atributo element persName em witness respStmt"
 								+ bibl.getValue());
 			}
@@ -1042,8 +1049,8 @@ public class LoadTEIFragments {
 					bibl.getNamespace("xml"));
 
 			if (getObjectsByXmlID(biblID) != null)
-				throw new LdoDException("já está declarado o atributo xml:id="
-						+ biblID);
+				throw new LdoDLoadException(
+						"já está declarado o atributo xml:id=" + biblID);
 			assert getObjectsByXmlID(biblID) == null : "xml:id:" + biblID
 					+ " IS ALREADY DECLARED";
 
@@ -1078,8 +1085,8 @@ public class LoadTEIFragments {
 					msDesc.getNamespace("xml"));
 
 			if (getObjectsByXmlID(manuscriptID) != null)
-				throw new LdoDException("já está declarado o atributo xml:id="
-						+ manuscriptID);
+				throw new LdoDLoadException(
+						"já está declarado o atributo xml:id=" + manuscriptID);
 
 			assert getObjectsByXmlID(manuscriptID) == null : "xml:id:"
 					+ manuscriptID + " IS ALREADY DECLARED";
@@ -1098,7 +1105,7 @@ public class LoadTEIFragments {
 			Element altElement = msId.getChild("altIdentifier", namespace);
 
 			if (altElement == null) {
-				throw new LdoDException(
+				throw new LdoDLoadException(
 						"falta declarar altIdentifier de um msIdentifier");
 			}
 
@@ -1111,7 +1118,7 @@ public class LoadTEIFragments {
 			if (objectDesc.getAttributeValue("form").equals("leaf")) {
 				manuscript.setForm(ManuscriptSource.Form.LEAF);
 			} else {
-				throw new LdoDException(
+				throw new LdoDLoadException(
 						"não está definido o valor do atributo form="
 								+ objectDesc.getAttributeValue("form"));
 			}
@@ -1120,7 +1127,7 @@ public class LoadTEIFragments {
 			if (supportDesc.getAttributeValue("material").equals("paper")) {
 				manuscript.setMaterial(ManuscriptSource.Material.PAPER);
 			} else {
-				throw new LdoDException(
+				throw new LdoDLoadException(
 						"não está definido o valor do atributo material="
 								+ objectDesc.getAttributeValue("material"));
 			}

@@ -20,7 +20,7 @@ import pt.ist.socialsoftware.edition.domain.ExpertEdition;
 import pt.ist.socialsoftware.edition.domain.Heteronym;
 import pt.ist.socialsoftware.edition.domain.LdoD;
 import pt.ist.socialsoftware.edition.domain.Taxonomy;
-import pt.ist.socialsoftware.edition.shared.exception.LdoDException;
+import pt.ist.socialsoftware.edition.shared.exception.LdoDLoadException;
 
 public class LoadTEICorpus {
 
@@ -57,15 +57,17 @@ public class LoadTEICorpus {
 			// TODO: create a config variable for the xml file
 			doc = builder.build(file);
 		} catch (FileNotFoundException e) {
-			throw new LdoDException("Ficheiro não encontrado");
+			throw new LdoDLoadException("Ficheiro não encontrado");
 		} catch (JDOMException e) {
-			throw new LdoDException("Ficheiro com problemas de codificação TEI");
+			throw new LdoDLoadException(
+					"Ficheiro com problemas de codificação TEI");
 		} catch (IOException e) {
-			throw new LdoDException("Problemas com o ficheiro, tipo ou formato");
+			throw new LdoDLoadException(
+					"Problemas com o ficheiro, tipo ou formato");
 		}
 
 		if (doc == null) {
-			LdoDException ex = new LdoDException(
+			LdoDLoadException ex = new LdoDLoadException(
 					"Ficheiro inexistente ou sem formato TEI");
 			throw ex;
 		}
@@ -103,7 +105,7 @@ public class LoadTEICorpus {
 					heteronymTEI.getNamespace("xml"));
 
 			if (getObjectsByXmlID(heteronymXmlID) != null) {
-				throw new LdoDException("xml:id:" + heteronymXmlID
+				throw new LdoDLoadException("xml:id:" + heteronymXmlID
 						+ " já foi declarado");
 			}
 
@@ -133,7 +135,7 @@ public class LoadTEICorpus {
 					taxonomyTEI.getNamespace("xml"));
 
 			if (getObjectsByXmlID(tononomyID) != null) {
-				throw new LdoDException("xml:id:" + tononomyID
+				throw new LdoDLoadException("xml:id:" + tononomyID
 						+ " já foi declarado");
 			}
 
@@ -155,7 +157,7 @@ public class LoadTEICorpus {
 						categoryTEI.getNamespace("xml"));
 
 				if (getObjectsByXmlID(categoryID) != null) {
-					throw new LdoDException("xml:id:" + categoryID
+					throw new LdoDLoadException("xml:id:" + categoryID
 							+ " já foi declarado");
 				}
 
@@ -183,7 +185,7 @@ public class LoadTEICorpus {
 				corpusHeaderListBibl.getNamespace("xml"));
 
 		if (getObjectsByXmlID(listEditionsXmlID) != null) {
-			throw new LdoDException("xml:id:" + listEditionsXmlID
+			throw new LdoDLoadException("xml:id:" + listEditionsXmlID
 					+ " já foi declarado");
 		}
 
@@ -195,7 +197,7 @@ public class LoadTEICorpus {
 					bibl.getNamespace("xml"));
 
 			if (getObjectsByXmlID(editionXmlID) != null) {
-				throw new LdoDException("xml:id:" + editionXmlID
+				throw new LdoDLoadException("xml:id:" + editionXmlID
 						+ " já foi declarado");
 			}
 

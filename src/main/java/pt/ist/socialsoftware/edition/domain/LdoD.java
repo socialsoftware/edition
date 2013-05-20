@@ -14,7 +14,7 @@ public class LdoD extends LdoD_Base {
 
 	public ExpertEdition getExpertEdition(String acronym) {
 		for (ExpertEdition edition : getExpertEditions()) {
-			if (edition.hasAcronym(acronym)) {
+			if (edition.getAcronym().equals(acronym)) {
 				return edition;
 			}
 		}

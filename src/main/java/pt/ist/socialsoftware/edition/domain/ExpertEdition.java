@@ -17,19 +17,22 @@ public class ExpertEdition extends ExpertEdition_Base {
 		setAuthor(author);
 		setEditor(editor);
 		setDate(date);
-	}
 
-	public boolean hasAcronym(String acronym) {
-		if (acronym.equals("JPC") && getEditor().equals(COELHO)) {
-			return true;
-		} else if (acronym.equals("TSC") && getEditor().equals(CUNHA)) {
-			return true;
-		} else if (acronym.equals("RZ") && getEditor().equals(ZENITH)) {
-			return true;
-		} else if (acronym.equals("JP") && getEditor().equals(PIZARRO)) {
-			return true;
-		} else {
-			return false;
+		switch (editor) {
+		case COELHO:
+			setAcronym("JPC");
+			break;
+		case CUNHA:
+			setAcronym("TSC");
+			break;
+		case ZENITH:
+			setAcronym("RZ");
+			break;
+		case PIZARRO:
+			setAcronym("JP");
+			break;
+		default:
+			assert false : "Nome de editor com erros: " + editor;
 		}
 	}
 

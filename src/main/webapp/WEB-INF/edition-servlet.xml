@@ -56,7 +56,7 @@
 	
 	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 		<!-- one of the properties available; the maximum file size in bytes -->
-		<beans:property name="maxUploadSize" value="100000"/>
+		<beans:property name="maxUploadSize" value="250000"/>
 	</beans:bean>
 	
 	<!-- Resolve vistas seleccionadas para renderização pelos @Controllers para páginas .jsp na pasta webapp/jsp -->
