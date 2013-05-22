@@ -39,6 +39,7 @@ import pt.ist.socialsoftware.edition.domain.LdoD;
 import pt.ist.socialsoftware.edition.domain.LdoDText.OpenClose;
 import pt.ist.socialsoftware.edition.domain.ManuscriptSource;
 import pt.ist.socialsoftware.edition.domain.ParagraphText;
+import pt.ist.socialsoftware.edition.domain.PbText;
 import pt.ist.socialsoftware.edition.domain.PrintedSource;
 import pt.ist.socialsoftware.edition.domain.Reading;
 import pt.ist.socialsoftware.edition.domain.SimpleText;
@@ -279,6 +280,8 @@ public class LoadTEIFragments {
 				Element element2 = (Element) content;
 				if (element2.getName().equals("lb")) {
 					endPoint = loadLb(element2, startPoint, fragInters);
+				} else if (element2.getName().equals("pb")) {
+					endPoint = loadPb(element2, startPoint, fragInters);
 				} else if (element2.getName().equals("app")) {
 					endPoint = loadApp(element2, startPoint, fragInters);
 				} else if (element2.getName().equals("space")) {
@@ -765,6 +768,43 @@ public class LoadTEIFragments {
 		if (!pendingFragInterps.isEmpty()) {
 			addReading4Empty(startPoint, endPoint, pendingFragInterps,
 					isBreak(element));
+		}
+
+		return endPoint;
+	}
+
+	private VariationPoint loadPb(Element element, VariationPoint startPoint,
+			List<FragInter> fragInters) {
+
+		List<FragInter> pendingFragInterps = new ArrayList<FragInter>(
+				fragInters);
+		List<FragInter> toFragInters = null;
+
+		Attribute edAttribute = element.getAttribute("ed");
+		if (edAttribute == null) {
+			toFragInters = fragInters;
+		} else {
+			String[] listInterXmlId = element.getAttribute("ed").getValue()
+					.split("\\s+");
+			toFragInters = getFragItersByListXmlID(listInterXmlId);
+		}
+
+		VariationPoint endPoint = new VariationPoint(startPoint.getFragment());
+
+		Reading reading = new Reading();
+		PbText text = new PbText();
+		reading.addBeginText(text);
+
+		for (FragInter fragIter : toFragInters) {
+			reading.addFragInters(fragIter);
+			pendingFragInterps.remove(fragIter);
+		}
+
+		startPoint.addOutReadings(reading);
+		endPoint.addInReadings(reading);
+
+		if (!pendingFragInterps.isEmpty()) {
+			addReading4Empty(startPoint, endPoint, pendingFragInterps, true);
 		}
 
 		return endPoint;

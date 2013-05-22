@@ -10,12 +10,12 @@ public class PbText extends PbText_Base {
 
 	@Override
 	public void accept(GraphVisitor visitor) {
-		assert false;
+		visitor.visit(this);
 	}
 
 	@Override
 	public String writeHtml() {
-		return "";
+		return "<hr size=\"3\" color=\"black\">";
 	}
 
 }

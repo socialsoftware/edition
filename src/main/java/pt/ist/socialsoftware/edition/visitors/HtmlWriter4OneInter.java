@@ -172,6 +172,15 @@ public class HtmlWriter4OneInter extends HtmlWriter {
 	}
 
 	@Override
+	public void visit(PbText text) {
+		transcription = transcription + text.writeHtml();
+
+		if (text.getNextText() != null) {
+			text.getNextText().accept(this);
+		}
+	}
+
+	@Override
 	public void visit(ParagraphText text) {
 		transcription = transcription + text.writeHtml();
 
@@ -253,11 +262,6 @@ public class HtmlWriter4OneInter extends HtmlWriter {
 		if (text.getNextText() != null) {
 			text.getNextText().accept(this);
 		}
-	}
-
-	@Override
-	public void visit(PbText text) {
-		assert false;
 	}
 
 }

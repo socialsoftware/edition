@@ -13,6 +13,7 @@ import pt.ist.socialsoftware.edition.domain.LbText;
 import pt.ist.socialsoftware.edition.domain.LdoDText;
 import pt.ist.socialsoftware.edition.domain.LdoDText.OpenClose;
 import pt.ist.socialsoftware.edition.domain.ParagraphText;
+import pt.ist.socialsoftware.edition.domain.PbText;
 import pt.ist.socialsoftware.edition.domain.Reading;
 import pt.ist.socialsoftware.edition.domain.SimpleText;
 import pt.ist.socialsoftware.edition.domain.VariationPoint;
@@ -341,6 +342,13 @@ public class HtmlWriter2CompInters extends HtmlWriter {
 	public void visit(LbText text) {
 		breakWord = text.getBreakWord();
 
+		if (text.getNextText() != null) {
+			text.getNextText().accept(this);
+		}
+	}
+
+	@Override
+	public void visit(PbText text) {
 		if (text.getNextText() != null) {
 			text.getNextText().accept(this);
 		}

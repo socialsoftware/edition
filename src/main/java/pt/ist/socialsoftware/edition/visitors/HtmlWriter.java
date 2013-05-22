@@ -37,7 +37,9 @@ public abstract class HtmlWriter implements GraphVisitor {
 
 	@Override
 	public void visit(PbText text) {
-		assert false;
+		if (text.getNextText() != null) {
+			text.getNextText().accept(this);
+		}
 	}
 
 	@Override
