@@ -21,20 +21,20 @@
 		<form class="form-horizontal" method="POST" action="/virtualeditions/edit/${externalId}">
 			<fieldset>
 				<legend><spring:message code="virtualeditionlist.editvirtual" /></legend>
-				<c:if test="${error}">
-					<div class="row text-error"><spring:message code="virtualeditionlist.createvirtualerror" /></div>
-				</c:if>
+				<c:forEach var="error" items='${errors}'>
+					<div class="row text-error"><spring:message code="${error}" /></div>
+				</c:forEach>
 				<div class="control-group">
 					<label class="control-label" for="acronym"><spring:message code="virtualeditionlist.acronym" />:</label>
 					<div class="controls">
-						<input type="text" class="input-small" name="acronym" id="acronym"
+						<input type="text" class="input-small" name="acronym" id="acronym" 
 							placeholder="<spring:message code="virtualeditionlist.acronym" />" value="${acronym}" />
 					</div>
 				</div>
 				<div class="control-group">
 					<label class="control-label" for="name"><spring:message code="virtualeditionlist.name" />:</label>
 					<div class="controls">
-						<input type="text" class="input-block-level" name="name" id="name"
+						<input type="text" class="input-block-level" name="name" id="name" 
 							placeholder="<spring:message code="virtualeditionlist.name" />" value="${name}" />
 					</div>
 				</div>

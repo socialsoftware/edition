@@ -1,5 +1,8 @@
 package pt.ist.socialsoftware.edition.controller;
 
+import java.util.List;
+import java.util.Map;
+
 import jvstm.Transaction;
 
 import org.springframework.stereotype.Controller;
@@ -13,6 +16,7 @@ import pt.ist.fenixframework.pstm.AbstractDomainObject;
 import pt.ist.socialsoftware.edition.domain.LdoD;
 import pt.ist.socialsoftware.edition.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDDuplicateValueException;
+import pt.ist.socialsoftware.edition.validator.VirtualEditionValidator;
 
 @Controller
 @RequestMapping("/virtualeditions")
@@ -29,7 +33,8 @@ public class VirtualEditionController {
 
 	@RequestMapping(method = RequestMethod.GET, value = "/createForm")
 	public String showCreateVirtualEdition(Model model) {
-		model.addAttribute("error", false);
+		model.addAttribute("acronym", "");
+		model.addAttribute("name", "");
 		return "createVirtualEdition";
 	}
 
@@ -39,13 +44,36 @@ public class VirtualEditionController {
 			@RequestParam("name") String name) {
 
 		String date = "12/1/2013";
+
 		VirtualEdition virtualEdition = null;
+
+		VirtualEditionValidator validator = new VirtualEditionValidator(
+				virtualEdition, acronym, name);
+		validator.validate();
+
+		List<String> errors = validator.getErrors();
+		Map<String, Object> values = validator.getValues();
+
+		if (errors.size() > 0) {
+			model.addAttribute("errors", errors);
+			model.addAttribute(
+					"acronym",
+					values.get("acronym") == null ? acronym : values
+							.get("acronym"));
+			model.addAttribute("name", values.get("name") == null ? name
+					: values.get("name"));
+
+			return "createVirtualEdition";
+		}
+
 		try {
 			virtualEdition = new VirtualEdition(LdoD.getInstance(), acronym,
 					name, date);
 		} catch (LdoDDuplicateValueException ex) {
+			errors.add("virtualedition.acronym.duplicate");
+			model.addAttribute("acronym", "");
+			model.addAttribute("name", name);
 			Transaction.abort();
-			model.addAttribute("error", true);
 			return "createVirtualEdition";
 		}
 
@@ -77,7 +105,6 @@ public class VirtualEditionController {
 		if (virtualEdition == null) {
 			return "pageNotFound";
 		} else {
-			model.addAttribute("error", false);
 			model.addAttribute("externalId", virtualEdition.getExternalId());
 			model.addAttribute("acronym", virtualEdition.getAcronym());
 			model.addAttribute("name", virtualEdition.getName());
@@ -94,14 +121,35 @@ public class VirtualEditionController {
 			return "pageNotFound";
 		}
 
+		VirtualEditionValidator validator = new VirtualEditionValidator(
+				virtualEdition, acronym, name);
+		validator.validate();
+
+		List<String> errors = validator.getErrors();
+		Map<String, Object> values = validator.getValues();
+
+		if (errors.size() > 0) {
+			model.addAttribute("errors", errors);
+			model.addAttribute("externalId", virtualEdition.getExternalId());
+			model.addAttribute(
+					"acronym",
+					values.get("acronym") == null ? acronym : values
+							.get("acronym"));
+			model.addAttribute("name", values.get("name") == null ? name
+					: values.get("name"));
+
+			return "editVirtualEdition";
+		}
+
 		try {
 			virtualEdition.setAcronym(acronym);
 			virtualEdition.setName(name);
 		} catch (LdoDDuplicateValueException ex) {
-			model.addAttribute("error", true);
+			errors.add("virtualedition.acronym.duplicate");
+			model.addAttribute("errors", errors);
 			model.addAttribute("externalId", virtualEdition.getExternalId());
 			model.addAttribute("acronym", virtualEdition.getAcronym());
-			model.addAttribute("name", virtualEdition.getName());
+			model.addAttribute("name", name);
 			Transaction.abort();
 			return "editVirtualEdition";
 		}

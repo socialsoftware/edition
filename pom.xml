@@ -14,9 +14,8 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<org.springframework.version>3.2.1.RELEASE</org.springframework.version>
 		<version.org.mortbay.jetty.jetty.maven.plugin>8.1.8.v20121106</version.org.mortbay.jetty.jetty.maven.plugin>
-		<version.org.springframework.spring>3.2.1.RELEASE</version.org.springframework.spring>
+		<version.org.springframework.spring>3.2.2.RELEASE</version.org.springframework.spring>
 		<version.org.springframework.spring.security>3.1.4.RELEASE</version.org.springframework.spring.security>
 		<version.javax.servlet.jstl>1.2</version.javax.servlet.jstl>
 		<version.javax.servlet.servlet.api>2.5</version.javax.servlet.servlet.api>
@@ -26,6 +25,8 @@
 		<version.jaxen.jaxen>1.1</version.jaxen.jaxen>
 		<version.com.ibm.icu.icu4j>50.1.1</version.com.ibm.icu.icu4j>
 		<version.commons-fileupload.commons-fileupload>1.2.2</version.commons-fileupload.commons-fileupload>
+		<version.org.slf4j>1.7.5</version.org.slf4j>
+		<version.ch.qos.logback>1.0.13</version.ch.qos.logback>
 		<version.dml.dml.maven.plugin>1.1.2</version.dml.dml.maven.plugin>
 		<version.pt.ist.fenix.framework.core>1.1.4</version.pt.ist.fenix.framework.core>
 	</properties>
@@ -87,6 +88,13 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context</artifactId>
 			<version>${version.org.springframework.spring}</version>
+			<exclusions>
+				<!--Exclude Commons Logging in favor of SLF4j--> 
+				<exclusion>
+					<groupId>commons-logging</groupId>
+					<artifactId>commons-logging</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -163,7 +171,29 @@
 		<dependency>
 			<groupId>commons-fileupload</groupId>
 			<artifactId>commons-fileupload</artifactId>
-			<version>1.2.2</version> 
+			<version>${version.commons-fileupload.commons-fileupload}</version> 
+		</dependency>
+		<!-- Logging -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>${version.org.slf4j}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>jcl-over-slf4j</artifactId>
+			<version>${version.org.slf4j}</version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<version>${version.ch.qos.logback}</version>
+		</dependency>
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-core</artifactId>
+			<version>${version.ch.qos.logback}</version>
 		</dependency>
 	</dependencies>
 
