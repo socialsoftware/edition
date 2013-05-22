@@ -146,9 +146,9 @@ public class LoadTEIFragments {
 
 		getCorpusXmlIds();
 
-		XPathExpression<Element> xp = xpfac.compile(
-				"/def:teiCorpus/def:TEI/def:teiHeader", Filters.element(),
-				null, Namespace.getNamespace("def", namespace.getURI()));
+		XPathExpression<Element> xp = xpfac.compile("//def:TEI/def:teiHeader",
+				Filters.element(), null,
+				Namespace.getNamespace("def", namespace.getURI()));
 
 		for (Element fragmentTEI : xp.evaluate(doc)) {
 			String fragmentTEIID = fragmentTEI.getParentElement()
@@ -191,7 +191,7 @@ public class LoadTEIFragments {
 
 	private void loadFragmentText(Fragment fragment, String fragmentXmlID) {
 		String selectThisFragment = "[@xml:id='" + fragmentXmlID + "']";
-		String queryExpression = "/def:teiCorpus/def:TEI" + selectThisFragment
+		String queryExpression = "//def:TEI" + selectThisFragment
 				+ "/def:text/.//def:p";
 
 		XPathExpression<Element> xp = xpfac.compile(queryExpression,
@@ -848,7 +848,7 @@ public class LoadTEIFragments {
 	// TODO: a cleaner way to read parent's xmlID
 	private void loadWitnesses(Fragment fragment, String fragmentTEIID) {
 		String selectThisFragment = "[@xml:id='" + fragmentTEIID + "']";
-		String queryExpression = "/def:teiCorpus/def:TEI"
+		String queryExpression = "//def:TEI"
 				+ selectThisFragment
 				+ "/def:teiHeader/def:fileDesc/def:sourceDesc/def:listWit/.//def:witness";
 
@@ -1033,7 +1033,7 @@ public class LoadTEIFragments {
 
 	private void loadPrintedSources(Fragment fragment, String fragmentTEIID) {
 		String selectThisFragment = "[@xml:id='" + fragmentTEIID + "']";
-		String queryExpression = "/def:teiCorpus/def:TEI"
+		String queryExpression = "//def:TEI"
 				+ selectThisFragment
 				+ "/def:teiHeader/def:fileDesc/def:sourceDesc/def:listBibl/.//def:bibl";
 
@@ -1069,7 +1069,7 @@ public class LoadTEIFragments {
 	private void loadSourceManuscripts(Fragment fragment, String fragmentTEIID) {
 
 		String selectThisFragment = "[@xml:id='" + fragmentTEIID + "']";
-		String queryExpression = "/def:teiCorpus/def:TEI"
+		String queryExpression = "//def:TEI"
 				+ selectThisFragment
 				+ "/def:teiHeader/def:fileDesc/def:sourceDesc/def:listBibl/.//def:msDesc";
 
