@@ -25,7 +25,9 @@
 									Zenith</a></li>
 							<li><a href="${contextPath}/edition/acronym/JP">Jerónimo
 									Pizarro</a></li>
-							<li><a href="#"><spring:message code="header.virtualeditions" /></a></li>
+									<c:forEach var="acronym" items='${ldoDSession.selectedVEAcr}'>
+							<li><a href="#">${acronym}</a></li>
+							</c:forEach>
 						</ul></li>
 				</ul>
 				<ul class="nav">
@@ -49,10 +51,10 @@
 					<li class="dropdown"><a class="dropdown-toggle"
 						data-toggle="dropdown" href="#"><spring:message code="header.admin" /><b class="caret"></b></a>
 						<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-							<li><a href="${contextPath}/load/corpusForm"><spring:message code="header.loadcorpus" /></a></li>
-							<li><a href="${contextPath}/load/fragmentForm"><spring:message code="header.loadfragment" /></a></li>
+							<li><a href="${contextPath}/manager/load/corpusForm"><spring:message code="header.loadcorpus" /></a></li>
+							<li><a href="${contextPath}/manager/load/fragmentForm"><spring:message code="header.loadfragment" /></a></li>
 							<li class="divider"></li>
-							<li><a href="${contextPath}/fragments/delete"><spring:message code="header.deletefragment" /></a></li>
+							<li><a href="${contextPath}/manager/fragment/list"><spring:message code="header.deletefragment" /></a></li>
 						</ul></li>
 				</ul>
 

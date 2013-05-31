@@ -1,9 +1,7 @@
-package pt.ist.socialsoftware.edition.utils;
+package pt.ist.socialsoftware.edition.security;
 
 import java.util.HashSet;
 import java.util.Set;
-
-import jvstm.Transaction;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,10 +9,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.domain.LdoD;
+import pt.ist.socialsoftware.edition.domain.LdoDUser;
 import pt.ist.socialsoftware.edition.domain.Role;
-import pt.ist.socialsoftware.edition.domain.User;
 
 @Service("myUserDetailService")
 public class UserDetailsServiceImpl implements UserDetailsService {
@@ -25,11 +22,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
 		UserDetails matchingUser = null;
 
-		Transaction.begin();
+		LdoD ldoD = LdoD.getInstance();
 
-		LdoD ldoD = FenixFramework.getRoot();
-
-		for (User user : ldoD.getUsers()) {
+		for (LdoDUser user : ldoD.getUsers()) {
 
 			if (user.getUsername().equals(username)) {
 				Set<GrantedAuthority> authorities = new HashSet<GrantedAuthority>();
@@ -37,16 +32,12 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 					authorities
 							.add(new GrantedAuthorityImpl(role.getRolename()));
 				}
-				matchingUser = new UserDetailsImpl(user.getUsername(),
+				matchingUser = new UserDetailsImpl(user, user.getUsername(),
 						user.getPassword(), authorities);
-
-				Transaction.commit();
 
 				return matchingUser;
 			}
 		}
-
-		Transaction.commit();
 
 		if (matchingUser == null) {
 			throw new UsernameNotFoundException("Wrong username or password");

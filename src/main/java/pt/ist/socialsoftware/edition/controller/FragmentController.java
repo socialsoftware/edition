@@ -15,7 +15,6 @@ import pt.ist.socialsoftware.edition.domain.ExpertEdition;
 import pt.ist.socialsoftware.edition.domain.ExpertEditionInter;
 import pt.ist.socialsoftware.edition.domain.FragInter;
 import pt.ist.socialsoftware.edition.domain.Fragment;
-import pt.ist.socialsoftware.edition.domain.LdoD;
 import pt.ist.socialsoftware.edition.visitors.HtmlWriter;
 import pt.ist.socialsoftware.edition.visitors.HtmlWriter2CompInters;
 import pt.ist.socialsoftware.edition.visitors.HtmlWriter4OneInter;
@@ -34,21 +33,6 @@ public class FragmentController {
 			model.addAttribute("fragment", fragment);
 			return "fragment";
 		}
-	}
-
-	@RequestMapping(method = RequestMethod.POST, value = "/delete")
-	public String deleteFragment(Model model,
-			@RequestParam("externalId") String externalId) {
-		Fragment fragment = AbstractDomainObject.fromExternalId(externalId);
-
-		if (fragment == null) {
-			return "fragmentNotFound";
-		} else if (LdoD.getInstance().getFragmentsCount() >= 1) {
-			fragment.remove();
-		}
-		model.addAttribute("fragments", LdoD.getInstance().getFragmentsSet());
-		return "deleteFragment";
-
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/interpretation/{id}")

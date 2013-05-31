@@ -18,7 +18,7 @@
 	<%@ include file="/WEB-INF/jsp/common/header.jsp"%>
 
 	<div class="container">
-		<form class="form-horizontal" method="POST" action="/virtualeditions/edit/${externalId}">
+		<form class="form-horizontal" method="POST" action="/virtualeditions/restricted/edit/${externalId}">
 			<fieldset>
 				<legend><spring:message code="virtualeditionlist.editvirtual" /></legend>
 				<c:forEach var="error" items='${errors}'>
@@ -32,15 +32,16 @@
 					</div>
 				</div>
 				<div class="control-group">
-					<label class="control-label" for="name"><spring:message code="virtualeditionlist.name" />:</label>
+					<label class="control-label" for="title"><spring:message code="virtualeditionlist.name" />:</label>
 					<div class="controls">
-						<input type="text" class="input-block-level" name="name" id="name" 
-							placeholder="<spring:message code="virtualeditionlist.name" />" value="${name}" />
+						<input type="text" class="input-block-level" name="title" id="title" 
+							placeholder="<spring:message code="virtualeditionlist.name" />" value="${title}" />
 					</div>
 				</div>
 				<div class="control-group">
 					<div class="controls">
-						<button type="submit" class="btn"><spring:message code="general.update" /></button>
+						<button type="submit" class="btn"><i
+										class="icon-edit"></i><spring:message code="general.update" /></button>
 					</div>
 				</div>
 			</fieldset>

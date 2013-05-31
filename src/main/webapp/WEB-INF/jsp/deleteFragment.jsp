@@ -33,7 +33,7 @@
 					<c:forEach var="fragment" items='${fragments}'>
 						<tr>
 							<td><form class="form-inline" method="POST"
-									action="${contextPath}/fragments/fragment/delete">
+									action="${contextPath}/manager/fragment/delete">
 									${fragment.title} <input type="hidden" name="externalId"
 										value="${fragment.externalId}" />
 									<button type="submit" class="btn pull-right">

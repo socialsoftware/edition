@@ -23,12 +23,32 @@
 		<h1 class="text-center">
 			<spring:message code="header.manageeditions" />
 		</h1>
-		<div class="row-fluid">
+		<br>
+		<div class="row-fluid span12">
+			<form class="form-inline" method="POST"
+				action="/virtualeditions/restricted/create">
+				<fieldset>
+					<c:forEach var="error" items='${errors}'>
+						<div class="row-fluid text-error">
+							<spring:message code="${error}" />
+						</div>
+					</c:forEach>
+					<input type="text" class="input-small" name="acronym" id="acronym"
+						placeholder="<spring:message code="virtualeditionlist.acronym" />"
+						value="${acronym}" /> <input type="text" class="input"
+						name="title" id="title"
+						placeholder="<spring:message code="virtualeditionlist.name" />"
+						value="${title}" />
+					<button type="submit" class="btn">
+						<i class="icon-edit"></i>
+						<spring:message code="general.create" />
+					</button>
+				</fieldset>
+			</form>
+		</div>
+		<div class="row-fluid span12">
 			<div>
 				<table class="table table-striped table-bordered table-condensed">
-					<legend>
-						<spring:message code="virtualeditionlist.title" />
-					</legend>
 					<thead>
 						<tr>
 							<th><spring:message code="virtualeditionlist.acronym" /></th>
@@ -39,22 +59,41 @@
 						<c:forEach var="virtualEdition" items='${virtualEditions}'>
 							<tr>
 								<td>${virtualEdition.acronym}</td>
-								<td>${virtualEdition.name}</td>
+								<td>${virtualEdition.title}</td>
+								<td><form class="form-inline" method="POST"
+										action="${contextPath}/virtualeditions/toggleselection">
+										<input type="hidden" name="externalId"
+											value="${virtualEdition.externalId}" />
+										<button type="submit" class="btn btn-mini">
+											<i class="icon-check"></i>
+											<c:choose>
+												<c:when
+													test="${ldoDSession.selectedVEs.contains(virtualEdition)}">
+													<spring:message code="general.deselect" />
+												</c:when>
+												<c:otherwise>
+													<spring:message code="general.select" />
+												</c:otherwise>
+											</c:choose>
+										</button>
+									</form></td>
 								<td><a class="btn btn-mini"
-									href="${contextPath}/virtualeditions/editForm/${virtualEdition.externalId}"><i
+									href="${contextPath}/virtualeditions/restricted/editForm/${virtualEdition.externalId}"><i
 										class="icon-edit"></i> <spring:message code="general.edit" /></a></td>
+								<td><a class="btn btn-mini"
+									href="${contextPath}/virtualeditions/restricted/participantsForm/${virtualEdition.externalId}"><i
+										class="icon-edit"></i> <spring:message
+											code="participant.manage" /></a></td>
 								<td>
 									<form class="form-inline" method="POST"
-										action="${contextPath}/virtualeditions/delete">
+										action="${contextPath}/virtualeditions/restricted/delete">
 										<input type="hidden" name="externalId"
 											value="${virtualEdition.externalId}" />
 										<button type="submit" class="btn btn-mini">
 											<i class="icon-remove"></i>
-											<spring:message code="general.remove" />
+											<spring:message code="general.delete" />
 										</button>
 									</form>
-
-
 								</td>
 							</tr>
 
@@ -62,13 +101,6 @@
 					</tbody>
 				</table>
 			</div>
-			<div>
-				<legend><spring:message code="virtualeditionlist.createtitle" /></legend>
-				<a class="btn" href="${contextPath}/virtualeditions/createForm"><i
-					class="icon-edit"></i> <spring:message code="general.create" /></a>
-			</div>
-
-
 		</div>
 	</div>
 </body>

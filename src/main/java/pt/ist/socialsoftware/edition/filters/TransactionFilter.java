@@ -11,7 +11,12 @@ import javax.servlet.ServletResponse;
 
 import jvstm.Transaction;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class TransactionFilter implements Filter {
+	private final static Logger logger = LoggerFactory
+			.getLogger(TransactionFilter.class);
 
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response,
@@ -20,16 +25,21 @@ public class TransactionFilter implements Filter {
 			Transaction.begin(false);
 			chain.doFilter(request, response);
 		} catch (Exception e) {
+			if (logger.isDebugEnabled()) {
+				logger.error("Exception: {}", e.getMessage(), e);
+			}
 			Transaction.abort();
-			throw (ServletException) e;
 		}
 
 		if (Transaction.isInTransaction()) {
 			try {
 				Transaction.commit();
 			} catch (Exception e) {
+				if (logger.isDebugEnabled()) {
+					logger.error("Exception: {}", e.getMessage(), e);
+				}
+
 				Transaction.abort();
-				throw (ServletException) e;
 			}
 		}
 	}

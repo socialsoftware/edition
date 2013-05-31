@@ -72,7 +72,7 @@ public class GraphWriter implements GraphVisitor {
 
 				rdg.accept(this);
 
-				result = result + "[/P" + nextPointNumber + "\n";
+				result = result + "[/P" + nextPointNumber + "]\n";
 
 			}
 
@@ -124,7 +124,6 @@ public class GraphWriter implements GraphVisitor {
 
 	@Override
 	public void visit(LbText lbText) {
-		System.out.println("visit(LbText lbText)");
 		result = result + "[LBT](BW:" + lbText.getBreakWord() + ",H:"
 				+ lbText.getHyphenated() + ")[/LBT]";
 
@@ -136,7 +135,6 @@ public class GraphWriter implements GraphVisitor {
 
 	@Override
 	public void visit(PbText pbText) {
-		System.out.println("visit(PbText pbText)");
 		result = result + "[PBT]" + "[/PBT]";
 
 		if (pbText.getNextText() != null) {

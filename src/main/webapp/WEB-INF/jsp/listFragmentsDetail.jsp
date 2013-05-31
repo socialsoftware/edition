@@ -5,7 +5,6 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="s"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib uri="/WEB-INF/ldoD.tld" prefix="ldod"%>
-<%@ page session="false"%>
 <div id="fragmentList" class="row-fluid">
 	<table class="table table-striped table-bordered table-condensed">
 		<thead>

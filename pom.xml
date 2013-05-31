@@ -1,9 +1,8 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
 	http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	
+
 
 	<groupId>pt.ist.socialsoftware</groupId>
 	<artifactId>edition</artifactId>
@@ -73,7 +72,7 @@
 	</build>
 
 	<dependencies>
-		
+
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>
@@ -89,7 +88,7 @@
 			<artifactId>spring-context</artifactId>
 			<version>${version.org.springframework.spring}</version>
 			<exclusions>
-				<!--Exclude Commons Logging in favor of SLF4j--> 
+				<!--Exclude Commons Logging in favor of SLF4j -->
 				<exclusion>
 					<groupId>commons-logging</groupId>
 					<artifactId>commons-logging</artifactId>
@@ -171,7 +170,7 @@
 		<dependency>
 			<groupId>commons-fileupload</groupId>
 			<artifactId>commons-fileupload</artifactId>
-			<version>${version.commons-fileupload.commons-fileupload}</version> 
+			<version>${version.commons-fileupload.commons-fileupload}</version>
 		</dependency>
 		<!-- Logging -->
 		<dependency>
@@ -210,5 +209,5 @@
 			<url>https://fenix-ashes.ist.utl.pt/nexus/content/groups/fenix-ashes-maven-repository</url>
 		</pluginRepository>
 	</pluginRepositories>
-	
+
 </project>

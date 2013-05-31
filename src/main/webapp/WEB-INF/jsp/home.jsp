@@ -24,9 +24,9 @@
 			<br> <br>
 			<p class="text-right text-info">
 				<strong>Versão BETA - Protótipo em desenvolvimento</strong><br>
-				<em>Código Aberto com licença <a
-					href="http://opensource.org/licenses/LGPL-3.0">LGPL</a> em <a
-					href="https://github.com/socialsoftware/edition">https://github.com/socialsoftware/edition</a></em>
+				<span>Social Edition - LdoD</span> by <span>CLP / FLUC / UC
+					and ESW / INESC-ID / IST</span><br> <span>Nenhum Problema Tem
+					Solução Project</span><br> Licensed under a <a href="http://www.freebsd.org/copyright/freebsd-license.html">FreeBSD</a> License
 			</p>
 		</div>
 	</div>

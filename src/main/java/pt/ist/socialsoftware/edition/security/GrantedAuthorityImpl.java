@@ -1,4 +1,4 @@
-package pt.ist.socialsoftware.edition.utils;
+package pt.ist.socialsoftware.edition.security;
 
 import org.springframework.security.core.GrantedAuthority;
 

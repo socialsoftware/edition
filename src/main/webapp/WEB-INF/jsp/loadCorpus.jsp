@@ -17,7 +17,7 @@
 	<%@ include file="/WEB-INF/jsp/common/header.jsp"%>
 
 	<div class="container">
-		<form method="POST" action="${contextPath}/load/corpus"
+		<form method="POST" action="${contextPath}/manager/load/corpus"
 			enctype="multipart/form-data">
 			<form:errors path="*" />
 

@@ -20,4 +20,13 @@ public class LdoD extends LdoD_Base {
 		}
 		return null;
 	}
+
+	public LdoDUser getUser(String username) {
+		for (LdoDUser user : getUsers()) {
+			if (user.getUsername().equals(username)) {
+				return user;
+			}
+		}
+		return null;
+	}
 }

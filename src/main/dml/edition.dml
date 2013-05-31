@@ -19,14 +19,14 @@ class LdoD {
 	String funder;
 }
 
-class User {
+class LdoDUser {
 	String username;
 	String password;
 }
 
-relation LdoDHasUsers {
+relation LdoDHasLdoDUsers {
 	LdoD playsRole ldoD {multiplicity 1..1;}
-	User playsRole users {multiplicity 0..*;}
+	LdoDUser playsRole users {multiplicity 0..*;}
 }
 
 class Role {
@@ -38,8 +38,8 @@ relation LdoDHasRoles {
 	Role playsRole roles {multiplicity 0..*;}
 }
 
-relation UsersAndRoles {
-	User playsRole users {multiplicity 0..*;}
+relation LdoDUsersAndRoles {
+	LdoDUser playsRole users {multiplicity 0..*;}
 	Role playsRole roles {multiplicity 0..*;}
 }
 
@@ -56,7 +56,6 @@ class ExpertEdition extends Edition {
 }
 
 class VirtualEdition extends Edition {
-	String name;
 	Boolean pub;
 }
 
@@ -70,13 +69,13 @@ relation LdoDHasVirtualEditions {
 	VirtualEdition playsRole virtualEditions {multiplicity 0..*;}
 }
 
-relation UserParticipatesVirtualEditions {
-	User playsRole participant {multiplicity 0..*;}
+relation LdoDUserParticipatesVirtualEditions {
+	LdoDUser playsRole participant {multiplicity 0..*;}
 	VirtualEdition playsRole myVirtualEditions {multiplicity 0..*;}
 }
 
-relation UserSelectVirtualEditions {
-	User playsRole selectedBy {multiplicity 0..*;}
+relation LdoDUserSelectsVirtualEditions {
+	LdoDUser playsRole selectedBy {multiplicity 0..*;}
 	VirtualEdition playsRole selectedVirtualEditions {multiplicity 0..*;}
 }
 

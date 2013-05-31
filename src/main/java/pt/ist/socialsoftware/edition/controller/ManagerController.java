@@ -9,20 +9,23 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import pt.ist.fenixframework.pstm.AbstractDomainObject;
+import pt.ist.socialsoftware.edition.domain.Fragment;
+import pt.ist.socialsoftware.edition.domain.LdoD;
 import pt.ist.socialsoftware.edition.loaders.LoadTEICorpus;
 import pt.ist.socialsoftware.edition.loaders.LoadTEIFragments;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDLoadException;
 
 @Controller
-@RequestMapping("/load")
-public class LoadController {
+@RequestMapping("/manager")
+public class ManagerController {
 
-	@RequestMapping(method = RequestMethod.GET, value = "/corpusForm")
+	@RequestMapping(method = RequestMethod.GET, value = "/load/corpusForm")
 	public String corpusForm(Model model) {
 		return "loadCorpus";
 	}
 
-	@RequestMapping(method = RequestMethod.POST, value = "/corpus")
+	@RequestMapping(method = RequestMethod.POST, value = "/load/corpus")
 	public String loadTEICorpus(Model model,
 			@RequestParam("file") MultipartFile file) throws LdoDLoadException {
 
@@ -41,12 +44,12 @@ public class LoadController {
 		return writeMessage(model, "Corpus carregado", "/");
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "/fragmentForm")
+	@RequestMapping(method = RequestMethod.GET, value = "/load/fragmentForm")
 	public String fragmentForm(Model model) {
 		return "loadFragments";
 	}
 
-	@RequestMapping(method = RequestMethod.POST, value = "/fragments")
+	@RequestMapping(method = RequestMethod.POST, value = "/load/fragments")
 	public String loadTEIFragments(Model model,
 			@RequestParam("file") MultipartFile file) throws LdoDLoadException {
 
@@ -70,6 +73,27 @@ public class LoadController {
 		model.addAttribute("message", message);
 		model.addAttribute("page", back);
 		return "okMessage";
+	}
+
+	@RequestMapping(method = RequestMethod.GET, value = "/fragment/list")
+	public String deleteFragmentsList(Model model) {
+		model.addAttribute("fragments", LdoD.getInstance().getFragmentsSet());
+		return "deleteFragment";
+	}
+
+	@RequestMapping(method = RequestMethod.POST, value = "/fragment/delete")
+	public String deleteFragment(Model model,
+			@RequestParam("externalId") String externalId) {
+		Fragment fragment = AbstractDomainObject.fromExternalId(externalId);
+
+		if (fragment == null) {
+			return "fragmentNotFound";
+		} else if (LdoD.getInstance().getFragmentsCount() >= 1) {
+			fragment.remove();
+		}
+		model.addAttribute("fragments", LdoD.getInstance().getFragmentsSet());
+		return "deleteFragment";
+
 	}
 
 }

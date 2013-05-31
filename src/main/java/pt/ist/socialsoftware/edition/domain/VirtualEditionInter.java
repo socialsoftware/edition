@@ -8,7 +8,7 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 
 	@Override
 	public String getShortName() {
-		return getVirtualEdition().getName();
+		return getVirtualEdition().getAcronym();
 	}
 
 	@Override
@@ -17,17 +17,17 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 	}
 
 	public int compareVirtualEditionInter(VirtualEditionInter other) {
-		String myName = getVirtualEdition().getName();
-		String otherName = other.getVirtualEdition().getName();
+		String myAcronym = getVirtualEdition().getAcronym();
+		String otherAcronym = other.getVirtualEdition().getAcronym();
 
-		return myName.compareTo(otherName);
+		return myAcronym.compareTo(otherAcronym);
 	}
 
 	@Override
 	public String getMetaTextual() {
 		String result = "";
 
-		result = result + "Edição Virtual: " + getVirtualEdition().getName();
+		result = result + "Edição Virtual: " + getVirtualEdition().getTitle();
 
 		result = result + "Heterónimo: " + getHeteronym().getName() + "<br>";
 

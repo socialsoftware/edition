@@ -6,13 +6,13 @@ public class VirtualEditionValidator extends AbstractLdoDValidator {
 
 	private VirtualEdition virtualEdition = null;
 	private String acronym = null;
-	private String name = null;
+	private String title = null;
 
 	public VirtualEditionValidator(VirtualEdition virtualEdition,
-			String acronym, String name) {
+			String acronym, String title) {
 		this.virtualEdition = virtualEdition;
 		this.acronym = acronym;
-		this.name = name;
+		this.title = title;
 	}
 
 	public void validate() {
@@ -21,10 +21,10 @@ public class VirtualEditionValidator extends AbstractLdoDValidator {
 			values.put("acronym",
 					virtualEdition != null ? virtualEdition.getAcronym() : "");
 		}
-		if (LdoDValidatorFunctions.emptyOrWhitespaceString(name)) {
-			errors.add("virtualedition.name.empty");
-			values.put("name",
-					virtualEdition != null ? virtualEdition.getName() : "");
+		if (LdoDValidatorFunctions.emptyOrWhitespaceString(title)) {
+			errors.add("virtualedition.title.empty");
+			values.put("title",
+					virtualEdition != null ? virtualEdition.getTitle() : "");
 		}
 
 	}
