@@ -137,13 +137,13 @@ public class HtmlWriter4OneInter extends HtmlWriter {
 						// <del><a href= ....>
 						transcription = transcription + pText.writeHtml()
 								+ reference;
+						notes = notes + pText.writeNote(refsCounter);
+						refsCounter = refsCounter + 1;
 					} else {
 						// </a></del>
 						transcription = transcription + reference
 								+ pText.writeHtml();
 					}
-					notes = notes + pText.writeNote(refsCounter);
-					refsCounter = refsCounter + 1;
 				} else {
 					transcription = transcription + pText.writeHtml();
 				}
