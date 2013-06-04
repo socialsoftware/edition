@@ -475,6 +475,8 @@ public class LoadTEIFragments {
 
 			if (placeValue.equals("above")) {
 				place = Place.ABOVE;
+			} else if (placeValue.equals("below")) {
+				place = Place.BELOW;
 			} else if (placeValue.equals("superimposed")) {
 				place = Place.SUPERIMPOSED;
 			} else if (placeValue.equals("margin")) {
