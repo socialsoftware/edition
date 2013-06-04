@@ -1029,6 +1029,10 @@ public class LoadTEIFragments {
 		String scope = "";
 		for (Element biblScope : bibl.getChildren("biblScope", namespace)) {
 			Attribute unitAtt = biblScope.getAttribute("unit");
+			if (unitAtt == null) {
+				throw new LdoDLoadException(
+						"elemento biblScope sem atributo unit");
+			}
 			if (unitAtt.getValue().equals(unit)) {
 				scope = biblScope.getTextTrim();
 				return scope;
