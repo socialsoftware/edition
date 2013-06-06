@@ -108,6 +108,7 @@ public class VirtualEditionController {
 	@RequestMapping(method = RequestMethod.POST, value = "/restricted/delete")
 	@PreAuthorize("hasPermission(#externalId, 'virtualedition.participant')")
 	public String deleteVirtualEdition(Model model,
+			@ModelAttribute("ldoDSession") LdoDSession ldoDSession,
 			@RequestParam("externalId") String externalId) {
 		VirtualEdition virtualEdition = AbstractDomainObject
 				.fromExternalId(externalId);
@@ -115,6 +116,10 @@ public class VirtualEditionController {
 			return "pageNotFound";
 		} else {
 			virtualEdition.remove();
+
+			if (ldoDSession.hasSelectedVE(virtualEdition)) {
+				ldoDSession.removeSelectedVE(virtualEdition);
+			}
 
 			model.addAttribute("virtualEditions", LdoD.getInstance()
 					.getVirtualEditions());

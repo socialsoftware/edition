@@ -67,11 +67,14 @@
 	<security:http security="none" pattern="/static/css/**" />
 	<security:http security="none" pattern="/static/js/**" />
 	<security:http auto-config="true" use-expressions="true">
-		<security:form-login login-page="/login"
-			authentication-failure-url="/login?errorLogin"
+		<security:form-login login-page="/login"  default-target-url="/home"
+			authentication-failure-url="/login?errorLogin" 
 			authentication-success-handler-ref="ldoDAuthenticationSuccessHandler" />
 		<security:intercept-url pattern="/login"
 			access="permitAll" />
+		<security:intercept-url pattern="/favicon.ico" access="permitAll" />
+		<security:intercept-url pattern="/**"
+			access="isAuthenticated()" />
 		<security:intercept-url pattern="/virtualeditions/restricted/**"
 			access="isAuthenticated()" />
 		<security:intercept-url pattern="/manager/**"
