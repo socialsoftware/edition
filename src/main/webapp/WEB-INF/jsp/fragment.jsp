@@ -61,10 +61,8 @@
 
 </head>
 <body>
-
 	<c:set var="contextPath" value="${pageContext.request.contextPath}" />
 	<%@ include file="/WEB-INF/jsp/common/header.jsp"%>
-
 
 	<div class="container-fluid">
 		<h3 class="text-center">${fragment.title}</h3>

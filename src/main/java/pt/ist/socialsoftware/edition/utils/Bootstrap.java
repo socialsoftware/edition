@@ -9,8 +9,8 @@ import org.springframework.web.WebApplicationInitializer;
 
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.domain.LdoD;
-import pt.ist.socialsoftware.edition.domain.Role;
 import pt.ist.socialsoftware.edition.domain.LdoDUser;
+import pt.ist.socialsoftware.edition.domain.Role;
 
 /**
  * @author ars
@@ -63,6 +63,8 @@ public class Bootstrap implements WebApplicationInitializer {
 					"d64785a0a97001a90cbe50bd01d9767fd4a3cb0e76b98bd3c92939ff7feaa2ce");
 			LdoDUser carlos = new LdoDUser(ldoD, "carlos",
 					"cf7fa6738933ffe9f792359fba2cabcd1c36874c5af0994aee01fde5cc19015c");
+			LdoDUser ecscw = new LdoDUser(ldoD, "ecscw",
+					"8859415df64d58bab8c12dd8d8c20cf710cab143a37561d6802a551555ffd377");
 
 			ars.addRoles(user);
 			ars.addRoles(admin);
@@ -78,6 +80,9 @@ public class Bootstrap implements WebApplicationInitializer {
 
 			carlos.addRoles(user);
 			carlos.addRoles(admin);
+
+			ecscw.addRoles(user);
+			ecscw.addRoles(admin);
 		}
 
 		Transaction.commit();

@@ -186,7 +186,6 @@ public class HtmlWriter2CompInters extends HtmlWriter {
 		// the computation of the starting points of one transcription may
 		// require the recomputation of other
 		while (regenerate) {
-			System.out.println("REGENERATE");
 			regenerate = false;
 			for (FragInter inter : interList) {
 				int transcriptionLength = 0;
