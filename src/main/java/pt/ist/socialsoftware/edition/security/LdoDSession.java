@@ -29,12 +29,15 @@ public class LdoDSession implements Serializable {
 		selectedVEAcr.add(toAddAcr);
 	}
 
-	// materializes objects on demand
+	// materializes objects on demand and regenerates acronyms
 	public Set<VirtualEdition> getSelectedVEs() {
 		Set<VirtualEdition> selectedVE = new HashSet<VirtualEdition>();
+		selectedVEAcr.clear();
 		for (String veId : selectedVEIds) {
-			selectedVE.add((VirtualEdition) AbstractDomainObject
-					.fromExternalId(veId));
+			VirtualEdition virtualEdition = (VirtualEdition) AbstractDomainObject
+					.fromExternalId(veId);
+			selectedVE.add(virtualEdition);
+			selectedVEAcr.add(virtualEdition.getAcronym());
 		}
 		return selectedVE;
 	}

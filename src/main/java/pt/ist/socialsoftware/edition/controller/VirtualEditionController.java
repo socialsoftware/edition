@@ -1,6 +1,10 @@
 package pt.ist.socialsoftware.edition.controller;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -46,10 +50,11 @@ public class VirtualEditionController {
 	}
 
 	@RequestMapping(method = RequestMethod.GET)
-	public String listVirtualEdition(Model model) {
+	public String listVirtualEdition(Model model,
+			@ModelAttribute("ldoDSession") LdoDSession ldoDSession) {
 
 		model.addAttribute("virtualEditions", LdoD.getInstance()
-				.getVirtualEditions());
+				.getVirtualEditions4User(LdoDUser.getUser(), ldoDSession));
 		model.addAttribute("user", LdoDUser.getUser());
 		return "listVirtualEditions";
 
@@ -57,10 +62,14 @@ public class VirtualEditionController {
 
 	@RequestMapping(method = RequestMethod.POST, value = "/restricted/create")
 	public String createVirtualEdition(Model model,
+			@ModelAttribute("ldoDSession") LdoDSession ldoDSession,
 			@RequestParam("acronym") String acronym,
-			@RequestParam("title") String title) {
+			@RequestParam("title") String title,
+			@RequestParam("public") boolean pub) {
 
-		String date = "12/1/2013";
+		DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+		Date today = Calendar.getInstance().getTime();
+		String date = df.format(today);
 
 		VirtualEdition virtualEdition = null;
 
@@ -79,27 +88,29 @@ public class VirtualEditionController {
 							.get("acronym"));
 			model.addAttribute("title", values.get("title") == null ? title
 					: values.get("title"));
+			model.addAttribute("public", pub);
 			model.addAttribute("virtualEditions", LdoD.getInstance()
-					.getVirtualEditions());
+					.getVirtualEditions4User(LdoDUser.getUser(), ldoDSession));
 			model.addAttribute("user", LdoDUser.getUser());
 			return "listVirtualEditions";
 		}
 
 		try {
 			virtualEdition = new VirtualEdition(LdoD.getInstance(),
-					LdoDUser.getUser(), acronym, title, date);
+					LdoDUser.getUser(), acronym, title, date, pub);
 		} catch (LdoDDuplicateValueException ex) {
 			errors.add("virtualedition.acronym.duplicate");
 			model.addAttribute("errors", errors);
 			model.addAttribute("acronym", "");
 			model.addAttribute("title", title);
+			model.addAttribute("public", pub);
 			model.addAttribute("user", LdoDUser.getUser());
 			Transaction.abort();
 			return "listVirtualEditions";
 		}
 
 		model.addAttribute("virtualEditions", LdoD.getInstance()
-				.getVirtualEditions());
+				.getVirtualEditions4User(LdoDUser.getUser(), ldoDSession));
 		model.addAttribute("user", LdoDUser.getUser());
 		return "listVirtualEditions";
 
@@ -122,7 +133,7 @@ public class VirtualEditionController {
 			}
 
 			model.addAttribute("virtualEditions", LdoD.getInstance()
-					.getVirtualEditions());
+					.getVirtualEditions4User(LdoDUser.getUser(), ldoDSession));
 			model.addAttribute("user", LdoDUser.getUser());
 			return "listVirtualEditions";
 		}
@@ -140,6 +151,8 @@ public class VirtualEditionController {
 			model.addAttribute("externalId", virtualEdition.getExternalId());
 			model.addAttribute("acronym", virtualEdition.getAcronym());
 			model.addAttribute("title", virtualEdition.getTitle());
+			model.addAttribute("date", virtualEdition.getDate());
+			model.addAttribute("public", virtualEdition.getPub());
 			return "editVirtualEdition";
 		}
 	}
@@ -147,9 +160,11 @@ public class VirtualEditionController {
 	@RequestMapping(method = RequestMethod.POST, value = "/restricted/edit/{externalId}")
 	@PreAuthorize("hasPermission(#externalId, 'virtualedition.participant')")
 	public String editVirtualEdition(Model model,
+			@ModelAttribute("ldoDSession") LdoDSession ldoDSession,
 			@PathVariable String externalId,
 			@RequestParam("acronym") String acronym,
-			@RequestParam("title") String title) {
+			@RequestParam("title") String title,
+			@RequestParam("public") boolean pub) {
 		VirtualEdition virtualEdition = AbstractDomainObject
 				.fromExternalId(externalId);
 		if (virtualEdition == null) {
@@ -172,31 +187,36 @@ public class VirtualEditionController {
 							.get("acronym"));
 			model.addAttribute("title", values.get("title") == null ? title
 					: values.get("title"));
-
+			model.addAttribute("date", virtualEdition.getDate());
+			model.addAttribute("public", pub);
 			return "editVirtualEdition";
 		}
 
 		try {
 			virtualEdition.setAcronym(acronym);
 			virtualEdition.setTitle(title);
+			virtualEdition.setPub(pub);
 		} catch (LdoDDuplicateValueException ex) {
 			errors.add("virtualedition.acronym.duplicate");
 			model.addAttribute("errors", errors);
 			model.addAttribute("externalId", virtualEdition.getExternalId());
 			model.addAttribute("acronym", virtualEdition.getAcronym());
 			model.addAttribute("title", title);
+			model.addAttribute("date", virtualEdition.getDate());
+			model.addAttribute("public", pub);
 			Transaction.abort();
 			return "editVirtualEdition";
 		}
 
 		model.addAttribute("virtualEditions", LdoD.getInstance()
-				.getVirtualEditions());
+				.getVirtualEditions4User(LdoDUser.getUser(), ldoDSession));
 		model.addAttribute("user", LdoDUser.getUser());
 
 		return "listVirtualEditions";
 	}
 
 	@RequestMapping(method = RequestMethod.POST, value = "/toggleselection")
+	@PreAuthorize("hasPermission(#externalId, 'virtualedition.private')")
 	public String toggleSelectedVirtualEdition(Model model,
 			@ModelAttribute("ldoDSession") LdoDSession ldoDSession,
 			@RequestParam("externalId") String externalId) {
@@ -219,7 +239,7 @@ public class VirtualEditionController {
 		}
 
 		model.addAttribute("virtualEditions", LdoD.getInstance()
-				.getVirtualEditions());
+				.getVirtualEditions4User(LdoDUser.getUser(), ldoDSession));
 		model.addAttribute("user", user);
 		return "listVirtualEditions";
 	}
@@ -271,6 +291,7 @@ public class VirtualEditionController {
 	@RequestMapping(method = RequestMethod.POST, value = "/restricted/removeparticipant")
 	@PreAuthorize("hasPermission(#veId, 'virtualedition.participant')")
 	public String removeParticipant(Model model,
+			@ModelAttribute("ldoDSession") LdoDSession ldoDSession,
 			@RequestParam("veId") String veId,
 			@RequestParam("userId") String userId) {
 
@@ -293,8 +314,10 @@ public class VirtualEditionController {
 			user.removeSelectedVirtualEditions(virtualEdition);
 
 			if (user == LdoDUser.getUser()) {
-				model.addAttribute("virtualEditions", LdoD.getInstance()
-						.getVirtualEditions());
+				model.addAttribute(
+						"virtualEditions",
+						LdoD.getInstance().getVirtualEditions4User(
+								LdoDUser.getUser(), ldoDSession));
 				model.addAttribute("user", LdoDUser.getUser());
 				return "listVirtualEditions";
 			} else {

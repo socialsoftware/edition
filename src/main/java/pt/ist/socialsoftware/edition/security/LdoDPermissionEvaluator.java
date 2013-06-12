@@ -12,6 +12,7 @@ import pt.ist.socialsoftware.edition.domain.VirtualEdition;
 public class LdoDPermissionEvaluator implements PermissionEvaluator {
 
 	public static final String PARTICIPANT = "participant";
+	public static final String PRIVATE = "private";
 
 	@Override
 	public boolean hasPermission(Authentication authentication,
@@ -35,6 +36,13 @@ public class LdoDPermissionEvaluator implements PermissionEvaluator {
 				else if (permissions[1].equals(PARTICIPANT)) {
 					hasPermission = virtualEdition.getParticipantSet()
 							.contains(LdoDUser.getUser());
+				} else if (permissions[1].equals(PRIVATE)) {
+					if (virtualEdition.getPub()) {
+						hasPermission = true;
+					} else {
+						hasPermission = virtualEdition.getParticipantSet()
+								.contains(LdoDUser.getUser());
+					}
 				}
 
 				System.out.println("LdoDPermissionEvaluator:" + hasPermission);
