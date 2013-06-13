@@ -17,8 +17,8 @@ import pt.ist.socialsoftware.edition.loaders.LoadTEIFragments;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDLoadException;
 
 @Controller
-@RequestMapping("/manager")
-public class ManagerController {
+@RequestMapping("/admin")
+public class AdminController {
 
 	@RequestMapping(method = RequestMethod.GET, value = "/load/corpusForm")
 	public String corpusForm(Model model) {

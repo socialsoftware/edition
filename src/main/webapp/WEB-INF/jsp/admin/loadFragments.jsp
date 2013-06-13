@@ -8,7 +8,7 @@
 	<%@ include file="/WEB-INF/jsp/common/ldod-header.jsp"%>
 
 	<div class="container">
-		<form method="POST" action="${contextPath}/manager/load/fragments"
+		<form method="POST" action="${contextPath}/admin/load/fragments"
 			enctype="multipart/form-data">
 			<form:errors path="*" />
 
