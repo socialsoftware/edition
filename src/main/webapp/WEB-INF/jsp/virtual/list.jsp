@@ -1,23 +1,11 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib uri="http://www.springframework.org/tags" prefix="s"%>
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
-<%@ taglib uri="/WEB-INF/ldoD.tld" prefix="ldod"%>
+<%@ include file="/WEB-INF/jsp/common/tags-head.jsp"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title><spring:message code="header.manageeditions" /></title>
-<link rel="stylesheet" type="text/css" href="/static/css/bootstrap.css" />
-<link rel="stylesheet" type="text/css" href="/static/css/style.css" />
-<script type="text/javascript" src="/static/js/jquery.js"></script>
-<script type="text/javascript" src="/static/js/bootstrap.js"></script>
+<%@ include file="/WEB-INF/jsp/common/meta-head.jsp"%>
 </head>
 <body>
-	<c:set var="contextPath" value="${pageContext.request.contextPath}" />
-	<%@ include file="/WEB-INF/jsp/common/header.jsp"%>
+	<%@ include file="/WEB-INF/jsp/common/ldod-header.jsp"%>
 
 	<div class="container-fluid">
 		<h1 class="text-center">
@@ -38,10 +26,10 @@
 						value="${acronym}" /> <input type="text" class="input"
 						name="title" id="title"
 						placeholder="<spring:message code="virtualeditionlist.name" />"
-						value="${title}" /> <select class="selectpicker" name="public"
-						id="public">
+						value="${title}" /> <select class="selectpicker" name="pub"
+						id="pub">
 						<c:choose>
-							<c:when test="${public == false}">
+							<c:when test="${pub == false}">
 								<option value="true"><spring:message code="general.public" /></option>
 								<option value="false" selected><spring:message code="general.private" /></option>
 							</c:when>

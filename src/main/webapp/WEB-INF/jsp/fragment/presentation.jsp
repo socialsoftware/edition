@@ -1,20 +1,8 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://www.springframework.org/tags" prefix="s"%>
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@ include file="/WEB-INF/jsp/common/tags-head.jsp"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link href="/static/css/bootstrap-responsive.css" rel="stylesheet">
-<title>Visualizar Fragmento</title>
-<link rel="stylesheet" type="text/css" href="/static/css/bootstrap.css" />
-<link rel="stylesheet" type="text/css" href="/static/css/style.css" />
-<script type="text/javascript" src="/static/js/jquery.js"></script>
-<script type="text/javascript" src="/static/js/bootstrap.js"></script>
+<%@ include file="/WEB-INF/jsp/common/meta-head.jsp"%>
 <script type="text/javascript">
 	$(document)
 			.ready(
@@ -44,25 +32,9 @@
 										});
 					});
 </script>
-<style>
-.addBorder {
-	border-radius: 5px;
-	border: 1px solid black;
-	padding: 5px;
-}
-</style>
-
-<style>
-.mycontent-left {
-	border-left: 1px solid #333;
-	padding: 5px;
-}
-</style>
-
 </head>
 <body>
-	<c:set var="contextPath" value="${pageContext.request.contextPath}" />
-	<%@ include file="/WEB-INF/jsp/common/header.jsp"%>
+	<%@ include file="/WEB-INF/jsp/common/ldod-header.jsp"%>
 
 	<div class="container-fluid">
 		<h3 class="text-center">${fragment.title}</h3>
@@ -121,20 +93,12 @@
 							</div>
 						</div>
 					</form>
-
-					<%@ include file="/WEB-INF/jsp/fragmentInterpretation.jsp"%>
-
+					<%@ include file="/WEB-INF/jsp/fragment/interpretation.jsp"%>
 				</div>
 			</div>
 			<div class="span2">
-
-				<%@ include file="/WEB-INF/jsp/navegation.jsp"%>
-
-
-
+				<%@ include file="/WEB-INF/jsp/fragment/navegation.jsp"%>
 			</div>
-
-
 		</div>
 	</div>
 </body>

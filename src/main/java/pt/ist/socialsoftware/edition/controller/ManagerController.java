@@ -22,7 +22,7 @@ public class ManagerController {
 
 	@RequestMapping(method = RequestMethod.GET, value = "/load/corpusForm")
 	public String corpusForm(Model model) {
-		return "loadCorpus";
+		return "admin/loadCorpus";
 	}
 
 	@RequestMapping(method = RequestMethod.POST, value = "/load/corpus")
@@ -46,7 +46,7 @@ public class ManagerController {
 
 	@RequestMapping(method = RequestMethod.GET, value = "/load/fragmentForm")
 	public String fragmentForm(Model model) {
-		return "loadFragments";
+		return "admin/loadFragments";
 	}
 
 	@RequestMapping(method = RequestMethod.POST, value = "/load/fragments")
@@ -72,13 +72,13 @@ public class ManagerController {
 	private String writeMessage(Model model, String message, String back) {
 		model.addAttribute("message", message);
 		model.addAttribute("page", back);
-		return "okMessage";
+		return "utils/okMessage";
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/fragment/list")
 	public String deleteFragmentsList(Model model) {
 		model.addAttribute("fragments", LdoD.getInstance().getFragmentsSet());
-		return "deleteFragment";
+		return "admin/deleteFragment";
 	}
 
 	@RequestMapping(method = RequestMethod.POST, value = "/fragment/delete")
@@ -87,12 +87,12 @@ public class ManagerController {
 		Fragment fragment = AbstractDomainObject.fromExternalId(externalId);
 
 		if (fragment == null) {
-			return "fragmentNotFound";
+			return "utils/pageNotFound";
 		} else if (LdoD.getInstance().getFragmentsCount() >= 1) {
 			fragment.remove();
 		}
 		model.addAttribute("fragments", LdoD.getInstance().getFragmentsSet());
-		return "deleteFragment";
+		return "admin/deleteFragment";
 
 	}
 

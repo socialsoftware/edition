@@ -11,6 +11,7 @@ import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.domain.LdoD;
 import pt.ist.socialsoftware.edition.domain.LdoDUser;
 import pt.ist.socialsoftware.edition.domain.Role;
+import pt.ist.socialsoftware.edition.domain.VirtualEdition;
 
 /**
  * @author ars
@@ -83,9 +84,23 @@ public class Bootstrap implements WebApplicationInitializer {
 
 			ecscw.addRoles(user);
 			ecscw.addRoles(admin);
+
+			VirtualEdition classX = new VirtualEdition(ldoD, ars, "ClassX",
+					"LdoD Edition of Class X", "12/12/2012", true);
+			classX.addParticipant(ecscw);
+
+			VirtualEdition classY = new VirtualEdition(ldoD, ars, "ClassY",
+					"LdoD Edition of Class Y", "01/12/2012", false);
+			classY.addParticipant(ecscw);
+
+			VirtualEdition classW = new VirtualEdition(ldoD, ars, "ClassW",
+					"LdoD Edition of Class W", "01/01/2013", true);
+			classW.addParticipant(diego);
+			classW.addParticipant(mp);
+			classW.addParticipant(tim);
+			classW.addParticipant(carlos);
 		}
 
 		Transaction.commit();
 	}
-
 }

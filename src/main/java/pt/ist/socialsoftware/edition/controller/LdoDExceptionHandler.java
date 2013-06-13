@@ -30,7 +30,7 @@ public class LdoDExceptionHandler {
 		}
 
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("ldoDExceptionPage");
+		modelAndView.setViewName("utils/ldoDExceptionPage");
 		modelAndView.addObject("message", ex.getMessage());
 		return modelAndView;
 	}
@@ -49,7 +49,7 @@ public class LdoDExceptionHandler {
 		}
 
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("ldoDExceptionPage");
+		modelAndView.setViewName("utils/ldoDExceptionPage");
 		modelAndView.addObject("i18n", true);
 		modelAndView.addObject("message", "general.access.denied");
 		return modelAndView;
@@ -69,7 +69,7 @@ public class LdoDExceptionHandler {
 		}
 
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("ldoDExceptionPage");
+		modelAndView.setViewName("utils/ldoDExceptionPage");
 		modelAndView.addObject("message", ex.getMessage());
 		return modelAndView;
 	}

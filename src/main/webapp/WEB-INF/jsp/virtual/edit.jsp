@@ -1,21 +1,11 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib uri="http://www.springframework.org/tags" prefix="s"%>
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@ include file="/WEB-INF/jsp/common/tags-head.jsp"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title><spring:message code="virtualeditionlist.editvirtual" /></title>
-<link rel="stylesheet" type="text/css" href="/static/css/bootstrap.css" />
-<link rel="stylesheet" type="text/css" href="/static/css/style.css" />
-<script type="text/javascript" src="/static/js/jquery.js"></script>
-<script type="text/javascript" src="/static/js/bootstrap.js"></script>
+<%@ include file="/WEB-INF/jsp/common/meta-head.jsp"%>
 </head>
 <body>
-	<%@ include file="/WEB-INF/jsp/common/header.jsp"%>
+	<%@ include file="/WEB-INF/jsp/common/ldod-header.jsp"%>
 
 	<div class="container">
 		<form class="form-horizontal" method="POST"
@@ -57,11 +47,11 @@
 					</div>
 				</div>
 				<div class="control-group">
-					<label class="control-label" for="public"><spring:message code="general.access" />:</label>
+					<label class="control-label" for="pub"><spring:message code="general.access" />:</label>
 					<div class="controls">
-						<select class="selectpicker" name="public" id="public">
+						<select class="selectpicker" name="pub" id="pub">
 							<c:choose>
-								<c:when test="${public == false}">
+								<c:when test="${pub == false}">
 									<option value="true">
 										<spring:message code="general.public" />
 									</option>

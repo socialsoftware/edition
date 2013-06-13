@@ -15,7 +15,7 @@ public class ListFragmentsController {
 	@RequestMapping(method = RequestMethod.GET, value = "/")
 	public String listFragments(Model model) {
 		model.addAttribute("fragments", LdoD.getInstance().getFragmentsSet());
-		return "listFragments";
+		return "list";
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/list")
@@ -25,9 +25,9 @@ public class ListFragmentsController {
 		model.addAttribute("fragments", LdoD.getInstance().getFragmentsSet());
 
 		if (showDetail) {
-			return "listFragmentsDetail";
+			return "fragment/listDetails";
 		} else {
-			return "listFragmentsSimple";
+			return "fragment/listSimple";
 		}
 	}
 

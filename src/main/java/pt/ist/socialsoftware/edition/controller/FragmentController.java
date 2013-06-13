@@ -28,10 +28,10 @@ public class FragmentController {
 		Fragment fragment = AbstractDomainObject.fromExternalId(id);
 
 		if (fragment == null) {
-			return "pageNotFound";
+			return "utils/pageNotFound";
 		} else {
 			model.addAttribute("fragment", fragment);
-			return "fragment";
+			return "fragment/presentation";
 		}
 	}
 
@@ -108,7 +108,7 @@ public class FragmentController {
 
 		model.addAttribute("inter", fragInter);
 		model.addAttribute("writer", writer);
-		return "fragmentInterpretation";
+		return "fragment/interpretation";
 	}
 
 	private String writeFragmentWithInterpretation(Model model,
@@ -117,13 +117,13 @@ public class FragmentController {
 		writer.write();
 
 		if (interpretation == null) {
-			return "fragmentNotFound";
+			return "util/pageNotFound";
 		} else {
 			model.addAttribute("fragment", interpretation.getFragment());
 			model.addAttribute("inter", interpretation);
 			model.addAttribute("writer", writer);
 
-			return "fragment";
+			return "fragment/presentation";
 		}
 	}
 
@@ -142,7 +142,7 @@ public class FragmentController {
 
 			model.addAttribute("inter", fragInter);
 			model.addAttribute("writer", writer);
-			return "fragmentTextual";
+			return "fragment/textual";
 		} else {
 			List<FragInter> list = new ArrayList<FragInter>();
 			list.add(fragInter);
@@ -153,7 +153,7 @@ public class FragmentController {
 			model.addAttribute("inter", fragInter);
 			model.addAttribute("inter2Compare", fragInter2Compare);
 			model.addAttribute("writer", writer);
-			return "fragmentTextualCompare";
+			return "fragment/textualCompare";
 		}
 	}
 
@@ -181,9 +181,9 @@ public class FragmentController {
 		model.addAttribute("writer", writer);
 
 		if (lineByLine) {
-			return "fragmentTextualCompareLineByLine";
+			return "fragment/textualCompareLineByLine";
 		} else {
-			return "fragmentTextualCompareSideBySide";
+			return "fragment/textualCompareSideBySide";
 		}
 
 	}
@@ -202,7 +202,7 @@ public class FragmentController {
 		writer.write(displayDel, highlightIns, highlightSubst, showNotes);
 
 		model.addAttribute("writer", writer);
-		return "fragmentTranscription";
+		return "fragment/transcription";
 
 	}
 
@@ -226,7 +226,7 @@ public class FragmentController {
 		}
 
 		model.addAttribute("writer", writer);
-		return "fragmentTranscription";
+		return "fragment/transcription";
 
 	}
 }

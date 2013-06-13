@@ -56,7 +56,7 @@ public class VirtualEditionController {
 		model.addAttribute("virtualEditions", LdoD.getInstance()
 				.getVirtualEditions4User(LdoDUser.getUser(), ldoDSession));
 		model.addAttribute("user", LdoDUser.getUser());
-		return "listVirtualEditions";
+		return "virtual/list";
 
 	}
 
@@ -65,7 +65,7 @@ public class VirtualEditionController {
 			@ModelAttribute("ldoDSession") LdoDSession ldoDSession,
 			@RequestParam("acronym") String acronym,
 			@RequestParam("title") String title,
-			@RequestParam("public") boolean pub) {
+			@RequestParam("pub") boolean pub) {
 
 		DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
 		Date today = Calendar.getInstance().getTime();
@@ -88,11 +88,11 @@ public class VirtualEditionController {
 							.get("acronym"));
 			model.addAttribute("title", values.get("title") == null ? title
 					: values.get("title"));
-			model.addAttribute("public", pub);
+			model.addAttribute("pub", pub);
 			model.addAttribute("virtualEditions", LdoD.getInstance()
 					.getVirtualEditions4User(LdoDUser.getUser(), ldoDSession));
 			model.addAttribute("user", LdoDUser.getUser());
-			return "listVirtualEditions";
+			return "virtual/list";
 		}
 
 		try {
@@ -103,16 +103,16 @@ public class VirtualEditionController {
 			model.addAttribute("errors", errors);
 			model.addAttribute("acronym", "");
 			model.addAttribute("title", title);
-			model.addAttribute("public", pub);
+			model.addAttribute("pub", pub);
 			model.addAttribute("user", LdoDUser.getUser());
 			Transaction.abort();
-			return "listVirtualEditions";
+			return "virtual/list";
 		}
 
 		model.addAttribute("virtualEditions", LdoD.getInstance()
 				.getVirtualEditions4User(LdoDUser.getUser(), ldoDSession));
 		model.addAttribute("user", LdoDUser.getUser());
-		return "listVirtualEditions";
+		return "virtual/list";
 
 	}
 
@@ -124,7 +124,7 @@ public class VirtualEditionController {
 		VirtualEdition virtualEdition = AbstractDomainObject
 				.fromExternalId(externalId);
 		if (virtualEdition == null) {
-			return "pageNotFound";
+			return "utils/pageNotFound";
 		} else {
 			virtualEdition.remove();
 
@@ -135,7 +135,7 @@ public class VirtualEditionController {
 			model.addAttribute("virtualEditions", LdoD.getInstance()
 					.getVirtualEditions4User(LdoDUser.getUser(), ldoDSession));
 			model.addAttribute("user", LdoDUser.getUser());
-			return "listVirtualEditions";
+			return "virtual/list";
 		}
 	}
 
@@ -146,14 +146,14 @@ public class VirtualEditionController {
 		VirtualEdition virtualEdition = AbstractDomainObject
 				.fromExternalId(externalId);
 		if (virtualEdition == null) {
-			return "pageNotFound";
+			return "utils/pageNotFound";
 		} else {
 			model.addAttribute("externalId", virtualEdition.getExternalId());
 			model.addAttribute("acronym", virtualEdition.getAcronym());
 			model.addAttribute("title", virtualEdition.getTitle());
 			model.addAttribute("date", virtualEdition.getDate());
-			model.addAttribute("public", virtualEdition.getPub());
-			return "editVirtualEdition";
+			model.addAttribute("pub", virtualEdition.getPub());
+			return "virtual/edit";
 		}
 	}
 
@@ -164,11 +164,11 @@ public class VirtualEditionController {
 			@PathVariable String externalId,
 			@RequestParam("acronym") String acronym,
 			@RequestParam("title") String title,
-			@RequestParam("public") boolean pub) {
+			@RequestParam("pub") boolean pub) {
 		VirtualEdition virtualEdition = AbstractDomainObject
 				.fromExternalId(externalId);
 		if (virtualEdition == null) {
-			return "pageNotFound";
+			return "utils/pageNotFound";
 		}
 
 		VirtualEditionValidator validator = new VirtualEditionValidator(
@@ -188,8 +188,8 @@ public class VirtualEditionController {
 			model.addAttribute("title", values.get("title") == null ? title
 					: values.get("title"));
 			model.addAttribute("date", virtualEdition.getDate());
-			model.addAttribute("public", pub);
-			return "editVirtualEdition";
+			model.addAttribute("pub", pub);
+			return "virtual/edit";
 		}
 
 		try {
@@ -203,16 +203,16 @@ public class VirtualEditionController {
 			model.addAttribute("acronym", virtualEdition.getAcronym());
 			model.addAttribute("title", title);
 			model.addAttribute("date", virtualEdition.getDate());
-			model.addAttribute("public", pub);
+			model.addAttribute("pub", pub);
 			Transaction.abort();
-			return "editVirtualEdition";
+			return "virtual/edit";
 		}
 
 		model.addAttribute("virtualEditions", LdoD.getInstance()
 				.getVirtualEditions4User(LdoDUser.getUser(), ldoDSession));
 		model.addAttribute("user", LdoDUser.getUser());
 
-		return "listVirtualEditions";
+		return "virtual/list";
 	}
 
 	@RequestMapping(method = RequestMethod.POST, value = "/toggleselection")
@@ -224,7 +224,7 @@ public class VirtualEditionController {
 				.fromExternalId(externalId);
 
 		if (virtualEdition == null)
-			return "pageNotFound";
+			return "utils/pageNotFound";
 
 		LdoDUser user = LdoDUser.getUser();
 
@@ -241,7 +241,7 @@ public class VirtualEditionController {
 		model.addAttribute("virtualEditions", LdoD.getInstance()
 				.getVirtualEditions4User(LdoDUser.getUser(), ldoDSession));
 		model.addAttribute("user", user);
-		return "listVirtualEditions";
+		return "virtual/list";
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/restricted/participantsForm/{externalId}")
@@ -251,10 +251,10 @@ public class VirtualEditionController {
 		VirtualEdition virtualEdition = AbstractDomainObject
 				.fromExternalId(externalId);
 		if (virtualEdition == null) {
-			return "pageNotFound";
+			return "utils/pageNotFound";
 		} else {
 			model.addAttribute("virtualedition", virtualEdition);
-			return "manageVirtualEditionParticipants";
+			return "virtual/manageParticipants";
 		}
 	}
 
@@ -267,7 +267,7 @@ public class VirtualEditionController {
 		VirtualEdition virtualEdition = AbstractDomainObject
 				.fromExternalId(externalId);
 		if (virtualEdition == null) {
-			return "pageNotFound";
+			return "utils/pageNotFound";
 		}
 
 		LdoD ldoD = LdoD.getInstance();
@@ -278,13 +278,13 @@ public class VirtualEditionController {
 			model.addAttribute("errors", errors);
 			model.addAttribute("username", username);
 			model.addAttribute("virtualedition", virtualEdition);
-			return "manageVirtualEditionParticipants";
+			return "virtual/manageParticipants";
 		} else {
 			if (!user.getMyVirtualEditionsSet().contains(virtualEdition)) {
 				user.addMyVirtualEditions(virtualEdition);
 			}
 			model.addAttribute("virtualedition", virtualEdition);
-			return "manageVirtualEditionParticipants";
+			return "virtual/manageParticipants";
 		}
 	}
 
@@ -300,7 +300,7 @@ public class VirtualEditionController {
 		LdoDUser user = AbstractDomainObject.fromExternalId(userId);
 
 		if ((virtualEdition == null) || (user == null)) {
-			return "pageNotFound";
+			return "utils/pageNotFound";
 		}
 
 		if (virtualEdition.getParticipantCount() == 1) {
@@ -308,7 +308,7 @@ public class VirtualEditionController {
 			errors.add("user.one");
 			model.addAttribute("errors", errors);
 			model.addAttribute("virtualedition", virtualEdition);
-			return "manageVirtualEditionParticipants";
+			return "virtual/manageParticipants";
 		} else {
 			user.removeMyVirtualEditions(virtualEdition);
 			user.removeSelectedVirtualEditions(virtualEdition);
@@ -319,10 +319,10 @@ public class VirtualEditionController {
 						LdoD.getInstance().getVirtualEditions4User(
 								LdoDUser.getUser(), ldoDSession));
 				model.addAttribute("user", LdoDUser.getUser());
-				return "listVirtualEditions";
+				return "virtual/list";
 			} else {
 				model.addAttribute("virtualedition", virtualEdition);
-				return "manageVirtualEditionParticipants";
+				return "virtual/manageParticipants";
 			}
 		}
 	}

@@ -14,7 +14,7 @@ public class SearchController {
 	@RequestMapping(method = RequestMethod.GET, value = "/fragments")
 	public String listFragments(Model model) {
 		model.addAttribute("fragments", LdoD.getInstance().getFragmentsSet());
-		return "listFragments";
+		return "fragment/list";
 	}
 
 }

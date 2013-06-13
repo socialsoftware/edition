@@ -22,7 +22,7 @@ public class EditionController {
 		ExpertEdition edition = LdoD.getInstance().getExpertEdition(acronym);
 
 		if (edition == null) {
-			return "pageNotFound";
+			return "utils/pageNotFound";
 		} else {
 			model.addAttribute("heteronym", null);
 			model.addAttribute("edition", edition);
@@ -39,7 +39,7 @@ public class EditionController {
 		ExpertEdition edition = AbstractDomainObject.fromExternalId(id);
 
 		if (edition == null) {
-			return "pageNotFound";
+			return "utils/pageNotFound";
 		} else {
 			model.addAttribute("heteronym", null);
 			model.addAttribute("edition", edition);
@@ -57,9 +57,9 @@ public class EditionController {
 		Heteronym heteronym = AbstractDomainObject.fromExternalId(id2);
 
 		if (edition == null) {
-			return "pageNotFound";
+			return "utils/pageNotFound";
 		} else if (heteronym == null) {
-			return "pageNotFound";
+			return "utils/pageNotFound";
 		} else {
 			model.addAttribute("heteronym", heteronym);
 			model.addAttribute("edition", edition);

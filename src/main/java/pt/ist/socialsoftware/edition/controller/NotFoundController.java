@@ -9,7 +9,7 @@ public class NotFoundController {
 
 	@RequestMapping(method = RequestMethod.GET, value = "/*")
 	public String handlePageNotFound() {
-		return "pageNotFound";
+		return "utils/pageNotFound";
 	}
 
 }
