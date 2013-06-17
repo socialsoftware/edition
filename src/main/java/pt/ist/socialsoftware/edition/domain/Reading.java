@@ -63,16 +63,16 @@ public class Reading extends Reading_Base implements GraphElement {
 	}
 
 	public void removeOnlyThis() {
-		removePreviousVariationPoint();
-		removeNextVariationPoint();
+		setPreviousVariationPoint(null);
+		setNextVariationPoint(null);
 
-		for (FragInter fragInter : getFragInters()) {
+		for (FragInter fragInter : getFragIntersSet()) {
 			removeFragInters(fragInter);
 		}
 
-		removeFirstText();
+		setFirstText(null);
 
-		for (LdoDText text : getText()) {
+		for (LdoDText text : getTextSet()) {
 			removeText(text);
 		}
 
@@ -80,14 +80,14 @@ public class Reading extends Reading_Base implements GraphElement {
 	}
 
 	public void remove() {
-		removePreviousVariationPoint();
-		removeNextVariationPoint();
+		setPreviousVariationPoint(null);
+		setNextVariationPoint(null);
 
-		for (FragInter fragInter : getFragInters()) {
+		for (FragInter fragInter : getFragIntersSet()) {
 			removeFragInters(fragInter);
 		}
 
-		for (LdoDText text : getText()) {
+		for (LdoDText text : getTextSet()) {
 			text.remove();
 		}
 

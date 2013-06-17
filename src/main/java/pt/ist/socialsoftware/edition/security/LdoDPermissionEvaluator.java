@@ -5,7 +5,7 @@ import java.io.Serializable;
 import org.springframework.security.access.PermissionEvaluator;
 import org.springframework.security.core.Authentication;
 
-import pt.ist.fenixframework.pstm.AbstractDomainObject;
+import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.domain.LdoDUser;
 import pt.ist.socialsoftware.edition.domain.VirtualEdition;
 
@@ -29,8 +29,8 @@ public class LdoDPermissionEvaluator implements PermissionEvaluator {
 		if (targetDomainObject instanceof String) {
 			switch (permissions[0]) {
 			case "virtualedition":
-				VirtualEdition virtualEdition = AbstractDomainObject
-						.fromExternalId((String) targetDomainObject);
+				VirtualEdition virtualEdition = FenixFramework
+						.getDomainObject((String) targetDomainObject);
 				if (virtualEdition == null)
 					hasPermission = true;
 				else if (permissions[1].equals(PARTICIPANT)) {

@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import pt.ist.fenixframework.pstm.AbstractDomainObject;
+import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.domain.ExpertEdition;
 import pt.ist.socialsoftware.edition.domain.Heteronym;
 import pt.ist.socialsoftware.edition.domain.LdoD;
@@ -36,7 +36,7 @@ public class EditionController {
 	public String getEditionTableOfContentsbyId(Model model,
 			@PathVariable String id) {
 
-		ExpertEdition edition = AbstractDomainObject.fromExternalId(id);
+		ExpertEdition edition = FenixFramework.getDomainObject(id);
 
 		if (edition == null) {
 			return "utils/pageNotFound";
@@ -53,8 +53,8 @@ public class EditionController {
 	public String getEditionTableOfContents4Heteronym(Model model,
 			@PathVariable String id1, @PathVariable String id2) {
 
-		ExpertEdition edition = AbstractDomainObject.fromExternalId(id1);
-		Heteronym heteronym = AbstractDomainObject.fromExternalId(id2);
+		ExpertEdition edition = FenixFramework.getDomainObject(id1);
+		Heteronym heteronym = FenixFramework.getDomainObject(id2);
 
 		if (edition == null) {
 			return "utils/pageNotFound";

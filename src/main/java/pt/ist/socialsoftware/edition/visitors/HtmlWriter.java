@@ -72,6 +72,12 @@ public abstract class HtmlWriter implements GraphVisitor {
 		case OPEN:
 			transcription = transcription + "<p>";
 			break;
+		case NO:
+			assert false;
+			break;
+		default:
+			assert false;
+			break;
 		}
 
 		if (text.getNextText() != null) {

@@ -40,7 +40,7 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 	public void remove() {
 		super.remove();
 
-		removeVirtualEdition();
+		setVirtualEdition(null);
 
 		deleteDomainObject();
 	}

@@ -11,9 +11,9 @@ public abstract class Source extends Source_Base {
 	public abstract String getMetaTextual();
 
 	public void remove() {
-		removeFragment();
+		setFragment(null);
 
-		for (SourceInter inter : getSourceInters()) {
+		for (SourceInter inter : getSourceIntersSet()) {
 			removeSourceInters(inter);
 		}
 	}

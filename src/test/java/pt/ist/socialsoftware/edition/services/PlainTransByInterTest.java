@@ -5,11 +5,12 @@ import static org.junit.Assert.assertEquals;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
+import jvstm.Transaction;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import pt.ist.fenixframework.pstm.Transaction;
 import pt.ist.socialsoftware.edition.domain.FragInter;
 import pt.ist.socialsoftware.edition.domain.Fragment;
 import pt.ist.socialsoftware.edition.domain.LdoD;
@@ -57,8 +58,8 @@ public class PlainTransByInterTest {
 
 		LdoD ldoD = LdoD.getInstance();
 
-		for (Fragment frag : ldoD.getFragments()) {
-			for (FragInter fragInter : frag.getFragmentInter()) {
+		for (Fragment frag : ldoD.getFragmentsSet()) {
+			for (FragInter fragInter : frag.getFragmentInterSet()) {
 				if (fragInter.getShortName().equals("Cunha")) {
 					fragInterExternalID = fragInter.getExternalId();
 				}

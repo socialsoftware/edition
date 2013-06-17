@@ -18,7 +18,7 @@ public class VirtualEdition extends VirtualEdition_Base {
 	public void setPub(Boolean pub) {
 		if (!pub) {
 			Set<LdoDUser> participants = getParticipantSet();
-			for (LdoDUser user : getSelectedBy()) {
+			for (LdoDUser user : getSelectedBySet()) {
 				if (!participants.contains(user)) {
 					this.removeSelectedBy(user);
 				}
@@ -28,17 +28,17 @@ public class VirtualEdition extends VirtualEdition_Base {
 	}
 
 	public void remove() {
-		removeLdoD4Virtual();
+		setLdoD4Virtual(null);
 
-		for (LdoDUser user : getParticipant()) {
+		for (LdoDUser user : getParticipantSet()) {
 			removeParticipant(user);
 		}
 
-		for (LdoDUser user : getSelectedBy()) {
+		for (LdoDUser user : getSelectedBySet()) {
 			removeSelectedBy(user);
 		}
 
-		for (VirtualEditionInter inter : getVirtualEditionInters()) {
+		for (VirtualEditionInter inter : getVirtualEditionIntersSet()) {
 			removeVirtualEditionInters(inter);
 		}
 

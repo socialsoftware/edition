@@ -25,7 +25,7 @@ public class CanonicalCleaner implements GraphVisitor {
 		if (!visited.contains(variationPoint)) {
 			visited.add(variationPoint);
 
-			for (Reading rdg : variationPoint.getOutReadings()) {
+			for (Reading rdg : variationPoint.getOutReadingsSet()) {
 				rdg.accept(this);
 			}
 		}
@@ -36,12 +36,13 @@ public class CanonicalCleaner implements GraphVisitor {
 		VariationPoint previousPoint = reading.getPreviousVariationPoint();
 		VariationPoint nextPoint = reading.getNextVariationPoint();
 		if (previousPoint != null
-				&& previousPoint.getInReadingsCount() == 1
-				&& previousPoint.getOutReadingsCount() == 1
+				&& previousPoint.getInReadingsSet().size() == 1
+				&& previousPoint.getOutReadingsSet().size() == 1
 				&& previousPoint.getInReadingsInters().equals(
 						previousPoint.getOutReadingsInters())) {
 
-			Reading previousRdg = previousPoint.getInReadings().get(0);
+			Reading previousRdg = previousPoint.getInReadingsSet().iterator()
+					.next();
 
 			previousRdg.addEndText(reading.getFirstText());
 			previousRdg.setNextVariationPoint(nextPoint);

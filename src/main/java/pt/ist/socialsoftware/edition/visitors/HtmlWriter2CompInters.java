@@ -239,7 +239,7 @@ public class HtmlWriter2CompInters extends HtmlWriter {
 	@Override
 	public void visit(VariationPoint variationPoint) {
 		if (!variationPoint.getOutReadingsSet().isEmpty()) {
-			for (Reading rdg : variationPoint.getOutReadings()) {
+			for (Reading rdg : variationPoint.getOutReadingsSet()) {
 				if (rdg.getFragIntersSet().contains(fragInter)) {
 					int count = 0;
 					for (FragInter tmpInter : compareAgaints) {

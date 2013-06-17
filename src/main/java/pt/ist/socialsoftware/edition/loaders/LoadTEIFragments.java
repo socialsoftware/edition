@@ -96,18 +96,18 @@ public class LoadTEIFragments {
 	}
 
 	private void getCorpusXmlIds() {
-		for (ExpertEdition edition : ldoD.getExpertEditions()) {
+		for (ExpertEdition edition : ldoD.getExpertEditionsSet()) {
 			putObjectByXmlID(edition.getXmlId(), edition);
 		}
 
-		for (Taxonomy taxonomy : ldoD.getTaxonomies()) {
+		for (Taxonomy taxonomy : ldoD.getTaxonomiesSet()) {
 			putObjectByXmlID(taxonomy.getXmlId(), taxonomy);
-			for (Category category : taxonomy.getCategories()) {
+			for (Category category : taxonomy.getCategoriesSet()) {
 				putObjectByXmlID(category.getXmlId(), category);
 			}
 		}
 
-		for (Heteronym heteronym : ldoD.getHeteronyms()) {
+		for (Heteronym heteronym : ldoD.getHeteronymsSet()) {
 			putObjectByXmlID(heteronym.getXmlId(), heteronym);
 		}
 	}
@@ -204,7 +204,7 @@ public class LoadTEIFragments {
 		VariationPoint endPoint = null;
 
 		List<FragInter> fragInters = new ArrayList<FragInter>(
-				fragment.getFragmentInter());
+				fragment.getFragmentInterSet());
 		for (Element paragraph : xp.evaluate(doc)) {
 			endPoint = addReading4Paragraph(startPoint, fragInters,
 					OpenClose.OPEN);
@@ -222,9 +222,9 @@ public class LoadTEIFragments {
 		}
 
 		// clean empty variations points
-		for (VariationPoint point : fragment.getVariationPoints()) {
-			if (point.getInReadingsCount() == 0
-					&& point.getOutReadingsCount() == 0) {
+		for (VariationPoint point : fragment.getVariationPointsSet()) {
+			if (point.getInReadingsSet().isEmpty()
+					&& point.getOutReadingsSet().isEmpty()) {
 				point.remove();
 			}
 		}
@@ -259,7 +259,7 @@ public class LoadTEIFragments {
 		fragment.getStartVariationPoint().accept(graphWriter);
 		System.out.println(graphWriter.getResult());
 
-		for (FragInter fragInter : fragment.getFragmentInter()) {
+		for (FragInter fragInter : fragment.getFragmentInterSet()) {
 			HtmlWriter4OneInter writer = new HtmlWriter4OneInter(fragInter);
 			fragment.getStartVariationPoint().accept(writer);
 			System.out.println(writer.getTranscription());
@@ -345,8 +345,9 @@ public class LoadTEIFragments {
 				}
 			}
 
-			if (endPoint.getInReadings().get(0).getPreviousVariationPoint() == initialPoint) {
-				initialRdg = endPoint.getInReadings().get(0);
+			if (endPoint.getInReadingsSet().iterator().next()
+					.getPreviousVariationPoint() == initialPoint) {
+				initialRdg = endPoint.getInReadingsSet().iterator().next();
 			}
 			startPoint = endPoint;
 
@@ -356,7 +357,7 @@ public class LoadTEIFragments {
 		initialRdg.addBeginText(openSubstText);
 
 		SubstText closeSubstText = new SubstText(OpenClose.CLOSE);
-		Reading endRdg = endPoint.getInReadings().get(0);
+		Reading endRdg = endPoint.getInReadingsSet().iterator().next();
 		endRdg.addEndText(closeSubstText);
 
 		return endPoint;
@@ -384,7 +385,7 @@ public class LoadTEIFragments {
 
 		VariationPoint endPoint = loadSimpleText((Text) contentList.get(0),
 				startPoint, fragInters);
-		Reading rdg = endPoint.getInReadings().get(0);
+		Reading rdg = endPoint.getInReadingsSet().iterator().next();
 
 		Attribute howDelAttribute = element.getAttribute("rend");
 
@@ -452,7 +453,7 @@ public class LoadTEIFragments {
 
 		VariationPoint endPoint = loadSimpleText((Text) contentList.get(0),
 				startPoint, fragInters);
-		Reading rdg = endPoint.getInReadings().get(0);
+		Reading rdg = endPoint.getInReadingsSet().iterator().next();
 
 		Attribute placeAttribute = element.getAttribute("place");
 
@@ -522,7 +523,7 @@ public class LoadTEIFragments {
 
 		VariationPoint endPoint = loadSimpleText((Text) contentList.get(0),
 				startPoint, fragInters);
-		Reading rdg = endPoint.getInReadings().get(0);
+		Reading rdg = endPoint.getInReadingsSet().iterator().next();
 
 		String[] listRendXmlId = null;
 
@@ -659,14 +660,14 @@ public class LoadTEIFragments {
 			if (rdgElement.getName().equals("rdg")) {
 				VariationPoint tmpPoint = loadRdg(rdgElement, startPoint);
 
-				for (Reading reading : tmpPoint.getInReadings()) {
+				for (Reading reading : tmpPoint.getInReadingsSet()) {
 					reading.setNextVariationPoint(endPoint);
 				}
 			} else if (rdgElement.getName().equals("rdgGrp")) {
 				List<VariationPoint> endPoints = loadRdgGrp(rdgElement,
 						startPoint);
 				for (VariationPoint tmpPoint : endPoints) {
-					for (Reading reading : tmpPoint.getInReadings()) {
+					for (Reading reading : tmpPoint.getInReadingsSet()) {
 						reading.setNextVariationPoint(endPoint);
 					}
 				}
@@ -680,8 +681,8 @@ public class LoadTEIFragments {
 		}
 
 		List<FragInter> pendingFragInters = new ArrayList<FragInter>(fragInters);
-		for (Reading rdg : endPoint.getInReadings()) {
-			pendingFragInters.removeAll(rdg.getFragInters());
+		for (Reading rdg : endPoint.getInReadingsSet()) {
+			pendingFragInters.removeAll(rdg.getFragIntersSet());
 		}
 
 		if (!pendingFragInters.isEmpty()) {

@@ -13,12 +13,12 @@ public abstract class LdoDText extends LdoDText_Base implements GraphElement {
 	}
 
 	public void remove() {
-		removeReadingOfFirst();
+		setReadingOfFirst(null);
 
-		removeReading();
+		setReading(null);
 
-		removePrevText();
-		removeNextText();
+		setPrevText(null);
+		setNextText(null);
 
 		deleteDomainObject();
 	}

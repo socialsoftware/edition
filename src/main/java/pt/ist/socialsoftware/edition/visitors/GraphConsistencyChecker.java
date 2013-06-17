@@ -64,9 +64,9 @@ public class GraphConsistencyChecker implements GraphVisitor {
 			assert (inEqualsOut) : "INCONSISTENT GRAPGH: OUT-READINGS <> IN-READINGS"
 					+ debugTextVisitor.getResult();
 
-			if (point.getOutReadings().size() != 0) {
+			if (!point.getOutReadingsSet().isEmpty()) {
 
-				for (Reading rdg : point.getOutReadings()) {
+				for (Reading rdg : point.getOutReadingsSet()) {
 					Set<FragInter> thisFragInters = rdg.getFragIntersSet();
 					Set<FragInter> intersection = new HashSet<FragInter>(
 							pathFragInters);
@@ -91,7 +91,7 @@ public class GraphConsistencyChecker implements GraphVisitor {
 
 			}
 
-			for (Reading rdg : point.getOutReadings()) {
+			for (Reading rdg : point.getOutReadingsSet()) {
 				rdg.accept(this);
 			}
 

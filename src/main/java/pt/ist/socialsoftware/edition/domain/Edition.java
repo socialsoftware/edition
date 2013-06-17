@@ -12,14 +12,15 @@ public abstract class Edition extends Edition_Base {
 	public void setAcronym(String acronym) {
 		if ((getAcronym() != null && !getAcronym().equals(acronym))
 				|| getAcronym() == null) {
-			for (ExpertEdition edition : LdoD.getInstance().getExpertEditions()) {
+			for (ExpertEdition edition : LdoD.getInstance()
+					.getExpertEditionsSet()) {
 				if (acronym.equals(edition.getAcronym())) {
 					throw new LdoDDuplicateValueException();
 				}
 			}
 
 			for (VirtualEdition edition : LdoD.getInstance()
-					.getVirtualEditions()) {
+					.getVirtualEditionsSet()) {
 				if (acronym.equals(edition.getAcronym())) {
 					throw new LdoDDuplicateValueException();
 				}

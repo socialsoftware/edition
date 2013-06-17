@@ -85,7 +85,7 @@ public class ExpertEditionInter extends ExpertEditionInter_Base {
 	public void remove() {
 		super.remove();
 
-		removeExpertEdition();
+		setExpertEdition(null);
 
 		deleteDomainObject();
 	}

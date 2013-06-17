@@ -12,7 +12,7 @@ public class GetFragmentsService extends LdoDService {
 	void execution() throws LdoDException {
 		ldoD = LdoD.getInstance();
 
-		for (Fragment fragment : ldoD.getFragments()) {
+		for (Fragment fragment : ldoD.getFragmentsSet()) {
 			fragment.getTitle();
 			fragment.getExternalId();
 		}

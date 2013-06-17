@@ -26,11 +26,11 @@ public class EmptyTextCleaner implements GraphVisitor {
 		if (!visited.contains(variationPoint)) {
 			visited.add(variationPoint);
 
-			for (Reading rdg : variationPoint.getOutReadings()) {
+			for (Reading rdg : variationPoint.getOutReadingsSet()) {
 				rdg.accept(this);
 			}
 
-			for (Reading rdg : variationPoint.getOutReadings()) {
+			for (Reading rdg : variationPoint.getOutReadingsSet()) {
 				rdg.getNextVariationPoint().accept(this);
 			}
 
@@ -47,10 +47,10 @@ public class EmptyTextCleaner implements GraphVisitor {
 				assert text.getNextText() == null : "CLEANING EMPTY-TEXT FAILED";
 
 				Reading nextReading = reading.getNextVariationPoint()
-						.getOutReadings().get(0);
+						.getOutReadingsSet().iterator().next();
 
 				for (Reading prevReading : reading.getPreviousVariationPoint()
-						.getInReadings()) {
+						.getInReadingsSet()) {
 
 					SimpleText prevText = (SimpleText) prevReading
 							.getFirstText();
@@ -67,7 +67,7 @@ public class EmptyTextCleaner implements GraphVisitor {
 					VariationPoint nextPoint = nextReading
 							.getNextVariationPoint();
 
-					for (FragInter fragInter : reading.getFragInters()) {
+					for (FragInter fragInter : reading.getFragIntersSet()) {
 						if (prevReading.getFragIntersSet().contains(fragInter)) {
 							composedReading.addFragInters(fragInter);
 							prevReading.removeFragInters(fragInter);

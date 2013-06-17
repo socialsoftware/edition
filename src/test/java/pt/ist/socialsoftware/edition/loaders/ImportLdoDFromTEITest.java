@@ -6,11 +6,12 @@ import static org.junit.Assert.assertTrue;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
+import jvstm.Transaction;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import pt.ist.fenixframework.pstm.Transaction;
 import pt.ist.socialsoftware.edition.domain.Category;
 import pt.ist.socialsoftware.edition.domain.ExpertEdition;
 import pt.ist.socialsoftware.edition.domain.ExpertEditionInter;
@@ -99,21 +100,21 @@ public class ImportLdoDFromTEITest {
 	}
 
 	private void checkLoadWitnesses(Fragment fragment) {
-		assertEquals(7, fragment.getFragmentInter().size());
-		for (FragInter fragmentInter : fragment.getFragmentInter()) {
+		assertEquals(7, fragment.getFragmentInterSet().size());
+		for (FragInter fragmentInter : fragment.getFragmentInterSet()) {
 			if (fragmentInter instanceof ExpertEditionInter) {
 				assertTrue(((ExpertEditionInter) fragmentInter)
-						.hasExpertEdition());
+						.getExpertEdition() != null);
 			} else if (fragmentInter instanceof SourceInter) {
-				assertTrue(((SourceInter) fragmentInter).hasSource());
+				assertTrue(((SourceInter) fragmentInter).getSource() != null);
 			}
 		}
 
 	}
 
 	private void checkLoadSources(Fragment fragment) {
-		assertEquals(3, fragment.getSources().size());
-		for (Source source : fragment.getSources()) {
+		assertEquals(3, fragment.getSourcesSet().size());
+		for (Source source : fragment.getSourcesSet()) {
 			if (source instanceof ManuscriptSource) {
 				ManuscriptSource manuscript = (ManuscriptSource) source;
 				assertEquals("Lisbon", manuscript.getSettlement());
@@ -134,10 +135,10 @@ public class ImportLdoDFromTEITest {
 	}
 
 	private Fragment checkFragmentLoad(LdoD ldoD) {
-		assertEquals(1, ldoD.getFragments().size());
+		assertEquals(1, ldoD.getFragmentsSet().size());
 
 		Fragment returnFragment = null;
-		for (Fragment fragment : ldoD.getFragments()) {
+		for (Fragment fragment : ldoD.getFragmentsSet()) {
 			assertEquals("Prefiro a prosa ao verso...", fragment.getTitle());
 
 			returnFragment = fragment;
@@ -148,28 +149,28 @@ public class ImportLdoDFromTEITest {
 	}
 
 	private void checkHeteronymsLoad(LdoD ldoD) {
-		assertEquals(2, ldoD.getHeteronyms().size());
-		for (Heteronym heteronym : ldoD.getHeteronyms()) {
+		assertEquals(2, ldoD.getHeteronymsSet().size());
+		for (Heteronym heteronym : ldoD.getHeteronymsSet()) {
 			assertTrue(heteronym.getName().equals("Bernardo Soares")
 					|| heteronym.getName().equals("Vicente Guedes"));
 		}
 	}
 
 	private void checkTaxonomiesLoad(LdoD ldoD) {
-		assertEquals(1, ldoD.getTaxonomies().size());
-		Taxonomy taxonomy = ldoD.getTaxonomies().get(0);
+		assertEquals(1, ldoD.getTaxonomiesSet().size());
+		Taxonomy taxonomy = ldoD.getTaxonomiesSet().iterator().next();
 		assertEquals("António Quadros", taxonomy.getName());
 
-		assertEquals(2, taxonomy.getCategories().size());
-		for (Category category : taxonomy.getCategories()) {
+		assertEquals(2, taxonomy.getCategoriesSet().size());
+		for (Category category : taxonomy.getCategoriesSet()) {
 			assertTrue(category.getName().equals("Fase Confessional")
 					|| category.getName().equals("Fase Decadentista"));
 		}
 	}
 
 	private void checkListBiblLoad(LdoD ldoD) {
-		assertEquals(4, ldoD.getExpertEditions().size());
-		for (ExpertEdition edition : ldoD.getExpertEditions()) {
+		assertEquals(4, ldoD.getExpertEditionsSet().size());
+		for (ExpertEdition edition : ldoD.getExpertEditionsSet()) {
 			assertEquals("Fernando Pessoa", edition.getAuthor());
 			assertEquals("O Livro do Desassossego", edition.getTitle());
 			assertTrue((edition.getEditor().equals("Jacinto Prado Coelho") && edition

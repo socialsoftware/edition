@@ -19,14 +19,14 @@ public class VariationPoint extends VariationPoint_Base {
 
 	public Set<FragInter> getInReadingsInters() {
 		Set<FragInter> allFragInters = new HashSet<FragInter>();
-		if (getInReadings().isEmpty()) {
-			for (FragInter inter : getFragment().getFragmentInter()) {
+		if (getInReadingsSet().isEmpty()) {
+			for (FragInter inter : getFragment().getFragmentInterSet()) {
 				if (inter.getSourceType() != SourceType.VIRTUAL) {
 					allFragInters.add(inter);
 				}
 			}
 		} else {
-			for (Reading rdg : getInReadings()) {
+			for (Reading rdg : getInReadingsSet()) {
 				allFragInters.addAll(rdg.getFragIntersSet());
 			}
 		}
@@ -35,15 +35,15 @@ public class VariationPoint extends VariationPoint_Base {
 
 	public Set<FragInter> getOutReadingsInters() {
 		Set<FragInter> allFragInters = new HashSet<FragInter>();
-		if (getOutReadings().isEmpty()) {
-			for (FragInter inter : getFragment().getFragmentInter()) {
+		if (getOutReadingsSet().isEmpty()) {
+			for (FragInter inter : getFragment().getFragmentInterSet()) {
 				if (inter.getSourceType() != SourceType.VIRTUAL) {
 					allFragInters.add(inter);
 				}
 			}
 		} else {
 			allFragInters = new HashSet<FragInter>();
-			for (Reading rdg : getOutReadings()) {
+			for (Reading rdg : getOutReadingsSet()) {
 				allFragInters.addAll(rdg.getFragIntersSet());
 			}
 		}
@@ -51,14 +51,14 @@ public class VariationPoint extends VariationPoint_Base {
 	}
 
 	public void removeOnlyThis() {
-		removeFragment();
-		removeFragmentOfStart();
+		setFragment(null);
+		setFragmentOfStart(null);
 
-		for (Reading reading : getInReadings()) {
+		for (Reading reading : getInReadingsSet()) {
 			removeInReadings(reading);
 		}
 
-		for (Reading reading : getOutReadings()) {
+		for (Reading reading : getOutReadingsSet()) {
 			removeOutReadings(reading);
 		}
 
@@ -66,14 +66,14 @@ public class VariationPoint extends VariationPoint_Base {
 	}
 
 	public void remove() {
-		removeFragment();
-		removeFragmentOfStart();
+		setFragment(null);
+		setFragmentOfStart(null);
 
-		for (Reading reading : getInReadings()) {
+		for (Reading reading : getInReadingsSet()) {
 			reading.remove();
 		}
 
-		for (Reading reading : getOutReadings()) {
+		for (Reading reading : getOutReadingsSet()) {
 			reading.remove();
 		}
 

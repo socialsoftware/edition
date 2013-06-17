@@ -24,11 +24,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
 		LdoD ldoD = LdoD.getInstance();
 
-		for (LdoDUser user : ldoD.getUsers()) {
+		for (LdoDUser user : ldoD.getUsersSet()) {
 
 			if (user.getUsername().equals(username)) {
 				Set<GrantedAuthority> authorities = new HashSet<GrantedAuthority>();
-				for (Role role : user.getRoles()) {
+				for (Role role : user.getRolesSet()) {
 					authorities
 							.add(new GrantedAuthorityImpl(role.getRolename()));
 				}

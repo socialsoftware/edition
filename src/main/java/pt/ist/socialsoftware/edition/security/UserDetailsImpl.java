@@ -6,7 +6,7 @@ import java.util.HashSet;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import pt.ist.fenixframework.pstm.AbstractDomainObject;
+import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.domain.LdoDUser;
 
 public class UserDetailsImpl implements UserDetails {
@@ -41,7 +41,7 @@ public class UserDetailsImpl implements UserDetails {
 	}
 
 	public LdoDUser getUser() {
-		return (LdoDUser) AbstractDomainObject.fromExternalId(userId);
+		return (LdoDUser) FenixFramework.getDomainObject(userId);
 	}
 
 	@Override

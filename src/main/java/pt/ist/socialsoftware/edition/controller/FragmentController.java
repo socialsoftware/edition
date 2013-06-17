@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import pt.ist.fenixframework.pstm.AbstractDomainObject;
+import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.domain.ExpertEdition;
 import pt.ist.socialsoftware.edition.domain.ExpertEditionInter;
 import pt.ist.socialsoftware.edition.domain.FragInter;
@@ -25,7 +25,7 @@ public class FragmentController {
 
 	@RequestMapping(method = RequestMethod.GET, value = "/{id}")
 	public String getFragment(Model model, @PathVariable String id) {
-		Fragment fragment = AbstractDomainObject.fromExternalId(id);
+		Fragment fragment = FenixFramework.getDomainObject(id);
 
 		if (fragment == null) {
 			return "utils/pageNotFound";
@@ -38,7 +38,7 @@ public class FragmentController {
 	@RequestMapping(method = RequestMethod.GET, value = "/interpretation/{id}")
 	public String getFragmentWithInterpretation(Model model,
 			@PathVariable String id) {
-		FragInter interpretation = AbstractDomainObject.fromExternalId(id);
+		FragInter interpretation = FenixFramework.getDomainObject(id);
 
 		return writeFragmentWithInterpretation(model, interpretation);
 	}
@@ -47,8 +47,7 @@ public class FragmentController {
 	public String getNextFragmentWithInterpretationByNumber(Model model,
 			@PathVariable String id) {
 
-		ExpertEditionInter interpretation = AbstractDomainObject
-				.fromExternalId(id);
+		ExpertEditionInter interpretation = FenixFramework.getDomainObject(id);
 
 		ExpertEdition edition = interpretation.getExpertEdition();
 		interpretation = edition.getNextNumberInter(interpretation,
@@ -60,8 +59,7 @@ public class FragmentController {
 	@RequestMapping(method = RequestMethod.GET, value = "/interpretation/prev/number/{id}")
 	public String getPrevFragmentWithInterpretationByNumber(Model model,
 			@PathVariable String id) {
-		ExpertEditionInter interpretation = AbstractDomainObject
-				.fromExternalId(id);
+		ExpertEditionInter interpretation = FenixFramework.getDomainObject(id);
 
 		ExpertEdition edition = interpretation.getExpertEdition();
 		interpretation = edition.getPrevNumberInter(interpretation,
@@ -73,8 +71,7 @@ public class FragmentController {
 	@RequestMapping(method = RequestMethod.GET, value = "/interpretation/next/heteronym/{id}")
 	public String getNextFragmentWithInterpretationByHeteronym(Model model,
 			@PathVariable String id) {
-		ExpertEditionInter interpretation = AbstractDomainObject
-				.fromExternalId(id);
+		ExpertEditionInter interpretation = FenixFramework.getDomainObject(id);
 
 		ExpertEdition edition = interpretation.getExpertEdition();
 		interpretation = edition.getNextHeteronymInter(interpretation,
@@ -86,8 +83,7 @@ public class FragmentController {
 	@RequestMapping(method = RequestMethod.GET, value = "/interpretation/prev/heteronym/{id}")
 	public String getPrevFragmentWithInterpretationByHeteronym(Model model,
 			@PathVariable String id) {
-		ExpertEditionInter interpretation = AbstractDomainObject
-				.fromExternalId(id);
+		ExpertEditionInter interpretation = FenixFramework.getDomainObject(id);
 
 		ExpertEdition edition = interpretation.getExpertEdition();
 		interpretation = edition.getNextHeteronymInter(interpretation,
@@ -101,7 +97,7 @@ public class FragmentController {
 			@RequestParam(value = "interp", required = false) String interID,
 			Model model) {
 
-		FragInter fragInter = AbstractDomainObject.fromExternalId(interID);
+		FragInter fragInter = FenixFramework.getDomainObject(interID);
 
 		HtmlWriter4OneInter writer = new HtmlWriter4OneInter(fragInter);
 		writer.write();
@@ -132,9 +128,9 @@ public class FragmentController {
 			@RequestParam(value = "interp", required = true) String interID,
 			@RequestParam(value = "interp2Compare", required = true) String interID2Compare,
 			Model model) {
-		FragInter fragInter = AbstractDomainObject.fromExternalId(interID);
-		FragInter fragInter2Compare = AbstractDomainObject
-				.fromExternalId(interID2Compare);
+		FragInter fragInter = FenixFramework.getDomainObject(interID);
+		FragInter fragInter2Compare = FenixFramework
+				.getDomainObject(interID2Compare);
 
 		if (interID.equals(interID2Compare)) {
 			HtmlWriter4OneInter writer = new HtmlWriter4OneInter(fragInter);
@@ -164,9 +160,9 @@ public class FragmentController {
 			@RequestParam(value = "line", required = true) boolean lineByLine,
 			@RequestParam(value = "spaces", required = true) boolean showSpaces,
 			Model model) {
-		FragInter fragInter = AbstractDomainObject.fromExternalId(interID);
-		FragInter fragInter2Compare = AbstractDomainObject
-				.fromExternalId(interID2Compare);
+		FragInter fragInter = FenixFramework.getDomainObject(interID);
+		FragInter fragInter2Compare = FenixFramework
+				.getDomainObject(interID2Compare);
 
 		List<FragInter> list = new ArrayList<FragInter>();
 		list.add(fragInter);
@@ -196,7 +192,7 @@ public class FragmentController {
 			@RequestParam(value = "subst", required = true) boolean highlightSubst,
 			@RequestParam(value = "notes", required = true) boolean showNotes,
 			Model model) {
-		FragInter fragInter = AbstractDomainObject.fromExternalId(interID);
+		FragInter fragInter = FenixFramework.getDomainObject(interID);
 
 		HtmlWriter4OneInter writer = new HtmlWriter4OneInter(fragInter);
 		writer.write(displayDel, highlightIns, highlightSubst, showNotes);
@@ -211,14 +207,15 @@ public class FragmentController {
 			@RequestParam(value = "interp", required = true) String interID,
 			@RequestParam(value = "diff", required = true) boolean displayDiff,
 			Model model) {
-		FragInter fragInter = AbstractDomainObject.fromExternalId(interID);
+		FragInter fragInter = FenixFramework.getDomainObject(interID);
 
 		HtmlWriter writer = null;
 		if (displayDiff) {
 			List<FragInter> list = new ArrayList<FragInter>();
 			list.add(fragInter);
-			writer = new HtmlWriter2CompInters(fragInter.getFragment()
-					.getFragmentInter());
+			List<FragInter> interps = new ArrayList<FragInter>(fragInter
+					.getFragment().getFragmentInterSet());
+			writer = new HtmlWriter2CompInters(interps);
 			((HtmlWriter2CompInters) writer).write(list);
 		} else {
 			writer = new HtmlWriter4OneInter(fragInter);

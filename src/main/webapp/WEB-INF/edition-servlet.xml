@@ -72,14 +72,14 @@
 			authentication-success-handler-ref="ldoDAuthenticationSuccessHandler" />
 		<security:intercept-url pattern="/login"
 			access="permitAll" />
-			 
+			 <!--  
 		<security:intercept-url pattern="/favicon.ico" access="permitAll" />
 		<security:intercept-url pattern="/**"
 			access="isAuthenticated()" />
-			
+			-->
 		<security:intercept-url pattern="/virtualeditions/restricted/**"
 			access="isAuthenticated()" />
-		<security:intercept-url pattern="/manager/**"
+		<security:intercept-url pattern="/admin/**"
 			access="hasRole('ADMIN')" />
 		<security:logout logout-success-url="/" />
 		<security:http-basic />

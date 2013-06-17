@@ -11,15 +11,15 @@ import pt.ist.socialsoftware.edition.security.LdoDSession;
 public class LdoD extends LdoD_Base {
 
 	public static LdoD getInstance() {
-		return FenixFramework.getRoot();
+		return FenixFramework.getDomainRoot().getLdoD();
 	}
 
 	public LdoD() {
-		super();
+		FenixFramework.getDomainRoot().setLdoD(this);
 	}
 
 	public ExpertEdition getExpertEdition(String acronym) {
-		for (ExpertEdition edition : getExpertEditions()) {
+		for (ExpertEdition edition : getExpertEditionsSet()) {
 			if (edition.getAcronym().equals(acronym)) {
 				return edition;
 			}
@@ -28,7 +28,7 @@ public class LdoD extends LdoD_Base {
 	}
 
 	public LdoDUser getUser(String username) {
-		for (LdoDUser user : getUsers()) {
+		for (LdoDUser user : getUsersSet()) {
 			if (user.getUsername().equals(username)) {
 				return user;
 			}
@@ -59,11 +59,11 @@ public class LdoD extends LdoD_Base {
 			selectedVE.addAll(session.getSelectedVEs());
 		}
 
-		for (VirtualEdition virtualEdition : getVirtualEditions()) {
+		for (VirtualEdition virtualEdition : getVirtualEditionsSet()) {
 			if ((user != null)
 					&& (virtualEdition.getSelectedBySet().contains(user))) {
 				selectedVE.add(virtualEdition);
-			} else if (virtualEdition.getParticipant().contains(user)) {
+			} else if (virtualEdition.getParticipantSet().contains(user)) {
 				mineVE.add(virtualEdition);
 			} else if (virtualEdition.getPub()
 					&& !selectedVE.contains(virtualEdition)) {

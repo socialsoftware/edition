@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import pt.ist.fenixframework.pstm.AbstractDomainObject;
+import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.domain.Fragment;
 import pt.ist.socialsoftware.edition.domain.LdoD;
 import pt.ist.socialsoftware.edition.loaders.LoadTEICorpus;
@@ -84,11 +84,11 @@ public class AdminController {
 	@RequestMapping(method = RequestMethod.POST, value = "/fragment/delete")
 	public String deleteFragment(Model model,
 			@RequestParam("externalId") String externalId) {
-		Fragment fragment = AbstractDomainObject.fromExternalId(externalId);
+		Fragment fragment = FenixFramework.getDomainObject(externalId);
 
 		if (fragment == null) {
 			return "utils/pageNotFound";
-		} else if (LdoD.getInstance().getFragmentsCount() >= 1) {
+		} else if (LdoD.getInstance().getFragmentsSet().size() >= 1) {
 			fragment.remove();
 		}
 		model.addAttribute("fragments", LdoD.getInstance().getFragmentsSet());

@@ -29,7 +29,7 @@ public class SourceInter extends SourceInter_Base {
 	public void remove() {
 		super.remove();
 
-		removeSource();
+		setSource(null);
 
 		deleteDomainObject();
 	}

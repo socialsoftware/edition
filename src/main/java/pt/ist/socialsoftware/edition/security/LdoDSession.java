@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-import pt.ist.fenixframework.pstm.AbstractDomainObject;
+import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.domain.VirtualEdition;
 
 public class LdoDSession implements Serializable {
@@ -34,8 +34,8 @@ public class LdoDSession implements Serializable {
 		Set<VirtualEdition> selectedVE = new HashSet<VirtualEdition>();
 		selectedVEAcr.clear();
 		for (String veId : selectedVEIds) {
-			VirtualEdition virtualEdition = (VirtualEdition) AbstractDomainObject
-					.fromExternalId(veId);
+			VirtualEdition virtualEdition = (VirtualEdition) FenixFramework
+					.getDomainObject(veId);
 			selectedVE.add(virtualEdition);
 			selectedVEAcr.add(virtualEdition.getAcronym());
 		}

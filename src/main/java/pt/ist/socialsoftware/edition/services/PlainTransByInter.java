@@ -3,7 +3,7 @@
  */
 package pt.ist.socialsoftware.edition.services;
 
-import pt.ist.fenixframework.pstm.AbstractDomainObject;
+import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.domain.FragInter;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDException;
 import pt.ist.socialsoftware.edition.visitors.HtmlWriter4OneInter;
@@ -33,8 +33,8 @@ public class PlainTransByInter extends LdoDService {
 
 	@Override
 	void execution() throws LdoDException {
-		this.fragInter = (FragInter) AbstractDomainObject
-				.fromExternalId(this.fragInterExternalID);
+		this.fragInter = (FragInter) FenixFramework
+				.getDomainObject(this.fragInterExternalID);
 
 		HtmlWriter4OneInter writer = new HtmlWriter4OneInter(this.fragInter);
 		this.fragInter.getFragment().getStartVariationPoint().accept(writer);

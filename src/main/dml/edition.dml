@@ -19,6 +19,15 @@ class LdoD {
 	String funder;
 }
 
+relation DomainRootHasAWorklrApplication {
+	.pt.ist.fenixframework.DomainRoot playsRole root {
+		multiplicity 1..1;
+	}
+	LdoD playsRole ldoD {
+		multiplicity 0..1;
+	}
+}
+
 class LdoDUser {
 	String username;
 	String password;

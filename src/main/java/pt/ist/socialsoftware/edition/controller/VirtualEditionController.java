@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
-import pt.ist.fenixframework.pstm.AbstractDomainObject;
+import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.domain.LdoD;
 import pt.ist.socialsoftware.edition.domain.LdoDUser;
 import pt.ist.socialsoftware.edition.domain.VirtualEdition;
@@ -42,7 +42,7 @@ public class VirtualEditionController {
 		LdoDUser user = LdoDUser.getUser();
 		if (user != null) {
 			for (VirtualEdition virtualEdition : user
-					.getSelectedVirtualEditions()) {
+					.getSelectedVirtualEditionsSet()) {
 				ldoDSession.addSelectedVE(virtualEdition);
 			}
 		}
@@ -121,8 +121,8 @@ public class VirtualEditionController {
 	public String deleteVirtualEdition(Model model,
 			@ModelAttribute("ldoDSession") LdoDSession ldoDSession,
 			@RequestParam("externalId") String externalId) {
-		VirtualEdition virtualEdition = AbstractDomainObject
-				.fromExternalId(externalId);
+		VirtualEdition virtualEdition = FenixFramework
+				.getDomainObject(externalId);
 		if (virtualEdition == null) {
 			return "utils/pageNotFound";
 		} else {
@@ -143,8 +143,8 @@ public class VirtualEditionController {
 	@PreAuthorize("hasPermission(#externalId, 'virtualedition.participant')")
 	public String showEditVirtualEdition(Model model,
 			@PathVariable String externalId) {
-		VirtualEdition virtualEdition = AbstractDomainObject
-				.fromExternalId(externalId);
+		VirtualEdition virtualEdition = FenixFramework
+				.getDomainObject(externalId);
 		if (virtualEdition == null) {
 			return "utils/pageNotFound";
 		} else {
@@ -165,8 +165,8 @@ public class VirtualEditionController {
 			@RequestParam("acronym") String acronym,
 			@RequestParam("title") String title,
 			@RequestParam("pub") boolean pub) {
-		VirtualEdition virtualEdition = AbstractDomainObject
-				.fromExternalId(externalId);
+		VirtualEdition virtualEdition = FenixFramework
+				.getDomainObject(externalId);
 		if (virtualEdition == null) {
 			return "utils/pageNotFound";
 		}
@@ -220,8 +220,8 @@ public class VirtualEditionController {
 	public String toggleSelectedVirtualEdition(Model model,
 			@ModelAttribute("ldoDSession") LdoDSession ldoDSession,
 			@RequestParam("externalId") String externalId) {
-		VirtualEdition virtualEdition = AbstractDomainObject
-				.fromExternalId(externalId);
+		VirtualEdition virtualEdition = FenixFramework
+				.getDomainObject(externalId);
 
 		if (virtualEdition == null)
 			return "utils/pageNotFound";
@@ -248,8 +248,8 @@ public class VirtualEditionController {
 	@PreAuthorize("hasPermission(#externalId, 'virtualedition.participant')")
 	public String showParticipantsForm(Model model,
 			@PathVariable String externalId) {
-		VirtualEdition virtualEdition = AbstractDomainObject
-				.fromExternalId(externalId);
+		VirtualEdition virtualEdition = FenixFramework
+				.getDomainObject(externalId);
 		if (virtualEdition == null) {
 			return "utils/pageNotFound";
 		} else {
@@ -264,8 +264,8 @@ public class VirtualEditionController {
 			@RequestParam("externalId") String externalId,
 			@RequestParam("username") String username) {
 
-		VirtualEdition virtualEdition = AbstractDomainObject
-				.fromExternalId(externalId);
+		VirtualEdition virtualEdition = FenixFramework
+				.getDomainObject(externalId);
 		if (virtualEdition == null) {
 			return "utils/pageNotFound";
 		}
@@ -295,15 +295,14 @@ public class VirtualEditionController {
 			@RequestParam("veId") String veId,
 			@RequestParam("userId") String userId) {
 
-		VirtualEdition virtualEdition = AbstractDomainObject
-				.fromExternalId(veId);
-		LdoDUser user = AbstractDomainObject.fromExternalId(userId);
+		VirtualEdition virtualEdition = FenixFramework.getDomainObject(veId);
+		LdoDUser user = FenixFramework.getDomainObject(userId);
 
 		if ((virtualEdition == null) || (user == null)) {
 			return "utils/pageNotFound";
 		}
 
-		if (virtualEdition.getParticipantCount() == 1) {
+		if (virtualEdition.getParticipantSet().size() == 1) {
 			List<String> errors = new ArrayList<String>();
 			errors.add("user.one");
 			model.addAttribute("errors", errors);

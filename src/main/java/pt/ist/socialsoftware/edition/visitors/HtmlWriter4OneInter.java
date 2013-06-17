@@ -51,7 +51,7 @@ public class HtmlWriter4OneInter extends HtmlWriter {
 		this.fragInter = fragInter;
 		transcription = "";
 
-		for (FragInter inter : fragInter.getFragment().getFragmentInter()) {
+		for (FragInter inter : fragInter.getFragment().getFragmentInterSet()) {
 			interpsChar.put(inter, 0);
 		}
 	}
@@ -72,8 +72,8 @@ public class HtmlWriter4OneInter extends HtmlWriter {
 	@Override
 	public void visit(VariationPoint variationPoint) {
 		if (!variationPoint.getOutReadingsSet().isEmpty()) {
-			for (Reading rdg : variationPoint.getOutReadings()) {
-				for (FragInter inter : rdg.getFragInters()) {
+			for (Reading rdg : variationPoint.getOutReadingsSet()) {
+				for (FragInter inter : rdg.getFragIntersSet()) {
 					if (inter == fragInter) {
 						rdg.accept(this);
 					}
@@ -109,7 +109,7 @@ public class HtmlWriter4OneInter extends HtmlWriter {
 		// deleted parts are not included in the statistics
 		if (!isDel) {
 			totalChar = totalChar + toAdd.length();
-			for (FragInter inter : text.getReading().getFragInters()) {
+			for (FragInter inter : text.getReading().getFragIntersSet()) {
 				Integer value = interpsChar.get(inter);
 				value = value + toAdd.length();
 				interpsChar.put(inter, value);

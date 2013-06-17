@@ -13,7 +13,8 @@ public class Fragment extends Fragment_Base {
 	}
 
 	public List<FragInter> getSortedInterps() {
-		List<FragInter> interps = new ArrayList<FragInter>(getFragmentInter());
+		List<FragInter> interps = new ArrayList<FragInter>(
+				getFragmentInterSet());
 
 		Collections.sort(interps);
 
@@ -21,7 +22,7 @@ public class Fragment extends Fragment_Base {
 	}
 
 	public ExpertEditionInter getExpertEditionInter(String editor) {
-		for (FragInter inter : getFragmentInter()) {
+		for (FragInter inter : getFragmentInterSet()) {
 			if (inter.getSourceType() == SourceType.EDITORIAL) {
 				ExpertEditionInter edInter = (ExpertEditionInter) inter;
 				if (edInter.getExpertEdition().getEditor().equals(editor)) {
@@ -33,17 +34,17 @@ public class Fragment extends Fragment_Base {
 	}
 
 	public void remove() {
-		removeLdoD();
+		setLdoD(null);
 
-		for (FragInter inter : getFragmentInter()) {
+		for (FragInter inter : getFragmentInterSet()) {
 			inter.remove();
 		}
 
-		for (Source source : getSources()) {
+		for (Source source : getSourcesSet()) {
 			source.remove();
 		}
 
-		for (VariationPoint point : getVariationPoints()) {
+		for (VariationPoint point : getVariationPointsSet()) {
 			point.remove();
 		}
 

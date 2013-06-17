@@ -53,7 +53,7 @@ public class ExpertEdition extends ExpertEdition_Base {
 
 	public List<ExpertEditionInter> getSortedInterps() {
 		List<ExpertEditionInter> interps = new ArrayList<ExpertEditionInter>(
-				getExpertEditionInters());
+				getExpertEditionIntersSet());
 
 		Collections.sort(interps);
 
@@ -63,7 +63,7 @@ public class ExpertEdition extends ExpertEdition_Base {
 	public ExpertEditionInter getNextNumberInter(ExpertEditionInter inter,
 			int number) {
 		List<ExpertEditionInter> interps = new ArrayList<ExpertEditionInter>(
-				getExpertEditionInters());
+				getExpertEditionIntersSet());
 
 		Collections.sort(interps);
 
@@ -73,7 +73,7 @@ public class ExpertEdition extends ExpertEdition_Base {
 	public ExpertEditionInter getPrevNumberInter(ExpertEditionInter inter,
 			int number) {
 		List<ExpertEditionInter> interps = new ArrayList<ExpertEditionInter>(
-				getExpertEditionInters());
+				getExpertEditionIntersSet());
 
 		Collections.sort(interps, Collections.reverseOrder());
 
@@ -98,7 +98,7 @@ public class ExpertEdition extends ExpertEdition_Base {
 	public ExpertEditionInter getNextHeteronymInter(ExpertEditionInter inter,
 			Heteronym heteronym) {
 		List<ExpertEditionInter> interps = new ArrayList<ExpertEditionInter>(
-				getExpertEditionInters());
+				getExpertEditionIntersSet());
 
 		Collections.sort(interps);
 
@@ -108,7 +108,7 @@ public class ExpertEdition extends ExpertEdition_Base {
 	public ExpertEditionInter getPrevHeteronymInter(ExpertEditionInter inter,
 			Heteronym heteronym) {
 		List<ExpertEditionInter> interps = new ArrayList<ExpertEditionInter>(
-				getExpertEditionInters());
+				getExpertEditionIntersSet());
 
 		Collections.sort(interps, Collections.reverseOrder());
 
