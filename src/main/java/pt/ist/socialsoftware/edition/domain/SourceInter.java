@@ -12,6 +12,11 @@ public class SourceInter extends SourceInter_Base {
 	}
 
 	@Override
+	public String getTitle() {
+		return getFragment().getTitle();
+	}
+
+	@Override
 	public SourceType getSourceType() {
 		return SourceType.AUTHORIAL;
 	}
@@ -33,4 +38,5 @@ public class SourceInter extends SourceInter_Base {
 
 		deleteDomainObject();
 	}
+
 }

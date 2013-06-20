@@ -12,6 +12,12 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 	}
 
 	@Override
+	public String getTitle() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
 	public SourceType getSourceType() {
 		return SourceType.VIRTUAL;
 	}
@@ -28,6 +34,8 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 		String result = "";
 
 		result = result + "Edição Virtual: " + getVirtualEdition().getTitle();
+
+		result = result + "Título: " + getTitle();
 
 		result = result + "Heterónimo: " + getHeteronym().getName() + "<br>";
 

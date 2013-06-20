@@ -30,6 +30,8 @@ public class SpaceText extends SpaceText_Base {
 		String separator = "";
 		if (getDim() == SpaceDim.VERTICAL) {
 			separator = "<br>";
+			// the initial line break is for a new line
+			result = separator;
 		} else if (getDim() == SpaceDim.HORIZONTAL) {
 			separator = "&nbsp; ";
 		}

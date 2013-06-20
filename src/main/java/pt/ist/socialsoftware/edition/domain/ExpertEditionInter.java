@@ -12,6 +12,16 @@ public class ExpertEditionInter extends ExpertEditionInter_Base {
 	}
 
 	@Override
+	public String getTitle() {
+		String fragTitle = super.getTitle();
+		if (fragTitle == null || fragTitle.trim().equals("")) {
+			return getFragment().getTitle();
+		} else {
+			return fragTitle;
+		}
+	}
+
+	@Override
 	public SourceType getSourceType() {
 		return SourceType.EDITORIAL;
 	}

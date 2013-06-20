@@ -27,7 +27,7 @@
 					<tr>
 						<td><c:if test="${interp.number!=0}">${interp.number}</c:if></td>
 						<td><a
-							href="${contextPath}/fragments/fragment/interpretation/${interp.externalId}">${interp.fragment.title}</a></td>
+							href="${contextPath}/fragments/fragment/interpretation/${interp.externalId}">${interp.title}</a></td>
 						<td>${interp.volume}</td>
 						<td>${interp.startPage}</td>
 					</tr>
