@@ -5,8 +5,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.jdom2.Attribute;
 import org.jdom2.Content;
@@ -23,25 +25,26 @@ import org.jdom2.xpath.XPathFactory;
 
 import pt.ist.socialsoftware.edition.domain.AddText;
 import pt.ist.socialsoftware.edition.domain.AddText.Place;
+import pt.ist.socialsoftware.edition.domain.AppText;
 import pt.ist.socialsoftware.edition.domain.Category;
 import pt.ist.socialsoftware.edition.domain.DelText;
 import pt.ist.socialsoftware.edition.domain.DelText.HowDel;
-import pt.ist.socialsoftware.edition.domain.EmptyText;
 import pt.ist.socialsoftware.edition.domain.ExpertEdition;
 import pt.ist.socialsoftware.edition.domain.ExpertEditionInter;
-import pt.ist.socialsoftware.edition.domain.FormatText;
-import pt.ist.socialsoftware.edition.domain.FormatText.Rendition;
 import pt.ist.socialsoftware.edition.domain.FragInter;
 import pt.ist.socialsoftware.edition.domain.Fragment;
 import pt.ist.socialsoftware.edition.domain.Heteronym;
 import pt.ist.socialsoftware.edition.domain.LbText;
 import pt.ist.socialsoftware.edition.domain.LdoD;
-import pt.ist.socialsoftware.edition.domain.LdoDText.OpenClose;
 import pt.ist.socialsoftware.edition.domain.ManuscriptSource;
 import pt.ist.socialsoftware.edition.domain.ParagraphText;
 import pt.ist.socialsoftware.edition.domain.PbText;
 import pt.ist.socialsoftware.edition.domain.PrintedSource;
-import pt.ist.socialsoftware.edition.domain.Reading;
+import pt.ist.socialsoftware.edition.domain.RdgGrpText;
+import pt.ist.socialsoftware.edition.domain.RdgText;
+import pt.ist.socialsoftware.edition.domain.Rend;
+import pt.ist.socialsoftware.edition.domain.Rend.Rendition;
+import pt.ist.socialsoftware.edition.domain.SegText;
 import pt.ist.socialsoftware.edition.domain.SimpleText;
 import pt.ist.socialsoftware.edition.domain.SourceInter;
 import pt.ist.socialsoftware.edition.domain.SpaceText;
@@ -49,12 +52,8 @@ import pt.ist.socialsoftware.edition.domain.SpaceText.SpaceDim;
 import pt.ist.socialsoftware.edition.domain.SpaceText.SpaceUnit;
 import pt.ist.socialsoftware.edition.domain.SubstText;
 import pt.ist.socialsoftware.edition.domain.Taxonomy;
-import pt.ist.socialsoftware.edition.domain.VariationPoint;
+import pt.ist.socialsoftware.edition.domain.TextPortion;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDLoadException;
-import pt.ist.socialsoftware.edition.visitors.CanonicalCleaner;
-import pt.ist.socialsoftware.edition.visitors.GraphConsistencyChecker;
-import pt.ist.socialsoftware.edition.visitors.GraphWriter;
-import pt.ist.socialsoftware.edition.visitors.HtmlWriter4OneInter;
 
 public class LoadTEIFragments {
 
@@ -93,6 +92,15 @@ public class LoadTEIFragments {
 			objects.addAll(objects2);
 		}
 		return objects;
+	}
+
+	private Set<FragInter> getFragItersByListXmlID(String[] listInterXmlId) {
+		List<Object> objects = getObjectsByListXmlID(listInterXmlId);
+		Set<FragInter> fragIters = new HashSet<FragInter>();
+		for (Object object : objects) {
+			fragIters.add((FragInter) object);
+		}
+		return fragIters;
 	}
 
 	private void getCorpusXmlIds() {
@@ -193,178 +201,90 @@ public class LoadTEIFragments {
 	private void loadFragmentText(Fragment fragment, String fragmentXmlID) {
 		String selectThisFragment = "[@xml:id='" + fragmentXmlID + "']";
 		String queryExpression = "//def:TEI" + selectThisFragment
-				+ "/def:text/.//def:p";
+				+ "/def:text/def:body";
 
 		XPathExpression<Element> xp = xpfac.compile(queryExpression,
 				Filters.element(), null,
 				Namespace.getNamespace("def", namespace.getURI()));
 
-		VariationPoint startPoint = new VariationPoint(fragment);
-		startPoint.setFragmentOfStart(fragment);
-		VariationPoint endPoint = null;
+		Set<FragInter> fragInters = fragment.getFragmentInterSet();
 
-		List<FragInter> fragInters = new ArrayList<FragInter>(
-				fragment.getFragmentInterSet());
-		for (Element paragraph : xp.evaluate(doc)) {
-			endPoint = addReading4Paragraph(startPoint, fragInters,
-					OpenClose.OPEN);
+		AppText app = new AppText();
+		app.setFragment(fragment);
+		RdgText rdg = new RdgText(app, fragInters);
 
-			startPoint = endPoint;
+		Element element = xp.evaluate(doc).get(0);
 
-			endPoint = loadContent(paragraph, startPoint, fragInters);
-
-			startPoint = endPoint;
-
-			endPoint = addReading4Paragraph(startPoint, fragInters,
-					OpenClose.CLOSE);
-
-			startPoint = endPoint;
-		}
-
-		// clean empty variations points
-		for (VariationPoint point : fragment.getVariationPointsSet()) {
-			if (point.getInReadingsSet().isEmpty()
-					&& point.getOutReadingsSet().isEmpty()) {
-				point.remove();
-			}
-		}
-
-		postParsing(fragment);
+		loadElement(element, rdg);
 	}
 
-	private VariationPoint addReading4Paragraph(VariationPoint startPoint,
-			List<FragInter> pendingFragInterps, OpenClose openClose) {
-
-		VariationPoint endPoint = new VariationPoint(startPoint.getFragment());
-
-		ParagraphText text = new ParagraphText();
-		text.setOpenClose(openClose);
-
-		Reading.addReading(startPoint, endPoint, pendingFragInterps, text);
-
-		return endPoint;
-	}
-
-	private void postParsing(Fragment fragment) {
-		// EmptyTextCleaner eCleaner = new EmptyTextCleaner();
-		// fragment.getVariationPoint().accept(eCleaner);
-
-		CanonicalCleaner cCleaner = new CanonicalCleaner();
-		fragment.getStartVariationPoint().accept(cCleaner);
-
-		GraphConsistencyChecker checkConsistency = new GraphConsistencyChecker();
-		fragment.getStartVariationPoint().accept(checkConsistency);
-
-		GraphWriter graphWriter = new GraphWriter();
-		fragment.getStartVariationPoint().accept(graphWriter);
-		System.out.println(graphWriter.getResult());
-
-		for (FragInter fragInter : fragment.getFragmentInterSet()) {
-			HtmlWriter4OneInter writer = new HtmlWriter4OneInter(fragInter);
-			fragment.getStartVariationPoint().accept(writer);
-			System.out.println(writer.getTranscription());
-		}
-	}
-
-	private VariationPoint loadContent(Element element,
-			VariationPoint startPoint, List<FragInter> fragInters) {
-		VariationPoint endPoint = null;
+	private void loadElement(Element element, TextPortion parent) {
 		for (Content content : element.getContent()) {
 			if (content.getCType() == CType.Text) {
-				endPoint = loadSimpleText((Text) content, startPoint,
-						fragInters);
+				loadSimpleText((Text) content, parent);
 			} else if (content.getCType() == CType.Comment) {
 				// ignore comments
-				endPoint = startPoint;
 			} else if (content.getCType() == CType.Element) {
 				Element element2 = (Element) content;
-				if (element2.getName().equals("lb")) {
-					endPoint = loadLb(element2, startPoint, fragInters);
+				if (element2.getName().equals("div")) {
+					loadDiv(element2, parent);
+				} else if (element2.getName().equals("p")) {
+					loadParagraph(element2, parent);
+				} else if (element2.getName().equals("lb")) {
+					loadLb(element2, parent);
 				} else if (element2.getName().equals("pb")) {
-					endPoint = loadPb(element2, startPoint, fragInters);
+					loadPb(element2, parent);
 				} else if (element2.getName().equals("app")) {
-					endPoint = loadApp(element2, startPoint, fragInters);
+					loadApp(element2, parent);
 				} else if (element2.getName().equals("space")) {
-					endPoint = loadSpace(element2, startPoint, fragInters);
+					loadSpace(element2, parent);
 				} else if (element2.getName().equals("seg")) {
-					endPoint = loadSeg(element2, startPoint, fragInters);
-				} else if (element2.getName().equals("subst")) {
-					endPoint = loadSubst(element2, startPoint, fragInters);
+					loadSeg(element2, parent);
 				} else if (element2.getName().equals("add")) {
-					endPoint = loadAdd(element2, startPoint, fragInters);
+					loadAdd(element2, parent);
 				} else if (element2.getName().equals("del")) {
-					endPoint = loadDel(element2, startPoint, fragInters);
+					loadDel(element2, parent);
+				} else if (element2.getName().equals("subst")) {
+					loadSubst(element2, parent);
 				} else {
 					assert false : "DOES NOT HANDLE LOAD OF:" + element2
 							+ " OF TYPE:" + element2.getCType().toString();
 				}
 			}
-			startPoint = endPoint;
-
 		}
-		return endPoint;
 	}
 
-	private VariationPoint loadSubst(Element element,
-			VariationPoint startPoint, List<FragInter> fragInters) {
-
-		VariationPoint initialPoint = startPoint;
-		Reading initialRdg = null;
-		VariationPoint endPoint = null;
+	private void loadSubst(Element element, TextPortion parent) {
+		SubstText substText = new SubstText(parent);
 
 		for (Content content : element.getContent()) {
 			if (content.getCType() == CType.Text) {
 				if (content.getValue().trim() != "") {
-					endPoint = startPoint;
+					// empty text
 				} else {
 					throw new LdoDLoadException(
 							"elementos inesperado dentro de subst"
 									+ content.getValue());
-
-					// assert false : "UNEXPECTED TEXT ELEMENT WITHIN <subst>"
-					// + content.getValue();
 				}
 			} else if (content.getCType() == CType.Comment) {
 				// ignore comments
-				endPoint = startPoint;
 			} else if (content.getCType() == CType.Element) {
 				Element element2 = (Element) content;
 				if (element2.getName().equals("add")) {
-					endPoint = loadAdd(element2, startPoint, fragInters);
+					loadAdd(element2, substText);
 				} else if (element2.getName().equals("del")) {
-					endPoint = loadDel(element2, startPoint, fragInters);
+					loadDel(element2, substText);
 				} else {
 					throw new LdoDLoadException("não carrega elementos: "
 							+ element2 + " do tipo:"
 							+ element2.getCType().toString()
 							+ "dentro de <subst>");
-
-					// assert false : "DOES NOT HANDLE LOAD OF:" + element2
-					// + " OF TYPE:" + element2.getCType().toString()
-					// + "WITHIN <subst>";
 				}
 			}
-
-			if (endPoint.getInReadingsSet().iterator().next()
-					.getPreviousVariationPoint() == initialPoint) {
-				initialRdg = endPoint.getInReadingsSet().iterator().next();
-			}
-			startPoint = endPoint;
-
 		}
-
-		SubstText openSubstText = new SubstText(OpenClose.OPEN);
-		initialRdg.addBeginText(openSubstText);
-
-		SubstText closeSubstText = new SubstText(OpenClose.CLOSE);
-		Reading endRdg = endPoint.getInReadingsSet().iterator().next();
-		endRdg.addEndText(closeSubstText);
-
-		return endPoint;
 	}
 
-	private VariationPoint loadDel(Element element, VariationPoint startPoint,
-			List<FragInter> fragInters) {
+	private void loadDel(Element element, TextPortion parent) {
 		List<Content> contentList = element.getContent();
 
 		if (contentList.size() != 1)
@@ -372,67 +292,20 @@ public class LoadTEIFragments {
 					"del contém outros elementos para além de texto"
 							+ element.getValue());
 
-		assert contentList.size() == 1 : "<del> DOES NOT CONTAIN SIMPLE TEXT"
-				+ element;
-
 		if (contentList.get(0).getCType() != CType.Text)
 			throw new LdoDLoadException(
 					"del contém outros elementos para além de texto"
 							+ element.getValue());
-
-		assert contentList.get(0).getCType() == CType.Text : "<del> DOES NOT CONTAIN SIMPLE TEXT"
-				+ element;
-
-		VariationPoint endPoint = loadSimpleText((Text) contentList.get(0),
-				startPoint, fragInters);
-		Reading rdg = endPoint.getInReadingsSet().iterator().next();
 
 		Attribute howDelAttribute = element.getAttribute("rend");
-
 		HowDel how = getHowDelAttribute(howDelAttribute);
 
-		DelText openDelText = new DelText(OpenClose.OPEN, how);
+		DelText delText = new DelText(parent, how);
 
-		DelText closeDelText = new DelText(OpenClose.CLOSE, how);
-
-		rdg.addBeginText(openDelText);
-		rdg.addEndText(closeDelText);
-
-		return endPoint;
-
+		loadSimpleText((Text) contentList.get(0), delText);
 	}
 
-	private HowDel getHowDelAttribute(Attribute howDelAttribute) {
-		HowDel howDel = HowDel.UNSPECIFIED;
-		if (howDelAttribute != null) {
-			String howDelValue = howDelAttribute.getValue();
-
-			if (howDelValue.equals("overtyped")) {
-				howDel = HowDel.OVERTYPED;
-			} else if (howDelValue.equals("overstrike")) {
-				howDel = HowDel.OVERSTRIKE;
-			} else if (howDelValue.equals("overwritten")) {
-				howDel = HowDel.OVERWRITTEN;
-			} else {
-				throw new LdoDLoadException(
-						"valor desconhecido para atributo rend=" + howDelValue
-								+ " dentro de del");
-				// assert false : "UNKOWN rend ATTRIBUTE VALUE=" + howDelValue
-				// + " FOR <del>";
-			}
-		}
-		return howDel;
-	}
-
-	/**
-	 * In this project a <add> element can only contain simple text
-	 * 
-	 * @param element
-	 * @param startPoint
-	 * @param fragInters
-	 */
-	private VariationPoint loadAdd(Element element, VariationPoint startPoint,
-			List<FragInter> fragInters) {
+	private void loadAdd(Element element, TextPortion parent) {
 		List<Content> contentList = element.getContent();
 
 		if (contentList.size() != 1)
@@ -440,73 +313,25 @@ public class LoadTEIFragments {
 					"add contém outros elementos para além de texto"
 							+ element.getValue());
 
-		assert contentList.size() == 1 : "<add> DOES NOT CONTAIN SIMPLE TEXT"
-				+ element;
-
 		if (contentList.get(0).getCType() != CType.Text)
 			throw new LdoDLoadException(
 					"add contém outros elementos para além de texto"
 							+ element.getValue());
 
-		assert contentList.get(0).getCType() == CType.Text : "<add> DOES NOT CONTAIN SIMPLE TEXT"
-				+ element;
-
-		VariationPoint endPoint = loadSimpleText((Text) contentList.get(0),
-				startPoint, fragInters);
-		Reading rdg = endPoint.getInReadingsSet().iterator().next();
-
 		Attribute placeAttribute = element.getAttribute("place");
-
 		Place place = getPlaceAttribute(placeAttribute);
 
-		AddText openAddText = new AddText(OpenClose.OPEN, place);
+		AddText addText = new AddText(parent, place);
 
-		AddText closeAddText = new AddText(OpenClose.CLOSE, place);
-
-		rdg.addBeginText(openAddText);
-		rdg.addEndText(closeAddText);
-
-		return endPoint;
-	}
-
-	private Place getPlaceAttribute(Attribute placeAttribute) {
-		Place place = Place.UNSPECIFIED;
-		if (placeAttribute != null) {
-			String placeValue = placeAttribute.getValue();
-
-			if (placeValue.equals("above")) {
-				place = Place.ABOVE;
-			} else if (placeValue.equals("below")) {
-				place = Place.BELOW;
-			} else if (placeValue.equals("superimposed")) {
-				place = Place.SUPERIMPOSED;
-			} else if (placeValue.equals("margin")) {
-				place = Place.MARGIN;
-			} else if (placeValue.equals("top")) {
-				place = Place.TOP;
-			} else if (placeValue.equals("inline")) {
-				place = Place.INLINE;
-			} else {
-				throw new LdoDLoadException(
-						"valor desconhecido para atributo place=" + place);
-				// assert false : "UNKOWN place ATTRIBUTE VALUE=" + place;
-			}
-		}
-
-		return place;
+		loadSimpleText((Text) contentList.get(0), addText);
 	}
 
 	/**
 	 * In the this project a <seg> element can only contain simple text, it is
-	 * used for formating
+	 * used for formating and cross referencing
 	 * 
-	 * @param element
-	 * @param startPoint
-	 * @param fragInters
-	 * @return
 	 */
-	private VariationPoint loadSeg(Element element, VariationPoint startPoint,
-			List<FragInter> fragInters) {
+	private void loadSeg(Element element, TextPortion parent) {
 		List<Content> contentList = element.getContent();
 
 		if (contentList.size() != 1)
@@ -521,371 +346,137 @@ public class LoadTEIFragments {
 		assert contentList.get(0).getCType() == CType.Text : "<seg> DOES NOT CONTAIN SIMPLE TEXT"
 				+ element;
 
-		VariationPoint endPoint = loadSimpleText((Text) contentList.get(0),
-				startPoint, fragInters);
-		Reading rdg = endPoint.getInReadingsSet().iterator().next();
+		SegText segText = new SegText(parent);
 
-		String[] listRendXmlId = null;
+		setRenditions(element, segText);
 
-		Attribute rendAttribute = element.getAttribute("rendition");
-
-		if (rendAttribute != null) {
-
-			listRendXmlId = element.getAttribute("rendition").getValue()
-					.split("\\s+");
-
-			for (int i = listRendXmlId.length - 1; i >= 0; i--) {
-
-				FormatText openFormatText = new FormatText(OpenClose.OPEN);
-				FormatText closeFormatText = new FormatText(OpenClose.CLOSE);
-
-				String rendXmlId = listRendXmlId[i].substring(1);
-
-				if (rendXmlId.equals("right")) {
-					openFormatText.setRend(Rendition.RIGHT);
-					closeFormatText.setRend(Rendition.RIGHT);
-				} else if (rendXmlId.equals("left")) {
-					openFormatText.setRend(Rendition.LEFT);
-					closeFormatText.setRend(Rendition.LEFT);
-				} else if (rendXmlId.equals("center")) {
-					openFormatText.setRend(Rendition.CENTER);
-					closeFormatText.setRend(Rendition.CENTER);
-				} else if (rendXmlId.equals("bold")) {
-					openFormatText.setRend(Rendition.BOLD);
-					closeFormatText.setRend(Rendition.BOLD);
-				} else if (rendXmlId.equals("red")) {
-					openFormatText.setRend(Rendition.RED);
-					closeFormatText.setRend(Rendition.RED);
-				} else if (rendXmlId.equals("u")) {
-					openFormatText.setRend(Rendition.UNDERLINED);
-					closeFormatText.setRend(Rendition.UNDERLINED);
-				} else {
-					throw new LdoDLoadException("valor desconhecido para rend="
-							+ listRendXmlId[i]);
-					// assert false : "UNKNOWN rend VALUE" + listRendXmlId[i];
-				}
-
-				rdg.addBeginText(openFormatText);
-				rdg.addEndText(closeFormatText);
-			}
-		}
-
-		return endPoint;
+		loadSimpleText((Text) contentList.get(0), segText);
 	}
 
-	private VariationPoint loadSpace(Element element,
-			VariationPoint startPoint, List<FragInter> fragInters) {
-		VariationPoint endPoint = new VariationPoint(startPoint.getFragment());
-
+	private void loadSpace(Element element, TextPortion parent) {
 		SpaceText.SpaceDim dim = getDimAttribute(element);
 		SpaceText.SpaceUnit unit = getUnitAttribute(element);
 		int quantity = getQuantityAttribute(element);
 
-		Reading reading = new Reading();
-		SpaceText text = new SpaceText(dim, quantity, unit);
-		reading.addBeginText(text);
-
-		for (FragInter fragIter : fragInters) {
-			reading.addFragInters(fragIter);
-		}
-
-		startPoint.addOutReadings(reading);
-		endPoint.addInReadings(reading);
-
-		return endPoint;
+		new SpaceText(parent, dim, quantity, unit);
 	}
 
-	private int getQuantityAttribute(Element element) {
-		int quantity = 0;
-		Attribute quantityAttribute = element.getAttribute("quantity");
-		if (quantityAttribute == null) {
-			quantity = 0;
-		} else {
-			try {
-				quantity = Integer.parseInt(quantityAttribute.getValue());
-			} catch (NumberFormatException e) {
-				throw new LdoDLoadException(
-						"valor para atributo quantity não é um número="
-								+ quantityAttribute.getValue());
-				// assert false :
-				// "VALUE FOR ATTRIBUTE quantity IS NOT INTEGER=\""
-				// + quantityAttribute.getValue() + "\"";
-			}
-		}
-		return quantity;
-	}
-
-	private SpaceText.SpaceUnit getUnitAttribute(Element element) {
-		SpaceText.SpaceUnit unit = SpaceUnit.UNKNOWN;
-		Attribute unitAttribute = element.getAttribute("unit");
-		if (unitAttribute == null) {
-			unit = SpaceUnit.UNKNOWN;
-		} else if (unitAttribute.getValue().equals("minims")) {
-			unit = SpaceUnit.MINIMS;
-		} else {
-			throw new LdoDLoadException(
-					"valor desconhecido para atributo unit="
-							+ unitAttribute.getValue());
-			// assert false : "UNKNOWN VALUE FOR ATTRIBUTE unit=\""
-			// + unitAttribute.getValue() + "\"";
-		}
-
-		return unit;
-	}
-
-	private SpaceText.SpaceDim getDimAttribute(Element element) {
-		SpaceText.SpaceDim dim = null;
-
-		Attribute dimAttribute = element.getAttribute("dim");
-		if (dimAttribute == null) {
-			dim = SpaceDim.UNKNOWN;
-		} else if (dimAttribute.getValue().equals("vertical")) {
-			dim = SpaceDim.VERTICAL;
-		} else if (dimAttribute.getValue().equals("horizontal")) {
-			dim = SpaceDim.HORIZONTAL;
-		} else {
-			throw new LdoDLoadException("valor desconhecido para atributo dim="
-					+ dimAttribute.getValue());
-
-			// assert false : "UNKNOWN VALUE FOR ATTRIBUTE dim=\""
-			// + dimAttribute.getValue() + "\"";
-		}
-		return dim;
-	}
-
-	private VariationPoint loadApp(Element appElement,
-			VariationPoint startPoint, List<FragInter> fragInters) {
-		VariationPoint endPoint = new VariationPoint(startPoint.getFragment());
-		for (Element rdgElement : appElement.getChildren()) {
-			if (rdgElement.getName().equals("rdg")) {
-				VariationPoint tmpPoint = loadRdg(rdgElement, startPoint);
-
-				for (Reading reading : tmpPoint.getInReadingsSet()) {
-					reading.setNextVariationPoint(endPoint);
-				}
-			} else if (rdgElement.getName().equals("rdgGrp")) {
-				List<VariationPoint> endPoints = loadRdgGrp(rdgElement,
-						startPoint);
-				for (VariationPoint tmpPoint : endPoints) {
-					for (Reading reading : tmpPoint.getInReadingsSet()) {
-						reading.setNextVariationPoint(endPoint);
-					}
-				}
-
-			} else {
-				throw new LdoDLoadException("valor inesperado dentro de app"
-						+ rdgElement.getName());
-				// assert false : "UNEXPECTED ELEMENT NESTED WITHIN APP" +
-				// rdgElement.getName();
-			}
-		}
-
-		List<FragInter> pendingFragInters = new ArrayList<FragInter>(fragInters);
-		for (Reading rdg : endPoint.getInReadingsSet()) {
-			pendingFragInters.removeAll(rdg.getFragIntersSet());
-		}
-
-		if (!pendingFragInters.isEmpty()) {
-			addReading4Empty(startPoint, endPoint, pendingFragInters, true);
-		}
-
-		return endPoint;
-	}
-
-	private List<VariationPoint> loadRdgGrp(Element rdgGrpElement,
-			VariationPoint startPoint) {
-		List<VariationPoint> endPoints = new ArrayList<VariationPoint>();
+	private void loadRdgGrp(Element rdgGrpElement, TextPortion parent) {
+		RdgGrpText rdgGrpText = new RdgGrpText(parent);
 		for (Element rdgElement : rdgGrpElement.getChildren()) {
 			if (rdgElement.getName().equals("rdg")) {
-				endPoints.add(loadRdg(rdgElement, startPoint));
+				loadRdg(rdgElement, rdgGrpText);
 			} else if (rdgElement.getName().equals("rdgGrp")) {
-				endPoints.addAll(loadRdgGrp(rdgElement, startPoint));
+				loadRdgGrp(rdgElement, rdgGrpText);
 			}
 		}
-		return endPoints;
 	}
 
-	private VariationPoint loadRdg(Element rdgElement, VariationPoint startPoint) {
+	private void loadRdg(Element rdgElement, TextPortion parent) {
 		Attribute witAttribute = rdgElement.getAttribute("wit");
 
 		if (witAttribute == null)
 			throw new LdoDLoadException(
 					"elemento rdg necessita de atributo wit " + rdgElement);
 
-		assert witAttribute != null : "rdg ELEMENT REQUIRES VALUE FOR ATTRIBUTE wit"
-				+ rdgElement;
-
 		String witValue = rdgElement.getAttribute("wit").getValue().trim();
 
 		String[] listInterXmlId = witValue.split("\\s+");
-		List<FragInter> fragInters = getFragItersByListXmlID(listInterXmlId);
-		VariationPoint endPoint = new VariationPoint(startPoint.getFragment());
+		Set<FragInter> fragInters = getFragItersByListXmlID(listInterXmlId);
 
-		if (rdgElement.getContent().isEmpty()) {
-			addReading4Empty(startPoint, endPoint, fragInters, true);
-		} else {
-			endPoint = loadContent(rdgElement, startPoint, fragInters);
+		RdgText rdgText = new RdgText(parent, fragInters);
+
+		if (!rdgElement.getContent().isEmpty()) {
+			loadElement(rdgElement, rdgText);
 		}
-		return endPoint;
 	}
 
-	private List<FragInter> getFragItersByListXmlID(String[] listInterXmlId) {
-		List<Object> objects = getObjectsByListXmlID(listInterXmlId);
-		List<FragInter> fragIters = new ArrayList<FragInter>();
-		for (Object object : objects) {
-			fragIters.add((FragInter) object);
+	private void loadApp(Element appElement, TextPortion parent) {
+		AppText app = new AppText(parent);
+
+		for (Element rdgElement : appElement.getChildren()) {
+			if (rdgElement.getName().equals("rdg")) {
+				loadRdg(rdgElement, app);
+			} else if (rdgElement.getName().equals("rdgGrp")) {
+				loadRdgGrp(rdgElement, app);
+			} else {
+				throw new LdoDLoadException("elemento inesperado dentro de app"
+						+ rdgElement.getName());
+				// assert false : "UNEXPECTED ELEMENT NESTED WITHIN APP" +
+				// rdgElement.getName();
+			}
 		}
-		return fragIters;
 	}
 
-	private VariationPoint loadLb(Element element, VariationPoint startPoint,
-			List<FragInter> fragInters) {
-
-		List<FragInter> pendingFragInterps = new ArrayList<FragInter>(
-				fragInters);
-		List<FragInter> toFragInters = null;
+	private void loadPb(Element element, TextPortion parent) {
+		Set<FragInter> toFragInters = null;
 
 		Attribute edAttribute = element.getAttribute("ed");
 		if (edAttribute == null) {
-			toFragInters = fragInters;
+			toFragInters = parent.getInterps();
 		} else {
 			String[] listInterXmlId = element.getAttribute("ed").getValue()
 					.split("\\s+");
 			toFragInters = getFragItersByListXmlID(listInterXmlId);
+
+			for (FragInter inter : toFragInters) {
+				if (!parent.getInterps().contains(inter)) {
+					throw new LdoDLoadException(
+							"testemunho com identificador:"
+									+ inter.getXmlId()
+									+ " é associado a pb mas não está declarado no contexto do seu rdg");
+				}
+			}
 		}
 
-		VariationPoint endPoint = new VariationPoint(startPoint.getFragment());
-
-		Reading reading = new Reading();
-		LbText text = new LbText(isBreak(element), isHiphenated(element));
-		reading.addBeginText(text);
-
-		for (FragInter fragIter : toFragInters) {
-			reading.addFragInters(fragIter);
-			pendingFragInterps.remove(fragIter);
-		}
-
-		startPoint.addOutReadings(reading);
-		endPoint.addInReadings(reading);
-
-		if (!pendingFragInterps.isEmpty()) {
-			addReading4Empty(startPoint, endPoint, pendingFragInterps,
-					isBreak(element));
-		}
-
-		return endPoint;
+		new PbText(parent, toFragInters);
 	}
 
-	private VariationPoint loadPb(Element element, VariationPoint startPoint,
-			List<FragInter> fragInters) {
-
-		List<FragInter> pendingFragInterps = new ArrayList<FragInter>(
-				fragInters);
-		List<FragInter> toFragInters = null;
+	private void loadLb(Element element, TextPortion parent) {
+		Set<FragInter> toFragInters = null;
 
 		Attribute edAttribute = element.getAttribute("ed");
 		if (edAttribute == null) {
-			toFragInters = fragInters;
+			toFragInters = parent.getInterps();
 		} else {
 			String[] listInterXmlId = element.getAttribute("ed").getValue()
 					.split("\\s+");
 			toFragInters = getFragItersByListXmlID(listInterXmlId);
+
+			for (FragInter inter : toFragInters) {
+				if (!parent.getInterps().contains(inter)) {
+					throw new LdoDLoadException(
+							"testemunho com identificador:"
+									+ inter.getXmlId()
+									+ " é associado a lb mas não está declarado no contexto do seu rdg");
+				}
+			}
 		}
 
-		VariationPoint endPoint = new VariationPoint(startPoint.getFragment());
-
-		Reading reading = new Reading();
-		PbText text = new PbText();
-		reading.addBeginText(text);
-
-		for (FragInter fragIter : toFragInters) {
-			reading.addFragInters(fragIter);
-			pendingFragInterps.remove(fragIter);
-		}
-
-		startPoint.addOutReadings(reading);
-		endPoint.addInReadings(reading);
-
-		if (!pendingFragInterps.isEmpty()) {
-			addReading4Empty(startPoint, endPoint, pendingFragInterps, true);
-		}
-
-		return endPoint;
+		new LbText(parent, isBreak(element), isHiphenated(element),
+				toFragInters);
 	}
 
-	private void addReading4Empty(VariationPoint startPoint,
-			VariationPoint endPoint, List<FragInter> pendingFragInterps,
-			Boolean isBreak) {
-
-		EmptyText text = new EmptyText(isBreak);
-
-		Reading.addReading(startPoint, endPoint, pendingFragInterps, text);
-	}
-
-	private Boolean isHiphenated(Element element) {
-		String hyphenated = null;
-		Attribute hyphenatedAttribute = element.getAttribute("type");
-		if (hyphenatedAttribute != null) {
-			hyphenated = hyphenatedAttribute.getValue();
-		}
-
-		Boolean toHyphenate = false;
-		if (hyphenated == null) {
-			toHyphenate = false;
-		} else if (hyphenated.equals("hyphenated")) {
-			toHyphenate = true;
-		} else {
-			throw new LdoDLoadException(
-					"valor inesperado para atribute hyphenated=" + hyphenated);
-
-			// assert false : "UNEXPECTED PARAMETER FOR hyphenated ATTRIBUTE"
-			// + hyphenated;
-		}
-		return toHyphenate;
-	}
-
-	private Boolean isBreak(Element element) {
-		String breakWord = "yes";
-		Attribute breakAttribute = element.getAttribute("break");
-		if (breakAttribute != null) {
-			breakWord = breakAttribute.getValue();
-		}
-
-		Boolean toBreak = false;
-		if (breakWord == null || breakWord.equals("yes")) {
-			toBreak = true;
-		} else if (breakWord.equals("no")) {
-			toBreak = false;
-		} else {
-			throw new LdoDLoadException("valor inesperado para atribute break="
-					+ breakWord);
-			// assert false : "INVALID PARAMETER FOR break ATTRIBUTE" +
-			// breakWord;
-		}
-		return toBreak;
-	}
-
-	private VariationPoint loadSimpleText(Text text, VariationPoint startPoint,
-			List<FragInter> fragInters) {
+	private void loadSimpleText(Text text, TextPortion parent) {
 		String value = text.getTextTrim();
 
-		VariationPoint endPoint = new VariationPoint(startPoint.getFragment());
 		if (value.equals("")) {
 			// ignore empty space
-			endPoint = startPoint;
 		} else {
-			Reading reading = new Reading();
-			SimpleText simpleText = new SimpleText(value);
-			reading.addBeginText(simpleText);
-
-			for (FragInter fragInter : fragInters) {
-				reading.addFragInters(fragInter);
-			}
-
-			startPoint.addOutReadings(reading);
-			endPoint.addInReadings(reading);
+			new SimpleText(parent, value);
 		}
-		return endPoint;
+	}
+
+	private void loadParagraph(Element paragraph, TextPortion parent) {
+		ParagraphText paragraphText = new ParagraphText(parent);
+
+		loadElement(paragraph, paragraphText);
+	}
+
+	private void loadDiv(Element div, TextPortion parent) {
+		for (Element element : div.getChildren()) {
+			loadElement(element, parent);
+		}
 	}
 
 	// TODO: a cleaner way to read parent's xmlID
@@ -979,6 +570,8 @@ public class LoadTEIFragments {
 
 				((ExpertEditionInter) fragInter).setNotes(getBiblNotes(bibl));
 			}
+			fragInter.setXmlId(witnessXmlID);
+
 			putObjectByXmlID(witnessXmlID, fragInter);
 			putObjectByXmlID(witnessListXmlID, fragInter);
 			putObjectByXmlID(witnessListXmlID2, fragInter);
@@ -1194,7 +787,193 @@ public class LoadTEIFragments {
 			manuscript.setNotes(handDesc.getTextTrim() + ", "
 					+ additions.getTextTrim() + ", " + binding.getTextTrim());
 		}
+	}
 
+	private Boolean isHiphenated(Element element) {
+		String hyphenated = null;
+		Attribute hyphenatedAttribute = element.getAttribute("type");
+		if (hyphenatedAttribute != null) {
+			hyphenated = hyphenatedAttribute.getValue();
+		}
+
+		Boolean toHyphenate = false;
+		if (hyphenated == null) {
+			toHyphenate = false;
+		} else if (hyphenated.equals("hyphenated")) {
+			toHyphenate = true;
+		} else {
+			throw new LdoDLoadException(
+					"valor inesperado para atribute hyphenated=" + hyphenated);
+
+			// assert false : "UNEXPECTED PARAMETER FOR hyphenated ATTRIBUTE"
+			// + hyphenated;
+		}
+		return toHyphenate;
+	}
+
+	private Boolean isBreak(Element element) {
+		String breakWord = "yes";
+		Attribute breakAttribute = element.getAttribute("break");
+		if (breakAttribute != null) {
+			breakWord = breakAttribute.getValue();
+		}
+
+		Boolean toBreak = false;
+		if (breakWord == null || breakWord.equals("yes")) {
+			toBreak = true;
+		} else if (breakWord.equals("no")) {
+			toBreak = false;
+		} else {
+			throw new LdoDLoadException("valor inesperado para atribute break="
+					+ breakWord);
+			// assert false : "INVALID PARAMETER FOR break ATTRIBUTE" +
+			// breakWord;
+		}
+		return toBreak;
+	}
+
+	private int getQuantityAttribute(Element element) {
+		int quantity = 0;
+		Attribute quantityAttribute = element.getAttribute("quantity");
+		if (quantityAttribute == null) {
+			quantity = 0;
+		} else {
+			try {
+				quantity = Integer.parseInt(quantityAttribute.getValue());
+			} catch (NumberFormatException e) {
+				throw new LdoDLoadException(
+						"valor para atributo quantity não é um número="
+								+ quantityAttribute.getValue());
+				// assert false :
+				// "VALUE FOR ATTRIBUTE quantity IS NOT INTEGER=\""
+				// + quantityAttribute.getValue() + "\"";
+			}
+		}
+		return quantity;
+	}
+
+	private SpaceText.SpaceUnit getUnitAttribute(Element element) {
+		SpaceText.SpaceUnit unit = SpaceUnit.UNKNOWN;
+		Attribute unitAttribute = element.getAttribute("unit");
+		if (unitAttribute == null) {
+			unit = SpaceUnit.UNKNOWN;
+		} else if (unitAttribute.getValue().equals("minims")) {
+			unit = SpaceUnit.MINIMS;
+		} else {
+			throw new LdoDLoadException(
+					"valor desconhecido para atributo unit="
+							+ unitAttribute.getValue());
+			// assert false : "UNKNOWN VALUE FOR ATTRIBUTE unit=\""
+			// + unitAttribute.getValue() + "\"";
+		}
+
+		return unit;
+	}
+
+	private SpaceText.SpaceDim getDimAttribute(Element element) {
+		SpaceText.SpaceDim dim = null;
+
+		Attribute dimAttribute = element.getAttribute("dim");
+		if (dimAttribute == null) {
+			dim = SpaceDim.UNKNOWN;
+		} else if (dimAttribute.getValue().equals("vertical")) {
+			dim = SpaceDim.VERTICAL;
+		} else if (dimAttribute.getValue().equals("horizontal")) {
+			dim = SpaceDim.HORIZONTAL;
+		} else {
+			throw new LdoDLoadException("valor desconhecido para atributo dim="
+					+ dimAttribute.getValue());
+
+			// assert false : "UNKNOWN VALUE FOR ATTRIBUTE dim=\""
+			// + dimAttribute.getValue() + "\"";
+		}
+		return dim;
+	}
+
+	private void setRenditions(Element element, SegText segText) {
+		String[] listRendXmlId = null;
+
+		Attribute rendAttribute = element.getAttribute("rendition");
+
+		if (rendAttribute != null) {
+			listRendXmlId = element.getAttribute("rendition").getValue()
+					.split("\\s+");
+
+			for (int i = listRendXmlId.length - 1; i >= 0; i--) {
+				String rendXmlId = listRendXmlId[i].substring(1);
+
+				if (rendXmlId.equals("right")) {
+					segText.addRend(new Rend(Rendition.RIGHT));
+				} else if (rendXmlId.equals("left")) {
+					segText.addRend(new Rend(Rendition.LEFT));
+				} else if (rendXmlId.equals("center")) {
+					segText.addRend(new Rend(Rendition.CENTER));
+				} else if (rendXmlId.equals("bold")) {
+					segText.addRend(new Rend(Rendition.BOLD));
+				} else if (rendXmlId.equals("i")) {
+					segText.addRend(new Rend(Rendition.ITALIC));
+				} else if (rendXmlId.equals("red")) {
+					segText.addRend(new Rend(Rendition.RED));
+				} else if (rendXmlId.equals("u")) {
+					segText.addRend(new Rend(Rendition.UNDERLINED));
+				} else {
+					throw new LdoDLoadException("valor desconhecido para rend="
+							+ listRendXmlId[i]);
+					// assert false : "UNKNOWN rend VALUE" + listRendXmlId[i];
+				}
+			}
+		}
+	}
+
+	private Place getPlaceAttribute(Attribute placeAttribute) {
+		Place place = Place.UNSPECIFIED;
+		if (placeAttribute != null) {
+			String placeValue = placeAttribute.getValue();
+
+			if (placeValue.equals("above")) {
+				place = Place.ABOVE;
+			} else if (placeValue.equals("below")) {
+				place = Place.BELOW;
+			} else if (placeValue.equals("superimposed")) {
+				place = Place.SUPERIMPOSED;
+			} else if (placeValue.equals("margin")) {
+				place = Place.MARGIN;
+			} else if (placeValue.equals("top")) {
+				place = Place.TOP;
+			} else if (placeValue.equals("bottom")) {
+				place = Place.BOTTOM;
+			} else if (placeValue.equals("inline")) {
+				place = Place.INLINE;
+			} else if (placeValue.equals("opposite")) {
+				place = Place.OPPOSITE;
+			} else if (placeValue.equals("end")) {
+				place = Place.END;
+			} else {
+				throw new LdoDLoadException(
+						"valor desconhecido para atributo place=" + placeValue);
+			}
+		}
+		return place;
+	}
+
+	private HowDel getHowDelAttribute(Attribute howDelAttribute) {
+		HowDel howDel = HowDel.UNSPECIFIED;
+		if (howDelAttribute != null) {
+			String howDelValue = howDelAttribute.getValue();
+
+			if (howDelValue.equals("overtyped")) {
+				howDel = HowDel.OVERTYPED;
+			} else if (howDelValue.equals("overstrike")) {
+				howDel = HowDel.OVERSTRIKE;
+			} else if (howDelValue.equals("overwritten")) {
+				howDel = HowDel.OVERWRITTEN;
+			} else {
+				throw new LdoDLoadException(
+						"valor desconhecido para atributo rend=" + howDelValue
+								+ " dentro de del");
+			}
+		}
+		return howDel;
 	}
 
 }

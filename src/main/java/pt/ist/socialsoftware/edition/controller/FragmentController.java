@@ -15,7 +15,6 @@ import pt.ist.socialsoftware.edition.domain.ExpertEdition;
 import pt.ist.socialsoftware.edition.domain.ExpertEditionInter;
 import pt.ist.socialsoftware.edition.domain.FragInter;
 import pt.ist.socialsoftware.edition.domain.Fragment;
-import pt.ist.socialsoftware.edition.visitors.HtmlWriter;
 import pt.ist.socialsoftware.edition.visitors.HtmlWriter2CompInters;
 import pt.ist.socialsoftware.edition.visitors.HtmlWriter4OneInter;
 
@@ -100,7 +99,7 @@ public class FragmentController {
 		FragInter fragInter = FenixFramework.getDomainObject(interID);
 
 		HtmlWriter4OneInter writer = new HtmlWriter4OneInter(fragInter);
-		writer.write();
+		writer.write(false);
 
 		model.addAttribute("inter", fragInter);
 		model.addAttribute("writer", writer);
@@ -110,7 +109,7 @@ public class FragmentController {
 	private String writeFragmentWithInterpretation(Model model,
 			FragInter interpretation) {
 		HtmlWriter4OneInter writer = new HtmlWriter4OneInter(interpretation);
-		writer.write();
+		writer.write(false);
 
 		if (interpretation == null) {
 			return "util/pageNotFound";
@@ -134,7 +133,7 @@ public class FragmentController {
 
 		if (interID.equals(interID2Compare)) {
 			HtmlWriter4OneInter writer = new HtmlWriter4OneInter(fragInter);
-			writer.write();
+			writer.write(false);
 
 			model.addAttribute("inter", fragInter);
 			model.addAttribute("writer", writer);
@@ -144,7 +143,7 @@ public class FragmentController {
 			list.add(fragInter);
 			list.add(fragInter2Compare);
 			HtmlWriter2CompInters writer = new HtmlWriter2CompInters(list);
-			writer.write(list);
+			writer.write(false, false);
 
 			model.addAttribute("inter", fragInter);
 			model.addAttribute("inter2Compare", fragInter2Compare);
@@ -168,9 +167,7 @@ public class FragmentController {
 		list.add(fragInter);
 		list.add(fragInter2Compare);
 		HtmlWriter2CompInters writer = new HtmlWriter2CompInters(list);
-		writer.setLineByLine(lineByLine);
-		writer.setShowSpaces(showSpaces);
-		writer.write(list);
+		writer.write(lineByLine, showSpaces);
 
 		model.addAttribute("inter", fragInter);
 		model.addAttribute("inter2Compare", fragInter2Compare);
@@ -195,7 +192,7 @@ public class FragmentController {
 		FragInter fragInter = FenixFramework.getDomainObject(interID);
 
 		HtmlWriter4OneInter writer = new HtmlWriter4OneInter(fragInter);
-		writer.write(displayDel, highlightIns, highlightSubst, showNotes);
+		writer.write(false, displayDel, highlightIns, highlightSubst, showNotes);
 
 		model.addAttribute("writer", writer);
 		return "fragment/transcription";
@@ -209,18 +206,8 @@ public class FragmentController {
 			Model model) {
 		FragInter fragInter = FenixFramework.getDomainObject(interID);
 
-		HtmlWriter writer = null;
-		if (displayDiff) {
-			List<FragInter> list = new ArrayList<FragInter>();
-			list.add(fragInter);
-			List<FragInter> interps = new ArrayList<FragInter>(fragInter
-					.getFragment().getFragmentInterSet());
-			writer = new HtmlWriter2CompInters(interps);
-			((HtmlWriter2CompInters) writer).write(list);
-		} else {
-			writer = new HtmlWriter4OneInter(fragInter);
-			((HtmlWriter4OneInter) writer).write();
-		}
+		HtmlWriter4OneInter writer = new HtmlWriter4OneInter(fragInter);
+		writer.write(displayDiff);
 
 		model.addAttribute("writer", writer);
 		return "fragment/transcription";

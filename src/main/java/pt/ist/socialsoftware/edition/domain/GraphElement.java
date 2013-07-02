@@ -3,7 +3,7 @@
  */
 package pt.ist.socialsoftware.edition.domain;
 
-import pt.ist.socialsoftware.edition.visitors.GraphVisitor;
+import pt.ist.socialsoftware.edition.visitors.TextTreeVisitor;
 
 /**
  * An interface for the text graph elements: Reading, VariationPoint and LdoText
@@ -13,6 +13,6 @@ import pt.ist.socialsoftware.edition.visitors.GraphVisitor;
  * 
  */
 public interface GraphElement {
-	public void accept(GraphVisitor visitor);
+	public void accept(TextTreeVisitor visitor);
 
 }

@@ -1,12 +1,11 @@
 package pt.ist.socialsoftware.edition.domain;
 
-enum pt.ist.socialsoftware.edition.domain.Reading.ReadingType as ReadingType;
+enum pt.ist.socialsoftware.edition.domain.RdgText.RdgTextType as RdgTextType;
 enum pt.ist.socialsoftware.edition.domain.ManuscriptSource.Form as Form;
 enum pt.ist.socialsoftware.edition.domain.ManuscriptSource.Material as Material;
 enum pt.ist.socialsoftware.edition.domain.SpaceText.SpaceDim as SpaceDim;
 enum pt.ist.socialsoftware.edition.domain.SpaceText.SpaceUnit as SpaceUnit;
-enum pt.ist.socialsoftware.edition.domain.FormatText.Rendition as Rendition;
-enum pt.ist.socialsoftware.edition.domain.LdoDText.OpenClose as OpenClose;
+enum pt.ist.socialsoftware.edition.domain.Rend.Rendition as Rendition;
 enum pt.ist.socialsoftware.edition.domain.AddText.Place as Place;
 enum pt.ist.socialsoftware.edition.domain.DelText.HowDel as HowDel;
 
@@ -204,92 +203,95 @@ class PrintedSource extends Source {
 	String date;
 }
 
-class VariationPoint {
+class TextPortion {
 }
 
-class Reading {
-	ReadingType type;
+relation FragmentHasTextPortion {
+	Fragment playsRole fragment {multiplicity 0..1;}
+	TextPortion playsRole textPortion {multiplicity 0..1;}
 }
 
-relation FragmentHasStartVariationPoint {
-	Fragment playsRole fragmentOfStart {multiplicity 0..1;}
-	VariationPoint playsRole startVariationPoint {multiplicity 0..1;}
+class RdgText extends TextPortion {
+	RdgTextType type;
 }
 
-relation FragmentHasVariationPoints {
-	Fragment playsRole fragment {multiplicity 1..1;}
-	VariationPoint playsRole variationPoints {multiplicity 0..*;}
+relation TextPortionHasNextTextPortion {
+	TextPortion playsRole prevText {multiplicity 0..1;}
+	TextPortion playsRole nextText {multiplicity 0..1;}
 }
 
-relation VariationPointHasInReadings {
-	VariationPoint playsRole nextVariationPoint {multiplicity 1..1;}
-	Reading playsRole inReadings {multiplicity 0..*;}
+relation TextPortionContainsTextPortion {
+	TextPortion playsRole childText {multiplicity 0..*;}
+	TextPortion playsRole parentText {multiplicity 0..1;}
 }
 
-relation VariationPointHasOutReadings {
-	VariationPoint playsRole previousVariationPoint {multiplicity 1..1;}
-	Reading playsRole outReadings {multiplicity 0..*;}
+relation TextPortionContainsFirstTextPortion {
+	TextPortion playsRole firstChildText {multiplicity 0..1;}
+	TextPortion playsRole parentOfFirstText {multiplicity 0..1;}
 }
 
-relation FragInterHasReadings {
+relation TextPortionContainsLastTextPortion {
+	TextPortion playsRole lastChildText {multiplicity 0..1;}
+	TextPortion playsRole parentOfLastText {multiplicity 0..1;}
+}
+
+class RdgGrpText extends TextPortion;
+
+class AppText extends TextPortion;
+
+relation FragInterHasRdgTexts {
 	FragInter playsRole fragInters {multiplicity 0..*;}
-	Reading playsRole readings {multiplicity 0..*;}
+	RdgText playsRole rdg {multiplicity 0..*;}
 }
 
-class LdoDText {
-	OpenClose openClose;
-}
-
-relation ReadingHasText {
-	Reading playsRole readingOfFirst {multiplicity 0..1;}
-	LdoDText playsRole firstText {multiplicity 1..1;}
-}
-
-relation TextBelongs2Reading {
-	Reading playsRole reading {multiplicity 1..1;}
-	LdoDText playsRole text {multiplicity 0..*;}
-}
-
-relation TextHasText {
-	LdoDText playsRole prevText {multiplicity 0..1;}
-	LdoDText playsRole nextText {multiplicity 0..1;}
-}
-
-class SimpleText extends LdoDText {
+class SimpleText extends TextPortion {
 	String value;
 }
 
-class LbText extends LdoDText {
+class SegText extends TextPortion;
+
+class Rend {
+	Rendition rend;
+}
+
+relation SegTextHasRend {
+	SegText playsRole text {multiplicity 0..1;}
+	Rend playsRole rend {multiplicity 0..*;}
+}
+
+class LbText extends TextPortion {
 	Boolean breakWord;
 	Boolean hyphenated;
 }
 
-class PbText extends LdoDText;
+relation LbTextHasFragInters {
+	LbText playsRole lbText {multiplicity 0..*;}
+	FragInter playsRole fragInter {multiplicity 0..*;}
+}
 
-class SpaceText extends LdoDText {
+class PbText extends TextPortion;
+
+relation PbTextHasFragInters {
+	PbText playsRole pbText {multiplicity 0..*;}
+	FragInter playsRole fragInter {multiplicity 0..*;}
+}
+
+class SpaceText extends TextPortion {
 	SpaceDim dim;
 	int quantity;
 	SpaceUnit unit;
 }
 
-class FormatText extends LdoDText {
-	Rendition rend;
+class ParagraphText extends TextPortion {
 }
 
-class ParagraphText extends LdoDText {
-}
-
-class EmptyText extends LdoDText {
-	Boolean isBreak;
-}
-
-class AddText extends LdoDText {
+class AddText extends TextPortion {
 	Place place;
 }
 
-class DelText extends LdoDText {
+class DelText extends TextPortion {
 	HowDel how;
 }
 
-class SubstText extends LdoDText {
+class SubstText extends TextPortion {
 }

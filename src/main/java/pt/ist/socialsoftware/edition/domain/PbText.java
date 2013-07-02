@@ -1,21 +1,32 @@
 package pt.ist.socialsoftware.edition.domain;
 
-import pt.ist.socialsoftware.edition.visitors.GraphVisitor;
+import java.util.Set;
+
+import pt.ist.socialsoftware.edition.visitors.TextTreeVisitor;
 
 public class PbText extends PbText_Base {
 
-	public PbText() {
-		super();
+	public PbText(TextPortion parent, Set<FragInter> interps) {
+		parent.addChildText(this);
+
+		for (FragInter inter : interps) {
+			addFragInter(inter);
+		}
 	}
 
 	@Override
-	public void accept(GraphVisitor visitor) {
+	public Set<FragInter> getInterps() {
+		return getFragInterSet();
+	}
+
+	@Override
+	public int getLength(FragInter inter) {
+		return 0;
+	}
+
+	@Override
+	public void accept(TextTreeVisitor visitor) {
 		visitor.visit(this);
-	}
-
-	@Override
-	public String writeHtml() {
-		return "<hr size=\"3\" color=\"black\">";
 	}
 
 }

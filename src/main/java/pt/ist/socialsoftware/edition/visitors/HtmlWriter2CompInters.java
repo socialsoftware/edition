@@ -1,390 +1,363 @@
 package pt.ist.socialsoftware.edition.visitors;
 
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import pt.ist.socialsoftware.edition.domain.AddText;
+import pt.ist.socialsoftware.edition.domain.AppText;
 import pt.ist.socialsoftware.edition.domain.DelText;
-import pt.ist.socialsoftware.edition.domain.EmptyText;
 import pt.ist.socialsoftware.edition.domain.FragInter;
 import pt.ist.socialsoftware.edition.domain.LbText;
-import pt.ist.socialsoftware.edition.domain.LdoDText;
-import pt.ist.socialsoftware.edition.domain.LdoDText.OpenClose;
 import pt.ist.socialsoftware.edition.domain.ParagraphText;
 import pt.ist.socialsoftware.edition.domain.PbText;
-import pt.ist.socialsoftware.edition.domain.Reading;
+import pt.ist.socialsoftware.edition.domain.RdgGrpText;
+import pt.ist.socialsoftware.edition.domain.RdgText;
+import pt.ist.socialsoftware.edition.domain.SegText;
 import pt.ist.socialsoftware.edition.domain.SimpleText;
-import pt.ist.socialsoftware.edition.domain.VariationPoint;
+import pt.ist.socialsoftware.edition.domain.SpaceText;
+import pt.ist.socialsoftware.edition.domain.SubstText;
+import pt.ist.socialsoftware.edition.domain.TextPortion;
 
 public class HtmlWriter2CompInters extends HtmlWriter {
-
 	private final Map<FragInter, String> transcriptionsMap = new HashMap<FragInter, String>();
-	private final Map<FragInter, ArrayList<String>> lineByLineMap = new HashMap<FragInter, ArrayList<String>>();
-	private final List<FragInter> compareAgaints = new ArrayList<FragInter>();
+	private final Map<FragInter, Integer> transcriptionsLengthMap = new HashMap<FragInter, Integer>();
+	private Set<FragInter> interps = null;
 
 	private Boolean lineByLine = false;
 	private Boolean showSpaces = false;
 
-	private final Map<FragInter, List<Reading>> interReadingsMap = new HashMap<FragInter, List<Reading>>();
-	private List<Reading> interReadings = null;
-
-	private final Map<Reading, String> rdgTranscriptionMap = new HashMap<Reading, String>();
-	private final Map<VariationPoint, Integer> pointStartMap = new HashMap<VariationPoint, Integer>();
-	private final Map<Reading, Integer> rdgLengthMap = new HashMap<Reading, Integer>();
-	private int rdgLength = 0;
-
-	private final List<LdoDText> pendingWrite = new ArrayList<LdoDText>();
-
-	private Boolean breakWord = true;
-	private int differences = 0;
-
-	/**
-	 * compare against interpretations in the list
-	 */
-	public HtmlWriter2CompInters(List<FragInter> list) {
-		for (FragInter inter : list) {
-			compareAgaints.add(inter);
-		}
-	}
-
-	public void setLineByLine(Boolean lineByLine) {
-		this.lineByLine = lineByLine;
-	}
-
 	public Boolean getShowSpaces() {
-		return this.showSpaces;
+		return showSpaces;
 	}
 
-	public void setShowSpaces(Boolean showSpaces) {
+	private String lineByLineTranscription = "";
+
+	public HtmlWriter2CompInters(List<FragInter> interps) {
+		this.interps = new HashSet<FragInter>(interps);
+	}
+
+	public void write(Boolean lineByLine, Boolean showSpaces) {
+		this.lineByLine = lineByLine;
 		this.showSpaces = showSpaces;
-	}
 
-	/**
-	 * write comparisons for this elements
-	 */
-	public void write(List<FragInter> interList) {
-		for (FragInter inter : interList) {
-			fragInter = inter;
-			interReadings = new ArrayList<Reading>();
-			breakWord = true;
-			differences = 0;
-			visit(inter.getFragment().getStartVariationPoint());
-
-			interReadingsMap.put(inter, interReadings);
-
-		}
-		computeReadingsStartPosition(interList);
-		if (lineByLine) {
-			generateTranscriptionsLineByLine(interList);
-		} else {
-			generateTranscriptionsSideBySide(interList);
-		}
-	}
-
-	private void generateTranscriptionsSideBySide(List<FragInter> interList) {
-		for (FragInter inter : interList) {
-			transcription = "";
-			int transcriptionLength = 0;
-			for (Reading rdg : interReadingsMap.get(inter)) {
-				if (showSpaces) {
-					int increaseLength = pointStartMap.get(rdg
-							.getPreviousVariationPoint()) - transcriptionLength;
-
-					String addSpace = "";
-					for (int i = 0; i < increaseLength; i++) {
-						addSpace = addSpace + "&nbsp;";
-					}
-
-					transcription = transcription + addSpace
-							+ rdgTranscriptionMap.get(rdg);
-
-					increaseLength = increaseLength < 0 ? 0 : increaseLength;
-					transcriptionLength = transcriptionLength + increaseLength
-							+ rdgLengthMap.get(rdg);
-				} else {
-					transcription = transcription
-							+ rdgTranscriptionMap.get(rdg);
-				}
-
-			}
-			transcriptionsMap.put(inter, transcription);
-		}
-	}
-
-	// this method must be optimized to reduce code duplication and integrate
-	// with
-	// generate side-by-side code
-	private void generateTranscriptionsLineByLine(List<FragInter> interList) {
-		int lineLength = 90;
-		int difference = 4;
-		for (FragInter inter : interList) {
-			ArrayList<String> interLineByLine = new ArrayList<String>();
-			lineByLineMap.put(inter, interLineByLine);
-			transcription = "";
-			int transcriptionLength = 0;
-			int lineCounter = 1;
-			for (Reading rdg : interReadingsMap.get(inter)) {
-
-				int increaseLength = pointStartMap.get(rdg
-						.getPreviousVariationPoint()) - transcriptionLength;
-
-				String addSpace = "";
-				if (showSpaces) {
-					for (int i = 0; i < increaseLength; i++) {
-						addSpace = addSpace + "&nbsp;";
-					}
-				}
-
-				increaseLength = increaseLength < 0 ? 0 : increaseLength;
-				transcriptionLength = transcriptionLength + increaseLength
-						+ rdgLengthMap.get(rdg);
-
-				if ((transcriptionLength >= (lineLength * lineCounter)
-						- difference)
-						&& (transcriptionLength <= (lineLength * lineCounter)
-								+ difference)) {
-					if (showSpaces) {
-						transcription = transcription + addSpace
-								+ rdgTranscriptionMap.get(rdg);
-					} else {
-						transcription = transcription
-								+ rdgTranscriptionMap.get(rdg);
-					}
-					lineByLineMap.get(inter).add(transcription);
-					transcription = "";
-					lineCounter = lineCounter + 1;
-				} else if (transcriptionLength > (lineLength * lineCounter)
-						+ difference) {
-					if (showSpaces) {
-						transcription = transcription + addSpace;
-					}
-					lineByLineMap.get(inter).add(transcription);
-					transcription = rdgTranscriptionMap.get(rdg);
-					lineCounter = lineCounter + 1;
-				} else {
-					if (showSpaces) {
-						transcription = transcription + addSpace
-								+ rdgTranscriptionMap.get(rdg);
-					} else {
-						transcription = transcription
-								+ rdgTranscriptionMap.get(rdg);
-					}
-				}
-
-			}
-			lineByLineMap.get(inter).add(transcription);
+		for (FragInter inter : interps) {
+			transcriptionsMap.put(inter, "");
+			transcriptionsLengthMap.put(inter, 0);
 		}
 
-	}
-
-	// this method can be optimized by computing for the longest transcriptions
-	// first
-	private void computeReadingsStartPosition(List<FragInter> interList) {
-		Boolean regenerate = true;
-		// the computation of the starting points of one transcription may
-		// require the recomputation of other
-		while (regenerate) {
-			regenerate = false;
-			for (FragInter inter : interList) {
-				int transcriptionLength = 0;
-				for (Reading rdg : interReadingsMap.get(inter)) {
-					Integer oldRdgStart = pointStartMap.get(rdg
-							.getPreviousVariationPoint());
-					oldRdgStart = oldRdgStart == null ? 0 : oldRdgStart;
-					int newRdgStart = Math
-							.max(transcriptionLength, oldRdgStart);
-					if (newRdgStart != oldRdgStart)
-						regenerate = true;
-
-					pointStartMap.put(rdg.getPreviousVariationPoint(),
-							newRdgStart);
-					transcriptionLength = newRdgStart + rdgLengthMap.get(rdg);
-				}
-			}
-		}
+		visit((AppText) interps.iterator().next().getFragment()
+				.getTextPortion());
 	}
 
 	public String getTranscription(FragInter inter) {
 		return transcriptionsMap.get(inter);
 	}
 
-	// this method may be optimized in order to have the same number of lines
-	// for both interpretations
 	public String getTranscriptionLineByLine(FragInter inter1, FragInter inter2) {
-		ArrayList<String> inter1LineByline = lineByLineMap.get(inter1);
-		ArrayList<String> inter2LineByline = lineByLineMap.get(inter2);
-		String result = "";
-		int size1 = inter1LineByline.size();
-		int size2 = inter2LineByline.size();
-		int size = Math.min(size1, size2);
-		for (int i = 0; i < size; i++) {
-			result = result + inter1LineByline.get(i) + "<br>"
-					+ inter2LineByline.get(i) + "<br><br>";
+		// add the last line
+		for (FragInter inter : interps) {
+			lineByLineTranscription = lineByLineTranscription
+					+ transcriptionsMap.get(inter) + "<br>";
+			transcriptionsMap.put(inter, "");
+			transcriptionsLengthMap.put(inter, 0);
 		}
 
-		return result;
-	}
-
-	/*
-	 * should be invoked when there is a single fragInter
-	 */
-	@Override
-	public String getTranscription() {
-		assert transcriptionsMap.keySet().size() == 1;
-		return transcriptionsMap.get(fragInter);
+		return lineByLineTranscription;
 	}
 
 	@Override
-	public void visit(VariationPoint variationPoint) {
-		if (!variationPoint.getOutReadingsSet().isEmpty()) {
-			for (Reading rdg : variationPoint.getOutReadingsSet()) {
-				if (rdg.getFragIntersSet().contains(fragInter)) {
-					int count = 0;
-					for (FragInter tmpInter : compareAgaints) {
-						if ((tmpInter != fragInter)
-								&& (!rdg.getFragIntersSet().contains(tmpInter))) {
-							count = count + 1;
-						}
-					}
+	public void visit(AppText appText) {
+		alignSpaces(appText);
 
-					differences = count;
+		generateLineByLine(appText);
 
-					rdg.accept(this);
+		TextPortion firstChild = appText.getFirstChildText();
+		if (firstChild != null) {
+			firstChild.accept(this);
+		}
+
+		alignSpaces(appText);
+
+		if (appText.getParentOfLastText() == null) {
+			if (appText.getNextText() != null) {
+				appText.getNextText().accept(this);
+			}
+		}
+	}
+
+	private void generateLineByLine(AppText appText) {
+		if (lineByLine && (appText.getInterps().containsAll(interps))) {
+			int lineLength = 85;
+
+			int longestLength = 0;
+			for (FragInter inter : interps) {
+				longestLength = Math.max(longestLength,
+						transcriptionsLengthMap.get(inter));
+			}
+
+			if (longestLength >= lineLength) {
+				for (FragInter inter : interps) {
+					lineByLineTranscription = lineByLineTranscription
+							+ transcriptionsMap.get(inter) + "<br>";
+					transcriptionsMap.put(inter, "");
+					transcriptionsLengthMap.put(inter, 0);
 				}
 			}
 		}
 	}
 
+	private void alignSpaces(AppText appText) {
+		if (showSpaces) {
+			Set<FragInter> appInterps = new HashSet<FragInter>(interps);
+			appInterps.retainAll(appText.getInterps());
+
+			int longestLength = 0;
+			for (FragInter inter : appInterps) {
+				longestLength = Math.max(longestLength,
+						transcriptionsLengthMap.get(inter));
+			}
+
+			for (FragInter inter : appInterps) {
+				String addSpace = "";
+				int diff = longestLength - transcriptionsLengthMap.get(inter);
+				for (int i = 0; i < diff; i++) {
+					addSpace = addSpace + "&nbsp;";
+				}
+				String newTranscription = transcriptionsMap.get(inter)
+						+ addSpace;
+
+				transcriptionsMap.put(inter, newTranscription);
+				transcriptionsLengthMap.put(inter,
+						transcriptionsLengthMap.get(inter) + diff);
+			}
+		}
+	}
+
 	@Override
-	public void visit(Reading reading) {
+	public void visit(RdgGrpText rdgGrpText) {
+		TextPortion firstChild = rdgGrpText.getFirstChildText();
+		if (firstChild != null) {
+			firstChild.accept(this);
+		}
 
-		if (rdgTranscriptionMap.get(reading) == null) {
-			transcription = "";
-			rdgLength = 0;
+		if (rdgGrpText.getParentOfLastText() == null) {
+			rdgGrpText.getNextText().accept(this);
+		}
+	}
 
-			reading.getFirstText().accept(this);
+	@Override
+	public void visit(RdgText rdgText) {
+		Set<FragInter> intersection = new HashSet<FragInter>(interps);
+		intersection.retainAll(rdgText.getInterps());
 
-			if (differences > 0) {
-				int size = compareAgaints.size() == 0 ? 0 : compareAgaints
-						.size() - 1;
+		if (!intersection.isEmpty()) {
 
-				int colorValue = 255 - (200 / size) * (differences - 1);
-				String colorCode = "<span style=\"background-color: rgb(0,"
+			Boolean color = false;
+
+			int size = interps.size();
+			String colorCode = "";
+			if (intersection.size() < size) {
+				color = true;
+				int colorValue = 255 - (255 / size)
+						* (size - intersection.size() - 1);
+				colorCode = "<span style=\"background-color: rgb(0,"
 						+ colorValue + ",255);\">";
+			}
 
-				if (transcription.equals("")
-						|| !transcription.substring(0, 1).equals(" ")) {
-					transcription = colorCode + transcription + "</span>";
-				} else {
-					transcription = " " + colorCode
-							+ transcription.substring(1) + "</span>";
+			for (FragInter inter : intersection) {
+				String separator = rdgText.writeSeparator(true, false, inter);
+
+				String newTranscription = transcriptionsMap.get(inter)
+						+ separator;
+
+				if (color) {
+					newTranscription = newTranscription + colorCode;
 				}
 
+				transcriptionsMap.put(inter, newTranscription);
+				transcriptionsLengthMap
+						.put(inter, transcriptionsLengthMap.get(inter)
+								+ separator.length());
 			}
 
-			rdgTranscriptionMap.put(reading, transcription);
-			rdgLengthMap.put(reading, rdgLength);
-		}
-
-		interReadings.add(reading);
-
-		reading.getNextVariationPoint().accept(this);
-	}
-
-	@Override
-	public void visit(SimpleText text) {
-		String separators = ".,?!:;";
-		String separator = null;
-		String toAdd = text.getValue();
-
-		String firstChar = toAdd.substring(0, 1);
-
-		if (separators.contains(firstChar) || !breakWord) {
-			separator = "";
-			breakWord = true;
-		} else {
-			separator = " ";
-		}
-
-		OpenClose state = OpenClose.CLOSE;
-		for (LdoDText pText : pendingWrite) {
-			// the separator should not be affected by formatting and it is
-			// written before open
-			OpenClose pState = pText.getOpenClose();
-			if (pState == OpenClose.CLOSE) {
-				state = OpenClose.CLOSE;
-			} else if ((pState == OpenClose.OPEN) && (state == OpenClose.CLOSE)) {
-				transcription = transcription + separator;
-				state = OpenClose.OPEN;
+			TextPortion firstChild = rdgText.getFirstChildText();
+			if (firstChild != null) {
+				firstChild.accept(this);
 			}
 
-			transcription = transcription + pText.writeHtml();
+			if (color) {
+				for (FragInter inter : intersection) {
+					String newTranscription = transcriptionsMap.get(inter)
+							+ "</span>";
+					transcriptionsMap.put(inter, newTranscription);
+				}
+			}
+
 		}
-		pendingWrite.clear();
 
-		if (state == OpenClose.OPEN) {
-			transcription = transcription + toAdd;
-		} else {
-			transcription = transcription + separator + toAdd;
-		}
-
-		rdgLength = rdgLength + separator.length() + toAdd.length();
-
-		if (text.getNextText() != null) {
-			text.getNextText().accept(this);
+		if (rdgText.getParentOfLastText() == null) {
+			rdgText.getNextText().accept(this);
 		}
 	}
 
 	@Override
-	public void visit(LbText text) {
-		breakWord = text.getBreakWord();
+	public void visit(ParagraphText paragraphText) {
+		TextPortion firstChild = paragraphText.getFirstChildText();
+		if (firstChild != null) {
+			firstChild.accept(this);
+		}
 
-		if (text.getNextText() != null) {
-			text.getNextText().accept(this);
+		if (paragraphText.getParentOfLastText() == null) {
+			paragraphText.getNextText().accept(this);
 		}
 	}
 
 	@Override
-	public void visit(PbText text) {
-		if (text.getNextText() != null) {
-			text.getNextText().accept(this);
+	public void visit(SegText segText) {
+		Set<FragInter> intersection = new HashSet<FragInter>(interps);
+		intersection.retainAll(segText.getInterps());
+
+		for (FragInter inter : intersection) {
+			String separator = segText.writeSeparator(true, false, inter);
+			String newTranscription = transcriptionsMap.get(inter) + separator;
+			transcriptionsMap.put(inter, newTranscription);
+			transcriptionsLengthMap.put(inter,
+					transcriptionsLengthMap.get(inter) + separator.length());
+		}
+
+		TextPortion firstChild = segText.getFirstChildText();
+		if (firstChild != null) {
+			firstChild.accept(this);
+		}
+
+		if (segText.getParentOfLastText() == null) {
+			segText.getNextText().accept(this);
 		}
 	}
 
 	@Override
-	public void visit(ParagraphText text) {
+	public void visit(SimpleText simpleText) {
+		Set<FragInter> intersection = new HashSet<FragInter>(interps);
+		intersection.retainAll(simpleText.getInterps());
 
-		if (text.getNextText() != null) {
-			text.getNextText().accept(this);
+		String value = simpleText.getValue();
+
+		for (FragInter inter : intersection) {
+			String separator = simpleText.writeSeparator(true, false, inter);
+			String newTranscription = transcriptionsMap.get(inter) + separator
+					+ value;
+			transcriptionsMap.put(inter, newTranscription);
+			transcriptionsLengthMap.put(inter,
+					transcriptionsLengthMap.get(inter) + value.length()
+							+ separator.length());
+		}
+
+		if (simpleText.getParentOfLastText() == null) {
+			simpleText.getNextText().accept(this);
 		}
 	}
 
 	@Override
-	public void visit(AddText text) {
-		pendingWrite.add(text);
+	public void visit(LbText lbText) {
+		TextPortion firstChild = lbText.getFirstChildText();
+		if (firstChild != null) {
+			firstChild.accept(this);
+		}
 
-		if (text.getNextText() != null) {
-			text.getNextText().accept(this);
+		if (lbText.getParentOfLastText() == null) {
+			lbText.getNextText().accept(this);
 		}
 	}
 
 	@Override
-	public void visit(DelText text) {
-		pendingWrite.add(text);
+	public void visit(PbText pbText) {
+		TextPortion firstChild = pbText.getFirstChildText();
+		if (firstChild != null) {
+			firstChild.accept(this);
+		}
 
-		if (text.getNextText() != null) {
-			text.getNextText().accept(this);
+		if (pbText.getParentOfLastText() == null) {
+			pbText.getNextText().accept(this);
 		}
 	}
 
 	@Override
-	public void visit(EmptyText text) {
-		breakWord = text.getIsBreak();
+	public void visit(SpaceText spaceText) {
+		if (spaceText.getParentOfLastText() == null) {
+			spaceText.getNextText().accept(this);
+		}
+	}
 
-		if (text.getNextText() != null) {
-			text.getNextText().accept(this);
+	@Override
+	public void visit(AddText addText) {
+		Set<FragInter> intersection = new HashSet<FragInter>(interps);
+		intersection.retainAll(addText.getInterps());
+
+		for (FragInter inter : intersection) {
+			String separator = addText.writeSeparator(true, false, inter);
+			String newTranscription = transcriptionsMap.get(inter) + separator
+					+ "<ins>";
+			transcriptionsMap.put(inter, newTranscription);
+			transcriptionsLengthMap.put(inter,
+					transcriptionsLengthMap.get(inter) + separator.length());
+		}
+
+		TextPortion firstChild = addText.getFirstChildText();
+		if (firstChild != null) {
+			firstChild.accept(this);
+		}
+
+		for (FragInter inter : intersection) {
+			String newTranscription = transcriptionsMap.get(inter) + "</ins>";
+			transcriptionsMap.put(inter, newTranscription);
+		}
+
+		if (addText.getParentOfLastText() == null) {
+			addText.getNextText().accept(this);
+		}
+	}
+
+	@Override
+	public void visit(DelText delText) {
+		Set<FragInter> intersection = new HashSet<FragInter>(interps);
+		intersection.retainAll(delText.getInterps());
+
+		for (FragInter inter : intersection) {
+			String separator = delText.writeSeparator(true, false, inter);
+			String newTranscription = transcriptionsMap.get(inter) + separator
+					+ "<del>";
+			transcriptionsMap.put(inter, newTranscription);
+			transcriptionsLengthMap.put(inter,
+					transcriptionsLengthMap.get(inter) + separator.length());
+		}
+
+		TextPortion firstChild = delText.getFirstChildText();
+		if (firstChild != null) {
+			firstChild.accept(this);
+		}
+
+		for (FragInter inter : intersection) {
+			String newTranscription = transcriptionsMap.get(inter) + "</del>";
+			transcriptionsMap.put(inter, newTranscription);
+		}
+
+		if (delText.getParentOfLastText() == null) {
+			delText.getNextText().accept(this);
+		}
+	}
+
+	@Override
+	public void visit(SubstText substText) {
+		TextPortion firstChild = substText.getFirstChildText();
+		if (firstChild != null) {
+			firstChild.accept(this);
+		}
+
+		if (substText.getParentOfLastText() == null) {
+			substText.getNextText().accept(this);
 		}
 	}
 

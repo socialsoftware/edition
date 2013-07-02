@@ -2,25 +2,25 @@ package pt.ist.socialsoftware.edition.domain;
 
 import pt.ist.socialsoftware.edition.visitors.TextTreeVisitor;
 
-public class SubstText extends SubstText_Base {
+public class SegText extends SegText_Base {
 
-	public SubstText(TextPortion parent) {
+	public SegText(TextPortion parent) {
 		parent.addChildText(this);
-	}
-
-	@Override
-	public void accept(TextTreeVisitor visitor) {
-		visitor.visit(this);
 	}
 
 	@Override
 	public Boolean isFormat(Boolean displayDel, Boolean highlightSubst,
 			FragInter fragInter) {
-		if (getInterps().contains(fragInter) && highlightSubst) {
+		if (getInterps().contains(fragInter)) {
 			return true;
 		} else {
 			return false;
 		}
+	}
+
+	@Override
+	public void accept(TextTreeVisitor visitor) {
+		visitor.visit(this);
 	}
 
 }

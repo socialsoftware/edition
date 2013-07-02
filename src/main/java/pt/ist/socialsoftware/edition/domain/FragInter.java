@@ -55,8 +55,8 @@ public abstract class FragInter extends FragInter_Base implements
 			removeCategories(cat);
 		}
 
-		for (Reading rdg : getReadingsSet()) {
-			removeReadings(rdg);
+		for (RdgText rdg : getRdgSet()) {
+			removeRdg(rdg);
 		}
 
 	}

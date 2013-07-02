@@ -72,12 +72,7 @@ public class PlainTransByInterTest {
 
 		System.out.println(service.getTranscription());
 
-		assertEquals(
-				"Teresa Sobral Cunha: 18-10-1931 Prefiro a prosa ao verso, como modo de arte, por duas razões,",
-				service.getTranscription().substring(0, 93));
-
-		assertEquals(
-				"Teresa Sobral Cunha: 18-10-1931 Prefiro a prosa ao verso, como modo de arte, por duas razões, das quais a primeira, que é minha, é que não tenho também pode ser minha escolha, pois incapaz de escrever em verso. Mas a segunda, porém, é de todos e não é - creio bem – uma sombra ou dis farce da primeira. Vale pois a pena que eu a esfie, porque toca no sentido íntimo de toda a valia da arte.[SPACE] Considero o verso como uma coisa intermédia, uma pas sa gem da música para a prosa. Como a música, o verso é limi tado por leis rítmicas, que ainda que não sejam as leis rígidas do verso regular, existem todavia como resguardos, coacções, dispositivos automáticos de opressão e castigo. Na prosa falamos livres. Podemos incluir ritmos musicais, e contudo pensar. Podemos incluir ritmos poéticos, e contudo estar fora deles. Um ritmo ocasional de verso não estorva a prosa; um ritmo ocasional de prosa faz tropeçar o verso.[SPACE]",
-				service.getTranscription().trim());
+		assertEquals("<p> 18-10-1931 Prefiro a prosa ao", service
+				.getTranscription().substring(0, 33));
 	}
 }

@@ -1,30 +1,34 @@
 package pt.ist.socialsoftware.edition.visitors;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import pt.ist.socialsoftware.edition.domain.AddText;
+import pt.ist.socialsoftware.edition.domain.AppText;
 import pt.ist.socialsoftware.edition.domain.DelText;
-import pt.ist.socialsoftware.edition.domain.EmptyText;
-import pt.ist.socialsoftware.edition.domain.FormatText;
 import pt.ist.socialsoftware.edition.domain.FragInter;
 import pt.ist.socialsoftware.edition.domain.LbText;
-import pt.ist.socialsoftware.edition.domain.LdoDText;
-import pt.ist.socialsoftware.edition.domain.LdoDText.OpenClose;
 import pt.ist.socialsoftware.edition.domain.ParagraphText;
 import pt.ist.socialsoftware.edition.domain.PbText;
-import pt.ist.socialsoftware.edition.domain.Reading;
+import pt.ist.socialsoftware.edition.domain.RdgGrpText;
+import pt.ist.socialsoftware.edition.domain.RdgText;
+import pt.ist.socialsoftware.edition.domain.Rend;
+import pt.ist.socialsoftware.edition.domain.Rend.Rendition;
+import pt.ist.socialsoftware.edition.domain.SegText;
 import pt.ist.socialsoftware.edition.domain.SimpleText;
 import pt.ist.socialsoftware.edition.domain.SpaceText;
+import pt.ist.socialsoftware.edition.domain.SpaceText.SpaceDim;
 import pt.ist.socialsoftware.edition.domain.SubstText;
-import pt.ist.socialsoftware.edition.domain.VariationPoint;
+import pt.ist.socialsoftware.edition.domain.TextPortion;
 
 public class HtmlWriter4OneInter extends HtmlWriter {
+	protected FragInter fragInter = null;
+	private String transcription = "";
 
-	private final List<LdoDText> pendingWrite = new ArrayList<LdoDText>();
-
+	private Boolean highlightDiff = false;
 	private Boolean displayDel = false;
 	private Boolean highlightIns = true;
 	private Boolean highlightSubst = false;
@@ -32,14 +36,12 @@ public class HtmlWriter4OneInter extends HtmlWriter {
 
 	private final Map<FragInter, Integer> interpsChar = new HashMap<FragInter, Integer>();
 	private int totalChar = 0;
-	private Boolean isBreakWord = true;
-	private boolean isDel = false;
 
 	private String notes = "";
 	private int refsCounter = 1;
 
-	@Override
-	public String getTranscription() {
+	public String getTranscription(FragInter inter) {
+		assert inter == fragInter;
 		return showNotes ? transcription + "<br>" + notes : transcription;
 	}
 
@@ -56,211 +58,317 @@ public class HtmlWriter4OneInter extends HtmlWriter {
 		}
 	}
 
-	public void write() {
-		visit(fragInter.getFragment().getStartVariationPoint());
+	public void write(Boolean highlightDiff) {
+		this.highlightDiff = highlightDiff;
+		visit((AppText) fragInter.getFragment().getTextPortion());
 	}
 
-	public void write(Boolean displayDel, Boolean highlightIns,
-			Boolean highlightSubst, Boolean showNotes) {
+	public void write(Boolean highlightDiff, Boolean displayDel,
+			Boolean highlightIns, Boolean highlightSubst, Boolean showNotes) {
+		this.highlightDiff = highlightDiff;
 		this.displayDel = displayDel;
 		this.highlightIns = highlightIns;
 		this.highlightSubst = highlightSubst;
 		this.showNotes = showNotes;
-		visit(fragInter.getFragment().getStartVariationPoint());
+		visit((AppText) fragInter.getFragment().getTextPortion());
 	}
 
 	@Override
-	public void visit(VariationPoint variationPoint) {
-		if (!variationPoint.getOutReadingsSet().isEmpty()) {
-			for (Reading rdg : variationPoint.getOutReadingsSet()) {
-				for (FragInter inter : rdg.getFragIntersSet()) {
-					if (inter == fragInter) {
-						rdg.accept(this);
-					}
-				}
-				// if (rdg.getFragIntersSet().contains(fragInter)) {
-				// rdg.accept(this);
-				// }
+	public void visit(AppText appText) {
+		TextPortion firstChild = appText.getFirstChildText();
+		if (firstChild != null) {
+			firstChild.accept(this);
+		}
+
+		if (appText.getParentOfLastText() == null) {
+			if (appText.getNextText() != null) {
+				appText.getNextText().accept(this);
 			}
 		}
 	}
 
 	@Override
-	public void visit(Reading reading) {
-		reading.getFirstText().accept(this);
-		reading.getNextVariationPoint().accept(this);
-	}
-
-	@Override
-	public void visit(SimpleText text) {
-		String separators = ".,?!:;";
-		String separator = null;
-		String toAdd = text.getValue();
-
-		String firstChar = toAdd.substring(0, 1);
-
-		if (separators.contains(firstChar) || !isBreakWord) {
-			separator = "";
-			isBreakWord = true;
-		} else {
-			separator = " ";
-		}
-
-		// deleted parts are not included in the statistics
-		if (!isDel) {
-			totalChar = totalChar + toAdd.length();
-			for (FragInter inter : text.getReading().getFragIntersSet()) {
-				Integer value = interpsChar.get(inter);
-				value = value + toAdd.length();
-				interpsChar.put(inter, value);
+	public void visit(RdgGrpText rdgGrpText) {
+		if (rdgGrpText.getInterps().contains(this.fragInter)) {
+			TextPortion firstChild = rdgGrpText.getFirstChildText();
+			if (firstChild != null) {
+				firstChild.accept(this);
 			}
 		}
 
-		if (!isDel || displayDel) {
-			OpenClose state = OpenClose.CLOSE;
-			for (LdoDText pText : pendingWrite) {
-				// the separator should not be affected by formatting and it is
-				// written before open
-				OpenClose pState = pText.getOpenClose();
-				if (pState == OpenClose.CLOSE) {
-					state = OpenClose.CLOSE;
-				} else if ((pState == OpenClose.OPEN)
-						&& (state == OpenClose.CLOSE)) {
-					transcription = transcription + separator;
-					state = OpenClose.OPEN;
-				}
+		if (rdgGrpText.getParentOfLastText() == null) {
+			rdgGrpText.getNextText().accept(this);
+		}
+	}
 
-				// writing notes needs to increment counter
-				String reference = pText.writeReference(refsCounter);
-				if (showNotes && (reference != null)) {
-					if (pState == OpenClose.OPEN) {
-						// <del><a href= ....>
-						transcription = transcription + pText.writeHtml()
-								+ reference;
-						notes = notes + pText.writeNote(refsCounter);
-						refsCounter = refsCounter + 1;
-					} else {
-						// </a></del>
-						transcription = transcription + reference
-								+ pText.writeHtml();
-					}
-				} else {
-					transcription = transcription + pText.writeHtml();
+	@Override
+	public void visit(RdgText rdgText) {
+		if (rdgText.getInterps().contains(this.fragInter)) {
+
+			Boolean color = false;
+			if (highlightDiff) {
+				int size = fragInter.getFragment().getFragmentInterSet().size();
+				if (rdgText.getInterps().size() < size) {
+					color = true;
+					int colorValue = 255 - (255 / size)
+							* (size - rdgText.getInterps().size() - 1);
+					String colorCode = "<span style=\"background-color: rgb(0,"
+							+ colorValue + ",255);\">";
+
+					transcription = transcription
+							+ rdgText.writeSeparator(displayDel,
+									highlightSubst, fragInter) + colorCode;
 				}
 			}
-			pendingWrite.clear();
 
-			if (state == OpenClose.OPEN) {
-				transcription = transcription + toAdd;
-			} else {
-				transcription = transcription + separator + toAdd;
+			if (!color) {
+				transcription = transcription
+						+ rdgText.writeSeparator(displayDel, highlightSubst,
+								fragInter);
+			}
+
+			TextPortion firstChild = rdgText.getFirstChildText();
+			if (firstChild != null) {
+				firstChild.accept(this);
+			}
+
+			if (color) {
+				transcription = transcription + "</span>";
 			}
 		}
 
-		if (text.getNextText() != null) {
-			text.getNextText().accept(this);
+		if (rdgText.getParentOfLastText() == null) {
+			rdgText.getNextText().accept(this);
 		}
 	}
 
 	@Override
-	public void visit(LbText text) {
-		transcription = transcription + text.writeHtml();
+	public void visit(ParagraphText paragraphText) {
+		transcription = transcription + "<p>";
 
-		if (text.getNextText() != null) {
-			text.getNextText().accept(this);
+		TextPortion firstChild = paragraphText.getFirstChildText();
+		if (firstChild != null) {
+			firstChild.accept(this);
+		}
+
+		transcription = transcription + "</p>";
+
+		if (paragraphText.getParentOfLastText() == null) {
+			paragraphText.getNextText().accept(this);
 		}
 	}
 
 	@Override
-	public void visit(PbText text) {
-		transcription = transcription + text.writeHtml();
+	public void visit(SegText segText) {
+		List<Rend> rends = new ArrayList<Rend>(segText.getRendSet());
+		String preFormat = "";
+		for (Rend rend : rends) {
+			if (rend.getRend() == Rendition.RIGHT) {
+				preFormat = preFormat + "<div class=\"text-right\">";
+			} else if (rend.getRend() == Rendition.LEFT) {
+				preFormat = preFormat + "<div class=\"text-left\">";
+			} else if (rend.getRend() == Rendition.CENTER) {
+				preFormat = preFormat + "<div class=\"text-center\">";
+			} else if (rend.getRend() == Rendition.BOLD) {
+				preFormat = preFormat + "<strong>";
+			} else if (rend.getRend() == Rendition.ITALIC) {
+				preFormat = preFormat + "<em>";
+			} else if (rend.getRend() == Rendition.RED) {
+				preFormat = preFormat + "<span style=\"color: rgb(255,0,0);\">";
+			} else if (rend.getRend() == Rendition.UNDERLINED) {
+				preFormat = preFormat
+						+ "<span style=\"text-decoration: underline;\">";
+			}
+		}
 
-		if (text.getNextText() != null) {
-			text.getNextText().accept(this);
+		transcription = transcription
+				+ segText.writeSeparator(displayDel, highlightSubst, fragInter)
+				+ preFormat;
+
+		TextPortion firstChild = segText.getFirstChildText();
+		if (firstChild != null) {
+			firstChild.accept(this);
+		}
+
+		Collections.reverse(rends);
+		String postFormat = "";
+		for (Rend rend : rends) {
+			if (rend.getRend() == Rendition.RIGHT) {
+				postFormat = postFormat + "</div>";
+			} else if (rend.getRend() == Rendition.LEFT) {
+				postFormat = postFormat + "</div>";
+			} else if (rend.getRend() == Rendition.CENTER) {
+				postFormat = postFormat + "</div>";
+			} else if (rend.getRend() == Rendition.BOLD) {
+				postFormat = postFormat + "</strong>";
+			} else if (rend.getRend() == Rendition.ITALIC) {
+				postFormat = postFormat + "</em>";
+			} else if (rend.getRend() == Rendition.RED) {
+				postFormat = postFormat + "</span>";
+			} else if (rend.getRend() == Rendition.UNDERLINED) {
+				postFormat = postFormat + "</span>";
+			}
+		}
+
+		transcription = transcription + postFormat;
+
+		if (segText.getParentOfLastText() == null) {
+			segText.getNextText().accept(this);
 		}
 	}
 
 	@Override
-	public void visit(ParagraphText text) {
-		transcription = transcription + text.writeHtml();
+	public void visit(SimpleText simpleText) {
+		String value = simpleText.getValue();
 
-		if (text.getNextText() != null) {
-			text.getNextText().accept(this);
+		totalChar = totalChar + value.length();
+		for (FragInter inter : simpleText.getInterps()) {
+			Integer number = interpsChar.get(inter);
+			number = number + value.length();
+			interpsChar.put(inter, number);
+		}
+
+		transcription = transcription
+				+ simpleText.writeSeparator(displayDel, highlightSubst,
+						fragInter) + value;
+
+		if (simpleText.getParentOfLastText() == null) {
+			simpleText.getNextText().accept(this);
 		}
 	}
 
 	@Override
-	public void visit(FormatText text) {
-		pendingWrite.add(text);
+	public void visit(LbText lbText) {
+		if (lbText.getInterps().contains(fragInter)) {
+			String hyphen = "";
+			if (lbText.getHyphenated()) {
+				hyphen = "-";
+			}
 
-		if (text.getNextText() != null) {
-			text.getNextText().accept(this);
+			transcription = transcription + hyphen + "<br>";
+		}
+
+		if (lbText.getParentOfLastText() == null) {
+			lbText.getNextText().accept(this);
 		}
 	}
 
 	@Override
-	public void visit(SpaceText text) {
-		transcription = transcription + text.writeHtml();
+	public void visit(PbText pbText) {
+		if (pbText.getInterps().contains(fragInter)) {
+			transcription = transcription + "<hr size=\"3\" color=\"black\">";
+		}
 
-		if (text.getNextText() != null) {
-			text.getNextText().accept(this);
+		if (pbText.getParentOfLastText() == null) {
+			pbText.getNextText().accept(this);
 		}
 	}
 
 	@Override
-	public void visit(AddText text) {
+	public void visit(SpaceText spaceText) {
+		String separator = "";
+		if (spaceText.getDim() == SpaceDim.VERTICAL) {
+			separator = "<br>";
+			// the initial line break is for a new line
+			transcription = transcription + separator;
+		} else if (spaceText.getDim() == SpaceDim.HORIZONTAL) {
+			separator = "&nbsp; ";
+		}
+
+		for (int i = 0; i < spaceText.getQuantity(); i++) {
+			transcription = transcription + separator;
+		}
+
+		if (spaceText.getParentOfLastText() == null) {
+			spaceText.getNextText().accept(this);
+		}
+	}
+
+	@Override
+	public void visit(AddText addText) {
 		if (highlightIns) {
-			pendingWrite.add(text);
+			transcription = transcription
+					+ addText.writeSeparator(displayDel, highlightSubst,
+							fragInter) + "<ins>";
+			if (showNotes) {
+				transcription = transcription + "<a href=\"#"
+						+ Integer.toString(refsCounter) + "\">";
+				notes = notes + addText.writeNote(refsCounter);
+				refsCounter = refsCounter + 1;
+			}
+		} else {
+			transcription = transcription
+					+ addText.writeSeparator(displayDel, highlightSubst,
+							fragInter);
 		}
 
-		if (text.getNextText() != null) {
-			text.getNextText().accept(this);
+		TextPortion firstChild = addText.getFirstChildText();
+		if (firstChild != null) {
+			firstChild.accept(this);
 		}
 
+		if (highlightIns) {
+			if (showNotes) {
+				transcription = transcription + "</a>";
+			}
+			transcription = transcription + "</ins>";
+		}
+
+		if (addText.getParentOfLastText() == null) {
+			addText.getNextText().accept(this);
+		}
 	}
 
 	@Override
-	public void visit(DelText text) {
+	public void visit(DelText delText) {
 		if (displayDel) {
-			pendingWrite.add(text);
+			transcription = transcription
+					+ delText.writeSeparator(displayDel, highlightSubst,
+							fragInter) + "<del>";
+			if (showNotes) {
+				transcription = transcription + "<a href=\"#"
+						+ Integer.toString(refsCounter) + "\">";
+				notes = notes + delText.writeNote(refsCounter);
+				refsCounter = refsCounter + 1;
+			}
+
+			TextPortion firstChild = delText.getFirstChildText();
+			if (firstChild != null) {
+				firstChild.accept(this);
+			}
+
+			if (showNotes) {
+				transcription = transcription + "</a>";
+			}
+
+			transcription = transcription + "</del>";
 		}
 
-		switch (text.getOpenClose()) {
-		case CLOSE:
-			isDel = false;
-			break;
-		case OPEN:
-			isDel = true;
-			break;
-		case NO:
-			assert false;
-			break;
-		default:
-			break;
-		}
-
-		if (text.getNextText() != null) {
-			text.getNextText().accept(this);
+		if (delText.getParentOfLastText() == null) {
+			delText.getNextText().accept(this);
 		}
 	}
 
 	@Override
-	public void visit(SubstText text) {
+	public void visit(SubstText substText) {
 		if (displayDel && highlightSubst) {
-			pendingWrite.add(text);
+			transcription = transcription
+					+ substText.writeSeparator(displayDel, highlightSubst,
+							fragInter)
+					+ "<span style=\"background-color: rgb(255,255,0);\">";
 		}
 
-		if (text.getNextText() != null) {
-			text.getNextText().accept(this);
+		TextPortion firstChild = substText.getFirstChildText();
+		if (firstChild != null) {
+			firstChild.accept(this);
 		}
-	}
 
-	@Override
-	public void visit(EmptyText text) {
-		isBreakWord = text.getIsBreak();
+		if (displayDel && highlightSubst) {
+			transcription = transcription + "</span>";
+		}
 
-		if (text.getNextText() != null) {
-			text.getNextText().accept(this);
+		if (substText.getParentOfLastText() == null) {
+			substText.getNextText().accept(this);
 		}
 	}
 

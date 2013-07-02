@@ -1,35 +1,16 @@
 package pt.ist.socialsoftware.edition.domain;
 
-import pt.ist.socialsoftware.edition.visitors.GraphVisitor;
+import pt.ist.socialsoftware.edition.visitors.TextTreeVisitor;
 
 public class ParagraphText extends ParagraphText_Base {
 
-	public ParagraphText() {
-		super();
+	public ParagraphText(TextPortion parent) {
+		parent.addChildText(this);
 	}
 
 	@Override
-	public void accept(GraphVisitor visitor) {
+	public void accept(TextTreeVisitor visitor) {
 		visitor.visit(this);
-	}
-
-	@Override
-	public String writeHtml() {
-		String result = "";
-		switch (getOpenClose()) {
-		case CLOSE:
-			result = "</p>";
-			break;
-		case OPEN:
-			result = "<p>";
-			break;
-		case NO:
-			assert false;
-			break;
-		default:
-			break;
-		}
-		return result;
 	}
 
 }

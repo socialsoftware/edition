@@ -1,15 +1,35 @@
 package pt.ist.socialsoftware.edition.domain;
 
-import pt.ist.socialsoftware.edition.visitors.GraphVisitor;
+import pt.ist.socialsoftware.edition.visitors.TextTreeVisitor;
 
 public class SpaceText extends SpaceText_Base {
 
 	public enum SpaceDim {
-		VERTICAL, HORIZONTAL, UNKNOWN;
+		VERTICAL("vertical"), HORIZONTAL("horizontal"), UNKNOWN("unknown");
+
+		private String desc;
+
+		SpaceDim(String desc) {
+			this.desc = desc;
+		}
+
+		public String getDesc() {
+			return desc;
+		}
 	};
 
 	public enum SpaceUnit {
-		MINIMS, UNKNOWN;
+		MINIMS("minims"), UNKNOWN("unknown");
+
+		private String desc;
+
+		SpaceUnit(String desc) {
+			this.desc = desc;
+		}
+
+		public String getDesc() {
+			return desc;
+		}
 	};
 
 	public SpaceText(SpaceDim dim, int quantity, SpaceUnit unit) {
@@ -19,28 +39,22 @@ public class SpaceText extends SpaceText_Base {
 		setUnit(unit);
 	}
 
-	@Override
-	public void accept(GraphVisitor visitor) {
-		visitor.visit(this);
+	public SpaceText(TextPortion parent, SpaceDim dim, int quantity,
+			SpaceUnit unit) {
+		parent.addChildText(this);
+		setDim(dim);
+		setQuantity(quantity);
+		setUnit(unit);
 	}
 
 	@Override
-	public String writeHtml() {
-		String result = "";
-		String separator = "";
-		if (getDim() == SpaceDim.VERTICAL) {
-			separator = "<br>";
-			// the initial line break is for a new line
-			result = separator;
-		} else if (getDim() == SpaceDim.HORIZONTAL) {
-			separator = "&nbsp; ";
-		}
+	public int getLength(FragInter inter) {
+		return 0;
+	}
 
-		for (int i = 0; i < getQuantity(); i++) {
-			result = result + separator;
-		}
-
-		return result;
+	@Override
+	public void accept(TextTreeVisitor visitor) {
+		visitor.visit(this);
 	}
 
 }
