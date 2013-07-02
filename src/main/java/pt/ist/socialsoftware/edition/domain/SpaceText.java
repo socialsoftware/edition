@@ -48,11 +48,6 @@ public class SpaceText extends SpaceText_Base {
 	}
 
 	@Override
-	public int getLength(FragInter inter) {
-		return 0;
-	}
-
-	@Override
 	public void accept(TextTreeVisitor visitor) {
 		visitor.visit(this);
 	}

@@ -93,10 +93,8 @@ public class ExpertEditionInter extends ExpertEditionInter_Base {
 
 	@Override
 	public void remove() {
-		super.remove();
-
 		setExpertEdition(null);
 
-		deleteDomainObject();
+		super.remove();
 	}
 }

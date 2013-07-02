@@ -23,4 +23,13 @@ public class SegText extends SegText_Base {
 		visitor.visit(this);
 	}
 
+	@Override
+	public void remove() {
+		for (Rend rend : getRendSet()) {
+			rend.remove();
+		}
+
+		super.remove();
+	}
+
 }

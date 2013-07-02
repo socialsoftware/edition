@@ -30,14 +30,17 @@ public class LbText extends LbText_Base {
 	}
 
 	@Override
-	public int getLength(FragInter inter) {
-		return 0;
-	}
-
-	@Override
 	public void accept(TextTreeVisitor visitor) {
 		visitor.visit(this);
 
 	}
 
+	@Override
+	public void remove() {
+		for (FragInter inter : getFragInterSet()) {
+			removeFragInter(inter);
+		}
+
+		super.remove();
+	}
 }

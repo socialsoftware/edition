@@ -59,9 +59,4 @@ public class SimpleText extends SimpleText_Base {
 		}
 	}
 
-	@Override
-	public int getLength(FragInter inter) {
-		return getValue().length();
-	}
-
 }

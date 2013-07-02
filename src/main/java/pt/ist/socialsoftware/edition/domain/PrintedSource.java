@@ -26,11 +26,4 @@ public class PrintedSource extends PrintedSource_Base {
 		return result;
 	}
 
-	@Override
-	public void remove() {
-		super.remove();
-
-		deleteDomainObject();
-	}
-
 }

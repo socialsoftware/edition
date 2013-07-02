@@ -16,5 +16,7 @@ public abstract class Source extends Source_Base {
 		for (SourceInter inter : getSourceIntersSet()) {
 			removeSourceInters(inter);
 		}
+
+		deleteDomainObject();
 	}
 }

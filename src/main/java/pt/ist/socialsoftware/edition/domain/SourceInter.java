@@ -32,11 +32,9 @@ public class SourceInter extends SourceInter_Base {
 
 	@Override
 	public void remove() {
-		super.remove();
-
 		setSource(null);
 
-		deleteDomainObject();
+		super.remove();
 	}
 
 }

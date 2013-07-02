@@ -36,6 +36,8 @@ public class Fragment extends Fragment_Base {
 	public void remove() {
 		setLdoD(null);
 
+		getTextPortion().remove();
+
 		for (FragInter inter : getFragmentInterSet()) {
 			inter.remove();
 		}

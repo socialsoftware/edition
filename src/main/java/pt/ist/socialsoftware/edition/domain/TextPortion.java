@@ -117,23 +117,21 @@ public abstract class TextPortion extends TextPortion_Base implements
 		}
 	}
 
-	public int getLength(FragInter inter) {
-		int length = 0;
-
-		for (TextPortion child : getChildTextSet()) {
-			length = length + child.getLength(inter);
-		}
-
-		return length;
-	}
-
 	public RdgText getClosestRdg() {
 		return getParentText().getClosestRdg();
 	}
 
 	public void remove() {
+		for (TextPortion text : getChildTextSet()) {
+			text.remove();
+		}
+
+		setFragment(null);
 		setPrevText(null);
 		setNextText(null);
+		setParentOfFirstText(null);
+		setParentOfLastText(null);
+		setParentText(null);
 
 		deleteDomainObject();
 	}

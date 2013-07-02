@@ -20,13 +20,17 @@ public class PbText extends PbText_Base {
 	}
 
 	@Override
-	public int getLength(FragInter inter) {
-		return 0;
+	public void accept(TextTreeVisitor visitor) {
+		visitor.visit(this);
 	}
 
 	@Override
-	public void accept(TextTreeVisitor visitor) {
-		visitor.visit(this);
+	public void remove() {
+		for (FragInter inter : getFragInterSet()) {
+			removeFragInter(inter);
+		}
+
+		super.remove();
 	}
 
 }

@@ -1,6 +1,5 @@
 package pt.ist.socialsoftware.edition.domain;
 
-
 public class Rend extends Rend_Base {
 
 	public enum Rendition {
@@ -20,6 +19,12 @@ public class Rend extends Rend_Base {
 
 	public Rend(Rendition rend) {
 		setRend(rend);
+	}
+
+	public void remove() {
+		setText(null);
+
+		deleteDomainObject();
 	}
 
 }

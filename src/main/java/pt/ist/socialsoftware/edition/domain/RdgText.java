@@ -56,12 +56,11 @@ public class RdgText extends RdgText_Base implements GraphElement {
 
 	@Override
 	public void remove() {
-
-		for (FragInter fragInter : getFragIntersSet()) {
-			removeFragInters(fragInter);
+		for (FragInter inter : getFragIntersSet()) {
+			removeFragInters(inter);
 		}
 
-		deleteDomainObject();
+		super.remove();
 	}
 
 }

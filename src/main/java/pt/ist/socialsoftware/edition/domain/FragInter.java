@@ -51,6 +51,7 @@ public abstract class FragInter extends FragInter_Base implements
 	public void remove() {
 		setFragment(null);
 		setHeteronym(null);
+
 		for (Category cat : getCategoriesSet()) {
 			removeCategories(cat);
 		}
@@ -59,6 +60,15 @@ public abstract class FragInter extends FragInter_Base implements
 			removeRdg(rdg);
 		}
 
+		for (LbText lb : getLbTextSet()) {
+			removeLbText(lb);
+		}
+
+		for (PbText pb : getPbTextSet()) {
+			removePbText(pb);
+		}
+
+		deleteDomainObject();
 	}
 
 }
