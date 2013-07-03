@@ -184,6 +184,7 @@ public class FragmentController {
 	@RequestMapping(method = RequestMethod.GET, value = "/textualauthorial")
 	public String getInterpretationTextual(
 			@RequestParam(value = "interp", required = true) String interID,
+			@RequestParam(value = "diff", required = true) boolean displayDiff,
 			@RequestParam(value = "del", required = true) boolean displayDel,
 			@RequestParam(value = "ins", required = true) boolean highlightIns,
 			@RequestParam(value = "subst", required = true) boolean highlightSubst,
@@ -192,7 +193,8 @@ public class FragmentController {
 		FragInter fragInter = FenixFramework.getDomainObject(interID);
 
 		HtmlWriter4OneInter writer = new HtmlWriter4OneInter(fragInter);
-		writer.write(false, displayDel, highlightIns, highlightSubst, showNotes);
+		writer.write(displayDiff, displayDel, highlightIns, highlightSubst,
+				showNotes);
 
 		model.addAttribute("writer", writer);
 		return "fragment/transcription";

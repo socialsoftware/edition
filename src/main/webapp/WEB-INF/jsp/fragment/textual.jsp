@@ -11,9 +11,8 @@
 											var fragInter2 = $(
 													'input:radio[name=inter2]:checked')
 													.val();
-											var selDel = $(
-													'input:checkbox[name=del]')
-													.is(':checked');
+                      var selDiff = $('input:checkbox[name=diff]').is(':checked');
+											var selDel = $('input:checkbox[name=del]').is(':checked');
 											var selIns = $(
 													'input:checkbox[name=ins]')
 													.is(':checked');
@@ -28,6 +27,7 @@
 															"${contextPath}/fragments/fragment/textualauthorial",
 															{
 																interp : fragInter2,
+                                diff : selDiff,
 																del : selDel,
 																ins : selIns,
 																subst : selSubst,
@@ -77,51 +77,70 @@
 </script>
 
 <div id=fragmentTextual class="row-fluid">
-	<div class="row-fluid">
+    <div class="row-fluid">
 
-		<form class="form-horizontal">
-			<div class="control-group">
-				<span class="control-label"><spring:message code="fragment.visualization" /></span>
-				<div class="controls form-inline">
-
-
-					<c:choose>
-						<c:when test="${inter.sourceType=='EDITORIAL'}">
-							<div class="well" id="visualisation-properties-editorial"
-								data-toggle="buttons-checkbox">
-								<label class="checkbox inline"> <input type="checkbox"
-									class="btn" name=diff value="Yes"> <spring:message code="fragment.highlightdifferences" />
-								</label>
-							</div>
-						</c:when>
-						<c:otherwise>
-							<div class="well" id="visualisation-properties-authorial"
-								data-toggle="buttons-checkbox">
-								<label class="checkbox inline"> <input type="checkbox"
-									class="btn" name=del value="Yes"> <spring:message code="fragment.showdeleted" />
-								</label> <label class="checkbox inline"> <input type="checkbox"
-									class="btn" name=ins value="Yes" checked> <spring:message code="fragment.highlightinserted" />
-								</label> <label class="checkbox inline"> <input type="checkbox"
-									class="btn" name=subst value="Yes"> <spring:message code="fragment.highlightsubstitutions" />
-								</label> <label class="checkbox inline"> <input type="checkbox"
-									class="btn" name=notes value="Yes" checked> <spring:message code="fragment.shownotes" />
-								</label>
-							</div>
-						</c:otherwise>
-					</c:choose>
-
-				</div>
-			</div>
-		</form>
-
-	</div>
+        <form class="form-horizontal">
+            <div class="control-group">
+                <span class="control-label"><spring:message
+                        code="fragment.visualization" /></span>
+                <div class="controls form-inline">
 
 
+                    <c:choose>
+                        <c:when test="${inter.sourceType=='EDITORIAL'}">
+                            <div class="well"
+                                id="visualisation-properties-editorial"
+                                data-toggle="buttons-checkbox">
+                                <label class="checkbox inline">
+                                    <input type="checkbox" class="btn"
+                                    name=diff value="Yes"> <spring:message
+                                        code="fragment.highlightdifferences" />
+                                </label>
+                            </div>
+                        </c:when>
+                        <c:otherwise>
+                            <div class="well"
+                                id="visualisation-properties-authorial"
+                                data-toggle="buttons-checkbox">
+                                <label class="checkbox inline">
+                                    <input type="checkbox" class="btn"
+                                    name=diff value="Yes"> <spring:message
+                                        code="fragment.highlightdifferences" />
+                                </label> <label class="checkbox inline">
+                                    <input type="checkbox" class="btn"
+                                    name=del value="Yes"> <spring:message
+                                        code="fragment.showdeleted" />
+                                </label> <label class="checkbox inline">
+                                    <input type="checkbox" class="btn"
+                                    name=ins value="Yes" checked>
+                                    <spring:message
+                                        code="fragment.highlightinserted" />
+                                </label> <label class="checkbox inline">
+                                    <input type="checkbox" class="btn"
+                                    name=subst value="Yes"> <spring:message
+                                        code="fragment.highlightsubstitutions" />
+                                </label> <label class="checkbox inline">
+                                    <input type="checkbox" class="btn"
+                                    name=notes value="Yes" checked>
+                                    <spring:message
+                                        code="fragment.shownotes" />
+                                </label>
+                            </div>
+                        </c:otherwise>
+                    </c:choose>
 
-	<%@ include file="/WEB-INF/jsp/fragment/transcription.jsp"%>
+                </div>
+            </div>
+        </form>
 
-	<br>
-	<div id="metatextual" class="row-fluid">
-		<div class="well row-fluid span12">${inter.metaTextual}</div>
-	</div>
+    </div>
+
+
+
+    <%@ include file="/WEB-INF/jsp/fragment/transcription.jsp"%>
+
+    <br>
+    <div id="metatextual" class="row-fluid">
+        <div class="well row-fluid span12">${inter.metaTextual}</div>
+    </div>
 </div>
