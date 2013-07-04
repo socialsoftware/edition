@@ -72,4 +72,16 @@ public class ManuscriptSource extends ManuscriptSource_Base {
 		return result;
 	}
 
+	@Override
+	public void remove() {
+		for (HandNote handNote : getHandNoteSet()) {
+			handNote.remove();
+		}
+
+		for (TypeNote typeNote : getTypeNoteSet()) {
+			typeNote.remove();
+		}
+
+		super.remove();
+	}
 }

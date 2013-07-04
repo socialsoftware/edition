@@ -126,6 +126,10 @@ public abstract class TextPortion extends TextPortion_Base implements
 			text.remove();
 		}
 
+		for (PhysNote physNote : getPhysNoteSet()) {
+			removePhysNote(physNote);
+		}
+
 		setFragment(null);
 		setPrevText(null);
 		setNextText(null);

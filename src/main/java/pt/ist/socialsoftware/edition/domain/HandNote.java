@@ -9,4 +9,11 @@ public class HandNote extends HandNote_Base {
 		setNote(note);
 	}
 
+	@Override
+	public void remove() {
+		setManuscript(null);
+
+		super.remove();
+	}
+
 }

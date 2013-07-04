@@ -9,4 +9,11 @@ public class TypeNote extends TypeNote_Base {
 		setNote(note);
 	}
 
+	@Override
+	public void remove() {
+		setManuscript(null);
+
+		super.remove();
+	}
+
 }
