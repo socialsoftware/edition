@@ -13,6 +13,8 @@ public abstract class FragInter extends FragInter_Base implements
 
 	public abstract String getShortName();
 
+	public abstract int getNumber();
+
 	public abstract String getTitle();
 
 	public abstract SourceType getSourceType();

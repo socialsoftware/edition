@@ -39,10 +39,7 @@
         <hr>
         <div class="row-fluid">
             <div class="span10">
-
                 <div class="row-fluid">
-
-
                     <form class="form-horizontal">
                         <div class="control-group">
                             <span class="control-label"><spring:message
@@ -67,14 +64,14 @@
                                                             name="inter"
                                                             id="${fragInter.externalId}"
                                                             value="${fragInter.externalId}"
-                                                            checked /> ${fragInter.shortName} 
+                                                            checked /> ${fragInter.shortName}
 													</c:when>
                                                     <c:otherwise>
                                                         <input
                                                             type="radio"
                                                             class="btn"
                                                             name="inter"
-                                                            value="${fragInter.externalId}" /> ${fragInter.shortName}
+                                                            value="${fragInter.externalId}" /> ${fragInter.shortName} 
 													</c:otherwise>
                                                 </c:choose>
                                             </label>

@@ -109,6 +109,15 @@ public class LoadTEIFragments {
 
 	private final Map<String, Set<Object>> inverseIdMap = new HashMap<String, Set<Object>>();
 
+	private Set<Object> getObjectInverseIdMap(String xmlID) {
+		if (inverseIdMap.get(xmlID) == null) {
+			return new HashSet<Object>();
+		} else {
+			Set<Object> objects = inverseIdMap.get(xmlID);
+			return objects;
+		}
+	}
+
 	private void putObjectInverseIdMap(String xmlID, Object object) {
 
 		Set<Object> list = inverseIdMap.get(xmlID);
@@ -500,7 +509,7 @@ public class LoadTEIFragments {
 		String xmlID = paragraph.getAttributeValue("id",
 				paragraph.getNamespace("xml"));
 
-		for (Object obj : inverseIdMap.get(xmlID)) {
+		for (Object obj : getObjectInverseIdMap(xmlID)) {
 			PhysNote physNote = (PhysNote) obj;
 			physNote.addTextPortion(paragraphText);
 		}

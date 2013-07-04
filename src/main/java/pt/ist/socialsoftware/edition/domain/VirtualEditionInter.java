@@ -53,4 +53,9 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 		deleteDomainObject();
 	}
 
+	@Override
+	public int getNumber() {
+		return 0;
+	}
+
 }

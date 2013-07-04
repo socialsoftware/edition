@@ -37,4 +37,9 @@ public class SourceInter extends SourceInter_Base {
 		super.remove();
 	}
 
+	@Override
+	public int getNumber() {
+		return 0;
+	}
+
 }
