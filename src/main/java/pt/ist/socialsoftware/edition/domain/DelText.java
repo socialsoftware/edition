@@ -40,9 +40,8 @@ public class DelText extends DelText_Base {
 	}
 
 	@Override
-	public String writeNote(int refsCounter) {
-		String result = "[" + Integer.toString(refsCounter) + "] "
-				+ "Retirado - " + getHow().toString() + "<br>";
+	public String getNote() {
+		String result = "Retirado - " + getHow().toString();
 
 		return result;
 	}

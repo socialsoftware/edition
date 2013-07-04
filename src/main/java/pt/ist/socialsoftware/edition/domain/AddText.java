@@ -41,9 +41,8 @@ public class AddText extends AddText_Base {
 	}
 
 	@Override
-	public String writeNote(int refsCounter) {
-		String result = "[" + Integer.toString(refsCounter) + "] "
-				+ "Adicionado - " + getPlace().toString() + "<br>";
+	public String getNote() {
+		String result = "Adicionado - " + getPlace().toString();
 
 		return result;
 	}

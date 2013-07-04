@@ -259,13 +259,7 @@ public class LoadTEIFragments {
 
 		for (Content content : element.getContent()) {
 			if (content.getCType() == CType.Text) {
-				if (content.getValue().trim() != "") {
-					// empty text
-				} else {
-					throw new LdoDLoadException(
-							"elementos inesperado dentro de subst"
-									+ content.getValue());
-				}
+				// ignore text
 			} else if (content.getCType() == CType.Comment) {
 				// ignore comments
 			} else if (content.getCType() == CType.Element) {
@@ -285,24 +279,32 @@ public class LoadTEIFragments {
 	}
 
 	private void loadDel(Element element, TextPortion parent) {
-		List<Content> contentList = element.getContent();
-
-		if (contentList.size() != 1)
-			throw new LdoDLoadException(
-					"del contém outros elementos para além de texto"
-							+ element.getValue());
-
-		if (contentList.get(0).getCType() != CType.Text)
-			throw new LdoDLoadException(
-					"del contém outros elementos para além de texto"
-							+ element.getValue());
-
 		Attribute howDelAttribute = element.getAttribute("rend");
 		HowDel how = getHowDelAttribute(howDelAttribute);
 
 		DelText delText = new DelText(parent, how);
 
-		loadSimpleText((Text) contentList.get(0), delText);
+		for (Content content : element.getContent()) {
+			if (content.getCType() == CType.Text) {
+				if (content.getValue().trim() != "") {
+					loadSimpleText((Text) content, delText);
+				} else {
+					// empty text
+				}
+			} else if (content.getCType() == CType.Comment) {
+				// ignore comments
+			} else if (content.getCType() == CType.Element) {
+				Element element2 = (Element) content;
+				if (element2.getName().equals("add")) {
+					loadAdd(element2, delText);
+				} else {
+					throw new LdoDLoadException("não carrega elementos: "
+							+ element2 + " do tipo:"
+							+ element2.getCType().toString()
+							+ "dentro de <del>");
+				}
+			}
+		}
 	}
 
 	private void loadAdd(Element element, TextPortion parent) {

@@ -136,7 +136,7 @@ public abstract class TextPortion extends TextPortion_Base implements
 		deleteDomainObject();
 	}
 
-	public String writeNote(int refsCounter) {
+	public String getNote() {
 		return null;
 	}
 

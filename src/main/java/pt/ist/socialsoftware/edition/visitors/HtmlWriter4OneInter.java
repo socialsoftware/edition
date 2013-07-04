@@ -37,12 +37,9 @@ public class HtmlWriter4OneInter extends HtmlWriter {
 	private final Map<FragInter, Integer> interpsChar = new HashMap<FragInter, Integer>();
 	private int totalChar = 0;
 
-	private String notes = "";
-	private int refsCounter = 1;
-
 	public String getTranscription(FragInter inter) {
 		assert inter == fragInter;
-		return showNotes ? transcription + "<br>" + notes : transcription;
+		return transcription;
 	}
 
 	public Integer getInterPercentage(FragInter inter) {
@@ -291,10 +288,8 @@ public class HtmlWriter4OneInter extends HtmlWriter {
 					+ addText.writeSeparator(displayDel, highlightSubst,
 							fragInter) + "<ins>";
 			if (showNotes) {
-				transcription = transcription + "<a href=\"#"
-						+ Integer.toString(refsCounter) + "\">";
-				notes = notes + addText.writeNote(refsCounter);
-				refsCounter = refsCounter + 1;
+				transcription = transcription + "<abbr title=\""
+						+ addText.getNote() + "\">";
 			}
 		} else {
 			transcription = transcription
@@ -309,7 +304,7 @@ public class HtmlWriter4OneInter extends HtmlWriter {
 
 		if (highlightIns) {
 			if (showNotes) {
-				transcription = transcription + "</a>";
+				transcription = transcription + "</abbr>";
 			}
 			transcription = transcription + "</ins>";
 		}
@@ -326,10 +321,8 @@ public class HtmlWriter4OneInter extends HtmlWriter {
 					+ delText.writeSeparator(displayDel, highlightSubst,
 							fragInter) + "<del>";
 			if (showNotes) {
-				transcription = transcription + "<a href=\"#"
-						+ Integer.toString(refsCounter) + "\">";
-				notes = notes + delText.writeNote(refsCounter);
-				refsCounter = refsCounter + 1;
+				transcription = transcription + "<abbr title=\""
+						+ delText.getNote() + "\">";
 			}
 
 			TextPortion firstChild = delText.getFirstChildText();
@@ -338,7 +331,7 @@ public class HtmlWriter4OneInter extends HtmlWriter {
 			}
 
 			if (showNotes) {
-				transcription = transcription + "</a>";
+				transcription = transcription + "</abbr>";
 			}
 
 			transcription = transcription + "</del>";
