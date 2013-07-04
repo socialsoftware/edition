@@ -8,8 +8,8 @@ $(document).ready(function() {
                $.get("${contextPath}/fragments/fragment/interpretation", 
                {
                 interp : fragInter1,
-																interp2Compare : fragInter2
-															},
+								interp2Compare : fragInter2
+								},
 															function(html) {
 																$("#fragmentTextual").replaceWith(html);});
     });

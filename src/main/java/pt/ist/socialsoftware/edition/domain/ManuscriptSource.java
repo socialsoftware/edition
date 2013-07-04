@@ -10,8 +10,23 @@ public class ManuscriptSource extends ManuscriptSource_Base {
 		PAPER
 	};
 
+	public enum Medium {
+		PEN("pen"), PENCIL("pencil"), BLUE_INK("blue-ink"), BLACK_INK(
+				"black-ink");
+
+		private final String desc;
+
+		Medium(String desc) {
+			this.desc = desc;
+		}
+
+		public String getDesc() {
+			return desc;
+		}
+	};
+
 	public ManuscriptSource() {
-		super();
+		setHasLdoDLabel(false);
 	}
 
 	@Override
@@ -35,6 +50,22 @@ public class ManuscriptSource extends ManuscriptSource_Base {
 		String columns = getColumns() == 0 ? "" : Integer
 				.toString(getColumns());
 		result = result + "Colunas: " + columns + "<br>";
+
+		result = result + "LdoD: " + getHasLdoDLabel() + "<br>";
+
+		for (HandNote handNote : getHandNoteSet()) {
+			result = result + "Medium: " + handNote.getMedium().getDesc()
+					+ ", Nota: " + handNote.getNote()
+					+ ", Número de parágrafos referidos: "
+					+ handNote.getTextPortionSet().size() + "<br>";
+		}
+
+		for (TypeNote typeNote : getTypeNoteSet()) {
+			result = result + "Medium: " + typeNote.getMedium().getDesc()
+					+ ", Nota: " + typeNote.getNote()
+					+ ", Número de parágrafos referidos: "
+					+ typeNote.getTextPortionSet().size() + "<br>";
+		}
 
 		result = result + "Notas: " + getNotes();
 

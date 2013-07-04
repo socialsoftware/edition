@@ -8,9 +8,7 @@
 								.on(
 										'click',
 										function() {
-											var fragInter2 = $(
-													'input:radio[name=inter2]:checked')
-													.val();
+											var fragInter2 = $('input:radio[name=inter2]:checked').val();
                       var selDiff = $('input:checkbox[name=diff]').is(':checked');
 											var selDel = $('input:checkbox[name=del]').is(':checked');
 											var selIns = $(

@@ -33,12 +33,15 @@ import pt.ist.socialsoftware.edition.domain.ExpertEdition;
 import pt.ist.socialsoftware.edition.domain.ExpertEditionInter;
 import pt.ist.socialsoftware.edition.domain.FragInter;
 import pt.ist.socialsoftware.edition.domain.Fragment;
+import pt.ist.socialsoftware.edition.domain.HandNote;
 import pt.ist.socialsoftware.edition.domain.Heteronym;
 import pt.ist.socialsoftware.edition.domain.LbText;
 import pt.ist.socialsoftware.edition.domain.LdoD;
 import pt.ist.socialsoftware.edition.domain.ManuscriptSource;
+import pt.ist.socialsoftware.edition.domain.ManuscriptSource.Medium;
 import pt.ist.socialsoftware.edition.domain.ParagraphText;
 import pt.ist.socialsoftware.edition.domain.PbText;
+import pt.ist.socialsoftware.edition.domain.PhysNote;
 import pt.ist.socialsoftware.edition.domain.PrintedSource;
 import pt.ist.socialsoftware.edition.domain.RdgGrpText;
 import pt.ist.socialsoftware.edition.domain.RdgText;
@@ -53,6 +56,7 @@ import pt.ist.socialsoftware.edition.domain.SpaceText.SpaceUnit;
 import pt.ist.socialsoftware.edition.domain.SubstText;
 import pt.ist.socialsoftware.edition.domain.Taxonomy;
 import pt.ist.socialsoftware.edition.domain.TextPortion;
+import pt.ist.socialsoftware.edition.domain.TypeNote;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDLoadException;
 
 public class LoadTEIFragments {
@@ -63,28 +67,28 @@ public class LoadTEIFragments {
 
 	private Document doc = null;
 
-	private final Map<String, List<Object>> xmlIDMap = new HashMap<String, List<Object>>();
+	private final Map<String, List<Object>> directIdMap = new HashMap<String, List<Object>>();
 
-	private void putObjectByXmlID(String xmlID, Object object) {
+	private void putObjectDirectIdMap(String xmlID, Object object) {
 
-		List<Object> list = xmlIDMap.get(xmlID);
+		List<Object> list = directIdMap.get(xmlID);
 		if (list == null) {
 			list = new ArrayList<Object>();
 		}
 		list.add(object);
 
-		xmlIDMap.put(xmlID, list);
+		directIdMap.put(xmlID, list);
 	}
 
-	private List<Object> getObjectsByXmlID(String xmlID) {
-		List<Object> objects = xmlIDMap.get(xmlID);
+	private List<Object> getObjectDirectIdMap(String xmlID) {
+		List<Object> objects = directIdMap.get(xmlID);
 		return objects;
 	}
 
-	private List<Object> getObjectsByListXmlID(String[] listXmlId) {
+	private List<Object> getObjectDirectIdsMap(String[] listXmlId) {
 		List<Object> objects = new ArrayList<Object>();
 		for (String xmlId : listXmlId) {
-			List<Object> objects2 = getObjectsByXmlID(xmlId.substring(1));
+			List<Object> objects2 = getObjectDirectIdMap(xmlId.substring(1));
 			if (objects2 == null) {
 				throw new LdoDLoadException("identificador não declarado "
 						+ xmlId);
@@ -95,7 +99,7 @@ public class LoadTEIFragments {
 	}
 
 	private Set<FragInter> getFragItersByListXmlID(String[] listInterXmlId) {
-		List<Object> objects = getObjectsByListXmlID(listInterXmlId);
+		List<Object> objects = getObjectDirectIdsMap(listInterXmlId);
 		Set<FragInter> fragIters = new HashSet<FragInter>();
 		for (Object object : objects) {
 			fragIters.add((FragInter) object);
@@ -103,20 +107,33 @@ public class LoadTEIFragments {
 		return fragIters;
 	}
 
+	private final Map<String, Set<Object>> inverseIdMap = new HashMap<String, Set<Object>>();
+
+	private void putObjectInverseIdMap(String xmlID, Object object) {
+
+		Set<Object> list = inverseIdMap.get(xmlID);
+		if (list == null) {
+			list = new HashSet<Object>();
+		}
+		list.add(object);
+
+		inverseIdMap.put(xmlID, list);
+	}
+
 	private void getCorpusXmlIds() {
 		for (ExpertEdition edition : ldoD.getExpertEditionsSet()) {
-			putObjectByXmlID(edition.getXmlId(), edition);
+			putObjectDirectIdMap(edition.getXmlId(), edition);
 		}
 
 		for (Taxonomy taxonomy : ldoD.getTaxonomiesSet()) {
-			putObjectByXmlID(taxonomy.getXmlId(), taxonomy);
+			putObjectDirectIdMap(taxonomy.getXmlId(), taxonomy);
 			for (Category category : taxonomy.getCategoriesSet()) {
-				putObjectByXmlID(category.getXmlId(), category);
+				putObjectDirectIdMap(category.getXmlId(), category);
 			}
 		}
 
 		for (Heteronym heteronym : ldoD.getHeteronymsSet()) {
-			putObjectByXmlID(heteronym.getXmlId(), heteronym);
+			putObjectDirectIdMap(heteronym.getXmlId(), heteronym);
 		}
 	}
 
@@ -178,15 +195,15 @@ public class LoadTEIFragments {
 			fragment.setLdoD(ldoD);
 			fragment.setTitle(fragmentTEITitle);
 
-			if (getObjectsByXmlID(fragmentTEIID) != null) {
+			if (getObjectDirectIdMap(fragmentTEIID) != null) {
 				throw new LdoDLoadException("xml:id:" + fragmentTEIID
 						+ " já está declarado");
 			}
 
-			assert getObjectsByXmlID(fragmentTEIID) == null : "xml:id:"
+			assert getObjectDirectIdMap(fragmentTEIID) == null : "xml:id:"
 					+ fragmentTEIID + " IS ALREADY DECLARED";
 
-			putObjectByXmlID(fragmentTEIID, fragment);
+			putObjectDirectIdMap(fragmentTEIID, fragment);
 			fragment.setXmlId(fragmentTEIID);
 
 			loadSourceManuscripts(fragment, fragmentTEIID);
@@ -480,13 +497,19 @@ public class LoadTEIFragments {
 	private void loadParagraph(Element paragraph, TextPortion parent) {
 		ParagraphText paragraphText = new ParagraphText(parent);
 
+		String xmlID = paragraph.getAttributeValue("id",
+				paragraph.getNamespace("xml"));
+
+		for (Object obj : inverseIdMap.get(xmlID)) {
+			PhysNote physNote = (PhysNote) obj;
+			physNote.addTextPortion(paragraphText);
+		}
+
 		loadElement(paragraph, paragraphText);
 	}
 
 	private void loadDiv(Element div, TextPortion parent) {
-		for (Element element : div.getChildren()) {
-			loadElement(element, parent);
-		}
+		loadElement(div, parent);
 	}
 
 	// TODO: a cleaner way to read parent's xmlID
@@ -504,7 +527,7 @@ public class LoadTEIFragments {
 			String sourceOrEditionXmlID = witness.getChild("ref", namespace)
 					.getAttributeValue("target").substring(1);
 
-			List<Object> objects = getObjectsByXmlID(sourceOrEditionXmlID);
+			List<Object> objects = getObjectDirectIdMap(sourceOrEditionXmlID);
 
 			if ((objects == null) || (objects.isEmpty()))
 				throw new LdoDLoadException(
@@ -527,10 +550,10 @@ public class LoadTEIFragments {
 						+ witnessXmlID);
 			assert witnessXmlID != null : "MISSING xml:id FOR WITNESS";
 
-			if (getObjectsByXmlID(witnessXmlID) != null)
+			if (getObjectDirectIdMap(witnessXmlID) != null)
 				throw new LdoDLoadException(
 						"já está declarado o atributo xml:id=" + witnessXmlID);
-			assert getObjectsByXmlID(witnessXmlID) == null : "xml:id:"
+			assert getObjectDirectIdMap(witnessXmlID) == null : "xml:id:"
 					+ witnessXmlID + " IS ALREADY DECLARED";
 
 			if (witnessListXmlID == null)
@@ -582,9 +605,9 @@ public class LoadTEIFragments {
 			}
 			fragInter.setXmlId(witnessXmlID);
 
-			putObjectByXmlID(witnessXmlID, fragInter);
-			putObjectByXmlID(witnessListXmlID, fragInter);
-			putObjectByXmlID(witnessListXmlID2, fragInter);
+			putObjectDirectIdMap(witnessXmlID, fragInter);
+			putObjectDirectIdMap(witnessListXmlID, fragInter);
+			putObjectDirectIdMap(witnessListXmlID2, fragInter);
 		}
 
 	}
@@ -657,7 +680,7 @@ public class LoadTEIFragments {
 					hetXmlId = persName.getAttributeValue("corresp").substring(
 							1);
 
-					List<Object> heteronymList = getObjectsByXmlID(hetXmlId);
+					List<Object> heteronymList = getObjectDirectIdMap(hetXmlId);
 					if (heteronymList != null) {
 						heteronym = (Heteronym) heteronymList.get(0);
 					} else {
@@ -698,13 +721,13 @@ public class LoadTEIFragments {
 			String biblID = bibl.getAttributeValue("id",
 					bibl.getNamespace("xml"));
 
-			if (getObjectsByXmlID(biblID) != null)
+			if (getObjectDirectIdMap(biblID) != null)
 				throw new LdoDLoadException(
 						"já está declarado o atributo xml:id=" + biblID);
-			assert getObjectsByXmlID(biblID) == null : "xml:id:" + biblID
+			assert getObjectDirectIdMap(biblID) == null : "xml:id:" + biblID
 					+ " IS ALREADY DECLARED";
 
-			putObjectByXmlID(biblID, printedSource);
+			putObjectDirectIdMap(biblID, printedSource);
 
 			printedSource.setXmlId(biblID);
 
@@ -734,69 +757,151 @@ public class LoadTEIFragments {
 			String manuscriptID = msDesc.getAttributeValue("id",
 					msDesc.getNamespace("xml"));
 
-			if (getObjectsByXmlID(manuscriptID) != null)
+			if (getObjectDirectIdMap(manuscriptID) != null)
 				throw new LdoDLoadException(
 						"já está declarado o atributo xml:id=" + manuscriptID);
 
-			assert getObjectsByXmlID(manuscriptID) == null : "xml:id:"
-					+ manuscriptID + " IS ALREADY DECLARED";
-
-			putObjectByXmlID(manuscriptID, manuscript);
+			putObjectDirectIdMap(manuscriptID, manuscript);
 
 			manuscript.setXmlId(manuscriptID);
 
-			Element msId = msDesc.getChild("msIdentifier", namespace);
-			manuscript
-					.setSettlement(msId.getChildText("settlement", namespace));
-			manuscript
-					.setRepository(msId.getChildText("repository", namespace));
-			manuscript.setIdno(msId.getChildText("idno", namespace));
+			loadMsId(msDesc, manuscript);
 
-			Element altElement = msId.getChild("altIdentifier", namespace);
-
-			if (altElement == null) {
-				throw new LdoDLoadException(
-						"falta declarar altIdentifier de um msIdentifier");
-			}
-
-			manuscript.setAltIdentifier(altElement.getChildText("idno",
-					namespace));
-
-			Element physDesc = msDesc.getChild("physDesc", namespace);
-
-			Element objectDesc = physDesc.getChild("objectDesc", namespace);
-			if (objectDesc.getAttributeValue("form").equals("leaf")) {
-				manuscript.setForm(ManuscriptSource.Form.LEAF);
-			} else {
-				throw new LdoDLoadException(
-						"não está definido o valor do atributo form="
-								+ objectDesc.getAttributeValue("form"));
-			}
-
-			Element supportDesc = objectDesc.getChild("supportDesc", namespace);
-			if (supportDesc.getAttributeValue("material").equals("paper")) {
-				manuscript.setMaterial(ManuscriptSource.Material.PAPER);
-			} else {
-				throw new LdoDLoadException(
-						"não está definido o valor do atributo material="
-								+ objectDesc.getAttributeValue("material"));
-			}
-
-			Element layoutElement = objectDesc
-					.getChild("layoutDesc", namespace).getChild("layout",
-							namespace);
-			manuscript.setColumns(Integer.parseInt(layoutElement
-					.getAttributeValue("columns")));
-
-			Element handDesc = physDesc.getChild("handDesc", namespace)
-					.getChild("p", namespace);
-			Element additions = physDesc.getChild("additions", namespace);
-			Element binding = physDesc.getChild("bindingDesc", namespace)
-					.getChild("binding", namespace).getChild("p", namespace);
-
-			manuscript.setNotes(handDesc.getTextTrim() + ", "
-					+ additions.getTextTrim() + ", " + binding.getTextTrim());
+			loadPhysDesc(msDesc, manuscript);
 		}
+	}
+
+	private void loadMsId(Element msDesc, ManuscriptSource manuscript) {
+		Element msId = msDesc.getChild("msIdentifier", namespace);
+		manuscript.setSettlement(msId.getChildText("settlement", namespace));
+		manuscript.setRepository(msId.getChildText("repository", namespace));
+		manuscript.setIdno(msId.getChildText("idno", namespace));
+
+		Element altElement = msId.getChild("altIdentifier", namespace);
+
+		if (altElement == null) {
+			throw new LdoDLoadException(
+					"falta declarar altIdentifier de um msIdentifier");
+		}
+
+		manuscript.setAltIdentifier(altElement.getChildText("idno", namespace));
+	}
+
+	private void loadPhysDesc(Element msDesc, ManuscriptSource manuscript) {
+		Element physDesc = msDesc.getChild("physDesc", namespace);
+
+		Element objectDesc = physDesc.getChild("objectDesc", namespace);
+		if (objectDesc.getAttributeValue("form").equals("leaf")) {
+			manuscript.setForm(ManuscriptSource.Form.LEAF);
+		} else {
+			throw new LdoDLoadException(
+					"não está definido o valor do atributo form="
+							+ objectDesc.getAttributeValue("form"));
+		}
+
+		Element supportDesc = objectDesc.getChild("supportDesc", namespace);
+		if (supportDesc.getAttributeValue("material").equals("paper")) {
+			manuscript.setMaterial(ManuscriptSource.Material.PAPER);
+		} else {
+			throw new LdoDLoadException(
+					"não está definido o valor do atributo material="
+							+ objectDesc.getAttributeValue("material"));
+		}
+
+		Element layoutElement = objectDesc.getChild("layoutDesc", namespace)
+				.getChild("layout", namespace);
+		manuscript.setColumns(Integer.parseInt(layoutElement
+				.getAttributeValue("columns")));
+
+		loadHandDesc(manuscript, physDesc);
+		loadTypeDesc(manuscript, physDesc);
+
+		Element additions = physDesc.getChild("additions", namespace);
+		if (additions.getTextTrim().equals("LdoD")) {
+			manuscript.setHasLdoDLabel(true);
+		}
+
+		Element binding = physDesc.getChild("bindingDesc", namespace)
+				.getChild("binding", namespace).getChild("p", namespace);
+
+		manuscript.setNotes(manuscript.getNotes() + ", "
+				+ additions.getTextTrim() + ", " + binding.getTextTrim());
+	}
+
+	private void loadTypeDesc(ManuscriptSource manuscript, Element physDesc) {
+		Element typeDesc = physDesc.getChild("typeDesc", namespace);
+
+		if (typeDesc != null) {
+			for (Element typeNoteElement : typeDesc.getChildren("typeNote",
+					namespace)) {
+				String mediumValue = typeNoteElement
+						.getAttributeValue("medium");
+				Medium medium = getMedium(mediumValue);
+
+				TypeNote typeNote = new TypeNote(medium, typeNoteElement
+						.getChild("locus", namespace).getTextTrim());
+				typeNote.setManuscript(manuscript);
+
+				String[] targets = typeNoteElement.getChild("locus", namespace)
+						.getAttributeValue("target").trim().split("\\s+");
+				for (String target : targets) {
+					putObjectInverseIdMap(target.substring(1), typeNote);
+				}
+			}
+		}
+	}
+
+	private void loadHandDesc(ManuscriptSource manuscript, Element physDesc) {
+		Element handDesc = physDesc.getChild("handDesc", namespace);
+		Element handDescParagraph = handDesc.getChild("p", namespace);
+		String stringHandNote = null;
+
+		if (handDescParagraph != null) {
+			stringHandNote = handDescParagraph.getTextTrim();
+		} else {
+			for (Element handNoteElement : handDesc.getChildren("handNote",
+					namespace)) {
+				String mediumValue = handNoteElement
+						.getAttributeValue("medium");
+
+				Medium medium = getMedium(mediumValue);
+
+				stringHandNote = handNoteElement.getChild("locus", namespace)
+						.getTextTrim();
+
+				HandNote handNote = new HandNote(medium, stringHandNote);
+				handNote.setManuscript(manuscript);
+
+				String[] targets = handNoteElement.getChild("locus", namespace)
+						.getAttributeValue("target").trim().split("\\s+");
+				for (String target : targets) {
+					putObjectInverseIdMap(target.substring(1), handNote);
+				}
+			}
+		}
+		manuscript.setNotes(stringHandNote);
+	}
+
+	private Medium getMedium(String mediumValue) {
+		Medium medium = null;
+		switch (mediumValue) {
+		case "pen":
+			medium = Medium.PEN;
+			break;
+		case "pencil":
+			medium = Medium.PENCIL;
+			break;
+		case "blue-ink":
+			medium = Medium.BLUE_INK;
+			break;
+		case "black-ink":
+			medium = Medium.BLACK_INK;
+			break;
+		default:
+			throw new LdoDLoadException(
+					"valor inesperado para atribute medium=" + mediumValue);
+		}
+		return medium;
 	}
 
 	private Boolean isHiphenated(Element element) {

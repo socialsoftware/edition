@@ -1,6 +1,7 @@
 package pt.ist.socialsoftware.edition.domain;
 
 enum pt.ist.socialsoftware.edition.domain.RdgText.RdgTextType as RdgTextType;
+enum pt.ist.socialsoftware.edition.domain.ManuscriptSource.Medium as Medium;
 enum pt.ist.socialsoftware.edition.domain.ManuscriptSource.Form as Form;
 enum pt.ist.socialsoftware.edition.domain.ManuscriptSource.Material as Material;
 enum pt.ist.socialsoftware.edition.domain.SpaceText.SpaceDim as SpaceDim;
@@ -172,7 +173,6 @@ relation VirtualEditionHasVirtualEditionInters {
 
 class Source {
 	String xmlId;
-	Boolean hasLdoDLabel;
 }
 
 relation FragmentHasSources {
@@ -193,7 +193,27 @@ class ManuscriptSource extends Source {
 	Form form;
 	Material material;
 	int columns;
+	Boolean hasLdoDLabel;
 	String notes;
+}
+
+class PhysNote {
+	Medium medium;
+	String note;
+}
+
+class HandNote extends PhysNote;
+
+class TypeNote extends PhysNote;
+
+relation ManuscriptSourceHasHandNote {
+	ManuscriptSource playsRole manuscript {multiplicity 1..1;}
+	HandNote playsRole handNote {multiplicity 0..*;}
+}
+
+relation ManuscriptSourceHasTypeNote {
+	ManuscriptSource playsRole manuscript {multiplicity 1..1;}
+	TypeNote playsRole typeNote {multiplicity 0..*;}
 }
 
 class PrintedSource extends Source {
@@ -204,11 +224,17 @@ class PrintedSource extends Source {
 }
 
 class TextPortion {
+	String xmlId;
 }
 
 relation FragmentHasTextPortion {
 	Fragment playsRole fragment {multiplicity 0..1;}
 	TextPortion playsRole textPortion {multiplicity 0..1;}
+}
+
+relation PhysNoteRefersTextPortion {
+	PhysNote playsRole physNote {multiplicity 0..*;}
+	TextPortion playsRole textPortion {multiplicity 0..*;} 
 }
 
 class RdgText extends TextPortion {
