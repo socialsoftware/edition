@@ -308,24 +308,32 @@ public class LoadTEIFragments {
 	}
 
 	private void loadAdd(Element element, TextPortion parent) {
-		List<Content> contentList = element.getContent();
-
-		if (contentList.size() != 1)
-			throw new LdoDLoadException(
-					"add contém outros elementos para além de texto"
-							+ element.getValue());
-
-		if (contentList.get(0).getCType() != CType.Text)
-			throw new LdoDLoadException(
-					"add contém outros elementos para além de texto"
-							+ element.getValue());
-
 		Attribute placeAttribute = element.getAttribute("place");
 		Place place = getPlaceAttribute(placeAttribute);
 
 		AddText addText = new AddText(parent, place);
 
-		loadSimpleText((Text) contentList.get(0), addText);
+		for (Content content : element.getContent()) {
+			if (content.getCType() == CType.Text) {
+				if (content.getValue().trim() != "") {
+					loadSimpleText((Text) content, addText);
+				} else {
+					// empty text
+				}
+			} else if (content.getCType() == CType.Comment) {
+				// ignore comments
+			} else if (content.getCType() == CType.Element) {
+				Element element2 = (Element) content;
+				if (element2.getName().equals("lb")) {
+					loadLb(element2, addText);
+				} else {
+					throw new LdoDLoadException("não carrega elementos: "
+							+ element2 + " do tipo:"
+							+ element2.getCType().toString()
+							+ "dentro de <add>");
+				}
+			}
+		}
 	}
 
 	/**
