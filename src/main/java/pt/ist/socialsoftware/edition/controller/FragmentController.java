@@ -211,6 +211,7 @@ public class FragmentController {
 		HtmlWriter4OneInter writer = new HtmlWriter4OneInter(fragInter);
 		writer.write(displayDiff);
 
+		model.addAttribute("inter", fragInter);
 		model.addAttribute("writer", writer);
 		return "fragment/transcription";
 
