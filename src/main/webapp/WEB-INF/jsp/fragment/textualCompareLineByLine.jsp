@@ -5,10 +5,10 @@
 			<div class="well">
 				<c:choose>
 					<c:when test="${writer.showSpaces}">
-						<p style="font-family: monospace;">${ldod:getTranscriptionLineByLine(writer,inter,inter2Compare)}</p>
+						<p style="font-family: monospace;">${writer.getTranscriptionLineByLine()}</p>
 					</c:when>
 					<c:otherwise>
-						<p>${ldod:getTranscriptionLineByLine(writer,inter,inter2Compare)}</p>
+						<p>${writer.getTranscriptionLineByLine()}</p>
 					</c:otherwise>
 				</c:choose>
 			</div>

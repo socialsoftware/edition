@@ -3,28 +3,21 @@
 	$(document)
 			.ready(
 					function() {
-						$(
-								'[id="visualisation-properties-authorial"][data-toggle="buttons-checkbox"]')
+						$('[id="visualisation-properties-authorial"][data-toggle="buttons-checkbox"]')
 								.on(
 										'click',
 										function() {
-											var fragInter2 = $('input:radio[name=inter2]:checked').val();
+                     var data = new Array();
+                        $('#interps2 :checked').each(function() {
+                        data.push(this.value);});
                       var selDiff = $('input:checkbox[name=diff]').is(':checked');
 											var selDel = $('input:checkbox[name=del]').is(':checked');
-											var selIns = $(
-													'input:checkbox[name=ins]')
-													.is(':checked');
-											var selSubst = $(
-													'input:checkbox[name=subst]')
-													.is(':checked');
-											var selNotes = $(
-													'input:checkbox[name=notes]')
-													.is(':checked');
-											$
-													.get(
-															"${contextPath}/fragments/fragment/textualauthorial",
-															{
-																interp : fragInter2,
+											var selIns = $('input:checkbox[name=ins]').is(':checked');
+											var selSubst = $('input:checkbox[name=subst]').is(':checked');
+											var selNotes = $('input:checkbox[name=notes]').is(':checked');
+											$.get("${contextPath}/fragments/fragment/textualauthorial",
+														{
+														    interp : data,
                                 diff : selDiff,
 																del : selDel,
 																ins : selIns,
@@ -32,10 +25,7 @@
 																notes : selNotes
 															},
 															function(html) {
-																$(
-																		"#fragmentTranscription")
-																		.replaceWith(
-																				html);
+																$("#fragmentTranscription").replaceWith(html);
 															});
 										});
 					});
@@ -49,9 +39,9 @@
 								.on(
 										'click',
 										function() {
-											var fragInter2 = $(
-													'input:radio[name=inter2]:checked')
-													.val();
+                     var data = new Array();
+                        $('#interps2 :checked').each(function() {
+                        data.push(this.value);});
 											var selDiff = $(
 													'input:checkbox[name=diff]')
 													.is(':checked');
@@ -59,7 +49,7 @@
 													.get(
 															"${contextPath}/fragments/fragment/textualeditorial",
 															{
-																interp : fragInter2,
+																interp : data,
 																diff : selDiff
 															},
 															function(html) {

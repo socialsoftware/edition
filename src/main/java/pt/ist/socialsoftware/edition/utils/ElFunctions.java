@@ -18,11 +18,6 @@ public class ElFunctions {
 		return writer.getTranscription(inter);
 	}
 
-	public static String getTranscriptionLineByLine(
-			HtmlWriter2CompInters writer, FragInter inter1, FragInter inter2) {
-		return writer.getTranscriptionLineByLine(inter1, inter2);
-	}
-
 	public static ExpertEditionInter getExpertEditionInter(Fragment fragment,
 			String editor) {
 		return fragment.getExpertEditionInter(editor);

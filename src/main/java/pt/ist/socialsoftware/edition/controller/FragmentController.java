@@ -124,30 +124,37 @@ public class FragmentController {
 
 	@RequestMapping(method = RequestMethod.GET, value = "/interpretation")
 	public String getInterpretationMenu(
-			@RequestParam(value = "interp", required = true) String interID,
-			@RequestParam(value = "interp2Compare", required = true) String interID2Compare,
+			@RequestParam(value = "baseID", required = true) String baseID,
+			@RequestParam(value = "interpsID[]", required = true) String[] interpsID,
 			Model model) {
-		FragInter fragInter = FenixFramework.getDomainObject(interID);
-		FragInter fragInter2Compare = FenixFramework
-				.getDomainObject(interID2Compare);
+		FragInter fragInter = FenixFramework.getDomainObject(baseID);
+		List<FragInter> interps = new ArrayList<FragInter>();
+		for (String inter : interpsID) {
+			interps.add((FragInter) FenixFramework.getDomainObject(inter));
+		}
 
-		if (interID.equals(interID2Compare)) {
-			HtmlWriter4OneInter writer = new HtmlWriter4OneInter(fragInter);
-			writer.write(false);
+		if (interps.size() == 1) {
+			HtmlWriter4OneInter writer4One = new HtmlWriter4OneInter(fragInter);
+			writer4One.write(false);
 
 			model.addAttribute("inter", fragInter);
-			model.addAttribute("writer", writer);
+			model.addAttribute("writer", writer4One);
 			return "fragment/textual";
 		} else {
-			List<FragInter> list = new ArrayList<FragInter>();
-			list.add(fragInter);
-			list.add(fragInter2Compare);
-			HtmlWriter2CompInters writer = new HtmlWriter2CompInters(list);
-			writer.write(false, false);
+			HtmlWriter2CompInters writer2Compare = new HtmlWriter2CompInters(
+					interps);
 
+			Boolean lineByLine = false;
+			if (interps.size() > 2) {
+				lineByLine = true;
+			}
+			writer2Compare.write(lineByLine, false);
+
+			model.addAttribute("lineByLine", lineByLine);
 			model.addAttribute("inter", fragInter);
-			model.addAttribute("inter2Compare", fragInter2Compare);
-			model.addAttribute("writer", writer);
+			model.addAttribute("inter2Compare", interps);
+			model.addAttribute("writer", writer2Compare);
+
 			return "fragment/textualCompare";
 		}
 	}
@@ -155,18 +162,30 @@ public class FragmentController {
 	@RequestMapping(method = RequestMethod.GET, value = "/interpretation/mode")
 	public String getInterpretationCompare(
 			@RequestParam(value = "interp", required = true) String interID,
-			@RequestParam(value = "interp2Compare", required = true) String interID2Compare,
-			@RequestParam(value = "line", required = true) boolean lineByLine,
+			@RequestParam(value = "interp2Compare[]", required = true) String[] interID2Compare,
+			@RequestParam(value = "line") boolean lineByLine,
 			@RequestParam(value = "spaces", required = true) boolean showSpaces,
 			Model model) {
 		FragInter fragInter = FenixFramework.getDomainObject(interID);
-		FragInter fragInter2Compare = FenixFramework
-				.getDomainObject(interID2Compare);
+		List<FragInter> fragInter2Compare = new ArrayList<FragInter>();
+		for (String interID2 : interID2Compare) {
+			fragInter2Compare.add((FragInter) FenixFramework
+					.getDomainObject(interID2));
+		}
 
-		List<FragInter> list = new ArrayList<FragInter>();
-		list.add(fragInter);
-		list.add(fragInter2Compare);
-		HtmlWriter2CompInters writer = new HtmlWriter2CompInters(list);
+		HtmlWriter2CompInters writer = new HtmlWriter2CompInters(
+				fragInter2Compare);
+
+		if (fragInter2Compare.size() > 2) {
+			lineByLine = true;
+			model.addAttribute("lineByLine", lineByLine);
+		}
+		writer.write(lineByLine, false);
+
+		model.addAttribute("inter", fragInter);
+		model.addAttribute("inter2Compare", fragInter2Compare);
+		model.addAttribute("writer", writer);
+
 		writer.write(lineByLine, showSpaces);
 
 		model.addAttribute("inter", fragInter);
@@ -183,14 +202,14 @@ public class FragmentController {
 
 	@RequestMapping(method = RequestMethod.GET, value = "/textualauthorial")
 	public String getInterpretationTextual(
-			@RequestParam(value = "interp", required = true) String interID,
+			@RequestParam(value = "interp[]", required = true) String[] interID,
 			@RequestParam(value = "diff", required = true) boolean displayDiff,
 			@RequestParam(value = "del", required = true) boolean displayDel,
 			@RequestParam(value = "ins", required = true) boolean highlightIns,
 			@RequestParam(value = "subst", required = true) boolean highlightSubst,
 			@RequestParam(value = "notes", required = true) boolean showNotes,
 			Model model) {
-		FragInter fragInter = FenixFramework.getDomainObject(interID);
+		FragInter fragInter = FenixFramework.getDomainObject(interID[0]);
 
 		HtmlWriter4OneInter writer = new HtmlWriter4OneInter(fragInter);
 		writer.write(displayDiff, displayDel, highlightIns, highlightSubst,
@@ -203,10 +222,10 @@ public class FragmentController {
 
 	@RequestMapping(method = RequestMethod.GET, value = "/textualeditorial")
 	public String getInterpretationTextual(
-			@RequestParam(value = "interp", required = true) String interID,
+			@RequestParam(value = "interp[]", required = true) String[] interID,
 			@RequestParam(value = "diff", required = true) boolean displayDiff,
 			Model model) {
-		FragInter fragInter = FenixFramework.getDomainObject(interID);
+		FragInter fragInter = FenixFramework.getDomainObject(interID[0]);
 
 		HtmlWriter4OneInter writer = new HtmlWriter4OneInter(fragInter);
 		writer.write(displayDiff);

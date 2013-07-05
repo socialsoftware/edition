@@ -56,7 +56,7 @@ public class HtmlWriter2CompInters extends HtmlWriter {
 		return transcriptionsMap.get(inter);
 	}
 
-	public String getTranscriptionLineByLine(FragInter inter1, FragInter inter2) {
+	public String getTranscriptionLineByLine() {
 		// add the last line
 		for (FragInter inter : interps) {
 			lineByLineTranscription = lineByLineTranscription

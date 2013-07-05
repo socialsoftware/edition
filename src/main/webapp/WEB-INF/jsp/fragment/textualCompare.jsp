@@ -11,9 +11,10 @@
 											var fragInter1 = $(
 											'input:radio[name=inter]:checked')
 											.val();
-											var fragInter2 = $(
-											'input:radio[name=inter2]:checked')
-											.val();
+                      var data = new Array();
+                      $('#interps2 :checked').each(function() {
+                        data.push(this.value);
+                      });
 											var selLine = $(
 											'input:checkbox[name=line]')
 											.is(':checked');
@@ -25,7 +26,7 @@
 															"${contextPath}/fragments/fragment/interpretation/mode",
 															{
 																interp : fragInter1,
-																interp2Compare : fragInter2,
+																interp2Compare : data,
 																line : selLine,
 																spaces : selSpaces
 															},
@@ -41,25 +42,40 @@
 					});
 </script>
 <div id=fragmentTextual class="row-fluid">
-	<div class="row-fluid">
-		<form class="form-horizontal">
-			<div class="control-group">
-				<span class="control-label"><spring:message code="fragment.visualization" /></span>
-				<div class="controls form-inline">
-					<div class="well" id="visualisation-properties-comparison"
-						data-toggle="buttons-checkbox">
-						<label class="checkbox inline"> <input type="checkbox"
-							class="btn" name=line value="Yes"> <spring:message code="fragment.linebyline" />
-						</label>
-						<label class="checkbox inline"> <input type="checkbox"
-							class="btn" name=spaces value="Yes"> <spring:message code="fragment.alignspace" />
-						</label>
-					</div>
-				</div>
-			</div>
-		</form>
-	</div>
+    <div class="row-fluid">
+        <form class="form-horizontal">
+            <div class="control-group">
+                <span class="control-label"><spring:message
+                        code="fragment.visualization" /></span>
+                <div class="controls form-inline">
+                    <div class="well"
+                        id="visualisation-properties-comparison"
+                        data-toggle="buttons-checkbox">
+                        <c:if test="${!lineByLine}">
+                            <label class="checkbox inline"> <input
+                                type="checkbox" class="btn" name=line
+                                value="Yes"> <spring:message
+                                    code="fragment.linebyline" />
+                            </label>
+                        </c:if>
+                        <label class="checkbox inline"> <input
+                            type="checkbox" class="btn" name=spaces
+                            value="Yes"> <spring:message
+                                code="fragment.alignspace" />
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
 
-	<%@ include file="/WEB-INF/jsp/fragment/textualCompareSideBySide.jsp"%>
+    <c:choose>
+        <c:when test="${!lineByLine}">
+            <%@ include
+                file="/WEB-INF/jsp/fragment/textualCompareSideBySide.jsp"%>
+        </c:when>
+        <c:otherwise><%@ include
+                file="/WEB-INF/jsp/fragment/textualCompareLineByLine.jsp"%></c:otherwise>
+    </c:choose>
 
 </div>
