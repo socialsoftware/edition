@@ -31,6 +31,7 @@ import pt.ist.socialsoftware.edition.domain.DelText;
 import pt.ist.socialsoftware.edition.domain.DelText.HowDel;
 import pt.ist.socialsoftware.edition.domain.ExpertEdition;
 import pt.ist.socialsoftware.edition.domain.ExpertEditionInter;
+import pt.ist.socialsoftware.edition.domain.Facsimile;
 import pt.ist.socialsoftware.edition.domain.FragInter;
 import pt.ist.socialsoftware.edition.domain.Fragment;
 import pt.ist.socialsoftware.edition.domain.HandNote;
@@ -49,11 +50,13 @@ import pt.ist.socialsoftware.edition.domain.Rend;
 import pt.ist.socialsoftware.edition.domain.Rend.Rendition;
 import pt.ist.socialsoftware.edition.domain.SegText;
 import pt.ist.socialsoftware.edition.domain.SimpleText;
+import pt.ist.socialsoftware.edition.domain.Source;
 import pt.ist.socialsoftware.edition.domain.SourceInter;
 import pt.ist.socialsoftware.edition.domain.SpaceText;
 import pt.ist.socialsoftware.edition.domain.SpaceText.SpaceDim;
 import pt.ist.socialsoftware.edition.domain.SpaceText.SpaceUnit;
 import pt.ist.socialsoftware.edition.domain.SubstText;
+import pt.ist.socialsoftware.edition.domain.Surface;
 import pt.ist.socialsoftware.edition.domain.Taxonomy;
 import pt.ist.socialsoftware.edition.domain.TextPortion;
 import pt.ist.socialsoftware.edition.domain.TypeNote;
@@ -218,6 +221,7 @@ public class LoadTEIFragments {
 			loadSourceManuscripts(fragment, fragmentTEIID);
 			loadPrintedSources(fragment, fragmentTEIID);
 			loadWitnesses(fragment, fragmentTEIID);
+			loadFacsimile(fragmentTEIID);
 
 			loadFragmentText(fragment, fragmentTEIID);
 
@@ -519,6 +523,71 @@ public class LoadTEIFragments {
 
 	private void loadDiv(Element div, TextPortion parent) {
 		loadElement(div, parent);
+	}
+
+	private void loadFacsimile(String fragmentTEIID) {
+		String selectThisFragment = "[@xml:id='" + fragmentTEIID + "']";
+		String queryExpression = "//def:TEI" + selectThisFragment
+				+ "/def:facsimile";
+
+		XPathExpression<Element> xp = xpfac.compile(queryExpression,
+				Filters.element(), null,
+				Namespace.getNamespace("def", namespace.getURI()));
+
+		for (Element facsElement : xp.evaluate(doc)) {
+			String xmlID = facsElement.getAttributeValue("id",
+					facsElement.getNamespace("xml"));
+
+			if (xmlID == null)
+				throw new LdoDLoadException(
+						"elemento facsimile sem atributo xml:id");
+
+			if (getObjectDirectIdMap(xmlID) != null)
+				throw new LdoDLoadException("o atributo xml:id=" + xmlID
+						+ " de facsimile já foi declarado");
+
+			Attribute correspAtt = facsElement.getAttribute("corresp");
+			String sourceID = null;
+			if (correspAtt != null) {
+				sourceID = correspAtt.getValue().substring(1);
+			} else {
+				throw new LdoDLoadException(
+						"elemento facsimile necessita de atributo corresp");
+			}
+
+			List<Object> list = getObjectDirectIdMap(sourceID);
+
+			if (list == null) {
+				throw new LdoDLoadException("referência=" + sourceID
+						+ " para testemunho fonte em facsimile não existe");
+			}
+
+			Source source = (Source) list.get(0);
+
+			Facsimile facsimile = new Facsimile(source, xmlID);
+
+			putObjectDirectIdMap(sourceID, facsimile);
+
+			loadSurface(facsElement, facsimile);
+		}
+
+	}
+
+	private void loadSurface(Element facsElement, Facsimile facsimile) {
+		for (Element surfElement : facsElement
+				.getChildren("surface", namespace)) {
+			Element graphElement = surfElement.getChild("graphic", namespace);
+
+			if (graphElement == null) {
+				throw new LdoDLoadException(
+						"elemento surface não possui elemento graphic");
+			}
+
+			String graphic = graphElement.getAttributeValue("url");
+
+			new Surface(facsimile, graphic);
+		}
+
 	}
 
 	// TODO: a cleaner way to read parent's xmlID

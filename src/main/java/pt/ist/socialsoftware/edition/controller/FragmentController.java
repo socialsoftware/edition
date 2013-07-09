@@ -208,6 +208,7 @@ public class FragmentController {
 			@RequestParam(value = "ins", required = true) boolean highlightIns,
 			@RequestParam(value = "subst", required = true) boolean highlightSubst,
 			@RequestParam(value = "notes", required = true) boolean showNotes,
+			@RequestParam(value = "facs", required = true) boolean showFacs,
 			Model model) {
 		FragInter fragInter = FenixFramework.getDomainObject(interID[0]);
 
@@ -215,8 +216,14 @@ public class FragmentController {
 		writer.write(displayDiff, displayDel, highlightIns, highlightSubst,
 				showNotes);
 
+		model.addAttribute("inter", fragInter);
 		model.addAttribute("writer", writer);
-		return "fragment/transcription";
+
+		if (showFacs) {
+			return "fragment/facsimile";
+		} else {
+			return "fragment/transcription";
+		}
 
 	}
 

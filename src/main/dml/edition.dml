@@ -223,6 +223,29 @@ class PrintedSource extends Source {
 	String date;
 }
 
+class Facsimile {
+	String xmlId;
+}
+
+relation SourceHasFacsimile {
+	Source playsRole source {multiplicity 1..1;}
+	Facsimile playsRole facsimile {multiplicity 0..1;}
+}
+
+class Surface {
+	String graphic;
+}
+
+relation FacsimileHasSurface {
+	Facsimile playsRole facsimile {multiplicity 0..1;}
+	Surface playsRole firstSurface {multiplicity 0..1;}
+}
+
+relation SurfaceNextSurface {
+	Surface playsRole next {multiplicity 0..1;}
+	Surface playsRole prev {multiplicity 0..1;}
+}
+
 class TextPortion {
 	String xmlId;
 }

@@ -15,6 +15,7 @@
 											var selIns = $('input:checkbox[name=ins]').is(':checked');
 											var selSubst = $('input:checkbox[name=subst]').is(':checked');
 											var selNotes = $('input:checkbox[name=notes]').is(':checked');
+                      var selFacs = $('input:checkbox[name=facs]').is(':checked');
 											$.get("${contextPath}/fragments/fragment/textualauthorial",
 														{
 														    interp : data,
@@ -22,11 +23,11 @@
 																del : selDel,
 																ins : selIns,
 																subst : selSubst,
-																notes : selNotes
-															},
-															function(html) {
-																$("#fragmentTranscription").replaceWith(html);
-															});
+																notes : selNotes,
+                                facs : selFacs
+														},
+														function(html) {$("#fragmentTranscription").replaceWith(html);
+										  });
 										});
 					});
 </script>
@@ -45,8 +46,7 @@
 											var selDiff = $(
 													'input:checkbox[name=diff]')
 													.is(':checked');
-											$
-													.get(
+											$.get(
 															"${contextPath}/fragments/fragment/textualeditorial",
 															{
 																interp : data,
@@ -72,8 +72,6 @@
                 <span class="control-label"><spring:message
                         code="fragment.visualization" /></span>
                 <div class="controls form-inline">
-
-
                     <c:choose>
                         <c:when test="${inter.sourceType=='EDITORIAL'}">
                             <div class="well"
@@ -112,11 +110,15 @@
                                     name=notes value="Yes" checked>
                                     <spring:message
                                         code="fragment.shownotes" />
+                                </label> <label class="checkbox inline">
+                                    <input type="checkbox" class="btn"
+                                    name=facs value="Yes">
+                                    <spring:message
+                                    code="fragment.showfacs" />
                                 </label>
                             </div>
                         </c:otherwise>
                     </c:choose>
-
                 </div>
             </div>
         </form>

@@ -9,6 +9,8 @@ public abstract class Source extends Source_Base {
 	public void remove() {
 		setFragment(null);
 
+		getFacsimile().remove();
+
 		for (SourceInter inter : getSourceIntersSet()) {
 			removeSourceInters(inter);
 		}

@@ -67,7 +67,14 @@ public class ManuscriptSource extends ManuscriptSource_Base {
 					+ typeNote.getTextPortionSet().size() + "<br>";
 		}
 
-		result = result + "Notas: " + getNotes();
+		result = result + "Notas: " + getNotes() + "<br>";
+
+		result = result + "Facsimiles: ";
+
+		for (Surface surf : getFacsimile().getSurfaces()) {
+			result = result + "<a href=/static/facs/" + surf.getGraphic() + ">"
+					+ surf.getGraphic() + "</a> ";
+		}
 
 		return result;
 	}
