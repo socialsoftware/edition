@@ -25,6 +25,7 @@
 	<mvc:default-servlet-handler />
 
 	<mvc:resources mapping="/static/**" location="/resources/" />
+	<mvc:resources mapping="/facs/**" location="file:/opt/ldod/"/>
 
 	<beans:bean id="messageSource"
 		class="org.springframework.context.support.ReloadableResourceBundleMessageSource">

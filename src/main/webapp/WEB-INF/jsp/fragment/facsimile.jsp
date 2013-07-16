@@ -5,7 +5,6 @@
         <div class="row-fluid">
             <div class="span6">
                 <div id="myCarousel" class="carousel slide">
-                    <!-- Carousel items -->
                     <div class="carousel-inner">
                         <c:forEach var="surface"
                             items='${inter.source.facsimile.surfaces}'
@@ -14,15 +13,15 @@
                                 <c:when test="${status.first}">
                                     <div class="active item">
                                         <img
-                                            src="/static/facs/${surface.graphic}"
-                                            alt="Car Carousel" />
+                                            src="/facs/${surface.graphic}"
+                                            alt="Carousel" />
                                     </div>
                                 </c:when>
                                 <c:otherwise>
                                     <div class="item">
                                         <img
-                                            src="/static/facs/${surface.graphic}"
-                                            alt="Car Carousel" />
+                                            src="/facs/${surface.graphic}"
+                                            alt="Carousel" />
                                     </div>
                                 </c:otherwise>
                             </c:choose>
