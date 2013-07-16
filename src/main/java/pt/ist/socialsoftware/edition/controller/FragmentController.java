@@ -15,6 +15,8 @@ import pt.ist.socialsoftware.edition.domain.ExpertEdition;
 import pt.ist.socialsoftware.edition.domain.ExpertEditionInter;
 import pt.ist.socialsoftware.edition.domain.FragInter;
 import pt.ist.socialsoftware.edition.domain.Fragment;
+import pt.ist.socialsoftware.edition.domain.SourceInter;
+import pt.ist.socialsoftware.edition.domain.Surface;
 import pt.ist.socialsoftware.edition.visitors.HtmlWriter2CompInters;
 import pt.ist.socialsoftware.edition.visitors.HtmlWriter4OneInter;
 
@@ -209,8 +211,10 @@ public class FragmentController {
 			@RequestParam(value = "subst", required = true) boolean highlightSubst,
 			@RequestParam(value = "notes", required = true) boolean showNotes,
 			@RequestParam(value = "facs", required = true) boolean showFacs,
+			@RequestParam(value = "surf", required = false) String surfID,
 			Model model) {
 		FragInter fragInter = FenixFramework.getDomainObject(interID[0]);
+		Surface surface = FenixFramework.getDomainObject(surfID);
 
 		HtmlWriter4OneInter writer = new HtmlWriter4OneInter(fragInter);
 		writer.write(displayDiff, displayDel, highlightIns, highlightSubst,
@@ -220,6 +224,12 @@ public class FragmentController {
 		model.addAttribute("writer", writer);
 
 		if (showFacs) {
+			if (surface == null) {
+				SourceInter sourceInter = (SourceInter) fragInter;
+				surface = sourceInter.getSource().getFacsimile()
+						.getFirstSurface();
+			}
+			model.addAttribute("surface", surface);
 			return "fragment/facsimile";
 		} else {
 			return "fragment/transcription";
