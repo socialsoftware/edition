@@ -8,11 +8,8 @@
 								.on(
 										'click',
 										function() {
-											var fragInter1 = $(
-											'input:radio[name=inter]:checked')
-											.val();
                       var data = new Array();
-                      $('#interps2 :checked').each(function() {
+                      $('#inter :checked').each(function() {
                         data.push(this.value);
                       });
 											var selLine = $(
@@ -23,10 +20,9 @@
 											.is(':checked');
 											$
 													.get(
-															"${contextPath}/fragments/fragment/interpretation/mode",
+															"${contextPath}/fragments/fragment/inter/compare",
 															{
-																interp : fragInter1,
-																interp2Compare : data,
+																inters : data,
 																line : selLine,
 																spaces : selSpaces
 															},
@@ -41,15 +37,12 @@
 										});
 					});
 </script>
-<div id=fragmentTextual class="row-fluid">
+<div id=fragmentInter class="row-fluid">
     <div class="row-fluid">
         <form class="form-horizontal">
             <div class="control-group">
-                <span class="control-label"><spring:message
-                        code="fragment.visualization" /></span>
                 <div class="controls form-inline">
-                    <div class="well"
-                        id="visualisation-properties-comparison"
+                    <div id="visualisation-properties-comparison"
                         data-toggle="buttons-checkbox">
                         <c:if test="${!lineByLine}">
                             <label class="checkbox inline"> <input
@@ -68,14 +61,16 @@
             </div>
         </form>
     </div>
+    
+   <hr>
 
     <c:choose>
         <c:when test="${!lineByLine}">
             <%@ include
-                file="/WEB-INF/jsp/fragment/textualCompareSideBySide.jsp"%>
+                file="/WEB-INF/jsp/fragment/inter2CompareSideBySide.jsp"%>
         </c:when>
         <c:otherwise><%@ include
-                file="/WEB-INF/jsp/fragment/textualCompareLineByLine.jsp"%></c:otherwise>
+                file="/WEB-INF/jsp/fragment/inter2CompareLineByLine.jsp"%></c:otherwise>
     </c:choose>
 
 </div>

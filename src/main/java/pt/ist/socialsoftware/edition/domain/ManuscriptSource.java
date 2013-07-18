@@ -69,11 +69,14 @@ public class ManuscriptSource extends ManuscriptSource_Base {
 
 		result = result + "Notas: " + getNotes() + "<br>";
 
-		result = result + "Facsimiles: ";
+		Facsimile facs = getFacsimile();
+		if (facs != null) {
+			result = result + "Facsimiles: ";
 
-		for (Surface surf : getFacsimile().getSurfaces()) {
-			result = result + "<a href=/facs/" + surf.getGraphic() + ">"
-					+ surf.getGraphic() + "</a> ";
+			for (Surface surf : facs.getSurfaces()) {
+				result = result + "<a href=/facs/" + surf.getGraphic() + ">"
+						+ surf.getGraphic() + "</a> ";
+			}
 		}
 
 		return result;

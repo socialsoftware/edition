@@ -4,7 +4,7 @@ $(document).ready(function() {
     $('[id="backward"][data-toggle="button"]').on('click', 
         function() {
             var data = new Array();
-            $('#interps2 :checked').each(function() {data.push(this.value);});
+            $('#inter :checked').each(function() {data.push(this.value);});
             var selDiff = $('input:checkbox[name=diff]').is(':checked');
             var selDel = $('input:checkbox[name=del]').is(':checked');
             var selIns = $('input:checkbox[name=ins]').is(':checked');
@@ -12,7 +12,7 @@ $(document).ready(function() {
             var selNotes = $('input:checkbox[name=notes]').is(':checked');
             var selFacs = $('input:checkbox[name=facs]').is(':checked');
             var surface = $('#backward').val();
-            $.get("${contextPath}/fragments/fragment/textualauthorial",
+            $.get("${contextPath}/fragments/fragment/inter/authorial",
             {
     	          interp : data,
                 diff : selDiff,
@@ -26,13 +26,13 @@ $(document).ready(function() {
             function(html) {$("#fragmentTranscription").replaceWith(html);});
         });
 });
-</script>   
+</script>
 <script type="text/javascript">
 $(document).ready(function() {
     $('[id="forward"][data-toggle="button"]').on('click', 
         function() {
             var data = new Array();
-            $('#interps2 :checked').each(function() {data.push(this.value);});
+            $('#inter :checked').each(function() {data.push(this.value);});
             var selDiff = $('input:checkbox[name=diff]').is(':checked');
             var selDel = $('input:checkbox[name=del]').is(':checked');
             var selIns = $('input:checkbox[name=ins]').is(':checked');
@@ -40,7 +40,7 @@ $(document).ready(function() {
             var selNotes = $('input:checkbox[name=notes]').is(':checked');
             var selFacs = $('input:checkbox[name=facs]').is(':checked');
             var surface = $('#forward').val();
-            $.get("${contextPath}/fragments/fragment/textualauthorial",
+            $.get("${contextPath}/fragments/fragment/inter/authorial",
             {
     	          interp : data,
                 diff : selDiff,
@@ -57,21 +57,41 @@ $(document).ready(function() {
 </script>
 <div id="fragmentTranscription" class="row-fluid">
     <div class="row-fluid span12">
-        <h5>${inter.title}</h5>
+        <h4>${inter.title}</h4>
         <div class="row-fluid">
             <div class="span6">
-                <c:if test="${surface.prev != null}">
-                    <button class="btn pull-left" type="button"
-                        id="backward" value="${surface.prev.externalId}" data-toggle="button">
-                        <i class="icon-backward"></i>
-                    </button>
-                </c:if>
-                <c:if test="${surface.next != null}">
-                    <button class="btn pull-right" type="button"
-                        id="forward" value="${surface.next.externalId}" data-toggle="button">
-                        <i class="icon-forward"></i>
-                    </button>
-                </c:if>
+                <c:choose>
+                    <c:when test="${surface.prev != null}">
+                        <button class="btn pull-left" type="button"
+                            id="backward"
+                            value="${surface.prev.externalId}"
+                            data-toggle="button">
+                            <i class="icon-backward"></i>
+                        </button>
+                    </c:when>
+                    <c:otherwise>
+                        <button class="btn pull-left" type="button"
+                            id="backward" disabled>
+                            <i class="icon-backward"></i>
+                        </button>
+                    </c:otherwise>
+                </c:choose>
+                <c:choose>
+                    <c:when test="${surface.next != null}">
+                        <button class="btn pull-right" type="button"
+                            id="forward"
+                            value="${surface.next.externalId}"
+                            data-toggle="button">
+                            <i class="icon-forward"></i>
+                        </button>
+                    </c:when>
+                    <c:otherwise>
+                        <button class="btn pull-right" type="button"
+                            id="forward" disabled>
+                            <i class="icon-forward"></i>
+                        </button>
+                    </c:otherwise>
+                </c:choose>
             </div>
         </div>
         <div id="facsimileTranscription" class="row-fluid">
@@ -86,18 +106,38 @@ $(document).ready(function() {
         </div>
         <div class="row-fluid">
             <div class="span6">
-                <c:if test="${surface.prev != null}">
-                    <button class="btn pull-left" type="button"
-                        id="backward" value="${surface.prev.externalId}" data-toggle="button">
-                        <i class="icon-backward"></i>
-                    </button>
-                </c:if>
-                <c:if test="${surface.next != null}">
-                    <button class="btn pull-right" type="button"
-                        id="forward" value="${surface.next.externalId}" data-toggle="button">
-                        <i class="icon-forward"></i>
-                    </button>
-                </c:if>
+                <c:choose>
+                    <c:when test="${surface.prev != null}">
+                        <button class="btn pull-left" type="button"
+                            id="backward"
+                            value="${surface.prev.externalId}"
+                            data-toggle="button">
+                            <i class="icon-backward"></i>
+                        </button>
+                    </c:when>
+                    <c:otherwise>
+                        <button class="btn pull-left" type="button"
+                            id="backward" disabled>
+                            <i class="icon-backward"></i>
+                        </button>
+                    </c:otherwise>
+                </c:choose>
+                <c:choose>
+                    <c:when test="${surface.next != null}">
+                        <button class="btn pull-right" type="button"
+                            id="forward"
+                            value="${surface.next.externalId}"
+                            data-toggle="button">
+                            <i class="icon-forward"></i>
+                        </button>
+                    </c:when>
+                    <c:otherwise>
+                        <button class="btn pull-right" type="button"
+                            id="forward" disabled>
+                            <i class="icon-forward"></i>
+                        </button>
+                    </c:otherwise>
+                </c:choose>
             </div>
         </div>
     </div>

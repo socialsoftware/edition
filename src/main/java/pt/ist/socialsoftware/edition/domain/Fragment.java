@@ -21,6 +21,20 @@ public class Fragment extends Fragment_Base {
 		return interps;
 	}
 
+	public List<SourceInter> getSortedSourceInter() {
+		List<SourceInter> interps = new ArrayList<SourceInter>();
+
+		for (FragInter inter : getFragmentInterSet()) {
+			if ((inter.getSourceType() == SourceType.AUTHORIAL)) {
+				interps.add((SourceInter) inter);
+			}
+		}
+
+		Collections.sort(interps);
+
+		return interps;
+	}
+
 	public ExpertEditionInter getExpertEditionInter(String editor) {
 		for (FragInter inter : getFragmentInterSet()) {
 			if (inter.getSourceType() == SourceType.EDITORIAL) {

@@ -4,7 +4,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class ExpertEdition extends ExpertEdition_Base {
+import pt.ist.socialsoftware.edition.domain.FragInter.SourceType;
+
+public class ExpertEdition extends ExpertEdition_Base implements
+		Comparable<ExpertEdition> {
 	public static final String COELHO = "Jacinto Prado Coelho";
 	public static final String CUNHA = "Teresa Sobral Cunha";
 	public static final String ZENITH = "Richard Zenith";
@@ -36,6 +39,31 @@ public class ExpertEdition extends ExpertEdition_Base {
 		}
 	}
 
+	@Override
+	public int compareTo(ExpertEdition other) {
+		String myEditor = getEditor();
+		String otherEditor = other.getEditor();
+
+		if (myEditor.equals(otherEditor)) {
+			return 0;
+		} else if (myEditor.equals(ExpertEdition.COELHO)) {
+			return -1;
+		} else if (otherEditor.equals(ExpertEdition.COELHO)) {
+			return 1;
+		} else if (myEditor.equals(ExpertEdition.CUNHA)) {
+			return -1;
+		} else if (otherEditor.equals(ExpertEdition.CUNHA)) {
+			return 1;
+		} else if (myEditor.equals(ExpertEdition.ZENITH)) {
+			return -1;
+		} else if (otherEditor.equals(ExpertEdition.ZENITH)) {
+			return 1;
+		} else {
+			assert false : "To extend when new expert editions are include";
+			return 0;
+		}
+	}
+
 	public String getEditorShortName() {
 		if (getEditor().equals(COELHO)) {
 			return "Coelho";
@@ -58,6 +86,22 @@ public class ExpertEdition extends ExpertEdition_Base {
 		Collections.sort(interps);
 
 		return interps;
+	}
+
+	public List<ExpertEditionInter> getSortedInter4Frag(Fragment fragment) {
+		List<ExpertEditionInter> interps = new ArrayList<ExpertEditionInter>();
+
+		for (FragInter inter : fragment.getFragmentInterSet()) {
+			if ((inter.getSourceType() == SourceType.EDITORIAL)
+					&& ((ExpertEditionInter) inter).getExpertEdition() == this) {
+				interps.add((ExpertEditionInter) inter);
+			}
+		}
+
+		Collections.sort(interps);
+
+		return interps;
+
 	}
 
 	public ExpertEditionInter getNextNumberInter(ExpertEditionInter inter,

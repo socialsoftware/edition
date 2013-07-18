@@ -2,10 +2,6 @@ package pt.ist.socialsoftware.edition.domain;
 
 public class VirtualEditionInter extends VirtualEditionInter_Base {
 
-	public VirtualEditionInter() {
-		super();
-	}
-
 	@Override
 	public String getShortName() {
 		return getVirtualEdition().getAcronym();
@@ -13,8 +9,8 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 
 	@Override
 	public String getTitle() {
-		// TODO Auto-generated method stub
-		return null;
+		// TODO: it should be the title of the fragment it uses
+		return getFragment().getTitle();
 	}
 
 	@Override

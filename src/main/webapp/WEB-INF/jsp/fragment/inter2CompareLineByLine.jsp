@@ -2,6 +2,7 @@
 <div id=fragmentComparison class="row-fluid">
 	<div class="row-fluid">
 		<div id="transcription" class="span12">
+      <h4>${fragment.title}</h4>
 			<div class="well">
 				<c:choose>
 					<c:when test="${writer.showSpaces}">

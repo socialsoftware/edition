@@ -2,7 +2,7 @@
 <div id="fragmentTranscription" class="row-fluid">
         
 	<div class="row-fluid span12">
-    <h5>${inter.title}</h5>
+    <h4 class="text-center">${inter.title}</h4>
     <div class="well">
 		<p>${writer.getTranscription(inter)}</p>
         </div>

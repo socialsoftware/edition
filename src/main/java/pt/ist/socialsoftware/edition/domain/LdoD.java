@@ -1,6 +1,7 @@
 package pt.ist.socialsoftware.edition.domain;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -16,6 +17,13 @@ public class LdoD extends LdoD_Base {
 
 	public LdoD() {
 		FenixFramework.getDomainRoot().setLdoD(this);
+	}
+
+	public List<ExpertEdition> getSortedExpertEdition() {
+		List<ExpertEdition> editions = new ArrayList<ExpertEdition>(
+				getExpertEditionsSet());
+		Collections.sort(editions);
+		return editions;
 	}
 
 	public ExpertEdition getExpertEdition(String acronym) {

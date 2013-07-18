@@ -300,9 +300,8 @@ public class LoadTEIFragments {
 					loadDel(element2, substText);
 				} else {
 					throw new LdoDLoadException("não carrega elementos: "
-							+ element2 + " do tipo:"
-							+ element2.getCType().toString()
-							+ "dentro de <subst>");
+							+ element2 + " do tipo:" + element2.getName()
+							+ " dentro de subst");
 				}
 			}
 		}
@@ -329,9 +328,8 @@ public class LoadTEIFragments {
 					loadAdd(element2, delText);
 				} else {
 					throw new LdoDLoadException("não carrega elementos: "
-							+ element2 + " do tipo:"
-							+ element2.getCType().toString()
-							+ "dentro de <del>");
+							+ element2 + " do tipo:" + element2.getName()
+							+ " dentro de del");
 				}
 			}
 		}
@@ -358,9 +356,8 @@ public class LoadTEIFragments {
 					loadLb(element2, addText);
 				} else {
 					throw new LdoDLoadException("não carrega elementos: "
-							+ element2 + " do tipo:"
-							+ element2.getCType().toString()
-							+ "dentro de <add>");
+							+ element2 + " do tipo:" + element2.getName()
+							+ " dentro de add");
 				}
 			}
 		}

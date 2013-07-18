@@ -1,8 +1,8 @@
 package pt.ist.socialsoftware.edition.security;
 
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.domain.VirtualEdition;
@@ -10,8 +10,8 @@ import pt.ist.socialsoftware.edition.domain.VirtualEdition;
 public class LdoDSession implements Serializable {
 	private static final long serialVersionUID = 3742738985902099143L;
 
-	private final Set<String> selectedVEIds = new HashSet<String>();
-	private final Set<String> selectedVEAcr = new HashSet<String>();
+	private final List<String> selectedVEIds = new ArrayList<String>();
+	private final List<String> selectedVEAcr = new ArrayList<String>();
 
 	public boolean hasSelectedVE(VirtualEdition virtualEdition) {
 		return selectedVEIds.contains(virtualEdition.getExternalId());
@@ -30,8 +30,8 @@ public class LdoDSession implements Serializable {
 	}
 
 	// materializes objects on demand and regenerates acronyms
-	public Set<VirtualEdition> getSelectedVEs() {
-		Set<VirtualEdition> selectedVE = new HashSet<VirtualEdition>();
+	public List<VirtualEdition> getSelectedVEs() {
+		List<VirtualEdition> selectedVE = new ArrayList<VirtualEdition>();
 		selectedVEAcr.clear();
 		for (String veId : selectedVEIds) {
 			VirtualEdition virtualEdition = (VirtualEdition) FenixFramework
@@ -42,7 +42,7 @@ public class LdoDSession implements Serializable {
 		return selectedVE;
 	}
 
-	public Set<String> getSelectedVEAcr() {
+	public List<String> getSelectedVEAcr() {
 		return selectedVEAcr;
 	}
 
