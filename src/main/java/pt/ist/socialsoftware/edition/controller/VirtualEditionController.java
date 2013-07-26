@@ -21,12 +21,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import pt.ist.fenixframework.FenixFramework;
+import pt.ist.socialsoftware.edition.domain.FragInter;
 import pt.ist.socialsoftware.edition.domain.LdoD;
 import pt.ist.socialsoftware.edition.domain.LdoDUser;
 import pt.ist.socialsoftware.edition.domain.VirtualEdition;
+import pt.ist.socialsoftware.edition.domain.VirtualEditionInter;
 import pt.ist.socialsoftware.edition.security.LdoDSession;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDDuplicateValueException;
 import pt.ist.socialsoftware.edition.validator.VirtualEditionValidator;
+import pt.ist.socialsoftware.edition.visitors.HtmlWriter4OneInter;
 
 @Controller
 @SessionAttributes({ "ldoDSession" })
@@ -323,6 +326,36 @@ public class VirtualEditionController {
 				model.addAttribute("virtualedition", virtualEdition);
 				return "virtual/manageParticipants";
 			}
+		}
+	}
+
+	@RequestMapping(method = RequestMethod.POST, value = "/restricted/addinter/{veId}/{interId}")
+	@PreAuthorize("hasPermission(#veId, 'virtualedition.participant')")
+	public String addInter(Model model, @PathVariable String veId,
+			@PathVariable String interId) {
+		VirtualEdition virtualEdition = FenixFramework.getDomainObject(veId);
+		FragInter inter = FenixFramework.getDomainObject(interId);
+		if ((virtualEdition == null) && (inter == null)) {
+			return "utils/pageNotFound";
+		} else if (virtualEdition.canAddFragInter(inter)) {
+			VirtualEditionInter addInter = new VirtualEditionInter(
+					virtualEdition, inter);
+			List<FragInter> inters = new ArrayList<FragInter>();
+			inters.add(addInter);
+
+			HtmlWriter4OneInter writer = new HtmlWriter4OneInter(
+					addInter.getLastUsed());
+			writer.write(false);
+
+			model.addAttribute("writer", writer);
+
+			model.addAttribute("ldoD", LdoD.getInstance());
+			model.addAttribute("user", LdoDUser.getUser());
+			model.addAttribute("fragment", inter.getFragment());
+			model.addAttribute("inters", inters);
+			return "fragment/main";
+		} else {
+			return "utils/pageNotFound";
 		}
 	}
 

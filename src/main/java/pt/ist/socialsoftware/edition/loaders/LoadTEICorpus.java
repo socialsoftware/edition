@@ -98,9 +98,6 @@ public class LoadTEICorpus {
 
 		for (Element heteronymTEI : corpusHeteronyms.getChildren("person",
 				namespace)) {
-			Heteronym heteronym = new Heteronym();
-			heteronym.setLdoD(ldoD);
-
 			String heteronymXmlID = heteronymTEI.getAttributeValue("id",
 					heteronymTEI.getNamespace("xml"));
 
@@ -112,11 +109,14 @@ public class LoadTEICorpus {
 			assert getObjectsByXmlID(heteronymXmlID) == null : "xml:id:"
 					+ heteronymXmlID + " IS ALREADY DECLARED";
 
+			String name = heteronymTEI.getChildText("persName", namespace);
+
+			Heteronym heteronym = new Heteronym(ldoD, name);
+
 			putObjectByXmlID(heteronymXmlID, heteronym);
 
 			heteronym.setXmlId(heteronymXmlID);
 
-			heteronym.setName(heteronymTEI.getChildText("persName", namespace));
 		}
 	}
 

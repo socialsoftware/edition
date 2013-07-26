@@ -26,12 +26,19 @@ public class LdoD extends LdoD_Base {
 		return editions;
 	}
 
-	public ExpertEdition getExpertEdition(String acronym) {
-		for (ExpertEdition edition : getExpertEditionsSet()) {
+	public Edition getEdition(String acronym) {
+		for (Edition edition : getExpertEditionsSet()) {
 			if (edition.getAcronym().equals(acronym)) {
 				return edition;
 			}
 		}
+
+		for (Edition edition : getVirtualEditionsSet()) {
+			if (edition.getAcronym().equals(acronym)) {
+				return edition;
+			}
+		}
+
 		return null;
 	}
 

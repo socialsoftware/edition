@@ -1,6 +1,48 @@
 package pt.ist.socialsoftware.edition.domain;
 
+import java.util.List;
+
+import pt.ist.socialsoftware.edition.domain.Edition.SourceType;
+
 public class VirtualEditionInter extends VirtualEditionInter_Base {
+
+	public VirtualEditionInter(VirtualEdition virtualEdition, FragInter inter) {
+		setFragment(inter.getFragment());
+		setHeteronym(null);
+		setDate(null);
+		setVirtualEdition(virtualEdition);
+		setNumber(virtualEdition.generateNextInterNumber());
+		setUses(inter);
+	}
+
+	@Override
+	public void remove() {
+		super.remove();
+
+		setVirtualEdition(null);
+
+		setUses(null);
+
+		deleteDomainObject();
+	}
+
+	@Override
+	public Heteronym getHeteronym() {
+		if (super.getHeteronym() == null) {
+			return getUses().getHeteronym();
+		} else {
+			return super.getHeteronym();
+		}
+	}
+
+	@Override
+	public String getDate() {
+		if (super.getDate() == null) {
+			return getUses().getDate();
+		} else {
+			return super.getDate();
+		}
+	}
 
 	@Override
 	public String getShortName() {
@@ -9,8 +51,7 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 
 	@Override
 	public String getTitle() {
-		// TODO: it should be the title of the fragment it uses
-		return getFragment().getTitle();
+		return getUses().getTitle();
 	}
 
 	@Override
@@ -19,19 +60,28 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 	}
 
 	public int compareVirtualEditionInter(VirtualEditionInter other) {
-		String myAcronym = getVirtualEdition().getAcronym();
-		String otherAcronym = other.getVirtualEdition().getAcronym();
-
-		return myAcronym.compareTo(otherAcronym);
+		int diff = getNumber() - other.getNumber();
+		int result = diff > 0 ? 1 : (diff < 0) ? -1 : 0;
+		if (result != 0) {
+			return result;
+		} else {
+			String myTitle = getTitle();
+			String otherTitle = other.getTitle();
+			return myTitle.compareTo(otherTitle);
+		}
 	}
 
 	@Override
 	public String getMetaTextual() {
 		String result = "";
 
-		result = result + "Edição Virtual: " + getVirtualEdition().getTitle();
+		result = result + "Edição Virtual: " + getVirtualEdition().getTitle()
+				+ "(" + getVirtualEdition().getAcronym() + ")" + "<br>";
 
-		result = result + "Título: " + getTitle();
+		result = result + "Edição Base: " + getLastUsed().getShortName()
+				+ "<br>";
+
+		result = result + "Título: " + getTitle() + "<br>";
 
 		result = result + "Heterónimo: " + getHeteronym().getName() + "<br>";
 
@@ -41,17 +91,25 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 	}
 
 	@Override
-	public void remove() {
-		super.remove();
-
-		setVirtualEdition(null);
-
-		deleteDomainObject();
+	public boolean belongs2Edition(Edition edition) {
+		return getVirtualEdition() == edition;
 	}
 
 	@Override
-	public int getNumber() {
-		return 0;
+	public FragInter getLastUsed() {
+		return getUses().getLastUsed();
+	}
+
+	@Override
+	public Edition getEdition() {
+		return getVirtualEdition();
+	}
+
+	@Override
+	public List<FragInter> getListUsed() {
+		List<FragInter> listUses = getUses().getListUsed();
+		listUses.add(0, getUses());
+		return listUses;
 	}
 
 }

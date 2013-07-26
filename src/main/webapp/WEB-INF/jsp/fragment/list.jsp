@@ -4,31 +4,20 @@
 <head>
 <%@ include file="/WEB-INF/jsp/common/meta-head.jsp"%>
 <script type="text/javascript">
-	$(document)
-			.ready(
-					function() {
-						$(
-								'[id="fragments-details"][data-toggle="buttons-checkbox"]')
-								.on(
-										'click',
-										function() {
-											var selDetail = $(
-													'input:checkbox[name=detail]')
-													.is(':checked');
-											$
-													.get(
-															"${contextPath}/fragments/list",
-															{
-																detail : selDetail
-															},
-															function(html) {
-																$(
-																		"#fragmentList")
-																		.replaceWith(
-																				html);
-															});
-										});
-					});
+$(document).ready(
+	function() {
+	    $('[id="fragments-details"][data-toggle="buttons-checkbox"]').on(
+		    'click',
+		    function() {
+			var selDetail = $('input:checkbox[name=detail]').is(
+				':checked');
+			$.get("${contextPath}/fragments/list", {
+			    detail : selDetail
+			}, function(html) {
+			    $("#fragmentList").replaceWith(html);
+			});
+		    });
+	});
 </script>
 </head>
 <body>

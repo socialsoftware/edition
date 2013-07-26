@@ -66,6 +66,14 @@ class ExpertEdition extends Edition {
 
 class VirtualEdition extends Edition {
 	Boolean pub;
+	int nextInterNumber;
+}
+
+class NullEdition extends Edition;
+
+relation VirtualEditionUsesEdition {
+	VirtualEdition playsRole isUsedBy {multiplicity 0..*;}
+	Edition playsRole uses {multiplicity 0..1;}
 }
 
 relation LdoDHasExpertEditions {
@@ -113,6 +121,8 @@ class Heteronym {
 	String name;
 }
 
+class NullHeteronym extends Heteronym;
+
 relation LdoDHasHeteronyms {
 	LdoD playsRole ldoD {multiplicity 1..1;}
 	Heteronym playsRole heteronyms {multiplicity 0..*;}
@@ -157,7 +167,14 @@ class ExpertEditionInter extends FragInter {
 	String notes;
 }
 
-class VirtualEditionInter extends FragInter;
+class VirtualEditionInter extends FragInter {
+	int number;
+}
+
+relation VirtualEditionInterUsesFragInter {
+	VirtualEditionInter playsRole isUsedBy {multiplicity 0..*;}
+	FragInter playsRole uses {multiplicity 1..1;}
+}
 
 class SourceInter extends FragInter;
 

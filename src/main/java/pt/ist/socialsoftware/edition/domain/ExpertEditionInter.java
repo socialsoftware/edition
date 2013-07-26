@@ -1,9 +1,21 @@
 package pt.ist.socialsoftware.edition.domain;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import pt.ist.socialsoftware.edition.domain.Edition.SourceType;
+
 public class ExpertEditionInter extends ExpertEditionInter_Base {
 
 	public ExpertEditionInter() {
 		super();
+	}
+
+	@Override
+	public void remove() {
+		setExpertEdition(null);
+
+		super.remove();
 	}
 
 	@Override
@@ -92,9 +104,23 @@ public class ExpertEditionInter extends ExpertEditionInter_Base {
 	}
 
 	@Override
-	public void remove() {
-		setExpertEdition(null);
+	public boolean belongs2Edition(Edition edition) {
+		return this.getExpertEdition() == edition;
+	}
 
-		super.remove();
+	@Override
+	public FragInter getLastUsed() {
+		return this;
+	}
+
+	@Override
+	public Edition getEdition() {
+		return getExpertEdition();
+	}
+
+	@Override
+	public List<FragInter> getListUsed() {
+		List<FragInter> listUses = new ArrayList<FragInter>();
+		return listUses;
 	}
 }

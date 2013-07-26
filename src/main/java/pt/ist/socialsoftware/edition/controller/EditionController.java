@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import pt.ist.fenixframework.FenixFramework;
+import pt.ist.socialsoftware.edition.domain.Edition;
 import pt.ist.socialsoftware.edition.domain.ExpertEdition;
 import pt.ist.socialsoftware.edition.domain.Heteronym;
 import pt.ist.socialsoftware.edition.domain.LdoD;
@@ -19,7 +20,7 @@ public class EditionController {
 	public String getEditionTableOfContentsbyAcronym(Model model,
 			@PathVariable String acronym) {
 
-		ExpertEdition edition = LdoD.getInstance().getExpertEdition(acronym);
+		Edition edition = LdoD.getInstance().getEdition(acronym);
 
 		if (edition == null) {
 			return "utils/pageNotFound";
@@ -27,7 +28,7 @@ public class EditionController {
 			model.addAttribute("heteronym", null);
 			model.addAttribute("edition", edition);
 
-			return "editionTableOfContents";
+			return "edition/tableOfContents";
 		}
 
 	}
@@ -36,7 +37,7 @@ public class EditionController {
 	public String getEditionTableOfContentsbyId(Model model,
 			@PathVariable String id) {
 
-		ExpertEdition edition = FenixFramework.getDomainObject(id);
+		Edition edition = FenixFramework.getDomainObject(id);
 
 		if (edition == null) {
 			return "utils/pageNotFound";
@@ -44,7 +45,7 @@ public class EditionController {
 			model.addAttribute("heteronym", null);
 			model.addAttribute("edition", edition);
 
-			return "editionTableOfContents";
+			return "edition/tableOfContents";
 		}
 
 	}
@@ -64,7 +65,7 @@ public class EditionController {
 			model.addAttribute("heteronym", heteronym);
 			model.addAttribute("edition", edition);
 
-			return "editionTableOfContents";
+			return "edition/tableOfContents";
 		}
 
 	}

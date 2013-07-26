@@ -4,12 +4,28 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import pt.ist.socialsoftware.edition.domain.FragInter.SourceType;
+import pt.ist.socialsoftware.edition.domain.Edition.SourceType;
 
 public class Fragment extends Fragment_Base {
 
 	public Fragment() {
 		super();
+	}
+
+	public void remove() {
+		setLdoD(null);
+
+		getTextPortion().remove();
+
+		for (FragInter inter : getFragmentInterSet()) {
+			inter.remove();
+		}
+
+		for (Source source : getSourcesSet()) {
+			source.remove();
+		}
+
+		deleteDomainObject();
 	}
 
 	public List<FragInter> getSortedInterps() {
@@ -47,20 +63,14 @@ public class Fragment extends Fragment_Base {
 		return null;
 	}
 
-	public void remove() {
-		setLdoD(null);
-
-		getTextPortion().remove();
-
+	public int getNumberOfInter4Edition(Edition edition) {
+		int number = 0;
 		for (FragInter inter : getFragmentInterSet()) {
-			inter.remove();
+			if (inter.belongs2Edition(edition)) {
+				number = number + 1;
+			}
 		}
-
-		for (Source source : getSourcesSet()) {
-			source.remove();
-		}
-
-		deleteDomainObject();
+		return number;
 	}
 
 }

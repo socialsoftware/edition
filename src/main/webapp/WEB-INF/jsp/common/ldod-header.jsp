@@ -32,7 +32,7 @@
 							<li><a href="${contextPath}/edition/acronym/JP">Jerónimo
 									Pizarro</a></li>
 							<c:forEach var="acronym" items='${ldoDSession.selectedVEAcr}'>
-								<li><a href="#">${acronym}</a></li>
+								<li><a href="${contextPath}/edition/acronym/${acronym}">${acronym}</a></li>
 							</c:forEach>
 						</ul></li>
 				</ul>

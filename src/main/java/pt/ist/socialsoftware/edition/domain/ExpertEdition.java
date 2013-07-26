@@ -2,9 +2,9 @@ package pt.ist.socialsoftware.edition.domain;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
-
-import pt.ist.socialsoftware.edition.domain.FragInter.SourceType;
+import java.util.Set;
 
 public class ExpertEdition extends ExpertEdition_Base implements
 		Comparable<ExpertEdition> {
@@ -37,6 +37,11 @@ public class ExpertEdition extends ExpertEdition_Base implements
 		default:
 			assert false : "Nome de editor com erros: " + editor;
 		}
+	}
+
+	@Override
+	public SourceType getSourceType() {
+		return SourceType.EDITORIAL;
 	}
 
 	@Override
@@ -79,15 +84,6 @@ public class ExpertEdition extends ExpertEdition_Base implements
 		}
 	}
 
-	public List<ExpertEditionInter> getSortedInterps() {
-		List<ExpertEditionInter> interps = new ArrayList<ExpertEditionInter>(
-				getExpertEditionIntersSet());
-
-		Collections.sort(interps);
-
-		return interps;
-	}
-
 	public List<ExpertEditionInter> getSortedInter4Frag(Fragment fragment) {
 		List<ExpertEditionInter> interps = new ArrayList<ExpertEditionInter>();
 
@@ -102,41 +98,6 @@ public class ExpertEdition extends ExpertEdition_Base implements
 
 		return interps;
 
-	}
-
-	public ExpertEditionInter getNextNumberInter(ExpertEditionInter inter,
-			int number) {
-		List<ExpertEditionInter> interps = new ArrayList<ExpertEditionInter>(
-				getExpertEditionIntersSet());
-
-		Collections.sort(interps);
-
-		return findNextElementByNumber(inter, number, interps);
-	}
-
-	public ExpertEditionInter getPrevNumberInter(ExpertEditionInter inter,
-			int number) {
-		List<ExpertEditionInter> interps = new ArrayList<ExpertEditionInter>(
-				getExpertEditionIntersSet());
-
-		Collections.sort(interps, Collections.reverseOrder());
-
-		return findNextElementByNumber(inter, number, interps);
-	}
-
-	private ExpertEditionInter findNextElementByNumber(
-			ExpertEditionInter inter, int number,
-			List<ExpertEditionInter> interps) {
-		Boolean stopNext = false;
-		for (ExpertEditionInter tmpInter : interps) {
-			if (stopNext) {
-				return tmpInter;
-			}
-			if ((tmpInter.getNumber() == number) && tmpInter == inter) {
-				stopNext = true;
-			}
-		}
-		return interps.get(0);
 	}
 
 	public ExpertEditionInter getNextHeteronymInter(ExpertEditionInter inter,
@@ -172,6 +133,11 @@ public class ExpertEdition extends ExpertEdition_Base implements
 			}
 		}
 		return interps.get(0);
+	}
+
+	@Override
+	public Set<FragInter> getIntersSet() {
+		return new HashSet<FragInter>(getExpertEditionIntersSet());
 	}
 
 }

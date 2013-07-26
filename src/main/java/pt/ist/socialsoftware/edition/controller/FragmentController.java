@@ -11,12 +11,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import pt.ist.fenixframework.FenixFramework;
-import pt.ist.socialsoftware.edition.domain.ExpertEdition;
-import pt.ist.socialsoftware.edition.domain.ExpertEditionInter;
+import pt.ist.socialsoftware.edition.domain.Edition;
 import pt.ist.socialsoftware.edition.domain.FragInter;
-import pt.ist.socialsoftware.edition.domain.FragInter.SourceType;
 import pt.ist.socialsoftware.edition.domain.Fragment;
 import pt.ist.socialsoftware.edition.domain.LdoD;
+import pt.ist.socialsoftware.edition.domain.LdoDUser;
 import pt.ist.socialsoftware.edition.domain.SourceInter;
 import pt.ist.socialsoftware.edition.domain.Surface;
 import pt.ist.socialsoftware.edition.visitors.HtmlWriter2CompInters;
@@ -34,9 +33,54 @@ public class FragmentController {
 			return "utils/pageNotFound";
 		} else {
 			model.addAttribute("ldoD", LdoD.getInstance());
+			model.addAttribute("user", LdoDUser.getUser());
 			model.addAttribute("fragment", fragment);
+			model.addAttribute("inters", new ArrayList<FragInter>());
 			return "fragment/main";
 		}
+	}
+
+	@RequestMapping(method = RequestMethod.GET, value = "/inter/{id}")
+	public String getFragmentWithInter(Model model, @PathVariable String id) {
+		FragInter inter = FenixFramework.getDomainObject(id);
+
+		HtmlWriter4OneInter writer = new HtmlWriter4OneInter(inter);
+		writer.write(false);
+
+		if (inter == null) {
+			return "util/pageNotFound";
+		} else {
+			List<FragInter> inters = new ArrayList<FragInter>();
+			inters.add(inter);
+			model.addAttribute("ldoD", LdoD.getInstance());
+			model.addAttribute("user", LdoDUser.getUser());
+			model.addAttribute("fragment", inter.getFragment());
+			model.addAttribute("inters", inters);
+			model.addAttribute("writer", writer);
+
+			return "fragment/main";
+		}
+	}
+
+	@RequestMapping(method = RequestMethod.GET, value = "/inter/next/number/{id}")
+	public String getNextFragmentWithInter(Model model, @PathVariable String id) {
+
+		FragInter inter = FenixFramework.getDomainObject(id);
+
+		Edition edition = inter.getEdition();
+		inter = edition.getNextNumberInter(inter, inter.getNumber());
+
+		return "redirect:/fragments/fragment/inter/" + inter.getExternalId();
+	}
+
+	@RequestMapping(method = RequestMethod.GET, value = "/inter/prev/number/{id}")
+	public String getPrevFragmentWithInter(Model model, @PathVariable String id) {
+		FragInter inter = FenixFramework.getDomainObject(id);
+
+		Edition edition = inter.getEdition();
+		inter = edition.getPrevNumberInter(inter, inter.getNumber());
+
+		return "redirect:/fragments/fragment/inter/" + inter.getExternalId();
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/inter")
@@ -58,27 +102,16 @@ public class FragmentController {
 			}
 		}
 
-		model.addAttribute("fragment", fragment);
 		model.addAttribute("ldoD", LdoD.getInstance());
+		model.addAttribute("user", LdoDUser.getUser());
+		model.addAttribute("fragment", fragment);
 		model.addAttribute("inters", inters);
 
-		if (inters.size() == 0) {
-			return "fragment/interEmpty";
-		} else if (inters.size() == 1) {
+		if (inters.size() == 1) {
 			FragInter inter = inters.get(0);
 			HtmlWriter4OneInter writer4One = new HtmlWriter4OneInter(inter);
 			writer4One.write(false);
-
-			model.addAttribute("inter", inter);
 			model.addAttribute("writer", writer4One);
-
-			if (inters.get(0).getSourceType() == SourceType.AUTHORIAL) {
-				return "fragment/interAuthorial";
-			} else if (inters.get(0).getSourceType() == SourceType.EDITORIAL) {
-				return "fragment/interEditorial";
-			} else {
-				return "utils/pageNotFound";
-			}
 		} else if (inters.size() > 1) {
 			HtmlWriter2CompInters writer = new HtmlWriter2CompInters(inters);
 			Boolean lineByLine = false;
@@ -87,34 +120,33 @@ public class FragmentController {
 			}
 			writer.write(lineByLine, false);
 			model.addAttribute("lineByLine", lineByLine);
-			model.addAttribute("inters", inters);
 			model.addAttribute("writer", writer);
-
-			return "fragment/inter2Compare";
-		} else {
-			return "utils/pageNotFound";
 		}
+
+		return "fragment/body";
 
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/inter/editorial")
-	public String getInterpretationTextual(
+	public String getInterEditorial(
 			@RequestParam(value = "interp[]", required = true) String[] interID,
 			@RequestParam(value = "diff", required = true) boolean displayDiff,
 			Model model) {
-		FragInter fragInter = FenixFramework.getDomainObject(interID[0]);
+		FragInter inter = FenixFramework.getDomainObject(interID[0]);
 
-		HtmlWriter4OneInter writer = new HtmlWriter4OneInter(fragInter);
+		HtmlWriter4OneInter writer = new HtmlWriter4OneInter(inter);
 		writer.write(displayDiff);
 
-		model.addAttribute("inter", fragInter);
+		List<FragInter> inters = new ArrayList<FragInter>();
+		inters.add(inter);
+		model.addAttribute("inters", inters);
 		model.addAttribute("writer", writer);
 		return "fragment/transcription";
 
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/inter/authorial")
-	public String getInterpretationTextual(
+	public String getInterAuthorial(
 			@RequestParam(value = "interp[]", required = true) String[] interID,
 			@RequestParam(value = "diff", required = true) boolean displayDiff,
 			@RequestParam(value = "del", required = true) boolean displayDel,
@@ -124,19 +156,21 @@ public class FragmentController {
 			@RequestParam(value = "facs", required = true) boolean showFacs,
 			@RequestParam(value = "surf", required = false) String surfID,
 			Model model) {
-		FragInter fragInter = FenixFramework.getDomainObject(interID[0]);
+		FragInter inter = FenixFramework.getDomainObject(interID[0]);
 		Surface surface = FenixFramework.getDomainObject(surfID);
 
-		HtmlWriter4OneInter writer = new HtmlWriter4OneInter(fragInter);
+		HtmlWriter4OneInter writer = new HtmlWriter4OneInter(inter);
 		writer.write(displayDiff, displayDel, highlightIns, highlightSubst,
 				showNotes);
 
-		model.addAttribute("inter", fragInter);
+		List<FragInter> inters = new ArrayList<FragInter>();
+		inters.add(inter);
+		model.addAttribute("inters", inters);
 		model.addAttribute("writer", writer);
 
 		if (showFacs) {
 			if (surface == null) {
-				SourceInter sourceInter = (SourceInter) fragInter;
+				SourceInter sourceInter = (SourceInter) inter;
 				surface = sourceInter.getSource().getFacsimile()
 						.getFirstSurface();
 			}
@@ -149,7 +183,7 @@ public class FragmentController {
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/inter/compare")
-	public String getInterpretationCompare(
+	public String getInterCompare(
 			@RequestParam(value = "inters[]", required = true) String[] intersID,
 			@RequestParam(value = "line") boolean lineByLine,
 			@RequestParam(value = "spaces", required = true) boolean showSpaces,
@@ -176,46 +210,6 @@ public class FragmentController {
 			return "fragment/inter2CompareSideBySide";
 		}
 
-	}
-
-	@RequestMapping(method = RequestMethod.GET, value = "/inter/{id}")
-	public String getFragmentWithInter(Model model, @PathVariable String id) {
-		FragInter inter = FenixFramework.getDomainObject(id);
-
-		HtmlWriter4OneInter writer = new HtmlWriter4OneInter(inter);
-		writer.write(false);
-
-		if (inter == null) {
-			return "util/pageNotFound";
-		} else {
-			model.addAttribute("ldoD", LdoD.getInstance());
-			model.addAttribute("fragment", inter.getFragment());
-			model.addAttribute("inter", inter);
-			model.addAttribute("writer", writer);
-
-			return "fragment/main";
-		}
-	}
-
-	@RequestMapping(method = RequestMethod.GET, value = "/inter/next/number/{id}")
-	public String getNextFragmentWithInter(Model model, @PathVariable String id) {
-
-		ExpertEditionInter inter = FenixFramework.getDomainObject(id);
-
-		ExpertEdition edition = inter.getExpertEdition();
-		inter = edition.getNextNumberInter(inter, inter.getNumber());
-
-		return "redirect:/fragments/fragment/inter/" + inter.getExternalId();
-	}
-
-	@RequestMapping(method = RequestMethod.GET, value = "/inter/prev/number/{id}")
-	public String getPrevFragmentWithInter(Model model, @PathVariable String id) {
-		ExpertEditionInter inter = FenixFramework.getDomainObject(id);
-
-		ExpertEdition edition = inter.getExpertEdition();
-		inter = edition.getPrevNumberInter(inter, inter.getNumber());
-
-		return "redirect:/fragments/fragment/inter/" + inter.getExternalId();
 	}
 
 }

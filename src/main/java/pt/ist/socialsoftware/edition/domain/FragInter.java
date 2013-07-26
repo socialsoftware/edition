@@ -1,11 +1,11 @@
 package pt.ist.socialsoftware.edition.domain;
 
+import java.util.List;
+
+import pt.ist.socialsoftware.edition.domain.Edition.SourceType;
+
 public abstract class FragInter extends FragInter_Base implements
 		Comparable<FragInter> {
-
-	public enum SourceType {
-		AUTHORIAL, EDITORIAL, VIRTUAL;
-	};
 
 	public FragInter() {
 		super();
@@ -18,6 +18,10 @@ public abstract class FragInter extends FragInter_Base implements
 	public abstract String getTitle();
 
 	public abstract SourceType getSourceType();
+
+	public abstract Edition getEdition();
+
+	public abstract List<FragInter> getListUsed();
 
 	@Override
 	public int compareTo(FragInter other) {
@@ -72,5 +76,9 @@ public abstract class FragInter extends FragInter_Base implements
 
 		deleteDomainObject();
 	}
+
+	public abstract boolean belongs2Edition(Edition edition);
+
+	public abstract FragInter getLastUsed();
 
 }

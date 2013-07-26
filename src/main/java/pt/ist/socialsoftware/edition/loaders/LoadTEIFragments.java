@@ -913,6 +913,10 @@ public class LoadTEIFragments {
 						.getAttributeValue("medium");
 				Medium medium = getMedium(mediumValue);
 
+				if (typeNoteElement.getChild("locus", namespace) == null) {
+					throw new LdoDLoadException("Elemento typeNote sem locus");
+				}
+
 				TypeNote typeNote = new TypeNote(medium, typeNoteElement
 						.getChild("locus", namespace).getTextTrim());
 				typeNote.setManuscript(manuscript);
@@ -940,6 +944,10 @@ public class LoadTEIFragments {
 						.getAttributeValue("medium");
 
 				Medium medium = getMedium(mediumValue);
+
+				if (handNoteElement.getChild("locus", namespace) == null) {
+					throw new LdoDLoadException("Elemento handNote sem locus");
+				}
 
 				stringHandNote = handNoteElement.getChild("locus", namespace)
 						.getTextTrim();

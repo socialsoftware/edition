@@ -1,41 +1,41 @@
 <%@ include file="/WEB-INF/jsp/common/tags-head.jsp"%>
 <script type="text/javascript">
-	$(document)
-			.ready(
-					function() {
-						$(
-								'[id="visualisation-properties-comparison"][data-toggle="buttons-checkbox"]')
-								.on(
-										'click',
-										function() {
-                      var data = new Array();
-                      $('#inter :checked').each(function() {
-                        data.push(this.value);
-                      });
-											var selLine = $(
-											'input:checkbox[name=line]')
-											.is(':checked');
-											var selSpaces = $(
-											'input:checkbox[name=spaces]')
-											.is(':checked');
-											$
-													.get(
-															"${contextPath}/fragments/fragment/inter/compare",
-															{
-																inters : data,
-																line : selLine,
-																spaces : selSpaces
-															},
-															function(html) {
-																$(
-																		"#fragmentComparison")
-																		.replaceWith(
-																				html);
-
-															});
-
-										});
+$(document)
+	.ready(
+		function() {
+		    $(
+			    '[id="visualisation-properties-comparison"][data-toggle="buttons-checkbox"]')
+			    .on(
+				    'click',
+				    function() {
+					var data = new Array();
+					$('#baseinter :checked').each(function() {
+					    data.push(this.value);
 					});
+					var selLine = $(
+						'input:checkbox[name=line]')
+						.is(':checked');
+					var selSpaces = $(
+						'input:checkbox[name=spaces]')
+						.is(':checked');
+					$
+						.get(
+							"${contextPath}/fragments/fragment/inter/compare",
+							{
+							    inters : data,
+							    line : selLine,
+							    spaces : selSpaces
+							},
+							function(html) {
+							    $(
+								    "#fragmentComparison")
+								    .replaceWith(
+									    html);
+
+							});
+
+				    });
+		});
 </script>
 <div id=fragmentInter class="row-fluid">
     <div class="row-fluid">
@@ -62,8 +62,6 @@
         </form>
     </div>
     
-   <hr>
-
     <c:choose>
         <c:when test="${!lineByLine}">
             <%@ include

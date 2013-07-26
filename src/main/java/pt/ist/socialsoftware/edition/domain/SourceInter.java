@@ -1,9 +1,15 @@
 package pt.ist.socialsoftware.edition.domain;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import pt.ist.socialsoftware.edition.domain.Edition.SourceType;
+import pt.ist.socialsoftware.edition.utils.NullFactory;
+
 public class SourceInter extends SourceInter_Base {
 
 	public SourceInter() {
-		super();
+		setHeteronym(new NullHeteronym());
 	}
 
 	@Override
@@ -40,6 +46,27 @@ public class SourceInter extends SourceInter_Base {
 	@Override
 	public int getNumber() {
 		return 0;
+	}
+
+	@Override
+	public boolean belongs2Edition(Edition edition) {
+		return false;
+	}
+
+	@Override
+	public FragInter getLastUsed() {
+		return this;
+	}
+
+	@Override
+	public Edition getEdition() {
+		return NullFactory.getNullEditionInstance();
+	}
+
+	@Override
+	public List<FragInter> getListUsed() {
+		List<FragInter> listUses = new ArrayList<FragInter>();
+		return listUses;
 	}
 
 }

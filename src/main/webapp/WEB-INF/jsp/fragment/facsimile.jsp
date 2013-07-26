@@ -1,63 +1,65 @@
 <%@ include file="/WEB-INF/jsp/common/tags-head.jsp"%>
 <script type="text/javascript">
 $(document).ready(function() {
-    $('[id="backward"][data-toggle="button"]').on('click', 
-        function() {
-            var data = new Array();
-            $('#inter :checked').each(function() {data.push(this.value);});
-            var selDiff = $('input:checkbox[name=diff]').is(':checked');
-            var selDel = $('input:checkbox[name=del]').is(':checked');
-            var selIns = $('input:checkbox[name=ins]').is(':checked');
-            var selSubst = $('input:checkbox[name=subst]').is(':checked');
-            var selNotes = $('input:checkbox[name=notes]').is(':checked');
-            var selFacs = $('input:checkbox[name=facs]').is(':checked');
-            var surface = $('#backward').val();
-            $.get("${contextPath}/fragments/fragment/inter/authorial",
-            {
-    	          interp : data,
-                diff : selDiff,
-       	        del : selDel,
-                ins : selIns,
-                subst : selSubst,
-                notes : selNotes,
-                facs : selFacs,
-                surf : surface
-            },
-            function(html) {$("#fragmentTranscription").replaceWith(html);});
-        });
+    $('[id="backward"][data-toggle="button"]').on('click', function() {
+	var data = new Array();
+	$('#inter :checked').each(function() {
+	    data.push(this.value);
+	});
+	var selDiff = $('input:checkbox[name=diff]').is(':checked');
+	var selDel = $('input:checkbox[name=del]').is(':checked');
+	var selIns = $('input:checkbox[name=ins]').is(':checked');
+	var selSubst = $('input:checkbox[name=subst]').is(':checked');
+	var selNotes = $('input:checkbox[name=notes]').is(':checked');
+	var selFacs = $('input:checkbox[name=facs]').is(':checked');
+	var surface = $('#backward').val();
+	$.get("${contextPath}/fragments/fragment/inter/authorial", {
+	    interp : data,
+	    diff : selDiff,
+	    del : selDel,
+	    ins : selIns,
+	    subst : selSubst,
+	    notes : selNotes,
+	    facs : selFacs,
+	    surf : surface
+	}, function(html) {
+	    $("#fragmentTranscription").replaceWith(html);
+	});
+    });
 });
 </script>
 <script type="text/javascript">
 $(document).ready(function() {
-    $('[id="forward"][data-toggle="button"]').on('click', 
-        function() {
-            var data = new Array();
-            $('#inter :checked').each(function() {data.push(this.value);});
-            var selDiff = $('input:checkbox[name=diff]').is(':checked');
-            var selDel = $('input:checkbox[name=del]').is(':checked');
-            var selIns = $('input:checkbox[name=ins]').is(':checked');
-            var selSubst = $('input:checkbox[name=subst]').is(':checked');
-            var selNotes = $('input:checkbox[name=notes]').is(':checked');
-            var selFacs = $('input:checkbox[name=facs]').is(':checked');
-            var surface = $('#forward').val();
-            $.get("${contextPath}/fragments/fragment/inter/authorial",
-            {
-    	          interp : data,
-                diff : selDiff,
-       	        del : selDel,
-                ins : selIns,
-                subst : selSubst,
-                notes : selNotes,
-                facs : selFacs,
-                surf : surface
-            },
-            function(html) {$("#fragmentTranscription").replaceWith(html);});
-        });
+    $('[id="forward"][data-toggle="button"]').on('click', function() {
+	var data = new Array();
+	$('#inter :checked').each(function() {
+	    data.push(this.value);
+	});
+	var selDiff = $('input:checkbox[name=diff]').is(':checked');
+	var selDel = $('input:checkbox[name=del]').is(':checked');
+	var selIns = $('input:checkbox[name=ins]').is(':checked');
+	var selSubst = $('input:checkbox[name=subst]').is(':checked');
+	var selNotes = $('input:checkbox[name=notes]').is(':checked');
+	var selFacs = $('input:checkbox[name=facs]').is(':checked');
+	var surface = $('#forward').val();
+	$.get("${contextPath}/fragments/fragment/inter/authorial", {
+	    interp : data,
+	    diff : selDiff,
+	    del : selDel,
+	    ins : selIns,
+	    subst : selSubst,
+	    notes : selNotes,
+	    facs : selFacs,
+	    surf : surface
+	}, function(html) {
+	    $("#fragmentTranscription").replaceWith(html);
+	});
+    });
 });
 </script>
 <div id="fragmentTranscription" class="row-fluid">
     <div class="row-fluid span12">
-        <h4>${inter.title}</h4>
+        <h4>${inters.get(0).title}</h4>
         <div class="row-fluid">
             <div class="span6">
                 <c:choose>

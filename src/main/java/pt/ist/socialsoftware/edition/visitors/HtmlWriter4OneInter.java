@@ -57,6 +57,9 @@ public class HtmlWriter4OneInter extends HtmlWriter {
 
 	public void write(Boolean highlightDiff) {
 		this.highlightDiff = highlightDiff;
+		if (fragInter.getLastUsed() != fragInter) {
+			fragInter = fragInter.getLastUsed();
+		}
 		visit((AppText) fragInter.getFragment().getTextPortion());
 	}
 
@@ -67,6 +70,9 @@ public class HtmlWriter4OneInter extends HtmlWriter {
 		this.highlightIns = highlightIns;
 		this.highlightSubst = highlightSubst;
 		this.showNotes = showNotes;
+		if (fragInter.getLastUsed() != fragInter) {
+			fragInter = fragInter.getLastUsed();
+		}
 		visit((AppText) fragInter.getFragment().getTextPortion());
 	}
 

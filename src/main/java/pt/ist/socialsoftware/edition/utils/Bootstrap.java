@@ -55,6 +55,8 @@ public class Bootstrap implements WebApplicationInitializer {
 				"cf7fa6738933ffe9f792359fba2cabcd1c36874c5af0994aee01fde5cc19015c");
 		LdoDUser ecscw = new LdoDUser(ldoD, "ecscw",
 				"8859415df64d58bab8c12dd8d8c20cf710cab143a37561d6802a551555ffd377");
+		LdoDUser llc = new LdoDUser(ldoD, "llc",
+				"2429c113c25f33be41309c940d0b3dfebd7104f92aede07c47d95754800cd597");
 
 		ars.addRoles(user);
 		ars.addRoles(admin);
@@ -74,13 +76,20 @@ public class Bootstrap implements WebApplicationInitializer {
 		ecscw.addRoles(user);
 		ecscw.addRoles(admin);
 
+		llc.addRoles(user);
+		llc.addRoles(admin);
+
 		VirtualEdition classX = new VirtualEdition(ldoD, ars, "ClassX",
 				"LdoD Edition of Class X", "12/12/2012", true);
 		classX.addParticipant(ecscw);
+		classX.addParticipant(llc);
+		llc.addSelectedVirtualEditions(classX);
 
 		VirtualEdition classY = new VirtualEdition(ldoD, ars, "ClassY",
 				"LdoD Edition of Class Y", "01/12/2012", false);
 		classY.addParticipant(ecscw);
+		classY.addParticipant(llc);
+		llc.addSelectedVirtualEditions(classY);
 
 		VirtualEdition classW = new VirtualEdition(ldoD, ars, "ClassW",
 				"LdoD Edition of Class W", "01/01/2013", true);
@@ -88,5 +97,7 @@ public class Bootstrap implements WebApplicationInitializer {
 		classW.addParticipant(mp);
 		classW.addParticipant(tim);
 		classW.addParticipant(carlos);
+		mp.addSelectedVirtualEditions(classW);
+		diego.addSelectedVirtualEditions(classW);
 	}
 }

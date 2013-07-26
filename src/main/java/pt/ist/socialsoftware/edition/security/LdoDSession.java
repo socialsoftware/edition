@@ -25,8 +25,11 @@ public class LdoDSession implements Serializable {
 	public void addSelectedVE(VirtualEdition virtualEdition) {
 		String toAddId = new String(virtualEdition.getExternalId());
 		String toAddAcr = new String(virtualEdition.getAcronym());
-		selectedVEIds.add(toAddId);
-		selectedVEAcr.add(toAddAcr);
+
+		if (!selectedVEIds.contains(toAddId)) {
+			selectedVEIds.add(toAddId);
+			selectedVEAcr.add(toAddAcr);
+		}
 	}
 
 	// materializes objects on demand and regenerates acronyms
