@@ -11,6 +11,33 @@ public abstract class FragInter extends FragInter_Base implements
 		super();
 	}
 
+	public void remove() {
+		setFragment(null);
+		setHeteronym(null);
+
+		for (Category cat : getCategoriesSet()) {
+			removeCategories(cat);
+		}
+
+		for (VirtualEditionInter inter : getIsUsedBySet()) {
+			removeIsUsedBy(inter);
+		}
+
+		for (RdgText rdg : getRdgSet()) {
+			removeRdg(rdg);
+		}
+
+		for (LbText lb : getLbTextSet()) {
+			removeLbText(lb);
+		}
+
+		for (PbText pb : getPbTextSet()) {
+			removePbText(pb);
+		}
+
+		deleteDomainObject();
+	}
+
 	public abstract String getShortName();
 
 	public abstract int getNumber();
@@ -53,29 +80,6 @@ public abstract class FragInter extends FragInter_Base implements
 	}
 
 	public abstract String getMetaTextual();
-
-	public void remove() {
-		setFragment(null);
-		setHeteronym(null);
-
-		for (Category cat : getCategoriesSet()) {
-			removeCategories(cat);
-		}
-
-		for (RdgText rdg : getRdgSet()) {
-			removeRdg(rdg);
-		}
-
-		for (LbText lb : getLbTextSet()) {
-			removeLbText(lb);
-		}
-
-		for (PbText pb : getPbTextSet()) {
-			removePbText(pb);
-		}
-
-		deleteDomainObject();
-	}
 
 	public abstract boolean belongs2Edition(Edition edition);
 

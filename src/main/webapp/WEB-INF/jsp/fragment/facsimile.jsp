@@ -3,7 +3,7 @@
 $(document).ready(function() {
     $('[id="backward"][data-toggle="button"]').on('click', function() {
 	var data = new Array();
-	$('#inter :checked').each(function() {
+	$('#baseinter :checked').each(function() {
 	    data.push(this.value);
 	});
 	var selDiff = $('input:checkbox[name=diff]').is(':checked');
@@ -32,7 +32,7 @@ $(document).ready(function() {
 $(document).ready(function() {
     $('[id="forward"][data-toggle="button"]').on('click', function() {
 	var data = new Array();
-	$('#inter :checked').each(function() {
+	$('#baseinter :checked').each(function() {
 	    data.push(this.value);
 	});
 	var selDiff = $('input:checkbox[name=diff]').is(':checked');

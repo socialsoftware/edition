@@ -17,31 +17,13 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 
 	@Override
 	public void remove() {
-		super.remove();
-
 		setVirtualEdition(null);
 
-		setUses(null);
-
-		deleteDomainObject();
-	}
-
-	@Override
-	public Heteronym getHeteronym() {
-		if (super.getHeteronym() == null) {
-			return getUses().getHeteronym();
-		} else {
-			return super.getHeteronym();
+		if (getUses() != null) {
+			getUses().remove();
 		}
-	}
 
-	@Override
-	public String getDate() {
-		if (super.getDate() == null) {
-			return getUses().getDate();
-		} else {
-			return super.getDate();
-		}
+		super.remove();
 	}
 
 	@Override
@@ -83,7 +65,10 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 
 		result = result + "Título: " + getTitle() + "<br>";
 
-		result = result + "Heterónimo: " + getHeteronym().getName() + "<br>";
+		if (getHeteronym() != null) {
+			result = result + "Heterónimo: " + getHeteronym().getName()
+					+ "<br>";
+		}
 
 		result = result + "Data: " + getDate() + "<br>";
 
