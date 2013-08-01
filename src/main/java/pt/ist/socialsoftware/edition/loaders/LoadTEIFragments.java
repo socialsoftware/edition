@@ -352,7 +352,9 @@ public class LoadTEIFragments {
 				// ignore comments
 			} else if (content.getCType() == CType.Element) {
 				Element element2 = (Element) content;
-				if (element2.getName().equals("lb")) {
+				if (element2.getName().equals("add")) {
+					loadAdd(element2, addText);
+				} else if (element2.getName().equals("lb")) {
 					loadLb(element2, addText);
 				} else {
 					throw new LdoDLoadException("não carrega elementos: "
