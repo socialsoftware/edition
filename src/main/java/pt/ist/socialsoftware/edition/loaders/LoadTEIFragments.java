@@ -354,6 +354,8 @@ public class LoadTEIFragments {
 				Element element2 = (Element) content;
 				if (element2.getName().equals("add")) {
 					loadAdd(element2, addText);
+				} else if (element2.getName().equals("subst")) {
+					loadSubst(element2, addText);
 				} else if (element2.getName().equals("lb")) {
 					loadLb(element2, addText);
 				} else {
