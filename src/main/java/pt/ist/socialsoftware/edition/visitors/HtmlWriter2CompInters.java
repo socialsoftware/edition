@@ -1,5 +1,6 @@
 package pt.ist.socialsoftware.edition.visitors;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -24,7 +25,7 @@ import pt.ist.socialsoftware.edition.domain.TextPortion;
 public class HtmlWriter2CompInters extends HtmlWriter {
 	private final Map<FragInter, String> transcriptionsMap = new HashMap<FragInter, String>();
 	private final Map<FragInter, Integer> transcriptionsLengthMap = new HashMap<FragInter, Integer>();
-	private Set<FragInter> interps = null;
+	private List<FragInter> interps = null;
 
 	private Boolean lineByLine = false;
 	private Boolean showSpaces = false;
@@ -36,7 +37,7 @@ public class HtmlWriter2CompInters extends HtmlWriter {
 	private String lineByLineTranscription = "";
 
 	public HtmlWriter2CompInters(List<FragInter> interps) {
-		this.interps = new HashSet<FragInter>(interps);
+		this.interps = new ArrayList<FragInter>(interps);
 	}
 
 	public void write(Boolean lineByLine, Boolean showSpaces) {
