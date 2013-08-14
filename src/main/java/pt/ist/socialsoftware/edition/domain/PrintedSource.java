@@ -25,11 +25,16 @@ public class PrintedSource extends PrintedSource_Base {
 
 		result = result + "Facsimiles: ";
 
-		for (Surface surf : getFacsimile().getSurfaces()) {
-			result = result + "<a href=/facs/" + surf.getGraphic() + ">"
-					+ surf.getGraphic() + "</a> ";
-		}
+		Facsimile facs = getFacsimile();
+		if (facs != null) {
+			result = result + "Facsimiles: ";
 
+			for (Surface surf : facs.getSurfaces()) {
+				result = result + "<a href=/facs/" + surf.getGraphic()
+						+ " target=" + "\"" + "_blank" + "\"" + ">"
+						+ surf.getGraphic() + "</a> ";
+			}
+		}
 		return result;
 	}
 

@@ -74,7 +74,6 @@ public class Bootstrap implements WebApplicationInitializer {
 		carlos.addRoles(admin);
 
 		ecscw.addRoles(user);
-		ecscw.addRoles(admin);
 
 		llc.addRoles(user);
 		llc.addRoles(admin);

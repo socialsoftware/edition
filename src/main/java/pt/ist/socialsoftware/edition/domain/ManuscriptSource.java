@@ -73,9 +73,14 @@ public class ManuscriptSource extends ManuscriptSource_Base {
 		if (facs != null) {
 			result = result + "Facsimiles: ";
 
+			int i = 1;
 			for (Surface surf : facs.getSurfaces()) {
-				result = result + "<a href=/facs/" + surf.getGraphic() + ">"
-						+ surf.getGraphic() + "</a> ";
+				String suffix = facs.getSurfaces().size() == 1 ? "" : "."
+						+ Integer.toString(i);
+				result = result + "<a href=/facs/" + surf.getGraphic()
+						+ " target=" + "\"" + "_blank" + "\"" + ">"
+						+ getAltIdentifier() + suffix + "</a> ";
+				i++;
 			}
 		}
 
