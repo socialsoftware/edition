@@ -16,6 +16,7 @@
 		<version.org.mortbay.jetty.jetty.maven.plugin>8.1.8.v20121106</version.org.mortbay.jetty.jetty.maven.plugin>
 		<version.org.springframework.spring>3.2.2.RELEASE</version.org.springframework.spring>
 		<version.org.springframework.spring.security>3.1.4.RELEASE</version.org.springframework.spring.security>
+		<version.org.codehaus.jackson.jackson-mapper-asl>1.9.13</version.org.codehaus.jackson.jackson-mapper-asl>
 		<version.javax.servlet.jstl>1.2</version.javax.servlet.jstl>
 		<version.javax.servlet.servlet.api>2.5</version.javax.servlet.servlet.api>
 		<version.commons.lang.commons.lang>2.6</version.commons.lang.commons.lang>
@@ -140,6 +141,11 @@
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-taglibs</artifactId>
 			<version>${version.org.springframework.spring.security}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-mapper-asl</artifactId>
+			<version>${version.org.codehaus.jackson.jackson-mapper-asl}</version>
 		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>

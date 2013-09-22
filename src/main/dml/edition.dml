@@ -361,3 +361,34 @@ class DelText extends TextPortion {
 
 class SubstText extends TextPortion {
 }
+
+class Annotation {
+	String quote;
+	String text;
+}
+
+relation FragInterHasAnnotations {
+  FragInter playsRole fragInter {multiplicity 1..1;}
+  Annotation playsRole annotation {multiplicity 0..*;}
+}
+
+class Range {
+  String start;
+  int startOffset;
+  String end;
+  int endOffset;
+}	
+
+relation AnnotationHasRanges {
+  Annotation playsRole annotation {multiplicity 1..1;}
+  Range playsRole range {multiplicity 0..*;}
+}
+
+class Tag {
+	String tag;
+}
+
+relation AnnotationsAndTags {
+  Annotation playsRole annotation {multiplicity 0..*;}
+  Tag playsRole tag {multiplicity 0..*;}
+}

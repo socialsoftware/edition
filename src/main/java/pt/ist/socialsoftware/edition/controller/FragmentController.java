@@ -6,18 +6,26 @@ import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import pt.ist.fenixframework.FenixFramework;
+import pt.ist.socialsoftware.edition.domain.Annotation;
 import pt.ist.socialsoftware.edition.domain.Edition;
 import pt.ist.socialsoftware.edition.domain.FragInter;
 import pt.ist.socialsoftware.edition.domain.Fragment;
 import pt.ist.socialsoftware.edition.domain.LdoD;
 import pt.ist.socialsoftware.edition.domain.LdoDUser;
+import pt.ist.socialsoftware.edition.domain.Range;
 import pt.ist.socialsoftware.edition.domain.SourceInter;
 import pt.ist.socialsoftware.edition.domain.Surface;
+import pt.ist.socialsoftware.edition.domain.Tag;
+import pt.ist.socialsoftware.edition.utils.AnnotationJson;
+import pt.ist.socialsoftware.edition.utils.AnnotationSearchJson;
+import pt.ist.socialsoftware.edition.utils.RangeJson;
 import pt.ist.socialsoftware.edition.visitors.HtmlWriter2CompInters;
 import pt.ist.socialsoftware.edition.visitors.HtmlWriter4OneInter;
 
@@ -200,6 +208,7 @@ public class FragmentController {
 		}
 		writer.write(lineByLine, showSpaces);
 
+		model.addAttribute("fragment", inters.get(0).getFragment());
 		model.addAttribute("lineByLine", lineByLine);
 		model.addAttribute("inters", inters);
 		model.addAttribute("writer", writer);
@@ -212,4 +221,67 @@ public class FragmentController {
 
 	}
 
+	@RequestMapping(method = RequestMethod.GET, value = "/search")
+	public @ResponseBody
+	AnnotationSearchJson searchAnnotations(Model model,
+			@RequestParam int limit, @RequestParam String uri) {
+		System.out.println("searchAnnotations:" + limit + uri);
+
+		List<AnnotationJson> annotations = new ArrayList<AnnotationJson>();
+
+		FragInter inter = FenixFramework.getDomainObject(uri);
+
+		for (Annotation annotation : inter.getAnnotationSet()) {
+			AnnotationJson annotationJson = new AnnotationJson(annotation);
+			annotations.add(annotationJson);
+		}
+
+		return new AnnotationSearchJson(annotations);
+	}
+
+	@RequestMapping(method = RequestMethod.POST, value = "/annotations")
+	public @ResponseBody
+	AnnotationJson createAnnotation(Model model,
+			@RequestBody final AnnotationJson annotationJson) {
+		FragInter inter = FenixFramework.getDomainObject(annotationJson
+				.getUri());
+
+		Annotation annotation = new Annotation(inter,
+				annotationJson.getQuote(), annotationJson.getText());
+
+		for (RangeJson rangeJson : annotationJson.getRanges()) {
+			new Range(annotation, rangeJson.getStart(),
+					rangeJson.getStartOffset(), rangeJson.getEnd(),
+					rangeJson.getEndOffset());
+		}
+
+		for (String tag : annotationJson.getTags()) {
+			Tag.create(annotation, tag);
+		}
+
+		annotationJson.setId(annotation.getExternalId());
+
+		return annotationJson;
+	}
+
+	@RequestMapping(method = RequestMethod.PUT, value = "/annotations/{id}")
+	public @ResponseBody
+	AnnotationJson updateAnnotation(Model model, @PathVariable String id,
+			@RequestBody final AnnotationJson annotationJson) {
+		Annotation annotation = FenixFramework.getDomainObject(id);
+		annotation.setText(annotationJson.getText());
+		annotation.updateTags(annotationJson.getTags());
+
+		return annotationJson;
+	}
+
+	@RequestMapping(method = RequestMethod.DELETE, value = "/annotations/{id}")
+	public @ResponseBody
+	AnnotationJson deleteAnnotation(Model model, @PathVariable String id,
+			@RequestBody final AnnotationJson annotationJson) {
+		Annotation annotation = FenixFramework.getDomainObject(id);
+		annotation.remove();
+
+		return annotationJson;
+	}
 }

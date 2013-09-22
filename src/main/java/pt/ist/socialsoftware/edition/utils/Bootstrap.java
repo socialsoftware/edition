@@ -53,8 +53,6 @@ public class Bootstrap implements WebApplicationInitializer {
 				"d64785a0a97001a90cbe50bd01d9767fd4a3cb0e76b98bd3c92939ff7feaa2ce");
 		LdoDUser carlos = new LdoDUser(ldoD, "carlos",
 				"cf7fa6738933ffe9f792359fba2cabcd1c36874c5af0994aee01fde5cc19015c");
-		LdoDUser ecscw = new LdoDUser(ldoD, "ecscw",
-				"8859415df64d58bab8c12dd8d8c20cf710cab143a37561d6802a551555ffd377");
 		LdoDUser llc = new LdoDUser(ldoD, "llc",
 				"2429c113c25f33be41309c940d0b3dfebd7104f92aede07c47d95754800cd597");
 
@@ -73,20 +71,16 @@ public class Bootstrap implements WebApplicationInitializer {
 		carlos.addRoles(user);
 		carlos.addRoles(admin);
 
-		ecscw.addRoles(user);
-
 		llc.addRoles(user);
 		llc.addRoles(admin);
 
 		VirtualEdition classX = new VirtualEdition(ldoD, ars, "ClassX",
 				"LdoD Edition of Class X", "12/12/2012", true);
-		classX.addParticipant(ecscw);
 		classX.addParticipant(llc);
 		llc.addSelectedVirtualEditions(classX);
 
 		VirtualEdition classY = new VirtualEdition(ldoD, ars, "ClassY",
 				"LdoD Edition of Class Y", "01/12/2012", false);
-		classY.addParticipant(ecscw);
 		classY.addParticipant(llc);
 		llc.addSelectedVirtualEditions(classY);
 

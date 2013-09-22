@@ -2,6 +2,7 @@ package pt.ist.socialsoftware.edition.domain;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -81,6 +82,14 @@ public abstract class Edition extends Edition_Base {
 			}
 		}
 		return interps.get(0);
+	}
+
+	public Set<Tag> getTagSet() {
+		Set<Tag> tags = new HashSet<Tag>();
+		for (FragInter inter : getIntersSet()) {
+			tags.addAll(inter.getTagSet());
+		}
+		return tags;
 	}
 
 }

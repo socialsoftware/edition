@@ -1,6 +1,8 @@
 package pt.ist.socialsoftware.edition.domain;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import pt.ist.socialsoftware.edition.domain.Edition.SourceType;
 
@@ -14,6 +16,10 @@ public abstract class FragInter extends FragInter_Base implements
 	public void remove() {
 		setFragment(null);
 		setHeteronym(null);
+
+		for (Annotation annotation : getAnnotationSet()) {
+			annotation.remove();
+		}
 
 		for (Category cat : getCategoriesSet()) {
 			removeCategories(cat);
@@ -84,5 +90,13 @@ public abstract class FragInter extends FragInter_Base implements
 	public abstract boolean belongs2Edition(Edition edition);
 
 	public abstract FragInter getLastUsed();
+
+	public Set<Tag> getTagSet() {
+		Set<Tag> tags = new HashSet<Tag>();
+		for (Annotation annotation : getAnnotationSet()) {
+			tags.addAll(annotation.getTagSet());
+		}
+		return tags;
+	}
 
 }
