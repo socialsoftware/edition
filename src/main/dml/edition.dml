@@ -372,6 +372,11 @@ relation FragInterHasAnnotations {
   Annotation playsRole annotation {multiplicity 0..*;}
 }
 
+relation LdoDUserWritesAnnotations {
+	LdoDUser playsRole user {multiplicity 1..1;}
+	Annotation playsRole annotation {multiplicity 0..*;}
+}
+
 class Range {
   String start;
   int startOffset;

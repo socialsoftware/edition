@@ -29,8 +29,15 @@ $(document)
  -->
 <script type="text/javascript">
 jQuery(function ($) {
-    var content = $('#content').annotator();
+    var content = $('#content').annotator({
+        readOnly: ${!inters.get(0).getEdition().getParticipantSet().contains(user)}
+    });
     content.annotator('addPlugin', 'Tags');   
+    content.annotator('addPlugin', 'Permissions', {
+        user : '${user.username}', 
+        showViewPermissionsCheckbox : 'false',
+        showEditPermissionsCheckbox : 'false'
+    });   
     content.annotator('addPlugin', 'Unsupported'); 
     content.annotator('addPlugin', 'Store', {
       // The endpoint of the store on your server.
@@ -62,6 +69,8 @@ jQuery(function ($) {
 </script>
 
 <div id=fragmentInter class="row-fluid span12">
+Tags: <c:forEach var="tag"
+                    items='${inters.get(0).getTagSet()}'> ${tag.tag} </c:forEach>
 <!-- 
     <form class="form-horizontal">
         <div class="controls form-inline">

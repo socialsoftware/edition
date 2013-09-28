@@ -18,6 +18,8 @@ public class AnnotationJson implements Serializable {
 	private String text;
 	private List<String> tags;
 	private String uri;
+	private String user;
+	private PermissionJson permissions;
 
 	public AnnotationJson() {
 	}
@@ -37,6 +39,11 @@ public class AnnotationJson implements Serializable {
 		for (Range range : annotation.getRangeSet()) {
 			ranges.add(new RangeJson(range));
 		}
+
+		setUser(annotation.getUser().getUsername());
+
+		setPermissions(new PermissionJson(annotation.getFragInter()
+				.getEdition(), annotation.getUser()));
 	}
 
 	public List<RangeJson> getRanges() {
@@ -89,6 +96,22 @@ public class AnnotationJson implements Serializable {
 
 	public void setId(String id) {
 		this.id = id;
+	}
+
+	public String getUser() {
+		return user;
+	}
+
+	public void setUser(String user) {
+		this.user = user;
+	}
+
+	public PermissionJson getPermissions() {
+		return permissions;
+	}
+
+	public void setPermissions(PermissionJson permissions) {
+		this.permissions = permissions;
 	}
 
 }

@@ -4,14 +4,16 @@ import java.util.List;
 
 public class Annotation extends Annotation_Base {
 
-	public Annotation(FragInter inter, String quote, String text) {
+	public Annotation(FragInter inter, String quote, String text, LdoDUser user) {
 		setFragInter(inter);
 		setQuote(quote);
 		setText(text);
+		setUser(user);
 	}
 
 	public void remove() {
 		setFragInter(null);
+		setUser(null);
 
 		for (Range range : getRangeSet()) {
 			range.remove();
