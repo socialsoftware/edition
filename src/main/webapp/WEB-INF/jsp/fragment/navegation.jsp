@@ -11,7 +11,9 @@ $(document).ready(function() {
 	    fragment : frag,
 	    inters : data
 	}, function(html) {
-	    $("#fragmentBody").replaceWith(html);
+       var newDoc = document.open("text/html", "replace");
+       newDoc.write(html);
+       newDoc.close();
 	});
     });
 });
@@ -28,7 +30,9 @@ $(document).ready(function() {
         fragment : frag,
         inters : data
     }, function(html) {
-        $("#fragmentBody").replaceWith(html);
+       var newDoc = document.open("text/html", "replace");
+       newDoc.write(html);
+       newDoc.close();
     });
     });
 });

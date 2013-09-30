@@ -1,5 +1,4 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<div class="navbar navbar-fixed-top">
 	<div class="navbar-inner">
 		<div class="container">
 			<a class="brand" href="${contextPath}/"><spring:message
@@ -94,4 +93,3 @@
 			</div>
 		</div>
 	</div>
-</div>

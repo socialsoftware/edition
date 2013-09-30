@@ -4,6 +4,7 @@ jQuery(function ($) {
     var content = $('#content').annotator({
         readOnly: ${!inters.get(0).getEdition().getParticipantSet().contains(user)}
     });
+    content.annotator('addPlugin', 'Filter');   
     content.annotator('addPlugin', 'Tags');   
     content.annotator('addPlugin', 'Permissions', {
         user : '${user.username}', 
@@ -48,7 +49,7 @@ jQuery(function ($) {
         <span class="badge">${tag.tag}</span>
     </c:forEach>
     <%@ include file="/WEB-INF/jsp/fragment/transcription.jsp"%>
-
+<!-- 
     <div class="row-fluid">
         <div class="row-fluid span12">
             <table class="table table-striped table-condensed">
@@ -77,5 +78,5 @@ jQuery(function ($) {
             </table>
         </div>
     </div>
-
+ -->
 </div>

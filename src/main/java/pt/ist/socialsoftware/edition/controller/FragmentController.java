@@ -136,7 +136,7 @@ public class FragmentController {
 			model.addAttribute("writer", writer);
 		}
 
-		return "fragment/body";
+		return "fragment/main";
 
 	}
 

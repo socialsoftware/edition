@@ -5,7 +5,7 @@
 <%@ include file="/WEB-INF/jsp/common/meta-head.jsp"%>
 </head>
 <body>
-	<%@ include file="/WEB-INF/jsp/common/ldod-header.jsp"%>
+	<%@ include file="/WEB-INF/jsp/common/fixed-top-ldod-header.jsp"%>
 
 	<div class="container">
 		<div class="hero-unit">

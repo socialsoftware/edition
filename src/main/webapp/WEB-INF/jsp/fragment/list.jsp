@@ -21,7 +21,7 @@ $(document).ready(
 </script>
 </head>
 <body>
-	<%@ include file="/WEB-INF/jsp/common/ldod-header.jsp"%>
+	<%@ include file="/WEB-INF/jsp/common/fixed-top-ldod-header.jsp"%>
 
 	<div class="container-fluid">
 		<h1 class="text-center"><spring:message code="fragmentlist.title" /></h1>
