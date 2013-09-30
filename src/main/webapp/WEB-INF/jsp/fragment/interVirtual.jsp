@@ -43,11 +43,18 @@ jQuery(function ($) {
 
 <div id=fragmentInter class="row-fluid span12">
     <h3>${inters.get(0).edition.title}</h3>
-    <h4>Uses:
+    <h4><spring:message code="general.uses" />
         ${inters.get(0).uses.edition.getReference()}(${inters.get(0).uses.reference})</h4>
+        <div class="span6">
     <c:forEach var="tag" items='${inters.get(0).getTagSet()}'>
-        <span class="badge">${tag.tag}</span>
+        <i class="icon-tag"></i>${tag.tag} 
     </c:forEach>
+    </div>
+    <div>
+    <c:forEach var="user" items='${inters.get(0).getContributorSet()}'>
+        <i class="icon-user"></i>${user.username}
+    </c:forEach>
+    </div>
     <%@ include file="/WEB-INF/jsp/fragment/transcription.jsp"%>
 <!-- 
     <div class="row-fluid">

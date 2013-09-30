@@ -118,6 +118,6 @@ public class VirtualEdition extends VirtualEdition_Base {
 
 	@Override
 	public String getReference() {
-		return getTitle();
+		return getAcronym();
 	}
 }

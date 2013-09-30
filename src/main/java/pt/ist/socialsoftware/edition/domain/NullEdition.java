@@ -17,7 +17,7 @@ public class NullEdition extends NullEdition_Base {
 
 	@Override
 	public String getReference() {
-		return "Authorial Source";
+		return "";
 	}
 
 }

@@ -1,6 +1,6 @@
 <%@ include file="/WEB-INF/jsp/common/tags-head.jsp"%>
 <div id=fragmentInter class="row-fluid">
-    <h3>Comparison of virtual editions fragments</h3>
+    <h3><spring:message code="virtualcompare.title" /></h3>
 
     <div class="row-fluid">
         <div class="row-fluid span12">
@@ -17,14 +17,13 @@
                         <c:forEach var="inter" items="${inters}">
                             <td><c:forEach var="tag"
                                     items='${inter.getTagSet()}'>
-                                    <span class="badge">${tag.tag}
-                                    </span>
+                                    <i class="icon-tag"></i>${tag.tag}
                                 </c:forEach></td>
                         </c:forEach>
                     </tr>
                     <tr>
                         <c:forEach var="inter" items="${inters}">
-                            <td><c:forEach var='user' items='${inter.getContributorSet()}'>${user.username} </c:forEach></td>
+                            <td><c:forEach var='user' items='${inter.getContributorSet()}'><i class="icon-user"></i>${user.username}</c:forEach></td>
                         </c:forEach>
                     </tr>
                     <tr>
@@ -34,10 +33,10 @@
                                     class="table table-striped table-condensed">
                                     <thead>
                                         <tr>
-                                            <th>Quote</th>
-                                            <th>Text</th>
-                                            <th>User</th>
-                                            <th>Tags</th>
+                                            <th><spring:message code="virtualcompare.quote" /></th>
+                                            <th><spring:message code="virtualcompare.comment" /></th>
+                                            <th><spring:message code="virtualcompare.user" /></th>
+                                            <th><spring:message code="general.tags" /></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -46,12 +45,11 @@
                                             <tr>
                                                 <td>${annotation.quote}</td>
                                                 <td>${annotation.text}</td>
-                                                <td>${annotation.user.username}</td>
+                                                <td><i class="icon-user"></i>${annotation.user.username}</td>
                                                 <td><c:forEach
                                                         var="tag"
                                                         items='${annotation.getTagSet()}'>
-                                                        <span
-                                                            class="badge">${tag.tag}</span>
+                                                        <i class="icon-tag"></i>${tag.tag}
                                                     </c:forEach></td>
                                             </tr>
                                         </c:forEach>
