@@ -99,4 +99,6 @@ public abstract class FragInter extends FragInter_Base implements
 		return tags;
 	}
 
+	public abstract String getReference();
+
 }

@@ -140,4 +140,9 @@ public class ExpertEdition extends ExpertEdition_Base implements
 		return new HashSet<FragInter>(getExpertEditionIntersSet());
 	}
 
+	@Override
+	public String getReference() {
+		return getEditor();
+	}
+
 }

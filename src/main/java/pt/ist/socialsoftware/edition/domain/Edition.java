@@ -44,6 +44,8 @@ public abstract class Edition extends Edition_Base {
 
 	public abstract Set<FragInter> getIntersSet();
 
+	public abstract String getReference();
+
 	public List<FragInter> getSortedInterps() {
 		List<FragInter> interps = new ArrayList<FragInter>(getIntersSet());
 

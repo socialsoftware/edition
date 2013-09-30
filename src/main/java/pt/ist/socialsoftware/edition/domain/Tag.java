@@ -22,6 +22,8 @@ public class Tag extends Tag_Base {
 
 		if (tag == null) {
 			new Tag(annotation, tagName);
+		} else {
+			tag.addAnnotation(annotation);
 		}
 
 	}

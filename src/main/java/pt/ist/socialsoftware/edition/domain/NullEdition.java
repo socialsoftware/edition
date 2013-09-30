@@ -15,4 +15,9 @@ public class NullEdition extends NullEdition_Base {
 		return SourceType.AUTHORIAL;
 	}
 
+	@Override
+	public String getReference() {
+		return "Authorial Source";
+	}
+
 }

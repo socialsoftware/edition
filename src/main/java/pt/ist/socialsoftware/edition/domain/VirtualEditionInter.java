@@ -1,6 +1,8 @@
 package pt.ist.socialsoftware.edition.domain;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import pt.ist.socialsoftware.edition.domain.Edition.SourceType;
 
@@ -95,6 +97,19 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 		List<FragInter> listUses = getUses().getListUsed();
 		listUses.add(0, getUses());
 		return listUses;
+	}
+
+	@Override
+	public String getReference() {
+		return Integer.toString(getNumber());
+	}
+
+	public Set<LdoDUser> getContributorSet() {
+		Set<LdoDUser> contributors = new HashSet<LdoDUser>();
+		for (Annotation annotation : getAnnotationSet()) {
+			contributors.add(annotation.getUser());
+		}
+		return contributors;
 	}
 
 }

@@ -116,4 +116,8 @@ public class VirtualEdition extends VirtualEdition_Base {
 		return new HashSet<FragInter>(getVirtualEditionIntersSet());
 	}
 
+	@Override
+	public String getReference() {
+		return getTitle();
+	}
 }

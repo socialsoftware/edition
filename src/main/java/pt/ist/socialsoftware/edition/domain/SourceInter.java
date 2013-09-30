@@ -69,4 +69,9 @@ public class SourceInter extends SourceInter_Base {
 		return listUses;
 	}
 
+	@Override
+	public String getReference() {
+		return getShortName();
+	}
+
 }

@@ -1,32 +1,4 @@
 <%@ include file="/WEB-INF/jsp/common/tags-head.jsp"%>
-<!--
-<script type="text/javascript">
-$(document)
-    .ready(
-        function() {
-            $(
-                '[id="visualisation-properties-virtual"][data-toggle="buttons-checkbox"]')
-                .on(
-                    'click',
-                    function() {
-                    var data = new Array();
-                    $('#virtualinter :checked').each(function() {
-                        data.push(this.value);
-                    });
-                    var showTags = $(
-                        'input:checkbox[name=tags]')
-                        .is(':checked');
-                    var showAnnotations = $(
-                        'input:checkbox[name=annotations]')
-                        .is(':checked');
-                    var enableEdit = $(
-                        'input:checkbox[name=edit]')
-                        .is(':checked');
-                    alert("Underdevelopment!");
-                    });
-        });
-</script>
- -->
 <script type="text/javascript">
 jQuery(function ($) {
     var content = $('#content').annotator({
@@ -69,32 +41,41 @@ jQuery(function ($) {
 </script>
 
 <div id=fragmentInter class="row-fluid span12">
-Tags: <c:forEach var="tag"
-                    items='${inters.get(0).getTagSet()}'> ${tag.tag} </c:forEach>
-<!-- 
-    <form class="form-horizontal">
-        <div class="controls form-inline">
-            <div id="visualisation-properties-virtual"
-                data-toggle="buttons-checkbox">
-                <label class="checkbox inline"> <input
-                    type="checkbox" class="btn" name=tags
-                    value="Yes"> <spring:message code="general.tags" />
-                </label> <label class="checkbox inline"> <input
-                    type="checkbox" class="btn" name=annotations
-                    value="Yes"> <spring:message
-                        code="general.annotations" />
-                </label> <label class="checkbox inline"> <input
-                    type="checkbox" class="btn" name=edit value="Yes">
-                    <spring:message code="general.edit" />
-                </label>
-            </div>
-        </div>
-    </form>
--->
+    <h3>${inters.get(0).edition.title}</h3>
+    <h4>Uses:
+        ${inters.get(0).uses.edition.getReference()}(${inters.get(0).uses.reference})</h4>
+    <c:forEach var="tag" items='${inters.get(0).getTagSet()}'>
+        <span class="badge">${tag.tag}</span>
+    </c:forEach>
     <%@ include file="/WEB-INF/jsp/fragment/transcription.jsp"%>
 
-    <br>
-    <div id="interMeta" class="row-fluid">
-        <div class="well row-fluid span12">${inters.get(0).metaTextual}</div>
+    <div class="row-fluid">
+        <div class="row-fluid span12">
+            <table class="table table-striped table-condensed">
+                <thead>
+                    <tr>
+                        <th>Quote</th>
+                        <th>Text</th>
+                        <th>User</th>
+                        <th>Tags</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <c:forEach var="annotation"
+                        items='${inters.get(0).getAnnotationSet()}'>
+                        <tr>
+                            <td>${annotation.quote}</td>
+                            <td>${annotation.text}</td>
+                            <td>${annotation.user.username}</td>
+                            <td><c:forEach var="tag"
+                                    items='${annotation.getTagSet()}'>
+                                    <span class="badge">${tag.tag}</span>
+                                </c:forEach></td>
+                        </tr>
+                    </c:forEach>
+                </tbody>
+            </table>
+        </div>
     </div>
+
 </div>
