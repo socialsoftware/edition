@@ -47,12 +47,14 @@ jQuery(function ($) {
         ${inters.get(0).uses.edition.getReference()}(${inters.get(0).uses.reference})</h4>
         <div class="span6">
     <c:forEach var="tag" items='${inters.get(0).getTagSet()}'>
-        <i class="icon-tag"></i>${tag.tag} 
+        <i class="icon-tag"></i><a
+                        href="${contextPath}/edition/tag/${tag.tag}">${tag.tag}</a>
     </c:forEach>
     </div>
     <div>
     <c:forEach var="user" items='${inters.get(0).getContributorSet()}'>
-        <i class="icon-user"></i>${user.username}
+        <i class="icon-user"></i><a
+                        href="${contextPath}/edition/user/${user.username}">${user.username}</a>
     </c:forEach>
     </div>
     <%@ include file="/WEB-INF/jsp/fragment/transcription.jsp"%>

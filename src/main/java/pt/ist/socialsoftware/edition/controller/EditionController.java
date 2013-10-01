@@ -11,6 +11,8 @@ import pt.ist.socialsoftware.edition.domain.Edition;
 import pt.ist.socialsoftware.edition.domain.ExpertEdition;
 import pt.ist.socialsoftware.edition.domain.Heteronym;
 import pt.ist.socialsoftware.edition.domain.LdoD;
+import pt.ist.socialsoftware.edition.domain.LdoDUser;
+import pt.ist.socialsoftware.edition.domain.Tag;
 
 @Controller
 @RequestMapping("/edition")
@@ -67,7 +69,32 @@ public class EditionController {
 
 			return "edition/tableOfContents";
 		}
-
 	}
 
+	@RequestMapping(method = RequestMethod.GET, value = "/user/{username}")
+	public String getUserContributions(Model model,
+			@PathVariable String username) {
+
+		LdoDUser user = LdoD.getInstance().getUser(username);
+
+		if (user != null) {
+			model.addAttribute("user", user);
+			return "edition/userContributions";
+		} else {
+			return "utils/pageNotFound";
+		}
+	}
+
+	@RequestMapping(method = RequestMethod.GET, value = "/tag/{tagname}")
+	public String getTagUsage(Model model, @PathVariable String tagname) {
+
+		Tag tag = LdoD.getInstance().getTag(tagname);
+
+		if (tag != null) {
+			model.addAttribute("tag", tag);
+			return "edition/tagUsage";
+		} else {
+			return "utils/pageNotFound";
+		}
+	}
 }

@@ -1,5 +1,8 @@
 package pt.ist.socialsoftware.edition.domain;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -27,6 +30,16 @@ public class LdoDUser extends LdoDUser_Base {
 		setLdoD(ldoD);
 		setUsername(username);
 		setPassword(password);
+	}
+
+	public Set<FragInter> getFragInterSet() {
+		Set<FragInter> inters = new HashSet<FragInter>();
+
+		for (Annotation annotation : getAnnotationSet()) {
+			inters.add(annotation.getFragInter());
+		}
+
+		return inters;
 	}
 
 }

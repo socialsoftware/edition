@@ -92,4 +92,20 @@ public class LdoD extends LdoD_Base {
 
 		return manageVE;
 	}
+
+	public Tag getTag(String tagName) {
+		for (VirtualEdition edition : getVirtualEditionsSet()) {
+			for (VirtualEditionInter inter : edition
+					.getVirtualEditionIntersSet()) {
+				for (Annotation annotation : inter.getAnnotationSet()) {
+					for (Tag tag : annotation.getTagSet()) {
+						if (tag.getTag().equals(tagName)) {
+							return tag;
+						}
+					}
+				}
+			}
+		}
+		return null;
+	}
 }
