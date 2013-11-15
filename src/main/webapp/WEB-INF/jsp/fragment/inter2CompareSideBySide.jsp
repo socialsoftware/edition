@@ -1,8 +1,8 @@
 <%@ include file="/WEB-INF/jsp/common/tags-head.jsp"%>
-<div id=fragmentComparison class="row-fluid">
-    <div class="row-fluid">
+<div id=fragmentComparison class="row">
+    <div class="row">
         <c:forEach var="inter" items="${inters}">
-            <div id="fragmentTranscription" class="span6">
+            <div id="fragmentTranscription" class="col-md-6">
                 <h4>${inter.title}</h4>
                 <div class="well">
                     <c:choose>
@@ -18,9 +18,9 @@
         </c:forEach>
     </div>
     <br>
-    <div class="row-fluid">
+    <div class="row">
         <c:forEach var="inter" items="${inters}">
-            <div id="interMeta" class="span6">
+            <div id="interMeta" class="col-md-6">
                 <div class="well">
                     <p>${inter.metaTextual}</p>
                 </div>

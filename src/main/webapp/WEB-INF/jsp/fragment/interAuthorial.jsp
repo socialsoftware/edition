@@ -4,7 +4,7 @@ $(document)
 	.ready(
 		function() {
 		    $(
-			    '[id="visualisation-properties-authorial"][data-toggle="buttons-checkbox"]')
+			    '[id="visualisation-properties-authorial"][data-toggle="checkbox"]')
 			    .on(
 				    'click',
 				    function() {
@@ -51,49 +51,57 @@ $(document)
 				    });
 		});
 </script>
-<div id=fragmentInter class="row-fluid">
-    <div class="row-fluid ">
-        <form class="form-horizontal">
-            <div class="control-group">
-                <div class="controls form-inline">
-                    <div id="visualisation-properties-authorial"
-                        data-toggle="buttons-checkbox">
-                        <label class="checkbox inline"> <input
-                            type="checkbox" class="btn" name=diff
-                            value="Yes"> <spring:message
-                                code="fragment.highlightdifferences" />
-                        </label> <label class="checkbox inline"> <input
-                            type="checkbox" class="btn" name=del
-                            value="Yes"> <spring:message
-                                code="fragment.showdeleted" />
-                        </label> <label class="checkbox inline"> <input
-                            type="checkbox" class="btn" name=ins
-                            value="Yes" checked> <spring:message
-                                code="fragment.highlightinserted" />
-                        </label> <label class="checkbox inline"> <input
-                            type="checkbox" class="btn" name=subst
-                            value="Yes"> <spring:message
-                                code="fragment.highlightsubstitutions" />
-                        </label> <label class="checkbox inline"> <input
-                            type="checkbox" class="btn" name=notes
-                            value="Yes" checked> <spring:message
-                                code="fragment.shownotes" />
-                        </label> <label class="checkbox inline"> <input
-                            type="checkbox" class="btn" name=facs
-                            value="Yes"> <spring:message
-                                code="fragment.showfacs" />
-                        </label>
-                    </div>
+
+<div id=fragmentInter class="row">
+    <form class="form-inline" role="form">
+        <div class="form-group">
+            <div id="visualisation-properties-authorial"
+                class="btn-group" data-toggle="checkbox">
+                <div class="checkbox">
+                    <label> <input type="checkbox" class="btn"
+                        name=diff value="Yes"> <spring:message
+                            code="fragment.highlightdifferences" />
+                    </label>
+                </div>
+                <div class="checkbox">
+                    <label> <input type="checkbox" class="btn"
+                        name=del value="Yes"> <spring:message
+                            code="fragment.showdeleted" />
+                    </label>
+                </div>
+                <div class="checkbox">
+                    <label> <input type="checkbox" class="btn"
+                        name=ins value="Yes" checked> <spring:message
+                            code="fragment.highlightinserted" />
+                    </label>
+                </div>
+                <div class="checkbox">
+                    <label> <input type="checkbox" class="btn"
+                        name=subst value="Yes"> <spring:message
+                            code="fragment.highlightsubstitutions" />
+                    </label>
+                </div>
+                <div class="checkbox">
+                    <label> <input type="checkbox" class="btn"
+                        name=notes value="Yes" checked> <spring:message
+                            code="fragment.shownotes" />
+                    </label>
+                </div>
+                <div class="checkbox">
+                    <label> <input type="checkbox" class="btn"
+                        name=facs value="Yes"> <spring:message
+                            code="fragment.showfacs" />
+                    </label>
                 </div>
             </div>
-        </form>
-    </div>
+        </div>
+    </form>
 
 
     <%@ include file="/WEB-INF/jsp/fragment/transcription.jsp"%>
 
     <br>
-    <div id="interMeta" class="row-fluid">
-        <div class="well row-fluid span12">${inters.get(0).metaTextual}</div>
+    <div id="interMeta" class="row">
+        <div class="well row">${inters.get(0).metaTextual}</div>
     </div>
 </div>

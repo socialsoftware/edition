@@ -1,5 +1,5 @@
 <%@ include file="/WEB-INF/jsp/common/tags-head.jsp"%>
-<div id="fragmentList" class="row-fluid">
+<div id="fragmentList" class="row">
 	<table class="table table-striped table-bordered table-condensed">
 		<thead>
 			<tr>

@@ -1,11 +1,11 @@
 <%@ include file="/WEB-INF/jsp/common/tags-head.jsp"%>
-<div id=fragmentInter class="row-fluid">
+<div id=fragmentInter class="row">
     <h3>
         <spring:message code="virtualcompare.title" />
     </h3>
 
-    <div class="row-fluid">
-        <div class="row-fluid span12">
+    <div class="row">
+        <div class="row">
             <table class="table table-bordered">
                 <thead>
                     <tr>
@@ -58,14 +58,12 @@
                                             <tr>
                                                 <td>${annotation.quote}</td>
                                                 <td>${annotation.text}</td>
-                                                <td><i
-                                                    class="icon-user"></i><a
+                                                <td><span class="glyphicon glyphicon-user"></span> <a
                                                     href="${contextPath}/edition/user/${annotation.user.username}">${annotation.user.username}</a></td>
                                                 <td><c:forEach
                                                         var="tag"
-                                                        items='${annotation.getTagSet()}'>
-                                                        <i
-                                                            class="icon-tag"></i>
+                                                        items='${annotation.getTagSet()}'><span class="glyphicon glyphicon-tag"></span>
+                                                        
                                                         <a
                                                             href="${contextPath}/edition/tag/${tag.tag}">${tag.tag}</a>
                                                     </c:forEach></td>

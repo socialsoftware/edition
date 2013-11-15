@@ -25,7 +25,7 @@
 									action="${contextPath}/admin/fragment/delete">
 									${fragment.title} <input type="hidden" name="externalId"
 										value="${fragment.externalId}" />
-									<button type="submit" class="btn pull-right">
+									<button type="submit" class="btn btn-sm pull-right"><span class="glyphicon glyphicon-remove"></span>
 										<spring:message code="general.remove" />
 									</button>
 								</form></td>

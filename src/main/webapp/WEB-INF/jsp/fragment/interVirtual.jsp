@@ -41,25 +41,25 @@ jQuery(function ($) {
 });
 </script>
 
-<div id=fragmentInter class="row-fluid span12">
+<div id=fragmentInter class="row">
     <h3>${inters.get(0).edition.title}</h3>
     <h4><spring:message code="general.uses" />
         ${inters.get(0).uses.edition.getReference()}(${inters.get(0).uses.reference})</h4>
-        <div class="span6">
+        <div class="col-md-6">
     <c:forEach var="tag" items='${inters.get(0).getTagSet()}'>
-        <i class="icon-tag"></i><a
+        <span class="glyphicon glyphicon-tag"></span> <a
                         href="${contextPath}/edition/tag/${tag.tag}">${tag.tag}</a>
     </c:forEach>
     </div>
     <div>
     <c:forEach var="user" items='${inters.get(0).getContributorSet()}'>
-        <i class="icon-user"></i><a
+        <span class="glyphicon glyphicon-user"></span> <a
                         href="${contextPath}/edition/user/${user.username}">${user.username}</a>
     </c:forEach>
     </div>
     <%@ include file="/WEB-INF/jsp/fragment/transcription.jsp"%>
 <!-- 
-    <div class="row-fluid">
+    <div class="row">
         <div class="row-fluid span12">
             <table class="table table-striped table-condensed">
                 <thead>

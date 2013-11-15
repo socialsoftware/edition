@@ -65,10 +65,11 @@
 						</select>
 					</div>
 				</div>
+                <br>
 				<div class="control-group">
 					<div class="controls">
-						<button type="submit" class="btn">
-							<i class="icon-edit"></i>
+						<button type="submit" class="btn btn-sm">
+							<span class="glyphicon glyphicon-edit"></span>
 							<spring:message code="general.update" />
 						</button>
 					</div>

@@ -8,7 +8,7 @@
 	<%@ include file="/WEB-INF/jsp/common/fixed-top-ldod-header.jsp"%>
 
 	<div class="container">
-		<div class="hero-unit">
+		<div class="jumbotron">
 			<h1>Arquivo LdoD</h1>
 			<hr>
 			<p>Arquivo Digital Colaborativo do Livro do Desassossego</p>

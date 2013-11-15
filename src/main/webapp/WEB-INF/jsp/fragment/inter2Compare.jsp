@@ -4,7 +4,7 @@ $(document)
 	.ready(
 		function() {
 		    $(
-			    '[id="visualisation-properties-comparison"][data-toggle="buttons-checkbox"]')
+			    '[id="visualisation-properties-comparison"][data-toggle="checkbox"]')
 			    .on(
 				    'click',
 				    function() {
@@ -37,13 +37,13 @@ $(document)
 				    });
 		});
 </script>
-<div id=fragmentInter class="row-fluid">
-    <div class="row-fluid">
+<div id=fragmentInter class="row">
+    <div class="row">
         <form class="form-horizontal">
             <div class="control-group">
                 <div class="controls form-inline">
                     <div id="visualisation-properties-comparison"
-                        data-toggle="buttons-checkbox">
+                        data-toggle="checkbox">
                         <c:if test="${!lineByLine}">
                             <label class="checkbox inline"> <input
                                 type="checkbox" class="btn" name=line

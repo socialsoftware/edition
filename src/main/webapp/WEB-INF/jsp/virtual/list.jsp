@@ -7,17 +7,17 @@
 <body>
     <%@ include file="/WEB-INF/jsp/common/fixed-top-ldod-header.jsp"%>
 
-    <div class="container-fluid">
+    <div class="container">
         <h1 class="text-center">
             <spring:message code="header.manageeditions" />
         </h1>
         <br>
-        <div class="row-fluid">
+        <div class="row">
             <form class="form-inline" method="POST"
                 action="/virtualeditions/restricted/create">
                 <fieldset>
                     <c:forEach var="error" items='${errors}'>
-                        <div class="row-fluid text-error">
+                        <div class="row text-error">
                             <spring:message code="${error}" />
                         </div>
                     </c:forEach>
@@ -52,14 +52,14 @@
                             </c:otherwise>
                         </c:choose>
                     </select>
-                    <button type="submit" class="btn">
-                        <i class="icon-edit"></i>
+                    <button type="submit" class="btn btn-sm">
+                        <span class="glyphicon glyphicon-edit"></span>
                         <spring:message code="general.create" />
                     </button>
                 </fieldset>
             </form>
         </div>
-        <div class="row-fluid">
+        <div class="row">
             <div>
                 <table
                     class="table table-striped table-bordered table-condensed table-hover">
@@ -99,8 +99,8 @@
                                             name="externalId"
                                             value="${virtualEdition.externalId}" />
                                         <button type="submit"
-                                            class="btn btn-mini">
-                                            <i class="icon-check"></i>
+                                            class="btn btn-sm">
+                                            <span class="glyphicon glyphicon-check"></span>
                                             <c:choose>
                                                 <c:when
                                                     test="${ldoDSession.selectedVEs.contains(virtualEdition)}">
@@ -118,13 +118,11 @@
 
                                     <c:when
                                         test="${virtualEdition.participantSet.contains(user)}">
-                                        <td><a class="btn btn-mini"
-                                            href="${contextPath}/virtualeditions/restricted/editForm/${virtualEdition.externalId}"><i
-                                                class="icon-edit"></i> <spring:message
+                                        <td><a class="btn btn-sm"
+                                            href="${contextPath}/virtualeditions/restricted/editForm/${virtualEdition.externalId}"><span class="glyphicon glyphicon-edit"></span> <spring:message
                                                     code="general.edit" /></a></td>
-                                        <td><a class="btn btn-mini"
-                                            href="${contextPath}/virtualeditions/restricted/participantsForm/${virtualEdition.externalId}"><i
-                                                class="icon-edit"></i> <spring:message
+                                        <td><a class="btn btn-sm"
+                                            href="${contextPath}/virtualeditions/restricted/participantsForm/${virtualEdition.externalId}"><span class="glyphicon glyphicon-edit"></span> <spring:message
                                                     code="participant.manage" /></a></td>
                                         <td>
                                             <form class="form-inline"
@@ -134,9 +132,8 @@
                                                     name="externalId"
                                                     value="${virtualEdition.externalId}" />
                                                 <button type="submit"
-                                                    class="btn btn-mini">
-                                                    <i
-                                                        class="icon-remove"></i>
+                                                    class="btn btn-sm">
+                                                    <span class="glyphicon glyphicon-remove"></span>
                                                     <spring:message
                                                         code="general.delete" />
                                                 </button>

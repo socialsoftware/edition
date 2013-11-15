@@ -4,6 +4,6 @@ body {
     margin-top: 0px; //if you just want to remove the top margin.
 }
 </style>
-<div class="navbar navbar-static-top">
+<nav class="navbar navbar-default navbar-static-top" role="navigation">
     <%@ include file="/WEB-INF/jsp/common/ldod-header.jsp"%>
-</div>
+</nav>

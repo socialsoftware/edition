@@ -1,8 +1,8 @@
 <%@ include file="/WEB-INF/jsp/common/tags-head.jsp"%>
 <div id="fragmentBody">
-    <div class="container-fluid">
-        <div class="row-fluid">
-            <div class="span10">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-9">
                 <c:choose>
                     <c:when test="${inters.size() == 0}"><%@ include
                             file="/WEB-INF/jsp/fragment/interEmpty.jsp"%></c:when>
@@ -21,7 +21,7 @@
                             file="/WEB-INF/jsp/fragment/virtual2Compare.jsp"%></c:otherwise>
                 </c:choose>
             </div>
-            <div class="span2">
+            <div class="col-md-3">
                 <%@ include file="/WEB-INF/jsp/fragment/navegation.jsp"%>
             </div>
         </div>

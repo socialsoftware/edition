@@ -6,7 +6,7 @@
 <script type="text/javascript">
 $(document).ready(
 	function() {
-	    $('[id="fragments-details"][data-toggle="buttons-checkbox"]').on(
+	    $('[id="fragments-details"][data-toggle="checkbox"]').on(
 		    'click',
 		    function() {
 			var selDetail = $('input:checkbox[name=detail]').is(
@@ -23,10 +23,10 @@ $(document).ready(
 <body>
 	<%@ include file="/WEB-INF/jsp/common/fixed-top-ldod-header.jsp"%>
 
-	<div class="container-fluid">
+	<div class="container">
 		<h1 class="text-center"><spring:message code="fragmentlist.title" /></h1>
 		<div class="well" id="fragments-details"
-			data-toggle="buttons-checkbox">
+			data-toggle="checkbox">
 			<label class="checkbox inline"> <input type="checkbox"
 				class="btn" name=detail value="Yes"> <spring:message code="fragmentlist.showdetails" />
 			</label>

@@ -1,7 +1,7 @@
 <%@ include file="/WEB-INF/jsp/common/tags-head.jsp"%>
-<div id=fragmentComparison class="row-fluid">
-	<div class="row-fluid">
-		<div id="transcription" class="span12">
+<div id=fragmentComparison class="row">
+	<div class="row">
+		<div id="transcription">
       <h4>${fragment.title}</h4>
 			<div class="well">
 				<c:choose>

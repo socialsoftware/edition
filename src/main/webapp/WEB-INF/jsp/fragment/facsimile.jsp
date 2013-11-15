@@ -57,86 +57,87 @@ $(document).ready(function() {
     });
 });
 </script>
-<div id="fragmentTranscription" class="row-fluid">
-    <div class="row-fluid span12">
+<div id="fragmentTranscription" class="row col-md-12">
+    <div class="row">
         <h4>${inters.get(0).title}</h4>
-        <div class="row-fluid">
-            <div class="span6">
+        <div class="row">
+            <div class="col-md-6">
                 <c:choose>
                     <c:when test="${surface.prev != null}">
-                        <button class="btn pull-left" type="button"
+                        <button class="btn btn-sm pull-left" type="button"
                             id="backward"
                             value="${surface.prev.externalId}"
                             data-toggle="button">
-                            <i class="icon-backward"></i>
+                            <span class="glyphicon glyphicon-backward"></span>
                         </button>
                     </c:when>
                     <c:otherwise>
-                        <button class="btn pull-left" type="button"
+                        <button class="btn btn-sm pull-left" type="button"
                             id="backward" disabled>
-                            <i class="icon-backward"></i>
+                            <span class="glyphicon glyphicon-backward"></span>
                         </button>
                     </c:otherwise>
                 </c:choose>
                 <c:choose>
                     <c:when test="${surface.next != null}">
-                        <button class="btn pull-right" type="button"
+                        <button class="btn btn-sm pull-right" type="button"
                             id="forward"
                             value="${surface.next.externalId}"
                             data-toggle="button">
-                            <i class="icon-forward"></i>
+                            <span class="glyphicon glyphicon-forward"></span>
                         </button>
                     </c:when>
                     <c:otherwise>
-                        <button class="btn pull-right" type="button"
+                        <button class="btn btn-sm pull-right" type="button"
                             id="forward" disabled>
-                            <i class="icon-forward"></i>
+                            <span class="glyphicon glyphicon-forward"></span>
                         </button>
                     </c:otherwise>
                 </c:choose>
             </div>
         </div>
-        <div id="facsimileTranscription" class="row-fluid">
-            <div class="span6">
+        <div id="facsimileTranscription" class="row">
+            <div class="col-md-6">
                 <div class="item">
-                    <img src="/facs/${surface.graphic}" />
+                    <img src="/facs/${surface.graphic}"
+                        class="img-responsive" alt="Responsive image" />
                 </div>
             </div>
-            <div class="well span6">
+            <div class="well col-md-6">
                 <p>${writer.getTranscription(inter)}</p>
             </div>
         </div>
-        <div class="row-fluid">
-            <div class="span6">
+        <div class="row">
+            <div class="col-md-6">
                 <c:choose>
                     <c:when test="${surface.prev != null}">
-                        <button class="btn pull-left" type="button"
-                            id="backward"
+                        <button class="btn btn-sm pull-left"
+                            type="button" id="backward"
                             value="${surface.prev.externalId}"
                             data-toggle="button">
-                            <i class="icon-backward"></i>
+                            <span class="glyphicon glyphicon-backward"></span>
                         </button>
                     </c:when>
                     <c:otherwise>
-                        <button class="btn pull-left" type="button"
-                            id="backward" disabled>
-                            <i class="icon-backward"></i>
+                        <button class="btn btn-sm pull-left"
+                            type="button" id="backward" disabled>
+                            <span class="glyphicon glyphicon-backward"></span>
                         </button>
                     </c:otherwise>
                 </c:choose>
                 <c:choose>
                     <c:when test="${surface.next != null}">
-                        <button class="btn pull-right" type="button"
+                        <button class="btn btn-sm pull-right" type="button"
                             id="forward"
                             value="${surface.next.externalId}"
                             data-toggle="button">
-                            <i class="icon-forward"></i>
+                            <span class="glyphicon glyphicon-forward"></span>
                         </button>
                     </c:when>
                     <c:otherwise>
-                        <button class="btn pull-right" type="button"
+                        <button class="btn btn-sm pull-right" type="button"
                             id="forward" disabled>
-                            <i class="icon-forward"></i>
+                            <span class="glyphicon glyphicon-forward"></span>
                         </button>
                     </c:otherwise>
                 </c:choose>
