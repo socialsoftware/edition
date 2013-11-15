@@ -326,6 +326,8 @@ public class LoadTEIFragments {
 				Element element2 = (Element) content;
 				if (element2.getName().equals("add")) {
 					loadAdd(element2, delText);
+				} else if (element2.getName().equals("lb")) {
+					loadLb(element2, delText);
 				} else {
 					throw new LdoDLoadException("não carrega elementos: "
 							+ element2 + " do tipo:" + element2.getName()
