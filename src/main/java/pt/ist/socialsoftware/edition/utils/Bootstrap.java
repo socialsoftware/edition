@@ -55,6 +55,8 @@ public class Bootstrap implements WebApplicationInitializer {
 				"cf7fa6738933ffe9f792359fba2cabcd1c36874c5af0994aee01fde5cc19015c");
 		LdoDUser llc = new LdoDUser(ldoD, "llc",
 				"2429c113c25f33be41309c940d0b3dfebd7104f92aede07c47d95754800cd597");
+		LdoDUser fil = new LdoDUser(ldoD, "fil",
+				"d5d1f8b193e5e8f203ec4e617c04ea59c853e556dd48deca0e491130b5704b81");
 
 		ars.addRoles(user);
 		ars.addRoles(admin);
@@ -74,6 +76,9 @@ public class Bootstrap implements WebApplicationInitializer {
 		llc.addRoles(user);
 		llc.addRoles(admin);
 
+		fil.addRoles(user);
+		fil.addRoles(admin);
+
 		VirtualEdition classX = new VirtualEdition(ldoD, ars, "ClassX",
 				"LdoD Edition of Class X", "12/12/2012", true);
 		classX.addParticipant(llc);
@@ -90,7 +95,9 @@ public class Bootstrap implements WebApplicationInitializer {
 		classW.addParticipant(mp);
 		classW.addParticipant(tim);
 		classW.addParticipant(carlos);
+		classW.addParticipant(fil);
 		mp.addSelectedVirtualEditions(classW);
 		diego.addSelectedVirtualEditions(classW);
+		fil.addSelectedVirtualEditions(classW);
 	}
 }
