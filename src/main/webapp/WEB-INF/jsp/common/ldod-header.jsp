@@ -27,7 +27,7 @@
                         code="header.editions" /> <b class="caret"></b></a>
                 <ul class="dropdown-menu">
                     <li><a
-                        href="${contextPath}/edition/acronym/JPC">Jacinto
+                        href="${contextPath}/edition/acronym/JPC">Jacinto do
                             Prado Coelho</a></li>
                     <li><a
                         href="${contextPath}/edition/acronym/TSC">Teresa

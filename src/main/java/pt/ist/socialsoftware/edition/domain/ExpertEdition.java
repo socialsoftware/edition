@@ -8,7 +8,7 @@ import java.util.Set;
 
 public class ExpertEdition extends ExpertEdition_Base implements
 		Comparable<ExpertEdition> {
-	public static final String COELHO = "Jacinto Prado Coelho";
+	public static final String COELHO = "Jacinto do Prado Coelho";
 	public static final String CUNHA = "Teresa Sobral Cunha";
 	public static final String ZENITH = "Richard Zenith";
 	public static final String PIZARRO = "Jerónimo Pizarro";

@@ -290,7 +290,7 @@ public class HtmlWriter4OneInter extends HtmlWriter {
 	public void visit(AddText addText) {
 		String openFormat = "";
 		String closeFormat = "";
-		;
+
 		switch (addText.getPlace()) {
 		case INLINE:
 		case SUPERIMPOSED:
@@ -321,9 +321,8 @@ public class HtmlWriter4OneInter extends HtmlWriter {
 			}
 
 			transcription = transcription
-					+ insertSymbol
 					+ addText.writeSeparator(displayDel, highlightSubst,
-							fragInter) + openFormat;
+							fragInter) + openFormat + insertSymbol;
 		} else {
 			transcription = transcription
 					+ addText.writeSeparator(displayDel, highlightSubst,
