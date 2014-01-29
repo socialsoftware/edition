@@ -360,6 +360,8 @@ public class LoadTEIFragments {
 					loadSubst(element2, addText);
 				} else if (element2.getName().equals("lb")) {
 					loadLb(element2, addText);
+				} else if (element2.getName().equals("seg")) {
+					loadSeg(element2, addText);
 				} else {
 					throw new LdoDLoadException("não carrega elementos: "
 							+ element2 + " do tipo:" + element2.getName()
@@ -370,8 +372,8 @@ public class LoadTEIFragments {
 	}
 
 	/**
-	 * In the this project a <seg> element can only contain simple text, it is
-	 * used for formating and cross referencing
+	 * In this project a <seg> element can only contain simple text, it is used
+	 * for formating and cross referencing
 	 * 
 	 */
 	private void loadSeg(Element element, TextPortion parent) {

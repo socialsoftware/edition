@@ -179,8 +179,7 @@ public class HtmlWriter4OneInter extends HtmlWriter {
 			} else if (rend.getRend() == Rendition.RED) {
 				preFormat = preFormat + "<span style=\"color: rgb(255,0,0);\">";
 			} else if (rend.getRend() == Rendition.UNDERLINED) {
-				preFormat = preFormat
-						+ "<span style=\"text-decoration: underline;\">";
+				preFormat = preFormat + "<u>";
 			}
 		}
 
@@ -209,7 +208,7 @@ public class HtmlWriter4OneInter extends HtmlWriter {
 			} else if (rend.getRend() == Rendition.RED) {
 				postFormat = postFormat + "</span>";
 			} else if (rend.getRend() == Rendition.UNDERLINED) {
-				postFormat = postFormat + "</span>";
+				postFormat = postFormat + "</u>";
 			}
 		}
 
@@ -289,14 +288,42 @@ public class HtmlWriter4OneInter extends HtmlWriter {
 
 	@Override
 	public void visit(AddText addText) {
+		String openFormat = "";
+		String closeFormat = "";
+		;
+		switch (addText.getPlace()) {
+		case INLINE:
+		case SUPERIMPOSED:
+		case UNSPECIFIED:
+			openFormat = "<small>";
+			closeFormat = "</small>";
+			break;
+		case MARGIN:
+		case OPPOSITE:
+		case ABOVE:
+		case TOP:
+			openFormat = "<sup>";
+			closeFormat = "</sup>";
+			break;
+		case BELOW:
+		case BOTTOM:
+		case END:
+			openFormat = "<sub>";
+			closeFormat = "</sub>";
+			break;
+		}
+
 		if (highlightIns) {
-			transcription = transcription
-					+ addText.writeSeparator(displayDel, highlightSubst,
-							fragInter) + "<ins>";
+			String insertSymbol = "<span style=\"color: rgb(128,128,128);\"><small>&and;</small></span>";
 			if (showNotes) {
-				transcription = transcription + "<abbr title=\""
-						+ addText.getNote() + "\">";
+				insertSymbol = "<abbr title=\"" + addText.getNote() + "\">"
+						+ insertSymbol + "</abbr>";
 			}
+
+			transcription = transcription
+					+ insertSymbol
+					+ addText.writeSeparator(displayDel, highlightSubst,
+							fragInter) + openFormat;
 		} else {
 			transcription = transcription
 					+ addText.writeSeparator(displayDel, highlightSubst,
@@ -309,10 +336,7 @@ public class HtmlWriter4OneInter extends HtmlWriter {
 		}
 
 		if (highlightIns) {
-			if (showNotes) {
-				transcription = transcription + "</abbr>";
-			}
-			transcription = transcription + "</ins>";
+			transcription = transcription + closeFormat;
 		}
 
 		if (addText.getParentOfLastText() == null) {
@@ -325,7 +349,8 @@ public class HtmlWriter4OneInter extends HtmlWriter {
 		if (displayDel) {
 			transcription = transcription
 					+ delText.writeSeparator(displayDel, highlightSubst,
-							fragInter) + "<del>";
+							fragInter)
+					+ "<del><span style=\"color: rgb(128,128,128);\">";
 			if (showNotes) {
 				transcription = transcription + "<abbr title=\""
 						+ delText.getNote() + "\">";
@@ -340,7 +365,7 @@ public class HtmlWriter4OneInter extends HtmlWriter {
 				transcription = transcription + "</abbr>";
 			}
 
-			transcription = transcription + "</del>";
+			transcription = transcription + "</span></del>";
 		}
 
 		if (delText.getParentOfLastText() == null) {

@@ -38,25 +38,25 @@ public class Bootstrap implements WebApplicationInitializer {
 	}
 
 	public static void populateDatabaseUsersAndRoles() {
-		LdoD ldoD = LdoD.getInstance();
+		LdoD ldod = LdoD.getInstance();
 
-		Role user = new Role(ldoD, "USER");
-		Role admin = new Role(ldoD, "ADMIN");
+		Role user = new Role(ldod, "USER");
+		Role admin = new Role(ldod, "ADMIN");
 
-		LdoDUser ars = new LdoDUser(ldoD, "ars",
+		LdoDUser ars = new LdoDUser(ldod, "ars",
 				"afec24a5413f633e764835ad9651329bae74fdf04096442d11e585ce14a3985f");
-		LdoDUser diego = new LdoDUser(ldoD, "diego",
+		LdoDUser diego = new LdoDUser(ldod, "diego",
 				"9306e985ad9ba5d90948190bf3a11e5dff0859092f91015f272106fabd51defd");
-		LdoDUser mp = new LdoDUser(ldoD, "mp",
+		LdoDUser mp = new LdoDUser(ldod, "mp",
 				"57861f3d84c18bdf6cdc7d14d74ea7db958713189db33992f71207a06c3c5a03");
-		LdoDUser tim = new LdoDUser(ldoD, "tim",
+		LdoDUser tim = new LdoDUser(ldod, "tim",
 				"d64785a0a97001a90cbe50bd01d9767fd4a3cb0e76b98bd3c92939ff7feaa2ce");
-		LdoDUser carlos = new LdoDUser(ldoD, "carlos",
+		LdoDUser carlos = new LdoDUser(ldod, "carlos",
 				"cf7fa6738933ffe9f792359fba2cabcd1c36874c5af0994aee01fde5cc19015c");
-		LdoDUser llc = new LdoDUser(ldoD, "llc",
+		LdoDUser llc = new LdoDUser(ldod, "llc",
 				"2429c113c25f33be41309c940d0b3dfebd7104f92aede07c47d95754800cd597");
-		LdoDUser fil = new LdoDUser(ldoD, "fil",
-				"d5d1f8b193e5e8f203ec4e617c04ea59c853e556dd48deca0e491130b5704b81");
+		LdoDUser tiago = new LdoDUser(ldod, "tiago",
+				"de968c78d0e50dbfd5083e1994492548baf4159f7112242acb02f773dc308ac9");
 
 		ars.addRoles(user);
 		ars.addRoles(admin);
@@ -76,28 +76,28 @@ public class Bootstrap implements WebApplicationInitializer {
 		llc.addRoles(user);
 		llc.addRoles(admin);
 
-		fil.addRoles(user);
-		fil.addRoles(admin);
+		tiago.addRoles(user);
+		tiago.addRoles(admin);
 
-		VirtualEdition classX = new VirtualEdition(ldoD, ars, "ClassX",
+		VirtualEdition classX = new VirtualEdition(ldod, ars, "ClassX",
 				"LdoD Edition of Class X", "12/12/2012", true);
 		classX.addParticipant(llc);
 		llc.addSelectedVirtualEditions(classX);
 
-		VirtualEdition classY = new VirtualEdition(ldoD, ars, "ClassY",
+		VirtualEdition classY = new VirtualEdition(ldod, ars, "ClassY",
 				"LdoD Edition of Class Y", "01/12/2012", false);
 		classY.addParticipant(llc);
 		llc.addSelectedVirtualEditions(classY);
 
-		VirtualEdition classW = new VirtualEdition(ldoD, ars, "ClassW",
+		VirtualEdition classW = new VirtualEdition(ldod, ars, "ClassW",
 				"LdoD Edition of Class W", "01/01/2013", true);
 		classW.addParticipant(diego);
 		classW.addParticipant(mp);
 		classW.addParticipant(tim);
 		classW.addParticipant(carlos);
-		classW.addParticipant(fil);
+		classW.addParticipant(tiago);
 		mp.addSelectedVirtualEditions(classW);
 		diego.addSelectedVirtualEditions(classW);
-		fil.addSelectedVirtualEditions(classW);
+		tiago.addSelectedVirtualEditions(classW);
 	}
 }

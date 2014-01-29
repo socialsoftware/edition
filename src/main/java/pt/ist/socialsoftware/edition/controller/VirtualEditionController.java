@@ -70,6 +70,14 @@ public class VirtualEditionController {
 			@RequestParam("title") String title,
 			@RequestParam("pub") boolean pub) {
 
+		/**
+		 * WORKAROUND: to create a user without regenerating the data base LdoD
+		 * ldod = LdoD.getInstance(); LdoDUser tiago = new LdoDUser(ldod,
+		 * "tiago",
+		 * "de968c78d0e50dbfd5083e1994492548baf4159f7112242acb02f773dc308ac9");
+		 * for (Role role : ldod.getRolesSet()) { tiago.addRoles(role); }
+		 **/
+
 		DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
 		Date today = Calendar.getInstance().getTime();
 		String date = df.format(today);
