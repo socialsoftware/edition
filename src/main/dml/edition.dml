@@ -277,6 +277,15 @@ relation PhysNoteRefersTextPortion {
 	TextPortion playsRole textPortion {multiplicity 0..*;} 
 }
 
+class Rend {
+	Rendition rend;
+}
+
+relation TextPortionHasRend {
+	TextPortion playsRole text {multiplicity 0..1;}
+	Rend playsRole rend {multiplicity 0..*;}
+}
+
 class RdgText extends TextPortion {
 	RdgTextType type;
 }
@@ -315,15 +324,6 @@ class SimpleText extends TextPortion {
 }
 
 class SegText extends TextPortion;
-
-class Rend {
-	Rendition rend;
-}
-
-relation SegTextHasRend {
-	SegText playsRole text {multiplicity 0..1;}
-	Rend playsRole rend {multiplicity 0..*;}
-}
 
 class LbText extends TextPortion {
 	Boolean breakWord;

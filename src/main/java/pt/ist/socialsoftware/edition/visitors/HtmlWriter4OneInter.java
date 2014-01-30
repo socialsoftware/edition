@@ -1,9 +1,6 @@
 package pt.ist.socialsoftware.edition.visitors;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import pt.ist.socialsoftware.edition.domain.AddText;
@@ -163,56 +160,23 @@ public class HtmlWriter4OneInter extends HtmlWriter {
 
 	@Override
 	public void visit(SegText segText) {
-		List<Rend> rends = new ArrayList<Rend>(segText.getRendSet());
-		String preFormat = "";
-		for (Rend rend : rends) {
-			if (rend.getRend() == Rendition.RIGHT) {
-				preFormat = preFormat + "<div class=\"text-right\">";
-			} else if (rend.getRend() == Rendition.LEFT) {
-				preFormat = preFormat + "<div class=\"text-left\">";
-			} else if (rend.getRend() == Rendition.CENTER) {
-				preFormat = preFormat + "<div class=\"text-center\">";
-			} else if (rend.getRend() == Rendition.BOLD) {
-				preFormat = preFormat + "<strong>";
-			} else if (rend.getRend() == Rendition.ITALIC) {
-				preFormat = preFormat + "<em>";
-			} else if (rend.getRend() == Rendition.RED) {
-				preFormat = preFormat + "<span style=\"color: rgb(255,0,0);\">";
-			} else if (rend.getRend() == Rendition.UNDERLINED) {
-				preFormat = preFormat + "<u>";
-			}
+		String preRend = "";
+		String postRend = "";
+		for (Rend rend : segText.getRendSet()) {
+			preRend = preRend + generatePreRendition(rend);
+			postRend = generatePostRendition(rend) + postRend;
 		}
 
 		transcription = transcription
 				+ segText.writeSeparator(displayDel, highlightSubst, fragInter)
-				+ preFormat;
+				+ preRend;
 
 		TextPortion firstChild = segText.getFirstChildText();
 		if (firstChild != null) {
 			firstChild.accept(this);
 		}
 
-		Collections.reverse(rends);
-		String postFormat = "";
-		for (Rend rend : rends) {
-			if (rend.getRend() == Rendition.RIGHT) {
-				postFormat = postFormat + "</div>";
-			} else if (rend.getRend() == Rendition.LEFT) {
-				postFormat = postFormat + "</div>";
-			} else if (rend.getRend() == Rendition.CENTER) {
-				postFormat = postFormat + "</div>";
-			} else if (rend.getRend() == Rendition.BOLD) {
-				postFormat = postFormat + "</strong>";
-			} else if (rend.getRend() == Rendition.ITALIC) {
-				postFormat = postFormat + "</em>";
-			} else if (rend.getRend() == Rendition.RED) {
-				postFormat = postFormat + "</span>";
-			} else if (rend.getRend() == Rendition.UNDERLINED) {
-				postFormat = postFormat + "</u>";
-			}
-		}
-
-		transcription = transcription + postFormat;
+		transcription = transcription + postRend;
 
 		if (segText.getParentOfLastText() == null) {
 			segText.getNextText().accept(this);
@@ -288,28 +252,34 @@ public class HtmlWriter4OneInter extends HtmlWriter {
 
 	@Override
 	public void visit(AddText addText) {
-		String openFormat = "";
-		String closeFormat = "";
+		String preRendition = "";
+		String postRendition = "";
+		for (Rend rend : addText.getRendSet()) {
+			preRendition = preRendition + generatePreRendition(rend);
+			postRendition = generatePostRendition(rend) + postRendition;
+		}
 
+		String prePlaceFormat = "";
+		String postPlaceFormat = "";
 		switch (addText.getPlace()) {
 		case INLINE:
 		case SUPERIMPOSED:
 		case UNSPECIFIED:
-			openFormat = "<small>";
-			closeFormat = "</small>";
+			prePlaceFormat = "<small>";
+			postPlaceFormat = "</small>";
 			break;
 		case MARGIN:
 		case OPPOSITE:
 		case ABOVE:
 		case TOP:
-			openFormat = "<sup>";
-			closeFormat = "</sup>";
+			prePlaceFormat = "<sup>";
+			postPlaceFormat = "</sup>";
 			break;
 		case BELOW:
 		case BOTTOM:
 		case END:
-			openFormat = "<sub>";
-			closeFormat = "</sub>";
+			prePlaceFormat = "<sub>";
+			postPlaceFormat = "</sub>";
 			break;
 		}
 
@@ -322,7 +292,8 @@ public class HtmlWriter4OneInter extends HtmlWriter {
 
 			transcription = transcription
 					+ addText.writeSeparator(displayDel, highlightSubst,
-							fragInter) + openFormat + insertSymbol;
+							fragInter) + preRendition + prePlaceFormat
+					+ insertSymbol;
 		} else {
 			transcription = transcription
 					+ addText.writeSeparator(displayDel, highlightSubst,
@@ -335,7 +306,7 @@ public class HtmlWriter4OneInter extends HtmlWriter {
 		}
 
 		if (highlightIns) {
-			transcription = transcription + closeFormat;
+			transcription = transcription + postPlaceFormat + postRendition;
 		}
 
 		if (addText.getParentOfLastText() == null) {
@@ -393,6 +364,46 @@ public class HtmlWriter4OneInter extends HtmlWriter {
 		if (substText.getParentOfLastText() == null) {
 			substText.getNextText().accept(this);
 		}
+	}
+
+	private String generatePreRendition(Rend rend) {
+		String preRend = "";
+		if (rend.getRend() == Rendition.RIGHT) {
+			preRend = "<div class=\"text-right\">";
+		} else if (rend.getRend() == Rendition.LEFT) {
+			preRend = "<div class=\"text-left\">";
+		} else if (rend.getRend() == Rendition.CENTER) {
+			preRend = "<div class=\"text-center\">";
+		} else if (rend.getRend() == Rendition.BOLD) {
+			preRend = "<strong>";
+		} else if (rend.getRend() == Rendition.ITALIC) {
+			preRend = "<em>";
+		} else if (rend.getRend() == Rendition.RED) {
+			preRend = "<span style=\"color: rgb(255,0,0);\">";
+		} else if (rend.getRend() == Rendition.UNDERLINED) {
+			preRend = "<u>";
+		}
+		return preRend;
+	}
+
+	private String generatePostRendition(Rend rend) {
+		String postRend = "";
+		if (rend.getRend() == Rendition.RIGHT) {
+			postRend = "</div>";
+		} else if (rend.getRend() == Rendition.LEFT) {
+			postRend = "</div>";
+		} else if (rend.getRend() == Rendition.CENTER) {
+			postRend = "</div>";
+		} else if (rend.getRend() == Rendition.BOLD) {
+			postRend = "</strong>";
+		} else if (rend.getRend() == Rendition.ITALIC) {
+			postRend = "</em>";
+		} else if (rend.getRend() == Rendition.RED) {
+			postRend = "</span>";
+		} else if (rend.getRend() == Rendition.UNDERLINED) {
+			postRend = "</u>";
+		}
+		return postRend;
 	}
 
 }

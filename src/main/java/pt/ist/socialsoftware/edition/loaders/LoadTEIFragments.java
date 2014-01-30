@@ -343,6 +343,8 @@ public class LoadTEIFragments {
 
 		AddText addText = new AddText(parent, place);
 
+		setRenditions(element, addText);
+
 		for (Content content : element.getContent()) {
 			if (content.getCType() == CType.Text) {
 				if (content.getValue().trim() != "") {
@@ -1096,7 +1098,7 @@ public class LoadTEIFragments {
 		return dim;
 	}
 
-	private void setRenditions(Element element, SegText segText) {
+	private void setRenditions(Element element, TextPortion text) {
 		String[] listRendXmlId = null;
 
 		Attribute rendAttribute = element.getAttribute("rendition");
@@ -1109,19 +1111,19 @@ public class LoadTEIFragments {
 				String rendXmlId = listRendXmlId[i].substring(1);
 
 				if (rendXmlId.equals("right")) {
-					segText.addRend(new Rend(Rendition.RIGHT));
+					text.addRend(new Rend(Rendition.RIGHT));
 				} else if (rendXmlId.equals("left")) {
-					segText.addRend(new Rend(Rendition.LEFT));
+					text.addRend(new Rend(Rendition.LEFT));
 				} else if (rendXmlId.equals("center")) {
-					segText.addRend(new Rend(Rendition.CENTER));
+					text.addRend(new Rend(Rendition.CENTER));
 				} else if (rendXmlId.equals("bold")) {
-					segText.addRend(new Rend(Rendition.BOLD));
+					text.addRend(new Rend(Rendition.BOLD));
 				} else if (rendXmlId.equals("i")) {
-					segText.addRend(new Rend(Rendition.ITALIC));
+					text.addRend(new Rend(Rendition.ITALIC));
 				} else if (rendXmlId.equals("red")) {
-					segText.addRend(new Rend(Rendition.RED));
+					text.addRend(new Rend(Rendition.RED));
 				} else if (rendXmlId.equals("u")) {
-					segText.addRend(new Rend(Rendition.UNDERLINED));
+					text.addRend(new Rend(Rendition.UNDERLINED));
 				} else {
 					throw new LdoDLoadException("valor desconhecido para rend="
 							+ listRendXmlId[i]);

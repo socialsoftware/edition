@@ -130,6 +130,10 @@ public abstract class TextPortion extends TextPortion_Base implements
 			removePhysNote(physNote);
 		}
 
+		for (Rend rend : getRendSet()) {
+			rend.remove();
+		}
+
 		setFragment(null);
 		setPrevText(null);
 		setNextText(null);
