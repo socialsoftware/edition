@@ -1,6 +1,8 @@
 package pt.ist.socialsoftware.edition.visitors;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import pt.ist.socialsoftware.edition.domain.AddText;
@@ -36,6 +38,7 @@ public class HtmlWriter4OneInter extends HtmlWriter {
 
 	public String getTranscription(FragInter inter) {
 		assert inter == fragInter;
+
 		return transcription;
 	}
 
@@ -160,12 +163,9 @@ public class HtmlWriter4OneInter extends HtmlWriter {
 
 	@Override
 	public void visit(SegText segText) {
-		String preRend = "";
-		String postRend = "";
-		for (Rend rend : segText.getRendSet()) {
-			preRend = preRend + generatePreRendition(rend);
-			postRend = generatePostRendition(rend) + postRend;
-		}
+		List<Rend> renditions = new ArrayList<Rend>(segText.getRendSet());
+		String preRend = generatePreRendition(renditions);
+		String postRend = generatePostRendition(renditions);
 
 		transcription = transcription
 				+ segText.writeSeparator(displayDel, highlightSubst, fragInter)
@@ -252,12 +252,9 @@ public class HtmlWriter4OneInter extends HtmlWriter {
 
 	@Override
 	public void visit(AddText addText) {
-		String preRendition = "";
-		String postRendition = "";
-		for (Rend rend : addText.getRendSet()) {
-			preRendition = preRendition + generatePreRendition(rend);
-			postRendition = generatePostRendition(rend) + postRendition;
-		}
+		List<Rend> renditions = new ArrayList<Rend>(addText.getRendSet());
+		String preRendition = generatePreRendition(renditions);
+		String postRendition = generatePostRendition(renditions);
 
 		String prePlaceFormat = "";
 		String postPlaceFormat = "";
@@ -366,42 +363,47 @@ public class HtmlWriter4OneInter extends HtmlWriter {
 		}
 	}
 
-	private String generatePreRendition(Rend rend) {
+	private String generatePreRendition(List<Rend> renditions) {
 		String preRend = "";
-		if (rend.getRend() == Rendition.RIGHT) {
-			preRend = "<div class=\"text-right\">";
-		} else if (rend.getRend() == Rendition.LEFT) {
-			preRend = "<div class=\"text-left\">";
-		} else if (rend.getRend() == Rendition.CENTER) {
-			preRend = "<div class=\"text-center\">";
-		} else if (rend.getRend() == Rendition.BOLD) {
-			preRend = "<strong>";
-		} else if (rend.getRend() == Rendition.ITALIC) {
-			preRend = "<em>";
-		} else if (rend.getRend() == Rendition.RED) {
-			preRend = "<span style=\"color: rgb(255,0,0);\">";
-		} else if (rend.getRend() == Rendition.UNDERLINED) {
-			preRend = "<u>";
+		for (Rend rend : renditions) {
+			// the order matters
+			if (rend.getRend() == Rendition.RIGHT) {
+				preRend = "<div class=\"text-right\">" + preRend;
+			} else if (rend.getRend() == Rendition.LEFT) {
+				preRend = "<div class=\"text-left\">" + preRend;
+			} else if (rend.getRend() == Rendition.CENTER) {
+				preRend = "<div class=\"text-center\">" + preRend;
+			} else if (rend.getRend() == Rendition.BOLD) {
+				preRend = preRend + "<strong>";
+			} else if (rend.getRend() == Rendition.ITALIC) {
+				preRend = preRend + "<em>";
+			} else if (rend.getRend() == Rendition.RED) {
+				preRend = preRend + "<span style=\"color: rgb(255,0,0);\">";
+			} else if (rend.getRend() == Rendition.UNDERLINED) {
+				preRend = preRend + "<u>";
+			}
 		}
 		return preRend;
 	}
 
-	private String generatePostRendition(Rend rend) {
+	private String generatePostRendition(List<Rend> renditions) {
 		String postRend = "";
-		if (rend.getRend() == Rendition.RIGHT) {
-			postRend = "</div>";
-		} else if (rend.getRend() == Rendition.LEFT) {
-			postRend = "</div>";
-		} else if (rend.getRend() == Rendition.CENTER) {
-			postRend = "</div>";
-		} else if (rend.getRend() == Rendition.BOLD) {
-			postRend = "</strong>";
-		} else if (rend.getRend() == Rendition.ITALIC) {
-			postRend = "</em>";
-		} else if (rend.getRend() == Rendition.RED) {
-			postRend = "</span>";
-		} else if (rend.getRend() == Rendition.UNDERLINED) {
-			postRend = "</u>";
+		for (Rend rend : renditions) {
+			if (rend.getRend() == Rendition.RIGHT) {
+				postRend = postRend + "</div>";
+			} else if (rend.getRend() == Rendition.LEFT) {
+				postRend = postRend + "</div>";
+			} else if (rend.getRend() == Rendition.CENTER) {
+				postRend = postRend + "</div>";
+			} else if (rend.getRend() == Rendition.BOLD) {
+				postRend = "</strong>" + postRend;
+			} else if (rend.getRend() == Rendition.ITALIC) {
+				postRend = "</em>" + postRend;
+			} else if (rend.getRend() == Rendition.RED) {
+				postRend = "</span>" + postRend;
+			} else if (rend.getRend() == Rendition.UNDERLINED) {
+				postRend = "</u>" + postRend;
+			}
 		}
 		return postRend;
 	}
