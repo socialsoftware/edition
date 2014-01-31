@@ -43,6 +43,7 @@ public class Bootstrap implements WebApplicationInitializer {
 		Role user = new Role(ldod, "USER");
 		Role admin = new Role(ldod, "ADMIN");
 
+		// the sha-256 generator http://hash.online-convert.com/sha256-generator
 		LdoDUser ars = new LdoDUser(ldod, "ars",
 				"afec24a5413f633e764835ad9651329bae74fdf04096442d11e585ce14a3985f");
 		LdoDUser diego = new LdoDUser(ldod, "diego",
@@ -57,6 +58,8 @@ public class Bootstrap implements WebApplicationInitializer {
 				"2429c113c25f33be41309c940d0b3dfebd7104f92aede07c47d95754800cd597");
 		LdoDUser tiago = new LdoDUser(ldod, "tiago",
 				"de968c78d0e50dbfd5083e1994492548baf4159f7112242acb02f773dc308ac9");
+		LdoDUser nuno = new LdoDUser(ldod, "nuno",
+				"057cc85da65d23b0b2971833ec27aab712b84aa6e47c034ab8143e48398205a1");
 
 		ars.addRoles(user);
 		ars.addRoles(admin);
@@ -79,6 +82,9 @@ public class Bootstrap implements WebApplicationInitializer {
 		tiago.addRoles(user);
 		tiago.addRoles(admin);
 
+		nuno.addRoles(user);
+		nuno.addRoles(admin);
+
 		VirtualEdition classX = new VirtualEdition(ldod, ars, "ClassX",
 				"LdoD Edition of Class X", "12/12/2012", true);
 		classX.addParticipant(llc);
@@ -96,8 +102,10 @@ public class Bootstrap implements WebApplicationInitializer {
 		classW.addParticipant(tim);
 		classW.addParticipant(carlos);
 		classW.addParticipant(tiago);
+		classW.addParticipant(nuno);
 		mp.addSelectedVirtualEditions(classW);
 		diego.addSelectedVirtualEditions(classW);
 		tiago.addSelectedVirtualEditions(classW);
+		nuno.addSelectedVirtualEditions(classW);
 	}
 }
