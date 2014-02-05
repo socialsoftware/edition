@@ -9,6 +9,7 @@ enum pt.ist.socialsoftware.edition.domain.SpaceText.SpaceUnit as SpaceUnit;
 enum pt.ist.socialsoftware.edition.domain.Rend.Rendition as Rendition;
 enum pt.ist.socialsoftware.edition.domain.AddText.Place as Place;
 enum pt.ist.socialsoftware.edition.domain.DelText.HowDel as HowDel;
+enum pt.ist.socialsoftware.edition.domain.AppText.VariationType as VariationType;
 
 class LdoD {
 	String title;
@@ -312,7 +313,9 @@ relation TextPortionContainsLastTextPortion {
 
 class RdgGrpText extends TextPortion;
 
-class AppText extends TextPortion;
+class AppText extends TextPortion {
+  VariationType type;
+}
 
 relation FragInterHasRdgTexts {
 	FragInter playsRole fragInters {multiplicity 0..*;}

@@ -26,6 +26,7 @@ import org.jdom2.xpath.XPathFactory;
 import pt.ist.socialsoftware.edition.domain.AddText;
 import pt.ist.socialsoftware.edition.domain.AddText.Place;
 import pt.ist.socialsoftware.edition.domain.AppText;
+import pt.ist.socialsoftware.edition.domain.AppText.VariationType;
 import pt.ist.socialsoftware.edition.domain.Category;
 import pt.ist.socialsoftware.edition.domain.DelText;
 import pt.ist.socialsoftware.edition.domain.DelText.HowDel;
@@ -451,7 +452,11 @@ public class LoadTEIFragments {
 	}
 
 	private void loadApp(Element appElement, TextPortion parent) {
+		VariationType type = getVariationType(appElement);
+
 		AppText app = new AppText(parent);
+
+		app.setType(type);
 
 		for (Element rdgElement : appElement.getChildren()) {
 			if (rdgElement.getName().equals("rdg")) {
@@ -1210,4 +1215,30 @@ public class LoadTEIFragments {
 		return howDel;
 	}
 
+	private VariationType getVariationType(Element appElement) {
+		VariationType type = VariationType.UNSPECIFIED;
+
+		Attribute typeAttribute = appElement.getAttribute("type");
+
+		if (typeAttribute != null) {
+			String typeValue = typeAttribute.getValue();
+
+			switch (typeValue) {
+			case "orthographic":
+				// due to a error in the encoding both forms are allowed
+			case "ortographic":
+				type = VariationType.ORTHOGRAPHIC;
+				break;
+			case "substantive":
+				type = VariationType.SUBSTANTIVE;
+				break;
+			default:
+				throw new LdoDLoadException(
+						"valor desconhecido para atributo type=" + typeValue
+								+ " dentro de app");
+			}
+		}
+
+		return type;
+	}
 }
