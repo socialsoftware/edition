@@ -37,12 +37,11 @@ $(document).ready(function() {
     });
 });
 </script>
-<div id="fragment" class="row">
+<div id="fragment" class="row pull-right">
     <!-- Fragment ID for javascript -->
     <div id="${fragment.externalId}"></div>
 
-    <div class="btn-group pull-right" id="baseinter"
-        data-toggle="checkbox">
+    <div class="btn-group" id="baseinter" data-toggle="checkbox">
         <!-- AUTHORIAL -->
         <h5 class="text-center">
             <spring:message code="authorial.source" />
@@ -138,15 +137,15 @@ $(document).ready(function() {
             <h5 class="text-center">
                 <spring:message code="virtual.editions" />
             </h5>
-            <c:forEach var="virtualEdition"
-                items='${ldoDSession.selectedVEs}'>
-                <div class="text-center">
+            <div class="text-center">
+                <c:forEach var="virtualEdition"
+                    items='${ldoDSession.selectedVEs}'>
+                    <div class="text-center">
+                        <a
+                            href="${contextPath}/edition/internalid/${virtualEdition.externalId}">
+                            ${virtualEdition.acronym}</a>
+                    </div>
                     <table>
-                        <caption class="text-center">
-                            <a
-                                href="${contextPath}/edition/internalid/${virtualEdition.externalId}">
-                                ${virtualEdition.acronym}</a>
-                        </caption>
                         <thead>
                             <tr>
                                 <th style="width: 30%"></th>
@@ -203,8 +202,9 @@ $(document).ready(function() {
                             </tr>
                         </c:if>
                     </table>
-                </div>
-            </c:forEach>
+
+                </c:forEach>
+            </div>
         </c:if>
     </div>
 </div>
