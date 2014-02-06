@@ -6,8 +6,9 @@ public class AddText extends AddText_Base {
 
 	public enum Place {
 		ABOVE("above"), BELOW("below"), SUPERIMPOSED("superimposed"), MARGIN(
-				"margin"), TOP("top"), BOTTOM("bottom"), INLINE("inline"), OPPOSITE(
-				"opposite"), END("end"), UNSPECIFIED("unspecified");
+				"margin"), TOP("top"), BOTTOM("bottom"), INLINE("inline"), INSPACE(
+				"inspace"), OVERLEAF("overleaf"), OPPOSITE("opposite"), END(
+				"end"), UNSPECIFIED("unspecified");
 
 		private String desc;
 

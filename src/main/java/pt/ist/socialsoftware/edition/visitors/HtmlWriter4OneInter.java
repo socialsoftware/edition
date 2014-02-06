@@ -260,21 +260,23 @@ public class HtmlWriter4OneInter extends HtmlWriter {
 		String postPlaceFormat = "";
 		switch (addText.getPlace()) {
 		case INLINE:
+		case INSPACE:
+		case OVERLEAF:
 		case SUPERIMPOSED:
+		case MARGIN:
+		case OPPOSITE:
+		case BOTTOM:
+		case END:
 		case UNSPECIFIED:
 			prePlaceFormat = "<small>";
 			postPlaceFormat = "</small>";
 			break;
-		case MARGIN:
-		case OPPOSITE:
 		case ABOVE:
 		case TOP:
 			prePlaceFormat = "<sup>";
 			postPlaceFormat = "</sup>";
 			break;
 		case BELOW:
-		case BOTTOM:
-		case END:
 			prePlaceFormat = "<sub>";
 			postPlaceFormat = "</sub>";
 			break;

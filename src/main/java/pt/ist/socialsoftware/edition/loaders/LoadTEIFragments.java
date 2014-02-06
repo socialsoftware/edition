@@ -1180,6 +1180,10 @@ public class LoadTEIFragments {
 				place = Place.BOTTOM;
 			} else if (placeValue.equals("inline")) {
 				place = Place.INLINE;
+			} else if (placeValue.equals("inspace")) {
+				place = Place.INSPACE;
+			} else if (placeValue.equals("overleaf")) {
+				place = Place.OVERLEAF;
 			} else if (placeValue.equals("opposite")) {
 				place = Place.OPPOSITE;
 			} else if (placeValue.equals("end")) {
