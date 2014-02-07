@@ -10,6 +10,9 @@ enum pt.ist.socialsoftware.edition.domain.Rend.Rendition as Rendition;
 enum pt.ist.socialsoftware.edition.domain.AddText.Place as Place;
 enum pt.ist.socialsoftware.edition.domain.DelText.HowDel as HowDel;
 enum pt.ist.socialsoftware.edition.domain.AppText.VariationType as VariationType;
+enum pt.ist.socialsoftware.edition.domain.GapText.GapUnit as GapUnit;
+enum pt.ist.socialsoftware.edition.domain.GapText.GapReason as GapReason;
+enum pt.ist.socialsoftware.edition.domain.UnclearText.UnclearReason as UnclearReason;
 
 class LdoD {
 	String title;
@@ -363,6 +366,16 @@ class DelText extends TextPortion {
 }
 
 class SubstText extends TextPortion {
+}
+
+class GapText extends TextPortion {
+	GapReason reason;
+	GapUnit unit;
+	int extent;
+} 
+
+class UnclearText extends TextPortion {
+	UnclearReason reason;
 }
 
 class Annotation {

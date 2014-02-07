@@ -11,6 +11,7 @@ import pt.ist.socialsoftware.edition.domain.AddText;
 import pt.ist.socialsoftware.edition.domain.AppText;
 import pt.ist.socialsoftware.edition.domain.DelText;
 import pt.ist.socialsoftware.edition.domain.FragInter;
+import pt.ist.socialsoftware.edition.domain.GapText;
 import pt.ist.socialsoftware.edition.domain.LbText;
 import pt.ist.socialsoftware.edition.domain.ParagraphText;
 import pt.ist.socialsoftware.edition.domain.PbText;
@@ -21,6 +22,7 @@ import pt.ist.socialsoftware.edition.domain.SimpleText;
 import pt.ist.socialsoftware.edition.domain.SpaceText;
 import pt.ist.socialsoftware.edition.domain.SubstText;
 import pt.ist.socialsoftware.edition.domain.TextPortion;
+import pt.ist.socialsoftware.edition.domain.UnclearText;
 
 public class HtmlWriter2CompInters extends HtmlWriter {
 	private final Map<FragInter, String> transcriptionsMap = new HashMap<FragInter, String>();
@@ -91,7 +93,7 @@ public class HtmlWriter2CompInters extends HtmlWriter {
 
 	private void generateLineByLine(AppText appText) {
 		if (lineByLine && (appText.getInterps().containsAll(interps))) {
-			int lineLength = 85;
+			int lineLength = 66;
 
 			int longestLength = 0;
 			for (FragInter inter : interps) {
@@ -359,6 +361,41 @@ public class HtmlWriter2CompInters extends HtmlWriter {
 
 		if (substText.getParentOfLastText() == null) {
 			substText.getNextText().accept(this);
+		}
+	}
+
+	@Override
+	public void visit(GapText gapText) {
+		Set<FragInter> intersection = new HashSet<FragInter>(interps);
+		intersection.retainAll(gapText.getInterps());
+
+		String value = gapText.getGapValue();
+
+		for (FragInter inter : intersection) {
+			String separator = gapText.writeSeparator(true, false, inter);
+			String newTranscription = transcriptionsMap.get(inter) + separator
+					+ value;
+			transcriptionsMap.put(inter, newTranscription);
+			transcriptionsLengthMap.put(inter,
+					transcriptionsLengthMap.get(inter) + value.length()
+							+ separator.length());
+		}
+
+		if (gapText.getParentOfLastText() == null) {
+			gapText.getNextText().accept(this);
+		}
+	}
+
+	@Override
+	public void visit(UnclearText unclearText) {
+
+		TextPortion firstChild = unclearText.getFirstChildText();
+		if (firstChild != null) {
+			firstChild.accept(this);
+		}
+
+		if (unclearText.getParentOfLastText() == null) {
+			unclearText.getNextText().accept(this);
 		}
 	}
 

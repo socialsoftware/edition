@@ -100,7 +100,7 @@
 		<security:intercept-url pattern="/login"
 			access="permitAll" />
 		<security:intercept-url pattern="/favicon.ico" access="permitAll" />
-<!--
+<!-- 
 		<security:intercept-url pattern="/**"
 			access="isAuthenticated()" />
 -->

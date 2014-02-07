@@ -9,6 +9,7 @@ import pt.ist.socialsoftware.edition.domain.AddText;
 import pt.ist.socialsoftware.edition.domain.AppText;
 import pt.ist.socialsoftware.edition.domain.DelText;
 import pt.ist.socialsoftware.edition.domain.FragInter;
+import pt.ist.socialsoftware.edition.domain.GapText;
 import pt.ist.socialsoftware.edition.domain.LbText;
 import pt.ist.socialsoftware.edition.domain.ParagraphText;
 import pt.ist.socialsoftware.edition.domain.PbText;
@@ -22,6 +23,7 @@ import pt.ist.socialsoftware.edition.domain.SpaceText;
 import pt.ist.socialsoftware.edition.domain.SpaceText.SpaceDim;
 import pt.ist.socialsoftware.edition.domain.SubstText;
 import pt.ist.socialsoftware.edition.domain.TextPortion;
+import pt.ist.socialsoftware.edition.domain.UnclearText;
 
 public class HtmlWriter4OneInter extends HtmlWriter {
 	protected FragInter fragInter = null;
@@ -363,6 +365,46 @@ public class HtmlWriter4OneInter extends HtmlWriter {
 		if (substText.getParentOfLastText() == null) {
 			substText.getNextText().accept(this);
 		}
+	}
+
+	@Override
+	public void visit(GapText gapText) {
+		String gapValue = gapText.getGapValue();
+
+		totalChar = totalChar + gapValue.length();
+		for (FragInter inter : gapText.getInterps()) {
+			Integer number = interpsChar.get(inter);
+			number = number + gapValue.length();
+			interpsChar.put(inter, number);
+		}
+
+		transcription = transcription
+				+ gapText.writeSeparator(displayDel, highlightSubst, fragInter)
+				+ "<abbr title=\"" + gapText.getReason().getDesc() + "\">"
+				+ gapValue + "</abbr>";
+
+		if (gapText.getParentOfLastText() == null) {
+			gapText.getNextText().accept(this);
+		}
+	}
+
+	@Override
+	public void visit(UnclearText unclearText) {
+		transcription = transcription
+				+ "<span style=\"background-color: rgb(0,255,0);\">"
+				+ "TO IMPROVE";
+
+		TextPortion firstChild = unclearText.getFirstChildText();
+		if (firstChild != null) {
+			firstChild.accept(this);
+		}
+
+		transcription = transcription + "</span>";
+
+		if (unclearText.getParentOfLastText() == null) {
+			unclearText.getNextText().accept(this);
+		}
+
 	}
 
 	private String generatePreRendition(List<Rend> renditions) {

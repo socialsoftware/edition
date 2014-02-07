@@ -6,6 +6,7 @@ package pt.ist.socialsoftware.edition.visitors;
 import pt.ist.socialsoftware.edition.domain.AddText;
 import pt.ist.socialsoftware.edition.domain.AppText;
 import pt.ist.socialsoftware.edition.domain.DelText;
+import pt.ist.socialsoftware.edition.domain.GapText;
 import pt.ist.socialsoftware.edition.domain.LbText;
 import pt.ist.socialsoftware.edition.domain.ParagraphText;
 import pt.ist.socialsoftware.edition.domain.PbText;
@@ -15,6 +16,7 @@ import pt.ist.socialsoftware.edition.domain.SegText;
 import pt.ist.socialsoftware.edition.domain.SimpleText;
 import pt.ist.socialsoftware.edition.domain.SpaceText;
 import pt.ist.socialsoftware.edition.domain.SubstText;
+import pt.ist.socialsoftware.edition.domain.UnclearText;
 
 /**
  * The visitor pattern applied to the tree of text
@@ -46,4 +48,8 @@ public interface TextTreeVisitor {
 	public void visit(DelText delText);
 
 	public void visit(SubstText substText);
+
+	public void visit(GapText gapText);
+
+	public void visit(UnclearText unclearText);
 }

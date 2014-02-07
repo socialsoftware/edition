@@ -6,12 +6,6 @@ import pt.ist.socialsoftware.edition.visitors.TextTreeVisitor;
 
 public class LbText extends LbText_Base {
 
-	public LbText(Boolean isBreak, Boolean isHyphenated) {
-		super();
-		setBreakWord(isBreak);
-		setHyphenated(isHyphenated);
-	}
-
 	public LbText(TextPortion parent, Boolean isBreak, Boolean isHyphenated,
 			Set<FragInter> interps) {
 		parent.addChildText(this);

@@ -106,7 +106,7 @@ public abstract class TextPortion extends TextPortion_Base implements
 	}
 
 	// goes through the tree of text to find the next instance of SimpleText and
-	// request the separator
+	// requests the separator
 	public String getSeparator(FragInter inter) {
 		SimpleText simpleText = getNextSimpleText(inter);
 

@@ -10,11 +10,6 @@ import pt.ist.socialsoftware.edition.visitors.TextTreeVisitor;
  */
 public class SimpleText extends SimpleText_Base {
 
-	public SimpleText(String value) {
-		super();
-		setValue(value);
-	}
-
 	public SimpleText(TextPortion parent, String value) {
 		parent.addChildText(this);
 		setValue(value);

@@ -32,13 +32,6 @@ public class SpaceText extends SpaceText_Base {
 		}
 	};
 
-	public SpaceText(SpaceDim dim, int quantity, SpaceUnit unit) {
-		super();
-		setDim(dim);
-		setQuantity(quantity);
-		setUnit(unit);
-	}
-
 	public SpaceText(TextPortion parent, SpaceDim dim, int quantity,
 			SpaceUnit unit) {
 		parent.addChildText(this);

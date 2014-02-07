@@ -35,6 +35,9 @@ import pt.ist.socialsoftware.edition.domain.ExpertEditionInter;
 import pt.ist.socialsoftware.edition.domain.Facsimile;
 import pt.ist.socialsoftware.edition.domain.FragInter;
 import pt.ist.socialsoftware.edition.domain.Fragment;
+import pt.ist.socialsoftware.edition.domain.GapText;
+import pt.ist.socialsoftware.edition.domain.GapText.GapReason;
+import pt.ist.socialsoftware.edition.domain.GapText.GapUnit;
 import pt.ist.socialsoftware.edition.domain.HandNote;
 import pt.ist.socialsoftware.edition.domain.Heteronym;
 import pt.ist.socialsoftware.edition.domain.LbText;
@@ -281,6 +284,8 @@ public class LoadTEIFragments {
 					loadDel(element2, parent);
 				} else if (element2.getName().equals("subst")) {
 					loadSubst(element2, parent);
+				} else if (element2.getName().equals("gap")) {
+					loadGap(element2, parent);
 				} else {
 					throw new LdoDLoadException("DOES NOT HANDLE LOAD OF:"
 							+ element2 + " OF TYPE:"
@@ -289,6 +294,31 @@ public class LoadTEIFragments {
 				}
 			}
 		}
+	}
+
+	private void loadGap(Element element, TextPortion parent) {
+		GapReason reason = getGapReasonAttribute(element);
+		if (reason == GapReason.NONSPECIFIED) {
+			throw new LdoDLoadException("O elemento gap no contexto "
+					+ element.getParent().getContent()
+					+ " deve ter valor para o atributo reason");
+		}
+
+		int extent = getExtentAttribute(element);
+		if (extent == 0) {
+			throw new LdoDLoadException("O elemento gap no contexto "
+					+ element.getParent().getContent()
+					+ " deve ter valor para o atributo extent");
+		}
+
+		GapUnit unit = getGapUnitAttribute(element);
+		if (unit == GapUnit.NONSPECIFIED) {
+			throw new LdoDLoadException("O elemento gap no contexto "
+					+ element.getParent().getContent()
+					+ " deve ter valor para o atributo unit");
+		}
+
+		new GapText(parent, reason, extent, unit);
 	}
 
 	private void loadSubst(Element element, TextPortion parent) {
@@ -336,6 +366,8 @@ public class LoadTEIFragments {
 					loadAdd(element2, delText);
 				} else if (element2.getName().equals("lb")) {
 					loadLb(element2, delText);
+				} else if (element2.getName().equals("gap")) {
+					loadGap(element2, delText);
 				} else {
 					throw new LdoDLoadException("não carrega elementos: "
 							+ element2 + " do tipo:" + element2.getName()
@@ -369,6 +401,8 @@ public class LoadTEIFragments {
 					loadAdd(element2, addText);
 				} else if (element2.getName().equals("subst")) {
 					loadSubst(element2, addText);
+				} else if (element2.getName().equals("gap")) {
+					loadGap(element2, addText);
 				} else if (element2.getName().equals("lb")) {
 					loadLb(element2, addText);
 				} else if (element2.getName().equals("seg")) {
@@ -1245,4 +1279,72 @@ public class LoadTEIFragments {
 
 		return type;
 	}
+
+	private GapReason getGapReasonAttribute(Element element) {
+		GapReason reason = GapReason.NONSPECIFIED;
+
+		Attribute reasonAttribute = element.getAttribute("reason");
+
+		if (reasonAttribute != null) {
+			String reasonValue = reasonAttribute.getValue();
+
+			switch (reasonValue) {
+			case "irrelevant":
+				reason = GapReason.IRRELEVANT;
+				break;
+			case "illegible":
+				reason = GapReason.ILLEGIABLE;
+				break;
+			default:
+				throw new LdoDLoadException(
+						"valor desconhecido para atributo reason="
+								+ reasonValue + " dentro de gap");
+			}
+		}
+		return reason;
+	}
+
+	private int getExtentAttribute(Element element) {
+		int extent = 0;
+
+		Attribute extentAttribute = element.getAttribute("extent");
+
+		if (extentAttribute != null) {
+			try {
+				extent = Integer.parseInt(extentAttribute.getValue());
+			} catch (NumberFormatException e) {
+				throw new LdoDLoadException(
+						"valor para atributo extent de um element gap não é um número="
+								+ extentAttribute.getValue()
+								+ " _APLICADO AO VALOR_ "
+								+ element.getParent().getContent());
+			}
+		}
+		return extent;
+	}
+
+	private GapUnit getGapUnitAttribute(Element element) {
+		GapUnit unit = GapUnit.NONSPECIFIED;
+
+		Attribute unitAttribute = element.getAttribute("unit");
+
+		if (unitAttribute != null) {
+			String unitValue = unitAttribute.getValue();
+
+			switch (unitValue) {
+			case "word":
+				unit = GapUnit.WORD;
+				break;
+			case "char":
+				unit = GapUnit.CHAR;
+				break;
+			default:
+				throw new LdoDLoadException(
+						"valor desconhecido para atributo unit=" + unitValue
+								+ " dentro de gap");
+			}
+		}
+		return unit;
+	}
+
 }

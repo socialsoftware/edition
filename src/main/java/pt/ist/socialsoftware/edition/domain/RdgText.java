@@ -10,11 +10,6 @@ public class RdgText extends RdgText_Base implements GraphElement {
 		NO_TYPE, ORTHOGRAPHIC
 	};
 
-	public RdgText() {
-		super();
-		setType(RdgTextType.NO_TYPE);
-	}
-
 	public RdgText(TextPortion parent, Set<FragInter> fragInters) {
 		parent.addChildText(this);
 		setType(RdgTextType.NO_TYPE);

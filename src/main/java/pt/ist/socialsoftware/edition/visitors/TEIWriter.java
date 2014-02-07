@@ -9,6 +9,7 @@ import pt.ist.socialsoftware.edition.domain.AppText;
 import pt.ist.socialsoftware.edition.domain.DelText;
 import pt.ist.socialsoftware.edition.domain.DelText.HowDel;
 import pt.ist.socialsoftware.edition.domain.FragInter;
+import pt.ist.socialsoftware.edition.domain.GapText;
 import pt.ist.socialsoftware.edition.domain.LbText;
 import pt.ist.socialsoftware.edition.domain.ParagraphText;
 import pt.ist.socialsoftware.edition.domain.PbText;
@@ -20,6 +21,7 @@ import pt.ist.socialsoftware.edition.domain.SimpleText;
 import pt.ist.socialsoftware.edition.domain.SpaceText;
 import pt.ist.socialsoftware.edition.domain.SubstText;
 import pt.ist.socialsoftware.edition.domain.TextPortion;
+import pt.ist.socialsoftware.edition.domain.UnclearText;
 
 /**
  * Produces a TEI representation of the tree representing a fragment text
@@ -236,6 +238,34 @@ public class TEIWriter implements TextTreeVisitor {
 
 		if (substText.getParentOfLastText() == null) {
 			substText.getNextText().accept(this);
+		}
+	}
+
+	@Override
+	public void visit(GapText gapText) {
+		result = result + "<gap reason=\">" + gapText.getReason().getDesc()
+				+ "\" extent=\"" + gapText.getExtent() + "\" unit=\""
+				+ gapText.getUnit().getDesc() + "\"/>";
+
+		if (gapText.getParentOfLastText() == null) {
+			gapText.getNextText().accept(this);
+		}
+	}
+
+	@Override
+	public void visit(UnclearText unclearText) {
+		result = result + "<unclear reason=\">"
+				+ unclearText.getReason().getDesc() + "\">";
+
+		TextPortion firstChild = unclearText.getFirstChildText();
+		if (firstChild != null) {
+			firstChild.accept(this);
+		}
+
+		result = result + "</unclear>";
+
+		if (unclearText.getParentOfLastText() == null) {
+			unclearText.getNextText().accept(this);
 		}
 	}
 }
