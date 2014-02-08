@@ -391,15 +391,17 @@ public class HtmlWriter4OneInter extends HtmlWriter {
 	@Override
 	public void visit(UnclearText unclearText) {
 		transcription = transcription
-				+ "<span style=\"background-color: rgb(0,255,0);\">"
-				+ "TO IMPROVE";
+				+ unclearText.writeSeparator(displayDel, highlightSubst,
+						fragInter)
+				+ "<span style=\"text-shadow: black 0.1em 0.1em 0.2em;\">"
+				+ "<abbr title=\"" + unclearText.getReason().getDesc() + "\">";
 
 		TextPortion firstChild = unclearText.getFirstChildText();
 		if (firstChild != null) {
 			firstChild.accept(this);
 		}
 
-		transcription = transcription + "</span>";
+		transcription = transcription + "</abbr>" + "</span>";
 
 		if (unclearText.getParentOfLastText() == null) {
 			unclearText.getNextText().accept(this);

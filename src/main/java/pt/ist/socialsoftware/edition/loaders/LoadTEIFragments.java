@@ -64,6 +64,8 @@ import pt.ist.socialsoftware.edition.domain.Surface;
 import pt.ist.socialsoftware.edition.domain.Taxonomy;
 import pt.ist.socialsoftware.edition.domain.TextPortion;
 import pt.ist.socialsoftware.edition.domain.TypeNote;
+import pt.ist.socialsoftware.edition.domain.UnclearText;
+import pt.ist.socialsoftware.edition.domain.UnclearText.UnclearReason;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDLoadException;
 
 public class LoadTEIFragments {
@@ -286,6 +288,8 @@ public class LoadTEIFragments {
 					loadSubst(element2, parent);
 				} else if (element2.getName().equals("gap")) {
 					loadGap(element2, parent);
+				} else if (element2.getName().equals("unclear")) {
+					loadUnclear(element2, parent);
 				} else {
 					throw new LdoDLoadException("DOES NOT HANDLE LOAD OF:"
 							+ element2 + " OF TYPE:"
@@ -294,6 +298,29 @@ public class LoadTEIFragments {
 				}
 			}
 		}
+	}
+
+	private void loadUnclear(Element element, TextPortion parent) {
+		List<Content> contentList = element.getContent();
+
+		if (contentList.size() != 1)
+			throw new LdoDLoadException("unclear não contém apenas texto"
+					+ element.getText());
+
+		if (contentList.get(0).getCType() != CType.Text)
+			throw new LdoDLoadException("unclear não contém apenas texto"
+					+ element.getText());
+
+		UnclearReason reason = getUnclearReasonAttribute(element);
+		if (reason == UnclearReason.NONSPECIFIED) {
+			throw new LdoDLoadException("O elemento unclear no contexto "
+					+ element.getParent().getContent()
+					+ " deve ter valor para o atributo reason");
+		}
+
+		UnclearText unclearText = new UnclearText(parent, reason);
+
+		loadSimpleText((Text) contentList.get(0), unclearText);
 	}
 
 	private void loadGap(Element element, TextPortion parent) {
@@ -368,6 +395,8 @@ public class LoadTEIFragments {
 					loadLb(element2, delText);
 				} else if (element2.getName().equals("gap")) {
 					loadGap(element2, delText);
+				} else if (element2.getName().equals("unclear")) {
+					loadUnclear(element2, delText);
 				} else {
 					throw new LdoDLoadException("não carrega elementos: "
 							+ element2 + " do tipo:" + element2.getName()
@@ -403,6 +432,8 @@ public class LoadTEIFragments {
 					loadSubst(element2, addText);
 				} else if (element2.getName().equals("gap")) {
 					loadGap(element2, addText);
+				} else if (element2.getName().equals("unclear")) {
+					loadUnclear(element2, addText);
 				} else if (element2.getName().equals("lb")) {
 					loadLb(element2, addText);
 				} else if (element2.getName().equals("seg")) {
@@ -1345,6 +1376,30 @@ public class LoadTEIFragments {
 			}
 		}
 		return unit;
+	}
+
+	private UnclearReason getUnclearReasonAttribute(Element element) {
+		UnclearReason reason = UnclearReason.NONSPECIFIED;
+
+		Attribute reasonAttribute = element.getAttribute("reason");
+
+		if (reasonAttribute != null) {
+			String reasonValue = reasonAttribute.getValue();
+
+			switch (reasonValue) {
+			case "irrelevant":
+				reason = UnclearReason.IRRELEVANT;
+				break;
+			case "illegible":
+				reason = UnclearReason.ILLEGIABLE;
+				break;
+			default:
+				throw new LdoDLoadException(
+						"valor desconhecido para atributo reason="
+								+ reasonValue + " dentro de unclear");
+			}
+		}
+		return reason;
 	}
 
 }

@@ -389,9 +389,26 @@ public class HtmlWriter2CompInters extends HtmlWriter {
 	@Override
 	public void visit(UnclearText unclearText) {
 
+		Set<FragInter> intersection = new HashSet<FragInter>(interps);
+		intersection.retainAll(unclearText.getInterps());
+
+		for (FragInter inter : intersection) {
+			String separator = unclearText.writeSeparator(true, false, inter);
+			String newTranscription = transcriptionsMap.get(inter) + separator
+					+ "<span style=\"text-shadow: black 0.1em 0.1em 0.2em;\">";
+			transcriptionsMap.put(inter, newTranscription);
+			transcriptionsLengthMap.put(inter,
+					transcriptionsLengthMap.get(inter) + separator.length());
+		}
+
 		TextPortion firstChild = unclearText.getFirstChildText();
 		if (firstChild != null) {
 			firstChild.accept(this);
+		}
+
+		for (FragInter inter : intersection) {
+			String newTranscription = transcriptionsMap.get(inter) + "</span>";
+			transcriptionsMap.put(inter, newTranscription);
 		}
 
 		if (unclearText.getParentOfLastText() == null) {
