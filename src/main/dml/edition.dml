@@ -1,6 +1,5 @@
 package pt.ist.socialsoftware.edition.domain;
 
-enum pt.ist.socialsoftware.edition.domain.RdgText.RdgTextType as RdgTextType;
 enum pt.ist.socialsoftware.edition.domain.ManuscriptSource.Medium as Medium;
 enum pt.ist.socialsoftware.edition.domain.ManuscriptSource.Form as Form;
 enum pt.ist.socialsoftware.edition.domain.ManuscriptSource.Material as Material;
@@ -9,10 +8,11 @@ enum pt.ist.socialsoftware.edition.domain.SpaceText.SpaceUnit as SpaceUnit;
 enum pt.ist.socialsoftware.edition.domain.Rend.Rendition as Rendition;
 enum pt.ist.socialsoftware.edition.domain.AddText.Place as Place;
 enum pt.ist.socialsoftware.edition.domain.DelText.HowDel as HowDel;
-enum pt.ist.socialsoftware.edition.domain.AppText.VariationType as VariationType;
+enum pt.ist.socialsoftware.edition.domain.TextPortion.VariationType as VariationType;
 enum pt.ist.socialsoftware.edition.domain.GapText.GapUnit as GapUnit;
 enum pt.ist.socialsoftware.edition.domain.GapText.GapReason as GapReason;
 enum pt.ist.socialsoftware.edition.domain.UnclearText.UnclearReason as UnclearReason;
+enum pt.ist.socialsoftware.edition.domain.AltText.AltMode as AltMode;
 
 class LdoD {
 	String title;
@@ -291,7 +291,7 @@ relation TextPortionHasRend {
 }
 
 class RdgText extends TextPortion {
-	RdgTextType type;
+	VariationType type;
 }
 
 relation TextPortionHasNextTextPortion {
@@ -314,7 +314,9 @@ relation TextPortionContainsLastTextPortion {
 	TextPortion playsRole parentOfLastText {multiplicity 0..1;}
 }
 
-class RdgGrpText extends TextPortion;
+class RdgGrpText extends TextPortion {
+  VariationType type;
+}
 
 class AppText extends TextPortion {
   VariationType type;
@@ -330,6 +332,22 @@ class SimpleText extends TextPortion {
 }
 
 class SegText extends TextPortion;
+
+class AltText extends TextPortion {
+	AltMode mode;
+	double weightOne;
+	double weightTwo;
+}
+
+relation AltTextHasSegTextOne {
+	AltText playsRole altTextOne {multiplicity 0..1;}
+	SegText playsRole segTextOne {multiplicity 0..1;}
+}
+
+relation AltTextHasSegTextTwo {
+	AltText playsRole altTextTwo {multiplicity 0..1;}
+	SegText playsRole segTextTwo {multiplicity 0..1;}
+}
 
 class LbText extends TextPortion {
 	Boolean breakWord;

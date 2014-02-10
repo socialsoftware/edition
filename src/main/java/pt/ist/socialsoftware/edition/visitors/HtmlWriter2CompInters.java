@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Set;
 
 import pt.ist.socialsoftware.edition.domain.AddText;
+import pt.ist.socialsoftware.edition.domain.AltText;
 import pt.ist.socialsoftware.edition.domain.AppText;
 import pt.ist.socialsoftware.edition.domain.DelText;
 import pt.ist.socialsoftware.edition.domain.FragInter;
@@ -413,6 +414,15 @@ public class HtmlWriter2CompInters extends HtmlWriter {
 
 		if (unclearText.getParentOfLastText() == null) {
 			unclearText.getNextText().accept(this);
+		}
+	}
+
+	@Override
+	public void visit(AltText altText) {
+		// TODO Auto-generated method stub
+
+		if (altText.getParentOfLastText() == null) {
+			altText.getNextText().accept(this);
 		}
 	}
 

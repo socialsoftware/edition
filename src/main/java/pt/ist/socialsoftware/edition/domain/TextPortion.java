@@ -7,6 +7,21 @@ import pt.ist.socialsoftware.edition.visitors.TextTreeVisitor;
 public abstract class TextPortion extends TextPortion_Base implements
 		GraphElement {
 
+	public enum VariationType {
+		ORTHOGRAPHIC("orthographic"), SUBSTANTIVE("substantive"), UNSPECIFIED(
+				"unspecified");
+
+		private String desc;
+
+		VariationType(String desc) {
+			this.desc = desc;
+		}
+
+		public String getDesc() {
+			return desc;
+		}
+	};
+
 	public TextPortion() {
 		super();
 		setNextText(null);

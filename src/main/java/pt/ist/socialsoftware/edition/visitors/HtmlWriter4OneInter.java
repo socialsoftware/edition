@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import pt.ist.socialsoftware.edition.domain.AddText;
+import pt.ist.socialsoftware.edition.domain.AltText;
 import pt.ist.socialsoftware.edition.domain.AppText;
 import pt.ist.socialsoftware.edition.domain.DelText;
 import pt.ist.socialsoftware.edition.domain.FragInter;
@@ -169,19 +170,49 @@ public class HtmlWriter4OneInter extends HtmlWriter {
 		String preRend = generatePreRendition(renditions);
 		String postRend = generatePostRendition(renditions);
 
+		String altRend = "";
+		if (segText.getAltTextOne() != null) {
+			altRend = "<span class=\"text-warning\">" + "<abbr title=\""
+					+ segText.getAltTextOne().getMode().getDesc() + " "
+					+ segText.getAltTextOne().getWeightOne() + "\">";
+		} else if (segText.getAltTextTwo() != null) {
+			altRend = "<span class=\"text-warning\">" + "<abbr title=\""
+					+ segText.getAltTextTwo().getMode().getDesc() + " "
+					+ segText.getAltTextTwo().getWeightTwo() + "\">";
+
+		}
+
 		transcription = transcription
 				+ segText.writeSeparator(displayDel, highlightSubst, fragInter)
-				+ preRend;
+				+ preRend + altRend;
 
 		TextPortion firstChild = segText.getFirstChildText();
 		if (firstChild != null) {
 			firstChild.accept(this);
 		}
 
-		transcription = transcription + postRend;
+		if ((segText.getAltTextOne() != null)
+				|| (segText.getAltTextTwo() != null)) {
+
+		}
+
+		if ((segText.getAltTextOne()) != null
+				|| (segText.getAltTextTwo() != null)) {
+			altRend = "</abbr></span>";
+		}
+
+		transcription = transcription + altRend + postRend;
 
 		if (segText.getParentOfLastText() == null) {
 			segText.getNextText().accept(this);
+		}
+	}
+
+	@Override
+	public void visit(AltText altText) {
+		// do nothing, the segTextOne and segTextTwo will do
+		if (altText.getParentOfLastText() == null) {
+			altText.getNextText().accept(this);
 		}
 	}
 

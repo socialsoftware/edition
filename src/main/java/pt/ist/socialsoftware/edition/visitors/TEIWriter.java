@@ -5,6 +5,7 @@ package pt.ist.socialsoftware.edition.visitors;
 
 import pt.ist.socialsoftware.edition.domain.AddText;
 import pt.ist.socialsoftware.edition.domain.AddText.Place;
+import pt.ist.socialsoftware.edition.domain.AltText;
 import pt.ist.socialsoftware.edition.domain.AppText;
 import pt.ist.socialsoftware.edition.domain.DelText;
 import pt.ist.socialsoftware.edition.domain.DelText.HowDel;
@@ -266,6 +267,20 @@ public class TEIWriter implements TextTreeVisitor {
 
 		if (unclearText.getParentOfLastText() == null) {
 			unclearText.getNextText().accept(this);
+		}
+	}
+
+	@Override
+	public void visit(AltText altText) {
+		result = result + "<alt target=\"" + "#"
+				+ altText.getSegTextOne().getXmlId() + " #"
+				+ altText.getSegTextTwo().getXmlId() + "\"" + " mode=\""
+				+ altText.getMode().getDesc() + "\" weights=\""
+				+ altText.getWeightOne() + " " + altText.getWeightTwo()
+				+ "\"/>";
+
+		if (altText.getParentOfLastText() == null) {
+			altText.getNextText().accept(this);
 		}
 	}
 }

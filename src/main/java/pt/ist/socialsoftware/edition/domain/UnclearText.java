@@ -5,8 +5,9 @@ import pt.ist.socialsoftware.edition.visitors.TextTreeVisitor;
 public class UnclearText extends UnclearText_Base {
 
 	public enum UnclearReason {
-		IRRELEVANT("irrelevant"), ILLEGIABLE("illegible"), NONSPECIFIED(
-				"nonspecified");
+		IRRELEVANT("irrelevant"), ILLEGIABLE("illegible"), BACKGROUND_NOISE(
+				"background noise"), ECCENTRIC_DUCTUS("eccentric ductus"), INK_BLOT(
+				"ink blot"), FADED("faded"), NONSPECIFIED("nonspecified");
 
 		private final String desc;
 

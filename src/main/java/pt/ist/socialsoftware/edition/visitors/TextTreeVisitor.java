@@ -4,6 +4,7 @@
 package pt.ist.socialsoftware.edition.visitors;
 
 import pt.ist.socialsoftware.edition.domain.AddText;
+import pt.ist.socialsoftware.edition.domain.AltText;
 import pt.ist.socialsoftware.edition.domain.AppText;
 import pt.ist.socialsoftware.edition.domain.DelText;
 import pt.ist.socialsoftware.edition.domain.GapText;
@@ -52,4 +53,6 @@ public interface TextTreeVisitor {
 	public void visit(GapText gapText);
 
 	public void visit(UnclearText unclearText);
+
+	public void visit(AltText altText);
 }

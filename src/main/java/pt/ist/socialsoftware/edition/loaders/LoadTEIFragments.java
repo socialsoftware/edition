@@ -25,8 +25,9 @@ import org.jdom2.xpath.XPathFactory;
 
 import pt.ist.socialsoftware.edition.domain.AddText;
 import pt.ist.socialsoftware.edition.domain.AddText.Place;
+import pt.ist.socialsoftware.edition.domain.AltText;
+import pt.ist.socialsoftware.edition.domain.AltText.AltMode;
 import pt.ist.socialsoftware.edition.domain.AppText;
-import pt.ist.socialsoftware.edition.domain.AppText.VariationType;
 import pt.ist.socialsoftware.edition.domain.Category;
 import pt.ist.socialsoftware.edition.domain.DelText;
 import pt.ist.socialsoftware.edition.domain.DelText.HowDel;
@@ -63,6 +64,7 @@ import pt.ist.socialsoftware.edition.domain.SubstText;
 import pt.ist.socialsoftware.edition.domain.Surface;
 import pt.ist.socialsoftware.edition.domain.Taxonomy;
 import pt.ist.socialsoftware.edition.domain.TextPortion;
+import pt.ist.socialsoftware.edition.domain.TextPortion.VariationType;
 import pt.ist.socialsoftware.edition.domain.TypeNote;
 import pt.ist.socialsoftware.edition.domain.UnclearText;
 import pt.ist.socialsoftware.edition.domain.UnclearText.UnclearReason;
@@ -290,6 +292,8 @@ public class LoadTEIFragments {
 					loadGap(element2, parent);
 				} else if (element2.getName().equals("unclear")) {
 					loadUnclear(element2, parent);
+				} else if (element2.getName().equals("alt")) {
+					loadAlt(element2, parent);
 				} else {
 					throw new LdoDLoadException("DOES NOT HANDLE LOAD OF:"
 							+ element2 + " OF TYPE:"
@@ -298,6 +302,43 @@ public class LoadTEIFragments {
 				}
 			}
 		}
+	}
+
+	private void loadAlt(Element element, TextPortion parent) {
+		// get targets
+		String[] targetList = getTarget(element);
+
+		String targetOne = targetList[0].substring(1);
+		String targetTwo = targetList[1].substring(1);
+
+		SegText segTextOne = null;
+		SegText segTextTwo = null;
+		for (TextPortion text : parent.getChildTextSet()) {
+			if (text.getXmlId().equals(targetOne)) {
+				segTextOne = (SegText) text;
+			}
+			if (text.getXmlId().equals(targetTwo)) {
+				segTextTwo = (SegText) text;
+			}
+		}
+
+		if ((segTextOne == null) || (segTextTwo == null)) {
+			throw new LdoDLoadException(
+					"Não há elemento seg associado a um, ou aos dois, dos identicadores target do elemento alt. Valores="
+							+ targetOne + " " + targetTwo);
+		}
+
+		// get mode
+		AltMode altMode = getAltMode(element);
+
+		// get weights
+		String[] weightsList = getAltWeights(element);
+
+		double weightOne = Double.parseDouble(weightsList[0]);
+		double weightTwo = Double.parseDouble(weightsList[1]);
+
+		new AltText(parent, segTextOne, segTextTwo, altMode, weightOne,
+				weightTwo);
 	}
 
 	private void loadUnclear(Element element, TextPortion parent) {
@@ -471,6 +512,12 @@ public class LoadTEIFragments {
 				+ element;
 
 		SegText segText = new SegText(parent);
+
+		Attribute xmlIdAttribute = element.getAttribute("id",
+				element.getNamespace("xml"));
+		if (xmlIdAttribute != null) {
+			segText.setXmlId(xmlIdAttribute.getValue());
+		}
 
 		setRenditions(element, segText);
 
@@ -1400,6 +1447,72 @@ public class LoadTEIFragments {
 			}
 		}
 		return reason;
+	}
+
+	private AltMode getAltMode(Element element) {
+		AltMode altMode = AltMode.NONSPECIFIED;
+
+		Attribute modeAttribute = element.getAttribute("mode");
+		if (modeAttribute == null) {
+			throw new LdoDLoadException(
+					"O elemento alt deve ter attributo mode");
+		}
+
+		String modeValue = modeAttribute.getValue();
+		switch (modeValue) {
+		case "excl":
+			altMode = AltMode.EXCL;
+			break;
+		case "incl":
+			altMode = AltMode.INCL;
+		default:
+			throw new LdoDLoadException(
+					"O atributo mode do elemento alt tem valor=" + modeValue);
+		}
+		return altMode;
+	}
+
+	private String[] getTarget(Element element) {
+		Attribute targetAttribute = element.getAttribute("target");
+		if (targetAttribute == null) {
+			throw new LdoDLoadException(
+					"O elemento alt deve ter attributo target");
+		}
+		String targetValue = targetAttribute.getValue().trim();
+		String[] targetList = targetValue.split("\\s+");
+
+		if (targetList.length != 2) {
+			throw new LdoDLoadException(
+					"O atributo target do elemento alt deve ter dois valores. Valor="
+							+ targetValue);
+		}
+		return targetList;
+	}
+
+	private String[] getAltWeights(Element element) {
+		Attribute weightsAttribute = element.getAttribute("weights");
+		if (weightsAttribute == null) {
+			throw new LdoDLoadException(
+					"O elemento alt deve ter attributo weights");
+		}
+		String weightsValue = weightsAttribute.getValue();
+		String[] weightsList = weightsValue.split("\\s+");
+		if (weightsList.length != 2) {
+			throw new LdoDLoadException(
+					"O atributo weights do elemento alt deve ter dois valores. Valor="
+							+ weightsValue);
+		}
+
+		double weightOne = Double.parseDouble(weightsList[0]);
+		double weightTwo = Double.parseDouble(weightsList[1]);
+
+		if (weightOne + weightTwo != 1) {
+			throw new LdoDLoadException(
+					"No atributo weights do elemento alt a somo dos valores deve ser igual a 1. Valor="
+							+ weightsValue);
+		}
+
+		return weightsList;
 	}
 
 }

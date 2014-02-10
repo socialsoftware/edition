@@ -55,7 +55,7 @@
 	<beans:bean id="multipartResolver"
 		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 		<!-- one of the properties available; the maximum file size in bytes -->
-		<beans:property name="maxUploadSize" value="250000" />
+		<beans:property name="maxUploadSize" value="25000000" />
 	</beans:bean>
 
 	<beans:bean
@@ -100,7 +100,7 @@
 		<security:intercept-url pattern="/login"
 			access="permitAll" />
 		<security:intercept-url pattern="/favicon.ico" access="permitAll" />
-<!-- 
+<!--
 		<security:intercept-url pattern="/**"
 			access="isAuthenticated()" />
 -->
