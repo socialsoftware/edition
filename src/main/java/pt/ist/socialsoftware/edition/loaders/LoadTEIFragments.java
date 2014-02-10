@@ -251,9 +251,9 @@ public class LoadTEIFragments {
 
 		Set<FragInter> fragInters = fragment.getFragmentInterSet();
 
-		AppText app = new AppText();
+		AppText app = new AppText(VariationType.UNSPECIFIED);
 		app.setFragment(fragment);
-		RdgText rdg = new RdgText(app, fragInters);
+		RdgText rdg = new RdgText(app, VariationType.UNSPECIFIED, fragInters);
 
 		Element element = xp.evaluate(doc).get(0);
 
@@ -533,7 +533,9 @@ public class LoadTEIFragments {
 	}
 
 	private void loadRdgGrp(Element rdgGrpElement, TextPortion parent) {
-		RdgGrpText rdgGrpText = new RdgGrpText(parent);
+		VariationType type = getVariationType(rdgGrpElement);
+
+		RdgGrpText rdgGrpText = new RdgGrpText(parent, type);
 		for (Element rdgElement : rdgGrpElement.getChildren()) {
 			if (rdgElement.getName().equals("rdg")) {
 				loadRdg(rdgElement, rdgGrpText);
@@ -544,6 +546,8 @@ public class LoadTEIFragments {
 	}
 
 	private void loadRdg(Element rdgElement, TextPortion parent) {
+		VariationType type = getVariationType(rdgElement);
+
 		Attribute witAttribute = rdgElement.getAttribute("wit");
 
 		if (witAttribute == null)
@@ -556,7 +560,7 @@ public class LoadTEIFragments {
 		String[] listInterXmlId = witValue.split("\\s+");
 		Set<FragInter> fragInters = getFragItersByListXmlID(listInterXmlId);
 
-		RdgText rdgText = new RdgText(parent, fragInters);
+		RdgText rdgText = new RdgText(parent, type, fragInters);
 
 		if (!rdgElement.getContent().isEmpty()) {
 			loadElement(rdgElement, rdgText);
@@ -566,9 +570,7 @@ public class LoadTEIFragments {
 	private void loadApp(Element appElement, TextPortion parent) {
 		VariationType type = getVariationType(appElement);
 
-		AppText app = new AppText(parent);
-
-		app.setType(type);
+		AppText app = new AppText(parent, type);
 
 		for (Element rdgElement : appElement.getChildren()) {
 			if (rdgElement.getName().equals("rdg")) {

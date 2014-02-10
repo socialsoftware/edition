@@ -4,8 +4,9 @@ import pt.ist.socialsoftware.edition.visitors.TextTreeVisitor;
 
 public class RdgGrpText extends RdgText_Base {
 
-	public RdgGrpText(TextPortion parent) {
+	public RdgGrpText(TextPortion parent, VariationType type) {
 		parent.addChildText(this);
+		setType(type);
 	}
 
 	@Override

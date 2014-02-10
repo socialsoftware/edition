@@ -6,9 +6,10 @@ import pt.ist.socialsoftware.edition.visitors.TextTreeVisitor;
 
 public class RdgText extends RdgText_Base implements GraphElement {
 
-	public RdgText(TextPortion parent, Set<FragInter> fragInters) {
+	public RdgText(TextPortion parent, VariationType type,
+			Set<FragInter> fragInters) {
 		parent.addChildText(this);
-		setType(VariationType.UNSPECIFIED);
+		setType(type);
 
 		for (FragInter inter : fragInters) {
 			addFragInters(inter);
