@@ -61,7 +61,7 @@ $(document)
             </div>
         </form>
     </div>
-    
+
     <c:choose>
         <c:when test="${!lineByLine}">
             <%@ include
@@ -70,5 +70,28 @@ $(document)
         <c:otherwise><%@ include
                 file="/WEB-INF/jsp/fragment/inter2CompareLineByLine.jsp"%></c:otherwise>
     </c:choose>
+
+    <div class="row">
+        <h4>Tabela de Variações</h4>
+        <table class="table table-condensed">
+            <thead>
+                <tr>
+                    <c:forEach var="inter" items='${inters}'>
+                        <th>${inter.getShortName()}</th>
+                    </c:forEach>
+                </tr>
+            </thead>
+            <tbody>
+                <c:forEach var="app" items='${apps}'>
+                    <tr>
+                        <c:forEach var="interp" items='${inters}'>
+                            <td>${variations.get(interp).getAppTranscription(app)}</td>
+                        </c:forEach>
+                    </tr>
+                </c:forEach>
+            </tbody>
+
+        </table>
+    </div>
 
 </div>

@@ -28,13 +28,13 @@ import pt.ist.socialsoftware.edition.domain.UnclearText;
 
 public class HtmlWriter4OneInter extends HtmlWriter {
 	protected FragInter fragInter = null;
-	private String transcription = "";
+	protected String transcription = "";
 
-	private Boolean highlightDiff = false;
-	private Boolean displayDel = false;
-	private Boolean highlightIns = true;
-	private Boolean highlightSubst = false;
-	private Boolean showNotes = true;
+	protected Boolean highlightDiff = false;
+	protected Boolean displayDel = false;
+	protected Boolean highlightIns = true;
+	protected Boolean highlightSubst = false;
+	protected Boolean showNotes = true;
 
 	private final Map<FragInter, Integer> interpsChar = new HashMap<FragInter, Integer>();
 	private int totalChar = 0;
@@ -424,7 +424,7 @@ public class HtmlWriter4OneInter extends HtmlWriter {
 		transcription = transcription
 				+ unclearText.writeSeparator(displayDel, highlightSubst,
 						fragInter)
-				+ "<span style=\"text-shadow: black 0.1em 0.1em 0.2em;\">"
+				+ "<span style=\"text-shadow: black 0.0em 0.0em 0.1em; -webkit-filter: blur(0.005em);\">"
 				+ "<abbr title=\"" + unclearText.getReason().getDesc() + "\">";
 
 		TextPortion firstChild = unclearText.getFirstChildText();

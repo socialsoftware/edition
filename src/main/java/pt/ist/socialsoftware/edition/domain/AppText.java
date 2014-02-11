@@ -1,5 +1,7 @@
 package pt.ist.socialsoftware.edition.domain;
 
+import java.util.List;
+
 import pt.ist.socialsoftware.edition.visitors.TextTreeVisitor;
 
 public class AppText extends AppText_Base {
@@ -21,6 +23,11 @@ public class AppText extends AppText_Base {
 	@Override
 	public void accept(TextTreeVisitor visitor) {
 		visitor.visit(this);
+	}
+
+	@Override
+	public void getAppText(List<AppText> apps) {
+		apps.add(this);
 	}
 
 }

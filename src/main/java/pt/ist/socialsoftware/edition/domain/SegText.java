@@ -23,4 +23,12 @@ public class SegText extends SegText_Base {
 		visitor.visit(this);
 	}
 
+	@Override
+	public void remove() {
+		setAltTextOne(null);
+		setAltTextTwo(null);
+
+		super.remove();
+	}
+
 }

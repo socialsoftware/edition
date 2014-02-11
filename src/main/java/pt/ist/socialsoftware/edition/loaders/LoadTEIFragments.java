@@ -1442,6 +1442,17 @@ public class LoadTEIFragments {
 			case "illegible":
 				reason = UnclearReason.ILLEGIABLE;
 				break;
+			case "background noise":
+				reason = UnclearReason.BACKGROUND_NOISE;
+				break;
+			case "eccentric ductus":
+				reason = UnclearReason.ECCENTRIC_DUCTUS;
+				break;
+			case "ink blot":
+				reason = UnclearReason.INK_BLOT;
+			case "faded":
+				reason = UnclearReason.FADED;
+				break;
 			default:
 				throw new LdoDLoadException(
 						"valor desconhecido para atributo reason="

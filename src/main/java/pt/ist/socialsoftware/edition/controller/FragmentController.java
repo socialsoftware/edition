@@ -1,7 +1,10 @@
 package pt.ist.socialsoftware.edition.controller;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -18,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.domain.Annotation;
+import pt.ist.socialsoftware.edition.domain.AppText;
 import pt.ist.socialsoftware.edition.domain.Edition;
 import pt.ist.socialsoftware.edition.domain.FragInter;
 import pt.ist.socialsoftware.edition.domain.Fragment;
@@ -27,12 +31,14 @@ import pt.ist.socialsoftware.edition.domain.Range;
 import pt.ist.socialsoftware.edition.domain.SourceInter;
 import pt.ist.socialsoftware.edition.domain.Surface;
 import pt.ist.socialsoftware.edition.domain.Tag;
+import pt.ist.socialsoftware.edition.domain.TextPortion;
 import pt.ist.socialsoftware.edition.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.utils.AnnotationJson;
 import pt.ist.socialsoftware.edition.utils.AnnotationSearchJson;
 import pt.ist.socialsoftware.edition.utils.RangeJson;
 import pt.ist.socialsoftware.edition.visitors.HtmlWriter2CompInters;
 import pt.ist.socialsoftware.edition.visitors.HtmlWriter4OneInter;
+import pt.ist.socialsoftware.edition.visitors.HtmlWriter4Variations;
 
 @Controller
 @RequestMapping("/fragments/fragment")
@@ -131,9 +137,24 @@ public class FragmentController {
 			if (inters.size() > 2) {
 				lineByLine = true;
 			}
+
+			Map<FragInter, HtmlWriter4Variations> variations = new HashMap<FragInter, HtmlWriter4Variations>();
+			for (FragInter inter : inters) {
+				variations.put(inter, new HtmlWriter4Variations(inter));
+			}
+
+			List<AppText> apps = new ArrayList<AppText>();
+			for (TextPortion text : inters.get(0).getFragment()
+					.getTextPortion().getChildTextSet()) {
+				text.getAppText(apps);
+			}
+			Collections.reverse(apps);
+
 			writer.write(lineByLine, false);
 			model.addAttribute("lineByLine", lineByLine);
 			model.addAttribute("writer", writer);
+			model.addAttribute("variations", variations);
+			model.addAttribute("apps", apps);
 		}
 
 		return "fragment/main";

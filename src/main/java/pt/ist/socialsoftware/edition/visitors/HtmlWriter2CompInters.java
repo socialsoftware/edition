@@ -395,8 +395,9 @@ public class HtmlWriter2CompInters extends HtmlWriter {
 
 		for (FragInter inter : intersection) {
 			String separator = unclearText.writeSeparator(true, false, inter);
-			String newTranscription = transcriptionsMap.get(inter) + separator
-					+ "<span style=\"text-shadow: black 0.1em 0.1em 0.2em;\">";
+			String newTranscription = transcriptionsMap.get(inter)
+					+ separator
+					+ "<span style=\"text-shadow: black 0.0em 0.0em 0.1em; -webkit-filter: blur(0.005em);\">";
 			transcriptionsMap.put(inter, newTranscription);
 			transcriptionsLengthMap.put(inter,
 					transcriptionsLengthMap.get(inter) + separator.length());
