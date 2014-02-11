@@ -22,6 +22,12 @@ public class HtmlWriter4Variations extends HtmlWriter4OneInter {
 
 	public HtmlWriter4Variations(FragInter fragInter) {
 		super(fragInter);
+		highlightDiff = false;
+		displayDel = true;
+		highlightIns = true;
+		highlightSubst = false;
+		showNotes = true;
+
 	}
 
 	@Override
