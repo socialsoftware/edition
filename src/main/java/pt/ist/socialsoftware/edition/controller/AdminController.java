@@ -54,7 +54,7 @@ public class AdminController {
 		return "admin/loadFragmentsStepByStep";
 	}
 
-	@RequestMapping(method = RequestMethod.POST, value = "/load/fragmentAtOnce")
+	@RequestMapping(method = RequestMethod.POST, value = "/load/fragmentsAtOnce")
 	public String loadTEIFragmentsAtOnce(Model model,
 			@RequestParam("file") MultipartFile file) throws LdoDLoadException {
 

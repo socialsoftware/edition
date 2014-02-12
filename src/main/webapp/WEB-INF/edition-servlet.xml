@@ -100,10 +100,10 @@
 		<security:intercept-url pattern="/login"
 			access="permitAll" />
 		<security:intercept-url pattern="/favicon.ico" access="permitAll" />
-<!-- 
+<!-- -->
 		<security:intercept-url pattern="/**"
 			access="isAuthenticated()" />
--->
+<!-- -->
 		<security:intercept-url pattern="/virtualeditions/restricted/**"
 			access="isAuthenticated()" />
 		<security:intercept-url pattern="/admin/**"

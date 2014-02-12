@@ -8,8 +8,10 @@ import pt.ist.socialsoftware.edition.domain.Edition.SourceType;
 
 public class Fragment extends Fragment_Base {
 
-	public Fragment() {
-		super();
+	public Fragment(LdoD ldoD, String title, String xmlId) {
+		setLdoD(ldoD);
+		setTitle(title);
+		setXmlId(xmlId);
 	}
 
 	public void remove() {

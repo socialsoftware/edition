@@ -199,9 +199,21 @@ public class LoadTEIFragments {
 				Filters.element(), null,
 				Namespace.getNamespace("def", namespace.getURI()));
 
-		for (Element fragmentTEI : xp.evaluate(doc)) {
-			loadFragment(fragmentTEI);
+		for (Element element : xp.evaluate(doc)) {
+			String xmlId = getFragmentXmlId(element);
+			String title = getFragmentTitle(element);
 
+			for (Fragment frag : ldoD.getFragmentsSet()) {
+				if (frag.getXmlId().equals(xmlId)) {
+					throw new LdoDLoadException("xml:id:" + xmlId
+							+ " já está associado ao fragmento \""
+							+ frag.getTitle()
+							+ "\". Erro ocorido durante o carregamento de \""
+							+ title + "\"");
+				}
+			}
+
+			loadFragment(title, xmlId);
 		}
 	}
 
@@ -215,61 +227,47 @@ public class LoadTEIFragments {
 				Filters.element(), null,
 				Namespace.getNamespace("def", namespace.getURI()));
 
-		for (Element fragmentTEI : xp.evaluate(doc)) {
-			atomicLoadFragment(fragmentTEI);
+		for (Element element : xp.evaluate(doc)) {
+			atomicLoadFragment(element);
 		}
 
 		Transaction.begin(false);
 	}
 
 	@Atomic
-	private void atomicLoadFragment(Element fragmentTEI) {
+	private void atomicLoadFragment(Element element) {
 		directIdMap.clear();
 		inverseIdMap.clear();
 		ldoD = LdoD.getInstance();
 		getCorpusXmlIds();
-		loadFragment(fragmentTEI);
+
+		String xmlId = getFragmentXmlId(element);
+		String title = getFragmentTitle(element);
+
+		Boolean exists = false;
+		for (Fragment frag : ldoD.getFragmentsSet()) {
+			if (frag.getXmlId().equals(xmlId)) {
+				exists = true;
+				break;
+			}
+		}
+
+		if (!exists) {
+			loadFragment(title, xmlId);
+		}
 	}
 
-	private void loadFragment(Element fragmentTEI) {
-		String fragmentTEIID = fragmentTEI.getParentElement()
-				.getAttributeValue("id", fragmentTEI.getNamespace("xml"));
+	private void loadFragment(String title, String xmlId) {
+		Fragment fragment = new Fragment(ldoD, title, xmlId);
 
-		if (fragmentTEIID == null) {
-			throw new LdoDLoadException("falta xml:id de um fragmento"
-					+ " VALOR="
-					+ fragmentTEI.getChild("fileDesc", namespace)
-							.getChild("titleStmt", namespace)
-							.getChildText("title", namespace));
-		}
+		putObjectDirectIdMap(xmlId, fragment);
 
-		assert fragmentTEIID != null : "MISSING xml:id ATTRIBUTE IN FRAGMENT <TEI > ELEMENT";
+		loadSourceManuscripts(fragment, xmlId);
+		loadPrintedSources(fragment, xmlId);
+		loadWitnesses(fragment, xmlId);
+		loadFacsimile(xmlId);
 
-		String fragmentTEITitle = fragmentTEI.getChild("fileDesc", namespace)
-				.getChild("titleStmt", namespace)
-				.getChildText("title", namespace);
-
-		Fragment fragment = new Fragment();
-		fragment.setLdoD(ldoD);
-		fragment.setTitle(fragmentTEITitle);
-
-		if (getObjectDirectIdMap(fragmentTEIID) != null) {
-			throw new LdoDLoadException("xml:id:" + fragmentTEIID
-					+ " já está declarado");
-		}
-
-		assert getObjectDirectIdMap(fragmentTEIID) == null : "xml:id:"
-				+ fragmentTEIID + " IS ALREADY DECLARED";
-
-		putObjectDirectIdMap(fragmentTEIID, fragment);
-		fragment.setXmlId(fragmentTEIID);
-
-		loadSourceManuscripts(fragment, fragmentTEIID);
-		loadPrintedSources(fragment, fragmentTEIID);
-		loadWitnesses(fragment, fragmentTEIID);
-		loadFacsimile(fragmentTEIID);
-
-		loadFragmentText(fragment, fragmentTEIID);
+		loadFragmentText(fragment, xmlId);
 	}
 
 	private void loadFragmentText(Fragment fragment, String fragmentXmlID) {
@@ -1561,6 +1559,34 @@ public class LoadTEIFragments {
 		}
 
 		return weightsList;
+	}
+
+	private String getFragmentTitle(Element element) {
+		String title = element.getChild("fileDesc", namespace)
+				.getChild("titleStmt", namespace)
+				.getChildText("title", namespace);
+		return title;
+	}
+
+	private String getFragmentXmlId(Element element) {
+		String xmlId = element.getParentElement().getAttributeValue("id",
+				element.getNamespace("xml"));
+
+		if (xmlId == null) {
+			throw new LdoDLoadException("falta xml:id de um fragmento"
+					+ " VALOR="
+					+ element.getChild("fileDesc", namespace)
+							.getChild("titleStmt", namespace)
+							.getChildText("title", namespace));
+		}
+
+		assert xmlId != null : "MISSING xml:id ATTRIBUTE IN FRAGMENT <TEI > ELEMENT";
+
+		if (getObjectDirectIdMap(xmlId) != null) {
+			throw new LdoDLoadException("xml:id:" + xmlId
+					+ " já está declarado");
+		}
+		return xmlId;
 	}
 
 }
