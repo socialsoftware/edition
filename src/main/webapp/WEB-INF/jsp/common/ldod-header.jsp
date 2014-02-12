@@ -68,8 +68,11 @@
                         href="${contextPath}/admin/load/corpusForm"><spring:message
                                 code="header.loadcorpus" /></a></li>
                     <li><a
-                        href="${contextPath}/admin/load/fragmentForm"><spring:message
+                        href="${contextPath}/admin/load/fragmentFormAtOnce"><spring:message
                                 code="header.loadfragment" /></a></li>
+                    <li><a
+                        href="${contextPath}/admin/load/fragmentFormStepByStep"><spring:message
+                                code="header.loadfragments" /></a></li>
                     <li class="divider"></li>
                     <li><a
                         href="${contextPath}/admin/fragment/list"><spring:message

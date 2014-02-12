@@ -72,7 +72,9 @@ $(document)
     </c:choose>
 
     <div class="row">
-        <h4>Tabela de Variações</h4>
+        <h4>
+            <spring:message code="fragment.variationstable" />
+        </h4>
         <table class="table table-condensed">
             <thead>
                 <tr>

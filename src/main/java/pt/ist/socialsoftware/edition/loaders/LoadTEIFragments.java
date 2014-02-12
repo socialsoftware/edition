@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import jvstm.Transaction;
+
 import org.jdom2.Attribute;
 import org.jdom2.Content;
 import org.jdom2.Content.CType;
@@ -23,6 +25,7 @@ import org.jdom2.input.SAXBuilder;
 import org.jdom2.xpath.XPathExpression;
 import org.jdom2.xpath.XPathFactory;
 
+import pt.ist.fenixframework.Atomic;
 import pt.ist.socialsoftware.edition.domain.AddText;
 import pt.ist.socialsoftware.edition.domain.AddText.Place;
 import pt.ist.socialsoftware.edition.domain.AltText;
@@ -185,7 +188,7 @@ public class LoadTEIFragments {
 		namespace = ldoDTEI.getNamespace();
 	}
 
-	public void loadFragments(InputStream file) throws LdoDLoadException {
+	public void loadFragmentsAtOnce(InputStream file) throws LdoDLoadException {
 		parseTEIFile(file);
 
 		ldoD = LdoD.getInstance();
@@ -197,47 +200,76 @@ public class LoadTEIFragments {
 				Namespace.getNamespace("def", namespace.getURI()));
 
 		for (Element fragmentTEI : xp.evaluate(doc)) {
-			String fragmentTEIID = fragmentTEI.getParentElement()
-					.getAttributeValue("id", fragmentTEI.getNamespace("xml"));
-
-			if (fragmentTEIID == null) {
-				throw new LdoDLoadException("falta xml:id de um fragmento"
-						+ " VALOR="
-						+ fragmentTEI.getChild("fileDesc", namespace)
-								.getChild("titleStmt", namespace)
-								.getChildText("title", namespace));
-			}
-
-			assert fragmentTEIID != null : "MISSING xml:id ATTRIBUTE IN FRAGMENT <TEI > ELEMENT";
-
-			String fragmentTEITitle = fragmentTEI
-					.getChild("fileDesc", namespace)
-					.getChild("titleStmt", namespace)
-					.getChildText("title", namespace);
-
-			Fragment fragment = new Fragment();
-			fragment.setLdoD(ldoD);
-			fragment.setTitle(fragmentTEITitle);
-
-			if (getObjectDirectIdMap(fragmentTEIID) != null) {
-				throw new LdoDLoadException("xml:id:" + fragmentTEIID
-						+ " já está declarado");
-			}
-
-			assert getObjectDirectIdMap(fragmentTEIID) == null : "xml:id:"
-					+ fragmentTEIID + " IS ALREADY DECLARED";
-
-			putObjectDirectIdMap(fragmentTEIID, fragment);
-			fragment.setXmlId(fragmentTEIID);
-
-			loadSourceManuscripts(fragment, fragmentTEIID);
-			loadPrintedSources(fragment, fragmentTEIID);
-			loadWitnesses(fragment, fragmentTEIID);
-			loadFacsimile(fragmentTEIID);
-
-			loadFragmentText(fragment, fragmentTEIID);
+			loadFragment(fragmentTEI);
 
 		}
+	}
+
+	public void loadFragmentsStepByStep(InputStream file)
+			throws LdoDLoadException {
+		parseTEIFile(file);
+
+		Transaction.commit();
+
+		XPathExpression<Element> xp = xpfac.compile("//def:TEI/def:teiHeader",
+				Filters.element(), null,
+				Namespace.getNamespace("def", namespace.getURI()));
+
+		for (Element fragmentTEI : xp.evaluate(doc)) {
+			atomicLoadFragment(fragmentTEI);
+		}
+
+		Transaction.begin(false);
+	}
+
+	@Atomic
+	private void atomicLoadFragment(Element fragmentTEI) {
+		directIdMap.clear();
+		inverseIdMap.clear();
+		ldoD = LdoD.getInstance();
+		getCorpusXmlIds();
+		loadFragment(fragmentTEI);
+	}
+
+	private void loadFragment(Element fragmentTEI) {
+		String fragmentTEIID = fragmentTEI.getParentElement()
+				.getAttributeValue("id", fragmentTEI.getNamespace("xml"));
+
+		if (fragmentTEIID == null) {
+			throw new LdoDLoadException("falta xml:id de um fragmento"
+					+ " VALOR="
+					+ fragmentTEI.getChild("fileDesc", namespace)
+							.getChild("titleStmt", namespace)
+							.getChildText("title", namespace));
+		}
+
+		assert fragmentTEIID != null : "MISSING xml:id ATTRIBUTE IN FRAGMENT <TEI > ELEMENT";
+
+		String fragmentTEITitle = fragmentTEI.getChild("fileDesc", namespace)
+				.getChild("titleStmt", namespace)
+				.getChildText("title", namespace);
+
+		Fragment fragment = new Fragment();
+		fragment.setLdoD(ldoD);
+		fragment.setTitle(fragmentTEITitle);
+
+		if (getObjectDirectIdMap(fragmentTEIID) != null) {
+			throw new LdoDLoadException("xml:id:" + fragmentTEIID
+					+ " já está declarado");
+		}
+
+		assert getObjectDirectIdMap(fragmentTEIID) == null : "xml:id:"
+				+ fragmentTEIID + " IS ALREADY DECLARED";
+
+		putObjectDirectIdMap(fragmentTEIID, fragment);
+		fragment.setXmlId(fragmentTEIID);
+
+		loadSourceManuscripts(fragment, fragmentTEIID);
+		loadPrintedSources(fragment, fragmentTEIID);
+		loadWitnesses(fragment, fragmentTEIID);
+		loadFacsimile(fragmentTEIID);
+
+		loadFragmentText(fragment, fragmentTEIID);
 	}
 
 	private void loadFragmentText(Fragment fragment, String fragmentXmlID) {

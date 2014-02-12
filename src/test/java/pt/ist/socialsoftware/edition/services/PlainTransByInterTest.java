@@ -39,7 +39,7 @@ public class PlainTransByInterTest {
 
 		LoadTEIFragments fragmentsLoader = new LoadTEIFragments();
 		try {
-			fragmentsLoader.loadFragments(new FileInputStream(
+			fragmentsLoader.loadFragmentsAtOnce(new FileInputStream(
 					"/Users/ars/Desktop/Frg.1_TEI-encoded_testing.xml"));
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block

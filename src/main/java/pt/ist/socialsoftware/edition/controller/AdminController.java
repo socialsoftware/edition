@@ -44,13 +44,18 @@ public class AdminController {
 		return writeMessage(model, "Corpus carregado", "/");
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "/load/fragmentForm")
-	public String fragmentForm(Model model) {
-		return "admin/loadFragments";
+	@RequestMapping(method = RequestMethod.GET, value = "/load/fragmentFormAtOnce")
+	public String fragmentFormAtOnce(Model model) {
+		return "admin/loadFragmentsAtOnce";
 	}
 
-	@RequestMapping(method = RequestMethod.POST, value = "/load/fragments")
-	public String loadTEIFragments(Model model,
+	@RequestMapping(method = RequestMethod.GET, value = "/load/fragmentFormStepByStep")
+	public String fragmentFormStepByStep(Model model) {
+		return "admin/loadFragmentsStepByStep";
+	}
+
+	@RequestMapping(method = RequestMethod.POST, value = "/load/fragmentAtOnce")
+	public String loadTEIFragmentsAtOnce(Model model,
 			@RequestParam("file") MultipartFile file) throws LdoDLoadException {
 
 		if (file == null) {
@@ -59,7 +64,27 @@ public class AdminController {
 
 		LoadTEIFragments loader = new LoadTEIFragments();
 		try {
-			loader.loadFragments(file.getInputStream());
+			loader.loadFragmentsAtOnce(file.getInputStream());
+		} catch (IOException e) {
+			throw new LdoDLoadException(
+					"Problemas com o ficheiro, tipo ou formato");
+		}
+
+		return writeMessage(model, "Fragmentos carregados", "/search/fragments");
+
+	}
+
+	@RequestMapping(method = RequestMethod.POST, value = "/load/fragmentsStepByStep")
+	public String loadTEIFragmentsStepByStep(Model model,
+			@RequestParam("file") MultipartFile file) throws LdoDLoadException {
+
+		if (file == null) {
+			throw new LdoDLoadException("Deve escolher um ficheiro");
+		}
+
+		LoadTEIFragments loader = new LoadTEIFragments();
+		try {
+			loader.loadFragmentsStepByStep(file.getInputStream());
 		} catch (IOException e) {
 			throw new LdoDLoadException(
 					"Problemas com o ficheiro, tipo ou formato");
