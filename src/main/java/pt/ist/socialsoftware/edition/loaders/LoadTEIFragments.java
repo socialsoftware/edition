@@ -1350,6 +1350,9 @@ public class LoadTEIFragments {
 			case "substantive":
 				type = VariationType.SUBSTANTIVE;
 				break;
+			case "style":
+				type = VariationType.STYLE;
+				break;
 			default:
 				throw new LdoDLoadException(
 						"valor desconhecido para atributo type=" + typeValue

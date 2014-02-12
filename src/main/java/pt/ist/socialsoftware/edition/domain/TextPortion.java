@@ -9,7 +9,7 @@ public abstract class TextPortion extends TextPortion_Base implements
 		GraphElement {
 
 	public enum VariationType {
-		ORTHOGRAPHIC("orthographic"), SUBSTANTIVE("substantive"), UNSPECIFIED(
+		ORTHOGRAPHIC("orthographic"), SUBSTANTIVE("substantive"), STYLE("style"), UNSPECIFIED(
 				"unspecified");
 
 		private String desc;

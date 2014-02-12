@@ -14,6 +14,7 @@ public class RdgText extends RdgText_Base implements GraphElement {
 		for (FragInter inter : fragInters) {
 			addFragInters(inter);
 		}
+
 	}
 
 	@Override
