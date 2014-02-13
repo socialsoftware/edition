@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 public class LoginController {
+
 	@RequestMapping(method = RequestMethod.GET, value = "/login")
 	public String displayLoginPage() {
 		return "login";
@@ -18,4 +19,5 @@ public class LoginController {
 		model.addAttribute("loginFailed", true);
 		return "login";
 	}
+
 }

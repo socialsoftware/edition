@@ -10,7 +10,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import jvstm.Transaction;
+import javax.transaction.HeuristicMixedException;
+import javax.transaction.HeuristicRollbackException;
+import javax.transaction.NotSupportedException;
+import javax.transaction.RollbackException;
+import javax.transaction.SystemException;
 
 import org.jdom2.Attribute;
 import org.jdom2.Content;
@@ -26,6 +30,8 @@ import org.jdom2.xpath.XPathExpression;
 import org.jdom2.xpath.XPathFactory;
 
 import pt.ist.fenixframework.Atomic;
+import pt.ist.fenixframework.Atomic.TxMode;
+import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.domain.AddText;
 import pt.ist.socialsoftware.edition.domain.AddText.Place;
 import pt.ist.socialsoftware.edition.domain.AltText;
@@ -221,7 +227,14 @@ public class LoadTEIFragments {
 			throws LdoDLoadException {
 		parseTEIFile(file);
 
-		Transaction.commit();
+		try {
+			FenixFramework.getTransactionManager().commit();
+		} catch (SecurityException | IllegalStateException | RollbackException
+				| HeuristicMixedException | HeuristicRollbackException
+				| SystemException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		XPathExpression<Element> xp = xpfac.compile("//def:TEI/def:teiHeader",
 				Filters.element(), null,
@@ -231,10 +244,16 @@ public class LoadTEIFragments {
 			atomicLoadFragment(element);
 		}
 
-		Transaction.begin(false);
+		try {
+			FenixFramework.getTransactionManager().begin(false);
+		} catch (NotSupportedException | SystemException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 	}
 
-	@Atomic
+	@Atomic(mode = TxMode.WRITE)
 	private void atomicLoadFragment(Element element) {
 		directIdMap.clear();
 		inverseIdMap.clear();
@@ -255,6 +274,10 @@ public class LoadTEIFragments {
 		if (!exists) {
 			loadFragment(title, xmlId);
 		}
+
+		// loadFragment(title, xmlId);
+		// throw new LdoDLoadException("atomicLoadFragment");
+
 	}
 
 	private void loadFragment(String title, String xmlId) {

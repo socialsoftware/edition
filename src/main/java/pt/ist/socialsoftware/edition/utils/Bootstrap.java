@@ -6,6 +6,7 @@ import javax.servlet.ServletException;
 import org.springframework.web.WebApplicationInitializer;
 
 import pt.ist.fenixframework.Atomic;
+import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.socialsoftware.edition.domain.LdoD;
 import pt.ist.socialsoftware.edition.domain.LdoDUser;
 import pt.ist.socialsoftware.edition.domain.Role;
@@ -29,7 +30,7 @@ public class Bootstrap implements WebApplicationInitializer {
 	/**
 	 * It is invoked for JUnit test
 	 */
-	@Atomic
+	@Atomic(mode = TxMode.WRITE)
 	public static void initDatabase() {
 		if (LdoD.getInstance() == null) {
 			new LdoD();

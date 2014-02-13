@@ -1,7 +1,5 @@
 package pt.ist.socialsoftware.edition.controller;
 
-import jvstm.Transaction;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.access.AccessDeniedException;
@@ -23,11 +21,15 @@ public class LdoDExceptionHandler {
 			logger.debug("LdoDLoadException: {}", ex.getMessage());
 		}
 
-		try {
-			Transaction.abort();
-		} catch (Exception e) {
-			System.out.println("handleLdoDLoadException");
-		}
+		// try {
+		// System.out.println("Vai fazer roolback");
+		// FenixFramework.getTransactionManager().getTransaction().rollback();
+		// System.out.println("Fez roolback");
+		// } catch (IllegalStateException | SecurityException | SystemException
+		// e) {
+		// System.out.println("handleLdoDLoadException");
+		// e.printStackTrace();
+		// }
 
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("utils/ldoDExceptionPage");
@@ -42,11 +44,13 @@ public class LdoDExceptionHandler {
 			logger.debug("AccessDeniedException: {}", ex.getMessage());
 		}
 
-		try {
-			Transaction.abort();
-		} catch (Exception e) {
-			System.out.println("handleAccessDeniedException");
-		}
+		// try {
+		// FenixFramework.getTransactionManager().rollback();
+		// } catch (IllegalStateException | SecurityException | SystemException
+		// e) {
+		// System.out.println("handleAccessDeniedException");
+		// e.printStackTrace();
+		// }
 
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("utils/ldoDExceptionPage");
@@ -62,11 +66,13 @@ public class LdoDExceptionHandler {
 			logger.error("Exception: {}", ex.getMessage(), ex);
 		}
 
-		try {
-			Transaction.abort();
-		} catch (Exception e) {
-			System.out.println("handleException");
-		}
+		// try {
+		// FenixFramework.getTransactionManager().rollback();
+		// } catch (IllegalStateException | SecurityException | SystemException
+		// e) {
+		// System.out.println("handleException");
+		// e.printStackTrace();
+		// }
 
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("utils/ldoDExceptionPage");

@@ -9,10 +9,11 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
-import jvstm.Transaction;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import pt.ist.fenixframework.Atomic;
+import pt.ist.fenixframework.Atomic.TxMode;
 
 public class TransactionFilter implements Filter {
 	private final static Logger logger = LoggerFactory
@@ -21,27 +22,37 @@ public class TransactionFilter implements Filter {
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response,
 			FilterChain chain) throws IOException, ServletException {
-		try {
-			Transaction.begin(false);
-			chain.doFilter(request, response);
-		} catch (Exception e) {
-			if (logger.isDebugEnabled()) {
-				logger.error("Exception: {}", e.getMessage(), e);
-			}
-			Transaction.abort();
-		}
 
-		if (Transaction.isInTransaction()) {
-			try {
-				Transaction.commit();
-			} catch (Exception e) {
-				if (logger.isDebugEnabled()) {
-					logger.error("Exception: {}", e.getMessage(), e);
-				}
+		atomicDoFilter(request, response, chain);
 
-				Transaction.abort();
-			}
-		}
+		// try {
+		// Transaction.begin(false);
+		// chain.doFilter(request, response);
+		// } catch (Exception e) {
+		// if (logger.isDebugEnabled()) {
+		// logger.error("Exception: {}", e.getMessage(), e);
+		// }
+		// Transaction.abort();
+		// }
+		//
+		// if (Transaction.isInTransaction()) {
+		// try {
+		// Transaction.commit();
+		// } catch (Exception e) {
+		// if (logger.isDebugEnabled()) {
+		// logger.error("Exception: {}", e.getMessage(), e);
+		// }
+		//
+		// Transaction.abort();
+		// }
+		// }
+	}
+
+	@Atomic(mode = TxMode.SPECULATIVE_READ)
+	private void atomicDoFilter(ServletRequest request,
+			ServletResponse response, FilterChain chain) throws IOException,
+			ServletException {
+		chain.doFilter(request, response);
 	}
 
 	@Override
