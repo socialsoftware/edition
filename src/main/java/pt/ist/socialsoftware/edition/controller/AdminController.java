@@ -66,12 +66,11 @@ public class AdminController {
 		try {
 			loader.loadFragmentsAtOnce(file.getInputStream());
 		} catch (IOException e) {
-			throw new LdoDLoadException(
-					"Problemas com o ficheiro, tipo ou formato");
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 
 		return writeMessage(model, "Fragmentos carregados", "/search/fragments");
-
 	}
 
 	@RequestMapping(method = RequestMethod.POST, value = "/load/fragmentsStepByStep")

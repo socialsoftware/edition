@@ -27,15 +27,12 @@ import pt.ist.socialsoftware.edition.domain.FragInter;
 import pt.ist.socialsoftware.edition.domain.Fragment;
 import pt.ist.socialsoftware.edition.domain.LdoD;
 import pt.ist.socialsoftware.edition.domain.LdoDUser;
-import pt.ist.socialsoftware.edition.domain.Range;
 import pt.ist.socialsoftware.edition.domain.SourceInter;
 import pt.ist.socialsoftware.edition.domain.Surface;
-import pt.ist.socialsoftware.edition.domain.Tag;
 import pt.ist.socialsoftware.edition.domain.TextPortion;
 import pt.ist.socialsoftware.edition.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.utils.AnnotationJson;
 import pt.ist.socialsoftware.edition.utils.AnnotationSearchJson;
-import pt.ist.socialsoftware.edition.utils.RangeJson;
 import pt.ist.socialsoftware.edition.visitors.HtmlWriter2CompInters;
 import pt.ist.socialsoftware.edition.visitors.HtmlWriter4OneInter;
 import pt.ist.socialsoftware.edition.visitors.HtmlWriter4Variations;
@@ -175,6 +172,7 @@ public class FragmentController {
 		inters.add(inter);
 		model.addAttribute("inters", inters);
 		model.addAttribute("writer", writer);
+
 		return "fragment/transcription";
 
 	}
@@ -278,18 +276,9 @@ public class FragmentController {
 		Annotation annotation;
 		if (virtualEdition.getParticipantSet().contains(user)) {
 
-			annotation = new Annotation(inter, annotationJson.getQuote(),
-					annotationJson.getText(), user);
-
-			for (RangeJson rangeJson : annotationJson.getRanges()) {
-				new Range(annotation, rangeJson.getStart(),
-						rangeJson.getStartOffset(), rangeJson.getEnd(),
-						rangeJson.getEndOffset());
-			}
-
-			for (String tag : annotationJson.getTags()) {
-				Tag.create(annotation, tag);
-			}
+			annotation = inter.createAnnotation(annotationJson.getQuote(),
+					annotationJson.getText(), user, annotationJson.getRanges(),
+					annotationJson.getTags());
 
 			annotationJson.setId(annotation.getExternalId());
 
@@ -320,8 +309,8 @@ public class FragmentController {
 			@RequestBody final AnnotationJson annotationJson) {
 		Annotation annotation = FenixFramework.getDomainObject(id);
 		if (annotation != null) {
-			annotation.setText(annotationJson.getText());
-			annotation.updateTags(annotationJson.getTags());
+			annotation.update(annotationJson.getText(),
+					annotationJson.getTags());
 			return new ResponseEntity<AnnotationJson>(new AnnotationJson(
 					annotation), HttpStatus.OK);
 		} else {

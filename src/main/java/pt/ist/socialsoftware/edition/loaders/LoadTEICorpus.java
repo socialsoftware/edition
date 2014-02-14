@@ -15,6 +15,8 @@ import org.jdom2.Namespace;
 import org.jdom2.input.SAXBuilder;
 import org.jdom2.xpath.XPathFactory;
 
+import pt.ist.fenixframework.Atomic;
+import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.socialsoftware.edition.domain.Category;
 import pt.ist.socialsoftware.edition.domain.ExpertEdition;
 import pt.ist.socialsoftware.edition.domain.Heteronym;
@@ -76,6 +78,7 @@ public class LoadTEICorpus {
 		namespace = ldoDTEI.getNamespace();
 	}
 
+	@Atomic(mode = TxMode.WRITE)
 	public void loadTEICorpus(InputStream file) {
 		parseTEIFile(file);
 

@@ -29,8 +29,8 @@
 		<version.org.slf4j>1.7.5</version.org.slf4j>
 		<version.ch.qos.logback>1.0.13</version.ch.qos.logback>
 
-		<version.pt.ist.ff.maven.plugin>2.1.0</version.pt.ist.ff.maven.plugin>
-		<version.pt.ist.fenix.framework>2.1.0</version.pt.ist.fenix.framework>
+		<version.pt.ist.ff.maven.plugin>2.4.0</version.pt.ist.ff.maven.plugin>
+		<version.pt.ist.fenix.framework>2.4.0</version.pt.ist.fenix.framework>
 		<fenix.framework.codeGeneratorClassName>pt.ist.fenixframework.backend.jvstmojb.codeGenerator.FenixCodeGeneratorOneBoxPerObject</fenix.framework.codeGeneratorClassName>
 		<fenix.framework.backend>jvstm-ojb</fenix.framework.backend>
 	</properties>

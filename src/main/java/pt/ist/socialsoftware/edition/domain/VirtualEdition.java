@@ -6,6 +6,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import pt.ist.fenixframework.Atomic;
+import pt.ist.fenixframework.Atomic.TxMode;
+
 public class VirtualEdition extends VirtualEdition_Base {
 
 	public VirtualEdition(LdoD ldod, LdoDUser participant, String acronym,
@@ -19,6 +22,7 @@ public class VirtualEdition extends VirtualEdition_Base {
 		setNextInterNumber(1);
 	}
 
+	@Atomic(mode = TxMode.WRITE)
 	public void remove() {
 		setLdoD4Virtual(null);
 
@@ -31,7 +35,7 @@ public class VirtualEdition extends VirtualEdition_Base {
 		}
 
 		for (VirtualEditionInter inter : getVirtualEditionIntersSet()) {
-			removeVirtualEditionInters(inter);
+			inter.remove();
 		}
 
 		deleteDomainObject();
@@ -119,5 +123,21 @@ public class VirtualEdition extends VirtualEdition_Base {
 	@Override
 	public String getReference() {
 		return getAcronym();
+	}
+
+	@Atomic(mode = TxMode.WRITE)
+	public void edit(String acronym, String title, boolean pub) {
+		setPub(pub);
+		setTitle(title);
+		setAcronym(acronym);
+	}
+
+	@Atomic(mode = TxMode.WRITE)
+	public VirtualEditionInter createVirtualEditionInter(FragInter inter) {
+		VirtualEditionInter virtualInter = null;
+		if (canAddFragInter(inter)) {
+			virtualInter = new VirtualEditionInter(this, inter);
+		}
+		return virtualInter;
 	}
 }

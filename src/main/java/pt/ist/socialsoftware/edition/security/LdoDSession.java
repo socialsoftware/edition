@@ -4,7 +4,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import pt.ist.fenixframework.Atomic;
+import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.fenixframework.FenixFramework;
+import pt.ist.socialsoftware.edition.domain.LdoDUser;
 import pt.ist.socialsoftware.edition.domain.VirtualEdition;
 
 public class LdoDSession implements Serializable {
@@ -47,6 +50,20 @@ public class LdoDSession implements Serializable {
 
 	public List<String> getSelectedVEAcr() {
 		return selectedVEAcr;
+	}
+
+	@Atomic(mode = TxMode.WRITE)
+	public void toggleSelectedVirtualEdition(LdoDUser user,
+			VirtualEdition virtualEdition) {
+		if (hasSelectedVE(virtualEdition)) {
+			removeSelectedVE(virtualEdition);
+			if (user != null)
+				user.removeSelectedVirtualEditions(virtualEdition);
+		} else {
+			addSelectedVE(virtualEdition);
+			if (user != null)
+				user.addSelectedVirtualEditions(virtualEdition);
+		}
 	}
 
 }

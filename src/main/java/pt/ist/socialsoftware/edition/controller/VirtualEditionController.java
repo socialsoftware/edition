@@ -6,9 +6,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
-
-import jvstm.Transaction;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -27,7 +24,9 @@ import pt.ist.socialsoftware.edition.domain.LdoDUser;
 import pt.ist.socialsoftware.edition.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.domain.VirtualEditionInter;
 import pt.ist.socialsoftware.edition.security.LdoDSession;
-import pt.ist.socialsoftware.edition.shared.exception.LdoDDuplicateValueException;
+import pt.ist.socialsoftware.edition.shared.exception.LdoDCreateVirtualEditionException;
+import pt.ist.socialsoftware.edition.shared.exception.LdoDDuplicateAcronymException;
+import pt.ist.socialsoftware.edition.shared.exception.LdoDEditVirtualEditionException;
 import pt.ist.socialsoftware.edition.validator.VirtualEditionValidator;
 import pt.ist.socialsoftware.edition.visitors.HtmlWriter4OneInter;
 
@@ -82,6 +81,9 @@ public class VirtualEditionController {
 		Date today = Calendar.getInstance().getTime();
 		String date = df.format(today);
 
+		title = title.trim();
+		acronym = acronym.trim();
+
 		VirtualEdition virtualEdition = null;
 
 		VirtualEditionValidator validator = new VirtualEditionValidator(
@@ -89,35 +91,24 @@ public class VirtualEditionController {
 		validator.validate();
 
 		List<String> errors = validator.getErrors();
-		Map<String, Object> values = validator.getValues();
 
 		if (errors.size() > 0) {
-			model.addAttribute("errors", errors);
-			model.addAttribute(
-					"acronym",
-					values.get("acronym") == null ? acronym : values
-							.get("acronym"));
-			model.addAttribute("title", values.get("title") == null ? title
-					: values.get("title"));
-			model.addAttribute("pub", pub);
-			model.addAttribute("virtualEditions", LdoD.getInstance()
-					.getVirtualEditions4User(LdoDUser.getUser(), ldoDSession));
-			model.addAttribute("user", LdoDUser.getUser());
-			return "virtual/list";
+			throw new LdoDCreateVirtualEditionException(errors, acronym, title,
+					pub, LdoD.getInstance().getVirtualEditions4User(
+							LdoDUser.getUser(), ldoDSession),
+					LdoDUser.getUser());
 		}
 
 		try {
-			virtualEdition = new VirtualEdition(LdoD.getInstance(),
+			virtualEdition = LdoD.getInstance().createVirtualEdition(
 					LdoDUser.getUser(), acronym, title, date, pub);
-		} catch (LdoDDuplicateValueException ex) {
+
+		} catch (LdoDDuplicateAcronymException ex) {
 			errors.add("virtualedition.acronym.duplicate");
-			model.addAttribute("errors", errors);
-			model.addAttribute("acronym", "");
-			model.addAttribute("title", title);
-			model.addAttribute("pub", pub);
-			model.addAttribute("user", LdoDUser.getUser());
-			Transaction.abort();
-			return "virtual/list";
+			throw new LdoDCreateVirtualEditionException(errors, acronym, title,
+					pub, LdoD.getInstance().getVirtualEditions4User(
+							LdoDUser.getUser(), ldoDSession),
+					LdoDUser.getUser());
 		}
 
 		model.addAttribute("virtualEditions", LdoD.getInstance()
@@ -182,41 +173,26 @@ public class VirtualEditionController {
 			return "utils/pageNotFound";
 		}
 
+		title = title.trim();
+		acronym = acronym.trim();
+
 		VirtualEditionValidator validator = new VirtualEditionValidator(
 				virtualEdition, acronym, title);
 		validator.validate();
 
 		List<String> errors = validator.getErrors();
-		Map<String, Object> values = validator.getValues();
 
 		if (errors.size() > 0) {
-			model.addAttribute("errors", errors);
-			model.addAttribute("externalId", virtualEdition.getExternalId());
-			model.addAttribute(
-					"acronym",
-					values.get("acronym") == null ? acronym : values
-							.get("acronym"));
-			model.addAttribute("title", values.get("title") == null ? title
-					: values.get("title"));
-			model.addAttribute("date", virtualEdition.getDate());
-			model.addAttribute("pub", pub);
-			return "virtual/edit";
+			throw new LdoDEditVirtualEditionException(errors, virtualEdition,
+					acronym, title, pub);
 		}
 
 		try {
-			virtualEdition.setAcronym(acronym);
-			virtualEdition.setTitle(title);
-			virtualEdition.setPub(pub);
-		} catch (LdoDDuplicateValueException ex) {
+			virtualEdition.edit(acronym, title, pub);
+		} catch (LdoDDuplicateAcronymException ex) {
 			errors.add("virtualedition.acronym.duplicate");
-			model.addAttribute("errors", errors);
-			model.addAttribute("externalId", virtualEdition.getExternalId());
-			model.addAttribute("acronym", virtualEdition.getAcronym());
-			model.addAttribute("title", title);
-			model.addAttribute("date", virtualEdition.getDate());
-			model.addAttribute("pub", pub);
-			Transaction.abort();
-			return "virtual/edit";
+			throw new LdoDEditVirtualEditionException(errors, virtualEdition,
+					acronym, title, pub);
 		}
 
 		model.addAttribute("virtualEditions", LdoD.getInstance()
@@ -231,7 +207,7 @@ public class VirtualEditionController {
 	public String toggleSelectedVirtualEdition(Model model,
 			@ModelAttribute("ldoDSession") LdoDSession ldoDSession,
 			@RequestParam("externalId") String externalId) {
-		VirtualEdition virtualEdition = FenixFramework
+		final VirtualEdition virtualEdition = FenixFramework
 				.getDomainObject(externalId);
 
 		if (virtualEdition == null)
@@ -239,15 +215,7 @@ public class VirtualEditionController {
 
 		LdoDUser user = LdoDUser.getUser();
 
-		if (ldoDSession.hasSelectedVE(virtualEdition)) {
-			ldoDSession.removeSelectedVE(virtualEdition);
-			if (user != null)
-				user.removeSelectedVirtualEditions(virtualEdition);
-		} else {
-			ldoDSession.addSelectedVE(virtualEdition);
-			if (user != null)
-				user.addSelectedVirtualEditions(virtualEdition);
-		}
+		ldoDSession.toggleSelectedVirtualEdition(user, virtualEdition);
 
 		model.addAttribute("virtualEditions", LdoD.getInstance()
 				.getVirtualEditions4User(LdoDUser.getUser(), ldoDSession));
@@ -291,9 +259,7 @@ public class VirtualEditionController {
 			model.addAttribute("virtualedition", virtualEdition);
 			return "virtual/manageParticipants";
 		} else {
-			if (!user.getMyVirtualEditionsSet().contains(virtualEdition)) {
-				user.addMyVirtualEditions(virtualEdition);
-			}
+			user.addToVirtualEdition(virtualEdition);
 			model.addAttribute("virtualedition", virtualEdition);
 			return "virtual/manageParticipants";
 		}
@@ -320,8 +286,7 @@ public class VirtualEditionController {
 			model.addAttribute("virtualedition", virtualEdition);
 			return "virtual/manageParticipants";
 		} else {
-			user.removeMyVirtualEditions(virtualEdition);
-			user.removeSelectedVirtualEditions(virtualEdition);
+			user.removeVirtualEdition(virtualEdition);
 
 			if (user == LdoDUser.getUser()) {
 				model.addAttribute(
@@ -345,9 +310,12 @@ public class VirtualEditionController {
 		FragInter inter = FenixFramework.getDomainObject(interId);
 		if ((virtualEdition == null) && (inter == null)) {
 			return "utils/pageNotFound";
-		} else if (virtualEdition.canAddFragInter(inter)) {
-			VirtualEditionInter addInter = new VirtualEditionInter(
-					virtualEdition, inter);
+		}
+
+		VirtualEditionInter addInter = virtualEdition
+				.createVirtualEditionInter(inter);
+
+		if (addInter != null) {
 			List<FragInter> inters = new ArrayList<FragInter>();
 			inters.add(addInter);
 

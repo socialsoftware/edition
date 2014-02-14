@@ -6,7 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import pt.ist.socialsoftware.edition.shared.exception.LdoDDuplicateValueException;
+import pt.ist.socialsoftware.edition.shared.exception.LdoDDuplicateAcronymException;
 
 public abstract class Edition extends Edition_Base {
 
@@ -25,14 +25,14 @@ public abstract class Edition extends Edition_Base {
 			for (ExpertEdition edition : LdoD.getInstance()
 					.getExpertEditionsSet()) {
 				if (acronym.equals(edition.getAcronym())) {
-					throw new LdoDDuplicateValueException();
+					throw new LdoDDuplicateAcronymException();
 				}
 			}
 
 			for (VirtualEdition edition : LdoD.getInstance()
 					.getVirtualEditionsSet()) {
 				if (acronym.equals(edition.getAcronym())) {
-					throw new LdoDDuplicateValueException();
+					throw new LdoDDuplicateAcronymException();
 				}
 			}
 		}

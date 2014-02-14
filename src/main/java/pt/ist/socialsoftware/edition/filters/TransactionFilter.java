@@ -9,21 +9,17 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 
 public class TransactionFilter implements Filter {
-	private final static Logger logger = LoggerFactory
-			.getLogger(TransactionFilter.class);
 
 	@Override
+	@Atomic(mode = TxMode.READ, flattenNested = false)
 	public void doFilter(ServletRequest request, ServletResponse response,
 			FilterChain chain) throws IOException, ServletException {
 
-		atomicDoFilter(request, response, chain);
+		chain.doFilter(request, response);
 
 		// try {
 		// Transaction.begin(false);
@@ -48,23 +44,12 @@ public class TransactionFilter implements Filter {
 		// }
 	}
 
-	@Atomic(mode = TxMode.SPECULATIVE_READ)
-	private void atomicDoFilter(ServletRequest request,
-			ServletResponse response, FilterChain chain) throws IOException,
-			ServletException {
-		chain.doFilter(request, response);
-	}
-
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void destroy() {
-		// TODO Auto-generated method stub
-
 	}
 
 }

@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.ModelAndView;
 
+import pt.ist.socialsoftware.edition.shared.exception.LdoDCreateVirtualEditionException;
+import pt.ist.socialsoftware.edition.shared.exception.LdoDEditVirtualEditionException;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDLoadException;
 
 @ControllerAdvice
@@ -21,19 +23,49 @@ public class LdoDExceptionHandler {
 			logger.debug("LdoDLoadException: {}", ex.getMessage());
 		}
 
-		// try {
-		// System.out.println("Vai fazer roolback");
-		// FenixFramework.getTransactionManager().getTransaction().rollback();
-		// System.out.println("Fez roolback");
-		// } catch (IllegalStateException | SecurityException | SystemException
-		// e) {
-		// System.out.println("handleLdoDLoadException");
-		// e.printStackTrace();
-		// }
-
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("utils/ldoDExceptionPage");
 		modelAndView.addObject("message", ex.getMessage());
+		return modelAndView;
+	}
+
+	@ExceptionHandler({ LdoDEditVirtualEditionException.class })
+	public ModelAndView handleLdoDEditVirtualEditionException(
+			LdoDEditVirtualEditionException ex) {
+
+		if (logger.isDebugEnabled()) {
+			logger.debug("LdoDEditVirtualEditionException: {}", ex.getErrors());
+		}
+
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.addObject("errors", ex.getErrors());
+		modelAndView.addObject("externalId", ex.getVirtualEdition()
+				.getExternalId());
+		modelAndView.addObject("acronym", ex.getAcronym());
+		modelAndView.addObject("title", ex.getTitle());
+		modelAndView.addObject("date", ex.getVirtualEdition().getDate());
+		modelAndView.addObject("pub", ex.isPub());
+		modelAndView.setViewName("virtual/edit");
+		return modelAndView;
+	}
+
+	@ExceptionHandler({ LdoDCreateVirtualEditionException.class })
+	public ModelAndView handleLdoDCreateVirtualEditionException(
+			LdoDCreateVirtualEditionException ex) {
+
+		if (logger.isDebugEnabled()) {
+			logger.debug("LdoDCreateVirtualEditionException: {}",
+					ex.getErrors());
+		}
+
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.addObject("errors", ex.getErrors());
+		modelAndView.addObject("acronym", ex.getAcronym());
+		modelAndView.addObject("title", ex.getTitle());
+		modelAndView.addObject("pub", ex.isPub());
+		modelAndView.addObject("virtualEditions", ex.getVirtualEditions());
+		modelAndView.addObject("user", ex.getUser());
+		modelAndView.setViewName("virtual/list");
 		return modelAndView;
 	}
 

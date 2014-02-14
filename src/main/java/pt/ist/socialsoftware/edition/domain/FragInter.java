@@ -4,7 +4,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import pt.ist.fenixframework.Atomic;
+import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.socialsoftware.edition.domain.Edition.SourceType;
+import pt.ist.socialsoftware.edition.utils.RangeJson;
 
 public abstract class FragInter extends FragInter_Base implements
 		Comparable<FragInter> {
@@ -100,5 +103,23 @@ public abstract class FragInter extends FragInter_Base implements
 	}
 
 	public abstract String getReference();
+
+	@Atomic(mode = TxMode.WRITE)
+	public Annotation createAnnotation(String quote, String text,
+			LdoDUser user, List<RangeJson> rangeList, List<String> tagList) {
+		Annotation annotation = new Annotation(this, quote, text, user);
+
+		for (RangeJson rangeJson : rangeList) {
+			new Range(annotation, rangeJson.getStart(),
+					rangeJson.getStartOffset(), rangeJson.getEnd(),
+					rangeJson.getEndOffset());
+		}
+
+		for (String tag : tagList) {
+			Tag.create(annotation, tag);
+		}
+
+		return annotation;
+	}
 
 }

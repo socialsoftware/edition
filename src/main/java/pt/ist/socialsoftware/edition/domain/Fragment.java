@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import pt.ist.fenixframework.Atomic;
+import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.socialsoftware.edition.domain.Edition.SourceType;
 
 public class Fragment extends Fragment_Base {
@@ -14,6 +16,7 @@ public class Fragment extends Fragment_Base {
 		setXmlId(xmlId);
 	}
 
+	@Atomic(mode = TxMode.WRITE)
 	public void remove() {
 		setLdoD(null);
 

@@ -6,6 +6,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import pt.ist.fenixframework.Atomic;
+import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.security.LdoDSession;
 
@@ -107,5 +109,11 @@ public class LdoD extends LdoD_Base {
 			}
 		}
 		return null;
+	}
+
+	@Atomic(mode = TxMode.WRITE)
+	public VirtualEdition createVirtualEdition(LdoDUser user, String acronym,
+			String title, String date, boolean pub) {
+		return new VirtualEdition(this, user, acronym, title, date, pub);
 	}
 }

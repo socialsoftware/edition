@@ -11,7 +11,7 @@
 		<div class="hero-unit">
 			<h1>Ocorreu um erro:</h1>
 			<br>
-			<div class="alert alert-error">
+			<div class="alert alert-danger">
 				<a class="close" data-dismiss="alert">×</a> <strong>${exception.message}
 				</strong>
 			</div>

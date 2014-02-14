@@ -10,12 +10,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.transaction.HeuristicMixedException;
-import javax.transaction.HeuristicRollbackException;
-import javax.transaction.NotSupportedException;
-import javax.transaction.RollbackException;
-import javax.transaction.SystemException;
-
 import org.jdom2.Attribute;
 import org.jdom2.Content;
 import org.jdom2.Content.CType;
@@ -31,7 +25,6 @@ import org.jdom2.xpath.XPathFactory;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
-import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.domain.AddText;
 import pt.ist.socialsoftware.edition.domain.AddText.Place;
 import pt.ist.socialsoftware.edition.domain.AltText;
@@ -181,7 +174,8 @@ public class LoadTEIFragments {
 					"Ficheiro com problemas de codificação TEI");
 		} catch (IOException e) {
 			throw new LdoDLoadException(
-					"Problemas com o ficheiro, tipo ou formato");
+					"Problemas com o ficheiro, tipo ou formato"
+							+ e.getStackTrace());
 		}
 
 		if (doc == null) {
@@ -194,6 +188,7 @@ public class LoadTEIFragments {
 		namespace = ldoDTEI.getNamespace();
 	}
 
+	@Atomic(mode = TxMode.WRITE)
 	public void loadFragmentsAtOnce(InputStream file) throws LdoDLoadException {
 		parseTEIFile(file);
 
@@ -227,15 +222,6 @@ public class LoadTEIFragments {
 			throws LdoDLoadException {
 		parseTEIFile(file);
 
-		try {
-			FenixFramework.getTransactionManager().commit();
-		} catch (SecurityException | IllegalStateException | RollbackException
-				| HeuristicMixedException | HeuristicRollbackException
-				| SystemException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
 		XPathExpression<Element> xp = xpfac.compile("//def:TEI/def:teiHeader",
 				Filters.element(), null,
 				Namespace.getNamespace("def", namespace.getURI()));
@@ -243,14 +229,6 @@ public class LoadTEIFragments {
 		for (Element element : xp.evaluate(doc)) {
 			atomicLoadFragment(element);
 		}
-
-		try {
-			FenixFramework.getTransactionManager().begin(false);
-		} catch (NotSupportedException | SystemException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
 	}
 
 	@Atomic(mode = TxMode.WRITE)
@@ -274,10 +252,6 @@ public class LoadTEIFragments {
 		if (!exists) {
 			loadFragment(title, xmlId);
 		}
-
-		// loadFragment(title, xmlId);
-		// throw new LdoDLoadException("atomicLoadFragment");
-
 	}
 
 	private void loadFragment(String title, String xmlId) {
@@ -554,15 +528,9 @@ public class LoadTEIFragments {
 			throw new LdoDLoadException("seg não contém apenas texto"
 					+ element.getText());
 
-		assert contentList.size() == 1 : "<seg> DOES NOT CONTAIN SIMPLE TEXT"
-				+ element;
-
 		if (contentList.get(0).getCType() != CType.Text)
 			throw new LdoDLoadException("seg não contém apenas texto"
 					+ element.getText());
-
-		assert contentList.get(0).getCType() == CType.Text : "<seg> DOES NOT CONTAIN SIMPLE TEXT"
-				+ element;
 
 		SegText segText = new SegText(parent);
 

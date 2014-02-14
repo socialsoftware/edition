@@ -7,6 +7,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import pt.ist.fenixframework.Atomic;
+import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.socialsoftware.edition.security.UserDetailsImpl;
 
 public class LdoDUser extends LdoDUser_Base {
@@ -40,6 +42,20 @@ public class LdoDUser extends LdoDUser_Base {
 		}
 
 		return inters;
+	}
+
+	@Atomic(mode = TxMode.WRITE)
+	public void removeVirtualEdition(VirtualEdition virtualEdition) {
+		removeMyVirtualEditions(virtualEdition);
+		removeSelectedVirtualEditions(virtualEdition);
+	}
+
+	@Atomic(mode = TxMode.WRITE)
+	public void addToVirtualEdition(VirtualEdition virtualEdition) {
+		if (!getMyVirtualEditionsSet().contains(virtualEdition)) {
+			addMyVirtualEditions(virtualEdition);
+		}
+
 	}
 
 }
