@@ -66,9 +66,11 @@ public class LdoD extends LdoD_Base {
 		for (VirtualEdition edition : sessionVE) {
 			if ((user != null)
 					&& !user.getSelectedVirtualEditionsSet().contains(edition)) {
-				session.removeSelectedVE(edition);
+				session.removeSelectedVE(edition.getExternalId(),
+						edition.getAcronym());
 			} else if ((user == null) && (!edition.getPub())) {
-				session.removeSelectedVE(edition);
+				session.removeSelectedVE(edition.getExternalId(),
+						edition.getAcronym());
 			}
 		}
 

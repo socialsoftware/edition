@@ -16,13 +16,13 @@ public class LdoDSession implements Serializable {
 	private final List<String> selectedVEIds = new ArrayList<String>();
 	private final List<String> selectedVEAcr = new ArrayList<String>();
 
-	public boolean hasSelectedVE(VirtualEdition virtualEdition) {
-		return selectedVEIds.contains(virtualEdition.getExternalId());
+	public boolean hasSelectedVE(String externalId) {
+		return selectedVEIds.contains(externalId);
 	}
 
-	public void removeSelectedVE(VirtualEdition virtualEdition) {
-		selectedVEIds.remove(virtualEdition.getExternalId());
-		selectedVEAcr.remove(virtualEdition.getAcronym());
+	public void removeSelectedVE(String externalId, String acronym) {
+		selectedVEIds.remove(externalId);
+		selectedVEAcr.remove(acronym);
 	}
 
 	public void addSelectedVE(VirtualEdition virtualEdition) {
@@ -55,8 +55,9 @@ public class LdoDSession implements Serializable {
 	@Atomic(mode = TxMode.WRITE)
 	public void toggleSelectedVirtualEdition(LdoDUser user,
 			VirtualEdition virtualEdition) {
-		if (hasSelectedVE(virtualEdition)) {
-			removeSelectedVE(virtualEdition);
+		if (hasSelectedVE(virtualEdition.getExternalId())) {
+			removeSelectedVE(virtualEdition.getExternalId(),
+					virtualEdition.getAcronym());
 			if (user != null)
 				user.removeSelectedVirtualEditions(virtualEdition);
 		} else {

@@ -128,10 +128,13 @@ public class VirtualEditionController {
 		if (virtualEdition == null) {
 			return "utils/pageNotFound";
 		} else {
+
+			String acronym = virtualEdition.getAcronym();
+
 			virtualEdition.remove();
 
-			if (ldoDSession.hasSelectedVE(virtualEdition)) {
-				ldoDSession.removeSelectedVE(virtualEdition);
+			if (ldoDSession.hasSelectedVE(externalId)) {
+				ldoDSession.removeSelectedVE(externalId, acronym);
 			}
 
 			model.addAttribute("virtualEditions", LdoD.getInstance()
