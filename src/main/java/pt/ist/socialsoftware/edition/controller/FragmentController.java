@@ -143,7 +143,7 @@ public class FragmentController {
 			List<AppText> apps = new ArrayList<AppText>();
 			for (TextPortion text : inters.get(0).getFragment()
 					.getTextPortion().getChildTextSet()) {
-				text.getAppText(apps);
+				text.putAppTextWithVariations(apps, inters);
 			}
 			Collections.reverse(apps);
 

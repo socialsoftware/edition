@@ -18,30 +18,7 @@ public class TransactionFilter implements Filter {
 	@Atomic(mode = TxMode.READ, flattenNested = false)
 	public void doFilter(ServletRequest request, ServletResponse response,
 			FilterChain chain) throws IOException, ServletException {
-
 		chain.doFilter(request, response);
-
-		// try {
-		// Transaction.begin(false);
-		// chain.doFilter(request, response);
-		// } catch (Exception e) {
-		// if (logger.isDebugEnabled()) {
-		// logger.error("Exception: {}", e.getMessage(), e);
-		// }
-		// Transaction.abort();
-		// }
-		//
-		// if (Transaction.isInTransaction()) {
-		// try {
-		// Transaction.commit();
-		// } catch (Exception e) {
-		// if (logger.isDebugEnabled()) {
-		// logger.error("Exception: {}", e.getMessage(), e);
-		// }
-		//
-		// Transaction.abort();
-		// }
-		// }
 	}
 
 	@Override

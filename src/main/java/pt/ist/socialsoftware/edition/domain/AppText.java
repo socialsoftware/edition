@@ -26,8 +26,22 @@ public class AppText extends AppText_Base {
 	}
 
 	@Override
-	public void getAppText(List<AppText> apps) {
-		apps.add(this);
+	public void putAppTextWithVariations(List<AppText> apps,
+			List<FragInter> inters) {
+
+		if (hasVariations(inters)) {
+			apps.add(this);
+		}
+	}
+
+	@Override
+	public boolean hasVariations(List<FragInter> inters) {
+		for (TextPortion text : getChildTextSet()) {
+			if (text.hasVariations(inters)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 }

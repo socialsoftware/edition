@@ -73,13 +73,13 @@ $(document)
 
     <div class="row">
         <h4>
-            <spring:message code="fragment.variationstable" />
+            <spring:message code="fragment.variationstable" /> (${apps.size()})
         </h4>
         <table class="table table-condensed">
             <thead>
                 <tr>
                     <c:forEach var="inter" items='${inters}'>
-                        <th>${inter.getShortName()}</th>
+                        <th>${inter.getShortName()} </br> ${inter.getTitle()}</th>
                     </c:forEach>
                 </tr>
             </thead>

@@ -164,10 +164,15 @@ public abstract class TextPortion extends TextPortion_Base implements
 		return null;
 	}
 
-	public void getAppText(List<AppText> apps) {
+	public void putAppTextWithVariations(List<AppText> apps,
+			List<FragInter> inters) {
 		for (TextPortion text : getChildTextSet()) {
-			text.getAppText(apps);
+			text.putAppTextWithVariations(apps, inters);
 		}
+	}
+
+	public boolean hasVariations(List<FragInter> inters) {
+		return false;
 	}
 
 }

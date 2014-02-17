@@ -24,7 +24,7 @@ $(document).ready(
 	<%@ include file="/WEB-INF/jsp/common/fixed-top-ldod-header.jsp"%>
 
 	<div class="container">
-		<h1 class="text-center"><spring:message code="fragmentlist.title" /></h1>
+		<h1 class="text-center"><spring:message code="fragmentlist.title" /> (${fragments.size()}) </h1>
 		<div class="well" id="fragments-details"
 			data-toggle="checkbox">
 			<label class="checkbox inline"> <input type="checkbox"

@@ -227,31 +227,31 @@ public class LoadTEIFragments {
 				Namespace.getNamespace("def", namespace.getURI()));
 
 		for (Element element : xp.evaluate(doc)) {
-			atomicLoadFragment(element);
+			directIdMap.clear();
+			inverseIdMap.clear();
+			ldoD = LdoD.getInstance();
+			getCorpusXmlIds();
+
+			String xmlId = getFragmentXmlId(element);
+			String title = getFragmentTitle(element);
+
+			Boolean exists = false;
+			for (Fragment frag : ldoD.getFragmentsSet()) {
+				if (frag.getXmlId().equals(xmlId)) {
+					exists = true;
+					break;
+				}
+			}
+
+			if (!exists) {
+				atomicLoadFragment(title, xmlId);
+			}
 		}
 	}
 
 	@Atomic(mode = TxMode.WRITE)
-	private void atomicLoadFragment(Element element) {
-		directIdMap.clear();
-		inverseIdMap.clear();
-		ldoD = LdoD.getInstance();
-		getCorpusXmlIds();
-
-		String xmlId = getFragmentXmlId(element);
-		String title = getFragmentTitle(element);
-
-		Boolean exists = false;
-		for (Fragment frag : ldoD.getFragmentsSet()) {
-			if (frag.getXmlId().equals(xmlId)) {
-				exists = true;
-				break;
-			}
-		}
-
-		if (!exists) {
-			loadFragment(title, xmlId);
-		}
+	private void atomicLoadFragment(String title, String xmlId) {
+		loadFragment(title, xmlId);
 	}
 
 	private void loadFragment(String title, String xmlId) {

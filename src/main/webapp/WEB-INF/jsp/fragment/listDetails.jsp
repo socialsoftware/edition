@@ -4,7 +4,7 @@
 		<thead>
 			<tr>
 				<th><spring:message code="tableofcontents.title"/></th>
-				<th><spring:message code="navigation.edition"/> Jacinto Prado Coelho</th>
+				<th><spring:message code="navigation.edition"/> Jacinto do Prado Coelho</th>
 				<th><spring:message code="navigation.edition"/> Teresa Sobral Cunha</th>
 				<th><spring:message code="navigation.edition"/> Richard Zenith</th>
 				<th><spring:message code="navigation.edition"/> Jerónimo Pizarro</th>
@@ -16,7 +16,7 @@
 					<td><a
 						href="${contextPath}/fragments/fragment/${fragment.externalId}">${fragment.title}</a>
 					</td>
-					<td>${ldod:getExpertEditionInter(fragment,"Jacinto Prado Coelho").metaTextual}</td>
+					<td>${ldod:getExpertEditionInter(fragment,"Jacinto do Prado Coelho").metaTextual}</td>
 					<td>${ldod:getExpertEditionInter(fragment,"Teresa Sobral Cunha").metaTextual}</td>
 					<td>${ldod:getExpertEditionInter(fragment,"Richard Zenith").metaTextual}</td>
 					<td>${ldod:getExpertEditionInter(fragment,"Jerónimo Pizarro").metaTextual}</td>

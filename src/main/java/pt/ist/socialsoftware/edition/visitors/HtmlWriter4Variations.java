@@ -27,13 +27,12 @@ public class HtmlWriter4Variations extends HtmlWriter4OneInter {
 		highlightIns = true;
 		highlightSubst = false;
 		showNotes = true;
-
 	}
 
 	@Override
 	public void visit(AppText appText) {
 		if (appText.getType() != VariationType.UNSPECIFIED) {
-			transcription = transcription + "[(" + appText.getType().getDesc()
+			transcription = transcription + "(" + appText.getType().getDesc()
 					+ ")";
 		}
 
@@ -43,15 +42,12 @@ public class HtmlWriter4Variations extends HtmlWriter4OneInter {
 			}
 		}
 
-		if (appText.getType() != VariationType.UNSPECIFIED) {
-			transcription = transcription + "]";
-		}
 	}
 
 	@Override
 	public void visit(RdgGrpText rdgGrpText) {
 		if (rdgGrpText.getType() != VariationType.UNSPECIFIED) {
-			transcription = transcription + "[("
+			transcription = transcription + "("
 					+ rdgGrpText.getType().getDesc() + ")";
 		}
 
@@ -61,45 +57,17 @@ public class HtmlWriter4Variations extends HtmlWriter4OneInter {
 			}
 		}
 
-		if (rdgGrpText.getType() != VariationType.UNSPECIFIED) {
-			transcription = transcription + "]";
-		}
 	}
 
 	@Override
 	public void visit(RdgText rdgText) {
 		if (rdgText.getInterps().contains(this.fragInter)) {
 
-			Boolean color = false;
-			if (highlightDiff) {
-				int size = fragInter.getFragment().getFragmentInterSet().size();
-				if (rdgText.getInterps().size() < size) {
-					color = true;
-					int colorValue = 255 - (255 / size)
-							* (size - rdgText.getInterps().size() - 1);
-					String colorCode = "<span style=\"background-color: rgb(0,"
-							+ colorValue + ",255);\">";
-
-					transcription = transcription
-							+ rdgText.writeSeparator(displayDel,
-									highlightSubst, fragInter) + colorCode;
-				}
-			}
-
-			if (!color) {
-				transcription = transcription
-						+ rdgText.writeSeparator(displayDel, highlightSubst,
-								fragInter);
-			}
-
 			TextPortion firstChild = rdgText.getFirstChildText();
 			if (firstChild != null) {
 				firstChild.accept(this);
 			}
 
-			if (color) {
-				transcription = transcription + "</span>" + "]";
-			}
 		}
 	}
 
