@@ -189,7 +189,10 @@ public class LoadTEIFragments {
 	}
 
 	@Atomic(mode = TxMode.WRITE)
-	public void loadFragmentsAtOnce(InputStream file) throws LdoDLoadException {
+	public String loadFragmentsAtOnce(InputStream file)
+			throws LdoDLoadException {
+		String message = null;
+
 		parseTEIFile(file);
 
 		ldoD = LdoD.getInstance();
@@ -204,18 +207,29 @@ public class LoadTEIFragments {
 			String xmlId = getFragmentXmlId(element);
 			String title = getFragmentTitle(element);
 
+			Fragment oldFragment = null;
 			for (Fragment frag : ldoD.getFragmentsSet()) {
 				if (frag.getXmlId().equals(xmlId)) {
-					throw new LdoDLoadException("xml:id:" + xmlId
-							+ " já está associado ao fragmento \""
-							+ frag.getTitle()
-							+ "\". Erro ocorido durante o carregamento de \""
-							+ title + "\"");
+					oldFragment = frag;
+					break;
 				}
 			}
 
-			loadFragment(title, xmlId);
+			try {
+				loadFragment(title, xmlId);
+			} catch (LdoDLoadException e) {
+				message = e.getMessage();
+				if (oldFragment != null) {
+					oldFragment.remove();
+				}
+				break;
+			}
+
+			if (oldFragment != null) {
+				oldFragment.remove();
+			}
 		}
+		return message;
 	}
 
 	public void loadFragmentsStepByStep(InputStream file)
@@ -227,10 +241,7 @@ public class LoadTEIFragments {
 				Namespace.getNamespace("def", namespace.getURI()));
 
 		for (Element element : xp.evaluate(doc)) {
-			directIdMap.clear();
-			inverseIdMap.clear();
 			ldoD = LdoD.getInstance();
-			getCorpusXmlIds();
 
 			String xmlId = getFragmentXmlId(element);
 			String title = getFragmentTitle(element);
@@ -251,6 +262,9 @@ public class LoadTEIFragments {
 
 	@Atomic(mode = TxMode.WRITE)
 	private void atomicLoadFragment(String title, String xmlId) {
+		directIdMap.clear();
+		inverseIdMap.clear();
+		getCorpusXmlIds();
 		loadFragment(title, xmlId);
 	}
 
@@ -496,6 +510,8 @@ public class LoadTEIFragments {
 				Element element2 = (Element) content;
 				if (element2.getName().equals("add")) {
 					loadAdd(element2, addText);
+				} else if (element2.getName().equals("del")) {
+					loadDel(element2, addText);
 				} else if (element2.getName().equals("subst")) {
 					loadSubst(element2, addText);
 				} else if (element2.getName().equals("gap")) {

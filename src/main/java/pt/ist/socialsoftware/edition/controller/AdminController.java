@@ -57,6 +57,7 @@ public class AdminController {
 	@RequestMapping(method = RequestMethod.POST, value = "/load/fragmentsAtOnce")
 	public String loadTEIFragmentsAtOnce(Model model,
 			@RequestParam("file") MultipartFile file) throws LdoDLoadException {
+		String message = null;
 
 		if (file == null) {
 			throw new LdoDLoadException("Deve escolher um ficheiro");
@@ -64,13 +65,19 @@ public class AdminController {
 
 		LoadTEIFragments loader = new LoadTEIFragments();
 		try {
-			loader.loadFragmentsAtOnce(file.getInputStream());
+			message = loader.loadFragmentsAtOnce(file.getInputStream());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
-		return writeMessage(model, "Fragmentos carregados", "/search/fragments");
+		if (message == null) {
+			return writeMessage(model, "Fragmentos carregados",
+					"/search/fragments");
+		} else {
+			model.addAttribute("message", message);
+			return "utils/ldoDExceptionPage";
+		}
 	}
 
 	@RequestMapping(method = RequestMethod.POST, value = "/load/fragmentsStepByStep")
