@@ -8,7 +8,7 @@
                     <p style="font-family: monospace;">${writer.getTranscriptionLineByLine()}</p>
                 </c:when>
                 <c:otherwise>
-                    <p>${writer.getTranscriptionLineByLine()}</p>
+                    <p style="font-family: georgia;">${writer.getTranscriptionLineByLine()}</p>
                 </c:otherwise>
             </c:choose>
         </div>

@@ -10,7 +10,7 @@
                             <p style="font-family: monospace;">${ldod:getTranscription(writer,inter)}</p>
                         </c:when>
                         <c:otherwise>
-                            <p>${ldod:getTranscription(writer,inter)}</p>
+                            <p style="font-family: georgia;">${ldod:getTranscription(writer,inter)}</p>
                         </c:otherwise>
                     </c:choose>
                 </div>

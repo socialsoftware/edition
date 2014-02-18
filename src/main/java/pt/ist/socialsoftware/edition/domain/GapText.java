@@ -64,13 +64,20 @@ public class GapText extends GapText_Base {
 	}
 
 	public String getGapValue() {
-		String gapValue = getUnit() == GapUnit.WORD ? "[" : "[?";
-		String symbol = getUnit() == GapUnit.WORD ? "?P" : "C";
+		String gapValue = "[";
+		String symbol = getUnit() == GapUnit.WORD ? "######" : "#";
 
 		for (int i = 0; i < getExtent(); i++) {
-			gapValue = gapValue + symbol;
+			if (getUnit() == GapUnit.WORD) {
+				gapValue = gapValue + symbol;
+				if (i + 1 != getExtent()) {
+					gapValue = gapValue + " ";
+				}
+			} else {
+				gapValue = gapValue + symbol;
+			}
 		}
-		gapValue = gapValue + "?]";
+		gapValue = gapValue + "]";
 
 		return gapValue;
 	}

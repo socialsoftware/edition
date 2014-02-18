@@ -9,6 +9,7 @@ import pt.ist.socialsoftware.edition.domain.AddText;
 import pt.ist.socialsoftware.edition.domain.AltText;
 import pt.ist.socialsoftware.edition.domain.AppText;
 import pt.ist.socialsoftware.edition.domain.DelText;
+import pt.ist.socialsoftware.edition.domain.Edition.SourceType;
 import pt.ist.socialsoftware.edition.domain.FragInter;
 import pt.ist.socialsoftware.edition.domain.GapText;
 import pt.ist.socialsoftware.edition.domain.LbText;
@@ -36,6 +37,9 @@ public class HtmlWriter4OneInter extends HtmlWriter {
 	protected Boolean highlightSubst = false;
 	protected Boolean showNotes = true;
 
+	// by default the georgia font is used
+	protected String font = "style=\"font-family:georgia;\"";
+
 	private final Map<FragInter, Integer> interpsChar = new HashMap<FragInter, Integer>();
 	private int totalChar = 0;
 
@@ -55,6 +59,10 @@ public class HtmlWriter4OneInter extends HtmlWriter {
 
 		for (FragInter inter : fragInter.getFragment().getFragmentInterSet()) {
 			interpsChar.put(inter, 0);
+		}
+
+		if (fragInter.getLastUsed().getSourceType() == SourceType.AUTHORIAL) {
+			font = "style=\"font-family:courier;\"";
 		}
 	}
 
@@ -150,7 +158,7 @@ public class HtmlWriter4OneInter extends HtmlWriter {
 
 	@Override
 	public void visit(ParagraphText paragraphText) {
-		transcription = transcription + "<p>";
+		transcription = transcription + "<p align=\"justify\" " + font + ">";
 
 		TextPortion firstChild = paragraphText.getFirstChildText();
 		if (firstChild != null) {

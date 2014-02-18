@@ -76,14 +76,6 @@ public class LdoDExceptionHandler {
 			logger.debug("AccessDeniedException: {}", ex.getMessage());
 		}
 
-		// try {
-		// FenixFramework.getTransactionManager().rollback();
-		// } catch (IllegalStateException | SecurityException | SystemException
-		// e) {
-		// System.out.println("handleAccessDeniedException");
-		// e.printStackTrace();
-		// }
-
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("utils/ldoDExceptionPage");
 		modelAndView.addObject("i18n", true);
@@ -97,14 +89,6 @@ public class LdoDExceptionHandler {
 		if (logger.isDebugEnabled()) {
 			logger.error("Exception: {}", ex.getMessage(), ex);
 		}
-
-		// try {
-		// FenixFramework.getTransactionManager().rollback();
-		// } catch (IllegalStateException | SecurityException | SystemException
-		// e) {
-		// System.out.println("handleException");
-		// e.printStackTrace();
-		// }
 
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("utils/ldoDExceptionPage");

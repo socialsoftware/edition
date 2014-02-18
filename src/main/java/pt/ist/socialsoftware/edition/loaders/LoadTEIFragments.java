@@ -175,7 +175,7 @@ public class LoadTEIFragments {
 		} catch (IOException e) {
 			throw new LdoDLoadException(
 					"Problemas com o ficheiro, tipo ou formato"
-							+ e.getStackTrace());
+							+ e.getStackTrace().toString());
 		}
 
 		if (doc == null) {
