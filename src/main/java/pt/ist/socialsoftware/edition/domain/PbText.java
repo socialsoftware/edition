@@ -8,6 +8,7 @@ public class PbText extends PbText_Base {
 
 	public PbText(TextPortion parent, Set<FragInter> interps) {
 		parent.addChildText(this);
+		setSurface(null);
 
 		for (FragInter inter : interps) {
 			addFragInter(inter);
@@ -26,6 +27,8 @@ public class PbText extends PbText_Base {
 
 	@Override
 	public void remove() {
+		setSurface(null);
+
 		for (FragInter inter : getFragInterSet()) {
 			removeFragInter(inter);
 		}

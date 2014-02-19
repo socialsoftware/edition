@@ -644,7 +644,33 @@ public class LoadTEIFragments {
 			}
 		}
 
-		new PbText(parent, toFragInters);
+		PbText pbText = new PbText(parent, toFragInters);
+
+		Attribute facsAttribute = element.getAttribute("facs");
+		if (facsAttribute != null) {
+			String facsValue = facsAttribute.getValue();
+
+			Surface surface = null;
+			for (Source source : parent.getTopParent().getFragment()
+					.getSourcesSet()) {
+				for (Surface surf : source.getFacsimile().getSurfaces()) {
+					if (surf.getGraphic().equals(facsValue)) {
+						surface = surf;
+						break;
+					}
+				}
+			}
+
+			if (surface == null) {
+				throw new LdoDLoadException(
+						"o attributo facs do elemento pb que tem o valor="
+								+ facsValue
+								+ " não está associado a nenhum elemento graphic de surface");
+			} else {
+				pbText.setSurface(surface);
+			}
+		}
+
 	}
 
 	private void loadLb(Element element, TextPortion parent) {

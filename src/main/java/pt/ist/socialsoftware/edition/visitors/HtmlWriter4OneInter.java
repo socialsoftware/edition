@@ -24,6 +24,7 @@ import pt.ist.socialsoftware.edition.domain.SimpleText;
 import pt.ist.socialsoftware.edition.domain.SpaceText;
 import pt.ist.socialsoftware.edition.domain.SpaceText.SpaceDim;
 import pt.ist.socialsoftware.edition.domain.SubstText;
+import pt.ist.socialsoftware.edition.domain.Surface;
 import pt.ist.socialsoftware.edition.domain.TextPortion;
 import pt.ist.socialsoftware.edition.domain.UnclearText;
 
@@ -37,15 +38,16 @@ public class HtmlWriter4OneInter extends HtmlWriter {
 	protected Boolean highlightSubst = false;
 	protected Boolean showNotes = true;
 
+	private PbText startPbText = null;
+	private PbText stopPbText = null;
+
 	// by default the georgia font is used
 	protected String font = "style=\"font-family:georgia;\"";
 
 	private final Map<FragInter, Integer> interpsChar = new HashMap<FragInter, Integer>();
 	private int totalChar = 0;
 
-	public String getTranscription(FragInter inter) {
-		assert inter == fragInter;
-
+	public String getTranscription() {
 		return transcription;
 	}
 
@@ -61,7 +63,7 @@ public class HtmlWriter4OneInter extends HtmlWriter {
 			interpsChar.put(inter, 0);
 		}
 
-		if (fragInter.getLastUsed().getSourceType() == SourceType.AUTHORIAL) {
+		if (fragInter.getLastUsed().getSourceType() == SourceType.EDITORIAL) {
 			font = "style=\"font-family:courier;\"";
 		}
 	}
@@ -75,7 +77,8 @@ public class HtmlWriter4OneInter extends HtmlWriter {
 	}
 
 	public void write(Boolean highlightDiff, Boolean displayDel,
-			Boolean highlightIns, Boolean highlightSubst, Boolean showNotes) {
+			Boolean highlightIns, Boolean highlightSubst, Boolean showNotes,
+			Surface surface) {
 		this.highlightDiff = highlightDiff;
 		this.displayDel = displayDel;
 		this.highlightIns = highlightIns;
@@ -84,7 +87,23 @@ public class HtmlWriter4OneInter extends HtmlWriter {
 		if (fragInter.getLastUsed() != fragInter) {
 			fragInter = fragInter.getLastUsed();
 		}
-		visit((AppText) fragInter.getFragment().getTextPortion());
+
+		if (surface == null) {
+			visit((AppText) fragInter.getFragment().getTextPortion());
+		} else {
+			Surface stopSurface = surface.getNext();
+			if (stopSurface == null) {
+				stopPbText = null;
+			} else {
+				stopPbText = stopSurface.getPbText();
+			}
+			startPbText = surface.getPbText();
+			if (startPbText == null) {
+				visit((AppText) fragInter.getFragment().getTextPortion());
+			} else {
+				visit(surface.getPbText());
+			}
+		}
 	}
 
 	@Override
@@ -158,7 +177,7 @@ public class HtmlWriter4OneInter extends HtmlWriter {
 
 	@Override
 	public void visit(ParagraphText paragraphText) {
-		transcription = transcription + "<p align=\"justify\" " + font + ">";
+		transcription = transcription + "<p align=\"justify\">";
 
 		TextPortion firstChild = paragraphText.getFirstChildText();
 		if (firstChild != null) {
@@ -263,11 +282,16 @@ public class HtmlWriter4OneInter extends HtmlWriter {
 	@Override
 	public void visit(PbText pbText) {
 		if (pbText.getInterps().contains(fragInter)) {
-			transcription = transcription + "<hr size=\"3\" color=\"black\">";
+			if ((startPbText != pbText) && (stopPbText != pbText)) {
+				transcription = transcription
+						+ "<hr size=\"3\" color=\"black\">";
+			}
 		}
 
-		if (pbText.getParentOfLastText() == null) {
-			pbText.getNextText().accept(this);
+		if (stopPbText != pbText) {
+			if (pbText.getParentOfLastText() == null) {
+				pbText.getNextText().accept(this);
+			}
 		}
 	}
 

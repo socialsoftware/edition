@@ -192,13 +192,10 @@ public class FragmentController {
 		Surface surface = FenixFramework.getDomainObject(surfID);
 
 		HtmlWriter4OneInter writer = new HtmlWriter4OneInter(inter);
-		writer.write(displayDiff, displayDel, highlightIns, highlightSubst,
-				showNotes);
 
 		List<FragInter> inters = new ArrayList<FragInter>();
 		inters.add(inter);
 		model.addAttribute("inters", inters);
-		model.addAttribute("writer", writer);
 
 		if (showFacs) {
 			if (surface == null) {
@@ -206,9 +203,15 @@ public class FragmentController {
 				surface = sourceInter.getSource().getFacsimile()
 						.getFirstSurface();
 			}
+			writer.write(displayDiff, displayDel, highlightIns, highlightSubst,
+					showNotes, surface);
 			model.addAttribute("surface", surface);
+			model.addAttribute("writer", writer);
 			return "fragment/facsimile";
 		} else {
+			writer.write(displayDiff, displayDel, highlightIns, highlightSubst,
+					showNotes, null);
+			model.addAttribute("writer", writer);
 			return "fragment/transcription";
 		}
 

@@ -64,32 +64,32 @@ $(document).ready(function() {
             <div class="col-md-6">
                 <c:choose>
                     <c:when test="${surface.prev != null}">
-                        <button class="btn btn-sm pull-left" type="button"
-                            id="backward"
+                        <button class="btn btn-sm pull-left"
+                            type="button" id="backward"
                             value="${surface.prev.externalId}"
                             data-toggle="button">
                             <span class="glyphicon glyphicon-backward"></span>
                         </button>
                     </c:when>
                     <c:otherwise>
-                        <button class="btn btn-sm pull-left" type="button"
-                            id="backward" disabled>
+                        <button class="btn btn-sm pull-left"
+                            type="button" id="backward" disabled>
                             <span class="glyphicon glyphicon-backward"></span>
                         </button>
                     </c:otherwise>
                 </c:choose>
                 <c:choose>
                     <c:when test="${surface.next != null}">
-                        <button class="btn btn-sm pull-right" type="button"
-                            id="forward"
+                        <button class="btn btn-sm pull-right"
+                            type="button" id="forward"
                             value="${surface.next.externalId}"
                             data-toggle="button">
                             <span class="glyphicon glyphicon-forward"></span>
                         </button>
                     </c:when>
                     <c:otherwise>
-                        <button class="btn btn-sm pull-right" type="button"
-                            id="forward" disabled>
+                        <button class="btn btn-sm pull-right"
+                            type="button" id="forward" disabled>
                             <span class="glyphicon glyphicon-forward"></span>
                         </button>
                     </c:otherwise>
@@ -103,9 +103,21 @@ $(document).ready(function() {
                         class="img-responsive" alt="Responsive image" />
                 </div>
             </div>
-            <div class="well col-md-6">
-                <p>${writer.getTranscription(inter)}</p>
-            </div>
+            <c:choose>
+                <c:when
+                    test="${inters.get(0).lastUsed.sourceType=='EDITORIAL'}">
+                    <div class="well col-md-6" id="content"
+                        style="font-family: georgia;">
+                        <p>${writer.getTranscription()}</p>
+                    </div>
+                </c:when>
+                <c:otherwise>
+                    <div class="well col-md-6" id="content"
+                        style="font-family: courier;">
+                        <p>${writer.getTranscription()}</p>
+                    </div>
+                </c:otherwise>
+            </c:choose>
         </div>
         <div class="row">
             <div class="col-md-6">
@@ -127,16 +139,16 @@ $(document).ready(function() {
                 </c:choose>
                 <c:choose>
                     <c:when test="${surface.next != null}">
-                        <button class="btn btn-sm pull-right" type="button"
-                            id="forward"
+                        <button class="btn btn-sm pull-right"
+                            type="button" id="forward"
                             value="${surface.next.externalId}"
                             data-toggle="button">
                             <span class="glyphicon glyphicon-forward"></span>
                         </button>
                     </c:when>
                     <c:otherwise>
-                        <button class="btn btn-sm pull-right" type="button"
-                            id="forward" disabled>
+                        <button class="btn btn-sm pull-right"
+                            type="button" id="forward" disabled>
                             <span class="glyphicon glyphicon-forward"></span>
                         </button>
                     </c:otherwise>

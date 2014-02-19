@@ -5,6 +5,7 @@ public class Surface extends Surface_Base {
 	public Surface(Facsimile facsimile, String graphic) {
 		facsimile.addSurface(this);
 		setGraphic(graphic);
+		setPbText(null);
 	}
 
 	public void addSurface(Surface surface) {
@@ -22,6 +23,7 @@ public class Surface extends Surface_Base {
 	public void remove() {
 		setFacsimile(null);
 		setPrev(null);
+		setPbText(null);
 
 		if (getFacsimile() != null) {
 			setFacsimile(null);

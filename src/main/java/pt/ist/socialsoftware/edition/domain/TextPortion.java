@@ -26,6 +26,7 @@ public abstract class TextPortion extends TextPortion_Base implements
 	public TextPortion() {
 		super();
 		setNextText(null);
+		setFragment(null);
 	}
 
 	@Override
@@ -175,4 +176,11 @@ public abstract class TextPortion extends TextPortion_Base implements
 		return false;
 	}
 
+	public TextPortion getTopParent() {
+		if (getParentText() != null) {
+			return getParentText().getTopParent();
+		} else {
+			return this;
+		}
+	}
 }

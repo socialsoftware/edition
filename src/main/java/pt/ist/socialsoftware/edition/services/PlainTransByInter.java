@@ -39,6 +39,6 @@ public class PlainTransByInter extends LdoDService {
 		HtmlWriter4OneInter writer = new HtmlWriter4OneInter(this.fragInter);
 
 		this.fragInter.getFragment().getTextPortion().accept(writer);
-		transcription = writer.getTranscription(fragInter);
+		transcription = writer.getTranscription();
 	}
 }

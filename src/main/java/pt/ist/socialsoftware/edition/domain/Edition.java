@@ -11,7 +11,17 @@ import pt.ist.socialsoftware.edition.shared.exception.LdoDDuplicateAcronymExcept
 public abstract class Edition extends Edition_Base {
 
 	public enum SourceType {
-		AUTHORIAL, EDITORIAL, VIRTUAL;
+		AUTHORIAL("authorial"), EDITORIAL("editorial"), VIRTUAL("virtual");
+
+		private String desc;
+
+		SourceType(String desc) {
+			this.desc = desc;
+		}
+
+		public String getDesc() {
+			return desc;
+		}
 	};
 
 	public Edition() {

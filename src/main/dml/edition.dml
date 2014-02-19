@@ -366,6 +366,12 @@ relation PbTextHasFragInters {
 	FragInter playsRole fragInter {multiplicity 0..*;}
 }
 
+relation PbTextSurface {
+	PbText playsRole pbText {multiplicity 0..1;}
+	Surface playsRole surface {multiplicity 0..1;}
+}
+
+
 class SpaceText extends TextPortion {
 	SpaceDim dim;
 	int quantity;
