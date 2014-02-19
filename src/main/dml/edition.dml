@@ -85,6 +85,11 @@ relation LdoDHasExpertEditions {
 	ExpertEdition playsRole expertEditions {multiplicity 0..*;}
 }
 
+relation LdoDHasNullEdition {
+	LdoD playsRole ldoD4NullEdition {multiplicity 1..1;}
+	NullEdition playsRole nullEdition {multiplicity 0..1;}
+}
+
 relation LdoDHasVirtualEditions {
 	LdoD playsRole ldoD4Virtual {multiplicity 1..1;}
 	VirtualEdition playsRole virtualEditions {multiplicity 0..*;}

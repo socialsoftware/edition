@@ -19,6 +19,7 @@ public class LdoD extends LdoD_Base {
 
 	public LdoD() {
 		FenixFramework.getDomainRoot().setLdoD(this);
+		setNullEdition(new NullEdition());
 	}
 
 	public List<ExpertEdition> getSortedExpertEdition() {
