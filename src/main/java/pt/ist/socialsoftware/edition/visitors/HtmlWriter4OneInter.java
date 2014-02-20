@@ -9,7 +9,6 @@ import pt.ist.socialsoftware.edition.domain.AddText;
 import pt.ist.socialsoftware.edition.domain.AltText;
 import pt.ist.socialsoftware.edition.domain.AppText;
 import pt.ist.socialsoftware.edition.domain.DelText;
-import pt.ist.socialsoftware.edition.domain.Edition.SourceType;
 import pt.ist.socialsoftware.edition.domain.FragInter;
 import pt.ist.socialsoftware.edition.domain.GapText;
 import pt.ist.socialsoftware.edition.domain.LbText;
@@ -32,17 +31,21 @@ public class HtmlWriter4OneInter extends HtmlWriter {
 	protected FragInter fragInter = null;
 	protected String transcription = "";
 
+	private void append2Transcription(String generated) {
+		if (generate) {
+			transcription = transcription + generated;
+		}
+	}
+
 	protected Boolean highlightDiff = false;
 	protected Boolean displayDel = false;
 	protected Boolean highlightIns = true;
 	protected Boolean highlightSubst = false;
 	protected Boolean showNotes = true;
 
+	private boolean generate = true;
 	private PbText startPbText = null;
 	private PbText stopPbText = null;
-
-	// by default the georgia font is used
-	protected String font = "style=\"font-family:georgia;\"";
 
 	private final Map<FragInter, Integer> interpsChar = new HashMap<FragInter, Integer>();
 	private int totalChar = 0;
@@ -61,10 +64,6 @@ public class HtmlWriter4OneInter extends HtmlWriter {
 
 		for (FragInter inter : fragInter.getFragment().getFragmentInterSet()) {
 			interpsChar.put(inter, 0);
-		}
-
-		if (fragInter.getLastUsed().getSourceType() == SourceType.EDITORIAL) {
-			font = "style=\"font-family:courier;\"";
 		}
 	}
 
@@ -88,50 +87,37 @@ public class HtmlWriter4OneInter extends HtmlWriter {
 			fragInter = fragInter.getLastUsed();
 		}
 
-		if (surface == null) {
-			visit((AppText) fragInter.getFragment().getTextPortion());
-		} else {
+		if (surface != null) {
+			startPbText = surface.getPbText();
+			if (startPbText != null) {
+				generate = false;
+			}
 			Surface stopSurface = surface.getNext();
 			if (stopSurface == null) {
 				stopPbText = null;
 			} else {
 				stopPbText = stopSurface.getPbText();
 			}
-			startPbText = surface.getPbText();
-			if (startPbText == null) {
-				visit((AppText) fragInter.getFragment().getTextPortion());
-			} else {
-				visit(surface.getPbText());
-			}
 		}
+		visit((AppText) fragInter.getFragment().getTextPortion());
 	}
 
 	@Override
 	public void visit(AppText appText) {
-		TextPortion firstChild = appText.getFirstChildText();
-		if (firstChild != null) {
-			firstChild.accept(this);
-		}
+		propagate2FirstChild(appText);
 
 		if (appText.getParentOfLastText() == null) {
-			if (appText.getNextText() != null) {
-				appText.getNextText().accept(this);
-			}
+			propagate2NextSibling(appText);
 		}
 	}
 
 	@Override
 	public void visit(RdgGrpText rdgGrpText) {
 		if (rdgGrpText.getInterps().contains(this.fragInter)) {
-			TextPortion firstChild = rdgGrpText.getFirstChildText();
-			if (firstChild != null) {
-				firstChild.accept(this);
-			}
+			propagate2FirstChild(rdgGrpText);
 		}
 
-		if (rdgGrpText.getParentOfLastText() == null) {
-			rdgGrpText.getNextText().accept(this);
-		}
+		propagate2NextSibling(rdgGrpText);
 	}
 
 	@Override
@@ -148,47 +134,35 @@ public class HtmlWriter4OneInter extends HtmlWriter {
 					String colorCode = "<span style=\"background-color: rgb(0,"
 							+ colorValue + ",255);\">";
 
-					transcription = transcription
-							+ rdgText.writeSeparator(displayDel,
-									highlightSubst, fragInter) + colorCode;
+					append2Transcription(rdgText.writeSeparator(displayDel,
+							highlightSubst, fragInter) + colorCode);
 				}
 			}
 
 			if (!color) {
-				transcription = transcription
-						+ rdgText.writeSeparator(displayDel, highlightSubst,
-								fragInter);
+				append2Transcription(rdgText.writeSeparator(displayDel,
+						highlightSubst, fragInter));
 			}
 
-			TextPortion firstChild = rdgText.getFirstChildText();
-			if (firstChild != null) {
-				firstChild.accept(this);
-			}
+			propagate2FirstChild(rdgText);
 
 			if (color) {
-				transcription = transcription + "</span>";
+				append2Transcription("</span>");
 			}
 		}
 
-		if (rdgText.getParentOfLastText() == null) {
-			rdgText.getNextText().accept(this);
-		}
+		propagate2NextSibling(rdgText);
 	}
 
 	@Override
 	public void visit(ParagraphText paragraphText) {
-		transcription = transcription + "<p align=\"justify\">";
+		append2Transcription("<p align=\"justify\">");
 
-		TextPortion firstChild = paragraphText.getFirstChildText();
-		if (firstChild != null) {
-			firstChild.accept(this);
-		}
+		propagate2FirstChild(paragraphText);
 
-		transcription = transcription + "</p>";
+		append2Transcription("</p>");
 
-		if (paragraphText.getParentOfLastText() == null) {
-			paragraphText.getNextText().accept(this);
-		}
+		propagate2NextSibling(paragraphText);
 	}
 
 	@Override
@@ -209,38 +183,25 @@ public class HtmlWriter4OneInter extends HtmlWriter {
 
 		}
 
-		transcription = transcription
-				+ segText.writeSeparator(displayDel, highlightSubst, fragInter)
-				+ preRend + altRend;
+		append2Transcription(segText.writeSeparator(displayDel, highlightSubst,
+				fragInter) + preRend + altRend);
 
-		TextPortion firstChild = segText.getFirstChildText();
-		if (firstChild != null) {
-			firstChild.accept(this);
-		}
-
-		if ((segText.getAltTextOne() != null)
-				|| (segText.getAltTextTwo() != null)) {
-
-		}
+		propagate2FirstChild(segText);
 
 		if ((segText.getAltTextOne()) != null
 				|| (segText.getAltTextTwo() != null)) {
 			altRend = "</abbr></span>";
 		}
 
-		transcription = transcription + altRend + postRend;
+		append2Transcription(altRend + postRend);
 
-		if (segText.getParentOfLastText() == null) {
-			segText.getNextText().accept(this);
-		}
+		propagate2NextSibling(segText);
 	}
 
 	@Override
 	public void visit(AltText altText) {
 		// do nothing, the segTextOne and segTextTwo will do
-		if (altText.getParentOfLastText() == null) {
-			altText.getNextText().accept(this);
-		}
+		propagate2NextSibling(altText);
 	}
 
 	@Override
@@ -254,13 +215,10 @@ public class HtmlWriter4OneInter extends HtmlWriter {
 			interpsChar.put(inter, number);
 		}
 
-		transcription = transcription
-				+ simpleText.writeSeparator(displayDel, highlightSubst,
-						fragInter) + value;
+		append2Transcription(simpleText.writeSeparator(displayDel,
+				highlightSubst, fragInter) + value);
 
-		if (simpleText.getParentOfLastText() == null) {
-			simpleText.getNextText().accept(this);
-		}
+		propagate2NextSibling(simpleText);
 	}
 
 	@Override
@@ -271,28 +229,29 @@ public class HtmlWriter4OneInter extends HtmlWriter {
 				hyphen = "-";
 			}
 
-			transcription = transcription + hyphen + "<br>";
+			append2Transcription(hyphen + "<br>");
 		}
 
-		if (lbText.getParentOfLastText() == null) {
-			lbText.getNextText().accept(this);
-		}
+		propagate2NextSibling(lbText);
 	}
 
 	@Override
 	public void visit(PbText pbText) {
 		if (pbText.getInterps().contains(fragInter)) {
 			if ((startPbText != pbText) && (stopPbText != pbText)) {
-				transcription = transcription
-						+ "<hr size=\"3\" color=\"black\">";
+				append2Transcription("<hr size=\"4\" color=\"black\">");
 			}
 		}
 
-		if (stopPbText != pbText) {
-			if (pbText.getParentOfLastText() == null) {
-				pbText.getNextText().accept(this);
-			}
+		if (startPbText == pbText) {
+			generate = true;
 		}
+
+		if (stopPbText == pbText) {
+			generate = false;
+		}
+
+		propagate2NextSibling(pbText);
 	}
 
 	@Override
@@ -301,18 +260,16 @@ public class HtmlWriter4OneInter extends HtmlWriter {
 		if (spaceText.getDim() == SpaceDim.VERTICAL) {
 			separator = "<br>";
 			// the initial line break is for a new line
-			transcription = transcription + separator;
+			append2Transcription(separator);
 		} else if (spaceText.getDim() == SpaceDim.HORIZONTAL) {
 			separator = "&nbsp; ";
 		}
 
 		for (int i = 0; i < spaceText.getQuantity(); i++) {
-			transcription = transcription + separator;
+			append2Transcription(separator);
 		}
 
-		if (spaceText.getParentOfLastText() == null) {
-			spaceText.getNextText().accept(this);
-		}
+		propagate2NextSibling(spaceText);
 	}
 
 	@Override
@@ -354,80 +311,63 @@ public class HtmlWriter4OneInter extends HtmlWriter {
 						+ insertSymbol + "</abbr>";
 			}
 
-			transcription = transcription
-					+ addText.writeSeparator(displayDel, highlightSubst,
-							fragInter) + preRendition + prePlaceFormat
-					+ insertSymbol;
+			append2Transcription(addText.writeSeparator(displayDel,
+					highlightSubst, fragInter)
+					+ preRendition
+					+ prePlaceFormat
+					+ insertSymbol);
 		} else {
-			transcription = transcription
-					+ addText.writeSeparator(displayDel, highlightSubst,
-							fragInter);
+			append2Transcription(addText.writeSeparator(displayDel,
+					highlightSubst, fragInter));
 		}
 
-		TextPortion firstChild = addText.getFirstChildText();
-		if (firstChild != null) {
-			firstChild.accept(this);
-		}
+		propagate2FirstChild(addText);
 
 		if (highlightIns) {
-			transcription = transcription + postPlaceFormat + postRendition;
+			append2Transcription(postPlaceFormat + postRendition);
 		}
 
-		if (addText.getParentOfLastText() == null) {
-			addText.getNextText().accept(this);
-		}
+		propagate2NextSibling(addText);
 	}
 
 	@Override
 	public void visit(DelText delText) {
 		if (displayDel) {
-			transcription = transcription
-					+ delText.writeSeparator(displayDel, highlightSubst,
-							fragInter)
-					+ "<del><span style=\"color: rgb(128,128,128);\">";
+			append2Transcription(delText.writeSeparator(displayDel,
+					highlightSubst, fragInter)
+					+ "<del><span style=\"color: rgb(128,128,128);\">");
 			if (showNotes) {
-				transcription = transcription + "<abbr title=\""
-						+ delText.getNote() + "\">";
+				append2Transcription("<abbr title=\"" + delText.getNote()
+						+ "\">");
 			}
 
-			TextPortion firstChild = delText.getFirstChildText();
-			if (firstChild != null) {
-				firstChild.accept(this);
-			}
+			propagate2FirstChild(delText);
 
 			if (showNotes) {
-				transcription = transcription + "</abbr>";
+				append2Transcription("</abbr>");
 			}
 
-			transcription = transcription + "</span></del>";
+			append2Transcription("</span></del>");
 		}
 
-		if (delText.getParentOfLastText() == null) {
-			delText.getNextText().accept(this);
-		}
+		propagate2NextSibling(delText);
 	}
 
 	@Override
 	public void visit(SubstText substText) {
 		if (displayDel && highlightSubst) {
-			transcription = transcription
-					+ substText.writeSeparator(displayDel, highlightSubst,
-							fragInter)
-					+ "<span style=\"background-color: rgb(255,255,0);\">";
+			append2Transcription(substText.writeSeparator(displayDel,
+					highlightSubst, fragInter)
+					+ "[<span style=\"background-color: rgb(255,255,0);\">");
 		}
 
-		TextPortion firstChild = substText.getFirstChildText();
-		if (firstChild != null) {
-			firstChild.accept(this);
-		}
+		propagate2FirstChild(substText);
 
 		if (displayDel && highlightSubst) {
-			transcription = transcription + "</span>";
+			append2Transcription("</span>]" + "<sub>subst</sub>");
 		}
 
-		if (substText.getParentOfLastText() == null) {
-			substText.getNextText().accept(this);
-		}
+		propagate2NextSibling(substText);
 	}
 
 	@Override
@@ -441,35 +381,40 @@ public class HtmlWriter4OneInter extends HtmlWriter {
 			interpsChar.put(inter, number);
 		}
 
-		transcription = transcription
-				+ gapText.writeSeparator(displayDel, highlightSubst, fragInter)
-				+ "<abbr title=\"" + gapText.getReason().getDesc() + "\">"
-				+ gapValue + "</abbr>";
+		append2Transcription(gapText.writeSeparator(displayDel, highlightSubst,
+				fragInter)
+				+ "<abbr title=\""
+				+ gapText.getReason().getDesc()
+				+ "\">" + gapValue + "</abbr>");
 
-		if (gapText.getParentOfLastText() == null) {
-			gapText.getNextText().accept(this);
-		}
+		propagate2NextSibling(gapText);
 	}
 
 	@Override
 	public void visit(UnclearText unclearText) {
-		transcription = transcription
-				+ unclearText.writeSeparator(displayDel, highlightSubst,
-						fragInter)
+		append2Transcription(unclearText.writeSeparator(displayDel,
+				highlightSubst, fragInter)
 				+ "<span style=\"text-shadow: black 0.0em 0.0em 0.1em; -webkit-filter: blur(0.005em);\">"
-				+ "<abbr title=\"" + unclearText.getReason().getDesc() + "\">";
+				+ "<abbr title=\"" + unclearText.getReason().getDesc() + "\">");
 
-		TextPortion firstChild = unclearText.getFirstChildText();
+		propagate2FirstChild(unclearText);
+
+		append2Transcription("</abbr>" + "</span>");
+
+		propagate2NextSibling(unclearText);
+	}
+
+	private void propagate2FirstChild(TextPortion text) {
+		TextPortion firstChild = text.getFirstChildText();
 		if (firstChild != null) {
 			firstChild.accept(this);
 		}
+	}
 
-		transcription = transcription + "</abbr>" + "</span>";
-
-		if (unclearText.getParentOfLastText() == null) {
-			unclearText.getNextText().accept(this);
+	private void propagate2NextSibling(TextPortion text) {
+		if (text.getNextText() != null) {
+			text.getNextText().accept(this);
 		}
-
 	}
 
 	private String generatePreRendition(List<Rend> renditions) {

@@ -8,7 +8,7 @@
             <c:when
                 test="${inters.get(0).lastUsed.sourceType=='EDITORIAL'}">
                 <div class="well" id="content"
-                    style="font-family: georgia;">
+                    style="font-family: georgia; font-size: medium;">
                     <p>${writer.getTranscription()}</p>
                 </div>
             </c:when>
