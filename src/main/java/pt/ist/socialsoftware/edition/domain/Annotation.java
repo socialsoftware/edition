@@ -7,8 +7,11 @@ import pt.ist.fenixframework.Atomic.TxMode;
 
 public class Annotation extends Annotation_Base {
 
-	public Annotation(FragInter inter, String quote, String text, LdoDUser user) {
+	public Annotation(FragInter inter, SimpleText startText,
+			SimpleText endText, String quote, String text, LdoDUser user) {
 		setFragInter(inter);
+		setStartText(startText);
+		setEndText(endText);
 		setQuote(quote);
 		setText(text);
 		setUser(user);
@@ -18,6 +21,8 @@ public class Annotation extends Annotation_Base {
 	public void remove() {
 		setFragInter(null);
 		setUser(null);
+		setStartText(null);
+		setEndText(null);
 
 		for (Range range : getRangeSet()) {
 			range.remove();

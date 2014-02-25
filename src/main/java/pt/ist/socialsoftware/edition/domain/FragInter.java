@@ -107,7 +107,14 @@ public abstract class FragInter extends FragInter_Base implements
 	@Atomic(mode = TxMode.WRITE)
 	public Annotation createAnnotation(String quote, String text,
 			LdoDUser user, List<RangeJson> rangeList, List<String> tagList) {
-		Annotation annotation = new Annotation(this, quote, text, user);
+
+		SimpleText startText = getFragment().getTextPortion().getSimpleText(
+				getLastUsed(), 0, rangeList.get(0).getStartOffset());
+		SimpleText endText = getFragment().getTextPortion().getSimpleText(
+				getLastUsed(), 0, rangeList.get(0).getEndOffset());
+
+		Annotation annotation = new Annotation(this, startText, endText, quote,
+				text, user);
 
 		for (RangeJson rangeJson : rangeList) {
 			new Range(annotation, rangeJson.getStart(),
@@ -121,5 +128,4 @@ public abstract class FragInter extends FragInter_Base implements
 
 		return annotation;
 	}
-
 }

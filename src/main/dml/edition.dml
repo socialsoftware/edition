@@ -412,6 +412,16 @@ class Annotation {
 	String text;
 }
 
+relation AnnotationHasBeginSimpleText {
+	Annotation playsRole startAnnotations {multiplicity 0..*;}
+	SimpleText playsRole startText {multiplicity 1..1;}
+}
+
+relation AnnotationHasEndSimpleText {
+	Annotation playsRole endAnnotations {multiplicity 0..*;}
+	SimpleText playsRole endText {multiplicity 1..1;}
+}
+
 relation FragInterHasAnnotations {
   FragInter playsRole fragInter {multiplicity 1..1;}
   Annotation playsRole annotation {multiplicity 0..*;}

@@ -358,13 +358,14 @@ public class HtmlWriter4OneInter extends HtmlWriter {
 		if (displayDel && highlightSubst) {
 			append2Transcription(substText.writeSeparator(displayDel,
 					highlightSubst, fragInter)
-					+ "[<span style=\"background-color: rgb(255,255,0);\">");
+					+ "<span style=\"color: rgb(0,0,255);\">[</span>");
 		}
 
 		propagate2FirstChild(substText);
 
 		if (displayDel && highlightSubst) {
-			append2Transcription("</span>]" + "<sub>subst</sub>");
+			append2Transcription("<span style=\"color: rgb(0,0,255);\">]"
+					+ "<sub>subst</sub></span>");
 		}
 
 		propagate2NextSibling(substText);
@@ -385,7 +386,12 @@ public class HtmlWriter4OneInter extends HtmlWriter {
 				fragInter)
 				+ "<abbr title=\""
 				+ gapText.getReason().getDesc()
-				+ "\">" + gapValue + "</abbr>");
+				+ ", "
+				+ gapText.getExtent()
+				+ " "
+				+ gapText.getUnit()
+				+ "\">"
+				+ gapValue + "</abbr>");
 
 		propagate2NextSibling(gapText);
 	}

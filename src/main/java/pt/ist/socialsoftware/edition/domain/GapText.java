@@ -64,22 +64,22 @@ public class GapText extends GapText_Base {
 	}
 
 	public String getGapValue() {
-		String gapValue = "[";
-		String symbol = getUnit() == GapUnit.WORD ? "######" : "#";
-
-		for (int i = 0; i < getExtent(); i++) {
-			if (getUnit() == GapUnit.WORD) {
-				gapValue = gapValue + symbol;
-				if (i + 1 != getExtent()) {
-					gapValue = gapValue + " ";
-				}
-			} else {
-				gapValue = gapValue + symbol;
-			}
-		}
-		gapValue = gapValue + "]";
+		String gapValue = "<span style=\"color: rgb(0,0,255);\">[ileg.]</span>";
+		// String gapValue = "<";
+		// String symbol = getUnit() == GapUnit.WORD ? "######" : "#";
+		//
+		// for (int i = 0; i < getExtent(); i++) {
+		// if (getUnit() == GapUnit.WORD) {
+		// gapValue = gapValue + symbol;
+		// if (i + 1 != getExtent()) {
+		// gapValue = gapValue + " ";
+		// }
+		// } else {
+		// gapValue = gapValue + symbol;
+		// }
+		// }
+		// gapValue = gapValue + ">";
 
 		return gapValue;
 	}
-
 }

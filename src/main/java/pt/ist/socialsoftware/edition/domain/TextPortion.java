@@ -80,14 +80,13 @@ public abstract class TextPortion extends TextPortion_Base implements
 		SimpleText nextSimpleText = null;
 
 		// check children
-		if ((nextSimpleText == null) && (getFirstChildText() != null)
-				&& (getFirstChildText().getInterps().contains(inter))) {
+		if ((nextSimpleText == null) && (getFirstChildText() != null)) {
 			nextSimpleText = getFirstChildText().getNextSimpleText(inter);
 		}
 
 		// check next
 		if ((nextSimpleText == null) && (getNextText() != null)) {
-			nextSimpleText = super.getNextText().getNextSimpleText(inter);
+			nextSimpleText = getNextText().getNextSimpleText(inter);
 		}
 
 		// check next of parent
@@ -181,6 +180,16 @@ public abstract class TextPortion extends TextPortion_Base implements
 			return getParentText().getTopParent();
 		} else {
 			return this;
+		}
+	}
+
+	public SimpleText getSimpleText(FragInter inter, int currentOffset,
+			int offset) {
+		if (getNextSimpleText(inter) != null) {
+			return getNextSimpleText(inter).getSimpleText(inter, currentOffset,
+					offset);
+		} else {
+			return null;
 		}
 	}
 }

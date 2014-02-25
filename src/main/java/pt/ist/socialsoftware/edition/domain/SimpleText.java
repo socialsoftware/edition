@@ -16,6 +16,19 @@ public class SimpleText extends SimpleText_Base {
 	}
 
 	@Override
+	public void remove() {
+		for (Annotation annotation : getStartAnnotationsSet()) {
+			annotation.remove();
+		}
+
+		for (Annotation annotation : getEndAnnotationsSet()) {
+			annotation.remove();
+		}
+
+		super.remove();
+	}
+
+	@Override
 	public void accept(TextTreeVisitor visitor) {
 		visitor.visit(this);
 
@@ -54,4 +67,21 @@ public class SimpleText extends SimpleText_Base {
 		}
 	}
 
+	@Override
+	public SimpleText getSimpleText(FragInter inter, int currentOffset,
+			int offset) {
+		int nextCurrentOffset = currentOffset + getSeparator(inter).length()
+				+ getValue().length();
+
+		if (nextCurrentOffset >= offset) {
+
+			System.out.println("O" + offset + "C" + currentOffset + "N"
+					+ nextCurrentOffset + "V" + getValue());
+
+			return this;
+		} else {
+			return super.getNextSimpleText(inter).getSimpleText(inter,
+					nextCurrentOffset, offset);
+		}
+	}
 }
