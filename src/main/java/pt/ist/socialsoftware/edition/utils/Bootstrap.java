@@ -3,6 +3,7 @@ package pt.ist.socialsoftware.edition.utils;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 
+import org.joda.time.LocalDate;
 import org.springframework.web.WebApplicationInitializer;
 
 import pt.ist.fenixframework.Atomic;
@@ -87,17 +88,17 @@ public class Bootstrap implements WebApplicationInitializer {
 		nuno.addRoles(admin);
 
 		VirtualEdition classX = new VirtualEdition(ldod, ars, "ClassX",
-				"LdoD Edition of Class X", "12/12/2012", true);
+				"LdoD Edition of Class X", new LocalDate(), true);
 		classX.addParticipant(llc);
 		llc.addSelectedVirtualEditions(classX);
 
 		VirtualEdition classY = new VirtualEdition(ldod, ars, "ClassY",
-				"LdoD Edition of Class Y", "01/12/2012", false);
+				"LdoD Edition of Class Y", new LocalDate(), false);
 		classY.addParticipant(llc);
 		llc.addSelectedVirtualEditions(classY);
 
 		VirtualEdition classW = new VirtualEdition(ldod, ars, "ClassW",
-				"LdoD Edition of Class W", "01/01/2013", true);
+				"LdoD Edition of Class W", new LocalDate(), true);
 		classW.addParticipant(diego);
 		classW.addParticipant(mp);
 		classW.addParticipant(tim);

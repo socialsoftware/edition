@@ -3,12 +3,12 @@ package pt.ist.socialsoftware.edition.domain;
 public class PrintedSource extends PrintedSource_Base {
 
 	public PrintedSource() {
-		super();
+		setType(SourceType.PRINTED);
 	}
 
 	@Override
 	public String getName() {
-		return getTitle();
+		return getTitle() + " " + getPubPlace() + " " + getIssue();
 	}
 
 	@Override
@@ -21,7 +21,10 @@ public class PrintedSource extends PrintedSource_Base {
 
 		result = result + "Número: " + getIssue() + "<br>";
 
-		result = result + "Data: " + getDate() + "<br>";
+		if (getDate() != null) {
+			result = result + "Data: " + getDate().toString("dd-MM-yyyy")
+					+ "<br>";
+		}
 
 		result = result + "Facsimiles: ";
 

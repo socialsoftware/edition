@@ -80,7 +80,7 @@
                             <tr>
                                 <td>${virtualEdition.acronym}</td>
                                 <td>${virtualEdition.title}</td>
-                                <td>${virtualEdition.date}</td>
+                                <td>${virtualEdition.getDate().toString("dd-MM-yyyy")}</td>
                                 <td><c:choose>
                                         <c:when
                                             test="${virtualEdition.pub}">

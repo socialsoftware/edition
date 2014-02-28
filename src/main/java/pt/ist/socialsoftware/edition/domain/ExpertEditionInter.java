@@ -3,7 +3,7 @@ package pt.ist.socialsoftware.edition.domain;
 import java.util.ArrayList;
 import java.util.List;
 
-import pt.ist.socialsoftware.edition.domain.Edition.SourceType;
+import pt.ist.socialsoftware.edition.domain.Edition.EditionType;
 
 public class ExpertEditionInter extends ExpertEditionInter_Base {
 
@@ -34,8 +34,8 @@ public class ExpertEditionInter extends ExpertEditionInter_Base {
 	}
 
 	@Override
-	public SourceType getSourceType() {
-		return SourceType.EDITORIAL;
+	public EditionType getSourceType() {
+		return EditionType.EDITORIAL;
 	}
 
 	public int compareExpertEditionInter(ExpertEditionInter other) {
@@ -96,7 +96,10 @@ public class ExpertEditionInter extends ExpertEditionInter_Base {
 
 		result = result + "Página: " + getStartPage() + "<br>";
 
-		result = result + "Data: " + getDate() + "<br>";
+		if (getDate() != null) {
+			result = result + "Data: " + getDate().toString("dd-MM-yyyy")
+					+ "<br>";
+		}
 
 		result = result + "Notas: " + getNotes();
 

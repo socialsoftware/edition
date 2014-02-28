@@ -27,8 +27,8 @@
                         code="header.editions" /> <b class="caret"></b></a>
                 <ul class="dropdown-menu">
                     <li><a
-                        href="${contextPath}/edition/acronym/JPC">Jacinto do
-                            Prado Coelho</a></li>
+                        href="${contextPath}/edition/acronym/JPC">Jacinto
+                            do Prado Coelho</a></li>
                     <li><a
                         href="${contextPath}/edition/acronym/TSC">Teresa
                             Sobral Cunha</a></li>
@@ -42,15 +42,10 @@
                             href="${contextPath}/edition/acronym/${acronym}">${acronym}</a></li>
                     </c:forEach>
                 </ul></li>
-            <li class="dropdown"><a href="#"
-                class="dropdown-toggle" data-toggle="dropdown"><spring:message
-                        code="header.search" /> <b class="caret"></b></a>
-                <ul class="dropdown-menu">
-                    <li><a href="${contextPath}/search/fragments"><spring:message
-                                code="header.listfragments" /></a></li>
-                    <li><a href="#"><spring:message
-                                code="header.authorialsources" /></a></li>
-                </ul></li>
+            <li><a href="${contextPath}/source/list"><spring:message
+                        code="header.documents" /></a></li>
+            <li><a href="${contextPath}/search/fragments"><spring:message
+                        code="header.search" /> </a></li>
             <!-- Manage Virtual Editions -->
             <li class="dropdown"><a href="#"
                 class="dropdown-toggle" data-toggle="dropdown"><spring:message

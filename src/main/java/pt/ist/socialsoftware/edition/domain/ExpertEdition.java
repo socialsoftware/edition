@@ -6,6 +6,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.joda.time.LocalDate;
+
 public class ExpertEdition extends ExpertEdition_Base implements
 		Comparable<ExpertEdition> {
 	public static final String COELHO = "Jacinto do Prado Coelho";
@@ -14,7 +16,7 @@ public class ExpertEdition extends ExpertEdition_Base implements
 	public static final String PIZARRO = "Jerónimo Pizarro";
 
 	public ExpertEdition(LdoD ldoD, String title, String author, String editor,
-			String date) {
+			LocalDate date) {
 		setLdoD4Expert(ldoD);
 		setTitle(title);
 		setAuthor(author);
@@ -40,8 +42,8 @@ public class ExpertEdition extends ExpertEdition_Base implements
 	}
 
 	@Override
-	public SourceType getSourceType() {
-		return SourceType.EDITORIAL;
+	public EditionType getSourceType() {
+		return EditionType.EDITORIAL;
 	}
 
 	@Override
@@ -88,7 +90,7 @@ public class ExpertEdition extends ExpertEdition_Base implements
 		List<ExpertEditionInter> interps = new ArrayList<ExpertEditionInter>();
 
 		for (FragInter inter : fragment.getFragmentInterSet()) {
-			if ((inter.getSourceType() == SourceType.EDITORIAL)
+			if ((inter.getSourceType() == EditionType.EDITORIAL)
 					&& ((ExpertEditionInter) inter).getExpertEdition() == this) {
 				interps.add((ExpertEditionInter) inter);
 			}

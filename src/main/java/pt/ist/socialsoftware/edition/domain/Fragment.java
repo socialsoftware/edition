@@ -6,7 +6,7 @@ import java.util.List;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
-import pt.ist.socialsoftware.edition.domain.Edition.SourceType;
+import pt.ist.socialsoftware.edition.domain.Edition.EditionType;
 
 public class Fragment extends Fragment_Base {
 
@@ -46,7 +46,7 @@ public class Fragment extends Fragment_Base {
 		List<SourceInter> interps = new ArrayList<SourceInter>();
 
 		for (FragInter inter : getFragmentInterSet()) {
-			if ((inter.getSourceType() == SourceType.AUTHORIAL)) {
+			if ((inter.getSourceType() == EditionType.AUTHORIAL)) {
 				interps.add((SourceInter) inter);
 			}
 		}
@@ -58,7 +58,7 @@ public class Fragment extends Fragment_Base {
 
 	public ExpertEditionInter getExpertEditionInter(String editor) {
 		for (FragInter inter : getFragmentInterSet()) {
-			if (inter.getSourceType() == SourceType.EDITORIAL) {
+			if (inter.getSourceType() == EditionType.EDITORIAL) {
 				ExpertEditionInter edInter = (ExpertEditionInter) inter;
 				if (edInter.getExpertEdition().getEditor().equals(editor)) {
 					return edInter;

@@ -71,6 +71,7 @@ import pt.ist.socialsoftware.edition.domain.TypeNote;
 import pt.ist.socialsoftware.edition.domain.UnclearText;
 import pt.ist.socialsoftware.edition.domain.UnclearText.UnclearReason;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDLoadException;
+import pt.ist.socialsoftware.edition.utils.DateUtils;
 
 public class LoadTEIFragments {
 
@@ -872,7 +873,18 @@ public class LoadTEIFragments {
 
 				((ExpertEditionInter) fragInter).setTitle(bibl
 						.getChildTextTrim("title", namespace));
-				fragInter.setDate(bibl.getChildTextTrim("date", namespace));
+
+				Element dateElement = bibl.getChild("date", namespace);
+
+				if (dateElement != null) {
+					Attribute whenAttribute = dateElement.getAttribute("when");
+					if (whenAttribute == null) {
+						fragInter.setDate(null);
+					} else {
+						fragInter.setDate(DateUtils.convertDate(whenAttribute
+								.getValue()));
+					}
+				}
 
 				loadFragmentNumberInWitness(fragInter, bibl);
 
@@ -1015,7 +1027,16 @@ public class LoadTEIFragments {
 			printedSource.setTitle(bibl.getChildText("title", namespace));
 			printedSource.setPubPlace(bibl.getChildText("pubPlace", namespace));
 			printedSource.setIssue(bibl.getChildText("biblScope", namespace));
-			printedSource.setDate(bibl.getChildText("date", namespace));
+
+			Attribute whenAttribute = bibl.getChild("date", namespace)
+					.getAttribute("when");
+
+			if (whenAttribute == null) {
+				printedSource.setDate(null);
+			} else {
+				printedSource.setDate(DateUtils.convertDate(whenAttribute
+						.getValue()));
+			}
 		}
 
 	}
@@ -1049,6 +1070,34 @@ public class LoadTEIFragments {
 			loadMsId(msDesc, manuscript);
 
 			loadPhysDesc(msDesc, manuscript);
+
+			loadMsHistory(msDesc, manuscript);
+		}
+	}
+
+	private void loadMsHistory(Element msDesc, ManuscriptSource manuscript) {
+		manuscript.setDate(null);
+
+		Element history = msDesc.getChild("history", namespace);
+		if (history != null) {
+			Element origin = history.getChild("origin", namespace);
+
+			if (origin != null) {
+				Element origDate = origin.getChild("origDate", namespace);
+
+				if (origDate != null) {
+					Attribute when = origDate.getAttribute("when");
+
+					if (when == null) {
+						new LdoDLoadException(
+								"Não existe attributo when associado a elemento msDesc.history.origin.origDate da fonte "
+										+ manuscript.getXmlId());
+					} else {
+						manuscript.setDate(DateUtils.convertDate(when
+								.getValue()));
+					}
+				}
+			}
 		}
 	}
 
@@ -1328,6 +1377,10 @@ public class LoadTEIFragments {
 					text.addRend(new Rend(Rendition.RED));
 				} else if (rendXmlId.equals("u")) {
 					text.addRend(new Rend(Rendition.UNDERLINED));
+				} else if (rendXmlId.equals("super")) {
+					text.addRend(new Rend(Rendition.SUPERSCRIPT));
+				} else if (rendXmlId.equals("sub")) {
+					text.addRend(new Rend(Rendition.SUBSCRIPT));
 				} else {
 					throw new LdoDLoadException("valor desconhecido para rend="
 							+ listRendXmlId[i] + " _APLICADO AO VALOR_ "

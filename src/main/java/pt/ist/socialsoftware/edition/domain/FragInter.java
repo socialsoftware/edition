@@ -6,7 +6,7 @@ import java.util.Set;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
-import pt.ist.socialsoftware.edition.domain.Edition.SourceType;
+import pt.ist.socialsoftware.edition.domain.Edition.EditionType;
 import pt.ist.socialsoftware.edition.utils.RangeJson;
 
 public abstract class FragInter extends FragInter_Base implements
@@ -53,7 +53,7 @@ public abstract class FragInter extends FragInter_Base implements
 
 	public abstract String getTitle();
 
-	public abstract SourceType getSourceType();
+	public abstract EditionType getSourceType();
 
 	public abstract Edition getEdition();
 
@@ -62,25 +62,25 @@ public abstract class FragInter extends FragInter_Base implements
 	@Override
 	public int compareTo(FragInter other) {
 		if (getSourceType() != other.getSourceType()) {
-			if (getSourceType() == SourceType.EDITORIAL) {
+			if (getSourceType() == EditionType.EDITORIAL) {
 				return -1;
-			} else if (getSourceType() == SourceType.AUTHORIAL) {
+			} else if (getSourceType() == EditionType.AUTHORIAL) {
 				return 1;
-			} else if ((getSourceType() == SourceType.VIRTUAL)
-					&& (other.getSourceType() == SourceType.EDITORIAL)) {
+			} else if ((getSourceType() == EditionType.VIRTUAL)
+					&& (other.getSourceType() == EditionType.EDITORIAL)) {
 				return 1;
-			} else if ((getSourceType() == SourceType.VIRTUAL)
-					&& (other.getSourceType() == SourceType.AUTHORIAL)) {
+			} else if ((getSourceType() == EditionType.VIRTUAL)
+					&& (other.getSourceType() == EditionType.AUTHORIAL)) {
 				return 1;
 			}
 		} else if (getSourceType() == other.getSourceType()) {
-			if (getSourceType() == SourceType.EDITORIAL) {
+			if (getSourceType() == EditionType.EDITORIAL) {
 				return ((ExpertEditionInter) this)
 						.compareExpertEditionInter((ExpertEditionInter) other);
-			} else if (getSourceType() == SourceType.VIRTUAL) {
+			} else if (getSourceType() == EditionType.VIRTUAL) {
 				return ((VirtualEditionInter) this)
 						.compareVirtualEditionInter((VirtualEditionInter) other);
-			} else if (getSourceType() == SourceType.AUTHORIAL) {
+			} else if (getSourceType() == EditionType.AUTHORIAL) {
 				return ((SourceInter) this)
 						.compareSourceInter((SourceInter) other);
 			}

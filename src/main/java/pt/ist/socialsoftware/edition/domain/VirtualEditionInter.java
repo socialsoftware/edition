@@ -4,7 +4,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import pt.ist.socialsoftware.edition.domain.Edition.SourceType;
+import pt.ist.socialsoftware.edition.domain.Edition.EditionType;
 
 public class VirtualEditionInter extends VirtualEditionInter_Base {
 
@@ -39,8 +39,8 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 	}
 
 	@Override
-	public SourceType getSourceType() {
-		return SourceType.VIRTUAL;
+	public EditionType getSourceType() {
+		return EditionType.VIRTUAL;
 	}
 
 	public int compareVirtualEditionInter(VirtualEditionInter other) {
@@ -72,7 +72,10 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 					+ "<br>";
 		}
 
-		result = result + "Data: " + getDate() + "<br>";
+		if (getDate() != null) {
+			result = result + "Data: " + getDate().toString("dd-MM-yyyy")
+					+ "<br>";
+		}
 
 		return result;
 	}

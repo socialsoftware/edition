@@ -11,8 +11,8 @@ public class NullEdition extends NullEdition_Base {
 	}
 
 	@Override
-	public SourceType getSourceType() {
-		return SourceType.AUTHORIAL;
+	public EditionType getSourceType() {
+		return EditionType.AUTHORIAL;
 	}
 
 	@Override

@@ -6,6 +6,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.joda.time.LocalDate;
+
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.fenixframework.FenixFramework;
@@ -116,7 +118,7 @@ public class LdoD extends LdoD_Base {
 
 	@Atomic(mode = TxMode.WRITE)
 	public VirtualEdition createVirtualEdition(LdoDUser user, String acronym,
-			String title, String date, boolean pub) {
+			String title, LocalDate date, boolean pub) {
 		return new VirtualEdition(this, user, acronym, title, date, pub);
 	}
 }

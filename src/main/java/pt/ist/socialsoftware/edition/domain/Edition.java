@@ -10,12 +10,12 @@ import pt.ist.socialsoftware.edition.shared.exception.LdoDDuplicateAcronymExcept
 
 public abstract class Edition extends Edition_Base {
 
-	public enum SourceType {
+	public enum EditionType {
 		AUTHORIAL("authorial"), EDITORIAL("editorial"), VIRTUAL("virtual");
 
 		private String desc;
 
-		SourceType(String desc) {
+		EditionType(String desc) {
 			this.desc = desc;
 		}
 
@@ -50,7 +50,7 @@ public abstract class Edition extends Edition_Base {
 		super.setAcronym(acronym);
 	}
 
-	public abstract SourceType getSourceType();
+	public abstract EditionType getSourceType();
 
 	public abstract Set<FragInter> getIntersSet();
 

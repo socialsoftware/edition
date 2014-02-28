@@ -3,7 +3,7 @@ package pt.ist.socialsoftware.edition.domain;
 import java.util.ArrayList;
 import java.util.List;
 
-import pt.ist.socialsoftware.edition.domain.Edition.SourceType;
+import pt.ist.socialsoftware.edition.domain.Edition.EditionType;
 
 public class SourceInter extends SourceInter_Base {
 
@@ -22,8 +22,8 @@ public class SourceInter extends SourceInter_Base {
 	}
 
 	@Override
-	public SourceType getSourceType() {
-		return SourceType.AUTHORIAL;
+	public EditionType getSourceType() {
+		return EditionType.AUTHORIAL;
 	}
 
 	public int compareSourceInter(SourceInter other) {

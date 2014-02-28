@@ -1,12 +1,9 @@
 package pt.ist.socialsoftware.edition.controller;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
+import org.joda.time.LocalDate;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -77,9 +74,9 @@ public class VirtualEditionController {
 		 * for (Role role : ldod.getRolesSet()) { tiago.addRoles(role); }
 		 **/
 
-		DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-		Date today = Calendar.getInstance().getTime();
-		String date = df.format(today);
+		LocalDate date = new LocalDate();
+
+		System.out.println(date.toString("yyyy-MM-dd"));
 
 		title = title.trim();
 		acronym = acronym.trim();
@@ -156,7 +153,8 @@ public class VirtualEditionController {
 			model.addAttribute("externalId", virtualEdition.getExternalId());
 			model.addAttribute("acronym", virtualEdition.getAcronym());
 			model.addAttribute("title", virtualEdition.getTitle());
-			model.addAttribute("date", virtualEdition.getDate());
+			model.addAttribute("date",
+					virtualEdition.getDate().toString("dd-MM-yyyy"));
 			model.addAttribute("pub", virtualEdition.getPub());
 			return "virtual/edit";
 		}

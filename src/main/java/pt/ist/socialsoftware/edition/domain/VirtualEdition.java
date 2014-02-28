@@ -6,13 +6,15 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.joda.time.LocalDate;
+
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 
 public class VirtualEdition extends VirtualEdition_Base {
 
 	public VirtualEdition(LdoD ldod, LdoDUser participant, String acronym,
-			String title, String date, Boolean pub) {
+			String title, LocalDate date, Boolean pub) {
 		setLdoD4Virtual(ldod);
 		addParticipant(participant);
 		setAcronym(acronym);
@@ -55,15 +57,15 @@ public class VirtualEdition extends VirtualEdition_Base {
 	}
 
 	@Override
-	public SourceType getSourceType() {
-		return SourceType.VIRTUAL;
+	public EditionType getSourceType() {
+		return EditionType.VIRTUAL;
 	}
 
 	public List<VirtualEditionInter> getSortedInter4Frag(Fragment fragment) {
 		List<VirtualEditionInter> interps = new ArrayList<VirtualEditionInter>();
 
 		for (FragInter inter : fragment.getFragmentInterSet()) {
-			if ((inter.getSourceType() == SourceType.VIRTUAL)
+			if ((inter.getSourceType() == EditionType.VIRTUAL)
 					&& ((VirtualEditionInter) inter).getVirtualEdition() == this) {
 				interps.add((VirtualEditionInter) inter);
 			}

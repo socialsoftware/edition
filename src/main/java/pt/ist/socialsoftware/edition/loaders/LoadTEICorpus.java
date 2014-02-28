@@ -14,6 +14,7 @@ import org.jdom2.JDOMException;
 import org.jdom2.Namespace;
 import org.jdom2.input.SAXBuilder;
 import org.jdom2.xpath.XPathFactory;
+import org.joda.time.LocalDate;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
@@ -23,6 +24,7 @@ import pt.ist.socialsoftware.edition.domain.Heteronym;
 import pt.ist.socialsoftware.edition.domain.LdoD;
 import pt.ist.socialsoftware.edition.domain.Taxonomy;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDLoadException;
+import pt.ist.socialsoftware.edition.utils.DateUtils;
 
 public class LoadTEICorpus {
 
@@ -212,8 +214,8 @@ public class LoadTEICorpus {
 			String title = bibl.getChild("title", namespace).getText();
 			String editor = bibl.getChild("editor", namespace)
 					.getChild("persName", namespace).getText();
-			String date = bibl.getChild("date", namespace).getAttributeValue(
-					"when");
+			LocalDate date = DateUtils.convertDate(bibl.getChild("date",
+					namespace).getAttributeValue("when"));
 
 			ExpertEdition edition = new ExpertEdition(ldoD, title, author,
 					editor, date);

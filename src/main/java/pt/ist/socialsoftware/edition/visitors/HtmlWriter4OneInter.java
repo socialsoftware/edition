@@ -295,12 +295,16 @@ public class HtmlWriter4OneInter extends HtmlWriter {
 			break;
 		case ABOVE:
 		case TOP:
-			prePlaceFormat = "<sup>";
-			postPlaceFormat = "</sup>";
+			prePlaceFormat = "<span style=\"position:relative; top:-3px;\">";
+			postPlaceFormat = "</span>";
+			// prePlaceFormat = "<sup>";
+			// postPlaceFormat = "</sup>";
 			break;
 		case BELOW:
-			prePlaceFormat = "<sub>";
-			postPlaceFormat = "</sub>";
+			prePlaceFormat = "<span style=\"position:relative; top:3px;\">";
+			postPlaceFormat = "</span>";
+			// prePlaceFormat = "<sub>";
+			// postPlaceFormat = "</sub>";
 			break;
 		}
 
@@ -441,6 +445,10 @@ public class HtmlWriter4OneInter extends HtmlWriter {
 				preRend = preRend + "<span style=\"color: rgb(255,0,0);\">";
 			} else if (rend.getRend() == Rendition.UNDERLINED) {
 				preRend = preRend + "<u>";
+			} else if (rend.getRend() == Rendition.SUPERSCRIPT) {
+				preRend = preRend + "<sup>";
+			} else if (rend.getRend() == Rendition.SUBSCRIPT) {
+				preRend = preRend + "<sub>";
 			}
 		}
 		return preRend;
@@ -463,6 +471,10 @@ public class HtmlWriter4OneInter extends HtmlWriter {
 				postRend = "</span>" + postRend;
 			} else if (rend.getRend() == Rendition.UNDERLINED) {
 				postRend = "</u>" + postRend;
+			} else if (rend.getRend() == Rendition.SUPERSCRIPT) {
+				postRend = "</sup>" + postRend;
+			} else if (rend.getRend() == Rendition.SUBSCRIPT) {
+				postRend = "</sub>" + postRend;
 			}
 		}
 		return postRend;

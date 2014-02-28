@@ -1,5 +1,6 @@
 package pt.ist.socialsoftware.edition.domain;
 
+enum pt.ist.socialsoftware.edition.domain.Source.SourceType as SourceType;
 enum pt.ist.socialsoftware.edition.domain.ManuscriptSource.Medium as Medium;
 enum pt.ist.socialsoftware.edition.domain.ManuscriptSource.Form as Form;
 enum pt.ist.socialsoftware.edition.domain.ManuscriptSource.Material as Material;
@@ -59,7 +60,7 @@ relation LdoDUsersAndRoles {
 class Edition {
 	String xmlId;
 	String title;
-	String date;
+	LocalDate date;
 	String acronym;
 }
 
@@ -149,7 +150,7 @@ relation LdoDHasFragments {
 
 class FragInter {
 	String xmlId;
-	String date;
+	LocalDate date;
 }
 
 relation FragmentHasFragInters {
@@ -199,6 +200,7 @@ relation VirtualEditionHasVirtualEditionInters {
 
 class Source {
 	String xmlId;
+	SourceType type;
 }
 
 relation FragmentHasSources {
@@ -221,6 +223,7 @@ class ManuscriptSource extends Source {
 	int columns;
 	Boolean hasLdoDLabel;
 	String notes;
+	LocalDate date;
 }
 
 class PhysNote {
@@ -246,7 +249,7 @@ class PrintedSource extends Source {
 	String title;
 	String pubPlace;
 	String issue;
-	String date;
+	LocalDate date;
 }
 
 class Facsimile {

@@ -26,6 +26,7 @@ public class ManuscriptSource extends ManuscriptSource_Base {
 	};
 
 	public ManuscriptSource() {
+		setType(SourceType.MANUSCRIPT);
 		setHasLdoDLabel(false);
 	}
 
@@ -82,6 +83,11 @@ public class ManuscriptSource extends ManuscriptSource_Base {
 						+ getAltIdentifier() + suffix + "</a> ";
 				i++;
 			}
+		}
+
+		if (getDate() != null) {
+			result = result + "Data: " + getDate().toString("dd-MM-yyyy")
+					+ "<br>";
 		}
 
 		return result;
