@@ -72,6 +72,7 @@ import pt.ist.socialsoftware.edition.domain.UnclearText;
 import pt.ist.socialsoftware.edition.domain.UnclearText.UnclearReason;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDLoadException;
 import pt.ist.socialsoftware.edition.utils.DateUtils;
+import pt.ist.socialsoftware.edition.visitors.TEIWriter;
 
 public class LoadTEIFragments {
 
@@ -280,6 +281,10 @@ public class LoadTEIFragments {
 		loadFacsimile(xmlId);
 
 		loadFragmentText(fragment, xmlId);
+
+		TEIWriter writer = new TEIWriter();
+		writer.visit((AppText) fragment.getTextPortion());
+		System.out.println(writer.getResult());
 	}
 
 	private void loadFragmentText(Fragment fragment, String fragmentXmlID) {

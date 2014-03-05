@@ -24,7 +24,6 @@ import pt.ist.socialsoftware.edition.domain.SpaceText;
 import pt.ist.socialsoftware.edition.domain.SpaceText.SpaceDim;
 import pt.ist.socialsoftware.edition.domain.SubstText;
 import pt.ist.socialsoftware.edition.domain.Surface;
-import pt.ist.socialsoftware.edition.domain.TextPortion;
 import pt.ist.socialsoftware.edition.domain.UnclearText;
 
 public class HtmlWriter4OneInter extends HtmlWriter {
@@ -106,9 +105,7 @@ public class HtmlWriter4OneInter extends HtmlWriter {
 	public void visit(AppText appText) {
 		propagate2FirstChild(appText);
 
-		if (appText.getParentOfLastText() == null) {
-			propagate2NextSibling(appText);
-		}
+		propagate2NextSibling(appText);
 	}
 
 	@Override
@@ -412,19 +409,6 @@ public class HtmlWriter4OneInter extends HtmlWriter {
 		append2Transcription("</abbr>" + "</span>");
 
 		propagate2NextSibling(unclearText);
-	}
-
-	private void propagate2FirstChild(TextPortion text) {
-		TextPortion firstChild = text.getFirstChildText();
-		if (firstChild != null) {
-			firstChild.accept(this);
-		}
-	}
-
-	private void propagate2NextSibling(TextPortion text) {
-		if (text.getNextText() != null) {
-			text.getNextText().accept(this);
-		}
 	}
 
 	private String generatePreRendition(List<Rend> renditions) {

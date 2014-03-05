@@ -22,7 +22,6 @@ import pt.ist.socialsoftware.edition.domain.SegText;
 import pt.ist.socialsoftware.edition.domain.SimpleText;
 import pt.ist.socialsoftware.edition.domain.SpaceText;
 import pt.ist.socialsoftware.edition.domain.SubstText;
-import pt.ist.socialsoftware.edition.domain.TextPortion;
 import pt.ist.socialsoftware.edition.domain.UnclearText;
 
 public class HtmlWriter2CompInters extends HtmlWriter {
@@ -78,18 +77,11 @@ public class HtmlWriter2CompInters extends HtmlWriter {
 
 		generateLineByLine(appText);
 
-		TextPortion firstChild = appText.getFirstChildText();
-		if (firstChild != null) {
-			firstChild.accept(this);
-		}
+		propagate2FirstChild(appText);
 
 		alignSpaces(appText);
 
-		if (appText.getParentOfLastText() == null) {
-			if (appText.getNextText() != null) {
-				appText.getNextText().accept(this);
-			}
-		}
+		propagate2NextSibling(appText);
 	}
 
 	private void generateLineByLine(AppText appText) {
@@ -142,14 +134,9 @@ public class HtmlWriter2CompInters extends HtmlWriter {
 
 	@Override
 	public void visit(RdgGrpText rdgGrpText) {
-		TextPortion firstChild = rdgGrpText.getFirstChildText();
-		if (firstChild != null) {
-			firstChild.accept(this);
-		}
+		propagate2FirstChild(rdgGrpText);
 
-		if (rdgGrpText.getParentOfLastText() == null) {
-			rdgGrpText.getNextText().accept(this);
-		}
+		propagate2NextSibling(rdgGrpText);
 	}
 
 	@Override
@@ -187,10 +174,7 @@ public class HtmlWriter2CompInters extends HtmlWriter {
 								+ separator.length());
 			}
 
-			TextPortion firstChild = rdgText.getFirstChildText();
-			if (firstChild != null) {
-				firstChild.accept(this);
-			}
+			propagate2FirstChild(rdgText);
 
 			if (color) {
 				for (FragInter inter : intersection) {
@@ -202,21 +186,14 @@ public class HtmlWriter2CompInters extends HtmlWriter {
 
 		}
 
-		if (rdgText.getParentOfLastText() == null) {
-			rdgText.getNextText().accept(this);
-		}
+		propagate2NextSibling(rdgText);
 	}
 
 	@Override
 	public void visit(ParagraphText paragraphText) {
-		TextPortion firstChild = paragraphText.getFirstChildText();
-		if (firstChild != null) {
-			firstChild.accept(this);
-		}
+		propagate2FirstChild(paragraphText);
 
-		if (paragraphText.getParentOfLastText() == null) {
-			paragraphText.getNextText().accept(this);
-		}
+		propagate2NextSibling(paragraphText);
 	}
 
 	@Override
@@ -232,14 +209,9 @@ public class HtmlWriter2CompInters extends HtmlWriter {
 					transcriptionsLengthMap.get(inter) + separator.length());
 		}
 
-		TextPortion firstChild = segText.getFirstChildText();
-		if (firstChild != null) {
-			firstChild.accept(this);
-		}
+		propagate2FirstChild(segText);
 
-		if (segText.getParentOfLastText() == null) {
-			segText.getNextText().accept(this);
-		}
+		propagate2NextSibling(segText);
 	}
 
 	@Override
@@ -259,40 +231,26 @@ public class HtmlWriter2CompInters extends HtmlWriter {
 							+ separator.length());
 		}
 
-		if (simpleText.getParentOfLastText() == null) {
-			simpleText.getNextText().accept(this);
-		}
+		propagate2NextSibling(simpleText);
 	}
 
 	@Override
 	public void visit(LbText lbText) {
-		TextPortion firstChild = lbText.getFirstChildText();
-		if (firstChild != null) {
-			firstChild.accept(this);
-		}
+		propagate2FirstChild(lbText);
 
-		if (lbText.getParentOfLastText() == null) {
-			lbText.getNextText().accept(this);
-		}
+		propagate2NextSibling(lbText);
 	}
 
 	@Override
 	public void visit(PbText pbText) {
-		TextPortion firstChild = pbText.getFirstChildText();
-		if (firstChild != null) {
-			firstChild.accept(this);
-		}
+		propagate2FirstChild(pbText);
 
-		if (pbText.getParentOfLastText() == null) {
-			pbText.getNextText().accept(this);
-		}
+		propagate2NextSibling(pbText);
 	}
 
 	@Override
 	public void visit(SpaceText spaceText) {
-		if (spaceText.getParentOfLastText() == null) {
-			spaceText.getNextText().accept(this);
-		}
+		propagate2NextSibling(spaceText);
 	}
 
 	@Override
@@ -309,19 +267,14 @@ public class HtmlWriter2CompInters extends HtmlWriter {
 					transcriptionsLengthMap.get(inter) + separator.length());
 		}
 
-		TextPortion firstChild = addText.getFirstChildText();
-		if (firstChild != null) {
-			firstChild.accept(this);
-		}
+		propagate2FirstChild(addText);
 
 		for (FragInter inter : intersection) {
 			String newTranscription = transcriptionsMap.get(inter) + "</ins>";
 			transcriptionsMap.put(inter, newTranscription);
 		}
 
-		if (addText.getParentOfLastText() == null) {
-			addText.getNextText().accept(this);
-		}
+		propagate2NextSibling(addText);
 	}
 
 	@Override
@@ -338,31 +291,21 @@ public class HtmlWriter2CompInters extends HtmlWriter {
 					transcriptionsLengthMap.get(inter) + separator.length());
 		}
 
-		TextPortion firstChild = delText.getFirstChildText();
-		if (firstChild != null) {
-			firstChild.accept(this);
-		}
+		propagate2FirstChild(delText);
 
 		for (FragInter inter : intersection) {
 			String newTranscription = transcriptionsMap.get(inter) + "</del>";
 			transcriptionsMap.put(inter, newTranscription);
 		}
 
-		if (delText.getParentOfLastText() == null) {
-			delText.getNextText().accept(this);
-		}
+		propagate2NextSibling(delText);
 	}
 
 	@Override
 	public void visit(SubstText substText) {
-		TextPortion firstChild = substText.getFirstChildText();
-		if (firstChild != null) {
-			firstChild.accept(this);
-		}
+		propagate2FirstChild(substText);
 
-		if (substText.getParentOfLastText() == null) {
-			substText.getNextText().accept(this);
-		}
+		propagate2NextSibling(substText);
 	}
 
 	@Override
@@ -382,9 +325,7 @@ public class HtmlWriter2CompInters extends HtmlWriter {
 							+ separator.length());
 		}
 
-		if (gapText.getParentOfLastText() == null) {
-			gapText.getNextText().accept(this);
-		}
+		propagate2NextSibling(gapText);
 	}
 
 	@Override
@@ -403,28 +344,21 @@ public class HtmlWriter2CompInters extends HtmlWriter {
 					transcriptionsLengthMap.get(inter) + separator.length());
 		}
 
-		TextPortion firstChild = unclearText.getFirstChildText();
-		if (firstChild != null) {
-			firstChild.accept(this);
-		}
+		propagate2FirstChild(unclearText);
 
 		for (FragInter inter : intersection) {
 			String newTranscription = transcriptionsMap.get(inter) + "</span>";
 			transcriptionsMap.put(inter, newTranscription);
 		}
 
-		if (unclearText.getParentOfLastText() == null) {
-			unclearText.getNextText().accept(this);
-		}
+		propagate2NextSibling(unclearText);
 	}
 
 	@Override
 	public void visit(AltText altText) {
 		// TODO Auto-generated method stub
 
-		if (altText.getParentOfLastText() == null) {
-			altText.getNextText().accept(this);
-		}
+		propagate2NextSibling(altText);
 	}
 
 }

@@ -78,20 +78,27 @@ public abstract class TextPortion extends TextPortion_Base implements
 
 	public SimpleText getNextSimpleText(FragInter inter) {
 		SimpleText nextSimpleText = null;
+		TextPortion tmpText = null;
 
 		// check children
-		if ((nextSimpleText == null) && (getFirstChildText() != null)) {
-			nextSimpleText = getFirstChildText().getNextSimpleText(inter);
+		tmpText = getFirstChildText();
+		if ((nextSimpleText == null) && (tmpText != null)
+				&& (tmpText.getInterps().contains(inter))) {
+			nextSimpleText = tmpText.getNextSimpleText(inter);
 		}
 
 		// check next
-		if ((nextSimpleText == null) && (getNextText() != null)) {
-			nextSimpleText = getNextText().getNextSimpleText(inter);
+		tmpText = getNextText();
+		if ((nextSimpleText == null) && (tmpText != null)
+				&& (tmpText.getInterps().contains(inter))) {
+			nextSimpleText = tmpText.getNextSimpleText(inter);
 		}
 
 		// check next of parent
-		if ((nextSimpleText == null) && (getNextOfParentText() != null)) {
-			nextSimpleText = getNextOfParentText().getNextSimpleText(inter);
+		tmpText = getNextOfParentText();
+		if ((nextSimpleText == null) && (tmpText != null)
+				&& (tmpText.getInterps().contains(inter))) {
+			nextSimpleText = tmpText.getNextSimpleText(inter);
 		}
 
 		return nextSimpleText;
