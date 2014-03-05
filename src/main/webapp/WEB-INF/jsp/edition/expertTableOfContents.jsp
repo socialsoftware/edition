@@ -17,6 +17,8 @@
             <th><spring:message code="tableofcontents.title" /></th>
             <th><spring:message code="tableofcontents.volume" /></th>
             <th><spring:message code="tableofcontents.page" /></th>
+            <th><spring:message code="general.date" /></th>
+            <th><spring:message code="general.heteronym" /></th>
         </tr>
     <tbody>
         <c:forEach var="interp" items='${edition.sortedInterps}'>
@@ -28,6 +30,8 @@
                         href="${contextPath}/fragments/fragment/inter/${interp.externalId}">${interp.title}</a></td>
                     <td>${interp.volume}</td>
                     <td>${interp.startPage}</td>
+                    <td>${interp.getDate().toString("dd-MM-yyyy")}</td>
+                    <td>${interp.getHeteronym().getName()}</td>
                 </tr>
             </c:if>
         </c:forEach>
