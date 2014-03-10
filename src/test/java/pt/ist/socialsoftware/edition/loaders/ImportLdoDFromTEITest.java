@@ -6,12 +6,15 @@ import static org.junit.Assert.assertTrue;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
-import jvstm.Transaction;
+import javax.transaction.NotSupportedException;
+import javax.transaction.SystemException;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import pt.ist.fenixframework.FenixFramework;
+import pt.ist.fenixframework.core.WriteOnReadError;
 import pt.ist.socialsoftware.edition.domain.Category;
 import pt.ist.socialsoftware.edition.domain.ExpertEdition;
 import pt.ist.socialsoftware.edition.domain.ExpertEditionInter;
@@ -32,16 +35,21 @@ public class ImportLdoDFromTEITest {
 	public void setUp() {
 		Bootstrap.initDatabase();
 
-		Transaction.begin();
-
-		LoadTEICorpus corpusLoader = new LoadTEICorpus();
 		try {
-			corpusLoader.loadTEICorpus(new FileInputStream(
-					"/Users/ars/Desktop/Frg.1_TEI-encoded_testing.xml"));
-		} catch (FileNotFoundException e) {
+			FenixFramework.getTransactionManager().begin(true);
+		} catch (WriteOnReadError | NotSupportedException | SystemException e1) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			e1.printStackTrace();
 		}
+
+		// LoadTEICorpus corpusLoader = new LoadTEICorpus();
+		// try {
+		// corpusLoader.loadTEICorpus(new FileInputStream(
+		// "/Users/ars/Desktop/Frg.1_TEI-encoded_testing.xml"));
+		// } catch (FileNotFoundException e) {
+		// // TODO Auto-generated catch block
+		// e.printStackTrace();
+		// }
 
 		// "/Users/ars/Desktop/Frg.1_TEI-encoded_testing.xml"
 
@@ -57,8 +65,12 @@ public class ImportLdoDFromTEITest {
 
 	@After
 	public void tearDown() {
-		Transaction.abort();
-
+		try {
+			FenixFramework.getTransactionManager().rollback();
+		} catch (WriteOnReadError | SystemException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		// boolean committed = false;
 		// try {
 		// Transaction.begin();
@@ -128,7 +140,8 @@ public class ImportLdoDFromTEITest {
 				assertEquals("Revista Descobrimento", printedSource.getTitle());
 				assertEquals("Lisbon", printedSource.getPubPlace());
 				assertEquals("3", printedSource.getIssue());
-				assertEquals("1931", printedSource.getDate());
+				assertEquals("1931",
+						Integer.toString(printedSource.getDate().getYear()));
 			}
 
 		}
@@ -149,10 +162,12 @@ public class ImportLdoDFromTEITest {
 	}
 
 	private void checkHeteronymsLoad(LdoD ldoD) {
-		assertEquals(2, ldoD.getHeteronymsSet().size());
+		// includes the NullHeteronym instance
+		assertEquals(3, ldoD.getHeteronymsSet().size());
 		for (Heteronym heteronym : ldoD.getHeteronymsSet()) {
 			assertTrue(heteronym.getName().equals("Bernardo Soares")
-					|| heteronym.getName().equals("Vicente Guedes"));
+					|| heteronym.getName().equals("Vicente Guedes")
+					|| heteronym.getName().equals("não atribuído"));
 		}
 	}
 
@@ -173,14 +188,10 @@ public class ImportLdoDFromTEITest {
 		for (ExpertEdition edition : ldoD.getExpertEditionsSet()) {
 			assertEquals("Fernando Pessoa", edition.getAuthor());
 			assertEquals("O Livro do Desassossego", edition.getTitle());
-			assertTrue((edition.getEditor().equals("Jacinto Prado Coelho") && edition
-					.getDate().equals("1982"))
-					|| (edition.getEditor().equals("Teresa Sobral Cunha") && edition
-							.getDate().equals("1997"))
-					|| (edition.getEditor().equals("Richard Zenith") && edition
-							.getDate().equals("2007"))
-					|| (edition.getEditor().equals("Jerónimo Pizarro") && edition
-							.getDate().equals("2010")));
+			assertTrue((edition.getEditor().equals("Jacinto do Prado Coelho"))
+					|| (edition.getEditor().equals("Teresa Sobral Cunha"))
+					|| (edition.getEditor().equals("Richard Zenith"))
+					|| (edition.getEditor().equals("Jerónimo Pizarro")));
 		}
 	}
 

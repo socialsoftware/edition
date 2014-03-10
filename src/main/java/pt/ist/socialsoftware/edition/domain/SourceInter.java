@@ -8,7 +8,7 @@ import pt.ist.socialsoftware.edition.domain.Edition.EditionType;
 public class SourceInter extends SourceInter_Base {
 
 	public SourceInter() {
-		setHeteronym(new NullHeteronym());
+		setHeteronym(NullHeteronym.getNullHeteronym());
 	}
 
 	@Override

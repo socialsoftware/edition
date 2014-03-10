@@ -36,11 +36,7 @@ public class SimpleText extends SimpleText_Base {
 
 	@Override
 	public SimpleText getNextSimpleText(FragInter inter) {
-		if (getInterps().contains(inter)) {
-			return this;
-		} else {
-			return super.getNextSimpleText(inter);
-		}
+		return this;
 	}
 
 	@Override
@@ -84,4 +80,5 @@ public class SimpleText extends SimpleText_Base {
 					nextCurrentOffset, offset);
 		}
 	}
+
 }

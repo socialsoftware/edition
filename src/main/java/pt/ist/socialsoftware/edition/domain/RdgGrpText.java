@@ -14,6 +14,35 @@ public class RdgGrpText extends RdgGrpText_Base {
 	}
 
 	@Override
+	public TextPortion getNextDepthFirstText(FragInter inter) {
+		// check child
+		if (this.getInterps().contains(inter)) {
+			for (TextPortion childText : getChildTextSet()) {
+				if (childText.getInterps().contains(inter)) {
+					return childText;
+				}
+			}
+		}
+
+		// not necessary to check next because an inter applies to a
+		// single rdgGrp
+
+		// check next of parent
+		return getBacktrackingNextOfParentText(inter);
+	}
+
+	// optimizes the superclass method
+	@Override
+	protected TextPortion getBacktrackingNextOfParentText(FragInter inter) {
+		TextPortion parent = getParentText();
+		if (parent == null) {
+			return null;
+		} else {
+			return parent.getBacktrackingNextOfParentText(inter);
+		}
+	}
+
+	@Override
 	public void accept(TextTreeVisitor visitor) {
 		visitor.visit(this);
 	}

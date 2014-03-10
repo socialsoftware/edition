@@ -45,8 +45,52 @@ public abstract class TextPortion extends TextPortion_Base implements
 		}
 	}
 
+	// it is redefined in AppText, RdgGrpText and RdgText
+	public TextPortion getNextDepthFirstText(FragInter inter) {
+		// check children
+		if (this.getInterps().contains(inter)) {
+			TextPortion childText = getFirstChildText();
+			if (childText != null) {
+				if (childText.getInterps().contains(inter)) {
+					return childText;
+				} else {
+					return childText.getNextDepthFirstText(inter);
+				}
+			}
+		}
+
+		// check next
+		TextPortion nextText = getNextText();
+		if (nextText != null) {
+			if (nextText.getInterps().contains(inter)) {
+				return nextText;
+			} else {
+				return nextText.getNextDepthFirstText(inter);
+			}
+		}
+
+		// check next of parent
+		return getBacktrackingNextOfParentText(inter);
+	}
+
+	// it is redefined in RdgGrpText and RdgText
+	protected TextPortion getBacktrackingNextOfParentText(FragInter inter) {
+		TextPortion parent = getParentText();
+		if (parent == null) {
+			return null;
+		} else if (parent.getNextText() != null) {
+			if (parent.getNextText().getInterps().contains(inter)) {
+				return parent.getNextText();
+			} else {
+				return parent.getNextText().getNextDepthFirstText(inter);
+			}
+		} else {
+			return parent.getBacktrackingNextOfParentText(inter);
+		}
+	}
+
 	@Override
-	abstract public void accept(TextTreeVisitor visitor);
+	public abstract void accept(TextTreeVisitor visitor);
 
 	public Set<FragInter> getInterps() {
 		if (getParentText() == null) {
@@ -77,41 +121,12 @@ public abstract class TextPortion extends TextPortion_Base implements
 	}
 
 	public SimpleText getNextSimpleText(FragInter inter) {
-		SimpleText nextSimpleText = null;
-		TextPortion tmpText = null;
-
-		// check children
-		tmpText = getFirstChildText();
-		if ((nextSimpleText == null) && (tmpText != null)
-				&& (tmpText.getInterps().contains(inter))) {
-			nextSimpleText = tmpText.getNextSimpleText(inter);
+		TextPortion nextText = getNextDepthFirstText(inter);
+		if (nextText != null) {
+			return nextText.getNextSimpleText(inter);
 		}
 
-		// check next
-		tmpText = getNextText();
-		if ((nextSimpleText == null) && (tmpText != null)
-				&& (tmpText.getInterps().contains(inter))) {
-			nextSimpleText = tmpText.getNextSimpleText(inter);
-		}
-
-		// check next of parent
-		tmpText = getNextOfParentText();
-		if ((nextSimpleText == null) && (tmpText != null)
-				&& (tmpText.getInterps().contains(inter))) {
-			nextSimpleText = tmpText.getNextSimpleText(inter);
-		}
-
-		return nextSimpleText;
-	}
-
-	private TextPortion getNextOfParentText() {
-		if (getParentText() == null) {
-			return null;
-		} else if (getParentText().getNextText() != null) {
-			return getParentText().getNextText();
-		} else {
-			return getParentText().getNextOfParentText();
-		}
+		return null;
 	}
 
 	// returns the value of getBreakWord() of the closest predecessor lbText of

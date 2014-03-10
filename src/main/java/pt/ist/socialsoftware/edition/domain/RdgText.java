@@ -25,6 +25,38 @@ public class RdgText extends RdgText_Base implements GraphElement {
 	}
 
 	@Override
+	public TextPortion getNextDepthFirstText(FragInter inter) {
+		// check children
+		if (this.getInterps().contains(inter)) {
+			TextPortion childText = getFirstChildText();
+			if (childText != null) {
+				if (childText.getInterps().contains(inter)) {
+					return childText;
+				} else {
+					return childText.getNextDepthFirstText(inter);
+				}
+			}
+		}
+
+		// not necessary to check next because an inter applies to a
+		// single rdg
+
+		// check next of parent
+		return getBacktrackingNextOfParentText(inter);
+	}
+
+	// optimizes the superclass method
+	@Override
+	protected TextPortion getBacktrackingNextOfParentText(FragInter inter) {
+		TextPortion parent = getParentText();
+		if (parent == null) {
+			return null;
+		} else {
+			return parent.getBacktrackingNextOfParentText(inter);
+		}
+	}
+
+	@Override
 	public void accept(TextTreeVisitor visitor) {
 		visitor.visit(this);
 	}
