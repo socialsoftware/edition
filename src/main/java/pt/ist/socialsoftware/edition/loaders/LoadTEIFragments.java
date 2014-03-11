@@ -358,16 +358,15 @@ public class LoadTEIFragments {
 		String targetOne = targetList[0].substring(1);
 		String targetTwo = targetList[1].substring(1);
 
-		SegText segTextOne = null;
-		SegText segTextTwo = null;
-		for (TextPortion text : parent.getChildTextSet()) {
-			if (text.getXmlId().equals(targetOne)) {
-				segTextOne = (SegText) text;
-			}
-			if (text.getXmlId().equals(targetTwo)) {
-				segTextTwo = (SegText) text;
-			}
+		if ((getObjectDirectIdMap(targetOne) == null)
+				|| (getObjectDirectIdMap(targetTwo) == null)) {
+			throw new LdoDLoadException(
+					"Não há elemento seg associado a um, ou aos dois, dos identicadores target do elemento alt. Valores="
+							+ targetOne + " " + targetTwo);
 		}
+
+		SegText segTextOne = (SegText) getObjectDirectIdMap(targetOne).get(0);
+		SegText segTextTwo = (SegText) getObjectDirectIdMap(targetTwo).get(0);
 
 		if ((segTextOne == null) || (segTextTwo == null)) {
 			throw new LdoDLoadException(
@@ -560,6 +559,7 @@ public class LoadTEIFragments {
 				element.getNamespace("xml"));
 		if (xmlIdAttribute != null) {
 			segText.setXmlId(xmlIdAttribute.getValue());
+			putObjectDirectIdMap(xmlIdAttribute.getValue(), segText);
 		}
 
 		setRenditions(element, segText);
