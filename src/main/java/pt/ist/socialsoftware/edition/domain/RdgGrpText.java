@@ -14,8 +14,7 @@ public class RdgGrpText extends RdgGrpText_Base {
 	}
 
 	@Override
-	public TextPortion getNextDepthFirstText(FragInter inter) {
-		// check child
+	protected TextPortion getNextChildText(FragInter inter) {
 		if (this.getInterps().contains(inter)) {
 			for (TextPortion childText : getChildTextSet()) {
 				if (childText.getInterps().contains(inter)) {
@@ -23,22 +22,21 @@ public class RdgGrpText extends RdgGrpText_Base {
 				}
 			}
 		}
-
-		// not necessary to check next because an inter applies to a
-		// single rdgGrp
-
-		// check next of parent
-		return getBacktrackingNextOfParentText(inter);
+		return null;
 	}
 
-	// optimizes the superclass method
 	@Override
-	protected TextPortion getBacktrackingNextOfParentText(FragInter inter) {
-		TextPortion parent = getParentText();
-		if (parent == null) {
-			return null;
+	protected TextPortion getNextSibilingText(FragInter inter) {
+		return null;
+	}
+
+	@Override
+	protected TextPortion getNextParentText(FragInter inter) {
+		TextPortion parentText = getParentText();
+		if (parentText != null) {
+			return parentText.getNextParentText(inter);
 		} else {
-			return parent.getBacktrackingNextOfParentText(inter);
+			return null;
 		}
 	}
 

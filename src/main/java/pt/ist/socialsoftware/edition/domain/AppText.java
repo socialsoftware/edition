@@ -26,8 +26,7 @@ public class AppText extends AppText_Base {
 	}
 
 	@Override
-	public TextPortion getNextDepthFirstText(FragInter inter) {
-		// check child
+	protected TextPortion getNextChildText(FragInter inter) {
 		if (this.getInterps().contains(inter)) {
 			for (TextPortion childText : getChildTextSet()) {
 				if (childText.getInterps().contains(inter)) {
@@ -35,19 +34,7 @@ public class AppText extends AppText_Base {
 				}
 			}
 		}
-
-		// check next
-		TextPortion nextText = getNextText();
-		if (nextText != null) {
-			if (nextText.getInterps().contains(inter)) {
-				return nextText;
-			} else {
-				return nextText.getNextDepthFirstText(inter);
-			}
-		}
-
-		// check next of parent
-		return getBacktrackingNextOfParentText(inter);
+		return null;
 	}
 
 	@Override

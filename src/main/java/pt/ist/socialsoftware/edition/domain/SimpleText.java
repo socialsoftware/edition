@@ -70,10 +70,6 @@ public class SimpleText extends SimpleText_Base {
 				+ getValue().length();
 
 		if (nextCurrentOffset >= offset) {
-
-			System.out.println("O" + offset + "C" + currentOffset + "N"
-					+ nextCurrentOffset + "V" + getValue());
-
 			return this;
 		} else {
 			return super.getNextSimpleText(inter).getSimpleText(inter,

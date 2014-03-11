@@ -45,9 +45,29 @@ public abstract class TextPortion extends TextPortion_Base implements
 		}
 	}
 
-	// it is redefined in AppText, RdgGrpText and RdgText
+	// it is a template method that is redefined in AppText, RdgGrpText, and
+	// RdgText
 	public TextPortion getNextDepthFirstText(FragInter inter) {
+		TextPortion nextDepthFirstText = null;
+
 		// check children
+		nextDepthFirstText = getNextChildText(inter);
+		if (nextDepthFirstText != null) {
+			return nextDepthFirstText;
+		}
+
+		// check next
+		nextDepthFirstText = getNextSibilingText(inter);
+		if (nextDepthFirstText != null) {
+			return nextDepthFirstText;
+		}
+
+		// check next of parent
+		return getNextParentText(inter);
+	}
+
+	// it is redefined in AppText and RdgGrpText
+	protected TextPortion getNextChildText(FragInter inter) {
 		if (this.getInterps().contains(inter)) {
 			TextPortion childText = getFirstChildText();
 			if (childText != null) {
@@ -56,10 +76,16 @@ public abstract class TextPortion extends TextPortion_Base implements
 				} else {
 					return childText.getNextDepthFirstText(inter);
 				}
+			} else {
+				return null;
 			}
+		} else {
+			return null;
 		}
+	}
 
-		// check next
+	// it is redefined in RdgGrpText and RdgText
+	protected TextPortion getNextSibilingText(FragInter inter) {
 		TextPortion nextText = getNextText();
 		if (nextText != null) {
 			if (nextText.getInterps().contains(inter)) {
@@ -67,26 +93,34 @@ public abstract class TextPortion extends TextPortion_Base implements
 			} else {
 				return nextText.getNextDepthFirstText(inter);
 			}
+		} else {
+			return null;
 		}
+	}
 
-		// check next of parent
-		return getBacktrackingNextOfParentText(inter);
+	// it is redefined in RdgGrpText and RdgText
+	protected TextPortion getNextParentText(FragInter inter) {
+		TextPortion parentText = getParentText();
+		if (parentText != null) {
+			TextPortion nextText = getNextSibilingText(inter);
+			if (nextText != null) {
+				return nextText;
+			}
+			return parentText.getNextParentText(inter);
+		} else {
+			return null;
+		}
 	}
 
 	// it is redefined in RdgGrpText and RdgText
 	protected TextPortion getBacktrackingNextOfParentText(FragInter inter) {
-		TextPortion parent = getParentText();
-		if (parent == null) {
-			return null;
-		} else if (parent.getNextText() != null) {
-			if (parent.getNextText().getInterps().contains(inter)) {
-				return parent.getNextText();
-			} else {
-				return parent.getNextText().getNextDepthFirstText(inter);
-			}
-		} else {
-			return parent.getBacktrackingNextOfParentText(inter);
+		// check next
+		TextPortion nextText = getNextSibilingText(inter);
+		if (nextText != null) {
+			return nextText;
 		}
+
+		return getNextParentText(inter);
 	}
 
 	@Override
