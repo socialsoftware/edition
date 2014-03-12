@@ -173,15 +173,12 @@ public class HtmlWriter4OneInter extends HtmlWriter {
 		String postRend = generatePostRendition(renditions);
 
 		String altRend = "";
-		if (segText.getAltTextOne() != null) {
-			altRend = "<span class=\"text-warning\">" + "<abbr title=\""
-					+ segText.getAltTextOne().getMode().getDesc() + " "
-					+ segText.getAltTextOne().getWeightOne() + "\">";
-		} else if (segText.getAltTextTwo() != null) {
-			altRend = "<span class=\"text-warning\">" + "<abbr title=\""
-					+ segText.getAltTextTwo().getMode().getDesc() + " "
-					+ segText.getAltTextTwo().getWeightTwo() + "\">";
-
+		if (segText.getAltTextWeight() != null) {
+			altRend = "<span class=\"text-warning\">"
+					+ "<abbr title=\""
+					+ segText.getAltTextWeight().getAltText().getMode()
+							.getDesc() + " "
+					+ segText.getAltTextWeight().getWeight() + "\">";
 		}
 
 		append2Transcription(segText.writeSeparator(displayDel, highlightSubst,
@@ -189,8 +186,7 @@ public class HtmlWriter4OneInter extends HtmlWriter {
 
 		propagate2FirstChild(segText);
 
-		if ((segText.getAltTextOne()) != null
-				|| (segText.getAltTextTwo() != null)) {
+		if (segText.getAltTextWeight() != null) {
 			altRend = "</abbr></span>";
 		}
 

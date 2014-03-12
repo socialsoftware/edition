@@ -355,36 +355,25 @@ public class LoadTEIFragments {
 		// get targets
 		String[] targetList = getTarget(element);
 
-		String targetOne = targetList[0].substring(1);
-		String targetTwo = targetList[1].substring(1);
-
-		if ((getObjectDirectIdMap(targetOne) == null)
-				|| (getObjectDirectIdMap(targetTwo) == null)) {
-			throw new LdoDLoadException(
-					"Não há elemento seg associado a um, ou aos dois, dos identicadores target do elemento alt. Valores="
-							+ targetOne + " " + targetTwo);
-		}
-
-		SegText segTextOne = (SegText) getObjectDirectIdMap(targetOne).get(0);
-		SegText segTextTwo = (SegText) getObjectDirectIdMap(targetTwo).get(0);
-
-		if ((segTextOne == null) || (segTextTwo == null)) {
-			throw new LdoDLoadException(
-					"Não há elemento seg associado a um, ou aos dois, dos identicadores target do elemento alt. Valores="
-							+ targetOne + " " + targetTwo);
+		List<SegText> segTextList = new ArrayList<SegText>();
+		for (String xmlId : targetList) {
+			SegText segText = (SegText) getObjectDirectIdMap(xmlId.substring(1))
+					.get(0);
+			if (segText == null) {
+				throw new LdoDLoadException(
+						"Não há elemento seg associado a um identicador target do elemento alt. Valor="
+								+ xmlId.substring(1));
+			}
+			segTextList.add(segText);
 		}
 
 		// get mode
 		AltMode altMode = getAltMode(element);
 
 		// get weights
-		String[] weightsList = getAltWeights(element);
+		String[] weightList = getAltWeights(element);
 
-		double weightOne = Double.parseDouble(weightsList[0]);
-		double weightTwo = Double.parseDouble(weightsList[1]);
-
-		new AltText(parent, segTextOne, segTextTwo, altMode, weightOne,
-				weightTwo);
+		new AltText(parent, segTextList, altMode, weightList);
 	}
 
 	private void loadUnclear(Element element, TextPortion parent) {
@@ -1618,9 +1607,9 @@ public class LoadTEIFragments {
 		String targetValue = targetAttribute.getValue().trim();
 		String[] targetList = targetValue.split("\\s+");
 
-		if (targetList.length != 2) {
+		if (targetList.length < 2) {
 			throw new LdoDLoadException(
-					"O atributo target do elemento alt deve ter dois valores. Valor="
+					"O atributo target do elemento alt deve ter pelo menos dois valores. Valor="
 							+ targetValue);
 		}
 		return targetList;
@@ -1634,18 +1623,20 @@ public class LoadTEIFragments {
 		}
 		String weightsValue = weightsAttribute.getValue();
 		String[] weightsList = weightsValue.split("\\s+");
-		if (weightsList.length != 2) {
+		if (weightsList.length < 2) {
 			throw new LdoDLoadException(
-					"O atributo weights do elemento alt deve ter dois valores. Valor="
+					"O atributo weights do elemento alt deve ter pelo menos dois valores. Valor="
 							+ weightsValue);
 		}
 
-		double weightOne = Double.parseDouble(weightsList[0]);
-		double weightTwo = Double.parseDouble(weightsList[1]);
+		double total = 0;
+		for (String weight : weightsList) {
+			total = total + Double.parseDouble(weight);
+		}
 
-		if (weightOne + weightTwo != 1) {
+		if (total != 1) {
 			throw new LdoDLoadException(
-					"No atributo weights do elemento alt a somo dos valores deve ser igual a 1. Valor="
+					"No atributo weights do elemento alt a soma dos valores deve ser igual a 1. Valor="
 							+ weightsValue);
 		}
 

@@ -1,5 +1,7 @@
 package pt.ist.socialsoftware.edition.domain;
 
+import java.util.List;
+
 import pt.ist.socialsoftware.edition.visitors.TextTreeVisitor;
 
 public class AltText extends AltText_Base {
@@ -21,12 +23,18 @@ public class AltText extends AltText_Base {
 	public AltText(TextPortion parent, SegText segTextOne, SegText segTextTwo,
 			AltMode mode, double weightOne, double weightTwo) {
 		parent.addChildText(this);
+	}
 
-		setSegTextOne(segTextOne);
-		setSegTextTwo(segTextTwo);
+	public AltText(TextPortion parent, List<SegText> segTextList, AltMode mode,
+			String[] weightList) {
+		parent.addChildText(this);
 		setMode(mode);
-		setWeightOne(weightOne);
-		setWeightTwo(weightTwo);
+
+		int i = 0;
+		for (SegText segText : segTextList) {
+			double weight = Double.parseDouble(weightList[i]);
+			addAltTextWeight(new AltTextWeight(segText, weight));
+		}
 	}
 
 	@Override
@@ -36,9 +44,9 @@ public class AltText extends AltText_Base {
 
 	@Override
 	public void remove() {
-		setSegTextOne(null);
-		setSegTextTwo(null);
-
+		for (AltTextWeight weight : getAltTextWeightSet()) {
+			weight.remove();
+		}
 		super.remove();
 	}
 

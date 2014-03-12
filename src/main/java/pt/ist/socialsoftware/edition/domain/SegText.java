@@ -25,8 +25,7 @@ public class SegText extends SegText_Base {
 
 	@Override
 	public void remove() {
-		setAltTextOne(null);
-		setAltTextTwo(null);
+		setAltTextWeight(null);
 
 		super.remove();
 	}

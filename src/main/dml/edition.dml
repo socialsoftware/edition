@@ -343,18 +343,21 @@ class SegText extends TextPortion;
 
 class AltText extends TextPortion {
 	AltMode mode;
-	double weightOne;
-	double weightTwo;
 }
 
-relation AltTextHasSegTextOne {
-	AltText playsRole altTextOne {multiplicity 0..1;}
-	SegText playsRole segTextOne {multiplicity 0..1;}
+class AltTextWeight {
+	double weight;
 }
 
-relation AltTextHasSegTextTwo {
-	AltText playsRole altTextTwo {multiplicity 0..1;}
-	SegText playsRole segTextTwo {multiplicity 0..1;}
+relation AltTextHasAltTextWeight {
+	AltText playsRole altText {multiplicity 0..1;}
+	AltTextWeight playsRole altTextWeight {multiplicity 0..*;}
+}
+
+
+relation AltTexWeightHasSegText {
+	AltTextWeight playsRole altTextWeight {multiplicity 0..1;}
+	SegText playsRole segText {multiplicity 0..1;}
 }
 
 class LbText extends TextPortion {
