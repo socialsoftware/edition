@@ -51,7 +51,19 @@
                                 </option>
                             </c:otherwise>
                         </c:choose>
-                    </select>
+                    </select> <select class="selectpicker" id="use" name="use"><option
+                            value="no"><spring:message
+                                code="tableofcontents.usesEdition" /></option>
+                        <c:forEach var='expertEdition'
+                            items='${expertEditions}'>
+                            <option
+                                value='${expertEdition.getExternalId()}'>${expertEdition.getEditor()}</option>
+                        </c:forEach>
+                        <c:forEach var='virtualEdition'
+                            items='${virtualEditions}'>
+                            <option
+                                value='${virtualEdition.getExternalId()}'>${virtualEdition.getAcronym()}</option>
+                        </c:forEach></select>
                     <button type="submit" class="btn btn-sm">
                         <span class="glyphicon glyphicon-edit"></span>
                         <spring:message code="general.create" />
@@ -100,7 +112,8 @@
                                             value="${virtualEdition.externalId}" />
                                         <button type="submit"
                                             class="btn btn-sm">
-                                            <span class="glyphicon glyphicon-check"></span>
+                                            <span
+                                                class="glyphicon glyphicon-check"></span>
                                             <c:choose>
                                                 <c:when
                                                     test="${ldoDSession.selectedVEs.contains(virtualEdition)}">
@@ -119,10 +132,14 @@
                                     <c:when
                                         test="${virtualEdition.participantSet.contains(user)}">
                                         <td><a class="btn btn-sm"
-                                            href="${contextPath}/virtualeditions/restricted/editForm/${virtualEdition.externalId}"><span class="glyphicon glyphicon-edit"></span> <spring:message
+                                            href="${contextPath}/virtualeditions/restricted/editForm/${virtualEdition.externalId}"><span
+                                                class="glyphicon glyphicon-edit"></span>
+                                                <spring:message
                                                     code="general.edit" /></a></td>
                                         <td><a class="btn btn-sm"
-                                            href="${contextPath}/virtualeditions/restricted/participantsForm/${virtualEdition.externalId}"><span class="glyphicon glyphicon-edit"></span> <spring:message
+                                            href="${contextPath}/virtualeditions/restricted/participantsForm/${virtualEdition.externalId}"><span
+                                                class="glyphicon glyphicon-edit"></span>
+                                                <spring:message
                                                     code="participant.manage" /></a></td>
                                         <td>
                                             <form class="form-inline"
@@ -133,7 +150,8 @@
                                                     value="${virtualEdition.externalId}" />
                                                 <button type="submit"
                                                     class="btn btn-sm">
-                                                    <span class="glyphicon glyphicon-remove"></span>
+                                                    <span
+                                                        class="glyphicon glyphicon-remove"></span>
                                                     <spring:message
                                                         code="general.delete" />
                                                 </button>

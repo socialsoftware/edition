@@ -118,7 +118,8 @@ public class LdoD extends LdoD_Base {
 
 	@Atomic(mode = TxMode.WRITE)
 	public VirtualEdition createVirtualEdition(LdoDUser user, String acronym,
-			String title, LocalDate date, boolean pub) {
-		return new VirtualEdition(this, user, acronym, title, date, pub);
+			String title, LocalDate date, boolean pub, Edition usedEdition) {
+		return new VirtualEdition(this, user, acronym, title, date, pub,
+				usedEdition);
 	}
 }

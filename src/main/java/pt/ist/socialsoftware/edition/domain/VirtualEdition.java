@@ -14,7 +14,7 @@ import pt.ist.fenixframework.Atomic.TxMode;
 public class VirtualEdition extends VirtualEdition_Base {
 
 	public VirtualEdition(LdoD ldod, LdoDUser participant, String acronym,
-			String title, LocalDate date, Boolean pub) {
+			String title, LocalDate date, Boolean pub, Edition usedEdition) {
 		setLdoD4Virtual(ldod);
 		addParticipant(participant);
 		setAcronym(acronym);
@@ -22,6 +22,12 @@ public class VirtualEdition extends VirtualEdition_Base {
 		setDate(date);
 		setPub(pub);
 		setNextInterNumber(1);
+
+		if (usedEdition != null) {
+			for (FragInter inter : usedEdition.getIntersSet()) {
+				createVirtualEditionInter(inter);
+			}
+		}
 	}
 
 	@Atomic(mode = TxMode.WRITE)

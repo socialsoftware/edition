@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import pt.ist.fenixframework.FenixFramework;
+import pt.ist.socialsoftware.edition.domain.Edition;
 import pt.ist.socialsoftware.edition.domain.FragInter;
 import pt.ist.socialsoftware.edition.domain.LdoD;
 import pt.ist.socialsoftware.edition.domain.LdoDUser;
@@ -52,6 +53,8 @@ public class VirtualEditionController {
 	public String listVirtualEdition(Model model,
 			@ModelAttribute("ldoDSession") LdoDSession ldoDSession) {
 
+		model.addAttribute("expertEditions", LdoD.getInstance()
+				.getSortedExpertEdition());
 		model.addAttribute("virtualEditions", LdoD.getInstance()
 				.getVirtualEditions4User(LdoDUser.getUser(), ldoDSession));
 		model.addAttribute("user", LdoDUser.getUser());
@@ -64,7 +67,8 @@ public class VirtualEditionController {
 			@ModelAttribute("ldoDSession") LdoDSession ldoDSession,
 			@RequestParam("acronym") String acronym,
 			@RequestParam("title") String title,
-			@RequestParam("pub") boolean pub) {
+			@RequestParam("pub") boolean pub,
+			@RequestParam("use") String editionID) {
 
 		/**
 		 * WORKAROUND: to create a user without regenerating the data base LdoD
@@ -74,9 +78,12 @@ public class VirtualEditionController {
 		 * for (Role role : ldod.getRolesSet()) { tiago.addRoles(role); }
 		 **/
 
-		LocalDate date = new LocalDate();
+		Edition usedEdition = null;
+		if (!editionID.equals("no")) {
+			usedEdition = FenixFramework.getDomainObject(editionID);
+		}
 
-		System.out.println(date.toString("yyyy-MM-dd"));
+		LocalDate date = new LocalDate();
 
 		title = title.trim();
 		acronym = acronym.trim();
@@ -98,7 +105,7 @@ public class VirtualEditionController {
 
 		try {
 			virtualEdition = LdoD.getInstance().createVirtualEdition(
-					LdoDUser.getUser(), acronym, title, date, pub);
+					LdoDUser.getUser(), acronym, title, date, pub, usedEdition);
 
 		} catch (LdoDDuplicateAcronymException ex) {
 			errors.add("virtualedition.acronym.duplicate");
@@ -134,6 +141,8 @@ public class VirtualEditionController {
 				ldoDSession.removeSelectedVE(externalId, acronym);
 			}
 
+			model.addAttribute("expertEditions", LdoD.getInstance()
+					.getSortedExpertEdition());
 			model.addAttribute("virtualEditions", LdoD.getInstance()
 					.getVirtualEditions4User(LdoDUser.getUser(), ldoDSession));
 			model.addAttribute("user", LdoDUser.getUser());
@@ -196,6 +205,8 @@ public class VirtualEditionController {
 					acronym, title, pub);
 		}
 
+		model.addAttribute("expertEditions", LdoD.getInstance()
+				.getSortedExpertEdition());
 		model.addAttribute("virtualEditions", LdoD.getInstance()
 				.getVirtualEditions4User(LdoDUser.getUser(), ldoDSession));
 		model.addAttribute("user", LdoDUser.getUser());
@@ -218,6 +229,8 @@ public class VirtualEditionController {
 
 		ldoDSession.toggleSelectedVirtualEdition(user, virtualEdition);
 
+		model.addAttribute("expertEditions", LdoD.getInstance()
+				.getSortedExpertEdition());
 		model.addAttribute("virtualEditions", LdoD.getInstance()
 				.getVirtualEditions4User(LdoDUser.getUser(), ldoDSession));
 		model.addAttribute("user", user);

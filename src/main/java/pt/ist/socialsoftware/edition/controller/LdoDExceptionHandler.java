@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.ModelAndView;
 
+import pt.ist.socialsoftware.edition.domain.LdoD;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDCreateVirtualEditionException;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDEditVirtualEditionException;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDLoadException;
@@ -64,6 +65,8 @@ public class LdoDExceptionHandler {
 		modelAndView.addObject("title", ex.getTitle());
 		modelAndView.addObject("pub", ex.isPub());
 		modelAndView.addObject("virtualEditions", ex.getVirtualEditions());
+		modelAndView.addObject("expertEditions", LdoD.getInstance()
+				.getSortedExpertEdition());
 		modelAndView.addObject("user", ex.getUser());
 		modelAndView.setViewName("virtual/list");
 		return modelAndView;

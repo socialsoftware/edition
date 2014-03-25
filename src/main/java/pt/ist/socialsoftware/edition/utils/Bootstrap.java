@@ -88,17 +88,17 @@ public class Bootstrap implements WebApplicationInitializer {
 		nuno.addRoles(admin);
 
 		VirtualEdition classX = new VirtualEdition(ldod, ars, "ClassX",
-				"LdoD Edition of Class X", new LocalDate(), true);
+				"LdoD Edition of Class X", new LocalDate(), true, null);
 		classX.addParticipant(llc);
 		llc.addSelectedVirtualEditions(classX);
 
 		VirtualEdition classY = new VirtualEdition(ldod, ars, "ClassY",
-				"LdoD Edition of Class Y", new LocalDate(), false);
+				"LdoD Edition of Class Y", new LocalDate(), false, null);
 		classY.addParticipant(llc);
 		llc.addSelectedVirtualEditions(classY);
 
 		VirtualEdition classW = new VirtualEdition(ldod, ars, "ClassW",
-				"LdoD Edition of Class W", new LocalDate(), true);
+				"LdoD Edition of Class W", new LocalDate(), true, null);
 		classW.addParticipant(diego);
 		classW.addParticipant(mp);
 		classW.addParticipant(tim);
