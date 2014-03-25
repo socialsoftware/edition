@@ -82,18 +82,22 @@ public class AdminController {
 
 	@RequestMapping(method = RequestMethod.POST, value = "/load/fragmentsStepByStep")
 	public String loadTEIFragmentsStepByStep(Model model,
-			@RequestParam("file") MultipartFile file) throws LdoDLoadException {
+			@RequestParam("files") MultipartFile[] files)
+			throws LdoDLoadException {
 
-		if (file == null) {
+		if (files == null) {
 			throw new LdoDLoadException("Deve escolher um ficheiro");
 		}
 
 		LoadTEIFragments loader = new LoadTEIFragments();
-		try {
-			loader.loadFragmentsStepByStep(file.getInputStream());
-		} catch (IOException e) {
-			throw new LdoDLoadException(
-					"Problemas com o ficheiro, tipo ou formato");
+
+		for (MultipartFile file : files) {
+			try {
+				loader.loadFragmentsStepByStep(file.getInputStream());
+			} catch (IOException e) {
+				throw new LdoDLoadException(
+						"Problemas com o ficheiro, tipo ou formato");
+			}
 		}
 
 		return writeMessage(model, "Fragmentos carregados", "/search/fragments");

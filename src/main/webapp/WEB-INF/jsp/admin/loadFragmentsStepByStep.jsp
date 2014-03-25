@@ -14,7 +14,7 @@
 
             <fieldset>
                 <legend><spring:message code="loadfragment.titleAll"/></legend>
-                <input type="file" class="input-block-level" name="file" />
+                <input type="file" multiple class="input-block-level" name="files" />
                 <button type="submit" class="btn btn-sm pull-left"><spring:message code="general.submit"/></button>
             </fieldset>
         </form>
