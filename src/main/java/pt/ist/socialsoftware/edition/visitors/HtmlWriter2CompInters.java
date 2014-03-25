@@ -24,7 +24,7 @@ import pt.ist.socialsoftware.edition.domain.SpaceText;
 import pt.ist.socialsoftware.edition.domain.SubstText;
 import pt.ist.socialsoftware.edition.domain.UnclearText;
 
-public class HtmlWriter2CompInters extends HtmlWriter {
+public class HtmlWriter2CompInters extends FragmentWriter {
 	private final Map<FragInter, String> transcriptionsMap = new HashMap<FragInter, String>();
 	private final Map<FragInter, Integer> transcriptionsLengthMap = new HashMap<FragInter, Integer>();
 	private List<FragInter> interps = null;
@@ -236,15 +236,11 @@ public class HtmlWriter2CompInters extends HtmlWriter {
 
 	@Override
 	public void visit(LbText lbText) {
-		propagate2FirstChild(lbText);
-
 		propagate2NextSibling(lbText);
 	}
 
 	@Override
 	public void visit(PbText pbText) {
-		propagate2FirstChild(pbText);
-
 		propagate2NextSibling(pbText);
 	}
 

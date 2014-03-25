@@ -24,10 +24,9 @@ import pt.ist.socialsoftware.edition.domain.SpaceText;
 import pt.ist.socialsoftware.edition.domain.SpaceText.SpaceDim;
 import pt.ist.socialsoftware.edition.domain.SubstText;
 import pt.ist.socialsoftware.edition.domain.Surface;
-import pt.ist.socialsoftware.edition.domain.TextPortion;
 import pt.ist.socialsoftware.edition.domain.UnclearText;
 
-public class HtmlWriter4OneInter extends HtmlWriter {
+public class HtmlWriter4OneInter extends FragmentWriter {
 	protected FragInter fragInter = null;
 	protected String transcription = "";
 
@@ -73,9 +72,6 @@ public class HtmlWriter4OneInter extends HtmlWriter {
 			fragInter = fragInter.getLastUsed();
 		}
 		visit((AppText) fragInter.getFragment().getTextPortion());
-
-		TextPortion text = fragInter.getFragment().getTextPortion()
-				.getNextDepthFirstText(fragInter);
 	}
 
 	public void write(Boolean highlightDiff, Boolean displayDel,

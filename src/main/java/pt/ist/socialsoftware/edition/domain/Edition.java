@@ -13,7 +13,7 @@ public abstract class Edition extends Edition_Base {
 	public enum EditionType {
 		AUTHORIAL("authorial"), EDITORIAL("editorial"), VIRTUAL("virtual");
 
-		private String desc;
+		private final String desc;
 
 		EditionType(String desc) {
 			this.desc = desc;
@@ -23,10 +23,6 @@ public abstract class Edition extends Edition_Base {
 			return desc;
 		}
 	};
-
-	public Edition() {
-		super();
-	}
 
 	@Override
 	public void setAcronym(String acronym) {

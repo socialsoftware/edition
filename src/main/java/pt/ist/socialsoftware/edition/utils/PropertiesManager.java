@@ -15,4 +15,8 @@ public class PropertiesManager {
 			throw new RuntimeException("Unable to load properties files.", e);
 		}
 	}
+
+	public static Properties getProperties() {
+		return properties;
+	}
 }

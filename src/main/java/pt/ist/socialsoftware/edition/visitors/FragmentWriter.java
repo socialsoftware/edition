@@ -2,7 +2,7 @@ package pt.ist.socialsoftware.edition.visitors;
 
 import pt.ist.socialsoftware.edition.domain.TextPortion;
 
-public abstract class HtmlWriter implements TextTreeVisitor {
+public abstract class FragmentWriter implements TextTreeVisitor {
 
 	protected void propagate2FirstChild(TextPortion text) {
 		TextPortion firstChild = text.getFirstChildText();
