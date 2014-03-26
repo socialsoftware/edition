@@ -1,5 +1,7 @@
 package pt.ist.socialsoftware.edition.controller;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +23,7 @@ import pt.ist.socialsoftware.edition.domain.LdoD;
 import pt.ist.socialsoftware.edition.domain.LdoDUser;
 import pt.ist.socialsoftware.edition.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.domain.VirtualEditionInter;
+import pt.ist.socialsoftware.edition.mallet.CorpusGenerator;
 import pt.ist.socialsoftware.edition.security.LdoDSession;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDCreateVirtualEditionException;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDDuplicateAcronymException;
@@ -141,6 +144,29 @@ public class VirtualEditionController {
 				ldoDSession.removeSelectedVE(externalId, acronym);
 			}
 
+			model.addAttribute("expertEditions", LdoD.getInstance()
+					.getSortedExpertEdition());
+			model.addAttribute("virtualEditions", LdoD.getInstance()
+					.getVirtualEditions4User(LdoDUser.getUser(), ldoDSession));
+			model.addAttribute("user", LdoDUser.getUser());
+			return "virtual/list";
+		}
+	}
+
+	@RequestMapping(method = RequestMethod.POST, value = "/restricted/generateCorpus")
+	@PreAuthorize("hasPermission(#externalId, 'virtualedition.participant')")
+	public String generateCorpus(Model model,
+			@ModelAttribute("ldoDSession") LdoDSession ldoDSession,
+			@RequestParam("externalId") String externalId)
+			throws FileNotFoundException, IOException {
+
+		VirtualEdition virtualEdition = FenixFramework
+				.getDomainObject(externalId);
+		if (virtualEdition == null) {
+			return "utils/pageNotFound";
+		} else {
+			CorpusGenerator generator = new CorpusGenerator();
+			generator.generate(virtualEdition);
 			model.addAttribute("expertEditions", LdoD.getInstance()
 					.getSortedExpertEdition());
 			model.addAttribute("virtualEditions", LdoD.getInstance()

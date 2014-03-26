@@ -52,16 +52,14 @@ public class Bootstrap implements WebApplicationInitializer {
 				"9306e985ad9ba5d90948190bf3a11e5dff0859092f91015f272106fabd51defd");
 		LdoDUser mp = new LdoDUser(ldod, "mp",
 				"57861f3d84c18bdf6cdc7d14d74ea7db958713189db33992f71207a06c3c5a03");
-		LdoDUser tim = new LdoDUser(ldod, "tim",
-				"d64785a0a97001a90cbe50bd01d9767fd4a3cb0e76b98bd3c92939ff7feaa2ce");
 		LdoDUser carlos = new LdoDUser(ldod, "carlos",
 				"cf7fa6738933ffe9f792359fba2cabcd1c36874c5af0994aee01fde5cc19015c");
-		LdoDUser llc = new LdoDUser(ldod, "llc",
-				"2429c113c25f33be41309c940d0b3dfebd7104f92aede07c47d95754800cd597");
 		LdoDUser tiago = new LdoDUser(ldod, "tiago",
 				"de968c78d0e50dbfd5083e1994492548baf4159f7112242acb02f773dc308ac9");
 		LdoDUser nuno = new LdoDUser(ldod, "nuno",
 				"057cc85da65d23b0b2971833ec27aab712b84aa6e47c034ab8143e48398205a1");
+		LdoDUser luis = new LdoDUser(ldod, "luis",
+				"067404fcada78c3f94ef0e9caefc1fc0d47d26568b4ea85f7246f350b311a27d");
 
 		ars.addRoles(user);
 		ars.addRoles(admin);
@@ -72,14 +70,8 @@ public class Bootstrap implements WebApplicationInitializer {
 		mp.addRoles(user);
 		mp.addRoles(admin);
 
-		tim.addRoles(user);
-		tim.addRoles(admin);
-
 		carlos.addRoles(user);
 		carlos.addRoles(admin);
-
-		llc.addRoles(user);
-		llc.addRoles(admin);
 
 		tiago.addRoles(user);
 		tiago.addRoles(admin);
@@ -87,21 +79,24 @@ public class Bootstrap implements WebApplicationInitializer {
 		nuno.addRoles(user);
 		nuno.addRoles(admin);
 
+		luis.addRoles(user);
+		luis.addRoles(admin);
+
 		VirtualEdition classX = new VirtualEdition(ldod, ars, "ClassX",
 				"LdoD Edition of Class X", new LocalDate(), true, null);
-		classX.addParticipant(llc);
-		llc.addSelectedVirtualEditions(classX);
+		classX.addParticipant(luis);
+		luis.addSelectedVirtualEditions(classX);
 
 		VirtualEdition classY = new VirtualEdition(ldod, ars, "ClassY",
 				"LdoD Edition of Class Y", new LocalDate(), false, null);
-		classY.addParticipant(llc);
-		llc.addSelectedVirtualEditions(classY);
+		classY.addParticipant(luis);
+		luis.addSelectedVirtualEditions(classY);
 
 		VirtualEdition classW = new VirtualEdition(ldod, ars, "ClassW",
 				"LdoD Edition of Class W", new LocalDate(), true, null);
 		classW.addParticipant(diego);
 		classW.addParticipant(mp);
-		classW.addParticipant(tim);
+		classW.addParticipant(luis);
 		classW.addParticipant(carlos);
 		classW.addParticipant(tiago);
 		classW.addParticipant(nuno);

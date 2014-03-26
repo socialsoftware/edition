@@ -61,17 +61,17 @@
                 <ul class="dropdown-menu">
                     <li><a
                         href="${contextPath}/admin/load/corpusForm"><spring:message
-                                code="header.loadcorpus" /></a></li>
+                                code="corpus.load" /></a></li>
                     <li><a
                         href="${contextPath}/admin/load/fragmentFormAtOnce"><spring:message
-                                code="header.loadfragment" /></a></li>
+                                code="fragment.load" /></a></li>
                     <li><a
                         href="${contextPath}/admin/load/fragmentFormStepByStep"><spring:message
-                                code="header.loadfragments" /></a></li>
+                                code="fragments.load" /></a></li>
                     <li class="divider"></li>
                     <li><a
                         href="${contextPath}/admin/fragment/list"><spring:message
-                                code="header.deletefragment" /></a></li>
+                                code="fragment.delete" /></a></li>
                 </ul></li>
         </ul>
 

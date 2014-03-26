@@ -20,9 +20,10 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 	@Override
 	public void remove() {
 		setVirtualEdition(null);
+		setUses(null);
 
-		if (getUses() != null) {
-			getUses().remove();
+		for (FragInter inter : getIsUsedBySet()) {
+			inter.remove();
 		}
 
 		super.remove();

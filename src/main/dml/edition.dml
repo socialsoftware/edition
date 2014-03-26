@@ -24,7 +24,7 @@ class LdoD {
 	String funder;
 }
 
-relation DomainRootHasAWorklrApplication {
+relation DomainRootHasLdoDApplication {
 	.pt.ist.fenixframework.DomainRoot playsRole root {
 		multiplicity 1..1;
 	}

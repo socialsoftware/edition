@@ -13,7 +13,7 @@
 			<form:errors path="*" />
 
 			<fieldset>
-				<legend><spring:message code="loadcorpus.title"/></legend>
+				<legend><spring:message code="corpus.load.title"/></legend>
 				<input type="file" class="input-block-level" name="file" />
 				<button type="submit" class="btn btn-sm pull-left"><spring:message code="general.submit"/></button>
 			</fieldset>

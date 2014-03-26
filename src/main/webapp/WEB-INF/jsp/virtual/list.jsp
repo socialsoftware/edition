@@ -128,7 +128,6 @@
                                         </button>
                                     </form></td>
                                 <c:choose>
-
                                     <c:when
                                         test="${virtualEdition.participantSet.contains(user)}">
                                         <td><a class="btn btn-sm"
@@ -141,6 +140,22 @@
                                                 class="glyphicon glyphicon-edit"></span>
                                                 <spring:message
                                                     code="participant.manage" /></a></td>
+                                        <td>
+                                            <form class="form-inline"
+                                                method="POST"
+                                                action="${contextPath}/virtualeditions/restricted/generateCorpus">
+                                                <input type="hidden"
+                                                    name="externalId"
+                                                    value="${virtualEdition.externalId}" />
+                                                <button type="submit"
+                                                    class="btn btn-sm">
+                                                    <span
+                                                        class="glyphicon glyphicon-file"></span>
+                                                    <spring:message
+                                                        code="corpus.generate" />
+                                                </button>
+                                            </form>
+                                        </td>
                                         <td>
                                             <form class="form-inline"
                                                 method="POST"
