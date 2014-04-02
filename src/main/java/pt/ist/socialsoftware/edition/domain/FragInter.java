@@ -1,5 +1,7 @@
 package pt.ist.socialsoftware.edition.domain;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -20,12 +22,12 @@ public abstract class FragInter extends FragInter_Base implements
 		setFragment(null);
 		setHeteronym(null);
 
-		for (Annotation annotation : getAnnotationSet()) {
-			annotation.remove();
+		for (CategoryInFragInter categoryInFragInter : getCategoryInFragInterSet()) {
+			categoryInFragInter.remove();
 		}
 
-		for (Category cat : getCategoriesSet()) {
-			removeCategories(cat);
+		for (Annotation annotation : getAnnotationSet()) {
+			annotation.remove();
 		}
 
 		for (VirtualEditionInter inter : getIsUsedBySet()) {
@@ -128,4 +130,14 @@ public abstract class FragInter extends FragInter_Base implements
 
 		return annotation;
 	}
+
+	public List<CategoryInFragInter> getSortedCategoryInFragInter() {
+		List<CategoryInFragInter> results = new ArrayList<CategoryInFragInter>(
+				getCategoryInFragInterSet());
+
+		Collections.sort(results);
+
+		return results;
+	}
+
 }

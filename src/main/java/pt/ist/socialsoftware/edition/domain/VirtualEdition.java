@@ -1,15 +1,19 @@
 package pt.ist.socialsoftware.edition.domain;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.commons.io.FileUtils;
 import org.joda.time.LocalDate;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
+import pt.ist.socialsoftware.edition.utils.PropertiesManager;
 
 public class VirtualEdition extends VirtualEdition_Base {
 
@@ -30,8 +34,22 @@ public class VirtualEdition extends VirtualEdition_Base {
 		}
 	}
 
+	@Override
 	@Atomic(mode = TxMode.WRITE)
 	public void remove() {
+		// delete directory and all its files if it exists
+		String path = PropertiesManager.getProperties().getProperty(
+				"corpus.dir");
+		File directory = new File(path + getExternalId());
+		if (directory.exists()) {
+			try {
+				FileUtils.deleteDirectory(directory);
+			} catch (IOException e) {
+				// Unable to delete directory
+				e.printStackTrace();
+			}
+		}
+
 		setLdoD4Virtual(null);
 
 		for (LdoDUser user : getParticipantSet()) {
@@ -46,7 +64,7 @@ public class VirtualEdition extends VirtualEdition_Base {
 			inter.remove();
 		}
 
-		deleteDomainObject();
+		super.remove();
 	}
 
 	@Override
@@ -147,5 +165,15 @@ public class VirtualEdition extends VirtualEdition_Base {
 			virtualInter = new VirtualEditionInter(this, inter);
 		}
 		return virtualInter;
+	}
+
+	public boolean checkAccess(LdoDUser user) {
+		if (getPub()) {
+			return true;
+		} else if (getParticipantSet().contains(user)) {
+			return true;
+		}
+
+		return false;
 	}
 }

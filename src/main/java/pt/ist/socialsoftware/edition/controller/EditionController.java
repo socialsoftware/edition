@@ -7,12 +7,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import pt.ist.fenixframework.FenixFramework;
+import pt.ist.socialsoftware.edition.domain.Category;
 import pt.ist.socialsoftware.edition.domain.Edition;
 import pt.ist.socialsoftware.edition.domain.ExpertEdition;
 import pt.ist.socialsoftware.edition.domain.Heteronym;
 import pt.ist.socialsoftware.edition.domain.LdoD;
 import pt.ist.socialsoftware.edition.domain.LdoDUser;
 import pt.ist.socialsoftware.edition.domain.Tag;
+import pt.ist.socialsoftware.edition.domain.Taxonomy;
 
 @Controller
 @RequestMapping("/edition")
@@ -97,4 +99,33 @@ public class EditionController {
 			return "utils/pageNotFound";
 		}
 	}
+
+	@RequestMapping(method = RequestMethod.GET, value = "/category/{categoryId}")
+	public String getCategoryTableOfContents(Model model,
+			@PathVariable String categoryId) {
+
+		Category category = FenixFramework.getDomainObject(categoryId);
+
+		if (category != null) {
+			model.addAttribute("category", category);
+			return "edition/categoryTableOfContents";
+		} else {
+			return "utils/pageNotFound";
+		}
+	}
+
+	@RequestMapping(method = RequestMethod.GET, value = "/taxonomy/{taxonomyId}")
+	public String getTaxonomyTableOfContents(Model model,
+			@PathVariable String taxonomyId) {
+
+		Taxonomy taxonomy = FenixFramework.getDomainObject(taxonomyId);
+
+		if (taxonomy != null) {
+			model.addAttribute("taxonomy", taxonomy);
+			return "edition/taxonomyTableOfContents";
+		} else {
+			return "utils/pageNotFound";
+		}
+	}
+
 }

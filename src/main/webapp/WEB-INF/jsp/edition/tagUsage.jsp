@@ -10,7 +10,7 @@
     <div class="container">
         <h3 class="text-center">
             <spring:message code="general.useOfTag" />
-            ${tag.tag}
+            ${tag.tag} (${tag.getFragInterSet().size()})
         </h3>
 
         <table class="table table-bordered table-condensed">

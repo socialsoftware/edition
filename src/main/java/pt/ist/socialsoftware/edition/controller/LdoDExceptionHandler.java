@@ -10,6 +10,7 @@ import org.springframework.web.servlet.ModelAndView;
 import pt.ist.socialsoftware.edition.domain.LdoD;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDCreateVirtualEditionException;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDEditVirtualEditionException;
+import pt.ist.socialsoftware.edition.shared.exception.LdoDException;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDLoadException;
 
 @ControllerAdvice
@@ -42,11 +43,12 @@ public class LdoDExceptionHandler {
 		modelAndView.addObject("errors", ex.getErrors());
 		modelAndView.addObject("externalId", ex.getVirtualEdition()
 				.getExternalId());
+		modelAndView.addObject("virtualEdition", ex.getVirtualEdition());
 		modelAndView.addObject("acronym", ex.getAcronym());
 		modelAndView.addObject("title", ex.getTitle());
 		modelAndView.addObject("date", ex.getVirtualEdition().getDate());
 		modelAndView.addObject("pub", ex.isPub());
-		modelAndView.setViewName("virtual/edit");
+		modelAndView.setViewName("virtual/edition");
 		return modelAndView;
 	}
 
@@ -68,7 +70,7 @@ public class LdoDExceptionHandler {
 		modelAndView.addObject("expertEditions", LdoD.getInstance()
 				.getSortedExpertEdition());
 		modelAndView.addObject("user", ex.getUser());
-		modelAndView.setViewName("virtual/list");
+		modelAndView.setViewName("virtual/editions");
 		return modelAndView;
 	}
 
@@ -83,6 +85,19 @@ public class LdoDExceptionHandler {
 		modelAndView.setViewName("utils/ldoDExceptionPage");
 		modelAndView.addObject("i18n", true);
 		modelAndView.addObject("message", "general.access.denied");
+		return modelAndView;
+	}
+
+	@ExceptionHandler({ LdoDException.class })
+	public ModelAndView handleLdoException(LdoDException ex) {
+
+		if (logger.isDebugEnabled()) {
+			logger.debug("LdoDException: {}", ex.getMessage());
+		}
+
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("utils/ldoDExceptionPage");
+		modelAndView.addObject("message", ex.getMessage());
 		return modelAndView;
 	}
 

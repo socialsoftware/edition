@@ -85,12 +85,30 @@ public class Bootstrap implements WebApplicationInitializer {
 		VirtualEdition classX = new VirtualEdition(ldod, ars, "ClassX",
 				"LdoD Edition of Class X", new LocalDate(), true, null);
 		classX.addParticipant(luis);
+		classX.addParticipant(mp);
+		classX.addParticipant(diego);
+		classX.addParticipant(tiago);
+		classX.addParticipant(ars);
 		luis.addSelectedVirtualEditions(classX);
+		mp.addSelectedVirtualEditions(classX);
+		ars.addSelectedVirtualEditions(classX);
+		diego.addSelectedVirtualEditions(classX);
+		tiago.addSelectedVirtualEditions(classX);
+		nuno.addSelectedVirtualEditions(classX);
 
 		VirtualEdition classY = new VirtualEdition(ldod, ars, "ClassY",
 				"LdoD Edition of Class Y", new LocalDate(), false, null);
 		classY.addParticipant(luis);
+		classY.addParticipant(mp);
+		classY.addParticipant(diego);
+		classY.addParticipant(tiago);
+		classY.addParticipant(ars);
 		luis.addSelectedVirtualEditions(classY);
+		mp.addSelectedVirtualEditions(classY);
+		ars.addSelectedVirtualEditions(classY);
+		diego.addSelectedVirtualEditions(classY);
+		tiago.addSelectedVirtualEditions(classY);
+		nuno.addSelectedVirtualEditions(classY);
 
 		VirtualEdition classW = new VirtualEdition(ldod, ars, "ClassW",
 				"LdoD Edition of Class W", new LocalDate(), true, null);
@@ -101,6 +119,7 @@ public class Bootstrap implements WebApplicationInitializer {
 		classW.addParticipant(tiago);
 		classW.addParticipant(nuno);
 		mp.addSelectedVirtualEditions(classW);
+		ars.addSelectedVirtualEditions(classW);
 		diego.addSelectedVirtualEditions(classW);
 		tiago.addSelectedVirtualEditions(classW);
 		nuno.addSelectedVirtualEditions(classW);

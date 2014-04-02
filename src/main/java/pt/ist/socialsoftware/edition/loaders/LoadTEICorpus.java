@@ -133,8 +133,7 @@ public class LoadTEICorpus {
 				.getChildren("taxonomy", namespace);
 
 		for (Element taxonomyTEI : corpusTaxonomies) {
-			Taxonomy taxonomy = new Taxonomy();
-			taxonomy.setLdoD(ldoD);
+			Taxonomy taxonomy = new Taxonomy(ldoD);
 
 			String tononomyID = taxonomyTEI.getAttributeValue("id",
 					taxonomyTEI.getNamespace("xml"));
@@ -155,8 +154,7 @@ public class LoadTEICorpus {
 
 			for (Element categoryTEI : taxonomyTEI.getChildren("category",
 					namespace)) {
-				Category category = new Category();
-				category.setTaxonomy(taxonomy);
+				Category category = new Category(taxonomy);
 
 				String categoryID = categoryTEI.getAttributeValue("id",
 						categoryTEI.getNamespace("xml"));

@@ -43,22 +43,55 @@ jQuery(function ($) {
 
 <div id=fragmentInter class="row">
     <h3>${inters.get(0).edition.title}</h3>
-    <h4><spring:message code="general.uses" />
-        ${inters.get(0).uses.edition.getReference()}(${inters.get(0).uses.reference})</h4>
-        <div class="col-md-6">
-    <c:forEach var="tag" items='${inters.get(0).getTagSet()}'>
-        <span class="glyphicon glyphicon-tag"></span> <a
-                        href="${contextPath}/edition/tag/${tag.tag}">${tag.tag}</a>
-    </c:forEach>
+    <h4>
+        <spring:message code="general.uses" />
+        ${inters.get(0).uses.edition.getReference()}(${inters.get(0).uses.reference})
+    </h4>
+    <div class="col-md-6">
+        <c:forEach var="tag" items='${inters.get(0).getTagSet()}'>
+            <span class="glyphicon glyphicon-tag"></span>
+            <a href="${contextPath}/edition/tag/${tag.tag}">${tag.tag}</a>
+        </c:forEach>
     </div>
     <div>
-    <c:forEach var="user" items='${inters.get(0).getContributorSet()}'>
-        <span class="glyphicon glyphicon-user"></span> <a
-                        href="${contextPath}/edition/user/${user.username}">${user.username}</a>
-    </c:forEach>
+        <c:forEach var="user"
+            items='${inters.get(0).getContributorSet()}'>
+            <span class="glyphicon glyphicon-user"></span>
+            <a href="${contextPath}/edition/user/${user.username}">${user.username}</a>
+        </c:forEach>
     </div>
+    <br />
+
     <%@ include file="/WEB-INF/jsp/fragment/transcription.jsp"%>
-<!-- 
+
+    <div class="row">
+        <table class="table table-hover">
+            <thead>
+
+                <tr>
+                    <th><spring:message code="general.taxonomy" /></th>
+                    <th><spring:message code="general.category" /></th>
+                </tr>
+            </thead>
+            <tbody>
+                <c:forEach var="taxonomy"
+                    items='${inters.get(0).getEdition().getTaxonomiesSet()}'>
+                    <tr>
+                        <td><a
+                            href="${contextPath}/edition/taxonomy/${taxonomy.externalId}">${taxonomy.getName()}</a>
+                        </td>
+                        <td><c:forEach var="categoryInFragInter"
+                                items='${taxonomy.getSortedCategoryInFragInter(inters.get(0))}'>
+                                <a
+                                    href="${contextPath}/edition/category/${categoryInFragInter.getCategory().getExternalId()}">${categoryInFragInter.getCategory().getName()}</a>
+                                (${categoryInFragInter.getPercentage()})</c:forEach>
+                        </td>
+                    </tr>
+                </c:forEach>
+            </tbody>
+        </table>
+    </div>
+    <!-- 
     <div class="row">
         <div class="row-fluid span12">
             <table class="table table-striped table-condensed">

@@ -100,4 +100,12 @@ public abstract class Edition extends Edition_Base {
 		return tags;
 	}
 
+	public void remove() {
+		for (Taxonomy taxonomy : getTaxonomiesSet()) {
+			taxonomy.remove();
+		}
+
+		deleteDomainObject();
+	}
+
 }

@@ -6,8 +6,19 @@ public class LdoDException extends RuntimeException implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	public LdoDException() {
+	protected String message;
 
+	public LdoDException() {
+		this.message = "";
+	}
+
+	public LdoDException(String message) {
+		this.message = message;
+	}
+
+	@Override
+	public String getMessage() {
+		return message;
 	}
 
 }

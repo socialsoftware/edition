@@ -9,26 +9,32 @@
 
     <div class="container">
         <h1 class="text-center">
-            <spring:message code="header.manageeditions" />
+            <spring:message code="virtual.editions" />
         </h1>
         <br>
         <div class="row">
+            <c:forEach var="error" items='${errors}'>
+                <div class="row text-error">
+                    <spring:message code="${error}" />
+                </div>
+            </c:forEach>
+        </div>
+        <div class="row">
             <form class="form-inline" method="POST"
                 action="/virtualeditions/restricted/create">
-                <fieldset>
-                    <c:forEach var="error" items='${errors}'>
-                        <div class="row text-error">
-                            <spring:message code="${error}" />
-                        </div>
-                    </c:forEach>
-                    <input type="text" class="input-small"
-                        name="acronym" id="acronym"
+                <div class="form-group">
+                    <input type="text" class="form-control"
+                        name="acronym"
                         placeholder="<spring:message code="virtualeditionlist.acronym" />"
-                        value="${acronym}" /> <input type="text"
-                        class="input" name="title" id="title"
+                        value="${acronym}" />
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" name="title"
                         placeholder="<spring:message code="virtualeditionlist.name" />"
-                        value="${title}" /> <select
-                        class="selectpicker" name="pub" id="pub">
+                        value="${title}" />
+                </div>
+                <div class="form-group">
+                    <select class="form-control" name="pub">
                         <c:choose>
                             <c:when test="${pub == false}">
                                 <option value="true">
@@ -51,7 +57,10 @@
                                 </option>
                             </c:otherwise>
                         </c:choose>
-                    </select> <select class="selectpicker" id="use" name="use"><option
+                    </select>
+                </div>
+                <div class="form-group">
+                    <select class="form-control" name="use"><option
                             value="no"><spring:message
                                 code="tableofcontents.usesEdition" /></option>
                         <c:forEach var='expertEdition'
@@ -64,17 +73,17 @@
                             <option
                                 value='${virtualEdition.getExternalId()}'>${virtualEdition.getAcronym()}</option>
                         </c:forEach></select>
-                    <button type="submit" class="btn btn-sm">
-                        <span class="glyphicon glyphicon-edit"></span>
-                        <spring:message code="general.create" />
-                    </button>
-                </fieldset>
+                </div>
+                <button type="submit" class="btn btn-primary">
+                    <span class="glyphicon glyphicon-edit"></span>
+                    <spring:message code="general.create" />
+                </button>
             </form>
         </div>
+        <br />
         <div class="row">
             <div>
-                <table
-                    class="table table-striped table-bordered table-condensed table-hover">
+                <table class="table table-hover">
                     <thead>
                         <tr>
                             <th><spring:message
@@ -84,6 +93,15 @@
                             <th><spring:message code="general.date" /></th>
                             <th><spring:message
                                     code="general.access" /></th>
+                            <th><spring:message
+                                    code="general.select" /></th>
+                            <th><spring:message code="general.edit" /></th>
+                            <th><spring:message
+                                    code="general.participants" /></th>
+                            <th><spring:message
+                                    code="general.taxonomies" /></th>
+                            <th><spring:message
+                                    code="general.delete" /></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -111,7 +129,7 @@
                                             name="externalId"
                                             value="${virtualEdition.externalId}" />
                                         <button type="submit"
-                                            class="btn btn-sm">
+                                            class="btn btn-primary btn-sm">
                                             <span
                                                 class="glyphicon glyphicon-check"></span>
                                             <c:choose>
@@ -137,25 +155,14 @@
                                                     code="general.edit" /></a></td>
                                         <td><a class="btn btn-sm"
                                             href="${contextPath}/virtualeditions/restricted/participantsForm/${virtualEdition.externalId}"><span
-                                                class="glyphicon glyphicon-edit"></span>
+                                                class="glyphicon glyphicon-user"></span>
                                                 <spring:message
-                                                    code="participant.manage" /></a></td>
-                                        <td>
-                                            <form class="form-inline"
-                                                method="POST"
-                                                action="${contextPath}/virtualeditions/restricted/generateCorpus">
-                                                <input type="hidden"
-                                                    name="externalId"
-                                                    value="${virtualEdition.externalId}" />
-                                                <button type="submit"
-                                                    class="btn btn-sm">
-                                                    <span
-                                                        class="glyphicon glyphicon-file"></span>
-                                                    <spring:message
-                                                        code="corpus.generate" />
-                                                </button>
-                                            </form>
-                                        </td>
+                                                    code="general.participants" /></a></td>
+                                        <td><a class="btn btn-sm"
+                                            href="${contextPath}/virtualeditions/restricted/${virtualEdition.externalId}/taxonomy"><span
+                                                class="glyphicon glyphicon-tags"></span>
+                                                <spring:message
+                                                    code="general.taxonomies" /></a></td>
                                         <td>
                                             <form class="form-inline"
                                                 method="POST"
@@ -164,7 +171,7 @@
                                                     name="externalId"
                                                     value="${virtualEdition.externalId}" />
                                                 <button type="submit"
-                                                    class="btn btn-sm">
+                                                    class="btn btn-primary btn-sm">
                                                     <span
                                                         class="glyphicon glyphicon-remove"></span>
                                                     <spring:message
@@ -174,6 +181,7 @@
                                         </td>
                                     </c:when>
                                     <c:otherwise>
+                                        <td></td>
                                         <td></td>
                                         <td></td>
                                         <td></td>

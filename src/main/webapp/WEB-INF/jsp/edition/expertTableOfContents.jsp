@@ -1,7 +1,7 @@
 <%@ include file="/WEB-INF/jsp/common/tags-head.jsp"%>
 <h3 class="text-center">
     <spring:message code="tableofcontents.editionof" />
-    ${edition.editor}
+    ${edition.editor} (${edition.getSortedInterps().size()})
 </h3>
 <c:if test="${heteronym != null}">
     <h4 class="text-left">

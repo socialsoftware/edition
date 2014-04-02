@@ -47,13 +47,8 @@
             <li><a href="${contextPath}/search/fragments"><spring:message
                         code="header.search" /> </a></li>
             <!-- Manage Virtual Editions -->
-            <li class="dropdown"><a href="#"
-                class="dropdown-toggle" data-toggle="dropdown"><spring:message
-                        code="header.virtual" /> <b class="caret"></b></a>
-                <ul class="dropdown-menu">
-                    <li><a href="${contextPath}/virtualeditions"><spring:message
-                                code="header.manageeditions" /></a></li>
-                </ul></li>
+            <li><a href="${contextPath}/virtualeditions"><spring:message
+                        code="virtual" /> </a></li>
             <!-- Administration -->
             <li class="dropdown"><a href="#"
                 class="dropdown-toggle" data-toggle="dropdown"><spring:message

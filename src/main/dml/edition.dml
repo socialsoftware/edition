@@ -109,11 +109,10 @@ relation LdoDUserSelectsVirtualEditions {
 class Taxonomy {
 	String xmlId;
 	String name;
-}
-
-class Category {
-	String xmlId;
-	String name;
+	int numTopics;
+	int numWords;
+	int thresholdCategories;
+	int numIterations;
 }
 
 relation LdoDHasTaxonomies {
@@ -121,9 +120,43 @@ relation LdoDHasTaxonomies {
 	Taxonomy playsRole taxonomies {multiplicity 0..*;}
 }
 
+relation EditionHasTaxonomies {
+	Edition playsRole edition {multiplicity 0..1;}
+	Taxonomy playsRole taxonomies {multiplicity 0..*;}
+}
+
+class Category {
+	String xmlId;
+	String name;
+}
+
 relation TaxonomyHasCategories {
 	Taxonomy playsRole taxonomy {multiplicity 1..1;}
 	Category playsRole categories {multiplicity 0..*;}
+}
+
+class FragWord {
+	String word;
+}
+
+relation TaxonomyHasFragWord {
+	Taxonomy playsRole taxonomy {multiplicity 1..1;}
+	FragWord playsRole fragWord {multiplicity 0..*;}
+}
+
+
+class FragWordInCategory {
+	int weight;
+}
+
+relation FragWordInCategory2Category {
+	FragWordInCategory playsRole fragWordInCategory {multiplicity 0..*;}
+	Category playsRole category {multiplicity 1..1;}
+}
+
+relation FragWordInCategory2FragWord {
+	FragWordInCategory playsRole fragWordInCategory {multiplicity 0..*;}
+	FragWord playsRole fragWord {multiplicity 1..1;}
 }
 
 class Heteronym {
@@ -163,9 +196,18 @@ relation FragInterAttributesHeronym {
 	Heteronym playsRole heteronym {multiplicity 0..1;}
 }
 
-relation FragInterHasCategories {
-	FragInter playsRole fragInters {multiplicity 0..*;}
-	Category playsRole categories {multiplicity 0..*;}
+class CategoryInFragInter {
+	int percentage;
+}
+
+relation CategoryInFragInter2FragInter {
+	CategoryInFragInter playsRole categoryInFragInter {multiplicity 0..*;}
+	FragInter playsRole fragInter {multiplicity 1..1;}
+}
+
+relation CategoryInFragInter2Category {
+	CategoryInFragInter playsRole categoryInFragInter {multiplicity 0..*;}
+	Category playsRole category {multiplicity 1..1;}
 }
 
 class ExpertEditionInter extends FragInter {
