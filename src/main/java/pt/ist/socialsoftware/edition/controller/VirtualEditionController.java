@@ -475,6 +475,19 @@ public class VirtualEditionController {
 		}
 	}
 
+	@RequestMapping(method = RequestMethod.GET, value = "/restricted/fraginter/{fragInterId}")
+	@PreAuthorize("hasPermission(#fragInterId, 'fragInter.public')")
+	public String showFragmentInterpretation(Model model,
+			@PathVariable String fragInterId) {
+		FragInter fragInter = FenixFramework.getDomainObject(fragInterId);
+		if (fragInter == null) {
+			return "utils/pageNotFound";
+		} else {
+			model.addAttribute("fragInter", fragInter);
+			return "virtual/fragInter";
+		}
+	}
+
 	@RequestMapping(method = RequestMethod.POST, value = "/restricted/category")
 	@PreAuthorize("hasPermission(#categoryId, 'category.public')")
 	public String updateCategoryName(Model model,

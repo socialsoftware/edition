@@ -7,6 +7,7 @@ import org.springframework.security.core.Authentication;
 
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.domain.Category;
+import pt.ist.socialsoftware.edition.domain.FragInter;
 import pt.ist.socialsoftware.edition.domain.LdoDUser;
 import pt.ist.socialsoftware.edition.domain.Taxonomy;
 import pt.ist.socialsoftware.edition.domain.VirtualEdition;
@@ -28,61 +29,51 @@ public class LdoDPermissionEvaluator implements PermissionEvaluator {
 						+ (String) targetDomainObject + permissions[0]
 						+ permissions[1]);
 
+		VirtualEdition virtualEdition = null;
 		if (targetDomainObject instanceof String) {
 			switch (permissions[0]) {
 			case "virtualedition":
-				VirtualEdition virtualEdition = FenixFramework
+				virtualEdition = FenixFramework
 						.getDomainObject((String) targetDomainObject);
-				if (virtualEdition == null)
-					hasPermission = true;
-				else if (permissions[1].equals(PARTICIPANT)) {
-					hasPermission = virtualEdition.getParticipantSet()
-							.contains(LdoDUser.getUser());
-				} else if (permissions[1].equals(PUBLIC)) {
-					if (virtualEdition.getPub()) {
-						hasPermission = true;
-					} else {
-						hasPermission = virtualEdition.getParticipantSet()
-								.contains(LdoDUser.getUser());
-					}
+				break;
+			case "fragInter":
+				FragInter fragInter = FenixFramework
+						.getDomainObject((String) targetDomainObject);
+				if (fragInter != null) {
+					virtualEdition = (VirtualEdition) fragInter.getEdition();
 				}
-
-				System.out.println("LdoDPermissionEvaluator:" + hasPermission);
-
 				break;
 			case "taxonomy":
 				Taxonomy taxonomy = FenixFramework
 						.getDomainObject((String) targetDomainObject);
-				if (taxonomy == null)
-					hasPermission = true;
-				else if (permissions[1].equals(PUBLIC)) {
+				if (taxonomy != null) {
 					virtualEdition = (VirtualEdition) taxonomy.getEdition();
-					if (virtualEdition.getPub()) {
-						hasPermission = true;
-					} else {
-						hasPermission = virtualEdition.getParticipantSet()
-								.contains(LdoDUser.getUser());
-					}
 				}
 				break;
 			case "category":
 				Category category = FenixFramework
 						.getDomainObject((String) targetDomainObject);
-				if (category == null)
-					hasPermission = true;
-				else if (permissions[1].equals(PUBLIC)) {
+				if (category != null) {
 					virtualEdition = (VirtualEdition) category.getTaxonomy()
 							.getEdition();
-					if (virtualEdition.getPub()) {
-						hasPermission = true;
-					} else {
-						hasPermission = virtualEdition.getParticipantSet()
-								.contains(LdoDUser.getUser());
-					}
 				}
 				break;
 			default:
 				assert false;
+			}
+
+			if (virtualEdition == null) {
+				hasPermission = true;
+			} else if (permissions[1].equals(PARTICIPANT)) {
+				hasPermission = virtualEdition.getParticipantSet().contains(
+						LdoDUser.getUser());
+			} else if (permissions[1].equals(PUBLIC)) {
+				if (virtualEdition.getPub()) {
+					hasPermission = true;
+				} else {
+					hasPermission = virtualEdition.getParticipantSet()
+							.contains(LdoDUser.getUser());
+				}
 			}
 		}
 

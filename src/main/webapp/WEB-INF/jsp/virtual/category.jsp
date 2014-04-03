@@ -48,7 +48,7 @@
                         <td><c:forEach var="categoryInFragInter"
                                 items='${category.getSortedCategoryInFragInter()}'>
                                 <a
-                                    href="${contextPath}/fragments/fragment/inter/${categoryInFragInter.getFragInter().getExternalId()}">${categoryInFragInter.getFragInter().getTitle()}</a> (${categoryInFragInter.getPercentage()})</c:forEach></td>
+                                    href="${contextPath}/virtualeditions/restricted/fraginter/${categoryInFragInter.getFragInter().getExternalId()}">${categoryInFragInter.getFragInter().getTitle()}</a> (${categoryInFragInter.getPercentage()})</c:forEach></td>
                     </tr>
                 </tbody>
             </table>

@@ -423,6 +423,8 @@ public class HtmlWriter4OneInter extends FragmentWriter {
 				preRend = preRend + "<em>";
 			} else if (rend.getRend() == Rendition.RED) {
 				preRend = preRend + "<span style=\"color: rgb(255,0,0);\">";
+			} else if (rend.getRend() == Rendition.GREEN) {
+				preRend = preRend + "<span style=\"color: rgb(0,255,0);\">";
 			} else if (rend.getRend() == Rendition.UNDERLINED) {
 				preRend = preRend + "<u>";
 			} else if (rend.getRend() == Rendition.SUPERSCRIPT) {

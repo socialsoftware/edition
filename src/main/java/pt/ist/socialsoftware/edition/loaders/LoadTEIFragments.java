@@ -1369,6 +1369,8 @@ public class LoadTEIFragments {
 					text.addRend(new Rend(Rendition.ITALIC));
 				} else if (rendXmlId.equals("red")) {
 					text.addRend(new Rend(Rendition.RED));
+				} else if (rendXmlId.equals("green")) {
+					text.addRend(new Rend(Rendition.GREEN));
 				} else if (rendXmlId.equals("u")) {
 					text.addRend(new Rend(Rendition.UNDERLINED));
 				} else if (rendXmlId.equals("super")) {
