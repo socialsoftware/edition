@@ -451,6 +451,8 @@ public class HtmlWriter4OneInter extends FragmentWriter {
 				postRend = "</em>" + postRend;
 			} else if (rend.getRend() == Rendition.RED) {
 				postRend = "</span>" + postRend;
+			} else if (rend.getRend() == Rendition.GREEN) {
+				postRend = "</span>" + postRend;
 			} else if (rend.getRend() == Rendition.UNDERLINED) {
 				postRend = "</u>" + postRend;
 			} else if (rend.getRend() == Rendition.SUPERSCRIPT) {
