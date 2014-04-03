@@ -422,7 +422,7 @@ public class VirtualEditionController {
 			if (taxonomy == null) {
 				// TODO: userfriendly handle of this exception
 				throw new LdoDException(
-						"Não existem fragmentos associados a esta edição");
+						"Não existem fragmentos associados a esta edição ou é necessário gerar o Corpus");
 			} else {
 				model.addAttribute("edition", virtualEdition);
 				model.addAttribute("taxonomy", taxonomy);

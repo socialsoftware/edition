@@ -45,11 +45,10 @@ public class TopicModeler {
 	public Taxonomy generate(Edition edition, String name, int numTopics,
 			int numWords, int thresholdCategories, int numIterations)
 			throws IOException {
-		// if a corpus is absent, create one
+		// if a corpus is absent
 		File directory = new File(path + edition.getExternalId());
 		if (!directory.exists()) {
-			CorpusGenerator generator = new CorpusGenerator();
-			generator.generate(edition);
+			return null;
 		}
 
 		pipe = buildPipe();
