@@ -9,8 +9,9 @@
 
     <div class="container">
         <h3 class="text-center">
-            <spring:message code="general.category" /> :
-            <a href="${contextPath}/edition/taxonomy/${category.getTaxonomy().getExternalId()}">${category.getTaxonomy().getName()}</a>.${category.getName()} (${category.getCategoryInFragInterSet().size()})
+            <spring:message code="virtualedition" />: <a href="${contextPath}/edition/internalid/${category.getTaxonomy().getEdition().getExternalId()}"> ${category.getTaxonomy().getEdition().title}</a>
+            <spring:message code="general.taxonomy" />: <a href="${contextPath}/edition/taxonomy/${category.getTaxonomy().getExternalId()}">${category.getTaxonomy().getName()}</a>
+            <spring:message code="general.category" />: ${category.getName()} (${category.getCategoryInFragInterSet().size()})
         </h3>
 
         <table class="table table-bordered table-condensed">

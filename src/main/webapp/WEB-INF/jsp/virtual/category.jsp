@@ -9,11 +9,22 @@
 
     <div class="container">
         <h1 class="text-center">
-            <spring:message code="general.category" />
-            : <a
-                href="${contextPath}/virtualeditions/restricted/taxonomy/${category.getTaxonomy().getExternalId()}">${category.getTaxonomy().getName()}</a>.${category.getName()}
+            <spring:message code="general.edition" />: ${category.getTaxonomy().getEdition().getReference()}
+            <spring:message code="general.taxonomy" />: <a
+                href="${contextPath}/virtualeditions/restricted/taxonomy/${category.getTaxonomy().getExternalId()}">${category.getTaxonomy().getName()}</a>
+            <spring:message code="general.category" />: ${category.getName()}
         </h1>
-        <br />
+        <h4 class="pull-right">
+            <spring:message code="general.public.pages" />
+            - <a
+                href="${contextPath}/edition/internalid/${category.getTaxonomy().getEdition().getExternalId()}">
+                ${category.getTaxonomy().getEdition().getReference()}</a> :
+            <a
+                href="${contextPath}/edition/taxonomy/${category.getTaxonomy().getExternalId()}">${category.getTaxonomy().getName()}</a>
+            : <a
+                href="${contextPath}/edition/category/${category.getExternalId()}">${category.getName()}</a>
+        </h4>
+        <br /> <br />
         <div class="row">
             <form class="form-inline" method="POST"
                 action="/virtualeditions/restricted/category">

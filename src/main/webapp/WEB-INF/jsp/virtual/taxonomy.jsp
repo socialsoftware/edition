@@ -9,11 +9,17 @@
 
     <div class="container">
         <h1 class="text-center">
-            <spring:message code="general.taxonomy" />
-            : <a 
-                href="${contextPath}/virtualeditions/restricted/${taxonomy.edition.externalId}/taxonomy">
-                ${taxonomy.edition.acronym}</a>.${taxonomy.getName()}
+            <spring:message code="general.edition" />: ${taxonomy.getEdition().getReference()}
+            <spring:message code="general.taxonomy" />: ${taxonomy.getName()}
         </h1>
+        <h4 class="pull-right">
+            <spring:message code="general.public.pages" />
+            - <a
+                href="${contextPath}/edition/internalid/${taxonomy.getEdition().getExternalId()}">
+                ${taxonomy.getEdition().getReference()}</a> :
+            <a
+                href="${contextPath}/edition/taxonomy/${taxonomy.getExternalId()}">${taxonomy.getName()}</a>
+        </h4>
         <br />
         <div class="row">
             <table class="table table-hover">

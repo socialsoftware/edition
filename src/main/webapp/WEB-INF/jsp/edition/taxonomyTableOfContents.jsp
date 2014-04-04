@@ -9,8 +9,8 @@
 
     <div class="container">
         <h3 class="text-center">
-            <spring:message code="general.taxonomy" />
-            : ${taxonomy.getName()}
+            <spring:message code="virtualedition" /> <a href="${contextPath}/edition/internalid/${taxonomy.getEdition().getExternalId()}"> ${taxonomy.getEdition().title}</a>
+            <spring:message code="general.taxonomy" />: ${taxonomy.getName()} (${taxonomy.getSortedFragInter().size()})
         </h3>
 
         <table class="table table-bordered table-condensed">

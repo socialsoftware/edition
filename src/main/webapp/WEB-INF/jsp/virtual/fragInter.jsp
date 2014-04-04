@@ -9,12 +9,17 @@
 
     <div class="container">
         <h1 class="text-center">
-            <a
-                href="${contextPath}/edition//internalid/${fragInter.getEdition().getExternalId()}">
+            <spring:message code="general.edition" />: ${fragInter.getEdition().getReference()}
+            <spring:message code="fragment" />: ${fragInter.getTitle()}
+        </h1>
+        <h4 class="pull-right">
+            <spring:message code="general.public.pages" />
+            - <a
+                href="${contextPath}/edition/internalid/${fragInter.getEdition().getExternalId()}">
                 ${fragInter.getEdition().getReference()}</a> : <a
                 href="${contextPath}/fragments/fragment/inter/${fragInter.getExternalId()}">
                 ${fragInter.getTitle()}</a>
-        </h1>
+        </h4>
         <br />
         <div class="row">
             <table class="table table-hover">
