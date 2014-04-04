@@ -10,7 +10,7 @@
     </h4>
 </c:if>
 
-<table class="table table-bordered table-condensed">
+<table class="table table-hover table-condensed">
     <thead>
         <tr>
             <th><spring:message code="tableofcontents.number" /></th>

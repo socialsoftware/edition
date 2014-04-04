@@ -140,4 +140,19 @@ public abstract class FragInter extends FragInter_Base implements
 		return results;
 	}
 
+	public List<CategoryInFragInter> getSortedCategoryInFragInter(
+			Taxonomy taxonomy) {
+		List<CategoryInFragInter> results = new ArrayList<CategoryInFragInter>();
+
+		for (CategoryInFragInter categoryInFragInter : getCategoryInFragInterSet()) {
+			if (categoryInFragInter.getCategory().getTaxonomy() == taxonomy) {
+				results.add(categoryInFragInter);
+			}
+		}
+
+		Collections.sort(results);
+
+		return results;
+	}
+
 }
