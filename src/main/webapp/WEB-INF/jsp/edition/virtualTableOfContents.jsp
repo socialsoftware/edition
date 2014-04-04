@@ -10,11 +10,12 @@
     </h4>
 </c:if>
 
-<table class="table table-bordered table-condensed">
+<table class="table table-condensed table-hover">
     <thead>
         <tr>
             <th><spring:message code="tableofcontents.number" /></th>
             <th><spring:message code="tableofcontents.title" /></th>
+            <th><spring:message code="general.taxonomy" /></th>
             <th><spring:message code="tableofcontents.usesEditions" /></th>
         </tr>
     <tbody>
@@ -25,6 +26,11 @@
                     <td><c:if test="${inter.number!=0}">${inter.number}</c:if></td>
                     <td><a
                         href="${contextPath}/fragments/fragment/inter/${inter.externalId}">${inter.title}</a></td>
+                    <td>
+                        <c:forEach var="taxonomy" items="${edition.getTaxonomies()}">
+                            <a href="${contextPath}/edition/taxonomy/${taxonomy.getExternalId()}">${taxonomy.getName()}</a>
+                        </c:forEach>
+                    </td>
                     <td><c:forEach var="used"
                             items="${inter.getListUsed()}">-><a
                         href="${contextPath}/fragments/fragment/inter/${used.externalId}">${used.shortName}</a>

@@ -14,7 +14,7 @@
             <spring:message code="general.category" />: ${category.getName()} (${category.getCategoryInFragInterSet().size()})
         </h3>
 
-        <table class="table table-bordered table-condensed">
+        <table class="table table-hover table-condensed">
             <thead>
                 <tr>
                     <th><spring:message

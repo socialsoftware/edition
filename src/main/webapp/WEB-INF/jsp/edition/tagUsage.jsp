@@ -13,7 +13,7 @@
             ${tag.tag} (${tag.getFragInterSet().size()})
         </h3>
 
-        <table class="table table-bordered table-condensed">
+        <table class="table table-hover table-condensed">
             <thead>
                 <tr>
                     <th><spring:message code="general.edition" /></th>

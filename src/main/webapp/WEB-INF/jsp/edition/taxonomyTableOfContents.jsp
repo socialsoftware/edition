@@ -13,7 +13,7 @@
             <spring:message code="general.taxonomy" />: ${taxonomy.getName()} (${taxonomy.getSortedFragInter().size()})
         </h3>
 
-        <table class="table table-bordered table-condensed">
+        <table class="table table-hover table-condensed">
             <thead>
                 <tr>
                     <th><spring:message
@@ -31,7 +31,7 @@
                         <td><a
                             href="${contextPath}/fragments/fragment/inter/${inter.getExternalId()}">${inter.getTitle()}</a></td>
                         <td>
-                            <c:forEach var="categoryInFragInter" items='${inter.getSortedCategoryInFragInter()}'> 
+                            <c:forEach var="categoryInFragInter" items='${inter.getSortedCategoryInFragInter(taxonomy)}'> 
                                 <a href="${contextPath}/edition/category/${categoryInFragInter.getCategory().getExternalId()}">
                                     ${categoryInFragInter.getCategory().getName()}
                                 </a> (${categoryInFragInter.getPercentage()})
