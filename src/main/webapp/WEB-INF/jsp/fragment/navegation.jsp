@@ -69,7 +69,7 @@ $(document).ready(function() {
                                         value="${sourceInter.externalId}" />
                                 </c:otherwise>
                             </c:choose></td>
-                        <td class="pull-left">${sourceInter.shortName}</td>
+                        <td class="pull-left"><a href="${contextPath}/fragments/fragment/inter/${sourceInter.externalId}">${sourceInter.shortName}</a></td>
                     </tr>
                 </c:forEach>
             </table>
@@ -118,7 +118,7 @@ $(document).ready(function() {
                                 <td><a class="btn"
                                     href="${contextPath}/fragments/fragment/inter/prev/number/${expertEditionInter.externalId}"><span
                                         class="glyphicon glyphicon-backward"></span></a></td>
-                                <td>${expertEditionInter.number}</td>
+                                <td><a href="${contextPath}/fragments/fragment/inter/${expertEditionInter.externalId}">${expertEditionInter.number}</a></td>
                                 <td><a class="btn"
                                     href="${contextPath}/fragments/fragment/inter/next/number/${expertEditionInter.externalId}"><span
                                         class="glyphicon glyphicon-forward"></span></a></td>
@@ -174,7 +174,7 @@ $(document).ready(function() {
                                 <td><a class="btn"
                                     href="${contextPath}/fragments/fragment/inter/prev/number/${virtualEditionInter.externalId}"><span
                                         class="glyphicon glyphicon-backward"></span></a></td>
-                                <td>${virtualEditionInter.number}</td>
+                                <td><a href="${contextPath}/fragments/fragment/inter/${virtualEditionInter.externalId}">${virtualEditionInter.number}</a></td>
                                 <td><a class="btn"
                                     href="${contextPath}/fragments/fragment/inter/next/number/${virtualEditionInter.externalId}"><span
                                         class="glyphicon glyphicon-forward"></span></a></td>
@@ -202,7 +202,6 @@ $(document).ready(function() {
                             </tr>
                         </c:if>
                     </table>
-
                 </c:forEach>
             </div>
         </c:if>

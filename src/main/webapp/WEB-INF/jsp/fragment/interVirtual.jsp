@@ -63,7 +63,7 @@ jQuery(function ($) {
     <br />
 
     <%@ include file="/WEB-INF/jsp/fragment/transcription.jsp"%>
-
+<!-- 
     <div class="row">
         <table class="table table-hover">
             <thead>
@@ -83,7 +83,8 @@ jQuery(function ($) {
                         <td><c:forEach var="categoryInFragInter"
                                 items='${taxonomy.getSortedCategoryInFragInter(inters.get(0))}'>
                                 <a
-                                    href="${contextPath}/edition/category/${categoryInFragInter.getCategory().getExternalId()}">${categoryInFragInter.getCategory().getName()}</a>
+                                    href="${contextPath}/edition/category/${categoryInFragInter.getCategory().getExternalId()}">
+                                    ${categoryInFragInter.getCategory().getName()}</a>
                                 (${categoryInFragInter.getPercentage()})</c:forEach>
                         </td>
                     </tr>
