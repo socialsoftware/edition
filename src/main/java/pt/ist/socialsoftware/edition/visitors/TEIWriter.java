@@ -13,6 +13,7 @@ import pt.ist.socialsoftware.edition.domain.DelText.HowDel;
 import pt.ist.socialsoftware.edition.domain.FragInter;
 import pt.ist.socialsoftware.edition.domain.GapText;
 import pt.ist.socialsoftware.edition.domain.LbText;
+import pt.ist.socialsoftware.edition.domain.NoteText;
 import pt.ist.socialsoftware.edition.domain.ParagraphText;
 import pt.ist.socialsoftware.edition.domain.PbText;
 import pt.ist.socialsoftware.edition.domain.RdgGrpText;
@@ -287,5 +288,12 @@ public class TEIWriter implements TextTreeVisitor {
 		if (altText.getParentOfLastText() == null) {
 			altText.getNextText().accept(this);
 		}
+	}
+
+	@Override
+	public void visit(NoteText noteText) {
+		// TODO Auto-generated method stub
+		result = result + "<note/>";
+
 	}
 }

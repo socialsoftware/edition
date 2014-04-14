@@ -32,7 +32,7 @@ public class SourceInter extends SourceInter_Base {
 
 	@Override
 	public String getMetaTextual() {
-		return getSource().getMetaTextual();
+		return getSource().getMetaTextual() + super.getMetaTextual();
 	}
 
 	@Override

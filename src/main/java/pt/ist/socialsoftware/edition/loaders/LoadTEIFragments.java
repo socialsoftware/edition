@@ -47,6 +47,8 @@ import pt.ist.socialsoftware.edition.domain.LbText;
 import pt.ist.socialsoftware.edition.domain.LdoD;
 import pt.ist.socialsoftware.edition.domain.ManuscriptSource;
 import pt.ist.socialsoftware.edition.domain.ManuscriptSource.Medium;
+import pt.ist.socialsoftware.edition.domain.NoteText;
+import pt.ist.socialsoftware.edition.domain.NoteText.NoteType;
 import pt.ist.socialsoftware.edition.domain.ParagraphText;
 import pt.ist.socialsoftware.edition.domain.PbText;
 import pt.ist.socialsoftware.edition.domain.PhysNote;
@@ -341,10 +343,40 @@ public class LoadTEIFragments {
 					loadUnclear(element2, parent);
 				} else if (element2.getName().equals("alt")) {
 					loadAlt(element2, parent);
+				} else if (element2.getName().equals("note")) {
+					loadNote(element2, parent);
 				} else {
 					throw new LdoDLoadException("DOES NOT HANDLE LOAD OF:"
 							+ element2 + " OF TYPE:"
 							+ element2.getCType().toString() + " VALOR="
+							+ element.getText());
+				}
+			}
+		}
+	}
+
+	private void loadNote(Element element, TextPortion parent) {
+		NoteType type = getNoteType(element);
+
+		NoteText noteText = new NoteText(parent, type);
+
+		for (Content content : element.getContent()) {
+			if (content.getCType() == CType.Text) {
+				if (content.getValue().trim() != "") {
+					loadSimpleText((Text) content, noteText);
+				} else {
+					// empty text
+				}
+			} else if (content.getCType() == CType.Comment) {
+				// ignore comments
+			} else if (content.getCType() == CType.Element) {
+				Element element2 = (Element) content;
+				if (element2.getName().equals("ref")) {
+					loadAdd(element2, noteText);
+				} else {
+					throw new LdoDLoadException("não carrega elementos: "
+							+ element2 + " do tipo:" + element2.getName()
+							+ " dentro de note " + " _VALOR="
 							+ element.getText());
 				}
 			}
@@ -473,6 +505,8 @@ public class LoadTEIFragments {
 					loadGap(element2, delText);
 				} else if (element2.getName().equals("unclear")) {
 					loadUnclear(element2, delText);
+				} else if (element2.getName().equals("note")) {
+					loadNote(element2, parent);
 				} else {
 					throw new LdoDLoadException("não carrega elementos: "
 							+ element2 + " do tipo:" + element2.getName()
@@ -516,6 +550,8 @@ public class LoadTEIFragments {
 					loadLb(element2, addText);
 				} else if (element2.getName().equals("seg")) {
 					loadSeg(element2, addText);
+				} else if (element2.getName().equals("note")) {
+					loadNote(element2, parent);
 				} else {
 					throw new LdoDLoadException("não carrega elementos: "
 							+ element2 + " do tipo:" + element2.getName()
@@ -1217,6 +1253,28 @@ public class LoadTEIFragments {
 			}
 		}
 		manuscript.setNotes(stringHandNote);
+	}
+
+	private NoteType getNoteType(Element element) {
+		NoteType type = null;
+
+		String typeValue = null;
+		Attribute typeAttribute = element.getAttribute("type");
+		if (typeAttribute != null) {
+			typeValue = typeAttribute.getValue();
+		}
+
+		switch (typeValue) {
+		case "annex":
+			type = NoteType.ANNEX;
+			break;
+		default:
+			throw new LdoDLoadException(
+					"valor inesperado para atribute type do elemento note="
+							+ typeValue);
+		}
+
+		return type;
 	}
 
 	private Medium getMedium(String mediumValue) {

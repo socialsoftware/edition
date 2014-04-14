@@ -9,6 +9,7 @@ import pt.ist.socialsoftware.edition.domain.AppText;
 import pt.ist.socialsoftware.edition.domain.DelText;
 import pt.ist.socialsoftware.edition.domain.GapText;
 import pt.ist.socialsoftware.edition.domain.LbText;
+import pt.ist.socialsoftware.edition.domain.NoteText;
 import pt.ist.socialsoftware.edition.domain.ParagraphText;
 import pt.ist.socialsoftware.edition.domain.PbText;
 import pt.ist.socialsoftware.edition.domain.RdgGrpText;
@@ -55,4 +56,6 @@ public interface TextTreeVisitor {
 	public void visit(UnclearText unclearText);
 
 	public void visit(AltText altText);
+
+	public void visit(NoteText noteText);
 }

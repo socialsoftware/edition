@@ -14,6 +14,7 @@ enum pt.ist.socialsoftware.edition.domain.GapText.GapUnit as GapUnit;
 enum pt.ist.socialsoftware.edition.domain.GapText.GapReason as GapReason;
 enum pt.ist.socialsoftware.edition.domain.UnclearText.UnclearReason as UnclearReason;
 enum pt.ist.socialsoftware.edition.domain.AltText.AltMode as AltMode;
+enum pt.ist.socialsoftware.edition.domain.NoteText.NoteType as NoteType;
 
 class LdoD {
 	String title;
@@ -184,6 +185,7 @@ relation LdoDHasFragments {
 class FragInter {
 	String xmlId;
 	LocalDate date;
+	int numAnnexNotes;
 }
 
 relation FragmentHasFragInters {
@@ -194,6 +196,15 @@ relation FragmentHasFragInters {
 relation FragInterAttributesHeronym {
 	FragInter playsRole fragInter {multiplicity 0..*;}
 	Heteronym playsRole heteronym {multiplicity 0..1;}
+}
+
+class AnnexNote {
+	int number;
+}
+
+relation FragInterHasAnnexNote {
+	FragInter playsRole fragInter {multiplicity 1..1;}
+	AnnexNote playsRole annexNote {multiplicity 0..*;}
 }
 
 class CategoryInFragInter {
@@ -453,6 +464,15 @@ class GapText extends TextPortion {
 
 class UnclearText extends TextPortion {
 	UnclearReason reason;
+}
+
+class NoteText extends TextPortion {
+	NoteType type;
+}
+
+relation AnnexNoteHasTextNote {
+	AnnexNote playsRole annexNote {multiplicity 0..*;}
+	NoteText playsRole noteText {multiplicity 1..1;}
 }
 
 class Annotation {

@@ -14,6 +14,7 @@ import pt.ist.socialsoftware.edition.domain.DelText;
 import pt.ist.socialsoftware.edition.domain.FragInter;
 import pt.ist.socialsoftware.edition.domain.GapText;
 import pt.ist.socialsoftware.edition.domain.LbText;
+import pt.ist.socialsoftware.edition.domain.NoteText;
 import pt.ist.socialsoftware.edition.domain.ParagraphText;
 import pt.ist.socialsoftware.edition.domain.PbText;
 import pt.ist.socialsoftware.edition.domain.RdgGrpText;
@@ -352,9 +353,12 @@ public class HtmlWriter2CompInters extends FragmentWriter {
 
 	@Override
 	public void visit(AltText altText) {
-		// TODO Auto-generated method stub
-
 		propagate2NextSibling(altText);
+	}
+
+	@Override
+	public void visit(NoteText noteText) {
+		propagate2NextSibling(noteText);
 	}
 
 }
