@@ -14,6 +14,7 @@ import pt.ist.socialsoftware.edition.domain.ParagraphText;
 import pt.ist.socialsoftware.edition.domain.PbText;
 import pt.ist.socialsoftware.edition.domain.RdgGrpText;
 import pt.ist.socialsoftware.edition.domain.RdgText;
+import pt.ist.socialsoftware.edition.domain.RefText;
 import pt.ist.socialsoftware.edition.domain.SegText;
 import pt.ist.socialsoftware.edition.domain.SimpleText;
 import pt.ist.socialsoftware.edition.domain.SpaceText;
@@ -58,4 +59,6 @@ public interface TextTreeVisitor {
 	public void visit(AltText altText);
 
 	public void visit(NoteText noteText);
+
+	public void visit(RefText refText);
 }

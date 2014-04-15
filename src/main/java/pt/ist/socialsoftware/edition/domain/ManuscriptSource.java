@@ -85,6 +85,8 @@ public class ManuscriptSource extends ManuscriptSource_Base {
 			}
 		}
 
+		result = result + "<br>";
+
 		if (getDate() != null) {
 			result = result + "Data: " + getDate().toString("dd-MM-yyyy")
 					+ "<br>";

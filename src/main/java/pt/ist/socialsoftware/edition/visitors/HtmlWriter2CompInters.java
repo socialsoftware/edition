@@ -19,6 +19,7 @@ import pt.ist.socialsoftware.edition.domain.ParagraphText;
 import pt.ist.socialsoftware.edition.domain.PbText;
 import pt.ist.socialsoftware.edition.domain.RdgGrpText;
 import pt.ist.socialsoftware.edition.domain.RdgText;
+import pt.ist.socialsoftware.edition.domain.RefText;
 import pt.ist.socialsoftware.edition.domain.SegText;
 import pt.ist.socialsoftware.edition.domain.SimpleText;
 import pt.ist.socialsoftware.edition.domain.SpaceText;
@@ -359,6 +360,12 @@ public class HtmlWriter2CompInters extends FragmentWriter {
 	@Override
 	public void visit(NoteText noteText) {
 		propagate2NextSibling(noteText);
+	}
+
+	@Override
+	public void visit(RefText refText) {
+		propagate2FirstChild(refText);
+		propagate2NextSibling(refText);
 	}
 
 }

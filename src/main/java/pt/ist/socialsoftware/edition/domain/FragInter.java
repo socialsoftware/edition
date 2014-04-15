@@ -46,6 +46,14 @@ public abstract class FragInter extends FragInter_Base implements
 			removePbText(pb);
 		}
 
+		for (AnnexNote annexNote : getAnnexNoteSet()) {
+			annexNote.remove();
+		}
+
+		for (RefText ref : getRefTextSet()) {
+			ref.setFragInter(null);
+		}
+
 		deleteDomainObject();
 	}
 

@@ -15,6 +15,7 @@ enum pt.ist.socialsoftware.edition.domain.GapText.GapReason as GapReason;
 enum pt.ist.socialsoftware.edition.domain.UnclearText.UnclearReason as UnclearReason;
 enum pt.ist.socialsoftware.edition.domain.AltText.AltMode as AltMode;
 enum pt.ist.socialsoftware.edition.domain.NoteText.NoteType as NoteType;
+enum pt.ist.socialsoftware.edition.domain.RefText.RefType as RefType;
 
 class LdoD {
 	String title;
@@ -315,6 +316,7 @@ relation SourceHasFacsimile {
 }
 
 class Surface {
+	String xmlId;
 	String graphic;
 }
 
@@ -473,6 +475,21 @@ class NoteText extends TextPortion {
 relation AnnexNoteHasTextNote {
 	AnnexNote playsRole annexNote {multiplicity 0..*;}
 	NoteText playsRole noteText {multiplicity 1..1;}
+}
+
+class RefText extends TextPortion {
+	String target;
+	RefType type;
+}
+
+relation RefText2Surface {
+	Surface playsRole surface {multiplicity 0..1;}
+	RefText playsRole refText {multiplicity 0..*;}
+}
+
+relation RefText2FragInter {
+	FragInter playsRole fragInter {multiplicity 0..1;}
+	RefText playsRole refText {multiplicity 0..*;}
 }
 
 class Annotation {

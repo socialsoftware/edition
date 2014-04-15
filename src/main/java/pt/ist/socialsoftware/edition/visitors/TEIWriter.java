@@ -18,6 +18,7 @@ import pt.ist.socialsoftware.edition.domain.ParagraphText;
 import pt.ist.socialsoftware.edition.domain.PbText;
 import pt.ist.socialsoftware.edition.domain.RdgGrpText;
 import pt.ist.socialsoftware.edition.domain.RdgText;
+import pt.ist.socialsoftware.edition.domain.RefText;
 import pt.ist.socialsoftware.edition.domain.Rend;
 import pt.ist.socialsoftware.edition.domain.SegText;
 import pt.ist.socialsoftware.edition.domain.SimpleText;
@@ -292,8 +293,36 @@ public class TEIWriter implements TextTreeVisitor {
 
 	@Override
 	public void visit(NoteText noteText) {
-		// TODO Auto-generated method stub
-		result = result + "<note/>";
+		result = result + "<note type=\"" + noteText.getType().getDesc()
+				+ "\">";
 
+		TextPortion firstChild = noteText.getFirstChildText();
+		if (firstChild != null) {
+			firstChild.accept(this);
+		}
+
+		result = result + "</note>";
+
+		if (noteText.getParentOfLastText() == null) {
+			noteText.getNextText().accept(this);
+		}
 	}
+
+	@Override
+	public void visit(RefText refText) {
+		result = result + "<note type=\"" + refText.getType().getDesc() + "\" "
+				+ "target=\"#" + refText.getTarget() + "\">";
+
+		TextPortion firstChild = refText.getFirstChildText();
+		if (firstChild != null) {
+			firstChild.accept(this);
+		}
+
+		result = result + "</ref>";
+
+		if (refText.getParentOfLastText() == null) {
+			refText.getNextText().accept(this);
+		}
+	}
+
 }

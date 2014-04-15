@@ -1,5 +1,6 @@
 package pt.ist.socialsoftware.edition.domain;
 
+import pt.ist.socialsoftware.edition.domain.RefText.RefType;
 import pt.ist.socialsoftware.edition.visitors.TextTreeVisitor;
 
 public class NoteText extends NoteText_Base {
@@ -30,6 +31,12 @@ public class NoteText extends NoteText_Base {
 		}
 	}
 
+	public NoteText(AnnexNote annexNote, NoteType type) {
+		setParentText(null);
+		setType(type);
+		addAnnexNote(annexNote);
+	}
+
 	@Override
 	public void remove() {
 		for (AnnexNote annexNote : getAnnexNoteSet()) {
@@ -53,7 +60,19 @@ public class NoteText extends NoteText_Base {
 		while (text != null) {
 			if (text instanceof SimpleText) {
 				SimpleText stext = (SimpleText) text;
-				result = result + stext.getValue();
+				result = result + stext.getValue() + " ";
+			} else if (text instanceof RefText) {
+				RefText refText = (RefText) text;
+				String link = "#";
+				if (refText.getType() == RefType.GRAPHIC) {
+					link = "/facs/" + refText.getSurface().getGraphic();
+				} else if (refText.getType() == RefType.WITNESS) {
+					link = "/fragments/fragment/inter/"
+							+ refText.getFragInter().getExternalId();
+				}
+				result = result + "<a href=\"" + link + "\">";
+				SimpleText childText = (SimpleText) text.getFirstChildText();
+				result = result + childText.getValue() + "</a> ";
 			}
 
 			text = text.getNextText();
@@ -62,5 +81,4 @@ public class NoteText extends NoteText_Base {
 
 		return result;
 	}
-
 }

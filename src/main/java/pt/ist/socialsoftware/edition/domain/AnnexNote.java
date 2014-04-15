@@ -9,7 +9,14 @@ public class AnnexNote extends AnnexNote_Base implements Comparable<AnnexNote> {
 		int number = getFragInter().getNumAnnexNotes() + 1;
 		setNumber(number);
 		getFragInter().setNumAnnexNotes(number);
+	}
 
+	public AnnexNote(FragInter inter) {
+		setFragInter(inter);
+
+		int number = getFragInter().getNumAnnexNotes() + 1;
+		setNumber(number);
+		getFragInter().setNumAnnexNotes(number);
 	}
 
 	public void remove() {

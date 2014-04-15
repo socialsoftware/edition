@@ -18,6 +18,7 @@ import pt.ist.socialsoftware.edition.domain.ParagraphText;
 import pt.ist.socialsoftware.edition.domain.PbText;
 import pt.ist.socialsoftware.edition.domain.RdgGrpText;
 import pt.ist.socialsoftware.edition.domain.RdgText;
+import pt.ist.socialsoftware.edition.domain.RefText;
 import pt.ist.socialsoftware.edition.domain.Rend;
 import pt.ist.socialsoftware.edition.domain.Rend.Rendition;
 import pt.ist.socialsoftware.edition.domain.SegText;
@@ -426,6 +427,12 @@ public class HtmlWriter4OneInter extends FragmentWriter {
 
 		propagate2NextSibling(noteText);
 
+	}
+
+	@Override
+	public void visit(RefText refText) {
+		propagate2FirstChild(refText);
+		propagate2NextSibling(refText);
 	}
 
 	private String generatePreRendition(List<Rend> renditions) {

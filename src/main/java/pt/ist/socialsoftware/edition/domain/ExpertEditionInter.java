@@ -8,7 +8,8 @@ import pt.ist.socialsoftware.edition.domain.Edition.EditionType;
 public class ExpertEditionInter extends ExpertEditionInter_Base {
 
 	public ExpertEditionInter() {
-		super();
+		setNotes("");
+		setVolume("");
 	}
 
 	@Override
