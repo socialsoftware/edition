@@ -46,6 +46,14 @@ public abstract class FragInter extends FragInter_Base implements
 			removePbText(pb);
 		}
 
+		for (AnnexNote annexNote : getAnnexNoteSet()) {
+			annexNote.remove();
+		}
+
+		for (RefText ref : getRefTextSet()) {
+			ref.setFragInter(null);
+		}
+
 		deleteDomainObject();
 	}
 
@@ -90,7 +98,14 @@ public abstract class FragInter extends FragInter_Base implements
 		return 0;
 	}
 
-	public abstract String getMetaTextual();
+	public String getMetaTextual() {
+		String result = "";
+		for (AnnexNote note : getSortedAnnexNote()) {
+			result = result + "(" + note.getNumber() + ") "
+					+ note.getNoteText().generatePresentationText() + "<br>";
+		}
+		return result;
+	}
 
 	public abstract boolean belongs2Edition(Edition edition);
 
@@ -149,6 +164,14 @@ public abstract class FragInter extends FragInter_Base implements
 				results.add(categoryInFragInter);
 			}
 		}
+
+		Collections.sort(results);
+
+		return results;
+	}
+
+	public List<AnnexNote> getSortedAnnexNote() {
+		List<AnnexNote> results = new ArrayList<AnnexNote>(getAnnexNoteSet());
 
 		Collections.sort(results);
 

@@ -7,10 +7,12 @@ import pt.ist.socialsoftware.edition.domain.DelText;
 import pt.ist.socialsoftware.edition.domain.FragInter;
 import pt.ist.socialsoftware.edition.domain.GapText;
 import pt.ist.socialsoftware.edition.domain.LbText;
+import pt.ist.socialsoftware.edition.domain.NoteText;
 import pt.ist.socialsoftware.edition.domain.ParagraphText;
 import pt.ist.socialsoftware.edition.domain.PbText;
 import pt.ist.socialsoftware.edition.domain.RdgGrpText;
 import pt.ist.socialsoftware.edition.domain.RdgText;
+import pt.ist.socialsoftware.edition.domain.RefText;
 import pt.ist.socialsoftware.edition.domain.SegText;
 import pt.ist.socialsoftware.edition.domain.SimpleText;
 import pt.ist.socialsoftware.edition.domain.SpaceText;
@@ -141,6 +143,18 @@ public class TextFragmentWriter extends FragmentWriter {
 	public void visit(UnclearText unclearText) {
 		propagate2FirstChild(unclearText);
 		propagate2NextSibling(unclearText);
+	}
+
+	@Override
+	public void visit(NoteText noteText) {
+		propagate2FirstChild(noteText);
+		propagate2NextSibling(noteText);
+	}
+
+	@Override
+	public void visit(RefText refText) {
+		propagate2FirstChild(refText);
+		propagate2NextSibling(refText);
 	}
 
 }

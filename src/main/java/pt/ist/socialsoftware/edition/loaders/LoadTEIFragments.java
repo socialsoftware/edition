@@ -29,6 +29,7 @@ import pt.ist.socialsoftware.edition.domain.AddText;
 import pt.ist.socialsoftware.edition.domain.AddText.Place;
 import pt.ist.socialsoftware.edition.domain.AltText;
 import pt.ist.socialsoftware.edition.domain.AltText.AltMode;
+import pt.ist.socialsoftware.edition.domain.AnnexNote;
 import pt.ist.socialsoftware.edition.domain.AppText;
 import pt.ist.socialsoftware.edition.domain.Category;
 import pt.ist.socialsoftware.edition.domain.DelText;
@@ -47,12 +48,16 @@ import pt.ist.socialsoftware.edition.domain.LbText;
 import pt.ist.socialsoftware.edition.domain.LdoD;
 import pt.ist.socialsoftware.edition.domain.ManuscriptSource;
 import pt.ist.socialsoftware.edition.domain.ManuscriptSource.Medium;
+import pt.ist.socialsoftware.edition.domain.NoteText;
+import pt.ist.socialsoftware.edition.domain.NoteText.NoteType;
 import pt.ist.socialsoftware.edition.domain.ParagraphText;
 import pt.ist.socialsoftware.edition.domain.PbText;
 import pt.ist.socialsoftware.edition.domain.PhysNote;
 import pt.ist.socialsoftware.edition.domain.PrintedSource;
 import pt.ist.socialsoftware.edition.domain.RdgGrpText;
 import pt.ist.socialsoftware.edition.domain.RdgText;
+import pt.ist.socialsoftware.edition.domain.RefText;
+import pt.ist.socialsoftware.edition.domain.RefText.RefType;
 import pt.ist.socialsoftware.edition.domain.Rend;
 import pt.ist.socialsoftware.edition.domain.Rend.Rendition;
 import pt.ist.socialsoftware.edition.domain.SegText;
@@ -341,10 +346,82 @@ public class LoadTEIFragments {
 					loadUnclear(element2, parent);
 				} else if (element2.getName().equals("alt")) {
 					loadAlt(element2, parent);
+				} else if (element2.getName().equals("note")) {
+					loadNote(element2, parent);
+				} else if (element2.getName().equals("ref")) {
+					loadRef(element2, parent);
 				} else {
 					throw new LdoDLoadException("DOES NOT HANDLE LOAD OF:"
 							+ element2 + " OF TYPE:"
 							+ element2.getCType().toString() + " VALOR="
+							+ element.getText());
+				}
+			}
+		}
+	}
+
+	private void loadRef(Element element, TextPortion parent) {
+		RefType type = getRefType(element);
+		String target = getRefTarget(element);
+
+		RefText refText = new RefText(parent, type, target);
+
+		switch (type) {
+		case GRAPHIC:
+			// considering that it only refers to surfaces in the same fragment
+			Surface surface = parent.getTopParent().getFragment()
+					.getSurface(target);
+			if (surface != null) {
+				refText.setSurface(surface);
+			} else {
+				throw new LdoDLoadException(
+						"o valor "
+								+ target
+								+ " do atributo xml:id do elemento ref não corresponde ao id the nenhum elemento graphic");
+			}
+			break;
+		case WITNESS:
+			// considers that it only refers to interpretations in the same
+			// fragment
+			FragInter inter = parent.getFragment().getFragInter(target);
+			if (inter != null) {
+				refText.setFragInter(inter);
+			} else {
+				throw new LdoDLoadException(
+						"o valor "
+								+ target
+								+ " do atributo xml:id do elemento ref não corresponde ao id the nenhum elemento witness");
+			}
+			break;
+		}
+
+		List<Content> contentList = element.getContent();
+
+		loadSimpleText((Text) contentList.get(0), refText);
+	}
+
+	private void loadNote(Element element, TextPortion parent) {
+		NoteType type = getNoteType(element);
+
+		NoteText noteText = new NoteText(parent, type);
+
+		for (Content content : element.getContent()) {
+			if (content.getCType() == CType.Text) {
+				if (content.getValue().trim() != "") {
+					loadSimpleText((Text) content, noteText);
+				} else {
+					// empty text
+				}
+			} else if (content.getCType() == CType.Comment) {
+				// ignore comments
+			} else if (content.getCType() == CType.Element) {
+				Element element2 = (Element) content;
+				if (element2.getName().equals("ref")) {
+					loadRef(element2, noteText);
+				} else {
+					throw new LdoDLoadException("não carrega elementos: "
+							+ element2 + " do tipo:" + element2.getName()
+							+ " dentro de note " + " _VALOR="
 							+ element.getText());
 				}
 			}
@@ -473,6 +550,8 @@ public class LoadTEIFragments {
 					loadGap(element2, delText);
 				} else if (element2.getName().equals("unclear")) {
 					loadUnclear(element2, delText);
+				} else if (element2.getName().equals("note")) {
+					loadNote(element2, parent);
 				} else {
 					throw new LdoDLoadException("não carrega elementos: "
 							+ element2 + " do tipo:" + element2.getName()
@@ -516,6 +595,8 @@ public class LoadTEIFragments {
 					loadLb(element2, addText);
 				} else if (element2.getName().equals("seg")) {
 					loadSeg(element2, addText);
+				} else if (element2.getName().equals("note")) {
+					loadNote(element2, parent);
 				} else {
 					throw new LdoDLoadException("não carrega elementos: "
 							+ element2 + " do tipo:" + element2.getName()
@@ -781,13 +862,27 @@ public class LoadTEIFragments {
 			}
 
 			String graphic = graphElement.getAttributeValue("url");
+			Attribute xmlIdAttribute = graphElement.getAttribute("id",
+					graphElement.getNamespace("xml"));
+			if (xmlIdAttribute != null) {
+				String xmlId = xmlIdAttribute.getValue();
+				Surface surface = new Surface(facsimile, graphic, xmlId);
 
-			new Surface(facsimile, graphic);
+				// when loading ref in annex notes in witnesses the surface was
+				// not created yet
+				for (Object refText : getObjectInverseIdMap(xmlId)) {
+					((RefText) refText).setSurface(surface);
+				}
+			} else {
+				new Surface(facsimile, graphic);
+			}
 		}
 
 	}
 
 	// TODO: a cleaner way to read parent's xmlID
+	// TODO: its is necessary to refactor this part of the domain, define what
+	// is common in FragInter
 	private void loadWitnesses(Fragment fragment, String fragmentTEIID) {
 		String selectThisFragment = "[@xml:id='" + fragmentTEIID + "']";
 		String queryExpression = "//def:TEI"
@@ -853,23 +948,35 @@ public class LoadTEIFragments {
 				fragInter = new SourceInter();
 				fragInter.setFragment(fragment);
 				((SourceInter) fragInter).setSource((PrintedSource) object);
-			} else if (object instanceof ExpertEdition) {
+			} else {
+				// (object instanceof ExpertEdition)
+
 				fragInter = new ExpertEditionInter();
 				fragInter.setFragment(fragment);
 				((ExpertEditionInter) fragInter)
 						.setExpertEdition((ExpertEdition) object);
+			}
 
-				Element bibl = witness.getChild("bibl", namespace);
+			// when loading ref in annex notes in witnesses the witness may
+			// not be created yet
+			for (Object refText : getObjectInverseIdMap(witnessXmlID)) {
+				((RefText) refText).setFragInter(fragInter);
+			}
 
+			Element bibl = witness.getChild("bibl", namespace);
+			if (bibl != null) {
 				Heteronym heteronym = getHeteronym(bibl);
 				if (heteronym != null)
 					fragInter.setHeteronym(heteronym);
 
-				((ExpertEditionInter) fragInter).setTitle(bibl
-						.getChildTextTrim("title", namespace));
+				Element titleElement = bibl.getChild("title", namespace);
+				if ((titleElement != null)
+						&& (fragInter instanceof ExpertEditionInter)) {
+					((ExpertEditionInter) fragInter).setTitle(titleElement
+							.getTextTrim());
+				}
 
 				Element dateElement = bibl.getChild("date", namespace);
-
 				if (dateElement != null) {
 					Attribute whenAttribute = dateElement.getAttribute("when");
 					if (whenAttribute == null) {
@@ -880,15 +987,11 @@ public class LoadTEIFragments {
 					}
 				}
 
-				loadFragmentNumberInWitness(fragInter, bibl);
+				setBiblScopes(fragInter, bibl);
 
-				((ExpertEditionInter) fragInter).setVolume(getBiblScope(bibl,
-						"vol"));
-
-				loadFragmentsPagesInWitness(fragInter, bibl);
-
-				((ExpertEditionInter) fragInter).setNotes(getBiblNotes(bibl));
+				setNotes(fragInter, bibl);
 			}
+
 			fragInter.setXmlId(witnessXmlID);
 
 			putObjectDirectIdMap(witnessXmlID, fragInter);
@@ -898,48 +1001,84 @@ public class LoadTEIFragments {
 
 	}
 
-	private void loadFragmentsPagesInWitness(FragInter fragInter, Element bibl) {
-		String pp = getBiblScope(bibl, "pp");
-		if (pp != "") {
-			((ExpertEditionInter) fragInter).setStartPage(Integer.parseInt(pp));
-			((ExpertEditionInter) fragInter).setEndPage(Integer.parseInt(pp));
-		} else {
-			for (Element biblScope : bibl.getChildren("biblScope", namespace)) {
-				Attribute unitAtt = biblScope.getAttribute("unit");
-				if (unitAtt.getValue().equals("pp")) {
-					String from = biblScope.getAttributeValue("from");
-					String to = biblScope.getAttributeValue("to");
+	private void setNotes(FragInter fragInter, Element bibl) {
+		String notes = "";
+		List<Element> notesList = bibl.getChildren("note", namespace);
+		for (Element noteElement : notesList) {
+			String typeValue = noteElement.getAttributeValue("type");
+			if (typeValue.equals("physDesc")) {
+				notes = notes + noteElement.getTextTrim() + ";";
+			} else if (typeValue.equals("annex")) {
+				AnnexNote annexNote = new AnnexNote(fragInter);
 
-					((ExpertEditionInter) fragInter).setStartPage(Integer
-							.parseInt(from));
-					((ExpertEditionInter) fragInter).setEndPage(Integer
-							.parseInt(to));
+				NoteType type = NoteType.ANNEX;
+				NoteText noteText = new NoteText(annexNote, type);
+
+				annexNote.setNoteText(noteText);
+
+				for (Content content : noteElement.getContent()) {
+					if (content.getCType() == CType.Text) {
+						if (content.getValue().trim() != "") {
+							loadSimpleText((Text) content, noteText);
+						} else {
+							// empty text
+						}
+					} else if (content.getCType() == CType.Comment) {
+						// ignore comments
+					} else if (content.getCType() == CType.Element) {
+						Element element2 = (Element) content;
+						if (element2.getName().equals("ref")) {
+							RefType refType = getRefType(element2);
+							String target = getRefTarget(element2);
+
+							RefText refText = new RefText(noteText, refType,
+									target);
+
+							if (refType == RefType.GRAPHIC) {
+								Surface surface = fragInter.getFragment()
+										.getSurface(target);
+								if (surface != null) {
+									refText.setSurface(surface);
+								} else {
+									putObjectInverseIdMap(target, refText);
+								}
+							} else if (refType == RefType.WITNESS) {
+								FragInter inter = fragInter.getFragment()
+										.getFragInter(target);
+								if (inter != null) {
+									refText.setFragInter(inter);
+								} else {
+									putObjectInverseIdMap(target, refText);
+								}
+							}
+
+							fragInter.getFragment().getFragInter(target);
+
+							List<Content> contentList = element2.getContent();
+
+							loadSimpleText((Text) contentList.get(0), refText);
+						} else {
+							throw new LdoDLoadException(
+									"não carrega elementos: " + element2
+											+ " do tipo:" + element2.getName()
+											+ " dentro de note " + " _VALOR="
+											+ noteElement.getText());
+						}
+					}
 				}
+
+			} else {
+				throw new LdoDLoadException(
+						"atributo type de elemento note com valor=" + typeValue);
+			}
+
+			if (fragInter instanceof ExpertEditionInter) {
+				((ExpertEditionInter) fragInter).setNotes(notes);
 			}
 		}
 	}
 
-	private void loadFragmentNumberInWitness(FragInter fragInter, Element bibl) {
-		String ppString = getBiblScope(bibl, "number");
-		if (ppString != "") {
-			((ExpertEditionInter) fragInter).setNumber(Integer
-					.parseInt(ppString));
-		} else {
-			((ExpertEditionInter) fragInter).setNumber(0);
-		}
-	}
-
-	private String getBiblNotes(Element bibl) {
-		String notes = "";
-		List<Element> notesList = bibl.getChildren("note", namespace);
-		for (Element noteElement : notesList) {
-			notes = notes + noteElement.getTextTrim() + ";";
-		}
-		return notes;
-	}
-
-	private String getBiblScope(Element bibl, String unit) {
-		String scope = "";
+	private void setBiblScopes(FragInter fragInter, Element bibl) {
 		for (Element biblScope : bibl.getChildren("biblScope", namespace)) {
 			Attribute unitAtt = biblScope.getAttribute("unit");
 			if (unitAtt == null) {
@@ -947,12 +1086,42 @@ public class LoadTEIFragments {
 						"elemento biblScope sem atributo unit" + " título="
 								+ bibl.getChildren("title", namespace));
 			}
-			if (unitAtt.getValue().equals(unit)) {
-				scope = biblScope.getTextTrim();
-				return scope;
+			String value = biblScope.getTextTrim();
+			switch (unitAtt.getValue()) {
+			case "pp":
+				if (fragInter instanceof ExpertEditionInter) {
+					if (value != "") {
+						((ExpertEditionInter) fragInter).setStartPage(Integer
+								.parseInt(value));
+						((ExpertEditionInter) fragInter).setEndPage(Integer
+								.parseInt(value));
+					} else {
+						String from = biblScope.getAttributeValue("from");
+						String to = biblScope.getAttributeValue("to");
+
+						((ExpertEditionInter) fragInter).setStartPage(Integer
+								.parseInt(from));
+						((ExpertEditionInter) fragInter).setEndPage(Integer
+								.parseInt(to));
+					}
+				}
+				break;
+			case "vol":
+				if (value == null) {
+					value = "";
+				}
+				((ExpertEditionInter) fragInter).setVolume(value);
+				break;
+			case "number":
+				if (value != "") {
+					((ExpertEditionInter) fragInter).setNumber(Integer
+							.parseInt(value));
+				} else {
+					((ExpertEditionInter) fragInter).setNumber(0);
+				}
+				break;
 			}
 		}
-		return scope;
 	}
 
 	private Heteronym getHeteronym(Element bibl) {
@@ -1217,6 +1386,72 @@ public class LoadTEIFragments {
 			}
 		}
 		manuscript.setNotes(stringHandNote);
+	}
+
+	private String getRefTarget(Element element) {
+		String target = null;
+		Attribute targetAttribute = element.getAttribute("target");
+		if (targetAttribute != null) {
+			target = targetAttribute.getValue();
+		} else {
+			throw new LdoDLoadException(
+					"É necessário o atributo target para o elemento ref");
+		}
+
+		if ((target != null) && (target != "")) {
+			return target.substring(1);
+		} else {
+			throw new LdoDLoadException(
+					"Falta o valor do atributo target para o elemento ref");
+		}
+
+	}
+
+	private RefType getRefType(Element element) {
+		RefType type = null;
+
+		String typeValue = null;
+		Attribute typeAttribute = element.getAttribute("type");
+		if (typeAttribute != null) {
+			typeValue = typeAttribute.getValue();
+		}
+
+		switch (typeValue) {
+		case "graphic":
+			type = RefType.GRAPHIC;
+			break;
+		case "witness":
+			type = RefType.WITNESS;
+			break;
+		default:
+			throw new LdoDLoadException(
+					"valor inesperado para atribute type do elemento ref="
+							+ typeValue);
+		}
+
+		return type;
+	}
+
+	private NoteType getNoteType(Element element) {
+		NoteType type = null;
+
+		String typeValue = null;
+		Attribute typeAttribute = element.getAttribute("type");
+		if (typeAttribute != null) {
+			typeValue = typeAttribute.getValue();
+		}
+
+		switch (typeValue) {
+		case "annex":
+			type = NoteType.ANNEX;
+			break;
+		default:
+			throw new LdoDLoadException(
+					"valor inesperado para atribute type do elemento note="
+							+ typeValue);
+		}
+
+		return type;
 	}
 
 	private Medium getMedium(String mediumValue) {

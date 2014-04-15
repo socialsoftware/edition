@@ -78,4 +78,26 @@ public class Fragment extends Fragment_Base {
 		return number;
 	}
 
+	public Surface getSurface(String xmlId) {
+		for (Source source : getSourcesSet()) {
+			if (source.getFacsimile() != null) {
+				for (Surface surface : source.getFacsimile().getSurfaces()) {
+					if (xmlId.equals(surface.getXmlId())) {
+						return surface;
+					}
+				}
+			}
+		}
+		return null;
+	}
+
+	public FragInter getFragInter(String xmlId) {
+		for (FragInter inter : getFragmentInterSet()) {
+			if (xmlId.equals(inter.getXmlId())) {
+				return inter;
+			}
+		}
+		return null;
+	}
+
 }

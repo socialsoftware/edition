@@ -7,15 +7,18 @@ import java.util.Map;
 
 import pt.ist.socialsoftware.edition.domain.AddText;
 import pt.ist.socialsoftware.edition.domain.AltText;
+import pt.ist.socialsoftware.edition.domain.AnnexNote;
 import pt.ist.socialsoftware.edition.domain.AppText;
 import pt.ist.socialsoftware.edition.domain.DelText;
 import pt.ist.socialsoftware.edition.domain.FragInter;
 import pt.ist.socialsoftware.edition.domain.GapText;
 import pt.ist.socialsoftware.edition.domain.LbText;
+import pt.ist.socialsoftware.edition.domain.NoteText;
 import pt.ist.socialsoftware.edition.domain.ParagraphText;
 import pt.ist.socialsoftware.edition.domain.PbText;
 import pt.ist.socialsoftware.edition.domain.RdgGrpText;
 import pt.ist.socialsoftware.edition.domain.RdgText;
+import pt.ist.socialsoftware.edition.domain.RefText;
 import pt.ist.socialsoftware.edition.domain.Rend;
 import pt.ist.socialsoftware.edition.domain.Rend.Rendition;
 import pt.ist.socialsoftware.edition.domain.SegText;
@@ -405,6 +408,31 @@ public class HtmlWriter4OneInter extends FragmentWriter {
 		append2Transcription("</abbr>" + "</span>");
 
 		propagate2NextSibling(unclearText);
+	}
+
+	@Override
+	public void visit(NoteText noteText) {
+		append2Transcription("<abbr title=\"");
+
+		propagate2FirstChild(noteText);
+
+		int number = 0;
+		for (AnnexNote annexNote : noteText.getAnnexNoteSet()) {
+			if (annexNote.getFragInter() == fragInter) {
+				number = annexNote.getNumber();
+			}
+		}
+
+		append2Transcription("\">(" + number + ")</abbr>");
+
+		propagate2NextSibling(noteText);
+
+	}
+
+	@Override
+	public void visit(RefText refText) {
+		propagate2FirstChild(refText);
+		propagate2NextSibling(refText);
 	}
 
 	private String generatePreRendition(List<Rend> renditions) {

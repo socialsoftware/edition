@@ -26,8 +26,6 @@ public class PrintedSource extends PrintedSource_Base {
 					+ "<br>";
 		}
 
-		result = result + "Facsimiles: ";
-
 		Facsimile facs = getFacsimile();
 		if (facs != null) {
 			result = result + "Facsimiles: ";
@@ -38,6 +36,9 @@ public class PrintedSource extends PrintedSource_Base {
 						+ surf.getGraphic() + "</a> ";
 			}
 		}
+
+		result = result + "<br>";
+
 		return result;
 	}
 

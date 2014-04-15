@@ -13,10 +13,12 @@ import pt.ist.socialsoftware.edition.domain.DelText.HowDel;
 import pt.ist.socialsoftware.edition.domain.FragInter;
 import pt.ist.socialsoftware.edition.domain.GapText;
 import pt.ist.socialsoftware.edition.domain.LbText;
+import pt.ist.socialsoftware.edition.domain.NoteText;
 import pt.ist.socialsoftware.edition.domain.ParagraphText;
 import pt.ist.socialsoftware.edition.domain.PbText;
 import pt.ist.socialsoftware.edition.domain.RdgGrpText;
 import pt.ist.socialsoftware.edition.domain.RdgText;
+import pt.ist.socialsoftware.edition.domain.RefText;
 import pt.ist.socialsoftware.edition.domain.Rend;
 import pt.ist.socialsoftware.edition.domain.SegText;
 import pt.ist.socialsoftware.edition.domain.SimpleText;
@@ -288,4 +290,39 @@ public class TEIWriter implements TextTreeVisitor {
 			altText.getNextText().accept(this);
 		}
 	}
+
+	@Override
+	public void visit(NoteText noteText) {
+		result = result + "<note type=\"" + noteText.getType().getDesc()
+				+ "\">";
+
+		TextPortion firstChild = noteText.getFirstChildText();
+		if (firstChild != null) {
+			firstChild.accept(this);
+		}
+
+		result = result + "</note>";
+
+		if (noteText.getParentOfLastText() == null) {
+			noteText.getNextText().accept(this);
+		}
+	}
+
+	@Override
+	public void visit(RefText refText) {
+		result = result + "<note type=\"" + refText.getType().getDesc() + "\" "
+				+ "target=\"#" + refText.getTarget() + "\">";
+
+		TextPortion firstChild = refText.getFirstChildText();
+		if (firstChild != null) {
+			firstChild.accept(this);
+		}
+
+		result = result + "</ref>";
+
+		if (refText.getParentOfLastText() == null) {
+			refText.getNextText().accept(this);
+		}
+	}
+
 }
