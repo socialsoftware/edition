@@ -13,7 +13,6 @@ import pt.ist.socialsoftware.edition.domain.ExpertEdition;
 import pt.ist.socialsoftware.edition.domain.Heteronym;
 import pt.ist.socialsoftware.edition.domain.LdoD;
 import pt.ist.socialsoftware.edition.domain.LdoDUser;
-import pt.ist.socialsoftware.edition.domain.Tag;
 import pt.ist.socialsoftware.edition.domain.Taxonomy;
 
 @Controller
@@ -82,19 +81,6 @@ public class EditionController {
 		if (user != null) {
 			model.addAttribute("user", user);
 			return "edition/userContributions";
-		} else {
-			return "utils/pageNotFound";
-		}
-	}
-
-	@RequestMapping(method = RequestMethod.GET, value = "/tag/{tagname}")
-	public String getTagUsage(Model model, @PathVariable String tagname) {
-
-		Tag tag = LdoD.getInstance().getTag(tagname);
-
-		if (tag != null) {
-			model.addAttribute("tag", tag);
-			return "edition/tagUsage";
 		} else {
 			return "utils/pageNotFound";
 		}

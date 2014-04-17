@@ -2,9 +2,7 @@ package pt.ist.socialsoftware.edition.domain;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
@@ -14,16 +12,12 @@ import pt.ist.socialsoftware.edition.utils.RangeJson;
 public abstract class FragInter extends FragInter_Base implements
 		Comparable<FragInter> {
 
-	public FragInter() {
-		super();
-	}
-
 	public void remove() {
 		setFragment(null);
 		setHeteronym(null);
 
-		for (CategoryInFragInter categoryInFragInter : getCategoryInFragInterSet()) {
-			categoryInFragInter.remove();
+		for (Tag tag : getTagSet()) {
+			tag.remove();
 		}
 
 		for (Annotation annotation : getAnnotationSet()) {
@@ -111,19 +105,16 @@ public abstract class FragInter extends FragInter_Base implements
 
 	public abstract FragInter getLastUsed();
 
-	public Set<Tag> getTagSet() {
-		Set<Tag> tags = new HashSet<Tag>();
-		for (Annotation annotation : getAnnotationSet()) {
-			tags.addAll(annotation.getTagSet());
-		}
-		return tags;
-	}
-
 	public abstract String getReference();
 
 	@Atomic(mode = TxMode.WRITE)
 	public Annotation createAnnotation(String quote, String text,
 			LdoDUser user, List<RangeJson> rangeList, List<String> tagList) {
+
+		Taxonomy taxonomy = getEdition().getTaxonomy("adHoc");
+		if (taxonomy == null) {
+			taxonomy = new Taxonomy(LdoD.getInstance(), getEdition(), "adHoc");
+		}
 
 		SimpleText startText = getFragment().getTextPortion().getSimpleText(
 				getLastUsed(), 0, rangeList.get(0).getStartOffset());
@@ -140,34 +131,23 @@ public abstract class FragInter extends FragInter_Base implements
 		}
 
 		for (String tag : tagList) {
-			Tag.create(annotation, tag);
-		}
+			Category category = taxonomy.getCategory(tag);
+			if (category == null) {
+				category = new Category(taxonomy, tag);
+				new TagInTextPortion(category, annotation);
 
-		return annotation;
-	}
-
-	public List<CategoryInFragInter> getSortedCategoryInFragInter() {
-		List<CategoryInFragInter> results = new ArrayList<CategoryInFragInter>(
-				getCategoryInFragInterSet());
-
-		Collections.sort(results);
-
-		return results;
-	}
-
-	public List<CategoryInFragInter> getSortedCategoryInFragInter(
-			Taxonomy taxonomy) {
-		List<CategoryInFragInter> results = new ArrayList<CategoryInFragInter>();
-
-		for (CategoryInFragInter categoryInFragInter : getCategoryInFragInterSet()) {
-			if (categoryInFragInter.getCategory().getTaxonomy() == taxonomy) {
-				results.add(categoryInFragInter);
+			} else {
+				TagInTextPortion tagInTextPortion = (TagInTextPortion) category
+						.getTag(this);
+				if (tagInTextPortion == null) {
+					new TagInTextPortion(category, annotation);
+				} else {
+					tagInTextPortion.addAnnotation(annotation);
+				}
 			}
 		}
 
-		Collections.sort(results);
-
-		return results;
+		return annotation;
 	}
 
 	public List<AnnexNote> getSortedAnnexNote() {

@@ -500,7 +500,7 @@ public class VirtualEditionController {
 			try {
 				category.setName(name);
 			} catch (LdoDDuplicateNameException ex) {
-				// TODO: userfriendly handle of this exception
+				// TODO: userfriendly handling of this exception
 				System.out.println("Já existe uma category com este nome");
 				throw new LdoDException("Já existe uma category com este nome");
 

@@ -1,40 +1,27 @@
 package pt.ist.socialsoftware.edition.domain;
 
-import java.util.HashSet;
 import java.util.Set;
 
-public class Tag extends Tag_Base {
-
-	public Tag(Annotation annotation, String tag) {
-		addAnnotation(annotation);
-		setTag(tag);
-	}
+public abstract class Tag extends Tag_Base implements Comparable<Tag> {
 
 	public void remove() {
-		for (Annotation annotation : getAnnotationSet()) {
-			removeAnnotation(annotation);
-		}
+		setFragInter(null);
+		setCategory(null);
 
 		deleteDomainObject();
 	}
 
-	public static void create(Annotation annotation, String tagName) {
-		Tag tag = LdoD.getInstance().getTag(tagName);
-
-		if (tag == null) {
-			new Tag(annotation, tagName);
-		} else {
-			tag.addAnnotation(annotation);
-		}
+	@Override
+	public int compareTo(Tag other) {
+		if (this.getWeight() < other.getWeight())
+			return 1;
+		else if (this.getWeight() > other.getWeight())
+			return -1;
+		else
+			return 0;
 	}
 
-	public Set<FragInter> getFragInterSet() {
-		Set<FragInter> inters = new HashSet<FragInter>();
+	public abstract int getWeight();
 
-		for (Annotation annotation : getAnnotationSet()) {
-			inters.add(annotation.getFragInter());
-		}
-
-		return inters;
-	}
+	public abstract Set<LdoDUser> getContributorSet();
 }

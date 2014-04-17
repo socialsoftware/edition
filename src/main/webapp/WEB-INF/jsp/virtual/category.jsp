@@ -56,10 +56,10 @@
                     <tr>
                         <td><c:forEach var="fragWordInCategory"
                                 items='${category.getSortedFragWordInCategory()}'> ${fragWordInCategory.getFragWord().getWord()} (${fragWordInCategory.getWeight()})</c:forEach></td>
-                        <td><c:forEach var="categoryInFragInter"
-                                items='${category.getSortedCategoryInFragInter()}'>
+                        <td><c:forEach var="tag"
+                                items='${category.getSortedTag()}'>
                                 <a
-                                    href="${contextPath}/virtualeditions/restricted/fraginter/${categoryInFragInter.getFragInter().getExternalId()}">${categoryInFragInter.getFragInter().getTitle()}</a> (${categoryInFragInter.getPercentage()})</c:forEach></td>
+                                    href="${contextPath}/virtualeditions/restricted/fraginter/${tag.getFragInter().getExternalId()}">${tag.getFragInter().getTitle()}</a> (${tag.getWeight()})</c:forEach></td>
                     </tr>
                 </tbody>
             </table>

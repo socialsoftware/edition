@@ -21,6 +21,7 @@ public class Taxonomy extends Taxonomy_Base {
 
 	public Taxonomy(LdoD ldoD, Edition edition, String name, int numTopics,
 			int numWords, int thresholdCategories, int numIterations) {
+		setAdHoc(false);
 		setLdoD(ldoD);
 		setEdition(edition);
 		setName(name);
@@ -28,6 +29,29 @@ public class Taxonomy extends Taxonomy_Base {
 		setNumWords(numWords);
 		setThresholdCategories(thresholdCategories);
 		setNumIterations(numIterations);
+	}
+
+	public Taxonomy(LdoD ldoD, Edition edition, String name) {
+		setAdHoc(true);
+		setLdoD(ldoD);
+		setEdition(edition);
+		setName(name);
+	}
+
+	@Atomic(mode = TxMode.WRITE)
+	public void remove() {
+		setLdoD(null);
+		setEdition(null);
+
+		for (Category category : getCategoriesSet()) {
+			category.remove();
+		}
+
+		for (FragWord fragWord : getFragWordSet()) {
+			fragWord.remove();
+		}
+
+		deleteDomainObject();
 	}
 
 	@Override
@@ -48,31 +72,20 @@ public class Taxonomy extends Taxonomy_Base {
 		super.setName(name);
 	}
 
-	@Atomic(mode = TxMode.WRITE)
-	public void remove() {
-		setLdoD(null);
-		setEdition(null);
+	public Set<Tag> getTagSet(FragInter fragInter) {
+		Set<Tag> set = new HashSet<Tag>();
 
-		for (Category category : getCategoriesSet()) {
-			category.remove();
-		}
-
-		for (FragWord fragWord : getFragWordSet()) {
-			fragWord.remove();
-		}
-
-		deleteDomainObject();
-	}
-
-	public List<CategoryInFragInter> getSortedCategoryInFragInter(
-			FragInter fragInter) {
-		List<CategoryInFragInter> list = new ArrayList<CategoryInFragInter>();
-		for (CategoryInFragInter categoryInFragInter : fragInter
-				.getCategoryInFragInterSet()) {
-			if (categoryInFragInter.getCategory().getTaxonomy() == this) {
-				list.add(categoryInFragInter);
+		for (Tag tag : fragInter.getTagSet()) {
+			if (tag.getCategory().getTaxonomy() == this) {
+				set.add(tag);
 			}
 		}
+
+		return set;
+	}
+
+	public List<Tag> getSortedTag(FragInter fragInter) {
+		List<Tag> list = new ArrayList<Tag>(getTagSet(fragInter));
 
 		Collections.sort(list);
 
@@ -83,9 +96,8 @@ public class Taxonomy extends Taxonomy_Base {
 		Set<FragInter> set = new HashSet<FragInter>();
 
 		for (Category category : getCategoriesSet()) {
-			for (CategoryInFragInter categoryInFragInter : category
-					.getCategoryInFragInterSet()) {
-				set.add(categoryInFragInter.getFragInter());
+			for (Tag tag : category.getTagSet()) {
+				set.add(tag.getFragInter());
 			}
 		}
 
@@ -93,5 +105,14 @@ public class Taxonomy extends Taxonomy_Base {
 		Collections.sort(list);
 
 		return list;
+	}
+
+	public Category getCategory(String name) {
+		for (Category category : getCategoriesSet()) {
+			if (name.equals(category.getName())) {
+				return category;
+			}
+		}
+		return null;
 	}
 }

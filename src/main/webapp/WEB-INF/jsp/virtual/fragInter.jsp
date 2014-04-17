@@ -31,21 +31,23 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <c:forEach var="categoryInFragInter"
-                        items='${fragInter.getCategoryInFragInter()}'>
+                    <c:forEach var="taxonomy"
+                        items='${fragInter.getEdition().getTaxonomiesSet()}'>
+                         <c:forEach var="tag"
+                        items='${taxonomy.getSortedTag(fragInter)}'>
                         <tr>
                             <td><a
-                                href="${contextPath}/virtualeditions/restricted/taxonomy/${categoryInFragInter.getCategory().getTaxonomy().getExternalId()}">${categoryInFragInter.getCategory().getTaxonomy().getName()}</a>
+                                href="${contextPath}/virtualeditions/restricted/taxonomy/${taxonomy.getExternalId()}">${taxonomy.getName()}</a>
                             </td>
                             <td><a
-                                href="${contextPath}/virtualeditions/restricted/category/${categoryInFragInter.getCategory().getExternalId()}">${categoryInFragInter.getCategory().getName()}</a>
-                                (${categoryInFragInter.getPercentage()})
+                                href="${contextPath}/virtualeditions/restricted/category/${tag.getCategory().getExternalId()}">${tag.getCategory().getName()}</a>
+                                (${tag.getWeight()})
                             </td>
                             <td><c:forEach var="fragWordInCategory"
-                                    items='${categoryInFragInter.getCategory().getSortedFragWordInCategory()}'> ${fragWordInCategory.getFragWord().getWord()} (${fragWordInCategory.getWeight()})
+                                    items='${tag.getCategory().getSortedFragWordInCategory()}'> ${fragWordInCategory.getFragWord().getWord()} (${fragWordInCategory.getWeight()})
                                 </c:forEach></td>
                         </tr>
-                    </c:forEach>
+                    </c:forEach></c:forEach>
                 </tbody>
             </table>
         </div>

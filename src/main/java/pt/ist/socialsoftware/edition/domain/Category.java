@@ -14,6 +14,11 @@ public class Category extends Category_Base {
 		setTaxonomy(taxonomy);
 	}
 
+	public Category(Taxonomy taxonomy, String name) {
+		setTaxonomy(taxonomy);
+		setName(name);
+	}
+
 	public void remove() {
 		setTaxonomy(null);
 
@@ -21,8 +26,8 @@ public class Category extends Category_Base {
 			fragWordInCategory.remove();
 		}
 
-		for (CategoryInFragInter categoryInFragInter : getCategoryInFragInterSet()) {
-			categoryInFragInter.remove();
+		for (Tag tag : getTagSet()) {
+			tag.remove();
 		}
 
 		deleteDomainObject();
@@ -48,13 +53,20 @@ public class Category extends Category_Base {
 		return results;
 	}
 
-	public List<CategoryInFragInter> getSortedCategoryInFragInter() {
-		List<CategoryInFragInter> results = new ArrayList<CategoryInFragInter>(
-				getCategoryInFragInterSet());
+	public List<Tag> getSortedTag() {
+		List<Tag> results = new ArrayList<Tag>(getTagSet());
 
 		Collections.sort(results);
 
 		return results;
+	}
+
+	public Tag getTag(FragInter fragInter) {
+		for (Tag tag : getTagSet()) {
+			if (tag.getFragInter() == fragInter)
+				return tag;
+		}
+		return null;
 	}
 
 }

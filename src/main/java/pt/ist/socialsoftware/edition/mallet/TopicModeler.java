@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.socialsoftware.edition.domain.Category;
-import pt.ist.socialsoftware.edition.domain.CategoryInFragInter;
+import pt.ist.socialsoftware.edition.domain.TagInFragInter;
 import pt.ist.socialsoftware.edition.domain.Edition;
 import pt.ist.socialsoftware.edition.domain.FragInter;
 import pt.ist.socialsoftware.edition.domain.FragWord;
@@ -202,7 +202,7 @@ public class TopicModeler {
 				bd = bd.setScale(2, RoundingMode.HALF_UP);
 				int percentage = (int) (bd.doubleValue() * 100);
 				if (percentage >= thresholdCategories) {
-					new CategoryInFragInter(fragInter, categories[topic],
+					new TagInFragInter(fragInter, categories[topic],
 							percentage);
 				}
 			}

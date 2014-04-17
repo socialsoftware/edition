@@ -28,30 +28,41 @@ public class Annotation extends Annotation_Base {
 			range.remove();
 		}
 
-		for (Tag tag : getTagSet()) {
-			removeTag(tag);
+		for (TagInTextPortion tag : getTagInTextPortionSet()) {
+			tag.remove();
 		}
 
 		deleteDomainObject();
 	}
 
+	private Taxonomy getTaxonomy() {
+		for (TagInTextPortion tagInTextPortion : getTagInTextPortionSet()) {
+			return tagInTextPortion.getCategory().getTaxonomy();
+		}
+		return null;
+	}
+
 	public void updateTags(List<String> tags) {
+		Taxonomy taxonomy = getTaxonomy();
 		for (String tagName : tags) {
 			if (!existTag(tagName)) {
-				Tag.create(this, tagName);
+				if (taxonomy.getCategory(tagName) == null) {
+					Category category = new Category(taxonomy, tagName);
+					new TagInTextPortion(category, this);
+				}
 			}
 		}
 
-		for (Tag tag : getTagSet()) {
-			if (!tags.contains(tag.getTag())) {
-				removeTag(tag);
+		for (TagInTextPortion tag : getTagInTextPortionSet()) {
+			if (!tags.contains(tag.getCategory().getName())) {
+				removeTagInTextPortion(tag);
 			}
 		}
 	}
 
 	private boolean existTag(String tagName) {
-		for (Tag tag : getTagSet()) {
-			if (tag.getTag().equals(tagName)) {
+		for (TagInTextPortion tag : getTagInTextPortionSet()) {
+			if (tag.getCategory().getName().equals(tagName)) {
 				return true;
 			}
 		}
