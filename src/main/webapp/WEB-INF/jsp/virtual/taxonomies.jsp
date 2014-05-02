@@ -71,9 +71,6 @@
                     <tr>
                         <th><spring:message code="general.name" /></th>
                         <th><spring:message code="general.taxonomies.number.topics" /></th>
-                        <th><spring:message code="general.taxonomies.number.words" /></th>
-                        <th><spring:message code="general.taxonomies.threshold.categories" /></th>
-                        <th><spring:message code="general.taxonomies.number.iterations" /></th>
                         <th><spring:message code="general.delete" /></th>
                     </tr>
                 </thead>
@@ -82,11 +79,10 @@
                         items='${virtualEdition.getTaxonomiesSet()}'>
                         <tr>
                             <td><a
-                                href="${contextPath}/virtualeditions/restricted/taxonomy/${taxonomy.getExternalId()}">${taxonomy.getName()}</a></td>
-                            <td>${taxonomy.getNumTopics()}</td>
-                            <td>${taxonomy.getNumWords()}</td>
-                            <td>${taxonomy.getThresholdCategories()}</td>
-                            <td>${taxonomy.getNumIterations()}</td>
+                                href="${contextPath}/virtualeditions/restricted/taxonomy/${taxonomy.getExternalId()}">${taxonomy.getName()}</a>
+                                <c:if test="${!taxonomy.getAdHoc()}">(${taxonomy.getNumTopics()},${taxonomy.getNumWords()},${taxonomy.getThresholdCategories()},${taxonomy.getNumIterations()})</c:if>
+                            </td>
+                            <td>${taxonomy.getActiveCategorySet().size()}</td>
                             <td>
                                 <form class="form-inline" method="POST"
                                     action="${contextPath}/virtualeditions/restricted/taxonomy/delete">

@@ -131,23 +131,28 @@ public abstract class FragInter extends FragInter_Base implements
 		}
 
 		for (String tag : tagList) {
-			Category category = taxonomy.getCategory(tag);
-			if (category == null) {
-				category = new Category(taxonomy, tag);
-				new TagInTextPortion(category, annotation);
-
-			} else {
-				TagInTextPortion tagInTextPortion = (TagInTextPortion) category
-						.getTag(this);
-				if (tagInTextPortion == null) {
-					new TagInTextPortion(category, annotation);
-				} else {
-					tagInTextPortion.addAnnotation(annotation);
-				}
-			}
+			createTagInTextPortion(taxonomy, annotation, tag);
 		}
 
 		return annotation;
+	}
+
+	public void createTagInTextPortion(Taxonomy taxonomy,
+			Annotation annotation, String tag) {
+		Category category = taxonomy.getActiveCategory(tag);
+		if (category == null) {
+			category = new AdHocCategory();
+			category.init(taxonomy, tag);
+			new TagInTextPortion().init(category, annotation);
+		} else {
+			TagInTextPortion tagInTextPortion = (TagInTextPortion) category
+					.getTag(this);
+			if (tagInTextPortion == null) {
+				new TagInTextPortion().init(category, annotation);
+			} else {
+				tagInTextPortion.addAnnotation(annotation);
+			}
+		}
 	}
 
 	public List<AnnexNote> getSortedAnnexNote() {

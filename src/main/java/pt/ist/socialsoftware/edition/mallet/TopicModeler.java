@@ -15,12 +15,13 @@ import java.util.regex.Pattern;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.socialsoftware.edition.domain.Category;
-import pt.ist.socialsoftware.edition.domain.TagInFragInter;
 import pt.ist.socialsoftware.edition.domain.Edition;
 import pt.ist.socialsoftware.edition.domain.FragInter;
 import pt.ist.socialsoftware.edition.domain.FragWord;
 import pt.ist.socialsoftware.edition.domain.FragWordInCategory;
+import pt.ist.socialsoftware.edition.domain.GeneratedCategory;
 import pt.ist.socialsoftware.edition.domain.LdoD;
+import pt.ist.socialsoftware.edition.domain.TagInFragInter;
 import pt.ist.socialsoftware.edition.domain.Taxonomy;
 import pt.ist.socialsoftware.edition.utils.PropertiesManager;
 import cc.mallet.pipe.CharSequence2TokenSequence;
@@ -39,21 +40,23 @@ import cc.mallet.types.InstanceList;
 public class TopicModeler {
 
 	private Pipe pipe;
-	private final String path = PropertiesManager.getProperties().getProperty(
-			"corpus.dir");
+	private final String corpusPath = PropertiesManager.getProperties()
+			.getProperty("corpus.dir");
+	private final String corpusEditionsPath = PropertiesManager.getProperties()
+			.getProperty("corpus.editions.dir");
 
 	public Taxonomy generate(Edition edition, String name, int numTopics,
 			int numWords, int thresholdCategories, int numIterations)
 			throws IOException {
 		// if a corpus is absent
-		File directory = new File(path + edition.getExternalId());
+		File directory = new File(corpusEditionsPath + edition.getExternalId());
 		if (!directory.exists()) {
 			return null;
 		}
 
 		pipe = buildPipe();
 
-		InstanceList instances = readDirectory(new File(path
+		InstanceList instances = readDirectory(new File(corpusEditionsPath
 				+ edition.getExternalId()));
 
 		int numInstances = instances.size();
@@ -96,7 +99,7 @@ public class TopicModeler {
 		pipeList.add(new CharSequence2TokenSequence(Pattern
 				.compile("\\p{L}[\\p{L}\\p{P}]+\\p{L}")));
 		pipeList.add(new TokenSequenceLowercase());
-		pipeList.add(new TokenSequenceRemoveStopwords(new File(path
+		pipeList.add(new TokenSequenceRemoveStopwords(new File(corpusPath
 				+ "stoplist-pt.txt"), "UTF-8", false, false, false));
 		// pipeList.add(new TokenSequenceRemoveStopwords(false, false));
 		pipeList.add(new TokenSequence2FeatureSequence());
@@ -146,11 +149,14 @@ public class TopicModeler {
 		Category[] categories = new Category[numTopics];
 
 		// create a category for each topic
+		// counter do avoid duplicate category names
+		int counter = 1;
 		for (int topic = 0; topic < numTopics; topic++) {
 			Iterator<IDSorter> iterator = topicSortedWords.get(topic)
 					.iterator();
 
-			Category category = new Category(taxonomy);
+			GeneratedCategory category = new GeneratedCategory();
+			category.init(taxonomy);
 			categories[topic] = category;
 
 			// associate the words for each category
@@ -175,7 +181,7 @@ public class TopicModeler {
 				rank++;
 			}
 
-			category.setName(wordName);
+			category.setName(wordName + "[" + counter++ + "]");
 		}
 
 		// associate categories with fragment interpretations
@@ -202,7 +208,7 @@ public class TopicModeler {
 				bd = bd.setScale(2, RoundingMode.HALF_UP);
 				int percentage = (int) (bd.doubleValue() * 100);
 				if (percentage >= thresholdCategories) {
-					new TagInFragInter(fragInter, categories[topic],
+					new TagInFragInter().init(fragInter, categories[topic],
 							percentage);
 				}
 			}

@@ -5,10 +5,16 @@ import java.util.Set;
 
 public class TagInFragInter extends TagInFragInter_Base {
 
-	public TagInFragInter(FragInter fragInter, Category category, int percentage) {
+	public TagInFragInter init(FragInter fragInter, Category category,
+			int percentage) {
+		super.init();
+
+		setType(TagType.FRAGINTER);
 		setFragInter(fragInter);
 		setCategory(category);
 		setPercentage(percentage);
+
+		return this;
 	}
 
 	@Override

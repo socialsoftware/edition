@@ -31,7 +31,7 @@
                         <td><a
                             href="${contextPath}/fragments/fragment/inter/${inter.getExternalId()}">${inter.getTitle()}</a></td>
                         <td>
-                            <c:forEach var="tag" items='${taxonomy.getSortedTag(inter)}'> 
+                            <c:forEach var="tag" items='${taxonomy.getSortedActiveTags(inter)}'> 
                                 <a href="${contextPath}/edition/category/${tag.getCategory().getExternalId()}">
                                     ${tag.getCategory().getName()}
                                 </a> (${tag.getWeight()})

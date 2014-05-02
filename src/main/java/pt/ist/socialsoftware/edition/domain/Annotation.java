@@ -43,26 +43,23 @@ public class Annotation extends Annotation_Base {
 	}
 
 	public void updateTags(List<String> tags) {
-		Taxonomy taxonomy = getTaxonomy();
-		for (String tagName : tags) {
-			if (!existTag(tagName)) {
-				if (taxonomy.getCategory(tagName) == null) {
-					Category category = new Category(taxonomy, tagName);
-					new TagInTextPortion(category, this);
-				}
+		for (String tag : tags) {
+			if (!existsActiveTag(tag)) {
+				getFragInter().createTagInTextPortion(getTaxonomy(), this, tag);
 			}
 		}
 
 		for (TagInTextPortion tag : getTagInTextPortionSet()) {
-			if (!tags.contains(tag.getCategory().getName())) {
-				removeTagInTextPortion(tag);
+			if (!tags
+					.contains(tag.getActiveTag().getActiveCategory().getName())) {
+				tag.removeThisAnnotation(this);
 			}
 		}
 	}
 
-	private boolean existTag(String tagName) {
+	private boolean existsActiveTag(String name) {
 		for (TagInTextPortion tag : getTagInTextPortionSet()) {
-			if (tag.getCategory().getName().equals(tagName)) {
+			if (tag.getActiveTag().getActiveCategory().getName().equals(name)) {
 				return true;
 			}
 		}

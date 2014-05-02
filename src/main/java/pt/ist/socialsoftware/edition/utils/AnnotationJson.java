@@ -32,7 +32,7 @@ public class AnnotationJson implements Serializable {
 
 		tags = new ArrayList<String>();
 		for (TagInTextPortion tag : annotation.getTagInTextPortionSet()) {
-			tags.add(tag.getCategory().getName());
+			tags.add(tag.getActiveCategory().getName());
 		}
 
 		ranges = new ArrayList<RangeJson>();

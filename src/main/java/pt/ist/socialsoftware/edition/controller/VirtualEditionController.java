@@ -22,6 +22,7 @@ import pt.ist.socialsoftware.edition.domain.Edition;
 import pt.ist.socialsoftware.edition.domain.FragInter;
 import pt.ist.socialsoftware.edition.domain.LdoD;
 import pt.ist.socialsoftware.edition.domain.LdoDUser;
+import pt.ist.socialsoftware.edition.domain.MergeCategory;
 import pt.ist.socialsoftware.edition.domain.Taxonomy;
 import pt.ist.socialsoftware.edition.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.domain.VirtualEditionInter;
@@ -509,4 +510,54 @@ public class VirtualEditionController {
 			return "virtual/category";
 		}
 	}
+
+	@RequestMapping(method = RequestMethod.POST, value = "/restricted/category/merge")
+	@PreAuthorize("hasPermission(#taxonomyId, 'taxonomy.participant')")
+	public String mergeCategories(
+			Model model,
+			@RequestParam("taxonomyId") String taxonomyId,
+			@RequestParam(value = "categories[]", required = false) String categoriesIds[]) {
+		Taxonomy taxonomy = FenixFramework.getDomainObject(taxonomyId);
+		if (taxonomy == null) {
+			return "utils/pageNotFound";
+		}
+
+		if ((categoriesIds != null) && (categoriesIds.length > 1)) {
+			List<Category> categories = new ArrayList<Category>();
+			for (String categoryId : categoriesIds) {
+				Category category = FenixFramework.getDomainObject(categoryId);
+				categories.add(category);
+			}
+
+			Category category = taxonomy.merge(categories);
+
+			model.addAttribute("category", category);
+			return "virtual/category";
+
+		} else {
+			model.addAttribute("edition", taxonomy.getEdition());
+			model.addAttribute("taxonomy", taxonomy);
+			return "virtual/taxonomy";
+		}
+	}
+
+	@RequestMapping(method = RequestMethod.POST, value = "/restricted/category/merge/undo")
+	@PreAuthorize("hasPermission(#categoryId, 'category.participant')")
+	public String undoMergeCategories(Model model,
+			@RequestParam("categoryId") String categoryId) {
+		MergeCategory category = FenixFramework.getDomainObject(categoryId);
+		if (category == null) {
+			return "utils/pageNotFound";
+		}
+
+		Taxonomy taxonomy = category.getTaxonomy();
+
+		category.undo();
+
+		model.addAttribute("edition", taxonomy.getEdition());
+		model.addAttribute("taxonomy", taxonomy);
+		return "virtual/taxonomy";
+
+	}
+
 }

@@ -18,6 +18,7 @@ import org.joda.time.LocalDate;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
+import pt.ist.socialsoftware.edition.domain.AdHocCategory;
 import pt.ist.socialsoftware.edition.domain.Category;
 import pt.ist.socialsoftware.edition.domain.ExpertEdition;
 import pt.ist.socialsoftware.edition.domain.Heteronym;
@@ -154,7 +155,8 @@ public class LoadTEICorpus {
 
 			for (Element categoryTEI : taxonomyTEI.getChildren("category",
 					namespace)) {
-				Category category = new Category(taxonomy);
+				Category category = new AdHocCategory();
+				category.init(taxonomy);
 
 				String categoryID = categoryTEI.getAttributeValue("id",
 						categoryTEI.getNamespace("xml"));

@@ -26,7 +26,7 @@
                     <th><spring:message code="tableofcontents.number" /></th>
                 </tr>
             <tbody>
-                <c:forEach var="categoryInFragInter" items='${category.getSortedTag()}'>
+                <c:forEach var="categoryInFragInter" items='${category.getSortedActiveTags()}'>
                     <tr>
                         <td><a
                             href="${contextPath}/fragments/fragment/inter/${categoryInFragInter.getFragInter().getExternalId()}">${categoryInFragInter.getFragInter().getTitle()}</a></td>

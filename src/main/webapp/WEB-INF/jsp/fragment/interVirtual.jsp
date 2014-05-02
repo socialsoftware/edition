@@ -68,10 +68,10 @@ jQuery(function ($) {
                             href="${contextPath}/edition/taxonomy/${taxonomy.externalId}">${taxonomy.getName()}</a>
                         </td>
                         <td><c:forEach var="tag"
-                                items='${taxonomy.getSortedTag(inters.get(0))}'>
+                                items='${taxonomy.getSortedActiveTags(inters.get(0))}'>
                                 <a
-                                    href="${contextPath}/edition/category/${tag.getCategory().getExternalId()}">
-                                    ${tag.getCategory().getName()}</a>
+                                    href="${contextPath}/edition/category/${tag.getActiveCategory().getExternalId()}">
+                                    ${tag.getActiveCategory().getName()}</a>
                                 (${tag.getWeight()})</c:forEach></td>
                         <td><c:forEach var="user"
                                 items='${inters.get(0).getTagContributorSet(taxonomy)}'>

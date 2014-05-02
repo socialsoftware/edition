@@ -1,30 +1,50 @@
 package pt.ist.socialsoftware.edition.domain;
 
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDDuplicateNameException;
 
-public class Category extends Category_Base {
+public abstract class Category extends Category_Base {
 
-	public Category(Taxonomy taxonomy) {
+	public enum CategoryType {
+		GENERATED("generated"), ADHOC("adhoc"), MERGED("merged"), EXTRACTED(
+				"extracted");
+
+		private final String desc;
+
+		CategoryType(String desc) {
+			this.desc = desc;
+		}
+
+		public String getDesc() {
+			return desc;
+		}
+	};
+
+	public Category init(Taxonomy taxonomy) {
 		setTaxonomy(taxonomy);
+		setDeprecated(false);
+
+		return this;
 	}
 
-	public Category(Taxonomy taxonomy, String name) {
+	public Category init(Taxonomy taxonomy, String name) {
 		setTaxonomy(taxonomy);
 		setName(name);
+		setDeprecated(false);
+
+		return this;
 	}
 
 	public void remove() {
 		setTaxonomy(null);
 
-		for (FragWordInCategory fragWordInCategory : getFragWordInCategorySet()) {
-			fragWordInCategory.remove();
-		}
+		if (getMergeCategory() != null)
+			getMergeCategory().remove();
 
 		for (Tag tag : getTagSet()) {
 			tag.remove();
@@ -36,7 +56,7 @@ public class Category extends Category_Base {
 	@Atomic(mode = TxMode.WRITE)
 	@Override
 	public void setName(String name) {
-		for (Category category : getTaxonomy().getCategoriesSet()) {
+		for (Category category : getTaxonomy().getActiveCategorySet()) {
 			if ((category != this) && (category.getName().equals(name))) {
 				throw new LdoDDuplicateNameException();
 			}
@@ -44,22 +64,19 @@ public class Category extends Category_Base {
 		super.setName(name);
 	}
 
-	public List<FragWordInCategory> getSortedFragWordInCategory() {
-		List<FragWordInCategory> results = new ArrayList<FragWordInCategory>(
-				getFragWordInCategorySet());
-
-		Collections.sort(results);
-
-		return results;
+	protected Set<Tag> getActiveTags() {
+		Set<Tag> tags = new HashSet<Tag>();
+		for (Tag tag : getTagSet()) {
+			if (!tag.getDeprecated()) {
+				tags.add(tag);
+			}
+		}
+		return tags;
 	}
 
-	public List<Tag> getSortedTag() {
-		List<Tag> results = new ArrayList<Tag>(getTagSet());
+	abstract public List<Tag> getSortedTags();
 
-		Collections.sort(results);
-
-		return results;
-	}
+	abstract public List<Tag> getSortedActiveTags();
 
 	public Tag getTag(FragInter fragInter) {
 		for (Tag tag : getTagSet()) {
@@ -69,4 +86,11 @@ public class Category extends Category_Base {
 		return null;
 	}
 
+	public Category getActiveCategory() {
+		if (!getDeprecated()) {
+			return this;
+		} else {
+			return getMergeCategory().getActiveCategory();
+		}
+	}
 }

@@ -74,33 +74,37 @@ public class Taxonomy extends Taxonomy_Base {
 
 	public Set<Tag> getTagSet(FragInter fragInter) {
 		Set<Tag> set = new HashSet<Tag>();
-
 		for (Tag tag : fragInter.getTagSet()) {
 			if (tag.getCategory().getTaxonomy() == this) {
 				set.add(tag);
 			}
 		}
-
 		return set;
 	}
 
-	public List<Tag> getSortedTag(FragInter fragInter) {
-		List<Tag> list = new ArrayList<Tag>(getTagSet(fragInter));
+	public Set<Tag> getActiveTagSet(FragInter fragInter) {
+		Set<Tag> set = new HashSet<Tag>();
+		for (Tag tag : getTagSet(fragInter)) {
+			if (!tag.getDeprecated()) {
+				set.add(tag.getActiveTag());
+			}
+		}
+		return set;
+	}
 
-		Collections.sort(list);
-
-		return list;
+	public List<Tag> getSortedActiveTags(FragInter fragInter) {
+		List<Tag> tags = new ArrayList<Tag>(getActiveTagSet(fragInter));
+		Collections.sort(tags);
+		return tags;
 	}
 
 	public List<FragInter> getSortedFragInter() {
 		Set<FragInter> set = new HashSet<FragInter>();
-
 		for (Category category : getCategoriesSet()) {
 			for (Tag tag : category.getTagSet()) {
 				set.add(tag.getFragInter());
 			}
 		}
-
 		List<FragInter> list = new ArrayList<FragInter>(set);
 		Collections.sort(list);
 
@@ -115,4 +119,29 @@ public class Taxonomy extends Taxonomy_Base {
 		}
 		return null;
 	}
+
+	public Category getActiveCategory(String name) {
+		for (Category category : getActiveCategorySet()) {
+			if (name.equals(category.getName())) {
+				return category;
+			}
+		}
+		return null;
+	}
+
+	@Atomic(mode = TxMode.WRITE)
+	public MergeCategory merge(List<Category> categories) {
+		return new MergeCategory().init(this, categories);
+	}
+
+	public Set<Category> getActiveCategorySet() {
+		Set<Category> set = new HashSet<Category>();
+		for (Category category : getCategoriesSet()) {
+			if (!category.getDeprecated()) {
+				set.add(category);
+			}
+		}
+		return set;
+	}
+
 }

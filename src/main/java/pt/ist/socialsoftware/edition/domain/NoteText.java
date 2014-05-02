@@ -76,7 +76,6 @@ public class NoteText extends NoteText_Base {
 			}
 
 			text = text.getNextText();
-
 		}
 
 		return result;
