@@ -17,7 +17,7 @@ public class CorpusGenerator {
 	public void generate(Edition edition) throws FileNotFoundException,
 			IOException {
 		String path = PropertiesManager.getProperties().getProperty(
-				"corpus.dir");
+				"corpus.editions.dir");
 		File directory = new File(path + edition.getExternalId());
 
 		// delete directory and all its files is it already exists, for a clean

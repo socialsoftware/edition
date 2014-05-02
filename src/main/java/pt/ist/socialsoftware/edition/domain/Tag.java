@@ -1,40 +1,67 @@
 package pt.ist.socialsoftware.edition.domain;
 
-import java.util.HashSet;
 import java.util.Set;
 
-public class Tag extends Tag_Base {
+public abstract class Tag extends Tag_Base implements Comparable<Tag> {
 
-	public Tag(Annotation annotation, String tag) {
-		addAnnotation(annotation);
-		setTag(tag);
+	public enum TagType {
+		TEXTPORTION("textportion"), FRAGINTER("fraginter");
+
+		private final String desc;
+
+		TagType(String desc) {
+			this.desc = desc;
+		}
+
+		public String getDesc() {
+			return desc;
+		}
+	};
+
+	public Tag init() {
+		setDeprecated(false);
+
+		return this;
 	}
 
 	public void remove() {
-		for (Annotation annotation : getAnnotationSet()) {
-			removeAnnotation(annotation);
-		}
+		setFragInter(null);
+		setCategory(null);
+
+		if (getMergeTag() != null)
+			getMergeTag().remove();
 
 		deleteDomainObject();
 	}
 
-	public static void create(Annotation annotation, String tagName) {
-		Tag tag = LdoD.getInstance().getTag(tagName);
+	@Override
+	public int compareTo(Tag other) {
+		if (this.getWeight() < other.getWeight())
+			return 1;
+		else if (this.getWeight() > other.getWeight())
+			return -1;
+		else
+			return 0;
+	}
 
-		if (tag == null) {
-			new Tag(annotation, tagName);
+	public Category getActiveCategory() {
+		return getCategory().getActiveCategory();
+	}
+
+	public Tag getActiveTag() {
+		if (!getDeprecated()) {
+			return this;
 		} else {
-			tag.addAnnotation(annotation);
+			return getMergeTag().getActiveTag();
 		}
 	}
 
-	public Set<FragInter> getFragInterSet() {
-		Set<FragInter> inters = new HashSet<FragInter>();
+	public abstract int getWeight();
 
-		for (Annotation annotation : getAnnotationSet()) {
-			inters.add(annotation.getFragInter());
-		}
+	public abstract Set<LdoDUser> getContributorSet();
 
-		return inters;
+	public void undo() {
+		this.remove();
 	}
+
 }

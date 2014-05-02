@@ -3,14 +3,15 @@ package pt.ist.socialsoftware.edition.domain;
 public class FragWordInCategory extends FragWordInCategory_Base implements
 		Comparable<FragWordInCategory> {
 
-	public FragWordInCategory(Category category, FragWord fragWord, int weight) {
-		setCategory(category);
+	public FragWordInCategory(GeneratedCategory category, FragWord fragWord,
+			int weight) {
+		setGeneratedCategory(category);
 		setFragWord(fragWord);
 		setWeight(weight);
 	}
 
 	public void remove() {
-		setCategory(null);
+		setGeneratedCategory(null);
 		setFragWord(null);
 
 		deleteDomainObject();

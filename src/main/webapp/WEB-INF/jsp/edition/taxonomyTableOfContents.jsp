@@ -31,10 +31,10 @@
                         <td><a
                             href="${contextPath}/fragments/fragment/inter/${inter.getExternalId()}">${inter.getTitle()}</a></td>
                         <td>
-                            <c:forEach var="categoryInFragInter" items='${inter.getSortedCategoryInFragInter(taxonomy)}'> 
-                                <a href="${contextPath}/edition/category/${categoryInFragInter.getCategory().getExternalId()}">
-                                    ${categoryInFragInter.getCategory().getName()}
-                                </a> (${categoryInFragInter.getPercentage()})
+                            <c:forEach var="tag" items='${taxonomy.getSortedActiveTags(inter)}'> 
+                                <a href="${contextPath}/edition/category/${tag.getCategory().getExternalId()}">
+                                    ${tag.getCategory().getName()}
+                                </a> (${tag.getWeight()})
                             </c:forEach>
                         </td>
                         <td>${inter.getNumber()}</td>

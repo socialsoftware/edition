@@ -2,7 +2,6 @@ package pt.ist.socialsoftware.edition.domain;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -23,6 +22,14 @@ public abstract class Edition extends Edition_Base {
 			return desc;
 		}
 	};
+
+	public void remove() {
+		for (Taxonomy taxonomy : getTaxonomiesSet()) {
+			taxonomy.remove();
+		}
+
+		deleteDomainObject();
+	}
 
 	@Override
 	public void setAcronym(String acronym) {
@@ -92,20 +99,13 @@ public abstract class Edition extends Edition_Base {
 		return interps.get(0);
 	}
 
-	public Set<Tag> getTagSet() {
-		Set<Tag> tags = new HashSet<Tag>();
-		for (FragInter inter : getIntersSet()) {
-			tags.addAll(inter.getTagSet());
-		}
-		return tags;
-	}
-
-	public void remove() {
+	public Taxonomy getTaxonomy(String name) {
 		for (Taxonomy taxonomy : getTaxonomiesSet()) {
-			taxonomy.remove();
+			if (name.equals(taxonomy.getName())) {
+				return taxonomy;
+			}
 		}
-
-		deleteDomainObject();
+		return null;
 	}
 
 }

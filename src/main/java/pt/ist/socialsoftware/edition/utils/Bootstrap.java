@@ -1,8 +1,12 @@
 package pt.ist.socialsoftware.edition.utils;
 
+import java.io.File;
+import java.io.IOException;
+
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 
+import org.apache.commons.io.FileUtils;
 import org.joda.time.LocalDate;
 import org.springframework.web.WebApplicationInitializer;
 
@@ -40,6 +44,20 @@ public class Bootstrap implements WebApplicationInitializer {
 	}
 
 	public static void populateDatabaseUsersAndRoles() {
+		// delete directory and all its files if it exists
+		String path = PropertiesManager.getProperties().getProperty(
+				"corpus.editions.dir");
+		File directory = new File(path);
+		if (directory.exists()) {
+			try {
+				FileUtils.deleteDirectory(directory);
+			} catch (IOException e) {
+				// Unable to delete directory
+				e.printStackTrace();
+			}
+		}
+		directory.mkdirs();
+
 		LdoD ldod = LdoD.getInstance();
 
 		Role user = new Role(ldod, "USER");

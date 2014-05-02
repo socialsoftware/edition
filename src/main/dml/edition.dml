@@ -16,6 +16,8 @@ enum pt.ist.socialsoftware.edition.domain.UnclearText.UnclearReason as UnclearRe
 enum pt.ist.socialsoftware.edition.domain.AltText.AltMode as AltMode;
 enum pt.ist.socialsoftware.edition.domain.NoteText.NoteType as NoteType;
 enum pt.ist.socialsoftware.edition.domain.RefText.RefType as RefType;
+enum pt.ist.socialsoftware.edition.domain.Category.CategoryType as CategoryType;
+enum pt.ist.socialsoftware.edition.domain.Tag.TagType as TagType;
 
 class LdoD {
 	String title;
@@ -111,6 +113,7 @@ relation LdoDUserSelectsVirtualEditions {
 class Taxonomy {
 	String xmlId;
 	String name;
+	boolean adHoc;
 	int numTopics;
 	int numWords;
 	int thresholdCategories;
@@ -128,14 +131,27 @@ relation EditionHasTaxonomies {
 }
 
 class Category {
+	CategoryType type;
 	String xmlId;
 	String name;
+	boolean deprecated;
 }
 
 relation TaxonomyHasCategories {
 	Taxonomy playsRole taxonomy {multiplicity 1..1;}
 	Category playsRole categories {multiplicity 0..*;}
 }
+
+class MergeCategory extends Category;
+
+relation MergeCategoryHasCategories {
+	MergeCategory playsRole mergeCategory {multiplicity 0..1;}
+	Category playsRole mergedCategories {multiplicity 2..*;}
+}
+
+class GeneratedCategory extends Category;
+
+class AdHocCategory extends Category;
 
 class FragWord {
 	String word;
@@ -151,9 +167,9 @@ class FragWordInCategory {
 	int weight;
 }
 
-relation FragWordInCategory2Category {
+relation FragWordInCategory2GeneratedCategory {
 	FragWordInCategory playsRole fragWordInCategory {multiplicity 0..*;}
-	Category playsRole category {multiplicity 1..1;}
+	GeneratedCategory playsRole generatedCategory {multiplicity 1..1;}
 }
 
 relation FragWordInCategory2FragWord {
@@ -208,19 +224,37 @@ relation FragInterHasAnnexNote {
 	AnnexNote playsRole annexNote {multiplicity 0..*;}
 }
 
-class CategoryInFragInter {
-	int percentage;
+class Tag {
+	TagType type;
+	boolean deprecated;
 }
 
-relation CategoryInFragInter2FragInter {
-	CategoryInFragInter playsRole categoryInFragInter {multiplicity 0..*;}
+relation Tag2Category {
+	Tag playsRole tag {multiplicity 0..*;}
+	Category playsRole category {multiplicity 1..1;}
+}
+
+relation Tag2FragInter {
+	Tag playsRole tag {multiplicity 0..*;}
 	FragInter playsRole fragInter {multiplicity 1..1;}
 }
 
-relation CategoryInFragInter2Category {
-	CategoryInFragInter playsRole categoryInFragInter {multiplicity 0..*;}
-	Category playsRole category {multiplicity 1..1;}
+class TagInFragInter extends Tag {
+	int percentage;
 }
+
+class TagInTextPortion extends Tag;
+
+class MergeTag extends Tag;
+
+relation MergeTagMergesTags {
+	MergeTag playsRole mergeTag {multiplicity 0..1;}
+	Tag playsRole mergedTags {multiplicity 2..*;}
+}
+
+class MergeTagInTextPortion extends MergeTag;
+
+class MergeTagInFragInter extends MergeTag;
 
 class ExpertEditionInter extends FragInter {
 	String title;
@@ -529,11 +563,7 @@ relation AnnotationHasRanges {
   Range playsRole range {multiplicity 0..*;}
 }
 
-class Tag {
-	String tag;
-}
-
-relation AnnotationsAndTags {
-  Annotation playsRole annotation {multiplicity 0..*;}
-  Tag playsRole tag {multiplicity 0..*;}
+relation AnnotationsAndTagInTextPortion {
+  Annotation playsRole annotation {multiplicity 1..*;}
+  TagInTextPortion playsRole tagInTextPortion {multiplicity 0..*;}
 }

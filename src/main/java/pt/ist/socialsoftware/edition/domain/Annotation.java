@@ -28,30 +28,38 @@ public class Annotation extends Annotation_Base {
 			range.remove();
 		}
 
-		for (Tag tag : getTagSet()) {
-			removeTag(tag);
+		for (TagInTextPortion tag : getTagInTextPortionSet()) {
+			tag.remove();
 		}
 
 		deleteDomainObject();
 	}
 
+	private Taxonomy getTaxonomy() {
+		for (TagInTextPortion tagInTextPortion : getTagInTextPortionSet()) {
+			return tagInTextPortion.getCategory().getTaxonomy();
+		}
+		return null;
+	}
+
 	public void updateTags(List<String> tags) {
-		for (String tagName : tags) {
-			if (!existTag(tagName)) {
-				Tag.create(this, tagName);
+		for (String tag : tags) {
+			if (!existsActiveTag(tag)) {
+				getFragInter().createTagInTextPortion(getTaxonomy(), this, tag);
 			}
 		}
 
-		for (Tag tag : getTagSet()) {
-			if (!tags.contains(tag.getTag())) {
-				removeTag(tag);
+		for (TagInTextPortion tag : getTagInTextPortionSet()) {
+			if (!tags
+					.contains(tag.getActiveTag().getActiveCategory().getName())) {
+				tag.removeThisAnnotation(this);
 			}
 		}
 	}
 
-	private boolean existTag(String tagName) {
-		for (Tag tag : getTagSet()) {
-			if (tag.getTag().equals(tagName)) {
+	private boolean existsActiveTag(String name) {
+		for (TagInTextPortion tag : getTagInTextPortionSet()) {
+			if (tag.getActiveTag().getActiveCategory().getName().equals(name)) {
 				return true;
 			}
 		}

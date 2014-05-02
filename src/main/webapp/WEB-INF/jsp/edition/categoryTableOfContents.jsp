@@ -11,7 +11,7 @@
         <h3 class="text-center">
             <spring:message code="virtualedition" />: <a href="${contextPath}/edition/internalid/${category.getTaxonomy().getEdition().getExternalId()}"> ${category.getTaxonomy().getEdition().title}</a>
             <spring:message code="general.taxonomy" />: <a href="${contextPath}/edition/taxonomy/${category.getTaxonomy().getExternalId()}">${category.getTaxonomy().getName()}</a>
-            <spring:message code="general.category" />: ${category.getName()} (${category.getCategoryInFragInterSet().size()})
+            <spring:message code="general.category" />: ${category.getName()} (${category.getTagSet().size()})
         </h3>
 
         <table class="table table-hover table-condensed">
@@ -20,17 +20,17 @@
                     <th><spring:message
                             code="tableofcontents.title" /></th>
                     <th><spring:message
-                            code="general.percentage" /></th>
+                            code="general.weight" /></th>
                     <th><spring:message
                             code="tableofcontents.usesEditions" /></th>
                     <th><spring:message code="tableofcontents.number" /></th>
                 </tr>
             <tbody>
-                <c:forEach var="categoryInFragInter" items='${category.getSortedCategoryInFragInter()}'>
+                <c:forEach var="categoryInFragInter" items='${category.getSortedActiveTags()}'>
                     <tr>
                         <td><a
                             href="${contextPath}/fragments/fragment/inter/${categoryInFragInter.getFragInter().getExternalId()}">${categoryInFragInter.getFragInter().getTitle()}</a></td>
-                        <td>${categoryInFragInter.getPercentage()}</td>
+                        <td>${categoryInFragInter.getWeight()}</td>
                         <td><c:forEach var="used"
                                 items="${categoryInFragInter.getFragInter().getListUsed()}">-><a
                                     href="${contextPath}/fragments/fragment/inter/${used.externalId}">${used.shortName}</a>

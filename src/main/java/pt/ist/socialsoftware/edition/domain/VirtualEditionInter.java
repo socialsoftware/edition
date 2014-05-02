@@ -108,10 +108,18 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 		return Integer.toString(getNumber());
 	}
 
-	public Set<LdoDUser> getContributorSet() {
+	public Set<LdoDUser> getAnnotationContributorSet() {
 		Set<LdoDUser> contributors = new HashSet<LdoDUser>();
 		for (Annotation annotation : getAnnotationSet()) {
 			contributors.add(annotation.getUser());
+		}
+		return contributors;
+	}
+
+	public Set<LdoDUser> getTagContributorSet(Taxonomy taxonomy) {
+		Set<LdoDUser> contributors = new HashSet<LdoDUser>();
+		for (Tag tag : taxonomy.getTagSet(this)) {
+			contributors.addAll(tag.getContributorSet());
 		}
 		return contributors;
 	}

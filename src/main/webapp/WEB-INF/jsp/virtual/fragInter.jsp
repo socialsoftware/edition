@@ -9,8 +9,10 @@
 
     <div class="container">
         <h1 class="text-center">
-            <spring:message code="general.edition" />: ${fragInter.getEdition().getReference()}
-            <spring:message code="fragment" />: ${fragInter.getTitle()}
+            <spring:message code="general.edition" />
+            : ${fragInter.getEdition().getReference()}
+            <spring:message code="fragment" />
+            : ${fragInter.getTitle()}
         </h1>
         <h4 class="pull-right">
             <spring:message code="general.public.pages" />
@@ -28,23 +30,36 @@
                         <th><spring:message code="general.taxonomy" /></th>
                         <th><spring:message code="general.category" /></th>
                         <th><spring:message code="general.words" /></th>
+                        <th><spring:message
+                                code="general.category.merged" /></th>
                     </tr>
                 </thead>
                 <tbody>
-                    <c:forEach var="categoryInFragInter"
-                        items='${fragInter.getCategoryInFragInter()}'>
-                        <tr>
-                            <td><a
-                                href="${contextPath}/virtualeditions/restricted/taxonomy/${categoryInFragInter.getCategory().getTaxonomy().getExternalId()}">${categoryInFragInter.getCategory().getTaxonomy().getName()}</a>
-                            </td>
-                            <td><a
-                                href="${contextPath}/virtualeditions/restricted/category/${categoryInFragInter.getCategory().getExternalId()}">${categoryInFragInter.getCategory().getName()}</a>
-                                (${categoryInFragInter.getPercentage()})
-                            </td>
-                            <td><c:forEach var="fragWordInCategory"
-                                    items='${categoryInFragInter.getCategory().getSortedFragWordInCategory()}'> ${fragWordInCategory.getFragWord().getWord()} (${fragWordInCategory.getWeight()})
-                                </c:forEach></td>
-                        </tr>
+                    <c:forEach var="taxonomy"
+                        items='${fragInter.getEdition().getTaxonomiesSet()}'>
+                        <c:forEach var="tag"
+                            items='${taxonomy.getSortedActiveTags(fragInter)}'>
+                            <tr>
+                                <td><a
+                                    href="${contextPath}/virtualeditions/restricted/taxonomy/${taxonomy.getExternalId()}">${taxonomy.getName()}</a>
+                                </td>
+                                <td><a
+                                    href="${contextPath}/virtualeditions/restricted/category/${tag.getActiveCategory().getExternalId()}">${tag.getActiveCategory().getName()}</a>
+                                    (${tag.getWeight()})</td>
+                                <td><c:if
+                                        test="${tag.getActiveCategory().getType() == 'GENERATED'}">
+                                        <c:forEach
+                                            var="fragWordInCategory"
+                                            items='${tag.getActiveCategory().getSortedFragWordInCategory()}'> ${fragWordInCategory.getFragWord().getWord()} (${fragWordInCategory.getWeight()})
+                                        </c:forEach>
+                                    </c:if></td>
+                                <td><c:if
+                                        test="${tag.getActiveCategory().getType()=='MERGED'}">
+                                        <c:forEach var="mergedCategory"
+                                            items='${tag.getActiveCategory().getMergedCategoriesSet()}'><a href="${contextPath}/virtualeditions/restricted/category/${mergedCategory.getExternalId()}">${mergedCategory.getName()}</a>  </c:forEach>
+                                    </c:if></td>
+                            </tr>
+                        </c:forEach>
                     </c:forEach>
                 </tbody>
             </table>
