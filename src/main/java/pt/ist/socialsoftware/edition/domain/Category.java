@@ -46,6 +46,10 @@ public abstract class Category extends Category_Base {
 		if (getMergeCategory() != null)
 			getMergeCategory().remove();
 
+		for (SplitCategory category : getSplitCategorySet()) {
+			category.remove();
+		}
+
 		for (Tag tag : getTagSet()) {
 			tag.remove();
 		}
@@ -89,8 +93,10 @@ public abstract class Category extends Category_Base {
 	public Category getActiveCategory() {
 		if (!getDeprecated()) {
 			return this;
-		} else {
+		} else if (getMergeCategory() != null) {
 			return getMergeCategory().getActiveCategory();
+		} else {
+			return null;
 		}
 	}
 }

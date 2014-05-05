@@ -31,6 +31,9 @@ public abstract class Tag extends Tag_Base implements Comparable<Tag> {
 		if (getMergeTag() != null)
 			getMergeTag().remove();
 
+		if (getSplitTag() != null)
+			getSplitTag().remove();
+
 		deleteDomainObject();
 	}
 
@@ -45,14 +48,16 @@ public abstract class Tag extends Tag_Base implements Comparable<Tag> {
 	}
 
 	public Category getActiveCategory() {
-		return getCategory().getActiveCategory();
+		return getActiveTag().getCategory().getActiveCategory();
 	}
 
 	public Tag getActiveTag() {
 		if (!getDeprecated()) {
 			return this;
-		} else {
+		} else if (getMergeTag() != null) {
 			return getMergeTag().getActiveTag();
+		} else {
+			return getSplitTag().getActiveTag();
 		}
 	}
 

@@ -3,7 +3,9 @@ package pt.ist.socialsoftware.edition.controller;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.joda.time.LocalDate;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -23,6 +25,8 @@ import pt.ist.socialsoftware.edition.domain.FragInter;
 import pt.ist.socialsoftware.edition.domain.LdoD;
 import pt.ist.socialsoftware.edition.domain.LdoDUser;
 import pt.ist.socialsoftware.edition.domain.MergeCategory;
+import pt.ist.socialsoftware.edition.domain.SplitCategory;
+import pt.ist.socialsoftware.edition.domain.Tag;
 import pt.ist.socialsoftware.edition.domain.Taxonomy;
 import pt.ist.socialsoftware.edition.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.domain.VirtualEditionInter;
@@ -557,6 +561,68 @@ public class VirtualEditionController {
 		model.addAttribute("edition", taxonomy.getEdition());
 		model.addAttribute("taxonomy", taxonomy);
 		return "virtual/taxonomy";
+
+	}
+
+	@RequestMapping(method = RequestMethod.GET, value = "/restricted/category/extractForm")
+	@PreAuthorize("hasPermission(#categoryId, 'category.participant')")
+	public String extractForm(Model model,
+			@RequestParam("categoryId") String categoryId) {
+		Category category = FenixFramework.getDomainObject(categoryId);
+		if (category == null) {
+			return "utils/pageNotFound";
+		}
+
+		model.addAttribute("category", category);
+		return "virtual/extractForm";
+
+	}
+
+	@RequestMapping(method = RequestMethod.POST, value = "/restricted/category/extract")
+	@PreAuthorize("hasPermission(#categoryId, 'category.participant')")
+	public String extractCategory(Model model,
+			@RequestParam("categoryId") String categoryId,
+			@RequestParam(value = "tags[]", required = false) String tagsIds[]) {
+		Category category = FenixFramework.getDomainObject(categoryId);
+		if ((category == null) || (category.getDeprecated())) {
+			return "utils/pageNotFound";
+		}
+
+		if ((tagsIds == null) || (tagsIds.length == 0)) {
+			model.addAttribute("category", category);
+			return "virtual/category";
+		}
+
+		Set<Tag> tags = new HashSet<Tag>();
+		for (String tagId : tagsIds) {
+			Tag tag = FenixFramework.getDomainObject(tagId);
+			tags.add(tag);
+		}
+
+		Category extractedCategory = category.getTaxonomy().extract(category,
+				tags);
+
+		model.addAttribute("category", extractedCategory);
+		return "virtual/category";
+
+	}
+
+	@RequestMapping(method = RequestMethod.POST, value = "/restricted/category/extract/undo")
+	@PreAuthorize("hasPermission(#categoryId, 'category.participant')")
+	public String undoSplitCategories(Model model,
+			@RequestParam("categoryId") String categoryId) {
+		SplitCategory splitCategory = FenixFramework
+				.getDomainObject(categoryId);
+		if (splitCategory == null) {
+			return "utils/pageNotFound";
+		}
+
+		Category category = splitCategory.getOriginSplitCategory();
+
+		splitCategory.undo();
+
+		model.addAttribute("category", category);
+		return "virtual/category";
 
 	}
 

@@ -142,6 +142,10 @@ relation TaxonomyHasCategories {
 	Category playsRole categories {multiplicity 0..*;}
 }
 
+class GeneratedCategory extends Category;
+
+class AdHocCategory extends Category;
+
 class MergeCategory extends Category;
 
 relation MergeCategoryHasCategories {
@@ -149,9 +153,12 @@ relation MergeCategoryHasCategories {
 	Category playsRole mergedCategories {multiplicity 2..*;}
 }
 
-class GeneratedCategory extends Category;
+class SplitCategory extends Category;
 
-class AdHocCategory extends Category;
+relation SplitCategoryToCategory {
+	SplitCategory playsRole splitCategory {multiplicity 0..2;}
+	Category playsRole originSplitCategory {multiplicity 1..1;}
+}
 
 class FragWord {
 	String word;
@@ -255,6 +262,17 @@ relation MergeTagMergesTags {
 class MergeTagInTextPortion extends MergeTag;
 
 class MergeTagInFragInter extends MergeTag;
+
+class SplitTag extends Tag;
+
+relation SplitTagToTag {
+	SplitTag playsRole splitTag {multiplicity 0..1;}
+	Tag playsRole originSplitTag {multiplicity 1..1;}
+}
+
+class SplitTagInTextPortion extends SplitTag;
+
+class SplitTagInFragInter extends SplitTag;
 
 class ExpertEditionInter extends FragInter {
 	String title;
