@@ -8,7 +8,8 @@ import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDDuplicateNameException;
 
-public abstract class Category extends Category_Base {
+public abstract class Category extends Category_Base implements
+		Comparable<Category> {
 
 	public enum CategoryType {
 		GENERATED("generated"), ADHOC("adhoc"), MERGED("merged"), EXTRACTED(
@@ -40,11 +41,16 @@ public abstract class Category extends Category_Base {
 		return this;
 	}
 
+	@Atomic(mode = TxMode.WRITE)
 	public void remove() {
 		setTaxonomy(null);
 
 		if (getMergeCategory() != null)
 			getMergeCategory().remove();
+
+		for (SplitCategory category : getSplitCategorySet()) {
+			category.remove();
+		}
 
 		for (Tag tag : getTagSet()) {
 			tag.remove();
@@ -62,6 +68,11 @@ public abstract class Category extends Category_Base {
 			}
 		}
 		super.setName(name);
+	}
+
+	@Override
+	public int compareTo(Category other) {
+		return getName().compareTo(other.getName());
 	}
 
 	protected Set<Tag> getActiveTags() {
@@ -89,8 +100,10 @@ public abstract class Category extends Category_Base {
 	public Category getActiveCategory() {
 		if (!getDeprecated()) {
 			return this;
-		} else {
+		} else if (getMergeCategory() != null) {
 			return getMergeCategory().getActiveCategory();
+		} else {
+			return null;
 		}
 	}
 }

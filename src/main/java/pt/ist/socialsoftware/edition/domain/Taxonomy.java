@@ -129,11 +129,6 @@ public class Taxonomy extends Taxonomy_Base {
 		return null;
 	}
 
-	@Atomic(mode = TxMode.WRITE)
-	public MergeCategory merge(List<Category> categories) {
-		return new MergeCategory().init(this, categories);
-	}
-
 	public Set<Category> getActiveCategorySet() {
 		Set<Category> set = new HashSet<Category>();
 		for (Category category : getCategoriesSet()) {
@@ -142,6 +137,28 @@ public class Taxonomy extends Taxonomy_Base {
 			}
 		}
 		return set;
+	}
+
+	@Atomic(mode = TxMode.WRITE)
+	public MergeCategory merge(List<Category> categories) {
+		return new MergeCategory().init(this, categories);
+	}
+
+	@Atomic(mode = TxMode.WRITE)
+	public SplitCategory extract(Category category, Set<Tag> tags) {
+		Set<Tag> remainingTags = new HashSet<Tag>(category.getSortedTags());
+		remainingTags.removeAll(tags);
+
+		// to allow the creation of a new one with the same name
+		category.setDeprecated(true);
+		new SplitCategory().init(category.getTaxonomy(), category.getName(),
+				category, remainingTags);
+
+		SplitCategory extractedCategory = new SplitCategory().init(
+				category.getTaxonomy(), category.getName() + "-EXTR", category,
+				tags);
+
+		return extractedCategory;
 	}
 
 }

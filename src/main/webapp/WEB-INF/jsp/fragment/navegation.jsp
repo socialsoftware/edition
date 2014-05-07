@@ -189,7 +189,7 @@ $(document).ready(function() {
                                         action="/virtualeditions/restricted/addinter/${virtualEdition.externalId}/${inters.get(0).externalId}">
                                         <fieldset>
                                             <button type="submit"
-                                                class="btn btn-xs">
+                                                class="btn btn-primary btn-xs">
                                                 <span
                                                     class="glyphicon glyphicon-plus"></span>
                                                 <spring:message

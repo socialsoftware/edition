@@ -9,6 +9,7 @@ import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.domain.Category;
 import pt.ist.socialsoftware.edition.domain.FragInter;
 import pt.ist.socialsoftware.edition.domain.LdoDUser;
+import pt.ist.socialsoftware.edition.domain.Tag;
 import pt.ist.socialsoftware.edition.domain.Taxonomy;
 import pt.ist.socialsoftware.edition.domain.VirtualEdition;
 
@@ -56,6 +57,14 @@ public class LdoDPermissionEvaluator implements PermissionEvaluator {
 				if (category != null) {
 					virtualEdition = (VirtualEdition) category.getTaxonomy()
 							.getEdition();
+				}
+				break;
+			case "tag":
+				Tag tag = FenixFramework
+						.getDomainObject((String) targetDomainObject);
+				if (tag != null) {
+					virtualEdition = (VirtualEdition) tag.getCategory()
+							.getTaxonomy().getEdition();
 				}
 				break;
 			default:

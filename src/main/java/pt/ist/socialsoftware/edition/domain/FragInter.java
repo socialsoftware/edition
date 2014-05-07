@@ -3,6 +3,7 @@ package pt.ist.socialsoftware.edition.domain;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
@@ -131,24 +132,24 @@ public abstract class FragInter extends FragInter_Base implements
 		}
 
 		for (String tag : tagList) {
-			createTagInTextPortion(taxonomy, annotation, tag);
+			createUserTagInTextPortion(taxonomy, annotation, tag);
 		}
 
 		return annotation;
 	}
 
-	public void createTagInTextPortion(Taxonomy taxonomy,
+	public void createUserTagInTextPortion(Taxonomy taxonomy,
 			Annotation annotation, String tag) {
 		Category category = taxonomy.getActiveCategory(tag);
 		if (category == null) {
 			category = new AdHocCategory();
 			category.init(taxonomy, tag);
-			new TagInTextPortion().init(category, annotation);
+			new UserTagInTextPortion().init(category, annotation);
 		} else {
-			TagInTextPortion tagInTextPortion = (TagInTextPortion) category
+			UserTagInTextPortion tagInTextPortion = (UserTagInTextPortion) category
 					.getTag(this);
 			if (tagInTextPortion == null) {
-				new TagInTextPortion().init(category, annotation);
+				new UserTagInTextPortion().init(category, annotation);
 			} else {
 				tagInTextPortion.addAnnotation(annotation);
 			}
@@ -163,4 +164,29 @@ public abstract class FragInter extends FragInter_Base implements
 		return results;
 	}
 
+	@Atomic(mode = TxMode.WRITE)
+	public void associate(LdoDUser ldoDUser, Taxonomy taxonomy,
+			Set<Category> categories) {
+		for (Category category : categories) {
+			Tag existTag = null;
+			UserTagInFragInter userTag = null;
+			for (Tag tag : taxonomy.getTagSet(this)) {
+				if (tag.getCategory() == category) {
+					existTag = tag;
+					if (existTag instanceof UserTagInFragInter) {
+						userTag = (UserTagInFragInter) tag;
+						userTag.setContributor(ldoDUser);
+						userTag.setDeprecated(false);
+					}
+					break;
+				}
+
+			}
+
+			if (userTag == null) {
+				userTag = new UserTagInFragInter().init(this, category,
+						ldoDUser, existTag);
+			}
+		}
+	}
 }

@@ -32,6 +32,8 @@
                         <th><spring:message code="general.words" /></th>
                         <th><spring:message
                                 code="general.category.merged" /></th>
+                        <th><spring:message
+                                code="general.category.extracted" /></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -57,6 +59,10 @@
                                         test="${tag.getActiveCategory().getType()=='MERGED'}">
                                         <c:forEach var="mergedCategory"
                                             items='${tag.getActiveCategory().getMergedCategoriesSet()}'><a href="${contextPath}/virtualeditions/restricted/category/${mergedCategory.getExternalId()}">${mergedCategory.getName()}</a>  </c:forEach>
+                                    </c:if></td>
+                                <td><c:if
+                                        test="${tag.getActiveCategory().getType()=='EXTRACTED'}">
+                                        <a href="${contextPath}/virtualeditions/restricted/category/${tag.getOriginSplitTag().getCategory().getExternalId()}">${tag.getOriginSplitTag().getCategory().getName()}</a> 
                                     </c:if></td>
                             </tr>
                         </c:forEach>
