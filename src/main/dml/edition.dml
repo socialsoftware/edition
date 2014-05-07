@@ -246,11 +246,25 @@ relation Tag2FragInter {
 	FragInter playsRole fragInter {multiplicity 1..1;}
 }
 
-class TagInFragInter extends Tag {
+class GeneratedTagInFragInter extends Tag {
 	int percentage;
 }
 
-class TagInTextPortion extends Tag;
+class UserTag extends Tag;
+
+class UserTagInTextPortion extends UserTag;
+
+class UserTagInFragInter extends UserTag;
+
+relation UserTagInFragInterHasContributor {
+	UserTagInFragInter playsRole userTagInFragInter {multiplicity 0..*;}
+	LdoDUser playsRole contributor {multiplicity 0..1;}
+}
+
+relation UserTagInFragInterHidesTag {
+	UserTagInFragInter playsRole userTagInFragInter {multiplicity 0..1;}
+	Tag playsRole originTag {multiplicity 0..1;}
+}
 
 class MergeTag extends Tag;
 
@@ -583,5 +597,5 @@ relation AnnotationHasRanges {
 
 relation AnnotationsAndTagInTextPortion {
   Annotation playsRole annotation {multiplicity 1..*;}
-  TagInTextPortion playsRole tagInTextPortion {multiplicity 0..*;}
+  UserTagInTextPortion playsRole userTagInTextPortion {multiplicity 0..*;}
 }

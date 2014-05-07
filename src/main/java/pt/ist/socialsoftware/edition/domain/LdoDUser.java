@@ -27,6 +27,10 @@ public class LdoDUser extends LdoDUser_Base {
 		return null;
 	}
 
+	public void remove() {
+		// TODO
+	}
+
 	public LdoDUser(LdoD ldoD, String username, String password) {
 		super();
 		setLdoD(ldoD);

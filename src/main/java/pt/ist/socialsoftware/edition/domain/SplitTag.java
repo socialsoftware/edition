@@ -5,10 +5,8 @@ import java.util.Set;
 public abstract class SplitTag extends SplitTag_Base {
 
 	public SplitTag init(SplitCategory splitCategory, Tag tag) {
-		super.init();
+		super.init(tag.getFragInter(), splitCategory);
 
-		setCategory(splitCategory);
-		setFragInter(tag.getFragInter());
 		tag.setDeprecated(true);
 		setOriginSplitTag(tag);
 

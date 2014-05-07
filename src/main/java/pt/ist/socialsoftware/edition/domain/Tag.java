@@ -2,6 +2,9 @@ package pt.ist.socialsoftware.edition.domain;
 
 import java.util.Set;
 
+import pt.ist.fenixframework.Atomic;
+import pt.ist.fenixframework.Atomic.TxMode;
+
 public abstract class Tag extends Tag_Base implements Comparable<Tag> {
 
 	public enum TagType {
@@ -18,8 +21,10 @@ public abstract class Tag extends Tag_Base implements Comparable<Tag> {
 		}
 	};
 
-	public Tag init() {
+	public Tag init(FragInter fragInter, Category category) {
 		setDeprecated(false);
+		setFragInter(fragInter);
+		setCategory(category);
 
 		return this;
 	}
@@ -33,6 +38,9 @@ public abstract class Tag extends Tag_Base implements Comparable<Tag> {
 
 		if (getSplitTag() != null)
 			getSplitTag().remove();
+
+		if (getUserTagInFragInter() != null)
+			getUserTagInFragInter().remove();
 
 		deleteDomainObject();
 	}
@@ -56,8 +64,12 @@ public abstract class Tag extends Tag_Base implements Comparable<Tag> {
 			return this;
 		} else if (getMergeTag() != null) {
 			return getMergeTag().getActiveTag();
-		} else {
+		} else if (getSplitTag() != null) {
 			return getSplitTag().getActiveTag();
+		} else if (getUserTagInFragInter() != null) {
+			return getUserTagInFragInter().getActiveTag();
+		} else {
+			return null;
 		}
 	}
 
@@ -67,6 +79,19 @@ public abstract class Tag extends Tag_Base implements Comparable<Tag> {
 
 	public void undo() {
 		this.remove();
+	}
+
+	@Atomic(mode = TxMode.WRITE)
+	public void dissociate() {
+		Category category = this.getActiveCategory();
+
+		if (!category.getTagSet().contains(this)) {
+			UserTagInFragInter userTag = new UserTagInFragInter().init(
+					getFragInter(), category, null, this);
+			userTag.setDeprecated(true);
+		}
+
+		this.setDeprecated(true);
 	}
 
 }

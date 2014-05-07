@@ -6,10 +6,7 @@ import java.util.Set;
 public abstract class MergeTag extends MergeTag_Base {
 
 	public MergeTag init(FragInter inter, Category category, Set<Tag> tags) {
-		super.init();
-
-		setFragInter(inter);
-		setCategory(category);
+		super.init(inter, category);
 
 		for (Tag tag : tags) {
 			tag.setDeprecated(true);
@@ -36,6 +33,15 @@ public abstract class MergeTag extends MergeTag_Base {
 		}
 
 		return users;
+	}
+
+	@Override
+	public int getWeight() {
+		int weight = 0;
+		for (Tag tag : getMergedTagsSet()) {
+			weight = weight + tag.getWeight();
+		}
+		return weight;
 	}
 
 	@Override

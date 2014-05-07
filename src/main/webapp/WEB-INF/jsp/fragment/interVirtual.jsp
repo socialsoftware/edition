@@ -58,6 +58,7 @@ jQuery(function ($) {
                     <th><spring:message code="general.taxonomy" /></th>
                     <th><span class="glyphicon glyphicon-tag"></span></th>
                     <th><span class="glyphicon glyphicon-user"></span></th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -72,12 +73,27 @@ jQuery(function ($) {
                                 <a
                                     href="${contextPath}/edition/category/${tag.getActiveCategory().getExternalId()}">
                                     ${tag.getActiveCategory().getName()}</a>
-                                (${tag.getWeight()})</c:forEach></td>
+                                <c:if test="${taxonomy.getAdHoc() }">
+                                (${tag.getWeight()})</c:if>
+                                <c:if test="${!taxonomy.getAdHoc() }">
+                                    <a
+                                        href="${contextPath}/virtualeditions/restricted/tag/dissociate/${tag.getExternalId()}"><span
+                                        class="glyphicon glyphicon-remove"></a>
+                                    </span>
+                                </c:if>
+                            </c:forEach></td>
                         <td><c:forEach var="user"
                                 items='${inters.get(0).getTagContributorSet(taxonomy)}'>
                                 <a
                                     href="${contextPath}/edition/user/${user.username}">${user.username}</a>
                             </c:forEach></td>
+                        <td><c:if test="${!taxonomy.getAdHoc() }">
+                                <a
+                                    href="${contextPath}/virtualeditions/restricted/tag/associateForm/${taxonomy.getExternalId()}/${inters.get(0).getExternalId()}">
+                                    <span
+                                    class="glyphicon glyphicon-plus"></span>
+                                </a>
+                            </c:if></td>
                     </tr>
                 </c:forEach>
             </tbody>

@@ -34,7 +34,7 @@
                             <c:forEach var="tag" items='${taxonomy.getSortedActiveTags(inter)}'> 
                                 <a href="${contextPath}/edition/category/${tag.getCategory().getExternalId()}">
                                     ${tag.getCategory().getName()}
-                                </a> (${tag.getWeight()})
+                                </a> <c:if test="${taxonomy.getAdHoc() }">(${tag.getWeight()})</c:if>
                             </c:forEach>
                         </td>
                         <td>${inter.getNumber()}</td>

@@ -3,6 +3,7 @@ package pt.ist.socialsoftware.edition.controller;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -609,7 +610,7 @@ public class VirtualEditionController {
 
 	@RequestMapping(method = RequestMethod.POST, value = "/restricted/category/extract/undo")
 	@PreAuthorize("hasPermission(#categoryId, 'category.participant')")
-	public String undoSplitCategories(Model model,
+	public String undoExtractCategory(Model model,
 			@RequestParam("categoryId") String categoryId) {
 		SplitCategory splitCategory = FenixFramework
 				.getDomainObject(categoryId);
@@ -623,6 +624,78 @@ public class VirtualEditionController {
 
 		model.addAttribute("category", category);
 		return "virtual/category";
+	}
+
+	@RequestMapping(method = RequestMethod.GET, value = "/restricted/tag/dissociate/{tagId}")
+	@PreAuthorize("hasPermission(#tagId, 'tag.participant')")
+	public String dissociateTag(Model model, @PathVariable String tagId) {
+		Tag tag = FenixFramework.getDomainObject(tagId);
+		if (tag == null) {
+			return "utils/pageNotFound";
+		}
+
+		FragInter fragInter = tag.getFragInter();
+
+		tag.dissociate();
+
+		return "redirect:/fragments/fragment/inter/"
+				+ fragInter.getExternalId();
+
+	}
+
+	@RequestMapping(method = RequestMethod.GET, value = "/restricted/tag/associateForm/{taxonomyId}/{interId}")
+	@PreAuthorize("hasPermission(#interId, 'fragInter.participant')")
+	public String associateTagForm(Model model,
+			@PathVariable String taxonomyId, @PathVariable String interId) {
+		Taxonomy taxonomy = FenixFramework.getDomainObject(taxonomyId);
+		FragInter fragInter = FenixFramework.getDomainObject(interId);
+		if ((taxonomy == null) || (fragInter == null)) {
+			return "utils/pageNotFound";
+		}
+
+		Set<Category> interCategories = new HashSet<Category>();
+		for (Tag tag : taxonomy.getActiveTagSet(fragInter)) {
+			interCategories.add(tag.getActiveCategory());
+		}
+
+		List<Category> categories = new ArrayList<Category>(
+				taxonomy.getActiveCategorySet());
+		categories.removeAll(interCategories);
+		Collections.sort(categories);
+
+		model.addAttribute("taxonomy", taxonomy);
+		model.addAttribute("fragInter", fragInter);
+		model.addAttribute("categories", categories);
+		return "virtual/associateForm";
+
+	}
+
+	@RequestMapping(method = RequestMethod.POST, value = "/restricted/tag/associate")
+	@PreAuthorize("hasPermission(#fragInterId, 'fragInter.participant')")
+	public String associateCategory(
+			Model model,
+			@RequestParam("taxonomyId") String taxonomyId,
+			@RequestParam("fragInterId") String fragInterId,
+			@RequestParam(value = "categories[]", required = false) String categoriesIds[]) {
+		Taxonomy taxonomy = FenixFramework.getDomainObject(taxonomyId);
+		FragInter fragInter = FenixFramework.getDomainObject(fragInterId);
+
+		if (fragInter == null) {
+			return "utils/pageNotFound";
+		}
+
+		if ((categoriesIds != null) && (categoriesIds.length > 0)) {
+			Set<Category> categories = new HashSet<Category>();
+			for (String categoryId : categoriesIds) {
+				Category category = FenixFramework.getDomainObject(categoryId);
+				categories.add(category);
+			}
+
+			fragInter.associate(LdoDUser.getUser(), taxonomy, categories);
+		}
+
+		return "redirect:/fragments/fragment/inter/"
+				+ fragInter.getExternalId();
 
 	}
 

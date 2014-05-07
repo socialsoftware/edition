@@ -20,8 +20,8 @@ import pt.ist.socialsoftware.edition.domain.FragInter;
 import pt.ist.socialsoftware.edition.domain.FragWord;
 import pt.ist.socialsoftware.edition.domain.FragWordInCategory;
 import pt.ist.socialsoftware.edition.domain.GeneratedCategory;
+import pt.ist.socialsoftware.edition.domain.GeneratedTagInFragInter;
 import pt.ist.socialsoftware.edition.domain.LdoD;
-import pt.ist.socialsoftware.edition.domain.TagInFragInter;
 import pt.ist.socialsoftware.edition.domain.Taxonomy;
 import pt.ist.socialsoftware.edition.utils.PropertiesManager;
 import cc.mallet.pipe.CharSequence2TokenSequence;
@@ -208,8 +208,8 @@ public class TopicModeler {
 				bd = bd.setScale(2, RoundingMode.HALF_UP);
 				int percentage = (int) (bd.doubleValue() * 100);
 				if (percentage >= thresholdCategories) {
-					new TagInFragInter().init(fragInter, categories[topic],
-							percentage);
+					new GeneratedTagInFragInter().init(fragInter,
+							categories[topic], percentage);
 				}
 			}
 		}

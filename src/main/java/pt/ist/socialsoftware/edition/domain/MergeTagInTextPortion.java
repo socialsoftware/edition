@@ -12,13 +12,4 @@ public class MergeTagInTextPortion extends MergeTagInTextPortion_Base {
 		return this;
 	}
 
-	@Override
-	public int getWeight() {
-		int weight = 0;
-		for (Tag tag : getMergedTagsSet()) {
-			weight = weight + tag.getWeight();
-		}
-		return weight;
-	}
-
 }

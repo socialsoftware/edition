@@ -3,15 +3,13 @@ package pt.ist.socialsoftware.edition.domain;
 import java.util.HashSet;
 import java.util.Set;
 
-public class TagInFragInter extends TagInFragInter_Base {
+public class GeneratedTagInFragInter extends GeneratedTagInFragInter_Base {
 
-	public TagInFragInter init(FragInter fragInter, Category category,
+	public GeneratedTagInFragInter init(FragInter fragInter, Category category,
 			int percentage) {
-		super.init();
+		super.init(fragInter, category);
 
 		setType(TagType.FRAGINTER);
-		setFragInter(fragInter);
-		setCategory(category);
 		setPercentage(percentage);
 
 		return this;

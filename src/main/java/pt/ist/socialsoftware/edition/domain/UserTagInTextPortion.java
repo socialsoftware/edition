@@ -3,14 +3,12 @@ package pt.ist.socialsoftware.edition.domain;
 import java.util.HashSet;
 import java.util.Set;
 
-public class TagInTextPortion extends TagInTextPortion_Base {
+public class UserTagInTextPortion extends UserTagInTextPortion_Base {
 
-	public TagInTextPortion init(Category category, Annotation annotation) {
-		super.init();
+	public UserTagInTextPortion init(Category category, Annotation annotation) {
+		super.init(annotation.getFragInter(), category);
 
 		setType(TagType.TEXTPORTION);
-		setFragInter(annotation.getFragInter());
-		setCategory(category);
 		addAnnotation(annotation);
 
 		return this;
@@ -27,7 +25,6 @@ public class TagInTextPortion extends TagInTextPortion_Base {
 
 	public void removeThisAnnotation(Annotation annotation) {
 		if (getAnnotationSet().size() == 1) {
-			System.out.println("getAnnotationSet().size() == 1");
 			remove();
 		} else {
 			removeAnnotation(annotation);

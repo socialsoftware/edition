@@ -28,7 +28,7 @@ public class Annotation extends Annotation_Base {
 			range.remove();
 		}
 
-		for (TagInTextPortion tag : getTagInTextPortionSet()) {
+		for (UserTagInTextPortion tag : getUserTagInTextPortionSet()) {
 			tag.remove();
 		}
 
@@ -36,7 +36,7 @@ public class Annotation extends Annotation_Base {
 	}
 
 	private Taxonomy getTaxonomy() {
-		for (TagInTextPortion tagInTextPortion : getTagInTextPortionSet()) {
+		for (UserTagInTextPortion tagInTextPortion : getUserTagInTextPortionSet()) {
 			return tagInTextPortion.getCategory().getTaxonomy();
 		}
 		return null;
@@ -45,11 +45,11 @@ public class Annotation extends Annotation_Base {
 	public void updateTags(List<String> tags) {
 		for (String tag : tags) {
 			if (!existsActiveTag(tag)) {
-				getFragInter().createTagInTextPortion(getTaxonomy(), this, tag);
+				getFragInter().createUserTagInTextPortion(getTaxonomy(), this, tag);
 			}
 		}
 
-		for (TagInTextPortion tag : getTagInTextPortionSet()) {
+		for (UserTagInTextPortion tag : getUserTagInTextPortionSet()) {
 			if (!tags
 					.contains(tag.getActiveTag().getActiveCategory().getName())) {
 				tag.removeThisAnnotation(this);
@@ -58,7 +58,7 @@ public class Annotation extends Annotation_Base {
 	}
 
 	private boolean existsActiveTag(String name) {
-		for (TagInTextPortion tag : getTagInTextPortionSet()) {
+		for (UserTagInTextPortion tag : getUserTagInTextPortionSet()) {
 			if (tag.getActiveTag().getActiveCategory().getName().equals(name)) {
 				return true;
 			}

@@ -15,12 +15,14 @@ public class MergeTagInFragInter extends MergeTagInFragInter_Base {
 	@Override
 	public int getWeight() {
 		int weight = 0;
-		int count = 0;
 		for (Tag tag : getMergedTagsSet()) {
-			weight = weight + tag.getWeight();
-			count++;
+			if (tag instanceof GeneratedTagInFragInter) {
+				weight = weight + tag.getWeight() / getMergedTagsSet().size();
+			} else {
+				weight = weight + tag.getWeight();
+			}
 		}
-		return weight / count;
+		return weight;
 	}
 
 }
