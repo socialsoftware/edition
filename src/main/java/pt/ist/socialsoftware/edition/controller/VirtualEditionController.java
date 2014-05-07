@@ -516,6 +516,24 @@ public class VirtualEditionController {
 		}
 	}
 
+	@RequestMapping(method = RequestMethod.POST, value = "/restricted/category/delete")
+	@PreAuthorize("hasPermission(#categoryId, 'category.public')")
+	public String deleteCategory(Model model,
+			@RequestParam("categoryId") String categoryId) {
+		Category category = FenixFramework.getDomainObject(categoryId);
+		if (category == null) {
+			return "utils/pageNotFound";
+		}
+
+		Taxonomy taxonomy = category.getTaxonomy();
+
+		category.remove();
+
+		model.addAttribute("edition", taxonomy.getEdition());
+		model.addAttribute("taxonomy", taxonomy);
+		return "virtual/taxonomy";
+	}
+
 	@RequestMapping(method = RequestMethod.POST, value = "/restricted/category/merge")
 	@PreAuthorize("hasPermission(#taxonomyId, 'taxonomy.participant')")
 	public String mergeCategories(

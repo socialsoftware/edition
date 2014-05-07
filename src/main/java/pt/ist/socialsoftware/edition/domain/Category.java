@@ -41,6 +41,7 @@ public abstract class Category extends Category_Base implements
 		return this;
 	}
 
+	@Atomic(mode = TxMode.WRITE)
 	public void remove() {
 		setTaxonomy(null);
 

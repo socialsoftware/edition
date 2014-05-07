@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import pt.ist.fenixframework.Atomic;
+import pt.ist.fenixframework.Atomic.TxMode;
+
 public class GeneratedCategory extends GeneratedCategory_Base {
 
 	@Override
@@ -23,6 +26,7 @@ public class GeneratedCategory extends GeneratedCategory_Base {
 	}
 
 	@Override
+	@Atomic(mode = TxMode.WRITE)
 	public void remove() {
 		for (FragWordInCategory fragWordInCategory : getFragWordInCategorySet()) {
 			fragWordInCategory.remove();

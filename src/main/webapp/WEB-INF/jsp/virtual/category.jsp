@@ -31,24 +31,48 @@
         <div class="row">
             <c:choose>
                 <c:when test="${!category.getDeprecated()}">
-                    <form class="form-inline" method="POST"
-                        action="/virtualeditions/restricted/category">
-                        <div class="form-group">
-                            <input type="hidden" class="form-control"
-                                name="categoryId"
-                                value="${category.externalId}" />
-                        </div>
-                        <div class="form-group col-md-4">
-                            <input type="text" class="form-control"
-                                name="name"
-                                placeholder="<spring:message code="general.name" />"
-                                value="${category.getName()}" />
-                        </div>
-                        <button type="submit" class="btn btn-primary">
-                            <span class="glyphicon glyphicon-edit"></span>
-                            <spring:message code="general.update" />
-                        </button>
-                    </form>
+                    <div class="col-md-11">
+                        <form class="form-inline" method="POST"
+                            action="/virtualeditions/restricted/category">
+                            <div class="form-group">
+                                <input type="hidden"
+                                    class="form-control"
+                                    name="categoryId"
+                                    value="${category.externalId}" />
+                            </div>
+                            <div class="form-group col-md-4">
+                                <input type="text" class="form-control"
+                                    name="name"
+                                    placeholder="<spring:message code="general.name" />"
+                                    value="${category.getName()}" />
+                            </div>
+                            <button type="submit"
+                                class="btn btn-primary">
+                                <span class="glyphicon glyphicon-edit"></span>
+                                <spring:message code="general.update" />
+                            </button>
+                        </form>
+                    </div>
+                    <div class="col-md-1">
+                        <c:if test="${(category.getType() =='GENERATED') || (category.getType()=='ADHOC') }">
+                            <form class="form-inline" method="POST"
+                                action="/virtualeditions/restricted/category/delete">
+                                <div class="form-group">
+                                    <input type="hidden"
+                                        class="form-control"
+                                        name="categoryId"
+                                        value="${category.externalId}" />
+                                </div>
+                                <button type="submit"
+                                    class="btn btn-primary">
+                                    <span
+                                        class="glyphicon glyphicon-remove"></span>
+                                    <spring:message
+                                        code="general.delete" />
+                                </button>
+                            </form>
+                        </c:if>
+                    </div>
                 </c:when>
                 <c:otherwise>
                     <b>${category.getName()}</b>
