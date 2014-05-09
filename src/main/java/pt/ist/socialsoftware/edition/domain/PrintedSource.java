@@ -45,4 +45,22 @@ public class PrintedSource extends PrintedSource_Base {
 		return result;
 	}
 
+//	@Override
+//	public boolean belongsToResultSet(SearchOptions searchOptions) {
+//
+//		if (searchOptions.getAuthoralSourceSearchOptions()
+//				.getPrintedSourceOptions() == null) {
+//			// No option selected
+//			return true;
+//		} else {
+//			boolean res = true;
+//			if (searchOptions.getAuthoralSourceSearchOptions().pubPlace(
+//					this.getPubPlace())) {
+//				res = res && true;
+//			} else {
+//				res = res && false;
+//			}
+//			return res;
+//		}
+//	}
 }
