@@ -1,5 +1,6 @@
 package pt.ist.socialsoftware.edition.domain;
 
+
 public class FragWordInCategory extends FragWordInCategory_Base implements
 		Comparable<FragWordInCategory> {
 
