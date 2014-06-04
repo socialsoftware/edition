@@ -102,7 +102,7 @@
 <!-- -->
 		<security:intercept-url pattern="/**"
 			access="isAuthenticated()" />
-<!-- -->
+<!--  -->
 		<security:intercept-url pattern="/virtualeditions/restricted/**"
 			access="isAuthenticated()" />
 		<security:intercept-url pattern="/admin/**"
