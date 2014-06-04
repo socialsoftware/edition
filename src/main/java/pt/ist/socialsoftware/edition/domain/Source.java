@@ -23,7 +23,11 @@ public abstract class Source extends Source_Base implements Comparable<Source> {
 	public void remove() {
 		setFragment(null);
 
-		getFacsimile().remove();
+		// A source may not have a facsimile ???? - need to be checked with
+		// encoders
+		if (getFacsimile() != null) {
+			getFacsimile().remove();
+		}
 
 		for (SourceInter inter : getSourceIntersSet()) {
 			removeSourceInters(inter);
