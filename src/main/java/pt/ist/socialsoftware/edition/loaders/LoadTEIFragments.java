@@ -552,6 +552,8 @@ public class LoadTEIFragments {
 					loadUnclear(element2, delText);
 				} else if (element2.getName().equals("note")) {
 					loadNote(element2, parent);
+				} else if (element2.getName().equals("space")) {
+					loadSpace(element2, delText);
 				} else {
 					throw new LdoDLoadException("não carrega elementos: "
 							+ element2 + " do tipo:" + element2.getName()
