@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -121,7 +122,13 @@ public class LoadTEIFragments {
 		List<Object> objects = getObjectDirectIdsMap(listInterXmlId);
 		Set<FragInter> fragIters = new HashSet<FragInter>();
 		for (Object object : objects) {
-			fragIters.add((FragInter) object);
+			try {
+				fragIters.add((FragInter) object);
+			} catch (ClassCastException ex) {
+				throw new LdoDLoadException(
+						"um dos identificadores desta lista não é um identificador válido de witness: "
+								+ Arrays.toString(listInterXmlId));
+			}
 		}
 		return fragIters;
 	}
