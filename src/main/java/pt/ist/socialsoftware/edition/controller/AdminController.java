@@ -131,4 +131,14 @@ public class AdminController {
 
 	}
 
+	@RequestMapping(method = RequestMethod.POST, value = "/fragment/deleteAll")
+	public String deleteAllFragments(Model model) {
+		for (Fragment fragment : LdoD.getInstance().getFragmentsSet()) {
+			fragment.remove();
+		}
+
+		model.addAttribute("fragments", LdoD.getInstance().getFragmentsSet());
+		return "admin/deleteFragment";
+
+	}
 }
