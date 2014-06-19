@@ -263,13 +263,20 @@ public class LoadTEIFragments {
 			Boolean exists = false;
 			for (Fragment frag : ldoD.getFragmentsSet()) {
 				if (frag.getXmlId().equals(xmlId)) {
+					System.out.println("FRAGMENTO JÁ EXISTE: "
+							+ frag.getXmlId());
 					exists = true;
 					break;
 				}
 			}
 
 			if (!exists) {
-				atomicLoadFragment(title, xmlId);
+				try {
+					atomicLoadFragment(title, xmlId);
+				} catch (LdoDLoadException e) {
+					throw new LdoDLoadException("[" + title + "(" + xmlId
+							+ ")]: " + e.getMessage());
+				}
 			}
 		}
 	}
