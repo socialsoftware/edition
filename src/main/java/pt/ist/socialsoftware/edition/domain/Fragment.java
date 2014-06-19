@@ -10,6 +10,20 @@ import pt.ist.socialsoftware.edition.domain.Edition.EditionType;
 
 public class Fragment extends Fragment_Base {
 
+	public enum PrecisionType {
+		HIGH("high"), MEDIUM("medium"), LOW("low"), UNKNOWN("unknown");
+
+		private final String desc;
+
+		PrecisionType(String desc) {
+			this.desc = desc;
+		}
+
+		public String getDesc() {
+			return desc;
+		}
+	};
+
 	public Fragment(LdoD ldoD, String title, String xmlId) {
 		setLdoD(ldoD);
 		setTitle(title);
