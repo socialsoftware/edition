@@ -160,7 +160,7 @@
                                 items='${category.getSortedFragWordInCategory()}'>
                                 <tr>
                                     <td>
-                                        ${fragWordInCategory.getFragWord().getWord()}
+                                        ${fragWordInCategory.getFragWord().getWord()} (${fragWordInCategory.getWeight()})
                                     </td>
                                     <td><c:forEach
                                             var="fragWordInCategory2"

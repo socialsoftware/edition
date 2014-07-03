@@ -260,6 +260,8 @@ public class LoadTEIFragments {
 			String xmlId = getFragmentXmlId(element);
 			String title = getFragmentTitle(element);
 
+			System.out.println("A CARREGAR: [" + title + "(" + xmlId + ")]: ");
+
 			Boolean exists = false;
 			for (Fragment frag : ldoD.getFragmentsSet()) {
 				if (frag.getXmlId().equals(xmlId)) {
