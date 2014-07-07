@@ -32,7 +32,9 @@ public class SourceInter extends SourceInter_Base {
 
 	@Override
 	public String getMetaTextual() {
-		return getSource().getMetaTextual() + super.getMetaTextual();
+		String result = "Heterónimo: " + getHeteronym().getName() + "<br>";
+
+		return result + getSource().getMetaTextual() + super.getMetaTextual();
 	}
 
 	@Override
