@@ -262,13 +262,13 @@ public class LoadTEIFragments {
 			String xmlId = getFragmentXmlId(element);
 			String title = getFragmentTitle(element);
 
-			result = "CARREGAR: [" + xmlId + "(" + title + ")]";
+			result = "CARREGAR: [" + xmlId + "(" + title + ")] <br>";
 
 			Boolean exists = false;
 			for (Fragment frag : ldoD.getFragmentsSet()) {
 				if (frag.getXmlId().equals(xmlId)) {
 					result = result
-							+ ": FRAG-ID JÁ EXISTE LOGO NÃO FOI CARREGADO <br>";
+							+ "------------> FRAG-ID JÁ EXISTE LOGO NÃO FOI CARREGADO <br>";
 					exists = true;
 					break;
 				}
