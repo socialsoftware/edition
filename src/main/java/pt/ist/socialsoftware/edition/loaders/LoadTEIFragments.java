@@ -52,6 +52,7 @@ import pt.ist.socialsoftware.edition.domain.ManuscriptSource;
 import pt.ist.socialsoftware.edition.domain.ManuscriptSource.Medium;
 import pt.ist.socialsoftware.edition.domain.NoteText;
 import pt.ist.socialsoftware.edition.domain.NoteText.NoteType;
+import pt.ist.socialsoftware.edition.domain.NullHeteronym;
 import pt.ist.socialsoftware.edition.domain.ParagraphText;
 import pt.ist.socialsoftware.edition.domain.PbText;
 import pt.ist.socialsoftware.edition.domain.PhysNote;
@@ -990,6 +991,8 @@ public class LoadTEIFragments {
 				Heteronym heteronym = getHeteronym(bibl);
 				if (heteronym != null)
 					fragInter.setHeteronym(heteronym);
+				else
+					fragInter.setHeteronym(NullHeteronym.getNullHeteronym());
 
 				Element titleElement = bibl.getChild("title", namespace);
 				if ((titleElement != null)
@@ -1017,7 +1020,8 @@ public class LoadTEIFragments {
 				setBiblScopes(fragInter, bibl);
 
 				setNotes(fragInter, bibl);
-			}
+			} else
+				fragInter.setHeteronym(NullHeteronym.getNullHeteronym());
 
 			fragInter.setXmlId(witnessXmlID);
 
@@ -1182,7 +1186,7 @@ public class LoadTEIFragments {
 								+ bibl.getValue());
 			}
 		} else {
-			heteronym = null;
+			heteronym = NullHeteronym.getNullHeteronym();
 		}
 		return heteronym;
 	}
