@@ -246,8 +246,10 @@ public class LoadTEIFragments {
 		return message;
 	}
 
-	public void loadFragmentsStepByStep(InputStream file)
+	public String loadFragmentsStepByStep(InputStream file)
 			throws LdoDLoadException {
+		String result = null;
+
 		parseTEIFile(file);
 
 		XPathExpression<Element> xp = xpfac.compile("//def:TEI/def:teiHeader",
@@ -260,13 +262,13 @@ public class LoadTEIFragments {
 			String xmlId = getFragmentXmlId(element);
 			String title = getFragmentTitle(element);
 
-			System.out.println("A CARREGAR: [" + title + "(" + xmlId + ")]: ");
+			result = "CARREGAR: [" + xmlId + "(" + title + ")]";
 
 			Boolean exists = false;
 			for (Fragment frag : ldoD.getFragmentsSet()) {
 				if (frag.getXmlId().equals(xmlId)) {
-					System.out.println("FRAGMENTO JÁ EXISTE: "
-							+ frag.getXmlId());
+					result = result
+							+ ": FRAG-ID JÁ EXISTE LOGO NÃO FOI CARREGADO <br>";
 					exists = true;
 					break;
 				}
@@ -281,6 +283,7 @@ public class LoadTEIFragments {
 				}
 			}
 		}
+		return result;
 	}
 
 	@Atomic(mode = TxMode.WRITE)

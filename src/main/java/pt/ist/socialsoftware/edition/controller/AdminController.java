@@ -91,16 +91,21 @@ public class AdminController {
 
 		LoadTEIFragments loader = new LoadTEIFragments();
 
+		String list = "";
+		int total = 0;
 		for (MultipartFile file : files) {
 			try {
-				loader.loadFragmentsStepByStep(file.getInputStream());
+				list = list
+						+ loader.loadFragmentsStepByStep(file.getInputStream());
+				total++;
 			} catch (IOException e) {
 				throw new LdoDLoadException(
 						"Problemas com o ficheiro, tipo ou formato");
 			}
 		}
 
-		return writeMessage(model, "Fragmentos carregados", "/search/fragments");
+		return writeMessage(model, "Fragmentos carregados: " + total + "<br>"
+				+ list, "/search/fragments");
 
 	}
 
