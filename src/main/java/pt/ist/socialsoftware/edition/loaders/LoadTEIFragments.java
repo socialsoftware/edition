@@ -455,8 +455,13 @@ public class LoadTEIFragments {
 
 		List<SegText> segTextList = new ArrayList<SegText>();
 		for (String xmlId : targetList) {
-			SegText segText = (SegText) getObjectDirectIdMap(xmlId.substring(1))
-					.get(0);
+			List<Object> listSegTextList = getObjectDirectIdMap(xmlId
+					.substring(1));
+			if (listSegTextList == null)
+				throw new LdoDLoadException(
+						"Não está declarado xml:id associado a um identicador target do elemento alt. Valor="
+								+ xmlId.substring(1));
+			SegText segText = (SegText) listSegTextList.get(0);
 			if (segText == null) {
 				throw new LdoDLoadException(
 						"Não há elemento seg associado a um identicador target do elemento alt. Valor="
@@ -1037,6 +1042,8 @@ public class LoadTEIFragments {
 		List<Element> notesList = bibl.getChildren("note", namespace);
 		for (Element noteElement : notesList) {
 			String typeValue = noteElement.getAttributeValue("type");
+			if (typeValue == null)
+				throw new LdoDLoadException("elemento note sem atributo type");
 			if (typeValue.equals("physDesc")) {
 				notes = notes + noteElement.getTextTrim() + ";";
 			} else if (typeValue.equals("annex")) {

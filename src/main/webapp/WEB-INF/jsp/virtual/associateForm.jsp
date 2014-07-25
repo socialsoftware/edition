@@ -56,7 +56,7 @@
                                 <tr>
 
                                     <td><a
-                                        href="${contextPath}/edition/category/${ctegory.getExternalId()}">
+                                        href="${contextPath}/edition/category/${category.getExternalId()}">
                                             ${category.getName()}</a></td>
                                     <td class="col-centered">
                                         <div class="form-group">

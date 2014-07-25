@@ -45,6 +45,11 @@ public class LdoDUser extends LdoDUser_Base {
 			inters.add(annotation.getFragInter());
 		}
 
+		for (UserTagInFragInter userTagInFragInter : getUserTagInFragInterSet()) {
+			if (!userTagInFragInter.getDeprecated())
+				inters.add(userTagInFragInter.getFragInter());
+		}
+
 		return inters;
 	}
 
