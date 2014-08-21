@@ -43,6 +43,7 @@ class LdoDUser {
 	String password;
 	String firstName;
 	String lastName;
+	String email;
 }
 
 relation LdoDHasLdoDUsers {

@@ -68,37 +68,37 @@ public class Bootstrap implements WebApplicationInitializer {
 				ldod,
 				"ars",
 				"afec24a5413f633e764835ad9651329bae74fdf04096442d11e585ce14a3985f",
-				"António", "Rito Silva");
+				"António", "Rito Silva", "rito.silva@tecnico.ulisboa.pt");
 		LdoDUser diego = new LdoDUser(
 				ldod,
 				"diego",
 				"9306e985ad9ba5d90948190bf3a11e5dff0859092f91015f272106fabd51defd",
-				"Diego", "Giménez");
+				"Diego", "Giménez", "dgimenezdm@gmail.com");
 		LdoDUser mp = new LdoDUser(
 				ldod,
 				"mp",
 				"57861f3d84c18bdf6cdc7d14d74ea7db958713189db33992f71207a06c3c5a03",
-				"Manuel", "Portela");
+				"Manuel", "Portela", "mportela@fl.uc.pt");
 		LdoDUser tiago = new LdoDUser(
 				ldod,
 				"tiago",
 				"de968c78d0e50dbfd5083e1994492548baf4159f7112242acb02f773dc308ac9",
-				"Tiago", "Santos");
+				"Tiago", "Santos", "tiago@tiagosantos.me");
 		LdoDUser nuno = new LdoDUser(
 				ldod,
 				"nuno",
 				"057cc85da65d23b0b2971833ec27aab712b84aa6e47c034ab8143e48398205a1",
-				"Nuno", "Pinto");
+				"Nuno", "Pinto", "nuno.mribeiro.pinto@gmail.com");
 		LdoDUser luis = new LdoDUser(
 				ldod,
 				"luis",
 				"067404fcada78c3f94ef0e9caefc1fc0d47d26568b4ea85f7246f350b311a27d",
-				"Luís", "Lucas Pereira");
+				"Luís", "Lucas Pereira", "lmlbpereira@gmail.com");
 		LdoDUser andre = new LdoDUser(
 				ldod,
 				"afs",
 				"afec24a5413f633e764835ad9651329bae74fdf04096442d11e585ce14a3985f",
-				"André", "Santos");
+				"André", "Santos", "andrefilipebrazsantos@gmail.com");
 
 		ars.addRoles(user);
 		ars.addRoles(admin);

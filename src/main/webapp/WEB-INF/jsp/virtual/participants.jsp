@@ -59,6 +59,7 @@
                         <th><spring:message code="login.username" /></th>
                         <th><spring:message code="user.firstName" /></th>
                         <th><spring:message code="user.lastName" /></th>
+                        <th>email</th>
                         <th><spring:message code="general.remove" /></th>
                     </tr>
                 </thead>
@@ -72,6 +73,7 @@
                                 href="${contextPath}/edition/user/${participant.username}">${participant.username}</a></td>
                             <td>${participant.getFirstName()}</td>
                             <td>${participant.getLastName()}</td>
+                            <td><a href="mailto:${participant.getEmail()}">${participant.getEmail()}</a></td>
                             <td>
                                 <form class="form-inline" method="POST"
                                     action="${contextPath}/virtualeditions/restricted/removeparticipant">
@@ -115,6 +117,7 @@
                                 href="${contextPath}/edition/user/${user.username}">${user.username}</a></td>
                             <td>${user.getFirstName()}</td>
                             <td>${user.getLastName()}</td>
+                            <td><a href="mailto:${user.getEmail()}">${user.getEmail()}</a></td>
                         </tr>
                     </c:forEach>
                 </tbody>
