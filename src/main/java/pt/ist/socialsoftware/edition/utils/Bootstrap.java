@@ -64,20 +64,41 @@ public class Bootstrap implements WebApplicationInitializer {
 		Role admin = new Role(ldod, "ADMIN");
 
 		// the sha-256 generator http://hash.online-convert.com/sha256-generator
-		LdoDUser ars = new LdoDUser(ldod, "ars",
-				"afec24a5413f633e764835ad9651329bae74fdf04096442d11e585ce14a3985f");
-		LdoDUser diego = new LdoDUser(ldod, "diego",
-				"9306e985ad9ba5d90948190bf3a11e5dff0859092f91015f272106fabd51defd");
-		LdoDUser mp = new LdoDUser(ldod, "mp",
-				"57861f3d84c18bdf6cdc7d14d74ea7db958713189db33992f71207a06c3c5a03");
-		LdoDUser carlos = new LdoDUser(ldod, "carlos",
-				"cf7fa6738933ffe9f792359fba2cabcd1c36874c5af0994aee01fde5cc19015c");
-		LdoDUser tiago = new LdoDUser(ldod, "tiago",
-				"de968c78d0e50dbfd5083e1994492548baf4159f7112242acb02f773dc308ac9");
-		LdoDUser nuno = new LdoDUser(ldod, "nuno",
-				"057cc85da65d23b0b2971833ec27aab712b84aa6e47c034ab8143e48398205a1");
-		LdoDUser luis = new LdoDUser(ldod, "luis",
-				"067404fcada78c3f94ef0e9caefc1fc0d47d26568b4ea85f7246f350b311a27d");
+		LdoDUser ars = new LdoDUser(
+				ldod,
+				"ars",
+				"afec24a5413f633e764835ad9651329bae74fdf04096442d11e585ce14a3985f",
+				"António", "Rito Silva");
+		LdoDUser diego = new LdoDUser(
+				ldod,
+				"diego",
+				"9306e985ad9ba5d90948190bf3a11e5dff0859092f91015f272106fabd51defd",
+				"Diego", "Giménez");
+		LdoDUser mp = new LdoDUser(
+				ldod,
+				"mp",
+				"57861f3d84c18bdf6cdc7d14d74ea7db958713189db33992f71207a06c3c5a03",
+				"Manuel", "Portela");
+		LdoDUser tiago = new LdoDUser(
+				ldod,
+				"tiago",
+				"de968c78d0e50dbfd5083e1994492548baf4159f7112242acb02f773dc308ac9",
+				"Tiago", "Santos");
+		LdoDUser nuno = new LdoDUser(
+				ldod,
+				"nuno",
+				"057cc85da65d23b0b2971833ec27aab712b84aa6e47c034ab8143e48398205a1",
+				"Nuno", "Pinto");
+		LdoDUser luis = new LdoDUser(
+				ldod,
+				"luis",
+				"067404fcada78c3f94ef0e9caefc1fc0d47d26568b4ea85f7246f350b311a27d",
+				"Luís", "Lucas Pereira");
+		LdoDUser andre = new LdoDUser(
+				ldod,
+				"afs",
+				"afec24a5413f633e764835ad9651329bae74fdf04096442d11e585ce14a3985f",
+				"André", "Santos");
 
 		ars.addRoles(user);
 		ars.addRoles(admin);
@@ -88,9 +109,6 @@ public class Bootstrap implements WebApplicationInitializer {
 		mp.addRoles(user);
 		mp.addRoles(admin);
 
-		carlos.addRoles(user);
-		carlos.addRoles(admin);
-
 		tiago.addRoles(user);
 		tiago.addRoles(admin);
 
@@ -100,6 +118,9 @@ public class Bootstrap implements WebApplicationInitializer {
 		luis.addRoles(user);
 		luis.addRoles(admin);
 
+		andre.addRoles(user);
+		andre.addRoles(admin);
+
 		VirtualEdition classX = new VirtualEdition(ldod, ars, "ClassX",
 				"LdoD Edition of Class X", new LocalDate(), true, null);
 		classX.addParticipant(luis);
@@ -107,12 +128,14 @@ public class Bootstrap implements WebApplicationInitializer {
 		classX.addParticipant(diego);
 		classX.addParticipant(tiago);
 		classX.addParticipant(ars);
+		classX.addParticipant(andre);
 		luis.addSelectedVirtualEditions(classX);
 		mp.addSelectedVirtualEditions(classX);
 		ars.addSelectedVirtualEditions(classX);
 		diego.addSelectedVirtualEditions(classX);
 		tiago.addSelectedVirtualEditions(classX);
 		nuno.addSelectedVirtualEditions(classX);
+		andre.addSelectedVirtualEditions(classX);
 
 		VirtualEdition classY = new VirtualEdition(ldod, ars, "ClassY",
 				"LdoD Edition of Class Y", new LocalDate(), false, null);
@@ -133,7 +156,7 @@ public class Bootstrap implements WebApplicationInitializer {
 		classW.addParticipant(diego);
 		classW.addParticipant(mp);
 		classW.addParticipant(luis);
-		classW.addParticipant(carlos);
+		classW.addParticipant(andre);
 		classW.addParticipant(tiago);
 		classW.addParticipant(nuno);
 		mp.addSelectedVirtualEditions(classW);

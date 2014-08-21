@@ -10,7 +10,7 @@
     <div class="container">
         <h3 class="text-center">
             <spring:message code="general.contributionsOf" />
-            ${user.username} (${user.getFragInterSet().size()})
+            ${user.firstName} ${user.lastName}  (${user.username}) (${user.getFragInterSet().size()})
         </h3>
 
         <table class="table table-hover table-condensed">

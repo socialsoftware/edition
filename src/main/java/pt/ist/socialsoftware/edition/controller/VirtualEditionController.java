@@ -263,7 +263,10 @@ public class VirtualEditionController {
 		if (virtualEdition == null) {
 			return "utils/pageNotFound";
 		} else {
+			Set<LdoDUser> users = virtualEdition.getLdoD4Virtual()
+					.getUsersSet();
 			model.addAttribute("virtualedition", virtualEdition);
+			model.addAttribute("users", users);
 			return "virtual/participants";
 		}
 	}
@@ -280,6 +283,8 @@ public class VirtualEditionController {
 			return "utils/pageNotFound";
 		}
 
+		Set<LdoDUser> users = virtualEdition.getLdoD4Virtual().getUsersSet();
+
 		LdoD ldoD = LdoD.getInstance();
 		LdoDUser user = ldoD.getUser(username);
 		if (user == null) {
@@ -288,10 +293,12 @@ public class VirtualEditionController {
 			model.addAttribute("errors", errors);
 			model.addAttribute("username", username);
 			model.addAttribute("virtualedition", virtualEdition);
+			model.addAttribute("users", users);
 			return "virtual/participants";
 		} else {
 			user.addToVirtualEdition(virtualEdition);
 			model.addAttribute("virtualedition", virtualEdition);
+			model.addAttribute("users", users);
 			return "virtual/participants";
 		}
 	}
@@ -306,6 +313,8 @@ public class VirtualEditionController {
 		VirtualEdition virtualEdition = FenixFramework.getDomainObject(veId);
 		LdoDUser user = FenixFramework.getDomainObject(userId);
 
+		Set<LdoDUser> users = virtualEdition.getLdoD4Virtual().getUsersSet();
+
 		if ((virtualEdition == null) || (user == null)) {
 			return "utils/pageNotFound";
 		}
@@ -315,6 +324,7 @@ public class VirtualEditionController {
 			errors.add("user.one");
 			model.addAttribute("errors", errors);
 			model.addAttribute("virtualedition", virtualEdition);
+			model.addAttribute("users", users);
 			return "virtual/participants";
 		} else {
 			user.removeVirtualEdition(virtualEdition);
@@ -328,6 +338,7 @@ public class VirtualEditionController {
 				return "virtual/editions";
 			} else {
 				model.addAttribute("virtualedition", virtualEdition);
+				model.addAttribute("users", users);
 				return "virtual/participants";
 			}
 		}

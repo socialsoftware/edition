@@ -20,7 +20,7 @@
                 <spring:message code="${error}" />
             </div>
         </c:forEach>
-        <div class="row">
+        <div class="row col-md-10">
             <form class="form-inline" method="POST"
                 action="/virtualeditions/restricted/addparticipant">
                 <div class="form-group">
@@ -40,12 +40,25 @@
                 </button>
             </form>
         </div>
+                <div class="row col-md-2 pull-right">
+            <form class="form-inline" method="GET"
+                action="${contextPath}/virtualeditions">
+                <button type="submit" class="btn btn-primary">
+                    <span class="glyphicon glyphicon-th-list"></span>
+                    <spring:message code="virtual.editions" />
+                </button>
+            </form>
+        </div>
+        
         <br />
         <div class="row">
             <table class="table table-hover">
+            <caption><h2><spring:message code="participantsForm.message1" /></h2></caption>
                 <thead>
                     <tr>
                         <th><spring:message code="login.username" /></th>
+                        <th><spring:message code="user.firstName" /></th>
+                        <th><spring:message code="user.lastName" /></th>
                         <th><spring:message code="general.remove" /></th>
                     </tr>
                 </thead>
@@ -57,6 +70,8 @@
                                 class="glyphicon glyphicon-user"></span>
                                 <a
                                 href="${contextPath}/edition/user/${participant.username}">${participant.username}</a></td>
+                            <td>${participant.getFirstName()}</td>
+                            <td>${participant.getLastName()}</td>
                             <td>
                                 <form class="form-inline" method="POST"
                                     action="${contextPath}/virtualeditions/restricted/removeparticipant">
@@ -79,15 +94,33 @@
                 </tbody>
             </table>
         </div>
-        <div class="row pull-right">
-            <form class="form-inline" method="GET"
-                action="${contextPath}/virtualeditions">
-                <button type="submit" class="btn btn-primary">
-                    <span class="glyphicon glyphicon-th-list"></span>
-                    <spring:message code="virtual.editions" />
-                </button>
-            </form>
+        
+        <div class="row">
+            <table class="table table-hover">
+            <caption><h2><spring:message code="participantsForm.message2" /></h2></caption>
+                <thead>
+                    <tr>
+                        <th><spring:message code="login.username" /></th>
+                        <th><spring:message code="user.firstName" /></th>
+                        <th><spring:message code="user.lastName" /></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <c:forEach var="user"
+                        items='${users}'>
+                        <tr>
+                            <td><span
+                                class="glyphicon glyphicon-user"></span>
+                                <a
+                                href="${contextPath}/edition/user/${user.username}">${user.username}</a></td>
+                            <td>${user.getFirstName()}</td>
+                            <td>${user.getLastName()}</td>
+                        </tr>
+                    </c:forEach>
+                </tbody>
+            </table>
         </div>
+        
     </div>
 </body>
 </html>

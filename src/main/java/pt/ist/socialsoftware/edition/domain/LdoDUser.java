@@ -31,11 +31,14 @@ public class LdoDUser extends LdoDUser_Base {
 		// TODO
 	}
 
-	public LdoDUser(LdoD ldoD, String username, String password) {
+	public LdoDUser(LdoD ldoD, String username, String password,
+			String firstName, String lastName) {
 		super();
 		setLdoD(ldoD);
 		setUsername(username);
 		setPassword(password);
+		setFirstName(firstName);
+		setLastName(lastName);
 	}
 
 	public Set<FragInter> getFragInterSet() {

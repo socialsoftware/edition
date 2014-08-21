@@ -41,6 +41,8 @@ relation DomainRootHasLdoDApplication {
 class LdoDUser {
 	String username;
 	String password;
+	String firstName;
+	String lastName;
 }
 
 relation LdoDHasLdoDUsers {
