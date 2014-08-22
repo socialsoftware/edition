@@ -22,7 +22,7 @@
         </c:forEach>
         <div class="row col-md-10">
             <form class="form-inline" method="POST"
-                action="/virtualeditions/restricted/addparticipant">
+                action="${contextPath}/virtualeditions/restricted/addparticipant">
                 <div class="form-group">
                     <input type="hidden" class="form-control"
                         name="externalId"
@@ -114,6 +114,8 @@
                         <th><spring:message code="login.username" /></th>
                         <th><spring:message code="user.firstName" /></th>
                         <th><spring:message code="user.lastName" /></th>
+                        <th>email</th>
+                        <th><spring:message code="general.add" /></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -129,6 +131,22 @@
                                 <td>${user.getLastName()}</td>
                                 <td><a
                                     href="mailto:${user.getEmail()}">${user.getEmail()}</a></td>
+                            <td>
+                                <form class="form-inline" method="POST"
+                                    action="${contextPath}/virtualeditions/restricted/addparticipant">
+                                    <input type="hidden" name="externalId"
+                                        value="${virtualedition.externalId}" />
+                                    <input type="hidden" name="username"
+                                        value="${user.username}" />
+                                    <button type="submit"
+                                        class="btn btn-primary btn-sm">
+                                        <span
+                                            class="glyphicon glyphicon-remove"></span>
+                                        <spring:message
+                                            code="general.add" />
+                                    </button>
+                                </form>
+                            </td>
                             </tr>
                         </c:if>
                     </c:forEach>
