@@ -109,7 +109,7 @@ public class Bootstrap implements WebApplicationInitializer {
 		andre.addRoles(admin);
 
 		VirtualEdition classX = new VirtualEdition(ldod, ars, "ClassX",
-				"LdoD Edition of Class X", new LocalDate(), true, null);
+				"LdoD Edition of Class X", new LocalDate(), false, null);
 		classX.addParticipant(luis);
 		classX.addParticipant(mp);
 		classX.addParticipant(diego);
@@ -139,7 +139,7 @@ public class Bootstrap implements WebApplicationInitializer {
 		nuno.addSelectedVirtualEditions(classY);
 
 		VirtualEdition classW = new VirtualEdition(ldod, ars, "ClassW",
-				"LdoD Edition of Class W", new LocalDate(), true, null);
+				"LdoD Edition of Class W", new LocalDate(), false, null);
 		classW.addParticipant(diego);
 		classW.addParticipant(mp);
 		classW.addParticipant(luis);

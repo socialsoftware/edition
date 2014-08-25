@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 
 import org.joda.time.LocalDate;
@@ -142,17 +143,19 @@ public class LdoD extends LdoD_Base {
 		Role userRole = getRole("USER");
 
 		ExpertEdition[] editions = getExpertEditionsSet().toArray(
-				new ExpertEdition[0]);
+				new ExpertEdition[4]);
 
+		Random rand = new Random();
 		for (LdoDUser user : users) {
 			user.addRoles(userRole);
 			VirtualEdition virtualEdition = new VirtualEdition(this, user,
 					"Ed-" + user.getUsername(), "Edição de "
 							+ user.getFirstName() + " " + user.getLastName(),
-					new LocalDate(), true, editions[(int) Math.random() * 4]);
+					new LocalDate(), true, editions[rand.nextInt(4)]);
 			user.addSelectedVirtualEditions(virtualEdition);
 			CorpusGenerator generator = new CorpusGenerator();
 			generator.generate(virtualEdition);
 		}
+
 	}
 }
