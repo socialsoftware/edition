@@ -1,7 +1,9 @@
 package pt.ist.socialsoftware.edition.controller;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,11 +23,13 @@ import pt.ist.socialsoftware.edition.shared.exception.LdoDLoadException;
 public class AdminController {
 
 	@RequestMapping(method = RequestMethod.GET, value = "/load/corpusForm")
+	@PreAuthorize("hasRole('ADMIN')")
 	public String corpusForm(Model model) {
 		return "admin/loadCorpus";
 	}
 
 	@RequestMapping(method = RequestMethod.POST, value = "/load/corpus")
+	@PreAuthorize("hasRole('ADMIN')")
 	public String loadTEICorpus(Model model,
 			@RequestParam("file") MultipartFile file) throws LdoDLoadException {
 
@@ -45,16 +49,19 @@ public class AdminController {
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/load/fragmentFormAtOnce")
+	@PreAuthorize("hasRole('ADMIN')")
 	public String fragmentFormAtOnce(Model model) {
 		return "admin/loadFragmentsAtOnce";
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/load/fragmentFormStepByStep")
+	@PreAuthorize("hasRole('ADMIN')")
 	public String fragmentFormStepByStep(Model model) {
 		return "admin/loadFragmentsStepByStep";
 	}
 
 	@RequestMapping(method = RequestMethod.POST, value = "/load/fragmentsAtOnce")
+	@PreAuthorize("hasRole('ADMIN')")
 	public String loadTEIFragmentsAtOnce(Model model,
 			@RequestParam("file") MultipartFile file) throws LdoDLoadException {
 		String message = null;
@@ -81,6 +88,7 @@ public class AdminController {
 	}
 
 	@RequestMapping(method = RequestMethod.POST, value = "/load/fragmentsStepByStep")
+	@PreAuthorize("hasRole('ADMIN')")
 	public String loadTEIFragmentsStepByStep(Model model,
 			@RequestParam("files") MultipartFile[] files)
 			throws LdoDLoadException {
@@ -116,12 +124,14 @@ public class AdminController {
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/fragment/list")
+	@PreAuthorize("hasRole('ADMIN')")
 	public String deleteFragmentsList(Model model) {
 		model.addAttribute("fragments", LdoD.getInstance().getFragmentsSet());
 		return "admin/deleteFragment";
 	}
 
 	@RequestMapping(method = RequestMethod.POST, value = "/fragment/delete")
+	@PreAuthorize("hasRole('ADMIN')")
 	public String deleteFragment(Model model,
 			@RequestParam("externalId") String externalId) {
 		Fragment fragment = FenixFramework.getDomainObject(externalId);
@@ -137,6 +147,7 @@ public class AdminController {
 	}
 
 	@RequestMapping(method = RequestMethod.POST, value = "/fragment/deleteAll")
+	@PreAuthorize("hasRole('ADMIN')")
 	public String deleteAllFragments(Model model) {
 		for (Fragment fragment : LdoD.getInstance().getFragmentsSet()) {
 			fragment.remove();
@@ -144,6 +155,15 @@ public class AdminController {
 
 		model.addAttribute("fragments", LdoD.getInstance().getFragmentsSet());
 		return "admin/deleteFragment";
+
+	}
+
+	@RequestMapping(method = RequestMethod.GET, value = "/user/create")
+	@PreAuthorize("hasRole('ADMIN')")
+	public String createUsers(Model model) throws FileNotFoundException,
+			IOException {
+		LdoD.getInstance().createUsers();
+		return writeMessage(model, "Utilizadores criados", "/");
 
 	}
 }

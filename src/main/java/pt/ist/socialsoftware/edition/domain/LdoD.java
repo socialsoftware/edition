@@ -1,5 +1,7 @@
 package pt.ist.socialsoftware.edition.domain;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -7,10 +9,13 @@ import java.util.List;
 import java.util.Set;
 
 import org.joda.time.LocalDate;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.fenixframework.FenixFramework;
+import pt.ist.socialsoftware.edition.mallet.CorpusGenerator;
 import pt.ist.socialsoftware.edition.security.LdoDSession;
 
 public class LdoD extends LdoD_Base {
@@ -52,6 +57,14 @@ public class LdoD extends LdoD_Base {
 			if (user.getUsername().equals(username)) {
 				return user;
 			}
+		}
+		return null;
+	}
+
+	public Role getRole(String rolename) {
+		for (Role role : getRolesSet()) {
+			if (role.getRolename().equals(rolename))
+				return role;
 		}
 		return null;
 	}
@@ -105,5 +118,41 @@ public class LdoD extends LdoD_Base {
 			String title, LocalDate date, boolean pub, Edition usedEdition) {
 		return new VirtualEdition(this, user, acronym, title, date, pub,
 				usedEdition);
+	}
+
+	@Atomic(mode = TxMode.WRITE)
+	public void createUsers() throws FileNotFoundException, IOException {
+		String[] usernames = { "xpto", "xyz" };
+		String[] passwords = { "xpto", "xyz" };
+		String[] firstNames = { "António", "Manuel" };
+		String[] lastNames = { "Silva", "Ferreira da Silva" };
+		String[] emails = { "ars@gmail.com", "xpto@hotmail.com" };
+		List<LdoDUser> users = new ArrayList<LdoDUser>();
+
+		PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+		for (int i = 0; i < usernames.length; i++) {
+			if (getUser(usernames[i]) == null) {
+				users.add(new LdoDUser(this, usernames[i], passwordEncoder
+						.encode(passwords[i]), firstNames[i], lastNames[i],
+						emails[i]));
+			}
+		}
+
+		Role userRole = getRole("USER");
+
+		ExpertEdition[] editions = getExpertEditionsSet().toArray(
+				new ExpertEdition[0]);
+
+		for (LdoDUser user : users) {
+			user.addRoles(userRole);
+			VirtualEdition virtualEdition = new VirtualEdition(this, user,
+					"Ed-" + user.getUsername(), "Edição de "
+							+ user.getFirstName() + " " + user.getLastName(),
+					new LocalDate(), true, editions[(int) Math.random() * 4]);
+			user.addSelectedVirtualEditions(virtualEdition);
+			CorpusGenerator generator = new CorpusGenerator();
+			generator.generate(virtualEdition);
+		}
 	}
 }
