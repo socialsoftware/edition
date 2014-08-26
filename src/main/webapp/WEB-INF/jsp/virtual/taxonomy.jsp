@@ -9,8 +9,9 @@
 
     <div class="container">
         <h1 class="text-center">
-            <spring:message code="general.edition" />
-            : ${taxonomy.getEdition().getReference()}
+            <spring:message code="general.edition" /> <a
+                href="${contextPath}/virtualeditions/restricted/${taxonomy.getEdition().getExternalId()}/taxonomy">
+            : ${taxonomy.getEdition().getReference()}</a>
             <spring:message code="general.taxonomy" />
             : ${taxonomy.getName()}
         </h1>
