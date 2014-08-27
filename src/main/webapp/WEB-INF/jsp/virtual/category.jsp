@@ -8,7 +8,8 @@
 function validateForm() {
     var x = document.forms["updateName"]["name"].value;
     if (x == null || x == "") {
-        alert("A categoria deve ter um nome");
+        $("#message").html("A categoria deve ter um nome.");
+        $("#myModal").modal('show');
         return false;
     }
 }
@@ -313,6 +314,25 @@ function validateForm() {
                     </table>
                 </c:when>
             </c:choose>
+        </div>
+    </div>
+    <!-- Modal HTML -->
+    <div id="myModal" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close"
+                        data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Informação</h4>
+                </div>
+                <div class="modal-body">
+                    <h3 id="message" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default"
+                        data-dismiss="modal">Fechar</button>
+                </div>
+            </div>
         </div>
     </div>
 </body>

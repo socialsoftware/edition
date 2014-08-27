@@ -8,20 +8,24 @@
 function validateForm() {
     var x = document.forms["createTaxonomy"]["name"].value;
     if (x == null || x == "") {
-        alert("Deve ser dado um nome à taxonomia a criar");
+        $("#message").html("Deve ser dado um nome à taxonomia a criar");
+        $("#myModal").modal('show');
         return false;
     } 
     x = document.forms["createTaxonomy"]["numTopics"].value;
     if (x == null || x == "") {
-        alert("Deve ser indicado o número de tópicos a gerar");
+        $("#message").html("Deve ser indicado o número de tópicos a gerar");
+        $("#myModal").modal('show');
         return false;
     } else if (isNaN(x) || x < 1) {
-        alert("Deve ser indicado um número de tópicos positivo");
+        $("#message").html("Deve ser indicado um número de tópicos positivo");
+        $("#myModal").modal('show');
         return false;
     }
     x = document.forms["createTaxonomy"]["numWords"].value;
     if (x == null || x == "") {
-        alert("Deve ser indicado o número de palavras a apresentar");
+        $("#message").html("Deve ser indicado o número de palavras a apresentar");
+        $("#myModal").modal('show');
         return false;
     } else if (isNaN(x) || x < 1) {
         alert("Deve ser indicado um número de palavras positivo");
@@ -29,18 +33,22 @@ function validateForm() {
     }
     x = document.forms["createTaxonomy"]["thresholdCategories"].value;
     if (x == null || x == "") {
-        alert("Deve ser indicado o valor de corte de categorias");
+        $("#message").html("Deve ser indicado o valor de corte de categorias");
+        $("#myModal").modal('show');
         return false;
     } else if (isNaN(x) || x < 0 || x > 100) {
-        alert("Deve ser indicado um valor de corte de categorias entre 0 e 100");
+        $("#message").html("Deve ser indicado um valor de corte de categorias entre 0 e 100");
+        $("#myModal").modal('show');
         return false;
     }
     x = document.forms["createTaxonomy"]["numIterations"].value;
     if (x == null || x == "") {
-        alert("Deve ser indicado o número de iterações");
+        $("#message").html("Deve ser indicado o número de iterações");
+        $("#myModal").modal('show');
         return false;
     } else if (isNaN(x) || x < 1) {
-        alert("Deve ser indicado um número de iterações positivo");
+        $("#message").html("Deve ser indicado um número de iterações positivo");
+        $("#myModal").modal('show');
         return false;
     }
 }
@@ -162,6 +170,25 @@ function validateForm() {
                     </c:forEach>
                 </tbody>
             </table>
+        </div>
+    </div>
+    <!-- Modal HTML -->
+    <div id="myModal" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close"
+                        data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Informação</h4>
+                </div>
+                <div class="modal-body">
+                    <h3 id="message" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default"
+                        data-dismiss="modal">Fechar</button>
+                </div>
+            </div>
         </div>
     </div>
 </body>
