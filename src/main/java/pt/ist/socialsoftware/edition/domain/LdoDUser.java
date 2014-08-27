@@ -31,11 +31,15 @@ public class LdoDUser extends LdoDUser_Base {
 		// TODO
 	}
 
-	public LdoDUser(LdoD ldoD, String username, String password) {
+	public LdoDUser(LdoD ldoD, String username, String password,
+			String firstName, String lastName, String email) {
 		super();
 		setLdoD(ldoD);
 		setUsername(username);
 		setPassword(password);
+		setFirstName(firstName);
+		setLastName(lastName);
+		setEmail(email);
 	}
 
 	public Set<FragInter> getFragInterSet() {
@@ -43,6 +47,11 @@ public class LdoDUser extends LdoDUser_Base {
 
 		for (Annotation annotation : getAnnotationSet()) {
 			inters.add(annotation.getFragInter());
+		}
+
+		for (UserTagInFragInter userTagInFragInter : getUserTagInFragInterSet()) {
+			if (!userTagInFragInter.getDeprecated())
+				inters.add(userTagInFragInter.getFragInter());
 		}
 
 		return inters;

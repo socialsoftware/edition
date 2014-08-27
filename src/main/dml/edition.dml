@@ -18,6 +18,7 @@ enum pt.ist.socialsoftware.edition.domain.NoteText.NoteType as NoteType;
 enum pt.ist.socialsoftware.edition.domain.RefText.RefType as RefType;
 enum pt.ist.socialsoftware.edition.domain.Category.CategoryType as CategoryType;
 enum pt.ist.socialsoftware.edition.domain.Tag.TagType as TagType;
+enum pt.ist.socialsoftware.edition.domain.Fragment.PrecisionType as PrecisionType;
 
 class LdoD {
 	String title;
@@ -40,6 +41,9 @@ relation DomainRootHasLdoDApplication {
 class LdoDUser {
 	String username;
 	String password;
+	String firstName;
+	String lastName;
+	String email;
 }
 
 relation LdoDHasLdoDUsers {
@@ -209,6 +213,7 @@ relation LdoDHasFragments {
 class FragInter {
 	String xmlId;
 	LocalDate date;
+	PrecisionType precision;
 	int numAnnexNotes;
 }
 
@@ -344,6 +349,7 @@ class ManuscriptSource extends Source {
 	Boolean hasLdoDLabel;
 	String notes;
 	LocalDate date;
+	PrecisionType precision;
 }
 
 class PhysNote {
@@ -370,6 +376,7 @@ class PrintedSource extends Source {
 	String pubPlace;
 	String issue;
 	LocalDate date;
+	PrecisionType precision;
 }
 
 class Facsimile {

@@ -45,7 +45,8 @@ public class Annotation extends Annotation_Base {
 	public void updateTags(List<String> tags) {
 		for (String tag : tags) {
 			if (!existsActiveTag(tag)) {
-				getFragInter().createUserTagInTextPortion(getTaxonomy(), this, tag);
+				getFragInter().createUserTagInTextPortion(getTaxonomy(), this,
+						tag);
 			}
 		}
 

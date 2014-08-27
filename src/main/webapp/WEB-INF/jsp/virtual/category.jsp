@@ -4,6 +4,15 @@
 <head>
 <%@ include file="/WEB-INF/jsp/common/meta-head.jsp"%>
 </head>
+<script type="text/javascript">
+function validateForm() {
+    var x = document.forms["updateName"]["name"].value;
+    if (x == null || x == "") {
+        alert("A categoria deve ter um nome");
+        return false;
+    }
+}
+</script>
 <body>
     <%@ include file="/WEB-INF/jsp/common/fixed-top-ldod-header.jsp"%>
 
@@ -31,9 +40,14 @@
         <div class="row">
             <c:choose>
                 <c:when test="${!category.getDeprecated()}">
+                    <c:forEach var="error" items='${errors}'>
+                        <div class="row text-error">${error}</div>
+                    </c:forEach>
                     <div class="col-md-11">
-                        <form class="form-inline" method="POST"
-                            action="/virtualeditions/restricted/category">
+                        <form name="updateName" class="form-inline"
+                            method="POST"
+                            action="/virtualeditions/restricted/category"
+                            onsubmit="return validateForm()">
                             <div class="form-group">
                                 <input type="hidden"
                                     class="form-control"
@@ -54,7 +68,8 @@
                         </form>
                     </div>
                     <div class="col-md-1">
-                        <c:if test="${(category.getType() =='GENERATED') || (category.getType()=='ADHOC') }">
+                        <c:if
+                            test="${(category.getType() =='GENERATED') || (category.getType()=='ADHOC') }">
                             <form class="form-inline" method="POST"
                                 action="/virtualeditions/restricted/category/delete">
                                 <div class="form-group">
@@ -161,6 +176,7 @@
                                 <tr>
                                     <td>
                                         ${fragWordInCategory.getFragWord().getWord()}
+                                        (${fragWordInCategory.getWeight()})
                                     </td>
                                     <td><c:forEach
                                             var="fragWordInCategory2"

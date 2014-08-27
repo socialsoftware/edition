@@ -20,9 +20,9 @@
                 <spring:message code="${error}" />
             </div>
         </c:forEach>
-        <div class="row">
+        <div class="row col-md-10">
             <form class="form-inline" method="POST"
-                action="/virtualeditions/restricted/addparticipant">
+                action="${contextPath}/virtualeditions/restricted/addparticipant">
                 <div class="form-group">
                     <input type="hidden" class="form-control"
                         name="externalId"
@@ -40,23 +40,45 @@
                 </button>
             </form>
         </div>
+        <div class="row col-md-2 pull-right">
+            <form class="form-inline" method="GET"
+                action="${contextPath}/virtualeditions">
+                <button type="submit" class="btn btn-primary">
+                    <span class="glyphicon glyphicon-th-list"></span>
+                    <spring:message code="virtual.editions" />
+                </button>
+            </form>
+        </div>
+
         <br />
         <div class="row">
             <table class="table table-hover">
+                <caption>
+                    <h2>
+                        <spring:message code="participantsForm.message1" />
+                    </h2>
+                </caption>
                 <thead>
                     <tr>
                         <th><spring:message code="login.username" /></th>
+                        <th><spring:message code="user.firstName" /></th>
+                        <th><spring:message code="user.lastName" /></th>
+                        <th>email</th>
                         <th><spring:message code="general.remove" /></th>
                     </tr>
                 </thead>
                 <tbody>
                     <c:forEach var="participant"
-                        items='${virtualedition.participant}'>
+                        items='${virtualedition.getParticipantSet()}'>
                         <tr>
                             <td><span
                                 class="glyphicon glyphicon-user"></span>
                                 <a
                                 href="${contextPath}/edition/user/${participant.username}">${participant.username}</a></td>
+                            <td>${participant.getFirstName()}</td>
+                            <td>${participant.getLastName()}</td>
+                            <td><a
+                                href="mailto:${participant.getEmail()}">${participant.getEmail()}</a></td>
                             <td>
                                 <form class="form-inline" method="POST"
                                     action="${contextPath}/virtualeditions/restricted/removeparticipant">
@@ -79,15 +101,59 @@
                 </tbody>
             </table>
         </div>
-        <div class="row pull-right">
-            <form class="form-inline" method="GET"
-                action="${contextPath}/virtualeditions">
-                <button type="submit" class="btn btn-primary">
-                    <span class="glyphicon glyphicon-th-list"></span>
-                    <spring:message code="virtual.editions" />
-                </button>
-            </form>
+
+        <div class="row">
+            <table class="table table-hover">
+                <caption>
+                    <h2>
+                        <spring:message code="participantsForm.message2" />
+                    </h2>
+                </caption>
+                <thead>
+                    <tr>
+                        <th><spring:message code="login.username" /></th>
+                        <th><spring:message code="user.firstName" /></th>
+                        <th><spring:message code="user.lastName" /></th>
+                        <th>email</th>
+                        <th><spring:message code="general.add" /></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <c:forEach var="user" items='${users}'>
+                        <c:if
+                            test="${!virtualedition.getParticipantSet().contains(user)}">
+                            <tr>
+                                <td><span
+                                    class="glyphicon glyphicon-user"></span>
+                                    <a
+                                    href="${contextPath}/edition/user/${user.username}">${user.username}</a></td>
+                                <td>${user.getFirstName()}</td>
+                                <td>${user.getLastName()}</td>
+                                <td><a
+                                    href="mailto:${user.getEmail()}">${user.getEmail()}</a></td>
+                            <td>
+                                <form class="form-inline" method="POST"
+                                    action="${contextPath}/virtualeditions/restricted/addparticipant">
+                                    <input type="hidden" name="externalId"
+                                        value="${virtualedition.externalId}" />
+                                    <input type="hidden" name="username"
+                                        value="${user.username}" />
+                                    <button type="submit"
+                                        class="btn btn-primary btn-sm">
+                                        <span
+                                            class="glyphicon glyphicon-remove"></span>
+                                        <spring:message
+                                            code="general.add" />
+                                    </button>
+                                </form>
+                            </td>
+                            </tr>
+                        </c:if>
+                    </c:forEach>
+                </tbody>
+            </table>
         </div>
+
     </div>
 </body>
 </html>

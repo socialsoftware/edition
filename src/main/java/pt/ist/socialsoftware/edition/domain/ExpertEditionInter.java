@@ -98,8 +98,11 @@ public class ExpertEditionInter extends ExpertEditionInter_Base {
 		result = result + "Página: " + getStartPage() + "<br>";
 
 		if (getDate() != null) {
+			String precision = getPrecision() != null ? " Precisão: "
+					+ getPrecision().getDesc() : "";
+
 			result = result + "Data: " + getDate().toString("dd-MM-yyyy")
-					+ "<br>";
+					+ precision + "<br>";
 		}
 
 		result = result + "Notas: " + getNotes() + "<br>";

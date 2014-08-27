@@ -38,7 +38,6 @@ import pt.ist.socialsoftware.edition.shared.exception.LdoDCreateVirtualEditionEx
 import pt.ist.socialsoftware.edition.shared.exception.LdoDDuplicateAcronymException;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDDuplicateNameException;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDEditVirtualEditionException;
-import pt.ist.socialsoftware.edition.shared.exception.LdoDException;
 import pt.ist.socialsoftware.edition.validator.VirtualEditionValidator;
 import pt.ist.socialsoftware.edition.visitors.HtmlWriter4OneInter;
 
@@ -83,14 +82,6 @@ public class VirtualEditionController {
 			@RequestParam("title") String title,
 			@RequestParam("pub") boolean pub,
 			@RequestParam("use") String editionID) {
-
-		/**
-		 * WORKAROUND: to create a user without regenerating the data base LdoD
-		 * ldod = LdoD.getInstance(); LdoDUser tiago = new LdoDUser(ldod,
-		 * "tiago",
-		 * "de968c78d0e50dbfd5083e1994492548baf4159f7112242acb02f773dc308ac9");
-		 * for (Role role : ldod.getRolesSet()) { tiago.addRoles(role); }
-		 **/
 
 		Edition usedEdition = null;
 		if (!editionID.equals("no")) {
@@ -263,7 +254,10 @@ public class VirtualEditionController {
 		if (virtualEdition == null) {
 			return "utils/pageNotFound";
 		} else {
+			Set<LdoDUser> users = virtualEdition.getLdoD4Virtual()
+					.getUsersSet();
 			model.addAttribute("virtualedition", virtualEdition);
+			model.addAttribute("users", users);
 			return "virtual/participants";
 		}
 	}
@@ -280,6 +274,8 @@ public class VirtualEditionController {
 			return "utils/pageNotFound";
 		}
 
+		Set<LdoDUser> users = virtualEdition.getLdoD4Virtual().getUsersSet();
+
 		LdoD ldoD = LdoD.getInstance();
 		LdoDUser user = ldoD.getUser(username);
 		if (user == null) {
@@ -288,10 +284,12 @@ public class VirtualEditionController {
 			model.addAttribute("errors", errors);
 			model.addAttribute("username", username);
 			model.addAttribute("virtualedition", virtualEdition);
+			model.addAttribute("users", users);
 			return "virtual/participants";
 		} else {
 			user.addToVirtualEdition(virtualEdition);
 			model.addAttribute("virtualedition", virtualEdition);
+			model.addAttribute("users", users);
 			return "virtual/participants";
 		}
 	}
@@ -306,6 +304,8 @@ public class VirtualEditionController {
 		VirtualEdition virtualEdition = FenixFramework.getDomainObject(veId);
 		LdoDUser user = FenixFramework.getDomainObject(userId);
 
+		Set<LdoDUser> users = virtualEdition.getLdoD4Virtual().getUsersSet();
+
 		if ((virtualEdition == null) || (user == null)) {
 			return "utils/pageNotFound";
 		}
@@ -315,6 +315,7 @@ public class VirtualEditionController {
 			errors.add("user.one");
 			model.addAttribute("errors", errors);
 			model.addAttribute("virtualedition", virtualEdition);
+			model.addAttribute("users", users);
 			return "virtual/participants";
 		} else {
 			user.removeVirtualEdition(virtualEdition);
@@ -328,6 +329,7 @@ public class VirtualEditionController {
 				return "virtual/editions";
 			} else {
 				model.addAttribute("virtualedition", virtualEdition);
+				model.addAttribute("users", users);
 				return "virtual/participants";
 			}
 		}
@@ -414,21 +416,25 @@ public class VirtualEditionController {
 		if (virtualEdition == null) {
 			return "utils/pageNotFound";
 		} else {
+			List<String> errors = new ArrayList<String>();
 			TopicModeler modeler = new TopicModeler();
 			Taxonomy taxonomy = null;
 			try {
 				taxonomy = modeler.generate(virtualEdition, name, numTopics,
 						numWords, thresholdCategories, numIterations);
 			} catch (LdoDDuplicateNameException ex) {
-				// TODO: userfriendly handle of this exception
-				System.out.println("Já existe uma taxonomia com este nome");
-				throw new LdoDException("Já existe uma taxonomia com este nome");
+				errors.add("Já existe uma taxonomia com nome \"" + name + "\"");
+				model.addAttribute("errors", errors);
+				model.addAttribute("virtualEdition", virtualEdition);
+				return "virtual/taxonomies";
 			}
 
 			if (taxonomy == null) {
-				// TODO: userfriendly handle of this exception
-				throw new LdoDException(
-						"Não existem fragmentos associados a esta edição ou é necessário gerar o Corpus");
+				errors.add("Não existe nenhum fragmento associado a esta edição ou é necessário gerar o Corpus");
+				errors.add("Já existe uma taxonomia com nome \"" + name + "\"");
+				model.addAttribute("errors", errors);
+				model.addAttribute("virtualEdition", virtualEdition);
+				return "virtual/taxonomies";
 			} else {
 				model.addAttribute("edition", virtualEdition);
 				model.addAttribute("taxonomy", taxonomy);
@@ -500,17 +506,17 @@ public class VirtualEditionController {
 			@RequestParam("categoryId") String categoryId,
 			@RequestParam("name") String name) {
 		Category category = FenixFramework.getDomainObject(categoryId);
+		List<String> errors = new ArrayList<String>();
 		if (category == null) {
 			return "utils/pageNotFound";
 		} else {
 			try {
 				category.setName(name);
 			} catch (LdoDDuplicateNameException ex) {
-				// TODO: userfriendly handling of this exception
-				System.out.println("Já existe uma category com este nome");
-				throw new LdoDException("Já existe uma category com este nome");
+				errors.add("Já existe uma categoria com nome \"" + name + "\"");
 
 			}
+			model.addAttribute("errors", errors);
 			model.addAttribute("category", category);
 			return "virtual/category";
 		}

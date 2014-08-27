@@ -22,8 +22,11 @@ public class PrintedSource extends PrintedSource_Base {
 		result = result + "Número: " + getIssue() + "<br>";
 
 		if (getDate() != null) {
+			String precision = getPrecision() != null ? " Precisão: "
+					+ getPrecision().getDesc() : "";
+
 			result = result + "Data: " + getDate().toString("dd-MM-yyyy")
-					+ "<br>";
+					+ precision + "<br>";
 		}
 
 		Facsimile facs = getFacsimile();

@@ -52,7 +52,7 @@
                                         test="${tag.getActiveCategory().getType() == 'GENERATED'}">
                                         <c:forEach
                                             var="fragWordInCategory"
-                                            items='${tag.getActiveCategory().getSortedFragWordInCategory()}'> ${fragWordInCategory.getFragWord().getWord()} (${fragWordInCategory.getWeight()})
+                                            items='${tag.getActiveCategory().getSortedFragWordInCategory()}'> ${fragWordInCategory.getFragWord().getWord()} 
                                         </c:forEach>
                                     </c:if></td>
                                 <td><c:if

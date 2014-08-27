@@ -88,8 +88,11 @@ public class ManuscriptSource extends ManuscriptSource_Base {
 		result = result + "<br>";
 
 		if (getDate() != null) {
+			String precision = getPrecision() != null ? " Precisão: "
+					+ getPrecision().getDesc() : "";
+
 			result = result + "Data: " + getDate().toString("dd-MM-yyyy")
-					+ "<br>";
+					+ precision + "<br>";
 		}
 
 		return result;
