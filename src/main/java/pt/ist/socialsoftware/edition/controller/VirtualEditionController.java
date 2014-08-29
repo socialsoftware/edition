@@ -356,12 +356,11 @@ public class VirtualEditionController {
 					addInter.getLastUsed());
 			writer.write(false);
 
-			model.addAttribute("writer", writer);
-
 			model.addAttribute("ldoD", LdoD.getInstance());
 			model.addAttribute("user", LdoDUser.getUser());
 			model.addAttribute("fragment", inter.getFragment());
 			model.addAttribute("inters", inters);
+			model.addAttribute("writer", writer);
 			return "fragment/main";
 		} else {
 			return "utils/pageNotFound";

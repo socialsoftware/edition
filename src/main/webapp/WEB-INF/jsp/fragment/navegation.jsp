@@ -1,7 +1,7 @@
 <%@ include file="/WEB-INF/jsp/common/tags-head.jsp"%>
 <script type="text/javascript">
 $(document).ready(function() {
-    $('[id="baseinter"][data-toggle="checkbox"]').on('click', function() {
+    $('[id="baseinter"]').on('change', function() {
 	var frag = $('#fragment div:first-child').attr("id");
 	var data = new Array();
 	$('#baseinter :checked').each(function() {
@@ -20,7 +20,7 @@ $(document).ready(function() {
 </script>
 <script type="text/javascript">
 $(document).ready(function() {
-    $('[id="virtualinter"][data-toggle="checkbox"]').on('click', function() {
+    $('[id="virtualinter"]').on('change', function() {
     var frag = $('#fragment div:first-child').attr("id");
     var data = new Array();
     $('#virtualinter :checked').each(function() {
@@ -38,6 +38,7 @@ $(document).ready(function() {
 });
 </script>
 <div id="fragment" class="row pull-right">
+
     <!-- Fragment ID for javascript -->
     <div id="${fragment.externalId}"></div>
 
@@ -47,31 +48,36 @@ $(document).ready(function() {
             <spring:message code="authorial.source" />
         </h5>
         <div class="text-center">
-            <table>
-                <tr>
-                    <th style="width: 20%"></th>
-                    <th style="width: 30%"></th>
-                </tr>
-                <c:forEach var="sourceInter"
-                    items='${fragment.sortedSourceInter}'>
+           <table>
+                <thead>
                     <tr>
-                        <td><c:choose>
-                                <c:when
-                                    test="${inters.contains(sourceInter)}">
-                                    <input type="checkbox"
-                                        name="${sourceInter.externalId}"
-                                        value="${sourceInter.externalId}"
-                                        checked />
-                                </c:when>
-                                <c:otherwise>
-                                    <input type="checkbox"
-                                        name="${sourceInter.externalId}"
-                                        value="${sourceInter.externalId}" />
-                                </c:otherwise>
-                            </c:choose></td>
-                        <td class="pull-left"><a href="${contextPath}/fragments/fragment/inter/${sourceInter.externalId}">${sourceInter.shortName}</a></td>
+                        <th style="width: 20%"></th>
+                        <th style="width: 30%"></th>
                     </tr>
-                </c:forEach>
+                </thead>
+                <tbody>
+                    <c:forEach var="sourceInter"
+                        items='${fragment.sortedSourceInter}'>
+                        <tr>
+                            <td><c:choose>
+                                    <c:when
+                                        test="${inters.contains(sourceInter)}">
+                                        <input type="checkbox"
+                                            name="${sourceInter.externalId}"
+                                            value="${sourceInter.externalId}"
+                                            checked />
+                                    </c:when>
+                                    <c:otherwise>
+                                        <input type="checkbox"
+                                            name="${sourceInter.externalId}"
+                                            value="${sourceInter.externalId}" />
+                                    </c:otherwise>
+                                </c:choose></td>
+                            <td class="pull-left"><a
+                                href="${contextPath}/fragments/fragment/inter/${sourceInter.externalId}">${sourceInter.shortName}</a></td>
+                        </tr>
+                    </c:forEach>
+                </tbody>
             </table>
         </div>
         <br>
@@ -98,32 +104,36 @@ $(document).ready(function() {
                                 <th style="width: 10%"></th>
                             </tr>
                         </thead>
-                        <c:forEach var="expertEditionInter"
-                            items="${expertEdition.getSortedInter4Frag(fragment)}">
-                            <tr>
-                                <td><c:choose>
-                                        <c:when
-                                            test="${inters.contains(expertEditionInter)}">
-                                            <input type="checkbox"
-                                                name="${expertEditionInter.externalId}"
-                                                value="${expertEditionInter.externalId}"
-                                                checked />
-                                        </c:when>
-                                        <c:otherwise>
-                                            <input type="checkbox"
-                                                name="${expertEditionInter.externalId}"
-                                                value="${expertEditionInter.externalId}" />
-                                        </c:otherwise>
-                                    </c:choose></td>
-                                <td><a class="btn"
-                                    href="${contextPath}/fragments/fragment/inter/prev/number/${expertEditionInter.externalId}"><span
-                                        class="glyphicon glyphicon-backward"></span></a></td>
-                                <td><a href="${contextPath}/fragments/fragment/inter/${expertEditionInter.externalId}">${expertEditionInter.number}</a></td>
-                                <td><a class="btn"
-                                    href="${contextPath}/fragments/fragment/inter/next/number/${expertEditionInter.externalId}"><span
-                                        class="glyphicon glyphicon-forward"></span></a></td>
-                            </tr>
-                        </c:forEach>
+                        <tbody>
+                            <c:forEach var="expertEditionInter"
+                                items="${expertEdition.getSortedInter4Frag(fragment)}">
+                                <tr>
+                                    <td><c:choose>
+                                            <c:when
+                                                test="${inters.contains(expertEditionInter)}">
+                                                <input type="checkbox"
+                                                    name="${expertEditionInter.externalId}"
+                                                    value="${expertEditionInter.externalId}"
+                                                    checked />
+                                            </c:when>
+                                            <c:otherwise>
+                                                <input type="checkbox"
+                                                    name="${expertEditionInter.externalId}"
+                                                    value="${expertEditionInter.externalId}" />
+                                            </c:otherwise>
+                                        </c:choose></td>
+                                    <td><a class="btn"
+                                        href="${contextPath}/fragments/fragment/inter/prev/number/${expertEditionInter.externalId}"><span
+                                            class="glyphicon glyphicon-backward"></span></a></td>
+                                    <td><a
+                                        href="${contextPath}/fragments/fragment/inter/${expertEditionInter.externalId}">${expertEditionInter.number}</a></td>
+                                    <td><a class="btn"
+                                        href="${contextPath}/fragments/fragment/inter/next/number/${expertEditionInter.externalId}"><span
+                                            class="glyphicon glyphicon-forward"></span></a>
+                                    </td>
+                                </tr>
+                            </c:forEach>
+                        </tbody>
                     </table>
                 </div>
             </c:if>
@@ -154,53 +164,57 @@ $(document).ready(function() {
                                 <th style="width: 10%"></th>
                             </tr>
                         </thead>
-                        <c:forEach var="virtualEditionInter"
-                            items="${virtualEdition.getSortedInter4Frag(fragment)}">
-                            <tr>
-                                <td><c:choose>
-                                        <c:when
-                                            test="${inters.contains(virtualEditionInter)}">
-                                            <input type="checkbox"
-                                                name="${virtualEditionInter.externalId}"
-                                                value="${virtualEditionInter.externalId}"
-                                                checked />
-                                        </c:when>
-                                        <c:otherwise>
-                                            <input type="checkbox"
-                                                name="${virtualEditionInter.externalId}"
-                                                value="${virtualEditionInter.externalId}" />
-                                        </c:otherwise>
-                                    </c:choose></td>
-                                <td><a class="btn"
-                                    href="${contextPath}/fragments/fragment/inter/prev/number/${virtualEditionInter.externalId}"><span
-                                        class="glyphicon glyphicon-backward"></span></a></td>
-                                <td><a href="${contextPath}/fragments/fragment/inter/${virtualEditionInter.externalId}">${virtualEditionInter.number}</a></td>
-                                <td><a class="btn"
-                                    href="${contextPath}/fragments/fragment/inter/next/number/${virtualEditionInter.externalId}"><span
-                                        class="glyphicon glyphicon-forward"></span></a></td>
-                            </tr>
-                        </c:forEach>
-                        <c:if
-                            test="${virtualEdition.participantSet.contains(user) && (inters.size() == 1) && virtualEdition.canAddFragInter(inters.get(0))}">
-                            <tr>
-                                <td></td>
-                                <td><form class="form-horizontal"
-                                        method="POST"
-                                        action="/virtualeditions/restricted/addinter/${virtualEdition.externalId}/${inters.get(0).externalId}">
-                                        <fieldset>
-                                            <button type="submit"
-                                                class="btn btn-primary btn-xs">
-                                                <span
-                                                    class="glyphicon glyphicon-plus"></span>
-                                                <spring:message
-                                                    code="general.add" />
-                                            </button>
-                                        </fieldset>
-                                    </form></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                        </c:if>
+                        <tbody>
+                            <c:forEach var="virtualEditionInter"
+                                items="${virtualEdition.getSortedInter4Frag(fragment)}">
+                                <tr>
+                                    <td><c:choose>
+                                            <c:when
+                                                test="${inters.contains(virtualEditionInter)}">
+                                                <input type="checkbox"
+                                                    name="${virtualEditionInter.externalId}"
+                                                    value="${virtualEditionInter.externalId}"
+                                                    checked />
+                                            </c:when>
+                                            <c:otherwise>
+                                                <input type="checkbox"
+                                                    name="${virtualEditionInter.externalId}"
+                                                    value="${virtualEditionInter.externalId}" />
+                                            </c:otherwise>
+                                        </c:choose></td>
+                                    <td><a class="btn"
+                                        href="${contextPath}/fragments/fragment/inter/prev/number/${virtualEditionInter.externalId}"><span
+                                            class="glyphicon glyphicon-backward"></span></a></td>
+                                    <td><a
+                                        href="${contextPath}/fragments/fragment/inter/${virtualEditionInter.externalId}">${virtualEditionInter.number}</a></td>
+                                    <td><a class="btn"
+                                        href="${contextPath}/fragments/fragment/inter/next/number/${virtualEditionInter.externalId}"><span
+                                            class="glyphicon glyphicon-forward"></span></a></td>
+                                </tr>
+                            </c:forEach>
+                            <c:if
+                                test="${virtualEdition.participantSet.contains(user) && (inters.size() == 1) && virtualEdition.canAddFragInter(inters.get(0))}">
+                                <tr>
+                                    <td></td>
+                                    <td><form
+                                            class="form-horizontal"
+                                            method="POST"
+                                            action="/virtualeditions/restricted/addinter/${virtualEdition.externalId}/${inters.get(0).externalId}">
+                                            <fieldset>
+                                                <button type="submit"
+                                                    class="btn btn-primary btn-xs">
+                                                    <span
+                                                        class="glyphicon glyphicon-plus"></span>
+                                                    <spring:message
+                                                        code="general.add" />
+                                                </button>
+                                            </fieldset>
+                                        </form></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            </c:if>
+                        </tbody>
                     </table>
                 </c:forEach>
             </div>

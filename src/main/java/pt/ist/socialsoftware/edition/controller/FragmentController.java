@@ -106,6 +106,8 @@ public class FragmentController {
 			}
 		}
 
+		System.out.println("INTER=" + id);
+
 		List<FragInter> inters = new ArrayList<FragInter>();
 		inters.add(inter);
 		model.addAttribute("ldoD", LdoD.getInstance());
@@ -288,8 +290,7 @@ public class FragmentController {
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/search")
-	public @ResponseBody
-	AnnotationSearchJson searchAnnotations(Model model,
+	public @ResponseBody AnnotationSearchJson searchAnnotations(Model model,
 			@RequestParam int limit, @RequestParam String uri) {
 		System.out.println("searchAnnotations:" + limit + uri);
 
@@ -306,9 +307,8 @@ public class FragmentController {
 	}
 
 	@RequestMapping(method = RequestMethod.POST, value = "/annotations")
-	public @ResponseBody
-	ResponseEntity<AnnotationJson> createAnnotation(Model model,
-			@RequestBody final AnnotationJson annotationJson,
+	public @ResponseBody ResponseEntity<AnnotationJson> createAnnotation(
+			Model model, @RequestBody final AnnotationJson annotationJson,
 			HttpServletRequest request) {
 		FragInter inter = FenixFramework.getDomainObject(annotationJson
 				.getUri());
@@ -332,9 +332,8 @@ public class FragmentController {
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/annotations/{id}")
-	public @ResponseBody
-	ResponseEntity<AnnotationJson> getAnnotation(Model model,
-			@PathVariable String id) {
+	public @ResponseBody ResponseEntity<AnnotationJson> getAnnotation(
+			Model model, @PathVariable String id) {
 		Annotation annotation = FenixFramework.getDomainObject(id);
 		if (annotation != null) {
 			return new ResponseEntity<AnnotationJson>(new AnnotationJson(
@@ -345,9 +344,8 @@ public class FragmentController {
 	}
 
 	@RequestMapping(method = RequestMethod.PUT, value = "/annotations/{id}")
-	public @ResponseBody
-	ResponseEntity<AnnotationJson> updateAnnotation(Model model,
-			@PathVariable String id,
+	public @ResponseBody ResponseEntity<AnnotationJson> updateAnnotation(
+			Model model, @PathVariable String id,
 			@RequestBody final AnnotationJson annotationJson) {
 		Annotation annotation = FenixFramework.getDomainObject(id);
 		if (annotation != null) {
@@ -361,9 +359,8 @@ public class FragmentController {
 	}
 
 	@RequestMapping(method = RequestMethod.DELETE, value = "/annotations/{id}")
-	public @ResponseBody
-	ResponseEntity<AnnotationJson> deleteAnnotation(Model model,
-			@PathVariable String id,
+	public @ResponseBody ResponseEntity<AnnotationJson> deleteAnnotation(
+			Model model, @PathVariable String id,
 			@RequestBody final AnnotationJson annotationJson) {
 		Annotation annotation = FenixFramework.getDomainObject(id);
 		if (annotation != null) {
