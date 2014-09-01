@@ -863,12 +863,18 @@ public class LoadTEIFragments {
 			List<Object> list = getObjectDirectIdMap(sourceID);
 
 			if (list == null) {
-				throw new LdoDLoadException("referência=" + sourceID
+				throw new LdoDLoadException("Referência=" + sourceID
 						+ " para testemunho fonte em facsimilexml:id=" + xmlID
 						+ " não existe");
 			}
 
 			Source source = (Source) list.get(0);
+
+			if (source.getFacsimile() != null) {
+				throw new LdoDLoadException(
+						"Existe mais do que um fac-símile para a fonte com referência="
+								+ sourceID);
+			}
 
 			Facsimile facsimile = new Facsimile(source, xmlID);
 
