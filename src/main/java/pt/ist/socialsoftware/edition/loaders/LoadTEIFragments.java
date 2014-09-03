@@ -89,6 +89,9 @@ public class LoadTEIFragments {
 
 	private Document doc = null;
 
+	// to define an order among page breaks
+	private int pbOrder = 0;
+
 	private final Map<String, List<Object>> directIdMap = new HashMap<String, List<Object>>();
 
 	private void putObjectDirectIdMap(String xmlID, Object object) {
@@ -748,7 +751,7 @@ public class LoadTEIFragments {
 			}
 		}
 
-		PbText pbText = new PbText(parent, toFragInters);
+		PbText pbText = new PbText(parent, toFragInters, pbOrder++);
 
 		Attribute facsAttribute = element.getAttribute("facs");
 		if (facsAttribute != null) {

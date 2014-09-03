@@ -498,7 +498,9 @@ relation LbTextHasFragInters {
 	FragInter playsRole fragInter {multiplicity 0..*;}
 }
 
-class PbText extends TextPortion;
+class PbText extends TextPortion {
+	int order;
+}
 
 relation PbTextHasFragInters {
 	PbText playsRole pbText {multiplicity 0..*;}
@@ -506,10 +508,9 @@ relation PbTextHasFragInters {
 }
 
 relation PbTextSurface {
-	PbText playsRole pbText {multiplicity 0..1;}
+	PbText playsRole pbText {multiplicity 0..*;}
 	Surface playsRole surface {multiplicity 0..1;}
 }
-
 
 class SpaceText extends TextPortion {
 	SpaceDim dim;

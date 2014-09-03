@@ -29,6 +29,7 @@ import pt.ist.socialsoftware.edition.domain.FragInter;
 import pt.ist.socialsoftware.edition.domain.Fragment;
 import pt.ist.socialsoftware.edition.domain.LdoD;
 import pt.ist.socialsoftware.edition.domain.LdoDUser;
+import pt.ist.socialsoftware.edition.domain.PbText;
 import pt.ist.socialsoftware.edition.domain.SourceInter;
 import pt.ist.socialsoftware.edition.domain.Surface;
 import pt.ist.socialsoftware.edition.domain.TextPortion;
@@ -227,10 +228,13 @@ public class FragmentController {
 			@RequestParam(value = "subst", required = true) boolean highlightSubst,
 			@RequestParam(value = "notes", required = true) boolean showNotes,
 			@RequestParam(value = "facs", required = true) boolean showFacs,
-			@RequestParam(value = "surf", required = false) String surfID,
+			@RequestParam(value = "pb", required = false) String pbTextID,
 			Model model) {
-		FragInter inter = FenixFramework.getDomainObject(interID[0]);
-		Surface surface = FenixFramework.getDomainObject(surfID);
+		SourceInter inter = FenixFramework.getDomainObject(interID[0]);
+		PbText pbText = null;
+		if (pbTextID != "") {
+			pbText = FenixFramework.getDomainObject(pbTextID);
+		}
 
 		HtmlWriter4OneInter writer = new HtmlWriter4OneInter(inter);
 
@@ -239,14 +243,20 @@ public class FragmentController {
 		model.addAttribute("inters", inters);
 
 		if (showFacs) {
-			if (surface == null) {
-				SourceInter sourceInter = (SourceInter) inter;
-				surface = sourceInter.getSource().getFacsimile()
-						.getFirstSurface();
+			Surface surface = null;
+			if (pbText == null) {
+				surface = inter.getSource().getFacsimile().getFirstSurface();
+			} else {
+				surface = pbText.getSurface();
 			}
+
 			writer.write(displayDiff, displayDel, highlightIns, highlightSubst,
-					showNotes, surface);
+					showNotes, pbText);
 			model.addAttribute("surface", surface);
+			model.addAttribute("prevsurface", inter.getPrevSurface(pbText));
+			model.addAttribute("nextsurface", inter.getNextSurface(pbText));
+			model.addAttribute("prevpb", inter.getPrevPbText(pbText));
+			model.addAttribute("nextpb", inter.getNextPbText(pbText));
 			model.addAttribute("writer", writer);
 			return "fragment/facsimile";
 		} else {

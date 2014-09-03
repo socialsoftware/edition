@@ -12,7 +12,7 @@ $(document).ready(function() {
 	var selSubst = $('input:checkbox[name=subst]').is(':checked');
 	var selNotes = $('input:checkbox[name=notes]').is(':checked');
 	var selFacs = $('input:checkbox[name=facs]').is(':checked');
-	var surface = $('#backward').val();
+	var pbText = $('#backward').val();
 	$.get("${contextPath}/fragments/fragment/inter/authorial", {
 	    interp : data,
 	    diff : selDiff,
@@ -21,7 +21,7 @@ $(document).ready(function() {
 	    subst : selSubst,
 	    notes : selNotes,
 	    facs : selFacs,
-	    surf : surface
+	    pb : pbText
 	}, function(html) {
 	    $("#fragmentTranscription").replaceWith(html);
 	});
@@ -41,7 +41,7 @@ $(document).ready(function() {
 	var selSubst = $('input:checkbox[name=subst]').is(':checked');
 	var selNotes = $('input:checkbox[name=notes]').is(':checked');
 	var selFacs = $('input:checkbox[name=facs]').is(':checked');
-	var surface = $('#forward').val();
+	var pbText = $('#forward').val();
 	$.get("${contextPath}/fragments/fragment/inter/authorial", {
 	    interp : data,
 	    diff : selDiff,
@@ -50,7 +50,7 @@ $(document).ready(function() {
 	    subst : selSubst,
 	    notes : selNotes,
 	    facs : selFacs,
-	    surf : surface
+	    pb : pbText
 	}, function(html) {
 	    $("#fragmentTranscription").replaceWith(html);
 	});
@@ -63,10 +63,10 @@ $(document).ready(function() {
         <div class="row">
             <div class="col-md-6">
                 <c:choose>
-                    <c:when test="${surface.prev != null}">
+                    <c:when test="${prevsurface != null}">
                         <button class="btn btn-sm pull-left"
                             type="button" id="backward"
-                            value="${surface.prev.externalId}"
+                            value="${prevpb.externalId}"
                             data-toggle="button">
                             <span class="glyphicon glyphicon-backward"></span>
                         </button>
@@ -79,10 +79,10 @@ $(document).ready(function() {
                     </c:otherwise>
                 </c:choose>
                 <c:choose>
-                    <c:when test="${surface.next != null}">
+                    <c:when test="${nextsurface != null}">
                         <button class="btn btn-sm pull-right"
                             type="button" id="forward"
-                            value="${surface.next.externalId}"
+                            value="${nextpb.externalId}"
                             data-toggle="button">
                             <span class="glyphicon glyphicon-forward"></span>
                         </button>
@@ -122,10 +122,10 @@ $(document).ready(function() {
         <div class="row">
             <div class="col-md-6">
                 <c:choose>
-                    <c:when test="${surface.prev != null}">
+                    <c:when test="${prevsurface != null}">
                         <button class="btn btn-sm pull-left"
                             type="button" id="backward"
-                            value="${surface.prev.externalId}"
+                            value="${prevpb.externalId}"
                             data-toggle="button">
                             <span class="glyphicon glyphicon-backward"></span>
                         </button>
@@ -138,10 +138,10 @@ $(document).ready(function() {
                     </c:otherwise>
                 </c:choose>
                 <c:choose>
-                    <c:when test="${surface.next != null}">
+                    <c:when test="${nextsurface != null}">
                         <button class="btn btn-sm pull-right"
                             type="button" id="forward"
-                            value="${surface.next.externalId}"
+                            value="${nextpb.externalId}"
                             data-toggle="button">
                             <span class="glyphicon glyphicon-forward"></span>
                         </button>
