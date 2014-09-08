@@ -1521,6 +1521,10 @@ public class LoadTEIFragments {
 			typeValue = typeAttribute.getValue();
 		}
 
+		if (typeValue == null)
+			throw new LdoDLoadException(
+					"elemento note não possui atributo type");
+
 		switch (typeValue) {
 		case "annex":
 			type = NoteType.ANNEX;
