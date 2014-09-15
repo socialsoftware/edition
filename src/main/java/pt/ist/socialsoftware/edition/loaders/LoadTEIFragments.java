@@ -787,8 +787,9 @@ public class LoadTEIFragments {
 		if (edAttribute == null) {
 			toFragInters = parent.getInterps();
 		} else {
-			String[] listInterXmlId = element.getAttribute("ed").getValue()
-					.split("\\s+");
+			String xmlsString = element.getAttribute("ed").getValue().trim();
+			String[] listInterXmlId = xmlsString.split("\\s+");
+
 			toFragInters = getFragItersByListXmlID(listInterXmlId);
 
 			for (FragInter inter : toFragInters) {

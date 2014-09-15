@@ -17,6 +17,7 @@ import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.security.LdoDSession;
+import pt.ist.socialsoftware.edition.utils.PropertiesManager;
 
 public class LdoD extends LdoD_Base {
 
@@ -124,10 +125,6 @@ public class LdoD extends LdoD_Base {
 		String[] usernames = { "edna", "balbina", "evandro", "carla",
 				"daniela", "samuel", "john", "fernando", "ines", "amelia",
 				"vera", "eduarda", "antoniot", "antonioa" };
-		String[] passwords = { "edna118", "balbina218", "evandro320",
-				"carla420", "daniela530", "samuel625", "john745",
-				"fernando855", "ines950", "amelia1045", "vera1145",
-				"eduarda40", "antoniot1350", "antonioa1455" };
 		String[] firstNames = { "Edna ", "Balbina", "Evandro", "Carla",
 				"Daniela", "Samuel", "John", "Fernando", "Inês", "Amélia",
 				"Silvéria", "Eduarda", "António", "António" };
@@ -143,6 +140,11 @@ public class LdoD extends LdoD_Base {
 				"ameliarribeira@gmail.com", "ramos.silveria@gmail.com",
 				"eduarda.ribeiromota@gmail.com", "atlopes@fl.uc.pt",
 				"ant.apolinario@gmail.com" };
+
+		String listPasswords = PropertiesManager.getProperties().getProperty(
+				"users.passwords");
+
+		String[] passwords = listPasswords.split(",");
 
 		PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 		Random rand = new Random();
