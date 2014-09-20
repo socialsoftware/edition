@@ -5,14 +5,12 @@ public class Surface extends Surface_Base {
 	public Surface(Facsimile facsimile, String graphic) {
 		facsimile.addSurface(this);
 		setGraphic(graphic);
-		setPbText(null);
 	}
 
 	public Surface(Facsimile facsimile, String graphic, String xmlId) {
 		facsimile.addSurface(this);
 		setGraphic(graphic);
 		setXmlId(xmlId);
-		setPbText(null);
 	}
 
 	public void addSurface(Surface surface) {
@@ -30,7 +28,6 @@ public class Surface extends Surface_Base {
 	public void remove() {
 		setFacsimile(null);
 		setPrev(null);
-		setPbText(null);
 
 		if (getFacsimile() != null) {
 			setFacsimile(null);
@@ -42,6 +39,10 @@ public class Surface extends Surface_Base {
 
 		for (RefText ref : getRefTextSet()) {
 			ref.setSurface(null);
+		}
+
+		for (PbText pbText : getPbTextSet()) {
+			removePbText(pbText);
 		}
 
 		deleteDomainObject();

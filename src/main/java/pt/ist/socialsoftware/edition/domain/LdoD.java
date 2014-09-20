@@ -16,8 +16,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.fenixframework.FenixFramework;
-import pt.ist.socialsoftware.edition.mallet.CorpusGenerator;
 import pt.ist.socialsoftware.edition.security.LdoDSession;
+import pt.ist.socialsoftware.edition.utils.PropertiesManager;
 
 public class LdoD extends LdoD_Base {
 
@@ -121,41 +121,62 @@ public class LdoD extends LdoD_Base {
 				usedEdition);
 	}
 
-	@Atomic(mode = TxMode.WRITE)
 	public void createUsers() throws FileNotFoundException, IOException {
-		String[] usernames = { "xpto", "xyz" };
-		String[] passwords = { "xpto", "xyz" };
-		String[] firstNames = { "António", "Manuel" };
-		String[] lastNames = { "Silva", "Ferreira da Silva" };
-		String[] emails = { "ars@gmail.com", "xpto@hotmail.com" };
-		List<LdoDUser> users = new ArrayList<LdoDUser>();
+		String[] usernames = { "edna", "balbina", "evandro", "carla",
+				"daniela", "samuel", "john", "fernando", "ines", "amelia",
+				"vera", "eduarda", "antoniot", "antonioa" };
+		String[] firstNames = { "Edna ", "Balbina", "Evandro", "Carla",
+				"Daniela", "Samuel", "John", "Fernando", "Inês", "Amélia",
+				"Silvéria", "Eduarda", "António", "António" };
+		String[] lastNames = { "Boliqueime ", "Oliveira", "Santos", "Araújo",
+				"Côrtes Maduro", "Teixeira", "D. Mock", "Mendes", "Mendes",
+				"Ribeira", "Ramos", "Mota", "Tavares Lopes",
+				"Apolinário Lourenço" };
+		String[] emails = { "ednaboliqueime@gmail.com",
+				"binaa_oliveira_57@hotmail.com", "esantos.art@gmail.com",
+				"cmlintu@hotmail.com", "cortesmaduro@hotmail.com",
+				"samfilmt@gmail.com", "jdm11july@gmail.com",
+				"faomendes@sapo.pt", "m.inesmariz@gmail.com",
+				"ameliarribeira@gmail.com", "ramos.silveria@gmail.com",
+				"eduarda.ribeiromota@gmail.com", "atlopes@fl.uc.pt",
+				"ant.apolinario@gmail.com" };
+
+		String listPasswords = PropertiesManager.getProperties().getProperty(
+				"users.passwords");
+
+		String[] passwords = listPasswords.split(",");
 
 		PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		Random rand = new Random();
 
 		for (int i = 0; i < usernames.length; i++) {
-			if (getUser(usernames[i]) == null) {
-				users.add(new LdoDUser(this, usernames[i], passwordEncoder
-						.encode(passwords[i]), firstNames[i], lastNames[i],
-						emails[i]));
-			}
+			createUser(usernames[i], passwordEncoder.encode(passwords[i]),
+					firstNames[i], lastNames[i], emails[i], rand);
 		}
 
-		Role userRole = getRole("USER");
+	}
 
-		ExpertEdition[] editions = getExpertEditionsSet().toArray(
-				new ExpertEdition[4]);
+	@Atomic(mode = TxMode.WRITE)
+	private void createUser(String username, String password, String firstName,
+			String lastName, String email, Random rand)
+			throws FileNotFoundException, IOException {
+		if (getUser(username) == null) {
+			LdoDUser user = new LdoDUser(this, username, password, firstName,
+					lastName, email);
 
-		Random rand = new Random();
-		for (LdoDUser user : users) {
+			Role userRole = getRole("USER");
 			user.addRoles(userRole);
+
+			ExpertEdition[] editions = getExpertEditionsSet().toArray(
+					new ExpertEdition[4]);
 			VirtualEdition virtualEdition = new VirtualEdition(this, user,
 					"Ed-" + user.getUsername(), "Edição de "
 							+ user.getFirstName() + " " + user.getLastName(),
 					new LocalDate(), true, editions[rand.nextInt(4)]);
 			user.addSelectedVirtualEditions(virtualEdition);
-			CorpusGenerator generator = new CorpusGenerator();
-			generator.generate(virtualEdition);
-		}
 
+			// CorpusGenerator generator = new CorpusGenerator();
+			// generator.generate(virtualEdition);
+		}
 	}
 }

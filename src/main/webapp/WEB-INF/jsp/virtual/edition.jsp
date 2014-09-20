@@ -15,13 +15,27 @@
                 ${virtualEdition.title}</a> <br>
         </h1>
         <br />
-        <c:forEach var="error" items='${errors}'>
-            <div class="row text-error">
-                <spring:message code="${error}" />
-            </div>
-        </c:forEach>
+        <div class="row pull-right">
+            <form class="form-inline" method="GET"
+                action="${contextPath}/virtualeditions">
+                <button type="submit" class="btn btn-primary">
+                    <span class="glyphicon glyphicon-th-list"></span>
+                    <spring:message code="virtual.editions" />
+                </button>
+            </form>
+        </div>
 
-        <div class="row">
+        <br />
+        <br />
+        <br />
+        <div class="row col-md-12 has-error">
+            <c:forEach var="error" items='${errors}'>
+                <div class="row">
+                    <spring:message code="${error}" />
+                </div>
+            </c:forEach>
+        </div>
+        <div class="row col-md-12">
             <form class="form-inline" role="form" method="POST"
                 action="/virtualeditions/restricted/edit/${externalId}">
                 <div class="form-group col-xs-2">
@@ -43,9 +57,9 @@
                 <div class="form-group col-xs-2">
                     <label class="control-label" for="date"><spring:message
                             code="general.date" /></label> <input
-                        class="form-control  col-xs-2" id="disabledInput"
-                        type="text" name="date" id="date"
-                        value="${date}" disabled />
+                        class="form-control  col-xs-2"
+                        id="disabledInput" type="text" name="date"
+                        id="date" value="${date}" disabled />
                 </div>
                 <div class="form-group  col-xs-2">
                     <label class="control-label" for="pub"><spring:message
@@ -68,22 +82,13 @@
                             </c:otherwise>
                         </c:choose>
                     </select>
-                </div>  
-                <br/>
-                <label class="sr-only" for=submit><spring:message code="general.update" /></label>
-                    <button type="submit" class="btn btn-primary" id="submit">
-                        <span class="glyphicon glyphicon-edit"></span>
-                        <spring:message code="general.update" />
-                    </button>
-            </form>
-        </div>
-        <br />
-        <div class="row">
-            <form class="form-inline" method="GET"
-                action="${contextPath}/virtualeditions">
-                <button type="submit" class="btn btn-primary">
-                    <span class="glyphicon glyphicon-th-list"></span>
-                    <spring:message code="virtual.editions" />
+                </div>
+                <br /> <label class="sr-only" for=submit><spring:message
+                        code="general.update" /></label>
+                <button type="submit" class="btn btn-primary"
+                    id="submit">
+                    <span class="glyphicon glyphicon-edit"></span>
+                    <spring:message code="general.update" />
                 </button>
             </form>
         </div>

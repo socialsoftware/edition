@@ -89,6 +89,9 @@ public class LoadTEIFragments {
 
 	private Document doc = null;
 
+	// to define an order among page breaks
+	private int pbOrder = 0;
+
 	private final Map<String, List<Object>> directIdMap = new HashMap<String, List<Object>>();
 
 	private void putObjectDirectIdMap(String xmlID, Object object) {
@@ -748,7 +751,7 @@ public class LoadTEIFragments {
 			}
 		}
 
-		PbText pbText = new PbText(parent, toFragInters);
+		PbText pbText = new PbText(parent, toFragInters, pbOrder++);
 
 		Attribute facsAttribute = element.getAttribute("facs");
 		if (facsAttribute != null) {
@@ -784,8 +787,9 @@ public class LoadTEIFragments {
 		if (edAttribute == null) {
 			toFragInters = parent.getInterps();
 		} else {
-			String[] listInterXmlId = element.getAttribute("ed").getValue()
-					.split("\\s+");
+			String xmlsString = element.getAttribute("ed").getValue().trim();
+			String[] listInterXmlId = xmlsString.split("\\s+");
+
 			toFragInters = getFragItersByListXmlID(listInterXmlId);
 
 			for (FragInter inter : toFragInters) {
@@ -863,12 +867,18 @@ public class LoadTEIFragments {
 			List<Object> list = getObjectDirectIdMap(sourceID);
 
 			if (list == null) {
-				throw new LdoDLoadException("referência=" + sourceID
+				throw new LdoDLoadException("Referência=" + sourceID
 						+ " para testemunho fonte em facsimilexml:id=" + xmlID
 						+ " não existe");
 			}
 
 			Source source = (Source) list.get(0);
+
+			if (source.getFacsimile() != null) {
+				throw new LdoDLoadException(
+						"Existe mais do que um fac-símile para a fonte com referência="
+								+ sourceID);
+			}
 
 			Facsimile facsimile = new Facsimile(source, xmlID);
 
@@ -1511,6 +1521,10 @@ public class LoadTEIFragments {
 		if (typeAttribute != null) {
 			typeValue = typeAttribute.getValue();
 		}
+
+		if (typeValue == null)
+			throw new LdoDLoadException(
+					"elemento note não possui atributo type");
 
 		switch (typeValue) {
 		case "annex":

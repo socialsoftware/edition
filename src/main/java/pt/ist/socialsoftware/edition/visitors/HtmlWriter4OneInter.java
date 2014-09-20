@@ -23,10 +23,10 @@ import pt.ist.socialsoftware.edition.domain.Rend;
 import pt.ist.socialsoftware.edition.domain.Rend.Rendition;
 import pt.ist.socialsoftware.edition.domain.SegText;
 import pt.ist.socialsoftware.edition.domain.SimpleText;
+import pt.ist.socialsoftware.edition.domain.SourceInter;
 import pt.ist.socialsoftware.edition.domain.SpaceText;
 import pt.ist.socialsoftware.edition.domain.SpaceText.SpaceDim;
 import pt.ist.socialsoftware.edition.domain.SubstText;
-import pt.ist.socialsoftware.edition.domain.Surface;
 import pt.ist.socialsoftware.edition.domain.UnclearText;
 
 public class HtmlWriter4OneInter extends FragmentWriter {
@@ -79,7 +79,7 @@ public class HtmlWriter4OneInter extends FragmentWriter {
 
 	public void write(Boolean highlightDiff, Boolean displayDel,
 			Boolean highlightIns, Boolean highlightSubst, Boolean showNotes,
-			Surface surface) {
+			PbText pbText) {
 		this.highlightDiff = highlightDiff;
 		this.displayDel = displayDel;
 		this.highlightIns = highlightIns;
@@ -89,18 +89,12 @@ public class HtmlWriter4OneInter extends FragmentWriter {
 			fragInter = fragInter.getLastUsed();
 		}
 
-		if (surface != null) {
-			startPbText = surface.getPbText();
-			if (startPbText != null) {
-				generate = false;
-			}
-			Surface stopSurface = surface.getNext();
-			if (stopSurface == null) {
-				stopPbText = null;
-			} else {
-				stopPbText = stopSurface.getPbText();
-			}
+		startPbText = pbText;
+		if (startPbText != null) {
+			generate = false;
 		}
+		stopPbText = ((SourceInter) fragInter).getNextPbText(startPbText);
+
 		visit((AppText) fragInter.getFragment().getTextPortion());
 	}
 
@@ -235,7 +229,7 @@ public class HtmlWriter4OneInter extends FragmentWriter {
 	public void visit(PbText pbText) {
 		if (pbText.getInterps().contains(fragInter)) {
 			if ((startPbText != pbText) && (stopPbText != pbText)) {
-				append2Transcription("<hr size=\"4\" color=\"black\">");
+				append2Transcription("<hr size=\"8\" color=\"black\">");
 			}
 		}
 

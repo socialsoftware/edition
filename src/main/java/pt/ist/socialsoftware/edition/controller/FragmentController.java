@@ -29,6 +29,7 @@ import pt.ist.socialsoftware.edition.domain.FragInter;
 import pt.ist.socialsoftware.edition.domain.Fragment;
 import pt.ist.socialsoftware.edition.domain.LdoD;
 import pt.ist.socialsoftware.edition.domain.LdoDUser;
+import pt.ist.socialsoftware.edition.domain.PbText;
 import pt.ist.socialsoftware.edition.domain.SourceInter;
 import pt.ist.socialsoftware.edition.domain.Surface;
 import pt.ist.socialsoftware.edition.domain.TextPortion;
@@ -105,6 +106,8 @@ public class FragmentController {
 				throw new LdoDException("Não tem acesso a esta edição virtual");
 			}
 		}
+
+		System.out.println("INTER=" + id);
 
 		List<FragInter> inters = new ArrayList<FragInter>();
 		inters.add(inter);
@@ -225,10 +228,13 @@ public class FragmentController {
 			@RequestParam(value = "subst", required = true) boolean highlightSubst,
 			@RequestParam(value = "notes", required = true) boolean showNotes,
 			@RequestParam(value = "facs", required = true) boolean showFacs,
-			@RequestParam(value = "surf", required = false) String surfID,
+			@RequestParam(value = "pb", required = false) String pbTextID,
 			Model model) {
-		FragInter inter = FenixFramework.getDomainObject(interID[0]);
-		Surface surface = FenixFramework.getDomainObject(surfID);
+		SourceInter inter = FenixFramework.getDomainObject(interID[0]);
+		PbText pbText = null;
+		if (pbTextID != "") {
+			pbText = FenixFramework.getDomainObject(pbTextID);
+		}
 
 		HtmlWriter4OneInter writer = new HtmlWriter4OneInter(inter);
 
@@ -237,14 +243,20 @@ public class FragmentController {
 		model.addAttribute("inters", inters);
 
 		if (showFacs) {
-			if (surface == null) {
-				SourceInter sourceInter = (SourceInter) inter;
-				surface = sourceInter.getSource().getFacsimile()
-						.getFirstSurface();
+			Surface surface = null;
+			if (pbText == null) {
+				surface = inter.getSource().getFacsimile().getFirstSurface();
+			} else {
+				surface = pbText.getSurface();
 			}
+
 			writer.write(displayDiff, displayDel, highlightIns, highlightSubst,
-					showNotes, surface);
+					showNotes, pbText);
 			model.addAttribute("surface", surface);
+			model.addAttribute("prevsurface", inter.getPrevSurface(pbText));
+			model.addAttribute("nextsurface", inter.getNextSurface(pbText));
+			model.addAttribute("prevpb", inter.getPrevPbText(pbText));
+			model.addAttribute("nextpb", inter.getNextPbText(pbText));
 			model.addAttribute("writer", writer);
 			return "fragment/facsimile";
 		} else {
@@ -288,8 +300,7 @@ public class FragmentController {
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/search")
-	public @ResponseBody
-	AnnotationSearchJson searchAnnotations(Model model,
+	public @ResponseBody AnnotationSearchJson searchAnnotations(Model model,
 			@RequestParam int limit, @RequestParam String uri) {
 		System.out.println("searchAnnotations:" + limit + uri);
 
@@ -306,9 +317,8 @@ public class FragmentController {
 	}
 
 	@RequestMapping(method = RequestMethod.POST, value = "/annotations")
-	public @ResponseBody
-	ResponseEntity<AnnotationJson> createAnnotation(Model model,
-			@RequestBody final AnnotationJson annotationJson,
+	public @ResponseBody ResponseEntity<AnnotationJson> createAnnotation(
+			Model model, @RequestBody final AnnotationJson annotationJson,
 			HttpServletRequest request) {
 		FragInter inter = FenixFramework.getDomainObject(annotationJson
 				.getUri());
@@ -332,9 +342,8 @@ public class FragmentController {
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/annotations/{id}")
-	public @ResponseBody
-	ResponseEntity<AnnotationJson> getAnnotation(Model model,
-			@PathVariable String id) {
+	public @ResponseBody ResponseEntity<AnnotationJson> getAnnotation(
+			Model model, @PathVariable String id) {
 		Annotation annotation = FenixFramework.getDomainObject(id);
 		if (annotation != null) {
 			return new ResponseEntity<AnnotationJson>(new AnnotationJson(
@@ -345,9 +354,8 @@ public class FragmentController {
 	}
 
 	@RequestMapping(method = RequestMethod.PUT, value = "/annotations/{id}")
-	public @ResponseBody
-	ResponseEntity<AnnotationJson> updateAnnotation(Model model,
-			@PathVariable String id,
+	public @ResponseBody ResponseEntity<AnnotationJson> updateAnnotation(
+			Model model, @PathVariable String id,
 			@RequestBody final AnnotationJson annotationJson) {
 		Annotation annotation = FenixFramework.getDomainObject(id);
 		if (annotation != null) {
@@ -361,9 +369,8 @@ public class FragmentController {
 	}
 
 	@RequestMapping(method = RequestMethod.DELETE, value = "/annotations/{id}")
-	public @ResponseBody
-	ResponseEntity<AnnotationJson> deleteAnnotation(Model model,
-			@PathVariable String id,
+	public @ResponseBody ResponseEntity<AnnotationJson> deleteAnnotation(
+			Model model, @PathVariable String id,
 			@RequestBody final AnnotationJson annotationJson) {
 		Annotation annotation = FenixFramework.getDomainObject(id);
 		if (annotation != null) {
