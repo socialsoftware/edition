@@ -56,8 +56,8 @@ public class TopicModeler {
 
 		pipe = buildPipe();
 
-		InstanceList instances = readDirectory(new File(corpusEditionsPath
-				+ edition.getExternalId()));
+		InstanceList instances = readDirectory(edition, new File(
+				corpusEditionsPath + edition.getExternalId()));
 
 		int numInstances = instances.size();
 
@@ -107,12 +107,11 @@ public class TopicModeler {
 		return new SerialPipes(pipeList);
 	}
 
-	public InstanceList readDirectory(File directory) {
-		return readDirectories(new File[] { directory });
+	public InstanceList readDirectory(Edition edition, File directory) {
+		return readDirectories(edition, new File[] { directory });
 	}
 
-	public InstanceList readDirectories(File[] directories) {
-
+	public InstanceList readDirectories(Edition edition, File[] directories) {
 		// Construct a file iterator, starting with the
 		// specified directories, and recursing through subdirectories.
 		// The second argument specifies a FileFilter to use to select
@@ -120,7 +119,14 @@ public class TopicModeler {
 		// The third argument is a Pattern that is applied to the
 		// filename to produce a class label. In this case, I've
 		// asked it to use the last directory name in the path.
-		FileIterator iterator = new FileIterator(directories, new TxtFilter(),
+		FileIterator iterator = new FileIterator(directories,
+				new EditionFilter(edition), FileIterator.LAST_DIRECTORY);
+
+		while (iterator.hasNext()) {
+			System.out.println("Iter: " + iterator.nextFile().getName());
+		}
+
+		iterator = new FileIterator(directories, new EditionFilter(edition),
 				FileIterator.LAST_DIRECTORY);
 
 		// Construct a new instance list, passing it the pipe
@@ -218,7 +224,12 @@ public class TopicModeler {
 	}
 
 	/** This class illustrates how to build a simple file filter */
-	class TxtFilter implements FileFilter {
+	class EditionFilter implements FileFilter {
+		private final Edition edition;
+
+		public EditionFilter(Edition edition) {
+			this.edition = edition;
+		}
 
 		/**
 		 * Test whether the string representation of the file ends with the

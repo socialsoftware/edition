@@ -417,6 +417,18 @@ public class LoadTEIFragments {
 								+ " do atributo xml:id do elemento ref não corresponde ao id the nenhum elemento witness");
 			}
 			break;
+		case FRAGMENT:
+			Fragment fragment = LdoD.getInstance().getFragment(target);
+			if (fragment != null) {
+				refText.setRefFrag(fragment);
+			} else {
+				throw new LdoDLoadException(
+						"o valor "
+								+ target
+								+ " do atributo xml:id do elemento ref não corresponde ao id the nenhum elemento fragment."
+								+ " NOTA: PODERÁ TER QUE CARREGAR ESSE FRAGMENTO PRIMEIRO");
+			}
+			break;
 		}
 
 		List<Content> contentList = element.getContent();
@@ -1098,6 +1110,19 @@ public class LoadTEIFragments {
 								} else {
 									putObjectInverseIdMap(target, refText);
 								}
+							} else if (refType == RefType.FRAGMENT) {
+								Fragment frag = LdoD.getInstance().getFragment(
+										target);
+								if (frag != null) {
+									refText.setRefFrag(frag);
+								} else {
+									throw new LdoDLoadException(
+											"o valor "
+													+ target
+													+ " do atributo xml:id do elemento ref não corresponde ao id the nenhum elemento fragment."
+													+ " NOTA: PODERÁ TER QUE CARREGAR ESSE FRAGMENTO PRIMEIRO");
+
+								}
 							}
 
 							fragInter.getFragment().getFragInter(target);
@@ -1495,6 +1520,9 @@ public class LoadTEIFragments {
 		Attribute typeAttribute = element.getAttribute("type");
 		if (typeAttribute != null) {
 			typeValue = typeAttribute.getValue();
+		} else {
+			throw new LdoDLoadException(
+					"o elemento ref deve ter valor para o atributo type");
 		}
 
 		switch (typeValue) {
@@ -1503,6 +1531,9 @@ public class LoadTEIFragments {
 			break;
 		case "witness":
 			type = RefType.WITNESS;
+			break;
+		case "fragment":
+			type = RefType.FRAGMENT;
 			break;
 		default:
 			throw new LdoDLoadException(

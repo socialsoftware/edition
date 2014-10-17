@@ -70,6 +70,14 @@ public class LdoD extends LdoD_Base {
 		return null;
 	}
 
+	public Fragment getFragment(String target) {
+		for (Fragment fragment : getFragmentsSet()) {
+			if (fragment.getXmlId().equals(target))
+				return fragment;
+		}
+		return null;
+	}
+
 	public List<VirtualEdition> getVirtualEditions4User(LdoDUser user,
 			LdoDSession session) {
 		List<VirtualEdition> manageVE = new ArrayList<VirtualEdition>();
@@ -179,4 +187,5 @@ public class LdoD extends LdoD_Base {
 			// generator.generate(virtualEdition);
 		}
 	}
+
 }

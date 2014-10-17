@@ -566,6 +566,11 @@ relation RefText2FragInter {
 	RefText playsRole refText {multiplicity 0..*;}
 }
 
+relation RefText2Fragment {
+	Fragment playsRole refFrag {multiplicity 0..1;}
+	RefText playsRole refText {multiplicity 0..*;}
+}
+
 class Annotation {
 	String quote;
 	String text;
