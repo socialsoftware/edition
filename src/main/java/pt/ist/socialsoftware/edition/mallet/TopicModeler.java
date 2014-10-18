@@ -7,8 +7,10 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeSet;
 import java.util.regex.Pattern;
 
@@ -42,14 +44,14 @@ public class TopicModeler {
 	private Pipe pipe;
 	private final String corpusPath = PropertiesManager.getProperties()
 			.getProperty("corpus.dir");
-	private final String corpusEditionsPath = PropertiesManager.getProperties()
-			.getProperty("corpus.editions.dir");
+	private final String corpusFilesPath = PropertiesManager.getProperties()
+			.getProperty("corpus.files.dir");
 
 	public Taxonomy generate(Edition edition, String name, int numTopics,
 			int numWords, int thresholdCategories, int numIterations)
 			throws IOException {
 		// if a corpus is absent
-		File directory = new File(corpusEditionsPath + edition.getExternalId());
+		File directory = new File(corpusFilesPath);
 		if (!directory.exists()) {
 			return null;
 		}
@@ -57,7 +59,7 @@ public class TopicModeler {
 		pipe = buildPipe();
 
 		InstanceList instances = readDirectory(edition, new File(
-				corpusEditionsPath + edition.getExternalId()));
+				corpusFilesPath));
 
 		int numInstances = instances.size();
 
@@ -119,15 +121,9 @@ public class TopicModeler {
 		// The third argument is a Pattern that is applied to the
 		// filename to produce a class label. In this case, I've
 		// asked it to use the last directory name in the path.
+
 		FileIterator iterator = new FileIterator(directories,
 				new EditionFilter(edition), FileIterator.LAST_DIRECTORY);
-
-		while (iterator.hasNext()) {
-			System.out.println("Iter: " + iterator.nextFile().getName());
-		}
-
-		iterator = new FileIterator(directories, new EditionFilter(edition),
-				FileIterator.LAST_DIRECTORY);
 
 		// Construct a new instance list, passing it the pipe
 		// we want to use to process instances.
@@ -225,21 +221,21 @@ public class TopicModeler {
 
 	/** This class illustrates how to build a simple file filter */
 	class EditionFilter implements FileFilter {
-		private final Edition edition;
+		private final Set<String> filenames = new HashSet<String>();
 
 		public EditionFilter(Edition edition) {
-			this.edition = edition;
+			for (FragInter inter : edition.getIntersSet()) {
+				filenames.add(inter.getLastUsed().getExternalId() + ".txt");
+			}
 		}
 
 		/**
-		 * Test whether the string representation of the file ends with the
-		 * correct extension. Note that {@ref FileIterator} will only call this
-		 * filter if the file is not a directory, so we do not need to test that
-		 * it is a file.
+		 * Note that {@ref FileIterator} will only call this filter if the file
+		 * is not a directory, so we do not need to test that it is a file.
 		 */
 		@Override
 		public boolean accept(File file) {
-			return file.toString().endsWith(".txt");
+			return filenames.contains(file.getName());
 		}
 	}
 

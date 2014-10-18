@@ -78,6 +78,7 @@ import pt.ist.socialsoftware.edition.domain.TextPortion.VariationType;
 import pt.ist.socialsoftware.edition.domain.TypeNote;
 import pt.ist.socialsoftware.edition.domain.UnclearText;
 import pt.ist.socialsoftware.edition.domain.UnclearText.UnclearReason;
+import pt.ist.socialsoftware.edition.mallet.CorpusGenerator;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDLoadException;
 import pt.ist.socialsoftware.edition.utils.DateUtils;
 
@@ -309,6 +310,24 @@ public class LoadTEIFragments {
 		loadFacsimile(xmlId);
 
 		loadFragmentText(fragment, xmlId);
+
+		// generate corpus in corpus.dir
+		CorpusGenerator generator = new CorpusGenerator();
+		for (FragInter inter : fragment.getFragmentInterSet()) {
+			try {
+				generator.generate(inter);
+			} catch (FileNotFoundException e) {
+				throw new LdoDLoadException(
+						"erro FileNotFoundException a gerar corpus da interpretação "
+								+ inter.getXmlId() + " do fragmento "
+								+ inter.getFragment().getXmlId());
+			} catch (IOException e) {
+				throw new LdoDLoadException(
+						"erro IOException a gerar corpus da interpretação "
+								+ inter.getXmlId() + " do fragmento "
+								+ inter.getFragment().getXmlId());
+			}
+		}
 
 		// uncomment when a print of the result of load is required in stdout
 		// TEIWriter writer = new TEIWriter();

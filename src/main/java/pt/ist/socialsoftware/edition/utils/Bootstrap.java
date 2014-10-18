@@ -45,9 +45,9 @@ public class Bootstrap implements WebApplicationInitializer {
 
 	public static void populateDatabaseUsersAndRoles() {
 		// delete directory and all its files if it exists
-		String path = PropertiesManager.getProperties().getProperty(
-				"corpus.editions.dir");
-		File directory = new File(path);
+		String corpusFilesPath = PropertiesManager.getProperties().getProperty(
+				"corpus.files.dir");
+		File directory = new File(corpusFilesPath);
 		if (directory.exists()) {
 			try {
 				FileUtils.deleteDirectory(directory);

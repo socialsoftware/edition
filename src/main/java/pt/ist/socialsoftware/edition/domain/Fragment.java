@@ -45,9 +45,8 @@ public class Fragment extends Fragment_Base {
 		}
 
 		for (RefText ref : getRefTextSet()) {
-			// we have to delete all fragments that refer this to avoid dangling
-			// references
-			ref.getFragment().remove();
+			// the reference is removed
+			ref.remove();
 		}
 
 		deleteDomainObject();

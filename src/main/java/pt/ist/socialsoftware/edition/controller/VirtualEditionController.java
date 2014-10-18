@@ -1,6 +1,5 @@
 package pt.ist.socialsoftware.edition.controller;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -31,7 +30,6 @@ import pt.ist.socialsoftware.edition.domain.Tag;
 import pt.ist.socialsoftware.edition.domain.Taxonomy;
 import pt.ist.socialsoftware.edition.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.domain.VirtualEditionInter;
-import pt.ist.socialsoftware.edition.mallet.CorpusGenerator;
 import pt.ist.socialsoftware.edition.mallet.TopicModeler;
 import pt.ist.socialsoftware.edition.security.LdoDSession;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDCreateVirtualEditionException;
@@ -380,24 +378,25 @@ public class VirtualEditionController {
 		}
 	}
 
-	@RequestMapping(method = RequestMethod.POST, value = "/restricted/regenerateCorpus")
-	@PreAuthorize("hasPermission(#externalId, 'virtualedition.participant')")
-	public String regenerateCorpus(Model model,
-			@ModelAttribute("ldoDSession") LdoDSession ldoDSession,
-			@RequestParam("externalId") String externalId)
-			throws FileNotFoundException, IOException {
-
-		VirtualEdition virtualEdition = FenixFramework
-				.getDomainObject(externalId);
-		if (virtualEdition == null) {
-			return "utils/pageNotFound";
-		} else {
-			CorpusGenerator generator = new CorpusGenerator();
-			generator.generate(virtualEdition);
-			model.addAttribute("virtualEdition", virtualEdition);
-			return "virtual/taxonomies";
-		}
-	}
+	// @RequestMapping(method = RequestMethod.POST, value =
+	// "/restricted/regenerateCorpus")
+	// @PreAuthorize("hasPermission(#externalId, 'virtualedition.participant')")
+	// public String regenerateCorpus(Model model,
+	// @ModelAttribute("ldoDSession") LdoDSession ldoDSession,
+	// @RequestParam("externalId") String externalId)
+	// throws FileNotFoundException, IOException {
+	//
+	// VirtualEdition virtualEdition = FenixFramework
+	// .getDomainObject(externalId);
+	// if (virtualEdition == null) {
+	// return "utils/pageNotFound";
+	// } else {
+	// CorpusGenerator generator = new CorpusGenerator();
+	// generator.generate(virtualEdition);
+	// model.addAttribute("virtualEdition", virtualEdition);
+	// return "virtual/taxonomies";
+	// }
+	// }
 
 	@RequestMapping(method = RequestMethod.POST, value = "/restricted/taxonomy/createTopics")
 	@PreAuthorize("hasPermission(#externalId, 'virtualedition.participant')")
