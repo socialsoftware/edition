@@ -344,7 +344,8 @@ public class VirtualEditionController {
 		}
 
 		VirtualEditionInter addInter = virtualEdition
-				.createVirtualEditionInter(inter);
+				.createVirtualEditionInter(inter,
+						virtualEdition.getMaxFragNumber() + 1);
 
 		if (addInter != null) {
 			List<FragInter> inters = new ArrayList<FragInter>();

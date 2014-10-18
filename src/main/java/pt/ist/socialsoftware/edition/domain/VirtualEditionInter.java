@@ -8,12 +8,13 @@ import pt.ist.socialsoftware.edition.domain.Edition.EditionType;
 
 public class VirtualEditionInter extends VirtualEditionInter_Base {
 
-	public VirtualEditionInter(VirtualEdition virtualEdition, FragInter inter) {
+	public VirtualEditionInter(VirtualEdition virtualEdition, FragInter inter,
+			int number) {
 		setFragment(inter.getFragment());
 		setHeteronym(null);
 		setDate(null);
 		setVirtualEdition(virtualEdition);
-		setNumber(virtualEdition.generateNextInterNumber());
+		setNumber(number);
 		setUses(inter);
 	}
 

@@ -79,7 +79,6 @@ class ExpertEdition extends Edition {
 
 class VirtualEdition extends Edition {
 	Boolean pub;
-	int nextInterNumber;
 }
 
 class NullEdition extends Edition;
