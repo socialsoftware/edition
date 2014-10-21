@@ -79,7 +79,7 @@ public class HtmlWriter4OneInter extends FragmentWriter {
 
 	public void write(Boolean highlightDiff, Boolean displayDel,
 			Boolean highlightIns, Boolean highlightSubst, Boolean showNotes,
-			PbText pbText) {
+			Boolean showFacs, PbText pbText) {
 		this.highlightDiff = highlightDiff;
 		this.displayDel = displayDel;
 		this.highlightIns = highlightIns;
@@ -89,11 +89,16 @@ public class HtmlWriter4OneInter extends FragmentWriter {
 			fragInter = fragInter.getLastUsed();
 		}
 
-		startPbText = pbText;
-		if (startPbText != null) {
-			generate = false;
+		if (showFacs) {
+
+			startPbText = pbText;
+			if (startPbText != null) {
+				generate = false;
+			}
+
+			stopPbText = ((SourceInter) fragInter).getNextPbText(startPbText);
+
 		}
-		stopPbText = ((SourceInter) fragInter).getNextPbText(startPbText);
 
 		visit((AppText) fragInter.getFragment().getTextPortion());
 	}

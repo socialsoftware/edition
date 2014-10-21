@@ -25,11 +25,10 @@ public class VirtualEdition extends VirtualEdition_Base {
 		setTitle(title);
 		setDate(date);
 		setPub(pub);
-		setNextInterNumber(1);
 
 		if (usedEdition != null) {
 			for (FragInter inter : usedEdition.getIntersSet()) {
-				createVirtualEditionInter(inter);
+				createVirtualEditionInter(inter, inter.getNumber());
 			}
 		}
 	}
@@ -135,10 +134,13 @@ public class VirtualEdition extends VirtualEdition_Base {
 		return true;
 	}
 
-	public int generateNextInterNumber() {
-		int nextInterNumber = getNextInterNumber();
-		setNextInterNumber(getNextInterNumber() + 1);
-		return nextInterNumber;
+	public int getMaxFragNumber() {
+		int max = 0;
+		for (FragInter inter : getVirtualEditionIntersSet()) {
+			max = (inter.getNumber() > max) ? inter.getNumber() : max;
+		}
+
+		return max;
 	}
 
 	@Override
@@ -159,10 +161,11 @@ public class VirtualEdition extends VirtualEdition_Base {
 	}
 
 	@Atomic(mode = TxMode.WRITE)
-	public VirtualEditionInter createVirtualEditionInter(FragInter inter) {
+	public VirtualEditionInter createVirtualEditionInter(FragInter inter,
+			int number) {
 		VirtualEditionInter virtualInter = null;
 		if (canAddFragInter(inter)) {
-			virtualInter = new VirtualEditionInter(this, inter);
+			virtualInter = new VirtualEditionInter(this, inter, number);
 		}
 		return virtualInter;
 	}

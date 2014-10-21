@@ -44,6 +44,11 @@ public class Fragment extends Fragment_Base {
 			source.remove();
 		}
 
+		for (RefText ref : getRefTextSet()) {
+			// the reference is removed
+			ref.remove();
+		}
+
 		deleteDomainObject();
 	}
 

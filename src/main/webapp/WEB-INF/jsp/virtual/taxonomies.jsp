@@ -62,16 +62,6 @@ function validateForm() {
         </h1>
         <br>
         <div class="row col-md-10">
-            <form class="form-inline" method="POST"
-                action="${contextPath}/virtualeditions/restricted/regenerateCorpus">
-                <input type="hidden" class="form-control"
-                    name="externalId"
-                    value="${virtualEdition.externalId}" />
-                <button type="submit" class="btn btn-primary">
-                    <span class="glyphicon glyphicon-file"></span>
-                    <spring:message code="corpus.regenerate" />
-                </button>
-            </form>
         </div>
         <div class="row col-md-2">
             <form class="form-inline" method="GET"

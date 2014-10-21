@@ -79,7 +79,6 @@ class ExpertEdition extends Edition {
 
 class VirtualEdition extends Edition {
 	Boolean pub;
-	int nextInterNumber;
 }
 
 class NullEdition extends Edition;
@@ -563,6 +562,11 @@ relation RefText2Surface {
 
 relation RefText2FragInter {
 	FragInter playsRole fragInter {multiplicity 0..1;}
+	RefText playsRole refText {multiplicity 0..*;}
+}
+
+relation RefText2Fragment {
+	Fragment playsRole refFrag {multiplicity 0..1;}
 	RefText playsRole refText {multiplicity 0..*;}
 }
 

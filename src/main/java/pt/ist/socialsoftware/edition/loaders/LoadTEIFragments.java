@@ -78,6 +78,7 @@ import pt.ist.socialsoftware.edition.domain.TextPortion.VariationType;
 import pt.ist.socialsoftware.edition.domain.TypeNote;
 import pt.ist.socialsoftware.edition.domain.UnclearText;
 import pt.ist.socialsoftware.edition.domain.UnclearText.UnclearReason;
+import pt.ist.socialsoftware.edition.mallet.CorpusGenerator;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDLoadException;
 import pt.ist.socialsoftware.edition.utils.DateUtils;
 
@@ -310,6 +311,24 @@ public class LoadTEIFragments {
 
 		loadFragmentText(fragment, xmlId);
 
+		// generate corpus in corpus.dir
+		CorpusGenerator generator = new CorpusGenerator();
+		for (FragInter inter : fragment.getFragmentInterSet()) {
+			try {
+				generator.generate(inter);
+			} catch (FileNotFoundException e) {
+				throw new LdoDLoadException(
+						"erro FileNotFoundException a gerar corpus da interpretação "
+								+ inter.getXmlId() + " do fragmento "
+								+ inter.getFragment().getXmlId());
+			} catch (IOException e) {
+				throw new LdoDLoadException(
+						"erro IOException a gerar corpus da interpretação "
+								+ inter.getXmlId() + " do fragmento "
+								+ inter.getFragment().getXmlId());
+			}
+		}
+
 		// uncomment when a print of the result of load is required in stdout
 		// TEIWriter writer = new TEIWriter();
 		// writer.visit((AppText) fragment.getTextPortion());
@@ -415,6 +434,18 @@ public class LoadTEIFragments {
 						"o valor "
 								+ target
 								+ " do atributo xml:id do elemento ref não corresponde ao id the nenhum elemento witness");
+			}
+			break;
+		case FRAGMENT:
+			Fragment fragment = LdoD.getInstance().getFragment(target);
+			if (fragment != null) {
+				refText.setRefFrag(fragment);
+			} else {
+				throw new LdoDLoadException(
+						"o valor "
+								+ target
+								+ " do atributo xml:id do elemento ref não corresponde ao id the nenhum elemento fragment."
+								+ " NOTA: PODERÁ TER QUE CARREGAR ESSE FRAGMENTO PRIMEIRO");
 			}
 			break;
 		}
@@ -1098,6 +1129,19 @@ public class LoadTEIFragments {
 								} else {
 									putObjectInverseIdMap(target, refText);
 								}
+							} else if (refType == RefType.FRAGMENT) {
+								Fragment frag = LdoD.getInstance().getFragment(
+										target);
+								if (frag != null) {
+									refText.setRefFrag(frag);
+								} else {
+									throw new LdoDLoadException(
+											"o valor "
+													+ target
+													+ " do atributo xml:id do elemento ref não corresponde ao id the nenhum elemento fragment."
+													+ " NOTA: PODERÁ TER QUE CARREGAR ESSE FRAGMENTO PRIMEIRO");
+
+								}
 							}
 
 							fragInter.getFragment().getFragInter(target);
@@ -1495,6 +1539,9 @@ public class LoadTEIFragments {
 		Attribute typeAttribute = element.getAttribute("type");
 		if (typeAttribute != null) {
 			typeValue = typeAttribute.getValue();
+		} else {
+			throw new LdoDLoadException(
+					"o elemento ref deve ter valor para o atributo type");
 		}
 
 		switch (typeValue) {
@@ -1503,6 +1550,9 @@ public class LoadTEIFragments {
 			break;
 		case "witness":
 			type = RefType.WITNESS;
+			break;
+		case "fragment":
+			type = RefType.FRAGMENT;
 			break;
 		default:
 			throw new LdoDLoadException(

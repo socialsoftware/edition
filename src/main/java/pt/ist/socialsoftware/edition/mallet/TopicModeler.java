@@ -7,8 +7,10 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeSet;
 import java.util.regex.Pattern;
 
@@ -42,22 +44,22 @@ public class TopicModeler {
 	private Pipe pipe;
 	private final String corpusPath = PropertiesManager.getProperties()
 			.getProperty("corpus.dir");
-	private final String corpusEditionsPath = PropertiesManager.getProperties()
-			.getProperty("corpus.editions.dir");
+	private final String corpusFilesPath = PropertiesManager.getProperties()
+			.getProperty("corpus.files.dir");
 
 	public Taxonomy generate(Edition edition, String name, int numTopics,
 			int numWords, int thresholdCategories, int numIterations)
 			throws IOException {
 		// if a corpus is absent
-		File directory = new File(corpusEditionsPath + edition.getExternalId());
+		File directory = new File(corpusFilesPath);
 		if (!directory.exists()) {
 			return null;
 		}
 
 		pipe = buildPipe();
 
-		InstanceList instances = readDirectory(new File(corpusEditionsPath
-				+ edition.getExternalId()));
+		InstanceList instances = readDirectory(edition, new File(
+				corpusFilesPath));
 
 		int numInstances = instances.size();
 
@@ -107,12 +109,11 @@ public class TopicModeler {
 		return new SerialPipes(pipeList);
 	}
 
-	public InstanceList readDirectory(File directory) {
-		return readDirectories(new File[] { directory });
+	public InstanceList readDirectory(Edition edition, File directory) {
+		return readDirectories(edition, new File[] { directory });
 	}
 
-	public InstanceList readDirectories(File[] directories) {
-
+	public InstanceList readDirectories(Edition edition, File[] directories) {
 		// Construct a file iterator, starting with the
 		// specified directories, and recursing through subdirectories.
 		// The second argument specifies a FileFilter to use to select
@@ -120,8 +121,9 @@ public class TopicModeler {
 		// The third argument is a Pattern that is applied to the
 		// filename to produce a class label. In this case, I've
 		// asked it to use the last directory name in the path.
-		FileIterator iterator = new FileIterator(directories, new TxtFilter(),
-				FileIterator.LAST_DIRECTORY);
+
+		FileIterator iterator = new FileIterator(directories,
+				new EditionFilter(edition), FileIterator.LAST_DIRECTORY);
 
 		// Construct a new instance list, passing it the pipe
 		// we want to use to process instances.
@@ -218,17 +220,22 @@ public class TopicModeler {
 	}
 
 	/** This class illustrates how to build a simple file filter */
-	class TxtFilter implements FileFilter {
+	class EditionFilter implements FileFilter {
+		private final Set<String> filenames = new HashSet<String>();
+
+		public EditionFilter(Edition edition) {
+			for (FragInter inter : edition.getIntersSet()) {
+				filenames.add(inter.getLastUsed().getExternalId() + ".txt");
+			}
+		}
 
 		/**
-		 * Test whether the string representation of the file ends with the
-		 * correct extension. Note that {@ref FileIterator} will only call this
-		 * filter if the file is not a directory, so we do not need to test that
-		 * it is a file.
+		 * Note that {@ref FileIterator} will only call this filter if the file
+		 * is not a directory, so we do not need to test that it is a file.
 		 */
 		@Override
 		public boolean accept(File file) {
-			return file.toString().endsWith(".txt");
+			return filenames.contains(file.getName());
 		}
 	}
 

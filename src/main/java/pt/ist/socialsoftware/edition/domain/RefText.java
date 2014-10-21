@@ -5,7 +5,7 @@ import pt.ist.socialsoftware.edition.visitors.TextTreeVisitor;
 public class RefText extends RefText_Base {
 
 	public enum RefType {
-		GRAPHIC("graphic"), WITNESS("witness");
+		GRAPHIC("graphic"), WITNESS("witness"), FRAGMENT("fragment");
 
 		private final String desc;
 
@@ -24,12 +24,14 @@ public class RefText extends RefText_Base {
 		setTarget(target);
 		setSurface(null);
 		setFragInter(null);
+		setRefFrag(null);
 	}
 
 	@Override
 	public void remove() {
 		setSurface(null);
 		setFragInter(null);
+		setRefFrag(null);
 
 		super.remove();
 	}

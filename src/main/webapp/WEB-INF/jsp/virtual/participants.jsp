@@ -141,7 +141,7 @@
                                     <button type="submit"
                                         class="btn btn-primary btn-sm">
                                         <span
-                                            class="glyphicon glyphicon-remove"></span>
+                                            class="glyphicon glyphicon-plus"></span>
                                         <spring:message
                                             code="general.add" />
                                     </button>

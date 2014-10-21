@@ -69,6 +69,9 @@ public class NoteText extends NoteText_Base {
 				} else if (refText.getType() == RefType.WITNESS) {
 					link = "/fragments/fragment/inter/"
 							+ refText.getFragInter().getExternalId();
+				} else if (refText.getType() == RefType.FRAGMENT) {
+					link = "/fragments/fragment/"
+							+ refText.getRefFrag().getExternalId();
 				}
 				result = result + "<a href=\"" + link + "\">";
 				SimpleText childText = (SimpleText) text.getFirstChildText();

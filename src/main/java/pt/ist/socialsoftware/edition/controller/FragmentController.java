@@ -107,8 +107,6 @@ public class FragmentController {
 			}
 		}
 
-		System.out.println("INTER=" + id);
-
 		List<FragInter> inters = new ArrayList<FragInter>();
 		inters.add(inter);
 		model.addAttribute("ldoD", LdoD.getInstance());
@@ -251,7 +249,7 @@ public class FragmentController {
 			}
 
 			writer.write(displayDiff, displayDel, highlightIns, highlightSubst,
-					showNotes, pbText);
+					showNotes, showFacs, pbText);
 			model.addAttribute("surface", surface);
 			model.addAttribute("prevsurface", inter.getPrevSurface(pbText));
 			model.addAttribute("nextsurface", inter.getNextSurface(pbText));
@@ -261,7 +259,7 @@ public class FragmentController {
 			return "fragment/facsimile";
 		} else {
 			writer.write(displayDiff, displayDel, highlightIns, highlightSubst,
-					showNotes, null);
+					showNotes, showFacs, null);
 			model.addAttribute("writer", writer);
 			return "fragment/transcription";
 		}
