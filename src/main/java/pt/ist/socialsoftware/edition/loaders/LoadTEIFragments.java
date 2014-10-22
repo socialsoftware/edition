@@ -438,15 +438,17 @@ public class LoadTEIFragments {
 			break;
 		case FRAGMENT:
 			Fragment fragment = LdoD.getInstance().getFragment(target);
-			if (fragment != null) {
-				refText.setRefFrag(fragment);
-			} else {
-				throw new LdoDLoadException(
-						"o valor "
-								+ target
-								+ " do atributo xml:id do elemento ref não corresponde ao id the nenhum elemento fragment."
-								+ " NOTA: PODERÁ TER QUE CARREGAR ESSE FRAGMENTO PRIMEIRO");
-			}
+			// if (fragment != null) {
+			// if fragment == null is deal in class RefText
+			refText.setRefFrag(fragment);
+			// } else {
+			// throw new LdoDLoadException(
+			// "o valor "
+			// + target
+			// +
+			// " do atributo xml:id do elemento ref não corresponde ao id the nenhum elemento fragment."
+			// + " NOTA: PODERÁ TER QUE CARREGAR ESSE FRAGMENTO PRIMEIRO");
+			// }
 			break;
 		}
 
@@ -1132,16 +1134,21 @@ public class LoadTEIFragments {
 							} else if (refType == RefType.FRAGMENT) {
 								Fragment frag = LdoD.getInstance().getFragment(
 										target);
-								if (frag != null) {
-									refText.setRefFrag(frag);
-								} else {
-									throw new LdoDLoadException(
-											"o valor "
-													+ target
-													+ " do atributo xml:id do elemento ref não corresponde ao id the nenhum elemento fragment."
-													+ " NOTA: PODERÁ TER QUE CARREGAR ESSE FRAGMENTO PRIMEIRO");
-
-								}
+								// if (frag != null) {
+								// it is not verified if frag == null but an
+								// exception will be raised when accessing the
+								// fragment
+								refText.setRefFrag(frag);
+								// } else {
+								// throw new LdoDLoadException(
+								// "o valor "
+								// + target
+								// +
+								// " do atributo xml:id do elemento ref não corresponde ao id the nenhum elemento fragment."
+								// +
+								// " NOTA: PODERÁ TER QUE CARREGAR ESSE FRAGMENTO PRIMEIRO");
+								//
+								// }
 							}
 
 							fragInter.getFragment().getFragInter(target);

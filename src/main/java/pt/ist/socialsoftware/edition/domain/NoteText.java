@@ -70,8 +70,13 @@ public class NoteText extends NoteText_Base {
 					link = "/fragments/fragment/inter/"
 							+ refText.getFragInter().getExternalId();
 				} else if (refText.getType() == RefType.FRAGMENT) {
-					link = "/fragments/fragment/"
-							+ refText.getRefFrag().getExternalId();
+					if (refText.getRefFrag() != null)
+						link = "/fragments/fragment/"
+								+ refText.getRefFrag().getExternalId();
+					else
+						// this situation should never occur if the fragments
+						// were consistently loaded
+						link = "/fragments/fragment/" + refText.getTarget();
 				}
 				result = result + "<a href=\"" + link + "\">";
 				SimpleText childText = (SimpleText) text.getFirstChildText();
