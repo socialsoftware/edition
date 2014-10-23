@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import pt.ist.socialsoftware.edition.domain.Edition.EditionType;
+import pt.ist.socialsoftware.edition.utils.search.options.SearchOption;
 
 public class SourceInter extends SourceInter_Base {
 
@@ -73,6 +74,11 @@ public class SourceInter extends SourceInter_Base {
 	@Override
 	public String getReference() {
 		return getShortName();
+	}
+	
+	@Override
+	public boolean accept(SearchOption option){
+		return option.visit(this);
 	}
 
 	public Surface getPrevSurface(PbText pbText) {

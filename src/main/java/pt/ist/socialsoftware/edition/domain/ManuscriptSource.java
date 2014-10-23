@@ -110,4 +110,33 @@ public class ManuscriptSource extends ManuscriptSource_Base {
 
 		super.remove();
 	}
+
+//	@Override
+//	public boolean belongsToResultSet(SearchOptions searchOptions) {
+//		// TODO Auto-generated method stub
+//
+//		AuthoralSourceSearchOption authoralSourceSearchOptions = searchOptions
+//				.getAuthoralSourceSearchOptions();
+//
+//		boolean res = true;
+//
+//		// check if the form of this source was selected
+//		if (authoralSourceSearchOptions.form(this.getForm())) {
+//			res = res && true;
+//		} else {
+//			res = res && false;
+//			return res;
+//		}
+//
+//		// check if the material was selected
+//		if (authoralSourceSearchOptions.material(this.getMaterial())) {
+//			res = res && true;
+//		} else {
+//			res = res && false;
+//			return res;
+//		}
+//
+//		return false;
+//
+//	}
 }

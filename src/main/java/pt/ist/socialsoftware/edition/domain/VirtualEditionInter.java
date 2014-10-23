@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Set;
 
 import pt.ist.socialsoftware.edition.domain.Edition.EditionType;
+import pt.ist.socialsoftware.edition.utils.search.options.SearchOption;
 
 public class VirtualEditionInter extends VirtualEditionInter_Base {
 
@@ -124,5 +125,9 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 		}
 		return contributors;
 	}
-
+	
+	@Override
+	public boolean accept(SearchOption option){
+		return option.visit(this);
+	}
 }

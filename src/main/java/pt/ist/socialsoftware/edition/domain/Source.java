@@ -40,5 +40,4 @@ public abstract class Source extends Source_Base implements Comparable<Source> {
 	public int compareTo(Source other) {
 		return getName().compareTo(other.getName());
 	}
-
 }

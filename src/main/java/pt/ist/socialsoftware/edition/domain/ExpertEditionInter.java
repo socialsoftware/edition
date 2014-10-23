@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import pt.ist.socialsoftware.edition.domain.Edition.EditionType;
+import pt.ist.socialsoftware.edition.utils.search.options.SearchOption;
 
 public class ExpertEditionInter extends ExpertEditionInter_Base {
 
@@ -59,7 +60,7 @@ public class ExpertEditionInter extends ExpertEditionInter_Base {
 			return 1;
 		} else {
 			assert false : "To extend when new expert editions are include";
-			return 0;
+		return 0;
 		}
 	}
 
@@ -101,8 +102,8 @@ public class ExpertEditionInter extends ExpertEditionInter_Base {
 			String precision = getPrecision() != null ? " Precisão: "
 					+ getPrecision().getDesc() : "";
 
-			result = result + "Data: " + getDate().toString("dd-MM-yyyy")
-					+ precision + "<br>";
+					result = result + "Data: " + getDate().toString("dd-MM-yyyy")
+							+ precision + "<br>";
 		}
 
 		result = result + "Notas: " + getNotes() + "<br>";
@@ -134,5 +135,10 @@ public class ExpertEditionInter extends ExpertEditionInter_Base {
 	@Override
 	public String getReference() {
 		return Integer.toString(getNumber());
+	}
+
+	@Override
+	public boolean accept(SearchOption option){
+		return option.visit(this);
 	}
 }

@@ -9,9 +9,10 @@ import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.socialsoftware.edition.domain.Edition.EditionType;
 import pt.ist.socialsoftware.edition.utils.RangeJson;
+import pt.ist.socialsoftware.edition.utils.search.options.SearchOption;
 
 public abstract class FragInter extends FragInter_Base implements
-		Comparable<FragInter> {
+Comparable<FragInter> {
 
 	public void remove() {
 		setFragment(null);
@@ -189,4 +190,6 @@ public abstract class FragInter extends FragInter_Base implements
 			}
 		}
 	}
+
+	public abstract boolean accept(SearchOption option);
 }
