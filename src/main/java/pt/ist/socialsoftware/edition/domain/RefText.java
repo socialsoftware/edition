@@ -1,5 +1,7 @@
 package pt.ist.socialsoftware.edition.domain;
 
+import pt.ist.fenixframework.Atomic;
+import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.socialsoftware.edition.visitors.TextTreeVisitor;
 
 public class RefText extends RefText_Base {
@@ -28,9 +30,26 @@ public class RefText extends RefText_Base {
 	}
 
 	@Override
+	public Fragment getRefFrag() {
+		Fragment fragment = super.getRefFrag();
+		if (fragment == null) {
+			fragment = LdoD.getInstance().getFragment(getTarget());
+			atomicWriteRefFrag(fragment);
+		}
+		return fragment;
+	}
+
+	@Atomic(mode = TxMode.WRITE)
+	private void atomicWriteRefFrag(Fragment fragment) {
+		setRefFrag(fragment);
+	}
+
+	@Override
 	public void remove() {
 		setSurface(null);
 		setFragInter(null);
+		// it is necessary to avoid lazy reload of refFrag
+		setTarget("");
 		setRefFrag(null);
 
 		super.remove();
