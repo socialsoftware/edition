@@ -21,17 +21,11 @@ public final class EditionSearchOption extends SearchOption {
 		if(inclusion.equals("in"))
 			this.inclusion = true;
 		else
-			// if(inclusion.equals("out"))
 			this.inclusion = false;
 
 		this.edition = edition;
 		this.heteronym = heteronym;
 		this.date = date;
-	}
-
-	@Override
-	public String toString() {
-		return "Edition " + inclusion + " " + edition;
 	}
 
 	@Override
@@ -47,9 +41,9 @@ public final class EditionSearchOption extends SearchOption {
 			if(date != null && !inter.accept(date)) {
 				return false;
 			}
-		}else if (edition.equals(inter.getEdition().getAcronym()) || edition.equals(ALL)) {
+		} else if(edition.equals(inter.getEdition().getAcronym()) || edition.equals(ALL))
 			return false;
-		}
+
 		return true;
 	}
 }

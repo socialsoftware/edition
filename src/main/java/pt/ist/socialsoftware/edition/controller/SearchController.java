@@ -6,6 +6,7 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeSet;
 
 import org.joda.time.LocalDate;
@@ -91,26 +92,35 @@ public class SearchController {
 	private List<FragmentJson> search(Search search, boolean and) {
 
 		SearchOption[] options = search.getSearchOptions();
+		Mode mode = search.getMode();
 		List<FragmentJson> resultSet = new ArrayList<FragmentJson>();
-		List<FragInterJson> fragInterJsonList;
+		// Set<FragInterJson> fragInterJsonSet;
+		Set<FragInter> fragInterSet;
 		boolean working;
 		boolean belongsToResulSet = true;
 
 		for(Fragment fragment : LdoD.getInstance().getFragmentsSet()) {
-			fragInterJsonList = new LinkedList<FragInterJson>();
+			fragInterSet = new TreeSet<FragInter>();
 			belongsToResulSet = and;
 			for(SearchOption option : options) {
 				working = false;
 				for(FragInter fragInter : fragment.getFragmentInterSet()) {
 					if(fragInter.accept(option)) {
-						fragInterJsonList.add(new FragInterJson(fragInter));
+						//fragInterJsonSet.add(new FragInterJson(fragInter));
+						fragInterSet.add(fragInter);
 						working = true;
 					}
 				}
-				belongsToResulSet = SearchOption.chooseMode(search.getMode(), belongsToResulSet, working);
+				belongsToResulSet = SearchOption.chooseMode(mode, belongsToResulSet, working);
 			}
+
 			if(belongsToResulSet) {
-				resultSet.add(new FragmentJson(fragment, fragInterJsonList));
+				List<FragInterJson> fragInterJsonSet = new LinkedList<FragInterJson>();
+
+				for(FragInter fragInter : fragInterSet)
+					fragInterJsonSet.add(new FragInterJson(fragInter));
+				
+				resultSet.add(new FragmentJson(fragment, fragInterJsonSet));
 			}
 		}
 		return resultSet;
@@ -259,7 +269,7 @@ public class SearchController {
 	@ResponseBody
 	public Map<String,String> getHeteronyms() {
 		Map<String,String> heteronyms = new HashMap<String,String>();
-		for(Heteronym heteronym : new TreeSet<Heteronym>(LdoD.getInstance().getHeteronymsSet())){
+		for(Heteronym heteronym : LdoD.getInstance().getHeteronymsSet()) {
 			heteronyms.put(heteronym.getName(),heteronym.getXmlId());
 		}
 		return heteronyms;
