@@ -10,10 +10,10 @@ public class FragmentJson {
 	private final String url;
 	private final List<FragInterJson> inters;
 
-	public FragmentJson(Fragment fragment, List<FragInterJson> inters) {
+	public FragmentJson(Fragment fragment, List<FragInterJson> fragInterJsonSet) {
 		this.title = fragment.getTitle();
 		this.url = "/fragments/fragment/" + fragment.getExternalId();
-		this.inters = inters;
+		this.inters = fragInterJsonSet;
 	}
 
 	public String getTitle() {

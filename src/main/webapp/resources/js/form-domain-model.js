@@ -417,7 +417,7 @@ function FormGroup(id, element) {
 	+ "<select id=selection-box>";
 	for ( var i in Domain) {
 		html += "<option id=" + i + ">"
-		+ i
+		+ Domain[i]
 		+ "</option>";
 	}
 	html += "</select>" + "</div>";
@@ -432,13 +432,15 @@ function FormGroup(id, element) {
 
 //Expecification of available options.
 Domain = {
-		Edition : Edition,
+		Edition :'<spring:message javaScriptEscape="true" code="search" />',
 		Manuscript : Manuscript,
 		Dactiloscript : Dactiloscript,
-		Date : MyDate,
+		MyDate : Date,
 		Publication : Publication,
 		Heteronym : Heteronym
 }
+
+alert('<spring:message javaScriptEscape="true" code="search" />');
 
 //FormModel
 function Form() {
@@ -468,7 +470,7 @@ Form.prototype.json = function() {
 }
 
 Form.prototype.add = function() {
-	var edition = new Domain.Edition(this.counter++);
+	var edition = new Edition(this.counter++);
 	this.items.push(edition);
 	this.trigger("add", edition);
 };
@@ -486,7 +488,7 @@ Form.prototype.remove = function(key) {
 Form.prototype.swap = function(key, newOption) {
 	var item = null;
 	if (Domain[newOption]) {
-		item = new Domain[newOption](key);
+		item = new (newOption)(key);
 		for ( var i in this.items) {
 			if (this.items[i].id == key) {
 				this.items[i] = item;
