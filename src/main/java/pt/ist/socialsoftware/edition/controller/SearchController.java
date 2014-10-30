@@ -6,6 +6,7 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import pt.ist.socialsoftware.edition.domain.Edition;
 import pt.ist.socialsoftware.edition.domain.Edition.EditionType;
 import pt.ist.socialsoftware.edition.domain.ExpertEdition;
+import pt.ist.socialsoftware.edition.domain.ExpertEditionInter;
 import pt.ist.socialsoftware.edition.domain.FragInter;
 import pt.ist.socialsoftware.edition.domain.Fragment;
 import pt.ist.socialsoftware.edition.domain.Heteronym;
@@ -83,21 +85,39 @@ public class SearchController {
 	@ResponseBody
 	public List<FragmentJson> advancedSearchResult(
 			Model model, @RequestBody Search search) {
-		if(search.getMode().equals(Mode.AND))
-			return search(search, true);
-		else
-			return search(search, false);
+
+		Map<Fragment, Set<FragInter>> result = search(search);
+
+		List<FragmentJson> resultSet = new LinkedList<FragmentJson>();
+		List<FragInterJson> fragInterJsonSet;
+		for(Entry<Fragment, Set<FragInter>> entry : result.entrySet()) {
+			fragInterJsonSet = new LinkedList<FragInterJson>();
+			for(FragInter fragInter : entry.getValue()) {
+
+				if(fragInter instanceof ExpertEditionInter) {
+					fragInterJsonSet.add(new FragInterJson((ExpertEditionInter) fragInter));
+				} else if(fragInter instanceof SourceInter) {
+					fragInterJsonSet.add(new FragInterJson((SourceInter) fragInter));
+				} else {
+					fragInterJsonSet.add(new FragInterJson(fragInter));
+				}
+
+				// fragInterJsonSet.add(new FragInterJson(fragInter));
+			}
+			resultSet.add(new FragmentJson(entry.getKey(), fragInterJsonSet));
+		}
+		
+		return resultSet;
 	}
 
-	private List<FragmentJson> search(Search search, boolean and) {
-
+	public static Map<Fragment, Set<FragInter>> search(Search search) {
 		SearchOption[] options = search.getSearchOptions();
 		Mode mode = search.getMode();
-		List<FragmentJson> resultSet = new ArrayList<FragmentJson>();
-		// Set<FragInterJson> fragInterJsonSet;
 		Set<FragInter> fragInterSet;
 		boolean working;
-		boolean belongsToResulSet = true;
+		boolean and = mode.equals(Mode.AND) ? true : false;
+		Map<Fragment, Set<FragInter>> resultSet = new LinkedHashMap<Fragment, Set<FragInter>>();
+		boolean belongsToResulSet;
 
 		for(Fragment fragment : LdoD.getInstance().getFragmentsSet()) {
 			fragInterSet = new TreeSet<FragInter>();
@@ -106,7 +126,6 @@ public class SearchController {
 				working = false;
 				for(FragInter fragInter : fragment.getFragmentInterSet()) {
 					if(fragInter.accept(option)) {
-						//fragInterJsonSet.add(new FragInterJson(fragInter));
 						fragInterSet.add(fragInter);
 						working = true;
 					}
@@ -115,16 +134,13 @@ public class SearchController {
 			}
 
 			if(belongsToResulSet) {
-				List<FragInterJson> fragInterJsonSet = new LinkedList<FragInterJson>();
-
-				for(FragInter fragInter : fragInterSet)
-					fragInterJsonSet.add(new FragInterJson(fragInter));
-				
-				resultSet.add(new FragmentJson(fragment, fragInterJsonSet));
-			}
+				resultSet.put(fragment, fragInterSet);
+			} 	
 		}
 		return resultSet;
 	}
+
+	
 
 	@RequestMapping(value = "/getEditions")
 	@ResponseBody
@@ -153,6 +169,9 @@ public class SearchController {
 
 		for (FragInter fragInter : edition.getIntersSet()) {
 			if (!heteronyms.containsKey(fragInter.getHeteronym().getName())) {
+				if(fragInter.getHeteronym().equals("Bernardo Soares")) {
+					System.out.println(fragInter.getTitle());
+				}
 				heteronyms.put(fragInter.getHeteronym().getName(),fragInter.getHeteronym().getXmlId());
 			}
 
@@ -193,7 +212,7 @@ public class SearchController {
 			for (Source source : fragment.getSourcesSet()) {
 				if (source.getType().equals(SourceType.PRINTED)) {
 					if (!publications.contains(((PrintedSource) source).getPubPlace())) {
-						publications.add(((PrintedSource) source).getPubPlace());
+						publications.add(((PrintedSource) source).getTitle());
 					}
 				}
 			}

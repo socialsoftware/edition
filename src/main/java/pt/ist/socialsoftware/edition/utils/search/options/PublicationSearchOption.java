@@ -8,16 +8,15 @@ import pt.ist.socialsoftware.edition.domain.SourceInter;
 
 public final class PublicationSearchOption extends SearchOption {
 
-	private final String pubPlace;
+	private final String title;
 
-	public PublicationSearchOption(@JsonProperty("pubPlace") String pubPlace){
-		this.pubPlace = pubPlace;
+	public PublicationSearchOption(@JsonProperty("pubPlace") String title) {
+		this.title = title;
 	}
 
 	@Override
 	public boolean visit(SourceInter inter) {
-		return inter.getSource().getType().equals(Source.SourceType.PRINTED) && 
-				(((PrintedSource)inter.getSource()).getPubPlace().equals(pubPlace) || 
-						((PrintedSource)inter.getSource()).getPubPlace().equals(ALL));
+		return inter.getSource().getType().equals(Source.SourceType.PRINTED)
+				&& (((PrintedSource) inter.getSource()).getTitle().equals(title) || title.equals(ALL));
 	}
 }
