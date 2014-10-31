@@ -277,7 +277,7 @@ Publication.prototype.toHTML = function(callback) {
 			function(published) {
 				var html = "<div class=\"col-xs-4 col-md-2\">" +
 					"<p>"+ '<spring:message javaScriptEscape="true" code="general.published" />'+"</p>"
-					+ "<select>"
+					+ "<select id=\"select-publication\">"
 					html += "<option id =\"" + option.all.id + "\">"
 					+ option.all.text + "</option>";
 				for ( var i in published) {
@@ -288,6 +288,10 @@ Publication.prototype.toHTML = function(callback) {
 
 				callback(html);
 			});
+};
+
+Publication.prototype.changePublication = function(value){
+	this.published = value; 
 };
 
 /*
@@ -384,9 +388,9 @@ MyDate.prototype.html = function(beginDate,endDate){
 	"</select>" +
 	"</br>";
 	html += "<div id = \"date-values\" style=\"display: none;\">";
-	html += "Start	<input id=\"date-value-begin\" type=text value="
+	html += '<spring:message javaScriptEscape="true" code="search.date.begin" />'+ '</br>' +	"<input id=\"date-value-begin\" type=text value="
 		+ beginDate + " /></br>";
-	html += "End	<input id=\"date-value-end\"type=text value="
+	html += '<spring:message javaScriptEscape="true" code="search.date.end" />'+'</br>' +	"<input id=\"date-value-end\"type=text value="
 		+ endDate + " />";
 	html += "</div></div>";
 
@@ -578,15 +582,16 @@ Form.prototype.changeDateOption = function(id,optionValue){
 
 Form.prototype.changeDateBeginDateOption = function(id, value){
 	for (var i = 0; i < this.items.length; i++) {
-		if (this.items[i].id = id) {
+		if (this.items[i].id == id) {
 			this.items[i].setBeginDate(value);
 		}
 	}
 }
 
+
 Form.prototype.changeDateEndDateOption = function(id, value){
 	for (var i = 0; i < this.items.length; i++) {
-		if (this.items[i].id = id) {
+		if (this.items[i].id == id) {
 			this.items[i].setEndDate(value);
 		}
 	}
@@ -594,8 +599,16 @@ Form.prototype.changeDateEndDateOption = function(id, value){
 
 Form.prototype.changeLdoDMark = function(id, value){
 	for (var i = 0; i < this.items.length; i++) {
-		if (this.items[i].id = id) {
+		if (this.items[i].id == id) {
 			this.items[i].changeLdoDMark(value);
+		}
+	}
+}
+
+Form.prototype.changePublication = function(id, value){
+	for (var i = 0; i < this.items.length; i++) {
+		if (this.items[i].id == id) {
+			this.items[i].changePublication(value);
 		}
 	}
 }
@@ -615,13 +628,14 @@ Form.prototype.changeLdoDMark = function(id, value){
 					<option id="or"><spring:message javaScriptEscape="true" code="search.rule.matchOne" /></option>
 				</select>
 			</div>
-			<div class="col-xs-6 col-md-6 center-block " align="right">
-				<button id="plusBtn" type="button" class="btn btn-default btn-lg">
-					<span class="glyphicon glyphicon-plus"></span>
-				</button>
-			</div>
+			
 		</div>
 		<div id="options"></div>
+		<div align="right">
+			<button id="plusBtn" type="button" class="btn btn-default btn-lg">
+				<span class="glyphicon glyphicon-plus"></span>
+			</button>
+		</div>
 		<div>
 			<button type="submit" class="btn btn-default btn-lg" id='submit'>
 				<spring:message code="search" />
@@ -751,9 +765,6 @@ Form.prototype.changeLdoDMark = function(id, value){
 		});
 		
 		
-		
-
-		
 		//Events from domain
 		//Add event
 		model.on("add", function(item) {
@@ -798,6 +809,7 @@ Form.prototype.changeLdoDMark = function(id, value){
 		
 		//Handle 
 		$('#submit').click(function() {
+			$(this).blur();
 			var json = JSON.stringify(model.json());
 			$.ajax({
 				type : "POST",
@@ -805,35 +817,67 @@ Form.prototype.changeLdoDMark = function(id, value){
 				data : json,
 				contentType : 'application/json',
 			}).done(function(fragments) {
-				var html = "<table class=\"table table-hover table-condensed\">"+
-			    "<thead>"+
-			        "<tr>"+
-			            "<th>"+
-			            '<spring:message javaScriptEscape="true" code="fragments"/>'+
-			            "</th>"+
-			            "<th>"+
-			            '<spring:message javaScriptEscape="true" code="interpretations"/>'+
-			            "</th>"+
-			        "</tr>"+"<tbody>";
-				
-				for(var i in fragments){
-					html +=  "<tr>"+
-						"<td rowspan=\""+fragments[i].inters.length+"\">"+"<a href=\""+fragments[i].url+"\">"+fragments[i].title+"</a>"+"</td>";
-
-					var length = fragments[i].inters.length	;
-					html += "<td> <a href=\""+fragments[i].inters[0].url+"\">"+fragments[i].inters[0].title+"</a></td></tr>";
-						
-					for(var j = 1 ; j<length;j++){
-						html += "<tr><td> <a href=\""+fragments[i].inters[j].url+"\">"+fragments[i].inters[j].title+"</a></td></tr>";
+				if(fragments.length > 0){
+					var html = "";
+					var interCount = 0;
+					for(var i in fragments){
+						var length = fragments[i].inters.length	;
+						interCount += length;
+						html +=  "<tr>"+
+							"<td rowspan=\""+length+"\">"+"<a href=\""+fragments[i].url+"\">"+fragments[i].title+"</a>"+"</td>";
+	
+						html += "<td><p><a href=\""+fragments[i].inters[0].url+"\">"+fragments[i].inters[0].title + "</a> (" + fragments[i].inters[0].type +")</td></tr>";
+							
+						for(var j = 1 ; j<length;j++){
+							html += "<tr><td><a href=\""+fragments[i].inters[j].url+"\">" + fragments[i].inters[j].title + "</a> (" + fragments[i].inters[j].type +")</td></tr>";
+						}
 					}
-				}
+					
+					html = "<table class=\"table table-hover table-condensed\">"+
+				    "<thead>"+
+				        "<tr>"+
+				            "<th>"+
+				            '<spring:message javaScriptEscape="true" code="fragments"/> ('+ fragments.length+
+				            ")</th>"+
+				            "<th>"+
+				            '<spring:message javaScriptEscape="true" code="interpretations"/> ('+ interCount + 
+				            ")</th>"+
+				        "</tr>"+"<tbody>"+ html
 				
 				$("#results").empty().append(html);
+				} else {
+					$("#results").empty().append('<p><spring:message javaScriptEscape="true" code="search.noResults"/><p>');
+				}
+				
 			});
 		});
 
 		//Add one element
 		model.add();
+		
+		
+		//Test 
+		function test(){
+			var i = model.counter;
+			//Heteronym
+			mode.add();
+			mode.swap(i,"heteronym");
+			mode.changeHeteronym(i,"BS");
+			mode.changeHeteronym(i,"VG");
+			mode.changeHeteronym(i,"all");
+			
+		}	
+		
+		
+		
+		
+		test();
+		
+		
+		
+		
+		
+		
 	});
 </script>
 
