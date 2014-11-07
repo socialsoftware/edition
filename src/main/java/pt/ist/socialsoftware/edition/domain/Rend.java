@@ -5,7 +5,7 @@ public class Rend extends Rend_Base {
 	public enum Rendition {
 		RIGHT("right"), LEFT("left"), CENTER("center"), BOLD("bold"), ITALIC(
 				"i"), RED("red"), GREEN("green"), UNDERLINED("u"), SUPERSCRIPT(
-				"sperscript"), SUBSCRIPT("subscript");
+				"super"), SUBSCRIPT("sub");
 
 		private String desc;
 

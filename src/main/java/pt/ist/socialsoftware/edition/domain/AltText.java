@@ -34,6 +34,7 @@ public class AltText extends AltText_Base {
 		for (SegText segText : segTextList) {
 			double weight = Double.parseDouble(weightList[i]);
 			addAltTextWeight(new AltTextWeight(segText, weight));
+			i++;
 		}
 	}
 

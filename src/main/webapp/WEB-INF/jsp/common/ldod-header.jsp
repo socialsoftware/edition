@@ -71,6 +71,9 @@
 					<li><a href="${contextPath}/admin/load/fragmentFormStepByStep"><spring:message
 								code="fragments.load" /></a></li>
 					<li class="divider"></li>
+					<li><a href="${contextPath}/admin/exportForm"><spring:message
+                                code="general.export" /></a></li>
+					<li class="divider"></li>
 					<li><a href="${contextPath}/admin/fragment/list"><spring:message
 								code="fragment.delete" /></a></li>
 				</ul></li>
