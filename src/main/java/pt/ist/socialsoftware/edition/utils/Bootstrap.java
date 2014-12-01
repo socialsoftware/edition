@@ -86,6 +86,9 @@ public class Bootstrap implements WebApplicationInitializer {
 		LdoDUser andre = new LdoDUser(ldod, "afs",
 				"$2a$11$na24dttCBjjT5uVT0mBCb.MlDdCGHwu3w6tRTqf5OD9QAsIPYJzfu",
 				"André", "Santos", "andrefilipebrazsantos@gmail.com");
+		LdoDUser daniela = new LdoDUser(ldod, "daniela",
+				"$2a$04$QiGbDnmoyrvyFnJdfsHhSeJoWJkjVkegrIpIADcIBVziVYWPHnPpC",
+				"Daniela", "Maduro", "cortesmaduro@hotmail.com");
 
 		ars.addRoles(user);
 		ars.addRoles(admin);
@@ -108,6 +111,9 @@ public class Bootstrap implements WebApplicationInitializer {
 		andre.addRoles(user);
 		andre.addRoles(admin);
 
+		daniela.addRoles(user);
+		daniela.addRoles(admin);
+
 		VirtualEdition classX = new VirtualEdition(ldod, ars, "ClassX",
 				"LdoD Edition of Class X", new LocalDate(), false, null);
 		classX.addParticipant(luis);
@@ -116,6 +122,7 @@ public class Bootstrap implements WebApplicationInitializer {
 		classX.addParticipant(tiago);
 		classX.addParticipant(ars);
 		classX.addParticipant(andre);
+		classX.addParticipant(daniela);
 		luis.addSelectedVirtualEditions(classX);
 		mp.addSelectedVirtualEditions(classX);
 		ars.addSelectedVirtualEditions(classX);
