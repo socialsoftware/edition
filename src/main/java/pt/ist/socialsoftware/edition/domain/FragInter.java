@@ -11,8 +11,7 @@ import pt.ist.socialsoftware.edition.domain.Edition.EditionType;
 import pt.ist.socialsoftware.edition.utils.RangeJson;
 import pt.ist.socialsoftware.edition.utils.search.options.SearchOption;
 
-public abstract class FragInter extends FragInter_Base implements
-Comparable<FragInter> {
+public abstract class FragInter extends FragInter_Base implements Comparable<FragInter> {
 
 	public void remove() {
 		setFragment(null);

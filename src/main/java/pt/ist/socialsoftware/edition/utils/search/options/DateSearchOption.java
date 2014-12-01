@@ -47,6 +47,11 @@ public final class DateSearchOption extends SearchOption {
 	}
 
 	@Override
+	public String toString() {
+		return "Date: dated:" + dated.getDated() + " begin:" + begin + " end:" + end;
+	}
+
+	@Override
 	public boolean visit(ExpertEditionInter inter) {
 		return this.betweenDates(inter);
 	}
@@ -100,5 +105,9 @@ public final class DateSearchOption extends SearchOption {
 			}
 		}
 		return true;
+	}
+
+	public boolean hasDate() {
+		return dated != Dated.ALL;
 	}
 }

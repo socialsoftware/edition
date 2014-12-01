@@ -16,6 +16,11 @@ public final class HeteronymSearchOption extends SearchOption {
 	}
 
 	@Override
+	public String toString() {
+		return "heteronym:" + xmlID;
+	}
+
+	@Override
 	public boolean visit(SourceInter inter) {
 		return this.isAuthor(inter);
 	}
@@ -41,5 +46,9 @@ public final class HeteronymSearchOption extends SearchOption {
 		}else{
 			return xmlID.equals(inter.getHeteronym().getXmlId()) || xmlID.equals(ALL);
 		}
+	}
+
+	public boolean hasHeteronym() {
+		return !xmlID.equals(ALL);
 	}
 }
