@@ -5,8 +5,8 @@
 <head>
 <%@ include file="/WEB-INF/jsp/common/meta-head.jsp"%>
 <script type="text/javascript" src="/static/js/riot.min.js"></script>
+<script type="text/javascript" src="/static/js/jquery.dataTables.min.js"></script>
 <!-- <script type="text/javascript" src="/static/js/form-domain-model.js"></script> -->
-
 <script type="text/javascript">
 
 
@@ -454,9 +454,9 @@ Domain = {
 		Edition :'<spring:message javaScriptEscape="true" code="navigation.edition" />',
 		Manuscript : '<spring:message javaScriptEscape="true" code="general.manuscript" />',
 		Dactiloscript : '<spring:message javaScriptEscape="true" code="general.typescript" />',
-		MyDate : '<spring:message javaScriptEscape="true" code="general.date" />',
 		Publication : '<spring:message javaScriptEscape="true" code="general.published" />',
-		Heteronym : '<spring:message javaScriptEscape="true" code="general.heteronym" />'
+		Heteronym : '<spring:message javaScriptEscape="true" code="general.heteronym" />',
+		MyDate : '<spring:message javaScriptEscape="true" code="general.date" />'
 }
 
 
@@ -649,6 +649,11 @@ Form.prototype.changePublication = function(id, value){
 <script type="text/javascript">
 
 	//Presenter		
+	
+	function clean(){
+		$("#results").empty()
+	}
+	
 	$(document).ready(function() {
 		        
 		var model = new Form();
@@ -658,13 +663,18 @@ Form.prototype.changePublication = function(id, value){
 		//add a new options
 		$('body').on('click', '#plusBtn', function(e) {
 			model.add();
+			
+			e.stopPropagation()
+			clean();
 		});
 
 		//remove an option
 		$('body').on('click', '#minusBtn', function(e) {
 			var id = $(this).parents(".form-group").attr("id");
 			model.remove(id);
+
 			e.stopPropagation()
+			clean();
 		});
 
 		//swap an option
@@ -673,6 +683,7 @@ Form.prototype.changePublication = function(id, value){
 			var newOption = $(this).find(':selected')[0].id;
 			model.swap(id, newOption);
 			e.stopPropagation()
+			clean();
 		});
 
 		//Listen to when an edition option is selected
@@ -680,7 +691,8 @@ Form.prototype.changePublication = function(id, value){
 			var id = $(this).parents(".form-group").attr("id");
 			var newOption = $(this).find(':selected')[0].id;
 			model.changeEdition(id, newOption);
-			e.stopPropagation()
+			e.stopPropagation();
+			clean();
 		});
 
 		//Listen to when a different edition's heteronym is selected
@@ -688,14 +700,16 @@ Form.prototype.changePublication = function(id, value){
 			var id = $(this).parents(".form-group").attr("id");
 			var newOption = $(this).find(':selected')[0].id;
 			model.changeHeteronym(id, newOption);
-			e.stopPropagation()
+			e.stopPropagation();
+			clean();
 		});
 		
 		$('body').on('change', '#select-inclusion', function(e) {
 			var id = $(this).parents(".form-group").attr("id");
 			var newOption = $(this).find(':selected')[0].id;
 			model.changeInclusion(id, newOption);
-			e.stopPropagation()
+			e.stopPropagation();
+			clean();
 		});
 		
 		//Listen to when a different edition's date is selected
@@ -717,7 +731,8 @@ Form.prototype.changePublication = function(id, value){
 			var id = $(this).parents(".form-group").attr("id");
 			var newOption = $(this).find(':selected')[0].id;
 			model.changePublication(id, newOption);
-			e.stopPropagation()
+			e.stopPropagation();
+			clean();
 		});
 		
 // 		//Listen to when a different publication place is selected
@@ -733,14 +748,17 @@ Form.prototype.changePublication = function(id, value){
 			var id = $(this).parents(".form-group").attr("id");
 			var newOption = $(this).find(':selected')[0].id;
 			model.changeDateOption(id, newOption);
-			e.stopPropagation()
+			e.stopPropagation();
+			clean();
 		});
 		
 		//Listen to when a date begin value is selected
 		$('body').on('change', '#date-value-begin', function(e) {
 			var id = $(this).parents(".form-group").attr("id");
 			var value = $(this).val();
-				model.changeDateBeginDateOption(id, value);
+			model.changeDateBeginDateOption(id, value);
+			e.stopPropagation()
+			clean();
 		});
 		
 		//Listen to when a date end value is selected
@@ -749,12 +767,14 @@ Form.prototype.changePublication = function(id, value){
 			var value = $(this).val();
 			model.changeDateEndDateOption(id, value);
 			e.stopPropagation()
+			clean();
 		});
 		
 		//Form mode,
 		$('body').on('change', '#select-mode', function(e) {
 			model.changeMode($(this).find(':selected')[0].id);
 			e.stopPropagation()
+			clean();
 		});
 		
 		$('body').on('change', '#select-ldod-mark', function(e) {
@@ -762,6 +782,7 @@ Form.prototype.changePublication = function(id, value){
 			var option = $(this).find(':selected')[0].id;
 			model.changeLdoDMark(id, option);
 			e.stopPropagation()
+			clean();
 		});
 		
 		
@@ -808,9 +829,10 @@ Form.prototype.changePublication = function(id, value){
 
 		
 		//Handle 
-		$('#submit').click(function() {
+		$('#submita').click(function() {
 			$(this).blur();
 			var json = JSON.stringify(model.json());
+		
 			$.ajax({
 				type : "POST",
 				url : "/search/advanced/result",
@@ -851,35 +873,29 @@ Form.prototype.changePublication = function(id, value){
 				
 			});
 		});
-
+		
+		$('#submit').click(function() {
+			$(this).blur();//lose selection
+			var data = model.json();
+			var json = JSON.stringify(model.json());
+			$.ajax({
+				type : "POST",
+				url : "/search/advanced/result",
+				data : json,
+				contentType : 'application/json',
+				
+				success: function(html){
+					console.log(html)
+					$('#results').empty().append(html);
+					$('.result-table').dataTable({
+						'paging':	false
+					});
+				}
+			});			
+		});
 		//Add one element
-		model.add();
-		
-		
-		//Test 
-		function test(){
-			var i = model.counter;
-			//Heteronym
-			mode.add();
-			mode.swap(i,"heteronym");
-			mode.changeHeteronym(i,"BS");
-			mode.changeHeteronym(i,"VG");
-			mode.changeHeteronym(i,"all");
-			
-		}	
-		
-		
-		
-		
-		test();
-		
-		
-		
-		
-		
-		
+		model.add();		
 	});
 </script>
-
 </body>
 </html>

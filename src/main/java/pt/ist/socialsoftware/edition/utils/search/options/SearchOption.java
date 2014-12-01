@@ -64,4 +64,7 @@ public abstract class SearchOption{
 		else
 			return false;
 	}
+
+	@Override
+	public abstract String toString();
 }

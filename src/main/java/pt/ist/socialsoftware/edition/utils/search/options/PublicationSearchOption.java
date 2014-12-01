@@ -12,11 +12,21 @@ public final class PublicationSearchOption extends SearchOption {
 
 	public PublicationSearchOption(@JsonProperty("pubPlace") String title) {
 		this.title = title;
+
+	}
+
+	@Override
+	public String toString() {
+		return "publication:" + title;
 	}
 
 	@Override
 	public boolean visit(SourceInter inter) {
 		return inter.getSource().getType().equals(Source.SourceType.PRINTED)
 				&& (((PrintedSource) inter.getSource()).getTitle().equals(title) || title.equals(ALL));
+	}
+
+	public boolean hasTitle() {
+		return !title.equals(ALL);
 	}
 }

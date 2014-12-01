@@ -29,6 +29,11 @@ public final class EditionSearchOption extends SearchOption {
 	}
 
 	@Override
+	public String toString() {
+		return "edition:" + edition + "\ninclusion:" + inclusion + "\n" + heteronym + "\n" + date;
+	}
+	
+	@Override
 	public boolean visit(ExpertEditionInter inter) {
 		if (inclusion) {
 			if (!(edition.equals(inter.getEdition().getAcronym()) || 
@@ -45,5 +50,17 @@ public final class EditionSearchOption extends SearchOption {
 			return false;
 
 		return true;
+	}
+
+	public boolean hasDate() {
+		return date == null ? false : date.hasDate();
+	}
+
+	public boolean hasHeteronym() {
+		return heteronym == null ? false : heteronym.hasHeteronym();
+	}
+
+	public String getEdition() {
+		return edition;
 	}
 }

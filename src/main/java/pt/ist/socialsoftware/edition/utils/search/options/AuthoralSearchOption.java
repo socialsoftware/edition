@@ -32,4 +32,16 @@ public abstract class AuthoralSearchOption extends SearchOption {
 
 	protected abstract String getDocumentType();
 
+	@Override
+	public String toString() {
+		return getDocumentType() + ": hasLdoDMark:" + hasLdoD + "\n" + date;
+	}
+
+	public boolean hasDate() {
+		return date == null ? false : date.hasDate();
+	}
+
+	public boolean hasLdoDMark() {
+		return !hasLdoD.equals(ALL);
+	}
 }

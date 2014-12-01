@@ -10,3 +10,4 @@ commands
 src/main/resources/configuration.properties
 
 *.class
+/target/
