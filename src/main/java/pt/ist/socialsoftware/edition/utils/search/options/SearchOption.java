@@ -15,7 +15,8 @@ import pt.ist.socialsoftware.edition.domain.VirtualEditionInter;
 	@Type(value = DactiloscryptSearchOption.class, name = SearchOption.DACTILOSCRIPT),
 	@Type(value = PublicationSearchOption.class, name = SearchOption.PUBLICATION),
 	@Type(value = HeteronymSearchOption.class, name = SearchOption.HETERONYM), 
-	@Type(value = DateSearchOption.class, name = SearchOption.DATE)
+ @Type(value = DateSearchOption.class, name = SearchOption.DATE),
+		@Type(value = TextSearchOption.class, name = SearchOption.TEXT)
 })
 public abstract class SearchOption{
 	/* Json Properties */
@@ -25,6 +26,7 @@ public abstract class SearchOption{
 	public static final String PUBLICATION = "publication";
 	public static final String HETERONYM = "heteronym";
 	public static final String DATE = "date";
+	public static final String TEXT = "text";
 
 	/* Search options to include everything */
 	public static final String ALL = "all";
@@ -44,11 +46,11 @@ public abstract class SearchOption{
 		}
 	} 
 
-	public boolean visit(ExpertEditionInter inter){
+	public boolean visit(ExpertEditionInter inter) {
 		return false;
 	}
 
-	public boolean visit(SourceInter inter){
+	public boolean visit(SourceInter inter) {
 		return false;
 	}
 

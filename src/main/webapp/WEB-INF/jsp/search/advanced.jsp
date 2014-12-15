@@ -1,4 +1,3 @@
-
 <%@ include file="/WEB-INF/jsp/common/tags-head.jsp"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -429,6 +428,45 @@ MyDate.prototype.getDateOption = function(){
 };
 
 
+
+/* Publication */
+function MyText(id) {
+	this.id = id;
+	this.text = "null";
+};
+
+MyText.prototype.json = function(callback) {
+	return{
+		type :	"text",
+		text : this.text
+	};
+};
+
+MyText.prototype.render = Edition.prototype.render;
+
+MyText.prototype.toHTML = function(callback) {
+	//var self = this;
+	//$.ajax({
+	//	url : "/search/getPublications"
+	//}).done(
+	//		function(published) {
+
+				var html = "<div>"+
+				"<p>"+'<spring:message javaScriptEscape="true" code="search.keyword" />'+"</p>"+
+				"<input id=\"text\"></input>"+
+				"</div>";
+				
+				callback(html);
+			//});
+};
+
+MyText.prototype.changeText = function(text){
+	this.text = text; 
+};
+
+
+
+
 function FormGroup(id, element) {
 	var html = "";
 	html += "<div id=" + id + " class=\"row form-group\">"
@@ -456,7 +494,8 @@ Domain = {
 		Dactiloscript : '<spring:message javaScriptEscape="true" code="general.typescript" />',
 		Publication : '<spring:message javaScriptEscape="true" code="general.published" />',
 		Heteronym : '<spring:message javaScriptEscape="true" code="general.heteronym" />',
-		MyDate : '<spring:message javaScriptEscape="true" code="general.date" />'
+		MyDate : '<spring:message javaScriptEscape="true" code="general.date" />',
+		MyText : '<spring:message javaScriptEscape="true" code="search.text" />'
 }
 
 
@@ -609,6 +648,14 @@ Form.prototype.changePublication = function(id, value){
 	for (var i = 0; i < this.items.length; i++) {
 		if (this.items[i].id == id) {
 			this.items[i].changePublication(value);
+		}
+	}
+}
+
+Form.prototype.changeText = function(id, value){
+	for (var i = 0; i < this.items.length; i++) {
+		if (this.items[i].id == id) {
+			this.items[i].changeText(value);
 		}
 	}
 }
@@ -785,6 +832,13 @@ Form.prototype.changePublication = function(id, value){
 			clean();
 		});
 		
+		$('body').on('change', '#text', function(e) {
+			var id = $(this).parents(".form-group").attr("id");
+			var value = $(this).val();
+			model.changeText(id, value);
+			e.stopPropagation()
+			clean();
+		});
 		
 		//Events from domain
 		//Add event
