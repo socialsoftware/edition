@@ -429,7 +429,7 @@ MyDate.prototype.getDateOption = function(){
 
 
 
-/* Publication */
+/* Textual */
 function MyText(id) {
 	this.id = id;
 	this.text = "null";
@@ -464,6 +464,32 @@ MyText.prototype.changeText = function(text){
 	this.text = text; 
 };
 
+/* Publication */
+function MyTaxonomy(id) {
+	this.id = id;
+	this.text = "null";
+};
+
+MyTaxonomy.prototype.json = function(callback) {
+	return{
+		type : "taxonomy",
+		tags : this.text
+	};
+};
+
+MyTaxonomy.prototype.render = Edition.prototype.render;
+
+MyTaxonomy.prototype.toHTML = function(callback) {
+				var html = "<div>"+
+				"<p>"+'<spring:message javaScriptEscape="true" code="general.taxonomies" />'+"</p>"+
+				"<input id=\"text\"></input>"+
+				"</div>";
+				callback(html);
+};
+
+MyTaxonomy.prototype.changeText = function(text){
+	this.text = text; 
+};
 
 
 
@@ -494,6 +520,7 @@ Domain = {
 		Dactiloscript : '<spring:message javaScriptEscape="true" code="general.typescript" />',
 		Publication : '<spring:message javaScriptEscape="true" code="general.published" />',
 		Heteronym : '<spring:message javaScriptEscape="true" code="general.heteronym" />',
+		MyTaxonomy : '<spring:message javaScriptEscape="true" code="general.taxonomies" />',
 		MyDate : '<spring:message javaScriptEscape="true" code="general.date" />',
 		MyText : '<spring:message javaScriptEscape="true" code="search.text" />'
 }
