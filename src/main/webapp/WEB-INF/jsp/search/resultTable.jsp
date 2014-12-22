@@ -7,7 +7,7 @@
 		<thead>
 			<tr>
 				<td><spring:message code="fragment"/> (${fragCount})</td>
-				<td><spring:message code="interpretations"/>(${interCount})</td>
+				<td><spring:message code="interpretations"/> (${interCount})</td>
 
 				<%-- 			<c:forEach items="${search}" var="optionTitle"> --%>
 				<%-- 				<td>${ optionTitle.toString()}</td> --%>

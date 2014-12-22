@@ -81,6 +81,7 @@ import pt.ist.socialsoftware.edition.domain.UnclearText.UnclearReason;
 import pt.ist.socialsoftware.edition.mallet.CorpusGenerator;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDLoadException;
 import pt.ist.socialsoftware.edition.utils.DateUtils;
+import pt.ist.socialsoftware.edition.utils.search.options.Indexer;
 
 public class LoadTEIFragments {
 
@@ -316,6 +317,11 @@ public class LoadTEIFragments {
 		for (FragInter inter : fragment.getFragmentInterSet()) {
 			try {
 				generator.generate(inter);
+
+				// Add inter to index
+				Indexer indexer = Indexer.getInstance();
+				indexer.addDocument(inter);
+
 			} catch (FileNotFoundException e) {
 				throw new LdoDLoadException(
 						"erro FileNotFoundException a gerar corpus da interpretação "

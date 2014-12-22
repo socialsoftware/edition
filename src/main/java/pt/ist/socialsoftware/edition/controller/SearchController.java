@@ -1,5 +1,6 @@
 package pt.ist.socialsoftware.edition.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -7,6 +8,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.lucene.queryparser.classic.ParseException;
 import org.joda.time.LocalDate;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.domain.Edition;
 import pt.ist.socialsoftware.edition.domain.Edition.EditionType;
 import pt.ist.socialsoftware.edition.domain.ExpertEdition;
@@ -40,6 +43,7 @@ import pt.ist.socialsoftware.edition.utils.search.options.DactiloscryptSearchOpt
 import pt.ist.socialsoftware.edition.utils.search.options.DateSearchOption;
 import pt.ist.socialsoftware.edition.utils.search.options.EditionSearchOption;
 import pt.ist.socialsoftware.edition.utils.search.options.HeteronymSearchOption;
+import pt.ist.socialsoftware.edition.utils.search.options.Indexer;
 import pt.ist.socialsoftware.edition.utils.search.options.ManuscriptSearchOption;
 import pt.ist.socialsoftware.edition.utils.search.options.PublicationSearchOption;
 import pt.ist.socialsoftware.edition.utils.search.options.Search;
@@ -71,36 +75,74 @@ public class SearchController {
 		return "search/simple";
 	}
 
+	// @RequestMapping(value = "/simple/result", method = RequestMethod.POST,
+	// headers = { "text/plain;charset=UTF-8" })
+	//@RequestMapping(value = "/simple/result")
+	// @RequestMapping(method = RequestMethod.GET, value = "/simple/result")
+	@RequestMapping(value = "/simple/result", method = RequestMethod.POST, headers = { "Content-type=text/plain;charset=UTF-8" })
+	public String simpleSearchResult(Model model, @RequestBody String search) {
+
+		List<String> hits;
+		try {
+			hits = Indexer.getInstance().search(search);
+		} catch(ParseException | IOException e) {
+			e.printStackTrace();
+			return "";
+		}
+
+		Map<Fragment, List<FragInter>> results = new HashMap<Fragment, List<FragInter>>();
+		int interCount = 0;
+
+		for(String hit : hits) {
+			FragInter inter = FenixFramework.getDomainObject(hit);
+			Fragment fragment = inter.getFragment();
+
+			if(!results.containsKey(fragment)) {
+				results.put(fragment, new ArrayList<FragInter>());
+			}
+
+			if(!results.get(fragment).contains(inter)) {
+				results.get(fragment).add(inter);
+				interCount++;
+			}
+		}
+
+		model.addAttribute("fragCount", results.size());
+		model.addAttribute("interCount", interCount);
+		model.addAttribute("results", results);
+
+		return "search/simpleResultTable";
+	}
+
 	// Advanced Search
 	@RequestMapping(method = RequestMethod.GET, value = "/advanced")
 	public String advancedSearch(Model model) {
 		return "search/advanced";
 	}
-
 	// Handles a search built by the user
-	//<<<<<<< HEAD
-	//	@RequestMapping(value = "/advanced/result", method = RequestMethod.POST,
-	//			headers = { "Content-type=application/json" })
-	//	@ResponseBody
-	//	public List<FragmentJson> advancedSearchResult(
-	//			Model model, @RequestBody Search search) {
+	// <<<<<<< HEAD
+	// @RequestMapping(value = "/advanced/result", method = RequestMethod.POST,
+	// headers = { "Content-type=application/json" })
+	// @ResponseBody
+	// public List<FragmentJson> advancedSearchResult(
+	// Model model, @RequestBody Search search) {
 	//
-	//		Map<Fragment, Set<FragInter>> result = search(search);
+	// Map<Fragment, Set<FragInter>> result = search(search);
 	//
-	//		List<FragmentJson> resultSet = new LinkedList<FragmentJson>();
-	//		List<FragInterJson> fragInterJsonSet;
-	//		for(Entry<Fragment, Set<FragInter>> entry : result.entrySet()) {
-	//			fragInterJsonSet = new LinkedList<FragInterJson>();
-	//			for(FragInter fragInter : entry.getValue()) {
+	// List<FragmentJson> resultSet = new LinkedList<FragmentJson>();
+	// List<FragInterJson> fragInterJsonSet;
+	// for(Entry<Fragment, Set<FragInter>> entry : result.entrySet()) {
+	// fragInterJsonSet = new LinkedList<FragInterJson>();
+	// for(FragInter fragInter : entry.getValue()) {
 	//
-	//				if(fragInter instanceof ExpertEditionInter) {
-	//					fragInterJsonSet.add(new FragInterJson((ExpertEditionInter) fragInter));
-	//				} else if(fragInter instanceof SourceInter) {
-	//					fragInterJsonSet.add(new FragInterJson((SourceInter) fragInter));
-	//				} else {
-	//					fragInterJsonSet.add(new FragInterJson(fragInter));
-	//				}
-	//=======
+	// if(fragInter instanceof ExpertEditionInter) {
+	// fragInterJsonSet.add(new FragInterJson((ExpertEditionInter) fragInter));
+	// } else if(fragInter instanceof SourceInter) {
+	// fragInterJsonSet.add(new FragInterJson((SourceInter) fragInter));
+	// } else {
+	// fragInterJsonSet.add(new FragInterJson(fragInter));
+	// }
+	// =======
 	@RequestMapping(value = "/advanced/result", method = RequestMethod.POST, headers = { "Content-type=application/json" })
 	public String advancedSearchResultNew(Model model, @RequestBody Search search) {
 
@@ -125,7 +167,7 @@ public class SearchController {
 				if(entry2.getValue().size() >= 1) {
 					interCount++;
 					fragAdd = true;
-				}else{
+				} else {
 					interCountNotAdded++;
 				}
 
