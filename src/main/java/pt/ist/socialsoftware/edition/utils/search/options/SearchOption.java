@@ -16,7 +16,8 @@ import pt.ist.socialsoftware.edition.domain.VirtualEditionInter;
 		@Type(value = HeteronymSearchOption.class, name = SearchOption.HETERONYM),
 		@Type(value = DateSearchOption.class, name = SearchOption.DATE),
 		@Type(value = TaxonomySearchOption.class, name = SearchOption.TAXONOMY),
-		@Type(value = TextSearchOption.class, name = SearchOption.TEXT) })
+		@Type(value = TextSearchOption.class, name = SearchOption.TEXT),
+		@Type(value = VirtualEditionSearchOption.class, name = SearchOption.VIRTUALEDITION) })
 public abstract class SearchOption {
 	/* Json Properties */
 	public static final String EDITION = "edition";
@@ -27,6 +28,8 @@ public abstract class SearchOption {
 	public static final String DATE = "date";
 	public static final String TEXT = "text";
 	public static final String TAXONOMY = "taxonomy";
+	public static final String VIRTUALEDITION = "virtualedition";
+
 	/* Search options to include everything */
 	public static final String ALL = "all";
 

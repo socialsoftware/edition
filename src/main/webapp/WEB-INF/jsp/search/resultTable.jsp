@@ -78,7 +78,6 @@
 									</c:forEach>
 									<td><%=result%></td>
 								</c:forEach>
-								<!-- <td>aaaa<td> -->
 
 								<c:choose>
 									<c:when test="${showSource}">
@@ -92,13 +91,13 @@
 											test="${ fragInterEntry.key.getClass().getSimpleName().equals(\"SourceInter\") &&
 												fragInterEntry.key.getSource().getType() == 'MANUSCRIPT' &&
 												fragInterEntry.key.getSource().getNotes().toLowerCase().contains(\"datil\") }">
-											<td>TYPESCRIPT</td>
+											<td><spring:message code="general.typescript"/></td>
 										</c:when>
 										<c:when
 											test="${ fragInterEntry.key.getClass().getSimpleName().equals(\"SourceInter\") &&
 												fragInterEntry.key.getSource().getType() == 'MANUSCRIPT' &&
 												fragInterEntry.key.getSource().getNotes().toLowerCase().contains(\"manus\")}">
-											<td>MANUSCRIPT</td>
+											<td><spring:message code="general.manuscript"/></td>
 										</c:when>
 										<c:otherwise>
 											<td></td>

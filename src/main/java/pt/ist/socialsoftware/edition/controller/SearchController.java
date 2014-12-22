@@ -29,12 +29,14 @@ import pt.ist.socialsoftware.edition.domain.FragInter;
 import pt.ist.socialsoftware.edition.domain.Fragment;
 import pt.ist.socialsoftware.edition.domain.Heteronym;
 import pt.ist.socialsoftware.edition.domain.LdoD;
+import pt.ist.socialsoftware.edition.domain.LdoDUser;
 import pt.ist.socialsoftware.edition.domain.ManuscriptSource;
 import pt.ist.socialsoftware.edition.domain.ManuscriptSource.Medium;
 import pt.ist.socialsoftware.edition.domain.PrintedSource;
 import pt.ist.socialsoftware.edition.domain.Source;
 import pt.ist.socialsoftware.edition.domain.Source.SourceType;
 import pt.ist.socialsoftware.edition.domain.SourceInter;
+import pt.ist.socialsoftware.edition.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.utils.search.json.AuthoralJson;
 import pt.ist.socialsoftware.edition.utils.search.json.DatesJson;
 import pt.ist.socialsoftware.edition.utils.search.json.EditionJson;
@@ -49,6 +51,8 @@ import pt.ist.socialsoftware.edition.utils.search.options.PublicationSearchOptio
 import pt.ist.socialsoftware.edition.utils.search.options.Search;
 import pt.ist.socialsoftware.edition.utils.search.options.SearchOption;
 import pt.ist.socialsoftware.edition.utils.search.options.SearchOption.Mode;
+import pt.ist.socialsoftware.edition.utils.search.options.TaxonomySearchOption;
+import pt.ist.socialsoftware.edition.utils.search.options.VirtualEditionSearchOption;
 
 @Controller
 @RequestMapping("/search")
@@ -159,6 +163,8 @@ public class SearchController {
 		boolean showLdoD = false;
 		boolean showPubPlace = false;
 		boolean fragAdd = false;
+		boolean showTaxonomy = false;
+		boolean showVirtualEdition = false;
 
 		for(Map.Entry<Fragment, Map<FragInter, List<SearchOption>>> entry : results.entrySet()) {
 			fragAdd = false;
@@ -199,6 +205,10 @@ public class SearchController {
 						showHeteronym = true;
 					} else if(option instanceof DateSearchOption) {
 						showDate = true;
+					} else if(option instanceof TaxonomySearchOption) {
+						showTaxonomy = true;
+					} else if(option instanceof VirtualEditionSearchOption) {
+						showSource = true;
 					}
 
 				}
@@ -219,6 +229,8 @@ public class SearchController {
 		model.addAttribute("showPubPlace", showPubPlace);
 		model.addAttribute("showSource", showSource);
 		model.addAttribute("showSourceType", showSourceType);
+		model.addAttribute("showTaxonomy", showTaxonomy);
+		// model.addAttribute("showVirtualEdition", showSourceType);
 
 		model.addAttribute("fragCount", fragCount);
 		model.addAttribute("interCount", interCount);
@@ -563,5 +575,21 @@ public class SearchController {
 			dates.setEndDate(endDate.getYear());
 		}
 		return dates;
+	}
+
+	@RequestMapping(value = "/getVirtualEditions")
+	@ResponseBody
+	public Map<String, String> getVirtualEditions(Model model) {
+		Map<String, String> virtualEditionMap = new HashMap<String, String>();
+
+		LdoDUser user = LdoDUser.getUser();
+
+		for(VirtualEdition virtualEdition : user.getSelectedVirtualEditionsSet()) {
+			if(!virtualEditionMap.containsKey(virtualEdition.getAcronym())) {
+				virtualEditionMap.put(virtualEdition.getAcronym(), virtualEdition.getTitle());
+			}
+		}
+
+		return virtualEditionMap;
 	}
 }
