@@ -9,16 +9,16 @@ import pt.ist.socialsoftware.edition.domain.SourceInter;
 import pt.ist.socialsoftware.edition.domain.VirtualEditionInter;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
-@JsonSubTypes({
-	@Type(value = EditionSearchOption.class, name = SearchOption.EDITION),
-	@Type(value = ManuscriptSearchOption.class, name = SearchOption.MANUSCRIPT),
-	@Type(value = DactiloscryptSearchOption.class, name = SearchOption.DACTILOSCRIPT),
-	@Type(value = PublicationSearchOption.class, name = SearchOption.PUBLICATION),
-	@Type(value = HeteronymSearchOption.class, name = SearchOption.HETERONYM), 
- @Type(value = DateSearchOption.class, name = SearchOption.DATE),
-		@Type(value = TextSearchOption.class, name = SearchOption.TEXT)
-})
-public abstract class SearchOption{
+@JsonSubTypes({ @Type(value = EditionSearchOption.class, name = SearchOption.EDITION),
+		@Type(value = ManuscriptSearchOption.class, name = SearchOption.MANUSCRIPT),
+		@Type(value = DactiloscryptSearchOption.class, name = SearchOption.DACTILOSCRIPT),
+		@Type(value = PublicationSearchOption.class, name = SearchOption.PUBLICATION),
+		@Type(value = HeteronymSearchOption.class, name = SearchOption.HETERONYM),
+		@Type(value = DateSearchOption.class, name = SearchOption.DATE),
+		@Type(value = TaxonomySearchOption.class, name = SearchOption.TAXONOMY),
+		@Type(value = TextSearchOption.class, name = SearchOption.TEXT),
+		@Type(value = VirtualEditionSearchOption.class, name = SearchOption.VIRTUALEDITION) })
+public abstract class SearchOption {
 	/* Json Properties */
 	public static final String EDITION = "edition";
 	public static final String MANUSCRIPT = "manuscript";
@@ -27,6 +27,8 @@ public abstract class SearchOption{
 	public static final String HETERONYM = "heteronym";
 	public static final String DATE = "date";
 	public static final String TEXT = "text";
+	public static final String TAXONOMY = "taxonomy";
+	public static final String VIRTUALEDITION = "virtualedition";
 
 	/* Search options to include everything */
 	public static final String ALL = "all";

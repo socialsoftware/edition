@@ -429,7 +429,7 @@ MyDate.prototype.getDateOption = function(){
 
 
 
-/* Publication */
+/* Textual */
 function MyText(id) {
 	this.id = id;
 	this.text = "null";
@@ -445,24 +445,114 @@ MyText.prototype.json = function(callback) {
 MyText.prototype.render = Edition.prototype.render;
 
 MyText.prototype.toHTML = function(callback) {
-	//var self = this;
-	//$.ajax({
-	//	url : "/search/getPublications"
-	//}).done(
-	//		function(published) {
-
-				var html = "<div>"+
-				"<p>"+'<spring:message javaScriptEscape="true" code="search.keyword" />'+"</p>"+
-				"<input id=\"text\"></input>"+
-				"</div>";
-				
-				callback(html);
-			//});
+	
+	var html = "<div class=\"col-xs-4 col-md-8\">"+
+		"<p>"+
+		'<spring:message javaScriptEscape="true" code="search.keyword"/>'+
+		"</p>"+
+		"<input id=\"text\"></input>"+
+		"</div>";
+	
+	callback(html);
 };
 
 MyText.prototype.changeText = function(text){
 	this.text = text; 
 };
+
+/* Publication */
+function MyTaxonomy(id) {
+	this.id = id;
+	this.text = "null";
+};
+
+MyTaxonomy.prototype.json = function(callback) {
+	return{
+		type : "taxonomy",
+		tags : this.text
+	};
+};
+
+MyTaxonomy.prototype.render = Edition.prototype.render;
+
+MyTaxonomy.prototype.toHTML = function(callback) {
+				var html = "<div class=\"col-xs-4 col-md-8\">"+
+				"<p>"+'<spring:message javaScriptEscape="true" code="general.taxonomies" />'+"</p>"+
+				"<input id=\"text\"></input>"+
+				"</div>";
+				callback(html);
+};
+
+MyTaxonomy.prototype.changeText = function(text){
+	this.text = text; 
+};
+
+
+//VirtualEdition definition
+function VirtualEdition(id) {
+
+	this.id = id;
+	this.inclusionOption = "in";
+	this.selectedEdition = option.all.id;
+	//this.heteronym = null;
+	//this.date = null;
+};
+
+VirtualEdition.prototype.json = function() {
+	return {
+		type 		: "virtualedition",
+		inclusion	: this.inclusionOption,
+		edition 	: this.selectedEdition,
+	};
+};
+
+
+VirtualEdition.prototype.render = Edition.prototype.render;
+
+VirtualEdition.prototype.toHTML = function(callback) {
+	var self = this;
+	$.ajax({
+		url : "/search/getVirtualEditions"
+	}).done(
+			function(virtualEditions) {
+				if (this.selectedEdition === null) {
+					self.selectedEdition = "all";
+				}
+				
+				var html = "";
+				
+				//Inclusion
+				html += "<div id=\"select-inclusion\" class=\"col-xs-4 col-md-2\">" + "<select>"
+				+ "<option id = \"in\">"+'<spring:message javaScriptEscape="true" code="search.inclusion.includedIn" />'+"</option>"
+				+ "<option id = \"out\">"+'<spring:message javaScriptEscape="true" code="search.inclusion.excludedFrom" />'+"</option>" + "</select>"
+				+ "</div>";
+
+				
+				//User virtual editions
+				html += "<div class=\"col-xs-5 col-md-3\">"
+					+ "<select id=select-edition>";
+
+				html += "<option id="+option.all.id+">"+option.all.text+"</option>";
+				for ( var i in virtualEditions) {
+					html += "<option id=" + i + ">"
+					+ virtualEditions[i] + "</option>";
+				}
+
+				html += "</select></div>";
+
+				callback(html);
+			});
+};
+
+VirtualEdition.prototype.changeEdition = function(acronym, callback) {
+	this.selectedEdition = acronym;
+};
+
+VirtualEdition.prototype.changeInclusion = function(option) {
+	this.inclusionOption = option;
+};
+
+
 
 
 
@@ -470,7 +560,7 @@ MyText.prototype.changeText = function(text){
 function FormGroup(id, element) {
 	var html = "";
 	html += "<div id=" + id + " class=\"row form-group\">"
-	+ "<div id=selection-box class=\"col-xs-2 col-md-1\">"
+	+ "<div id=selection-box class=\"col-xs-2 col-md-2\">"
 	+ "<select id=selection-box>";
 	for ( var i in Domain) {
 		html += "<option id=" + i + ">"
@@ -478,7 +568,7 @@ function FormGroup(id, element) {
 		+ "</option>";
 	}
 	html += "</select>" + "</div>";
-	html += "<div class=\"extended col-xs-8 col-md-9\">" + element + "</div>";
+	html += "<div class=\"extended col-xs-8 col-md-8\">" + element + "</div>";
 	html += "<div class=\"col-xs-2 col-md-2\" align =right>"
 		+ "<button id=minusBtn type=button class=\"btn btn-default btn-lg\">"
 		+ "<span class=\"glyphicon glyphicon-minus\"></span>"
@@ -487,6 +577,14 @@ function FormGroup(id, element) {
 
 }
 
+
+
+
+
+
+
+
+
 //Expecification of available options.
 Domain = {
 		Edition :'<spring:message javaScriptEscape="true" code="navigation.edition" />',
@@ -494,6 +592,8 @@ Domain = {
 		Dactiloscript : '<spring:message javaScriptEscape="true" code="general.typescript" />',
 		Publication : '<spring:message javaScriptEscape="true" code="general.published" />',
 		Heteronym : '<spring:message javaScriptEscape="true" code="general.heteronym" />',
+		MyTaxonomy : '<spring:message javaScriptEscape="true" code="general.taxonomies" />',
+		VirtualEdition : '<spring:message javaScriptEscape="true" code="virtual.editions" />',
 		MyDate : '<spring:message javaScriptEscape="true" code="general.date" />',
 		MyText : '<spring:message javaScriptEscape="true" code="search.text" />'
 }
@@ -931,6 +1031,7 @@ Form.prototype.changeText = function(id, value){
 		$('#submit').click(function() {
 			$(this).blur();//lose selection
 			var data = model.json();
+			console.log(data);
 			var json = JSON.stringify(model.json());
 			$.ajax({
 				type : "POST",
