@@ -14,6 +14,12 @@
         <level value='INFO' />
     </logger>
     
+<!--    
+		<logger name='pt.ist.fenixframework'>
+        <level value='OFF' />
+    </logger>
+--> 
+    
     <root level="debug">
         <appender-ref ref="STDOUT" />
     </root>
