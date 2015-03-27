@@ -230,7 +230,7 @@ public class FragmentController {
             Model model) {
         SourceInter inter = FenixFramework.getDomainObject(interID[0]);
         PbText pbText = null;
-        if (pbTextID.equals("")) {
+        if ((pbTextID != null) && !pbTextID.equals("")) {
             pbText = FenixFramework.getDomainObject(pbTextID);
         }
 

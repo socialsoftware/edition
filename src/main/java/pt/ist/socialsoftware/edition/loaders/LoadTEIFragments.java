@@ -1218,7 +1218,7 @@ public class LoadTEIFragments {
                 ((ExpertEditionInter) fragInter).setVolume(value);
                 break;
             case "number":
-                if (value.equals("")) {
+                if (!value.equals("")) {
                     ((ExpertEditionInter) fragInter).setNumber(Integer
                             .parseInt(value));
                 } else {
@@ -1362,9 +1362,9 @@ public class LoadTEIFragments {
                     Attribute when = origDate.getAttribute("when");
 
                     if (when == null) {
-                        throw new LdoDLoadException(
-                                "Não existe atributo when associado a elemento msDesc.history.origin.origDate da fonte "
-                                        + manuscript.getXmlId());
+                        // throw new LdoDLoadException(
+                        // "Não existe atributo when associado a elemento msDesc.history.origin.origDate da fonte "
+                        // + manuscript.getXmlId());
                     } else {
                         manuscript.setDate(DateUtils.convertDate(when
                                 .getValue()));
