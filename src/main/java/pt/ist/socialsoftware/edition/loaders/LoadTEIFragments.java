@@ -1848,6 +1848,9 @@ public class LoadTEIFragments {
             case "style":
                 type = VariationType.STYLE;
                 break;
+            case "paragraph":
+                type = VariationType.PARAGRAPH;
+                break;
             default:
                 throw new LdoDLoadException(
                         "valor desconhecido para atributo type=" + typeValue
