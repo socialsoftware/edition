@@ -16,6 +16,7 @@ import pt.ist.socialsoftware.edition.domain.LdoD;
 import pt.ist.socialsoftware.edition.domain.LdoDUser;
 import pt.ist.socialsoftware.edition.domain.Role;
 import pt.ist.socialsoftware.edition.domain.VirtualEdition;
+import pt.ist.socialsoftware.edition.recommendation.VSMFragmentRecommender;
 
 /**
  * @author ars
@@ -165,5 +166,9 @@ public class Bootstrap implements WebApplicationInitializer {
 		diego.addSelectedVirtualEditions(classW);
 		tiago.addSelectedVirtualEditions(classW);
 		nuno.addSelectedVirtualEditions(classW);
+		
+		
+		//Initialize recommender
+		(new VSMFragmentRecommender()).bootstrap(ldod);
 	}
 }

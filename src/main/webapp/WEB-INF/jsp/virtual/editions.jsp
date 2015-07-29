@@ -100,6 +100,8 @@
                                     code="general.participants" /></th>
                             <th><spring:message
                                     code="general.taxonomies" /></th>
+							<th><spring:message
+                                    code="general.recommendations" /></th>
                             <th><spring:message
                                     code="general.delete" /></th>
                         </tr>
@@ -163,6 +165,13 @@
                                                 class="glyphicon glyphicon-tags"></span>
                                                 <spring:message
                                                     code="general.taxonomies" /></a></td>
+										<td><a class="btn btn-sm"
+                                            href="${contextPath}/recommendation/restricted/${virtualEdition.externalId}"><span
+                                                class="glyphicon glyphicon-wrench"></span>
+                                                <spring:message
+                                                    code="general.recommendations" /></a>
+											
+										</td>
                                         <td>
                                             <form class="form-inline"
                                                 method="POST"

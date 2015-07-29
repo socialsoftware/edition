@@ -44,18 +44,29 @@
 					</c:forEach>
 				</ul></li>
 			<!-- Search -->
-			<li class='dropdown'><a href="#" class="dropdown-toggle"
-				data-toggle="dropdown"><spring:message code="header.search" /><b
-					class='caret'></b></a>
+			<li class='dropdown'>
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+					<spring:message code="header.search" />
+					<b class='caret'></b>
+				</a>
 				<ul class="dropdown-menu">
-					<li><a href="${contextPath}/search/simple"><spring:message
-								code="header.search.simple" /></a></li>
-					<li><a href="${contentPath}/search/advanced"><spring:message
-								code="header.search.advanced" /></a></li>
-					<li><a href="${contentPath}/search/fragments"><spring:message
-								code="fragmentlist.title" /></a></li>
-				</ul> </a></li>
-
+					<li>
+						<a href="${contextPath}/search/simple">
+							<spring:message code="header.search.simple" />
+						</a>
+					</li>
+					<li>
+						<a href="${contentPath}/search/advanced">
+							<spring:message code="header.search.advanced" />
+						</a>
+					</li>
+					<li>
+						<a href="${contentPath}/search/fragments">
+							<spring:message code="fragmentlist.title" />
+						</a>
+					</li>
+				</ul>
+			</li>
 			<!-- Manage Virtual Editions -->
 			<li><a href="${contextPath}/virtualeditions"><spring:message
 						code="virtual" /> </a></li>

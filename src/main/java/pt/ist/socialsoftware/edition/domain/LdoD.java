@@ -188,4 +188,19 @@ public class LdoD extends LdoD_Base {
 		}
 	}
 
+	@Atomic(mode = TxMode.WRITE)
+	public RecommendationWeights createRecommendationWeights(LdoDUser user, VirtualEdition virtualEdition) {
+		return new RecommendationWeights(user, virtualEdition);
+	}
+
+	@Atomic(mode = TxMode.WRITE)
+	public void setIntersNumber(VirtualEditionInter virtualEdtionInter, int page) {
+		virtualEdtionInter.setNumber(page);
+	}
+
+	@Atomic(mode = TxMode.WRITE)
+	public TaxonomyWeight createTaxonomyWeight(LdoDUser user, VirtualEdition virtualEdition, Taxonomy taxonomy) {
+		return new TaxonomyWeight(user.getRecommendationWeights(virtualEdition), taxonomy);
+	}
+
 }

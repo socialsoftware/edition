@@ -1,6 +1,7 @@
 package pt.ist.socialsoftware.edition.domain;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
@@ -8,8 +9,9 @@ import java.util.Set;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.socialsoftware.edition.domain.Edition.EditionType;
+import pt.ist.socialsoftware.edition.recommendation.properties.Property;
+import pt.ist.socialsoftware.edition.search.options.SearchOption;
 import pt.ist.socialsoftware.edition.utils.RangeJson;
-import pt.ist.socialsoftware.edition.utils.search.options.SearchOption;
 
 public abstract class FragInter extends FragInter_Base implements Comparable<FragInter> {
 
@@ -191,4 +193,7 @@ public abstract class FragInter extends FragInter_Base implements Comparable<Fra
 	}
 
 	public abstract boolean accept(SearchOption option);
+
+	public abstract Collection<Double> accept(Property property);
+
 }
