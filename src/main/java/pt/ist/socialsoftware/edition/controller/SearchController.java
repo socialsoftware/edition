@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.lucene.queryparser.classic.ParseException;
+
 import org.joda.time.LocalDate;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
@@ -81,15 +82,17 @@ public class SearchController {
 
 	// @RequestMapping(value = "/simple/result", method = RequestMethod.POST,
 	// headers = { "text/plain;charset=UTF-8" })
-	//@RequestMapping(value = "/simple/result")
+	// @RequestMapping(value = "/simple/result")
 	// @RequestMapping(method = RequestMethod.GET, value = "/simple/result")
 	@RequestMapping(value = "/simple/result", method = RequestMethod.POST, headers = { "Content-type=text/plain;charset=UTF-8" })
 	public String simpleSearchResult(Model model, @RequestBody String search) {
 
+		System.out.println("Search " + search);
 		List<String> hits;
+
 		try {
 			hits = Indexer.getInstance().search(search);
-		} catch(ParseException | IOException e) {
+		} catch (ParseException | IOException e) {
 			e.printStackTrace();
 			return "";
 		}
@@ -97,15 +100,16 @@ public class SearchController {
 		Map<Fragment, List<FragInter>> results = new HashMap<Fragment, List<FragInter>>();
 		int interCount = 0;
 
-		for(String hit : hits) {
+		for (String hit : hits) {
 			FragInter inter = FenixFramework.getDomainObject(hit);
+
 			Fragment fragment = inter.getFragment();
 
-			if(!results.containsKey(fragment)) {
+			if (!results.containsKey(fragment)) {
 				results.put(fragment, new ArrayList<FragInter>());
 			}
 
-			if(!results.get(fragment).contains(inter)) {
+			if (!results.get(fragment).contains(inter)) {
 				results.get(fragment).add(inter);
 				interCount++;
 			}
@@ -118,11 +122,74 @@ public class SearchController {
 		return "search/simpleResultTable";
 	}
 
+	@RequestMapping(value = "/simple/virtual/result", method = RequestMethod.POST, headers = { "Content-type=text/plain;charset=UTF-8" })
+	public String simpleSearchVirutalResult(Model model,
+			@RequestBody String params) {
+
+		System.out.println("Params " + params);
+
+		String search = params.substring(0, params.indexOf("&"));
+		params = params.substring(params.indexOf("&") + 1);
+		String searchType = params.substring(0, params.indexOf("&"));
+		params = params.substring(params.indexOf("&") + 1);
+		// String p3 = params.substring(3);
+		String searchSource = params;
+
+		System.out.println(search + " " + searchType + " " + searchSource);
+		// @RequestParam("query") String query,
+		// @RequestParam("searchType") String searchType,
+		// @RequestParam("source") String source
+
+		// System.out.println("SEARCH " + query + " " + searchType + " " +
+		// source);
+
+		List<String> hits;
+		try {
+			hits = Indexer.getInstance().search(search);
+		} catch (ParseException | IOException e) {
+			e.printStackTrace();
+			return "";
+		}
+
+		Map<Fragment, List<FragInter>> results = new HashMap<Fragment, List<FragInter>>();
+		int interCount = 0;
+
+		for (String hit : hits) {
+			FragInter inter = FenixFramework.getDomainObject(hit);
+			Fragment fragment = inter.getFragment();
+
+			System.out.println("t " + inter.getTitle());
+			System.out.println("s " + inter.getShortName());
+
+			if ((searchSource.compareTo("") == 0 || inter.getShortName()
+					.toLowerCase().contains(searchSource.toLowerCase()))
+					&& (searchType.compareTo("") == 0 || inter.getTitle()
+							.toLowerCase().contains(search.toLowerCase()))) {
+
+				if (!results.containsKey(fragment)) {
+					results.put(fragment, new ArrayList<FragInter>());
+				}
+
+				if (!results.get(fragment).contains(inter)) {
+					results.get(fragment).add(inter);
+					interCount++;
+				}
+			}
+		}
+
+		model.addAttribute("fragCount", results.size());
+		model.addAttribute("interCount", interCount);
+		model.addAttribute("results", results);
+
+		return "virtual/simpleResultTable";
+	}
+
 	// Advanced Search
 	@RequestMapping(method = RequestMethod.GET, value = "/advanced")
 	public String advancedSearch(Model model) {
 		return "search/advanced";
 	}
+
 	// Handles a search built by the user
 	// <<<<<<< HEAD
 	// @RequestMapping(value = "/advanced/result", method = RequestMethod.POST,
@@ -147,10 +214,13 @@ public class SearchController {
 	// fragInterJsonSet.add(new FragInterJson(fragInter));
 	// }
 	// =======
+
 	@RequestMapping(value = "/advanced/result", method = RequestMethod.POST, headers = { "Content-type=application/json" })
-	public String advancedSearchResultNew(Model model, @RequestBody Search search) {
+	public String advancedSearchResultNew(Model model,
+			@RequestBody Search search) {
 
 		Map<Fragment, Map<FragInter, List<SearchOption>>> results = search(search);
+
 		int fragCount = 0;
 		int fragCountNotAdded = 0;
 		int interCount = 0;
@@ -166,48 +236,50 @@ public class SearchController {
 		boolean showTaxonomy = false;
 		boolean showVirtualEdition = false;
 
-		for(Map.Entry<Fragment, Map<FragInter, List<SearchOption>>> entry : results.entrySet()) {
+		for (Map.Entry<Fragment, Map<FragInter, List<SearchOption>>> entry : results
+				.entrySet()) {
 			fragAdd = false;
 
-			for(Map.Entry<FragInter, List<SearchOption>> entry2 : entry.getValue().entrySet()) {
-				if(entry2.getValue().size() >= 1) {
+			for (Map.Entry<FragInter, List<SearchOption>> entry2 : entry
+					.getValue().entrySet()) {
+				if (entry2.getValue().size() >= 1) {
 					interCount++;
 					fragAdd = true;
 				} else {
 					interCountNotAdded++;
 				}
 
-				for(SearchOption option : entry2.getValue()) {
+				for (SearchOption option : entry2.getValue()) {
 
-					if(option instanceof EditionSearchOption) {
+					if (option instanceof EditionSearchOption) {
 						showSource = true;
 						EditionSearchOption op = (EditionSearchOption) option;
-						if(!op.getEdition().equals(SearchOption.ALL))
+						if (!op.getEdition().equals(SearchOption.ALL))
 							showEdition = true;
-						if(op.hasHeteronym())
+						if (op.hasHeteronym())
 							showHeteronym = true;
-						if(op.hasDate())
+						if (op.hasDate())
 							showDate = true;
-					} else if(option instanceof AuthoralSearchOption) {
+					} else if (option instanceof AuthoralSearchOption) {
 						showSource = true;
 						showSourceType = true;
 						AuthoralSearchOption op = (AuthoralSearchOption) option;
-						if(op.hasLdoDMark())
+						if (op.hasLdoDMark())
 							showLdoD = true;
-						if(op.hasDate())
+						if (op.hasDate())
 							showDate = true;
-					} else if(option instanceof PublicationSearchOption) {
+					} else if (option instanceof PublicationSearchOption) {
 						showSource = true;
 						PublicationSearchOption op = (PublicationSearchOption) option;
-						if(op.hasTitle())
+						if (op.hasTitle())
 							showPubPlace = true;
-					} else if(option instanceof HeteronymSearchOption) {
+					} else if (option instanceof HeteronymSearchOption) {
 						showHeteronym = true;
-					} else if(option instanceof DateSearchOption) {
+					} else if (option instanceof DateSearchOption) {
 						showDate = true;
-					} else if(option instanceof TaxonomySearchOption) {
+					} else if (option instanceof TaxonomySearchOption) {
 						showTaxonomy = true;
-					} else if(option instanceof VirtualEditionSearchOption) {
+					} else if (option instanceof VirtualEditionSearchOption) {
 						showSource = true;
 					}
 
@@ -215,7 +287,7 @@ public class SearchController {
 
 			}
 
-			if(fragAdd) {
+			if (fragAdd) {
 				fragCount++;
 			} else {
 				fragCountNotAdded++;
@@ -308,8 +380,8 @@ public class SearchController {
 	// return resultSet;
 	// }
 
-
-	public Map<Fragment, Map<FragInter, List<SearchOption>>> search(Search search) {
+	public Map<Fragment, Map<FragInter, List<SearchOption>>> search(
+			Search search) {
 
 		SearchOption[] options = search.getSearchOptions();
 		Mode mode = search.getMode();
@@ -322,35 +394,40 @@ public class SearchController {
 
 		Map<FragInter, List<SearchOption>> matchMap;
 		new LinkedHashMap<FragInter, List<SearchOption>>();
-		for(Fragment fragment : LdoD.getInstance().getFragmentsSet()) {
+		for (Fragment fragment : LdoD.getInstance().getFragmentsSet()) {
 			// fragInterSet = new TreeSet<FragInter>();
 			matchMap = new LinkedHashMap<FragInter, List<SearchOption>>();
 			belongsToResulSet = and;
-			for(SearchOption option : options) {
+			for (SearchOption option : options) {
 				working = false;
-				for(FragInter fragInter : fragment.getFragmentInterSet()) {
-					if(fragInter.accept(option)) {
-						if(matchMap.containsKey(fragInter)) {
+				for (FragInter fragInter : fragment.getFragmentInterSet()) {
+					if (fragInter.accept(option)) {
+						if (matchMap.containsKey(fragInter)) {
 							matchMap.get(fragInter).add(option);
 						} else {
-							matchMap.put(fragInter, new ArrayList<SearchOption>(Arrays.asList(option)));
+							matchMap.put(
+									fragInter,
+									new ArrayList<SearchOption>(Arrays
+											.asList(option)));
 						}
 						// fragInterSet.add(fragInter);
 						working = true;
 					} else {
-						if(!matchMap.containsKey(fragInter)) {
-							matchMap.put(fragInter, new ArrayList<SearchOption>());
+						if (!matchMap.containsKey(fragInter)) {
+							matchMap.put(fragInter,
+									new ArrayList<SearchOption>());
 						}
 
 					}
 				}
-				belongsToResulSet = SearchOption.chooseMode(mode, belongsToResulSet, working);
+				belongsToResulSet = SearchOption.chooseMode(mode,
+						belongsToResulSet, working);
 			}
 
-			if(belongsToResulSet) {
+			if (belongsToResulSet) {
 				resultSet.put(fragment, matchMap);
 			} else {
-				for(FragInter key : matchMap.keySet()) {
+				for (FragInter key : matchMap.keySet()) {
 					matchMap.put(key, new ArrayList<SearchOption>());
 				}
 				resultSet.put(fragment, matchMap);
@@ -365,15 +442,14 @@ public class SearchController {
 		return resultSet;
 	}
 
-
-
 	@RequestMapping(value = "/getEditions")
 	@ResponseBody
 	public Map<String, String> getEditions() {
 		// LinkedHashMap keeps insertion order.
 		Map<String, String> editions = new LinkedHashMap<String, String>();
 
-		for(ExpertEdition expertEdition : LdoD.getInstance().getSortedExpertEdition()) {
+		for (ExpertEdition expertEdition : LdoD.getInstance()
+				.getSortedExpertEdition()) {
 
 			editions.put(expertEdition.getAcronym(), expertEdition.getEditor());
 		}
@@ -383,42 +459,46 @@ public class SearchController {
 
 	@RequestMapping(value = "/getEdition")
 	@ResponseBody
-	public EditionJson getEdition(@RequestParam(value = "edition", required = true) String acronym) {
+	public EditionJson getEdition(
+			@RequestParam(value = "edition", required = true) String acronym) {
 
 		Edition edition = LdoD.getInstance().getEdition(acronym);
 		Map<String, String> heteronyms = new HashMap<String, String>();
 		LocalDate beginDate = null;
 		LocalDate endDate = null;
 
-		for(FragInter fragInter : edition.getIntersSet()) {
-			if(!heteronyms.containsKey(fragInter.getHeteronym().getName())) {
-				if(fragInter.getHeteronym().equals("Bernardo Soares")) {
+		for (FragInter fragInter : edition.getIntersSet()) {
+			if (!heteronyms.containsKey(fragInter.getHeteronym().getName())) {
+				if (fragInter.getHeteronym().equals("Bernardo Soares")) {
 					System.out.println(fragInter.getTitle());
 				}
-				heteronyms.put(fragInter.getHeteronym().getName(), fragInter.getHeteronym().getXmlId());
+				heteronyms.put(fragInter.getHeteronym().getName(), fragInter
+						.getHeteronym().getXmlId());
 			}
 
-			if(beginDate == null) {
+			if (beginDate == null) {
 				beginDate = fragInter.getDate();
 			}
-			if(endDate == null) {
+			if (endDate == null) {
 				endDate = fragInter.getDate();
 			}
-			if(fragInter.getDate() != null && fragInter.getDate().isBefore(beginDate)) {
+			if (fragInter.getDate() != null
+					&& fragInter.getDate().isBefore(beginDate)) {
 				beginDate = fragInter.getDate();
 			}
-			if(fragInter.getDate() != null && fragInter.getDate().isAfter(endDate)) {
+			if (fragInter.getDate() != null
+					&& fragInter.getDate().isAfter(endDate)) {
 				endDate = fragInter.getDate();
 			}
 
 		}
 
 		EditionJson editionJson = new EditionJson(acronym);
-		if(heteronyms.size() > 0) {
+		if (heteronyms.size() > 0) {
 			editionJson.setHeteronyms(heteronyms);
 		}
 
-		if(endDate != null && beginDate != null && endDate != beginDate) {
+		if (endDate != null && beginDate != null && endDate != beginDate) {
 			editionJson.setBeginDate(beginDate.getYear());
 			editionJson.setEndDate(endDate.getYear());
 		}
@@ -429,10 +509,11 @@ public class SearchController {
 	@ResponseBody
 	public List<String> getPublications() {
 		List<String> publications = new ArrayList<String>();
-		for(Fragment fragment : LdoD.getInstance().getFragmentsSet()) {
-			for(Source source : fragment.getSourcesSet()) {
-				if(source.getType().equals(SourceType.PRINTED)) {
-					if(!publications.contains(((PrintedSource) source).getPubPlace())) {
+		for (Fragment fragment : LdoD.getInstance().getFragmentsSet()) {
+			for (Source source : fragment.getSourcesSet()) {
+				if (source.getType().equals(SourceType.PRINTED)) {
+					if (!publications.contains(((PrintedSource) source)
+							.getPubPlace())) {
 						publications.add(((PrintedSource) source).getTitle());
 					}
 				}
@@ -450,30 +531,34 @@ public class SearchController {
 		Medium[] values = ManuscriptSource.Medium.values();
 		String[] array = new String[values.length];
 
-		for(int i = 0; i < values.length; i++) {
+		for (int i = 0; i < values.length; i++) {
 			array[i] = values[i].getDesc();
 		}
 
-		for(Fragment frag : LdoD.getInstance().getFragmentsSet()) {
-			for(FragInter inter : frag.getFragmentInterSet()) {
-				if(inter.getSourceType().equals(EditionType.AUTHORIAL)) {
-					SourceType type = ((SourceInter) inter).getSource().getType();
-					if(type.equals(SourceType.MANUSCRIPT)) {
-						ManuscriptSource source = (ManuscriptSource) ((SourceInter) inter).getSource();
+		for (Fragment frag : LdoD.getInstance().getFragmentsSet()) {
+			for (FragInter inter : frag.getFragmentInterSet()) {
+				if (inter.getSourceType().equals(EditionType.AUTHORIAL)) {
+					SourceType type = ((SourceInter) inter).getSource()
+							.getType();
+					if (type.equals(SourceType.MANUSCRIPT)) {
+						ManuscriptSource source = (ManuscriptSource) ((SourceInter) inter)
+								.getSource();
 
-						if(!source.getNotes().toLowerCase().contains(mode)) {
+						if (!source.getNotes().toLowerCase().contains(mode)) {
 							break;
 						}
-						if(beginDate == null) {
+						if (beginDate == null) {
 							beginDate = source.getDate();
 						}
-						if(endDate == null) {
+						if (endDate == null) {
 							endDate = source.getDate();
 						}
-						if(source.getDate() != null && source.getDate().isBefore(beginDate)) {
+						if (source.getDate() != null
+								&& source.getDate().isBefore(beginDate)) {
 							beginDate = source.getDate();
 						}
-						if(source.getDate() != null && source.getDate().isAfter(endDate)) {
+						if (source.getDate() != null
+								&& source.getDate().isAfter(endDate)) {
 							endDate = source.getDate();
 						}
 					}
@@ -484,7 +569,7 @@ public class SearchController {
 		json.setMediums(array);
 
 		DatesJson dates = new DatesJson();
-		if(endDate != null && beginDate != null && endDate != beginDate) {
+		if (endDate != null && beginDate != null && endDate != beginDate) {
 			dates.setBeginDate(beginDate.getYear());
 			dates.setEndDate(endDate.getYear());
 		}
@@ -508,7 +593,7 @@ public class SearchController {
 	@ResponseBody
 	public Map<String, String> getHeteronyms() {
 		Map<String, String> heteronyms = new HashMap<String, String>();
-		for(Heteronym heteronym : LdoD.getInstance().getHeteronymsSet()) {
+		for (Heteronym heteronym : LdoD.getInstance().getHeteronymsSet()) {
 			heteronyms.put(heteronym.getName(), heteronym.getXmlId());
 		}
 		return heteronyms;
@@ -521,56 +606,62 @@ public class SearchController {
 		LocalDate beginDate = null;
 		LocalDate endDate = null;
 
-		for(Fragment fragment : LdoD.getInstance().getFragmentsSet()) {
-			for(FragInter fragInter : fragment.getFragmentInterSet()) {
-				if(beginDate == null) {
+		for (Fragment fragment : LdoD.getInstance().getFragmentsSet()) {
+			for (FragInter fragInter : fragment.getFragmentInterSet()) {
+				if (beginDate == null) {
 					beginDate = fragInter.getDate();
 				}
-				if(endDate == null) {
+				if (endDate == null) {
 					endDate = fragInter.getDate();
 				}
-				if(fragInter.getDate() != null && fragInter.getDate().isBefore(beginDate)) {
+				if (fragInter.getDate() != null
+						&& fragInter.getDate().isBefore(beginDate)) {
 					beginDate = fragInter.getDate();
 				}
-				if(fragInter.getDate() != null && fragInter.getDate().isAfter(endDate)) {
+				if (fragInter.getDate() != null
+						&& fragInter.getDate().isAfter(endDate)) {
 					endDate = fragInter.getDate();
 				}
 			}
 
-			for(Source source : fragment.getSourcesSet()) {
-				if(source.getType().equals(SourceType.MANUSCRIPT)) {
+			for (Source source : fragment.getSourcesSet()) {
+				if (source.getType().equals(SourceType.MANUSCRIPT)) {
 					ManuscriptSource manu = (ManuscriptSource) source;
-					if(beginDate == null) {
+					if (beginDate == null) {
 						beginDate = manu.getDate();
 					}
-					if(endDate == null) {
+					if (endDate == null) {
 						endDate = manu.getDate();
 					}
-					if(manu.getDate() != null && manu.getDate().isBefore(beginDate)) {
+					if (manu.getDate() != null
+							&& manu.getDate().isBefore(beginDate)) {
 						beginDate = manu.getDate();
 					}
-					if(manu.getDate() != null && manu.getDate().isAfter(endDate)) {
+					if (manu.getDate() != null
+							&& manu.getDate().isAfter(endDate)) {
 						endDate = manu.getDate();
 					}
-				} else if(source.getType().equals(SourceType.PRINTED)) {
+				} else if (source.getType().equals(SourceType.PRINTED)) {
 					PrintedSource print = (PrintedSource) source;
-					if(beginDate == null) {
+					if (beginDate == null) {
 						beginDate = print.getDate();
 					}
-					if(endDate == null) {
+					if (endDate == null) {
 						endDate = print.getDate();
 					}
-					if(print.getDate() != null && print.getDate().isBefore(beginDate)) {
+					if (print.getDate() != null
+							&& print.getDate().isBefore(beginDate)) {
 						beginDate = print.getDate();
 					}
-					if(print.getDate() != null && print.getDate().isAfter(endDate)) {
+					if (print.getDate() != null
+							&& print.getDate().isAfter(endDate)) {
 						endDate = print.getDate();
 					}
 				}
 			}
 		}
 		DatesJson dates = new DatesJson();
-		if(endDate != null && beginDate != null && endDate != beginDate) {
+		if (endDate != null && beginDate != null && endDate != beginDate) {
 			dates.setBeginDate(beginDate.getYear());
 			dates.setEndDate(endDate.getYear());
 		}
@@ -584,9 +675,11 @@ public class SearchController {
 
 		LdoDUser user = LdoDUser.getUser();
 
-		for(VirtualEdition virtualEdition : user.getSelectedVirtualEditionsSet()) {
-			if(!virtualEditionMap.containsKey(virtualEdition.getAcronym())) {
-				virtualEditionMap.put(virtualEdition.getAcronym(), virtualEdition.getTitle());
+		for (VirtualEdition virtualEdition : user
+				.getSelectedVirtualEditionsSet()) {
+			if (!virtualEditionMap.containsKey(virtualEdition.getAcronym())) {
+				virtualEditionMap.put(virtualEdition.getAcronym(),
+						virtualEdition.getTitle());
 			}
 		}
 

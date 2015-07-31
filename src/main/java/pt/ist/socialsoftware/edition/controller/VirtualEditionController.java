@@ -164,7 +164,14 @@ public class VirtualEditionController {
 		if (virtualEdition == null) {
 			return "utils/pageNotFound";
 		} else {
+
+			/*
+			 * for (VirtualEditionInter inter :
+			 * virtualEdition.getVirtualEditionIntersSet()) { if
+			 * (inter.getTitle().contains("\"")) inter.set }
+			 */
 			model.addAttribute("virtualEdition", virtualEdition);
+
 			model.addAttribute("externalId", virtualEdition.getExternalId());
 			model.addAttribute("acronym", virtualEdition.getAcronym());
 			model.addAttribute("title", virtualEdition.getTitle());
@@ -182,7 +189,9 @@ public class VirtualEditionController {
 			@PathVariable String externalId,
 			@RequestParam("acronym") String acronym,
 			@RequestParam("title") String title,
-			@RequestParam("pub") boolean pub) {
+			@RequestParam("pub") boolean pub,
+			@RequestParam("fraginters") String fraginters) {
+
 		VirtualEdition virtualEdition = FenixFramework
 				.getDomainObject(externalId);
 		if (virtualEdition == null) {
@@ -191,6 +200,8 @@ public class VirtualEditionController {
 
 		title = title.trim();
 		acronym = acronym.trim();
+
+		System.out.println("FRAGINTERS " + fraginters);
 
 		VirtualEditionValidator validator = new VirtualEditionValidator(
 				virtualEdition, acronym, title);
@@ -203,8 +214,10 @@ public class VirtualEditionController {
 					acronym, title, pub);
 		}
 
+		// passar nova lista de inters
+
 		try {
-			virtualEdition.edit(acronym, title, pub);
+			virtualEdition.edit(acronym, title, pub, fraginters);
 		} catch (LdoDDuplicateAcronymException ex) {
 			errors.add("virtualedition.acronym.duplicate");
 			throw new LdoDEditVirtualEditionException(errors, virtualEdition,
@@ -339,6 +352,7 @@ public class VirtualEditionController {
 			@PathVariable String interId) {
 		VirtualEdition virtualEdition = FenixFramework.getDomainObject(veId);
 		FragInter inter = FenixFramework.getDomainObject(interId);
+
 		if ((virtualEdition == null) && (inter == null)) {
 			return "utils/pageNotFound";
 		}

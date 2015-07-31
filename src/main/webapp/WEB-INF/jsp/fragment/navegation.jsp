@@ -92,7 +92,7 @@ $(document).ready(function() {
                 <div class="text-center">
                     <table>
                         <caption>
-                            <a
+                            <a style="padding-left:120px"
                                 href="${contextPath}/edition/internalid/${expertEdition.externalId}">
                                 ${expertEdition.editor}</a>
                         </caption>

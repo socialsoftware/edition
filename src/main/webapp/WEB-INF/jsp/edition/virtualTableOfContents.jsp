@@ -1,6 +1,6 @@
 <%@ include file="/WEB-INF/jsp/common/tags-head.jsp"%>
 <h3 class="text-center">
-    <spring:message code="virtualedition" />
+    <spring:message code="virtualedition" /> 
     ${edition.title} (${edition.getSortedInterps().size()})
 </h3>
 <c:if test="${heteronym != null}">

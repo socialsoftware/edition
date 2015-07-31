@@ -1,6 +1,4 @@
 <%@ include file="/WEB-INF/jsp/common/tags-head.jsp"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<!-- class="table table-hover table-condensed" -->
 <div>
 	<h1>Included</h1>
 	<table border="1" class="result-table">
