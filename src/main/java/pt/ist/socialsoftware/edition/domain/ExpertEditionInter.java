@@ -1,10 +1,12 @@
 package pt.ist.socialsoftware.edition.domain;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import pt.ist.socialsoftware.edition.domain.Edition.EditionType;
-import pt.ist.socialsoftware.edition.utils.search.options.SearchOption;
+import pt.ist.socialsoftware.edition.recommendation.properties.Property;
+import pt.ist.socialsoftware.edition.search.options.SearchOption;
 
 public class ExpertEditionInter extends ExpertEditionInter_Base {
 
@@ -138,7 +140,12 @@ public class ExpertEditionInter extends ExpertEditionInter_Base {
 	}
 
 	@Override
-	public boolean accept(SearchOption option){
+	public boolean accept(SearchOption option) {
 		return option.visit(this);
+	}
+
+	@Override
+	public Collection<Double> accept(Property property) {
+		return property.visit(this);
 	}
 }

@@ -51,6 +51,10 @@ public class Taxonomy extends Taxonomy_Base {
 			fragWord.remove();
 		}
 
+		for(TaxonomyWeight taxonomyWeight : getTaxonomyWeightSet()) {
+			taxonomyWeight.remove();
+		}
+
 		deleteDomainObject();
 	}
 

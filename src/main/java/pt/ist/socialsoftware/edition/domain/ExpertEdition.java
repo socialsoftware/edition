@@ -146,5 +146,4 @@ public class ExpertEdition extends ExpertEdition_Base implements
 	public String getReference() {
 		return getEditor();
 	}
-
 }

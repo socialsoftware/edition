@@ -1,15 +1,16 @@
 package pt.ist.socialsoftware.edition.domain;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.socialsoftware.edition.domain.Edition.EditionType;
+import pt.ist.socialsoftware.edition.recommendation.properties.Property;
 
-public class Fragment extends Fragment_Base {
-
+public class Fragment extends Fragment_Base implements Comparable<Fragment> {
 	public enum PrecisionType {
 		HIGH("high"), MEDIUM("medium"), LOW("low"), UNKNOWN("unknown");
 
@@ -118,5 +119,13 @@ public class Fragment extends Fragment_Base {
 		}
 		return null;
 	}
-	
+
+	public Collection<Double> accept(Property property) {
+		return property.visit(this);
+	}
+
+	@Override
+	public int compareTo(Fragment fragment) {
+		return this.getXmlId().compareTo(fragment.getXmlId());
+	}
 }
