@@ -40,7 +40,7 @@
        <div class="tip" title="text div">
       <select class="selectpicker" data-width="100%" id="searchType" title="teste x">
       	<option value="">Pesquisa completa</option>
-	    <option value="title">Pesquisa por título</option>
+	    <option value="title">Pesquisa por tÃŒtulo</option>
 	  </select>
 	  </div>
 	  </div>
@@ -51,7 +51,7 @@
 	    <option value="Coelho">Jacinto Prado Coelho</option>
 	    <option value="Cunha"> Teresa Sobral Cunha</option>
 	    <option value="Zenith">Richard Zenith</option>
-	    <option value="Pizarro">Jerónimo Pizarro</option>
+	    <option value="Pizarro">JerÃ›nimo Pizarro</option>
 	    <option value="BNP">Fontes Autorais</option>
 	   
 	  </select>

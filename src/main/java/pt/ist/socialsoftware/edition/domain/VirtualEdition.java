@@ -29,7 +29,7 @@ public class VirtualEdition extends VirtualEdition_Base {
 		setTitle(title);
 		setDate(date);
 		setPub(pub);
-
+		createSection("Default", 0);
 		if (usedEdition != null) {
 			for (FragInter inter : usedEdition.getIntersSet()) {
 				createVirtualEditionInter(inter, inter.getNumber());
@@ -63,8 +63,12 @@ public class VirtualEdition extends VirtualEdition_Base {
 			removeSelectedBy(user);
 		}
 
-		for (VirtualEditionInter inter : getVirtualEditionIntersSet()) {
-			inter.remove();
+		for(Section section : getSectionsSet()) {
+			section.remove();
+		}
+
+		for(RecommendationWeights weights : getRecommendationWeightsSet()) {
+			weights.remove();
 		}
 
 		super.remove();
@@ -268,23 +272,112 @@ public class VirtualEdition extends VirtualEdition_Base {
 
 	}
 
+	// Default section
 	@Atomic(mode = TxMode.WRITE)
-	public VirtualEditionInter createVirtualEditionInter(FragInter inter,
-			int number) {
+	public VirtualEditionInter createVirtualEditionInter(FragInter inter, int number) {
 		VirtualEditionInter virtualInter = null;
-		if (canAddFragInter(inter)) {
-			virtualInter = new VirtualEditionInter(this, inter, number);
+		if(getSectionsSet().isEmpty()) {
+			if(canAddFragInter(inter)) {
+				Section section = new Section(this, "Default", 0);
+				virtualInter = new VirtualEditionInter(section, inter, number);
+				section.addVirtualEditionInter(virtualInter);
+				addSections(section);
+			}
+		} else {
+			if(canAddFragInter(inter)) {
+				Section section = getSectionsSet().iterator().next();
+				virtualInter = new VirtualEditionInter(section, inter, number);
+			}
+		}
+		return virtualInter;
+	}
+
+	@Atomic(mode = TxMode.WRITE)
+	public VirtualEditionInter createVirtualEditionInter(Section section, FragInter inter, int number) {
+		VirtualEditionInter virtualInter = null;
+		if(canAddFragInter(inter)) {
+			virtualInter = new VirtualEditionInter(section, inter, number);
+			section.addVirtualEditionInter(virtualInter);
+			addSections(section);
 		}
 		return virtualInter;
 	}
 
 	public boolean checkAccess(LdoDUser user) {
-		if (getPub()) {
+		if(getPub()) {
 			return true;
-		} else if (getParticipantSet().contains(user)) {
+		} else if(getParticipantSet().contains(user)) {
 			return true;
 		}
 
 		return false;
 	}
+
+	public List<VirtualEditionInter> getVirtualEditionIntersSet() {
+		List<VirtualEditionInter> inters = new ArrayList<>();
+		for(Section section : getSectionsSet()) {
+			inters.addAll(section.getInterSet());
+		}
+		Collections.sort(inters);
+		return inters;
+	}
+
+	@Atomic(mode = TxMode.WRITE)
+	public Section createSection(String title, int number) {
+		Section section = new Section(this, title, number);
+		return section;
+	}
+
+
+	public boolean hasMultipleSections() {
+		return getSectionsSet().size() > 1;
+	}
+
+	public Section getSection(String title) {
+		for(Section section : getSectionsSet()) {
+			if(section.getTitle().equals(title)) {
+				return section;
+			}
+		}
+
+		return null;
+	}
+
+	public Section createSection(String title) {
+		int number = getSectionsSet().size();
+		return createSection(title, number);
+	}
+
+	public int getDepth() {
+		int max = 0;
+		for(Section section : getSectionsSet()) {
+			int depth = section.getDepth();
+			if(max < depth)
+				max = depth;
+		}
+		return max;
+	}
+
+	public List<Section> getSortedSections() {
+		List<Section> sortedList = new ArrayList<>(getSectionsSet());
+		Collections.sort(sortedList);
+		return sortedList;
+	}
+
+	@Atomic(mode = TxMode.WRITE)
+	public void clearEmptySections() {
+		for(Section section : getSectionsSet()) {
+			if(section.size() == 0) {
+				section.remove();
+			}
+		}
+	}
+
+	public void print() {
+		for(Section section : getSectionsSet()) {
+			section.print();
+		}
+
+	}
+
 }

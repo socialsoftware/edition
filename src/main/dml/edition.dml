@@ -317,11 +317,6 @@ relation ExpertEditionHasExpertEditionInters {
 	ExpertEditionInter playsRole expertEditionInters {multiplicity 0..*;}
 }
 
-relation VirtualEditionHasVirtualEditionInters {
-	VirtualEdition playsRole virtualEdition {multiplicity 1..1;}
-	VirtualEditionInter playsRole virtualEditionInters {multiplicity 0..*;}
-}
-
 class Source {
 	String xmlId;
 	SourceType type;
@@ -610,4 +605,58 @@ relation AnnotationHasRanges {
 relation AnnotationsAndTagInTextPortion {
   Annotation playsRole annotation {multiplicity 1..*;}
   UserTagInTextPortion playsRole userTagInTextPortion {multiplicity 0..*;}
+}
+
+class RecommendationWeights {
+	double editionWeight;
+	double heteronymWeight;
+	double dateWeight;
+	double manuscriptWeight;
+	double typescriptWeight;
+	double publicationWeight;
+	double textWeight;
+}
+
+relation LdoDUserHasRecommendationWeights {
+	LdoDUser playsRole user {multiplicity 1..1;}
+	RecommendationWeights playsRole recommendationWeights {multiplicity 0..*;}
+}
+
+relation VirtualEditionHasRecommendationWeights {
+	VirtualEdition playsRole virtualEdition {multiplicity 1..1;}
+	RecommendationWeights playsRole recommendationWeights {multiplicity 0..*;}
+}
+
+class TaxonomyWeight{
+	double weight;
+}
+
+relation RecommendationWeightsHasTaxonomyWeight {
+	RecommendationWeights playsRole recommendationsWeights {multiplicity 1..1;}
+	TaxonomyWeight playsRole taxonomyWeight {multiplicity 0..*;}
+}
+
+relation TaxonomyHasTaxonomyWeight {
+	Taxonomy playsRole taxonomy {multiplicity 1..1;}
+	TaxonomyWeight playsRole taxonomyWeight {multiplicity 0..*;}
+}
+
+class Section {
+	String title;
+	int number;
+}
+
+relation VirtualEditionHasSections {
+	VirtualEdition playsRole virtualEdition {multiplicity 0..1;}
+	Section playsRole sections {multiplicity 1..*;}
+}
+
+relation SectionHasSections{
+	Section playsRole parentSection {multiplicity 0..1;}
+	Section playsRole subSections {multiplicity 0..*;}
+}
+
+relation SectionHasVitualEditionInters{
+	Section playsRole section {multiplicity 1..1;}
+	VirtualEditionInter playsRole VirtualEditionInter {multiplicity 0..*;}
 }

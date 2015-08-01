@@ -1,27 +1,30 @@
 package pt.ist.socialsoftware.edition.domain;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import pt.ist.socialsoftware.edition.domain.Edition.EditionType;
-import pt.ist.socialsoftware.edition.utils.search.options.SearchOption;
+import pt.ist.socialsoftware.edition.recommendation.VSMFragInterRecommender;
+import pt.ist.socialsoftware.edition.recommendation.properties.Property;
+import pt.ist.socialsoftware.edition.search.options.SearchOption;
 
 public class VirtualEditionInter extends VirtualEditionInter_Base {
 
-	public VirtualEditionInter(VirtualEdition virtualEdition, FragInter inter,
-			int number) {
+	public VirtualEditionInter(Section section, FragInter inter, int number) {
 		setFragment(inter.getFragment());
 		setHeteronym(null);
 		setDate(null);
-		setVirtualEdition(virtualEdition);
+		setSection(section);
 		setNumber(number);
 		setUses(inter);
 	}
 
 	@Override
 	public void remove() {
-		setVirtualEdition(null);
+		setSection(null);
+
 		setUses(null);
 
 		for (FragInter inter : getIsUsedBySet()) {
@@ -130,4 +133,21 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 	public boolean accept(SearchOption option){
 		return option.visit(this);
 	}
+
+	@Override
+	public Collection<Double> accept(Property property) {
+		return property.visit(this);
+	}
+
+	public VirtualEdition getVirtualEdition() {
+		return getSection().getRootSection().getVirtualEdition();
+	}
+
+	public FragInter getNextInter() {
+		LdoDUser user = LdoDUser.getUser();
+		VSMFragInterRecommender recommender = new VSMFragInterRecommender();
+		Collection<Property> properties = user.getRecommendationWeights(getVirtualEdition()).getProperties();
+		return recommender.getMostSimilarItem(this, getVirtualEdition().getIntersSet(), properties);
+	}
+
 }

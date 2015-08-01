@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.lucene.queryparser.classic.ParseException;
-
 import org.joda.time.LocalDate;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
@@ -38,27 +37,26 @@ import pt.ist.socialsoftware.edition.domain.Source;
 import pt.ist.socialsoftware.edition.domain.Source.SourceType;
 import pt.ist.socialsoftware.edition.domain.SourceInter;
 import pt.ist.socialsoftware.edition.domain.VirtualEdition;
-import pt.ist.socialsoftware.edition.utils.search.json.AuthoralJson;
-import pt.ist.socialsoftware.edition.utils.search.json.DatesJson;
-import pt.ist.socialsoftware.edition.utils.search.json.EditionJson;
-import pt.ist.socialsoftware.edition.utils.search.options.AuthoralSearchOption;
-import pt.ist.socialsoftware.edition.utils.search.options.DactiloscryptSearchOption;
-import pt.ist.socialsoftware.edition.utils.search.options.DateSearchOption;
-import pt.ist.socialsoftware.edition.utils.search.options.EditionSearchOption;
-import pt.ist.socialsoftware.edition.utils.search.options.HeteronymSearchOption;
-import pt.ist.socialsoftware.edition.utils.search.options.Indexer;
-import pt.ist.socialsoftware.edition.utils.search.options.ManuscriptSearchOption;
-import pt.ist.socialsoftware.edition.utils.search.options.PublicationSearchOption;
-import pt.ist.socialsoftware.edition.utils.search.options.Search;
-import pt.ist.socialsoftware.edition.utils.search.options.SearchOption;
-import pt.ist.socialsoftware.edition.utils.search.options.SearchOption.Mode;
-import pt.ist.socialsoftware.edition.utils.search.options.TaxonomySearchOption;
-import pt.ist.socialsoftware.edition.utils.search.options.VirtualEditionSearchOption;
+import pt.ist.socialsoftware.edition.search.json.AuthoralJson;
+import pt.ist.socialsoftware.edition.search.json.DatesJson;
+import pt.ist.socialsoftware.edition.search.json.EditionJson;
+import pt.ist.socialsoftware.edition.search.options.AuthoralSearchOption;
+import pt.ist.socialsoftware.edition.search.options.DateSearchOption;
+import pt.ist.socialsoftware.edition.search.options.EditionSearchOption;
+import pt.ist.socialsoftware.edition.search.options.HeteronymSearchOption;
+import pt.ist.socialsoftware.edition.search.options.Indexer;
+import pt.ist.socialsoftware.edition.search.options.ManuscriptSearchOption;
+import pt.ist.socialsoftware.edition.search.options.PublicationSearchOption;
+import pt.ist.socialsoftware.edition.search.options.Search;
+import pt.ist.socialsoftware.edition.search.options.SearchOption;
+import pt.ist.socialsoftware.edition.search.options.SearchOption.Mode;
+import pt.ist.socialsoftware.edition.search.options.TaxonomySearchOption;
+import pt.ist.socialsoftware.edition.search.options.TypescriptSearchOption;
+import pt.ist.socialsoftware.edition.search.options.VirtualEditionSearchOption;
 
 @Controller
 @RequestMapping("/search")
 public class SearchController {
-
 	/*
 	 * Sets all the empty boxes to null instead of the empty string ""
 	 */
@@ -91,34 +89,28 @@ public class SearchController {
 		List<String> hits;
 
 		try {
-			hits = Indexer.getInstance().search(search);
+			hits = new Indexer().search(search);
 		} catch (ParseException | IOException e) {
 			e.printStackTrace();
 			return "";
 		}
-
 		Map<Fragment, List<FragInter>> results = new HashMap<Fragment, List<FragInter>>();
 		int interCount = 0;
-
 		for (String hit : hits) {
 			FragInter inter = FenixFramework.getDomainObject(hit);
 
 			Fragment fragment = inter.getFragment();
-
 			if (!results.containsKey(fragment)) {
 				results.put(fragment, new ArrayList<FragInter>());
 			}
-
 			if (!results.get(fragment).contains(inter)) {
 				results.get(fragment).add(inter);
 				interCount++;
 			}
 		}
-
 		model.addAttribute("fragCount", results.size());
 		model.addAttribute("interCount", interCount);
 		model.addAttribute("results", results);
-
 		return "search/simpleResultTable";
 	}
 
@@ -145,7 +137,7 @@ public class SearchController {
 
 		List<String> hits;
 		try {
-			hits = Indexer.getInstance().search(search);
+			hits = new Indexer().search(search);
 		} catch (ParseException | IOException e) {
 			e.printStackTrace();
 			return "";
@@ -218,7 +210,6 @@ public class SearchController {
 	@RequestMapping(value = "/advanced/result", method = RequestMethod.POST, headers = { "Content-type=application/json" })
 	public String advancedSearchResultNew(Model model,
 			@RequestBody Search search) {
-
 		Map<Fragment, Map<FragInter, List<SearchOption>>> results = search(search);
 
 		int fragCount = 0;
@@ -234,12 +225,9 @@ public class SearchController {
 		boolean showPubPlace = false;
 		boolean fragAdd = false;
 		boolean showTaxonomy = false;
-		boolean showVirtualEdition = false;
-
 		for (Map.Entry<Fragment, Map<FragInter, List<SearchOption>>> entry : results
 				.entrySet()) {
 			fragAdd = false;
-
 			for (Map.Entry<FragInter, List<SearchOption>> entry2 : entry
 					.getValue().entrySet()) {
 				if (entry2.getValue().size() >= 1) {
@@ -248,9 +236,7 @@ public class SearchController {
 				} else {
 					interCountNotAdded++;
 				}
-
 				for (SearchOption option : entry2.getValue()) {
-
 					if (option instanceof EditionSearchOption) {
 						showSource = true;
 						EditionSearchOption op = (EditionSearchOption) option;
@@ -282,18 +268,14 @@ public class SearchController {
 					} else if (option instanceof VirtualEditionSearchOption) {
 						showSource = true;
 					}
-
 				}
-
 			}
-
 			if (fragAdd) {
 				fragCount++;
 			} else {
 				fragCountNotAdded++;
 			}
 		}
-
 		model.addAttribute("showEdition", showEdition);
 		model.addAttribute("showHeteronym", showHeteronym);
 		model.addAttribute("showDate", showDate);
@@ -303,17 +285,13 @@ public class SearchController {
 		model.addAttribute("showSourceType", showSourceType);
 		model.addAttribute("showTaxonomy", showTaxonomy);
 		// model.addAttribute("showVirtualEdition", showSourceType);
-
 		model.addAttribute("fragCount", fragCount);
 		model.addAttribute("interCount", interCount);
 		model.addAttribute("fragCountNotAdded", fragCountNotAdded);
 		model.addAttribute("interCountNotAdded", interCountNotAdded);
-
 		model.addAttribute("results", results);
-
 		SearchOption[] searchOptions = search.getSearchOptions();
 		model.addAttribute("search", searchOptions);
-
 		model.addAttribute("searchLenght", searchOptions.length);
 		return "search/resultTable";
 	}
@@ -385,17 +363,13 @@ public class SearchController {
 
 		SearchOption[] options = search.getSearchOptions();
 		Mode mode = search.getMode();
-		// Set<FragInter> fragInterSet;
 		boolean working;
 		boolean and = mode.equals(Mode.AND) ? true : false;
 		boolean belongsToResulSet;
-
 		Map<Fragment, Map<FragInter, List<SearchOption>>> resultSet = new LinkedHashMap<Fragment, Map<FragInter, List<SearchOption>>>();
-
 		Map<FragInter, List<SearchOption>> matchMap;
 		new LinkedHashMap<FragInter, List<SearchOption>>();
 		for (Fragment fragment : LdoD.getInstance().getFragmentsSet()) {
-			// fragInterSet = new TreeSet<FragInter>();
 			matchMap = new LinkedHashMap<FragInter, List<SearchOption>>();
 			belongsToResulSet = and;
 			for (SearchOption option : options) {
@@ -410,7 +384,6 @@ public class SearchController {
 									new ArrayList<SearchOption>(Arrays
 											.asList(option)));
 						}
-						// fragInterSet.add(fragInter);
 						working = true;
 					} else {
 						if (!matchMap.containsKey(fragInter)) {
@@ -435,10 +408,6 @@ public class SearchController {
 
 		}
 
-		// Comparator comp = new ResultComparator(resultSet);
-		// Map<Fragment, Map<FragInter, List<SearchOption>>> sortedResultSet =
-		// new TreeMap<Fragment, Map<FragInter, List<SearchOption>>>(comp);
-		// sortedResultSet.putAll(resultSet);
 		return resultSet;
 	}
 
@@ -447,13 +416,11 @@ public class SearchController {
 	public Map<String, String> getEditions() {
 		// LinkedHashMap keeps insertion order.
 		Map<String, String> editions = new LinkedHashMap<String, String>();
-
 		for (ExpertEdition expertEdition : LdoD.getInstance()
 				.getSortedExpertEdition()) {
 
 			editions.put(expertEdition.getAcronym(), expertEdition.getEditor());
 		}
-
 		return editions;
 	}
 
@@ -461,21 +428,15 @@ public class SearchController {
 	@ResponseBody
 	public EditionJson getEdition(
 			@RequestParam(value = "edition", required = true) String acronym) {
-
 		Edition edition = LdoD.getInstance().getEdition(acronym);
 		Map<String, String> heteronyms = new HashMap<String, String>();
 		LocalDate beginDate = null;
 		LocalDate endDate = null;
-
 		for (FragInter fragInter : edition.getIntersSet()) {
 			if (!heteronyms.containsKey(fragInter.getHeteronym().getName())) {
-				if (fragInter.getHeteronym().equals("Bernardo Soares")) {
-					System.out.println(fragInter.getTitle());
-				}
 				heteronyms.put(fragInter.getHeteronym().getName(), fragInter
 						.getHeteronym().getXmlId());
 			}
-
 			if (beginDate == null) {
 				beginDate = fragInter.getDate();
 			}
@@ -490,14 +451,11 @@ public class SearchController {
 					&& fragInter.getDate().isAfter(endDate)) {
 				endDate = fragInter.getDate();
 			}
-
 		}
-
 		EditionJson editionJson = new EditionJson(acronym);
 		if (heteronyms.size() > 0) {
 			editionJson.setHeteronyms(heteronyms);
 		}
-
 		if (endDate != null && beginDate != null && endDate != beginDate) {
 			editionJson.setBeginDate(beginDate.getYear());
 			editionJson.setEndDate(endDate.getYear());
@@ -523,18 +481,14 @@ public class SearchController {
 	}
 
 	private AuthoralJson getAuthoral(String mode) {
-
 		AuthoralJson json = new AuthoralJson();
 		LocalDate beginDate = null;
 		LocalDate endDate = null;
-
 		Medium[] values = ManuscriptSource.Medium.values();
 		String[] array = new String[values.length];
-
 		for (int i = 0; i < values.length; i++) {
 			array[i] = values[i].getDesc();
 		}
-
 		for (Fragment frag : LdoD.getInstance().getFragmentsSet()) {
 			for (FragInter inter : frag.getFragmentInterSet()) {
 				if (inter.getSourceType().equals(EditionType.AUTHORIAL)) {
@@ -543,7 +497,6 @@ public class SearchController {
 					if (type.equals(SourceType.MANUSCRIPT)) {
 						ManuscriptSource source = (ManuscriptSource) ((SourceInter) inter)
 								.getSource();
-
 						if (!source.getNotes().toLowerCase().contains(mode)) {
 							break;
 						}
@@ -565,9 +518,7 @@ public class SearchController {
 				}
 			}
 		}
-
 		json.setMediums(array);
-
 		DatesJson dates = new DatesJson();
 		if (endDate != null && beginDate != null && endDate != beginDate) {
 			dates.setBeginDate(beginDate.getYear());
@@ -586,7 +537,7 @@ public class SearchController {
 	@RequestMapping(value = "/getDactiloscripts")
 	@ResponseBody
 	public AuthoralJson getDatiloscript() {
-		return getAuthoral(DactiloscryptSearchOption.DATILOSCRIPTID);
+		return getAuthoral(TypescriptSearchOption.TYPESCRIPT);
 	}
 
 	@RequestMapping(value = "/getHeteronyms")
@@ -602,10 +553,8 @@ public class SearchController {
 	@RequestMapping(value = "/getDates")
 	@ResponseBody
 	public DatesJson getDates() {
-
 		LocalDate beginDate = null;
 		LocalDate endDate = null;
-
 		for (Fragment fragment : LdoD.getInstance().getFragmentsSet()) {
 			for (FragInter fragInter : fragment.getFragmentInterSet()) {
 				if (beginDate == null) {
@@ -623,7 +572,6 @@ public class SearchController {
 					endDate = fragInter.getDate();
 				}
 			}
-
 			for (Source source : fragment.getSourcesSet()) {
 				if (source.getType().equals(SourceType.MANUSCRIPT)) {
 					ManuscriptSource manu = (ManuscriptSource) source;
@@ -672,9 +620,7 @@ public class SearchController {
 	@ResponseBody
 	public Map<String, String> getVirtualEditions(Model model) {
 		Map<String, String> virtualEditionMap = new HashMap<String, String>();
-
 		LdoDUser user = LdoDUser.getUser();
-
 		for (VirtualEdition virtualEdition : user
 				.getSelectedVirtualEditionsSet()) {
 			if (!virtualEditionMap.containsKey(virtualEdition.getAcronym())) {
@@ -682,7 +628,7 @@ public class SearchController {
 						virtualEdition.getTitle());
 			}
 		}
-
 		return virtualEditionMap;
 	}
+
 }

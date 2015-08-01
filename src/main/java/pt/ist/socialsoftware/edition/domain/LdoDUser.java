@@ -68,7 +68,16 @@ public class LdoDUser extends LdoDUser_Base {
 		if (!getMyVirtualEditionsSet().contains(virtualEdition)) {
 			addMyVirtualEditions(virtualEdition);
 		}
-
 	}
 
+	public RecommendationWeights getRecommendationWeights(VirtualEdition virtualEdition) {
+		for(RecommendationWeights recommendationWeights : getRecommendationWeightsSet()) {
+			if(recommendationWeights.getUser().getEmail().equals(getEmail())
+				&& recommendationWeights.getVirtualEdition().getAcronym().equals(virtualEdition.getAcronym())) {
+				return recommendationWeights;
+			}
+		}
+		return LdoD.getInstance().createRecommendationWeights(this, virtualEdition);
+	}
+	
 }

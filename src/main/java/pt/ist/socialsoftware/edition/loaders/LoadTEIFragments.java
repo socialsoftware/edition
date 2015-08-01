@@ -79,9 +79,9 @@ import pt.ist.socialsoftware.edition.domain.TypeNote;
 import pt.ist.socialsoftware.edition.domain.UnclearText;
 import pt.ist.socialsoftware.edition.domain.UnclearText.UnclearReason;
 import pt.ist.socialsoftware.edition.mallet.CorpusGenerator;
+import pt.ist.socialsoftware.edition.search.options.Indexer;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDLoadException;
 import pt.ist.socialsoftware.edition.utils.DateUtils;
-import pt.ist.socialsoftware.edition.utils.search.options.Indexer;
 
 public class LoadTEIFragments {
 
@@ -319,7 +319,7 @@ public class LoadTEIFragments {
 				generator.generate(inter);
 
 				// Add inter to index
-				Indexer indexer = Indexer.getInstance();
+				Indexer indexer = new Indexer();
 				indexer.addDocument(inter);
 
 			} catch (FileNotFoundException e) {

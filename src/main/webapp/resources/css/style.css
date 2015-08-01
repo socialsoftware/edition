@@ -1,3 +1,20 @@
 body {
 	margin-top: 60px;
 }
+
+li.list-recommedation {
+	 list-style-type: none;
+}
+
+/* centered columns styles */
+.row-centered {
+    text-align:center;
+}
+.row-centered > div {
+    display:inline-block;
+    float:none;
+    /* reset the text-align */
+  //  text-align:left;
+    /* inline-block space fix */
+    margin-right:-4px;
+}
