@@ -12,8 +12,8 @@ public abstract class CompositeProperty extends StorableProperty {
 
 	public CompositeProperty(double weight) {
 		super(weight);
-		heteronymProperty = new HeteronymProperty(1.0);
-		dateProperty = new DateProperty(1.0);
+		heteronymProperty = new HeteronymProperty(1.);
+		dateProperty = new DateProperty(1.);
 	}
 
 }

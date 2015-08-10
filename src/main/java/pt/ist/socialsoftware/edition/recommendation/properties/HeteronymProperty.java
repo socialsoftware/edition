@@ -50,7 +50,7 @@ public class HeteronymProperty extends StorableProperty {
 
 	@Override
 	protected Collection<Double> extractVector(VirtualEditionInter virtualEditionInter) {
-		return virtualEditionInter.getLastUsed().accept(this);
+		return virtualEditionInter.getFragment().accept(this);
 	}
 
 	@Override
@@ -91,5 +91,29 @@ public class HeteronymProperty extends StorableProperty {
 	@Override
 	public String getTitle() {
 		return "Heteronym";
+	}
+
+	@Override
+	protected String getConcreteTitle(FragInter inter) {
+		String title = "";
+		List<Heteronym> heteronyms = new ArrayList<Heteronym>();
+		for(FragInter intr : inter.getFragment().getFragmentInterSet()) {
+			heteronyms.add(intr.getHeteronym());
+		}
+		for(Source source : inter.getFragment().getSourcesSet()) {
+			for(SourceInter intr : source.getSourceIntersSet()) {
+				heteronyms.add(intr.getHeteronym());
+			}
+		}
+
+		for(Heteronym heteronym : LdoD.getInstance().getHeteronymsSet()) {
+			if(heteronyms.contains(heteronym))
+				title += ":" + heteronym.getName();
+		}
+
+		if(title.length() > 0)
+			title = title.substring(1);
+
+		return title;
 	}
 }

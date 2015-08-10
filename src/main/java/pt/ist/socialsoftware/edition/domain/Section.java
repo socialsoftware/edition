@@ -56,7 +56,6 @@ public class Section extends Section_Base implements Comparable<Section> {
 		VirtualEditionInter virtualInter = null;
 		if(virtualEdition.canAddFragInter(inter)) {
 			virtualInter = new VirtualEditionInter(this, inter, number);
-			addVirtualEditionInter(virtualInter);
 		}
 		return virtualInter;
 	}
@@ -192,4 +191,11 @@ public class Section extends Section_Base implements Comparable<Section> {
 		return sortedList;
 	}
 
+	@Override
+	public VirtualEdition getVirtualEdition() {
+		if(isRootSection())
+			return super.getVirtualEdition();
+		else
+			return getRootSection().getVirtualEdition();
+	}
 }

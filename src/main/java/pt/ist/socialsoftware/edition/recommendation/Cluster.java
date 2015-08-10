@@ -55,6 +55,11 @@ public class Cluster {
 			}
 		} else {
 			List<Integer> keys = new ArrayList<>(propertiesMap.keySet());
+			if(keys.size() == 0) {
+				nodes.put(1.0, new Cluster(vsmFragInterRecommender, 1.0, inter, propertiesMap, order + 1));
+				nodes.get(1.0).addAllFragInter(inters);
+				return;
+			}
 			Collections.sort(keys);
 			int max = keys.get(keys.size() - 1);
 			if(max > order) {
@@ -154,12 +159,32 @@ public class Cluster {
 	public String getTitle() {
 		String title = "";
 
-		for(Property property : propertiesMap.get(order)) {
-			title += property.getTitle();
+		List<FragInter> items = getItems();
+		
+		if(items.isEmpty()) {
+			for(Property property : propertiesMap.get(order)) {
+				title += property.getTitle();
+			}
+			title += ":" + value;
+			return title;
+
+		} else {
+			FragInter intr = getItems().get(0);
+			
+			for(Property property : propertiesMap.get(order)) {
+				title += property.getTitle(intr);
+			}
+			title += ":" + value;
 		}
-		title += ":" + value;
 
 		return title;
+	}
+
+	public FragInter getFirst() {
+		List<FragInter> items = getItems();
+		if(!items.isEmpty())
+			return items.get(0);
+		return null;
 	}
 
 }

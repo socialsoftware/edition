@@ -32,7 +32,6 @@ import pt.ist.socialsoftware.edition.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.domain.VirtualEditionInter;
 import pt.ist.socialsoftware.edition.recommendation.Cluster;
 import pt.ist.socialsoftware.edition.recommendation.VSMFragInterRecommender;
-import pt.ist.socialsoftware.edition.recommendation.dto.CreateVirtualEditionWithSectionsDTO;
 import pt.ist.socialsoftware.edition.recommendation.dto.IterativeSortVirtualEditionParam;
 import pt.ist.socialsoftware.edition.recommendation.dto.PropertyWithLevel;
 import pt.ist.socialsoftware.edition.recommendation.dto.RecommendVirtualEditionParam;
@@ -83,6 +82,7 @@ public class RecommendationController {
 		model.addAttribute("heteronym", null);
 		model.addAttribute("edition", edition);
 		model.addAttribute("inters", recommendedEdition);
+		model.addAttribute("selected", params.getId());
 
 		return "recommendation/virtualTable";
 	}
@@ -113,6 +113,7 @@ public class RecommendationController {
 		model.addAttribute("heteronym", null);
 		model.addAttribute("edition", edition);
 		model.addAttribute("cluster", cluster);
+		model.addAttribute("selected", params.getId());
 
 		return "recommendation/cluster";
 	}
@@ -152,7 +153,7 @@ public class RecommendationController {
 			virtualInter = FenixFramework.getDomainObject(inters[i]);
 			virtualEdition.createVirtualEditionInter(virtualInter, i + 1);
 		}
-		return "redirect:/edition/acronym/" + acronym;
+		return "redirect:/recommendation/restricted/" + virtualEdition.getExternalId();
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/restricted/{externalId}")
@@ -177,12 +178,11 @@ public class RecommendationController {
 			model.addAttribute("edition", virtualEdition);
 			model.addAttribute("taxonomiesMap", taxonomiesMap);
 			model.addAttribute("editionWeight", recommendationWeights.getEditionWeight());
-			model.addAttribute("manuscriptWeight", recommendationWeights.getManuscriptWeight());
-			model.addAttribute("typescriptWeight", recommendationWeights.getTypescriptWeight());
-			model.addAttribute("publicationWeight", recommendationWeights.getPublicationWeight());
 			model.addAttribute("heteronymWeight", recommendationWeights.getHeteronymWeight());
 			model.addAttribute("dateWeight", recommendationWeights.getDateWeight());
 			model.addAttribute("textWeight", recommendationWeights.getTextWeight());
+			model.addAttribute("sourceWeight", recommendationWeights.getSourceWeight());
+			model.addAttribute("selected", virtualEdition.getVirtualEditionIntersSet().get(0).getExternalId());
 
 			return "recommendation/tableOfContents";
 		}
@@ -213,12 +213,11 @@ public class RecommendationController {
 			model.addAttribute("inters", mostSimilarItems);
 			model.addAttribute("taxonomiesMap", taxonomiesMap);
 			model.addAttribute("editionWeight", recommendationWeights.getEditionWeight());
-			model.addAttribute("manuscriptWeight", recommendationWeights.getManuscriptWeight());
-			model.addAttribute("typescriptWeight", recommendationWeights.getTypescriptWeight());
-			model.addAttribute("publicationWeight", recommendationWeights.getPublicationWeight());
 			model.addAttribute("heteronymWeight", recommendationWeights.getHeteronymWeight());
 			model.addAttribute("dateWeight", recommendationWeights.getDateWeight());
 			model.addAttribute("textWeight", recommendationWeights.getTextWeight());
+			model.addAttribute("sourceWeight", recommendationWeights.getSourceWeight());
+			model.addAttribute("selected", inter);
 
 			return "recommendation/tableOfContents";
 		}
@@ -319,8 +318,6 @@ public class RecommendationController {
 		}
 	}
 
-
-
 	@RequestMapping(value = "/iterativesort/save", method = RequestMethod.POST, headers = { "Content-type=application/json;charset=UTF-8" })
 	public String saveItertativeSort(Model model, @RequestBody VirtualEditionWithSectionsDTO virtualEditionWithSectionsDTO) {
 		Edition edition = LdoD.getInstance().getEdition(virtualEditionWithSectionsDTO.getAcronym());
@@ -352,34 +349,34 @@ public class RecommendationController {
 
 	}
 
-	@RequestMapping(value = "/iterativesort/create", method = RequestMethod.POST, headers = { "Content-type=application/json;charset=UTF-8" })
-	public String createIterativeSort(Model model, @RequestBody CreateVirtualEditionWithSectionsDTO virtualEditionWithSectionsDTO) {
-		String acronym = virtualEditionWithSectionsDTO.getAcronym();
-		String title = virtualEditionWithSectionsDTO.getTitle();
-		boolean pub = virtualEditionWithSectionsDTO.getPub();
+	@RequestMapping(value = "/iterativesort/create", method = RequestMethod.POST)
+	public String createIterativeSort(Model model,
+			@RequestParam("acronym") String acronym,
+			@RequestParam("title") String title,
+			@RequestParam("pub") boolean pub, 
+			@RequestParam("inter[]") String[] inters,
+			@RequestParam("depth[]") String[] depth) {
+
 		VirtualEdition virtualEdition = LdoD.getInstance().createVirtualEdition(LdoDUser.getUser(), acronym, title, new LocalDate(), pub, null);
 
-		int i = 1;
-		for(SectionDTO sectionDTO : virtualEditionWithSectionsDTO.getSections()) {
-			List<String> sections = sectionDTO.getSections();
-			Section section = virtualEdition.getSection(sections.get(0)) == null ? virtualEdition.createSection(sections.get(0)) : virtualEdition
-					.getSection(sections.get(0));
-
-			for(int j = 1; j < sections.size(); j++) {
-				section = section.getSection(sections.get(j)) == null ? section.createSection(sections.get(j)) : section.getSection(sections.get(j));
+		for(int i = 0; i < inters.length; i++) {
+			String inter = inters[i];
+			System.out.println(depth[i]);
+			String[] sections = depth[i].split("\\|");
+			for(String s : sections){
+				System.out.println(s);
 			}
-			String inter = sectionDTO.getInter();
+			Section section = virtualEdition.getSection(sections[0]) == null ? virtualEdition.createSection(sections[0]) : virtualEdition.getSection(sections[0]);
+
+			for(int j = 1; j < sections.length; j++) {
+				section = section.getSection(sections[j]) == null ? section.createSection(sections[j]) : section.getSection(sections[j]);
+			}
+
 			VirtualEditionInter virtualEditionInter = FenixFramework.getDomainObject(inter);
-			section.createVirtualEditionInter(virtualEditionInter, i++);
+			section.createVirtualEditionInter(virtualEditionInter, i + 1);
 		}
-
 		virtualEdition.clearEmptySections();
-
-		model.addAttribute("heteronym", null);
-		model.addAttribute("edition", virtualEdition);
-		model.addAttribute("inters", virtualEdition.getSortedInterps());
-
-		return "recommendation/virtualTableWithSections";
+		return "redirect:/recommendation/restricted/" + virtualEdition.getExternalId();
 	}
 
 }

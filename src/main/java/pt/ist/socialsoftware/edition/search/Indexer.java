@@ -1,4 +1,4 @@
-package pt.ist.socialsoftware.edition.search.options;
+package pt.ist.socialsoftware.edition.search;
 
 import java.io.File;
 import java.io.IOException;
@@ -50,38 +50,24 @@ import pt.ist.socialsoftware.edition.visitors.TextFragmentWriter;
 public class Indexer {
 	private static final String ID = "id";
 	private static final String TEXT = "text";
-
-	// private static Indexer instance = null;
-
-	// private final IndexWriter indexWriter;
 	private final Analyzer analyzer;
-	// private final Directory directory;
-	// private final IndexWriterConfig config;
 	private static final HashMap<String, Map<String, Double>> terms = new HashMap<String, Map<String, Double>>();
 	private final QueryParserBase queryParser;
-	private final int significativeTerms;
+	private final int significativeTerms = 1000;
 	private final File file;
+	private final IndexWriterConfig config;
 
 	public Indexer() {
 		analyzer = new IgnoreDiacriticsAnalyzer();
 		String path = PropertiesManager.getProperties().getProperty("indexer.dir");
 		file = new File(path);
-		// directory = new NIOFSDirectory(file);
-		// config = new IndexWriterConfig(Version.LATEST, analyzer);
-		// terms = new HashMap<String, Map<String, Double>>();
 		queryParser = new QueryParser(TEXT, analyzer);
-		significativeTerms = 100;
+		config = new IndexWriterConfig(Version.LATEST, analyzer);
 	}
 
-	// public static Indexer getInstance() throws IOException {
-	// if(instance == null) {
-	// instance = new Indexer();
-	// }
-	// return instance;
-	// }
-
 	public void addDocument(FragInter inter) throws IOException {
-		IndexWriterConfig config = new IndexWriterConfig(Version.LATEST, analyzer);
+		// IndexWriterConfig config = new IndexWriterConfig(Version.LATEST,
+		// analyzer);
 		Directory directory = new NIOFSDirectory(file);
 		IndexWriter indexWriter = new IndexWriter(directory, config);
 		TextFragmentWriter writer = new TextFragmentWriter(inter);
@@ -486,8 +472,6 @@ public class Indexer {
 	public Collection<? extends String> getTerms(FragInter inter, int numberOfTerms) throws IOException, ParseException {
 		String id;
 		if(inter.getEdition().getSourceType().equals(EditionType.VIRTUAL)) {
-			//List<FragInter> used = ((VirtualEditionInter) inter).getListUsed();
-			//id = used.get(used.size() - 1).getExternalId();
 			id = inter.getLastUsed().getExternalId();
 		} else {
 			id = inter.getExternalId();
@@ -507,4 +491,29 @@ public class Indexer {
 		}
 		return terms;
 	}
+
+	public void cleanMissingHits(List<String> misses) {
+		if(misses.isEmpty()){
+			return;
+		}
+
+		String query = misses.get(0);
+		for(int i = 1; i < misses.size(); i++) {
+			query += " OR " + misses.get(i);
+		}
+
+		QueryParser idQueryParser = new QueryParser(ID, analyzer);
+		try {
+			Query q = idQueryParser.parse(query);
+			Directory directory = new NIOFSDirectory(file);
+			IndexWriter indexWriter = new IndexWriter(directory, config);
+			indexWriter.deleteDocuments(q);
+
+			indexWriter.close();
+			directory.close();
+		} catch(ParseException | IOException e) {
+			e.printStackTrace();
+		}
+	}
+
 }

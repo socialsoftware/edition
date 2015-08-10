@@ -18,20 +18,21 @@ import pt.ist.socialsoftware.edition.domain.RecommendationWeights;
 import pt.ist.socialsoftware.edition.domain.Source;
 import pt.ist.socialsoftware.edition.domain.SourceInter;
 import pt.ist.socialsoftware.edition.domain.VirtualEditionInter;
-import pt.ist.socialsoftware.edition.search.options.Indexer;
+import pt.ist.socialsoftware.edition.search.Indexer;
 
 public class TextProperty extends Property {
+	public static final int NUMBEROFTERMS = 10;
 	private List<String> commonTerms;
 	private final int numberOfTerms;
 
 	public TextProperty() {
 		super();
-		numberOfTerms = 10;
+		numberOfTerms = NUMBEROFTERMS;
 	}
 
 	public TextProperty(double weigth) {
 		super(weigth);
-		numberOfTerms = 10;
+		numberOfTerms = NUMBEROFTERMS;
 	}
 
 	public TextProperty(Double weight, int numberOfTerms) {
@@ -173,4 +174,5 @@ public class TextProperty extends Property {
 	public String getTitle() {
 		return "Text";
 	}
+
 }

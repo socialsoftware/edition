@@ -1,4 +1,4 @@
-package pt.ist.socialsoftware.edition.search.options;
+package pt.ist.socialsoftware.edition.search;
 
 import java.io.Reader;
 

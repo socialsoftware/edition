@@ -18,3 +18,15 @@ li.list-recommedation {
     /* inline-block space fix */
     margin-right:-4px;
 }
+
+.draggable{
+	cursor: move;
+}
+
+.progress{
+	cursor: progress;
+}
+
+.inherit{
+	cursor: inherit;
+}

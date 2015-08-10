@@ -17,14 +17,30 @@
 						test="${(heteronym == null) || (inter.heteronym == heteronym)}">
 						<tr>
 							<td><c:if test="${inter.number!=0}">${inter.number}</c:if></td>
-							<td><a id="${inter.externalId}" class="inter"
-								href="${contextPath}/fragments/fragment/inter/${inter.externalId}">${inter.title}</a></td>
-								<td>
-									<button type="submit" class="btn btn-primary btn-sm sort">
-										<span class="glyphicon glyphicon-check"></span> 
-										<spring:message code="general.select"/>
-									</button>
-								</td>
+							<td><c:choose>
+									<c:when test="${inter.externalId == selected}">
+										<a id="${inter.externalId}" class="inter selected"
+											href="${contextPath}/fragments/fragment/inter/${inter.externalId}">${inter.title}</a>
+								</c:when>
+									<c:otherwise>
+										<a id="${inter.externalId}" class="inter"
+											href="${contextPath}/fragments/fragment/inter/${inter.externalId}">${inter.title}</a>
+									</c:otherwise>
+									</c:choose></td>
+							<td><c:choose>
+									<c:when test="${inter.externalId == selected}">
+										<button type="submit" class="btn btn-primary btn-sm sort disabled">
+											<span class="glyphicon glyphicon-check"></span>
+											<spring:message code="general.selected" />
+										</button>
+									</c:when>
+									<c:otherwise>
+										<button type="submit" class="btn btn-primary btn-sm sort">
+											<span class="glyphicon glyphicon-check"></span>
+											<spring:message code="general.select" />
+										</button>
+									</c:otherwise>
+								</c:choose></td>
 							<td><c:forEach var="taxonomy"
 									items="${edition.getTaxonomies()}">
 									<a
@@ -43,14 +59,30 @@
 						test="${(heteronym == null) || (inter.heteronym == heteronym)}">
 						<tr>
 							<td><c:if test="${inter.number!=0}">${inter.number}</c:if></td>
-							<td><a id="${inter.externalId}" class="inter"
-								href="${contextPath}/fragments/fragment/inter/${inter.externalId}">${inter.title}</a></td>
-								<td>
-									<button type="submit" class="btn btn-primary btn-sm sort">
-										<span class="glyphicon glyphicon-check"></span> 
-										<spring:message code="general.select"/>
-									</button>
-								</td>
+							<td><c:choose>
+									<c:when test="${inter.externalId == selected}">
+										<a id="${inter.externalId}" class="inter selected"
+											href="${contextPath}/fragments/fragment/inter/${inter.externalId}">${inter.title}</a>
+								</c:when>
+									<c:otherwise>
+										<a id="${inter.externalId}" class="inter"
+											href="${contextPath}/fragments/fragment/inter/${inter.externalId}">${inter.title}</a>
+									</c:otherwise>
+									</c:choose></td>
+							<td><c:choose>
+									<c:when test="${inter.externalId == selected}">
+										<button type="submit" class="btn btn-primary btn-sm sort disabled">
+											<span class="glyphicon glyphicon-check"></span>
+											<spring:message code="general.selected" />
+										</button>
+									</c:when>
+									<c:otherwise>
+										<button type="submit" class="btn btn-primary btn-sm sort">
+											<span class="glyphicon glyphicon-check"></span>
+											<spring:message code="general.select" />
+										</button>
+									</c:otherwise>
+								</c:choose></td>
 							<td><c:forEach var="taxonomy"
 									items="${edition.getTaxonomies()}">
 									<a
