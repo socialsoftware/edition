@@ -615,6 +615,7 @@ class RecommendationWeights {
 	double typescriptWeight;
 	double publicationWeight;
 	double textWeight;
+	double sourceWeight;
 }
 
 relation LdoDUserHasRecommendationWeights {

@@ -10,6 +10,7 @@ import pt.ist.socialsoftware.edition.domain.ExpertEditionInter;
 import pt.ist.socialsoftware.edition.domain.FragInter;
 import pt.ist.socialsoftware.edition.domain.SourceInter;
 import pt.ist.socialsoftware.edition.domain.VirtualEditionInter;
+import pt.ist.socialsoftware.edition.search.Indexer;
 
 public final class TextSearchOption extends SearchOption {
 

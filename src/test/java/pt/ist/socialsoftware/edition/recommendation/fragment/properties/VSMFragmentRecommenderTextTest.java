@@ -11,7 +11,6 @@ import org.junit.Test;
 import pt.ist.socialsoftware.edition.domain.Fragment;
 import pt.ist.socialsoftware.edition.recommendation.properties.Property;
 import pt.ist.socialsoftware.edition.recommendation.properties.TextProperty;
-import pt.ist.socialsoftware.edition.search.options.Indexer;
 
 public class VSMFragmentRecommenderTextTest extends VSMFragmentRecommenderTest {
 
@@ -51,7 +50,7 @@ public class VSMFragmentRecommenderTextTest extends VSMFragmentRecommenderTest {
 	public void test() throws IOException, ParseException {
 		Set<Fragment> fragments = ldod.getFragmentsSet();
 		for(Fragment fragment : fragments) {
-			Collection<String> terms = (new Indexer()).getTerms(fragment, 20);
+			Collection<String> terms = (new pt.ist.socialsoftware.edition.search.Indexer()).getTerms(fragment, 20);
 			Assert.assertFalse(terms.isEmpty());
 		}
 	}

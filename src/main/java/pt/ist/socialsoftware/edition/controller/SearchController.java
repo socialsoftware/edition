@@ -11,6 +11,7 @@ import java.util.Map;
 import org.apache.lucene.queryparser.classic.ParseException;
 import org.joda.time.LocalDate;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
@@ -37,6 +38,7 @@ import pt.ist.socialsoftware.edition.domain.Source;
 import pt.ist.socialsoftware.edition.domain.Source.SourceType;
 import pt.ist.socialsoftware.edition.domain.SourceInter;
 import pt.ist.socialsoftware.edition.domain.VirtualEdition;
+import pt.ist.socialsoftware.edition.search.Indexer;
 import pt.ist.socialsoftware.edition.search.json.AuthoralJson;
 import pt.ist.socialsoftware.edition.search.json.DatesJson;
 import pt.ist.socialsoftware.edition.search.json.EditionJson;
@@ -44,7 +46,6 @@ import pt.ist.socialsoftware.edition.search.options.AuthoralSearchOption;
 import pt.ist.socialsoftware.edition.search.options.DateSearchOption;
 import pt.ist.socialsoftware.edition.search.options.EditionSearchOption;
 import pt.ist.socialsoftware.edition.search.options.HeteronymSearchOption;
-import pt.ist.socialsoftware.edition.search.options.Indexer;
 import pt.ist.socialsoftware.edition.search.options.ManuscriptSearchOption;
 import pt.ist.socialsoftware.edition.search.options.PublicationSearchOption;
 import pt.ist.socialsoftware.edition.search.options.Search;
@@ -88,22 +89,39 @@ public class SearchController {
 			return "";
 		}
 		Map<Fragment, List<FragInter>> results = new HashMap<Fragment, List<FragInter>>();
+		List<String> misses = new ArrayList<>();
 		int interCount = 0;
 		for(String hit : hits) {
-			FragInter inter = FenixFramework.getDomainObject(hit);
-			Fragment fragment = inter.getFragment();
-			if(!results.containsKey(fragment)) {
-				results.put(fragment, new ArrayList<FragInter>());
+			try {
+				FragInter inter = FenixFramework.getDomainObject(hit);
+
+				Fragment fragment = inter.getFragment();
+				if(!results.containsKey(fragment)) {
+					results.put(fragment, new ArrayList<FragInter>());
+				}
+				if(!results.get(fragment).contains(inter)) {
+					results.get(fragment).add(inter);
+					interCount++;
+				}
+			} catch(Exception e) {
+				misses.add(hit);
 			}
-			if(!results.get(fragment).contains(inter)) {
-				results.get(fragment).add(inter);
-				interCount++;
-			}
+		}
+
+		if(!misses.isEmpty()) {
+			cleanMissingHits(misses);
 		}
 		model.addAttribute("fragCount", results.size());
 		model.addAttribute("interCount", interCount);
 		model.addAttribute("results", results);
 		return "search/simpleResultTable";
+	}
+
+	// Async Task to clean missing ids from lucene
+	@Async
+	private void cleanMissingHits(List<String> misses) {
+		Indexer indexer = new Indexer();
+		indexer.cleanMissingHits(misses);
 	}
 
 	// Advanced Search
