@@ -40,7 +40,7 @@
 				</thead>
 				<tbody>
 					<tr>
-						<th class="iterative-sort" style="display: none;">0</th>
+						<th class="iterative-sort" style="display: none;">1</th>
 						<th>
 							<div class="row row-centered taxonomy-row" id="0"
 								style="min-height: 40px;">
@@ -48,17 +48,9 @@
 									<p><spring:message javaScriptEscape="true" code="general.edition"/></p>
 									<input type="range" class="range" value='${editionWeight}' max="1" min="0" step="0.1">
 								</div>
-								<div class="col-md-3 col-sm-6 taxonomy-range"  property-type="manuscript">
-									<p><spring:message javaScriptEscape="true" code="general.manuscript"/></p>
-									<input type="range" class="range" value='${manuscriptWeight}' max="1" min="0" step="0.1">
-								</div>
-								<div class="col-md-3 col-sm-6 taxonomy-range"  property-type="typescript">
-									<p><spring:message javaScriptEscape="true" code="general.typescript"/></p>
-									<input type="range" class="range" value='${typescriptWeight}' max="1" min="0" step="0.1">
-								</div>
-								<div class="col-md-3 col-sm-6 taxonomy-range"  property-type="publication">
-									<p><spring:message javaScriptEscape="true" code="general.printed"/></p>
-									<input type="range" class="range" value='${publicationWeight}' max="1" min="0" step="0.1">
+								<div class="col-md-3 col-sm-6 taxonomy-range"  property-type="source">
+									<p><spring:message javaScriptEscape="true" code="general.sources"/></p>
+									<input type="range" class="range" value='${sourceWeight}' max="1" min="0" step="0.1">
 								</div>
 								<div class="col-md-3 col-sm-6 taxonomy-range"  property-type="heteronym">
 									<p><spring:message javaScriptEscape="true" code="general.heteronym"/></p>
@@ -83,8 +75,8 @@
 							</div>
 						</th>
 					</tr>
-					<c:forEach var="i" begin="1"
-						end="${(7 + edition.getTaxonomiesSet().size()) - 1}">
+					<c:forEach var="i" begin="2"
+						end="${(6 + edition.getTaxonomiesSet().size()) - 1}">
 						<tr class="iterative-sort" style="display: none;">
 							<th>${i}</th>
 							<th>
@@ -145,6 +137,128 @@
 	</div>
 	<script type="text/javascript">
 		$(document).ready(function(){
+			
+			function fadeWhenZero(elem){
+				var inp = elem.children('input.range');
+				var val = inp.val();
+				if(val > 0){
+					elem.fadeTo(0,1.);
+				}else{
+					elem.fadeTo(0,0.5);
+				}
+			}
+			
+			function startLoad(){
+				
+				$('body').addClass('progress');
+				//$('body').children().addClass('inherit');
+				//$('*').css('cursor','inherit');
+				//$('body').css('cursor','progress');
+			}
+			
+			function endLoad(){
+				$('body').removeClass('progress');
+				//$('*').css('cursor','auto');
+				//$('body').css('cursor','auto');
+			}
+			
+			function sortInters(id){
+				startLoad();
+				
+				var url;
+				var data;
+				var id = id;
+				var acr = $('#acronym').attr('value');
+				var json = [];
+				
+				if($('#iterative-sort').is(':checked')){
+					url = '/recommendation/iterativeSort';
+					var stop = false;
+					$('.taxonomy-range').each(function(){
+						var level = parseInt($(this).parent().attr('id'),10);
+						if(isNaN(level)){
+							alert("Not a number at " + $(this).attr('id'));
+							stop = true;
+							return false;
+						}
+						
+						var type = $(this).attr('property-type');
+						if(type ==='specific-taxonomy'){
+							json.push({
+								type : 'property-with-level',
+								level : level,
+								property : {
+									type : 'binary-taxonomy',
+									acronym : acr,
+									taxonomy : $(this).attr('id'),
+									weight : $(this).children('input.range').val()
+								}
+							});
+						}else{
+							json.push({
+								type : 'property-with-level',
+								level : level,
+								property : {
+									type : type,
+									taxonomy : $(this).attr('id'),
+									weight : $(this).children('input.range').val()
+									}
+								});
+						} 
+					});
+					if(stop){ 
+						return;
+					}
+				} else {
+					url='/recommendation/sortedEdition';
+					$('.taxonomy-range').each(function(){
+						var type = $(this).attr('property-type');
+						if(type ==='specific-taxonomy'){
+							json.push({
+								type : type,
+								acronym : acr,
+								taxonomy : $(this).attr('id'),
+								weight : $(this).children('input.range').val()
+								});
+						}else{
+							json.push({
+								type : type,
+								taxonomy : $(this).attr('id'),
+								weight : $(this).children('input.range').val()
+								});
+						}
+					});
+				}
+				data = {acronym : acr, id : id, properties : json};
+				$.ajax({
+					url : url,
+					type : 'post',
+					data : JSON.stringify(data),
+					contentType : 'application/json;charset=UTF-8',
+					success: function(htm){
+						//body.css("cursor", "auto");
+						endLoad();
+						$('#result-type-iterative').remove();
+						$('#virtual-table').empty().append(htm)
+						$('.extra').show();
+					}
+				});
+			}
+			
+			function reSort(){
+				var id = $('a.inter.selected').attr('id') || $('a.inter').first().attr('id');
+				sortInters(id);
+			}
+			
+			$('.taxonomy-range').each(function(){
+				fadeWhenZero($(this));
+			});
+			
+			$('.taxonomy-range').change(function(){
+				fadeWhenZero($(this));
+				reSort();
+			});
+			
 			$('#iterative-sort').change(function () {
 			    if ($(this).is(":checked")) {
 			    	$('.iterative-sort').show(); 
@@ -170,17 +284,22 @@
 				      hoverClass: "ui-state-hover",
 				      drop: function( event, ui ) {
 						var self=this, item = $(ui.draggable).parent();
+						startLoad();
 						item.fadeOut(function(){
 							item.appendTo(self).fadeIn();
+							reSort();	
 				       	});
 				       }
 				    });
 			    }else{
 			    	$('.taxonomy-range').each(function(){
-						$('#0').append($(this));		    		
+						$('#0').append($(this));
+						$(this).find('p').removeClass('draggable ui-draggable ui-draggable-handle');
 			    	});
 			    	$('.iterative-sort').hide();	
 			    }
+			    
+			    reSort();
 			});
 			
 			$('#save').click(function(){
@@ -258,7 +377,6 @@
 			$('#create').submit(function(event){
 				var form = $(this);
 				if($('#result-type-iterative').length){
-					event.preventDefault();
 					var json = [];
 					var stack = [];
 					
@@ -306,17 +424,18 @@
 						pub : pub,
 						sections : data
 					};
+				$(this).attr('action', '/recommendation/iterativesort/create');
+				var depthstring = '';
+				for (i in data){ 
+					$('<input />').attr('type', 'hidden').attr('name', 'inter[]').attr('value', data[i].id).appendTo(form);
+					depthstring = data[i].depth[0];
 					
-					$.ajax({
-						url : '/recommendation/iterativesort/create',
-						type : 'post',
-						data : JSON.stringify(json),
-						contentType : 'application/json;charset=UTF-8',
-						success: function(htm){
-							alert(acronym + "was created");
-						}
-					});
-
+					for(var j = 1 ; j<data[i].depth.length ; j++){
+						depthstring += "|" + data[i].depth[j];
+					}
+					
+					$('<input />').attr('type', 'hidden').attr('name', 'depth[]').attr('value', depthstring).appendTo(form);
+				}
 
 				}else{
 					$('a.inter').each(function(){
@@ -327,82 +446,8 @@
 			});
 			
 			$('#virtual-table').on('click','button.sort',function(){
-				var url;
-				var data;
 				var id = $(this).parent().siblings().find('a.inter').attr('id');
-				var acr = $('#acronym').attr('value');
-				var json = [];
-				
-				if($('#iterative-sort').is(':checked')){
-					url = '/recommendation/iterativeSort';
-					var stop = false;
-					$('.taxonomy-range').each(function(){
-						var level = parseInt($(this).parent().attr('id'),10);
-						if(isNaN(level)){
-							alert("Not a number at " + $(this).attr('id'));
-							stop = true;
-							return false;
-						}
-						
-						var type = $(this).attr('property-type');
-						if(type ==='specific-taxonomy'){
-							json.push({
-								type : 'property-with-level',
-								level : level,
-								property : {
-									type : 'binary-taxonomy',
-									acronym : acr,
-									taxonomy : $(this).attr('id'),
-									weight : $(this).children('input.range').val()
-								}
-							});
-						}else{
-							json.push({
-								type : 'property-with-level',
-								level : level,
-								property : {
-									type : type,
-									taxonomy : $(this).attr('id'),
-									weight : $(this).children('input.range').val()
-									}
-								});
-						} 
-					});
-					if(stop){ 
-						return;
-					}
-				} else {
-					url='/recommendation/sortedEdition';
-					$('.taxonomy-range').each(function(){
-						var type = $(this).attr('property-type');
-						if(type ==='specific-taxonomy'){
-							json.push({
-								type : type,
-								acronym : acr,
-								taxonomy : $(this).attr('id'),
-								weight : $(this).children('input.range').val()
-								});
-						}else{
-							json.push({
-								type : type,
-								taxonomy : $(this).attr('id'),
-								weight : $(this).children('input.range').val()
-								});
-						}
-					});
-				}
-				data = {acronym : acr, id : id, properties : json};
-				$.ajax({
-					url : url,
-					type : 'post',
-					data : JSON.stringify(data),
-					contentType : 'application/json;charset=UTF-8',
-					success: function(htm){
-						$('#result-type-iterative').remove();
-						$('#virtual-table').empty().append(htm)
-						$('.extra').show();
-					}
-				});
+				sortInters(id);
 			});
 		});
 	</script>

@@ -22,7 +22,7 @@ import pt.ist.socialsoftware.edition.domain.SourceInter;
 import pt.ist.socialsoftware.edition.domain.VirtualEditionInter;
 
 public class DateProperty extends StorableProperty {
-	private static Integer STARTYEAR = 1910;
+	private static Integer STARTYEAR = 1900;
 	private static Integer ENDYEAR = 1940;
 
 	private static Integer getEndYear() {
@@ -99,7 +99,8 @@ public class DateProperty extends StorableProperty {
 
 	private List<Double> buildVector(int date, List<Double> vector) {
 		int start = date - getStartYear();
-		double degree = 1 / vector.size();
+		// double degree = 1.0 / vector.size();
+		double degree = 0.1;
 		double j = 1.0;
 		for(int i = start; i >= 0 && j > 0 && i < vector.size() && j >= vector.get(i); i--, j -= degree) {
 			vector.set(i, j);
@@ -159,6 +160,8 @@ public class DateProperty extends StorableProperty {
 			}
 		}
 		List<Double> vector = new ArrayList<Double>(getDefaultVector());
+		System.out.println("vector " + vector);
+		System.out.println("dates " + dates);
 		vector = buildVector(dates, vector);
 		return vector;
 	}
@@ -202,7 +205,8 @@ public class DateProperty extends StorableProperty {
 
 	@Override
 	protected Collection<Double> extractVector(VirtualEditionInter virtualEditionInter) {
-		return virtualEditionInter.getLastUsed().accept(this);
+		// return virtualEditionInter.getLastUsed().accept(this);
+		return virtualEditionInter.getFragment().accept(this);
 	}
 
 	@Override
@@ -218,5 +222,49 @@ public class DateProperty extends StorableProperty {
 	@Override
 	public String getTitle() {
 		return "Date";
+	}
+
+	@Override
+	public String getConcreteTitle(FragInter intr) {
+
+		Set<Integer> dates = new TreeSet<Integer>();
+		for(FragInter inter : intr.getFragment().getFragmentInterSet()) {
+			if(inter.getDate() != null) {
+				dates.add(inter.getDate().getYear());
+			}
+		}
+		for(Source source : intr.getFragment().getSourcesSet()) {
+			if(source.getType().equals(SourceType.MANUSCRIPT)) {
+				ManuscriptSource manu = (ManuscriptSource) source;
+				if(manu.getDate() != null) {
+					dates.add(manu.getDate().getYear());
+				}
+				for(SourceInter inter : manu.getSourceIntersSet()) {
+					if(inter.getDate() != null) {
+						dates.add(inter.getDate().getYear());
+					}
+				}
+			} else if(source.getType().equals(SourceType.PRINTED)) {
+				PrintedSource printed = (PrintedSource) source;
+				if(printed.getDate() != null) {
+					dates.add(printed.getDate().getYear());
+				}
+				for(SourceInter inter : printed.getSourceIntersSet()) {
+					if(inter.getDate() != null) {
+						dates.add(inter.getDate().getYear());
+					}
+				}
+			}
+		}
+
+		String title = "";
+		for(int date : dates) {
+			title += ":" + date;
+		}
+
+		if(title.length() > 0)
+			title = title.substring(1);
+
+		return title;
 	}
 }

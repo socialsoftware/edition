@@ -9,6 +9,7 @@ import org.codehaus.jackson.annotate.JsonProperty;
 
 import pt.ist.socialsoftware.edition.domain.ExpertEdition;
 import pt.ist.socialsoftware.edition.domain.ExpertEditionInter;
+import pt.ist.socialsoftware.edition.domain.FragInter;
 import pt.ist.socialsoftware.edition.domain.Fragment;
 import pt.ist.socialsoftware.edition.domain.LdoD;
 import pt.ist.socialsoftware.edition.domain.RecommendationWeights;
@@ -20,13 +21,13 @@ public class EditionProperty extends CompositeProperty {
 	public EditionProperty() {
 		super();
 	}
-	
+
 	public EditionProperty(double weight) {
 		super(weight);
 	}
 
 	public EditionProperty(@JsonProperty("weight") String weight) {
-		super(Double.parseDouble(weight));
+		this(Double.parseDouble(weight));
 	}
 
 	@Override
@@ -66,7 +67,7 @@ public class EditionProperty extends CompositeProperty {
 
 	@Override
 	protected Collection<Double> extractVector(VirtualEditionInter virtualEditionInter) {
-		return virtualEditionInter.getLastUsed().accept(this);
+		return virtualEditionInter.getFragment().accept(this);
 	}
 
 	@Override
@@ -92,6 +93,21 @@ public class EditionProperty extends CompositeProperty {
 	@Override
 	public String getTitle() {
 		return "Edition";
+	}
+
+	@Override
+	protected String getConcreteTitle(FragInter inter) {
+		String title = "";
+		for(ExpertEdition expertEdition : LdoD.getInstance().getExpertEditionsSet()) {
+			if(inter.getFragment().getExpertEditionInter(expertEdition.getEditor()) != null) {
+				title += ":" + expertEdition.getAcronym();
+			}
+		}
+
+		if(title.length() > 0)
+			title = title.substring(1);
+
+		return title;
 	}
 
 }

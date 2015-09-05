@@ -17,6 +17,7 @@ import pt.ist.socialsoftware.edition.domain.VirtualEditionInter;
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
 @JsonSubTypes({
 	@JsonSubTypes.Type(value = EditionProperty.class, name = Property.EDITION),
+		@JsonSubTypes.Type(value = SourceProperty.class, name = Property.SOURCE),
 	@JsonSubTypes.Type(value = ManuscriptProperty.class, name = Property.MANUSCRIPT),
 	@JsonSubTypes.Type(value = TypescriptProperty.class, name = Property.TYPESCRIPT),
 	@JsonSubTypes.Type(value = PrintedProperty.class, name = Property.PUBLICATION),
@@ -28,6 +29,7 @@ import pt.ist.socialsoftware.edition.domain.VirtualEditionInter;
 	@JsonSubTypes.Type(value = WeightTaxonomyProperty.class, name = Property.SPECIFICTAXONOMY) })
 public abstract class Property {
 	public static final String EDITION = "edition";
+	public static final String SOURCE = "source";
 	public static final String MANUSCRIPT = "manuscript";
 	public static final String TYPESCRIPT = "typescript";
 	public static final String PUBLICATION = "publication";
@@ -85,8 +87,8 @@ public abstract class Property {
 		return new ArrayList<Double>(getDefaultVector());
 	}
 
-	public Collection<Double> visit(Fragment fragmnet) {
-		return extractVector(fragmnet);
+	public Collection<Double> visit(Fragment fragment) {
+		return extractVector(fragment);
 	}
 
 	public Collection<Double> visit(Source source) {
@@ -106,5 +108,13 @@ public abstract class Property {
 	}
 
 	public abstract String getTitle();
+
+	public final String getTitle(FragInter inter) {
+		return inter != null ? getConcreteTitle(inter) : getTitle();
+	}
+
+	protected String getConcreteTitle(FragInter inter) {
+		return getTitle();
+	};
 
 }
