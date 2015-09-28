@@ -37,8 +37,7 @@ $(document).ready(function() {
     });
 });
 </script>
-
-<<script type="text/javascript">
+<script type="text/javascript">
 $(document).ready(function(){
 	$('.recommender-nav').click(function(){
 		$(this).parent().submit()

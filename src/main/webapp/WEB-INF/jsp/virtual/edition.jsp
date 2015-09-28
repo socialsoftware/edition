@@ -275,7 +275,8 @@ var editionData = new Array();
 </script>
 </head>
 <body>
-    <%@ include file="/WEB-INF/jsp/common/fixed-top-ldod-header.jsp"%>
+
+<%@ include file="/WEB-INF/jsp/common/fixed-top-ldod-header.jsp"%>
 
 <spring:message code="virtualedition.tt.addFragment" var="addFragText" />
 <spring:message code="virtualedition.tt.deleteFragment" var="deleteFragText" />
@@ -299,7 +300,7 @@ var editionData = new Array();
             <div class="btn-group-wrap">
 
               <div class="btn-group" role="group" aria-label="...">
-                  <button class="btn btn-default tip" type="button" title="${addFragText}" data-toggle="modal" data-target="#searchmodal" aria-expanded="false" aria-controls="collapsemenu" title="teste"  rel="tooltip" data-original-title='Hello'>
+                  <button class="btn btn-default tip" type="button" title="${addFragText}" data-toggle="modal" data-target="#searchmodal" aria-expanded="false" aria-controls="collapsemenu"  rel="tooltip" data-original-title='Hello'>
                 <span class="glyphicon glyphicon-plus" aria-hidden="Adicionar fragmentos"></span>
                 </button>
               </div>

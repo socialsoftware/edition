@@ -8,4 +8,7 @@
 <script type="text/javascript" src="/static/js/jquery.min.js"></script>
 <script type="text/javascript" src="/static/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="/static/js/annotator-full.min.js"></script>
+<script type="text/javascript" src="/static/js/jquery.elevatezoom.js"></script>
+
+
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />

@@ -79,12 +79,22 @@ public class SearchController {
 		return "search/simple";
 	}
 
+	// todo (lpereira)
+	// - uniformizar simpleSearchResult e simpleSearchVirtualResult
+	// - optmizar a pesquisa por titulo e fonte
+
 	// @RequestMapping(value = "/simple/result", method = RequestMethod.POST,
 	// headers = { "text/plain;charset=UTF-8" })
 	// @RequestMapping(value = "/simple/result")
 	// @RequestMapping(method = RequestMethod.GET, value = "/simple/result")
 	@RequestMapping(value = "/simple/result", method = RequestMethod.POST, headers = { "Content-type=text/plain;charset=UTF-8" })
-	public String simpleSearchResult(Model model, @RequestBody String search) {
+	public String simpleSearchResult(Model model, @RequestBody String params) {
+
+		String search = params.substring(0, params.indexOf("&"));
+		params = params.substring(params.indexOf("&") + 1);
+		String searchType = params.substring(0, params.indexOf("&"));
+		params = params.substring(params.indexOf("&") + 1);
+		String searchSource = params;
 
 		System.out.println("Search " + search);
 		List<String> hits;
@@ -95,27 +105,42 @@ public class SearchController {
 			e.printStackTrace();
 			return "";
 		}
+
 		Map<Fragment, List<FragInter>> results = new HashMap<Fragment, List<FragInter>>();
 		List<String> misses = new ArrayList<>();
 		int interCount = 0;
-		for(String hit : hits) {
+		for (String hit : hits) {
 			try {
 				FragInter inter = FenixFramework.getDomainObject(hit);
-
 				Fragment fragment = inter.getFragment();
-				if(!results.containsKey(fragment)) {
-					results.put(fragment, new ArrayList<FragInter>());
+				/*
+				 * 
+				 * if (!results.containsKey(fragment)) { results.put(fragment,
+				 * new ArrayList<FragInter>()); } if
+				 * (!results.get(fragment).contains(inter)) {
+				 * results.get(fragment).add(inter); interCount++; }
+				 */
+				if ((searchSource.compareTo("") == 0 || inter.getShortName()
+						.toLowerCase().contains(searchSource.toLowerCase()))
+						&& (searchType.compareTo("") == 0 || inter.getTitle()
+								.toLowerCase().contains(search.toLowerCase()))) {
+
+					if (!results.containsKey(fragment)) {
+						results.put(fragment, new ArrayList<FragInter>());
+					}
+
+					if (!results.get(fragment).contains(inter)) {
+						results.get(fragment).add(inter);
+						interCount++;
+					}
 				}
-				if(!results.get(fragment).contains(inter)) {
-					results.get(fragment).add(inter);
-					interCount++;
-				}
-			} catch(Exception e) {
+
+			} catch (Exception e) {
 				misses.add(hit);
 			}
 		}
 
-		if(!misses.isEmpty()) {
+		if (!misses.isEmpty()) {
 			cleanMissingHits(misses);
 		}
 		model.addAttribute("fragCount", results.size());
@@ -132,25 +157,16 @@ public class SearchController {
 	}
 
 	@RequestMapping(value = "/simple/virtual/result", method = RequestMethod.POST, headers = { "Content-type=text/plain;charset=UTF-8" })
-	public String simpleSearchVirutalResult(Model model,
+	public String simpleSearchVirtualResult(Model model,
 			@RequestBody String params) {
-
-		System.out.println("Params " + params);
 
 		String search = params.substring(0, params.indexOf("&"));
 		params = params.substring(params.indexOf("&") + 1);
 		String searchType = params.substring(0, params.indexOf("&"));
 		params = params.substring(params.indexOf("&") + 1);
-		// String p3 = params.substring(3);
 		String searchSource = params;
 
-		System.out.println(search + " " + searchType + " " + searchSource);
-		// @RequestParam("query") String query,
-		// @RequestParam("searchType") String searchType,
-		// @RequestParam("source") String source
-
-		// System.out.println("SEARCH " + query + " " + searchType + " " +
-		// source);
+		// System.out.println(search + " " + searchType + " " + searchSource);
 
 		List<String> hits;
 		try {
@@ -161,28 +177,33 @@ public class SearchController {
 		}
 
 		Map<Fragment, List<FragInter>> results = new HashMap<Fragment, List<FragInter>>();
+		List<String> misses = new ArrayList<>();
 		int interCount = 0;
 
 		for (String hit : hits) {
-			FragInter inter = FenixFramework.getDomainObject(hit);
-			Fragment fragment = inter.getFragment();
+			try {
+				FragInter inter = FenixFramework.getDomainObject(hit);
+				Fragment fragment = inter.getFragment();
 
-			System.out.println("t " + inter.getTitle());
-			System.out.println("s " + inter.getShortName());
+				// System.out.println("t " + inter.getTitle());
+				// System.out.println("s " + inter.getShortName());
 
-			if ((searchSource.compareTo("") == 0 || inter.getShortName()
-					.toLowerCase().contains(searchSource.toLowerCase()))
-					&& (searchType.compareTo("") == 0 || inter.getTitle()
-							.toLowerCase().contains(search.toLowerCase()))) {
+				if ((searchSource.compareTo("") == 0 || inter.getShortName()
+						.toLowerCase().contains(searchSource.toLowerCase()))
+						&& (searchType.compareTo("") == 0 || inter.getTitle()
+								.toLowerCase().contains(search.toLowerCase()))) {
 
-				if (!results.containsKey(fragment)) {
-					results.put(fragment, new ArrayList<FragInter>());
+					if (!results.containsKey(fragment)) {
+						results.put(fragment, new ArrayList<FragInter>());
+					}
+
+					if (!results.get(fragment).contains(inter)) {
+						results.get(fragment).add(inter);
+						interCount++;
+					}
 				}
-
-				if (!results.get(fragment).contains(inter)) {
-					results.get(fragment).add(inter);
-					interCount++;
-				}
+			} catch (Exception e) {
+				misses.add(hit);
 			}
 		}
 

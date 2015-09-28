@@ -3,9 +3,11 @@
 <html>
 <head>
 <%@ include file="/WEB-INF/jsp/common/meta-head.jsp"%>
-<script type="text/javascript" src="/static/js/jquery.dataTables.min.js"></script>
+<!--  <script type="text/javascript" src="/static/js/jquery.dataTables.min.js"></script>-->
 
 <link rel="stylesheet" type="text/css" href="/static/css/bootstrap-select.min.css">
+<link rel="stylesheet" type="text/css" href="/static/css/bootstrap-table.min.css">
+
 <link rel="stylesheet" type="text/css" href="/static/css/spinner.css" >
 <script src="/static/js/bootstrap-table.min.js"></script>
 <script src="/static/js/bootstrap-select.min.js"></script>
@@ -13,6 +15,12 @@
 
 </head>
 <body>
+
+<spring:message code="search.complete" var="searchComplete" />
+<spring:message code="search.title" var="searchTitle" />
+<spring:message code="search.source" var="searchSource" />
+<spring:message code="search.authorial" var="searchAuthorial" />
+
 	<%@ include file="/WEB-INF/jsp/common/fixed-top-ldod-header.jsp"%>
 	<div class='container'>
 	<div>
@@ -33,26 +41,26 @@
 	 <div class="form-group">
     
 	    <div class="col-sm-4">
-	      <input type="text" class="form-control tip" id="query" title="pesquisa x" placeholder="Search for...">
+	      <input type="text" class="form-control tip" id="query" title="" placeholder="Search for...">
       	</div>
      
        <div class="col-sm-3">
        <div class="tip" title="text div">
-      <select class="selectpicker" data-width="100%" id="searchType" title="teste x">
-      	<option value="">Pesquisa completa</option>
-	    <option value="title">Pesquisa por tÌtulo</option>
+      <select class="selectpicker" data-width="100%" id="searchType" title="">
+      	<option value="">${searchComplete}</option>
+	    <option value="title">${searchTitle}</option>
 	  </select>
 	  </div>
 	  </div>
 	  
 	   <div class="col-sm-3">
       <select class="selectpicker" data-width="100%" id="sourceType">
-	    <option value="">Tipos de fonte</option>
+	    <option value="">${searchSource}</option>
 	    <option value="Coelho">Jacinto Prado Coelho</option>
 	    <option value="Cunha"> Teresa Sobral Cunha</option>
 	    <option value="Zenith">Richard Zenith</option>
-	    <option value="Pizarro">JerÛnimo Pizarro</option>
-	    <option value="BNP">Fontes Autorais</option>
+	    <option value="Pizarro">Jer�nimo Pizarro</option>
+	    <option value="BNP">${searchAuthorial}</option>
 	   
 	  </select>
 	  </div>
@@ -99,16 +107,22 @@
 			//var data = model.json();
 			//var json = JSON.stringify(model.json());
 			
-			$('#searchresult').empty().append("<hr><div class=\"spinner-loader\">Loadind...</div>");
-			$('#searchresult').css("display","block");
 			
 			var searchType = $('#searchType').val();
 			var sourceType = $('#sourceType').val();
 			var data = $('#query').val() + "&" + searchType + "&" + sourceType;
+			//var data = $('#query').val();
 			
+			if($('#query').val()!="") {
+				
+				
+		    $('#searchresult').empty().append("<hr><div class=\"spinner-loader\">Loadind...</div>");
+		    $('#searchresult').css("display","block");
+				
+				
 			$.ajax({
 				type : "POST",
-				url : "/search/simple/virtual/result",
+				url : "/search/simple/result",
 				data : data,
 				contentType : 'text/plain;charset=UTF-8',
 				success : function(html) {
@@ -124,6 +138,8 @@
 					//)});
 				}
 			});
+			}
+	 			
 		});
 	</script>
 </body>
