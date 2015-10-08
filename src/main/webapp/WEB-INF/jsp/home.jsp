@@ -3,7 +3,9 @@
 <html>
 <head>
 <%@ include file="/WEB-INF/jsp/common/meta-head.jsp"%>
+
 </head>
+
 <body>
 	<%@ include file="/WEB-INF/jsp/common/fixed-top-ldod-header.jsp"%>
 
@@ -22,4 +24,9 @@
 		</div>
 	</div>
 </body>
+<script>
+$(document).ready(function(){
+    $("a").tooltip();
+});
+</script>
 </html>

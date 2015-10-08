@@ -175,26 +175,30 @@ public class VirtualEditionController {
         }
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/restricted/edit/{externalId}")
-    @PreAuthorize("hasPermission(#externalId, 'virtualedition.participant')")
-    public String editVirtualEdition(Model model,
-            @ModelAttribute("ldoDSession") LdoDSession ldoDSession,
-            @PathVariable String externalId,
-            @RequestParam("acronym") String acronym,
-            @RequestParam("title") String title,
-            @RequestParam("pub") boolean pub) {
-        VirtualEdition virtualEdition = FenixFramework
-                .getDomainObject(externalId);
-        if (virtualEdition == null) {
-            return "utils/pageNotFound";
-        }
+	@RequestMapping(method = RequestMethod.POST, value = "/restricted/edit/{externalId}")
+	@PreAuthorize("hasPermission(#externalId, 'virtualedition.participant')")
+	public String editVirtualEdition(Model model,
+			@ModelAttribute("ldoDSession") LdoDSession ldoDSession,
+			@PathVariable String externalId,
+			@RequestParam("acronym") String acronym,
+			@RequestParam("title") String title,
+			@RequestParam("pub") boolean pub,
+			@RequestParam("fraginters") String fraginters) {
+
+		VirtualEdition virtualEdition = FenixFramework
+				.getDomainObject(externalId);
+		if (virtualEdition == null) {
+			return "utils/pageNotFound";
+		}
 
         title = title.trim();
         acronym = acronym.trim();
 
-        VirtualEditionValidator validator = new VirtualEditionValidator(
-                virtualEdition, acronym, title);
-        validator.validate();
+		System.out.println("FRAGINTERS " + fraginters);
+
+		VirtualEditionValidator validator = new VirtualEditionValidator(
+				virtualEdition, acronym, title);
+		validator.validate();
 
         List<String> errors = validator.getErrors();
 
@@ -203,13 +207,15 @@ public class VirtualEditionController {
                     acronym, title, pub);
         }
 
-        try {
-            virtualEdition.edit(acronym, title, pub);
-        } catch (LdoDDuplicateAcronymException ex) {
-            errors.add("virtualedition.acronym.duplicate");
-            throw new LdoDEditVirtualEditionException(errors, virtualEdition,
-                    acronym, title, pub);
-        }
+		// passar nova lista de inters
+
+		try {
+			virtualEdition.edit(acronym, title, pub, fraginters);
+		} catch (LdoDDuplicateAcronymException ex) {
+			errors.add("virtualedition.acronym.duplicate");
+			throw new LdoDEditVirtualEditionException(errors, virtualEdition,
+					acronym, title, pub);
+		}
 
         model.addAttribute("expertEditions", LdoD.getInstance()
                 .getSortedExpertEdition());

@@ -3,16 +3,20 @@ package pt.ist.socialsoftware.edition.domain;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Set;
+import java.util.StringTokenizer;
 
 import org.apache.commons.io.FileUtils;
 import org.joda.time.LocalDate;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
+import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.utils.PropertiesManager;
 
 public class VirtualEdition extends VirtualEdition_Base {
@@ -158,10 +162,114 @@ public class VirtualEdition extends VirtualEdition_Base {
 	}
 
 	@Atomic(mode = TxMode.WRITE)
-	public void edit(String acronym, String title, boolean pub) {
+	public void edit(String acronym, String title, boolean pub,
+			String fraginters) {
 		setPub(pub);
 		setTitle(title);
 		setAcronym(acronym);
+		updateVirtualEditionInters(fraginters);
+	}
+
+	@Atomic(mode = TxMode.WRITE)
+	public void updateVirtualEditionInters(String fraginters) {
+
+		String[] items = fraginters.split(";");
+		List<String> fragInterList = Arrays.asList(items);
+		List<String> newFragList = new ArrayList<String>();
+		List<String> actualFragList = new ArrayList<String>();
+
+		System.out.println("FRAGMENTS");
+		// inicializa lista de frags
+		for (String temp : fragInterList) {
+			FragInter inter = FenixFramework.getDomainObject(temp);
+
+			System.out.println(temp + " " + inter.getLastUsed().getExternalId()
+					+ " " + inter.getTitle() + " " + inter.getSourceType());
+
+			newFragList.add(inter.getLastUsed().getExternalId());
+		}
+
+		String fragVirtualInterId = "";
+		System.out.println("VirtualEditionInter");
+		// remove os fragmentos que não se encontram na nova lista
+		for (VirtualEditionInter inter : getVirtualEditionIntersSet()) {
+
+			System.out.println(inter.getExternalId() + " "
+					+ inter.getLastUsed().getExternalId() + " "
+					+ inter.getTitle() + " " + inter.getNumber());
+
+			// fragVirtualInterId = inter.getFragment().getExternalId();
+
+			System.out.println("V1");
+			String id = inter.getLastUsed().getExternalId();
+			System.out.println("V2");
+			actualFragList.add(id);
+
+			if (!newFragList.contains(id)) {
+				System.out.println("-----------REMOVE "
+						+ inter.getLastUsed().getExternalId() + " "
+						+ inter.getTitle());
+				inter.remove();
+			}
+		}
+
+		// adicionar os novos fragmentos
+		/*
+		 * int i = 0; for (String fragId : newFragList) { if
+		 * (!actualFragList.contains(fragId)) { FragInter inter =
+		 * FenixFramework.getDomainObject(fragInterList .get(i));
+		 * VirtualEditionInter addInter = createVirtualEditionInter(inter, i); }
+		 * i++; }
+		 */
+
+		System.out.println("V3");
+
+		int i = 0;
+		for (String fragInter : newFragList) {
+			System.out.println("V4 " + fragInter);
+			if (!actualFragList.contains(fragInter)) {
+				System.out.println("V5 " + fragInter);
+				FragInter inter = FenixFramework.getDomainObject(fragInter);
+				createVirtualEditionInter(inter, i + 1);
+				System.out.println("V6 " + fragInter);
+			}
+			i++;
+		}
+
+		System.out
+				.println("VirtualEditionInter INDEX UPDATE -----------------");
+		// actualiza indices dos fragmentos da edicao virtual
+		int n = 0;
+		for (VirtualEditionInter inter : getVirtualEditionIntersSet()) {
+
+			fragVirtualInterId = inter.getLastUsed().getExternalId();
+
+			if (newFragList.contains(fragVirtualInterId)) {
+				n = newFragList.indexOf(fragVirtualInterId) + 1;
+				inter.setNumber(n);
+				System.out.println(inter.getTitle() + " " + n);
+			} else {
+				System.out.println("NOT " + inter.getTitle() + " "
+						+ inter.getNumber());
+			}
+
+		}
+
+		System.out.println("UPDATE2");
+
+		/*
+		 * int i = 1;
+		 * 
+		 * StringTokenizer st = new StringTokenizer(fraginters, ";"); while
+		 * (st.hasMoreElements()) { String fraginterId =
+		 * st.nextElement().toString(); if (fraginterId.length() > 0) {
+		 * FragInter inter = FenixFramework.getDomainObject(fraginterId);
+		 * VirtualEditionInter addInter = createVirtualEditionInter(inter, i);
+		 * i++; }
+		 * 
+		 * }
+		 */
+
 	}
 
 	// Default section

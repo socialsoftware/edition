@@ -16,4 +16,7 @@
         <%@ include file="/WEB-INF/jsp/fragment/body.jsp"%>
     </div>
 </body>
+<script>
+$(".tip").tooltip({placement: 'bottom'});
+</script>
 </html>

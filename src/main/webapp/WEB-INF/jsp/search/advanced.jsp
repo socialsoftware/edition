@@ -4,8 +4,16 @@
 <head>
 <%@ include file="/WEB-INF/jsp/common/meta-head.jsp"%>
 <script type="text/javascript" src="/static/js/riot.min.js"></script>
-<script type="text/javascript" src="/static/js/jquery.dataTables.min.js"></script>
+<!--<script type="text/javascript" src="/static/js/jquery.dataTables.min.js"></script>-->
 <!-- <script type="text/javascript" src="/static/js/form-domain-model.js"></script> -->
+
+<link rel="stylesheet" type="text/css" href="/static/css/bootstrap-select.min.css">
+<link rel="stylesheet" type="text/css" href="/static/css/bootstrap-table.min.css">
+
+<link rel="stylesheet" type="text/css" href="/static/css/spinner.css" >
+<script src="/static/js/bootstrap-table.min.js"></script>
+<script src="/static/js/bootstrap-select.min.js"></script>
+
 <script type="text/javascript">
 
 
@@ -103,13 +111,13 @@ Edition.prototype.toHTML = function(callback) {
 					self.selectedEdition = "all";
 				}
 				var html = "";
-				html += "<div id=\"select-inclusion\" class=\"col-xs-4 col-md-2\">" + "<select>"
+				html += "<div id=\"select-inclusion\" class=\"col-xs-4 col-md-2\">" + "<select class=\"selectpicker\">"
 				+ "<option id = \"in\">"+'<spring:message javaScriptEscape="true" code="search.inclusion.includedIn" />'+"</option>"
 				+ "<option id = \"out\">"+'<spring:message javaScriptEscape="true" code="search.inclusion.excludedFrom" />'+"</option>" + "</select>"
 				+ "</div>";
 
 				html += "<div class=\"col-xs-5 col-md-3\">"
-					+ "<select id=select-edition>";
+					+ "<select id=select-edition class=\"selectpicker\">";
 
 				html += "<option id="+option.all.id+">"+option.all.text+"</option>";
 				for ( var i in editions) {
@@ -121,6 +129,8 @@ Edition.prototype.toHTML = function(callback) {
 
 				html += "<div id=extra-options>";
 				html += "</div>";
+				
+				
 				callback(html);
 			});
 };
@@ -179,7 +189,7 @@ Manuscript.prototype.toHTML = function(callback) {
 			
 			html += "<div class=\"col-xs-4 col-md-3\">";
 			html += "<p>"+'<spring:message javaScriptEscape="true" code="general.LdoDLabel" />'+"</p>";
-			html += "<select id=\"select-ldod-mark\">" +
+			html += "<select id=\"select-ldod-mark\" class=\"selectpicker\">" +
 				"<option id="+option.all.id+">"+option.all.text+"</option>" +
 				"<option id=\"true\">"+'<spring:message javaScriptEscape="true" code="search.ldod.with" />'+"</option>" +
 				"<option id=\"false\">"+'<spring:message javaScriptEscape="true" code="search.ldod.without" />'+"</option>" +
@@ -276,14 +286,14 @@ Publication.prototype.toHTML = function(callback) {
 			function(published) {
 				var html = "<div class=\"col-xs-4 col-md-2\">" +
 					"<p>"+ '<spring:message javaScriptEscape="true" code="general.published" />'+"</p>"
-					+ "<select id=\"select-publication\">"
+					+ "<select id=\"select-publication\" class=\"selectpicker\">"
 					html += "<option id =\"" + option.all.id + "\">"
 					+ option.all.text + "</option>";
 				for ( var i in published) {
 					html += "<option id =\"" + published[i] + "\">"
 					+ published[i] + "</option>";
 				}
-				html += "<select>" + "<div>";
+				html += "<select class=\"selectpicker\">" + "<div>";
 
 				callback(html);
 			});
@@ -310,7 +320,7 @@ Heteronym.prototype.html = function(heteronyms){
 	"<p>"
 	+ '<spring:message javaScriptEscape="true" code="general.heteronym" />'	
 	+ "</p>"+
-	"<select id=\"select-heteronym\">";
+	"<select id=\"select-heteronym\" class=\"selectpicker\">";
 
 	html += "<option id="+option.all.id+">"+option.all.text+"</option>";
 
@@ -380,7 +390,7 @@ MyDate.prototype.html = function(beginDate,endDate){
 	var html = "<div id=period class=\"col-xs-5 col-md-3\">"
 		+ "<p>" + '<spring:message javaScriptEscape="true" code="general.date" />' + "</p>";
 
-	html += "<select id=\"date-option\">" +
+	html += "<select id=\"date-option\" class=\"selectpicker\">" +
 	"<option id=\""+option.all.id+"\">"+option.all.text+"</option>" +
 	"<option id=\"dated\">"+'<spring:message javaScriptEscape="true" code="search.date.dated" />'+"</option>" +
 	"<option id=\"undated\">"+'<spring:message javaScriptEscape="true" code="search.date.unDated" />'+"</option>" +
@@ -522,7 +532,7 @@ VirtualEdition.prototype.toHTML = function(callback) {
 				var html = "";
 				
 				//Inclusion
-				html += "<div id=\"select-inclusion\" class=\"col-xs-4 col-md-2\">" + "<select>"
+				html += "<div id=\"select-inclusion\" class=\"col-xs-4 col-md-2\">" + "<select class=\"selectpicker\">"
 				+ "<option id = \"in\">"+'<spring:message javaScriptEscape="true" code="search.inclusion.includedIn" />'+"</option>"
 				+ "<option id = \"out\">"+'<spring:message javaScriptEscape="true" code="search.inclusion.excludedFrom" />'+"</option>" + "</select>"
 				+ "</div>";
@@ -530,7 +540,7 @@ VirtualEdition.prototype.toHTML = function(callback) {
 				
 				//User virtual editions
 				html += "<div class=\"col-xs-5 col-md-3\">"
-					+ "<select id=select-edition>";
+					+ "<select id=select-edition class=\"selectpicker\">";
 
 				html += "<option id="+option.all.id+">"+option.all.text+"</option>";
 				for ( var i in virtualEditions) {
@@ -555,13 +565,11 @@ VirtualEdition.prototype.changeInclusion = function(option) {
 
 
 
-
-
 function FormGroup(id, element) {
 	var html = "";
 	html += "<div id=" + id + " class=\"row form-group\">"
-	+ "<div id=selection-box class=\"col-xs-2 col-md-2\">"
-	+ "<select id=selection-box>";
+	+ "<hr><div id=selection-box class=\"col-xs-2 col-md-2\">"
+	+ "<select id=selection-box class=\"selectpicker\">";
 	for ( var i in Domain) {
 		html += "<option id=" + i + ">"
 		+ Domain[i]
@@ -570,9 +578,9 @@ function FormGroup(id, element) {
 	html += "</select>" + "</div>";
 	html += "<div class=\"extended col-xs-8 col-md-8\">" + element + "</div>";
 	html += "<div class=\"col-xs-2 col-md-2\" align =right>"
-		+ "<button id=minusBtn type=button class=\"btn btn-default btn-lg\">"
+		+ "<button id=minusBtn type=button class=\"btn btn-default\">"
 		+ "<span class=\"glyphicon glyphicon-minus\"></span>"
-		+ "</button> </div> </div>";
+		+ "</button></div></div>";
 	return html;
 
 }
@@ -769,25 +777,31 @@ Form.prototype.changeText = function(id, value){
 			<spring:message code="header.search.advanced" />
 		</h1>
 		<div id="main" class="row ">
+			<br><br>
 			<div class="col-xs-6 col-md-6 center-block">
-				<select id="select-mode">
+				<select id="select-mode" class="selectpicker" data-width="75%">
 					<option id="and"><spring:message javaScriptEscape="true" code="search.rule.matchAll" /></option>
 					<option id="or"><spring:message javaScriptEscape="true" code="search.rule.matchOne" /></option>
 				</select>
 			</div>
-			
 		</div>
 		<div id="options"></div>
-		<div align="right">
-			<button id="plusBtn" type="button" class="btn btn-default btn-lg">
+		<hr>
+		<div class="row ">
+			<div class="col-xs-6 col-md-6">
+			<button type="submit" class="btn btn-default" id='submit'>
+				<span class="glyphicon glyphicon-search" ></span> <spring:message code="search" /></button>
+			</button>
+			</div>
+			
+			<div class="col-xs-6 col-md-6" align="right">
+			<button id="plusBtn" type="button" class="btn btn-default tip" title=<spring:message code="search.addcriteria" />>
 				<span class="glyphicon glyphicon-plus"></span>
 			</button>
+			</div>
+			
 		</div>
-		<div>
-			<button type="submit" class="btn btn-default btn-lg" id='submit'>
-				<spring:message code="search" />
-			</button>
-		</div>
+		<br><br>
 		<div id="results"></div>
 
 	</div>
@@ -810,9 +824,9 @@ Form.prototype.changeText = function(id, value){
 		//add a new options
 		$('body').on('click', '#plusBtn', function(e) {
 			model.add();
-			
 			e.stopPropagation()
 			clean();
+			
 		});
 
 		//remove an option
@@ -915,6 +929,7 @@ Form.prototype.changeText = function(id, value){
 			model.changeDateEndDateOption(id, value);
 			e.stopPropagation()
 			clean();
+			
 		});
 		
 		//Form mode,
@@ -1033,6 +1048,10 @@ Form.prototype.changeText = function(id, value){
 			var data = model.json();
 			console.log(data);
 			var json = JSON.stringify(model.json());
+			
+			$('#results').empty().append("<hr><div class=\"spinner-loader\">Loadind...</div>");
+		    $('#results').css("display","block");
+		    
 			$.ajax({
 				type : "POST",
 				url : "/search/advanced/result",
@@ -1041,16 +1060,31 @@ Form.prototype.changeText = function(id, value){
 				
 				success: function(html){
 					console.log(html)
+					
+					
 					$('#results').empty().append(html);
+					
+					
+					$('#tablesearchresults').attr("data-pagination","true");
+				    $('#tablesearchresults').attr("data-search","true");
+					$('#tablesearchresults').bootstrapTable();
+					
+					
+					/*
 					$('.result-table').dataTable({
 						'paging':	false
 					});
+					*/
 				}
 			});			
 		});
 		//Add one element
-		model.add();		
+		model.add();
+		
 	});
+	
+	$(".tip").tooltip({placement: 'bottom'});
+	
 </script>
 </body>
 </html>

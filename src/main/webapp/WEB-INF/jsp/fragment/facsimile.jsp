@@ -56,10 +56,25 @@ $(document).ready(function() {
 	});
     });
 });
+
+
+$('#fac').elevateZoom({
+	zoomType	: "inner", 
+	cursor: "crosshair",
+	scrollZoom : true
+}); 
+
+//to do: enable click to popup
+//pass the images to Fancybox 
+//$("#fac").bind("click", function(e) { var ez = $('#fac').data('elevateZoom');	$.fancybox(ez.getGalleryList()); return false; });
+
 </script>
 <div id="fragmentTranscription" class="row col-md-12">
+	<br>
     <div class="row">
+   		 <div class="row" style="padding-left:15px">
         <h4>${inters.get(0).title}</h4>
+        </div>
         <div class="row">
             <div class="col-md-6">
                 <c:choose>
@@ -99,7 +114,7 @@ $(document).ready(function() {
         <div id="facsimileTranscription" class="row">
             <div class="col-md-6">
                 <div class="item">
-                    <img src="/facs/${surface.graphic}"
+                    <img id="fac" src="/facs/${surface.graphic}" data-zoom-image="/facs/${surface.graphic}"
                         class="img-responsive" alt="Responsive image" />
                 </div>
             </div>

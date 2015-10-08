@@ -37,8 +37,7 @@ $(document).ready(function() {
     });
 });
 </script>
-
-<<script type="text/javascript">
+<script type="text/javascript">
 $(document).ready(function(){
 	$('.recommender-nav').click(function(){
 		$(this).parent().submit()
@@ -100,7 +99,7 @@ $(document).ready(function(){
                 <div class="text-center">
                     <table>
                         <caption>
-                            <a
+                            <a style="padding-left:120px"
                                 href="${contextPath}/edition/internalid/${expertEdition.externalId}">
                                 ${expertEdition.editor}</a>
                         </caption>

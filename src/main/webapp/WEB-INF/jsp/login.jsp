@@ -30,6 +30,7 @@
                                     name="j_username"
                                     placeholder="<spring:message code="login.username" />">
                             </div>
+                            <br><br>
                             <div class="col-md-offset-4 col-md-4">
                                 <input type="password"
                                     class="form-control" id="password"

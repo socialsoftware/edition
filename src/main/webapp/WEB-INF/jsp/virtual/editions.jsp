@@ -8,9 +8,21 @@
     <%@ include file="/WEB-INF/jsp/common/fixed-top-ldod-header.jsp"%>
 
     <div class="container">
+    	<div class="row">
+    	<div class="col-xs-3 col-md-3">
+    	</div>
+    	<div class="col-xs-6 col-md-6">
         <h1 class="text-center">
             <spring:message code="virtual.editions" />
         </h1>
+        </div>
+       <div class="col-xs-3 col-md-3" align="right" style="margin-top:20px;margin-bottom:10px">
+       		<a class="btn btn-primary tip" title="<spring:message code="virtualedition.tt.create" />" role="button" data-toggle="collapse" href="#collapse" aria-expanded="false" aria-controls="collapse">
+ 			<span class="glyphicon glyphicon-plus"></span>
+            <spring:message code="general.create" />
+			</a>
+			</div>
+        </div>
         <br>
         <div class="row">
             <c:forEach var="error" items='${errors}'>
@@ -20,21 +32,24 @@
             </c:forEach>
         </div>
         <div class="row">
-            <form class="form-inline" method="POST"
+            
+<div class="collapse" id="collapse">
+  <div class="well">
+      <form class="form-inline" method="POST"
                 action="/virtualeditions/restricted/create">
                 <div class="form-group">
-                    <input type="text" class="form-control"
+                    <input type="text" class="form-control tip"
                         name="acronym"
                         placeholder="<spring:message code="virtualeditionlist.acronym" />"
-                        value="${acronym}" />
+                        value="${acronym}" title="<spring:message code="virtualedition.tt.acronym" />"/>
                 </div>
                 <div class="form-group">
-                    <input type="text" class="form-control" name="title"
+                    <input type="text" class="form-control tip" name="title"
                         placeholder="<spring:message code="virtualeditionlist.name" />"
-                        value="${title}" />
+                        value="${title}" title="<spring:message code="virtualedition.tt.title" />"/>
                 </div>
                 <div class="form-group">
-                    <select class="form-control" name="pub">
+                    <select class="form-control tip" name="pub" title="<spring:message code="virtualedition.tt.access" />">
                         <c:choose>
                             <c:when test="${pub == false}">
                                 <option value="true">
@@ -60,7 +75,7 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <select class="form-control" name="use"><option
+                    <select class="form-control tip" name="use" title="<spring:message code="virtualedition.tt.use" />"><option
                             value="no"><spring:message
                                 code="tableofcontents.usesEdition" /></option>
                         <c:forEach var='expertEdition'
@@ -79,6 +94,11 @@
                     <spring:message code="general.create" />
                 </button>
             </form>
+  </div>
+</div>
+        </div>
+        <div class="row">
+            
         </div>
         <br />
         <div class="row">
@@ -86,24 +106,28 @@
                 <table class="table table-hover">
                     <thead>
                         <tr>
-                            <th><spring:message
-                                    code="virtualeditionlist.acronym" /></th>
-                            <th><spring:message
-                                    code="virtualeditionlist.name" /></th>
-                            <th><spring:message code="general.date" /></th>
-                            <th><spring:message
-                                    code="general.access" /></th>
-                            <th><spring:message
-                                    code="general.select" /></th>
-                            <th><spring:message code="general.edit" /></th>
-                            <th><spring:message
-                                    code="general.participants" /></th>
-                            <th><spring:message
-                                    code="general.taxonomies" /></th>
-							<th><spring:message
-                                    code="general.recommendations" /></th>
-                            <th><spring:message
-                                    code="general.delete" /></th>
+                            <th><span class="tip" title="<spring:message code="virtualedition.tt.acronym" />">
+                            <spring:message
+                                    code="virtualeditionlist.acronym" /></span></th>
+                            <th>
+                            <span class="tip" title="<spring:message code="virtualedition.tt.title" />">
+                            <spring:message
+                                    code="virtualeditionlist.name" /></span></th>
+                            <th><span class="tip" title="<spring:message code="virtualedition.tt.date" />">
+                            <spring:message code="general.date" /></span></th>
+                            <th><span class="tip" title="<spring:message code="virtualedition.tt.access" />"><spring:message
+                                    code="general.access" /></span></th>
+                            <th><span class="tip" title="<spring:message code="virtualedition.tt.select" />"><spring:message
+                                    code="general.select" /></span></th>
+                            <th><span class="tip" title="<spring:message code="virtualedition.tt.edit" />"><spring:message code="general.edit" /></span></th>
+                            <th><span class="tip" title="<spring:message code="virtualedition.tt.participants" />"><spring:message
+                                    code="general.participants" /></span></th>
+                            <th><span class="tip" title="<spring:message code="virtualedition.tt.taxonomies" />"><spring:message
+                                    code="general.taxonomies" /></span></th>
+							<th><span class="tip" title="<spring:message code="virtualedition.tt.recommendations" />"><spring:message
+                                    code="general.recommendations" /></span></th>
+                            <th><span class="tip" title="<spring:message code="virtualedition.tt.delete" />"><spring:message
+                                    code="general.delete" /></span></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -205,4 +229,7 @@
         </div>
     </div>
 </body>
+<script>
+$(".tip").tooltip({placement: 'bottom'});
+</script>
 </html>

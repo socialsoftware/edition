@@ -62,7 +62,7 @@ public class ExpertEditionInter extends ExpertEditionInter_Base {
 			return 1;
 		} else {
 			assert false : "To extend when new expert editions are include";
-		return 0;
+			return 0;
 		}
 	}
 
@@ -104,8 +104,8 @@ public class ExpertEditionInter extends ExpertEditionInter_Base {
 			String precision = getPrecision() != null ? " Precisão: "
 					+ getPrecision().getDesc() : "";
 
-					result = result + "Data: " + getDate().toString("dd-MM-yyyy")
-							+ precision + "<br>";
+			result = result + "Data: " + getDate().toString("dd-MM-yyyy")
+					+ precision + "<br>";
 		}
 
 		result = result + "Notas: " + getNotes() + "<br>";

@@ -57,37 +57,37 @@ $(document)
         <div class="form-group">
             <div id="visualisation-properties-authorial"
                 class="btn-group" data-toggle="checkbox">
-                <div class="checkbox">
+                <div class="checkbox tip" title="<spring:message code="fragment.tt.highlights" />">
                     <label> <input type="checkbox" class="btn"
                         name=diff value="Yes"> <spring:message
                             code="fragment.highlightdifferences" />
                     </label>
                 </div>
-                <div class="checkbox">
+                <div class="checkbox tip" title="<spring:message code="fragment.tt.deletions" />">
                     <label> <input type="checkbox" class="btn"
                         name=del value="Yes"> <spring:message
                             code="fragment.showdeleted" />
                     </label>
                 </div>
-                <div class="checkbox">
+                <div class="checkbox tip" title="<spring:message code="fragment.tt.additions" />">
                     <label> <input type="checkbox" class="btn"
                         name=ins value="Yes" checked> <spring:message
                             code="fragment.highlightinserted" />
                     </label>
                 </div>
-                <div class="checkbox">
+                <div class="checkbox tip" title="<spring:message code="fragment.tt.substitution" />"> 
                     <label> <input type="checkbox" class="btn"
                         name=subst value="Yes"> <spring:message
                             code="fragment.highlightsubstitutions" />
                     </label>
                 </div>
-                <div class="checkbox">
+                <div class="checkbox tip" title="<spring:message code="fragment.tt.information" />">
                     <label> <input type="checkbox" class="btn"
                         name=notes value="Yes" checked> <spring:message
                             code="fragment.shownotes" />
                     </label>
                 </div>
-                <div class="checkbox">
+                <div class="checkbox tip" title="<spring:message code="fragment.tt.image" />">
                     <label> <input type="checkbox" class="btn"
                         name=facs value="Yes"> <spring:message
                             code="fragment.showfacs" />

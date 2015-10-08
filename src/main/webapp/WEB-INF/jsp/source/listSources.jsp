@@ -3,28 +3,38 @@
 <html>
 <head>
 <%@ include file="/WEB-INF/jsp/common/meta-head.jsp"%>
+<link rel="stylesheet" type="text/css" href="/static/css/bootstrap-table.min.css">
+<script src="/static/js/bootstrap-table.min.js"></script>
 </head>
 <body>
+
+	<spring:message code="search.complete" var="searchComplete" />
+<spring:message code="search.title" var="searchTitle" />
+<spring:message code="search.source" var="searchSource" />
+<spring:message code="search.authorial" var="searchAuthorial" />
+
     <%@ include file="/WEB-INF/jsp/common/fixed-top-ldod-header.jsp"%>
 
     <div class="container">
         <h3 class="text-center">
+       	    <span class="tip" title="<spring:message code="sourcelist.tt.sources" />">
             <spring:message code="authorial.source" />
             (${sources.size()})
+            </span>
         </h3>
-        <table class="table table-bordered table-condensed">
+        <table id="tablelistsources" data-pagination="false">
+        <!--  <table class="table table-bordered table-condensed">-->
             <thead>
-                <tr>
-                    <th><spring:message code="header.documents" /></th>
-                    <th><spring:message
-                            code="general.transcription" /></th>
-                    <th><spring:message code="general.date" /></th>
-                    <th><spring:message code="general.type" /></th>
-                    <th><spring:message code="general.LdoDLabel" /></th>
-                    <th><spring:message code="general.format" /></th>
-                    <th><spring:message code="general.material" /></th>
-                    <th><spring:message code="general.columns" /></th>
-                    <th><spring:message code="general.facsimiles" /></th>
+                <tr>            
+                    <th><span class="tip" title="<spring:message code="sourcelist.tt.documents" />"><spring:message code="header.documents" /></span></th>
+                    <th><span class="tip" title="<spring:message code="sourcelist.tt.transcription" />"><spring:message code="general.transcription" /></th>
+                    <th><span class="tip" title="<spring:message code="sourcelist.tt.date" />"><spring:message code="general.date" /></th>
+                    <th><span class="tip" title="<spring:message code="sourcelist.tt.type" />"><spring:message code="general.type" /></th>
+                    <th><span class="tip" title="<spring:message code="sourcelist.tt.LdoDLabel" />"><spring:message code="general.LdoDLabel" /></th>
+                    <th><span class="tip" title="<spring:message code="sourcelist.tt.format" />"><spring:message code="general.format" /></th>
+                    <th><span class="tip" title="<spring:message code="sourcelist.tt.material" />"><spring:message code="general.material" /></th>
+                    <th><span class="tip" title="<spring:message code="sourcelist.tt.columns" />"><spring:message code="general.columns" /></th>
+                    <th><span class="tip" title="<spring:message code="sourcelist.tt.facsimiles" />"><spring:message code="general.facsimiles" /></th>
                 </tr>
             <tbody>
                 <c:forEach var="source" items='${sources}'>
@@ -105,4 +115,9 @@
         </table>
     </div>
 </body>
+<script>
+$('#tablelistsources').attr("data-search","true");
+$('#tablelistsources').bootstrapTable();
+$(".tip").tooltip({placement: 'bottom'});
+</script>
 </html>

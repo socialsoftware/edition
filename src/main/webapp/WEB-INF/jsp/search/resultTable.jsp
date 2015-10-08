@@ -2,40 +2,40 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <!-- class="table table-hover table-condensed" -->
 <div>
-	<h1>Included</h1>
-	<table border="1" class="result-table">
+	
+	<table id="tablesearchresults" pageSize=100 data-pagination="true" data-page-list="[100, 250, 500, All]">
 		<thead>
 			<tr>
-				<td><spring:message code="fragment"/> (${fragCount})</td>
-				<td><spring:message code="interpretations"/> (${interCount})</td>
+				<th><spring:message code="fragment"/> (${fragCount})</td>
+				<th><spring:message code="interpretations"/> (${interCount})</td>
 
 				<%-- 			<c:forEach items="${search}" var="optionTitle"> --%>
 				<%-- 				<td>${ optionTitle.toString()}</td> --%>
 				<%-- 			</c:forEach> --%>
 
 				<c:forEach begin="1" end="${searchLenght}" var="val">
-					<td>C${val}</td>
+					<th>C${val}</th>
 				</c:forEach>
 				<c:if test="${showSource}">
-					<td><spring:message code="search.source"/></td>
+					<th><spring:message code="search.source"/></th>
 				</c:if>
 				<c:if test="${showSourceType}">
-					<td><spring:message code="authorial.source"/></td>
+					<th><spring:message code="authorial.source"/></th>
 				</c:if>
 				<c:if test="${showLdoD}">
-					<td><spring:message code="general.LdoDLabel"/>LdoD Mark</td>
+					<th><spring:message code="general.LdoDLabel"/>LdoD Mark</th>
 				</c:if>
 				<c:if test="${showPubPlace}">
-					<td><spring:message code="general.published"/></td>
+					<th><spring:message code="general.published"/></th>
 				</c:if>
 				<c:if test="${showEdition}">
-					<td><spring:message code="navigation.edition"/></td>
+					<th><spring:message code="navigation.edition"/></th>
 				</c:if>
 				<c:if test="${showHeteronym}">
-					<td><spring:message code="general.heteronym"/></td>
+					<th><spring:message code="general.heteronym"/></th>
 				</c:if>
 				<c:if test="${showDate}">
-					<td><spring:message code="general.date"/></td>
+					<th><spring:message code="general.date"/></th>
 				</c:if>
 			</tr>
 		</thead>
