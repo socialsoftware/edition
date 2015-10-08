@@ -24,151 +24,156 @@ import pt.ist.socialsoftware.edition.recommendation.VSMFragmentRecommender;
  */
 public class Bootstrap implements WebApplicationInitializer {
 
-	/**
-	 * It is invoked from spring mvc user interface
-	 * 
-	 */
-	@Override
-	public void onStartup(ServletContext arg0) throws ServletException {
-		initDatabase();
-	}
+    /**
+     * It is invoked from spring mvc user interface
+     * 
+     */
+    @Override
+    public void onStartup(ServletContext arg0) throws ServletException {
+        initDatabase();
+    }
 
-	/**
-	 * It is invoked for JUnit test
-	 */
-	@Atomic(mode = TxMode.WRITE)
-	public static void initDatabase() {
-		if (LdoD.getInstance() == null) {
-			new LdoD();
-			populateDatabaseUsersAndRoles();
-		}
-	}
+    /**
+     * It is invoked for JUnit test
+     */
+    @Atomic(mode = TxMode.WRITE)
+    public static void initDatabase() {
+        if (LdoD.getInstance() == null) {
+            new LdoD();
+            populateDatabaseUsersAndRoles();
+        }
+    }
 
-	public static void populateDatabaseUsersAndRoles() {
-		// delete directory and all its files if it exists
-		String corpusFilesPath = PropertiesManager.getProperties().getProperty(
-				"corpus.files.dir");
-		File directory = new File(corpusFilesPath);
-		if (directory.exists()) {
-			try {
-				FileUtils.deleteDirectory(directory);
-			} catch (IOException e) {
-				// Unable to delete directory
-				e.printStackTrace();
-			}
-		}
-		directory.mkdirs();
+    public static void populateDatabaseUsersAndRoles() {
+        // delete directory and all its files if it exists
+        String corpusFilesPath = PropertiesManager.getProperties()
+                .getProperty("corpus.files.dir");
+        File directory = new File(corpusFilesPath);
+        if (directory.exists()) {
+            try {
+                FileUtils.deleteDirectory(directory);
+            } catch (IOException e) {
+                // Unable to delete directory
+                e.printStackTrace();
+            }
+        }
+        directory.mkdirs();
 
-		LdoD ldod = LdoD.getInstance();
+        LdoD ldod = LdoD.getInstance();
 
-		Role user = new Role(ldod, "USER");
-		Role admin = new Role(ldod, "ADMIN");
+        Role user = new Role(ldod, "USER");
+        Role admin = new Role(ldod, "ADMIN");
 
-		// the bcrypt generator
-		// https://www.dailycred.com/blog/12/bcrypt-calculator
-		LdoDUser ars = new LdoDUser(ldod, "ars",
-				"$2a$11$Y0PQlyE20CXaI9RGhtjZJeTM/0.RUyp2kO/YAJI2P2FeINDEUxd2m",
-				"António", "Rito Silva", "rito.silva@tecnico.ulisboa.pt");
-		LdoDUser diego = new LdoDUser(ldod, "diego",
-				"$2a$11$b3rI6cl/GOzVqOKUOWSQQ.nTJFn.s8a/oALV.YOWoUZu6HZGvyCXu",
-				"Diego", "Giménez", "dgimenezdm@gmail.com");
-		LdoDUser mp = new LdoDUser(ldod, "mp",
-				"$2a$11$Nd6tuFTBZV3ej02xJcJhUOZtHKsc888UOBXFz9jDYDBs/EHQIIP26",
-				"Manuel", "Portela", "mportela@fl.uc.pt");
-		LdoDUser tiago = new LdoDUser(ldod, "tiago",
-				"$2a$11$GEa2gLrEweOV5b.fzTi5ueg.s9h2wP/SmRUt2mCvU.Ra7BxgkPVci",
-				"Tiago", "Santos", "tiago@tiagosantos.me");
-		LdoDUser nuno = new LdoDUser(ldod, "nuno",
-				"$2a$11$ICywhcOlcgbkWmi2zxYRi./AjLrz4Vieb25TBUeK3FsMwYmSPTcMu",
-				"Nuno", "Pinto", "nuno.mribeiro.pinto@gmail.com");
-		LdoDUser luis = new LdoDUser(ldod, "luis",
-				"$2a$11$c0Xrwz/gw0tBoMo3o1AG3.boCszoGOXyDWZ5z2vSY259/RDLK4ZDi",
-				"Luís", "Lucas Pereira", "lmlbpereira@gmail.com");
-		LdoDUser andre = new LdoDUser(ldod, "afs",
-				"$2a$11$na24dttCBjjT5uVT0mBCb.MlDdCGHwu3w6tRTqf5OD9QAsIPYJzfu",
-				"André", "Santos", "andrefilipebrazsantos@gmail.com");
-		LdoDUser daniela = new LdoDUser(ldod, "daniela",
-				"$2a$04$QiGbDnmoyrvyFnJdfsHhSeJoWJkjVkegrIpIADcIBVziVYWPHnPpC",
-				"Daniela", "Maduro", "cortesmaduro@hotmail.com");
-		LdoDUser bernardosoares = new LdoDUser(ldod, "bernardosoares",
-				"$2a$04$2romaiXNBOFcVpDrcg0Miepy7AeeBGJq4jc4EdRA/EFekYxSFxTsC",
-				"Bernardo", "Soares", "bernardosoares@pessoa.pt");
+        // the bcrypt generator
+        // https://www.dailycred.com/blog/12/bcrypt-calculator
+        LdoDUser ars = new LdoDUser(ldod, "ars",
+                "$2a$11$Y0PQlyE20CXaI9RGhtjZJeTM/0.RUyp2kO/YAJI2P2FeINDEUxd2m",
+                "António", "Rito Silva", "rito.silva@tecnico.ulisboa.pt");
+        LdoDUser diego = new LdoDUser(ldod, "diego",
+                "$2a$11$b3rI6cl/GOzVqOKUOWSQQ.nTJFn.s8a/oALV.YOWoUZu6HZGvyCXu",
+                "Diego", "Giménez", "dgimenezdm@gmail.com");
+        LdoDUser mp = new LdoDUser(ldod, "mp",
+                "$2a$11$Nd6tuFTBZV3ej02xJcJhUOZtHKsc888UOBXFz9jDYDBs/EHQIIP26",
+                "Manuel", "Portela", "mportela@fl.uc.pt");
+        LdoDUser tiago = new LdoDUser(ldod, "tiago",
+                "$2a$11$GEa2gLrEweOV5b.fzTi5ueg.s9h2wP/SmRUt2mCvU.Ra7BxgkPVci",
+                "Tiago", "Santos", "tiago@tiagosantos.me");
+        LdoDUser nuno = new LdoDUser(ldod, "nuno",
+                "$2a$11$ICywhcOlcgbkWmi2zxYRi./AjLrz4Vieb25TBUeK3FsMwYmSPTcMu",
+                "Nuno", "Pinto", "nuno.mribeiro.pinto@gmail.com");
+        LdoDUser luis = new LdoDUser(ldod, "luis",
+                "$2a$11$c0Xrwz/gw0tBoMo3o1AG3.boCszoGOXyDWZ5z2vSY259/RDLK4ZDi",
+                "Luís", "Lucas Pereira", "lmlbpereira@gmail.com");
+        LdoDUser andre = new LdoDUser(ldod, "afs",
+                "$2a$11$na24dttCBjjT5uVT0mBCb.MlDdCGHwu3w6tRTqf5OD9QAsIPYJzfu",
+                "André", "Santos", "andrefilipebrazsantos@gmail.com");
+        LdoDUser daniela = new LdoDUser(ldod, "daniela",
+                "$2a$04$QiGbDnmoyrvyFnJdfsHhSeJoWJkjVkegrIpIADcIBVziVYWPHnPpC",
+                "Daniela", "Maduro", "cortesmaduro@hotmail.com");
+        LdoDUser joana = new LdoDUser(ldod, "joana",
+                "$2a$12$tdXO4XfyDP0BdrvGyScv9uRHjDPitbwKzpU1eepeJxgzZFnXZczLq",
+                "Joana", "Malta", "joanavmalta@gmail.com");
+        LdoDUser bernardosoares = new LdoDUser(ldod, "bernardosoares",
+                "$2a$04$2romaiXNBOFcVpDrcg0Miepy7AeeBGJq4jc4EdRA/EFekYxSFxTsC",
+                "Bernardo", "Soares", "bernardosoares@pessoa.pt");
 
-		ars.addRoles(user);
-		ars.addRoles(admin);
+        ars.addRoles(user);
+        ars.addRoles(admin);
 
-		diego.addRoles(user);
-		diego.addRoles(admin);
+        diego.addRoles(user);
+        diego.addRoles(admin);
 
-		mp.addRoles(user);
-		mp.addRoles(admin);
+        mp.addRoles(user);
+        mp.addRoles(admin);
 
-		tiago.addRoles(user);
-		tiago.addRoles(admin);
+        tiago.addRoles(user);
+        tiago.addRoles(admin);
 
-		nuno.addRoles(user);
-		nuno.addRoles(admin);
+        nuno.addRoles(user);
+        nuno.addRoles(admin);
 
-		luis.addRoles(user);
-		luis.addRoles(admin);
+        luis.addRoles(user);
+        luis.addRoles(admin);
 
-		andre.addRoles(user);
-		andre.addRoles(admin);
+        andre.addRoles(user);
+        andre.addRoles(admin);
 
-		daniela.addRoles(user);
-		daniela.addRoles(admin);
+        daniela.addRoles(user);
+        daniela.addRoles(admin);
 
-		bernardosoares.addRoles(user);
+        joana.addRoles(user);
 
-		VirtualEdition classX = new VirtualEdition(ldod, ars, "ClassX",
-				"LdoD Edition of Class X", new LocalDate(), false, null);
-		classX.addParticipant(luis);
-		classX.addParticipant(mp);
-		classX.addParticipant(diego);
-		classX.addParticipant(tiago);
-		classX.addParticipant(ars);
-		classX.addParticipant(andre);
-		classX.addParticipant(daniela);
-		classX.addParticipant(bernardosoares);
-		luis.addSelectedVirtualEditions(classX);
-		mp.addSelectedVirtualEditions(classX);
-		ars.addSelectedVirtualEditions(classX);
-		diego.addSelectedVirtualEditions(classX);
-		tiago.addSelectedVirtualEditions(classX);
-		nuno.addSelectedVirtualEditions(classX);
-		andre.addSelectedVirtualEditions(classX);
-		bernardosoares.addSelectedVirtualEditions(classX);
+        bernardosoares.addRoles(user);
 
-		VirtualEdition classY = new VirtualEdition(ldod, ars, "ClassY",
-				"LdoD Edition of Class Y", new LocalDate(), false, null);
-		classY.addParticipant(luis);
-		classY.addParticipant(mp);
-		classY.addParticipant(diego);
-		classY.addParticipant(tiago);
-		classY.addParticipant(ars);
-		luis.addSelectedVirtualEditions(classY);
-		mp.addSelectedVirtualEditions(classY);
-		ars.addSelectedVirtualEditions(classY);
-		diego.addSelectedVirtualEditions(classY);
-		tiago.addSelectedVirtualEditions(classY);
-		nuno.addSelectedVirtualEditions(classY);
+        VirtualEdition classX = new VirtualEdition(ldod, ars, "ClassX",
+                "LdoD Edition of Class X", new LocalDate(), false, null);
+        classX.addParticipant(luis);
+        classX.addParticipant(mp);
+        classX.addParticipant(diego);
+        classX.addParticipant(tiago);
+        classX.addParticipant(ars);
+        classX.addParticipant(andre);
+        classX.addParticipant(daniela);
+        classX.addParticipant(joana);
+        classX.addParticipant(bernardosoares);
+        luis.addSelectedVirtualEditions(classX);
+        mp.addSelectedVirtualEditions(classX);
+        ars.addSelectedVirtualEditions(classX);
+        diego.addSelectedVirtualEditions(classX);
+        tiago.addSelectedVirtualEditions(classX);
+        nuno.addSelectedVirtualEditions(classX);
+        andre.addSelectedVirtualEditions(classX);
+        bernardosoares.addSelectedVirtualEditions(classX);
 
-		VirtualEdition classW = new VirtualEdition(ldod, ars, "ClassW",
-				"LdoD Edition of Class W", new LocalDate(), false, null);
-		classW.addParticipant(diego);
-		classW.addParticipant(mp);
-		classW.addParticipant(luis);
-		classW.addParticipant(andre);
-		classW.addParticipant(tiago);
-		classW.addParticipant(nuno);
-		mp.addSelectedVirtualEditions(classW);
-		ars.addSelectedVirtualEditions(classW);
-		diego.addSelectedVirtualEditions(classW);
-		tiago.addSelectedVirtualEditions(classW);
-		nuno.addSelectedVirtualEditions(classW);
-		
-		
-		//Initialize recommender
-		(new VSMFragmentRecommender()).bootstrap(ldod);
-	}
+        VirtualEdition classY = new VirtualEdition(ldod, ars, "ClassY",
+                "LdoD Edition of Class Y", new LocalDate(), false, null);
+        classY.addParticipant(luis);
+        classY.addParticipant(mp);
+        classY.addParticipant(diego);
+        classY.addParticipant(tiago);
+        classY.addParticipant(ars);
+        luis.addSelectedVirtualEditions(classY);
+        mp.addSelectedVirtualEditions(classY);
+        ars.addSelectedVirtualEditions(classY);
+        diego.addSelectedVirtualEditions(classY);
+        tiago.addSelectedVirtualEditions(classY);
+        nuno.addSelectedVirtualEditions(classY);
+
+        VirtualEdition classW = new VirtualEdition(ldod, ars, "ClassW",
+                "LdoD Edition of Class W", new LocalDate(), false, null);
+        classW.addParticipant(diego);
+        classW.addParticipant(mp);
+        classW.addParticipant(luis);
+        classW.addParticipant(andre);
+        classW.addParticipant(tiago);
+        classW.addParticipant(nuno);
+        mp.addSelectedVirtualEditions(classW);
+        ars.addSelectedVirtualEditions(classW);
+        diego.addSelectedVirtualEditions(classW);
+        tiago.addSelectedVirtualEditions(classW);
+        nuno.addSelectedVirtualEditions(classW);
+
+        // Initialize recommender
+        (new VSMFragmentRecommender()).bootstrap(ldod);
+    }
 }
