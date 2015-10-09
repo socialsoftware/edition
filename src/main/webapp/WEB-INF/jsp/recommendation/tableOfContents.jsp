@@ -80,7 +80,7 @@
 						<tr class="iterative-sort" style="display: none;">
 							<th>${i}</th>
 							<th>
-								<div class="row row-centered taxonomy-row" id="${i}"
+								<div class="row row-centered taxonomy-row" id="${i-1}"
 									style="min-height: 40px;"></div>
 							</th>
 						</tr>
@@ -151,15 +151,10 @@
 			function startLoad(){
 				
 				$('body').addClass('progress');
-				//$('body').children().addClass('inherit');
-				//$('*').css('cursor','inherit');
-				//$('body').css('cursor','progress');
 			}
 			
 			function endLoad(){
 				$('body').removeClass('progress');
-				//$('*').css('cursor','auto');
-				//$('body').css('cursor','auto');
 			}
 			
 			function sortInters(id){
@@ -229,6 +224,7 @@
 						}
 					});
 				}
+				
 				data = {acronym : acr, id : id, properties : json};
 				$.ajax({
 					url : url,
@@ -236,11 +232,12 @@
 					data : JSON.stringify(data),
 					contentType : 'application/json;charset=UTF-8',
 					success: function(htm){
-						//body.css("cursor", "auto");
 						endLoad();
 						$('#result-type-iterative').remove();
 						$('#virtual-table').empty().append(htm)
-						$('.extra').show();
+						console.log($(htm).children('tbody').children().length)
+						if($(htm).children('tbody').children().length > 0)
+							$('.extra').show();
 					}
 				});
 			}
@@ -308,8 +305,6 @@
 				if($('#result-type-iterative').length){
 					var json = [];
 					var stack = [];
-					
-					
 					var data = $('#virtual-table tbody tr').map(function(){
 						var row = $(this);
 						var arr = [];

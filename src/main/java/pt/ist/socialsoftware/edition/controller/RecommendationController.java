@@ -54,35 +54,40 @@ public class RecommendationController {
 	@RequestMapping(value = "/sortedEdition", method = RequestMethod.POST, headers = { "Content-type=application/json;charset=UTF-8" })
 	public String getSortedRecommendedVirtualEdition(Model model, @RequestBody RecommendVirtualEditionParam params) {
 		VirtualEdition edition = (VirtualEdition) LdoD.getInstance().getEdition(params.getAcronym());
-		FragInter inter = FenixFramework.getDomainObject(params.getId());
-		List<FragInter> inters = new ArrayList<>(edition.getSortedInterps());
 
-		for(int i = 0; i < inters.size(); i++) {
-			if(inters.get(i).compareTo(inter) == 0) {
-				inters.remove(i);
-				break;
-			}
-		}
-
-		VSMFragInterRecommender recommender = new VSMFragInterRecommender();
 		LdoDUser user = LdoDUser.getUser();
 		RecommendationWeights recommendationWeights = user.getRecommendationWeights(edition);
 		if(recommendationWeights == null) {
 			recommendationWeights = LdoD.getInstance().createRecommendationWeights(user, edition);
 		}
 		recommendationWeights.setWeights(params.getProperties());
-		List<Property> properties = recommendationWeights.getProperties();
-		for(Property property : properties) {
-			System.out.println(property.getClass().getSimpleName() + " " + property.getWeight());
-		}
-		List<FragInter> recommendedEdition = new ArrayList<FragInter>(); 
-		recommendedEdition.add(inter);
-		recommendedEdition.addAll(recommender.getMostSimilarItemsAsList(inter, inters, properties));
+		
+		if(params.getId() != null && !params.getId().equals("")) {
+			FragInter inter = FenixFramework.getDomainObject(params.getId());
+			List<FragInter> inters = new ArrayList<>(edition.getSortedInterps());
 
+			for(int i = 0; i < inters.size(); i++) {
+				if(inters.get(i).compareTo(inter) == 0) {
+					inters.remove(i);
+					break;
+				}
+			}
+
+			VSMFragInterRecommender recommender = new VSMFragInterRecommender();
+			List<Property> properties = recommendationWeights.getProperties();
+			for(Property property : properties) {
+				System.out.println(property.getClass().getSimpleName() + " " + property.getWeight());
+			}
+			List<FragInter> recommendedEdition = new ArrayList<FragInter>();
+			recommendedEdition.add(inter);
+			recommendedEdition.addAll(recommender.getMostSimilarItemsAsList(inter, inters, properties));
+
+			model.addAttribute("inters", recommendedEdition);
+			model.addAttribute("selected", params.getId());
+		}
 		model.addAttribute("heteronym", null);
 		model.addAttribute("edition", edition);
-		model.addAttribute("inters", recommendedEdition);
-		model.addAttribute("selected", params.getId());
+
 
 		return "recommendation/virtualTable";
 	}
@@ -182,7 +187,10 @@ public class RecommendationController {
 			model.addAttribute("dateWeight", recommendationWeights.getDateWeight());
 			model.addAttribute("textWeight", recommendationWeights.getTextWeight());
 			model.addAttribute("sourceWeight", recommendationWeights.getSourceWeight());
-			model.addAttribute("selected", virtualEdition.getVirtualEditionIntersSet().get(0).getExternalId());
+
+			if(!virtualEdition.getVirtualEditionIntersSet().isEmpty()) {
+				model.addAttribute("selected", virtualEdition.getVirtualEditionIntersSet().get(0).getExternalId());
+			}
 
 			return "recommendation/tableOfContents";
 		}
