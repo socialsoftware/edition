@@ -11,6 +11,7 @@ import pt.ist.socialsoftware.edition.domain.ExpertEditionInter;
 import pt.ist.socialsoftware.edition.domain.FragInter;
 import pt.ist.socialsoftware.edition.domain.Fragment;
 import pt.ist.socialsoftware.edition.domain.ManuscriptSource;
+import pt.ist.socialsoftware.edition.domain.PrintedSource;
 import pt.ist.socialsoftware.edition.domain.RecommendationWeights;
 import pt.ist.socialsoftware.edition.domain.Source;
 import pt.ist.socialsoftware.edition.domain.Source.SourceType;
@@ -72,7 +73,13 @@ public class SourceProperty extends CompositeProperty {
 						typescriptsVectors.add(vector);
 					}
 				} else if(source.getType().equals(SourceType.PRINTED)) {
+					PrintedSource printedSource = (PrintedSource) source;
+					// Existance
 					vector.add(getWeight());
+					// Heteronym
+					vector.addAll(printedSource.accept(heteronymProperty));
+					// Date
+					vector.addAll(printedSource.accept(dateProperty));
 					printedVectors.add(vector);
 				} else {
 
