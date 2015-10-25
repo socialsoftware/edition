@@ -8,7 +8,7 @@ import pt.ist.socialsoftware.edition.recommendation.properties.DateProperty;
 import pt.ist.socialsoftware.edition.recommendation.properties.Property;
 
 public class VSMFragmentRecommenderDateTest extends VSMFragmentRecommenderStorableTest {
-	private Double similiraty = 0.9999999999999996;
+	private Double similiraty = 0.88;
 
 	@Override
 	protected Fragment getFragment1() {

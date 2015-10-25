@@ -13,7 +13,7 @@ import pt.ist.socialsoftware.edition.recommendation.properties.TypescriptPropert
 
 public class VSMFragInterRecommenderTypescriptTest extends VSMFragInterRecommenderStorableTest {
 
-	private double similarity = 0.9999999999999996;
+	private double similarity = 0.99;
 
 	@Override
 	protected Property getPropertyWithZeroWeight() {

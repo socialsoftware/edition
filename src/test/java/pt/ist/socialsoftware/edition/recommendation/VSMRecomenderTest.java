@@ -115,7 +115,7 @@ public class VSMRecomenderTest<T> {
 	@Test
 	public void testGetMostSimilarItemsTCollectionOfTCollectionOfProperty() {
 		List<Entry<T, Double>> mostSimilarItems = recommender.getMostSimilarItems(f1, items, properties);
-		Assert.assertEquals(items.size() - 1, mostSimilarItems.size());
+		Assert.assertEquals(items.size(), mostSimilarItems.size());
 		testFragments(mostSimilarItems);
 	}
 
@@ -134,7 +134,7 @@ public class VSMRecomenderTest<T> {
 	@Test
 	public void testGetMostSimilarItemsTCollectionOfTProperty() {
 		List<Entry<T, Double>> mostSimilarItems = recommender.getMostSimilarItems(f1, items, property);
-		Assert.assertEquals(items.size() - 1, mostSimilarItems.size());
+		Assert.assertEquals(items.size(), mostSimilarItems.size());
 		testFragments(mostSimilarItems);
 	}
 

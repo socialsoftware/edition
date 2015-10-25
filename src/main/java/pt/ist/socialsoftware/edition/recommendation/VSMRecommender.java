@@ -29,8 +29,6 @@ public abstract class VSMRecommender<T> implements Recommender<T, Property> {
 	protected abstract Collection<Double> acceptProperty(T item1, Property property);
 
 	protected double calculateSimilarity(Collection<Double> item1, Collection<Double> item2) {
-		System.out.println("item1 " + item1);
-		System.out.println("item2 " + item2);
 		double[] v1 = ArrayUtils.toPrimitive(item1.toArray(new Double[item1.size()]));
 		double[] v2 = ArrayUtils.toPrimitive(item2.toArray(new Double[item2.size()]));
 		return Vectors.calculateSimiliraty(v1, v2);
@@ -206,7 +204,6 @@ public abstract class VSMRecommender<T> implements Recommender<T, Property> {
 		resultSet.add(item);
 		items.remove(item);
 		while(!items.isEmpty()) {
-			// System.out.println(resultSet.size());
 			current = getMostSimilarItem(item, items, properties);
 			items.remove(current);
 			resultSet.add(current);

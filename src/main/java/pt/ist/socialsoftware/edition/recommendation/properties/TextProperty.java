@@ -21,7 +21,7 @@ import pt.ist.socialsoftware.edition.domain.VirtualEditionInter;
 import pt.ist.socialsoftware.edition.search.Indexer;
 
 public class TextProperty extends Property {
-	public static final int NUMBEROFTERMS = 10;
+	public static final int NUMBEROFTERMS = 100;
 	private List<String> commonTerms;
 	private final int numberOfTerms;
 

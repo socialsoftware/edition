@@ -8,7 +8,7 @@ import pt.ist.socialsoftware.edition.recommendation.properties.Property;
 import pt.ist.socialsoftware.edition.recommendation.properties.TypescriptProperty;
 
 public class VSMFragmentRecommenderTypescriptTest extends VSMFragmentRecommenderStorableTest {
-	private double similiraty = 0.19802950859533483;
+	private double similiraty = 0.37;
 
 	@Override
 	protected Fragment getFragment1() {
@@ -45,7 +45,6 @@ public class VSMFragmentRecommenderTypescriptTest extends VSMFragmentRecommender
 	public void testCalculateSimiliraty() {
 		double calculateSimiliraty = vsmFragmentRecomender.calculateSimiliraty(frag1, frag2, properties);
 		Assert.assertEquals(similiraty, calculateSimiliraty, DELTA);
-		System.out.println(similiraty);
 	}
 
 	@Override
