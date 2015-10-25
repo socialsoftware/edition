@@ -55,18 +55,5 @@ public class VSMFragmentRecommenderTextTest extends VSMFragmentRecommenderTest {
 		}
 	}
 	
-	@Override
-	@Test
-	public void testCalculateSimiliraty() {
-		double calculateSimiliraty = vsmFragmentRecomender.calculateSimiliraty(frag1, frag2, properties);
-		Assert.assertEquals(similiraty, calculateSimiliraty, DELTA);
-	}
-
-	@Override
-	@Test
-	public void testCalculateSimiliratyWithWeight() {
-		double calculateSimiliraty = vsmFragmentRecomender.calculateSimiliraty(frag1, frag2, propertyWithWeight);
-		Assert.assertEquals(similiraty, calculateSimiliraty, DELTA);
-	}
 
 }

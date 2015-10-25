@@ -13,11 +13,6 @@ import pt.ist.socialsoftware.edition.recommendation.properties.Property;
 
 public class VSMFragInterRecommenderManuscriptTest extends VSMFragInterRecommenderStorableTest {
 
-	// @Override
-	// protected Property getCompositeProperty() {
-	// return new ManuscriptProperty(2.0, 2.0, 2.0, 2.0);
-	// }
-
 	@Override
 	protected FragInter getFragment1() {
 		List<FragInter> list = new ArrayList<>(ldod.getFragment("Fr051").getFragmentInterSet());
