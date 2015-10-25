@@ -67,7 +67,6 @@ public class VSMFragInterRecommenderGetMostSimilarFragIntersTest {
 	@After
 	public void tearDown() throws Exception {
 		Double duration = ((System.currentTimeMillis() - time) / 1000.0);
-		System.out.println("Time: " + duration + "s");
 
 		try {
 			FenixFramework.getTransactionManager().rollback();
@@ -87,49 +86,49 @@ public class VSMFragInterRecommenderGetMostSimilarFragIntersTest {
 	@Test
 	public final void testGetMostSimilarFragmentByDate() {
 		getMostSimilarFragInter = recomender.getMostSimilarItems(fragInter, inters, new DateProperty());
-		Assert.assertEquals(inters.size() - 1, getMostSimilarFragInter.size());
+		Assert.assertEquals(inters.size(), getMostSimilarFragInter.size());
 		test(getMostSimilarFragInter);
 	}
 
 	@Test
 	public final void testGetMostSimilarFragmentByEdition() {
 		getMostSimilarFragInter = recomender.getMostSimilarItems(fragInter, inters, new EditionProperty());
-		Assert.assertEquals(inters.size() - 1, getMostSimilarFragInter.size());
+		Assert.assertEquals(inters.size(), getMostSimilarFragInter.size());
 		test(getMostSimilarFragInter);
 	}
 
 	@Test
 	public final void testGetMostSimilarFragmentByHeteronym() {
 		getMostSimilarFragInter = recomender.getMostSimilarItems(fragInter, inters, new HeteronymProperty());
-		Assert.assertEquals(inters.size() - 1, getMostSimilarFragInter.size());
+		Assert.assertEquals(inters.size(), getMostSimilarFragInter.size());
 		test(getMostSimilarFragInter);
 	}
 
 	@Test
 	public final void testGetMostSimilarFragmentByManuscript() {
 		getMostSimilarFragInter = recomender.getMostSimilarItems(fragInter, inters, new ManuscriptProperty());
-		Assert.assertEquals(inters.size() - 1, getMostSimilarFragInter.size());
+		Assert.assertEquals(inters.size(), getMostSimilarFragInter.size());
 		test(getMostSimilarFragInter);
 	}
 
 	@Test
 	public final void testGetMostSimilarFragmentByTaxonomy() {
 		getMostSimilarFragInter = recomender.getMostSimilarItems(fragInter, inters, new TaxonomyProperty());
-		Assert.assertEquals(inters.size() - 1, getMostSimilarFragInter.size());
+		Assert.assertEquals(inters.size(), getMostSimilarFragInter.size());
 		test(getMostSimilarFragInter);
 	}
 
 	@Test
 	public final void testGetMostSimilarFragmentByText() {
 		getMostSimilarFragInter = recomender.getMostSimilarItems(fragInter, inters, new TextProperty());
-		Assert.assertEquals(inters.size() - 1, getMostSimilarFragInter.size());
+		Assert.assertEquals(inters.size(), getMostSimilarFragInter.size());
 		test(getMostSimilarFragInter);
 	}
 
 	@Test
 	public final void testGetMostSimilarFragmentByTypescript() {
 		getMostSimilarFragInter = recomender.getMostSimilarItems(fragInter, inters, new TypescriptProperty());
-		Assert.assertEquals(inters.size() - 1, getMostSimilarFragInter.size());
+		Assert.assertEquals(inters.size(), getMostSimilarFragInter.size());
 		test(getMostSimilarFragInter);
 	}
 
@@ -142,7 +141,7 @@ public class VSMFragInterRecommenderGetMostSimilarFragIntersTest {
 	@Test
 	public final void testgetMostSimilarItems() {
 		getMostSimilarFragInter = recomender.getMostSimilarItems(fragInter, inters, properties);
-		Assert.assertEquals(inters.size() - 1, getMostSimilarFragInter.size());
+		Assert.assertEquals(inters.size(), getMostSimilarFragInter.size());
 		Assert.assertFalse(getMostSimilarFragInter.isEmpty());
 	}
 }

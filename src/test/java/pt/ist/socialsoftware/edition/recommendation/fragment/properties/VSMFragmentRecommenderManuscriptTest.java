@@ -9,12 +9,7 @@ import pt.ist.socialsoftware.edition.recommendation.properties.Property;
 
 public class VSMFragmentRecommenderManuscriptTest extends VSMFragmentRecommenderStorableTest {
 
-	private double similiraty = 0.19802950859533483;
-
-	// @Override
-	// protected Property getCompositeProperty() {
-	// return new ManuscriptProperty(2.0, 2.0, 2.0, 2.0);
-	// }
+	private double similiraty = 0.37;
 
 	@Override
 	protected Fragment getFragment1() {

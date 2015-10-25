@@ -20,8 +20,8 @@ import pt.ist.socialsoftware.edition.recommendation.properties.DateProperty;
 import pt.ist.socialsoftware.edition.recommendation.properties.EditionProperty;
 import pt.ist.socialsoftware.edition.recommendation.properties.HeteronymProperty;
 import pt.ist.socialsoftware.edition.recommendation.properties.ManuscriptProperty;
-import pt.ist.socialsoftware.edition.recommendation.properties.Property;
 import pt.ist.socialsoftware.edition.recommendation.properties.PrintedProperty;
+import pt.ist.socialsoftware.edition.recommendation.properties.Property;
 import pt.ist.socialsoftware.edition.recommendation.properties.TaxonomyProperty;
 import pt.ist.socialsoftware.edition.recommendation.properties.TextProperty;
 import pt.ist.socialsoftware.edition.recommendation.properties.TypescriptProperty;
@@ -61,7 +61,6 @@ public class VSMFragmentRecommendedEdition {
 	@After
 	public void tearDown() throws Exception {
 		Double duration = ((System.currentTimeMillis() - time) / 1000.0);
-		System.out.println("Time: " + duration + "s");
 		try {
 			FenixFramework.getTransactionManager().rollback();
 		} catch(IllegalStateException | SecurityException | SystemException e) {

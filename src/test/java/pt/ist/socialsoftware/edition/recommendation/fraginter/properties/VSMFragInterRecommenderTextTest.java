@@ -17,7 +17,7 @@ import pt.ist.socialsoftware.edition.recommendation.properties.TextProperty;
 import pt.ist.socialsoftware.edition.search.Indexer;
 
 public class VSMFragInterRecommenderTextTest extends VSMFragInterRecommenderTest {
-	private double similarity = 0.06514515737332681;
+	private double similarity = 0.027;
 
 	@Override
 	protected FragInter getFragment1() {

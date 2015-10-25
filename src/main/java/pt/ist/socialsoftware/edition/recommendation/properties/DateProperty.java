@@ -160,8 +160,6 @@ public class DateProperty extends StorableProperty {
 			}
 		}
 		List<Double> vector = new ArrayList<Double>(getDefaultVector());
-		System.out.println("vector " + vector);
-		System.out.println("dates " + dates);
 		vector = buildVector(dates, vector);
 		return vector;
 	}

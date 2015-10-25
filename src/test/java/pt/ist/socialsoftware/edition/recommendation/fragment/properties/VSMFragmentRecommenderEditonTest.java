@@ -8,7 +8,7 @@ import pt.ist.socialsoftware.edition.recommendation.properties.EditionProperty;
 import pt.ist.socialsoftware.edition.recommendation.properties.Property;
 
 public class VSMFragmentRecommenderEditonTest extends VSMFragmentRecommenderStorableTest {
-	private double similiraty = 0.3922322702763681;
+	private double similiraty = 0.63;
 
 	@Override
 	protected Fragment getFragment1() {
@@ -40,7 +40,6 @@ public class VSMFragmentRecommenderEditonTest extends VSMFragmentRecommenderStor
 	public void testCalculateSimiliraty() {
 		double calculateSimiliraty = vsmFragmentRecomender.calculateSimiliraty(frag1, frag2, properties);
 		Assert.assertEquals(similiraty, calculateSimiliraty, DELTA);
-		System.out.println(calculateSimiliraty);
 	}
 
 	@Override

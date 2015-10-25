@@ -63,7 +63,6 @@ public class VSMFragmentRecommenderGetMostSimilarFragmentsTest {
 	@After
 	public void tearDown() throws Exception {
 		Double duration = ((System.currentTimeMillis() - time) / 1000.0);
-		System.out.println("Time: " + duration + "s");
 
 		try {
 			FenixFramework.getTransactionManager().rollback();

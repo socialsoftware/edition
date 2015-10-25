@@ -59,8 +59,8 @@ public class VSMFragInterRecommenderBinaryTaxonomyTest extends VSMFragInterRecom
 		String lastName = "fs";
 		String email = "afs@afs.afs";
 		LdoDUser user = new LdoDUser(ldod, username, password, firstName, lastName, email);
-		String acronym = "afs";
-		String title = "afs";
+		String acronym = "afsaklsjdasjdlasdlj";
+		String title = "afslaksjdlkajsjasl";
 		LocalDate date = new LocalDate();
 		boolean pub = false;
 		Edition usedEdition = LdoD.getInstance().getEdition("TSC");
@@ -97,6 +97,6 @@ public class VSMFragInterRecommenderBinaryTaxonomyTest extends VSMFragInterRecom
 		propertiesMap.get(2).add(new BinaryTaxonomyProperty(t4));
 
 		Collection<FragInter> clusteredEdition = recommender.getClusteredEdition(inter, inters, propertiesMap);
-		Assert.assertEquals(inters.size() - 1, clusteredEdition.size() - 1);
+		Assert.assertEquals(inters.size(), clusteredEdition.size() - 1);
 	}
 }

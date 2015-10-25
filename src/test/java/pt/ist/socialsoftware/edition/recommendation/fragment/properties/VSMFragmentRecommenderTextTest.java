@@ -14,7 +14,7 @@ import pt.ist.socialsoftware.edition.recommendation.properties.TextProperty;
 
 public class VSMFragmentRecommenderTextTest extends VSMFragmentRecommenderTest {
 
-	private double similiraty = 0.07866711752438274;
+	private double similiraty = 0.031;
 
 	@Override
 	protected Fragment getFragment1() {

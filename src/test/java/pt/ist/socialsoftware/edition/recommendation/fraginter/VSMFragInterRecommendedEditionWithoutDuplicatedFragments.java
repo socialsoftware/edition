@@ -66,7 +66,6 @@ public class VSMFragInterRecommendedEditionWithoutDuplicatedFragments {
 	public void tearDown() throws Exception {
 		
 		Double duration = ((System.currentTimeMillis() - time) / 1000.0);
-		System.out.println("Time: " + duration + "s");
 		try {
 			FenixFramework.getTransactionManager().rollback();
 		} catch(IllegalStateException | SecurityException | SystemException e) {

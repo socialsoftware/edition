@@ -75,9 +75,6 @@ public class RecommendationController {
 
 			VSMFragInterRecommender recommender = new VSMFragInterRecommender();
 			List<Property> properties = recommendationWeights.getProperties();
-			for(Property property : properties) {
-				System.out.println(property.getClass().getSimpleName() + " " + property.getWeight());
-			}
 			List<FragInter> recommendedEdition = new ArrayList<FragInter>();
 			recommendedEdition.add(inter);
 			recommendedEdition.addAll(recommender.getMostSimilarItemsAsList(inter, inters, properties));
@@ -369,11 +366,11 @@ public class RecommendationController {
 
 		for(int i = 0; i < inters.length; i++) {
 			String inter = inters[i];
-			System.out.println(depth[i]);
+			// System.out.println(depth[i]);
 			String[] sections = depth[i].split("\\|");
-			for(String s : sections){
-				System.out.println(s);
-			}
+			// for(String s : sections){
+			// System.out.println(s);
+			// }
 			Section section = virtualEdition.getSection(sections[0]) == null ? virtualEdition.createSection(sections[0]) : virtualEdition.getSection(sections[0]);
 
 			for(int j = 1; j < sections.length; j++) {

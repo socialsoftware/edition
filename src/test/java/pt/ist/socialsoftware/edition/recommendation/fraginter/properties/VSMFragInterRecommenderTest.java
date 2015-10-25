@@ -22,7 +22,7 @@ import pt.ist.socialsoftware.edition.utils.Bootstrap;
 
 @Ignore
 public abstract class VSMFragInterRecommenderTest {
-	public static final double DELTA = 0.0000001;
+	public static final double DELTA = 0.01;
 	public static final double MAX = 1.00001;
 
 	protected LdoD ldod;
@@ -92,7 +92,6 @@ public abstract class VSMFragInterRecommenderTest {
 		double calculateSimiliraty = recommender.calculateSimiliraty(frag1, frag2, properties);
 		Assert.assertTrue(calculateSimiliraty >= 0);
 		Assert.assertTrue(calculateSimiliraty <= 1.0000000000000002);
-		System.out.println(calculateSimiliraty);
 	}
 
 	@Test
@@ -136,7 +135,6 @@ public abstract class VSMFragInterRecommenderTest {
 		double calculateSimiliraty = recommender.calculateSimiliraty(frag1, frag2, propertyWithWeight);
 		Assert.assertTrue(calculateSimiliraty >= 0);
 		Assert.assertTrue(calculateSimiliraty <= 1.0000000000000002);
-		System.out.println(calculateSimiliraty);
 	}
 
 	@Test

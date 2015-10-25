@@ -22,7 +22,7 @@ import pt.ist.socialsoftware.edition.utils.Bootstrap;
 
 @Ignore
 public abstract class VSMFragmentRecommenderTest {
-	public static final double DELTA = 0.0000001;
+	public static final double DELTA = 0.01;
 	public static final double MAX = 1.00001;
 
 	protected LdoD ldod;

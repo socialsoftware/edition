@@ -96,7 +96,6 @@ public class SearchController {
 		params = params.substring(params.indexOf("&") + 1);
 		String searchSource = params;
 
-		System.out.println("Search " + search);
 		List<String> hits;
 
 		try {
@@ -123,7 +122,7 @@ public class SearchController {
 				if ((searchSource.compareTo("") == 0 || inter.getShortName()
 						.toLowerCase().contains(searchSource.toLowerCase()))
 						&& (searchType.compareTo("") == 0 || inter.getTitle()
-								.toLowerCase().contains(search.toLowerCase()))) {
+.toLowerCase().contains(search.toLowerCase()))) {
 
 					if (!results.containsKey(fragment)) {
 						results.put(fragment, new ArrayList<FragInter>());
@@ -166,8 +165,6 @@ public class SearchController {
 		params = params.substring(params.indexOf("&") + 1);
 		String searchSource = params;
 
-		// System.out.println(search + " " + searchType + " " + searchSource);
-
 		List<String> hits;
 		try {
 			hits = new Indexer().search(search);
@@ -185,13 +182,10 @@ public class SearchController {
 				FragInter inter = FenixFramework.getDomainObject(hit);
 				Fragment fragment = inter.getFragment();
 
-				// System.out.println("t " + inter.getTitle());
-				// System.out.println("s " + inter.getShortName());
-
 				if ((searchSource.compareTo("") == 0 || inter.getShortName()
 						.toLowerCase().contains(searchSource.toLowerCase()))
 						&& (searchType.compareTo("") == 0 || inter.getTitle()
-								.toLowerCase().contains(search.toLowerCase()))) {
+.toLowerCase().contains(search.toLowerCase()))) {
 
 					if (!results.containsKey(fragment)) {
 						results.put(fragment, new ArrayList<FragInter>());

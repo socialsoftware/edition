@@ -12,7 +12,7 @@ import pt.ist.socialsoftware.edition.recommendation.properties.Property;
 
 public class VSMFragInterRecommenderDateTest extends VSMFragInterRecommenderStorableTest {
 
-	private double similiraty = 0.9999999999999996;
+	private double similiraty = 0.80;
 
 	@Override
 	protected FragInter getFragment1() {
