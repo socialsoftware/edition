@@ -14,11 +14,6 @@ public class VSMFragInterRecommenderEditionTest extends VSMFragInterRecommenderS
 
 	private double similary = 0.9999999999999998;
 
-	// @Override
-	// protected Property getCompositeProperty() {
-	// return new EditionProperty(2.0, 2.0, 2.0);
-	// }
-
 	@Override
 	protected FragInter getFragment1() {
 		List<FragInter> list = new ArrayList<>(ldod.getFragment("Fr084").getFragmentInterSet());
@@ -31,7 +26,7 @@ public class VSMFragInterRecommenderEditionTest extends VSMFragInterRecommenderS
 
 	@Override
 	protected FragInter getFragment2() {
-		List<FragInter> list = new ArrayList<>(ldod.getFragment("Fr074").getFragmentInterSet());
+		List<FragInter> list = new ArrayList<>(ldod.getFragment("Fr002").getFragmentInterSet());
 		for(FragInter inter : list) {
 			if(inter.getEdition().getAcronym().equals("JPC"))
 				return inter;

@@ -75,11 +75,6 @@ public class VSMFragInterRecommenderBinaryTaxonomyTest extends VSMFragInterRecom
 		}
 	}
 
-	@Override
-	public void setUp() {
-		super.setUp();
-	}
-
 	@Test
 	public void testCluster() {
 		FragInter inter = getFragment1();
