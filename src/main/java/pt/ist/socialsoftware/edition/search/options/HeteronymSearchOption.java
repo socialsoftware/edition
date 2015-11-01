@@ -1,6 +1,6 @@
 package pt.ist.socialsoftware.edition.search.options;
 
-import org.codehaus.jackson.annotate.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import pt.ist.socialsoftware.edition.domain.ExpertEditionInter;
 import pt.ist.socialsoftware.edition.domain.FragInter;
@@ -40,8 +40,9 @@ public final class HeteronymSearchOption extends SearchOption {
             // Searching for fragments with no authors and fragment has no
             // author
             return true;
-        } else if (((xmlID != null && inter.getHeteronym().getXmlId() == null) || (xmlID == null && inter
-                .getHeteronym().getXmlId() != null)) && !ALL.equals(xmlID)) {
+        } else if (((xmlID != null && inter.getHeteronym().getXmlId() == null)
+                || (xmlID == null && inter.getHeteronym().getXmlId() != null))
+                && !ALL.equals(xmlID)) {
             // Searching for fragment with author and fragment has no author or
             // searching for fragment with no author and fragment has author and
             // author can't be all

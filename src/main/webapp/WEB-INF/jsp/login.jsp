@@ -22,19 +22,20 @@
                         <spring:message code="header.title" />
                     </h2>
                     <form class="form-horizontal" role="form"
-                        method="POST" action="j_spring_security_check">
+                        method="POST" action="login">
+                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                         <div class="form-group">
                             <div class="col-md-offset-4 col-md-4">
                                 <input type="text" class="form-control"
                                     id="username_or_email"
-                                    name="j_username"
+                                    name="username"
                                     placeholder="<spring:message code="login.username" />">
                             </div>
                             <br><br>
                             <div class="col-md-offset-4 col-md-4">
                                 <input type="password"
                                     class="form-control" id="password"
-                                    name="j_password"
+                                    name="password"
                                     placeholder="<spring:message code="login.password" />">
                             </div>
                         </div>
