@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Set;
 
 import org.joda.time.LocalDate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,6 +34,7 @@ import pt.ist.socialsoftware.edition.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.domain.VirtualEditionInter;
 import pt.ist.socialsoftware.edition.mallet.TopicModeler;
 import pt.ist.socialsoftware.edition.security.LdoDSession;
+import pt.ist.socialsoftware.edition.security.UserDetailsServiceImpl;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDCreateVirtualEditionException;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDDuplicateAcronymException;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDDuplicateNameException;
@@ -43,6 +46,8 @@ import pt.ist.socialsoftware.edition.visitors.HtmlWriter4OneInter;
 @SessionAttributes({ "ldoDSession" })
 @RequestMapping("/virtualeditions")
 public class VirtualEditionController {
+    private static Logger log = LoggerFactory
+            .getLogger(UserDetailsServiceImpl.class);
 
     @ModelAttribute("ldoDSession")
     public LdoDSession getLdoDSession() {
@@ -64,8 +69,8 @@ public class VirtualEditionController {
     public String listVirtualEdition(Model model,
             @ModelAttribute("ldoDSession") LdoDSession ldoDSession) {
 
-        model.addAttribute("expertEditions", LdoD.getInstance()
-                .getSortedExpertEdition());
+        model.addAttribute("expertEditions",
+                LdoD.getInstance().getSortedExpertEdition());
         model.addAttribute("virtualEditions", LdoD.getInstance()
                 .getVirtualEditions4User(LdoDUser.getUser(), ldoDSession));
         model.addAttribute("user", LdoDUser.getUser());
@@ -101,7 +106,8 @@ public class VirtualEditionController {
 
         if (errors.size() > 0) {
             throw new LdoDCreateVirtualEditionException(errors, acronym, title,
-                    pub, LdoD.getInstance().getVirtualEditions4User(
+                    pub,
+                    LdoD.getInstance().getVirtualEditions4User(
                             LdoDUser.getUser(), ldoDSession),
                     LdoDUser.getUser());
         }
@@ -113,13 +119,14 @@ public class VirtualEditionController {
         } catch (LdoDDuplicateAcronymException ex) {
             errors.add("virtualedition.acronym.duplicate");
             throw new LdoDCreateVirtualEditionException(errors, acronym, title,
-                    pub, LdoD.getInstance().getVirtualEditions4User(
+                    pub,
+                    LdoD.getInstance().getVirtualEditions4User(
                             LdoDUser.getUser(), ldoDSession),
                     LdoDUser.getUser());
         }
 
-        model.addAttribute("expertEditions", LdoD.getInstance()
-                .getSortedExpertEdition());
+        model.addAttribute("expertEditions",
+                LdoD.getInstance().getSortedExpertEdition());
         model.addAttribute("virtualEditions", LdoD.getInstance()
                 .getVirtualEditions4User(LdoDUser.getUser(), ldoDSession));
         model.addAttribute("user", LdoDUser.getUser());
@@ -146,8 +153,8 @@ public class VirtualEditionController {
                 ldoDSession.removeSelectedVE(externalId, acronym);
             }
 
-            model.addAttribute("expertEditions", LdoD.getInstance()
-                    .getSortedExpertEdition());
+            model.addAttribute("expertEditions",
+                    LdoD.getInstance().getSortedExpertEdition());
             model.addAttribute("virtualEditions", LdoD.getInstance()
                     .getVirtualEditions4User(LdoDUser.getUser(), ldoDSession));
             model.addAttribute("user", LdoDUser.getUser());
@@ -175,30 +182,33 @@ public class VirtualEditionController {
         }
     }
 
-	@RequestMapping(method = RequestMethod.POST, value = "/restricted/edit/{externalId}")
-	@PreAuthorize("hasPermission(#externalId, 'virtualedition.participant')")
-	public String editVirtualEdition(Model model,
-			@ModelAttribute("ldoDSession") LdoDSession ldoDSession,
-			@PathVariable String externalId,
-			@RequestParam("acronym") String acronym,
-			@RequestParam("title") String title,
-			@RequestParam("pub") boolean pub,
-			@RequestParam("fraginters") String fraginters) {
+    @RequestMapping(method = RequestMethod.POST, value = "/restricted/edit/{externalId}")
+    @PreAuthorize("hasPermission(#externalId, 'virtualedition.participant')")
+    public String editVirtualEdition(Model model,
+            @ModelAttribute("ldoDSession") LdoDSession ldoDSession,
+            @PathVariable String externalId,
+            @RequestParam("acronym") String acronym,
+            @RequestParam("title") String title,
+            @RequestParam("pub") boolean pub,
+            @RequestParam("fraginters") String fraginters) {
+        log.debug(
+                "editVirtualEdition externalId:{}, acronym:{}, title:{}, pub:{}, fraginters:{}",
+                externalId, acronym, title, pub, fraginters);
 
-		VirtualEdition virtualEdition = FenixFramework
-				.getDomainObject(externalId);
-		if (virtualEdition == null) {
-			return "utils/pageNotFound";
-		}
+        VirtualEdition virtualEdition = FenixFramework
+                .getDomainObject(externalId);
+        if (virtualEdition == null) {
+            return "utils/pageNotFound";
+        }
 
         title = title.trim();
         acronym = acronym.trim();
 
-		System.out.println("FRAGINTERS " + fraginters);
+        System.out.println("FRAGINTERS " + fraginters);
 
-		VirtualEditionValidator validator = new VirtualEditionValidator(
-				virtualEdition, acronym, title);
-		validator.validate();
+        VirtualEditionValidator validator = new VirtualEditionValidator(
+                virtualEdition, acronym, title);
+        validator.validate();
 
         List<String> errors = validator.getErrors();
 
@@ -207,18 +217,18 @@ public class VirtualEditionController {
                     acronym, title, pub);
         }
 
-		// passar nova lista de inters
+        // passar nova lista de inters
 
-		try {
-			virtualEdition.edit(acronym, title, pub, fraginters);
-		} catch (LdoDDuplicateAcronymException ex) {
-			errors.add("virtualedition.acronym.duplicate");
-			throw new LdoDEditVirtualEditionException(errors, virtualEdition,
-					acronym, title, pub);
-		}
+        try {
+            virtualEdition.edit(acronym, title, pub, fraginters);
+        } catch (LdoDDuplicateAcronymException ex) {
+            errors.add("virtualedition.acronym.duplicate");
+            throw new LdoDEditVirtualEditionException(errors, virtualEdition,
+                    acronym, title, pub);
+        }
 
-        model.addAttribute("expertEditions", LdoD.getInstance()
-                .getSortedExpertEdition());
+        model.addAttribute("expertEditions",
+                LdoD.getInstance().getSortedExpertEdition());
         model.addAttribute("virtualEditions", LdoD.getInstance()
                 .getVirtualEditions4User(LdoDUser.getUser(), ldoDSession));
         model.addAttribute("user", LdoDUser.getUser());
@@ -241,8 +251,8 @@ public class VirtualEditionController {
 
         ldoDSession.toggleSelectedVirtualEdition(user, virtualEdition);
 
-        model.addAttribute("expertEditions", LdoD.getInstance()
-                .getSortedExpertEdition());
+        model.addAttribute("expertEditions",
+                LdoD.getInstance().getSortedExpertEdition());
         model.addAttribute("virtualEditions", LdoD.getInstance()
                 .getVirtualEditions4User(LdoDUser.getUser(), ldoDSession));
         model.addAttribute("user", user);
@@ -326,8 +336,7 @@ public class VirtualEditionController {
             user.removeVirtualEdition(virtualEdition);
 
             if (user == LdoDUser.getUser()) {
-                model.addAttribute(
-                        "virtualEditions",
+                model.addAttribute("virtualEditions",
                         LdoD.getInstance().getVirtualEditions4User(
                                 LdoDUser.getUser(), ldoDSession));
                 model.addAttribute("user", LdoDUser.getUser());
@@ -350,9 +359,8 @@ public class VirtualEditionController {
             return "utils/pageNotFound";
         }
 
-        VirtualEditionInter addInter = virtualEdition
-                .createVirtualEditionInter(inter,
-                        virtualEdition.getMaxFragNumber() + 1);
+        VirtualEditionInter addInter = virtualEdition.createVirtualEditionInter(
+                inter, virtualEdition.getMaxFragNumber() + 1);
 
         if (addInter != null) {
             List<FragInter> inters = new ArrayList<FragInter>();
@@ -416,7 +424,7 @@ public class VirtualEditionController {
             @RequestParam("numWords") int numWords,
             @RequestParam("thresholdCategories") int thresholdCategories,
             @RequestParam("numIterations") int numIterations)
-            throws IOException {
+                    throws IOException {
         VirtualEdition virtualEdition = FenixFramework
                 .getDomainObject(externalId);
         if (virtualEdition == null) {
@@ -436,7 +444,8 @@ public class VirtualEditionController {
             }
 
             if (taxonomy == null) {
-                errors.add("Não existe nenhum fragmento associado a esta edição ou é necessário gerar o Corpus");
+                errors.add(
+                        "Não existe nenhum fragmento associado a esta edição ou é necessário gerar o Corpus");
                 errors.add("Já existe uma taxonomia com nome \"" + name + "\"");
                 model.addAttribute("errors", errors);
                 model.addAttribute("virtualEdition", virtualEdition);
@@ -451,8 +460,7 @@ public class VirtualEditionController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/restricted/taxonomy/delete")
     @PreAuthorize("hasPermission(#virtualEditionExternalId, 'virtualedition.participant')")
-    public String deleteTaxonomy(
-            Model model,
+    public String deleteTaxonomy(Model model,
             @RequestParam("virtualEditionExternalId") String virtualEditionExternalId,
             @RequestParam("taxonomyExternalId") String taxonomyExternalId) {
         Taxonomy taxonomy = FenixFramework.getDomainObject(taxonomyExternalId);
@@ -548,8 +556,7 @@ public class VirtualEditionController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/restricted/category/merge")
     @PreAuthorize("hasPermission(#taxonomyId, 'taxonomy.participant')")
-    public String mergeCategories(
-            Model model,
+    public String mergeCategories(Model model,
             @RequestParam("taxonomyId") String taxonomyId,
             @RequestParam(value = "categories[]", required = false) String categoriesIds[]) {
         Taxonomy taxonomy = FenixFramework.getDomainObject(taxonomyId);
@@ -675,8 +682,8 @@ public class VirtualEditionController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/restricted/tag/associateForm/{taxonomyId}/{interId}")
     @PreAuthorize("hasPermission(#interId, 'fragInter.participant')")
-    public String associateTagForm(Model model,
-            @PathVariable String taxonomyId, @PathVariable String interId) {
+    public String associateTagForm(Model model, @PathVariable String taxonomyId,
+            @PathVariable String interId) {
         Taxonomy taxonomy = FenixFramework.getDomainObject(taxonomyId);
         FragInter fragInter = FenixFramework.getDomainObject(interId);
         if ((taxonomy == null) || (fragInter == null)) {
@@ -702,8 +709,7 @@ public class VirtualEditionController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/restricted/tag/associate")
     @PreAuthorize("hasPermission(#fragInterId, 'fragInter.participant')")
-    public String associateCategory(
-            Model model,
+    public String associateCategory(Model model,
             @RequestParam("taxonomyId") String taxonomyId,
             @RequestParam("fragInterId") String fragInterId,
             @RequestParam(value = "categories[]", required = false) String categoriesIds[]) {

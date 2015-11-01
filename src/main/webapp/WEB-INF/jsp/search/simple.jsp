@@ -3,14 +3,14 @@
 <html>
 <head>
 <%@ include file="/WEB-INF/jsp/common/meta-head.jsp"%>
-<!--  <script type="text/javascript" src="/static/js/jquery.dataTables.min.js"></script>-->
+<!--  <script type="text/javascript" src="/resources/js/jquery.dataTables.min.js"></script>-->
 
-<link rel="stylesheet" type="text/css" href="/static/css/bootstrap-select.min.css">
-<link rel="stylesheet" type="text/css" href="/static/css/bootstrap-table.min.css">
+<link rel="stylesheet" type="text/css" href="/resources/css/bootstrap-select.min.css">
+<link rel="stylesheet" type="text/css" href="/resources/css/bootstrap-table.min.css">
 
-<link rel="stylesheet" type="text/css" href="/static/css/spinner.css" >
-<script src="/static/js/bootstrap-table.min.js"></script>
-<script src="/static/js/bootstrap-select.min.js"></script>
+<link rel="stylesheet" type="text/css" href="/resources/css/spinner.css" >
+<script src="/resources/js/bootstrap-table.min.js"></script>
+<script src="/resources/js/bootstrap-select.min.js"></script>
 
 
 </head>

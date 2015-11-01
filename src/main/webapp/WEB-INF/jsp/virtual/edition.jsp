@@ -4,12 +4,12 @@
 <head>
 <%@ include file="/WEB-INF/jsp/common/meta-head.jsp"%>
 <!--  <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">-->
-<link rel="stylesheet" type="text/css" href="/static/css/slick.grid.css">
-<link rel="stylesheet" type="text/css" href="/static/css/normalize.css"> 
-<link rel="stylesheet" type="text/css" href="/static/css/bootstrap-table.min.css"> 
-<link rel="stylesheet" type="text/css" href="/static/css/bootstrap-select.min.css">
-<link rel="stylesheet" type="text/css" href="/static/css/spinner.css" >
-<link rel="stylesheet" type="text/css" href="/static/css/toastr.min.css" />
+<link rel="stylesheet" type="text/css" href="/resources/css/slick.grid.css">
+<link rel="stylesheet" type="text/css" href="/resources/css/normalize.css"> 
+<link rel="stylesheet" type="text/css" href="/resources/css/bootstrap-table.min.css"> 
+<link rel="stylesheet" type="text/css" href="/resources/css/bootstrap-select.min.css">
+<link rel="stylesheet" type="text/css" href="/resources/css/spinner.css" >
+<link rel="stylesheet" type="text/css" href="/resources/css/toastr.min.css" />
 
 <style>
     .cell-effort-driven {
@@ -193,32 +193,32 @@ margin-left:-1px;
 </style>
 
 <!-- slickgrid -->
-<!--  <script type="text/javascript" src="/static/js/slickgrid/jquery-1.11.1.min.js"></script>-->
-<!--  <script type="text/javascript" src="/static/js/slickgrid/jquery-ui.js"></script>-->
-<script type="text/javascript" src="/static/js/slickgrid/jquery.event.drag-2.2.js"></script>
-<script type="text/javascript" src="/static/js/slickgrid/jquery.event.drop-2.2.js"></script>
+<!--  <script type="text/javascript" src="/resources/js/slickgrid/jquery-1.11.1.min.js"></script>-->
+<!--  <script type="text/javascript" src="/resources/js/slickgrid/jquery-ui.js"></script>-->
+<script type="text/javascript" src="/resources/js/slickgrid/jquery.event.drag-2.2.js"></script>
+<script type="text/javascript" src="/resources/js/slickgrid/jquery.event.drop-2.2.js"></script>
 
-<script src="/static/js/slickgrid/slick.core.js"></script>
-<script src="/static/js/slickgrid/plugins/slick.cellrangeselector.js"></script>
-<script src="/static/js/slickgrid/plugins/slick.cellselectionmodel.js"></script>
-<script src="/static/js/slickgrid/plugins/slick.rowselectionmodel.js"></script>
-<script src="/static/js/slickgrid/plugins/slick.rowmovemanager.js"></script>
-<script src="/static/js/slickgrid/slick.formatters.js"></script>
-<script src="/static/js/slickgrid/slick.editors.js"></script>
-<script src="/static/js/slickgrid/slick.grid.js"></script>
-<script src="/static/js/slickgrid/coelho.js"></script>
+<script src="/resources/js/slickgrid/slick.core.js"></script>
+<script src="/resources/js/slickgrid/plugins/slick.cellrangeselector.js"></script>
+<script src="/resources/js/slickgrid/plugins/slick.cellselectionmodel.js"></script>
+<script src="/resources/js/slickgrid/plugins/slick.rowselectionmodel.js"></script>
+<script src="/resources/js/slickgrid/plugins/slick.rowmovemanager.js"></script>
+<script src="/resources/js/slickgrid/slick.formatters.js"></script>
+<script src="/resources/js/slickgrid/slick.editors.js"></script>
+<script src="/resources/js/slickgrid/slick.grid.js"></script>
+<script src="/resources/js/slickgrid/coelho.js"></script>
 
 <!-- fraqs -->
-<script src="/static/js/fraqs/modernizr-2.8.3.min.js"></script>
-<script src="/static/js/fraqs/jquery.colors-1.6.0.min.js"></script>
-<script src="/static/js/fraqs/modplug-1.5.0.min.js"></script>
-<script src="/static/js/fraqs/jquery.fracs.js"></script>
-<script src="/static/js/fraqs/jquery.outline.js"></script>
+<script src="/resources/js/fraqs/modernizr-2.8.3.min.js"></script>
+<script src="/resources/js/fraqs/jquery.colors-1.6.0.min.js"></script>
+<script src="/resources/js/fraqs/modplug-1.5.0.min.js"></script>
+<script src="/resources/js/fraqs/jquery.fracs.js"></script>
+<script src="/resources/js/fraqs/jquery.outline.js"></script>
 
-<script src="/static/js/bootstrap-table.min.js"></script>
-<script src="/static/js/bootstrap-select.min.js"></script>
-<script src="/static/js/jquery.popconfirm.js"></script>
-<script src="/static/js/toastr.min.js"></script>
+<script src="/resources/js/bootstrap-table.min.js"></script>
+<script src="/resources/js/bootstrap-select.min.js"></script>
+<script src="/resources/js/jquery.popconfirm.js"></script>
+<script src="/resources/js/toastr.min.js"></script>
 <script src="http://malsup.github.com/jquery.form.js"></script> 
 
 <script>

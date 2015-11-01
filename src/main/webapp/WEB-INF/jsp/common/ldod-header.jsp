@@ -93,7 +93,7 @@
 			<!-- Login -->
 			<li><c:choose>
 					<c:when test="${pageContext.request.userPrincipal.authenticated}">
-						<a href="<c:url value="j_spring_security_logout"/>"><spring:message
+						<a href="<c:url value="${contextPath}/logout"/>"><spring:message
 								code="header.logout" /></a>
 					</c:when>
 					<c:otherwise>
@@ -106,9 +106,9 @@
 				data-toggle="dropdown"><span class="glyphicon glyphicon-flag"></span><b
 					class="caret"></b></a>
 				<ul class="dropdown-menu">
-					<li><a href="?lang=pt_PT">Português</a></li>
-					<li><a href="?lang=en">English</a></li>
-					<li><a href="?lang=es">Español</a></li>
+					<li><a href="/?lang=pt_PT">Português</a></li>
+					<li><a href="/?lang=en">English</a></li>
+					<li><a href="/?lang=es">Español</a></li>
 				</ul></li>
 		</ul>
 	</div>

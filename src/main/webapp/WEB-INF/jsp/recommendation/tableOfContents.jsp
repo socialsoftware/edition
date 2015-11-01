@@ -3,7 +3,7 @@
 <html>
 <head>
 <%@ include file="/WEB-INF/jsp/common/meta-head.jsp"%>
-<script src="/static/js/jquery-ui-1.11.4/jquery-ui.js"></script>
+<script src="/resources/js/jquery-ui-1.11.4/jquery-ui.js"></script>
 </head>
 <body>
 	<%@ include file="/WEB-INF/jsp/common/fixed-top-ldod-header.jsp"%>
