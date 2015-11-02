@@ -16,6 +16,7 @@ import pt.ist.socialsoftware.edition.security.UserDetailsServiceImpl;
 @EnableWebMvcSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
     @Autowired
     private UserDetailsService userDetailsService;
 
@@ -34,9 +35,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth)
             throws Exception {
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(11);
-
-        auth.userDetailsService(userDetailsService).passwordEncoder(encoder);
+        auth.userDetailsService(userDetailsService)
+                .passwordEncoder(new BCryptPasswordEncoder(11));
 
     }
 
