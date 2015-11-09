@@ -5,22 +5,35 @@ import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataAccessException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.social.security.SocialUser;
+import org.springframework.social.security.SocialUserDetails;
+import org.springframework.social.security.SocialUserDetailsService;
 import org.springframework.stereotype.Service;
 
+import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.domain.LdoD;
 import pt.ist.socialsoftware.edition.domain.LdoDUser;
 import pt.ist.socialsoftware.edition.domain.Role;
 
 @Service
-public class UserDetailsServiceImpl implements UserDetailsService {
+public class UserDetailsServiceImpl implements SocialUserDetailsService {
     private static Logger log = LoggerFactory
             .getLogger(UserDetailsServiceImpl.class);
 
     @Override
+    public SocialUserDetails loadUserByUserId(String userId)
+            throws UsernameNotFoundException, DataAccessException {
+        UserDetails userDetails = loadUserByUsername(
+                ((LdoDUser) FenixFramework.getDomainObject(userId))
+                        .getUsername());
+        return new SocialUser(userDetails.getUsername(),
+                userDetails.getPassword(), userDetails.getAuthorities());
+    }
+
     public UserDetails loadUserByUsername(String username)
             throws UsernameNotFoundException {
         log.debug("loadUserByUsername username:{}", username);
@@ -50,4 +63,5 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
         return matchingUser;
     }
+
 }

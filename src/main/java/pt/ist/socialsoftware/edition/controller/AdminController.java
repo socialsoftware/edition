@@ -1,6 +1,5 @@
 package pt.ist.socialsoftware.edition.controller;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -35,313 +34,307 @@ import pt.ist.socialsoftware.edition.visitors.TEIGenerator;
 @RequestMapping("/admin")
 public class AdminController {
 
-	@RequestMapping(method = RequestMethod.GET, value = "/load/corpusForm")
-	@PreAuthorize("hasRole('ADMIN')")
-	public String corpusForm(Model model) {
-		return "admin/loadCorpus";
-	}
+    @RequestMapping(method = RequestMethod.GET, value = "/load/corpusForm")
+    @PreAuthorize("hasRole('ADMIN')")
+    public String corpusForm(Model model) {
+        return "admin/loadCorpus";
+    }
 
-	@RequestMapping(method = RequestMethod.POST, value = "/load/corpus")
-	@PreAuthorize("hasRole('ADMIN')")
-	public String loadTEICorpus(Model model,
-			@RequestParam("file") MultipartFile file) throws LdoDLoadException {
+    @RequestMapping(method = RequestMethod.POST, value = "/load/corpus")
+    @PreAuthorize("hasRole('ADMIN')")
+    public String loadTEICorpus(Model model,
+            @RequestParam("file") MultipartFile file) throws LdoDLoadException {
 
-		if (file == null) {
-			throw new LdoDLoadException("Deve escolher um ficheiro");
-		}
+        if (file == null) {
+            throw new LdoDLoadException("Deve escolher um ficheiro");
+        }
 
-		LoadTEICorpus loader = new LoadTEICorpus();
-		try {
-			loader.loadTEICorpus(file.getInputStream());
-		} catch (IOException e) {
-			throw new LdoDLoadException(
-					"Problemas com o ficheiro, tipo ou formato");
-		}
+        LoadTEICorpus loader = new LoadTEICorpus();
+        try {
+            loader.loadTEICorpus(file.getInputStream());
+        } catch (IOException e) {
+            throw new LdoDLoadException(
+                    "Problemas com o ficheiro, tipo ou formato");
+        }
 
-		return writeMessage(model, "Corpus carregado", "/");
-	}
+        return writeMessage(model, "Corpus carregado", "/");
+    }
 
-	@RequestMapping(method = RequestMethod.GET, value = "/load/fragmentFormAtOnce")
-	@PreAuthorize("hasRole('ADMIN')")
-	public String fragmentFormAtOnce(Model model) {
-		return "admin/loadFragmentsAtOnce";
-	}
+    @RequestMapping(method = RequestMethod.GET, value = "/load/fragmentFormAtOnce")
+    @PreAuthorize("hasRole('ADMIN')")
+    public String fragmentFormAtOnce(Model model) {
+        return "admin/loadFragmentsAtOnce";
+    }
 
-	@RequestMapping(method = RequestMethod.GET, value = "/load/fragmentFormStepByStep")
-	@PreAuthorize("hasRole('ADMIN')")
-	public String fragmentFormStepByStep(Model model) {
-		return "admin/loadFragmentsStepByStep";
-	}
+    @RequestMapping(method = RequestMethod.GET, value = "/load/fragmentFormStepByStep")
+    @PreAuthorize("hasRole('ADMIN')")
+    public String fragmentFormStepByStep(Model model) {
+        return "admin/loadFragmentsStepByStep";
+    }
 
-	@RequestMapping(method = RequestMethod.POST, value = "/load/fragmentsAtOnce")
-	@PreAuthorize("hasRole('ADMIN')")
-	public String loadTEIFragmentsAtOnce(Model model,
-			@RequestParam("file") MultipartFile file) throws LdoDLoadException {
-		String message = null;
+    @RequestMapping(method = RequestMethod.POST, value = "/load/fragmentsAtOnce")
+    @PreAuthorize("hasRole('ADMIN')")
+    public String loadTEIFragmentsAtOnce(Model model,
+            @RequestParam("file") MultipartFile file) throws LdoDLoadException {
+        String message = null;
 
-		if (file == null) {
-			throw new LdoDLoadException("Deve escolher um ficheiro");
-		}
+        if (file == null) {
+            throw new LdoDLoadException("Deve escolher um ficheiro");
+        }
 
-		LoadTEIFragments loader = new LoadTEIFragments();
-		try {
-			message = loader.loadFragmentsAtOnce(file.getInputStream());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+        LoadTEIFragments loader = new LoadTEIFragments();
+        try {
+            message = loader.loadFragmentsAtOnce(file.getInputStream());
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
 
-		if (message == null) {
-			return writeMessage(model, "Fragmentos carregados",
-					"/search/fragments");
-		} else {
-			model.addAttribute("message", message);
-			return "utils/ldoDExceptionPage";
-		}
-	}
+        if (message == null) {
+            return writeMessage(model, "Fragmentos carregados",
+                    "/search/fragments");
+        } else {
+            model.addAttribute("message", message);
+            return "utils/ldoDExceptionPage";
+        }
+    }
 
-	@RequestMapping(method = RequestMethod.POST, value = "/load/fragmentsStepByStep")
-	@PreAuthorize("hasRole('ADMIN')")
-	public String loadTEIFragmentsStepByStep(Model model,
-			@RequestParam("files") MultipartFile[] files)
-			throws LdoDLoadException {
+    @RequestMapping(method = RequestMethod.POST, value = "/load/fragmentsStepByStep")
+    @PreAuthorize("hasRole('ADMIN')")
+    public String loadTEIFragmentsStepByStep(Model model,
+            @RequestParam("files") MultipartFile[] files)
+                    throws LdoDLoadException {
 
-		if (files == null) {
-			throw new LdoDLoadException("Deve escolher um ficheiro");
-		}
+        if (files == null) {
+            throw new LdoDLoadException("Deve escolher um ficheiro");
+        }
 
-		LoadTEIFragments loader = new LoadTEIFragments();
+        LoadTEIFragments loader = new LoadTEIFragments();
 
-		String list = "";
-		int total = 0;
-		for (MultipartFile file : files) {
-			try {
-				list = list
-						+ loader.loadFragmentsStepByStep(file.getInputStream());
-				total++;
-			} catch (IOException e) {
-				throw new LdoDLoadException(
-						"Problemas com o ficheiro, tipo ou formato");
-			}
-		}
+        String list = "";
+        int total = 0;
+        for (MultipartFile file : files) {
+            try {
+                list = list
+                        + loader.loadFragmentsStepByStep(file.getInputStream());
+                total++;
+            } catch (IOException e) {
+                throw new LdoDLoadException(
+                        "Problemas com o ficheiro, tipo ou formato");
+            }
+        }
 
-		return writeMessage(model, "Fragmentos carregados: " + total + "<br>"
-				+ list, "/search/fragments");
+        return writeMessage(model,
+                "Fragmentos carregados: " + total + "<br>" + list,
+                "/search/fragments");
 
-	}
+    }
 
-	private String writeMessage(Model model, String message, String back) {
-		model.addAttribute("message", message);
-		model.addAttribute("page", back);
-		return "utils/okMessage";
-	}
+    private String writeMessage(Model model, String message, String back) {
+        model.addAttribute("message", message);
+        model.addAttribute("page", back);
+        return "utils/okMessage";
+    }
 
-	@RequestMapping(method = RequestMethod.GET, value = "/fragment/list")
-	@PreAuthorize("hasRole('ADMIN')")
-	public String deleteFragmentsList(Model model) {
-		model.addAttribute("fragments", LdoD.getInstance().getFragmentsSet());
-		return "admin/deleteFragment";
-	}
+    @RequestMapping(method = RequestMethod.GET, value = "/fragment/list")
+    @PreAuthorize("hasRole('ADMIN')")
+    public String deleteFragmentsList(Model model) {
+        model.addAttribute("fragments", LdoD.getInstance().getFragmentsSet());
+        return "admin/deleteFragment";
+    }
 
-	@RequestMapping(method = RequestMethod.POST, value = "/fragment/delete")
-	@PreAuthorize("hasRole('ADMIN')")
-	public String deleteFragment(Model model,
-			@RequestParam("externalId") String externalId) {
-		Fragment fragment = FenixFramework.getDomainObject(externalId);
+    @RequestMapping(method = RequestMethod.POST, value = "/fragment/delete")
+    @PreAuthorize("hasRole('ADMIN')")
+    public String deleteFragment(Model model,
+            @RequestParam("externalId") String externalId) {
+        Fragment fragment = FenixFramework.getDomainObject(externalId);
 
-		if (fragment == null) {
-			return "utils/pageNotFound";
-		} else if (LdoD.getInstance().getFragmentsSet().size() >= 1) {
-			fragment.remove();
-		}
-		model.addAttribute("fragments", LdoD.getInstance().getFragmentsSet());
-		return "admin/deleteFragment";
+        if (fragment == null) {
+            return "utils/pageNotFound";
+        } else if (LdoD.getInstance().getFragmentsSet().size() >= 1) {
+            fragment.remove();
+        }
+        model.addAttribute("fragments", LdoD.getInstance().getFragmentsSet());
+        return "admin/deleteFragment";
 
-	}
+    }
 
-	@RequestMapping(method = RequestMethod.POST, value = "/fragment/deleteAll")
-	@PreAuthorize("hasRole('ADMIN')")
-	public String deleteAllFragments(Model model) {
-		for (Fragment fragment : LdoD.getInstance().getFragmentsSet()) {
-			fragment.remove();
-		}
+    @RequestMapping(method = RequestMethod.POST, value = "/fragment/deleteAll")
+    @PreAuthorize("hasRole('ADMIN')")
+    public String deleteAllFragments(Model model) {
+        for (Fragment fragment : LdoD.getInstance().getFragmentsSet()) {
+            fragment.remove();
+        }
 
-		model.addAttribute("fragments", LdoD.getInstance().getFragmentsSet());
-		return "admin/deleteFragment";
+        model.addAttribute("fragments", LdoD.getInstance().getFragmentsSet());
+        return "admin/deleteFragment";
 
-	}
+    }
 
-	@RequestMapping(method = RequestMethod.GET, value = "/user/create")
-	@PreAuthorize("hasRole('ADMIN')")
-	public String createUsers(Model model) throws FileNotFoundException,
-			IOException {
-		LdoD.getInstance().createUsers();
-		return writeMessage(model, "Utilizadores criados", "/");
+    @RequestMapping(method = RequestMethod.GET, value = "/exportForm")
+    public String exportForm(Model model) {
+        return "admin/exportForm";
+    }
 
-	}
+    @RequestMapping(method = RequestMethod.POST, value = "/exportSearch")
+    public String exportSearch(Model model,
+            @RequestParam("query") String query) {
 
-	@RequestMapping(method = RequestMethod.GET, value = "/exportForm")
-	public String exportForm(Model model) {
-		return "admin/exportForm";
-	}
+        LdoD ldoD = LdoD.getInstance();
 
-	@RequestMapping(method = RequestMethod.POST, value = "/exportSearch")
-	public String exportSearch(Model model, @RequestParam("query") String query) {
+        List<String> frags = new ArrayList<String>();
+        int n = 0;
 
-		LdoD ldoD = LdoD.getInstance();
+        if (query.compareTo("") != 0) {
+            for (Fragment frag : ldoD.getFragmentsSet()) {
+                if (frag.getTitle().contains(query)) {
+                    frags.add(
+                            "<a href=\"/fragments/fragment/"
+                                    + frag.getExternalId() + "\">"
+                                    + frag.getTitle().replace(query,
+                                            "<b><u>" + query + "</u></b>")
+                            + "</a>");
+                    n++;
+                }
+            }
+        }
 
-		List<String> frags = new ArrayList<String>();
-		int n = 0;
+        model.addAttribute("query", query);
+        model.addAttribute("nResults", n);
+        model.addAttribute("frags", frags);
 
-		if (query.compareTo("") != 0) {
-			for (Fragment frag : ldoD.getFragmentsSet()) {
-				if (frag.getTitle().contains(query)) {
-					frags.add("<a href=\"/fragments/fragment/"
-							+ frag.getExternalId()
-							+ "\">"
-							+ frag.getTitle().replace(query,
-									"<b><u>" + query + "</u></b>") + "</a>");
-					n++;
-				}
-			}
-		}
+        return "admin/exportForm";
+    }
 
-		model.addAttribute("query", query);
-		model.addAttribute("nResults", n);
-		model.addAttribute("frags", frags);
+    @RequestMapping(method = RequestMethod.POST, value = "/exportSearchResult")
+    public void exportSearchResult(HttpServletResponse response, Model model,
+            @RequestParam("query") String query) {
 
-		return "admin/exportForm";
-	}
+        LdoD ldoD = LdoD.getInstance();
 
-	@RequestMapping(method = RequestMethod.POST, value = "/exportSearchResult")
-	public void exportSearchResult(HttpServletResponse response, Model model,
-			@RequestParam("query") String query) {
+        Map<Fragment, Set<FragInter>> searchResult = new HashMap<Fragment, Set<FragInter>>();
 
-		LdoD ldoD = LdoD.getInstance();
+        for (Fragment frag : ldoD.getFragmentsSet()) {
+            if (frag.getTitle().contains(query)) {
+                Set<FragInter> inters = new HashSet<FragInter>();
+                for (FragInter inter : frag.getFragmentInterSet()) {
+                    if (inter.getSourceType() != EditionType.VIRTUAL) {
+                        inters.add(inter);
+                    }
+                }
+                searchResult.put(frag, inters);
+            }
+        }
 
-		Map<Fragment, Set<FragInter>> searchResult = new HashMap<Fragment, Set<FragInter>>();
+        TEIGenerator teiGenerator = new TEIGenerator();
+        teiGenerator.generate(searchResult);
 
-		for (Fragment frag : ldoD.getFragmentsSet()) {
-			if (frag.getTitle().contains(query)) {
-				Set<FragInter> inters = new HashSet<FragInter>();
-				for (FragInter inter : frag.getFragmentInterSet()) {
-					if (inter.getSourceType() != EditionType.VIRTUAL) {
-						inters.add(inter);
-					}
-				}
-				searchResult.put(frag, inters);
-			}
-		}
+        try {
+            // get your file as InputStream
+            InputStream is = IOUtils.toInputStream(teiGenerator.getXMLResult(),
+                    "UTF-8");
+            response.setHeader("Content-Disposition",
+                    "attachment; filename=tei.xml");
+            response.setContentType("application/tei+xml");
+            IOUtils.copy(is, response.getOutputStream());
+            response.flushBuffer();
+        } catch (IOException ex) {
+            System.out.println(
+                    "Error writing file to output stream. Filename was '{}'");
+            throw new RuntimeException("IOError writing file to output stream");
+        }
+    }
 
-		TEIGenerator teiGenerator = new TEIGenerator();
-		teiGenerator.generate(searchResult);
+    @RequestMapping(method = RequestMethod.GET, value = "/exportAll")
+    public void exportAll(HttpServletResponse response) {
 
-		try {
-			// get your file as InputStream
-			InputStream is = IOUtils.toInputStream(teiGenerator.getXMLResult(),
-					"UTF-8");
-			response.setHeader("Content-Disposition",
-					"attachment; filename=tei.xml");
-			response.setContentType("application/tei+xml");
-			IOUtils.copy(is, response.getOutputStream());
-			response.flushBuffer();
-		} catch (IOException ex) {
-			System.out
-					.println("Error writing file to output stream. Filename was '{}'");
-			throw new RuntimeException("IOError writing file to output stream");
-		}
-	}
+        LdoD ldoD = LdoD.getInstance();
 
-	@RequestMapping(method = RequestMethod.GET, value = "/exportAll")
-	public void exportAll(HttpServletResponse response) {
+        Map<Fragment, Set<FragInter>> searchResult = new HashMap<Fragment, Set<FragInter>>();
 
-		LdoD ldoD = LdoD.getInstance();
+        for (Fragment frag : ldoD.getFragmentsSet()) {
+            Set<FragInter> inters = new HashSet<FragInter>();
 
-		Map<Fragment, Set<FragInter>> searchResult = new HashMap<Fragment, Set<FragInter>>();
+            for (FragInter inter : frag.getFragmentInterSet()) {
+                if (inter.getSourceType() != EditionType.VIRTUAL) {
 
-		for (Fragment frag : ldoD.getFragmentsSet()) {
-			Set<FragInter> inters = new HashSet<FragInter>();
+                    inters.add(inter);
+                }
+            }
+            searchResult.put(frag, inters);
+        }
 
-			for (FragInter inter : frag.getFragmentInterSet()) {
-				if (inter.getSourceType() != EditionType.VIRTUAL) {
+        TEIGenerator teiGenerator = new TEIGenerator();
+        teiGenerator.generate(searchResult);
 
-					inters.add(inter);
-				}
-			}
-			searchResult.put(frag, inters);
-		}
+        try {
+            // get your file as InputStream
+            InputStream is = IOUtils.toInputStream(teiGenerator.getXMLResult(),
+                    "UTF-8");
+            response.setHeader("Content-Disposition",
+                    "attachment; filename=tei.xml");
+            response.setContentType("application/tei+xml");
+            IOUtils.copy(is, response.getOutputStream());
+            response.flushBuffer();
+        } catch (IOException ex) {
+            System.out.println(
+                    "Error writing file to output stream. Filename was '{}'");
+            throw new RuntimeException("IOError writing file to output stream");
+        }
 
-		TEIGenerator teiGenerator = new TEIGenerator();
-		teiGenerator.generate(searchResult);
+    }
 
-		try {
-			// get your file as InputStream
-			InputStream is = IOUtils.toInputStream(teiGenerator.getXMLResult(),
-					"UTF-8");
-			response.setHeader("Content-Disposition",
-					"attachment; filename=tei.xml");
-			response.setContentType("application/tei+xml");
-			IOUtils.copy(is, response.getOutputStream());
-			response.flushBuffer();
-		} catch (IOException ex) {
-			System.out
-					.println("Error writing file to output stream. Filename was '{}'");
-			throw new RuntimeException("IOError writing file to output stream");
-		}
+    @RequestMapping(method = RequestMethod.GET, value = "/exportRandom")
+    public void exportRandom(HttpServletResponse response) {
 
-	}
+        LdoD ldoD = LdoD.getInstance();
 
-	@RequestMapping(method = RequestMethod.GET, value = "/exportRandom")
-	public void exportRandom(HttpServletResponse response) {
+        Map<Fragment, Set<FragInter>> searchResult = new HashMap<Fragment, Set<FragInter>>();
 
-		LdoD ldoD = LdoD.getInstance();
+        List<Fragment> fragments = new ArrayList<Fragment>(
+                LdoD.getInstance().getFragmentsSet());
 
-		Map<Fragment, Set<FragInter>> searchResult = new HashMap<Fragment, Set<FragInter>>();
+        List<String> fragsRandom = new ArrayList<String>();
 
-		List<Fragment> fragments = new ArrayList<Fragment>(LdoD.getInstance()
-				.getFragmentsSet());
+        int size = fragments.size();
 
-		List<String> fragsRandom = new ArrayList<String>();
+        int fragPos = 0;
+        Fragment frag = null;
 
-		int size = fragments.size();
+        for (int i = 0; i < 3; i++) {
+            fragPos = (int) (Math.random() * size);
+            frag = fragments.get(fragPos);
 
-		int fragPos = 0;
-		Fragment frag = null;
+            fragsRandom.add("<a href=\"/fragments/fragment/"
+                    + frag.getExternalId() + "\">" + frag.getTitle() + "</a>");
 
-		for (int i = 0; i < 3; i++) {
-			fragPos = (int) (Math.random() * size);
-			frag = fragments.get(fragPos);
+            Set<FragInter> inters = new HashSet<FragInter>();
+            for (FragInter inter : frag.getFragmentInterSet()) {
+                if (inter.getSourceType() != EditionType.VIRTUAL) {
 
-			fragsRandom.add("<a href=\"/fragments/fragment/"
-					+ frag.getExternalId() + "\">" + frag.getTitle() + "</a>");
+                    inters.add(inter);
+                }
+            }
+            searchResult.put(frag, inters);
+        }
 
-			Set<FragInter> inters = new HashSet<FragInter>();
-			for (FragInter inter : frag.getFragmentInterSet()) {
-				if (inter.getSourceType() != EditionType.VIRTUAL) {
+        TEIGenerator teiGenerator = new TEIGenerator();
+        teiGenerator.generate(searchResult);
 
-					inters.add(inter);
-				}
-			}
-			searchResult.put(frag, inters);
-		}
+        try {
+            // get your file as InputStream
+            InputStream is = IOUtils.toInputStream(teiGenerator.getXMLResult(),
+                    "UTF-8");
+            response.setHeader("Content-Disposition",
+                    "attachment; filename=tei.xml");
+            response.setContentType("application/tei+xml");
+            IOUtils.copy(is, response.getOutputStream());
+            response.flushBuffer();
+        } catch (IOException ex) {
+            System.out.println(
+                    "Error writing file to output stream. Filename was '{}'");
+            throw new RuntimeException("IOError writing file to output stream");
+        }
 
-		TEIGenerator teiGenerator = new TEIGenerator();
-		teiGenerator.generate(searchResult);
-
-		try {
-			// get your file as InputStream
-			InputStream is = IOUtils.toInputStream(teiGenerator.getXMLResult(),
-					"UTF-8");
-			response.setHeader("Content-Disposition",
-					"attachment; filename=tei.xml");
-			response.setContentType("application/tei+xml");
-			IOUtils.copy(is, response.getOutputStream());
-			response.flushBuffer();
-		} catch (IOException ex) {
-			System.out
-					.println("Error writing file to output stream. Filename was '{}'");
-			throw new RuntimeException("IOError writing file to output stream");
-		}
-
-	}
+    }
 }
