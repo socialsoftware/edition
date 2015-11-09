@@ -96,6 +96,9 @@ public class Bootstrap implements WebApplicationInitializer {
         LdoDUser bernardosoares = new LdoDUser(ldod, "bernardosoares",
                 "$2a$04$2romaiXNBOFcVpDrcg0Miepy7AeeBGJq4jc4EdRA/EFekYxSFxTsC",
                 "Bernardo", "Soares", "bernardosoares@pessoa.pt");
+        LdoDUser rita = new LdoDUser(ldod, "rita",
+                "$2a$12$6UbQBZNy0s2LQnQjaPe2au645FF.gEC7/RF5Xv9P8bdAhJo.fugoa",
+                "Rita", "Marrone", "bernardosoares@pessoa.pt");
 
         ars.addRoles(user);
         ars.addRoles(admin);
@@ -125,6 +128,9 @@ public class Bootstrap implements WebApplicationInitializer {
 
         bernardosoares.addRoles(user);
 
+        rita.addRoles(user);
+        rita.addRoles(admin);
+
         VirtualEdition classX = new VirtualEdition(ldod, ars, "ClassX",
                 "LdoD Edition of Class X", new LocalDate(), false, null);
         classX.addParticipant(luis);
@@ -136,6 +142,7 @@ public class Bootstrap implements WebApplicationInitializer {
         classX.addParticipant(daniela);
         classX.addParticipant(joana);
         classX.addParticipant(bernardosoares);
+        classX.addParticipant(rita);
         luis.addSelectedVirtualEditions(classX);
         mp.addSelectedVirtualEditions(classX);
         ars.addSelectedVirtualEditions(classX);
@@ -144,6 +151,7 @@ public class Bootstrap implements WebApplicationInitializer {
         nuno.addSelectedVirtualEditions(classX);
         andre.addSelectedVirtualEditions(classX);
         bernardosoares.addSelectedVirtualEditions(classX);
+        rita.addSelectedVirtualEditions(classX);
 
         VirtualEdition classY = new VirtualEdition(ldod, ars, "ClassY",
                 "LdoD Edition of Class Y", new LocalDate(), false, null);
