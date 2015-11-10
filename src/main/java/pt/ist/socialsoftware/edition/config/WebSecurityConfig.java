@@ -1,48 +1,79 @@
 package pt.ist.socialsoftware.edition.config;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.servlet.configuration.EnableWebMvcSecurity;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.encrypt.Encryptors;
+import org.springframework.security.crypto.encrypt.TextEncryptor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
-import pt.ist.socialsoftware.edition.security.UserDetailsServiceImpl;
+import pt.ist.socialsoftware.edition.security.LdoDSocialUserDetailsService;
+import pt.ist.socialsoftware.edition.security.LdoDUserDetailsService;
 
 @Configuration
 @EnableWebMvcSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+    private static Logger log = LoggerFactory
+            .getLogger(WebSecurityConfig.class);
 
-    @Autowired
-    private UserDetailsService userDetailsService;
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring().antMatchers("/resources/**");
+    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable().authorizeRequests().antMatchers("/resources/**")
+        log.debug("configure");
+
+        http.csrf().disable().formLogin().loginPage("/signin")
+                .loginProcessingUrl("/signin/authenticate")
+                .failureUrl("/signin?param.error=bad_credentials").and()
+                .logout().logoutUrl("/signout").deleteCookies("JSESSIONID")
+                .and().authorizeRequests()
+                .antMatchers("/", "/auth/**", "/signin/**", "/signup/**")
                 .permitAll().anyRequest().authenticated()
                 .antMatchers("/virtualeditions/restricted/**").authenticated()
                 .antMatchers("/admin/**").hasAuthority("ADMIN").and()
-                .formLogin().failureUrl("/login?errorLogin")
-                .defaultSuccessUrl("/").loginPage("/login").permitAll().and()
-                .logout().logoutUrl("/logout").deleteCookies("remember-me")
-                .logoutSuccessUrl("/").permitAll().and().rememberMe();
+                .rememberMe();
     }
 
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth)
+    @Autowired
+    public void registerAuthentication(AuthenticationManagerBuilder auth)
             throws Exception {
-        auth.userDetailsService(userDetailsService)
-                .passwordEncoder(new BCryptPasswordEncoder(11));
+        log.debug("registerAuthentication");
 
+        auth.userDetailsService(ldoDUserDetailsService())
+                .passwordEncoder(passwordEncoder());
     }
 
-    @Override
-    public UserDetailsService userDetailsServiceBean() {
-        return new UserDetailsServiceImpl();
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder(11);
+    }
+
+    @Bean
+    public TextEncryptor textEncryptor() {
+        return Encryptors.noOpText();
+    }
+
+    @Bean
+    public LdoDUserDetailsService ldoDUserDetailsService() {
+        return new LdoDUserDetailsService();
+    }
+
+    @Bean
+    public LdoDSocialUserDetailsService ldoDSocialUserDetailsService() {
+        return new LdoDSocialUserDetailsService(ldoDUserDetailsService());
     }
 
 }

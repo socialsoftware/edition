@@ -34,7 +34,7 @@ import pt.ist.socialsoftware.edition.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.domain.VirtualEditionInter;
 import pt.ist.socialsoftware.edition.mallet.TopicModeler;
 import pt.ist.socialsoftware.edition.security.LdoDSession;
-import pt.ist.socialsoftware.edition.security.UserDetailsServiceImpl;
+import pt.ist.socialsoftware.edition.security.LdoDUserDetailsService;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDCreateVirtualEditionException;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDDuplicateAcronymException;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDDuplicateNameException;
@@ -47,7 +47,7 @@ import pt.ist.socialsoftware.edition.visitors.HtmlWriter4OneInter;
 @RequestMapping("/virtualeditions")
 public class VirtualEditionController {
     private static Logger log = LoggerFactory
-            .getLogger(UserDetailsServiceImpl.class);
+            .getLogger(LdoDUserDetailsService.class);
 
     @ModelAttribute("ldoDSession")
     public LdoDSession getLdoDSession() {
