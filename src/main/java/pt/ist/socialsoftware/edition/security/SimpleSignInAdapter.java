@@ -5,6 +5,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.web.WebAttributes;
 import org.springframework.security.web.savedrequest.RequestCache;
 import org.springframework.security.web.savedrequest.SavedRequest;
@@ -13,18 +15,24 @@ import org.springframework.social.connect.web.SignInAdapter;
 import org.springframework.web.context.request.NativeWebRequest;
 
 public class SimpleSignInAdapter implements SignInAdapter {
+    private static Logger log = LoggerFactory
+            .getLogger(SimpleSignInAdapter.class);
 
     private final RequestCache requestCache;
 
     @Inject
     public SimpleSignInAdapter(RequestCache requestCache) {
+        log.debug("SimpleSignInAdapter");
+
         this.requestCache = requestCache;
     }
 
     @Override
     public String signIn(String localUserId, Connection<?> connection,
             NativeWebRequest request) {
-        SignInUtils.signin(localUserId);
+        log.debug("signIn localUserId:{}", localUserId);
+
+        SigninUtils.signin(localUserId);
         return extractOriginalUrl(request);
     }
 

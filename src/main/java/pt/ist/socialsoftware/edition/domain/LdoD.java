@@ -146,11 +146,11 @@ public class LdoD extends LdoD_Base {
 
     @Atomic(mode = TxMode.WRITE)
     public LdoDUser createUser(PasswordEncoder passwordEncoder, String username,
-            String password, String firstName, String lastName) {
+            String password, String firstName, String lastName, String email) {
         if (getUser(username) == null) {
             LdoDUser user = new LdoDUser(this, username,
                     passwordEncoder.encode(password), firstName, lastName,
-                    "no@email.com");
+                    email);
 
             Role userRole = getRole("USER");
             user.addRoles(userRole);
@@ -159,7 +159,6 @@ public class LdoD extends LdoD_Base {
         } else {
             throw new LdoDException();
         }
-
     }
 
 }

@@ -93,11 +93,11 @@
 			<!-- Login -->
 			<li><c:choose>
 					<c:when test="${pageContext.request.userPrincipal.authenticated}">
-						<a href="<c:url value="${contextPath}/logout"/>"><spring:message
+						<a href="<c:url value="${contextPath}/signout"/>"><spring:message
 								code="header.logout" /></a>
 					</c:when>
 					<c:otherwise>
-						<a href="${contextPath}/login"><spring:message
+						<a href="${contextPath}/signin"><spring:message
 								code="header.login" /></a>
 					</c:otherwise>
 				</c:choose></li>

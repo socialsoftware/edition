@@ -9,7 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
-import pt.ist.socialsoftware.edition.security.UserDetailsImpl;
+import pt.ist.socialsoftware.edition.security.LdoDUserDetails;
 
 public class LdoDUser extends LdoDUser_Base {
 
@@ -17,10 +17,10 @@ public class LdoDUser extends LdoDUser_Base {
 		Authentication authentication = SecurityContextHolder.getContext()
 				.getAuthentication();
 		if (authentication != null) {
-			UserDetailsImpl userDetails = null;
+			LdoDUserDetails userDetails = null;
 			Object principal = authentication.getPrincipal();
 			if (principal instanceof UserDetails) {
-				userDetails = (UserDetailsImpl) principal;
+				userDetails = (LdoDUserDetails) principal;
 				return userDetails.getUser();
 			}
 		}

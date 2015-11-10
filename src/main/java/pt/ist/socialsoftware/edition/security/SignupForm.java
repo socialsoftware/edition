@@ -2,10 +2,11 @@ package pt.ist.socialsoftware.edition.security;
 
 import javax.validation.constraints.Size;
 
+import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.social.connect.UserProfile;
 
-public class SignUpForm {
+public class SignupForm {
 
     @NotEmpty
     private String username;
@@ -18,6 +19,10 @@ public class SignUpForm {
 
     @NotEmpty
     private String lastName;
+
+    @NotEmpty
+    @Email
+    private String email;
 
     public String getUsername() {
         return username;
@@ -51,11 +56,20 @@ public class SignUpForm {
         this.lastName = lastName;
     }
 
-    public static SignUpForm fromProviderUser(UserProfile providerUser) {
-        SignUpForm form = new SignUpForm();
+    public String getEmail() {
+        return this.email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public static SignupForm fromProviderUser(UserProfile providerUser) {
+        SignupForm form = new SignupForm();
         form.setFirstName(providerUser.getFirstName());
         form.setLastName(providerUser.getLastName());
         form.setUsername(providerUser.getUsername());
+        form.setEmail(providerUser.getEmail());
         return form;
     }
 }

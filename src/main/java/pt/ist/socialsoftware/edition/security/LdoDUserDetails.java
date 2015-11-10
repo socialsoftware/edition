@@ -3,13 +3,17 @@ package pt.ist.socialsoftware.edition.security;
 import java.util.Collection;
 import java.util.HashSet;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.social.security.SocialUserDetails;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.domain.LdoDUser;
 
-public class UserDetailsImpl implements SocialUserDetails {
+public class LdoDUserDetails implements UserDetails {
+    private static Logger log = LoggerFactory.getLogger(LdoDUserDetails.class);
+
     private static final long serialVersionUID = -6509897037222767090L;
 
     private Collection<GrantedAuthority> authorities = new HashSet<GrantedAuthority>();
@@ -17,7 +21,7 @@ public class UserDetailsImpl implements SocialUserDetails {
     private final String username;
     private final String userId;
 
-    public UserDetailsImpl(LdoDUser user, String username, String password,
+    public LdoDUserDetails(LdoDUser user, String username, String password,
             Collection<GrantedAuthority> authorities) {
         this.username = username;
         this.password = password;
@@ -41,6 +45,7 @@ public class UserDetailsImpl implements SocialUserDetails {
     }
 
     public LdoDUser getUser() {
+        log.debug("getUser userId:{}", userId);
         return (LdoDUser) FenixFramework.getDomainObject(userId);
     }
 
@@ -62,11 +67,6 @@ public class UserDetailsImpl implements SocialUserDetails {
     @Override
     public boolean isEnabled() {
         return true;
-    }
-
-    @Override
-    public String getUserId() {
-        return userId;
     }
 
 }

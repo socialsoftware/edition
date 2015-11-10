@@ -3,7 +3,7 @@ package pt.ist.socialsoftware.edition.security;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-public class SignInUtils {
+public class SigninUtils {
 
     public static void signin(String userId) {
         SecurityContextHolder.getContext().setAuthentication(

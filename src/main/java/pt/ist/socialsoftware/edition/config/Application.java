@@ -1,19 +1,25 @@
-package pt.ist.socialsoftware.edition;
+package pt.ist.socialsoftware.edition.config;
 
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.web.SpringBootServletInitializer;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
+import org.springframework.social.connect.web.SignInAdapter;
 
+import pt.ist.socialsoftware.edition.security.SimpleSignInAdapter;
 import pt.ist.socialsoftware.edition.utils.Bootstrap;
 
-@PropertySource({ "classpath:application.properties" })
+@PropertySource({ "classpath:application.properties",
+        "classpath:secrete.properties" })
+@ComponentScan(basePackages = "pt.ist.socialsoftware.edition")
 @SpringBootApplication
-@EnableAutoConfiguration(exclude = { DataSourceAutoConfiguration.class })
+@EnableAutoConfiguration // (exclude = { DataSourceAutoConfiguration.class })
 public class Application extends SpringBootServletInitializer
         implements InitializingBean {
 
@@ -30,6 +36,11 @@ public class Application extends SpringBootServletInitializer
     @Override
     public void afterPropertiesSet() {
         Bootstrap.initDatabase();
+    }
+
+    @Bean
+    public SignInAdapter signInAdapter() {
+        return new SimpleSignInAdapter(new HttpSessionRequestCache());
     }
 
 }
