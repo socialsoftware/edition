@@ -16,6 +16,8 @@ import org.springframework.security.crypto.encrypt.Encryptors;
 import org.springframework.security.crypto.encrypt.TextEncryptor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import pt.ist.socialsoftware.edition.domain.Role.RoleType;
+import pt.ist.socialsoftware.edition.security.LdoDAuthenticationSuccessHandler;
 import pt.ist.socialsoftware.edition.security.LdoDSocialUserDetailsService;
 import pt.ist.socialsoftware.edition.security.LdoDUserDetailsService;
 
@@ -36,6 +38,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         log.debug("configure");
 
         http.csrf().disable().formLogin().loginPage("/signin")
+                .successHandler(ldoDAuthenticationSuccessHandler())
                 .loginProcessingUrl("/signin/authenticate")
                 .failureUrl("/signin?param.error=bad_credentials").and()
                 .logout().logoutUrl("/signout").deleteCookies("JSESSIONID")
@@ -43,8 +46,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/", "/auth/**", "/signin/**", "/signup/**")
                 .permitAll().anyRequest().authenticated()
                 .antMatchers("/virtualeditions/restricted/**").authenticated()
-                .antMatchers("/admin/**").hasAuthority("ADMIN").and()
-                .rememberMe();
+                .antMatchers("/admin/**")
+                .hasAuthority(RoleType.ROLE_ADMIN.name()).and().rememberMe();
     }
 
     @Autowired
@@ -74,6 +77,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public LdoDSocialUserDetailsService ldoDSocialUserDetailsService() {
         return new LdoDSocialUserDetailsService(ldoDUserDetailsService());
+    }
+
+    @Bean
+    public LdoDAuthenticationSuccessHandler ldoDAuthenticationSuccessHandler() {
+        return new LdoDAuthenticationSuccessHandler();
     }
 
 }

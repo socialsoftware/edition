@@ -24,6 +24,10 @@ public class SignupForm {
     @Email
     private String email;
 
+    private String socialMediaService;
+
+    private String socialMediaId;
+
     public String getUsername() {
         return username;
     }
@@ -64,12 +68,33 @@ public class SignupForm {
         this.email = email;
     }
 
-    public static SignupForm fromProviderUser(UserProfile providerUser) {
+    public String getSocialMediaService() {
+        return this.socialMediaService;
+    }
+
+    public void setSocialMediaService(String socialMediaService) {
+        this.socialMediaService = socialMediaService;
+    }
+
+    public String getSocialMediaId() {
+        return socialMediaId;
+    }
+
+    public void setSocialMediaId(String socialMediaId) {
+        this.socialMediaId = socialMediaId;
+    }
+
+    public static SignupForm fromProviderUser(UserProfile providerUser,
+            String providerId) {
         SignupForm form = new SignupForm();
         form.setFirstName(providerUser.getFirstName());
         form.setLastName(providerUser.getLastName());
         form.setUsername(providerUser.getUsername());
         form.setEmail(providerUser.getEmail());
+        form.setSocialMediaService(providerId);
+        form.setSocialMediaId(providerUser.getUsername());
+
         return form;
     }
+
 }

@@ -1,9 +1,14 @@
 package pt.ist.socialsoftware.edition.domain;
 
+enum pt.ist.socialsoftware.edition.domain.Role.RoleType as RoleType;
+enum pt.ist.socialsoftware.edition.domain.LdoDUser.SocialMediaService as SocialMediaService;
+enum pt.ist.socialsoftware.edition.domain.Fragment.PrecisionType as PrecisionType;
 enum pt.ist.socialsoftware.edition.domain.Source.SourceType as SourceType;
 enum pt.ist.socialsoftware.edition.domain.ManuscriptSource.Medium as Medium;
 enum pt.ist.socialsoftware.edition.domain.ManuscriptSource.Form as Form;
 enum pt.ist.socialsoftware.edition.domain.ManuscriptSource.Material as Material;
+enum pt.ist.socialsoftware.edition.domain.Category.CategoryType as CategoryType;
+enum pt.ist.socialsoftware.edition.domain.Tag.TagType as TagType;
 enum pt.ist.socialsoftware.edition.domain.SpaceText.SpaceDim as SpaceDim;
 enum pt.ist.socialsoftware.edition.domain.SpaceText.SpaceUnit as SpaceUnit;
 enum pt.ist.socialsoftware.edition.domain.Rend.Rendition as Rendition;
@@ -16,9 +21,6 @@ enum pt.ist.socialsoftware.edition.domain.UnclearText.UnclearReason as UnclearRe
 enum pt.ist.socialsoftware.edition.domain.AltText.AltMode as AltMode;
 enum pt.ist.socialsoftware.edition.domain.NoteText.NoteType as NoteType;
 enum pt.ist.socialsoftware.edition.domain.RefText.RefType as RefType;
-enum pt.ist.socialsoftware.edition.domain.Category.CategoryType as CategoryType;
-enum pt.ist.socialsoftware.edition.domain.Tag.TagType as TagType;
-enum pt.ist.socialsoftware.edition.domain.Fragment.PrecisionType as PrecisionType;
 
 class LdoD {
 	String title;
@@ -44,6 +46,8 @@ class LdoDUser {
 	String firstName;
 	String lastName;
 	String email;
+	SocialMediaService socialMediaService;
+	String socialMediaId;
 }
 
 relation LdoDHasLdoDUsers {
@@ -52,7 +56,7 @@ relation LdoDHasLdoDUsers {
 }
 
 class Role {
-	String rolename;
+	RoleType type;
 }
 
 relation LdoDHasRoles {

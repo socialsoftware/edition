@@ -33,8 +33,8 @@ public class LdoDUserDetailsService implements UserDetailsService {
             if (user.getUsername().equals(username)) {
                 Set<GrantedAuthority> authorities = new HashSet<GrantedAuthority>();
                 for (Role role : user.getRolesSet()) {
-                    authorities
-                            .add(new GrantedAuthorityImpl(role.getRolename()));
+                    authorities.add(
+                            new GrantedAuthorityImpl(role.getType().name()));
                 }
                 matchingUser = new LdoDUserDetails(user, user.getUsername(),
                         user.getPassword(), authorities);

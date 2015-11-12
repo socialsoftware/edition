@@ -1,8 +1,11 @@
 <%@ include file="/WEB-INF/jsp/common/tags-head.jsp"%>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <%@ include file="/WEB-INF/jsp/common/meta-head.jsp"%>
+<link rel="stylesheet" type="text/css"
+    href="/resources/css/bootstrap-social.css" />
 </head>
 <body>
     <%@ include file="/WEB-INF/jsp/common/fixed-top-ldod-header.jsp"%>
@@ -21,15 +24,15 @@
                 </h2>
                 <form class="form-horizontal" role="form" method="POST"
                     action="/signin/authenticate">
-                    <input type="hidden" name="_csrf" value="${_csrf.token}" />
+                    <input type="hidden" name="_csrf"
+                        value="${_csrf.token}" />
                     <div class="form-group">
                         <div class="col-md-offset-4 col-md-4">
                             <input type="text" class="form-control"
                                 id="username_or_email" name="username"
                                 placeholder="<spring:message code="login.username" />">
                         </div>
-                        <br>
-                        <br>
+                        <br> <br>
                         <div class="col-md-offset-4 col-md-4">
                             <input type="password" class="form-control"
                                 id="password" name="password"
@@ -37,7 +40,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <div class="col-md-offset-4 col-md-4">
+                        <div class="col-md-offset-5 col-md-2">
                             <button class="btn btn-primary form-control"
                                 type="submit">
                                 <spring:message code="general.signin" />
@@ -48,32 +51,76 @@
             </div>
 
             <!-- TWITTER SIGNIN -->
-            <form id="tw_signin" action="/signin/twitter" method="POST">
-                <input type="hidden" name="_csrf" value="${_csrf.token}"></input>
-                <button type="submit">Sign In with Twitter</button>
-            </form>
-
-            <!-- FACEBOOK SIGNIN -->
-            <form name="fb_signin" id="fb_signin"
-                action="/signin/facebook" method="POST">
-                <input type="hidden" name="_csrf" value="${_csrf.token}"></input>
-                <input type="hidden" name="scope"
-                    value="public_profile,email"></input>
-                <button type="submit">Sign In with Facebook</button>
-            </form>
-
+            <div class="row">
+                <form id="tw_signin" action="/signin/twitter"
+                    method="POST">
+                    <input type="hidden" name="_csrf"
+                        value="${_csrf.token}"></input>
+                    <div class="col-md-offset-5 col-md-2">
+                        <button
+                            class="btn btn-block btn-social btn-twitter"
+                            type="submit">
+                            <span class="fa fa-twitter"></span>Twitter
+                        </button>
+                    </div>
+                </form>
+            </div>
+            <br>
+            <!-- GOOGLE SIGNIN -->
+            <div class="row">
+                <form id="gg_signin" action="/signin/google"
+                    method="POST">
+                    <input type="hidden" name="_csrf"
+                        value="${_csrf.token}"></input>
+                    <div class="col-md-offset-5 col-md-2">
+                        <button
+                            class="btn btn-block btn-social btn-google-plus"
+                            type="submit">
+                            <span class="fa fa-google"></span>Google
+                        </button>
+                    </div>
+                </form>
+            </div>
+            <br>
+             <!-- FACEBOOK SIGNIN -->
+            <div class="row">
+                <form name="fb_signin" id="fb_signin"
+                    action="/signin/facebook" method="POST">
+                    <input type="hidden" name="_csrf"
+                        value="${_csrf.token}"></input> 
+                   <input
+                        type="hidden" name="scope"
+                        value="public_profile"></input>
+                    <div class="col-md-offset-5 col-md-2">
+                        <button
+                            class="btn btn-block btn-social btn-facebook"
+                            type="submit">
+                            <span class="fa fa-facebook"></span>Facebook
+                        </button>
+                    </div>
+                </form>
+            </div>
+            <br>
             <!-- LINKEDIN SIGNIN -->
-            <form name="li_signin" id="li_signin"
-                action="/signin/linkedin" method="POST">
-                <input type="hidden" name="_csrf" value="${_csrf.token}"></input>
-                <button type="submit">Sign In with LinkedIn</button>
-            </form>
-
+            <div class="row">
+                <form name="li_signin" id="li_signin"
+                    action="/signin/linkedin" method="POST">
+                    <input type="hidden" name="_csrf"
+                        value="${_csrf.token}"></input>
+                    <div class="col-md-offset-5 col-md-2">
+                        <button
+                            class="btn btn-block btn-social btn-linkedin"
+                            type="submit">
+                            <span class="fa fa-linkedin"></span>Linkedin
+                        </button>
+                    </div>
+                </form>
+            </div>
+            <br>
             <!-- SIGNUP -->
-            <form name="li_signup" id="li_signip" action="/signup"
-                method="GET">
-                <button type="submit">Signup</button>
-            </form>
+            <div class="row">
+                <a href="/signup">Register as a LdoD user</a>
+            </div>
 
         </div>
     </div>

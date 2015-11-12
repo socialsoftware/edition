@@ -25,7 +25,8 @@ public final class VirtualEditionSearchOption extends SearchOption {
         if (this.inclusion) {
             if (!virtualEdition.equals(ALL) && !(inter.getVirtualEdition()
                     .getAcronym().equals(virtualEdition)
-                    && LdoDUser.getUser().getSelectedVirtualEditionsSet()
+                    && LdoDUser.getAuthenticatedUser()
+                            .getSelectedVirtualEditionsSet()
                             .contains(inter.getVirtualEdition()))) {
                 return false;
             } else {
@@ -33,7 +34,8 @@ public final class VirtualEditionSearchOption extends SearchOption {
         } else {
             if (!(!virtualEdition.equals(ALL) && !(inter.getVirtualEdition()
                     .getAcronym().equals(virtualEdition)
-                    && LdoDUser.getUser().getSelectedVirtualEditionsSet()
+                    && LdoDUser.getAuthenticatedUser()
+                            .getSelectedVirtualEditionsSet()
                             .contains(inter.getVirtualEdition())))) {
                 return false;
             }
