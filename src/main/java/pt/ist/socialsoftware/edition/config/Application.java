@@ -12,7 +12,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
 import org.springframework.social.connect.web.SignInAdapter;
 
-import pt.ist.socialsoftware.edition.security.SimpleSignInAdapter;
+import pt.ist.socialsoftware.edition.security.LdoDSignInAdapter;
 import pt.ist.socialsoftware.edition.utils.Bootstrap;
 
 @PropertySource({ "classpath:application.properties",
@@ -40,7 +40,7 @@ public class Application extends SpringBootServletInitializer
 
     @Bean
     public SignInAdapter signInAdapter() {
-        return new SimpleSignInAdapter(new HttpSessionRequestCache());
+        return new LdoDSignInAdapter(new HttpSessionRequestCache());
     }
 
 }

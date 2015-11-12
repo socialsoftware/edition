@@ -19,6 +19,7 @@ import org.springframework.web.context.request.WebRequest;
 
 import pt.ist.socialsoftware.edition.domain.LdoD;
 import pt.ist.socialsoftware.edition.domain.LdoDUser;
+import pt.ist.socialsoftware.edition.domain.LdoDUser.SocialMediaService;
 import pt.ist.socialsoftware.edition.security.SigninUtils;
 import pt.ist.socialsoftware.edition.security.SignupForm;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDException;
@@ -56,7 +57,9 @@ public class SignupController {
                     // + " account is not associated with a LdoD Archive
                     // account. If you're new, please sign up."),
                     WebRequest.SCOPE_REQUEST);
-            return SignupForm.fromProviderUser(connection.fetchUserProfile());
+
+            return SignupForm.fromProviderUser(connection.fetchUserProfile(),
+                    connection.getKey().getProviderId());
         } else {
             return new SignupForm();
         }
@@ -65,26 +68,33 @@ public class SignupController {
     @RequestMapping(value = "/signup", method = RequestMethod.POST)
     public String signup(@Valid SignupForm form, BindingResult formBinding,
             WebRequest request) {
-        log.debug("signup username:{}, firstName:{}, lastName:{}, email:{}",
+        log.debug(
+                "signup username:{}, firstName:{}, lastName:{}, email:{}, socialMedia:{}, socialId:{}",
                 form.getUsername(), form.getFirstName(), form.getLastName(),
-                form.getEmail());
+                form.getEmail(), form.getSocialMediaService(),
+                form.getSocialMediaId());
 
         if (formBinding.hasErrors()) {
             return null;
         }
 
+        SocialMediaService socialMediaService = form
+                .getSocialMediaService() != "" ? SocialMediaService.valueOf(
+                        form.getSocialMediaService().toUpperCase()) : null;
+
         LdoDUser user = null;
         try {
             user = LdoD.getInstance().createUser(passwordEncoder,
                     form.getUsername(), form.getPassword(), form.getFirstName(),
-                    form.getLastName(), form.getEmail());
+                    form.getLastName(), form.getEmail(), socialMediaService,
+                    form.getSocialMediaId());
         } catch (LdoDException e) {
             formBinding.rejectValue("username", "user.duplicateUsername",
                     "already in use");
         }
 
         if (user != null) {
-            SigninUtils.signin(user.getUsername());
+            SigninUtils.signin(request, user);
             providerSignInUtils.doPostSignUp(user.getUsername(), request);
             return "redirect:/";
         }

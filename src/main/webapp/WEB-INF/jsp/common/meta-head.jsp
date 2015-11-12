@@ -4,11 +4,9 @@
 <title>LdoD</title>
 <link rel="stylesheet" type="text/css" href="/resources/css/bootstrap.min.css" />
 <link rel="stylesheet" type="text/css" href="/resources/css/style.css" />
-<link rel="stylesheet" type="text/css" href="/resources/css/annotator.min.css" />
+<link rel="stylesheet" type="text/css" href="/resources/css/font-awesome.min.css" />
+
 <script type="text/javascript" src="/resources/js/jquery.min.js"></script>
 <script type="text/javascript" src="/resources/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="/resources/js/annotator-full.min.js"></script>
-<script type="text/javascript" src="/resources/js/jquery.elevatezoom.js"></script>
-
 
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />

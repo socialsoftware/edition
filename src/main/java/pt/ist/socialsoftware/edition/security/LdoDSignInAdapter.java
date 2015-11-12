@@ -14,15 +14,17 @@ import org.springframework.social.connect.Connection;
 import org.springframework.social.connect.web.SignInAdapter;
 import org.springframework.web.context.request.NativeWebRequest;
 
-public class SimpleSignInAdapter implements SignInAdapter {
+import pt.ist.socialsoftware.edition.domain.LdoD;
+
+public class LdoDSignInAdapter implements SignInAdapter {
     private static Logger log = LoggerFactory
-            .getLogger(SimpleSignInAdapter.class);
+            .getLogger(LdoDSignInAdapter.class);
 
     private final RequestCache requestCache;
 
     @Inject
-    public SimpleSignInAdapter(RequestCache requestCache) {
-        log.debug("SimpleSignInAdapter");
+    public LdoDSignInAdapter(RequestCache requestCache) {
+        log.debug("LdoDSignInAdapter");
 
         this.requestCache = requestCache;
     }
@@ -32,7 +34,7 @@ public class SimpleSignInAdapter implements SignInAdapter {
             NativeWebRequest request) {
         log.debug("signIn localUserId:{}", localUserId);
 
-        SigninUtils.signin(localUserId);
+        SigninUtils.signin(request, LdoD.getInstance().getUser(localUserId));
         return extractOriginalUrl(request);
     }
 

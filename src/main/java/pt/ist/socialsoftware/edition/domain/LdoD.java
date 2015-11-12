@@ -7,15 +7,20 @@ import java.util.List;
 import java.util.Set;
 
 import org.joda.time.LocalDate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.fenixframework.FenixFramework;
+import pt.ist.socialsoftware.edition.domain.LdoDUser.SocialMediaService;
+import pt.ist.socialsoftware.edition.domain.Role.RoleType;
 import pt.ist.socialsoftware.edition.security.LdoDSession;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDException;
 
 public class LdoD extends LdoD_Base {
+    private static Logger log = LoggerFactory.getLogger(LdoD.class);
 
     public static LdoD getInstance() {
         return FenixFramework.getDomainRoot().getLdoD();
@@ -54,14 +59,6 @@ public class LdoD extends LdoD_Base {
             if (user.getUsername().equals(username)) {
                 return user;
             }
-        }
-        return null;
-    }
-
-    public Role getRole(String rolename) {
-        for (Role role : getRolesSet()) {
-            if (role.getRolename().equals(rolename))
-                return role;
         }
         return null;
     }
@@ -121,6 +118,8 @@ public class LdoD extends LdoD_Base {
     @Atomic(mode = TxMode.WRITE)
     public VirtualEdition createVirtualEdition(LdoDUser user, String acronym,
             String title, LocalDate date, boolean pub, Edition usedEdition) {
+        log.debug("createVirtualEdition user:{}, acronym:{}, title:{}",
+                user.getUsername(), acronym, title);
         return new VirtualEdition(this, user, acronym, title, date, pub,
                 usedEdition);
     }
@@ -146,13 +145,16 @@ public class LdoD extends LdoD_Base {
 
     @Atomic(mode = TxMode.WRITE)
     public LdoDUser createUser(PasswordEncoder passwordEncoder, String username,
-            String password, String firstName, String lastName, String email) {
+            String password, String firstName, String lastName, String email,
+            SocialMediaService socialMediaService, String socialMediaId) {
         if (getUser(username) == null) {
             LdoDUser user = new LdoDUser(this, username,
                     passwordEncoder.encode(password), firstName, lastName,
                     email);
+            user.setSocialMediaService(socialMediaService);
+            user.setSocialMediaId(socialMediaId);
 
-            Role userRole = getRole("USER");
+            Role userRole = Role.getRole(RoleType.ROLE_USER);
             user.addRoles(userRole);
 
             return user;

@@ -55,7 +55,7 @@ public class VirtualEditionController {
 
         System.out.println("VirtualEditionController:getLdoDSession()");
 
-        LdoDUser user = LdoDUser.getUser();
+        LdoDUser user = LdoDUser.getAuthenticatedUser();
         if (user != null) {
             for (VirtualEdition virtualEdition : user
                     .getSelectedVirtualEditionsSet()) {
@@ -71,9 +71,10 @@ public class VirtualEditionController {
 
         model.addAttribute("expertEditions",
                 LdoD.getInstance().getSortedExpertEdition());
-        model.addAttribute("virtualEditions", LdoD.getInstance()
-                .getVirtualEditions4User(LdoDUser.getUser(), ldoDSession));
-        model.addAttribute("user", LdoDUser.getUser());
+        model.addAttribute("virtualEditions",
+                LdoD.getInstance().getVirtualEditions4User(
+                        LdoDUser.getAuthenticatedUser(), ldoDSession));
+        model.addAttribute("user", LdoDUser.getAuthenticatedUser());
         return "virtual/editions";
 
     }
@@ -108,28 +109,30 @@ public class VirtualEditionController {
             throw new LdoDCreateVirtualEditionException(errors, acronym, title,
                     pub,
                     LdoD.getInstance().getVirtualEditions4User(
-                            LdoDUser.getUser(), ldoDSession),
-                    LdoDUser.getUser());
+                            LdoDUser.getAuthenticatedUser(), ldoDSession),
+                    LdoDUser.getAuthenticatedUser());
         }
 
         try {
             virtualEdition = LdoD.getInstance().createVirtualEdition(
-                    LdoDUser.getUser(), acronym, title, date, pub, usedEdition);
+                    LdoDUser.getAuthenticatedUser(), acronym, title, date, pub,
+                    usedEdition);
 
         } catch (LdoDDuplicateAcronymException ex) {
             errors.add("virtualedition.acronym.duplicate");
             throw new LdoDCreateVirtualEditionException(errors, acronym, title,
                     pub,
                     LdoD.getInstance().getVirtualEditions4User(
-                            LdoDUser.getUser(), ldoDSession),
-                    LdoDUser.getUser());
+                            LdoDUser.getAuthenticatedUser(), ldoDSession),
+                    LdoDUser.getAuthenticatedUser());
         }
 
         model.addAttribute("expertEditions",
                 LdoD.getInstance().getSortedExpertEdition());
-        model.addAttribute("virtualEditions", LdoD.getInstance()
-                .getVirtualEditions4User(LdoDUser.getUser(), ldoDSession));
-        model.addAttribute("user", LdoDUser.getUser());
+        model.addAttribute("virtualEditions",
+                LdoD.getInstance().getVirtualEditions4User(
+                        LdoDUser.getAuthenticatedUser(), ldoDSession));
+        model.addAttribute("user", LdoDUser.getAuthenticatedUser());
         return "virtual/editions";
 
     }
@@ -155,9 +158,10 @@ public class VirtualEditionController {
 
             model.addAttribute("expertEditions",
                     LdoD.getInstance().getSortedExpertEdition());
-            model.addAttribute("virtualEditions", LdoD.getInstance()
-                    .getVirtualEditions4User(LdoDUser.getUser(), ldoDSession));
-            model.addAttribute("user", LdoDUser.getUser());
+            model.addAttribute("virtualEditions",
+                    LdoD.getInstance().getVirtualEditions4User(
+                            LdoDUser.getAuthenticatedUser(), ldoDSession));
+            model.addAttribute("user", LdoDUser.getAuthenticatedUser());
             return "virtual/editions";
         }
     }
@@ -229,9 +233,10 @@ public class VirtualEditionController {
 
         model.addAttribute("expertEditions",
                 LdoD.getInstance().getSortedExpertEdition());
-        model.addAttribute("virtualEditions", LdoD.getInstance()
-                .getVirtualEditions4User(LdoDUser.getUser(), ldoDSession));
-        model.addAttribute("user", LdoDUser.getUser());
+        model.addAttribute("virtualEditions",
+                LdoD.getInstance().getVirtualEditions4User(
+                        LdoDUser.getAuthenticatedUser(), ldoDSession));
+        model.addAttribute("user", LdoDUser.getAuthenticatedUser());
 
         return "virtual/editions";
     }
@@ -247,14 +252,15 @@ public class VirtualEditionController {
         if (virtualEdition == null)
             return "utils/pageNotFound";
 
-        LdoDUser user = LdoDUser.getUser();
+        LdoDUser user = LdoDUser.getAuthenticatedUser();
 
         ldoDSession.toggleSelectedVirtualEdition(user, virtualEdition);
 
         model.addAttribute("expertEditions",
                 LdoD.getInstance().getSortedExpertEdition());
-        model.addAttribute("virtualEditions", LdoD.getInstance()
-                .getVirtualEditions4User(LdoDUser.getUser(), ldoDSession));
+        model.addAttribute("virtualEditions",
+                LdoD.getInstance().getVirtualEditions4User(
+                        LdoDUser.getAuthenticatedUser(), ldoDSession));
         model.addAttribute("user", user);
         return "virtual/editions";
     }
@@ -335,11 +341,11 @@ public class VirtualEditionController {
         } else {
             user.removeVirtualEdition(virtualEdition);
 
-            if (user == LdoDUser.getUser()) {
+            if (user == LdoDUser.getAuthenticatedUser()) {
                 model.addAttribute("virtualEditions",
                         LdoD.getInstance().getVirtualEditions4User(
-                                LdoDUser.getUser(), ldoDSession));
-                model.addAttribute("user", LdoDUser.getUser());
+                                LdoDUser.getAuthenticatedUser(), ldoDSession));
+                model.addAttribute("user", LdoDUser.getAuthenticatedUser());
                 return "virtual/editions";
             } else {
                 model.addAttribute("virtualedition", virtualEdition);
@@ -371,7 +377,7 @@ public class VirtualEditionController {
             writer.write(false);
 
             model.addAttribute("ldoD", LdoD.getInstance());
-            model.addAttribute("user", LdoDUser.getUser());
+            model.addAttribute("user", LdoDUser.getAuthenticatedUser());
             model.addAttribute("fragment", inter.getFragment());
             model.addAttribute("inters", inters);
             model.addAttribute("writer", writer);
@@ -727,7 +733,8 @@ public class VirtualEditionController {
                 categories.add(category);
             }
 
-            fragInter.associate(LdoDUser.getUser(), taxonomy, categories);
+            fragInter.associate(LdoDUser.getAuthenticatedUser(), taxonomy,
+                    categories);
         }
 
         return "redirect:/fragments/fragment/inter/"

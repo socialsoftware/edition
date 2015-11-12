@@ -15,6 +15,7 @@ import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.socialsoftware.edition.domain.LdoD;
 import pt.ist.socialsoftware.edition.domain.LdoDUser;
 import pt.ist.socialsoftware.edition.domain.Role;
+import pt.ist.socialsoftware.edition.domain.Role.RoleType;
 import pt.ist.socialsoftware.edition.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.recommendation.VSMFragmentRecommender;
 
@@ -61,8 +62,8 @@ public class Bootstrap implements WebApplicationInitializer {
 
         LdoD ldod = LdoD.getInstance();
 
-        Role user = new Role(ldod, "USER");
-        Role admin = new Role(ldod, "ADMIN");
+        Role user = Role.getRole(RoleType.ROLE_USER);
+        Role admin = Role.getRole(RoleType.ROLE_ADMIN);
 
         // the bcrypt generator
         // https://www.dailycred.com/blog/12/bcrypt-calculator

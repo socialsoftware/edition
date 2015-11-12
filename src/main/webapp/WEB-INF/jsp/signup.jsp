@@ -23,6 +23,8 @@
                 modelAttribute="signupForm" commandNme="signupForm">
 
                 <input type="hidden" name="_csrf" value="${_csrf.token}" />
+                <form:input type="hidden" path="socialMediaService" value="${signupForm.socialMediaService}" />
+                <form:input type="hidden" path="socialMediaId" value="${signupForm.socialMediaId}" />
 
                 <div class="form-group">
                     <label class="col-sm-4 control-label">First

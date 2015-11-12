@@ -53,7 +53,7 @@ public class FragmentController {
 
         System.out.println("VirtualEditionController:getLdoDSession()");
 
-        LdoDUser user = LdoDUser.getUser();
+        LdoDUser user = LdoDUser.getAuthenticatedUser();
         if (user != null) {
             for (VirtualEdition virtualEdition : user
                     .getSelectedVirtualEditionsSet()) {
@@ -71,7 +71,7 @@ public class FragmentController {
             return "utils/pageNotFound";
         } else {
             model.addAttribute("ldoD", LdoD.getInstance());
-            model.addAttribute("user", LdoDUser.getUser());
+            model.addAttribute("user", LdoDUser.getAuthenticatedUser());
             model.addAttribute("fragment", fragment);
             model.addAttribute("inters", new ArrayList<FragInter>());
             return "fragment/main";
@@ -95,9 +95,10 @@ public class FragmentController {
         if (inter.getSourceType() == Edition.EditionType.VIRTUAL) {
             VirtualEdition virtualEdition = (VirtualEdition) inter.getEdition();
 
-            LdoDUser user = LdoDUser.getUser();
+            LdoDUser user = LdoDUser.getAuthenticatedUser();
             if (virtualEdition.checkAccess(user)) {
-                if (!ldoDSession.hasSelectedVE(virtualEdition.getExternalId())) {
+                if (!ldoDSession
+                        .hasSelectedVE(virtualEdition.getExternalId())) {
                     ldoDSession.toggleSelectedVirtualEdition(user,
                             virtualEdition);
                 }
@@ -110,7 +111,7 @@ public class FragmentController {
         List<FragInter> inters = new ArrayList<FragInter>();
         inters.add(inter);
         model.addAttribute("ldoD", LdoD.getInstance());
-        model.addAttribute("user", LdoDUser.getUser());
+        model.addAttribute("user", LdoDUser.getAuthenticatedUser());
         model.addAttribute("fragment", inter.getFragment());
         model.addAttribute("inters", inters);
         model.addAttribute("writer", writer);
@@ -119,7 +120,8 @@ public class FragmentController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/inter/next/number/{id}")
-    public String getNextFragmentWithInter(Model model, @PathVariable String id) {
+    public String getNextFragmentWithInter(Model model,
+            @PathVariable String id) {
 
         FragInter inter = FenixFramework.getDomainObject(id);
 
@@ -130,7 +132,8 @@ public class FragmentController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/inter/prev/number/{id}")
-    public String getPrevFragmentWithInter(Model model, @PathVariable String id) {
+    public String getPrevFragmentWithInter(Model model,
+            @PathVariable String id) {
         FragInter inter = FenixFramework.getDomainObject(id);
 
         Edition edition = inter.getEdition();
@@ -140,8 +143,7 @@ public class FragmentController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/inter")
-    public String getInter(
-            Model model,
+    public String getInter(Model model,
             @RequestParam(value = "fragment", required = true) String fragID,
             @RequestParam(value = "inters[]", required = false) String[] intersID) {
 
@@ -159,7 +161,7 @@ public class FragmentController {
         }
 
         model.addAttribute("ldoD", LdoD.getInstance());
-        model.addAttribute("user", LdoDUser.getUser());
+        model.addAttribute("user", LdoDUser.getAuthenticatedUser());
         model.addAttribute("fragment", fragment);
         model.addAttribute("inters", inters);
 
@@ -181,8 +183,8 @@ public class FragmentController {
             }
 
             List<AppText> apps = new ArrayList<AppText>();
-            for (TextPortion text : inters.get(0).getFragment()
-                    .getTextPortion().getChildTextSet()) {
+            for (TextPortion text : inters.get(0).getFragment().getTextPortion()
+                    .getChildTextSet()) {
                 text.putAppTextWithVariations(apps, inters);
             }
             Collections.reverse(apps);
@@ -318,10 +320,10 @@ public class FragmentController {
     public @ResponseBody ResponseEntity<AnnotationJson> createAnnotation(
             Model model, @RequestBody final AnnotationJson annotationJson,
             HttpServletRequest request) {
-        FragInter inter = FenixFramework.getDomainObject(annotationJson
-                .getUri());
+        FragInter inter = FenixFramework
+                .getDomainObject(annotationJson.getUri());
         VirtualEdition virtualEdition = (VirtualEdition) inter.getEdition();
-        LdoDUser user = LdoDUser.getUser();
+        LdoDUser user = LdoDUser.getAuthenticatedUser();
 
         Annotation annotation;
         if (virtualEdition.getParticipantSet().contains(user)) {
@@ -332,8 +334,8 @@ public class FragmentController {
 
             annotationJson.setId(annotation.getExternalId());
 
-            return new ResponseEntity<AnnotationJson>(new AnnotationJson(
-                    annotation), HttpStatus.CREATED);
+            return new ResponseEntity<AnnotationJson>(
+                    new AnnotationJson(annotation), HttpStatus.CREATED);
         } else {
             return new ResponseEntity<AnnotationJson>(HttpStatus.UNAUTHORIZED);
         }
@@ -344,8 +346,8 @@ public class FragmentController {
             Model model, @PathVariable String id) {
         Annotation annotation = FenixFramework.getDomainObject(id);
         if (annotation != null) {
-            return new ResponseEntity<AnnotationJson>(new AnnotationJson(
-                    annotation), HttpStatus.OK);
+            return new ResponseEntity<AnnotationJson>(
+                    new AnnotationJson(annotation), HttpStatus.OK);
         } else {
             return new ResponseEntity<AnnotationJson>(HttpStatus.NOT_FOUND);
         }
@@ -359,8 +361,8 @@ public class FragmentController {
         if (annotation != null) {
             annotation.update(annotationJson.getText(),
                     annotationJson.getTags());
-            return new ResponseEntity<AnnotationJson>(new AnnotationJson(
-                    annotation), HttpStatus.OK);
+            return new ResponseEntity<AnnotationJson>(
+                    new AnnotationJson(annotation), HttpStatus.OK);
         } else {
             return new ResponseEntity<AnnotationJson>(HttpStatus.NOT_FOUND);
         }

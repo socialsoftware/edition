@@ -6,12 +6,12 @@ import java.util.HashSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.social.security.SocialUserDetails;
 
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.domain.LdoDUser;
 
-public class LdoDUserDetails implements UserDetails {
+public class LdoDUserDetails implements SocialUserDetails {
     private static Logger log = LoggerFactory.getLogger(LdoDUserDetails.class);
 
     private static final long serialVersionUID = -6509897037222767090L;
@@ -67,6 +67,11 @@ public class LdoDUserDetails implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    @Override
+    public String getUserId() {
+        return getUsername();
     }
 
 }
