@@ -35,13 +35,13 @@ import pt.ist.socialsoftware.edition.visitors.TEIGenerator;
 public class AdminController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/load/corpusForm")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String corpusForm(Model model) {
         return "admin/loadCorpus";
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/load/corpus")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String loadTEICorpus(Model model,
             @RequestParam("file") MultipartFile file) throws LdoDLoadException {
 
@@ -61,19 +61,19 @@ public class AdminController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/load/fragmentFormAtOnce")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String fragmentFormAtOnce(Model model) {
         return "admin/loadFragmentsAtOnce";
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/load/fragmentFormStepByStep")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String fragmentFormStepByStep(Model model) {
         return "admin/loadFragmentsStepByStep";
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/load/fragmentsAtOnce")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String loadTEIFragmentsAtOnce(Model model,
             @RequestParam("file") MultipartFile file) throws LdoDLoadException {
         String message = null;
@@ -100,7 +100,7 @@ public class AdminController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/load/fragmentsStepByStep")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String loadTEIFragmentsStepByStep(Model model,
             @RequestParam("files") MultipartFile[] files)
                     throws LdoDLoadException {
@@ -137,14 +137,14 @@ public class AdminController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/fragment/list")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String deleteFragmentsList(Model model) {
         model.addAttribute("fragments", LdoD.getInstance().getFragmentsSet());
         return "admin/deleteFragment";
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/fragment/delete")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String deleteFragment(Model model,
             @RequestParam("externalId") String externalId) {
         Fragment fragment = FenixFramework.getDomainObject(externalId);
@@ -160,7 +160,7 @@ public class AdminController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/fragment/deleteAll")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String deleteAllFragments(Model model) {
         for (Fragment fragment : LdoD.getInstance().getFragmentsSet()) {
             fragment.remove();

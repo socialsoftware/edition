@@ -66,6 +66,7 @@
                 </form>
             </div>
             <br>
+
             <!-- GOOGLE SIGNIN -->
             <div class="row">
                 <form id="gg_signin" action="/signin/google"
@@ -82,7 +83,8 @@
                 </form>
             </div>
             <br>
-             <!-- FACEBOOK SIGNIN -->
+            <!-- FACEBOOK SIGNIN -->
+            <!-- 
             <div class="row">
                 <form name="fb_signin" id="fb_signin"
                     action="/signin/facebook" method="POST">
@@ -101,7 +103,9 @@
                 </form>
             </div>
             <br>
+             -->
             <!-- LINKEDIN SIGNIN -->
+            <!-- 
             <div class="row">
                 <form name="li_signin" id="li_signin"
                     action="/signin/linkedin" method="POST">
@@ -117,6 +121,7 @@
                 </form>
             </div>
             <br>
+             -->
             <!-- SIGNUP -->
             <div class="row">
                 <a href="/signup">Register as a LdoD user</a>

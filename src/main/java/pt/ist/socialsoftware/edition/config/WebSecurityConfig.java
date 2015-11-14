@@ -1,8 +1,9 @@
 package pt.ist.socialsoftware.edition.config;
 
+import javax.inject.Inject;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -25,63 +26,55 @@ import pt.ist.socialsoftware.edition.security.LdoDUserDetailsService;
 @EnableWebMvcSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-    private static Logger log = LoggerFactory
-            .getLogger(WebSecurityConfig.class);
+	private static Logger log = LoggerFactory.getLogger(WebSecurityConfig.class);
 
-    @Override
-    public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/resources/**");
-    }
+	@Override
+	public void configure(WebSecurity web) throws Exception {
+		web.ignoring().antMatchers("/resources/**");
+	}
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        log.debug("configure");
+	@Override
+	protected void configure(HttpSecurity http) throws Exception {
+		log.debug("configure");
 
-        http.csrf().disable().formLogin().loginPage("/signin")
-                .successHandler(ldoDAuthenticationSuccessHandler())
-                .loginProcessingUrl("/signin/authenticate")
-                .failureUrl("/signin?param.error=bad_credentials").and()
-                .logout().logoutUrl("/signout").deleteCookies("JSESSIONID")
-                .and().authorizeRequests()
-                .antMatchers("/", "/auth/**", "/signin/**", "/signup/**")
-                .permitAll().anyRequest().authenticated()
-                .antMatchers("/virtualeditions/restricted/**").authenticated()
-                .antMatchers("/admin/**")
-                .hasAuthority(RoleType.ROLE_ADMIN.name()).and().rememberMe();
-    }
+		http.csrf().disable().formLogin().loginPage("/signin").successHandler(ldoDAuthenticationSuccessHandler())
+				.loginProcessingUrl("/signin/authenticate").failureUrl("/signin?param.error=bad_credentials").and()
+				.logout().logoutUrl("/signout").deleteCookies("JSESSIONID").and().authorizeRequests()
+				.antMatchers("/", "/auth/**", "/signin/**", "/signup/**").permitAll().anyRequest().authenticated()
+				.antMatchers("/virtualeditions/restricted/**").authenticated().antMatchers("/admin/**")
+				.hasAuthority(RoleType.ROLE_ADMIN.name()).and().rememberMe();
+	}
 
-    @Autowired
-    public void registerAuthentication(AuthenticationManagerBuilder auth)
-            throws Exception {
-        log.debug("registerAuthentication");
+	@Inject
+	public void registerAuthentication(AuthenticationManagerBuilder auth) throws Exception {
+		log.debug("registerAuthentication");
 
-        auth.userDetailsService(ldoDUserDetailsService())
-                .passwordEncoder(passwordEncoder());
-    }
+		auth.userDetailsService(ldoDUserDetailsService()).passwordEncoder(passwordEncoder());
+	}
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder(11);
-    }
+	@Bean
+	public PasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder(11);
+	}
 
-    @Bean
-    public TextEncryptor textEncryptor() {
-        return Encryptors.noOpText();
-    }
+	@Bean
+	public TextEncryptor textEncryptor() {
+		return Encryptors.noOpText();
+	}
 
-    @Bean
-    public LdoDUserDetailsService ldoDUserDetailsService() {
-        return new LdoDUserDetailsService();
-    }
+	@Bean
+	public LdoDUserDetailsService ldoDUserDetailsService() {
+		return new LdoDUserDetailsService();
+	}
 
-    @Bean
-    public LdoDSocialUserDetailsService ldoDSocialUserDetailsService() {
-        return new LdoDSocialUserDetailsService(ldoDUserDetailsService());
-    }
+	@Bean
+	public LdoDSocialUserDetailsService ldoDSocialUserDetailsService() {
+		return new LdoDSocialUserDetailsService(ldoDUserDetailsService());
+	}
 
-    @Bean
-    public LdoDAuthenticationSuccessHandler ldoDAuthenticationSuccessHandler() {
-        return new LdoDAuthenticationSuccessHandler();
-    }
+	@Bean
+	public LdoDAuthenticationSuccessHandler ldoDAuthenticationSuccessHandler() {
+		return new LdoDAuthenticationSuccessHandler();
+	}
 
 }
