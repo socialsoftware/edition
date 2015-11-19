@@ -36,6 +36,7 @@ public class LdoDAuthenticationSuccessHandler extends SavedRequestAwareAuthentic
 		ldoDSession.updateSession(LdoDUser.getAuthenticatedUser());
 
 		super.onAuthenticationSuccess(request, response, authentication);
+		log.debug("onAuthenticationSuccess");
 	}
 
 }

@@ -19,7 +19,6 @@ import org.springframework.social.connect.Connection;
 import org.springframework.social.connect.ConnectionFactoryLocator;
 import org.springframework.social.connect.ConnectionRepository;
 import org.springframework.social.connect.UsersConnectionRepository;
-import org.springframework.social.connect.mem.InMemoryUsersConnectionRepository;
 import org.springframework.social.connect.web.ConnectController;
 import org.springframework.social.connect.web.ProviderSignInController;
 import org.springframework.social.facebook.api.Facebook;
@@ -30,6 +29,7 @@ import org.springframework.social.linkedin.api.LinkedIn;
 import org.springframework.social.twitter.api.Twitter;
 
 import pt.ist.socialsoftware.edition.security.LdoDSignInAdapter;
+import pt.ist.socialsoftware.edition.security.LdoDUsersConnectionRepository;
 
 @Configuration
 @EnableSocial
@@ -62,9 +62,9 @@ public class SocialConfig implements SocialConfigurer {
 
 	@Override
 	public UsersConnectionRepository getUsersConnectionRepository(ConnectionFactoryLocator connectionFactoryLocator) {
-		return new InMemoryUsersConnectionRepository(connectionFactoryLocator);
-		// return new LdoDUsersConnectionRepository(connectionFactoryLocator,
-		// textEncryptor);
+		// return new
+		// InMemoryUsersConnectionRepository(connectionFactoryLocator);
+		return new LdoDUsersConnectionRepository(connectionFactoryLocator, textEncryptor);
 	}
 
 	@Bean
