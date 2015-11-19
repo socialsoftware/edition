@@ -46,36 +46,4 @@ public class Application extends SpringBootServletInitializer implements Initial
 		return new LdoDSignInAdapter(new HttpSessionRequestCache());
 	}
 
-	// @Bean // (destroyMethod = "shutdown")
-	// public DataSource dataSource() {
-	// DriverManagerDataSource mysqldataSource = new DriverManagerDataSource();
-	// mysqldataSource.setDriverClassName("com.mysql.jdbc.Driver");
-	// mysqldataSource.setUrl("jdbc:mysql://localhost:3306/edition_social");
-	// mysqldataSource.setUsername("root");
-	// mysqldataSource.setPassword("");
-	// return mysqldataSource;
-	// }
-
-	// @Bean
-	// public PlatformTransactionManager transactionManager() {
-	// return new DataSourceTransactionManager(dataSource());
-	// }
-	//
-	// @Bean
-	// public DataSourceInitializer dataSourceInitializer(
-	// final DataSource dataSource) {
-	// final DataSourceInitializer initializer = new DataSourceInitializer();
-	// initializer.setDataSource(dataSource);
-	// initializer.setDatabasePopulator(databasePopulator());
-	// return initializer;
-	// }
-	//
-	// private DatabasePopulator databasePopulator() {
-	// ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
-	// populator.addScript(
-	// new ClassPathResource("JdbcUsersConnectionRepository.sql",
-	// JdbcUsersConnectionRepository.class));
-	// return populator;
-	// }
-
 }

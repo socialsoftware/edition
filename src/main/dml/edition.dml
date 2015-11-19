@@ -40,6 +40,25 @@ relation DomainRootHasLdoDApplication {
 	}
 }
 
+class UserConnection {
+	String userId;
+	String providerId;
+	String providerUserId; 
+	int rank;
+	String displayName; 
+	String profileUrl;
+	String imageUrl;
+	String accessToken; 
+	String secret;
+	String refreshToken; 
+	Long expireTime;
+}
+
+relation LdoDHasUserConnections {
+	LdoD playsRole ldoD {multiplicity 1..1;}
+	UserConnection playsRole userConnection {multiplicity 0..*;}
+}
+
 class LdoDUser {
 	String username;
 	String password;

@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -27,6 +28,9 @@ import pt.ist.socialsoftware.edition.security.LdoDUserDetailsService;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	private static Logger log = LoggerFactory.getLogger(WebSecurityConfig.class);
+
+	@Inject
+	Environment environment;
 
 	@Override
 	public void configure(WebSecurity web) throws Exception {
@@ -60,6 +64,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Bean
 	public TextEncryptor textEncryptor() {
 		return Encryptors.noOpText();
+		// return
+		// Encryptors.text(environment.getProperty("spring.encryption.password"),
+		// "0A6F8D70");
 	}
 
 	@Bean

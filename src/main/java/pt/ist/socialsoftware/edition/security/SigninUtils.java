@@ -10,35 +10,28 @@ import org.springframework.web.context.request.WebRequest;
 import pt.ist.socialsoftware.edition.domain.LdoDUser;
 
 public class SigninUtils {
-    private static Logger log = LoggerFactory.getLogger(SigninUtils.class);
+	private static Logger log = LoggerFactory.getLogger(SigninUtils.class);
 
-    public static void signin(WebRequest request, LdoDUser user) {
-        log.debug("signin user:{}", user == null ? "NULL" : user.getUsername());
+	public static void signin(WebRequest request, LdoDUser user) {
+		log.debug("signin user:{}", user == null ? "NULL" : user.getUsername());
 
-        LdoDUserDetailsService service = new LdoDUserDetailsService();
-        UserDetails userDetails = service
-                .loadUserByUsername(user.getUsername());
+		LdoDUserDetailsService service = new LdoDUserDetailsService();
+		UserDetails userDetails = service.loadUserByUsername(user.getUsername());
 
-        SecurityContextHolder.getContext().setAuthentication(
-                new UsernamePasswordAuthenticationToken(userDetails, null,
-                        userDetails.getAuthorities()));
+		SecurityContextHolder.getContext().setAuthentication(
+				new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities()));
 
-        LdoDSession ldoDSession = null;
-        if (request.getAttribute("ldoDSession",
-                WebRequest.SCOPE_SESSION) == null) {
-            ldoDSession = new LdoDSession();
-            request.setAttribute("ldoDSession", ldoDSession,
-                    WebRequest.SCOPE_SESSION);
-        } else {
-            ldoDSession = (LdoDSession) request.getAttribute("ldoDSession",
-                    WebRequest.SCOPE_SESSION);
-        }
-        ldoDSession.updateSession(user);
+		LdoDSession ldoDSession = null;
+		if (request.getAttribute("ldoDSession", WebRequest.SCOPE_SESSION) == null) {
+			ldoDSession = new LdoDSession();
+			request.setAttribute("ldoDSession", ldoDSession, WebRequest.SCOPE_SESSION);
+		} else {
+			ldoDSession = (LdoDSession) request.getAttribute("ldoDSession", WebRequest.SCOPE_SESSION);
+		}
+		ldoDSession.updateSession(user);
 
-        log.debug("signin authenticate autnhentication:{}, user:{}",
-                SecurityContextHolder.getContext().getAuthentication(),
-                LdoDUser.getAuthenticatedUser() == null ? "NULL"
-                        : LdoDUser.getAuthenticatedUser().getUsername());
-    }
+		log.debug("signin authentication:{}, user:{}", SecurityContextHolder.getContext().getAuthentication(),
+				LdoDUser.getAuthenticatedUser() == null ? "NULL" : LdoDUser.getAuthenticatedUser().getUsername());
+	}
 
 }
