@@ -17,46 +17,49 @@ import org.springframework.web.context.request.NativeWebRequest;
 import pt.ist.socialsoftware.edition.domain.LdoD;
 
 public class LdoDSignInAdapter implements SignInAdapter {
-    private static Logger log = LoggerFactory
-            .getLogger(LdoDSignInAdapter.class);
+	private static Logger log = LoggerFactory.getLogger(LdoDSignInAdapter.class);
 
-    private final RequestCache requestCache;
+	private final RequestCache requestCache;
 
-    @Inject
-    public LdoDSignInAdapter(RequestCache requestCache) {
-        log.debug("LdoDSignInAdapter");
+	@Inject
+	public LdoDSignInAdapter(RequestCache requestCache) {
+		log.debug("LdoDSignInAdapter");
 
-        this.requestCache = requestCache;
-    }
+		this.requestCache = requestCache;
+	}
 
-    @Override
-    public String signIn(String localUserId, Connection<?> connection,
-            NativeWebRequest request) {
-        log.debug("signIn localUserId:{}", localUserId);
+	@Override
+	public String signIn(String localUserId, Connection<?> connection, NativeWebRequest request) {
+		log.debug("signIn localUserId:{}", localUserId);
 
-        SigninUtils.signin(request, LdoD.getInstance().getUser(localUserId));
-        return extractOriginalUrl(request);
-    }
+		SigninUtils.signin(request, LdoD.getInstance().getUser(localUserId));
 
-    private String extractOriginalUrl(NativeWebRequest request) {
-        HttpServletRequest nativeReq = request
-                .getNativeRequest(HttpServletRequest.class);
-        HttpServletResponse nativeRes = request
-                .getNativeResponse(HttpServletResponse.class);
-        SavedRequest saved = requestCache.getRequest(nativeReq, nativeRes);
-        if (saved == null) {
-            return null;
-        }
-        requestCache.removeRequest(nativeReq, nativeRes);
-        removeAutheticationAttributes(nativeReq.getSession(false));
-        return saved.getRedirectUrl();
-    }
+		return extractOriginalUrl(request);
+	}
 
-    private void removeAutheticationAttributes(HttpSession session) {
-        if (session == null) {
-            return;
-        }
-        session.removeAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
-    }
+	private String extractOriginalUrl(NativeWebRequest request) {
+		HttpServletRequest nativeReq = request.getNativeRequest(HttpServletRequest.class);
+		HttpServletResponse nativeRes = request.getNativeResponse(HttpServletResponse.class);
+		SavedRequest saved = requestCache.getRequest(nativeReq, nativeRes);
+		if (saved == null) {
+			return null;
+		}
+		requestCache.removeRequest(nativeReq, nativeRes);
+		removeAutheticationAttributes(nativeReq.getSession(false));
+
+		log.debug("extractOriginalUrl saved.getRedirectUrl():{}", saved.getRedirectUrl(), saved.getMethod(),
+				saved.getHeaderNames());
+
+		return null; // saved.getRedirectUrl();
+	}
+
+	private void removeAutheticationAttributes(HttpSession session) {
+		log.debug("removeAutheticationAttributes session:{}", session);
+
+		if (session == null) {
+			return;
+		}
+		session.removeAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
+	}
 
 }

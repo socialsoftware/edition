@@ -1,5 +1,7 @@
 package pt.ist.socialsoftware.edition.config;
 
+import javax.inject.Inject;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
@@ -7,6 +9,7 @@ import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.core.env.Environment;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.encrypt.TextEncryptor;
 import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
 import org.springframework.social.UserIdSource;
 import org.springframework.social.config.annotation.ConnectionFactoryConfigurer;
@@ -16,7 +19,6 @@ import org.springframework.social.connect.Connection;
 import org.springframework.social.connect.ConnectionFactoryLocator;
 import org.springframework.social.connect.ConnectionRepository;
 import org.springframework.social.connect.UsersConnectionRepository;
-import org.springframework.social.connect.mem.InMemoryUsersConnectionRepository;
 import org.springframework.social.connect.web.ConnectController;
 import org.springframework.social.connect.web.ProviderSignInController;
 import org.springframework.social.facebook.api.Facebook;
@@ -27,22 +29,17 @@ import org.springframework.social.linkedin.api.LinkedIn;
 import org.springframework.social.twitter.api.Twitter;
 
 import pt.ist.socialsoftware.edition.security.LdoDSignInAdapter;
+import pt.ist.socialsoftware.edition.security.LdoDUsersConnectionRepository;
 
 @Configuration
 @EnableSocial
 public class SocialConfig implements SocialConfigurer {
 
+	@Inject
+	TextEncryptor textEncryptor;
+
 	@Override
 	public void addConnectionFactories(ConnectionFactoryConfigurer cfConfig, Environment env) {
-		// cfConfig.addConnectionFactory(new
-		// TwitterConnectionFactory(env.getProperty("spring.social.twitter.appId"),
-		// env.getProperty("spring.social.twitter.appSecret")));
-		// cfConfig.addConnectionFactory(new
-		// FacebookConnectionFactory(env.getProperty("spring.social.facebook.appId"),
-		// env.getProperty("spring.social.facebook.appSecret")));
-		// cfConfig.addConnectionFactory(new
-		// LinkedInConnectionFactory(env.getProperty("spring.social.linkedin.appId"),
-		// env.getProperty("spring.social.linkedin.appSecret")));
 		GoogleConnectionFactory gcf = new GoogleConnectionFactory(env.getProperty("spring.social.google.appId"),
 				env.getProperty("spring.social.google.appSecret"));
 		gcf.setScope("profile");
@@ -65,7 +62,9 @@ public class SocialConfig implements SocialConfigurer {
 
 	@Override
 	public UsersConnectionRepository getUsersConnectionRepository(ConnectionFactoryLocator connectionFactoryLocator) {
-		return new InMemoryUsersConnectionRepository(connectionFactoryLocator);
+		// return new
+		// InMemoryUsersConnectionRepository(connectionFactoryLocator);
+		return new LdoDUsersConnectionRepository(connectionFactoryLocator, textEncryptor);
 	}
 
 	@Bean
@@ -100,9 +99,6 @@ public class SocialConfig implements SocialConfigurer {
 	public ConnectController connectController(ConnectionFactoryLocator connectionFactoryLocator,
 			ConnectionRepository connectionRepository) {
 		ConnectController connectController = new ConnectController(connectionFactoryLocator, connectionRepository);
-		// connectController.addInterceptor(new
-		// PostToWallAfterConnectInterceptor());
-		// connectController.addInterceptor(new TweetAfterConnectInterceptor());
 		return connectController;
 	}
 
@@ -112,20 +108,5 @@ public class SocialConfig implements SocialConfigurer {
 		return new ProviderSignInController(connectionFactoryLocator, usersConnectionRepository,
 				new LdoDSignInAdapter(new HttpSessionRequestCache()));
 	}
-
-	// @Bean
-	// public DisconnectController
-	// disconnectController(UsersConnectionRepository usersConnectionRepository,
-	// Environment env) {
-	// return new DisconnectController(usersConnectionRepository,
-	// env.getProperty("spring.social.facebook.appSecret"));
-	// }
-	//
-	// @Bean
-	// public ReconnectFilter apiExceptionHandler(UsersConnectionRepository
-	// usersConnectionRepository,
-	// UserIdSource userIdSource) {
-	// return new ReconnectFilter(usersConnectionRepository, userIdSource);
-	// }
 
 }
