@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
 import pt.ist.fenixframework.Atomic;
@@ -17,7 +17,7 @@ import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.socialsoftware.edition.domain.LdoDUser;
 
 @Component
-public class LdoDAuthenticationSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
+public class LdoDAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 	private static Logger log = LoggerFactory.getLogger(LdoDAuthenticationSuccessHandler.class);
 
 	@Override

@@ -30,6 +30,7 @@ public class LdoDUser extends LdoDUser_Base {
 				return userDetails.getUser();
 			}
 		}
+		log.debug("getAuthenticatedUser returns null");
 		return null;
 	}
 

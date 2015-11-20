@@ -46,7 +46,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.logout().logoutUrl("/signout").deleteCookies("JSESSIONID").and().authorizeRequests()
 				.antMatchers("/", "/auth/**", "/signin/**", "/signup/**").permitAll().anyRequest().authenticated()
 				.antMatchers("/virtualeditions/restricted/**").authenticated().antMatchers("/admin/**")
-				.hasAuthority(RoleType.ROLE_ADMIN.name()).and().rememberMe();
+				.hasAuthority(RoleType.ROLE_ADMIN.name());
 	}
 
 	@Inject

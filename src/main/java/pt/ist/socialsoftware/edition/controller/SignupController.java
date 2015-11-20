@@ -86,6 +86,7 @@ public class SignupController {
 		if (user != null) {
 			SigninUtils.signin(request, user);
 			providerSignInUtils.doPostSignUp(user.getUsername(), request);
+			log.debug("signup end");
 			return "redirect:/";
 		}
 		return null;
