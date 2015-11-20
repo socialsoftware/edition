@@ -11,6 +11,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.socialsoftware.edition.security.LdoDUserDetails;
+import pt.ist.socialsoftware.edition.shared.exception.LdoDDuplicateUsernameException;
 
 public class LdoDUser extends LdoDUser_Base {
 	private static Logger log = LoggerFactory.getLogger(LdoDUser.class);
@@ -46,6 +47,20 @@ public class LdoDUser extends LdoDUser_Base {
 		setFirstName(firstName);
 		setLastName(lastName);
 		setEmail(email);
+	}
+
+	@Override
+	public void setUsername(String username) {
+		checkUniqueUsername(username);
+		super.setUsername(username);
+	}
+
+	private void checkUniqueUsername(String username) {
+		if (getLdoD().getUsersSet().stream().filter(u -> u.getUsername() != null && u.getUsername().equals(username))
+				.findFirst().isPresent()) {
+			throw new LdoDDuplicateUsernameException(username);
+		}
+
 	}
 
 	public Set<FragInter> getFragInterSet() {
