@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,7 +18,7 @@ import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.domain.LdoDUser.SocialMediaService;
 import pt.ist.socialsoftware.edition.domain.Role.RoleType;
 import pt.ist.socialsoftware.edition.security.LdoDSession;
-import pt.ist.socialsoftware.edition.shared.exception.LdoDException;
+import pt.ist.socialsoftware.edition.shared.exception.LdoDDuplicateUsernameException;
 
 public class LdoD extends LdoD_Base {
 	private static Logger log = LoggerFactory.getLogger(LdoD.class);
@@ -132,6 +133,9 @@ public class LdoD extends LdoD_Base {
 	@Atomic(mode = TxMode.WRITE)
 	public LdoDUser createUser(PasswordEncoder passwordEncoder, String username, String password, String firstName,
 			String lastName, String email, SocialMediaService socialMediaService, String socialMediaId) {
+
+		removeOutdatedUnconfirmedUsers();
+
 		if (getUser(username) == null) {
 			LdoDUser user = new LdoDUser(this, username, passwordEncoder.encode(password), firstName, lastName, email);
 			user.setSocialMediaService(socialMediaService);
@@ -142,7 +146,7 @@ public class LdoD extends LdoD_Base {
 
 			return user;
 		} else {
-			throw new LdoDException();
+			throw new LdoDDuplicateUsernameException(username);
 		}
 	}
 
@@ -159,6 +163,16 @@ public class LdoD extends LdoD_Base {
 
 		new UserConnection(this, userId, providerId, providerUserId, rank, displayName, profileUrl, imageUrl,
 				accessToken, secret, refreshToken, expireTime);
+	}
+
+	public void removeOutdatedUnconfirmedUsers() {
+		DateTime now = DateTime.now();
+		getTokenSet().stream().filter(t -> t.getExpireTimeDateTime().isBefore(now)).map(t -> t.getUser())
+				.forEach(u -> u.remove());
+	}
+
+	public RegistrationToken getTokenSet(String token) {
+		return getTokenSet().stream().filter(t -> t.getToken().equals(token)).findFirst().orElse(null);
 	}
 
 }

@@ -16,38 +16,34 @@ import pt.ist.socialsoftware.edition.domain.Role;
 
 @Service
 public class LdoDUserDetailsService implements UserDetailsService {
-    private static Logger log = LoggerFactory
-            .getLogger(LdoDUserDetailsService.class);
+	private static Logger log = LoggerFactory.getLogger(LdoDUserDetailsService.class);
 
-    @Override
-    public LdoDUserDetails loadUserByUsername(String username)
-            throws UsernameNotFoundException {
-        log.debug("loadUserByUsername username:{}", username);
+	@Override
+	public LdoDUserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		log.debug("loadUserByUsername username:{}", username);
 
-        LdoDUserDetails matchingUser = null;
+		LdoDUserDetails matchingUser = null;
 
-        LdoD ldoD = LdoD.getInstance();
+		LdoD ldoD = LdoD.getInstance();
 
-        for (LdoDUser user : ldoD.getUsersSet()) {
+		for (LdoDUser user : ldoD.getUsersSet()) {
 
-            if (user.getUsername().equals(username)) {
-                Set<GrantedAuthority> authorities = new HashSet<GrantedAuthority>();
-                for (Role role : user.getRolesSet()) {
-                    authorities.add(
-                            new GrantedAuthorityImpl(role.getType().name()));
-                }
-                matchingUser = new LdoDUserDetails(user, user.getUsername(),
-                        user.getPassword(), authorities);
+			if (user.getUsername().equals(username) && user.getEnabled()) {
+				Set<GrantedAuthority> authorities = new HashSet<GrantedAuthority>();
+				for (Role role : user.getRolesSet()) {
+					authorities.add(new GrantedAuthorityImpl(role.getType().name()));
+				}
+				matchingUser = new LdoDUserDetails(user, user.getUsername(), user.getPassword(), authorities);
 
-                return matchingUser;
-            }
-        }
+				return matchingUser;
+			}
+		}
 
-        if (matchingUser == null) {
-            throw new UsernameNotFoundException("Wrong username or password");
-        }
+		if (matchingUser == null) {
+			throw new UsernameNotFoundException(username);
+		}
 
-        return matchingUser;
-    }
+		return matchingUser;
+	}
 
 }

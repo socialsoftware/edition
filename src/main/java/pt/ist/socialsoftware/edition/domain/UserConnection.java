@@ -30,7 +30,7 @@ public class UserConnection extends UserConnection_Base {
 			throw new DuplicateKeyException(providerId);
 	}
 
-	public void delete() {
+	public void remove() {
 		setLdoD(null);
 
 		deleteDomainObject();
