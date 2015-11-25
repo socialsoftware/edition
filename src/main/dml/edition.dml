@@ -60,6 +60,7 @@ relation LdoDHasUserConnections {
 }
 
 class LdoDUser {
+	boolean enabled;
 	String username;
 	String password;
 	String firstName;
@@ -72,6 +73,21 @@ class LdoDUser {
 relation LdoDHasLdoDUsers {
 	LdoD playsRole ldoD {multiplicity 1..1;}
 	LdoDUser playsRole users {multiplicity 0..*;}
+}
+
+class RegistrationToken {
+	String token;
+	Long expireTime;
+}
+
+relation LdoDHasRegistrationToken {
+	LdoD playsRole ldoD {multiplicity 1..1;}
+	RegistrationToken playsRole token {multiplicity 0..*;}
+}
+
+relation LdoDUserHasRegistrationToken {
+	LdoDUser playsRole user {multiplicity 1..1;}
+	RegistrationToken playsRole token {multiplicity 0..1;}
 }
 
 class Role {

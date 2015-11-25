@@ -66,7 +66,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		return Encryptors.noOpText();
 		// return
 		// Encryptors.text(environment.getProperty("spring.encryption.password"),
-		// "0A6F8D70");
+		// KeyGenerators.string().generateKey());
 	}
 
 	@Bean

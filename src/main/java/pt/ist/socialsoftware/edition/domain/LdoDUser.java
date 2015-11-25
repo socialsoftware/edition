@@ -11,6 +11,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.socialsoftware.edition.security.LdoDUserDetails;
+import pt.ist.socialsoftware.edition.shared.exception.LdoDDuplicateUsernameException;
 
 public class LdoDUser extends LdoDUser_Base {
 	private static Logger log = LoggerFactory.getLogger(LdoDUser.class);
@@ -36,16 +37,38 @@ public class LdoDUser extends LdoDUser_Base {
 
 	public void remove() {
 		// TODO
+		getToken().remove();
+		getLdoD().getUserConnectionSet().stream().filter(uc -> uc.getUserId().equals(getUsername()))
+				.forEach(uc -> uc.remove());
+		setLdoD(null);
+
+		getRolesSet().stream().forEach(r -> removeRoles(r));
+
+		deleteDomainObject();
 	}
 
 	public LdoDUser(LdoD ldoD, String username, String password, String firstName, String lastName, String email) {
-		super();
+		setEnabled(false);
 		setLdoD(ldoD);
 		setUsername(username);
 		setPassword(password);
 		setFirstName(firstName);
 		setLastName(lastName);
 		setEmail(email);
+	}
+
+	@Override
+	public void setUsername(String username) {
+		checkUniqueUsername(username);
+		super.setUsername(username);
+	}
+
+	private void checkUniqueUsername(String username) {
+		if (getLdoD().getUsersSet().stream().filter(u -> u.getUsername() != null && u.getUsername().equals(username))
+				.findFirst().isPresent()) {
+			throw new LdoDDuplicateUsernameException(username);
+		}
+
 	}
 
 	public Set<FragInter> getFragInterSet() {
@@ -84,6 +107,18 @@ public class LdoDUser extends LdoDUser_Base {
 			}
 		}
 		return LdoD.getInstance().createRecommendationWeights(this, virtualEdition);
+	}
+
+	@Atomic(mode = TxMode.WRITE)
+	public RegistrationToken createRegistrationToken(String token) {
+		return new RegistrationToken(token, this);
+	}
+
+	@Atomic(mode = TxMode.WRITE)
+	public void enableUnconfirmedUser() {
+		setEnabled(true);
+		if (getToken() != null)
+			getToken().remove();
 	}
 
 }
