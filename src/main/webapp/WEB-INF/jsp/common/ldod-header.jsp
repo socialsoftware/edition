@@ -11,7 +11,7 @@
 			<a class="navbar-brand" href="${contextPath}/"><spring:message
 					code="header.title" /></a>
 		</div>
-	</div> 
+	</div>
 	<div class="collapse navbar-collapse navbar-ex1-collapse">
 		<ul class="nav navbar-nav">
 			<li class="dropdown"><a href="#" class="dropdown-toggle"
@@ -44,50 +44,46 @@
 					</c:forEach>
 				</ul></li>
 			<!-- Search -->
-			<li class='dropdown'>
-				<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-					<spring:message code="header.search" />
+			<li class='dropdown'><a href="#" class="dropdown-toggle"
+				data-toggle="dropdown"> <spring:message code="header.search" />
 					<b class='caret'></b>
-				</a>
+			</a>
 				<ul class="dropdown-menu">
-					<li>
-						<a href="${contextPath}/search/simple">
-							<spring:message code="header.search.simple" />
-						</a>
-					</li>
-					<li>
-						<a href="${contentPath}/search/advanced">
-							<spring:message code="header.search.advanced" />
-						</a>
-					</li>
-					<li>
-						<a href="${contentPath}/search/fragments">
-							<spring:message code="fragmentlist.title" />
-						</a>
-					</li>
-				</ul>
-			</li>
+					<li><a href="${contextPath}/search/simple"> <spring:message
+								code="header.search.simple" />
+					</a></li>
+					<li><a href="${contentPath}/search/advanced"> <spring:message
+								code="header.search.advanced" />
+					</a></li>
+					<li><a href="${contentPath}/search/fragments"> <spring:message
+								code="fragmentlist.title" />
+					</a></li>
+				</ul></li>
 			<!-- Manage Virtual Editions -->
 			<li><a href="${contextPath}/virtualeditions"><spring:message
 						code="virtual" /> </a></li>
 			<!-- Administration -->
-			<li class="dropdown"><a href="#" class="dropdown-toggle"
-				data-toggle="dropdown"><spring:message code="header.admin" /> <b
-					class="caret"></b></a>
-				<ul class="dropdown-menu">
-					<li><a href="${contextPath}/admin/load/corpusForm"><spring:message
-								code="corpus.load" /></a></li>
-					<li><a href="${contextPath}/admin/load/fragmentFormAtOnce"><spring:message
-								code="fragment.load" /></a></li>
-					<li><a href="${contextPath}/admin/load/fragmentFormStepByStep"><spring:message
-								code="fragments.load" /></a></li>
-					<li class="divider"></li>
-					<li><a href="${contextPath}/admin/exportForm"><spring:message
-                                code="general.export" /></a></li>
-					<li class="divider"></li>
-					<li><a href="${contextPath}/admin/fragment/list"><spring:message
-								code="fragment.delete" /></a></li>
-				</ul></li>
+			
+			<c:if test='${pageContext.request.userPrincipal.principal.hasRole("ROLE_ADMIN")}'>
+				<li class="dropdown"><a href="#" class="dropdown-toggle"
+					data-toggle="dropdown"><spring:message code="header.admin" />
+						<b class="caret"></b></a>
+					<ul class="dropdown-menu">
+						<li><a href="${contextPath}/admin/load/corpusForm"><spring:message
+									code="corpus.load" /></a></li>
+						<li><a href="${contextPath}/admin/load/fragmentFormAtOnce"><spring:message
+									code="fragment.load" /></a></li>
+						<li><a
+							href="${contextPath}/admin/load/fragmentFormStepByStep"><spring:message
+									code="fragments.load" /></a></li>
+						<li class="divider"></li>
+						<li><a href="${contextPath}/admin/exportForm"><spring:message
+									code="general.export" /></a></li>
+						<li class="divider"></li>
+						<li><a href="${contextPath}/admin/fragment/list"><spring:message
+									code="fragment.delete" /></a></li>
+					</ul></li>
+			</c:if>
 		</ul>
 		<ul class="nav navbar-nav navbar-right">
 			<!-- Login -->
