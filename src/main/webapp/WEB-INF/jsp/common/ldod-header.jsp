@@ -63,8 +63,9 @@
 			<li><a href="${contextPath}/virtualeditions"><spring:message
 						code="virtual" /> </a></li>
 			<!-- Administration -->
-			
-			<c:if test='${pageContext.request.userPrincipal.principal.hasRole("ROLE_ADMIN")}'>
+
+			<c:if
+				test='${pageContext.request.userPrincipal.principal.hasRole("ROLE_ADMIN")}'>
 				<li class="dropdown"><a href="#" class="dropdown-toggle"
 					data-toggle="dropdown"><spring:message code="header.admin" />
 						<b class="caret"></b></a>
@@ -82,21 +83,31 @@
 						<li class="divider"></li>
 						<li><a href="${contextPath}/admin/fragment/list"><spring:message
 									code="fragment.delete" /></a></li>
+						<li class="divider"></li>
+						<li><a href="${contextPath}/admin/user/list"><spring:message
+									code="user.manage" /></a></li>
 					</ul></li>
 			</c:if>
 		</ul>
 		<ul class="nav navbar-nav navbar-right">
 			<!-- Login -->
-			<li><c:choose>
-					<c:when test="${pageContext.request.userPrincipal.authenticated}">
-						<a href="<c:url value="${contextPath}/signout"/>"><spring:message
-								code="header.logout" /></a>
-					</c:when>
-					<c:otherwise>
-						<a href="${contextPath}/signin"><spring:message
-								code="header.login" /></a>
-					</c:otherwise>
-				</c:choose></li>
+			<c:choose>
+				<c:when test="${pageContext.request.userPrincipal.authenticated}">
+					<li class="dropdown"><a href="#" class="dropdown-toggle"
+						data-toggle="dropdown"><spring:message code="user.user" />
+							<b class="caret"></b></a>
+						<ul class="dropdown-menu">
+							<li><a href="<c:url value="${contextPath}/signout"/>"><spring:message
+										code="header.logout" /></a></li>
+							<li><a href="<c:url value="${contextPath}/user/changePassword"/>"><spring:message
+										code="user.password" /></a></li>
+						</ul>
+				</c:when>
+				<c:otherwise>
+					<li><a href="${contextPath}/signin"><spring:message
+								code="header.login" /></a></li>
+				</c:otherwise>
+			</c:choose>
 			<!--  Language -->
 			<li class="dropdown"><a href="#" class="dropdown-toggle"
 				data-toggle="dropdown"><span class="glyphicon glyphicon-flag"></span><b

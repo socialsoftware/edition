@@ -1,4 +1,4 @@
-package pt.ist.socialsoftware.edition.security;
+package pt.ist.socialsoftware.edition.forms;
 
 import javax.validation.constraints.Size;
 
