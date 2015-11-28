@@ -26,6 +26,8 @@
 		<version.org.codehaus.jackson.jackson-mapper-asl>1.9.13</version.org.codehaus.jackson.jackson-mapper-asl>
 		<version.javax.servlet.jsp.jstl>1.2</version.javax.servlet.jsp.jstl>
 		<version.javax.servlet.servlet.api>3.1.0</version.javax.servlet.servlet.api>
+		<version.javax.mail.mail>1.4.7</version.javax.mail.mail>
+		<version.javax.mail.javax.mail-api>1.5.4</version.javax.mail.javax.mail-api>
 		<version.commons.lang.commons.lang>2.6</version.commons.lang.commons.lang>
 		<version.junit.junit>4.12</version.junit.junit>
 		<version.jaxen.jaxen>1.1.6</version.jaxen.jaxen>
@@ -35,6 +37,8 @@
 		<version.commons-io.commons-io>2.4</version.commons-io.commons-io>
 		<version.org.slf4j>1.7.12</version.org.slf4j>
 		<version.ch.qos.logback>1.1.3</version.ch.qos.logback>
+		<version.cc.mallet>2.0.7</version.cc.mallet>
+		<version.org.apache.lucene>4.10.2</version.org.apache.lucene>
 
 		<version.fenixframework>2.6.0</version.fenixframework>
 		<fenix.framework.codeGeneratorClassName>pt.ist.fenixframework.backend.jvstmojb.codeGenerator.FenixCodeGeneratorOneBoxPerObject</fenix.framework.codeGeneratorClassName>
@@ -163,12 +167,12 @@
 		<dependency>
 			<groupId>javax.mail</groupId>
 			<artifactId>mail</artifactId>
-			<version>1.4.7</version>
+			<version>${version.javax.mail.mail}</version>
 		</dependency>
 		<dependency>
 			<groupId>javax.mail</groupId>
 			<artifactId>javax.mail-api</artifactId>
-			<version>1.5.4</version>
+			<version>${version.javax.mail.javax.mail-api}</version>
 		</dependency>
 
 		<dependency>
@@ -249,24 +253,24 @@
 		<dependency>
 			<groupId>cc.mallet</groupId>
 			<artifactId>mallet</artifactId>
-			<version>2.0.7</version>
+			<version>${version.cc.mallet}</version>
 		</dependency>
 
 		<!-- Lucene -->
 		<dependency>
 			<groupId>org.apache.lucene</groupId>
 			<artifactId>lucene-core</artifactId>
-			<version>4.10.2</version>
+			<version>${version.org.apache.lucene}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.lucene</groupId>
 			<artifactId>lucene-analyzers-common</artifactId>
-			<version>4.10.2</version>
+			<version>${version.org.apache.lucene}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.lucene</groupId>
 			<artifactId>lucene-queryparser</artifactId>
-			<version>4.10.2</version>
+			<version>${version.org.apache.lucene}</version>
 		</dependency>
 		<!-- java matrix package -->
 		<dependency>

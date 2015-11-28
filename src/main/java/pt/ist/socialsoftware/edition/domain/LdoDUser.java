@@ -7,11 +7,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.socialsoftware.edition.security.LdoDUserDetails;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDDuplicateUsernameException;
+import pt.ist.socialsoftware.edition.shared.exception.LdoDException;
 
 public class LdoDUser extends LdoDUser_Base {
 	private static Logger log = LoggerFactory.getLogger(LdoDUser.class);
@@ -119,6 +121,14 @@ public class LdoDUser extends LdoDUser_Base {
 		setEnabled(true);
 		if (getToken() != null)
 			getToken().remove();
+	}
+
+	@Atomic(mode = TxMode.WRITE)
+	public void updatePassword(PasswordEncoder passwordEncoder, String currentPassword, String newPassword) {
+		if (!passwordEncoder.matches(currentPassword, getPassword()))
+			throw new LdoDException();
+
+		setPassword(passwordEncoder.encode(newPassword));
 	}
 
 }

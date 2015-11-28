@@ -28,8 +28,8 @@ import org.springframework.web.context.request.WebRequest;
 import pt.ist.socialsoftware.edition.domain.LdoD;
 import pt.ist.socialsoftware.edition.domain.LdoDUser;
 import pt.ist.socialsoftware.edition.domain.LdoDUser.SocialMediaService;
+import pt.ist.socialsoftware.edition.forms.SignupForm;
 import pt.ist.socialsoftware.edition.domain.RegistrationToken;
-import pt.ist.socialsoftware.edition.security.SignupForm;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDException;
 import pt.ist.socialsoftware.edition.utils.PropertiesManager;
 
@@ -81,8 +81,8 @@ public class SignupController {
 			return null;
 		}
 
-		SocialMediaService socialMediaService = form.getSocialMediaService() != ""
-				? SocialMediaService.valueOf(form.getSocialMediaService().toUpperCase()) : null;
+		SocialMediaService socialMediaService = form.getSocialMediaService().equals("") ? null
+				: SocialMediaService.valueOf(form.getSocialMediaService().toUpperCase());
 
 		LdoDUser user = null;
 		RegistrationToken token = null;
