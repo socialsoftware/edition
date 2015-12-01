@@ -94,13 +94,15 @@
 			<c:choose>
 				<c:when test="${pageContext.request.userPrincipal.authenticated}">
 					<li class="dropdown"><a href="#" class="dropdown-toggle"
-						data-toggle="dropdown"><spring:message code="user.user" />
-							<b class="caret"></b></a>
+						data-toggle="dropdown"><spring:message code="user.user" />:
+							${pageContext.request.userPrincipal.principal.username} <b
+							class="caret"></b></a>
 						<ul class="dropdown-menu">
+							<li><a
+								href="<c:url value="${contextPath}/user/changePassword"/>"><spring:message
+										code="user.password" /></a></li>
 							<li><a href="<c:url value="${contextPath}/signout"/>"><spring:message
 										code="header.logout" /></a></li>
-							<li><a href="<c:url value="${contextPath}/user/changePassword"/>"><spring:message
-										code="user.password" /></a></li>
 						</ul>
 				</c:when>
 				<c:otherwise>
