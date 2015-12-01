@@ -28,7 +28,7 @@ public class LdoDUserDetailsService implements UserDetailsService {
 
 		for (LdoDUser user : ldoD.getUsersSet()) {
 
-			if (user.getUsername().equals(username) && user.getEnabled()) {
+			if (user.getEnabled() && user.getActive() && user.getUsername().equals(username)) {
 				Set<GrantedAuthority> authorities = new HashSet<GrantedAuthority>();
 				for (Role role : user.getRolesSet()) {
 					authorities.add(new GrantedAuthorityImpl(role.getType().name()));

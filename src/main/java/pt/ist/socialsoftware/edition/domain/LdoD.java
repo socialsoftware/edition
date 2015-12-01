@@ -2,9 +2,7 @@ package pt.ist.socialsoftware.edition.domain;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
@@ -77,18 +75,10 @@ public class LdoD extends LdoD_Base {
 		List<VirtualEdition> mineVE = new ArrayList<VirtualEdition>();
 		List<VirtualEdition> publicVE = new ArrayList<VirtualEdition>();
 
-		// synchronize session
-		Set<VirtualEdition> sessionVE = new HashSet<VirtualEdition>(session.getSelectedVEs());
-		for (VirtualEdition edition : sessionVE) {
-			if ((user != null) && !user.getSelectedVirtualEditionsSet().contains(edition)) {
-				session.removeSelectedVE(edition.getExternalId(), edition.getAcronym());
-			} else if ((user == null) && (!edition.getPub())) {
-				session.removeSelectedVE(edition.getExternalId(), edition.getAcronym());
-			}
-		}
+		session.synchronizeSession(user);
 
 		if (user == null) {
-			selectedVE.addAll(session.getSelectedVEs());
+			selectedVE.addAll(session.materializeVirtualEditions());
 		}
 
 		for (VirtualEdition virtualEdition : getVirtualEditionsSet()) {

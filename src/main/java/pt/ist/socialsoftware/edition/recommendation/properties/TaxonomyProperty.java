@@ -26,12 +26,12 @@ public class TaxonomyProperty extends Property {
 	public Collection<Double> extractVector(Fragment fragment) {
 		List<Double> vector = new ArrayList<Double>(getDefaultVector());
 		Pair pair;
-		for(FragInter inter : fragment.getFragmentInterSet()) {
-			if(inter instanceof VirtualEditionInter) {
-				for(Tag tag : inter.getTagSet()) {
-					if(!tag.getDeprecated()) {
+		for (FragInter inter : fragment.getFragmentInterSet()) {
+			if (inter instanceof VirtualEditionInter) {
+				for (Tag tag : inter.getTagSet()) {
+					if (!tag.getDeprecated()) {
 						pair = new Pair(tag);
-						if(tags.contains(pair)) {
+						if (tags.contains(pair)) {
 							vector.set(tags.indexOf(pair), getWeight());
 						}
 					}
@@ -44,10 +44,10 @@ public class TaxonomyProperty extends Property {
 	@Override
 	protected Collection<Double> extractVector(VirtualEditionInter inter) {
 		List<Double> vector = new ArrayList<Double>(getDefaultVector());
-		for(Tag tag : inter.getTagSet()) {
-			if(!tag.getDeprecated()) {
+		for (Tag tag : inter.getTagSet()) {
+			if (!tag.getDeprecated()) {
 				Pair pair = new Pair(tag);
-				if(tags.contains(pair)) {
+				if (tags.contains(pair)) {
 					vector.set(tags.indexOf(pair), getWeight());
 				}
 			}
@@ -66,10 +66,10 @@ public class TaxonomyProperty extends Property {
 		tempTags.addAll(inter2.getTagSet());
 		List<Pair> tags = new ArrayList<Pair>();
 		Pair pair;
-		for(Tag tag : tempTags) {
-			if(!tag.getDeprecated()) {
+		for (Tag tag : tempTags) {
+			if (!tag.getDeprecated()) {
 				pair = new Pair(tag);
-				if(!tags.contains(pair)) {
+				if (!tags.contains(pair)) {
 					tags.add(pair);
 				}
 			}
@@ -79,20 +79,20 @@ public class TaxonomyProperty extends Property {
 
 	private List<Pair> getTagSet(Fragment frag1, Fragment frag2) {
 		List<Tag> tempTags = new ArrayList<Tag>();
-		for(FragInter inter : frag1.getFragmentInterSet()) {
-			if(inter instanceof VirtualEditionInter) {
+		for (FragInter inter : frag1.getFragmentInterSet()) {
+			if (inter instanceof VirtualEditionInter) {
 				tempTags.addAll(inter.getTagSet());
 			}
 		}
-		for(FragInter inter : frag2.getFragmentInterSet()) {
-			if(inter instanceof VirtualEditionInter) {
+		for (FragInter inter : frag2.getFragmentInterSet()) {
+			if (inter instanceof VirtualEditionInter) {
 				tempTags.addAll(inter.getTagSet());
 			}
 		}
 		List<Pair> tags = new ArrayList<Pair>();
-		for(Tag tag : tempTags) {
-			if(!tag.getDeprecated()) {
-				if(!tags.contains(tag)) {
+		for (Tag tag : tempTags) {
+			if (!tag.getDeprecated()) {
+				if (!tags.contains(tag)) {
 					tags.add(new Pair(tag));
 				}
 			}
@@ -102,13 +102,13 @@ public class TaxonomyProperty extends Property {
 
 	@Override
 	public void setFragmentsGroup(FragInter inter1, FragInter inter2) {
-		if(tags == null)
+		if (tags == null)
 			tags = getTagSet(inter1, inter2);
 	}
 
 	@Override
 	public void setFragmentsGroup(Fragment frag1, Fragment frag2) {
-		if(tags == null)
+		if (tags == null)
 			tags = getTagSet(frag1, frag2);
 	}
 
