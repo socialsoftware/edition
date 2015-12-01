@@ -4,7 +4,8 @@ jQuery(function ($) {
     var content = $('#content').annotator({
         readOnly: ${!inters.get(0).getEdition().getParticipantSet().contains(user)}
     });
-//    content.annotator('addPlugin', 'Tags');   
+    //content.annotator('addPlugin', 'Filter');   
+    content.annotator('addPlugin', 'Tags');   
     content.annotator('addPlugin', 'Permissions', {
         user : '${user.username}', 
         showViewPermissionsCheckbox : 'false',
