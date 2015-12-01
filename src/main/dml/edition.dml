@@ -61,6 +61,7 @@ relation LdoDHasUserConnections {
 
 class LdoDUser {
 	boolean enabled;
+	boolean active;
 	String username;
 	String password;
 	String firstName;

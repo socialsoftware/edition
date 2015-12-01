@@ -26,15 +26,15 @@
         <!--  <table class="table table-bordered table-condensed">-->
             <thead>
                 <tr>            
-                    <th><span class="tip" title="<spring:message code="sourcelist.tt.documents" />"><spring:message code="header.documents" /></span></th>
-                    <th><span class="tip" title="<spring:message code="sourcelist.tt.transcription" />"><spring:message code="general.transcription" /></th>
-                    <th><span class="tip" title="<spring:message code="sourcelist.tt.date" />"><spring:message code="general.date" /></th>
-                    <th><span class="tip" title="<spring:message code="sourcelist.tt.type" />"><spring:message code="general.type" /></th>
-                    <th><span class="tip" title="<spring:message code="sourcelist.tt.LdoDLabel" />"><spring:message code="general.LdoDLabel" /></th>
-                    <th><span class="tip" title="<spring:message code="sourcelist.tt.format" />"><spring:message code="general.format" /></th>
-                    <th><span class="tip" title="<spring:message code="sourcelist.tt.material" />"><spring:message code="general.material" /></th>
-                    <th><span class="tip" title="<spring:message code="sourcelist.tt.columns" />"><spring:message code="general.columns" /></th>
-                    <th><span class="tip" title="<spring:message code="sourcelist.tt.facsimiles" />"><spring:message code="general.facsimiles" /></th>
+                    <th><span class="tip" title="<spring:message code="header.documents" />"><spring:message code="header.documents" /></span></th>
+                    <th><span class="tip" title="<spring:message code="sourcelist.tt.transcription" />"><spring:message code="general.transcription" /></span></th>
+                    <th><span class="tip" title="<spring:message code="sourcelist.tt.date" />"><spring:message code="general.date" /></span></th>
+                    <th><span class="tip" title="<spring:message code="sourcelist.tt.type" />"><spring:message code="general.type" /></span></th>
+                    <th><span class="tip" title="<spring:message code="sourcelist.tt.LdoDLabel" />"><spring:message code="general.LdoDLabel" /></span></th>
+                    <th><span class="tip" title="<spring:message code="general.format" />"><spring:message code="general.format" /></span></th>
+                    <th><span class="tip" title="<spring:message code="general.material" />"><spring:message code="general.material" /></span></th>
+                    <th><span class="tip" title="<spring:message code="sourcelist.tt.columns" />"><spring:message code="general.columns" /></span></th>
+                    <th><span class="tip" title="<spring:message code="sourcelist.tt.facsimiles" />"><spring:message code="general.facsimiles" /></span></th>
                 </tr>
             <tbody>
                 <c:forEach var="source" items='${sources}'>

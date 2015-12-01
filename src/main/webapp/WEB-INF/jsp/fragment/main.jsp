@@ -10,8 +10,8 @@
 <body>
     <c:choose>
         <c:when test="${(inters.size() == 1) && (inters.get(0).sourceType=='VIRTUAL')}">
-            <%@ include
-                file="/WEB-INF/jsp/common/static-top-ldod-header.jsp"%></c:when>
+           <%@ include
+                file="/WEB-INF/jsp/common/fixed-top-ldod-header.jsp"%></c:when>  
         <c:otherwise><%@ include
                 file="/WEB-INF/jsp/common/fixed-top-ldod-header.jsp"%></c:otherwise>
     </c:choose>

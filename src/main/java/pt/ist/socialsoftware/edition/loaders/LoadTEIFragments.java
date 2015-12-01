@@ -191,7 +191,7 @@ public class LoadTEIFragments {
 		} catch (JDOMException e) {
 			throw new LdoDLoadException("Ficheiro com problemas de codificação TEI");
 		} catch (IOException e) {
-			throw new LdoDLoadException("Problemas com o ficheiro, tipo ou formato" + e.getStackTrace().toString());
+			throw new LdoDLoadException("Problemas com o ficheiro, tipo ou formato" + e.getStackTrace());
 		}
 
 		if (doc == null) {
@@ -1024,7 +1024,7 @@ public class LoadTEIFragments {
 
 				for (Content content : noteElement.getContent()) {
 					if (content.getCType() == CType.Text) {
-						if (content.getValue().trim() != "") {
+						if (!content.getValue().trim().equals("")) {
 							loadSimpleText((Text) content, noteText);
 						} else {
 							// empty text
@@ -1127,7 +1127,7 @@ public class LoadTEIFragments {
 				((ExpertEditionInter) fragInter).setVolume(value);
 				break;
 			case "number":
-				if (value != "") {
+				if (!value.equals("")) {
 					((ExpertEditionInter) fragInter).setNumber(Integer.parseInt(value));
 				} else {
 					((ExpertEditionInter) fragInter).setNumber(0);
@@ -1254,9 +1254,12 @@ public class LoadTEIFragments {
 					Attribute when = origDate.getAttribute("when");
 
 					if (when == null) {
-						throw new LdoDLoadException(
-								"Não existe attributo when associado a elemento msDesc.history.origin.origDate da fonte "
-										+ manuscript.getXmlId());
+						// TODO: some fragments have the hierarchy but not the
+						// last element
+						// throw new LdoDLoadException(
+						// "Não existe attributo when associado a elemento
+						// msDesc.history.origin.origDate da fonte "
+						// + manuscript.getXmlId());
 					} else {
 						manuscript.setDate(DateUtils.convertDate(when.getValue()));
 
@@ -1390,7 +1393,7 @@ public class LoadTEIFragments {
 			throw new LdoDLoadException("É necessário o atributo target para o elemento ref");
 		}
 
-		if ((target != null) && (target != "")) {
+		if ((target != null) && (!target.equals(""))) {
 			return target.substring(1);
 		} else {
 			throw new LdoDLoadException("Falta o valor do atributo target para o elemento ref");
@@ -1796,6 +1799,7 @@ public class LoadTEIFragments {
 				break;
 			case "ink blot":
 				reason = UnclearReason.INK_BLOT;
+				break;
 			case "faded":
 				reason = UnclearReason.FADED;
 				break;
@@ -1822,6 +1826,7 @@ public class LoadTEIFragments {
 			break;
 		case "incl":
 			altMode = AltMode.INCL;
+			break;
 		default:
 			throw new LdoDLoadException("O atributo mode do elemento alt tem valor=" + modeValue);
 		}

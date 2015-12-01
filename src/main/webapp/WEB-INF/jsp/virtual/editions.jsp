@@ -180,7 +180,7 @@
                                                 class="glyphicon glyphicon-check"></span>
                                             <c:choose>
                                                 <c:when
-                                                    test="${ldoDSession.selectedVEs.contains(virtualEdition)}">
+                                                    test="${ldoDSession.materializeVirtualEditions().contains(virtualEdition)}">
                                                     <spring:message
                                                         code="general.deselect" />
                                                 </c:when>
