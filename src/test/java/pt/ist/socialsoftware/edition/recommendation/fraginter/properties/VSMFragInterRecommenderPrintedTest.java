@@ -17,8 +17,8 @@ public class VSMFragInterRecommenderPrintedTest extends VSMFragInterRecommenderS
 	@Override
 	protected FragInter getFragment1() {
 		List<FragInter> list = new ArrayList<>(ldod.getFragment("Fr084").getFragmentInterSet());
-		for(FragInter inter : list) {
-			if(inter instanceof SourceInter && inter.getSourceType().equals(SourceType.PRINTED))
+		for (FragInter inter : list) {
+			if (inter instanceof SourceInter && inter.getSourceType().equals(SourceType.PRINTED))
 				return inter;
 		}
 		return list.get(list.size() - 1);
@@ -27,8 +27,8 @@ public class VSMFragInterRecommenderPrintedTest extends VSMFragInterRecommenderS
 	@Override
 	protected FragInter getFragment2() {
 		List<FragInter> list = new ArrayList<>(ldod.getFragment("Fr002").getFragmentInterSet());
-		for(FragInter inter : list) {
-			if(inter instanceof SourceInter && inter.getSourceType().equals(SourceType.PRINTED)) {
+		for (FragInter inter : list) {
+			if (inter instanceof SourceInter && inter.getSourceType().equals(SourceType.PRINTED)) {
 				return inter;
 			}
 		}

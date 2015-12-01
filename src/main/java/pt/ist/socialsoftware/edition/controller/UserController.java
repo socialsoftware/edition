@@ -25,13 +25,13 @@ public class UserController {
 	@Inject
 	private PasswordEncoder passwordEncoder;
 
-	@Secured({ "ROLE_USER", "ROLE_ADMIN" })
+	@Secured({ "ROLE_ADMIN" })
 	@RequestMapping(method = RequestMethod.GET, value = "/changePassword")
 	public ChangePasswordForm passwordForm() {
 		return new ChangePasswordForm();
 	}
 
-	@Secured({ "ROLE_USER", "ROLE_ADMIN" })
+	@Secured({ "ROLE_ADMIN" })
 	@RequestMapping(method = RequestMethod.POST, value = "/changePassword")
 	public String changePassword(@Valid ChangePasswordForm form, BindingResult formBinding) {
 		log.debug("changePassword username:{}", form.getUsername());

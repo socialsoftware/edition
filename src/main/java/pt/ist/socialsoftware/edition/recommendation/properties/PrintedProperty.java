@@ -30,11 +30,11 @@ public class PrintedProperty extends StorableProperty {
 	@Override
 	public Collection<Double> extractVector(Fragment fragment) {
 		List<Double> vector = new ArrayList<Double>(getDefaultVector());
-		for(Source source : fragment.getSourcesSet()) {
-			if(source.getType().equals(SourceType.PRINTED)) {
+		for (Source source : fragment.getSourcesSet()) {
+			if (source.getType().equals(SourceType.PRINTED)) {
 				vector.set(0, 1.0);
 				String title = ((PrintedSource) source).getTitle();
-				if(titles.equals(title)) {
+				if (titles.contains(title)) {
 					vector.set(titles.indexOf(title) + 1, 1.0);
 				}
 			}
@@ -45,10 +45,10 @@ public class PrintedProperty extends StorableProperty {
 	@Override
 	protected Collection<Double> extractVector(SourceInter sourceInter) {
 		List<Double> vector = new ArrayList<Double>(getDefaultVector());
-		if(sourceInter.getSource().getType().equals(SourceType.PRINTED)) {
+		if (sourceInter.getSource().getType().equals(SourceType.PRINTED)) {
 			vector.set(0, 1.0);
 			String title = ((PrintedSource) sourceInter.getSource()).getTitle();
-			if(titles.contains(title)) {
+			if (titles.contains(title)) {
 				vector.set(titles.indexOf(title) + 1, 1.0);
 			}
 		}
@@ -70,12 +70,12 @@ public class PrintedProperty extends StorableProperty {
 	}
 
 	private Collection<String> getTitles() {
-		if(titles == null) {
+		if (titles == null) {
 			Set<String> tempTitles = new TreeSet<>();
 			PrintedSource printedSource;
-			for(Fragment frag : LdoD.getInstance().getFragmentsSet()) {
-				for(Source source : frag.getSourcesSet()) {
-					if(source.getType().equals(SourceType.PRINTED)) {
+			for (Fragment frag : LdoD.getInstance().getFragmentsSet()) {
+				for (Source source : frag.getSourcesSet()) {
+					if (source.getType().equals(SourceType.PRINTED)) {
 						printedSource = (PrintedSource) source;
 						tempTitles.add(printedSource.getTitle());
 					}
