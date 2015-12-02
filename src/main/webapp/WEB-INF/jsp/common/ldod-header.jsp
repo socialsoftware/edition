@@ -94,9 +94,11 @@
 			<c:choose>
 				<c:when test="${pageContext.request.userPrincipal.authenticated}">
 					<li class="dropdown"><a href="#" class="dropdown-toggle"
-						data-toggle="dropdown"><spring:message code="user.user" />:
-							${pageContext.request.userPrincipal.principal.username} <b
-							class="caret"></b></a>
+						data-toggle="dropdown">
+							${pageContext.request.userPrincipal.principal.getUser().getFirstName()}
+							${pageContext.request.userPrincipal.principal.getUser().getLastName()}<b
+							class="caret"></b>
+					</a>
 						<ul class="dropdown-menu">
 							<li><a
 								href="<c:url value="${contextPath}/user/changePassword"/>"><spring:message

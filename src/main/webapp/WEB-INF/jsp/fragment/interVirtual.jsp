@@ -37,7 +37,7 @@ jQuery(function ($) {
         destroy: '/annotations/:id',
         search:  '/search'
       }
-    });
+    }); 
 });
 </script>
 
