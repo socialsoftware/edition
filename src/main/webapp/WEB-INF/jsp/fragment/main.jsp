@@ -3,8 +3,6 @@
 <html>
 <head>
 <%@ include file="/WEB-INF/jsp/common/meta-head.jsp"%>
-<link rel="stylesheet" type="text/css" href="/resources/css/annotator.min.css" />
-<script type="text/javascript" src="/resources/js/annotator-full.min.js"></script>
 <script type="text/javascript" src="/resources/js/jquery.elevatezoom.js"></script>
 </head>
 <body>
