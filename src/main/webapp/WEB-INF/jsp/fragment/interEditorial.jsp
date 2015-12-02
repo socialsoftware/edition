@@ -33,24 +33,23 @@ $(document)
 </script>
 
 <div id=fragmentInter class="row">
-    <form class="form-inline" role="form"> 
-        <div class="form-group">
-            <div id="visualisation-properties-editorial"
-                class="btn-group" data-toggle="checkbox">
-                <div class="checkbox">
-                    <label> <input type="checkbox" name=diff
-                        value="Yes"> <spring:message
-                            code="fragment.highlightdifferences" />
-                    </label>
-                </div>
-            </div>
-        </div>
-    </form>
+	<form class="form-inline" role="form">
+		<div class="form-group">
+			<div id="visualisation-properties-editorial" class="btn-group"
+				data-toggle="checkbox">
+				<div class="checkbox">
+					<label> <input type="checkbox" name=diff value="Yes">
+						<spring:message code="fragment.highlightdifferences" />
+					</label>
+				</div>
+			</div>
+		</div>
+	</form>
 
-    <%@ include file="/WEB-INF/jsp/fragment/transcription.jsp"%>
+	<%@ include file="/WEB-INF/jsp/fragment/transcription.jsp"%>
 
-    <br>
-    <div id="interMeta" class="row">
-        <div class="well row">${inters.get(0).metaTextual}</div>
-    </div>
+	<br>
+	<div id="interMeta" class="row">
+		<div class="well row">${inters.get(0).metaTextual}</div>
+	</div>
 </div>

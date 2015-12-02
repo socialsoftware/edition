@@ -8,6 +8,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -46,6 +48,7 @@ import pt.ist.socialsoftware.edition.visitors.HtmlWriter4Variations;
 @SessionAttributes({ "ldoDSession" })
 @RequestMapping("/fragments/fragment")
 public class FragmentController {
+	private static Logger logger = LoggerFactory.getLogger(FragmentController.class);
 
 	@ModelAttribute("ldoDSession")
 	public LdoDSession getLdoDSession() {
@@ -80,6 +83,8 @@ public class FragmentController {
 	@RequestMapping(method = RequestMethod.GET, value = "/inter/{id}")
 	public String getFragmentWithInter(Model model, @ModelAttribute("ldoDSession") LdoDSession ldoDSession,
 			@PathVariable String id) {
+		logger.debug("getFragmentWithInter id:{}", id);
+
 		FragInter inter = FenixFramework.getDomainObject(id);
 
 		if (inter == null) {
