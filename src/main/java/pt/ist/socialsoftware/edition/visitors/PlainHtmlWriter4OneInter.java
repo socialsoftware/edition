@@ -29,7 +29,7 @@ import pt.ist.socialsoftware.edition.domain.SpaceText.SpaceDim;
 import pt.ist.socialsoftware.edition.domain.SubstText;
 import pt.ist.socialsoftware.edition.domain.UnclearText;
 
-public class HtmlWriter4OneInter extends FragmentWriter {
+public class PlainHtmlWriter4OneInter implements TextPortionVisitor {
 	protected FragInter fragInter = null;
 	protected String transcription = "";
 
@@ -60,7 +60,7 @@ public class HtmlWriter4OneInter extends FragmentWriter {
 		return (interpsChar.get(inter) * 100) / totalChar;
 	}
 
-	public HtmlWriter4OneInter(FragInter fragInter) {
+	public PlainHtmlWriter4OneInter(FragInter fragInter) {
 		this.fragInter = fragInter;
 		transcription = "";
 
@@ -77,9 +77,8 @@ public class HtmlWriter4OneInter extends FragmentWriter {
 		visit((AppText) fragInter.getFragment().getTextPortion());
 	}
 
-	public void write(Boolean highlightDiff, Boolean displayDel,
-			Boolean highlightIns, Boolean highlightSubst, Boolean showNotes,
-			Boolean showFacs, PbText pbText) {
+	public void write(Boolean highlightDiff, Boolean displayDel, Boolean highlightIns, Boolean highlightSubst,
+			Boolean showNotes, Boolean showFacs, PbText pbText) {
 		this.highlightDiff = highlightDiff;
 		this.displayDel = displayDel;
 		this.highlightIns = highlightIns;
@@ -128,19 +127,15 @@ public class HtmlWriter4OneInter extends FragmentWriter {
 				int size = fragInter.getFragment().getFragmentInterSet().size();
 				if (rdgText.getInterps().size() < size) {
 					color = true;
-					int colorValue = 255 - (255 / size)
-							* (size - rdgText.getInterps().size() - 1);
-					String colorCode = "<span style=\"background-color: rgb(0,"
-							+ colorValue + ",255);\">";
+					int colorValue = 255 - (255 / size) * (size - rdgText.getInterps().size() - 1);
+					String colorCode = "<span style=\"background-color: rgb(0," + colorValue + ",255);\">";
 
-					append2Transcription(rdgText.writeSeparator(displayDel,
-							highlightSubst, fragInter) + colorCode);
+					append2Transcription(rdgText.writeSeparator(displayDel, highlightSubst, fragInter) + colorCode);
 				}
 			}
 
 			if (!color) {
-				append2Transcription(rdgText.writeSeparator(displayDel,
-						highlightSubst, fragInter));
+				append2Transcription(rdgText.writeSeparator(displayDel, highlightSubst, fragInter));
 			}
 
 			propagate2FirstChild(rdgText);
@@ -172,15 +167,12 @@ public class HtmlWriter4OneInter extends FragmentWriter {
 
 		String altRend = "";
 		if (segText.getAltTextWeight() != null) {
-			altRend = "<span class=\"text-warning\">"
-					+ "<abbr title=\""
-					+ segText.getAltTextWeight().getAltText().getMode()
-							.getDesc() + " "
+			altRend = "<span class=\"text-warning\">" + "<abbr title=\""
+					+ segText.getAltTextWeight().getAltText().getMode().getDesc() + " "
 					+ segText.getAltTextWeight().getWeight() + "\">";
 		}
 
-		append2Transcription(segText.writeSeparator(displayDel, highlightSubst,
-				fragInter) + preRend + altRend);
+		append2Transcription(segText.writeSeparator(displayDel, highlightSubst, fragInter) + preRend + altRend);
 
 		propagate2FirstChild(segText);
 
@@ -210,8 +202,7 @@ public class HtmlWriter4OneInter extends FragmentWriter {
 			interpsChar.put(inter, number);
 		}
 
-		append2Transcription(simpleText.writeSeparator(displayDel,
-				highlightSubst, fragInter) + value);
+		append2Transcription(simpleText.writeSeparator(displayDel, highlightSubst, fragInter) + value);
 
 		propagate2NextSibling(simpleText);
 	}
@@ -306,18 +297,13 @@ public class HtmlWriter4OneInter extends FragmentWriter {
 		if (highlightIns) {
 			String insertSymbol = "<span style=\"color: rgb(128,128,128);\"><small>&and;</small></span>";
 			if (showNotes) {
-				insertSymbol = "<abbr title=\"" + addText.getNote() + "\">"
-						+ insertSymbol + "</abbr>";
+				insertSymbol = "<abbr title=\"" + addText.getNote() + "\">" + insertSymbol + "</abbr>";
 			}
 
-			append2Transcription(addText.writeSeparator(displayDel,
-					highlightSubst, fragInter)
-					+ preRendition
-					+ prePlaceFormat
-					+ insertSymbol);
+			append2Transcription(addText.writeSeparator(displayDel, highlightSubst, fragInter) + preRendition
+					+ prePlaceFormat + insertSymbol);
 		} else {
-			append2Transcription(addText.writeSeparator(displayDel,
-					highlightSubst, fragInter));
+			append2Transcription(addText.writeSeparator(displayDel, highlightSubst, fragInter));
 		}
 
 		propagate2FirstChild(addText);
@@ -332,12 +318,10 @@ public class HtmlWriter4OneInter extends FragmentWriter {
 	@Override
 	public void visit(DelText delText) {
 		if (displayDel) {
-			append2Transcription(delText.writeSeparator(displayDel,
-					highlightSubst, fragInter)
+			append2Transcription(delText.writeSeparator(displayDel, highlightSubst, fragInter)
 					+ "<del><span style=\"color: rgb(128,128,128);\">");
 			if (showNotes) {
-				append2Transcription("<abbr title=\"" + delText.getNote()
-						+ "\">");
+				append2Transcription("<abbr title=\"" + delText.getNote() + "\">");
 			}
 
 			propagate2FirstChild(delText);
@@ -355,16 +339,14 @@ public class HtmlWriter4OneInter extends FragmentWriter {
 	@Override
 	public void visit(SubstText substText) {
 		if (displayDel && highlightSubst) {
-			append2Transcription(substText.writeSeparator(displayDel,
-					highlightSubst, fragInter)
+			append2Transcription(substText.writeSeparator(displayDel, highlightSubst, fragInter)
 					+ "<span style=\"color: rgb(0,0,255);\">[</span>");
 		}
 
 		propagate2FirstChild(substText);
 
 		if (displayDel && highlightSubst) {
-			append2Transcription("<span style=\"color: rgb(0,0,255);\">]"
-					+ "<sub>subst</sub></span>");
+			append2Transcription("<span style=\"color: rgb(0,0,255);\">]" + "<sub>subst</sub></span>");
 		}
 
 		propagate2NextSibling(substText);
@@ -381,15 +363,8 @@ public class HtmlWriter4OneInter extends FragmentWriter {
 			interpsChar.put(inter, number);
 		}
 
-		append2Transcription(gapText.writeSeparator(displayDel, highlightSubst,
-				fragInter)
-				+ "<abbr title=\""
-				+ gapText.getReason().getDesc()
-				+ ", "
-				+ gapText.getExtent()
-				+ " "
-				+ gapText.getUnit()
-				+ "\">"
+		append2Transcription(gapText.writeSeparator(displayDel, highlightSubst, fragInter) + "<abbr title=\""
+				+ gapText.getReason().getDesc() + ", " + gapText.getExtent() + " " + gapText.getUnit() + "\">"
 				+ gapValue + "</abbr>");
 
 		propagate2NextSibling(gapText);
@@ -397,8 +372,7 @@ public class HtmlWriter4OneInter extends FragmentWriter {
 
 	@Override
 	public void visit(UnclearText unclearText) {
-		append2Transcription(unclearText.writeSeparator(displayDel,
-				highlightSubst, fragInter)
+		append2Transcription(unclearText.writeSeparator(displayDel, highlightSubst, fragInter)
 				+ "<span style=\"text-shadow: black 0.0em 0.0em 0.1em; -webkit-filter: blur(0.005em);\">"
 				+ "<abbr title=\"" + unclearText.getReason().getDesc() + "\">");
 

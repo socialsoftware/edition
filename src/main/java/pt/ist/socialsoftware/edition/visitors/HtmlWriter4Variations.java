@@ -7,7 +7,7 @@ import pt.ist.socialsoftware.edition.domain.RdgText;
 import pt.ist.socialsoftware.edition.domain.TextPortion;
 import pt.ist.socialsoftware.edition.domain.TextPortion.VariationType;
 
-public class HtmlWriter4Variations extends HtmlWriter4OneInter {
+public class HtmlWriter4Variations extends PlainHtmlWriter4OneInter {
 
 	public String getAppTranscription(AppText appText) {
 		transcription = "";

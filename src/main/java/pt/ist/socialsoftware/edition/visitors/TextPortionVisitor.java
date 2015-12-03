@@ -1,6 +1,3 @@
-/**
- * 
- */
 package pt.ist.socialsoftware.edition.visitors;
 
 import pt.ist.socialsoftware.edition.domain.AddText;
@@ -19,15 +16,23 @@ import pt.ist.socialsoftware.edition.domain.SegText;
 import pt.ist.socialsoftware.edition.domain.SimpleText;
 import pt.ist.socialsoftware.edition.domain.SpaceText;
 import pt.ist.socialsoftware.edition.domain.SubstText;
+import pt.ist.socialsoftware.edition.domain.TextPortion;
 import pt.ist.socialsoftware.edition.domain.UnclearText;
 
-/**
- * The visitor pattern applied to the tree of text
- * 
- * @author ars
- * 
- */
-public interface TextTreeVisitor {
+public interface TextPortionVisitor {
+	default void propagate2FirstChild(TextPortion text) {
+		TextPortion firstChild = text.getFirstChildText();
+		if (firstChild != null) {
+			firstChild.accept(this);
+		}
+	}
+
+	default void propagate2NextSibling(TextPortion text) {
+		if (text.getNextText() != null) {
+			text.getNextText().accept(this);
+		}
+	}
+
 	public void visit(AppText appText);
 
 	public void visit(RdgGrpText rdgGrpText);

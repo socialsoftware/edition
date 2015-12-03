@@ -41,7 +41,7 @@ import pt.ist.socialsoftware.edition.shared.exception.LdoDException;
 import pt.ist.socialsoftware.edition.utils.AnnotationJson;
 import pt.ist.socialsoftware.edition.utils.AnnotationSearchJson;
 import pt.ist.socialsoftware.edition.visitors.HtmlWriter2CompInters;
-import pt.ist.socialsoftware.edition.visitors.HtmlWriter4OneInter;
+import pt.ist.socialsoftware.edition.visitors.PlainHtmlWriter4OneInter;
 import pt.ist.socialsoftware.edition.visitors.HtmlWriter4Variations;
 
 @Controller
@@ -91,7 +91,7 @@ public class FragmentController {
 			return "util/pageNotFound";
 		}
 
-		HtmlWriter4OneInter writer = new HtmlWriter4OneInter(inter);
+		PlainHtmlWriter4OneInter writer = new PlainHtmlWriter4OneInter(inter);
 		writer.write(false);
 
 		// if it is a virtual interpretation check access and set session
@@ -164,7 +164,7 @@ public class FragmentController {
 
 		if (inters.size() == 1) {
 			FragInter inter = inters.get(0);
-			HtmlWriter4OneInter writer4One = new HtmlWriter4OneInter(inter);
+			PlainHtmlWriter4OneInter writer4One = new PlainHtmlWriter4OneInter(inter);
 			writer4One.write(false);
 			model.addAttribute("writer", writer4One);
 		} else if (inters.size() > 1) {
@@ -201,7 +201,7 @@ public class FragmentController {
 			@RequestParam(value = "diff", required = true) boolean displayDiff, Model model) {
 		FragInter inter = FenixFramework.getDomainObject(interID[0]);
 
-		HtmlWriter4OneInter writer = new HtmlWriter4OneInter(inter);
+		PlainHtmlWriter4OneInter writer = new PlainHtmlWriter4OneInter(inter);
 		writer.write(displayDiff);
 
 		List<FragInter> inters = new ArrayList<FragInter>();
@@ -228,7 +228,7 @@ public class FragmentController {
 			pbText = FenixFramework.getDomainObject(pbTextID);
 		}
 
-		HtmlWriter4OneInter writer = new HtmlWriter4OneInter(inter);
+		PlainHtmlWriter4OneInter writer = new PlainHtmlWriter4OneInter(inter);
 
 		List<FragInter> inters = new ArrayList<FragInter>();
 		inters.add(inter);

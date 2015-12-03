@@ -4,11 +4,11 @@ import pt.ist.socialsoftware.edition.domain.ExpertEditionInter;
 import pt.ist.socialsoftware.edition.domain.FragInter;
 import pt.ist.socialsoftware.edition.domain.Fragment;
 import pt.ist.socialsoftware.edition.visitors.HtmlWriter2CompInters;
-import pt.ist.socialsoftware.edition.visitors.HtmlWriter4OneInter;
+import pt.ist.socialsoftware.edition.visitors.PlainHtmlWriter4OneInter;
 
 public class ElFunctions {
 
-	public static Integer getPercentage(HtmlWriter4OneInter writer,
+	public static Integer getPercentage(PlainHtmlWriter4OneInter writer,
 			FragInter inter) {
 		return writer.getInterPercentage(inter);
 	}

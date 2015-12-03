@@ -19,7 +19,7 @@ import pt.ist.socialsoftware.edition.domain.SpaceText;
 import pt.ist.socialsoftware.edition.domain.SubstText;
 import pt.ist.socialsoftware.edition.domain.UnclearText;
 
-public class TextFragmentWriter extends FragmentWriter {
+public class PlainTextFragmentWriter implements TextPortionVisitor {
 
 	protected FragInter fragInter = null;
 	protected String transcription = "";
@@ -32,7 +32,7 @@ public class TextFragmentWriter extends FragmentWriter {
 		return transcription;
 	}
 
-	public TextFragmentWriter(FragInter fragInter) {
+	public PlainTextFragmentWriter(FragInter fragInter) {
 		this.fragInter = fragInter;
 		transcription = "";
 	}
@@ -63,8 +63,7 @@ public class TextFragmentWriter extends FragmentWriter {
 	@Override
 	public void visit(RdgText rdgText) {
 		if (rdgText.getInterps().contains(this.fragInter)) {
-			append2Transcription(rdgText.writeSeparator(true, false,
-					this.fragInter));
+			append2Transcription(rdgText.writeSeparator(true, false, this.fragInter));
 
 			propagate2FirstChild(rdgText);
 		}
@@ -92,8 +91,7 @@ public class TextFragmentWriter extends FragmentWriter {
 	@Override
 	public void visit(SimpleText simpleText) {
 		String value = simpleText.getValue();
-		append2Transcription(simpleText.writeSeparator(true, false, fragInter)
-				+ value);
+		append2Transcription(simpleText.writeSeparator(true, false, fragInter) + value);
 
 		propagate2NextSibling(simpleText);
 	}

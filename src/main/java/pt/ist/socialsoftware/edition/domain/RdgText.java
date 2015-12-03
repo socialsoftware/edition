@@ -4,7 +4,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import pt.ist.socialsoftware.edition.visitors.TextTreeVisitor;
+import pt.ist.socialsoftware.edition.visitors.TextPortionVisitor;
 
 public class RdgText extends RdgText_Base implements GraphElement {
 
@@ -40,7 +40,7 @@ public class RdgText extends RdgText_Base implements GraphElement {
 	}
 
 	@Override
-	public void accept(TextTreeVisitor visitor) {
+	public void accept(TextPortionVisitor visitor) {
 		visitor.visit(this);
 	}
 

@@ -38,7 +38,7 @@ import pt.ist.socialsoftware.edition.recommendation.dto.RecommendVirtualEditionP
 import pt.ist.socialsoftware.edition.recommendation.dto.SectionDTO;
 import pt.ist.socialsoftware.edition.recommendation.dto.VirtualEditionWithSectionsDTO;
 import pt.ist.socialsoftware.edition.recommendation.properties.Property;
-import pt.ist.socialsoftware.edition.visitors.HtmlWriter4OneInter;
+import pt.ist.socialsoftware.edition.visitors.PlainHtmlWriter4OneInter;
 
 @Controller
 @RequestMapping("/recommendation")
@@ -303,7 +303,7 @@ public class RecommendationController {
                     break;
                 }
             }
-            HtmlWriter4OneInter writer = new HtmlWriter4OneInter(
+            PlainHtmlWriter4OneInter writer = new PlainHtmlWriter4OneInter(
                     virtualEditionInter);
             writer.write(false);
             List<FragInter> inters = new ArrayList<FragInter>();
@@ -355,7 +355,7 @@ public class RecommendationController {
             LdoDUser user = LdoDUser.getAuthenticatedUser();
             VirtualEditionInter next = FenixFramework
                     .getDomainObject(currentId);
-            HtmlWriter4OneInter writer = new HtmlWriter4OneInter(
+            PlainHtmlWriter4OneInter writer = new PlainHtmlWriter4OneInter(
                     virtualEditionInter);
             writer.write(false);
             List<FragInter> inters = new ArrayList<FragInter>();
