@@ -29,20 +29,20 @@ import pt.ist.socialsoftware.edition.domain.Source;
 import pt.ist.socialsoftware.edition.domain.SourceInter;
 import pt.ist.socialsoftware.edition.domain.Surface;
 
-public class TEIGenerator {
+public class JDomTEIGenerator {
 
 	Document jdomDoc = null;
 
 	// Element rootElement = null;
 
-	TEITextPortionWriter writer = null;
+	JDomTEITextPortionWriter writer = null;
 	Set<FragInter> fragInterSelectedSet;
 
 	Namespace xmlns;
 
 	// List<String> fragInterSelectedSet = new ArrayList<String>();
 
-	public TEIGenerator() {
+	public JDomTEIGenerator() {
 		xmlns = Namespace.getNamespace("http://www.tei-c.org/ns/1.0");
 	}
 
@@ -606,7 +606,7 @@ public class TEIGenerator {
 				Namespace.XML_NAMESPACE);
 		divElement.setAttribute(iddiv);
 
-		writer = new TEITextPortionWriter(divElement, fragInterSelectedSet);
+		writer = new JDomTEITextPortionWriter(divElement, fragInterSelectedSet);
 		// writer.visit((AppText) fragment.getTextPortion());
 		AppText app = (AppText) fragment.getTextPortion();
 		RdgText rdg = (RdgText) app.getFirstChildText();
@@ -619,7 +619,7 @@ public class TEIGenerator {
 	}
 
 	// TODO: to remove
-	public TEITextPortionWriter getWriter() {
+	public JDomTEITextPortionWriter getWriter() {
 		return writer;
 	}
 

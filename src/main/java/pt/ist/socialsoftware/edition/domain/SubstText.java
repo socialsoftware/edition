@@ -1,6 +1,6 @@
 package pt.ist.socialsoftware.edition.domain;
 
-import pt.ist.socialsoftware.edition.visitors.TextTreeVisitor;
+import pt.ist.socialsoftware.edition.visitors.TextPortionVisitor;
 
 public class SubstText extends SubstText_Base {
 
@@ -9,7 +9,7 @@ public class SubstText extends SubstText_Base {
 	}
 
 	@Override
-	public void accept(TextTreeVisitor visitor) {
+	public void accept(TextPortionVisitor visitor) {
 		visitor.visit(this);
 	}
 

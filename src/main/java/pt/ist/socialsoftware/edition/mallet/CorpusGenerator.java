@@ -7,7 +7,7 @@ import java.io.IOException;
 
 import pt.ist.socialsoftware.edition.domain.FragInter;
 import pt.ist.socialsoftware.edition.utils.PropertiesManager;
-import pt.ist.socialsoftware.edition.visitors.TextFragmentWriter;
+import pt.ist.socialsoftware.edition.visitors.PlainTextFragmentWriter;
 
 public class CorpusGenerator {
 
@@ -26,7 +26,7 @@ public class CorpusGenerator {
 
 		// use original transcription
 		// may be changed when the annotations will be included
-		TextFragmentWriter writer = new TextFragmentWriter(inter.getLastUsed());
+		PlainTextFragmentWriter writer = new PlainTextFragmentWriter(inter.getLastUsed());
 		writer.write();
 		// use original transcription identification
 		// may be change when the annotations will be included

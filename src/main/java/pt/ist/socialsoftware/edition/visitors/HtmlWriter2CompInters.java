@@ -26,7 +26,7 @@ import pt.ist.socialsoftware.edition.domain.SpaceText;
 import pt.ist.socialsoftware.edition.domain.SubstText;
 import pt.ist.socialsoftware.edition.domain.UnclearText;
 
-public class HtmlWriter2CompInters extends FragmentWriter {
+public class HtmlWriter2CompInters implements TextPortionVisitor {
 	private final Map<FragInter, String> transcriptionsMap = new HashMap<FragInter, String>();
 	private final Map<FragInter, Integer> transcriptionsLengthMap = new HashMap<FragInter, Integer>();
 	private List<FragInter> interps = null;
@@ -53,8 +53,7 @@ public class HtmlWriter2CompInters extends FragmentWriter {
 			transcriptionsLengthMap.put(inter, 0);
 		}
 
-		visit((AppText) interps.iterator().next().getFragment()
-				.getTextPortion());
+		visit((AppText) interps.iterator().next().getFragment().getTextPortion());
 	}
 
 	public String getTranscription(FragInter inter) {
@@ -64,8 +63,7 @@ public class HtmlWriter2CompInters extends FragmentWriter {
 	public String getTranscriptionLineByLine() {
 		// add the last line
 		for (FragInter inter : interps) {
-			lineByLineTranscription = lineByLineTranscription
-					+ transcriptionsMap.get(inter) + "<br>";
+			lineByLineTranscription = lineByLineTranscription + transcriptionsMap.get(inter) + "<br>";
 			transcriptionsMap.put(inter, "");
 			transcriptionsLengthMap.put(inter, 0);
 		}
@@ -92,14 +90,12 @@ public class HtmlWriter2CompInters extends FragmentWriter {
 
 			int longestLength = 0;
 			for (FragInter inter : interps) {
-				longestLength = Math.max(longestLength,
-						transcriptionsLengthMap.get(inter));
+				longestLength = Math.max(longestLength, transcriptionsLengthMap.get(inter));
 			}
 
 			if (longestLength >= lineLength) {
 				for (FragInter inter : interps) {
-					lineByLineTranscription = lineByLineTranscription
-							+ transcriptionsMap.get(inter) + "<br>";
+					lineByLineTranscription = lineByLineTranscription + transcriptionsMap.get(inter) + "<br>";
 					transcriptionsMap.put(inter, "");
 					transcriptionsLengthMap.put(inter, 0);
 				}
@@ -114,8 +110,7 @@ public class HtmlWriter2CompInters extends FragmentWriter {
 
 			int longestLength = 0;
 			for (FragInter inter : appInterps) {
-				longestLength = Math.max(longestLength,
-						transcriptionsLengthMap.get(inter));
+				longestLength = Math.max(longestLength, transcriptionsLengthMap.get(inter));
 			}
 
 			for (FragInter inter : appInterps) {
@@ -124,12 +119,10 @@ public class HtmlWriter2CompInters extends FragmentWriter {
 				for (int i = 0; i < diff; i++) {
 					addSpace = addSpace + "&nbsp;";
 				}
-				String newTranscription = transcriptionsMap.get(inter)
-						+ addSpace;
+				String newTranscription = transcriptionsMap.get(inter) + addSpace;
 
 				transcriptionsMap.put(inter, newTranscription);
-				transcriptionsLengthMap.put(inter,
-						transcriptionsLengthMap.get(inter) + diff);
+				transcriptionsLengthMap.put(inter, transcriptionsLengthMap.get(inter) + diff);
 			}
 		}
 	}
@@ -154,34 +147,28 @@ public class HtmlWriter2CompInters extends FragmentWriter {
 			String colorCode = "";
 			if (intersection.size() < size) {
 				color = true;
-				int colorValue = 255 - (255 / size)
-						* (size - intersection.size() - 1);
-				colorCode = "<span style=\"background-color: rgb(0,"
-						+ colorValue + ",255);\">";
+				int colorValue = 255 - (255 / size) * (size - intersection.size() - 1);
+				colorCode = "<span style=\"background-color: rgb(0," + colorValue + ",255);\">";
 			}
 
 			for (FragInter inter : intersection) {
 				String separator = rdgText.writeSeparator(true, false, inter);
 
-				String newTranscription = transcriptionsMap.get(inter)
-						+ separator;
+				String newTranscription = transcriptionsMap.get(inter) + separator;
 
 				if (color) {
 					newTranscription = newTranscription + colorCode;
 				}
 
 				transcriptionsMap.put(inter, newTranscription);
-				transcriptionsLengthMap
-						.put(inter, transcriptionsLengthMap.get(inter)
-								+ separator.length());
+				transcriptionsLengthMap.put(inter, transcriptionsLengthMap.get(inter) + separator.length());
 			}
 
 			propagate2FirstChild(rdgText);
 
 			if (color) {
 				for (FragInter inter : intersection) {
-					String newTranscription = transcriptionsMap.get(inter)
-							+ "</span>";
+					String newTranscription = transcriptionsMap.get(inter) + "</span>";
 					transcriptionsMap.put(inter, newTranscription);
 				}
 			}
@@ -207,8 +194,7 @@ public class HtmlWriter2CompInters extends FragmentWriter {
 			String separator = segText.writeSeparator(true, false, inter);
 			String newTranscription = transcriptionsMap.get(inter) + separator;
 			transcriptionsMap.put(inter, newTranscription);
-			transcriptionsLengthMap.put(inter,
-					transcriptionsLengthMap.get(inter) + separator.length());
+			transcriptionsLengthMap.put(inter, transcriptionsLengthMap.get(inter) + separator.length());
 		}
 
 		propagate2FirstChild(segText);
@@ -225,12 +211,10 @@ public class HtmlWriter2CompInters extends FragmentWriter {
 
 		for (FragInter inter : intersection) {
 			String separator = simpleText.writeSeparator(true, false, inter);
-			String newTranscription = transcriptionsMap.get(inter) + separator
-					+ value;
+			String newTranscription = transcriptionsMap.get(inter) + separator + value;
 			transcriptionsMap.put(inter, newTranscription);
 			transcriptionsLengthMap.put(inter,
-					transcriptionsLengthMap.get(inter) + value.length()
-							+ separator.length());
+					transcriptionsLengthMap.get(inter) + value.length() + separator.length());
 		}
 
 		propagate2NextSibling(simpleText);
@@ -258,11 +242,9 @@ public class HtmlWriter2CompInters extends FragmentWriter {
 
 		for (FragInter inter : intersection) {
 			String separator = addText.writeSeparator(true, false, inter);
-			String newTranscription = transcriptionsMap.get(inter) + separator
-					+ "<ins>";
+			String newTranscription = transcriptionsMap.get(inter) + separator + "<ins>";
 			transcriptionsMap.put(inter, newTranscription);
-			transcriptionsLengthMap.put(inter,
-					transcriptionsLengthMap.get(inter) + separator.length());
+			transcriptionsLengthMap.put(inter, transcriptionsLengthMap.get(inter) + separator.length());
 		}
 
 		propagate2FirstChild(addText);
@@ -282,11 +264,9 @@ public class HtmlWriter2CompInters extends FragmentWriter {
 
 		for (FragInter inter : intersection) {
 			String separator = delText.writeSeparator(true, false, inter);
-			String newTranscription = transcriptionsMap.get(inter) + separator
-					+ "<del>";
+			String newTranscription = transcriptionsMap.get(inter) + separator + "<del>";
 			transcriptionsMap.put(inter, newTranscription);
-			transcriptionsLengthMap.put(inter,
-					transcriptionsLengthMap.get(inter) + separator.length());
+			transcriptionsLengthMap.put(inter, transcriptionsLengthMap.get(inter) + separator.length());
 		}
 
 		propagate2FirstChild(delText);
@@ -315,12 +295,10 @@ public class HtmlWriter2CompInters extends FragmentWriter {
 
 		for (FragInter inter : intersection) {
 			String separator = gapText.writeSeparator(true, false, inter);
-			String newTranscription = transcriptionsMap.get(inter) + separator
-					+ value;
+			String newTranscription = transcriptionsMap.get(inter) + separator + value;
 			transcriptionsMap.put(inter, newTranscription);
 			transcriptionsLengthMap.put(inter,
-					transcriptionsLengthMap.get(inter) + value.length()
-							+ separator.length());
+					transcriptionsLengthMap.get(inter) + value.length() + separator.length());
 		}
 
 		propagate2NextSibling(gapText);
@@ -334,12 +312,10 @@ public class HtmlWriter2CompInters extends FragmentWriter {
 
 		for (FragInter inter : intersection) {
 			String separator = unclearText.writeSeparator(true, false, inter);
-			String newTranscription = transcriptionsMap.get(inter)
-					+ separator
+			String newTranscription = transcriptionsMap.get(inter) + separator
 					+ "<span style=\"text-shadow: black 0.0em 0.0em 0.1em; -webkit-filter: blur(0.005em);\">";
 			transcriptionsMap.put(inter, newTranscription);
-			transcriptionsLengthMap.put(inter,
-					transcriptionsLengthMap.get(inter) + separator.length());
+			transcriptionsLengthMap.put(inter, transcriptionsLengthMap.get(inter) + separator.length());
 		}
 
 		propagate2FirstChild(unclearText);

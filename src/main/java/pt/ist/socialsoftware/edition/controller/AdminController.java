@@ -40,7 +40,7 @@ import pt.ist.socialsoftware.edition.loaders.LoadTEICorpus;
 import pt.ist.socialsoftware.edition.loaders.LoadTEIFragments;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDLoadException;
 import pt.ist.socialsoftware.edition.validator.EditUserValidator;
-import pt.ist.socialsoftware.edition.visitors.TEIGenerator;
+import pt.ist.socialsoftware.edition.visitors.JDomTEIGenerator;
 
 @Controller
 @RequestMapping("/admin")
@@ -293,7 +293,7 @@ public class AdminController {
 			}
 		}
 
-		TEIGenerator teiGenerator = new TEIGenerator();
+		JDomTEIGenerator teiGenerator = new JDomTEIGenerator();
 		teiGenerator.generate(searchResult);
 
 		try {
@@ -328,7 +328,7 @@ public class AdminController {
 			searchResult.put(frag, inters);
 		}
 
-		TEIGenerator teiGenerator = new TEIGenerator();
+		JDomTEIGenerator teiGenerator = new JDomTEIGenerator();
 		teiGenerator.generate(searchResult);
 
 		try {
@@ -377,7 +377,7 @@ public class AdminController {
 			searchResult.put(frag, inters);
 		}
 
-		TEIGenerator teiGenerator = new TEIGenerator();
+		JDomTEIGenerator teiGenerator = new JDomTEIGenerator();
 		teiGenerator.generate(searchResult);
 
 		try {

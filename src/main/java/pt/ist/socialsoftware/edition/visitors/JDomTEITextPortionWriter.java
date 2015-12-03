@@ -1,6 +1,3 @@
-/**
- * 
- */
 package pt.ist.socialsoftware.edition.visitors;
 
 import java.util.Set;
@@ -11,7 +8,6 @@ import org.jdom2.Namespace;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import pt.ist.socialsoftware.edition.controller.LdoDExceptionHandler;
 import pt.ist.socialsoftware.edition.domain.AddText;
 import pt.ist.socialsoftware.edition.domain.AddText.Place;
 import pt.ist.socialsoftware.edition.domain.AltText;
@@ -33,111 +29,74 @@ import pt.ist.socialsoftware.edition.domain.SegText;
 import pt.ist.socialsoftware.edition.domain.SimpleText;
 import pt.ist.socialsoftware.edition.domain.SpaceText;
 import pt.ist.socialsoftware.edition.domain.SubstText;
-import pt.ist.socialsoftware.edition.domain.TextPortion;
 import pt.ist.socialsoftware.edition.domain.UnclearText;
 
-/**
- * Produces a TEI representation of the tree representing a fragment text
- * 
- * @author ars
- * 
- */
-public class TEITextPortionWriter implements TextTreeVisitor {
-
-	private final static Logger logger = LoggerFactory
-			.getLogger(LdoDExceptionHandler.class);
-
-	private String result = "";
+public class JDomTEITextPortionWriter implements TextPortionVisitor {
+	private final static Logger logger = LoggerFactory.getLogger(JDomTEITextPortionWriter.class);
 
 	// create the jdom
 	// Document jdomDoc = new Document();
 	// create root element
 
-	Namespace xmlns;
+	private Namespace xmlns;
 
 	// List<String> fragInterSelectedSet = new ArrayList<String>();
 
-	Element rootElement = null;
-	Set<FragInter> fragInterSelectedList = null;
+	private Element rootElement = null;
+	private Set<FragInter> fragInterSelectedList = null;
 
 	// jdomDoc.setRootElement(rootElement);
 
-	public TEITextPortionWriter(Element rootElement) {
+	public JDomTEITextPortionWriter(Element rootElement) {
 		this.rootElement = rootElement;
 		this.xmlns = Namespace.getNamespace("http://www.tei-c.org/ns/1.0");
 	}
 
-	public TEITextPortionWriter(Element rootElement,
-			Set<FragInter> fragInterSelectedList) {
+	public JDomTEITextPortionWriter(Element rootElement, Set<FragInter> fragInterSelectedList) {
 		// TODO Auto-generated constructor stub
 		this.rootElement = rootElement;
 		this.fragInterSelectedList = fragInterSelectedList;
 		this.xmlns = Namespace.getNamespace("http://www.tei-c.org/ns/1.0");
 	}
 
-	private Element preGenerate(String name) {
+	private Element generateElement(Element rootElement, String name) {
 		Element newElement = new Element(name, xmlns);
 		rootElement.addContent(newElement);
-		rootElement = newElement;
 		return newElement;
-	}
-
-	public String getResult() {
-		return result;
 	}
 
 	@Override
 	public void visit(AppText appText) {
-		result = result + "<app>";
+		rootElement = generateElement(rootElement, "app");
 
-		preGenerate("app");
-
-		TextPortion firstChild = appText.getFirstChildText();
-		if (firstChild != null) {
-			firstChild.accept(this);
-		}
+		propagate2FirstChild(appText);
 
 		if (!appText.getType().getDesc().equalsIgnoreCase("UNSPECIFIED")) {
-			Attribute typeAtt = new Attribute("type", appText.getType()
-					.getDesc());
+			Attribute typeAtt = new Attribute("type", appText.getType().getDesc());
 			rootElement.setAttribute(typeAtt);
 		}
 
-		result = result + "</app>";
 		rootElement = rootElement.getParentElement();
 
-		if (appText.getParentOfLastText() == null) {
-			if (appText.getNextText() != null) {
-				appText.getNextText().accept(this);
-			}
-		}
+		propagate2NextSibling(appText);
 	}
 
 	@Override
 	public void visit(RdgGrpText rdgGrpText) {
-		result = result + "<rdgGrp>";
-
-		preGenerate("rdgGrp");
+		rootElement = generateElement(rootElement, "rdgGrp");
 
 		if (rdgGrpText.getType() != null) {
 			if (rdgGrpText.getType().getDesc().compareTo("unspecified") != 0) {
-				Attribute typeAtt = new Attribute("type", rdgGrpText.getType()
-						.getDesc());
+				Attribute typeAtt = new Attribute("type", rdgGrpText.getType().getDesc());
 				rootElement.setAttribute(typeAtt);
 			}
 		}
 
-		TextPortion firstChild = rdgGrpText.getFirstChildText();
-		if (firstChild != null) {
-			firstChild.accept(this);
-		}
+		propagate2FirstChild(rdgGrpText);
 
-		result = result + "</rdgGrp>";
 		rootElement = rootElement.getParentElement();
 
-		if (rdgGrpText.getParentOfLastText() == null) {
-			rdgGrpText.getNextText().accept(this);
-		}
+		propagate2NextSibling(rdgGrpText);
 	}
 
 	@Override
@@ -147,60 +106,37 @@ public class TEITextPortionWriter implements TextTreeVisitor {
 		boolean selected = false;
 
 		for (FragInter inter : rdgText.getInterps()) {
-
 			if (fragInterSelectedList.contains(inter)) {
 				selected = true;
 				wit = wit + "#" + inter.getXmlId() + " ";
 			}
-
 		}
 
 		if (selected) {
-
-			preGenerate("rdg");
+			rootElement = generateElement(rootElement, "rdg");
 
 			if (!wit.equals("")) {
-				result = result + "<rdg wit=\"" + wit.trim() + "\">";
-
 				Attribute witAtt = new Attribute("wit", wit.trim());
 				rootElement.setAttribute(witAtt);
-
-			} else {
-				result = result + "<rdg>";
 			}
 
-			TextPortion firstChild = rdgText.getFirstChildText();
-			if (firstChild != null) {
-				firstChild.accept(this);
-			}
+			propagate2FirstChild(rdgText);
 
-			result = result + "</rdg>";
 			rootElement = rootElement.getParentElement();
-
 		}
 
-		if (rdgText.getParentOfLastText() == null) {
-			rdgText.getNextText().accept(this);
-		}
+		propagate2NextSibling(rdgText);
 	}
 
 	@Override
 	public void visit(ParagraphText paragraphText) {
-		result = result + "<p>";
+		rootElement = generateElement(rootElement, "p");
 
-		preGenerate("p");
+		propagate2FirstChild(paragraphText);
 
-		TextPortion firstChild = paragraphText.getFirstChildText();
-		if (firstChild != null) {
-			firstChild.accept(this);
-		}
-
-		result = result + "</p>";
 		rootElement = rootElement.getParentElement();
 
-		if (paragraphText.getParentOfLastText() == null) {
-			paragraphText.getNextText().accept(this);
-		}
+		propagate2NextSibling(paragraphText);
 	}
 
 	@Override
@@ -210,46 +146,30 @@ public class TEITextPortionWriter implements TextTreeVisitor {
 			rendition = rendition + "#" + rend.getRend().getDesc() + " ";
 		}
 
-		preGenerate("seg");
+		rootElement = generateElement(rootElement, "seg");
 
 		if (!rendition.equals("")) {
-			result = result + "<seg rendition=\"" + rendition.trim() + "\">";
-
 			Attribute witAtt = new Attribute("rendition", rendition.trim());
 			rootElement.setAttribute(witAtt);
-
-		} else {
-			result = result + "<seg>";
 		}
 
 		if (segText.getXmlId() != null) {
-			Attribute ids = new Attribute("id", segText.getXmlId(),
-					Namespace.XML_NAMESPACE);
+			Attribute ids = new Attribute("id", segText.getXmlId(), Namespace.XML_NAMESPACE);
 			rootElement.setAttribute(ids);
 		}
 
-		TextPortion firstChild = segText.getFirstChildText();
-		if (firstChild != null) {
-			firstChild.accept(this);
-		}
+		propagate2FirstChild(segText);
 
-		result = result + "</seg>";
 		rootElement = rootElement.getParentElement();
 
-		if (segText.getParentOfLastText() == null) {
-			segText.getNextText().accept(this);
-		}
+		propagate2NextSibling(segText);
 	}
 
 	@Override
 	public void visit(SimpleText simpleText) {
-		result = result + simpleText.getValue();
-
 		rootElement.addContent(simpleText.getValue());
 
-		if (simpleText.getParentOfLastText() == null) {
-			simpleText.getNextText().accept(this);
-		}
+		propagate2NextSibling(simpleText);
 	}
 
 	@Override
@@ -266,11 +186,7 @@ public class TEITextPortionWriter implements TextTreeVisitor {
 		}
 
 		if (selected) {
-			String hyphenated = lbText.getHyphenated() ? "type=\"hyphenated\""
-					: "";
-			String breakWord = lbText.getBreakWord() ? "break=\"no\"" : "";
-
-			preGenerate("lb");
+			rootElement = generateElement(rootElement, "lb");
 
 			Attribute edAtt = new Attribute("ed", ed.trim());
 			rootElement.setAttribute(edAtt);
@@ -286,16 +202,9 @@ public class TEITextPortionWriter implements TextTreeVisitor {
 			}
 
 			rootElement = rootElement.getParentElement();
-
-			ed = ed.equals("") ? "" : "ed=\"" + ed.trim() + "\"";
-
-			result = result + "<lb " + ed + " " + hyphenated + " " + breakWord
-					+ "/>";
-
 		}
-		if (lbText.getParentOfLastText() == null) {
-			lbText.getNextText().accept(this);
-		}
+
+		propagate2NextSibling(lbText);
 	}
 
 	@Override
@@ -313,7 +222,7 @@ public class TEITextPortionWriter implements TextTreeVisitor {
 		}
 
 		if (selected) {
-			preGenerate("pb");
+			rootElement = generateElement(rootElement, "pb");
 
 			Attribute edAtt = new Attribute("ed", ed.trim());
 			rootElement.setAttribute(edAtt);
@@ -324,127 +233,80 @@ public class TEITextPortionWriter implements TextTreeVisitor {
 				rootElement.setAttribute(facsAtt);
 			}
 
-			result = result + "<pb/>";
 			rootElement = rootElement.getParentElement();
 
 		}
-		if (pbText.getParentOfLastText() == null) {
-			pbText.getNextText().accept(this);
-		}
+
+		propagate2NextSibling(pbText);
 	}
 
 	@Override
 	public void visit(SpaceText spaceText) {
-
-		String dim = "dim=\"" + spaceText.getDim().getDesc() + "\"";
-		String quantity = "quantity=\"" + spaceText.getQuantity() + "\"";
-		String unit = "unit=\"" + spaceText.getUnit().getDesc() + "\"";
-
-		preGenerate("space");
+		rootElement = generateElement(rootElement, "space");
 
 		Attribute dimAtt = new Attribute("dim", spaceText.getDim().getDesc());
 		rootElement.setAttribute(dimAtt);
 
-		Attribute quantityAtt = new Attribute("quantity",
-				Integer.toString(spaceText.getQuantity()));
+		Attribute quantityAtt = new Attribute("quantity", Integer.toString(spaceText.getQuantity()));
 		rootElement.setAttribute(quantityAtt);
 
 		Attribute unitAtt = new Attribute("unit", spaceText.getUnit().getDesc());
 		rootElement.setAttribute(unitAtt);
 
-		result = result + "<space " + dim + " " + quantity + " " + unit + "/>";
 		rootElement = rootElement.getParentElement();
 
-		if (spaceText.getParentOfLastText() == null) {
-			spaceText.getNextText().accept(this);
-		}
+		propagate2NextSibling(spaceText);
 	}
 
 	@Override
 	public void visit(AddText addText) {
-		String place = addText.getPlace() != Place.UNSPECIFIED ? "place=\""
-				+ addText.getPlace().getDesc() + "\"" : "";
-
-		preGenerate("add");
-		result = result + "<add " + place + ">";
+		rootElement = generateElement(rootElement, "add");
 
 		if (addText.getPlace() != Place.UNSPECIFIED) {
-			Attribute placeAtt = new Attribute("place", addText.getPlace()
-					.getDesc());
+			Attribute placeAtt = new Attribute("place", addText.getPlace().getDesc());
 			rootElement.setAttribute(placeAtt);
 		}
 
-		TextPortion firstChild = addText.getFirstChildText();
-		if (firstChild != null) {
-			firstChild.accept(this);
-		}
+		propagate2FirstChild(addText);
 
-		result = result + "</add>";
 		rootElement = rootElement.getParentElement();
 
-		if (addText.getParentOfLastText() == null) {
-			addText.getNextText().accept(this);
-		}
+		propagate2NextSibling(addText);
 	}
 
 	@Override
 	public void visit(DelText delText) {
-		String rend = delText.getHow() != HowDel.UNSPECIFIED ? "rend=\""
-				+ delText.getHow().getDesc() + "\"" : "";
-
-		preGenerate("del");
-		result = result + "<del " + rend + ">";
+		rootElement = generateElement(rootElement, "del");
 
 		if (delText.getHow() != HowDel.UNSPECIFIED) {
 			Attribute delAtt = new Attribute("rend", delText.getHow().getDesc());
 			rootElement.setAttribute(delAtt);
 		}
 
-		TextPortion firstChild = delText.getFirstChildText();
-		if (firstChild != null) {
-			firstChild.accept(this);
-		}
+		propagate2FirstChild(delText);
 
-		result = result + "</del>";
 		rootElement = rootElement.getParentElement();
 
-		if (delText.getParentOfLastText() == null) {
-			delText.getNextText().accept(this);
-		}
+		propagate2NextSibling(delText);
 	}
 
 	@Override
 	public void visit(SubstText substText) {
+		rootElement = generateElement(rootElement, "subst");
 
-		preGenerate("subst");
-		result = result + "<subst>";
+		propagate2FirstChild(substText);
 
-		TextPortion firstChild = substText.getFirstChildText();
-		if (firstChild != null) {
-			firstChild.accept(this);
-		}
-
-		result = result + "</subst>";
 		rootElement = rootElement.getParentElement();
 
-		if (substText.getParentOfLastText() == null) {
-			substText.getNextText().accept(this);
-		}
+		propagate2NextSibling(substText);
 	}
 
 	@Override
 	public void visit(GapText gapText) {
+		rootElement = generateElement(rootElement, "gap");
 
-		preGenerate("gap");
-
-		result = result + "<gap reason=\"" + gapText.getReason().getDesc()
-				+ "\" extent=\"" + gapText.getExtent() + "\" unit=\""
-				+ gapText.getUnit().getDesc() + "\"/>";
-
-		Attribute reasonAtt = new Attribute("reason", gapText.getReason()
-				.getDesc());
-		Attribute extentAtt = new Attribute("extent", String.valueOf(gapText
-				.getExtent()));
+		Attribute reasonAtt = new Attribute("reason", gapText.getReason().getDesc());
+		Attribute extentAtt = new Attribute("extent", String.valueOf(gapText.getExtent()));
 		Attribute unitAtt = new Attribute("unit", gapText.getUnit().getDesc());
 
 		rootElement.setAttribute(reasonAtt);
@@ -453,34 +315,21 @@ public class TEITextPortionWriter implements TextTreeVisitor {
 
 		rootElement = rootElement.getParentElement();
 
-		if (gapText.getParentOfLastText() == null) {
-			gapText.getNextText().accept(this);
-		}
-
+		propagate2NextSibling(gapText);
 	}
 
 	@Override
 	public void visit(UnclearText unclearText) {
+		rootElement = generateElement(rootElement, "unclear");
 
-		preGenerate("unclear");
-		result = result + "<unclear reason=\">"
-				+ unclearText.getReason().getDesc() + "\">";
-
-		Attribute reasonAtt = new Attribute("reason", unclearText.getReason()
-				.getDesc());
+		Attribute reasonAtt = new Attribute("reason", unclearText.getReason().getDesc());
 		rootElement.setAttribute(reasonAtt);
 
-		TextPortion firstChild = unclearText.getFirstChildText();
-		if (firstChild != null) {
-			firstChild.accept(this);
-		}
+		propagate2FirstChild(unclearText);
 
-		result = result + "</unclear>";
 		rootElement = rootElement.getParentElement();
 
-		if (unclearText.getParentOfLastText() == null) {
-			unclearText.getNextText().accept(this);
-		}
+		propagate2NextSibling(unclearText);
 	}
 
 	@Override
@@ -489,18 +338,14 @@ public class TEITextPortionWriter implements TextTreeVisitor {
 		String valueWeight = "";
 
 		for (AltTextWeight weight : altText.getAltTextWeightSet()) {
-			valueTarget = valueTarget + "#" + weight.getSegText().getXmlId()
-					+ " ";
+			valueTarget = valueTarget + "#" + weight.getSegText().getXmlId() + " ";
 			valueWeight = valueWeight + " " + weight.getWeight();
 		}
 
 		valueTarget = valueTarget.trim();
 		valueWeight = valueWeight.trim();
 
-		preGenerate("alt");
-		result = result + "<alt target=\"" + valueTarget + "\"" + " mode=\""
-				+ altText.getMode().getDesc() + "\" weights=\"" + valueWeight
-				+ "\"/>";
+		rootElement = generateElement(rootElement, "alt");
 
 		Attribute targetAtt = new Attribute("target", valueTarget);
 		Attribute modeAtt = new Attribute("mode", altText.getMode().getDesc());
@@ -512,42 +357,26 @@ public class TEITextPortionWriter implements TextTreeVisitor {
 
 		rootElement = rootElement.getParentElement();
 
-		if (altText.getParentOfLastText() == null) {
-			altText.getNextText().accept(this);
-		}
+		propagate2NextSibling(altText);
 	}
 
 	@Override
 	public void visit(NoteText noteText) {
-
-		preGenerate("note");
-
-		result = result + "<note type=\"" + noteText.getType().getDesc()
-				+ "\">";
+		rootElement = generateElement(rootElement, "note");
 
 		Attribute typeAtt = new Attribute("type", noteText.getType().getDesc());
 		rootElement.setAttribute(typeAtt);
 
-		TextPortion firstChild = noteText.getFirstChildText();
-		if (firstChild != null) {
-			firstChild.accept(this);
-		}
+		propagate2FirstChild(noteText);
 
-		result = result + "</note>";
 		rootElement = rootElement.getParentElement();
 
-		if (noteText.getParentOfLastText() == null) {
-			noteText.getNextText().accept(this);
-		}
+		propagate2NextSibling(noteText);
 	}
 
 	@Override
 	public void visit(RefText refText) {
-
-		preGenerate("ref");
-
-		result = result + "<note type=\"" + refText.getType().getDesc() + "\" "
-				+ "target=\"#" + refText.getTarget() + "\">";
+		rootElement = generateElement(rootElement, "ref");
 
 		Attribute typeAtt = new Attribute("type", refText.getType().getDesc());
 		Attribute targetAtt = new Attribute("target", "#" + refText.getTarget());
@@ -555,17 +384,11 @@ public class TEITextPortionWriter implements TextTreeVisitor {
 		rootElement.setAttribute(typeAtt);
 		rootElement.setAttribute(targetAtt);
 
-		TextPortion firstChild = refText.getFirstChildText();
-		if (firstChild != null) {
-			firstChild.accept(this);
-		}
+		propagate2FirstChild(refText);
 
-		result = result + "</ref>";
 		rootElement = rootElement.getParentElement();
 
-		if (refText.getParentOfLastText() == null) {
-			refText.getNextText().accept(this);
-		}
+		propagate2NextSibling(refText);
 	}
 
 }
