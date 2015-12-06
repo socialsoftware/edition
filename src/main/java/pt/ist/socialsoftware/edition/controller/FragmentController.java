@@ -41,8 +41,8 @@ import pt.ist.socialsoftware.edition.shared.exception.LdoDException;
 import pt.ist.socialsoftware.edition.utils.AnnotationJson;
 import pt.ist.socialsoftware.edition.utils.AnnotationSearchJson;
 import pt.ist.socialsoftware.edition.visitors.HtmlWriter2CompInters;
-import pt.ist.socialsoftware.edition.visitors.PlainHtmlWriter4OneInter;
 import pt.ist.socialsoftware.edition.visitors.HtmlWriter4Variations;
+import pt.ist.socialsoftware.edition.visitors.PlainHtmlWriter4OneInter;
 
 @Controller
 @SessionAttributes({ "ldoDSession" })
@@ -118,6 +118,42 @@ public class FragmentController {
 		model.addAttribute("writer", writer);
 
 		return "fragment/main";
+	}
+
+	@RequestMapping(method = RequestMethod.GET, value = "/inter/{id}/taxonomies")
+	public String getTaxonomies(Model model, @ModelAttribute("ldoDSession") LdoDSession ldoDSession,
+			@PathVariable String id) {
+		logger.debug("getTaxonomies id:{}", id);
+
+		FragInter inter = FenixFramework.getDomainObject(id);
+
+		if (inter == null) {
+			return "util/pageNotFound";
+		}
+
+		if (inter.getSourceType() != Edition.EditionType.VIRTUAL) {
+			return "util/pageNotFound";
+		}
+
+		VirtualEdition virtualEdition = (VirtualEdition) inter.getEdition();
+
+		LdoDUser user = LdoDUser.getAuthenticatedUser();
+		if (virtualEdition.checkAccess(user)) {
+			if (!ldoDSession.hasSelectedVE(virtualEdition.getAcronym())) {
+				ldoDSession.toggleSelectedVirtualEdition(user, virtualEdition);
+			}
+		} else {
+			// TODO: a userfriendly reimplementation
+			throw new LdoDException("Não tem acesso a esta edição virtual");
+		}
+
+		List<FragInter> inters = new ArrayList<FragInter>();
+		inters.add(inter);
+		model.addAttribute("ldoD", LdoD.getInstance());
+		model.addAttribute("user", LdoDUser.getAuthenticatedUser());
+		model.addAttribute("inters", inters);
+
+		return "fragment/listTaxonomies";
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/inter/next/number/{id}")
