@@ -2,7 +2,7 @@ package pt.ist.socialsoftware.edition.domain;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
-import pt.ist.socialsoftware.edition.visitors.TextTreeVisitor;
+import pt.ist.socialsoftware.edition.visitors.TextPortionVisitor;
 
 public class RefText extends RefText_Base {
 
@@ -56,7 +56,7 @@ public class RefText extends RefText_Base {
 	}
 
 	@Override
-	public void accept(TextTreeVisitor visitor) {
+	public void accept(TextPortionVisitor visitor) {
 		visitor.visit(this);
 	}
 

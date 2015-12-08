@@ -191,7 +191,7 @@ public class LoadTEIFragments {
 		} catch (JDOMException e) {
 			throw new LdoDLoadException("Ficheiro com problemas de codificação TEI");
 		} catch (IOException e) {
-			throw new LdoDLoadException("Problemas com o ficheiro, tipo ou formato" + e.getStackTrace());
+			throw new LdoDLoadException("Problemas com o ficheiro, tipo ou formato: " + e.getStackTrace().toString());
 		}
 
 		if (doc == null) {
@@ -320,10 +320,17 @@ public class LoadTEIFragments {
 			}
 		}
 
-		// uncomment when a print of the result of load is required in stdout
-		// TEIWriter writer = new TEIWriter();
+		// uncomment when a pretty print of the result of load is required in
+		// stdout
+		// Element rootElement = new Element(fragment.getXmlId(),
+		// Namespace.getNamespace("http://www.tei-c.org/ns/1.0"));
+		// JDomTEITextPortionWriter writer = new
+		// JDomTEITextPortionWriter(rootElement,
+		// fragment.getFragmentInterSet());
 		// writer.visit((AppText) fragment.getTextPortion());
-		// System.out.println(writer.getResult());
+		// XMLOutputter xml = new XMLOutputter();
+		// xml.setFormat(Format.getPrettyFormat());
+		// System.out.println(xml.outputString(rootElement));
 	}
 
 	private void loadFragmentText(Fragment fragment, String fragmentXmlID) {
@@ -1108,7 +1115,7 @@ public class LoadTEIFragments {
 			switch (unitAtt.getValue()) {
 			case "pp":
 				if (fragInter instanceof ExpertEditionInter) {
-					if (value != "") {
+					if (value != null && !value.equals("")) {
 						((ExpertEditionInter) fragInter).setStartPage(Integer.parseInt(value));
 						((ExpertEditionInter) fragInter).setEndPage(Integer.parseInt(value));
 					} else {
@@ -1127,7 +1134,7 @@ public class LoadTEIFragments {
 				((ExpertEditionInter) fragInter).setVolume(value);
 				break;
 			case "number":
-				if (!value.equals("")) {
+				if (value != null && !value.equals("")) {
 					((ExpertEditionInter) fragInter).setNumber(Integer.parseInt(value));
 				} else {
 					((ExpertEditionInter) fragInter).setNumber(0);

@@ -1,45 +1,4 @@
 <%@ include file="/WEB-INF/jsp/common/tags-head.jsp"%>
-<script type="text/javascript">
-jQuery(function ($) {
-    var content = $('#content').annotator({
-        readOnly: ${!inters.get(0).getEdition().getParticipantSet().contains(user)}
-    });
-    //content.annotator('addPlugin', 'Filter');   
-    content.annotator('addPlugin', 'Tags');   
-    content.annotator('addPlugin', 'Permissions', {
-        user : '${user.username}', 
-        showViewPermissionsCheckbox : 'false',
-        showEditPermissionsCheckbox : 'false'
-    });   
-    content.annotator('addPlugin', 'Unsupported'); 
-    content.annotator('addPlugin', 'Store', {
-      // The endpoint of the store on your server.
-      prefix: '${contextPath}/fragments/fragment',
-
-      // Attach the uri of the current page to all annotations to allow search.
-      annotationData: {
-        'uri': '${inters.get(0).externalId}'
-      },
-
-      // This will perform a "search" action rather than "read" when the plugin
-      // loads. Will request all the annotations for the current url.
-      loadFromSearch: {
-        'limit': 0,
-        'all_fields': 1,
-        'uri': '${inters.get(0).externalId}'
-      },
-      
-      urls: {
-        // These are the default URLs.
-        create:  '/annotations',
-        read:    '/annotations/:id',
-        update:  '/annotations/:id',
-        destroy: '/annotations/:id',
-        search:  '/search'
-      }
-    });
-});
-</script>
 
 <div id=fragmentInter class="row">
 	<h3>${inters.get(0).edition.title}</h3>
@@ -48,53 +7,79 @@ jQuery(function ($) {
 		${inters.get(0).uses.edition.getReference()}(${inters.get(0).uses.reference})
 	</h4>
 
-	<%@ include file="/WEB-INF/jsp/fragment/transcription.jsp"%>
-
-	<div class="row">
-		<table class="table table-hover">
-			<thead>
-
-				<tr>
-					<th><spring:message code="general.taxonomy" /></th>
-					<th><span class="glyphicon glyphicon-tag"></span></th>
-					<th><span class="glyphicon glyphicon-user"></span></th>
-					<th></th>
-				</tr>
-			</thead>
-			<tbody>
-				<c:forEach var="taxonomy"
-					items='${inters.get(0).getEdition().getTaxonomiesSet()}'>
-					<tr>
-						<td><a
-							href="${contextPath}/edition/taxonomy/${taxonomy.externalId}">${taxonomy.getName()}</a>
-						</td>
-						<td><c:forEach var="tag"
-								items='${taxonomy.getSortedActiveTags(inters.get(0))}'>
-								<a
-									href="${contextPath}/edition/category/${tag.getActiveCategory().getExternalId()}">
-									${tag.getActiveCategory().getName()}</a>
-								<c:if test="${taxonomy.getAdHoc() }">
-                                (${tag.getWeight()})</c:if>
-								<c:if test="${!taxonomy.getAdHoc() }">
-									<a
-										href="${contextPath}/virtualeditions/restricted/tag/dissociate/${tag.getExternalId()}"><span
-										class="glyphicon glyphicon-remove"></a>
-									</span>
-								</c:if>
-							</c:forEach></td>
-						<td><c:forEach var="user"
-								items='${inters.get(0).getTagContributorSet(taxonomy)}'>
-								<a href="${contextPath}/edition/user/${user.username}">${user.username}</a>
-							</c:forEach></td>
-						<td><c:if test="${!taxonomy.getAdHoc() }">
-								<a
-									href="${contextPath}/virtualeditions/restricted/tag/associateForm/${taxonomy.getExternalId()}/${inters.get(0).getExternalId()}">
-									<span class="glyphicon glyphicon-plus"></span>
-								</a>
-							</c:if></td>
-					</tr>
-				</c:forEach>
-			</tbody>
-		</table>
+	<div class="row" id="content">
+		<%@ include file="/WEB-INF/jsp/fragment/transcription.jsp"%>
 	</div>
-</div>
+
+		<%@ include file="/WEB-INF/jsp/fragment/listTaxonomies.jsp"%>
+	</div>
+
+
+<!-- Annotator 2.0 -->
+<script src="/resources/js/annotator.min.js"></script>
+
+<script type="text/javascript">
+	var pageUri = function() {
+		return {
+			beforeAnnotationCreated : function(ann) {
+				ann.uri = '${inters.get(0).externalId}';
+			}
+		};
+	};
+
+	var app = new annotator.App();
+	app.include(annotator.ui.main, {
+		element : document.querySelector('#content'),
+		editorExtensions : [ annotator.ui.tags.editorExtension ],
+		viewerExtensions : [ annotator.ui.tags.viewerExtension ]
+	});
+
+	app.include(annotator.storage.http, {
+		prefix : '${contextPath}/fragments/fragment'
+	}).include(pageUri);
+
+	app.include(annotator.identity.simple);
+
+	app.include(annotator.authz.acl);
+
+	app.include(createAnnotation);
+	app.include(updateAnnotation);
+	app.include(deleteAnnotation);
+
+	app.start().then(function() {
+		app.annotations.load({
+			uri : '${inters.get(0).externalId}',
+			limit : 0,
+			all_fields : 1
+		});
+	}).then(function() {
+		app.ident.identity = '${user.username}';
+	})
+
+	function createAnnotation() {
+		return {
+			annotationCreated : reloadPage
+		};
+	}
+
+	function updateAnnotation() {
+		return {
+			annotationUpdated : reloadPage
+		};
+	}
+
+	function deleteAnnotation() {
+		return {
+			annotationDeleted : reloadPage
+		};
+	}
+
+	function reloadPage() {
+		$
+				.get(
+						"${contextPath}/fragments/fragment/inter/${inters.get(0).externalId}/taxonomies",
+						function(html) {
+							$("#taxonomies").replaceWith(html);
+						});
+	}
+</script>

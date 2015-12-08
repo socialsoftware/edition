@@ -8,6 +8,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -39,13 +41,14 @@ import pt.ist.socialsoftware.edition.shared.exception.LdoDException;
 import pt.ist.socialsoftware.edition.utils.AnnotationJson;
 import pt.ist.socialsoftware.edition.utils.AnnotationSearchJson;
 import pt.ist.socialsoftware.edition.visitors.HtmlWriter2CompInters;
-import pt.ist.socialsoftware.edition.visitors.HtmlWriter4OneInter;
 import pt.ist.socialsoftware.edition.visitors.HtmlWriter4Variations;
+import pt.ist.socialsoftware.edition.visitors.PlainHtmlWriter4OneInter;
 
 @Controller
 @SessionAttributes({ "ldoDSession" })
 @RequestMapping("/fragments/fragment")
 public class FragmentController {
+	private static Logger logger = LoggerFactory.getLogger(FragmentController.class);
 
 	@ModelAttribute("ldoDSession")
 	public LdoDSession getLdoDSession() {
@@ -80,13 +83,15 @@ public class FragmentController {
 	@RequestMapping(method = RequestMethod.GET, value = "/inter/{id}")
 	public String getFragmentWithInter(Model model, @ModelAttribute("ldoDSession") LdoDSession ldoDSession,
 			@PathVariable String id) {
+		logger.debug("getFragmentWithInter id:{}", id);
+
 		FragInter inter = FenixFramework.getDomainObject(id);
 
 		if (inter == null) {
 			return "util/pageNotFound";
 		}
 
-		HtmlWriter4OneInter writer = new HtmlWriter4OneInter(inter);
+		PlainHtmlWriter4OneInter writer = new PlainHtmlWriter4OneInter(inter);
 		writer.write(false);
 
 		// if it is a virtual interpretation check access and set session
@@ -113,6 +118,42 @@ public class FragmentController {
 		model.addAttribute("writer", writer);
 
 		return "fragment/main";
+	}
+
+	@RequestMapping(method = RequestMethod.GET, value = "/inter/{id}/taxonomies")
+	public String getTaxonomies(Model model, @ModelAttribute("ldoDSession") LdoDSession ldoDSession,
+			@PathVariable String id) {
+		logger.debug("getTaxonomies id:{}", id);
+
+		FragInter inter = FenixFramework.getDomainObject(id);
+
+		if (inter == null) {
+			return "util/pageNotFound";
+		}
+
+		if (inter.getSourceType() != Edition.EditionType.VIRTUAL) {
+			return "util/pageNotFound";
+		}
+
+		VirtualEdition virtualEdition = (VirtualEdition) inter.getEdition();
+
+		LdoDUser user = LdoDUser.getAuthenticatedUser();
+		if (virtualEdition.checkAccess(user)) {
+			if (!ldoDSession.hasSelectedVE(virtualEdition.getAcronym())) {
+				ldoDSession.toggleSelectedVirtualEdition(user, virtualEdition);
+			}
+		} else {
+			// TODO: a userfriendly reimplementation
+			throw new LdoDException("Não tem acesso a esta edição virtual");
+		}
+
+		List<FragInter> inters = new ArrayList<FragInter>();
+		inters.add(inter);
+		model.addAttribute("ldoD", LdoD.getInstance());
+		model.addAttribute("user", LdoDUser.getAuthenticatedUser());
+		model.addAttribute("inters", inters);
+
+		return "fragment/listTaxonomies";
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/inter/next/number/{id}")
@@ -159,7 +200,7 @@ public class FragmentController {
 
 		if (inters.size() == 1) {
 			FragInter inter = inters.get(0);
-			HtmlWriter4OneInter writer4One = new HtmlWriter4OneInter(inter);
+			PlainHtmlWriter4OneInter writer4One = new PlainHtmlWriter4OneInter(inter);
 			writer4One.write(false);
 			model.addAttribute("writer", writer4One);
 		} else if (inters.size() > 1) {
@@ -196,7 +237,7 @@ public class FragmentController {
 			@RequestParam(value = "diff", required = true) boolean displayDiff, Model model) {
 		FragInter inter = FenixFramework.getDomainObject(interID[0]);
 
-		HtmlWriter4OneInter writer = new HtmlWriter4OneInter(inter);
+		PlainHtmlWriter4OneInter writer = new PlainHtmlWriter4OneInter(inter);
 		writer.write(displayDiff);
 
 		List<FragInter> inters = new ArrayList<FragInter>();
@@ -223,7 +264,7 @@ public class FragmentController {
 			pbText = FenixFramework.getDomainObject(pbTextID);
 		}
 
-		HtmlWriter4OneInter writer = new HtmlWriter4OneInter(inter);
+		PlainHtmlWriter4OneInter writer = new PlainHtmlWriter4OneInter(inter);
 
 		List<FragInter> inters = new ArrayList<FragInter>();
 		inters.add(inter);

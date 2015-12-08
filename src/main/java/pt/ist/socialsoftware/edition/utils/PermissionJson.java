@@ -29,11 +29,10 @@ public class PermissionJson implements Serializable {
 					read.add(participant.getUsername());
 				}
 			}
-			admin.add(user.getUsername());
+			// admin.add(user.getUsername());
 			update.add(user.getUsername());
 			delete.add(user.getUsername());
-		} else if ((edition instanceof ExpertEdition)
-				|| (edition instanceof NullEdition)) {
+		} else if ((edition instanceof ExpertEdition) || (edition instanceof NullEdition)) {
 			assert (false);
 		}
 	}

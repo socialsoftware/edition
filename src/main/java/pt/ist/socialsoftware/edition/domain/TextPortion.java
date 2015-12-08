@@ -3,7 +3,7 @@ package pt.ist.socialsoftware.edition.domain;
 import java.util.List;
 import java.util.Set;
 
-import pt.ist.socialsoftware.edition.visitors.TextTreeVisitor;
+import pt.ist.socialsoftware.edition.visitors.TextPortionVisitor;
 
 public abstract class TextPortion extends TextPortion_Base implements
         GraphElement {
@@ -124,7 +124,7 @@ public abstract class TextPortion extends TextPortion_Base implements
     }
 
     @Override
-    public abstract void accept(TextTreeVisitor visitor);
+    public abstract void accept(TextPortionVisitor visitor);
 
     public Set<FragInter> getInterps() {
         if (getParentText() == null) {

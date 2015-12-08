@@ -1,6 +1,6 @@
 package pt.ist.socialsoftware.edition.domain;
 
-import pt.ist.socialsoftware.edition.visitors.TextTreeVisitor;
+import pt.ist.socialsoftware.edition.visitors.TextPortionVisitor;
 
 /**
  * Contains the simple text, no line or pages breaks, spaces, formating, etc
@@ -29,7 +29,7 @@ public class SimpleText extends SimpleText_Base {
 	}
 
 	@Override
-	public void accept(TextTreeVisitor visitor) {
+	public void accept(TextPortionVisitor visitor) {
 		visitor.visit(this);
 
 	}

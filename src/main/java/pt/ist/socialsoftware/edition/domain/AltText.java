@@ -2,7 +2,7 @@ package pt.ist.socialsoftware.edition.domain;
 
 import java.util.List;
 
-import pt.ist.socialsoftware.edition.visitors.TextTreeVisitor;
+import pt.ist.socialsoftware.edition.visitors.TextPortionVisitor;
 
 public class AltText extends AltText_Base {
 
@@ -39,7 +39,7 @@ public class AltText extends AltText_Base {
 	}
 
 	@Override
-	public void accept(TextTreeVisitor visitor) {
+	public void accept(TextPortionVisitor visitor) {
 		visitor.visit(this);
 	}
 

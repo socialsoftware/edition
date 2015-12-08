@@ -45,7 +45,7 @@ import pt.ist.socialsoftware.edition.domain.SourceInter;
 import pt.ist.socialsoftware.edition.domain.VirtualEditionInter;
 import pt.ist.socialsoftware.edition.recommendation.SortBy;
 import pt.ist.socialsoftware.edition.utils.PropertiesManager;
-import pt.ist.socialsoftware.edition.visitors.TextFragmentWriter;
+import pt.ist.socialsoftware.edition.visitors.PlainTextFragmentWriter;
 
 public class Indexer {
 	private static final String ID = "id";
@@ -70,7 +70,7 @@ public class Indexer {
 		// analyzer);
 		Directory directory = new NIOFSDirectory(file);
 		IndexWriter indexWriter = new IndexWriter(directory, config);
-		TextFragmentWriter writer = new TextFragmentWriter(inter);
+		PlainTextFragmentWriter writer = new PlainTextFragmentWriter(inter);
 		writer.write();
 		String id = inter.getExternalId();
 		String text = writer.getTranscription();
