@@ -23,15 +23,6 @@ public class UserTagInTextPortion extends UserTagInTextPortion_Base {
 		super.remove();
 	}
 
-	public void removeThisAnnotation(Annotation annotation) {
-		if (getAnnotationSet().size() == 1) {
-			remove();
-		} else {
-			removeAnnotation(annotation);
-		}
-
-	}
-
 	@Override
 	public int getWeight() {
 		return getAnnotationSet().size();

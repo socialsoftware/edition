@@ -109,6 +109,11 @@ public class Taxonomy extends Taxonomy_Base {
 		return null;
 	}
 
+	public List<Category> getSortedCategories(VirtualEditionInter inter) {
+		return getCategoriesSet().stream().filter(c -> c.isInVirtualEditionInter(inter))
+				.sorted((c1, c2) -> c1.getWeight(inter) < c2.getWeight(inter) ? -1 : 1).collect(Collectors.toList());
+	}
+
 	@Atomic(mode = TxMode.WRITE)
 	public Category merge(List<Category> categories) {
 
@@ -147,6 +152,13 @@ public class Taxonomy extends Taxonomy_Base {
 		tags.stream().forEach(t -> newCategory.addTag(t));
 
 		return newCategory;
+	}
+
+	public void createUserTagInTextPortion(Annotation annotation, String tag) {
+		if (getCategory(tag) == null)
+			new AdHocCategory().init(this, tag);
+
+		((AdHocCategory) getCategory(tag)).createUserTagInTextPortion(annotation, tag);
 	}
 
 }

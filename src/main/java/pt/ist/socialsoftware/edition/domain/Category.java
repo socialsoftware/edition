@@ -1,6 +1,7 @@
 package pt.ist.socialsoftware.edition.domain;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
@@ -62,14 +63,22 @@ public abstract class Category extends Category_Base implements Comparable<Categ
 		return getName().compareTo(other.getName());
 	}
 
-	abstract public List<Tag> getSortedTags();
-
 	public Tag getTag(FragInter fragInter) {
 		for (Tag tag : getTagSet()) {
 			if (tag.getFragInter() == fragInter)
 				return tag;
 		}
 		return null;
+	}
+
+	abstract public List<Tag> getSortedTags();
+
+	public boolean isInVirtualEditionInter(VirtualEditionInter inter) {
+		return getTagSet().stream().anyMatch(t -> t.getFragInter() == inter);
+	}
+
+	public int getWeight(VirtualEditionInter inter) {
+		return getTagSet().stream().filter(t -> t.getFragInter() == inter).collect(Collectors.toSet()).size();
 	}
 
 }
