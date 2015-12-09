@@ -11,6 +11,7 @@ import javax.transaction.SystemException;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import pt.ist.fenixframework.FenixFramework;
@@ -31,6 +32,7 @@ import pt.ist.socialsoftware.edition.recommendation.properties.TextProperty;
 import pt.ist.socialsoftware.edition.recommendation.properties.TypescriptProperty;
 import pt.ist.socialsoftware.edition.utils.Bootstrap;
 
+@Ignore
 public class VSMFragInterRecommenderGetMostSimilarFragIntersTest {
 	protected List<Property> properties;
 	protected VSMRecommender<FragInter> recomender;
@@ -45,7 +47,7 @@ public class VSMFragInterRecommenderGetMostSimilarFragIntersTest {
 		Bootstrap.initDatabase();
 		try {
 			FenixFramework.getTransactionManager().begin(false);
-		} catch(WriteOnReadError | NotSupportedException | SystemException e1) {
+		} catch (WriteOnReadError | NotSupportedException | SystemException e1) {
 			e1.printStackTrace();
 		}
 		LdoD ldod = LdoD.getInstance();
@@ -70,14 +72,14 @@ public class VSMFragInterRecommenderGetMostSimilarFragIntersTest {
 
 		try {
 			FenixFramework.getTransactionManager().rollback();
-		} catch(IllegalStateException | SecurityException | SystemException e) {
+		} catch (IllegalStateException | SecurityException | SystemException e) {
 			e.printStackTrace();
 		}
 	}
 
 	private void test(List<Entry<FragInter, Double>> getMostSimilarFragments) {
 		double before = VSMFragmentRecommenderTest.MAX;
-		for(Entry<FragInter, Double> entrySet : getMostSimilarFragments) {
+		for (Entry<FragInter, Double> entrySet : getMostSimilarFragments) {
 			Assert.assertTrue(before >= entrySet.getValue());
 			before = entrySet.getValue();
 		}

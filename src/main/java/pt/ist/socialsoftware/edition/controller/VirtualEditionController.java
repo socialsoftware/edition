@@ -26,8 +26,6 @@ import pt.ist.socialsoftware.edition.domain.Edition;
 import pt.ist.socialsoftware.edition.domain.FragInter;
 import pt.ist.socialsoftware.edition.domain.LdoD;
 import pt.ist.socialsoftware.edition.domain.LdoDUser;
-import pt.ist.socialsoftware.edition.domain.MergeCategory;
-import pt.ist.socialsoftware.edition.domain.SplitCategory;
 import pt.ist.socialsoftware.edition.domain.Tag;
 import pt.ist.socialsoftware.edition.domain.Taxonomy;
 import pt.ist.socialsoftware.edition.domain.VirtualEdition;
@@ -530,24 +528,6 @@ public class VirtualEditionController {
 		}
 	}
 
-	@RequestMapping(method = RequestMethod.POST, value = "/restricted/category/merge/undo")
-	@PreAuthorize("hasPermission(#categoryId, 'category.participant')")
-	public String undoMergeCategories(Model model, @RequestParam("categoryId") String categoryId) {
-		MergeCategory category = FenixFramework.getDomainObject(categoryId);
-		if (category == null) {
-			return "utils/pageNotFound";
-		}
-
-		Taxonomy taxonomy = category.getTaxonomy();
-
-		category.undo();
-
-		model.addAttribute("edition", taxonomy.getEdition());
-		model.addAttribute("taxonomy", taxonomy);
-		return "virtual/taxonomy";
-
-	}
-
 	@RequestMapping(method = RequestMethod.GET, value = "/restricted/category/extractForm")
 	@PreAuthorize("hasPermission(#categoryId, 'category.participant')")
 	public String extractForm(Model model, @RequestParam("categoryId") String categoryId) {
@@ -566,7 +546,7 @@ public class VirtualEditionController {
 	public String extractCategory(Model model, @RequestParam("categoryId") String categoryId,
 			@RequestParam(value = "tags[]", required = false) String tagsIds[]) {
 		Category category = FenixFramework.getDomainObject(categoryId);
-		if ((category == null) || (category.getDeprecated())) {
+		if (category == null) {
 			return "utils/pageNotFound";
 		}
 
@@ -586,22 +566,6 @@ public class VirtualEditionController {
 		model.addAttribute("category", extractedCategory);
 		return "virtual/category";
 
-	}
-
-	@RequestMapping(method = RequestMethod.POST, value = "/restricted/category/extract/undo")
-	@PreAuthorize("hasPermission(#categoryId, 'category.participant')")
-	public String undoExtractCategory(Model model, @RequestParam("categoryId") String categoryId) {
-		SplitCategory splitCategory = FenixFramework.getDomainObject(categoryId);
-		if (splitCategory == null) {
-			return "utils/pageNotFound";
-		}
-
-		Category category = splitCategory.getOriginSplitCategory();
-
-		splitCategory.undo();
-
-		model.addAttribute("category", category);
-		return "virtual/category";
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/restricted/tag/dissociate/{tagId}")
@@ -630,11 +594,11 @@ public class VirtualEditionController {
 		}
 
 		Set<Category> interCategories = new HashSet<Category>();
-		for (Tag tag : taxonomy.getActiveTagSet(fragInter)) {
-			interCategories.add(tag.getActiveCategory());
+		for (Tag tag : taxonomy.getTagSet(fragInter)) {
+			interCategories.add(tag.getCategory());
 		}
 
-		List<Category> categories = new ArrayList<Category>(taxonomy.getActiveCategorySet());
+		List<Category> categories = new ArrayList<Category>(taxonomy.getCategoriesSet());
 		categories.removeAll(interCategories);
 		Collections.sort(categories);
 
@@ -651,9 +615,9 @@ public class VirtualEditionController {
 			@RequestParam("fragInterId") String fragInterId,
 			@RequestParam(value = "categories[]", required = false) String categoriesIds[]) {
 		Taxonomy taxonomy = FenixFramework.getDomainObject(taxonomyId);
-		FragInter fragInter = FenixFramework.getDomainObject(fragInterId);
+		VirtualEditionInter inter = FenixFramework.getDomainObject(fragInterId);
 
-		if (fragInter == null) {
+		if (inter == null) {
 			return "utils/pageNotFound";
 		}
 
@@ -664,10 +628,10 @@ public class VirtualEditionController {
 				categories.add(category);
 			}
 
-			fragInter.associate(LdoDUser.getAuthenticatedUser(), taxonomy, categories);
+			inter.associate(LdoDUser.getAuthenticatedUser(), taxonomy, categories);
 		}
 
-		return "redirect:/fragments/fragment/inter/" + fragInter.getExternalId();
+		return "redirect:/fragments/fragment/inter/" + inter.getExternalId();
 
 	}
 

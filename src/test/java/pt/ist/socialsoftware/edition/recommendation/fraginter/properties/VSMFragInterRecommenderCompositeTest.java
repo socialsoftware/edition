@@ -1,10 +1,12 @@
 package pt.ist.socialsoftware.edition.recommendation.fraginter.properties;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import pt.ist.socialsoftware.edition.recommendation.properties.Property;
 
+@Ignore
 public abstract class VSMFragInterRecommenderCompositeTest extends VSMFragInterRecommenderStorableTest {
 
 	protected Property compositeProperty;

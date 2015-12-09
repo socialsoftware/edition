@@ -18,10 +18,10 @@
 					href="${contextPath}/edition/taxonomy/${taxonomy.externalId}">${taxonomy.getName()}</a>
 				</td>
 				<td><c:forEach var="tag"
-						items='${taxonomy.getSortedActiveTags(inters.get(0))}'>
+						items='${taxonomy.getSortedTags(inters.get(0))}'>
 						<a
-							href="${contextPath}/edition/category/${tag.getActiveCategory().getExternalId()}">
-							${tag.getActiveCategory().getName()}</a>
+							href="${contextPath}/edition/category/${tag.getCategory().getExternalId()}">
+							${tag.getCategory().getName()}</a>
 						<c:if test="${taxonomy.getAdHoc() }">
                                 (${tag.getWeight()})</c:if>
 						<c:if test="${!taxonomy.getAdHoc() }">

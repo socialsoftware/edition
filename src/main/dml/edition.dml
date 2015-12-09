@@ -177,7 +177,6 @@ class Category {
 	CategoryType type;
 	String xmlId;
 	String name;
-	boolean deprecated;
 }
 
 relation TaxonomyHasCategories {
@@ -188,44 +187,6 @@ relation TaxonomyHasCategories {
 class GeneratedCategory extends Category;
 
 class AdHocCategory extends Category;
-
-class MergeCategory extends Category;
-
-relation MergeCategoryHasCategories {
-	MergeCategory playsRole mergeCategory {multiplicity 0..1;}
-	Category playsRole mergedCategories {multiplicity 2..*;}
-}
-
-class SplitCategory extends Category;
-
-relation SplitCategoryToCategory {
-	SplitCategory playsRole splitCategory {multiplicity 0..2;}
-	Category playsRole originSplitCategory {multiplicity 1..1;}
-}
-
-class FragWord {
-	String word;
-}
-
-relation TaxonomyHasFragWord {
-	Taxonomy playsRole taxonomy {multiplicity 1..1;}
-	FragWord playsRole fragWord {multiplicity 0..*;}
-}
-
-
-class FragWordInCategory {
-	int weight;
-}
-
-relation FragWordInCategory2GeneratedCategory {
-	FragWordInCategory playsRole fragWordInCategory {multiplicity 0..*;}
-	GeneratedCategory playsRole generatedCategory {multiplicity 1..1;}
-}
-
-relation FragWordInCategory2FragWord {
-	FragWordInCategory playsRole fragWordInCategory {multiplicity 0..*;}
-	FragWord playsRole fragWord {multiplicity 1..1;}
-}
 
 class Heteronym {
 	String xmlId;
@@ -277,7 +238,6 @@ relation FragInterHasAnnexNote {
 
 class Tag {
 	TagType type;
-	boolean deprecated;
 }
 
 relation Tag2Category {
@@ -304,33 +264,6 @@ relation UserTagInFragInterHasContributor {
 	UserTagInFragInter playsRole userTagInFragInter {multiplicity 0..*;}
 	LdoDUser playsRole contributor {multiplicity 0..1;}
 }
-
-relation UserTagInFragInterHidesTag {
-	UserTagInFragInter playsRole userTagInFragInter {multiplicity 0..1;}
-	Tag playsRole originTag {multiplicity 0..1;}
-}
-
-class MergeTag extends Tag;
-
-relation MergeTagMergesTags {
-	MergeTag playsRole mergeTag {multiplicity 0..1;}
-	Tag playsRole mergedTags {multiplicity 2..*;}
-}
-
-class MergeTagInTextPortion extends MergeTag;
-
-class MergeTagInFragInter extends MergeTag;
-
-class SplitTag extends Tag;
-
-relation SplitTagToTag {
-	SplitTag playsRole splitTag {multiplicity 0..1;}
-	Tag playsRole originSplitTag {multiplicity 1..1;}
-}
-
-class SplitTagInTextPortion extends SplitTag;
-
-class SplitTagInFragInter extends SplitTag;
 
 class ExpertEditionInter extends FragInter {
 	String title;
@@ -620,8 +553,8 @@ relation AnnotationHasEndSimpleText {
 	SimpleText playsRole endText {multiplicity 1..1;}
 }
 
-relation FragInterHasAnnotations {
-  FragInter playsRole fragInter {multiplicity 1..1;}
+relation VirtualEditionInterHasAnnotations {
+  VirtualEditionInter playsRole virtualEditionInter {multiplicity 1..1;}
   Annotation playsRole annotation {multiplicity 0..*;}
 }
 

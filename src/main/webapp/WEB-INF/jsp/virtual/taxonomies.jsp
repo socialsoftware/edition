@@ -137,7 +137,7 @@ function validateForm() {
                                 href="${contextPath}/virtualeditions/restricted/taxonomy/${taxonomy.getExternalId()}">${taxonomy.getName()}</a>
                                 <c:if test="${!taxonomy.getAdHoc()}">(${taxonomy.getNumTopics()},${taxonomy.getNumWords()},${taxonomy.getThresholdCategories()},${taxonomy.getNumIterations()})</c:if>
                             </td>
-                            <td>${taxonomy.getActiveCategorySet().size()}</td>
+                            <td>${taxonomy.getCategoriesSet().size()}</td>
                             <td>
                                 <form class="form-inline" method="POST"
                                     action="${contextPath}/virtualeditions/restricted/taxonomy/delete">

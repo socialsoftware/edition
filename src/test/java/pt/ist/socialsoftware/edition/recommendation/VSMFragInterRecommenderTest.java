@@ -7,11 +7,13 @@ import java.util.List;
 import java.util.Map;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import pt.ist.socialsoftware.edition.domain.FragInter;
 import pt.ist.socialsoftware.edition.recommendation.properties.Property;
 
+@Ignore
 public class VSMFragInterRecommenderTest extends VSMRecomenderTest<FragInter> {
 
 	private VSMFragInterRecommender fragInterRecommeder;

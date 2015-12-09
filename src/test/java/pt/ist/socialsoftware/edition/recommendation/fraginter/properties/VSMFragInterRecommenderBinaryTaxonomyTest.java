@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.joda.time.LocalDate;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import pt.ist.socialsoftware.edition.domain.Edition;
@@ -19,6 +20,7 @@ import pt.ist.socialsoftware.edition.mallet.TopicModeler;
 import pt.ist.socialsoftware.edition.recommendation.properties.BinaryTaxonomyProperty;
 import pt.ist.socialsoftware.edition.recommendation.properties.Property;
 
+@Ignore
 public class VSMFragInterRecommenderBinaryTaxonomyTest extends VSMFragInterRecommenderTest {
 	private Edition edition;
 	private Taxonomy taxonomy;
@@ -52,7 +54,7 @@ public class VSMFragInterRecommenderBinaryTaxonomyTest extends VSMFragInterRecom
 	}
 
 	@Override
-	protected void prepare() { 
+	protected void prepare() {
 		String username = "afs123456";
 		String password = "123456";
 		String firstName = "a";
@@ -70,7 +72,7 @@ public class VSMFragInterRecommenderBinaryTaxonomyTest extends VSMFragInterRecom
 			t2 = (new TopicModeler()).generate(edition, "test2", 2, 2, 6, 100);
 			t3 = (new TopicModeler()).generate(edition, "test3", 6, 4, 4, 100);
 			t4 = (new TopicModeler()).generate(edition, "test4", 8, 6, 4, 100);
-		} catch(IOException e) {
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}

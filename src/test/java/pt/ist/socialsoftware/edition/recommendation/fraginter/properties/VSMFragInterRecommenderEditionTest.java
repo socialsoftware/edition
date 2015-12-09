@@ -4,12 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import pt.ist.socialsoftware.edition.domain.FragInter;
 import pt.ist.socialsoftware.edition.recommendation.properties.EditionProperty;
 import pt.ist.socialsoftware.edition.recommendation.properties.Property;
 
+@Ignore
 public class VSMFragInterRecommenderEditionTest extends VSMFragInterRecommenderStorableTest {
 
 	private double similary = 0.9999999999999998;
@@ -17,8 +19,8 @@ public class VSMFragInterRecommenderEditionTest extends VSMFragInterRecommenderS
 	@Override
 	protected FragInter getFragment1() {
 		List<FragInter> list = new ArrayList<>(ldod.getFragment("Fr084").getFragmentInterSet());
-		for(FragInter inter : list) {
-			if(inter.getEdition().getAcronym().equals("JPC"))
+		for (FragInter inter : list) {
+			if (inter.getEdition().getAcronym().equals("JPC"))
 				return inter;
 		}
 		return list.get(list.size() - 1);
@@ -27,8 +29,8 @@ public class VSMFragInterRecommenderEditionTest extends VSMFragInterRecommenderS
 	@Override
 	protected FragInter getFragment2() {
 		List<FragInter> list = new ArrayList<>(ldod.getFragment("Fr002").getFragmentInterSet());
-		for(FragInter inter : list) {
-			if(inter.getEdition().getAcronym().equals("JPC"))
+		for (FragInter inter : list) {
+			if (inter.getEdition().getAcronym().equals("JPC"))
 				return inter;
 		}
 		return list.get(list.size() - 1);

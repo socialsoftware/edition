@@ -6,12 +6,14 @@ import java.util.Set;
 
 import org.apache.lucene.queryparser.classic.ParseException;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import pt.ist.socialsoftware.edition.domain.Fragment;
 import pt.ist.socialsoftware.edition.recommendation.properties.Property;
 import pt.ist.socialsoftware.edition.recommendation.properties.TextProperty;
 
+@Ignore
 public class VSMFragmentRecommenderTextTest extends VSMFragmentRecommenderTest {
 
 	private double similiraty = 0.031;
@@ -45,15 +47,14 @@ public class VSMFragmentRecommenderTextTest extends VSMFragmentRecommenderTest {
 	public void setUp() {
 		super.setUp();
 	}
-	
+
 	@Test
 	public void test() throws IOException, ParseException {
 		Set<Fragment> fragments = ldod.getFragmentsSet();
-		for(Fragment fragment : fragments) {
+		for (Fragment fragment : fragments) {
 			Collection<String> terms = (new pt.ist.socialsoftware.edition.search.Indexer()).getTerms(fragment, 20);
 			Assert.assertFalse(terms.isEmpty());
 		}
 	}
-	
 
 }

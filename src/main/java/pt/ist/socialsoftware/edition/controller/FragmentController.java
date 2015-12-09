@@ -36,6 +36,7 @@ import pt.ist.socialsoftware.edition.domain.SourceInter;
 import pt.ist.socialsoftware.edition.domain.Surface;
 import pt.ist.socialsoftware.edition.domain.TextPortion;
 import pt.ist.socialsoftware.edition.domain.VirtualEdition;
+import pt.ist.socialsoftware.edition.domain.VirtualEditionInter;
 import pt.ist.socialsoftware.edition.security.LdoDSession;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDException;
 import pt.ist.socialsoftware.edition.utils.AnnotationJson;
@@ -326,11 +327,11 @@ public class FragmentController {
 	@RequestMapping(method = RequestMethod.GET, value = "/search")
 	public @ResponseBody AnnotationSearchJson searchAnnotations(Model model, @RequestParam int limit,
 			@RequestParam String uri) {
-		System.out.println("searchAnnotations:" + limit + uri);
+		logger.debug("searchAnnotations limit:{}, uri:{}", limit, uri);
 
 		List<AnnotationJson> annotations = new ArrayList<AnnotationJson>();
 
-		FragInter inter = FenixFramework.getDomainObject(uri);
+		VirtualEditionInter inter = FenixFramework.getDomainObject(uri);
 
 		for (Annotation annotation : inter.getAnnotationSet()) {
 			AnnotationJson annotationJson = new AnnotationJson(annotation);
@@ -343,7 +344,7 @@ public class FragmentController {
 	@RequestMapping(method = RequestMethod.POST, value = "/annotations")
 	public @ResponseBody ResponseEntity<AnnotationJson> createAnnotation(Model model,
 			@RequestBody final AnnotationJson annotationJson, HttpServletRequest request) {
-		FragInter inter = FenixFramework.getDomainObject(annotationJson.getUri());
+		VirtualEditionInter inter = FenixFramework.getDomainObject(annotationJson.getUri());
 		VirtualEdition virtualEdition = (VirtualEdition) inter.getEdition();
 		LdoDUser user = LdoDUser.getAuthenticatedUser();
 
