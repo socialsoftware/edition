@@ -3,10 +3,12 @@ package pt.ist.socialsoftware.edition.recommendation;
 import java.util.Collection;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import pt.ist.socialsoftware.edition.domain.Fragment;
 
+@Ignore
 public class VSMFragmentRecomenderTest extends VSMRecomenderTest<Fragment> {
 
 	@Override

@@ -49,12 +49,12 @@
                 </thead>
                 <tbody>
                     <c:forEach var="category"
-                        items='${taxonomy.getActiveCategorySet()}'>
+                        items='${taxonomy.getCategoriesSet()}'>
                         <tr>
                             <td><a
                                 href="${contextPath}/virtualeditions/restricted/category/${category.getExternalId()}">${category.getName()}</a></td>
                             <td><c:forEach var="tag"
-                                    items='${category.getSortedActiveTags()}'>
+                                    items='${category.getSortedTags()}'>
                                     <a
                                         href="${contextPath}/virtualeditions/restricted/fraginter/${tag.getFragInter().getExternalId()}">${tag.getFragInter().getTitle()}</a> (${tag.getWeight()})</c:forEach></td>
                             <td class="col-centered">

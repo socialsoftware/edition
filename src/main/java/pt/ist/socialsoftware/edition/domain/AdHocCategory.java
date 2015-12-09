@@ -31,13 +31,4 @@ public class AdHocCategory extends AdHocCategory_Base {
 		return results;
 	}
 
-	@Override
-	public List<Tag> getSortedActiveTags() {
-		List<Tag> tags = new ArrayList<Tag>(getActiveTags());
-
-		Collections.sort(tags);
-
-		return tags;
-	}
-
 }

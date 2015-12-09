@@ -1,12 +1,14 @@
 package pt.ist.socialsoftware.edition.recommendation.fragment.properties;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import pt.ist.socialsoftware.edition.domain.Fragment;
 import pt.ist.socialsoftware.edition.recommendation.properties.ManuscriptProperty;
 import pt.ist.socialsoftware.edition.recommendation.properties.Property;
 
+@Ignore
 public class VSMFragmentRecommenderManuscriptTest extends VSMFragmentRecommenderStorableTest {
 
 	private double similiraty = 0.37;

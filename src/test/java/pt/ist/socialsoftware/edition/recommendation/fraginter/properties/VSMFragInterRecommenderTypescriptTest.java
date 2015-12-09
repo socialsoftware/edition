@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import pt.ist.socialsoftware.edition.domain.FragInter;
@@ -11,6 +12,7 @@ import pt.ist.socialsoftware.edition.domain.SourceInter;
 import pt.ist.socialsoftware.edition.recommendation.properties.Property;
 import pt.ist.socialsoftware.edition.recommendation.properties.TypescriptProperty;
 
+@Ignore
 public class VSMFragInterRecommenderTypescriptTest extends VSMFragInterRecommenderStorableTest {
 
 	private double similarity = 0.99;
@@ -23,8 +25,8 @@ public class VSMFragInterRecommenderTypescriptTest extends VSMFragInterRecommend
 	@Override
 	protected FragInter getFragment1() {
 		List<FragInter> list = new ArrayList<>(ldod.getFragment("Fr097").getFragmentInterSet());
-		for(FragInter inter : list) {
-			if(inter instanceof SourceInter)
+		for (FragInter inter : list) {
+			if (inter instanceof SourceInter)
 				return inter;
 		}
 		return list.get(list.size() - 1);
@@ -33,8 +35,8 @@ public class VSMFragInterRecommenderTypescriptTest extends VSMFragInterRecommend
 	@Override
 	protected FragInter getFragment2() {
 		List<FragInter> list = new ArrayList<>(ldod.getFragment("Fr008").getFragmentInterSet());
-		for(FragInter inter : list) {
-			if(inter instanceof SourceInter)
+		for (FragInter inter : list) {
+			if (inter instanceof SourceInter)
 				return inter;
 		}
 		return list.get(list.size() - 1);

@@ -28,11 +28,11 @@ public class AnnotationJson implements Serializable {
 		setId(annotation.getExternalId());
 		setQuote(annotation.getQuote());
 		setText(annotation.getText());
-		setUri(annotation.getFragInter().getExternalId());
+		setUri(annotation.getVirtualEditionInter().getExternalId());
 
 		tags = new ArrayList<String>();
 		for (UserTagInTextPortion tag : annotation.getUserTagInTextPortionSet()) {
-			tags.add(tag.getActiveCategory().getName());
+			tags.add(tag.getCategory().getName());
 		}
 
 		ranges = new ArrayList<RangeJson>();
@@ -42,8 +42,7 @@ public class AnnotationJson implements Serializable {
 
 		setUser(annotation.getUser().getUsername());
 
-		setPermissions(new PermissionJson(annotation.getFragInter()
-				.getEdition(), annotation.getUser()));
+		setPermissions(new PermissionJson(annotation.getVirtualEditionInter().getEdition(), annotation.getUser()));
 	}
 
 	public List<RangeJson> getRanges() {

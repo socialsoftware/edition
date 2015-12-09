@@ -10,6 +10,7 @@ import javax.transaction.SystemException;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import pt.ist.fenixframework.FenixFramework;
@@ -29,6 +30,7 @@ import pt.ist.socialsoftware.edition.recommendation.properties.TextProperty;
 import pt.ist.socialsoftware.edition.recommendation.properties.TypescriptProperty;
 import pt.ist.socialsoftware.edition.utils.Bootstrap;
 
+@Ignore
 public class VSMFragInterRecommendedEdition {
 
 	protected List<Property> properties;
@@ -43,7 +45,7 @@ public class VSMFragInterRecommendedEdition {
 		Bootstrap.initDatabase();
 		try {
 			FenixFramework.getTransactionManager().begin(false);
-		} catch(WriteOnReadError | NotSupportedException | SystemException e1) {
+		} catch (WriteOnReadError | NotSupportedException | SystemException e1) {
 			e1.printStackTrace();
 		}
 		LdoD ldod = LdoD.getInstance();
@@ -64,11 +66,11 @@ public class VSMFragInterRecommendedEdition {
 
 	@After
 	public void tearDown() throws Exception {
-		
+
 		Double duration = ((System.currentTimeMillis() - time) / 1000.0);
 		try {
 			FenixFramework.getTransactionManager().rollback();
-		} catch(IllegalStateException | SecurityException | SystemException e) {
+		} catch (IllegalStateException | SecurityException | SystemException e) {
 			e.printStackTrace();
 		}
 	}

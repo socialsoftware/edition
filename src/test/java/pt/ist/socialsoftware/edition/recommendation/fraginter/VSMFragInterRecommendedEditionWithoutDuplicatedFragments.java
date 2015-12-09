@@ -10,6 +10,7 @@ import javax.transaction.SystemException;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import pt.ist.fenixframework.FenixFramework;
@@ -27,6 +28,7 @@ import pt.ist.socialsoftware.edition.recommendation.properties.TextProperty;
 import pt.ist.socialsoftware.edition.recommendation.properties.TypescriptProperty;
 import pt.ist.socialsoftware.edition.utils.Bootstrap;
 
+@Ignore
 public class VSMFragInterRecommendedEditionWithoutDuplicatedFragments {
 
 	protected List<Property> properties;
@@ -42,7 +44,7 @@ public class VSMFragInterRecommendedEditionWithoutDuplicatedFragments {
 		Bootstrap.initDatabase();
 		try {
 			FenixFramework.getTransactionManager().begin(false);
-		} catch(WriteOnReadError | NotSupportedException | SystemException e1) {
+		} catch (WriteOnReadError | NotSupportedException | SystemException e1) {
 			e1.printStackTrace();
 		}
 		LdoD ldod = LdoD.getInstance();
@@ -64,60 +66,68 @@ public class VSMFragInterRecommendedEditionWithoutDuplicatedFragments {
 
 	@After
 	public void tearDown() throws Exception {
-		
+
 		Double duration = ((System.currentTimeMillis() - time) / 1000.0);
 		try {
 			FenixFramework.getTransactionManager().rollback();
-		} catch(IllegalStateException | SecurityException | SystemException e) {
+		} catch (IllegalStateException | SecurityException | SystemException e) {
 			e.printStackTrace();
 		}
 	}
 
 	@Test
 	public final void testGetMostSimilarFragmentByDate() {
-		getRecommendedEdition = recommender.getRecommendedEditionWithoutDuplicatedFragments(fragInter, inters, new DateProperty());
+		getRecommendedEdition = recommender.getRecommendedEditionWithoutDuplicatedFragments(fragInter, inters,
+				new DateProperty());
 		Assert.assertTrue(getRecommendedEdition.size() <= numberOfFragments);
 	}
 
 	@Test
 	public final void testGetMostSimilarFragmentByEdition() {
-		getRecommendedEdition = recommender.getRecommendedEditionWithoutDuplicatedFragments(fragInter, inters, new EditionProperty());
+		getRecommendedEdition = recommender.getRecommendedEditionWithoutDuplicatedFragments(fragInter, inters,
+				new EditionProperty());
 		Assert.assertTrue(getRecommendedEdition.size() <= numberOfFragments);
 	}
 
 	@Test
 	public final void testGetMostSimilarFragmentByHeteronym() {
-		getRecommendedEdition = recommender.getRecommendedEditionWithoutDuplicatedFragments(fragInter, inters, new HeteronymProperty());
+		getRecommendedEdition = recommender.getRecommendedEditionWithoutDuplicatedFragments(fragInter, inters,
+				new HeteronymProperty());
 		Assert.assertTrue(getRecommendedEdition.size() <= numberOfFragments);
 	}
 
 	@Test
 	public final void testGetMostSimilarFragmentByManuscript() {
-		getRecommendedEdition = recommender.getRecommendedEditionWithoutDuplicatedFragments(fragInter, inters, new ManuscriptProperty());
+		getRecommendedEdition = recommender.getRecommendedEditionWithoutDuplicatedFragments(fragInter, inters,
+				new ManuscriptProperty());
 		Assert.assertTrue(getRecommendedEdition.size() <= numberOfFragments);
 	}
 
 	@Test
 	public final void testGetMostSimilarFragmentByTaxonomy() {
-		getRecommendedEdition = recommender.getRecommendedEditionWithoutDuplicatedFragments(fragInter, inters, new TaxonomyProperty());
+		getRecommendedEdition = recommender.getRecommendedEditionWithoutDuplicatedFragments(fragInter, inters,
+				new TaxonomyProperty());
 		Assert.assertTrue(getRecommendedEdition.size() <= numberOfFragments);
 	}
 
 	@Test
 	public final void testGetMostSimilarFragmentByText() {
-		getRecommendedEdition = recommender.getRecommendedEditionWithoutDuplicatedFragments(fragInter, inters, new TextProperty());
+		getRecommendedEdition = recommender.getRecommendedEditionWithoutDuplicatedFragments(fragInter, inters,
+				new TextProperty());
 		Assert.assertTrue(getRecommendedEdition.size() <= numberOfFragments);
 	}
 
 	@Test
 	public final void testGetMostSimilarFragmentByTypescript() {
-		getRecommendedEdition = recommender.getRecommendedEditionWithoutDuplicatedFragments(fragInter, inters, new TypescriptProperty());
+		getRecommendedEdition = recommender.getRecommendedEditionWithoutDuplicatedFragments(fragInter, inters,
+				new TypescriptProperty());
 		Assert.assertTrue(getRecommendedEdition.size() <= numberOfFragments);
 	}
 
 	@Test
 	public void testGetRecommendedEdition() {
-		getRecommendedEdition = recommender.getRecommendedEditionWithoutDuplicatedFragments(fragInter, inters, properties);
+		getRecommendedEdition = recommender.getRecommendedEditionWithoutDuplicatedFragments(fragInter, inters,
+				properties);
 		Assert.assertTrue(getRecommendedEdition.size() <= numberOfFragments);
 	}
 }

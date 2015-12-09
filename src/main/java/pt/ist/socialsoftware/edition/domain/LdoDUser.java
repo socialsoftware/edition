@@ -88,12 +88,11 @@ public class LdoDUser extends LdoDUser_Base {
 		Set<FragInter> inters = new HashSet<FragInter>();
 
 		for (Annotation annotation : getAnnotationSet()) {
-			inters.add(annotation.getFragInter());
+			inters.add(annotation.getVirtualEditionInter());
 		}
 
 		for (UserTagInFragInter userTagInFragInter : getUserTagInFragInterSet()) {
-			if (!userTagInFragInter.getDeprecated())
-				inters.add(userTagInFragInter.getFragInter());
+			inters.add(userTagInFragInter.getFragInter());
 		}
 
 		return inters;

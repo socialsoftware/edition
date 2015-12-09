@@ -1,12 +1,14 @@
 package pt.ist.socialsoftware.edition.recommendation.fragment.properties;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import pt.ist.socialsoftware.edition.domain.Fragment;
 import pt.ist.socialsoftware.edition.recommendation.properties.HeteronymProperty;
 import pt.ist.socialsoftware.edition.recommendation.properties.Property;
 
+@Ignore
 public class VSMFragmentRecommenderHeteronymTest extends VSMFragmentRecommenderStorableTest {
 
 	private double similiraty = 0.8164965809277259;
@@ -38,7 +40,7 @@ public class VSMFragmentRecommenderHeteronymTest extends VSMFragmentRecommenderS
 
 	@Test
 	public void testCalculateSimilarityWithAllHeteronyms() {
-		for(double d : v2){
+		for (double d : v2) {
 			Assert.assertEquals(1.0, d, DELTA);
 		}
 	}

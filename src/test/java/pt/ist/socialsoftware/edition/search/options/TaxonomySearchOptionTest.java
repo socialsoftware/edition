@@ -5,6 +5,7 @@ import javax.transaction.SystemException;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import pt.ist.fenixframework.FenixFramework;
@@ -12,10 +13,9 @@ import pt.ist.fenixframework.core.WriteOnReadError;
 import pt.ist.socialsoftware.edition.domain.FragInter;
 import pt.ist.socialsoftware.edition.domain.Fragment;
 import pt.ist.socialsoftware.edition.domain.LdoD;
-import pt.ist.socialsoftware.edition.search.options.SearchOption;
-import pt.ist.socialsoftware.edition.search.options.TaxonomySearchOption;
 import pt.ist.socialsoftware.edition.utils.Bootstrap;
 
+@Ignore
 public class TaxonomySearchOptionTest {
 	private SearchOption option;
 
@@ -25,7 +25,7 @@ public class TaxonomySearchOptionTest {
 		Bootstrap.initDatabase();
 		try {
 			FenixFramework.getTransactionManager().begin(false);
-		} catch(WriteOnReadError | NotSupportedException | SystemException e1) {
+		} catch (WriteOnReadError | NotSupportedException | SystemException e1) {
 			e1.printStackTrace();
 		}
 	}
@@ -34,7 +34,7 @@ public class TaxonomySearchOptionTest {
 	public void tearDown() {
 		try {
 			FenixFramework.getTransactionManager().rollback();
-		} catch(IllegalStateException | SecurityException | SystemException e) {
+		} catch (IllegalStateException | SecurityException | SystemException e) {
 			e.printStackTrace();
 		}
 	}
@@ -45,8 +45,8 @@ public class TaxonomySearchOptionTest {
 
 		LdoD ldod = LdoD.getInstance();
 
-		for(Fragment frag : ldod.getFragmentsSet()) {
-			for(FragInter inter : frag.getFragmentInterSet()) {
+		for (Fragment frag : ldod.getFragmentsSet()) {
+			for (FragInter inter : frag.getFragmentInterSet()) {
 				inter.accept(option);
 			}
 		}
@@ -55,11 +55,11 @@ public class TaxonomySearchOptionTest {
 	@Test
 	public void testGeneratedTaxonomyVisitor() {
 		option = new TaxonomySearchOption("fatal");
-		
+
 		LdoD ldod = LdoD.getInstance();
-		
-		for(Fragment frag : ldod.getFragmentsSet()) {
-			for(FragInter inter : frag.getFragmentInterSet()) {
+
+		for (Fragment frag : ldod.getFragmentsSet()) {
+			for (FragInter inter : frag.getFragmentInterSet()) {
 				inter.accept(option);
 			}
 		}
@@ -71,8 +71,8 @@ public class TaxonomySearchOptionTest {
 
 		LdoD ldod = LdoD.getInstance();
 
-		for(Fragment frag : ldod.getFragmentsSet()) {
-			for(FragInter inter : frag.getFragmentInterSet()) {
+		for (Fragment frag : ldod.getFragmentsSet()) {
+			for (FragInter inter : frag.getFragmentInterSet()) {
 				inter.accept(option);
 			}
 		}

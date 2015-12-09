@@ -4,12 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import pt.ist.socialsoftware.edition.domain.FragInter;
 import pt.ist.socialsoftware.edition.recommendation.properties.DateProperty;
 import pt.ist.socialsoftware.edition.recommendation.properties.Property;
 
+@Ignore
 public class VSMFragInterRecommenderDateTest extends VSMFragInterRecommenderStorableTest {
 
 	private double similiraty = 0.80;
@@ -17,8 +19,8 @@ public class VSMFragInterRecommenderDateTest extends VSMFragInterRecommenderStor
 	@Override
 	protected FragInter getFragment1() {
 		List<FragInter> list = new ArrayList<>(ldod.getFragment("Fr535").getFragmentInterSet());
-		for(FragInter inter : list) {
-			if(inter.getEdition().getAcronym().equals("JP"))
+		for (FragInter inter : list) {
+			if (inter.getEdition().getAcronym().equals("JP"))
 				return inter;
 		}
 		return list.get(list.size() - 1);
@@ -27,8 +29,8 @@ public class VSMFragInterRecommenderDateTest extends VSMFragInterRecommenderStor
 	@Override
 	protected FragInter getFragment2() {
 		List<FragInter> list = new ArrayList<>(ldod.getFragment("Fr567").getFragmentInterSet());
-		for(FragInter inter : list) {
-			if(inter.getEdition().getAcronym().equals("JP"))
+		for (FragInter inter : list) {
+			if (inter.getEdition().getAcronym().equals("JP"))
 				return inter;
 		}
 		return list.get(list.size() - 1);

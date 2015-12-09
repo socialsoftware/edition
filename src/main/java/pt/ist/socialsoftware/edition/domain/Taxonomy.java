@@ -4,23 +4,22 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
+import pt.ist.socialsoftware.edition.domain.Category.CategoryType;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDDuplicateNameException;
 
 public class Taxonomy extends Taxonomy_Base {
-
-	Map<String, FragWord> mapOfWords = null;
 
 	public Taxonomy(LdoD ldoD) {
 		setLdoD(ldoD);
 	}
 
-	public Taxonomy(LdoD ldoD, Edition edition, String name, int numTopics,
-			int numWords, int thresholdCategories, int numIterations) {
+	public Taxonomy(LdoD ldoD, Edition edition, String name, int numTopics, int numWords, int thresholdCategories,
+			int numIterations) {
 		setAdHoc(false);
 		setLdoD(ldoD);
 		setEdition(edition);
@@ -47,11 +46,7 @@ public class Taxonomy extends Taxonomy_Base {
 			category.remove();
 		}
 
-		for (FragWord fragWord : getFragWordSet()) {
-			fragWord.remove();
-		}
-
-		for(TaxonomyWeight taxonomyWeight : getTaxonomyWeightSet()) {
+		for (TaxonomyWeight taxonomyWeight : getTaxonomyWeightSet()) {
 			taxonomyWeight.remove();
 		}
 
@@ -86,18 +81,8 @@ public class Taxonomy extends Taxonomy_Base {
 		return set;
 	}
 
-	public Set<Tag> getActiveTagSet(FragInter fragInter) {
-		Set<Tag> set = new HashSet<Tag>();
-		for (Tag tag : getTagSet(fragInter)) {
-			if (!tag.getDeprecated()) {
-				set.add(tag.getActiveTag());
-			}
-		}
-		return set;
-	}
-
-	public List<Tag> getSortedActiveTags(FragInter fragInter) {
-		List<Tag> tags = new ArrayList<Tag>(getActiveTagSet(fragInter));
+	public List<Tag> getSortedTags(FragInter fragInter) {
+		List<Tag> tags = new ArrayList<Tag>(getTagSet(fragInter));
 		Collections.sort(tags);
 		return tags;
 	}
@@ -124,45 +109,44 @@ public class Taxonomy extends Taxonomy_Base {
 		return null;
 	}
 
-	public Category getActiveCategory(String name) {
-		for (Category category : getActiveCategorySet()) {
-			if (name.equals(category.getName())) {
-				return category;
-			}
-		}
-		return null;
-	}
+	@Atomic(mode = TxMode.WRITE)
+	public Category merge(List<Category> categories) {
 
-	public Set<Category> getActiveCategorySet() {
-		Set<Category> set = new HashSet<Category>();
-		for (Category category : getCategoriesSet()) {
-			if (!category.getDeprecated()) {
-				set.add(category);
-			}
+		String name = categories.stream().map(c -> c.getName()).collect(Collectors.joining(";"));
+
+		while (getCategory(name) != null) {
+			name = name + "1";
 		}
-		return set;
+
+		Category category;
+		if (categories.get(0).getType().equals(CategoryType.ADHOC)) {
+			category = new AdHocCategory().init(this, name);
+		} else {
+			category = new GeneratedCategory().init(this, name);
+		}
+
+		categories.stream().flatMap(c -> c.getTagSet().stream()).forEach(t -> category.addTag(t));
+
+		categories.stream().forEach(c -> c.remove());
+
+		return category;
 	}
 
 	@Atomic(mode = TxMode.WRITE)
-	public MergeCategory merge(List<Category> categories) {
-		return new MergeCategory().init(this, categories);
-	}
-
-	@Atomic(mode = TxMode.WRITE)
-	public SplitCategory extract(Category category, Set<Tag> tags) {
+	public Category extract(Category category, Set<Tag> tags) {
 		Set<Tag> remainingTags = new HashSet<Tag>(category.getSortedTags());
 		remainingTags.removeAll(tags);
 
-		// to allow the creation of a new one with the same name
-		category.setDeprecated(true);
-		new SplitCategory().init(category.getTaxonomy(), category.getName(),
-				category, remainingTags);
+		Category newCategory;
+		if (category.getType().equals(CategoryType.ADHOC)) {
+			newCategory = new AdHocCategory().init(this, category.getName() + "-Extracted");
+		} else {
+			newCategory = new GeneratedCategory().init(this, category.getName() + "-Extracted");
+		}
 
-		SplitCategory extractedCategory = new SplitCategory().init(
-				category.getTaxonomy(), category.getName() + "-EXTR", category,
-				tags);
+		tags.stream().forEach(t -> newCategory.addTag(t));
 
-		return extractedCategory;
+		return newCategory;
 	}
 
 }

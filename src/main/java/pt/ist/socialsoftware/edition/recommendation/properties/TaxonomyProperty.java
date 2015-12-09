@@ -29,11 +29,9 @@ public class TaxonomyProperty extends Property {
 		for (FragInter inter : fragment.getFragmentInterSet()) {
 			if (inter instanceof VirtualEditionInter) {
 				for (Tag tag : inter.getTagSet()) {
-					if (!tag.getDeprecated()) {
-						pair = new Pair(tag);
-						if (tags.contains(pair)) {
-							vector.set(tags.indexOf(pair), getWeight());
-						}
+					pair = new Pair(tag);
+					if (tags.contains(pair)) {
+						vector.set(tags.indexOf(pair), getWeight());
 					}
 				}
 			}
@@ -45,11 +43,9 @@ public class TaxonomyProperty extends Property {
 	protected Collection<Double> extractVector(VirtualEditionInter inter) {
 		List<Double> vector = new ArrayList<Double>(getDefaultVector());
 		for (Tag tag : inter.getTagSet()) {
-			if (!tag.getDeprecated()) {
-				Pair pair = new Pair(tag);
-				if (tags.contains(pair)) {
-					vector.set(tags.indexOf(pair), getWeight());
-				}
+			Pair pair = new Pair(tag);
+			if (tags.contains(pair)) {
+				vector.set(tags.indexOf(pair), getWeight());
 			}
 		}
 		return vector;
@@ -67,11 +63,9 @@ public class TaxonomyProperty extends Property {
 		List<Pair> tags = new ArrayList<Pair>();
 		Pair pair;
 		for (Tag tag : tempTags) {
-			if (!tag.getDeprecated()) {
-				pair = new Pair(tag);
-				if (!tags.contains(pair)) {
-					tags.add(pair);
-				}
+			pair = new Pair(tag);
+			if (!tags.contains(pair)) {
+				tags.add(pair);
 			}
 		}
 		return tags;
@@ -91,10 +85,8 @@ public class TaxonomyProperty extends Property {
 		}
 		List<Pair> tags = new ArrayList<Pair>();
 		for (Tag tag : tempTags) {
-			if (!tag.getDeprecated()) {
-				if (!tags.contains(tag)) {
-					tags.add(new Pair(tag));
-				}
+			if (!tags.contains(tag)) {
+				tags.add(new Pair(tag));
 			}
 		}
 		return tags;

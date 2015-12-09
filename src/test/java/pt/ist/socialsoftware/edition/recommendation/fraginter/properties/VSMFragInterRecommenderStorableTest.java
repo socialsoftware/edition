@@ -1,11 +1,13 @@
 package pt.ist.socialsoftware.edition.recommendation.fraginter.properties;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import pt.ist.socialsoftware.edition.recommendation.StoredVectors;
 import pt.ist.socialsoftware.edition.recommendation.properties.StorableProperty;
 
+@Ignore
 public abstract class VSMFragInterRecommenderStorableTest extends VSMFragInterRecommenderTest {
 
 	@Test

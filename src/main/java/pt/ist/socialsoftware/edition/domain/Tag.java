@@ -22,7 +22,6 @@ public abstract class Tag extends Tag_Base implements Comparable<Tag> {
 	};
 
 	public Tag init(FragInter fragInter, Category category) {
-		setDeprecated(false);
 		setFragInter(fragInter);
 		setCategory(category);
 
@@ -32,15 +31,6 @@ public abstract class Tag extends Tag_Base implements Comparable<Tag> {
 	public void remove() {
 		setFragInter(null);
 		setCategory(null);
-
-		if (getMergeTag() != null)
-			getMergeTag().remove();
-
-		if (getSplitTag() != null)
-			getSplitTag().remove();
-
-		if (getUserTagInFragInter() != null)
-			getUserTagInFragInter().remove();
 
 		deleteDomainObject();
 	}
@@ -55,24 +45,6 @@ public abstract class Tag extends Tag_Base implements Comparable<Tag> {
 			return 0;
 	}
 
-	public Category getActiveCategory() {
-		return getActiveTag().getCategory().getActiveCategory();
-	}
-
-	public Tag getActiveTag() {
-		if (!getDeprecated()) {
-			return this;
-		} else if (getMergeTag() != null) {
-			return getMergeTag().getActiveTag();
-		} else if (getSplitTag() != null) {
-			return getSplitTag().getActiveTag();
-		} else if (getUserTagInFragInter() != null) {
-			return getUserTagInFragInter().getActiveTag();
-		} else {
-			return null;
-		}
-	}
-
 	public abstract int getWeight();
 
 	public abstract Set<LdoDUser> getContributorSet();
@@ -83,15 +55,7 @@ public abstract class Tag extends Tag_Base implements Comparable<Tag> {
 
 	@Atomic(mode = TxMode.WRITE)
 	public void dissociate() {
-		Category category = this.getActiveCategory();
-
-		if (!category.getTagSet().contains(this)) {
-			UserTagInFragInter userTag = new UserTagInFragInter().init(
-					getFragInter(), category, null, this);
-			userTag.setDeprecated(true);
-		}
-
-		this.setDeprecated(true);
+		remove();
 	}
 
 }

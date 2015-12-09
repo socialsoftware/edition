@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import pt.ist.socialsoftware.edition.domain.FragInter;
@@ -12,6 +13,7 @@ import pt.ist.socialsoftware.edition.domain.SourceInter;
 import pt.ist.socialsoftware.edition.recommendation.properties.PrintedProperty;
 import pt.ist.socialsoftware.edition.recommendation.properties.Property;
 
+@Ignore
 public class VSMFragInterRecommenderPrintedTest extends VSMFragInterRecommenderStorableTest {
 
 	@Override
