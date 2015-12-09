@@ -176,26 +176,10 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 		}
 
 		for (String tag : tagList) {
-			createUserTagInTextPortion(taxonomy, annotation, tag);
+			taxonomy.createUserTagInTextPortion(annotation, tag);
 		}
 
 		return annotation;
-	}
-
-	public void createUserTagInTextPortion(Taxonomy taxonomy, Annotation annotation, String tag) {
-		Category category = taxonomy.getCategory(tag);
-		if (category == null) {
-			category = new AdHocCategory();
-			category.init(taxonomy, tag);
-			new UserTagInTextPortion().init(category, annotation);
-		} else {
-			UserTagInTextPortion tagInTextPortion = (UserTagInTextPortion) category.getTag(this);
-			if (tagInTextPortion == null) {
-				new UserTagInTextPortion().init(category, annotation);
-			} else {
-				tagInTextPortion.addAnnotation(annotation);
-			}
-		}
 	}
 
 	@Atomic(mode = TxMode.WRITE)

@@ -36,24 +36,27 @@ public class Annotation extends Annotation_Base {
 	}
 
 	private Taxonomy getTaxonomy() {
-		for (UserTagInTextPortion tagInTextPortion : getUserTagInTextPortionSet()) {
-			return tagInTextPortion.getCategory().getTaxonomy();
+		for (Taxonomy taxonomy : getVirtualEditionInter().getEdition().getTaxonomiesSet()) {
+			if (taxonomy.getAdHoc())
+				return taxonomy;
 		}
+
 		return null;
 	}
 
 	public void updateTags(List<String> tags) {
-		for (String tag : tags) {
-			if (!existsTag(tag)) {
-				getVirtualEditionInter().createUserTagInTextPortion(getTaxonomy(), this, tag);
+		for (UserTagInTextPortion tag : getUserTagInTextPortionSet()) {
+			if (!tags.contains(tag.getCategory().getName())) {
+				tag.remove();
 			}
 		}
 
-		for (UserTagInTextPortion tag : getUserTagInTextPortionSet()) {
-			if (!tags.contains(tag.getCategory().getName())) {
-				tag.removeThisAnnotation(this);
+		for (String tag : tags) {
+			if (!existsTag(tag)) {
+				getTaxonomy().createUserTagInTextPortion(this, tag);
 			}
 		}
+
 	}
 
 	private boolean existsTag(String name) {

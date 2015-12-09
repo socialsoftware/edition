@@ -31,4 +31,9 @@ public class AdHocCategory extends AdHocCategory_Base {
 		return results;
 	}
 
+	public void createUserTagInTextPortion(Annotation annotation, String tag) {
+		new UserTagInTextPortion().init(this, annotation);
+
+	}
+
 }
