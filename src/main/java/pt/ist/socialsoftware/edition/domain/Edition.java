@@ -24,26 +24,19 @@ public abstract class Edition extends Edition_Base {
 	};
 
 	public void remove() {
-		for (Taxonomy taxonomy : getTaxonomiesSet()) {
-			taxonomy.remove();
-		}
-
 		deleteDomainObject();
 	}
 
 	@Override
 	public void setAcronym(String acronym) {
-		if ((getAcronym() != null && !getAcronym().equals(acronym))
-				|| getAcronym() == null) {
-			for (ExpertEdition edition : LdoD.getInstance()
-					.getExpertEditionsSet()) {
+		if ((getAcronym() != null && !getAcronym().equals(acronym)) || getAcronym() == null) {
+			for (ExpertEdition edition : LdoD.getInstance().getExpertEditionsSet()) {
 				if (acronym.equals(edition.getAcronym())) {
 					throw new LdoDDuplicateAcronymException();
 				}
 			}
 
-			for (VirtualEdition edition : LdoD.getInstance()
-					.getVirtualEditionsSet()) {
+			for (VirtualEdition edition : LdoD.getInstance().getVirtualEditionsSet()) {
 				if (acronym.equals(edition.getAcronym())) {
 					throw new LdoDDuplicateAcronymException();
 				}
@@ -68,8 +61,7 @@ public abstract class Edition extends Edition_Base {
 	}
 
 	public FragInter getNextNumberInter(FragInter inter, int number) {
-		List<FragInter> interps = new ArrayList<FragInter>(inter.getEdition()
-				.getIntersSet());
+		List<FragInter> interps = new ArrayList<FragInter>(inter.getEdition().getIntersSet());
 
 		Collections.sort(interps);
 
@@ -77,16 +69,14 @@ public abstract class Edition extends Edition_Base {
 	}
 
 	public FragInter getPrevNumberInter(FragInter inter, int number) {
-		List<FragInter> interps = new ArrayList<FragInter>(inter.getEdition()
-				.getIntersSet());
+		List<FragInter> interps = new ArrayList<FragInter>(inter.getEdition().getIntersSet());
 
 		Collections.sort(interps, Collections.reverseOrder());
 
 		return findNextElementByNumber(inter, number, interps);
 	}
 
-	private FragInter findNextElementByNumber(FragInter inter, int number,
-			List<FragInter> interps) {
+	private FragInter findNextElementByNumber(FragInter inter, int number, List<FragInter> interps) {
 		Boolean stopNext = false;
 		for (FragInter tmpInter : interps) {
 			if (stopNext) {
@@ -97,15 +87,6 @@ public abstract class Edition extends Edition_Base {
 			}
 		}
 		return interps.get(0);
-	}
-
-	public Taxonomy getTaxonomy(String name) {
-		for (Taxonomy taxonomy : getTaxonomiesSet()) {
-			if (name.equals(taxonomy.getName())) {
-				return taxonomy;
-			}
-		}
-		return null;
 	}
 
 }

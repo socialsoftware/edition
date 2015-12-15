@@ -27,12 +27,13 @@ import cc.mallet.types.InstanceList;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.socialsoftware.edition.domain.Category;
-import pt.ist.socialsoftware.edition.domain.Edition;
-import pt.ist.socialsoftware.edition.domain.FragInter;
 import pt.ist.socialsoftware.edition.domain.GeneratedCategory;
 import pt.ist.socialsoftware.edition.domain.GeneratedTagInFragInter;
-import pt.ist.socialsoftware.edition.domain.LdoD;
+import pt.ist.socialsoftware.edition.domain.LdoDUser;
 import pt.ist.socialsoftware.edition.domain.Taxonomy;
+import pt.ist.socialsoftware.edition.domain.VirtualEdition;
+import pt.ist.socialsoftware.edition.domain.VirtualEditionInter;
+import pt.ist.socialsoftware.edition.shared.exception.LdoDException;
 import pt.ist.socialsoftware.edition.utils.PropertiesManager;
 
 public class TopicModeler {
@@ -41,12 +42,12 @@ public class TopicModeler {
 	private final String corpusPath = PropertiesManager.getProperties().getProperty("corpus.dir");
 	private final String corpusFilesPath = PropertiesManager.getProperties().getProperty("corpus.files.dir");
 
-	public Taxonomy generate(Edition edition, String name, int numTopics, int numWords, int thresholdCategories,
+	public void generate(LdoDUser user, VirtualEdition edition, int numTopics, int numWords, int thresholdCategories,
 			int numIterations) throws IOException {
 		// if a corpus is absent
 		File directory = new File(corpusFilesPath);
 		if (!directory.exists()) {
-			return null;
+			throw new LdoDException("corpus is empty");
 		}
 
 		pipe = buildPipe();
@@ -57,7 +58,7 @@ public class TopicModeler {
 
 		// there are no fragments
 		if (numInstances == 0) {
-			return null;
+			throw new LdoDException("corpus is empty");
 		}
 
 		// Create a model with 100 topics, alpha_t = 0.01, beta_w = 0.01
@@ -82,8 +83,8 @@ public class TopicModeler {
 		// The data alphabet maps word IDs to strings
 		Alphabet dataAlphabet = instances.getDataAlphabet();
 
-		return writeTopicModel(edition, name, model, numTopics, numWords, thresholdCategories, numIterations,
-				dataAlphabet, numInstances);
+		writeTopicModel(user, edition, model, numTopics, numWords, thresholdCategories, numIterations, dataAlphabet,
+				numInstances);
 	}
 
 	public Pipe buildPipe() {
@@ -100,11 +101,11 @@ public class TopicModeler {
 		return new SerialPipes(pipeList);
 	}
 
-	public InstanceList readDirectory(Edition edition, File directory) {
+	public InstanceList readDirectory(VirtualEdition edition, File directory) {
 		return readDirectories(edition, new File[] { directory });
 	}
 
-	public InstanceList readDirectories(Edition edition, File[] directories) {
+	public InstanceList readDirectories(VirtualEdition edition, File[] directories) {
 		// Construct a file iterator, starting with the
 		// specified directories, and recursing through subdirectories.
 		// The second argument specifies a FileFilter to use to select
@@ -126,11 +127,10 @@ public class TopicModeler {
 	}
 
 	@Atomic(mode = TxMode.WRITE)
-	private Taxonomy writeTopicModel(Edition edition, String name, ParallelTopicModel model, int numTopics,
+	private void writeTopicModel(LdoDUser user, VirtualEdition edition, ParallelTopicModel model, int numTopics,
 			int numWords, int thresholdCategories, int numIterations, Alphabet dataAlphabet, int numInstances) {
 
-		Taxonomy taxonomy = new Taxonomy(LdoD.getInstance(), edition, name, numTopics, numWords, thresholdCategories,
-				numIterations);
+		Taxonomy taxonomy = edition.getTaxonomy();
 
 		// Get an array of sorted sets of word ID/count pairs
 		ArrayList<TreeSet<IDSorter>> topicSortedWords = model.getSortedWords();
@@ -139,7 +139,6 @@ public class TopicModeler {
 
 		// create a category for each topic
 		// counter do avoid duplicate category names
-		int counter = 1;
 		for (int topic = 0; topic < numTopics; topic++) {
 			Iterator<IDSorter> iterator = topicSortedWords.get(topic).iterator();
 
@@ -158,7 +157,11 @@ public class TopicModeler {
 				rank++;
 			}
 
-			category.setName(wordName + "[" + counter++ + "]");
+			while (taxonomy.getCategory(wordName) != null) {
+				wordName = wordName + "_dup";
+			}
+
+			category.setName(wordName);
 		}
 
 		// associate categories with fragment interpretations
@@ -167,8 +170,8 @@ public class TopicModeler {
 			String fileName = model.getData().get(instance).instance.getName().toString();
 			String[] subs = fileName.split("[/\\.]");
 			String externalId = subs[subs.length - 2];
-			FragInter fragInter = null;
-			for (FragInter inter : edition.getIntersSet()) {
+			VirtualEditionInter fragInter = null;
+			for (VirtualEditionInter inter : edition.getVirtualEditionIntersSet()) {
 				if (inter.getLastUsed().getExternalId().equals(externalId)) {
 					fragInter = inter;
 					break;
@@ -184,20 +187,19 @@ public class TopicModeler {
 				bd = bd.setScale(2, RoundingMode.HALF_UP);
 				int percentage = (int) (bd.doubleValue() * 100);
 				if (percentage >= thresholdCategories) {
-					new GeneratedTagInFragInter().init(fragInter, categories[topic], percentage);
+					new GeneratedTagInFragInter().init(fragInter, categories[topic], user, percentage);
 				}
 			}
 		}
 
-		return taxonomy;
 	}
 
 	/** This class illustrates how to build a simple file filter */
 	class EditionFilter implements FileFilter {
 		private final Set<String> filenames = new HashSet<String>();
 
-		public EditionFilter(Edition edition) {
-			for (FragInter inter : edition.getIntersSet()) {
+		public EditionFilter(VirtualEdition edition) {
+			for (VirtualEditionInter inter : edition.getVirtualEditionIntersSet()) {
 				filenames.add(inter.getLastUsed().getExternalId() + ".txt");
 			}
 		}

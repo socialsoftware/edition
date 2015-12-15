@@ -16,7 +16,6 @@ import org.junit.Test;
 
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.fenixframework.core.WriteOnReadError;
-import pt.ist.socialsoftware.edition.domain.Category;
 import pt.ist.socialsoftware.edition.domain.ExpertEdition;
 import pt.ist.socialsoftware.edition.domain.ExpertEditionInter;
 import pt.ist.socialsoftware.edition.domain.FragInter;
@@ -27,7 +26,6 @@ import pt.ist.socialsoftware.edition.domain.ManuscriptSource;
 import pt.ist.socialsoftware.edition.domain.PrintedSource;
 import pt.ist.socialsoftware.edition.domain.Source;
 import pt.ist.socialsoftware.edition.domain.SourceInter;
-import pt.ist.socialsoftware.edition.domain.Taxonomy;
 import pt.ist.socialsoftware.edition.utils.Bootstrap;
 
 public class ImportLdoDFromTEITest {
@@ -104,7 +102,6 @@ public class ImportLdoDFromTEITest {
 
 		checkTitleStmtLoad(ldoD);
 		checkListBiblLoad(ldoD);
-		checkTaxonomiesLoad(ldoD);
 		checkHeteronymsLoad(ldoD);
 
 		Fragment fragment = checkFragmentLoad(ldoD);
@@ -165,18 +162,6 @@ public class ImportLdoDFromTEITest {
 		for (Heteronym heteronym : ldoD.getHeteronymsSet()) {
 			assertTrue(heteronym.getName().equals("Bernardo Soares") || heteronym.getName().equals("Vicente Guedes")
 					|| heteronym.getName().equals("não atribuído"));
-		}
-	}
-
-	private void checkTaxonomiesLoad(LdoD ldoD) {
-		assertEquals(1, ldoD.getTaxonomiesSet().size());
-		Taxonomy taxonomy = ldoD.getTaxonomiesSet().iterator().next();
-		assertEquals("António Quadros", taxonomy.getName());
-
-		assertEquals(2, taxonomy.getCategoriesSet().size());
-		for (Category category : taxonomy.getCategoriesSet()) {
-			assertTrue(
-					category.getName().equals("Fase Confessional") || category.getName().equals("Fase Decadentista"));
 		}
 	}
 

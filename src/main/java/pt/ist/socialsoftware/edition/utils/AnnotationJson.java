@@ -6,7 +6,7 @@ import java.util.List;
 
 import pt.ist.socialsoftware.edition.domain.Annotation;
 import pt.ist.socialsoftware.edition.domain.Range;
-import pt.ist.socialsoftware.edition.domain.UserTagInTextPortion;
+import pt.ist.socialsoftware.edition.domain.Tag;
 
 //@JsonIgnoreProperties(ignoreUnknown = true)
 public class AnnotationJson implements Serializable {
@@ -31,7 +31,7 @@ public class AnnotationJson implements Serializable {
 		setUri(annotation.getVirtualEditionInter().getExternalId());
 
 		tags = new ArrayList<String>();
-		for (UserTagInTextPortion tag : annotation.getUserTagInTextPortionSet()) {
+		for (Tag tag : annotation.getTagSet()) {
 			tags.add(tag.getCategory().getName());
 		}
 

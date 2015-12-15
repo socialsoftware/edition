@@ -32,7 +32,6 @@ import pt.ist.socialsoftware.edition.domain.AltText;
 import pt.ist.socialsoftware.edition.domain.AltText.AltMode;
 import pt.ist.socialsoftware.edition.domain.AnnexNote;
 import pt.ist.socialsoftware.edition.domain.AppText;
-import pt.ist.socialsoftware.edition.domain.Category;
 import pt.ist.socialsoftware.edition.domain.DelText;
 import pt.ist.socialsoftware.edition.domain.DelText.HowDel;
 import pt.ist.socialsoftware.edition.domain.ExpertEdition;
@@ -72,7 +71,6 @@ import pt.ist.socialsoftware.edition.domain.SpaceText.SpaceDim;
 import pt.ist.socialsoftware.edition.domain.SpaceText.SpaceUnit;
 import pt.ist.socialsoftware.edition.domain.SubstText;
 import pt.ist.socialsoftware.edition.domain.Surface;
-import pt.ist.socialsoftware.edition.domain.Taxonomy;
 import pt.ist.socialsoftware.edition.domain.TextPortion;
 import pt.ist.socialsoftware.edition.domain.TextPortion.VariationType;
 import pt.ist.socialsoftware.edition.domain.TypeNote;
@@ -164,13 +162,6 @@ public class LoadTEIFragments {
 	private void getCorpusXmlIds() {
 		for (ExpertEdition edition : ldoD.getExpertEditionsSet()) {
 			putObjectDirectIdMap(edition.getXmlId(), edition);
-		}
-
-		for (Taxonomy taxonomy : ldoD.getTaxonomiesSet()) {
-			putObjectDirectIdMap(taxonomy.getXmlId(), taxonomy);
-			for (Category category : taxonomy.getCategoriesSet()) {
-				putObjectDirectIdMap(category.getXmlId(), category);
-			}
 		}
 
 		for (Heteronym heteronym : ldoD.getHeteronymsSet()) {

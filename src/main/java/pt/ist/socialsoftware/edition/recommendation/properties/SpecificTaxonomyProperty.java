@@ -14,6 +14,7 @@ import pt.ist.socialsoftware.edition.domain.LdoD;
 import pt.ist.socialsoftware.edition.domain.RecommendationWeights;
 import pt.ist.socialsoftware.edition.domain.Tag;
 import pt.ist.socialsoftware.edition.domain.Taxonomy;
+import pt.ist.socialsoftware.edition.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.domain.VirtualEditionInter;
 
 public abstract class SpecificTaxonomyProperty extends Property {
@@ -32,12 +33,12 @@ public abstract class SpecificTaxonomyProperty extends Property {
 
 	public SpecificTaxonomyProperty(String acronym, String taxonomy) {
 		super();
-		this.taxonomy = LdoD.getInstance().getEdition(acronym).getTaxonomy(taxonomy);
+		this.taxonomy = ((VirtualEdition) LdoD.getInstance().getEdition(acronym)).getTaxonomy();
 	}
 
 	public SpecificTaxonomyProperty(Double weight, String acronym, String taxonomy) {
 		super(weight);
-		this.taxonomy = LdoD.getInstance().getEdition(acronym).getTaxonomy(taxonomy);
+		this.taxonomy = ((VirtualEdition) LdoD.getInstance().getEdition(acronym)).getTaxonomy();
 	}
 
 	public SpecificTaxonomyProperty(@JsonProperty("weight") String weight, @JsonProperty("acronym") String acronym,
@@ -51,10 +52,9 @@ public abstract class SpecificTaxonomyProperty extends Property {
 		List<Category> categories;
 		for (FragInter inter : fragment.getFragmentInterSet()) {
 			if (inter instanceof VirtualEditionInter) {
-				for (Tag tag : inter.getTagSet()) {
+				for (Tag tag : ((VirtualEditionInter) inter).getTagSet()) {
 					categories = new ArrayList<>(getTaxonomy().getCategoriesSet());
-					if (tag.getCategory().getTaxonomy().getName().equals(getTaxonomy().getName())
-							&& categories.contains(tag.getCategory())) {
+					if (tag.getCategory().getTaxonomy() == getTaxonomy() && categories.contains(tag.getCategory())) {
 						vector.set(categories.indexOf(tag.getCategory()), getWeight() * getTagWeight(tag));
 					}
 				}
@@ -71,8 +71,7 @@ public abstract class SpecificTaxonomyProperty extends Property {
 		List<Category> categories;
 		for (Tag tag : inter.getTagSet()) {
 			categories = new ArrayList<>(getTaxonomy().getCategoriesSet());
-			if (tag.getCategory().getTaxonomy().getName().equals(getTaxonomy().getName())
-					&& categories.contains(tag.getCategory())) {
+			if (tag.getCategory().getTaxonomy() == getTaxonomy() && categories.contains(tag.getCategory())) {
 				vector.set(categories.indexOf(tag.getCategory()), getWeight() * getTagWeight(tag));
 			}
 		}

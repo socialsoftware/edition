@@ -11,8 +11,8 @@
 		<%@ include file="/WEB-INF/jsp/fragment/transcription.jsp"%>
 	</div>
 
-		<%@ include file="/WEB-INF/jsp/fragment/listTaxonomies.jsp"%>
-	</div>
+	<%@ include file="/WEB-INF/jsp/fragment/taxonomy.jsp"%>
+</div>
 
 
 <!-- Annotator 2.0 -->
@@ -77,9 +77,9 @@
 	function reloadPage() {
 		$
 				.get(
-						"${contextPath}/fragments/fragment/inter/${inters.get(0).externalId}/taxonomies",
+						"${contextPath}/fragments/fragment/inter/${inters.get(0).externalId}/taxonomy",
 						function(html) {
-							$("#taxonomies").replaceWith(html);
+							$("#taxonomy").replaceWith(html);
 						});
 	}
 </script>

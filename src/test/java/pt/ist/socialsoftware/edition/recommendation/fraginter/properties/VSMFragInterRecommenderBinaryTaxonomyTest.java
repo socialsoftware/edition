@@ -15,18 +15,14 @@ import pt.ist.socialsoftware.edition.domain.Edition;
 import pt.ist.socialsoftware.edition.domain.FragInter;
 import pt.ist.socialsoftware.edition.domain.LdoD;
 import pt.ist.socialsoftware.edition.domain.LdoDUser;
-import pt.ist.socialsoftware.edition.domain.Taxonomy;
+import pt.ist.socialsoftware.edition.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.mallet.TopicModeler;
 import pt.ist.socialsoftware.edition.recommendation.properties.BinaryTaxonomyProperty;
 import pt.ist.socialsoftware.edition.recommendation.properties.Property;
 
 @Ignore
 public class VSMFragInterRecommenderBinaryTaxonomyTest extends VSMFragInterRecommenderTest {
-	private Edition edition;
-	private Taxonomy taxonomy;
-	private Taxonomy t2;
-	private Taxonomy t3;
-	private Taxonomy t4;
+	private VirtualEdition edition;
 
 	@Override
 	protected FragInter getFragment1() {
@@ -40,17 +36,17 @@ public class VSMFragInterRecommenderBinaryTaxonomyTest extends VSMFragInterRecom
 
 	@Override
 	protected Property getProperty() {
-		return new BinaryTaxonomyProperty(taxonomy);
+		return new BinaryTaxonomyProperty(edition.getTaxonomy());
 	}
 
 	@Override
 	protected Property getPropertyWithWeight() {
-		return new BinaryTaxonomyProperty(2.0, taxonomy);
+		return new BinaryTaxonomyProperty(2.0, edition.getTaxonomy());
 	}
 
 	@Override
 	protected Property getPropertyWithZeroWeight() {
-		return new BinaryTaxonomyProperty(0., taxonomy);
+		return new BinaryTaxonomyProperty(0., edition.getTaxonomy());
 	}
 
 	@Override
@@ -68,10 +64,7 @@ public class VSMFragInterRecommenderBinaryTaxonomyTest extends VSMFragInterRecom
 		Edition usedEdition = LdoD.getInstance().getEdition("TSC");
 		edition = LdoD.getInstance().createVirtualEdition(user, acronym, title, date, pub, usedEdition);
 		try {
-			taxonomy = (new TopicModeler()).generate(edition, "test", 4, 3, 4, 100);
-			t2 = (new TopicModeler()).generate(edition, "test2", 2, 2, 6, 100);
-			t3 = (new TopicModeler()).generate(edition, "test3", 6, 4, 4, 100);
-			t4 = (new TopicModeler()).generate(edition, "test4", 8, 6, 4, 100);
+			(new TopicModeler()).generate(user, edition, 4, 3, 4, 100);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -86,12 +79,12 @@ public class VSMFragInterRecommenderBinaryTaxonomyTest extends VSMFragInterRecom
 		propertiesMap.put(0, new ArrayList<Property>());
 		propertiesMap.get(0).add(getProperty());
 
-		propertiesMap.put(1, new ArrayList<Property>());
-		propertiesMap.get(1).add(new BinaryTaxonomyProperty(t2));
-
-		propertiesMap.put(2, new ArrayList<Property>());
-		propertiesMap.get(2).add(new BinaryTaxonomyProperty(t3));
-		propertiesMap.get(2).add(new BinaryTaxonomyProperty(t4));
+		// propertiesMap.put(1, new ArrayList<Property>());
+		// propertiesMap.get(1).add(new BinaryTaxonomyProperty(t2));
+		//
+		// propertiesMap.put(2, new ArrayList<Property>());
+		// propertiesMap.get(2).add(new BinaryTaxonomyProperty(t3));
+		// propertiesMap.get(2).add(new BinaryTaxonomyProperty(t4));
 
 		Collection<FragInter> clusteredEdition = recommender.getClusteredEdition(inter, inters, propertiesMap);
 		Assert.assertEquals(inters.size(), clusteredEdition.size() - 1);

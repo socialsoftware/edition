@@ -28,7 +28,7 @@ public class TaxonomyProperty extends Property {
 		Pair pair;
 		for (FragInter inter : fragment.getFragmentInterSet()) {
 			if (inter instanceof VirtualEditionInter) {
-				for (Tag tag : inter.getTagSet()) {
+				for (Tag tag : ((VirtualEditionInter) inter).getTagSet()) {
 					pair = new Pair(tag);
 					if (tags.contains(pair)) {
 						vector.set(tags.indexOf(pair), getWeight());
@@ -56,7 +56,7 @@ public class TaxonomyProperty extends Property {
 		return new ArrayList<Double>(Collections.nCopies(tags.size(), 0.0));
 	}
 
-	public List<Pair> getTagSet(FragInter inter1, FragInter inter2) {
+	public List<Pair> getTagSet(VirtualEditionInter inter1, VirtualEditionInter inter2) {
 		List<Tag> tempTags = new ArrayList<Tag>();
 		tempTags.addAll(inter1.getTagSet());
 		tempTags.addAll(inter2.getTagSet());
@@ -75,12 +75,12 @@ public class TaxonomyProperty extends Property {
 		List<Tag> tempTags = new ArrayList<Tag>();
 		for (FragInter inter : frag1.getFragmentInterSet()) {
 			if (inter instanceof VirtualEditionInter) {
-				tempTags.addAll(inter.getTagSet());
+				tempTags.addAll(((VirtualEditionInter) inter).getTagSet());
 			}
 		}
 		for (FragInter inter : frag2.getFragmentInterSet()) {
 			if (inter instanceof VirtualEditionInter) {
-				tempTags.addAll(inter.getTagSet());
+				tempTags.addAll(((VirtualEditionInter) inter).getTagSet());
 			}
 		}
 		List<Pair> tags = new ArrayList<Pair>();
@@ -95,7 +95,7 @@ public class TaxonomyProperty extends Property {
 	@Override
 	public void setFragmentsGroup(FragInter inter1, FragInter inter2) {
 		if (tags == null)
-			tags = getTagSet(inter1, inter2);
+			tags = getTagSet((VirtualEditionInter) inter1, (VirtualEditionInter) inter2);
 	}
 
 	@Override

@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
@@ -29,6 +30,10 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 		setSection(null);
 
 		setUses(null);
+
+		for (Tag tag : getTagSet()) {
+			tag.remove();
+		}
 
 		for (FragInter inter : getIsUsedBySet()) {
 			inter.remove();
@@ -125,14 +130,6 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 		return contributors;
 	}
 
-	public Set<LdoDUser> getTagContributorSet(Taxonomy taxonomy) {
-		Set<LdoDUser> contributors = new HashSet<LdoDUser>();
-		for (Tag tag : taxonomy.getTagSet(this)) {
-			contributors.addAll(tag.getContributorSet());
-		}
-		return contributors;
-	}
-
 	@Override
 	public boolean accept(SearchOption option) {
 		return option.visit(this);
@@ -158,11 +155,6 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 	public Annotation createAnnotation(String quote, String text, LdoDUser user, List<RangeJson> rangeList,
 			List<String> tagList) {
 
-		Taxonomy taxonomy = getEdition().getTaxonomy("adHoc");
-		if (taxonomy == null) {
-			taxonomy = new Taxonomy(LdoD.getInstance(), getEdition(), "adHoc");
-		}
-
 		SimpleText startText = getFragment().getTextPortion().getSimpleText(getLastUsed(), 0,
 				rangeList.get(0).getStartOffset());
 		SimpleText endText = getFragment().getTextPortion().getSimpleText(getLastUsed(), 0,
@@ -175,8 +167,9 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 					rangeJson.getEndOffset());
 		}
 
+		Taxonomy taxonomy = getVirtualEdition().getTaxonomy();
 		for (String tag : tagList) {
-			taxonomy.createUserTagInTextPortion(annotation, tag);
+			taxonomy.createTagInTextPortion(annotation, tag);
 		}
 
 		return annotation;
@@ -185,23 +178,23 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 	@Atomic(mode = TxMode.WRITE)
 	public void associate(LdoDUser ldoDUser, Taxonomy taxonomy, Set<Category> categories) {
 		for (Category category : categories) {
-			Tag existTag = null;
-			UserTagInFragInter userTag = null;
-			for (Tag tag : taxonomy.getTagSet(this)) {
-				if (tag.getCategory() == category) {
-					existTag = tag;
-					if (existTag instanceof UserTagInFragInter) {
-						userTag = (UserTagInFragInter) tag;
-						userTag.setContributor(ldoDUser);
-					}
-					break;
-				}
+			if (!getTagSet().stream().filter(t -> (t.getCategory() == category) && (t.getAnnotation() == null))
+					.findFirst().isPresent())
+				new Tag().init(this, category, null, ldoDUser);
+		}
+	}
 
-			}
+	@Atomic(mode = TxMode.WRITE)
+	public void dissociate(Category category) {
+		Set<Tag> tags = getTagSet().stream().filter(t -> t.getCategory() == category).collect(Collectors.toSet());
+		for (Tag tag : tags) {
+			tag.remove();
+		}
 
-			if (userTag == null) {
-				userTag = new UserTagInFragInter().init(this, category, ldoDUser, existTag);
-			}
+		Set<Annotation> annotations = getAnnotationSet().stream()
+				.filter(a -> a.getTagSet().isEmpty() && a.getText() == null).collect(Collectors.toSet());
+		for (Annotation annotation : annotations) {
+			annotation.remove();
 		}
 	}
 

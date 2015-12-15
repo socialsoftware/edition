@@ -121,12 +121,12 @@ public class FragmentController {
 		return "fragment/main";
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "/inter/{id}/taxonomies")
-	public String getTaxonomies(Model model, @ModelAttribute("ldoDSession") LdoDSession ldoDSession,
+	@RequestMapping(method = RequestMethod.GET, value = "/inter/{id}/taxonomy")
+	public String getTaxonomy(Model model, @ModelAttribute("ldoDSession") LdoDSession ldoDSession,
 			@PathVariable String id) {
-		logger.debug("getTaxonomies id:{}", id);
+		logger.debug("getTaxonomy id:{}", id);
 
-		FragInter inter = FenixFramework.getDomainObject(id);
+		VirtualEditionInter inter = FenixFramework.getDomainObject(id);
 
 		if (inter == null) {
 			return "util/pageNotFound";
@@ -154,7 +154,7 @@ public class FragmentController {
 		model.addAttribute("user", LdoDUser.getAuthenticatedUser());
 		model.addAttribute("inters", inters);
 
-		return "fragment/listTaxonomies";
+		return "fragment/taxonomy";
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/inter/next/number/{id}")

@@ -45,7 +45,7 @@ public class LdoDUser extends LdoDUser_Base {
 				.forEach(ve -> removeMyVirtualEditions(ve));
 		getMyVirtualEditionsSet().stream().filter(ve -> ve.getParticipantSet().size() == 1).forEach(ve -> ve.remove());
 		getSelectedVirtualEditionsSet().stream().forEach(ve -> removeSelectedVirtualEditions(ve));
-		getUserTagInFragInterSet().stream().forEach(ut -> ut.remove());
+		getTagSet().stream().forEach(ut -> ut.remove());
 		getAnnotationSet().stream().forEach(a -> a.remove());
 		getRecommendationWeightsSet().stream().forEach(rw -> rw.remove());
 
@@ -84,15 +84,15 @@ public class LdoDUser extends LdoDUser_Base {
 
 	}
 
-	public Set<FragInter> getFragInterSet() {
-		Set<FragInter> inters = new HashSet<FragInter>();
+	public Set<VirtualEditionInter> getFragInterSet() {
+		Set<VirtualEditionInter> inters = new HashSet<VirtualEditionInter>();
 
 		for (Annotation annotation : getAnnotationSet()) {
 			inters.add(annotation.getVirtualEditionInter());
 		}
 
-		for (UserTagInFragInter userTagInFragInter : getUserTagInFragInterSet()) {
-			inters.add(userTagInFragInter.getFragInter());
+		for (Tag tag : getTagSet()) {
+			inters.add(tag.getInter());
 		}
 
 		return inters;

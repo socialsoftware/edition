@@ -22,7 +22,8 @@ public class VSMFragInterRecommender extends VSMRecommender<FragInter> {
 		return t1.accept(property);
 	}
 
-	public Collection<FragInter> getClusteredEdition(FragInter inter, Collection<FragInter> inters, Map<Integer, Collection<Property>> propertiesMap) {
+	public Collection<FragInter> getClusteredEdition(FragInter inter, Collection<FragInter> inters,
+			Map<Integer, Collection<Property>> propertiesMap) {
 		Cluster cluster = getCluster(inter, inters, propertiesMap);
 		List<FragInter> items = new ArrayList<FragInter>();
 		items.add(inter);
@@ -36,10 +37,10 @@ public class VSMFragInterRecommender extends VSMRecommender<FragInter> {
 
 	@Override
 	public Collection<FragInter> getDefaultSet() {
-		if(interSet == null) {
+		if (interSet == null) {
 			Set<FragInter> set = new HashSet<FragInter>();
-			for(Fragment frag : LdoD.getInstance().getFragmentsSet()) {
-				for(FragInter inter : frag.getFragmentInterSet()) {
+			for (Fragment frag : LdoD.getInstance().getFragmentsSet()) {
+				for (FragInter inter : frag.getFragmentInterSet()) {
 					set.add(inter);
 				}
 			}
@@ -48,8 +49,8 @@ public class VSMFragInterRecommender extends VSMRecommender<FragInter> {
 		return interSet;
 	}
 
-	public List<FragInter> getRecommendedEditionWithoutDuplicatedFragments(FragInter fragInter, Collection<FragInter> inters,
-			Collection<Property> properties) {
+	public List<FragInter> getRecommendedEditionWithoutDuplicatedFragments(FragInter fragInter,
+			Collection<FragInter> inters, Collection<Property> properties) {
 		List<Fragment> fragmentSet = new ArrayList<>(LdoD.getInstance().getFragmentsSet());
 		List<FragInter> fragInterSet = new ArrayList<FragInter>(inters);
 		List<FragInter> resultSet = new ArrayList<FragInter>();
@@ -57,9 +58,9 @@ public class VSMFragInterRecommender extends VSMRecommender<FragInter> {
 		resultSet.add(fragInter);
 		fragInterSet.remove(fragInter);
 		fragmentSet.remove(fragInter.getFragment());
-		while(!fragInterSet.isEmpty()) {
+		while (!fragInterSet.isEmpty()) {
 			current = getMostSimilarItem(fragInter, fragInterSet, properties);
-			if(fragmentSet.contains(current.getFragment())) {
+			if (fragmentSet.contains(current.getFragment())) {
 				resultSet.add(current);
 				fragmentSet.remove(current.getFragment());
 			}
@@ -68,7 +69,8 @@ public class VSMFragInterRecommender extends VSMRecommender<FragInter> {
 		return resultSet;
 	}
 
-	public List<FragInter> getRecommendedEditionWithoutDuplicatedFragments(FragInter fragInter, Collection<Property> properties) {
+	public List<FragInter> getRecommendedEditionWithoutDuplicatedFragments(FragInter fragInter,
+			Collection<Property> properties) {
 		return getRecommendedEdition(fragInter, getDefaultSet(), properties);
 	}
 
@@ -78,7 +80,8 @@ public class VSMFragInterRecommender extends VSMRecommender<FragInter> {
 		return getRecommendedEditionWithoutDuplicatedFragments(fragInter, properties);
 	}
 
-	public List<FragInter> getRecommendedEditionWithoutDuplicatedFragments(FragInter fragInter, Collection<FragInter> inters, Property property) {
+	public List<FragInter> getRecommendedEditionWithoutDuplicatedFragments(FragInter fragInter,
+			Collection<FragInter> inters, Property property) {
 		List<Property> properties = new ArrayList<>();
 		properties.add(property);
 		return getRecommendedEditionWithoutDuplicatedFragments(fragInter, inters, properties);
@@ -89,13 +92,13 @@ public class VSMFragInterRecommender extends VSMRecommender<FragInter> {
 		property.setFragmentsGroup(t1, t2);
 	}
 
-	public Cluster getCluster(FragInter inter, Collection<FragInter> inters, Map<Integer, Collection<Property>> propertiesMap) {
+	public Cluster getCluster(FragInter inter, Collection<FragInter> inters,
+			Map<Integer, Collection<Property>> propertiesMap) {
 		List<FragInter> iters = new ArrayList<>(inters);
 		Cluster cluster = new Cluster(this, inter, iters, propertiesMap);
 		cluster.buildCluster();
 		cluster.print();
 		return cluster;
 	}
-
 
 }

@@ -7,6 +7,13 @@ import pt.ist.fenixframework.Atomic.TxMode;
 
 public class Annotation extends Annotation_Base {
 
+	@Override
+	public void setText(String text) {
+		if (text == null || text.trim().equals(""))
+			text = null;
+		super.setText(text);
+	}
+
 	public Annotation(VirtualEditionInter inter, SimpleText startText, SimpleText endText, String quote, String text,
 			LdoDUser user) {
 		setVirtualEditionInter(inter);
@@ -28,7 +35,7 @@ public class Annotation extends Annotation_Base {
 			range.remove();
 		}
 
-		for (UserTagInTextPortion tag : getUserTagInTextPortionSet()) {
+		for (Tag tag : getTagSet()) {
 			tag.remove();
 		}
 
@@ -36,16 +43,11 @@ public class Annotation extends Annotation_Base {
 	}
 
 	private Taxonomy getTaxonomy() {
-		for (Taxonomy taxonomy : getVirtualEditionInter().getEdition().getTaxonomiesSet()) {
-			if (taxonomy.getAdHoc())
-				return taxonomy;
-		}
-
-		return null;
+		return getVirtualEditionInter().getVirtualEdition().getTaxonomy();
 	}
 
 	public void updateTags(List<String> tags) {
-		for (UserTagInTextPortion tag : getUserTagInTextPortionSet()) {
+		for (Tag tag : getTagSet()) {
 			if (!tags.contains(tag.getCategory().getName())) {
 				tag.remove();
 			}
@@ -53,14 +55,14 @@ public class Annotation extends Annotation_Base {
 
 		for (String tag : tags) {
 			if (!existsTag(tag)) {
-				getTaxonomy().createUserTagInTextPortion(this, tag);
+				getTaxonomy().createTagInTextPortion(this, tag);
 			}
 		}
 
 	}
 
 	private boolean existsTag(String name) {
-		for (UserTagInTextPortion tag : getUserTagInTextPortionSet()) {
+		for (Tag tag : getTagSet()) {
 			if (tag.getCategory().getName().equals(name)) {
 				return true;
 			}

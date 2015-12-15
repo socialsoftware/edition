@@ -19,22 +19,23 @@
 
 	<div class="container">
 		<h1 class="text-center">
-			<spring:message code="general.edition" />
-			: ${category.getTaxonomy().getEdition().getReference()}
+			<spring:message code="virtualedition" /> : ${category.getTaxonomy().getEdition().getTitle()}
+			</h1>
+			<h2 class="text-center">
 			<spring:message code="general.taxonomy" />
 			: <a
-				href="${contextPath}/virtualeditions/restricted/taxonomy/${category.getTaxonomy().getExternalId()}">${category.getTaxonomy().getName()}</a>
+				href="${contextPath}/virtualeditions/restricted/${category.getTaxonomy().getEdition().getExternalId()}/taxonomy">${category.getTaxonomy().getName()}</a>
 			<spring:message code="general.category" />
 			: ${category.getName()}
-		</h1>
+		</h2>
 		<h4 class="pull-right">
 			<spring:message code="general.public.pages" />
 			- <a
 				href="${contextPath}/edition/internalid/${category.getTaxonomy().getEdition().getExternalId()}">
-				${category.getTaxonomy().getEdition().getReference()}</a> : <a
-				href="${contextPath}/edition/taxonomy/${category.getTaxonomy().getExternalId()}">${category.getTaxonomy().getName()}</a>
+				<spring:message code="general.edition" /></a> : <a
+				href="${contextPath}/edition/taxonomy/${category.getTaxonomy().getExternalId()}"><spring:message code="general.taxonomy" /></a>
 			: <a
-				href="${contextPath}/edition/category/${category.getExternalId()}">${category.getName()}</a>
+				href="${contextPath}/edition/category/${category.getExternalId()}"><spring:message code="general.category" /></a>
 		</h4>
 		<br /> <br /> <br />
 		<div class="row pull-right">
@@ -87,8 +88,8 @@
 					<tr>
 						<td><c:forEach var="tag" items='${category.getSortedTags()}'>
 								<a
-									href="${contextPath}/virtualeditions/restricted/fraginter/${tag.getFragInter().getExternalId()}">
-									${tag.getFragInter().getTitle()}</a> (${tag.getWeight()})
+									href="${contextPath}/virtualeditions/restricted/fraginter/${tag.getInter().getExternalId()}">
+									${tag.getInter().getTitle()}</a> (${tag.getWeight()})
                                     </c:forEach></td>
 					</tr>
 

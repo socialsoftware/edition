@@ -11,6 +11,7 @@ import org.joda.time.LocalDate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -32,11 +33,13 @@ import pt.ist.socialsoftware.edition.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.domain.VirtualEditionInter;
 import pt.ist.socialsoftware.edition.mallet.TopicModeler;
 import pt.ist.socialsoftware.edition.security.LdoDSession;
+import pt.ist.socialsoftware.edition.security.LdoDUserDetails;
 import pt.ist.socialsoftware.edition.security.LdoDUserDetailsService;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDCreateVirtualEditionException;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDDuplicateAcronymException;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDDuplicateNameException;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDEditVirtualEditionException;
+import pt.ist.socialsoftware.edition.shared.exception.LdoDException;
 import pt.ist.socialsoftware.edition.validator.VirtualEditionValidator;
 import pt.ist.socialsoftware.edition.visitors.PlainHtmlWriter4OneInter;
 
@@ -340,71 +343,42 @@ public class VirtualEditionController {
 
 	@RequestMapping(method = RequestMethod.GET, value = "/restricted/{externalId}/taxonomy")
 	@PreAuthorize("hasPermission(#externalId, 'virtualedition.public')")
-	public String taxonomies(Model model, @PathVariable String externalId) {
+	public String taxonomy(Model model, @PathVariable String externalId) {
 		VirtualEdition virtualEdition = FenixFramework.getDomainObject(externalId);
 		if (virtualEdition == null) {
 			return "utils/pageNotFound";
 		} else {
 			model.addAttribute("virtualEdition", virtualEdition);
-			return "virtual/taxonomies";
+			return "virtual/taxonomy";
 		}
 	}
-
-	// @RequestMapping(method = RequestMethod.POST, value =
-	// "/restricted/regenerateCorpus")
-	// @PreAuthorize("hasPermission(#externalId, 'virtualedition.participant')")
-	// public String regenerateCorpus(Model model,
-	// @ModelAttribute("ldoDSession") LdoDSession ldoDSession,
-	// @RequestParam("externalId") String externalId)
-	// throws FileNotFoundException, IOException {
-	//
-	// VirtualEdition virtualEdition = FenixFramework
-	// .getDomainObject(externalId);
-	// if (virtualEdition == null) {
-	// return "utils/pageNotFound";
-	// } else {
-	// CorpusGenerator generator = new CorpusGenerator();
-	// generator.generate(virtualEdition);
-	// model.addAttribute("virtualEdition", virtualEdition);
-	// return "virtual/taxonomies";
-	// }
-	// }
 
 	@RequestMapping(method = RequestMethod.POST, value = "/restricted/taxonomy/createTopics")
 	@PreAuthorize("hasPermission(#externalId, 'virtualedition.participant')")
 	public String topicModelling(Model model, @ModelAttribute("ldoDSession") LdoDSession ldoDSession,
-			@RequestParam("externalId") String externalId, @RequestParam("name") String name,
-			@RequestParam("numTopics") int numTopics, @RequestParam("numWords") int numWords,
-			@RequestParam("thresholdCategories") int thresholdCategories,
+			@RequestParam("externalId") String externalId, @RequestParam("numTopics") int numTopics,
+			@RequestParam("numWords") int numWords, @RequestParam("thresholdCategories") int thresholdCategories,
 			@RequestParam("numIterations") int numIterations) throws IOException {
 		VirtualEdition virtualEdition = FenixFramework.getDomainObject(externalId);
 		if (virtualEdition == null) {
 			return "utils/pageNotFound";
 		} else {
+			LdoDUserDetails userDetails = (LdoDUserDetails) SecurityContextHolder.getContext().getAuthentication()
+					.getPrincipal();
 			List<String> errors = new ArrayList<String>();
 			TopicModeler modeler = new TopicModeler();
-			Taxonomy taxonomy = null;
 			try {
-				taxonomy = modeler.generate(virtualEdition, name, numTopics, numWords, thresholdCategories,
+				modeler.generate(userDetails.getUser(), virtualEdition, numTopics, numWords, thresholdCategories,
 						numIterations);
-			} catch (LdoDDuplicateNameException ex) {
-				errors.add("Já existe uma taxonomia com nome \"" + name + "\"");
-				model.addAttribute("errors", errors);
-				model.addAttribute("virtualEdition", virtualEdition);
-				return "virtual/taxonomies";
-			}
-
-			if (taxonomy == null) {
+			} catch (LdoDException ex) {
 				errors.add("Não existe nenhum fragmento associado a esta edição ou é necessário gerar o Corpus");
-				errors.add("Já existe uma taxonomia com nome \"" + name + "\"");
 				model.addAttribute("errors", errors);
 				model.addAttribute("virtualEdition", virtualEdition);
-				return "virtual/taxonomies";
-			} else {
-				model.addAttribute("edition", virtualEdition);
-				model.addAttribute("taxonomy", taxonomy);
 				return "virtual/taxonomy";
 			}
+
+			model.addAttribute("virtualEdition", virtualEdition);
+			return "virtual/taxonomy";
 		}
 	}
 
@@ -421,7 +395,7 @@ public class VirtualEditionController {
 			taxonomy.remove();
 
 			model.addAttribute("virtualEdition", edition);
-			return "virtual/taxonomies";
+			return "virtual/taxonomy";
 		}
 	}
 
@@ -432,8 +406,7 @@ public class VirtualEditionController {
 		if (taxonomy == null) {
 			return "utils/pageNotFound";
 		} else {
-			model.addAttribute("edition", taxonomy.getEdition());
-			model.addAttribute("taxonomy", taxonomy);
+			model.addAttribute("virtualEdition", taxonomy.getEdition());
 			return "virtual/taxonomy";
 		}
 	}
@@ -491,12 +464,11 @@ public class VirtualEditionController {
 			return "utils/pageNotFound";
 		}
 
-		Taxonomy taxonomy = category.getTaxonomy();
+		VirtualEdition virtualEdition = category.getTaxonomy().getEdition();
 
 		category.remove();
 
-		model.addAttribute("edition", taxonomy.getEdition());
-		model.addAttribute("taxonomy", taxonomy);
+		model.addAttribute("virtualEdition", virtualEdition);
 		return "virtual/taxonomy";
 	}
 
@@ -522,8 +494,7 @@ public class VirtualEditionController {
 			return "virtual/category";
 
 		} else {
-			model.addAttribute("edition", taxonomy.getEdition());
-			model.addAttribute("taxonomy", taxonomy);
+			model.addAttribute("virtualEdition", taxonomy.getEdition());
 			return "virtual/taxonomy";
 		}
 	}
@@ -568,19 +539,18 @@ public class VirtualEditionController {
 
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "/restricted/tag/dissociate/{tagId}")
-	@PreAuthorize("hasPermission(#tagId, 'tag.participant')")
-	public String dissociateTag(Model model, @PathVariable String tagId) {
-		Tag tag = FenixFramework.getDomainObject(tagId);
-		if (tag == null) {
+	@RequestMapping(method = RequestMethod.GET, value = "/restricted/fraginter/{fragInterId}/tag/dissociate/{categoryId}")
+	@PreAuthorize("hasPermission(#fragInterId, 'fragInter.participant')")
+	public String dissociate(Model model, @PathVariable String fragInterId, @PathVariable String categoryId) {
+		VirtualEditionInter inter = FenixFramework.getDomainObject(fragInterId);
+		Category category = FenixFramework.getDomainObject(categoryId);
+		if (inter == null || category == null) {
 			return "utils/pageNotFound";
 		}
 
-		FragInter fragInter = tag.getFragInter();
+		inter.dissociate(category);
 
-		tag.dissociate();
-
-		return "redirect:/fragments/fragment/inter/" + fragInter.getExternalId();
+		return "redirect:/fragments/fragment/inter/" + inter.getExternalId();
 
 	}
 
@@ -588,13 +558,13 @@ public class VirtualEditionController {
 	@PreAuthorize("hasPermission(#interId, 'fragInter.participant')")
 	public String associateTagForm(Model model, @PathVariable String taxonomyId, @PathVariable String interId) {
 		Taxonomy taxonomy = FenixFramework.getDomainObject(taxonomyId);
-		FragInter fragInter = FenixFramework.getDomainObject(interId);
-		if ((taxonomy == null) || (fragInter == null)) {
+		VirtualEditionInter inter = FenixFramework.getDomainObject(interId);
+		if ((taxonomy == null) || (inter == null)) {
 			return "utils/pageNotFound";
 		}
 
 		Set<Category> interCategories = new HashSet<Category>();
-		for (Tag tag : taxonomy.getTagSet(fragInter)) {
+		for (Tag tag : taxonomy.getTagSet(inter)) {
 			interCategories.add(tag.getCategory());
 		}
 
@@ -603,7 +573,7 @@ public class VirtualEditionController {
 		Collections.sort(categories);
 
 		model.addAttribute("taxonomy", taxonomy);
-		model.addAttribute("fragInter", fragInter);
+		model.addAttribute("fragInter", inter);
 		model.addAttribute("categories", categories);
 		return "virtual/associateForm";
 

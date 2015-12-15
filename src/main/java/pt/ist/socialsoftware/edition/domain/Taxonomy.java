@@ -9,37 +9,15 @@ import java.util.stream.Collectors;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
-import pt.ist.socialsoftware.edition.domain.Category.CategoryType;
-import pt.ist.socialsoftware.edition.shared.exception.LdoDDuplicateNameException;
 
 public class Taxonomy extends Taxonomy_Base {
 
-	public Taxonomy(LdoD ldoD) {
-		setLdoD(ldoD);
-	}
-
-	public Taxonomy(LdoD ldoD, Edition edition, String name, int numTopics, int numWords, int thresholdCategories,
-			int numIterations) {
-		setAdHoc(false);
-		setLdoD(ldoD);
-		setEdition(edition);
-		setName(name);
-		setNumTopics(numTopics);
-		setNumWords(numWords);
-		setThresholdCategories(thresholdCategories);
-		setNumIterations(numIterations);
-	}
-
-	public Taxonomy(LdoD ldoD, Edition edition, String name) {
-		setAdHoc(true);
-		setLdoD(ldoD);
-		setEdition(edition);
-		setName(name);
+	public String getName() {
+		return getEdition().getTitle();
 	}
 
 	@Atomic(mode = TxMode.WRITE)
 	public void remove() {
-		setLdoD(null);
 		setEdition(null);
 
 		for (Category category : getCategoriesSet()) {
@@ -53,27 +31,9 @@ public class Taxonomy extends Taxonomy_Base {
 		deleteDomainObject();
 	}
 
-	@Override
-	public void setName(String name) {
-		Set<Taxonomy> taxonomies = null;
-		if (getEdition() != null) {
-			taxonomies = getEdition().getTaxonomiesSet();
-		} else {
-			taxonomies = LdoD.getInstance().getTaxonomiesSet();
-		}
-
-		for (Taxonomy taxonomy : taxonomies) {
-			if ((taxonomy != this) && (taxonomy.getName().equals(name))) {
-				throw new LdoDDuplicateNameException();
-			}
-		}
-
-		super.setName(name);
-	}
-
-	public Set<Tag> getTagSet(FragInter fragInter) {
+	public Set<Tag> getTagSet(VirtualEditionInter inter) {
 		Set<Tag> set = new HashSet<Tag>();
-		for (Tag tag : fragInter.getTagSet()) {
+		for (Tag tag : inter.getTagSet()) {
 			if (tag.getCategory().getTaxonomy() == this) {
 				set.add(tag);
 			}
@@ -81,23 +41,31 @@ public class Taxonomy extends Taxonomy_Base {
 		return set;
 	}
 
-	public List<Tag> getSortedTags(FragInter fragInter) {
+	public List<Tag> getSortedTags(VirtualEditionInter fragInter) {
 		List<Tag> tags = new ArrayList<Tag>(getTagSet(fragInter));
 		Collections.sort(tags);
 		return tags;
 	}
 
-	public List<FragInter> getSortedFragInter() {
-		Set<FragInter> set = new HashSet<FragInter>();
+	public List<VirtualEditionInter> getSortedFragInter() {
+		Set<VirtualEditionInter> set = new HashSet<VirtualEditionInter>();
 		for (Category category : getCategoriesSet()) {
 			for (Tag tag : category.getTagSet()) {
-				set.add(tag.getFragInter());
+				set.add(tag.getInter());
 			}
 		}
-		List<FragInter> list = new ArrayList<FragInter>(set);
+		List<VirtualEditionInter> list = new ArrayList<VirtualEditionInter>(set);
 		Collections.sort(list);
 
 		return list;
+	}
+
+	public Set<LdoDUser> getTagContributorSet(VirtualEditionInter inter) {
+		Set<LdoDUser> contributors = new HashSet<LdoDUser>();
+		for (Tag tag : getTagSet(inter)) {
+			contributors.add(tag.getContributor());
+		}
+		return contributors;
 	}
 
 	public Category getCategory(String name) {
@@ -123,12 +91,7 @@ public class Taxonomy extends Taxonomy_Base {
 			name = name + "1";
 		}
 
-		Category category;
-		if (categories.get(0).getType().equals(CategoryType.ADHOC)) {
-			category = new AdHocCategory().init(this, name);
-		} else {
-			category = new GeneratedCategory().init(this, name);
-		}
+		Category category = new Category().init(this, name);
 
 		categories.stream().flatMap(c -> c.getTagSet().stream()).forEach(t -> category.addTag(t));
 
@@ -142,23 +105,18 @@ public class Taxonomy extends Taxonomy_Base {
 		Set<Tag> remainingTags = new HashSet<Tag>(category.getSortedTags());
 		remainingTags.removeAll(tags);
 
-		Category newCategory;
-		if (category.getType().equals(CategoryType.ADHOC)) {
-			newCategory = new AdHocCategory().init(this, category.getName() + "-Extracted");
-		} else {
-			newCategory = new GeneratedCategory().init(this, category.getName() + "-Extracted");
-		}
+		Category newCategory = new Category().init(this, category.getName() + "_Ext");
 
 		tags.stream().forEach(t -> newCategory.addTag(t));
 
 		return newCategory;
 	}
 
-	public void createUserTagInTextPortion(Annotation annotation, String tag) {
+	public void createTagInTextPortion(Annotation annotation, String tag) {
 		if (getCategory(tag) == null)
-			new AdHocCategory().init(this, tag);
+			new Category().init(this, tag);
 
-		((AdHocCategory) getCategory(tag)).createUserTagInTextPortion(annotation, tag);
+		getCategory(tag).createTagInTextPortion(annotation, tag);
 	}
 
 }
