@@ -1,27 +1,16 @@
 package pt.ist.socialsoftware.edition.domain;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDDuplicateNameException;
 
-public abstract class Category extends Category_Base implements Comparable<Category> {
-
-	public enum CategoryType {
-		GENERATED("generated"), ADHOC("adhoc");
-
-		private final String desc;
-
-		CategoryType(String desc) {
-			this.desc = desc;
-		}
-
-		public String getDesc() {
-			return desc;
-		}
-	};
+public class Category extends Category_Base implements Comparable<Category> {
 
 	public Category init(Taxonomy taxonomy) {
 		setTaxonomy(taxonomy);
@@ -65,20 +54,36 @@ public abstract class Category extends Category_Base implements Comparable<Categ
 
 	public Tag getTag(FragInter fragInter) {
 		for (Tag tag : getTagSet()) {
-			if (tag.getFragInter() == fragInter)
+			if (tag.getInter() == fragInter)
 				return tag;
 		}
 		return null;
 	}
 
-	abstract public List<Tag> getSortedTags();
+	public List<Tag> getSortedTags() {
+		List<Tag> tags = new ArrayList<Tag>(getTagSet());
+
+		Collections.sort(tags);
+
+		return tags;
+	}
 
 	public boolean isInVirtualEditionInter(VirtualEditionInter inter) {
-		return getTagSet().stream().anyMatch(t -> t.getFragInter() == inter);
+		return getTagSet().stream().anyMatch(t -> t.getInter() == inter);
 	}
 
 	public int getWeight(VirtualEditionInter inter) {
-		return getTagSet().stream().filter(t -> t.getFragInter() == inter).collect(Collectors.toSet()).size();
+		return getTagSet().stream().filter(t -> t.getInter() == inter).collect(Collectors.toSet()).size();
+	}
+
+	public Set<LdoDUser> getContributorSet(VirtualEditionInter inter) {
+		return getTagSet().stream().filter(t -> t.getInter() == inter).map(t -> t.getContributor())
+				.collect(Collectors.toSet());
+	}
+
+	public void createTagInTextPortion(Annotation annotation, String tag) {
+		new Tag().init(annotation.getVirtualEditionInter(), this, annotation, annotation.getUser());
+
 	}
 
 }

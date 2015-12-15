@@ -1,15 +1,10 @@
 package pt.ist.socialsoftware.edition.domain;
 
-import java.util.HashSet;
-import java.util.Set;
-
 public class GeneratedTagInFragInter extends GeneratedTagInFragInter_Base {
 
-	public GeneratedTagInFragInter init(FragInter fragInter, Category category,
-			int percentage) {
-		super.init(fragInter, category);
+	public GeneratedTagInFragInter init(VirtualEditionInter inter, Category category, LdoDUser user, int percentage) {
+		super.init(inter, category, null, user);
 
-		setType(TagType.FRAGINTER);
 		setPercentage(percentage);
 
 		return this;
@@ -18,11 +13,6 @@ public class GeneratedTagInFragInter extends GeneratedTagInFragInter_Base {
 	@Override
 	public int getWeight() {
 		return getPercentage();
-	}
-
-	@Override
-	public Set<LdoDUser> getContributorSet() {
-		return new HashSet<LdoDUser>();
 	}
 
 }

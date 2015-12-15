@@ -9,16 +9,21 @@
 
 	<div class="container">
 		<h1 class="text-center">
-			<spring:message code="general.edition" />
-			: ${fragInter.getEdition().getReference()}
-			<spring:message code="fragment" />
-			: ${fragInter.getTitle()}
+			<spring:message code="virtualedition" />
+			: ${fragInter.getEdition().getTitle()}
 		</h1>
+		<h2 class="text-center">
+		${fragInter.getTitle()} :
+			<a
+				href="${contextPath}/virtualeditions/restricted/${fragInter.getEdition().getExternalId()}/taxonomy"><spring:message
+					code="general.taxonomy" /></a>
+		</h2>
+
 		<h4 class="pull-right">
 			<spring:message code="general.public.pages" />
 			- <a
 				href="${contextPath}/edition/internalid/${fragInter.getEdition().getExternalId()}">
-				${fragInter.getEdition().getReference()}</a> : <a
+				<spring:message code="general.edition" /></a> : <a
 				href="${contextPath}/fragments/fragment/inter/${fragInter.getExternalId()}">
 				${fragInter.getTitle()}</a>
 		</h4>
@@ -27,30 +32,18 @@
 			<table class="table table-hover">
 				<thead>
 					<tr>
-						<th><spring:message code="general.taxonomy" /></th>
 						<th><spring:message code="general.category" /></th>
-						<th><spring:message code="general.words" /></th>
 					</tr>
 				</thead>
 				<tbody>
-					<c:forEach var="taxonomy"
-						items='${fragInter.getEdition().getTaxonomiesSet()}'>
-						<c:forEach var="tag" items='${taxonomy.getSortedTags(fragInter)}'>
-							<tr>
-								<td><a
-									href="${contextPath}/virtualeditions/restricted/taxonomy/${taxonomy.getExternalId()}">${taxonomy.getName()}</a>
-								</td>
-								<td><a
-									href="${contextPath}/virtualeditions/restricted/category/${tag.getCategory().getExternalId()}">${tag.getCategory().getName()}</a>
-									(${tag.getWeight()})</td>
-								<td><c:if
-										test="${tag.getCategory().getType() == 'GENERATED'}">
-										<c:forEach var="fragWordInCategory"
-											items='${tag.getCategory().getSortedFragWordInCategory()}'> ${fragWordInCategory.getFragWord().getWord()} 
-                                        </c:forEach>
-									</c:if></td>
-							</tr>
-						</c:forEach>
+					<c:set var="taxonomy"
+						value='${fragInter.getEdition().getTaxonomy()}' />
+					<c:forEach var="tag" items='${taxonomy.getSortedTags(fragInter)}'>
+						<tr>
+							<td><a
+								href="${contextPath}/virtualeditions/restricted/category/${tag.getCategory().getExternalId()}">${tag.getCategory().getName()}</a>
+								(${tag.getWeight()})</td>
+						</tr>
 					</c:forEach>
 				</tbody>
 			</table>

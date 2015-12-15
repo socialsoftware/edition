@@ -7,8 +7,6 @@ enum pt.ist.socialsoftware.edition.domain.Source.SourceType as SourceType;
 enum pt.ist.socialsoftware.edition.domain.ManuscriptSource.Medium as Medium;
 enum pt.ist.socialsoftware.edition.domain.ManuscriptSource.Form as Form;
 enum pt.ist.socialsoftware.edition.domain.ManuscriptSource.Material as Material;
-enum pt.ist.socialsoftware.edition.domain.Category.CategoryType as CategoryType;
-enum pt.ist.socialsoftware.edition.domain.Tag.TagType as TagType;
 enum pt.ist.socialsoftware.edition.domain.SpaceText.SpaceDim as SpaceDim;
 enum pt.ist.socialsoftware.edition.domain.SpaceText.SpaceUnit as SpaceUnit;
 enum pt.ist.socialsoftware.edition.domain.Rend.Rendition as Rendition;
@@ -155,26 +153,14 @@ relation LdoDUserSelectsVirtualEditions {
 
 class Taxonomy {
 	String xmlId;
-	String name;
-	boolean adHoc;
-	int numTopics;
-	int numWords;
-	int thresholdCategories;
-	int numIterations;
 }
 
-relation LdoDHasTaxonomies {
-	LdoD playsRole ldoD {multiplicity 1..1;}
-	Taxonomy playsRole taxonomies {multiplicity 0..*;}
-}
-
-relation EditionHasTaxonomies {
-	Edition playsRole edition {multiplicity 0..1;}
-	Taxonomy playsRole taxonomies {multiplicity 0..*;}
+relation VirtualEditionHasTaxonomies {
+	VirtualEdition playsRole edition {multiplicity 0..1;}
+	Taxonomy playsRole taxonomy {multiplicity 0..1;}
 }
 
 class Category {
-	CategoryType type;
 	String xmlId;
 	String name;
 }
@@ -236,35 +222,6 @@ relation FragInterHasAnnexNote {
 	AnnexNote playsRole annexNote {multiplicity 0..*;}
 }
 
-class Tag {
-	TagType type;
-}
-
-relation Tag2Category {
-	Tag playsRole tag {multiplicity 0..*;}
-	Category playsRole category {multiplicity 1..1;}
-}
-
-relation Tag2FragInter {
-	Tag playsRole tag {multiplicity 0..*;}
-	FragInter playsRole fragInter {multiplicity 1..1;}
-}
-
-class GeneratedTagInFragInter extends Tag {
-	int percentage;
-}
-
-class UserTag extends Tag;
-
-class UserTagInTextPortion extends UserTag;
-
-class UserTagInFragInter extends UserTag;
-
-relation UserTagInFragInterHasContributor {
-	UserTagInFragInter playsRole userTagInFragInter {multiplicity 0..*;}
-	LdoDUser playsRole contributor {multiplicity 0..1;}
-}
-
 class ExpertEditionInter extends FragInter {
 	String title;
 	String volume;
@@ -317,6 +274,27 @@ class ManuscriptSource extends Source {
 	String notes;
 	LocalDate date;
 	PrecisionType precision;
+}
+
+class Tag;
+
+relation Tag2Category {
+	Tag playsRole tag {multiplicity 0..*;}
+	Category playsRole category {multiplicity 1..1;}
+}
+
+relation Tag2VirtualEditionInter {
+	Tag playsRole tag {multiplicity 0..*;}
+	VirtualEditionInter playsRole inter {multiplicity 1..1;}
+}
+
+relation TagHasContributor {
+	Tag playsRole tag {multiplicity 0..*;}
+	LdoDUser playsRole contributor {multiplicity 0..1;}
+}
+
+class GeneratedTagInFragInter extends Tag {
+	int percentage;
 }
 
 class PhysNote {
@@ -575,9 +553,9 @@ relation AnnotationHasRanges {
   Range playsRole range {multiplicity 0..*;}
 }
 
-relation AnnotationsAndTagInTextPortion {
-  Annotation playsRole annotation {multiplicity 1..*;}
-  UserTagInTextPortion playsRole userTagInTextPortion {multiplicity 0..*;}
+relation AnnotationHasTags {
+  Annotation playsRole annotation {multiplicity 0..1;}
+  Tag playsRole tag {multiplicity 0..*;}
 }
 
 class RecommendationWeights {

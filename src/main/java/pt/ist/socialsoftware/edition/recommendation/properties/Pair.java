@@ -19,9 +19,9 @@ public class Pair {
 
 	@Override
 	public boolean equals(Object o) {
-		if(o instanceof Pair) {
+		if (o instanceof Pair) {
 			Pair pair = (Pair) o;
-			return category.getName().equals(pair.getCategory().getName()) && taxonomy.getName().equals(pair.getTaxonomy().getName());
+			return category.getName().equals(pair.getCategory().getName()) && (taxonomy == pair.getTaxonomy());
 		}
 		return false;
 	}

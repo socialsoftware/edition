@@ -51,8 +51,8 @@
 							<tr>
 
 								<td><a
-									href="${contextPath}/virtualeditions/restricted/fraginter/${tag.getFragInter().getExternalId()}">
-										${tag.getFragInter().getTitle()}</a> (${tag.getWeight()})</td>
+									href="${contextPath}/virtualeditions/restricted/fraginter/${tag.getInter().getExternalId()}">
+										${tag.getInter().getTitle()}</a> (${tag.getWeight()})</td>
 								<td class="col-centered">
 									<div class="form-group">
 										<div class="checkbox">

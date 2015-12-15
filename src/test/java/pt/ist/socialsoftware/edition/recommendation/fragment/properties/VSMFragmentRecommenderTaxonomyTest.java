@@ -42,7 +42,6 @@ public class VSMFragmentRecommenderTaxonomyTest extends VSMFragmentRecommenderTe
 	@Override
 	protected void prepare() {
 		edition = LdoD.getInstance().getEdition("afs");
-		edition.getTaxonomiesSet();
 	}
 
 	@Override

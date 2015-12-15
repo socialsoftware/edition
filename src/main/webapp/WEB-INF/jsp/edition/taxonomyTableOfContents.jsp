@@ -5,49 +5,47 @@
 <%@ include file="/WEB-INF/jsp/common/meta-head.jsp"%>
 </head>
 <body>
-    <%@ include file="/WEB-INF/jsp/common/fixed-top-ldod-header.jsp"%>
+	<%@ include file="/WEB-INF/jsp/common/fixed-top-ldod-header.jsp"%>
 
-    <div class="container">
-        <h3 class="text-center">
-            <spring:message code="virtualedition" /> <a href="${contextPath}/edition/internalid/${taxonomy.getEdition().getExternalId()}"> ${taxonomy.getEdition().title}</a>
-            <spring:message code="general.taxonomy" />: ${taxonomy.getName()} (${taxonomy.getSortedFragInter().size()})
-        </h3>
+	<div class="container">
+		<h3 class="text-center">
+			<spring:message code="virtualedition" />
+			<a
+				href="${contextPath}/edition/internalid/${taxonomy.getEdition().getExternalId()}">
+				${taxonomy.getEdition().title}</a>
+			<spring:message code="general.taxonomy" />
+			: ${taxonomy.getName()} (${taxonomy.getSortedFragInter().size()})
+		</h3>
 
-        <table class="table table-hover table-condensed">
-            <thead>
-                <tr>
-                    <th><spring:message
-                            code="tableofcontents.title" /></th>
-                    <th><spring:message code="general.category" /></th>
-                    <th><spring:message
-                            code="tableofcontents.number" /></th>
-                    <th><spring:message
-                            code="tableofcontents.usesEditions" /></th>
-                </tr>
-            <tbody>
-                <c:forEach var="inter"
-                    items='${taxonomy.getSortedFragInter()}'>
-                    <tr>
-                        <td><a
-                            href="${contextPath}/fragments/fragment/inter/${inter.getExternalId()}">${inter.getTitle()}</a></td>
-                        <td>
-                            <c:forEach var="tag" items='${taxonomy.getSortedTags(inter)}'> 
-                                <a href="${contextPath}/edition/category/${tag.getCategory().getExternalId()}">
-                                    ${tag.getCategory().getName()}
-                                </a> <c:if test="${taxonomy.getAdHoc() }">(${tag.getWeight()})</c:if>
-                            </c:forEach>
-                        </td>
-                        <td>${inter.getNumber()}</td>
-                        <td><c:forEach var="used"
-                                items="${inter.getListUsed()}">-><a
-                                    href="${contextPath}/fragments/fragment/inter/${used.externalId}">${used.shortName}</a>
+		<table class="table table-hover table-condensed">
+			<thead>
+				<tr>
+					<th><spring:message code="tableofcontents.number" /></th>
+					<th><spring:message code="tableofcontents.title" /></th>
+					<th><spring:message code="general.category" /></th>
+					<th><spring:message code="tableofcontents.usesEditions" /></th>
+				</tr>
+			<tbody>
+				<c:forEach var="inter" items='${taxonomy.getSortedFragInter()}'>
+					<tr>
+						<td>${inter.getNumber()}</td>
+						<td><a
+							href="${contextPath}/fragments/fragment/inter/${inter.getExternalId()}">${inter.getTitle()}</a></td>
+						<td><c:forEach var="tag"
+								items='${taxonomy.getSortedTags(inter)}'>
+								<a
+									href="${contextPath}/edition/category/${tag.getCategory().getExternalId()}">
+									${tag.getCategory().getName()} </a> (${tag.getWeight()})
                             </c:forEach></td>
-                    </tr>
-                </c:forEach>
+						<td><c:forEach var="used" items="${inter.getListUsed()}">-><a
+									href="${contextPath}/fragments/fragment/inter/${used.externalId}">${used.shortName}</a>
+							</c:forEach></td>
+					</tr>
+				</c:forEach>
 
-            </tbody>
-        </table>
-    </div>
+			</tbody>
+		</table>
+	</div>
 </body>
 </html>
 

@@ -16,9 +16,9 @@ import pt.ist.socialsoftware.edition.recommendation.properties.TypescriptPropert
 import pt.ist.socialsoftware.edition.recommendation.properties.WeightTaxonomyProperty;
 
 public class RecommendationWeights extends RecommendationWeights_Base {
-    
+
 	public RecommendationWeights(LdoDUser user, VirtualEdition virtualEdition) {
-        super();
+		super();
 		setUser(user);
 		setVirtualEdition(virtualEdition);
 		setEditionWeight(0.);
@@ -32,37 +32,37 @@ public class RecommendationWeights extends RecommendationWeights_Base {
 
 	@Atomic(mode = TxMode.WRITE)
 	public void setWeights(List<Property> properties) {
-		for(Property property : properties) {
+		for (Property property : properties) {
 			property.userWeights(this);
 		}
 	}
 
 	public List<Property> getProperties() {
 		List<Property> properties = new ArrayList<Property>();
-		if(getEditionWeight() > 0.0) {
+		if (getEditionWeight() > 0.0) {
 			properties.add(new EditionProperty(getEditionWeight()));
 		}
-		if(getHeteronymWeight() > 0.0) {
+		if (getHeteronymWeight() > 0.0) {
 			properties.add(new HeteronymProperty(getHeteronymWeight()));
 		}
-		if(getDateWeight() > 0.0) {
+		if (getDateWeight() > 0.0) {
 			properties.add(new DateProperty(getDateWeight()));
 		}
-		if(getManuscriptWeight() > 0.0) {
+		if (getManuscriptWeight() > 0.0) {
 			properties.add(new ManuscriptProperty(getManuscriptWeight()));
 		}
-		if(getTypescriptWeight() > 0.0) {
+		if (getTypescriptWeight() > 0.0) {
 			properties.add(new TypescriptProperty(getTypescriptWeight()));
 		}
-		if(getPublicationWeight() > 0.0) {
+		if (getPublicationWeight() > 0.0) {
 			properties.add(new PrintedProperty(getTypescriptWeight()));
 		}
-		if(getTextWeight() > 0.0) {
+		if (getTextWeight() > 0.0) {
 			properties.add(new TextProperty(getTextWeight()));
 		}
 
-		for(TaxonomyWeight taxonomyWeight : getTaxonomyWeightSet()) {
-			if(taxonomyWeight.getWeight() > 0.) {
+		for (TaxonomyWeight taxonomyWeight : getTaxonomyWeightSet()) {
+			if (taxonomyWeight.getWeight() > 0.) {
 				properties.add(new WeightTaxonomyProperty(taxonomyWeight.getWeight(), taxonomyWeight.getTaxonomy()));
 			}
 		}
@@ -75,7 +75,7 @@ public class RecommendationWeights extends RecommendationWeights_Base {
 		setUser(null);
 		setVirtualEdition(null);
 
-		for(TaxonomyWeight taxonomyWeight : getTaxonomyWeightSet()) {
+		for (TaxonomyWeight taxonomyWeight : getTaxonomyWeightSet()) {
 			taxonomyWeight.remove();
 		}
 
@@ -83,12 +83,12 @@ public class RecommendationWeights extends RecommendationWeights_Base {
 	}
 
 	public TaxonomyWeight getTaxonomyWeight(Taxonomy taxonomy) {
-		for(TaxonomyWeight weight : getTaxonomyWeightSet()) {
-			if(weight.getTaxonomy().getName().equals(taxonomy.getName())) {
+		for (TaxonomyWeight weight : getTaxonomyWeightSet()) {
+			if (weight.getTaxonomy() == taxonomy) {
 				return weight;
 			}
 		}
 		return LdoD.getInstance().createTaxonomyWeight(getUser(), getVirtualEdition(), taxonomy);
 	}
-    
+
 }

@@ -1,36 +1,21 @@
 package pt.ist.socialsoftware.edition.domain;
 
-import java.util.Set;
+public class Tag extends Tag_Base implements Comparable<Tag> {
 
-import pt.ist.fenixframework.Atomic;
-import pt.ist.fenixframework.Atomic.TxMode;
-
-public abstract class Tag extends Tag_Base implements Comparable<Tag> {
-
-	public enum TagType {
-		TEXTPORTION("textportion"), FRAGINTER("fraginter");
-
-		private final String desc;
-
-		TagType(String desc) {
-			this.desc = desc;
-		}
-
-		public String getDesc() {
-			return desc;
-		}
-	};
-
-	public Tag init(FragInter fragInter, Category category) {
-		setFragInter(fragInter);
+	public Tag init(VirtualEditionInter inter, Category category, Annotation annotation, LdoDUser user) {
+		setInter(inter);
 		setCategory(category);
+		setAnnotation(annotation);
+		setContributor(user);
 
 		return this;
 	}
 
 	public void remove() {
-		setFragInter(null);
+		setInter(null);
 		setCategory(null);
+		setContributor(null);
+		setAnnotation(null);
 
 		deleteDomainObject();
 	}
@@ -45,17 +30,8 @@ public abstract class Tag extends Tag_Base implements Comparable<Tag> {
 			return 0;
 	}
 
-	public abstract int getWeight();
-
-	public abstract Set<LdoDUser> getContributorSet();
-
-	public void undo() {
-		this.remove();
-	}
-
-	@Atomic(mode = TxMode.WRITE)
-	public void dissociate() {
-		remove();
+	public int getWeight() {
+		return 1;
 	}
 
 }

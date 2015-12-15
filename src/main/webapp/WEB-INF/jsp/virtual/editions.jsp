@@ -208,7 +208,7 @@
                                             href="${contextPath}/virtualeditions/restricted/${virtualEdition.externalId}/taxonomy"><span
                                                 class="glyphicon glyphicon-tags"></span>
                                                 <spring:message
-                                                    code="general.taxonomies" /></a></td>
+                                                    code="general.taxonomy" /></a></td>
                                         <td><a class="btn btn-sm"
                                             href="${contextPath}/recommendation/restricted/${virtualEdition.externalId}"><span
                                                 class="glyphicon glyphicon-wrench"></span>

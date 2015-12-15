@@ -18,12 +18,9 @@ import org.joda.time.LocalDate;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
-import pt.ist.socialsoftware.edition.domain.AdHocCategory;
-import pt.ist.socialsoftware.edition.domain.Category;
 import pt.ist.socialsoftware.edition.domain.ExpertEdition;
 import pt.ist.socialsoftware.edition.domain.Heteronym;
 import pt.ist.socialsoftware.edition.domain.LdoD;
-import pt.ist.socialsoftware.edition.domain.Taxonomy;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDLoadException;
 import pt.ist.socialsoftware.edition.utils.DateUtils;
 
@@ -64,16 +61,13 @@ public class LoadTEICorpus {
 		} catch (FileNotFoundException e) {
 			throw new LdoDLoadException("Ficheiro não encontrado");
 		} catch (JDOMException e) {
-			throw new LdoDLoadException(
-					"Ficheiro com problemas de codificação TEI");
+			throw new LdoDLoadException("Ficheiro com problemas de codificação TEI");
 		} catch (IOException e) {
-			throw new LdoDLoadException(
-					"Problemas com o ficheiro, tipo ou formato");
+			throw new LdoDLoadException("Problemas com o ficheiro, tipo ou formato");
 		}
 
 		if (doc == null) {
-			LdoDLoadException ex = new LdoDLoadException(
-					"Ficheiro inexistente ou sem formato TEI");
+			LdoDLoadException ex = new LdoDLoadException("Ficheiro inexistente ou sem formato TEI");
 			throw ex;
 		}
 
@@ -91,29 +85,21 @@ public class LoadTEICorpus {
 
 		loadListBibl();
 
-		loadTaxonomies();
-
 		loadHeteronyms();
 	}
 
 	private void loadHeteronyms() {
-		Element corpusHeteronyms = ldoDTEI.getChild("teiHeader", namespace)
-				.getChild("profileDesc", namespace)
-				.getChild("particDesc", namespace)
-				.getChild("listPerson", namespace);
+		Element corpusHeteronyms = ldoDTEI.getChild("teiHeader", namespace).getChild("profileDesc", namespace)
+				.getChild("particDesc", namespace).getChild("listPerson", namespace);
 
-		for (Element heteronymTEI : corpusHeteronyms.getChildren("person",
-				namespace)) {
-			String heteronymXmlID = heteronymTEI.getAttributeValue("id",
-					heteronymTEI.getNamespace("xml"));
+		for (Element heteronymTEI : corpusHeteronyms.getChildren("person", namespace)) {
+			String heteronymXmlID = heteronymTEI.getAttributeValue("id", heteronymTEI.getNamespace("xml"));
 
 			if (getObjectsByXmlID(heteronymXmlID) != null) {
-				throw new LdoDLoadException("xml:id:" + heteronymXmlID
-						+ " já foi declarado");
+				throw new LdoDLoadException("xml:id:" + heteronymXmlID + " já foi declarado");
 			}
 
-			assert getObjectsByXmlID(heteronymXmlID) == null : "xml:id:"
-					+ heteronymXmlID + " IS ALREADY DECLARED";
+			assert getObjectsByXmlID(heteronymXmlID) == null : "xml:id:" + heteronymXmlID + " IS ALREADY DECLARED";
 
 			String name = heteronymTEI.getChildText("persName", namespace);
 
@@ -126,99 +112,34 @@ public class LoadTEICorpus {
 		}
 	}
 
-	private void loadTaxonomies() {
-		List<Element> corpusTaxonomies = ldoDTEI
-				.getChild("teiHeader", namespace)
-				.getChild("encodingDesc", namespace)
-				.getChild("classDecl", namespace)
-				.getChildren("taxonomy", namespace);
-
-		for (Element taxonomyTEI : corpusTaxonomies) {
-			Taxonomy taxonomy = new Taxonomy(ldoD);
-
-			String tononomyID = taxonomyTEI.getAttributeValue("id",
-					taxonomyTEI.getNamespace("xml"));
-
-			if (getObjectsByXmlID(tononomyID) != null) {
-				throw new LdoDLoadException("xml:id:" + tononomyID
-						+ " já foi declarado");
-			}
-
-			assert getObjectsByXmlID(tononomyID) == null : "xml:id:"
-					+ tononomyID + " IS ALREADY DECLARED";
-
-			putObjectByXmlID(tononomyID, taxonomy);
-
-			taxonomy.setXmlId(tononomyID);
-
-			taxonomy.setName(taxonomyTEI.getChild("bibl", namespace).getText());
-
-			for (Element categoryTEI : taxonomyTEI.getChildren("category",
-					namespace)) {
-				Category category = new AdHocCategory();
-				category.init(taxonomy);
-
-				String categoryID = categoryTEI.getAttributeValue("id",
-						categoryTEI.getNamespace("xml"));
-
-				if (getObjectsByXmlID(categoryID) != null) {
-					throw new LdoDLoadException("xml:id:" + categoryID
-							+ " já foi declarado");
-				}
-
-				assert getObjectsByXmlID(categoryID) == null : "xml:id:"
-						+ categoryID + " IS ALREADY DECLARED";
-
-				putObjectByXmlID(categoryID, category);
-
-				category.setXmlId(categoryID);
-
-				category.setName(categoryTEI.getChild("catDesc", namespace)
-						.getText());
-			}
-
-		}
-	}
-
 	private void loadListBibl() {
-		Element corpusHeaderListBibl = ldoDTEI.getChild("teiHeader", namespace)
-				.getChild("fileDesc", namespace)
-				.getChild("sourceDesc", namespace)
-				.getChild("listBibl", namespace);
+		Element corpusHeaderListBibl = ldoDTEI.getChild("teiHeader", namespace).getChild("fileDesc", namespace)
+				.getChild("sourceDesc", namespace).getChild("listBibl", namespace);
 
 		String listEditionsXmlID = corpusHeaderListBibl.getAttributeValue("id",
 				corpusHeaderListBibl.getNamespace("xml"));
 
 		if (getObjectsByXmlID(listEditionsXmlID) != null) {
-			throw new LdoDLoadException("xml:id:" + listEditionsXmlID
-					+ " já foi declarado");
+			throw new LdoDLoadException("xml:id:" + listEditionsXmlID + " já foi declarado");
 		}
 
-		assert getObjectsByXmlID(listEditionsXmlID) == null : "xml:id:"
-				+ listEditionsXmlID + " IS ALREADY DECLARED";
+		assert getObjectsByXmlID(listEditionsXmlID) == null : "xml:id:" + listEditionsXmlID + " IS ALREADY DECLARED";
 
 		for (Element bibl : corpusHeaderListBibl.getChildren("bibl", namespace)) {
-			String editionXmlID = bibl.getAttributeValue("id",
-					bibl.getNamespace("xml"));
+			String editionXmlID = bibl.getAttributeValue("id", bibl.getNamespace("xml"));
 
 			if (getObjectsByXmlID(editionXmlID) != null) {
-				throw new LdoDLoadException("xml:id:" + editionXmlID
-						+ " já foi declarado");
+				throw new LdoDLoadException("xml:id:" + editionXmlID + " já foi declarado");
 			}
 
-			assert getObjectsByXmlID(editionXmlID) == null : "xml:id:"
-					+ editionXmlID + " IS ALREADY DECLARED";
+			assert getObjectsByXmlID(editionXmlID) == null : "xml:id:" + editionXmlID + " IS ALREADY DECLARED";
 
-			String author = bibl.getChild("author", namespace)
-					.getChild("persName", namespace).getText();
+			String author = bibl.getChild("author", namespace).getChild("persName", namespace).getText();
 			String title = bibl.getChild("title", namespace).getText();
-			String editor = bibl.getChild("editor", namespace)
-					.getChild("persName", namespace).getText();
-			LocalDate date = DateUtils.convertDate(bibl.getChild("date",
-					namespace).getAttributeValue("when"));
+			String editor = bibl.getChild("editor", namespace).getChild("persName", namespace).getText();
+			LocalDate date = DateUtils.convertDate(bibl.getChild("date", namespace).getAttributeValue("when"));
 
-			ExpertEdition edition = new ExpertEdition(ldoD, title, author,
-					editor, date);
+			ExpertEdition edition = new ExpertEdition(ldoD, title, author, editor, date);
 
 			edition.setXmlId(editionXmlID);
 
@@ -229,23 +150,15 @@ public class LoadTEICorpus {
 	}
 
 	private void loadTitleStmt() {
-		Element corpusHeaderTitleStmt = ldoDTEI
-				.getChild("teiHeader", namespace)
-				.getChild("fileDesc", namespace)
+		Element corpusHeaderTitleStmt = ldoDTEI.getChild("teiHeader", namespace).getChild("fileDesc", namespace)
 				.getChild("titleStmt", namespace);
 
-		ldoD.setTitle(corpusHeaderTitleStmt.getChild("title", namespace)
-				.getText());
-		ldoD.setAuthor(corpusHeaderTitleStmt.getChild("author", namespace)
-				.getText());
-		ldoD.setEditor(corpusHeaderTitleStmt.getChild("editor", namespace)
-				.getText());
-		ldoD.setSponsor(corpusHeaderTitleStmt.getChild("sponsor", namespace)
-				.getText());
-		ldoD.setFunder(corpusHeaderTitleStmt.getChild("funder", namespace)
-				.getText());
-		ldoD.setPrincipal(corpusHeaderTitleStmt
-				.getChild("principal", namespace).getText());
+		ldoD.setTitle(corpusHeaderTitleStmt.getChild("title", namespace).getText());
+		ldoD.setAuthor(corpusHeaderTitleStmt.getChild("author", namespace).getText());
+		ldoD.setEditor(corpusHeaderTitleStmt.getChild("editor", namespace).getText());
+		ldoD.setSponsor(corpusHeaderTitleStmt.getChild("sponsor", namespace).getText());
+		ldoD.setFunder(corpusHeaderTitleStmt.getChild("funder", namespace).getText());
+		ldoD.setPrincipal(corpusHeaderTitleStmt.getChild("principal", namespace).getText());
 	}
 
 }
