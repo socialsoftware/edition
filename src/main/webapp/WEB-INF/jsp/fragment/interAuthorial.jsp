@@ -58,8 +58,10 @@ $(document)
             <div id="visualisation-properties-authorial"
                 class="btn-group" data-toggle="checkbox">
                 <div class="checkbox tip" title="<spring:message code="fragment.tt.highlights" />">
-                    <label> <input type="checkbox" class="btn"
-                        name=diff value="Yes"> <spring:message
+                    <label>
+                    <input type="checkbox" class="btn"
+                        name=diff value="Yes">
+                     		<spring:message
                             code="fragment.highlightdifferences" />
                     </label>
                 </div>
@@ -97,11 +99,12 @@ $(document)
         </div>
     </form>
 
+	<br>
 
     <%@ include file="/WEB-INF/jsp/fragment/transcription.jsp"%>
 
     <br>
-    <div id="interMeta" class="row">
-        <div class="well row">${inters.get(0).metaTextual}</div>
+    <div id="interMeta">
+        <div class="well">${inters.get(0).metaTextual}</div>
     </div>
 </div>

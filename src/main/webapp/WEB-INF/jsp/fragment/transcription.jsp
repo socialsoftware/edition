@@ -1,8 +1,8 @@
 <%@ include file="/WEB-INF/jsp/common/tags-head.jsp"%>
 
-<div id="fragmentTranscription" class="row">
+<div id="fragmentTranscription" >
 
-	<div class="row">
+	
 		<h4 class="text-center">${inters.get(0).title}</h4>
 		<c:choose>
 			<c:when test="${inters.get(0).lastUsed.sourceType=='EDITORIAL'}">
@@ -16,7 +16,7 @@
 				</div>
 			</c:otherwise>
 		</c:choose>
-	</div>
+
 </div>
 
 

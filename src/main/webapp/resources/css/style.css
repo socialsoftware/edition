@@ -30,3 +30,15 @@ li.list-recommedation {
 .inherit{
 	cursor: inherit;
 }
+
+div .checkbox{
+	padding-right:10px;
+}
+
+.checkbox input {
+	margin-bottom:6px;
+}
+
+#fragmentInter {
+	padding-top:6px;
+}

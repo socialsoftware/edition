@@ -1,7 +1,9 @@
 <%@ include file="/WEB-INF/jsp/common/tags-head.jsp"%>
-<div id=fragmentComparison class="row">
+<div id=fragmentComparison class="row"  style="margin-left:0px;margin-right:0px">
     <div id="transcription">
-        <h4>${fragment.title}</h4>
+        <h4>${fragment.title}
+        <a id="pop" role="button" data-toggle="popover" data-content="<spring:message code="info.highlighting" />" style="color:lightgray;font-size:14px"> <span class="glyphicon glyphicon-info-sign"></span></a>
+        </h4>
         <div class="well">
             <c:choose>
                 <c:when test="${writer.showSpaces}">
@@ -15,3 +17,7 @@
     </div>
 
 </div>
+
+<script type="text/javascript">
+$('#pop').popover()
+</script>
