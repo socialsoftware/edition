@@ -70,23 +70,15 @@ function validateForm() {
 		</h4>
 		<br /> <br/> <br/>
 		<div class="row col-md-10"></div>
-		<div class="row col-md-2">
-			<form class="form-inline" method="GET"
-				action="${contextPath}/virtualeditions">
-				<button type="submit" class="btn btn-primary">
-					<span class="glyphicon glyphicon-th-list"></span>
-					<spring:message code="virtual.editions" />
-				</button>
-			</form>
-		</div>
 		<br /> <br /> <br />
+		<h4><spring:message code="topics.generate" /></h4>
 		<div class="row col-md-12">
 			<c:forEach var="error" items='${errors}'>
 				<div class="row has-error">${error}</div>
 			</c:forEach>
 		</div>
 		<div class="row col-md-12">
-			<form name="createTaxonomy" class="form-inline" method="POST"
+			<form name="generateTopics" class="form-inline" method="POST"
 				action="/virtualeditions/restricted/taxonomy/createTopics"
 				onsubmit="return validateForm()">
 				<div class="form-group">
@@ -111,11 +103,36 @@ function validateForm() {
 				</div>
 				<button type="submit" class="btn btn-primary">
 					<span class="glyphicon glyphicon-plus"></span>
-					<spring:message code="general.create" />
+					<spring:message code="general.generate" />
 				</button>
 			</form>
 		</div>
-		<br />
+		<br /><br />
+				<h4><spring:message code="category.creation" /></h4>
+		<div class="row col-md-12">
+			<c:forEach var="error" items='${errors}'>
+				<div class="row has-error">${error}</div>
+			</c:forEach>
+		</div>
+		<div class="row col-md-12">
+			<form name="createCategory" class="form-inline" method="POST"
+				action="/virtualeditions/restricted/category/create"
+				onsubmit="return validateForm()">
+				<div class="form-group">
+					<input type="hidden" class="form-control" name="externalId"
+						value="${virtualEdition.externalId}" />
+				</div>
+				<div class="form-group">
+					<input type="text" class="form-control" name="name"
+						placeholder="<spring:message code="general.name" />">
+				</div>
+				<button type="submit" class="btn btn-primary">
+					<span class="glyphicon glyphicon-plus"></span>
+					<spring:message code="general.generate" />
+				</button>
+			</form>
+		</div>					
+		<br /> <br /> <br />
 		<div class="row col-md-12">
 			<div class="row">
 				<table class="table table-hover">

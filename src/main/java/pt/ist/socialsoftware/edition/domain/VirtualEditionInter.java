@@ -6,15 +6,23 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.socialsoftware.edition.domain.Edition.EditionType;
 import pt.ist.socialsoftware.edition.recommendation.VSMFragInterRecommender;
 import pt.ist.socialsoftware.edition.recommendation.properties.Property;
 import pt.ist.socialsoftware.edition.search.options.SearchOption;
+import pt.ist.socialsoftware.edition.utils.CategoryDTO;
 import pt.ist.socialsoftware.edition.utils.RangeJson;
 
 public class VirtualEditionInter extends VirtualEditionInter_Base {
+	private static Logger logger = LoggerFactory.getLogger(VirtualEditionInter.class);
 
 	public VirtualEditionInter(Section section, FragInter inter, int number) {
 		setFragment(inter.getFragment());
@@ -169,19 +177,29 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 
 		Taxonomy taxonomy = getVirtualEdition().getTaxonomy();
 		for (String tag : tagList) {
-			taxonomy.createTagInTextPortion(annotation, tag);
+			taxonomy.createTag(annotation, tag);
 		}
 
 		return annotation;
 	}
 
 	@Atomic(mode = TxMode.WRITE)
-	public void associate(LdoDUser ldoDUser, Taxonomy taxonomy, Set<Category> categories) {
+	public void associate(LdoDUser ldoDUser, Taxonomy taxonomy, Set<String> categoryNames) {
+		Set<Category> categories = new HashSet<Category>();
+		for (String name : categoryNames) {
+			Category category = taxonomy.getCategory(name);
+			if (category == null)
+				category = new Category().init(taxonomy, name);
+			categories.add(category);
+		}
+
 		for (Category category : categories) {
 			if (!getTagSet().stream().filter(t -> (t.getCategory() == category) && (t.getAnnotation() == null))
 					.findFirst().isPresent())
 				new Tag().init(this, category, null, ldoDUser);
 		}
+
+		getCategories().stream().filter(c -> !categories.contains(c)).forEach(c -> dissociate(c));
 	}
 
 	@Atomic(mode = TxMode.WRITE)
@@ -196,6 +214,39 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 		for (Annotation annotation : annotations) {
 			annotation.remove();
 		}
+	}
+
+	public List<Category> getNonAssignedCategories() {
+		List<Category> interCategories = getCategories();
+
+		List<Category> categories = getVirtualEdition().getTaxonomy().getCategoriesSet().stream()
+				.filter(c -> !interCategories.contains(c)).sorted((c1, c2) -> c1.getName().compareTo(c2.getName()))
+				.collect(Collectors.toList());
+
+		return categories;
+	}
+
+	public List<Category> getCategories() {
+		List<Category> categories = getTagSet().stream().map(t -> t.getCategory()).distinct()
+				.sorted((c1, c2) -> c1.getName().compareTo(c2.getName())).collect(Collectors.toList());
+
+		return categories;
+	}
+
+	public String getCategoriesJSON() {
+		ObjectMapper mapper = new ObjectMapper();
+
+		List<CategoryDTO> categories = getVirtualEdition().getTaxonomy().getCategoriesSet().stream()
+				.map(c -> new CategoryDTO(c)).collect(Collectors.toList());
+
+		try {
+			return mapper.writeValueAsString(categories);
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return null;
 	}
 
 }

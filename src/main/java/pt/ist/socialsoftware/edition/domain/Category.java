@@ -81,7 +81,7 @@ public class Category extends Category_Base implements Comparable<Category> {
 				.collect(Collectors.toSet());
 	}
 
-	public void createTagInTextPortion(Annotation annotation, String tag) {
+	public void createTag(Annotation annotation, String tag) {
 		new Tag().init(annotation.getVirtualEditionInter(), this, annotation, annotation.getUser());
 
 	}

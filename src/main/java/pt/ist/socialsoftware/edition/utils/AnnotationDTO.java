@@ -9,7 +9,7 @@ import pt.ist.socialsoftware.edition.domain.Range;
 import pt.ist.socialsoftware.edition.domain.Tag;
 
 //@JsonIgnoreProperties(ignoreUnknown = true)
-public class AnnotationJson implements Serializable {
+public class AnnotationDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private String id;
@@ -19,12 +19,12 @@ public class AnnotationJson implements Serializable {
 	private List<String> tags;
 	private String uri;
 	private String user;
-	private PermissionJson permissions;
+	private PermissionDTO permissions;
 
-	public AnnotationJson() {
+	public AnnotationDTO() {
 	}
 
-	public AnnotationJson(Annotation annotation) {
+	public AnnotationDTO(Annotation annotation) {
 		setId(annotation.getExternalId());
 		setQuote(annotation.getQuote());
 		setText(annotation.getText());
@@ -42,7 +42,8 @@ public class AnnotationJson implements Serializable {
 
 		setUser(annotation.getUser().getUsername());
 
-		setPermissions(new PermissionJson(annotation.getVirtualEditionInter().getEdition(), annotation.getUser()));
+		setPermissions(
+				new PermissionDTO(annotation.getVirtualEditionInter().getVirtualEdition(), annotation.getUser()));
 	}
 
 	public List<RangeJson> getRanges() {
@@ -105,11 +106,11 @@ public class AnnotationJson implements Serializable {
 		this.user = user;
 	}
 
-	public PermissionJson getPermissions() {
+	public PermissionDTO getPermissions() {
 		return permissions;
 	}
 
-	public void setPermissions(PermissionJson permissions) {
+	public void setPermissions(PermissionDTO permissions) {
 		this.permissions = permissions;
 	}
 

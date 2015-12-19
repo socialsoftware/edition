@@ -5,7 +5,6 @@
 			<th><spring:message code="tableofcontents.number" /></th>
 			<th><spring:message code="tableofcontents.title" /></th>
 			<th></th>
-			<th><spring:message code="general.taxonomy" /></th>
 			<th><spring:message code="tableofcontents.usesEditions" /></th>
 		</tr>
 	</thead>
@@ -21,15 +20,16 @@
 									<c:when test="${inter.externalId == selected}">
 										<a id="${inter.externalId}" class="inter selected"
 											href="${contextPath}/fragments/fragment/inter/${inter.externalId}">${inter.title}</a>
-								</c:when>
+									</c:when>
 									<c:otherwise>
 										<a id="${inter.externalId}" class="inter"
 											href="${contextPath}/fragments/fragment/inter/${inter.externalId}">${inter.title}</a>
 									</c:otherwise>
-									</c:choose></td>
+								</c:choose></td>
 							<td><c:choose>
 									<c:when test="${inter.externalId == selected}">
-										<button type="submit" class="btn btn-primary btn-sm sort disabled">
+										<button type="submit"
+											class="btn btn-primary btn-sm sort disabled">
 											<span class="glyphicon glyphicon-check"></span>
 											<spring:message code="general.selected" />
 										</button>
@@ -41,11 +41,6 @@
 										</button>
 									</c:otherwise>
 								</c:choose></td>
-							<td><c:forEach var="taxonomy"
-									items="${edition.getTaxonomies()}">
-									<a
-										href="${contextPath}/edition/taxonomy/${taxonomy.getExternalId()}">${taxonomy.getName()}</a>
-								</c:forEach></td>
 							<td><c:forEach var="used" items="${inter.getListUsed()}">-><a
 										href="${contextPath}/fragments/fragment/inter/${used.externalId}">${used.shortName}</a>
 								</c:forEach></td>
@@ -63,15 +58,16 @@
 									<c:when test="${inter.externalId == selected}">
 										<a id="${inter.externalId}" class="inter selected"
 											href="${contextPath}/fragments/fragment/inter/${inter.externalId}">${inter.title}</a>
-								</c:when>
+									</c:when>
 									<c:otherwise>
 										<a id="${inter.externalId}" class="inter"
 											href="${contextPath}/fragments/fragment/inter/${inter.externalId}">${inter.title}</a>
 									</c:otherwise>
-									</c:choose></td>
+								</c:choose></td>
 							<td><c:choose>
 									<c:when test="${inter.externalId == selected}">
-										<button type="submit" class="btn btn-primary btn-sm sort disabled">
+										<button type="submit"
+											class="btn btn-primary btn-sm sort disabled">
 											<span class="glyphicon glyphicon-check"></span>
 											<spring:message code="general.selected" />
 										</button>
@@ -83,11 +79,6 @@
 										</button>
 									</c:otherwise>
 								</c:choose></td>
-							<td><c:forEach var="taxonomy"
-									items="${edition.getTaxonomies()}">
-									<a
-										href="${contextPath}/edition/taxonomy/${taxonomy.getExternalId()}">${taxonomy.getName()}</a>
-								</c:forEach></td>
 							<td><c:forEach var="used" items="${inter.getListUsed()}">-><a
 										href="${contextPath}/fragments/fragment/inter/${used.externalId}">${used.shortName}</a>
 								</c:forEach></td>
