@@ -39,7 +39,7 @@ import pt.ist.socialsoftware.edition.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.domain.VirtualEditionInter;
 import pt.ist.socialsoftware.edition.security.LdoDSession;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDException;
-import pt.ist.socialsoftware.edition.utils.AnnotationJson;
+import pt.ist.socialsoftware.edition.utils.AnnotationDTO;
 import pt.ist.socialsoftware.edition.utils.AnnotationSearchJson;
 import pt.ist.socialsoftware.edition.visitors.HtmlWriter2CompInters;
 import pt.ist.socialsoftware.edition.visitors.HtmlWriter4Variations;
@@ -329,12 +329,12 @@ public class FragmentController {
 			@RequestParam String uri) {
 		logger.debug("searchAnnotations limit:{}, uri:{}", limit, uri);
 
-		List<AnnotationJson> annotations = new ArrayList<AnnotationJson>();
+		List<AnnotationDTO> annotations = new ArrayList<AnnotationDTO>();
 
 		VirtualEditionInter inter = FenixFramework.getDomainObject(uri);
 
 		for (Annotation annotation : inter.getAnnotationSet()) {
-			AnnotationJson annotationJson = new AnnotationJson(annotation);
+			AnnotationDTO annotationJson = new AnnotationDTO(annotation);
 			annotations.add(annotationJson);
 		}
 
@@ -342,8 +342,8 @@ public class FragmentController {
 	}
 
 	@RequestMapping(method = RequestMethod.POST, value = "/annotations")
-	public @ResponseBody ResponseEntity<AnnotationJson> createAnnotation(Model model,
-			@RequestBody final AnnotationJson annotationJson, HttpServletRequest request) {
+	public @ResponseBody ResponseEntity<AnnotationDTO> createAnnotation(Model model,
+			@RequestBody final AnnotationDTO annotationJson, HttpServletRequest request) {
 		VirtualEditionInter inter = FenixFramework.getDomainObject(annotationJson.getUri());
 		VirtualEdition virtualEdition = (VirtualEdition) inter.getEdition();
 		LdoDUser user = LdoDUser.getAuthenticatedUser();
@@ -356,43 +356,44 @@ public class FragmentController {
 
 			annotationJson.setId(annotation.getExternalId());
 
-			return new ResponseEntity<AnnotationJson>(new AnnotationJson(annotation), HttpStatus.CREATED);
+			return new ResponseEntity<AnnotationDTO>(new AnnotationDTO(annotation), HttpStatus.CREATED);
 		} else {
-			return new ResponseEntity<AnnotationJson>(HttpStatus.UNAUTHORIZED);
+			return new ResponseEntity<AnnotationDTO>(HttpStatus.UNAUTHORIZED);
 		}
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/annotations/{id}")
-	public @ResponseBody ResponseEntity<AnnotationJson> getAnnotation(Model model, @PathVariable String id) {
+	public @ResponseBody ResponseEntity<AnnotationDTO> getAnnotation(Model model, @PathVariable String id) {
 		Annotation annotation = FenixFramework.getDomainObject(id);
 		if (annotation != null) {
-			return new ResponseEntity<AnnotationJson>(new AnnotationJson(annotation), HttpStatus.OK);
+			return new ResponseEntity<AnnotationDTO>(new AnnotationDTO(annotation), HttpStatus.OK);
 		} else {
-			return new ResponseEntity<AnnotationJson>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<AnnotationDTO>(HttpStatus.NOT_FOUND);
 		}
 	}
 
 	@RequestMapping(method = RequestMethod.PUT, value = "/annotations/{id}")
-	public @ResponseBody ResponseEntity<AnnotationJson> updateAnnotation(Model model, @PathVariable String id,
-			@RequestBody final AnnotationJson annotationJson) {
+	public @ResponseBody ResponseEntity<AnnotationDTO> updateAnnotation(Model model, @PathVariable String id,
+			@RequestBody final AnnotationDTO annotationJson) {
 		Annotation annotation = FenixFramework.getDomainObject(id);
 		if (annotation != null) {
 			annotation.update(annotationJson.getText(), annotationJson.getTags());
-			return new ResponseEntity<AnnotationJson>(new AnnotationJson(annotation), HttpStatus.OK);
+			return new ResponseEntity<AnnotationDTO>(new AnnotationDTO(annotation), HttpStatus.OK);
 		} else {
-			return new ResponseEntity<AnnotationJson>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<AnnotationDTO>(HttpStatus.NOT_FOUND);
 		}
 	}
 
 	@RequestMapping(method = RequestMethod.DELETE, value = "/annotations/{id}")
-	public @ResponseBody ResponseEntity<AnnotationJson> deleteAnnotation(Model model, @PathVariable String id,
-			@RequestBody final AnnotationJson annotationJson) {
+	public @ResponseBody ResponseEntity<AnnotationDTO> deleteAnnotation(Model model, @PathVariable String id,
+			@RequestBody final AnnotationDTO annotationJson) {
 		Annotation annotation = FenixFramework.getDomainObject(id);
 		if (annotation != null) {
 			annotation.remove();
-			return new ResponseEntity<AnnotationJson>(HttpStatus.NO_CONTENT);
+			return new ResponseEntity<AnnotationDTO>(HttpStatus.NO_CONTENT);
 		} else {
-			return new ResponseEntity<AnnotationJson>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<AnnotationDTO>(HttpStatus.NOT_FOUND);
 		}
 	}
+
 }

@@ -55,7 +55,7 @@ public class Annotation extends Annotation_Base {
 
 		for (String tag : tags) {
 			if (!existsTag(tag)) {
-				getTaxonomy().createTagInTextPortion(this, tag);
+				getTaxonomy().createTag(this, tag);
 			}
 		}
 

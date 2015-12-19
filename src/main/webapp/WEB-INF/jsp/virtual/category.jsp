@@ -43,7 +43,7 @@
 				<div class="row text-error">${error}</div>
 			</c:forEach>
 			<form name="updateName" class="form-inline" method="POST"
-				action="/virtualeditions/restricted/category"
+				action="/virtualeditions/restricted/category/update"
 				onsubmit="return validateForm()">
 				<div class="form-group">
 					<input type="hidden" class="form-control" name="categoryId"

@@ -7,9 +7,9 @@ public class AnnotationSearchJson implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private int total;
-	private List<AnnotationJson> rows;
+	private List<AnnotationDTO> rows;
 
-	public AnnotationSearchJson(List<AnnotationJson> annotations) {
+	public AnnotationSearchJson(List<AnnotationDTO> annotations) {
 		setTotal(annotations.size());
 		setRows(annotations);
 	}
@@ -22,11 +22,11 @@ public class AnnotationSearchJson implements Serializable {
 		this.total = total;
 	}
 
-	public List<AnnotationJson> getRows() {
+	public List<AnnotationDTO> getRows() {
 		return rows;
 	}
 
-	public void setRows(List<AnnotationJson> rows) {
+	public void setRows(List<AnnotationDTO> rows) {
 		this.rows = rows;
 	}
 

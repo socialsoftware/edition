@@ -112,11 +112,16 @@ public class Taxonomy extends Taxonomy_Base {
 		return newCategory;
 	}
 
-	public void createTagInTextPortion(Annotation annotation, String tag) {
+	public void createTag(Annotation annotation, String tag) {
 		if (getCategory(tag) == null)
 			new Category().init(this, tag);
 
-		getCategory(tag).createTagInTextPortion(annotation, tag);
+		getCategory(tag).createTag(annotation, tag);
+	}
+
+	@Atomic(mode = TxMode.WRITE)
+	public Category createCategory(String name) {
+		return new Category().init(this, name);
 	}
 
 }
