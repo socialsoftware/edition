@@ -105,7 +105,8 @@
 
 <script>
 	$("#category-select").select2({
-		tags : true
+		tags : true,
+		tokenSeparators: [',', ' ']
 	})
 </script>
 

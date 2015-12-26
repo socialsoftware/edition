@@ -14,6 +14,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
+import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.domain.Edition.EditionType;
 import pt.ist.socialsoftware.edition.recommendation.VSMFragInterRecommender;
 import pt.ist.socialsoftware.edition.recommendation.properties.Property;
@@ -233,11 +234,24 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 		return categories;
 	}
 
-	public String getCategoriesJSON() {
+	public String getCategoriesJSON(String annotationID) {
+		Annotation annotation = null;
+		if (annotationID != null) {
+			annotation = FenixFramework.getDomainObject(annotationID);
+		}
+
 		ObjectMapper mapper = new ObjectMapper();
 
 		List<CategoryDTO> categories = getVirtualEdition().getTaxonomy().getCategoriesSet().stream()
-				.map(c -> new CategoryDTO(c)).collect(Collectors.toList());
+				.sorted((c1, c2) -> c1.getName().compareTo(c2.getName())).map(c -> new CategoryDTO(c))
+				.collect(Collectors.toList());
+
+		if (annotation != null) {
+			Set<Category> annCat = annotation.getTagSet().stream().map(t -> t.getCategory())
+					.collect(Collectors.toSet());
+
+			categories.stream().filter(c -> annCat.contains(c.getText())).forEach(c -> c.setSelected("selected"));
+		}
 
 		try {
 			return mapper.writeValueAsString(categories);
