@@ -68,7 +68,6 @@
 			} else {
 				$jqfield.val([]).trigger("change");
 			}
-
 		}
 
 		var select = $("<select>");

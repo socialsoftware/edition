@@ -240,7 +240,7 @@ var editionData = new Array();
 	
 	<c:choose>
 	<c:when test="${fn:contains(titleTemp, '\"')}">
-	editionDataItem.title =${titleTemp}
+	editionDataItem.title ="${titleTemp}"
 	</c:when>
 	<c:otherwise>
 	editionDataItem.title ="${titleTemp}"
@@ -248,15 +248,9 @@ var editionData = new Array();
     </c:otherwise>
 	</c:choose>
 	
+	 	 
 	
 	
-	var taxonomies = new Array();
-	 	taxonomy = new Object();
-	 	taxonomy.externalId = "${virtualEdition.getTaxonomy().getExternalId()}";
-	 	taxonomy.name = "${virtualEdition.getTaxonomy().getName()}";
-	 	taxonomies.push(taxonomy);
-	editionDataItem.taxonomies = taxonomies;
-		 	 
 	 var listused = new Array();
 	 <c:forEach var="used" items="${inter.getListUsed()}">
 	 	used = new Object();
@@ -773,39 +767,6 @@ var editionData = new Array();
 
 						<div class="form-group  col-xs-12">
 
-							<!--               <table class="table table-condensed table-hover">
-			    <thead>
-			        <tr>
-			            <th><spring:message code="tableofcontents.number" /></th>
-			            <th><spring:message code="tableofcontents.title" /></th>
-			            <th><spring:message code="general.taxonomy" /></th>
-			            <th><spring:message code="tableofcontents.usesEditions" /></th>
-			        </tr>
-                <tbody>
-                
-               
-		        <c:forEach var="inter" items='${virtualEdition.sortedInterps}'>
-		            <c:if
-		                test="${(heteronym == null) || (inter.heteronym == heteronym)}">
-		                <tr>
-		                    <td><c:if test="${inter.number!=0}">${inter.number}</c:if></td>
-		                    <td><a
-		                        href="${contextPath}/fragments/fragment/inter/${inter.externalId}">${inter.title}</a></td>
-		                    <td>
-		                        <c:forEach var="taxonomy" items="${virtualEdition.getTaxonomies()}">
-		                            <a href="${contextPath}/edition/taxonomy/${taxonomy.getExternalId()}">${taxonomy.getName()}</a>
-		                        </c:forEach>
-		                    </td>
-		                    <td><c:forEach var="used"
-		                            items="${inter.getListUsed()}">-><a
-		                        href="${contextPath}/fragments/fragment/inter/${used.externalId}">${used.shortName}</a>
-		                    </c:forEach></td>
-		                </tr>
-		            </c:if>
-		        </c:forEach>
-		    	</tbody>
-                </tbody>
-				</table> -->
 
 
 						</div>
@@ -874,13 +835,6 @@ var columns = [
     sortable: true
   },
   {
-    id: "tax",
-    name: "Taxonomia",
-    field: "tax",
-    behavior: "selectAndMove",
-    sortable: true,
-  },
-  {
     id: "edition",
     name: "Edição",
     field: "edition",
@@ -936,9 +890,6 @@ $(function () {
      		editionStr = editionStr + "> " + editionData[i].listused[j].shortName + " ";	
      	
       taxStr = "";
-      if (editionData[i].taxonomies[0]!=null)
-        for(j=0;j<editionData[i].taxonomies.length;j++)
-        	taxStr = taxStr + editionData[i].taxonomies[j].name + " ";
      	     		
       data[i] = {
         id: i+1,
