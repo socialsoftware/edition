@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.domain.Annotation;
 import pt.ist.socialsoftware.edition.domain.AppText;
+import pt.ist.socialsoftware.edition.domain.Category;
 import pt.ist.socialsoftware.edition.domain.Edition;
 import pt.ist.socialsoftware.edition.domain.FragInter;
 import pt.ist.socialsoftware.edition.domain.Fragment;
@@ -394,6 +395,19 @@ public class FragmentController {
 		} else {
 			return new ResponseEntity<AnnotationDTO>(HttpStatus.NOT_FOUND);
 		}
+	}
+
+	@RequestMapping(method = RequestMethod.GET, value = "/annotation/{annotationId}/categories")
+	public @ResponseBody ResponseEntity<String[]> getAnnotationInter(Model model, @PathVariable String annotationId) {
+		logger.debug("getAnnotationInter id:{}", annotationId);
+
+		Annotation annotation = FenixFramework.getDomainObject(annotationId);
+
+		List<Category> listCategories = annotation.getCategories();
+
+		String[] categories = listCategories.stream().map(c -> c.getName()).toArray(size -> new String[size]);
+
+		return new ResponseEntity<String[]>(categories, HttpStatus.OK);
 	}
 
 }

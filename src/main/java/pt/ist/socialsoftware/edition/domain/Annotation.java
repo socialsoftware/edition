@@ -1,6 +1,7 @@
 package pt.ist.socialsoftware.edition.domain;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
@@ -74,6 +75,11 @@ public class Annotation extends Annotation_Base {
 	public void update(String text, List<String> tags) {
 		setText(text);
 		updateTags(tags);
+	}
+
+	public List<Category> getCategories() {
+		return getTagSet().stream().map(t -> t.getCategory()).sorted((c1, c2) -> c1.getName().compareTo(c2.getName()))
+				.collect(Collectors.toList());
 	}
 
 }

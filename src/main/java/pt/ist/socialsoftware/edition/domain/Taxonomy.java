@@ -7,8 +7,12 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
+import pt.ist.socialsoftware.edition.utils.CategoryDTO;
 
 public class Taxonomy extends Taxonomy_Base {
 
@@ -122,6 +126,22 @@ public class Taxonomy extends Taxonomy_Base {
 	@Atomic(mode = TxMode.WRITE)
 	public Category createCategory(String name) {
 		return new Category().init(this, name);
+	}
+
+	public String getCategoriesJSON() {
+		ObjectMapper mapper = new ObjectMapper();
+
+		List<CategoryDTO> categories = getCategoriesSet().stream().map(c -> new CategoryDTO(c))
+				.collect(Collectors.toList());
+
+		try {
+			return mapper.writeValueAsString(categories);
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return null;
 	}
 
 }

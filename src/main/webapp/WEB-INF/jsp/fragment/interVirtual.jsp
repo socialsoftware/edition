@@ -24,7 +24,7 @@
 	src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/js/select2.min.js"></script>
 
 
-<script type="text/javascript">
+<script>
 	function stringifyTags(array) {
 		return array.join(" ");
 	}
@@ -34,75 +34,69 @@
 		var tags = [];
 
 		if (string) {
-			tags = string.split(/\s+/);
+			tags = string.split(/\,/);
 		}
 
 		return tags;
 	}
 
 	function editorExtension(e) {
-		// The input element added to the Annotator.Editor wrapped in jQuery.
-		// Cached to save having to recreate it everytime the editor is displayed.
-		var field = null;
 		var tagsField = null;
-		var input = null;
 
-		function updateField(field, annotation) {
-			var value = '';
-			if (annotation.tags) {
-				value = stringifyTags(annotation.tags);
-			}
-			input.val(value);
-		}
+		var data = null;
 
 		function setAnnotationTags(field, annotation) {
-			annotation.tags = parseTags(input.val());
-		}
-
-		field = e.addField({
-		//	label : _t('Add some tags here') + '\u2026',
-			load : updateField,
-			submit : setAnnotationTags
-		});
-
-		input = $(field).find(':input');
-		
-		var input2;
-		
-		var params = "?";
-		var andParam = "";
-
-		function setAnnotationTags2(field, annotation) {
-			$(".select2-selection_choice").each(function(){
-			    params += andParam + "selected=" + $(this).val();
-			    andParam = "&";
-			});
-			alert(params);
-			annotation.tags = parseTags(input2.val());
+			annotation.tags = parseTags($(".tagSelector").val());
 		}
 
 		tagsField = e.addField({
-			load : updateField,
-			//submit : setAnnotationTags2
-		})
-
-		var data = $.parseJSON('${inters.get(0).getCategoriesJSON()}');
-					
-
-		$(tagsField).select2({
-		//	placeholder : _t('Add some tags here') + '\u2026',
-			multiple : true,
-			data : data,
-			style : "width:100%",
-			 placeholder: "Select a state",
+			load : loadField,
+			submit : setAnnotationTags
 		});
-		
-		//input2 =  $(tagsField).find(':input');
+
+		$("#annotator-field-1").remove("input");
+
+		function loadField(field, annotation) {
+			var $jqfield = $(".tagSelector").select2();
+
+			if (typeof annotation.id !== 'undefined') {
+				$.get("${contextPath}/fragments/fragment/annotation/"
+						+ annotation.id + "/categories",
+						function(data, status) {
+							$jqfield.val(data).trigger("change");
+						});
+			} else {
+				$jqfield.val([]).trigger("change");
+			}
+
+		}
+
+		var select = $("<select>");
+		select.attr("class", "tagSelector");
+		select.attr("style", "width:263px;");
+		$(tagsField).append(select);
+
+		$(".tagSelector")
+				.select2(
+						{
+							tags : true,
+							tokenSeparators : [ ',', ' ' ],
+							multiple : true,
+							data : $
+									.parseJSON('${inters.get(0).getVirtualEdition().getTaxonomy().getCategoriesJSON()}')
+						});
+
+		$(".tagSelector").on('select2:open', function(e, data) {
+			$(".select2-dropdown").css({
+				"z-index" : "999999"
+			});
+		});
+
 	};
 </script>
 
 
-<script type="text/javascript">
+<script>
 	var pageUri = function() {
 		return {
 			beforeAnnotationCreated : function(ann) {
@@ -114,7 +108,7 @@
 	var app = new annotator.App();
 	app.include(annotator.ui.main, {
 		element : document.querySelector('#content'),
-		editorExtensions : [ annotator.ui.tags.editorExtension ],
+		editorExtensions : [ editorExtension ],
 		viewerExtensions : [ annotator.ui.tags.viewerExtension ]
 	});
 
