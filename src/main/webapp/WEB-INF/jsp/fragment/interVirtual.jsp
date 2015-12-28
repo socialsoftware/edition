@@ -24,7 +24,7 @@
 	src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/js/select2.min.js"></script>
 
 
-<script type="text/javascript">
+<script>
 	function stringifyTags(array) {
 		return array.join(" ");
 	}
@@ -43,37 +43,50 @@
 	function editorExtension(e) {
 		var tagsField = null;
 
+		var data = null;
+
 		function setAnnotationTags(field, annotation) {
 			annotation.tags = parseTags($(".tagSelector").val());
 		}
 
 		tagsField = e.addField({
+			load : loadField,
 			submit : setAnnotationTags
 		});
 
 		$("#annotator-field-1").remove("input");
 
-		var arg = 'null';
-		if (typeof annotation !== 'undefined') {
-			arg = annotation.id;
-		}
+		function loadField(field, annotation) {
+			var $jqfield = $(".tagSelector").select2();
 
-		var data = $.parseJSON('${inters.get(0).getCategoriesJSON(' + arg
-				+ ')}');
+			if (typeof annotation.id !== 'undefined') {
+				$.get("${contextPath}/fragments/fragment/annotation/"
+						+ annotation.id + "/categories",
+						function(data, status) {
+							$jqfield.val(data).trigger("change");
+						});
+			} else {
+				$jqfield.val([]).trigger("change");
+			}
+
+		}
 
 		var select = $("<select>");
 		select.attr("class", "tagSelector");
 		select.attr("style", "width:263px;");
 		$(tagsField).append(select);
 
-		$(".tagSelector").select2({
-			tags : true,
-			data : data,
-			tokenSeparators : [ ',', ' ' ],
-			multiple : true
-		});
+		$(".tagSelector")
+				.select2(
+						{
+							tags : true,
+							tokenSeparators : [ ',', ' ' ],
+							multiple : true,
+							data : $
+									.parseJSON('${inters.get(0).getVirtualEdition().getTaxonomy().getCategoriesJSON()}')
+						});
 
-		$(".tagSelector").on('select2:open', function(e) {
+		$(".tagSelector").on('select2:open', function(e, data) {
 			$(".select2-dropdown").css({
 				"z-index" : "999999"
 			});
@@ -83,7 +96,7 @@
 </script>
 
 
-<script type="text/javascript">
+<script>
 	var pageUri = function() {
 		return {
 			beforeAnnotationCreated : function(ann) {

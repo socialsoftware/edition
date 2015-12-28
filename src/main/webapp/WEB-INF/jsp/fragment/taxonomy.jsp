@@ -78,7 +78,7 @@
 									items='${inter.getNonAssignedCategories()}'>
 									<option value='${category.getName()}'>${category.getName()}</option>
 								</c:forEach>
-								<c:forEach var='category' items='${inter.getCategories()}'>
+								<c:forEach var='category' items='${inter.getAssignedCategories()}'>
 								<option value='${category.getName()}' selected='selected'>${category.getName()}</option>
 								</c:forEach>
 							</select>

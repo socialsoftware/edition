@@ -9,17 +9,12 @@ import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
-import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.domain.Edition.EditionType;
 import pt.ist.socialsoftware.edition.recommendation.VSMFragInterRecommender;
 import pt.ist.socialsoftware.edition.recommendation.properties.Property;
 import pt.ist.socialsoftware.edition.search.options.SearchOption;
-import pt.ist.socialsoftware.edition.utils.CategoryDTO;
 import pt.ist.socialsoftware.edition.utils.RangeJson;
 
 public class VirtualEditionInter extends VirtualEditionInter_Base {
@@ -200,7 +195,7 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 				new Tag().init(this, category, null, ldoDUser);
 		}
 
-		getCategories().stream().filter(c -> !categories.contains(c)).forEach(c -> dissociate(c));
+		getAssignedCategories().stream().filter(c -> !categories.contains(c)).forEach(c -> dissociate(c));
 	}
 
 	@Atomic(mode = TxMode.WRITE)
@@ -218,7 +213,7 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 	}
 
 	public List<Category> getNonAssignedCategories() {
-		List<Category> interCategories = getCategories();
+		List<Category> interCategories = getAssignedCategories();
 
 		List<Category> categories = getVirtualEdition().getTaxonomy().getCategoriesSet().stream()
 				.filter(c -> !interCategories.contains(c)).sorted((c1, c2) -> c1.getName().compareTo(c2.getName()))
@@ -227,40 +222,11 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 		return categories;
 	}
 
-	public List<Category> getCategories() {
+	public List<Category> getAssignedCategories() {
 		List<Category> categories = getTagSet().stream().map(t -> t.getCategory()).distinct()
 				.sorted((c1, c2) -> c1.getName().compareTo(c2.getName())).collect(Collectors.toList());
 
 		return categories;
-	}
-
-	public String getCategoriesJSON(String annotationID) {
-		Annotation annotation = null;
-		if (annotationID != null) {
-			annotation = FenixFramework.getDomainObject(annotationID);
-		}
-
-		ObjectMapper mapper = new ObjectMapper();
-
-		List<CategoryDTO> categories = getVirtualEdition().getTaxonomy().getCategoriesSet().stream()
-				.sorted((c1, c2) -> c1.getName().compareTo(c2.getName())).map(c -> new CategoryDTO(c))
-				.collect(Collectors.toList());
-
-		if (annotation != null) {
-			Set<Category> annCat = annotation.getTagSet().stream().map(t -> t.getCategory())
-					.collect(Collectors.toSet());
-
-			categories.stream().filter(c -> annCat.contains(c.getText())).forEach(c -> c.setSelected("selected"));
-		}
-
-		try {
-			return mapper.writeValueAsString(categories);
-		} catch (JsonProcessingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		return null;
 	}
 
 }
