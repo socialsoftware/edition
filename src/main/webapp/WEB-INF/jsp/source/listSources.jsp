@@ -22,7 +22,7 @@
 					code="authorial.source" /> (${sources.size()})
 			</span>
 		</h3>
-		<table class="table table-striped table-bordered" id="tablelistsources" data-pagination=true>
+		<table class="table table-striped table-bordered" id="tablelistsources" data-pagination=false>
 			<!--  <table class="table table-bordered table-condensed">-->
 			<thead>
 				<tr>
