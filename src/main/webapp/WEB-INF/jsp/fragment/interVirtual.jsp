@@ -78,11 +78,11 @@
 		$(".tagSelector")
 				.select2(
 						{
-							tags : true,
-							tokenSeparators : [ ',', ' ' ],
 							multiple : true,
 							data : $
-									.parseJSON('${inters.get(0).getVirtualEdition().getTaxonomy().getCategoriesJSON()}')
+									.parseJSON('${inters.get(0).getVirtualEdition().getTaxonomy().getCategoriesJSON()}'),
+							tags : true,
+							tokenSeparators : [ ',', ' ' ]
 						});
 
 		$(".tagSelector").on('select2:open', function(e, data) {

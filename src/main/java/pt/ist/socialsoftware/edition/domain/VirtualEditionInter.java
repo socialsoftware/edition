@@ -158,11 +158,16 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 	@Atomic(mode = TxMode.WRITE)
 	public Annotation createAnnotation(String quote, String text, LdoDUser user, List<RangeJson> rangeList,
 			List<String> tagList) {
+		logger.debug("createAnnotation start:{}, startOffset:{}, end:{}, endOffset:{}", rangeList.get(0).getStart(),
+				rangeList.get(0).getStartOffset(), rangeList.get(0).getEnd(), rangeList.get(0).getEndOffset());
 
-		SimpleText startText = getFragment().getTextPortion().getSimpleText(getLastUsed(), 0,
-				rangeList.get(0).getStartOffset());
-		SimpleText endText = getFragment().getTextPortion().getSimpleText(getLastUsed(), 0,
-				rangeList.get(0).getEndOffset());
+		SimpleText startText = null;
+		// startText =
+		// getFragment().getTextPortion().getSimpleText(getLastUsed(), 0,
+		// rangeList.get(0).getStartOffset());
+		SimpleText endText = null;
+		// endText = getFragment().getTextPortion().getSimpleText(getLastUsed(),
+		// 0, rangeList.get(0).getEndOffset());
 
 		Annotation annotation = new Annotation(this, startText, endText, quote, text, user);
 
