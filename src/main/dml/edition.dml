@@ -523,12 +523,12 @@ class Annotation {
 
 relation AnnotationHasBeginSimpleText {
 	Annotation playsRole startAnnotations {multiplicity 0..*;}
-	SimpleText playsRole startText {multiplicity 1..1;}
+	SimpleText playsRole startText {multiplicity 0..1;}
 }
 
 relation AnnotationHasEndSimpleText {
 	Annotation playsRole endAnnotations {multiplicity 0..*;}
-	SimpleText playsRole endText {multiplicity 1..1;}
+	SimpleText playsRole endText {multiplicity 0..1;}
 }
 
 relation VirtualEditionInterHasAnnotations {
