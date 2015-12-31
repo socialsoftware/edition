@@ -4,53 +4,10 @@
 <head>
 <%@ include file="/WEB-INF/jsp/common/meta-head.jsp"%>
 </head>
-<script type="text/javascript">
-function validateForm() {
-    var x = document.forms["createTaxonomy"]["numTopics"].value;
-    if (x == null || x == "") {
-        $("#message").html("Deve ser indicado o número de tópicos a gerar");
-        $("#myModal").modal('show');
-        return false;
-    } else if (isNaN(x) || x < 1) {
-        $("#message").html("Deve ser indicado um número de tópicos positivo");
-        $("#myModal").modal('show');
-        return false;
-    }
-    x = document.forms["createTaxonomy"]["numWords"].value;
-    if (x == null || x == "") {
-        $("#message").html("Deve ser indicado o número de palavras a apresentar");
-        $("#myModal").modal('show');
-        return false;
-    } else if (isNaN(x) || x < 1) {
-        alert("Deve ser indicado um número de palavras positivo");
-        return false;
-    }
-    x = document.forms["createTaxonomy"]["thresholdCategories"].value;
-    if (x == null || x == "") {
-        $("#message").html("Deve ser indicado o valor de corte de categorias");
-        $("#myModal").modal('show');
-        return false;
-    } else if (isNaN(x) || x < 0 || x > 100) {
-        $("#message").html("Deve ser indicado um valor de corte de categorias entre 0 e 100");
-        $("#myModal").modal('show');
-        return false;
-    }
-    x = document.forms["createTaxonomy"]["numIterations"].value;
-    if (x == null || x == "") {
-        $("#message").html("Deve ser indicado o número de iterações");
-        $("#myModal").modal('show');
-        return false;
-    } else if (isNaN(x) || x < 1) {
-        $("#message").html("Deve ser indicado um número de iterações positivo");
-        $("#myModal").modal('show');
-        return false;
-    }
-}
-</script>
 <body>
 	<%@ include file="/WEB-INF/jsp/common/fixed-top-ldod-header.jsp"%>
-	
-	<c:set var="taxonomy" value="${virtualEdition.getTaxonomy()}"/>
+
+	<c:set var="taxonomy" value="${virtualEdition.getTaxonomy()}" />
 
 	<div class="container">
 		<h1 class="text-center">
@@ -65,74 +22,44 @@ function validateForm() {
 			<spring:message code="general.public.pages" />
 			- <a
 				href="${contextPath}/edition/internalid/${virtualEdition.getExternalId()}">
-				<spring:message code="general.edition" /></a> : <a
-				href="${contextPath}/edition/taxonomy/${virtualEdition.getTaxonomy().getExternalId()}"><spring:message code="general.taxonomy" /></a>
+				<spring:message code="general.edition" />
+			</a> : <a
+				href="${contextPath}/edition/taxonomy/${virtualEdition.getTaxonomy().getExternalId()}"><spring:message
+					code="general.taxonomy" /></a>
 		</h4>
-		<br /> <br/> <br/>
-		<div class="row col-md-10"></div>
 		<br /> <br /> <br />
-		<h4><spring:message code="topics.generate" /></h4>
-		<div class="row col-md-12">
-			<c:forEach var="error" items='${errors}'>
-				<div class="row has-error">${error}</div>
-			</c:forEach>
-		</div>
-		<div class="row col-md-12">
-			<form name="generateTopics" class="form-inline" method="POST"
-				action="/virtualeditions/restricted/taxonomy/createTopics"
-				onsubmit="return validateForm()">
-				<div class="form-group">
-					<input type="hidden" class="form-control" name="externalId"
-						value="${virtualEdition.externalId}" />
-				</div>
-				<div class="form-group">
-					<input type="text" class="form-control" name="numTopics"
-						placeholder="<spring:message code="general.taxonomies.number.topics" />">
-				</div>
-				<div class="form-group">
-					<input type="text" class="form-control" name="numWords"
-						placeholder="<spring:message code="general.taxonomies.number.words" />">
-				</div>
-				<div class="form-group">
-					<input type="text" class="form-control" name="thresholdCategories"
-						placeholder="<spring:message code="general.taxonomies.threshold.categories" />">
-				</div>
-				<div class="form-group">
-					<input type="text" class="form-control" name="numIterations"
-						placeholder="<spring:message code="general.taxonomies.number.iterations" />">
-				</div>
-				<button type="submit" class="btn btn-primary">
+		<div class="row">
+			<div class="col-md-5">
+				<c:forEach var="categoryError" items='${categoryErrors}'>
+					<div class="row has-error">${categoryError}</div>
+				</c:forEach>
+				<form name="createCategory" class="form-inline" method="POST"
+					action="/virtualeditions/restricted/category/create"
+					onsubmit="return validateCreateCategoryForm()">
+					<div class="form-group">
+						<input type="hidden" class="form-control" name="externalId"
+							value="${virtualEdition.externalId}" />
+					</div>
+					<div class="form-group">
+						<input type="text" class="form-control" name="name"
+							placeholder="<spring:message code="general.name" />">
+					</div>
+					<button type="submit" class="btn btn-primary">
+						<span class="glyphicon glyphicon-plus"></span>
+						<spring:message code="category.add" />
+					</button>
+				</form>
+			</div>
+			<div class="col-md-6">
+				<button class="btn btn-primary pull-right" data-toggle="modal"
+					data-target="#topicModal">
 					<span class="glyphicon glyphicon-plus"></span>
-					<spring:message code="general.generate" />
+					<spring:message code="topics.generate.short" />
 				</button>
-			</form>
+			</div>
+
 		</div>
-		<br /><br />
-				<h4><spring:message code="category.creation" /></h4>
-		<div class="row col-md-12">
-			<c:forEach var="error" items='${errors}'>
-				<div class="row has-error">${error}</div>
-			</c:forEach>
-		</div>
-		<div class="row col-md-12">
-			<form name="createCategory" class="form-inline" method="POST"
-				action="/virtualeditions/restricted/category/create"
-				onsubmit="return validateForm()">
-				<div class="form-group">
-					<input type="hidden" class="form-control" name="externalId"
-						value="${virtualEdition.externalId}" />
-				</div>
-				<div class="form-group">
-					<input type="text" class="form-control" name="name"
-						placeholder="<spring:message code="general.name" />">
-				</div>
-				<button type="submit" class="btn btn-primary">
-					<span class="glyphicon glyphicon-plus"></span>
-					<spring:message code="general.generate" />
-				</button>
-			</form>
-		</div>					
-		<br /> <br /> <br />
+		<br />
 		<div class="row col-md-12">
 			<div class="row">
 				<table class="table table-hover">
@@ -181,10 +108,11 @@ function validateForm() {
 							<tr>
 								<td></td>
 								<td></td>
-								<td><div class="form-group">
-										<button type="submit" class="btn btn-sm btn-primary">
-											<spring:message code="general.merge" />
-										</button></td>
+								<td>
+									<button type="submit" class="btn btn-sm btn-primary">
+										<spring:message code="general.merge" />
+									</button>
+								</td>
 							</tr>
 						</tbody>
 					</form>
@@ -192,8 +120,8 @@ function validateForm() {
 			</div>
 		</div>
 	</div>
-	<!-- Modal HTML -->
-	<div id="myModal" class="modal fade">
+	<!-- Validate Modal HTML -->
+	<div id="validateModal" class="modal fade">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -210,5 +138,146 @@ function validateForm() {
 			</div>
 		</div>
 	</div>
+	<!-- Topic Model Generation Modal HTML -->
+	<div class="modal fade" id="topicModal" tabindex="-1" role="dialog">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title text-center">
+						<spring:message code="topics.generate.long" />
+					</h4>
+					<br />
+					<div class="row">
+						<div class="col-xs-2">
+							<input type="text" class="form-control" id="numTopics"
+								placeholder="<spring:message code="general.taxonomies.number.topics" />">
+						</div>
+						<div class="col-xs-2">
+							<input type="text" class="form-control" id="numWords"
+								placeholder="<spring:message code="general.taxonomies.number.words" />">
+						</div>
+						<div class="col-xs-2">
+							<input type="text" class="form-control" id="thresholdCategories"
+								placeholder="<spring:message code="general.taxonomies.threshold.categories" />">
+						</div>
+						<div class="col-xs-2">
+							<input type="text" class="form-control" id="numIterations"
+								placeholder="<spring:message code="general.taxonomies.number.iterations" />">
+						</div>
+
+						<button type="submit" class="btn btn-primary" onclick="generate()">
+							<span class="glyphicon glyphicon-cog"></span>
+							<spring:message code="general.generate" />
+						</button>
+					</div>
+					<div class="row">
+						<div class="col-md-6">
+							<p class="text-danger" id="error"></p>
+						</div>
+					</div>
+				</div>
+				<div class="modal-body">
+					<div id="topics">
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+	<!-- /.modal -->
 </body>
+
+<script>
+function validateCreateCategoryForm() {
+    var x = document.forms["createCategory"]["name"].value;
+    if (x == null || x == "") {
+        $("#message").html("Deve ser indicado o nome da categoria");
+        $("#validateModal").modal('show');
+        return false;
+    }
+}
+</script>
+
+<script type="text/javascript">
+function validateGenerateTopics(topics, words, threshold, iterations) {
+	$("#error").empty();
+	
+	var errors = [];
+    if (topics == null || topics == "") {
+    	errors.push("Deve ser indicado o número de tópicos a gerar");
+    } else if (isNaN(topics) || topics < 1) {
+    	errors.push("Deve ser indicado um número de tópicos positivo");
+    }
+    if (words == null || words == "") {
+    	errors.push("Deve ser indicado o número de palavras a apresentar");
+    } else if (isNaN(words) || words < 1) {
+    	errors.push("Deve ser indicado um número de palavras positivo");
+    }
+    if (threshold == null || threshold == "") {
+    	errors.push("Deve ser indicado o valor de corte de categorias");
+    } else if (isNaN(threshold) || threshold < 0 || threshold > 100) {
+    	errors.push("Deve ser indicado um valor de corte de categorias entre 0 e 100");
+    }
+    if (iterations == null || iterations == "") {
+    	errors.push("Deve ser indicado o número de iterações");
+    } else if (isNaN(iterations) || iterations < 1) {
+    	errors.push("Deve ser indicado um número de iterações positivo");
+    }
+    
+    if (errors.length > 0) {
+   	 	$("#error").html(errors.join("<br>"));
+    	return false;
+    } else {
+    	return true;
+    }
+}
+
+function validateCreateCategoryForm() {
+    var x = document.forms["createCategory"]["name"].value;
+    if (x == null || x == "") {
+        $("#message").html("Deve ser indicado o nome da categoria");
+        $("#validateModal").modal('show');
+        return false;
+    }
+}
+</script>
+
+
+<script>
+function generate() {
+	var topics = $("#numTopics").val();
+	var words = $("#numWords").val();
+	var threshold = $("#thresholdCategories").val();
+	var iterations = $("#numIterations").val();
+	
+	if (validateGenerateTopics(topics, words, threshold, iterations)) {
+	
+	$.get("${contextPath}/virtualeditions/restricted/${virtualEdition.getExternalId()}/taxonomy/generateTopics", 
+	{
+		numTopics : topics,
+		numWords : words,
+		thresholdCategories : threshold,
+		numIterations : iterations
+	}, function(html) {
+			$("#topics").replaceWith(html)
+		}
+	)
+	}
+}
+
+$("#topicModal").on("hidden.bs.modal", function(){
+    $("#topics").html("");
+});
+</script>
+
+
 </html>
+

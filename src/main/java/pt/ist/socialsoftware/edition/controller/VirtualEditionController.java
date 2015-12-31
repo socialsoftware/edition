@@ -41,6 +41,7 @@ import pt.ist.socialsoftware.edition.shared.exception.LdoDDuplicateAcronymExcept
 import pt.ist.socialsoftware.edition.shared.exception.LdoDDuplicateNameException;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDEditVirtualEditionException;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDException;
+import pt.ist.socialsoftware.edition.utils.TopicListDTO;
 import pt.ist.socialsoftware.edition.validator.VirtualEditionValidator;
 import pt.ist.socialsoftware.edition.visitors.PlainHtmlWriter4OneInter;
 
@@ -48,7 +49,7 @@ import pt.ist.socialsoftware.edition.visitors.PlainHtmlWriter4OneInter;
 @SessionAttributes({ "ldoDSession" })
 @RequestMapping("/virtualeditions")
 public class VirtualEditionController {
-	private static Logger log = LoggerFactory.getLogger(LdoDUserDetailsService.class);
+	private static Logger logger = LoggerFactory.getLogger(LdoDUserDetailsService.class);
 
 	@ModelAttribute("ldoDSession")
 	public LdoDSession getLdoDSession() {
@@ -171,8 +172,8 @@ public class VirtualEditionController {
 			@PathVariable String externalId, @RequestParam("acronym") String acronym,
 			@RequestParam("title") String title, @RequestParam("pub") boolean pub,
 			@RequestParam("fraginters") String fraginters) {
-		log.debug("editVirtualEdition externalId:{}, acronym:{}, title:{}, pub:{}, fraginters:{}", externalId, acronym,
-				title, pub, fraginters);
+		logger.debug("editVirtualEdition externalId:{}, acronym:{}, title:{}, pub:{}, fraginters:{}", externalId,
+				acronym, title, pub, fraginters);
 
 		VirtualEdition virtualEdition = FenixFramework.getDomainObject(externalId);
 		if (virtualEdition == null) {
@@ -354,33 +355,59 @@ public class VirtualEditionController {
 		}
 	}
 
-	@RequestMapping(method = RequestMethod.POST, value = "/restricted/taxonomy/createTopics")
+	@RequestMapping(method = RequestMethod.GET, value = "/restricted/{externalId}/taxonomy/generateTopics")
 	@PreAuthorize("hasPermission(#externalId, 'virtualedition.participant')")
-	public String topicModelling(Model model, @ModelAttribute("ldoDSession") LdoDSession ldoDSession,
-			@RequestParam("externalId") String externalId, @RequestParam("numTopics") int numTopics,
+	public String generateTopicModelling(Model model, @ModelAttribute("ldoDSession") LdoDSession ldoDSession,
+			@PathVariable String externalId, @RequestParam("numTopics") int numTopics,
 			@RequestParam("numWords") int numWords, @RequestParam("thresholdCategories") int thresholdCategories,
 			@RequestParam("numIterations") int numIterations) throws IOException {
+		logger.debug(
+				"generateTopicModelling externalId:{}, numTopics:{}, numWords:{}, thresholdCategories:{}, numIterations:{}",
+				externalId, numTopics, numWords, thresholdCategories, numIterations);
+
 		VirtualEdition virtualEdition = FenixFramework.getDomainObject(externalId);
 		if (virtualEdition == null) {
 			return "utils/pageNotFound";
 		} else {
 			LdoDUserDetails userDetails = (LdoDUserDetails) SecurityContextHolder.getContext().getAuthentication()
 					.getPrincipal();
-			List<String> errors = new ArrayList<String>();
+
+			List<String> topicErrors = new ArrayList<String>();
+			TopicListDTO topicListDTO = null;
 			TopicModeler modeler = new TopicModeler();
 			try {
-				modeler.generate(userDetails.getUser(), virtualEdition, numTopics, numWords, thresholdCategories,
-						numIterations);
+				topicListDTO = modeler.generate(userDetails.getUser(), virtualEdition, numTopics, numWords,
+						thresholdCategories, numIterations);
 			} catch (LdoDException ex) {
-				errors.add("Não existe nenhum fragmento associado a esta edição ou é necessário gerar o Corpus");
-				model.addAttribute("errors", errors);
-				model.addAttribute("virtualEdition", virtualEdition);
-				return "virtual/taxonomy";
+				topicErrors.add("Não existe nenhum fragmento associado a esta edição ou é necessário gerar o Corpus");
+				model.addAttribute("topicErrors", topicErrors);
+				model.addAttribute("topicList", topicListDTO);
+				return "virtual/generatedTopics";
 			}
+
+			model.addAttribute("virtualEdition", virtualEdition);
+			model.addAttribute("topicList", topicListDTO);
+			return "virtual/generatedTopics";
+		}
+	}
+
+	@RequestMapping(method = RequestMethod.POST, value = "/restricted/{externalId}/taxonomy/createTopics")
+	@PreAuthorize("hasPermission(#externalId, 'virtualedition.participant')")
+	public String createTopicModelling(Model model, @ModelAttribute("ldoDSession") LdoDSession ldoDSession,
+			@PathVariable String externalId, @ModelAttribute("topicList") TopicListDTO topicList) throws IOException {
+		logger.debug("createTopicModelling externalId:{}, username:{}", externalId, topicList.getUsername());
+
+		VirtualEdition virtualEdition = FenixFramework.getDomainObject(externalId);
+		if (virtualEdition == null) {
+			return "utils/pageNotFound";
+		} else {
+			Taxonomy taxonomy = virtualEdition.getTaxonomy();
+			taxonomy.createGeneratedCategories(topicList);
 
 			model.addAttribute("virtualEdition", virtualEdition);
 			return "virtual/taxonomy";
 		}
+
 	}
 
 	@RequestMapping(method = RequestMethod.POST, value = "/restricted/taxonomy/delete")
@@ -429,21 +456,24 @@ public class VirtualEditionController {
 	public String createCategory(Model model, @RequestParam("externalId") String externalId,
 			@RequestParam("name") String name) {
 		VirtualEdition edition = FenixFramework.getDomainObject(externalId);
-		Category category = null;
 		List<String> errors = new ArrayList<String>();
 		if (edition == null) {
 			return "utils/pageNotFound";
 		} else {
 			try {
-
-				category = edition.getTaxonomy().createCategory(name);
+				edition.getTaxonomy().createCategory(name);
 			} catch (LdoDDuplicateNameException ex) {
 				errors.add("Já existe uma categoria com nome \"" + name + "\"");
-
 			}
-			model.addAttribute("errors", errors);
-			model.addAttribute("category", category);
-			return "virtual/category";
+
+			if (errors.isEmpty()) {
+				model.addAttribute("virtualEdition", edition);
+				return "virtual/taxonomy";
+			} else {
+				model.addAttribute("categoryErrors", errors);
+				model.addAttribute("virtualEdition", edition);
+				return "virtual/taxonomy";
+			}
 		}
 	}
 
@@ -599,7 +629,7 @@ public class VirtualEditionController {
 	public String associateCategory(Model model, @RequestParam("taxonomyId") String taxonomyId,
 			@RequestParam("fragInterId") String fragInterId,
 			@RequestParam(value = "categories[]", required = false) String[] categories) {
-		log.debug("associateCategory categories[]:{}",
+		logger.debug("associateCategory categories[]:{}",
 				categories != null ? Arrays.stream(categories).collect(Collectors.joining(",")) : "null");
 
 		Taxonomy taxonomy = FenixFramework.getDomainObject(taxonomyId);

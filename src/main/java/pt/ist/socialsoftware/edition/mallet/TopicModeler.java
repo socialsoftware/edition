@@ -8,9 +8,11 @@ import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import cc.mallet.pipe.CharSequence2TokenSequence;
 import cc.mallet.pipe.Input2CharSequence;
@@ -24,17 +26,15 @@ import cc.mallet.topics.ParallelTopicModel;
 import cc.mallet.types.Alphabet;
 import cc.mallet.types.IDSorter;
 import cc.mallet.types.InstanceList;
-import pt.ist.fenixframework.Atomic;
-import pt.ist.fenixframework.Atomic.TxMode;
-import pt.ist.socialsoftware.edition.domain.Category;
-import pt.ist.socialsoftware.edition.domain.GeneratedCategory;
-import pt.ist.socialsoftware.edition.domain.GeneratedTagInFragInter;
 import pt.ist.socialsoftware.edition.domain.LdoDUser;
 import pt.ist.socialsoftware.edition.domain.Taxonomy;
 import pt.ist.socialsoftware.edition.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.domain.VirtualEditionInter;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDException;
 import pt.ist.socialsoftware.edition.utils.PropertiesManager;
+import pt.ist.socialsoftware.edition.utils.TopicDTO;
+import pt.ist.socialsoftware.edition.utils.TopicInterPercentageDTO;
+import pt.ist.socialsoftware.edition.utils.TopicListDTO;
 
 public class TopicModeler {
 
@@ -42,8 +42,8 @@ public class TopicModeler {
 	private final String corpusPath = PropertiesManager.getProperties().getProperty("corpus.dir");
 	private final String corpusFilesPath = PropertiesManager.getProperties().getProperty("corpus.files.dir");
 
-	public void generate(LdoDUser user, VirtualEdition edition, int numTopics, int numWords, int thresholdCategories,
-			int numIterations) throws IOException {
+	public TopicListDTO generate(LdoDUser user, VirtualEdition edition, int numTopics, int numWords,
+			int thresholdCategories, int numIterations) throws IOException {
 		// if a corpus is absent
 		File directory = new File(corpusFilesPath);
 		if (!directory.exists()) {
@@ -83,8 +83,9 @@ public class TopicModeler {
 		// The data alphabet maps word IDs to strings
 		Alphabet dataAlphabet = instances.getDataAlphabet();
 
-		writeTopicModel(user, edition, model, numTopics, numWords, thresholdCategories, numIterations, dataAlphabet,
-				numInstances);
+		return createTopicListDTO(user, edition, model, numTopics, numWords, thresholdCategories, numIterations,
+				dataAlphabet, numInstances);
+
 	}
 
 	public Pipe buildPipe() {
@@ -126,25 +127,32 @@ public class TopicModeler {
 		return instances;
 	}
 
-	@Atomic(mode = TxMode.WRITE)
-	private void writeTopicModel(LdoDUser user, VirtualEdition edition, ParallelTopicModel model, int numTopics,
-			int numWords, int thresholdCategories, int numIterations, Alphabet dataAlphabet, int numInstances) {
+	private TopicListDTO createTopicListDTO(LdoDUser user, VirtualEdition edition, ParallelTopicModel model,
+			int numTopics, int numWords, int thresholdCategories, int numIterations, Alphabet dataAlphabet,
+			int numInstances) {
+
+		TopicListDTO topics = new TopicListDTO();
+		topics.setUsername(user.getUsername());
 
 		Taxonomy taxonomy = edition.getTaxonomy();
+
+		topics.setTaxonomyExternalId(taxonomy.getExternalId());
 
 		// Get an array of sorted sets of word ID/count pairs
 		ArrayList<TreeSet<IDSorter>> topicSortedWords = model.getSortedWords();
 
-		Category[] categories = new Category[numTopics];
+		topics.setTopics(new ArrayList<TopicDTO>());
 
 		// create a category for each topic
 		// counter do avoid duplicate category names
-		for (int topic = 0; topic < numTopics; topic++) {
-			Iterator<IDSorter> iterator = topicSortedWords.get(topic).iterator();
+		for (int position = 0; position < numTopics; position++) {
+			Iterator<IDSorter> iterator = topicSortedWords.get(position).iterator();
 
-			GeneratedCategory category = new GeneratedCategory();
-			category.init(taxonomy);
-			categories[topic] = category;
+			TopicDTO topic = new TopicDTO();
+			topic.setInters(new ArrayList<TopicInterPercentageDTO>());
+			topics.getTopics().add(topic);
+
+			assert topics.getTopics().get(position) == topic;
 
 			// associate the words for each category
 			int rank = 0;
@@ -161,7 +169,7 @@ public class TopicModeler {
 				wordName = wordName + "_dup";
 			}
 
-			category.setName(wordName);
+			topic.setName(wordName);
 		}
 
 		// associate categories with fragment interpretations
@@ -178,20 +186,37 @@ public class TopicModeler {
 				}
 			}
 
-			// Estimate the topic distribution fora each instance,
+			// Estimate the topic distribution for each instance,
 			// given the current Gibbs state.
 			double[] topicDistribution = model.getTopicProbabilities(instance);
 
-			for (int topic = 0; topic < numTopics; topic++) {
-				BigDecimal bd = new BigDecimal(topicDistribution[topic]);
+			for (int position = 0; position < numTopics; position++) {
+				BigDecimal bd = new BigDecimal(topicDistribution[position]);
 				bd = bd.setScale(2, RoundingMode.HALF_UP);
 				int percentage = (int) (bd.doubleValue() * 100);
 				if (percentage >= thresholdCategories) {
-					new GeneratedTagInFragInter().init(fragInter, categories[topic], user, percentage);
+					TopicInterPercentageDTO interToTopic = new TopicInterPercentageDTO();
+					interToTopic.setExternalId(fragInter.getExternalId());
+					interToTopic.setTitle(fragInter.getTitle());
+					interToTopic.setPercentage(percentage);
+
+					TopicDTO topic = topics.getTopics().get(position);
+					topic.getInters().add(interToTopic);
 				}
 			}
 		}
 
+		List<TopicDTO> sortedList = topics.getTopics().stream().sorted((t1, t2) -> t1.getName().compareTo(t2.getName()))
+				.collect(Collectors.toList());
+		topics.setTopics(sortedList);
+
+		for (TopicDTO topic : sortedList) {
+			List<TopicInterPercentageDTO> sortedFrags = topic.getInters().stream()
+					.sorted((i1, i2) -> i2.getPercentage() - i1.getPercentage()).collect(Collectors.toList());
+			topic.setInters(sortedFrags);
+		}
+
+		return topics;
 	}
 
 	/** This class illustrates how to build a simple file filter */
