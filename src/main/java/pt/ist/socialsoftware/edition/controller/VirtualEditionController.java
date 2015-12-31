@@ -526,31 +526,36 @@ public class VirtualEditionController {
 		}
 	}
 
-	@RequestMapping(method = RequestMethod.POST, value = "/restricted/category/merge")
+	@RequestMapping(method = RequestMethod.POST, value = "/restricted/category/mulop")
 	@PreAuthorize("hasPermission(#taxonomyId, 'taxonomy.participant')")
 	public String mergeCategories(Model model, @RequestParam("taxonomyId") String taxonomyId,
+			@RequestParam("type") String type,
 			@RequestParam(value = "categories[]", required = false) String categoriesIds[]) {
 		Taxonomy taxonomy = FenixFramework.getDomainObject(taxonomyId);
 		if (taxonomy == null) {
 			return "utils/pageNotFound";
 		}
 
-		if ((categoriesIds != null) && (categoriesIds.length > 1)) {
-			List<Category> categories = new ArrayList<Category>();
-			for (String categoryId : categoriesIds) {
-				Category category = FenixFramework.getDomainObject(categoryId);
-				categories.add(category);
-			}
+		List<Category> categories = new ArrayList<Category>();
+		for (String categoryId : categoriesIds) {
+			Category category = FenixFramework.getDomainObject(categoryId);
+			categories.add(category);
+		}
 
+		if (type.equals("merge") && categories.size() > 1) {
 			Category category = taxonomy.merge(categories);
-
 			model.addAttribute("category", category);
 			return "virtual/category";
+		}
 
-		} else {
+		if (type.equals("delete") && categories.size() >= 1) {
+			taxonomy.delete(categories);
 			model.addAttribute("virtualEdition", taxonomy.getEdition());
 			return "virtual/taxonomy";
 		}
+
+		model.addAttribute("virtualEdition", taxonomy.getEdition());
+		return "virtual/taxonomy";
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/restricted/category/extractForm")
