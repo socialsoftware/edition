@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDDuplicateNameException;
+import pt.ist.socialsoftware.edition.shared.exception.LdoDException;
 
 public class Category extends Category_Base implements Comparable<Category> {
 
@@ -39,6 +40,10 @@ public class Category extends Category_Base implements Comparable<Category> {
 	@Atomic(mode = TxMode.WRITE)
 	@Override
 	public void setName(String name) {
+		if (name == null || name.equals("")) {
+			throw new LdoDException();
+		}
+
 		for (Category category : getTaxonomy().getCategoriesSet()) {
 			if ((category != this) && (category.getName().equals(name))) {
 				throw new LdoDDuplicateNameException();

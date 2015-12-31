@@ -12,7 +12,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
+import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.utils.CategoryDTO;
+import pt.ist.socialsoftware.edition.utils.TopicDTO;
+import pt.ist.socialsoftware.edition.utils.TopicInterPercentageDTO;
+import pt.ist.socialsoftware.edition.utils.TopicListDTO;
 
 public class Taxonomy extends Taxonomy_Base {
 
@@ -142,6 +146,22 @@ public class Taxonomy extends Taxonomy_Base {
 		}
 
 		return null;
+	}
+
+	@Atomic(mode = TxMode.WRITE)
+	public void createGeneratedCategories(TopicListDTO topicList) {
+		LdoDUser user = LdoD.getInstance().getUser(topicList.getUsername());
+
+		for (TopicDTO topic : topicList.getTopics()) {
+			GeneratedCategory category = new GeneratedCategory();
+			category.setTaxonomy(this);
+			category.setName(topic.getName());
+			for (TopicInterPercentageDTO topicPercentage : topic.getInters()) {
+				VirtualEditionInter inter = FenixFramework.getDomainObject(topicPercentage.getExternalId());
+				new GeneratedTagInFragInter().init(inter, category, user, topicPercentage.getPercentage());
+			}
+		}
+
 	}
 
 }
