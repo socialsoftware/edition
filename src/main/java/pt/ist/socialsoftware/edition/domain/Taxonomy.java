@@ -164,4 +164,9 @@ public class Taxonomy extends Taxonomy_Base {
 
 	}
 
+	@Atomic(mode = TxMode.WRITE)
+	public void delete(List<Category> categories) {
+		categories.stream().forEach(c -> c.remove());
+	}
+
 }

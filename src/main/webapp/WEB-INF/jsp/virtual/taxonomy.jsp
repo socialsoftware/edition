@@ -64,11 +64,12 @@
 			<div class="row">
 				<table class="table table-hover">
 					<form class="form-horizontal" role="form" method="POST"
-						action="/virtualeditions/restricted/category/merge">
+						action="/virtualeditions/restricted/category/mulop" id="mulopForm">
 						<div class="form-group">
 							<div class="hidden">
 								<label> <input type="hidden" name="taxonomyId"
 									value="${taxonomy.getExternalId()}">
+								</label> <label> <input type="hidden" name="type" id="type">
 								</label>
 							</div>
 						</div>
@@ -77,10 +78,27 @@
 								<th><spring:message code="general.category" /></th>
 								<th><spring:message code="fragments" /></th>
 								<th>
-									<div class="form-group">
-										<button type="submit" class="btn btn-sm btn-primary">
-											<spring:message code="general.merge" />
+									<div class="dropdown">
+										<button class="btn btn-primary dropdown-toggle" type="button"
+											id="dropdownMenu" data-toggle="dropdown" aria-haspopup="true"
+											aria-expanded="true">
+											<spring:message code="general.action" />
+											<span class="caret"></span>
 										</button>
+										<ul class="dropdown-menu" aria-labelledby="dropdownMenu">
+											<li>
+												<button class="btn btn-link" role="link"
+													onclick="$('#type').val('merge'); submit()">
+													<spring:message code="general.merge" />
+												</button>
+											</li>
+											<li>
+												<button class="btn btn-link" role="link"
+													onclick="$('#type').val('delete'); submit()">
+													<spring:message code="general.delete" />
+												</button>
+											</li>
+										</ul>
 									</div>
 								</th>
 							</tr>
@@ -96,7 +114,7 @@
 												href="${contextPath}/virtualeditions/restricted/fraginter/${tag.getInter().getExternalId()}">${tag.getInter().getTitle()}</a> (${tag.getWeight()})</c:forEach></td>
 									<td class="col-centered">
 										<div class="form-group">
-											<div class="checkbox">
+											<div class="checkbox text-center">
 												<label> <input type="checkbox" name="categories[]"
 													value="${category.getExternalId()}">
 												</label>
@@ -105,15 +123,6 @@
 									</td>
 								</tr>
 							</c:forEach>
-							<tr>
-								<td></td>
-								<td></td>
-								<td>
-									<button type="submit" class="btn btn-sm btn-primary">
-										<spring:message code="general.merge" />
-									</button>
-								</td>
-							</tr>
 						</tbody>
 					</form>
 				</table>
@@ -181,8 +190,7 @@
 					</div>
 				</div>
 				<div class="modal-body">
-					<div id="topics">
-					</div>
+					<div id="topics"></div>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
