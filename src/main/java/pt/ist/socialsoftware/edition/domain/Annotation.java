@@ -56,7 +56,7 @@ public class Annotation extends Annotation_Base {
 
 		for (String tag : tags) {
 			if (!existsTag(tag)) {
-				getTaxonomy().createTag(this, tag);
+				getTaxonomy().createTag(getVirtualEditionInter(), tag, this, getUser());
 			}
 		}
 

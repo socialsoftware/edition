@@ -355,6 +355,26 @@ public class VirtualEditionController {
 		}
 	}
 
+	@RequestMapping(method = RequestMethod.POST, value = "/restricted/{externalId}/taxonomy/edit")
+	@PreAuthorize("hasPermission(#externalId, 'virtualedition.participant')")
+	public String editTaxonomy(Model model, @PathVariable("externalId") String externalId,
+			@RequestParam("management") boolean management, @RequestParam("vocabulary") boolean vocabulary,
+			@RequestParam("annotation") boolean annotation) {
+		logger.debug("editTaxonomy externalId:{}, management:{}, vocabulary:{}, annotation:{}", externalId, management,
+				vocabulary, annotation);
+
+		VirtualEdition edition = FenixFramework.getDomainObject(externalId);
+		if (edition == null) {
+			return "utils/pageNotFound";
+		} else {
+
+			edition.getTaxonomy().edit(management, vocabulary, annotation);
+
+			model.addAttribute("virtualEdition", edition);
+			return "virtual/taxonomy";
+		}
+	}
+
 	@RequestMapping(method = RequestMethod.GET, value = "/restricted/{externalId}/taxonomy/generateTopics")
 	@PreAuthorize("hasPermission(#externalId, 'virtualedition.participant')")
 	public String generateTopicModelling(Model model, @ModelAttribute("ldoDSession") LdoDSession ldoDSession,
@@ -410,44 +430,22 @@ public class VirtualEditionController {
 
 	}
 
-	@RequestMapping(method = RequestMethod.POST, value = "/restricted/taxonomy/delete")
-	@PreAuthorize("hasPermission(#virtualEditionExternalId, 'virtualedition.participant')")
-	public String deleteTaxonomy(Model model, @RequestParam("virtualEditionExternalId") String virtualEditionExternalId,
+	@RequestMapping(method = RequestMethod.POST, value = "/restricted/{externalId}/taxonomy/clean")
+	@PreAuthorize("hasPermission(#externalId, 'virtualedition.participant')")
+	public String deleteTaxonomy(Model model, @PathVariable("externalId") String externalId,
 			@RequestParam("taxonomyExternalId") String taxonomyExternalId) {
 		Taxonomy taxonomy = FenixFramework.getDomainObject(taxonomyExternalId);
 		if (taxonomy == null) {
 			return "utils/pageNotFound";
 		} else {
-			Edition edition = taxonomy.getEdition();
+			VirtualEdition edition = taxonomy.getEdition();
 
 			taxonomy.remove();
 
+			edition.setTaxonomy(new Taxonomy());
+
 			model.addAttribute("virtualEdition", edition);
 			return "virtual/taxonomy";
-		}
-	}
-
-	@RequestMapping(method = RequestMethod.GET, value = "/restricted/taxonomy/{taxonomyId}")
-	@PreAuthorize("hasPermission(#taxonomyId, 'taxonomy.public')")
-	public String showTaxonomy(Model model, @PathVariable String taxonomyId) {
-		Taxonomy taxonomy = FenixFramework.getDomainObject(taxonomyId);
-		if (taxonomy == null) {
-			return "utils/pageNotFound";
-		} else {
-			model.addAttribute("virtualEdition", taxonomy.getEdition());
-			return "virtual/taxonomy";
-		}
-	}
-
-	@RequestMapping(method = RequestMethod.GET, value = "/restricted/fraginter/{fragInterId}")
-	@PreAuthorize("hasPermission(#fragInterId, 'fragInter.public')")
-	public String showFragmentInterpretation(Model model, @PathVariable String fragInterId) {
-		FragInter fragInter = FenixFramework.getDomainObject(fragInterId);
-		if (fragInter == null) {
-			return "utils/pageNotFound";
-		} else {
-			model.addAttribute("fragInter", fragInter);
-			return "virtual/fragInter";
 		}
 	}
 
@@ -536,6 +534,11 @@ public class VirtualEditionController {
 			return "utils/pageNotFound";
 		}
 
+		if (categoriesIds == null) {
+			model.addAttribute("virtualEdition", taxonomy.getEdition());
+			return "virtual/taxonomy";
+		}
+
 		List<Category> categories = new ArrayList<Category>();
 		for (String categoryId : categoriesIds) {
 			Category category = FenixFramework.getDomainObject(categoryId);
@@ -596,6 +599,18 @@ public class VirtualEditionController {
 		model.addAttribute("category", extractedCategory);
 		return "virtual/category";
 
+	}
+
+	@RequestMapping(method = RequestMethod.GET, value = "/restricted/fraginter/{fragInterId}")
+	@PreAuthorize("hasPermission(#fragInterId, 'fragInter.public')")
+	public String showFragmentInterpretation(Model model, @PathVariable String fragInterId) {
+		FragInter fragInter = FenixFramework.getDomainObject(fragInterId);
+		if (fragInter == null) {
+			return "utils/pageNotFound";
+		} else {
+			model.addAttribute("fragInter", fragInter);
+			return "virtual/fragInter";
+		}
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/restricted/fraginter/{fragInterId}/tag/dissociate/{categoryId}")

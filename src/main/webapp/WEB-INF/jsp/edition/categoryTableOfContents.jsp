@@ -10,14 +10,14 @@
 	<div class="container">
 		<h3 class="text-center">
 			<spring:message code="virtualedition" />
-			: <a
+			<a
 				href="${contextPath}/edition/internalid/${category.getTaxonomy().getEdition().getExternalId()}">
 				${category.getTaxonomy().getEdition().title}</a>
-			, <a
-				href="${contextPath}/edition/taxonomy/${category.getTaxonomy().getExternalId()}"><spring:message code="general.taxonomy" /></a>
-			, <spring:message code="general.category" />
-			: ${category.getName()} (${category.getTagSet().size()})
 		</h3>
+		<h4 class="text-center">
+			<spring:message code="general.category" />
+			${category.getName()} (${category.getTagSet().size()})
+		</h4>
 
 		<table class="table table-hover table-condensed">
 			<thead>

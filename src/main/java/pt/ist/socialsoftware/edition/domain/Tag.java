@@ -1,9 +1,19 @@
 package pt.ist.socialsoftware.edition.domain;
 
+import pt.ist.socialsoftware.edition.shared.exception.LdoDException;
+
 public class Tag extends Tag_Base implements Comparable<Tag> {
 
-	public Tag init(VirtualEditionInter inter, Category category, Annotation annotation, LdoDUser user) {
+	public Tag init(VirtualEditionInter inter, String categoryName, Annotation annotation, LdoDUser user) {
 		setInter(inter);
+		Taxonomy taxonomy = inter.getVirtualEdition().getTaxonomy();
+		Category category = taxonomy.getCategory(categoryName);
+		if (category == null)
+			if (taxonomy.getOpenVocabulary()) {
+				category = taxonomy.createCategory(categoryName);
+			} else {
+				throw new LdoDException("Create Category with Closed Vocabulary");
+			}
 		setCategory(category);
 		setAnnotation(annotation);
 		setContributor(user);
@@ -13,7 +23,12 @@ public class Tag extends Tag_Base implements Comparable<Tag> {
 
 	public void remove() {
 		setInter(null);
-		setCategory(null);
+		if (getCategory() != null && getCategory().getTaxonomy().getOpenAnnotation()
+				&& getCategory().getTagSet().size() == 1) {
+			getCategory().remove();
+		} else {
+			setCategory(null);
+		}
 		setContributor(null);
 		setAnnotation(null);
 
