@@ -18,63 +18,67 @@
 	<%@ include file="/WEB-INF/jsp/common/fixed-top-ldod-header.jsp"%>
 
 	<div class="container">
-		<h1 class="text-center">
-			<spring:message code="virtualedition" /> : ${category.getTaxonomy().getEdition().getTitle()}
-			</h1>
-			<h2 class="text-center">
-			<spring:message code="general.taxonomy" />
-			: <a
-				href="${contextPath}/virtualeditions/restricted/${category.getTaxonomy().getEdition().getExternalId()}/taxonomy">${category.getTaxonomy().getName()}</a>
-			<spring:message code="general.category" />
-			: ${category.getName()}
+		<h2 class="text-center">
+			<spring:message code="virtualedition" />
+			${category.getTaxonomy().getEdition().getTitle()}
 		</h2>
-		<h4 class="pull-right">
-			<spring:message code="general.public.pages" />
-			- <a
-				href="${contextPath}/edition/internalid/${category.getTaxonomy().getEdition().getExternalId()}">
-				<spring:message code="general.edition" /></a> : <a
-				href="${contextPath}/edition/taxonomy/${category.getTaxonomy().getExternalId()}"><spring:message code="general.taxonomy" /></a>
-			: <a
-				href="${contextPath}/edition/category/${category.getExternalId()}"><spring:message code="general.category" /></a>
-		</h4>
-		<br /> <br /> <br />
-		<div class="row pull-right">
-			<c:forEach var="error" items='${errors}'>
-				<div class="row text-error">${error}</div>
-			</c:forEach>
-			<form name="updateName" class="form-inline" method="POST"
-				action="/virtualeditions/restricted/category/update"
-				onsubmit="return validateForm()">
-				<div class="form-group">
-					<input type="hidden" class="form-control" name="categoryId"
-						value="${category.externalId}" />
-				</div>
-				<div class="form-group">
-					<input type="text" class="form-control" name="name"
-						placeholder="<spring:message code="general.name" />"
-						value="${category.getName()}" />
-				</div>
-				<div class="form-group">
-					<button type="submit" class="btn btn-primary">
-						<span class="glyphicon glyphicon-edit"></span>
-						<spring:message code="general.update" />
-					</button>
-				</div>
-			</form>
+		<div class="row">
+			<h4 class="pull-right">
+				<spring:message code="general.public.pages" />
+				- <a
+					href="${contextPath}/edition/internalid/${category.getTaxonomy().getEdition().getExternalId()}">
+					<spring:message code="general.edition" />
+				</a> : <a
+					href="${contextPath}/edition/category/${category.getExternalId()}"><spring:message
+						code="general.category" /></a>
+			</h4>
 		</div>
-		<br /> <br /><br />
-		<div class="row pull-right">
-			<form class="form-inline" method="POST"
-				action="/virtualeditions/restricted/category/delete">
-				<div class="form-group">
-					<input type="hidden" class="form-control" name="categoryId"
-						value="${category.externalId}" />
-				</div>
-				<button type="submit" class="btn btn-primary">
-					<span class="glyphicon glyphicon-remove"></span>
-					<spring:message code="general.delete" />
-				</button>
-			</form>
+		<h3 class="text-center">
+			<a
+				href="${contextPath}/virtualeditions/restricted/${category.getTaxonomy().getEdition().getExternalId()}/taxonomy"><spring:message
+					code="general.taxonomy" /></a> -
+			<spring:message code="general.category" />
+			(${category.getName()})
+		</h3>
+		<br />
+		<div class="row">
+			<div class="col-md-11">
+				<c:forEach var="error" items='${errors}'>
+					<div class="row text-error">${error}</div>
+				</c:forEach>
+				<form name="updateName" class="form-inline" method="POST"
+					action="/virtualeditions/restricted/category/update"
+					onsubmit="return validateForm()">
+					<div class="form-group">
+						<input type="hidden" class="form-control" name="categoryId"
+							value="${category.externalId}" />
+					</div>
+					<div class="form-group">
+						<input type="text" class="form-control" name="name"
+							placeholder="<spring:message code="general.name" />"
+							value="${category.getName()}" />
+					</div>
+					<div class="form-group">
+						<button type="submit" class="btn btn-primary">
+							<span class="glyphicon glyphicon-edit"></span>
+							<spring:message code="general.update" />
+						</button>
+					</div>
+				</form>
+			</div>
+			<div class="col-md-1">
+				<form class="form-inline" method="POST"
+					action="/virtualeditions/restricted/category/delete">
+					<div class="form-group">
+						<input type="hidden" class="form-control" name="categoryId"
+							value="${category.externalId}" />
+					</div>
+					<button type="submit" class="btn btn-primary">
+						<span class="glyphicon glyphicon-remove"></span>
+						<spring:message code="general.delete" />
+					</button>
+				</form>
+			</div>
 		</div>
 		<br />
 		<div class="row">

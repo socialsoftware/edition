@@ -656,7 +656,7 @@ var editionData = new Array();
 	<div class="container">
 
 		<h1 class="text-center">
-			<spring:message code="general.edition" />
+			<spring:message code="virtualedition" />
 			:
 			<!--  <a href="${contextPath}/edition/acronym/${virtualEdition.acronym}">
                 <span id="editiontitle">${virtualEdition.title}</span></a> -->
@@ -765,11 +765,7 @@ var editionData = new Array();
 							<br> <br>
 						</div>
 
-						<div class="form-group  col-xs-12">
-
-
-
-						</div>
+						<div class="form-group  col-xs-12"></div>
 					</form>
 				</div>
 			</div>
@@ -777,8 +773,7 @@ var editionData = new Array();
 		<br>
 		<div class="row col-md-12">
 			<div id="myGrid"></div>
-			<br>
-			<br>
+			<br> <br>
 		</div>
 	</div>
 	<aside class="right"> <canvas id="outline" width="200"

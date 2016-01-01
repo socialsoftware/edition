@@ -153,6 +153,9 @@ relation LdoDUserSelectsVirtualEditions {
 
 class Taxonomy {
 	String xmlId;
+	boolean openManagement;
+	boolean openVocabulary;
+	boolean openAnnotation;
 }
 
 relation VirtualEditionHasTaxonomies {
@@ -169,8 +172,6 @@ relation TaxonomyHasCategories {
 	Taxonomy playsRole taxonomy {multiplicity 1..1;}
 	Category playsRole categories {multiplicity 0..*;}
 }
-
-class GeneratedCategory extends Category;
 
 class AdHocCategory extends Category;
 

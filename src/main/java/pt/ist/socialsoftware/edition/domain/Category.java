@@ -28,11 +28,11 @@ public class Category extends Category_Base implements Comparable<Category> {
 
 	@Atomic(mode = TxMode.WRITE)
 	public void remove() {
-		setTaxonomy(null);
-
 		for (Tag tag : getTagSet()) {
 			tag.remove();
 		}
+
+		setTaxonomy(null);
 
 		deleteDomainObject();
 	}
@@ -84,11 +84,6 @@ public class Category extends Category_Base implements Comparable<Category> {
 	public Set<LdoDUser> getContributorSet(VirtualEditionInter inter) {
 		return getTagSet().stream().filter(t -> t.getInter() == inter).map(t -> t.getContributor())
 				.collect(Collectors.toSet());
-	}
-
-	public void createTag(Annotation annotation, String tag) {
-		new Tag().init(annotation.getVirtualEditionInter(), this, annotation, annotation.getUser());
-
 	}
 
 }

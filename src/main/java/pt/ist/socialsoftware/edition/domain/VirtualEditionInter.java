@@ -178,7 +178,7 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 
 		Taxonomy taxonomy = getVirtualEdition().getTaxonomy();
 		for (String tag : tagList) {
-			taxonomy.createTag(annotation, tag);
+			taxonomy.createTag(this, tag, annotation, annotation.getUser());
 		}
 
 		return annotation;
@@ -186,21 +186,13 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 
 	@Atomic(mode = TxMode.WRITE)
 	public void associate(LdoDUser ldoDUser, Taxonomy taxonomy, Set<String> categoryNames) {
-		Set<Category> categories = new HashSet<Category>();
-		for (String name : categoryNames) {
-			Category category = taxonomy.getCategory(name);
-			if (category == null)
-				category = new Category().init(taxonomy, name);
-			categories.add(category);
-		}
+		getAssignedCategories().stream().filter(c -> !categoryNames.contains(c.getName())).forEach(c -> dissociate(c));
 
-		for (Category category : categories) {
-			if (!getTagSet().stream().filter(t -> (t.getCategory() == category) && (t.getAnnotation() == null))
-					.findFirst().isPresent())
-				new Tag().init(this, category, null, ldoDUser);
-		}
+		Set<String> existingCategories = getAssignedCategories().stream().map(c -> c.getName())
+				.collect(Collectors.toSet());
 
-		getAssignedCategories().stream().filter(c -> !categories.contains(c)).forEach(c -> dissociate(c));
+		categoryNames.stream().filter(cname -> !existingCategories.contains(cname))
+				.forEach(cname -> taxonomy.createTag(this, cname, null, ldoDUser));
 	}
 
 	@Atomic(mode = TxMode.WRITE)

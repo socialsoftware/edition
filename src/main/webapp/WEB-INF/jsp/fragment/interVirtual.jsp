@@ -57,16 +57,14 @@
 		$("#annotator-field-1").remove("input");
 
 		function loadField(field, annotation) {
-			var $jqfield = $(".tagSelector").select2();
-
 			if (typeof annotation.id !== 'undefined') {
 				$.get("${contextPath}/fragments/fragment/annotation/"
 						+ annotation.id + "/categories",
 						function(data, status) {
-							$jqfield.val(data).trigger("change");
+							$(".tagSelector").val(data).trigger("change");
 						});
 			} else {
-				$jqfield.val([]).trigger("change");
+				$(".tagSelector").val([]).trigger("change");
 			}
 		}
 
@@ -74,16 +72,27 @@
 		select.attr("class", "tagSelector");
 		select.attr("style", "width:263px;");
 		$(tagsField).append(select);
+		
+		if ('${inters.get(0).getVirtualEdition().getTaxonomy().getOpenVocabulary()}' == 'true') {
+			$(".tagSelector")
+			.select2(
+					{
+						multiple : true,
+						data : $
+								.parseJSON('${inters.get(0).getVirtualEdition().getTaxonomy().getCategoriesJSON()}'),
+						tags : true,
+						tokenSeparators : [ ',', ' ' ]
+					});
+		} else {
+			$(".tagSelector")
+			.select2(
+					{
+						multiple : true,
+						data : $
+								.parseJSON('${inters.get(0).getVirtualEdition().getTaxonomy().getCategoriesJSON()}'),
+					});
+		}
 
-		$(".tagSelector")
-				.select2(
-						{
-							multiple : true,
-							data : $
-									.parseJSON('${inters.get(0).getVirtualEdition().getTaxonomy().getCategoriesJSON()}'),
-							tags : true,
-							tokenSeparators : [ ',', ' ' ]
-						});
 
 		$(".tagSelector").on('select2:open', function(e, data) {
 			$(".select2-dropdown").css({

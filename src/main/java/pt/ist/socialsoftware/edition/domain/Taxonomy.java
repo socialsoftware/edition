@@ -20,6 +20,12 @@ import pt.ist.socialsoftware.edition.utils.TopicListDTO;
 
 public class Taxonomy extends Taxonomy_Base {
 
+	public Taxonomy() {
+		setOpenManagement(false);
+		setOpenVocabulary(true);
+		setOpenAnnotation(false);
+	}
+
 	public String getName() {
 		return getEdition().getTitle();
 	}
@@ -120,11 +126,11 @@ public class Taxonomy extends Taxonomy_Base {
 		return newCategory;
 	}
 
-	public void createTag(Annotation annotation, String tag) {
-		if (getCategory(tag) == null)
-			new Category().init(this, tag);
-
-		getCategory(tag).createTag(annotation, tag);
+	public void createTag(VirtualEditionInter virtualEditionInter, String categoryName, Annotation annotation,
+			LdoDUser ldoDUser) {
+		if (!getOpenVocabulary() && getCategory(categoryName) == null)
+			return;
+		new Tag().init(virtualEditionInter, categoryName, annotation, ldoDUser);
 	}
 
 	@Atomic(mode = TxMode.WRITE)
@@ -153,7 +159,7 @@ public class Taxonomy extends Taxonomy_Base {
 		LdoDUser user = LdoD.getInstance().getUser(topicList.getUsername());
 
 		for (TopicDTO topic : topicList.getTopics()) {
-			GeneratedCategory category = new GeneratedCategory();
+			Category category = new Category();
 			category.setTaxonomy(this);
 			category.setName(topic.getName());
 			for (TopicInterPercentageDTO topicPercentage : topic.getInters()) {
@@ -167,6 +173,13 @@ public class Taxonomy extends Taxonomy_Base {
 	@Atomic(mode = TxMode.WRITE)
 	public void delete(List<Category> categories) {
 		categories.stream().forEach(c -> c.remove());
+	}
+
+	@Atomic(mode = TxMode.WRITE)
+	public void edit(boolean openManagement, boolean openVocabulary, boolean openAnnotation) {
+		setOpenManagement(openManagement);
+		setOpenVocabulary(openVocabulary);
+		setOpenAnnotation(openAnnotation);
 	}
 
 }

@@ -53,7 +53,7 @@
 					aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
-				<h4 class="modal-title">${inter.getFragment().getTitle()}</h4>
+				<h4 class="modal-title">${inter.getFragment().getTitle()}</h4> ${taxonomy.getOpenVocabulary()}
 			</div>
 			<div class="modal-body">
 				<div class="row text-center">
@@ -106,7 +106,7 @@
 
 <script>
 	$("#category-select").select2({
-		tags : true,
+		tags : '${taxonomy.getOpenVocabulary()}' == "true" ? true : false,
 		tokenSeparators : [ ',', ' ' ]
 	})
 </script>
