@@ -45,7 +45,7 @@
 				<div class="well" style="height: 70px">
 					<form class="form-inline" role="form" method="POST"
 						action="/virtualeditions/restricted/${virtualEdition.getExternalId()}/taxonomy/edit/">
-						<div class="form-group col-md-3" style="padding-left: 0px">
+						<div class="form-group col-md-4" style="padding-left: 0px">
 							<label class="control-label for="acronym"><spring:message
 									code="taxonomy.manage" /></label> <select class="form-control"
 								name="management" id="management">
@@ -87,7 +87,7 @@
 								</c:choose>
 							</select>
 						</div>
-						<div class="form-group  col-md-4" style="padding-left: 0px">
+						<div class="form-group  col-md-3" style="padding-left: 0px">
 							<label class="control-label" for="title"><spring:message
 									code="taxonomy.vocabulary" /></label> <select class="form-control"
 								name="vocabulary" id="vocabulary">

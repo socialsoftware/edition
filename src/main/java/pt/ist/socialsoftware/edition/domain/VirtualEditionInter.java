@@ -185,19 +185,21 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 	}
 
 	@Atomic(mode = TxMode.WRITE)
-	public void associate(LdoDUser ldoDUser, Taxonomy taxonomy, Set<String> categoryNames) {
-		getAssignedCategories().stream().filter(c -> !categoryNames.contains(c.getName())).forEach(c -> dissociate(c));
+	public void associate(LdoDUser user, Taxonomy taxonomy, Set<String> categoryNames) {
+		getAssignedCategories(user).stream().filter(c -> !categoryNames.contains(c.getName()))
+				.forEach(c -> dissociate(user, c));
 
-		Set<String> existingCategories = getAssignedCategories().stream().map(c -> c.getName())
+		Set<String> existingCategories = getAssignedCategories(user).stream().map(c -> c.getName())
 				.collect(Collectors.toSet());
 
 		categoryNames.stream().filter(cname -> !existingCategories.contains(cname))
-				.forEach(cname -> taxonomy.createTag(this, cname, null, ldoDUser));
+				.forEach(cname -> taxonomy.createTag(this, cname, null, user));
 	}
 
 	@Atomic(mode = TxMode.WRITE)
-	public void dissociate(Category category) {
-		Set<Tag> tags = getTagSet().stream().filter(t -> t.getCategory() == category).collect(Collectors.toSet());
+	public void dissociate(LdoDUser user, Category category) {
+		Set<Tag> tags = getTagSet().stream().filter(t -> (t.getCategory() == category) && (t.getContributor() == user))
+				.collect(Collectors.toSet());
 		for (Tag tag : tags) {
 			tag.remove();
 		}
@@ -209,8 +211,8 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 		}
 	}
 
-	public List<Category> getNonAssignedCategories() {
-		List<Category> interCategories = getAssignedCategories();
+	public List<Category> getNonAssignedCategories(LdoDUser user) {
+		List<Category> interCategories = getAssignedCategories(user);
 
 		List<Category> categories = getVirtualEdition().getTaxonomy().getCategoriesSet().stream()
 				.filter(c -> !interCategories.contains(c)).sorted((c1, c2) -> c1.getName().compareTo(c2.getName()))
@@ -219,9 +221,10 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 		return categories;
 	}
 
-	public List<Category> getAssignedCategories() {
-		List<Category> categories = getTagSet().stream().map(t -> t.getCategory()).distinct()
-				.sorted((c1, c2) -> c1.getName().compareTo(c2.getName())).collect(Collectors.toList());
+	public List<Category> getAssignedCategories(LdoDUser user) {
+		List<Category> categories = getTagSet().stream().filter(t -> t.getContributor() == user)
+				.map(t -> t.getCategory()).distinct().sorted((c1, c2) -> c1.getName().compareTo(c2.getName()))
+				.collect(Collectors.toList());
 
 		return categories;
 	}

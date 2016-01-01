@@ -8,8 +8,9 @@
 <div class="row" id="taxonomy">
 	<c:set var="inter" value='${inters.get(0)}' />
 	<c:set var="taxonomy" value='${inter.getEdition().getTaxonomy()}' />
+	<c:set var="userLdoD" value='${pageContext.request.userPrincipal.principal.getUser()}'/>
 	<c:set var="authorized"
-		value="${pageContext.request.userPrincipal.authenticated && taxonomy.getEdition().getParticipantSet().contains(pageContext.request.userPrincipal.principal.getUser())}" />
+		value="${pageContext.request.userPrincipal.authenticated && taxonomy.getEdition().getParticipantSet().contains(userLdoD)}" />
 	<c:if test="${authorized}">
 		<button class="btn btn-primary pull-right" data-toggle="modal"
 			data-target="#myModal">
@@ -30,7 +31,7 @@
 				<tr>
 					<td><a
 						href="${contextPath}/edition/category/${category.getExternalId()}">
-							${category.getName()}</a> <c:if test="${authorized}">
+							${category.getName()}</a> <c:if test="${category.getContributorSet(inter).contains(userLdoD)}">
 							<a
 								href="${contextPath}/virtualeditions/restricted/fraginter/${inter.getExternalId()}/tag/dissociate/${category.getExternalId()}"><span
 								class="glyphicon glyphicon-remove"></span></a>
@@ -53,7 +54,7 @@
 					aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
-				<h4 class="modal-title">${inter.getFragment().getTitle()}</h4> ${taxonomy.getOpenVocabulary()}
+				<h4 class="modal-title">${inter.getFragment().getTitle()}</h4>
 			</div>
 			<div class="modal-body">
 				<div class="row text-center">
@@ -75,11 +76,11 @@
 							<select name="categories[]" id="category-select"
 								class="form-control" style="width: 75%" multiple="true">
 								<c:forEach var='category'
-									items='${inter.getNonAssignedCategories()}'>
+									items='${inter.getNonAssignedCategories(user)}'>
 									<option value='${category.getName()}'>${category.getName()}</option>
 								</c:forEach>
 								<c:forEach var='category'
-									items='${inter.getAssignedCategories()}'>
+									items='${inter.getAssignedCategories(user)}'>
 									<option value='${category.getName()}' selected='selected'>${category.getName()}</option>
 								</c:forEach>
 							</select>

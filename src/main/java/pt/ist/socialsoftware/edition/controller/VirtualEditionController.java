@@ -617,31 +617,18 @@ public class VirtualEditionController {
 	@PreAuthorize("hasPermission(#fragInterId, 'fragInter.participant')")
 	public String dissociate(Model model, @PathVariable String fragInterId, @PathVariable String categoryId) {
 		VirtualEditionInter inter = FenixFramework.getDomainObject(fragInterId);
+
 		Category category = FenixFramework.getDomainObject(categoryId);
 		if (inter == null || category == null) {
 			return "utils/pageNotFound";
 		}
 
-		inter.dissociate(category);
+		LdoDUserDetails userDetails = (LdoDUserDetails) SecurityContextHolder.getContext().getAuthentication()
+				.getPrincipal();
+
+		inter.dissociate(userDetails.getUser(), category);
 
 		return "redirect:/fragments/fragment/inter/" + inter.getExternalId();
-
-	}
-
-	@RequestMapping(method = RequestMethod.GET, value = "/restricted/tag/associateForm/{taxonomyId}/{interId}")
-	@PreAuthorize("hasPermission(#interId, 'fragInter.participant')")
-	public String associateTagForm(Model model, @PathVariable String taxonomyId, @PathVariable String interId) {
-		Taxonomy taxonomy = FenixFramework.getDomainObject(taxonomyId);
-		VirtualEditionInter inter = FenixFramework.getDomainObject(interId);
-		if ((taxonomy == null) || (inter == null)) {
-			return "utils/pageNotFound";
-		}
-
-		model.addAttribute("taxonomy", taxonomy);
-		model.addAttribute("inter", inter);
-		model.addAttribute("categories", inter.getNonAssignedCategories());
-		return "virtual/associateForm";
-
 	}
 
 	@RequestMapping(method = RequestMethod.POST, value = "/restricted/tag/associate")
