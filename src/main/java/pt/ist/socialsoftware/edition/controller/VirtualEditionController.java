@@ -35,7 +35,6 @@ import pt.ist.socialsoftware.edition.domain.VirtualEditionInter;
 import pt.ist.socialsoftware.edition.mallet.TopicModeler;
 import pt.ist.socialsoftware.edition.security.LdoDSession;
 import pt.ist.socialsoftware.edition.security.LdoDUserDetails;
-import pt.ist.socialsoftware.edition.security.LdoDUserDetailsService;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDCreateVirtualEditionException;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDDuplicateAcronymException;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDDuplicateNameException;
@@ -49,7 +48,7 @@ import pt.ist.socialsoftware.edition.visitors.PlainHtmlWriter4OneInter;
 @SessionAttributes({ "ldoDSession" })
 @RequestMapping("/virtualeditions")
 public class VirtualEditionController {
-	private static Logger logger = LoggerFactory.getLogger(LdoDUserDetailsService.class);
+	private static Logger logger = LoggerFactory.getLogger(VirtualEditionController.class);
 
 	@ModelAttribute("ldoDSession")
 	public LdoDSession getLdoDSession() {
@@ -614,7 +613,7 @@ public class VirtualEditionController {
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/restricted/fraginter/{fragInterId}/tag/dissociate/{categoryId}")
-	@PreAuthorize("hasPermission(#fragInterId, 'fragInter.participant')")
+	@PreAuthorize("hasPermission(#fragInterId, 'fragInter.annotation')")
 	public String dissociate(Model model, @PathVariable String fragInterId, @PathVariable String categoryId) {
 		VirtualEditionInter inter = FenixFramework.getDomainObject(fragInterId);
 
@@ -632,7 +631,7 @@ public class VirtualEditionController {
 	}
 
 	@RequestMapping(method = RequestMethod.POST, value = "/restricted/tag/associate")
-	@PreAuthorize("hasPermission(#fragInterId, 'fragInter.participant')")
+	@PreAuthorize("hasPermission(#fragInterId, 'fragInter.annotation')")
 	public String associateCategory(Model model, @RequestParam("taxonomyId") String taxonomyId,
 			@RequestParam("fragInterId") String fragInterId,
 			@RequestParam(value = "categories[]", required = false) String[] categories) {

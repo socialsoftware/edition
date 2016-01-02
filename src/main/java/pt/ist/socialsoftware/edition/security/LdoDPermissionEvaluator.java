@@ -22,6 +22,7 @@ public class LdoDPermissionEvaluator implements PermissionEvaluator {
 
 	public static final String PARTICIPANT = "participant";
 	public static final String PUBLIC = "public";
+	public static final String ANNOTATION = "annotation";
 
 	@Override
 	public boolean hasPermission(Authentication authentication, Object targetDomainObject, Object permission) {
@@ -46,19 +47,19 @@ public class LdoDPermissionEvaluator implements PermissionEvaluator {
 			case "taxonomy":
 				Taxonomy taxonomy = FenixFramework.getDomainObject((String) targetDomainObject);
 				if (taxonomy != null) {
-					virtualEdition = (VirtualEdition) taxonomy.getEdition();
+					virtualEdition = taxonomy.getEdition();
 				}
 				break;
 			case "category":
 				Category category = FenixFramework.getDomainObject((String) targetDomainObject);
 				if (category != null) {
-					virtualEdition = (VirtualEdition) category.getTaxonomy().getEdition();
+					virtualEdition = category.getTaxonomy().getEdition();
 				}
 				break;
 			case "tag":
 				Tag tag = FenixFramework.getDomainObject((String) targetDomainObject);
 				if (tag != null) {
-					virtualEdition = (VirtualEdition) tag.getCategory().getTaxonomy().getEdition();
+					virtualEdition = tag.getCategory().getTaxonomy().getEdition();
 				}
 				break;
 			default:
@@ -75,6 +76,8 @@ public class LdoDPermissionEvaluator implements PermissionEvaluator {
 				} else {
 					hasPermission = virtualEdition.getParticipantSet().contains(LdoDUser.getAuthenticatedUser());
 				}
+			} else if (permissions[1].equals(ANNOTATION)) {
+				hasPermission = virtualEdition.getTaxonomy().canManipulateAnnotation(LdoDUser.getAuthenticatedUser());
 			}
 		}
 

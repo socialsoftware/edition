@@ -8,9 +8,10 @@
 <div class="row" id="taxonomy">
 	<c:set var="inter" value='${inters.get(0)}' />
 	<c:set var="taxonomy" value='${inter.getEdition().getTaxonomy()}' />
-	<c:set var="userLdoD" value='${pageContext.request.userPrincipal.principal.getUser()}'/>
+	<c:set var="userLdoD"
+		value='${pageContext.request.userPrincipal.principal.getUser()}' />
 	<c:set var="authorized"
-		value="${pageContext.request.userPrincipal.authenticated && taxonomy.getEdition().getParticipantSet().contains(userLdoD)}" />
+		value="${pageContext.request.userPrincipal.authenticated && taxonomy.canManipulateAnnotation(userLdoD)}" />
 	<c:if test="${authorized}">
 		<button class="btn btn-primary pull-right" data-toggle="modal"
 			data-target="#myModal">
@@ -31,7 +32,8 @@
 				<tr>
 					<td><a
 						href="${contextPath}/edition/category/${category.getExternalId()}">
-							${category.getName()}</a> <c:if test="${category.getContributorSet(inter).contains(userLdoD)}">
+							${category.getName()}</a> 
+						<c:if test="${category.getContributorSet(inter).contains(userLdoD)}">
 							<a
 								href="${contextPath}/virtualeditions/restricted/fraginter/${inter.getExternalId()}/tag/dissociate/${category.getExternalId()}"><span
 								class="glyphicon glyphicon-remove"></span></a>
