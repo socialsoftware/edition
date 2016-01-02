@@ -16,6 +16,7 @@ import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.socialsoftware.edition.domain.LdoD;
 import pt.ist.socialsoftware.edition.domain.LdoDUser;
+import pt.ist.socialsoftware.edition.domain.Member.MemberRole;
 import pt.ist.socialsoftware.edition.domain.Role;
 import pt.ist.socialsoftware.edition.domain.Role.RoleType;
 import pt.ist.socialsoftware.edition.domain.VirtualEdition;
@@ -137,16 +138,16 @@ public class Bootstrap implements WebApplicationInitializer {
 
 		VirtualEdition classX = new VirtualEdition(ldod, ars, "ClassX", "LdoD Edition of Class X", new LocalDate(),
 				false, null);
-		classX.addParticipant(luis);
-		classX.addParticipant(mp);
-		classX.addParticipant(diego);
-		classX.addParticipant(tiago);
-		classX.addParticipant(ars);
-		classX.addParticipant(andre);
-		classX.addParticipant(daniela);
-		classX.addParticipant(joana);
-		classX.addParticipant(bernardosoares);
-		classX.addParticipant(rita);
+		classX.addMember(luis, MemberRole.ADMIN);
+		classX.addMember(mp, MemberRole.ADMIN);
+		classX.addMember(diego, MemberRole.ADMIN);
+		classX.addMember(tiago, MemberRole.ADMIN);
+		classX.addMember(ars, MemberRole.ADMIN);
+		classX.addMember(andre, MemberRole.ADMIN);
+		classX.addMember(daniela, MemberRole.ADMIN);
+		classX.addMember(joana, MemberRole.ADMIN);
+		classX.addMember(bernardosoares, MemberRole.ADMIN);
+		classX.addMember(rita, MemberRole.ADMIN);
 		luis.addSelectedVirtualEditions(classX);
 		mp.addSelectedVirtualEditions(classX);
 		ars.addSelectedVirtualEditions(classX);
@@ -159,11 +160,11 @@ public class Bootstrap implements WebApplicationInitializer {
 
 		VirtualEdition classY = new VirtualEdition(ldod, ars, "ClassY", "LdoD Edition of Class Y", new LocalDate(),
 				false, null);
-		classY.addParticipant(luis);
-		classY.addParticipant(mp);
-		classY.addParticipant(diego);
-		classY.addParticipant(tiago);
-		classY.addParticipant(ars);
+		classY.addMember(luis, MemberRole.ADMIN);
+		classY.addMember(mp, MemberRole.ADMIN);
+		classY.addMember(diego, MemberRole.ADMIN);
+		classY.addMember(tiago, MemberRole.ADMIN);
+		classY.addMember(ars, MemberRole.ADMIN);
 		luis.addSelectedVirtualEditions(classY);
 		mp.addSelectedVirtualEditions(classY);
 		ars.addSelectedVirtualEditions(classY);
@@ -173,12 +174,12 @@ public class Bootstrap implements WebApplicationInitializer {
 
 		VirtualEdition classW = new VirtualEdition(ldod, ars, "ClassW", "LdoD Edition of Class W", new LocalDate(),
 				false, null);
-		classW.addParticipant(diego);
-		classW.addParticipant(mp);
-		classW.addParticipant(luis);
-		classW.addParticipant(andre);
-		classW.addParticipant(tiago);
-		classW.addParticipant(nuno);
+		classW.addMember(diego, MemberRole.ADMIN);
+		classW.addMember(mp, MemberRole.ADMIN);
+		classW.addMember(luis, MemberRole.ADMIN);
+		classW.addMember(andre, MemberRole.ADMIN);
+		classW.addMember(tiago, MemberRole.ADMIN);
+		classW.addMember(nuno, MemberRole.ADMIN);
 		mp.addSelectedVirtualEditions(classW);
 		ars.addSelectedVirtualEditions(classW);
 		diego.addSelectedVirtualEditions(classW);
