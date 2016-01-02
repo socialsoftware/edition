@@ -8,6 +8,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.apache.commons.io.FileUtils;
 import org.joda.time.LocalDate;
@@ -17,6 +18,7 @@ import org.slf4j.LoggerFactory;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.fenixframework.FenixFramework;
+import pt.ist.socialsoftware.edition.domain.Member.MemberRole;
 import pt.ist.socialsoftware.edition.utils.PropertiesManager;
 
 public class VirtualEdition extends VirtualEdition_Base {
@@ -25,7 +27,7 @@ public class VirtualEdition extends VirtualEdition_Base {
 	public VirtualEdition(LdoD ldod, LdoDUser participant, String acronym, String title, LocalDate date, Boolean pub,
 			Edition usedEdition) {
 		setLdoD4Virtual(ldod);
-		addParticipant(participant);
+		new Member(this, participant, MemberRole.ADMIN);
 		setAcronym(acronym);
 		setTitle(title);
 		setDate(date);
@@ -58,9 +60,7 @@ public class VirtualEdition extends VirtualEdition_Base {
 
 		getTaxonomy().remove();
 
-		for (LdoDUser user : getParticipantSet()) {
-			removeParticipant(user);
-		}
+		getMemberSet().stream().forEach(m -> m.remove());
 
 		for (LdoDUser user : getSelectedBySet()) {
 			removeSelectedBy(user);
@@ -367,6 +367,22 @@ public class VirtualEdition extends VirtualEdition_Base {
 			section.print();
 		}
 
+	}
+
+	@Atomic(mode = TxMode.WRITE)
+	public void removeMember(LdoDUser user) {
+		getMemberSet().stream().filter(m -> m.getUser() == user).forEach(m -> m.remove());
+		removeSelectedBy(user);
+	}
+
+	@Atomic(mode = TxMode.WRITE)
+	public void addMember(LdoDUser user, MemberRole role) {
+		if (!getMemberSet().stream().filter(m -> m.getUser() == user).findFirst().isPresent())
+			new Member(this, user, role);
+	}
+
+	public Set<LdoDUser> getParticipantSet() {
+		return getMemberSet().stream().map(m -> m.getUser()).collect(Collectors.toSet());
 	}
 
 }

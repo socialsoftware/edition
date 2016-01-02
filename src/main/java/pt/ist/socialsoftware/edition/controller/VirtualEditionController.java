@@ -28,6 +28,7 @@ import pt.ist.socialsoftware.edition.domain.Edition;
 import pt.ist.socialsoftware.edition.domain.FragInter;
 import pt.ist.socialsoftware.edition.domain.LdoD;
 import pt.ist.socialsoftware.edition.domain.LdoDUser;
+import pt.ist.socialsoftware.edition.domain.Member.MemberRole;
 import pt.ist.socialsoftware.edition.domain.Tag;
 import pt.ist.socialsoftware.edition.domain.Taxonomy;
 import pt.ist.socialsoftware.edition.domain.VirtualEdition;
@@ -267,7 +268,7 @@ public class VirtualEditionController {
 			model.addAttribute("users", users);
 			return "virtual/participants";
 		} else {
-			user.addToVirtualEdition(virtualEdition);
+			virtualEdition.addMember(user, MemberRole.WRITER);
 			model.addAttribute("virtualedition", virtualEdition);
 			model.addAttribute("users", users);
 			return "virtual/participants";
@@ -297,7 +298,7 @@ public class VirtualEditionController {
 			model.addAttribute("users", users);
 			return "virtual/participants";
 		} else {
-			user.removeVirtualEdition(virtualEdition);
+			virtualEdition.removeMember(user);
 
 			if (user == LdoDUser.getAuthenticatedUser()) {
 				model.addAttribute("virtualEditions",
