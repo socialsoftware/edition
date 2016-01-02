@@ -350,7 +350,7 @@ public class FragmentController {
 		LdoDUser user = LdoDUser.getAuthenticatedUser();
 
 		Annotation annotation;
-		if (virtualEdition.getParticipantSet().contains(user)) {
+		if (virtualEdition.getTaxonomy().canManipulateAnnotation(user)) {
 
 			annotation = inter.createAnnotation(annotationJson.getQuote(), annotationJson.getText(), user,
 					annotationJson.getRanges(), annotationJson.getTags());

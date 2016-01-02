@@ -24,9 +24,12 @@ public class PermissionDTO implements Serializable {
 				read.add(participant.getUsername());
 			}
 		}
+
 		// admin.add(user.getUsername());
+
 		update.add(user.getUsername());
 		delete.add(user.getUsername());
+
 	}
 
 	public List<String> getRead() {

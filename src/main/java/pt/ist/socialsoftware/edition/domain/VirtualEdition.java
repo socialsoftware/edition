@@ -11,6 +11,8 @@ import java.util.Set;
 
 import org.apache.commons.io.FileUtils;
 import org.joda.time.LocalDate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
@@ -18,6 +20,7 @@ import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.utils.PropertiesManager;
 
 public class VirtualEdition extends VirtualEdition_Base {
+	private static Logger logger = LoggerFactory.getLogger(VirtualEdition.class);
 
 	public VirtualEdition(LdoD ldod, LdoDUser participant, String acronym, String title, LocalDate date, Boolean pub,
 			Edition usedEdition) {
@@ -166,13 +169,13 @@ public class VirtualEdition extends VirtualEdition_Base {
 
 	@Atomic(mode = TxMode.WRITE)
 	public void updateVirtualEditionInters(String fraginters) {
+		logger.debug("updateVirtualEditionInters fragintters:{}", fraginters);
 
 		String[] items = fraginters.split(";");
 		List<String> fragInterList = Arrays.asList(items);
 		List<String> newFragList = new ArrayList<String>();
 		List<String> actualFragList = new ArrayList<String>();
 
-		System.out.println("FRAGMENTS");
 		// inicializa lista de frags
 		for (String temp : fragInterList) {
 			FragInter inter = FenixFramework.getDomainObject(temp);
@@ -184,7 +187,6 @@ public class VirtualEdition extends VirtualEdition_Base {
 		}
 
 		String fragVirtualInterId = "";
-		System.out.println("VirtualEditionInter");
 		// remove os fragmentos que não se encontram na nova lista
 		for (VirtualEditionInter inter : getVirtualEditionIntersSet()) {
 
@@ -199,7 +201,6 @@ public class VirtualEdition extends VirtualEdition_Base {
 			actualFragList.add(id);
 
 			if (!newFragList.contains(id)) {
-				System.out.println("-----------REMOVE " + inter.getLastUsed().getExternalId() + " " + inter.getTitle());
 				inter.remove();
 			}
 		}

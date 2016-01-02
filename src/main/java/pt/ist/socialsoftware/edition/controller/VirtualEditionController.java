@@ -35,7 +35,6 @@ import pt.ist.socialsoftware.edition.domain.VirtualEditionInter;
 import pt.ist.socialsoftware.edition.mallet.TopicModeler;
 import pt.ist.socialsoftware.edition.security.LdoDSession;
 import pt.ist.socialsoftware.edition.security.LdoDUserDetails;
-import pt.ist.socialsoftware.edition.security.LdoDUserDetailsService;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDCreateVirtualEditionException;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDDuplicateAcronymException;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDDuplicateNameException;
@@ -49,7 +48,7 @@ import pt.ist.socialsoftware.edition.visitors.PlainHtmlWriter4OneInter;
 @SessionAttributes({ "ldoDSession" })
 @RequestMapping("/virtualeditions")
 public class VirtualEditionController {
-	private static Logger logger = LoggerFactory.getLogger(LdoDUserDetailsService.class);
+	private static Logger logger = LoggerFactory.getLogger(VirtualEditionController.class);
 
 	@ModelAttribute("ldoDSession")
 	public LdoDSession getLdoDSession() {
@@ -614,38 +613,25 @@ public class VirtualEditionController {
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/restricted/fraginter/{fragInterId}/tag/dissociate/{categoryId}")
-	@PreAuthorize("hasPermission(#fragInterId, 'fragInter.participant')")
+	@PreAuthorize("hasPermission(#fragInterId, 'fragInter.annotation')")
 	public String dissociate(Model model, @PathVariable String fragInterId, @PathVariable String categoryId) {
 		VirtualEditionInter inter = FenixFramework.getDomainObject(fragInterId);
+
 		Category category = FenixFramework.getDomainObject(categoryId);
 		if (inter == null || category == null) {
 			return "utils/pageNotFound";
 		}
 
-		inter.dissociate(category);
+		LdoDUserDetails userDetails = (LdoDUserDetails) SecurityContextHolder.getContext().getAuthentication()
+				.getPrincipal();
+
+		inter.dissociate(userDetails.getUser(), category);
 
 		return "redirect:/fragments/fragment/inter/" + inter.getExternalId();
-
-	}
-
-	@RequestMapping(method = RequestMethod.GET, value = "/restricted/tag/associateForm/{taxonomyId}/{interId}")
-	@PreAuthorize("hasPermission(#interId, 'fragInter.participant')")
-	public String associateTagForm(Model model, @PathVariable String taxonomyId, @PathVariable String interId) {
-		Taxonomy taxonomy = FenixFramework.getDomainObject(taxonomyId);
-		VirtualEditionInter inter = FenixFramework.getDomainObject(interId);
-		if ((taxonomy == null) || (inter == null)) {
-			return "utils/pageNotFound";
-		}
-
-		model.addAttribute("taxonomy", taxonomy);
-		model.addAttribute("inter", inter);
-		model.addAttribute("categories", inter.getNonAssignedCategories());
-		return "virtual/associateForm";
-
 	}
 
 	@RequestMapping(method = RequestMethod.POST, value = "/restricted/tag/associate")
-	@PreAuthorize("hasPermission(#fragInterId, 'fragInter.participant')")
+	@PreAuthorize("hasPermission(#fragInterId, 'fragInter.annotation')")
 	public String associateCategory(Model model, @RequestParam("taxonomyId") String taxonomyId,
 			@RequestParam("fragInterId") String fragInterId,
 			@RequestParam(value = "categories[]", required = false) String[] categories) {

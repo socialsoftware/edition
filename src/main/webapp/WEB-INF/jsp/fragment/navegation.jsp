@@ -187,33 +187,13 @@
 										href="${contextPath}/fragments/fragment/inter/next/number/${virtualEditionInter.externalId}"><span
 											class="glyphicon glyphicon-forward"></span></a></td>
 								</tr>
-
-
-
-
+								<c:if test="${pageContext.request.userPrincipal.authenticated}">
 								<tr>
 									<c:choose>
 										<c:when
 											test="${empty recommender || !acronym.equals(virtualEdition.getAcronym())}">
 											<td><input type="checkbox" style="visibility: hidden;" /></td>
 											<td>
-												<!--<c:choose>
-	    	                                	<c:when test="${previousList.size()>0}">
-	        	                            		<form id="prev-form" method="POST" action="${contextPath}/recommendation/fragment/prev/${prev.externalId}">
-														<c:forEach var="previous" items='${previousList}'>
-															<input type="hidden" name="id[]" value="${previous}">
-														</c:forEach>
-														<input type="hidden" name="current" value="${virtualEditionInter.externalId}">
-														<input type="hidden" name="acronym" value="${virtualEditionInter.getVirtualEdition().getAcronym()}">
-														<a class="btn recommender-nav" >
-															<span class="glyphicon glyphicon-backward "></span></a>
-													</form>	
-	                                    		</c:when>
-	                                    		<c:otherwise>
-	                                    			<a class="btn" style="visibility: hidden;"><span class="glyphicon glyphicon-backward" ></span></a>
-	                                    		</c:otherwise>
-	                                    		</c:choose>
-	                                    		</td>-->
 											<td><a
 												href="${contextPath}/recommendation/restricted/${virtualEditionInter.getVirtualEdition().getExternalId()}/${virtualEditionInter.externalId}">1</a>
 											</td>
@@ -273,13 +253,7 @@
 										</c:otherwise>
 									</c:choose>
 								</tr>
-								<!--<a class="btn" href="${contextPath}/recommendation/inter/next//${next.externalId}">
-                                    	<span class="glyphicon glyphicon-forward"></span></a>-->
-
-
-
-
-
+								</c:if>
 							</c:forEach>
 							<c:if
 								test="${virtualEdition.participantSet.contains(user) && (inters.size() == 1) && virtualEdition.canAddFragInter(inters.get(0))}">

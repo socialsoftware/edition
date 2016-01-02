@@ -157,7 +157,6 @@ aside {
 .d2 {
 	font-size: 6pt;
 }
-
 /* unset bs3 setting */
 .modal-open {
 	overflow: auto;
@@ -222,7 +221,6 @@ div {
 <script src="http://malsup.github.com/jquery.form.js"></script>
 
 <script>
-
 var editionData = new Array();
 <c:forEach var="inter" items='${virtualEdition.sortedInterps}'>
 	editionDataItem = new Object();
@@ -233,14 +231,13 @@ var editionData = new Array();
 	<c:set var="newLine" value='
 	'/>
 	<c:set var="titleTemp" value="${fn:replace(inter.title,newLine,'')}" />
-
 	<c:set var="newLine" value="
         "/>
 	<c:set var="titleTemp" value="${fn:replace(titleTemp,newLine,'')}" />
 	
 	<c:choose>
 	<c:when test="${fn:contains(titleTemp, '\"')}">
-	editionDataItem.title ="${titleTemp}"
+	editionDataItem.title =${titleTemp}
 	</c:when>
 	<c:otherwise>
 	editionDataItem.title ="${titleTemp}"
@@ -248,9 +245,7 @@ var editionData = new Array();
     </c:otherwise>
 	</c:choose>
 	
-	 	 
-	
-	
+			 	 
 	 var listused = new Array();
 	 <c:forEach var="used" items="${inter.getListUsed()}">
 	 	used = new Object();
@@ -262,8 +257,6 @@ var editionData = new Array();
 	 
 	editionData.push(editionDataItem);
 </c:forEach> 
-
-
 </script>
 </head>
 <body>
@@ -399,7 +392,6 @@ var editionData = new Array();
                   <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                     <span class="glyphicon glyphicon-arrow-right" aria-hidden="up"></span><span class="caret"></span>
                   </button>
-
                   <div class="dropdown-menu" role="menu" style="padding:15px">
                   	Posição:
                     <input id="movetopos" type="number" value="0" min="0" class="form-control">
@@ -431,13 +423,11 @@ var editionData = new Array();
                 <span class="glyphicon glyphicon-text-height" aria-hidden="Adicionar secção"></span>
                 </button>
               </div>
-
                 
                 <button type="button" class="btn btn-default" data-toggle="modal" data-target=".bs-example-modal-addsection2">
                 Secção
                 </button>
                
-
                  <div class="btn-group" role="group" aria-label="...">
                   <button type="button"  id="preview" class="btn btn-default" data-toggle="modal" data-target="#myModal">
                 <span class="glyphicon glyphicon-th-list" aria-hidden="Previsualizar Índice"></span>
@@ -450,12 +440,10 @@ var editionData = new Array();
                 <span class="glyphicon glyphicon-cloud-upload" aria-hidden="Guardar"></span>
                 </button>
               </div>
-
               <!--
                 <button type="button"  id="preview" class="btn btn-default" data-toggle="modal" data-target="#myModal">
                 Preview
                 </button>
-
                 <button type="button" id="save" class="btn btn-default">Save</button>
                 -->
 
@@ -656,7 +644,7 @@ var editionData = new Array();
 	<div class="container">
 
 		<h1 class="text-center">
-			<spring:message code="virtualedition" />
+			<spring:message code="general.edition" />
 			:
 			<!--  <a href="${contextPath}/edition/acronym/${virtualEdition.acronym}">
                 <span id="editiontitle">${virtualEdition.title}</span></a> -->
@@ -742,21 +730,14 @@ var editionData = new Array();
 
 							<label class="sr-only" for=submit><spring:message
 									code="general.update" /></label>
-
-
-
 							<button type="submit" class="btn btn-primary" id="submit">
 								<span class="glyphicon glyphicon-ok"></span>
-
 							</button>
 
 							<button type="button" class="btn btn-default"
 								onclick="$('#collapsemenu').collapse('hide')">
 								<span class="glyphicon glyphicon-remove"></span>
-
 							</button>
-
-
 
 							<input type="hidden" name="fraginters" value="" id="fraginters">
 						</div>
@@ -780,12 +761,8 @@ var editionData = new Array();
 		height="400"></canvas> </aside>
 </body>
 <script>
-
-
-
  // Only run on browsers that support css transitions
 // See also example.css:15
-
 var linkFormatter = function (row, cell, value, columnDef, dataContext) {
         //console.log(dataContext);dataContext.externalId
         
@@ -794,10 +771,8 @@ var linkFormatter = function (row, cell, value, columnDef, dataContext) {
     return '<a href="http://localhost:8080/fragments/fragment/inter/'+dataContext.externalId+'" target="_blank"><span style="text-align:center" class=\'glyphicon glyphicon-link\'></a>';
   } else if(dataContext.h > 0) {
     return '<a href="" title="edit title"><span style="text-align:center" class=\'glyphicon glyphicon-pencil\'></a>';
-
   }
 };
-
 var grid;
 var data = [];
 var columns = [
@@ -846,7 +821,6 @@ var columns = [
     cssClass: "linkCol"
   }
 ];
-
 var options = {
   editable: false,
   enableAddRow: false,
@@ -859,9 +833,6 @@ var options = {
   enableColumnReorder: false,
   multiColumnSort: true
 };
-
-
-
 function requiredFieldValidator(value) {
   if (value == null || value == undefined || !value.length) {
     return {valid: false, msg: "This is a required field"};
@@ -869,14 +840,10 @@ function requiredFieldValidator(value) {
     return {valid: true, msg: null};
   }
 }
-
 var data = [];
-
 $(function () {
-
  
   
-
     for (var i = 0; i < editionData.length; i++) {
     	
       editionStr = "";
@@ -905,9 +872,7 @@ $(function () {
       	
   
     }
-
   grid = new Slick.Grid("#myGrid", data, columns, options);
-
  
   grid.onSort.subscribe(function (e, args) {
       var cols = args.sortCols;
@@ -926,13 +891,10 @@ $(function () {
       grid.invalidate();
       grid.render();
     });
-
   grid.setSelectionModel(new Slick.RowSelectionModel());
-
   var moveRowsPlugin = new Slick.RowMoveManager({
     cancelEditOnDrag: true
   });
-
   
   
   moveRowsPlugin.onBeforeMoveRows.subscribe(function (e, data) {
@@ -945,28 +907,21 @@ $(function () {
     }
     return true;
   });
-
   moveRowsPlugin.onMoveRows.subscribe(function (e, args) {
     var extractedRows = [], left, right;
     var rows = args.rows;
     var insertBefore = args.insertBefore;
     left = data.slice(0, insertBefore);
     right = data.slice(insertBefore, data.length);
-
-
     rows.sort(function(a,b) { return a-b; });
-
     //console.log("rows "+rows);
     //console.log("left "+left);
     //console.log("right "+right);
     // console.log("insertBefore "+insertBefore);
-
     for (var i = 0; i < rows.length; i++) {
       extractedRows.push(data[rows[i]]);
     }
-
     rows.reverse();
-
     for (var i = 0; i < rows.length; i++) {
       var row = rows[i];
       if (row < insertBefore) {
@@ -975,63 +930,46 @@ $(function () {
         right.splice(row - insertBefore, 1);
       }
     }
-
     data = left.concat(extractedRows.concat(right));
-
     var selectedRows = [];
     var cutRows = [];
     for (var i = 0; i < rows.length; i++)
       selectedRows.push(left.length + i);
-
     grid.resetActiveCell();
     grid.setData(data);
     grid.setSelectedRows(selectedRows);
     
     grid.invalidate();
-
     console.log("onMoveRows");
     $("#outline").fracs("outline",'redraw');
-
   });
-
   grid.registerPlugin(moveRowsPlugin);
-
   grid.onDragInit.subscribe(function (e, dd) {
     // prevent the grid from cancelling drag'n'drop by default
     e.stopImmediatePropagation();
   });
-
-
   grid.onDragStart.subscribe(function (e, dd) {
     var cell = grid.getCellFromEvent(e);
     if (!cell) {
       return;
     }
-
     dd.row = cell.row;
     if (!data[dd.row]) {
       return;
     }
-
     
-
     if (Slick.GlobalEditorLock.isActive()) {
       return;
     }
-
     e.stopImmediatePropagation();
     dd.mode = "recycle";
-
     var selectedRows = grid.getSelectedRows();
-
     if (!selectedRows.length || $.inArray(dd.row, selectedRows) == -1) {
       selectedRows = [dd.row];
       grid.setSelectedRows(selectedRows);
     }
-
     dd.rows = selectedRows;
     dd.count = selectedRows.length;
-
     var proxy = $("<span></span>")
         .css({
           position: "absolute",
@@ -1045,35 +983,25 @@ $(function () {
         })
         .text("Drag to Recycle Bin to delete " + dd.count + " selected row(s)")
         .appendTo("body");
-
     dd.helper = proxy;
-
     $(dd.available).css("background", "pink");
-
     return proxy;
   });
-
   grid.onDrag.subscribe(function (e, dd) {
     if (dd.mode != "recycle") {
       return;
     }
-
    
-
     dd.helper.css({top: e.pageY + 5, left: e.pageX + 5});
   });
-
   grid.onDragEnd.subscribe(function (e, dd) {
     if (dd.mode != "recycle") {
       return;
     }
     dd.helper.remove();
     $(dd.available).css("background", "beige");
-
     
-
   });
-
   $.drop({mode: "mouse"});
   $("#dropzone")
       .bind("dropstart", function (e, dd) {
@@ -1099,8 +1027,6 @@ $(function () {
         grid.invalidate();
         grid.setSelectedRows([]);
       });
-
-
   grid.onAddNewRow.subscribe(function (e, args) {
     var item = {name: "New task", complete: false};
     $.extend(item, args.item);
@@ -1110,43 +1036,34 @@ $(function () {
     grid.render();
   });
 })
-
 function sortNumber(a,b) {
     return a - b;
 }
-
 function removeRows(selectedRows) {
   
   console.log("removeRows "+selectedRows);
-
  for (var i = 0; i < selectedRows.length; i++) {
     data.splice(selectedRows[i]-i, 1);
   }
-
   grid.invalidate();
   grid.setSelectedRows([]);
 }
-
-
 // remove function
 $("#del").click(function() {
   var selectedRows = grid.getSelectedRows().sort(sortNumber);
   removeRows(selectedRows);
   $("#outline").fracs("outline",'redraw');
 });
-
 $("#del").popConfirm({
 	title: "Are you sure?",
 	content: "",
 	placement: "bottom"
 });
-
 $( "#down" ).click(function() {
   selectedRows = grid.getSelectedRows().sort(sortNumber);
   moveRowsTo(selectedRows,selectedRows[selectedRows.length-1]+2);
   window.scrollTo(0,$('.selected').offset().top-300);
 });
-
 $( "#up" ).click(function() {
   selectedRows = grid.getSelectedRows().sort(sortNumber);
   if(selectedRows.length>0)
@@ -1155,7 +1072,6 @@ $( "#up" ).click(function() {
       window.scrollTo(0,$('.selected').offset().top-300);
     }
 });
-
 $( "#top" ).click(function() {
   var selectedRows = grid.getSelectedRows().sort(sortNumber);
   if(selectedRows.length>0) {
@@ -1163,7 +1079,6 @@ $( "#top" ).click(function() {
     window.scrollTo(0,$('.selected').offset().top-300);
   }  
 });
-
 $( "#bottom" ).click(function() {
   var selectedRows = grid.getSelectedRows().sort(sortNumber);
   if(selectedRows.length>0) {
@@ -1171,7 +1086,6 @@ $( "#bottom" ).click(function() {
     window.scrollTo(0,$('.selected').offset().top-300);
   }
 });
-
 $( "#cut" ).click(function() {cut();});
 $( "#paste" ).click(function() {paste();});
 	
@@ -1188,7 +1102,6 @@ $( "#moveok" ).click(function() {
   }
 });
 */
-
 function moveFragments () {
 	  console.log("teste "+$('#movetopos').val());
 	  pos = $('#movetopos').val()
@@ -1207,41 +1120,28 @@ function moveFragments () {
 	  
 	  $('.popover').popover('hide');
 }
-
 function moveEnter(enter) {
 	if(event.keyCode == 13)
 		$('#moveok').click();
 }
-
-
-
-
 $("#okaddsection2").click(function() {
-
   sectionname = $('#sectionname').val();
   level = $('#titleid').val();
   
   $('#sectionmodal2').modal('toggle');
   addNewSection(sectionname,level);
-
 });
-
 $('#searchmodal').on('shown.bs.modal', function () {
     $('#searchquerybt').focus()
 })
-
 $('#sectionmodal2').on('shown.bs.modal', function () {
     $('#sectionname').focus()
 })
-
 $( "#save" ).click(function() {
   console.log(data);
   alert(JSON.stringify(data));
 });
-
 $("#preview").click(function() {
-
-
   datastr = "";
   for (var i = 0; i < data.length; i++) {
         if (data[i].h > 0)
@@ -1250,31 +1150,19 @@ $("#preview").click(function() {
           datastr = datastr+ data[i].name+"<br>";
   //   var row = rows[i];
   }
-
-
   $("#modalpreview").html(datastr);
-
   //id="modalpreview"
   console.log("rrrrr  ");
 });
-
-
-
 function moveRowsTo(rows, insertBefore) {
     var extractedRows = [], left, right;
-
     left = data.slice(0, insertBefore);
     right = data.slice(insertBefore, data.length);
-
-
     rows.sort(function(a,b) { return a-b; });
-
     for (var i = 0; i < rows.length; i++) {
       extractedRows.push(data[rows[i]]);
     }
-
     rows.reverse();
-
     for (var i = 0; i < rows.length; i++) {
       var row = rows[i];
       if (row < insertBefore) {
@@ -1283,25 +1171,18 @@ function moveRowsTo(rows, insertBefore) {
         right.splice(row - insertBefore, 1);
       }
     }
-
     data = left.concat(extractedRows.concat(right));
-
     var selectedRows = [];
     for (var i = 0; i < rows.length; i++)
       selectedRows.push(left.length + i);
-
     grid.resetActiveCell();
     grid.setData(data);
     grid.setSelectedRows(selectedRows);
     
     grid.invalidate();
-
     //console.log("onMoveRows");
     $("#outline").fracs("outline",'redraw');
-
   };
-
-
 //update data to submit
   $( "#formedition" ).submit(function( event ) {
     
@@ -1316,7 +1197,6 @@ function moveRowsTo(rows, insertBefore) {
     console.log(usedIDS);
     
   });
-
 </script>
 
 
@@ -1356,8 +1236,6 @@ $("#outline").fracs("outline", {
             selector: '.cell-h3',
             fillStyle: 'rgb(204,204,204)'
         }
-
-
         /*
         {
             selector: '.slick-reorder-guide',
@@ -1367,86 +1245,59 @@ $("#outline").fracs("outline", {
         
     ]
 });
-
-
-
 $( "#outline" ).mousemove(function( event ) {
 	  var parentOffset = $(this).parent().offset(); 
 	  var pageCoords = "( " + event.pageX + ", " + event.pageY + " )";
 	  var clientCoords = "( " + event.clientX + ", " + event.clientY + " )";
-
 	  my = event.pageY-parentOffset.top-12;
 	  h = $("#outline").height();
-
-
 	  //console.log(my/h*data.length);
-
 	  id = Math.floor(my/h*data.length);
 	  //console.log(id);
-
 	  $('.wrap').css({top:event.clientY+'px'});
-
 	  
 	if(id>2 && id<data.length-2)
 	  $('.wrap').attr("data-content",data[id].name+"\n"+data[id].name+"\n"+data[id].name);
 	  //$('.wrap').popover('show');
-
 	  //$("#fixed").html("<span class=\"d2\">"+data[id-2].name+"</span><br>"+"<span class=\"d1\">"+data[id-1].name+"</span><br>"+data[id].name+"<br>"+"<span class=\"d1\">"+data[id+1].name+"</span><br>"+"<span class=\"d2\">"+data[id+2].name+"</span>");
-
 	  if(id>2 && id<data.length-2)
 	  $("#fixed").html("<span class=\"d2\">"+data[id-2].name.substring(0,42)+"...</span><br>"+"<span class=\"d1\">"+data[id-1].name.substring(0,32)+"...</span><br>"+data[id].name.substring(0,26)+"...<br>"+"<span class=\"d1\">"+data[id+1].name.substring(0,26)+"...</span><br>"+"<span class=\"d2\">"+data[id+2].name.substring(0,26)+"...</span>");
-
 	  //$("#wrap")[0].style.top =  $("#wrap")[0].style.top + 1;
 	  //$("#label").text(data[id].name);
-
 	  //console.log(id);
-
 	   //$( "span:first" ).text( "( event.pageX, event.pageY ) 
 	  
 	})
 	.mouseenter(function( event ) {
 	  $('.wrap').css("visibility", "visible");
 	  //$('.wrap').fadeIn( 100 );
-
 	})
 	.mouseleave(function() {
 	  $('.wrap').css("visibility", "hidden");
 	  //$('.wrap').fadeOut( 100 );
 	});
-
-
 	function refreshSwatch() {
 	  //console.log($( "#slider2" ).slider( "value" ));
 	  //pos = $( "#slider2" ).slider( "value" );
-
-
 	  //.sort();
 	  //selectedRows = selectedRows.reverse();
-
 	  var selectedRows = grid.getSelectedRows().sort(sortNumber);
 	  if(selectedRows.length>0) {
 	    moveRowsTo(selectedRows,pos);
 	    window.scrollTo(0,$('.selected').offset().top-300);
 	  }  
-
 	  /*
 	  console.log(selectedRows[0])
-
 	  d = data[selectedRows[0]];
 	  data[selectedRows[0]] = data[pos];
 	  data[pos] = d;
-
 	  grid.invalidate();
-
 	  sr = [pos];
 	  grid.setSelectedRows(sr);
 	  */
-
-
 	  $("#outline").fracs("outline",'redraw');
 	  //window.scrollTo(0,$('.selected').offset().top-300);
 	}
-
 	/*
 	$(function() {
 	    $( "#slider2" ).slider({
@@ -1455,77 +1306,55 @@ $( "#outline" ).mousemove(function( event ) {
 	      change: refreshSwatch
 	    });
 	});*/
-
-
 	var selectedrows;
-
 	$( "#tname" ).bind("keyup change",function( event ) {
-
-
 	  selectedrows = [];
 	  grid.setSelectedRows(selectedrows);
-
 	  str = $("#tname").val();
 	  console.log("-"+str+"-");
-
 	  if (str.length > 1) {
 	  
 	    for (var i = 0; i < data.length; i++) {
 	      if(data[i].name.toUpperCase().indexOf(str.toUpperCase()) > -1)
 	        selectedrows.push(i);
 	    }
-
 	    grid.setSelectedRows(selectedrows);
-
 	  }
-
 	  $("#outline").fracs("outline",'redraw');
 	});
-
 	function cut() {
-
 	   selectedRows = grid.getSelectedRows().sort(sortNumber); 
 	    
 	  if (selectedRows.length > 0) {
 	    cutRows = [];
-
 	    for (var i = 0; i < selectedRows.length; i++) {
 	      cutRows.push(data[selectedRows[i]]);
 	    }
-
 	    removeRows(selectedRows);
 	    selectedRows = [];
 	    $("#outline").fracs("outline",'redraw');
 	  }
 	}
-
 	function copy() {
-
 		/*
 	    selectedRows = grid.getSelectedRows().sort(sortNumber); 
 	    
 	    if (selectedRows.length > 0) {
 	    cutRows = [];
-
 	    for (var i = 0; i < selectedRows.length; i++) {
 	      cutRows.push(data[selectedRows[i]]);
 	    }
-
 	    //selectedRows = [];
 	    $("#outline").fracs("outline",'redraw');
 	  }
 	    */
 	}
-
 	function paste() {
-
 	  
 	    selectedRows = grid.getSelectedRows().sort(sortNumber); 
 	    
 	    var left, right, paste = [];
-
 	    var insertAt = 0;
-
 	    //console.log(insertAt);
 	    //console.log(selectedRows);
 	    //var paste =  cutRows.slice();
@@ -1533,27 +1362,20 @@ $( "#outline" ).mousemove(function( event ) {
 	    
 	    if(cutRows.length > 0) {
 	     var paste = JSON.parse(JSON.stringify(cutRows))
-
 	    if(selectedRows.length > 0) 
 	      insertAt = selectedRows[selectedRows.length-1]+1;
-
 	    left = data.slice(0, insertAt);
 	    right = data.slice(insertAt, data.length);
-
 	    data = left.concat(paste.concat(right));
-
 	    selectedRows = Array(paste.length);
 	    for (var i = 0; i < paste.length; i++) {
 	      selectedRows[i] = left.length+i;
 	    }
 	  
-
 	    for (var i = 0; i < data.length; i++) {
 	        data[i].id = i+1;
 	        //console.log(data[i]);
 	    }
-
-
 	    grid.setData(data);
 	    grid.setSelectedRows(selectedRows);
 	    
@@ -1564,27 +1386,19 @@ $( "#outline" ).mousemove(function( event ) {
 	    }
 	   
 	}
-
 	function addNewSection (sectionname,level) {
 	  var item = {name: sectionname, complete: false, h:level};
-
 	  //var item = {name: ""sectionname"", complete: true};
-
 	  selectedRows = grid.getSelectedRows().sort(sortNumber); 
 	  var insertAt = 0;
-
 	  if(selectedRows.length > 0) 
 	      insertAt = selectedRows[selectedRows.length-1]+1;
 	   
 	  data.splice(insertAt, 0, item);
 	  
 	  
-
 	  grid.invalidate();
 	  grid.setActiveCell(insertAt, 1);
-
-
-
 	  //$('.cell-title')[insertAt].className = $('.cell-title')[insertAt].className+" cell-h1";
 	  $("#outline").fracs("outline",'redraw');
 	    //grid.updateRowCount();
@@ -1593,40 +1407,30 @@ $( "#outline" ).mousemove(function( event ) {
 	
 	function addNewFragment (externalid,name,edition,fragExternalId) {
 		  var item = {date:"",fragment:fragExternalId,edition:edition,link:"link",tax:"",usedExternalId:externalid, name:name,complete: false, h:0};
-
 		  //var item = {name: ""sectionname"", complete: true};
-
 		  selectedRows = grid.getSelectedRows().sort(sortNumber); 
 		  var insertAt = 0;
-
 		  if(selectedRows.length > 0) 
 		      insertAt = selectedRows[selectedRows.length-1]+1;
 		   
 		  data.splice(insertAt, 0, item);
 		  
 		  
-
 		  grid.invalidate();
 		  grid.setActiveCell(insertAt, 1);
-
-
-
 		  //$('.cell-title')[insertAt].className = $('.cell-title')[insertAt].className+" cell-h1";
 		  $("#outline").fracs("outline",'redraw');
 		    //grid.updateRowCount();
 		    //grid.render();
 		}
-
 	$(window).keydown(function (e){
 	    if (e.metaKey && e.keyCode == 88) 
 	      cut();
 	});
-
 	$(window).keydown(function (e){
 	    if (e.metaKey && e.keyCode == 86) 
 	      paste();
 	});
-
 	$(window).keydown(function (e){
 	    if (e.metaKey && e.keyCode == 67) 
 	      copy();
@@ -1635,16 +1439,13 @@ $( "#outline" ).mousemove(function( event ) {
 	$(window).keydown(function (e){
 	      console.log(e.keyCode);
 	});
-
 	
 	$('.subnav').affix({
 	      offset: {
 	        top: $('.navbar-header').height()
 	      }
 	}); 
-
 	//-------------------------------
-
 	    
 	    //---------------------------------
 	    
@@ -1721,7 +1522,6 @@ $( "#outline" ).mousemove(function( event ) {
 	    	}
 	    		
 	    });
-
 		$('.dropdown-menu').click(function(event) {event.stopPropagation();});
 		
 		$('.popover-markup>.trigger').popover({

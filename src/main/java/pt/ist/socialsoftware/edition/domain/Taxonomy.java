@@ -182,4 +182,11 @@ public class Taxonomy extends Taxonomy_Base {
 		setOpenAnnotation(openAnnotation);
 	}
 
+	public boolean canManipulateAnnotation(LdoDUser user) {
+		if (user != null && getOpenAnnotation())
+			return true;
+		else
+			return getEdition().getParticipantSet().contains(user);
+	}
+
 }
