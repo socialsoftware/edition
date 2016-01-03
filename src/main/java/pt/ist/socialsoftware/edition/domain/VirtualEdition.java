@@ -27,7 +27,7 @@ public class VirtualEdition extends VirtualEdition_Base {
 	public VirtualEdition(LdoD ldod, LdoDUser participant, String acronym, String title, LocalDate date, Boolean pub,
 			Edition usedEdition) {
 		setLdoD4Virtual(ldod);
-		new Member(this, participant, MemberRole.ADMIN);
+		new Member(this, participant, MemberRole.ADMIN, true);
 		setAcronym(acronym);
 		setTitle(title);
 		setDate(date);
@@ -376,13 +376,91 @@ public class VirtualEdition extends VirtualEdition_Base {
 	}
 
 	@Atomic(mode = TxMode.WRITE)
-	public void addMember(LdoDUser user, MemberRole role) {
+	public void addMember(LdoDUser user, MemberRole role, boolean active) {
 		if (!getMemberSet().stream().filter(m -> m.getUser() == user).findFirst().isPresent())
-			new Member(this, user, role);
+			new Member(this, user, role, active);
+	}
+
+	@Atomic(mode = TxMode.WRITE)
+	public void cancelParticipationSubmission(LdoDUser user) {
+		Member member = getMemberSet().stream().filter(m -> !m.getActive() && m.getUser() == user).findFirst()
+				.orElse(null);
+		if (member != null)
+			member.remove();
+	}
+
+	@Atomic(mode = TxMode.WRITE)
+	public void addApprove(LdoDUser user) {
+		Member member = getMemberSet().stream().filter(m -> !m.getActive() && m.getUser() == user).findFirst()
+				.orElse(null);
+		if (member != null)
+			member.setActive(true);
+	}
+
+	@Atomic(mode = TxMode.WRITE)
+	public void switchRole(LdoDUser user) {
+		Member member = getMemberSet().stream().filter(m -> m.getUser() == user).findFirst().orElse(null);
+		if (member != null) {
+			if (member.getRole().equals(MemberRole.ADMIN))
+				member.setRole(MemberRole.WRITER);
+			else
+				member.setRole(MemberRole.ADMIN);
+		}
 	}
 
 	public Set<LdoDUser> getParticipantSet() {
-		return getMemberSet().stream().map(m -> m.getUser()).collect(Collectors.toSet());
+		return getMemberSet().stream().filter(m -> m.getActive()).map(m -> m.getUser()).collect(Collectors.toSet());
+	}
+
+	public Set<Member> getActiveMemberSet() {
+		return getMemberSet().stream().filter(m -> m.getActive()).collect(Collectors.toSet());
+	}
+
+	public Set<LdoDUser> getAdminSet() {
+		return getMemberSet().stream().filter(m -> m.getRole().equals(MemberRole.ADMIN) && m.getActive())
+				.map(m -> m.getUser()).collect(Collectors.toSet());
+	}
+
+	public Set<Member> getAdminMemberSet() {
+		return getMemberSet().stream().filter(m -> m.getRole().equals(MemberRole.ADMIN) && m.getActive())
+				.collect(Collectors.toSet());
+	}
+
+	public Set<LdoDUser> getPendingSet() {
+		return getMemberSet().stream().filter(m -> !m.getActive()).map(m -> m.getUser()).collect(Collectors.toSet());
+	}
+
+	public Set<Member> getPendingMemberSet() {
+		return getMemberSet().stream().filter(m -> !m.getActive()).collect(Collectors.toSet());
+	}
+
+	public boolean canRemoveMember(LdoDUser actor, LdoDUser user) {
+		MemberRole roleActor = getMemberSet().stream().filter(m -> m.getUser() == actor).map(m -> m.getRole())
+				.findFirst().get();
+
+		if (roleActor.equals(MemberRole.ADMIN) && getAdminMemberSet().size() > 1)
+			return true;
+
+		if (roleActor.equals(MemberRole.ADMIN) && getAdminMemberSet().size() == 1 && actor != user)
+			return true;
+
+		if (roleActor.equals(MemberRole.WRITER) && actor == user)
+			return true;
+
+		return false;
+	}
+
+	public boolean canSwitchRole(LdoDUser actor, LdoDUser user) {
+		MemberRole roleActor = getMemberSet().stream().filter(m -> m.getUser() == actor).map(m -> m.getRole())
+				.findFirst().get();
+
+		if (roleActor.equals(MemberRole.ADMIN) && getAdminMemberSet().size() > 1)
+			return true;
+
+		if (roleActor.equals(MemberRole.ADMIN) && getAdminMemberSet().size() == 1 && actor != user)
+			return true;
+
+		return false;
 	}
 
 }

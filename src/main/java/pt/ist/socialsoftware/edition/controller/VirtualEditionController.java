@@ -41,6 +41,7 @@ import pt.ist.socialsoftware.edition.shared.exception.LdoDDuplicateAcronymExcept
 import pt.ist.socialsoftware.edition.shared.exception.LdoDDuplicateNameException;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDEditVirtualEditionException;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDException;
+import pt.ist.socialsoftware.edition.shared.exception.LdoDExceptionNonAuthorized;
 import pt.ist.socialsoftware.edition.utils.TopicListDTO;
 import pt.ist.socialsoftware.edition.validator.VirtualEditionValidator;
 import pt.ist.socialsoftware.edition.visitors.PlainHtmlWriter4OneInter;
@@ -231,31 +232,63 @@ public class VirtualEditionController {
 		return "virtual/editions";
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "/restricted/participantsForm/{externalId}")
+	@RequestMapping(method = RequestMethod.GET, value = "/restricted/{externalId}/participants")
 	@PreAuthorize("hasPermission(#externalId, 'virtualedition.participant')")
-	public String showParticipantsForm(Model model, @PathVariable String externalId) {
+	public String showParticipants(Model model, @PathVariable String externalId) {
 		VirtualEdition virtualEdition = FenixFramework.getDomainObject(externalId);
 		if (virtualEdition == null) {
 			return "utils/pageNotFound";
 		} else {
-			Set<LdoDUser> users = virtualEdition.getLdoD4Virtual().getUsersSet();
-			model.addAttribute("virtualedition", virtualEdition);
-			model.addAttribute("users", users);
+			model.addAttribute("virtualEdition", virtualEdition);
 			return "virtual/participants";
 		}
 	}
 
-	@RequestMapping(method = RequestMethod.POST, value = "/restricted/addparticipant")
-	@PreAuthorize("hasPermission(#externalId, 'virtualedition.participant')")
-	public String addParticipant(Model model, @RequestParam("externalId") String externalId,
+	@RequestMapping(method = RequestMethod.POST, value = "/restricted/{externalId}/participants/submit")
+	public String submitParticipation(Model model, @ModelAttribute("ldoDSession") LdoDSession ldoDSession,
+			@PathVariable String externalId) {
+		VirtualEdition virtualEdition = FenixFramework.getDomainObject(externalId);
+		LdoDUser user = LdoDUser.getAuthenticatedUser();
+
+		if (virtualEdition == null || user == null) {
+			return "utils/pageNotFound";
+		} else {
+
+			virtualEdition.addMember(user, MemberRole.WRITER, false);
+
+			model.addAttribute("virtualEditions", LdoD.getInstance().getVirtualEditions4User(user, ldoDSession));
+			model.addAttribute("user", user);
+			return "virtual/editions";
+		}
+	}
+
+	@RequestMapping(method = RequestMethod.POST, value = "/restricted/{externalId}/participants/cancel")
+	public String cancelParticipationSubmission(Model model, @ModelAttribute("ldoDSession") LdoDSession ldoDSession,
+			@PathVariable String externalId) {
+		VirtualEdition virtualEdition = FenixFramework.getDomainObject(externalId);
+		LdoDUser user = LdoDUser.getAuthenticatedUser();
+
+		if (virtualEdition == null || user == null) {
+			return "utils/pageNotFound";
+		} else {
+
+			virtualEdition.cancelParticipationSubmission(user);
+
+			model.addAttribute("virtualEditions", LdoD.getInstance().getVirtualEditions4User(user, ldoDSession));
+			model.addAttribute("user", user);
+			return "virtual/editions";
+		}
+	}
+
+	@RequestMapping(method = RequestMethod.POST, value = "/restricted/{externalId}/participants/approve")
+	@PreAuthorize("hasPermission(#externalId, 'virtualedition.admin')")
+	public String approveParticipant(Model model, @PathVariable("externalId") String externalId,
 			@RequestParam("username") String username) {
 
 		VirtualEdition virtualEdition = FenixFramework.getDomainObject(externalId);
 		if (virtualEdition == null) {
 			return "utils/pageNotFound";
 		}
-
-		Set<LdoDUser> users = virtualEdition.getLdoD4Virtual().getUsersSet();
 
 		LdoD ldoD = LdoD.getInstance();
 		LdoDUser user = ldoD.getUser(username);
@@ -264,38 +297,87 @@ public class VirtualEditionController {
 			errors.add("user.unknown");
 			model.addAttribute("errors", errors);
 			model.addAttribute("username", username);
-			model.addAttribute("virtualedition", virtualEdition);
-			model.addAttribute("users", users);
+			model.addAttribute("virtualEdition", virtualEdition);
 			return "virtual/participants";
 		} else {
-			virtualEdition.addMember(user, MemberRole.WRITER);
-			model.addAttribute("virtualedition", virtualEdition);
-			model.addAttribute("users", users);
+			virtualEdition.addApprove(user);
+			model.addAttribute("virtualEdition", virtualEdition);
 			return "virtual/participants";
 		}
 	}
 
-	@RequestMapping(method = RequestMethod.POST, value = "/restricted/removeparticipant")
-	@PreAuthorize("hasPermission(#veId, 'virtualedition.participant')")
+	@RequestMapping(method = RequestMethod.POST, value = "/restricted/{externalId}/participants/add")
+	@PreAuthorize("hasPermission(#externalId, 'virtualedition.admin')")
+	public String addParticipant(Model model, @PathVariable("externalId") String externalId,
+			@RequestParam("username") String username) {
+
+		VirtualEdition virtualEdition = FenixFramework.getDomainObject(externalId);
+		if (virtualEdition == null) {
+			return "utils/pageNotFound";
+		}
+
+		LdoD ldoD = LdoD.getInstance();
+		LdoDUser user = ldoD.getUser(username);
+		if (user == null) {
+			List<String> errors = new ArrayList<String>();
+			errors.add("user.unknown");
+			model.addAttribute("errors", errors);
+			model.addAttribute("username", username);
+			model.addAttribute("virtualEdition", virtualEdition);
+			return "virtual/participants";
+		} else {
+			virtualEdition.addMember(user, MemberRole.WRITER, true);
+			model.addAttribute("virtualEdition", virtualEdition);
+			return "virtual/participants";
+		}
+	}
+
+	@RequestMapping(method = RequestMethod.POST, value = "/restricted/{externalId}/participants/role")
+	@PreAuthorize("hasPermission(#externalId, 'virtualedition.admin')")
+	public String switchRole(Model model, @PathVariable("externalId") String externalId,
+			@RequestParam("username") String username) {
+
+		VirtualEdition virtualEdition = FenixFramework.getDomainObject(externalId);
+		if (virtualEdition == null) {
+			return "utils/pageNotFound";
+		}
+
+		LdoD ldoD = LdoD.getInstance();
+		LdoDUser user = ldoD.getUser(username);
+
+		if (!virtualEdition.canSwitchRole(LdoDUser.getAuthenticatedUser(), user))
+			throw new LdoDExceptionNonAuthorized();
+
+		virtualEdition.switchRole(user);
+		model.addAttribute("virtualEdition", virtualEdition);
+		return "virtual/participants";
+	}
+
+	@RequestMapping(method = RequestMethod.POST, value = "/restricted/{externalId}/participants/remove")
+	@PreAuthorize("hasPermission(#externalId, 'virtualedition.participant')")
 	public String removeParticipant(Model model, @ModelAttribute("ldoDSession") LdoDSession ldoDSession,
-			@RequestParam("veId") String veId, @RequestParam("userId") String userId) {
+			@PathVariable("externalId") String externalId, @RequestParam("userId") String userId) {
+		logger.debug("removeParticipant userId:{}", userId);
 
-		VirtualEdition virtualEdition = FenixFramework.getDomainObject(veId);
-
+		VirtualEdition virtualEdition = FenixFramework.getDomainObject(externalId);
 		LdoDUser user = FenixFramework.getDomainObject(userId);
 
 		if ((virtualEdition == null) || (user == null)) {
 			return "utils/pageNotFound";
 		}
 
-		Set<LdoDUser> users = virtualEdition.getLdoD4Virtual().getUsersSet();
+		if (!virtualEdition.canRemoveMember(LdoDUser.getAuthenticatedUser(), user))
+			throw new LdoDExceptionNonAuthorized();
 
-		if (virtualEdition.getParticipantSet().size() == 1) {
+		LdoDUser admin = null;
+		if (virtualEdition.getAdminSet().size() == 1)
+			admin = virtualEdition.getAdminSet().iterator().next();
+
+		if (admin != null && admin == user) {
 			List<String> errors = new ArrayList<String>();
 			errors.add("user.one");
 			model.addAttribute("errors", errors);
-			model.addAttribute("virtualedition", virtualEdition);
-			model.addAttribute("users", users);
+			model.addAttribute("virtualEdition", virtualEdition);
 			return "virtual/participants";
 		} else {
 			virtualEdition.removeMember(user);
@@ -306,8 +388,7 @@ public class VirtualEditionController {
 				model.addAttribute("user", LdoDUser.getAuthenticatedUser());
 				return "virtual/editions";
 			} else {
-				model.addAttribute("virtualedition", virtualEdition);
-				model.addAttribute("users", users);
+				model.addAttribute("virtualEdition", virtualEdition);
 				return "virtual/participants";
 			}
 		}

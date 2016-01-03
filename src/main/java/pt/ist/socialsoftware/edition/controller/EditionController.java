@@ -1,5 +1,7 @@
 package pt.ist.socialsoftware.edition.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,6 +19,7 @@ import pt.ist.socialsoftware.edition.domain.LdoDUser;
 @Controller
 @RequestMapping("/edition")
 public class EditionController {
+	private static Logger logger = LoggerFactory.getLogger(EditionController.class);
 
 	@RequestMapping(method = RequestMethod.GET, value = "/acronym/{acronym}")
 	public String getEditionTableOfContentsbyAcronym(Model model, @PathVariable String acronym) {

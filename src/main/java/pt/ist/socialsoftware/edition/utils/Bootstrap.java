@@ -138,16 +138,16 @@ public class Bootstrap implements WebApplicationInitializer {
 
 		VirtualEdition classX = new VirtualEdition(ldod, ars, "ClassX", "LdoD Edition of Class X", new LocalDate(),
 				false, null);
-		classX.addMember(luis, MemberRole.ADMIN);
-		classX.addMember(mp, MemberRole.ADMIN);
-		classX.addMember(diego, MemberRole.ADMIN);
-		classX.addMember(tiago, MemberRole.ADMIN);
-		classX.addMember(ars, MemberRole.ADMIN);
-		classX.addMember(andre, MemberRole.ADMIN);
-		classX.addMember(daniela, MemberRole.ADMIN);
-		classX.addMember(joana, MemberRole.ADMIN);
-		classX.addMember(bernardosoares, MemberRole.ADMIN);
-		classX.addMember(rita, MemberRole.ADMIN);
+		classX.addMember(luis, MemberRole.ADMIN, true);
+		classX.addMember(mp, MemberRole.ADMIN, true);
+		classX.addMember(diego, MemberRole.ADMIN, true);
+		classX.addMember(tiago, MemberRole.ADMIN, true);
+		classX.addMember(ars, MemberRole.ADMIN, true);
+		classX.addMember(andre, MemberRole.ADMIN, true);
+		classX.addMember(daniela, MemberRole.ADMIN, true);
+		classX.addMember(joana, MemberRole.ADMIN, true);
+		classX.addMember(bernardosoares, MemberRole.ADMIN, true);
+		classX.addMember(rita, MemberRole.ADMIN, true);
 		luis.addSelectedVirtualEditions(classX);
 		mp.addSelectedVirtualEditions(classX);
 		ars.addSelectedVirtualEditions(classX);
@@ -160,11 +160,11 @@ public class Bootstrap implements WebApplicationInitializer {
 
 		VirtualEdition classY = new VirtualEdition(ldod, ars, "ClassY", "LdoD Edition of Class Y", new LocalDate(),
 				false, null);
-		classY.addMember(luis, MemberRole.ADMIN);
-		classY.addMember(mp, MemberRole.ADMIN);
-		classY.addMember(diego, MemberRole.ADMIN);
-		classY.addMember(tiago, MemberRole.ADMIN);
-		classY.addMember(ars, MemberRole.ADMIN);
+		classY.addMember(luis, MemberRole.ADMIN, true);
+		classY.addMember(mp, MemberRole.ADMIN, true);
+		classY.addMember(diego, MemberRole.ADMIN, true);
+		classY.addMember(tiago, MemberRole.ADMIN, true);
+		classY.addMember(ars, MemberRole.ADMIN, true);
 		luis.addSelectedVirtualEditions(classY);
 		mp.addSelectedVirtualEditions(classY);
 		ars.addSelectedVirtualEditions(classY);
@@ -174,12 +174,12 @@ public class Bootstrap implements WebApplicationInitializer {
 
 		VirtualEdition classW = new VirtualEdition(ldod, ars, "ClassW", "LdoD Edition of Class W", new LocalDate(),
 				false, null);
-		classW.addMember(diego, MemberRole.ADMIN);
-		classW.addMember(mp, MemberRole.ADMIN);
-		classW.addMember(luis, MemberRole.ADMIN);
-		classW.addMember(andre, MemberRole.ADMIN);
-		classW.addMember(tiago, MemberRole.ADMIN);
-		classW.addMember(nuno, MemberRole.ADMIN);
+		classW.addMember(diego, MemberRole.ADMIN, true);
+		classW.addMember(mp, MemberRole.ADMIN, true);
+		classW.addMember(luis, MemberRole.ADMIN, true);
+		classW.addMember(andre, MemberRole.ADMIN, true);
+		classW.addMember(tiago, MemberRole.ADMIN, true);
+		classW.addMember(nuno, MemberRole.ADMIN, true);
 		mp.addSelectedVirtualEditions(classW);
 		ars.addSelectedVirtualEditions(classW);
 		diego.addSelectedVirtualEditions(classW);

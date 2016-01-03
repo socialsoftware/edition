@@ -149,6 +149,8 @@ relation LdoDUserSelectsVirtualEditions {
 
 class Member {	
 	MemberRole role;
+	LocalDate date;
+	boolean active;
 }
 
 relation MemberHasLdoDUser {
