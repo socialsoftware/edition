@@ -10,6 +10,8 @@ import java.util.Map;
 
 import org.apache.lucene.queryparser.classic.ParseException;
 import org.joda.time.LocalDate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Controller;
@@ -58,8 +60,11 @@ import pt.ist.socialsoftware.edition.search.options.VirtualEditionSearchOption;
 @Controller
 @RequestMapping("/search")
 public class SearchController {
+	private static Logger logger = LoggerFactory.getLogger(SearchController.class);
+
 	/*
-	 * Sets all the empty boxes to null instead of the empty string ""
+	 * EditionController Sets all the empty boxes to null instead of the empty
+	 * string ""
 	 */
 	@InitBinder
 	public void initBinder(WebDataBinder binder) {
@@ -111,6 +116,7 @@ public class SearchController {
 		int interCount = 0;
 		for (String hit : hits) {
 			try {
+				logger.debug("simpleSearchResult hit:{}", hit);
 				FragInter inter = FenixFramework.getDomainObject(hit);
 				Fragment fragment = inter.getFragment();
 				/*

@@ -20,6 +20,7 @@ import pt.ist.socialsoftware.edition.domain.VirtualEdition;
 public class LdoDPermissionEvaluator implements PermissionEvaluator {
 	private static Logger log = LoggerFactory.getLogger(LdoDPermissionEvaluator.class);
 
+	public static final String ADMIN = "admin";
 	public static final String PARTICIPANT = "participant";
 	public static final String PUBLIC = "public";
 	public static final String ANNOTATION = "annotation";
@@ -66,18 +67,21 @@ public class LdoDPermissionEvaluator implements PermissionEvaluator {
 				assert false;
 			}
 
+			LdoDUser user = LdoDUser.getAuthenticatedUser();
 			if (virtualEdition == null) {
 				hasPermission = true;
+			} else if (permissions[1].equals(ADMIN)) {
+				hasPermission = virtualEdition.getAdminSet().contains(user);
 			} else if (permissions[1].equals(PARTICIPANT)) {
-				hasPermission = virtualEdition.getParticipantSet().contains(LdoDUser.getAuthenticatedUser());
+				hasPermission = virtualEdition.getParticipantSet().contains(user);
 			} else if (permissions[1].equals(PUBLIC)) {
 				if (virtualEdition.getPub()) {
 					hasPermission = true;
 				} else {
-					hasPermission = virtualEdition.getParticipantSet().contains(LdoDUser.getAuthenticatedUser());
+					hasPermission = virtualEdition.getParticipantSet().contains(user);
 				}
 			} else if (permissions[1].equals(ANNOTATION)) {
-				hasPermission = virtualEdition.getTaxonomy().canManipulateAnnotation(LdoDUser.getAuthenticatedUser());
+				hasPermission = virtualEdition.getTaxonomy().canManipulateAnnotation(user);
 			}
 		}
 
