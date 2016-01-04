@@ -189,4 +189,11 @@ public class Taxonomy extends Taxonomy_Base {
 			return getEdition().getParticipantSet().contains(user);
 	}
 
+	public boolean canManipulateTaxonomy(LdoDUser user) {
+		if (getOpenManagement())
+			return getEdition().getParticipantSet().contains(user);
+		else
+			return getEdition().getAdminSet().contains(user);
+	}
+
 }

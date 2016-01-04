@@ -93,7 +93,7 @@
 										<input type="hidden" name="username"
 											value="${member.getUser().getUsername()}" />
 										<button type="submit" class="btn btn-primary btn-sm">
-											<span class="glyphicon glyphicon-check"></span>
+											<span class="glyphicon glyphicon-retweet"></span>
 											${member.getRole().name()}
 										</button>
 									</form></c:when>

@@ -168,7 +168,7 @@ public class VirtualEditionController {
 	}
 
 	@RequestMapping(method = RequestMethod.POST, value = "/restricted/edit/{externalId}")
-	@PreAuthorize("hasPermission(#externalId, 'virtualedition.participant')")
+	@PreAuthorize("hasPermission(#externalId, 'virtualedition.admin')")
 	public String editVirtualEdition(Model model, @ModelAttribute("ldoDSession") LdoDSession ldoDSession,
 			@PathVariable String externalId, @RequestParam("acronym") String acronym,
 			@RequestParam("title") String title, @RequestParam("pub") boolean pub,
@@ -437,7 +437,7 @@ public class VirtualEditionController {
 	}
 
 	@RequestMapping(method = RequestMethod.POST, value = "/restricted/{externalId}/taxonomy/edit")
-	@PreAuthorize("hasPermission(#externalId, 'virtualedition.participant')")
+	@PreAuthorize("hasPermission(#externalId, 'virtualedition.admin')")
 	public String editTaxonomy(Model model, @PathVariable("externalId") String externalId,
 			@RequestParam("management") boolean management, @RequestParam("vocabulary") boolean vocabulary,
 			@RequestParam("annotation") boolean annotation) {
@@ -457,7 +457,7 @@ public class VirtualEditionController {
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/restricted/{externalId}/taxonomy/generateTopics")
-	@PreAuthorize("hasPermission(#externalId, 'virtualedition.participant')")
+	@PreAuthorize("hasPermission(#externalId, 'virtualedition.taxonomy')")
 	public String generateTopicModelling(Model model, @ModelAttribute("ldoDSession") LdoDSession ldoDSession,
 			@PathVariable String externalId, @RequestParam("numTopics") int numTopics,
 			@RequestParam("numWords") int numWords, @RequestParam("thresholdCategories") int thresholdCategories,
@@ -493,7 +493,7 @@ public class VirtualEditionController {
 	}
 
 	@RequestMapping(method = RequestMethod.POST, value = "/restricted/{externalId}/taxonomy/createTopics")
-	@PreAuthorize("hasPermission(#externalId, 'virtualedition.participant')")
+	@PreAuthorize("hasPermission(#externalId, 'virtualedition.taxonomy')")
 	public String createTopicModelling(Model model, @ModelAttribute("ldoDSession") LdoDSession ldoDSession,
 			@PathVariable String externalId, @ModelAttribute("topicList") TopicListDTO topicList) throws IOException {
 		logger.debug("createTopicModelling externalId:{}, username:{}", externalId, topicList.getUsername());
@@ -512,7 +512,7 @@ public class VirtualEditionController {
 	}
 
 	@RequestMapping(method = RequestMethod.POST, value = "/restricted/{externalId}/taxonomy/clean")
-	@PreAuthorize("hasPermission(#externalId, 'virtualedition.participant')")
+	@PreAuthorize("hasPermission(#externalId, 'virtualedition.taxonomy')")
 	public String deleteTaxonomy(Model model, @PathVariable("externalId") String externalId,
 			@RequestParam("taxonomyExternalId") String taxonomyExternalId) {
 		Taxonomy taxonomy = FenixFramework.getDomainObject(taxonomyExternalId);
@@ -531,7 +531,7 @@ public class VirtualEditionController {
 	}
 
 	@RequestMapping(method = RequestMethod.POST, value = "/restricted/category/create")
-	@PreAuthorize("hasPermission(#externalId, 'virtualedition.participant')")
+	@PreAuthorize("hasPermission(#externalId, 'virtualedition.taxonomy')")
 	public String createCategory(Model model, @RequestParam("externalId") String externalId,
 			@RequestParam("name") String name) {
 		VirtualEdition edition = FenixFramework.getDomainObject(externalId);
@@ -557,7 +557,7 @@ public class VirtualEditionController {
 	}
 
 	@RequestMapping(method = RequestMethod.POST, value = "/restricted/category/update")
-	@PreAuthorize("hasPermission(#categoryId, 'category.public')")
+	@PreAuthorize("hasPermission(#categoryId, 'category.taxonomy')")
 	public String updateCategoryName(Model model, @RequestParam("categoryId") String categoryId,
 			@RequestParam("name") String name) {
 		Category category = FenixFramework.getDomainObject(categoryId);
@@ -578,7 +578,7 @@ public class VirtualEditionController {
 	}
 
 	@RequestMapping(method = RequestMethod.POST, value = "/restricted/category/delete")
-	@PreAuthorize("hasPermission(#categoryId, 'category.public')")
+	@PreAuthorize("hasPermission(#categoryId, 'category.taxonomy')")
 	public String deleteCategory(Model model, @RequestParam("categoryId") String categoryId) {
 		Category category = FenixFramework.getDomainObject(categoryId);
 		if (category == null) {
@@ -606,7 +606,7 @@ public class VirtualEditionController {
 	}
 
 	@RequestMapping(method = RequestMethod.POST, value = "/restricted/category/mulop")
-	@PreAuthorize("hasPermission(#taxonomyId, 'taxonomy.participant')")
+	@PreAuthorize("hasPermission(#taxonomyId, 'taxonomy.taxonomy')")
 	public String mergeCategories(Model model, @RequestParam("taxonomyId") String taxonomyId,
 			@RequestParam("type") String type,
 			@RequestParam(value = "categories[]", required = false) String categoriesIds[]) {
@@ -643,7 +643,7 @@ public class VirtualEditionController {
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/restricted/category/extractForm")
-	@PreAuthorize("hasPermission(#categoryId, 'category.participant')")
+	@PreAuthorize("hasPermission(#categoryId, 'category.taxonomy')")
 	public String extractForm(Model model, @RequestParam("categoryId") String categoryId) {
 		Category category = FenixFramework.getDomainObject(categoryId);
 		if (category == null) {
@@ -656,7 +656,7 @@ public class VirtualEditionController {
 	}
 
 	@RequestMapping(method = RequestMethod.POST, value = "/restricted/category/extract")
-	@PreAuthorize("hasPermission(#categoryId, 'category.participant')")
+	@PreAuthorize("hasPermission(#categoryId, 'category.taxonomy')")
 	public String extractCategory(Model model, @RequestParam("categoryId") String categoryId,
 			@RequestParam(value = "tags[]", required = false) String tagsIds[]) {
 		Category category = FenixFramework.getDomainObject(categoryId);

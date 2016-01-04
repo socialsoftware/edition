@@ -9,6 +9,8 @@
 	<%@ include file="/WEB-INF/jsp/common/fixed-top-ldod-header.jsp"%>
 
 	<c:set var="taxonomy" value="${virtualEdition.getTaxonomy()}" />
+	<c:set var="userLdoD"
+		value='${pageContext.request.userPrincipal.principal.getUser()}' />
 
 	<div class="container">
 		<h1 class="text-center">
@@ -26,11 +28,13 @@
 		</div>
 		<h2 class="text-center">
 			<spring:message code="general.taxonomy" />
-			<a class="" role="button" data-toggle="collapse" href="#collapsemenu"
-				aria-expanded="false" aria-controls="collapseExample"
-				style="font-size: 18px"> <span
-				class="glyphicon glyphicon-pencil"></span>
-			</a>
+			<c:if test="${virtualEdition.getAdminSet().contains(userLdoD)}">
+				<a class="" role="button" data-toggle="collapse"
+					href="#collapsemenu" aria-expanded="false"
+					aria-controls="collapseExample" style="font-size: 18px"> <span
+					class="glyphicon glyphicon-pencil"></span>
+				</a>
+			</c:if>
 		</h2>
 
 		<div class="row col-md-12 has-error">
@@ -132,36 +136,38 @@
 			</div>
 		</div>
 
-		<div class="row">
-			<div class="col-md-5">
-				<c:forEach var="categoryError" items='${categoryErrors}'>
-					<div class="row has-error">${categoryError}</div>
-				</c:forEach>
-				<form name="createCategory" class="form-inline" method="POST"
-					action="/virtualeditions/restricted/category/create"
-					onsubmit="return validateCreateCategoryForm()">
-					<div class="form-group">
-						<input type="hidden" class="form-control" name="externalId"
-							value="${virtualEdition.externalId}" />
-					</div>
-					<div class="form-group">
-						<input type="text" class="form-control" name="name"
-							placeholder="<spring:message code="general.name" />">
-					</div>
-					<button type="submit" class="btn btn-primary">
+		<c:if test="${taxonomy.canManipulateTaxonomy(userLdoD)}">
+			<div class="row">
+				<div class="col-md-5">
+					<c:forEach var="categoryError" items='${categoryErrors}'>
+						<div class="row has-error">${categoryError}</div>
+					</c:forEach>
+					<form name="createCategory" class="form-inline" method="POST"
+						action="/virtualeditions/restricted/category/create"
+						onsubmit="return validateCreateCategoryForm()">
+						<div class="form-group">
+							<input type="hidden" class="form-control" name="externalId"
+								value="${virtualEdition.externalId}" />
+						</div>
+						<div class="form-group">
+							<input type="text" class="form-control" name="name"
+								placeholder="<spring:message code="general.name" />">
+						</div>
+						<button type="submit" class="btn btn-primary">
+							<span class="glyphicon glyphicon-plus"></span>
+							<spring:message code="category.add" />
+						</button>
+					</form>
+				</div>
+				<div class="col-md-7">
+					<button class="btn btn-primary pull-right" data-toggle="modal"
+						data-target="#topicModal">
 						<span class="glyphicon glyphicon-plus"></span>
-						<spring:message code="category.add" />
+						<spring:message code="topics.generate.short" />
 					</button>
-				</form>
+				</div>
 			</div>
-			<div class="col-md-7">
-				<button class="btn btn-primary pull-right" data-toggle="modal"
-					data-target="#topicModal">
-					<span class="glyphicon glyphicon-plus"></span>
-					<spring:message code="topics.generate.short" />
-				</button>
-			</div>
-		</div>
+		</c:if>
 		<br />
 		<div class="row col-md-12">
 			<div class="row">
@@ -180,30 +186,32 @@
 							<tr>
 								<th><spring:message code="general.category" /></th>
 								<th><spring:message code="fragments" /></th>
-								<th>
-									<div class="dropdown">
-										<button class="btn btn-primary dropdown-toggle" type="button"
-											id="dropdownMenu" data-toggle="dropdown" aria-haspopup="true"
-											aria-expanded="true">
-											<spring:message code="general.action" />
-											<span class="caret"></span>
-										</button>
-										<ul class="dropdown-menu" aria-labelledby="dropdownMenu">
-											<li>
-												<button class="btn btn-link" role="link"
-													onclick="$('#type').val('merge'); submit()">
-													<spring:message code="general.merge" />
-												</button>
-											</li>
-											<li>
-												<button class="btn btn-link" role="link"
-													onclick="$('#type').val('delete'); submit()">
-													<spring:message code="general.delete" />
-												</button>
-											</li>
-										</ul>
-									</div>
-								</th>
+								<c:if test="${taxonomy.canManipulateTaxonomy(userLdoD)}">
+									<th>
+										<div class="dropdown">
+											<button class="btn btn-primary dropdown-toggle" type="button"
+												id="dropdownMenu" data-toggle="dropdown"
+												aria-haspopup="true" aria-expanded="true">
+												<spring:message code="general.action" />
+												<span class="caret"></span>
+											</button>
+											<ul class="dropdown-menu" aria-labelledby="dropdownMenu">
+												<li>
+													<button class="btn btn-link" role="link"
+														onclick="$('#type').val('merge'); submit()">
+														<spring:message code="general.merge" />
+													</button>
+												</li>
+												<li>
+													<button class="btn btn-link" role="link"
+														onclick="$('#type').val('delete'); submit()">
+														<spring:message code="general.delete" />
+													</button>
+												</li>
+											</ul>
+										</div>
+									</th>
+								</c:if>
 							</tr>
 						</thead>
 						<tbody>
@@ -215,15 +223,17 @@
 											items='${category.getSortedTags()}'>
 											<a
 												href="${contextPath}/virtualeditions/restricted/fraginter/${tag.getInter().getExternalId()}">${tag.getInter().getTitle()}</a> (${tag.getWeight()})</c:forEach></td>
-									<td class="col-centered">
-										<div class="form-group">
-											<div class="checkbox text-center">
-												<label> <input type="checkbox" name="categories[]"
-													value="${category.getExternalId()}">
-												</label>
+									<c:if test="${taxonomy.canManipulateTaxonomy(userLdoD)}">
+										<td class="col-centered">
+											<div class="form-group">
+												<div class="checkbox text-center">
+													<label> <input type="checkbox" name="categories[]"
+														value="${category.getExternalId()}">
+													</label>
+												</div>
 											</div>
-										</div>
-									</td>
+										</td>
+									</c:if>
 								</tr>
 							</c:forEach>
 						</tbody>

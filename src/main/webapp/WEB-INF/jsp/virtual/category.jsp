@@ -17,6 +17,10 @@
 <body>
 	<%@ include file="/WEB-INF/jsp/common/fixed-top-ldod-header.jsp"%>
 
+	<c:set var="taxonomy" value="${category.getTaxonomy()}" />
+	<c:set var="userLdoD"
+		value='${pageContext.request.userPrincipal.principal.getUser()}' />
+
 	<div class="container">
 		<h2 class="text-center">
 			<spring:message code="virtualedition" />
@@ -41,45 +45,47 @@
 			(${category.getName()})
 		</h3>
 		<br />
-		<div class="row">
-			<div class="col-md-11">
-				<c:forEach var="error" items='${errors}'>
-					<div class="row text-error">${error}</div>
-				</c:forEach>
-				<form name="updateName" class="form-inline" method="POST"
-					action="/virtualeditions/restricted/category/update"
-					onsubmit="return validateForm()">
-					<div class="form-group">
-						<input type="hidden" class="form-control" name="categoryId"
-							value="${category.externalId}" />
-					</div>
-					<div class="form-group">
-						<input type="text" class="form-control" name="name"
-							placeholder="<spring:message code="general.name" />"
-							value="${category.getName()}" />
-					</div>
-					<div class="form-group">
+		<c:if test="${taxonomy.canManipulateTaxonomy(userLdoD)}">
+			<div class="row">
+				<div class="col-md-11">
+					<c:forEach var="error" items='${errors}'>
+						<div class="row text-error">${error}</div>
+					</c:forEach>
+					<form name="updateName" class="form-inline" method="POST"
+						action="/virtualeditions/restricted/category/update"
+						onsubmit="return validateForm()">
+						<div class="form-group">
+							<input type="hidden" class="form-control" name="categoryId"
+								value="${category.externalId}" />
+						</div>
+						<div class="form-group">
+							<input type="text" class="form-control" name="name"
+								placeholder="<spring:message code="general.name" />"
+								value="${category.getName()}" />
+						</div>
+						<div class="form-group">
+							<button type="submit" class="btn btn-primary">
+								<span class="glyphicon glyphicon-edit"></span>
+								<spring:message code="general.update" />
+							</button>
+						</div>
+					</form>
+				</div>
+				<div class="col-md-1">
+					<form class="form-inline" method="POST"
+						action="/virtualeditions/restricted/category/delete">
+						<div class="form-group">
+							<input type="hidden" class="form-control" name="categoryId"
+								value="${category.externalId}" />
+						</div>
 						<button type="submit" class="btn btn-primary">
-							<span class="glyphicon glyphicon-edit"></span>
-							<spring:message code="general.update" />
+							<span class="glyphicon glyphicon-remove"></span>
+							<spring:message code="general.delete" />
 						</button>
-					</div>
-				</form>
+					</form>
+				</div>
 			</div>
-			<div class="col-md-1">
-				<form class="form-inline" method="POST"
-					action="/virtualeditions/restricted/category/delete">
-					<div class="form-group">
-						<input type="hidden" class="form-control" name="categoryId"
-							value="${category.externalId}" />
-					</div>
-					<button type="submit" class="btn btn-primary">
-						<span class="glyphicon glyphicon-remove"></span>
-						<spring:message code="general.delete" />
-					</button>
-				</form>
-			</div>
-		</div>
+		</c:if>
 		<br />
 		<div class="row">
 			<table class="table table-hover">
@@ -100,19 +106,21 @@
 				</tbody>
 			</table>
 		</div>
-		<div class="row pull-right">
-			<form class="form-inline" method="GET"
-				action="/virtualeditions/restricted/category/extractForm">
-				<div class="form-group">
-					<input type="hidden" class="form-control" name="categoryId"
-						value="${category.getExternalId()}" />
-				</div>
-				<button type="submit" class="btn btn-primary">
-					<span class="glyphicon glyphicon-edit"></span>
-					<spring:message code="general.extract" />
-				</button>
-			</form>
-		</div>
+		<c:if test="${taxonomy.canManipulateTaxonomy(userLdoD)}">
+			<div class="row pull-right">
+				<form class="form-inline" method="GET"
+					action="/virtualeditions/restricted/category/extractForm">
+					<div class="form-group">
+						<input type="hidden" class="form-control" name="categoryId"
+							value="${category.getExternalId()}" />
+					</div>
+					<button type="submit" class="btn btn-primary">
+						<span class="glyphicon glyphicon-edit"></span>
+						<spring:message code="general.extract" />
+					</button>
+				</form>
+			</div>
+		</c:if>
 	</div>
 	<!-- Modal HTML -->
 	<div id="myModal" class="modal fade">
