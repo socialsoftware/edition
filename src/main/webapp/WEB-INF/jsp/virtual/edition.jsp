@@ -277,6 +277,8 @@ var editionData = new Array();
 	<spring:message code="virtualedition.tt.select" var="selectText" />
 	<spring:message code="virtualedition.tt.save" var="saveText" />
 
+	<c:set var="userLdoD"
+		value='${pageContext.request.userPrincipal.principal.getUser()}' />
 
 
 	<!-- subnav here -->
@@ -648,12 +650,13 @@ var editionData = new Array();
 			:
 			<!--  <a href="${contextPath}/edition/acronym/${virtualEdition.acronym}">
                 <span id="editiontitle">${virtualEdition.title}</span></a> -->
-			<span id="editiontitle">${virtualEdition.title}</span> <a class=""
+			<span id="editiontitle">${virtualEdition.title}</span> <c:if test="${virtualEdition.getAdminSet().contains(userLdoD)}"><a class=""
 				role="button" data-toggle="collapse" href="#collapsemenu"
 				aria-expanded="false" aria-controls="collapseExample"
 				style="font-size: 18px"> <span
 				class="glyphicon glyphicon-pencil"></span>
 			</a>
+			</c:if>
 		</h1>
 
 

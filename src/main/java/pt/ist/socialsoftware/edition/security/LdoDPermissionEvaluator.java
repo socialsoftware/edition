@@ -24,6 +24,7 @@ public class LdoDPermissionEvaluator implements PermissionEvaluator {
 	public static final String PARTICIPANT = "participant";
 	public static final String PUBLIC = "public";
 	public static final String ANNOTATION = "annotation";
+	public static final String TAXONOMY = "taxonomy";
 
 	@Override
 	public boolean hasPermission(Authentication authentication, Object targetDomainObject, Object permission) {
@@ -82,6 +83,9 @@ public class LdoDPermissionEvaluator implements PermissionEvaluator {
 				}
 			} else if (permissions[1].equals(ANNOTATION)) {
 				hasPermission = virtualEdition.getTaxonomy().canManipulateAnnotation(user);
+
+			} else if (permissions[1].equals(TAXONOMY)) {
+				hasPermission = virtualEdition.getTaxonomy().canManipulateTaxonomy(user);
 			}
 		}
 
