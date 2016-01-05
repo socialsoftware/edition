@@ -160,8 +160,7 @@ public class Taxonomy extends Taxonomy_Base {
 
 		for (TopicDTO topic : topicList.getTopics()) {
 			Category category = new Category();
-			category.setTaxonomy(this);
-			category.setName(topic.getName());
+			category.init(this, topic.getName());
 			for (TopicInterPercentageDTO topicPercentage : topic.getInters()) {
 				VirtualEditionInter inter = FenixFramework.getDomainObject(topicPercentage.getExternalId());
 				new GeneratedTagInFragInter().init(inter, category, user, topicPercentage.getPercentage());

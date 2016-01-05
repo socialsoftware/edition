@@ -150,7 +150,6 @@ public class TopicModeler {
 
 			TopicDTO topic = new TopicDTO();
 			topic.setInters(new ArrayList<TopicInterPercentageDTO>());
-			topics.getTopics().add(topic);
 
 			assert topics.getTopics().get(position) == topic;
 
@@ -165,11 +164,13 @@ public class TopicModeler {
 				rank++;
 			}
 
-			while (taxonomy.getCategory(wordName) != null) {
+			while ((taxonomy.getCategory(wordName) != null) || existTopic(topics.getTopics(), wordName)) {
 				wordName = wordName + "_dup";
 			}
 
 			topic.setName(wordName);
+			topics.getTopics().add(topic);
+
 		}
 
 		// associate categories with fragment interpretations
@@ -217,6 +218,10 @@ public class TopicModeler {
 		}
 
 		return topics;
+	}
+
+	private boolean existTopic(List<TopicDTO> topics, String wordName) {
+		return topics.stream().filter(t -> t.getName().equals(wordName)).findAny().isPresent();
 	}
 
 	/** This class illustrates how to build a simple file filter */
