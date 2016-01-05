@@ -18,11 +18,7 @@ public class Member extends Member_Base {
 
 	public void remove() {
 		setUser(null);
-
-		if (getVirtualEdition().getMemberSet().size() == 1)
-			getVirtualEdition().remove();
-		else
-			setVirtualEdition(null);
+		setVirtualEdition(null);
 
 		deleteDomainObject();
 	}

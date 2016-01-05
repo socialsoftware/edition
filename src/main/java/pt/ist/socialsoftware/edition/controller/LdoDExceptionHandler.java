@@ -25,9 +25,7 @@ public class LdoDExceptionHandler {
 	@ExceptionHandler({ LdoDLoadException.class })
 	public ModelAndView handleLdoDLoadException(LdoDLoadException ex) {
 
-		if (logger.isDebugEnabled()) {
-			logger.debug("LdoDLoadException: {}", ex.getMessage());
-		}
+		logger.debug("LdoDLoadException: {}", ex.getMessage());
 
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("utils/ldoDExceptionPage");
@@ -38,9 +36,7 @@ public class LdoDExceptionHandler {
 	@ExceptionHandler({ LdoDEditVirtualEditionException.class })
 	public ModelAndView handleLdoDEditVirtualEditionException(LdoDEditVirtualEditionException ex) {
 
-		if (logger.isDebugEnabled()) {
-			logger.debug("LdoDEditVirtualEditionException: {}", ex.getErrors());
-		}
+		logger.debug("LdoDEditVirtualEditionException: {}", ex.getErrors());
 
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.addObject("errors", ex.getErrors());
@@ -57,9 +53,7 @@ public class LdoDExceptionHandler {
 	@ExceptionHandler({ LdoDCreateVirtualEditionException.class })
 	public ModelAndView handleLdoDCreateVirtualEditionException(LdoDCreateVirtualEditionException ex) {
 
-		if (logger.isDebugEnabled()) {
-			logger.debug("LdoDCreateVirtualEditionException: {}", ex.getErrors());
-		}
+		logger.debug("LdoDCreateVirtualEditionException: {}", ex.getErrors());
 
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.addObject("errors", ex.getErrors());
@@ -76,9 +70,7 @@ public class LdoDExceptionHandler {
 	@ExceptionHandler({ AccessDeniedException.class })
 	public ModelAndView handleAccessDeniedException(AccessDeniedException ex) {
 
-		if (logger.isDebugEnabled()) {
-			logger.debug("AccessDeniedException: {}", ex.getMessage());
-		}
+		logger.debug("AccessDeniedException: {}", ex.getMessage());
 
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("utils/ldoDExceptionPage");
@@ -90,9 +82,7 @@ public class LdoDExceptionHandler {
 	@ExceptionHandler({ LdoDException.class })
 	public ModelAndView handleLdoException(LdoDException ex) {
 
-		if (logger.isDebugEnabled()) {
-			logger.debug("LdoDException: {}", ex.getMessage());
-		}
+		logger.debug("LdoDException: {}", ex.getStackTrace().toString());
 
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("utils/ldoDExceptionPage");
@@ -103,9 +93,7 @@ public class LdoDExceptionHandler {
 	@ExceptionHandler({ Exception.class })
 	public ModelAndView handleException(Exception ex) {
 
-		if (logger.isDebugEnabled()) {
-			logger.error("Exception: {}", ex.getMessage(), ex);
-		}
+		logger.error("Exception: {}", ex.getMessage(), ex);
 
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("utils/ldoDExceptionPage");

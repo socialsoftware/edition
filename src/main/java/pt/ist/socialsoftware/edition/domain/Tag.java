@@ -25,7 +25,9 @@ public class Tag extends Tag_Base implements Comparable<Tag> {
 		setInter(null);
 		if (getCategory() != null && getCategory().getTaxonomy().getOpenAnnotation()
 				&& getCategory().getTagSet().size() == 1) {
-			getCategory().remove();
+			Category category = getCategory();
+			setCategory(null);
+			category.remove();
 		} else {
 			setCategory(null);
 		}
