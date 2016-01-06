@@ -10,6 +10,7 @@ import javax.transaction.SystemException;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import pt.ist.fenixframework.FenixFramework;
@@ -29,6 +30,7 @@ import pt.ist.socialsoftware.edition.recommendation.properties.TextProperty;
 import pt.ist.socialsoftware.edition.recommendation.properties.TypescriptProperty;
 import pt.ist.socialsoftware.edition.utils.Bootstrap;
 
+@Ignore
 public class VSMFragmentRecommenderGetMostSimilarFragmentsTest {
 	protected List<Property> properties;
 	protected VSMFragmentRecommender recommender;
@@ -41,7 +43,7 @@ public class VSMFragmentRecommenderGetMostSimilarFragmentsTest {
 		Bootstrap.initDatabase();
 		try {
 			FenixFramework.getTransactionManager().begin(false);
-		} catch(WriteOnReadError | NotSupportedException | SystemException e1) {
+		} catch (WriteOnReadError | NotSupportedException | SystemException e1) {
 			e1.printStackTrace();
 		}
 		LdoD ldod = LdoD.getInstance();
@@ -66,14 +68,14 @@ public class VSMFragmentRecommenderGetMostSimilarFragmentsTest {
 
 		try {
 			FenixFramework.getTransactionManager().rollback();
-		} catch(IllegalStateException | SecurityException | SystemException e) {
+		} catch (IllegalStateException | SecurityException | SystemException e) {
 			e.printStackTrace();
 		}
 	}
 
 	private void testFragments(List<Entry<Fragment, Double>> getMostSimilarFragments) {
 		double before = VSMFragmentRecommenderTest.MAX;
-		for(Entry<Fragment, Double> entrySet : getMostSimilarFragments) {
+		for (Entry<Fragment, Double> entrySet : getMostSimilarFragments) {
 			Assert.assertTrue(before >= entrySet.getValue());
 			before = entrySet.getValue();
 		}
@@ -81,49 +83,57 @@ public class VSMFragmentRecommenderGetMostSimilarFragmentsTest {
 
 	@Test
 	public final void testGetMostSimilarFragmentByDate() {
-		List<Entry<Fragment, Double>> getMostSimilarFragments = recommender.getMostSimilarItems(fragment, new DateProperty());
+		List<Entry<Fragment, Double>> getMostSimilarFragments = recommender.getMostSimilarItems(fragment,
+				new DateProperty());
 		testFragments(getMostSimilarFragments);
 	}
 
 	@Test
 	public final void testGetMostSimilarFragmentByEdition() {
-		List<Entry<Fragment, Double>> getMostSimilarFragments = recommender.getMostSimilarItems(fragment, new EditionProperty());
+		List<Entry<Fragment, Double>> getMostSimilarFragments = recommender.getMostSimilarItems(fragment,
+				new EditionProperty());
 		testFragments(getMostSimilarFragments);
 	}
 
 	@Test
 	public final void testGetMostSimilarFragmentByHeteronym() {
-		List<Entry<Fragment, Double>> getMostSimilarFragments = recommender.getMostSimilarItems(fragment, new HeteronymProperty());
+		List<Entry<Fragment, Double>> getMostSimilarFragments = recommender.getMostSimilarItems(fragment,
+				new HeteronymProperty());
 		testFragments(getMostSimilarFragments);
 	}
 
 	@Test
 	public final void testGetMostSimilarFragmentByManuscript() {
-		List<Entry<Fragment, Double>> getMostSimilarFragments = recommender.getMostSimilarItems(fragment, new ManuscriptProperty());
+		List<Entry<Fragment, Double>> getMostSimilarFragments = recommender.getMostSimilarItems(fragment,
+				new ManuscriptProperty());
 		testFragments(getMostSimilarFragments);
 	}
 
 	@Test
 	public final void testGetMostSimilarFragmentByTaxonomy() {
-		List<Entry<Fragment, Double>> getMostSimilarFragments = recommender.getMostSimilarItems(fragment, new TaxonomyProperty());
+		List<Entry<Fragment, Double>> getMostSimilarFragments = recommender.getMostSimilarItems(fragment,
+				new TaxonomyProperty());
 		testFragments(getMostSimilarFragments);
 	}
 
 	@Test
 	public final void testGetMostSimilarFragmentByText() {
-		List<Entry<Fragment, Double>> getMostSimilarFragments = recommender.getMostSimilarItems(fragment, new TextProperty(), treshold);
+		List<Entry<Fragment, Double>> getMostSimilarFragments = recommender.getMostSimilarItems(fragment,
+				new TextProperty(), treshold);
 		testFragments(getMostSimilarFragments);
 	}
 
 	@Test
 	public final void testGetMostSimilarFragmentByTypescript() {
-		List<Entry<Fragment, Double>> getMostSimilarFragments = recommender.getMostSimilarItems(fragment, new TypescriptProperty());
+		List<Entry<Fragment, Double>> getMostSimilarFragments = recommender.getMostSimilarItems(fragment,
+				new TypescriptProperty());
 		testFragments(getMostSimilarFragments);
 	}
 
 	@Test
 	public final void testGetMostSimilarFragmentsWithTreshold() {
-		List<Entry<Fragment, Double>> getMostSimilarFragments = recommender.getMostSimilarItems(fragment, properties, treshold);
+		List<Entry<Fragment, Double>> getMostSimilarFragments = recommender.getMostSimilarItems(fragment, properties,
+				treshold);
 		testFragments(getMostSimilarFragments);
 	}
 

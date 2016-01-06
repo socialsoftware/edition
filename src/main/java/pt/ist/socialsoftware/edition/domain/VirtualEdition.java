@@ -6,29 +6,33 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.Hashtable;
 import java.util.List;
 import java.util.Set;
-import java.util.StringTokenizer;
+import java.util.stream.Collectors;
 
 import org.apache.commons.io.FileUtils;
 import org.joda.time.LocalDate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.fenixframework.FenixFramework;
+import pt.ist.socialsoftware.edition.domain.Member.MemberRole;
 import pt.ist.socialsoftware.edition.utils.PropertiesManager;
 
 public class VirtualEdition extends VirtualEdition_Base {
+	private static Logger logger = LoggerFactory.getLogger(VirtualEdition.class);
 
-	public VirtualEdition(LdoD ldod, LdoDUser participant, String acronym,
-			String title, LocalDate date, Boolean pub, Edition usedEdition) {
+	public VirtualEdition(LdoD ldod, LdoDUser participant, String acronym, String title, LocalDate date, Boolean pub,
+			Edition usedEdition) {
 		setLdoD4Virtual(ldod);
-		addParticipant(participant);
+		new Member(this, participant, MemberRole.ADMIN, true);
 		setAcronym(acronym);
 		setTitle(title);
 		setDate(date);
 		setPub(pub);
+		setTaxonomy(new Taxonomy());
 		createSection("Default", 0);
 		if (usedEdition != null) {
 			for (FragInter inter : usedEdition.getIntersSet()) {
@@ -41,8 +45,7 @@ public class VirtualEdition extends VirtualEdition_Base {
 	@Atomic(mode = TxMode.WRITE)
 	public void remove() {
 		// delete directory and all its files if it exists
-		String path = PropertiesManager.getProperties().getProperty(
-				"corpus.dir");
+		String path = PropertiesManager.getProperties().getProperty("corpus.dir");
 		File directory = new File(path + getExternalId());
 		if (directory.exists()) {
 			try {
@@ -55,19 +58,19 @@ public class VirtualEdition extends VirtualEdition_Base {
 
 		setLdoD4Virtual(null);
 
-		for (LdoDUser user : getParticipantSet()) {
-			removeParticipant(user);
-		}
+		getTaxonomy().remove();
+
+		getMemberSet().stream().forEach(m -> m.remove());
 
 		for (LdoDUser user : getSelectedBySet()) {
 			removeSelectedBy(user);
 		}
 
-		for(Section section : getSectionsSet()) {
+		for (Section section : getSectionsSet()) {
 			section.remove();
 		}
 
-		for(RecommendationWeights weights : getRecommendationWeightsSet()) {
+		for (RecommendationWeights weights : getRecommendationWeightsSet()) {
 			weights.remove();
 		}
 
@@ -119,22 +122,17 @@ public class VirtualEdition extends VirtualEdition_Base {
 				if (usedAddInter == usedInter) {
 					return false;
 				}
-				if ((usedInter instanceof SourceInter)
-						|| (usedAddInter instanceof SourceInter)) {
+				if ((usedInter instanceof SourceInter) || (usedAddInter instanceof SourceInter)) {
 					return false;
 				}
 
-				ExpertEdition addExpertEdition = ((ExpertEditionInter) usedAddInter)
-						.getExpertEdition();
-				ExpertEdition expertEdition = ((ExpertEditionInter) usedInter)
-						.getExpertEdition();
+				ExpertEdition addExpertEdition = ((ExpertEditionInter) usedAddInter).getExpertEdition();
+				ExpertEdition expertEdition = ((ExpertEditionInter) usedInter).getExpertEdition();
 				if (addExpertEdition != expertEdition) {
 					return false;
 				} else {
-					int numberOfInter4Expert = fragment
-							.getNumberOfInter4Edition(expertEdition);
-					int numberOfInter4Virtual = fragment
-							.getNumberOfInter4Edition(this);
+					int numberOfInter4Expert = fragment.getNumberOfInter4Edition(expertEdition);
+					int numberOfInter4Virtual = fragment.getNumberOfInter4Edition(this);
 					return numberOfInter4Expert > numberOfInter4Virtual;
 				}
 			}
@@ -162,8 +160,7 @@ public class VirtualEdition extends VirtualEdition_Base {
 	}
 
 	@Atomic(mode = TxMode.WRITE)
-	public void edit(String acronym, String title, boolean pub,
-			String fraginters) {
+	public void edit(String acronym, String title, boolean pub, String fraginters) {
 		setPub(pub);
 		setTitle(title);
 		setAcronym(acronym);
@@ -172,30 +169,28 @@ public class VirtualEdition extends VirtualEdition_Base {
 
 	@Atomic(mode = TxMode.WRITE)
 	public void updateVirtualEditionInters(String fraginters) {
+		logger.debug("updateVirtualEditionInters fragintters:{}", fraginters);
 
 		String[] items = fraginters.split(";");
 		List<String> fragInterList = Arrays.asList(items);
 		List<String> newFragList = new ArrayList<String>();
 		List<String> actualFragList = new ArrayList<String>();
 
-		System.out.println("FRAGMENTS");
 		// inicializa lista de frags
 		for (String temp : fragInterList) {
 			FragInter inter = FenixFramework.getDomainObject(temp);
 
-			System.out.println(temp + " " + inter.getLastUsed().getExternalId()
-					+ " " + inter.getTitle() + " " + inter.getSourceType());
+			System.out.println(temp + " " + inter.getLastUsed().getExternalId() + " " + inter.getTitle() + " "
+					+ inter.getSourceType());
 
 			newFragList.add(inter.getLastUsed().getExternalId());
 		}
 
 		String fragVirtualInterId = "";
-		System.out.println("VirtualEditionInter");
 		// remove os fragmentos que não se encontram na nova lista
 		for (VirtualEditionInter inter : getVirtualEditionIntersSet()) {
 
-			System.out.println(inter.getExternalId() + " "
-					+ inter.getLastUsed().getExternalId() + " "
+			System.out.println(inter.getExternalId() + " " + inter.getLastUsed().getExternalId() + " "
 					+ inter.getTitle() + " " + inter.getNumber());
 
 			// fragVirtualInterId = inter.getFragment().getExternalId();
@@ -206,9 +201,6 @@ public class VirtualEdition extends VirtualEdition_Base {
 			actualFragList.add(id);
 
 			if (!newFragList.contains(id)) {
-				System.out.println("-----------REMOVE "
-						+ inter.getLastUsed().getExternalId() + " "
-						+ inter.getTitle());
 				inter.remove();
 			}
 		}
@@ -236,8 +228,7 @@ public class VirtualEdition extends VirtualEdition_Base {
 			i++;
 		}
 
-		System.out
-				.println("VirtualEditionInter INDEX UPDATE -----------------");
+		System.out.println("VirtualEditionInter INDEX UPDATE -----------------");
 		// actualiza indices dos fragmentos da edicao virtual
 		int n = 0;
 		for (VirtualEditionInter inter : getVirtualEditionIntersSet()) {
@@ -249,8 +240,7 @@ public class VirtualEdition extends VirtualEdition_Base {
 				inter.setNumber(n);
 				System.out.println(inter.getTitle() + " " + n);
 			} else {
-				System.out.println("NOT " + inter.getTitle() + " "
-						+ inter.getNumber());
+				System.out.println("NOT " + inter.getTitle() + " " + inter.getNumber());
 			}
 
 		}
@@ -276,15 +266,15 @@ public class VirtualEdition extends VirtualEdition_Base {
 	@Atomic(mode = TxMode.WRITE)
 	public VirtualEditionInter createVirtualEditionInter(FragInter inter, int number) {
 		VirtualEditionInter virtualInter = null;
-		if(getSectionsSet().isEmpty()) {
-			if(canAddFragInter(inter)) {
+		if (getSectionsSet().isEmpty()) {
+			if (canAddFragInter(inter)) {
 				Section section = new Section(this, "Default", 0);
 				virtualInter = new VirtualEditionInter(section, inter, number);
 				section.addVirtualEditionInter(virtualInter);
 				addSections(section);
 			}
 		} else {
-			if(canAddFragInter(inter)) {
+			if (canAddFragInter(inter)) {
 				Section section = getSectionsSet().iterator().next();
 				virtualInter = new VirtualEditionInter(section, inter, number);
 			}
@@ -295,7 +285,7 @@ public class VirtualEdition extends VirtualEdition_Base {
 	@Atomic(mode = TxMode.WRITE)
 	public VirtualEditionInter createVirtualEditionInter(Section section, FragInter inter, int number) {
 		VirtualEditionInter virtualInter = null;
-		if(canAddFragInter(inter)) {
+		if (canAddFragInter(inter)) {
 			virtualInter = new VirtualEditionInter(section, inter, number);
 			section.addVirtualEditionInter(virtualInter);
 			addSections(section);
@@ -304,9 +294,9 @@ public class VirtualEdition extends VirtualEdition_Base {
 	}
 
 	public boolean checkAccess(LdoDUser user) {
-		if(getPub()) {
+		if (getPub()) {
 			return true;
-		} else if(getParticipantSet().contains(user)) {
+		} else if (getParticipantSet().contains(user)) {
 			return true;
 		}
 
@@ -315,7 +305,7 @@ public class VirtualEdition extends VirtualEdition_Base {
 
 	public List<VirtualEditionInter> getVirtualEditionIntersSet() {
 		List<VirtualEditionInter> inters = new ArrayList<>();
-		for(Section section : getSectionsSet()) {
+		for (Section section : getSectionsSet()) {
 			inters.addAll(section.getInterSet());
 		}
 		Collections.sort(inters);
@@ -328,14 +318,13 @@ public class VirtualEdition extends VirtualEdition_Base {
 		return section;
 	}
 
-
 	public boolean hasMultipleSections() {
 		return getSectionsSet().size() > 1;
 	}
 
 	public Section getSection(String title) {
-		for(Section section : getSectionsSet()) {
-			if(section.getTitle().equals(title)) {
+		for (Section section : getSectionsSet()) {
+			if (section.getTitle().equals(title)) {
 				return section;
 			}
 		}
@@ -350,9 +339,9 @@ public class VirtualEdition extends VirtualEdition_Base {
 
 	public int getDepth() {
 		int max = 0;
-		for(Section section : getSectionsSet()) {
+		for (Section section : getSectionsSet()) {
 			int depth = section.getDepth();
-			if(max < depth)
+			if (max < depth)
 				max = depth;
 		}
 		return max;
@@ -366,18 +355,112 @@ public class VirtualEdition extends VirtualEdition_Base {
 
 	@Atomic(mode = TxMode.WRITE)
 	public void clearEmptySections() {
-		for(Section section : getSectionsSet()) {
-			if(section.size() == 0) {
+		for (Section section : getSectionsSet()) {
+			if (section.size() == 0) {
 				section.remove();
 			}
 		}
 	}
 
 	public void print() {
-		for(Section section : getSectionsSet()) {
+		for (Section section : getSectionsSet()) {
 			section.print();
 		}
 
+	}
+
+	@Atomic(mode = TxMode.WRITE)
+	public void removeMember(LdoDUser user) {
+		getMemberSet().stream().filter(m -> m.getUser() == user).forEach(m -> m.remove());
+		removeSelectedBy(user);
+	}
+
+	@Atomic(mode = TxMode.WRITE)
+	public void addMember(LdoDUser user, MemberRole role, boolean active) {
+		if (!getMemberSet().stream().filter(m -> m.getUser() == user).findFirst().isPresent())
+			new Member(this, user, role, active);
+	}
+
+	@Atomic(mode = TxMode.WRITE)
+	public void cancelParticipationSubmission(LdoDUser user) {
+		Member member = getMemberSet().stream().filter(m -> !m.getActive() && m.getUser() == user).findFirst()
+				.orElse(null);
+		if (member != null)
+			member.remove();
+	}
+
+	@Atomic(mode = TxMode.WRITE)
+	public void addApprove(LdoDUser user) {
+		Member member = getMemberSet().stream().filter(m -> !m.getActive() && m.getUser() == user).findFirst()
+				.orElse(null);
+		if (member != null)
+			member.setActive(true);
+	}
+
+	@Atomic(mode = TxMode.WRITE)
+	public void switchRole(LdoDUser user) {
+		Member member = getMemberSet().stream().filter(m -> m.getUser() == user).findFirst().orElse(null);
+		if (member != null) {
+			if (member.getRole().equals(MemberRole.ADMIN))
+				member.setRole(MemberRole.WRITER);
+			else
+				member.setRole(MemberRole.ADMIN);
+		}
+	}
+
+	public Set<LdoDUser> getParticipantSet() {
+		return getMemberSet().stream().filter(m -> m.getActive()).map(m -> m.getUser()).collect(Collectors.toSet());
+	}
+
+	public Set<Member> getActiveMemberSet() {
+		return getMemberSet().stream().filter(m -> m.getActive()).collect(Collectors.toSet());
+	}
+
+	public Set<LdoDUser> getAdminSet() {
+		return getMemberSet().stream().filter(m -> m.getRole().equals(MemberRole.ADMIN) && m.getActive())
+				.map(m -> m.getUser()).collect(Collectors.toSet());
+	}
+
+	public Set<Member> getAdminMemberSet() {
+		return getMemberSet().stream().filter(m -> m.getRole().equals(MemberRole.ADMIN) && m.getActive())
+				.collect(Collectors.toSet());
+	}
+
+	public Set<LdoDUser> getPendingSet() {
+		return getMemberSet().stream().filter(m -> !m.getActive()).map(m -> m.getUser()).collect(Collectors.toSet());
+	}
+
+	public Set<Member> getPendingMemberSet() {
+		return getMemberSet().stream().filter(m -> !m.getActive()).collect(Collectors.toSet());
+	}
+
+	public boolean canRemoveMember(LdoDUser actor, LdoDUser user) {
+		MemberRole roleActor = getMemberSet().stream().filter(m -> m.getUser() == actor).map(m -> m.getRole())
+				.findFirst().get();
+
+		if (roleActor.equals(MemberRole.ADMIN) && getAdminMemberSet().size() > 1)
+			return true;
+
+		if (roleActor.equals(MemberRole.ADMIN) && getAdminMemberSet().size() == 1 && actor != user)
+			return true;
+
+		if (roleActor.equals(MemberRole.WRITER) && actor == user)
+			return true;
+
+		return false;
+	}
+
+	public boolean canSwitchRole(LdoDUser actor, LdoDUser user) {
+		MemberRole roleActor = getMemberSet().stream().filter(m -> m.getUser() == actor).map(m -> m.getRole())
+				.findFirst().get();
+
+		if (roleActor.equals(MemberRole.ADMIN) && getAdminMemberSet().size() > 1)
+			return true;
+
+		if (roleActor.equals(MemberRole.ADMIN) && getAdminMemberSet().size() == 1 && actor != user)
+			return true;
+
+		return false;
 	}
 
 }

@@ -1,5 +1,8 @@
 package pt.ist.socialsoftware.edition.domain;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import pt.ist.socialsoftware.edition.visitors.TextPortionVisitor;
 
 /**
@@ -9,6 +12,7 @@ import pt.ist.socialsoftware.edition.visitors.TextPortionVisitor;
  * 
  */
 public class SimpleText extends SimpleText_Base {
+	private static Logger logger = LoggerFactory.getLogger(SimpleText.class);
 
 	public SimpleText(TextPortion parent, String value) {
 		parent.addChildText(this);
@@ -64,16 +68,16 @@ public class SimpleText extends SimpleText_Base {
 	}
 
 	@Override
-	public SimpleText getSimpleText(FragInter inter, int currentOffset,
-			int offset) {
-		int nextCurrentOffset = currentOffset + getSeparator(inter).length()
-				+ getValue().length();
+	public SimpleText getSimpleText(FragInter inter, int currentOffset, int offset) {
+		int nextCurrentOffset = currentOffset + getSeparator(inter).length() + getValue().length();
+
+		logger.debug("getSimpleText value:{}, separator:{}, currentOffset:{}, offset:{}, nextCurrentOffset:{}",
+				getValue(), getSeparator(inter), currentOffset, offset, nextCurrentOffset);
 
 		if (nextCurrentOffset >= offset) {
 			return this;
 		} else {
-			return super.getNextSimpleText(inter).getSimpleText(inter,
-					nextCurrentOffset, offset);
+			return super.getNextSimpleText(inter).getSimpleText(inter, nextCurrentOffset, offset);
 		}
 	}
 

@@ -4,152 +4,229 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import pt.ist.fenixframework.Atomic;
+import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.socialsoftware.edition.domain.Edition.EditionType;
 import pt.ist.socialsoftware.edition.recommendation.VSMFragInterRecommender;
 import pt.ist.socialsoftware.edition.recommendation.properties.Property;
 import pt.ist.socialsoftware.edition.search.options.SearchOption;
+import pt.ist.socialsoftware.edition.utils.RangeJson;
 
 public class VirtualEditionInter extends VirtualEditionInter_Base {
+	private static Logger logger = LoggerFactory.getLogger(VirtualEditionInter.class);
 
-    public VirtualEditionInter(Section section, FragInter inter, int number) {
-        setFragment(inter.getFragment());
-        setHeteronym(null);
-        setDate(null);
-        setSection(section);
-        setNumber(number);
-        setUses(inter);
-    }
+	public VirtualEditionInter(Section section, FragInter inter, int number) {
+		setFragment(inter.getFragment());
+		setHeteronym(null);
+		setDate(null);
+		setSection(section);
+		setNumber(number);
+		setUses(inter);
+	}
 
-    @Override
-    public void remove() {
-        setSection(null);
+	@Override
+	public void remove() {
+		setSection(null);
 
-        setUses(null);
+		setUses(null);
 
-        for (FragInter inter : getIsUsedBySet()) {
-            inter.remove();
-        }
+		for (Tag tag : getTagSet()) {
+			tag.remove();
+		}
 
-        super.remove();
-    }
+		for (FragInter inter : getIsUsedBySet()) {
+			inter.remove();
+		}
 
-    @Override
-    public String getShortName() {
-        return getVirtualEdition().getAcronym();
-    }
+		for (Annotation annotation : getAnnotationSet()) {
+			annotation.remove();
+		}
 
-    @Override
-    public String getTitle() {
-        return getUses().getTitle();
-    }
+		super.remove();
+	}
 
-    @Override
-    public EditionType getSourceType() {
-        return EditionType.VIRTUAL;
-    }
+	@Override
+	public String getShortName() {
+		return getVirtualEdition().getAcronym();
+	}
 
-    public int compareVirtualEditionInter(VirtualEditionInter other) {
-        int diff = getNumber() - other.getNumber();
-        int result = diff > 0 ? 1 : (diff < 0) ? -1 : 0;
-        if (result != 0) {
-            return result;
-        } else {
-            String myTitle = getTitle();
-            String otherTitle = other.getTitle();
-            return myTitle.compareTo(otherTitle);
-        }
-    }
+	@Override
+	public String getTitle() {
+		return getUses().getTitle();
+	}
 
-    @Override
-    public String getMetaTextual() {
-        String result = "";
+	@Override
+	public EditionType getSourceType() {
+		return EditionType.VIRTUAL;
+	}
 
-        result = result + "Edição Virtual: " + getVirtualEdition().getTitle()
-                + "(" + getVirtualEdition().getAcronym() + ")" + "<br>";
+	public int compareVirtualEditionInter(VirtualEditionInter other) {
+		int diff = getNumber() - other.getNumber();
+		int result = diff > 0 ? 1 : (diff < 0) ? -1 : 0;
+		if (result != 0) {
+			return result;
+		} else {
+			String myTitle = getTitle();
+			String otherTitle = other.getTitle();
+			return myTitle.compareTo(otherTitle);
+		}
+	}
 
-        result = result + "Edição Base: " + getLastUsed().getShortName()
-                + "<br>";
+	@Override
+	public String getMetaTextual() {
+		String result = "";
 
-        result = result + "Título: " + getTitle() + "<br>";
+		result = result + "Edição Virtual: " + getVirtualEdition().getTitle() + "(" + getVirtualEdition().getAcronym()
+				+ ")" + "<br>";
 
-        if (getHeteronym() != null) {
-            result = result + "Heterónimo: " + getHeteronym().getName()
-                    + "<br>";
-        }
+		result = result + "Edição Base: " + getLastUsed().getShortName() + "<br>";
 
-        if (getDate() != null) {
-            result = result + "Data: " + getDate().toString("dd-MM-yyyy")
-                    + "<br>";
-        }
+		result = result + "Título: " + getTitle() + "<br>";
 
-        return result;
-    }
+		if (getHeteronym() != null) {
+			result = result + "Heterónimo: " + getHeteronym().getName() + "<br>";
+		}
 
-    @Override
-    public boolean belongs2Edition(Edition edition) {
-        return getVirtualEdition() == edition;
-    }
+		if (getDate() != null) {
+			result = result + "Data: " + getDate().toString("dd-MM-yyyy") + "<br>";
+		}
 
-    @Override
-    public FragInter getLastUsed() {
-        return getUses().getLastUsed();
-    }
+		return result;
+	}
 
-    @Override
-    public Edition getEdition() {
-        return getVirtualEdition();
-    }
+	@Override
+	public boolean belongs2Edition(Edition edition) {
+		return getVirtualEdition() == edition;
+	}
 
-    @Override
-    public List<FragInter> getListUsed() {
-        List<FragInter> listUses = getUses().getListUsed();
-        listUses.add(0, getUses());
-        return listUses;
-    }
+	@Override
+	public FragInter getLastUsed() {
+		return getUses().getLastUsed();
+	}
 
-    @Override
-    public String getReference() {
-        return Integer.toString(getNumber());
-    }
+	@Override
+	public Edition getEdition() {
+		return getVirtualEdition();
+	}
 
-    public Set<LdoDUser> getAnnotationContributorSet() {
-        Set<LdoDUser> contributors = new HashSet<LdoDUser>();
-        for (Annotation annotation : getAnnotationSet()) {
-            contributors.add(annotation.getUser());
-        }
-        return contributors;
-    }
+	@Override
+	public List<FragInter> getListUsed() {
+		List<FragInter> listUses = getUses().getListUsed();
+		listUses.add(0, getUses());
+		return listUses;
+	}
 
-    public Set<LdoDUser> getTagContributorSet(Taxonomy taxonomy) {
-        Set<LdoDUser> contributors = new HashSet<LdoDUser>();
-        for (Tag tag : taxonomy.getTagSet(this)) {
-            contributors.addAll(tag.getContributorSet());
-        }
-        return contributors;
-    }
+	@Override
+	public String getReference() {
+		return Integer.toString(getNumber());
+	}
 
-    @Override
-    public boolean accept(SearchOption option) {
-        return option.visit(this);
-    }
+	public Set<LdoDUser> getAnnotationContributorSet() {
+		Set<LdoDUser> contributors = new HashSet<LdoDUser>();
+		for (Annotation annotation : getAnnotationSet()) {
+			contributors.add(annotation.getUser());
+		}
+		return contributors;
+	}
 
-    @Override
-    public Collection<Double> accept(Property property) {
-        return property.visit(this);
-    }
+	@Override
+	public boolean accept(SearchOption option) {
+		return option.visit(this);
+	}
 
-    public VirtualEdition getVirtualEdition() {
-        return getSection().getRootSection().getVirtualEdition();
-    }
+	@Override
+	public Collection<Double> accept(Property property) {
+		return property.visit(this);
+	}
 
-    public FragInter getNextInter() {
-        LdoDUser user = LdoDUser.getAuthenticatedUser();
-        VSMFragInterRecommender recommender = new VSMFragInterRecommender();
-        Collection<Property> properties = user
-                .getRecommendationWeights(getVirtualEdition()).getProperties();
-        return recommender.getMostSimilarItem(this,
-                getVirtualEdition().getIntersSet(), properties);
-    }
+	public VirtualEdition getVirtualEdition() {
+		return getSection().getRootSection().getVirtualEdition();
+	}
+
+	public FragInter getNextInter() {
+		LdoDUser user = LdoDUser.getAuthenticatedUser();
+		VSMFragInterRecommender recommender = new VSMFragInterRecommender();
+		Collection<Property> properties = user.getRecommendationWeights(getVirtualEdition()).getProperties();
+		return recommender.getMostSimilarItem(this, getVirtualEdition().getIntersSet(), properties);
+	}
+
+	@Atomic(mode = TxMode.WRITE)
+	public Annotation createAnnotation(String quote, String text, LdoDUser user, List<RangeJson> rangeList,
+			List<String> tagList) {
+		logger.debug("createAnnotation start:{}, startOffset:{}, end:{}, endOffset:{}", rangeList.get(0).getStart(),
+				rangeList.get(0).getStartOffset(), rangeList.get(0).getEnd(), rangeList.get(0).getEndOffset());
+
+		SimpleText startText = null;
+		// startText =
+		// getFragment().getTextPortion().getSimpleText(getLastUsed(), 0,
+		// rangeList.get(0).getStartOffset());
+		SimpleText endText = null;
+		// endText = getFragment().getTextPortion().getSimpleText(getLastUsed(),
+		// 0, rangeList.get(0).getEndOffset());
+
+		Annotation annotation = new Annotation(this, startText, endText, quote, text, user);
+
+		for (RangeJson rangeJson : rangeList) {
+			new Range(annotation, rangeJson.getStart(), rangeJson.getStartOffset(), rangeJson.getEnd(),
+					rangeJson.getEndOffset());
+		}
+
+		Taxonomy taxonomy = getVirtualEdition().getTaxonomy();
+		for (String tag : tagList) {
+			taxonomy.createTag(this, tag, annotation, annotation.getUser());
+		}
+
+		return annotation;
+	}
+
+	@Atomic(mode = TxMode.WRITE)
+	public void associate(LdoDUser user, Taxonomy taxonomy, Set<String> categoryNames) {
+		getAssignedCategories(user).stream().filter(c -> !categoryNames.contains(c.getName()))
+				.forEach(c -> dissociate(user, c));
+
+		Set<String> existingCategories = getAssignedCategories(user).stream().map(c -> c.getName())
+				.collect(Collectors.toSet());
+
+		categoryNames.stream().filter(cname -> !existingCategories.contains(cname))
+				.forEach(cname -> taxonomy.createTag(this, cname, null, user));
+	}
+
+	@Atomic(mode = TxMode.WRITE)
+	public void dissociate(LdoDUser user, Category category) {
+		Set<Tag> tags = getTagSet().stream().filter(t -> (t.getCategory() == category) && (t.getContributor() == user))
+				.collect(Collectors.toSet());
+		for (Tag tag : tags) {
+			tag.remove();
+		}
+
+		Set<Annotation> annotations = getAnnotationSet().stream()
+				.filter(a -> a.getTagSet().isEmpty() && a.getText() == null).collect(Collectors.toSet());
+		for (Annotation annotation : annotations) {
+			annotation.remove();
+		}
+	}
+
+	public List<Category> getNonAssignedCategories(LdoDUser user) {
+		List<Category> interCategories = getAssignedCategories(user);
+
+		List<Category> categories = getVirtualEdition().getTaxonomy().getCategoriesSet().stream()
+				.filter(c -> !interCategories.contains(c)).sorted((c1, c2) -> c1.getName().compareTo(c2.getName()))
+				.collect(Collectors.toList());
+
+		return categories;
+	}
+
+	public List<Category> getAssignedCategories(LdoDUser user) {
+		List<Category> categories = getTagSet().stream().filter(t -> t.getContributor() == user)
+				.map(t -> t.getCategory()).distinct().sorted((c1, c2) -> c1.getName().compareTo(c2.getName()))
+				.collect(Collectors.toList());
+
+		return categories;
+	}
 
 }

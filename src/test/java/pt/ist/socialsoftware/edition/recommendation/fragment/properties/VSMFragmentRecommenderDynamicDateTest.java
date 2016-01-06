@@ -1,9 +1,12 @@
 package pt.ist.socialsoftware.edition.recommendation.fragment.properties;
 
+import org.junit.Ignore;
+
 import pt.ist.socialsoftware.edition.domain.Fragment;
 import pt.ist.socialsoftware.edition.recommendation.properties.DynamicDateProperty;
 import pt.ist.socialsoftware.edition.recommendation.properties.Property;
 
+@Ignore
 public class VSMFragmentRecommenderDynamicDateTest extends VSMFragmentRecommenderTest {
 
 	@Override

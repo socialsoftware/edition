@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.domain.Annotation;
 import pt.ist.socialsoftware.edition.domain.AppText;
+import pt.ist.socialsoftware.edition.domain.Category;
 import pt.ist.socialsoftware.edition.domain.Edition;
 import pt.ist.socialsoftware.edition.domain.FragInter;
 import pt.ist.socialsoftware.edition.domain.Fragment;
@@ -36,9 +37,10 @@ import pt.ist.socialsoftware.edition.domain.SourceInter;
 import pt.ist.socialsoftware.edition.domain.Surface;
 import pt.ist.socialsoftware.edition.domain.TextPortion;
 import pt.ist.socialsoftware.edition.domain.VirtualEdition;
+import pt.ist.socialsoftware.edition.domain.VirtualEditionInter;
 import pt.ist.socialsoftware.edition.security.LdoDSession;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDException;
-import pt.ist.socialsoftware.edition.utils.AnnotationJson;
+import pt.ist.socialsoftware.edition.utils.AnnotationDTO;
 import pt.ist.socialsoftware.edition.utils.AnnotationSearchJson;
 import pt.ist.socialsoftware.edition.visitors.HtmlWriter2CompInters;
 import pt.ist.socialsoftware.edition.visitors.HtmlWriter4Variations;
@@ -120,12 +122,12 @@ public class FragmentController {
 		return "fragment/main";
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "/inter/{id}/taxonomies")
-	public String getTaxonomies(Model model, @ModelAttribute("ldoDSession") LdoDSession ldoDSession,
+	@RequestMapping(method = RequestMethod.GET, value = "/inter/{id}/taxonomy")
+	public String getTaxonomy(Model model, @ModelAttribute("ldoDSession") LdoDSession ldoDSession,
 			@PathVariable String id) {
-		logger.debug("getTaxonomies id:{}", id);
+		logger.debug("getTaxonomy id:{}", id);
 
-		FragInter inter = FenixFramework.getDomainObject(id);
+		VirtualEditionInter inter = FenixFramework.getDomainObject(id);
 
 		if (inter == null) {
 			return "util/pageNotFound";
@@ -153,7 +155,7 @@ public class FragmentController {
 		model.addAttribute("user", LdoDUser.getAuthenticatedUser());
 		model.addAttribute("inters", inters);
 
-		return "fragment/listTaxonomies";
+		return "fragment/taxonomy";
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/inter/next/number/{id}")
@@ -326,14 +328,14 @@ public class FragmentController {
 	@RequestMapping(method = RequestMethod.GET, value = "/search")
 	public @ResponseBody AnnotationSearchJson searchAnnotations(Model model, @RequestParam int limit,
 			@RequestParam String uri) {
-		System.out.println("searchAnnotations:" + limit + uri);
+		logger.debug("searchAnnotations limit:{}, uri:{}", limit, uri);
 
-		List<AnnotationJson> annotations = new ArrayList<AnnotationJson>();
+		List<AnnotationDTO> annotations = new ArrayList<AnnotationDTO>();
 
-		FragInter inter = FenixFramework.getDomainObject(uri);
+		VirtualEditionInter inter = FenixFramework.getDomainObject(uri);
 
 		for (Annotation annotation : inter.getAnnotationSet()) {
-			AnnotationJson annotationJson = new AnnotationJson(annotation);
+			AnnotationDTO annotationJson = new AnnotationDTO(annotation);
 			annotations.add(annotationJson);
 		}
 
@@ -341,57 +343,71 @@ public class FragmentController {
 	}
 
 	@RequestMapping(method = RequestMethod.POST, value = "/annotations")
-	public @ResponseBody ResponseEntity<AnnotationJson> createAnnotation(Model model,
-			@RequestBody final AnnotationJson annotationJson, HttpServletRequest request) {
-		FragInter inter = FenixFramework.getDomainObject(annotationJson.getUri());
+	public @ResponseBody ResponseEntity<AnnotationDTO> createAnnotation(Model model,
+			@RequestBody final AnnotationDTO annotationJson, HttpServletRequest request) {
+		VirtualEditionInter inter = FenixFramework.getDomainObject(annotationJson.getUri());
 		VirtualEdition virtualEdition = (VirtualEdition) inter.getEdition();
 		LdoDUser user = LdoDUser.getAuthenticatedUser();
 
 		Annotation annotation;
-		if (virtualEdition.getParticipantSet().contains(user)) {
+		if (virtualEdition.getTaxonomy().canManipulateAnnotation(user)) {
 
 			annotation = inter.createAnnotation(annotationJson.getQuote(), annotationJson.getText(), user,
 					annotationJson.getRanges(), annotationJson.getTags());
 
 			annotationJson.setId(annotation.getExternalId());
 
-			return new ResponseEntity<AnnotationJson>(new AnnotationJson(annotation), HttpStatus.CREATED);
+			return new ResponseEntity<AnnotationDTO>(new AnnotationDTO(annotation), HttpStatus.CREATED);
 		} else {
-			return new ResponseEntity<AnnotationJson>(HttpStatus.UNAUTHORIZED);
+			return new ResponseEntity<AnnotationDTO>(HttpStatus.UNAUTHORIZED);
 		}
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/annotations/{id}")
-	public @ResponseBody ResponseEntity<AnnotationJson> getAnnotation(Model model, @PathVariable String id) {
+	public @ResponseBody ResponseEntity<AnnotationDTO> getAnnotation(Model model, @PathVariable String id) {
 		Annotation annotation = FenixFramework.getDomainObject(id);
 		if (annotation != null) {
-			return new ResponseEntity<AnnotationJson>(new AnnotationJson(annotation), HttpStatus.OK);
+			return new ResponseEntity<AnnotationDTO>(new AnnotationDTO(annotation), HttpStatus.OK);
 		} else {
-			return new ResponseEntity<AnnotationJson>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<AnnotationDTO>(HttpStatus.NOT_FOUND);
 		}
 	}
 
 	@RequestMapping(method = RequestMethod.PUT, value = "/annotations/{id}")
-	public @ResponseBody ResponseEntity<AnnotationJson> updateAnnotation(Model model, @PathVariable String id,
-			@RequestBody final AnnotationJson annotationJson) {
+	public @ResponseBody ResponseEntity<AnnotationDTO> updateAnnotation(Model model, @PathVariable String id,
+			@RequestBody final AnnotationDTO annotationJson) {
 		Annotation annotation = FenixFramework.getDomainObject(id);
 		if (annotation != null) {
 			annotation.update(annotationJson.getText(), annotationJson.getTags());
-			return new ResponseEntity<AnnotationJson>(new AnnotationJson(annotation), HttpStatus.OK);
+			return new ResponseEntity<AnnotationDTO>(new AnnotationDTO(annotation), HttpStatus.OK);
 		} else {
-			return new ResponseEntity<AnnotationJson>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<AnnotationDTO>(HttpStatus.NOT_FOUND);
 		}
 	}
 
 	@RequestMapping(method = RequestMethod.DELETE, value = "/annotations/{id}")
-	public @ResponseBody ResponseEntity<AnnotationJson> deleteAnnotation(Model model, @PathVariable String id,
-			@RequestBody final AnnotationJson annotationJson) {
+	public @ResponseBody ResponseEntity<AnnotationDTO> deleteAnnotation(Model model, @PathVariable String id,
+			@RequestBody final AnnotationDTO annotationJson) {
 		Annotation annotation = FenixFramework.getDomainObject(id);
 		if (annotation != null) {
 			annotation.remove();
-			return new ResponseEntity<AnnotationJson>(HttpStatus.NO_CONTENT);
+			return new ResponseEntity<AnnotationDTO>(HttpStatus.NO_CONTENT);
 		} else {
-			return new ResponseEntity<AnnotationJson>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<AnnotationDTO>(HttpStatus.NOT_FOUND);
 		}
 	}
+
+	@RequestMapping(method = RequestMethod.GET, value = "/annotation/{annotationId}/categories")
+	public @ResponseBody ResponseEntity<String[]> getAnnotationInter(Model model, @PathVariable String annotationId) {
+		logger.debug("getAnnotationInter id:{}", annotationId);
+
+		Annotation annotation = FenixFramework.getDomainObject(annotationId);
+
+		List<Category> listCategories = annotation.getCategories();
+
+		String[] categories = listCategories.stream().map(c -> c.getName()).toArray(size -> new String[size]);
+
+		return new ResponseEntity<String[]>(categories, HttpStatus.OK);
+	}
+
 }

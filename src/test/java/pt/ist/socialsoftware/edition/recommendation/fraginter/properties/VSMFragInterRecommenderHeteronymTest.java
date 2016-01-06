@@ -4,19 +4,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import pt.ist.socialsoftware.edition.domain.FragInter;
 import pt.ist.socialsoftware.edition.recommendation.properties.HeteronymProperty;
 import pt.ist.socialsoftware.edition.recommendation.properties.Property;
 
+@Ignore
 public class VSMFragInterRecommenderHeteronymTest extends VSMFragInterRecommenderStorableTest {
 
 	@Override
 	protected FragInter getFragment1() {
 		List<FragInter> list = new ArrayList<>(ldod.getFragment("Fr002").getFragmentInterSet());
-		for(FragInter inter : list) {
-			if(inter.getEdition().getAcronym().equals("TSC"))
+		for (FragInter inter : list) {
+			if (inter.getEdition().getAcronym().equals("TSC"))
 				return inter;
 		}
 		return list.get(list.size() - 1);
@@ -25,8 +27,8 @@ public class VSMFragInterRecommenderHeteronymTest extends VSMFragInterRecommende
 	@Override
 	protected FragInter getFragment2() {
 		List<FragInter> list = new ArrayList<>(ldod.getFragment("Fr011").getFragmentInterSet());
-		for(FragInter inter : list) {
-			if(inter.getEdition().getAcronym().equals("TSC"))
+		for (FragInter inter : list) {
+			if (inter.getEdition().getAcronym().equals("TSC"))
 				return inter;
 		}
 		return list.get(list.size() - 1);

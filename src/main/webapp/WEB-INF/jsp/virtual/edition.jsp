@@ -4,203 +4,202 @@
 <head>
 <%@ include file="/WEB-INF/jsp/common/meta-head.jsp"%>
 <!--  <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">-->
-<link rel="stylesheet" type="text/css" href="/resources/css/slick.grid.css">
-<link rel="stylesheet" type="text/css" href="/resources/css/normalize.css"> 
-<link rel="stylesheet" type="text/css" href="/resources/css/bootstrap-table.min.css"> 
-<link rel="stylesheet" type="text/css" href="/resources/css/bootstrap-select.min.css">
-<link rel="stylesheet" type="text/css" href="/resources/css/spinner.css" >
-<link rel="stylesheet" type="text/css" href="/resources/css/toastr.min.css" />
+<link rel="stylesheet" type="text/css"
+	href="/resources/css/slick.grid.css">
+<link rel="stylesheet" type="text/css"
+	href="/resources/css/normalize.css">
+<link rel="stylesheet" type="text/css"
+	href="/resources/css/bootstrap-table.min.css">
+<link rel="stylesheet" type="text/css"
+	href="/resources/css/bootstrap-select.min.css">
+<link rel="stylesheet" type="text/css" href="/resources/css/spinner.css">
+<link rel="stylesheet" type="text/css"
+	href="/resources/css/toastr.min.css" />
 
 <style>
-    .cell-effort-driven {
-      text-align: center;
-    }
+.cell-effort-driven {
+	text-align: center;
+}
 
+.cell-reorder {
+	cursor: move;
+	background: url("images/drag-handle.png") no-repeat center center;
+}
 
+.cell-selection {
+	border-right-color: silver;
+	border-right-style: solid;
+	background: #b4dcf0;
+	color: gray;
+	text-align: right;
+	font-size: 10px;
+}
 
-    .cell-reorder {
-      cursor: move;
-      background: url("images/drag-handle.png") no-repeat center center;
-    }
+.cell-h1 {
+	font-weight: bold;
+	background: #BBBBBB;
+	text-transform: uppercase;
+}
 
-    .cell-selection {
-      border-right-color: silver;
-      border-right-style: solid;
-      background: #b4dcf0 ;
-      color: gray;
-      text-align: right;
-      font-size: 10px;
-    }
+.cell-h2 {
+	font-weight: bold;
+	background: #CCCCCC;
+}
 
-    .cell-h1 {
-      font-weight: bold;
-      background: #BBBBBB;
-      text-transform: uppercase;
-    }
+.cell-h3 {
+	font-style: italic;
+	background: #DDDDDD;
+}
 
-    .cell-h2 {
-      font-weight: bold;
-      background: #CCCCCC;
-     
-    }
+.slick-row.selected .cell-selection {
+	background-color: transparent;
+	/* show default selected row background */
+}
 
-    .cell-h3 {
-      font-style: italic;
-      background: #DDDDDD;
-    }
+.recycle-bin {
+	width: 120px;
+	border: 1px solid gray;
+	background: beige;
+	padding: 4px;
+	font-size: 12pt;
+	font-weight: bold;
+	color: black;
+	text-align: center;
+	-moz-border-radius: 10px;
+}
 
-    .slick-row.selected .cell-selection {
-      background-color: transparent; /* show default selected row background */
-    }
+.red {
+	background: red;
+}
 
-    .recycle-bin {
-      width: 120px;
-      border: 1px solid gray;
-      background: beige;
-      padding: 4px;
-      font-size: 12pt;
-      font-weight: bold;
-      color: black;
-      text-align: center;
-      -moz-border-radius: 10px;
-    }
-
-    .red {
-      background: red;
-    }
-
-    .bold {
-      font-weight: bold;
-    }
-
+.bold {
+	font-weight: bold;
+}
 
 #outline {
-margin: 12px;
+	margin: 12px;
 }
 
 aside.right {
-position: fixed;
-right: 0px;
-width: 120px;
-text-align: right;
+	position: fixed;
+	right: 0px;
+	width: 120px;
+	text-align: right;
 }
 
 aside {
-display: block;
-position: absolute;
-height: 100%;
-overflow: hidden;
-z-index: 10;
-top: 150px;
-background-color: #ffffff;
+	display: block;
+	position: absolute;
+	height: 100%;
+	overflow: hidden;
+	z-index: 10;
+	top: 150px;
+	background-color: #ffffff;
 }
 
 #panel.affix {
-    position: fixed;
-    top: 60px;
-   
-    z-index:10;
+	position: fixed;
+	top: 60px;
+	z-index: 10;
 }
 
 .subnav {
-  margin:0;
-  top: 50px;
-  z-index: 10;
-  background-color: rgb(247,247,247); 
-  border-bottom: 1px solid #E1E1E1;
-  padding: 0px 0px 0px 0px;
-   position: fixed;
-   width: 100%;
+	margin: 0;
+	top: 50px;
+	z-index: 10;
+	background-color: rgb(247, 247, 247);
+	border-bottom: 1px solid #E1E1E1;
+	padding: 0px 0px 0px 0px;
+	position: fixed;
+	width: 100%;
 }
 
 .subnav.affix {
-    position: fixed;
-    top: 50;
-    width: 100%;
-    z-index:10;
+	position: fixed;
+	top: 50;
+	width: 100%;
+	z-index: 10;
 }
 
 .navbar {
-    margin-bottom:0;
+	margin-bottom: 0;
 }
-
-
 
 .pager2 {
-padding-left: 0;
-margin: 10px 0;
-text-align: center;
-list-style: none;
+	padding-left: 0;
+	margin: 10px 0;
+	text-align: center;
+	list-style: none;
 }
 
-
-#wrap{ position:absolute;
-  right:280px;
-  top:100px;
-  visibility:hidden;
+#wrap {
+	position: absolute;
+	right: 280px;
+	top: 100px;
+	visibility: hidden;
 }
-#fixed{ 
-    position:fixed;
-    width: 200px;
-    height: 40px;
-   
-    margin-left:0px;
-    margin-top:0px;
-    z-index:1000;
-    text-align: left;
-    font-size: 10pt;
+
+#fixed {
+	position: fixed;
+	width: 200px;
+	height: 40px;
+	margin-left: 0px;
+	margin-top: 0px;
+	z-index: 1000;
+	text-align: left;
+	font-size: 10pt;
 }
 
 .d1 {
-  font-size: 8pt;
+	font-size: 8pt;
 }
 
 .d2 {
-  font-size: 6pt;
+	font-size: 6pt;
 }
-
 /* unset bs3 setting */
 .modal-open {
- overflow: auto; 
+	overflow: auto;
 }
 
 h1 {
-font-size: 2em;
+	font-size: 2em;
 }
 
 h2 {
-font-size: 1.5em;
+	font-size: 1.5em;
 }
 
-h3{
-font-size: 1em;
+h3 {
+	font-size: 1em;
 }
 
 div {
-  border-style: solid;
-  border-width: 0px;
+	border-style: solid;
+	border-width: 0px;
 }
 
 .linkCol {
-  text-align:center;
+	text-align: center;
 }
 
-.btn-group > .tooltip + .btn,
-.btn-group > .popover + .btn{
-margin-left:-1px;
+.btn-group>.tooltip+.btn, .btn-group>.popover+.btn {
+	margin-left: -1px;
 }
-
 </style>
 
 <!-- slickgrid -->
 <!--  <script type="text/javascript" src="/resources/js/slickgrid/jquery-1.11.1.min.js"></script>-->
 <!--  <script type="text/javascript" src="/resources/js/slickgrid/jquery-ui.js"></script>-->
-<script type="text/javascript" src="/resources/js/slickgrid/jquery.event.drag-2.2.js"></script>
-<script type="text/javascript" src="/resources/js/slickgrid/jquery.event.drop-2.2.js"></script>
+<script type="text/javascript"
+	src="/resources/js/slickgrid/jquery.event.drag-2.2.js"></script>
+<script type="text/javascript"
+	src="/resources/js/slickgrid/jquery.event.drop-2.2.js"></script>
 
 <script src="/resources/js/slickgrid/slick.core.js"></script>
 <script src="/resources/js/slickgrid/plugins/slick.cellrangeselector.js"></script>
-<script src="/resources/js/slickgrid/plugins/slick.cellselectionmodel.js"></script>
+<script
+	src="/resources/js/slickgrid/plugins/slick.cellselectionmodel.js"></script>
 <script src="/resources/js/slickgrid/plugins/slick.rowselectionmodel.js"></script>
 <script src="/resources/js/slickgrid/plugins/slick.rowmovemanager.js"></script>
 <script src="/resources/js/slickgrid/slick.formatters.js"></script>
@@ -219,10 +218,9 @@ margin-left:-1px;
 <script src="/resources/js/bootstrap-select.min.js"></script>
 <script src="/resources/js/jquery.popconfirm.js"></script>
 <script src="/resources/js/toastr.min.js"></script>
-<script src="http://malsup.github.com/jquery.form.js"></script> 
+<script src="http://malsup.github.com/jquery.form.js"></script>
 
 <script>
-
 var editionData = new Array();
 <c:forEach var="inter" items='${virtualEdition.sortedInterps}'>
 	editionDataItem = new Object();
@@ -233,7 +231,6 @@ var editionData = new Array();
 	<c:set var="newLine" value='
 	'/>
 	<c:set var="titleTemp" value="${fn:replace(inter.title,newLine,'')}" />
-
 	<c:set var="newLine" value="
         "/>
 	<c:set var="titleTemp" value="${fn:replace(titleTemp,newLine,'')}" />
@@ -248,17 +245,7 @@ var editionData = new Array();
     </c:otherwise>
 	</c:choose>
 	
-	
-	
-	var taxonomies = new Array();
-	 <c:forEach var="taxonomy" items="${virtualEdition.getTaxonomies()}">
-	 	taxonomy = new Object();
-	 	taxonomy.externalId = ${taxonomy.getExternalId()};
-	 	taxonomy.name = "${taxonomy.getName()}";
-	 	taxonomies.push(taxonomy);
-	 </c:forEach>
-	 editionDataItem.taxonomies = taxonomies;
-	 
+			 	 
 	 var listused = new Array();
 	 <c:forEach var="used" items="${inter.getListUsed()}">
 	 	used = new Object();
@@ -270,116 +257,143 @@ var editionData = new Array();
 	 
 	editionData.push(editionDataItem);
 </c:forEach> 
-
-
 </script>
 </head>
 <body>
 
-<%@ include file="/WEB-INF/jsp/common/fixed-top-ldod-header.jsp"%>
+	<%@ include file="/WEB-INF/jsp/common/fixed-top-ldod-header.jsp"%>
 
-<spring:message code="virtualedition.tt.addFragment" var="addFragText" />
-<spring:message code="virtualedition.tt.deleteFragment" var="deleteFragText" />
-<spring:message code="virtualedition.tt.cut" var="cutText" />
-<spring:message code="virtualedition.tt.paste" var="pasteText" />
-<spring:message code="virtualedition.tt.moveup" var="moveUpText" />
-<spring:message code="virtualedition.tt.movedown" var="moveDownText" />
-<spring:message code="virtualedition.tt.movetop" var="moveTopText" />
-<spring:message code="virtualedition.tt.movebottom" var="moveBottomText" />
-<spring:message code="virtualedition.tt.moveposition" var="movePosText" />
-<spring:message code="virtualedition.tt.select" var="selectText" />
-<spring:message code="virtualedition.tt.save" var="saveText" />
+	<spring:message code="virtualedition.tt.addFragment" var="addFragText" />
+	<spring:message code="virtualedition.tt.deleteFragment"
+		var="deleteFragText" />
+	<spring:message code="virtualedition.tt.cut" var="cutText" />
+	<spring:message code="virtualedition.tt.paste" var="pasteText" />
+	<spring:message code="virtualedition.tt.moveup" var="moveUpText" />
+	<spring:message code="virtualedition.tt.movedown" var="moveDownText" />
+	<spring:message code="virtualedition.tt.movetop" var="moveTopText" />
+	<spring:message code="virtualedition.tt.movebottom"
+		var="moveBottomText" />
+	<spring:message code="virtualedition.tt.moveposition" var="movePosText" />
+	<spring:message code="virtualedition.tt.select" var="selectText" />
+	<spring:message code="virtualedition.tt.save" var="saveText" />
 
-
-
-<!-- subnav here -->
-<div class="navbar subnav" role="navigation">
-    <div class="navbar-inner">
-        <div class="container"> 
-        <ul class="pager2 subnav-pager"> 
-            <div class="btn-group-wrap">
-
-              <div class="btn-group" role="group" aria-label="...">
-                  <button class="btn btn-default tip" type="button" title="${addFragText}" data-toggle="modal" data-target="#searchmodal" aria-expanded="false" aria-controls="collapsemenu"  rel="tooltip" data-original-title='Hello'>
-                <span class="glyphicon glyphicon-plus" aria-hidden="Adicionar fragmentos"></span>
-                </button>
-              </div>
-
-              <div class="btn-group" role="group" aria-label="...">
-                   <button type="button" id="del" class="btn btn-default tip" title="${deleteFragText}">
-                <span class="glyphicon glyphicon-trash" aria-hidden="Remover fragmentos"></span>
-                </button>
-              </div>
-              
-              
-              
-               <div class="btn-group" role="group">
-                <button type="button" id="cut" class="btn btn-default tip" title="${cutText}">
-                <span class="glyphicon glyphicon glyphicon-scissors"></span>
-                </button>
-
-                <button type="button" id="paste" class="btn btn-default tip" title="${pasteText}">
-                <span class="glyphicon glyphicon glyphicon-paste"></span>
-                </button>
-              </div>
-
-              <div class="btn-group" role="group" aria-label="...">
-                <button type="button" id="up" class="btn btn-default tip" title="${moveUpText}">
-                <span class="glyphicon glyphicon-chevron-up" aria-hidden="up"></span>
-                </button>
-
-                <button type="button" id="down" class="btn btn-default  tip" title="${moveDownText}">
-                <span class="glyphicon glyphicon-chevron-down" aria-hidden="down"></span>
-                </button>
-
-                 <button type="button" id="top" class="btn btn-default tip" title="${moveTopText}">
-                <span class="glyphicon glyphicon-arrow-up" aria-hidden="top"></span>
-                </button>
-
-                <button type="button" id="bottom" class="btn btn-default tip" title="${moveBottomText}">
-                <span class="glyphicon glyphicon-arrow-down" aria-hidden="bottom"></span>
-                </button>
+	<c:set var="userLdoD"
+		value='${pageContext.request.userPrincipal.principal.getUser()}' />
 
 
-              </div>
-              
+	<!-- subnav here -->
+	<div class="navbar subnav" role="navigation">
+		<div class="navbar-inner">
+			<div class="container">
+				<ul class="pager2 subnav-pager">
+					<div class="btn-group-wrap">
 
-				<div class="btn-group popover-markup" > 
-				    <a href="#" class="trigger btn btn-default tip" title="${movePosText}" style="border-radius: 5px"> <span class="glyphicon glyphicon-arrow-right" aria-hidden="up"></span></a> 
-				    <div class="head hide">Posicionar
-				    <div class="closepopover" style="position:absolute;right:8px;top:5px">
-				     <button type="button" id="closepopover" class="close tip" aria-label="Close" onclick="$('.popover').popover('hide');" ><span aria-hidden="true">&times;</span></button>
-				    </div>
-				    </div>
-				    <div class="content hide" >
-				        <div class=".form-horizontal " style="width: 140px">
-				        <div class="col-sm-6" style="padding-left: 0px;padding-right: 0px;padding-bottom: 12px;padding-top: 4px;">
-				        <input id="movetopos" type="number" value="1" min="1" class="form-control" onkeyup="moveEnter(event)">	
-				         </div>
-				       	<div class="col-sm-6" style="padding-left: 12px;padding-right: 0px;padding-bottom: 12px;padding-top: 4px;">    
-				        <button onclick="moveFragments()" class="btn btn-default btn-block" id="moveok">OK</button>
-				        </div>
-				        </div>
-				        
-				    </div>
-				</div>
-             
+						<div class="btn-group" role="group" aria-label="...">
+							<button class="btn btn-default tip" type="button"
+								title="${addFragText}" data-toggle="modal"
+								data-target="#searchmodal" aria-expanded="false"
+								aria-controls="collapsemenu" rel="tooltip"
+								data-original-title='Hello'>
+								<span class="glyphicon glyphicon-plus"
+									aria-hidden="Adicionar fragmentos"></span>
+							</button>
+						</div>
 
-                <!--
+						<div class="btn-group" role="group" aria-label="...">
+							<button type="button" id="del" class="btn btn-default tip"
+								title="${deleteFragText}">
+								<span class="glyphicon glyphicon-trash"
+									aria-hidden="Remover fragmentos"></span>
+							</button>
+						</div>
+
+
+
+						<div class="btn-group" role="group">
+							<button type="button" id="cut" class="btn btn-default tip"
+								title="${cutText}">
+								<span class="glyphicon glyphicon glyphicon-scissors"></span>
+							</button>
+
+							<button type="button" id="paste" class="btn btn-default tip"
+								title="${pasteText}">
+								<span class="glyphicon glyphicon glyphicon-paste"></span>
+							</button>
+						</div>
+
+						<div class="btn-group" role="group" aria-label="...">
+							<button type="button" id="up" class="btn btn-default tip"
+								title="${moveUpText}">
+								<span class="glyphicon glyphicon-chevron-up" aria-hidden="up"></span>
+							</button>
+
+							<button type="button" id="down" class="btn btn-default  tip"
+								title="${moveDownText}">
+								<span class="glyphicon glyphicon-chevron-down"
+									aria-hidden="down"></span>
+							</button>
+
+							<button type="button" id="top" class="btn btn-default tip"
+								title="${moveTopText}">
+								<span class="glyphicon glyphicon-arrow-up" aria-hidden="top"></span>
+							</button>
+
+							<button type="button" id="bottom" class="btn btn-default tip"
+								title="${moveBottomText}">
+								<span class="glyphicon glyphicon-arrow-down"
+									aria-hidden="bottom"></span>
+							</button>
+
+
+						</div>
+
+
+						<div class="btn-group popover-markup">
+							<a href="#" class="trigger btn btn-default tip"
+								title="${movePosText}" style="border-radius: 5px"> <span
+								class="glyphicon glyphicon-arrow-right" aria-hidden="up"></span></a>
+							<div class="head hide">
+								Posicionar
+								<div class="closepopover"
+									style="position: absolute; right: 8px; top: 5px">
+									<button type="button" id="closepopover" class="close tip"
+										aria-label="Close" onclick="$('.popover').popover('hide');">
+										<span aria-hidden="true">&times;</span>
+									</button>
+								</div>
+							</div>
+							<div class="content hide">
+								<div class=".form-horizontal " style="width: 140px">
+									<div class="col-sm-6"
+										style="padding-left: 0px; padding-right: 0px; padding-bottom: 12px; padding-top: 4px;">
+										<input id="movetopos" type="number" value="1" min="1"
+											class="form-control" onkeyup="moveEnter(event)">
+									</div>
+									<div class="col-sm-6"
+										style="padding-left: 12px; padding-right: 0px; padding-bottom: 12px; padding-top: 4px;">
+										<button onclick="moveFragments()"
+											class="btn btn-default btn-block" id="moveok">OK</button>
+									</div>
+								</div>
+
+							</div>
+						</div>
+
+
+						<!--
                 <button type="button" id="up" class="btn btn-default">Cima</button>
                 <button type="button" id="down" class="btn btn-default">Baixo</button>
                 <button type="buttom" id="top" class="btn btn-default">Inicio</button>
                 <button type="button" id="bottom" class="btn btn-default">Fim</button>
                 -->
-    
-               
-                <!-- Single button -->
-                <!--  
+
+
+						<!-- Single button -->
+						<!--  
                 <div class="btn-group">
                   <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                     <span class="glyphicon glyphicon-arrow-right" aria-hidden="up"></span><span class="caret"></span>
                   </button>
-
                   <div class="dropdown-menu" role="menu" style="padding:15px">
                   	Posição:
                     <input id="movetopos" type="number" value="0" min="0" class="form-control">
@@ -388,10 +402,10 @@ var editionData = new Array();
                     <!--  <li class="divider"></li>
                     <li><div id="slider2"></div></li>
                     <li class="divider"></li>-->
-                 <!--  </div>-->
-                  
-               
-                  <!--  
+						<!--  </div>-->
+
+
+						<!--  
                    <div class="dropdown-menu" style="padding:17px;">
 	             
 	                <input name="username" id="username" type="text" placeholder="Username"> 
@@ -399,127 +413,137 @@ var editionData = new Array();
 	                <button type="button" id="btnLogin" class="btn">Login</button>  
 	            	</div>
 	              -->
-                <!--  </div>-->
-                
-               
-                
-				
-<!--
+						<!--  </div>-->
+
+
+
+
+						<!--
                 
                  <div class="btn-group" role="group" aria-label="...">
                   <button type="button" class="btn btn-default" data-toggle="modal" data-target=".bs-example-modal-addsection2">
                 <span class="glyphicon glyphicon-text-height" aria-hidden="Adicionar secção"></span>
                 </button>
               </div>
-
                 
                 <button type="button" class="btn btn-default" data-toggle="modal" data-target=".bs-example-modal-addsection2">
                 Secção
                 </button>
                
-
                  <div class="btn-group" role="group" aria-label="...">
                   <button type="button"  id="preview" class="btn btn-default" data-toggle="modal" data-target="#myModal">
                 <span class="glyphicon glyphicon-th-list" aria-hidden="Previsualizar Índice"></span>
                 </button>
               </div>
  					-->
-				<!--
+						<!--
                <div class="btn-group" role="group" aria-label="...">
                    <button type="button" id="save" class="btn btn-default">
                 <span class="glyphicon glyphicon-cloud-upload" aria-hidden="Guardar"></span>
                 </button>
               </div>
-
               <!--
                 <button type="button"  id="preview" class="btn btn-default" data-toggle="modal" data-target="#myModal">
                 Preview
                 </button>
-
                 <button type="button" id="save" class="btn btn-default">Save</button>
                 -->
-                
 
-			
-			
-              <div class="btn-group" role="group" aria-label="...">
-               
-               
-          
- 				<input id="tname" type="text" class="btn btn-default" placeholder="${selectText}" style="font-size: 0.8em;" >
-                   </div>
-          
 
-               
-               <button type="button" id="savebutton" class="btn btn-primary tip" data-loading-text="<div class='spinner-loader' style='font-size:3.5px'></div>" title="${saveText}" onclick="$('#savebutton').button('loading');$('#formedition').submit();">
-                <span class="glyphicon glyphicon-floppy-disk" aria-hidden="bottom"></span>
-                </button>
-              
-                <!--<br><br>
+
+
+						<div class="btn-group" role="group" aria-label="...">
+
+
+
+							<input id="tname" type="text" class="btn btn-default"
+								placeholder="${selectText}" style="font-size: 0.8em;">
+						</div>
+
+
+
+						<button type="button" id="savebutton" class="btn btn-primary tip"
+							data-loading-text="<div class='spinner-loader' style='font-size:3.5px'></div>"
+							title="${saveText}"
+							onclick="$('#savebutton').button('loading');$('#formedition').submit();">
+							<span class="glyphicon glyphicon-floppy-disk"
+								aria-hidden="bottom"></span>
+						</button>
+
+						<!--<br><br>
                 <div id="slider2"></div>-->
-              </div> 
-              
-              
-              
-            
+					</div>
 
-        </ul> 
-</div>
-</div>
-</div>
-<br>
-<br>
-<br>
 
-  
-       
-<!-- Modal -->
-<div class="modal fade" id="searchmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Add New Fragment</h4>
-      </div>
-      <div class="modal-body">
-      
-       
-    <div class="form-group">
-    
-	    <div class="col-sm-4">
-	      <input type="text" class="form-control tip" id="query" title="pesquisa x" placeholder="Search for...">
-      	</div>
-     
-       <div class="col-sm-3">
-       <div class="tip" title="text div">
-      <select class="selectpicker" data-width="100%" id="searchType" title="teste x">
-      	<option value="">Pesquisa completa</option>
-	    <option value="title">Pesquisa por título</option>
-	  </select>
-	  </div>
-	  </div>
-	  
-	   <div class="col-sm-3">
-      <select class="selectpicker" data-width="100%" id="sourceType">
-	    <option value="">Tipos de fonte</option>
-	    <option value="Coelho">Jacinto Prado Coelho</option>
-	    <option value="Cunha"> Teresa Sobral Cunha</option>
-	    <option value="Zenith">Richard Zenith</option>
-	    <option value="Pizarro">Jerónimo Pizarro</option>
-	    <option value="BNP">Fontes Autorais</option>
-	   
-	  </select>
-	  </div>
-	  
-	    <div class="col-sm-2">
-        <button class="btn btn-default" type="button" id="searchbutton"><span class="glyphicon glyphicon-search" ></span> Search</button>
-      </div>
-    </div><!-- /input-group -->
-    
-    <br>
-    
-    
-<!--
+
+
+
+				</ul>
+			</div>
+		</div>
+	</div>
+	<br>
+	<br>
+	<br>
+
+
+
+	<!-- Modal -->
+	<div class="modal fade" id="searchmodal" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="myModalLabel">Add New Fragment</h4>
+				</div>
+				<div class="modal-body">
+
+
+					<div class="form-group">
+
+						<div class="col-sm-4">
+							<input type="text" class="form-control tip" id="query"
+								title="pesquisa x" placeholder="Search for...">
+						</div>
+
+						<div class="col-sm-3">
+							<div class="tip" title="text div">
+								<select class="selectpicker" data-width="100%" id="searchType"
+									title="teste x">
+									<option value="">Pesquisa completa</option>
+									<option value="title">Pesquisa por título</option>
+								</select>
+							</div>
+						</div>
+
+						<div class="col-sm-3">
+							<select class="selectpicker" data-width="100%" id="sourceType">
+								<option value="">Tipos de fonte</option>
+								<option value="Coelho">Jacinto Prado Coelho</option>
+								<option value="Cunha">Teresa Sobral Cunha</option>
+								<option value="Zenith">Richard Zenith</option>
+								<option value="Pizarro">Jerónimo Pizarro</option>
+								<option value="BNP">Fontes Autorais</option>
+
+							</select>
+						</div>
+
+						<div class="col-sm-2">
+							<button class="btn btn-default" type="button" id="searchbutton">
+								<span class="glyphicon glyphicon-search"></span> Search
+							</button>
+						</div>
+					</div>
+					<!-- /input-group -->
+
+					<br>
+
+
+					<!--
       <table data-toggle="table">
         <thead>
         <tr>
@@ -546,79 +570,97 @@ var editionData = new Array();
        
         </tbody>
     </table>  -->
-       
-    
-
-      <div id="searchresult" style="display:none;width:100%;text-align: center;">
-      <hr><div class="spinner-loader">Loadind...</div>
-      </div>
-      
-      </div>
-      <div class="modal-footer" style="display:none">
-        <button type="button" class="btn btn-primary" id="addfragments">Add</button>
-      </div>
-    </div>
-  </div>
-</div>
 
 
-<div class="modal fade bs-example-modal-addsection2" id="sectionmodal2">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">Adicionar Secção</h4>
-      </div>
-       <div class="modal-body">
-         <input id="sectionname" type="text" class="btn btn-default" style="width:100%;text-align:left;">
-      </div>
-      <div class="modal-footer">
 
-        <select id="titleid">
-          <option value="1">T1</option>
-          <option value="2">T2</option>
-          <option value="3">T3</option>
-        </select>
+					<div id="searchresult"
+						style="display: none; width: 100%; text-align: center;">
+						<hr>
+						<div class="spinner-loader">Loadind...</div>
+					</div>
 
-      
-        <button type="submit-button" id="okaddsection2" class="btn btn-primary" >OK</button>
-      </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
-
-<!-- Modal -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Edição Virtual</h4>
-      </div>
-      <div class="modal-body" id="modalpreview">
-        ...
-      </div>
-      
-    </div>
-  </div>
-</div>
-<br><br><br>
+				</div>
+				<div class="modal-footer" style="display: none">
+					<button type="button" class="btn btn-primary" id="addfragments">Add</button>
+				</div>
+			</div>
+		</div>
+	</div>
 
 
-    <div class="container">
-        
-        <h1 class="text-center">
-            <spring:message code="general.edition" />
-            : <!--  <a href="${contextPath}/edition/acronym/${virtualEdition.acronym}">
+	<div class="modal fade bs-example-modal-addsection2" id="sectionmodal2">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title">Adicionar Secção</h4>
+				</div>
+				<div class="modal-body">
+					<input id="sectionname" type="text" class="btn btn-default"
+						style="width: 100%; text-align: left;">
+				</div>
+				<div class="modal-footer">
+
+					<select id="titleid">
+						<option value="1">T1</option>
+						<option value="2">T2</option>
+						<option value="3">T3</option>
+					</select>
+
+
+					<button type="submit-button" id="okaddsection2"
+						class="btn btn-primary">OK</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+	<!-- /.modal -->
+
+	<!-- Modal -->
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="myModalLabel">Edição Virtual</h4>
+				</div>
+				<div class="modal-body" id="modalpreview">...</div>
+
+			</div>
+		</div>
+	</div>
+	<br>
+	<br>
+	<br>
+
+
+	<div class="container">
+
+		<h1 class="text-center">
+			<spring:message code="general.edition" />
+			:
+			<!--  <a href="${contextPath}/edition/acronym/${virtualEdition.acronym}">
                 <span id="editiontitle">${virtualEdition.title}</span></a> -->
-             <span id="editiontitle">${virtualEdition.title}</span>
-            <a class="" role="button" data-toggle="collapse" href="#collapsemenu" aria-expanded="false" aria-controls="collapseExample" style="font-size:18px">
-  <span class="glyphicon glyphicon-pencil"></span>
-</a>
-        </h1> 
-        
+			<span id="editiontitle">${virtualEdition.title}</span> <c:if test="${virtualEdition.getAdminSet().contains(userLdoD)}"><a class=""
+				role="button" data-toggle="collapse" href="#collapsemenu"
+				aria-expanded="false" aria-controls="collapseExample"
+				style="font-size: 18px"> <span
+				class="glyphicon glyphicon-pencil"></span>
+			</a>
+			</c:if>
+		</h1>
 
-        <!-- 
+
+		<!-- 
         <div class="row pull-right">
             <form class="form-inline" method="GET"
                 action="${contextPath}/virtualeditions">
@@ -629,155 +671,101 @@ var editionData = new Array();
             </form>
         </div>
 		 -->
-       
-        
-        <div class="row col-md-12 has-error">
-            <c:forEach var="error" items='${errors}'>
-                <div class="row">
-                    <spring:message code="${error}" />
-                </div>
-            </c:forEach>
-        </div>
-        <div class="row col-md-12">
-        <div class="collapse" id="collapsemenu">
-  <div class="well" style="height:70px">
-            <form class="form-inline" role="form" method="POST" id="formedition"
-                action="/virtualeditions/restricted/edit/${externalId}">
-                <div class="form-group col-xs-3" style="padding-left:0px">
-                    <label class="control-label for="acronym"><spring:message
-                            code="virtualeditionlist.acronym" /></label> <input
-                        type="text" class="form-control" name="acronym"
-                        id="acronym"
-                        placeholder="<spring:message code="virtualeditionlist.acronym" />"
-                        value="${acronym}" />
-                </div>
-                <div class="form-group  col-xs-3" style="padding-left:0px">
-                    <label class="control-label" for="title"><spring:message
-                            code="virtualeditionlist.name" /></label> <input
-                        type="text" class="form-control" name="title"
-                        id="title"
-                        placeholder="<spring:message code="virtualeditionlist.name" />"
-                        value="${title}" />
-                </div>
-                <div class="form-group col-xs-3" style="padding-left:0px">
-                    <label class="control-label" for="date"><spring:message
-                            code="general.date" /></label>
-                     <input
-                        class="form-control"
-                        id="disabledInput" type="text" name="date"
-                        id="date" value="${date}" disabled />
-                </div>
-                <div class="form-group  col-xs-2" style="padding-left:0px">
-                    <label class="control-label" for="pub"><spring:message
-                            code="general.access" /></label> <select
-                        class="form-control" name="pub" id="pub">
-                        <c:choose>
-                            <c:when test="${pub == false}">
-                                <option value="true">
-                                    <spring:message
-                                        code="general.public" />
-                                </option>
-                                <option value="false" selected><spring:message
-                                        code="general.private" /></option>
-                            </c:when>
-                            <c:otherwise>
-                                <option value="true" selected><spring:message
-                                        code="general.public" /></option>
-                                <option value="false"><spring:message
-                                        code="general.private" /></option>
-                            </c:otherwise>
-                        </c:choose>
-                    </select>
-                </div>
-                 
-                <div class="form-group  col-xs-1" style="padding-right:0px;padding-left:0px">
-    
-                <label class="sr-only" for=submit><spring:message
-                        code="general.update" /></label>
-                
-                
-                
-                <button type="submit" class="btn btn-primary"
-                    id="submit">
-                    <span class="glyphicon glyphicon-ok"></span>
-                   
-                </button>
-                
-                <button type="button" class="btn btn-default" onclick="$('#collapsemenu').collapse('hide')">
-                    <span class="glyphicon glyphicon-remove"></span>
-                   
-                </button>
-                
-                
-                
-                <input type="hidden" name="fraginters" value="" id="fraginters">
-                </div>
-                
-                <div class="form-group  col-xs-12" id="test">
-                <br>
-                <br>
-			    </div>
-			
-				<div class="form-group  col-xs-12">
-                
-   <!--               <table class="table table-condensed table-hover">
-			    <thead>
-			        <tr>
-			            <th><spring:message code="tableofcontents.number" /></th>
-			            <th><spring:message code="tableofcontents.title" /></th>
-			            <th><spring:message code="general.taxonomy" /></th>
-			            <th><spring:message code="tableofcontents.usesEditions" /></th>
-			        </tr>
-                <tbody>
-                
-               
-		        <c:forEach var="inter" items='${virtualEdition.sortedInterps}'>
-		            <c:if
-		                test="${(heteronym == null) || (inter.heteronym == heteronym)}">
-		                <tr>
-		                    <td><c:if test="${inter.number!=0}">${inter.number}</c:if></td>
-		                    <td><a
-		                        href="${contextPath}/fragments/fragment/inter/${inter.externalId}">${inter.title}</a></td>
-		                    <td>
-		                        <c:forEach var="taxonomy" items="${virtualEdition.getTaxonomies()}">
-		                            <a href="${contextPath}/edition/taxonomy/${taxonomy.getExternalId()}">${taxonomy.getName()}</a>
-		                        </c:forEach>
-		                    </td>
-		                    <td><c:forEach var="used"
-		                            items="${inter.getListUsed()}">-><a
-		                        href="${contextPath}/fragments/fragment/inter/${used.externalId}">${used.shortName}</a>
-		                    </c:forEach></td>
-		                </tr>
-		            </c:if>
-		        </c:forEach>
-		    	</tbody>
-                </tbody>
-				</table> -->
-                
-       
+
+
+		<div class="row col-md-12 has-error">
+			<c:forEach var="error" items='${errors}'>
+				<div class="row">
+					<spring:message code="${error}" />
 				</div>
-            </form>
-              </div>
-</div>
-        </div>
-        <br>
-        <div class="row col-md-12">
-       	<div id="myGrid">
-         </div>
-         <br><br>
-        </div>
-    </div>
-  <aside class="right">
-  <canvas id="outline" width="200" height="400"></canvas>
-  </aside>
-  </body>
+			</c:forEach>
+		</div>
+		<div class="row col-md-12">
+			<div class="collapse" id="collapsemenu">
+				<div class="well" style="height: 70px">
+					<form class="form-inline" role="form" method="POST"
+						id="formedition"
+						action="/virtualeditions/restricted/edit/${externalId}">
+						<div class="form-group col-xs-3" style="padding-left: 0px">
+							<label class="control-label for="acronym"><spring:message
+									code="virtualeditionlist.acronym" /></label> <input type="text"
+								class="form-control" name="acronym" id="acronym"
+								placeholder="<spring:message code="virtualeditionlist.acronym" />"
+								value="${acronym}" />
+						</div>
+						<div class="form-group  col-xs-3" style="padding-left: 0px">
+							<label class="control-label" for="title"><spring:message
+									code="virtualeditionlist.name" /></label> <input type="text"
+								class="form-control" name="title" id="title"
+								placeholder="<spring:message code="virtualeditionlist.name" />"
+								value="${title}" />
+						</div>
+						<div class="form-group col-xs-3" style="padding-left: 0px">
+							<label class="control-label" for="date"><spring:message
+									code="general.date" /></label> <input class="form-control"
+								id="disabledInput" type="text" name="date" id="date"
+								value="${date}" disabled />
+						</div>
+						<div class="form-group  col-xs-2" style="padding-left: 0px">
+							<label class="control-label" for="pub"><spring:message
+									code="general.access" /></label> <select class="form-control"
+								name="pub" id="pub">
+								<c:choose>
+									<c:when test="${pub == false}">
+										<option value="true">
+											<spring:message code="general.public" />
+										</option>
+										<option value="false" selected><spring:message
+												code="general.private" /></option>
+									</c:when>
+									<c:otherwise>
+										<option value="true" selected><spring:message
+												code="general.public" /></option>
+										<option value="false"><spring:message
+												code="general.private" /></option>
+									</c:otherwise>
+								</c:choose>
+							</select>
+						</div>
+
+						<div class="form-group  col-xs-1"
+							style="padding-right: 0px; padding-left: 0px">
+
+							<label class="sr-only" for=submit><spring:message
+									code="general.update" /></label>
+							<button type="submit" class="btn btn-primary" id="submit">
+								<span class="glyphicon glyphicon-ok"></span>
+							</button>
+
+							<button type="button" class="btn btn-default"
+								onclick="$('#collapsemenu').collapse('hide')">
+								<span class="glyphicon glyphicon-remove"></span>
+							</button>
+
+							<input type="hidden" name="fraginters" value="" id="fraginters">
+						</div>
+
+						<div class="form-group  col-xs-12" id="test">
+							<br> <br>
+						</div>
+
+						<div class="form-group  col-xs-12"></div>
+					</form>
+				</div>
+			</div>
+		</div>
+		<br>
+		<div class="row col-md-12">
+			<div id="myGrid"></div>
+			<br> <br>
+		</div>
+	</div>
+	<aside class="right"> <canvas id="outline" width="200"
+		height="400"></canvas> </aside>
+</body>
 <script>
-
-
-
  // Only run on browsers that support css transitions
 // See also example.css:15
-
 var linkFormatter = function (row, cell, value, columnDef, dataContext) {
         //console.log(dataContext);dataContext.externalId
         
@@ -786,10 +774,8 @@ var linkFormatter = function (row, cell, value, columnDef, dataContext) {
     return '<a href="http://localhost:8080/fragments/fragment/inter/'+dataContext.externalId+'" target="_blank"><span style="text-align:center" class=\'glyphicon glyphicon-link\'></a>';
   } else if(dataContext.h > 0) {
     return '<a href="" title="edit title"><span style="text-align:center" class=\'glyphicon glyphicon-pencil\'></a>';
-
   }
 };
-
 var grid;
 var data = [];
 var columns = [
@@ -822,13 +808,6 @@ var columns = [
     sortable: true
   },
   {
-    id: "tax",
-    name: "Taxonomia",
-    field: "tax",
-    behavior: "selectAndMove",
-    sortable: true,
-  },
-  {
     id: "edition",
     name: "Edição",
     field: "edition",
@@ -845,7 +824,6 @@ var columns = [
     cssClass: "linkCol"
   }
 ];
-
 var options = {
   editable: false,
   enableAddRow: false,
@@ -858,9 +836,6 @@ var options = {
   enableColumnReorder: false,
   multiColumnSort: true
 };
-
-
-
 function requiredFieldValidator(value) {
   if (value == null || value == undefined || !value.length) {
     return {valid: false, msg: "This is a required field"};
@@ -868,14 +843,10 @@ function requiredFieldValidator(value) {
     return {valid: true, msg: null};
   }
 }
-
 var data = [];
-
 $(function () {
-
  
   
-
     for (var i = 0; i < editionData.length; i++) {
     	
       editionStr = "";
@@ -884,9 +855,6 @@ $(function () {
      		editionStr = editionStr + "> " + editionData[i].listused[j].shortName + " ";	
      	
       taxStr = "";
-      if (editionData[i].taxonomies[0]!=null)
-        for(j=0;j<editionData[i].taxonomies.length;j++)
-        	taxStr = taxStr + editionData[i].taxonomies[j].name + " ";
      	     		
       data[i] = {
         id: i+1,
@@ -907,9 +875,7 @@ $(function () {
       	
   
     }
-
   grid = new Slick.Grid("#myGrid", data, columns, options);
-
  
   grid.onSort.subscribe(function (e, args) {
       var cols = args.sortCols;
@@ -928,13 +894,10 @@ $(function () {
       grid.invalidate();
       grid.render();
     });
-
   grid.setSelectionModel(new Slick.RowSelectionModel());
-
   var moveRowsPlugin = new Slick.RowMoveManager({
     cancelEditOnDrag: true
   });
-
   
   
   moveRowsPlugin.onBeforeMoveRows.subscribe(function (e, data) {
@@ -947,28 +910,21 @@ $(function () {
     }
     return true;
   });
-
   moveRowsPlugin.onMoveRows.subscribe(function (e, args) {
     var extractedRows = [], left, right;
     var rows = args.rows;
     var insertBefore = args.insertBefore;
     left = data.slice(0, insertBefore);
     right = data.slice(insertBefore, data.length);
-
-
     rows.sort(function(a,b) { return a-b; });
-
     //console.log("rows "+rows);
     //console.log("left "+left);
     //console.log("right "+right);
     // console.log("insertBefore "+insertBefore);
-
     for (var i = 0; i < rows.length; i++) {
       extractedRows.push(data[rows[i]]);
     }
-
     rows.reverse();
-
     for (var i = 0; i < rows.length; i++) {
       var row = rows[i];
       if (row < insertBefore) {
@@ -977,63 +933,46 @@ $(function () {
         right.splice(row - insertBefore, 1);
       }
     }
-
     data = left.concat(extractedRows.concat(right));
-
     var selectedRows = [];
     var cutRows = [];
     for (var i = 0; i < rows.length; i++)
       selectedRows.push(left.length + i);
-
     grid.resetActiveCell();
     grid.setData(data);
     grid.setSelectedRows(selectedRows);
     
     grid.invalidate();
-
     console.log("onMoveRows");
     $("#outline").fracs("outline",'redraw');
-
   });
-
   grid.registerPlugin(moveRowsPlugin);
-
   grid.onDragInit.subscribe(function (e, dd) {
     // prevent the grid from cancelling drag'n'drop by default
     e.stopImmediatePropagation();
   });
-
-
   grid.onDragStart.subscribe(function (e, dd) {
     var cell = grid.getCellFromEvent(e);
     if (!cell) {
       return;
     }
-
     dd.row = cell.row;
     if (!data[dd.row]) {
       return;
     }
-
     
-
     if (Slick.GlobalEditorLock.isActive()) {
       return;
     }
-
     e.stopImmediatePropagation();
     dd.mode = "recycle";
-
     var selectedRows = grid.getSelectedRows();
-
     if (!selectedRows.length || $.inArray(dd.row, selectedRows) == -1) {
       selectedRows = [dd.row];
       grid.setSelectedRows(selectedRows);
     }
-
     dd.rows = selectedRows;
     dd.count = selectedRows.length;
-
     var proxy = $("<span></span>")
         .css({
           position: "absolute",
@@ -1047,35 +986,25 @@ $(function () {
         })
         .text("Drag to Recycle Bin to delete " + dd.count + " selected row(s)")
         .appendTo("body");
-
     dd.helper = proxy;
-
     $(dd.available).css("background", "pink");
-
     return proxy;
   });
-
   grid.onDrag.subscribe(function (e, dd) {
     if (dd.mode != "recycle") {
       return;
     }
-
    
-
     dd.helper.css({top: e.pageY + 5, left: e.pageX + 5});
   });
-
   grid.onDragEnd.subscribe(function (e, dd) {
     if (dd.mode != "recycle") {
       return;
     }
     dd.helper.remove();
     $(dd.available).css("background", "beige");
-
     
-
   });
-
   $.drop({mode: "mouse"});
   $("#dropzone")
       .bind("dropstart", function (e, dd) {
@@ -1101,8 +1030,6 @@ $(function () {
         grid.invalidate();
         grid.setSelectedRows([]);
       });
-
-
   grid.onAddNewRow.subscribe(function (e, args) {
     var item = {name: "New task", complete: false};
     $.extend(item, args.item);
@@ -1112,43 +1039,34 @@ $(function () {
     grid.render();
   });
 })
-
 function sortNumber(a,b) {
     return a - b;
 }
-
 function removeRows(selectedRows) {
   
   console.log("removeRows "+selectedRows);
-
  for (var i = 0; i < selectedRows.length; i++) {
     data.splice(selectedRows[i]-i, 1);
   }
-
   grid.invalidate();
   grid.setSelectedRows([]);
 }
-
-
 // remove function
 $("#del").click(function() {
   var selectedRows = grid.getSelectedRows().sort(sortNumber);
   removeRows(selectedRows);
   $("#outline").fracs("outline",'redraw');
 });
-
 $("#del").popConfirm({
 	title: "Are you sure?",
 	content: "",
 	placement: "bottom"
 });
-
 $( "#down" ).click(function() {
   selectedRows = grid.getSelectedRows().sort(sortNumber);
   moveRowsTo(selectedRows,selectedRows[selectedRows.length-1]+2);
   window.scrollTo(0,$('.selected').offset().top-300);
 });
-
 $( "#up" ).click(function() {
   selectedRows = grid.getSelectedRows().sort(sortNumber);
   if(selectedRows.length>0)
@@ -1157,7 +1075,6 @@ $( "#up" ).click(function() {
       window.scrollTo(0,$('.selected').offset().top-300);
     }
 });
-
 $( "#top" ).click(function() {
   var selectedRows = grid.getSelectedRows().sort(sortNumber);
   if(selectedRows.length>0) {
@@ -1165,7 +1082,6 @@ $( "#top" ).click(function() {
     window.scrollTo(0,$('.selected').offset().top-300);
   }  
 });
-
 $( "#bottom" ).click(function() {
   var selectedRows = grid.getSelectedRows().sort(sortNumber);
   if(selectedRows.length>0) {
@@ -1173,7 +1089,6 @@ $( "#bottom" ).click(function() {
     window.scrollTo(0,$('.selected').offset().top-300);
   }
 });
-
 $( "#cut" ).click(function() {cut();});
 $( "#paste" ).click(function() {paste();});
 	
@@ -1190,7 +1105,6 @@ $( "#moveok" ).click(function() {
   }
 });
 */
-
 function moveFragments () {
 	  console.log("teste "+$('#movetopos').val());
 	  pos = $('#movetopos').val()
@@ -1209,41 +1123,28 @@ function moveFragments () {
 	  
 	  $('.popover').popover('hide');
 }
-
 function moveEnter(enter) {
 	if(event.keyCode == 13)
 		$('#moveok').click();
 }
-
-
-
-
 $("#okaddsection2").click(function() {
-
   sectionname = $('#sectionname').val();
   level = $('#titleid').val();
   
   $('#sectionmodal2').modal('toggle');
   addNewSection(sectionname,level);
-
 });
-
 $('#searchmodal').on('shown.bs.modal', function () {
     $('#searchquerybt').focus()
 })
-
 $('#sectionmodal2').on('shown.bs.modal', function () {
     $('#sectionname').focus()
 })
-
 $( "#save" ).click(function() {
   console.log(data);
   alert(JSON.stringify(data));
 });
-
 $("#preview").click(function() {
-
-
   datastr = "";
   for (var i = 0; i < data.length; i++) {
         if (data[i].h > 0)
@@ -1252,31 +1153,19 @@ $("#preview").click(function() {
           datastr = datastr+ data[i].name+"<br>";
   //   var row = rows[i];
   }
-
-
   $("#modalpreview").html(datastr);
-
   //id="modalpreview"
   console.log("rrrrr  ");
 });
-
-
-
 function moveRowsTo(rows, insertBefore) {
     var extractedRows = [], left, right;
-
     left = data.slice(0, insertBefore);
     right = data.slice(insertBefore, data.length);
-
-
     rows.sort(function(a,b) { return a-b; });
-
     for (var i = 0; i < rows.length; i++) {
       extractedRows.push(data[rows[i]]);
     }
-
     rows.reverse();
-
     for (var i = 0; i < rows.length; i++) {
       var row = rows[i];
       if (row < insertBefore) {
@@ -1285,25 +1174,18 @@ function moveRowsTo(rows, insertBefore) {
         right.splice(row - insertBefore, 1);
       }
     }
-
     data = left.concat(extractedRows.concat(right));
-
     var selectedRows = [];
     for (var i = 0; i < rows.length; i++)
       selectedRows.push(left.length + i);
-
     grid.resetActiveCell();
     grid.setData(data);
     grid.setSelectedRows(selectedRows);
     
     grid.invalidate();
-
     //console.log("onMoveRows");
     $("#outline").fracs("outline",'redraw');
-
   };
-
-
 //update data to submit
   $( "#formedition" ).submit(function( event ) {
     
@@ -1318,7 +1200,6 @@ function moveRowsTo(rows, insertBefore) {
     console.log(usedIDS);
     
   });
-
 </script>
 
 
@@ -1358,8 +1239,6 @@ $("#outline").fracs("outline", {
             selector: '.cell-h3',
             fillStyle: 'rgb(204,204,204)'
         }
-
-
         /*
         {
             selector: '.slick-reorder-guide',
@@ -1369,86 +1248,59 @@ $("#outline").fracs("outline", {
         
     ]
 });
-
-
-
 $( "#outline" ).mousemove(function( event ) {
 	  var parentOffset = $(this).parent().offset(); 
 	  var pageCoords = "( " + event.pageX + ", " + event.pageY + " )";
 	  var clientCoords = "( " + event.clientX + ", " + event.clientY + " )";
-
 	  my = event.pageY-parentOffset.top-12;
 	  h = $("#outline").height();
-
-
 	  //console.log(my/h*data.length);
-
 	  id = Math.floor(my/h*data.length);
 	  //console.log(id);
-
 	  $('.wrap').css({top:event.clientY+'px'});
-
 	  
 	if(id>2 && id<data.length-2)
 	  $('.wrap').attr("data-content",data[id].name+"\n"+data[id].name+"\n"+data[id].name);
 	  //$('.wrap').popover('show');
-
 	  //$("#fixed").html("<span class=\"d2\">"+data[id-2].name+"</span><br>"+"<span class=\"d1\">"+data[id-1].name+"</span><br>"+data[id].name+"<br>"+"<span class=\"d1\">"+data[id+1].name+"</span><br>"+"<span class=\"d2\">"+data[id+2].name+"</span>");
-
 	  if(id>2 && id<data.length-2)
 	  $("#fixed").html("<span class=\"d2\">"+data[id-2].name.substring(0,42)+"...</span><br>"+"<span class=\"d1\">"+data[id-1].name.substring(0,32)+"...</span><br>"+data[id].name.substring(0,26)+"...<br>"+"<span class=\"d1\">"+data[id+1].name.substring(0,26)+"...</span><br>"+"<span class=\"d2\">"+data[id+2].name.substring(0,26)+"...</span>");
-
 	  //$("#wrap")[0].style.top =  $("#wrap")[0].style.top + 1;
 	  //$("#label").text(data[id].name);
-
 	  //console.log(id);
-
 	   //$( "span:first" ).text( "( event.pageX, event.pageY ) 
 	  
 	})
 	.mouseenter(function( event ) {
 	  $('.wrap').css("visibility", "visible");
 	  //$('.wrap').fadeIn( 100 );
-
 	})
 	.mouseleave(function() {
 	  $('.wrap').css("visibility", "hidden");
 	  //$('.wrap').fadeOut( 100 );
 	});
-
-
 	function refreshSwatch() {
 	  //console.log($( "#slider2" ).slider( "value" ));
 	  //pos = $( "#slider2" ).slider( "value" );
-
-
 	  //.sort();
 	  //selectedRows = selectedRows.reverse();
-
 	  var selectedRows = grid.getSelectedRows().sort(sortNumber);
 	  if(selectedRows.length>0) {
 	    moveRowsTo(selectedRows,pos);
 	    window.scrollTo(0,$('.selected').offset().top-300);
 	  }  
-
 	  /*
 	  console.log(selectedRows[0])
-
 	  d = data[selectedRows[0]];
 	  data[selectedRows[0]] = data[pos];
 	  data[pos] = d;
-
 	  grid.invalidate();
-
 	  sr = [pos];
 	  grid.setSelectedRows(sr);
 	  */
-
-
 	  $("#outline").fracs("outline",'redraw');
 	  //window.scrollTo(0,$('.selected').offset().top-300);
 	}
-
 	/*
 	$(function() {
 	    $( "#slider2" ).slider({
@@ -1457,77 +1309,55 @@ $( "#outline" ).mousemove(function( event ) {
 	      change: refreshSwatch
 	    });
 	});*/
-
-
 	var selectedrows;
-
 	$( "#tname" ).bind("keyup change",function( event ) {
-
-
 	  selectedrows = [];
 	  grid.setSelectedRows(selectedrows);
-
 	  str = $("#tname").val();
 	  console.log("-"+str+"-");
-
 	  if (str.length > 1) {
 	  
 	    for (var i = 0; i < data.length; i++) {
 	      if(data[i].name.toUpperCase().indexOf(str.toUpperCase()) > -1)
 	        selectedrows.push(i);
 	    }
-
 	    grid.setSelectedRows(selectedrows);
-
 	  }
-
 	  $("#outline").fracs("outline",'redraw');
 	});
-
 	function cut() {
-
 	   selectedRows = grid.getSelectedRows().sort(sortNumber); 
 	    
 	  if (selectedRows.length > 0) {
 	    cutRows = [];
-
 	    for (var i = 0; i < selectedRows.length; i++) {
 	      cutRows.push(data[selectedRows[i]]);
 	    }
-
 	    removeRows(selectedRows);
 	    selectedRows = [];
 	    $("#outline").fracs("outline",'redraw');
 	  }
 	}
-
 	function copy() {
-
 		/*
 	    selectedRows = grid.getSelectedRows().sort(sortNumber); 
 	    
 	    if (selectedRows.length > 0) {
 	    cutRows = [];
-
 	    for (var i = 0; i < selectedRows.length; i++) {
 	      cutRows.push(data[selectedRows[i]]);
 	    }
-
 	    //selectedRows = [];
 	    $("#outline").fracs("outline",'redraw');
 	  }
 	    */
 	}
-
 	function paste() {
-
 	  
 	    selectedRows = grid.getSelectedRows().sort(sortNumber); 
 	    
 	    var left, right, paste = [];
-
 	    var insertAt = 0;
-
 	    //console.log(insertAt);
 	    //console.log(selectedRows);
 	    //var paste =  cutRows.slice();
@@ -1535,27 +1365,20 @@ $( "#outline" ).mousemove(function( event ) {
 	    
 	    if(cutRows.length > 0) {
 	     var paste = JSON.parse(JSON.stringify(cutRows))
-
 	    if(selectedRows.length > 0) 
 	      insertAt = selectedRows[selectedRows.length-1]+1;
-
 	    left = data.slice(0, insertAt);
 	    right = data.slice(insertAt, data.length);
-
 	    data = left.concat(paste.concat(right));
-
 	    selectedRows = Array(paste.length);
 	    for (var i = 0; i < paste.length; i++) {
 	      selectedRows[i] = left.length+i;
 	    }
 	  
-
 	    for (var i = 0; i < data.length; i++) {
 	        data[i].id = i+1;
 	        //console.log(data[i]);
 	    }
-
-
 	    grid.setData(data);
 	    grid.setSelectedRows(selectedRows);
 	    
@@ -1566,27 +1389,19 @@ $( "#outline" ).mousemove(function( event ) {
 	    }
 	   
 	}
-
 	function addNewSection (sectionname,level) {
 	  var item = {name: sectionname, complete: false, h:level};
-
 	  //var item = {name: ""sectionname"", complete: true};
-
 	  selectedRows = grid.getSelectedRows().sort(sortNumber); 
 	  var insertAt = 0;
-
 	  if(selectedRows.length > 0) 
 	      insertAt = selectedRows[selectedRows.length-1]+1;
 	   
 	  data.splice(insertAt, 0, item);
 	  
 	  
-
 	  grid.invalidate();
 	  grid.setActiveCell(insertAt, 1);
-
-
-
 	  //$('.cell-title')[insertAt].className = $('.cell-title')[insertAt].className+" cell-h1";
 	  $("#outline").fracs("outline",'redraw');
 	    //grid.updateRowCount();
@@ -1595,40 +1410,30 @@ $( "#outline" ).mousemove(function( event ) {
 	
 	function addNewFragment (externalid,name,edition,fragExternalId) {
 		  var item = {date:"",fragment:fragExternalId,edition:edition,link:"link",tax:"",usedExternalId:externalid, name:name,complete: false, h:0};
-
 		  //var item = {name: ""sectionname"", complete: true};
-
 		  selectedRows = grid.getSelectedRows().sort(sortNumber); 
 		  var insertAt = 0;
-
 		  if(selectedRows.length > 0) 
 		      insertAt = selectedRows[selectedRows.length-1]+1;
 		   
 		  data.splice(insertAt, 0, item);
 		  
 		  
-
 		  grid.invalidate();
 		  grid.setActiveCell(insertAt, 1);
-
-
-
 		  //$('.cell-title')[insertAt].className = $('.cell-title')[insertAt].className+" cell-h1";
 		  $("#outline").fracs("outline",'redraw');
 		    //grid.updateRowCount();
 		    //grid.render();
 		}
-
 	$(window).keydown(function (e){
 	    if (e.metaKey && e.keyCode == 88) 
 	      cut();
 	});
-
 	$(window).keydown(function (e){
 	    if (e.metaKey && e.keyCode == 86) 
 	      paste();
 	});
-
 	$(window).keydown(function (e){
 	    if (e.metaKey && e.keyCode == 67) 
 	      copy();
@@ -1637,16 +1442,13 @@ $( "#outline" ).mousemove(function( event ) {
 	$(window).keydown(function (e){
 	      console.log(e.keyCode);
 	});
-
 	
 	$('.subnav').affix({
 	      offset: {
 	        top: $('.navbar-header').height()
 	      }
 	}); 
-
 	//-------------------------------
-
 	    
 	    //---------------------------------
 	    
@@ -1723,7 +1525,6 @@ $( "#outline" ).mousemove(function( event ) {
 	    	}
 	    		
 	    });
-
 		$('.dropdown-menu').click(function(event) {event.stopPropagation();});
 		
 		$('.popover-markup>.trigger').popover({

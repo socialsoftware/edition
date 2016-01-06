@@ -3,10 +3,11 @@ package pt.ist.socialsoftware.edition.recommendation;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
+@Ignore
 public class VSMTest {
-
 
 	@Before
 	public void setUp() throws Exception {

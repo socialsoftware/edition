@@ -1,14 +1,13 @@
 package pt.ist.socialsoftware.edition.domain;
 
-enum pt.ist.socialsoftware.edition.domain.Role.RoleType as RoleType;
 enum pt.ist.socialsoftware.edition.domain.LdoDUser.SocialMediaService as SocialMediaService;
+enum pt.ist.socialsoftware.edition.domain.Role.RoleType as RoleType;
+enum pt.ist.socialsoftware.edition.domain.Member.MemberRole as MemberRole;
 enum pt.ist.socialsoftware.edition.domain.Fragment.PrecisionType as PrecisionType;
 enum pt.ist.socialsoftware.edition.domain.Source.SourceType as SourceType;
 enum pt.ist.socialsoftware.edition.domain.ManuscriptSource.Medium as Medium;
 enum pt.ist.socialsoftware.edition.domain.ManuscriptSource.Form as Form;
 enum pt.ist.socialsoftware.edition.domain.ManuscriptSource.Material as Material;
-enum pt.ist.socialsoftware.edition.domain.Category.CategoryType as CategoryType;
-enum pt.ist.socialsoftware.edition.domain.Tag.TagType as TagType;
 enum pt.ist.socialsoftware.edition.domain.SpaceText.SpaceDim as SpaceDim;
 enum pt.ist.socialsoftware.edition.domain.SpaceText.SpaceUnit as SpaceUnit;
 enum pt.ist.socialsoftware.edition.domain.Rend.Rendition as Rendition;
@@ -143,41 +142,42 @@ relation LdoDHasVirtualEditions {
 	VirtualEdition playsRole virtualEditions {multiplicity 0..*;}
 }
 
-relation LdoDUserParticipatesVirtualEditions {
-	LdoDUser playsRole participant {multiplicity 0..*;}
-	VirtualEdition playsRole myVirtualEditions {multiplicity 0..*;}
-}
-
 relation LdoDUserSelectsVirtualEditions {
 	LdoDUser playsRole selectedBy {multiplicity 0..*;}
 	VirtualEdition playsRole selectedVirtualEditions {multiplicity 0..*;}
 }
 
+class Member {	
+	MemberRole role;
+	LocalDate date;
+	boolean active;
+}
+
+relation MemberHasLdoDUser {
+	LdoDUser playsRole user {multiplicity 1..1;}
+	Member playsRole member {multiplicity 0..*;}
+}
+
+relation MemberHasVirtualEdition {
+	VirtualEdition playsRole virtualEdition {multiplicity 1..1;}
+	Member playsRole member {multiplicity 0..*;}
+}
+
 class Taxonomy {
 	String xmlId;
-	String name;
-	boolean adHoc;
-	int numTopics;
-	int numWords;
-	int thresholdCategories;
-	int numIterations;
+	boolean openManagement;
+	boolean openVocabulary;
+	boolean openAnnotation;
 }
 
-relation LdoDHasTaxonomies {
-	LdoD playsRole ldoD {multiplicity 1..1;}
-	Taxonomy playsRole taxonomies {multiplicity 0..*;}
-}
-
-relation EditionHasTaxonomies {
-	Edition playsRole edition {multiplicity 0..1;}
-	Taxonomy playsRole taxonomies {multiplicity 0..*;}
+relation VirtualEditionHasTaxonomies {
+	VirtualEdition playsRole edition {multiplicity 0..1;}
+	Taxonomy playsRole taxonomy {multiplicity 0..1;}
 }
 
 class Category {
-	CategoryType type;
 	String xmlId;
 	String name;
-	boolean deprecated;
 }
 
 relation TaxonomyHasCategories {
@@ -185,47 +185,7 @@ relation TaxonomyHasCategories {
 	Category playsRole categories {multiplicity 0..*;}
 }
 
-class GeneratedCategory extends Category;
-
 class AdHocCategory extends Category;
-
-class MergeCategory extends Category;
-
-relation MergeCategoryHasCategories {
-	MergeCategory playsRole mergeCategory {multiplicity 0..1;}
-	Category playsRole mergedCategories {multiplicity 2..*;}
-}
-
-class SplitCategory extends Category;
-
-relation SplitCategoryToCategory {
-	SplitCategory playsRole splitCategory {multiplicity 0..2;}
-	Category playsRole originSplitCategory {multiplicity 1..1;}
-}
-
-class FragWord {
-	String word;
-}
-
-relation TaxonomyHasFragWord {
-	Taxonomy playsRole taxonomy {multiplicity 1..1;}
-	FragWord playsRole fragWord {multiplicity 0..*;}
-}
-
-
-class FragWordInCategory {
-	int weight;
-}
-
-relation FragWordInCategory2GeneratedCategory {
-	FragWordInCategory playsRole fragWordInCategory {multiplicity 0..*;}
-	GeneratedCategory playsRole generatedCategory {multiplicity 1..1;}
-}
-
-relation FragWordInCategory2FragWord {
-	FragWordInCategory playsRole fragWordInCategory {multiplicity 0..*;}
-	FragWord playsRole fragWord {multiplicity 1..1;}
-}
 
 class Heteronym {
 	String xmlId;
@@ -274,63 +234,6 @@ relation FragInterHasAnnexNote {
 	FragInter playsRole fragInter {multiplicity 1..1;}
 	AnnexNote playsRole annexNote {multiplicity 0..*;}
 }
-
-class Tag {
-	TagType type;
-	boolean deprecated;
-}
-
-relation Tag2Category {
-	Tag playsRole tag {multiplicity 0..*;}
-	Category playsRole category {multiplicity 1..1;}
-}
-
-relation Tag2FragInter {
-	Tag playsRole tag {multiplicity 0..*;}
-	FragInter playsRole fragInter {multiplicity 1..1;}
-}
-
-class GeneratedTagInFragInter extends Tag {
-	int percentage;
-}
-
-class UserTag extends Tag;
-
-class UserTagInTextPortion extends UserTag;
-
-class UserTagInFragInter extends UserTag;
-
-relation UserTagInFragInterHasContributor {
-	UserTagInFragInter playsRole userTagInFragInter {multiplicity 0..*;}
-	LdoDUser playsRole contributor {multiplicity 0..1;}
-}
-
-relation UserTagInFragInterHidesTag {
-	UserTagInFragInter playsRole userTagInFragInter {multiplicity 0..1;}
-	Tag playsRole originTag {multiplicity 0..1;}
-}
-
-class MergeTag extends Tag;
-
-relation MergeTagMergesTags {
-	MergeTag playsRole mergeTag {multiplicity 0..1;}
-	Tag playsRole mergedTags {multiplicity 2..*;}
-}
-
-class MergeTagInTextPortion extends MergeTag;
-
-class MergeTagInFragInter extends MergeTag;
-
-class SplitTag extends Tag;
-
-relation SplitTagToTag {
-	SplitTag playsRole splitTag {multiplicity 0..1;}
-	Tag playsRole originSplitTag {multiplicity 1..1;}
-}
-
-class SplitTagInTextPortion extends SplitTag;
-
-class SplitTagInFragInter extends SplitTag;
 
 class ExpertEditionInter extends FragInter {
 	String title;
@@ -384,6 +287,27 @@ class ManuscriptSource extends Source {
 	String notes;
 	LocalDate date;
 	PrecisionType precision;
+}
+
+class Tag;
+
+relation Tag2Category {
+	Tag playsRole tag {multiplicity 0..*;}
+	Category playsRole category {multiplicity 1..1;}
+}
+
+relation Tag2VirtualEditionInter {
+	Tag playsRole tag {multiplicity 0..*;}
+	VirtualEditionInter playsRole inter {multiplicity 1..1;}
+}
+
+relation TagHasContributor {
+	Tag playsRole tag {multiplicity 0..*;}
+	LdoDUser playsRole contributor {multiplicity 0..1;}
+}
+
+class GeneratedTagInFragInter extends Tag {
+	int percentage;
 }
 
 class PhysNote {
@@ -612,16 +536,16 @@ class Annotation {
 
 relation AnnotationHasBeginSimpleText {
 	Annotation playsRole startAnnotations {multiplicity 0..*;}
-	SimpleText playsRole startText {multiplicity 1..1;}
+	SimpleText playsRole startText {multiplicity 0..1;}
 }
 
 relation AnnotationHasEndSimpleText {
 	Annotation playsRole endAnnotations {multiplicity 0..*;}
-	SimpleText playsRole endText {multiplicity 1..1;}
+	SimpleText playsRole endText {multiplicity 0..1;}
 }
 
-relation FragInterHasAnnotations {
-  FragInter playsRole fragInter {multiplicity 1..1;}
+relation VirtualEditionInterHasAnnotations {
+  VirtualEditionInter playsRole virtualEditionInter {multiplicity 1..1;}
   Annotation playsRole annotation {multiplicity 0..*;}
 }
 
@@ -642,9 +566,9 @@ relation AnnotationHasRanges {
   Range playsRole range {multiplicity 0..*;}
 }
 
-relation AnnotationsAndTagInTextPortion {
-  Annotation playsRole annotation {multiplicity 1..*;}
-  UserTagInTextPortion playsRole userTagInTextPortion {multiplicity 0..*;}
+relation AnnotationHasTags {
+  Annotation playsRole annotation {multiplicity 0..1;}
+  Tag playsRole tag {multiplicity 0..*;}
 }
 
 class RecommendationWeights {

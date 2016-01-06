@@ -1,15 +1,23 @@
 package pt.ist.socialsoftware.edition.domain;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 
 public class Annotation extends Annotation_Base {
 
-	public Annotation(FragInter inter, SimpleText startText,
-			SimpleText endText, String quote, String text, LdoDUser user) {
-		setFragInter(inter);
+	@Override
+	public void setText(String text) {
+		if (text == null || text.trim().equals(""))
+			text = null;
+		super.setText(text);
+	}
+
+	public Annotation(VirtualEditionInter inter, SimpleText startText, SimpleText endText, String quote, String text,
+			LdoDUser user) {
+		setVirtualEditionInter(inter);
 		setStartText(startText);
 		setEndText(endText);
 		setQuote(quote);
@@ -19,7 +27,7 @@ public class Annotation extends Annotation_Base {
 
 	@Atomic(mode = TxMode.WRITE)
 	public void remove() {
-		setFragInter(null);
+		setVirtualEditionInter(null);
 		setUser(null);
 		setStartText(null);
 		setEndText(null);
@@ -28,7 +36,7 @@ public class Annotation extends Annotation_Base {
 			range.remove();
 		}
 
-		for (UserTagInTextPortion tag : getUserTagInTextPortionSet()) {
+		for (Tag tag : getTagSet()) {
 			tag.remove();
 		}
 
@@ -36,31 +44,27 @@ public class Annotation extends Annotation_Base {
 	}
 
 	private Taxonomy getTaxonomy() {
-		for (UserTagInTextPortion tagInTextPortion : getUserTagInTextPortionSet()) {
-			return tagInTextPortion.getCategory().getTaxonomy();
-		}
-		return null;
+		return getVirtualEditionInter().getVirtualEdition().getTaxonomy();
 	}
 
 	public void updateTags(List<String> tags) {
-		for (String tag : tags) {
-			if (!existsActiveTag(tag)) {
-				getFragInter().createUserTagInTextPortion(getTaxonomy(), this,
-						tag);
+		for (Tag tag : getTagSet()) {
+			if (!tags.contains(tag.getCategory().getName())) {
+				tag.remove();
 			}
 		}
 
-		for (UserTagInTextPortion tag : getUserTagInTextPortionSet()) {
-			if (!tags
-					.contains(tag.getActiveTag().getActiveCategory().getName())) {
-				tag.removeThisAnnotation(this);
+		for (String tag : tags) {
+			if (!existsTag(tag)) {
+				getTaxonomy().createTag(getVirtualEditionInter(), tag, this, getUser());
 			}
 		}
+
 	}
 
-	private boolean existsActiveTag(String name) {
-		for (UserTagInTextPortion tag : getUserTagInTextPortionSet()) {
-			if (tag.getActiveTag().getActiveCategory().getName().equals(name)) {
+	private boolean existsTag(String name) {
+		for (Tag tag : getTagSet()) {
+			if (tag.getCategory().getName().equals(name)) {
 				return true;
 			}
 		}
@@ -71,6 +75,11 @@ public class Annotation extends Annotation_Base {
 	public void update(String text, List<String> tags) {
 		setText(text);
 		updateTags(tags);
+	}
+
+	public List<Category> getCategories() {
+		return getTagSet().stream().map(t -> t.getCategory()).sorted((c1, c2) -> c1.getName().compareTo(c2.getName()))
+				.collect(Collectors.toList());
 	}
 
 }

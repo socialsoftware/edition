@@ -4,13 +4,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import pt.ist.socialsoftware.edition.domain.Edition;
-import pt.ist.socialsoftware.edition.domain.ExpertEdition;
 import pt.ist.socialsoftware.edition.domain.LdoDUser;
-import pt.ist.socialsoftware.edition.domain.NullEdition;
 import pt.ist.socialsoftware.edition.domain.VirtualEdition;
 
-public class PermissionJson implements Serializable {
+public class PermissionDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private List<String> read = new ArrayList<String>();
@@ -18,23 +15,21 @@ public class PermissionJson implements Serializable {
 	private List<String> update = new ArrayList<String>();
 	private List<String> delete = new ArrayList<String>();
 
-	public PermissionJson() {
+	public PermissionDTO() {
 	}
 
-	public PermissionJson(Edition edition, LdoDUser user) {
-		if (edition instanceof VirtualEdition) {
-			VirtualEdition virtualEdition = ((VirtualEdition) edition);
-			if (!virtualEdition.getPub()) {
-				for (LdoDUser participant : virtualEdition.getParticipantSet()) {
-					read.add(participant.getUsername());
-				}
+	public PermissionDTO(VirtualEdition virtualEdition, LdoDUser user) {
+		if (!virtualEdition.getPub()) {
+			for (LdoDUser participant : virtualEdition.getParticipantSet()) {
+				read.add(participant.getUsername());
 			}
-			// admin.add(user.getUsername());
-			update.add(user.getUsername());
-			delete.add(user.getUsername());
-		} else if ((edition instanceof ExpertEdition) || (edition instanceof NullEdition)) {
-			assert (false);
 		}
+
+		// admin.add(user.getUsername());
+
+		update.add(user.getUsername());
+		delete.add(user.getUsername());
+
 	}
 
 	public List<String> getRead() {

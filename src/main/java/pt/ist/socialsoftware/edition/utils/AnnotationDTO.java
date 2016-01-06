@@ -6,10 +6,10 @@ import java.util.List;
 
 import pt.ist.socialsoftware.edition.domain.Annotation;
 import pt.ist.socialsoftware.edition.domain.Range;
-import pt.ist.socialsoftware.edition.domain.UserTagInTextPortion;
+import pt.ist.socialsoftware.edition.domain.Tag;
 
 //@JsonIgnoreProperties(ignoreUnknown = true)
-public class AnnotationJson implements Serializable {
+public class AnnotationDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private String id;
@@ -19,20 +19,20 @@ public class AnnotationJson implements Serializable {
 	private List<String> tags;
 	private String uri;
 	private String user;
-	private PermissionJson permissions;
+	private PermissionDTO permissions;
 
-	public AnnotationJson() {
+	public AnnotationDTO() {
 	}
 
-	public AnnotationJson(Annotation annotation) {
+	public AnnotationDTO(Annotation annotation) {
 		setId(annotation.getExternalId());
 		setQuote(annotation.getQuote());
 		setText(annotation.getText());
-		setUri(annotation.getFragInter().getExternalId());
+		setUri(annotation.getVirtualEditionInter().getExternalId());
 
 		tags = new ArrayList<String>();
-		for (UserTagInTextPortion tag : annotation.getUserTagInTextPortionSet()) {
-			tags.add(tag.getActiveCategory().getName());
+		for (Tag tag : annotation.getTagSet()) {
+			tags.add(tag.getCategory().getName());
 		}
 
 		ranges = new ArrayList<RangeJson>();
@@ -42,8 +42,8 @@ public class AnnotationJson implements Serializable {
 
 		setUser(annotation.getUser().getUsername());
 
-		setPermissions(new PermissionJson(annotation.getFragInter()
-				.getEdition(), annotation.getUser()));
+		setPermissions(
+				new PermissionDTO(annotation.getVirtualEditionInter().getVirtualEdition(), annotation.getUser()));
 	}
 
 	public List<RangeJson> getRanges() {
@@ -106,11 +106,11 @@ public class AnnotationJson implements Serializable {
 		this.user = user;
 	}
 
-	public PermissionJson getPermissions() {
+	public PermissionDTO getPermissions() {
 		return permissions;
 	}
 
-	public void setPermissions(PermissionJson permissions) {
+	public void setPermissions(PermissionDTO permissions) {
 		this.permissions = permissions;
 	}
 

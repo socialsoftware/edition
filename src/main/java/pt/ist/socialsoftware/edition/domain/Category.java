@@ -1,34 +1,20 @@
 package pt.ist.socialsoftware.edition.domain;
 
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDDuplicateNameException;
+import pt.ist.socialsoftware.edition.shared.exception.LdoDException;
 
-public abstract class Category extends Category_Base implements
-		Comparable<Category> {
-
-	public enum CategoryType {
-		GENERATED("generated"), ADHOC("adhoc"), MERGED("merged"), EXTRACTED(
-				"extracted");
-
-		private final String desc;
-
-		CategoryType(String desc) {
-			this.desc = desc;
-		}
-
-		public String getDesc() {
-			return desc;
-		}
-	};
+public class Category extends Category_Base implements Comparable<Category> {
 
 	public Category init(Taxonomy taxonomy) {
 		setTaxonomy(taxonomy);
-		setDeprecated(false);
 
 		return this;
 	}
@@ -36,25 +22,17 @@ public abstract class Category extends Category_Base implements
 	public Category init(Taxonomy taxonomy, String name) {
 		setTaxonomy(taxonomy);
 		setName(name);
-		setDeprecated(false);
 
 		return this;
 	}
 
 	@Atomic(mode = TxMode.WRITE)
 	public void remove() {
-		setTaxonomy(null);
-
-		if (getMergeCategory() != null)
-			getMergeCategory().remove();
-
-		for (SplitCategory category : getSplitCategorySet()) {
-			category.remove();
-		}
-
 		for (Tag tag : getTagSet()) {
 			tag.remove();
 		}
+
+		setTaxonomy(null);
 
 		deleteDomainObject();
 	}
@@ -62,7 +40,11 @@ public abstract class Category extends Category_Base implements
 	@Atomic(mode = TxMode.WRITE)
 	@Override
 	public void setName(String name) {
-		for (Category category : getTaxonomy().getActiveCategorySet()) {
+		if (name == null || name.equals("")) {
+			throw new LdoDException();
+		}
+
+		for (Category category : getTaxonomy().getCategoriesSet()) {
 			if ((category != this) && (category.getName().equals(name))) {
 				throw new LdoDDuplicateNameException();
 			}
@@ -75,35 +57,33 @@ public abstract class Category extends Category_Base implements
 		return getName().compareTo(other.getName());
 	}
 
-	protected Set<Tag> getActiveTags() {
-		Set<Tag> tags = new HashSet<Tag>();
-		for (Tag tag : getTagSet()) {
-			if (!tag.getDeprecated()) {
-				tags.add(tag);
-			}
-		}
-		return tags;
-	}
-
-	abstract public List<Tag> getSortedTags();
-
-	abstract public List<Tag> getSortedActiveTags();
-
 	public Tag getTag(FragInter fragInter) {
 		for (Tag tag : getTagSet()) {
-			if (tag.getFragInter() == fragInter)
+			if (tag.getInter() == fragInter)
 				return tag;
 		}
 		return null;
 	}
 
-	public Category getActiveCategory() {
-		if (!getDeprecated()) {
-			return this;
-		} else if (getMergeCategory() != null) {
-			return getMergeCategory().getActiveCategory();
-		} else {
-			return null;
-		}
+	public List<Tag> getSortedTags() {
+		List<Tag> tags = new ArrayList<Tag>(getTagSet());
+
+		Collections.sort(tags);
+
+		return tags;
 	}
+
+	public boolean isInVirtualEditionInter(VirtualEditionInter inter) {
+		return getTagSet().stream().anyMatch(t -> t.getInter() == inter);
+	}
+
+	public int getWeight(VirtualEditionInter inter) {
+		return getTagSet().stream().filter(t -> t.getInter() == inter).collect(Collectors.toSet()).size();
+	}
+
+	public Set<LdoDUser> getContributorSet(VirtualEditionInter inter) {
+		return getTagSet().stream().filter(t -> t.getInter() == inter).map(t -> t.getContributor())
+				.collect(Collectors.toSet());
+	}
+
 }

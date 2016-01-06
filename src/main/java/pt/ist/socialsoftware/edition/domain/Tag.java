@@ -1,46 +1,38 @@
 package pt.ist.socialsoftware.edition.domain;
 
-import java.util.Set;
+import pt.ist.socialsoftware.edition.shared.exception.LdoDException;
 
-import pt.ist.fenixframework.Atomic;
-import pt.ist.fenixframework.Atomic.TxMode;
+public class Tag extends Tag_Base implements Comparable<Tag> {
 
-public abstract class Tag extends Tag_Base implements Comparable<Tag> {
-
-	public enum TagType {
-		TEXTPORTION("textportion"), FRAGINTER("fraginter");
-
-		private final String desc;
-
-		TagType(String desc) {
-			this.desc = desc;
-		}
-
-		public String getDesc() {
-			return desc;
-		}
-	};
-
-	public Tag init(FragInter fragInter, Category category) {
-		setDeprecated(false);
-		setFragInter(fragInter);
+	public Tag init(VirtualEditionInter inter, String categoryName, Annotation annotation, LdoDUser user) {
+		setInter(inter);
+		Taxonomy taxonomy = inter.getVirtualEdition().getTaxonomy();
+		Category category = taxonomy.getCategory(categoryName);
+		if (category == null)
+			if (taxonomy.getOpenVocabulary()) {
+				category = taxonomy.createCategory(categoryName);
+			} else {
+				throw new LdoDException("Create Category with Closed Vocabulary");
+			}
 		setCategory(category);
+		setAnnotation(annotation);
+		setContributor(user);
 
 		return this;
 	}
 
 	public void remove() {
-		setFragInter(null);
-		setCategory(null);
-
-		if (getMergeTag() != null)
-			getMergeTag().remove();
-
-		if (getSplitTag() != null)
-			getSplitTag().remove();
-
-		if (getUserTagInFragInter() != null)
-			getUserTagInFragInter().remove();
+		setInter(null);
+		if (getCategory() != null && getCategory().getTaxonomy().getOpenAnnotation()
+				&& getCategory().getTagSet().size() == 1) {
+			Category category = getCategory();
+			setCategory(null);
+			category.remove();
+		} else {
+			setCategory(null);
+		}
+		setContributor(null);
+		setAnnotation(null);
 
 		deleteDomainObject();
 	}
@@ -55,43 +47,8 @@ public abstract class Tag extends Tag_Base implements Comparable<Tag> {
 			return 0;
 	}
 
-	public Category getActiveCategory() {
-		return getActiveTag().getCategory().getActiveCategory();
-	}
-
-	public Tag getActiveTag() {
-		if (!getDeprecated()) {
-			return this;
-		} else if (getMergeTag() != null) {
-			return getMergeTag().getActiveTag();
-		} else if (getSplitTag() != null) {
-			return getSplitTag().getActiveTag();
-		} else if (getUserTagInFragInter() != null) {
-			return getUserTagInFragInter().getActiveTag();
-		} else {
-			return null;
-		}
-	}
-
-	public abstract int getWeight();
-
-	public abstract Set<LdoDUser> getContributorSet();
-
-	public void undo() {
-		this.remove();
-	}
-
-	@Atomic(mode = TxMode.WRITE)
-	public void dissociate() {
-		Category category = this.getActiveCategory();
-
-		if (!category.getTagSet().contains(this)) {
-			UserTagInFragInter userTag = new UserTagInFragInter().init(
-					getFragInter(), category, null, this);
-			userTag.setDeprecated(true);
-		}
-
-		this.setDeprecated(true);
+	public int getWeight() {
+		return 1;
 	}
 
 }
