@@ -773,9 +773,9 @@ Form.prototype.changeText = function(id, value){
 <body>
 	<%@ include file="/WEB-INF/jsp/common/fixed-top-ldod-header.jsp"%>
 	<div class='container'>
-		<h1 class="text-center">
+		<h3 class="text-center">
 			<spring:message code="header.search.advanced" />
-		</h1>
+		</h3>
 		<div id="main" class="row ">
 			<br><br>
 			<div class="col-xs-6 col-md-6 center-block">

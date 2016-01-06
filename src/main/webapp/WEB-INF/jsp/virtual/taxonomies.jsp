@@ -56,11 +56,36 @@ function validateForm() {
 <body>
     <%@ include file="/WEB-INF/jsp/common/fixed-top-ldod-header.jsp"%>
     <div class="container">
-        <h1 class="text-center">
+    
+    	<!-- 
+        <h3 class="text-center">
             <spring:message code="general.taxonomies" />
-            : ${virtualEdition.title} <br>
-        </h1>
-        <br>
+            : ${virtualEdition.title}
+        </h3>
+         -->
+        <div class="row">
+            <div class="col-xs-3 col-md-3"></div>
+            <div class="col-xs-6 col-md-6">
+                <h3 class="text-center">
+                    <spring:message code="general.taxonomies" />
+            		: ${virtualEdition.title}
+                </h3>
+            </div>
+            <div class="col-xs-3 col-md-3" align="right"
+                style="margin-top: 20px; margin-bottom: 10px">
+                <a class="btn btn-success tip"
+                    title="<spring:message code="taxonomies.tt.create" />"
+                    role="button" data-toggle="collapse"
+                    href="#collapse" aria-expanded="false"
+                    aria-controls="collapse"> <span
+                    class="glyphicon glyphicon-plus"></span> <spring:message
+                        code="taxonomies.createtitle" />
+                </a>
+            </div>
+        </div>
+        
+       
+        <!-- 
         <div class="row col-md-10">
         </div>
         <div class="row col-md-2">
@@ -72,13 +97,18 @@ function validateForm() {
                 </button>
             </form>
         </div>
-        <br /> <br /> <br />
+         -->
+        <br /> <br />
         <div class="row col-md-12">
             <c:forEach var="error" items='${errors}'>
                 <div class="row has-error">${error}</div>
             </c:forEach>
         </div>
+        
+        <!-- form -->
         <div class="row col-md-12">
+        <div class="collapse" id="collapse">
+        <div class="well">
             <form name="createTaxonomy" class="form-inline"
                 method="POST"
                 action="/virtualeditions/restricted/taxonomy/createTopics"
@@ -117,8 +147,11 @@ function validateForm() {
                     <spring:message code="general.create" />
                 </button>
             </form>
+        </div>    
+        </div>    
         </div>
-        <br />
+        
+       
         <div class="row col-md-12">
             <table class="table table-hover">
                 <thead>
@@ -182,4 +215,7 @@ function validateForm() {
         </div>
     </div>
 </body>
+<script>
+$(".tip").tooltip({placement: 'left'});
+</script>
 </html>

@@ -1,8 +1,7 @@
 <%@ include file="/WEB-INF/jsp/common/tags-head.jsp"%>
 
 <div>
-    <table id="tablesearchresults" page-size=100 data-pagination="true"
-        data-page-list="[100, 250, 500, All]">
+	<table id="tablesearchresults" data-pagination="false">
         <thead>
             <tr>
                 <!--  <th data-field="state" data-checkbox="true"></th>-->

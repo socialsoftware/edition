@@ -1,7 +1,7 @@
 <%@ include file="/WEB-INF/jsp/common/tags-head.jsp"%>
 
 <div>
-  	<table id="tablesearchresults"  style="display:none">
+  	<table id="tablesearchresults" style="display:none">
     <thead>
         <tr>
         	 <th data-field="state" data-checkbox="true"></th>
@@ -29,7 +29,7 @@
 							</td>
 						<c:choose>
 							<c:when
-								test="${ fragInterEntry.getClass().getSimpleName().equals(\"SourceInter\") && 
+								test="${ fragInterEntry.getClass().getSimpleName().equals('SourceInter') && 
 										fragInterEntry.getSource().getType() == 'MANUSCRIPT'}">
 								<td><a
 									href="/fragments/fragment/inter/${fragInterEntry.getExternalId()}">${fragInterEntry.getShortName()}</a>
@@ -37,7 +37,7 @@
 									
 							</c:when>
 							<c:when
-								test="${ fragInterEntry.getClass().getSimpleName().equals(\"ExpertEditionInter\")}">
+								test="${ fragInterEntry.getClass().getSimpleName().equals('ExpertEditionInter')}">
 								<td><a
 									href="/fragments/fragment/inter/${fragInterEntry.getExternalId()}">${fragInterEntry.getTitle()} (${fragInterEntry.getEdition().getEditor()})</a>
 									

@@ -11,19 +11,19 @@
         <div class="row">
             <div class="col-xs-3 col-md-3"></div>
             <div class="col-xs-6 col-md-6">
-                <h1 class="text-center">
+                <h3 class="text-center">
                     <spring:message code="virtual.editions" />
-                </h1>
+                </h3>
             </div>
             <div class="col-xs-3 col-md-3" align="right"
                 style="margin-top: 20px; margin-bottom: 10px">
-                <a class="btn btn-primary tip"
+                <a class="btn btn-success tipleft"
                     title="<spring:message code="virtualedition.tt.create" />"
                     role="button" data-toggle="collapse"
                     href="#collapse" aria-expanded="false"
                     aria-controls="collapse"> <span
                     class="glyphicon glyphicon-plus"></span> <spring:message
-                        code="general.create" />
+                        code="virtualeditionlist.createtitle" />
                 </a>
             </div>
         </div>
@@ -250,6 +250,7 @@
     </div>
 </body>
 <script>
+$(".tipleft").tooltip({placement: 'left'});
 $(".tip").tooltip({placement: 'bottom'});
 </script>
 </html>

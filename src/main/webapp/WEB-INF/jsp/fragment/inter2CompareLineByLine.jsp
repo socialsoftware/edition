@@ -2,7 +2,7 @@
 <div id=fragmentComparison class="row"  style="margin-left:0px;margin-right:0px">
     <div id="transcription">
         <h4>${fragment.title}
-        <a id="pop" role="button" data-toggle="popover" data-content="<spring:message code="info.highlighting" />" style="color:lightgray;font-size:14px"> <span class="glyphicon glyphicon-info-sign"></span></a>
+        <a id="infohighlight" class="infobutton" role="button" data-toggle="popover" data-content="<spring:message code="info.highlighting" />"> <span class="glyphicon glyphicon-info-sign"></span></a>
         </h4>
         <div class="well">
             <c:choose>
@@ -19,5 +19,5 @@
 </div>
 
 <script type="text/javascript">
-$('#pop').popover()
+$('#infohighlight').popover()
 </script>

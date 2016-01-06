@@ -17,11 +17,13 @@
 
     <div class="container">
         <h3 class="text-center">
-       	    <span class="tip" title="<spring:message code="sourcelist.tt.sources" />">
+       	    <!--<span class="tip" title="<spring:message code="sourcelist.tt.sources" />"> -->
             <spring:message code="authorial.source" />
-            (${sources.size()})
-            </span>
+            (${sources.size()}) 
+            <a id="infosources" class="infobutton" data-placement="bottom" role="button" data-toggle="popover" data-content="<spring:message code="sourcelist.tt.sources" />"> <span class="glyphicon glyphicon-info-sign"></span></a>
+            <!--</span>-->
         </h3>
+        <br>
         <table id="tablelistsources" data-pagination="false">
         <!--  <table class="table table-bordered table-condensed">-->
             <thead>
@@ -125,5 +127,6 @@
 $('#tablelistsources').attr("data-search","true");
 $('#tablelistsources').bootstrapTable();
 $(".tip").tooltip({placement: 'bottom'});
+$('#infosources').popover()
 </script>
 </html>

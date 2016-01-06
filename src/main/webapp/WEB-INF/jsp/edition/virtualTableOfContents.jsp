@@ -9,14 +9,15 @@
         ${heteronym.name}
     </h4>
 </c:if>
-
-<table class="table table-condensed table-hover">
+<br>
+<table id="tablevirtual" data-pagination="false">
+<!-- <table class="table table-hover table-condensed"> -->
     <thead>
         <tr>
-            <th><spring:message code="tableofcontents.number" /></th>
-            <th><spring:message code="tableofcontents.title" /></th>
-            <th><spring:message code="general.taxonomy" /></th>
-            <th><spring:message code="tableofcontents.usesEditions" /></th>
+        	<th><span class="tip" title="<spring:message code="tableofcontents.tt.number" />"><spring:message code="tableofcontents.number" /></span></th>
+            <th><span class="tip" title="<spring:message code="tableofcontents.tt.title" />"><spring:message code="tableofcontents.title" /></span></th>
+            <th><span class="tip" title="<spring:message code="tableofcontents.tt.taxonomy" />"><spring:message code="general.taxonomy" /></span></th>
+            <th><span class="tip" title="<spring:message code="tableofcontents.tt.usesEditions" />"><spring:message code="tableofcontents.usesEditions" /></span></th>
         </tr>
     <tbody>
         <c:forEach var="inter" items='${edition.sortedInterps}'>
@@ -40,3 +41,9 @@
         </c:forEach>
     </tbody>
 </table>
+
+<script>
+$('#tablevirtual').attr("data-search","true");
+$('#tablevirtual').bootstrapTable();
+$(".tip").tooltip({placement: 'bottom'});
+</script>

@@ -9,7 +9,9 @@
         ${heteronym.name}
     </h4>
 </c:if>
-<table class="table table-hover table-condensed">
+<br>
+<table id="tableexperts" data-pagination="false">
+<!-- <table class="table table-hover table-condensed"> -->
     <thead>
         <tr>
             <th><span class="tip" title="<spring:message code="tableofcontents.tt.number" />"><spring:message code="tableofcontents.number" /></span></th>
@@ -36,7 +38,9 @@
         </c:forEach>
     </tbody>
 </table>
-
+<br>
 <script>
+$('#tableexperts').attr("data-search","true");
+$('#tableexperts').bootstrapTable();
 $(".tip").tooltip({placement: 'bottom'});
 </script>

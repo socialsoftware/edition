@@ -89,7 +89,7 @@
 		<br>
 		<!-- EDITORIAL -->
 		<h5 class="text-center">
-			<spring:message code="edition.experts" />
+			<spring:message code="edition.experts" /> <a id="infoexperts" data-placement="bottom" class="infobutton" role="button" data-toggle="popover" data-content="<spring:message code="info.experts" />" > <span class="glyphicon glyphicon-info-sign"></span></a>
 		</h5>
 		<c:forEach var="expertEdition" items='${ldoD.sortedExpertEdition}'>
 			<c:if
@@ -154,7 +154,7 @@
 		<c:if
 			test="${(ldoDSession != null) && (ldoDSession.materializeVirtualEditions().size() != 0)}">
 			<h5 class="text-center">
-				<spring:message code="virtual.editions" />
+				<spring:message code="virtual.editions" /> <a id="infovirtualeditions" data-placement="bottom" class="infobutton" role="button" data-toggle="popover" data-content="<spring:message code="info.virtualeditions" />" > <span class="glyphicon glyphicon-info-sign"></span></a>
 			</h5>
 			<div class="text-center">
 				<c:forEach var="virtualEdition"
@@ -328,3 +328,8 @@
 		</c:if>
 	</div>
 </div>
+
+<script type="text/javascript">
+$('#infoexperts').popover();
+$('#infovirtualeditions').popover();
+</script>
