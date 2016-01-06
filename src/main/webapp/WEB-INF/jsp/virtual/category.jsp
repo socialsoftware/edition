@@ -108,17 +108,11 @@
 		</div>
 		<c:if test="${taxonomy.canManipulateTaxonomy(userLdoD)}">
 			<div class="row pull-right">
-				<form class="form-inline" method="GET"
-					action="/virtualeditions/restricted/category/extractForm">
-					<div class="form-group">
-						<input type="hidden" class="form-control" name="categoryId"
-							value="${category.getExternalId()}" />
-					</div>
-					<button type="submit" class="btn btn-primary">
-						<span class="glyphicon glyphicon-edit"></span>
-						<spring:message code="general.extract" />
-					</button>
-				</form>
+				<button class="btn btn-primary pull-right" data-toggle="modal"
+					data-target="#extractModal">
+					<span class="glyphicon glyphicon-edit"></span>
+					<spring:message code="general.extract" />
+				</button>
 			</div>
 		</c:if>
 	</div>
@@ -140,5 +134,64 @@
 			</div>
 		</div>
 	</div>
+	<div id="extractModal" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header text-center">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
+					<h4 class="modal-title">
+						<spring:message code="general.extract" />
+						<spring:message code="general.category" />
+						: ${category.getName()}
+					</h4>
+				</div>
+				<div class="modal-body">
+					<form class="form-horizontal" role="form" method="POST"
+						action="/virtualeditions/restricted/category/extract">
+						<div class="form-group">
+							<div class="hidden">
+								<label> <input type="hidden" name="categoryId"
+									value="${category.getExternalId()}">
+								</label>
+							</div>
+						</div>
+						<table class="table table-hover">
+							<thead>
+								<tr>
+									<th><spring:message code="fragments" /></th>
+								</tr>
+							</thead>
+							<tbody>
+								<c:forEach var="tag" items='${category.getSortedTags()}'>
+									<tr>
+										<td>${tag.getInter().getTitle()}(${tag.getWeight()})</td>
+										<td class="col-centered">
+											<div class="form-group">
+												<div class="checkbox">
+													<label> <input type="checkbox" name="tags[]"
+														value="${tag.getExternalId()}">
+													</label>
+												</div>
+											</div>
+										</td>
+									</tr>
+								</c:forEach>
+							</tbody>
+						</table>
+						<div class="form-group text-center">
+							<button type="submit" class="btn btn-sm btn-primary">
+								<spring:message code="general.extract" />
+							</button>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
 </body>
 </html>
