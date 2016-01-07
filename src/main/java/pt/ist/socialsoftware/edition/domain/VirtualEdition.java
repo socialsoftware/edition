@@ -402,7 +402,7 @@ public class VirtualEdition extends VirtualEdition_Base {
 		Member member = getMemberSet().stream().filter(m -> m.getUser() == user).findFirst().orElse(null);
 		if (member != null) {
 			if (member.getRole().equals(MemberRole.ADMIN))
-				member.setRole(MemberRole.WRITER);
+				member.setRole(MemberRole.MEMBER);
 			else
 				member.setRole(MemberRole.ADMIN);
 		}
@@ -444,7 +444,7 @@ public class VirtualEdition extends VirtualEdition_Base {
 		if (roleActor.equals(MemberRole.ADMIN) && getAdminMemberSet().size() == 1 && actor != user)
 			return true;
 
-		if (roleActor.equals(MemberRole.WRITER) && actor == user)
+		if (roleActor.equals(MemberRole.MEMBER) && actor == user)
 			return true;
 
 		return false;

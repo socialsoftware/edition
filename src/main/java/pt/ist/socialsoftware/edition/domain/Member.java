@@ -5,7 +5,7 @@ import org.joda.time.LocalDate;
 public class Member extends Member_Base {
 
 	public enum MemberRole {
-		ADMIN, WRITER
+		ADMIN, MEMBER
 	};
 
 	public Member(VirtualEdition virtualEdition, LdoDUser user, MemberRole role, Boolean active) {

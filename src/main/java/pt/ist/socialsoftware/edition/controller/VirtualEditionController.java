@@ -254,7 +254,7 @@ public class VirtualEditionController {
 			return "utils/pageNotFound";
 		} else {
 
-			virtualEdition.addMember(user, MemberRole.WRITER, false);
+			virtualEdition.addMember(user, MemberRole.MEMBER, false);
 
 			model.addAttribute("virtualEditions", LdoD.getInstance().getVirtualEditions4User(user, ldoDSession));
 			model.addAttribute("user", user);
@@ -326,7 +326,7 @@ public class VirtualEditionController {
 			model.addAttribute("virtualEdition", virtualEdition);
 			return "virtual/participants";
 		} else {
-			virtualEdition.addMember(user, MemberRole.WRITER, true);
+			virtualEdition.addMember(user, MemberRole.MEMBER, true);
 			model.addAttribute("virtualEdition", virtualEdition);
 			return "virtual/participants";
 		}
