@@ -8,20 +8,14 @@
 </head>
 <body>
 
-	<!--<spring:message code="search.complete" var="searchComplete" />
-<spring:message code="search.title" var="searchTitle" />
-<spring:message code="search.source" var="searchSource" />
-<spring:message code="search.authorial" var="searchAuthorial" />-->
 
 	<%@ include file="/WEB-INF/jsp/common/fixed-top-ldod-header.jsp"%>
 
 	<div class="container">
 		 <h3 class="text-center">
-       	    <!--<span class="tip" title="<spring:message code="sourcelist.tt.sources" />"> -->
             <spring:message code="authorial.source" />
             (${sources.size()}) 
             <a id="infosources" class="infobutton" data-placement="bottom" role="button" data-toggle="popover" data-content="<spring:message code="sourcelist.tt.sources" />"> <span class="glyphicon glyphicon-info-sign"></span></a>
-            <!--</span>-->
         </h3>
 
 		<table class="table table-striped table-bordered" id="tablelistsources" data-pagination=false>
@@ -37,13 +31,13 @@
 					<th><span class="tip"
 						title="<spring:message code="sourcelist.tt.date" />"><spring:message
 								code="general.date" /></span></th>
-					<th><span class="tip"
+					<!-- <th><span class="tip"
 						title="<spring:message code="sourcelist.tt.type" />"><spring:message
-								code="general.type" /></span></th>
+								code="general.type" /></span></th>-->
 					<th><span class="tip"
 						title="<spring:message code="sourcelist.tt.LdoDLabel" />"><spring:message
 								code="general.LdoDLabel" /></span></th>
-					<th><span class="tip"
+					<!--<th><span class="tip"
 						title="<spring:message code="general.format" />"><spring:message
 								code="general.format" /></span></th>
 					<th><span class="tip"
@@ -51,7 +45,7 @@
 								code="general.material" /></span></th>
 					<th><span class="tip"
 						title="<spring:message code="sourcelist.tt.columns" />"><spring:message
-								code="general.columns" /></span></th>
+								code="general.columns" /></span></th> -->
 					<th><span class="tip"
 						title="<spring:message code="sourcelist.tt.facsimiles" />"><spring:message
 								code="general.facsimiles" /></span></th>
@@ -67,6 +61,7 @@
 									${iter.title}</a>
 							</c:forEach></td>
 						<td>${source.getDate().toString("dd-MM-yyyy")}</td>
+						<!--
 						<td><c:choose>
 								<c:when test='${source.getType()=="MANUSCRIPT"}'>
 									<c:forEach var='handNote' items='${source.getHandNoteSet()}'>
@@ -82,6 +77,7 @@
 									<spring:message code="general.printed" />
 								</c:otherwise>
 							</c:choose></td>
+						 -->
 						<td><c:if test='${source.getType()=="MANUSCRIPT"}'>
 								<c:choose>
 									<c:when test='${source.getHasLdoDLabel()}'>
@@ -92,6 +88,7 @@
 									</c:otherwise>
 								</c:choose>
 							</c:if></td>
+						<!--
 						<td><c:if test='${source.getType()=="MANUSCRIPT"}'>
 								<c:choose>
 									<c:when test='${source.getForm()=="LEAF"}'>
@@ -109,6 +106,7 @@
 								</c:choose>
 							</c:if></td>
 						<td><c:if test='${source.getType()=="MANUSCRIPT"}'>${source.getColumns()}</c:if></td>
+						-->
 						<td><c:forEach var='surface'
 								items='${source.getFacsimile().getSurfaces()}'
 								varStatus="counter">
@@ -117,10 +115,12 @@
 								<br>
 							</c:forEach></td>
 					</tr>
+					
 				</c:forEach>
 			</tbody>
 		</table>
 	</div>
+	<br>
 </body>
 <script>
 $('#tablelistsources').attr("data-search","true");
