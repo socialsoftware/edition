@@ -30,7 +30,7 @@
 		<br>
 		<div class="row">
 			<c:forEach var="error" items='${errors}'>
-				<div class="row text-error">
+				<div class="text-error alert alert-warning col-md-12" role="alert">
 					<spring:message code="${error}" />
 				</div>
 			</c:forEach>
@@ -239,15 +239,18 @@
 											class="glyphicon glyphicon-wrench"></span> <spring:message
 												code="general.recommendations" /></a></td>
 									<td><c:if test="${isAdmin}">
-											<form class="form-inline" method="POST"
+											<form id="formdelete" class="form-inline" method="POST"
 												action="${contextPath}/virtualeditions/restricted/delete">
 												<input type="hidden" name="externalId"
 													value="${virtualEdition.externalId}" />
-												<button type="submit" style="border:none;background:none!important;">
+												<button type="submit" id="btdelete" style="border:none;background:none!important;">
 													<span class="glyphicon glyphicon-trash"></span>
 												</button>
 											</form>
-									</c:if></td>
+											
+												
+																					
+										</c:if></td>
 								</tr>
 							</c:if>
 						</c:forEach>
@@ -255,11 +258,40 @@
 				</table>
 			</div>
 		</div>
+	
+
+
+	<div id="confirm" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-body">
+				<spring:message code="general.deleteconfirmation" />	
+				</div>
+				<div class="modal-footer">
+					 <button type="button" data-dismiss="modal" class="btn btn-primary" id="delete"><spring:message code="general.delete" /></button>
+    <button type="button" data-dismiss="modal" class="btn"><spring:message code="general.cancel" /></button>
+				</div>
+			</div>
+		</div>
 	</div>
+	
 </body>
 <script>
 $(".tipleft").tooltip({placement: 'left'});
 $(".tip").tooltip({placement: 'bottom'});
 
+$('#collapse').on('show.bs.collapse', function () {
+	$('.text-error').hide();  
+});
+
+$('#btdelete').on('click', function(e){
+    var $form=$('#formdelete');
+    e.preventDefault();
+    $('#confirm').modal({ backdrop: 'static', keyboard: false })
+        .one('click', '#delete', function (e) {
+            $form.trigger('submit');
+        });
+});
+	
 </script>
 </html>
