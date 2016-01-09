@@ -103,7 +103,7 @@ $(document)
 
     <%@ include file="/WEB-INF/jsp/fragment/transcription.jsp"%>
 
-    <br>
+   <br>
     <div id="interMeta">
         <div class="well">${inters.get(0).metaTextual}</div>
     </div>

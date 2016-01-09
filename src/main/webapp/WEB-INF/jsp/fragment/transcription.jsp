@@ -4,6 +4,7 @@
 
 	
 		<h4 class="text-center">${inters.get(0).title}</h4>
+		<br>
 		<c:choose>
 			<c:when test="${inters.get(0).lastUsed.sourceType=='EDITORIAL'}">
 				<div class="well" style="font-family: georgia; font-size: medium;">
