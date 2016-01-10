@@ -254,7 +254,7 @@ public class VirtualEditionController {
 			return "utils/pageNotFound";
 		} else {
 
-			virtualEdition.addMember(user, MemberRole.WRITER, false);
+			virtualEdition.addMember(user, MemberRole.MEMBER, false);
 
 			model.addAttribute("virtualEditions", LdoD.getInstance().getVirtualEditions4User(user, ldoDSession));
 			model.addAttribute("user", user);
@@ -326,7 +326,7 @@ public class VirtualEditionController {
 			model.addAttribute("virtualEdition", virtualEdition);
 			return "virtual/participants";
 		} else {
-			virtualEdition.addMember(user, MemberRole.WRITER, true);
+			virtualEdition.addMember(user, MemberRole.MEMBER, true);
 			model.addAttribute("virtualEdition", virtualEdition);
 			return "virtual/participants";
 		}
@@ -694,8 +694,8 @@ public class VirtualEditionController {
 		}
 	}
 
+	// no access control because the only tags removed are from the logged user
 	@RequestMapping(method = RequestMethod.GET, value = "/restricted/fraginter/{fragInterId}/tag/dissociate/{categoryId}")
-	@PreAuthorize("hasPermission(#fragInterId, 'fragInter.annotation')")
 	public String dissociate(Model model, @PathVariable String fragInterId, @PathVariable String categoryId) {
 		VirtualEditionInter inter = FenixFramework.getDomainObject(fragInterId);
 
@@ -704,10 +704,9 @@ public class VirtualEditionController {
 			return "utils/pageNotFound";
 		}
 
-		LdoDUserDetails userDetails = (LdoDUserDetails) SecurityContextHolder.getContext().getAuthentication()
-				.getPrincipal();
+		LdoDUser user = LdoDUser.getAuthenticatedUser();
 
-		inter.dissociate(userDetails.getUser(), category);
+		inter.dissociate(user, category);
 
 		return "redirect:/fragments/fragment/inter/" + inter.getExternalId();
 	}

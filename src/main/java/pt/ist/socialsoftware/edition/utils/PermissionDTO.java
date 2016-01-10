@@ -27,7 +27,9 @@ public class PermissionDTO implements Serializable {
 
 		// admin.add(user.getUsername());
 
-		update.add(user.getUsername());
+		if (virtualEdition.getParticipantSet().contains(user))
+			update.add(user.getUsername());
+
 		delete.add(user.getUsername());
 
 	}
