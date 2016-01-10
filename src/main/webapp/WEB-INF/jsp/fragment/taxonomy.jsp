@@ -28,18 +28,17 @@
 		</thead>
 		<tbody>
 			<c:forEach var="category"
-				items='${taxonomy.getSortedCategories(inters.get(0))}'>
+				items='${inter.getSortedCategories()}'>
 				<tr>
-					<td><a
-						href="${contextPath}/edition/category/${category.getExternalId()}">
-							${category.getName()}</a> 
-						<c:if test="${category.getContributorSet(inter).contains(userLdoD)}">
+					<td><c:if test="${category.getTaxonomy().getEdition() != taxonomy.getEdition()}">${category.getTaxonomy().getEdition().getTitle()}.</c:if><a
+						href="${contextPath}/edition/category/${category.getExternalId()}">${category.getName()}</a> 
+						<c:if test="${inter.getContributorSet(category).contains(userLdoD)}">
 							<a
 								href="${contextPath}/virtualeditions/restricted/fraginter/${inter.getExternalId()}/tag/dissociate/${category.getExternalId()}"><span
 								class="glyphicon glyphicon-remove"></span></a>
 						</c:if></td>
 					<td><c:forEach var="user"
-							items='${category.getContributorSet(inter)}'>
+							items='${inter.getContributorSet(category)}'>
 							<a href="${contextPath}/edition/user/${user.username}">${user.username}</a>
 						</c:forEach></td>
 				</tr>

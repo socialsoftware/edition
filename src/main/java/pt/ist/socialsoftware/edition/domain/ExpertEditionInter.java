@@ -2,7 +2,9 @@ package pt.ist.socialsoftware.edition.domain;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import pt.ist.socialsoftware.edition.domain.Edition.EditionType;
 import pt.ist.socialsoftware.edition.recommendation.properties.Property;
@@ -101,11 +103,9 @@ public class ExpertEditionInter extends ExpertEditionInter_Base {
 		result = result + "Página: " + getStartPage() + "<br>";
 
 		if (getDate() != null) {
-			String precision = getPrecision() != null ? " Precisão: "
-					+ getPrecision().getDesc() : "";
+			String precision = getPrecision() != null ? " Precisão: " + getPrecision().getDesc() : "";
 
-			result = result + "Data: " + getDate().toString("dd-MM-yyyy")
-					+ precision + "<br>";
+			result = result + "Data: " + getDate().toString("dd-MM-yyyy") + precision + "<br>";
 		}
 
 		result = result + "Notas: " + getNotes() + "<br>";
@@ -148,4 +148,15 @@ public class ExpertEditionInter extends ExpertEditionInter_Base {
 	public Collection<Double> accept(Property property) {
 		return property.visit(this);
 	}
+
+	@Override
+	public Set<Annotation> getAllDepthAnnotations() {
+		return new HashSet<Annotation>();
+	}
+
+	@Override
+	public Set<Tag> getAllDepthTags() {
+		return new HashSet<Tag>();
+	}
+
 }

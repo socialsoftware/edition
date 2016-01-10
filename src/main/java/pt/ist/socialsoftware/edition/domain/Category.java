@@ -3,7 +3,6 @@ package pt.ist.socialsoftware.edition.domain;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import pt.ist.fenixframework.Atomic;
@@ -73,17 +72,8 @@ public class Category extends Category_Base implements Comparable<Category> {
 		return tags;
 	}
 
-	public boolean isInVirtualEditionInter(VirtualEditionInter inter) {
-		return getTagSet().stream().anyMatch(t -> t.getInter() == inter);
-	}
-
 	public int getWeight(VirtualEditionInter inter) {
 		return getTagSet().stream().filter(t -> t.getInter() == inter).collect(Collectors.toSet()).size();
-	}
-
-	public Set<LdoDUser> getContributorSet(VirtualEditionInter inter) {
-		return getTagSet().stream().filter(t -> t.getInter() == inter).map(t -> t.getContributor())
-				.collect(Collectors.toSet());
 	}
 
 }

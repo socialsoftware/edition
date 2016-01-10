@@ -2,7 +2,9 @@ package pt.ist.socialsoftware.edition.domain;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import pt.ist.socialsoftware.edition.domain.Edition.EditionType;
 import pt.ist.socialsoftware.edition.recommendation.properties.Property;
@@ -77,9 +79,9 @@ public class SourceInter extends SourceInter_Base {
 	public String getReference() {
 		return getShortName();
 	}
-	
+
 	@Override
-	public boolean accept(SearchOption option){
+	public boolean accept(SearchOption option) {
 		return option.visit(this);
 	}
 
@@ -113,8 +115,7 @@ public class SourceInter extends SourceInter_Base {
 	private PbText getFirstPbText() {
 		PbText firstPbText = null;
 		for (PbText pbText : getPbTextSet()) {
-			if ((firstPbText == null)
-					|| (firstPbText.getOrder() > pbText.getOrder()))
+			if ((firstPbText == null) || (firstPbText.getOrder() > pbText.getOrder()))
 				firstPbText = pbText;
 		}
 		return firstPbText;
@@ -140,4 +141,15 @@ public class SourceInter extends SourceInter_Base {
 	public Collection<Double> accept(Property property) {
 		return property.visit(this);
 	}
+
+	@Override
+	public Set<Annotation> getAllDepthAnnotations() {
+		return new HashSet<Annotation>();
+	}
+
+	@Override
+	public Set<Tag> getAllDepthTags() {
+		return new HashSet<Tag>();
+	}
+
 }
