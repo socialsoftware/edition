@@ -15,6 +15,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -490,6 +492,13 @@ public class VirtualEditionController {
 			model.addAttribute("topicList", topicListDTO);
 			return "virtual/generatedTopics";
 		}
+	}
+
+	// necessary to allow a deep @ModelAttribute("topicList") in
+	// createTopicModelling
+	@InitBinder
+	public void initBinder(WebDataBinder dataBinder) {
+		dataBinder.setAutoGrowCollectionLimit(1000);
 	}
 
 	@RequestMapping(method = RequestMethod.POST, value = "/restricted/{externalId}/taxonomy/createTopics")

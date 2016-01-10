@@ -334,10 +334,15 @@ public class FragmentController {
 
 		VirtualEditionInter inter = FenixFramework.getDomainObject(uri);
 
-		for (Annotation annotation : inter.getAnnotationSet()) {
+		for (Annotation annotation : inter.getAllDepthAnnotations()) {
 			AnnotationDTO annotationJson = new AnnotationDTO(annotation);
 			annotations.add(annotationJson);
 		}
+
+		// for (Annotation annotation : inter.getAnnotationSet()) {
+		// AnnotationDTO annotationJson = new AnnotationDTO(annotation);
+		// annotations.add(annotationJson);
+		// }
 
 		return new AnnotationSearchJson(annotations);
 	}
