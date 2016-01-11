@@ -1,4 +1,5 @@
 <%@ include file="/WEB-INF/jsp/common/tags-head.jsp"%>
+<script type="text/javascript" src="/resources/js/wheelzoom.js">
 <script type="text/javascript">
 $(document).ready(function() {
     $('[id="backward"][data-toggle="button"]').on('click', function() {
@@ -101,7 +102,7 @@ $(document).ready(function() {
                 </div>
                 
                 <div class="item">
-                    <img src="/facs/${surface.graphic}"
+                    <img src="/facs/${surface.graphic}" id="fac"
                         class="img-responsive" alt="Responsive image" />
                 </div>
                 <!-- 
@@ -156,3 +157,7 @@ $(document).ready(function() {
             </c:choose>
         </div>
 </div>
+
+<script>
+		wheelzoom(document.querySelector('#fac'));
+</script>
