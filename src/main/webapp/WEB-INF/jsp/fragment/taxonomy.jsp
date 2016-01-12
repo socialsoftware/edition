@@ -27,12 +27,13 @@
 
 		</thead>
 		<tbody>
-			<c:forEach var="category"
-				items='${inter.getSortedCategories()}'>
+			<c:forEach var="category" items='${inter.getSortedCategories()}'>
 				<tr>
-					<td><c:if test="${category.getTaxonomy().getEdition() != taxonomy.getEdition()}">${category.getTaxonomy().getEdition().getTitle()}.</c:if><a
-						href="${contextPath}/edition/category/${category.getExternalId()}">${category.getName()}</a> 
-						<c:if test="${inter.getContributorSet(category).contains(userLdoD)}">
+					<td><c:if
+							test="${category.getTaxonomy().getEdition() != taxonomy.getEdition()}">${category.getTaxonomy().getEdition().getAcronym()}.</c:if><a
+						href="${contextPath}/edition/category/${category.getExternalId()}">${category.getName()}</a>
+						<c:if
+							test="${inter.getContributorSet(category).contains(userLdoD)}">
 							<a
 								href="${contextPath}/virtualeditions/restricted/fraginter/${inter.getExternalId()}/tag/dissociate/${category.getExternalId()}"><span
 								class="glyphicon glyphicon-remove"></span></a>
@@ -78,11 +79,21 @@
 								class="form-control" style="width: 75%" multiple="true">
 								<c:forEach var='category'
 									items='${inter.getNonAssignedCategories(user)}'>
-									<option value='${category.getName()}'>${category.getName()}</option>
+									<c:choose>
+										<c:when
+											test="${category.getTaxonomy().getEdition() != taxonomy.getEdition()}">
+											<option
+												value='${category.getTaxonomy().getEdition().getAcronym()}.${category.getName()}'>${category.getTaxonomy().getEdition().getAcronym()}.${category.getName()}</option>
+										</c:when>
+										<c:otherwise>
+											<option value='${category.getName()}'>${category.getName()}</option>
+										</c:otherwise>
+									</c:choose>
 								</c:forEach>
 								<c:forEach var='category'
 									items='${inter.getAssignedCategories(user)}'>
 									<option value='${category.getName()}' selected='selected'>${category.getName()}</option>
+
 								</c:forEach>
 							</select>
 						</div>
@@ -109,7 +120,7 @@
 <script>
 	$("#category-select").select2({
 		tags : '${taxonomy.getOpenVocabulary()}' == "true" ? true : false,
-		tokenSeparators : [ ',', ' ' ]
+		tokenSeparators : [ ',', ' ', '.' ]
 	})
 </script>
 

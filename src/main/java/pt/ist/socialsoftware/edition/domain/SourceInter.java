@@ -143,6 +143,11 @@ public class SourceInter extends SourceInter_Base {
 	}
 
 	@Override
+	public Set<Category> getAllDepthCategories() {
+		return new HashSet<Category>();
+	}
+
+	@Override
 	public Set<Annotation> getAllDepthAnnotations() {
 		return new HashSet<Annotation>();
 	}

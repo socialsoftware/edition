@@ -186,8 +186,6 @@ public class VirtualEditionController {
 		title = title.trim();
 		acronym = acronym.trim();
 
-		System.out.println("FRAGINTERS " + fraginters);
-
 		VirtualEditionValidator validator = new VirtualEditionValidator(virtualEdition, acronym, title);
 		validator.validate();
 

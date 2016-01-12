@@ -19,10 +19,19 @@ import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.domain.Member.MemberRole;
+import pt.ist.socialsoftware.edition.shared.exception.LdoDException;
 import pt.ist.socialsoftware.edition.utils.PropertiesManager;
 
 public class VirtualEdition extends VirtualEdition_Base {
 	private static Logger logger = LoggerFactory.getLogger(VirtualEdition.class);
+
+	@Override
+	public void setAcronym(String acronym) {
+		if (acronym.split("\\s+").length != 1)
+			throw new LdoDException("acronym");
+
+		super.setAcronym(acronym);
+	}
 
 	public VirtualEdition(LdoD ldod, LdoDUser participant, String acronym, String title, LocalDate date, Boolean pub,
 			Edition usedEdition) {

@@ -109,4 +109,6 @@ public abstract class FragInter extends FragInter_Base implements Comparable<Fra
 
 	public abstract Set<Tag> getAllDepthTags();
 
+	public abstract Set<Category> getAllDepthCategories();
+
 }

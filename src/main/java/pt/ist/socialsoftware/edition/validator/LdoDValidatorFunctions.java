@@ -5,4 +5,8 @@ public class LdoDValidatorFunctions {
 		return value.trim().equals("") ? true : false;
 	}
 
+	public static boolean hasBlanks(String value) {
+		return value.split("\\s+").length != 1;
+	}
+
 }

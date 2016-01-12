@@ -32,16 +32,16 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 
 	@Override
 	public void remove() {
+		for (VirtualEditionInter inter : getIsUsedBySet()) {
+			inter.setUses(getUses());
+		}
+
 		setSection(null);
 
 		setUses(null);
 
 		for (Tag tag : getTagSet()) {
 			tag.remove();
-		}
-
-		for (FragInter inter : getIsUsedBySet()) {
-			inter.remove();
 		}
 
 		for (Annotation annotation : getAnnotationSet()) {
@@ -223,17 +223,24 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 	public List<Category> getNonAssignedCategories(LdoDUser user) {
 		List<Category> interCategories = getAssignedCategories(user);
 
-		List<Category> categories = getVirtualEdition().getTaxonomy().getCategoriesSet().stream()
-				.filter(c -> !interCategories.contains(c)).sorted((c1, c2) -> c1.getName().compareTo(c2.getName()))
-				.collect(Collectors.toList());
+		List<Category> categories = getAllDepthCategories().stream().filter(c -> !interCategories.contains(c))
+				.sorted((c1, c2) -> c1.getName().compareTo(c2.getName())).collect(Collectors.toList());
 
 		return categories;
 	}
 
 	public List<Category> getAssignedCategories(LdoDUser user) {
-		List<Category> categories = getTagSet().stream().filter(t -> t.getContributor() == user)
+		List<Category> categories = getAllDepthTags().stream().filter(t -> t.getContributor() == user)
 				.map(t -> t.getCategory()).distinct().sorted((c1, c2) -> c1.getName().compareTo(c2.getName()))
 				.collect(Collectors.toList());
+
+		return categories;
+	}
+
+	@Override
+	public Set<Category> getAllDepthCategories() {
+		Set<Category> categories = new HashSet<Category>(getVirtualEdition().getTaxonomy().getCategoriesSet());
+		categories.addAll(getUses().getAllDepthCategories());
 
 		return categories;
 	}
