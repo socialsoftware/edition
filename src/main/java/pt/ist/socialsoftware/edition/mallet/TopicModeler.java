@@ -144,14 +144,11 @@ public class TopicModeler {
 		topics.setTopics(new ArrayList<TopicDTO>());
 
 		// create a category for each topic
-		// counter do avoid duplicate category names
 		for (int position = 0; position < numTopics; position++) {
 			Iterator<IDSorter> iterator = topicSortedWords.get(position).iterator();
 
 			TopicDTO topic = new TopicDTO();
 			topic.setInters(new ArrayList<TopicInterPercentageDTO>());
-
-			assert topics.getTopics().get(position) == topic;
 
 			// associate the words for each category
 			int rank = 0;
@@ -171,6 +168,7 @@ public class TopicModeler {
 			topic.setName(wordName);
 			topics.getTopics().add(topic);
 
+			assert (topics.getTopics().get(position) == topic);
 		}
 
 		// associate categories with fragment interpretations

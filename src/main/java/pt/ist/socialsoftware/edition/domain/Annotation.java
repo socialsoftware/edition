@@ -82,4 +82,16 @@ public class Annotation extends Annotation_Base {
 				.collect(Collectors.toList());
 	}
 
+	public static boolean canCreate(VirtualEdition virtualEdition, LdoDUser user) {
+		return virtualEdition.getTaxonomy().canManipulateAnnotation(user);
+	}
+
+	public boolean canUpdate(LdoDUser user) {
+		return getVirtualEditionInter().getVirtualEdition().getParticipantSet().contains(user) && getUser() == user;
+	}
+
+	public boolean canDelete(LdoDUser user) {
+		return getUser() == user;
+	}
+
 }

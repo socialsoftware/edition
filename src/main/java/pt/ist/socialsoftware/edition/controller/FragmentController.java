@@ -334,10 +334,15 @@ public class FragmentController {
 
 		VirtualEditionInter inter = FenixFramework.getDomainObject(uri);
 
-		for (Annotation annotation : inter.getAnnotationSet()) {
+		for (Annotation annotation : inter.getAllDepthAnnotations()) {
 			AnnotationDTO annotationJson = new AnnotationDTO(annotation);
 			annotations.add(annotationJson);
 		}
+
+		// for (Annotation annotation : inter.getAnnotationSet()) {
+		// AnnotationDTO annotationJson = new AnnotationDTO(annotation);
+		// annotations.add(annotationJson);
+		// }
 
 		return new AnnotationSearchJson(annotations);
 	}
@@ -350,8 +355,7 @@ public class FragmentController {
 		LdoDUser user = LdoDUser.getAuthenticatedUser();
 
 		Annotation annotation;
-		if (virtualEdition.getTaxonomy().canManipulateAnnotation(user)) {
-
+		if (Annotation.canCreate(virtualEdition, user)) {
 			annotation = inter.createAnnotation(annotationJson.getQuote(), annotationJson.getText(), user,
 					annotationJson.getRanges(), annotationJson.getTags());
 
@@ -377,23 +381,34 @@ public class FragmentController {
 	public @ResponseBody ResponseEntity<AnnotationDTO> updateAnnotation(Model model, @PathVariable String id,
 			@RequestBody final AnnotationDTO annotationJson) {
 		Annotation annotation = FenixFramework.getDomainObject(id);
-		if (annotation != null) {
+		LdoDUser user = LdoDUser.getAuthenticatedUser();
+
+		if (annotation == null)
+			return new ResponseEntity<AnnotationDTO>(HttpStatus.NOT_FOUND);
+
+		if (annotation.canUpdate(user)) {
 			annotation.update(annotationJson.getText(), annotationJson.getTags());
 			return new ResponseEntity<AnnotationDTO>(new AnnotationDTO(annotation), HttpStatus.OK);
 		} else {
-			return new ResponseEntity<AnnotationDTO>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<AnnotationDTO>(HttpStatus.UNAUTHORIZED);
 		}
+
 	}
 
 	@RequestMapping(method = RequestMethod.DELETE, value = "/annotations/{id}")
 	public @ResponseBody ResponseEntity<AnnotationDTO> deleteAnnotation(Model model, @PathVariable String id,
 			@RequestBody final AnnotationDTO annotationJson) {
 		Annotation annotation = FenixFramework.getDomainObject(id);
-		if (annotation != null) {
+		LdoDUser user = LdoDUser.getAuthenticatedUser();
+
+		if (annotation == null)
+			return new ResponseEntity<AnnotationDTO>(HttpStatus.NOT_FOUND);
+
+		if (annotation.canDelete(user)) {
 			annotation.remove();
 			return new ResponseEntity<AnnotationDTO>(HttpStatus.NO_CONTENT);
 		} else {
-			return new ResponseEntity<AnnotationDTO>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<AnnotationDTO>(HttpStatus.UNAUTHORIZED);
 		}
 	}
 

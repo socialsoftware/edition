@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -211,6 +212,14 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 		}
 	}
 
+	public List<Category> getSortedCategories() {
+		return Stream
+				.concat(getAllDepthAnnotations().stream().flatMap(a -> a.getTagSet().stream()),
+						getAllDepthTags().stream())
+				.map(t -> t.getCategory()).distinct()
+				.sorted((c1, c2) -> c1.getWeight(this) < c2.getWeight(this) ? -1 : 1).collect(Collectors.toList());
+	}
+
 	public List<Category> getNonAssignedCategories(LdoDUser user) {
 		List<Category> interCategories = getAssignedCategories(user);
 
@@ -227,6 +236,27 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 				.collect(Collectors.toList());
 
 		return categories;
+	}
+
+	@Override
+	public Set<Annotation> getAllDepthAnnotations() {
+		Set<Annotation> annotations = new HashSet<Annotation>(getAnnotationSet());
+		annotations.addAll(getUses().getAllDepthAnnotations());
+
+		return annotations;
+	}
+
+	@Override
+	public Set<Tag> getAllDepthTags() {
+		Set<Tag> tags = new HashSet<Tag>(getTagSet());
+		tags.addAll(getUses().getAllDepthTags());
+
+		return tags;
+	}
+
+	public Set<LdoDUser> getContributorSet(Category category) {
+		return getAllDepthTags().stream().filter(t -> t.getCategory() == category).map(t -> t.getContributor())
+				.collect(Collectors.toSet());
 	}
 
 }

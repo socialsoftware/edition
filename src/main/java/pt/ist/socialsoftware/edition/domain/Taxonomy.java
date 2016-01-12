@@ -91,11 +91,6 @@ public class Taxonomy extends Taxonomy_Base {
 		return null;
 	}
 
-	public List<Category> getSortedCategories(VirtualEditionInter inter) {
-		return getCategoriesSet().stream().filter(c -> c.isInVirtualEditionInter(inter))
-				.sorted((c1, c2) -> c1.getWeight(inter) < c2.getWeight(inter) ? -1 : 1).collect(Collectors.toList());
-	}
-
 	@Atomic(mode = TxMode.WRITE)
 	public Category merge(List<Category> categories) {
 

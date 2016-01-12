@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 import pt.ist.socialsoftware.edition.domain.Edition.EditionType;
 import pt.ist.socialsoftware.edition.recommendation.properties.Property;
@@ -103,5 +104,9 @@ public abstract class FragInter extends FragInter_Base implements Comparable<Fra
 	public abstract boolean accept(SearchOption option);
 
 	public abstract Collection<Double> accept(Property property);
+
+	public abstract Set<Annotation> getAllDepthAnnotations();
+
+	public abstract Set<Tag> getAllDepthTags();
 
 }
