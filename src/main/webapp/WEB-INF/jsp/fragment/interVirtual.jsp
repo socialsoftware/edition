@@ -1,12 +1,12 @@
 <%@ include file="/WEB-INF/jsp/common/tags-head.jsp"%>
 
-<div id=fragmentInter class="row">
-	<h3>${inters.get(0).edition.title}</h3>
-	<h4>
+<div id=fragmentInter class="row" style="margin-left:0px;margin-right:0px">
+	<h4>${inters.get(0).edition.title} - <spring:message code="general.uses" /> ${inters.get(0).uses.edition.getReference()}(${inters.get(0).uses.reference})</h3>
+	<!--  <h4>
 		<spring:message code="general.uses" />
 		${inters.get(0).uses.edition.getReference()}(${inters.get(0).uses.reference})
-	</h4>
-
+	</h4>-->
+	
 	<div class="row" id="content">
 		<%@ include file="/WEB-INF/jsp/fragment/transcription.jsp"%>
 	</div>

@@ -3,7 +3,6 @@
 <html>
 <head>
 <%@ include file="/WEB-INF/jsp/common/meta-head.jsp"%>
-<script type="text/javascript" src="/resources/js/jquery.elevatezoom.js"></script>
 </head>
 <body>
     <c:choose>

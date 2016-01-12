@@ -1,6 +1,16 @@
 body {
-	margin-top: 60px;
-}
+    padding-top: 100px;
+  }
+@media (min-width: 1200px) {
+    body {
+      padding-top: 60px;
+    }
+  }
+@media (max-width: 767px) {
+    body {
+      padding-top: 60px;
+    }
+  }
 
 li.list-recommedation {
 	 list-style-type: none;
@@ -30,3 +40,21 @@ li.list-recommedation {
 .inherit{
 	cursor: inherit;
 }
+
+div .checkbox{
+	padding-right:10px;
+}
+
+.checkbox input {
+	margin-bottom:6px;
+}
+
+#fragmentInter {
+	padding-top:6px;
+}
+
+.infobutton {
+	color:lightgray;
+	font-size:12px;	
+}
+

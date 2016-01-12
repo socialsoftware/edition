@@ -37,21 +37,22 @@ $(document)
 				    });
 		});
 </script>
+
 <div id=fragmentInter class="row">
-    <div class="row">
+    <div>
         <form class="form-horizontal">
             <div class="control-group">
                 <div class="controls form-inline">
                     <div id="visualisation-properties-comparison"
                         data-toggle="checkbox">
                         <c:if test="${!lineByLine}">
-                            <label class="checkbox inline"> <input
+                            <label class="checkbox" style="padding-top:0px;min-height:0px;font-weight:normal"> <input
                                 type="checkbox" class="btn" name=line
                                 value="Yes"> <spring:message
                                     code="fragment.linebyline" />
                             </label>
                         </c:if>
-                        <label class="checkbox inline"> <input
+                        <label class="checkbox" style="padding-top:0px;min-height:0px;font-weight:normal"> <input
                             type="checkbox" class="btn" name=spaces
                             value="Yes"> <spring:message
                                 code="fragment.alignspace" />
@@ -61,7 +62,7 @@ $(document)
             </div>
         </form>
     </div>
-
+	<br>
     <c:choose>
         <c:when test="${!lineByLine}">
             <%@ include
@@ -71,7 +72,7 @@ $(document)
                 file="/WEB-INF/jsp/fragment/inter2CompareLineByLine.jsp"%></c:otherwise>
     </c:choose>
 
-    <div class="row">
+    <div>
         <h4>
             <spring:message code="fragment.variationstable" /> (${apps.size()})
         </h4>

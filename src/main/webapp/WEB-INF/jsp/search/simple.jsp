@@ -24,9 +24,9 @@
 	<%@ include file="/WEB-INF/jsp/common/fixed-top-ldod-header.jsp"%>
 	<div class='container'>
 	<div>
-		<h1 class="text-center">
+		<h3 class="text-center">
 			<spring:message code="header.search.simple" />
-		</h1>
+		</h3>
 	</div>
 	<br><br>
 	<!--  
@@ -128,7 +128,6 @@
 				success : function(html) {
 					
 					$('#searchresult').empty().append("<hr>"+html);
-					$('#tablesearchresults').attr("data-pagination","true");
 					$('#tablesearchresults').attr("data-search","true");
 					$('#tablesearchresults').bootstrapTable();
 					$('#tablesearchresults').show();

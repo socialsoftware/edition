@@ -45,7 +45,7 @@ $(document)
 			</div>
 		</div>
 	</form>
-
+	<br>
 	<%@ include file="/WEB-INF/jsp/fragment/transcription.jsp"%>
 
 	<br>

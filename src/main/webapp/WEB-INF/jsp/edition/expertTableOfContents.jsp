@@ -9,16 +9,17 @@
         ${heteronym.name}
     </h4>
 </c:if>
-
-<table class="table table-hover table-condensed">
+<br>
+<table id="tableexperts" data-pagination="false">
+<!-- <table class="table table-hover table-condensed"> -->
     <thead>
         <tr>
-            <th><spring:message code="tableofcontents.number" /></th>
-            <th><spring:message code="tableofcontents.title" /></th>
-            <th><spring:message code="tableofcontents.volume" /></th>
-            <th><spring:message code="tableofcontents.page" /></th>
-            <th><spring:message code="general.date" /></th>
-            <th><spring:message code="general.heteronym" /></th>
+            <th><span class="tip" title="<spring:message code="tableofcontents.tt.number" />"><spring:message code="tableofcontents.number" /></span></th>
+            <th><span class="tip" title="<spring:message code="tableofcontents.tt.title" />"><spring:message code="tableofcontents.title" /></span></th>
+            <th><span class="tip" title="<spring:message code="tableofcontents.tt.volume" />"><spring:message code="tableofcontents.volume" /></span></th>
+            <th><span class="tip" title="<spring:message code="tableofcontents.tt.page" />"><spring:message code="tableofcontents.page" /></span></th>
+            <th><span class="tip" title="<spring:message code="tableofcontents.tt.date" />"><spring:message code="general.date" /></span></th>
+            <th><span class="tip" title="<spring:message code="tableofcontents.tt.heteronym" />"><spring:message code="general.heteronym" /></span></th>
         </tr>
     <tbody>
         <c:forEach var="interp" items='${edition.sortedInterps}'>
@@ -37,3 +38,9 @@
         </c:forEach>
     </tbody>
 </table>
+<br>
+<script>
+$('#tableexperts').attr("data-search","true");
+$('#tableexperts').bootstrapTable();
+$(".tip").tooltip({placement: 'bottom'});
+</script>

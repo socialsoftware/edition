@@ -1,5 +1,6 @@
 <%@ include file="/WEB-INF/jsp/common/tags-head.jsp"%>
-<div id=fragmentComparison class="row">
+<div id=fragmentComparison class="row" style="margin-left:0px;margin-right:0px">
+
     <div class="row">
         <c:forEach var="inter" items="${inters}">
             <div id="fragmentTranscription" class="col-md-6">
