@@ -6,6 +6,11 @@ import java.util.Set;
 public class NullEdition extends NullEdition_Base {
 
 	@Override
+	public Boolean getPub() {
+		return true;
+	}
+
+	@Override
 	public Set<FragInter> getIntersSet() {
 		return new HashSet<FragInter>();
 	}

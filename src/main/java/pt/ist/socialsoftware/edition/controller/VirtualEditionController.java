@@ -31,7 +31,6 @@ import pt.ist.socialsoftware.edition.domain.FragInter;
 import pt.ist.socialsoftware.edition.domain.LdoD;
 import pt.ist.socialsoftware.edition.domain.LdoDUser;
 import pt.ist.socialsoftware.edition.domain.Member.MemberRole;
-import pt.ist.socialsoftware.edition.domain.Tag;
 import pt.ist.socialsoftware.edition.domain.Taxonomy;
 import pt.ist.socialsoftware.edition.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.domain.VirtualEditionInter;
@@ -185,8 +184,6 @@ public class VirtualEditionController {
 
 		title = title.trim();
 		acronym = acronym.trim();
-
-		System.out.println("FRAGINTERS " + fraginters);
 
 		VirtualEditionValidator validator = new VirtualEditionValidator(virtualEdition, acronym, title);
 		validator.validate();
@@ -667,24 +664,24 @@ public class VirtualEditionController {
 	@RequestMapping(method = RequestMethod.POST, value = "/restricted/category/extract")
 	@PreAuthorize("hasPermission(#categoryId, 'category.taxonomy')")
 	public String extractCategory(Model model, @RequestParam("categoryId") String categoryId,
-			@RequestParam(value = "tags[]", required = false) String tagsIds[]) {
+			@RequestParam(value = "inters[]", required = false) String interIds[]) {
 		Category category = FenixFramework.getDomainObject(categoryId);
 		if (category == null) {
 			return "utils/pageNotFound";
 		}
 
-		if ((tagsIds == null) || (tagsIds.length == 0)) {
+		if ((interIds == null) || (interIds.length == 0)) {
 			model.addAttribute("category", category);
 			return "virtual/category";
 		}
 
-		Set<Tag> tags = new HashSet<Tag>();
-		for (String tagId : tagsIds) {
-			Tag tag = FenixFramework.getDomainObject(tagId);
-			tags.add(tag);
+		Set<VirtualEditionInter> inters = new HashSet<VirtualEditionInter>();
+		for (String interId : interIds) {
+			VirtualEditionInter inter = FenixFramework.getDomainObject(interId);
+			inters.add(inter);
 		}
 
-		Category extractedCategory = category.getTaxonomy().extract(category, tags);
+		Category extractedCategory = category.getTaxonomy().extract(category, inters);
 
 		model.addAttribute("category", extractedCategory);
 		return "virtual/category";
@@ -722,13 +719,11 @@ public class VirtualEditionController {
 
 	@RequestMapping(method = RequestMethod.POST, value = "/restricted/tag/associate")
 	@PreAuthorize("hasPermission(#fragInterId, 'fragInter.annotation')")
-	public String associateCategory(Model model, @RequestParam("taxonomyId") String taxonomyId,
-			@RequestParam("fragInterId") String fragInterId,
+	public String associateCategory(Model model, @RequestParam("fragInterId") String fragInterId,
 			@RequestParam(value = "categories[]", required = false) String[] categories) {
 		logger.debug("associateCategory categories[]:{}",
 				categories != null ? Arrays.stream(categories).collect(Collectors.joining(",")) : "null");
 
-		Taxonomy taxonomy = FenixFramework.getDomainObject(taxonomyId);
 		VirtualEditionInter inter = FenixFramework.getDomainObject(fragInterId);
 
 		if (inter == null) {
@@ -736,8 +731,7 @@ public class VirtualEditionController {
 		}
 
 		if ((categories != null) && (categories.length > 0)) {
-			inter.associate(LdoDUser.getAuthenticatedUser(), taxonomy,
-					Arrays.stream(categories).collect(Collectors.toSet()));
+			inter.associate(LdoDUser.getAuthenticatedUser(), Arrays.stream(categories).collect(Collectors.toSet()));
 		}
 
 		return "redirect:/fragments/fragment/inter/" + inter.getExternalId();

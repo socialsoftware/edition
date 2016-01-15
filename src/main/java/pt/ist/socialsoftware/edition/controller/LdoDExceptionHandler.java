@@ -2,6 +2,7 @@ package pt.ist.socialsoftware.edition.controller;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.exception.ExceptionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.access.AccessDeniedException;
@@ -82,7 +83,7 @@ public class LdoDExceptionHandler {
 	@ExceptionHandler({ LdoDException.class })
 	public ModelAndView handleLdoException(LdoDException ex) {
 
-		logger.debug("LdoDException: {}", ex.getStackTrace().toString());
+		logger.debug("LdoDException: {}", ExceptionUtils.getStackTrace(ex));
 
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("utils/ldoDExceptionPage");
@@ -93,7 +94,7 @@ public class LdoDExceptionHandler {
 	@ExceptionHandler({ Exception.class })
 	public ModelAndView handleException(Exception ex) {
 
-		logger.error("Exception: {}", ex.getMessage(), ex);
+		logger.error("Exception: {}", ExceptionUtils.getStackTrace(ex));
 
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("utils/ldoDExceptionPage");

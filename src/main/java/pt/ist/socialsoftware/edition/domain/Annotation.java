@@ -43,38 +43,10 @@ public class Annotation extends Annotation_Base {
 		deleteDomainObject();
 	}
 
-	private Taxonomy getTaxonomy() {
-		return getVirtualEditionInter().getVirtualEdition().getTaxonomy();
-	}
-
-	public void updateTags(List<String> tags) {
-		for (Tag tag : getTagSet()) {
-			if (!tags.contains(tag.getCategory().getName())) {
-				tag.remove();
-			}
-		}
-
-		for (String tag : tags) {
-			if (!existsTag(tag)) {
-				getTaxonomy().createTag(getVirtualEditionInter(), tag, this, getUser());
-			}
-		}
-
-	}
-
-	private boolean existsTag(String name) {
-		for (Tag tag : getTagSet()) {
-			if (tag.getCategory().getName().equals(name)) {
-				return true;
-			}
-		}
-		return false;
-	}
-
 	@Atomic(mode = TxMode.WRITE)
 	public void update(String text, List<String> tags) {
 		setText(text);
-		updateTags(tags);
+		getVirtualEditionInter().updateTags(this, tags);
 	}
 
 	public List<Category> getCategories() {

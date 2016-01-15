@@ -25,11 +25,11 @@
 					<td><c:if test="${inter.number!=0}">${inter.number}</c:if></td>
 					<td><a
 						href="${contextPath}/fragments/fragment/inter/${inter.externalId}">${inter.title}</a></td>
-					<td><c:forEach var="tag"
-								items='${inter.getEdition().getTaxonomy().getSortedTags(inter)}'>
+					<td><c:forEach var="category"
+								items='${inter.getAssignedCategories()}'>
 								<a
-									href="${contextPath}/edition/category/${tag.getCategory().getExternalId()}">
-									${tag.getCategory().getName()} </a> (${tag.getWeight()})
+									href="${contextPath}/edition/category/${category.getExternalId()}">
+									${category.getNameInEditionContext(edition)}</a><span style="padding-left:1em"/> 
                             </c:forEach></td>
 					<td><c:forEach var="used" items="${inter.getListUsed()}">-><a
 								href="${contextPath}/fragments/fragment/inter/${used.externalId}">${used.shortName}</a>

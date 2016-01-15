@@ -10,11 +10,14 @@ import org.springframework.stereotype.Component;
 
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.domain.Category;
+import pt.ist.socialsoftware.edition.domain.Edition;
 import pt.ist.socialsoftware.edition.domain.FragInter;
+import pt.ist.socialsoftware.edition.domain.LdoD;
 import pt.ist.socialsoftware.edition.domain.LdoDUser;
 import pt.ist.socialsoftware.edition.domain.Tag;
 import pt.ist.socialsoftware.edition.domain.Taxonomy;
 import pt.ist.socialsoftware.edition.domain.VirtualEdition;
+import pt.ist.socialsoftware.edition.domain.VirtualEditionInter;
 
 @Component
 public class LdoDPermissionEvaluator implements PermissionEvaluator {
@@ -37,13 +40,29 @@ public class LdoDPermissionEvaluator implements PermissionEvaluator {
 		VirtualEdition virtualEdition = null;
 		if (targetDomainObject instanceof String) {
 			switch (permissions[0]) {
+			case "edition":
+				Edition edition = FenixFramework.getDomainObject((String) targetDomainObject);
+				if (edition instanceof VirtualEdition)
+					virtualEdition = (VirtualEdition) edition;
+				else
+					virtualEdition = null;
+				break;
+			case "editionacronym":
+				edition = LdoD.getInstance().getEdition((String) targetDomainObject);
+				if (edition instanceof VirtualEdition)
+					virtualEdition = (VirtualEdition) edition;
+				else
+					virtualEdition = null;
+				break;
 			case "virtualedition":
 				virtualEdition = FenixFramework.getDomainObject((String) targetDomainObject);
 				break;
 			case "fragInter":
 				FragInter fragInter = FenixFramework.getDomainObject((String) targetDomainObject);
-				if (fragInter != null) {
+				if (fragInter instanceof VirtualEditionInter) {
 					virtualEdition = (VirtualEdition) fragInter.getEdition();
+				} else {
+					virtualEdition = null;
 				}
 				break;
 			case "taxonomy":
@@ -76,14 +95,9 @@ public class LdoDPermissionEvaluator implements PermissionEvaluator {
 			} else if (permissions[1].equals(PARTICIPANT)) {
 				hasPermission = virtualEdition.getParticipantSet().contains(user);
 			} else if (permissions[1].equals(PUBLIC)) {
-				if (virtualEdition.getPub()) {
-					hasPermission = true;
-				} else {
-					hasPermission = virtualEdition.getParticipantSet().contains(user);
-				}
+				hasPermission = virtualEdition.checkAccess();
 			} else if (permissions[1].equals(ANNOTATION)) {
 				hasPermission = virtualEdition.getTaxonomy().canManipulateAnnotation(user);
-
 			} else if (permissions[1].equals(TAXONOMY)) {
 				hasPermission = virtualEdition.getTaxonomy().canManipulateTaxonomy(user);
 			}

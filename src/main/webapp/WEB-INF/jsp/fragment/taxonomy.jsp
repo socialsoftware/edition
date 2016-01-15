@@ -27,12 +27,12 @@
 
 		</thead>
 		<tbody>
-			<c:forEach var="category"
-				items='${inter.getSortedCategories()}'>
+			<c:forEach var="category" items='${inter.getAssignedCategories()}'>
 				<tr>
-					<td><c:if test="${category.getTaxonomy().getEdition() != taxonomy.getEdition()}">${category.getTaxonomy().getEdition().getTitle()}.</c:if><a
-						href="${contextPath}/edition/category/${category.getExternalId()}">${category.getName()}</a> 
-						<c:if test="${inter.getContributorSet(category).contains(userLdoD)}">
+					<td><a
+						href="${contextPath}/edition/category/${category.getExternalId()}">${category.getNameInEditionContext(taxonomy.getEdition())}</a>
+						<c:if
+							test="${inter.getContributorSet(category).contains(userLdoD)}">
 							<a
 								href="${contextPath}/virtualeditions/restricted/fraginter/${inter.getExternalId()}/tag/dissociate/${category.getExternalId()}"><span
 								class="glyphicon glyphicon-remove"></span></a>
@@ -68,21 +68,17 @@
 							</div>
 						</div>
 						<div class="form-group">
-							<div class="hidden">
-								<input type="hidden" name="taxonomyId" class="form-control"
-									value="${taxonomy.getExternalId()}">
-							</div>
-						</div>
-						<div class="form-group">
 							<select name="categories[]" id="category-select"
 								class="form-control" style="width: 75%" multiple="true">
 								<c:forEach var='category'
 									items='${inter.getNonAssignedCategories(user)}'>
-									<option value='${category.getName()}'>${category.getName()}</option>
+									<option
+										value='${category.getNameInEditionContext(taxonomy.getEdition())}'>${category.getNameInEditionContext(taxonomy.getEdition())}</option>
 								</c:forEach>
 								<c:forEach var='category'
 									items='${inter.getAssignedCategories(user)}'>
-									<option value='${category.getName()}' selected='selected'>${category.getName()}</option>
+									<option value='${category.getNameInEditionContext(taxonomy.getEdition())}' selected='selected'>${category.getNameInEditionContext(taxonomy.getEdition())}</option>
+
 								</c:forEach>
 							</select>
 						</div>
@@ -109,7 +105,7 @@
 <script>
 	$("#category-select").select2({
 		tags : '${taxonomy.getOpenVocabulary()}' == "true" ? true : false,
-		tokenSeparators : [ ',', ' ' ]
+		tokenSeparators : [ ',', ' ', '.' ]
 	})
 </script>
 

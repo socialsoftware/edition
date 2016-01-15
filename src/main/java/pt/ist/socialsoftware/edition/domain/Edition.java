@@ -29,15 +29,16 @@ public abstract class Edition extends Edition_Base {
 
 	@Override
 	public void setAcronym(String acronym) {
-		if ((getAcronym() != null && !getAcronym().equals(acronym)) || getAcronym() == null) {
+		if ((getAcronym() != null && !getAcronym().toUpperCase().equals(acronym.toUpperCase()))
+				|| getAcronym() == null) {
 			for (ExpertEdition edition : LdoD.getInstance().getExpertEditionsSet()) {
-				if (acronym.equals(edition.getAcronym())) {
+				if (acronym.toUpperCase().equals(edition.getAcronym().toUpperCase())) {
 					throw new LdoDDuplicateAcronymException();
 				}
 			}
 
 			for (VirtualEdition edition : LdoD.getInstance().getVirtualEditionsSet()) {
-				if (acronym.equals(edition.getAcronym())) {
+				if (edition.getAcronym() != null && acronym.toUpperCase().equals(edition.getAcronym().toUpperCase())) {
 					throw new LdoDDuplicateAcronymException();
 				}
 			}

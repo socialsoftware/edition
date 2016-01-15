@@ -7,18 +7,18 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.fenixframework.FenixFramework;
-import pt.ist.socialsoftware.edition.utils.CategoryDTO;
 import pt.ist.socialsoftware.edition.utils.TopicDTO;
 import pt.ist.socialsoftware.edition.utils.TopicInterPercentageDTO;
 import pt.ist.socialsoftware.edition.utils.TopicListDTO;
 
 public class Taxonomy extends Taxonomy_Base {
+	private static Logger logger = LoggerFactory.getLogger(Taxonomy.class);
 
 	public Taxonomy() {
 		setOpenManagement(false);
@@ -55,12 +55,6 @@ public class Taxonomy extends Taxonomy_Base {
 		return set;
 	}
 
-	public List<Tag> getSortedTags(VirtualEditionInter fragInter) {
-		List<Tag> tags = new ArrayList<Tag>(getTagSet(fragInter));
-		Collections.sort(tags);
-		return tags;
-	}
-
 	public List<VirtualEditionInter> getSortedFragInter() {
 		Set<VirtualEditionInter> set = new HashSet<VirtualEditionInter>();
 		for (Category category : getCategoriesSet()) {
@@ -72,6 +66,12 @@ public class Taxonomy extends Taxonomy_Base {
 		Collections.sort(list);
 
 		return list;
+	}
+
+	public List<Tag> getSortedTags(VirtualEdition virtualEdition) {
+		return getCategoriesSet().stream().flatMap(c -> c.getTagSet().stream())
+				.filter(t -> t.getInter().getVirtualEdition() == virtualEdition).distinct().sorted()
+				.collect(Collectors.toList());
 	}
 
 	public Set<LdoDUser> getTagContributorSet(VirtualEditionInter inter) {
@@ -89,6 +89,22 @@ public class Taxonomy extends Taxonomy_Base {
 			}
 		}
 		return null;
+	}
+
+	public List<Category> getSortedCategories() {
+		return getCategoriesSet().stream().sorted().collect(Collectors.toList());
+	}
+
+	public List<VirtualEdition> getUsedIn() {
+		Set<VirtualEdition> editions = new HashSet<VirtualEdition>();
+		for (VirtualEditionInter inter : getEdition().getVirtualEditionIntersSet()) {
+			editions.addAll(inter.getUsedIn());
+		}
+
+		editions.remove(getEdition());
+
+		return editions.stream().sorted((ve1, ve2) -> ve1.getAcronym().compareTo(ve2.getAcronym()))
+				.collect(Collectors.toList());
 	}
 
 	@Atomic(mode = TxMode.WRITE)
@@ -110,13 +126,18 @@ public class Taxonomy extends Taxonomy_Base {
 	}
 
 	@Atomic(mode = TxMode.WRITE)
-	public Category extract(Category category, Set<Tag> tags) {
-		Set<Tag> remainingTags = new HashSet<Tag>(category.getSortedTags());
-		remainingTags.removeAll(tags);
+	public Category extract(Category category, Set<VirtualEditionInter> inters) {
+		String suffix = "_Extracted";
+		String newName = category.getName() + suffix;
+		while (getCategory(newName) != null)
+			newName = newName + suffix;
 
-		Category newCategory = new Category().init(this, category.getName() + "_Ext");
+		Category newCategory = new Category().init(this, newName);
 
-		tags.stream().forEach(t -> newCategory.addTag(t));
+		for (VirtualEditionInter inter : inters) {
+			inter.getTagSet().stream().filter(t -> t.getCategory() == category)
+					.forEach(t -> t.setCategory(newCategory));
+		}
 
 		return newCategory;
 	}
@@ -125,28 +146,12 @@ public class Taxonomy extends Taxonomy_Base {
 			LdoDUser ldoDUser) {
 		if (!getOpenVocabulary() && getCategory(categoryName) == null)
 			return;
-		new Tag().init(virtualEditionInter, categoryName, annotation, ldoDUser);
+		new Tag().init(this.getEdition(), virtualEditionInter, categoryName, annotation, ldoDUser);
 	}
 
 	@Atomic(mode = TxMode.WRITE)
 	public Category createCategory(String name) {
 		return new Category().init(this, name);
-	}
-
-	public String getCategoriesJSON() {
-		ObjectMapper mapper = new ObjectMapper();
-
-		List<CategoryDTO> categories = getCategoriesSet().stream().map(c -> new CategoryDTO(c))
-				.collect(Collectors.toList());
-
-		try {
-			return mapper.writeValueAsString(categories);
-		} catch (JsonProcessingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		return null;
 	}
 
 	@Atomic(mode = TxMode.WRITE)
@@ -158,7 +163,7 @@ public class Taxonomy extends Taxonomy_Base {
 			category.init(this, topic.getName());
 			for (TopicInterPercentageDTO topicPercentage : topic.getInters()) {
 				VirtualEditionInter inter = FenixFramework.getDomainObject(topicPercentage.getExternalId());
-				new GeneratedTagInFragInter().init(inter, category, user, topicPercentage.getPercentage());
+				new Tag().init(inter, category, user);
 			}
 		}
 

@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -82,12 +83,13 @@ public class FragmentController {
 		}
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "/inter/{id}")
+	@RequestMapping(method = RequestMethod.GET, value = "/inter/{externalId}")
+	@PreAuthorize("hasPermission(#externalId, 'fragInter.public')")
 	public String getFragmentWithInter(Model model, @ModelAttribute("ldoDSession") LdoDSession ldoDSession,
-			@PathVariable String id) {
-		logger.debug("getFragmentWithInter id:{}", id);
+			@PathVariable String externalId) {
+		logger.debug("getFragmentWithInter externalId:{}", externalId);
 
-		FragInter inter = FenixFramework.getDomainObject(id);
+		FragInter inter = FenixFramework.getDomainObject(externalId);
 
 		if (inter == null) {
 			return "util/pageNotFound";
@@ -101,7 +103,7 @@ public class FragmentController {
 			VirtualEdition virtualEdition = (VirtualEdition) inter.getEdition();
 
 			LdoDUser user = LdoDUser.getAuthenticatedUser();
-			if (virtualEdition.checkAccess(user)) {
+			if (virtualEdition.checkAccess()) {
 				if (!ldoDSession.hasSelectedVE(virtualEdition.getAcronym())) {
 					ldoDSession.toggleSelectedVirtualEdition(user, virtualEdition);
 				}
@@ -122,12 +124,13 @@ public class FragmentController {
 		return "fragment/main";
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "/inter/{id}/taxonomy")
+	@RequestMapping(method = RequestMethod.GET, value = "/inter/{externalId}/taxonomy")
+	@PreAuthorize("hasPermission(#externalId, 'fragInter.public')")
 	public String getTaxonomy(Model model, @ModelAttribute("ldoDSession") LdoDSession ldoDSession,
-			@PathVariable String id) {
-		logger.debug("getTaxonomy id:{}", id);
+			@PathVariable String externalId) {
+		logger.debug("getTaxonomy externalId:{}", externalId);
 
-		VirtualEditionInter inter = FenixFramework.getDomainObject(id);
+		VirtualEditionInter inter = FenixFramework.getDomainObject(externalId);
 
 		if (inter == null) {
 			return "util/pageNotFound";
@@ -140,7 +143,7 @@ public class FragmentController {
 		VirtualEdition virtualEdition = (VirtualEdition) inter.getEdition();
 
 		LdoDUser user = LdoDUser.getAuthenticatedUser();
-		if (virtualEdition.checkAccess(user)) {
+		if (virtualEdition.checkAccess()) {
 			if (!ldoDSession.hasSelectedVE(virtualEdition.getAcronym())) {
 				ldoDSession.toggleSelectedVirtualEdition(user, virtualEdition);
 			}
@@ -158,10 +161,11 @@ public class FragmentController {
 		return "fragment/taxonomy";
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "/inter/next/number/{id}")
-	public String getNextFragmentWithInter(Model model, @PathVariable String id) {
+	@RequestMapping(method = RequestMethod.GET, value = "/inter/next/number/{externalId}")
+	@PreAuthorize("hasPermission(#externalId, 'fragInter.public')")
+	public String getNextFragmentWithInter(Model model, @PathVariable String externalId) {
 
-		FragInter inter = FenixFramework.getDomainObject(id);
+		FragInter inter = FenixFramework.getDomainObject(externalId);
 
 		Edition edition = inter.getEdition();
 		inter = edition.getNextNumberInter(inter, inter.getNumber());
@@ -169,9 +173,10 @@ public class FragmentController {
 		return "redirect:/fragments/fragment/inter/" + inter.getExternalId();
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "/inter/prev/number/{id}")
-	public String getPrevFragmentWithInter(Model model, @PathVariable String id) {
-		FragInter inter = FenixFramework.getDomainObject(id);
+	@RequestMapping(method = RequestMethod.GET, value = "/inter/prev/number/{externalId}")
+	@PreAuthorize("hasPermission(#externalId, 'fragInter.public')")
+	public String getPrevFragmentWithInter(Model model, @PathVariable String externalId) {
+		FragInter inter = FenixFramework.getDomainObject(externalId);
 
 		Edition edition = inter.getEdition();
 		inter = edition.getPrevNumberInter(inter, inter.getNumber());
@@ -180,10 +185,10 @@ public class FragmentController {
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/inter")
-	public String getInter(Model model, @RequestParam(value = "fragment", required = true) String fragID,
+	public String getInter(Model model, @RequestParam(value = "fragment", required = true) String externalId,
 			@RequestParam(value = "inters[]", required = false) String[] intersID) {
 
-		Fragment fragment = FenixFramework.getDomainObject(fragID);
+		Fragment fragment = FenixFramework.getDomainObject(externalId);
 
 		List<FragInter> inters = new ArrayList<FragInter>();
 		if (intersID != null) {
@@ -339,11 +344,6 @@ public class FragmentController {
 			annotations.add(annotationJson);
 		}
 
-		// for (Annotation annotation : inter.getAnnotationSet()) {
-		// AnnotationDTO annotationJson = new AnnotationDTO(annotation);
-		// annotations.add(annotationJson);
-		// }
-
 		return new AnnotationSearchJson(annotations);
 	}
 
@@ -420,7 +420,9 @@ public class FragmentController {
 
 		List<Category> listCategories = annotation.getCategories();
 
-		String[] categories = listCategories.stream().map(c -> c.getName()).toArray(size -> new String[size]);
+		String[] categories = listCategories.stream()
+				.map(c -> c.getNameInEditionContext(annotation.getVirtualEditionInter().getVirtualEdition()))
+				.toArray(size -> new String[size]);
 
 		return new ResponseEntity<String[]>(categories, HttpStatus.OK);
 	}

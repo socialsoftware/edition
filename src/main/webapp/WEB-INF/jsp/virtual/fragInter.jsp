@@ -41,15 +41,15 @@
 					</tr>
 				</thead>
 				<tbody>
-					<c:set var="taxonomy"
-						value='${fragInter.getEdition().getTaxonomy()}' />
-					<c:forEach var="tag" items='${taxonomy.getSortedTags(fragInter)}'>
-						<tr>
-							<td><a
-								href="${contextPath}/virtualeditions/restricted/category/${tag.getCategory().getExternalId()}">${tag.getCategory().getName()}</a>
-								(${tag.getWeight()})</td>
-						</tr>
-					</c:forEach>
+					<tr>
+						<td><c:forEach var="category"
+								items='${fragInter.getSortedCategories(fragInter.getEdition())}'>
+								<a
+									href="${contextPath}/virtualeditions/restricted/category/${category.getExternalId()}">${category.getName()}
+								</a><span style="padding-left:2em"/>
+							</c:forEach></td>
+					</tr>
+
 				</tbody>
 			</table>
 		</div>

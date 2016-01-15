@@ -38,13 +38,13 @@ public class LdoD extends LdoD_Base {
 
 	public Edition getEdition(String acronym) {
 		for (Edition edition : getExpertEditionsSet()) {
-			if (edition.getAcronym().equals(acronym)) {
+			if (edition.getAcronym().toUpperCase().equals(acronym.toUpperCase())) {
 				return edition;
 			}
 		}
 
 		for (Edition edition : getVirtualEditionsSet()) {
-			if (edition.getAcronym().equals(acronym)) {
+			if (edition.getAcronym().toUpperCase().equals(acronym.toUpperCase())) {
 				return edition;
 			}
 		}
