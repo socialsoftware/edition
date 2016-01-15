@@ -109,6 +109,7 @@ class Edition {
 	String title;
 	LocalDate date;
 	String acronym;
+	Boolean pub;
 }
 
 class ExpertEdition extends Edition {
@@ -117,7 +118,6 @@ class ExpertEdition extends Edition {
 }
 
 class VirtualEdition extends Edition {
-	Boolean pub;
 }
 
 class NullEdition extends Edition;
@@ -304,10 +304,6 @@ relation Tag2VirtualEditionInter {
 relation TagHasContributor {
 	Tag playsRole tag {multiplicity 0..*;}
 	LdoDUser playsRole contributor {multiplicity 0..1;}
-}
-
-class GeneratedTagInFragInter extends Tag {
-	int percentage;
 }
 
 class PhysNote {

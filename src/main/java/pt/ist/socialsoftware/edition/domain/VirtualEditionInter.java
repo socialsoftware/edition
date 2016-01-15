@@ -5,10 +5,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
@@ -16,6 +18,8 @@ import pt.ist.socialsoftware.edition.domain.Edition.EditionType;
 import pt.ist.socialsoftware.edition.recommendation.VSMFragInterRecommender;
 import pt.ist.socialsoftware.edition.recommendation.properties.Property;
 import pt.ist.socialsoftware.edition.search.options.SearchOption;
+import pt.ist.socialsoftware.edition.shared.exception.LdoDException;
+import pt.ist.socialsoftware.edition.utils.CategoryDTO;
 import pt.ist.socialsoftware.edition.utils.RangeJson;
 
 public class VirtualEditionInter extends VirtualEditionInter_Base {
@@ -67,15 +71,20 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 	}
 
 	public int compareVirtualEditionInter(VirtualEditionInter other) {
-		int diff = getNumber() - other.getNumber();
-		int result = diff > 0 ? 1 : (diff < 0) ? -1 : 0;
-		if (result != 0) {
-			return result;
+		if (this.getVirtualEdition() == other.getVirtualEdition()) {
+			int diff = getNumber() - other.getNumber();
+			int result = diff > 0 ? 1 : (diff < 0) ? -1 : 0;
+			if (result != 0) {
+				return result;
+			} else {
+				String myTitle = getTitle();
+				String otherTitle = other.getTitle();
+				return myTitle.compareTo(otherTitle);
+			}
 		} else {
-			String myTitle = getTitle();
-			String otherTitle = other.getTitle();
-			return myTitle.compareTo(otherTitle);
+			return this.getVirtualEdition().getTitle().compareTo(other.getVirtualEdition().getTitle());
 		}
+
 	}
 
 	@Override
@@ -177,24 +186,29 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 					rangeJson.getEndOffset());
 		}
 
-		Taxonomy taxonomy = getVirtualEdition().getTaxonomy();
 		for (String tag : tagList) {
-			taxonomy.createTag(this, tag, annotation, annotation.getUser());
+			createTag(annotation.getUser(), tag, annotation);
 		}
 
 		return annotation;
 	}
 
 	@Atomic(mode = TxMode.WRITE)
-	public void associate(LdoDUser user, Taxonomy taxonomy, Set<String> categoryNames) {
-		getAssignedCategories(user).stream().filter(c -> !categoryNames.contains(c.getName()))
+	public void associate(LdoDUser user, Set<String> categoryNames) {
+		getAssignedCategories(user).stream()
+				.filter(c -> !categoryNames.contains(c.getNameInEditionContext(getVirtualEdition())))
 				.forEach(c -> dissociate(user, c));
 
-		Set<String> existingCategories = getAssignedCategories(user).stream().map(c -> c.getName())
+		Set<String> existingCategories = getAssignedCategories(user).stream()
+				.map(c -> c.getNameInEditionContext(getVirtualEdition())).collect(Collectors.toSet());
+
+		Set<String> toAssociate = categoryNames.stream().filter(cname -> !existingCategories.contains(cname))
 				.collect(Collectors.toSet());
 
-		categoryNames.stream().filter(cname -> !existingCategories.contains(cname))
-				.forEach(cname -> taxonomy.createTag(this, cname, null, user));
+		for (String categoryName : toAssociate) {
+			createTag(user, categoryName, null);
+		}
+
 	}
 
 	@Atomic(mode = TxMode.WRITE)
@@ -212,34 +226,45 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 		}
 	}
 
-	public List<Category> getSortedCategories() {
-		return Stream
-				.concat(getAllDepthAnnotations().stream().flatMap(a -> a.getTagSet().stream()),
-						getAllDepthTags().stream())
-				.map(t -> t.getCategory()).distinct()
-				.sorted((c1, c2) -> c1.getWeight(this) < c2.getWeight(this) ? -1 : 1).collect(Collectors.toList());
+	public List<Category> getAssignedCategories() {
+		return getAllDepthTags().stream().map(t -> t.getCategory()).distinct()
+				.sorted((c1, c2) -> c1.compareInEditionContext(this.getVirtualEdition(), c2))
+				.collect(Collectors.toList());
 	}
 
 	public List<Category> getNonAssignedCategories(LdoDUser user) {
 		List<Category> interCategories = getAssignedCategories(user);
 
 		List<Category> categories = getAllDepthCategories().stream().filter(c -> !interCategories.contains(c))
-				.sorted((c1, c2) -> c1.getName().compareTo(c2.getName())).collect(Collectors.toList());
+				.sorted((c1, c2) -> c1.compareInEditionContext(this.getVirtualEdition(), c2))
+				.collect(Collectors.toList());
 
 		return categories;
 	}
 
 	public List<Category> getAssignedCategories(LdoDUser user) {
 		List<Category> categories = getAllDepthTags().stream().filter(t -> t.getContributor() == user)
-				.map(t -> t.getCategory()).distinct().sorted((c1, c2) -> c1.getName().compareTo(c2.getName()))
+				.map(t -> t.getCategory()).distinct()
+				.sorted((c1, c2) -> c1.compareInEditionContext(this.getVirtualEdition(), c2))
 				.collect(Collectors.toList());
 
 		return categories;
 	}
 
+	public List<Category> getSortedCategories(VirtualEdition virtualEdition) {
+		Taxonomy taxonomy = virtualEdition.getTaxonomy();
+		return getTagSet().stream().filter(t -> t.getCategory().getTaxonomy() == taxonomy).map(t -> t.getCategory())
+				.distinct().sorted().collect(Collectors.toList());
+	}
+
 	@Override
 	public Set<Category> getAllDepthCategories() {
-		Set<Category> categories = new HashSet<Category>(getVirtualEdition().getTaxonomy().getCategoriesSet());
+		Set<Category> categories = null;
+		if (getVirtualEdition().checkAccess())
+			categories = new HashSet<Category>(getVirtualEdition().getTaxonomy().getCategoriesSet());
+		else
+			categories = new HashSet<Category>();
+
 		categories.addAll(getUses().getAllDepthCategories());
 
 		return categories;
@@ -247,7 +272,12 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 
 	@Override
 	public Set<Annotation> getAllDepthAnnotations() {
-		Set<Annotation> annotations = new HashSet<Annotation>(getAnnotationSet());
+		Set<Annotation> annotations = null;
+		if (getVirtualEdition().checkAccess())
+			annotations = new HashSet<Annotation>(getAnnotationSet());
+		else
+			annotations = new HashSet<Annotation>();
+
 		annotations.addAll(getUses().getAllDepthAnnotations());
 
 		return annotations;
@@ -255,7 +285,13 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 
 	@Override
 	public Set<Tag> getAllDepthTags() {
-		Set<Tag> tags = new HashSet<Tag>(getTagSet());
+		Set<Tag> tags = null;
+
+		if (getVirtualEdition().checkAccess())
+			tags = new HashSet<Tag>(getTagSet());
+		else
+			tags = new HashSet<Tag>();
+
 		tags.addAll(getUses().getAllDepthTags());
 
 		return tags;
@@ -264,6 +300,69 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 	public Set<LdoDUser> getContributorSet(Category category) {
 		return getAllDepthTags().stream().filter(t -> t.getCategory() == category).map(t -> t.getContributor())
 				.collect(Collectors.toSet());
+	}
+
+	public String getAllDepthCategoriesJSON() {
+		ObjectMapper mapper = new ObjectMapper();
+
+		List<CategoryDTO> categories = getAllDepthCategories().stream()
+				.sorted((c1, c2) -> c1.compareInEditionContext(getVirtualEdition(), c2))
+				.map(c -> new CategoryDTO(getVirtualEdition(), c)).collect(Collectors.toList());
+
+		try {
+			return mapper.writeValueAsString(categories);
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return null;
+	}
+
+	private void createTag(LdoDUser user, String categoryName, Annotation annotation) {
+		if (categoryName.contains(".")) {
+			String[] values = categoryName.split("\\.");
+			VirtualEdition edition = (VirtualEdition) LdoD.getInstance().getEdition(values[0]);
+			if (edition.getTaxonomy().getCategory(values[1]) != null)
+				edition.getTaxonomy().createTag(this, values[1], annotation, user);
+			else
+				throw new LdoDException("Cannot create Category in an inherited Virtual Edition");
+		} else {
+			getVirtualEdition().getTaxonomy().createTag(this, categoryName, annotation, user);
+		}
+	}
+
+	public void updateTags(Annotation annotation, List<String> tags) {
+		for (Tag tag : annotation.getTagSet()) {
+			if (!tags.contains(tag.getCategory().getNameInEditionContext(getVirtualEdition()))) {
+				tag.remove();
+			}
+		}
+
+		for (String tag : tags) {
+			if (!existsTag(tag)) {
+				createTag(annotation.getUser(), tag, annotation);
+			}
+		}
+
+	}
+
+	private boolean existsTag(String name) {
+		for (Tag tag : getTagSet()) {
+			if (tag.getCategory().getNameInEditionContext(getVirtualEdition()).equals(name)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public Set<VirtualEdition> getUsedIn() {
+		Set<VirtualEdition> editions = getIsUsedBySet().stream().flatMap(i -> i.getUsedIn().stream())
+				.collect(Collectors.toSet());
+		editions.add(getVirtualEdition());
+
+		return editions;
+
 	}
 
 }

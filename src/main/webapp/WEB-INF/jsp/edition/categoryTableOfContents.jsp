@@ -9,34 +9,33 @@
 
 	<div class="container">
 		<h3 class="text-center">
-			<spring:message code="virtualedition" />
+			<spring:message code="general.category" />
+			${category.getName()} (${category.getTagSet().size()}) - <spring:message code="general.taxonomy" />
 			<a
-				href="${contextPath}/edition/internalid/${category.getTaxonomy().getEdition().getExternalId()}">
+				href="${contextPath}/edition/taxonomy/${category.getTaxonomy().getExternalId()}">
 				${category.getTaxonomy().getEdition().title}</a>
 		</h3>
-		<h4 class="text-center">
-			<spring:message code="general.category" />
-			${category.getName()} (${category.getTagSet().size()})
-		</h4>
 
 		<table class="table table-hover table-condensed">
 			<thead>
 				<tr>
-					<th><spring:message code="tableofcontents.number" /></th>
 					<th><spring:message code="tableofcontents.title" /></th>
-					<th><spring:message code="general.weight" /></th>
+					<th><spring:message code="virtualedition" /></th>
+					<th><spring:message code="user.user" /></th>
 					<th><spring:message code="tableofcontents.usesEditions" /></th>
 				</tr>
 			<tbody>
-				<c:forEach var="categoryInFragInter"
-					items='${category.getSortedTags()}'>
+				<c:forEach var="inter" items='${category.getSortedInters()}'>
 					<tr>
-						<td>${categoryInFragInter.getInter().getNumber()}</td>
 						<td><a
-							href="${contextPath}/fragments/fragment/inter/${categoryInFragInter.getInter().getExternalId()}">${categoryInFragInter.getInter().getTitle()}</a></td>
-						<td>${categoryInFragInter.getWeight()}</td>
-						<td><c:forEach var="used"
-								items="${categoryInFragInter.getInter().getListUsed()}">-><a
+							href="${contextPath}/fragments/fragment/inter/${inter.getExternalId()}">${inter.getTitle()}</a></td>
+						<td><a
+							href="${contextPath}/edition/internalid/${inter.getEdition().getExternalId()}">${inter.getEdition().getTitle()}</a></td>
+						<td><c:forEach var="user"
+								items="${inter.getContributorSet(category)}">
+								<a href="${contextPath}/edition/user/${user.username}">${user.username}</a><span style="padding-left:1em"/> 
+							</c:forEach></td>
+						<td><c:forEach var="used" items="${inter.getListUsed()}">-><a
 									href="${contextPath}/fragments/fragment/inter/${used.externalId}">${used.shortName}</a>
 							</c:forEach></td>
 					</tr>

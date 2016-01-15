@@ -302,14 +302,8 @@ public class VirtualEdition extends VirtualEdition_Base {
 		return virtualInter;
 	}
 
-	public boolean checkAccess(LdoDUser user) {
-		if (getPub()) {
-			return true;
-		} else if (getParticipantSet().contains(user)) {
-			return true;
-		}
-
-		return false;
+	public boolean checkAccess() {
+		return getPub() || getParticipantSet().contains(LdoDUser.getAuthenticatedUser());
 	}
 
 	public List<VirtualEditionInter> getVirtualEditionIntersSet() {

@@ -17,8 +17,8 @@
 		<table class="table table-hover table-condensed">
 			<thead>
 				<tr>
-					<th><spring:message code="general.edition" /></th>
 					<th><spring:message code="tableofcontents.title" /></th>
+					<th><spring:message code="general.edition" /></th>
 					<th><spring:message code="general.category" /></th>
 					<th><spring:message code="tableofcontents.usesEditions" /></th>
 				</tr>
@@ -26,14 +26,14 @@
 				<c:forEach var="inter" items='${user.getFragInterSet()}'>
 					<tr>
 						<td><a
-							href="${contextPath}/edition/acronym/${inter.edition.acronym}">${inter.getEdition().getReference()}</a></td>
-						<td><a
 							href="${contextPath}/fragments/fragment/inter/${inter.externalId}">${inter.title}</a></td>
-						<td><c:forEach var="tag"
-								items='${inter.getEdition().getTaxonomy().getSortedTags(inter)}'>
+						<td><a
+							href="${contextPath}/edition/acronym/${inter.edition.acronym}">${inter.getEdition().getReference()}</a></td>
+						<td><c:forEach var="category"
+								items='${inter.getAssignedCategories(user)}'>
 								<a
-									href="${contextPath}/edition/category/${tag.getCategory().getExternalId()}">
-									${tag.getCategory().getName()} </a> (${tag.getWeight()})
+									href="${contextPath}/edition/category/${category.getExternalId()}">
+									${category.getNameInEditionContext(inter.getEdition())} </a>
                             </c:forEach></td>
 						<td><c:forEach var="used" items="${inter.getListUsed()}">-><a
 									href="${contextPath}/fragments/fragment/inter/${used.externalId}">${used.shortName}</a>

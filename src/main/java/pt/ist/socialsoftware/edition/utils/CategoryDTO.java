@@ -3,6 +3,7 @@ package pt.ist.socialsoftware.edition.utils;
 import java.io.Serializable;
 
 import pt.ist.socialsoftware.edition.domain.Category;
+import pt.ist.socialsoftware.edition.domain.VirtualEdition;
 
 //@JsonIgnoreProperties(ignoreUnknown = true)
 public class CategoryDTO implements Serializable {
@@ -15,9 +16,9 @@ public class CategoryDTO implements Serializable {
 	public CategoryDTO() {
 	}
 
-	public CategoryDTO(Category category) {
-		this.id = category.getName();
-		this.text = category.getName();
+	public CategoryDTO(VirtualEdition virtualEdition, Category category) {
+		this.id = category.getNameInEditionContext(virtualEdition);
+		this.text = category.getNameInEditionContext(virtualEdition);
 	}
 
 	public String getId() {

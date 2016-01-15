@@ -8,20 +8,19 @@ import java.util.Set;
 
 import org.joda.time.LocalDate;
 
-public class ExpertEdition extends ExpertEdition_Base implements
-		Comparable<ExpertEdition> {
+public class ExpertEdition extends ExpertEdition_Base implements Comparable<ExpertEdition> {
 	public static final String COELHO = "Jacinto do Prado Coelho";
 	public static final String CUNHA = "Teresa Sobral Cunha";
 	public static final String ZENITH = "Richard Zenith";
 	public static final String PIZARRO = "Jerónimo Pizarro";
 
-	public ExpertEdition(LdoD ldoD, String title, String author, String editor,
-			LocalDate date) {
+	public ExpertEdition(LdoD ldoD, String title, String author, String editor, LocalDate date) {
 		setLdoD4Expert(ldoD);
 		setTitle(title);
 		setAuthor(author);
 		setEditor(editor);
 		setDate(date);
+		setPub(true);
 
 		switch (editor) {
 		case COELHO:
@@ -102,28 +101,23 @@ public class ExpertEdition extends ExpertEdition_Base implements
 
 	}
 
-	public ExpertEditionInter getNextHeteronymInter(ExpertEditionInter inter,
-			Heteronym heteronym) {
-		List<ExpertEditionInter> interps = new ArrayList<ExpertEditionInter>(
-				getExpertEditionIntersSet());
+	public ExpertEditionInter getNextHeteronymInter(ExpertEditionInter inter, Heteronym heteronym) {
+		List<ExpertEditionInter> interps = new ArrayList<ExpertEditionInter>(getExpertEditionIntersSet());
 
 		Collections.sort(interps);
 
 		return findNextElementByHeteronym(inter, heteronym, interps);
 	}
 
-	public ExpertEditionInter getPrevHeteronymInter(ExpertEditionInter inter,
-			Heteronym heteronym) {
-		List<ExpertEditionInter> interps = new ArrayList<ExpertEditionInter>(
-				getExpertEditionIntersSet());
+	public ExpertEditionInter getPrevHeteronymInter(ExpertEditionInter inter, Heteronym heteronym) {
+		List<ExpertEditionInter> interps = new ArrayList<ExpertEditionInter>(getExpertEditionIntersSet());
 
 		Collections.sort(interps, Collections.reverseOrder());
 
 		return findNextElementByHeteronym(inter, heteronym, interps);
 	}
 
-	private ExpertEditionInter findNextElementByHeteronym(
-			ExpertEditionInter inter, Heteronym heteronym,
+	private ExpertEditionInter findNextElementByHeteronym(ExpertEditionInter inter, Heteronym heteronym,
 			List<ExpertEditionInter> interps) {
 		Boolean stopNext = false;
 		for (ExpertEditionInter tmpInter : interps) {

@@ -27,11 +27,10 @@
 
 		</thead>
 		<tbody>
-			<c:forEach var="category" items='${inter.getSortedCategories()}'>
+			<c:forEach var="category" items='${inter.getAssignedCategories()}'>
 				<tr>
-					<td><c:if
-							test="${category.getTaxonomy().getEdition() != taxonomy.getEdition()}">${category.getTaxonomy().getEdition().getAcronym()}.</c:if><a
-						href="${contextPath}/edition/category/${category.getExternalId()}">${category.getName()}</a>
+					<td><a
+						href="${contextPath}/edition/category/${category.getExternalId()}">${category.getNameInEditionContext(taxonomy.getEdition())}</a>
 						<c:if
 							test="${inter.getContributorSet(category).contains(userLdoD)}">
 							<a
@@ -69,30 +68,16 @@
 							</div>
 						</div>
 						<div class="form-group">
-							<div class="hidden">
-								<input type="hidden" name="taxonomyId" class="form-control"
-									value="${taxonomy.getExternalId()}">
-							</div>
-						</div>
-						<div class="form-group">
 							<select name="categories[]" id="category-select"
 								class="form-control" style="width: 75%" multiple="true">
 								<c:forEach var='category'
 									items='${inter.getNonAssignedCategories(user)}'>
-									<c:choose>
-										<c:when
-											test="${category.getTaxonomy().getEdition() != taxonomy.getEdition()}">
-											<option
-												value='${category.getTaxonomy().getEdition().getAcronym()}.${category.getName()}'>${category.getTaxonomy().getEdition().getAcronym()}.${category.getName()}</option>
-										</c:when>
-										<c:otherwise>
-											<option value='${category.getName()}'>${category.getName()}</option>
-										</c:otherwise>
-									</c:choose>
+									<option
+										value='${category.getNameInEditionContext(taxonomy.getEdition())}'>${category.getNameInEditionContext(taxonomy.getEdition())}</option>
 								</c:forEach>
 								<c:forEach var='category'
 									items='${inter.getAssignedCategories(user)}'>
-									<option value='${category.getName()}' selected='selected'>${category.getName()}</option>
+									<option value='${category.getNameInEditionContext(taxonomy.getEdition())}' selected='selected'>${category.getNameInEditionContext(taxonomy.getEdition())}</option>
 
 								</c:forEach>
 							</select>

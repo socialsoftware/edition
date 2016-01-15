@@ -6,11 +6,15 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import pt.ist.socialsoftware.edition.domain.Edition.EditionType;
 import pt.ist.socialsoftware.edition.recommendation.properties.Property;
 import pt.ist.socialsoftware.edition.search.options.SearchOption;
 
 public abstract class FragInter extends FragInter_Base implements Comparable<FragInter> {
+	private static Logger logger = LoggerFactory.getLogger(FragInter.class);
 
 	public void remove() {
 		setFragment(null);

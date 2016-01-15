@@ -36,6 +36,12 @@
 				</a>
 			</c:if>
 		</h2>
+		<h4 class="text-center">
+			<spring:message code="general.usedIn" />:
+			<c:forEach var='edition' items='${taxonomy.getUsedIn()}'><a
+					href="${contextPath}/edition/internalid/${edition.getExternalId()}">${edition.getAcronym()}</a>
+			</c:forEach>
+		</h4>
 
 		<div class="row col-md-12 has-error">
 			<c:forEach var="error" items='${errors}'>
@@ -215,14 +221,17 @@
 							</tr>
 						</thead>
 						<tbody>
-							<c:forEach var="category" items='${taxonomy.getCategoriesSet()}'>
+							<c:forEach var="category"
+								items='${taxonomy.getSortedCategories()}'>
 								<tr>
 									<td><a
 										href="${contextPath}/virtualeditions/restricted/category/${category.getExternalId()}">${category.getName()}</a></td>
-									<td><c:forEach var="tag"
-											items='${category.getSortedTags()}'>
+									<td><c:forEach var="inter"
+											items='${category.getSortedInters(virtualEdition)}'>
 											<a
-												href="${contextPath}/virtualeditions/restricted/fraginter/${tag.getInter().getExternalId()}">${tag.getInter().getTitle()}</a> (${tag.getWeight()})</c:forEach></td>
+												href="${contextPath}/virtualeditions/restricted/fraginter/${inter.getExternalId()}">${inter.getTitle()}</a>
+											<span style="padding-left: 2em" />
+										</c:forEach></td>
 									<c:if test="${taxonomy.canManipulateTaxonomy(userLdoD)}">
 										<td class="col-centered">
 											<div class="form-group">

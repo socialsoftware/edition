@@ -1,6 +1,7 @@
 package pt.ist.socialsoftware.edition.domain;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -82,18 +83,21 @@ public class LdoDUser extends LdoDUser_Base {
 
 	}
 
-	public Set<VirtualEditionInter> getFragInterSet() {
+	public List<VirtualEditionInter> getFragInterSet() {
 		Set<VirtualEditionInter> inters = new HashSet<VirtualEditionInter>();
 
 		for (Annotation annotation : getAnnotationSet()) {
-			inters.add(annotation.getVirtualEditionInter());
+			if (annotation.getVirtualEditionInter().getVirtualEdition().checkAccess())
+				inters.add(annotation.getVirtualEditionInter());
 		}
 
 		for (Tag tag : getTagSet()) {
-			inters.add(tag.getInter());
+			if (tag.getInter().getVirtualEdition().checkAccess())
+				inters.add(tag.getInter());
 		}
 
-		return inters;
+		return inters.stream().sorted((i1, i2) -> i1.getTitle().compareTo(i2.getTitle())).collect(Collectors.toList());
+
 	}
 
 	public RecommendationWeights getRecommendationWeights(VirtualEdition virtualEdition) {

@@ -32,7 +32,8 @@ public class AnnotationDTO implements Serializable {
 
 		tags = new ArrayList<String>();
 		for (Tag tag : annotation.getTagSet()) {
-			tags.add(tag.getCategory().getName());
+			tags.add(
+					tag.getCategory().getNameInEditionContext(annotation.getVirtualEditionInter().getVirtualEdition()));
 		}
 
 		ranges = new ArrayList<RangeJson>();

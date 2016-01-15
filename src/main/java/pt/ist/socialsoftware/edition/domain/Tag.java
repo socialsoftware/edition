@@ -4,18 +4,28 @@ import pt.ist.socialsoftware.edition.shared.exception.LdoDException;
 
 public class Tag extends Tag_Base implements Comparable<Tag> {
 
-	public Tag init(VirtualEditionInter inter, String categoryName, Annotation annotation, LdoDUser user) {
+	public Tag init(VirtualEdition virtualEdition, VirtualEditionInter inter, String categoryName,
+			Annotation annotation, LdoDUser user) {
 		setInter(inter);
-		Taxonomy taxonomy = inter.getVirtualEdition().getTaxonomy();
+		Taxonomy taxonomy = virtualEdition.getTaxonomy();
 		Category category = taxonomy.getCategory(categoryName);
 		if (category == null)
 			if (taxonomy.getOpenVocabulary()) {
 				category = taxonomy.createCategory(categoryName);
 			} else {
-				throw new LdoDException("Create Category with Closed Vocabulary");
+				throw new LdoDException("Cannot create Category using Closed Vocabulary");
 			}
 		setCategory(category);
 		setAnnotation(annotation);
+		setContributor(user);
+
+		return this;
+	}
+
+	public Tag init(VirtualEditionInter inter, Category category, LdoDUser user) {
+		setInter(inter);
+		setCategory(category);
+		setAnnotation(null);
 		setContributor(user);
 
 		return this;
@@ -39,16 +49,7 @@ public class Tag extends Tag_Base implements Comparable<Tag> {
 
 	@Override
 	public int compareTo(Tag other) {
-		if (this.getWeight() < other.getWeight())
-			return 1;
-		else if (this.getWeight() > other.getWeight())
-			return -1;
-		else
-			return 0;
-	}
-
-	public int getWeight() {
-		return 1;
+		return this.getCategory().getName().compareTo(other.getCategory().getName());
 	}
 
 }

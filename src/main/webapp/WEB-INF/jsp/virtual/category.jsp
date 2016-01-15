@@ -24,7 +24,7 @@
 	<div class="container">
 		<h2 class="text-center">
 			<spring:message code="virtualedition" />
-			${category.getTaxonomy().getEdition().getTitle()}
+			${taxonomy.getEdition().getTitle()}
 		</h2>
 		<div class="row">
 			<h4 class="pull-right">
@@ -96,10 +96,10 @@
 				</thead>
 				<tbody>
 					<tr>
-						<td><c:forEach var="tag" items='${category.getSortedTags()}'>
+						<td><c:forEach var="inter" items='${category.getSortedInters(taxonomy.getEdition())}'>
 								<a
-									href="${contextPath}/virtualeditions/restricted/fraginter/${tag.getInter().getExternalId()}">
-									${tag.getInter().getTitle()}</a> (${tag.getWeight()})
+									href="${contextPath}/virtualeditions/restricted/fraginter/${inter.getExternalId()}">
+									${inter.getTitle()}</a><span style="padding-left:2em"/> 
                                     </c:forEach></td>
 					</tr>
 
@@ -163,14 +163,14 @@
 								</tr>
 							</thead>
 							<tbody>
-								<c:forEach var="tag" items='${category.getSortedTags()}'>
+								<c:forEach var="inter" items='${category.getSortedInters(taxonomy.getEdition())}'>
 									<tr>
-										<td>${tag.getInter().getTitle()}(${tag.getWeight()})</td>
+										<td>${inter.getTitle()} </td>
 										<td class="col-centered">
 											<div class="form-group">
 												<div class="checkbox">
-													<label> <input type="checkbox" name="tags[]"
-														value="${tag.getExternalId()}">
+													<label> <input type="checkbox" name="inters[]"
+														value="${inter.getExternalId()}">
 													</label>
 												</div>
 											</div>

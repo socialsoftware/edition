@@ -2,6 +2,7 @@ package pt.ist.socialsoftware.edition.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,6 +16,7 @@ import pt.ist.socialsoftware.edition.domain.ExpertEdition;
 import pt.ist.socialsoftware.edition.domain.Heteronym;
 import pt.ist.socialsoftware.edition.domain.LdoD;
 import pt.ist.socialsoftware.edition.domain.LdoDUser;
+import pt.ist.socialsoftware.edition.domain.Taxonomy;
 
 @Controller
 @RequestMapping("/edition")
@@ -22,6 +24,7 @@ public class EditionController {
 	private static Logger logger = LoggerFactory.getLogger(EditionController.class);
 
 	@RequestMapping(method = RequestMethod.GET, value = "/acronym/{acronym}")
+	@PreAuthorize("hasPermission(#acronym, 'editionacronym.public')")
 	public String getEditionTableOfContentsbyAcronym(Model model, @PathVariable String acronym) {
 
 		Edition edition = LdoD.getInstance().getEdition(acronym);
@@ -37,10 +40,11 @@ public class EditionController {
 
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "/internalid/{id}")
-	public String getEditionTableOfContentsbyId(Model model, @PathVariable String id) {
+	@RequestMapping(method = RequestMethod.GET, value = "/internalid/{externalId}")
+	@PreAuthorize("hasPermission(#externalId, 'edition.public')")
+	public String getEditionTableOfContentsbyId(Model model, @PathVariable String externalId) {
 
-		Edition edition = FenixFramework.getDomainObject(id);
+		Edition edition = FenixFramework.getDomainObject(externalId);
 
 		if (edition == null) {
 			return "utils/pageNotFound";
@@ -84,10 +88,25 @@ public class EditionController {
 		}
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "/category/{categoryId}")
-	public String getCategoryTableOfContents(Model model, @PathVariable String categoryId) {
+	@RequestMapping(method = RequestMethod.GET, value = "/taxonomy/{externalId}")
+	@PreAuthorize("hasPermission(#externalId, 'taxonomy.public')")
+	public String getTaxonomyTableOfContents(Model model, @PathVariable String externalId) {
 
-		Category category = FenixFramework.getDomainObject(categoryId);
+		Taxonomy taxonomy = FenixFramework.getDomainObject(externalId);
+
+		if (taxonomy != null) {
+			model.addAttribute("taxonomy", taxonomy);
+			return "edition/taxonomyTableOfContents";
+		} else {
+			return "utils/pageNotFound";
+		}
+	}
+
+	@RequestMapping(method = RequestMethod.GET, value = "/category/{externalId}")
+	@PreAuthorize("hasPermission(#externalId, 'category.public')")
+	public String getCategoryTableOfContents(Model model, @PathVariable String externalId) {
+
+		Category category = FenixFramework.getDomainObject(externalId);
 
 		if (category != null) {
 			model.addAttribute("category", category);
