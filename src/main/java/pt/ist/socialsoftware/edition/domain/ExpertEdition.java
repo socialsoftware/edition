@@ -15,7 +15,6 @@ public class ExpertEdition extends ExpertEdition_Base implements Comparable<Expe
 	public static final String PIZARRO = "Jerónimo Pizarro";
 
 	public ExpertEdition(LdoD ldoD, String title, String author, String editor, LocalDate date) {
-		setLdoD4Expert(ldoD);
 		setTitle(title);
 		setAuthor(author);
 		setEditor(editor);
@@ -38,6 +37,8 @@ public class ExpertEdition extends ExpertEdition_Base implements Comparable<Expe
 		default:
 			assert false : "Nome de editor com erros: " + editor;
 		}
+
+		setLdoD4Expert(ldoD);
 	}
 
 	@Override
