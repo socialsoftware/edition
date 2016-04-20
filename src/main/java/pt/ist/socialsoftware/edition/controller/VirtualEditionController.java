@@ -118,11 +118,7 @@ public class VirtualEditionController {
 					LdoDUser.getAuthenticatedUser());
 		}
 
-		model.addAttribute("expertEditions", LdoD.getInstance().getSortedExpertEdition());
-		model.addAttribute("virtualEditions",
-				LdoD.getInstance().getVirtualEditions4User(LdoDUser.getAuthenticatedUser(), ldoDSession));
-		model.addAttribute("user", LdoDUser.getAuthenticatedUser());
-		return "virtual/editions";
+		return "redirect:/virtualeditions";
 
 	}
 
@@ -143,11 +139,7 @@ public class VirtualEditionController {
 				ldoDSession.removeSelectedVE(acronym);
 			}
 
-			model.addAttribute("expertEditions", LdoD.getInstance().getSortedExpertEdition());
-			model.addAttribute("virtualEditions",
-					LdoD.getInstance().getVirtualEditions4User(LdoDUser.getAuthenticatedUser(), ldoDSession));
-			model.addAttribute("user", LdoDUser.getAuthenticatedUser());
-			return "virtual/editions";
+			return "redirect:/virtualeditions";
 		}
 	}
 
@@ -203,12 +195,7 @@ public class VirtualEditionController {
 			throw new LdoDEditVirtualEditionException(errors, virtualEdition, acronym, title, pub);
 		}
 
-		model.addAttribute("expertEditions", LdoD.getInstance().getSortedExpertEdition());
-		model.addAttribute("virtualEditions",
-				LdoD.getInstance().getVirtualEditions4User(LdoDUser.getAuthenticatedUser(), ldoDSession));
-		model.addAttribute("user", LdoDUser.getAuthenticatedUser());
-
-		return "virtual/editions";
+		return "redirect:/virtualeditions";
 	}
 
 	@RequestMapping(method = RequestMethod.POST, value = "/toggleselection")
@@ -224,11 +211,7 @@ public class VirtualEditionController {
 
 		ldoDSession.toggleSelectedVirtualEdition(user, virtualEdition);
 
-		model.addAttribute("expertEditions", LdoD.getInstance().getSortedExpertEdition());
-		model.addAttribute("virtualEditions",
-				LdoD.getInstance().getVirtualEditions4User(LdoDUser.getAuthenticatedUser(), ldoDSession));
-		model.addAttribute("user", user);
-		return "virtual/editions";
+		return "redirect:/virtualeditions";
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/restricted/{externalId}/participants")
@@ -255,9 +238,7 @@ public class VirtualEditionController {
 
 			virtualEdition.addMember(user, MemberRole.MEMBER, false);
 
-			model.addAttribute("virtualEditions", LdoD.getInstance().getVirtualEditions4User(user, ldoDSession));
-			model.addAttribute("user", user);
-			return "virtual/editions";
+			return "redirect:/virtualeditions";
 		}
 	}
 
@@ -273,9 +254,7 @@ public class VirtualEditionController {
 
 			virtualEdition.cancelParticipationSubmission(user);
 
-			model.addAttribute("virtualEditions", LdoD.getInstance().getVirtualEditions4User(user, ldoDSession));
-			model.addAttribute("user", user);
-			return "virtual/editions";
+			return "redirect:/virtualeditions";
 		}
 	}
 
@@ -382,10 +361,7 @@ public class VirtualEditionController {
 			virtualEdition.removeMember(user);
 
 			if (user == LdoDUser.getAuthenticatedUser()) {
-				model.addAttribute("virtualEditions",
-						LdoD.getInstance().getVirtualEditions4User(LdoDUser.getAuthenticatedUser(), ldoDSession));
-				model.addAttribute("user", LdoDUser.getAuthenticatedUser());
-				return "virtual/editions";
+				return "redirect:/virtualeditions";
 			} else {
 				model.addAttribute("virtualEdition", virtualEdition);
 				return "virtual/participants";
