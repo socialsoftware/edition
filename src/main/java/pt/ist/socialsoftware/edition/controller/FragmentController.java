@@ -95,7 +95,7 @@ public class FragmentController {
 			return "util/pageNotFound";
 		}
 
-		PlainHtmlWriter4OneInter writer = new PlainHtmlWriter4OneInter(inter);
+		PlainHtmlWriter4OneInter writer = new PlainHtmlWriter4OneInter(inter.getLastUsed());
 		writer.write(false);
 
 		// if it is a virtual interpretation check access and set session

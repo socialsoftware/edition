@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.domain.Edition.EditionType;
@@ -38,6 +39,7 @@ import pt.ist.socialsoftware.edition.domain.Role.RoleType;
 import pt.ist.socialsoftware.edition.forms.EditUserForm;
 import pt.ist.socialsoftware.edition.loaders.LoadTEICorpus;
 import pt.ist.socialsoftware.edition.loaders.LoadTEIFragments;
+import pt.ist.socialsoftware.edition.shared.exception.LdoDException;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDLoadException;
 import pt.ist.socialsoftware.edition.validator.EditUserValidator;
 import pt.ist.socialsoftware.edition.visitors.JDomTEIGenerator;
@@ -50,75 +52,90 @@ public class AdminController {
 	@Inject
 	private PasswordEncoder passwordEncoder;
 
-	@RequestMapping(method = RequestMethod.GET, value = "/load/corpusForm")
+	@RequestMapping(method = RequestMethod.GET, value = "/loadForm")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	public String corpusForm(Model model) {
-		return "admin/loadCorpus";
+	public String loadForm(Model model) {
+		Boolean error = (Boolean) model.asMap().get("error");
+		model.addAttribute("error", error);
+		String message = (String) model.asMap().get("message");
+		model.addAttribute("message", message);
+		return "admin/loadForm";
 	}
 
 	@RequestMapping(method = RequestMethod.POST, value = "/load/corpus")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	public String loadTEICorpus(Model model, @RequestParam("file") MultipartFile file) throws LdoDLoadException {
+	public String loadTEICorpus(RedirectAttributes redirectAttributes, @RequestParam("file") MultipartFile file)
+			throws LdoDLoadException {
 
 		if (file == null) {
-			throw new LdoDLoadException("Deve escolher um ficheiro");
+			redirectAttributes.addFlashAttribute("error", true);
+			redirectAttributes.addFlashAttribute("message", "Deve escolher um ficheiro");
+			return "redirect:/admin/loadForm";
 		}
 
 		LoadTEICorpus loader = new LoadTEICorpus();
 		try {
 			loader.loadTEICorpus(file.getInputStream());
 		} catch (IOException e) {
-			throw new LdoDLoadException("Problemas com o ficheiro, tipo ou formato");
+			redirectAttributes.addFlashAttribute("error", true);
+			redirectAttributes.addFlashAttribute("message", "Problemas com o ficheiro, tipo ou formato");
+			return "redirect:/admin/loadForm";
+		} catch (LdoDException ldodE) {
+			redirectAttributes.addFlashAttribute("error", true);
+			redirectAttributes.addFlashAttribute("message", ldodE.getMessage());
+			return "redirect:/admin/loadForm";
 		}
 
-		return writeMessage(model, "Corpus carregado", "/");
-	}
-
-	@RequestMapping(method = RequestMethod.GET, value = "/load/fragmentFormAtOnce")
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	public String fragmentFormAtOnce(Model model) {
-		return "admin/loadFragmentsAtOnce";
-	}
-
-	@RequestMapping(method = RequestMethod.GET, value = "/load/fragmentFormStepByStep")
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	public String fragmentFormStepByStep(Model model) {
-		return "admin/loadFragmentsStepByStep";
+		redirectAttributes.addFlashAttribute("error", false);
+		redirectAttributes.addFlashAttribute("message", "Corpus carregado");
+		return "redirect:/admin/loadForm";
 	}
 
 	@RequestMapping(method = RequestMethod.POST, value = "/load/fragmentsAtOnce")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	public String loadTEIFragmentsAtOnce(Model model, @RequestParam("file") MultipartFile file)
-			throws LdoDLoadException {
+	public String loadTEIFragmentsAtOnce(RedirectAttributes redirectAttributes,
+			@RequestParam("file") MultipartFile file) throws LdoDLoadException {
 		String message = null;
 
 		if (file == null) {
-			throw new LdoDLoadException("Deve escolher um ficheiro");
+			redirectAttributes.addFlashAttribute("error", true);
+			redirectAttributes.addFlashAttribute("message", "Deve escolher um ficheiro");
+			return "redirect:/admin/loadForm";
 		}
 
 		LoadTEIFragments loader = new LoadTEIFragments();
 		try {
 			message = loader.loadFragmentsAtOnce(file.getInputStream());
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			redirectAttributes.addFlashAttribute("error", true);
+			redirectAttributes.addFlashAttribute("message", "Problemas com o ficheiro, tipo ou formato");
+			return "redirect:/admin/loadForm";
+		} catch (LdoDException ldodE) {
+			redirectAttributes.addFlashAttribute("error", true);
+			redirectAttributes.addFlashAttribute("message", ldodE.getMessage());
+			return "redirect:/admin/loadForm";
 		}
 
 		if (message == null) {
-			return writeMessage(model, "Fragmentos carregados", "/search/fragments");
+			redirectAttributes.addFlashAttribute("error", false);
+			redirectAttributes.addFlashAttribute("message", "Fragmento carregado");
+			return "redirect:/admin/loadForm";
 		} else {
-			model.addAttribute("message", message);
-			return "utils/ldoDExceptionPage";
+			redirectAttributes.addFlashAttribute("error", true);
+			redirectAttributes.addFlashAttribute("message", message);
+			return "redirect:/admin/loadForm";
 		}
 	}
 
 	@RequestMapping(method = RequestMethod.POST, value = "/load/fragmentsStepByStep")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	public String loadTEIFragmentsStepByStep(Model model, @RequestParam("files") MultipartFile[] files)
-			throws LdoDLoadException {
+	public String loadTEIFragmentsStepByStep(RedirectAttributes redirectAttributes,
+			@RequestParam("files") MultipartFile[] files) throws LdoDLoadException {
 
 		if (files == null) {
-			throw new LdoDLoadException("Deve escolher um ficheiro");
+			redirectAttributes.addFlashAttribute("error", true);
+			redirectAttributes.addFlashAttribute("message", "Deve escolher um ficheiro");
+			return "redirect:/admin/loadForm";
 		}
 
 		LoadTEIFragments loader = new LoadTEIFragments();
@@ -130,18 +147,19 @@ public class AdminController {
 				list = list + loader.loadFragmentsStepByStep(file.getInputStream());
 				total++;
 			} catch (IOException e) {
-				throw new LdoDLoadException("Problemas com o ficheiro, tipo ou formato");
+				redirectAttributes.addFlashAttribute("error", true);
+				redirectAttributes.addFlashAttribute("message", "Problemas com o ficheiro, tipo ou formato");
+				return "redirect:/admin/loadForm";
+			} catch (LdoDException ldodE) {
+				redirectAttributes.addFlashAttribute("error", true);
+				redirectAttributes.addFlashAttribute("message", ldodE.getMessage());
+				return "redirect:/admin/loadForm";
 			}
 		}
 
-		return writeMessage(model, "Fragmentos carregados: " + total + "<br>" + list, "/search/fragments");
-
-	}
-
-	private String writeMessage(Model model, String message, String back) {
-		model.addAttribute("message", message);
-		model.addAttribute("page", back);
-		return "utils/okMessage";
+		redirectAttributes.addFlashAttribute("error", false);
+		redirectAttributes.addFlashAttribute("message", "Fragmentos carregados: " + total + "<br>" + list);
+		return "redirect:/admin/loadForm";
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/fragment/list")
@@ -155,15 +173,12 @@ public class AdminController {
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public String deleteFragment(Model model, @RequestParam("externalId") String externalId) {
 		Fragment fragment = FenixFramework.getDomainObject(externalId);
-
 		if (fragment == null) {
 			return "utils/pageNotFound";
 		} else if (LdoD.getInstance().getFragmentsSet().size() >= 1) {
 			fragment.remove();
 		}
-		model.addAttribute("fragments", LdoD.getInstance().getFragmentsSet());
-		return "admin/deleteFragment";
-
+		return "redirect:/admin/fragment/list";
 	}
 
 	@RequestMapping(method = RequestMethod.POST, value = "/fragment/deleteAll")
@@ -172,10 +187,7 @@ public class AdminController {
 		for (Fragment fragment : LdoD.getInstance().getFragmentsSet()) {
 			fragment.remove();
 		}
-
-		model.addAttribute("fragments", LdoD.getInstance().getFragmentsSet());
-		return "admin/deleteFragment";
-
+		return "redirect:/admin/fragment/list";
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/user/list")
@@ -342,7 +354,6 @@ public class AdminController {
 			System.out.println("Error writing file to output stream. Filename was '{}'");
 			throw new RuntimeException("IOError writing file to output stream");
 		}
-
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/exportRandom")
@@ -391,6 +402,6 @@ public class AdminController {
 			System.out.println("Error writing file to output stream. Filename was '{}'");
 			throw new RuntimeException("IOError writing file to output stream");
 		}
-
 	}
+
 }

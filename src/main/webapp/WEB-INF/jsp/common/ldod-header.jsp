@@ -70,13 +70,8 @@
 					data-toggle="dropdown"><spring:message code="header.admin" />
 						<b class="caret"></b></a>
 					<ul class="dropdown-menu">
-						<li><a href="${contextPath}/admin/load/corpusForm"><spring:message
-									code="corpus.load" /></a></li>
-						<li><a href="${contextPath}/admin/load/fragmentFormAtOnce"><spring:message
-									code="fragment.load" /></a></li>
-						<li><a
-							href="${contextPath}/admin/load/fragmentFormStepByStep"><spring:message
-									code="fragments.load" /></a></li>
+						<li><a href="${contextPath}/admin/loadForm"><spring:message
+									code="load" /></a></li>
 						<li class="divider"></li>
 						<li><a href="${contextPath}/admin/exportForm"><spring:message
 									code="general.export" /></a></li>

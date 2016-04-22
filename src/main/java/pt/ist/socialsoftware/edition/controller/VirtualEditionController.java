@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.domain.Category;
@@ -45,7 +46,6 @@ import pt.ist.socialsoftware.edition.shared.exception.LdoDException;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDExceptionNonAuthorized;
 import pt.ist.socialsoftware.edition.utils.TopicListDTO;
 import pt.ist.socialsoftware.edition.validator.VirtualEditionValidator;
-import pt.ist.socialsoftware.edition.visitors.PlainHtmlWriter4OneInter;
 
 @Controller
 @SessionAttributes({ "ldoDSession" })
@@ -221,6 +221,10 @@ public class VirtualEditionController {
 		if (virtualEdition == null) {
 			return "utils/pageNotFound";
 		} else {
+			List<String> errors = (List<String>) model.asMap().get("errors");
+			String username = (String) model.asMap().get("username");
+			model.addAttribute("errors", errors);
+			model.addAttribute("username", username);
 			model.addAttribute("virtualEdition", virtualEdition);
 			return "virtual/participants";
 		}
@@ -235,9 +239,7 @@ public class VirtualEditionController {
 		if (virtualEdition == null || user == null) {
 			return "utils/pageNotFound";
 		} else {
-
 			virtualEdition.addMember(user, MemberRole.MEMBER, false);
-
 			return "redirect:/virtualeditions";
 		}
 	}
@@ -251,17 +253,15 @@ public class VirtualEditionController {
 		if (virtualEdition == null || user == null) {
 			return "utils/pageNotFound";
 		} else {
-
 			virtualEdition.cancelParticipationSubmission(user);
-
 			return "redirect:/virtualeditions";
 		}
 	}
 
 	@RequestMapping(method = RequestMethod.POST, value = "/restricted/{externalId}/participants/approve")
 	@PreAuthorize("hasPermission(#externalId, 'virtualedition.admin')")
-	public String approveParticipant(Model model, @PathVariable("externalId") String externalId,
-			@RequestParam("username") String username) {
+	public String approveParticipant(RedirectAttributes redirectAttributes,
+			@PathVariable("externalId") String externalId, @RequestParam("username") String username) {
 
 		VirtualEdition virtualEdition = FenixFramework.getDomainObject(externalId);
 		if (virtualEdition == null) {
@@ -273,20 +273,18 @@ public class VirtualEditionController {
 		if (user == null) {
 			List<String> errors = new ArrayList<String>();
 			errors.add("user.unknown");
-			model.addAttribute("errors", errors);
-			model.addAttribute("username", username);
-			model.addAttribute("virtualEdition", virtualEdition);
-			return "virtual/participants";
+			redirectAttributes.addFlashAttribute("errors", errors);
+			redirectAttributes.addFlashAttribute("username", username);
+			return "redirect:/virtualeditions/restricted/" + externalId + "/participants";
 		} else {
 			virtualEdition.addApprove(user);
-			model.addAttribute("virtualEdition", virtualEdition);
-			return "virtual/participants";
+			return "redirect:/virtualeditions/restricted/" + externalId + "/participants";
 		}
 	}
 
 	@RequestMapping(method = RequestMethod.POST, value = "/restricted/{externalId}/participants/add")
 	@PreAuthorize("hasPermission(#externalId, 'virtualedition.admin')")
-	public String addParticipant(Model model, @PathVariable("externalId") String externalId,
+	public String addParticipant(RedirectAttributes redirectAttributes, @PathVariable("externalId") String externalId,
 			@RequestParam("username") String username) {
 
 		VirtualEdition virtualEdition = FenixFramework.getDomainObject(externalId);
@@ -299,14 +297,12 @@ public class VirtualEditionController {
 		if (user == null) {
 			List<String> errors = new ArrayList<String>();
 			errors.add("user.unknown");
-			model.addAttribute("errors", errors);
-			model.addAttribute("username", username);
-			model.addAttribute("virtualEdition", virtualEdition);
-			return "virtual/participants";
+			redirectAttributes.addFlashAttribute("errors", errors);
+			redirectAttributes.addFlashAttribute("username", username);
+			return "redirect:/virtualeditions/restricted/" + externalId + "/participants";
 		} else {
 			virtualEdition.addMember(user, MemberRole.MEMBER, true);
-			model.addAttribute("virtualEdition", virtualEdition);
-			return "virtual/participants";
+			return "redirect:/virtualeditions/restricted/" + externalId + "/participants";
 		}
 	}
 
@@ -327,14 +323,16 @@ public class VirtualEditionController {
 			throw new LdoDExceptionNonAuthorized();
 
 		virtualEdition.switchRole(user);
-		model.addAttribute("virtualEdition", virtualEdition);
-		return "virtual/participants";
+
+		return "redirect:/virtualeditions/restricted/" + externalId + "/participants";
+
 	}
 
 	@RequestMapping(method = RequestMethod.POST, value = "/restricted/{externalId}/participants/remove")
 	@PreAuthorize("hasPermission(#externalId, 'virtualedition.participant')")
-	public String removeParticipant(Model model, @ModelAttribute("ldoDSession") LdoDSession ldoDSession,
-			@PathVariable("externalId") String externalId, @RequestParam("userId") String userId) {
+	public String removeParticipant(RedirectAttributes redirectAttributes,
+			@ModelAttribute("ldoDSession") LdoDSession ldoDSession, @PathVariable("externalId") String externalId,
+			@RequestParam("userId") String userId) {
 		logger.debug("removeParticipant userId:{}", userId);
 
 		VirtualEdition virtualEdition = FenixFramework.getDomainObject(externalId);
@@ -354,17 +352,16 @@ public class VirtualEditionController {
 		if (admin != null && admin == user) {
 			List<String> errors = new ArrayList<String>();
 			errors.add("user.one");
-			model.addAttribute("errors", errors);
-			model.addAttribute("virtualEdition", virtualEdition);
-			return "virtual/participants";
+			redirectAttributes.addFlashAttribute("errors", errors);
+			return "redirect:/virtualeditions/restricted/" + externalId + "/participants";
+
 		} else {
 			virtualEdition.removeMember(user);
 
 			if (user == LdoDUser.getAuthenticatedUser()) {
 				return "redirect:/virtualeditions";
 			} else {
-				model.addAttribute("virtualEdition", virtualEdition);
-				return "virtual/participants";
+				return "redirect:/virtualeditions/restricted/" + externalId + "/participants";
 			}
 		}
 	}
@@ -381,21 +378,10 @@ public class VirtualEditionController {
 		VirtualEditionInter addInter = virtualEdition.createVirtualEditionInter(inter,
 				virtualEdition.getMaxFragNumber() + 1);
 
-		if (addInter != null) {
-			List<FragInter> inters = new ArrayList<FragInter>();
-			inters.add(addInter);
-
-			PlainHtmlWriter4OneInter writer = new PlainHtmlWriter4OneInter(addInter.getLastUsed());
-			writer.write(false);
-
-			model.addAttribute("ldoD", LdoD.getInstance());
-			model.addAttribute("user", LdoDUser.getAuthenticatedUser());
-			model.addAttribute("fragment", inter.getFragment());
-			model.addAttribute("inters", inters);
-			model.addAttribute("writer", writer);
-			return "fragment/main";
-		} else {
+		if (addInter == null) {
 			return "utils/pageNotFound";
+		} else {
+			return "redirect:/fragments/fragment/inter/" + interId;
 		}
 	}
 
@@ -406,6 +392,8 @@ public class VirtualEditionController {
 		if (virtualEdition == null) {
 			return "utils/pageNotFound";
 		} else {
+			List<String> errors = (List<String>) model.asMap().get("categoryErrors");
+			model.addAttribute("categoryErrors", errors);
 			model.addAttribute("virtualEdition", virtualEdition);
 			return "virtual/taxonomy";
 		}
@@ -423,11 +411,8 @@ public class VirtualEditionController {
 		if (edition == null) {
 			return "utils/pageNotFound";
 		} else {
-
 			edition.getTaxonomy().edit(management, vocabulary, annotation);
-
-			model.addAttribute("virtualEdition", edition);
-			return "virtual/taxonomy";
+			return "redirect:/virtualeditions/restricted/" + externalId + "/taxonomy";
 		}
 	}
 
@@ -487,8 +472,7 @@ public class VirtualEditionController {
 			Taxonomy taxonomy = virtualEdition.getTaxonomy();
 			taxonomy.createGeneratedCategories(topicList);
 
-			model.addAttribute("virtualEdition", virtualEdition);
-			return "virtual/taxonomy";
+			return "redirect:/virtualeditions/restricted/" + externalId + "/taxonomy";
 		}
 
 	}
@@ -502,19 +486,16 @@ public class VirtualEditionController {
 			return "utils/pageNotFound";
 		} else {
 			VirtualEdition edition = taxonomy.getEdition();
-
 			taxonomy.remove();
-
 			edition.setTaxonomy(new Taxonomy());
 
-			model.addAttribute("virtualEdition", edition);
-			return "virtual/taxonomy";
+			return "redirect:/virtualeditions/restricted/" + externalId + "/taxonomy";
 		}
 	}
 
 	@RequestMapping(method = RequestMethod.POST, value = "/restricted/category/create")
 	@PreAuthorize("hasPermission(#externalId, 'virtualedition.taxonomy')")
-	public String createCategory(Model model, @RequestParam("externalId") String externalId,
+	public String createCategory(RedirectAttributes redirectAttributes, @RequestParam("externalId") String externalId,
 			@RequestParam("name") String name) {
 		VirtualEdition edition = FenixFramework.getDomainObject(externalId);
 		List<String> errors = new ArrayList<String>();
@@ -528,20 +509,18 @@ public class VirtualEditionController {
 			}
 
 			if (errors.isEmpty()) {
-				model.addAttribute("virtualEdition", edition);
-				return "virtual/taxonomy";
+				return "redirect:/virtualeditions/restricted/" + externalId + "/taxonomy";
 			} else {
-				model.addAttribute("categoryErrors", errors);
-				model.addAttribute("virtualEdition", edition);
-				return "virtual/taxonomy";
+				redirectAttributes.addFlashAttribute("categoryErrors", errors);
+				return "redirect:/virtualeditions/restricted/" + externalId + "/taxonomy";
 			}
 		}
 	}
 
 	@RequestMapping(method = RequestMethod.POST, value = "/restricted/category/update")
 	@PreAuthorize("hasPermission(#categoryId, 'category.taxonomy')")
-	public String updateCategoryName(Model model, @RequestParam("categoryId") String categoryId,
-			@RequestParam("name") String name) {
+	public String updateCategoryName(RedirectAttributes redirectAttributes,
+			@RequestParam("categoryId") String categoryId, @RequestParam("name") String name) {
 		Category category = FenixFramework.getDomainObject(categoryId);
 		List<String> errors = new ArrayList<String>();
 		if (category == null) {
@@ -553,9 +532,8 @@ public class VirtualEditionController {
 				errors.add("Já existe uma categoria com nome \"" + name + "\"");
 
 			}
-			model.addAttribute("errors", errors);
-			model.addAttribute("category", category);
-			return "virtual/category";
+			redirectAttributes.addFlashAttribute("errors", errors);
+			return "redirect:/virtualeditions/restricted/category/" + categoryId;
 		}
 	}
 
@@ -566,13 +544,10 @@ public class VirtualEditionController {
 		if (category == null) {
 			return "utils/pageNotFound";
 		}
-
 		VirtualEdition virtualEdition = category.getTaxonomy().getEdition();
-
 		category.remove();
 
-		model.addAttribute("virtualEdition", virtualEdition);
-		return "virtual/taxonomy";
+		return "redirect:/virtualeditions/restricted/" + virtualEdition.getExternalId() + "/taxonomy";
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/restricted/category/{categoryId}")
@@ -582,6 +557,8 @@ public class VirtualEditionController {
 		if (category == null) {
 			return "utils/pageNotFound";
 		} else {
+			List<String> errors = (List<String>) model.asMap().get("errors");
+			model.addAttribute("errors", errors);
 			model.addAttribute("category", category);
 			return "virtual/category";
 		}
@@ -598,8 +575,7 @@ public class VirtualEditionController {
 		}
 
 		if (categoriesIds == null) {
-			model.addAttribute("virtualEdition", taxonomy.getEdition());
-			return "virtual/taxonomy";
+			return "redirect:/virtualeditions/restricted/" + taxonomy.getEdition().getExternalId() + "/taxonomy";
 		}
 
 		List<Category> categories = new ArrayList<Category>();
@@ -610,18 +586,15 @@ public class VirtualEditionController {
 
 		if (type.equals("merge") && categories.size() > 1) {
 			Category category = taxonomy.merge(categories);
-			model.addAttribute("category", category);
-			return "virtual/category";
+			return "redirect:/virtualeditions/restricted/category/" + category.getExternalId();
 		}
 
 		if (type.equals("delete") && categories.size() >= 1) {
 			taxonomy.delete(categories);
-			model.addAttribute("virtualEdition", taxonomy.getEdition());
-			return "virtual/taxonomy";
+			return "redirect:/virtualeditions/restricted/" + taxonomy.getEdition().getExternalId() + "/taxonomy";
 		}
 
-		model.addAttribute("virtualEdition", taxonomy.getEdition());
-		return "virtual/taxonomy";
+		return "redirect:/virtualeditions/restricted/" + taxonomy.getEdition().getExternalId() + "/taxonomy";
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/restricted/category/extractForm")
@@ -647,8 +620,7 @@ public class VirtualEditionController {
 		}
 
 		if ((interIds == null) || (interIds.length == 0)) {
-			model.addAttribute("category", category);
-			return "virtual/category";
+			return "redirect:/virtualeditions/restricted/category/" + category.getExternalId();
 		}
 
 		Set<VirtualEditionInter> inters = new HashSet<VirtualEditionInter>();
@@ -659,9 +631,7 @@ public class VirtualEditionController {
 
 		Category extractedCategory = category.getTaxonomy().extract(category, inters);
 
-		model.addAttribute("category", extractedCategory);
-		return "virtual/category";
-
+		return "redirect:/virtualeditions/restricted/category/" + extractedCategory.getExternalId();
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/restricted/fraginter/{fragInterId}")
