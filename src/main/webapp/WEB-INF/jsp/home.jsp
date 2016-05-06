@@ -26,26 +26,28 @@
 		</div>
 		<div class="panel-footer">
 			<div class="row">
-				<div class="col-md-4">
+				<div class="col-md-5">
 					<img src="/resources/img/2015_FCT_V_color.jpg"
 						class="img-responsive" alt="Responsive image">
 				</div>
-				<div  class="col-md-8">
+				<div class="col-md-7">
 					<img src="/resources/img/Fundo_Br_Logos_Cor.jpg"
 						class="img-responsive" alt="Responsive image">
 				</div>
 			</div>
 			<div class="row">
 				<small>Arquivo digital desenvolvido no âmbito do projeto de
-					investigação Nenhum Problema Tem Solução: Um Arquivo Digital do
-					Livro do Desassossego (PTDC/CLE-LLI/118713/2010). Projeto
-					financiado pela FCT e cofinanciado pelo FEDER, através do Eixo I do
-					Programa Operacional Fatores de Competitividade (POFC) do QREN,
-					COMPETE: FCOMP-01-0124-FEDER-019715. Financiado ainda por Fundos
-					Nacionais através da FCT - Fundação para a Ciência e a Tecnologia
-					no âmbito dos projetos Financiamento Plurianual - Unidade 759:
-					"PEst-OE/ELT/UI0759/2011", "PEst-OE/ELT/UI0759/2014" e
-					"UID/ELT/00759/2013". </smal>
+					investigação 'Nenhum Problema Tem Solução: Um Arquivo Digital do
+					Livro do Desassossego' (PTDC/CLE-LLI/118713/2010). Projeto pela
+					financiado pela FCT - Fundação para a Ciência e a Tecnologia e
+					cofinanciado pelo Fundo Europeu de Desenvolvimento Regional
+					(FEDER), através do Eixo I do Programa Operacional Fatores de
+					Competitividade (POFC) do QREN - União Europeia, COMPETE:
+					FCOMP-01-0124-FEDER-019715. Financiado ainda por Fundos Nacionais
+					através da FCT - Fundação para a Ciência e a Tecnologia no âmbito
+					dos projetos "Financiamento Plurianual - Unidade 759":
+					"PEst-OE/ELT/UI0759/2011", "UID/ELT/00759/2013" e
+					"PEst-OE/ELT/UI0759/2014".</smal>
 			</div>
 		</div>
 	</div>
