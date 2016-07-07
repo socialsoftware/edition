@@ -11,8 +11,7 @@ public class ManuscriptSource extends ManuscriptSource_Base {
 	};
 
 	public enum Medium {
-		PEN("pen"), PENCIL("pencil"), BLUE_INK("blue-ink"), BLACK_INK(
-				"black-ink");
+		PEN("pen"), PENCIL("pencil"), BLUE_INK("blue-ink"), BLACK_INK("black-ink");
 
 		private final String desc;
 
@@ -44,28 +43,22 @@ public class ManuscriptSource extends ManuscriptSource_Base {
 		String form = getForm() == ManuscriptSource.Form.LEAF ? "Folha" : "";
 		result = result + "Formato: " + form + "<br>";
 
-		String material = getMaterial() == ManuscriptSource.Material.PAPER ? "Papel"
-				: "";
+		String material = getMaterial() == ManuscriptSource.Material.PAPER ? "Papel" : "";
 		result = result + "Material: " + material + "<br>";
 
-		String columns = getColumns() == 0 ? "" : Integer
-				.toString(getColumns());
+		String columns = getColumns() == 0 ? "" : Integer.toString(getColumns());
 		result = result + "Colunas: " + columns + "<br>";
 
 		result = result + "LdoD: " + getHasLdoDLabel() + "<br>";
 
 		for (HandNote handNote : getHandNoteSet()) {
-			result = result + "Medium: " + handNote.getMedium().getDesc()
-					+ ", Nota: " + handNote.getNote()
-					+ ", Número de parágrafos referidos: "
-					+ handNote.getTextPortionSet().size() + "<br>";
+			result = result + "Medium: " + handNote.getMedium().getDesc() + ", Nota: " + handNote.getNote()
+					+ ", Número de parágrafos referidos: " + handNote.getTextPortionSet().size() + "<br>";
 		}
 
 		for (TypeNote typeNote : getTypeNoteSet()) {
-			result = result + "Medium: " + typeNote.getMedium().getDesc()
-					+ ", Nota: " + typeNote.getNote()
-					+ ", Número de parágrafos referidos: "
-					+ typeNote.getTextPortionSet().size() + "<br>";
+			result = result + "Medium: " + typeNote.getMedium().getDesc() + ", Nota: " + typeNote.getNote()
+					+ ", Número de parágrafos referidos: " + typeNote.getTextPortionSet().size() + "<br>";
 		}
 
 		result = result + "Notas: " + getNotes() + "<br>";
@@ -76,10 +69,8 @@ public class ManuscriptSource extends ManuscriptSource_Base {
 
 			int i = 1;
 			for (Surface surf : facs.getSurfaces()) {
-				String suffix = facs.getSurfaces().size() == 1 ? "" : "."
-						+ Integer.toString(i);
-				result = result + "<a href=/facs/" + surf.getGraphic()
-						+ " target=" + "\"" + "_blank" + "\"" + ">"
+				String suffix = facs.getSurfaces().size() == 1 ? "" : "." + Integer.toString(i);
+				result = result + "<a href=/facs/" + surf.getGraphic() + " target=" + "\"" + "_blank" + "\"" + ">"
 						+ getAltIdentifier() + suffix + "</a> ";
 				i++;
 			}
@@ -87,12 +78,11 @@ public class ManuscriptSource extends ManuscriptSource_Base {
 
 		result = result + "<br>";
 
-		if (getDate() != null) {
-			String precision = getPrecision() != null ? " Precisão: "
-					+ getPrecision().getDesc() : "";
+		if (getLdoDDate() != null) {
+			String precision = getLdoDDate().getPrecision() != null
+					? " Precisão: " + getLdoDDate().getPrecision().getDesc() : "";
 
-			result = result + "Data: " + getDate().toString("dd-MM-yyyy")
-					+ precision + "<br>";
+			result = result + "Data: " + getLdoDDate().print() + precision + "<br>";
 		}
 
 		return result;

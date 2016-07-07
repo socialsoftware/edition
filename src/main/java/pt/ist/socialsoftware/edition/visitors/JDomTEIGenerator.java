@@ -69,11 +69,9 @@ public class JDomTEIGenerator {
 
 		rootElement.setNamespace(xmlns);
 
-		rootElement.addNamespaceDeclaration(Namespace.getNamespace("svg",
-				"http://www.w3.org/2000/svg"));
+		rootElement.addNamespaceDeclaration(Namespace.getNamespace("svg", "http://www.w3.org/2000/svg"));
 
-		rootElement.addNamespaceDeclaration(Namespace.getNamespace("xi",
-				"http://www.w3.org/2001/XInclude"));
+		rootElement.addNamespaceDeclaration(Namespace.getNamespace("xi", "http://www.w3.org/2001/XInclude"));
 
 		jdomDoc.setRootElement(rootElement);
 		return rootElement;
@@ -86,8 +84,7 @@ public class JDomTEIGenerator {
 		rootElement.addContent(newElement);
 	}
 
-	private void generateFragment(Element rootElement, Fragment fragment,
-			Set<FragInter> fragInterSelectedSet) {
+	private void generateFragment(Element rootElement, Fragment fragment, Set<FragInter> fragInterSelectedSet) {
 
 		// Namespace xmlns = Namespace.XML_NAMESPACE;
 		// .getNamespace("http://www.tei-c.org/ns/1.0");
@@ -110,8 +107,7 @@ public class JDomTEIGenerator {
 		// "http://www.tei-c.org/ns/1.0");
 		// fragElement.setAttribute(type);
 
-		Attribute id = new Attribute("id", fragment.getXmlId(),
-				Namespace.XML_NAMESPACE);
+		Attribute id = new Attribute("id", fragment.getXmlId(), Namespace.XML_NAMESPACE);
 		fragElement.setAttribute(id);
 
 		generateTextHeader(fragment, fragElement);
@@ -174,8 +170,7 @@ public class JDomTEIGenerator {
 
 		Element licenceElement = new Element("licence", xmlns);
 		availabilityElement.addContent(licenceElement);
-		licenceElement.setAttribute("target",
-				"http://creativecommons.org/licenses/by-sa/3.0/");
+		licenceElement.setAttribute("target", "http://creativecommons.org/licenses/by-sa/3.0/");
 		// TODO: <p>xpto</p> ?
 
 		Element dateElement = new Element("date", xmlns);
@@ -195,16 +190,14 @@ public class JDomTEIGenerator {
 		// listBibl.addNamespaceDeclaration(Namespace.getNamespace("id",
 		// fragment.getXmlId() + ".SRC"));
 
-		Attribute id = new Attribute("id", fragment.getXmlId() + ".SRC",
-				Namespace.XML_NAMESPACE);
+		Attribute id = new Attribute("id", fragment.getXmlId() + ".SRC", Namespace.XML_NAMESPACE);
 		listBibl.setAttribute(id);
 
 		Element listBibl2 = new Element("listBibl", xmlns);
 		// listBibl2.addNamespaceDeclaration(Namespace.getNamespace("id",
 		// fragment.getXmlId() + ".SRC.MS"));
 
-		Attribute id2 = new Attribute("id", fragment.getXmlId() + ".SRC.MS",
-				Namespace.XML_NAMESPACE);
+		Attribute id2 = new Attribute("id", fragment.getXmlId() + ".SRC.MS", Namespace.XML_NAMESPACE);
 		listBibl2.setAttribute(id2);
 
 		rootElement.addContent(listBibl);
@@ -246,8 +239,7 @@ public class JDomTEIGenerator {
 
 			msDescElement = new Element("msDesc", xmlns);
 
-			Attribute idms = new Attribute("id", manuscript.getXmlId(),
-					Namespace.XML_NAMESPACE);
+			Attribute idms = new Attribute("id", manuscript.getXmlId(), Namespace.XML_NAMESPACE);
 			msDescElement.setAttribute(idms);
 
 			msIdentifierElement = new Element("msIdentifier", xmlns);
@@ -278,21 +270,18 @@ public class JDomTEIGenerator {
 
 			// physDesc // TODO: strings
 			objectDescElement = new Element("objectDesc", xmlns);
-			objectDescElement.setAttribute("form", manuscript.getForm()
-					.toString().toLowerCase());
+			objectDescElement.setAttribute("form", manuscript.getForm().toString().toLowerCase());
 			physDescElement.addContent(objectDescElement);
 
 			supportDescElement = new Element("supportDesc", xmlns);
-			supportDescElement.setAttribute("material", manuscript
-					.getMaterial().name().toLowerCase());
+			supportDescElement.setAttribute("material", manuscript.getMaterial().name().toLowerCase());
 			objectDescElement.addContent(supportDescElement);
 
 			layoutDescElement = new Element("layoutDesc", xmlns);
 			objectDescElement.addContent(layoutDescElement);
 
 			layoutElement = new Element("layout", xmlns);
-			layoutElement.setAttribute("columns",
-					Integer.toString(manuscript.getColumns()));
+			layoutElement.setAttribute("columns", Integer.toString(manuscript.getColumns()));
 			layoutDescElement.addContent(layoutElement);
 
 			handDescElement = new Element("handDesc", xmlns);
@@ -320,22 +309,20 @@ public class JDomTEIGenerator {
 			// pElement.addContent(manuscript.getNotes());
 			bindingElement.addContent(pElement);
 
-			if (manuscript.getDate() != null) {
+			if (manuscript.getLdoDDate() != null) {
 				historyElement = new Element("history", xmlns);
 				msDescElement.addContent(historyElement);
 
 				originElement = new Element("origin", xmlns);
 				historyElement.addContent(originElement);
 
-				// TODO: update date format; field precision
-				String date = manuscript.getDate().toString();
+				String date = manuscript.getLdoDDate().print();
 
 				origdateElement = new Element("origDate", xmlns);
 				origdateElement.setAttribute("when", date);
 
-				if (manuscript.getPrecision() != null)
-					origdateElement.setAttribute("precision", manuscript
-							.getPrecision().getDesc());
+				if (manuscript.getLdoDDate() != null)
+					origdateElement.setAttribute("precision", manuscript.getLdoDDate().getPrecision().getDesc());
 
 				origdateElement.addContent(date);
 				originElement.addContent(origdateElement);
@@ -373,8 +360,7 @@ public class JDomTEIGenerator {
 
 		listWitElement = new Element("listWit", xmlns);
 
-		Attribute idlw = new Attribute("id", fragment.getXmlId() + ".WIT",
-				Namespace.XML_NAMESPACE);
+		Attribute idlw = new Attribute("id", fragment.getXmlId() + ".WIT", Namespace.XML_NAMESPACE);
 		listWitElement.setAttribute(idlw);
 
 		// listWitElement.addNamespaceDeclaration(Namespace.getNamespace("id",
@@ -385,8 +371,7 @@ public class JDomTEIGenerator {
 		// listWitAuthElement.addNamespaceDeclaration(Namespace.getNamespace("id",
 		// fragment.getXmlId() + ".WIT.MS"));
 
-		Attribute idlwa = new Attribute("id", fragment.getXmlId() + ".WIT.MS",
-				Namespace.XML_NAMESPACE);
+		Attribute idlwa = new Attribute("id", fragment.getXmlId() + ".WIT.MS", Namespace.XML_NAMESPACE);
 		listWitAuthElement.setAttribute(idlwa);
 
 		// manuscripts
@@ -400,13 +385,11 @@ public class JDomTEIGenerator {
 				// witnessElement.addNamespaceDeclaration(Namespace.getNamespace(
 				// "id", sourceInter.getXmlId()));
 
-				Attribute idw = new Attribute("id", sourceInter.getXmlId(),
-						Namespace.XML_NAMESPACE);
+				Attribute idw = new Attribute("id", sourceInter.getXmlId(), Namespace.XML_NAMESPACE);
 				witnessElement.setAttribute(idw);
 
 				refElement = new Element("ref", xmlns);
-				refElement.setAttribute("target", "#"
-						+ sourceInter.getSource().getXmlId());
+				refElement.setAttribute("target", "#" + sourceInter.getSource().getXmlId());
 				witnessElement.addContent(refElement);
 
 				listWitAuthElement.addContent(witnessElement);
@@ -423,8 +406,7 @@ public class JDomTEIGenerator {
 		// listWitEdElement.addNamespaceDeclaration(Namespace.getNamespace("id",
 		// fragment.getXmlId() + ".WIT.ED"));
 
-		Attribute idlwe = new Attribute("id", fragment.getXmlId() + ".WIT.ED",
-				Namespace.XML_NAMESPACE);
+		Attribute idlwe = new Attribute("id", fragment.getXmlId() + ".WIT.ED", Namespace.XML_NAMESPACE);
 		listWitEdElement.setAttribute(idlwe);
 
 		headListWitElement = new Element("head", xmlns);
@@ -435,8 +417,7 @@ public class JDomTEIGenerator {
 		// listWitEdCritElement.addNamespaceDeclaration(Namespace.getNamespace(
 		// "id", fragment.getXmlId() + ".WIT.ED.CRIT"));
 
-		Attribute idlwec = new Attribute("id", fragment.getXmlId()
-				+ ".WIT.ED.CRIT", Namespace.XML_NAMESPACE);
+		Attribute idlwec = new Attribute("id", fragment.getXmlId() + ".WIT.ED.CRIT", Namespace.XML_NAMESPACE);
 		listWitEdCritElement.setAttribute(idlwec);
 
 		listWitEdElement.addContent(listWitEdCritElement);
@@ -453,13 +434,11 @@ public class JDomTEIGenerator {
 
 				witnessElement = new Element("witness", xmlns);
 
-				Attribute idwe = new Attribute("id",
-						expertEditionInter.getXmlId(), Namespace.XML_NAMESPACE);
+				Attribute idwe = new Attribute("id", expertEditionInter.getXmlId(), Namespace.XML_NAMESPACE);
 				witnessElement.setAttribute(idwe);
 
 				refElement = new Element("ref", xmlns);
-				refElement.setAttribute("target", "#"
-						+ expertEditionInter.getEdition().getXmlId());
+				refElement.setAttribute("target", "#" + expertEditionInter.getEdition().getXmlId());
 
 				witnessElement.addContent(refElement);
 
@@ -467,8 +446,7 @@ public class JDomTEIGenerator {
 				witnessElement.addContent(biblElement);
 
 				// heteronimo nao declarado (!=null)
-				if (fragInter.getHeteronym().getName()
-						.compareTo(NullHeteronym.getNullHeteronym().getName()) != 0) {
+				if (fragInter.getHeteronym().getName().compareTo(NullHeteronym.getNullHeteronym().getName()) != 0) {
 
 					respStmtElement = new Element("respStmt", xmlns);
 					biblElement.addContent(respStmtElement);
@@ -499,23 +477,19 @@ public class JDomTEIGenerator {
 
 				biblScopeElement = new Element("biblScope", xmlns);
 				biblScopeElement.setAttribute("unit", "number");
-				biblScopeElement
-						.addContent(expertEditionInter.getNumber() + "");
+				biblScopeElement.addContent(expertEditionInter.getNumber() + "");
 				biblElement.addContent(biblScopeElement);
 
 				if (expertEditionInter.getVolume() != null) {
 					biblScopeElement = new Element("biblScope", xmlns);
 					biblScopeElement.setAttribute("unit", "vol");
-					biblScopeElement.addContent(expertEditionInter.getVolume()
-							+ "");
+					biblScopeElement.addContent(expertEditionInter.getVolume() + "");
 					biblElement.addContent(biblScopeElement);
 				}
 
 				biblScopeElement = new Element("biblScope", xmlns);
-				biblScopeElement.setAttribute("from",
-						expertEditionInter.getStartPage() + "");
-				biblScopeElement.setAttribute("to",
-						expertEditionInter.getEndPage() + "");
+				biblScopeElement.setAttribute("from", expertEditionInter.getStartPage() + "");
+				biblScopeElement.setAttribute("to", expertEditionInter.getEndPage() + "");
 
 				// TODO confirm
 				biblScopeElement.setAttribute("unit", "pp");
@@ -528,14 +502,12 @@ public class JDomTEIGenerator {
 					biblElement.addContent(noteElement);
 				}
 
-				if (expertEditionInter.getDate() != null) {
+				if (expertEditionInter.getLdoDDate() != null) {
 
 					dateElement = new Element("date", xmlns);
-					dateElement.addContent(expertEditionInter.getDate()
-							.toString());
+					dateElement.addContent(expertEditionInter.getLdoDDate().print());
 
-					dateElement.setAttribute("when", expertEditionInter
-							.getDate().toString());
+					dateElement.setAttribute("when", expertEditionInter.getLdoDDate().print());
 
 					biblElement.addContent(dateElement);
 				}
@@ -561,12 +533,10 @@ public class JDomTEIGenerator {
 
 		Element facElement = new Element("facsimile", xmlns);
 
-		Attribute idf = new Attribute("id", facsimile.getXmlId(),
-				Namespace.XML_NAMESPACE);
+		Attribute idf = new Attribute("id", facsimile.getXmlId(), Namespace.XML_NAMESPACE);
 		facElement.setAttribute(idf);
 
-		Attribute corresp = new Attribute("corresp", "#"
-				+ facsimile.getSource().getXmlId());
+		Attribute corresp = new Attribute("corresp", "#" + facsimile.getSource().getXmlId());
 		facElement.setAttribute(corresp);
 
 		int i = 0;
@@ -579,8 +549,7 @@ public class JDomTEIGenerator {
 			Attribute graphAtt = new Attribute("url", surface.getGraphic());
 			graphElement.setAttribute(graphAtt);
 
-			Attribute idg = new Attribute("id", facsimile.getXmlId() + "-" + i,
-					Namespace.XML_NAMESPACE);
+			Attribute idg = new Attribute("id", facsimile.getXmlId() + "-" + i, Namespace.XML_NAMESPACE);
 			graphElement.setAttribute(idg);
 
 			surfaceElement.addContent(graphElement);
@@ -590,8 +559,7 @@ public class JDomTEIGenerator {
 		fragElement.addContent(facElement);
 	}
 
-	private void generateTranscription(Element parentElement,
-			Fragment fragment, Set<FragInter> fragInterSelectedSet) {
+	private void generateTranscription(Element parentElement, Fragment fragment, Set<FragInter> fragInterSelectedSet) {
 
 		Element textElement = new Element("text", xmlns);
 		parentElement.addContent(textElement);
@@ -602,8 +570,7 @@ public class JDomTEIGenerator {
 		Element divElement = new Element("div", xmlns);
 		bodyElement.addContent(divElement);
 
-		Attribute iddiv = new Attribute("id", fragment.getXmlId() + ".TEXT",
-				Namespace.XML_NAMESPACE);
+		Attribute iddiv = new Attribute("id", fragment.getXmlId() + ".TEXT", Namespace.XML_NAMESPACE);
 		divElement.setAttribute(iddiv);
 
 		writer = new JDomTEITextPortionWriter(divElement, fragInterSelectedSet);
@@ -636,8 +603,7 @@ public class JDomTEIGenerator {
 			e.printStackTrace();
 		}
 
-		result = xml.subSequence(0, xml.indexOf("<teiHeader")) + header + "\n"
-				+ xml.substring(xml.indexOf("<TEI"));
+		result = xml.subSequence(0, xml.indexOf("<teiHeader")) + header + "\n" + xml.substring(xml.indexOf("<TEI"));
 
 		return result;
 	}

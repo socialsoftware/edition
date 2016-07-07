@@ -60,7 +60,7 @@
 									href="${contextPath}/fragments/fragment/inter/${iter.externalId}">
 									${iter.title}</a>
 							</c:forEach></td>
-						<td>${source.getDate().toString("dd-MM-yyyy")}</td>
+						<td>${source.getLdoDDate().print()}</td>
 						<!--
 						<td><c:choose>
 								<c:when test='${source.getType()=="MANUSCRIPT"}'>

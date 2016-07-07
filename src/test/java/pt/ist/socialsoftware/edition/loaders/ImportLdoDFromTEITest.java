@@ -136,7 +136,7 @@ public class ImportLdoDFromTEITest {
 				assertEquals("Revista Descobrimento", printedSource.getTitle());
 				assertEquals("Lisbon", printedSource.getPubPlace());
 				assertEquals("3", printedSource.getIssue());
-				assertEquals("1931", Integer.toString(printedSource.getDate().getYear()));
+				assertEquals("1931", Integer.toString(printedSource.getLdoDDate().getDate().getYear()));
 			}
 
 		}

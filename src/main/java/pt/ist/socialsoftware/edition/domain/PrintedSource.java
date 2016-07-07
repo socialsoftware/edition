@@ -21,12 +21,11 @@ public class PrintedSource extends PrintedSource_Base {
 
 		result = result + "Número: " + getIssue() + "<br>";
 
-		if (getDate() != null) {
-			String precision = getPrecision() != null ? " Precisão: "
-					+ getPrecision().getDesc() : "";
+		if (getLdoDDate() != null) {
+			String precision = getLdoDDate().getPrecision() != null
+					? " Precisão: " + getLdoDDate().getPrecision().getDesc() : "";
 
-			result = result + "Data: " + getDate().toString("dd-MM-yyyy")
-					+ precision + "<br>";
+			result = result + "Data: " + getLdoDDate().print() + precision + "<br>";
 		}
 
 		Facsimile facs = getFacsimile();
@@ -34,8 +33,7 @@ public class PrintedSource extends PrintedSource_Base {
 			result = result + "Facsimiles: ";
 
 			for (Surface surf : facs.getSurfaces()) {
-				result = result + "<a href=/facs/" + surf.getGraphic()
-						+ " target=" + "\"" + "_blank" + "\"" + ">"
+				result = result + "<a href=/facs/" + surf.getGraphic() + " target=" + "\"" + "_blank" + "\"" + ">"
 						+ surf.getGraphic() + "</a> ";
 			}
 		}

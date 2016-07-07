@@ -5,10 +5,9 @@ import pt.ist.socialsoftware.edition.visitors.TextPortionVisitor;
 public class AddText extends AddText_Base {
 
 	public enum Place {
-		ABOVE("above"), BELOW("below"), SUPERIMPOSED("superimposed"), MARGIN(
-				"margin"), TOP("top"), BOTTOM("bottom"), INLINE("inline"), INSPACE(
-				"inspace"), OVERLEAF("overleaf"), OPPOSITE("opposite"), END(
-				"end"), UNSPECIFIED("unspecified");
+		ABOVE("above"), BELOW("below"), SUPERIMPOSED("superimposed"), MARGIN("margin"), TOP("top"), BOTTOM(
+				"bottom"), INLINE("inline"), INSPACE(
+						"inspace"), OVERLEAF("overleaf"), OPPOSITE("opposite"), END("end"), UNSPECIFIED("unspecified");
 
 		private String desc;
 
@@ -32,8 +31,7 @@ public class AddText extends AddText_Base {
 	}
 
 	@Override
-	public Boolean isFormat(Boolean displayDel, Boolean highlightSubst,
-			FragInter fragInter) {
+	public Boolean isFormat(Boolean displayDel, Boolean highlightSubst, FragInter fragInter) {
 		if (getInterps().contains(fragInter)) {
 			return true;
 		} else {

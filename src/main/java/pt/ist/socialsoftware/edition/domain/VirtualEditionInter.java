@@ -28,7 +28,7 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 	public VirtualEditionInter(Section section, FragInter inter, int number) {
 		setFragment(inter.getFragment());
 		setHeteronym(null);
-		setDate(null);
+		setLdoDDate(null);
 		setSection(section);
 		setNumber(number);
 		setUses(inter);
@@ -102,8 +102,8 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 			result = result + "Heterónimo: " + getHeteronym().getName() + "<br>";
 		}
 
-		if (getDate() != null) {
-			result = result + "Data: " + getDate().toString("dd-MM-yyyy") + "<br>";
+		if (getLdoDDate() != null) {
+			result = result + "Data: " + getLdoDDate().print() + "<br>";
 		}
 
 		return result;

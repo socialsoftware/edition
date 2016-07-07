@@ -27,6 +27,10 @@ public abstract class Source extends Source_Base implements Comparable<Source> {
 	public void remove() {
 		setFragment(null);
 
+		if (getLdoDDate() != null) {
+			remove();
+		}
+
 		// A source may not have a facsimile ???? - need to be checked with
 		// encoders
 		if (getFacsimile() != null) {

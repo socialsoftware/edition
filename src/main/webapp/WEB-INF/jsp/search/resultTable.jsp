@@ -160,11 +160,11 @@
 										<c:when
 											test="${ fragInterEntry.key.getClass().getSimpleName().equals('SourceInter') &&
 										 fragInterEntry.key.getSource().getType() == 'MANUSCRIPT' }">
-											<td>${fragInterEntry.key.getSource().getDate()}</td>
+											<td>${fragInterEntry.key.getSource().getLdoDDate().print()}</td>
 										</c:when>
 										<c:when
 											test="${showDate && fragInterEntry.key.getClass().getSimpleName().equals('ExpertEditionInter')}">
-											<td>${fragInterEntry.key.getDate()}</td>
+											<td>${fragInterEntry.key.getLdoDDate().print()}</td>
 										</c:when>
 										<c:otherwise>
 											<td></td>

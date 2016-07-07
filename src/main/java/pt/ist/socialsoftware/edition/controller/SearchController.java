@@ -465,16 +465,16 @@ public class SearchController {
 				heteronyms.put(fragInter.getHeteronym().getName(), fragInter.getHeteronym().getXmlId());
 			}
 			if (beginDate == null) {
-				beginDate = fragInter.getDate();
+				beginDate = fragInter.getLdoDDate().getDate();
 			}
 			if (endDate == null) {
-				endDate = fragInter.getDate();
+				endDate = fragInter.getLdoDDate().getDate();
 			}
-			if (fragInter.getDate() != null && fragInter.getDate().isBefore(beginDate)) {
-				beginDate = fragInter.getDate();
+			if (fragInter.getLdoDDate() != null && fragInter.getLdoDDate().getDate().isBefore(beginDate)) {
+				beginDate = fragInter.getLdoDDate().getDate();
 			}
-			if (fragInter.getDate() != null && fragInter.getDate().isAfter(endDate)) {
-				endDate = fragInter.getDate();
+			if (fragInter.getLdoDDate() != null && fragInter.getLdoDDate().getDate().isAfter(endDate)) {
+				endDate = fragInter.getLdoDDate().getDate();
 			}
 		}
 		EditionJson editionJson = new EditionJson(acronym);
@@ -523,16 +523,16 @@ public class SearchController {
 							break;
 						}
 						if (beginDate == null) {
-							beginDate = source.getDate();
+							beginDate = source.getLdoDDate().getDate();
 						}
 						if (endDate == null) {
-							endDate = source.getDate();
+							endDate = source.getLdoDDate().getDate();
 						}
-						if (source.getDate() != null && source.getDate().isBefore(beginDate)) {
-							beginDate = source.getDate();
+						if (source.getLdoDDate() != null && source.getLdoDDate().getDate().isBefore(beginDate)) {
+							beginDate = source.getLdoDDate().getDate();
 						}
-						if (source.getDate() != null && source.getDate().isAfter(endDate)) {
-							endDate = source.getDate();
+						if (source.getLdoDDate() != null && source.getLdoDDate().getDate().isAfter(endDate)) {
+							endDate = source.getLdoDDate().getDate();
 						}
 					}
 				}
@@ -578,46 +578,46 @@ public class SearchController {
 		for (Fragment fragment : LdoD.getInstance().getFragmentsSet()) {
 			for (FragInter fragInter : fragment.getFragmentInterSet()) {
 				if (beginDate == null) {
-					beginDate = fragInter.getDate();
+					beginDate = fragInter.getLdoDDate().getDate();
 				}
 				if (endDate == null) {
-					endDate = fragInter.getDate();
+					endDate = fragInter.getLdoDDate().getDate();
 				}
-				if (fragInter.getDate() != null && fragInter.getDate().isBefore(beginDate)) {
-					beginDate = fragInter.getDate();
+				if (fragInter.getLdoDDate() != null && fragInter.getLdoDDate().getDate().isBefore(beginDate)) {
+					beginDate = fragInter.getLdoDDate().getDate();
 				}
-				if (fragInter.getDate() != null && fragInter.getDate().isAfter(endDate)) {
-					endDate = fragInter.getDate();
+				if (fragInter.getLdoDDate() != null && fragInter.getLdoDDate().getDate().isAfter(endDate)) {
+					endDate = fragInter.getLdoDDate().getDate();
 				}
 			}
 			for (Source source : fragment.getSourcesSet()) {
 				if (source.getType().equals(SourceType.MANUSCRIPT)) {
 					ManuscriptSource manu = (ManuscriptSource) source;
 					if (beginDate == null) {
-						beginDate = manu.getDate();
+						beginDate = manu.getLdoDDate().getDate();
 					}
 					if (endDate == null) {
-						endDate = manu.getDate();
+						endDate = manu.getLdoDDate().getDate();
 					}
-					if (manu.getDate() != null && manu.getDate().isBefore(beginDate)) {
-						beginDate = manu.getDate();
+					if (manu.getLdoDDate() != null && manu.getLdoDDate().getDate().isBefore(beginDate)) {
+						beginDate = manu.getLdoDDate().getDate();
 					}
-					if (manu.getDate() != null && manu.getDate().isAfter(endDate)) {
-						endDate = manu.getDate();
+					if (manu.getLdoDDate() != null && manu.getLdoDDate().getDate().isAfter(endDate)) {
+						endDate = manu.getLdoDDate().getDate();
 					}
 				} else if (source.getType().equals(SourceType.PRINTED)) {
 					PrintedSource print = (PrintedSource) source;
 					if (beginDate == null) {
-						beginDate = print.getDate();
+						beginDate = print.getLdoDDate().getDate();
 					}
 					if (endDate == null) {
-						endDate = print.getDate();
+						endDate = print.getLdoDDate().getDate();
 					}
-					if (print.getDate() != null && print.getDate().isBefore(beginDate)) {
-						beginDate = print.getDate();
+					if (print.getLdoDDate() != null && print.getLdoDDate().getDate().isBefore(beginDate)) {
+						beginDate = print.getLdoDDate().getDate();
 					}
-					if (print.getDate() != null && print.getDate().isAfter(endDate)) {
-						endDate = print.getDate();
+					if (print.getLdoDDate() != null && print.getLdoDDate().getDate().isAfter(endDate)) {
+						endDate = print.getLdoDDate().getDate();
 					}
 				}
 			}

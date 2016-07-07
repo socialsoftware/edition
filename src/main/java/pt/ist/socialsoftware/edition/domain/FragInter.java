@@ -20,6 +20,10 @@ public abstract class FragInter extends FragInter_Base implements Comparable<Fra
 		setFragment(null);
 		setHeteronym(null);
 
+		if (getLdoDDate() != null) {
+			getLdoDDate().remove();
+		}
+
 		for (VirtualEditionInter inter : getIsUsedBySet()) {
 			removeIsUsedBy(inter);
 		}

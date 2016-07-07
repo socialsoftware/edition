@@ -47,6 +47,7 @@ import pt.ist.socialsoftware.edition.domain.HandNote;
 import pt.ist.socialsoftware.edition.domain.Heteronym;
 import pt.ist.socialsoftware.edition.domain.LbText;
 import pt.ist.socialsoftware.edition.domain.LdoD;
+import pt.ist.socialsoftware.edition.domain.LdoDDate;
 import pt.ist.socialsoftware.edition.domain.ManuscriptSource;
 import pt.ist.socialsoftware.edition.domain.ManuscriptSource.Medium;
 import pt.ist.socialsoftware.edition.domain.NoteText;
@@ -79,7 +80,6 @@ import pt.ist.socialsoftware.edition.domain.UnclearText.UnclearReason;
 import pt.ist.socialsoftware.edition.mallet.CorpusGenerator;
 import pt.ist.socialsoftware.edition.search.Indexer;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDLoadException;
-import pt.ist.socialsoftware.edition.utils.DateUtils;
 
 public class LoadTEIFragments {
 
@@ -977,14 +977,11 @@ public class LoadTEIFragments {
 				if (dateElement != null) {
 					Attribute whenAttribute = dateElement.getAttribute("when");
 					if (whenAttribute == null) {
-						fragInter.setDate(null);
+						fragInter.setLdoDDate(null);
 					} else {
-						fragInter.setDate(DateUtils.convertDate(whenAttribute.getValue()));
-
 						PrecisionType precision = getPrecisionAttribute(dateElement);
-						if (precision != null) {
-							fragInter.setPrecision(precision);
-						}
+
+						fragInter.setLdoDDate(new LdoDDate(whenAttribute.getValue(), precision));
 					}
 				}
 
@@ -1195,14 +1192,11 @@ public class LoadTEIFragments {
 			Attribute whenAttribute = dateElement.getAttribute("when");
 
 			if (whenAttribute == null) {
-				printedSource.setDate(null);
+				printedSource.setLdoDDate(null);
 			} else {
-				printedSource.setDate(DateUtils.convertDate(whenAttribute.getValue()));
-
 				PrecisionType precision = getPrecisionAttribute(dateElement);
-				if (precision != null) {
-					printedSource.setPrecision(precision);
-				}
+
+				printedSource.setLdoDDate(new LdoDDate(whenAttribute.getValue(), precision));
 			}
 		}
 
@@ -1239,7 +1233,7 @@ public class LoadTEIFragments {
 	}
 
 	private void loadMsHistory(Element msDesc, ManuscriptSource manuscript) {
-		manuscript.setDate(null);
+		manuscript.setLdoDDate(null);
 
 		Element history = msDesc.getChild("history", namespace);
 		if (history != null) {
@@ -1259,13 +1253,9 @@ public class LoadTEIFragments {
 						// msDesc.history.origin.origDate da fonte "
 						// + manuscript.getXmlId());
 					} else {
-						manuscript.setDate(DateUtils.convertDate(when.getValue()));
-
 						PrecisionType precision = getPrecisionAttribute(origDate);
-						if (precision != null) {
-							manuscript.setPrecision(precision);
-						}
 
+						manuscript.setLdoDDate(new LdoDDate(when.getValue(), precision));
 					}
 				}
 			}
