@@ -37,8 +37,10 @@
 			</c:if>
 		</h2>
 		<h4 class="text-center">
-			<spring:message code="general.usedIn" />:
-			<c:forEach var='edition' items='${taxonomy.getUsedIn()}'><a
+			<spring:message code="general.usedIn" />
+			:
+			<c:forEach var='edition' items='${taxonomy.getUsedIn()}'>
+				<a
 					href="${contextPath}/edition/internalid/${edition.getExternalId()}">${edition.getAcronym()}</a>
 			</c:forEach>
 		</h4>
@@ -145,9 +147,6 @@
 		<c:if test="${taxonomy.canManipulateTaxonomy(userLdoD)}">
 			<div class="row">
 				<div class="col-md-5">
-					<c:forEach var="categoryError" items='${categoryErrors}'>
-						<div class="row has-error">${categoryError}</div>
-					</c:forEach>
 					<form name="createCategory" class="form-inline" method="POST"
 						action="/virtualeditions/restricted/category/create"
 						onsubmit="return validateCreateCategoryForm()">
@@ -164,6 +163,20 @@
 							<spring:message code="category.add" />
 						</button>
 					</form>
+					<div class="row">
+						<div class="col-md-9">
+							<!-- checked by javascrip -->
+							<p class="text-danger" id="errorCat"></p>
+						</div>
+						<!-- checked in the server -->
+						<c:forEach var="categoryError" items='${categoryErrors}'>
+							<div class="col-md-9 text-danger">
+								<spring:message code="${categoryError}" />
+							</div>
+						</c:forEach>
+					</div>
+
+
 				</div>
 				<div class="col-md-7">
 					<button class="btn btn-primary pull-right" data-toggle="modal"
@@ -251,24 +264,6 @@
 			</div>
 		</div>
 	</div>
-	<!-- Validate Modal HTML -->
-	<div id="validateModal" class="modal fade">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal"
-						aria-hidden="true">&times;</button>
-					<h4 class="modal-title">Informação</h4>
-				</div>
-				<div class="modal-body">
-					<h3 id="message" />
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-				</div>
-			</div>
-		</div>
-	</div>
 	<!-- Topic Model Generation Modal HTML -->
 	<div class="modal fade" id="topicModal" tabindex="-1" role="dialog">
 		<div class="modal-dialog modal-lg">
@@ -317,7 +312,9 @@
 					<div id="topics"></div>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal">
+						<spring:message code="general.close" />
+					</button>
 				</div>
 			</div>
 			<!-- /.modal-content -->
@@ -329,12 +326,21 @@
 
 <script>
 function validateCreateCategoryForm() {
+	$("#errorCat").empty();
+    var errors = [];
+    
     var x = document.forms["createCategory"]["name"].value;
-    if (x == null || x == "") {
-        $("#message").html("Deve ser indicado o nome da categoria");
-        $("#validateModal").modal('show');
-        return false;
+   if (x == null || x == "") {
+    	errors.push('<spring:message code="validateCreateCategoryForm.value"/>');
     }
+    
+    if (errors.length > 0) {
+   	 	$("#errorCat").html(errors.join("<br>"));
+    	return false;
+    } else {
+    	return true;
+    }
+
 }
 </script>
 
@@ -345,24 +351,24 @@ function validateGenerateTopics(topics, words, threshold, iterations) {
 	
 	var errors = [];
     if (topics == null || topics == "") {
-    	errors.push("Deve ser indicado o número de tópicos a gerar");
+    	errors.push('<spring:message code="validateGenerateTopics.topics.number"/>');
     } else if (isNaN(topics) || topics < 1) {
-    	errors.push("Deve ser indicado um número de tópicos positivo");
+    	errors.push('<spring:message code="validateGenerateTopics.topics.positive"/>');
     }
     if (words == null || words == "") {
-    	errors.push("Deve ser indicado o número de palavras a apresentar");
+    	errors.push('<spring:message code="validateGenerateTopics.words.number"/>');
     } else if (isNaN(words) || words < 1) {
-    	errors.push("Deve ser indicado um número de palavras positivo");
+    	errors.push('<spring:message code="validateGenerateTopics.words.positive"/>');
     }
     if (threshold == null || threshold == "") {
-    	errors.push("Deve ser indicado o valor de corte de categorias");
+    	errors.push('<spring:message code="validateGenerateTopics.threshold.value"/>');
     } else if (isNaN(threshold) || threshold < 0 || threshold > 100) {
-    	errors.push("Deve ser indicado um valor de corte de categorias entre 0 e 100");
+    	errors.push('<spring:message code="validateGenerateTopics.threshold.range"/>');
     }
     if (iterations == null || iterations == "") {
-    	errors.push("Deve ser indicado o número de iterações");
+    	errors.push('<spring:message code="validateGenerateTopics.iterations.value"/>');
     } else if (isNaN(iterations) || iterations < 1) {
-    	errors.push("Deve ser indicado um número de iterações positivo");
+    	errors.push('<spring:message code="validateGenerateTopics.iterations.positive"/>');
     }
     
     if (errors.length > 0) {

@@ -505,7 +505,7 @@ public class VirtualEditionController {
 			try {
 				edition.getTaxonomy().createCategory(name);
 			} catch (LdoDDuplicateNameException ex) {
-				errors.add("Já existe uma categoria com nome \"" + name + "\"");
+				errors.add("general.category.exists");
 			}
 
 			if (errors.isEmpty()) {
@@ -529,8 +529,7 @@ public class VirtualEditionController {
 			try {
 				category.setName(name);
 			} catch (LdoDDuplicateNameException ex) {
-				errors.add("Já existe uma categoria com nome \"" + name + "\"");
-
+				errors.add("general.category.exists");
 			}
 			redirectAttributes.addFlashAttribute("errors", errors);
 			return "redirect:/virtualeditions/restricted/category/" + categoryId;

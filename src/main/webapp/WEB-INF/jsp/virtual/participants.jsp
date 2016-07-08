@@ -73,7 +73,7 @@
 						<th><spring:message code="login.username" /></th>
 						<th><spring:message code="user.firstName" /></th>
 						<th><spring:message code="user.lastName" /></th>
-						<th>email</th>
+						<th>e-mail</th>
 						<th><spring:message code="user.role" /></th>
 						<th><spring:message code="general.remove" /></th>
 					</tr>

@@ -6,11 +6,20 @@
 </head>
 <script type="text/javascript">
 	function validateForm() {
+		$("#errorCat").empty();
+		var errors = [];
+
 		var x = document.forms["updateName"]["name"].value;
 		if (x == null || x == "") {
-			$("#message").html("A categoria deve ter um nome.");
-			$("#myModal").modal('show');
+			errors
+					.push('<spring:message code="validateCreateCategoryForm.value"/>');
+		}
+
+		if (errors.length > 0) {
+			$("#errorCat").html(errors.join("<br>"));
 			return false;
+		} else {
+			return true;
 		}
 	}
 </script>
@@ -48,9 +57,6 @@
 		<c:if test="${taxonomy.canManipulateTaxonomy(userLdoD)}">
 			<div class="row">
 				<div class="col-md-11">
-					<c:forEach var="error" items='${errors}'>
-						<div class="row text-error">${error}</div>
-					</c:forEach>
 					<form name="updateName" class="form-inline" method="POST"
 						action="/virtualeditions/restricted/category/update"
 						onsubmit="return validateForm()">
@@ -70,6 +76,19 @@
 							</button>
 						</div>
 					</form>
+					<div class="row">
+						<div class="col-md-9">
+							<!-- checked by javascrip -->
+							<p class="text-danger" id="errorCat"></p>
+						</div>
+						<!-- checked in the server -->
+						<c:forEach var="categoryError" items='${errors}'>
+							<div class="col-md-9 text-danger">
+								<spring:message code="${categoryError}" />
+							</div>
+						</c:forEach>
+					</div>
+
 				</div>
 				<div class="col-md-1">
 					<form class="form-inline" method="POST"
@@ -96,11 +115,13 @@
 				</thead>
 				<tbody>
 					<tr>
-						<td><c:forEach var="inter" items='${category.getSortedInters(taxonomy.getEdition())}'>
+						<td><c:forEach var="inter"
+								items='${category.getSortedInters(taxonomy.getEdition())}'>
 								<a
 									href="${contextPath}/virtualeditions/restricted/fraginter/${inter.getExternalId()}">
-									${inter.getTitle()}</a><span style="padding-left:2em"/> 
-                                    </c:forEach></td>
+									${inter.getTitle()}</a>
+								<span style="padding-left: 2em" />
+							</c:forEach></td>
 					</tr>
 
 				</tbody>
@@ -123,13 +144,17 @@
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal"
 						aria-hidden="true">&times;</button>
-					<h4 class="modal-title">Informação</h4>
+					<h4 class="modal-title">
+						<spring:message code="general.information" />
+					</h4>
 				</div>
 				<div class="modal-body">
 					<h3 id="message" />
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal">
+						<spring:message code="general.close" />
+					</button>
 				</div>
 			</div>
 		</div>
@@ -163,9 +188,10 @@
 								</tr>
 							</thead>
 							<tbody>
-								<c:forEach var="inter" items='${category.getSortedInters(taxonomy.getEdition())}'>
+								<c:forEach var="inter"
+									items='${category.getSortedInters(taxonomy.getEdition())}'>
 									<tr>
-										<td>${inter.getTitle()} </td>
+										<td>${inter.getTitle()}</td>
 										<td class="col-centered">
 											<div class="form-group">
 												<div class="checkbox">
@@ -187,7 +213,9 @@
 					</form>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal">
+						<spring:message code="general.close" />
+					</button>
 				</div>
 			</div>
 		</div>
