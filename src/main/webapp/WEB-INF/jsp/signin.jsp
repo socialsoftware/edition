@@ -16,6 +16,11 @@
                 <spring:message code="login.error" />
             </div>
         </c:if>
+        <c:if test="${message != null && message.trim().length() != 0}">
+            <div class="row text-error">
+                <spring:message code="${message}" arguments="${argument}" />
+            </div>
+        </c:if>
 
         <div class="row">
             <div class="login-form">
@@ -124,7 +129,7 @@
              -->
             <!-- SIGNUP -->
             <div class="row">
-                <a href="/signup">Register as a LdoD user</a>
+                <a href="/signup"><spring:message code="signup.message" /></a>
             </div>
 
         </div>

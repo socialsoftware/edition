@@ -28,8 +28,8 @@ import org.springframework.web.context.request.WebRequest;
 import pt.ist.socialsoftware.edition.domain.LdoD;
 import pt.ist.socialsoftware.edition.domain.LdoDUser;
 import pt.ist.socialsoftware.edition.domain.LdoDUser.SocialMediaService;
-import pt.ist.socialsoftware.edition.forms.SignupForm;
 import pt.ist.socialsoftware.edition.domain.RegistrationToken;
+import pt.ist.socialsoftware.edition.forms.SignupForm;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDException;
 import pt.ist.socialsoftware.edition.utils.PropertiesManager;
 
@@ -54,14 +54,14 @@ public class SignupController {
 
 		Connection<?> connection = providerSignInUtils.getConnectionFromSession(request);
 		if (connection != null) {
-			request.setAttribute("message",
-					"Your " + StringUtils.capitalize(connection.getKey().getProviderId())
-							+ " account is not associated with a LdoD Archive account. If you\'re new, please sign up.",
+			request.setAttribute("message", "signup.errorMessage",
 					// new Message(MessageType.INFO,
 					// "Your " + StringUtils.capitalize(
 					// connection.getKey().getProviderId())
 					// + " account is not associated with a LdoD Archive
 					// account. If you're new, please sign up."),
+					WebRequest.SCOPE_REQUEST);
+			request.setAttribute("account", StringUtils.capitalize(connection.getKey().getProviderId()),
 					WebRequest.SCOPE_REQUEST);
 
 			return SignupForm.fromProviderUser(connection.fetchUserProfile(), connection.getKey().getProviderId());
@@ -92,7 +92,7 @@ public class SignupController {
 					form.getSocialMediaId());
 			token = user.createRegistrationToken(UUID.randomUUID().toString());
 		} catch (LdoDException e) {
-			formBinding.rejectValue("username", "user.duplicateUsername", "already in use");
+			formBinding.rejectValue("username", "user.duplicateUsername");
 		}
 
 		if (user != null) {
@@ -107,11 +107,11 @@ public class SignupController {
 			}
 			providerSignInUtils.doPostSignUp(user.getUsername(), request);
 
-			model.addAttribute("message",
-					"An email from the e-address:"
-							+ PropertiesManager.getProperties().getProperty("registration.confirmation.email.address")
-							+ " was sent to your mailbox. The confirmation should occur within 60 minutes");
-			return "utils/okMessage";
+			model.addAttribute("message", "signup.confirmation");
+			model.addAttribute("argument",
+					PropertiesManager.getProperties().getProperty("registration.confirmation.email.address"));
+
+			return "signin";
 		}
 		return null;
 	}
@@ -121,14 +121,14 @@ public class SignupController {
 		RegistrationToken registrationToken = LdoD.getInstance().getTokenSet(token);
 
 		if (registrationToken == null) {
-			model.addAttribute("message", "invalid token");
-			return "utils/notOkMessage";
+			model.addAttribute("message", "signup.token.invalid");
+			return "signin";
 		}
 
 		LdoDUser user = registrationToken.getUser();
 		if ((registrationToken.getExpireTimeDateTime().getMillis() - DateTime.now().getMillis()) <= 0) {
-			model.addAttribute("message", "expired token");
-			return "utils/notOkMessage";
+			model.addAttribute("message", "signup.token.expired");
+			return "signin";
 		}
 
 		user.enableUnconfirmedUser();

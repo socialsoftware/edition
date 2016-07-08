@@ -10,7 +10,11 @@ import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class Emailer {
+	private static Logger logger = LoggerFactory.getLogger(Emailer.class);
 
 	public static void sendEmail(String to, String subject, String msg, String from)
 			throws AddressException, MessagingException {
@@ -21,7 +25,6 @@ public class Emailer {
 		Message generateMailMessage = createMessage(from, to, subject, msg, getMailSession);
 
 		sendMessage(getMailSession, generateMailMessage);
-
 	}
 
 	private static void sendMessage(Session getMailSession, Message generateMailMessage) throws MessagingException {

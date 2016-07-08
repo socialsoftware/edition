@@ -36,20 +36,20 @@ public class RegistrationToken extends RegistrationToken_Base {
 	}
 
 	public void confirmRegistration(HttpServletRequest request) throws AddressException, MessagingException {
-		// String recipientAddress = token.getUser().getEmail();
+		// String recipientAddress = getUser().getEmail();
 		// TODO: replace by line above
 		String recipientAddress = PropertiesManager.getProperties()
 				.getProperty("registration.confirmation.email.address");
 
-		String subject = "Registration Confirmation";
+		String subject = "LdoD - Confirmação de Registo";
 
 		String path = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
 				+ request.getContextPath();
 		String confirmationUrl = path + "/signup/registrationConfirm?token=" + getToken();
 
 		Emailer.sendEmail(recipientAddress, subject,
-				"Confirm your LdoD-archive registration for user: " + getUser().getUsername() + " here: <a href=\""
-						+ confirmationUrl + "\">" + confirmationUrl + "</a>",
+				"Confirme o seu registo no arquivo do LdoD para o utilizador " + getUser().getUsername()
+						+ " nesta ligação <a href=\"" + confirmationUrl + "\">" + confirmationUrl + "</a>",
 				PropertiesManager.getProperties().getProperty("registration.confirmation.email.address"));
 	}
 
