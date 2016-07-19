@@ -31,7 +31,7 @@
                         href="${contextPath}/fragments/fragment/inter/${interp.externalId}">${interp.title}</a></td>
                     <td>${interp.volume}</td>
                     <td>${interp.startPage}</td>
-                    <td>${interp.getDate().toString("dd-MM-yyyy")}</td>
+                    <td>${interp.getLdoDDate().getDate().toString("dd-MM-yyyy")}</td>
                     <td>${interp.getHeteronym().getName()}</td>
                 </tr>
             </c:if>
