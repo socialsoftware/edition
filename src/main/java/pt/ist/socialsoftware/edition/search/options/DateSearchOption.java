@@ -1,10 +1,14 @@
 package pt.ist.socialsoftware.edition.search.options;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import pt.ist.socialsoftware.edition.domain.Edition.EditionType;
 import pt.ist.socialsoftware.edition.domain.ExpertEditionInter;
 import pt.ist.socialsoftware.edition.domain.FragInter;
+import pt.ist.socialsoftware.edition.domain.LdoDDate;
 import pt.ist.socialsoftware.edition.domain.ManuscriptSource;
 import pt.ist.socialsoftware.edition.domain.PrintedSource;
 import pt.ist.socialsoftware.edition.domain.Source;
@@ -13,6 +17,7 @@ import pt.ist.socialsoftware.edition.domain.SourceInter;
 import pt.ist.socialsoftware.edition.domain.VirtualEditionInter;
 
 public final class DateSearchOption extends SearchOption {
+	private static Logger logger = LoggerFactory.getLogger(DateSearchOption.class);
 
 	enum Dated {
 		ALL("all"), DATED("dated"), UNDATED("undated");
@@ -29,20 +34,24 @@ public final class DateSearchOption extends SearchOption {
 	}
 
 	private final Dated dated;
-	private final Integer begin;
-	private final Integer end;
+	private int begin;
+	private int end;
 
 	public DateSearchOption(@JsonProperty("option") String dated, @JsonProperty("begin") String begin,
 			@JsonProperty("end") String end) {
+		logger.debug("DateSearchOption dated: {}, begin:{}, end:{}", dated, begin, end);
+
 		if (Dated.DATED.getDated().equals(dated)) {
 			this.dated = Dated.DATED;
+			this.begin = begin == null ? 1911 : Integer.parseInt(begin);
+			this.end = end == null ? 1935 : Integer.parseInt(end);
 		} else if (Dated.UNDATED.getDated().equals(dated)) {
 			this.dated = Dated.UNDATED;
 		} else {
 			this.dated = Dated.ALL;
 		}
-		this.begin = begin == null ? null : Integer.parseInt(begin);
-		this.end = end == null ? null : Integer.parseInt(end);
+
+		logger.debug("DateSearchOption dated: {}, begin:{}, end:{}", this.dated, this.begin, this.end);
 
 	}
 
@@ -77,40 +86,30 @@ public final class DateSearchOption extends SearchOption {
 
 				if (source.getType().equals(SourceType.MANUSCRIPT)) {
 					manu = (ManuscriptSource) ((SourceInter) inter).getSource();
-					if (manu.getLdoDDate() == null && dated.equals(Dated.UNDATED)) {
-						return true;
-					} else if ((manu.getLdoDDate() == null && dated.equals(Dated.DATED))
-							|| (manu.getLdoDDate() != null && dated.equals(Dated.UNDATED))) {
-						return false;
-					} else if (dated.equals(Dated.DATED) && (begin > manu.getLdoDDate().getDate().getYear()
-							|| end < manu.getLdoDDate().getDate().getYear())) {
-						return false;
-					}
+					return isInDate(manu.getLdoDDate());
 				} else if (source.getType().equals(SourceType.PRINTED)) {
 					printed = (PrintedSource) ((SourceInter) inter).getSource();
-					if (printed.getLdoDDate() == null && dated.equals(Dated.UNDATED)) {
-						return true;
-					} else if (printed.getLdoDDate() == null && dated.equals(Dated.DATED)
-							|| printed.getLdoDDate() != null && dated.equals(Dated.UNDATED)) {
-						return false;
-					} else if (dated.equals(Dated.DATED) && (begin > printed.getLdoDDate().getDate().getYear()
-							|| end < printed.getLdoDDate().getDate().getYear())) {
-						return false;
-					}
+					return isInDate(printed.getLdoDDate());
 				}
 			} else {
-				if (inter.getLdoDDate() == null && dated.equals(Dated.UNDATED)) {
-					return true;
-				} else if ((inter.getLdoDDate() == null && dated.equals(Dated.DATED))
-						|| (inter.getLdoDDate() != null && dated.equals(Dated.UNDATED))) {
-					return false;
-				} else if (dated.equals(Dated.DATED) && (begin > inter.getLdoDDate().getDate().getYear()
-						|| end < inter.getLdoDDate().getDate().getYear())) {
-					return false;
-				}
+				return isInDate(inter.getLdoDDate());
 			}
 		}
 		return true;
+	}
+
+	public boolean isInDate(LdoDDate ldoDDate) {
+		if (ldoDDate == null && dated.equals(Dated.UNDATED)) {
+			return true;
+		} else if ((ldoDDate == null && dated.equals(Dated.DATED))
+				|| (ldoDDate != null && dated.equals(Dated.UNDATED))) {
+			return false;
+		} else if (dated.equals(Dated.DATED)
+				&& (begin > ldoDDate.getDate().getYear() || end < ldoDDate.getDate().getYear())) {
+			return false;
+		} else {
+			return true;
+		}
 	}
 
 	public boolean hasDate() {

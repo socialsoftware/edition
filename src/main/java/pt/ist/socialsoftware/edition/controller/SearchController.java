@@ -118,15 +118,10 @@ public class SearchController {
 		for (String hit : hits) {
 			try {
 				logger.debug("simpleSearchResult hit:{}", hit);
+
 				FragInter inter = FenixFramework.getDomainObject(hit);
 				Fragment fragment = inter.getFragment();
-				/*
-				 * 
-				 * if (!results.containsKey(fragment)) { results.put(fragment,
-				 * new ArrayList<FragInter>()); } if
-				 * (!results.get(fragment).contains(inter)) {
-				 * results.get(fragment).add(inter); interCount++; }
-				 */
+
 				if ((searchSource.compareTo("") == 0
 						|| inter.getShortName().toLowerCase().contains(searchSource.toLowerCase()))
 						&& (searchType.compareTo("") == 0
@@ -221,31 +216,6 @@ public class SearchController {
 	public String advancedSearch(Model model) {
 		return "search/advanced";
 	}
-
-	// Handles a search built by the user
-	// <<<<<<< HEAD
-	// @RequestMapping(value = "/advanced/result", method = RequestMethod.POST,
-	// headers = { "Content-type=application/json" })
-	// @ResponseBody
-	// public List<FragmentJson> advancedSearchResult(
-	// Model model, @RequestBody Search search) {
-	//
-	// Map<Fragment, Set<FragInter>> result = search(search);
-	//
-	// List<FragmentJson> resultSet = new LinkedList<FragmentJson>();
-	// List<FragInterJson> fragInterJsonSet;
-	// for(Entry<Fragment, Set<FragInter>> entry : result.entrySet()) {
-	// fragInterJsonSet = new LinkedList<FragInterJson>();
-	// for(FragInter fragInter : entry.getValue()) {
-	//
-	// if(fragInter instanceof ExpertEditionInter) {
-	// fragInterJsonSet.add(new FragInterJson((ExpertEditionInter) fragInter));
-	// } else if(fragInter instanceof SourceInter) {
-	// fragInterJsonSet.add(new FragInterJson((SourceInter) fragInter));
-	// } else {
-	// fragInterJsonSet.add(new FragInterJson(fragInter));
-	// }
-	// =======
 
 	@RequestMapping(value = "/advanced/result", method = RequestMethod.POST, headers = {
 			"Content-type=application/json" })
@@ -396,7 +366,7 @@ public class SearchController {
 	// return resultSet;
 	// }
 
-	public Map<Fragment, Map<FragInter, List<SearchOption>>> search(Search search) {
+	private Map<Fragment, Map<FragInter, List<SearchOption>>> search(Search search) {
 
 		SearchOption[] options = search.getSearchOptions();
 		Mode mode = search.getMode();
@@ -465,17 +435,9 @@ public class SearchController {
 			if (!heteronyms.containsKey(fragInter.getHeteronym().getName())) {
 				heteronyms.put(fragInter.getHeteronym().getName(), fragInter.getHeteronym().getXmlId());
 			}
-			if (beginDate == null) {
-				beginDate = fragInter.getLdoDDate().getDate();
-			}
-			if (endDate == null) {
-				endDate = fragInter.getLdoDDate().getDate();
-			}
-			if (fragInter.getLdoDDate() != null && fragInter.getLdoDDate().getDate().isBefore(beginDate)) {
-				beginDate = fragInter.getLdoDDate().getDate();
-			}
-			if (fragInter.getLdoDDate() != null && fragInter.getLdoDDate().getDate().isAfter(endDate)) {
-				endDate = fragInter.getLdoDDate().getDate();
+			if (fragInter.getLdoDDate() != null) {
+				beginDate = getIsBeforeDate(beginDate, fragInter.getLdoDDate().getDate());
+				endDate = getIsAfterDate(endDate, fragInter.getLdoDDate().getDate());
 			}
 		}
 		EditionJson editionJson = new EditionJson(acronym);
@@ -487,6 +449,28 @@ public class SearchController {
 			editionJson.setEndDate(endDate.getYear());
 		}
 		return editionJson;
+	}
+
+	private LocalDate getIsBeforeDate(LocalDate date1, LocalDate date2) {
+		if (date1 == null)
+			return date2;
+		else if (date2 == null)
+			return date1;
+		else if (date1.isBefore(date2))
+			return date1;
+		else
+			return date2;
+	}
+
+	private LocalDate getIsAfterDate(LocalDate date1, LocalDate date2) {
+		if (date1 == null)
+			return date2;
+		else if (date2 == null)
+			return date1;
+		else if (date1.isAfter(date2))
+			return date1;
+		else
+			return date2;
 	}
 
 	@RequestMapping(value = "/getPublications")
@@ -523,17 +507,9 @@ public class SearchController {
 						if (!source.getNotes().toLowerCase().contains(mode)) {
 							break;
 						}
-						if (beginDate == null) {
-							beginDate = source.getLdoDDate().getDate();
-						}
-						if (endDate == null) {
-							endDate = source.getLdoDDate().getDate();
-						}
-						if (source.getLdoDDate() != null && source.getLdoDDate().getDate().isBefore(beginDate)) {
-							beginDate = source.getLdoDDate().getDate();
-						}
-						if (source.getLdoDDate() != null && source.getLdoDDate().getDate().isAfter(endDate)) {
-							endDate = source.getLdoDDate().getDate();
+						if (source.getLdoDDate() != null) {
+							beginDate = getIsBeforeDate(beginDate, source.getLdoDDate().getDate());
+							endDate = getIsAfterDate(endDate, source.getLdoDDate().getDate());
 						}
 					}
 				}
@@ -578,47 +554,23 @@ public class SearchController {
 		LocalDate endDate = null;
 		for (Fragment fragment : LdoD.getInstance().getFragmentsSet()) {
 			for (FragInter fragInter : fragment.getFragmentInterSet()) {
-				if (beginDate == null) {
-					beginDate = fragInter.getLdoDDate().getDate();
-				}
-				if (endDate == null) {
-					endDate = fragInter.getLdoDDate().getDate();
-				}
-				if (fragInter.getLdoDDate() != null && fragInter.getLdoDDate().getDate().isBefore(beginDate)) {
-					beginDate = fragInter.getLdoDDate().getDate();
-				}
-				if (fragInter.getLdoDDate() != null && fragInter.getLdoDDate().getDate().isAfter(endDate)) {
-					endDate = fragInter.getLdoDDate().getDate();
+				if (fragInter.getLdoDDate() != null) {
+					beginDate = getIsBeforeDate(beginDate, fragInter.getLdoDDate().getDate());
+					endDate = getIsAfterDate(endDate, fragInter.getLdoDDate().getDate());
 				}
 			}
 			for (Source source : fragment.getSourcesSet()) {
 				if (source.getType().equals(SourceType.MANUSCRIPT)) {
 					ManuscriptSource manu = (ManuscriptSource) source;
-					if (beginDate == null) {
-						beginDate = manu.getLdoDDate().getDate();
-					}
-					if (endDate == null) {
-						endDate = manu.getLdoDDate().getDate();
-					}
-					if (manu.getLdoDDate() != null && manu.getLdoDDate().getDate().isBefore(beginDate)) {
-						beginDate = manu.getLdoDDate().getDate();
-					}
-					if (manu.getLdoDDate() != null && manu.getLdoDDate().getDate().isAfter(endDate)) {
-						endDate = manu.getLdoDDate().getDate();
+					if (manu.getLdoDDate() != null) {
+						beginDate = getIsBeforeDate(beginDate, manu.getLdoDDate().getDate());
+						endDate = getIsAfterDate(endDate, manu.getLdoDDate().getDate());
 					}
 				} else if (source.getType().equals(SourceType.PRINTED)) {
 					PrintedSource print = (PrintedSource) source;
-					if (beginDate == null) {
-						beginDate = print.getLdoDDate().getDate();
-					}
-					if (endDate == null) {
-						endDate = print.getLdoDDate().getDate();
-					}
-					if (print.getLdoDDate() != null && print.getLdoDDate().getDate().isBefore(beginDate)) {
-						beginDate = print.getLdoDDate().getDate();
-					}
-					if (print.getLdoDDate() != null && print.getLdoDDate().getDate().isAfter(endDate)) {
-						endDate = print.getLdoDDate().getDate();
+					if (print.getLdoDDate() != null) {
+						beginDate = getIsBeforeDate(beginDate, print.getLdoDDate().getDate());
+						endDate = getIsAfterDate(endDate, print.getLdoDDate().getDate());
 					}
 				}
 			}

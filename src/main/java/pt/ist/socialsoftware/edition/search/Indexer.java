@@ -91,7 +91,7 @@ public class Indexer {
 		directory.close();
 	}
 
-	private List<String> getRetults(String query) throws IOException, ParseException {
+	private List<String> getResults(String query) throws IOException, ParseException {
 		logger.debug("Query: {}", query);
 
 		Query q = queryParser.parse(query);
@@ -118,13 +118,13 @@ public class Indexer {
 
 	public List<String> search(String words) throws ParseException, IOException {
 		String query = absoluteSearch(words);
-		return getRetults(query);
+		return getResults(query);
 	}
 
 	public List<String> search(String words, FragInter inter) throws IOException, ParseException {
 		String query = absoluteSearch(words);
 		query = ID + ":" + inter.getExternalId() + " AND " + query;
-		return getRetults(query);
+		return getResults(query);
 	}
 
 	// Search for fragments with a set of words similar to input
