@@ -95,6 +95,7 @@ public class SearchController {
 	@RequestMapping(value = "/simple/result", method = RequestMethod.POST, headers = {
 			"Content-type=text/plain;charset=UTF-8" })
 	public String simpleSearchResult(Model model, @RequestBody String params) {
+		logger.debug("params {}", params);
 
 		String search = params.substring(0, params.indexOf("&"));
 		params = params.substring(params.indexOf("&") + 1);

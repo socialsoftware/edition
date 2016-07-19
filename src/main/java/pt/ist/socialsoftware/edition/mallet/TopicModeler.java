@@ -14,6 +14,9 @@ import java.util.TreeSet;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import cc.mallet.pipe.CharSequence2TokenSequence;
 import cc.mallet.pipe.Input2CharSequence;
 import cc.mallet.pipe.Pipe;
@@ -37,10 +40,12 @@ import pt.ist.socialsoftware.edition.utils.TopicInterPercentageDTO;
 import pt.ist.socialsoftware.edition.utils.TopicListDTO;
 
 public class TopicModeler {
+	private static Logger logger = LoggerFactory.getLogger(TopicModeler.class);
 
 	private Pipe pipe;
 	private final String corpusPath = PropertiesManager.getProperties().getProperty("corpus.dir");
 	private final String corpusFilesPath = PropertiesManager.getProperties().getProperty("corpus.files.dir");
+	private final String stopListPath = PropertiesManager.getProperties().getProperty("corpus.stoplist");
 
 	public TopicListDTO generate(LdoDUser user, VirtualEdition edition, int numTopics, int numWords,
 			int thresholdCategories, int numIterations) throws IOException {
@@ -94,8 +99,7 @@ public class TopicModeler {
 		pipeList.add(new Input2CharSequence("UTF-8"));
 		pipeList.add(new CharSequence2TokenSequence(Pattern.compile("\\p{L}[\\p{L}\\p{P}]+\\p{L}")));
 		pipeList.add(new TokenSequenceLowercase());
-		pipeList.add(new TokenSequenceRemoveStopwords(new File(corpusPath + "stoplist-pt.txt"), "UTF-8", false, false,
-				false));
+		pipeList.add(new TokenSequenceRemoveStopwords(new File(stopListPath), "UTF-8", false, false, false));
 		// pipeList.add(new TokenSequenceRemoveStopwords(false, false));
 		pipeList.add(new TokenSequence2FeatureSequence());
 
