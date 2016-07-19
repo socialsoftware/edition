@@ -5,6 +5,8 @@ import java.io.FileFilter;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -14,6 +16,7 @@ import java.util.TreeSet;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -224,6 +227,24 @@ public class TopicModeler {
 
 	private boolean existTopic(List<TopicDTO> topics, String wordName) {
 		return topics.stream().filter(t -> t.getName().equals(wordName)).findAny().isPresent();
+	}
+
+	public void deleteFile(String externalId) {
+		try {
+			Files.delete(Paths.get(corpusFilesPath + externalId + ".txt"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public void cleanDirectory() {
+		try {
+			FileUtils.cleanDirectory(new File(corpusFilesPath));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	/** This class illustrates how to build a simple file filter */

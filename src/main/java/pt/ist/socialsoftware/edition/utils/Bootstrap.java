@@ -20,7 +20,9 @@ import pt.ist.socialsoftware.edition.domain.Member.MemberRole;
 import pt.ist.socialsoftware.edition.domain.Role;
 import pt.ist.socialsoftware.edition.domain.Role.RoleType;
 import pt.ist.socialsoftware.edition.domain.VirtualEdition;
+import pt.ist.socialsoftware.edition.mallet.TopicModeler;
 import pt.ist.socialsoftware.edition.recommendation.VSMFragmentRecommender;
+import pt.ist.socialsoftware.edition.search.Indexer;
 
 /**
  * @author ars
@@ -46,6 +48,13 @@ public class Bootstrap implements WebApplicationInitializer {
 		if (LdoD.getInstance() == null) {
 			new LdoD();
 			populateDatabaseUsersAndRoles();
+
+			// clean Lucene
+			Indexer indexer = new Indexer();
+			indexer.cleanLucene();
+			// clean Mallet directory
+			TopicModeler topicModeler = new TopicModeler();
+			topicModeler.cleanDirectory();
 		}
 	}
 

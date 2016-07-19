@@ -7,7 +7,9 @@ import java.util.List;
 import java.util.Set;
 
 import pt.ist.socialsoftware.edition.domain.Edition.EditionType;
+import pt.ist.socialsoftware.edition.mallet.TopicModeler;
 import pt.ist.socialsoftware.edition.recommendation.properties.Property;
+import pt.ist.socialsoftware.edition.search.Indexer;
 import pt.ist.socialsoftware.edition.search.options.SearchOption;
 
 public class ExpertEditionInter extends ExpertEditionInter_Base {
@@ -21,7 +23,19 @@ public class ExpertEditionInter extends ExpertEditionInter_Base {
 	public void remove() {
 		setExpertEdition(null);
 
+		String externalId = getExternalId();
+
 		super.remove();
+
+		// remove from Lucene
+		List<String> externalIds = new ArrayList<String>();
+		externalIds.add(externalId);
+		Indexer indexer = new Indexer();
+		indexer.cleanMissingHits(externalIds);
+
+		// remove from mallet directory
+		TopicModeler topicModeler = new TopicModeler();
+		topicModeler.deleteFile(externalId);
 	}
 
 	@Override

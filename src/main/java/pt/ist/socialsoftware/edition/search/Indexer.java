@@ -36,6 +36,7 @@ import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.NIOFSDirectory;
 import org.apache.lucene.util.BytesRef;
 import org.apache.lucene.util.Version;
+import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -523,6 +524,17 @@ public class Indexer {
 			indexWriter.close();
 			directory.close();
 		} catch (ParseException | IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void cleanLucene() {
+		String path = PropertiesManager.getProperties().getProperty("indexer.dir");
+		try {
+			logger.debug("cleanLucene {}", path);
+			FileUtils.cleanDirectory(new File(path));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

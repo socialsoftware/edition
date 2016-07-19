@@ -13,7 +13,6 @@ import org.joda.time.LocalDate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
@@ -24,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import pt.ist.fenixframework.DomainObject;
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.domain.Edition;
 import pt.ist.socialsoftware.edition.domain.Edition.EditionType;
@@ -117,9 +117,17 @@ public class SearchController {
 		int interCount = 0;
 		for (String hit : hits) {
 			try {
-				logger.debug("simpleSearchResult hit:{}", hit);
+				DomainObject object = FenixFramework.getDomainObject(hit);
+				if (!FenixFramework.isDomainObjectValid(object)) {
+					misses.add(hit);
+					break;
+				}
+				if (!(object instanceof FragInter)) {
+					misses.add(hit);
+					break;
+				}
 
-				FragInter inter = FenixFramework.getDomainObject(hit);
+				FragInter inter = (FragInter) object;
 				Fragment fragment = inter.getFragment();
 
 				if ((searchSource.compareTo("") == 0
@@ -137,7 +145,7 @@ public class SearchController {
 					}
 				}
 
-			} catch (Exception e) {
+			} catch (InstantiationError e) {
 				misses.add(hit);
 			}
 		}
@@ -152,7 +160,7 @@ public class SearchController {
 	}
 
 	// Async Task to clean missing ids from lucene
-	@Async
+	// @Async
 	private void cleanMissingHits(List<String> misses) {
 		Indexer indexer = new Indexer();
 		indexer.cleanMissingHits(misses);
@@ -304,68 +312,6 @@ public class SearchController {
 		return "search/resultTable";
 	}
 
-	// @RequestMapping(value = "/advanced/result", method = RequestMethod.POST,
-	// headers = { "Content-type=application/json" })
-	// @ResponseBody
-	// public List<FragmentJson> advancedSearchResult(
-	// Model model, @RequestBody Search search) {
-	//
-	// Map<Fragment, Set<FragInter>> result = search(search);
-	//
-	// List<FragmentJson> resultSet = new LinkedList<FragmentJson>();
-	// List<FragInterJson> fragInterJsonSet;
-	// for(Entry<Fragment, Set<FragInter>> entry : result.entrySet()) {
-	// fragInterJsonSet = new LinkedList<FragInterJson>();
-	// for(FragInter fragInter : entry.getValue()) {
-	//
-	// if(fragInter instanceof ExpertEditionInter) {
-	// fragInterJsonSet.add(new FragInterJson((ExpertEditionInter) fragInter));
-	// } else if(fragInter instanceof SourceInter) {
-	// fragInterJsonSet.add(new FragInterJson((SourceInter) fragInter));
-	// } else {
-	// fragInterJsonSet.add(new FragInterJson(fragInter));
-	// }
-	//
-	// // fragInterJsonSet.add(new FragInterJson(fragInter));
-	// }
-	// resultSet.add(new FragmentJson(entry.getKey(), fragInterJsonSet));
-	// }
-	//
-	// return resultSet;
-	// }
-
-	// public static Map<Fragment, Set<FragInter>> search(Search search) {
-	// SearchOption[] options = search.getSearchOptions();
-	// Mode mode = search.getMode();
-	// Set<FragInter> fragInterSet;
-	// boolean working;
-	// boolean and = mode.equals(Mode.AND) ? true : false;
-	// Map<Fragment, Set<FragInter>> resultSet = new LinkedHashMap<Fragment,
-	// Set<FragInter>>();
-	// boolean belongsToResulSet;
-	//
-	// for(Fragment fragment : LdoD.getInstance().getFragmentsSet()) {
-	// fragInterSet = new TreeSet<FragInter>();
-	// belongsToResulSet = and;
-	// for(SearchOption option : options) {
-	// working = false;
-	// for(FragInter fragInter : fragment.getFragmentInterSet()) {
-	// if(fragInter.accept(option)) {
-	// fragInterSet.add(fragInter);
-	// working = true;
-	// }
-	// }
-	// belongsToResulSet = SearchOption.chooseMode(mode, belongsToResulSet,
-	// working);
-	// }
-	//
-	// if(belongsToResulSet) {
-	// resultSet.put(fragment, fragInterSet);
-	// }
-	// }
-	// return resultSet;
-	// }
-
 	private Map<Fragment, Map<FragInter, List<SearchOption>>> search(Search search) {
 
 		SearchOption[] options = search.getSearchOptions();
@@ -449,28 +395,6 @@ public class SearchController {
 			editionJson.setEndDate(endDate.getYear());
 		}
 		return editionJson;
-	}
-
-	private LocalDate getIsBeforeDate(LocalDate date1, LocalDate date2) {
-		if (date1 == null)
-			return date2;
-		else if (date2 == null)
-			return date1;
-		else if (date1.isBefore(date2))
-			return date1;
-		else
-			return date2;
-	}
-
-	private LocalDate getIsAfterDate(LocalDate date1, LocalDate date2) {
-		if (date1 == null)
-			return date2;
-		else if (date2 == null)
-			return date1;
-		else if (date1.isAfter(date2))
-			return date1;
-		else
-			return date2;
 	}
 
 	@RequestMapping(value = "/getPublications")
@@ -594,6 +518,28 @@ public class SearchController {
 			}
 		}
 		return virtualEditionMap;
+	}
+
+	private LocalDate getIsBeforeDate(LocalDate date1, LocalDate date2) {
+		if (date1 == null)
+			return date2;
+		else if (date2 == null)
+			return date1;
+		else if (date1.isBefore(date2))
+			return date1;
+		else
+			return date2;
+	}
+
+	private LocalDate getIsAfterDate(LocalDate date1, LocalDate date2) {
+		if (date1 == null)
+			return date2;
+		else if (date2 == null)
+			return date1;
+		else if (date1.isAfter(date2))
+			return date1;
+		else
+			return date2;
 	}
 
 }
