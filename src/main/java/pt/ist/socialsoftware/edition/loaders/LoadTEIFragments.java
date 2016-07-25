@@ -1695,6 +1695,9 @@ public class LoadTEIFragments {
 			case "paragraph":
 				type = VariationType.PARAGRAPH;
 				break;
+			case "punctuation":
+				type = VariationType.PUNCTUATION;
+				break;
 			default:
 				throw new LdoDLoadException("valor desconhecido para atributo type=" + typeValue + " dentro de app");
 			}

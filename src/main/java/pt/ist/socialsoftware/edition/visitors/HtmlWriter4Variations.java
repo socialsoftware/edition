@@ -32,8 +32,7 @@ public class HtmlWriter4Variations extends PlainHtmlWriter4OneInter {
 	@Override
 	public void visit(AppText appText) {
 		if (appText.getType() != VariationType.UNSPECIFIED) {
-			transcription = transcription + "(" + appText.getType().getDesc()
-					+ ")";
+			transcription = transcription + "(" + appText.getType().getDesc() + ") ";
 		}
 
 		for (TextPortion childText : appText.getChildTextSet()) {
@@ -47,8 +46,7 @@ public class HtmlWriter4Variations extends PlainHtmlWriter4OneInter {
 	@Override
 	public void visit(RdgGrpText rdgGrpText) {
 		if (rdgGrpText.getType() != VariationType.UNSPECIFIED) {
-			transcription = transcription + "("
-					+ rdgGrpText.getType().getDesc() + ")";
+			transcription = transcription + "(" + rdgGrpText.getType().getDesc() + ") ";
 		}
 
 		for (TextPortion childText : rdgGrpText.getChildTextSet()) {

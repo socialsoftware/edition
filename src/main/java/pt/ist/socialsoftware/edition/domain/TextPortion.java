@@ -12,10 +12,10 @@ public abstract class TextPortion extends TextPortion_Base implements GraphEleme
 	private static Logger logger = LoggerFactory.getLogger(TextPortion.class);
 
 	public enum VariationType {
-		ORTHOGRAPHIC("orthographic"), SUBSTANTIVE("substantive"), STYLE("style"), PARAGRAPH("paragraph"), UNSPECIFIED(
-				"unspecified");
+		ORTHOGRAPHIC("orthographic"), SUBSTANTIVE("substantive"), STYLE("style"), PARAGRAPH("paragraph"), PUNCTUATION(
+				"punctuation"), UNSPECIFIED("unspecified");
 
-		private String desc;
+		private final String desc;
 
 		VariationType(String desc) {
 			this.desc = desc;
