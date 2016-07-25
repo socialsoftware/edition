@@ -1,14 +1,11 @@
 package pt.ist.socialsoftware.edition.controller;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.lucene.queryparser.classic.ParseException;
 import org.joda.time.LocalDate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,8 +20,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import pt.ist.fenixframework.DomainObject;
-import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.domain.Edition;
 import pt.ist.socialsoftware.edition.domain.Edition.EditionType;
 import pt.ist.socialsoftware.edition.domain.ExpertEdition;
@@ -40,7 +35,6 @@ import pt.ist.socialsoftware.edition.domain.Source;
 import pt.ist.socialsoftware.edition.domain.Source.SourceType;
 import pt.ist.socialsoftware.edition.domain.SourceInter;
 import pt.ist.socialsoftware.edition.domain.VirtualEdition;
-import pt.ist.socialsoftware.edition.search.Indexer;
 import pt.ist.socialsoftware.edition.search.json.AuthoralJson;
 import pt.ist.socialsoftware.edition.search.json.DatesJson;
 import pt.ist.socialsoftware.edition.search.json.EditionJson;
@@ -52,8 +46,8 @@ import pt.ist.socialsoftware.edition.search.options.ManuscriptSearchOption;
 import pt.ist.socialsoftware.edition.search.options.PublicationSearchOption;
 import pt.ist.socialsoftware.edition.search.options.Search;
 import pt.ist.socialsoftware.edition.search.options.SearchOption;
-import pt.ist.socialsoftware.edition.search.options.SearchOption.Mode;
 import pt.ist.socialsoftware.edition.search.options.TaxonomySearchOption;
+import pt.ist.socialsoftware.edition.search.options.TextSearchOption;
 import pt.ist.socialsoftware.edition.search.options.TypescriptSearchOption;
 import pt.ist.socialsoftware.edition.search.options.VirtualEditionSearchOption;
 
@@ -84,14 +78,6 @@ public class SearchController {
 		return "search/simple";
 	}
 
-	// todo (lpereira)
-	// - uniformizar simpleSearchResult e simpleSearchVirtualResult
-	// - optmizar a pesquisa por titulo e fonte
-
-	// @RequestMapping(value = "/simple/result", method = RequestMethod.POST,
-	// headers = { "text/plain;charset=UTF-8" })
-	// @RequestMapping(value = "/simple/result")
-	// @RequestMapping(method = RequestMethod.GET, value = "/simple/result")
 	@RequestMapping(value = "/simple/result", method = RequestMethod.POST, headers = {
 			"Content-type=text/plain;charset=UTF-8" })
 	public String simpleSearchResult(Model model, @RequestBody String params) {
@@ -103,120 +89,33 @@ public class SearchController {
 		params = params.substring(params.indexOf("&") + 1);
 		String searchSource = params;
 
-		List<String> hits;
-
-		try {
-			hits = new Indexer().search(search);
-		} catch (ParseException | IOException e) {
-			e.printStackTrace();
-			return "";
-		}
+		TextSearchOption textSearchOption = new TextSearchOption(search);
+		List<FragInter> matches = textSearchOption.search();
 
 		Map<Fragment, List<FragInter>> results = new HashMap<Fragment, List<FragInter>>();
-		List<String> misses = new ArrayList<>();
 		int interCount = 0;
-		for (String hit : hits) {
-			try {
-				DomainObject object = FenixFramework.getDomainObject(hit);
-				if (!FenixFramework.isDomainObjectValid(object)) {
-					misses.add(hit);
-					break;
-				}
-				if (!(object instanceof FragInter)) {
-					misses.add(hit);
-					break;
-				}
+		for (FragInter inter : matches) {
+			Fragment fragment = inter.getFragment();
+			if ((searchSource.compareTo("") == 0
+					|| inter.getShortName().toLowerCase().contains(searchSource.toLowerCase()))
+					&& (searchType.compareTo("") == 0
+							|| inter.getTitle().toLowerCase().contains(search.toLowerCase()))) {
 
-				FragInter inter = (FragInter) object;
-				Fragment fragment = inter.getFragment();
-
-				if ((searchSource.compareTo("") == 0
-						|| inter.getShortName().toLowerCase().contains(searchSource.toLowerCase()))
-						&& (searchType.compareTo("") == 0
-								|| inter.getTitle().toLowerCase().contains(search.toLowerCase()))) {
-
-					if (!results.containsKey(fragment)) {
-						results.put(fragment, new ArrayList<FragInter>());
-					}
-
-					if (!results.get(fragment).contains(inter)) {
-						results.get(fragment).add(inter);
-						interCount++;
-					}
+				if (!results.containsKey(fragment)) {
+					results.put(fragment, new ArrayList<FragInter>());
 				}
 
-			} catch (InstantiationError e) {
-				misses.add(hit);
+				if (!results.get(fragment).contains(inter)) {
+					results.get(fragment).add(inter);
+					interCount++;
+				}
 			}
 		}
 
-		if (!misses.isEmpty()) {
-			cleanMissingHits(misses);
-		}
 		model.addAttribute("fragCount", results.size());
 		model.addAttribute("interCount", interCount);
 		model.addAttribute("results", results);
 		return "search/simpleResultTable";
-	}
-
-	// Async Task to clean missing ids from lucene
-	// @Async
-	private void cleanMissingHits(List<String> misses) {
-		Indexer indexer = new Indexer();
-		indexer.cleanMissingHits(misses);
-	}
-
-	@RequestMapping(value = "/simple/virtual/result", method = RequestMethod.POST, headers = {
-			"Content-type=text/plain;charset=UTF-8" })
-	public String simpleSearchVirtualResult(Model model, @RequestBody String params) {
-
-		String search = params.substring(0, params.indexOf("&"));
-		params = params.substring(params.indexOf("&") + 1);
-		String searchType = params.substring(0, params.indexOf("&"));
-		params = params.substring(params.indexOf("&") + 1);
-		String searchSource = params;
-
-		List<String> hits;
-		try {
-			hits = new Indexer().search(search);
-		} catch (ParseException | IOException e) {
-			e.printStackTrace();
-			return "";
-		}
-
-		Map<Fragment, List<FragInter>> results = new HashMap<Fragment, List<FragInter>>();
-		List<String> misses = new ArrayList<>();
-		int interCount = 0;
-
-		for (String hit : hits) {
-			try {
-				FragInter inter = FenixFramework.getDomainObject(hit);
-				Fragment fragment = inter.getFragment();
-
-				if ((searchSource.compareTo("") == 0
-						|| inter.getShortName().toLowerCase().contains(searchSource.toLowerCase()))
-						&& (searchType.compareTo("") == 0
-								|| inter.getTitle().toLowerCase().contains(search.toLowerCase()))) {
-
-					if (!results.containsKey(fragment)) {
-						results.put(fragment, new ArrayList<FragInter>());
-					}
-
-					if (!results.get(fragment).contains(inter)) {
-						results.get(fragment).add(inter);
-						interCount++;
-					}
-				}
-			} catch (Exception e) {
-				misses.add(hit);
-			}
-		}
-
-		model.addAttribute("fragCount", results.size());
-		model.addAttribute("interCount", interCount);
-		model.addAttribute("results", results);
-
-		return "virtual/simpleResultTable";
 	}
 
 	// Advanced Search
@@ -228,7 +127,7 @@ public class SearchController {
 	@RequestMapping(value = "/advanced/result", method = RequestMethod.POST, headers = {
 			"Content-type=application/json" })
 	public String advancedSearchResultNew(Model model, @RequestBody Search search) {
-		Map<Fragment, Map<FragInter, List<SearchOption>>> results = search(search);
+		Map<Fragment, Map<FragInter, List<SearchOption>>> results = search.search();
 
 		int fragCount = 0;
 		int fragCountNotAdded = 0;
@@ -300,7 +199,6 @@ public class SearchController {
 		model.addAttribute("showSource", showSource);
 		model.addAttribute("showSourceType", showSourceType);
 		model.addAttribute("showTaxonomy", showTaxonomy);
-		// model.addAttribute("showVirtualEdition", showSourceType);
 		model.addAttribute("fragCount", fragCount);
 		model.addAttribute("interCount", interCount);
 		model.addAttribute("fragCountNotAdded", fragCountNotAdded);
@@ -310,52 +208,6 @@ public class SearchController {
 		model.addAttribute("search", searchOptions);
 		model.addAttribute("searchLenght", searchOptions.length);
 		return "search/resultTable";
-	}
-
-	private Map<Fragment, Map<FragInter, List<SearchOption>>> search(Search search) {
-
-		SearchOption[] options = search.getSearchOptions();
-		Mode mode = search.getMode();
-		boolean working;
-		boolean and = mode.equals(Mode.AND) ? true : false;
-		boolean belongsToResulSet;
-		Map<Fragment, Map<FragInter, List<SearchOption>>> resultSet = new LinkedHashMap<Fragment, Map<FragInter, List<SearchOption>>>();
-		Map<FragInter, List<SearchOption>> matchMap;
-		for (Fragment fragment : LdoD.getInstance().getFragmentsSet()) {
-			matchMap = new LinkedHashMap<FragInter, List<SearchOption>>();
-			belongsToResulSet = and;
-			for (SearchOption option : options) {
-				working = false;
-				for (FragInter fragInter : fragment.getFragmentInterSet()) {
-					if (fragInter.accept(option)) {
-						if (matchMap.containsKey(fragInter)) {
-							matchMap.get(fragInter).add(option);
-						} else {
-							matchMap.put(fragInter, new ArrayList<SearchOption>(Arrays.asList(option)));
-						}
-						working = true;
-					} else {
-						if (!matchMap.containsKey(fragInter)) {
-							matchMap.put(fragInter, new ArrayList<SearchOption>());
-						}
-
-					}
-				}
-				belongsToResulSet = SearchOption.chooseMode(mode, belongsToResulSet, working);
-			}
-
-			if (belongsToResulSet) {
-				resultSet.put(fragment, matchMap);
-			} else {
-				for (FragInter key : matchMap.keySet()) {
-					matchMap.put(key, new ArrayList<SearchOption>());
-				}
-				resultSet.put(fragment, matchMap);
-			}
-
-		}
-
-		return resultSet;
 	}
 
 	@RequestMapping(value = "/getEditions")
