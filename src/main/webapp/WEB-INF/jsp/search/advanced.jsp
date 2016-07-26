@@ -168,7 +168,7 @@ Edition.prototype.getDateOption = function(){
 
 //Manuscript definition
 function Manuscript(id) {
-	this.url = "/search/getManuscripts";
+	this.url = "/search/getManuscriptsDates";
 	this.type = "manuscript";
 	this.id = id;
 	this.hasLdoDMark = "all"; 
@@ -251,7 +251,7 @@ Manuscript.prototype.changeLdoDMark = function(hasLdoDMark){
 
 /* Dactiloscript */
 function Dactiloscript(id) {
-	this.url = "/search/getDactiloscripts";
+	this.url = "/search/getDactiloscriptsDates";
 	this.type = "dactiloscript";
 	this.id = id;
 	this.hasLdoDMark = "all"; 

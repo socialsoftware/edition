@@ -265,7 +265,7 @@ public class SearchController {
 		return publications;
 	}
 
-	private AuthoralJson getAuthoral(String mode) {
+	private AuthoralJson getAuthoralDates(String mode) {
 		AuthoralJson json = new AuthoralJson();
 		LocalDate beginDate = null;
 		LocalDate endDate = null;
@@ -301,16 +301,16 @@ public class SearchController {
 		return json;
 	}
 
-	@RequestMapping(value = "/getManuscripts")
+	@RequestMapping(value = "/getManuscriptsDates")
 	@ResponseBody
 	public AuthoralJson getManuscript() {
-		return getAuthoral(ManuscriptSearchOption.MANUSCRIPTID);
+		return getAuthoralDates(ManuscriptSearchOption.MANUSCRIPTID);
 	}
 
-	@RequestMapping(value = "/getDactiloscripts")
+	@RequestMapping(value = "/getDactiloscriptsDates")
 	@ResponseBody
 	public AuthoralJson getDatiloscript() {
-		return getAuthoral(TypescriptSearchOption.TYPESCRIPT);
+		return getAuthoralDates(TypescriptSearchOption.TYPESCRIPT);
 	}
 
 	@RequestMapping(value = "/getHeteronyms")
@@ -336,18 +336,9 @@ public class SearchController {
 				}
 			}
 			for (Source source : fragment.getSourcesSet()) {
-				if (source.getType().equals(SourceType.MANUSCRIPT)) {
-					ManuscriptSource manu = (ManuscriptSource) source;
-					if (manu.getLdoDDate() != null) {
-						beginDate = getIsBeforeDate(beginDate, manu.getLdoDDate().getDate());
-						endDate = getIsAfterDate(endDate, manu.getLdoDDate().getDate());
-					}
-				} else if (source.getType().equals(SourceType.PRINTED)) {
-					PrintedSource print = (PrintedSource) source;
-					if (print.getLdoDDate() != null) {
-						beginDate = getIsBeforeDate(beginDate, print.getLdoDDate().getDate());
-						endDate = getIsAfterDate(endDate, print.getLdoDDate().getDate());
-					}
+				if (source.getLdoDDate() != null) {
+					beginDate = getIsBeforeDate(beginDate, source.getLdoDDate().getDate());
+					endDate = getIsAfterDate(endDate, source.getLdoDDate().getDate());
 				}
 			}
 		}
