@@ -9,10 +9,7 @@ import pt.ist.socialsoftware.edition.domain.Edition.EditionType;
 import pt.ist.socialsoftware.edition.domain.ExpertEditionInter;
 import pt.ist.socialsoftware.edition.domain.FragInter;
 import pt.ist.socialsoftware.edition.domain.LdoDDate;
-import pt.ist.socialsoftware.edition.domain.ManuscriptSource;
-import pt.ist.socialsoftware.edition.domain.PrintedSource;
 import pt.ist.socialsoftware.edition.domain.Source;
-import pt.ist.socialsoftware.edition.domain.Source.SourceType;
 import pt.ist.socialsoftware.edition.domain.SourceInter;
 import pt.ist.socialsoftware.edition.domain.VirtualEditionInter;
 
@@ -78,19 +75,9 @@ public final class DateSearchOption extends SearchOption {
 	public boolean betweenDates(FragInter inter) {
 		if (dated != Dated.ALL) {
 			Source source;
-			PrintedSource printed;
-			ManuscriptSource manu;
-
 			if (inter.getSourceType().equals(EditionType.AUTHORIAL)) {
 				source = ((SourceInter) inter).getSource();
-
-				if (source.getType().equals(SourceType.MANUSCRIPT)) {
-					manu = (ManuscriptSource) ((SourceInter) inter).getSource();
-					return isInDate(manu.getLdoDDate());
-				} else if (source.getType().equals(SourceType.PRINTED)) {
-					printed = (PrintedSource) ((SourceInter) inter).getSource();
-					return isInDate(printed.getLdoDDate());
-				}
+				return isInDate(source.getLdoDDate());
 			} else {
 				return isInDate(inter.getLdoDDate());
 			}
@@ -113,6 +100,6 @@ public final class DateSearchOption extends SearchOption {
 	}
 
 	public boolean hasDate() {
-		return dated != Dated.ALL;
+		return !dated.equals(Dated.ALL);
 	}
 }
