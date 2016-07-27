@@ -1,5 +1,8 @@
 package pt.ist.socialsoftware.edition.search.options;
 
+import java.util.Set;
+import java.util.stream.Collectors;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -58,21 +61,27 @@ public final class DateSearchOption extends SearchOption {
 	}
 
 	@Override
+	public Set<FragInter> search(Set<FragInter> inters) {
+		return inters.stream().filter(ExpertEditionInter.class::isInstance).map(ExpertEditionInter.class::cast)
+				.filter(i -> verifiesSearchOption(i)).collect(Collectors.toSet());
+	}
+
+	@Override
 	public boolean visit(ExpertEditionInter inter) {
-		return this.betweenDates(inter);
+		return verifiesSearchOption(inter);
 	}
 
 	@Override
 	public boolean visit(SourceInter inter) {
-		return this.betweenDates(inter);
+		return verifiesSearchOption(inter);
 	}
 
 	@Override
 	public boolean visit(VirtualEditionInter inter) {
-		return this.betweenDates(inter);
+		return verifiesSearchOption(inter);
 	}
 
-	public boolean betweenDates(FragInter inter) {
+	private boolean verifiesSearchOption(FragInter inter) {
 		if (dated != Dated.ALL) {
 			Source source;
 			if (inter.getSourceType().equals(EditionType.AUTHORIAL)) {

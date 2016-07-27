@@ -6,24 +6,35 @@ import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import pt.ist.socialsoftware.edition.domain.FragInter;
 import pt.ist.socialsoftware.edition.domain.VirtualEditionInter;
 
 public class TaxonomySearchOption extends SearchOption {
-	private Set<String> tags;
+	private String[] tags;
 
 	public TaxonomySearchOption(@JsonProperty("tags") String tags) {
-		this.tags = Arrays.stream(tags.trim().split("\\s+")).collect(Collectors.toSet());
+		this.tags = tags.trim().split("\\s+");
+	}
+
+	@Override
+	public Set<FragInter> search(Set<FragInter> inters) {
+		return inters.stream().filter(VirtualEditionInter.class::isInstance).map(VirtualEditionInter.class::cast)
+				.filter(i -> verifiesSearchOption(i)).collect(Collectors.toSet());
 	}
 
 	@Override
 	public boolean visit(VirtualEditionInter inter) {
-		return inter.getTagSet().stream().map(t -> t.getCategory().getName()).collect(Collectors.toSet())
-				.containsAll(tags);
+		return verifiesSearchOption(inter);
+	}
+
+	public boolean verifiesSearchOption(VirtualEditionInter inter) {
+		return Arrays.stream(tags).allMatch(tt -> inter.getTagSet().stream()
+				.filter(t -> t.getCategory().getName().equals(tt)).findAny().isPresent());
 	}
 
 	@Override
 	public String toString() {
-		return "Taxonomy :" + tags.stream().collect(Collectors.joining(" "));
+		return "Taxonomy :" + Arrays.stream(tags).collect(Collectors.joining(" "));
 	}
 
 }

@@ -2,7 +2,10 @@ package pt.ist.socialsoftware.edition.search.options;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.apache.lucene.queryparser.classic.ParseException;
 
@@ -54,6 +57,12 @@ public final class TextSearchOption extends SearchOption {
 			}
 		}
 		return true;
+	}
+
+	@Override
+	public Set<FragInter> search(Set<FragInter> inters) {
+		Set<FragInter> searchResult = new HashSet<FragInter>(search());
+		return inters.stream().filter(i -> searchResult.contains(i)).collect(Collectors.toSet());
 	}
 
 	public List<FragInter> search() {

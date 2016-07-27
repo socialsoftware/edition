@@ -1,5 +1,8 @@
 package pt.ist.socialsoftware.edition.search.options;
 
+import java.util.Set;
+import java.util.stream.Collectors;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,8 +29,14 @@ public final class HeteronymSearchOption extends SearchOption {
 	}
 
 	@Override
+	public Set<FragInter> search(Set<FragInter> inters) {
+		return inters.stream().filter(i -> !(i instanceof VirtualEditionInter) && verifiesSearchOption(i))
+				.collect(Collectors.toSet());
+	}
+
+	@Override
 	public boolean visit(SourceInter inter) {
-		return isAuthor(inter);
+		return verifiesSearchOption(inter);
 	}
 
 	@Override
@@ -37,10 +46,10 @@ public final class HeteronymSearchOption extends SearchOption {
 
 	@Override
 	public boolean visit(ExpertEditionInter inter) {
-		return this.isAuthor(inter);
+		return this.verifiesSearchOption(inter);
 	}
 
-	private boolean isAuthor(FragInter inter) {
+	private boolean verifiesSearchOption(FragInter inter) {
 		if (ALL.equals(xmlId4Heteronym)) {
 			// all are selected
 			return true;

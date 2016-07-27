@@ -1,10 +1,13 @@
 package pt.ist.socialsoftware.edition.search.options;
 
+import java.util.Set;
+
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 import pt.ist.socialsoftware.edition.domain.ExpertEditionInter;
+import pt.ist.socialsoftware.edition.domain.FragInter;
 import pt.ist.socialsoftware.edition.domain.SourceInter;
 import pt.ist.socialsoftware.edition.domain.VirtualEditionInter;
 
@@ -59,6 +62,8 @@ public abstract class SearchOption {
 	public boolean visit(VirtualEditionInter inter) {
 		return false;
 	}
+
+	public abstract Set<FragInter> search(Set<FragInter> inters);
 
 	@Override
 	public abstract String toString();

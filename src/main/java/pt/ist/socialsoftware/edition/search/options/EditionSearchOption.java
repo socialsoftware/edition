@@ -1,9 +1,13 @@
 package pt.ist.socialsoftware.edition.search.options;
 
+import java.util.Set;
+import java.util.stream.Collectors;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import pt.ist.socialsoftware.edition.domain.ExpertEditionInter;
+import pt.ist.socialsoftware.edition.domain.FragInter;
 
 public final class EditionSearchOption extends SearchOption {
 
@@ -32,7 +36,17 @@ public final class EditionSearchOption extends SearchOption {
 	}
 
 	@Override
+	public Set<FragInter> search(Set<FragInter> inters) {
+		return inters.stream().filter(ExpertEditionInter.class::isInstance).map(ExpertEditionInter.class::cast)
+				.filter(i -> verifiesSearchOption(i)).collect(Collectors.toSet());
+	}
+
+	@Override
 	public boolean visit(ExpertEditionInter inter) {
+		return verifiesSearchOption(inter);
+	}
+
+	private boolean verifiesSearchOption(ExpertEditionInter inter) {
 		if (inclusion) {
 			if (!(edition.equals(inter.getEdition().getAcronym()) || edition.equals(ALL))) {
 				return false;
