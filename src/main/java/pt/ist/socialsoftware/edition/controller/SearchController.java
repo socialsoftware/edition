@@ -30,7 +30,6 @@ import pt.ist.socialsoftware.edition.domain.LdoD;
 import pt.ist.socialsoftware.edition.domain.LdoDUser;
 import pt.ist.socialsoftware.edition.domain.ManuscriptSource;
 import pt.ist.socialsoftware.edition.domain.ManuscriptSource.Medium;
-import pt.ist.socialsoftware.edition.domain.PrintedSource;
 import pt.ist.socialsoftware.edition.domain.Source;
 import pt.ist.socialsoftware.edition.domain.Source.SourceType;
 import pt.ist.socialsoftware.edition.domain.SourceInter;
@@ -139,7 +138,6 @@ public class SearchController {
 		boolean showHeteronym = false;
 		boolean showDate = false;
 		boolean showLdoD = false;
-		boolean showPubPlace = false;
 		boolean fragAdd = false;
 		boolean showTaxonomy = false;
 		for (Map.Entry<Fragment, Map<FragInter, List<SearchOption>>> entry : results.entrySet()) {
@@ -172,8 +170,8 @@ public class SearchController {
 					} else if (option instanceof PublicationSearchOption) {
 						showSource = true;
 						PublicationSearchOption op = (PublicationSearchOption) option;
-						if (op.hasTitle())
-							showPubPlace = true;
+						if (op.hasDate())
+							showDate = true;
 					} else if (option instanceof HeteronymSearchOption) {
 						showHeteronym = true;
 					} else if (option instanceof DateSearchOption) {
@@ -195,7 +193,6 @@ public class SearchController {
 		model.addAttribute("showHeteronym", showHeteronym);
 		model.addAttribute("showDate", showDate);
 		model.addAttribute("showLdoD", showLdoD);
-		model.addAttribute("showPubPlace", showPubPlace);
 		model.addAttribute("showSource", showSource);
 		model.addAttribute("showSourceType", showSourceType);
 		model.addAttribute("showTaxonomy", showTaxonomy);
@@ -242,27 +239,35 @@ public class SearchController {
 		if (heteronyms.size() > 0) {
 			editionJson.setHeteronyms(heteronyms);
 		}
-		if (endDate != null && beginDate != null && endDate != beginDate) {
+		if (endDate != null && beginDate != null) {
 			editionJson.setBeginDate(beginDate.getYear());
 			editionJson.setEndDate(endDate.getYear());
 		}
 		return editionJson;
 	}
 
-	@RequestMapping(value = "/getPublications")
+	@RequestMapping(value = "/getPublicationsDates")
 	@ResponseBody
-	public List<String> getPublications() {
-		List<String> publications = new ArrayList<String>();
+	public DatesJson getPublicationsDates() {
+		logger.debug("getPublicationsDates");
+		LocalDate beginDate = null;
+		LocalDate endDate = null;
 		for (Fragment fragment : LdoD.getInstance().getFragmentsSet()) {
 			for (Source source : fragment.getSourcesSet()) {
 				if (source.getType().equals(SourceType.PRINTED)) {
-					if (!publications.contains(((PrintedSource) source).getPubPlace())) {
-						publications.add(((PrintedSource) source).getTitle());
+					if (source.getLdoDDate() != null) {
+						beginDate = getIsBeforeDate(beginDate, source.getLdoDDate().getDate());
+						endDate = getIsAfterDate(endDate, source.getLdoDDate().getDate());
 					}
 				}
 			}
 		}
-		return publications;
+		DatesJson datesJson = new DatesJson();
+		if (endDate != null && beginDate != null) {
+			datesJson.setBeginDate(beginDate.getYear());
+			datesJson.setEndDate(endDate.getYear());
+		}
+		return datesJson;
 	}
 
 	private AuthoralJson getAuthoralDates(String mode) {
@@ -293,7 +298,7 @@ public class SearchController {
 		}
 		json.setMediums(array);
 		DatesJson dates = new DatesJson();
-		if (endDate != null && beginDate != null && endDate != beginDate) {
+		if (endDate != null && beginDate != null) {
 			dates.setBeginDate(beginDate.getYear());
 			dates.setEndDate(endDate.getYear());
 		}
@@ -304,6 +309,7 @@ public class SearchController {
 	@RequestMapping(value = "/getManuscriptsDates")
 	@ResponseBody
 	public AuthoralJson getManuscript() {
+		logger.debug("getManuscript");
 		return getAuthoralDates(ManuscriptSearchOption.MANUSCRIPTID);
 	}
 

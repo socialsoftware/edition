@@ -43,8 +43,8 @@ public final class EditionSearchOption extends SearchOption {
 			if (date != null && !inter.accept(date)) {
 				return false;
 			}
-		} else if ((edition.equals(inter.getEdition().getAcronym()) || edition.equals(ALL)) && inter.accept(heteronym)
-				&& inter.accept(date))
+		} else if ((edition.equals(inter.getEdition().getAcronym()) || edition.equals(ALL)) && heteronym != null
+				&& inter.accept(heteronym) && date != null && inter.accept(date))
 			return false;
 
 		return true;

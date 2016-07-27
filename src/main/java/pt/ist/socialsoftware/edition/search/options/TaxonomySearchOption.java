@@ -2,43 +2,28 @@ package pt.ist.socialsoftware.edition.search.options;
 
 import java.util.Arrays;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import pt.ist.socialsoftware.edition.domain.Tag;
 import pt.ist.socialsoftware.edition.domain.VirtualEditionInter;
 
 public class TaxonomySearchOption extends SearchOption {
-
-	private final String[] tags;
+	private Set<String> tags;
 
 	public TaxonomySearchOption(@JsonProperty("tags") String tags) {
-		this.tags = tags.split(" ");
+		this.tags = Arrays.stream(tags.trim().split("\\s+")).collect(Collectors.toSet());
 	}
 
 	@Override
 	public boolean visit(VirtualEditionInter inter) {
-		boolean add = true;
-		boolean guess;
-		int len = tags.length;
-		Set<Tag> tagSet = inter.getTagSet();
-		for (int i = 0; i < len && add == true; i++) {
-			guess = false;
-			for (Tag tag : tagSet) {
-				if (tag.getCategory().getName().equals(tags[i])) {
-					guess = true;
-					break;
-				}
-			}
-			add = add && guess;
-		}
-
-		return add;
+		return inter.getTagSet().stream().map(t -> t.getCategory().getName()).collect(Collectors.toSet())
+				.containsAll(tags);
 	}
 
 	@Override
 	public String toString() {
-		return "Taxonomy :" + Arrays.toString(tags);
+		return "Taxonomy :" + tags.stream().collect(Collectors.joining(" "));
 	}
 
 }

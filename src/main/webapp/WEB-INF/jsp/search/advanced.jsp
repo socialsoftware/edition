@@ -25,7 +25,7 @@ option = {
 			id : "all",
 			text : '<spring:message javaScriptEscape="true" code="search.option.all" />'
 		},
-		none :{
+		none : {
 			id : "none",
 			text : "None"
 		}
@@ -81,7 +81,7 @@ Edition.prototype.extendedEdition = function(callback) {
 				self.date.beginDate = edition.beginDate;
 				self.date.endDate = edition.endDate;
 				html += self.date.html(edition.beginDate,edition.endDate);
-			}else{
+			} else{
 				date = null;
 			}
 
@@ -264,44 +264,56 @@ Dactiloscript.prototype = Object.create(Manuscript.prototype);
 
 /* Publication */
 function Publication(id) {
+	this.url = "/search/getPublicationsDates";
+	this.type = "publication";
 	this.id = id;
-	this.published = option.all.id;
+	this.date = null;
 };
+
+Publication.prototype.render = Edition.prototype.render;
 
 Publication.prototype.json = function(callback) {
 	return{
-		type :	"publication",
-		pubPlace : this.published
+		type : this.type,
+		date : this.date.json()
 	};
 };
-
-
-Publication.prototype.render = Edition.prototype.render;
 
 Publication.prototype.toHTML = function(callback) {
 	var self = this;
 	$.ajax({
-		url : "/search/getPublications"
+		url:self.url
 	}).done(
 			function(published) {
-				var html = "<div class=\"col-xs-4 col-md-2\">" +
-					"<p>"+ '<spring:message javaScriptEscape="true" code="general.published" />'+"</p>"
-					+ "<select id=\"select-publication\" class=\"selectpicker\">"
-					html += "<option id =\"" + option.all.id + "\">"
-					+ option.all.text + "</option>";
-				for ( var i in published) {
-					html += "<option id =\"" + published[i] + "\">"
-					+ published[i] + "</option>";
-				}
-				html += "<select class=\"selectpicker\">" + "<div>";
+				var html = "<div col-xs-4 col-md-3>";
+				self.date = new MyDate(this.id);
+				self.date.beginDate = published.beginDate;
+				self.date.endDate = published.endDate;
+				html += self.date.html(published.beginDate,published.endDate);
+				html += "</div>";
 
 				callback(html);
 			});
 };
 
-Publication.prototype.changePublication = function(value){
-	this.published = value; 
+Publication.prototype.changeDateOption = function(dateOption){
+	this.date.changeDateOption(dateOption);
 };
+
+Publication.prototype.setBeginDate = function(beginDate){
+	this.date.setBeginDate(beginDate);
+};
+
+Publication.prototype.setEndDate = function(endDate){
+	this.date.setEndDate(endDate)
+};
+
+Publication.prototype.getDateOption = function(endDate){
+	return this.date.getDateOption();
+}
+
+
+
 
 /*
  * Heteronym Definition
@@ -670,7 +682,6 @@ Form.prototype.changeMode = function(option){
 }
 
 Form.prototype.changeEdition = function(key, newOption) {
-
 	var self = this;
 	for (var i = 0; i < this.items.length; i++) {
 		if (this.items[i].id == key) {
@@ -871,38 +882,8 @@ Form.prototype.changeText = function(id, value){
 			model.changeInclusion(id, newOption);
 			e.stopPropagation();
 			clean();
-		});
-		
-		//Listen to when a different edition's date is selected
-// 		$('body').on('change', '#edition-date-option', function() {
-// 			alert("working");
-// 			var id = $(this).parents(".form-group").attr("id");
-// 			var newOption = $(this).find(':selected')[0].id;
-// 			model.changeEditionDateOption(id, newOption);
-// 		});
-		
-// 		$('body').on('change', '#edition-date-value', function() {
-// 			var id = $(this).parents(".form-group").attr("id");
-// 			var newOption = $(this).find(':selected')[0].id;
-// 			model.changeHeteronym(id, newOption);
-// 		});
-		
-		//Listen to when a different publication place is selected
-		$('body').on('change', '#select-publication', function(e) {
-			var id = $(this).parents(".form-group").attr("id");
-			var newOption = $(this).find(':selected')[0].id;
-			model.changePublication(id, newOption);
-			e.stopPropagation();
-			clean();
-		});
-		
-// 		//Listen to when a different publication place is selected
-// 		$('body').on('change', '#single-option', function() {
-// 			var id = $(this).parents(".form-group").attr("id");
-// 			var newOption = $(this).find(':selected')[0].id;
-// 			model.changeSingleOption(id, newOption);
-// 		});
-		
+		});		
+				
 		//MyDate
 		//Listen to when a date option is selected
 		$('body').on('change', '#date-option', function(e) {

@@ -131,7 +131,7 @@ public class Indexer {
 	// Search for fragments with a set of words similar to input
 	// Fuzzy set for a minimum edition edition of 1
 	private String fuzzySearch(String words) {
-		String[] split = words.split(" ");
+		String[] split = words.split("\\s+");
 		int fuzzy = 1;
 		String query = "" + split[0] + "~" + fuzzy;
 		int len = split.length;
@@ -144,7 +144,7 @@ public class Indexer {
 
 	// Search for fragments with a set of equal to inputs
 	private String absoluteSearch(String words) {
-		String[] split = words.split(" ");
+		String[] split = words.split("\\s+");
 		String query = "" + split[0];
 		int len = split.length;
 

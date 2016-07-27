@@ -21,7 +21,7 @@ public final class TextSearchOption extends SearchOption {
 	private final String text;
 
 	public TextSearchOption(@JsonProperty("text") String text) {
-		this.text = text.equals("null") || text.equals("") ? null : text;
+		this.text = text.equals("null") || text.equals("") ? null : text.trim();
 	}
 
 	@Override
