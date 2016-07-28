@@ -25,13 +25,9 @@ public class ManuscriptSource extends ManuscriptSource_Base {
 	};
 
 	public ManuscriptSource() {
+		super();
 		setType(SourceType.MANUSCRIPT);
 		setHasLdoDLabel(false);
-	}
-
-	@Override
-	public String getName() {
-		return getAltIdentifier();
 	}
 
 	@Override

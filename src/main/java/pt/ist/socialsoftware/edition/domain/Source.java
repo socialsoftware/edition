@@ -20,11 +20,18 @@ public abstract class Source extends Source_Base implements Comparable<Source> {
 		}
 	};
 
-	public abstract String getName();
+	public Source() {
+		setHeteronym(NullHeteronym.getNullHeteronym());
+	}
+
+	public String getName() {
+		return getAltIdentifier();
+	}
 
 	public abstract String getMetaTextual();
 
 	public void remove() {
+		setHeteronym(null);
 		setFragment(null);
 
 		if (getLdoDDate() != null) {

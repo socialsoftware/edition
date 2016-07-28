@@ -1174,6 +1174,9 @@ public class LoadTEIFragments {
 			PrintedSource printedSource = new PrintedSource();
 			printedSource.setFragment(fragment);
 
+			Element msId = bibl.getChild("msIdentifier", namespace);
+			loadMsId(msId, printedSource);
+
 			String biblID = bibl.getAttributeValue("id", bibl.getNamespace("xml"));
 
 			if (getObjectDirectIdMap(biblID) != null)
@@ -1184,9 +1187,33 @@ public class LoadTEIFragments {
 
 			printedSource.setXmlId(biblID);
 
-			printedSource.setTitle(bibl.getChildText("title", namespace));
+			Heteronym heteronym = getHeteronym(bibl);
+			printedSource.setHeteronym(heteronym);
+
+			for (Element title : bibl.getChildren("title", namespace)) {
+				Attribute levelAtt = title.getAttribute("level");
+				if (levelAtt == null) {
+					throw new LdoDLoadException("elemento title sem level " + " biblID=" + printedSource.getXmlId());
+				}
+				String value = title.getTextTrim();
+				if (value == null || value.equals("")) {
+					throw new LdoDLoadException("elemento title sem valor " + " biblID=" + printedSource.getXmlId());
+				}
+
+				switch (levelAtt.getValue()) {
+				case "a":
+					printedSource.setTitle(value);
+					break;
+				case "j":
+					printedSource.setJournal(value);
+					break;
+				default:
+					throw new LdoDLoadException(
+							"elemento biblScope com attributo com valor não esperado " + levelAtt.getValue());
+				}
+			}
+
 			printedSource.setPubPlace(bibl.getChildText("pubPlace", namespace));
-			printedSource.setIssue(bibl.getChildText("biblScope", namespace));
 
 			Element dateElement = bibl.getChild("date", namespace);
 			Attribute whenAttribute = dateElement.getAttribute("when");
@@ -1198,6 +1225,40 @@ public class LoadTEIFragments {
 
 				printedSource.setLdoDDate(new LdoDDate(whenAttribute.getValue(), precision));
 			}
+
+			for (Element biblScope : bibl.getChildren("biblScope", namespace)) {
+				Attribute unitAtt = biblScope.getAttribute("unit");
+				if (unitAtt == null) {
+					throw new LdoDLoadException(
+							"elemento biblScope sem atributo unit" + " título=" + printedSource.getTitle());
+				}
+				String value = biblScope.getTextTrim();
+				switch (unitAtt.getValue()) {
+				case "pp":
+					if (value != null && !value.equals("")) {
+						printedSource.setStartPage(Integer.parseInt(value));
+						printedSource.setEndPage(Integer.parseInt(value));
+					} else {
+						String from = biblScope.getAttributeValue("from");
+						String to = biblScope.getAttributeValue("to");
+
+						printedSource.setStartPage(Integer.parseInt(from));
+						printedSource.setEndPage(Integer.parseInt(to));
+					}
+					break;
+				case "issue":
+					if (value == null) {
+						throw new LdoDLoadException(
+								"elemento biblScope issues sem número " + " título=" + printedSource.getTitle());
+					}
+					printedSource.setIssue(value);
+					break;
+				default:
+					throw new LdoDLoadException("elemento biblScope com attributo com valor não esperado "
+							+ unitAtt.getValue() + " título=" + printedSource.getTitle());
+				}
+			}
+
 		}
 
 	}
@@ -1224,7 +1285,8 @@ public class LoadTEIFragments {
 
 			manuscript.setXmlId(manuscriptID);
 
-			loadMsId(msDesc, manuscript);
+			Element msId = msDesc.getChild("msIdentifier", namespace);
+			loadMsId(msId, manuscript);
 
 			loadPhysDesc(msDesc, manuscript);
 
@@ -1262,20 +1324,19 @@ public class LoadTEIFragments {
 		}
 	}
 
-	private void loadMsId(Element msDesc, ManuscriptSource manuscript) {
-		Element msId = msDesc.getChild("msIdentifier", namespace);
-		manuscript.setSettlement(msId.getChildText("settlement", namespace));
-		manuscript.setRepository(msId.getChildText("repository", namespace));
-		manuscript.setIdno(msId.getChildText("idno", namespace));
+	private void loadMsId(Element msIdentifier, Source source) {
+		source.setSettlement(msIdentifier.getChildText("settlement", namespace));
+		source.setRepository(msIdentifier.getChildText("repository", namespace));
+		source.setIdno(msIdentifier.getChildText("idno", namespace));
 
-		Element altElement = msId.getChild("altIdentifier", namespace);
+		Element altElement = msIdentifier.getChild("altIdentifier", namespace);
 
 		if (altElement == null) {
 			throw new LdoDLoadException(
-					"falta declarar altIdentifier de um msIdentifier" + " _VALOR_ " + msId.getContent());
+					"falta declarar altIdentifier de um msIdentifier" + " _VALOR_ " + msIdentifier.getContent());
 		}
 
-		manuscript.setAltIdentifier(altElement.getChildText("idno", namespace));
+		source.setAltIdentifier(altElement.getChildText("idno", namespace));
 	}
 
 	private void loadPhysDesc(Element msDesc, ManuscriptSource manuscript) {

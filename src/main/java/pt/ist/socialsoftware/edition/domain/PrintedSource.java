@@ -3,23 +3,25 @@ package pt.ist.socialsoftware.edition.domain;
 public class PrintedSource extends PrintedSource_Base {
 
 	public PrintedSource() {
+		super();
 		setType(SourceType.PRINTED);
-	}
-
-	@Override
-	public String getName() {
-		return getTitle() + " " + getPubPlace() + " " + getIssue();
 	}
 
 	@Override
 	public String getMetaTextual() {
 		String result = "";
 
+		result = result + "Heterónimo: " + getHeteronym().getName() + "<br>";
+
 		result = result + "Título: " + getTitle() + "<br>";
 
-		result = result + "Local de Publicação: " + getPubPlace() + "<br>";
+		result = result + "Revista: " + getJournal() + "<br>";
 
 		result = result + "Número: " + getIssue() + "<br>";
+
+		result = result + "Páginas: " + getStartPage() + "-" + getEndPage() + "<br>";
+
+		result = result + "Local de Publicação: " + getPubPlace() + "<br>";
 
 		if (getLdoDDate() != null) {
 			String precision = getLdoDDate().getPrecision() != null

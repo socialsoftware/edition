@@ -226,7 +226,7 @@ relation FragmentHasFragInters {
 	FragInter playsRole fragmentInter {multiplicity 0..*;}
 }
 
-relation FragInterAttributesHeronym {
+relation FragInterAttributesHeteronym {
 	FragInter playsRole fragInter {multiplicity 0..*;}
 	Heteronym playsRole heteronym {multiplicity 0..1;}
 }
@@ -273,6 +273,10 @@ relation ExpertEditionHasExpertEditionInters {
 class Source {
 	String xmlId;
 	SourceType type;
+	String settlement;
+	String repository;
+	String idno;
+	String altIdentifier;
 }
 
 relation FragmentHasSources {
@@ -290,11 +294,12 @@ relation SourceHasDate {
 	LdoDDate playsRole ldoDDate {multiplicity 0..1;}
 }
 
+relation SourceHasHeteronym {
+	Source playsRole source {multiplicity 0..*;}
+	Heteronym playsRole heteronym {multiplicity 0..1;}
+}
+
 class ManuscriptSource extends Source {
-	String settlement;
-	String repository;
-	String idno;
-	String altIdentifier;
 	Form form;
 	Material material;
 	int columns;
@@ -340,8 +345,11 @@ relation ManuscriptSourceHasTypeNote {
 
 class PrintedSource extends Source {
 	String title;
-	String pubPlace;
+	String journal;
 	String issue;
+	String pubPlace;
+	int startPage;
+	int endPage;
 }
 
 class Facsimile {

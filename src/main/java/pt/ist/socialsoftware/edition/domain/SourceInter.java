@@ -12,8 +12,12 @@ import pt.ist.socialsoftware.edition.recommendation.properties.Property;
 public class SourceInter extends SourceInter_Base {
 
 	public SourceInter() {
-		setHeteronym(NullHeteronym.getNullHeteronym());
 	}
+
+	@Override
+	public Heteronym getHeteronym() {
+		return getSource().getHeteronym();
+	};
 
 	@Override
 	public String getShortName() {
@@ -36,9 +40,7 @@ public class SourceInter extends SourceInter_Base {
 
 	@Override
 	public String getMetaTextual() {
-		String result = "Heterónimo: " + getHeteronym().getName() + "<br>";
-
-		return result + getSource().getMetaTextual() + super.getMetaTextual();
+		return getSource().getMetaTextual() + super.getMetaTextual();
 	}
 
 	@Override

@@ -14,6 +14,9 @@ public class Heteronym extends Heteronym_Base implements Comparable<Heteronym> {
 	public void remove() {
 		setLdoD(null);
 
+		getSourceSet().stream().forEach(s -> removeSource(s));
+		getFragInterSet().stream().forEach(i -> removeFragInter(i));
+
 		deleteDomainObject();
 	}
 
