@@ -29,11 +29,6 @@ public final class VirtualEditionSearchOption extends SearchOption {
 				.filter(i -> verifiesSearchOption(i)).collect(Collectors.toSet());
 	}
 
-	@Override
-	public boolean visit(VirtualEditionInter inter) {
-		return verifiesSearchOption(inter);
-	}
-
 	public boolean verifiesSearchOption(VirtualEditionInter inter) {
 		if (this.inclusion) {
 			if (!virtualEdition.equals(ALL) && !(inter.getVirtualEdition().getAcronym().equals(virtualEdition)

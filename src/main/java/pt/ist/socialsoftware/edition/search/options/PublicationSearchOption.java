@@ -11,15 +11,15 @@ import pt.ist.socialsoftware.edition.domain.SourceInter;
 
 public final class PublicationSearchOption extends SearchOption {
 
-	private final DateSearchOption date;
+	private final DateSearchOption dateSearchOption;
 
 	public PublicationSearchOption(@JsonProperty("date") DateSearchOption date) {
-		this.date = date;
+		this.dateSearchOption = date;
 	}
 
 	@Override
 	public String toString() {
-		return "publication:" + date;
+		return "publication:" + dateSearchOption;
 	}
 
 	@Override
@@ -28,17 +28,13 @@ public final class PublicationSearchOption extends SearchOption {
 				.filter(i -> verifiesSearchOption(i)).collect(Collectors.toSet());
 	}
 
-	@Override
-	public boolean visit(SourceInter inter) {
-		return verifiesSearchOption(inter);
-	}
-
 	private boolean verifiesSearchOption(SourceInter inter) {
-		return inter.getSource().getType().equals(Source.SourceType.PRINTED) && inter.accept(date);
+		return inter.getSource().getType().equals(Source.SourceType.PRINTED)
+				&& dateSearchOption.verifiesSearchOption(inter);
 	}
 
 	public boolean hasDate() {
-		return date == null ? false : date.hasDate();
+		return dateSearchOption == null ? false : dateSearchOption.hasDate();
 	}
 
 }

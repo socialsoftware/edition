@@ -13,12 +13,12 @@ import pt.ist.socialsoftware.edition.domain.SourceInter;
 public abstract class AuthoralSearchOption extends SearchOption {
 
 	private final String hasLdoD;
-	private final DateSearchOption date;
+	private final DateSearchOption dateSearchOption;
 
 	public AuthoralSearchOption(@JsonProperty("hasLdoDMark") String hasLdoD,
 			@JsonProperty("date") DateSearchOption date) {
 		this.hasLdoD = hasLdoD;
-		this.date = date;
+		this.dateSearchOption = date;
 	}
 
 	@Override
@@ -27,15 +27,10 @@ public abstract class AuthoralSearchOption extends SearchOption {
 				.filter(i -> verifiesSearchOption(i)).collect(Collectors.toSet());
 	}
 
-	@Override
-	public boolean visit(SourceInter inter) {
-		return verifiesSearchOption(inter);
-	}
-
 	private boolean verifiesSearchOption(SourceInter inter) {
 		if (inter.getSource().getType().equals(SourceType.MANUSCRIPT)) {
 			ManuscriptSource source = (ManuscriptSource) inter.getSource();
-			if (source.getNotes().toLowerCase().contains(getDocumentType()) && inter.accept(date)) {
+			if (source.getNotes().toLowerCase().contains(getDocumentType()) && dateSearchOption.verifiesSearchOption(inter)) {
 				if (hasLdoD.equals(SearchOption.ALL) || (hasLdoD.equals("true") && source.getHasLdoDLabel()))
 					return true;
 				else if (hasLdoD.equals("false") && !source.getHasLdoDLabel())
@@ -49,11 +44,11 @@ public abstract class AuthoralSearchOption extends SearchOption {
 
 	@Override
 	public String toString() {
-		return getDocumentType() + ": hasLdoDMark:" + hasLdoD + "\n" + date;
+		return getDocumentType() + ": hasLdoDMark:" + hasLdoD + "\n" + dateSearchOption;
 	}
 
 	public boolean hasDate() {
-		return date == null ? false : date.hasDate();
+		return dateSearchOption == null ? false : dateSearchOption.hasDate();
 	}
 
 	public boolean hasLdoDMark() {

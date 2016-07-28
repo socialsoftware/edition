@@ -10,7 +10,6 @@ import pt.ist.socialsoftware.edition.domain.Edition.EditionType;
 import pt.ist.socialsoftware.edition.mallet.TopicModeler;
 import pt.ist.socialsoftware.edition.recommendation.properties.Property;
 import pt.ist.socialsoftware.edition.search.Indexer;
-import pt.ist.socialsoftware.edition.search.options.SearchOption;
 
 public class ExpertEditionInter extends ExpertEditionInter_Base {
 
@@ -152,11 +151,6 @@ public class ExpertEditionInter extends ExpertEditionInter_Base {
 	@Override
 	public String getReference() {
 		return Integer.toString(getNumber());
-	}
-
-	@Override
-	public boolean accept(SearchOption option) {
-		return option.visit(this);
 	}
 
 	@Override

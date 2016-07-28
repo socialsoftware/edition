@@ -8,7 +8,6 @@ import java.util.Set;
 
 import pt.ist.socialsoftware.edition.domain.Edition.EditionType;
 import pt.ist.socialsoftware.edition.recommendation.properties.Property;
-import pt.ist.socialsoftware.edition.search.options.SearchOption;
 
 public class SourceInter extends SourceInter_Base {
 
@@ -78,11 +77,6 @@ public class SourceInter extends SourceInter_Base {
 	@Override
 	public String getReference() {
 		return getShortName();
-	}
-
-	@Override
-	public boolean accept(SearchOption option) {
-		return option.visit(this);
 	}
 
 	public Surface getPrevSurface(PbText pbText) {

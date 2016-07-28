@@ -8,9 +8,7 @@ import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import pt.ist.socialsoftware.edition.domain.ExpertEditionInter;
 import pt.ist.socialsoftware.edition.domain.FragInter;
-import pt.ist.socialsoftware.edition.domain.SourceInter;
 import pt.ist.socialsoftware.edition.domain.VirtualEditionInter;
 
 public final class HeteronymSearchOption extends SearchOption {
@@ -34,22 +32,7 @@ public final class HeteronymSearchOption extends SearchOption {
 				.collect(Collectors.toSet());
 	}
 
-	@Override
-	public boolean visit(SourceInter inter) {
-		return verifiesSearchOption(inter);
-	}
-
-	@Override
-	public boolean visit(VirtualEditionInter inter) {
-		return false;
-	}
-
-	@Override
-	public boolean visit(ExpertEditionInter inter) {
-		return this.verifiesSearchOption(inter);
-	}
-
-	private boolean verifiesSearchOption(FragInter inter) {
+	public boolean verifiesSearchOption(FragInter inter) {
 		if (ALL.equals(xmlId4Heteronym)) {
 			// all are selected
 			return true;

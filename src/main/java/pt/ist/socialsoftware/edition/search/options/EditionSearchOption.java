@@ -13,8 +13,8 @@ public final class EditionSearchOption extends SearchOption {
 
 	private final boolean inclusion;
 	private final String edition;
-	private final HeteronymSearchOption heteronym;
-	private final DateSearchOption date;
+	private final HeteronymSearchOption heteronymSearchOption;
+	private final DateSearchOption dateSearchOption;
 
 	@JsonCreator
 	public EditionSearchOption(@JsonProperty("inclusion") String inclusion, @JsonProperty("edition") String edition,
@@ -26,13 +26,13 @@ public final class EditionSearchOption extends SearchOption {
 			this.inclusion = false;
 
 		this.edition = edition;
-		this.heteronym = heteronym;
-		this.date = date;
+		this.heteronymSearchOption = heteronym;
+		this.dateSearchOption = date;
 	}
 
 	@Override
 	public String toString() {
-		return "edition:" + edition + "\ninclusion:" + inclusion + "\n" + heteronym + "\n" + date;
+		return "edition:" + edition + "\ninclusion:" + inclusion + "\n" + heteronymSearchOption + "\n" + dateSearchOption;
 	}
 
 	@Override
@@ -41,35 +41,30 @@ public final class EditionSearchOption extends SearchOption {
 				.filter(i -> verifiesSearchOption(i)).collect(Collectors.toSet());
 	}
 
-	@Override
-	public boolean visit(ExpertEditionInter inter) {
-		return verifiesSearchOption(inter);
-	}
-
 	private boolean verifiesSearchOption(ExpertEditionInter inter) {
 		if (inclusion) {
 			if (!(edition.equals(inter.getEdition().getAcronym()) || edition.equals(ALL))) {
 				return false;
 			}
-			if (heteronym != null && !inter.accept(heteronym)) {
+			if (heteronymSearchOption != null && !heteronymSearchOption.verifiesSearchOption(inter)) {
 				return false;
 			}
-			if (date != null && !inter.accept(date)) {
+			if (dateSearchOption != null && !dateSearchOption.verifiesSearchOption(inter)) {
 				return false;
 			}
-		} else if ((edition.equals(inter.getEdition().getAcronym()) || edition.equals(ALL)) && heteronym != null
-				&& inter.accept(heteronym) && date != null && inter.accept(date))
+		} else if ((edition.equals(inter.getEdition().getAcronym()) || edition.equals(ALL)) && heteronymSearchOption != null
+				&& heteronymSearchOption.verifiesSearchOption(inter) && dateSearchOption != null && dateSearchOption.verifiesSearchOption(inter))
 			return false;
 
 		return true;
 	}
 
 	public boolean hasDate() {
-		return date == null ? false : date.hasDate();
+		return dateSearchOption == null ? false : dateSearchOption.hasDate();
 	}
 
 	public boolean hasHeteronym() {
-		return heteronym == null ? false : heteronym.hasHeteronym();
+		return heteronymSearchOption == null ? false : heteronymSearchOption.hasHeteronym();
 	}
 
 	public String getEdition() {

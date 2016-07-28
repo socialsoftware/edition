@@ -11,7 +11,6 @@ import org.slf4j.LoggerFactory;
 
 import pt.ist.socialsoftware.edition.domain.Edition.EditionType;
 import pt.ist.socialsoftware.edition.recommendation.properties.Property;
-import pt.ist.socialsoftware.edition.search.options.SearchOption;
 
 public abstract class FragInter extends FragInter_Base implements Comparable<FragInter> {
 	private static Logger logger = LoggerFactory.getLogger(FragInter.class);
@@ -108,8 +107,6 @@ public abstract class FragInter extends FragInter_Base implements Comparable<Fra
 
 		return results;
 	}
-
-	public abstract boolean accept(SearchOption option);
 
 	public abstract Collection<Double> accept(Property property);
 

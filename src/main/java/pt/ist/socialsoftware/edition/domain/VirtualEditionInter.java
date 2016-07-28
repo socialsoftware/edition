@@ -17,7 +17,6 @@ import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.socialsoftware.edition.domain.Edition.EditionType;
 import pt.ist.socialsoftware.edition.recommendation.VSMFragInterRecommender;
 import pt.ist.socialsoftware.edition.recommendation.properties.Property;
-import pt.ist.socialsoftware.edition.search.options.SearchOption;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDException;
 import pt.ist.socialsoftware.edition.utils.CategoryDTO;
 import pt.ist.socialsoftware.edition.utils.RangeJson;
@@ -142,11 +141,6 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 			contributors.add(annotation.getUser());
 		}
 		return contributors;
-	}
-
-	@Override
-	public boolean accept(SearchOption option) {
-		return option.visit(this);
 	}
 
 	@Override

@@ -6,10 +6,7 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
-import pt.ist.socialsoftware.edition.domain.ExpertEditionInter;
 import pt.ist.socialsoftware.edition.domain.FragInter;
-import pt.ist.socialsoftware.edition.domain.SourceInter;
-import pt.ist.socialsoftware.edition.domain.VirtualEditionInter;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
 @JsonSubTypes({ @Type(value = EditionSearchOption.class, name = SearchOption.EDITION),
@@ -49,18 +46,6 @@ public abstract class SearchOption {
 		public String getMode() {
 			return mode;
 		}
-	}
-
-	public boolean visit(ExpertEditionInter inter) {
-		return false;
-	}
-
-	public boolean visit(SourceInter inter) {
-		return false;
-	}
-
-	public boolean visit(VirtualEditionInter inter) {
-		return false;
 	}
 
 	public abstract Set<FragInter> search(Set<FragInter> inters);

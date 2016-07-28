@@ -14,7 +14,6 @@ import pt.ist.socialsoftware.edition.domain.FragInter;
 import pt.ist.socialsoftware.edition.domain.LdoDDate;
 import pt.ist.socialsoftware.edition.domain.Source;
 import pt.ist.socialsoftware.edition.domain.SourceInter;
-import pt.ist.socialsoftware.edition.domain.VirtualEditionInter;
 
 public final class DateSearchOption extends SearchOption {
 	private static Logger logger = LoggerFactory.getLogger(DateSearchOption.class);
@@ -66,22 +65,7 @@ public final class DateSearchOption extends SearchOption {
 				.filter(i -> verifiesSearchOption(i)).collect(Collectors.toSet());
 	}
 
-	@Override
-	public boolean visit(ExpertEditionInter inter) {
-		return verifiesSearchOption(inter);
-	}
-
-	@Override
-	public boolean visit(SourceInter inter) {
-		return verifiesSearchOption(inter);
-	}
-
-	@Override
-	public boolean visit(VirtualEditionInter inter) {
-		return verifiesSearchOption(inter);
-	}
-
-	private boolean verifiesSearchOption(FragInter inter) {
+	public boolean verifiesSearchOption(FragInter inter) {
 		if (dated != Dated.ALL) {
 			Source source;
 			if (inter.getSourceType().equals(EditionType.AUTHORIAL)) {

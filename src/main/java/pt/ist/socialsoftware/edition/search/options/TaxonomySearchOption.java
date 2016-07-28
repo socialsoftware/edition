@@ -22,11 +22,6 @@ public class TaxonomySearchOption extends SearchOption {
 				.filter(i -> verifiesSearchOption(i)).collect(Collectors.toSet());
 	}
 
-	@Override
-	public boolean visit(VirtualEditionInter inter) {
-		return verifiesSearchOption(inter);
-	}
-
 	public boolean verifiesSearchOption(VirtualEditionInter inter) {
 		return Arrays.stream(tags).allMatch(tt -> inter.getTagSet().stream()
 				.filter(t -> t.getCategory().getName().equals(tt)).findAny().isPresent());
