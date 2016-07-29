@@ -38,7 +38,7 @@ public class VSMFragmentRecommender extends VSMRecommender<Fragment> {
 		double similiraty;
 		for(Fragment otherItem : newList) {
 			if(!asList.contains(otherItem.getExternalId())) {
-				similiraty = calculateSimiliraty(fragment, otherItem, properties);
+				similiraty = calculateSimilarity(fragment, otherItem, properties);
 				if(similiraty > max) {
 					result = otherItem;
 					max = similiraty;

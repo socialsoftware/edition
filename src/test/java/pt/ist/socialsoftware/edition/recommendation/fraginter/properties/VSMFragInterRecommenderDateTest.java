@@ -54,7 +54,7 @@ public class VSMFragInterRecommenderDateTest extends VSMFragInterRecommenderStor
 	@Override
 	@Test
 	public void testCalculateSimiliraty() {
-		double calculateSimiliraty = recommender.calculateSimiliraty(frag1, frag2, properties);
+		double calculateSimiliraty = recommender.calculateSimilarity(frag1, frag2, properties);
 		Assert.assertEquals(similiraty, calculateSimiliraty, DELTA);
 	}
 

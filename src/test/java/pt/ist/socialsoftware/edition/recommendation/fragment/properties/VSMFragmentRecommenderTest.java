@@ -84,7 +84,7 @@ public abstract class VSMFragmentRecommenderTest {
 
 	@Test
 	public void testCalculateSimiliraty() {
-		double calculateSimiliraty = vsmFragmentRecomender.calculateSimiliraty(frag1, frag2, properties);
+		double calculateSimiliraty = vsmFragmentRecomender.calculateSimilarity(frag1, frag2, properties);
 		Assert.assertTrue(calculateSimiliraty >= 0);
 		Assert.assertTrue(calculateSimiliraty <= 1.0000000000000002);
 	}

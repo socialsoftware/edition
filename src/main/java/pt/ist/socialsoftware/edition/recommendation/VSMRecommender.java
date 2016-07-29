@@ -35,7 +35,7 @@ public abstract class VSMRecommender<T> implements Recommender<T, Property> {
 	}
 
 	@Override
-	public double calculateSimiliraty(T item1, T item2, Collection<Property> ps) {
+	public double calculateSimilarity(T item1, T item2, Collection<Property> ps) {
 		List<Double> vector1 = new ArrayList<Double>();
 		List<Double> vector2 = new ArrayList<Double>();
 		for(Property property : ps) {
@@ -50,7 +50,7 @@ public abstract class VSMRecommender<T> implements Recommender<T, Property> {
 	public double calculateSimiliraty(T item1, T item2, Property property) {
 		List<Property> properties = new ArrayList<Property>();
 		properties.add(property);
-		return calculateSimiliraty(item1, item2, properties);
+		return calculateSimilarity(item1, item2, properties);
 	}
 
 	public Collection<Property> getDefaultProperties() {
@@ -77,7 +77,7 @@ public abstract class VSMRecommender<T> implements Recommender<T, Property> {
 		double max = Double.NEGATIVE_INFINITY;
 		double similiraty;
 		for(T otherItem : newList) {
-			similiraty = calculateSimiliraty(item, otherItem, properties);
+			similiraty = calculateSimilarity(item, otherItem, properties);
 			if(similiraty > max) {
 				result = otherItem;
 				max = similiraty;
@@ -133,7 +133,7 @@ public abstract class VSMRecommender<T> implements Recommender<T, Property> {
 		double similarity;
 		Map<T, Double> map = new HashMap<T, Double>();
 		for(T it : itemSet) {
-			similarity = calculateSimiliraty(item, it, properties);
+			similarity = calculateSimilarity(item, it, properties);
 			if(similarity >= treshold)
 				map.put(it, similarity);
 		}

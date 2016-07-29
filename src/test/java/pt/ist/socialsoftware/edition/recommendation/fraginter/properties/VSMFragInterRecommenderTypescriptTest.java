@@ -60,7 +60,7 @@ public class VSMFragInterRecommenderTypescriptTest extends VSMFragInterRecommend
 	@Override
 	@Test
 	public void testCalculateSimiliraty() {
-		double calculateSimiliraty = recommender.calculateSimiliraty(frag1, frag2, properties);
+		double calculateSimiliraty = recommender.calculateSimilarity(frag1, frag2, properties);
 		Assert.assertEquals(similarity, calculateSimiliraty, DELTA);
 	}
 

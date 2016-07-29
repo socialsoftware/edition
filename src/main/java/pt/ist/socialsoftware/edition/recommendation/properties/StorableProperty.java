@@ -21,15 +21,15 @@ public abstract class StorableProperty extends Property {
 	}
 
 	private Collection<Double> applyWeights(Collection<Double> collection, double weight) {
-		if(weight == 1.0) {
+		if (weight == 1.0) {
 			return new ArrayList<>(collection);
-		} else if(weight == 0.0) {
+		} else if (weight == 0.0) {
 			return new ArrayList<>(getDefaultVector());
 		} else {
 			List<Double> list = new ArrayList<>(collection);
 			int size = list.size();
 			Double value;
-			for(int i = 0; i < size; i++) {
+			for (int i = 0; i < size; i++) {
 				value = list.get(i);
 				list.set(i, weight * value);
 			}
@@ -40,7 +40,7 @@ public abstract class StorableProperty extends Property {
 	@Override
 	public final Collection<Double> visit(ExpertEditionInter expertEditionInter) {
 		Collection<Double> collection = StoredVectors.getInstance().get(this, expertEditionInter.getExternalId());
-		if(collection == null) {
+		if (collection == null) {
 			collection = extractVector(expertEditionInter);
 			StoredVectors.getInstance().put(this, expertEditionInter.getExternalId(), collection);
 		}
@@ -50,7 +50,7 @@ public abstract class StorableProperty extends Property {
 	@Override
 	public final Collection<Double> visit(Fragment fragment) {
 		Collection<Double> collection = StoredVectors.getInstance().get(this, fragment.getExternalId());
-		if(collection == null) {
+		if (collection == null) {
 			collection = extractVector(fragment);
 			StoredVectors.getInstance().put(this, fragment.getExternalId(), collection);
 		}
@@ -60,7 +60,7 @@ public abstract class StorableProperty extends Property {
 	@Override
 	public final Collection<Double> visit(Source source) {
 		Collection<Double> collection = StoredVectors.getInstance().get(this, source.getExternalId());
-		if(collection == null) {
+		if (collection == null) {
 			collection = extractVector(source);
 			StoredVectors.getInstance().put(this, source.getExternalId(), collection);
 		}
@@ -70,7 +70,7 @@ public abstract class StorableProperty extends Property {
 	@Override
 	public final Collection<Double> visit(SourceInter sourceInter) {
 		Collection<Double> collection = StoredVectors.getInstance().get(this, sourceInter.getExternalId());
-		if(collection == null) {
+		if (collection == null) {
 			collection = extractVector(sourceInter);
 			StoredVectors.getInstance().put(this, sourceInter.getExternalId(), collection);
 		}

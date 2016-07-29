@@ -6,7 +6,7 @@ import java.util.Map;
 
 public interface Recommender<T, P> {
 
-	double calculateSimiliraty(T t1, T t2, Collection<P> ps);
+	double calculateSimilarity(T t1, T t2, Collection<P> ps);
 
 	double calculateSimiliraty(T t1, T t2, P p);
 

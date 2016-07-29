@@ -67,12 +67,14 @@ public class RecommendationController {
 			FragInter inter = FenixFramework.getDomainObject(params.getId());
 			List<FragInter> inters = new ArrayList<>(edition.getSortedInterps());
 
-			for (int i = 0; i < inters.size(); i++) {
-				if (inters.get(i).compareTo(inter) == 0) {
-					inters.remove(i);
-					break;
-				}
-			}
+			inters.remove(inter);
+
+			// for (int i = 0; i < inters.size(); i++) {
+			// if (inters.get(i).compareTo(inter) == 0) {
+			// inters.remove(i);
+			// break;
+			// }
+			// }
 
 			VSMFragInterRecommender recommender = new VSMFragInterRecommender();
 			List<Property> properties = recommendationWeights.getProperties();

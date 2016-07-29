@@ -79,6 +79,7 @@ import pt.ist.socialsoftware.edition.domain.UnclearText;
 import pt.ist.socialsoftware.edition.domain.UnclearText.UnclearReason;
 import pt.ist.socialsoftware.edition.mallet.CorpusGenerator;
 import pt.ist.socialsoftware.edition.search.Indexer;
+import pt.ist.socialsoftware.edition.shared.exception.LdoDException;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDLoadException;
 
 public class LoadTEIFragments {
@@ -1216,14 +1217,18 @@ public class LoadTEIFragments {
 			printedSource.setPubPlace(bibl.getChildText("pubPlace", namespace));
 
 			Element dateElement = bibl.getChild("date", namespace);
-			Attribute whenAttribute = dateElement.getAttribute("when");
+			if (dateElement != null) {
+				Attribute whenAttribute = dateElement.getAttribute("when");
 
-			if (whenAttribute == null) {
-				printedSource.setLdoDDate(null);
+				if (whenAttribute == null) {
+					printedSource.setLdoDDate(null);
+				} else {
+					PrecisionType precision = getPrecisionAttribute(dateElement);
+					printedSource.setLdoDDate(new LdoDDate(whenAttribute.getValue(), precision));
+				}
 			} else {
-				PrecisionType precision = getPrecisionAttribute(dateElement);
-
-				printedSource.setLdoDDate(new LdoDDate(whenAttribute.getValue(), precision));
+				throw new LdoDException(
+						"A fonte autoral impressa não possui data attibuída " + printedSource.getTitle());
 			}
 
 			for (Element biblScope : bibl.getChildren("biblScope", namespace)) {

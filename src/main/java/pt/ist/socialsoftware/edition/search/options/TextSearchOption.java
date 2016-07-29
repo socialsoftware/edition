@@ -15,6 +15,7 @@ import pt.ist.fenixframework.DomainObject;
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.domain.FragInter;
 import pt.ist.socialsoftware.edition.search.Indexer;
+import pt.ist.socialsoftware.edition.shared.exception.LdoDException;
 
 public final class TextSearchOption extends SearchOption {
 
@@ -41,8 +42,7 @@ public final class TextSearchOption extends SearchOption {
 		try {
 			hits = indexer.search(text);
 		} catch (ParseException | IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new LdoDException("Error associated with textual search on Lucene");
 		}
 
 		return getFragIntersAndCleanMissingHits(hits);
