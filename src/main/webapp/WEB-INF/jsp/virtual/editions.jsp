@@ -181,7 +181,7 @@
 											 -->
 										</form></td>
 									<td>${virtualEdition.acronym}</td>
-									<td>${virtualEdition.title}</td>
+									<td><a href="/edition/acronym/${virtualEdition.acronym}">${virtualEdition.title}</a></td>
 									<td>${virtualEdition.getDate().toString("dd-MM-yyyy")}</td>
 									<td><c:choose>
 											<c:when test="${isPublic}">

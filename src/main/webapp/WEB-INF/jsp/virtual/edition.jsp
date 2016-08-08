@@ -257,6 +257,8 @@ var editionData = new Array();
 	 
 	editionData.push(editionDataItem);
 </c:forEach> 
+
+console.log(editionData);
 </script>
 </head>
 <body>
@@ -770,8 +772,9 @@ var linkFormatter = function (row, cell, value, columnDef, dataContext) {
         //console.log(dataContext);dataContext.externalId
         
   //console.log(dataContext);
+  if(dataContext.externalId)
   if(dataContext.h == 0) {
-    return '<a href="http://localhost:8080/fragments/fragment/inter/'+dataContext.externalId+'" target="_blank"><span style="text-align:center" class=\'glyphicon glyphicon-link\'></a>';
+    return '<a href="/fragments/fragment/inter/'+dataContext.externalId+'" target="_blank"><span style="text-align:center" class=\'glyphicon glyphicon-link\'></a>';
   } else if(dataContext.h > 0) {
     return '<a href="" title="edit title"><span style="text-align:center" class=\'glyphicon glyphicon-pencil\'></a>';
   }
@@ -1142,7 +1145,7 @@ $('#sectionmodal2').on('shown.bs.modal', function () {
 })
 $( "#save" ).click(function() {
   //console.log(data);
-  alert(JSON.stringify(data));
+  //alert(JSON.stringify(data));
 });
 $("#preview").click(function() {
   datastr = "";
@@ -1420,10 +1423,9 @@ $( "#outline" ).mousemove(function( event ) {
 		  
 		  grid.invalidate();
 		  grid.setActiveCell(insertAt, 1);
-		  //$('.cell-title')[insertAt].className = $('.cell-title')[insertAt].className+" cell-h1";
+		
 		  $("#outline").fracs("outline",'redraw');
-		    //grid.updateRowCount();
-		    //grid.render();
+
 		}
 	$(window).keydown(function (e){
 	    if (e.metaKey && e.keyCode == 88) 
@@ -1517,7 +1519,7 @@ $( "#outline" ).mousemove(function( event ) {
 	    	
 	    	if(strDuplicate.length > 0) {
 	    		toastr["warning"](strDuplicate, "Fragmentos repetidos:")	
-	    		alert("Fragmentos duplicados:<br>"+strDuplicate);
+	    		//alert("Fragmentos duplicados:<br>"+strDuplicate);
 	    	}
 	    		
 	    });
