@@ -1,6 +1,7 @@
 <%@ include file="/WEB-INF/jsp/common/tags-head.jsp"%>
 <script type="text/javascript" src="/resources/js/openseadragon/openseadragon.js">
 <script type="text/javascript">
+/*
 $(document).ready(function() {
     $('[id="backward"][data-toggle="button"]').on('click', function() {
 	var data = new Array();
@@ -28,8 +29,10 @@ $(document).ready(function() {
 	});
     });
 });
+*/
 </script>
 <script type="text/javascript">
+/*
 $(document).ready(function() {
     $('[id="forward"][data-toggle="button"]').on('click', function() {
 	var data = new Array();
@@ -57,6 +60,7 @@ $(document).ready(function() {
 	});
     });
 });
+*/
 </script>
 
 <script type="text/javascript">
@@ -104,17 +108,10 @@ $(document).ready(function() {
     	    facs : selFacs,
     	    pb : pbText
     	}, function(html) {
-    		
-    		
     	    var elements = $(html);
-    	    
-    	    console.log(html);
 			$("#content").html($('#content', elements).html())
 			$("#fw").val($('#fw', elements).val());
 			$("#bw").val($('#bw', elements).val());
-			
-			console.log($('#content', elements).html());
-			console.log("fw "+$("#fw").val()+" bw "+$("#bw").val());
     	});
     	}
     });
@@ -146,13 +143,9 @@ $("div[title=\"Previous page\"]").on('click', function() {
     	    facs : selFacs,
     	    pb : pbText
     	}, function(html) {
-    		
-  
+   
     	    var elements = $(html);
 			$("#content").html($('#content', elements).html())
-			
-			console.log(html);
-			
 			$("#fw").val($('#fw', elements).val());
 			$("#bw").val($('#bw', elements).val());
     	});
@@ -212,12 +205,8 @@ $("div[title=\"Previous page\"]").on('click', function() {
                 
                 </div>
                 -->
-                <div class="item" id="fac" style="width:100%;height:554px;">
-                <!--  <img src="/facs/${surface.graphic}" id="fac"
-                        class="img-responsive" alt="Responsive image" /> -->
-                
-                </div>
-                  
+                <div class="item" id="fac" style="width:100%;height:554px;">  
+                </div> 
                 <!-- 
                 <c:choose>
                     <c:when test="${prevsurface != null}">
