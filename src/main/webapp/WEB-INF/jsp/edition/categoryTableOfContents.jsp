@@ -9,13 +9,12 @@
 
 	<div class="container">
 		<h3 class="text-center">
-			<spring:message code="general.category" />
-			${category.getName()} (${category.getTagSet().size()}) - <spring:message code="general.taxonomy" />
-			<a
-				href="${contextPath}/edition/taxonomy/${category.getTaxonomy().getExternalId()}">
-				${category.getTaxonomy().getEdition().title}</a>
+			<spring:message code="general.taxonomy" />
+			<a href="${contextPath}/edition/taxonomy/${category.getTaxonomy().getExternalId()}">
+				${category.getTaxonomy().getEdition().title}</a>: <spring:message code="general.category" />
+			${category.getName()} (${category.getTagSet().size()})
 		</h3>
-
+		<br>
 		<table class="table table-hover table-condensed">
 			<thead>
 				<tr>

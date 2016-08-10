@@ -276,6 +276,7 @@ public class FragmentController {
 		List<FragInter> inters = new ArrayList<FragInter>();
 		inters.add(inter);
 		model.addAttribute("inters", inters);
+		
 
 		if (showFacs) {
 			Surface surface = null;
@@ -292,6 +293,7 @@ public class FragmentController {
 			model.addAttribute("prevpb", inter.getPrevPbText(pbText));
 			model.addAttribute("nextpb", inter.getNextPbText(pbText));
 			model.addAttribute("writer", writer);
+			
 			return "fragment/facsimile";
 		} else {
 			writer.write(displayDiff, displayDel, highlightIns, highlightSubst, showNotes, showFacs, null);

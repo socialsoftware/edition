@@ -4,10 +4,11 @@
 	${edition.title} (${edition.getSortedInterps().size()})
 </h3>
 <c:if test="${heteronym != null}">
-	<h4 class="text-left">
+	<h3 class="text-left">
 		<spring:message code="tableofcontents.fragmentsof" />
 		${heteronym.name}
-	</h4>
+	</h3>
+	<br>
 </c:if>
 <table id="tablevirtual" data-pagination="false">
 <!-- <table class="table table-hover table-condensed"> -->
