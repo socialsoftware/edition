@@ -13,19 +13,53 @@
 		value='${pageContext.request.userPrincipal.principal.getUser()}' />
 
 	<div class="container">
-		<h1 class="text-center">
-			<spring:message code="virtualedition" />
+	
+	<div class="row">
+		<!--  <div class="col-md-3">
+		</div>-->
+	
+		<div class="col-md-12">
+		<h3 class="text-center">
+			<spring:message code="general.taxonomy" />: <spring:message code="virtualedition" />
 			${virtualEdition.title}
-		</h1>
-		<div class="row">
-			<h4 class="pull-right">
-				<spring:message code="general.public.pages" />
-				- <a
-					href="${contextPath}/edition/internalid/${virtualEdition.getExternalId()}">
-					<spring:message code="general.edition" />
+			<c:if test="${virtualEdition.getAdminSet().contains(userLdoD)}">
+				<a class="" role="button" data-toggle="collapse"
+					href="#collapsemenu" aria-expanded="false"
+					aria-controls="collapseExample" style="font-size: 18px"> <span
+					class="glyphicon glyphicon-pencil"></span>
 				</a>
-			</h4>
+			</c:if>
+		</h3>
 		</div>
+		
+		
+	
+		<!--  
+		<div class="col-md-3" style="margin-top:24px" align="right">
+		<span class="bg-info" style="padding:8px">
+		<spring:message code="general.public.pages" />: 
+		<a href="${contextPath}/edition/internalid/${virtualEdition.getExternalId()}">
+		<span class="glyphicon glyphicon glyphicon-list-alt"></span> <spring:message code="general.edition" /></a>
+		</span>
+		</div>
+		-->
+	</div>
+	
+
+	<!--  
+		<h2 class="text-center">
+			<spring:message code="general.taxonomy" />: <spring:message code="virtualedition" />
+			${virtualEdition.title}
+			<c:if test="${virtualEdition.getAdminSet().contains(userLdoD)}">
+				<a class="" role="button" data-toggle="collapse"
+					href="#collapsemenu" aria-expanded="false"
+					aria-controls="collapseExample" style="font-size: 18px"> <span
+					class="glyphicon glyphicon-pencil"></span>
+				</a>
+			</c:if>
+		</h2>
+	 
+		
 		<h2 class="text-center">
 			<spring:message code="general.taxonomy" />
 			<c:if test="${virtualEdition.getAdminSet().contains(userLdoD)}">
@@ -36,15 +70,10 @@
 				</a>
 			</c:if>
 		</h2>
-		<h4 class="text-center">
-			<spring:message code="general.usedIn" />
-			:
-			<c:forEach var='edition' items='${taxonomy.getUsedIn()}'>
-				<a
-					href="${contextPath}/edition/internalid/${edition.getExternalId()}">${edition.getAcronym()}</a>
-			</c:forEach>
-		</h4>
-
+	-->
+	 
+		
+	 
 		<div class="row col-md-12 has-error">
 			<c:forEach var="error" items='${errors}'>
 				<div class="row">
@@ -52,6 +81,7 @@
 				</div>
 			</c:forEach>
 		</div>
+		
 		<div class="row col-md-12">
 			<div class="collapse" id="collapsemenu">
 				<div class="well" style="height: 70px">
@@ -144,9 +174,10 @@
 			</div>
 		</div>
 
+		<br>
 		<c:if test="${taxonomy.canManipulateTaxonomy(userLdoD)}">
-			<div class="row">
-				<div class="col-md-5">
+			<div class="row" >
+				<div class="col-md-4">
 					<form name="createCategory" class="form-inline" method="POST"
 						action="/virtualeditions/restricted/category/create"
 						onsubmit="return validateCreateCategoryForm()">
@@ -163,7 +194,10 @@
 							<spring:message code="category.add" />
 						</button>
 					</form>
-					<div class="row">
+					
+						
+					
+					 <div class="row">
 						<div class="col-md-9">
 							<!-- checked by javascrip -->
 							<p class="text-danger" id="errorCat"></p>
@@ -175,19 +209,52 @@
 							</div>
 						</c:forEach>
 					</div>
-
-
-				</div>
-				<div class="col-md-7">
+				</div> 
+		
+		<div class="col-md-4" align="center" style="margin-top:8px">
+		
+		<c:if test="${not empty taxonomy.getUsedIn()}">
+		<span class="bg-warning" style="padding:10px;line-height:20px">
+			<spring:message code="general.usedIn" />: 
+			<c:forEach var='edition' items='${taxonomy.getUsedIn()}'>
+				<a
+					href="${contextPath}/edition/internalid/${edition.getExternalId()}">${edition.getAcronym()}</a>
+			</c:forEach>
+		</span>
+		</c:if>
+	   <span>&nbsp</span>
+		<span class="bg-info" style="padding:10px;line-height:20px">
+		<spring:message code="general.public.pages" />: 
+		<a href="${contextPath}/edition/internalid/${virtualEdition.getExternalId()}">
+		<span class="glyphicon glyphicon glyphicon-list-alt"></span> <spring:message code="general.edition" /></a></span>
+		
+		
+		</div>
+				
+				
+		<div class="col-md-4" >
+		<button class="btn btn-primary pull-right" data-toggle="modal" data-target="#topicModal">
+		<span class="glyphicon glyphicon-plus"></span>
+		<spring:message code="topics.generate.short" />
+					</button>
+		</div>
+		
+				<!--  
+				<div class="col-md-4">
 					<button class="btn btn-primary pull-right" data-toggle="modal"
 						data-target="#topicModal">
 						<span class="glyphicon glyphicon-plus"></span>
 						<spring:message code="topics.generate.short" />
 					</button>
 				</div>
-			</div>
+				-->
+		
+		</div>
 		</c:if>
+		
 		<br />
+		
+		
 		<div class="row col-md-12">
 			<div class="row">
 				<table class="table table-hover">

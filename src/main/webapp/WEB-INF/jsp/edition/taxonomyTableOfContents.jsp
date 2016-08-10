@@ -14,7 +14,7 @@
 				href="${contextPath}/edition/internalid/${taxonomy.getEdition().getExternalId()}">
 				${taxonomy.getEdition().title}</a>
 		</h3>
-
+		<br>
 		<table class="table table-hover table-condensed">
 			<thead>
 				<tr>

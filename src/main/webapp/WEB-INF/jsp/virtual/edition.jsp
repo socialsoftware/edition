@@ -257,6 +257,8 @@ var editionData = new Array();
 	 
 	editionData.push(editionDataItem);
 </c:forEach> 
+
+console.log(editionData);
 </script>
 </head>
 <body>
@@ -770,8 +772,9 @@ var linkFormatter = function (row, cell, value, columnDef, dataContext) {
         //console.log(dataContext);dataContext.externalId
         
   //console.log(dataContext);
+  if(dataContext.externalId)
   if(dataContext.h == 0) {
-    return '<a href="http://localhost:8080/fragments/fragment/inter/'+dataContext.externalId+'" target="_blank"><span style="text-align:center" class=\'glyphicon glyphicon-link\'></a>';
+    return '<a href="/fragments/fragment/inter/'+dataContext.externalId+'" target="_blank"><span style="text-align:center" class=\'glyphicon glyphicon-link\'></a>';
   } else if(dataContext.h > 0) {
     return '<a href="" title="edit title"><span style="text-align:center" class=\'glyphicon glyphicon-pencil\'></a>';
   }
@@ -943,7 +946,7 @@ $(function () {
     grid.setSelectedRows(selectedRows);
     
     grid.invalidate();
-    console.log("onMoveRows");
+    //console.log("onMoveRows");
     $("#outline").fracs("outline",'redraw');
   });
   grid.registerPlugin(moveRowsPlugin);
@@ -1044,7 +1047,7 @@ function sortNumber(a,b) {
 }
 function removeRows(selectedRows) {
   
-  console.log("removeRows "+selectedRows);
+ //console.log("removeRows "+selectedRows);
  for (var i = 0; i < selectedRows.length; i++) {
     data.splice(selectedRows[i]-i, 1);
   }
@@ -1106,7 +1109,7 @@ $( "#moveok" ).click(function() {
 });
 */
 function moveFragments () {
-	  console.log("teste "+$('#movetopos').val());
+	  //console.log("teste "+$('#movetopos').val());
 	  pos = $('#movetopos').val()
 	  if($.isNumeric(pos) && pos > 0) {
 		  var selectedRows = grid.getSelectedRows().sort(sortNumber);
@@ -1115,7 +1118,7 @@ function moveFragments () {
 			
 			if (pos <= selectedRows[0]) 
 				pos = pos-1;
-			console.log("selected: "+pos)
+			//console.log("selected: "+pos)
 		    moveRowsTo(selectedRows,pos);
 		    window.scrollTo(0,$('.selected').offset().top-300);
 		  }
@@ -1141,8 +1144,8 @@ $('#sectionmodal2').on('shown.bs.modal', function () {
     $('#sectionname').focus()
 })
 $( "#save" ).click(function() {
-  console.log(data);
-  alert(JSON.stringify(data));
+  //console.log(data);
+  //alert(JSON.stringify(data));
 });
 $("#preview").click(function() {
   datastr = "";
@@ -1155,7 +1158,6 @@ $("#preview").click(function() {
   }
   $("#modalpreview").html(datastr);
   //id="modalpreview"
-  console.log("rrrrr  ");
 });
 function moveRowsTo(rows, insertBefore) {
     var extractedRows = [], left, right;
@@ -1197,7 +1199,7 @@ function moveRowsTo(rows, insertBefore) {
     }
     
     $( "#fraginters" ).val(usedIDS);
-    console.log(usedIDS);
+    //console.log(usedIDS);
     
   });
 </script>
@@ -1314,7 +1316,7 @@ $( "#outline" ).mousemove(function( event ) {
 	  selectedrows = [];
 	  grid.setSelectedRows(selectedrows);
 	  str = $("#tname").val();
-	  console.log("-"+str+"-");
+	  //console.log("-"+str+"-");
 	  if (str.length > 1) {
 	  
 	    for (var i = 0; i < data.length; i++) {
@@ -1421,10 +1423,9 @@ $( "#outline" ).mousemove(function( event ) {
 		  
 		  grid.invalidate();
 		  grid.setActiveCell(insertAt, 1);
-		  //$('.cell-title')[insertAt].className = $('.cell-title')[insertAt].className+" cell-h1";
+		
 		  $("#outline").fracs("outline",'redraw');
-		    //grid.updateRowCount();
-		    //grid.render();
+
 		}
 	$(window).keydown(function (e){
 	    if (e.metaKey && e.keyCode == 88) 
@@ -1437,10 +1438,6 @@ $( "#outline" ).mousemove(function( event ) {
 	$(window).keydown(function (e){
 	    if (e.metaKey && e.keyCode == 67) 
 	      copy();
-	});
-	
-	$(window).keydown(function (e){
-	      console.log(e.keyCode);
 	});
 	
 	$('.subnav').affix({
@@ -1466,7 +1463,7 @@ $( "#outline" ).mousemove(function( event ) {
 			
 			$.ajax({
 				type : "POST",
-				url : "/search/simple/virtual/result",
+				url :  "/search/simple/result",
 				data : data,
 				contentType : 'text/plain;charset=UTF-8',
 				success : function(html) {
@@ -1475,6 +1472,7 @@ $( "#outline" ).mousemove(function( event ) {
 					$('#tablesearchresults').attr("data-pagination","true");
 					$('#tablesearchresults').attr("data-search","true");
 					$('#tablesearchresults').bootstrapTable();
+					$('#tablesearchresults').bootstrapTable('showColumn', 'state');
 					$('#tablesearchresults').show();
 					$(".modal-footer").show();
 					//$('.result-table').dataTable({
@@ -1495,9 +1493,9 @@ $( "#outline" ).mousemove(function( event ) {
 	    	
 	    		for (var j = 0; j < data.length; j++) {
 	    			
-	    			console.log("length: "+data.length +" "+data[j].fragment);
+	    			//console.log("length: "+data.length +" "+data[j].fragment);
 	    			if (data[j].fragment == selectedInters[i][4]) {
-	    				console.log("REPETIDO "+selectedInters[i][2] + selectedInters[i][3]);
+	    				//console.log("REPETIDO "+selectedInters[i][2] + selectedInters[i][3]);
 	    				strDuplicate = strDuplicate + selectedInters[i][2] + " ( " + selectedInters[i][3]+ ")<br>"; 
 	    				duplicate = true;
 	    			}
@@ -1521,7 +1519,7 @@ $( "#outline" ).mousemove(function( event ) {
 	    	
 	    	if(strDuplicate.length > 0) {
 	    		toastr["warning"](strDuplicate, "Fragmentos repetidos:")	
-	    		alert("Fragmentos duplicados:<br>"+strDuplicate);
+	    		//alert("Fragmentos duplicados:<br>"+strDuplicate);
 	    	}
 	    		
 	    });
@@ -1541,7 +1539,7 @@ $( "#outline" ).mousemove(function( event ) {
 			
 			
 			var selectedRows = grid.getSelectedRows().sort(sortNumber);
-			console.log("l "+selectedRows.length);
+			//console.log("l "+selectedRows.length);
 			
 			if(selectedRows.length == 0) {
 				$('#movetopos').prop('disabled', true);

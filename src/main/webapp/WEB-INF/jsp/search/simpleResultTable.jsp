@@ -4,7 +4,7 @@
 	<table id="tablesearchresults" data-pagination="false">
         <thead>
             <tr>
-                <!--  <th data-field="state" data-checkbox="true"></th>-->
+                <th data-field="state" data-checkbox="true" data-visible="false">
                 <th data-visible="false"></th>
                 <th data-visible="false"></th>
                 <th data-visible="false"></th>
@@ -20,7 +20,7 @@
                 <c:forEach items="${ fragmentEntry.value }"
                     var="fragInterEntry">
                     <tr>
-                        <!--  <td></td>-->
+                        <td></td>
                         <td>${fragInterEntry.getExternalId()}</td>
                         <td>${fragmentEntry.key.getTitle()}</td>
                         <td>${fragInterEntry.getShortName()}</td>

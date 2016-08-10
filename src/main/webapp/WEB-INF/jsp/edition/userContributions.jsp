@@ -13,7 +13,7 @@
 			${user.firstName} ${user.lastName} (${user.username})
 			(${user.getFragInterSet().size()})
 		</h3>
-
+		<br>
 		<table class="table table-hover table-condensed">
 			<thead>
 				<tr>
