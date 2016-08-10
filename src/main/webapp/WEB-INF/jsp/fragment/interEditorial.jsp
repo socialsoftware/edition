@@ -49,7 +49,7 @@ $(document)
 	<%@ include file="/WEB-INF/jsp/fragment/transcription.jsp"%>
 
 	<br>
-	<div id="interMeta" class="row">
-		<div class="well row">${inters.get(0).metaTextual}</div>
+	<div id="interMeta">
+		<div class="well">${inters.get(0).metaTextual}</div>
 	</div>
 </div>
