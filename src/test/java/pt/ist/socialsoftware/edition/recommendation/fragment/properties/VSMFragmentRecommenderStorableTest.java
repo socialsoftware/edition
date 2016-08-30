@@ -12,7 +12,7 @@ public abstract class VSMFragmentRecommenderStorableTest extends VSMFragmentReco
 
 	@Test
 	public void testGetStoredValueWithWeight() {
-		vsmFragmentRecomender.calculateSimiliraty(frag1, frag2, propertyWithWeight);
+		vsmFragmentRecomender.calculateSimilarity(frag1, frag2, propertyWithWeight);
 		for (Double d : StoredVectors.getInstance().get((StorableProperty) propertyWithWeight, frag1.getExternalId())) {
 			Assert.assertTrue(d >= 0.0);
 			Assert.assertTrue(d <= 1.00001);

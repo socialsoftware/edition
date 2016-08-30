@@ -12,7 +12,7 @@ public abstract class VSMFragInterRecommenderStorableTest extends VSMFragInterRe
 
 	@Test
 	public void testGetStoredValue() {
-		recommender.calculateSimiliraty(frag1, frag2, property);
+		recommender.calculateSimilarity(frag1, frag2, property);
 		Assert.assertNotNull(StoredVectors.getInstance().get((StorableProperty) property, frag1.getExternalId()));
 		Assert.assertNotNull(StoredVectors.getInstance().get((StorableProperty) property, frag2.getExternalId()));
 	}

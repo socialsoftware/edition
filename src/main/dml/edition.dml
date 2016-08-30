@@ -595,6 +595,7 @@ class RecommendationWeights {
 	double publicationWeight;
 	double textWeight;
 	double sourceWeight;
+	double taxonomyWeight;
 }
 
 relation LdoDUserHasRecommendationWeights {
@@ -605,20 +606,6 @@ relation LdoDUserHasRecommendationWeights {
 relation VirtualEditionHasRecommendationWeights {
 	VirtualEdition playsRole virtualEdition {multiplicity 1..1;}
 	RecommendationWeights playsRole recommendationWeights {multiplicity 0..*;}
-}
-
-class TaxonomyWeight{
-	double weight;
-}
-
-relation RecommendationWeightsHasTaxonomyWeight {
-	RecommendationWeights playsRole recommendationsWeights {multiplicity 1..1;}
-	TaxonomyWeight playsRole taxonomyWeight {multiplicity 0..*;}
-}
-
-relation TaxonomyHasTaxonomyWeight {
-	Taxonomy playsRole taxonomy {multiplicity 1..1;}
-	TaxonomyWeight playsRole taxonomyWeight {multiplicity 0..*;}
 }
 
 class Section {

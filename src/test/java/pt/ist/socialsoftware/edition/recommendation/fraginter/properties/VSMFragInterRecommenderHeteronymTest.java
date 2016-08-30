@@ -59,7 +59,7 @@ public class VSMFragInterRecommenderHeteronymTest extends VSMFragInterRecommende
 	@Override
 	@Test
 	public void testCalculateSimiliratyWithWeight() {
-		double calculateSimiliraty = recommender.calculateSimiliraty(frag1, frag2, propertyWithWeight);
+		double calculateSimiliraty = recommender.calculateSimilarity(frag1, frag2, propertyWithWeight);
 		Assert.assertEquals(0.0, calculateSimiliraty, DELTA);
 	}
 }

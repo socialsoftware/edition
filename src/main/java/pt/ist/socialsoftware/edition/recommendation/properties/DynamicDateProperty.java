@@ -46,26 +46,8 @@ public class DynamicDateProperty extends Property {
 			}
 		}
 		for (Source source : fragment.getSourcesSet()) {
-			if (source.getType().equals(SourceType.MANUSCRIPT)) {
-				ManuscriptSource manu = (ManuscriptSource) source;
-				if (manu.getLdoDDate() != null) {
-					dates.add(manu.getLdoDDate().getDate().getYear());
-				}
-				for (SourceInter inter : manu.getSourceIntersSet()) {
-					if (inter.getLdoDDate() != null) {
-						dates.add(inter.getLdoDDate().getDate().getYear());
-					}
-				}
-			} else if (source.getType().equals(SourceType.PRINTED)) {
-				PrintedSource printed = (PrintedSource) source;
-				if (printed.getLdoDDate() != null) {
-					dates.add(printed.getLdoDDate().getDate().getYear());
-				}
-				for (SourceInter inter : printed.getSourceIntersSet()) {
-					if (inter.getLdoDDate() != null) {
-						dates.add(inter.getLdoDDate().getDate().getYear());
-					}
-				}
+			if (source.getLdoDDate() != null) {
+				dates.add(source.getLdoDDate().getDate().getYear());
 			}
 		}
 		List<Double> vector = new ArrayList<Double>(getDefaultVector());
@@ -79,6 +61,17 @@ public class DynamicDateProperty extends Property {
 		if (expertEditionInter.getLdoDDate() != null) {
 			vector = buildVector(expertEditionInter.getLdoDDate().getDate().getYear(), vector);
 		}
+		return vector;
+	}
+
+	@Override
+	protected Collection<Double> extractVector(SourceInter sourceInter) {
+		Set<Integer> dates = new TreeSet<Integer>();
+		if (sourceInter.getLdoDDate() != null) {
+			dates.add(sourceInter.getLdoDDate().getDate().getYear());
+		}
+		List<Double> vector = new ArrayList<Double>(getDefaultVector());
+		vector = buildVector(dates, vector);
 		return vector;
 	}
 
@@ -209,5 +202,30 @@ public class DynamicDateProperty extends Property {
 	@Override
 	public String getTitle() {
 		return "DyDate";
+	}
+
+	@Override
+	public Collection<Double> visit(ExpertEditionInter expertEditionInter) {
+		return extractVector(expertEditionInter);
+	}
+
+	@Override
+	public Collection<Double> visit(Fragment fragment) {
+		return extractVector(fragment);
+	}
+
+	@Override
+	public Collection<Double> visit(Source source) {
+		return extractVector(source);
+	}
+
+	@Override
+	public Collection<Double> visit(SourceInter sourceInter) {
+		return extractVector(sourceInter);
+	}
+
+	@Override
+	public Collection<Double> visit(VirtualEditionInter virtualEditionInter) {
+		return extractVector(virtualEditionInter);
 	}
 }

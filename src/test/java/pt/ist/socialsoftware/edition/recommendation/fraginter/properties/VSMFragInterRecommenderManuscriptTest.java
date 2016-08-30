@@ -60,7 +60,7 @@ public class VSMFragInterRecommenderManuscriptTest extends VSMFragInterRecommend
 	@Override
 	@Test
 	public void testCalculateSimiliratyWithWeight() {
-		double calculateSimiliraty = recommender.calculateSimiliraty(frag1, frag2, propertyWithWeight);
+		double calculateSimiliraty = recommender.calculateSimilarity(frag1, frag2, propertyWithWeight);
 		Assert.assertEquals(1.0, calculateSimiliraty, DELTA);
 	}
 }

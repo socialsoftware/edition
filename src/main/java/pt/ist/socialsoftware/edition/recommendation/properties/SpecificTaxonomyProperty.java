@@ -17,7 +17,7 @@ import pt.ist.socialsoftware.edition.domain.Taxonomy;
 import pt.ist.socialsoftware.edition.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.domain.VirtualEditionInter;
 
-public abstract class SpecificTaxonomyProperty extends Property {
+public class SpecificTaxonomyProperty extends Property {
 
 	private final Taxonomy taxonomy;
 
@@ -63,8 +63,6 @@ public abstract class SpecificTaxonomyProperty extends Property {
 		return vector;
 	}
 
-	protected abstract double getTagWeight(Tag tag);
-
 	@Override
 	protected Collection<Double> extractVector(VirtualEditionInter inter) {
 		List<Double> vector = new ArrayList<Double>(getDefaultVector());
@@ -85,7 +83,7 @@ public abstract class SpecificTaxonomyProperty extends Property {
 
 	@Override
 	public void userWeights(RecommendationWeights recommendationWeights) {
-		recommendationWeights.getTaxonomyWeight(taxonomy).setWeight(getWeight());
+		recommendationWeights.setTaxonomyWeight(getWeight());
 	}
 
 	public Taxonomy getTaxonomy() {
@@ -97,4 +95,7 @@ public abstract class SpecificTaxonomyProperty extends Property {
 		return getTaxonomy().getName();
 	}
 
+	protected double getTagWeight(Tag tag) {
+		return 1.;
+	}
 }

@@ -82,15 +82,14 @@
 								<input type="range" class="range" value='${textWeight}' max="1"
 									min="0" step="0.1">
 							</div>
-							<c:forEach var="taxonomy" items='${taxonomiesMap.keySet()}'>
-								<div class="col-md-3 col-sm-6 taxonomy-range"
-									id="${taxonomy.getName()}" property-type="specific-taxonomy">
-									<p><spring:message code="general.taxonomy" /></p>
-									<input type="range" class="range"
-										value="${taxonomiesMap.get(taxonomy)}" max="1.0" min="0.0"
-										step="0.1">
-								</div>
-							</c:forEach>
+							<div class="col-md-3 col-sm-6 taxonomy-range"
+								property-type="specific-taxonomy">
+								<p>
+									<spring:message code="general.taxonomy" />
+								</p>
+								<input type="range" class="range" value="${taxonomyWeight}"
+									max="1.0" min="0.0" step="0.1">
+							</div>
 						</div>
 					</th>
 				</tr>

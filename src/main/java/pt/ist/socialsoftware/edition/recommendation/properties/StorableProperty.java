@@ -22,11 +22,11 @@ public abstract class StorableProperty extends Property {
 
 	private Collection<Double> applyWeights(Collection<Double> collection, double weight) {
 		if (weight == 1.0) {
-			return new ArrayList<>(collection);
+			return new ArrayList<Double>(collection);
 		} else if (weight == 0.0) {
-			return new ArrayList<>(getDefaultVector());
+			return new ArrayList<Double>(getDefaultVector());
 		} else {
-			List<Double> list = new ArrayList<>(collection);
+			List<Double> list = new ArrayList<Double>(collection);
 			int size = list.size();
 			Double value;
 			for (int i = 0; i < size; i++) {
@@ -76,4 +76,5 @@ public abstract class StorableProperty extends Property {
 		}
 		return applyWeights(collection, getWeight());
 	}
+
 }

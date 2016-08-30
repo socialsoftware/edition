@@ -38,10 +38,6 @@ public class Taxonomy extends Taxonomy_Base {
 			category.remove();
 		}
 
-		for (TaxonomyWeight taxonomyWeight : getTaxonomyWeightSet()) {
-			taxonomyWeight.remove();
-		}
-
 		deleteDomainObject();
 	}
 

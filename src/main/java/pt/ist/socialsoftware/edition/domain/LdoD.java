@@ -3,6 +3,7 @@ package pt.ist.socialsoftware.edition.domain;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
@@ -28,6 +29,11 @@ public class LdoD extends LdoD_Base {
 	public LdoD() {
 		FenixFramework.getDomainRoot().setLdoD(this);
 		setNullEdition(new NullEdition());
+	}
+
+	public List<Heteronym> getSortedHeteronyms() {
+		return getHeteronymsSet().stream().sorted((h1, h2) -> h1.getName().compareTo(h2.getName()))
+				.collect(Collectors.toList());
 	}
 
 	public List<ExpertEdition> getSortedExpertEdition() {
@@ -113,11 +119,6 @@ public class LdoD extends LdoD_Base {
 	@Atomic(mode = TxMode.WRITE)
 	public void setIntersNumber(VirtualEditionInter virtualEdtionInter, int page) {
 		virtualEdtionInter.setNumber(page);
-	}
-
-	@Atomic(mode = TxMode.WRITE)
-	public TaxonomyWeight createTaxonomyWeight(LdoDUser user, VirtualEdition virtualEdition, Taxonomy taxonomy) {
-		return new TaxonomyWeight(user.getRecommendationWeights(virtualEdition), taxonomy);
 	}
 
 	@Atomic(mode = TxMode.WRITE)

@@ -8,7 +8,7 @@ public interface Recommender<T, P> {
 
 	double calculateSimilarity(T t1, T t2, Collection<P> ps);
 
-	double calculateSimiliraty(T t1, T t2, P p);
+	double calculateSimilarity(T t1, T t2, P p);
 
 	T getMostSimilarItem(T t, Collection<T> ts, Collection<P> ps);
 

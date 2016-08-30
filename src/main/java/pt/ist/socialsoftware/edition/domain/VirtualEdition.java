@@ -365,13 +365,6 @@ public class VirtualEdition extends VirtualEdition_Base {
 		}
 	}
 
-	public void print() {
-		for (Section section : getSectionsSet()) {
-			section.print();
-		}
-
-	}
-
 	@Atomic(mode = TxMode.WRITE)
 	public void removeMember(LdoDUser user) {
 		getMemberSet().stream().filter(m -> m.getUser() == user).forEach(m -> m.remove());

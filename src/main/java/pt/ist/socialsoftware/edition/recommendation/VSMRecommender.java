@@ -26,19 +26,20 @@ public abstract class VSMRecommender<T> implements Recommender<T, Property> {
 	public static final int NUMBEROFRECOMMENDATIONS = 5;
 
 	protected static final Random RANDOM = new Random();
+
 	protected abstract Collection<Double> acceptProperty(T item1, Property property);
 
 	protected double calculateSimilarity(Collection<Double> item1, Collection<Double> item2) {
 		double[] v1 = ArrayUtils.toPrimitive(item1.toArray(new Double[item1.size()]));
 		double[] v2 = ArrayUtils.toPrimitive(item2.toArray(new Double[item2.size()]));
-		return Vectors.calculateSimiliraty(v1, v2);
+		return Vectors.calculateSimilarity(v1, v2);
 	}
 
 	@Override
 	public double calculateSimilarity(T item1, T item2, Collection<Property> ps) {
 		List<Double> vector1 = new ArrayList<Double>();
 		List<Double> vector2 = new ArrayList<Double>();
-		for(Property property : ps) {
+		for (Property property : ps) {
 			setFragmentsGroup(item1, item2, property);
 			vector1.addAll(acceptProperty(item1, property));
 			vector2.addAll(acceptProperty(item2, property));
@@ -47,7 +48,7 @@ public abstract class VSMRecommender<T> implements Recommender<T, Property> {
 	}
 
 	@Override
-	public double calculateSimiliraty(T item1, T item2, Property property) {
+	public double calculateSimilarity(T item1, T item2, Property property) {
 		List<Property> properties = new ArrayList<Property>();
 		properties.add(property);
 		return calculateSimilarity(item1, item2, properties);
@@ -76,9 +77,9 @@ public abstract class VSMRecommender<T> implements Recommender<T, Property> {
 		T result = null;
 		double max = Double.NEGATIVE_INFINITY;
 		double similiraty;
-		for(T otherItem : newList) {
+		for (T otherItem : newList) {
 			similiraty = calculateSimilarity(item, otherItem, properties);
-			if(similiraty > max) {
+			if (similiraty > max) {
 				result = otherItem;
 				max = similiraty;
 			}
@@ -127,14 +128,15 @@ public abstract class VSMRecommender<T> implements Recommender<T, Property> {
 	}
 
 	@Override
-	public List<Entry<T, Double>> getMostSimilarItems(T item, Collection<T> items, Collection<Property> properties, double treshold) {
+	public List<Entry<T, Double>> getMostSimilarItems(T item, Collection<T> items, Collection<Property> properties,
+			double treshold) {
 		List<T> itemSet = new ArrayList<>(items);
-	//	itemSet.remove(item);
+		// itemSet.remove(item);
 		double similarity;
 		Map<T, Double> map = new HashMap<T, Double>();
-		for(T it : itemSet) {
+		for (T it : itemSet) {
 			similarity = calculateSimilarity(item, it, properties);
-			if(similarity >= treshold)
+			if (similarity >= treshold)
 				map.put(it, similarity);
 		}
 		return SortBy.sortByValue(map);
@@ -147,20 +149,21 @@ public abstract class VSMRecommender<T> implements Recommender<T, Property> {
 
 	private List<T> toList(List<Entry<T, Double>> mostSimilarItems) {
 		List<T> inters = new ArrayList<T>();
-		for(Entry<T, Double> entry : mostSimilarItems) {
+		for (Entry<T, Double> entry : mostSimilarItems) {
 			inters.add(entry.getKey());
 		}
 		return inters;
 	}
 
 	@Override
-	public List<T> getMostSimilarItems(T item, Collection<T> items, Collection<Property> properties, int numberOfItems) {
+	public List<T> getMostSimilarItems(T item, Collection<T> items, Collection<Property> properties,
+			int numberOfItems) {
 		List<Entry<T, Double>> mostSimilarItems = new LinkedList<>(getMostSimilarItems(item, items, properties));
 		List<T> inters = new ArrayList<T>();
-		if(mostSimilarItems.size() < numberOfItems) {
+		if (mostSimilarItems.size() < numberOfItems) {
 			numberOfItems = mostSimilarItems.size();
 		}
-		for(Entry<T, Double> entry : mostSimilarItems.subList(0, numberOfItems)) {
+		for (Entry<T, Double> entry : mostSimilarItems.subList(0, numberOfItems)) {
 			inters.add(entry.getKey());
 		}
 		return inters;
@@ -203,7 +206,7 @@ public abstract class VSMRecommender<T> implements Recommender<T, Property> {
 		T current = item;
 		resultSet.add(item);
 		items.remove(item);
-		while(!items.isEmpty()) {
+		while (!items.isEmpty()) {
 			current = getMostSimilarItem(item, items, properties);
 			items.remove(current);
 			resultSet.add(current);

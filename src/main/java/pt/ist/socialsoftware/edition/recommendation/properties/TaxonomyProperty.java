@@ -5,9 +5,12 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+import pt.ist.socialsoftware.edition.domain.ExpertEditionInter;
 import pt.ist.socialsoftware.edition.domain.FragInter;
 import pt.ist.socialsoftware.edition.domain.Fragment;
 import pt.ist.socialsoftware.edition.domain.RecommendationWeights;
+import pt.ist.socialsoftware.edition.domain.Source;
+import pt.ist.socialsoftware.edition.domain.SourceInter;
 import pt.ist.socialsoftware.edition.domain.Tag;
 import pt.ist.socialsoftware.edition.domain.VirtualEditionInter;
 
@@ -112,5 +115,45 @@ public class TaxonomyProperty extends Property {
 	@Override
 	public String getTitle() {
 		return "Taxonomy";
+	}
+
+	@Override
+	public Collection<Double> visit(ExpertEditionInter expertEditionInter) {
+		return extractVector(expertEditionInter);
+	}
+
+	@Override
+	public Collection<Double> visit(Fragment fragment) {
+		return extractVector(fragment);
+	}
+
+	@Override
+	protected Collection<Double> extractVector(ExpertEditionInter expertEditionInter) {
+		return getDefaultVector();
+	}
+
+	@Override
+	protected Collection<Double> extractVector(Source source) {
+		return getDefaultVector();
+	}
+
+	@Override
+	protected Collection<Double> extractVector(SourceInter sourceInter) {
+		return getDefaultVector();
+	}
+
+	@Override
+	public Collection<Double> visit(Source source) {
+		return extractVector(source);
+	}
+
+	@Override
+	public Collection<Double> visit(SourceInter sourceInter) {
+		return extractVector(sourceInter);
+	}
+
+	@Override
+	public Collection<Double> visit(VirtualEditionInter virtualEditionInter) {
+		return extractVector(virtualEditionInter);
 	}
 }

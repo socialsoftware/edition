@@ -31,13 +31,13 @@ public class Section extends Section_Base implements Comparable<Section> {
 
 		// Add section's inters
 		Set<VirtualEditionInter> virtualEditionInterSet = getVirtualEditionInterSet();
-		if(virtualEditionInterSet != null)
+		if (virtualEditionInterSet != null)
 			inters.addAll(virtualEditionInterSet);
 
 		// add subsection's inters
 		Set<Section> subSectionSet = getSubSectionsSet();
-		if(subSectionSet != null) {
-			for(Section section : subSectionSet) {
+		if (subSectionSet != null) {
+			for (Section section : subSectionSet) {
 				inters.addAll(section.getInterSet());
 			}
 		}
@@ -54,7 +54,7 @@ public class Section extends Section_Base implements Comparable<Section> {
 	public VirtualEditionInter createVirtualEditionInter(FragInter inter, int number) {
 		VirtualEdition virtualEdition = getVirtualEdition();
 		VirtualEditionInter virtualInter = null;
-		if(virtualEdition.canAddFragInter(inter)) {
+		if (virtualEdition.canAddFragInter(inter)) {
 			virtualInter = new VirtualEditionInter(this, inter, number);
 		}
 		return virtualInter;
@@ -75,11 +75,11 @@ public class Section extends Section_Base implements Comparable<Section> {
 	}
 
 	public void clear() {
-		for(Section section : getSubSectionsSet()) {
+		for (Section section : getSubSectionsSet()) {
 			section.clear();
 		}
 
-		for(VirtualEditionInter inter : getVirtualEditionInterSet()) {
+		for (VirtualEditionInter inter : getVirtualEditionInterSet()) {
 			inter.setSection(null);
 		}
 
@@ -90,11 +90,11 @@ public class Section extends Section_Base implements Comparable<Section> {
 	}
 
 	public void remove() {
-		for(Section section : getSubSectionsSet()) {
+		for (Section section : getSubSectionsSet()) {
 			section.remove();
 		}
 
-		for(VirtualEditionInter inter : getVirtualEditionInterSet()) {
+		for (VirtualEditionInter inter : getVirtualEditionInterSet()) {
 			inter.remove();
 		}
 
@@ -105,8 +105,8 @@ public class Section extends Section_Base implements Comparable<Section> {
 	}
 
 	public Section getSection(String title) {
-		for(Section section : getSubSectionsSet()) {
-			if(section.getTitle().equals(title)) {
+		for (Section section : getSubSectionsSet()) {
+			if (section.getTitle().equals(title)) {
 				return section;
 			}
 		}
@@ -126,22 +126,22 @@ public class Section extends Section_Base implements Comparable<Section> {
 	}
 
 	public boolean isLeaf() {
-		if(getSubSectionsSet() == null)
+		if (getSubSectionsSet() == null)
 			return true;
-		else if(getSubSectionsSet().size() == 0)
+		else if (getSubSectionsSet().size() == 0)
 			return true;
 		else
 			return false;
 	}
-	
+
 	public int getDepth() {
-		if(isLeaf()) {
+		if (isLeaf()) {
 			return 1;
 		} else {
 			int max = 0;
-			for(Section section : getSubSectionsSet()) {
+			for (Section section : getSubSectionsSet()) {
 				int depth = section.getDepth();
-				if(max < depth)
+				if (max < depth)
 					max = depth;
 			}
 			return 1 + max;
@@ -149,11 +149,11 @@ public class Section extends Section_Base implements Comparable<Section> {
 	}
 
 	public int size() {
-		if(isLeaf()) {
+		if (isLeaf()) {
 			return getInterSet().size();
 		} else {
 			int count = 0;
-			for(Section section : getSubSectionsSet()) {
+			for (Section section : getSubSectionsSet()) {
 				count += section.size();
 			}
 			return count;
@@ -164,19 +164,15 @@ public class Section extends Section_Base implements Comparable<Section> {
 		return new ArrayList<>(getInterSet());
 	}
 
-	private void print(int i) {
-		System.out.println(StringUtils.repeat("\t", i) + getNumber() + ":" + getTitle());
-		for(Section section : getSubSectionsSet()) {
-			section.print(i + 1);
+	public String print(int i) {
+		String result = StringUtils.repeat("\t", i) + getNumber() + ":" + getTitle() + "\n";
+		for (Section section : getSubSectionsSet()) {
+			result = result + section.print(i + 1);
 		}
-		for(FragInter inter : getVirtualEditionInterSet()) {
-			System.out.println(StringUtils.repeat("\t", i + 1) + inter.getNumber() + ":" + inter.getTitle());
+		for (FragInter inter : getVirtualEditionInterSet()) {
+			result = result + StringUtils.repeat("\t", i + 1) + inter.getNumber() + ":" + inter.getTitle() + "\n";
 		}
-
-	}
-
-	public void print(){
-		print(0);
+		return result;
 	}
 
 	public List<Section> getSortedSubSections() {
@@ -193,7 +189,7 @@ public class Section extends Section_Base implements Comparable<Section> {
 
 	@Override
 	public VirtualEdition getVirtualEdition() {
-		if(isRootSection())
+		if (isRootSection())
 			return super.getVirtualEdition();
 		else
 			return getRootSection().getVirtualEdition();

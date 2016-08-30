@@ -54,13 +54,13 @@ public class TextProperty extends Property {
 		try {
 			tfidf = (new Indexer()).getTFIDF(expertEditionInter, commonTerms);
 			size = commonTerms.size();
-			for(int i = 0; i < size; i++) {
+			for (int i = 0; i < size; i++) {
 				term = commonTerms.get(i);
-				if(tfidf.containsKey(term)) {
+				if (tfidf.containsKey(term)) {
 					vector.set(i, getWeight() * tfidf.get(term));
 				}
 			}
-		} catch(IOException | ParseException e) {
+		} catch (IOException | ParseException e) {
 			e.printStackTrace();
 		}
 		return vector;
@@ -75,13 +75,13 @@ public class TextProperty extends Property {
 		try {
 			tfidf = (new Indexer()).getTFIDF(fragment, commonTerms);
 			size = commonTerms.size();
-			for(int i = 0; i < size; i++) {
+			for (int i = 0; i < size; i++) {
 				term = commonTerms.get(i);
-				if(tfidf.containsKey(term)) {
+				if (tfidf.containsKey(term)) {
 					vector.set(i, getWeight() * tfidf.get(term));
 				}
 			}
-		} catch(IOException | ParseException e) {
+		} catch (IOException | ParseException e) {
 			e.printStackTrace();
 		}
 		return vector;
@@ -96,13 +96,13 @@ public class TextProperty extends Property {
 		try {
 			tfidf = (new Indexer()).getTFIDF(source, commonTerms);
 			size = commonTerms.size();
-			for(int i = 0; i < size; i++) {
+			for (int i = 0; i < size; i++) {
 				term = commonTerms.get(i);
-				if(tfidf.containsKey(term)) {
+				if (tfidf.containsKey(term)) {
 					vector.set(i, getWeight() * tfidf.get(term));
 				}
 			}
-		} catch(IOException | ParseException e) {
+		} catch (IOException | ParseException e) {
 			e.printStackTrace();
 		}
 		return vector;
@@ -117,13 +117,13 @@ public class TextProperty extends Property {
 		try {
 			tfidf = (new Indexer()).getTFIDF(sourceInter, commonTerms);
 			size = commonTerms.size();
-			for(int i = 0; i < size; i++) {
+			for (int i = 0; i < size; i++) {
 				term = commonTerms.get(i);
-				if(tfidf.containsKey(term)) {
+				if (tfidf.containsKey(term)) {
 					vector.set(i, getWeight() * tfidf.get(term));
 				}
 			}
-		} catch(IOException | ParseException e) {
+		} catch (IOException | ParseException e) {
 			e.printStackTrace();
 		}
 		return vector;
@@ -147,7 +147,7 @@ public class TextProperty extends Property {
 			temp.addAll(indexer.getTerms(inter1, numberOfTerms));
 			temp.addAll(indexer.getTerms(inter2, numberOfTerms));
 			commonTerms = new ArrayList<String>(temp);
-		} catch(ParseException | IOException e) {
+		} catch (ParseException | IOException e) {
 			e.printStackTrace();
 		}
 	}
@@ -160,7 +160,7 @@ public class TextProperty extends Property {
 			temp.addAll(indexer.getTerms(frag1, numberOfTerms));
 			temp.addAll(indexer.getTerms(frag2, numberOfTerms));
 			commonTerms = new ArrayList<String>(temp);
-		} catch(ParseException | IOException e) {
+		} catch (ParseException | IOException e) {
 			e.printStackTrace();
 		}
 	}
@@ -173,6 +173,31 @@ public class TextProperty extends Property {
 	@Override
 	public String getTitle() {
 		return "Text";
+	}
+
+	@Override
+	public Collection<Double> visit(ExpertEditionInter expertEditionInter) {
+		return extractVector(expertEditionInter);
+	}
+
+	@Override
+	public Collection<Double> visit(Fragment fragment) {
+		return extractVector(fragment);
+	}
+
+	@Override
+	public Collection<Double> visit(Source source) {
+		return extractVector(source);
+	}
+
+	@Override
+	public Collection<Double> visit(SourceInter sourceInter) {
+		return extractVector(sourceInter);
+	}
+
+	@Override
+	public Collection<Double> visit(VirtualEditionInter virtualEditionInter) {
+		return extractVector(virtualEditionInter);
 	}
 
 }

@@ -21,7 +21,7 @@ public abstract class VSMFragInterRecommenderCompositeTest extends VSMFragInterR
 
 	@Test
 	public void testCalculateSimiliratyWithCompositeWeight() {
-		double calculateSimiliraty = recommender.calculateSimiliraty(frag1, frag2, compositeProperty);
+		double calculateSimiliraty = recommender.calculateSimilarity(frag1, frag2, compositeProperty);
 		Assert.assertTrue(calculateSimiliraty >= 0);
 		Assert.assertTrue(calculateSimiliraty <= 1.0000000000000002);
 	}

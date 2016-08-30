@@ -28,14 +28,14 @@ public abstract class AuthoralProperty extends CompositeProperty {
 	public Collection<Double> extractVector(Fragment fragment) {
 		List<List<Double>> allVector = new ArrayList<List<Double>>();
 		List<Double> vector;
-		if(fragment.getSourcesSet().size() > 0){
-			for(Source source : fragment.getSourcesSet()) {
+		if (fragment.getSourcesSet().size() > 0) {
+			for (Source source : fragment.getSourcesSet()) {
 				vector = new ArrayList<Double>();
-				if(source.getType().equals(SourceType.MANUSCRIPT)) {
+				if (source.getType().equals(SourceType.MANUSCRIPT)) {
 					ManuscriptSource manuscriptSource = (ManuscriptSource) source;
-					if(manuscriptSource.getNotes().toLowerCase().contains(getDocumentType())) {
+					if (manuscriptSource.getNotes().toLowerCase().contains(getDocumentType())) {
 						vector.add(getWeight());
-						if(manuscriptSource.getHasLdoDLabel()) {
+						if (manuscriptSource.getHasLdoDLabel()) {
 							vector.add(1.);
 							vector.add(0.);
 						} else {
@@ -52,17 +52,18 @@ public abstract class AuthoralProperty extends CompositeProperty {
 				}
 				allVector.add(vector);
 			}
-			vector =  new ArrayList<Double>(Collections.nCopies(allVector.get(0).size(), 0.));;
-			for(List<Double> v : allVector) {
+			vector = new ArrayList<Double>(Collections.nCopies(allVector.get(0).size(), 0.));
+			;
+			for (List<Double> v : allVector) {
 				int size = v.size();
-				for(int i = 0; i < size; i++) {
-					if(v.get(i) > vector.get(i)) {
+				for (int i = 0; i < size; i++) {
+					if (v.get(i) > vector.get(i)) {
 						vector.set(i, v.get(i));
 					}
 				}
 			}
 			return vector;
-		}else{
+		} else {
 			vector = new ArrayList<Double>(getDefaultVector());
 			return vector;
 		}
@@ -71,11 +72,11 @@ public abstract class AuthoralProperty extends CompositeProperty {
 	@Override
 	protected Collection<Double> extractVector(SourceInter sourceInter) {
 		List<Double> vector = new ArrayList<>();
-		if(sourceInter.getSource().getType().equals(SourceType.MANUSCRIPT)) {
+		if (sourceInter.getSource().getType().equals(SourceType.MANUSCRIPT)) {
 			ManuscriptSource manuscriptSource = (ManuscriptSource) sourceInter.getSource();
-			if(manuscriptSource.getNotes().toLowerCase().contains(getDocumentType())) {
+			if (manuscriptSource.getNotes().toLowerCase().contains(getDocumentType())) {
 				vector.add(getWeight());
-				if(manuscriptSource.getHasLdoDLabel()) {
+				if (manuscriptSource.getHasLdoDLabel()) {
 					vector.add(1.);
 					vector.add(0.);
 				} else {
@@ -100,7 +101,7 @@ public abstract class AuthoralProperty extends CompositeProperty {
 
 	@Override
 	protected Collection<Double> getDefaultVector() {
-		if(defaultVector == null) {
+		if (defaultVector == null) {
 			defaultVector = new ArrayList<>();
 			defaultVector.add(0.);
 			defaultVector.add(0.);

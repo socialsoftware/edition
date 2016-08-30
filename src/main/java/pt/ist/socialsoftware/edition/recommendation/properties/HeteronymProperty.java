@@ -31,8 +31,9 @@ public class HeteronymProperty extends StorableProperty {
 		this(Double.parseDouble(weight));
 	}
 
-	private List<Double> buildVector(Collection<Heteronym> foundHeteronyms, List<Double> vector) {
-		List<Heteronym> heteronymList = new ArrayList<Heteronym>(LdoD.getInstance().getHeteronymsSet());
+	private List<Double> buildVector(Collection<Heteronym> foundHeteronyms) {
+		List<Double> vector = new ArrayList<Double>(getDefaultVector());
+		List<Heteronym> heteronymList = LdoD.getInstance().getSortedHeteronyms();
 		for (Heteronym heteronym : foundHeteronyms) {
 			if (heteronymList.contains(heteronym))
 				vector.set(heteronymList.indexOf(heteronym), 1.0);
@@ -42,15 +43,25 @@ public class HeteronymProperty extends StorableProperty {
 
 	@Override
 	public Collection<Double> extractVector(ExpertEditionInter expertEditionInter) {
-		List<Double> vector = new ArrayList<Double>(getDefaultVector());
 		Collection<Heteronym> foundHeteronyms = new ArrayList<Heteronym>();
 		foundHeteronyms.add(expertEditionInter.getHeteronym());
-		return buildVector(foundHeteronyms, vector);
+		return buildVector(foundHeteronyms);
+	}
+
+	@Override
+	public Collection<Double> extractVector(SourceInter sourceInter) {
+		Collection<Heteronym> foundHeteronyms = new ArrayList<Heteronym>();
+		foundHeteronyms.add(sourceInter.getHeteronym());
+		return buildVector(foundHeteronyms);
 	}
 
 	@Override
 	protected Collection<Double> extractVector(VirtualEditionInter virtualEditionInter) {
-		return virtualEditionInter.getFragment().accept(this);
+		if (virtualEditionInter.getLastUsed() instanceof ExpertEditionInter) {
+			return extractVector((ExpertEditionInter) virtualEditionInter.getLastUsed());
+		} else {
+			return extractVector((SourceInter) virtualEditionInter.getLastUsed());
+		}
 	}
 
 	@Override
@@ -64,8 +75,7 @@ public class HeteronymProperty extends StorableProperty {
 				heteronyms.add(inter.getHeteronym());
 			}
 		}
-		List<Double> vector = new ArrayList<Double>(getDefaultVector());
-		return buildVector(heteronyms, vector);
+		return buildVector(heteronyms);
 	}
 
 	@Override
@@ -74,8 +84,7 @@ public class HeteronymProperty extends StorableProperty {
 		for (SourceInter inter : source.getSourceIntersSet()) {
 			foundHeteronyms.add(inter.getHeteronym());
 		}
-		List<Double> vector = new ArrayList<Double>(getDefaultVector());
-		return buildVector(foundHeteronyms, vector);
+		return buildVector(foundHeteronyms);
 	}
 
 	@Override

@@ -11,9 +11,9 @@ import pt.ist.socialsoftware.edition.recommendation.properties.HeteronymProperty
 import pt.ist.socialsoftware.edition.recommendation.properties.ManuscriptProperty;
 import pt.ist.socialsoftware.edition.recommendation.properties.PrintedProperty;
 import pt.ist.socialsoftware.edition.recommendation.properties.Property;
+import pt.ist.socialsoftware.edition.recommendation.properties.SpecificTaxonomyProperty;
 import pt.ist.socialsoftware.edition.recommendation.properties.TextProperty;
 import pt.ist.socialsoftware.edition.recommendation.properties.TypescriptProperty;
-import pt.ist.socialsoftware.edition.recommendation.properties.WeightTaxonomyProperty;
 
 public class RecommendationWeights extends RecommendationWeights_Base {
 
@@ -60,11 +60,8 @@ public class RecommendationWeights extends RecommendationWeights_Base {
 		if (getTextWeight() > 0.0) {
 			properties.add(new TextProperty(getTextWeight()));
 		}
-
-		for (TaxonomyWeight taxonomyWeight : getTaxonomyWeightSet()) {
-			if (taxonomyWeight.getWeight() > 0.) {
-				properties.add(new WeightTaxonomyProperty(taxonomyWeight.getWeight(), taxonomyWeight.getTaxonomy()));
-			}
+		if (getTaxonomyWeight() > 0.0) {
+			properties.add(new SpecificTaxonomyProperty(getTaxonomyWeight(), getVirtualEdition().getTaxonomy()));
 		}
 
 		return properties;
@@ -75,20 +72,7 @@ public class RecommendationWeights extends RecommendationWeights_Base {
 		setUser(null);
 		setVirtualEdition(null);
 
-		for (TaxonomyWeight taxonomyWeight : getTaxonomyWeightSet()) {
-			taxonomyWeight.remove();
-		}
-
 		deleteDomainObject();
-	}
-
-	public TaxonomyWeight getTaxonomyWeight(Taxonomy taxonomy) {
-		for (TaxonomyWeight weight : getTaxonomyWeightSet()) {
-			if (weight.getTaxonomy() == taxonomy) {
-				return weight;
-			}
-		}
-		return LdoD.getInstance().createTaxonomyWeight(getUser(), getVirtualEdition(), taxonomy);
 	}
 
 }

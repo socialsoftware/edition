@@ -25,7 +25,7 @@ import pt.ist.socialsoftware.edition.domain.VirtualEditionInter;
 		@JsonSubTypes.Type(value = TaxonomyProperty.class, name = Property.TAXONOMY),
 		@JsonSubTypes.Type(value = BinaryTaxonomyProperty.class, name = Property.BINARYTAXONOMY),
 		@JsonSubTypes.Type(value = TextProperty.class, name = Property.TEXT),
-		@JsonSubTypes.Type(value = WeightTaxonomyProperty.class, name = Property.SPECIFICTAXONOMY) })
+		@JsonSubTypes.Type(value = SpecificTaxonomyProperty.class, name = Property.SPECIFICTAXONOMY) })
 public abstract class Property {
 	public static final String EDITION = "edition";
 	public static final String SOURCE = "source";

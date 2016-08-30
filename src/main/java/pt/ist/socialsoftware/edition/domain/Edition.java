@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import pt.ist.socialsoftware.edition.shared.exception.LdoDDuplicateAcronymException;
 
@@ -54,11 +55,8 @@ public abstract class Edition extends Edition_Base {
 	public abstract String getReference();
 
 	public List<FragInter> getSortedInterps() {
-		List<FragInter> interps = new ArrayList<FragInter>(getIntersSet());
-
-		Collections.sort(interps);
-
-		return interps;
+		return getIntersSet().stream().sorted((i1, i2) -> ((Integer) i1.getNumber()).compareTo(i2.getNumber()))
+				.collect(Collectors.toList());
 	}
 
 	public FragInter getNextNumberInter(FragInter inter, int number) {

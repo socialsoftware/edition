@@ -102,8 +102,7 @@ public class LdoDUser extends LdoDUser_Base {
 
 	public RecommendationWeights getRecommendationWeights(VirtualEdition virtualEdition) {
 		for (RecommendationWeights recommendationWeights : getRecommendationWeightsSet()) {
-			if (recommendationWeights.getUser().getEmail().equals(getEmail())
-					&& recommendationWeights.getVirtualEdition().getAcronym().equals(virtualEdition.getAcronym())) {
+			if (recommendationWeights.getVirtualEdition() == virtualEdition) {
 				return recommendationWeights;
 			}
 		}

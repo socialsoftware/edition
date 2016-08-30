@@ -127,6 +127,11 @@ public class DateProperty extends StorableProperty {
 	}
 
 	@Override
+	public Collection<Double> visit(VirtualEditionInter virtualEditionInter) {
+		return extractVector(virtualEditionInter);
+	}
+
+	@Override
 	public Collection<Double> extractVector(Fragment fragment) {
 		Set<Integer> dates = new TreeSet<Integer>();
 		for (FragInter inter : fragment.getFragmentInterSet()) {
@@ -135,26 +140,8 @@ public class DateProperty extends StorableProperty {
 			}
 		}
 		for (Source source : fragment.getSourcesSet()) {
-			if (source.getType().equals(SourceType.MANUSCRIPT)) {
-				ManuscriptSource manu = (ManuscriptSource) source;
-				if (manu.getLdoDDate() != null) {
-					dates.add(manu.getLdoDDate().getDate().getYear());
-				}
-				for (SourceInter inter : manu.getSourceIntersSet()) {
-					if (inter.getLdoDDate() != null) {
-						dates.add(inter.getLdoDDate().getDate().getYear());
-					}
-				}
-			} else if (source.getType().equals(SourceType.PRINTED)) {
-				PrintedSource printed = (PrintedSource) source;
-				if (printed.getLdoDDate() != null) {
-					dates.add(printed.getLdoDDate().getDate().getYear());
-				}
-				for (SourceInter inter : printed.getSourceIntersSet()) {
-					if (inter.getLdoDDate() != null) {
-						dates.add(inter.getLdoDDate().getDate().getYear());
-					}
-				}
+			if (source.getLdoDDate() != null) {
+				dates.add(source.getLdoDDate().getDate().getYear());
 			}
 		}
 		List<Double> vector = new ArrayList<Double>(getDefaultVector());
@@ -201,8 +188,7 @@ public class DateProperty extends StorableProperty {
 
 	@Override
 	protected Collection<Double> extractVector(VirtualEditionInter virtualEditionInter) {
-		// return virtualEditionInter.getLastUsed().accept(this);
-		return virtualEditionInter.getFragment().accept(this);
+		return virtualEditionInter.getLastUsed().accept(this);
 	}
 
 	@Override
@@ -263,4 +249,5 @@ public class DateProperty extends StorableProperty {
 
 		return title;
 	}
+
 }

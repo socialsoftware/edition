@@ -112,34 +112,34 @@ public abstract class VSMFragInterRecommenderTest {
 
 	@Test
 	public void testCalculateSimiliratyAEqualsA() {
-		double calculateSimiliraty = recommender.calculateSimiliraty(frag1, frag1, property);
+		double calculateSimiliraty = recommender.calculateSimilarity(frag1, frag1, property);
 		Assert.assertEquals(1.0, calculateSimiliraty, 0.0000001);
 	}
 
 	@Test
 	public void testCalculateSimiliratyAEqualsBandBEqualsA() {
-		double calculateSimiliraty = recommender.calculateSimiliraty(frag1, frag2, property);
-		double calculateSimiliratyWithWeight = recommender.calculateSimiliraty(frag2, frag1, property);
+		double calculateSimiliraty = recommender.calculateSimilarity(frag1, frag2, property);
+		double calculateSimiliratyWithWeight = recommender.calculateSimilarity(frag2, frag1, property);
 		Assert.assertEquals(calculateSimiliraty, calculateSimiliratyWithWeight, 0.0000001);
 	}
 
 	@Test
 	public void testCalculateSimiliratyValue() {
-		double calculateSimiliraty = recommender.calculateSimiliraty(frag1, frag2, property);
-		double calculateSimiliratyWithWeight = recommender.calculateSimiliraty(frag1, frag2, propertyWithWeight);
+		double calculateSimiliraty = recommender.calculateSimilarity(frag1, frag2, property);
+		double calculateSimiliratyWithWeight = recommender.calculateSimilarity(frag1, frag2, propertyWithWeight);
 		Assert.assertEquals(calculateSimiliraty, calculateSimiliratyWithWeight, 0.0000001);
 	}
 
 	@Test
 	public void testCalculateSimiliratyWithWeight() {
-		double calculateSimiliraty = recommender.calculateSimiliraty(frag1, frag2, propertyWithWeight);
+		double calculateSimiliraty = recommender.calculateSimilarity(frag1, frag2, propertyWithWeight);
 		Assert.assertTrue(calculateSimiliraty >= 0);
 		Assert.assertTrue(calculateSimiliraty <= 1.0000000000000002);
 	}
 
 	@Test
 	public void testCalculateSimiliratyWithZeroWeight() {
-		double calculateSimiliraty = recommender.calculateSimiliraty(frag1, frag2, propertyWithZeroWeight);
+		double calculateSimiliraty = recommender.calculateSimilarity(frag1, frag2, propertyWithZeroWeight);
 		Assert.assertEquals(0, calculateSimiliraty, 0);
 	}
 

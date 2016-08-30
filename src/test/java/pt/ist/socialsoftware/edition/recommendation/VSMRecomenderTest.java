@@ -82,7 +82,7 @@ public class VSMRecomenderTest<T> {
 
 	@Test
 	public void testCalculateSimiliratyTTProperty() {
-		recommender.calculateSimiliraty(f1, f2, property);
+		recommender.calculateSimilarity(f1, f2, property);
 	}
 
 	@Test
