@@ -64,6 +64,11 @@ public class Taxonomy extends Taxonomy_Base {
 		return list;
 	}
 
+	public List<Category> getSortedCategories() {
+		return getCategoriesSet().stream().sorted((c1, c2) -> c1.getName().compareTo(c2.getName()))
+				.collect(Collectors.toList());
+	}
+
 	public List<Tag> getSortedTags(VirtualEdition virtualEdition) {
 		return getCategoriesSet().stream().flatMap(c -> c.getTagSet().stream())
 				.filter(t -> t.getInter().getVirtualEdition() == virtualEdition).distinct().sorted()
@@ -85,10 +90,6 @@ public class Taxonomy extends Taxonomy_Base {
 			}
 		}
 		return null;
-	}
-
-	public List<Category> getSortedCategories() {
-		return getCategoriesSet().stream().sorted().collect(Collectors.toList());
 	}
 
 	public List<VirtualEdition> getUsedIn() {

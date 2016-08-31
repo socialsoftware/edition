@@ -18,6 +18,7 @@ import pt.ist.socialsoftware.edition.domain.SourceInter;
 import pt.ist.socialsoftware.edition.domain.VirtualEditionInter;
 
 public class HeteronymProperty extends StorableProperty {
+	List<Heteronym> heteronymList = LdoD.getInstance().getSortedHeteronyms();
 
 	public HeteronymProperty() {
 		super();
@@ -33,7 +34,6 @@ public class HeteronymProperty extends StorableProperty {
 
 	private List<Double> buildVector(Collection<Heteronym> foundHeteronyms) {
 		List<Double> vector = new ArrayList<Double>(getDefaultVector());
-		List<Heteronym> heteronymList = LdoD.getInstance().getSortedHeteronyms();
 		for (Heteronym heteronym : foundHeteronyms) {
 			if (heteronymList.contains(heteronym))
 				vector.set(heteronymList.indexOf(heteronym), 1.0);

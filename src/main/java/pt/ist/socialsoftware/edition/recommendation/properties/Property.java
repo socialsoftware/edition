@@ -22,10 +22,8 @@ import pt.ist.socialsoftware.edition.domain.VirtualEditionInter;
 		@JsonSubTypes.Type(value = PrintedProperty.class, name = Property.PUBLICATION),
 		@JsonSubTypes.Type(value = HeteronymProperty.class, name = Property.HETERONYM),
 		@JsonSubTypes.Type(value = DateProperty.class, name = Property.DATE),
-		@JsonSubTypes.Type(value = TaxonomyProperty.class, name = Property.TAXONOMY),
-		@JsonSubTypes.Type(value = BinaryTaxonomyProperty.class, name = Property.BINARYTAXONOMY),
 		@JsonSubTypes.Type(value = TextProperty.class, name = Property.TEXT),
-		@JsonSubTypes.Type(value = SpecificTaxonomyProperty.class, name = Property.SPECIFICTAXONOMY) })
+		@JsonSubTypes.Type(value = TaxonomyProperty.class, name = Property.SPECIFICTAXONOMY) })
 public abstract class Property {
 	public static final String EDITION = "edition";
 	public static final String SOURCE = "source";
@@ -37,7 +35,6 @@ public abstract class Property {
 	public static final String TEXT = "text";
 	public static final String TAXONOMY = "taxonomy";
 	public static final String SPECIFICTAXONOMY = "specific-taxonomy";
-	public static final String BINARYTAXONOMY = "binary-taxonomy";
 
 	private final double weight;
 

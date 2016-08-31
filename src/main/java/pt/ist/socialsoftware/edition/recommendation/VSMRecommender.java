@@ -72,16 +72,16 @@ public abstract class VSMRecommender<T> implements Recommender<T, Property> {
 
 	@Override
 	public T getMostSimilarItem(T item, Collection<T> items, Collection<Property> properties) {
-		List<T> newList = new ArrayList<>(items);
+		List<T> newList = new ArrayList<T>(items);
 		newList.remove(item);
 		T result = null;
 		double max = Double.NEGATIVE_INFINITY;
-		double similiraty;
+		double similarity;
 		for (T otherItem : newList) {
-			similiraty = calculateSimilarity(item, otherItem, properties);
-			if (similiraty > max) {
+			similarity = calculateSimilarity(item, otherItem, properties);
+			if (similarity > max) {
 				result = otherItem;
-				max = similiraty;
+				max = similarity;
 			}
 		}
 		return result;

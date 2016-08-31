@@ -212,7 +212,7 @@
 																		type : 'property-with-level',
 																		level : level,
 																		property : {
-																			type : 'binary-taxonomy',
+																			type : type,
 																			acronym : acr,
 																			taxonomy : $(
 																					this)

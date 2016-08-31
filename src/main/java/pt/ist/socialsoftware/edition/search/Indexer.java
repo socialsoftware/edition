@@ -385,7 +385,7 @@ public class Indexer {
 
 	public Map<String, Double> getTFIDF(FragInter fragInter, List<String> commonTerms)
 			throws IOException, ParseException {
-		Map<String, Double> TFIDFMap = new HashMap<>(getTFIDF(fragInter.getExternalId()));
+		Map<String, Double> TFIDFMap = new HashMap<String, Double>(getTFIDF(fragInter.getExternalId()));
 		TFIDFMap.keySet().retainAll(commonTerms);
 		return TFIDFMap;
 	}

@@ -11,7 +11,7 @@ import pt.ist.socialsoftware.edition.recommendation.properties.HeteronymProperty
 import pt.ist.socialsoftware.edition.recommendation.properties.ManuscriptProperty;
 import pt.ist.socialsoftware.edition.recommendation.properties.PrintedProperty;
 import pt.ist.socialsoftware.edition.recommendation.properties.Property;
-import pt.ist.socialsoftware.edition.recommendation.properties.SpecificTaxonomyProperty;
+import pt.ist.socialsoftware.edition.recommendation.properties.TaxonomyProperty;
 import pt.ist.socialsoftware.edition.recommendation.properties.TextProperty;
 import pt.ist.socialsoftware.edition.recommendation.properties.TypescriptProperty;
 
@@ -61,7 +61,7 @@ public class RecommendationWeights extends RecommendationWeights_Base {
 			properties.add(new TextProperty(getTextWeight()));
 		}
 		if (getTaxonomyWeight() > 0.0) {
-			properties.add(new SpecificTaxonomyProperty(getTaxonomyWeight(), getVirtualEdition().getTaxonomy()));
+			properties.add(new TaxonomyProperty(getTaxonomyWeight(), getVirtualEdition().getTaxonomy()));
 		}
 
 		return properties;

@@ -27,7 +27,6 @@ import pt.ist.socialsoftware.edition.recommendation.properties.HeteronymProperty
 import pt.ist.socialsoftware.edition.recommendation.properties.ManuscriptProperty;
 import pt.ist.socialsoftware.edition.recommendation.properties.PrintedProperty;
 import pt.ist.socialsoftware.edition.recommendation.properties.Property;
-import pt.ist.socialsoftware.edition.recommendation.properties.TaxonomyProperty;
 import pt.ist.socialsoftware.edition.recommendation.properties.TextProperty;
 import pt.ist.socialsoftware.edition.recommendation.properties.TypescriptProperty;
 import pt.ist.socialsoftware.edition.utils.Bootstrap;
@@ -109,13 +108,6 @@ public class VSMFragInterRecommenderGetMostSimilarFragIntersTest {
 	@Test
 	public final void testGetMostSimilarFragmentByManuscript() {
 		getMostSimilarFragInter = recomender.getMostSimilarItems(fragInter, inters, new ManuscriptProperty());
-		Assert.assertEquals(inters.size(), getMostSimilarFragInter.size());
-		test(getMostSimilarFragInter);
-	}
-
-	@Test
-	public final void testGetMostSimilarFragmentByTaxonomy() {
-		getMostSimilarFragInter = recomender.getMostSimilarItems(fragInter, inters, new TaxonomyProperty());
 		Assert.assertEquals(inters.size(), getMostSimilarFragInter.size());
 		test(getMostSimilarFragInter);
 	}

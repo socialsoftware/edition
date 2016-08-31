@@ -11,7 +11,7 @@ public class StoredVectors {
 	private static StoredVectors instance;
 
 	public static StoredVectors getInstance() {
-		if (instance == null){
+		if (instance == null) {
 			instance = new StoredVectors();
 		}
 		return instance;
@@ -24,8 +24,8 @@ public class StoredVectors {
 	}
 
 	public boolean contains(StorableProperty property, String id) {
-		if(weights.containsKey(property.getClass())) {
-			if(weights.get(property.getClass()).containsKey(id)) {
+		if (weights.containsKey(property.getClass())) {
+			if (weights.get(property.getClass()).containsKey(id)) {
 				return true;
 			}
 		}
@@ -33,8 +33,8 @@ public class StoredVectors {
 	}
 
 	public Collection<Double> get(StorableProperty property, String id) {
-		if(weights.containsKey(property.getClass())) {
-			if(weights.get(property.getClass()).containsKey(id)) {
+		if (weights.containsKey(property.getClass())) {
+			if (weights.get(property.getClass()).containsKey(id)) {
 				return Collections.unmodifiableCollection(weights.get(property.getClass()).get(id));
 			}
 		}
@@ -42,7 +42,7 @@ public class StoredVectors {
 	}
 
 	public void put(StorableProperty property, String id, Collection<Double> weightCollection) {
-		if(!weights.containsKey(property.getClass())) {
+		if (!weights.containsKey(property.getClass())) {
 			weights.put(property.getClass(), new HashMap<String, Collection<Double>>());
 		}
 		weights.get(property.getClass()).put(id, weightCollection);
