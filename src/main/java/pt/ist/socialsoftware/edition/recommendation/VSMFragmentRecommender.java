@@ -21,7 +21,7 @@ public class VSMFragmentRecommender extends VSMRecommender<Fragment> {
 	}
 
 	@Override
-	protected void setFragmentsGroup(Fragment t1, Fragment t2, Property property) {
+	protected void loadProperty(Fragment t1, Fragment t2, Property property) {
 		property.setFragmentsGroup(t1, t2);
 	}
 

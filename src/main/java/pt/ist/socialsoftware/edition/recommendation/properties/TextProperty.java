@@ -140,7 +140,7 @@ public class TextProperty extends Property {
 	}
 
 	@Override
-	public void setFragmentsGroup(FragInter inter1, FragInter inter2) {
+	public void loadProperty(FragInter inter1, FragInter inter2) {
 		try {
 			Indexer indexer = new Indexer();
 			Set<String> temp = new HashSet<String>();

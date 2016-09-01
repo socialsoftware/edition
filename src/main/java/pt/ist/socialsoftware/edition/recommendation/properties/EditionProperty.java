@@ -36,7 +36,7 @@ public class EditionProperty extends CompositeProperty {
 	public Collection<Double> extractVector(ExpertEditionInter inter) {
 		List<Double> vector = new ArrayList<Double>();
 		for (ExpertEdition expertEdition : LdoD.getInstance().getExpertEditionsSet()) {
-			if (inter.getExpertEdition().getEditor().equals(expertEdition.getEditor())) {
+			if (inter.getExpertEdition() == expertEdition) {
 				vector.add(1.0);
 				vector.addAll(inter.accept(heteronymProperty));
 				vector.addAll(inter.accept(dateProperty));

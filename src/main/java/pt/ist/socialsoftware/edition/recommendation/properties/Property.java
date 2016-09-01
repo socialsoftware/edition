@@ -70,7 +70,7 @@ public abstract class Property {
 		return new ArrayList<Double>(getDefaultVector());
 	}
 
-	public void setFragmentsGroup(FragInter frag1, FragInter frag2) {
+	public void loadProperty(FragInter frag1, FragInter frag2) {
 	}
 
 	public void setFragmentsGroup(Fragment frag1, Fragment frag2) {

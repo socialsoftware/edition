@@ -15,7 +15,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.socialsoftware.edition.domain.Edition.EditionType;
-import pt.ist.socialsoftware.edition.recommendation.VSMFragInterRecommender;
+import pt.ist.socialsoftware.edition.recommendation.VSMVirtualEditionInterRecommender;
 import pt.ist.socialsoftware.edition.recommendation.properties.Property;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDException;
 import pt.ist.socialsoftware.edition.utils.CategoryDTO;
@@ -154,9 +154,9 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 
 	public FragInter getNextInter() {
 		LdoDUser user = LdoDUser.getAuthenticatedUser();
-		VSMFragInterRecommender recommender = new VSMFragInterRecommender();
+		VSMVirtualEditionInterRecommender recommender = new VSMVirtualEditionInterRecommender(getVirtualEdition());
 		Collection<Property> properties = user.getRecommendationWeights(getVirtualEdition()).getProperties();
-		return recommender.getMostSimilarItem(this, getVirtualEdition().getIntersSet(), properties);
+		return recommender.getMostSimilarItem(this, getVirtualEdition().getVirtualEditionIntersSet(), properties);
 	}
 
 	@Atomic(mode = TxMode.WRITE)

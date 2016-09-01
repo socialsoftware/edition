@@ -21,7 +21,6 @@ import pt.ist.socialsoftware.edition.domain.Role;
 import pt.ist.socialsoftware.edition.domain.Role.RoleType;
 import pt.ist.socialsoftware.edition.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.mallet.TopicModeler;
-import pt.ist.socialsoftware.edition.recommendation.VSMFragmentRecommender;
 import pt.ist.socialsoftware.edition.search.Indexer;
 
 /**
@@ -196,6 +195,6 @@ public class Bootstrap implements WebApplicationInitializer {
 		nuno.addSelectedVirtualEditions(classW);
 
 		// Initialize recommender
-		(new VSMFragmentRecommender()).bootstrap(ldod);
+		// (new VSMFragmentRecommender()).bootstrap(ldod);
 	}
 }

@@ -40,7 +40,7 @@ public abstract class VSMRecommender<T> implements Recommender<T, Property> {
 		List<Double> vector1 = new ArrayList<Double>();
 		List<Double> vector2 = new ArrayList<Double>();
 		for (Property property : ps) {
-			setFragmentsGroup(item1, item2, property);
+			loadProperty(item1, item2, property);
 			vector1.addAll(acceptProperty(item1, property));
 			vector2.addAll(acceptProperty(item2, property));
 		}
@@ -238,6 +238,6 @@ public abstract class VSMRecommender<T> implements Recommender<T, Property> {
 		return getRecommendedEditionWithRandomStart(properties);
 	}
 
-	protected abstract void setFragmentsGroup(T item1, T item2, Property property);
+	protected abstract void loadProperty(T item1, T item2, Property property);
 
 }
