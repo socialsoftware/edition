@@ -13,6 +13,7 @@ import pt.ist.socialsoftware.edition.domain.RecommendationWeights;
 import pt.ist.socialsoftware.edition.domain.Source;
 import pt.ist.socialsoftware.edition.domain.SourceInter;
 import pt.ist.socialsoftware.edition.domain.VirtualEditionInter;
+import pt.ist.socialsoftware.edition.shared.exception.LdoDException;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
 @JsonSubTypes({ @JsonSubTypes.Type(value = EditionProperty.class, name = Property.EDITION),
@@ -67,7 +68,17 @@ public abstract class Property {
 	}
 
 	protected Collection<Double> extractVector(VirtualEditionInter virtualEditionInter) {
-		return new ArrayList<Double>(getDefaultVector());
+		FragInter inter = virtualEditionInter.getLastUsed();
+		switch (inter.getSourceType()) {
+		case AUTHORIAL:
+			return extractVector((SourceInter) inter);
+		case EDITORIAL:
+			return extractVector((ExpertEditionInter) inter);
+		default:
+			throw new LdoDException(this.getClass().getName() + ": " + virtualEditionInter.getTitle()
+					+ " virtual inter cannot be used as source of a virtual edition interpretation in virtual edition "
+					+ virtualEditionInter.getVirtualEdition().getAcronym());
+		}
 	}
 
 	public void loadProperty(FragInter frag1, FragInter frag2) {
@@ -76,27 +87,11 @@ public abstract class Property {
 	public void setFragmentsGroup(Fragment frag1, Fragment frag2) {
 	}
 
-	public Collection<Double> visit(ExpertEditionInter expertEditionInter) {
-		return extractVector(expertEditionInter);
-	}
-
-	public Collection<Double> visit(FragInter fragInter) {
-		return new ArrayList<Double>(getDefaultVector());
-	}
-
-	public Collection<Double> visit(Fragment fragment) {
+	public Collection<Double> loadProperty(Fragment fragment) {
 		return extractVector(fragment);
 	}
 
-	public Collection<Double> visit(Source source) {
-		return extractVector(source);
-	}
-
-	public Collection<Double> visit(SourceInter sourceInter) {
-		return extractVector(sourceInter);
-	}
-
-	public Collection<Double> visit(VirtualEditionInter virtualEditionInter) {
+	public Collection<Double> loadProperty(VirtualEditionInter virtualEditionInter) {
 		return extractVector(virtualEditionInter);
 	}
 

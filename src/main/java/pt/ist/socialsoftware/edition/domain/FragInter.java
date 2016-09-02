@@ -1,7 +1,6 @@
 package pt.ist.socialsoftware.edition.domain;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
@@ -10,7 +9,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import pt.ist.socialsoftware.edition.domain.Edition.EditionType;
-import pt.ist.socialsoftware.edition.recommendation.properties.Property;
 
 public abstract class FragInter extends FragInter_Base implements Comparable<FragInter> {
 	private static Logger logger = LoggerFactory.getLogger(FragInter.class);
@@ -107,8 +105,6 @@ public abstract class FragInter extends FragInter_Base implements Comparable<Fra
 
 		return results;
 	}
-
-	public abstract Collection<Double> accept(Property property);
 
 	public abstract Set<Annotation> getAllDepthAnnotations();
 

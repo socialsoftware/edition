@@ -44,7 +44,7 @@ public class VSMRecomenderTest<T> {
 			property = new HeteronymProperty();
 			properties = new ArrayList<>();
 			properties.add(property);
-		} catch(WriteOnReadError | NotSupportedException | SystemException e1) {
+		} catch (WriteOnReadError | NotSupportedException | SystemException e1) {
 			e1.printStackTrace();
 		}
 	}
@@ -53,14 +53,14 @@ public class VSMRecomenderTest<T> {
 	public void tearDown() {
 		try {
 			FenixFramework.getTransactionManager().rollback();
-		} catch(IllegalStateException | SecurityException | SystemException e) {
+		} catch (IllegalStateException | SecurityException | SystemException e) {
 			e.printStackTrace();
 		}
 	}
 
 	public static <P> void testFragments(List<Entry<P, Double>> getMostSimilarFragments) {
 		double before = VSMFragmentRecommenderTest.MAX;
-		for(Entry<P, Double> entrySet : getMostSimilarFragments) {
+		for (Entry<P, Double> entrySet : getMostSimilarFragments) {
 			Assert.assertTrue(before >= entrySet.getValue());
 			before = entrySet.getValue();
 		}
@@ -68,7 +68,7 @@ public class VSMRecomenderTest<T> {
 
 	public static <P> void testFragments(List<Entry<P, Double>> getMostSimilarFragments, double min) {
 		double before = VSMFragmentRecommenderTest.MAX;
-		for(Entry<P, Double> entrySet : getMostSimilarFragments) {
+		for (Entry<P, Double> entrySet : getMostSimilarFragments) {
 			Assert.assertTrue(before >= entrySet.getValue());
 			Assert.assertTrue(entrySet.getValue() >= min);
 			before = entrySet.getValue();
@@ -81,35 +81,8 @@ public class VSMRecomenderTest<T> {
 	}
 
 	@Test
-	public void testCalculateSimiliratyTTProperty() {
-		recommender.calculateSimilarity(f1, f2, property);
-	}
-
-	@Test
 	public void testGetMostSimilarItemTCollectionOfTCollectionOfProperty() {
 		recommender.getMostSimilarItem(f1, items, properties);
-	}
-
-	@Test
-	public void testGetMostSimilarItemTCollectionOfTProperty() {
-		recommender.getMostSimilarItem(f1, items, property);
-	}
-
-	@Test
-	public void testGetMostSimilarItemsTCollectionOfProperty() {
-		List<Entry<T, Double>> mostSimilarItems = recommender.getMostSimilarItems(f1, properties);
-		testFragments(mostSimilarItems);
-	}
-
-	@Test
-	public void testGetMostSimilarItemsTCollectionOfPropertyDouble() {
-		List<Entry<T, Double>> mostSimilarItems = recommender.getMostSimilarItems(f1, properties, MIN);
-		testFragments(mostSimilarItems, MIN);
-	}
-
-	@Test
-	public void testGetMostSimilarItemsTCollectionOfPropertyInt() {
-		recommender.getMostSimilarItems(f1, properties, SIZE);
 	}
 
 	@Test
@@ -117,79 +90,6 @@ public class VSMRecomenderTest<T> {
 		List<Entry<T, Double>> mostSimilarItems = recommender.getMostSimilarItems(f1, items, properties);
 		Assert.assertEquals(items.size(), mostSimilarItems.size());
 		testFragments(mostSimilarItems);
-	}
-
-	@Test
-	public void testGetMostSimilarItemsTCollectionOfTCollectionOfPropertyDouble() {
-		List<Entry<T, Double>> mostSimilarItems = recommender.getMostSimilarItems(f1, items, properties, MIN);
-		testFragments(mostSimilarItems, MIN);
-	}
-
-	@Test
-	public void testGetMostSimilarItemsTCollectionOfTCollectionOfPropertyInt() {
-		List<T> mostSimilarItems = recommender.getMostSimilarItems(f1, items, properties, SIZE);
-		Assert.assertEquals(SIZE, mostSimilarItems.size());
-	}
-
-	@Test
-	public void testGetMostSimilarItemsTCollectionOfTProperty() {
-		List<Entry<T, Double>> mostSimilarItems = recommender.getMostSimilarItems(f1, items, property);
-		Assert.assertEquals(items.size(), mostSimilarItems.size());
-		testFragments(mostSimilarItems);
-	}
-
-	@Test
-	public void testGetMostSimilarItemsTCollectionOfTPropertyDouble() {
-		List<Entry<T, Double>> mostSimilarItems = recommender.getMostSimilarItems(f1, items, property, MIN);
-		testFragments(mostSimilarItems, MIN);
-	}
-
-	@Test
-	public void testGetMostSimilarItemsTProperty() {
-		List<Entry<T, Double>> mostSimilarItems = recommender.getMostSimilarItems(f1, property);
-		testFragments(mostSimilarItems);
-	}
-
-	@Test
-	public void testGetMostSimilarItemsTPropertyDouble() {
-		List<Entry<T, Double>> mostSimilarItems = recommender.getMostSimilarItems(f1, property, MIN);
-		testFragments(mostSimilarItems, MIN);
-	}
-
-	@Test
-	public void testGetRecommendedEditionTCollectionOfProperty() {
-		List<T> recommendedEdition = recommender.getRecommendedEdition(f1, properties);
-		Assert.assertEquals(f1, recommendedEdition.get(0));
-	}
-
-	@Test
-	public void testGetRecommendedEditionTCollectionOfTCollectionOfProperty() {
-		List<T> recommendedEdition = recommender.getRecommendedEdition(f1, items, properties);
-		Assert.assertEquals(f1, recommendedEdition.get(0));
-		Assert.assertEquals(items.size(), recommendedEdition.size());
-	}
-
-	@Test
-	public void testGetRecommendedEditionTCollectionOfTProperty() {
-		List<T> recommendedEdition = recommender.getRecommendedEdition(f1, items, property);
-		Assert.assertEquals(f1, recommendedEdition.get(0));
-		Assert.assertEquals(items.size(), recommendedEdition.size());
-	}
-
-	@Test
-	public void testGetRecommendedEditionTProperty() {
-		List<T> recommendedEdition = recommender.getRecommendedEdition(f1, properties);
-		Assert.assertEquals(f1, recommendedEdition.get(0));
-	}
-
-	@Test
-	public void testGetRecommendedEditionWithRandomStartCollectionOfProperty() {
-		recommender.getRecommendedEditionWithRandomStart(properties);
-	}
-
-	@Test
-	public void testGetRecommendedEditionWithRandomStartProperty() {
-		recommender.getRecommendedEditionWithRandomStart(property);
 	}
 
 }

@@ -44,11 +44,4 @@ public class VSMFragmentRecommenderEditonTest extends VSMFragmentRecommenderStor
 		Assert.assertEquals(similiraty, calculateSimiliraty, DELTA);
 	}
 
-	@Override
-	@Test
-	public void testCalculateSimiliratyWithWeight() {
-		double calculateSimiliraty = vsmFragmentRecomender.calculateSimilarity(frag1, frag2, propertyWithWeight);
-		Assert.assertEquals(similiraty, calculateSimiliraty, DELTA);
-	}
-
 }

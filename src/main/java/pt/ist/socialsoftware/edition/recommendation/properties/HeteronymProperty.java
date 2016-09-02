@@ -15,7 +15,6 @@ import pt.ist.socialsoftware.edition.domain.LdoD;
 import pt.ist.socialsoftware.edition.domain.RecommendationWeights;
 import pt.ist.socialsoftware.edition.domain.Source;
 import pt.ist.socialsoftware.edition.domain.SourceInter;
-import pt.ist.socialsoftware.edition.domain.VirtualEditionInter;
 
 public class HeteronymProperty extends StorableProperty {
 	List<Heteronym> heteronymList = LdoD.getInstance().getSortedHeteronyms();
@@ -53,15 +52,6 @@ public class HeteronymProperty extends StorableProperty {
 		Collection<Heteronym> foundHeteronyms = new ArrayList<Heteronym>();
 		foundHeteronyms.add(sourceInter.getHeteronym());
 		return buildVector(foundHeteronyms);
-	}
-
-	@Override
-	protected Collection<Double> extractVector(VirtualEditionInter virtualEditionInter) {
-		if (virtualEditionInter.getLastUsed() instanceof ExpertEditionInter) {
-			return extractVector((ExpertEditionInter) virtualEditionInter.getLastUsed());
-		} else {
-			return extractVector((SourceInter) virtualEditionInter.getLastUsed());
-		}
 	}
 
 	@Override

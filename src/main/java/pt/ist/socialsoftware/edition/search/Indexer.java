@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.stream.Collectors;
 
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.document.Document;
@@ -46,7 +47,6 @@ import pt.ist.socialsoftware.edition.domain.Fragment;
 import pt.ist.socialsoftware.edition.domain.Source;
 import pt.ist.socialsoftware.edition.domain.SourceInter;
 import pt.ist.socialsoftware.edition.domain.VirtualEditionInter;
-import pt.ist.socialsoftware.edition.recommendation.SortBy;
 import pt.ist.socialsoftware.edition.utils.PropertiesManager;
 import pt.ist.socialsoftware.edition.visitors.PlainTextFragmentWriter;
 
@@ -173,7 +173,8 @@ public class Indexer {
 		}
 		reader.close();
 		directory.close();
-		List<Entry<String, Double>> list = SortBy.sortByValue(TFIDFMap);
+		List<Entry<String, Double>> list = TFIDFMap.entrySet().stream()
+				.sorted(Collections.reverseOrder(Map.Entry.comparingByValue())).collect(Collectors.toList());
 		TFIDFMap = new HashMap<String, Double>();
 		int size = list.size();
 		for (int i = 0; i < size && i < significativeTerms; i++) {
@@ -312,7 +313,8 @@ public class Indexer {
 		}
 		reader.close();
 		directory.close();
-		List<Entry<String, Double>> list = SortBy.sortByValue(TFIDFMap);
+		List<Entry<String, Double>> list = TFIDFMap.entrySet().stream()
+				.sorted(Collections.reverseOrder(Map.Entry.comparingByValue())).collect(Collectors.toList());
 		TFIDFMap = new HashMap<String, Double>();
 		int size = list.size();
 		for (int i = 0; i < size && i < significativeTerms; i++) {
@@ -408,7 +410,8 @@ public class Indexer {
 		}
 		reader.close();
 		directory.close();
-		List<Entry<String, Double>> list = SortBy.sortByValue(TFIDFMap);
+		List<Entry<String, Double>> list = TFIDFMap.entrySet().stream()
+				.sorted(Collections.reverseOrder(Map.Entry.comparingByValue())).collect(Collectors.toList());
 		TFIDFMap = new HashMap<String, Double>();
 		int size = list.size();
 		for (int i = 0; i < size && i < significativeTerms; i++) {

@@ -193,8 +193,6 @@ public class Bootstrap implements WebApplicationInitializer {
 		diego.addSelectedVirtualEditions(classW);
 		tiago.addSelectedVirtualEditions(classW);
 		nuno.addSelectedVirtualEditions(classW);
-
-		// Initialize recommender
-		// (new VSMFragmentRecommender()).bootstrap(ldod);
 	}
+
 }

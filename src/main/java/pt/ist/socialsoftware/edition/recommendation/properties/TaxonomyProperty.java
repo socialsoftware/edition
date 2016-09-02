@@ -5,6 +5,9 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import pt.ist.socialsoftware.edition.domain.Category;
@@ -18,6 +21,7 @@ import pt.ist.socialsoftware.edition.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.domain.VirtualEditionInter;
 
 public class TaxonomyProperty extends Property {
+	private static Logger logger = LoggerFactory.getLogger(TaxonomyProperty.class);
 
 	private final Taxonomy taxonomy;
 

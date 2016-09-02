@@ -9,11 +9,15 @@ import java.util.Map.Entry;
 import java.util.TreeMap;
 
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import pt.ist.socialsoftware.edition.domain.VirtualEditionInter;
 import pt.ist.socialsoftware.edition.recommendation.properties.Property;
 
 public class Cluster {
+	private static Logger logger = LoggerFactory.getLogger(Cluster.class);
+
 	private Double value;
 	private final Map<Double, Cluster> nodes = new TreeMap<Double, Cluster>(Collections.reverseOrder());
 	private final VSMVirtualEditionInterRecommender vsmFragInterRecommender;
@@ -95,7 +99,9 @@ public class Cluster {
 			}
 			s += ")";
 			s += "(" + entry.getKey() + ")" + ":" + entry.getValue().size();
-			System.out.println(s);
+
+			logger.debug(s);
+
 			entry.getValue().print();
 		}
 	}

@@ -14,7 +14,6 @@ import pt.ist.socialsoftware.edition.domain.RecommendationWeights;
 import pt.ist.socialsoftware.edition.domain.Source;
 import pt.ist.socialsoftware.edition.domain.Source.SourceType;
 import pt.ist.socialsoftware.edition.domain.SourceInter;
-import pt.ist.socialsoftware.edition.domain.VirtualEditionInter;
 
 public class PrintedProperty extends StorableProperty {
 	private static List<String> titles = null;
@@ -53,11 +52,6 @@ public class PrintedProperty extends StorableProperty {
 			}
 		}
 		return vector;
-	}
-
-	@Override
-	protected Collection<Double> extractVector(VirtualEditionInter virtualEditionInter) {
-		return virtualEditionInter.getLastUsed().accept(this);
 	}
 
 	@Override

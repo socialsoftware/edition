@@ -143,18 +143,13 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 		return contributors;
 	}
 
-	@Override
-	public Collection<Double> accept(Property property) {
-		return property.visit(this);
-	}
-
 	public VirtualEdition getVirtualEdition() {
 		return getSection().getRootSection().getVirtualEdition();
 	}
 
 	public FragInter getNextInter() {
 		LdoDUser user = LdoDUser.getAuthenticatedUser();
-		VSMVirtualEditionInterRecommender recommender = new VSMVirtualEditionInterRecommender(getVirtualEdition());
+		VSMVirtualEditionInterRecommender recommender = new VSMVirtualEditionInterRecommender();
 		Collection<Property> properties = user.getRecommendationWeights(getVirtualEdition()).getProperties();
 		return recommender.getMostSimilarItem(this, getVirtualEdition().getVirtualEditionIntersSet(), properties);
 	}

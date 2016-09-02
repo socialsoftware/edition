@@ -10,9 +10,8 @@ import pt.ist.socialsoftware.edition.domain.ManuscriptSource;
 import pt.ist.socialsoftware.edition.domain.Source;
 import pt.ist.socialsoftware.edition.domain.Source.SourceType;
 import pt.ist.socialsoftware.edition.domain.SourceInter;
-import pt.ist.socialsoftware.edition.domain.VirtualEditionInter;
 
-public abstract class AuthoralProperty extends CompositeProperty {
+public abstract class AuthoralProperty extends StorableProperty {
 
 	private static Collection<Double> defaultVector;
 
@@ -42,8 +41,6 @@ public abstract class AuthoralProperty extends CompositeProperty {
 							vector.add(0.);
 							vector.add(1.);
 						}
-						vector.addAll(manuscriptSource.accept(heteronymProperty));
-						vector.addAll(manuscriptSource.accept(dateProperty));
 					} else {
 						vector.addAll(getDefaultVector());
 					}
@@ -83,8 +80,6 @@ public abstract class AuthoralProperty extends CompositeProperty {
 					vector.add(0.);
 					vector.add(1.);
 				}
-				vector.addAll(manuscriptSource.accept(heteronymProperty));
-				vector.addAll(manuscriptSource.accept(dateProperty));
 			} else {
 				vector.addAll(getDefaultVector());
 			}
@@ -95,19 +90,12 @@ public abstract class AuthoralProperty extends CompositeProperty {
 	}
 
 	@Override
-	protected Collection<Double> extractVector(VirtualEditionInter virtualEditionInter) {
-		return virtualEditionInter.getLastUsed().accept(this);
-	}
-
-	@Override
 	protected Collection<Double> getDefaultVector() {
 		if (defaultVector == null) {
 			defaultVector = new ArrayList<>();
 			defaultVector.add(0.);
 			defaultVector.add(0.);
 			defaultVector.add(0.);
-			defaultVector.addAll(heteronymProperty.getDefaultVector());
-			defaultVector.addAll(dateProperty.getDefaultVector());
 		}
 		return Collections.unmodifiableCollection(defaultVector);
 	}

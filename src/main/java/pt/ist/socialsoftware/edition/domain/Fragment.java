@@ -1,14 +1,12 @@
 package pt.ist.socialsoftware.edition.domain;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.socialsoftware.edition.domain.Edition.EditionType;
-import pt.ist.socialsoftware.edition.recommendation.properties.Property;
 
 public class Fragment extends Fragment_Base implements Comparable<Fragment> {
 	public enum PrecisionType {
@@ -54,8 +52,7 @@ public class Fragment extends Fragment_Base implements Comparable<Fragment> {
 	}
 
 	public List<FragInter> getSortedInterps() {
-		List<FragInter> interps = new ArrayList<FragInter>(
-				getFragmentInterSet());
+		List<FragInter> interps = new ArrayList<FragInter>(getFragmentInterSet());
 
 		Collections.sort(interps);
 
@@ -118,10 +115,6 @@ public class Fragment extends Fragment_Base implements Comparable<Fragment> {
 			}
 		}
 		return null;
-	}
-
-	public Collection<Double> accept(Property property) {
-		return property.visit(this);
 	}
 
 	@Override

@@ -19,7 +19,6 @@ import pt.ist.socialsoftware.edition.domain.RecommendationWeights;
 import pt.ist.socialsoftware.edition.domain.Source;
 import pt.ist.socialsoftware.edition.domain.Source.SourceType;
 import pt.ist.socialsoftware.edition.domain.SourceInter;
-import pt.ist.socialsoftware.edition.domain.VirtualEditionInter;
 
 public class DateProperty extends StorableProperty {
 	private static Integer STARTYEAR = 1900;
@@ -127,11 +126,6 @@ public class DateProperty extends StorableProperty {
 	}
 
 	@Override
-	public Collection<Double> visit(VirtualEditionInter virtualEditionInter) {
-		return extractVector(virtualEditionInter);
-	}
-
-	@Override
 	public Collection<Double> extractVector(Fragment fragment) {
 		Set<Integer> dates = new TreeSet<Integer>();
 		for (FragInter inter : fragment.getFragmentInterSet()) {
@@ -184,11 +178,6 @@ public class DateProperty extends StorableProperty {
 		if (sourceInter.getLdoDDate() != null)
 			vector = buildVector(sourceInter.getLdoDDate().getDate().getYear(), vector);
 		return vector;
-	}
-
-	@Override
-	protected Collection<Double> extractVector(VirtualEditionInter virtualEditionInter) {
-		return virtualEditionInter.getLastUsed().accept(this);
 	}
 
 	@Override

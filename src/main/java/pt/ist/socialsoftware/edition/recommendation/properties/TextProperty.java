@@ -17,7 +17,6 @@ import pt.ist.socialsoftware.edition.domain.Fragment;
 import pt.ist.socialsoftware.edition.domain.RecommendationWeights;
 import pt.ist.socialsoftware.edition.domain.Source;
 import pt.ist.socialsoftware.edition.domain.SourceInter;
-import pt.ist.socialsoftware.edition.domain.VirtualEditionInter;
 import pt.ist.socialsoftware.edition.search.Indexer;
 
 public class TextProperty extends Property {
@@ -130,11 +129,6 @@ public class TextProperty extends Property {
 	}
 
 	@Override
-	protected Collection<Double> extractVector(VirtualEditionInter virtualEditionInter) {
-		return virtualEditionInter.getLastUsed().accept(this);
-	}
-
-	@Override
 	protected Collection<Double> getDefaultVector() {
 		return new ArrayList<Double>(Collections.nCopies(commonTerms.size(), 0.0));
 	}
@@ -173,31 +167,6 @@ public class TextProperty extends Property {
 	@Override
 	public String getTitle() {
 		return "Text";
-	}
-
-	@Override
-	public Collection<Double> visit(ExpertEditionInter expertEditionInter) {
-		return extractVector(expertEditionInter);
-	}
-
-	@Override
-	public Collection<Double> visit(Fragment fragment) {
-		return extractVector(fragment);
-	}
-
-	@Override
-	public Collection<Double> visit(Source source) {
-		return extractVector(source);
-	}
-
-	@Override
-	public Collection<Double> visit(SourceInter sourceInter) {
-		return extractVector(sourceInter);
-	}
-
-	@Override
-	public Collection<Double> visit(VirtualEditionInter virtualEditionInter) {
-		return extractVector(virtualEditionInter);
 	}
 
 }

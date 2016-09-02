@@ -15,9 +15,8 @@ import pt.ist.socialsoftware.edition.domain.LdoD;
 import pt.ist.socialsoftware.edition.domain.RecommendationWeights;
 import pt.ist.socialsoftware.edition.domain.Source;
 import pt.ist.socialsoftware.edition.domain.SourceInter;
-import pt.ist.socialsoftware.edition.domain.VirtualEditionInter;
 
-public class EditionProperty extends CompositeProperty {
+public class EditionProperty extends StorableProperty {
 	private static Collection<Double> defaultVector = null;
 
 	public EditionProperty() {
@@ -38,12 +37,8 @@ public class EditionProperty extends CompositeProperty {
 		for (ExpertEdition expertEdition : LdoD.getInstance().getExpertEditionsSet()) {
 			if (inter.getExpertEdition() == expertEdition) {
 				vector.add(1.0);
-				vector.addAll(inter.accept(heteronymProperty));
-				vector.addAll(inter.accept(dateProperty));
 			} else {
 				vector.add(0.);
-				vector.addAll(heteronymProperty.getDefaultVector());
-				vector.addAll(dateProperty.getDefaultVector());
 			}
 		}
 		return vector;
@@ -56,20 +51,11 @@ public class EditionProperty extends CompositeProperty {
 			ExpertEditionInter expertEditionInter = fragment.getExpertEditionInter(expertEdition.getEditor());
 			if (expertEditionInter != null) {
 				vector.add(1.0);
-				vector.addAll(expertEditionInter.accept(heteronymProperty));
-				vector.addAll(expertEditionInter.accept(dateProperty));
 			} else {
 				vector.add(0.);
-				vector.addAll(heteronymProperty.getDefaultVector());
-				vector.addAll(dateProperty.getDefaultVector());
 			}
 		}
 		return vector;
-	}
-
-	@Override
-	protected Collection<Double> extractVector(VirtualEditionInter virtualEditionInter) {
-		return virtualEditionInter.getFragment().accept(this);
 	}
 
 	@Override
@@ -79,8 +65,6 @@ public class EditionProperty extends CompositeProperty {
 			int times = LdoD.getInstance().getExpertEditionsSet().size();
 			for (int i = 0; i < times; i++) {
 				vector.add(0.);
-				vector.addAll(heteronymProperty.getDefaultVector());
-				vector.addAll(dateProperty.getDefaultVector());
 			}
 			defaultVector = Collections.unmodifiableCollection(vector);
 		}
@@ -120,11 +104,6 @@ public class EditionProperty extends CompositeProperty {
 	@Override
 	protected Collection<Double> extractVector(SourceInter sourceInter) {
 		return getDefaultVector();
-	}
-
-	@Override
-	public Collection<Double> visit(VirtualEditionInter virtualEditionInter) {
-		return extractVector(virtualEditionInter);
 	}
 
 }

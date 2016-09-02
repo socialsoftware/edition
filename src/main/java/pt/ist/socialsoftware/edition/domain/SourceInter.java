@@ -1,13 +1,11 @@
 package pt.ist.socialsoftware.edition.domain;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import pt.ist.socialsoftware.edition.domain.Edition.EditionType;
-import pt.ist.socialsoftware.edition.recommendation.properties.Property;
 
 public class SourceInter extends SourceInter_Base {
 
@@ -131,11 +129,6 @@ public class SourceInter extends SourceInter_Base {
 		} else {
 			return pbText.getNextPbText(this);
 		}
-	}
-
-	@Override
-	public Collection<Double> accept(Property property) {
-		return property.visit(this);
 	}
 
 	@Override

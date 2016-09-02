@@ -1,9 +1,5 @@
 package pt.ist.socialsoftware.edition.domain;
 
-import java.util.Collection;
-
-import pt.ist.socialsoftware.edition.recommendation.properties.Property;
-
 public abstract class Source extends Source_Base implements Comparable<Source> {
 
 	public enum SourceType {
@@ -56,7 +52,4 @@ public abstract class Source extends Source_Base implements Comparable<Source> {
 		return getName().compareTo(other.getName());
 	}
 
-	public Collection<Double> accept(Property property) {
-		return property.visit(this);
-	}
 }

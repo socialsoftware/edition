@@ -19,7 +19,6 @@ import pt.ist.socialsoftware.edition.domain.RecommendationWeights;
 import pt.ist.socialsoftware.edition.domain.Source;
 import pt.ist.socialsoftware.edition.domain.Source.SourceType;
 import pt.ist.socialsoftware.edition.domain.SourceInter;
-import pt.ist.socialsoftware.edition.domain.VirtualEditionInter;
 
 public class DynamicDateProperty extends Property {
 	private Integer startYear = null;
@@ -102,11 +101,6 @@ public class DynamicDateProperty extends Property {
 		List<Double> vector = new ArrayList<Double>(getDefaultVector());
 		vector = buildVector(dates, vector);
 		return vector;
-	}
-
-	@Override
-	protected Collection<Double> extractVector(VirtualEditionInter virtualEditionInter) {
-		return virtualEditionInter.getLastUsed().accept(this);
 	}
 
 	private List<Double> buildVector(int date, List<Double> vector) {
@@ -204,28 +198,4 @@ public class DynamicDateProperty extends Property {
 		return "DyDate";
 	}
 
-	@Override
-	public Collection<Double> visit(ExpertEditionInter expertEditionInter) {
-		return extractVector(expertEditionInter);
-	}
-
-	@Override
-	public Collection<Double> visit(Fragment fragment) {
-		return extractVector(fragment);
-	}
-
-	@Override
-	public Collection<Double> visit(Source source) {
-		return extractVector(source);
-	}
-
-	@Override
-	public Collection<Double> visit(SourceInter sourceInter) {
-		return extractVector(sourceInter);
-	}
-
-	@Override
-	public Collection<Double> visit(VirtualEditionInter virtualEditionInter) {
-		return extractVector(virtualEditionInter);
-	}
 }

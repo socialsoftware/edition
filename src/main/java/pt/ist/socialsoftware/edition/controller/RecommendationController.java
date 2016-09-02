@@ -78,7 +78,7 @@ public class RecommendationController {
 
 			inters.remove(inter);
 
-			VSMVirtualEditionInterRecommender recommender = new VSMVirtualEditionInterRecommender(edition);
+			VSMVirtualEditionInterRecommender recommender = new VSMVirtualEditionInterRecommender();
 			List<Property> properties = recommendationWeights.getProperties();
 			List<FragInter> recommendedEdition = new ArrayList<FragInter>();
 			recommendedEdition.add(inter);
@@ -101,7 +101,7 @@ public class RecommendationController {
 		VirtualEdition edition = (VirtualEdition) LdoD.getInstance().getEdition(params.getAcronym());
 		VirtualEditionInter inter = FenixFramework.getDomainObject(params.getId());
 		List<VirtualEditionInter> inters = edition.getVirtualEditionIntersSet();
-		VSMVirtualEditionInterRecommender recommender = new VSMVirtualEditionInterRecommender(edition);
+		VSMVirtualEditionInterRecommender recommender = new VSMVirtualEditionInterRecommender();
 		Map<Integer, Collection<Property>> map = new HashMap<Integer, Collection<Property>>();
 		LdoDUser user = LdoDUser.getAuthenticatedUser();
 		RecommendationWeights recommendationWeights = user.getRecommendationWeights(edition);
@@ -195,7 +195,7 @@ public class RecommendationController {
 
 				inters.remove(inter);
 
-				VSMVirtualEditionInterRecommender recommender = new VSMVirtualEditionInterRecommender(virtualEdition);
+				VSMVirtualEditionInterRecommender recommender = new VSMVirtualEditionInterRecommender();
 				List<Property> properties = recommendationWeights.getProperties();
 				List<FragInter> recommendedEdition = new ArrayList<FragInter>();
 				recommendedEdition.add(inter);
@@ -218,7 +218,7 @@ public class RecommendationController {
 		if (virtualEdition == null || virtualEditionInter == null) {
 			return "utils/pageNotFound";
 		} else {
-			VSMVirtualEditionInterRecommender recommender = new VSMVirtualEditionInterRecommender(virtualEdition);
+			VSMVirtualEditionInterRecommender recommender = new VSMVirtualEditionInterRecommender();
 			List<Property> properties = LdoDUser.getAuthenticatedUser().getRecommendationWeights(virtualEdition)
 					.getProperties();
 			List<VirtualEditionInter> mostSimilarItems = new ArrayList<VirtualEditionInter>();
@@ -262,7 +262,7 @@ public class RecommendationController {
 				interList.addAll(Arrays.asList(ids));
 			}
 			interList.add(currentId);
-			VSMVirtualEditionInterRecommender recommender = new VSMVirtualEditionInterRecommender(virtualEdition);
+			VSMVirtualEditionInterRecommender recommender = new VSMVirtualEditionInterRecommender();
 			LdoDUser user = LdoDUser.getAuthenticatedUser();
 			List<Property> properties = user.getRecommendationWeights(virtualEdition).getProperties();
 			List<VirtualEditionInter> mostSimilar = recommender.getMostSimilarItemsAsList(virtualEditionInter,
