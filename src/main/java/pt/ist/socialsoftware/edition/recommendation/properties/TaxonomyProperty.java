@@ -1,7 +1,6 @@
 package pt.ist.socialsoftware.edition.recommendation.properties;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -50,7 +49,7 @@ public class TaxonomyProperty extends Property {
 	}
 
 	@Override
-	public Collection<Double> extractVector(Fragment fragment) {
+	public List<Double> extractVector(Fragment fragment) {
 		List<Double> vector = new ArrayList<Double>(getDefaultVector());
 		List<Category> categories;
 		for (FragInter inter : fragment.getFragmentInterSet()) {
@@ -67,7 +66,7 @@ public class TaxonomyProperty extends Property {
 	}
 
 	@Override
-	protected Collection<Double> extractVector(VirtualEditionInter inter) {
+	protected List<Double> extractVector(VirtualEditionInter inter) {
 		List<Double> vector = new ArrayList<Double>(getDefaultVector());
 		List<Category> categories = new ArrayList<Category>(getTaxonomy().getSortedCategories());
 		for (Tag tag : inter.getTagSet()) {
@@ -77,7 +76,7 @@ public class TaxonomyProperty extends Property {
 	}
 
 	@Override
-	protected Collection<Double> getDefaultVector() {
+	protected List<Double> getDefaultVector() {
 		return new ArrayList<Double>(Collections.nCopies(getTaxonomy().getCategoriesSet().size(), 0.0));
 	}
 

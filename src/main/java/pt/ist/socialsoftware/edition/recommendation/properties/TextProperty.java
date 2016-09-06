@@ -2,7 +2,6 @@ package pt.ist.socialsoftware.edition.recommendation.properties;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -45,7 +44,7 @@ public class TextProperty extends Property {
 	}
 
 	@Override
-	protected Collection<Double> extractVector(ExpertEditionInter expertEditionInter) {
+	protected List<Double> extractVector(ExpertEditionInter expertEditionInter) {
 		List<Double> vector = new ArrayList<Double>(getDefaultVector());
 		String term;
 		int size;
@@ -66,7 +65,7 @@ public class TextProperty extends Property {
 	}
 
 	@Override
-	public Collection<Double> extractVector(Fragment fragment) {
+	public List<Double> extractVector(Fragment fragment) {
 		List<Double> vector = new ArrayList<Double>(getDefaultVector());
 		String term;
 		int size;
@@ -87,7 +86,7 @@ public class TextProperty extends Property {
 	}
 
 	@Override
-	protected Collection<Double> extractVector(Source source) {
+	protected List<Double> extractVector(Source source) {
 		List<Double> vector = new ArrayList<Double>(getDefaultVector());
 		String term;
 		int size;
@@ -108,7 +107,7 @@ public class TextProperty extends Property {
 	}
 
 	@Override
-	protected Collection<Double> extractVector(SourceInter sourceInter) {
+	protected List<Double> extractVector(SourceInter sourceInter) {
 		List<Double> vector = new ArrayList<Double>(getDefaultVector());
 		String term;
 		int size;
@@ -129,12 +128,12 @@ public class TextProperty extends Property {
 	}
 
 	@Override
-	protected Collection<Double> getDefaultVector() {
+	protected List<Double> getDefaultVector() {
 		return new ArrayList<Double>(Collections.nCopies(commonTerms.size(), 0.0));
 	}
 
 	@Override
-	public void loadProperty(FragInter inter1, FragInter inter2) {
+	public void prepareToLoadProperty(FragInter inter1, FragInter inter2) {
 		try {
 			Indexer indexer = new Indexer();
 			Set<String> temp = new HashSet<String>();
@@ -147,7 +146,7 @@ public class TextProperty extends Property {
 	}
 
 	@Override
-	public void setFragmentsGroup(Fragment frag1, Fragment frag2) {
+	public void prepareToLoadProperty(Fragment frag1, Fragment frag2) {
 		try {
 			Indexer indexer = new Indexer();
 			Set<String> temp = new HashSet<String>();

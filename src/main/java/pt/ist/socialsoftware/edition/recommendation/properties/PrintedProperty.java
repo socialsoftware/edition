@@ -27,7 +27,7 @@ public class PrintedProperty extends StorableProperty {
 	}
 
 	@Override
-	public Collection<Double> extractVector(Fragment fragment) {
+	public List<Double> extractVector(Fragment fragment) {
 		List<Double> vector = new ArrayList<Double>(getDefaultVector());
 		for (Source source : fragment.getSourcesSet()) {
 			if (source.getType().equals(SourceType.PRINTED)) {
@@ -42,7 +42,7 @@ public class PrintedProperty extends StorableProperty {
 	}
 
 	@Override
-	protected Collection<Double> extractVector(SourceInter sourceInter) {
+	protected List<Double> extractVector(SourceInter sourceInter) {
 		List<Double> vector = new ArrayList<Double>(getDefaultVector());
 		if (sourceInter.getSource().getType().equals(SourceType.PRINTED)) {
 			vector.set(0, 1.0);
@@ -55,7 +55,7 @@ public class PrintedProperty extends StorableProperty {
 	}
 
 	@Override
-	protected Collection<Double> getDefaultVector() {
+	protected List<Double> getDefaultVector() {
 		return new ArrayList<>(Collections.nCopies(getNumberOfPublications() + 1, 0.));
 	}
 

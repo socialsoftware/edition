@@ -2,6 +2,7 @@ package pt.ist.socialsoftware.edition.recommendation.properties;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
@@ -47,23 +48,23 @@ public abstract class Property {
 		this.weight = weight;
 	}
 
-	protected abstract Collection<Double> getDefaultVector();
+	protected abstract List<Double> getDefaultVector();
 
 	public abstract void userWeights(RecommendationWeights recommendationWeights);
 
-	protected Collection<Double> extractVector(ExpertEditionInter expertEditionInter) {
+	protected List<Double> extractVector(ExpertEditionInter expertEditionInter) {
 		return new ArrayList<Double>(getDefaultVector());
 	}
 
-	protected Collection<Double> extractVector(Fragment fragmnet) {
+	protected List<Double> extractVector(Fragment fragmnet) {
 		return new ArrayList<Double>(getDefaultVector());
 	}
 
-	protected Collection<Double> extractVector(Source source) {
+	protected List<Double> extractVector(Source source) {
 		return new ArrayList<Double>(getDefaultVector());
 	}
 
-	protected Collection<Double> extractVector(SourceInter sourceInter) {
+	protected List<Double> extractVector(SourceInter sourceInter) {
 		return new ArrayList<Double>(getDefaultVector());
 	}
 
@@ -81,10 +82,10 @@ public abstract class Property {
 		}
 	}
 
-	public void loadProperty(FragInter frag1, FragInter frag2) {
+	public void prepareToLoadProperty(Fragment frag1, Fragment frag2) {
 	}
 
-	public void setFragmentsGroup(Fragment frag1, Fragment frag2) {
+	public void prepareToLoadProperty(FragInter frag1, FragInter frag2) {
 	}
 
 	public Collection<Double> loadProperty(Fragment fragment) {

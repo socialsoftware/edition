@@ -11,7 +11,7 @@ import pt.ist.socialsoftware.edition.recommendation.properties.Property;
 public class VSMVirtualEditionInterRecommender extends VSMRecommender<VirtualEditionInter> {
 	@Override
 	protected void prepareToLoadProperty(VirtualEditionInter t1, VirtualEditionInter t2, Property property) {
-		property.loadProperty(t1, t2);
+		property.prepareToLoadProperty(t1, t2);
 	}
 
 	@Override

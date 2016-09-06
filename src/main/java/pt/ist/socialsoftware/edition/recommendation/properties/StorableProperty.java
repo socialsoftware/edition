@@ -4,11 +4,15 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import pt.ist.socialsoftware.edition.domain.Fragment;
 import pt.ist.socialsoftware.edition.domain.VirtualEditionInter;
 import pt.ist.socialsoftware.edition.recommendation.StoredVectors;
 
 public abstract class StorableProperty extends Property {
+	private static Logger logger = LoggerFactory.getLogger(StorableProperty.class);
 
 	public StorableProperty() {
 		super();

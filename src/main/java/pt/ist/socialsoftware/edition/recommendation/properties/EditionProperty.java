@@ -1,9 +1,11 @@
 package pt.ist.socialsoftware.edition.recommendation.properties;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -17,7 +19,10 @@ import pt.ist.socialsoftware.edition.domain.Source;
 import pt.ist.socialsoftware.edition.domain.SourceInter;
 
 public class EditionProperty extends StorableProperty {
-	private static Collection<Double> defaultVector = null;
+	private static Logger logger = LoggerFactory.getLogger(EditionProperty.class);
+
+	private static List<ExpertEdition> sortedExpertEditions = LdoD.getInstance().getSortedExpertEdition();
+	private static List<Double> defaultVector = Collections.nCopies(sortedExpertEditions.size(), 0.0);
 
 	public EditionProperty() {
 		super();
@@ -32,9 +37,9 @@ public class EditionProperty extends StorableProperty {
 	}
 
 	@Override
-	public Collection<Double> extractVector(ExpertEditionInter inter) {
+	public List<Double> extractVector(ExpertEditionInter inter) {
 		List<Double> vector = new ArrayList<Double>();
-		for (ExpertEdition expertEdition : LdoD.getInstance().getExpertEditionsSet()) {
+		for (ExpertEdition expertEdition : EditionProperty.sortedExpertEditions) {
 			if (inter.getExpertEdition() == expertEdition) {
 				vector.add(1.0);
 			} else {
@@ -45,9 +50,9 @@ public class EditionProperty extends StorableProperty {
 	}
 
 	@Override
-	public Collection<Double> extractVector(Fragment fragment) {
+	public List<Double> extractVector(Fragment fragment) {
 		List<Double> vector = new ArrayList<Double>();
-		for (ExpertEdition expertEdition : LdoD.getInstance().getExpertEditionsSet()) {
+		for (ExpertEdition expertEdition : EditionProperty.sortedExpertEditions) {
 			ExpertEditionInter expertEditionInter = fragment.getExpertEditionInter(expertEdition.getEditor());
 			if (expertEditionInter != null) {
 				vector.add(1.0);
@@ -59,16 +64,18 @@ public class EditionProperty extends StorableProperty {
 	}
 
 	@Override
-	protected Collection<Double> getDefaultVector() {
-		if (defaultVector == null) {
-			List<Double> vector = new ArrayList<>();
-			int times = LdoD.getInstance().getExpertEditionsSet().size();
-			for (int i = 0; i < times; i++) {
-				vector.add(0.);
-			}
-			defaultVector = Collections.unmodifiableCollection(vector);
-		}
-		return defaultVector;
+	protected List<Double> extractVector(Source source) {
+		return getDefaultVector();
+	}
+
+	@Override
+	protected List<Double> extractVector(SourceInter sourceInter) {
+		return getDefaultVector();
+	}
+
+	@Override
+	protected List<Double> getDefaultVector() {
+		return EditionProperty.defaultVector;
 	}
 
 	@Override
@@ -84,7 +91,7 @@ public class EditionProperty extends StorableProperty {
 	@Override
 	protected String getConcreteTitle(FragInter inter) {
 		String title = "";
-		for (ExpertEdition expertEdition : LdoD.getInstance().getExpertEditionsSet()) {
+		for (ExpertEdition expertEdition : EditionProperty.sortedExpertEditions) {
 			if (inter.getFragment().getExpertEditionInter(expertEdition.getEditor()) != null) {
 				title += ":" + expertEdition.getAcronym();
 			}
@@ -94,16 +101,6 @@ public class EditionProperty extends StorableProperty {
 			title = title.substring(1);
 
 		return title;
-	}
-
-	@Override
-	protected Collection<Double> extractVector(Source source) {
-		return getDefaultVector();
-	}
-
-	@Override
-	protected Collection<Double> extractVector(SourceInter sourceInter) {
-		return getDefaultVector();
 	}
 
 }

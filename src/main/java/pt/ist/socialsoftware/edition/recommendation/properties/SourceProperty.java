@@ -1,7 +1,6 @@
 package pt.ist.socialsoftware.edition.recommendation.properties;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -29,7 +28,7 @@ public class SourceProperty extends StorableProperty {
 	}
 
 	@Override
-	protected Collection<Double> extractVector(Fragment fragment) {
+	protected List<Double> extractVector(Fragment fragment) {
 		List<List<Double>> manuscriptVectors = new ArrayList<List<Double>>();
 		List<List<Double>> typescriptsVectors = new ArrayList<List<Double>>();
 		List<List<Double>> printedVectors = new ArrayList<List<Double>>();
@@ -127,8 +126,8 @@ public class SourceProperty extends StorableProperty {
 	// Typescript
 	// Printed
 	@Override
-	protected Collection<Double> getDefaultVector() {
-		Collection<Double> vector = new ArrayList<Double>();
+	protected List<Double> getDefaultVector() {
+		List<Double> vector = new ArrayList<Double>();
 
 		vector.addAll(getManuscriptDefaultVector());
 		vector.addAll(getTypescriptDefaultVector());

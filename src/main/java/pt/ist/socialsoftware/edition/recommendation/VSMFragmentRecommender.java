@@ -9,7 +9,7 @@ public class VSMFragmentRecommender extends VSMRecommender<Fragment> {
 
 	@Override
 	protected void prepareToLoadProperty(Fragment t1, Fragment t2, Property property) {
-		property.setFragmentsGroup(t1, t2);
+		property.prepareToLoadProperty(t1, t2);
 	}
 
 	@Override

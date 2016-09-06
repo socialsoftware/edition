@@ -165,6 +165,13 @@ public class Cluster {
 		return order;
 	}
 
+	public VirtualEditionInter getFirst() {
+		List<VirtualEditionInter> items = getItems();
+		if (!items.isEmpty())
+			return items.get(0);
+		return null;
+	}
+
 	public String getTitle() {
 		String title = "";
 
@@ -187,13 +194,6 @@ public class Cluster {
 		}
 
 		return title;
-	}
-
-	public VirtualEditionInter getFirst() {
-		List<VirtualEditionInter> items = getItems();
-		if (!items.isEmpty())
-			return items.get(0);
-		return null;
 	}
 
 }

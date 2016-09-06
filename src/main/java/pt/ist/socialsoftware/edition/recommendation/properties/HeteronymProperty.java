@@ -41,21 +41,21 @@ public class HeteronymProperty extends StorableProperty {
 	}
 
 	@Override
-	public Collection<Double> extractVector(ExpertEditionInter expertEditionInter) {
+	public List<Double> extractVector(ExpertEditionInter expertEditionInter) {
 		Collection<Heteronym> foundHeteronyms = new ArrayList<Heteronym>();
 		foundHeteronyms.add(expertEditionInter.getHeteronym());
 		return buildVector(foundHeteronyms);
 	}
 
 	@Override
-	public Collection<Double> extractVector(SourceInter sourceInter) {
+	public List<Double> extractVector(SourceInter sourceInter) {
 		Collection<Heteronym> foundHeteronyms = new ArrayList<Heteronym>();
 		foundHeteronyms.add(sourceInter.getHeteronym());
 		return buildVector(foundHeteronyms);
 	}
 
 	@Override
-	public Collection<Double> extractVector(Fragment fragment) {
+	public List<Double> extractVector(Fragment fragment) {
 		List<Heteronym> heteronyms = new ArrayList<Heteronym>();
 		for (FragInter inter : fragment.getFragmentInterSet()) {
 			heteronyms.add(inter.getHeteronym());
@@ -69,7 +69,7 @@ public class HeteronymProperty extends StorableProperty {
 	}
 
 	@Override
-	public Collection<Double> extractVector(Source source) {
+	public List<Double> extractVector(Source source) {
 		List<Heteronym> foundHeteronyms = new ArrayList<Heteronym>();
 		for (SourceInter inter : source.getSourceIntersSet()) {
 			foundHeteronyms.add(inter.getHeteronym());
@@ -78,7 +78,7 @@ public class HeteronymProperty extends StorableProperty {
 	}
 
 	@Override
-	protected Collection<Double> getDefaultVector() {
+	protected List<Double> getDefaultVector() {
 		return new ArrayList<Double>(Collections.nCopies(LdoD.getInstance().getHeteronymsSet().size(), 0.));
 	}
 

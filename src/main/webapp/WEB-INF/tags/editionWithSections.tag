@@ -44,11 +44,9 @@
 								</button>
 							</c:otherwise>
 						</c:choose></td>
-					<td><c:forEach var="taxonomy"
-							items="${edition.getTaxonomies()}">
-							<a
-								href="${contextPath}/edition/taxonomy/${taxonomy.getExternalId()}">${taxonomy.getName()}</a>
-						</c:forEach></td>
+					<td><a
+						href="${contextPath}/edition/taxonomy/${edition.getTaxonomy().getExternalId()}">${edition.getTaxonomy().getName()}</a>
+					</td>
 					<td><c:forEach var="used" items="${inter.getListUsed()}">-><a
 								href="${contextPath}/fragments/fragment/inter/${used.externalId}">${used.shortName}</a>
 						</c:forEach></td>

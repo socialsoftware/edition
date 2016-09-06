@@ -1,7 +1,6 @@
 package pt.ist.socialsoftware.edition.recommendation.properties;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -12,8 +11,7 @@ import pt.ist.socialsoftware.edition.domain.Source.SourceType;
 import pt.ist.socialsoftware.edition.domain.SourceInter;
 
 public abstract class AuthoralProperty extends StorableProperty {
-
-	private static Collection<Double> defaultVector;
+	private static List<Double> defaultVector;
 
 	public AuthoralProperty() {
 		super();
@@ -24,7 +22,7 @@ public abstract class AuthoralProperty extends StorableProperty {
 	}
 
 	@Override
-	public Collection<Double> extractVector(Fragment fragment) {
+	public List<Double> extractVector(Fragment fragment) {
 		List<List<Double>> allVector = new ArrayList<List<Double>>();
 		List<Double> vector;
 		if (fragment.getSourcesSet().size() > 0) {
@@ -67,7 +65,7 @@ public abstract class AuthoralProperty extends StorableProperty {
 	}
 
 	@Override
-	protected Collection<Double> extractVector(SourceInter sourceInter) {
+	protected List<Double> extractVector(SourceInter sourceInter) {
 		List<Double> vector = new ArrayList<>();
 		if (sourceInter.getSource().getType().equals(SourceType.MANUSCRIPT)) {
 			ManuscriptSource manuscriptSource = (ManuscriptSource) sourceInter.getSource();
@@ -90,14 +88,14 @@ public abstract class AuthoralProperty extends StorableProperty {
 	}
 
 	@Override
-	protected Collection<Double> getDefaultVector() {
+	protected List<Double> getDefaultVector() {
 		if (defaultVector == null) {
 			defaultVector = new ArrayList<>();
 			defaultVector.add(0.);
 			defaultVector.add(0.);
 			defaultVector.add(0.);
 		}
-		return Collections.unmodifiableCollection(defaultVector);
+		return Collections.unmodifiableList(defaultVector);
 	}
 
 	protected abstract String getDocumentType();

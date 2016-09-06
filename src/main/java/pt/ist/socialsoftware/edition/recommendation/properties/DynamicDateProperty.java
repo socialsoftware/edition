@@ -1,7 +1,6 @@
 package pt.ist.socialsoftware.edition.recommendation.properties;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
@@ -37,7 +36,7 @@ public class DynamicDateProperty extends Property {
 	}
 
 	@Override
-	public Collection<Double> extractVector(Fragment fragment) {
+	public List<Double> extractVector(Fragment fragment) {
 		Set<Integer> dates = new TreeSet<Integer>();
 		for (FragInter inter : fragment.getFragmentInterSet()) {
 			if (inter.getLdoDDate() != null) {
@@ -55,7 +54,7 @@ public class DynamicDateProperty extends Property {
 	}
 
 	@Override
-	public Collection<Double> extractVector(ExpertEditionInter expertEditionInter) {
+	public List<Double> extractVector(ExpertEditionInter expertEditionInter) {
 		List<Double> vector = new ArrayList<Double>(getDefaultVector());
 		if (expertEditionInter.getLdoDDate() != null) {
 			vector = buildVector(expertEditionInter.getLdoDDate().getDate().getYear(), vector);
@@ -64,7 +63,7 @@ public class DynamicDateProperty extends Property {
 	}
 
 	@Override
-	protected Collection<Double> extractVector(SourceInter sourceInter) {
+	protected List<Double> extractVector(SourceInter sourceInter) {
 		Set<Integer> dates = new TreeSet<Integer>();
 		if (sourceInter.getLdoDDate() != null) {
 			dates.add(sourceInter.getLdoDDate().getDate().getYear());
@@ -75,7 +74,7 @@ public class DynamicDateProperty extends Property {
 	}
 
 	@Override
-	public Collection<Double> extractVector(Source source) {
+	public List<Double> extractVector(Source source) {
 		Set<Integer> dates = new TreeSet<Integer>();
 		if (source.getType().equals(SourceType.MANUSCRIPT)) {
 			ManuscriptSource manu = (ManuscriptSource) source;
@@ -189,7 +188,7 @@ public class DynamicDateProperty extends Property {
 	}
 
 	@Override
-	protected Collection<Double> getDefaultVector() {
+	protected List<Double> getDefaultVector() {
 		return new ArrayList<Double>(Collections.nCopies(getNumberOfYears(), 0.));
 	}
 

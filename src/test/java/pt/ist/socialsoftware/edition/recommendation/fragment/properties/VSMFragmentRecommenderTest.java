@@ -65,7 +65,7 @@ public abstract class VSMFragmentRecommenderTest {
 			frag1 = getFragment1();
 			frag2 = getFragment2();
 			this.prepare();
-			property.setFragmentsGroup(frag1, frag2);
+			property.prepareToLoadProperty(frag1, frag2);
 			v1 = new ArrayList<Double>(property.loadProperty(frag1));
 			v2 = new ArrayList<Double>(property.loadProperty(frag2));
 		} catch (WriteOnReadError | NotSupportedException | SystemException e1) {
@@ -91,8 +91,8 @@ public abstract class VSMFragmentRecommenderTest {
 
 	@Test
 	public void testCalculateSimiliraty2() {
-		property.setFragmentsGroup(frag1, frag2);
-		propertyWithWeight.setFragmentsGroup(frag1, frag2);
+		property.prepareToLoadProperty(frag1, frag2);
+		propertyWithWeight.prepareToLoadProperty(frag1, frag2);
 		ArrayList<Double> v1 = new ArrayList<Double>(property.loadProperty(frag1));
 		ArrayList<Double> v3 = new ArrayList<Double>(propertyWithWeight.loadProperty(frag1));
 		Assert.assertTrue(v1.size() > 0);

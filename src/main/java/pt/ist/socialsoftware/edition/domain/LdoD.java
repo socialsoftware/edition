@@ -1,7 +1,6 @@
 package pt.ist.socialsoftware.edition.domain;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -37,9 +36,8 @@ public class LdoD extends LdoD_Base {
 	}
 
 	public List<ExpertEdition> getSortedExpertEdition() {
-		List<ExpertEdition> editions = new ArrayList<ExpertEdition>(getExpertEditionsSet());
-		Collections.sort(editions);
-		return editions;
+		return getExpertEditionsSet().stream().sorted((e1, e2) -> e1.getAcronym().compareTo(e2.getAcronym()))
+				.collect(Collectors.toList());
 	}
 
 	public Edition getEdition(String acronym) {
