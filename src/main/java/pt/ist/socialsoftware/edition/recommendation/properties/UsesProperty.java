@@ -15,30 +15,32 @@ import pt.ist.socialsoftware.edition.domain.FragInter;
 import pt.ist.socialsoftware.edition.domain.Fragment;
 import pt.ist.socialsoftware.edition.domain.LdoD;
 import pt.ist.socialsoftware.edition.domain.RecommendationWeights;
-import pt.ist.socialsoftware.edition.domain.Source;
 import pt.ist.socialsoftware.edition.domain.SourceInter;
 
-public class EditionProperty extends StorableProperty {
-	private static Logger logger = LoggerFactory.getLogger(EditionProperty.class);
+public class UsesProperty extends StorableProperty {
+	private static Logger logger = LoggerFactory.getLogger(UsesProperty.class);
 
 	private static List<ExpertEdition> sortedExpertEditions = LdoD.getInstance().getSortedExpertEdition();
 
-	public EditionProperty() {
+	public UsesProperty() {
 		super();
 	}
 
-	public EditionProperty(double weight) {
+	public UsesProperty(double weight) {
 		super(weight);
 	}
 
-	public EditionProperty(@JsonProperty("weight") String weight) {
+	public UsesProperty(@JsonProperty("weight") String weight) {
 		this(Double.parseDouble(weight));
 	}
 
 	@Override
 	public List<Double> extractVector(ExpertEditionInter inter) {
 		List<Double> vector = new ArrayList<Double>();
-		for (ExpertEdition expertEdition : EditionProperty.sortedExpertEditions) {
+		// authorial
+		vector.add(0.0);
+		// expert
+		for (ExpertEdition expertEdition : UsesProperty.sortedExpertEditions) {
 			if (inter.getExpertEdition() == expertEdition) {
 				vector.add(1.0);
 			} else {
@@ -49,9 +51,24 @@ public class EditionProperty extends StorableProperty {
 	}
 
 	@Override
+	protected List<Double> extractVector(SourceInter sourceInter) {
+		List<Double> vector = new ArrayList<Double>();
+		// authorial
+		vector.add(1.0);
+		// expert
+		for (int i = 0; i < sortedExpertEditions.size(); i++) {
+			vector.add(0.0);
+		}
+		return vector;
+	}
+
+	@Override
 	public List<Double> extractVector(Fragment fragment) {
 		List<Double> vector = new ArrayList<Double>();
-		for (ExpertEdition expertEdition : EditionProperty.sortedExpertEditions) {
+		// authorial
+		vector.add(1.0);
+		// expert
+		for (ExpertEdition expertEdition : UsesProperty.sortedExpertEditions) {
 			ExpertEditionInter expertEditionInter = fragment.getExpertEditionInter(expertEdition.getEditor());
 			if (expertEditionInter != null) {
 				vector.add(1.0);
@@ -63,23 +80,13 @@ public class EditionProperty extends StorableProperty {
 	}
 
 	@Override
-	protected List<Double> extractVector(Source source) {
-		return getDefaultVector();
-	}
-
-	@Override
-	protected List<Double> extractVector(SourceInter sourceInter) {
-		return getDefaultVector();
-	}
-
-	@Override
 	protected List<Double> getDefaultVector() {
-		return Collections.nCopies(sortedExpertEditions.size(), 0.0);
+		return Collections.nCopies(sortedExpertEditions.size() + 1, 0.0);
 	}
 
 	@Override
 	public void userWeights(RecommendationWeights recommendationWeights) {
-		recommendationWeights.setEditionWeight(getWeight());
+		recommendationWeights.setUsesWeight(getWeight());
 	}
 
 	@Override
@@ -90,7 +97,7 @@ public class EditionProperty extends StorableProperty {
 	@Override
 	protected String getConcreteTitle(FragInter inter) {
 		String title = "";
-		for (ExpertEdition expertEdition : EditionProperty.sortedExpertEditions) {
+		for (ExpertEdition expertEdition : UsesProperty.sortedExpertEditions) {
 			if (inter.getFragment().getExpertEditionInter(expertEdition.getEditor()) != null) {
 				title += ":" + expertEdition.getAcronym();
 			}

@@ -41,59 +41,51 @@
 					<th>
 						<div class="row row-centered taxonomy-row" id="0"
 							style="min-height: 40px;">
-							<div class="col-md-3 col-sm-6 taxonomy-range"
-								property-type="edition">
+							<div class="col-md-2 col-sm-4 taxonomy-range"
+								property-type="uses">
 								<p>
-									<spring:message javaScriptEscape="true" code="general.edition" />
+									<spring:message javaScriptEscape="true" code="general.uses" />
 								</p>
 								<input type="range" class="range" value='${editionWeight}'
-									max="1" min="0" step="0.1">
+									max="1" min="0" step="0.2">
 							</div>
-							<div class="col-md-3 col-sm-6 taxonomy-range"
-								property-type="source">
-								<p>
-									<spring:message javaScriptEscape="true" code="general.sources" />
-								</p>
-								<input type="range" class="range" value='${sourceWeight}'
-									max="1" min="0" step="0.1">
-							</div>
-							<div class="col-md-3 col-sm-6 taxonomy-range"
+							<div class="col-md-2 col-sm-4 taxonomy-range"
 								property-type="heteronym">
 								<p>
 									<spring:message javaScriptEscape="true"
 										code="general.heteronym" />
 								</p>
 								<input type="range" class="range" value='${heteronymWeight}'
-									max="1" min="0" step="0.1">
+									max="1" min="0" step="0.2">
 							</div>
-							<div class="col-md-3 col-sm-6 taxonomy-range"
+							<div class="col-md-2 col-sm-4 taxonomy-range"
 								property-type="date">
 								<p>
 									<spring:message javaScriptEscape="true" code="general.date" />
 								</p>
 								<input type="range" class="range" value='${dateWeight}' max="1"
-									min="0" step="0.1">
+									min="0" step="0.2">
 							</div>
-							<div class="col-md-3 col-sm-6 taxonomy-range"
+							<div class="col-md-2 col-sm-4 taxonomy-range"
 								property-type="text">
 								<p>
 									<spring:message javaScriptEscape="true" code="general.text" />
 								</p>
 								<input type="range" class="range" value='${textWeight}' max="1"
-									min="0" step="0.1">
+									min="0" step="0.2">
 							</div>
-							<div class="col-md-3 col-sm-6 taxonomy-range"
+							<div class="col-md-2 col-sm-4 taxonomy-range"
 								property-type="specific-taxonomy">
 								<p>
 									<spring:message code="general.taxonomy" />
 								</p>
 								<input type="range" class="range" value="${taxonomyWeight}"
-									max="1.0" min="0.0" step="0.1">
+									max="1.0" min="0.0" step="0.2">
 							</div>
 						</div>
 					</th>
 				</tr>
-				<c:forEach var="i" begin="2" end="6">
+				<c:forEach var="i" begin="2" end="5">
 					<tr class="iterative-sort" style="display: none;">
 						<th>${i}</th>
 						<th>

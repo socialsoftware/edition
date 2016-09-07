@@ -5,37 +5,36 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import pt.ist.socialsoftware.edition.domain.Fragment;
-import pt.ist.socialsoftware.edition.recommendation.properties.ManuscriptProperty;
+import pt.ist.socialsoftware.edition.recommendation.properties.UsesProperty;
 import pt.ist.socialsoftware.edition.recommendation.properties.Property;
 
 @Ignore
-public class VSMFragmentRecommenderManuscriptTest extends VSMFragmentRecommenderStorableTest {
-
-	private double similiraty = 0.37;
+public class VSMFragmentRecommenderUsesTest extends VSMFragmentRecommenderStorableTest {
+	private double similiraty = 0.63;
 
 	@Override
 	protected Fragment getFragment1() {
-		return ldod.getFragment("Fr011");
+		return ldod.getFragment("Fr084");
 	}
 
 	@Override
 	protected Fragment getFragment2() {
-		return ldod.getFragment("Fr506");
+		return ldod.getFragment("Fr002");
 	}
 
 	@Override
 	protected Property getProperty() {
-		return new ManuscriptProperty();
+		return new UsesProperty();
 	}
 
 	@Override
 	protected Property getPropertyWithWeight() {
-		return new ManuscriptProperty(2.0);
+		return new UsesProperty(2.0);
 	}
 
 	@Override
 	protected Property getPropertyWithZeroWeight() {
-		return new ManuscriptProperty(.0);
+		return new UsesProperty(.0);
 	}
 
 	@Override

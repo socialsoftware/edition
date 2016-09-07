@@ -17,15 +17,13 @@ import pt.ist.socialsoftware.edition.domain.VirtualEditionInter;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDException;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
-@JsonSubTypes({ @JsonSubTypes.Type(value = EditionProperty.class, name = Property.EDITION),
-		@JsonSubTypes.Type(value = SourceProperty.class, name = Property.SOURCE),
+@JsonSubTypes({ @JsonSubTypes.Type(value = UsesProperty.class, name = Property.USES),
 		@JsonSubTypes.Type(value = HeteronymProperty.class, name = Property.HETERONYM),
 		@JsonSubTypes.Type(value = DateProperty.class, name = Property.DATE),
 		@JsonSubTypes.Type(value = TextProperty.class, name = Property.TEXT),
 		@JsonSubTypes.Type(value = TaxonomyProperty.class, name = Property.SPECIFICTAXONOMY) })
 public abstract class Property {
-	public static final String EDITION = "edition";
-	public static final String SOURCE = "source";
+	public static final String USES = "uses";
 	public static final String HETERONYM = "heteronym";
 	public static final String DATE = "date";
 	public static final String TEXT = "text";

@@ -182,12 +182,10 @@ public class RecommendationController {
 
 			model.addAttribute("heteronym", null);
 			model.addAttribute("edition", virtualEdition);
-			model.addAttribute("taxonomyWeight", recommendationWeights.getTaxonomyWeight());
-			model.addAttribute("editionWeight", recommendationWeights.getEditionWeight());
+			model.addAttribute("usesWeight", recommendationWeights.getUsesWeight());
 			model.addAttribute("heteronymWeight", recommendationWeights.getHeteronymWeight());
 			model.addAttribute("dateWeight", recommendationWeights.getDateWeight());
 			model.addAttribute("textWeight", recommendationWeights.getTextWeight());
-			model.addAttribute("sourceWeight", recommendationWeights.getSourceWeight());
 
 			if (!virtualEdition.getVirtualEditionIntersSet().isEmpty()) {
 				VirtualEditionInter inter = virtualEdition.getVirtualEditionIntersSet().get(0);
@@ -233,11 +231,10 @@ public class RecommendationController {
 			model.addAttribute("edition", virtualEdition);
 			model.addAttribute("inters", mostSimilarItems);
 			model.addAttribute("taxonomyWeight", recommendationWeights.getTaxonomyWeight());
-			model.addAttribute("editionWeight", recommendationWeights.getEditionWeight());
+			model.addAttribute("usesWeight", recommendationWeights.getUsesWeight());
 			model.addAttribute("heteronymWeight", recommendationWeights.getHeteronymWeight());
 			model.addAttribute("dateWeight", recommendationWeights.getDateWeight());
 			model.addAttribute("textWeight", recommendationWeights.getTextWeight());
-			model.addAttribute("sourceWeight", recommendationWeights.getSourceWeight());
 			model.addAttribute("selected", inter);
 
 			return "recommendation/tableOfContents";

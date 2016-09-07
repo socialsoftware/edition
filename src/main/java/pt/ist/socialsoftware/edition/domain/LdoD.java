@@ -36,8 +36,7 @@ public class LdoD extends LdoD_Base {
 	}
 
 	public List<ExpertEdition> getSortedExpertEdition() {
-		return getExpertEditionsSet().stream().sorted((e1, e2) -> e1.getAcronym().compareTo(e2.getAcronym()))
-				.collect(Collectors.toList());
+		return getExpertEditionsSet().stream().sorted().collect(Collectors.toList());
 	}
 
 	public Edition getEdition(String acronym) {
