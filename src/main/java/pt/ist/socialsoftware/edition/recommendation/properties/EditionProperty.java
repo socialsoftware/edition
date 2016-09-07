@@ -22,7 +22,6 @@ public class EditionProperty extends StorableProperty {
 	private static Logger logger = LoggerFactory.getLogger(EditionProperty.class);
 
 	private static List<ExpertEdition> sortedExpertEditions = LdoD.getInstance().getSortedExpertEdition();
-	private static List<Double> defaultVector = Collections.nCopies(sortedExpertEditions.size(), 0.0);
 
 	public EditionProperty() {
 		super();
@@ -75,7 +74,7 @@ public class EditionProperty extends StorableProperty {
 
 	@Override
 	protected List<Double> getDefaultVector() {
-		return EditionProperty.defaultVector;
+		return Collections.nCopies(sortedExpertEditions.size(), 0.0);
 	}
 
 	@Override

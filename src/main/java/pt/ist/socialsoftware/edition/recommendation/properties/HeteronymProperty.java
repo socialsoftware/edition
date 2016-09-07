@@ -17,7 +17,7 @@ import pt.ist.socialsoftware.edition.domain.Source;
 import pt.ist.socialsoftware.edition.domain.SourceInter;
 
 public class HeteronymProperty extends StorableProperty {
-	List<Heteronym> heteronymList = LdoD.getInstance().getSortedHeteronyms();
+	private static List<Heteronym> heteronymList = LdoD.getInstance().getSortedHeteronyms();
 
 	public HeteronymProperty() {
 		super();
@@ -32,10 +32,13 @@ public class HeteronymProperty extends StorableProperty {
 	}
 
 	private List<Double> buildVector(Collection<Heteronym> foundHeteronyms) {
-		List<Double> vector = new ArrayList<Double>(getDefaultVector());
-		for (Heteronym heteronym : foundHeteronyms) {
-			if (heteronymList.contains(heteronym))
-				vector.set(heteronymList.indexOf(heteronym), 1.0);
+		List<Double> vector = new ArrayList<Double>();
+		for (Heteronym heteronym : HeteronymProperty.heteronymList) {
+			if (foundHeteronyms.contains(heteronym))
+				vector.add(1.0);
+			else
+				vector.add(0.0);
+
 		}
 		return vector;
 	}
@@ -79,7 +82,7 @@ public class HeteronymProperty extends StorableProperty {
 
 	@Override
 	protected List<Double> getDefaultVector() {
-		return new ArrayList<Double>(Collections.nCopies(LdoD.getInstance().getHeteronymsSet().size(), 0.));
+		return Collections.nCopies(heteronymList.size(), 0.);
 	}
 
 	@Override
@@ -105,7 +108,7 @@ public class HeteronymProperty extends StorableProperty {
 			}
 		}
 
-		for (Heteronym heteronym : LdoD.getInstance().getHeteronymsSet()) {
+		for (Heteronym heteronym : HeteronymProperty.heteronymList) {
 			if (heteronyms.contains(heteronym))
 				title += ":" + heteronym.getName();
 		}

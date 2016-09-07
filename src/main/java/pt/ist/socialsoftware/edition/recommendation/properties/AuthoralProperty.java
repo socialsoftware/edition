@@ -11,8 +11,6 @@ import pt.ist.socialsoftware.edition.domain.Source.SourceType;
 import pt.ist.socialsoftware.edition.domain.SourceInter;
 
 public abstract class AuthoralProperty extends StorableProperty {
-	private static List<Double> defaultVector;
-
 	public AuthoralProperty() {
 		super();
 	}
@@ -89,13 +87,7 @@ public abstract class AuthoralProperty extends StorableProperty {
 
 	@Override
 	protected List<Double> getDefaultVector() {
-		if (defaultVector == null) {
-			defaultVector = new ArrayList<>();
-			defaultVector.add(0.);
-			defaultVector.add(0.);
-			defaultVector.add(0.);
-		}
-		return Collections.unmodifiableList(defaultVector);
+		return Collections.nCopies(3, 0.0);
 	}
 
 	protected abstract String getDocumentType();

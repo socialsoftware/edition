@@ -3,7 +3,6 @@ package pt.ist.socialsoftware.edition.recommendation.properties;
 import pt.ist.socialsoftware.edition.domain.RecommendationWeights;
 
 public class ManuscriptProperty extends AuthoralProperty {
-
 	public static final String MANUSCRIPTID = "manus";
 
 	public ManuscriptProperty() {
