@@ -1541,6 +1541,9 @@ public class LoadTEIFragments {
 		case "black-ink":
 			medium = Medium.BLACK_INK;
 			break;
+		case "violet-ink":
+			medium = Medium.VIOLET_INK;
+			break;
 		default:
 			throw new LdoDLoadException("valor inesperado para atribute medium=" + mediumValue);
 		}

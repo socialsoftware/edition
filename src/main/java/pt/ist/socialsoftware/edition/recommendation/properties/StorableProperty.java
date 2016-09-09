@@ -14,10 +14,6 @@ import pt.ist.socialsoftware.edition.recommendation.StoredVectors;
 public abstract class StorableProperty extends Property {
 	private static Logger logger = LoggerFactory.getLogger(StorableProperty.class);
 
-	public StorableProperty() {
-		super();
-	}
-
 	public StorableProperty(double weight) {
 		super(weight);
 	}

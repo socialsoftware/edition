@@ -24,7 +24,7 @@ public class VSMFragmentRecommenderDateTest extends VSMFragmentRecommenderStorab
 
 	@Override
 	protected Property getProperty() {
-		return new DateProperty();
+		return new DateProperty(1.0);
 	}
 
 	@Override

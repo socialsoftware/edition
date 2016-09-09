@@ -14,7 +14,6 @@ import pt.ist.socialsoftware.edition.domain.FragInter;
 import pt.ist.socialsoftware.edition.domain.Fragment;
 import pt.ist.socialsoftware.edition.domain.LdoD;
 import pt.ist.socialsoftware.edition.domain.RecommendationWeights;
-import pt.ist.socialsoftware.edition.domain.Tag;
 import pt.ist.socialsoftware.edition.domain.Taxonomy;
 import pt.ist.socialsoftware.edition.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.domain.VirtualEditionInter;
@@ -23,25 +22,16 @@ public class TaxonomyProperty extends Property {
 	private static Logger logger = LoggerFactory.getLogger(TaxonomyProperty.class);
 
 	private final Taxonomy taxonomy;
-
-	public TaxonomyProperty(Taxonomy taxonomy) {
-		super();
-		this.taxonomy = taxonomy;
-	}
+	private List<Category> sortedCategories = null;
 
 	public TaxonomyProperty(double weight, Taxonomy taxonomy) {
 		super(weight);
 		this.taxonomy = taxonomy;
-	}
-
-	public TaxonomyProperty(String acronym) {
-		super();
-		this.taxonomy = ((VirtualEdition) LdoD.getInstance().getEdition(acronym)).getTaxonomy();
+		this.sortedCategories = taxonomy.getSortedCategories();
 	}
 
 	public TaxonomyProperty(Double weight, String acronym) {
-		super(weight);
-		this.taxonomy = ((VirtualEdition) LdoD.getInstance().getEdition(acronym)).getTaxonomy();
+		this(weight, ((VirtualEdition) LdoD.getInstance().getEdition(acronym)).getTaxonomy());
 	}
 
 	public TaxonomyProperty(@JsonProperty("weight") String weight, @JsonProperty("acronym") String acronym) {
@@ -50,14 +40,13 @@ public class TaxonomyProperty extends Property {
 
 	@Override
 	public List<Double> extractVector(Fragment fragment) {
-		List<Double> vector = new ArrayList<Double>(getDefaultVector());
-		List<Category> categories;
+		List<Double> vector = getDefaultVector();
 		for (FragInter inter : fragment.getFragmentInterSet()) {
-			if (inter instanceof VirtualEditionInter) {
-				for (Tag tag : ((VirtualEditionInter) inter).getTagSet()) {
-					categories = new ArrayList<Category>(getTaxonomy().getCategoriesSet());
-					if (tag.getCategory().getTaxonomy() == getTaxonomy() && categories.contains(tag.getCategory())) {
-						vector.set(categories.indexOf(tag.getCategory()), getWeight() * getTagWeight(tag));
+			if (inter instanceof VirtualEditionInter
+					&& ((VirtualEditionInter) inter).getVirtualEdition().getTaxonomy() == taxonomy) {
+				for (Category category : ((VirtualEditionInter) inter).getCategories()) {
+					if (sortedCategories.contains(category)) {
+						vector.set(sortedCategories.indexOf(category), 1.0 * getWeight());
 					}
 				}
 			}
@@ -67,17 +56,16 @@ public class TaxonomyProperty extends Property {
 
 	@Override
 	protected List<Double> extractVector(VirtualEditionInter inter) {
-		List<Double> vector = new ArrayList<Double>(getDefaultVector());
-		List<Category> categories = new ArrayList<Category>(getTaxonomy().getSortedCategories());
-		for (Tag tag : inter.getTagSet()) {
-			vector.set(categories.indexOf(tag.getCategory()), getWeight() * getTagWeight(tag));
+		List<Double> vector = getDefaultVector();
+		for (Category category : inter.getCategories()) {
+			vector.set(sortedCategories.indexOf(category), 1.0 * getWeight());
 		}
 		return vector;
 	}
 
 	@Override
 	protected List<Double> getDefaultVector() {
-		return new ArrayList<Double>(Collections.nCopies(getTaxonomy().getCategoriesSet().size(), 0.0));
+		return new ArrayList<Double>(Collections.nCopies(sortedCategories.size(), 0.0));
 	}
 
 	@Override
@@ -94,7 +82,4 @@ public class TaxonomyProperty extends Property {
 		return getTaxonomy().getName();
 	}
 
-	protected double getTagWeight(Tag tag) {
-		return 1.;
-	}
 }

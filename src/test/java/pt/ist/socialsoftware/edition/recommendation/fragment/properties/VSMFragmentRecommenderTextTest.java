@@ -30,7 +30,7 @@ public class VSMFragmentRecommenderTextTest extends VSMFragmentRecommenderTest {
 
 	@Override
 	protected Property getProperty() {
-		return new TextProperty();
+		return new TextProperty(1.0);
 	}
 
 	@Override

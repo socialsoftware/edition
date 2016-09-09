@@ -45,8 +45,7 @@ import pt.ist.socialsoftware.edition.domain.Edition.EditionType;
 import pt.ist.socialsoftware.edition.domain.FragInter;
 import pt.ist.socialsoftware.edition.domain.Fragment;
 import pt.ist.socialsoftware.edition.domain.Source;
-import pt.ist.socialsoftware.edition.domain.SourceInter;
-import pt.ist.socialsoftware.edition.domain.VirtualEditionInter;
+import pt.ist.socialsoftware.edition.shared.exception.LdoDException;
 import pt.ist.socialsoftware.edition.utils.PropertiesManager;
 import pt.ist.socialsoftware.edition.visitors.PlainTextFragmentWriter;
 
@@ -195,20 +194,8 @@ public class Indexer {
 		return Math.log10(numDocs / (double) df);
 	}
 
-	private double calculateSmoothIDF(int numDocs, int df) {
-		return Math.log10(1 + (numDocs / (double) df));
-	}
-
 	private double calculateLogTF(Integer value) {
 		return 1 + Math.log10(value);
-	}
-
-	private double calculateRawTF(Integer value) {
-		return value;
-	}
-
-	private double calculateBooleanTF(Integer value) {
-		return 1;
 	}
 
 	private Map<String, Integer> getTermCount(Fragment fragment) throws IOException, ParseException {
@@ -256,19 +243,6 @@ public class Indexer {
 		reader.close();
 		directory.close();
 		return TFMap;
-	}
-
-	@Deprecated
-	private Map<String, Integer> getTermCount(Fragment fragment, Collection<String> terms)
-			throws IOException, ParseException {
-		Map<String, Integer> termCount = getTermCount(fragment);
-		termCount.keySet().retainAll(terms);
-		return termCount;
-	}
-
-	@Deprecated
-	public Collection<String> getTerms(Fragment fragment) throws IOException, ParseException {
-		return getTFIDF(fragment).keySet();
 	}
 
 	public Collection<String> getTerms(Fragment fragment, int numberOfTerms) throws IOException, ParseException {
@@ -369,20 +343,6 @@ public class Indexer {
 		reader.close();
 		directory.close();
 		return TFMap;
-	}
-
-	private Map<String, Double> getTFIDF(VirtualEditionInter virtualEditionInter, List<String> commonTerms)
-			throws IOException, ParseException {
-		Map<String, Double> TFIDFMap = new HashMap<>(getTFIDF(virtualEditionInter.getUses().getExternalId()));
-		TFIDFMap.keySet().retainAll(commonTerms);
-		return TFIDFMap;
-	}
-
-	private Map<String, Double> getTFIDF(SourceInter sourceInter, List<String> commonTerms)
-			throws IOException, ParseException {
-		Map<String, Double> TFIDFMap = new HashMap<>(getTFIDF(sourceInter.getExternalId()));
-		TFIDFMap.keySet().retainAll(commonTerms);
-		return TFIDFMap;
 	}
 
 	public Map<String, Double> getTFIDF(FragInter fragInter, List<String> commonTerms)
@@ -527,7 +487,6 @@ public class Indexer {
 			indexWriter.close();
 			directory.close();
 		} catch (ParseException | IOException e) {
-			e.printStackTrace();
 		}
 	}
 
@@ -537,8 +496,7 @@ public class Indexer {
 			logger.debug("cleanLucene {}", path);
 			FileUtils.cleanDirectory(new File(path));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new LdoDException("cleanLucene in class Indexer failed when invoking cleanDirectory");
 		}
 	}
 

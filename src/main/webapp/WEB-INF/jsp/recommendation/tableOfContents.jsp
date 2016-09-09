@@ -42,14 +42,6 @@
 						<div class="row row-centered taxonomy-row" id="0"
 							style="min-height: 40px;">
 							<div class="col-md-2 col-sm-4 taxonomy-range"
-								property-type="uses">
-								<p>
-									<spring:message javaScriptEscape="true" code="general.uses" />
-								</p>
-								<input type="range" class="range" value='${editionWeight}'
-									max="1" min="0" step="0.2">
-							</div>
-							<div class="col-md-2 col-sm-4 taxonomy-range"
 								property-type="heteronym">
 								<p>
 									<spring:message javaScriptEscape="true"

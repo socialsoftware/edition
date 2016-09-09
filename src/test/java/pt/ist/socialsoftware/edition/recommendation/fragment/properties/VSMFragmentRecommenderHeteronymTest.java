@@ -25,7 +25,7 @@ public class VSMFragmentRecommenderHeteronymTest extends VSMFragmentRecommenderS
 
 	@Override
 	protected Property getProperty() {
-		return new HeteronymProperty();
+		return new HeteronymProperty(1.0);
 	}
 
 	@Override

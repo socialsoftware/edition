@@ -10,7 +10,6 @@ import pt.ist.socialsoftware.edition.recommendation.properties.HeteronymProperty
 import pt.ist.socialsoftware.edition.recommendation.properties.Property;
 import pt.ist.socialsoftware.edition.recommendation.properties.TaxonomyProperty;
 import pt.ist.socialsoftware.edition.recommendation.properties.TextProperty;
-import pt.ist.socialsoftware.edition.recommendation.properties.UsesProperty;
 
 public class RecommendationWeights extends RecommendationWeights_Base {
 
@@ -18,7 +17,6 @@ public class RecommendationWeights extends RecommendationWeights_Base {
 		super();
 		setUser(user);
 		setVirtualEdition(virtualEdition);
-		setUsesWeight(0.);
 		setHeteronymWeight(0.);
 		setDateWeight(0.);
 		setTextWeight(0.);
@@ -33,9 +31,6 @@ public class RecommendationWeights extends RecommendationWeights_Base {
 
 	public List<Property> getProperties() {
 		List<Property> properties = new ArrayList<Property>();
-		if (getUsesWeight() > 0.0) {
-			properties.add(new UsesProperty(getUsesWeight()));
-		}
 		if (getHeteronymWeight() > 0.0) {
 			properties.add(new HeteronymProperty(getHeteronymWeight()));
 		}

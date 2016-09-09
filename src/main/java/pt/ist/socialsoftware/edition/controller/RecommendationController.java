@@ -182,7 +182,6 @@ public class RecommendationController {
 
 			model.addAttribute("heteronym", null);
 			model.addAttribute("edition", virtualEdition);
-			model.addAttribute("usesWeight", recommendationWeights.getUsesWeight());
 			model.addAttribute("heteronymWeight", recommendationWeights.getHeteronymWeight());
 			model.addAttribute("dateWeight", recommendationWeights.getDateWeight());
 			model.addAttribute("textWeight", recommendationWeights.getTextWeight());
@@ -231,7 +230,6 @@ public class RecommendationController {
 			model.addAttribute("edition", virtualEdition);
 			model.addAttribute("inters", mostSimilarItems);
 			model.addAttribute("taxonomyWeight", recommendationWeights.getTaxonomyWeight());
-			model.addAttribute("usesWeight", recommendationWeights.getUsesWeight());
 			model.addAttribute("heteronymWeight", recommendationWeights.getHeteronymWeight());
 			model.addAttribute("dateWeight", recommendationWeights.getDateWeight());
 			model.addAttribute("textWeight", recommendationWeights.getTextWeight());

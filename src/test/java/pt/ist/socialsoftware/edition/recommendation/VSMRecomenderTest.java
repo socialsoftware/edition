@@ -41,7 +41,7 @@ public class VSMRecomenderTest<T> {
 		try {
 			FenixFramework.getTransactionManager().begin(false);
 			ldod = LdoD.getInstance();
-			property = new HeteronymProperty();
+			property = new HeteronymProperty(1.0);
 			properties = new ArrayList<>();
 			properties.add(property);
 		} catch (WriteOnReadError | NotSupportedException | SystemException e1) {

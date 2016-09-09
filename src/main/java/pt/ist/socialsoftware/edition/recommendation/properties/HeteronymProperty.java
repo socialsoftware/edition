@@ -19,10 +19,6 @@ import pt.ist.socialsoftware.edition.domain.SourceInter;
 public class HeteronymProperty extends StorableProperty {
 	private static List<Heteronym> heteronymList = LdoD.getInstance().getSortedHeteronyms();
 
-	public HeteronymProperty() {
-		super();
-	}
-
 	public HeteronymProperty(double weight) {
 		super(weight);
 	}
@@ -59,16 +55,16 @@ public class HeteronymProperty extends StorableProperty {
 
 	@Override
 	public List<Double> extractVector(Fragment fragment) {
-		List<Heteronym> heteronyms = new ArrayList<Heteronym>();
+		List<Heteronym> foundHeteronyms = new ArrayList<Heteronym>();
 		for (FragInter inter : fragment.getFragmentInterSet()) {
-			heteronyms.add(inter.getHeteronym());
+			foundHeteronyms.add(inter.getHeteronym());
 		}
 		for (Source source : fragment.getSourcesSet()) {
 			for (SourceInter inter : source.getSourceIntersSet()) {
-				heteronyms.add(inter.getHeteronym());
+				foundHeteronyms.add(inter.getHeteronym());
 			}
 		}
-		return buildVector(heteronyms);
+		return buildVector(foundHeteronyms);
 	}
 
 	@Override

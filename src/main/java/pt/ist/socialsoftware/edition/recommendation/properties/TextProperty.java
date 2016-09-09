@@ -10,126 +10,26 @@ import java.util.Set;
 
 import org.apache.lucene.queryparser.classic.ParseException;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import pt.ist.socialsoftware.edition.domain.ExpertEditionInter;
 import pt.ist.socialsoftware.edition.domain.FragInter;
 import pt.ist.socialsoftware.edition.domain.Fragment;
 import pt.ist.socialsoftware.edition.domain.RecommendationWeights;
-import pt.ist.socialsoftware.edition.domain.Source;
 import pt.ist.socialsoftware.edition.domain.SourceInter;
 import pt.ist.socialsoftware.edition.search.Indexer;
+import pt.ist.socialsoftware.edition.shared.exception.LdoDException;
 
 public class TextProperty extends Property {
-	public static final int NUMBEROFTERMS = 100;
+	public static final int NUMBER_OF_TERMS = 100;
 	private List<String> commonTerms;
-	private final int numberOfTerms;
-
-	public TextProperty() {
-		super();
-		numberOfTerms = NUMBEROFTERMS;
-	}
 
 	public TextProperty(double weigth) {
 		super(weigth);
-		numberOfTerms = NUMBEROFTERMS;
 	}
 
-	public TextProperty(Double weight, int numberOfTerms) {
-		super(weight);
-		this.numberOfTerms = numberOfTerms;
-	}
-
-	public TextProperty(int numberOfTerms) {
-		super();
-		this.numberOfTerms = numberOfTerms;
-	}
-
-	@Override
-	protected List<Double> extractVector(ExpertEditionInter expertEditionInter) {
-		List<Double> vector = new ArrayList<Double>(getDefaultVector());
-		String term;
-		int size;
-		Map<String, Double> tfidf;
-		try {
-			tfidf = (new Indexer()).getTFIDF(expertEditionInter, commonTerms);
-			size = commonTerms.size();
-			for (int i = 0; i < size; i++) {
-				term = commonTerms.get(i);
-				if (tfidf.containsKey(term)) {
-					vector.set(i, getWeight() * tfidf.get(term));
-				}
-			}
-		} catch (IOException | ParseException e) {
-			e.printStackTrace();
-		}
-		return vector;
-	}
-
-	@Override
-	public List<Double> extractVector(Fragment fragment) {
-		List<Double> vector = new ArrayList<Double>(getDefaultVector());
-		String term;
-		int size;
-		Map<String, Double> tfidf;
-		try {
-			tfidf = (new Indexer()).getTFIDF(fragment, commonTerms);
-			size = commonTerms.size();
-			for (int i = 0; i < size; i++) {
-				term = commonTerms.get(i);
-				if (tfidf.containsKey(term)) {
-					vector.set(i, getWeight() * tfidf.get(term));
-				}
-			}
-		} catch (IOException | ParseException e) {
-			e.printStackTrace();
-		}
-		return vector;
-	}
-
-	@Override
-	protected List<Double> extractVector(Source source) {
-		List<Double> vector = new ArrayList<Double>(getDefaultVector());
-		String term;
-		int size;
-		Map<String, Double> tfidf;
-		try {
-			tfidf = (new Indexer()).getTFIDF(source, commonTerms);
-			size = commonTerms.size();
-			for (int i = 0; i < size; i++) {
-				term = commonTerms.get(i);
-				if (tfidf.containsKey(term)) {
-					vector.set(i, getWeight() * tfidf.get(term));
-				}
-			}
-		} catch (IOException | ParseException e) {
-			e.printStackTrace();
-		}
-		return vector;
-	}
-
-	@Override
-	protected List<Double> extractVector(SourceInter sourceInter) {
-		List<Double> vector = new ArrayList<Double>(getDefaultVector());
-		String term;
-		int size;
-		Map<String, Double> tfidf;
-		try {
-			tfidf = (new Indexer()).getTFIDF(sourceInter, commonTerms);
-			size = commonTerms.size();
-			for (int i = 0; i < size; i++) {
-				term = commonTerms.get(i);
-				if (tfidf.containsKey(term)) {
-					vector.set(i, getWeight() * tfidf.get(term));
-				}
-			}
-		} catch (IOException | ParseException e) {
-			e.printStackTrace();
-		}
-		return vector;
-	}
-
-	@Override
-	protected List<Double> getDefaultVector() {
-		return new ArrayList<Double>(Collections.nCopies(commonTerms.size(), 0.0));
+	public TextProperty(@JsonProperty("weight") String weight) {
+		this(Double.parseDouble(weight));
 	}
 
 	@Override
@@ -137,11 +37,11 @@ public class TextProperty extends Property {
 		try {
 			Indexer indexer = new Indexer();
 			Set<String> temp = new HashSet<String>();
-			temp.addAll(indexer.getTerms(inter1, numberOfTerms));
-			temp.addAll(indexer.getTerms(inter2, numberOfTerms));
+			temp.addAll(indexer.getTerms(inter1, NUMBER_OF_TERMS));
+			temp.addAll(indexer.getTerms(inter2, NUMBER_OF_TERMS));
 			commonTerms = new ArrayList<String>(temp);
 		} catch (ParseException | IOException e) {
-			e.printStackTrace();
+			throw new LdoDException("prepareToLoadProperty in class TextProperty failed when invoking indexer");
 		}
 	}
 
@@ -150,12 +50,64 @@ public class TextProperty extends Property {
 		try {
 			Indexer indexer = new Indexer();
 			Set<String> temp = new HashSet<String>();
-			temp.addAll(indexer.getTerms(frag1, numberOfTerms));
-			temp.addAll(indexer.getTerms(frag2, numberOfTerms));
+			temp.addAll(indexer.getTerms(frag1, NUMBER_OF_TERMS));
+			temp.addAll(indexer.getTerms(frag2, NUMBER_OF_TERMS));
 			commonTerms = new ArrayList<String>(temp);
 		} catch (ParseException | IOException e) {
-			e.printStackTrace();
+			throw new LdoDException("prepareToLoadProperty in class TextProperty failed when invoking indexer");
 		}
+	}
+
+	private List<Double> buildVector(Map<String, Double> tfidf) {
+		List<Double> vector = getDefaultVector();
+		for (int i = 0; i < commonTerms.size(); i++) {
+			String term = commonTerms.get(i);
+			if (tfidf.containsKey(term)) {
+				vector.set(i, getWeight() * tfidf.get(term));
+			}
+		}
+		return vector;
+	}
+
+	@Override
+	protected List<Double> extractVector(ExpertEditionInter expertEditionInter) {
+		Map<String, Double> tfidf;
+		try {
+			tfidf = (new Indexer()).getTFIDF(expertEditionInter, commonTerms);
+		} catch (IOException | ParseException e) {
+			throw new LdoDException("Indexer error when extractVector in TextProperty");
+		}
+		List<Double> vector = buildVector(tfidf);
+		return vector;
+	}
+
+	@Override
+	protected List<Double> extractVector(SourceInter sourceInter) {
+		Map<String, Double> tfidf;
+		try {
+			tfidf = (new Indexer()).getTFIDF(sourceInter, commonTerms);
+		} catch (IOException | ParseException e) {
+			throw new LdoDException("Indexer error when extractVector in TextProperty");
+		}
+		List<Double> vector = buildVector(tfidf);
+		return vector;
+	}
+
+	@Override
+	public List<Double> extractVector(Fragment fragment) {
+		Map<String, Double> tfidf;
+		try {
+			tfidf = (new Indexer()).getTFIDF(fragment, commonTerms);
+		} catch (IOException | ParseException e) {
+			throw new LdoDException("Indexer error when extractVector in TextProperty");
+		}
+		List<Double> vector = buildVector(tfidf);
+		return vector;
+	}
+
+	@Override
+	protected List<Double> getDefaultVector() {
+		return new ArrayList<Double>(Collections.nCopies(commonTerms.size(), 0.0));
 	}
 
 	@Override

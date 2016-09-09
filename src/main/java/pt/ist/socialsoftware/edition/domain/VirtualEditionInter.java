@@ -215,6 +215,10 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 		}
 	}
 
+	public Set<Category> getCategories() {
+		return getTagSet().stream().map(t -> t.getCategory()).collect(Collectors.toSet());
+	}
+
 	public List<Category> getAssignedCategories() {
 		return getAllDepthTags().stream().map(t -> t.getCategory()).distinct()
 				.sorted((c1, c2) -> c1.compareInEditionContext(this.getVirtualEdition(), c2))
@@ -238,12 +242,6 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 				.collect(Collectors.toList());
 
 		return categories;
-	}
-
-	public List<Category> getSortedCategories(VirtualEdition virtualEdition) {
-		Taxonomy taxonomy = virtualEdition.getTaxonomy();
-		return getTagSet().stream().filter(t -> t.getCategory().getTaxonomy() == taxonomy).map(t -> t.getCategory())
-				.distinct().sorted().collect(Collectors.toList());
 	}
 
 	@Override

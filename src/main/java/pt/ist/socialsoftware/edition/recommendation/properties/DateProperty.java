@@ -7,8 +7,12 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import pt.ist.socialsoftware.edition.domain.ExpertEditionInter;
 import pt.ist.socialsoftware.edition.domain.FragInter;
 import pt.ist.socialsoftware.edition.domain.Fragment;
 import pt.ist.socialsoftware.edition.domain.ManuscriptSource;
@@ -19,15 +23,13 @@ import pt.ist.socialsoftware.edition.domain.Source.SourceType;
 import pt.ist.socialsoftware.edition.domain.SourceInter;
 
 public class DateProperty extends StorableProperty {
+	private static Logger logger = LoggerFactory.getLogger(DateProperty.class);
+
 	private static Integer STARTYEAR = 1913;
 	private static Integer ENDYEAR = 1934;
 
 	private static int getNumberOfYears() {
 		return ENDYEAR - STARTYEAR + 1;
-	}
-
-	public DateProperty() {
-		super();
 	}
 
 	public DateProperty(double weight) {
@@ -101,6 +103,14 @@ public class DateProperty extends StorableProperty {
 		List<Double> vector = getDefaultVector();
 		if (sourceInter.getLdoDDate() != null)
 			vector = buildVector(sourceInter.getLdoDDate().getDate().getYear(), vector);
+		return vector;
+	}
+
+	@Override
+	protected List<Double> extractVector(ExpertEditionInter expertEditionInter) {
+		List<Double> vector = getDefaultVector();
+		if (expertEditionInter.getLdoDDate() != null)
+			vector = buildVector(expertEditionInter.getLdoDDate().getDate().getYear(), vector);
 		return vector;
 	}
 
