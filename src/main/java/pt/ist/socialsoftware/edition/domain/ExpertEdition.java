@@ -9,6 +9,10 @@ import java.util.Set;
 import org.joda.time.LocalDate;
 
 public class ExpertEdition extends ExpertEdition_Base implements Comparable<ExpertEdition> {
+	public static final String PIZARRO_ACRONYM = "JP";
+	public static final String ZENITH_ACRONYM = "RZ";
+	public static final String CUNHA_ACRONYM = "TSC";
+	public static final String COELHO_ACRONYM = "JPC";
 	public static final String COELHO = "Jacinto do Prado Coelho";
 	public static final String CUNHA = "Teresa Sobral Cunha";
 	public static final String ZENITH = "Richard Zenith";
@@ -23,16 +27,16 @@ public class ExpertEdition extends ExpertEdition_Base implements Comparable<Expe
 
 		switch (editor) {
 		case COELHO:
-			setAcronym("JPC");
+			setAcronym(COELHO_ACRONYM);
 			break;
 		case CUNHA:
-			setAcronym("TSC");
+			setAcronym(CUNHA_ACRONYM);
 			break;
 		case ZENITH:
-			setAcronym("RZ");
+			setAcronym(ZENITH_ACRONYM);
 			break;
 		case PIZARRO:
-			setAcronym("JP");
+			setAcronym(PIZARRO_ACRONYM);
 			break;
 		default:
 			assert false : "Nome de editor com erros: " + editor;

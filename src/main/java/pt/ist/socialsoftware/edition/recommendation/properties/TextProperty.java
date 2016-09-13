@@ -37,8 +37,8 @@ public class TextProperty extends Property {
 		try {
 			Indexer indexer = new Indexer();
 			Set<String> temp = new HashSet<String>();
-			temp.addAll(indexer.getTerms(inter1, NUMBER_OF_TERMS));
-			temp.addAll(indexer.getTerms(inter2, NUMBER_OF_TERMS));
+			temp.addAll(indexer.getTFIDFTerms(inter1, NUMBER_OF_TERMS));
+			temp.addAll(indexer.getTFIDFTerms(inter2, NUMBER_OF_TERMS));
 			commonTerms = new ArrayList<String>(temp);
 		} catch (ParseException | IOException e) {
 			throw new LdoDException("prepareToLoadProperty in class TextProperty failed when invoking indexer");
@@ -50,8 +50,8 @@ public class TextProperty extends Property {
 		try {
 			Indexer indexer = new Indexer();
 			Set<String> temp = new HashSet<String>();
-			temp.addAll(indexer.getTerms(frag1, NUMBER_OF_TERMS));
-			temp.addAll(indexer.getTerms(frag2, NUMBER_OF_TERMS));
+			temp.addAll(indexer.getTFIDFTerms(frag1, NUMBER_OF_TERMS));
+			temp.addAll(indexer.getTFIDFTerms(frag2, NUMBER_OF_TERMS));
 			commonTerms = new ArrayList<String>(temp);
 		} catch (ParseException | IOException e) {
 			throw new LdoDException("prepareToLoadProperty in class TextProperty failed when invoking indexer");

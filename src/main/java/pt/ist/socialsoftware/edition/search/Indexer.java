@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 import org.apache.lucene.analysis.Analyzer;
@@ -55,7 +54,7 @@ public class Indexer {
 	private static final String ID = "id";
 	private static final String TEXT = "text";
 	private final Analyzer analyzer;
-	private static final HashMap<String, Map<String, Double>> terms = new HashMap<String, Map<String, Double>>();
+	private static final HashMap<String, Map<String, Double>> termsTFIDF = new HashMap<String, Map<String, Double>>();
 	private final QueryParserBase queryParser;
 	private final int significativeTerms = 1000;
 	private final File file;
@@ -91,6 +90,17 @@ public class Indexer {
 		directory.close();
 	}
 
+	public List<String> search(String words) throws ParseException, IOException {
+		String query = absoluteSearch(words);
+		return getResults(query);
+	}
+
+	public List<String> search(String words, FragInter inter) throws IOException, ParseException {
+		String query = absoluteSearch(words);
+		query = ID + ":" + inter.getExternalId() + " AND " + query;
+		return getResults(query);
+	}
+
 	private List<String> getResults(String query) throws IOException, ParseException {
 		logger.debug("Query: {}", query);
 
@@ -114,17 +124,6 @@ public class Indexer {
 		reader.close();
 		directory.close();
 		return hitList;
-	}
-
-	public List<String> search(String words) throws ParseException, IOException {
-		String query = absoluteSearch(words);
-		return getResults(query);
-	}
-
-	public List<String> search(String words, FragInter inter) throws IOException, ParseException {
-		String query = absoluteSearch(words);
-		query = ID + ":" + inter.getExternalId() + " AND " + query;
-		return getResults(query);
 	}
 
 	// Search for fragments with a set of words similar to input
@@ -153,33 +152,28 @@ public class Indexer {
 		return query;
 	}
 
-	public Map<String, Double> getTFIDF(Fragment fragment) throws IOException, ParseException {
-		String id = fragment.getExternalId();
-		if (terms.containsKey(id)) {
-			return terms.get(id);
+	private double calculateIDF(int numDocs, int df) {
+		return Math.log10(numDocs / (double) df);
+	}
+
+	private double calculateLogTF(Integer value) {
+		return 1 + Math.log10(value);
+	}
+
+	public Map<String, Double> getTFIDF(Source source, List<String> commonTerms) throws IOException, ParseException {
+		Map<String, Double> TFIDFMap = new HashMap<String, Double>(getTFIDF(source));
+		TFIDFMap.keySet().retainAll(commonTerms);
+		return TFIDFMap;
+	}
+
+	private Map<String, Double> getTFIDF(Source source) throws IOException, ParseException {
+		String id = source.getExternalId();
+		if (termsTFIDF.containsKey(id)) {
+			return termsTFIDF.get(id);
 		}
-		Map<String, Double> TFIDFMap = new HashMap<>();
-		Map<String, Integer> tf = getTermCount(fragment);
-		Directory directory = new NIOFSDirectory(file);
-		IndexReader reader = DirectoryReader.open(directory);
-		int df, numDocs;
-		double tfidf;
-		for (Entry<String, Integer> entry : tf.entrySet()) {
-			df = reader.docFreq(new Term(TEXT, entry.getKey()));
-			numDocs = reader.numDocs();
-			tfidf = calculateLogTF(entry.getValue()) * calculateIDF(numDocs, df);
-			TFIDFMap.put(entry.getKey(), tfidf);
-		}
-		reader.close();
-		directory.close();
-		List<Entry<String, Double>> list = TFIDFMap.entrySet().stream()
-				.sorted(Collections.reverseOrder(Map.Entry.comparingByValue())).collect(Collectors.toList());
-		TFIDFMap = new HashMap<String, Double>();
-		int size = list.size();
-		for (int i = 0; i < size && i < significativeTerms; i++) {
-			TFIDFMap.put(list.get(i).getKey(), list.get(i).getValue());
-		}
-		terms.put(id, TFIDFMap);
+		Map<String, Integer> tf = getTermCount(source);
+		Map<String, Double> TFIDFMap = getTFIDF(tf);
+		termsTFIDF.put(id, TFIDFMap);
 		return TFIDFMap;
 	}
 
@@ -190,159 +184,15 @@ public class Indexer {
 		return TFIDFMap;
 	}
 
-	private double calculateIDF(int numDocs, int df) {
-		return Math.log10(numDocs / (double) df);
-	}
-
-	private double calculateLogTF(Integer value) {
-		return 1 + Math.log10(value);
-	}
-
-	private Map<String, Integer> getTermCount(Fragment fragment) throws IOException, ParseException {
-		Map<String, Integer> TFMap = new TreeMap<String, Integer>();
-		Directory directory = new NIOFSDirectory(file);
-		IndexReader reader = DirectoryReader.open(directory);
-		String queryString;
-		Query query;
-		IndexSearcher searcher;
-		int hitsPerPage, tf, docId, i, len;
-		TopScoreDocCollector collector;
-		ScoreDoc[] hits;
-		Terms terms;
-		TermsEnum termsEnum;
-		BytesRef text;
-		String term;
-		for (FragInter fragInter : fragment.getFragmentInterSet()) {
-			queryString = ID + ":" + fragInter.getExternalId();
-			query = queryParser.parse(queryString);
-			searcher = new IndexSearcher(reader);
-			hitsPerPage = reader.numDocs();
-			collector = TopScoreDocCollector.create(hitsPerPage, true);
-			searcher.search(query, collector);
-			hits = collector.topDocs().scoreDocs;
-			len = hits.length;
-			for (i = 0; i < len; ++i) {
-				docId = hits[i].doc;
-				terms = reader.getTermVector(docId, TEXT);
-				if (terms == null)
-					return TFMap;
-				termsEnum = null;
-				termsEnum = terms.iterator(termsEnum);
-				text = null;
-				while ((text = termsEnum.next()) != null) {
-					term = text.utf8ToString();
-					tf = (int) termsEnum.totalTermFreq();
-					if (TFMap.containsKey(term)) {
-						TFMap.put(term, TFMap.get(term) + tf);
-					} else {
-						TFMap.put(term, tf);
-					}
-				}
-			}
+	public Map<String, Double> getTFIDF(Fragment fragment) throws IOException, ParseException {
+		String id = fragment.getExternalId();
+		if (termsTFIDF.containsKey(id)) {
+			return termsTFIDF.get(id);
 		}
-		reader.close();
-		directory.close();
-		return TFMap;
-	}
-
-	public Collection<String> getTerms(Fragment fragment, int numberOfTerms) throws IOException, ParseException {
-		Set<Entry<String, Double>> set = getTFIDF(fragment).entrySet();
-		List<Entry<String, Double>> list = new ArrayList<Entry<String, Double>>(set);
-		Collections.sort(list, new Comparator<Map.Entry<String, Double>>() {
-			@Override
-			public int compare(Map.Entry<String, Double> o1, Map.Entry<String, Double> o2) {
-				return (o2.getValue()).compareTo(o1.getValue());
-			}
-		});
-		List<String> terms = new ArrayList<>();
-		int size = list.size();
-		for (int i = 0; i < size && i < numberOfTerms; i++) {
-			terms.add(list.get(i).getKey());
-		}
-		return terms;
-	}
-
-	public Map<String, Double> getTFIDF(Source source, List<String> commonTerms) throws IOException, ParseException {
-		Map<String, Double> TFIDFMap = new HashMap<>(getTFIDF(source));
-		TFIDFMap.keySet().retainAll(commonTerms);
+		Map<String, Integer> tf = getTermCount(fragment);
+		Map<String, Double> TFIDFMap = getTFIDF(tf);
+		termsTFIDF.put(id, TFIDFMap);
 		return TFIDFMap;
-	}
-
-	private Map<String, Double> getTFIDF(Source source) throws IOException, ParseException {
-		String id = source.getExternalId();
-		if (terms.containsKey(id)) {
-			return terms.get(id);
-		}
-		Map<String, Double> TFIDFMap = new HashMap<>();
-		Map<String, Integer> tf = getTermCount(source);
-		Directory directory = new NIOFSDirectory(file);
-		IndexReader reader = DirectoryReader.open(directory);
-		int df, numDocs;
-		double tfidf;
-		for (Entry<String, Integer> entry : tf.entrySet()) {
-			df = reader.docFreq(new Term(TEXT, entry.getKey()));
-			numDocs = reader.numDocs();
-			tfidf = calculateLogTF(entry.getValue()) * calculateIDF(numDocs, df);
-			TFIDFMap.put(entry.getKey(), tfidf);
-		}
-		reader.close();
-		directory.close();
-		List<Entry<String, Double>> list = TFIDFMap.entrySet().stream()
-				.sorted(Collections.reverseOrder(Map.Entry.comparingByValue())).collect(Collectors.toList());
-		TFIDFMap = new HashMap<String, Double>();
-		int size = list.size();
-		for (int i = 0; i < size && i < significativeTerms; i++) {
-			TFIDFMap.put(list.get(i).getKey(), list.get(i).getValue());
-		}
-		terms.put(id, TFIDFMap);
-		return TFIDFMap;
-	}
-
-	private Map<String, Integer> getTermCount(Source source) throws IOException, ParseException {
-		Map<String, Integer> TFMap = new TreeMap<String, Integer>();
-		Directory directory = new NIOFSDirectory(file);
-		IndexReader reader = DirectoryReader.open(directory);
-		String queryString;
-		Query query;
-		IndexSearcher searcher;
-		int hitsPerPage, tf, docId, i, len;
-		TopScoreDocCollector collector;
-		ScoreDoc[] hits;
-		Terms terms;
-		TermsEnum termsEnum;
-		BytesRef text;
-		String term;
-		for (FragInter fragInter : source.getSourceIntersSet()) {
-			queryString = ID + ":" + fragInter.getExternalId();
-			query = queryParser.parse(queryString);
-			searcher = new IndexSearcher(reader);
-			hitsPerPage = reader.numDocs();
-			collector = TopScoreDocCollector.create(hitsPerPage, true);
-			searcher.search(query, collector);
-			hits = collector.topDocs().scoreDocs;
-			len = hits.length;
-			for (i = 0; i < len; ++i) {
-				docId = hits[i].doc;
-				terms = reader.getTermVector(docId, TEXT);
-				if (terms == null)
-					return TFMap;
-				termsEnum = null;
-				termsEnum = terms.iterator(termsEnum);
-				text = null;
-				while ((text = termsEnum.next()) != null) {
-					term = text.utf8ToString();
-					tf = (int) termsEnum.totalTermFreq();
-					if (TFMap.containsKey(term)) {
-						TFMap.put(term, TFMap.get(term) + tf);
-					} else {
-						TFMap.put(term, tf);
-					}
-				}
-			}
-		}
-		reader.close();
-		directory.close();
-		return TFMap;
 	}
 
 	public Map<String, Double> getTFIDF(FragInter fragInter, List<String> commonTerms)
@@ -353,15 +203,21 @@ public class Indexer {
 	}
 
 	private Map<String, Double> getTFIDF(String id) throws IOException, ParseException {
-		if (terms.containsKey(id)) {
-			return terms.get(id);
+		if (termsTFIDF.containsKey(id)) {
+			return termsTFIDF.get(id);
 		}
-		Map<String, Double> TFIDFMap = new HashMap<>();
 		Map<String, Integer> tf = getTermCount(id);
+		Map<String, Double> TFIDFMap = getTFIDF(tf);
+		termsTFIDF.put(id, TFIDFMap);
+		return TFIDFMap;
+	}
+
+	private Map<String, Double> getTFIDF(Map<String, Integer> tf) throws IOException {
 		Directory directory = new NIOFSDirectory(file);
 		IndexReader reader = DirectoryReader.open(directory);
 		int df, numDocs;
 		double tfidf;
+		Map<String, Double> TFIDFMap = new HashMap<String, Double>();
 		for (Entry<String, Integer> entry : tf.entrySet()) {
 			df = reader.docFreq(new Term(TEXT, entry.getKey()));
 			numDocs = reader.numDocs();
@@ -377,16 +233,55 @@ public class Indexer {
 		for (int i = 0; i < size && i < significativeTerms; i++) {
 			TFIDFMap.put(list.get(i).getKey(), list.get(i).getValue());
 		}
-		terms.put(id, TFIDFMap);
 		return TFIDFMap;
 	}
 
-	private Map<String, Integer> getTermCount(String id) throws ParseException, IOException {
-		Map<String, Integer> TFMap = new TreeMap<String, Integer>();
-		Directory directory = new NIOFSDirectory(file);
-		IndexReader reader = DirectoryReader.open(directory);
+	private Map<String, Integer> getTermCount(Fragment fragment) throws IOException, ParseException {
+		Map<String, Integer> TFMap = new HashMap<String, Integer>();
 		String queryString;
 		Query query;
+		for (FragInter fragInter : fragment.getFragmentInterSet()) {
+			queryString = ID + ":" + fragInter.getExternalId();
+			query = queryParser.parse(queryString);
+			for (Entry<String, Integer> entry : getTermCount(query).entrySet()) {
+				if (TFMap.containsKey(entry.getKey())) {
+					TFMap.put(entry.getKey(), TFMap.get(entry.getKey()) + entry.getValue());
+				} else {
+					TFMap.put(entry.getKey(), entry.getValue());
+				}
+			}
+		}
+		return TFMap;
+	}
+
+	private Map<String, Integer> getTermCount(Source source) throws IOException, ParseException {
+		Map<String, Integer> TFMap = new HashMap<String, Integer>();
+		String queryString;
+		Query query;
+		for (FragInter fragInter : source.getSourceIntersSet()) {
+			queryString = ID + ":" + fragInter.getExternalId();
+			query = queryParser.parse(queryString);
+			for (Entry<String, Integer> entry : getTermCount(query).entrySet()) {
+				if (TFMap.containsKey(entry.getKey())) {
+					TFMap.put(entry.getKey(), TFMap.get(entry.getKey()) + entry.getValue());
+				} else {
+					TFMap.put(entry.getKey(), entry.getValue());
+				}
+			}
+		}
+		return TFMap;
+	}
+
+	private Map<String, Integer> getTermCount(String id) throws ParseException, IOException {
+		String queryString = ID + ":" + id;
+		Query query = queryParser.parse(queryString);
+		return getTermCount(query);
+	}
+
+	private Map<String, Integer> getTermCount(Query query) throws ParseException, IOException {
+		Map<String, Integer> TFMap = new HashMap<String, Integer>();
+		Directory directory = new NIOFSDirectory(file);
+		IndexReader reader = DirectoryReader.open(directory);
 		IndexSearcher searcher;
 		int hitsPerPage, tf, docId, i, len;
 		TopScoreDocCollector collector;
@@ -395,8 +290,6 @@ public class Indexer {
 		TermsEnum termsEnum;
 		BytesRef text;
 		String term;
-		queryString = ID + ":" + id;
-		query = queryParser.parse(queryString);
 		searcher = new IndexSearcher(reader);
 		hitsPerPage = reader.numDocs();
 		collector = TopScoreDocCollector.create(hitsPerPage, true);
@@ -426,25 +319,17 @@ public class Indexer {
 		return TFMap;
 	}
 
-	public Collection<String> getTerms(Source source, int numberOfTerms) throws IOException, ParseException {
-		Set<Entry<String, Double>> set = getTFIDF(source).entrySet();
-		List<Entry<String, Double>> list = new ArrayList<Entry<String, Double>>(set);
-		Collections.sort(list, new Comparator<Map.Entry<String, Double>>() {
-			@Override
-			public int compare(Map.Entry<String, Double> o1, Map.Entry<String, Double> o2) {
-				return (o2.getValue()).compareTo(o1.getValue());
-			}
-		});
-		List<String> terms = new ArrayList<>();
-		int size = list.size();
-		for (int i = 0; i < size && i < numberOfTerms; i++) {
-			terms.add(list.get(i).getKey());
-		}
-		return terms;
+	public Collection<String> getTFIDFTerms(Fragment fragment, int numberOfTerms) throws IOException, ParseException {
+		Set<Entry<String, Double>> set = getTFIDF(fragment).entrySet();
+		return getTFIDFTerms(set, numberOfTerms);
 	}
 
-	public Collection<? extends String> getTerms(FragInter inter, int numberOfTerms)
-			throws IOException, ParseException {
+	public Collection<String> getTFIDFTerms(Source source, int numberOfTerms) throws IOException, ParseException {
+		Set<Entry<String, Double>> set = getTFIDF(source).entrySet();
+		return getTFIDFTerms(set, numberOfTerms);
+	}
+
+	public Collection<String> getTFIDFTerms(FragInter inter, int numberOfTerms) throws IOException, ParseException {
 		String id;
 		if (inter.getEdition().getSourceType().equals(EditionType.VIRTUAL)) {
 			id = inter.getLastUsed().getExternalId();
@@ -452,6 +337,10 @@ public class Indexer {
 			id = inter.getExternalId();
 		}
 		Set<Entry<String, Double>> set = getTFIDF(id).entrySet();
+		return getTFIDFTerms(set, numberOfTerms);
+	}
+
+	private Collection<String> getTFIDFTerms(Set<Entry<String, Double>> set, int numberOfTerms) {
 		List<Entry<String, Double>> list = new ArrayList<Entry<String, Double>>(set);
 		Collections.sort(list, new Comparator<Map.Entry<String, Double>>() {
 			@Override
@@ -465,6 +354,7 @@ public class Indexer {
 			terms.add(list.get(i).getKey());
 		}
 		return terms;
+
 	}
 
 	public void cleanMissingHits(List<String> misses) {
