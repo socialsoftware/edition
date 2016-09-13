@@ -307,6 +307,17 @@ class ManuscriptSource extends Source {
 	String notes;
 }
 
+class Dimensions {
+	float height;
+	float width;
+}
+
+relation ManuscriptSourceHasDimensions {
+	ManuscriptSource playsRole manuscriptSource {multiplicity 1..1;}
+	Dimensions playsRole dimensions {multiplicity 0..1;}
+}
+
+
 class Tag;
 
 relation Tag2Category {

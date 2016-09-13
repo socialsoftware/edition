@@ -34,6 +34,7 @@ import pt.ist.socialsoftware.edition.domain.AnnexNote;
 import pt.ist.socialsoftware.edition.domain.AppText;
 import pt.ist.socialsoftware.edition.domain.DelText;
 import pt.ist.socialsoftware.edition.domain.DelText.HowDel;
+import pt.ist.socialsoftware.edition.domain.Dimensions;
 import pt.ist.socialsoftware.edition.domain.ExpertEdition;
 import pt.ist.socialsoftware.edition.domain.ExpertEditionInter;
 import pt.ist.socialsoftware.edition.domain.Facsimile;
@@ -1293,10 +1294,43 @@ public class LoadTEIFragments {
 			Element msId = msDesc.getChild("msIdentifier", namespace);
 			loadMsId(msId, manuscript);
 
+			if (msDesc.getChild("dimensions", namespace) != null) {
+				loadDimensions(msDesc, manuscript);
+			}
+
 			loadPhysDesc(msDesc, manuscript);
 
 			loadMsHistory(msDesc, manuscript);
 		}
+	}
+
+	private void loadDimensions(Element msDesc, ManuscriptSource manuscript) {
+		Element dimensions = msDesc.getChild("dimensions", namespace);
+
+		System.out.println("dimensions");
+
+		String unit = dimensions.getAttributeValue("unit");
+		if (!unit.equals("cm")) {
+			throw new LdoDException("As unidades (unit) do elemento dimensions deve ser em cm");
+		}
+
+		Float height;
+		try {
+			height = Float.parseFloat(dimensions.getChildTextTrim("height", namespace));
+		} catch (NumberFormatException e) {
+			throw new LdoDException("O valor de height do elemento dimensions não pode ser "
+					+ dimensions.getChildTextTrim("height", namespace));
+		}
+
+		Float width;
+		try {
+			width = Float.parseFloat(dimensions.getChildTextTrim("width", namespace));
+		} catch (NumberFormatException e) {
+			throw new LdoDException("O valor de width do elemento dimensions não pode ser "
+					+ dimensions.getChildTextTrim("width", namespace));
+		}
+
+		manuscript.setDimensions(new Dimensions(height, width));
 	}
 
 	private void loadMsHistory(Element msDesc, ManuscriptSource manuscript) {
