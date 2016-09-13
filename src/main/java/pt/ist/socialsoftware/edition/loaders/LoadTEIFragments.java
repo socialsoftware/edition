@@ -1366,8 +1366,12 @@ public class LoadTEIFragments {
 		Element layoutElement = objectDesc.getChild("layoutDesc", namespace).getChild("layout", namespace);
 		manuscript.setColumns(Integer.parseInt(layoutElement.getAttributeValue("columns")));
 
-		loadHandDesc(manuscript, physDesc);
-		loadTypeDesc(manuscript, physDesc);
+		if (physDesc.getChild("handDesc", namespace) != null) {
+			loadHandDesc(manuscript, physDesc);
+		}
+		if (physDesc.getChild("typeDesc", namespace) != null) {
+			loadTypeDesc(manuscript, physDesc);
+		}
 
 		Element additions = physDesc.getChild("additions", namespace);
 		if (additions.getTextTrim().equals("LdoD")) {
@@ -1382,24 +1386,36 @@ public class LoadTEIFragments {
 
 	private void loadTypeDesc(ManuscriptSource manuscript, Element physDesc) {
 		Element typeDesc = physDesc.getChild("typeDesc", namespace);
+		Element typeDescParagraph = typeDesc.getChild("p", namespace);
+		String stringTypeNote = null;
 
-		if (typeDesc != null) {
+		if (typeDescParagraph != null) {
+			stringTypeNote = typeDescParagraph.getTextTrim();
+			manuscript.setNotes(
+					manuscript.getNotes() != null ? manuscript.getNotes() + ", " + stringTypeNote : stringTypeNote);
+		} else {
 			for (Element typeNoteElement : typeDesc.getChildren("typeNote", namespace)) {
 				String mediumValue = typeNoteElement.getAttributeValue("medium");
 				Medium medium = getMedium(mediumValue);
 
-				if (typeNoteElement.getChild("locus", namespace) == null) {
+				if (typeNoteElement.getChild("locus", namespace) != null) {
+					stringTypeNote = typeNoteElement.getChild("locus", namespace).getTextTrim();
+				} else if (typeNoteElement.getChild("p", namespace) != null) {
+					stringTypeNote = typeNoteElement.getChild("p", namespace).getTextTrim();
+				} else {
 					throw new LdoDLoadException(
-							"Elemento typeNote sem locus" + " _VALOR_ " + typeNoteElement.getContent());
+							"Elemento typeNote sem locus ou p " + "_VALOR_ " + typeNoteElement.getContent());
 				}
 
-				TypeNote typeNote = new TypeNote(medium, typeNoteElement.getChild("locus", namespace).getTextTrim());
+				TypeNote typeNote = new TypeNote(medium, stringTypeNote);
 				typeNote.setManuscript(manuscript);
 
-				String[] targets = typeNoteElement.getChild("locus", namespace).getAttributeValue("target").trim()
-						.split("\\s+");
-				for (String target : targets) {
-					putObjectInverseIdMap(target.substring(1), typeNote);
+				if ((typeNoteElement.getChild("locus", namespace) != null)) {
+					String[] targets = typeNoteElement.getChild("locus", namespace).getAttributeValue("target").trim()
+							.split("\\s+");
+					for (String target : targets) {
+						putObjectInverseIdMap(target.substring(1), typeNote);
+					}
 				}
 			}
 		}
@@ -1412,30 +1428,34 @@ public class LoadTEIFragments {
 
 		if (handDescParagraph != null) {
 			stringHandNote = handDescParagraph.getTextTrim();
+			manuscript.setNotes(
+					manuscript.getNotes() != null ? manuscript.getNotes() + ", " + stringHandNote : stringHandNote);
 		} else {
 			for (Element handNoteElement : handDesc.getChildren("handNote", namespace)) {
 				String mediumValue = handNoteElement.getAttributeValue("medium");
-
 				Medium medium = getMedium(mediumValue);
 
-				if (handNoteElement.getChild("locus", namespace) == null) {
+				if (handNoteElement.getChild("locus", namespace) != null) {
+					stringHandNote = handNoteElement.getChild("locus", namespace).getTextTrim();
+				} else if (handNoteElement.getChild("p", namespace) != null) {
+					stringHandNote = handNoteElement.getChild("p", namespace).getTextTrim();
+				} else {
 					throw new LdoDLoadException(
-							"Elemento handNote sem locus" + "_VALOR_ " + handNoteElement.getContent());
+							"Elemento handNote sem locus ou p " + "_VALOR_ " + handNoteElement.getContent());
 				}
-
-				stringHandNote = handNoteElement.getChild("locus", namespace).getTextTrim();
 
 				HandNote handNote = new HandNote(medium, stringHandNote);
 				handNote.setManuscript(manuscript);
 
-				String[] targets = handNoteElement.getChild("locus", namespace).getAttributeValue("target").trim()
-						.split("\\s+");
-				for (String target : targets) {
-					putObjectInverseIdMap(target.substring(1), handNote);
+				if ((handNoteElement.getChild("locus", namespace) != null)) {
+					String[] targets = handNoteElement.getChild("locus", namespace).getAttributeValue("target").trim()
+							.split("\\s+");
+					for (String target : targets) {
+						putObjectInverseIdMap(target.substring(1), handNote);
+					}
 				}
 			}
 		}
-		manuscript.setNotes(stringHandNote);
 	}
 
 	private String getRefTarget(Element element) {

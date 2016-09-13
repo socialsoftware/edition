@@ -2,12 +2,16 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <!-- class="table table-hover table-condensed" -->
 <div>
-	
-	<table id="tablesearchresults" pageSize=100 data-pagination="true" data-page-list="[100, 250, 500, All]">
+
+	<table id="tablesearchresults" pageSize=100 data-pagination="true"
+		data-page-list="[100, 250, 500, All]">
 		<thead>
 			<tr>
-				<th><spring:message code="fragment"/> (${fragCount})</td>
-				<th><spring:message code="interpretations"/> (${interCount})</td>
+				<th><spring:message code="fragment" /> (${fragCount})
+				</td>
+				<th><spring:message code="interpretations" /> (${interCount})
+				
+				</td>
 
 				<%-- 			<c:forEach items="${search}" var="optionTitle"> --%>
 				<%-- 				<td>${ optionTitle.toString()}</td> --%>
@@ -17,25 +21,25 @@
 					<th>C${val}</th>
 				</c:forEach>
 				<c:if test="${showSource}">
-					<th><spring:message code="search.source"/></th>
+					<th><spring:message code="search.source" /></th>
 				</c:if>
 				<c:if test="${showSourceType}">
-					<th><spring:message code="authorial.source"/></th>
+					<th><spring:message code="authorial.source" /></th>
 				</c:if>
 				<c:if test="${showLdoD}">
-					<th><spring:message code="general.LdoDLabel"/>LdoD Mark</th>
+					<th><spring:message code="general.LdoDLabel" />LdoD Mark</th>
 				</c:if>
 				<c:if test="${showPubPlace}">
-					<th><spring:message code="general.published"/></th>
+					<th><spring:message code="general.published" /></th>
 				</c:if>
 				<c:if test="${showEdition}">
-					<th><spring:message code="navigation.edition"/></th>
+					<th><spring:message code="navigation.edition" /></th>
 				</c:if>
 				<c:if test="${showHeteronym}">
-					<th><spring:message code="general.heteronym"/></th>
+					<th><spring:message code="general.heteronym" /></th>
 				</c:if>
 				<c:if test="${showDate}">
-					<th><spring:message code="general.date"/></th>
+					<th><spring:message code="general.date" /></th>
 				</c:if>
 			</tr>
 		</thead>
@@ -86,23 +90,17 @@
 								</c:choose>
 
 								<c:if test="${showSourceType}">
-									<c:choose>
-										<c:when
+									<td><c:if
 											test="${ fragInterEntry.key.getClass().getSimpleName().equals('SourceInter') &&
 												fragInterEntry.key.getSource().getType() == 'MANUSCRIPT' &&
-												fragInterEntry.key.getSource().getNotes().toLowerCase().contains('datil') }">
-											<td><spring:message code="general.typescript"/></td>
-										</c:when>
-										<c:when
+												!fragInterEntry.key.getSource().getTypeNoteSet().isEmpty() }">
+											<spring:message code="general.typescript" />
+										</c:if> <c:if
 											test="${ fragInterEntry.key.getClass().getSimpleName().equals('SourceInter') &&
 												fragInterEntry.key.getSource().getType() == 'MANUSCRIPT' &&
-												fragInterEntry.key.getSource().getNotes().toLowerCase().contains('manus')}">
-											<td><spring:message code="general.manuscript"/></td>
-										</c:when>
-										<c:otherwise>
-											<td></td>
-										</c:otherwise>
-									</c:choose>
+												!fragInterEntry.key.getSource().getHandNoteSet().isEmpty() }">
+											<spring:message code="general.manuscript" />
+										</c:if></td>
 								</c:if>
 
 

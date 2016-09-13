@@ -30,7 +30,7 @@ public abstract class AuthoralSearchOption extends SearchOption {
 	private boolean verifiesSearchOption(SourceInter inter) {
 		if (inter.getSource().getType().equals(SourceType.MANUSCRIPT)) {
 			ManuscriptSource source = (ManuscriptSource) inter.getSource();
-			if (source.getNotes().toLowerCase().contains(getDocumentType()) && dateSearchOption.verifiesSearchOption(inter)) {
+			if (isOfDocumentType(source) && dateSearchOption.verifiesSearchOption(inter)) {
 				if (hasLdoD.equals(SearchOption.ALL) || (hasLdoD.equals("true") && source.getHasLdoDLabel()))
 					return true;
 				else if (hasLdoD.equals("false") && !source.getHasLdoDLabel())
@@ -39,6 +39,8 @@ public abstract class AuthoralSearchOption extends SearchOption {
 		}
 		return false;
 	}
+
+	protected abstract boolean isOfDocumentType(ManuscriptSource source);
 
 	protected abstract String getDocumentType();
 

@@ -57,7 +57,8 @@ public class ManuscriptSource extends ManuscriptSource_Base {
 					+ ", Número de parágrafos referidos: " + typeNote.getTextPortionSet().size() + "<br>";
 		}
 
-		result = result + "Notas: " + getNotes() + "<br>";
+		result = result + "Notas: " + (getNotes() != null ? getNotes() : "");
+		result = result + "<br>";
 
 		Facsimile facs = getFacsimile();
 		if (facs != null) {

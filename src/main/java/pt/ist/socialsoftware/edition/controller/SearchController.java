@@ -285,7 +285,9 @@ public class SearchController {
 					SourceType type = ((SourceInter) inter).getSource().getType();
 					if (type.equals(SourceType.MANUSCRIPT)) {
 						ManuscriptSource source = (ManuscriptSource) ((SourceInter) inter).getSource();
-						if (!source.getNotes().toLowerCase().contains(mode)) {
+						if (mode.equals(ManuscriptSearchOption.MANUSCRIPTID) && source.getHandNoteSet().isEmpty()
+								|| (mode.equals(TypescriptSearchOption.TYPESCRIPT)
+										&& source.getTypeNoteSet().isEmpty())) {
 							break;
 						}
 						if (source.getLdoDDate() != null) {
