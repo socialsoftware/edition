@@ -35,7 +35,7 @@ public class TextProperty extends Property {
 	@Override
 	public void prepareToLoadProperty(FragInter inter1, FragInter inter2) {
 		try {
-			Indexer indexer = new Indexer();
+			Indexer indexer = Indexer.getIndexer();
 			Set<String> temp = new HashSet<String>();
 			temp.addAll(indexer.getTFIDFTerms(inter1, NUMBER_OF_TERMS));
 			temp.addAll(indexer.getTFIDFTerms(inter2, NUMBER_OF_TERMS));
@@ -48,7 +48,7 @@ public class TextProperty extends Property {
 	@Override
 	public void prepareToLoadProperty(Fragment frag1, Fragment frag2) {
 		try {
-			Indexer indexer = new Indexer();
+			Indexer indexer = Indexer.getIndexer();
 			Set<String> temp = new HashSet<String>();
 			temp.addAll(indexer.getTFIDFTerms(frag1, NUMBER_OF_TERMS));
 			temp.addAll(indexer.getTFIDFTerms(frag2, NUMBER_OF_TERMS));
@@ -73,7 +73,7 @@ public class TextProperty extends Property {
 	protected List<Double> extractVector(ExpertEditionInter expertEditionInter) {
 		Map<String, Double> tfidf;
 		try {
-			tfidf = (new Indexer()).getTFIDF(expertEditionInter, commonTerms);
+			tfidf = Indexer.getIndexer().getTFIDF(expertEditionInter, commonTerms);
 		} catch (IOException | ParseException e) {
 			throw new LdoDException("Indexer error when extractVector in TextProperty");
 		}
@@ -85,7 +85,7 @@ public class TextProperty extends Property {
 	protected List<Double> extractVector(SourceInter sourceInter) {
 		Map<String, Double> tfidf;
 		try {
-			tfidf = (new Indexer()).getTFIDF(sourceInter, commonTerms);
+			tfidf = Indexer.getIndexer().getTFIDF(sourceInter, commonTerms);
 		} catch (IOException | ParseException e) {
 			throw new LdoDException("Indexer error when extractVector in TextProperty");
 		}
@@ -97,7 +97,7 @@ public class TextProperty extends Property {
 	public List<Double> extractVector(Fragment fragment) {
 		Map<String, Double> tfidf;
 		try {
-			tfidf = (new Indexer()).getTFIDF(fragment, commonTerms);
+			tfidf = Indexer.getIndexer().getTFIDF(fragment, commonTerms);
 		} catch (IOException | ParseException e) {
 			throw new LdoDException("Indexer error when extractVector in TextProperty");
 		}

@@ -27,7 +27,7 @@ public class ExpertEditionInter extends ExpertEditionInter_Base {
 		// remove from Lucene
 		List<String> externalIds = new ArrayList<String>();
 		externalIds.add(externalId);
-		Indexer indexer = new Indexer();
+		Indexer indexer = Indexer.getIndexer();
 		indexer.cleanMissingHits(externalIds);
 
 		// remove from mallet directory

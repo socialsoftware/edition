@@ -49,7 +49,7 @@ public class Bootstrap implements WebApplicationInitializer {
 			populateDatabaseUsersAndRoles();
 
 			// clean Lucene
-			Indexer indexer = new Indexer();
+			Indexer indexer = Indexer.getIndexer();
 			indexer.cleanLucene();
 			// clean Mallet directory
 			TopicModeler topicModeler = new TopicModeler();

@@ -38,7 +38,7 @@ public final class TextSearchOption extends SearchOption {
 
 	public List<FragInter> search() {
 		List<String> hits = new ArrayList<>();
-		Indexer indexer = new Indexer();
+		Indexer indexer = Indexer.getIndexer();
 		try {
 			hits = indexer.search(text);
 		} catch (ParseException | IOException e) {
@@ -72,7 +72,7 @@ public final class TextSearchOption extends SearchOption {
 		}
 
 		if (!misses.isEmpty()) {
-			Indexer indexer = new Indexer();
+			Indexer indexer = Indexer.getIndexer();
 			indexer.cleanMissingHits(misses);
 		}
 

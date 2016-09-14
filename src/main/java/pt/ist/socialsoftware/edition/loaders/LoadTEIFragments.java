@@ -301,7 +301,7 @@ public class LoadTEIFragments {
 				generator.generate(inter);
 
 				// Add inter to index
-				Indexer indexer = new Indexer();
+				Indexer indexer = Indexer.getIndexer();
 				indexer.addDocument(inter);
 
 			} catch (FileNotFoundException e) {
@@ -1294,18 +1294,14 @@ public class LoadTEIFragments {
 			Element msId = msDesc.getChild("msIdentifier", namespace);
 			loadMsId(msId, manuscript);
 
-			if (msDesc.getChild("dimensions", namespace) != null) {
-				loadDimensions(msDesc, manuscript);
-			}
-
 			loadPhysDesc(msDesc, manuscript);
 
 			loadMsHistory(msDesc, manuscript);
 		}
 	}
 
-	private void loadDimensions(Element msDesc, ManuscriptSource manuscript) {
-		Element dimensions = msDesc.getChild("dimensions", namespace);
+	private void loadDimensions(Element supportDesc, ManuscriptSource manuscript) {
+		Element dimensions = supportDesc.getChild("extent", namespace).getChild("dimensions", namespace);
 
 		System.out.println("dimensions");
 
@@ -1397,6 +1393,10 @@ public class LoadTEIFragments {
 					+ supportDesc.getAttributeValue("material") + " _VALOR_ " + supportDesc.getContent());
 		}
 
+		if (supportDesc.getChild("extent", namespace) != null) {
+			loadDimensions(supportDesc, manuscript);
+		}
+
 		Element layoutElement = objectDesc.getChild("layoutDesc", namespace).getChild("layout", namespace);
 		manuscript.setColumns(Integer.parseInt(layoutElement.getAttributeValue("columns")));
 
@@ -1415,7 +1415,7 @@ public class LoadTEIFragments {
 		Element binding = physDesc.getChild("bindingDesc", namespace).getChild("binding", namespace).getChild("p",
 				namespace);
 
-		manuscript.setNotes(manuscript.getNotes() + ", " + additions.getTextTrim() + ", " + binding.getTextTrim());
+		manuscript.setNotes(additions.getTextTrim() + ", " + binding.getTextTrim());
 	}
 
 	private void loadTypeDesc(ManuscriptSource manuscript, Element physDesc) {
@@ -1425,8 +1425,8 @@ public class LoadTEIFragments {
 
 		if (typeDescParagraph != null) {
 			stringTypeNote = typeDescParagraph.getTextTrim();
-			manuscript.setNotes(
-					manuscript.getNotes() != null ? manuscript.getNotes() + ", " + stringTypeNote : stringTypeNote);
+			TypeNote typeNote = new TypeNote(null, stringTypeNote);
+			typeNote.setManuscript(manuscript);
 		} else {
 			for (Element typeNoteElement : typeDesc.getChildren("typeNote", namespace)) {
 				String mediumValue = typeNoteElement.getAttributeValue("medium");
@@ -1462,8 +1462,9 @@ public class LoadTEIFragments {
 
 		if (handDescParagraph != null) {
 			stringHandNote = handDescParagraph.getTextTrim();
-			manuscript.setNotes(
-					manuscript.getNotes() != null ? manuscript.getNotes() + ", " + stringHandNote : stringHandNote);
+
+			HandNote handNote = new HandNote(null, stringHandNote);
+			handNote.setManuscript(manuscript);
 		} else {
 			for (Element handNoteElement : handDesc.getChildren("handNote", namespace)) {
 				String mediumValue = handNoteElement.getAttributeValue("medium");

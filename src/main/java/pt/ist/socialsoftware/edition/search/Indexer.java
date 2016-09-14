@@ -51,6 +51,15 @@ import pt.ist.socialsoftware.edition.visitors.PlainTextFragmentWriter;
 public class Indexer {
 	private static Logger logger = LoggerFactory.getLogger(Indexer.class);
 
+	private static Indexer indexer = null;
+
+	public static Indexer getIndexer() {
+		if (indexer == null) {
+			indexer = new Indexer();
+		}
+		return indexer;
+	}
+
 	private static final String ID = "id";
 	private static final String TEXT = "text";
 	private final Analyzer analyzer;
@@ -60,7 +69,7 @@ public class Indexer {
 	private final File file;
 	private final IndexWriterConfig config;
 
-	public Indexer() {
+	private Indexer() {
 		analyzer = new IgnoreDiacriticsAnalyzer();
 		String path = PropertiesManager.getProperties().getProperty("indexer.dir");
 		file = new File(path);

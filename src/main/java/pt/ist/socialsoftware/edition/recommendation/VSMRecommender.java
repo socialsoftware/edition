@@ -77,16 +77,17 @@ public abstract class VSMRecommender<T> implements Recommender<T, Property> {
 	public List<T> getMostSimilarItemsAsList(T item, Collection<T> items, List<Property> properties) {
 		List<T> inters = new ArrayList<T>();
 
-		// T nextItem = item;
-		// do {
-		// nextItem = getMostSimilarItem(nextItem, items, properties);
-		// inters.add(nextItem);
-		// items.remove(nextItem);
-		// } while (!items.isEmpty());
+		T nextItem = item;
+		do {
+			nextItem = getMostSimilarItem(nextItem, items, properties);
+			inters.add(nextItem);
+			items.remove(nextItem);
+		} while (!items.isEmpty());
 
-		for (Entry<T, Double> entry : getMostSimilarItems(item, items, properties)) {
-			inters.add(entry.getKey());
-		}
+		// for (Entry<T, Double> entry : getMostSimilarItems(item, items,
+		// properties)) {
+		// inters.add(entry.getKey());
+		// }
 
 		return inters;
 	}

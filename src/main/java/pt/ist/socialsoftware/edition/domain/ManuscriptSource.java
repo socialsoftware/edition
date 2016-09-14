@@ -48,17 +48,27 @@ public class ManuscriptSource extends ManuscriptSource_Base {
 		result = result + "LdoD: " + getHasLdoDLabel() + "<br>";
 
 		for (HandNote handNote : getHandNoteSet()) {
-			result = result + "Medium: " + handNote.getMedium().getDesc() + ", Nota: " + handNote.getNote()
-					+ ", Número de parágrafos referidos: " + handNote.getTextPortionSet().size() + "<br>";
+			result = result + "Manuscrito: ";
+			if (handNote.getMedium() != null) {
+				result = result + "medium(" + handNote.getMedium().getDesc() + "), ";
+			}
+			result = result + "nota(" + handNote.getNote() + "), número de parágrafos referidos("
+					+ handNote.getTextPortionSet().size() + ")<br>";
 		}
 
 		for (TypeNote typeNote : getTypeNoteSet()) {
-			result = result + "Medium: " + typeNote.getMedium().getDesc() + ", Nota: " + typeNote.getNote()
-					+ ", Número de parágrafos referidos: " + typeNote.getTextPortionSet().size() + "<br>";
+			result = result + "Dactiloscrito: ";
+			if (typeNote.getMedium() != null) {
+				result = result + "medium(" + typeNote.getMedium().getDesc() + "), ";
+			}
+			result = result + "nota(" + typeNote.getNote() + "), número de parágrafos referidos("
+					+ typeNote.getTextPortionSet().size() + ")<br>";
 		}
 
-		result = result + "Notas: " + (getNotes() != null ? getNotes() : "");
-		result = result + "<br>";
+		if (getNotes() != null) {
+			result = result + "Notas: " + getNotes();
+			result = result + "<br>";
+		}
 
 		Facsimile facs = getFacsimile();
 		if (facs != null) {
