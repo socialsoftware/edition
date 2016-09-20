@@ -54,9 +54,9 @@ public class Indexer {
 	private static Indexer indexer = null;
 
 	public static Indexer getIndexer() {
-		if (indexer == null) {
-			indexer = new Indexer();
-		}
+		// if (indexer == null) {
+		indexer = new Indexer();
+		// }
 		return indexer;
 	}
 
