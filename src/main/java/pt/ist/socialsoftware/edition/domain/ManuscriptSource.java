@@ -11,7 +11,8 @@ public class ManuscriptSource extends ManuscriptSource_Base {
 	};
 
 	public enum Medium {
-		PEN("pen"), PENCIL("pencil"), BLUE_INK("blue-ink"), BLACK_INK("black-ink"), VIOLET_INK("violet-ink");
+		PEN("pen"), PENCIL("pencil"), BLUE_INK("blue-ink"), BLACK_INK("black-ink"), VIOLET_INK("violet-ink"), RED_INK(
+				"red-ink");
 
 		private final String desc;
 
@@ -52,8 +53,11 @@ public class ManuscriptSource extends ManuscriptSource_Base {
 			if (handNote.getMedium() != null) {
 				result = result + "medium(" + handNote.getMedium().getDesc() + "), ";
 			}
-			result = result + "nota(" + handNote.getNote() + "), número de parágrafos referidos("
-					+ handNote.getTextPortionSet().size() + ")<br>";
+			result = result + "nota(" + handNote.getNote() + ")";
+			if (handNote.getTextPortionSet().size() != 0) {
+				result = result + ", número de parágrafos referidos(" + handNote.getTextPortionSet().size() + ")";
+			}
+			result = result + "<br>";
 		}
 
 		for (TypeNote typeNote : getTypeNoteSet()) {

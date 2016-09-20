@@ -1,7 +1,5 @@
 package pt.ist.socialsoftware.edition.recommendation;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
@@ -26,7 +24,6 @@ import pt.ist.socialsoftware.edition.domain.ExpertEdition;
 import pt.ist.socialsoftware.edition.domain.FragInter;
 import pt.ist.socialsoftware.edition.domain.LdoD;
 import pt.ist.socialsoftware.edition.domain.LdoDUser;
-import pt.ist.socialsoftware.edition.domain.NullHeteronym;
 import pt.ist.socialsoftware.edition.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.domain.VirtualEditionInter;
 import pt.ist.socialsoftware.edition.mallet.TopicModeler;
@@ -38,7 +35,7 @@ import pt.ist.socialsoftware.edition.recommendation.properties.TextProperty;
 import pt.ist.socialsoftware.edition.search.Indexer;
 import pt.ist.socialsoftware.edition.utils.TopicListDTO;
 
-public class VSMVirtualEditionInterRecomenderTest {
+public class VSMVirtualEditionInterRecomenderPerformanceTest {
 	private static VirtualEdition virtualEdition = null;
 	private static Set<VirtualEditionInter> virtualEditionInters = null;
 	private static VSMRecommender<VirtualEditionInter> recommender;
@@ -74,132 +71,7 @@ public class VSMVirtualEditionInterRecomenderTest {
 	}
 
 	@Test
-	public void testGetMostSimilarItemForHeteronym() {
-		VirtualEditionInter virtualEditionInter = null;
-		for (FragInter inter : virtualEdition.getIntersSet()) {
-			if (inter.getLastUsed().getHeteronym() != null) {
-				virtualEditionInter = (VirtualEditionInter) inter;
-				break;
-			}
-		}
-
-		List<Property> properties = new ArrayList<Property>();
-		properties.add(new HeteronymProperty(1.0));
-
-		VirtualEditionInter result = recommender.getMostSimilarItem(virtualEditionInter,
-				new HashSet<VirtualEditionInter>(virtualEditionInters), properties);
-
-		assertTrue(virtualEditionInter != result);
-		assertEquals(virtualEditionInter.getLastUsed().getHeteronym(), result.getLastUsed().getHeteronym());
-	}
-
-	@Test
-	public void testGetMostSimilarItemForNoHeteronym() {
-		VirtualEditionInter virtualEditionInter = null;
-		for (FragInter inter : virtualEdition.getIntersSet()) {
-			if (inter.getLastUsed().getHeteronym() == NullHeteronym.getNullHeteronym()) {
-				virtualEditionInter = (VirtualEditionInter) inter;
-				break;
-			}
-		}
-
-		List<Property> properties = new ArrayList<Property>();
-		properties.add(new HeteronymProperty(1.0));
-
-		VirtualEditionInter result = recommender.getMostSimilarItem(virtualEditionInter,
-				new HashSet<VirtualEditionInter>(virtualEditionInters), properties);
-
-		assertTrue(virtualEditionInter != result);
-		assertEquals(NullHeteronym.getNullHeteronym(), result.getLastUsed().getHeteronym());
-	}
-
-	@Test
-	public void testGetMostSimilarItemForDate() {
-		VirtualEditionInter virtualEditionInter = null;
-		for (FragInter inter : virtualEdition.getIntersSet()) {
-			if (inter.getLastUsed().getLdoDDate() != null) {
-				virtualEditionInter = (VirtualEditionInter) inter;
-				break;
-			}
-		}
-
-		List<Property> properties = new ArrayList<Property>();
-		properties.add(new DateProperty(1.0));
-
-		VirtualEditionInter result = recommender.getMostSimilarItem(virtualEditionInter,
-				new HashSet<VirtualEditionInter>(virtualEditionInters), properties);
-
-		assertTrue(virtualEditionInter != result);
-		assertEquals(virtualEditionInter.getLastUsed().getLdoDDate().getDate().getYear(),
-				result.getLastUsed().getLdoDDate().getDate().getYear());
-	}
-
-	@Test
-	public void testGetMostSimilarItemForNoDate() {
-		VirtualEditionInter virtualEditionInter = null;
-		for (FragInter inter : virtualEdition.getIntersSet()) {
-			if (inter.getLastUsed().getLdoDDate() == null) {
-				virtualEditionInter = (VirtualEditionInter) inter;
-				break;
-			}
-		}
-
-		List<Property> properties = new ArrayList<Property>();
-		properties.add(new DateProperty(1.0));
-
-		VirtualEditionInter result = recommender.getMostSimilarItem(virtualEditionInter,
-				new HashSet<VirtualEditionInter>(virtualEditionInters), properties);
-
-		assertTrue(virtualEditionInter != result);
-		assertNull(result.getLastUsed().getLdoDDate());
-	}
-
-	@Test
-	public void testGetMostSimilarItemForTaxonomy() {
-		VirtualEditionInter virtualEditionInter = null;
-		for (FragInter inter : virtualEdition.getIntersSet()) {
-			if (!((VirtualEditionInter) inter).getTagSet().isEmpty()) {
-				virtualEditionInter = (VirtualEditionInter) inter;
-				break;
-			}
-		}
-
-		List<Property> properties = new ArrayList<Property>();
-		properties.add(new TaxonomyProperty(1.0, virtualEdition.getTaxonomy()));
-
-		VirtualEditionInter result = recommender.getMostSimilarItem(virtualEditionInter,
-				new HashSet<VirtualEditionInter>(virtualEditionInters), properties);
-
-		assertTrue(virtualEditionInter != result);
-		assertTrue(virtualEditionInter.getTagSet().stream().map(t -> t.getCategory())
-				.anyMatch(result.getTagSet().stream().map(t -> t.getCategory()).collect(Collectors.toSet())::contains));
-	}
-
-	@Test
-	public void testGetMostSimilarItemForText() throws IOException, ParseException {
-		VirtualEditionInter virtualEditionInter = null;
-		Indexer indexer = Indexer.getIndexer();
-
-		for (FragInter inter : virtualEdition.getIntersSet()) {
-			if (indexer.getTFIDFTerms(inter.getLastUsed(), TextProperty.NUMBER_OF_TERMS).contains("antonio")) {
-				virtualEditionInter = (VirtualEditionInter) inter;
-				break;
-			}
-		}
-
-		List<Property> properties = new ArrayList<Property>();
-		properties.add(new TextProperty(1.0));
-
-		VirtualEditionInter result = recommender.getMostSimilarItem(virtualEditionInter,
-				new HashSet<VirtualEditionInter>(virtualEditionInters), properties);
-
-		assertTrue(virtualEditionInter != result);
-		assertTrue(indexer.getTFIDFTerms(virtualEditionInter.getLastUsed(), TextProperty.NUMBER_OF_TERMS).stream()
-				.anyMatch(indexer.getTFIDFTerms(result.getLastUsed(), TextProperty.NUMBER_OF_TERMS)::contains));
-	}
-
-	@Test
-	public void testGetMostSimilarItemForAll() throws IOException, ParseException {
+	public void testGetMostSimilarItemForAllAsList() throws IOException, ParseException {
 		VirtualEditionInter virtualEditionInter = null;
 		Indexer indexer = Indexer.getIndexer();
 
@@ -216,16 +88,99 @@ public class VSMVirtualEditionInterRecomenderTest {
 		properties.add(new TaxonomyProperty(1.0, virtualEdition.getTaxonomy()));
 		properties.add(new TextProperty(1.0));
 
-		VirtualEditionInter result = recommender.getMostSimilarItem(virtualEditionInter,
+		List<VirtualEditionInter> result = recommender.getMostSimilarItemsAsList(virtualEditionInter,
 				new HashSet<VirtualEditionInter>(virtualEditionInters), properties);
 
-		assertTrue(virtualEditionInter != result);
-		assertEquals(virtualEditionInter.getLastUsed().getHeteronym(), result.getLastUsed().getHeteronym());
-		assertEquals(virtualEditionInter.getLastUsed().getLdoDDate(), result.getLastUsed().getLdoDDate());
-		assertTrue(virtualEditionInter.getTagSet().stream().map(t -> t.getCategory())
-				.anyMatch(result.getTagSet().stream().map(t -> t.getCategory()).collect(Collectors.toSet())::contains));
-		assertTrue(indexer.getTFIDFTerms(virtualEditionInter.getLastUsed(), TextProperty.NUMBER_OF_TERMS).stream()
-				.anyMatch(indexer.getTFIDFTerms(result.getLastUsed(), TextProperty.NUMBER_OF_TERMS)::contains));
+		assertTrue(result.size() != 0);
+	}
+
+	@Test
+	public void testGetMostSimilarItemForDateAsList() throws IOException, ParseException {
+		VirtualEditionInter virtualEditionInter = null;
+		Indexer indexer = Indexer.getIndexer();
+
+		for (FragInter inter : virtualEdition.getIntersSet()) {
+			if (indexer.getTFIDFTerms(inter.getLastUsed(), TextProperty.NUMBER_OF_TERMS).contains("antonio")) {
+				virtualEditionInter = (VirtualEditionInter) inter;
+				break;
+			}
+		}
+
+		List<Property> properties = new ArrayList<Property>();
+		properties.add(new DateProperty(1.0));
+
+		List<VirtualEditionInter> result = recommender.getMostSimilarItemsAsList(virtualEditionInter,
+				new HashSet<VirtualEditionInter>(virtualEditionInters), properties);
+
+		assertTrue(result.size() != 0);
+	}
+
+	@Test
+	public void testGetMostSimilarItemForTaxonomyAsList() throws IOException, ParseException {
+		VirtualEditionInter virtualEditionInter = null;
+		Indexer indexer = Indexer.getIndexer();
+
+		for (FragInter inter : virtualEdition.getIntersSet()) {
+			if (indexer.getTFIDFTerms(inter.getLastUsed(), TextProperty.NUMBER_OF_TERMS).contains("antonio")) {
+				virtualEditionInter = (VirtualEditionInter) inter;
+				break;
+			}
+		}
+
+		List<Property> properties = new ArrayList<Property>();
+		properties.add(new TaxonomyProperty(1.0, virtualEdition.getTaxonomy()));
+
+		List<VirtualEditionInter> result = recommender.getMostSimilarItemsAsList(virtualEditionInter,
+				new HashSet<VirtualEditionInter>(virtualEditionInters), properties);
+
+		assertTrue(result.size() != 0);
+	}
+
+	@Test
+	public void testGetMostSimilarItemForTextAsList() throws IOException, ParseException {
+		VirtualEditionInter virtualEditionInter = null;
+		Indexer indexer = Indexer.getIndexer();
+
+		for (FragInter inter : virtualEdition.getIntersSet()) {
+			if (indexer.getTFIDFTerms(inter.getLastUsed(), TextProperty.NUMBER_OF_TERMS).contains("antonio")) {
+				virtualEditionInter = (VirtualEditionInter) inter;
+				break;
+			}
+		}
+
+		List<Property> properties = new ArrayList<Property>();
+		properties.add(new TextProperty(1.0));
+
+		List<VirtualEditionInter> result = recommender.getMostSimilarItemsAsList(virtualEditionInter,
+				new HashSet<VirtualEditionInter>(virtualEditionInters), properties);
+
+		assertTrue(result.size() != 0);
+	}
+
+	@Test
+	public void testGetMostSimilarItemForTextAsListTwo() throws IOException, ParseException {
+		VirtualEditionInter virtualEditionInter = null;
+		Indexer indexer = Indexer.getIndexer();
+
+		for (FragInter inter : virtualEdition.getIntersSet()) {
+			if (indexer.getTFIDFTerms(inter.getLastUsed(), TextProperty.NUMBER_OF_TERMS).contains("antonio")) {
+				virtualEditionInter = (VirtualEditionInter) inter;
+				break;
+			}
+		}
+
+		List<Property> properties = new ArrayList<Property>();
+		properties.add(new TextProperty(1.0));
+
+		List<VirtualEditionInter> result = recommender.getMostSimilarItemsAsList(virtualEditionInter,
+				new HashSet<VirtualEditionInter>(virtualEditionInters), properties);
+
+		assertTrue(result.size() != 0);
+
+		result = recommender.getMostSimilarItemsAsList(virtualEditionInter,
+				new HashSet<VirtualEditionInter>(virtualEditionInters), properties);
+
+		assertTrue(result.size() != 0);
 	}
 
 }

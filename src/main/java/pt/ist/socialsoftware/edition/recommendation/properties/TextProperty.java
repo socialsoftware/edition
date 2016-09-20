@@ -60,12 +60,19 @@ public class TextProperty extends Property {
 
 	private List<Double> buildVector(Map<String, Double> tfidf) {
 		List<Double> vector = getDefaultVector();
-		for (int i = 0; i < commonTerms.size(); i++) {
-			String term = commonTerms.get(i);
+		int i = 0;
+		for (String term : commonTerms) {
 			if (tfidf.containsKey(term)) {
 				vector.set(i, getWeight() * tfidf.get(term));
 			}
+			i++;
 		}
+		// for (int i = 0; i < commonTerms.size(); i++) {
+		// String term = commonTerms.get(i);
+		// if (tfidf.containsKey(term)) {
+		// vector.set(i, getWeight() * tfidf.get(term));
+		// }
+		// }
 		return vector;
 	}
 

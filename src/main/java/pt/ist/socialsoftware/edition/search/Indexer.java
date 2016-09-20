@@ -170,7 +170,7 @@ public class Indexer {
 	}
 
 	public Map<String, Double> getTFIDF(Source source, List<String> commonTerms) throws IOException, ParseException {
-		Map<String, Double> TFIDFMap = new HashMap<String, Double>(getTFIDF(source));
+		Map<String, Double> TFIDFMap = getTFIDF(source);
 		TFIDFMap.keySet().retainAll(commonTerms);
 		return TFIDFMap;
 	}
