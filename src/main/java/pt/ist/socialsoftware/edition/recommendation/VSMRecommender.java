@@ -16,7 +16,7 @@ import org.apache.commons.lang.ArrayUtils;
 import pt.ist.socialsoftware.edition.recommendation.properties.Property;
 
 public abstract class VSMRecommender<T> implements Recommender<T, Property> {
-	public static final int NUMBEROFRECOMMENDATIONS = 5;
+	public static final int NUMBER_OF_RECOMMENDATIONS = 5;
 
 	protected static final Random RANDOM = new Random();
 

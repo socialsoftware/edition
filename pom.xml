@@ -274,11 +274,13 @@
 			<version>${version.org.apache.lucene}</version>
 		</dependency>
 		<!-- java matrix package -->
+		<!-- https://mvnrepository.com/artifact/org.jblas/jblas -->
 		<dependency>
-			<groupId>gov.nist.math</groupId>
-			<artifactId>jama</artifactId>
-			<version>1.0.3</version>
+			<groupId>org.jblas</groupId>
+			<artifactId>jblas</artifactId>
+			<version>1.2.4</version>
 		</dependency>
+
 	</dependencies>
 
 	<repositories>
