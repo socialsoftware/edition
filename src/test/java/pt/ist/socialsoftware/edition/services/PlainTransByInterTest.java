@@ -18,39 +18,26 @@ import pt.ist.socialsoftware.edition.domain.FragInter;
 import pt.ist.socialsoftware.edition.domain.Fragment;
 import pt.ist.socialsoftware.edition.domain.LdoD;
 import pt.ist.socialsoftware.edition.loaders.LoadTEIFragments;
-import pt.ist.socialsoftware.edition.utils.Bootstrap;
+import pt.ist.socialsoftware.edition.shared.exception.LdoDException;
+import pt.ist.socialsoftware.edition.utils.PropertiesManager;
 
 public class PlainTransByInterTest {
+	private final String TESTS_DIR = PropertiesManager.getProperties().getProperty("tests.dir");
 
 	@Before
 	public void setUp() {
-		Bootstrap.initDatabase();
 
 		try {
 			FenixFramework.getTransactionManager().begin(false);
 		} catch (WriteOnReadError | NotSupportedException | SystemException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			throw new LdoDException();
 		}
-
-		// LoadTEICorpus corpusLoader = new LoadTEICorpus();
-		// try {
-		// corpusLoader.loadTEICorpus(new FileInputStream(
-		// "/Users/ars/Desktop/Frg.1_TEI-encoded_testing.xml"));
-		// } catch (FileNotFoundException e) {
-		// // TODO Auto-generated catch block
-		// e.printStackTrace();
-		// }
-
-		// /Users/ars/Desktop/Frg.1_TEI-encoded_testing.xml
 
 		LoadTEIFragments fragmentsLoader = new LoadTEIFragments();
 		try {
-			fragmentsLoader.loadFragmentsAtOnce(new FileInputStream(
-					"/Users/ars/Desktop/Frg.1_TEI-encoded_testing.xml"));
+			fragmentsLoader.loadFragmentsAtOnce(new FileInputStream(TESTS_DIR + "Frg.1_TEI-encoded_testing.xml"));
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new LdoDException();
 		}
 	}
 
@@ -59,8 +46,6 @@ public class PlainTransByInterTest {
 		try {
 			FenixFramework.getTransactionManager().rollback();
 		} catch (IllegalStateException | SecurityException | SystemException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 	}
 

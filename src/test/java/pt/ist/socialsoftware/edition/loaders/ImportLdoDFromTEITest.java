@@ -9,9 +9,8 @@ import java.io.FileNotFoundException;
 import javax.transaction.NotSupportedException;
 import javax.transaction.SystemException;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Ignore;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import pt.ist.fenixframework.FenixFramework;
@@ -26,77 +25,36 @@ import pt.ist.socialsoftware.edition.domain.ManuscriptSource;
 import pt.ist.socialsoftware.edition.domain.PrintedSource;
 import pt.ist.socialsoftware.edition.domain.Source;
 import pt.ist.socialsoftware.edition.domain.SourceInter;
-import pt.ist.socialsoftware.edition.utils.Bootstrap;
+import pt.ist.socialsoftware.edition.shared.exception.LdoDException;
+import pt.ist.socialsoftware.edition.utils.PropertiesManager;
 
 public class ImportLdoDFromTEITest {
+	private static final String TESTS_DIR = PropertiesManager.getProperties().getProperty("tests.dir");
 
-	@Before
-	public void setUp() {
-		Bootstrap.initDatabase();
+	private static Fragment fragmentTest;
 
-		try {
-			FenixFramework.getTransactionManager().begin(true);
-		} catch (WriteOnReadError | NotSupportedException | SystemException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-
-		// LoadTEICorpus corpusLoader = new LoadTEICorpus();
-		// try {
-		// corpusLoader.loadTEICorpus(new FileInputStream(
-		// "/Users/ars/Desktop/Frg.1_TEI-encoded_testing.xml"));
-		// } catch (FileNotFoundException e) {
-		// // TODO Auto-generated catch block
-		// e.printStackTrace();
-		// }
-
-		// "/Users/ars/Desktop/Frg.1_TEI-encoded_testing.xml"
+	@BeforeClass
+	public static void setUp() throws WriteOnReadError, NotSupportedException, SystemException {
+		FenixFramework.getTransactionManager().begin(false);
 
 		LoadTEIFragments fragmentsLoader = new LoadTEIFragments();
 		try {
-			fragmentsLoader
-					.loadFragmentsAtOnce(new FileInputStream("/Users/ars/Desktop/Frg.1_TEI-encoded_testing.xml"));
+			fragmentsLoader.loadFragmentsAtOnce(new FileInputStream(TESTS_DIR + "Frg.1_TEI-encoded_testing.xml"));
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new LdoDException();
 		}
+
+		LdoD ldoD = LdoD.getInstance();
+		fragmentTest = ldoD.getFragmentsSet().stream().filter(f -> f.getXmlId().equals("Fr1TEST")).findFirst().get();
 	}
 
-	@After
-	public void tearDown() {
-		try {
-			FenixFramework.getTransactionManager().rollback();
-		} catch (WriteOnReadError | SystemException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		// boolean committed = false;
-		// try {
-		// Transaction.begin();
-		// LdoD ldoD = LdoD.getInstance();
-		// Set<Edition> editions = ldoD.getEditionsSet();
-		// editions.clear();
-		// Set<Taxonomy> taxonomies = ldoD.getTaxonomiesSet();
-		// taxonomies.clear();
-		// Set<Heteronym> heteronyms = ldoD.getHeteronymsSet();
-		// heteronyms.clear();
-		// Set<Fragment> fragments = ldoD.getFragmentsSet();
-		// fragments.clear();
-		// Transaction.commit();
-		// committed = true;
-		// } finally {
-		// if (!committed) {
-		//
-		// Transaction.abort();
-		// fail("failed @TearDown.");
-		// }
-		// }
-
+	@AfterClass
+	public static void tearDown() throws IllegalStateException, SecurityException, SystemException {
+		FenixFramework.getTransactionManager().rollback();
 	}
 
-	@Ignore
 	@Test
-	public void TestSucessfulLoading() {
+	public void testCorpusIdLoadead() {
 
 		LdoD ldoD = LdoD.getInstance();
 
@@ -104,15 +62,17 @@ public class ImportLdoDFromTEITest {
 		checkListBiblLoad(ldoD);
 		checkHeteronymsLoad(ldoD);
 
-		Fragment fragment = checkFragmentLoad(ldoD);
-		checkLoadSources(fragment);
-		checkLoadWitnesses(fragment);
-
 	}
 
-	private void checkLoadWitnesses(Fragment fragment) {
-		assertEquals(7, fragment.getFragmentInterSet().size());
-		for (FragInter fragmentInter : fragment.getFragmentInterSet()) {
+	@Test
+	public void testFragmentIsLoaded() {
+		assertEquals("Prefiro a prosa ao verso...", fragmentTest.getTitle());
+	}
+
+	@Test
+	public void testLoadWitnesses() {
+		assertEquals(7, fragmentTest.getFragmentInterSet().size());
+		for (FragInter fragmentInter : fragmentTest.getFragmentInterSet()) {
 			if (fragmentInter instanceof ExpertEditionInter) {
 				assertTrue(((ExpertEditionInter) fragmentInter).getExpertEdition() != null);
 			} else if (fragmentInter instanceof SourceInter) {
@@ -122,9 +82,10 @@ public class ImportLdoDFromTEITest {
 
 	}
 
-	private void checkLoadSources(Fragment fragment) {
-		assertEquals(3, fragment.getSourcesSet().size());
-		for (Source source : fragment.getSourcesSet()) {
+	@Test
+	public void testLoadSources() {
+		assertEquals(3, fragmentTest.getSourcesSet().size());
+		for (Source source : fragmentTest.getSourcesSet()) {
 			if (source instanceof ManuscriptSource) {
 				ManuscriptSource manuscript = (ManuscriptSource) source;
 				assertEquals("Lisbon", manuscript.getSettlement());
@@ -133,27 +94,13 @@ public class ImportLdoDFromTEITest {
 						|| manuscript.getIdno().equals("bn-acpc-e-e3-4-1-87_0005_3_t24-C-R0150"));
 			} else if (source instanceof PrintedSource) {
 				PrintedSource printedSource = (PrintedSource) source;
-				assertEquals("Revista Descobrimento", printedSource.getTitle());
+				assertEquals("Revista Descobrimento", printedSource.getJournal());
 				assertEquals("Lisbon", printedSource.getPubPlace());
 				assertEquals("3", printedSource.getIssue());
 				assertEquals("1931", Integer.toString(printedSource.getLdoDDate().getDate().getYear()));
 			}
 
 		}
-	}
-
-	private Fragment checkFragmentLoad(LdoD ldoD) {
-		assertEquals(1, ldoD.getFragmentsSet().size());
-
-		Fragment returnFragment = null;
-		for (Fragment fragment : ldoD.getFragmentsSet()) {
-			assertEquals("Prefiro a prosa ao verso...", fragment.getTitle());
-
-			returnFragment = fragment;
-		}
-
-		return returnFragment;
-
 	}
 
 	private void checkHeteronymsLoad(LdoD ldoD) {

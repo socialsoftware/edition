@@ -1303,8 +1303,6 @@ public class LoadTEIFragments {
 	private void loadDimensions(Element supportDesc, ManuscriptSource manuscript) {
 		Element dimensions = supportDesc.getChild("extent", namespace).getChild("dimensions", namespace);
 
-		System.out.println("dimensions");
-
 		String unit = dimensions.getAttributeValue("unit");
 		if (!unit.equals("cm")) {
 			throw new LdoDException("As unidades (unit) do elemento dimensions deve ser em cm");
@@ -1601,6 +1599,9 @@ public class LoadTEIFragments {
 			break;
 		case "red-ink":
 			medium = Medium.RED_INK;
+			break;
+		case "green-ink":
+			medium = Medium.GREEN_INK;
 			break;
 		default:
 			throw new LdoDLoadException("valor inesperado para atribute medium=" + mediumValue);

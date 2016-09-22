@@ -12,7 +12,7 @@ public class ManuscriptSource extends ManuscriptSource_Base {
 
 	public enum Medium {
 		PEN("pen"), PENCIL("pencil"), BLUE_INK("blue-ink"), BLACK_INK("black-ink"), VIOLET_INK("violet-ink"), RED_INK(
-				"red-ink");
+				"red-ink"), GREEN_INK("green-ink");
 
 		private final String desc;
 
