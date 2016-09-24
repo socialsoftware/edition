@@ -125,7 +125,7 @@ public class VirtualEdition extends VirtualEdition_Base {
 	public Boolean canAddFragInter(FragInter addInter) {
 		Fragment fragment = addInter.getFragment();
 		FragInter usedAddInter = addInter.getLastUsed();
-		for (VirtualEditionInter inter : getVirtualEditionIntersSet()) {
+		for (VirtualEditionInter inter : getVirtualEditionInters()) {
 			if (inter.getFragment() == fragment) {
 				FragInter usedInter = inter.getLastUsed();
 				if (usedAddInter == usedInter) {
@@ -151,7 +151,7 @@ public class VirtualEdition extends VirtualEdition_Base {
 
 	public int getMaxFragNumber() {
 		int max = 0;
-		for (FragInter inter : getVirtualEditionIntersSet()) {
+		for (FragInter inter : getVirtualEditionInters()) {
 			max = (inter.getNumber() > max) ? inter.getNumber() : max;
 		}
 
@@ -160,7 +160,7 @@ public class VirtualEdition extends VirtualEdition_Base {
 
 	@Override
 	public Set<FragInter> getIntersSet() {
-		return new HashSet<FragInter>(getVirtualEditionIntersSet());
+		return new HashSet<FragInter>(getVirtualEditionInters());
 	}
 
 	@Override
@@ -197,7 +197,7 @@ public class VirtualEdition extends VirtualEdition_Base {
 
 		String fragVirtualInterId = "";
 		// remove os fragmentos que não se encontram na nova lista
-		for (VirtualEditionInter inter : getVirtualEditionIntersSet()) {
+		for (VirtualEditionInter inter : getVirtualEditionInters()) {
 
 			System.out.println(inter.getExternalId() + " " + inter.getLastUsed().getExternalId() + " "
 					+ inter.getTitle() + " " + inter.getNumber());
@@ -240,7 +240,7 @@ public class VirtualEdition extends VirtualEdition_Base {
 		System.out.println("VirtualEditionInter INDEX UPDATE -----------------");
 		// actualiza indices dos fragmentos da edicao virtual
 		int n = 0;
-		for (VirtualEditionInter inter : getVirtualEditionIntersSet()) {
+		for (VirtualEditionInter inter : getVirtualEditionInters()) {
 
 			fragVirtualInterId = inter.getLastUsed().getExternalId();
 
@@ -306,7 +306,7 @@ public class VirtualEdition extends VirtualEdition_Base {
 		return getPub() || getParticipantSet().contains(LdoDUser.getAuthenticatedUser());
 	}
 
-	public List<VirtualEditionInter> getVirtualEditionIntersSet() {
+	public List<VirtualEditionInter> getVirtualEditionInters() {
 		List<VirtualEditionInter> inters = new ArrayList<>();
 		for (Section section : getSectionsSet()) {
 			inters.addAll(section.getInterSet());

@@ -32,7 +32,6 @@ import pt.ist.socialsoftware.edition.recommendation.properties.HeteronymProperty
 import pt.ist.socialsoftware.edition.recommendation.properties.Property;
 import pt.ist.socialsoftware.edition.recommendation.properties.TaxonomyProperty;
 import pt.ist.socialsoftware.edition.recommendation.properties.TextProperty;
-import pt.ist.socialsoftware.edition.search.Indexer;
 import pt.ist.socialsoftware.edition.utils.TopicListDTO;
 
 public class VSMVirtualEditionInterRecomenderPerformanceTest {
@@ -73,13 +72,29 @@ public class VSMVirtualEditionInterRecomenderPerformanceTest {
 	@Test
 	public void testGetMostSimilarItemForAllAsList() throws IOException, ParseException {
 		VirtualEditionInter virtualEditionInter = null;
-		Indexer indexer = Indexer.getIndexer();
-
 		for (FragInter inter : virtualEdition.getIntersSet()) {
-			if (indexer.getTFIDFTerms(inter.getLastUsed(), TextProperty.NUMBER_OF_TERMS).contains("antonio")) {
-				virtualEditionInter = (VirtualEditionInter) inter;
-				break;
-			}
+			virtualEditionInter = (VirtualEditionInter) inter;
+			break;
+		}
+
+		List<Property> properties = new ArrayList<Property>();
+		properties.add(new HeteronymProperty(1.0));
+		properties.add(new DateProperty(1.0));
+		properties.add(new TaxonomyProperty(1.0, virtualEdition.getTaxonomy()));
+		properties.add(new TextProperty(1.0));
+
+		List<VirtualEditionInter> result = recommender.getMostSimilarItemsAsList(virtualEditionInter,
+				new HashSet<VirtualEditionInter>(virtualEditionInters), properties);
+
+		assertTrue(result.size() != 0);
+	}
+
+	@Test
+	public void testGetMostSimilarItemForAllAsListTwo() throws IOException, ParseException {
+		VirtualEditionInter virtualEditionInter = null;
+		for (FragInter inter : virtualEdition.getIntersSet()) {
+			virtualEditionInter = (VirtualEditionInter) inter;
+			break;
 		}
 
 		List<Property> properties = new ArrayList<Property>();
@@ -97,13 +112,9 @@ public class VSMVirtualEditionInterRecomenderPerformanceTest {
 	@Test
 	public void testGetMostSimilarItemForDateAsList() throws IOException, ParseException {
 		VirtualEditionInter virtualEditionInter = null;
-		Indexer indexer = Indexer.getIndexer();
-
 		for (FragInter inter : virtualEdition.getIntersSet()) {
-			if (indexer.getTFIDFTerms(inter.getLastUsed(), TextProperty.NUMBER_OF_TERMS).contains("antonio")) {
-				virtualEditionInter = (VirtualEditionInter) inter;
-				break;
-			}
+			virtualEditionInter = (VirtualEditionInter) inter;
+			break;
 		}
 
 		List<Property> properties = new ArrayList<Property>();
@@ -118,13 +129,9 @@ public class VSMVirtualEditionInterRecomenderPerformanceTest {
 	@Test
 	public void testGetMostSimilarItemForTaxonomyAsList() throws IOException, ParseException {
 		VirtualEditionInter virtualEditionInter = null;
-		Indexer indexer = Indexer.getIndexer();
-
 		for (FragInter inter : virtualEdition.getIntersSet()) {
-			if (indexer.getTFIDFTerms(inter.getLastUsed(), TextProperty.NUMBER_OF_TERMS).contains("antonio")) {
-				virtualEditionInter = (VirtualEditionInter) inter;
-				break;
-			}
+			virtualEditionInter = (VirtualEditionInter) inter;
+			break;
 		}
 
 		List<Property> properties = new ArrayList<Property>();
@@ -137,15 +144,28 @@ public class VSMVirtualEditionInterRecomenderPerformanceTest {
 	}
 
 	@Test
-	public void testGetMostSimilarItemForTextAsList() throws IOException, ParseException {
+	public void testGetMostSimilarItemForTextAsListOneAgain() throws IOException, ParseException {
 		VirtualEditionInter virtualEditionInter = null;
-		Indexer indexer = Indexer.getIndexer();
-
 		for (FragInter inter : virtualEdition.getIntersSet()) {
-			if (indexer.getTFIDFTerms(inter.getLastUsed(), TextProperty.NUMBER_OF_TERMS).contains("antonio")) {
-				virtualEditionInter = (VirtualEditionInter) inter;
-				break;
-			}
+			virtualEditionInter = (VirtualEditionInter) inter;
+			break;
+		}
+
+		List<Property> properties = new ArrayList<Property>();
+		properties.add(new TextProperty(1.0));
+
+		List<VirtualEditionInter> result = recommender.getMostSimilarItemsAsList(virtualEditionInter,
+				new HashSet<VirtualEditionInter>(virtualEditionInters), properties);
+
+		assertTrue(result.size() != 0);
+	}
+
+	@Test
+	public void testGetMostSimilarItemForTextAsListOne() throws IOException, ParseException {
+		VirtualEditionInter virtualEditionInter = null;
+		for (FragInter inter : virtualEdition.getIntersSet()) {
+			virtualEditionInter = (VirtualEditionInter) inter;
+			break;
 		}
 
 		List<Property> properties = new ArrayList<Property>();
@@ -160,13 +180,9 @@ public class VSMVirtualEditionInterRecomenderPerformanceTest {
 	@Test
 	public void testGetMostSimilarItemForTextAsListTwo() throws IOException, ParseException {
 		VirtualEditionInter virtualEditionInter = null;
-		Indexer indexer = Indexer.getIndexer();
-
 		for (FragInter inter : virtualEdition.getIntersSet()) {
-			if (indexer.getTFIDFTerms(inter.getLastUsed(), TextProperty.NUMBER_OF_TERMS).contains("antonio")) {
-				virtualEditionInter = (VirtualEditionInter) inter;
-				break;
-			}
+			virtualEditionInter = (VirtualEditionInter) inter;
+			break;
 		}
 
 		List<Property> properties = new ArrayList<Property>();

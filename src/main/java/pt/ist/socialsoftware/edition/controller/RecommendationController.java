@@ -74,7 +74,7 @@ public class RecommendationController {
 
 		if (params.getId() != null && !params.getId().equals("")) {
 			VirtualEditionInter inter = FenixFramework.getDomainObject(params.getId());
-			List<VirtualEditionInter> inters = edition.getVirtualEditionIntersSet();
+			List<VirtualEditionInter> inters = edition.getVirtualEditionInters();
 
 			inters.remove(inter);
 
@@ -100,7 +100,7 @@ public class RecommendationController {
 
 		VirtualEdition edition = (VirtualEdition) LdoD.getInstance().getEdition(params.getAcronym());
 		VirtualEditionInter inter = FenixFramework.getDomainObject(params.getId());
-		List<VirtualEditionInter> inters = edition.getVirtualEditionIntersSet();
+		List<VirtualEditionInter> inters = edition.getVirtualEditionInters();
 		VSMVirtualEditionInterRecommender recommender = new VSMVirtualEditionInterRecommender();
 		Map<Integer, Collection<Property>> map = new HashMap<Integer, Collection<Property>>();
 		LdoDUser user = LdoDUser.getAuthenticatedUser();
@@ -186,9 +186,9 @@ public class RecommendationController {
 			model.addAttribute("dateWeight", recommendationWeights.getDateWeight());
 			model.addAttribute("textWeight", recommendationWeights.getTextWeight());
 
-			if (!virtualEdition.getVirtualEditionIntersSet().isEmpty()) {
-				VirtualEditionInter inter = virtualEdition.getVirtualEditionIntersSet().get(0);
-				List<VirtualEditionInter> inters = virtualEdition.getVirtualEditionIntersSet();
+			if (!virtualEdition.getVirtualEditionInters().isEmpty()) {
+				VirtualEditionInter inter = virtualEdition.getVirtualEditionInters().get(0);
+				List<VirtualEditionInter> inters = virtualEdition.getVirtualEditionInters();
 
 				inters.remove(inter);
 
@@ -219,7 +219,7 @@ public class RecommendationController {
 			List<Property> properties = LdoDUser.getAuthenticatedUser().getRecommendationWeights(virtualEdition)
 					.getProperties();
 			List<VirtualEditionInter> mostSimilarItems = new ArrayList<VirtualEditionInter>();
-			List<VirtualEditionInter> inters = virtualEdition.getVirtualEditionIntersSet();
+			List<VirtualEditionInter> inters = virtualEdition.getVirtualEditionInters();
 			inters.remove(virtualEditionInter);
 			mostSimilarItems.add(virtualEditionInter);
 			mostSimilarItems.addAll(recommender.getMostSimilarItemsAsList(virtualEditionInter, inters, properties));
@@ -251,25 +251,24 @@ public class RecommendationController {
 			return "utils/pageNotFound";
 		} else {
 			VirtualEdition virtualEdition = (VirtualEdition) edition;
-			VirtualEditionInter current = (VirtualEditionInter) FenixFramework.getDomainObject(currentId);
+			VirtualEditionInter current = FenixFramework.getDomainObject(currentId);
 			List<String> interList = new ArrayList<String>();
 			if (ids != null) {
 				interList.addAll(Arrays.asList(ids));
 			}
 			interList.add(currentId);
+
+			List<VirtualEditionInter> selectionSet = virtualEdition.getVirtualEditionInters();
+			for (String interId : interList) {
+				selectionSet.remove(FenixFramework.getDomainObject(interId));
+			}
+
 			VSMVirtualEditionInterRecommender recommender = new VSMVirtualEditionInterRecommender();
 			LdoDUser user = LdoDUser.getAuthenticatedUser();
 			List<Property> properties = user.getRecommendationWeights(virtualEdition).getProperties();
-			List<VirtualEditionInter> mostSimilar = recommender.getMostSimilarItemsAsList(virtualEditionInter,
-					virtualEdition.getVirtualEditionIntersSet(), properties);
-			FragInter next = null;
-			for (FragInter inter : mostSimilar) {
-				if (!interList.contains(inter.getExternalId())
-						&& !inter.getExternalId().equals(virtualEditionInter.getExternalId())) {
-					next = inter;
-					break;
-				}
-			}
+			VirtualEditionInter mostSimilar = recommender.getMostSimilarItem(virtualEditionInter, selectionSet,
+					properties);
+
 			PlainHtmlWriter4OneInter writer = new PlainHtmlWriter4OneInter(virtualEditionInter);
 			writer.write(false);
 			List<FragInter> inters = new ArrayList<FragInter>();
@@ -283,8 +282,8 @@ public class RecommendationController {
 			model.addAttribute("prev", current);
 			model.addAttribute("acronym", acronym);
 			model.addAttribute("writer", writer);
-			model.addAttribute("next", next);
-			if (next == null) {
+			model.addAttribute("next", mostSimilar);
+			if (mostSimilar == null) {
 				model.addAttribute("last", true);
 			}
 			model.addAttribute("recommender", true);

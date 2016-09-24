@@ -2,6 +2,11 @@ package pt.ist.socialsoftware.edition.utils;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -14,13 +19,19 @@ import org.springframework.web.WebApplicationInitializer;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
+import pt.ist.socialsoftware.edition.domain.ExpertEdition;
+import pt.ist.socialsoftware.edition.domain.FragInter;
 import pt.ist.socialsoftware.edition.domain.LdoD;
 import pt.ist.socialsoftware.edition.domain.LdoDUser;
 import pt.ist.socialsoftware.edition.domain.Member.MemberRole;
 import pt.ist.socialsoftware.edition.domain.Role;
 import pt.ist.socialsoftware.edition.domain.Role.RoleType;
 import pt.ist.socialsoftware.edition.domain.VirtualEdition;
+import pt.ist.socialsoftware.edition.domain.VirtualEditionInter;
 import pt.ist.socialsoftware.edition.mallet.TopicModeler;
+import pt.ist.socialsoftware.edition.recommendation.VSMVirtualEditionInterRecommender;
+import pt.ist.socialsoftware.edition.recommendation.properties.Property;
+import pt.ist.socialsoftware.edition.recommendation.properties.TextProperty;
 import pt.ist.socialsoftware.edition.search.Indexer;
 
 /**
@@ -54,7 +65,35 @@ public class Bootstrap implements WebApplicationInitializer {
 			// clean Mallet directory
 			TopicModeler topicModeler = new TopicModeler();
 			topicModeler.cleanDirectory();
+		} else {
+			LdoD ldoD = LdoD.getInstance();
+			ExpertEdition pizarroEdition = (ExpertEdition) ldoD.getEdition(ExpertEdition.PIZARRO_ACRONYM);
+
+			LdoDUser userArs = ldoD.getUser("ars");
+			// create virtual edition
+			VirtualEdition virtualEdition = ldoD.createVirtualEdition(userArs, "$Test$Recommendations$",
+					"$Test$Recommendations$", LocalDate.now(), true, pizarroEdition);
+			Set<VirtualEditionInter> virtualEditionInters = virtualEdition.getIntersSet().stream()
+					.map(VirtualEditionInter.class::cast).collect(Collectors.toSet());
+
+			VirtualEditionInter virtualEditionInter = null;
+			for (FragInter inter : virtualEdition.getIntersSet()) {
+				virtualEditionInter = (VirtualEditionInter) inter;
+				break;
+			}
+
+			List<Property> properties = new ArrayList<Property>();
+			properties.add(new TextProperty(1.0));
+
+			// create recommender
+			VSMVirtualEditionInterRecommender recommender = new VSMVirtualEditionInterRecommender();
+
+			recommender.getMostSimilarItem(virtualEditionInter, new HashSet<VirtualEditionInter>(virtualEditionInters),
+					properties);
+
+			virtualEdition.remove();
 		}
+
 	}
 
 	public static void populateDatabaseUsersAndRoles() {

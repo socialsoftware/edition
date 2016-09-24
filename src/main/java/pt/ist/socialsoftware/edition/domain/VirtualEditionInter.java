@@ -151,7 +151,7 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 		LdoDUser user = LdoDUser.getAuthenticatedUser();
 		VSMVirtualEditionInterRecommender recommender = new VSMVirtualEditionInterRecommender();
 		Collection<Property> properties = user.getRecommendationWeights(getVirtualEdition()).getProperties();
-		return recommender.getMostSimilarItem(this, getVirtualEdition().getVirtualEditionIntersSet(), properties);
+		return recommender.getMostSimilarItem(this, getVirtualEdition().getVirtualEditionInters(), properties);
 	}
 
 	@Atomic(mode = TxMode.WRITE)
