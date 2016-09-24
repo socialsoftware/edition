@@ -15,7 +15,7 @@ public class VSMVirtualEditionInterRecommender extends VSMRecommender<VirtualEdi
 	}
 
 	@Override
-	protected Collection<Double> loadProperty(VirtualEditionInter t1, Property property) {
+	protected double[] loadProperty(VirtualEditionInter t1, Property property) {
 		return property.loadProperty(t1);
 	}
 

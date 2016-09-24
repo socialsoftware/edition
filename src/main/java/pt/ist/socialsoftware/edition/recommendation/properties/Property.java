@@ -1,9 +1,5 @@
 package pt.ist.socialsoftware.edition.recommendation.properties;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
@@ -34,27 +30,27 @@ public abstract class Property {
 		this.weight = weight;
 	}
 
-	protected abstract List<Double> getDefaultVector();
+	protected abstract double[] getDefaultVector();
 
 	public abstract void userWeights(RecommendationWeights recommendationWeights);
 
-	protected List<Double> extractVector(ExpertEditionInter expertEditionInter) {
-		return new ArrayList<Double>(getDefaultVector());
+	protected double[] extractVector(ExpertEditionInter expertEditionInter) {
+		return getDefaultVector();
 	}
 
-	protected List<Double> extractVector(Fragment fragmnet) {
-		return new ArrayList<Double>(getDefaultVector());
+	protected double[] extractVector(Fragment fragmnet) {
+		return getDefaultVector();
 	}
 
-	protected List<Double> extractVector(Source source) {
-		return new ArrayList<Double>(getDefaultVector());
+	protected double[] extractVector(Source source) {
+		return getDefaultVector();
 	}
 
-	protected List<Double> extractVector(SourceInter sourceInter) {
-		return new ArrayList<Double>(getDefaultVector());
+	protected double[] extractVector(SourceInter sourceInter) {
+		return getDefaultVector();
 	}
 
-	protected Collection<Double> extractVector(VirtualEditionInter virtualEditionInter) {
+	protected double[] extractVector(VirtualEditionInter virtualEditionInter) {
 		FragInter inter = virtualEditionInter.getLastUsed();
 		switch (inter.getSourceType()) {
 		case AUTHORIAL:
@@ -74,11 +70,11 @@ public abstract class Property {
 	public void prepareToLoadProperty(FragInter frag1, FragInter frag2) {
 	}
 
-	public Collection<Double> loadProperty(Fragment fragment) {
+	public double[] loadProperty(Fragment fragment) {
 		return extractVector(fragment);
 	}
 
-	public Collection<Double> loadProperty(VirtualEditionInter virtualEditionInter) {
+	public double[] loadProperty(VirtualEditionInter virtualEditionInter) {
 		return extractVector(virtualEditionInter);
 	}
 

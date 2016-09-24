@@ -1,7 +1,5 @@
 package pt.ist.socialsoftware.edition.recommendation.properties;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -39,14 +37,14 @@ public class TaxonomyProperty extends Property {
 	}
 
 	@Override
-	public List<Double> extractVector(Fragment fragment) {
-		List<Double> vector = getDefaultVector();
+	public double[] extractVector(Fragment fragment) {
+		double[] vector = getDefaultVector();
 		for (FragInter inter : fragment.getFragmentInterSet()) {
 			if (inter instanceof VirtualEditionInter
 					&& ((VirtualEditionInter) inter).getVirtualEdition().getTaxonomy() == taxonomy) {
 				for (Category category : ((VirtualEditionInter) inter).getCategories()) {
 					if (sortedCategories.contains(category)) {
-						vector.set(sortedCategories.indexOf(category), 1.0 * getWeight());
+						vector[sortedCategories.indexOf(category)] = 1.0 * getWeight();
 					}
 				}
 			}
@@ -55,17 +53,17 @@ public class TaxonomyProperty extends Property {
 	}
 
 	@Override
-	protected List<Double> extractVector(VirtualEditionInter inter) {
-		List<Double> vector = getDefaultVector();
+	protected double[] extractVector(VirtualEditionInter inter) {
+		double[] vector = getDefaultVector();
 		for (Category category : inter.getCategories()) {
-			vector.set(sortedCategories.indexOf(category), 1.0 * getWeight());
+			vector[sortedCategories.indexOf(category)] = 1.0 * getWeight();
 		}
 		return vector;
 	}
 
 	@Override
-	protected List<Double> getDefaultVector() {
-		return new ArrayList<Double>(Collections.nCopies(sortedCategories.size(), 0.0));
+	protected double[] getDefaultVector() {
+		return new double[sortedCategories.size()];
 	}
 
 	@Override

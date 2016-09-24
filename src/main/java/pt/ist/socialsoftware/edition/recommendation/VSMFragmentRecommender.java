@@ -1,7 +1,5 @@
 package pt.ist.socialsoftware.edition.recommendation;
 
-import java.util.Collection;
-
 import pt.ist.socialsoftware.edition.domain.Fragment;
 import pt.ist.socialsoftware.edition.recommendation.properties.Property;
 
@@ -13,7 +11,7 @@ public class VSMFragmentRecommender extends VSMRecommender<Fragment> {
 	}
 
 	@Override
-	protected Collection<Double> loadProperty(Fragment t1, Property property) {
+	protected double[] loadProperty(Fragment t1, Property property) {
 		return property.loadProperty(t1);
 	}
 

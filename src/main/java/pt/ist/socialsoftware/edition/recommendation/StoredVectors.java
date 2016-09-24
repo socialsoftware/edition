@@ -1,7 +1,5 @@
 package pt.ist.socialsoftware.edition.recommendation;
 
-import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,10 +15,10 @@ public class StoredVectors {
 		return instance;
 	}
 
-	private final Map<Class<? extends StorableProperty>, Map<String, Collection<Double>>> weights;
+	private final Map<Class<? extends StorableProperty>, Map<String, double[]>> weights;
 
 	private StoredVectors() {
-		weights = new HashMap<Class<? extends StorableProperty>, Map<String, Collection<Double>>>();
+		weights = new HashMap<Class<? extends StorableProperty>, Map<String, double[]>>();
 	}
 
 	public boolean contains(StorableProperty property, String id) {
@@ -32,18 +30,18 @@ public class StoredVectors {
 		return false;
 	}
 
-	public Collection<Double> get(StorableProperty property, String id) {
+	public double[] get(StorableProperty property, String id) {
 		if (weights.containsKey(property.getClass())) {
 			if (weights.get(property.getClass()).containsKey(id)) {
-				return Collections.unmodifiableCollection(weights.get(property.getClass()).get(id));
+				return weights.get(property.getClass()).get(id);
 			}
 		}
 		return null;
 	}
 
-	public void put(StorableProperty property, String id, Collection<Double> weightCollection) {
+	public void put(StorableProperty property, String id, double[] weightCollection) {
 		if (!weights.containsKey(property.getClass())) {
-			weights.put(property.getClass(), new HashMap<String, Collection<Double>>());
+			weights.put(property.getClass(), new HashMap<String, double[]>());
 		}
 		weights.get(property.getClass()).put(id, weightCollection);
 	}

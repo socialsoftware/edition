@@ -1,9 +1,5 @@
 package pt.ist.socialsoftware.edition.recommendation.properties;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,41 +14,38 @@ public abstract class StorableProperty extends Property {
 		super(weight);
 	}
 
-	private Collection<Double> applyWeights(Collection<Double> collection, double weight) {
+	private double[] applyWeights(double[] vector, double weight) {
+		double[] result = new double[vector.length];
 		if (weight == 1.0) {
-			return new ArrayList<Double>(collection);
+			return vector;
 		} else if (weight == 0.0) {
-			return new ArrayList<Double>(getDefaultVector());
+			return result;
 		} else {
-			List<Double> list = new ArrayList<Double>(collection);
-			int size = list.size();
-			Double value;
-			for (int i = 0; i < size; i++) {
-				value = list.get(i);
-				list.set(i, weight * value);
+			for (int i = 0; i < vector.length; i++) {
+				result[i] = vector[i] * weight;
 			}
-			return list;
+			return result;
 		}
 	}
 
 	@Override
-	public final Collection<Double> loadProperty(VirtualEditionInter virtualEditionInter) {
-		Collection<Double> collection = StoredVectors.getInstance().get(this, virtualEditionInter.getExternalId());
-		if (collection == null) {
-			collection = extractVector(virtualEditionInter);
-			StoredVectors.getInstance().put(this, virtualEditionInter.getExternalId(), collection);
+	public final double[] loadProperty(VirtualEditionInter virtualEditionInter) {
+		double[] vector = StoredVectors.getInstance().get(this, virtualEditionInter.getExternalId());
+		if (vector == null) {
+			vector = extractVector(virtualEditionInter);
+			StoredVectors.getInstance().put(this, virtualEditionInter.getExternalId(), vector);
 		}
-		return applyWeights(collection, getWeight());
+		return applyWeights(vector, getWeight());
 	}
 
 	@Override
-	public final Collection<Double> loadProperty(Fragment fragment) {
-		Collection<Double> collection = StoredVectors.getInstance().get(this, fragment.getExternalId());
-		if (collection == null) {
-			collection = extractVector(fragment);
-			StoredVectors.getInstance().put(this, fragment.getExternalId(), collection);
+	public final double[] loadProperty(Fragment fragment) {
+		double[] vector = StoredVectors.getInstance().get(this, fragment.getExternalId());
+		if (vector == null) {
+			vector = extractVector(fragment);
+			StoredVectors.getInstance().put(this, fragment.getExternalId(), vector);
 		}
-		return applyWeights(collection, getWeight());
+		return applyWeights(vector, getWeight());
 	}
 
 }

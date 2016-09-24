@@ -2,7 +2,6 @@ package pt.ist.socialsoftware.edition.recommendation.properties;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,7 +21,7 @@ import pt.ist.socialsoftware.edition.shared.exception.LdoDException;
 public class TextProperty extends Property {
 	public static final int NUMBER_OF_TERMS = 100;
 
-	private static Map<String, Map<String, List<Double>>> vectors = new HashMap<String, Map<String, List<Double>>>();
+	private static Map<String, Map<String, double[]>> vectors = new HashMap<String, Map<String, double[]>>();
 
 	private List<String> commonTerms;
 
@@ -43,7 +42,7 @@ public class TextProperty extends Property {
 	public void prepareToLoadProperty(FragInter inter1, FragInter inter2) {
 		this.fragInter1 = inter1.getLastUsed();
 		this.fragInter2 = inter2.getLastUsed();
-		List<Double> vector = getFromVectors(this.fragInter1);
+		double[] vector = getFromVectors(this.fragInter1);
 		if (vector == null) {
 			vector = getFragInterVector(this.fragInter1);
 			putIntoVectors(this.fragInter1, vector);
@@ -59,7 +58,7 @@ public class TextProperty extends Property {
 	public void prepareToLoadProperty(Fragment frag1, Fragment frag2) {
 		this.fragment1 = frag1;
 		this.fragment2 = frag2;
-		List<Double> vector = getFromVector(fragment1);
+		double[] vector = getFromVector(fragment1);
 		if (vector == null) {
 			vector = getFragmentVector(fragment1);
 			putIntoVectors(fragment1, vector);
@@ -71,82 +70,81 @@ public class TextProperty extends Property {
 		}
 	}
 
-	private List<Double> buildVector(Map<String, Double> tfidf) {
-		List<Double> vector = getDefaultVector();
-		for (int i = 0; i < commonTerms.size(); i++) {
+	private double[] buildVector(Map<String, Double> tfidf) {
+		double[] vector = new double[commonTerms.size()];
+		for (int i = 0; i < vector.length; i++) {
 			String term = commonTerms.get(i);
 			if (tfidf.containsKey(term)) {
-				vector.set(i, tfidf.get(term));
+				vector[i] = tfidf.get(term);
 			}
 		}
 		return vector;
 	}
 
-	private List<Double> applyWeight(List<Double> vector) {
-		for (int i = 0; i < vector.size(); i++) {
-			vector.set(i, getWeight() * vector.get(i));
+	private double[] applyWeight(double[] vector) {
+		double result[] = new double[vector.length];
+		for (int i = 0; i < vector.length; i++) {
+			result[i] = vector[i] + getWeight();
 		}
-		return vector;
+		return result;
+
 	}
 
 	@Override
-	protected List<Double> extractVector(ExpertEditionInter expertEditionInter) {
-		List<Double> vector = getFromVectors(expertEditionInter);
-		return applyWeight(new ArrayList<Double>(vector));
+	protected double[] extractVector(ExpertEditionInter expertEditionInter) {
+		return applyWeight(getFromVectors(expertEditionInter));
 	}
 
 	@Override
-	protected List<Double> extractVector(SourceInter sourceInter) {
-		List<Double> vector = getFromVectors(sourceInter);
-		return applyWeight(new ArrayList<Double>(vector));
+	protected double[] extractVector(SourceInter sourceInter) {
+		return applyWeight(getFromVectors(sourceInter));
 	}
 
 	@Override
-	protected List<Double> extractVector(Fragment fragment) {
-		List<Double> vector = getFromVector(fragment);
-		return applyWeight(new ArrayList<Double>(vector));
+	protected double[] extractVector(Fragment fragment) {
+		return applyWeight(getFromVector(fragment));
 	}
 
-	private List<Double> getFromVector(Fragment fragment) {
+	private double[] getFromVector(Fragment fragment) {
 		Fragment fragmentOther = fragment1 == fragment ? fragment2 : fragment1;
-		Map<String, List<Double>> map = vectors.get(fragment.getExternalId());
+		Map<String, double[]> map = vectors.get(fragment.getExternalId());
 		if (map == null) {
 			return null;
 		}
 		return map.get(fragmentOther.getExternalId());
 	}
 
-	private List<Double> getFromVectors(FragInter fragInter) {
+	private double[] getFromVectors(FragInter fragInter) {
 		FragInter fragInterOther = fragInter1 == fragInter ? fragInter2 : fragInter1;
-		Map<String, List<Double>> map = vectors.get(fragInter.getExternalId());
+		Map<String, double[]> map = vectors.get(fragInter.getExternalId());
 		if (map == null) {
 			return null;
 		}
 		return map.get(fragInterOther.getExternalId());
 	}
 
-	private void putIntoVectors(FragInter fragInter, List<Double> vector) {
+	private void putIntoVectors(FragInter fragInter, double[] vector) {
 		FragInter fragInterOther = fragInter1 == fragInter ? fragInter2 : fragInter1;
-		Map<String, List<Double>> map = vectors.get(fragInter.getExternalId());
+		Map<String, double[]> map = vectors.get(fragInter.getExternalId());
 		if (map == null) {
-			map = new HashMap<String, List<Double>>();
+			map = new HashMap<String, double[]>();
 			vectors.put(fragInter.getExternalId(), map);
 		}
 		map.put(fragInterOther.getExternalId(), vector);
 	}
 
-	private void putIntoVectors(Fragment fragment, List<Double> vector) {
+	private void putIntoVectors(Fragment fragment, double[] vector) {
 		Fragment fragmentOther = fragment1 == fragment ? fragment2 : fragment1;
-		Map<String, List<Double>> map = vectors.get(fragment.getExternalId());
+		Map<String, double[]> map = vectors.get(fragment.getExternalId());
 		if (map == null) {
-			map = new HashMap<String, List<Double>>();
+			map = new HashMap<String, double[]>();
 			vectors.put(fragment.getExternalId(), map);
 		}
 		map.put(fragmentOther.getExternalId(), vector);
 	}
 
-	private List<Double> getFragmentVector(Fragment fragment) {
-		List<Double> vector;
+	private double[] getFragmentVector(Fragment fragment) {
+		double[] vector;
 		Map<String, Double> tfidf;
 		try {
 			if (commonTerms == null) {
@@ -160,8 +158,8 @@ public class TextProperty extends Property {
 		return vector;
 	}
 
-	private List<Double> getFragInterVector(FragInter fragInter) {
-		List<Double> vector;
+	private double[] getFragInterVector(FragInter fragInter) {
+		double[] vector;
 		Map<String, Double> tfidf;
 		try {
 			if (commonTerms == null) {
@@ -200,8 +198,8 @@ public class TextProperty extends Property {
 	}
 
 	@Override
-	protected List<Double> getDefaultVector() {
-		return new ArrayList<Double>(Collections.nCopies(commonTerms.size(), 0.0));
+	protected double[] getDefaultVector() {
+		return new double[commonTerms.size()];
 	}
 
 	@Override

@@ -2,7 +2,6 @@ package pt.ist.socialsoftware.edition.recommendation.properties;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -27,34 +26,35 @@ public class HeteronymProperty extends StorableProperty {
 		this(Double.parseDouble(weight));
 	}
 
-	private List<Double> buildVector(Collection<Heteronym> foundHeteronyms) {
-		List<Double> vector = new ArrayList<Double>();
+	private double[] buildVector(Collection<Heteronym> foundHeteronyms) {
+		double[] vector = getDefaultVector();
+		int i = 0;
 		for (Heteronym heteronym : HeteronymProperty.heteronymList) {
 			if (foundHeteronyms.contains(heteronym))
-				vector.add(1.0);
+				vector[i] = 1.0;
 			else
-				vector.add(0.0);
-
+				vector[i] = 0.0;
+			i++;
 		}
 		return vector;
 	}
 
 	@Override
-	public List<Double> extractVector(ExpertEditionInter expertEditionInter) {
+	public double[] extractVector(ExpertEditionInter expertEditionInter) {
 		Collection<Heteronym> foundHeteronyms = new ArrayList<Heteronym>();
 		foundHeteronyms.add(expertEditionInter.getHeteronym());
 		return buildVector(foundHeteronyms);
 	}
 
 	@Override
-	public List<Double> extractVector(SourceInter sourceInter) {
+	public double[] extractVector(SourceInter sourceInter) {
 		Collection<Heteronym> foundHeteronyms = new ArrayList<Heteronym>();
 		foundHeteronyms.add(sourceInter.getHeteronym());
 		return buildVector(foundHeteronyms);
 	}
 
 	@Override
-	public List<Double> extractVector(Fragment fragment) {
+	public double[] extractVector(Fragment fragment) {
 		List<Heteronym> foundHeteronyms = new ArrayList<Heteronym>();
 		for (FragInter inter : fragment.getFragmentInterSet()) {
 			foundHeteronyms.add(inter.getHeteronym());
@@ -68,7 +68,7 @@ public class HeteronymProperty extends StorableProperty {
 	}
 
 	@Override
-	public List<Double> extractVector(Source source) {
+	public double[] extractVector(Source source) {
 		List<Heteronym> foundHeteronyms = new ArrayList<Heteronym>();
 		for (SourceInter inter : source.getSourceIntersSet()) {
 			foundHeteronyms.add(inter.getHeteronym());
@@ -77,8 +77,8 @@ public class HeteronymProperty extends StorableProperty {
 	}
 
 	@Override
-	protected List<Double> getDefaultVector() {
-		return Collections.nCopies(heteronymList.size(), 0.);
+	protected double[] getDefaultVector() {
+		return new double[heteronymList.size()];
 	}
 
 	@Override

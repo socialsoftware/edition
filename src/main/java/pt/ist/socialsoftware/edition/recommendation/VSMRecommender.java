@@ -22,24 +22,18 @@ public abstract class VSMRecommender<T> implements Recommender<T, Property> {
 
 	protected abstract void prepareToLoadProperty(T item1, T item2, Property property);
 
-	protected abstract Collection<Double> loadProperty(T item1, Property property);
-
-	private double calculateSimilarity(Collection<Double> item1, Collection<Double> item2) {
-		double[] v1 = ArrayUtils.toPrimitive(item1.toArray(new Double[item1.size()]));
-		double[] v2 = ArrayUtils.toPrimitive(item2.toArray(new Double[item2.size()]));
-		return Vectors.calculateSimilarity(v1, v2);
-	}
+	protected abstract double[] loadProperty(T item1, Property property);
 
 	@Override
 	public double calculateSimilarity(T item1, T item2, Collection<Property> ps) {
-		List<Double> vector1 = new ArrayList<Double>();
-		List<Double> vector2 = new ArrayList<Double>();
+		double[] vector1 = null;
+		double[] vector2 = null;
 		for (Property property : ps) {
 			prepareToLoadProperty(item1, item2, property);
-			vector1.addAll(loadProperty(item1, property));
-			vector2.addAll(loadProperty(item2, property));
+			vector1 = ArrayUtils.addAll(vector1, loadProperty(item1, property));
+			vector2 = ArrayUtils.addAll(vector2, loadProperty(item2, property));
 		}
-		return calculateSimilarity(vector1, vector2);
+		return Vectors.calculateSimilarity(vector1, vector2);
 	}
 
 	@Override
