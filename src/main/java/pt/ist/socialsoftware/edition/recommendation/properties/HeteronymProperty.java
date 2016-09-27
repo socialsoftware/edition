@@ -6,7 +6,6 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import pt.ist.socialsoftware.edition.domain.ExpertEditionInter;
 import pt.ist.socialsoftware.edition.domain.FragInter;
 import pt.ist.socialsoftware.edition.domain.Fragment;
 import pt.ist.socialsoftware.edition.domain.Heteronym;
@@ -14,6 +13,7 @@ import pt.ist.socialsoftware.edition.domain.LdoD;
 import pt.ist.socialsoftware.edition.domain.RecommendationWeights;
 import pt.ist.socialsoftware.edition.domain.Source;
 import pt.ist.socialsoftware.edition.domain.SourceInter;
+import pt.ist.socialsoftware.edition.domain.VirtualEditionInter;
 
 public class HeteronymProperty extends StorableProperty {
 	private static List<Heteronym> heteronymList = LdoD.getInstance().getSortedHeteronyms();
@@ -40,16 +40,9 @@ public class HeteronymProperty extends StorableProperty {
 	}
 
 	@Override
-	public double[] extractVector(ExpertEditionInter expertEditionInter) {
+	public double[] extractVector(VirtualEditionInter virtualEditionInter) {
 		Collection<Heteronym> foundHeteronyms = new ArrayList<Heteronym>();
-		foundHeteronyms.add(expertEditionInter.getHeteronym());
-		return buildVector(foundHeteronyms);
-	}
-
-	@Override
-	public double[] extractVector(SourceInter sourceInter) {
-		Collection<Heteronym> foundHeteronyms = new ArrayList<Heteronym>();
-		foundHeteronyms.add(sourceInter.getHeteronym());
+		foundHeteronyms.add(virtualEditionInter.getLastUsed().getHeteronym());
 		return buildVector(foundHeteronyms);
 	}
 
@@ -63,15 +56,6 @@ public class HeteronymProperty extends StorableProperty {
 			for (SourceInter inter : source.getSourceIntersSet()) {
 				foundHeteronyms.add(inter.getHeteronym());
 			}
-		}
-		return buildVector(foundHeteronyms);
-	}
-
-	@Override
-	public double[] extractVector(Source source) {
-		List<Heteronym> foundHeteronyms = new ArrayList<Heteronym>();
-		for (SourceInter inter : source.getSourceIntersSet()) {
-			foundHeteronyms.add(inter.getHeteronym());
 		}
 		return buildVector(foundHeteronyms);
 	}

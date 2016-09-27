@@ -8,6 +8,9 @@ public class Vectors {
 	private static Logger logger = LoggerFactory.getLogger(Vectors.class);
 
 	public static double calculateSimilarity(double[] t1, double[] t2) {
+		if (t1 == null || t2 == null)
+			return 0.0;
+
 		DoubleMatrix matrix1 = new DoubleMatrix(t1);
 		DoubleMatrix matrix2 = new DoubleMatrix(t2);
 		double dotProduct = matrix1.dot(matrix2);

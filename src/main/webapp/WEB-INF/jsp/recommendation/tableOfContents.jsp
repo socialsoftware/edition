@@ -26,115 +26,121 @@
 			<spring:message code="recommendation.iterativeSort" />
 		</p>
 
-		<table id="taxonomy-table" class="table table-condensed table-hover">
-			<thead>
-				<tr>
-					<th class="iterative-sort" style="display: none;"><spring:message
-							code="recommendation.iteration" /></th>
-					<th class="text-center"><spring:message
-							code="recommendation.criteria" /></th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<th class="iterative-sort" style="display: none;">1</th>
-					<th>
-						<div class="row row-centered taxonomy-row" id="0"
-							style="min-height: 40px;">
-							<div class="col-md-2 col-sm-4 taxonomy-range"
-								property-type="heteronym">
-								<p>
-									<spring:message javaScriptEscape="true"
-										code="general.heteronym" />
-								</p>
-								<input type="range" class="range" value='${heteronymWeight}'
-									max="1" min="0" step="0.2">
-							</div>
-							<div class="col-md-2 col-sm-4 taxonomy-range"
-								property-type="date">
-								<p>
-									<spring:message javaScriptEscape="true" code="general.date" />
-								</p>
-								<input type="range" class="range" value='${dateWeight}' max="1"
-									min="0" step="0.2">
-							</div>
-							<div class="col-md-2 col-sm-4 taxonomy-range"
-								property-type="text">
-								<p>
-									<spring:message javaScriptEscape="true" code="general.text" />
-								</p>
-								<input type="range" class="range" value='${textWeight}' max="1"
-									min="0" step="0.2">
-							</div>
-							<div class="col-md-2 col-sm-4 taxonomy-range"
-								property-type="specific-taxonomy">
-								<p>
-									<spring:message code="general.taxonomy" />
-								</p>
-								<input type="range" class="range" value="${taxonomyWeight}"
-									max="1.0" min="0.0" step="0.2">
-							</div>
-						</div>
-					</th>
-				</tr>
-				<c:forEach var="i" begin="2" end="5">
-					<tr class="iterative-sort" style="display: none;">
-						<th>${i}</th>
-						<th>
-							<div class="row row-centered taxonomy-row" id="${i-1}"
-								style="min-height: 40px;"></div>
-						</th>
-					</tr>
-				</c:forEach>
-			</tbody>
-		</table>
-		<div class="extra" style="display: none;" align="right">
-			<div class="form-inline extra">
-				<button type="submit" id="save" class="btn btn-primary btn-sm">
-					<span class="glyphicon glyphicon-edit"></span>
-					<spring:message code="general.save" />
-				</button>
+		<div class="row">
+			<div class="row col-md-6">
+				<table id="taxonomy-table"
+					class="table table-condensed table-hover">
+					<thead>
+						<tr>
+							<th class="iterative-sort" style="display: none;">#</th>
+							<th class="text-center"><spring:message
+									code="recommendation.criteria" /></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<th class="iterative-sort" style="display: none;">1</th>
+							<th>
+								<div class="row row-centered taxonomy-row" id="0"
+									style="min-height: 40px;">
+									<div class="col-md-2 col-sm-4 taxonomy-range"
+										property-type="heteronym">
+										<p>
+											<spring:message javaScriptEscape="true"
+												code="general.heteronym" />
+										</p>
+										<input type="range" class="range" value='${heteronymWeight}'
+											max="1" min="0" step="0.2">
+									</div>
+									<div class="col-md-2 col-sm-4 taxonomy-range"
+										property-type="date">
+										<p>
+											<spring:message javaScriptEscape="true" code="general.date" />
+										</p>
+										<input type="range" class="range" value='${dateWeight}'
+											max="1" min="0" step="0.2">
+									</div>
+									<div class="col-md-2 col-sm-4 taxonomy-range"
+										property-type="text">
+										<p>
+											<spring:message javaScriptEscape="true" code="general.text" />
+										</p>
+										<input type="range" class="range" value='${textWeight}'
+											max="1" min="0" step="0.2">
+									</div>
+									<div class="col-md-2 col-sm-4 taxonomy-range"
+										property-type="specific-taxonomy">
+										<p>
+											<spring:message code="general.taxonomy" />
+										</p>
+										<input type="range" class="range" value="${taxonomyWeight}"
+											max="1.0" min="0.0" step="0.2">
+									</div>
+								</div>
+							</th>
+						</tr>
+						<c:forEach var="i" begin="2" end="4">
+							<tr class="iterative-sort" style="display: none;">
+								<th>${i}</th>
+								<th>
+									<div class="row row-centered taxonomy-row" id="${i-1}"
+										style="min-height: 40px;"></div>
+								</th>
+							</tr>
+						</c:forEach>
+					</tbody>
+				</table>
 			</div>
-			<form class="form-inline extra" method="POST"
-				action="/recommendation/create" style="display: none;" id="create">
-				<div class="form-group">
-					<input type="text" class="form-control" id="new-acronym"
-						name="acronym"
-						placeholder="<spring:message code="virtualeditionlist.acronym"/>" />
+			<div class="extra" style="display: none;" align="right">
+				<div class="form-inline extra">
+					<button type="submit" id="save" class="btn btn-primary btn-sm">
+						<span class="glyphicon glyphicon-edit"></span>
+						<spring:message code="general.save" />
+					</button>
 				</div>
+				<form class="form-inline extra" method="POST"
+					action="/recommendation/create" style="display: none;" id="create">
+					<div class="form-group">
+						<input type="text" class="form-control" id="new-acronym"
+							name="acronym"
+							placeholder="<spring:message code="virtualeditionlist.acronym"/>" />
+					</div>
 
-				<div class="form-group">
-					<input type="text" class="form-control" name="title" id="new-title"
-						placeholder="<spring:message code="virtualeditionlist.name" />" />
-				</div>
-				<div class="form-group">
-					<select name="pub" class="form-control" id="new-pub">
-						<option value="true" selected>
-							<spring:message code="general.public" />
-						</option>
-						<option value="false" selected>
-							<spring:message code="general.private" />
-						</option>
-					</select>
-				</div>
+					<div class="form-group">
+						<input type="text" class="form-control" name="title"
+							id="new-title"
+							placeholder="<spring:message code="virtualeditionlist.name" />" />
+					</div>
+					<div class="form-group">
+						<select name="pub" class="form-control" id="new-pub">
+							<option value="true" selected>
+								<spring:message code="general.public" />
+							</option>
+							<option value="false" selected>
+								<spring:message code="general.private" />
+							</option>
+						</select>
+					</div>
 
-				<button type="submit" class="btn btn-primary btn-sm">
-					<span class="glyphicon glyphicon-edit"></span>
-					<spring:message code="general.create" />
-				</button>
-
-			</form>
+					<button type="submit" class="btn btn-primary btn-sm">
+						<span class="glyphicon glyphicon-edit"></span>
+						<spring:message code="general.create" />
+					</button>
+				</form>
+			</div>
 		</div>
-
-		<c:choose>
-			<c:when test="${!edition.hasMultipleSections() || not empty inters}">
-				<%@ include file="/WEB-INF/jsp/recommendation/virtualTable.jsp"%>
-			</c:when>
-			<c:when test="${edition.hasMultipleSections()}">
-				<%@ include
-					file="/WEB-INF/jsp/recommendation/virtualTableWithSections.jsp"%>
-			</c:when>
-		</c:choose>
+		<hr>
+		<div class="row">
+			<c:choose>
+				<c:when test="${!edition.hasMultipleSections() || not empty inters}">
+					<%@ include file="/WEB-INF/jsp/recommendation/virtualTable.jsp"%>
+				</c:when>
+				<c:when test="${edition.hasMultipleSections()}">
+					<%@ include
+						file="/WEB-INF/jsp/recommendation/virtualTableWithSections.jsp"%>
+				</c:when>
+			</c:choose>
+		</div>
 	</div>
 	<script type="text/javascript">
 		$(document)

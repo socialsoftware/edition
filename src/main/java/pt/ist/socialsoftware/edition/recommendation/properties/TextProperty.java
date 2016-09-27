@@ -7,26 +7,26 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.lucene.queryparser.classic.ParseException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import pt.ist.socialsoftware.edition.domain.ExpertEditionInter;
-import pt.ist.socialsoftware.edition.domain.FragInter;
 import pt.ist.socialsoftware.edition.domain.Fragment;
 import pt.ist.socialsoftware.edition.domain.RecommendationWeights;
-import pt.ist.socialsoftware.edition.domain.SourceInter;
+import pt.ist.socialsoftware.edition.domain.VirtualEditionInter;
 import pt.ist.socialsoftware.edition.search.Indexer;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDException;
 
 public class TextProperty extends Property {
+	private static Logger logger = LoggerFactory.getLogger(TextProperty.class);
+
 	public static final int NUMBER_OF_TERMS = 100;
 
-	private static Map<String, Map<String, double[]>> vectors = new HashMap<String, Map<String, double[]>>();
+	private static Map<String, Map<String, double[]>> vectorsCache = new HashMap<String, Map<String, double[]>>();
 
 	private List<String> commonTerms;
 
-	private FragInter fragInter1;
-	private FragInter fragInter2;
 	private Fragment fragment1;
 	private Fragment fragment2;
 
@@ -39,34 +39,23 @@ public class TextProperty extends Property {
 	}
 
 	@Override
-	public void prepareToLoadProperty(FragInter inter1, FragInter inter2) {
-		this.fragInter1 = inter1.getLastUsed();
-		this.fragInter2 = inter2.getLastUsed();
-		double[] vector = getFromVectors(this.fragInter1);
-		if (vector == null) {
-			vector = getFragInterVector(this.fragInter1);
-			putIntoVectors(this.fragInter1, vector);
-		}
-		vector = getFromVectors(this.fragInter2);
-		if (vector == null) {
-			vector = getFragInterVector(this.fragInter2);
-			putIntoVectors(this.fragInter2, vector);
-		}
+	public void prepareToLoadProperty(VirtualEditionInter inter1, VirtualEditionInter inter2) {
+		prepareToLoadProperty(inter1.getFragment(), inter2.getFragment());
 	}
 
 	@Override
-	public void prepareToLoadProperty(Fragment frag1, Fragment frag2) {
-		this.fragment1 = frag1;
-		this.fragment2 = frag2;
-		double[] vector = getFromVector(fragment1);
+	public void prepareToLoadProperty(Fragment fragment1, Fragment fragment2) {
+		this.fragment1 = fragment1;
+		this.fragment2 = fragment2;
+		double[] vector = getFromVectorsCache(fragment1);
 		if (vector == null) {
-			vector = getFragmentVector(fragment1);
-			putIntoVectors(fragment1, vector);
+			vector = generateFragmentVector(fragment1);
+			putIntoVectorsCache(fragment1, vector);
 		}
-		vector = getFromVector(fragment2);
+		vector = getFromVectorsCache(fragment2);
 		if (vector == null) {
-			vector = getFragmentVector(fragment2);
-			putIntoVectors(fragment2, vector);
+			vector = generateFragmentVector(fragment2);
+			putIntoVectorsCache(fragment2, vector);
 		}
 	}
 
@@ -87,63 +76,39 @@ public class TextProperty extends Property {
 			result[i] = vector[i] + getWeight();
 		}
 		return result;
-
 	}
 
 	@Override
-	protected double[] extractVector(ExpertEditionInter expertEditionInter) {
-		return applyWeight(getFromVectors(expertEditionInter));
-	}
-
-	@Override
-	protected double[] extractVector(SourceInter sourceInter) {
-		return applyWeight(getFromVectors(sourceInter));
+	protected double[] extractVector(VirtualEditionInter virtualEditionInter) {
+		return applyWeight(getFromVectorsCache(virtualEditionInter.getFragment()));
 	}
 
 	@Override
 	protected double[] extractVector(Fragment fragment) {
-		return applyWeight(getFromVector(fragment));
+		return applyWeight(getFromVectorsCache(fragment));
 	}
 
-	private double[] getFromVector(Fragment fragment) {
-		Fragment fragmentOther = fragment1 == fragment ? fragment2 : fragment1;
-		Map<String, double[]> map = vectors.get(fragment.getExternalId());
+	private double[] getFromVectorsCache(Fragment fragment) {
+		Fragment fragmentOther = fragment == fragment1 ? fragment2 : fragment1;
+		Map<String, double[]> map = vectorsCache.get(fragment.getExternalId());
 		if (map == null) {
 			return null;
 		}
-		return map.get(fragmentOther.getExternalId());
+		double[] tmp = map.get(fragmentOther.getExternalId());
+		return tmp;
 	}
 
-	private double[] getFromVectors(FragInter fragInter) {
-		FragInter fragInterOther = fragInter1 == fragInter ? fragInter2 : fragInter1;
-		Map<String, double[]> map = vectors.get(fragInter.getExternalId());
-		if (map == null) {
-			return null;
-		}
-		return map.get(fragInterOther.getExternalId());
-	}
-
-	private void putIntoVectors(FragInter fragInter, double[] vector) {
-		FragInter fragInterOther = fragInter1 == fragInter ? fragInter2 : fragInter1;
-		Map<String, double[]> map = vectors.get(fragInter.getExternalId());
+	private void putIntoVectorsCache(Fragment fragment, double[] vector) {
+		Fragment fragmentOther = fragment == fragment1 ? fragment2 : fragment1;
+		Map<String, double[]> map = vectorsCache.get(fragment.getExternalId());
 		if (map == null) {
 			map = new HashMap<String, double[]>();
-			vectors.put(fragInter.getExternalId(), map);
-		}
-		map.put(fragInterOther.getExternalId(), vector);
-	}
-
-	private void putIntoVectors(Fragment fragment, double[] vector) {
-		Fragment fragmentOther = fragment1 == fragment ? fragment2 : fragment1;
-		Map<String, double[]> map = vectors.get(fragment.getExternalId());
-		if (map == null) {
-			map = new HashMap<String, double[]>();
-			vectors.put(fragment.getExternalId(), map);
+			vectorsCache.put(fragment.getExternalId(), map);
 		}
 		map.put(fragmentOther.getExternalId(), vector);
 	}
 
-	private double[] getFragmentVector(Fragment fragment) {
+	private double[] generateFragmentVector(Fragment fragment) {
 		double[] vector;
 		Map<String, Double> tfidf;
 		try {
@@ -158,39 +123,12 @@ public class TextProperty extends Property {
 		return vector;
 	}
 
-	private double[] getFragInterVector(FragInter fragInter) {
-		double[] vector;
-		Map<String, Double> tfidf;
-		try {
-			if (commonTerms == null) {
-				commonTerms = getFragIntersCommonTerms(this.fragInter1, this.fragInter2);
-			}
-			tfidf = Indexer.getIndexer().getTFIDF(fragInter, commonTerms);
-		} catch (IOException | ParseException e) {
-			throw new LdoDException("Indexer error when extractVector in TextProperty");
-		}
-		vector = buildVector(tfidf);
-		return vector;
-	}
-
-	private List<String> getFragmentsCommonTerms(Fragment frag1, Fragment frag2) {
+	private List<String> getFragmentsCommonTerms(Fragment fragment1, Fragment fragment2) {
 		Indexer indexer = Indexer.getIndexer();
 		List<String> result = new ArrayList<String>();
 		try {
-			result.addAll(indexer.getTFIDFTerms(frag1, NUMBER_OF_TERMS));
-			result.addAll(indexer.getTFIDFTerms(frag2, NUMBER_OF_TERMS));
-		} catch (ParseException | IOException e) {
-			throw new LdoDException("prepareToLoadProperty in class TextProperty failed when invoking indexer");
-		}
-		return result;
-	}
-
-	private List<String> getFragIntersCommonTerms(FragInter inter1, FragInter inter2) {
-		Indexer indexer = Indexer.getIndexer();
-		List<String> result = new ArrayList<String>();
-		try {
-			result.addAll(indexer.getTFIDFTerms(inter1, NUMBER_OF_TERMS));
-			result.addAll(indexer.getTFIDFTerms(inter2, NUMBER_OF_TERMS));
+			result.addAll(indexer.getTFIDFTerms(fragment1, NUMBER_OF_TERMS));
+			result.addAll(indexer.getTFIDFTerms(fragment2, NUMBER_OF_TERMS));
 		} catch (ParseException | IOException e) {
 			throw new LdoDException("prepareToLoadProperty in class TextProperty failed when invoking indexer");
 		}

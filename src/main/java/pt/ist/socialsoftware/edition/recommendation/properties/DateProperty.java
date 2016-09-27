@@ -9,15 +9,16 @@ import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import pt.ist.socialsoftware.edition.domain.ExpertEditionInter;
 import pt.ist.socialsoftware.edition.domain.FragInter;
 import pt.ist.socialsoftware.edition.domain.Fragment;
+import pt.ist.socialsoftware.edition.domain.LdoDDate;
 import pt.ist.socialsoftware.edition.domain.ManuscriptSource;
 import pt.ist.socialsoftware.edition.domain.PrintedSource;
 import pt.ist.socialsoftware.edition.domain.RecommendationWeights;
 import pt.ist.socialsoftware.edition.domain.Source;
 import pt.ist.socialsoftware.edition.domain.Source.SourceType;
 import pt.ist.socialsoftware.edition.domain.SourceInter;
+import pt.ist.socialsoftware.edition.domain.VirtualEditionInter;
 
 public class DateProperty extends StorableProperty {
 	private static Logger logger = LoggerFactory.getLogger(DateProperty.class);
@@ -61,7 +62,15 @@ public class DateProperty extends StorableProperty {
 	}
 
 	@Override
-	public double[] extractVector(Fragment fragment) {
+	double[] extractVector(VirtualEditionInter virtualEditionInter) {
+		LdoDDate ldoDDate = virtualEditionInter.getLastUsed().getLdoDDate();
+		if (ldoDDate != null)
+			return addDateToVector(ldoDDate.getDate().getYear(), getDefaultVector());
+		return getDefaultVector();
+	}
+
+	@Override
+	double[] extractVector(Fragment fragment) {
 		Set<Integer> dates = new HashSet<Integer>();
 		for (FragInter inter : fragment.getFragmentInterSet()) {
 			if (inter.getLdoDDate() != null) {
@@ -74,35 +83,6 @@ public class DateProperty extends StorableProperty {
 			}
 		}
 		return buildVector(dates);
-	}
-
-	@Override
-	public double[] extractVector(Source source) {
-		Set<Integer> dates = new HashSet<Integer>();
-		if (source.getLdoDDate() != null) {
-			dates.add(source.getLdoDDate().getDate().getYear());
-		}
-
-		for (SourceInter sourceInter : source.getSourceIntersSet()) {
-			if (sourceInter.getLdoDDate() != null) {
-				dates.add(sourceInter.getLdoDDate().getDate().getYear());
-			}
-		}
-		return buildVector(dates);
-	}
-
-	@Override
-	protected double[] extractVector(SourceInter sourceInter) {
-		if (sourceInter.getLdoDDate() != null)
-			return addDateToVector(sourceInter.getLdoDDate().getDate().getYear(), getDefaultVector());
-		return getDefaultVector();
-	}
-
-	@Override
-	protected double[] extractVector(ExpertEditionInter expertEditionInter) {
-		if (expertEditionInter.getLdoDDate() != null)
-			return addDateToVector(expertEditionInter.getLdoDDate().getDate().getYear(), getDefaultVector());
-		return getDefaultVector();
 	}
 
 	@Override

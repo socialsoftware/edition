@@ -30,10 +30,11 @@ public abstract class StorableProperty extends Property {
 
 	@Override
 	public final double[] loadProperty(VirtualEditionInter virtualEditionInter) {
-		double[] vector = StoredVectors.getInstance().get(this, virtualEditionInter.getExternalId());
+		String externalId = virtualEditionInter.getLastUsed().getExternalId();
+		double[] vector = StoredVectors.getInstance().get(this, externalId);
 		if (vector == null) {
 			vector = extractVector(virtualEditionInter);
-			StoredVectors.getInstance().put(this, virtualEditionInter.getExternalId(), vector);
+			StoredVectors.getInstance().put(this, externalId, vector);
 		}
 		return applyWeights(vector, getWeight());
 	}

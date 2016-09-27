@@ -37,6 +37,15 @@ public class TaxonomyProperty extends Property {
 	}
 
 	@Override
+	protected double[] extractVector(VirtualEditionInter inter) {
+		double[] vector = getDefaultVector();
+		for (Category category : inter.getCategories()) {
+			vector[sortedCategories.indexOf(category)] = 1.0 * getWeight();
+		}
+		return vector;
+	}
+
+	@Override
 	public double[] extractVector(Fragment fragment) {
 		double[] vector = getDefaultVector();
 		for (FragInter inter : fragment.getFragmentInterSet()) {
@@ -48,15 +57,6 @@ public class TaxonomyProperty extends Property {
 					}
 				}
 			}
-		}
-		return vector;
-	}
-
-	@Override
-	protected double[] extractVector(VirtualEditionInter inter) {
-		double[] vector = getDefaultVector();
-		for (Category category : inter.getCategories()) {
-			vector[sortedCategories.indexOf(category)] = 1.0 * getWeight();
 		}
 		return vector;
 	}

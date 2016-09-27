@@ -2,6 +2,7 @@ package pt.ist.socialsoftware.edition.domain;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.joda.time.DateTime;
@@ -161,6 +162,10 @@ public class LdoD extends LdoD_Base {
 
 	public RegistrationToken getTokenSet(String token) {
 		return getTokenSet().stream().filter(t -> t.getToken().equals(token)).findFirst().orElse(null);
+	}
+
+	public Set<SourceInter> getFragmentRepresentatives() {
+		return getFragmentsSet().stream().map(f -> f.getRepresentativeSourceInter()).collect(Collectors.toSet());
 	}
 
 }

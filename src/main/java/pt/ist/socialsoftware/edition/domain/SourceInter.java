@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 import pt.ist.socialsoftware.edition.domain.Edition.EditionType;
+import pt.ist.socialsoftware.edition.domain.Source.SourceType;
 
 public class SourceInter extends SourceInter_Base {
 
@@ -33,7 +34,41 @@ public class SourceInter extends SourceInter_Base {
 	}
 
 	public int compareSourceInter(SourceInter other) {
-		return getSource().getName().compareTo(other.getSource().getName());
+		SourceType thisType = getSource().getType();
+		SourceType otherType = other.getSource().getType();
+
+		if (thisType.equals(SourceType.MANUSCRIPT) && otherType.equals(SourceType.MANUSCRIPT)) {
+			boolean thisIsManuscript = !((ManuscriptSource) this.getSource()).getHandNoteSet().isEmpty();
+			boolean thisIsDactiloscript = !((ManuscriptSource) this.getSource()).getTypeNoteSet().isEmpty();
+			boolean otherIsManuscript = !((ManuscriptSource) other.getSource()).getHandNoteSet().isEmpty();
+			boolean otherIsDactiloscript = !((ManuscriptSource) other.getSource()).getTypeNoteSet().isEmpty();
+
+			if (thisIsDactiloscript && otherIsDactiloscript) {
+				return getShortName().compareTo(other.getShortName());
+			}
+
+			if (thisIsManuscript && otherIsManuscript) {
+				return getShortName().compareTo(other.getShortName());
+			}
+
+			if (thisIsManuscript) {
+				return -1;
+			} else {
+				// dactiloscript
+				return 1;
+			}
+		}
+
+		if (thisType.equals(SourceType.PRINTED) && otherType.equals(SourceType.PRINTED)) {
+			return getShortName().compareTo(other.getShortName());
+		}
+
+		if (thisType.equals(SourceType.MANUSCRIPT)) {
+			return -1;
+		} else {
+			// printed
+			return 1;
+		}
 	}
 
 	@Override

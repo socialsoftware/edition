@@ -1,17 +1,15 @@
 package pt.ist.socialsoftware.edition.search;
 
-import java.io.Reader;
-
 import org.apache.lucene.analysis.Analyzer;
+import org.apache.lucene.analysis.CharArraySet;
+import org.apache.lucene.analysis.LowerCaseFilter;
+import org.apache.lucene.analysis.StopFilter;
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.Tokenizer;
-import org.apache.lucene.analysis.core.LowerCaseFilter;
-import org.apache.lucene.analysis.core.StopFilter;
 import org.apache.lucene.analysis.miscellaneous.ASCIIFoldingFilter;
 import org.apache.lucene.analysis.pt.PortugueseAnalyzer;
 import org.apache.lucene.analysis.standard.StandardFilter;
 import org.apache.lucene.analysis.standard.StandardTokenizer;
-import org.apache.lucene.analysis.util.CharArraySet;
 
 public class IgnoreDiacriticsAnalyzer extends Analyzer {
 
@@ -21,13 +19,9 @@ public class IgnoreDiacriticsAnalyzer extends Analyzer {
 		this.stopWords = PortugueseAnalyzer.getDefaultStopSet();
 	}
 
-	public IgnoreDiacriticsAnalyzer(CharArraySet stopWords) {
-		this.stopWords = stopWords;
-	}
-
 	@Override
-	protected TokenStreamComponents createComponents(String fieldName, Reader reader) {
-		Tokenizer source = new StandardTokenizer(reader);
+	protected TokenStreamComponents createComponents(String fieldName) {
+		Tokenizer source = new StandardTokenizer();
 		TokenStream tokenStream = source;
 		tokenStream = new StandardFilter(tokenStream);
 		tokenStream = new LowerCaseFilter(tokenStream);

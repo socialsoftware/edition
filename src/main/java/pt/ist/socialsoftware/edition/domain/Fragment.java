@@ -117,6 +117,13 @@ public class Fragment extends Fragment_Base implements Comparable<Fragment> {
 		return null;
 	}
 
+	public SourceInter getRepresentativeSourceInter() {
+		// get the last one, since it is ordered, it will be printed, or
+		// dactiloscript, or manuscript
+		List<SourceInter> sourceInters = getSortedSourceInter();
+		return sourceInters.get(sourceInters.size() - 1);
+	}
+
 	@Override
 	public int compareTo(Fragment fragment) {
 		return this.getXmlId().compareTo(fragment.getXmlId());

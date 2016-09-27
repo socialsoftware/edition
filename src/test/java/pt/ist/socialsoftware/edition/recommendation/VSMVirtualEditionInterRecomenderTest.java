@@ -181,7 +181,7 @@ public class VSMVirtualEditionInterRecomenderTest {
 		Indexer indexer = Indexer.getIndexer();
 
 		for (FragInter inter : virtualEdition.getIntersSet()) {
-			if (indexer.getTFIDFTerms(inter.getLastUsed(), TextProperty.NUMBER_OF_TERMS).contains("antonio")) {
+			if (indexer.getTFIDFTerms(inter.getFragment(), TextProperty.NUMBER_OF_TERMS).contains("vida")) {
 				virtualEditionInter = (VirtualEditionInter) inter;
 				break;
 			}
@@ -194,8 +194,8 @@ public class VSMVirtualEditionInterRecomenderTest {
 				new HashSet<VirtualEditionInter>(virtualEditionInters), properties);
 
 		assertTrue(virtualEditionInter != result);
-		assertTrue(indexer.getTFIDFTerms(virtualEditionInter.getLastUsed(), TextProperty.NUMBER_OF_TERMS).stream()
-				.anyMatch(indexer.getTFIDFTerms(result.getLastUsed(), TextProperty.NUMBER_OF_TERMS)::contains));
+		assertTrue(indexer.getTFIDFTerms(virtualEditionInter.getFragment(), TextProperty.NUMBER_OF_TERMS).stream()
+				.anyMatch(indexer.getTFIDFTerms(result.getFragment(), TextProperty.NUMBER_OF_TERMS)::contains));
 	}
 
 	@Test
@@ -204,7 +204,7 @@ public class VSMVirtualEditionInterRecomenderTest {
 		Indexer indexer = Indexer.getIndexer();
 
 		for (FragInter inter : virtualEdition.getIntersSet()) {
-			if (indexer.getTFIDFTerms(inter.getLastUsed(), TextProperty.NUMBER_OF_TERMS).contains("antonio")) {
+			if (indexer.getTFIDFTerms(inter.getFragment(), TextProperty.NUMBER_OF_TERMS).contains("antonio")) {
 				virtualEditionInter = (VirtualEditionInter) inter;
 				break;
 			}
@@ -224,8 +224,8 @@ public class VSMVirtualEditionInterRecomenderTest {
 		assertEquals(virtualEditionInter.getLastUsed().getLdoDDate(), result.getLastUsed().getLdoDDate());
 		assertTrue(virtualEditionInter.getTagSet().stream().map(t -> t.getCategory())
 				.anyMatch(result.getTagSet().stream().map(t -> t.getCategory()).collect(Collectors.toSet())::contains));
-		assertTrue(indexer.getTFIDFTerms(virtualEditionInter.getLastUsed(), TextProperty.NUMBER_OF_TERMS).stream()
-				.anyMatch(indexer.getTFIDFTerms(result.getLastUsed(), TextProperty.NUMBER_OF_TERMS)::contains));
+		assertTrue(indexer.getTFIDFTerms(virtualEditionInter.getFragment(), TextProperty.NUMBER_OF_TERMS).stream()
+				.anyMatch(indexer.getTFIDFTerms(result.getFragment(), TextProperty.NUMBER_OF_TERMS)::contains));
 	}
 
 }

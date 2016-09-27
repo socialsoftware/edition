@@ -12,10 +12,14 @@ import java.util.Random;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang.ArrayUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import pt.ist.socialsoftware.edition.recommendation.properties.Property;
 
 public abstract class VSMRecommender<T> implements Recommender<T, Property> {
+	private static Logger logger = LoggerFactory.getLogger(VSMRecommender.class);
+
 	public static final int NUMBER_OF_RECOMMENDATIONS = 5;
 
 	protected static final Random RANDOM = new Random();
@@ -45,6 +49,7 @@ public abstract class VSMRecommender<T> implements Recommender<T, Property> {
 		double similarity;
 		for (T otherItem : newList) {
 			similarity = calculateSimilarity(item, otherItem, properties);
+			// logger.debug("getMostSimilarItem similarity:{}", similarity);
 			if (similarity > max) {
 				result = otherItem;
 				max = similarity;
