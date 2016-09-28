@@ -15,6 +15,15 @@ public class Vectors {
 		DoubleMatrix matrix2 = new DoubleMatrix(t2);
 		double dotProduct = matrix1.dot(matrix2);
 		double eucledianDist = matrix1.norm2() * matrix2.norm2();
+
+		// if ((eucledianDist == 0 ? 0 : dotProduct / eucledianDist) > 0.5) {
+		// logger.debug("calculateSimilarity v1:{}", t1);
+		// logger.debug("calculateSimilarity v2:{}", t2);
+		// logger.debug("calculateSimilarity dot:{}, euc:{}, sim:{}",
+		// dotProduct, eucledianDist,
+		// eucledianDist == 0 ? 0 : dotProduct / eucledianDist);
+		// }
+
 		return eucledianDist == 0 ? 0 : dotProduct / eucledianDist;
 	}
 

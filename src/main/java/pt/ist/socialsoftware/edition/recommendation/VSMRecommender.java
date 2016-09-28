@@ -49,7 +49,6 @@ public abstract class VSMRecommender<T> implements Recommender<T, Property> {
 		double similarity;
 		for (T otherItem : newList) {
 			similarity = calculateSimilarity(item, otherItem, properties);
-			// logger.debug("getMostSimilarItem similarity:{}", similarity);
 			if (similarity > max) {
 				result = otherItem;
 				max = similarity;

@@ -73,7 +73,7 @@ public class TextProperty extends Property {
 	private double[] applyWeight(double[] vector) {
 		double result[] = new double[vector.length];
 		for (int i = 0; i < vector.length; i++) {
-			result[i] = vector[i] + getWeight();
+			result[i] = vector[i] * getWeight();
 		}
 		return result;
 	}
@@ -112,9 +112,7 @@ public class TextProperty extends Property {
 		double[] vector;
 		Map<String, Double> tfidf;
 		try {
-			if (commonTerms == null) {
-				commonTerms = getFragmentsCommonTerms(this.fragment1, this.fragment2);
-			}
+			commonTerms = getFragmentsCommonTerms(this.fragment1, this.fragment2);
 			tfidf = Indexer.getIndexer().getTFIDF(fragment, commonTerms);
 		} catch (IOException | ParseException e) {
 			throw new LdoDException("Indexer error when extractVector in TextProperty");

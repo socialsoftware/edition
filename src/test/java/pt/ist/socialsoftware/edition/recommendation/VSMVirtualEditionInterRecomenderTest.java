@@ -181,7 +181,7 @@ public class VSMVirtualEditionInterRecomenderTest {
 		Indexer indexer = Indexer.getIndexer();
 
 		for (FragInter inter : virtualEdition.getIntersSet()) {
-			if (indexer.getTFIDFTerms(inter.getFragment(), TextProperty.NUMBER_OF_TERMS).contains("vida")) {
+			if (indexer.getTFIDFTerms(inter.getFragment(), TextProperty.NUMBER_OF_TERMS).contains("attitude")) {
 				virtualEditionInter = (VirtualEditionInter) inter;
 				break;
 			}

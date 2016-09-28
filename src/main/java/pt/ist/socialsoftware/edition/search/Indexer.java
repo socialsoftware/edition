@@ -228,27 +228,22 @@ public class Indexer {
 	private Map<String, Double> getTFIDF(Map<String, Double> tf) throws IOException, ParseException {
 		Directory directory = new NIOFSDirectory(docDir);
 		IndexReader reader = DirectoryReader.open(directory);
-		Map<String, Double> TFIDFMap = new HashMap<String, Double>();
 
 		Query query = queryParser.parse(REP + ":true");
 		IndexSearcher searcher = new IndexSearcher(reader);
 		TopDocs results = searcher.search(query, reader.numDocs());
 		int numDocs = results.totalHits;
 
+		Map<String, Double> TFIDFMap = new HashMap<String, Double>();
 		for (Entry<String, Double> entry : tf.entrySet()) {
-
 			query = queryParser.parse(REP + ":true" + " AND " + entry.getKey());
 			searcher = new IndexSearcher(reader);
 			results = searcher.search(query, numDocs);
 			int df = results.totalHits;
-			double tfidf = entry.getValue() * calculateIDF(numDocs, df);
-
-			// logger.debug("getTFIDF term:{}, value:{}, docFreq:{}, numDocs:{},
-			// tfidf:{}", entry.getKey(),
-			// entry.getValue(), df, numDocs, tfidf);
-
+			double tfidf = entry.getValue() * calculateIDF(numDocs, 1 + df);
 			TFIDFMap.put(entry.getKey(), tfidf);
 		}
+
 		reader.close();
 		directory.close();
 		List<Entry<String, Double>> list = TFIDFMap.entrySet().stream()
