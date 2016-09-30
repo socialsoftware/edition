@@ -42,16 +42,16 @@ public abstract class VSMRecommender<T> implements Recommender<T, Property> {
 
 	@Override
 	public T getMostSimilarItem(T item, Collection<T> items, Collection<Property> properties) {
-		List<T> newList = new ArrayList<T>(items);
-		newList.remove(item);
 		T result = null;
 		double max = Double.NEGATIVE_INFINITY;
 		double similarity;
-		for (T otherItem : newList) {
-			similarity = calculateSimilarity(item, otherItem, properties);
-			if (similarity > max) {
-				result = otherItem;
-				max = similarity;
+		for (T otherItem : items) {
+			if (otherItem != item) {
+				similarity = calculateSimilarity(item, otherItem, properties);
+				if (similarity > max) {
+					result = otherItem;
+					max = similarity;
+				}
 			}
 		}
 		return result;
@@ -59,13 +59,14 @@ public abstract class VSMRecommender<T> implements Recommender<T, Property> {
 
 	@Override
 	public List<Entry<T, Double>> getMostSimilarItems(T item, Collection<T> items, Collection<Property> properties) {
-		// itemSet.remove(item);
 		double similarity;
 		Map<T, Double> map = new HashMap<T, Double>();
 		for (T it : items) {
-			similarity = calculateSimilarity(item, it, properties);
-			if (similarity >= Double.NEGATIVE_INFINITY)
-				map.put(it, similarity);
+			if (it != item) {
+				similarity = calculateSimilarity(item, it, properties);
+				if (similarity >= Double.NEGATIVE_INFINITY)
+					map.put(it, similarity);
+			}
 		}
 
 		return map.entrySet().stream().sorted(Collections.reverseOrder(Map.Entry.comparingByValue()))
@@ -73,12 +74,11 @@ public abstract class VSMRecommender<T> implements Recommender<T, Property> {
 	}
 
 	public List<T> getMostSimilarItemsAsList(T item, Collection<T> items, List<Property> properties) {
-		List<T> inters = new ArrayList<T>();
-
+		List<T> result = new ArrayList<T>();
 		T nextItem = item;
 		do {
 			nextItem = getMostSimilarItem(nextItem, items, properties);
-			inters.add(nextItem);
+			result.add(nextItem);
 			items.remove(nextItem);
 		} while (!items.isEmpty());
 
@@ -87,7 +87,7 @@ public abstract class VSMRecommender<T> implements Recommender<T, Property> {
 		// inters.add(entry.getKey());
 		// }
 
-		return inters;
+		return result;
 	}
 
 }

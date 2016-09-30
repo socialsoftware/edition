@@ -34,7 +34,7 @@ public class Application extends SpringBootServletInitializer implements Initial
 
 	@Override
 	public void afterPropertiesSet() {
-		Bootstrap.initDatabase();
+		Bootstrap.initializeSystem();
 	}
 
 	@Bean

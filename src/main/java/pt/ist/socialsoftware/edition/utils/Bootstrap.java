@@ -2,6 +2,9 @@ package pt.ist.socialsoftware.edition.utils;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -14,6 +17,7 @@ import org.springframework.web.WebApplicationInitializer;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
+import pt.ist.socialsoftware.edition.domain.Fragment;
 import pt.ist.socialsoftware.edition.domain.LdoD;
 import pt.ist.socialsoftware.edition.domain.LdoDUser;
 import pt.ist.socialsoftware.edition.domain.Member.MemberRole;
@@ -21,6 +25,9 @@ import pt.ist.socialsoftware.edition.domain.Role;
 import pt.ist.socialsoftware.edition.domain.Role.RoleType;
 import pt.ist.socialsoftware.edition.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.mallet.TopicModeler;
+import pt.ist.socialsoftware.edition.recommendation.VSMFragmentRecommender;
+import pt.ist.socialsoftware.edition.recommendation.properties.Property;
+import pt.ist.socialsoftware.edition.recommendation.properties.TextProperty;
 import pt.ist.socialsoftware.edition.search.Indexer;
 
 /**
@@ -28,7 +35,7 @@ import pt.ist.socialsoftware.edition.search.Indexer;
  * 
  */
 public class Bootstrap implements WebApplicationInitializer {
-	private static Logger log = LoggerFactory.getLogger(Bootstrap.class);
+	private static Logger logger = LoggerFactory.getLogger(Bootstrap.class);
 
 	/**
 	 * It is invoked from spring mvc user interface
@@ -36,61 +43,51 @@ public class Bootstrap implements WebApplicationInitializer {
 	 */
 	@Override
 	public void onStartup(ServletContext arg0) throws ServletException {
-		initDatabase();
+		initializeSystem();
+		loadRecommendationCache();
 	}
 
-	/**
-	 * It is invoked for JUnit test
-	 */
 	@Atomic(mode = TxMode.WRITE)
-	public static void initDatabase() {
+	public static void initializeSystem() {
 		if (LdoD.getInstance() == null) {
 			new LdoD();
 			populateDatabaseUsersAndRoles();
-
-			// clean Lucene
-			Indexer indexer = Indexer.getIndexer();
-			indexer.cleanLucene();
-			// clean Mallet directory
-			TopicModeler topicModeler = new TopicModeler();
-			topicModeler.cleanDirectory();
+			cleanLucene();
+			cleanTopicModeler();
 		} else {
-			// LdoD ldoD = LdoD.getInstance();
-			// ExpertEdition pizarroEdition = (ExpertEdition)
-			// ldoD.getEdition(ExpertEdition.PIZARRO_ACRONYM);
-			//
-			// LdoDUser userArs = ldoD.getUser("ars");
-			// // create virtual edition
-			// VirtualEdition virtualEdition =
-			// ldoD.createVirtualEdition(userArs, "$Test$Recommendations$",
-			// "$Test$Recommendations$", LocalDate.now(), true, pizarroEdition);
-			// Set<VirtualEditionInter> virtualEditionInters =
-			// virtualEdition.getIntersSet().stream()
-			// .map(VirtualEditionInter.class::cast).collect(Collectors.toSet());
-			//
-			// VirtualEditionInter virtualEditionInter = null;
-			// for (FragInter inter : virtualEdition.getIntersSet()) {
-			// virtualEditionInter = (VirtualEditionInter) inter;
-			// break;
-			// }
-			//
-			// List<Property> properties = new ArrayList<Property>();
-			// properties.add(new TextProperty(1.0));
-			//
-			// // create recommender
-			// VSMVirtualEditionInterRecommender recommender = new
-			// VSMVirtualEditionInterRecommender();
-			//
-			// recommender.getMostSimilarItem(virtualEditionInter, new
-			// HashSet<VirtualEditionInter>(virtualEditionInters),
-			// properties);
-			//
-			// virtualEdition.remove();
+			loadRecommendationCache();
 		}
-
 	}
 
-	public static void populateDatabaseUsersAndRoles() {
+	private static void cleanTopicModeler() {
+		TopicModeler topicModeler = new TopicModeler();
+		topicModeler.cleanDirectory();
+	}
+
+	private static void cleanLucene() {
+		Indexer indexer = Indexer.getIndexer();
+		indexer.cleanLucene();
+	}
+
+	@Atomic(mode = TxMode.WRITE)
+	public static void loadRecommendationCache() {
+		Set<Fragment> fragments = LdoD.getInstance().getFragmentsSet();
+
+		if (fragments.size() > 500) {
+			List<Property> properties = new ArrayList<Property>();
+			properties.add(new TextProperty(1.0));
+
+			VSMFragmentRecommender recommender = new VSMFragmentRecommender();
+			for (Fragment fragment : fragments) {
+				recommender.getMostSimilarItem(fragment, fragments, properties);
+			}
+
+			Indexer indexer = Indexer.getIndexer();
+			indexer.cleanTermsTFIDFCache();
+		}
+	}
+
+	private static void populateDatabaseUsersAndRoles() {
 		// delete directory and all its files if it exists
 		String corpusFilesPath = PropertiesManager.getProperties().getProperty("corpus.files.dir");
 		File directory = new File(corpusFilesPath);

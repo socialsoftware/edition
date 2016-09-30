@@ -64,7 +64,7 @@ public class Indexer {
 	private static HashMap<String, Map<String, Double>> termsTFIDFCache = new HashMap<String, Map<String, Double>>();
 	private final Analyzer analyzer;
 	private final QueryParserBase queryParser;
-	private final int significativeTerms = 1000;
+	private static final int SIGNIFICATIVE_TERMS = 1000;
 	private final Path docDir;
 	private final IndexWriterConfig indexWriterConfig;
 
@@ -175,6 +175,43 @@ public class Indexer {
 		return TFIDFMap;
 	}
 
+	public void cleanTermsTFIDFCache() {
+		termsTFIDFCache.clear();
+	}
+
+	public void cleanMissingHits(List<String> misses) {
+		if (misses.isEmpty()) {
+			return;
+		}
+
+		String query = misses.get(0);
+		for (int i = 1; i < misses.size(); i++) {
+			query += " OR " + misses.get(i);
+		}
+
+		QueryParser idQueryParser = new QueryParser(ID, analyzer);
+		try {
+			Query q = idQueryParser.parse(query);
+			Directory directory = new NIOFSDirectory(docDir);
+			IndexWriter indexWriter = new IndexWriter(directory, indexWriterConfig);
+			indexWriter.deleteDocuments(q);
+
+			indexWriter.close();
+			directory.close();
+		} catch (ParseException | IOException e) {
+		}
+	}
+
+	public void cleanLucene() {
+		String path = PropertiesManager.getProperties().getProperty("indexer.dir");
+		try {
+			logger.debug("cleanLucene {}", path);
+			FileUtils.cleanDirectory(new File(path));
+		} catch (IOException e) {
+			throw new LdoDException("cleanLucene in class Indexer failed when invoking cleanDirectory");
+		}
+	}
+
 	private Map<String, Double> getTFIDF(Fragment fragment) throws IOException, ParseException {
 		String id = fragment.getExternalId();
 		if (termsTFIDFCache.containsKey(id)) {
@@ -250,7 +287,7 @@ public class Indexer {
 				.sorted(Collections.reverseOrder(Map.Entry.comparingByValue())).collect(Collectors.toList());
 		TFIDFMap = new HashMap<String, Double>();
 		int size = list.size();
-		for (int i = 0; i < size && i < significativeTerms; i++) {
+		for (int i = 0; i < size && i < SIGNIFICATIVE_TERMS; i++) {
 			TFIDFMap.put(list.get(i).getKey(), list.get(i).getValue());
 		}
 		return TFIDFMap;
@@ -274,39 +311,6 @@ public class Indexer {
 		}
 		return terms;
 
-	}
-
-	public void cleanMissingHits(List<String> misses) {
-		if (misses.isEmpty()) {
-			return;
-		}
-
-		String query = misses.get(0);
-		for (int i = 1; i < misses.size(); i++) {
-			query += " OR " + misses.get(i);
-		}
-
-		QueryParser idQueryParser = new QueryParser(ID, analyzer);
-		try {
-			Query q = idQueryParser.parse(query);
-			Directory directory = new NIOFSDirectory(docDir);
-			IndexWriter indexWriter = new IndexWriter(directory, indexWriterConfig);
-			indexWriter.deleteDocuments(q);
-
-			indexWriter.close();
-			directory.close();
-		} catch (ParseException | IOException e) {
-		}
-	}
-
-	public void cleanLucene() {
-		String path = PropertiesManager.getProperties().getProperty("indexer.dir");
-		try {
-			logger.debug("cleanLucene {}", path);
-			FileUtils.cleanDirectory(new File(path));
-		} catch (IOException e) {
-			throw new LdoDException("cleanLucene in class Indexer failed when invoking cleanDirectory");
-		}
 	}
 
 }
