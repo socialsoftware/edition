@@ -19,6 +19,8 @@ import org.joda.time.LocalDate;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.fenixframework.core.WriteOnReadError;
@@ -39,6 +41,8 @@ import pt.ist.socialsoftware.edition.topicmodeling.TopicModeler;
 import pt.ist.socialsoftware.edition.utils.TopicListDTO;
 
 public class VSMVirtualEditionInterRecomenderTest {
+	private static Logger logger = LoggerFactory.getLogger(VSMVirtualEditionInterRecomenderTest.class);
+
 	private static VirtualEdition virtualEdition = null;
 	private static Set<VirtualEditionInter> virtualEditionInters = null;
 	private static VSMRecommender<VirtualEditionInter> recommender;
@@ -117,7 +121,8 @@ public class VSMVirtualEditionInterRecomenderTest {
 	public void testGetMostSimilarItemForDate() {
 		VirtualEditionInter virtualEditionInter = null;
 		for (FragInter inter : virtualEdition.getIntersSet()) {
-			if (inter.getLastUsed().getLdoDDate() != null) {
+			if (inter.getLastUsed().getLdoDDate() != null
+					&& inter.getLastUsed().getLdoDDate().getDate().getYear() == 1914) {
 				virtualEditionInter = (VirtualEditionInter) inter;
 				break;
 			}
@@ -221,7 +226,8 @@ public class VSMVirtualEditionInterRecomenderTest {
 
 		assertTrue(virtualEditionInter != result);
 		assertEquals(virtualEditionInter.getLastUsed().getHeteronym(), result.getLastUsed().getHeteronym());
-		assertEquals(virtualEditionInter.getLastUsed().getLdoDDate(), result.getLastUsed().getLdoDDate());
+		assertEquals(virtualEditionInter.getLastUsed().getLdoDDate().getDate().getYear(),
+				result.getLastUsed().getLdoDDate().getDate().getYear());
 		assertTrue(virtualEditionInter.getTagSet().stream().map(t -> t.getCategory())
 				.anyMatch(result.getTagSet().stream().map(t -> t.getCategory()).collect(Collectors.toSet())::contains));
 		assertTrue(indexer.getTFIDFTerms(virtualEditionInter.getFragment(), TextProperty.NUMBER_OF_TERMS).stream()

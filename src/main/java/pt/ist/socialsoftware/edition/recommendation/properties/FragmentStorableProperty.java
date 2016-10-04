@@ -7,10 +7,10 @@ import pt.ist.socialsoftware.edition.domain.Fragment;
 import pt.ist.socialsoftware.edition.domain.VirtualEditionInter;
 import pt.ist.socialsoftware.edition.recommendation.StoredVectors;
 
-public abstract class StorableProperty extends Property {
-	private static Logger logger = LoggerFactory.getLogger(StorableProperty.class);
+public abstract class FragmentStorableProperty extends Property {
+	private static Logger logger = LoggerFactory.getLogger(FragmentStorableProperty.class);
 
-	public StorableProperty(double weight) {
+	public FragmentStorableProperty(double weight) {
 		super(weight);
 	}
 
@@ -30,7 +30,7 @@ public abstract class StorableProperty extends Property {
 
 	@Override
 	public final double[] loadProperty(VirtualEditionInter virtualEditionInter) {
-		String externalId = virtualEditionInter.getLastUsed().getExternalId();
+		String externalId = virtualEditionInter.getFragment().getExternalId();
 		double[] vector = StoredVectors.getInstance().get(this, externalId);
 		if (vector == null) {
 			vector = extractVector(virtualEditionInter);

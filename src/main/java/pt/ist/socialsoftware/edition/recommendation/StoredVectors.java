@@ -3,7 +3,7 @@ package pt.ist.socialsoftware.edition.recommendation;
 import java.util.HashMap;
 import java.util.Map;
 
-import pt.ist.socialsoftware.edition.recommendation.properties.StorableProperty;
+import pt.ist.socialsoftware.edition.recommendation.properties.FragmentStorableProperty;
 
 public class StoredVectors {
 	private static StoredVectors instance;
@@ -15,13 +15,13 @@ public class StoredVectors {
 		return instance;
 	}
 
-	private final Map<Class<? extends StorableProperty>, Map<String, double[]>> weights;
+	private final Map<Class<? extends FragmentStorableProperty>, Map<String, double[]>> weights;
 
 	private StoredVectors() {
-		weights = new HashMap<Class<? extends StorableProperty>, Map<String, double[]>>();
+		weights = new HashMap<Class<? extends FragmentStorableProperty>, Map<String, double[]>>();
 	}
 
-	public boolean contains(StorableProperty property, String id) {
+	public boolean contains(FragmentStorableProperty property, String id) {
 		if (weights.containsKey(property.getClass())) {
 			if (weights.get(property.getClass()).containsKey(id)) {
 				return true;
@@ -30,7 +30,7 @@ public class StoredVectors {
 		return false;
 	}
 
-	public double[] get(StorableProperty property, String id) {
+	public double[] get(FragmentStorableProperty property, String id) {
 		if (weights.containsKey(property.getClass())) {
 			if (weights.get(property.getClass()).containsKey(id)) {
 				return weights.get(property.getClass()).get(id);
@@ -39,7 +39,7 @@ public class StoredVectors {
 		return null;
 	}
 
-	public void put(StorableProperty property, String id, double[] weightCollection) {
+	public void put(FragmentStorableProperty property, String id, double[] weightCollection) {
 		if (!weights.containsKey(property.getClass())) {
 			weights.put(property.getClass(), new HashMap<String, double[]>());
 		}
