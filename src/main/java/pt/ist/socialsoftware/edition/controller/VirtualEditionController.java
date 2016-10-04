@@ -35,7 +35,6 @@ import pt.ist.socialsoftware.edition.domain.Member.MemberRole;
 import pt.ist.socialsoftware.edition.domain.Taxonomy;
 import pt.ist.socialsoftware.edition.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.domain.VirtualEditionInter;
-import pt.ist.socialsoftware.edition.mallet.TopicModeler;
 import pt.ist.socialsoftware.edition.security.LdoDSession;
 import pt.ist.socialsoftware.edition.security.LdoDUserDetails;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDCreateVirtualEditionException;
@@ -44,6 +43,7 @@ import pt.ist.socialsoftware.edition.shared.exception.LdoDDuplicateNameException
 import pt.ist.socialsoftware.edition.shared.exception.LdoDEditVirtualEditionException;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDException;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDExceptionNonAuthorized;
+import pt.ist.socialsoftware.edition.topicmodeling.TopicModeler;
 import pt.ist.socialsoftware.edition.utils.TopicListDTO;
 import pt.ist.socialsoftware.edition.validator.VirtualEditionValidator;
 

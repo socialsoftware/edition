@@ -1,4 +1,4 @@
-package pt.ist.socialsoftware.edition.mallet;
+package pt.ist.socialsoftware.edition.topicmodeling;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -186,7 +186,7 @@ public class TopicModeler {
 			String externalId = subs[subs.length - 2];
 			VirtualEditionInter fragInter = null;
 			for (VirtualEditionInter inter : edition.getVirtualEditionInters()) {
-				if (inter.getLastUsed().getExternalId().equals(externalId)) {
+				if (inter.getFragment().getRepresentativeSourceInter().getExternalId().equals(externalId)) {
 					fragInter = inter;
 					break;
 				}
@@ -253,7 +253,7 @@ public class TopicModeler {
 
 		public EditionFilter(VirtualEdition edition) {
 			for (VirtualEditionInter inter : edition.getVirtualEditionInters()) {
-				filenames.add(inter.getLastUsed().getExternalId() + ".txt");
+				filenames.add(inter.getFragment().getRepresentativeSourceInter().getExternalId() + ".txt");
 			}
 		}
 

@@ -1,4 +1,4 @@
-package pt.ist.socialsoftware.edition.mallet;
+package pt.ist.socialsoftware.edition.topicmodeling;
 
 import java.io.File;
 import java.io.FileNotFoundException;

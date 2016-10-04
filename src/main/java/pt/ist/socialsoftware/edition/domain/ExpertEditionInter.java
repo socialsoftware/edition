@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.Set;
 
 import pt.ist.socialsoftware.edition.domain.Edition.EditionType;
-import pt.ist.socialsoftware.edition.mallet.TopicModeler;
 import pt.ist.socialsoftware.edition.search.Indexer;
+import pt.ist.socialsoftware.edition.topicmodeling.TopicModeler;
 
 public class ExpertEditionInter extends ExpertEditionInter_Base {
 

@@ -78,10 +78,10 @@ import pt.ist.socialsoftware.edition.domain.TextPortion.VariationType;
 import pt.ist.socialsoftware.edition.domain.TypeNote;
 import pt.ist.socialsoftware.edition.domain.UnclearText;
 import pt.ist.socialsoftware.edition.domain.UnclearText.UnclearReason;
-import pt.ist.socialsoftware.edition.mallet.CorpusGenerator;
 import pt.ist.socialsoftware.edition.search.Indexer;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDException;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDLoadException;
+import pt.ist.socialsoftware.edition.topicmodeling.CorpusGenerator;
 
 public class LoadTEIFragments {
 

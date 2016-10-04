@@ -29,13 +29,13 @@ import pt.ist.socialsoftware.edition.domain.LdoDUser;
 import pt.ist.socialsoftware.edition.domain.NullHeteronym;
 import pt.ist.socialsoftware.edition.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.domain.VirtualEditionInter;
-import pt.ist.socialsoftware.edition.mallet.TopicModeler;
 import pt.ist.socialsoftware.edition.recommendation.properties.DateProperty;
 import pt.ist.socialsoftware.edition.recommendation.properties.HeteronymProperty;
 import pt.ist.socialsoftware.edition.recommendation.properties.Property;
 import pt.ist.socialsoftware.edition.recommendation.properties.TaxonomyProperty;
 import pt.ist.socialsoftware.edition.recommendation.properties.TextProperty;
 import pt.ist.socialsoftware.edition.search.Indexer;
+import pt.ist.socialsoftware.edition.topicmodeling.TopicModeler;
 import pt.ist.socialsoftware.edition.utils.TopicListDTO;
 
 public class VSMVirtualEditionInterRecomenderTest {

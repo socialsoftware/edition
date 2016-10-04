@@ -24,11 +24,11 @@ import pt.ist.socialsoftware.edition.domain.Member.MemberRole;
 import pt.ist.socialsoftware.edition.domain.Role;
 import pt.ist.socialsoftware.edition.domain.Role.RoleType;
 import pt.ist.socialsoftware.edition.domain.VirtualEdition;
-import pt.ist.socialsoftware.edition.mallet.TopicModeler;
 import pt.ist.socialsoftware.edition.recommendation.VSMFragmentRecommender;
 import pt.ist.socialsoftware.edition.recommendation.properties.Property;
 import pt.ist.socialsoftware.edition.recommendation.properties.TextProperty;
 import pt.ist.socialsoftware.edition.search.Indexer;
+import pt.ist.socialsoftware.edition.topicmodeling.TopicModeler;
 
 /**
  * @author ars
@@ -55,7 +55,7 @@ public class Bootstrap implements WebApplicationInitializer {
 			cleanLucene();
 			cleanTopicModeler();
 		} else {
-			loadRecommendationCache();
+			// loadRecommendationCache();
 		}
 	}
 
