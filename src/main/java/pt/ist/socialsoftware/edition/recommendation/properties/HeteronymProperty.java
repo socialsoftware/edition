@@ -41,9 +41,7 @@ public class HeteronymProperty extends StorableProperty {
 
 	@Override
 	public double[] extractVector(VirtualEditionInter virtualEditionInter) {
-		Collection<Heteronym> foundHeteronyms = new ArrayList<Heteronym>();
-		foundHeteronyms.add(virtualEditionInter.getLastUsed().getHeteronym());
-		return buildVector(foundHeteronyms);
+		return extractVector(virtualEditionInter.getFragment());
 	}
 
 	@Override
