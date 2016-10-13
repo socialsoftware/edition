@@ -15,17 +15,16 @@
 					<spring:message code="virtual.editions" />
 				</h3>
 			</div>
-			 <div class="col-xs-3 col-md-3" align="right"
-                style="margin-top: 20px; margin-bottom: 10px">
-                <a class="btn btn-success tipleft"
-                    title="<spring:message code="virtualedition.tt.create" />"
-                    role="button" data-toggle="collapse"
-                    href="#collapse" aria-expanded="false"
-                    aria-controls="collapse"> <span
-                    class="glyphicon glyphicon-plus"></span> <spring:message
-                        code="virtualeditionlist.createtitle" />
-                </a>
-            </div>
+			<div class="col-xs-3 col-md-3" align="right"
+				style="margin-top: 20px; margin-bottom: 10px">
+				<a class="btn btn-success tipleft"
+					title="<spring:message code="virtualedition.tt.create" />"
+					role="button" data-toggle="collapse" href="#collapse"
+					aria-expanded="false" aria-controls="collapse"> <span
+					class="glyphicon glyphicon-plus"></span> <spring:message
+						code="virtualeditionlist.createtitle" />
+				</a>
+			</div>
 		</div>
 		<br>
 		<div class="row">
@@ -84,8 +83,11 @@
 								<c:forEach var='expertEdition' items='${expertEditions}'>
 									<option value='${expertEdition.getExternalId()}'>${expertEdition.getEditor()}</option>
 								</c:forEach>
+								<option value='${ldod.getArchiveEdition().getExternalId()}'>Arquivo do LdoD</option>
 								<c:forEach var='virtualEdition' items='${virtualEditions}'>
-									<option value='${virtualEdition.getExternalId()}'>${virtualEdition.getAcronym()}</option>
+									<c:if test="${!virtualEdition.isLdoDEdition()}">
+										<option value='${virtualEdition.getExternalId()}'>${virtualEdition.getAcronym()}</option>
+									</c:if>
 								</c:forEach></select>
 						</div>
 						<button type="submit" class="btn btn-primary">
@@ -104,7 +106,9 @@
 					<thead>
 						<tr>
 							<th><span class="tip"
-								title="<spring:message code="virtualedition.tt.select" />"><span style="padding-bottom:3px" class="glyphicon glyphicon glyphicon-eye-open"></span></span></th>
+								title="<spring:message code="virtualedition.tt.select" />"><span
+									style="padding-bottom: 3px"
+									class="glyphicon glyphicon glyphicon-eye-open"></span></span></th>
 							<th><span class="tip"
 								title="<spring:message code="virtualedition.tt.acronym" />">
 									<spring:message code="virtualeditionlist.acronym" />
@@ -148,24 +152,23 @@
 							<c:set var="isPending"
 								value="${virtualEdition.getPendingSet().contains(user)}" />
 							<c:set var="isPublic" value="${virtualEdition.pub}" />
-							<c:if test="${isPublic || isMember}">
+							<c:set var="isLdoDEdition"
+								value="${virtualEdition.isLdoDEdition()}" />
+							<c:if test="${(isPublic && !isLdoDEdition) || isMember}">
 								<tr>
-									<td><form class="form-inline" method="POST"
-											action="${contextPath}/virtualeditions/toggleselection">
-											<input type="hidden" name="externalId"
-												value="${virtualEdition.externalId}" />
-											
-											<input type="checkbox" onChange="this.form.submit()"
+									<td><c:if test="${!isLdoDEdition}">
+											<form class="form-inline" method="POST"
+												action="${contextPath}/virtualeditions/toggleselection">
+												<input type="hidden" name="externalId"
+													value="${virtualEdition.externalId}" /> <input
+													type="checkbox" onChange="this.form.submit()"
 													<c:choose>
 													<c:when
 														test="${ldoDSession.materializeVirtualEditions().contains(virtualEdition)}">
 														checked
 													</c:when>
-												</c:choose>
-											>
-											
-											
-											<!-- 
+												</c:choose>>
+												<!-- 
 											<button type="submit" class="btn btn-primary btn-sm">
 												<span class="glyphicon glyphicon-check"></span>
 												<c:choose>
@@ -179,7 +182,8 @@
 												</c:choose>
 											</button>
 											 -->
-										</form></td>
+											</form>
+										</c:if></td>
 									<td>${virtualEdition.acronym}</td>
 									<td><a href="/edition/acronym/${virtualEdition.acronym}">${virtualEdition.title}</a></td>
 									<td>${virtualEdition.getDate().toString("dd-MM-yyyy")}</td>
@@ -191,16 +195,16 @@
 												<spring:message code="general.private" />
 											</c:otherwise>
 										</c:choose></td>
-									
+
 									<td><c:if test="${isMember}">
-											<a 
+											<a
 												href="${contextPath}/virtualeditions/restricted/editForm/${virtualEdition.externalId}"><span
 												class="glyphicon glyphicon-edit"></span> <spring:message
 													code="general.edit" /></a>
 										</c:if></td>
 									<td><c:choose>
 											<c:when test="${isMember}">
-												<a 
+												<a
 													href="${contextPath}/virtualeditions/restricted/${virtualEdition.externalId}/participants"><span
 													class="glyphicon glyphicon-user"></span> <spring:message
 														code="general.participants" /></a>
@@ -229,27 +233,27 @@
 											</c:when>
 										</c:choose></td>
 									<td><c:if test="${isMember}">
-											<a 
+											<a
 												href="${contextPath}/virtualeditions/restricted/${virtualEdition.externalId}/taxonomy"><span
 												class="glyphicon glyphicon-tags"></span> <spring:message
 													code="general.taxonomy" /></a>
 										</c:if></td>
-									<td><a 
-										href="${contextPath}/recommendation/restricted/${virtualEdition.externalId}"><span
-											class="glyphicon glyphicon-wrench"></span> <spring:message
-												code="general.recommendations" /></a></td>
+									<td><c:if test="${isMember}">
+											<a
+												href="${contextPath}/recommendation/restricted/${virtualEdition.externalId}"><span
+												class="glyphicon glyphicon-wrench"></span> <spring:message
+													code="general.recommendations" /></a>
+										</c:if></td>
 									<td><c:if test="${isAdmin}">
 											<form id="formdelete" class="form-inline" method="POST"
 												action="${contextPath}/virtualeditions/restricted/delete">
 												<input type="hidden" name="externalId"
 													value="${virtualEdition.externalId}" />
-												<button type="submit" id="btdelete" style="border:none;background:none!important;">
+												<button type="submit" id="btdelete"
+													style="border: none; background: none !important;">
 													<span class="glyphicon glyphicon-trash"></span>
 												</button>
 											</form>
-											
-												
-																					
 										</c:if></td>
 								</tr>
 							</c:if>
@@ -258,40 +262,49 @@
 				</table>
 			</div>
 		</div>
-	
 
 
-	<div id="confirm" class="modal fade">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-body">
-				<spring:message code="general.deleteconfirmation" />	
-				</div>
-				<div class="modal-footer">
-					 <button type="button" data-dismiss="modal" class="btn btn-primary" id="delete"><spring:message code="general.delete" /></button>
-    <button type="button" data-dismiss="modal" class="btn"><spring:message code="general.cancel" /></button>
+
+		<div id="confirm" class="modal fade">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-body">
+						<spring:message code="general.deleteconfirmation" />
+					</div>
+					<div class="modal-footer">
+						<button type="button" data-dismiss="modal" class="btn btn-primary"
+							id="delete">
+							<spring:message code="general.delete" />
+						</button>
+						<button type="button" data-dismiss="modal" class="btn">
+							<spring:message code="general.cancel" />
+						</button>
+					</div>
 				</div>
 			</div>
 		</div>
-	</div>
-	
 </body>
 <script>
-$(".tipleft").tooltip({placement: 'left'});
-$(".tip").tooltip({placement: 'bottom'});
+	$(".tipleft").tooltip({
+		placement : 'left'
+	});
+	$(".tip").tooltip({
+		placement : 'bottom'
+	});
 
-$('#collapse').on('show.bs.collapse', function () {
-	$('.text-error').hide();  
-});
+	$('#collapse').on('show.bs.collapse', function() {
+		$('.text-error').hide();
+	});
 
-$('#btdelete').on('click', function(e){
-    var $form=$('#formdelete');
-    e.preventDefault();
-    $('#confirm').modal({ backdrop: 'static', keyboard: false })
-        .one('click', '#delete', function (e) {
-            $form.trigger('submit');
-        });
-});
-	
+	$('#btdelete').on('click', function(e) {
+		var $form = $('#formdelete');
+		e.preventDefault();
+		$('#confirm').modal({
+			backdrop : 'static',
+			keyboard : false
+		}).one('click', '#delete', function(e) {
+			$form.trigger('submit');
+		});
+	});
 </script>
 </html>

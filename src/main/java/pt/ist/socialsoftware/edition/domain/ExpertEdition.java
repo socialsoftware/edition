@@ -9,15 +9,6 @@ import java.util.Set;
 import org.joda.time.LocalDate;
 
 public class ExpertEdition extends ExpertEdition_Base implements Comparable<ExpertEdition> {
-	public static final String PIZARRO_ACRONYM = "JP";
-	public static final String ZENITH_ACRONYM = "RZ";
-	public static final String CUNHA_ACRONYM = "TSC";
-	public static final String COELHO_ACRONYM = "JPC";
-	public static final String COELHO = "Jacinto do Prado Coelho";
-	public static final String CUNHA = "Teresa Sobral Cunha";
-	public static final String ZENITH = "Richard Zenith";
-	public static final String PIZARRO = "Jerónimo Pizarro";
-
 	public ExpertEdition(LdoD ldoD, String title, String author, String editor, LocalDate date) {
 		setTitle(title);
 		setAuthor(author);
@@ -26,17 +17,17 @@ public class ExpertEdition extends ExpertEdition_Base implements Comparable<Expe
 		setPub(true);
 
 		switch (editor) {
-		case COELHO:
-			setAcronym(COELHO_ACRONYM);
+		case Edition.COELHO_EDITION_NAME:
+			setAcronym(Edition.COELHO_EDITION_ACRONYM);
 			break;
-		case CUNHA:
-			setAcronym(CUNHA_ACRONYM);
+		case Edition.CUNHA_EDITION_NAME:
+			setAcronym(Edition.CUNHA_EDITION_ACRONYM);
 			break;
-		case ZENITH:
-			setAcronym(ZENITH_ACRONYM);
+		case Edition.ZENITH_EDITION_NAME:
+			setAcronym(Edition.ZENITH_EDITION_ACRONYM);
 			break;
-		case PIZARRO:
-			setAcronym(PIZARRO_ACRONYM);
+		case Edition.PIZARRO_EDITION_NAME:
+			setAcronym(Edition.PIZARRO_EDITION_ACRONYM);
 			break;
 		default:
 			assert false : "Nome de editor com erros: " + editor;
@@ -57,17 +48,17 @@ public class ExpertEdition extends ExpertEdition_Base implements Comparable<Expe
 
 		if (myEditor.equals(otherEditor)) {
 			return 0;
-		} else if (myEditor.equals(ExpertEdition.COELHO)) {
+		} else if (myEditor.equals(Edition.COELHO_EDITION_NAME)) {
 			return -1;
-		} else if (otherEditor.equals(ExpertEdition.COELHO)) {
+		} else if (otherEditor.equals(Edition.COELHO_EDITION_NAME)) {
 			return 1;
-		} else if (myEditor.equals(ExpertEdition.CUNHA)) {
+		} else if (myEditor.equals(Edition.CUNHA_EDITION_NAME)) {
 			return -1;
-		} else if (otherEditor.equals(ExpertEdition.CUNHA)) {
+		} else if (otherEditor.equals(Edition.CUNHA_EDITION_NAME)) {
 			return 1;
-		} else if (myEditor.equals(ExpertEdition.ZENITH)) {
+		} else if (myEditor.equals(Edition.ZENITH_EDITION_NAME)) {
 			return -1;
-		} else if (otherEditor.equals(ExpertEdition.ZENITH)) {
+		} else if (otherEditor.equals(Edition.ZENITH_EDITION_NAME)) {
 			return 1;
 		} else {
 			assert false : "To extend when new expert editions are include";
@@ -76,13 +67,13 @@ public class ExpertEdition extends ExpertEdition_Base implements Comparable<Expe
 	}
 
 	public String getEditorShortName() {
-		if (getEditor().equals(COELHO)) {
+		if (getEditor().equals(Edition.COELHO_EDITION_NAME)) {
 			return "Coelho";
-		} else if (getEditor().equals(CUNHA)) {
+		} else if (getEditor().equals(Edition.CUNHA_EDITION_NAME)) {
 			return "Cunha";
-		} else if (getEditor().equals(ZENITH)) {
+		} else if (getEditor().equals(Edition.ZENITH_EDITION_NAME)) {
 			return "Zenith";
-		} else if (getEditor().equals(PIZARRO)) {
+		} else if (getEditor().equals(Edition.PIZARRO_EDITION_NAME)) {
 			return "Pizarro";
 		} else {
 			assert false;

@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
+import pt.ist.socialsoftware.edition.domain.Edition;
 import pt.ist.socialsoftware.edition.domain.LdoD;
 import pt.ist.socialsoftware.edition.domain.LdoDUser;
 import pt.ist.socialsoftware.edition.domain.VirtualEdition;
@@ -35,7 +36,9 @@ public class LdoDSession implements Serializable {
 	public void addSelectedVE(VirtualEdition virtualEdition) {
 		String toAddAcr = new String(virtualEdition.getAcronym());
 
-		if (!selectedVEAcr.contains(toAddAcr)) {
+		// do not add the archive virtual edition because it is already
+		// hardcoded in the menu
+		if (!selectedVEAcr.contains(toAddAcr) && !toAddAcr.equals(Edition.ARCHIVE_EDITION_ACRONYM)) {
 			selectedVEAcr.add(toAddAcr);
 			Collections.sort(selectedVEAcr);
 		}

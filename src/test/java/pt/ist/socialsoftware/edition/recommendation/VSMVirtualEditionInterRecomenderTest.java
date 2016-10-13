@@ -24,6 +24,7 @@ import org.slf4j.LoggerFactory;
 
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.fenixframework.core.WriteOnReadError;
+import pt.ist.socialsoftware.edition.domain.Edition;
 import pt.ist.socialsoftware.edition.domain.ExpertEdition;
 import pt.ist.socialsoftware.edition.domain.FragInter;
 import pt.ist.socialsoftware.edition.domain.LdoD;
@@ -53,7 +54,7 @@ public class VSMVirtualEditionInterRecomenderTest {
 		FenixFramework.getTransactionManager().begin(false);
 
 		LdoD ldoD = LdoD.getInstance();
-		ExpertEdition pizarroEdition = (ExpertEdition) ldoD.getEdition(ExpertEdition.PIZARRO_ACRONYM);
+		ExpertEdition pizarroEdition = (ExpertEdition) ldoD.getEdition(Edition.PIZARRO_EDITION_ACRONYM);
 
 		LdoDUser userArs = ldoD.getUser("ars");
 		// create virtual edition

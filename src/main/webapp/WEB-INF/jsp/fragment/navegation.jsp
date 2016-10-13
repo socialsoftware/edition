@@ -49,19 +49,20 @@
 	<!-- Fragment ID for javascript -->
 	<div id="${fragment.externalId}"></div>
 
-	<div class="btn-group" id="baseinter" data-toggle="checkbox" style="width:100%">
+	<div class="btn-group" id="baseinter" data-toggle="checkbox"
+		style="width: 100%">
 		<!-- AUTHORIAL -->
 		<h5 class="text-center">
 			<spring:message code="authorial.source" />
 		</h5>
-		<div class="text-center" style="padding-top:8px">
+		<div class="text-center" style="padding-top: 8px">
 			<table width=100%>
 				<thead>
 					<tr>
-						<th style="width:10%"></th>
-						<th style="width:10%"></th>
-						<th style="width:60%"></th>
-						<th style="width:20%"></th>
+						<th style="width: 10%"></th>
+						<th style="width: 10%"></th>
+						<th style="width: 60%"></th>
+						<th style="width: 20%"></th>
 					</tr>
 				</thead>
 				<tbody>
@@ -78,7 +79,7 @@
 											value="${sourceInter.externalId}" />
 									</c:otherwise>
 								</c:choose></td>
-							<td><a 
+							<td><a
 								href="${contextPath}/fragments/fragment/inter/${sourceInter.externalId}">${sourceInter.shortName}</a></td>
 							<td></td>
 						</tr>
@@ -89,7 +90,11 @@
 		<br>
 		<!-- EDITORIAL -->
 		<h5 class="text-center">
-			<spring:message code="edition.experts" /> <a id="infoexperts" data-placement="bottom" class="infobutton" role="button" data-toggle="popover" data-content="<spring:message code="info.experts" />" > <span class="glyphicon glyphicon-info-sign"></span></a>
+			<spring:message code="edition.experts" />
+			<a id="infoexperts" data-placement="bottom" class="infobutton"
+				role="button" data-toggle="popover"
+				data-content="<spring:message code="info.experts" />"> <span
+				class="glyphicon glyphicon-info-sign"></span></a>
 		</h5>
 		<c:forEach var="expertEdition" items='${ldoD.sortedExpertEdition}'>
 			<c:if
@@ -105,11 +110,9 @@
 							<tr>
 								<th style="width: 10%"></th>
 								<th style="width: 10%"></th>
-								
 								<th style="width: 25%"></th>
 								<th style="width: 10%"></th>
 								<th style="width: 25%"></th>
-								
 								<th style="width: 20%"></th>
 							</tr>
 						</thead>
@@ -130,7 +133,7 @@
 													value="${expertEditionInter.externalId}" />
 											</c:otherwise>
 										</c:choose></td>
-									
+
 									<td><a
 										href="${contextPath}/fragments/fragment/inter/prev/number/${expertEditionInter.externalId}"><span
 											class="glyphicon glyphicon-chevron-left"></span></a></td>
@@ -139,7 +142,7 @@
 									<td><a
 										href="${contextPath}/fragments/fragment/inter/next/number/${expertEditionInter.externalId}"><span
 											class="glyphicon glyphicon-chevron-right"></span></a></td>
-									<td></td>	
+									<td></td>
 								</tr>
 							</c:forEach>
 						</tbody>
@@ -148,18 +151,162 @@
 			</c:if>
 		</c:forEach>
 	</div>
-	<br><br>
+	<br> <br>
 	<!-- VIRTUAL -->
 	<div id="virtualinter" data-toggle="checkbox">
+		<h5 class="text-center">
+			<spring:message code="virtual.editions" />
+			<a id="infovirtualeditions" data-placement="bottom"
+				class="infobutton" role="button" data-toggle="popover"
+				data-content="<spring:message code="info.virtualeditions" />"> <span
+				class="glyphicon glyphicon-info-sign"></span>
+			</a>
+		</h5>
+		<!-- ARCHIVE VIRTUAL EDITION -->
+		<c:set var="archiveEdition" value="${ldoD.getArchiveEdition()}" />
+		<div class="text-center">
+		<div class="text-center" style="padding: 8px">
+			<a
+				href="${contextPath}/edition/internalid/${archiveEdition.externalId}">
+				Arquivo do LdoD</a>
+		</div>
+		<table width="100%">
+			<thead>
+				<tr>
+					<th style="width: 10%"></th>
+					<th style="width: 10%"></th>
+					<th style="width: 25%"></th>
+					<th style="width: 10%"></th>
+					<th style="width: 25%"></th>
+					<th style="width: 20%"></th>
+				</tr>
+			</thead>
+			<tbody>
+				<c:forEach var="virtualEditionInter"
+					items="${archiveEdition.getSortedInter4Frag(fragment)}">
+					<tr>
+						<td></td>
+						<td><c:choose>
+								<c:when test="${inters.contains(virtualEditionInter)}">
+									<input type="checkbox" name="${virtualEditionInter.externalId}"
+										value="${virtualEditionInter.externalId}" checked />
+								</c:when>
+								<c:otherwise>
+									<input type="checkbox" name="${virtualEditionInter.externalId}"
+										value="${virtualEditionInter.externalId}" />
+								</c:otherwise>
+							</c:choose></td>
+						<td><a
+							href="${contextPath}/fragments/fragment/inter/prev/number/${virtualEditionInter.externalId}"><span
+								class="glyphicon glyphicon-chevron-left"></span></a></td>
+						<td><a
+							href="${contextPath}/fragments/fragment/inter/${virtualEditionInter.externalId}">${virtualEditionInter.number}</a></td>
+						<td><a
+							href="${contextPath}/fragments/fragment/inter/next/number/${virtualEditionInter.externalId}"><span
+								class="glyphicon glyphicon-chevron-right"></span></a></td>
+						<td></td>
+					</tr>
+					<c:if test="${pageContext.request.userPrincipal.authenticated}">
+						<tr>
+							<c:choose>
+								<c:when
+									test="${empty recommender || !acronym.equals(archiveEdition.getAcronym())}">
+									<td></td>
+									<td></td>
+									<td><input type="checkbox" style="visibility: hidden;" /></td>
+
+									<td><a
+										href="${contextPath}/recommendation/restricted/${virtualEditionInter.getVirtualEdition().getExternalId()}/${virtualEditionInter.externalId}">1</a>
+									</td>
+									<td>
+										<form id="next-form" method="POST"
+											action="${contextPath}/recommendation/inter/next/${virtualEditionInter.getNextInter().getExternalId()}">
+											<input type="hidden" name="acronym"
+												value="${virtualEditionInter.getVirtualEdition().getAcronym()}">
+											<input type="hidden" name="current"
+												value="${virtualEditionInter.externalId}"> <a
+												class="btn recommender-nav"> <span
+												class="glyphicon glyphicon-chevron-right"></span>
+											</a>
+										</form>
+									</td>
+									<td></td>
+								</c:when>
+								<c:otherwise>
+									<td><input type="checkbox" style="visibility: hidden;" /></td>
+									<td><c:choose>
+											<c:when test="${previousList.size()>0}">
+												<form id="prev-form" method="POST"
+													action="${contextPath}/recommendation/inter/prev/${prev.externalId}">
+													<c:forEach var="previous" items='${previousList}'>
+														<input type="hidden" name="id[]" value="${previous}">
+													</c:forEach>
+													<input type="hidden" name="current"
+														value="${virtualEditionInter.externalId}"> <input
+														type="hidden" name="acronym"
+														value="${virtualEditionInter.getVirtualEdition().getAcronym()}">
+													<a class="btn recommender-nav"> <span
+														class="glyphicon glyphicon-chevron-left"></span></a>
+												</form>
+											</c:when>
+											<c:otherwise>
+												<a class="btn" style="visibility: hidden;"> <span
+													class="glyphicon glyphicon-chevron-left"> </span>
+												</a>
+											</c:otherwise>
+										</c:choose></td>
+									<td><a
+										href="${contextPath}/recommendation/restricted/${virtualEditionInter.getVirtualEdition().getExternalId()}/${virtualEditionInter.externalId}">${previousList.size() + 1}</a></td>
+									<td><c:if test="${empty last}">
+											<form id="next-form" method="POST"
+												action="${contextPath}/recommendation/inter/next/${next.getExternalId()}">
+												<c:forEach var="previous" items='${previousList}'>
+													<input type="hidden" name="id[]" value="${previous}">
+												</c:forEach>
+												<input type="hidden" name="acronym"
+													value="${virtualEditionInter.getVirtualEdition().getAcronym()}">
+												<input type="hidden" name="current"
+													value="${virtualEditionInter.externalId}"> <a
+													class="btn recommender-nav"> <span
+													class="glyphicon glyphicon-chevron-right"></span>
+												</a>
+											</form>
+										</c:if></td>
+								</c:otherwise>
+							</c:choose>
+						</tr>
+					</c:if>
+				</c:forEach>
+				<c:if
+					test="${archiveEdition.participantSet.contains(user) && (inters.size() == 1) && archiveEdition.canAddFragInter(inters.get(0))}">
+					<tr>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td><form class="form-horizontal" method="POST"
+								action="/virtualeditions/restricted/addinter/${archiveEdition.externalId}/${inters.get(0).externalId}">
+								<fieldset>
+									<button type="submit" class="btn btn-primary btn-xs">
+										<span class="glyphicon glyphicon-plus"></span>
+										<spring:message code="general.add" />
+									</button>
+								</fieldset>
+							</form></td>
+						<td></td>
+						<td></td>
+					</tr>
+				</c:if>
+			</tbody>
+		</table>
+		</div>
+
+		<!-- OTHER VIRTUAL EDITIONS -->
 		<c:if
 			test="${(ldoDSession != null) && (ldoDSession.materializeVirtualEditions().size() != 0)}">
-			<h5 class="text-center">
-				<spring:message code="virtual.editions" /> <a id="infovirtualeditions" data-placement="bottom" class="infobutton" role="button" data-toggle="popover" data-content="<spring:message code="info.virtualeditions" />" > <span class="glyphicon glyphicon-info-sign"></span></a>
-			</h5>
 			<div class="text-center">
 				<c:forEach var="virtualEdition"
 					items='${ldoDSession.materializeVirtualEditions()}'>
-					<div class="text-center" style="padding:8px">
+					<div class="text-center" style="padding: 8px">
 						<a
 							href="${contextPath}/edition/internalid/${virtualEdition.externalId}">
 							${virtualEdition.acronym}</a>
@@ -167,14 +314,11 @@
 					<table width="100%">
 						<thead>
 							<tr>
-								
 								<th style="width: 10%"></th>
 								<th style="width: 10%"></th>
-								
 								<th style="width: 25%"></th>
 								<th style="width: 10%"></th>
 								<th style="width: 25%"></th>
-								
 								<th style="width: 20%"></th>
 							</tr>
 						</thead>
@@ -195,73 +339,31 @@
 													value="${virtualEditionInter.externalId}" />
 											</c:otherwise>
 										</c:choose></td>
-									<td><a 
+									<td><a
 										href="${contextPath}/fragments/fragment/inter/prev/number/${virtualEditionInter.externalId}"><span
 											class="glyphicon glyphicon-chevron-left"></span></a></td>
 									<td><a
 										href="${contextPath}/fragments/fragment/inter/${virtualEditionInter.externalId}">${virtualEditionInter.number}</a></td>
-									<td><a 
+									<td><a
 										href="${contextPath}/fragments/fragment/inter/next/number/${virtualEditionInter.externalId}"><span
 											class="glyphicon glyphicon-chevron-right"></span></a></td>
 									<td></td>
 								</tr>
 								<c:if test="${pageContext.request.userPrincipal.authenticated}">
-								<tr>
-									<c:choose>
-										<c:when
-											test="${empty recommender || !acronym.equals(virtualEdition.getAcronym())}">
-											<td></td>
-											<td></td>
-											<td><input type="checkbox" style="visibility: hidden;" /></td>
-											
-											<td><a
-												href="${contextPath}/recommendation/restricted/${virtualEditionInter.getVirtualEdition().getExternalId()}/${virtualEditionInter.externalId}">1</a>
-											</td>
-											<td>
-												<form id="next-form" method="POST"
-													action="${contextPath}/recommendation/inter/next/${virtualEditionInter.getNextInter().getExternalId()}">
-													<input type="hidden" name="acronym"
-														value="${virtualEditionInter.getVirtualEdition().getAcronym()}">
-													<input type="hidden" name="current"
-														value="${virtualEditionInter.externalId}"> <a
-														class="btn recommender-nav"> <span
-														class="glyphicon glyphicon-chevron-right"></span>
-													</a>
-												</form>
-											</td>
-											<td></td>
-										</c:when>
-										<c:otherwise>
-											<td><input type="checkbox" style="visibility: hidden;" /></td>
-											<td><c:choose>
-													<c:when test="${previousList.size()>0}">
-														<form id="prev-form" method="POST"
-															action="${contextPath}/recommendation/inter/prev/${prev.externalId}">
-															<c:forEach var="previous" items='${previousList}'>
-																<input type="hidden" name="id[]" value="${previous}">
-															</c:forEach>
-															<input type="hidden" name="current"
-																value="${virtualEditionInter.externalId}"> <input
-																type="hidden" name="acronym"
-																value="${virtualEditionInter.getVirtualEdition().getAcronym()}">
-															<a class="btn recommender-nav"> <span
-																class="glyphicon glyphicon-chevron-left"></span></a>
-														</form>
-													</c:when>
-													<c:otherwise>
-														<a class="btn" style="visibility: hidden;"> <span
-															class="glyphicon glyphicon-chevron-left"> </span>
-														</a>
-													</c:otherwise>
-												</c:choose></td>
-											<td><a
-												href="${contextPath}/recommendation/restricted/${virtualEditionInter.getVirtualEdition().getExternalId()}/${virtualEditionInter.externalId}">${previousList.size() + 1}</a></td>
-											<td><c:if test="${empty last}">
+									<tr>
+										<c:choose>
+											<c:when
+												test="${empty recommender || !acronym.equals(virtualEdition.getAcronym())}">
+												<td></td>
+												<td></td>
+												<td><input type="checkbox" style="visibility: hidden;" /></td>
+
+												<td><a
+													href="${contextPath}/recommendation/restricted/${virtualEditionInter.getVirtualEdition().getExternalId()}/${virtualEditionInter.externalId}">1</a>
+												</td>
+												<td>
 													<form id="next-form" method="POST"
-														action="${contextPath}/recommendation/inter/next/${next.getExternalId()}">
-														<c:forEach var="previous" items='${previousList}'>
-															<input type="hidden" name="id[]" value="${previous}">
-														</c:forEach>
+														action="${contextPath}/recommendation/inter/next/${virtualEditionInter.getNextInter().getExternalId()}">
 														<input type="hidden" name="acronym"
 															value="${virtualEditionInter.getVirtualEdition().getAcronym()}">
 														<input type="hidden" name="current"
@@ -270,10 +372,52 @@
 															class="glyphicon glyphicon-chevron-right"></span>
 														</a>
 													</form>
-												</c:if></td>
-										</c:otherwise>
-									</c:choose>
-								</tr>
+												</td>
+												<td></td>
+											</c:when>
+											<c:otherwise>
+												<td><input type="checkbox" style="visibility: hidden;" /></td>
+												<td><c:choose>
+														<c:when test="${previousList.size()>0}">
+															<form id="prev-form" method="POST"
+																action="${contextPath}/recommendation/inter/prev/${prev.externalId}">
+																<c:forEach var="previous" items='${previousList}'>
+																	<input type="hidden" name="id[]" value="${previous}">
+																</c:forEach>
+																<input type="hidden" name="current"
+																	value="${virtualEditionInter.externalId}"> <input
+																	type="hidden" name="acronym"
+																	value="${virtualEditionInter.getVirtualEdition().getAcronym()}">
+																<a class="btn recommender-nav"> <span
+																	class="glyphicon glyphicon-chevron-left"></span></a>
+															</form>
+														</c:when>
+														<c:otherwise>
+															<a class="btn" style="visibility: hidden;"> <span
+																class="glyphicon glyphicon-chevron-left"> </span>
+															</a>
+														</c:otherwise>
+													</c:choose></td>
+												<td><a
+													href="${contextPath}/recommendation/restricted/${virtualEditionInter.getVirtualEdition().getExternalId()}/${virtualEditionInter.externalId}">${previousList.size() + 1}</a></td>
+												<td><c:if test="${empty last}">
+														<form id="next-form" method="POST"
+															action="${contextPath}/recommendation/inter/next/${next.getExternalId()}">
+															<c:forEach var="previous" items='${previousList}'>
+																<input type="hidden" name="id[]" value="${previous}">
+															</c:forEach>
+															<input type="hidden" name="acronym"
+																value="${virtualEditionInter.getVirtualEdition().getAcronym()}">
+															<input type="hidden" name="current"
+																value="${virtualEditionInter.externalId}"> <a
+																class="btn recommender-nav"> <span
+																class="glyphicon glyphicon-chevron-right"></span>
+															</a>
+														</form>
+													</c:if></td>
+											</c:otherwise>
+										</c:choose>
+									</tr>
 								</c:if>
 							</c:forEach>
 							<c:if
@@ -304,6 +448,6 @@
 </div>
 
 <script type="text/javascript">
-$('#infoexperts').popover();
-$('#infovirtualeditions').popover();
+	$('#infoexperts').popover();
+	$('#infovirtualeditions').popover();
 </script>

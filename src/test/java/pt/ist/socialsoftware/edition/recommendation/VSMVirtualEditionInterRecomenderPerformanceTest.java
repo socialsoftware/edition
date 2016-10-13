@@ -20,6 +20,7 @@ import org.junit.Test;
 
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.fenixframework.core.WriteOnReadError;
+import pt.ist.socialsoftware.edition.domain.Edition;
 import pt.ist.socialsoftware.edition.domain.ExpertEdition;
 import pt.ist.socialsoftware.edition.domain.FragInter;
 import pt.ist.socialsoftware.edition.domain.LdoD;
@@ -49,9 +50,9 @@ public class VSMVirtualEditionInterRecomenderPerformanceTest {
 		FenixFramework.getTransactionManager().begin(false);
 
 		LdoD ldoD = LdoD.getInstance();
-		ExpertEdition pizarroEdition = (ExpertEdition) ldoD.getEdition(ExpertEdition.PIZARRO_ACRONYM);
-		ExpertEdition zenithEdition = (ExpertEdition) ldoD.getEdition(ExpertEdition.ZENITH_ACRONYM);
-		ExpertEdition cunhaEdition = (ExpertEdition) ldoD.getEdition(ExpertEdition.CUNHA_ACRONYM);
+		ExpertEdition pizarroEdition = (ExpertEdition) ldoD.getEdition(Edition.PIZARRO_EDITION_ACRONYM);
+		ExpertEdition zenithEdition = (ExpertEdition) ldoD.getEdition(Edition.ZENITH_EDITION_ACRONYM);
+		ExpertEdition cunhaEdition = (ExpertEdition) ldoD.getEdition(Edition.CUNHA_EDITION_ACRONYM);
 
 		LdoDUser userArs = ldoD.getUser("ars");
 		// create pizarro virtual edition

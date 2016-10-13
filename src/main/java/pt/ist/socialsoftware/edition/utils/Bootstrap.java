@@ -17,6 +17,7 @@ import org.springframework.web.WebApplicationInitializer;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
+import pt.ist.socialsoftware.edition.domain.Edition;
 import pt.ist.socialsoftware.edition.domain.Fragment;
 import pt.ist.socialsoftware.edition.domain.LdoD;
 import pt.ist.socialsoftware.edition.domain.LdoDUser;
@@ -28,6 +29,7 @@ import pt.ist.socialsoftware.edition.recommendation.VSMFragmentRecommender;
 import pt.ist.socialsoftware.edition.recommendation.properties.Property;
 import pt.ist.socialsoftware.edition.recommendation.properties.TextProperty;
 import pt.ist.socialsoftware.edition.search.Indexer;
+import pt.ist.socialsoftware.edition.shared.exception.LdoDException;
 import pt.ist.socialsoftware.edition.topicmodeling.TopicModeler;
 
 /**
@@ -51,12 +53,29 @@ public class Bootstrap implements WebApplicationInitializer {
 	public static void initializeSystem() {
 		if (LdoD.getInstance() == null) {
 			new LdoD();
-			populateDatabaseUsersAndRoles();
-			cleanLucene();
+			cleanCorpusRepository();
 			cleanTopicModeler();
+			cleanLucene();
+			createUsersAndRoles();
+			createVirtualEditionsForTest();
+			createLdoDArchiveVirtualEdition();
 		} else {
 			// loadRecommendationCache();
 		}
+	}
+
+	public static void cleanCorpusRepository() {
+		String corpusFilesPath = PropertiesManager.getProperties().getProperty("corpus.files.dir");
+		File directory = new File(corpusFilesPath);
+		if (directory.exists()) {
+			try {
+				FileUtils.deleteDirectory(directory);
+			} catch (IOException e) {
+				throw new LdoDException(
+						"Bootstrap.populateDatabaseUsersAndRoles cannot delete directory for corpus.files.dir");
+			}
+		}
+		directory.mkdirs();
 	}
 
 	private static void cleanTopicModeler() {
@@ -69,38 +88,7 @@ public class Bootstrap implements WebApplicationInitializer {
 		indexer.cleanLucene();
 	}
 
-	@Atomic(mode = TxMode.WRITE)
-	public static void loadRecommendationCache() {
-		Set<Fragment> fragments = LdoD.getInstance().getFragmentsSet();
-
-		if (fragments.size() > 500) {
-			List<Property> properties = new ArrayList<Property>();
-			properties.add(new TextProperty(1.0));
-
-			VSMFragmentRecommender recommender = new VSMFragmentRecommender();
-			for (Fragment fragment : fragments) {
-				recommender.getMostSimilarItem(fragment, fragments, properties);
-			}
-
-			Indexer indexer = Indexer.getIndexer();
-			indexer.cleanTermsTFIDFCache();
-		}
-	}
-
-	private static void populateDatabaseUsersAndRoles() {
-		// delete directory and all its files if it exists
-		String corpusFilesPath = PropertiesManager.getProperties().getProperty("corpus.files.dir");
-		File directory = new File(corpusFilesPath);
-		if (directory.exists()) {
-			try {
-				FileUtils.deleteDirectory(directory);
-			} catch (IOException e) {
-				// Unable to delete directory
-				e.printStackTrace();
-			}
-		}
-		directory.mkdirs();
-
+	private static void createUsersAndRoles() {
 		LdoD ldod = LdoD.getInstance();
 
 		Role user = Role.getRole(RoleType.ROLE_USER);
@@ -173,6 +161,24 @@ public class Bootstrap implements WebApplicationInitializer {
 		rita.setEnabled(true);
 		rita.addRoles(user);
 		rita.addRoles(admin);
+	}
+
+	public static void createVirtualEditionsForTest() {
+		LdoD ldod = LdoD.getInstance();
+
+		logger.debug("createVirtualEditionsForTest size{}", ldod.getUsersSet().size());
+
+		LdoDUser ars = ldod.getUser("ars");
+		LdoDUser diego = ldod.getUser("diego");
+		LdoDUser mp = ldod.getUser("mp");
+		LdoDUser tiago = ldod.getUser("tiago");
+		LdoDUser nuno = ldod.getUser("nuno");
+		LdoDUser luis = ldod.getUser("luis");
+		LdoDUser andre = ldod.getUser("afs");
+		LdoDUser daniela = ldod.getUser("daniela");
+		LdoDUser joana = ldod.getUser("joana");
+		LdoDUser bernardosoares = ldod.getUser("bernardosoares");
+		LdoDUser rita = ldod.getUser("rita");
 
 		VirtualEdition classX = new VirtualEdition(ldod, ars, "ClassX", "LdoD Edition of Class X", new LocalDate(),
 				false, null);
@@ -223,6 +229,37 @@ public class Bootstrap implements WebApplicationInitializer {
 		diego.addSelectedVirtualEditions(classW);
 		tiago.addSelectedVirtualEditions(classW);
 		nuno.addSelectedVirtualEditions(classW);
+	}
+
+	private static void createLdoDArchiveVirtualEdition() {
+		LdoD ldod = LdoD.getInstance();
+
+		LdoDUser ars = ldod.getUser("ars");
+		LdoDUser mp = ldod.getUser("mp");
+
+		VirtualEdition ldoDArchiveEdition = new VirtualEdition(ldod, mp, Edition.ARCHIVE_EDITION_ACRONYM,
+				Edition.ARCHIVE_EDITION_NAME, new LocalDate(), true, null);
+
+		ldoDArchiveEdition.addMember(mp, MemberRole.ADMIN, true);
+		ldoDArchiveEdition.addMember(ars, MemberRole.ADMIN, true);
+	}
+
+	@Atomic(mode = TxMode.WRITE)
+	public static void loadRecommendationCache() {
+		Set<Fragment> fragments = LdoD.getInstance().getFragmentsSet();
+
+		if (fragments.size() > 500) {
+			List<Property> properties = new ArrayList<Property>();
+			properties.add(new TextProperty(1.0));
+
+			VSMFragmentRecommender recommender = new VSMFragmentRecommender();
+			for (Fragment fragment : fragments) {
+				recommender.getMostSimilarItem(fragment, fragments, properties);
+			}
+
+			Indexer indexer = Indexer.getIndexer();
+			indexer.cleanTermsTFIDFCache();
+		}
 	}
 
 }

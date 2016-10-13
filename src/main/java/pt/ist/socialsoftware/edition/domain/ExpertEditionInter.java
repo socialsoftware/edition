@@ -61,17 +61,17 @@ public class ExpertEditionInter extends ExpertEditionInter_Base {
 
 		if (myEditor.equals(otherEditor)) {
 			return compareNumber(other);
-		} else if (myEditor.equals(ExpertEdition.COELHO)) {
+		} else if (myEditor.equals(Edition.COELHO_EDITION_NAME)) {
 			return -1;
-		} else if (otherEditor.equals(ExpertEdition.COELHO)) {
+		} else if (otherEditor.equals(Edition.COELHO_EDITION_NAME)) {
 			return 1;
-		} else if (myEditor.equals(ExpertEdition.CUNHA)) {
+		} else if (myEditor.equals(Edition.CUNHA_EDITION_NAME)) {
 			return -1;
-		} else if (otherEditor.equals(ExpertEdition.CUNHA)) {
+		} else if (otherEditor.equals(Edition.CUNHA_EDITION_NAME)) {
 			return 1;
-		} else if (myEditor.equals(ExpertEdition.ZENITH)) {
+		} else if (myEditor.equals(Edition.ZENITH_EDITION_NAME)) {
 			return -1;
-		} else if (otherEditor.equals(ExpertEdition.ZENITH)) {
+		} else if (otherEditor.equals(Edition.ZENITH_EDITION_NAME)) {
 			return 1;
 		} else {
 			assert false : "To extend when new expert editions are include";

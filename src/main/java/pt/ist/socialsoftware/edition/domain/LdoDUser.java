@@ -19,14 +19,14 @@ import pt.ist.socialsoftware.edition.shared.exception.LdoDDuplicateUsernameExcep
 import pt.ist.socialsoftware.edition.shared.exception.LdoDException;
 
 public class LdoDUser extends LdoDUser_Base {
-	private static Logger log = LoggerFactory.getLogger(LdoDUser.class);
+	private static Logger logger = LoggerFactory.getLogger(LdoDUser.class);
 
 	public enum SocialMediaService {
 		TWITTER, FACEBOOK, LINKEDIN, GOOGLE
 	};
 
 	static public LdoDUser getAuthenticatedUser() {
-		log.debug("getAuthenticatedUser");
+		logger.debug("getAuthenticatedUser");
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		if (authentication != null) {
 			LdoDUserDetails userDetails = null;
@@ -36,7 +36,7 @@ public class LdoDUser extends LdoDUser_Base {
 				return userDetails.getUser();
 			}
 		}
-		log.debug("getAuthenticatedUser returns null");
+		logger.debug("getAuthenticatedUser returns null");
 		return null;
 	}
 

@@ -9,6 +9,16 @@ import java.util.stream.Collectors;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDDuplicateAcronymException;
 
 public abstract class Edition extends Edition_Base {
+	public static final String COELHO_EDITION_ACRONYM = "JPC";
+	public static final String CUNHA_EDITION_ACRONYM = "TSC";
+	public static final String ZENITH_EDITION_ACRONYM = "RZ";
+	public static final String PIZARRO_EDITION_ACRONYM = "JP";
+	public static final String ARCHIVE_EDITION_ACRONYM = "ALdoD";
+	public static final String COELHO_EDITION_NAME = "Jacinto do Prado Coelho";
+	public static final String CUNHA_EDITION_NAME = "Teresa Sobral Cunha";
+	public static final String ZENITH_EDITION_NAME = "Richard Zenith";
+	public static final String PIZARRO_EDITION_NAME = "Jerónimo Pizarro";
+	public static final String ARCHIVE_EDITION_NAME = "Edição do Arquivo do LdoD";;
 
 	public enum EditionType {
 		AUTHORIAL("authorial"), EDITORIAL("editorial"), VIRTUAL("virtual");
@@ -22,7 +32,7 @@ public abstract class Edition extends Edition_Base {
 		public String getDesc() {
 			return desc;
 		}
-	};
+	}
 
 	public void remove() {
 		deleteDomainObject();
@@ -86,6 +96,10 @@ public abstract class Edition extends Edition_Base {
 			}
 		}
 		return interps.get(0);
+	}
+
+	public boolean isLdoDEdition() {
+		return getAcronym().equals(Edition.ARCHIVE_EDITION_ACRONYM);
 	}
 
 }

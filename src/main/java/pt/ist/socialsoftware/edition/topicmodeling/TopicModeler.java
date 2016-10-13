@@ -233,8 +233,8 @@ public class TopicModeler {
 		try {
 			Files.delete(Paths.get(corpusFilesPath + externalId + ".txt"));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new LdoDException(
+					"TopicModeler.deleteFile cannot delete file " + "corpusFilesPath" + "externalId" + ".txt");
 		}
 	}
 
@@ -242,8 +242,7 @@ public class TopicModeler {
 		try {
 			FileUtils.cleanDirectory(new File(corpusFilesPath));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new LdoDException("TopicModeler.cleanDirectory cannot delete directory " + "corpusFilesPath");
 		}
 	}
 

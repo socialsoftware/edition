@@ -78,6 +78,7 @@ import pt.ist.socialsoftware.edition.domain.TextPortion.VariationType;
 import pt.ist.socialsoftware.edition.domain.TypeNote;
 import pt.ist.socialsoftware.edition.domain.UnclearText;
 import pt.ist.socialsoftware.edition.domain.UnclearText.UnclearReason;
+import pt.ist.socialsoftware.edition.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.search.Indexer;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDException;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDLoadException;
@@ -294,13 +295,14 @@ public class LoadTEIFragments {
 
 		loadFragmentText(fragment, xmlId);
 
-		// generate corpus in corpus.dir
+		// generate corpus in corpus.dir and index in indexer.dir
 		CorpusGenerator generator = new CorpusGenerator();
 		for (FragInter inter : fragment.getFragmentInterSet()) {
 			try {
+				// Generate corpus for interpretation
 				generator.generate(inter);
 
-				// Add inter to index
+				// Add interpretation to index
 				Indexer indexer = Indexer.getIndexer();
 				indexer.addDocument(inter);
 
@@ -311,6 +313,16 @@ public class LoadTEIFragments {
 				throw new LdoDLoadException("erro IOException a gerar corpus da interpretação " + inter.getXmlId()
 						+ " do fragmento " + inter.getFragment().getXmlId());
 			}
+		}
+
+		VirtualEdition archiveEdition = this.ldoD.getArchiveEdition();
+		// we need to check that the representative fragment interpretation for
+		// the archive edition was not created during the load of the tei xml
+		// file
+		if (archiveEdition != null
+				&& !archiveEdition.getIntersSet().contains(fragment.getRepresentativeSourceInter())) {
+			archiveEdition.createVirtualEditionInter(fragment.getRepresentativeSourceInter(),
+					archiveEdition.getVirtualEditionInters().size() + 1);
 		}
 
 		// uncomment when a pretty print of the result of load is required in

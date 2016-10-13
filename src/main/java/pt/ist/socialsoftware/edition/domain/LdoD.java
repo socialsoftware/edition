@@ -168,4 +168,10 @@ public class LdoD extends LdoD_Base {
 		return getFragmentsSet().stream().map(f -> f.getRepresentativeSourceInter()).collect(Collectors.toSet());
 	}
 
+	public VirtualEdition getArchiveEdition() {
+		return getVirtualEditionsSet().stream().filter(ve -> ve.getAcronym().equals(Edition.ARCHIVE_EDITION_ACRONYM))
+				.findFirst().orElse(null);
+
+	}
+
 }
