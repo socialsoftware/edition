@@ -182,6 +182,7 @@ public class RecommendationController {
 
 			model.addAttribute("heteronym", null);
 			model.addAttribute("edition", virtualEdition);
+			model.addAttribute("taxonomyWeight", recommendationWeights.getTaxonomyWeight());
 			model.addAttribute("heteronymWeight", recommendationWeights.getHeteronymWeight());
 			model.addAttribute("dateWeight", recommendationWeights.getDateWeight());
 			model.addAttribute("textWeight", recommendationWeights.getTextWeight());

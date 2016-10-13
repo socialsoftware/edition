@@ -41,6 +41,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		log.debug("configure");
 
+		// to make accessible for unregistered users comment
+		// .anyRequest().authenticated() after .antMatchers("/", "/auth/**",
+		// "/signin/**", "/signup/**").permitAll()
+
 		http.csrf().disable().formLogin().loginPage("/signin").successHandler(ldoDAuthenticationSuccessHandler())
 				.loginProcessingUrl("/signin/authenticate").failureUrl("/signin?param.error=bad_credentials").and()
 				.logout().logoutUrl("/signout").deleteCookies("JSESSIONID").and().authorizeRequests()

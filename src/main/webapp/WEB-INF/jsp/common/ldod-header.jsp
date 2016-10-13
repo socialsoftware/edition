@@ -26,6 +26,8 @@
 								code="header.editorialteam" /></a></li>
 				</ul></li>
 			<li><a href="${contextPath}/source/list"><spring:message
+						code="general.reading" /></a></li>
+			<li><a href="${contextPath}/source/list"><spring:message
 						code="header.documents" /></a></li>
 			<li class="dropdown"><a href="#" class="dropdown-toggle"
 				data-toggle="dropdown"><spring:message code="header.editions" />

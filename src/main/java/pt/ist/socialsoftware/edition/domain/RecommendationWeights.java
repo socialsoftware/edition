@@ -20,6 +20,7 @@ public class RecommendationWeights extends RecommendationWeights_Base {
 		setHeteronymWeight(0.);
 		setDateWeight(0.);
 		setTextWeight(0.);
+		setTaxonomyWeight(0.);
 	}
 
 	@Atomic(mode = TxMode.WRITE)
