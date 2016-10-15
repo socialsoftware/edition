@@ -61,11 +61,11 @@ public abstract class VSMRecommender<T> implements Recommender<T, Property> {
 	public List<Entry<T, Double>> getMostSimilarItems(T item, Collection<T> items, Collection<Property> properties) {
 		double similarity;
 		Map<T, Double> map = new HashMap<T, Double>();
-		for (T it : items) {
-			if (it != item) {
-				similarity = calculateSimilarity(item, it, properties);
+		for (T otherItem : items) {
+			if (otherItem != item) {
+				similarity = calculateSimilarity(item, otherItem, properties);
 				if (similarity >= Double.NEGATIVE_INFINITY)
-					map.put(it, similarity);
+					map.put(otherItem, similarity);
 			}
 		}
 

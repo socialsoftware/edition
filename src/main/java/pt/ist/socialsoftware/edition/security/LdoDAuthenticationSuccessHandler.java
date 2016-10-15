@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.socialsoftware.edition.domain.LdoDUser;
+import pt.ist.socialsoftware.edition.session.LdoDSession;
 
 @Component
 public class LdoDAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {

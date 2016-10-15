@@ -35,8 +35,8 @@ import pt.ist.socialsoftware.edition.domain.Member.MemberRole;
 import pt.ist.socialsoftware.edition.domain.Taxonomy;
 import pt.ist.socialsoftware.edition.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.domain.VirtualEditionInter;
-import pt.ist.socialsoftware.edition.security.LdoDSession;
 import pt.ist.socialsoftware.edition.security.LdoDUserDetails;
+import pt.ist.socialsoftware.edition.session.LdoDSession;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDCreateVirtualEditionException;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDDuplicateAcronymException;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDDuplicateNameException;
@@ -56,8 +56,6 @@ public class VirtualEditionController {
 	@ModelAttribute("ldoDSession")
 	public LdoDSession getLdoDSession() {
 		LdoDSession ldoDSession = new LdoDSession();
-
-		System.out.println("VirtualEditionController:getLdoDSession()");
 
 		LdoDUser user = LdoDUser.getAuthenticatedUser();
 		if (user != null) {

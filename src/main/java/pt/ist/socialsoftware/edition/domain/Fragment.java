@@ -3,6 +3,8 @@ package pt.ist.socialsoftware.edition.domain;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
@@ -73,16 +75,9 @@ public class Fragment extends Fragment_Base implements Comparable<Fragment> {
 		return interps;
 	}
 
-	public ExpertEditionInter getExpertEditionInter(String editor) {
-		for (FragInter inter : getFragmentInterSet()) {
-			if (inter.getSourceType() == EditionType.EDITORIAL) {
-				ExpertEditionInter edInter = (ExpertEditionInter) inter;
-				if (edInter.getExpertEdition().getEditor().equals(editor)) {
-					return edInter;
-				}
-			}
-		}
-		return null;
+	public Set<ExpertEditionInter> getExpertEditionInters(ExpertEdition expertEdition) {
+		return getFragmentInterSet().stream().filter(inter -> inter.getEdition() == expertEdition)
+				.map(ExpertEditionInter.class::cast).collect(Collectors.toSet());
 	}
 
 	public int getNumberOfInter4Edition(Edition edition) {

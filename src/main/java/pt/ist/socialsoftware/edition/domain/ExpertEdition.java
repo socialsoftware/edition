@@ -136,4 +136,12 @@ public class ExpertEdition extends ExpertEdition_Base implements Comparable<Expe
 	public String getReference() {
 		return getEditor();
 	}
+
+	public ExpertEditionInter getFirstInterpretation() {
+		List<ExpertEditionInter> interps = new ArrayList<ExpertEditionInter>(getExpertEditionIntersSet());
+
+		Collections.sort(interps);
+
+		return interps.get(0);
+	}
 }

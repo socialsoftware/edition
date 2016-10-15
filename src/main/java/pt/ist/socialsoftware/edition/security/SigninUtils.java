@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.context.request.WebRequest;
 
 import pt.ist.socialsoftware.edition.domain.LdoDUser;
+import pt.ist.socialsoftware.edition.session.LdoDSession;
 
 public class SigninUtils {
 	private static Logger log = LoggerFactory.getLogger(SigninUtils.class);

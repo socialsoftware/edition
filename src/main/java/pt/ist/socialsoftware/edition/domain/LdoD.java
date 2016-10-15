@@ -16,7 +16,7 @@ import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.domain.LdoDUser.SocialMediaService;
 import pt.ist.socialsoftware.edition.domain.Role.RoleType;
-import pt.ist.socialsoftware.edition.security.LdoDSession;
+import pt.ist.socialsoftware.edition.session.LdoDSession;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDDuplicateUsernameException;
 
 public class LdoD extends LdoD_Base {

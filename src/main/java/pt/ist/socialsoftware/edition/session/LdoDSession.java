@@ -1,4 +1,4 @@
-package pt.ist.socialsoftware.edition.security;
+package pt.ist.socialsoftware.edition.session;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -12,11 +12,14 @@ import pt.ist.socialsoftware.edition.domain.Edition;
 import pt.ist.socialsoftware.edition.domain.LdoD;
 import pt.ist.socialsoftware.edition.domain.LdoDUser;
 import pt.ist.socialsoftware.edition.domain.VirtualEdition;
+import pt.ist.socialsoftware.edition.recommendation.ReadingRecommendation;
 
 public class LdoDSession implements Serializable {
 	private static final long serialVersionUID = 3742738985902099143L;
 
 	private final List<String> selectedVEAcr = new ArrayList<String>();
+
+	private final ReadingRecommendation recommendation = new ReadingRecommendation();
 
 	@Atomic(mode = TxMode.WRITE)
 	public void updateSession(LdoDUser user) {
@@ -83,6 +86,10 @@ public class LdoDSession implements Serializable {
 
 	private void clearSession() {
 		selectedVEAcr.clear();
+	}
+
+	public ReadingRecommendation getRecommendation() {
+		return recommendation;
 	}
 
 }

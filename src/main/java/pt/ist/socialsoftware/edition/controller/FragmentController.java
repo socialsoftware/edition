@@ -39,7 +39,7 @@ import pt.ist.socialsoftware.edition.domain.Surface;
 import pt.ist.socialsoftware.edition.domain.TextPortion;
 import pt.ist.socialsoftware.edition.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.domain.VirtualEditionInter;
-import pt.ist.socialsoftware.edition.security.LdoDSession;
+import pt.ist.socialsoftware.edition.session.LdoDSession;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDException;
 import pt.ist.socialsoftware.edition.utils.AnnotationDTO;
 import pt.ist.socialsoftware.edition.utils.AnnotationSearchJson;
@@ -56,8 +56,6 @@ public class FragmentController {
 	@ModelAttribute("ldoDSession")
 	public LdoDSession getLdoDSession() {
 		LdoDSession ldoDSession = new LdoDSession();
-
-		System.out.println("VirtualEditionController:getLdoDSession()");
 
 		LdoDUser user = LdoDUser.getAuthenticatedUser();
 		if (user != null) {
@@ -276,7 +274,6 @@ public class FragmentController {
 		List<FragInter> inters = new ArrayList<FragInter>();
 		inters.add(inter);
 		model.addAttribute("inters", inters);
-		
 
 		if (showFacs) {
 			Surface surface = null;
@@ -293,7 +290,7 @@ public class FragmentController {
 			model.addAttribute("prevpb", inter.getPrevPbText(pbText));
 			model.addAttribute("nextpb", inter.getNextPbText(pbText));
 			model.addAttribute("writer", writer);
-			
+
 			return "fragment/facsimile";
 		} else {
 			writer.write(displayDiff, displayDel, highlightIns, highlightSubst, showNotes, showFacs, null);

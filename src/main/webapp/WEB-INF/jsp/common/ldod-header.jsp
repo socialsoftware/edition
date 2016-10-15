@@ -25,7 +25,7 @@
 					<li><a href="#"><spring:message
 								code="header.editorialteam" /></a></li>
 				</ul></li>
-			<li><a href="${contextPath}/source/list"><spring:message
+			<li><a href="${contextPath}/reading"><spring:message
 						code="general.reading" /></a></li>
 			<li><a href="${contextPath}/source/list"><spring:message
 						code="header.documents" /></a></li>

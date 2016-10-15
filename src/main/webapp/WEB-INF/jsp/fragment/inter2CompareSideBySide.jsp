@@ -8,10 +8,10 @@
                 <div class="well">
                     <c:choose>
                         <c:when test="${writer.showSpaces}">
-                            <p style="font-family: monospace;">${ldod:getTranscription(writer,inter)}</p>
+                            <p style="font-family: monospace;">${writer.getTranscription(inter)}</p>
                         </c:when>
                         <c:otherwise>
-                            <p style="font-family: georgia;">${ldod:getTranscription(writer,inter)}</p>
+                            <p style="font-family: georgia;">${writer.getTranscription(inter)}</p>
                         </c:otherwise>
                     </c:choose>
                 </div>
