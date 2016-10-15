@@ -110,7 +110,7 @@
 					<table class="table table-hover">
 						<thead>
 							<tr>
-								<th><span class="tip"
+								<th class="text-center"><span class="tip"
 									title="<spring:message code="virtualedition.tt.select" />"><span
 										style="padding-bottom: 3px"
 										class="glyphicon glyphicon glyphicon-eye-open"></span></span></th>
@@ -122,26 +122,26 @@
 									title="<spring:message code="virtualedition.tt.title" />">
 										<spring:message code="virtualeditionlist.name" />
 								</span></th>
-								<th><span class="tip"
+								<th class="text-center"><span class="tip"
 									title="<spring:message code="virtualedition.tt.date" />">
 										<spring:message code="general.date" />
 								</span></th>
-								<th><span class="tip"
+								<th class="text-center"><span class="tip"
 									title="<spring:message code="virtualedition.tt.access" />"><spring:message
 											code="general.access" /></span></th>
-								<th><span class="tip"
+								<th class="text-center"><span class="tip"
 									title="<spring:message code="virtualedition.tt.edit" />"><spring:message
 											code="general.edit" /></span></th>
-								<th><span class="tip"
+								<th class="text-center"><span class="tip"
 									title="<spring:message code="virtualedition.tt.participants" />"><spring:message
 											code="general.participants" /></span></th>
-								<th><span class="tip"
+								<th class="text-center"><span class="tip"
 									title="<spring:message code="virtualedition.tt.taxonomies" />"><spring:message
 											code="general.taxonomies" /></span></th>
-								<th><span class="tip"
+								<th class="text-center"><span class="tip"
 									title="<spring:message code="virtualedition.tt.recommendations" />"><spring:message
 											code="general.recommendations" /></span></th>
-								<th><span class="tip"
+								<th class="text-center"><span class="tip"
 									title="<spring:message code="virtualedition.tt.delete" />"><spring:message
 											code="general.delete" /></span></th>
 							</tr>
@@ -159,7 +159,7 @@
 									value="${virtualEdition.isLdoDEdition()}" />
 								<c:if test="${(isPublic && !isLdoDEdition) || isMember}">
 									<tr>
-										<td><c:if test="${!isLdoDEdition}">
+										<td class="text-center"><c:if test="${!isLdoDEdition}">
 												<form class="form-inline" method="POST"
 													action="${contextPath}/virtualeditions/toggleselection">
 													<input type="hidden" name="externalId"
@@ -189,8 +189,8 @@
 											</c:if></td>
 										<td>${virtualEdition.acronym}</td>
 										<td><a href="/edition/acronym/${virtualEdition.acronym}">${virtualEdition.title}</a></td>
-										<td>${virtualEdition.getDate().toString("dd-MM-yyyy")}</td>
-										<td><c:choose>
+										<td class="text-center">${virtualEdition.getDate().toString("dd-MM-yyyy")}</td>
+										<td class="text-center"><c:choose>
 												<c:when test="${isPublic}">
 													<spring:message code="general.public" />
 												</c:when>
@@ -199,13 +199,13 @@
 												</c:otherwise>
 											</c:choose></td>
 
-										<td><c:if test="${isMember}">
+										<td class="text-center"><c:if test="${isMember}">
 												<a
 													href="${contextPath}/virtualeditions/restricted/editForm/${virtualEdition.externalId}"><span
 													class="glyphicon glyphicon-edit"></span> <spring:message
 														code="general.edit" /></a>
 											</c:if></td>
-										<td><c:choose>
+										<td class="text-center"><c:choose>
 												<c:when test="${isMember}">
 													<a
 														href="${contextPath}/virtualeditions/restricted/${virtualEdition.externalId}/participants"><span
@@ -235,19 +235,19 @@
 													</form>
 												</c:when>
 											</c:choose></td>
-										<td><c:if test="${isMember}">
+										<td class="text-center"><c:if test="${isMember}">
 												<a
 													href="${contextPath}/virtualeditions/restricted/${virtualEdition.externalId}/taxonomy"><span
 													class="glyphicon glyphicon-tags"></span> <spring:message
 														code="general.taxonomy" /></a>
 											</c:if></td>
-										<td><c:if test="${isMember}">
+										<td class="text-center"><c:if test="${isMember}">
 												<a
 													href="${contextPath}/recommendation/restricted/${virtualEdition.externalId}"><span
 													class="glyphicon glyphicon-wrench"></span> <spring:message
 														code="general.recommendations" /></a>
 											</c:if></td>
-										<td><c:if test="${isAdmin}">
+										<td class="text-center"><c:if test="${isAdmin && !isLdoDEdition}">
 												<form id="formdelete" class="form-inline" method="POST"
 													action="${contextPath}/virtualeditions/restricted/delete">
 													<input type="hidden" name="externalId"

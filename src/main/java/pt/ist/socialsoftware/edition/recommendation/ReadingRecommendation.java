@@ -30,7 +30,6 @@ public class ReadingRecommendation {
 	private double taxonomyWeight = 0.0;
 
 	public ReadingRecommendation() {
-
 	}
 
 	public void clean() {
@@ -53,9 +52,9 @@ public class ReadingRecommendation {
 			properties.add(new TextProperty(this.textWeight));
 		}
 		if (this.taxonomyWeight > 0.0) {
-			properties.add(new TaxonomyProperty(taxonomyWeight, LdoD.getInstance().getArchiveEdition().getTaxonomy()));
+			properties.add(
+					new TaxonomyProperty(this.taxonomyWeight, LdoD.getInstance().getArchiveEdition().getTaxonomy()));
 		}
-
 		return properties;
 	}
 
@@ -79,6 +78,7 @@ public class ReadingRecommendation {
 		}
 
 		// if all fragments minus 50 were already suggested clear the first 50
+		// recommendations
 		if (readFragments.size() == LdoD.getInstance().getFragmentsSet().size() - 50) {
 			readFragments.subList(0, 50).clear();
 			read.subList(0, 50).clear();
@@ -99,7 +99,7 @@ public class ReadingRecommendation {
 		for (Entry<Fragment, Double> entry : mostSimilars) {
 			logger.debug("ReadingRecommendation value1:{}, value2:{}", value, entry.getValue());
 			// add all interpretations that are similar
-			if (Math.abs(value - entry.getValue()) < 0.001) {
+			if (Math.abs(value - entry.getValue()) < 0.001 && result.size() < 5) {
 				result.addAll(entry.getKey().getExpertEditionInters(toReadInter.getExpertEdition()));
 				// if the most similar fragment does not have an interpretation
 				// in this edition, use the next most similar fragment
@@ -130,8 +130,47 @@ public class ReadingRecommendation {
 		return FenixFramework.getDomainObject(this.read.get(this.read.size() - 2));
 	}
 
+	public void resetPrevRecommendations() {
+		if (this.read.size() > 1) {
+			this.read.subList(0, this.read.size() - 1).clear();
+		}
+	}
+
+	public String getCurrentInterpretation() {
+		return this.read.get(this.read.size() - 1);
+	}
+
+	public double getHeteronymWeight() {
+		return this.heteronymWeight;
+	}
+
+	public void setHeteronymWeight(double heteronymWeight) {
+		this.heteronymWeight = heteronymWeight;
+	}
+
+	public double getDateWeight() {
+		return this.dateWeight;
+	}
+
+	public void setDateWeight(double dateWeight) {
+		this.dateWeight = dateWeight;
+	}
+
+	public double getTextWeight() {
+		return this.textWeight;
+
+	}
+
 	public void setTextWeight(double textWeight) {
 		this.textWeight = textWeight;
+	}
+
+	public double getTaxonomyWeight() {
+		return this.taxonomyWeight;
+	}
+
+	public void setTaxonomyWeight(double taxonomyWeight) {
+		this.taxonomyWeight = taxonomyWeight;
 	}
 
 }

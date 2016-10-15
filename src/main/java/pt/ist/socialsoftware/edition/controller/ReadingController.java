@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import pt.ist.fenixframework.FenixFramework;
@@ -20,6 +21,7 @@ import pt.ist.socialsoftware.edition.domain.LdoD;
 import pt.ist.socialsoftware.edition.domain.LdoDUser;
 import pt.ist.socialsoftware.edition.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.session.LdoDSession;
+import pt.ist.socialsoftware.edition.shared.exception.LdoDException;
 import pt.ist.socialsoftware.edition.visitors.PlainHtmlWriter4OneInter;
 
 @Controller
@@ -124,6 +126,42 @@ public class ReadingController {
 		String expertEditionInterId = ldoDSession.getRecommendation().prevRecommendation();
 
 		return "redirect:/reading/inter/" + expertEditionInterId;
+	}
+
+	@RequestMapping(method = RequestMethod.GET, value = "/inter/prev/recom/reset")
+	public String resetPreviousRecommendedFragments(Model model,
+			@ModelAttribute("ldoDSession") LdoDSession ldoDSession) {
+		logger.debug("readPreviousRecommendedFragment");
+
+		ldoDSession.getRecommendation().resetPrevRecommendations();
+
+		String expertEditionInterId = ldoDSession.getRecommendation().getCurrentInterpretation();
+
+		return "redirect:/reading/inter/" + expertEditionInterId;
+	}
+
+	@RequestMapping(method = RequestMethod.POST, value = "/weight")
+	public String changeWeight(Model model, @ModelAttribute("ldoDSession") LdoDSession ldoDSession,
+			@RequestParam String type, @RequestParam double value) {
+		logger.debug("changeWeight type:{}, value:{}", type, value);
+
+		switch (type) {
+		case "heteronym":
+			ldoDSession.getRecommendation().setHeteronymWeight(value);
+			break;
+		case "date":
+			ldoDSession.getRecommendation().setDateWeight(value);
+			break;
+		case "text":
+			ldoDSession.getRecommendation().setTextWeight(value);
+			break;
+		case "taxonomy":
+			ldoDSession.getRecommendation().setTaxonomyWeight(value);
+			break;
+		default:
+			throw new LdoDException("ReadingController.changeWeight type does not exist " + type);
+		}
+		return "OK";
 	}
 
 }
