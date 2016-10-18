@@ -31,7 +31,7 @@ public class TextProperty extends Property {
 	private Fragment fragment2;
 
 	public TextProperty(double weigth) {
-		super(weigth);
+		super(weigth, PropertyCache.OFF);
 	}
 
 	public TextProperty(@JsonProperty("weight") String weight) {
@@ -70,22 +70,14 @@ public class TextProperty extends Property {
 		return vector;
 	}
 
-	private double[] applyWeight(double[] vector) {
-		double result[] = new double[vector.length];
-		for (int i = 0; i < vector.length; i++) {
-			result[i] = vector[i] * getWeight();
-		}
-		return result;
-	}
-
 	@Override
 	protected double[] extractVector(VirtualEditionInter virtualEditionInter) {
-		return applyWeight(getFromVectorsCache(virtualEditionInter.getFragment()));
+		return getFromVectorsCache(virtualEditionInter.getFragment());
 	}
 
 	@Override
 	protected double[] extractVector(Fragment fragment) {
-		return applyWeight(getFromVectorsCache(fragment));
+		return getFromVectorsCache(fragment);
 	}
 
 	private double[] getFromVectorsCache(Fragment fragment) {

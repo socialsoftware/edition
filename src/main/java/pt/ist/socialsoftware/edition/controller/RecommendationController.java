@@ -1,7 +1,6 @@
 package pt.ist.socialsoftware.edition.controller;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -40,7 +39,6 @@ import pt.ist.socialsoftware.edition.recommendation.dto.RecommendVirtualEditionP
 import pt.ist.socialsoftware.edition.recommendation.dto.SectionDTO;
 import pt.ist.socialsoftware.edition.recommendation.dto.VirtualEditionWithSectionsDTO;
 import pt.ist.socialsoftware.edition.recommendation.properties.Property;
-import pt.ist.socialsoftware.edition.visitors.PlainHtmlWriter4OneInter;
 
 @Controller
 @RequestMapping("/recommendation")
@@ -237,103 +235,6 @@ public class RecommendationController {
 			model.addAttribute("selected", inter);
 
 			return "recommendation/tableOfContents";
-		}
-	}
-
-	@RequestMapping(value = "/inter/next/{id}", method = RequestMethod.POST)
-	public String getNextRecommendedFragment(Model model, @PathVariable String id,
-			@RequestParam("acronym") String acronym, @RequestParam("current") String currentId,
-			@RequestParam(value = "id[]", required = false) String[] ids) {
-		logger.debug("getNextRecommendedFragment");
-
-		Edition edition = LdoD.getInstance().getEdition(acronym);
-		VirtualEditionInter virtualEditionInter = FenixFramework.getDomainObject(id);
-		if (virtualEditionInter == null || !(edition instanceof VirtualEdition)) {
-			return "utils/pageNotFound";
-		} else {
-			VirtualEdition virtualEdition = (VirtualEdition) edition;
-			VirtualEditionInter current = FenixFramework.getDomainObject(currentId);
-			List<String> interList = new ArrayList<String>();
-			if (ids != null) {
-				interList.addAll(Arrays.asList(ids));
-			}
-			interList.add(currentId);
-
-			List<VirtualEditionInter> selectionSet = virtualEdition.getVirtualEditionInters();
-			for (String interId : interList) {
-				selectionSet.remove(FenixFramework.getDomainObject(interId));
-			}
-
-			VSMVirtualEditionInterRecommender recommender = new VSMVirtualEditionInterRecommender();
-			LdoDUser user = LdoDUser.getAuthenticatedUser();
-			List<Property> properties = user.getRecommendationWeights(virtualEdition).getProperties();
-			VirtualEditionInter mostSimilar = recommender.getMostSimilarItem(virtualEditionInter, selectionSet,
-					properties);
-
-			PlainHtmlWriter4OneInter writer = new PlainHtmlWriter4OneInter(virtualEditionInter);
-			writer.write(false);
-			List<FragInter> inters = new ArrayList<FragInter>();
-			inters.add(virtualEditionInter);
-
-			model.addAttribute("ldoD", LdoD.getInstance());
-			model.addAttribute("user", user);
-			model.addAttribute("fragment", virtualEditionInter.getFragment());
-			model.addAttribute("inters", inters);
-			model.addAttribute("previousList", interList);
-			model.addAttribute("prev", current);
-			model.addAttribute("acronym", acronym);
-			model.addAttribute("writer", writer);
-			model.addAttribute("next", mostSimilar);
-			if (mostSimilar == null) {
-				model.addAttribute("last", true);
-			}
-			model.addAttribute("recommender", true);
-
-			return "fragment/main";
-		}
-	}
-
-	@RequestMapping(value = "/inter/prev/{id}", method = RequestMethod.POST)
-	public String getPreviousRecommendedFragment(Model model, @PathVariable String id,
-			@RequestParam("current") String currentId, @RequestParam("acronym") String acronym,
-			@RequestParam(value = "id[]", required = false) String[] ids) {
-		logger.debug("getPreviousRecommendedFragment");
-
-		Edition edition = LdoD.getInstance().getEdition(acronym);
-		VirtualEditionInter virtualEditionInter = FenixFramework.getDomainObject(id);
-		if (virtualEditionInter == null || !(edition instanceof VirtualEdition)) {
-			return "utils/pageNotFound";
-		} else {
-			List<String> previousList = new ArrayList<>();
-			if (ids != null) {
-				previousList.addAll(Arrays.asList(ids));
-				if (!previousList.isEmpty()) {
-					previousList.remove(previousList.size() - 1);
-					if (!previousList.isEmpty()) {
-						VirtualEditionInter previous = FenixFramework
-								.getDomainObject(previousList.get(previousList.size() - 1));
-						model.addAttribute("prev", previous);
-					}
-				}
-			}
-			LdoDUser user = LdoDUser.getAuthenticatedUser();
-			VirtualEditionInter next = FenixFramework.getDomainObject(currentId);
-			PlainHtmlWriter4OneInter writer = new PlainHtmlWriter4OneInter(virtualEditionInter);
-			writer.write(false);
-			List<FragInter> inters = new ArrayList<FragInter>();
-			inters.add(virtualEditionInter);
-
-			model.addAttribute("ldoD", LdoD.getInstance());
-			model.addAttribute("user", user);
-			model.addAttribute("fragment", virtualEditionInter.getFragment());
-			model.addAttribute("inters", inters);
-			model.addAttribute("previousList", previousList);
-			model.addAttribute("next", next);
-			model.addAttribute("acronym", acronym);
-			model.addAttribute("writer", writer);
-			model.addAttribute("recommender", true);
-
-			return "fragment/main";
 		}
 	}
 

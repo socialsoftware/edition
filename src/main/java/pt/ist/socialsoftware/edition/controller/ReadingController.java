@@ -54,8 +54,6 @@ public class ReadingController {
 	@RequestMapping(method = RequestMethod.GET, value = "/inter/{expertEditionInterId}")
 	public String readInterpretation(Model model, @ModelAttribute("ldoDSession") LdoDSession ldoDSession,
 			@PathVariable String expertEditionInterId) {
-		logger.debug("readInterpretation");
-
 		ExpertEditionInter expertEditionInter = FenixFramework.getDomainObject(expertEditionInterId);
 
 		Set<ExpertEditionInter> recommendations = ldoDSession.getRecommendation()
@@ -77,8 +75,6 @@ public class ReadingController {
 	@RequestMapping(method = RequestMethod.GET, value = "/inter/first/edition/{expertEditionId}")
 	public String readFirstInterpretationFromEdition(Model model,
 			@ModelAttribute("ldoDSession") LdoDSession ldoDSession, @PathVariable String expertEditionId) {
-		logger.debug("readFirstInterpretationFromEdition");
-
 		ExpertEdition expertEdition = FenixFramework.getDomainObject(expertEditionId);
 		ExpertEditionInter expertEditionInter = expertEdition.getFirstInterpretation();
 
@@ -91,8 +87,6 @@ public class ReadingController {
 	@RequestMapping(method = RequestMethod.GET, value = "/inter/first/inter/{expertEditionInterId}")
 	public String readFirstInterpretationFromInter(Model model, @ModelAttribute("ldoDSession") LdoDSession ldoDSession,
 			@PathVariable String expertEditionInterId) {
-		logger.debug("readFirstInterpretationFromInter");
-
 		ldoDSession.getRecommendation().clean();
 		ldoDSession.getRecommendation().setTextWeight(1.0);
 
@@ -121,7 +115,7 @@ public class ReadingController {
 
 	@RequestMapping(method = RequestMethod.GET, value = "/inter/prev/recom")
 	public String readPreviousRecommendedFragment(Model model, @ModelAttribute("ldoDSession") LdoDSession ldoDSession) {
-		logger.debug("readPreviousRecommendedFragment");
+		// logger.debug("readPreviousRecommendedFragment");
 
 		String expertEditionInterId = ldoDSession.getRecommendation().prevRecommendation();
 
@@ -131,7 +125,7 @@ public class ReadingController {
 	@RequestMapping(method = RequestMethod.GET, value = "/inter/prev/recom/reset")
 	public String resetPreviousRecommendedFragments(Model model,
 			@ModelAttribute("ldoDSession") LdoDSession ldoDSession) {
-		logger.debug("readPreviousRecommendedFragment");
+		// logger.debug("readPreviousRecommendedFragment");
 
 		ldoDSession.getRecommendation().resetPrevRecommendations();
 
@@ -143,7 +137,7 @@ public class ReadingController {
 	@RequestMapping(method = RequestMethod.POST, value = "/weight")
 	public String changeWeight(Model model, @ModelAttribute("ldoDSession") LdoDSession ldoDSession,
 			@RequestParam String type, @RequestParam double value) {
-		logger.debug("changeWeight type:{}, value:{}", type, value);
+		// logger.debug("changeWeight type:{}, value:{}", type, value);
 
 		switch (type) {
 		case "heteronym":

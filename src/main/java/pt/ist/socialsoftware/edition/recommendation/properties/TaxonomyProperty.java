@@ -22,25 +22,22 @@ public class TaxonomyProperty extends Property {
 	private final Taxonomy taxonomy;
 	private List<Category> sortedCategories = null;
 
-	public TaxonomyProperty(double weight, Taxonomy taxonomy) {
-		super(weight);
+	public TaxonomyProperty(double weight, Taxonomy taxonomy, PropertyCache cached) {
+		super(weight, cached);
 		this.taxonomy = taxonomy;
 		this.sortedCategories = taxonomy.getSortedCategories();
 	}
 
-	public TaxonomyProperty(Double weight, String acronym) {
-		this(weight, ((VirtualEdition) LdoD.getInstance().getEdition(acronym)).getTaxonomy());
-	}
-
 	public TaxonomyProperty(@JsonProperty("weight") String weight, @JsonProperty("acronym") String acronym) {
-		this(Double.parseDouble(weight), acronym);
+		this(Double.parseDouble(weight), ((VirtualEdition) LdoD.getInstance().getEdition(acronym)).getTaxonomy(),
+				PropertyCache.OFF);
 	}
 
 	@Override
 	protected double[] extractVector(VirtualEditionInter inter) {
 		double[] vector = getDefaultVector();
 		for (Category category : inter.getCategories()) {
-			vector[sortedCategories.indexOf(category)] = 1.0 * getWeight();
+			vector[sortedCategories.indexOf(category)] = 1.0;
 		}
 		return vector;
 	}
@@ -53,7 +50,7 @@ public class TaxonomyProperty extends Property {
 					&& ((VirtualEditionInter) inter).getVirtualEdition().getTaxonomy() == taxonomy) {
 				for (Category category : ((VirtualEditionInter) inter).getCategories()) {
 					if (sortedCategories.contains(category)) {
-						vector[sortedCategories.indexOf(category)] = 1.0 * getWeight();
+						vector[sortedCategories.indexOf(category)] = 1.0;
 					}
 				}
 			}

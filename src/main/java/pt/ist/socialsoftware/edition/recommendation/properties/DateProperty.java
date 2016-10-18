@@ -19,7 +19,7 @@ import pt.ist.socialsoftware.edition.domain.Source.SourceType;
 import pt.ist.socialsoftware.edition.domain.SourceInter;
 import pt.ist.socialsoftware.edition.domain.VirtualEditionInter;
 
-public class DateProperty extends FragmentStorableProperty {
+public class DateProperty extends Property {
 	private static Logger logger = LoggerFactory.getLogger(DateProperty.class);
 
 	private static Integer STARTYEAR = 1913;
@@ -30,7 +30,7 @@ public class DateProperty extends FragmentStorableProperty {
 	}
 
 	public DateProperty(double weight) {
-		super(weight);
+		super(weight, PropertyCache.ON);
 	}
 
 	public DateProperty(@JsonProperty("weight") String weight) {

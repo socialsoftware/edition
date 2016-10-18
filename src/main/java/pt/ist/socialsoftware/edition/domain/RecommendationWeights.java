@@ -8,6 +8,7 @@ import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.socialsoftware.edition.recommendation.properties.DateProperty;
 import pt.ist.socialsoftware.edition.recommendation.properties.HeteronymProperty;
 import pt.ist.socialsoftware.edition.recommendation.properties.Property;
+import pt.ist.socialsoftware.edition.recommendation.properties.Property.PropertyCache;
 import pt.ist.socialsoftware.edition.recommendation.properties.TaxonomyProperty;
 import pt.ist.socialsoftware.edition.recommendation.properties.TextProperty;
 
@@ -42,7 +43,7 @@ public class RecommendationWeights extends RecommendationWeights_Base {
 			properties.add(new TextProperty(getTextWeight()));
 		}
 		if (getTaxonomyWeight() > 0.0) {
-			properties.add(new TaxonomyProperty(getTaxonomyWeight(), getVirtualEdition().getTaxonomy()));
+			properties.add(new TaxonomyProperty(getTaxonomyWeight(), getVirtualEdition().getTaxonomy(), PropertyCache.OFF));
 		}
 
 		return properties;

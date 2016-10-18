@@ -35,6 +35,7 @@ import pt.ist.socialsoftware.edition.domain.VirtualEditionInter;
 import pt.ist.socialsoftware.edition.recommendation.properties.DateProperty;
 import pt.ist.socialsoftware.edition.recommendation.properties.HeteronymProperty;
 import pt.ist.socialsoftware.edition.recommendation.properties.Property;
+import pt.ist.socialsoftware.edition.recommendation.properties.Property.PropertyCache;
 import pt.ist.socialsoftware.edition.recommendation.properties.TaxonomyProperty;
 import pt.ist.socialsoftware.edition.recommendation.properties.TextProperty;
 import pt.ist.socialsoftware.edition.search.Indexer;
@@ -171,7 +172,7 @@ public class VSMVirtualEditionInterRecomenderTest {
 		}
 
 		List<Property> properties = new ArrayList<Property>();
-		properties.add(new TaxonomyProperty(1.0, virtualEdition.getTaxonomy()));
+		properties.add(new TaxonomyProperty(1.0, virtualEdition.getTaxonomy(), PropertyCache.OFF));
 
 		VirtualEditionInter result = recommender.getMostSimilarItem(virtualEditionInter,
 				new HashSet<VirtualEditionInter>(virtualEditionInters), properties);
@@ -219,7 +220,7 @@ public class VSMVirtualEditionInterRecomenderTest {
 		List<Property> properties = new ArrayList<Property>();
 		properties.add(new HeteronymProperty(1.0));
 		properties.add(new DateProperty(1.0));
-		properties.add(new TaxonomyProperty(1.0, virtualEdition.getTaxonomy()));
+		properties.add(new TaxonomyProperty(1.0, virtualEdition.getTaxonomy(), PropertyCache.OFF));
 		properties.add(new TextProperty(1.0));
 
 		VirtualEditionInter result = recommender.getMostSimilarItem(virtualEditionInter,

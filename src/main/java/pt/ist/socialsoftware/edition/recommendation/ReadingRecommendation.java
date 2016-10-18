@@ -17,6 +17,7 @@ import pt.ist.socialsoftware.edition.domain.LdoD;
 import pt.ist.socialsoftware.edition.recommendation.properties.DateProperty;
 import pt.ist.socialsoftware.edition.recommendation.properties.HeteronymProperty;
 import pt.ist.socialsoftware.edition.recommendation.properties.Property;
+import pt.ist.socialsoftware.edition.recommendation.properties.Property.PropertyCache;
 import pt.ist.socialsoftware.edition.recommendation.properties.TaxonomyProperty;
 import pt.ist.socialsoftware.edition.recommendation.properties.TextProperty;
 
@@ -52,15 +53,16 @@ public class ReadingRecommendation {
 			properties.add(new TextProperty(this.textWeight));
 		}
 		if (this.taxonomyWeight > 0.0) {
-			properties.add(
-					new TaxonomyProperty(this.taxonomyWeight, LdoD.getInstance().getArchiveEdition().getTaxonomy()));
+			properties.add(new TaxonomyProperty(this.taxonomyWeight,
+					LdoD.getInstance().getArchiveEdition().getTaxonomy(), PropertyCache.ON));
 		}
 		return properties;
 	}
 
 	public Set<ExpertEditionInter> getNextRecommendations(String expertEditionInterId) {
-		logger.debug("getNextRecommendations textWeight:{}, read size:{}, read:{}", this.textWeight, this.read.size(),
-				this.read);
+		// logger.debug("getNextRecommendations textWeight:{}, read size:{},
+		// read:{}", this.textWeight, this.read.size(),
+		// this.read);
 
 		List<Fragment> readFragments = this.read.stream()
 				.map(id -> (ExpertEditionInter) FenixFramework.getDomainObject(id)).map(inter -> inter.getFragment())
@@ -97,7 +99,8 @@ public class ReadingRecommendation {
 		Set<ExpertEditionInter> result = new HashSet<ExpertEditionInter>();
 		Double value = mostSimilars.get(0).getValue();
 		for (Entry<Fragment, Double> entry : mostSimilars) {
-			logger.debug("ReadingRecommendation value1:{}, value2:{}", value, entry.getValue());
+			// logger.debug("ReadingRecommendation value1:{}, value2:{}", value,
+			// entry.getValue());
 			// add all interpretations that are similar
 			if (Math.abs(value - entry.getValue()) < 0.001 && result.size() < 5) {
 				result.addAll(entry.getKey().getExpertEditionInters(toReadInter.getExpertEdition()));

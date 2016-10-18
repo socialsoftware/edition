@@ -44,7 +44,7 @@ public class LdoDUserDetails implements SocialUserDetails {
 	}
 
 	public LdoDUser getUser() {
-		log.debug("getUser userId:{}", userId);
+		// log.debug("getUser userId:{}", userId);
 		return (LdoDUser) FenixFramework.getDomainObject(userId);
 	}
 

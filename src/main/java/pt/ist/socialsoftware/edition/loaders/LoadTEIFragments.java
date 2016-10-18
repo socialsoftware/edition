@@ -295,30 +295,39 @@ public class LoadTEIFragments {
 
 		loadFragmentText(fragment, xmlId);
 
-		// generate corpus in corpus.dir and index in indexer.dir
+		// generate corpus in corpus.dir
 		CorpusGenerator generator = new CorpusGenerator();
+		try {
+			generator.generate(fragment);
+		} catch (FileNotFoundException e1) {
+			throw new LdoDLoadException(
+					"LoadTEIFragments.loadFragment erro FileNotFoundException a gerar corpus do fragmento "
+							+ fragment.getXmlId());
+		} catch (IOException e1) {
+			throw new LdoDLoadException("LoadTEIFragments.loadFragment erro IOException a gerar corpus do fragmento "
+					+ fragment.getXmlId());
+		}
+
+		// generate index in indexer.dir
 		for (FragInter inter : fragment.getFragmentInterSet()) {
 			try {
-				// Generate corpus for interpretation
-				generator.generate(inter);
-
-				// Add interpretation to index
 				Indexer indexer = Indexer.getIndexer();
 				indexer.addDocument(inter);
 
 			} catch (FileNotFoundException e) {
-				throw new LdoDLoadException("erro FileNotFoundException a gerar corpus da interpretação "
-						+ inter.getXmlId() + " do fragmento " + inter.getFragment().getXmlId());
+				throw new LdoDLoadException(
+						"LoadTEIFragments.loadFragment erro FileNotFoundException a gerar index da interpretação "
+								+ inter.getXmlId());
 			} catch (IOException e) {
-				throw new LdoDLoadException("erro IOException a gerar corpus da interpretação " + inter.getXmlId()
-						+ " do fragmento " + inter.getFragment().getXmlId());
+				throw new LdoDLoadException(
+						"LoadTEIFragments.loadFragment erro IOException a gerar index da interpretação "
+								+ inter.getXmlId());
 			}
 		}
 
 		VirtualEdition archiveEdition = this.ldoD.getArchiveEdition();
-		// we need to check that the representative fragment interpretation for
-		// the archive edition was not created during the load of the tei xml
-		// file
+		// if the representative fragment interpretation is not in
+		// the archive edition we have to add it
 		if (archiveEdition != null
 				&& !archiveEdition.getIntersSet().contains(fragment.getRepresentativeSourceInter())) {
 			archiveEdition.createVirtualEditionInter(fragment.getRepresentativeSourceInter(),

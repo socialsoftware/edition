@@ -15,11 +15,11 @@ import pt.ist.socialsoftware.edition.domain.Source;
 import pt.ist.socialsoftware.edition.domain.SourceInter;
 import pt.ist.socialsoftware.edition.domain.VirtualEditionInter;
 
-public class HeteronymProperty extends FragmentStorableProperty {
+public class HeteronymProperty extends Property {
 	private static List<Heteronym> heteronymList = LdoD.getInstance().getSortedHeteronyms();
 
 	public HeteronymProperty(double weight) {
-		super(weight);
+		super(weight, PropertyCache.ON);
 	}
 
 	public HeteronymProperty(@JsonProperty("weight") String weight) {

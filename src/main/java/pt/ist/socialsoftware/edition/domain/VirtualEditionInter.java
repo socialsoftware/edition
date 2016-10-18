@@ -216,7 +216,13 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 	}
 
 	public Set<Category> getCategories() {
-		return getTagSet().stream().map(t -> t.getCategory()).collect(Collectors.toSet());
+		// return getTagSet().stream().map(t ->
+		// t.getCategory()).collect(Collectors.toSet());
+		Set<Category> categories = new HashSet<Category>();
+		for (Tag tag : getTagSet()) {
+			categories.add(tag.getCategory());
+		}
+		return categories;
 	}
 
 	public List<Category> getAssignedCategories() {

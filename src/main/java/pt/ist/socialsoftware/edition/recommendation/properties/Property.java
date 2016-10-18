@@ -7,6 +7,7 @@ import pt.ist.socialsoftware.edition.domain.FragInter;
 import pt.ist.socialsoftware.edition.domain.Fragment;
 import pt.ist.socialsoftware.edition.domain.RecommendationWeights;
 import pt.ist.socialsoftware.edition.domain.VirtualEditionInter;
+import pt.ist.socialsoftware.edition.recommendation.StoredVectors;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
 @JsonSubTypes({ @JsonSubTypes.Type(value = HeteronymProperty.class, name = Property.HETERONYM),
@@ -20,10 +21,16 @@ public abstract class Property {
 	public static final String TAXONOMY = "taxonomy";
 	public static final String SPECIFICTAXONOMY = "specific-taxonomy";
 
-	private final double weight;
+	public enum PropertyCache {
+		ON, OFF
+	};
 
-	public Property(double weight) {
+	private final double weight;
+	private final PropertyCache cached;
+
+	public Property(double weight, PropertyCache cached) {
 		this.weight = weight;
+		this.cached = cached;
 	}
 
 	abstract double[] getDefaultVector();
@@ -41,12 +48,45 @@ public abstract class Property {
 	public void prepareToLoadProperty(Fragment fragment1, Fragment fragment2) {
 	}
 
-	public double[] loadProperty(VirtualEditionInter virtualEditionInter) {
-		return extractVector(virtualEditionInter);
+	private double[] applyWeights(double[] vector, double weight) {
+		double[] result = new double[vector.length];
+		if (weight == 1.0) {
+			return vector;
+		} else if (weight == 0.0) {
+			return result;
+		} else {
+			for (int i = 0; i < vector.length; i++) {
+				result[i] = vector[i] * weight;
+			}
+			return result;
+		}
 	}
 
-	public double[] loadProperty(Fragment fragment) {
-		return extractVector(fragment);
+	public final double[] loadProperty(VirtualEditionInter virtualEditionInter) {
+		if (cached.equals(PropertyCache.ON)) {
+			String externalId = virtualEditionInter.getFragment().getExternalId();
+			double[] vector = StoredVectors.getInstance().get(this, externalId);
+			if (vector == null) {
+				vector = extractVector(virtualEditionInter);
+				StoredVectors.getInstance().put(this, externalId, vector);
+			}
+			return applyWeights(vector, getWeight());
+		} else {
+			return applyWeights(extractVector(virtualEditionInter), getWeight());
+		}
+	}
+
+	public final double[] loadProperty(Fragment fragment) {
+		if (cached.equals(PropertyCache.ON)) {
+			double[] vector = StoredVectors.getInstance().get(this, fragment.getExternalId());
+			if (vector == null) {
+				vector = extractVector(fragment);
+				StoredVectors.getInstance().put(this, fragment.getExternalId(), vector);
+			}
+			return applyWeights(vector, getWeight());
+		} else {
+			return applyWeights(extractVector(fragment), getWeight());
+		}
 	}
 
 	public double getWeight() {

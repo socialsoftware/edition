@@ -55,7 +55,7 @@ public class TopicModeler {
 		// if a corpus is absent
 		File directory = new File(corpusFilesPath);
 		if (!directory.exists()) {
-			throw new LdoDException("corpus is empty");
+			throw new LdoDException("TopicModeler.generate corpus is empty");
 		}
 
 		pipe = buildPipe();
@@ -66,8 +66,19 @@ public class TopicModeler {
 
 		// there are no fragments
 		if (numInstances == 0) {
-			throw new LdoDException("corpus is empty");
+			throw new LdoDException("TopicModeler.generate corpus is empty");
 		}
+
+		// logger.debug(
+		// "TopicModeler.generate number of files in corpus {} <> {} number of
+		// interpretations in virtual edition",
+		// numInstances, edition.getIntersSet().size());
+		// if (numInstances != edition.getVirtualEditionInters().size()) {
+		// throw new LdoDException("TopicModeler.generate number of files in
+		// corpus " + numInstances + " <> "
+		// + edition.getIntersSet().size() + " number of interpretations in
+		// virtual edition");
+		// }
 
 		// Create a model with 100 topics, alpha_t = 0.01, beta_w = 0.01
 		// Note that the first parameter is passed as the sum over topics, while
@@ -230,11 +241,13 @@ public class TopicModeler {
 	}
 
 	public void deleteFile(String externalId) {
-		try {
-			Files.delete(Paths.get(corpusFilesPath + externalId + ".txt"));
-		} catch (IOException e) {
-			throw new LdoDException(
-					"TopicModeler.deleteFile cannot delete file " + "corpusFilesPath" + "externalId" + ".txt");
+		if (Files.exists(Paths.get(corpusFilesPath + externalId + ".txt"))) {
+			try {
+				Files.delete(Paths.get(corpusFilesPath + externalId + ".txt"));
+			} catch (IOException e) {
+				throw new LdoDException(
+						"TopicModeler.deleteFile cannot delete file " + corpusFilesPath + externalId + ".txt");
+			}
 		}
 	}
 
@@ -242,7 +255,7 @@ public class TopicModeler {
 		try {
 			FileUtils.cleanDirectory(new File(corpusFilesPath));
 		} catch (IOException e) {
-			throw new LdoDException("TopicModeler.cleanDirectory cannot delete directory " + "corpusFilesPath");
+			throw new LdoDException("TopicModeler.cleanDirectory cannot delete directory " + corpusFilesPath);
 		}
 	}
 
