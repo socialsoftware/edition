@@ -227,25 +227,23 @@ var editionData = new Array();
 	editionDataItem.fragment = ${inter.getFragment().externalId};
 	editionDataItem.number = ${inter.number};
 	editionDataItem.externalId = ${inter.externalId};
-		
+	
 	<c:set var="newLine" value='
 	'/>
 	<c:set var="titleTemp" value="${fn:replace(inter.title,newLine,'')}" />
 	<c:set var="newLine" value="
         "/>
 	<c:set var="titleTemp" value="${fn:replace(titleTemp,newLine,'')}" />
-	
+
 	<c:choose>
-	<c:when test="${fn:contains(titleTemp, '\"')}">
-	editionDataItem.title =${titleTemp}
-	</c:when>
-	<c:otherwise>
-	editionDataItem.title ="${titleTemp}"
-	
-    </c:otherwise>
+		<c:when test="${fn:contains(titleTemp, '\"')}">
+			editionDataItem.title ='${titleTemp}';
+		</c:when>
+		<c:otherwise>
+			editionDataItem.title ="${titleTemp}";
+    		</c:otherwise>
 	</c:choose>
-	
-			 	 
+ 	 	 
 	 var listused = new Array();
 	 <c:forEach var="used" items="${inter.getListUsed()}">
 	 	used = new Object();
@@ -282,14 +280,12 @@ console.log(editionData);
 	<c:set var="userLdoD"
 		value='${pageContext.request.userPrincipal.principal.getUser()}' />
 
-
 	<!-- subnav here -->
 	<div class="navbar subnav" role="navigation">
 		<div class="navbar-inner">
 			<div class="container">
 				<ul class="pager2 subnav-pager">
 					<div class="btn-group-wrap">
-
 						<div class="btn-group" role="group" aria-label="...">
 							<button class="btn btn-default tip" type="button"
 								title="${addFragText}" data-toggle="modal"
@@ -300,7 +296,6 @@ console.log(editionData);
 									aria-hidden="Adicionar fragmentos"></span>
 							</button>
 						</div>
-
 						<div class="btn-group" role="group" aria-label="...">
 							<button type="button" id="del" class="btn btn-default tip"
 								title="${deleteFragText}">
@@ -308,47 +303,36 @@ console.log(editionData);
 									aria-hidden="Remover fragmentos"></span>
 							</button>
 						</div>
-
-
-
 						<div class="btn-group" role="group">
 							<button type="button" id="cut" class="btn btn-default tip"
 								title="${cutText}">
 								<span class="glyphicon glyphicon glyphicon-scissors"></span>
 							</button>
-
 							<button type="button" id="paste" class="btn btn-default tip"
 								title="${pasteText}">
 								<span class="glyphicon glyphicon glyphicon-paste"></span>
 							</button>
 						</div>
-
 						<div class="btn-group" role="group" aria-label="...">
 							<button type="button" id="up" class="btn btn-default tip"
 								title="${moveUpText}">
 								<span class="glyphicon glyphicon-chevron-up" aria-hidden="up"></span>
 							</button>
-
 							<button type="button" id="down" class="btn btn-default  tip"
 								title="${moveDownText}">
 								<span class="glyphicon glyphicon-chevron-down"
 									aria-hidden="down"></span>
 							</button>
-
 							<button type="button" id="top" class="btn btn-default tip"
 								title="${moveTopText}">
 								<span class="glyphicon glyphicon-arrow-up" aria-hidden="top"></span>
 							</button>
-
 							<button type="button" id="bottom" class="btn btn-default tip"
 								title="${moveBottomText}">
 								<span class="glyphicon glyphicon-arrow-down"
 									aria-hidden="bottom"></span>
 							</button>
-
-
 						</div>
-
 
 						<div class="btn-group popover-markup">
 							<a href="#" class="trigger btn btn-default tip"
@@ -377,93 +361,12 @@ console.log(editionData);
 											class="btn btn-default btn-block" id="moveok">OK</button>
 									</div>
 								</div>
-
 							</div>
 						</div>
-
-
-						<!--
-                <button type="button" id="up" class="btn btn-default">Cima</button>
-                <button type="button" id="down" class="btn btn-default">Baixo</button>
-                <button type="buttom" id="top" class="btn btn-default">Inicio</button>
-                <button type="button" id="bottom" class="btn btn-default">Fim</button>
-                -->
-
-
-						<!-- Single button -->
-						<!--  
-                <div class="btn-group">
-                  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                    <span class="glyphicon glyphicon-arrow-right" aria-hidden="up"></span><span class="caret"></span>
-                  </button>
-                  <div class="dropdown-menu" role="menu" style="padding:15px">
-                  	Posição:
-                    <input id="movetopos" type="number" value="0" min="0" class="form-control">
-                	<br>
-                    <button type="button" id="moveok" class="btn btn-default pull-right">OK</button>
-                    <!--  <li class="divider"></li>
-                    <li><div id="slider2"></div></li>
-                    <li class="divider"></li>-->
-						<!--  </div>-->
-
-
-						<!--  
-                   <div class="dropdown-menu" style="padding:17px;">
-	             
-	                <input name="username" id="username" type="text" placeholder="Username"> 
-	                <input name="password" id="password" type="password" placeholder="Password"><br>
-	                <button type="button" id="btnLogin" class="btn">Login</button>  
-	            	</div>
-	              -->
-						<!--  </div>-->
-
-
-
-
-						<!--
-                
-                 <div class="btn-group" role="group" aria-label="...">
-                  <button type="button" class="btn btn-default" data-toggle="modal" data-target=".bs-example-modal-addsection2">
-                <span class="glyphicon glyphicon-text-height" aria-hidden="Adicionar secção"></span>
-                </button>
-              </div>
-                
-                <button type="button" class="btn btn-default" data-toggle="modal" data-target=".bs-example-modal-addsection2">
-                Secção
-                </button>
-               
-                 <div class="btn-group" role="group" aria-label="...">
-                  <button type="button"  id="preview" class="btn btn-default" data-toggle="modal" data-target="#myModal">
-                <span class="glyphicon glyphicon-th-list" aria-hidden="Previsualizar Índice"></span>
-                </button>
-              </div>
- 					-->
-						<!--
-               <div class="btn-group" role="group" aria-label="...">
-                   <button type="button" id="save" class="btn btn-default">
-                <span class="glyphicon glyphicon-cloud-upload" aria-hidden="Guardar"></span>
-                </button>
-              </div>
-              <!--
-                <button type="button"  id="preview" class="btn btn-default" data-toggle="modal" data-target="#myModal">
-                Preview
-                </button>
-                <button type="button" id="save" class="btn btn-default">Save</button>
-                -->
-
-
-
-
 						<div class="btn-group" role="group" aria-label="...">
-
-
-
 							<input id="tname" type="text" class="btn btn-default"
 								placeholder="${selectText}" style="font-size: 0.8em;">
 						</div>
-
-
-
 						<button type="button" id="savebutton" class="btn btn-primary tip"
 							data-loading-text="<div class='spinner-loader' style='font-size:3.5px'></div>"
 							title="${saveText}"
@@ -471,15 +374,7 @@ console.log(editionData);
 							<span class="glyphicon glyphicon-floppy-disk"
 								aria-hidden="bottom"></span>
 						</button>
-
-						<!--<br><br>
-                <div id="slider2"></div>-->
 					</div>
-
-
-
-
-
 				</ul>
 			</div>
 		</div>
@@ -487,8 +382,6 @@ console.log(editionData);
 	<br>
 	<br>
 	<br>
-
-
 
 	<!-- Modal -->
 	<div class="modal fade" id="searchmodal" tabindex="-1" role="dialog"
@@ -503,15 +396,11 @@ console.log(editionData);
 					<h4 class="modal-title" id="myModalLabel">Add New Fragment</h4>
 				</div>
 				<div class="modal-body">
-
-
 					<div class="form-group">
-
 						<div class="col-sm-4">
 							<input type="text" class="form-control tip" id="query"
 								title="pesquisa x" placeholder="Search for...">
 						</div>
-
 						<div class="col-sm-3">
 							<div class="tip" title="text div">
 								<select class="selectpicker" data-width="100%" id="searchType"
@@ -521,11 +410,10 @@ console.log(editionData);
 								</select>
 							</div>
 						</div>
-
 						<div class="col-sm-3">
 							<select class="selectpicker" data-width="100%" id="sourceType">
 								<option value="">Tipos de fonte</option>
-								<option value="Coelho">Jacinto Prado Coelho</option>
+								<option value="Coelho">Jacinto do Prado Coelho</option>
 								<option value="Cunha">Teresa Sobral Cunha</option>
 								<option value="Zenith">Richard Zenith</option>
 								<option value="Pizarro">Jerónimo Pizarro</option>
@@ -533,48 +421,13 @@ console.log(editionData);
 
 							</select>
 						</div>
-
 						<div class="col-sm-2">
 							<button class="btn btn-default" type="button" id="searchbutton">
 								<span class="glyphicon glyphicon-search"></span> Search
 							</button>
 						</div>
 					</div>
-					<!-- /input-group -->
-
 					<br>
-
-
-					<!--
-      <table data-toggle="table">
-        <thead>
-        <tr>
-        	<th data-field="state" data-checkbox="true"></th>
-            <th>Fragments</th>
-            <th>Interpretations</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-	       	<td data-checkbox="true"></td>
-	       	<td>a</td>
-	       	<td>b</td>
-        </tr>
-        <tr>
-	       	<td data-checkbox="true" data-val="true"></td>
-	       	<td>a</td>
-	       	<td>b</td>
-        </tr>
-          <tr>
-	       	<td data-checkbox="true"></td>
-	       	<td>a</td>
-	       	<td>b</td>
-       
-        </tbody>
-    </table>  -->
-
-
-
 					<div id="searchresult"
 						style="display: none; width: 100%; text-align: center;">
 						<hr>
@@ -588,7 +441,6 @@ console.log(editionData);
 			</div>
 		</div>
 	</div>
-
 
 	<div class="modal fade bs-example-modal-addsection2" id="sectionmodal2">
 		<div class="modal-dialog">
@@ -605,14 +457,11 @@ console.log(editionData);
 						style="width: 100%; text-align: left;">
 				</div>
 				<div class="modal-footer">
-
 					<select id="titleid">
 						<option value="1">T1</option>
 						<option value="2">T2</option>
 						<option value="3">T3</option>
 					</select>
-
-
 					<button type="submit-button" id="okaddsection2"
 						class="btn btn-primary">OK</button>
 				</div>
@@ -646,35 +495,18 @@ console.log(editionData);
 
 
 	<div class="container">
-
 		<h1 class="text-center">
 			<spring:message code="general.edition" />
 			:
-			<!--  <a href="${contextPath}/edition/acronym/${virtualEdition.acronym}">
-                <span id="editiontitle">${virtualEdition.title}</span></a> -->
-			<span id="editiontitle">${virtualEdition.title}</span> <c:if test="${virtualEdition.getAdminSet().contains(userLdoD)}"><a class=""
-				role="button" data-toggle="collapse" href="#collapsemenu"
-				aria-expanded="false" aria-controls="collapseExample"
-				style="font-size: 18px"> <span
-				class="glyphicon glyphicon-pencil"></span>
-			</a>
+			<span id="editiontitle">${virtualEdition.title}</span>
+			<c:if test="${virtualEdition.getAdminSet().contains(userLdoD)}">
+				<a class="" role="button" data-toggle="collapse"
+					href="#collapsemenu" aria-expanded="false"
+					aria-controls="collapseExample" style="font-size: 18px"> <span
+					class="glyphicon glyphicon-pencil"></span>
+				</a>
 			</c:if>
 		</h1>
-
-
-		<!-- 
-        <div class="row pull-right">
-            <form class="form-inline" method="GET"
-                action="${contextPath}/virtualeditions">
-                <button type="submit" class="btn btn-primary">
-                    <span class="glyphicon glyphicon-th-list"></span>
-                    <spring:message code="virtual.editions" />
-                </button>
-            </form>
-        </div>
-		 -->
-
-
 		<div class="row col-md-12 has-error">
 			<c:forEach var="error" items='${errors}'>
 				<div class="row">
@@ -729,7 +561,6 @@ console.log(editionData);
 								</c:choose>
 							</select>
 						</div>
-
 						<div class="form-group  col-xs-1"
 							style="padding-right: 0px; padding-left: 0px">
 

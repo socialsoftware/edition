@@ -19,10 +19,14 @@ public class ListFragmentsController {
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/list")
-	public String getFragmentsList(
-			@RequestParam(value = "detail", required = true) Boolean showDetail,
-			Model model) {
-		model.addAttribute("fragments", LdoD.getInstance().getFragmentsSet());
+	public String getFragmentsList(@RequestParam(value = "detail", required = true) Boolean showDetail, Model model) {
+		;
+		LdoD ldoD = LdoD.getInstance();
+		model.addAttribute("jpcEdition", ldoD.getJPCEdition());
+		model.addAttribute("tscEdition", ldoD.getTSCEdition());
+		model.addAttribute("rzEdition", ldoD.getRZEdition());
+		model.addAttribute("jpEdition", ldoD.getJPEdition());
+		model.addAttribute("fragments", ldoD.getFragmentsSet());
 
 		if (showDetail) {
 			return "fragment/listDetails";

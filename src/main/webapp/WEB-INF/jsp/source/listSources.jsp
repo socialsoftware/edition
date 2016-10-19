@@ -33,13 +33,13 @@
 					<th><span class="tip"
 						title="<spring:message code="sourcelist.tt.transcription" />"><spring:message
 								code="general.transcription" /></span></th>
-					<th><span class="tip"
+					<th class="text-center"><span class="tip"
 						title="<spring:message code="sourcelist.tt.date" />"><spring:message
 								code="general.date" /></span></th>
-					<th><span class="tip"
+					<th class="text-center"><span class="tip"
 						title="<spring:message code="sourcelist.tt.type" />"><spring:message
 								code="general.type" /></span></th>
-					<th><span class="tip"
+					<th class="text-center"><span class="tip"
 						title="<spring:message code="sourcelist.tt.LdoDLabel" />"><spring:message
 								code="general.LdoDLabel" /></span></th>
 					<!--<th><span class="tip"
@@ -51,7 +51,7 @@
 					<th><span class="tip"
 						title="<spring:message code="sourcelist.tt.columns" />"><spring:message
 								code="general.columns" /></span></th> -->
-					<th><span class="tip"
+					<th class="text-center"><span class="tip"
 						title="<spring:message code="sourcelist.tt.dimensions" />"><spring:message
 								code="general.dimensions" /></span></th>
 					<th><span class="tip"

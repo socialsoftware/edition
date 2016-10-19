@@ -3,6 +3,8 @@
 <html>
 <head>
 <%@ include file="/WEB-INF/jsp/common/meta-head.jsp"%>
+<link rel="stylesheet" type="text/css" href="/resources/css/bootstrap-table.min.css">
+<script src="/resources/js/bootstrap-table.min.js"></script>
 </head>
 <body>
 	<%@ include file="/WEB-INF/jsp/common/fixed-top-ldod-header.jsp"%>
@@ -10,12 +12,15 @@
 	<div class="container">
 		<h3 class="text-center">
 			<spring:message code="general.taxonomy" />
-			<a href="${contextPath}/edition/taxonomy/${category.getTaxonomy().getExternalId()}">
-				${category.getTaxonomy().getEdition().title}</a>: <spring:message code="general.category" />
+			<a
+				href="${contextPath}/edition/taxonomy/${category.getTaxonomy().getExternalId()}">
+				${category.getTaxonomy().getEdition().title}</a>:
+			<spring:message code="general.category" />
 			${category.getName()} (${category.getTagSet().size()})
 		</h3>
 		<br>
-		<table class="table table-hover table-condensed">
+		<table id="tableCategory" data-pagination="false">
+			<!-- <table class="table table-hover table-condensed"> -->
 			<thead>
 				<tr>
 					<th><spring:message code="tableofcontents.title" /></th>
@@ -30,18 +35,28 @@
 							href="${contextPath}/fragments/fragment/inter/${inter.getExternalId()}">${inter.getTitle()}</a></td>
 						<td><a
 							href="${contextPath}/edition/internalid/${inter.getEdition().getExternalId()}">${inter.getEdition().getTitle()}</a></td>
-						<td><c:forEach var="user"
+						<td class="text-center"><c:forEach var="user"
 								items="${inter.getContributorSet(category)}">
-								<a href="${contextPath}/edition/user/${user.username}">${user.username}</a><span style="padding-left:1em"/> 
+								<a href="${contextPath}/edition/user/${user.username}">${user.username}</a>
+								<br>
 							</c:forEach></td>
 						<td><c:forEach var="used" items="${inter.getListUsed()}">-><a
 									href="${contextPath}/fragments/fragment/inter/${used.externalId}">${used.shortName}</a>
+								<br>
 							</c:forEach></td>
 					</tr>
 				</c:forEach>
 			</tbody>
 		</table>
+		<script>
+			$('#tableCategory').attr("data-search", "true");
+			$('#tableCategory').bootstrapTable();
+			$(".tip").tooltip({
+				placement : 'bottom'
+			});
+		</script>
 	</div>
 </body>
 </html>
+
 

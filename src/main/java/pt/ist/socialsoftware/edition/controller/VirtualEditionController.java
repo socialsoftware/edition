@@ -146,6 +146,9 @@ public class VirtualEditionController {
 	@PreAuthorize("hasPermission(#externalId, 'virtualedition.participant')")
 	public String showEditVirtualEdition(Model model, @PathVariable String externalId) {
 		VirtualEdition virtualEdition = FenixFramework.getDomainObject(externalId);
+		logger.debug("showEditVirtualEditionn externalId:{}, acronym:{}, title:{}, pub:{}, fraginters.size:{}",
+				externalId, virtualEdition.getAcronym(), virtualEdition.getTitle(), virtualEdition.getPub(),
+				virtualEdition.getIntersSet().size());
 		if (virtualEdition == null) {
 			return "utils/pageNotFound";
 		} else {

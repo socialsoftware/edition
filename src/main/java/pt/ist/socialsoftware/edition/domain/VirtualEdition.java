@@ -30,7 +30,10 @@ public class VirtualEdition extends VirtualEdition_Base {
 		if (acronym.split("\\s+").length != 1)
 			throw new LdoDException("acronym");
 
-		super.setAcronym(acronym);
+		// cannot change acronym of the archive edition
+		if (!getAcronym().equals(ARCHIVE_EDITION_ACRONYM)) {
+			super.setAcronym(acronym);
+		}
 	}
 
 	public VirtualEdition(LdoD ldod, LdoDUser participant, String acronym, String title, LocalDate date, Boolean pub,
@@ -180,8 +183,8 @@ public class VirtualEdition extends VirtualEdition_Base {
 	public void updateVirtualEditionInters(String fraginters) {
 		logger.debug("updateVirtualEditionInters fragintters:{}", fraginters);
 
-		String[] items = fraginters.split(";");
-		List<String> fragInterList = Arrays.asList(items);
+		List<String> fragInterList = Arrays.stream(fraginters.trim().split(";")).map(item -> item.trim())
+				.filter(item -> !item.equals("")).collect(Collectors.toList());
 		List<String> newFragList = new ArrayList<String>();
 		List<String> actualFragList = new ArrayList<String>();
 
@@ -189,8 +192,8 @@ public class VirtualEdition extends VirtualEdition_Base {
 		for (String temp : fragInterList) {
 			FragInter inter = FenixFramework.getDomainObject(temp);
 
-			System.out.println(temp + " " + inter.getLastUsed().getExternalId() + " " + inter.getTitle() + " "
-					+ inter.getSourceType());
+			logger.debug("updateVirtualEditionInters temp:{} interLastUsed:{} interTitle:{} interSourceType:{}", temp,
+					inter.getLastUsed().getExternalId(), inter.getTitle(), inter.getSourceType());
 
 			newFragList.add(inter.getLastUsed().getExternalId());
 		}

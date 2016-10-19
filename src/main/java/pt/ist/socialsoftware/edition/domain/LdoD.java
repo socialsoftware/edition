@@ -171,7 +171,26 @@ public class LdoD extends LdoD_Base {
 	public VirtualEdition getArchiveEdition() {
 		return getVirtualEditionsSet().stream().filter(ve -> ve.getAcronym().equals(Edition.ARCHIVE_EDITION_ACRONYM))
 				.findFirst().orElse(null);
+	}
 
+	public ExpertEdition getJPCEdition() {
+		return getExpertEditionsSet().stream().filter(ve -> ve.getAcronym().equals(Edition.COELHO_EDITION_ACRONYM))
+				.findFirst().orElse(null);
+	}
+
+	public ExpertEdition getTSCEdition() {
+		return getExpertEditionsSet().stream().filter(ve -> ve.getAcronym().equals(Edition.CUNHA_EDITION_ACRONYM))
+				.findFirst().orElse(null);
+	}
+
+	public ExpertEdition getRZEdition() {
+		return getExpertEditionsSet().stream().filter(ve -> ve.getAcronym().equals(Edition.ZENITH_EDITION_ACRONYM))
+				.findFirst().orElse(null);
+	}
+
+	public ExpertEdition getJPEdition() {
+		return getExpertEditionsSet().stream().filter(ve -> ve.getAcronym().equals(Edition.PIZARRO_EDITION_ACRONYM))
+				.findFirst().orElse(null);
 	}
 
 }

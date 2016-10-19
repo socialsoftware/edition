@@ -3,6 +3,8 @@
 <html>
 <head>
 <%@ include file="/WEB-INF/jsp/common/meta-head.jsp"%>
+<link rel="stylesheet" type="text/css" href="/resources/css/bootstrap-table.min.css">
+<script src="/resources/js/bootstrap-table.min.js"></script>
 </head>
 <body>
 	<%@ include file="/WEB-INF/jsp/common/fixed-top-ldod-header.jsp"%>
@@ -10,12 +12,15 @@
 	<div class="container">
 		<h3 class="text-center">
 			<spring:message code="general.taxonomy" />
-			(${taxonomy.getCategoriesSet().size()}) - <spring:message code="virtualedition" /> <a
+			(${taxonomy.getCategoriesSet().size()}) -
+			<spring:message code="virtualedition" />
+			<a
 				href="${contextPath}/edition/internalid/${taxonomy.getEdition().getExternalId()}">
 				${taxonomy.getEdition().title}</a>
 		</h3>
 		<br>
-		<table class="table table-hover table-condensed">
+		<table id="tableTaxonomy" data-pagination="false">
+		<!-- <table class="table table-hover table-condensed"> -->
 			<thead>
 				<tr>
 					<th><spring:message code="general.category" /></th>
@@ -29,12 +34,21 @@
 						<td><a
 							href="${contextPath}/edition/category/${category.getExternalId()}">${category.getName()}</a>
 						</td>
-						<td><c:forEach var="user" items="${category.getSortedUsers()}"> <a href="${contextPath}/edition/user/${user.getUsername()}">${user.getUsername()}</a></c:forEach></td>
-						<td><c:forEach var="edition" items="${category.getSortedEditions()}"> <a href="${contextPath}/edition/internalid/${edition.getExternalId()}">${edition.getTitle()}</a></c:forEach></td>
+						<td><c:forEach var="user"
+								items="${category.getSortedUsers()}">
+								<a href="${contextPath}/edition/user/${user.getUsername()}">${user.getUsername()}</a><br>
+							</c:forEach></td>
+						<td><c:forEach var="edition"
+								items="${category.getSortedEditions()}">
+								<a
+									href="${contextPath}/edition/internalid/${edition.getExternalId()}">${edition.getTitle()}</a><br>
+							</c:forEach></td>
 						<td><c:forEach var="inter"
 								items='${category.getSortedInters()}'>
 								<a
-									href="${contextPath}/fragments/fragment/inter/${inter.getExternalId()}"> ${inter.getTitle()}</a><span style="padding-left:1em"/> 
+									href="${contextPath}/fragments/fragment/inter/${inter.getExternalId()}">
+									${inter.getTitle()}</a>
+								<br>
 							</c:forEach></td>
 					</tr>
 				</c:forEach>
@@ -43,3 +57,8 @@
 	</div>
 </body>
 </html>
+<script>
+$('#tableTaxonomy').attr("data-search","true");
+$('#tableTaxonomy').bootstrapTable();
+$(".tip").tooltip({placement: 'bottom'});
+</script>

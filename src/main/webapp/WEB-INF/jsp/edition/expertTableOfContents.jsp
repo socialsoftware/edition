@@ -26,14 +26,14 @@
 						code="general.reading" /></span></th>
 			<c:if
 				test='${edition.getAcronym().equals("JPC")}'>
-				<th><span class="tip"
+				<th class="text-center"><span class="tip"
 					title="<spring:message code="tableofcontents.tt.volume" />"><spring:message
 							code="tableofcontents.volume" /></span></th>
 			</c:if>
-			<th><span class="tip"
+			<th class="text-center"><span class="tip"
 				title="<spring:message code="tableofcontents.tt.page" />"><spring:message
 						code="tableofcontents.page" /></span></th>
-			<th><span class="tip"
+			<th class="text-center"><span class="tip"
 				title="<spring:message code="tableofcontents.tt.date" />"><spring:message
 						code="general.date" /></span></th>
 			<th><span class="tip"
@@ -56,7 +56,7 @@
 						<td class="text-center">${interp.volume}</td>
 					</c:if>
 					<td class="text-center">${interp.startPage}</td>
-					<td class="text-center">${interp.getLdoDDate().getDate().toString("dd-MM-yyyy")}</td>
+					<td class="text-center">${interp.getLdoDDate().print()}</td>
 					<td>${interp.getHeteronym().getName()}</td>
 				</tr>
 			</c:if>
