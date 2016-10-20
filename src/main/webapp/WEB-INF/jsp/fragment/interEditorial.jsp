@@ -1,35 +1,36 @@
 <%@ include file="/WEB-INF/jsp/common/tags-head.jsp"%>
 <script type="text/javascript">
-$(document)
-    .ready(
-        function() {
-            $(
-                '[id="visualisation-properties-editorial"][data-toggle="checkbox"]')
-                .on(
-                    'click',
-                    function() {
-                    var data = new Array();
-                    $('#baseinter :checked').each(function() {
-                        data.push(this.value);
-                    });
-                    var selDiff = $(
-                        'input:checkbox[name=diff]')
-                        .is(':checked');
-                    $
-                        .get(
-                            "${contextPath}/fragments/fragment/inter/editorial",
-                            {
-                                interp : data,
-                                diff : selDiff
-                            },
-                            function(html) {
-                                $(
-                                    "#fragmentTranscription")
-                                    .replaceWith(
-                                        html);
-                            });
-                    });
-        });
+	$(document)
+			.ready(
+					function() {
+						$(
+								'[id="visualisation-properties-editorial"][data-toggle="checkbox"]')
+								.on(
+										'click',
+										function() {
+											var data = new Array();
+											$('#baseinter :checked').each(
+													function() {
+														data.push(this.value);
+													});
+											var selDiff = $(
+													'input:checkbox[name=diff]')
+													.is(':checked');
+											$
+													.get(
+															"${contextPath}/fragments/fragment/inter/editorial",
+															{
+																interp : data,
+																diff : selDiff
+															},
+															function(html) {
+																$(
+																		"#fragmentTranscription")
+																		.replaceWith(
+																				html);
+															});
+										});
+					});
 </script>
 
 <div id=fragmentInter class="row">
@@ -48,8 +49,9 @@ $(document)
 	<br>
 	<%@ include file="/WEB-INF/jsp/fragment/transcription.jsp"%>
 
+	<c:set var="inter" value="${inters.get(0)}" />
 	<br>
-	<div id="interMeta">
-		<div class="well">${inters.get(0).metaTextual}</div>
+	<div class="well">
+		<%@ include file="/WEB-INF/jsp/fragment/interMetaInfo.jsp"%>
 	</div>
 </div>

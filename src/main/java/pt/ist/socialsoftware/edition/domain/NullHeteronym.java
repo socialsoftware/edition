@@ -15,6 +15,11 @@ public class NullHeteronym extends NullHeteronym_Base {
 	}
 
 	@Override
+	public boolean isNullHeteronym() {
+		return true;
+	}
+
+	@Override
 	public String getName() {
 		return "não atribuído";
 	}

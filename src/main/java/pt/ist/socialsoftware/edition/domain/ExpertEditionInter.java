@@ -99,33 +99,6 @@ public class ExpertEditionInter extends ExpertEditionInter_Base {
 	}
 
 	@Override
-	public String getMetaTextual() {
-		String result = "";
-
-		result = result + "Título: " + getTitle() + "<br>";
-
-		result = result + "Heterónimo: " + getHeteronym().getName() + "<br>";
-
-		String number = getNumber() == 0 ? "" : Integer.toString(getNumber());
-		result = result + "Número: " + number + "<br>";
-
-		result = result + "Volume: " + getVolume() + "<br>";
-
-		result = result + "Página: " + getStartPage() + "<br>";
-
-		if (getLdoDDate() != null) {
-			String precision = getLdoDDate().getPrecision() != null
-					? " Precisão: " + getLdoDDate().getPrecision().getDesc() : "";
-
-			result = result + "Data: " + getLdoDDate().print() + precision + "<br>";
-		}
-
-		result = result + "Notas: " + getNotes() + "<br>";
-
-		return result + super.getMetaTextual();
-	}
-
-	@Override
 	public boolean belongs2Edition(Edition edition) {
 		return this.getExpertEdition() == edition;
 	}

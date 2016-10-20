@@ -3,37 +3,70 @@
 <html>
 <head>
 <%@ include file="/WEB-INF/jsp/common/meta-head.jsp"%>
-<script type="text/javascript">
-$(document).ready(
-	function() {
-	    $('[id="fragments-details"][data-toggle="checkbox"]').on(
-		    'click',
-		    function() {
-			var selDetail = $('input:checkbox[name=detail]').is(
-				':checked');
-			$.get("${contextPath}/fragments/list", {
-			    detail : selDetail
-			}, function(html) {
-			    $("#fragmentList").replaceWith(html);
-			});
-		    });
-	});
-</script>
+<link rel="stylesheet" type="text/css"
+	href="/resources/css/bootstrap-table.min.css">
+<script src="/resources/js/bootstrap-table.min.js"></script>
 </head>
 <body>
 	<%@ include file="/WEB-INF/jsp/common/fixed-top-ldod-header.jsp"%>
 
 	<div class="container">
-		<h1 class="text-center"><spring:message code="fragmentlist.title" /> (${fragments.size()}) </h1>
-		<div class="well" id="fragments-details"
-			data-toggle="checkbox">
-			<label class="checkbox inline"> <input type="checkbox"
-				class="btn" name=detail value="Yes"> <spring:message code="fragmentlist.showdetails" />
-			</label>
+		<h1 class="text-center">
+			<spring:message code="fragmentlist.title" />
+			(${fragments.size()})
+		</h1>
+		<div class="row">
+			<table id="tablefragments" data-pagination="false">
+				<!-- <table class="table table-striped table-bordered table-condensed"> -->
+				<thead>
+					<tr>
+						<th><spring:message code="tableofcontents.title" /></th>
+						<th>Jacinto do Prado Coelho</th>
+						<th>Teresa Sobral Cunha</th>
+						<th>Richard Zenith</th>
+						<th>Jerónimo Pizarro</th>
+						<th><spring:message code="authorial" /></th>
+						<th><spring:message code="authorial" /></th>
+						<th><spring:message code="authorial" /></th>
+					</tr>
+				<tbody>
+					<c:forEach var="fragment" items='${fragments}'>
+						<tr>
+							<td><a
+								href="${contextPath}/fragments/fragment/${fragment.externalId}">${fragment.title}</a>
+							</td>
+							<td><c:forEach var="inter"
+									items='${fragment.getExpertEditionInters(jpcEdition)}'><%@ include
+										file="/WEB-INF/jsp/fragment/interMetaInfo.jsp"%></c:forEach>
+							</td>
+							<td><c:forEach var="inter"
+									items='${fragment.getExpertEditionInters(tscEdition)}'><%@ include
+										file="/WEB-INF/jsp/fragment/interMetaInfo.jsp"%></c:forEach>
+							</td>
+							<td><c:forEach var="inter"
+									items='${fragment.getExpertEditionInters(rzEdition)}'><%@ include
+										file="/WEB-INF/jsp/fragment/interMetaInfo.jsp"%></c:forEach>
+							</td>
+							<td><c:forEach var="inter"
+									items='${fragment.getExpertEditionInters(jpEdition)}'><%@ include
+										file="/WEB-INF/jsp/fragment/interMetaInfo.jsp"%></c:forEach>
+							</td>
+							<c:forEach var="inter" items='${fragment.getSortedSourceInter()}'>
+								<td><%@ include
+										file="/WEB-INF/jsp/fragment/interMetaInfo.jsp"%></td>
+							</c:forEach>
+						</tr>
+					</c:forEach>
+				</tbody>
+			</table>
+			<script>
+				$('#tablefragments').attr("data-search", "true");
+				$('#tablefragments').bootstrapTable();
+				$(".tip").tooltip({
+					placement : 'bottom'
+				});
+			</script>
 		</div>
-		
-		<%@ include file="/WEB-INF/jsp/fragment/listSimple.jsp"%>
-
 	</div>
 </body>
 </html>

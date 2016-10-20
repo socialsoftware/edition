@@ -72,11 +72,6 @@ public class SourceInter extends SourceInter_Base {
 	}
 
 	@Override
-	public String getMetaTextual() {
-		return getSource().getMetaTextual() + super.getMetaTextual();
-	}
-
-	@Override
 	public void remove() {
 		setSource(null);
 

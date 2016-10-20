@@ -22,9 +22,7 @@
     <div class="row">
         <c:forEach var="inter" items="${inters}">
             <div id="interMeta" class="col-md-6">
-                <div class="well">
-                    <p>${inter.metaTextual}</p>
-                </div>
+                 <%@ include file="/WEB-INF/jsp/fragment/interMetaInfo.jsp"%>
             </div>
         </c:forEach>
     </div>

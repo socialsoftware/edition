@@ -49,7 +49,7 @@ import pt.ist.socialsoftware.edition.visitors.PlainHtmlWriter4OneInter;
 
 @Controller
 @SessionAttributes({ "ldoDSession" })
-@RequestMapping("/fragments/fragment")
+@RequestMapping("/fragments")
 public class FragmentController {
 	private static Logger logger = LoggerFactory.getLogger(FragmentController.class);
 
@@ -66,7 +66,20 @@ public class FragmentController {
 		return ldoDSession;
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "/{id}")
+	@RequestMapping(method = RequestMethod.GET)
+	public String getFragmentsList(Model model) {
+		logger.debug("getFragmentsList");
+		LdoD ldoD = LdoD.getInstance();
+		model.addAttribute("jpcEdition", ldoD.getJPCEdition());
+		model.addAttribute("tscEdition", ldoD.getTSCEdition());
+		model.addAttribute("rzEdition", ldoD.getRZEdition());
+		model.addAttribute("jpEdition", ldoD.getJPEdition());
+		model.addAttribute("fragments", ldoD.getFragmentsSet());
+
+		return "fragment/list";
+	}
+
+	@RequestMapping(method = RequestMethod.GET, value = "/fragment/{id}")
 	public String getFragment(Model model, @PathVariable String id) {
 		Fragment fragment = FenixFramework.getDomainObject(id);
 
@@ -81,7 +94,7 @@ public class FragmentController {
 		}
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "/inter/{externalId}")
+	@RequestMapping(method = RequestMethod.GET, value = "/fragment/inter/{externalId}")
 	@PreAuthorize("hasPermission(#externalId, 'fragInter.public')")
 	public String getFragmentWithInter(Model model, @ModelAttribute("ldoDSession") LdoDSession ldoDSession,
 			@PathVariable String externalId) {
@@ -122,7 +135,7 @@ public class FragmentController {
 		return "fragment/main";
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "/inter/{externalId}/taxonomy")
+	@RequestMapping(method = RequestMethod.GET, value = "/fragment/inter/{externalId}/taxonomy")
 	@PreAuthorize("hasPermission(#externalId, 'fragInter.public')")
 	public String getTaxonomy(Model model, @ModelAttribute("ldoDSession") LdoDSession ldoDSession,
 			@PathVariable String externalId) {
@@ -159,7 +172,7 @@ public class FragmentController {
 		return "fragment/taxonomy";
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "/inter/next/number/{externalId}")
+	@RequestMapping(method = RequestMethod.GET, value = "/fragment/inter/next/number/{externalId}")
 	@PreAuthorize("hasPermission(#externalId, 'fragInter.public')")
 	public String getNextFragmentWithInter(Model model, @PathVariable String externalId) {
 
@@ -171,7 +184,7 @@ public class FragmentController {
 		return "redirect:/fragments/fragment/inter/" + inter.getExternalId();
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "/inter/prev/number/{externalId}")
+	@RequestMapping(method = RequestMethod.GET, value = "/fragment/inter/prev/number/{externalId}")
 	@PreAuthorize("hasPermission(#externalId, 'fragInter.public')")
 	public String getPrevFragmentWithInter(Model model, @PathVariable String externalId) {
 		FragInter inter = FenixFramework.getDomainObject(externalId);
@@ -182,7 +195,7 @@ public class FragmentController {
 		return "redirect:/fragments/fragment/inter/" + inter.getExternalId();
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "/inter")
+	@RequestMapping(method = RequestMethod.GET, value = "/fragment/inter")
 	public String getInter(Model model, @RequestParam(value = "fragment", required = true) String externalId,
 			@RequestParam(value = "inters[]", required = false) String[] intersID) {
 
@@ -237,7 +250,7 @@ public class FragmentController {
 
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "/inter/editorial")
+	@RequestMapping(method = RequestMethod.GET, value = "/fragment/inter/editorial")
 	public String getInterEditorial(@RequestParam(value = "interp[]", required = true) String[] interID,
 			@RequestParam(value = "diff", required = true) boolean displayDiff, Model model) {
 		FragInter inter = FenixFramework.getDomainObject(interID[0]);
@@ -254,7 +267,7 @@ public class FragmentController {
 
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "/inter/authorial")
+	@RequestMapping(method = RequestMethod.GET, value = "/fragment/inter/authorial")
 	public String getInterAuthorial(@RequestParam(value = "interp[]", required = true) String[] interID,
 			@RequestParam(value = "diff", required = true) boolean displayDiff,
 			@RequestParam(value = "del", required = true) boolean displayDel,
@@ -300,7 +313,7 @@ public class FragmentController {
 
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "/inter/compare")
+	@RequestMapping(method = RequestMethod.GET, value = "/fragment/inter/compare")
 	public String getInterCompare(@RequestParam(value = "inters[]", required = true) String[] intersID,
 			@RequestParam(value = "line") boolean lineByLine,
 			@RequestParam(value = "spaces", required = true) boolean showSpaces, Model model) {
@@ -329,7 +342,7 @@ public class FragmentController {
 
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "/search")
+	@RequestMapping(method = RequestMethod.GET, value = "/fragment/search")
 	public @ResponseBody AnnotationSearchJson searchAnnotations(Model model, @RequestParam int limit,
 			@RequestParam String uri) {
 		logger.debug("searchAnnotations limit:{}, uri:{}", limit, uri);
@@ -346,7 +359,7 @@ public class FragmentController {
 		return new AnnotationSearchJson(annotations);
 	}
 
-	@RequestMapping(method = RequestMethod.POST, value = "/annotations")
+	@RequestMapping(method = RequestMethod.POST, value = "/fragment/annotations")
 	public @ResponseBody ResponseEntity<AnnotationDTO> createAnnotation(Model model,
 			@RequestBody final AnnotationDTO annotationJson, HttpServletRequest request) {
 		VirtualEditionInter inter = FenixFramework.getDomainObject(annotationJson.getUri());
@@ -366,7 +379,7 @@ public class FragmentController {
 		}
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "/annotations/{id}")
+	@RequestMapping(method = RequestMethod.GET, value = "/fragment/annotations/{id}")
 	public @ResponseBody ResponseEntity<AnnotationDTO> getAnnotation(Model model, @PathVariable String id) {
 		Annotation annotation = FenixFramework.getDomainObject(id);
 		if (annotation != null) {
@@ -376,7 +389,7 @@ public class FragmentController {
 		}
 	}
 
-	@RequestMapping(method = RequestMethod.PUT, value = "/annotations/{id}")
+	@RequestMapping(method = RequestMethod.PUT, value = "/fragment/annotations/{id}")
 	public @ResponseBody ResponseEntity<AnnotationDTO> updateAnnotation(Model model, @PathVariable String id,
 			@RequestBody final AnnotationDTO annotationJson) {
 		Annotation annotation = FenixFramework.getDomainObject(id);
@@ -394,7 +407,7 @@ public class FragmentController {
 
 	}
 
-	@RequestMapping(method = RequestMethod.DELETE, value = "/annotations/{id}")
+	@RequestMapping(method = RequestMethod.DELETE, value = "/fragment/annotations/{id}")
 	public @ResponseBody ResponseEntity<AnnotationDTO> deleteAnnotation(Model model, @PathVariable String id,
 			@RequestBody final AnnotationDTO annotationJson) {
 		Annotation annotation = FenixFramework.getDomainObject(id);
@@ -411,7 +424,7 @@ public class FragmentController {
 		}
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "/annotation/{annotationId}/categories")
+	@RequestMapping(method = RequestMethod.GET, value = "/fragment/annotation/{annotationId}/categories")
 	public @ResponseBody ResponseEntity<String[]> getAnnotationInter(Model model, @PathVariable String annotationId) {
 		logger.debug("getAnnotationInter id:{}", annotationId);
 

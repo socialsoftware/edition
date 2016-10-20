@@ -87,28 +87,6 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 	}
 
 	@Override
-	public String getMetaTextual() {
-		String result = "";
-
-		result = result + "Edição Virtual: " + getVirtualEdition().getTitle() + "(" + getVirtualEdition().getAcronym()
-				+ ")" + "<br>";
-
-		result = result + "Edição Base: " + getLastUsed().getShortName() + "<br>";
-
-		result = result + "Título: " + getTitle() + "<br>";
-
-		if (getHeteronym() != null) {
-			result = result + "Heterónimo: " + getHeteronym().getName() + "<br>";
-		}
-
-		if (getLdoDDate() != null) {
-			result = result + "Data: " + getLdoDDate().print() + "<br>";
-		}
-
-		return result;
-	}
-
-	@Override
 	public boolean belongs2Edition(Edition edition) {
 		return getVirtualEdition() == edition;
 	}

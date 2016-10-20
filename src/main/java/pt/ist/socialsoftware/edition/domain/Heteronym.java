@@ -25,4 +25,8 @@ public class Heteronym extends Heteronym_Base implements Comparable<Heteronym> {
 		return this.getXmlId().compareTo(o.getXmlId());
 	}
 
+	public boolean isNullHeteronym() {
+		return false;
+	}
+
 }

@@ -84,14 +84,6 @@ public abstract class FragInter extends FragInter_Base implements Comparable<Fra
 		return 0;
 	}
 
-	public String getMetaTextual() {
-		String result = "";
-		for (AnnexNote note : getSortedAnnexNote()) {
-			result = result + "(" + note.getNumber() + ") " + note.getNoteText().generatePresentationText() + "<br>";
-		}
-		return result;
-	}
-
 	public abstract boolean belongs2Edition(Edition edition);
 
 	public abstract FragInter getLastUsed();

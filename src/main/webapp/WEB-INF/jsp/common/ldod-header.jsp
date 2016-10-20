@@ -58,7 +58,7 @@
 					<li><a href="${contentPath}/search/advanced"> <spring:message
 								code="header.search.advanced" />
 					</a></li>
-					<li><a href="${contentPath}/search/fragments"> <spring:message
+					<li><a href="${contentPath}/fragments"> <spring:message
 								code="fragmentlist.title" />
 					</a></li>
 				</ul></li>

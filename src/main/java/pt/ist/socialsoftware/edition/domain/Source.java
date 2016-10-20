@@ -24,8 +24,6 @@ public abstract class Source extends Source_Base implements Comparable<Source> {
 		return getAltIdentifier();
 	}
 
-	public abstract String getMetaTextual();
-
 	public void remove() {
 		setHeteronym(null);
 		setFragment(null);

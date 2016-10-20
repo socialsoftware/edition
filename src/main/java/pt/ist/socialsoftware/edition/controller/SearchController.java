@@ -64,13 +64,6 @@ public class SearchController {
 		binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
 	}
 
-	// List of all fragments
-	@RequestMapping(method = RequestMethod.GET, value = "/fragments")
-	public String listFragments(Model model) {
-		model.addAttribute("fragments", LdoD.getInstance().getFragmentsSet());
-		return "fragment/list";
-	}
-
 	// Simple search
 	@RequestMapping(method = RequestMethod.GET, value = "/simple")
 	public String simpleSearch(Model model) {
