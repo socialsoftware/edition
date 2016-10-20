@@ -35,7 +35,7 @@
 							href="${contextPath}/fragments/fragment/inter/${inter.getExternalId()}">${inter.getTitle()}</a></td>
 						<td><a
 							href="${contextPath}/edition/internalid/${inter.getEdition().getExternalId()}">${inter.getEdition().getTitle()}</a></td>
-						<td class="text-center"><c:forEach var="user"
+						<td><c:forEach var="user"
 								items="${inter.getContributorSet(category)}">
 								<a href="${contextPath}/edition/user/${user.username}">${user.username}</a>
 								<br>

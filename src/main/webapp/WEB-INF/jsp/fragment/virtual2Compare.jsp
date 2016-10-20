@@ -1,81 +1,17 @@
 <%@ include file="/WEB-INF/jsp/common/tags-head.jsp"%>
-<div id=fragmentInter class="row">
-    <h3>
-        <spring:message code="virtualcompare.title" />
-    </h3>
 
-    <div class="row">
-        <div class="row">
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <c:forEach var="inter" items="${inters}">
-                            <th>${inter.edition.getReference()}</th>
-                        </c:forEach>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <c:forEach var="inter" items="${inters}">
-                            <td><c:forEach var="tag"
-                                    items='${inter.getTagSet()}'>
-                                    <i class="icon-tag"></i>
-                                    <a
-                                        href="${contextPath}/edition/tag/${tag.tag}">${tag.tag}</a>
-                                </c:forEach></td>
-                        </c:forEach>
-                    </tr>
-                    <tr>
-                        <c:forEach var="inter" items="${inters}">
-                            <td><c:forEach var='user'
-                                    items='${inter.getContributorSet()}'>
-                                    <i class="icon-user"></i>
-                                    <a
-                                        href="${contextPath}/edition/user/${user.username}">${user.username}</a>
-                                </c:forEach></td>
-                        </c:forEach>
-                    </tr>
-                    <tr>
-                        <c:forEach var="inter" items="${inters}">
-                            <td>
-                                <table
-                                    class="table table-striped table-condensed">
-                                    <thead>
-                                        <tr>
-                                            <th><spring:message
-                                                    code="virtualcompare.quote" /></th>
-                                            <th><spring:message
-                                                    code="virtualcompare.comment" /></th>
-                                            <th><spring:message
-                                                    code="virtualcompare.user" /></th>
-                                            <th><spring:message
-                                                    code="general.tags" /></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <c:forEach var="annotation"
-                                            items='${inter.getAnnotationSet()}'>
-                                            <tr>
-                                                <td>${annotation.quote}</td>
-                                                <td>${annotation.text}</td>
-                                                <td><span class="glyphicon glyphicon-user"></span> <a
-                                                    href="${contextPath}/edition/user/${annotation.user.username}">${annotation.user.username}</a></td>
-                                                <td><c:forEach
-                                                        var="tag"
-                                                        items='${annotation.getTagSet()}'><span class="glyphicon glyphicon-tag"></span>
-                                                        
-                                                        <a
-                                                            href="${contextPath}/edition/tag/${tag.tag}">${tag.tag}</a>
-                                                    </c:forEach></td>
-                                            </tr>
-                                        </c:forEach>
-                                    </tbody>
-                                </table>
-                            </td>
-                        </c:forEach>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
+<div id=fragmentInter class="row">
+	<h4 class="text-center">
+		<spring:message code="virtualcompare.title" />
+	</h4>
+	<br>
+	<c:forEach var="inter" items="${inters}">
+		<div class="row col-md-12">
+			<h5>
+				<strong><spring:message code="general.edition" />:</strong>
+				${inter.edition.getReference()}
+			</h5>
+			<%@ include file="/WEB-INF/jsp/fragment/virtualEditionTable.jsp"%>
+		</div>
+	</c:forEach>
 </div>

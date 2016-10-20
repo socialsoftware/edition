@@ -34,7 +34,7 @@
 <strong><spring:message code="general.heteronym" />:</strong>
 <c:choose>
 	<c:when test="${!inter.getHeteronym().isNullHeteronym()}">${inter.getHeteronym().getName()}</c:when>
-	<c:otherwise>Not assigned<spring:message
+	<c:otherwise><spring:message
 			code="general.heteronym.notassigned" />
 	</c:otherwise>
 </c:choose>

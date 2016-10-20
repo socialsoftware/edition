@@ -31,7 +31,7 @@ public class VirtualEdition extends VirtualEdition_Base {
 			throw new LdoDException("acronym");
 
 		// cannot change acronym of the archive edition
-		if (!getAcronym().equals(ARCHIVE_EDITION_ACRONYM)) {
+		if (getAcronym() == null || !getAcronym().equals(ARCHIVE_EDITION_ACRONYM)) {
 			super.setAcronym(acronym);
 		}
 	}

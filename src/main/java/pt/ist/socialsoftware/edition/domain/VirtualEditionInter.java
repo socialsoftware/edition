@@ -273,6 +273,10 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 				.collect(Collectors.toSet());
 	}
 
+	public Set<LdoDUser> getContributorSet() {
+		return getAllDepthTags().stream().map(t -> t.getContributor()).collect(Collectors.toSet());
+	}
+
 	public String getAllDepthCategoriesJSON() {
 		ObjectMapper mapper = new ObjectMapper();
 

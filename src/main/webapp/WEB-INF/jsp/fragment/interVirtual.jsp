@@ -6,17 +6,13 @@
 		-
 		<spring:message code="general.uses" />
 		${inters.get(0).uses.edition.getReference()}(${inters.get(0).uses.reference})
-		</h3>
-		<!--  <h4>
-		<spring:message code="general.uses" />
-		${inters.get(0).uses.edition.getReference()}(${inters.get(0).uses.reference})
-	</h4>-->
+	</h4>
 
-		<div class="row" id="content">
-			<%@ include file="/WEB-INF/jsp/fragment/transcription.jsp"%>
-		</div>
+	<div class="row" id="content">
+		<%@ include file="/WEB-INF/jsp/fragment/transcription.jsp"%>
+	</div>
 
-		<%@ include file="/WEB-INF/jsp/fragment/taxonomy.jsp"%>
+	<%@ include file="/WEB-INF/jsp/fragment/taxonomy.jsp"%>
 </div>
 
 

@@ -18,33 +18,7 @@
 			<span class="glyphicon glyphicon-plus"></span>
 		</button>
 	</c:if>
-	<table class="table table-hover">
-		<thead>
-			<tr>
-				<th><span class="glyphicon glyphicon-tag"></span></th>
-				<th><span class="glyphicon glyphicon-user"></span></th>
-			</tr>
-
-		</thead>
-		<tbody>
-			<c:forEach var="category" items='${inter.getAssignedCategories()}'>
-				<tr>
-					<td><a
-						href="${contextPath}/edition/category/${category.getExternalId()}">${category.getNameInEditionContext(taxonomy.getEdition())}</a>
-						<c:if
-							test="${inter.getContributorSet(category).contains(userLdoD)}">
-							<a
-								href="${contextPath}/virtualeditions/restricted/fraginter/${inter.getExternalId()}/tag/dissociate/${category.getExternalId()}"><span
-								class="glyphicon glyphicon-remove"></span></a>
-						</c:if></td>
-					<td><c:forEach var="user"
-							items='${inter.getContributorSet(category)}'>
-							<a href="${contextPath}/edition/user/${user.username}">${user.username}</a>
-						</c:forEach></td>
-				</tr>
-			</c:forEach>
-		</tbody>
-	</table>
+	<%@ include file="/WEB-INF/jsp/fragment/virtualEditionTable.jsp"%>
 </div>
 
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog">

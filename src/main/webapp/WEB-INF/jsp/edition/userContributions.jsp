@@ -3,6 +3,8 @@
 <html>
 <head>
 <%@ include file="/WEB-INF/jsp/common/meta-head.jsp"%>
+<link rel="stylesheet" type="text/css" href="/resources/css/bootstrap-table.min.css">
+<script src="/resources/js/bootstrap-table.min.js"></script>
 </head>
 <body>
 	<%@ include file="/WEB-INF/jsp/common/fixed-top-ldod-header.jsp"%>
@@ -14,7 +16,8 @@
 			(${user.getFragInterSet().size()})
 		</h3>
 		<br>
-		<table class="table table-hover table-condensed">
+		<table id="tableUser" data-pagination="false">
+		<!-- <table class="table table-hover table-condensed"> -->
 			<thead>
 				<tr>
 					<th><spring:message code="tableofcontents.title" /></th>
@@ -45,4 +48,9 @@
 	</div>
 </body>
 </html>
+<script>
+$('#tableUser').attr("data-search","true");
+$('#tableUser').bootstrapTable();
+$(".tip").tooltip({placement: 'bottom'});
+</script>
 
