@@ -23,7 +23,7 @@
 		<c:set var="title" value="${inter.getSource().getTitle()}" />
 	</c:when>
 </c:choose>
-<c:if test="${!title.equals("")}">
+<c:if test='${!title.equals("")}'>
 	<strong><spring:message code="general.title" />:</strong> ${title}	</c:if>
 
 <c:if test="${isManuscript}">
@@ -75,7 +75,7 @@
 		</c:forEach>
 </c:if>
 
-<c:if test="${isEditorial && !inter.getVolume().equals("")}">
+<c:if test='${isEditorial && !inter.getVolume().equals("")}'>
 	<br>
 	<strong><spring:message code="tableofcontents.volume" />:</strong>
 	${inter.getVolume()}</c:if>
@@ -153,7 +153,7 @@
 		<c:set var="notes" value="" />
 	</c:when>
 </c:choose>
-<c:if test="${!notes.equals("")}">
+<c:if test='${!notes.equals("")}'>
 	<br>
 	<strong><spring:message code="general.note" />:</strong>
 	${notes}</c:if>

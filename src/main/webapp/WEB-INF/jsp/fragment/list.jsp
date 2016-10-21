@@ -37,23 +37,23 @@
 							</td>
 							<td><c:forEach var="inter"
 									items='${fragment.getExpertEditionInters(jpcEdition)}'><%@ include
-										file="/WEB-INF/jsp/fragment/interMetaInfo.jsp"%></c:forEach>
+										file="/WEB-INF/jsp/fragment/interMetaInfo.jsp"%><br><br></c:forEach>
 							</td>
 							<td><c:forEach var="inter"
 									items='${fragment.getExpertEditionInters(tscEdition)}'><%@ include
-										file="/WEB-INF/jsp/fragment/interMetaInfo.jsp"%></c:forEach>
+										file="/WEB-INF/jsp/fragment/interMetaInfo.jsp"%><br><br></c:forEach>
 							</td>
 							<td><c:forEach var="inter"
 									items='${fragment.getExpertEditionInters(rzEdition)}'><%@ include
-										file="/WEB-INF/jsp/fragment/interMetaInfo.jsp"%></c:forEach>
+										file="/WEB-INF/jsp/fragment/interMetaInfo.jsp"%><br><br></c:forEach>
 							</td>
 							<td><c:forEach var="inter"
 									items='${fragment.getExpertEditionInters(jpEdition)}'><%@ include
-										file="/WEB-INF/jsp/fragment/interMetaInfo.jsp"%></c:forEach>
+										file="/WEB-INF/jsp/fragment/interMetaInfo.jsp"%><br><br></c:forEach>
 							</td>
 							<c:forEach var="inter" items='${fragment.getSortedSourceInter()}'>
 								<td><%@ include
-										file="/WEB-INF/jsp/fragment/interMetaInfo.jsp"%></td>
+										file="/WEB-INF/jsp/fragment/interMetaInfo.jsp"%><br><br></td>
 							</c:forEach>
 						</tr>
 					</c:forEach>

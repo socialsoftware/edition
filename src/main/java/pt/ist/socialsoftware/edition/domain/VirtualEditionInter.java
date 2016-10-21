@@ -319,7 +319,6 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 				createTag(annotation.getUser(), tag, annotation);
 			}
 		}
-
 	}
 
 	private boolean existsTag(String name) {
@@ -337,7 +336,13 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 		editions.add(getVirtualEdition());
 
 		return editions;
+	}
 
+	public Set<Tag> getTagsCompleteInter() {
+		Set<Tag> result = new HashSet<Tag>(getAllDepthTags());
+		result.removeAll(
+				getAllDepthAnnotations().stream().flatMap(t -> t.getTagSet().stream()).collect(Collectors.toSet()));
+		return result;
 	}
 
 }

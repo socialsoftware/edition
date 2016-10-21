@@ -18,7 +18,33 @@
 			<span class="glyphicon glyphicon-plus"></span>
 		</button>
 	</c:if>
-	<%@ include file="/WEB-INF/jsp/fragment/virtualEditionTable.jsp"%>
+	<table class="table table-hover">
+		<thead>
+			<tr>
+				<th><span class="glyphicon glyphicon-tag"></span></th>
+				<th><span class="glyphicon glyphicon-user"></span></th>
+			</tr>
+
+		</thead>
+		<tbody>
+			<c:forEach var="category" items='${inter.getAssignedCategories()}'>
+				<tr>
+					<td><a
+						href="${contextPath}/edition/category/${category.getExternalId()}">${category.getNameInEditionContext(taxonomy.getEdition())}</a>
+						<c:if
+							test="${inter.getContributorSet(category).contains(userLdoD)}">
+							<a
+								href="${contextPath}/virtualeditions/restricted/fraginter/${inter.getExternalId()}/tag/dissociate/${category.getExternalId()}"><span
+								class="glyphicon glyphicon-remove"></span></a>
+						</c:if></td>
+					<td><c:forEach var="user"
+							items='${inter.getContributorSet(category)}'>
+							<a href="${contextPath}/edition/user/${user.username}">${user.username}</a>
+						</c:forEach></td>
+				</tr>
+			</c:forEach>
+		</tbody>
+	</table>
 </div>
 
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog">
@@ -51,7 +77,9 @@
 								</c:forEach>
 								<c:forEach var='category'
 									items='${inter.getAssignedCategories(user)}'>
-									<option value='${category.getNameInEditionContext(taxonomy.getEdition())}' selected='selected'>${category.getNameInEditionContext(taxonomy.getEdition())}</option>
+									<option
+										value='${category.getNameInEditionContext(taxonomy.getEdition())}'
+										selected='selected'>${category.getNameInEditionContext(taxonomy.getEdition())}</option>
 
 								</c:forEach>
 							</select>
@@ -65,7 +93,9 @@
 				</div>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code="general.close"/></button>
+				<button type="button" class="btn btn-default" data-dismiss="modal">
+					<spring:message code="general.close" />
+				</button>
 			</div>
 		</div>
 		<!-- /.modal-content -->

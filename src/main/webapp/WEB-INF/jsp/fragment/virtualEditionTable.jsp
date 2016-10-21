@@ -13,7 +13,17 @@
 		</tr>
 	</thead>
 	<tbody>
-		<c:forEach var="annotation" items='${inter.getAnnotationSet()}'>
+		<c:forEach var="tag" items='${inter.getTagsCompleteInter()}'>
+			<tr>
+				<td>---</td>
+				<td>---</td>
+				<td><span class="glyphicon glyphicon-user"></span> <a
+					href="${contextPath}/edition/user/${tag.getContributor().username}">${tag.getContributor().username}</a></td>
+				<td><span class="glyphicon glyphicon-tag"></span> <a
+					href="${contextPath}/edition/category/${tag.getCategory().getExternalId()}">${tag.getCategory().getNameInEditionContext(inter.edition)}</a></td>
+			</tr>
+		</c:forEach>
+		<c:forEach var="annotation" items='${inter. getAllDepthAnnotations()}'>
 			<tr>
 				<td>${annotation.quote}</td>
 				<td>${annotation.text}</td>
@@ -22,7 +32,7 @@
 				<td><c:forEach var="tag" items='${annotation.getTagSet()}'>
 						<span class="glyphicon glyphicon-tag"></span>
 						<a
-							href="${contextPath}/edition/category/${tag.getCategory().getExternalId()}">${tag.getCategory().getName()}</a>
+							href="${contextPath}/edition/category/${tag.getCategory().getExternalId()}">${tag.getCategory().getNameInEditionContext(inter.edition)}</a>
 					</c:forEach></td>
 			</tr>
 		</c:forEach>
