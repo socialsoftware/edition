@@ -32,34 +32,34 @@
 
 	<div class="container">
 		<h3 class="text-center">
-					<a href="${contextPath}/virtualeditions/restricted/${category.getTaxonomy().getEdition().getExternalId()}/taxonomy"><spring:message
-			code="general.taxonomy" /></a>: 
+			<a
+				href="${contextPath}/virtualeditions/restricted/${category.getTaxonomy().getEdition().getExternalId()}/taxonomy"><spring:message
+					code="general.taxonomy" /></a>:
 			<spring:message code="virtualedition" />
 			${taxonomy.getEdition().getTitle()}
 		</h3>
-		
-		
-		
-		<div class="row">
-		
-			<!-- 
-			<h4 class="pull-right">
-				<spring:message code="general.public.pages" />
-				- <a
-					href="${contextPath}/edition/internalid/${category.getTaxonomy().getEdition().getExternalId()}">
-					<spring:message code="general.edition" />
-				</a> : <a
-					href="${contextPath}/edition/category/${category.getExternalId()}"><spring:message
-						code="general.category" /></a>
-			</h4>
-			 -->
-		</div>
 		<h3 class="text-center">
-
-			<spring:message code="general.category" />: 
-			${category.getName()}
+			<spring:message code="general.category" />
+			: ${category.getName()}
 		</h3>
-		<br/><br/>
+		<br />
+		<div class="row">
+			<div class="pull-right" align="center">
+				<span class="bg-info" style="padding: 8px"> <spring:message
+						code="general.public.pages" />: <a
+					href="${contextPath}/edition/internalid/${category.getTaxonomy().getEdition().getExternalId()}">
+						<span class="glyphicon glyphicon-list-alt"></span> <spring:message
+							code="general.edition" />
+				</a> - <a
+					href="${contextPath}/edition/category/${category.getExternalId()}">
+						<span class="glyphicon glyphicon-tag"></span> <spring:message
+							code="general.category" />
+				</a>
+				</span>
+			</div>
+		</div>
+
+		<br />
 		<c:if test="${taxonomy.canManipulateTaxonomy(userLdoD)}">
 			<div class="row">
 				<div class="col-md-4">
@@ -94,22 +94,8 @@
 							</div>
 						</c:forEach>
 					</div>
-
 				</div>
-				
-				<div class="col-md-4" align="center">
-				<span class="bg-info" style="padding:8px">
-				<spring:message code="general.public.pages" />:
-				<a href="${contextPath}/edition/internalid/${category.getTaxonomy().getEdition().getExternalId()}">
-				<span class="glyphicon glyphicon-list-alt"></span> <spring:message code="general.edition" /></a>
-				-
-				<a href="${contextPath}/edition/category/${category.getExternalId()}">
-				<span class="glyphicon glyphicon-tag"></span> <spring:message code="general.category" /></a> 
-				</span>
-				</div>
-				
-				<div class="col-md-3">
-				</div>
+				<div class="col-md-7"></div>
 				<div class="col-md-1">
 					<form class="form-inline" method="POST"
 						action="/virtualeditions/restricted/category/delete">
@@ -140,7 +126,7 @@
 								<a
 									href="${contextPath}/virtualeditions/restricted/fraginter/${inter.getExternalId()}">
 									${inter.getTitle()}</a>
-								<span style="padding-left: 2em" />
+								<br/>
 							</c:forEach></td>
 					</tr>
 

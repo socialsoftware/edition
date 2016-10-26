@@ -1,5 +1,6 @@
 <%@ include file="/WEB-INF/jsp/common/tags-head.jsp"%>
-<script type="text/javascript" src="/resources/js/openseadragon/openseadragon.js">
+<script type="text/javascript"
+	src="/resources/js/openseadragon/openseadragon.js">
 <script type="text/javascript">
 /*
 $(document).ready(function() {
@@ -64,7 +65,7 @@ $(document).ready(function() {
 </script>
 
 <script type="text/javascript">
-    var viewer = OpenSeadragon({
+   var viewer = OpenSeadragon({
         id: "fac",
         prefixUrl: "/resources/img/openseadragon/images/",
         autoHideControls: false,
@@ -156,16 +157,14 @@ $("div[title=\"Previous page\"]").on('click', function() {
 
 <div id="fragmentTranscription">
 
-	
+
 	<h4 class="text-center">${inters.get(0).title}</h4>
-	
-		<input type="hidden" id="fw" value="${nextpb.externalId}">
-		<input type="hidden" id="bw" value="${prevpb.externalId}">
-    
-        <br>
-        <div id="facsimileTranscription" class="row" style="margin-right:0px">
-            <div class="col-md-6">
-             	<!-- 
+
+	<input type="hidden" id="fw" value="${nextpb.externalId}"> <input
+		type="hidden" id="bw" value="${prevpb.externalId}"> <br>
+	<div id="facsimileTranscription" class="row" style="margin-right: 0px">
+		<div class="col-md-6">
+			<!-- 
             	<div style="display:block;position:absolute;">
             	
             	<c:choose>
@@ -205,9 +204,9 @@ $("div[title=\"Previous page\"]").on('click', function() {
                 
                 </div>
                 -->
-                <div class="item" id="fac" style="width:100%;height:554px;">  
-                </div> 
-                <!-- 
+			<div class="item" id="fac" style="width: 100%; height: 554px;">
+			</div>
+			<!-- 
                 <c:choose>
                     <c:when test="${prevsurface != null}">
                         <button class="btn btn-sm pull-left"
@@ -241,26 +240,25 @@ $("div[title=\"Previous page\"]").on('click', function() {
                     </c:otherwise>
                 </c:choose>
                  -->
-            </div>
-            <c:choose>
-                <c:when
-                    test="${inters.get(0).lastUsed.sourceType=='EDITORIAL'}">
-                    <div class="well col-md-6" id="content"
-                        style="font-family: georgia;">
-                        <p>${writer.getTranscription()}</p>
-                       
-                    </div>
-                </c:when>
-                <c:otherwise>
-                    <div class="well col-md-6" id="content"
-                        style="font-family: courier;">
-                        <p>${writer.getTranscription()}</p>
-                       
-                    </div>
- 
-                </c:otherwise>
-            </c:choose>
-        </div>
+		</div>
+		<c:choose>
+			<c:when test="${inters.get(0).lastUsed.sourceType=='EDITORIAL'}">
+				<div class="well col-md-6" id="content"
+					style="font-family: georgia;">
+					<p>${writer.getTranscription()}</p>
+
+				</div>
+			</c:when>
+			<c:otherwise>
+				<div class="well col-md-6" id="content"
+					style="font-family: courier;">
+					<p>${writer.getTranscription()}</p>
+
+				</div>
+
+			</c:otherwise>
+		</c:choose>
+	</div>
 </div>
 
 

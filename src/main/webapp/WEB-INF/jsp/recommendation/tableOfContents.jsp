@@ -20,21 +20,53 @@
 				${heteronym.name}
 			</h4>
 		</c:if>
-		<p class="text-center">
-			<input style="display: inline;" class="text-center" type="checkbox"
-				id="iterative-sort">
-			<spring:message code="recommendation.iterativeSort" />
-		</p>
-
+		<br>
 		<div class="row">
-			<div class="row col-md-6">
-				<table id="taxonomy-table"
-					class="table table-condensed table-hover">
+			<div class="row col-md-12 extra" style="display: none;" align="right">
+				<form class="form-inline extra" method="POST"
+					action="/recommendation/create" style="display: none;" id="create">
+					<div class="form-group input-group-sm">
+						<input type="text" class="form-control" id="new-acronym"
+							name="acronym"
+							placeholder="<spring:message code="virtualeditionlist.acronym"/>" />
+					</div>
+
+					<div class="form-group input-group-sm">
+						<input type="text" class="form-control" name="title"
+							id="new-title"
+							placeholder="<spring:message code="virtualeditionlist.name" />" />
+					</div>
+					<div class="form-group input-group-sm">
+						<select name="pub" class="form-control" id="new-pub">
+							<option value="true" selected>
+								<spring:message code="general.public" />
+							</option>
+							<option value="false" selected>
+								<spring:message code="general.private" />
+							</option>
+						</select>
+					</div>
+					<button type="submit" class="btn btn-primary btn-sm input-group-sm">
+						<span class="glyphicon glyphicon-floppy-disk"></span>
+						<spring:message code="general.create" />
+					</button>
+				</form>
+			</div>
+			<br> <br>
+			<div class="row col-md-12">
+				<table id="taxonomy-table" class="table table-condensed table-hover">
 					<thead>
 						<tr>
 							<th class="iterative-sort" style="display: none;">#</th>
 							<th class="text-center"><spring:message
 									code="recommendation.criteria" /></th>
+							<th class="text-center">
+								<%-- <spring:message
+									code="general.structure" /> --%>
+							</th>
+							<th class="text-center">
+								<%-- <spring:message code="general.save" /> --%>
+							</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -78,6 +110,21 @@
 									</div>
 								</div>
 							</th>
+							<th>
+								<p class="text-center">
+									<input style="display: inline;" class="text-center"
+										type="checkbox" id="iterative-sort">
+									<spring:message code="general.sections" />
+								</p>
+							</th>
+							<th>
+								<div class="form-inline extra text-center">
+									<button type="submit" id="save" class="btn btn-primary btn-sm">
+										<span class="glyphicon glyphicon-floppy-saved"></span>
+										<spring:message code="general.save" />
+									</button>
+								</div>
+							</th>
 						</tr>
 						<c:forEach var="i" begin="2" end="4">
 							<tr class="iterative-sort" style="display: none;">
@@ -90,43 +137,6 @@
 						</c:forEach>
 					</tbody>
 				</table>
-			</div>
-			<div class="extra" style="display: none;" align="right">
-				<div class="form-inline extra">
-					<button type="submit" id="save" class="btn btn-primary btn-sm">
-						<span class="glyphicon glyphicon-edit"></span>
-						<spring:message code="general.save" />
-					</button>
-				</div>
-				<form class="form-inline extra" method="POST"
-					action="/recommendation/create" style="display: none;" id="create">
-					<div class="form-group">
-						<input type="text" class="form-control" id="new-acronym"
-							name="acronym"
-							placeholder="<spring:message code="virtualeditionlist.acronym"/>" />
-					</div>
-
-					<div class="form-group">
-						<input type="text" class="form-control" name="title"
-							id="new-title"
-							placeholder="<spring:message code="virtualeditionlist.name" />" />
-					</div>
-					<div class="form-group">
-						<select name="pub" class="form-control" id="new-pub">
-							<option value="true" selected>
-								<spring:message code="general.public" />
-							</option>
-							<option value="false" selected>
-								<spring:message code="general.private" />
-							</option>
-						</select>
-					</div>
-
-					<button type="submit" class="btn btn-primary btn-sm">
-						<span class="glyphicon glyphicon-edit"></span>
-						<spring:message code="general.create" />
-					</button>
-				</form>
 			</div>
 		</div>
 		<hr>
@@ -401,7 +411,6 @@
 							$('#save')
 									.click(
 											function() {
-
 												var acronym = $('#acronym')
 														.attr('value');
 												if ($('#result-type-iterative').length) {

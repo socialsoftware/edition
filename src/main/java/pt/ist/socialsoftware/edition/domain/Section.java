@@ -12,6 +12,7 @@ import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 
 public class Section extends Section_Base implements Comparable<Section> {
+	public static String DEFAULT = "default";
 
 	public Section(VirtualEdition virtualEdition, String title, int number) {
 		super();
@@ -27,7 +28,7 @@ public class Section extends Section_Base implements Comparable<Section> {
 	}
 
 	public Set<VirtualEditionInter> getInterSet() {
-		Set<VirtualEditionInter> inters = new HashSet<VirtualEditionInter>();
+		Set<VirtualEditionInter> inters = new HashSet<>();
 
 		// Add section's inters
 		Set<VirtualEditionInter> virtualEditionInterSet = getVirtualEditionInterSet();

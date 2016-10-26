@@ -13,67 +13,24 @@
 		value='${pageContext.request.userPrincipal.principal.getUser()}' />
 
 	<div class="container">
-	
-	<div class="row">
-		<!--  <div class="col-md-3">
-		</div>-->
-	
-		<div class="col-md-12">
-		<h3 class="text-center">
-			<spring:message code="general.taxonomy" />: <spring:message code="virtualedition" />
-			${virtualEdition.title}
-			<c:if test="${virtualEdition.getAdminSet().contains(userLdoD)}">
-				<a class="" role="button" data-toggle="collapse"
-					href="#collapsemenu" aria-expanded="false"
-					aria-controls="collapseExample" style="font-size: 18px"> <span
-					class="glyphicon glyphicon-pencil"></span>
-				</a>
-			</c:if>
-		</h3>
-		</div>
-		
-		
-	
-		<!--  
-		<div class="col-md-3" style="margin-top:24px" align="right">
-		<span class="bg-info" style="padding:8px">
-		<spring:message code="general.public.pages" />: 
-		<a href="${contextPath}/edition/internalid/${virtualEdition.getExternalId()}">
-		<span class="glyphicon glyphicon glyphicon-list-alt"></span> <spring:message code="general.edition" /></a>
-		</span>
-		</div>
-		-->
-	</div>
-	
 
-	<!--  
-		<h2 class="text-center">
-			<spring:message code="general.taxonomy" />: <spring:message code="virtualedition" />
-			${virtualEdition.title}
-			<c:if test="${virtualEdition.getAdminSet().contains(userLdoD)}">
-				<a class="" role="button" data-toggle="collapse"
-					href="#collapsemenu" aria-expanded="false"
-					aria-controls="collapseExample" style="font-size: 18px"> <span
-					class="glyphicon glyphicon-pencil"></span>
-				</a>
-			</c:if>
-		</h2>
-	 
-		
-		<h2 class="text-center">
-			<spring:message code="general.taxonomy" />
-			<c:if test="${virtualEdition.getAdminSet().contains(userLdoD)}">
-				<a class="" role="button" data-toggle="collapse"
-					href="#collapsemenu" aria-expanded="false"
-					aria-controls="collapseExample" style="font-size: 18px"> <span
-					class="glyphicon glyphicon-pencil"></span>
-				</a>
-			</c:if>
-		</h2>
-	-->
-	 
-		
-	 
+		<div class="row">
+			<div class="col-md-12">
+				<h3 class="text-center">
+					<spring:message code="general.taxonomy" />
+					:
+					<spring:message code="virtualedition" />
+					${virtualEdition.title}
+					<c:if test="${virtualEdition.getAdminSet().contains(userLdoD)}">
+						<a class="" role="button" data-toggle="collapse"
+							href="#collapsemenu" aria-expanded="false"
+							aria-controls="collapseExample" style="font-size: 18px"> <span
+							class="glyphicon glyphicon-pencil"></span>
+						</a>
+					</c:if>
+				</h3>
+			</div>
+		</div>
 		<div class="row col-md-12 has-error">
 			<c:forEach var="error" items='${errors}'>
 				<div class="row">
@@ -81,7 +38,6 @@
 				</div>
 			</c:forEach>
 		</div>
-		
 		<div class="row col-md-12">
 			<div class="collapse" id="collapsemenu">
 				<div class="well" style="height: 70px">
@@ -173,10 +129,30 @@
 				</div>
 			</div>
 		</div>
-
-		<br>
+		<br />
+		<div class="row">
+			<div class="row pull-right" align="center" style="margin-top: 8px">
+				<c:if test="${not empty taxonomy.getUsedIn()}">
+					<span class="bg-warning" style="padding: 10px; line-height: 20px">
+						<spring:message code="general.usedIn" />: <c:forEach
+							var='edition' items='${taxonomy.getUsedIn()}'>
+							<a
+								href="${contextPath}/edition/internalid/${edition.getExternalId()}">${edition.getAcronym()}</a>
+						</c:forEach>
+					</span>
+				</c:if>
+				<span>&nbsp</span> <span class="bg-info"
+					style="padding: 10px; line-height: 20px"> <spring:message
+						code="general.public.pages" />: <a
+					href="${contextPath}/edition/internalid/${virtualEdition.getExternalId()}">
+						<span class="glyphicon glyphicon glyphicon-list-alt"></span> <spring:message
+							code="general.edition" />
+				</a></span>
+			</div>
+		</div>
+		<br />
 		<c:if test="${taxonomy.canManipulateTaxonomy(userLdoD)}">
-			<div class="row" >
+			<div class="row">
 				<div class="col-md-4">
 					<form name="createCategory" class="form-inline" method="POST"
 						action="/virtualeditions/restricted/category/create"
@@ -194,10 +170,7 @@
 							<spring:message code="category.add" />
 						</button>
 					</form>
-					
-						
-					
-					 <div class="row">
+					<div class="row">
 						<div class="col-md-9">
 							<!-- checked by javascrip -->
 							<p class="text-danger" id="errorCat"></p>
@@ -209,71 +182,36 @@
 							</div>
 						</c:forEach>
 					</div>
-				</div> 
-		
-		<div class="col-md-4" align="center" style="margin-top:8px">
-		
-		<c:if test="${not empty taxonomy.getUsedIn()}">
-		<span class="bg-warning" style="padding:10px;line-height:20px">
-			<spring:message code="general.usedIn" />: 
-			<c:forEach var='edition' items='${taxonomy.getUsedIn()}'>
-				<a
-					href="${contextPath}/edition/internalid/${edition.getExternalId()}">${edition.getAcronym()}</a>
-			</c:forEach>
-		</span>
-		</c:if>
-	   <span>&nbsp</span>
-		<span class="bg-info" style="padding:10px;line-height:20px">
-		<spring:message code="general.public.pages" />: 
-		<a href="${contextPath}/edition/internalid/${virtualEdition.getExternalId()}">
-		<span class="glyphicon glyphicon glyphicon-list-alt"></span> <spring:message code="general.edition" /></a></span>
-		
-		
-		</div>
-				
-				
-		<div class="col-md-4" >
-		<button class="btn btn-primary pull-right" data-toggle="modal" data-target="#topicModal">
-		<span class="glyphicon glyphicon-plus"></span>
-		<spring:message code="topics.generate.short" />
-					</button>
-		</div>
-		
-				<!--  
-				<div class="col-md-4">
+				</div>
+				<div class="pull-right">
 					<button class="btn btn-primary pull-right" data-toggle="modal"
 						data-target="#topicModal">
 						<span class="glyphicon glyphicon-plus"></span>
 						<spring:message code="topics.generate.short" />
 					</button>
 				</div>
-				-->
-		
-		</div>
+			</div>
 		</c:if>
-		
 		<br />
-		
-		
 		<div class="row col-md-12">
 			<div class="row">
-				<table class="table table-hover">
-					<form class="form-horizontal" role="form" method="POST"
-						action="/virtualeditions/restricted/category/mulop" id="mulopForm">
-						<div class="form-group">
-							<div class="hidden">
-								<label> <input type="hidden" name="taxonomyId"
-									value="${taxonomy.getExternalId()}">
-								</label> <label> <input type="hidden" name="type" id="type">
-								</label>
-							</div>
+				<form class="form-horizontal" role="form" method="POST"
+					action="/virtualeditions/restricted/category/mulop" id="mulopForm">
+					<div class="form-group">
+						<div class="hidden">
+							<label> <input type="hidden" name="taxonomyId"
+								value="${taxonomy.getExternalId()}">
+							</label> <label> <input type="hidden" name="type" id="type">
+							</label>
 						</div>
+					</div>
+					<table class="table table-hover">
 						<thead>
 							<tr>
 								<th><spring:message code="general.category" /></th>
 								<th><spring:message code="fragments" /></th>
 								<c:if test="${taxonomy.canManipulateTaxonomy(userLdoD)}">
-									<th>
+									<th class="text-center">
 										<div class="dropdown">
 											<button class="btn btn-primary dropdown-toggle" type="button"
 												id="dropdownMenu" data-toggle="dropdown"
@@ -310,10 +248,10 @@
 											items='${category.getSortedInters(virtualEdition)}'>
 											<a
 												href="${contextPath}/virtualeditions/restricted/fraginter/${inter.getExternalId()}">${inter.getTitle()}</a>
-											<span style="padding-left: 2em" />
+											<br />
 										</c:forEach></td>
 									<c:if test="${taxonomy.canManipulateTaxonomy(userLdoD)}">
-										<td class="col-centered">
+										<td class="text-center">
 											<div class="form-group">
 												<div class="checkbox text-center">
 													<label> <input type="checkbox" name="categories[]"
@@ -326,8 +264,8 @@
 								</tr>
 							</c:forEach>
 						</tbody>
-					</form>
-				</table>
+					</table>
+				</form>
 			</div>
 		</div>
 	</div>

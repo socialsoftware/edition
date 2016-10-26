@@ -114,7 +114,7 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 	}
 
 	public Set<LdoDUser> getAnnotationContributorSet() {
-		Set<LdoDUser> contributors = new HashSet<LdoDUser>();
+		Set<LdoDUser> contributors = new HashSet<>();
 		for (Annotation annotation : getAnnotationSet()) {
 			contributors.add(annotation.getUser());
 		}
@@ -196,11 +196,16 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 	public Set<Category> getCategories() {
 		// return getTagSet().stream().map(t ->
 		// t.getCategory()).collect(Collectors.toSet());
-		Set<Category> categories = new HashSet<Category>();
+		Set<Category> categories = new HashSet<>();
 		for (Tag tag : getTagSet()) {
 			categories.add(tag.getCategory());
 		}
 		return categories;
+	}
+
+	public List<Category> getSortedCategories(VirtualEdition virtualEdition) {
+		return getCategories().stream().filter(c -> c.getTaxonomy().getEdition() == virtualEdition)
+				.collect(Collectors.toList());
 	}
 
 	public List<Category> getAssignedCategories() {
@@ -232,9 +237,9 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 	public Set<Category> getAllDepthCategories() {
 		Set<Category> categories = null;
 		if (getVirtualEdition().checkAccess())
-			categories = new HashSet<Category>(getVirtualEdition().getTaxonomy().getCategoriesSet());
+			categories = new HashSet<>(getVirtualEdition().getTaxonomy().getCategoriesSet());
 		else
-			categories = new HashSet<Category>();
+			categories = new HashSet<>();
 
 		categories.addAll(getUses().getAllDepthCategories());
 
@@ -245,9 +250,9 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 	public Set<Annotation> getAllDepthAnnotations() {
 		Set<Annotation> annotations = null;
 		if (getVirtualEdition().checkAccess())
-			annotations = new HashSet<Annotation>(getAnnotationSet());
+			annotations = new HashSet<>(getAnnotationSet());
 		else
-			annotations = new HashSet<Annotation>();
+			annotations = new HashSet<>();
 
 		annotations.addAll(getUses().getAllDepthAnnotations());
 
@@ -259,9 +264,9 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 		Set<Tag> tags = null;
 
 		if (getVirtualEdition().checkAccess())
-			tags = new HashSet<Tag>(getTagSet());
+			tags = new HashSet<>(getTagSet());
 		else
-			tags = new HashSet<Tag>();
+			tags = new HashSet<>();
 
 		tags.addAll(getUses().getAllDepthTags());
 
@@ -339,7 +344,7 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 	}
 
 	public Set<Tag> getTagsCompleteInter() {
-		Set<Tag> result = new HashSet<Tag>(getAllDepthTags());
+		Set<Tag> result = new HashSet<>(getAllDepthTags());
 		result.removeAll(
 				getAllDepthAnnotations().stream().flatMap(t -> t.getTagSet().stream()).collect(Collectors.toSet()));
 		return result;

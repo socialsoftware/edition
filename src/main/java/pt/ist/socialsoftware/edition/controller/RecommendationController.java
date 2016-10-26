@@ -53,114 +53,6 @@ public class RecommendationController {
 		binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
 	}
 
-	@RequestMapping(value = "/sortedEdition", method = RequestMethod.POST, headers = {
-			"Content-type=application/json;charset=UTF-8" })
-	public String getSortedRecommendedVirtualEdition(Model model, @RequestBody RecommendVirtualEditionParam params) {
-		logger.debug(
-				"getSortedRecommendedVirtualEdition acronym:{}, id:{}, properties:{}", params
-						.getAcronym(),
-				params.getId(),
-				params.getProperties().stream()
-						.map(p -> p.getClass().getName().substring(p.getClass().getName().lastIndexOf(".") + 1) + " "
-								+ p.getWeight())
-						.collect(Collectors.joining(";")));
-		VirtualEdition edition = (VirtualEdition) LdoD.getInstance().getEdition(params.getAcronym());
-
-		LdoDUser user = LdoDUser.getAuthenticatedUser();
-		RecommendationWeights recommendationWeights = user.getRecommendationWeights(edition);
-		recommendationWeights.setWeights(params.getProperties());
-
-		if (params.getId() != null && !params.getId().equals("")) {
-			VirtualEditionInter inter = FenixFramework.getDomainObject(params.getId());
-			List<VirtualEditionInter> inters = edition.getVirtualEditionInters();
-
-			inters.remove(inter);
-
-			VSMVirtualEditionInterRecommender recommender = new VSMVirtualEditionInterRecommender();
-			List<Property> properties = recommendationWeights.getProperties();
-			List<FragInter> recommendedEdition = new ArrayList<FragInter>();
-			recommendedEdition.add(inter);
-			recommendedEdition.addAll(recommender.getMostSimilarItemsAsList(inter, inters, properties));
-
-			model.addAttribute("inters", recommendedEdition);
-			model.addAttribute("selected", params.getId());
-		}
-		model.addAttribute("heteronym", null);
-		model.addAttribute("edition", edition);
-
-		return "recommendation/virtualTable";
-	}
-
-	@RequestMapping(value = "/iterativeSort", method = RequestMethod.POST, headers = {
-			"Content-type=application/json;charset=UTF-8" })
-	public String getIterativeSortVirtualEdition(Model model, @RequestBody IterativeSortVirtualEditionParam params) {
-		logger.debug("getIterativeSortVirtualEdition");
-
-		VirtualEdition edition = (VirtualEdition) LdoD.getInstance().getEdition(params.getAcronym());
-		VirtualEditionInter inter = FenixFramework.getDomainObject(params.getId());
-		List<VirtualEditionInter> inters = edition.getVirtualEditionInters();
-		VSMVirtualEditionInterRecommender recommender = new VSMVirtualEditionInterRecommender();
-		Map<Integer, Collection<Property>> map = new HashMap<Integer, Collection<Property>>();
-		LdoDUser user = LdoDUser.getAuthenticatedUser();
-		RecommendationWeights recommendationWeights = user.getRecommendationWeights(edition);
-		recommendationWeights.setWeights(params.getNormalizeProperties());
-		for (PropertyWithLevel property : params.getProperties()) {
-			if (property.getProperty().getWeight() > 0) {
-				if (!map.containsKey(property.getLevel())) {
-					map.put(property.getLevel(), new ArrayList<Property>());
-				}
-				map.get(property.getLevel()).add(property.getProperty());
-			}
-		}
-		Cluster cluster = recommender.getCluster(inter, inters, map);
-
-		model.addAttribute("heteronym", null);
-		model.addAttribute("edition", edition);
-		model.addAttribute("cluster", cluster);
-		model.addAttribute("selected", params.getId());
-
-		return "recommendation/cluster";
-	}
-
-	@RequestMapping(value = "/save", method = RequestMethod.POST)
-	public String getSaveSortVirtualEdition(Model model, @RequestParam("acronym") String acronym,
-			@RequestParam("inter[]") String[] inters) {
-		logger.debug("getSaveSortVirtualEdition");
-
-		LdoD ldod = LdoD.getInstance();
-		VirtualEdition edition = (VirtualEdition) ldod.getEdition(acronym);
-		Section section = edition.createSection("default");
-		if (edition.getSourceType().equals(EditionType.VIRTUAL)) {
-			VirtualEditionInter VirtualEditionInter;
-			for (int i = 0; i < inters.length; i++) {
-				VirtualEditionInter = FenixFramework.getDomainObject(inters[i]);
-				section.addVirtualEditionInter(VirtualEditionInter, i + 1);
-			}
-		}
-		edition.clearEmptySections();
-
-		model.addAttribute("heteronym", null);
-		model.addAttribute("edition", edition);
-		model.addAttribute("inters", edition.getSortedInterps());
-
-		return "recommendation/virtualTable";
-	}
-
-	@RequestMapping(value = "/create", method = RequestMethod.POST)
-	public String getCreateSortVirtualEdition(Model model, @RequestParam("acronym") String acronym,
-			@RequestParam("title") String title, @RequestParam("pub") boolean pub,
-			@RequestParam("inter[]") String[] inters) {
-		logger.debug("getCreateSortVirtualEdition");
-		VirtualEdition virtualEdition = LdoD.getInstance().createVirtualEdition(LdoDUser.getAuthenticatedUser(),
-				acronym, title, new LocalDate(), pub, null);
-		VirtualEditionInter virtualInter;
-		for (int i = 0; i < inters.length; i++) {
-			virtualInter = FenixFramework.getDomainObject(inters[i]);
-			virtualEdition.createVirtualEditionInter(virtualInter, i + 1);
-		}
-		return "redirect:/recommendation/restricted/" + virtualEdition.getExternalId();
-	}
-
 	@RequestMapping(method = RequestMethod.GET, value = "/restricted/{externalId}")
 	public String getSimilarVirtualEdition(Model model, @PathVariable String externalId) {
 		logger.debug("getSimilarVirtualEdition");
@@ -193,7 +85,7 @@ public class RecommendationController {
 
 				VSMVirtualEditionInterRecommender recommender = new VSMVirtualEditionInterRecommender();
 				List<Property> properties = recommendationWeights.getProperties();
-				List<FragInter> recommendedEdition = new ArrayList<FragInter>();
+				List<FragInter> recommendedEdition = new ArrayList<>();
 				recommendedEdition.add(inter);
 				recommendedEdition.addAll(recommender.getMostSimilarItemsAsList(inter, inters, properties));
 
@@ -205,37 +97,114 @@ public class RecommendationController {
 		}
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "/restricted/{edition}/{inter}")
-	public String getSimilarOfInter(Model model, @PathVariable String edition, @PathVariable String inter) {
-		logger.debug("getSimilarOfInter");
+	@RequestMapping(value = "/sortedEdition", method = RequestMethod.POST, headers = {
+			"Content-type=application/json;charset=UTF-8" })
+	public String getSortedRecommendedVirtualEdition(Model model, @RequestBody RecommendVirtualEditionParam params) {
+		logger.debug(
+				"getSortedRecommendedVirtualEdition acronym:{}, id:{}, properties:{}", params
+						.getAcronym(),
+				params.getId(),
+				params.getProperties().stream()
+						.map(p -> p.getClass().getName().substring(p.getClass().getName().lastIndexOf(".") + 1) + " "
+								+ p.getWeight())
+						.collect(Collectors.joining(";")));
+		VirtualEdition edition = (VirtualEdition) LdoD.getInstance().getEdition(params.getAcronym());
 
-		VirtualEdition virtualEdition = FenixFramework.getDomainObject(edition);
-		VirtualEditionInter virtualEditionInter = FenixFramework.getDomainObject(inter);
-		if (virtualEdition == null || virtualEditionInter == null) {
-			return "utils/pageNotFound";
-		} else {
+		LdoDUser user = LdoDUser.getAuthenticatedUser();
+		RecommendationWeights recommendationWeights = user.getRecommendationWeights(edition);
+		recommendationWeights.setWeights(params.getProperties());
+
+		if (params.getId() != null && !params.getId().equals("")) {
+			VirtualEditionInter inter = FenixFramework.getDomainObject(params.getId());
+			List<VirtualEditionInter> inters = edition.getVirtualEditionInters();
+
+			inters.remove(inter);
+
 			VSMVirtualEditionInterRecommender recommender = new VSMVirtualEditionInterRecommender();
-			List<Property> properties = LdoDUser.getAuthenticatedUser().getRecommendationWeights(virtualEdition)
-					.getProperties();
-			List<VirtualEditionInter> mostSimilarItems = new ArrayList<VirtualEditionInter>();
-			List<VirtualEditionInter> inters = virtualEdition.getVirtualEditionInters();
-			inters.remove(virtualEditionInter);
-			mostSimilarItems.add(virtualEditionInter);
-			mostSimilarItems.addAll(recommender.getMostSimilarItemsAsList(virtualEditionInter, inters, properties));
-			RecommendationWeights recommendationWeights = LdoDUser.getAuthenticatedUser()
-					.getRecommendationWeights(virtualEdition);
+			List<Property> properties = recommendationWeights.getProperties();
+			List<FragInter> recommendedEdition = new ArrayList<>();
+			recommendedEdition.add(inter);
+			recommendedEdition.addAll(recommender.getMostSimilarItemsAsList(inter, inters, properties));
 
-			model.addAttribute("heteronym", null);
-			model.addAttribute("edition", virtualEdition);
-			model.addAttribute("inters", mostSimilarItems);
-			model.addAttribute("taxonomyWeight", recommendationWeights.getTaxonomyWeight());
-			model.addAttribute("heteronymWeight", recommendationWeights.getHeteronymWeight());
-			model.addAttribute("dateWeight", recommendationWeights.getDateWeight());
-			model.addAttribute("textWeight", recommendationWeights.getTextWeight());
-			model.addAttribute("selected", inter);
-
-			return "recommendation/tableOfContents";
+			model.addAttribute("inters", recommendedEdition);
+			model.addAttribute("selected", params.getId());
 		}
+		model.addAttribute("heteronym", null);
+		model.addAttribute("edition", edition);
+
+		return "recommendation/virtualTable";
+	}
+
+	@RequestMapping(value = "/save", method = RequestMethod.POST)
+	public String getSaveSortVirtualEdition(Model model, @RequestParam("acronym") String acronym,
+			@RequestParam("inter[]") String[] inters) {
+		logger.debug("getSaveSortVirtualEdition");
+
+		LdoD ldod = LdoD.getInstance();
+		VirtualEdition edition = (VirtualEdition) ldod.getEdition(acronym);
+		Section section = edition.createSection(Section.DEFAULT);
+		if (edition.getSourceType().equals(EditionType.VIRTUAL)) {
+			VirtualEditionInter VirtualEditionInter;
+			for (int i = 0; i < inters.length; i++) {
+				VirtualEditionInter = FenixFramework.getDomainObject(inters[i]);
+				section.addVirtualEditionInter(VirtualEditionInter, i + 1);
+			}
+		}
+		edition.clearEmptySections();
+
+		List<FragInter> sortedInters = edition.getSortedInterps();
+		model.addAttribute("heteronym", null);
+		model.addAttribute("edition", edition);
+		model.addAttribute("inters", sortedInters);
+		model.addAttribute("selected", sortedInters.get(0).getExternalId());
+
+		return "recommendation/virtualTable";
+	}
+
+	@RequestMapping(value = "/create", method = RequestMethod.POST)
+	public String getCreateSortVirtualEdition(Model model, @RequestParam("acronym") String acronym,
+			@RequestParam("title") String title, @RequestParam("pub") boolean pub,
+			@RequestParam("inter[]") String[] inters) {
+		logger.debug("getCreateSortVirtualEdition");
+		VirtualEdition virtualEdition = LdoD.getInstance().createVirtualEdition(LdoDUser.getAuthenticatedUser(),
+				acronym, title, new LocalDate(), pub, null);
+		VirtualEditionInter virtualInter;
+		for (int i = 0; i < inters.length; i++) {
+			virtualInter = FenixFramework.getDomainObject(inters[i]);
+			virtualEdition.createVirtualEditionInter(virtualInter, i + 1);
+		}
+		return "redirect:/recommendation/restricted/" + virtualEdition.getExternalId();
+	}
+
+	@RequestMapping(value = "/iterativeSort", method = RequestMethod.POST, headers = {
+			"Content-type=application/json;charset=UTF-8" })
+	public String getIterativeSortVirtualEdition(Model model, @RequestBody IterativeSortVirtualEditionParam params) {
+		logger.debug("getIterativeSortVirtualEdition");
+
+		VirtualEdition edition = (VirtualEdition) LdoD.getInstance().getEdition(params.getAcronym());
+		VirtualEditionInter inter = FenixFramework.getDomainObject(params.getId());
+		List<VirtualEditionInter> inters = edition.getVirtualEditionInters();
+		VSMVirtualEditionInterRecommender recommender = new VSMVirtualEditionInterRecommender();
+		Map<Integer, Collection<Property>> map = new HashMap<>();
+		LdoDUser user = LdoDUser.getAuthenticatedUser();
+		RecommendationWeights recommendationWeights = user.getRecommendationWeights(edition);
+		recommendationWeights.setWeights(params.getNormalizeProperties());
+		for (PropertyWithLevel property : params.getProperties()) {
+			if (property.getProperty().getWeight() > 0) {
+				if (!map.containsKey(property.getLevel())) {
+					map.put(property.getLevel(), new ArrayList<Property>());
+				}
+				map.get(property.getLevel()).add(property.getProperty());
+			}
+		}
+		Cluster cluster = recommender.getCluster(inter, inters, map);
+
+		model.addAttribute("heteronym", null);
+		model.addAttribute("edition", edition);
+		model.addAttribute("cluster", cluster);
+		model.addAttribute("selected", params.getId());
+
+		return "recommendation/cluster";
 	}
 
 	@RequestMapping(value = "/iterativesort/save", method = RequestMethod.POST, headers = {
@@ -274,7 +243,6 @@ public class RecommendationController {
 
 			return "recommendation/virtualTableWithSections";
 		}
-
 	}
 
 	@RequestMapping(value = "/iterativesort/create", method = RequestMethod.POST)

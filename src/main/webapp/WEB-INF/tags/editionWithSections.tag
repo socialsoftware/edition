@@ -40,7 +40,7 @@
 							<c:otherwise>
 								<button type="submit" class="btn btn-primary btn-sm sort">
 									<span class="glyphicon glyphicon-check"></span>
-									<spring:message code="general.select" />
+									<spring:message code="recommendation.setinitial" />
 								</button>
 							</c:otherwise>
 						</c:choose></td>

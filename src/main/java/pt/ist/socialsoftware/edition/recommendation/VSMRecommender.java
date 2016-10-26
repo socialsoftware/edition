@@ -60,7 +60,7 @@ public abstract class VSMRecommender<T> implements Recommender<T, Property> {
 	@Override
 	public List<Entry<T, Double>> getMostSimilarItems(T item, Collection<T> items, Collection<Property> properties) {
 		double similarity;
-		Map<T, Double> map = new HashMap<T, Double>();
+		Map<T, Double> map = new HashMap<>();
 		for (T otherItem : items) {
 			if (otherItem != item) {
 				similarity = calculateSimilarity(item, otherItem, properties);
@@ -74,7 +74,7 @@ public abstract class VSMRecommender<T> implements Recommender<T, Property> {
 	}
 
 	public List<T> getMostSimilarItemsAsList(T item, Collection<T> items, List<Property> properties) {
-		List<T> result = new ArrayList<T>();
+		List<T> result = new ArrayList<>();
 		T nextItem = item;
 		do {
 			nextItem = getMostSimilarItem(nextItem, items, properties);

@@ -89,11 +89,11 @@ public class VSMVirtualEditionInterRecomenderTest {
 			}
 		}
 
-		List<Property> properties = new ArrayList<Property>();
+		List<Property> properties = new ArrayList<>();
 		properties.add(new HeteronymProperty(1.0));
 
 		VirtualEditionInter result = recommender.getMostSimilarItem(virtualEditionInter,
-				new HashSet<VirtualEditionInter>(virtualEditionInters), properties);
+				new HashSet<>(virtualEditionInters), properties);
 
 		assertTrue(virtualEditionInter != result);
 		assertEquals(virtualEditionInter.getLastUsed().getHeteronym(), result.getLastUsed().getHeteronym());
@@ -109,11 +109,11 @@ public class VSMVirtualEditionInterRecomenderTest {
 			}
 		}
 
-		List<Property> properties = new ArrayList<Property>();
+		List<Property> properties = new ArrayList<>();
 		properties.add(new HeteronymProperty(1.0));
 
 		VirtualEditionInter result = recommender.getMostSimilarItem(virtualEditionInter,
-				new HashSet<VirtualEditionInter>(virtualEditionInters), properties);
+				new HashSet<>(virtualEditionInters), properties);
 
 		assertTrue(virtualEditionInter != result);
 		assertEquals(NullHeteronym.getNullHeteronym(), result.getLastUsed().getHeteronym());
@@ -130,11 +130,11 @@ public class VSMVirtualEditionInterRecomenderTest {
 			}
 		}
 
-		List<Property> properties = new ArrayList<Property>();
+		List<Property> properties = new ArrayList<>();
 		properties.add(new DateProperty(1.0));
 
 		VirtualEditionInter result = recommender.getMostSimilarItem(virtualEditionInter,
-				new HashSet<VirtualEditionInter>(virtualEditionInters), properties);
+				new HashSet<>(virtualEditionInters), properties);
 
 		assertTrue(virtualEditionInter != result);
 		assertEquals(virtualEditionInter.getLastUsed().getLdoDDate().getDate().getYear(),
@@ -151,11 +151,11 @@ public class VSMVirtualEditionInterRecomenderTest {
 			}
 		}
 
-		List<Property> properties = new ArrayList<Property>();
+		List<Property> properties = new ArrayList<>();
 		properties.add(new DateProperty(1.0));
 
 		VirtualEditionInter result = recommender.getMostSimilarItem(virtualEditionInter,
-				new HashSet<VirtualEditionInter>(virtualEditionInters), properties);
+				new HashSet<>(virtualEditionInters), properties);
 
 		assertTrue(virtualEditionInter != result);
 		assertNull(result.getLastUsed().getLdoDDate());
@@ -171,11 +171,11 @@ public class VSMVirtualEditionInterRecomenderTest {
 			}
 		}
 
-		List<Property> properties = new ArrayList<Property>();
+		List<Property> properties = new ArrayList<>();
 		properties.add(new TaxonomyProperty(1.0, virtualEdition.getTaxonomy(), PropertyCache.OFF));
 
 		VirtualEditionInter result = recommender.getMostSimilarItem(virtualEditionInter,
-				new HashSet<VirtualEditionInter>(virtualEditionInters), properties);
+				new HashSet<>(virtualEditionInters), properties);
 
 		assertTrue(virtualEditionInter != result);
 		assertTrue(virtualEditionInter.getTagSet().stream().map(t -> t.getCategory())
@@ -194,11 +194,11 @@ public class VSMVirtualEditionInterRecomenderTest {
 			}
 		}
 
-		List<Property> properties = new ArrayList<Property>();
+		List<Property> properties = new ArrayList<>();
 		properties.add(new TextProperty(1.0));
 
 		VirtualEditionInter result = recommender.getMostSimilarItem(virtualEditionInter,
-				new HashSet<VirtualEditionInter>(virtualEditionInters), properties);
+				new HashSet<>(virtualEditionInters), properties);
 
 		assertTrue(virtualEditionInter != result);
 		assertTrue(indexer.getTFIDFTerms(virtualEditionInter.getFragment(), TextProperty.NUMBER_OF_TERMS).stream()
@@ -217,14 +217,14 @@ public class VSMVirtualEditionInterRecomenderTest {
 			}
 		}
 
-		List<Property> properties = new ArrayList<Property>();
+		List<Property> properties = new ArrayList<>();
 		properties.add(new HeteronymProperty(1.0));
 		properties.add(new DateProperty(1.0));
 		properties.add(new TaxonomyProperty(1.0, virtualEdition.getTaxonomy(), PropertyCache.OFF));
 		properties.add(new TextProperty(1.0));
 
 		VirtualEditionInter result = recommender.getMostSimilarItem(virtualEditionInter,
-				new HashSet<VirtualEditionInter>(virtualEditionInters), properties);
+				new HashSet<>(virtualEditionInters), properties);
 
 		assertTrue(virtualEditionInter != result);
 		assertEquals(virtualEditionInter.getLastUsed().getHeteronym(), result.getLastUsed().getHeteronym());
