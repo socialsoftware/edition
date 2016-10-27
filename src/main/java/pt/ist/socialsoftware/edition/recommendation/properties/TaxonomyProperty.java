@@ -64,8 +64,9 @@ public class TaxonomyProperty extends Property {
 	}
 
 	@Override
-	public void userWeights(RecommendationWeights recommendationWeights) {
+	public void userWeightAndLevel(RecommendationWeights recommendationWeights, int level) {
 		recommendationWeights.setTaxonomyWeight(getWeight());
+		recommendationWeights.setTaxonomyLevel(level);
 	}
 
 	public Taxonomy getTaxonomy() {

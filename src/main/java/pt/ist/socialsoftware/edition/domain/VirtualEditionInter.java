@@ -1,5 +1,6 @@
 package pt.ist.socialsoftware.edition.domain;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -347,6 +348,16 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 		Set<Tag> result = new HashSet<>(getAllDepthTags());
 		result.removeAll(
 				getAllDepthAnnotations().stream().flatMap(t -> t.getTagSet().stream()).collect(Collectors.toSet()));
+		return result;
+	}
+
+	public List<Section> getParentSectionsPath() {
+		List<Section> result = new ArrayList<>();
+		Section parent = getSection();
+		while (parent != null) {
+			result.add(0, parent);
+			parent = parent.getParentSection();
+		}
 		return result;
 	}
 

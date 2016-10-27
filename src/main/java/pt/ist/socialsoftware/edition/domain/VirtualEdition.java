@@ -45,7 +45,7 @@ public class VirtualEdition extends VirtualEdition_Base {
 		setDate(date);
 		setPub(pub);
 		setTaxonomy(new Taxonomy());
-		createSection("Default", 0);
+		createSection(Section.DEFAULT, 0);
 		if (usedEdition != null) {
 			for (FragInter inter : usedEdition.getIntersSet()) {
 				createVirtualEditionInter(inter, inter.getNumber());
@@ -108,7 +108,7 @@ public class VirtualEdition extends VirtualEdition_Base {
 	}
 
 	public List<VirtualEditionInter> getSortedInter4Frag(Fragment fragment) {
-		List<VirtualEditionInter> interps = new ArrayList<VirtualEditionInter>();
+		List<VirtualEditionInter> interps = new ArrayList<>();
 
 		for (FragInter inter : fragment.getFragmentInterSet()) {
 			if ((inter.getSourceType() == EditionType.VIRTUAL)
@@ -163,7 +163,7 @@ public class VirtualEdition extends VirtualEdition_Base {
 
 	@Override
 	public Set<FragInter> getIntersSet() {
-		return new HashSet<FragInter>(getVirtualEditionInters());
+		return new HashSet<>(getVirtualEditionInters());
 	}
 
 	@Override
@@ -185,8 +185,8 @@ public class VirtualEdition extends VirtualEdition_Base {
 
 		List<String> fragInterList = Arrays.stream(fraginters.trim().split(";")).map(item -> item.trim())
 				.filter(item -> !item.equals("")).collect(Collectors.toList());
-		List<String> newFragList = new ArrayList<String>();
-		List<String> actualFragList = new ArrayList<String>();
+		List<String> newFragList = new ArrayList<>();
+		List<String> actualFragList = new ArrayList<>();
 
 		// inicializa lista de frags
 		for (String temp : fragInterList) {
@@ -280,7 +280,7 @@ public class VirtualEdition extends VirtualEdition_Base {
 		VirtualEditionInter virtualInter = null;
 		if (getSectionsSet().isEmpty()) {
 			if (canAddFragInter(inter)) {
-				Section section = new Section(this, "Default", 0);
+				Section section = new Section(this, Section.DEFAULT, 0);
 				virtualInter = new VirtualEditionInter(section, inter, number);
 				section.addVirtualEditionInter(virtualInter);
 				addSections(section);

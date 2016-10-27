@@ -363,6 +363,78 @@ console.log(editionData);
 								</div>
 							</div>
 						</div>
+						
+						<!--
+                <button type="button" id="up" class="btn btn-default">Cima</button>
+                <button type="button" id="down" class="btn btn-default">Baixo</button>
+                <button type="buttom" id="top" class="btn btn-default">Inicio</button>
+                <button type="button" id="bottom" class="btn btn-default">Fim</button>
+                -->
+
+
+						<!-- Single button -->
+						<!--  
+                <div class="btn-group">
+                  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                    <span class="glyphicon glyphicon-arrow-right" aria-hidden="up"></span><span class="caret"></span>
+                  </button>
+                  <div class="dropdown-menu" role="menu" style="padding:15px">
+                  	Posição:
+                    <input id="movetopos" type="number" value="0" min="0" class="form-control">
+                	<br>
+                    <button type="button" id="moveok" class="btn btn-default pull-right">OK</button>
+                    <!--  <li class="divider"></li>
+                    <li><div id="slider2"></div></li>
+                    <li class="divider"></li>-->
+						<!--  </div>-->
+
+
+						<!--  
+                   <div class="dropdown-menu" style="padding:17px;">
+	             
+	                <input name="username" id="username" type="text" placeholder="Username"> 
+	                <input name="password" id="password" type="password" placeholder="Password"><br>
+	                <button type="button" id="btnLogin" class="btn">Login</button>  
+	            	</div>
+	              -->
+						<!--  </div>-->
+
+
+
+
+						<!--
+                
+                 <div class="btn-group" role="group" aria-label="...">
+                  <button type="button" class="btn btn-default" data-toggle="modal" data-target=".bs-example-modal-addsection2">
+                <span class="glyphicon glyphicon-text-height" aria-hidden="Adicionar secção"></span>
+                </button>
+              </div>
+                
+                <button type="button" class="btn btn-default" data-toggle="modal" data-target=".bs-example-modal-addsection2">
+                Secção
+                </button>
+               
+                 <div class="btn-group" role="group" aria-label="...">
+                  <button type="button"  id="preview" class="btn btn-default" data-toggle="modal" data-target="#myModal">
+                <span class="glyphicon glyphicon-th-list" aria-hidden="Previsualizar Índice"></span>
+                </button>
+              </div>
+ 					-->
+						<!--
+               <div class="btn-group" role="group" aria-label="...">
+                   <button type="button" id="save" class="btn btn-default">
+                <span class="glyphicon glyphicon-cloud-upload" aria-hidden="Guardar"></span>
+                </button>
+              </div>
+              <!--
+                <button type="button"  id="preview" class="btn btn-default" data-toggle="modal" data-target="#myModal">
+                Preview
+                </button>
+                <button type="button" id="save" class="btn btn-default">Save</button>
+                -->
+
+						
+					
 						<div class="btn-group" role="group" aria-label="...">
 							<input id="tname" type="text" class="btn btn-default"
 								placeholder="${selectText}" style="font-size: 0.8em;">
@@ -374,6 +446,10 @@ console.log(editionData);
 							<span class="glyphicon glyphicon-floppy-disk"
 								aria-hidden="bottom"></span>
 						</button>
+						
+												<!--<br><br>
+                <div id="slider2"></div>-->
+						
 					</div>
 				</ul>
 			</div>
@@ -428,6 +504,35 @@ console.log(editionData);
 						</div>
 					</div>
 					<br>
+					
+										<!--
+      <table data-toggle="table">
+        <thead>
+        <tr>
+        	<th data-field="state" data-checkbox="true"></th>
+            <th>Fragments</th>
+            <th>Interpretations</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+	       	<td data-checkbox="true"></td>
+	       	<td>a</td>
+	       	<td>b</td>
+        </tr>
+        <tr>
+	       	<td data-checkbox="true" data-val="true"></td>
+	       	<td>a</td>
+	       	<td>b</td>
+        </tr>
+          <tr>
+	       	<td data-checkbox="true"></td>
+	       	<td>a</td>
+	       	<td>b</td>
+       
+        </tbody>
+    </table>  -->
+		
 					<div id="searchresult"
 						style="display: none; width: 100%; text-align: center;">
 						<hr>
@@ -498,6 +603,8 @@ console.log(editionData);
 		<h1 class="text-center">
 			<spring:message code="general.edition" />
 			:
+						<!--  <a href="${contextPath}/edition/acronym/${virtualEdition.acronym}">
+                <span id="editiontitle">${virtualEdition.title}</span></a> -->
 			<span id="editiontitle">${virtualEdition.title}</span>
 			<c:if test="${virtualEdition.getAdminSet().contains(userLdoD)}">
 				<a class="" role="button" data-toggle="collapse"
@@ -507,6 +614,17 @@ console.log(editionData);
 				</a>
 			</c:if>
 		</h1>
+				<!-- 
+        <div class="row pull-right">
+            <form class="form-inline" method="GET"
+                action="${contextPath}/virtualeditions">
+                <button type="submit" class="btn btn-primary">
+                    <span class="glyphicon glyphicon-th-list"></span>
+                    <spring:message code="virtual.editions" />
+                </button>
+            </form>
+        </div>
+		 -->
 		<div class="row col-md-12 has-error">
 			<c:forEach var="error" items='${errors}'>
 				<div class="row">

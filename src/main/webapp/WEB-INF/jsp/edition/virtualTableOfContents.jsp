@@ -3,13 +3,6 @@
 	<spring:message code="virtualedition" />
 	${edition.title} (${edition.getSortedInterps().size()})
 </h3>
-<c:if test="${heteronym != null}">
-	<h3 class="text-left">
-		<spring:message code="tableofcontents.fragmentsof" />
-		${heteronym.name}
-	</h3>
-	<br>
-</c:if>
 <table id="tablevirtual" data-pagination="false">
 	<!-- <table class="table table-hover table-condensed"> -->
 	<thead>
@@ -29,24 +22,22 @@
 		</tr>
 	<tbody>
 		<c:forEach var="inter" items='${edition.sortedInterps}'>
-			<c:if test="${(heteronym == null) || (inter.heteronym == heteronym)}">
-				<tr>
-					<td><c:if test="${inter.number!=0}">${inter.number}</c:if></td>
-					<td><a
-						href="${contextPath}/fragments/fragment/inter/${inter.externalId}">${inter.title}</a></td>
-					<td><c:forEach var="category"
-							items='${inter.getAssignedCategories()}'>
-							<a
-								href="${contextPath}/edition/category/${category.getExternalId()}">
-								${category.getNameInEditionContext(edition)}</a>
-							<br>
-						</c:forEach></td>
-					<td><c:forEach var="used" items="${inter.getListUsed()}">-><a
-								href="${contextPath}/fragments/fragment/inter/${used.externalId}">${used.shortName}</a>
-							<br>
-						</c:forEach></td>
-				</tr>
-			</c:if>
+			<tr>
+				<td><c:if test="${inter.number!=0}">${inter.number}</c:if></td>
+				<td><a
+					href="${contextPath}/fragments/fragment/inter/${inter.externalId}">${inter.title}</a></td>
+				<td><c:forEach var="category"
+						items='${inter.getAssignedCategories()}'>
+						<a
+							href="${contextPath}/edition/category/${category.getExternalId()}">
+							${category.getNameInEditionContext(edition)}</a>
+						<br>
+					</c:forEach></td>
+				<td><c:forEach var="used" items="${inter.getListUsed()}">-><a
+							href="${contextPath}/fragments/fragment/inter/${used.externalId}">${used.shortName}</a>
+						<br>
+					</c:forEach></td>
+			</tr>
 		</c:forEach>
 	</tbody>
 </table>

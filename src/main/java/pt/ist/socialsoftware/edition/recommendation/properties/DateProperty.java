@@ -67,7 +67,7 @@ public class DateProperty extends Property {
 
 	@Override
 	double[] extractVector(Fragment fragment) {
-		Set<Integer> dates = new HashSet<Integer>();
+		Set<Integer> dates = new HashSet<>();
 		for (FragInter inter : fragment.getFragmentInterSet()) {
 			if (inter.getLdoDDate() != null) {
 				dates.add(inter.getLdoDDate().getDate().getYear());
@@ -87,8 +87,9 @@ public class DateProperty extends Property {
 	}
 
 	@Override
-	public void userWeights(RecommendationWeights recommendationWeights) {
+	public void userWeightAndLevel(RecommendationWeights recommendationWeights, int level) {
 		recommendationWeights.setDateWeight(getWeight());
+		recommendationWeights.setDateLevel(level);
 	}
 
 	@Override
@@ -99,7 +100,7 @@ public class DateProperty extends Property {
 	@Override
 	public String getConcreteTitle(FragInter intr) {
 
-		Set<Integer> dates = new TreeSet<Integer>();
+		Set<Integer> dates = new TreeSet<>();
 		for (FragInter inter : intr.getFragment().getFragmentInterSet()) {
 			if (inter.getLdoDDate() != null) {
 				dates.add(inter.getLdoDDate().getDate().getYear());

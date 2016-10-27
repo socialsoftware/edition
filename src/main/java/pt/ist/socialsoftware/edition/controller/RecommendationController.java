@@ -33,10 +33,10 @@ import pt.ist.socialsoftware.edition.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.domain.VirtualEditionInter;
 import pt.ist.socialsoftware.edition.recommendation.Cluster;
 import pt.ist.socialsoftware.edition.recommendation.VSMVirtualEditionInterRecommender;
-import pt.ist.socialsoftware.edition.recommendation.dto.IterativeSortVirtualEditionParam;
 import pt.ist.socialsoftware.edition.recommendation.dto.PropertyWithLevel;
 import pt.ist.socialsoftware.edition.recommendation.dto.RecommendVirtualEditionParam;
 import pt.ist.socialsoftware.edition.recommendation.dto.SectionDTO;
+import pt.ist.socialsoftware.edition.recommendation.dto.SectionVirtualEditionParam;
 import pt.ist.socialsoftware.edition.recommendation.dto.VirtualEditionWithSectionsDTO;
 import pt.ist.socialsoftware.edition.recommendation.properties.Property;
 
@@ -54,42 +54,61 @@ public class RecommendationController {
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/restricted/{externalId}")
-	public String getSimilarVirtualEdition(Model model, @PathVariable String externalId) {
-		logger.debug("getSimilarVirtualEdition");
+	public String presentEditionWithRecommendation(Model model, @PathVariable String externalId) {
+		logger.debug("presentEditionWithRecommendation");
 
 		VirtualEdition virtualEdition = FenixFramework.getDomainObject(externalId);
 		if (virtualEdition == null) {
 			return "utils/pageNotFound";
 		} else {
-			logger.debug("getSimilarVirtualEdition sections: {}",
+			logger.debug("presentEditionWithRecommendation sections: {}",
 					virtualEdition.getSectionsSet().stream().map(s -> s.print(1)).collect(Collectors.joining()));
 
 			RecommendationWeights recommendationWeights = LdoDUser.getAuthenticatedUser()
 					.getRecommendationWeights(virtualEdition);
 
-			logger.debug("getSimilarVirtualEdition sections: {}",
+			logger.debug("presentEditionWithRecommendation sections: {}",
 					virtualEdition.getSectionsSet().stream().map(s -> s.print(1)).collect(Collectors.joining()));
 
-			model.addAttribute("heteronym", null);
 			model.addAttribute("edition", virtualEdition);
 			model.addAttribute("taxonomyWeight", recommendationWeights.getTaxonomyWeight());
+			model.addAttribute("taxonomyLevel", recommendationWeights.getTaxonomyLevel());
 			model.addAttribute("heteronymWeight", recommendationWeights.getHeteronymWeight());
+			model.addAttribute("heteronymLevel", recommendationWeights.getHeteronymLevel());
 			model.addAttribute("dateWeight", recommendationWeights.getDateWeight());
+			model.addAttribute("dateLevel", recommendationWeights.getDateLevel());
 			model.addAttribute("textWeight", recommendationWeights.getTextWeight());
+			model.addAttribute("textLevel", recommendationWeights.getTextLevel());
 
 			if (!virtualEdition.getVirtualEditionInters().isEmpty()) {
 				VirtualEditionInter inter = virtualEdition.getVirtualEditionInters().get(0);
 				List<VirtualEditionInter> inters = virtualEdition.getVirtualEditionInters();
-
-				inters.remove(inter);
-
 				VSMVirtualEditionInterRecommender recommender = new VSMVirtualEditionInterRecommender();
-				List<Property> properties = recommendationWeights.getProperties();
-				List<FragInter> recommendedEdition = new ArrayList<>();
-				recommendedEdition.add(inter);
-				recommendedEdition.addAll(recommender.getMostSimilarItemsAsList(inter, inters, properties));
 
-				model.addAttribute("inters", recommendedEdition);
+				if (!virtualEdition.hasMultipleSections()) {
+
+					inters.remove(inter);
+
+					List<Property> properties = recommendationWeights.getProperties();
+					List<FragInter> recommendedEdition = new ArrayList<>();
+					recommendedEdition.add(inter);
+					recommendedEdition.addAll(recommender.getMostSimilarItemsAsList(inter, inters, properties));
+
+					model.addAttribute("inters", recommendedEdition);
+				} else {
+					Map<Integer, Collection<Property>> map = new HashMap<>();
+					for (PropertyWithLevel property : recommendationWeights.getPropertiesWithLevel()) {
+						if (property.getProperty().getWeight() > 0) {
+							if (!map.containsKey(property.getLevel())) {
+								map.put(property.getLevel(), new ArrayList<Property>());
+							}
+							map.get(property.getLevel()).add(property.getProperty());
+						}
+					}
+					Cluster cluster = recommender.getCluster(inter, inters, map);
+					model.addAttribute("cluster", cluster);
+				}
+
 				model.addAttribute("selected", inter.getExternalId());
 			}
 
@@ -97,11 +116,11 @@ public class RecommendationController {
 		}
 	}
 
-	@RequestMapping(value = "/sortedEdition", method = RequestMethod.POST, headers = {
+	@RequestMapping(value = "/linear", method = RequestMethod.POST, headers = {
 			"Content-type=application/json;charset=UTF-8" })
-	public String getSortedRecommendedVirtualEdition(Model model, @RequestBody RecommendVirtualEditionParam params) {
+	public String setLinearVirtualEdition(Model model, @RequestBody RecommendVirtualEditionParam params) {
 		logger.debug(
-				"getSortedRecommendedVirtualEdition acronym:{}, id:{}, properties:{}", params
+				"setLinearVirtualEdition acronym:{}, id:{}, properties:{}", params
 						.getAcronym(),
 				params.getId(),
 				params.getProperties().stream()
@@ -129,43 +148,43 @@ public class RecommendationController {
 			model.addAttribute("inters", recommendedEdition);
 			model.addAttribute("selected", params.getId());
 		}
-		model.addAttribute("heteronym", null);
 		model.addAttribute("edition", edition);
 
 		return "recommendation/virtualTable";
 	}
 
-	@RequestMapping(value = "/save", method = RequestMethod.POST)
-	public String getSaveSortVirtualEdition(Model model, @RequestParam("acronym") String acronym,
-			@RequestParam("inter[]") String[] inters) {
-		logger.debug("getSaveSortVirtualEdition");
+	@RequestMapping(value = "/linear/save", method = RequestMethod.POST)
+	public String saveLinearVirtualEdition(Model model, @RequestParam("acronym") String acronym,
+			@RequestParam(value = "inter[]", required = false) String[] inters) {
+		logger.debug("saveLinearVirtualEdition");
 
 		LdoD ldod = LdoD.getInstance();
 		VirtualEdition edition = (VirtualEdition) ldod.getEdition(acronym);
-		Section section = edition.createSection(Section.DEFAULT);
-		if (edition.getSourceType().equals(EditionType.VIRTUAL)) {
+		if (inters != null && edition.getSourceType().equals(EditionType.VIRTUAL)) {
+			Section section = edition.createSection(Section.DEFAULT);
 			VirtualEditionInter VirtualEditionInter;
-			for (int i = 0; i < inters.length; i++) {
-				VirtualEditionInter = FenixFramework.getDomainObject(inters[i]);
-				section.addVirtualEditionInter(VirtualEditionInter, i + 1);
+			int i = 0;
+			for (String externalId : inters) {
+				VirtualEditionInter = FenixFramework.getDomainObject(externalId);
+				section.addVirtualEditionInter(VirtualEditionInter, ++i);
 			}
-		}
-		edition.clearEmptySections();
+			edition.clearEmptySections();
 
-		List<FragInter> sortedInters = edition.getSortedInterps();
-		model.addAttribute("heteronym", null);
+			List<FragInter> sortedInters = edition.getSortedInterps();
+			model.addAttribute("inters", sortedInters);
+			model.addAttribute("selected", sortedInters.get(0).getExternalId());
+		}
+
 		model.addAttribute("edition", edition);
-		model.addAttribute("inters", sortedInters);
-		model.addAttribute("selected", sortedInters.get(0).getExternalId());
 
 		return "recommendation/virtualTable";
 	}
 
-	@RequestMapping(value = "/create", method = RequestMethod.POST)
-	public String getCreateSortVirtualEdition(Model model, @RequestParam("acronym") String acronym,
+	@RequestMapping(value = "/linear/create", method = RequestMethod.POST)
+	public String createLinearVirtualEdition(Model model, @RequestParam("acronym") String acronym,
 			@RequestParam("title") String title, @RequestParam("pub") boolean pub,
 			@RequestParam("inter[]") String[] inters) {
-		logger.debug("getCreateSortVirtualEdition");
+		logger.debug("createLinearVirtualEdition");
 		VirtualEdition virtualEdition = LdoD.getInstance().createVirtualEdition(LdoDUser.getAuthenticatedUser(),
 				acronym, title, new LocalDate(), pub, null);
 		VirtualEditionInter virtualInter;
@@ -176,10 +195,10 @@ public class RecommendationController {
 		return "redirect:/recommendation/restricted/" + virtualEdition.getExternalId();
 	}
 
-	@RequestMapping(value = "/iterativeSort", method = RequestMethod.POST, headers = {
+	@RequestMapping(value = "/section", method = RequestMethod.POST, headers = {
 			"Content-type=application/json;charset=UTF-8" })
-	public String getIterativeSortVirtualEdition(Model model, @RequestBody IterativeSortVirtualEditionParam params) {
-		logger.debug("getIterativeSortVirtualEdition");
+	public String setSectionVirtualEdition(Model model, @RequestBody SectionVirtualEditionParam params) {
+		logger.debug("setSectionVirtualEdition");
 
 		VirtualEdition edition = (VirtualEdition) LdoD.getInstance().getEdition(params.getAcronym());
 		VirtualEditionInter inter = FenixFramework.getDomainObject(params.getId());
@@ -188,7 +207,7 @@ public class RecommendationController {
 		Map<Integer, Collection<Property>> map = new HashMap<>();
 		LdoDUser user = LdoDUser.getAuthenticatedUser();
 		RecommendationWeights recommendationWeights = user.getRecommendationWeights(edition);
-		recommendationWeights.setWeights(params.getNormalizeProperties());
+		recommendationWeights.setWeightsAndLevels(params.getProperties());
 		for (PropertyWithLevel property : params.getProperties()) {
 			if (property.getProperty().getWeight() > 0) {
 				if (!map.containsKey(property.getLevel())) {
@@ -199,19 +218,18 @@ public class RecommendationController {
 		}
 		Cluster cluster = recommender.getCluster(inter, inters, map);
 
-		model.addAttribute("heteronym", null);
 		model.addAttribute("edition", edition);
 		model.addAttribute("cluster", cluster);
 		model.addAttribute("selected", params.getId());
 
-		return "recommendation/cluster";
+		return "recommendation/virtualTableWithSections";
 	}
 
-	@RequestMapping(value = "/iterativesort/save", method = RequestMethod.POST, headers = {
+	@RequestMapping(value = "/section/save", method = RequestMethod.POST, headers = {
 			"Content-type=application/json;charset=UTF-8" })
-	public String saveItertativeSort(Model model,
+	public String saveSectionVirtualEdition(Model model,
 			@RequestBody VirtualEditionWithSectionsDTO virtualEditionWithSectionsDTO) {
-		logger.debug("saveItertativeSort");
+		logger.debug("saveSectionVirtualEdition");
 
 		Edition edition = LdoD.getInstance().getEdition(virtualEditionWithSectionsDTO.getAcronym());
 		if (edition == null || !(edition instanceof VirtualEdition)) {
@@ -222,8 +240,9 @@ public class RecommendationController {
 			for (SectionDTO sectionDTO : virtualEditionWithSectionsDTO.getSections()) {
 				List<String> sections = sectionDTO.getSections();
 
-				logger.debug("saveItertativeSort sections: {}",
-						virtualEdition.getSectionsSet().stream().map(s -> s.print(1)).collect(Collectors.joining()));
+				// logger.debug("saveSectionVirtualEdition sections: {}",
+				// virtualEdition.getSectionsSet().stream().map(s ->
+				// s.print(1)).collect(Collectors.joining()));
 
 				Section section = virtualEdition.getSection(sections.get(0)) == null
 						? virtualEdition.createSection(sections.get(0)) : virtualEdition.getSection(sections.get(0));
@@ -237,19 +256,15 @@ public class RecommendationController {
 			}
 			virtualEdition.clearEmptySections();
 
-			model.addAttribute("heteronym", null);
-			model.addAttribute("edition", virtualEdition);
-			model.addAttribute("inters", virtualEdition.getSortedInterps());
-
-			return "recommendation/virtualTableWithSections";
+			return "OK";
 		}
 	}
 
-	@RequestMapping(value = "/iterativesort/create", method = RequestMethod.POST)
-	public String createIterativeSort(Model model, @RequestParam("acronym") String acronym,
+	@RequestMapping(value = "/section/create", method = RequestMethod.POST)
+	public String createSectionVirtualEdition(Model model, @RequestParam("acronym") String acronym,
 			@RequestParam("title") String title, @RequestParam("pub") boolean pub,
 			@RequestParam("inter[]") String[] inters, @RequestParam("depth[]") String[] depth) {
-		logger.debug("createIterativeSort");
+		logger.debug("createSectionVirtualEdition");
 
 		VirtualEdition virtualEdition = LdoD.getInstance().createVirtualEdition(LdoDUser.getAuthenticatedUser(),
 				acronym, title, new LocalDate(), pub, null);

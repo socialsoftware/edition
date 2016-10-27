@@ -1,11 +1,10 @@
 <%@ taglib tagdir="/WEB-INF/tags" prefix="edition"%>
 <%@ include file="/WEB-INF/jsp/common/tags-head.jsp"%>
-<div id="result-type-iterative"></div>
 <table id="virtual-table" class="table table-condensed table-hover">
 	<thead>
 		<tr>
 			<c:forEach var="i" begin="1"
-				end="${edition.getDepth()}">
+						end="${cluster.getNumberOfIterations()}">
 				<th>${i}</th>
 			</c:forEach>
 			<th><spring:message code="tableofcontents.number" /></th>
@@ -16,6 +15,6 @@
 		</tr>
 	</thead>
 	<tbody>
-		<edition:editionWithSections sections="${edition.getSortedSections()}" />
+		<edition:editionWithSections cluster="${cluster}" />
 	</tbody>
 </table>

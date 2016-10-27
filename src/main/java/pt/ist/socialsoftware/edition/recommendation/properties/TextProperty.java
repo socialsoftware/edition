@@ -23,7 +23,7 @@ public class TextProperty extends Property {
 
 	public static final int NUMBER_OF_TERMS = 100;
 
-	private static Map<String, Map<String, double[]>> vectorsCache = new HashMap<String, Map<String, double[]>>();
+	private static Map<String, Map<String, double[]>> vectorsCache = new HashMap<>();
 
 	private List<String> commonTerms;
 
@@ -94,7 +94,7 @@ public class TextProperty extends Property {
 		Fragment fragmentOther = fragment == fragment1 ? fragment2 : fragment1;
 		Map<String, double[]> map = vectorsCache.get(fragment.getExternalId());
 		if (map == null) {
-			map = new HashMap<String, double[]>();
+			map = new HashMap<>();
 			vectorsCache.put(fragment.getExternalId(), map);
 		}
 		map.put(fragmentOther.getExternalId(), vector);
@@ -115,7 +115,7 @@ public class TextProperty extends Property {
 
 	private List<String> getFragmentsCommonTerms(Fragment fragment1, Fragment fragment2) {
 		Indexer indexer = Indexer.getIndexer();
-		List<String> result = new ArrayList<String>();
+		List<String> result = new ArrayList<>();
 		try {
 			result.addAll(indexer.getTFIDFTerms(fragment1, NUMBER_OF_TERMS));
 			result.addAll(indexer.getTFIDFTerms(fragment2, NUMBER_OF_TERMS));
@@ -131,8 +131,9 @@ public class TextProperty extends Property {
 	}
 
 	@Override
-	public void userWeights(RecommendationWeights recommendationWeights) {
+	public void userWeightAndLevel(RecommendationWeights recommendationWeights, int level) {
 		recommendationWeights.setTextWeight(getWeight());
+		recommendationWeights.setTextLevel(level);
 	}
 
 	@Override

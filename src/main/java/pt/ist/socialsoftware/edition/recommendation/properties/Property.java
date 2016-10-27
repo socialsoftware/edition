@@ -13,13 +13,12 @@ import pt.ist.socialsoftware.edition.recommendation.StoredVectors;
 @JsonSubTypes({ @JsonSubTypes.Type(value = HeteronymProperty.class, name = Property.HETERONYM),
 		@JsonSubTypes.Type(value = DateProperty.class, name = Property.DATE),
 		@JsonSubTypes.Type(value = TextProperty.class, name = Property.TEXT),
-		@JsonSubTypes.Type(value = TaxonomyProperty.class, name = Property.SPECIFICTAXONOMY) })
+		@JsonSubTypes.Type(value = TaxonomyProperty.class, name = Property.TAXONOMY) })
 public abstract class Property {
 	public static final String HETERONYM = "heteronym";
 	public static final String DATE = "date";
 	public static final String TEXT = "text";
 	public static final String TAXONOMY = "taxonomy";
-	public static final String SPECIFICTAXONOMY = "specific-taxonomy";
 
 	public enum PropertyCache {
 		ON, OFF
@@ -35,7 +34,7 @@ public abstract class Property {
 
 	abstract double[] getDefaultVector();
 
-	public abstract void userWeights(RecommendationWeights recommendationWeights);
+	public abstract void userWeightAndLevel(RecommendationWeights recommendationWeights, int level);
 
 	abstract double[] extractVector(VirtualEditionInter virtualEditionInter);
 

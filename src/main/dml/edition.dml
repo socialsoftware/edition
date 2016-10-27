@@ -599,9 +599,13 @@ relation AnnotationHasTags {
 
 class RecommendationWeights {
 	double heteronymWeight;
+	int heteronymLevel;
 	double dateWeight;
+	int dateLevel;
 	double textWeight;
+	int textLevel;
 	double taxonomyWeight;
+	int taxonomyLevel;
 }
 
 relation LdoDUserHasRecommendationWeights {

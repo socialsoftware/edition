@@ -14,17 +14,12 @@
 			<spring:message code="virtualedition" />
 			${edition.title} (${edition.getSortedInterps().size()})
 		</h3>
-		<c:if test="${heteronym != null}">
-			<h4 class="text-left">
-				<spring:message code="tableofcontents.fragmentsof" />
-				${heteronym.name}
-			</h4>
-		</c:if>
 		<br>
 		<div class="row">
 			<div class="row col-md-12 extra" style="display: none;" align="right">
 				<form class="form-inline extra" method="POST"
-					action="/recommendation/create" style="display: none;" id="create">
+					action="/recommendation/linear/create" style="display: none;"
+					id="create">
 					<div class="form-group input-group-sm">
 						<input type="text" class="form-control" id="new-acronym"
 							name="acronym"
@@ -54,10 +49,10 @@
 			</div>
 			<br> <br>
 			<div class="row col-md-12">
-				<table id="taxonomy-table" class="table table-condensed table-hover">
+				<table id="criteria-table" class="table table-condensed table-hover">
 					<thead>
 						<tr>
-							<th class="iterative-sort" style="display: none;">#</th>
+							<th class="sections" style="display: none;">#</th>
 							<th class="text-center"><spring:message
 									code="recommendation.criteria" /></th>
 							<th class="text-center">
@@ -71,11 +66,11 @@
 					</thead>
 					<tbody>
 						<tr>
-							<th class="iterative-sort" style="display: none;">1</th>
+							<th class="sections" style="display: none;">1</th>
 							<th>
-								<div class="row row-centered taxonomy-row" id="0"
+								<div class="row row-centered criteria-row" id="0"
 									style="min-height: 40px;">
-									<div class="col-md-2 col-sm-4 taxonomy-range"
+									<div class="col-md-2 col-sm-4 criteria"
 										property-type="heteronym">
 										<p>
 											<spring:message javaScriptEscape="true"
@@ -84,24 +79,22 @@
 										<input type="range" class="range" value='${heteronymWeight}'
 											max="1" min="0" step="0.2">
 									</div>
-									<div class="col-md-2 col-sm-4 taxonomy-range"
-										property-type="date">
+									<div class="col-md-2 col-sm-4 criteria" property-type="date">
 										<p>
 											<spring:message javaScriptEscape="true" code="general.date" />
 										</p>
 										<input type="range" class="range" value='${dateWeight}'
 											max="1" min="0" step="0.2">
 									</div>
-									<div class="col-md-2 col-sm-4 taxonomy-range"
-										property-type="text">
+									<div class="col-md-2 col-sm-4 criteria" property-type="text">
 										<p>
 											<spring:message javaScriptEscape="true" code="general.text" />
 										</p>
 										<input type="range" class="range" value='${textWeight}'
 											max="1" min="0" step="0.2">
 									</div>
-									<div class="col-md-2 col-sm-4 taxonomy-range"
-										property-type="specific-taxonomy">
+									<div class="col-md-2 col-sm-4 criteria"
+										property-type="taxonomy">
 										<p>
 											<spring:message code="general.taxonomy" />
 										</p>
@@ -113,7 +106,8 @@
 							<th>
 								<p class="text-center">
 									<input style="display: inline;" class="text-center"
-										type="checkbox" id="iterative-sort">
+										type="checkbox" id="sections"
+										<c:if test="${edition.hasMultipleSections()}">checked="checked"</c:if> />
 									<spring:message code="general.sections" />
 								</p>
 							</th>
@@ -127,10 +121,10 @@
 							</th>
 						</tr>
 						<c:forEach var="i" begin="2" end="4">
-							<tr class="iterative-sort" style="display: none;">
+							<tr class="sections" style="display: none;">
 								<th>${i}</th>
 								<th>
-									<div class="row row-centered taxonomy-row" id="${i-1}"
+									<div class="row row-centered criteria-row" id="${i-1}"
 										style="min-height: 40px;"></div>
 								</th>
 							</tr>
@@ -142,7 +136,7 @@
 		<hr>
 		<div class="row">
 			<c:choose>
-				<c:when test="${!edition.hasMultipleSections() || not empty inters}">
+				<c:when test="${!edition.hasMultipleSections()}">
 					<%@ include file="/WEB-INF/jsp/recommendation/virtualTable.jsp"%>
 				</c:when>
 				<c:when test="${edition.hasMultipleSections()}">
@@ -153,530 +147,319 @@
 		</div>
 	</div>
 	<script type="text/javascript">
-		$(document)
-				.ready(
-						function() {
+		$(document).ready(
+				function() {
+					function fadeWhenZero(elem) {
+						var inp = elem.children('input.range');
+						var val = inp.val();
+						if (val > 0) {
+							elem.fadeTo(0, 1.);
+						} else {
+							elem.fadeTo(0, 0.5);
+						}
+					}
 
-							function fadeWhenZero(elem) {
-								var inp = elem.children('input.range');
-								var val = inp.val();
-								if (val > 0) {
-									elem.fadeTo(0, 1.);
-								} else {
-									elem.fadeTo(0, 0.5);
+					function startLoad() {
+						$('body').addClass('progress');
+					}
+
+					function endLoad() {
+						$('body').removeClass('progress');
+					}
+
+					function sortInters(id) {
+						startLoad();
+
+						var url;
+						var data;
+						var id = id;
+						var acr = $('#acronym').attr('value');
+						var json = [];
+
+						if ($('#sections').is(':checked')) {
+							url = '/recommendation/section';
+							var stop = false;
+							$('.criteria').each(function() {
+								var level = parseInt($(this).parent().attr('id'), 10);
+								if (isNaN(level)) {
+									alert("Not a number at " + $(this).attr('id'));
+									stop = true;
+									return false;
 								}
-							}
 
-							function startLoad() {
-
-								$('body').addClass('progress');
-							}
-
-							function endLoad() {
-								$('body').removeClass('progress');
-							}
-
-							function sortInters(id) {
-								startLoad();
-
-								var url;
-								var data;
-								var id = id;
-								var acr = $('#acronym').attr('value');
-								var json = [];
-
-								if ($('#iterative-sort').is(':checked')) {
-									url = '/recommendation/iterativeSort';
-									var stop = false;
-									$('.taxonomy-range')
-											.each(
-													function() {
-														var level = parseInt($(
-																this).parent()
-																.attr('id'), 10);
-														if (isNaN(level)) {
-															alert("Not a number at "
-																	+ $(this)
-																			.attr(
-																					'id'));
-															stop = true;
-															return false;
-														}
-
-														var type = $(this)
-																.attr(
-																		'property-type');
-														if (type === 'specific-taxonomy') {
-															json
-																	.push({
-																		type : 'property-with-level',
-																		level : level,
-																		property : {
-																			type : type,
-																			acronym : acr,
-																			taxonomy : $(
-																					this)
-																					.attr(
-																							'id'),
-																			weight : $(
-																					this)
-																					.children(
-																							'input.range')
-																					.val()
-																		}
-																	});
-														} else {
-															json
-																	.push({
-																		type : 'property-with-level',
-																		level : level,
-																		property : {
-																			type : type,
-																			taxonomy : $(
-																					this)
-																					.attr(
-																							'id'),
-																			weight : $(
-																					this)
-																					.children(
-																							'input.range')
-																					.val()
-																		}
-																	});
-														}
-													});
-									if (stop) {
-										return;
+								var type = $(this).attr('property-type');
+								json.push({
+									type : 'property-with-level',
+									level : level,
+									property : {
+										type : type,
+										acronym : acr,
+										weight : $(this).children('input.range').val()
 									}
-								} else {
-									url = '/recommendation/sortedEdition';
-									$('.taxonomy-range')
-											.each(
-													function() {
-														var type = $(this)
-																.attr(
-																		'property-type');
-														if (type === 'specific-taxonomy') {
-															json
-																	.push({
-																		type : type,
-																		acronym : acr,
-																		taxonomy : $(
-																				this)
-																				.attr(
-																						'id'),
-																		weight : $(
-																				this)
-																				.children(
-																						'input.range')
-																				.val()
-																	});
-														} else {
-															json
-																	.push({
-																		type : type,
-																		taxonomy : $(
-																				this)
-																				.attr(
-																						'id'),
-																		weight : $(
-																				this)
-																				.children(
-																						'input.range')
-																				.val()
-																	});
-														}
-													});
-								}
-
-								data = {
+								});
+							});
+							if (stop) {
+								return;
+							}
+						} else {
+							url = '/recommendation/linear';
+							$('.criteria').each(function() {
+								var type = $(this).attr('property-type');
+								json.push({
+									type : type,
 									acronym : acr,
-									id : id,
-									properties : json
-								};
-								$
-										.ajax({
-											url : url,
-											type : 'post',
-											data : JSON.stringify(data),
-											contentType : 'application/json;charset=UTF-8',
-											success : function(htm) {
-												endLoad();
-												$('#result-type-iterative')
-														.remove();
-												$('#virtual-table').empty()
-														.append(htm)
-												console
-														.log($(htm).children(
-																'tbody')
-																.children().length)
-												if ($(htm).children('tbody')
-														.children().length > 0)
-													$('.extra').show();
-											}
-										});
-							}
-
-							function reSort() {
-								var id = $('a.inter.selected').attr('id')
-										|| $('a.inter').first().attr('id');
-								sortInters(id);
-							}
-
-							$('.taxonomy-range').each(function() {
-								fadeWhenZero($(this));
+									weight : $(this).children('input.range').val()
+								});
 							});
+						}
 
-							$('.taxonomy-range').change(function() {
-								fadeWhenZero($(this));
-								reSort();
-							});
-
-							$('#iterative-sort')
-									.change(
-											function() {
-												if ($(this).is(":checked")) {
-													$('.iterative-sort').show();
-													$('.taxonomy-range > p')
-															.each(
-																	function() {
-																		$(this)
-																				.addClass(
-																						"draggable");
-																	});
-													$('.taxonomy-row')
-															.each(
-																	function() {
-																		$(this)
-																				.addClass(
-																						"drop-zone");
-																	});
-
-													$('.draggable')
-															.draggable(
-																	{
-																		cancel : "a.ui-icon",
-																		revert : "invalid",
-																		containment : "document",
-																		helper : "clone",
-																		cursor : "move",
-																		cursorAt : {
-																			top : 5,
-																			left : 5
-																		}
-																	});
-
-													$('.drop-zone')
-															.droppable(
-																	{
-																		accept : ".draggable",
-																		activeClass : "ui-state-highlight",
-																		hoverClass : "ui-state-hover",
-																		drop : function(
-																				event,
-																				ui) {
-																			var self = this, item = $(
-																					ui.draggable)
-																					.parent();
-																			startLoad();
-																			item
-																					.fadeOut(function() {
-																						item
-																								.appendTo(
-																										self)
-																								.fadeIn();
-																						reSort();
-																					});
-																		}
-																	});
-												} else {
-													$('.taxonomy-range')
-															.each(
-																	function() {
-																		$('#0')
-																				.append(
-																						$(this));
-																		$(this)
-																				.find(
-																						'p')
-																				.removeClass(
-																						'draggable ui-draggable ui-draggable-handle');
-																	});
-													$('.iterative-sort').hide();
-												}
-
-												reSort();
-											});
-
-							$('#save')
-									.click(
-											function() {
-												var acronym = $('#acronym')
-														.attr('value');
-												if ($('#result-type-iterative').length) {
-													var json = [];
-													var stack = [];
-													var data = $(
-															'#virtual-table tbody tr')
-															.map(
-																	function() {
-																		var row = $(this);
-																		var arr = [];
-																		$(this)
-																				.find(
-																						'td.level')
-																				.each(
-																						function() {
-																							var text = '';
-																							$(
-																									this)
-																									.find(
-																											'p')
-																									.each(
-																											function() {
-																												text += $(
-																														this)
-																														.text();
-																											});
-																							arr
-																									.push(text);
-																						});
-																		return {
-																			depth : arr,
-																			id : row
-																					.find(
-																							'a.inter')
-																					.attr(
-																							'id')
-																		}
-																	}).get();
-
-													var old = data[0].depth
-															|| [];
-													for (i in data) {
-														if (data[i].depth.length == 0) {
-															data[i].depth = old
-																	.slice();
-														} else if (data[i].depth.length < old.length) {
-															var temp = old
-																	.slice(
-																			0,
-																			old.length
-																					- data[i].depth.length);
-															var fin = temp
-																	.concat(data[i].depth);
-															old = fin;
-
-															data[i].depth = fin
-																	.slice();
-														} else if (data[i].depth.length === old.length) {
-															old = data[i].depth;
-														} else {
-
-														}
-													}
-
-													var json = {
-														acronym : acronym,
-														sections : data
-													};
-
-													$
-															.ajax({
-																url : '/recommendation/iterativesort/save',
-																type : 'post',
-																data : JSON
-																		.stringify(json),
-																contentType : 'application/json;charset=UTF-8',
-																success : function(
-																		htm) {
-																	$(
-																			'#virtual-table')
-																			.empty()
-																			.append(
-																					htm);
-																}
-															});
-												} else {
-													var inters = [];
-													$('a.inter')
-															.each(
-																	function() {
-																		inters
-																				.push($(
-																						this)
-																						.attr(
-																								'id'));
-																	});
-													var data = {
-														acronym : acronym,
-														inter : inters
-													};
-													$
-															.ajax({
-																url : '/recommendation/save',
-																type : 'post',
-																data : data,
-																success : function(
-																		htm) {
-																	$(
-																			'#virtual-table')
-																			.empty()
-																			.append(
-																					htm);
-																}
-															});
-												}
-											});
-
-							$('#create')
-									.submit(
-											function(event) {
-												var form = $(this);
-												if ($('#result-type-iterative').length) {
-													var json = [];
-													var stack = [];
-
-													var data = $(
-															'#virtual-table tbody tr')
-															.map(
-																	function() {
-																		var row = $(this);
-																		var arr = [];
-
-																		$(this)
-																				.find(
-																						'td.level')
-																				.each(
-																						function() {
-																							var text = '';
-																							$(
-																									this)
-																									.find(
-																											'p')
-																									.each(
-																											function() {
-																												text += $(
-																														this)
-																														.text();
-																											});
-																							arr
-																									.push(text);
-																						});
-
-																		return {
-																			depth : arr,
-																			id : row
-																					.find(
-																							'a.inter')
-																					.attr(
-																							'id')
-																		}
-																	}).get();
-
-													var old = data[0].depth
-															|| [];
-													for (i in data) {
-														if (data[i].depth.length == 0) {
-															data[i].depth = old
-																	.slice();
-														} else if (data[i].depth.length < old.length) {
-															var temp = old
-																	.slice(
-																			0,
-																			old.length
-																					- data[i].depth.length);
-															var fin = temp
-																	.concat(data[i].depth);
-															old = fin;
-															data[i].depth = fin
-																	.slice();
-														} else if (data[i].depth.length === old.length) {
-															old = data[i].depth;
-														} else {
-
-														}
-													}
-
-													var acronym = $(
-															'#new-acronym')
-															.val();
-													var pub = $('#new-pub')
-															.val();
-													var title = $('#new-title')
-															.val();
-
-													var json = {
-														acronym : acronym,
-														title : title,
-														pub : pub,
-														sections : data
-													};
-													$(this)
-															.attr('action',
-																	'/recommendation/iterativesort/create');
-													var depthstring = '';
-													for (i in data) {
-														$('<input />')
-																.attr('type',
-																		'hidden')
-																.attr('name',
-																		'inter[]')
-																.attr(
-																		'value',
-																		data[i].id)
-																.appendTo(form);
-														depthstring = data[i].depth[0];
-
-														for (var j = 1; j < data[i].depth.length; j++) {
-															depthstring += "|"
-																	+ data[i].depth[j];
-														}
-
-														$('<input />')
-																.attr('type',
-																		'hidden')
-																.attr('name',
-																		'depth[]')
-																.attr('value',
-																		depthstring)
-																.appendTo(form);
-													}
-
-												} else {
-													$('a.inter')
-															.each(
-																	function() {
-																		$(
-																				'<input />')
-																				.attr(
-																						'type',
-																						'hidden')
-																				.attr(
-																						'name',
-																						'inter[]')
-																				.attr(
-																						'value',
-																						$(
-																								this)
-																								.attr(
-																										'id'))
-																				.appendTo(
-																						form);
-																	});
-												}
-												return true;
-											});
-
-							$('#virtual-table').on(
-									'click',
-									'button.sort',
-									function() {
-										var id = $(this).parent().siblings()
-												.find('a.inter').attr('id');
-										sortInters(id);
-									});
+						data = {
+							acronym : acr,
+							id : id,
+							properties : json
+						};
+						$.ajax({
+							url : url,
+							type : 'post',
+							data : JSON.stringify(data),
+							contentType : 'application/json;charset=UTF-8',
+							success : function(htm) {
+								endLoad();
+								$('#virtual-table').empty().append(htm)
+								console.log($(htm).children('tbody').children().length)
+								if ($(htm).children('tbody').children().length > 0)
+									$('.extra').show();
+							}
 						});
+					}
+					
+					function manageCriteriaRanges(checked) {
+						if (checked) {
+							$('.sections').show();
+							$('.criteria > p').each(function() {
+								$(this).addClass("draggable");
+							});
+							$('.criteria-row').each(function() {
+								$(this).addClass("drop-zone");
+							});
+
+							$('.draggable').draggable({
+								cancel : "a.ui-icon",
+								revert : "invalid",
+								containment : "document",
+								helper : "clone",
+								cursor : "move",
+								cursorAt : {
+									top : 5,
+									left : 5
+								}
+							});
+
+							$('.drop-zone').droppable({
+								accept : ".draggable",
+								activeClass : "ui-state-highlight",
+								hoverClass : "ui-state-hover",
+								drop : function(event, ui) {
+									var self = this, item = $(ui.draggable).parent();
+									startLoad();
+									item.fadeOut(function() {
+										item.appendTo(self).fadeIn();
+										reSort();
+									});
+								}
+							});
+						} else {
+							$('.criteria').each(function() {
+								$('#0').append($(this));
+								$(this).find('p').removeClass('draggable ui-draggable ui-draggable-handle');
+							});
+							$('.sections').hide();
+						}
+					}
+
+					function reSort() {
+						var id = $('a.inter.selected').attr('id') || $('a.inter').first().attr('id');
+						sortInters(id);
+					}
+
+					function initialize() {
+						manageCriteriaRanges(${edition.hasMultipleSections()});
+						if(${edition.hasMultipleSections()}) {					
+							$('.criteria[property-type="heteronym"]').appendTo($('#${heteronymLevel}.criteria-row'));
+							$('.criteria[property-type="date"]').appendTo($('#${dateLevel}.criteria-row'));
+							$('.criteria[property-type="text"]').appendTo($('#${textLevel}.criteria-row'));
+							$('.criteria[property-type="taxonomy"]').appendTo($('#${taxonomyLevel}.criteria-row'));
+						}
+					}
+					initialize();
+
+					$('.criteria').each(function() {
+						fadeWhenZero($(this));
+					});
+
+					$('.criteria').change(function() {
+						fadeWhenZero($(this));
+						reSort();
+					});
+
+					$('#sections').change(function() {
+						manageCriteriaRanges($(this).is(":checked"));
+						reSort();
+					});
+
+					$('#save').click(function() {
+						var acronym = $('#acronym').attr('value');
+						if ($('#sections').is(":checked")) {
+							var json = [];
+							var stack = [];
+							var data = $('#virtual-table tbody tr').map(function() {
+								var row = $(this);
+								var arr = [];
+								$(this).find('td.level').each(function() {
+									var text = '';
+									$(this).find('p').each(function() {
+										text += $(this).text();
+									});
+									arr.push(text);
+								});
+								return {
+									depth : arr,
+									id : row.find('a.inter').attr('id')
+								}
+							}).get();
+
+							var old = data[0].depth || [];
+							for (i in data) {
+								if (data[i].depth.length == 0) {
+									data[i].depth = old.slice();
+								} else if (data[i].depth.length < old.length) {
+									var temp = old.slice(0, old.length - data[i].depth.length);
+									var fin = temp.concat(data[i].depth);
+									old = fin;
+									data[i].depth = fin.slice();
+								} else if (data[i].depth.length === old.length) {
+									old = data[i].depth;
+								} else {
+								}
+							}
+
+							var json = {
+								acronym : acronym,
+								sections : data
+							};
+
+							$.ajax({
+								url : '/recommendation/section/save',
+								type : 'post',
+								data : JSON.stringify(json),
+								contentType : 'application/json;charset=UTF-8',
+								success : function(htm) {
+									if (!json.error)
+										location.reload(true);
+								}
+							});
+						} else {
+							var inters = [];
+							$('a.inter').each(function() {
+								inters.push($(this).attr('id'));
+							});
+							var data = {
+								acronym : acronym,
+								inter : inters
+							};
+							$.ajax({
+								url : '/recommendation/linear/save',
+								type : 'post',
+								data : data,
+								success : function(htm) {
+									$('#virtual-table').empty().append(htm);
+								}
+							});
+						}
+					});
+
+					$('#create').submit(
+							function(event) {
+								var form = $(this);
+								if ($('#sections').is(":checked")) {
+									/* if ($('#result-type-iterative').length) { */
+									var json = [];
+									var stack = [];
+
+									var data = $('#virtual-table tbody tr').map(function() {
+										var row = $(this);
+										var arr = [];
+
+										$(this).find('td.level').each(function() {
+											var text = '';
+											$(this).find('p').each(function() {
+												text += $(this).text();
+											});
+											arr.push(text);
+										});
+
+										return {
+											depth : arr,
+											id : row.find('a.inter').attr('id')
+										}
+									}).get();
+
+									var old = data[0].depth || [];
+									for (i in data) {
+										if (data[i].depth.length == 0) {
+											data[i].depth = old.slice();
+										} else if (data[i].depth.length < old.length) {
+											var temp = old.slice(0, old.length - data[i].depth.length);
+											var fin = temp.concat(data[i].depth);
+											old = fin;
+											data[i].depth = fin.slice();
+										} else if (data[i].depth.length === old.length) {
+											old = data[i].depth;
+										} else {
+
+										}
+									}
+
+									var acronym = $('#new-acronym').val();
+									var pub = $('#new-pub').val();
+									var title = $('#new-title').val();
+
+									var json = {
+										acronym : acronym,
+										title : title,
+										pub : pub,
+										sections : data
+									};
+									$(this).attr('action', '/recommendation/section/create');
+									var depthstring = '';
+									for (i in data) {
+										$('<input />').attr('type', 'hidden').attr('name', 'inter[]').attr('value',
+												data[i].id).appendTo(form);
+										depthstring = data[i].depth[0];
+
+										for (var j = 1; j < data[i].depth.length; j++) {
+											depthstring += "|" + data[i].depth[j];
+										}
+
+										$('<input />').attr('type', 'hidden').attr('name', 'depth[]').attr('value',
+												depthstring).appendTo(form);
+									}
+
+								} else {
+									$('a.inter').each(
+											function() {
+												$('<input />').attr('type', 'hidden').attr('name', 'inter[]').attr(
+														'value', $(this).attr('id')).appendTo(form);
+											});
+								}
+								return true;
+							});
+
+					$('#virtual-table').on('click', 'button.sort', function() {
+						var id = $(this).parent().siblings().find('a.inter').attr('id');
+						sortInters(id);
+					});
+				});
 	</script>
 </body>
 </html>

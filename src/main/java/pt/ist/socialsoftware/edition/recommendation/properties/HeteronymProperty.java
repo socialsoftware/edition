@@ -46,7 +46,7 @@ public class HeteronymProperty extends Property {
 
 	@Override
 	public double[] extractVector(Fragment fragment) {
-		List<Heteronym> foundHeteronyms = new ArrayList<Heteronym>();
+		List<Heteronym> foundHeteronyms = new ArrayList<>();
 		for (FragInter inter : fragment.getFragmentInterSet()) {
 			foundHeteronyms.add(inter.getHeteronym());
 		}
@@ -64,8 +64,9 @@ public class HeteronymProperty extends Property {
 	}
 
 	@Override
-	public void userWeights(RecommendationWeights recommendationWeights) {
+	public void userWeightAndLevel(RecommendationWeights recommendationWeights, int level) {
 		recommendationWeights.setHeteronymWeight(getWeight());
+		recommendationWeights.setHeteronymLevel(level);
 	}
 
 	@Override
@@ -76,7 +77,7 @@ public class HeteronymProperty extends Property {
 	@Override
 	protected String getConcreteTitle(FragInter inter) {
 		String title = "";
-		List<Heteronym> heteronyms = new ArrayList<Heteronym>();
+		List<Heteronym> heteronyms = new ArrayList<>();
 		for (FragInter intr : inter.getFragment().getFragmentInterSet()) {
 			heteronyms.add(intr.getHeteronym());
 		}
