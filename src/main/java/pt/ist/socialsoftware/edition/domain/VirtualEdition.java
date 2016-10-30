@@ -481,4 +481,21 @@ public class VirtualEdition extends VirtualEdition_Base {
 		return recommendedEdition;
 	}
 
+	public Set<Category> getAllDepthCategories() {
+		Set<Category> result = new HashSet<>(getTaxonomy().getCategoriesSet());
+
+		Edition usedEdition = getUses();
+		while (usedEdition instanceof VirtualEdition) {
+			result.addAll(((VirtualEdition) usedEdition).getTaxonomy().getCategoriesSet());
+			usedEdition = ((VirtualEdition) usedEdition).getUses();
+		}
+
+		return result;
+	}
+
+	public List<Category> getAllDepthSortedCategories() {
+		return getAllDepthCategories().stream().sorted((c1, c2) -> c1.getName().compareTo(c2.getName()))
+				.collect(Collectors.toList());
+	}
+
 }

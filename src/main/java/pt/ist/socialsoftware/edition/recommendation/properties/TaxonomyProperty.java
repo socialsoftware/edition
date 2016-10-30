@@ -26,7 +26,7 @@ public class TaxonomyProperty extends Property {
 	public TaxonomyProperty(double weight, Taxonomy taxonomy, PropertyCache cached) {
 		super(weight, cached);
 		this.taxonomy = taxonomy;
-		this.sortedCategories = taxonomy.getSortedCategories();
+		this.sortedCategories = taxonomy.getEdition().getAllDepthSortedCategories();
 	}
 
 	public TaxonomyProperty(@JsonProperty("weight") String weight, @JsonProperty("acronym") String acronym) {
