@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
-import pt.ist.socialsoftware.edition.domain.RecommendationWeights;
 import pt.ist.socialsoftware.edition.recommendation.properties.Property;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
@@ -25,10 +24,6 @@ public class PropertyWithLevel {
 
 	public Property getProperty() {
 		return property;
-	}
-
-	public void userWeightAndLevel(RecommendationWeights recommendationWeights) {
-		this.property.userWeightAndLevel(recommendationWeights, level);
 	}
 
 }

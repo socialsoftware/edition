@@ -1,14 +1,16 @@
 package pt.ist.socialsoftware.edition.recommendation.dto;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class SectionVirtualEditionParam {
+import pt.ist.socialsoftware.edition.recommendation.properties.Property;
 
+public class SectionVirtualEditionParam {
 	private final String acronym;
-	private final List<PropertyWithLevel> properties;
 	private final String id;
+	private final List<PropertyWithLevel> properties;
 
 	public SectionVirtualEditionParam(@JsonProperty("acronym") String acronym, @JsonProperty("id") String id,
 			@JsonProperty("properties") List<PropertyWithLevel> properties) {
@@ -25,8 +27,16 @@ public class SectionVirtualEditionParam {
 		return id;
 	}
 
-	public List<PropertyWithLevel> getProperties() {
+	public List<PropertyWithLevel> getPropertiesWithLevel() {
 		return properties;
+	}
+
+	public List<Property> getProperties() {
+		List<Property> result = new ArrayList<>();
+		for (PropertyWithLevel propertyWithLevel : properties) {
+			result.add(propertyWithLevel.getProperty());
+		}
+		return result;
 	}
 
 }

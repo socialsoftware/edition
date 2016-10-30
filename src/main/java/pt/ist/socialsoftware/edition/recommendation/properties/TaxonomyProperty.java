@@ -1,6 +1,7 @@
 package pt.ist.socialsoftware.edition.recommendation.properties;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -64,9 +65,8 @@ public class TaxonomyProperty extends Property {
 	}
 
 	@Override
-	public void userWeightAndLevel(RecommendationWeights recommendationWeights, int level) {
+	public void userWeight(RecommendationWeights recommendationWeights) {
 		recommendationWeights.setTaxonomyWeight(getWeight());
-		recommendationWeights.setTaxonomyLevel(level);
 	}
 
 	public Taxonomy getTaxonomy() {
@@ -75,7 +75,13 @@ public class TaxonomyProperty extends Property {
 
 	@Override
 	public String getTitle() {
-		return getTaxonomy().getName();
+		return "Taxonomy";
+	}
+
+	@Override
+	public String getConcreteTitle(FragInter inter) {
+		return ((VirtualEditionInter) inter).getCategories().stream().sorted().map(c -> c.getName())
+				.collect(Collectors.joining(","));
 	}
 
 }

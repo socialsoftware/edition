@@ -331,7 +331,7 @@ public class LoadTEIFragments {
 		if (archiveEdition != null
 				&& !archiveEdition.getIntersSet().contains(fragment.getRepresentativeSourceInter())) {
 			archiveEdition.createVirtualEditionInter(fragment.getRepresentativeSourceInter(),
-					archiveEdition.getVirtualEditionInters().size() + 1);
+					archiveEdition.getAllDepthVirtualEditionInters().size() + 1);
 		}
 
 		// uncomment when a pretty print of the result of load is required in

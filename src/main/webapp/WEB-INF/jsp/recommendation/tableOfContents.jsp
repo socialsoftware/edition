@@ -103,14 +103,14 @@
 									</div>
 								</div>
 							</th>
-							<th>
+							<!--  COMMENTED BECAUSE CLUSTERING IS NOT SUPPORTED -->
+<%-- 							<th>
 								<p class="text-center">
 									<input style="display: inline;" class="text-center"
-										type="checkbox" id="sections"
-										<c:if test="${edition.hasMultipleSections()}">checked="checked"</c:if> />
+										type="checkbox" id="sections" />
 									<spring:message code="general.sections" />
 								</p>
-							</th>
+							</th> --%>
 							<th>
 								<div class="form-inline extra text-center">
 									<button type="submit" id="save" class="btn btn-primary btn-sm">
@@ -135,20 +135,19 @@
 		</div>
 		<hr>
 		<div class="row">
-			<c:choose>
-				<c:when test="${!edition.hasMultipleSections()}">
-					<%@ include file="/WEB-INF/jsp/recommendation/virtualTable.jsp"%>
-				</c:when>
-				<c:when test="${edition.hasMultipleSections()}">
-					<%@ include
-						file="/WEB-INF/jsp/recommendation/virtualTableWithSections.jsp"%>
-				</c:when>
-			</c:choose>
+			<%@ include file="/WEB-INF/jsp/recommendation/virtualTable.jsp"%>
 		</div>
 	</div>
 	<script type="text/javascript">
 		$(document).ready(
 				function() {
+					var levels = {
+						heteronym : 0,
+						date : 0,
+						text : 0,
+						taxonmy : 0
+					};
+
 					function fadeWhenZero(elem) {
 						var inp = elem.children('input.range');
 						var val = inp.val();
@@ -188,6 +187,9 @@
 								}
 
 								var type = $(this).attr('property-type');
+
+								levels[type] = level;
+
 								json.push({
 									type : 'property-with-level',
 									level : level,
@@ -232,7 +234,7 @@
 							}
 						});
 					}
-					
+
 					function manageCriteriaRanges(checked) {
 						if (checked) {
 							$('.sections').show();
@@ -268,6 +270,14 @@
 									});
 								}
 							});
+
+							$('.criteria[property-type="heteronym"]').appendTo(
+									$("#" + levels["heteronym"] + ".criteria-row"));
+							$('.criteria[property-type="date"]').appendTo($("#" + levels["date"] + ".criteria-row"));
+							$('.criteria[property-type="text"]').appendTo($("#" + levels["text"] + ".criteria-row"));
+							$('.criteria[property-type="taxonomy"]').appendTo(
+									$("#" + levels["taxonomy"] + ".criteria-row"));
+
 						} else {
 							$('.criteria').each(function() {
 								$('#0').append($(this));
@@ -281,17 +291,6 @@
 						var id = $('a.inter.selected').attr('id') || $('a.inter').first().attr('id');
 						sortInters(id);
 					}
-
-					function initialize() {
-						manageCriteriaRanges(${edition.hasMultipleSections()});
-						if(${edition.hasMultipleSections()}) {					
-							$('.criteria[property-type="heteronym"]').appendTo($('#${heteronymLevel}.criteria-row'));
-							$('.criteria[property-type="date"]').appendTo($('#${dateLevel}.criteria-row'));
-							$('.criteria[property-type="text"]').appendTo($('#${textLevel}.criteria-row'));
-							$('.criteria[property-type="taxonomy"]').appendTo($('#${taxonomyLevel}.criteria-row'));
-						}
-					}
-					initialize();
 
 					$('.criteria').each(function() {
 						fadeWhenZero($(this));
@@ -382,7 +381,6 @@
 							function(event) {
 								var form = $(this);
 								if ($('#sections').is(":checked")) {
-									/* if ($('#result-type-iterative').length) { */
 									var json = [];
 									var stack = [];
 

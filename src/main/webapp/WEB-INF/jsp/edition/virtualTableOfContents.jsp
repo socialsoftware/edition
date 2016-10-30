@@ -20,6 +20,7 @@
 				title="<spring:message code="tableofcontents.tt.usesEditions" />"><spring:message
 						code="tableofcontents.usesEditions" /></span></th>
 		</tr>
+	</thead>
 	<tbody>
 		<c:forEach var="inter" items='${edition.sortedInterps}'>
 			<tr>

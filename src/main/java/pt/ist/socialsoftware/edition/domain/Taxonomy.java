@@ -94,7 +94,7 @@ public class Taxonomy extends Taxonomy_Base {
 
 	public List<VirtualEdition> getUsedIn() {
 		Set<VirtualEdition> editions = new HashSet<VirtualEdition>();
-		for (VirtualEditionInter inter : getEdition().getVirtualEditionInters()) {
+		for (VirtualEditionInter inter : getEdition().getAllDepthVirtualEditionInters()) {
 			editions.addAll(inter.getUsedIn());
 		}
 

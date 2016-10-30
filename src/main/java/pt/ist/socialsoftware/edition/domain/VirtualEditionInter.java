@@ -1,7 +1,6 @@
 package pt.ist.socialsoftware.edition.domain;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -16,8 +15,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.socialsoftware.edition.domain.Edition.EditionType;
-import pt.ist.socialsoftware.edition.recommendation.VSMVirtualEditionInterRecommender;
-import pt.ist.socialsoftware.edition.recommendation.properties.Property;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDException;
 import pt.ist.socialsoftware.edition.utils.CategoryDTO;
 import pt.ist.socialsoftware.edition.utils.RangeJson;
@@ -124,13 +121,6 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 
 	public VirtualEdition getVirtualEdition() {
 		return getSection().getRootSection().getVirtualEdition();
-	}
-
-	public FragInter getNextInter() {
-		LdoDUser user = LdoDUser.getAuthenticatedUser();
-		VSMVirtualEditionInterRecommender recommender = new VSMVirtualEditionInterRecommender();
-		Collection<Property> properties = user.getRecommendationWeights(getVirtualEdition()).getProperties();
-		return recommender.getMostSimilarItem(this, getVirtualEdition().getVirtualEditionInters(), properties);
 	}
 
 	@Atomic(mode = TxMode.WRITE)

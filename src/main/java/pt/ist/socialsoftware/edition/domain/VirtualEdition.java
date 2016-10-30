@@ -19,6 +19,8 @@ import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.domain.Member.MemberRole;
+import pt.ist.socialsoftware.edition.recommendation.VSMVirtualEditionInterRecommender;
+import pt.ist.socialsoftware.edition.recommendation.properties.Property;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDException;
 import pt.ist.socialsoftware.edition.utils.PropertiesManager;
 
@@ -128,7 +130,7 @@ public class VirtualEdition extends VirtualEdition_Base {
 	public Boolean canAddFragInter(FragInter addInter) {
 		Fragment fragment = addInter.getFragment();
 		FragInter usedAddInter = addInter.getLastUsed();
-		for (VirtualEditionInter inter : getVirtualEditionInters()) {
+		for (VirtualEditionInter inter : getAllDepthVirtualEditionInters()) {
 			if (inter.getFragment() == fragment) {
 				FragInter usedInter = inter.getLastUsed();
 				if (usedAddInter == usedInter) {
@@ -154,7 +156,7 @@ public class VirtualEdition extends VirtualEdition_Base {
 
 	public int getMaxFragNumber() {
 		int max = 0;
-		for (FragInter inter : getVirtualEditionInters()) {
+		for (FragInter inter : getAllDepthVirtualEditionInters()) {
 			max = (inter.getNumber() > max) ? inter.getNumber() : max;
 		}
 
@@ -163,7 +165,7 @@ public class VirtualEdition extends VirtualEdition_Base {
 
 	@Override
 	public Set<FragInter> getIntersSet() {
-		return new HashSet<>(getVirtualEditionInters());
+		return new HashSet<>(getAllDepthVirtualEditionInters());
 	}
 
 	@Override
@@ -200,7 +202,7 @@ public class VirtualEdition extends VirtualEdition_Base {
 
 		String fragVirtualInterId = "";
 		// remove os fragmentos que não se encontram na nova lista
-		for (VirtualEditionInter inter : getVirtualEditionInters()) {
+		for (VirtualEditionInter inter : getAllDepthVirtualEditionInters()) {
 
 			System.out.println(inter.getExternalId() + " " + inter.getLastUsed().getExternalId() + " "
 					+ inter.getTitle() + " " + inter.getNumber());
@@ -243,7 +245,7 @@ public class VirtualEdition extends VirtualEdition_Base {
 		System.out.println("VirtualEditionInter INDEX UPDATE -----------------");
 		// actualiza indices dos fragmentos da edicao virtual
 		int n = 0;
-		for (VirtualEditionInter inter : getVirtualEditionInters()) {
+		for (VirtualEditionInter inter : getAllDepthVirtualEditionInters()) {
 
 			fragVirtualInterId = inter.getLastUsed().getExternalId();
 
@@ -309,10 +311,10 @@ public class VirtualEdition extends VirtualEdition_Base {
 		return getPub() || getParticipantSet().contains(LdoDUser.getAuthenticatedUser());
 	}
 
-	public List<VirtualEditionInter> getVirtualEditionInters() {
+	public List<VirtualEditionInter> getAllDepthVirtualEditionInters() {
 		List<VirtualEditionInter> inters = new ArrayList<>();
 		for (Section section : getSectionsSet()) {
-			inters.addAll(section.getInterSet());
+			inters.addAll(section.getAllDepthVirtualEditionInterSet());
 		}
 		Collections.sort(inters);
 		return inters;
@@ -334,7 +336,6 @@ public class VirtualEdition extends VirtualEdition_Base {
 				return section;
 			}
 		}
-
 		return null;
 	}
 
@@ -343,7 +344,7 @@ public class VirtualEdition extends VirtualEdition_Base {
 		return createSection(title, number);
 	}
 
-	public int getDepth() {
+	public int getSectionDepth() {
 		int max = 0;
 		for (Section section : getSectionsSet()) {
 			int depth = section.getDepth();
@@ -362,7 +363,11 @@ public class VirtualEdition extends VirtualEdition_Base {
 	@Atomic(mode = TxMode.WRITE)
 	public void clearEmptySections() {
 		for (Section section : getSectionsSet()) {
-			if (section.size() == 0) {
+			section.clearEmptySections();
+		}
+
+		for (Section section : getSectionsSet()) {
+			if (section.getAllDepthVirtualEditionInterSet().size() == 0) {
 				section.remove();
 			}
 		}
@@ -460,6 +465,20 @@ public class VirtualEdition extends VirtualEdition_Base {
 			return true;
 
 		return false;
+	}
+
+	public List<VirtualEditionInter> generateRecommendation(VirtualEditionInter inter,
+			RecommendationWeights recommendationWeights) {
+		List<VirtualEditionInter> inters = getAllDepthVirtualEditionInters();
+		VSMVirtualEditionInterRecommender recommender = new VSMVirtualEditionInterRecommender();
+
+		inters.remove(inter);
+
+		List<Property> properties = recommendationWeights.getPropertiesWithStoredWeights();
+		List<VirtualEditionInter> recommendedEdition = new ArrayList<>();
+		recommendedEdition.add(inter);
+		recommendedEdition.addAll(recommender.getMostSimilarItemsAsList(inter, inters, properties));
+		return recommendedEdition;
 	}
 
 }

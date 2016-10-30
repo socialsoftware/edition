@@ -34,7 +34,7 @@ public abstract class Property {
 
 	abstract double[] getDefaultVector();
 
-	public abstract void userWeightAndLevel(RecommendationWeights recommendationWeights, int level);
+	public abstract void userWeight(RecommendationWeights recommendationWeights);
 
 	abstract double[] extractVector(VirtualEditionInter virtualEditionInter);
 
@@ -95,11 +95,11 @@ public abstract class Property {
 	public abstract String getTitle();
 
 	public final String getTitle(FragInter inter) {
-		return inter != null ? getConcreteTitle(inter) : getTitle();
+		return inter != null ? getTitle() + "(" + getConcreteTitle(inter) + ")" : getTitle();
 	}
 
 	protected String getConcreteTitle(FragInter inter) {
 		return getTitle();
-	};
+	}
 
 }

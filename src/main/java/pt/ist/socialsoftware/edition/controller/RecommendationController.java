@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import pt.ist.fenixframework.FenixFramework;
-import pt.ist.socialsoftware.edition.domain.Edition;
 import pt.ist.socialsoftware.edition.domain.Edition.EditionType;
 import pt.ist.socialsoftware.edition.domain.FragInter;
 import pt.ist.socialsoftware.edition.domain.LdoD;
@@ -67,48 +66,24 @@ public class RecommendationController {
 			RecommendationWeights recommendationWeights = LdoDUser.getAuthenticatedUser()
 					.getRecommendationWeights(virtualEdition);
 
+			recommendationWeights.setWeightsZero();
+
 			logger.debug("presentEditionWithRecommendation sections: {}",
 					virtualEdition.getSectionsSet().stream().map(s -> s.print(1)).collect(Collectors.joining()));
 
 			model.addAttribute("edition", virtualEdition);
-			model.addAttribute("taxonomyWeight", recommendationWeights.getTaxonomyWeight());
-			model.addAttribute("taxonomyLevel", recommendationWeights.getTaxonomyLevel());
-			model.addAttribute("heteronymWeight", recommendationWeights.getHeteronymWeight());
-			model.addAttribute("heteronymLevel", recommendationWeights.getHeteronymLevel());
-			model.addAttribute("dateWeight", recommendationWeights.getDateWeight());
-			model.addAttribute("dateLevel", recommendationWeights.getDateLevel());
-			model.addAttribute("textWeight", recommendationWeights.getTextWeight());
-			model.addAttribute("textLevel", recommendationWeights.getTextLevel());
+			model.addAttribute("taxonomyWeight", 0.0);
+			model.addAttribute("heteronymWeight", 0.0);
+			model.addAttribute("dateWeight", 0.0);
+			model.addAttribute("textWeight", 0.0);
 
-			if (!virtualEdition.getVirtualEditionInters().isEmpty()) {
-				VirtualEditionInter inter = virtualEdition.getVirtualEditionInters().get(0);
-				List<VirtualEditionInter> inters = virtualEdition.getVirtualEditionInters();
-				VSMVirtualEditionInterRecommender recommender = new VSMVirtualEditionInterRecommender();
+			if (!virtualEdition.getAllDepthVirtualEditionInters().isEmpty()) {
+				VirtualEditionInter inter = virtualEdition.getAllDepthVirtualEditionInters().get(0);
 
-				if (!virtualEdition.hasMultipleSections()) {
+				List<VirtualEditionInter> recommendedEdition = virtualEdition.generateRecommendation(inter,
+						recommendationWeights);
 
-					inters.remove(inter);
-
-					List<Property> properties = recommendationWeights.getProperties();
-					List<FragInter> recommendedEdition = new ArrayList<>();
-					recommendedEdition.add(inter);
-					recommendedEdition.addAll(recommender.getMostSimilarItemsAsList(inter, inters, properties));
-
-					model.addAttribute("inters", recommendedEdition);
-				} else {
-					Map<Integer, Collection<Property>> map = new HashMap<>();
-					for (PropertyWithLevel property : recommendationWeights.getPropertiesWithLevel()) {
-						if (property.getProperty().getWeight() > 0) {
-							if (!map.containsKey(property.getLevel())) {
-								map.put(property.getLevel(), new ArrayList<Property>());
-							}
-							map.get(property.getLevel()).add(property.getProperty());
-						}
-					}
-					Cluster cluster = recommender.getCluster(inter, inters, map);
-					model.addAttribute("cluster", cluster);
-				}
-
+				model.addAttribute("inters", recommendedEdition);
 				model.addAttribute("selected", inter.getExternalId());
 			}
 
@@ -127,28 +102,23 @@ public class RecommendationController {
 						.map(p -> p.getClass().getName().substring(p.getClass().getName().lastIndexOf(".") + 1) + " "
 								+ p.getWeight())
 						.collect(Collectors.joining(";")));
-		VirtualEdition edition = (VirtualEdition) LdoD.getInstance().getEdition(params.getAcronym());
+
+		VirtualEdition virtualEdition = (VirtualEdition) LdoD.getInstance().getEdition(params.getAcronym());
 
 		LdoDUser user = LdoDUser.getAuthenticatedUser();
-		RecommendationWeights recommendationWeights = user.getRecommendationWeights(edition);
+		RecommendationWeights recommendationWeights = user.getRecommendationWeights(virtualEdition);
 		recommendationWeights.setWeights(params.getProperties());
 
 		if (params.getId() != null && !params.getId().equals("")) {
 			VirtualEditionInter inter = FenixFramework.getDomainObject(params.getId());
-			List<VirtualEditionInter> inters = edition.getVirtualEditionInters();
 
-			inters.remove(inter);
-
-			VSMVirtualEditionInterRecommender recommender = new VSMVirtualEditionInterRecommender();
-			List<Property> properties = recommendationWeights.getProperties();
-			List<FragInter> recommendedEdition = new ArrayList<>();
-			recommendedEdition.add(inter);
-			recommendedEdition.addAll(recommender.getMostSimilarItemsAsList(inter, inters, properties));
+			List<VirtualEditionInter> recommendedEdition = virtualEdition.generateRecommendation(inter,
+					recommendationWeights);
 
 			model.addAttribute("inters", recommendedEdition);
 			model.addAttribute("selected", params.getId());
 		}
-		model.addAttribute("edition", edition);
+		model.addAttribute("edition", virtualEdition);
 
 		return "recommendation/virtualTable";
 	}
@@ -195,20 +165,25 @@ public class RecommendationController {
 		return "redirect:/recommendation/restricted/" + virtualEdition.getExternalId();
 	}
 
+	// THE FOLLOWING CONTROLLERS ARE NOT CURRENTLY BEING USED BECAUSE CLUSTERING
+	// IS NOT SUPPORTED
+
 	@RequestMapping(value = "/section", method = RequestMethod.POST, headers = {
 			"Content-type=application/json;charset=UTF-8" })
 	public String setSectionVirtualEdition(Model model, @RequestBody SectionVirtualEditionParam params) {
-		logger.debug("setSectionVirtualEdition");
+		logger.debug("setSectionVirtualEdition properties:{}", params.getPropertiesWithLevel().stream()
+				.map(p -> "(" + p.getProperty().getWeight() + "," + p.getLevel() + ")").collect(Collectors.joining()));
 
-		VirtualEdition edition = (VirtualEdition) LdoD.getInstance().getEdition(params.getAcronym());
+		VirtualEdition virtualEdition = (VirtualEdition) LdoD.getInstance().getEdition(params.getAcronym());
 		VirtualEditionInter inter = FenixFramework.getDomainObject(params.getId());
-		List<VirtualEditionInter> inters = edition.getVirtualEditionInters();
+
+		List<VirtualEditionInter> inters = virtualEdition.getAllDepthVirtualEditionInters();
 		VSMVirtualEditionInterRecommender recommender = new VSMVirtualEditionInterRecommender();
 		Map<Integer, Collection<Property>> map = new HashMap<>();
 		LdoDUser user = LdoDUser.getAuthenticatedUser();
-		RecommendationWeights recommendationWeights = user.getRecommendationWeights(edition);
-		recommendationWeights.setWeightsAndLevels(params.getProperties());
-		for (PropertyWithLevel property : params.getProperties()) {
+		RecommendationWeights recommendationWeights = user.getRecommendationWeights(virtualEdition);
+		recommendationWeights.setWeights(params.getProperties());
+		for (PropertyWithLevel property : params.getPropertiesWithLevel()) {
 			if (property.getProperty().getWeight() > 0) {
 				if (!map.containsKey(property.getLevel())) {
 					map.put(property.getLevel(), new ArrayList<Property>());
@@ -218,7 +193,7 @@ public class RecommendationController {
 		}
 		Cluster cluster = recommender.getCluster(inter, inters, map);
 
-		model.addAttribute("edition", edition);
+		model.addAttribute("edition", virtualEdition);
 		model.addAttribute("cluster", cluster);
 		model.addAttribute("selected", params.getId());
 
@@ -229,20 +204,19 @@ public class RecommendationController {
 			"Content-type=application/json;charset=UTF-8" })
 	public String saveSectionVirtualEdition(Model model,
 			@RequestBody VirtualEditionWithSectionsDTO virtualEditionWithSectionsDTO) {
-		logger.debug("saveSectionVirtualEdition");
+		logger.debug("saveSectionVirtualEdition {}",
+				virtualEditionWithSectionsDTO.getSections().stream()
+						.map(s -> s.getInter() + ":" + s.getSections().stream().collect(Collectors.joining(",")))
+						.collect(Collectors.joining("\n")));
 
-		Edition edition = LdoD.getInstance().getEdition(virtualEditionWithSectionsDTO.getAcronym());
-		if (edition == null || !(edition instanceof VirtualEdition)) {
+		VirtualEdition virtualEdition = (VirtualEdition) LdoD.getInstance()
+				.getEdition(virtualEditionWithSectionsDTO.getAcronym());
+		if (virtualEdition == null) {
 			return "utils/pageNotFound";
 		} else {
-			VirtualEdition virtualEdition = (VirtualEdition) edition;
 			int i = 1;
 			for (SectionDTO sectionDTO : virtualEditionWithSectionsDTO.getSections()) {
 				List<String> sections = sectionDTO.getSections();
-
-				// logger.debug("saveSectionVirtualEdition sections: {}",
-				// virtualEdition.getSectionsSet().stream().map(s ->
-				// s.print(1)).collect(Collectors.joining()));
 
 				Section section = virtualEdition.getSection(sections.get(0)) == null
 						? virtualEdition.createSection(sections.get(0)) : virtualEdition.getSection(sections.get(0));
@@ -250,14 +224,13 @@ public class RecommendationController {
 					section = section.getSection(sections.get(j)) == null ? section.createSection(sections.get(j))
 							: section.getSection(sections.get(j));
 				}
-				String inter = sectionDTO.getInter();
-				VirtualEditionInter virtualEditionInter = FenixFramework.getDomainObject(inter);
+				VirtualEditionInter virtualEditionInter = FenixFramework.getDomainObject(sectionDTO.getInter());
 				section.addVirtualEditionInter(virtualEditionInter, i++);
 			}
 			virtualEdition.clearEmptySections();
-
-			return "OK";
 		}
+
+		return "redirect:/recommendation/restricted/" + virtualEdition.getExternalId();
 	}
 
 	@RequestMapping(value = "/section/create", method = RequestMethod.POST)
@@ -266,8 +239,11 @@ public class RecommendationController {
 			@RequestParam("inter[]") String[] inters, @RequestParam("depth[]") String[] depth) {
 		logger.debug("createSectionVirtualEdition");
 
-		VirtualEdition virtualEdition = LdoD.getInstance().createVirtualEdition(LdoDUser.getAuthenticatedUser(),
-				acronym, title, new LocalDate(), pub, null);
+		LdoDUser user = LdoDUser.getAuthenticatedUser();
+		VirtualEdition virtualEdition = LdoD.getInstance().createVirtualEdition(user, acronym, title, new LocalDate(),
+				pub, null);
+
+		RecommendationWeights recommendationWeights = user.getRecommendationWeights(virtualEdition);
 
 		for (int i = 0; i < inters.length; i++) {
 			String inter = inters[i];

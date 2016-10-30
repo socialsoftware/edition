@@ -15,7 +15,6 @@ public class Section extends Section_Base implements Comparable<Section> {
 	public static String DEFAULT = "default";
 
 	public Section(VirtualEdition virtualEdition, String title, int number) {
-		super();
 		setTitle(title);
 		setVirtualEdition(virtualEdition);
 		setNumber(number);
@@ -27,7 +26,7 @@ public class Section extends Section_Base implements Comparable<Section> {
 		setNumber(number);
 	}
 
-	public Set<VirtualEditionInter> getInterSet() {
+	public Set<VirtualEditionInter> getAllDepthVirtualEditionInterSet() {
 		Set<VirtualEditionInter> inters = new HashSet<>();
 
 		// Add section's inters
@@ -39,10 +38,9 @@ public class Section extends Section_Base implements Comparable<Section> {
 		Set<Section> subSectionSet = getSubSectionsSet();
 		if (subSectionSet != null) {
 			for (Section section : subSectionSet) {
-				inters.addAll(section.getInterSet());
+				inters.addAll(section.getAllDepthVirtualEditionInterSet());
 			}
 		}
-
 		return inters;
 	}
 
@@ -149,22 +147,6 @@ public class Section extends Section_Base implements Comparable<Section> {
 		}
 	}
 
-	public int size() {
-		if (isLeaf()) {
-			return getInterSet().size();
-		} else {
-			int count = 0;
-			for (Section section : getSubSectionsSet()) {
-				count += section.size();
-			}
-			return count;
-		}
-	}
-
-	public ArrayList<VirtualEditionInter> getIntersAsList() {
-		return new ArrayList<>(getInterSet());
-	}
-
 	public String print(int i) {
 		String result = StringUtils.repeat("\t", i) + getNumber() + ":" + getTitle() + "\n";
 		for (Section section : getSubSectionsSet()) {
@@ -183,7 +165,7 @@ public class Section extends Section_Base implements Comparable<Section> {
 	}
 
 	public List<VirtualEditionInter> getSortedInters() {
-		List<VirtualEditionInter> sortedList = new ArrayList<>(getInterSet());
+		List<VirtualEditionInter> sortedList = new ArrayList<>(getVirtualEditionInterSet());
 		Collections.sort(sortedList);
 		return sortedList;
 	}
@@ -195,4 +177,17 @@ public class Section extends Section_Base implements Comparable<Section> {
 		else
 			return getRootSection().getVirtualEdition();
 	}
+
+	public void clearEmptySections() {
+		for (Section section : getSubSectionsSet()) {
+			section.clearEmptySections();
+		}
+
+		for (Section section : getSubSectionsSet()) {
+			if (section.getAllDepthVirtualEditionInterSet().size() == 0) {
+				section.remove();
+			}
+		}
+	}
+
 }

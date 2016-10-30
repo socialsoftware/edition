@@ -19,7 +19,7 @@ public class Cluster {
 	private static Logger logger = LoggerFactory.getLogger(Cluster.class);
 
 	private Double value;
-	private final Map<Double, Cluster> nodes = new TreeMap<Double, Cluster>(Collections.reverseOrder());
+	private final Map<Double, Cluster> nodes = new TreeMap<>(Collections.reverseOrder());
 	private final VSMVirtualEditionInterRecommender vsmFragInterRecommender;
 	private final VirtualEditionInter inter;
 	private final List<VirtualEditionInter> inters;
@@ -32,7 +32,7 @@ public class Cluster {
 		this.inter = inter;
 		this.propertiesMap = propertiesMap;
 		this.order = 0;
-		this.inters = new ArrayList<VirtualEditionInter>(inters);
+		this.inters = new ArrayList<>(inters);
 	}
 
 	public Cluster(VSMVirtualEditionInterRecommender vsmFragInterRecommender, Double value, VirtualEditionInter inter,
@@ -42,9 +42,10 @@ public class Cluster {
 		this.inter = inter;
 		this.propertiesMap = propertiesMap;
 		this.order = level;
-		this.inters = new ArrayList<VirtualEditionInter>();
+		this.inters = new ArrayList<>();
 	}
 
+	// THIS CLUSTERING STRATEGY NEEDS TO BE RETHOUGHT, SO IT IS NOT BEING USED
 	public void buildCluster() {
 		if (propertiesMap.containsKey(order) && inters.size() > 0) {
 			Collection<Property> properties = propertiesMap.get(order);

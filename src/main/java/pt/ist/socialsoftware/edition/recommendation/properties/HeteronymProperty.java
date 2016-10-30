@@ -2,7 +2,9 @@ package pt.ist.socialsoftware.edition.recommendation.properties;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -10,6 +12,7 @@ import pt.ist.socialsoftware.edition.domain.FragInter;
 import pt.ist.socialsoftware.edition.domain.Fragment;
 import pt.ist.socialsoftware.edition.domain.Heteronym;
 import pt.ist.socialsoftware.edition.domain.LdoD;
+import pt.ist.socialsoftware.edition.domain.NullHeteronym;
 import pt.ist.socialsoftware.edition.domain.RecommendationWeights;
 import pt.ist.socialsoftware.edition.domain.Source;
 import pt.ist.socialsoftware.edition.domain.SourceInter;
@@ -64,9 +67,8 @@ public class HeteronymProperty extends Property {
 	}
 
 	@Override
-	public void userWeightAndLevel(RecommendationWeights recommendationWeights, int level) {
+	public void userWeight(RecommendationWeights recommendationWeights) {
 		recommendationWeights.setHeteronymWeight(getWeight());
-		recommendationWeights.setHeteronymLevel(level);
 	}
 
 	@Override
@@ -77,7 +79,7 @@ public class HeteronymProperty extends Property {
 	@Override
 	protected String getConcreteTitle(FragInter inter) {
 		String title = "";
-		List<Heteronym> heteronyms = new ArrayList<>();
+		Set<Heteronym> heteronyms = new HashSet<>();
 		for (FragInter intr : inter.getFragment().getFragmentInterSet()) {
 			heteronyms.add(intr.getHeteronym());
 		}
@@ -87,9 +89,13 @@ public class HeteronymProperty extends Property {
 			}
 		}
 
+		if (heteronyms.size() != 1 && heteronyms.contains(NullHeteronym.getNullHeteronym())) {
+			heteronyms.remove(NullHeteronym.getNullHeteronym());
+		}
+
 		for (Heteronym heteronym : HeteronymProperty.heteronymList) {
 			if (heteronyms.contains(heteronym))
-				title += ":" + heteronym.getName();
+				title += "," + heteronym.getName();
 		}
 
 		if (title.length() > 0)

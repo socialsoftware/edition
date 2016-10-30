@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.apache.lucene.queryparser.classic.ParseException;
 import org.slf4j.Logger;
@@ -12,6 +13,7 @@ import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import pt.ist.socialsoftware.edition.domain.FragInter;
 import pt.ist.socialsoftware.edition.domain.Fragment;
 import pt.ist.socialsoftware.edition.domain.RecommendationWeights;
 import pt.ist.socialsoftware.edition.domain.VirtualEditionInter;
@@ -22,6 +24,7 @@ public class TextProperty extends Property {
 	private static Logger logger = LoggerFactory.getLogger(TextProperty.class);
 
 	public static final int NUMBER_OF_TERMS = 100;
+	public static final int NUMBER_OF_TERMS_TO_SHOW = 3;
 
 	private static Map<String, Map<String, double[]>> vectorsCache = new HashMap<>();
 
@@ -131,14 +134,25 @@ public class TextProperty extends Property {
 	}
 
 	@Override
-	public void userWeightAndLevel(RecommendationWeights recommendationWeights, int level) {
+	public void userWeight(RecommendationWeights recommendationWeights) {
 		recommendationWeights.setTextWeight(getWeight());
-		recommendationWeights.setTextLevel(level);
 	}
 
 	@Override
 	public String getTitle() {
 		return "Text";
+	}
+
+	@Override
+	public String getConcreteTitle(FragInter inter) {
+		Indexer indexer = Indexer.getIndexer();
+		try {
+			return indexer.getTFIDFTerms(inter.getFragment(), NUMBER_OF_TERMS_TO_SHOW).stream().sorted()
+					.collect(Collectors.joining(","));
+		} catch (IOException | ParseException e) {
+			throw new LdoDException("prepareToLoadProperty in class TextProperty failed when invoking indexer");
+
+		}
 	}
 
 }

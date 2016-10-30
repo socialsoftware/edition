@@ -196,7 +196,7 @@ public class TopicModeler {
 			String[] subs = fileName.split("[/\\.]");
 			String externalId = subs[subs.length - 2];
 			VirtualEditionInter fragInter = null;
-			for (VirtualEditionInter inter : edition.getVirtualEditionInters()) {
+			for (VirtualEditionInter inter : edition.getAllDepthVirtualEditionInters()) {
 				if (inter.getFragment().getRepresentativeSourceInter().getExternalId().equals(externalId)) {
 					fragInter = inter;
 					break;
@@ -264,7 +264,7 @@ public class TopicModeler {
 		private final Set<String> filenames = new HashSet<String>();
 
 		public EditionFilter(VirtualEdition edition) {
-			for (VirtualEditionInter inter : edition.getVirtualEditionInters()) {
+			for (VirtualEditionInter inter : edition.getAllDepthVirtualEditionInters()) {
 				filenames.add(inter.getFragment().getRepresentativeSourceInter().getExternalId() + ".txt");
 			}
 		}

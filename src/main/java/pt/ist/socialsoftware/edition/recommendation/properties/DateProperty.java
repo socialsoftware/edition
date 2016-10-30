@@ -2,7 +2,6 @@ package pt.ist.socialsoftware.edition.recommendation.properties;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.TreeSet;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,12 +10,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import pt.ist.socialsoftware.edition.domain.FragInter;
 import pt.ist.socialsoftware.edition.domain.Fragment;
-import pt.ist.socialsoftware.edition.domain.ManuscriptSource;
-import pt.ist.socialsoftware.edition.domain.PrintedSource;
 import pt.ist.socialsoftware.edition.domain.RecommendationWeights;
 import pt.ist.socialsoftware.edition.domain.Source;
-import pt.ist.socialsoftware.edition.domain.Source.SourceType;
-import pt.ist.socialsoftware.edition.domain.SourceInter;
 import pt.ist.socialsoftware.edition.domain.VirtualEditionInter;
 
 public class DateProperty extends Property {
@@ -87,9 +82,8 @@ public class DateProperty extends Property {
 	}
 
 	@Override
-	public void userWeightAndLevel(RecommendationWeights recommendationWeights, int level) {
+	public void userWeight(RecommendationWeights recommendationWeights) {
 		recommendationWeights.setDateWeight(getWeight());
-		recommendationWeights.setDateLevel(level);
 	}
 
 	@Override
@@ -98,41 +92,22 @@ public class DateProperty extends Property {
 	}
 
 	@Override
-	public String getConcreteTitle(FragInter intr) {
-
-		Set<Integer> dates = new TreeSet<>();
-		for (FragInter inter : intr.getFragment().getFragmentInterSet()) {
+	public String getConcreteTitle(FragInter fragInter) {
+		Set<Integer> dates = new HashSet<>();
+		for (FragInter inter : fragInter.getFragment().getFragmentInterSet()) {
 			if (inter.getLdoDDate() != null) {
 				dates.add(inter.getLdoDDate().getDate().getYear());
 			}
 		}
-		for (Source source : intr.getFragment().getSourcesSet()) {
-			if (source.getType().equals(SourceType.MANUSCRIPT)) {
-				ManuscriptSource manu = (ManuscriptSource) source;
-				if (manu.getLdoDDate() != null) {
-					dates.add(manu.getLdoDDate().getDate().getYear());
-				}
-				for (SourceInter inter : manu.getSourceIntersSet()) {
-					if (inter.getLdoDDate() != null) {
-						dates.add(inter.getLdoDDate().getDate().getYear());
-					}
-				}
-			} else if (source.getType().equals(SourceType.PRINTED)) {
-				PrintedSource printed = (PrintedSource) source;
-				if (printed.getLdoDDate() != null) {
-					dates.add(printed.getLdoDDate().getDate().getYear());
-				}
-				for (SourceInter inter : printed.getSourceIntersSet()) {
-					if (inter.getLdoDDate() != null) {
-						dates.add(inter.getLdoDDate().getDate().getYear());
-					}
-				}
+		for (Source source : fragInter.getFragment().getSourcesSet()) {
+			if (source.getLdoDDate() != null) {
+				dates.add(source.getLdoDDate().getDate().getYear());
 			}
 		}
 
 		String title = "";
 		for (int date : dates) {
-			title += ":" + date;
+			title += "," + date;
 		}
 
 		if (title.length() > 0)
