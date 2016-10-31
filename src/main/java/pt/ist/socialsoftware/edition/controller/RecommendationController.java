@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.domain.Edition.EditionType;
-import pt.ist.socialsoftware.edition.domain.FragInter;
 import pt.ist.socialsoftware.edition.domain.LdoD;
 import pt.ist.socialsoftware.edition.domain.LdoDUser;
 import pt.ist.socialsoftware.edition.domain.RecommendationWeights;
@@ -129,25 +128,19 @@ public class RecommendationController {
 		logger.debug("saveLinearVirtualEdition");
 
 		LdoD ldod = LdoD.getInstance();
-		VirtualEdition edition = (VirtualEdition) ldod.getEdition(acronym);
-		if (inters != null && edition.getSourceType().equals(EditionType.VIRTUAL)) {
-			Section section = edition.createSection(Section.DEFAULT);
+		VirtualEdition virtualEdition = (VirtualEdition) ldod.getEdition(acronym);
+		if (inters != null && virtualEdition.getSourceType().equals(EditionType.VIRTUAL)) {
+			Section section = virtualEdition.createSection(Section.DEFAULT);
 			VirtualEditionInter VirtualEditionInter;
 			int i = 0;
 			for (String externalId : inters) {
 				VirtualEditionInter = FenixFramework.getDomainObject(externalId);
 				section.addVirtualEditionInter(VirtualEditionInter, ++i);
 			}
-			edition.clearEmptySections();
-
-			List<FragInter> sortedInters = edition.getSortedInterps();
-			model.addAttribute("inters", sortedInters);
-			model.addAttribute("selected", sortedInters.get(0).getExternalId());
+			virtualEdition.clearEmptySections();
 		}
 
-		model.addAttribute("edition", edition);
-
-		return "recommendation/virtualTable";
+		return "redirect:/recommendation/restricted/" + virtualEdition.getExternalId();
 	}
 
 	@RequestMapping(value = "/linear/create", method = RequestMethod.POST)

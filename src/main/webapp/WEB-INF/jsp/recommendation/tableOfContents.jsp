@@ -104,13 +104,13 @@
 								</div>
 							</th>
 							<!--  COMMENTED BECAUSE CLUSTERING IS NOT SUPPORTED -->
-<%-- 							<th>
+							<th>
 								<p class="text-center">
 									<input style="display: inline;" class="text-center"
 										type="checkbox" id="sections" />
 									<spring:message code="general.sections" />
 								</p>
-							</th> --%>
+							</th>
 							<th>
 								<div class="form-inline extra text-center">
 									<button type="submit" id="save" class="btn btn-primary btn-sm">
@@ -370,8 +370,10 @@
 								url : '/recommendation/linear/save',
 								type : 'post',
 								data : data,
-								success : function(htm) {
-									$('#virtual-table').empty().append(htm);
+								success : function(html) {
+									var newDoc = document.open("text/html", "replace");
+									newDoc.write(html);
+									newDoc.close();
 								}
 							});
 						}
