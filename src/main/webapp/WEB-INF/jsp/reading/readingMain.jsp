@@ -7,8 +7,8 @@
 <body>
 	<%@ include file="/WEB-INF/jsp/common/fixed-top-ldod-header.jsp"%>
 	<div class="container">
-		<div class="jumbotron">
-			<h1 class="text-center">Livro do Desassossego</h1>
+		<!-- <div class="jumbotron"> -->
+			<h2 class="text-center"><spring:message code="general.reading"/></h2>
 			<div class="row col-md-offset-2">
 				<%@ include file="/WEB-INF/jsp/reading/readingNavigation.jsp"%>
 			</div>
@@ -16,7 +16,7 @@
 			<div class="row">
 				<%@ include file="/WEB-INF/jsp/reading/readingText.jsp"%>
 			</div>
-		</div>
+		<!-- </div> -->
 	</div>
 </body>
 <script>

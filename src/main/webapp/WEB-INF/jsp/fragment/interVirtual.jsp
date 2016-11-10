@@ -29,34 +29,25 @@
 	function stringifyTags(array) {
 		return array.join(" ");
 	}
-
 	function parseTags(string) {
 		string = $.trim(string);
 		var tags = [];
-
 		if (string) {
 			tags = string.split(/\,/);
 		}
-
 		return tags;
 	}
-
 	function editorExtension(e) {
 		var tagsField = null;
-
 		var data = null;
-
 		function setAnnotationTags(field, annotation) {
 			annotation.tags = parseTags($(".tagSelector").val());
 		}
-
 		tagsField = e.addField({
 			load : loadField,
 			submit : setAnnotationTags
 		});
-
 		$("#annotator-field-1").remove("input");
-
 		function loadField(field, annotation) {
 			if (typeof annotation.id !== 'undefined') {
 				$.get("${contextPath}/fragments/fragment/annotation/"
@@ -68,12 +59,10 @@
 				$(".tagSelector").val([]).trigger("change");
 			}
 		}
-
 		var select = $("<select>");
 		select.attr("class", "tagSelector");
 		select.attr("style", "width:263px;");
 		$(tagsField).append(select);
-
 		if ('${inters.get(0).getVirtualEdition().getTaxonomy().getOpenVocabulary()}' == 'true') {
 			$(".tagSelector")
 					.select2(
@@ -93,13 +82,11 @@
 										.parseJSON('${inters.get(0).getAllDepthCategoriesJSON()}'),
 							});
 		}
-
 		$(".tagSelector").on('select2:open', function(e, data) {
 			$(".select2-dropdown").css({
 				"z-index" : "999999"
 			});
 		});
-
 	};
 </script>
 
@@ -112,26 +99,20 @@
 			}
 		};
 	};
-
 	var app = new annotator.App();
 	app.include(annotator.ui.main, {
 		element : document.querySelector('#content'),
 		editorExtensions : [ editorExtension ],
 		viewerExtensions : [ annotator.ui.tags.viewerExtension ]
 	});
-
 	app.include(annotator.storage.http, {
 		prefix : '${contextPath}/fragments/fragment'
 	}).include(pageUri);
-
 	app.include(annotator.identity.simple);
-
 	app.include(annotator.authz.acl);
-
 	app.include(createAnnotation);
 	app.include(updateAnnotation);
 	app.include(deleteAnnotation);
-
 	app.start().then(function() {
 		app.annotations.load({
 			uri : '${inters.get(0).externalId}',
@@ -141,25 +122,21 @@
 	}).then(function() {
 		app.ident.identity = '${user.username}';
 	})
-
 	function createAnnotation() {
 		return {
 			annotationCreated : reloadPage
 		};
 	}
-
 	function updateAnnotation() {
 		return {
 			annotationUpdated : reloadPage
 		};
 	}
-
 	function deleteAnnotation() {
 		return {
 			annotationDeleted : reloadPage
 		};
 	}
-
 	function reloadPage() {
 		$
 				.get(
@@ -169,4 +146,3 @@
 						});
 	}
 </script>
-

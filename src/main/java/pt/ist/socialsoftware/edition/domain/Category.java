@@ -36,19 +36,25 @@ public class Category extends Category_Base implements Comparable<Category> {
 		deleteDomainObject();
 	}
 
+	public static String purgeName(String name) {
+		return name.replaceAll("[^\\p{L}0-9_\\-\\s]+", "");
+	}
+
 	@Atomic(mode = TxMode.WRITE)
 	@Override
 	public void setName(String name) {
-		if (name == null || name.equals("")) {
-			throw new LdoDException();
+		String purgedName = Category.purgeName(name);
+
+		if (purgedName == null || purgedName.equals("")) {
+			throw new LdoDException("Category::setName is null or empty name");
 		}
 
 		for (Category category : getTaxonomy().getCategoriesSet()) {
-			if ((category != this) && (category.getName().equals(name))) {
+			if ((category != this) && (category.getName().equals(purgedName))) {
 				throw new LdoDDuplicateNameException();
 			}
 		}
-		super.setName(name);
+		super.setName(purgedName);
 	}
 
 	@Override
@@ -57,7 +63,7 @@ public class Category extends Category_Base implements Comparable<Category> {
 	}
 
 	public List<Tag> getSortedTags() {
-		List<Tag> tags = new ArrayList<Tag>(getTagSet());
+		List<Tag> tags = new ArrayList<>(getTagSet());
 		Collections.sort(tags);
 		return tags;
 	}

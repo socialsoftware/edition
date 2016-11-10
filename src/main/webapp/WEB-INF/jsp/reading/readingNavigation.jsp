@@ -34,6 +34,7 @@
 	<c:set var="fragment" value="${inter.getFragment()}" />
 </c:if>
 
+<!-- HEADERS -->
 <div class="row">
 	<!-- EDITORIAL -->
 	<c:forEach var="expertEdition" items='${ldoD.sortedExpertEdition}'>
@@ -45,6 +46,27 @@
 						${expertEdition.editor}</a>
 				</h4>
 			</div>
+		</div>
+	</c:forEach>
+
+	<!-- RECOMMENDATION -->
+	<c:if test="${fragment != null}">
+		<div class="col-md-2">
+			<div class="text-center">
+				<h4>
+					<a onClick="openRecomModal()"><spring:message
+							code="general.recommendation" /> </a>
+				</h4>
+			</div>
+		</div>
+	</c:if>
+</div>
+
+<!-- INTERPRETATIONS MENU -->
+<div class="row">
+	<!-- EDITORIAL -->
+	<c:forEach var="expertEdition" items='${ldoD.sortedExpertEdition}'>
+		<div class="col-md-2">
 			<div class="text-center">
 				<c:choose>
 					<c:when test="${fragment == null}">
@@ -76,12 +98,6 @@
 	<!-- RECOMMENDATION -->
 	<c:if test="${fragment != null}">
 		<div class="col-md-2">
-			<div class="text-center">
-				<h4>
-					<a onClick="openRecomModal()"><spring:message
-							code="general.recommendation" /> </a>
-				</h4>
-			</div>
 			<div class="text-center">
 				<c:if test="${prevRecom != null}">
 					<div>

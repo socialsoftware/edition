@@ -5,7 +5,7 @@
 		<br>
 		<c:choose>
 			<c:when test="${inter.sourceType=='EDITORIAL'}">
-				<div class="well" style="font-family: georgia; font-size: medium;">
+				<div class="well" style="font-family: georgia; font-size: large;">
 					<p>${writer.getTranscription()}</p>
 				</div>
 			</c:when>

@@ -283,11 +283,8 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 		try {
 			return mapper.writeValueAsString(categories);
 		} catch (JsonProcessingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new LdoDException("VirtualEditionInter::getAllDepthCategoriesJSON");
 		}
-
-		return null;
 	}
 
 	private void createTag(LdoDUser user, String categoryName, Annotation annotation) {
@@ -310,7 +307,9 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 			}
 		}
 
-		for (String tag : tags) {
+		List<String> purgedTags = tags.stream().map(n -> Category.purgeName(n)).distinct().collect(Collectors.toList());
+
+		for (String tag : purgedTags) {
 			if (!existsTag(tag)) {
 				createTag(annotation.getUser(), tag, annotation);
 			}

@@ -15,13 +15,13 @@
 	<!-- <table class="table table-hover table-condensed"> -->
 	<thead>
 		<tr>
-			<th><span class="tip"
+			<th class="text-center"><span class="tip"
 				title="<spring:message code="tableofcontents.tt.number" />"><spring:message
 						code="tableofcontents.number" /></span></th>
 			<th><span class="tip"
 				title="<spring:message code="tableofcontents.tt.title" />"><spring:message
 						code="tableofcontents.title" /></span></th>
-			<th><span class="tip"
+			<th class="text-center"><span class="tip"
 				title="<spring:message code="tableofcontents.tt.reading" />"><spring:message
 						code="general.reading" /></span></th>
 			<c:if

@@ -108,7 +108,7 @@ public class TopicModeler {
 	}
 
 	public Pipe buildPipe() {
-		ArrayList<Pipe> pipeList = new ArrayList<Pipe>();
+		ArrayList<Pipe> pipeList = new ArrayList<>();
 
 		pipeList.add(new Input2CharSequence("UTF-8"));
 		pipeList.add(new CharSequence2TokenSequence(Pattern.compile("\\p{L}[\\p{L}\\p{P}]+\\p{L}")));
@@ -174,13 +174,13 @@ public class TopicModeler {
 			while (iterator.hasNext() && rank < numWords) {
 				IDSorter idCountPair = iterator.next();
 				String word = (String) dataAlphabet.lookupObject(idCountPair.getID());
-				wordName = wordName + "(" + word + ")";
+				wordName = wordName.equals("") ? word : wordName + "_" + word;
 
 				rank++;
 			}
 
 			while ((taxonomy.getCategory(wordName) != null) || existTopic(topics.getTopics(), wordName)) {
-				wordName = wordName + "_dup";
+				wordName = wordName + "_DUP";
 			}
 
 			topic.setName(wordName);
@@ -261,7 +261,7 @@ public class TopicModeler {
 
 	/** This class illustrates how to build a simple file filter */
 	class EditionFilter implements FileFilter {
-		private final Set<String> filenames = new HashSet<String>();
+		private final Set<String> filenames = new HashSet<>();
 
 		public EditionFilter(VirtualEdition edition) {
 			for (VirtualEditionInter inter : edition.getAllDepthVirtualEditionInters()) {
