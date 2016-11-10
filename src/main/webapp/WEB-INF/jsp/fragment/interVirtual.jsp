@@ -29,6 +29,7 @@
 	function stringifyTags(array) {
 		return array.join(" ");
 	}
+	
 	function parseTags(string) {
 		string = $.trim(string);
 		var tags = [];
@@ -37,6 +38,7 @@
 		}
 		return tags;
 	}
+	
 	function editorExtension(e) {
 		var tagsField = null;
 		var data = null;

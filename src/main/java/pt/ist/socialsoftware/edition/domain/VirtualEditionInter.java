@@ -153,14 +153,17 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 
 	@Atomic(mode = TxMode.WRITE)
 	public void associate(LdoDUser user, Set<String> categoryNames) {
+		Set<String> purgedCategoryNames = categoryNames.stream().map(n -> Category.purgeName(n)).distinct()
+				.collect(Collectors.toSet());
+
 		getAssignedCategories(user).stream()
-				.filter(c -> !categoryNames.contains(c.getNameInEditionContext(getVirtualEdition())))
+				.filter(c -> !purgedCategoryNames.contains(c.getNameInEditionContext(getVirtualEdition())))
 				.forEach(c -> dissociate(user, c));
 
 		Set<String> existingCategories = getAssignedCategories(user).stream()
 				.map(c -> c.getNameInEditionContext(getVirtualEdition())).collect(Collectors.toSet());
 
-		Set<String> toAssociate = categoryNames.stream().filter(cname -> !existingCategories.contains(cname))
+		Set<String> toAssociate = purgedCategoryNames.stream().filter(cname -> !existingCategories.contains(cname))
 				.collect(Collectors.toSet());
 
 		for (String categoryName : toAssociate) {
