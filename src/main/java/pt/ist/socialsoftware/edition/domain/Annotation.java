@@ -66,4 +66,9 @@ public class Annotation extends Annotation_Base {
 		return getUser() == user;
 	}
 
+	public boolean existsTag(String tag, VirtualEdition virtualEdition) {
+		return getTagSet().stream().anyMatch(t -> t.getCategory().getName().equals(tag)
+				&& t.getCategory().getTaxonomy().getEdition() == virtualEdition);
+	}
+
 }

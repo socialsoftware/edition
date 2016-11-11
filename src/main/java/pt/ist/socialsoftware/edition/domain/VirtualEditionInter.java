@@ -313,19 +313,10 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 		List<String> purgedTags = tags.stream().map(n -> Category.purgeName(n)).distinct().collect(Collectors.toList());
 
 		for (String tag : purgedTags) {
-			if (!existsTag(tag)) {
+			if (!annotation.existsTag(tag, getVirtualEdition())) {
 				createTag(annotation.getUser(), tag, annotation);
 			}
 		}
-	}
-
-	private boolean existsTag(String name) {
-		for (Tag tag : getTagSet()) {
-			if (tag.getCategory().getNameInEditionContext(getVirtualEdition()).equals(name)) {
-				return true;
-			}
-		}
-		return false;
 	}
 
 	public Set<VirtualEdition> getUsedIn() {
