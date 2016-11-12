@@ -81,10 +81,12 @@ public class SearchController {
 		params = params.substring(params.indexOf("&") + 1);
 		String searchSource = params;
 
+		search = TextSearchOption.purgeSearchText(search);
+
 		TextSearchOption textSearchOption = new TextSearchOption(search);
 		List<FragInter> matches = textSearchOption.search();
 
-		Map<Fragment, List<FragInter>> results = new HashMap<Fragment, List<FragInter>>();
+		Map<Fragment, List<FragInter>> results = new HashMap<>();
 		int interCount = 0;
 		for (FragInter inter : matches) {
 			Fragment fragment = inter.getFragment();
@@ -204,7 +206,7 @@ public class SearchController {
 	@ResponseBody
 	public Map<String, String> getEditions() {
 		// LinkedHashMap keeps insertion order.
-		Map<String, String> editions = new LinkedHashMap<String, String>();
+		Map<String, String> editions = new LinkedHashMap<>();
 		for (ExpertEdition expertEdition : LdoD.getInstance().getSortedExpertEdition()) {
 
 			editions.put(expertEdition.getAcronym(), expertEdition.getEditor());
@@ -216,7 +218,7 @@ public class SearchController {
 	@ResponseBody
 	public EditionJson getEdition(@RequestParam(value = "edition", required = true) String acronym) {
 		Edition edition = LdoD.getInstance().getEdition(acronym);
-		Map<String, String> heteronyms = new HashMap<String, String>();
+		Map<String, String> heteronyms = new HashMap<>();
 		LocalDate beginDate = null;
 		LocalDate endDate = null;
 		for (FragInter fragInter : edition.getIntersSet()) {
@@ -317,7 +319,7 @@ public class SearchController {
 	@RequestMapping(value = "/getHeteronyms")
 	@ResponseBody
 	public Map<String, String> getHeteronyms() {
-		Map<String, String> heteronyms = new HashMap<String, String>();
+		Map<String, String> heteronyms = new HashMap<>();
 		for (Heteronym heteronym : LdoD.getInstance().getHeteronymsSet()) {
 			heteronyms.put(heteronym.getName(), heteronym.getXmlId());
 		}
@@ -354,7 +356,7 @@ public class SearchController {
 	@RequestMapping(value = "/getVirtualEditions")
 	@ResponseBody
 	public Map<String, String> getVirtualEditions(Model model) {
-		Map<String, String> virtualEditionMap = new HashMap<String, String>();
+		Map<String, String> virtualEditionMap = new HashMap<>();
 		LdoDUser user = LdoDUser.getAuthenticatedUser();
 		for (VirtualEdition virtualEdition : user.getSelectedVirtualEditionsSet()) {
 			if (!virtualEditionMap.containsKey(virtualEdition.getAcronym())) {
