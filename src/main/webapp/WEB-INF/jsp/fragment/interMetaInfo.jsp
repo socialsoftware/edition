@@ -34,8 +34,8 @@
 <strong><spring:message code="general.heteronym" />:</strong>
 <c:choose>
 	<c:when test="${!inter.getHeteronym().isNullHeteronym()}">${inter.getHeteronym().getName()}</c:when>
-	<c:otherwise><spring:message
-			code="general.heteronym.notassigned" />
+	<c:otherwise>
+		<spring:message code="general.heteronym.notassigned" />
 	</c:otherwise>
 </c:choose>
 
@@ -44,11 +44,17 @@
 		<br>
 		<strong><spring:message code="general.format" />:</strong>
 		<spring:message code="general.leaf" />
+		<c:if test='${inter.getSource().getDimensions() != null}'>
+			<small>(${inter.getSource().getDimensions().getHeight()}cm X
+				${inter.getSource().getDimensions().getWidth()}cm)</small>
+		</c:if>
 	</c:if>
 
 	<c:if test="${inter.getSource().getMaterial() == 'PAPER'}">
 		<br>
-		<strong><spring:message code="general.material" />:</strong> <spring:message code="general.paper" /></c:if>
+		<strong><spring:message code="general.material" />:</strong>
+		<spring:message code="general.paper" />
+	</c:if>
 
 	<c:if test="${inter.getSource().getColumns() != 0}">
 		<br>
@@ -57,8 +63,12 @@
 
 	<br>
 	<strong>LdoD Mark:</strong>
-	<c:if test="${inter.getSource().getHasLdoDLabel()}"><spring:message code="search.ldod.with" /></c:if>
-	<c:if test="${!inter.getSource().getHasLdoDLabel()}"><spring:message code="search.ldod.without" /></c:if>
+	<c:if test="${inter.getSource().getHasLdoDLabel()}">
+		<spring:message code="search.ldod.with" />
+	</c:if>
+	<c:if test="${!inter.getSource().getHasLdoDLabel()}">
+		<spring:message code="search.ldod.without" />
+	</c:if>
 
 	<c:forEach var="handNote" items="${inter.getSource().getHandNoteSet()}">
 		<br>

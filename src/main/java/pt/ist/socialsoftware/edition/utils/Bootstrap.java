@@ -119,6 +119,8 @@ public class Bootstrap implements WebApplicationInitializer {
 				"bernardosoares@pessoa.pt");
 		LdoDUser rita = new LdoDUser(ldod, "rita", "$2a$12$6UbQBZNy0s2LQnQjaPe2au645FF.gEC7/RF5Xv9P8bdAhJo.fugoa",
 				"Rita", "Marrone", "bernardosoares@pessoa.pt");
+		LdoDUser osvaldo = new LdoDUser(ldod, "osvaldo", "$2a$12$5WFTqOwTFfhPEeJ.L2Dbk.qvbCArQCSkcp7DdeUkrxj3dX2XT827e",
+				"Osvaldo", "Silvestre", "omsilvestre@gmail.com");
 
 		ars.setEnabled(true);
 		ars.addRoles(user);
@@ -161,6 +163,10 @@ public class Bootstrap implements WebApplicationInitializer {
 		rita.setEnabled(true);
 		rita.addRoles(user);
 		rita.addRoles(admin);
+
+		osvaldo.setEnabled(true);
+		osvaldo.addRoles(user);
+		osvaldo.addRoles(admin);
 	}
 
 	public static void createVirtualEditionsForTest() {
@@ -179,6 +185,7 @@ public class Bootstrap implements WebApplicationInitializer {
 		LdoDUser joana = ldod.getUser("joana");
 		LdoDUser bernardosoares = ldod.getUser("bernardosoares");
 		LdoDUser rita = ldod.getUser("rita");
+		LdoDUser osvaldo = ldod.getUser("osvaldo");
 
 		VirtualEdition classX = new VirtualEdition(ldod, ars, "ClassX", "LdoD Edition of Class X", new LocalDate(),
 				false, null);
@@ -192,6 +199,7 @@ public class Bootstrap implements WebApplicationInitializer {
 		classX.addMember(joana, MemberRole.ADMIN, true);
 		classX.addMember(bernardosoares, MemberRole.ADMIN, true);
 		classX.addMember(rita, MemberRole.ADMIN, true);
+		classX.addMember(osvaldo, MemberRole.ADMIN, true);
 		luis.addSelectedVirtualEditions(classX);
 		mp.addSelectedVirtualEditions(classX);
 		ars.addSelectedVirtualEditions(classX);
@@ -201,6 +209,7 @@ public class Bootstrap implements WebApplicationInitializer {
 		andre.addSelectedVirtualEditions(classX);
 		bernardosoares.addSelectedVirtualEditions(classX);
 		rita.addSelectedVirtualEditions(classX);
+		osvaldo.addSelectedVirtualEditions(classX);
 
 		VirtualEdition classY = new VirtualEdition(ldod, ars, "ClassY", "LdoD Edition of Class Y", new LocalDate(),
 				false, null);
@@ -249,7 +258,7 @@ public class Bootstrap implements WebApplicationInitializer {
 		Set<Fragment> fragments = LdoD.getInstance().getFragmentsSet();
 
 		if (fragments.size() > 500) {
-			List<Property> properties = new ArrayList<Property>();
+			List<Property> properties = new ArrayList<>();
 			properties.add(new TextProperty(1.0));
 
 			VSMFragmentRecommender recommender = new VSMFragmentRecommender();

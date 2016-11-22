@@ -17,6 +17,7 @@
 
 
 <!-- Annotator 2.0 -->
+<link rel="gettext" type="application/x-po" href="/resources/locale/pt/annotator.po">
 <script src="/resources/js/annotator.min.js"></script>
 <link
 	href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/css/select2.min.css"
@@ -83,120 +84,7 @@
 			});
 		});
 	};
-
-	function main(options) {
-		if (typeof options === 'undefined' || options === null) {
-			options = {};
-		}
-
-		options.element = options.element || global.document.body;
-		options.editorExtensions = options.editorExtensions || [];
-		options.viewerExtensions = options.viewerExtensions || [];
-
-		// Local helpers
-		var makeAnnotation = annotationFactory(options.element, '.annotator-hl');
-
-		// Object to hold local state
-		var s = {
-			interactionPoint : null
-		};
-
-		function start(app) {
-			var ident = app.registry.getUtility('identityPolicy');
-			var authz = app.registry.getUtility('authorizationPolicy');
-
-			s.adder = new adder.Adder({
-				onCreate : function(ann) {
-					app.annotations.create(ann);
-				}
-			});
-			s.adder.attach();
-
-			s.editor = new editor.Editor({
-				extensions : options.editorExtensions
-			});
-			s.editor.attach();
-
-			addPermissionsCheckboxes(s.editor, ident, authz);
-
-			s.highlighter = new highlighter.Highlighter(options.element);
-
-			s.textselector = new textselector.TextSelector(options.element, {
-				onSelection : function(ranges, event) {
-					if (ranges.length > 0) {
-						var annotation = makeAnnotation(ranges);
-						s.interactionPoint = util.mousePosition(event);
-						s.adder.load(annotation, s.interactionPoint);
-					} else {
-						s.adder.hide();
-					}
-				}
-			});
-
-			s.viewer = new viewer.Viewer({
-				onEdit : function(ann) {
-					// Copy the interaction point from the shown viewer:
-					s.interactionPoint = util.$(s.viewer.element).css([ 'top', 'left' ]);
-
-					app.annotations.update(ann);
-				},
-				onDelete : function(ann) {
-					app.annotations['delete'](ann);
-				},
-				permitEdit : function(ann) {
-					return authz.permits('update', ann, ident.who());
-				},
-				permitDelete : function(ann) {
-					return authz.permits('delete', ann, ident.who());
-				},
-				autoViewHighlights : options.element,
-				extensions : options.viewerExtensions
-			});
-			s.viewer.attach();
-
-			injectDynamicStyle();
-		}
-
-		return {
-			start : start,
-
-			destroy : function() {
-				s.adder.destroy();
-				s.editor.destroy();
-				s.highlighter.destroy();
-				s.textselector.destroy();
-				s.viewer.destroy();
-				removeDynamicStyle();
-			},
-
-			annotationsLoaded : function(anns) {
-				s.highlighter.drawAll(anns);
-			},
-			annotationCreated : function(ann) {
-				s.highlighter.draw(ann);
-			},
-			annotationDeleted : function(ann) {
-				s.highlighter.undraw(ann);
-			},
-			annotationUpdated : function(ann) {
-				s.highlighter.redraw(ann);
-			},
-
-			beforeAnnotationCreated : function(annotation) {
-				// Editor#load returns a promise that is resolved if editing
-				// completes, and rejected if editing is cancelled. We return it
-				// here to "stall" the annotation process until the editing is
-				// done.
-				return s.editor.load(annotation, s.interactionPoint);
-			},
-
-			beforeAnnotationUpdated : function(annotation) {
-				return s.editor.load(annotation, s.interactionPoint);
-			}
-		};
-	}
 </script>
-
 
 <script>
 	var pageUri = function() {
@@ -245,8 +133,9 @@
 		};
 	}
 	function reloadPage() {
-		$.get("${contextPath}/fragments/fragment/inter/${inters.get(0).externalId}/taxonomy", function(html) {
+		location.reload(true);
+		/* $.get("${contextPath}/fragments/fragment/inter/${inters.get(0).externalId}/taxonomy", function(html) {
 			$("#taxonomy").replaceWith(html);
-		});
+		}); */
 	}
 </script>
