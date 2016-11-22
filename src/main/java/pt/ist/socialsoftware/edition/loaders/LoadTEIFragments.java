@@ -95,13 +95,13 @@ public class LoadTEIFragments {
 	// to define an order among page breaks
 	private int pbOrder = 0;
 
-	private final Map<String, List<Object>> directIdMap = new HashMap<String, List<Object>>();
+	private final Map<String, List<Object>> directIdMap = new HashMap<>();
 
 	private void putObjectDirectIdMap(String xmlID, Object object) {
 
 		List<Object> list = directIdMap.get(xmlID);
 		if (list == null) {
-			list = new ArrayList<Object>();
+			list = new ArrayList<>();
 		}
 		list.add(object);
 
@@ -114,7 +114,7 @@ public class LoadTEIFragments {
 	}
 
 	private List<Object> getObjectDirectIdsMap(String[] listXmlId) {
-		List<Object> objects = new ArrayList<Object>();
+		List<Object> objects = new ArrayList<>();
 		for (String xmlId : listXmlId) {
 			List<Object> objects2 = getObjectDirectIdMap(xmlId.substring(1));
 			if (objects2 == null) {
@@ -127,7 +127,7 @@ public class LoadTEIFragments {
 
 	private Set<FragInter> getFragItersByListXmlID(String[] listInterXmlId) {
 		List<Object> objects = getObjectDirectIdsMap(listInterXmlId);
-		Set<FragInter> fragIters = new HashSet<FragInter>();
+		Set<FragInter> fragIters = new HashSet<>();
 		for (Object object : objects) {
 			try {
 				fragIters.add((FragInter) object);
@@ -140,11 +140,11 @@ public class LoadTEIFragments {
 		return fragIters;
 	}
 
-	private final Map<String, Set<Object>> inverseIdMap = new HashMap<String, Set<Object>>();
+	private final Map<String, Set<Object>> inverseIdMap = new HashMap<>();
 
 	private Set<Object> getObjectInverseIdMap(String xmlID) {
 		if (inverseIdMap.get(xmlID) == null) {
-			return new HashSet<Object>();
+			return new HashSet<>();
 		} else {
 			Set<Object> objects = inverseIdMap.get(xmlID);
 			return objects;
@@ -155,7 +155,7 @@ public class LoadTEIFragments {
 
 		Set<Object> list = inverseIdMap.get(xmlID);
 		if (list == null) {
-			list = new HashSet<Object>();
+			list = new HashSet<>();
 		}
 		list.add(object);
 
@@ -491,7 +491,7 @@ public class LoadTEIFragments {
 		// get targets
 		String[] targetList = getTarget(element);
 
-		List<SegText> segTextList = new ArrayList<SegText>();
+		List<SegText> segTextList = new ArrayList<>();
 		for (String xmlId : targetList) {
 			List<Object> listSegTextList = getObjectDirectIdMap(xmlId.substring(1));
 			if (listSegTextList == null)
@@ -1322,30 +1322,32 @@ public class LoadTEIFragments {
 	}
 
 	private void loadDimensions(Element supportDesc, ManuscriptSource manuscript) {
-		Element dimensions = supportDesc.getChild("extent", namespace).getChild("dimensions", namespace);
+		List<Element> dimensionsList = supportDesc.getChild("extent", namespace).getChildren("dimensions", namespace);
 
-		String unit = dimensions.getAttributeValue("unit");
-		if (!unit.equals("cm")) {
-			throw new LdoDException("As unidades (unit) do elemento dimensions deve ser em cm");
+		for (Element dimensions : dimensionsList) {
+			String unit = dimensions.getAttributeValue("unit");
+			if (!unit.equals("cm")) {
+				throw new LdoDException("As unidades (unit) do elemento dimensions deve ser em cm");
+			}
+
+			Float height;
+			try {
+				height = Float.parseFloat(dimensions.getChildTextTrim("height", namespace));
+			} catch (NumberFormatException e) {
+				throw new LdoDException("O valor de height do elemento dimensions não pode ser "
+						+ dimensions.getChildTextTrim("height", namespace));
+			}
+
+			Float width;
+			try {
+				width = Float.parseFloat(dimensions.getChildTextTrim("width", namespace));
+			} catch (NumberFormatException e) {
+				throw new LdoDException("O valor de width do elemento dimensions não pode ser "
+						+ dimensions.getChildTextTrim("width", namespace));
+			}
+
+			manuscript.addDimensions(new Dimensions(height, width));
 		}
-
-		Float height;
-		try {
-			height = Float.parseFloat(dimensions.getChildTextTrim("height", namespace));
-		} catch (NumberFormatException e) {
-			throw new LdoDException("O valor de height do elemento dimensions não pode ser "
-					+ dimensions.getChildTextTrim("height", namespace));
-		}
-
-		Float width;
-		try {
-			width = Float.parseFloat(dimensions.getChildTextTrim("width", namespace));
-		} catch (NumberFormatException e) {
-			throw new LdoDException("O valor de width do elemento dimensions não pode ser "
-					+ dimensions.getChildTextTrim("width", namespace));
-		}
-
-		manuscript.setDimensions(new Dimensions(height, width));
 	}
 
 	private void loadMsHistory(Element msDesc, ManuscriptSource manuscript) {

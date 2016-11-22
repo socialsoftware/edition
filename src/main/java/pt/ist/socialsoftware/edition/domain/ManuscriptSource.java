@@ -33,9 +33,7 @@ public class ManuscriptSource extends ManuscriptSource_Base {
 
 	@Override
 	public void remove() {
-		if (getDimensions() != null) {
-			getDimensions().remove();
-		}
+		getDimensionsSet().stream().forEach(d -> d.remove());
 
 		for (HandNote handNote : getHandNoteSet()) {
 			handNote.remove();

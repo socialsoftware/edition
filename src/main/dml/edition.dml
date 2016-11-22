@@ -314,7 +314,7 @@ class Dimensions {
 
 relation ManuscriptSourceHasDimensions {
 	ManuscriptSource playsRole manuscriptSource {multiplicity 1..1;}
-	Dimensions playsRole dimensions {multiplicity 0..1;}
+	Dimensions playsRole dimensions {multiplicity 0..*;}
 }
 
 

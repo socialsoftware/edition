@@ -113,8 +113,12 @@
 							</c:if></td>
 						<td><c:if test='${source.getType()=="MANUSCRIPT"}'>${source.getColumns()}</c:if></td>
 						-->
-						<td><c:if test='${source.getType()=="MANUSCRIPT" && source.getDimensions() != null}'>
-								${source.getDimensions().getHeight()}cm X ${source.getDimensions().getWidth()}cm
+						<td><c:if
+								test='${source.getType()=="MANUSCRIPT" && source.getDimensionsSet().size() != 0}'>
+								<c:forEach var="dimensions" items="${source.getDimensionsSet()}"
+									varStatus="loop">${dimensions.getHeight()}cm
+				X ${dimensions.getWidth()}cm<c:if test="${!loop.last}"><br></c:if>
+								</c:forEach>
 							</c:if></td>
 						<td><c:forEach var='surface'
 								items='${source.getFacsimile().getSurfaces()}'
@@ -132,9 +136,11 @@
 	<br>
 </body>
 <script>
-$('#tablelistsources').attr("data-search","true");
-$('#tablelistsources').bootstrapTable();
-$(".tip").tooltip({placement: 'bottom'});
-$('#infosources').popover()
+	$('#tablelistsources').attr("data-search", "true");
+	$('#tablelistsources').bootstrapTable();
+	$(".tip").tooltip({
+		placement : 'bottom'
+	});
+	$('#infosources').popover()
 </script>
 </html>
