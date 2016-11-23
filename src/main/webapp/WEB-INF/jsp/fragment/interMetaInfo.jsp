@@ -46,7 +46,7 @@
 		<spring:message code="general.leaf" />
 		<c:if test='${inter.getSource().getDimensionsSet().size() != 0}'>
 			<small>(<c:forEach var="dimensions"
-					items="${inter.getSource().getDimensionsSet()}" varStatus="loop">${dimensions.getHeight()}cm
+					items="${inter.getSource().getSortedDimensions()}" varStatus="loop">${dimensions.getHeight()}cm
 				X ${dimensions.getWidth()}cm<c:if test="${!loop.last}">, </c:if></c:forEach>)</small>
 		</c:if>
 	</c:if>

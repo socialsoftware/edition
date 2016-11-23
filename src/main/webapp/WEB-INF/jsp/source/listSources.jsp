@@ -115,7 +115,7 @@
 						-->
 						<td><c:if
 								test='${source.getType()=="MANUSCRIPT" && source.getDimensionsSet().size() != 0}'>
-								<c:forEach var="dimensions" items="${source.getDimensionsSet()}"
+								<c:forEach var="dimensions" items="${source.getSortedDimensions()}"
 									varStatus="loop">${dimensions.getHeight()}cm
 				X ${dimensions.getWidth()}cm<c:if test="${!loop.last}"><br></c:if>
 								</c:forEach>

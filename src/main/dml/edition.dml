@@ -310,6 +310,7 @@ class ManuscriptSource extends Source {
 class Dimensions {
 	float height;
 	float width;
+	int position;
 }
 
 relation ManuscriptSourceHasDimensions {

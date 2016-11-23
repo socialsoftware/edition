@@ -1,5 +1,8 @@
 package pt.ist.socialsoftware.edition.domain;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class ManuscriptSource extends ManuscriptSource_Base {
 
 	public enum Form {
@@ -44,6 +47,11 @@ public class ManuscriptSource extends ManuscriptSource_Base {
 		}
 
 		super.remove();
+	}
+
+	public List<Dimensions> getSortedDimensions() {
+		return getDimensionsSet().stream().sorted((d1, d2) -> d1.getPosition() - d2.getPosition())
+				.collect(Collectors.toList());
 	}
 
 }

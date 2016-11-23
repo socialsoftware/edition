@@ -2,9 +2,10 @@ package pt.ist.socialsoftware.edition.domain;
 
 public class Dimensions extends Dimensions_Base {
 
-	public Dimensions(Float height, Float width) {
+	public Dimensions(Float height, Float width, int position) {
 		setHeight(height);
 		setWidth(width);
+		setPosition(position);
 	}
 
 	public void remove() {

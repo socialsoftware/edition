@@ -1324,6 +1324,7 @@ public class LoadTEIFragments {
 	private void loadDimensions(Element supportDesc, ManuscriptSource manuscript) {
 		List<Element> dimensionsList = supportDesc.getChild("extent", namespace).getChildren("dimensions", namespace);
 
+		int position = 1;
 		for (Element dimensions : dimensionsList) {
 			String unit = dimensions.getAttributeValue("unit");
 			if (!unit.equals("cm")) {
@@ -1346,7 +1347,7 @@ public class LoadTEIFragments {
 						+ dimensions.getChildTextTrim("width", namespace));
 			}
 
-			manuscript.addDimensions(new Dimensions(height, width));
+			manuscript.addDimensions(new Dimensions(height, width, ++position));
 		}
 	}
 
