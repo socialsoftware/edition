@@ -41,12 +41,12 @@
 	 <div class="form-group">
     
 	    <div class="col-sm-4">
-	      <input type="text" class="form-control tip" id="query" title="" placeholder="Search for...">
+	      <input type="text" class="form-control tip" id="query" title="" placeholder='<spring:message code="general.searching.for" />'>
       	</div>
      
        <div class="col-sm-3">
        <div class="tip" title="text div">
-      <select class="selectpicker" data-width="100%" id="searchType" title="">
+      <select class="form-control" data-width="100%" id="searchType" title="">
       	<option value="">${searchComplete}</option>
 	    <option value="title">${searchTitle}</option>
 	  </select>
@@ -54,7 +54,7 @@
 	  </div>
 	  
 	   <div class="col-sm-3">
-      <select class="selectpicker" data-width="100%" id="sourceType">
+      <select class="form-control" data-width="100%" id="sourceType">
 	    <option value="">${searchSource}</option>
 	    <option value="Coelho">Jacinto Prado Coelho</option>
 	    <option value="Cunha"> Teresa Sobral Cunha</option>
@@ -66,12 +66,12 @@
 	  </div>
 	  
 	    <div class="col-sm-2">
-        <button class="btn btn-default" type="button" id="searchbutton"><span class="glyphicon glyphicon-search" ></span> Search</button>
+        <button class="btn btn-default" type="button" id="searchbutton"><span class="glyphicon glyphicon-search" ></span> <spring:message code="search" /></button>
       </div>
     </div><!-- /input-group -->
     <br><br>
      <div id="searchresult" style="display:none;width:100%;">
-      <hr><div class="spinner-loader">Loadind...</div>
+      <hr><div class="spinner-loader"><spring:message code="general.searching" /></div>
       </div>
       
 	<div id="results"></div>
