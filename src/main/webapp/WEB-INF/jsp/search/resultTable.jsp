@@ -7,11 +7,8 @@
 		data-page-list="[100, 250, 500, All]">
 		<thead>
 			<tr>
-				<th><spring:message code="fragment" /> (${fragCount})
-				</td>
-				<th><spring:message code="interpretations" /> (${interCount})
-				
-				</td>
+				<th><spring:message code="fragment" /> (${fragCount})</th>
+				<th><spring:message code="interpretations" /> (${interCount})</th>
 
 				<%-- 			<c:forEach items="${search}" var="optionTitle"> --%>
 				<%-- 				<td>${ optionTitle.toString()}</td> --%>
@@ -80,7 +77,7 @@
 											%>
 										</c:if>
 									</c:forEach>
-									<td><%=result%></td>
+									<td class="text-center"><%=result%></td>
 								</c:forEach>
 
 								<c:choose>

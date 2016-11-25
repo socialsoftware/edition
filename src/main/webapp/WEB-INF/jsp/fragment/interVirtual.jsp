@@ -18,7 +18,8 @@
 
 <!-- Annotator 2.0 -->
 <link rel="gettext" type="application/x-po" href="/resources/locale/pt/annotator.po">
-<script src="/resources/js/annotator.min.js"></script>
+<!-- <script src="/resources/js/annotator.min.js"></script> -->
+<script src="/resources/js/annotator-ldod.js"></script>
 <link
 	href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/css/select2.min.css"
 	rel="stylesheet" />

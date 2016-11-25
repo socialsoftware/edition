@@ -532,7 +532,7 @@
 							+ "</option>" + "</select>" + "</div>";
 
 					//User virtual editions
-					html += "<div class=\"col-xs-5 col-md-3\">" + "<select id=select-edition class=\"form-control\">";
+					html += "<div class=\"col-xs-5 col-md-4\">" + "<select id=select-edition class=\"form-control\">";
 
 					html += "<option id="+option.all.id+">" + option.all.text + "</option>";
 					for ( var i in virtualEditions) {

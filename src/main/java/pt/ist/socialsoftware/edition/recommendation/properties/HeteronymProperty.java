@@ -1,7 +1,6 @@
 package pt.ist.socialsoftware.edition.recommendation.properties;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -29,7 +28,7 @@ public class HeteronymProperty extends Property {
 		this(Double.parseDouble(weight));
 	}
 
-	private double[] buildVector(Collection<Heteronym> foundHeteronyms) {
+	private double[] buildVector(List<Heteronym> foundHeteronyms) {
 		double[] vector = getDefaultVector();
 		int i = 0;
 		for (Heteronym heteronym : HeteronymProperty.heteronymList) {
