@@ -71,7 +71,7 @@
 				multiple : true,
 				data : $.parseJSON('${inters.get(0).getAllDepthCategoriesJSON()}'),
 				tags : true,
-				tokenSeparators : [ ',', ' ', '.' ]
+				tokenSeparators : [ ',', '.' ]
 			});
 		} else {
 			$(".tagSelector").select2({

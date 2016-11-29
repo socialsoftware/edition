@@ -109,7 +109,7 @@
 <script>
 	$("#category-select").select2({
 		tags : '${taxonomy.getOpenVocabulary()}' == "true" ? true : false,
-		tokenSeparators : [ ',', ' ', '.' ]
+		tokenSeparators : [ ',', '.' ]
 	})
 </script>
 

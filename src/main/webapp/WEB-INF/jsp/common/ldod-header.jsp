@@ -27,8 +27,15 @@
 				</ul></li>
 			<li><a href="${contextPath}/reading"><spring:message
 						code="general.reading" /></a></li>
-			<li><a href="${contextPath}/source/list"><spring:message
-						code="header.documents" /></a></li>
+			<li class="dropdown"><a href="#" class="dropdown-toggle"
+				data-toggle="dropdown"><spring:message code="header.documents" />
+					<b class="caret"></b></a>
+				<ul class="dropdown-menu">
+					<li><a href="${contextPath}/source/list"><spring:message
+								code="authorial.source" /></a></li>
+					<li><a href="${contentPath}/fragments"><spring:message
+								code="fragment.codified" /></a></li>
+				</ul></li>
 			<li class="dropdown"><a href="#" class="dropdown-toggle"
 				data-toggle="dropdown"><spring:message code="header.editions" />
 					<b class="caret"></b></a>
@@ -41,7 +48,10 @@
 							Zenith</a></li>
 					<li><a href="${contextPath}/edition/acronym/JP">Jerónimo
 							Pizarro</a></li>
-					<li><a href="${contextPath}/edition/acronym/ALdoD">Arquivo do LdoD</a></li>
+					<li class="divider"></li>
+					<li><a href="${contextPath}/edition/acronym/ALdoD">Arquivo
+							do LdoD</a></li>
+					<li class="divider"></li>
 					<c:forEach var="acronym" items='${ldoDSession.selectedVEAcr}'>
 						<li><a href="${contextPath}/edition/acronym/${acronym}">${acronym}</a></li>
 					</c:forEach>
@@ -57,9 +67,6 @@
 					</a></li>
 					<li><a href="${contentPath}/search/advanced"> <spring:message
 								code="header.search.advanced" />
-					</a></li>
-					<li><a href="${contentPath}/fragments"> <spring:message
-								code="fragmentlist.title" />
 					</a></li>
 				</ul></li>
 			<!-- Manage Virtual Editions -->

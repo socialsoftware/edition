@@ -50,16 +50,14 @@
 	</c:forEach>
 
 	<!-- RECOMMENDATION -->
-	<c:if test="${fragment != null}">
-		<div class="col-md-2">
-			<div class="text-center">
-				<h4>
-					<a onClick="openRecomModal()"><spring:message
-							code="general.recommendation" /> </a>
-				</h4>
-			</div>
+	<div class="col-md-2">
+		<div class="text-center">
+			<h4>
+				<a onClick="openRecomModal()"><spring:message
+						code="general.recommendation" /> </a>
+			</h4>
 		</div>
-	</c:if>
+	</div>
 </div>
 
 <!-- INTERPRETATIONS MENU -->
@@ -71,8 +69,8 @@
 				<c:choose>
 					<c:when test="${fragment == null}">
 						<a
-							href="${contextPath}/reading/inter/first/edition/${expertEdition.getExternalId()}"><spring:message
-								code="general.reading.start" /> <span
+							href="${contextPath}/reading/inter/first/edition/${expertEdition.getExternalId()}"><%-- <spring:message
+								code="general.reading.start" /> --%> <span
 							class="glyphicon glyphicon-forward"></span> </a>
 					</c:when>
 					<c:otherwise>
@@ -142,7 +140,8 @@
 					<div class="form-group" id="clearPrevRecomForm">
 						<div class="col-md-7">
 							<h4 class="text">
-								<spring:message code="general.reset.list" />:
+								<spring:message code="general.reset.list" />
+								:
 							</h4>
 						</div>
 						<div class="col-md-1">
@@ -158,7 +157,8 @@
 				<div class="row text-center">
 					<div class="col-md-3 text-center">
 						<h4>
-							<spring:message code="recommendation.criteria" />:
+							<spring:message code="recommendation.criteria" />
+							:
 						</h4>
 					</div>
 					<div class="col-md-2 col-sm-4">
