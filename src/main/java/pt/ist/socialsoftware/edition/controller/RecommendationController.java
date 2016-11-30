@@ -15,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,6 +38,9 @@ import pt.ist.socialsoftware.edition.recommendation.dto.SectionDTO;
 import pt.ist.socialsoftware.edition.recommendation.dto.SectionVirtualEditionParam;
 import pt.ist.socialsoftware.edition.recommendation.dto.VirtualEditionWithSectionsDTO;
 import pt.ist.socialsoftware.edition.recommendation.properties.Property;
+import pt.ist.socialsoftware.edition.session.LdoDSession;
+import pt.ist.socialsoftware.edition.shared.exception.LdoDCreateVirtualEditionException;
+import pt.ist.socialsoftware.edition.validator.VirtualEditionValidator;
 
 @Controller
 @RequestMapping("/recommendation")
@@ -144,12 +148,27 @@ public class RecommendationController {
 	}
 
 	@RequestMapping(value = "/linear/create", method = RequestMethod.POST)
-	public String createLinearVirtualEdition(Model model, @RequestParam("acronym") String acronym,
-			@RequestParam("title") String title, @RequestParam("pub") boolean pub,
-			@RequestParam("inter[]") String[] inters) {
+	public String createLinearVirtualEdition(Model model, @ModelAttribute("ldoDSession") LdoDSession ldoDSession,
+			@RequestParam("acronym") String acronym, @RequestParam("title") String title,
+			@RequestParam("pub") boolean pub, @RequestParam("inter[]") String[] inters) {
 		logger.debug("createLinearVirtualEdition");
+
+		title = title == null ? "" : title.trim();
+		acronym = acronym == null ? "" : acronym.trim();
+
+		VirtualEditionValidator validator = new VirtualEditionValidator(null, acronym, title);
+		validator.validate();
+
+		List<String> errors = validator.getErrors();
+
+		if (errors.size() > 0) {
+			throw new LdoDCreateVirtualEditionException(errors, acronym, title, pub,
+					LdoD.getInstance().getVirtualEditions4User(LdoDUser.getAuthenticatedUser(), ldoDSession),
+					LdoDUser.getAuthenticatedUser());
+		}
+
 		VirtualEdition virtualEdition = LdoD.getInstance().createVirtualEdition(LdoDUser.getAuthenticatedUser(),
-				acronym, title, new LocalDate(), pub, null);
+				VirtualEdition.ACRONYM_PREFIX + acronym, title, new LocalDate(), pub, null);
 		VirtualEditionInter virtualInter;
 		for (int i = 0; i < inters.length; i++) {
 			virtualInter = FenixFramework.getDomainObject(inters[i]);

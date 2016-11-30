@@ -27,6 +27,8 @@ import pt.ist.socialsoftware.edition.utils.PropertiesManager;
 public class VirtualEdition extends VirtualEdition_Base {
 	private static Logger logger = LoggerFactory.getLogger(VirtualEdition.class);
 
+	public static String ACRONYM_PREFIX = "LdoD-";
+
 	@Override
 	public void setAcronym(String acronym) {
 		if (acronym.split("\\s+").length != 1)
@@ -171,6 +173,10 @@ public class VirtualEdition extends VirtualEdition_Base {
 	@Override
 	public String getReference() {
 		return getAcronym();
+	}
+
+	public String getShortAcronym() {
+		return getAcronym().substring(ACRONYM_PREFIX.length());
 	}
 
 	@Atomic(mode = TxMode.WRITE)

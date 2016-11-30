@@ -187,7 +187,7 @@ public class Bootstrap implements WebApplicationInitializer {
 		LdoDUser rita = ldod.getUser("rita");
 		LdoDUser osvaldo = ldod.getUser("osvaldo");
 
-		VirtualEdition classX = new VirtualEdition(ldod, ars, "ClassX", "LdoD Edition of Class X", new LocalDate(),
+		VirtualEdition classX = new VirtualEdition(ldod, ars, "LdoD-ClassX", "LdoD Edition of Class X", new LocalDate(),
 				false, null);
 		classX.addMember(luis, MemberRole.ADMIN, true);
 		classX.addMember(mp, MemberRole.ADMIN, true);
@@ -211,7 +211,7 @@ public class Bootstrap implements WebApplicationInitializer {
 		rita.addSelectedVirtualEditions(classX);
 		osvaldo.addSelectedVirtualEditions(classX);
 
-		VirtualEdition classY = new VirtualEdition(ldod, ars, "ClassY", "LdoD Edition of Class Y", new LocalDate(),
+		VirtualEdition classY = new VirtualEdition(ldod, ars, "LdoD-ClassY", "LdoD Edition of Class Y", new LocalDate(),
 				false, null);
 		classY.addMember(luis, MemberRole.ADMIN, true);
 		classY.addMember(mp, MemberRole.ADMIN, true);
@@ -225,7 +225,7 @@ public class Bootstrap implements WebApplicationInitializer {
 		tiago.addSelectedVirtualEditions(classY);
 		nuno.addSelectedVirtualEditions(classY);
 
-		VirtualEdition classW = new VirtualEdition(ldod, ars, "ClassW", "LdoD Edition of Class W", new LocalDate(),
+		VirtualEdition classW = new VirtualEdition(ldod, ars, "LdoD-ClassW", "LdoD Edition of Class W", new LocalDate(),
 				false, null);
 		classW.addMember(diego, MemberRole.ADMIN, true);
 		classW.addMember(mp, MemberRole.ADMIN, true);

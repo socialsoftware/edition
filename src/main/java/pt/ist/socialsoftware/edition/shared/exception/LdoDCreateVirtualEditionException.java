@@ -7,18 +7,16 @@ import pt.ist.socialsoftware.edition.domain.LdoDUser;
 import pt.ist.socialsoftware.edition.domain.VirtualEdition;
 
 public class LdoDCreateVirtualEditionException extends LdoDException {
-
 	private static final long serialVersionUID = 1L;
 
-	private List<String> errors = new ArrayList<String>();
+	private List<String> errors = new ArrayList<>();
 	private String acronym = null;
 	private String title = null;
 	private boolean pub = false;
 	private List<VirtualEdition> virtualEditions = null;
 	private LdoDUser user = null;
 
-	public LdoDCreateVirtualEditionException(List<String> errors,
-			String acronym, String title, boolean pub,
+	public LdoDCreateVirtualEditionException(List<String> errors, String acronym, String title, boolean pub,
 			List<VirtualEdition> virtualEditions, LdoDUser user) {
 		this.errors = errors;
 		this.acronym = acronym;

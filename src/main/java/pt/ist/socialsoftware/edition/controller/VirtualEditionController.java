@@ -107,8 +107,8 @@ public class VirtualEditionController {
 		}
 
 		try {
-			virtualEdition = LdoD.getInstance().createVirtualEdition(LdoDUser.getAuthenticatedUser(), acronym, title,
-					date, pub, usedEdition);
+			virtualEdition = LdoD.getInstance().createVirtualEdition(LdoDUser.getAuthenticatedUser(),
+					VirtualEdition.ACRONYM_PREFIX + acronym, title, date, pub, usedEdition);
 
 		} catch (LdoDDuplicateAcronymException ex) {
 			errors.add("virtualedition.acronym.duplicate");
@@ -154,7 +154,7 @@ public class VirtualEditionController {
 		} else {
 			model.addAttribute("virtualEdition", virtualEdition);
 			model.addAttribute("externalId", virtualEdition.getExternalId());
-			model.addAttribute("acronym", virtualEdition.getAcronym());
+			model.addAttribute("acronym", virtualEdition.getShortAcronym());
 			model.addAttribute("title", virtualEdition.getTitle());
 			model.addAttribute("date", virtualEdition.getDate().toString("dd-MM-yyyy"));
 			model.addAttribute("pub", virtualEdition.getPub());
@@ -191,7 +191,7 @@ public class VirtualEditionController {
 		// passar nova lista de inters
 
 		try {
-			virtualEdition.edit(acronym, title, pub, fraginters);
+			virtualEdition.edit(VirtualEdition.ACRONYM_PREFIX + acronym, title, pub, fraginters);
 		} catch (LdoDDuplicateAcronymException ex) {
 			errors.add("virtualedition.acronym.duplicate");
 			throw new LdoDEditVirtualEditionException(errors, virtualEdition, acronym, title, pub);
@@ -273,7 +273,7 @@ public class VirtualEditionController {
 		LdoD ldoD = LdoD.getInstance();
 		LdoDUser user = ldoD.getUser(username);
 		if (user == null) {
-			List<String> errors = new ArrayList<String>();
+			List<String> errors = new ArrayList<>();
 			errors.add("user.unknown");
 			redirectAttributes.addFlashAttribute("errors", errors);
 			redirectAttributes.addFlashAttribute("username", username);
@@ -297,7 +297,7 @@ public class VirtualEditionController {
 		LdoD ldoD = LdoD.getInstance();
 		LdoDUser user = ldoD.getUser(username);
 		if (user == null) {
-			List<String> errors = new ArrayList<String>();
+			List<String> errors = new ArrayList<>();
 			errors.add("user.unknown");
 			redirectAttributes.addFlashAttribute("errors", errors);
 			redirectAttributes.addFlashAttribute("username", username);
@@ -352,7 +352,7 @@ public class VirtualEditionController {
 			admin = virtualEdition.getAdminSet().iterator().next();
 
 		if (admin != null && admin == user) {
-			List<String> errors = new ArrayList<String>();
+			List<String> errors = new ArrayList<>();
 			errors.add("user.one");
 			redirectAttributes.addFlashAttribute("errors", errors);
 			return "redirect:/virtualeditions/restricted/" + externalId + "/participants";
@@ -435,7 +435,7 @@ public class VirtualEditionController {
 			LdoDUserDetails userDetails = (LdoDUserDetails) SecurityContextHolder.getContext().getAuthentication()
 					.getPrincipal();
 
-			List<String> topicErrors = new ArrayList<String>();
+			List<String> topicErrors = new ArrayList<>();
 			TopicListDTO topicListDTO = null;
 			TopicModeler modeler = new TopicModeler();
 			try {
@@ -500,7 +500,7 @@ public class VirtualEditionController {
 	public String createCategory(RedirectAttributes redirectAttributes, @RequestParam("externalId") String externalId,
 			@RequestParam("name") String name) {
 		VirtualEdition edition = FenixFramework.getDomainObject(externalId);
-		List<String> errors = new ArrayList<String>();
+		List<String> errors = new ArrayList<>();
 		if (edition == null) {
 			return "utils/pageNotFound";
 		} else {
@@ -524,7 +524,7 @@ public class VirtualEditionController {
 	public String updateCategoryName(RedirectAttributes redirectAttributes,
 			@RequestParam("categoryId") String categoryId, @RequestParam("name") String name) {
 		Category category = FenixFramework.getDomainObject(categoryId);
-		List<String> errors = new ArrayList<String>();
+		List<String> errors = new ArrayList<>();
 		if (category == null) {
 			return "utils/pageNotFound";
 		} else {
@@ -579,7 +579,7 @@ public class VirtualEditionController {
 			return "redirect:/virtualeditions/restricted/" + taxonomy.getEdition().getExternalId() + "/taxonomy";
 		}
 
-		List<Category> categories = new ArrayList<Category>();
+		List<Category> categories = new ArrayList<>();
 		for (String categoryId : categoriesIds) {
 			Category category = FenixFramework.getDomainObject(categoryId);
 			categories.add(category);
@@ -624,7 +624,7 @@ public class VirtualEditionController {
 			return "redirect:/virtualeditions/restricted/category/" + category.getExternalId();
 		}
 
-		Set<VirtualEditionInter> inters = new HashSet<VirtualEditionInter>();
+		Set<VirtualEditionInter> inters = new HashSet<>();
 		for (String interId : interIds) {
 			VirtualEditionInter inter = FenixFramework.getDomainObject(interId);
 			inters.add(inter);

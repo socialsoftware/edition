@@ -17,12 +17,17 @@ public class VirtualEditionValidator extends AbstractLdoDValidator {
 	public void validate() {
 		if (LdoDValidatorFunctions.emptyOrWhitespaceString(acronym)) {
 			errors.add("virtualedition.acronym.empty");
-			values.put("acronym", virtualEdition != null ? virtualEdition.getAcronym() : "");
+			values.put("acronym", virtualEdition != null ? virtualEdition.getShortAcronym() : "");
 		}
 
 		if (LdoDValidatorFunctions.hasBlanks(acronym)) {
 			errors.add("virtualedition.acronym.blanks");
-			values.put("acronym", virtualEdition != null ? virtualEdition.getAcronym() : "");
+			values.put("acronym", virtualEdition != null ? virtualEdition.getShortAcronym() : "");
+		}
+
+		if (LdoDValidatorFunctions.lengthLimit(acronym, 10)) {
+			errors.add("virtualedition.acronym.length");
+			values.put("acronym", virtualEdition != null ? virtualEdition.getShortAcronym() : "");
 		}
 
 		if (LdoDValidatorFunctions.emptyOrWhitespaceString(title)) {

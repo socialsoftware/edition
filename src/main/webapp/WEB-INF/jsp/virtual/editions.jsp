@@ -44,10 +44,13 @@
 							<form class="form-inline" method="POST"
 								action="/virtualeditions/restricted/create">
 								<div class="form-group">
-									<input type="text" class="form-control tip" name="acronym"
-										placeholder="<spring:message code="virtualeditionlist.acronym" />"
-										value="${acronym}"
-										title="<spring:message code="virtualedition.tt.acronym" />" />
+									<div class="input-group">
+										<div class="input-group-addon">LdoD-</div>
+										<input type="text" class="form-control tip" name="acronym"
+											placeholder="<spring:message code="virtualeditionlist.acronym" />"
+											value="${acronym}"
+											title="<spring:message code="virtualedition.tt.acronym" />" />
+									</div>
 								</div>
 								<div class="form-group">
 									<input type="text" class="form-control tip" name="title"
@@ -247,7 +250,8 @@
 													class="glyphicon glyphicon-wrench"></span> <spring:message
 														code="general.recommendations" /></a>
 											</c:if></td>
-										<td class="text-center"><c:if test="${isAdmin && !isLdoDEdition}">
+										<td class="text-center"><c:if
+												test="${isAdmin && !isLdoDEdition}">
 												<form id="formdelete" class="form-inline" method="POST"
 													action="${contextPath}/virtualeditions/restricted/delete">
 													<input type="hidden" name="externalId"

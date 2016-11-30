@@ -16,14 +16,24 @@
 		</h3>
 		<br>
 		<div class="row">
+			<div class="row col-md-12 has-error" align="right">
+				<c:forEach var="error" items='${errors}'>
+					<div class="row">
+						<spring:message code="${error}" />
+					</div>
+				</c:forEach>
+			</div>
 			<div class="row col-md-12 extra" style="display: none;" align="right">
 				<form class="form-inline extra" method="POST"
 					action="/recommendation/linear/create" style="display: none;"
 					id="create">
 					<div class="form-group input-group-sm">
-						<input type="text" class="form-control" id="new-acronym"
-							name="acronym"
-							placeholder="<spring:message code="virtualeditionlist.acronym"/>" />
+						<div class="input-group">
+							<div class="input-group-addon">LdoD-</div>
+							<input type="text" class="form-control" id="new-acronym"
+								name="acronym"
+								placeholder="<spring:message code="virtualeditionlist.acronym"/>" />
+						</div>
 					</div>
 
 					<div class="form-group input-group-sm">

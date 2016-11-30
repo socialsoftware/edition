@@ -65,6 +65,7 @@ public class LdoDExceptionHandler {
 		modelAndView.addObject("expertEditions", LdoD.getInstance().getSortedExpertEdition());
 		modelAndView.addObject("user", ex.getUser());
 		modelAndView.setViewName("virtual/editions");
+
 		return modelAndView;
 	}
 

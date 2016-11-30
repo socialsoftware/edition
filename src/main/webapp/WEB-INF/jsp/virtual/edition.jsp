@@ -638,27 +638,31 @@ console.log(editionData);
 					<form class="form-inline" role="form" method="POST"
 						id="formedition"
 						action="/virtualeditions/restricted/edit/${externalId}">
-						<div class="form-group col-xs-3" style="padding-left: 0px">
+						<div class="form-group" style="padding-left: 0px">
 							<label class="control-label for="acronym"><spring:message
-									code="virtualeditionlist.acronym" /></label> <input type="text"
+									code="virtualeditionlist.acronym" /></label> 
+									<div class="input-group">
+										<div class="input-group-addon">LdoD-</div>
+									<input type="text"
 								class="form-control" name="acronym" id="acronym"
 								placeholder="<spring:message code="virtualeditionlist.acronym" />"
 								value="${acronym}" />
+								</div>
 						</div>
-						<div class="form-group  col-xs-3" style="padding-left: 0px">
+						<div class="form-group" style="padding-left: 0px">
 							<label class="control-label" for="title"><spring:message
 									code="virtualeditionlist.name" /></label> <input type="text"
 								class="form-control" name="title" id="title"
 								placeholder="<spring:message code="virtualeditionlist.name" />"
 								value="${title}" />
 						</div>
-						<div class="form-group col-xs-3" style="padding-left: 0px">
+						<div class="form-group" style="padding-left: 0px">
 							<label class="control-label" for="date"><spring:message
 									code="general.date" /></label> <input class="form-control"
 								id="disabledInput" type="text" name="date" id="date"
 								value="${date}" disabled />
 						</div>
-						<div class="form-group  col-xs-2" style="padding-left: 0px">
+						<div class="form-group" style="padding-left: 0px">
 							<label class="control-label" for="pub"><spring:message
 									code="general.access" /></label> <select class="form-control"
 								name="pub" id="pub">
@@ -679,7 +683,7 @@ console.log(editionData);
 								</c:choose>
 							</select>
 						</div>
-						<div class="form-group  col-xs-1"
+						<div class="form-group pull-right"
 							style="padding-right: 0px; padding-left: 0px">
 
 							<label class="sr-only" for=submit><spring:message
@@ -696,11 +700,6 @@ console.log(editionData);
 							<input type="hidden" name="fraginters" value="" id="fraginters">
 						</div>
 
-						<div class="form-group  col-xs-12" id="test">
-							<br> <br>
-						</div>
-
-						<div class="form-group  col-xs-12"></div>
 					</form>
 				</div>
 			</div>

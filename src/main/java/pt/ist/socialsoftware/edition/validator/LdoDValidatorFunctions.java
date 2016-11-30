@@ -9,4 +9,8 @@ public class LdoDValidatorFunctions {
 		return value.split("\\s+").length != 1;
 	}
 
+	public static boolean lengthLimit(String value, int length) {
+		return value.length() > length;
+	}
+
 }
