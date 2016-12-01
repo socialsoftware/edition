@@ -142,6 +142,20 @@ public class VirtualEditionController {
 		}
 	}
 
+	@RequestMapping(method = RequestMethod.GET, value = "/restricted/manage/{externalId}")
+	@PreAuthorize("hasPermission(#externalId, 'virtualedition.participant')")
+	public String manageVirtualEdition(Model model, @PathVariable String externalId) {
+		VirtualEdition virtualEdition = FenixFramework.getDomainObject(externalId);
+		logger.debug("manageVirtualEdition externalId:{}", externalId);
+		if (virtualEdition == null) {
+			return "utils/pageNotFound";
+		} else {
+			model.addAttribute("virtualEdition", virtualEdition);
+			model.addAttribute("user", LdoDUser.getAuthenticatedUser());
+			return "virtual/manage";
+		}
+	}
+
 	@RequestMapping(method = RequestMethod.GET, value = "/restricted/editForm/{externalId}")
 	@PreAuthorize("hasPermission(#externalId, 'virtualedition.participant')")
 	public String showEditVirtualEdition(Model model, @PathVariable String externalId) {
@@ -167,9 +181,11 @@ public class VirtualEditionController {
 	public String editVirtualEdition(Model model, @ModelAttribute("ldoDSession") LdoDSession ldoDSession,
 			@PathVariable String externalId, @RequestParam("acronym") String acronym,
 			@RequestParam("title") String title, @RequestParam("pub") boolean pub,
-			@RequestParam("fraginters") String fraginters) {
-		logger.debug("editVirtualEdition externalId:{}, acronym:{}, title:{}, pub:{}, fraginters:{}", externalId,
-				acronym, title, pub, fraginters);
+			@RequestParam("management") boolean management, @RequestParam("vocabulary") boolean vocabulary,
+			@RequestParam("annotation") boolean annotation) {
+		logger.debug(
+				"editVirtualEdition externalId:{}, acronym:{}, title:{}, pub:{}, management:{}, vocabulary:{}, annotation:{}",
+				externalId, acronym, title, pub, management, vocabulary, annotation);
 
 		VirtualEdition virtualEdition = FenixFramework.getDomainObject(externalId);
 		if (virtualEdition == null) {
@@ -188,14 +204,29 @@ public class VirtualEditionController {
 			throw new LdoDEditVirtualEditionException(errors, virtualEdition, acronym, title, pub);
 		}
 
-		// passar nova lista de inters
-
 		try {
-			virtualEdition.edit(VirtualEdition.ACRONYM_PREFIX + acronym, title, pub, fraginters);
+			virtualEdition.edit(VirtualEdition.ACRONYM_PREFIX + acronym, title, pub, management, vocabulary,
+					annotation);
 		} catch (LdoDDuplicateAcronymException ex) {
 			errors.add("virtualedition.acronym.duplicate");
 			throw new LdoDEditVirtualEditionException(errors, virtualEdition, acronym, title, pub);
 		}
+
+		return "redirect:/virtualeditions/restricted/manage/" + externalId;
+	}
+
+	@RequestMapping(method = RequestMethod.POST, value = "/restricted/reorder/{externalId}")
+	@PreAuthorize("hasPermission(#externalId, 'virtualedition.admin')")
+	public String reorderVirtualEdition(Model model, @ModelAttribute("ldoDSession") LdoDSession ldoDSession,
+			@PathVariable String externalId, @RequestParam("fraginters") String fraginters) {
+		logger.debug("reorderVirtualEdition externalId:{}, fraginters:{}", externalId, fraginters);
+
+		VirtualEdition virtualEdition = FenixFramework.getDomainObject(externalId);
+		if (virtualEdition == null) {
+			return "utils/pageNotFound";
+		}
+
+		virtualEdition.updateVirtualEditionInters(fraginters);
 
 		return "redirect:/virtualeditions";
 	}

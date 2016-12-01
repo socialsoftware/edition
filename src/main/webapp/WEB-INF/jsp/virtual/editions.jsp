@@ -133,20 +133,11 @@
 									title="<spring:message code="virtualedition.tt.access" />"><spring:message
 											code="general.access" /></span></th>
 								<th class="text-center"><span class="tip"
-									title="<spring:message code="virtualedition.tt.edit" />"><spring:message
-											code="general.edit" /></span></th>
+									title="<spring:message code="virtualedition.tt.manage" />"><spring:message
+											code="general.manage" /></span></th>
 								<th class="text-center"><span class="tip"
-									title="<spring:message code="virtualedition.tt.participants" />"><spring:message
-											code="general.participants" /></span></th>
-								<th class="text-center"><span class="tip"
-									title="<spring:message code="virtualedition.tt.taxonomies" />"><spring:message
-											code="general.taxonomies" /></span></th>
-								<th class="text-center"><span class="tip"
-									title="<spring:message code="virtualedition.tt.recommendations" />"><spring:message
-											code="general.recommendations" /></span></th>
-								<th class="text-center"><span class="tip"
-									title="<spring:message code="virtualedition.tt.delete" />"><spring:message
-											code="general.delete" /></span></th>
+									title="<spring:message code="virtualedition.tt.join" />"><spring:message
+											code="general.join" /></span></th>
 							</tr>
 						</thead>
 						<tbody>
@@ -204,16 +195,13 @@
 
 										<td class="text-center"><c:if test="${isMember}">
 												<a
-													href="${contextPath}/virtualeditions/restricted/editForm/${virtualEdition.externalId}"><span
+													href="${contextPath}/virtualeditions/restricted/manage/${virtualEdition.externalId}"><span
 													class="glyphicon glyphicon-edit"></span> <spring:message
-														code="general.edit" /></a>
+														code="general.manage" /></a>
 											</c:if></td>
 										<td class="text-center"><c:choose>
 												<c:when test="${isMember}">
-													<a
-														href="${contextPath}/virtualeditions/restricted/${virtualEdition.externalId}/participants"><span
-														class="glyphicon glyphicon-user"></span> <spring:message
-															code="general.participants" /></a>
+													<!-- do nothing -->
 												</c:when>
 												<c:when test="${isAuthenticated && !isPending}">
 													<form class="form-inline" method="POST"
@@ -238,30 +226,6 @@
 													</form>
 												</c:when>
 											</c:choose></td>
-										<td class="text-center"><c:if test="${isMember}">
-												<a
-													href="${contextPath}/virtualeditions/restricted/${virtualEdition.externalId}/taxonomy"><span
-													class="glyphicon glyphicon-tags"></span> <spring:message
-														code="general.taxonomy" /></a>
-											</c:if></td>
-										<td class="text-center"><c:if test="${isMember}">
-												<a
-													href="${contextPath}/recommendation/restricted/${virtualEdition.externalId}"><span
-													class="glyphicon glyphicon-wrench"></span> <spring:message
-														code="general.recommendations" /></a>
-											</c:if></td>
-										<td class="text-center"><c:if
-												test="${isAdmin && !isLdoDEdition}">
-												<form id="formdelete" class="form-inline" method="POST"
-													action="${contextPath}/virtualeditions/restricted/delete">
-													<input type="hidden" name="externalId"
-														value="${virtualEdition.externalId}" />
-													<button type="submit" id="btdelete"
-														style="border: none; background: none !important;">
-														<span class="glyphicon glyphicon-trash"></span>
-													</button>
-												</form>
-											</c:if></td>
 									</tr>
 								</c:if>
 							</c:forEach>
@@ -269,8 +233,6 @@
 					</table>
 				</div>
 			</div>
-
-
 
 			<div id="confirm" class="modal fade">
 				<div class="modal-dialog">
@@ -290,6 +252,8 @@
 					</div>
 				</div>
 			</div>
+		</div>
+	</div>
 </body>
 <script>
 	$(".tipleft").tooltip({

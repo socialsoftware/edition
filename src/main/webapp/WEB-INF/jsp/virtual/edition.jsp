@@ -363,7 +363,7 @@ console.log(editionData);
 								</div>
 							</div>
 						</div>
-						
+
 						<!--
                 <button type="button" id="up" class="btn btn-default">Cima</button>
                 <button type="button" id="down" class="btn btn-default">Baixo</button>
@@ -433,8 +433,8 @@ console.log(editionData);
                 <button type="button" id="save" class="btn btn-default">Save</button>
                 -->
 
-						
-					
+
+
 						<div class="btn-group" role="group" aria-label="...">
 							<input id="tname" type="text" class="btn btn-default"
 								placeholder="${selectText}" style="font-size: 0.8em;">
@@ -446,18 +446,17 @@ console.log(editionData);
 							<span class="glyphicon glyphicon-floppy-disk"
 								aria-hidden="bottom"></span>
 						</button>
-						
-												<!--<br><br>
+
+						<!--<br><br>
                 <div id="slider2"></div>-->
-						
+
 					</div>
 				</ul>
 			</div>
 		</div>
 	</div>
 	<br>
-	<br>
-	<br>
+
 
 	<!-- Modal -->
 	<div class="modal fade" id="searchmodal" tabindex="-1" role="dialog"
@@ -504,8 +503,8 @@ console.log(editionData);
 						</div>
 					</div>
 					<br>
-					
-										<!--
+
+					<!--
       <table data-toggle="table">
         <thead>
         <tr>
@@ -532,11 +531,11 @@ console.log(editionData);
        
         </tbody>
     </table>  -->
-		
+
 					<div id="searchresult"
 						style="display: none; width: 100%; text-align: center;">
 						<hr>
-						<div class="spinner-loader">Loadind...</div>
+						<div class="spinner-loader">Loading...</div>
 					</div>
 
 				</div>
@@ -600,21 +599,22 @@ console.log(editionData);
 
 
 	<div class="container">
-		<h1 class="text-center">
-			<spring:message code="general.edition" />
-			:
-						<!--  <a href="${contextPath}/edition/acronym/${virtualEdition.acronym}">
-                <span id="editiontitle">${virtualEdition.title}</span></a> -->
-			<span id="editiontitle">${virtualEdition.title}</span>
-			<c:if test="${virtualEdition.getAdminSet().contains(userLdoD)}">
-				<a class="" role="button" data-toggle="collapse"
-					href="#collapsemenu" aria-expanded="false"
-					aria-controls="collapseExample" style="font-size: 18px"> <span
-					class="glyphicon glyphicon-pencil"></span>
-				</a>
-			</c:if>
-		</h1>
-				<!-- 
+		<div class="row col-md-2 pull-right">
+			<form class="form-inline" method="GET"
+				action="${contextPath}/virtualeditions/restricted/manage/${virtualEdition.externalId}">
+				<button type="submit" class="btn btn-default">
+					<span class="glyphicon glyphicon-remove"></span>
+					<spring:message code="general.back" />
+				</button>
+			</form>
+		</div>
+
+		<div class="row col-md-12">
+			<h1 class="text-center">
+				<span id="editiontitle">${virtualEdition.title}</span>
+			</h1>
+		</div>
+		<!-- 
         <div class="row pull-right">
             <form class="form-inline" method="GET"
                 action="${contextPath}/virtualeditions">
@@ -625,79 +625,18 @@ console.log(editionData);
             </form>
         </div>
 		 -->
-		<div class="row col-md-12 has-error">
-			<c:forEach var="error" items='${errors}'>
-				<div class="row">
-					<spring:message code="${error}" />
-				</div>
-			</c:forEach>
-		</div>
 		<div class="row col-md-12">
 			<div class="collapse" id="collapsemenu">
 				<div class="well" style="height: 70px">
 					<form class="form-inline" role="form" method="POST"
 						id="formedition"
-						action="/virtualeditions/restricted/edit/${externalId}">
-						<div class="form-group" style="padding-left: 0px">
-							<label class="control-label for="acronym"><spring:message
-									code="virtualeditionlist.acronym" /></label> 
-									<div class="input-group">
-										<div class="input-group-addon">LdoD-</div>
-									<input type="text"
-								class="form-control" name="acronym" id="acronym"
-								placeholder="<spring:message code="virtualeditionlist.acronym" />"
-								value="${acronym}" />
-								</div>
-						</div>
-						<div class="form-group" style="padding-left: 0px">
-							<label class="control-label" for="title"><spring:message
-									code="virtualeditionlist.name" /></label> <input type="text"
-								class="form-control" name="title" id="title"
-								placeholder="<spring:message code="virtualeditionlist.name" />"
-								value="${title}" />
-						</div>
-						<div class="form-group" style="padding-left: 0px">
-							<label class="control-label" for="date"><spring:message
-									code="general.date" /></label> <input class="form-control"
-								id="disabledInput" type="text" name="date" id="date"
-								value="${date}" disabled />
-						</div>
-						<div class="form-group" style="padding-left: 0px">
-							<label class="control-label" for="pub"><spring:message
-									code="general.access" /></label> <select class="form-control"
-								name="pub" id="pub">
-								<c:choose>
-									<c:when test="${pub == false}">
-										<option value="true">
-											<spring:message code="general.public" />
-										</option>
-										<option value="false" selected><spring:message
-												code="general.private" /></option>
-									</c:when>
-									<c:otherwise>
-										<option value="true" selected><spring:message
-												code="general.public" /></option>
-										<option value="false"><spring:message
-												code="general.private" /></option>
-									</c:otherwise>
-								</c:choose>
-							</select>
-						</div>
+						action="/virtualeditions/restricted/reorder/${externalId}">
 						<div class="form-group pull-right"
 							style="padding-right: 0px; padding-left: 0px">
-
-							<label class="sr-only" for=submit><spring:message
-									code="general.update" /></label>
+							<input type="hidden" name="fraginters" value="" id="fraginters">
 							<button type="submit" class="btn btn-primary" id="submit">
 								<span class="glyphicon glyphicon-ok"></span>
 							</button>
-
-							<button type="button" class="btn btn-default"
-								onclick="$('#collapsemenu').collapse('hide')">
-								<span class="glyphicon glyphicon-remove"></span>
-							</button>
-
-							<input type="hidden" name="fraginters" value="" id="fraginters">
 						</div>
 
 					</form>

@@ -11,8 +11,7 @@
 
 		var x = document.forms["updateName"]["name"].value;
 		if (x == null || x == "") {
-			errors
-					.push('<spring:message code="validateCreateCategoryForm.value"/>');
+			errors.push('<spring:message code="validateCreateCategoryForm.value"/>');
 		}
 
 		if (errors.length > 0) {
@@ -31,17 +30,24 @@
 		value='${pageContext.request.userPrincipal.principal.getUser()}' />
 
 	<div class="container">
-		<h3 class="text-center">
-			<a
-				href="${contextPath}/virtualeditions/restricted/${category.getTaxonomy().getEdition().getExternalId()}/taxonomy"><spring:message
-					code="general.taxonomy" /></a>:
-			<spring:message code="virtualedition" />
-			${taxonomy.getEdition().getTitle()}
-		</h3>
-		<h3 class="text-center">
-			<spring:message code="general.category" />
-			: ${category.getName()}
-		</h3>
+		<br />
+		<div class="row col-md-2 pull-right">
+			<form class="form-inline" method="GET"
+				action="${contextPath}/virtualeditions/restricted/manage/${taxonomy.getEdition().externalId}">
+				<button type="submit" class="btn btn-default">
+					<span class="glyphicon glyphicon-remove"></span>
+					<spring:message code="general.back" />
+				</button>
+			</form>
+		</div>
+
+		<div class="row col-md-12">
+			<h3 class="text-center">
+				${taxonomy.getEdition().getTitle()} - <a
+					href="${contextPath}/virtualeditions/restricted/${category.getTaxonomy().getEdition().getExternalId()}/taxonomy"><spring:message
+						code="general.taxonomy" /></a> - ${category.getName()}
+			</h3>
+		</div>
 		<br />
 		<div class="row">
 			<div class="pull-right" align="center">
@@ -126,7 +132,7 @@
 								<a
 									href="${contextPath}/virtualeditions/restricted/fraginter/${inter.getExternalId()}">
 									${inter.getTitle()}</a>
-								<br/>
+								<br />
 							</c:forEach></td>
 					</tr>
 

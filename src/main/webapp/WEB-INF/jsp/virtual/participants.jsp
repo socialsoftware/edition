@@ -18,19 +18,34 @@
 
 
 	<div class="container">
-		<h1 class="text-center">
-			<spring:message code="general.participants" />
-			: <a href="${contextPath}/edition/acronym/${virtualEdition.acronym}">
-				${virtualEdition.title}</a> <br>
-		</h1>
+		<br />
+		<div class="row col-md-2 pull-right">
+			<form class="form-inline" method="GET"
+				action="${contextPath}/virtualeditions/restricted/manage/${virtualEdition.externalId}">
+				<button type="submit" class="btn btn-default">
+					<span class="glyphicon glyphicon-remove"></span>
+					<spring:message code="general.back" />
+				</button>
+			</form>
+		</div>
+		<br /> <br />
+		<div class="row col-md-12">
+			<h3 class="text-center">
+				${virtualEdition.title} <br>
+			</h3>
+		</div>
+		<br>
+		<br>
+		<br>
+		<br>
 		<br>
 
-		<c:forEach var="error" items='${errors}'>
-			<div class="row text-error">
-				<spring:message code="${error}" />
-			</div>
-		</c:forEach>
-		<div class="row col-md-10">
+		<div class="row col-md-12">
+			<c:forEach var="error" items='${errors}'>
+				<div class="row text-error">
+					<spring:message code="${error}" />
+				</div>
+			</c:forEach>
 			<c:if test="${isAdmin}">
 				<form class="form-inline" method="POST"
 					action="${contextPath}/virtualeditions/restricted/${virtualEdition.externalId}/participants/add">
@@ -50,24 +65,11 @@
 				</form>
 			</c:if>
 		</div>
-		<div class="row col-md-2 pull-right">
-			<form class="form-inline" method="GET"
-				action="${contextPath}/virtualeditions">
-				<button type="submit" class="btn btn-primary">
-					<span class="glyphicon glyphicon-th-list"></span>
-					<spring:message code="virtual.editions" />
-				</button>
-			</form>
-		</div>
 
-		<br />
-		<div class="row">
+		<br /> <br /> <br /> <br /> 
+
+		<div class="row col-md-12">
 			<table class="table table-hover">
-				<caption>
-					<h2>
-						<spring:message code="participantsForm.message1" />
-					</h2>
-				</caption>
 				<thead>
 					<tr>
 						<th><spring:message code="login.username" /></th>
@@ -88,15 +90,18 @@
 							<td>${member.getUser().getLastName()}</td>
 							<td><a href="mailto:${member.getUser().getEmail()}">${member.getUser().getEmail()}</a></td>
 							<td><c:choose>
-									<c:when test="${virtualEdition.canSwitchRole(user, member.getUser())}">
-										<form class="form-inline" method="POST" action="${contextPath}/virtualeditions/restricted/${virtualEdition.externalId}/participants/role">
-										<input type="hidden" name="username"
-											value="${member.getUser().getUsername()}" />
-										<button type="submit" class="btn btn-primary btn-sm">
-											<span class="glyphicon glyphicon-retweet"></span>
-											${member.getRole().name()}
-										</button>
-									</form></c:when>
+									<c:when
+										test="${virtualEdition.canSwitchRole(user, member.getUser())}">
+										<form class="form-inline" method="POST"
+											action="${contextPath}/virtualeditions/restricted/${virtualEdition.externalId}/participants/role">
+											<input type="hidden" name="username"
+												value="${member.getUser().getUsername()}" />
+											<button type="submit" class="btn btn-primary btn-sm">
+												<span class="glyphicon glyphicon-retweet"></span>
+												${member.getRole().name()}
+											</button>
+										</form>
+									</c:when>
 									<c:otherwise>${member.getRole().name()}</c:otherwise>
 								</c:choose></td>
 							<td><c:if
@@ -120,9 +125,9 @@
 		<div class="row">
 			<table class="table table-hover">
 				<caption>
-					<h2>
+					<h3>
 						<spring:message code="participantsForm.message2" />
-					</h2>
+					</h3>
 				</caption>
 				<thead>
 					<tr>

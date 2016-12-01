@@ -13,6 +13,7 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import pt.ist.socialsoftware.edition.domain.LdoD;
+import pt.ist.socialsoftware.edition.domain.LdoDUser;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDCreateVirtualEditionException;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDEditVirtualEditionException;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDException;
@@ -41,13 +42,9 @@ public class LdoDExceptionHandler {
 
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.addObject("errors", ex.getErrors());
-		modelAndView.addObject("externalId", ex.getVirtualEdition().getExternalId());
 		modelAndView.addObject("virtualEdition", ex.getVirtualEdition());
-		modelAndView.addObject("acronym", ex.getAcronym());
-		modelAndView.addObject("title", ex.getTitle());
-		modelAndView.addObject("date", ex.getVirtualEdition().getDate());
-		modelAndView.addObject("pub", ex.isPub());
-		modelAndView.setViewName("virtual/edition");
+		modelAndView.addObject("user", LdoDUser.getAuthenticatedUser());
+		modelAndView.setViewName("virtual/manage");
 		return modelAndView;
 	}
 

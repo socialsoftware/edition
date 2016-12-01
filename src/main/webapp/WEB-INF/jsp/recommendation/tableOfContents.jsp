@@ -8,15 +8,26 @@
 <body>
 	<%@ include file="/WEB-INF/jsp/common/fixed-top-ldod-header.jsp"%>
 	<div class="container">
+		<br />
+		<div class="row col-md-2 pull-right">
+			<form class="form-inline" method="GET"
+				action="${contextPath}/virtualeditions/restricted/manage/${edition.externalId}">
+				<button type="submit" class="btn btn-default">
+					<span class="glyphicon glyphicon-remove"></span>
+					<spring:message code="general.back" />
+				</button>
+			</form>
+		</div>
 		<input id="acronym" type="hidden" name="externalId"
 			value="${edition.acronym}" />
-		<h3 class="text-center">
-			<spring:message code="virtualedition" />
-			${edition.title} (${edition.getSortedInterps().size()})
-		</h3>
-		<br>
+		<div class="row col-md-12">
+			<h3 class="text-center">${edition.title}</h3>
+		</div>
+		<br/>
+		<br/>
+		<br/>
 		<div class="row">
-			<div class="row col-md-12 has-error" align="right">
+<%-- 			<div class="row col-md-12 has-error" align="right">
 				<c:forEach var="error" items='${errors}'>
 					<div class="row">
 						<spring:message code="${error}" />
@@ -56,8 +67,8 @@
 						<spring:message code="general.create" />
 					</button>
 				</form>
-			</div>
-			<br> <br>
+			</div> --%>
+			<br/> <br/><br/>
 			<div class="row col-md-12">
 				<table id="criteria-table" class="table table-condensed table-hover">
 					<thead>

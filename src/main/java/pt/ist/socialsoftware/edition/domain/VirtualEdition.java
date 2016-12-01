@@ -180,11 +180,12 @@ public class VirtualEdition extends VirtualEdition_Base {
 	}
 
 	@Atomic(mode = TxMode.WRITE)
-	public void edit(String acronym, String title, boolean pub, String fraginters) {
+	public void edit(String acronym, String title, boolean pub, boolean openManagement, boolean openVocabulary,
+			boolean openAnnotation) {
 		setPub(pub);
 		setTitle(title);
 		setAcronym(acronym);
-		updateVirtualEditionInters(fraginters);
+		getTaxonomy().edit(openManagement, openVocabulary, openAnnotation);
 	}
 
 	@Atomic(mode = TxMode.WRITE)
