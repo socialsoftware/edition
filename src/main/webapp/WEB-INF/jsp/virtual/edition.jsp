@@ -218,7 +218,7 @@ div {
 <script src="/resources/js/bootstrap-select.min.js"></script>
 <script src="/resources/js/jquery.popconfirm.js"></script>
 <script src="/resources/js/toastr.min.js"></script>
-<script src="http://malsup.github.com/jquery.form.js"></script>
+<script src="/resources/js/jquery.form.js"></script>
 
 <script>
 var editionData = new Array();

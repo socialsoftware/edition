@@ -174,7 +174,7 @@ public class TopicModeler {
 			while (iterator.hasNext() && rank < numWords) {
 				IDSorter idCountPair = iterator.next();
 				String word = (String) dataAlphabet.lookupObject(idCountPair.getID());
-				wordName = wordName.equals("") ? word : wordName + "_" + word;
+				wordName = wordName.equals("") ? word : wordName + " " + word;
 
 				rank++;
 			}
