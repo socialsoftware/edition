@@ -84,8 +84,8 @@
 					</div>
 				</div>
 				<div class="pull-right">
-					<button class="btn btn-primary pull-right" data-toggle="modal"
-						data-target="#topicModal">
+					<button class="btn btn-primary pull-right tipleft" data-toggle="modal"
+						data-target="#topicModal" title="<spring:message code="taxonomies.tt.create" />">
 						<span class="glyphicon glyphicon-plus"></span>
 						<spring:message code="topics.generate.short" />
 					</button>
@@ -179,28 +179,31 @@
 						<span aria-hidden="true">&times;</span>
 					</button>
 					<h4 class="modal-title text-center">
-						<spring:message code="topics.generate.long" />
+						<spring:message code="topics.generate.long" /> 
 					</h4>
 				</div>
 				<div class="modal-body">
 					<div class="form-group" id="generationForm">
 						<div class="col-md-2">
-							<input type="text" class="form-control" id="numTopics"
-								placeholder="<spring:message code="general.taxonomies.number.topics" />">
+							<input type="text" class="form-control tip" id="numTopics"
+								placeholder="<spring:message code="general.taxonomies.number.topics" />"
+								title="<spring:message code="taxonomies.tt.nroftopics" />">
 						</div>
 						<div class="col-md-2">
-							<input type="text" class="form-control" id="numWords"
-								placeholder="<spring:message code="general.taxonomies.number.words" />">
+							<input type="text" class="form-control tip" id="numWords"
+								placeholder="<spring:message code="general.taxonomies.number.words" />"
+								title="<spring:message code="taxonomies.tt.nrofwords" />">
 						</div>
 						<div class="col-md-2">
-							<input type="text" class="form-control" id="thresholdCategories"
-								placeholder="<spring:message code="general.taxonomies.threshold.categories" />">
+							<input type="text" class="form-control tip" id="thresholdCategories"
+								placeholder="<spring:message code="general.taxonomies.threshold.categories" />"
+								title="<spring:message code="taxonomies.tt.catcut" />">
 						</div>
 						<div class="col-md-2">
-							<input type="text" class="form-control" id="numIterations"
-								placeholder="<spring:message code="general.taxonomies.number.iterations" />">
+							<input type="text" class="form-control tip" id="numIterations"
+								placeholder="<spring:message code="general.taxonomies.number.iterations" />"
+								title="<spring:message code="taxonomies.tt.nrofiterations" />">
 						</div>
-
 						<div class="col-md-2">
 							<button type="submit" class="btn btn-primary"
 								onclick="generate()">
@@ -336,7 +339,29 @@ $("#topicModal").on("hidden.bs.modal", function(){
     $("#topics").html("");
 });
 </script>
+<script>
+	$(".tipleft").tooltip({
+		placement : 'left'
+	});
+	$(".tip").tooltip({
+		placement : 'bottom'
+	});
 
+	$('#collapse').on('show.bs.collapse', function() {
+		$('.text-error').hide();
+	});
+
+	$('#btdelete').on('click', function(e) {
+		var $form = $('#formdelete');
+		e.preventDefault();
+		$('#confirm').modal({
+			backdrop : 'static',
+			keyboard : false
+		}).one('click', '#delete', function(e) {
+			$form.trigger('submit');
+		});
+	});
+</script>
 
 </html>
 

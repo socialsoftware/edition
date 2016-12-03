@@ -63,29 +63,34 @@
 										code="virtualeditionlist.acronym" /></label>
 								<div class="input-group">
 									<div class="input-group-addon">LdoD-</div>
-									<input type="text" class="form-control" name="acronym"
+									<input type="text" class="form-control tip" name="acronym"
 										id="acronym"
 										placeholder="<spring:message code="virtualeditionlist.acronym" />"
-										value="${virtualEdition.shortAcronym}" />
+										value="${virtualEdition.shortAcronym}" 
+										title="<spring:message code="virtualedition.tt.acronym" />" 
+										/>
 								</div>
 							</div>
 							<div class="form-group col-md-3" style="padding-left: 0px">
 								<label class="control-label" for="title"><spring:message
 										code="virtualeditionlist.name" /></label> <input type="text"
-									class="form-control" name="title" id="title"
+									class="form-control tip" name="title" id="title"
 									placeholder="<spring:message code="virtualeditionlist.name" />"
-									value="${virtualEdition.title}" />
+									value="${virtualEdition.title}" 
+									title="<spring:message code="virtualedition.tt.title" />" 
+									/>
 							</div>
 							<div class="form-group col-md-3" style="padding-left: 0px">
 								<label class="control-label" for="date"><spring:message
-										code="general.date" /></label> <input class="form-control"
+										code="general.date" /></label> <input class="form-control tip"
 									id="disabledInput" type="text" name="date" id="date"
-									value="${virtualEdition.date}" disabled />
+									value="${virtualEdition.date}" disabled 
+									title="<spring:message code="virtualedition.tt.date" />" />
 							</div>
 							<div class="form-group col-md-2" style="padding-left: 0px">
 								<label class="control-label" for="pub"><spring:message
-										code="general.access" /></label> <select class="form-control"
-									name="pub" id="pub">
+										code="general.access" /></label> <select class="form-control tip"
+									name="pub" id="pub" title="<spring:message code="virtualedition.tt.access" />" >
 									<c:choose>
 										<c:when test="${virtualEdition.pub == false}">
 											<option value="true">
@@ -108,8 +113,8 @@
 						<div class="row">
 							<div class="form-group col-md-4" style="padding-left: 0px">
 								<label class="control-label for="acronym"><spring:message
-										code="taxonomy.manage" /></label> <select class="form-control"
-									name="management" id="management">
+										code="taxonomy.manage" /></label> <select class="form-control tip"
+									name="management" id="management" title="<spring:message code="virtualedition.tt.manage.categories" />" >
 									<c:choose>
 										<c:when
 											test="${virtualEdition.taxonomy.getOpenManagement() == true}">
@@ -130,8 +135,8 @@
 							</div>
 							<div class="form-group  col-md-4" style="padding-left: 0px">
 								<label class="control-label" for="pub"><spring:message
-										code="taxonomy.annotation" /></label> <select class="form-control"
-									name="annotation" id="annotation">
+										code="taxonomy.annotation" /></label> <select class="form-control tip"
+									name="annotation" id="annotation" title="<spring:message code="virtualedition.tt.manage.annotations" />" >
 									<c:choose>
 										<c:when
 											test="${virtualEdition.taxonomy.getOpenAnnotation() == true}">
@@ -152,8 +157,8 @@
 							</div>
 							<div class="form-group  col-md-3" style="padding-left: 0px">
 								<label class="control-label" for="title"><spring:message
-										code="taxonomy.vocabulary" /></label> <select class="form-control"
-									name="vocabulary" id="vocabulary">
+										code="taxonomy.vocabulary" /></label> <select class="form-control tip"
+									name="vocabulary" id="vocabulary" title="<spring:message code="virtualedition.tt.manage.vocabulary" />" >
 									<c:choose>
 										<c:when
 											test="${virtualEdition.taxonomy.getOpenVocabulary() == true}">
@@ -282,7 +287,29 @@
 				</table>
 			</div>
 		</div>
-
 	</div>
-
 </body>
+<script>
+	$(".tipleft").tooltip({
+		placement : 'left'
+	});
+	$(".tip").tooltip({
+		placement : 'bottom'
+	});
+
+	$('#collapse').on('show.bs.collapse', function() {
+		$('.text-error').hide();
+	});
+
+	$('#btdelete').on('click', function(e) {
+		var $form = $('#formdelete');
+		e.preventDefault();
+		$('#confirm').modal({
+			backdrop : 'static',
+			keyboard : false
+		}).one('click', '#delete', function(e) {
+			$form.trigger('submit');
+		});
+	});
+</script>
+</html>

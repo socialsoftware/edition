@@ -42,7 +42,7 @@ public class Taxonomy extends Taxonomy_Base {
 	}
 
 	public Set<Tag> getTagSet(VirtualEditionInter inter) {
-		Set<Tag> set = new HashSet<Tag>();
+		Set<Tag> set = new HashSet<>();
 		for (Tag tag : inter.getTagSet()) {
 			if (tag.getCategory().getTaxonomy() == this) {
 				set.add(tag);
@@ -52,13 +52,13 @@ public class Taxonomy extends Taxonomy_Base {
 	}
 
 	public List<VirtualEditionInter> getSortedFragInter() {
-		Set<VirtualEditionInter> set = new HashSet<VirtualEditionInter>();
+		Set<VirtualEditionInter> set = new HashSet<>();
 		for (Category category : getCategoriesSet()) {
 			for (Tag tag : category.getTagSet()) {
 				set.add(tag.getInter());
 			}
 		}
-		List<VirtualEditionInter> list = new ArrayList<VirtualEditionInter>(set);
+		List<VirtualEditionInter> list = new ArrayList<>(set);
 		Collections.sort(list);
 
 		return list;
@@ -76,7 +76,7 @@ public class Taxonomy extends Taxonomy_Base {
 	}
 
 	public Set<LdoDUser> getTagContributorSet(VirtualEditionInter inter) {
-		Set<LdoDUser> contributors = new HashSet<LdoDUser>();
+		Set<LdoDUser> contributors = new HashSet<>();
 		for (Tag tag : getTagSet(inter)) {
 			contributors.add(tag.getContributor());
 		}
@@ -93,7 +93,7 @@ public class Taxonomy extends Taxonomy_Base {
 	}
 
 	public List<VirtualEdition> getUsedIn() {
-		Set<VirtualEdition> editions = new HashSet<VirtualEdition>();
+		Set<VirtualEdition> editions = new HashSet<>();
 		for (VirtualEditionInter inter : getEdition().getAllDepthVirtualEditionInters()) {
 			editions.addAll(inter.getUsedIn());
 		}
@@ -107,7 +107,7 @@ public class Taxonomy extends Taxonomy_Base {
 	@Atomic(mode = TxMode.WRITE)
 	public Category merge(List<Category> categories) {
 
-		String name = categories.stream().map(c -> c.getName()).collect(Collectors.joining(";"));
+		String name = categories.stream().map(c -> c.getName()).collect(Collectors.joining(" "));
 
 		while (getCategory(name) != null) {
 			name = name + "1";
