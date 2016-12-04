@@ -24,7 +24,7 @@
 					<th><spring:message code="authorial.source" /></th>
 				</c:if>
 				<c:if test="${showLdoD}">
-					<th><spring:message code="general.LdoDLabel" />LdoD Mark</th>
+					<th><spring:message code="general.LdoDLabel" /></th>
 				</c:if>
 				<c:if test="${showPubPlace}">
 					<th><spring:message code="general.published" /></th>
@@ -100,19 +100,20 @@
 										</c:if></td>
 								</c:if>
 
-
-
 								<c:if test="${showLdoD}">
-									<c:choose>
-										<c:when
-											test="${ fragInterEntry.key.getClass().getSimpleName().equals('SourceInter') &&
+									<td><c:if
+											test="${fragInterEntry.key.getClass().getSimpleName().equals('SourceInter') &&
 												fragInterEntry.key.getSource().getType() == 'MANUSCRIPT' }">
-											<td>${fragInterEntry.key.getSource().getHasLdoDLabel()}</td>
-										</c:when>
-										<c:otherwise>
-											<td></td>
-										</c:otherwise>
-									</c:choose>
+											<c:choose>
+												<c:when
+													test="${fragInterEntry.key.getSource().getHasLdoDLabel()}">
+													<spring:message code="general.yes" />
+												</c:when>
+												<c:otherwise>
+													<spring:message code="general.no" />
+												</c:otherwise>
+											</c:choose>
+										</c:if></td>
 								</c:if>
 
 								<c:if test="${showPubPlace}">

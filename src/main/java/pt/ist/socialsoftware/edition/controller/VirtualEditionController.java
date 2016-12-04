@@ -216,7 +216,7 @@ public class VirtualEditionController {
 	}
 
 	@RequestMapping(method = RequestMethod.POST, value = "/restricted/reorder/{externalId}")
-	@PreAuthorize("hasPermission(#externalId, 'virtualedition.admin')")
+	@PreAuthorize("hasPermission(#externalId, 'virtualedition.participant')")
 	public String reorderVirtualEdition(Model model, @ModelAttribute("ldoDSession") LdoDSession ldoDSession,
 			@PathVariable String externalId, @RequestParam("fraginters") String fraginters) {
 		logger.debug("reorderVirtualEdition externalId:{}, fraginters:{}", externalId, fraginters);

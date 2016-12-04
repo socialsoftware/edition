@@ -34,11 +34,7 @@
 				${virtualEdition.title} <br>
 			</h3>
 		</div>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
+		<br> <br> <br> <br> <br>
 
 		<div class="row col-md-12">
 			<c:forEach var="error" items='${errors}'>
@@ -66,7 +62,7 @@
 			</c:if>
 		</div>
 
-		<br /> <br /> <br /> <br /> 
+		<br /> <br /> <br /> <br />
 
 		<div class="row col-md-12">
 			<table class="table table-hover">
@@ -98,11 +94,25 @@
 												value="${member.getUser().getUsername()}" />
 											<button type="submit" class="btn btn-primary btn-sm">
 												<span class="glyphicon glyphicon-retweet"></span>
-												${member.getRole().name()}
+												<c:choose>
+													<c:when test='${member.hasRole("ADMIN")}'>
+														<spring:message code="general.manager" />
+													</c:when>
+													<c:otherwise>
+														<spring:message code="general.editor" /></c:otherwise>
+												</c:choose>
 											</button>
 										</form>
 									</c:when>
-									<c:otherwise>${member.getRole().name()}</c:otherwise>
+									<c:otherwise>
+										<c:choose>
+											<c:when test='${member.hasRole("ADMIN")}'>
+												<spring:message code="general.manager" />
+											</c:when>
+											<c:otherwise>
+												<spring:message code="general.editor" /></c:otherwise>
+										</c:choose>
+									</c:otherwise>
 								</c:choose></td>
 							<td><c:if
 									test="${virtualEdition.canRemoveMember(user, member.getUser())}">

@@ -16,6 +16,10 @@ public class Member extends Member_Base {
 		setActive(active);
 	}
 
+	public boolean hasRole(String role) {
+		return getRole().name().equals(role);
+	}
+
 	public void remove() {
 		setUser(null);
 		setVirtualEdition(null);
