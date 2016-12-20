@@ -121,6 +121,8 @@ public class Bootstrap implements WebApplicationInitializer {
 				"Rita", "Marrone", "bernardosoares@pessoa.pt");
 		LdoDUser osvaldo = new LdoDUser(ldod, "osvaldo", "$2a$12$5WFTqOwTFfhPEeJ.L2Dbk.qvbCArQCSkcp7DdeUkrxj3dX2XT827e",
 				"Osvaldo", "Silvestre", "omsilvestre@gmail.com");
+		LdoDUser jose = new LdoDUser(ldod, "jose", "$2a$12$gqbtKFUkIS8hqALVuc/h3eETWIWeQgxmPiWK9fm3joROsZRYHDkiW",
+				"José Maria", "Cunha", "z@josemariacunha.com");
 
 		ars.setEnabled(true);
 		ars.addRoles(user);
@@ -167,6 +169,10 @@ public class Bootstrap implements WebApplicationInitializer {
 		osvaldo.setEnabled(true);
 		osvaldo.addRoles(user);
 		osvaldo.addRoles(admin);
+
+		jose.setEnabled(true);
+		jose.addRoles(user);
+		jose.addRoles(admin);
 	}
 
 	public static void createVirtualEditionsForTest() {
@@ -186,6 +192,7 @@ public class Bootstrap implements WebApplicationInitializer {
 		LdoDUser bernardosoares = ldod.getUser("bernardosoares");
 		LdoDUser rita = ldod.getUser("rita");
 		LdoDUser osvaldo = ldod.getUser("osvaldo");
+		LdoDUser jose = ldod.getUser("jose");
 
 		VirtualEdition classX = new VirtualEdition(ldod, ars, "LdoD-ClassX", "LdoD Edition of Class X", new LocalDate(),
 				false, null);
@@ -200,6 +207,7 @@ public class Bootstrap implements WebApplicationInitializer {
 		classX.addMember(bernardosoares, MemberRole.ADMIN, true);
 		classX.addMember(rita, MemberRole.ADMIN, true);
 		classX.addMember(osvaldo, MemberRole.ADMIN, true);
+		classX.addMember(jose, MemberRole.ADMIN, true);
 		luis.addSelectedVirtualEditions(classX);
 		mp.addSelectedVirtualEditions(classX);
 		ars.addSelectedVirtualEditions(classX);
@@ -210,6 +218,7 @@ public class Bootstrap implements WebApplicationInitializer {
 		bernardosoares.addSelectedVirtualEditions(classX);
 		rita.addSelectedVirtualEditions(classX);
 		osvaldo.addSelectedVirtualEditions(classX);
+		jose.addSelectedVirtualEditions(classX);
 
 		VirtualEdition classY = new VirtualEdition(ldod, ars, "LdoD-ClassY", "LdoD Edition of Class Y", new LocalDate(),
 				false, null);

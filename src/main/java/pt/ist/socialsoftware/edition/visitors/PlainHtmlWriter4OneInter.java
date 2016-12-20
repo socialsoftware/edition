@@ -49,7 +49,7 @@ public class PlainHtmlWriter4OneInter implements TextPortionVisitor {
 	private PbText startPbText = null;
 	private PbText stopPbText = null;
 
-	private final Map<FragInter, Integer> interpsChar = new HashMap<FragInter, Integer>();
+	private final Map<FragInter, Integer> interpsChar = new HashMap<>();
 	private int totalChar = 0;
 
 	public String getTranscription() {
@@ -150,7 +150,8 @@ public class PlainHtmlWriter4OneInter implements TextPortionVisitor {
 
 	@Override
 	public void visit(ParagraphText paragraphText) {
-		append2Transcription("<p align=\"justify\">");
+		// append2Transcription("<p align=\"justify\">");
+		append2Transcription("<p class=\"text-xs-left text-sm-justify text-md-justify text-lg-justify\">");
 
 		propagate2FirstChild(paragraphText);
 
@@ -161,7 +162,7 @@ public class PlainHtmlWriter4OneInter implements TextPortionVisitor {
 
 	@Override
 	public void visit(SegText segText) {
-		List<Rend> renditions = new ArrayList<Rend>(segText.getRendSet());
+		List<Rend> renditions = new ArrayList<>(segText.getRendSet());
 		String preRend = generatePreRendition(renditions);
 		String postRend = generatePostRendition(renditions);
 
@@ -260,7 +261,7 @@ public class PlainHtmlWriter4OneInter implements TextPortionVisitor {
 
 	@Override
 	public void visit(AddText addText) {
-		List<Rend> renditions = new ArrayList<Rend>(addText.getRendSet());
+		List<Rend> renditions = new ArrayList<>(addText.getRendSet());
 		String preRendition = generatePreRendition(renditions);
 		String postRendition = generatePostRendition(renditions);
 
