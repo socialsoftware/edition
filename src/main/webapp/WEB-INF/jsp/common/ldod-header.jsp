@@ -21,6 +21,8 @@
 					<li><a href="#"><spring:message code="header.objectives" /></a></li>
 					<li><a href="#"><spring:message
 								code="header.editorialnotes" /></a></li>
+					<li><a href="${contextPath}/about/faq"><spring:message
+								code="header.faq" /></a></li>
 					<li><a href="#"><spring:message code="header.funded" /></a></li>
 					<li><a href="#"><spring:message
 								code="header.editorialteam" /></a></li>
