@@ -1,12 +1,8 @@
 package pt.ist.socialsoftware.edition.controller;
 
-import java.util.Locale;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -15,14 +11,34 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class AboutController {
 	private static Logger logger = LoggerFactory.getLogger(AboutController.class);
 
-	@RequestMapping(method = RequestMethod.GET, value = "/faq")
-	public String showFAQ(Model model) {
-		// files converted in https://wordhtml.com/
-		Locale locale = LocaleContextHolder.getLocale();
-		if (locale.getLanguage().equals("es")) {
-			return "about/faq-es";
-		}
-		// default
-		return "about/faq-pt";
+	@RequestMapping(method = RequestMethod.GET, value = "/archive")
+	public String showArchive() {
+		return "about/archive-main";
 	}
+
+	@RequestMapping(method = RequestMethod.GET, value = "/faq")
+	public String showFAQ() {
+		return "about/faq-main";
+	}
+
+	@RequestMapping(method = RequestMethod.GET, value = "/articles")
+	public String showArticles() {
+		return "about/articles-main";
+	}
+
+	@RequestMapping(method = RequestMethod.GET, value = "/team")
+	public String showTeam() {
+		return "about/team-main";
+	}
+
+	@RequestMapping(method = RequestMethod.GET, value = "/sponsors")
+	public String showSponsors() {
+		return "about/sponsors-main";
+	}
+
+	@RequestMapping(method = RequestMethod.GET, value = "/copyright")
+	public String showCopyright() {
+		return "about/copyright-main";
+	}
+
 }

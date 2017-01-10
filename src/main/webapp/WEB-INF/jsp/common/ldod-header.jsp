@@ -18,14 +18,18 @@
 				data-toggle="dropdown"><spring:message code="header.about" /> <b
 					class="caret"></b></a>
 				<ul class="dropdown-menu">
-					<li><a href="#"><spring:message code="header.objectives" /></a></li>
-					<li><a href="#"><spring:message
-								code="header.editorialnotes" /></a></li>
+					<li><a href="${contextPath}/about/archive"><spring:message
+								code="header.archive" /></a></li>
 					<li><a href="${contextPath}/about/faq"><spring:message
 								code="header.faq" /></a></li>
-					<li><a href="#"><spring:message code="header.funded" /></a></li>
-					<li><a href="#"><spring:message
-								code="header.editorialteam" /></a></li>
+					<li><a href="${contextPath}/about/articles"><spring:message
+								code="header.articles" /></a></li>
+					<li><a href="${contextPath}/about/team"><spring:message
+								code="header.team" /></a></li>
+					<li><a href="${contextPath}/about/sponsors"><spring:message
+								code="header.sponsors" /></a></li>
+					<li><a href="${contextPath}/about/copyright"><spring:message
+								code="header.copyright" /></a></li>
 				</ul></li>
 			<li><a href="${contextPath}/reading"><spring:message
 						code="general.reading" /></a></li>
@@ -51,7 +55,8 @@
 					<li><a href="${contextPath}/edition/acronym/JP">Jerónimo
 							Pizarro</a></li>
 					<li class="divider"></li>
-					<li><a href="${contextPath}/edition/acronym/LdoD-Arquivo">Arquivo LdoD</a></li>
+					<li><a href="${contextPath}/edition/acronym/LdoD-Arquivo">Arquivo
+							LdoD</a></li>
 					<li class="divider"></li>
 					<c:forEach var="acronym" items='${ldoDSession.selectedVEAcr}'>
 						<li><a href="${contextPath}/edition/acronym/${acronym}">${acronym}</a></li>

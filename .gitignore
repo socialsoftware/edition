@@ -11,3 +11,6 @@ src/main/resources/configuration.properties
 
 *.class
 /target/
+
+jmeter.log
+
