@@ -14,6 +14,7 @@
 			<h1 class="text-center">
 				<spring:message code="header.archive" />
 			</h1>
+			<p>&nbsp;</p>
 			<c:choose>
 				<c:when
 					test='${pageContext.response.locale.getLanguage().equals("en")}'>
@@ -23,7 +24,8 @@
 					test='${pageContext.response.locale.getLanguage().equals("es")}'>
 					<%@ include file="/WEB-INF/jsp/about/archive-es.jsp"%>
 				</c:when>
-				<c:otherwise><%@ include file="/WEB-INF/jsp/about/archive-pt.jsp"%></c:otherwise>
+				<c:otherwise><%@ include
+						file="/WEB-INF/jsp/about/archive-pt.jsp"%></c:otherwise>
 			</c:choose>
 		</div>
 	</div>

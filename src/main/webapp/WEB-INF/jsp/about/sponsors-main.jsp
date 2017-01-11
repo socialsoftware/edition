@@ -14,6 +14,7 @@
 			<h1 class="text-center">
 				<spring:message code="header.sponsors" />
 			</h1>
+			<p>&nbsp;</p>
 			<c:choose>
 				<c:when
 					test='${pageContext.response.locale.getLanguage().equals("en")}'>
