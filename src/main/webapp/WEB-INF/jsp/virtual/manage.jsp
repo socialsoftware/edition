@@ -275,7 +275,7 @@
 											action="${contextPath}/virtualeditions/restricted/delete">
 											<input type="hidden" name="externalId"
 												value="${virtualEdition.externalId}" />
-											<button type="submit" id="btdelete"
+											<button type="submit" 
 												style="border: none; background: none !important;">
 												<span class="glyphicon glyphicon-trash"></span>
 											</button>
@@ -299,17 +299,6 @@
 
 	$('#collapse').on('show.bs.collapse', function() {
 		$('.text-error').hide();
-	});
-
-	$('#btdelete').on('click', function(e) {
-		var $form = $('#formdelete');
-		e.preventDefault();
-		$('#confirm').modal({
-			backdrop : 'static',
-			keyboard : false
-		}).one('click', '#delete', function(e) {
-			$form.trigger('submit');
-		});
 	});
 </script>
 </html>

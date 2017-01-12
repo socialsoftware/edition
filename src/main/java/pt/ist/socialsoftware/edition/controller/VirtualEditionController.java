@@ -125,6 +125,7 @@ public class VirtualEditionController {
 	@PreAuthorize("hasPermission(#externalId, 'virtualedition.participant')")
 	public String deleteVirtualEdition(Model model, @ModelAttribute("ldoDSession") LdoDSession ldoDSession,
 			@RequestParam("externalId") String externalId) {
+		logger.debug("deleteVirtualEdition externalId:{}", externalId);
 		VirtualEdition virtualEdition = FenixFramework.getDomainObject(externalId);
 		if (virtualEdition == null) {
 			return "utils/pageNotFound";
@@ -237,8 +238,9 @@ public class VirtualEditionController {
 			@RequestParam("externalId") String externalId) {
 		final VirtualEdition virtualEdition = FenixFramework.getDomainObject(externalId);
 
-		if (virtualEdition == null)
+		if (virtualEdition == null) {
 			return "utils/pageNotFound";
+		}
 
 		LdoDUser user = LdoDUser.getAuthenticatedUser();
 
@@ -352,8 +354,9 @@ public class VirtualEditionController {
 		LdoD ldoD = LdoD.getInstance();
 		LdoDUser user = ldoD.getUser(username);
 
-		if (!virtualEdition.canSwitchRole(LdoDUser.getAuthenticatedUser(), user))
+		if (!virtualEdition.canSwitchRole(LdoDUser.getAuthenticatedUser(), user)) {
 			throw new LdoDExceptionNonAuthorized();
+		}
 
 		virtualEdition.switchRole(user);
 
@@ -375,12 +378,14 @@ public class VirtualEditionController {
 			return "utils/pageNotFound";
 		}
 
-		if (!virtualEdition.canRemoveMember(LdoDUser.getAuthenticatedUser(), user))
+		if (!virtualEdition.canRemoveMember(LdoDUser.getAuthenticatedUser(), user)) {
 			throw new LdoDExceptionNonAuthorized();
+		}
 
 		LdoDUser admin = null;
-		if (virtualEdition.getAdminSet().size() == 1)
+		if (virtualEdition.getAdminSet().size() == 1) {
 			admin = virtualEdition.getAdminSet().iterator().next();
+		}
 
 		if (admin != null && admin == user) {
 			List<String> errors = new ArrayList<>();
