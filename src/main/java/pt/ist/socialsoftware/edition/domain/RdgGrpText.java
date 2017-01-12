@@ -47,20 +47,12 @@ public class RdgGrpText extends RdgGrpText_Base {
 
 	@Override
 	public boolean hasVariations(List<FragInter> inters) {
-		Set<FragInter> intersection = new HashSet<FragInter>(inters);
+		Set<FragInter> intersection = new HashSet<>(inters);
 		intersection.retainAll(getInterps());
 		if (!intersection.isEmpty() && !getInterps().containsAll(inters)) {
 			return true;
-		} else {
-			boolean hasVariations = false;
-			for (TextPortion text : getChildTextSet()) {
-				if (text.hasVariations(inters)) {
-					hasVariations = true;
-					break;
-				}
-			}
-			return hasVariations;
 		}
+		return false;
 	}
 
 }

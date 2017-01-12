@@ -27,8 +27,10 @@
 	Coelho-1982; Sobral Cunha-2008; Zenith-2012; e Pizarro-2010), as quais
 	<strong>s&oacute; podem ser usadas dentro da infraestrutura <em>Arquivo
 			LdoD</em>.
-	</strong> A sua redistribui&ccedil;&atilde;o ou republica&ccedil;&atilde;o
-	noutros termos, em quaisquer meios, requer o consentimento expresso por
-	escrito dos editores ou seus representantes legais. O c&oacute;digo do Arquivo
-	LdoD pode ser partilhado de acordo com a licen&ccedil;a "FreeBSD".
+	</strong> A sua redistribui&ccedil;&atilde;o ou
+	republica&ccedil;&atilde;o noutros termos, em quaisquer meios, requer o
+	consentimento expresso por escrito dos editores ou seus representantes
+	legais. O c&oacute;digo do <em>Arquivo LdoD</em> pode ser partilhado de acordo
+	com a licen&ccedil;a <a
+		href="https://en.wikipedia.org/wiki/BSD_licenses">"FreeBSD"</a>.
 </p>

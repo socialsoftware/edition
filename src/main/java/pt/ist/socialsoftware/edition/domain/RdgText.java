@@ -8,8 +8,7 @@ import pt.ist.socialsoftware.edition.visitors.TextPortionVisitor;
 
 public class RdgText extends RdgText_Base implements GraphElement {
 
-	public RdgText(TextPortion parent, VariationType type,
-			Set<FragInter> fragInters) {
+	public RdgText(TextPortion parent, VariationType type, Set<FragInter> fragInters) {
 		parent.addChildText(this);
 		setType(type);
 
@@ -45,8 +44,7 @@ public class RdgText extends RdgText_Base implements GraphElement {
 	}
 
 	@Override
-	public Boolean isFormat(Boolean displayDel, Boolean highlightSubst,
-			FragInter fragInter) {
+	public Boolean isFormat(Boolean displayDel, Boolean highlightSubst, FragInter fragInter) {
 		return true;
 	}
 
@@ -75,19 +73,11 @@ public class RdgText extends RdgText_Base implements GraphElement {
 
 	@Override
 	public boolean hasVariations(List<FragInter> inters) {
-		Set<FragInter> intersection = new HashSet<FragInter>(inters);
+		Set<FragInter> intersection = new HashSet<>(inters);
 		intersection.retainAll(getInterps());
 		if (!intersection.isEmpty() && !getInterps().containsAll(inters)) {
 			return true;
-		} else {
-			boolean hasVariations = false;
-			for (TextPortion text : getChildTextSet()) {
-				if (text.hasVariations(inters)) {
-					hasVariations = true;
-					break;
-				}
-			}
-			return hasVariations;
 		}
+		return false;
 	}
 }

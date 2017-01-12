@@ -38,12 +38,12 @@ public class AppText extends AppText_Base {
 	}
 
 	@Override
-	public void putAppTextWithVariations(List<AppText> apps,
-			List<FragInter> inters) {
-
+	public void putAppTextWithVariations(List<AppText> apps, List<FragInter> inters) {
 		if (hasVariations(inters)) {
 			apps.add(this);
 		}
+
+		super.putAppTextWithVariations(apps, inters);
 	}
 
 	@Override

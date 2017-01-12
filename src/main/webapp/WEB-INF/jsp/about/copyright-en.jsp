@@ -18,8 +18,8 @@
 	edition.
 </p>
 <p>
-	All items in the <em>LdoD Archive</em> may be
-	shared in accordance with the Creative Commons &ldquo;<a
+	All items in the <em>LdoD Archive</em> may be shared in accordance with
+	the Creative Commons &ldquo;<a
 		href="https://creativecommons.org/licenses/by-nc/4.0/">Attribution-NonCommercial
 		4.0 International</a>&rdquo; license (CC BY-NC 4.0). This license does not
 	extend to the four experts&rsquo; editions (Prado Coelho-1982; Sobral
@@ -27,5 +27,7 @@
 		only be used within the <em>LdoD Archive</em> infrastructure
 	</strong>. Their redistribution or republication on other terms, in any medium,
 	requires express written consent from the editors or their legal
-	representatives. The code of the LdoD Archive may be shared according to the license "FreeBSD".
+	representatives. The code of the <em>LdoD Archive</em> may be shared
+	according to the license <a
+		href="https://en.wikipedia.org/wiki/BSD_licenses">"FreeBSD"</a>.
 </p>

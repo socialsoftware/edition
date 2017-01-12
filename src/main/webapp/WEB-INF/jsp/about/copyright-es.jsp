@@ -19,8 +19,8 @@
 		do Desassossego</em>.
 </p>
 <p>
-	Todos los elementos en el <em>Archivo LdoD</em> pueden ser compartidos de acuerdo con una licencia
-	Creative Commons &ldquo;<a
+	Todos los elementos en el <em>Archivo LdoD</em> pueden ser compartidos
+	de acuerdo con una licencia Creative Commons &ldquo;<a
 		href="https://creativecommons.org/licenses/by-nc/4.0/">Attribution-NonCommercial
 		4.0 International</a>&rdquo;(CC BY-NC 4.0). Esta licencia no se aplica a
 	las cuatro ediciones de los especialistas (Prado Coelho-1982; Sobral
@@ -29,6 +29,8 @@
 			LdoD</em>.
 	</strong> La redistribuci&oacute;n o republicaci&oacute;n en otros
 	t&eacute;rminos, en cualquier medio, requiere el consentimiento expreso
-	y por escrito de los editores o sus representantes legales. El c&oacute;digo del Archivo LdoD puede ser compartido de acuerdo con una licencia "FreeBSD".
-	
+	y por escrito de los editores o sus representantes legales. El
+	c&oacute;digo del <em>Archivo LdoD</em> puede ser compartido de acuerdo
+	con una licencia <a href="https://en.wikipedia.org/wiki/BSD_licenses">"FreeBSD"</a>.
+
 </p>
