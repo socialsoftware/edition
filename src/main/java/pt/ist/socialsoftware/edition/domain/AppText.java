@@ -41,24 +41,29 @@ public class AppText extends AppText_Base {
 
 	@Override
 	public void putAppTextWithVariations(List<AppText> apps, List<FragInter> inters) {
-		if (hasVariations(inters)) {
+		if (hasVariations(inters) && hasNotTransitiveParent(apps)) {
 			apps.add(this);
 		}
 
 		super.putAppTextWithVariations(apps, inters);
 	}
 
+	private boolean hasNotTransitiveParent(List<AppText> apps) {
+		for (AppText appText : apps) {
+			if (appText.isTransitiveParent(this)) {
+				return false;
+			}
+		}
+		return true;
+	}
+
 	@Override
 	public boolean hasVariations(List<FragInter> inters) {
 		Set<RdgText> rdgChildSet = getChildRdgTextSet();
 
-		int counter = 0;
 		for (RdgText rdg : rdgChildSet) {
 			if (rdg.hasVariations(inters)) {
-				counter++;
-				if (counter == 2) {
-					return true;
-				}
+				return true;
 			}
 		}
 

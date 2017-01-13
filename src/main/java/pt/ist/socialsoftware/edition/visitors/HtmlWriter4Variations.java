@@ -3,6 +3,7 @@ package pt.ist.socialsoftware.edition.visitors;
 import pt.ist.socialsoftware.edition.domain.AppText;
 import pt.ist.socialsoftware.edition.domain.FragInter;
 import pt.ist.socialsoftware.edition.domain.RdgGrpText;
+import pt.ist.socialsoftware.edition.domain.TextPortion.VariationType;
 
 public class HtmlWriter4Variations extends PlainHtmlWriter4OneInter {
 
@@ -13,7 +14,10 @@ public class HtmlWriter4Variations extends PlainHtmlWriter4OneInter {
 			this.fragInter = this.fragInter.getLastUsed();
 		}
 
-		this.transcription = this.transcription + "(" + appText.getType().getDesc() + ") ";
+		if (!appText.getType().equals(VariationType.UNSPECIFIED)) {
+			this.transcription = this.transcription + "(" + generateType(appText.getType()) + ") ";
+		}
+
 		appText.getFirstChildText().accept(this);
 
 		return this.transcription;
@@ -30,41 +34,30 @@ public class HtmlWriter4Variations extends PlainHtmlWriter4OneInter {
 
 	@Override
 	public void visit(AppText appText) {
-		this.transcription = this.transcription + " (" + appText.getType().getDesc() + ") ";
+		if (!appText.getType().equals(VariationType.UNSPECIFIED)) {
+			this.transcription = this.transcription + " (" + generateType(appText.getType()) + ") ";
+		}
 
 		super.visit(appText);
-
-		// for (TextPortion childText : appText.getChildTextSet()) {
-		// if (childText.getInterps().contains(this.fragInter)) {
-		// childText.accept(this);
-		// }
-		// }
-
 	}
 
 	@Override
 	public void visit(RdgGrpText rdgGrpText) {
-		this.transcription = this.transcription + " (" + rdgGrpText.getType().getDesc() + ") ";
+		if (!rdgGrpText.getType().equals(VariationType.UNSPECIFIED)) {
+			this.transcription = this.transcription + " (" + generateType(rdgGrpText.getType()) + ") ";
+		}
 
 		super.visit(rdgGrpText);
-		// for (TextPortion childText : rdgGrpText.getChildTextSet()) {
-		// if (rdgGrpText.getInterps().contains(this.fragInter)) {
-		// childText.accept(this);
-		// }
-		// }
 
 	}
 
-	// @Override
-	// public void visit(RdgText rdgText) {
-	// if (rdgText.getInterps().contains(this.fragInter)) {
-	//
-	// TextPortion firstChild = rdgText.getFirstChildText();
-	// if (firstChild != null) {
-	// firstChild.accept(this);
-	// }
-	//
-	// }
-	// }
+	private String generateType(VariationType type) {
+		switch (type) {
+		case SUBSTANTIVE:
+			return "<strong>" + type.getDesc() + "</strong>";
+		default:
+			return type.getDesc();
+		}
+	}
 
 }
