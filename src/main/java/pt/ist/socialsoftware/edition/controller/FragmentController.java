@@ -36,7 +36,6 @@ import pt.ist.socialsoftware.edition.domain.LdoDUser;
 import pt.ist.socialsoftware.edition.domain.PbText;
 import pt.ist.socialsoftware.edition.domain.SourceInter;
 import pt.ist.socialsoftware.edition.domain.Surface;
-import pt.ist.socialsoftware.edition.domain.TextPortion;
 import pt.ist.socialsoftware.edition.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.domain.VirtualEditionInter;
 import pt.ist.socialsoftware.edition.session.LdoDSession;
@@ -124,7 +123,7 @@ public class FragmentController {
 			}
 		}
 
-		List<FragInter> inters = new ArrayList<FragInter>();
+		List<FragInter> inters = new ArrayList<>();
 		inters.add(inter);
 		model.addAttribute("ldoD", LdoD.getInstance());
 		model.addAttribute("user", LdoDUser.getAuthenticatedUser());
@@ -163,7 +162,7 @@ public class FragmentController {
 			throw new LdoDException("Não tem acesso a esta edição virtual");
 		}
 
-		List<FragInter> inters = new ArrayList<FragInter>();
+		List<FragInter> inters = new ArrayList<>();
 		inters.add(inter);
 		model.addAttribute("ldoD", LdoD.getInstance());
 		model.addAttribute("user", LdoDUser.getAuthenticatedUser());
@@ -201,7 +200,7 @@ public class FragmentController {
 
 		Fragment fragment = FenixFramework.getDomainObject(externalId);
 
-		List<FragInter> inters = new ArrayList<FragInter>();
+		List<FragInter> inters = new ArrayList<>();
 		if (intersID != null) {
 			for (String interID : intersID) {
 				FragInter inter = (FragInter) FenixFramework.getDomainObject(interID);
@@ -228,15 +227,13 @@ public class FragmentController {
 				lineByLine = true;
 			}
 
-			Map<FragInter, HtmlWriter4Variations> variations = new HashMap<FragInter, HtmlWriter4Variations>();
+			Map<FragInter, HtmlWriter4Variations> variations = new HashMap<>();
 			for (FragInter inter : inters) {
 				variations.put(inter, new HtmlWriter4Variations(inter));
 			}
 
-			List<AppText> apps = new ArrayList<AppText>();
-			for (TextPortion text : inters.get(0).getFragment().getTextPortion().getChildTextSet()) {
-				text.putAppTextWithVariations(apps, inters);
-			}
+			List<AppText> apps = new ArrayList<>();
+			inters.get(0).getFragment().getTextPortion().putAppTextWithVariations(apps, inters);
 			Collections.reverse(apps);
 
 			writer.write(lineByLine, false);
@@ -258,7 +255,7 @@ public class FragmentController {
 		PlainHtmlWriter4OneInter writer = new PlainHtmlWriter4OneInter(inter);
 		writer.write(displayDiff);
 
-		List<FragInter> inters = new ArrayList<FragInter>();
+		List<FragInter> inters = new ArrayList<>();
 		inters.add(inter);
 		model.addAttribute("inters", inters);
 		model.addAttribute("writer", writer);
@@ -284,7 +281,7 @@ public class FragmentController {
 
 		PlainHtmlWriter4OneInter writer = new PlainHtmlWriter4OneInter(inter);
 
-		List<FragInter> inters = new ArrayList<FragInter>();
+		List<FragInter> inters = new ArrayList<>();
 		inters.add(inter);
 		model.addAttribute("inters", inters);
 
@@ -317,7 +314,7 @@ public class FragmentController {
 	public String getInterCompare(@RequestParam(value = "inters[]", required = true) String[] intersID,
 			@RequestParam(value = "line") boolean lineByLine,
 			@RequestParam(value = "spaces", required = true) boolean showSpaces, Model model) {
-		List<FragInter> inters = new ArrayList<FragInter>();
+		List<FragInter> inters = new ArrayList<>();
 		for (String interID : intersID) {
 			inters.add((FragInter) FenixFramework.getDomainObject(interID));
 		}
@@ -347,7 +344,7 @@ public class FragmentController {
 			@RequestParam String uri) {
 		logger.debug("searchAnnotations limit:{}, uri:{}", limit, uri);
 
-		List<AnnotationDTO> annotations = new ArrayList<AnnotationDTO>();
+		List<AnnotationDTO> annotations = new ArrayList<>();
 
 		VirtualEditionInter inter = FenixFramework.getDomainObject(uri);
 
@@ -373,9 +370,9 @@ public class FragmentController {
 
 			annotationJson.setId(annotation.getExternalId());
 
-			return new ResponseEntity<AnnotationDTO>(new AnnotationDTO(annotation), HttpStatus.CREATED);
+			return new ResponseEntity<>(new AnnotationDTO(annotation), HttpStatus.CREATED);
 		} else {
-			return new ResponseEntity<AnnotationDTO>(HttpStatus.UNAUTHORIZED);
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		}
 	}
 
@@ -383,9 +380,9 @@ public class FragmentController {
 	public @ResponseBody ResponseEntity<AnnotationDTO> getAnnotation(Model model, @PathVariable String id) {
 		Annotation annotation = FenixFramework.getDomainObject(id);
 		if (annotation != null) {
-			return new ResponseEntity<AnnotationDTO>(new AnnotationDTO(annotation), HttpStatus.OK);
+			return new ResponseEntity<>(new AnnotationDTO(annotation), HttpStatus.OK);
 		} else {
-			return new ResponseEntity<AnnotationDTO>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
 
@@ -395,14 +392,15 @@ public class FragmentController {
 		Annotation annotation = FenixFramework.getDomainObject(id);
 		LdoDUser user = LdoDUser.getAuthenticatedUser();
 
-		if (annotation == null)
-			return new ResponseEntity<AnnotationDTO>(HttpStatus.NOT_FOUND);
+		if (annotation == null) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
 
 		if (annotation.canUpdate(user)) {
 			annotation.update(annotationJson.getText(), annotationJson.getTags());
-			return new ResponseEntity<AnnotationDTO>(new AnnotationDTO(annotation), HttpStatus.OK);
+			return new ResponseEntity<>(new AnnotationDTO(annotation), HttpStatus.OK);
 		} else {
-			return new ResponseEntity<AnnotationDTO>(HttpStatus.UNAUTHORIZED);
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		}
 
 	}
@@ -413,14 +411,15 @@ public class FragmentController {
 		Annotation annotation = FenixFramework.getDomainObject(id);
 		LdoDUser user = LdoDUser.getAuthenticatedUser();
 
-		if (annotation == null)
-			return new ResponseEntity<AnnotationDTO>(HttpStatus.NOT_FOUND);
+		if (annotation == null) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
 
 		if (annotation.canDelete(user)) {
 			annotation.remove();
-			return new ResponseEntity<AnnotationDTO>(HttpStatus.NO_CONTENT);
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		} else {
-			return new ResponseEntity<AnnotationDTO>(HttpStatus.UNAUTHORIZED);
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		}
 	}
 
@@ -436,7 +435,7 @@ public class FragmentController {
 				.map(c -> c.getNameInEditionContext(annotation.getVirtualEditionInter().getVirtualEdition()))
 				.toArray(size -> new String[size]);
 
-		return new ResponseEntity<String[]>(categories, HttpStatus.OK);
+		return new ResponseEntity<>(categories, HttpStatus.OK);
 	}
 
 }

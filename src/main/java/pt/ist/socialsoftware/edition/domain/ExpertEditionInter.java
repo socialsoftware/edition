@@ -25,7 +25,7 @@ public class ExpertEditionInter extends ExpertEditionInter_Base {
 		super.remove();
 
 		// remove from Lucene
-		List<String> externalIds = new ArrayList<String>();
+		List<String> externalIds = new ArrayList<>();
 		externalIds.add(externalId);
 		Indexer indexer = Indexer.getIndexer();
 		indexer.cleanMissingHits(externalIds);
@@ -60,7 +60,7 @@ public class ExpertEditionInter extends ExpertEditionInter_Base {
 		String otherEditor = other.getExpertEdition().getEditor();
 
 		if (myEditor.equals(otherEditor)) {
-			return compareNumber(other);
+			return compareSameEditor(other);
 		} else if (myEditor.equals(Edition.COELHO_EDITION_NAME)) {
 			return -1;
 		} else if (otherEditor.equals(Edition.COELHO_EDITION_NAME)) {
@@ -79,23 +79,26 @@ public class ExpertEditionInter extends ExpertEditionInter_Base {
 		}
 	}
 
-	public int compareNumber(ExpertEditionInter other) {
-		if (getNumber() == other.getNumber()) {
-			return comparePage(getStartPage(), other.getStartPage());
-		} else if (getNumber() < other.getNumber()) {
-			return -1;
-		} else
-			return 1;
+	public int compareSameEditor(ExpertEditionInter other) {
+		int result = comparePage(other);
+		if (result == 0) {
+			return compareNumber(other);
+		} else {
+			return result;
+		}
 	}
 
-	private int comparePage(int page1, int page2) {
-		if (page1 < page2)
-			return -1;
-		else if (page1 == page2)
-			return 0;
-		else
-			return 1;
+	private int comparePage(ExpertEditionInter other) {
+		int result = getVolume().compareTo(other.getVolume());
+		if (result == 0) {
+			return getStartPage() - other.getStartPage();
+		} else {
+			return result;
+		}
+	}
 
+	private int compareNumber(ExpertEditionInter other) {
+		return getNumber() - other.getNumber();
 	}
 
 	@Override
@@ -115,7 +118,7 @@ public class ExpertEditionInter extends ExpertEditionInter_Base {
 
 	@Override
 	public List<FragInter> getListUsed() {
-		List<FragInter> listUses = new ArrayList<FragInter>();
+		List<FragInter> listUses = new ArrayList<>();
 		return listUses;
 	}
 
@@ -126,17 +129,17 @@ public class ExpertEditionInter extends ExpertEditionInter_Base {
 
 	@Override
 	public Set<Category> getAllDepthCategories() {
-		return new HashSet<Category>();
+		return new HashSet<>();
 	}
 
 	@Override
 	public Set<Annotation> getAllDepthAnnotations() {
-		return new HashSet<Annotation>();
+		return new HashSet<>();
 	}
 
 	@Override
 	public Set<Tag> getAllDepthTags() {
-		return new HashSet<Tag>();
+		return new HashSet<>();
 	}
 
 }

@@ -1,5 +1,6 @@
 package pt.ist.socialsoftware.edition.domain;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -46,13 +47,22 @@ public class RdgGrpText extends RdgGrpText_Base {
 	}
 
 	@Override
-	public boolean hasVariations(List<FragInter> inters) {
-		Set<FragInter> intersection = new HashSet<>(inters);
-		intersection.retainAll(getInterps());
-		if (!intersection.isEmpty() && !getInterps().containsAll(inters)) {
-			return true;
+	public void putAppTextWithVariations(List<AppText> apps, List<FragInter> inters) {
+		List<FragInter> newInters = new ArrayList<>(inters);
+		newInters.retainAll(inters);
+		super.putAppTextWithVariations(apps, newInters);
+	}
+
+	public Set<RdgText> getChildRdgTextSet() {
+		Set<RdgText> rdgs = new HashSet<>();
+		for (TextPortion text : getChildTextSet()) {
+			if (text instanceof RdgText) {
+				rdgs.add((RdgText) text);
+			} else if (text instanceof RdgGrpText) {
+				rdgs.addAll(((RdgGrpText) text).getChildRdgTextSet());
+			}
 		}
-		return false;
+		return rdgs;
 	}
 
 }

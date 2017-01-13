@@ -1,5 +1,6 @@
 package pt.ist.socialsoftware.edition.domain;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -69,6 +70,13 @@ public class RdgText extends RdgText_Base implements GraphElement {
 		}
 
 		super.remove();
+	}
+
+	@Override
+	public void putAppTextWithVariations(List<AppText> apps, List<FragInter> inters) {
+		List<FragInter> newInters = new ArrayList<>(inters);
+		newInters.retainAll(inters);
+		super.putAppTextWithVariations(apps, newInters);
 	}
 
 	@Override

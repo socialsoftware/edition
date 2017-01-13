@@ -1,6 +1,8 @@
 package pt.ist.socialsoftware.edition.domain;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import pt.ist.socialsoftware.edition.visitors.TextPortionVisitor;
 
@@ -48,12 +50,31 @@ public class AppText extends AppText_Base {
 
 	@Override
 	public boolean hasVariations(List<FragInter> inters) {
-		for (TextPortion text : getChildTextSet()) {
-			if (text.hasVariations(inters)) {
-				return true;
+		Set<RdgText> rdgChildSet = getChildRdgTextSet();
+
+		int counter = 0;
+		for (RdgText rdg : rdgChildSet) {
+			if (rdg.hasVariations(inters)) {
+				counter++;
+				if (counter == 2) {
+					return true;
+				}
 			}
 		}
+
 		return false;
+	}
+
+	private Set<RdgText> getChildRdgTextSet() {
+		Set<RdgText> rdgs = new HashSet<>();
+		for (TextPortion text : getChildTextSet()) {
+			if (text instanceof RdgText) {
+				rdgs.add((RdgText) text);
+			} else if (text instanceof RdgGrpText) {
+				rdgs.addAll(((RdgGrpText) text).getChildRdgTextSet());
+			}
+		}
+		return rdgs;
 	}
 
 }

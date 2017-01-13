@@ -30,7 +30,7 @@ public abstract class Edition extends Edition_Base {
 		}
 
 		public String getDesc() {
-			return desc;
+			return this.desc;
 		}
 	}
 
@@ -65,8 +65,7 @@ public abstract class Edition extends Edition_Base {
 	public abstract String getReference();
 
 	public List<FragInter> getSortedInterps() {
-		return getIntersSet().stream().sorted((i1, i2) -> ((Integer) i1.getNumber()).compareTo(i2.getNumber()))
-				.collect(Collectors.toList());
+		return getIntersSet().stream().sorted((i1, i2) -> i1.compareTo(i2)).collect(Collectors.toList());
 	}
 
 	public FragInter getNextNumberInter(FragInter inter, int number) {

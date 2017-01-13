@@ -22,7 +22,7 @@ public abstract class TextPortion extends TextPortion_Base implements GraphEleme
 		}
 
 		public String getDesc() {
-			return desc;
+			return this.desc;
 		}
 	};
 
@@ -124,6 +124,17 @@ public abstract class TextPortion extends TextPortion_Base implements GraphEleme
 		}
 
 		return getNextParentText(inter);
+	}
+
+	protected boolean isTransitiveParent(TextPortion textPortion) {
+		if (textPortion.getParentText() == null) {
+			return false;
+		}
+		if (textPortion.getParentText() == this) {
+			return true;
+		}
+		return isTransitiveParent(textPortion.getParentText());
+
 	}
 
 	@Override
