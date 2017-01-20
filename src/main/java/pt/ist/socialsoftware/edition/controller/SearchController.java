@@ -70,31 +70,23 @@ public class SearchController {
 		return "search/simple";
 	}
 
-	@RequestMapping(value = "/simple/result", method = RequestMethod.POST)
+	@RequestMapping(value = "/simple/result", method = RequestMethod.POST, headers = {
+			"Content-type=text/plain;charset=UTF-8" })
 	public String simpleSearchResult(Model model, @RequestBody String params) {
 		logger.debug("simpleSearchResult params:{}", params);
 
-		String[] pars;
+		String split;
 		if (params.contains("&")) {
-			pars = params.split("&");
+			split = "&";
 		} else {
-			pars = params.split("%26");
+			split = "%26";
 		}
 
-		String search = pars[0];
-		String searchType = "";
-		String searchSource = "";
-		if (pars.length == 2) {
-			searchType = pars[1];
-		}
-		if (pars.length == 3) {
-			searchSource = pars[2];
-		}
-		// String search = params.substring(0, params.indexOf("&"));
-		// params = params.substring(params.indexOf("&") + 1);
-		// String searchType = params.substring(0, params.indexOf("&"));
-		// params = params.substring(params.indexOf("&") + 1);
-		// String searchSource = params;
+		String search = params.substring(0, params.indexOf(split));
+		params = params.substring(params.indexOf(split) + 1);
+		String searchType = params.substring(0, params.indexOf(split));
+		params = params.substring(params.indexOf(split) + 1);
+		String searchSource = params;
 
 		search = TextSearchOption.purgeSearchText(search);
 
