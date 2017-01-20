@@ -54,6 +54,7 @@ public class ReadingController {
 	@RequestMapping(method = RequestMethod.GET, value = "/inter/{expertEditionInterId}")
 	public String readInterpretation(Model model, @ModelAttribute("ldoDSession") LdoDSession ldoDSession,
 			@PathVariable String expertEditionInterId) {
+		logger.debug("readInterpretation expertEditionInterId:{}", expertEditionInterId);
 		ExpertEditionInter expertEditionInter = FenixFramework.getDomainObject(expertEditionInterId);
 
 		Set<ExpertEditionInter> recommendations = ldoDSession.getRecommendation()

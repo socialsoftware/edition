@@ -70,16 +70,31 @@ public class SearchController {
 		return "search/simple";
 	}
 
-	@RequestMapping(value = "/simple/result", method = RequestMethod.POST, headers = {
-			"Content-type=text/plain;charset=UTF-8" })
+	@RequestMapping(value = "/simple/result", method = RequestMethod.POST)
 	public String simpleSearchResult(Model model, @RequestBody String params) {
-		logger.debug("params {}", params);
+		logger.debug("simpleSearchResult params:{}", params);
 
-		String search = params.substring(0, params.indexOf("&"));
-		params = params.substring(params.indexOf("&") + 1);
-		String searchType = params.substring(0, params.indexOf("&"));
-		params = params.substring(params.indexOf("&") + 1);
-		String searchSource = params;
+		String[] pars;
+		if (params.contains("&")) {
+			pars = params.split("&");
+		} else {
+			pars = params.split("%26");
+		}
+
+		String search = pars[0];
+		String searchType = "";
+		String searchSource = "";
+		if (pars.length == 2) {
+			searchType = pars[1];
+		}
+		if (pars.length == 3) {
+			searchSource = pars[2];
+		}
+		// String search = params.substring(0, params.indexOf("&"));
+		// params = params.substring(params.indexOf("&") + 1);
+		// String searchType = params.substring(0, params.indexOf("&"));
+		// params = params.substring(params.indexOf("&") + 1);
+		// String searchSource = params;
 
 		search = TextSearchOption.purgeSearchText(search);
 
@@ -148,25 +163,31 @@ public class SearchController {
 					if (option instanceof EditionSearchOption) {
 						showSource = true;
 						EditionSearchOption op = (EditionSearchOption) option;
-						if (!op.getEdition().equals(SearchOption.ALL))
+						if (!op.getEdition().equals(SearchOption.ALL)) {
 							showEdition = true;
-						if (op.hasHeteronym())
+						}
+						if (op.hasHeteronym()) {
 							showHeteronym = true;
-						if (op.hasDate())
+						}
+						if (op.hasDate()) {
 							showDate = true;
+						}
 					} else if (option instanceof AuthoralSearchOption) {
 						showSource = true;
 						showSourceType = true;
 						AuthoralSearchOption op = (AuthoralSearchOption) option;
-						if (op.hasLdoDMark())
+						if (op.hasLdoDMark()) {
 							showLdoD = true;
-						if (op.hasDate())
+						}
+						if (op.hasDate()) {
 							showDate = true;
+						}
 					} else if (option instanceof PublicationSearchOption) {
 						showSource = true;
 						PublicationSearchOption op = (PublicationSearchOption) option;
-						if (op.hasDate())
+						if (op.hasDate()) {
 							showDate = true;
+						}
 					} else if (option instanceof HeteronymSearchOption) {
 						showHeteronym = true;
 					} else if (option instanceof DateSearchOption) {
@@ -367,25 +388,27 @@ public class SearchController {
 	}
 
 	private LocalDate getIsBeforeDate(LocalDate date1, LocalDate date2) {
-		if (date1 == null)
+		if (date1 == null) {
 			return date2;
-		else if (date2 == null)
+		} else if (date2 == null) {
 			return date1;
-		else if (date1.isBefore(date2))
+		} else if (date1.isBefore(date2)) {
 			return date1;
-		else
+		} else {
 			return date2;
+		}
 	}
 
 	private LocalDate getIsAfterDate(LocalDate date1, LocalDate date2) {
-		if (date1 == null)
+		if (date1 == null) {
 			return date2;
-		else if (date2 == null)
+		} else if (date2 == null) {
 			return date1;
-		else if (date1.isAfter(date2))
+		} else if (date1.isAfter(date2)) {
 			return date1;
-		else
+		} else {
 			return date2;
+		}
 	}
 
 }

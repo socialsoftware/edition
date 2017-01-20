@@ -24,11 +24,11 @@ import pt.ist.socialsoftware.edition.recommendation.properties.TextProperty;
 public class ReadingRecommendation {
 	private static Logger logger = LoggerFactory.getLogger(ReadingRecommendation.class);
 
-	private List<String> read = new ArrayList<String>();
-	private double heteronymWeight = 0.0;
-	private double dateWeight = 0.0;
-	private double textWeight = 0.0;
-	private double taxonomyWeight = 0.0;
+	private final List<String> read = new ArrayList<>();
+	private double heteronymWeight = 1.0;
+	private double dateWeight = 1.0;
+	private double textWeight = 1.0;
+	private double taxonomyWeight = 1.0;
 
 	public ReadingRecommendation() {
 	}
@@ -42,7 +42,7 @@ public class ReadingRecommendation {
 	}
 
 	private List<Property> getProperties() {
-		List<Property> properties = new ArrayList<Property>();
+		List<Property> properties = new ArrayList<>();
 		if (this.heteronymWeight > 0.0) {
 			properties.add(new HeteronymProperty(this.heteronymWeight));
 		}
@@ -76,14 +76,14 @@ public class ReadingRecommendation {
 		int index = readFragments.indexOf(toReadFragment);
 		if (index != -1) {
 			readFragments.subList(index, readFragments.size()).clear();
-			read.subList(index, read.size()).clear();
+			this.read.subList(index, this.read.size()).clear();
 		}
 
 		// if all fragments minus 50 were already suggested clear the first 50
 		// recommendations
 		if (readFragments.size() == LdoD.getInstance().getFragmentsSet().size() - 50) {
 			readFragments.subList(0, 50).clear();
-			read.subList(0, 50).clear();
+			this.read.subList(0, 50).clear();
 		}
 
 		Set<Fragment> toBeRecommended = LdoD.getInstance().getFragmentsSet().stream()
@@ -96,7 +96,7 @@ public class ReadingRecommendation {
 		List<Entry<Fragment, Double>> mostSimilars = recommender.getMostSimilarItems(toReadFragment, toBeRecommended,
 				properties);
 
-		Set<ExpertEditionInter> result = new HashSet<ExpertEditionInter>();
+		Set<ExpertEditionInter> result = new HashSet<>();
 		Double value = mostSimilars.get(0).getValue();
 		for (Entry<Fragment, Double> entry : mostSimilars) {
 			// logger.debug("ReadingRecommendation value1:{}, value2:{}", value,
@@ -128,8 +128,9 @@ public class ReadingRecommendation {
 	}
 
 	public ExpertEditionInter getPrevRecommendation() {
-		if (this.read.size() < 2)
+		if (this.read.size() < 2) {
 			return null;
+		}
 		return FenixFramework.getDomainObject(this.read.get(this.read.size() - 2));
 	}
 
