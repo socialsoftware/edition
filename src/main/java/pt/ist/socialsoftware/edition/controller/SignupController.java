@@ -11,6 +11,7 @@ import javax.validation.Valid;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.social.connect.Connection;
 import org.springframework.social.connect.ConnectionFactoryLocator;
@@ -35,7 +36,7 @@ import pt.ist.socialsoftware.edition.utils.PropertiesManager;
 
 @Controller
 public class SignupController {
-	private static Logger log = LoggerFactory.getLogger(SignupController.class);
+	private static Logger logger = LoggerFactory.getLogger(SignupController.class);
 
 	@Inject
 	private PasswordEncoder passwordEncoder;
@@ -50,9 +51,9 @@ public class SignupController {
 
 	@RequestMapping(value = "/signup", method = RequestMethod.GET)
 	public SignupForm signupForm(WebRequest request) {
-		log.debug("signupForm");
+		logger.debug("signupForm");
 
-		Connection<?> connection = providerSignInUtils.getConnectionFromSession(request);
+		Connection<?> connection = this.providerSignInUtils.getConnectionFromSession(request);
 		if (connection != null) {
 			request.setAttribute("message", "signup.errorMessage",
 					// new Message(MessageType.INFO,
@@ -73,7 +74,7 @@ public class SignupController {
 	@RequestMapping(value = "/signup", method = RequestMethod.POST)
 	public String signup(@Valid SignupForm form, BindingResult formBinding, WebRequest request,
 			HttpServletRequest servletRequest, Model model) {
-		log.debug("signup username:{}, firstName:{}, lastName:{}, email:{}, socialMedia:{}, socialId:{}",
+		logger.debug("signup username:{}, firstName:{}, lastName:{}, email:{}, socialMedia:{}, socialId:{}",
 				form.getUsername(), form.getFirstName(), form.getLastName(), form.getEmail(),
 				form.getSocialMediaService(), form.getSocialMediaId());
 
@@ -87,7 +88,7 @@ public class SignupController {
 		LdoDUser user = null;
 		RegistrationToken token = null;
 		try {
-			user = LdoD.getInstance().createUser(passwordEncoder, form.getUsername(), form.getPassword(),
+			user = LdoD.getInstance().createUser(this.passwordEncoder, form.getUsername(), form.getPassword(),
 					form.getFirstName(), form.getLastName(), form.getEmail(), socialMediaService,
 					form.getSocialMediaId());
 			token = user.createRegistrationToken(UUID.randomUUID().toString());
@@ -97,15 +98,14 @@ public class SignupController {
 
 		if (user != null) {
 			try {
-				token.confirmRegistration(servletRequest);
+				token.requestAuthorization(servletRequest);
 			} catch (AddressException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				throw new LdoDException("Token Confirmation - AddressException");
 			} catch (MessagingException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				throw new LdoDException("Token Confirmation - MessagingException");
+
 			}
-			providerSignInUtils.doPostSignUp(user.getUsername(), request);
+			this.providerSignInUtils.doPostSignUp(user.getUsername(), request);
 
 			model.addAttribute("message", "signup.confirmation");
 			model.addAttribute("argument",
@@ -116,12 +116,51 @@ public class SignupController {
 		return null;
 	}
 
-	@RequestMapping(value = "/signup/registrationConfirm", method = RequestMethod.GET)
-	public String confirmRegistration(WebRequest request, Model model, @RequestParam("token") String token) {
+	@RequestMapping(value = "/signup/registrationAuthorization", method = RequestMethod.GET)
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	public String authorizeRegistration(WebRequest request, HttpServletRequest servletRequest, Model model,
+			@RequestParam("token") String token) {
+		logger.debug("authorizeRegistration");
+
 		RegistrationToken registrationToken = LdoD.getInstance().getTokenSet(token);
 
 		if (registrationToken == null) {
 			model.addAttribute("message", "signup.token.invalid");
+			return "signin";
+		}
+
+		LdoDUser user = registrationToken.getUser();
+		if ((registrationToken.getExpireTimeDateTime().getMillis() - DateTime.now().getMillis()) <= 0) {
+			model.addAttribute("message", "signup.token.expired");
+			return "signin";
+		}
+
+		registrationToken.setAuthorized(true);
+
+		try {
+			registrationToken.requestConfirmation(servletRequest);
+		} catch (MessagingException e) {
+			throw new LdoDException("Token Confirmation - MessagingException");
+		}
+
+		model.addAttribute("message", "signup.token.authorized");
+
+		return "signin";
+	}
+
+	@RequestMapping(value = "/signup/registrationConfirm", method = RequestMethod.GET)
+	public String confirmRegistration(WebRequest request, Model model, @RequestParam("token") String token) {
+		logger.debug("confirmRegistration");
+
+		RegistrationToken registrationToken = LdoD.getInstance().getTokenSet(token);
+
+		if (registrationToken == null) {
+			model.addAttribute("message", "signup.token.invalid");
+			return "signin";
+		}
+
+		if (!registrationToken.getAuthorized()) {
+			model.addAttribute("message", "signup.token.authorized.not");
 			return "signin";
 		}
 

@@ -79,6 +79,7 @@ relation LdoDHasLdoDUsers {
 class RegistrationToken {
 	String token;
 	Long expireTime;
+	boolean authorized;
 }
 
 relation LdoDHasRegistrationToken {

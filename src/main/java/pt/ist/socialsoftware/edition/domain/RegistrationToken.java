@@ -7,11 +7,13 @@ import javax.servlet.http.HttpServletRequest;
 import org.joda.time.DateTime;
 import org.joda.time.Period;
 
+import pt.ist.fenixframework.Atomic;
+import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.socialsoftware.edition.utils.Emailer;
 import pt.ist.socialsoftware.edition.utils.PropertiesManager;
 
 public class RegistrationToken extends RegistrationToken_Base {
-	private static final int EXPIRATION = 60;
+	private static final int EXPIRATION = 1440;
 
 	public RegistrationToken(String token, LdoDUser user) {
 		setUser(user);
@@ -20,12 +22,18 @@ public class RegistrationToken extends RegistrationToken_Base {
 		setExpireTimeDateTime(DateTime.now().plus(new Period().withMinutes(EXPIRATION)));
 	}
 
+	public DateTime getExpireTimeDateTime() {
+		return new DateTime(getExpireTime());
+	}
+
 	public void setExpireTimeDateTime(DateTime date) {
 		setExpireTime(date.getMillis());
 	}
 
-	public DateTime getExpireTimeDateTime() {
-		return new DateTime(getExpireTime());
+	@Override
+	@Atomic(mode = TxMode.WRITE)
+	public void setAuthorized(boolean authorized) {
+		super.setAuthorized(authorized);
 	}
 
 	public void remove() {
@@ -35,11 +43,26 @@ public class RegistrationToken extends RegistrationToken_Base {
 		deleteDomainObject();
 	}
 
-	public void confirmRegistration(HttpServletRequest request) throws AddressException, MessagingException {
-		// String recipientAddress = getUser().getEmail();
-		// TODO: replace by line above
+	public void requestAuthorization(HttpServletRequest request) throws AddressException, MessagingException {
 		String recipientAddress = PropertiesManager.getProperties()
-				.getProperty("registration.confirmation.email.address");
+				.getProperty("registration.authorization.email.address");
+
+		String subject = "LdoD - Autorização de Registo";
+
+		String path = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
+				+ request.getContextPath();
+		String authorizationUrl = path + "/signup/registrationAuthorization?token=" + getToken();
+
+		Emailer.sendEmail(recipientAddress, subject,
+				"Autorize o registo no arquivo do LdoD do utilizador " + getUser().getFirstName() + " "
+						+ getUser().getLastName() + " com username " + getUser().getUsername()
+						+ " com o endereço de email " + getUser().getEmail() + " nesta ligação <a href=\""
+						+ authorizationUrl + "\">" + authorizationUrl + "</a>",
+				PropertiesManager.getProperties().getProperty("registration.confirmation.email.address"));
+	}
+
+	public void requestConfirmation(HttpServletRequest request) throws AddressException, MessagingException {
+		String recipientAddress = getUser().getEmail();
 
 		String subject = "LdoD - Confirmação de Registo";
 
@@ -48,8 +71,9 @@ public class RegistrationToken extends RegistrationToken_Base {
 		String confirmationUrl = path + "/signup/registrationConfirm?token=" + getToken();
 
 		Emailer.sendEmail(recipientAddress, subject,
-				"Confirme o seu registo no arquivo do LdoD para o utilizador " + getUser().getUsername()
-						+ " nesta ligação <a href=\"" + confirmationUrl + "\">" + confirmationUrl + "</a>",
+				"Confirme o registo no arquivo do LdoD do utilizador " + getUser().getUsername()
+						+ " com o endereço de email " + getUser().getEmail() + " nesta ligação <a href=\""
+						+ confirmationUrl + "\">" + confirmationUrl + "</a>",
 				PropertiesManager.getProperties().getProperty("registration.confirmation.email.address"));
 	}
 
