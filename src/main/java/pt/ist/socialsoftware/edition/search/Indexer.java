@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 import org.apache.lucene.analysis.Analyzer;
@@ -61,7 +62,7 @@ public class Indexer {
 	private static final String ID = "id";
 	private static final String TEXT = "text";
 	private static final String REP = "rep";
-	private static HashMap<String, Map<String, Double>> termsTFIDFCache = new HashMap<String, Map<String, Double>>();
+	private static Map<String, Map<String, Double>> termsTFIDFCache = new ConcurrentHashMap<>();
 	private final Analyzer analyzer;
 	private final QueryParserBase queryParser;
 	private static final int SIGNIFICATIVE_TERMS = 1000;
@@ -70,17 +71,17 @@ public class Indexer {
 
 	private Indexer() {
 		String path = PropertiesManager.getProperties().getProperty("indexer.dir");
-		docDir = Paths.get(path);
-		analyzer = new IgnoreDiacriticsAnalyzer();
-		queryParser = new QueryParser(TEXT, analyzer);
-		indexWriterConfig = new IndexWriterConfig(analyzer);
+		this.docDir = Paths.get(path);
+		this.analyzer = new IgnoreDiacriticsAnalyzer();
+		this.queryParser = new QueryParser(TEXT, this.analyzer);
+		this.indexWriterConfig = new IndexWriterConfig(this.analyzer);
 	}
 
 	public void addDocument(FragInter inter) throws IOException {
 		// IndexWriterConfig config = new IndexWriterConfig(Version.LATEST,
 		// analyzer);
-		Directory directory = new NIOFSDirectory(docDir);
-		IndexWriter indexWriter = new IndexWriter(directory, indexWriterConfig);
+		Directory directory = new NIOFSDirectory(this.docDir);
+		IndexWriter indexWriter = new IndexWriter(directory, this.indexWriterConfig);
 		PlainTextFragmentWriter writer = new PlainTextFragmentWriter(inter);
 		writer.write();
 		String id = inter.getExternalId();
@@ -117,14 +118,14 @@ public class Indexer {
 	private List<String> getResults(String queryString) throws IOException, ParseException {
 		logger.debug("Query: {}", queryString);
 
-		Query query = queryParser.parse(queryString);
-		Directory directory = new NIOFSDirectory(docDir);
+		Query query = this.queryParser.parse(queryString);
+		Directory directory = new NIOFSDirectory(this.docDir);
 		IndexReader reader = DirectoryReader.open(directory);
 		IndexSearcher searcher = new IndexSearcher(reader);
 		int hitsPerPage = reader.numDocs();
 		TopDocs results = searcher.search(query, hitsPerPage);
 		ScoreDoc[] hits = results.scoreDocs;
-		List<String> hitList = new ArrayList<String>();
+		List<String> hitList = new ArrayList<>();
 		for (int i = 0; i < hits.length; ++i) {
 			int docId = hits[i].doc;
 			Document d = searcher.doc(docId);
@@ -165,18 +166,14 @@ public class Indexer {
 	}
 
 	public List<String> getTFIDFTerms(Fragment fragment, int numberOfTerms) throws IOException, ParseException {
-		List<Entry<String, Double>> set = new ArrayList<Entry<String, Double>>(getTFIDF(fragment).entrySet());
+		List<Entry<String, Double>> set = new ArrayList<>(getTFIDF(fragment).entrySet());
 		return getTFIDFTerms(set, numberOfTerms);
 	}
 
 	public Map<String, Double> getTFIDF(Fragment fragment, List<String> terms) throws IOException, ParseException {
-		Map<String, Double> TFIDFMap = new HashMap<String, Double>(getTFIDF(fragment));
+		Map<String, Double> TFIDFMap = new HashMap<>(getTFIDF(fragment));
 		TFIDFMap.keySet().retainAll(terms);
 		return TFIDFMap;
-	}
-
-	public void cleanTermsTFIDFCache() {
-		termsTFIDFCache.clear();
 	}
 
 	public void cleanMissingHits(List<String> misses) {
@@ -189,11 +186,11 @@ public class Indexer {
 			query += " OR " + misses.get(i);
 		}
 
-		QueryParser idQueryParser = new QueryParser(ID, analyzer);
+		QueryParser idQueryParser = new QueryParser(ID, this.analyzer);
 		try {
 			Query q = idQueryParser.parse(query);
-			Directory directory = new NIOFSDirectory(docDir);
-			IndexWriter indexWriter = new IndexWriter(directory, indexWriterConfig);
+			Directory directory = new NIOFSDirectory(this.docDir);
+			IndexWriter indexWriter = new IndexWriter(directory, this.indexWriterConfig);
 			indexWriter.deleteDocuments(q);
 
 			indexWriter.close();
@@ -226,24 +223,25 @@ public class Indexer {
 	private Map<String, Double> getTermFrequency(Fragment fragment) throws IOException, ParseException {
 		SourceInter sourceInter = fragment.getRepresentativeSourceInter();
 		String queryString = ID + ":" + sourceInter.getExternalId();
-		Query query = queryParser.parse(queryString);
+		Query query = this.queryParser.parse(queryString);
 		return getTermCount(query);
 	}
 
 	private Map<String, Double> getTermCount(Query query) throws ParseException, IOException {
-		Directory directory = new NIOFSDirectory(docDir);
+		Directory directory = new NIOFSDirectory(this.docDir);
 		IndexReader reader = DirectoryReader.open(directory);
 		IndexSearcher searcher = new IndexSearcher(reader);
 		int hitsPerPage = reader.numDocs();
 		TopDocs results = searcher.search(query, hitsPerPage);
 		ScoreDoc[] hits = results.scoreDocs;
 		int len = hits.length;
-		Map<String, Double> TFMap = new HashMap<String, Double>();
+		Map<String, Double> TFMap = new ConcurrentHashMap<>();
 		for (int i = 0; i < len; ++i) {
 			int docId = hits[i].doc;
 			Terms terms = reader.getTermVector(docId, TEXT);
-			if (terms == null)
+			if (terms == null) {
 				return TFMap;
+			}
 			TermsEnum termsEnum = terms.iterator();
 			BytesRef text = null;
 			int totalFrequency = 0;
@@ -263,17 +261,17 @@ public class Indexer {
 	}
 
 	private Map<String, Double> getTFIDF(Map<String, Double> tf) throws IOException, ParseException {
-		Directory directory = new NIOFSDirectory(docDir);
+		Directory directory = new NIOFSDirectory(this.docDir);
 		IndexReader reader = DirectoryReader.open(directory);
 
-		Query query = queryParser.parse(REP + ":true");
+		Query query = this.queryParser.parse(REP + ":true");
 		IndexSearcher searcher = new IndexSearcher(reader);
 		TopDocs results = searcher.search(query, reader.numDocs());
 		int numDocs = results.totalHits;
 
-		Map<String, Double> TFIDFMap = new HashMap<String, Double>();
+		Map<String, Double> TFIDFMap = new ConcurrentHashMap<>();
 		for (Entry<String, Double> entry : tf.entrySet()) {
-			query = queryParser.parse(REP + ":true" + " AND " + entry.getKey());
+			query = this.queryParser.parse(REP + ":true" + " AND " + entry.getKey());
 			searcher = new IndexSearcher(reader);
 			results = searcher.search(query, numDocs);
 			int df = results.totalHits;
@@ -285,7 +283,7 @@ public class Indexer {
 		directory.close();
 		List<Entry<String, Double>> list = TFIDFMap.entrySet().stream()
 				.sorted(Collections.reverseOrder(Map.Entry.comparingByValue())).collect(Collectors.toList());
-		TFIDFMap = new HashMap<String, Double>();
+		TFIDFMap = new HashMap<>();
 		int size = list.size();
 		for (int i = 0; i < size && i < SIGNIFICATIVE_TERMS; i++) {
 			TFIDFMap.put(list.get(i).getKey(), list.get(i).getValue());

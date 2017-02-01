@@ -2,9 +2,9 @@ package pt.ist.socialsoftware.edition.recommendation.properties;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 import org.apache.lucene.queryparser.classic.ParseException;
@@ -26,7 +26,7 @@ public class TextProperty extends Property {
 	public static final int NUMBER_OF_TERMS = 100;
 	public static final int NUMBER_OF_TERMS_TO_SHOW = 3;
 
-	private static Map<String, Map<String, double[]>> vectorsCache = new HashMap<>();
+	private static Map<String, Map<String, double[]>> vectorsCache = new ConcurrentHashMap<>();
 
 	private List<String> commonTerms;
 
@@ -63,9 +63,9 @@ public class TextProperty extends Property {
 	}
 
 	private double[] buildVector(Map<String, Double> tfidf) {
-		double[] vector = new double[commonTerms.size()];
+		double[] vector = new double[this.commonTerms.size()];
 		for (int i = 0; i < vector.length; i++) {
-			String term = commonTerms.get(i);
+			String term = this.commonTerms.get(i);
 			if (tfidf.containsKey(term)) {
 				vector[i] = tfidf.get(term);
 			}
@@ -84,7 +84,7 @@ public class TextProperty extends Property {
 	}
 
 	private double[] getFromVectorsCache(Fragment fragment) {
-		Fragment fragmentOther = fragment == fragment1 ? fragment2 : fragment1;
+		Fragment fragmentOther = fragment == this.fragment1 ? this.fragment2 : this.fragment1;
 		Map<String, double[]> map = vectorsCache.get(fragment.getExternalId());
 		if (map == null) {
 			return null;
@@ -94,10 +94,10 @@ public class TextProperty extends Property {
 	}
 
 	private void putIntoVectorsCache(Fragment fragment, double[] vector) {
-		Fragment fragmentOther = fragment == fragment1 ? fragment2 : fragment1;
+		Fragment fragmentOther = fragment == this.fragment1 ? this.fragment2 : this.fragment1;
 		Map<String, double[]> map = vectorsCache.get(fragment.getExternalId());
 		if (map == null) {
-			map = new HashMap<>();
+			map = new ConcurrentHashMap<>();
 			vectorsCache.put(fragment.getExternalId(), map);
 		}
 		map.put(fragmentOther.getExternalId(), vector);
@@ -107,8 +107,8 @@ public class TextProperty extends Property {
 		double[] vector;
 		Map<String, Double> tfidf;
 		try {
-			commonTerms = getFragmentsCommonTerms(this.fragment1, this.fragment2);
-			tfidf = Indexer.getIndexer().getTFIDF(fragment, commonTerms);
+			this.commonTerms = getFragmentsCommonTerms(this.fragment1, this.fragment2);
+			tfidf = Indexer.getIndexer().getTFIDF(fragment, this.commonTerms);
 		} catch (IOException | ParseException e) {
 			throw new LdoDException("Indexer error when extractVector in TextProperty");
 		}
@@ -130,7 +130,7 @@ public class TextProperty extends Property {
 
 	@Override
 	protected double[] getDefaultVector() {
-		return new double[commonTerms.size()];
+		return new double[this.commonTerms.size()];
 	}
 
 	@Override

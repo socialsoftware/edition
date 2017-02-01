@@ -1,29 +1,27 @@
 package pt.ist.socialsoftware.edition.recommendation;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import pt.ist.socialsoftware.edition.recommendation.properties.Property;
 
 public class StoredVectors {
-	private static StoredVectors instance;
+	private static StoredVectors instance = new StoredVectors();
 
+	// thread safe
 	public static StoredVectors getInstance() {
-		if (instance == null) {
-			instance = new StoredVectors();
-		}
 		return instance;
 	}
 
 	private final Map<Class<? extends Property>, Map<String, double[]>> weights;
 
 	private StoredVectors() {
-		weights = new HashMap<Class<? extends Property>, Map<String, double[]>>();
+		this.weights = new ConcurrentHashMap<>();
 	}
 
 	public boolean contains(Property property, String id) {
-		if (weights.containsKey(property.getClass())) {
-			if (weights.get(property.getClass()).containsKey(id)) {
+		if (this.weights.containsKey(property.getClass())) {
+			if (this.weights.get(property.getClass()).containsKey(id)) {
 				return true;
 			}
 		}
@@ -31,19 +29,19 @@ public class StoredVectors {
 	}
 
 	public double[] get(Property property, String id) {
-		if (weights.containsKey(property.getClass())) {
-			if (weights.get(property.getClass()).containsKey(id)) {
-				return weights.get(property.getClass()).get(id);
+		if (this.weights.containsKey(property.getClass())) {
+			if (this.weights.get(property.getClass()).containsKey(id)) {
+				return this.weights.get(property.getClass()).get(id);
 			}
 		}
 		return null;
 	}
 
 	public void put(Property property, String id, double[] weightCollection) {
-		if (!weights.containsKey(property.getClass())) {
-			weights.put(property.getClass(), new HashMap<String, double[]>());
+		if (!this.weights.containsKey(property.getClass())) {
+			this.weights.put(property.getClass(), new ConcurrentHashMap<String, double[]>());
 		}
-		weights.get(property.getClass()).put(id, weightCollection);
+		this.weights.get(property.getClass()).put(id, weightCollection);
 	}
 
 }

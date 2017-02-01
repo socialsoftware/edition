@@ -26,7 +26,11 @@ import pt.ist.socialsoftware.edition.domain.Role;
 import pt.ist.socialsoftware.edition.domain.Role.RoleType;
 import pt.ist.socialsoftware.edition.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.recommendation.VSMFragmentRecommender;
+import pt.ist.socialsoftware.edition.recommendation.properties.DateProperty;
+import pt.ist.socialsoftware.edition.recommendation.properties.HeteronymProperty;
 import pt.ist.socialsoftware.edition.recommendation.properties.Property;
+import pt.ist.socialsoftware.edition.recommendation.properties.Property.PropertyCache;
+import pt.ist.socialsoftware.edition.recommendation.properties.TaxonomyProperty;
 import pt.ist.socialsoftware.edition.recommendation.properties.TextProperty;
 import pt.ist.socialsoftware.edition.search.Indexer;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDException;
@@ -60,7 +64,7 @@ public class Bootstrap implements WebApplicationInitializer {
 			createVirtualEditionsForTest();
 			createLdoDArchiveVirtualEdition();
 		} else {
-			// loadRecommendationCache();
+			loadRecommendationCache();
 		}
 	}
 
@@ -264,19 +268,22 @@ public class Bootstrap implements WebApplicationInitializer {
 
 	@Atomic(mode = TxMode.WRITE)
 	public static void loadRecommendationCache() {
+		LdoD ldod = LdoD.getInstance();
+
 		Set<Fragment> fragments = LdoD.getInstance().getFragmentsSet();
 
 		if (fragments.size() > 500) {
 			List<Property> properties = new ArrayList<>();
 			properties.add(new TextProperty(1.0));
+			properties.add(new HeteronymProperty(1.0));
+			properties.add(new DateProperty(1.0));
+			properties.add(
+					new TaxonomyProperty(1.0, LdoD.getInstance().getArchiveEdition().getTaxonomy(), PropertyCache.ON));
 
 			VSMFragmentRecommender recommender = new VSMFragmentRecommender();
 			for (Fragment fragment : fragments) {
 				recommender.getMostSimilarItem(fragment, fragments, properties);
 			}
-
-			Indexer indexer = Indexer.getIndexer();
-			indexer.cleanTermsTFIDFCache();
 		}
 	}
 
