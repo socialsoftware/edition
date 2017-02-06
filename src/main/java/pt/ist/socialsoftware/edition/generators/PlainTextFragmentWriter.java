@@ -1,4 +1,4 @@
-package pt.ist.socialsoftware.edition.visitors;
+package pt.ist.socialsoftware.edition.generators;
 
 import pt.ist.socialsoftware.edition.domain.AddText;
 import pt.ist.socialsoftware.edition.domain.AltText;

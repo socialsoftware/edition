@@ -15,6 +15,8 @@ import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
+import pt.ist.socialsoftware.edition.utils.PropertiesManager;
+
 @Configuration
 @EnableWebMvc
 public class MvcConfig extends WebMvcConfigurerAdapter {
@@ -28,7 +30,8 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
 
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		registry.addResourceHandler("/facs/**").addResourceLocations("file:/opt/ldod/");
+		String facsimilesDir = PropertiesManager.getProperties().getProperty("facsimiles.dir");
+		registry.addResourceHandler("/facs/**").addResourceLocations("file:" + facsimilesDir);
 	}
 
 	@Override

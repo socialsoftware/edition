@@ -5,8 +5,8 @@ package pt.ist.socialsoftware.edition.services;
 
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.domain.FragInter;
+import pt.ist.socialsoftware.edition.generators.PlainHtmlWriter4OneInter;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDException;
-import pt.ist.socialsoftware.edition.visitors.PlainHtmlWriter4OneInter;
 
 /**
  * Given an interpretation and a fragment provides a plain transcription for the

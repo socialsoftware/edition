@@ -9,7 +9,7 @@
 
 	<div class="container">
 		<div class="row">
-			<div class="col-md-4">
+			<div class="col-md-3">
 				<h4>
 					<spring:message code="corpus.load.title" />
 				</h4>
@@ -19,6 +19,7 @@
 					<div class="form-group">
 						<input type="file" name="file">
 					</div>
+					<br> <br>
 					<div class="form-group">
 						<button type="submit" class="btn btn-primary btn-sm">
 							<spring:message code="general.submit" />
@@ -26,7 +27,25 @@
 					</div>
 				</form>
 			</div>
-			<div class="col-md-4">
+			<div class="col-md-3">
+				<h4>
+					Carregar Utilizadores
+				</h4>
+				<form class="form-inline" method="POST"
+					action="${contextPath}/admin/load/users"
+					enctype="multipart/form-data">
+					<div class="form-group">
+						<input type="file" name="file">
+					</div>
+					<br> <br>
+					<div class="form-group">
+						<button type="submit" class="btn btn-primary btn-sm">
+							<spring:message code="general.submit" />
+						</button>
+					</div>
+				</form>
+			</div>
+			<div class="col-md-3">
 				<h4>
 					<spring:message code="fragment.load.title" />
 				</h4>
@@ -36,6 +55,7 @@
 					<div class="form-group">
 						<input type="file" name="file">
 					</div>
+					<br> <br>
 					<div class="form-group">
 						<button type="submit" class="btn btn-primary btn-sm">
 							<spring:message code="general.submit" />
@@ -43,7 +63,7 @@
 					</div>
 				</form>
 			</div>
-			<div class="col-md-4">
+			<div class="col-md-3">
 				<h4>
 					<spring:message code="fragment.load.titleAll" />
 				</h4>
@@ -53,6 +73,7 @@
 					<div class="form-group">
 						<input type="file" multiple name="files">
 					</div>
+					<br> <br>
 					<div class="form-group">
 						<button type="submit" class="btn btn-primary btn-sm">
 							<spring:message code="general.submit" />

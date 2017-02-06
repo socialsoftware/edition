@@ -2,7 +2,9 @@ package pt.ist.socialsoftware.edition.controller;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -36,13 +38,16 @@ import pt.ist.socialsoftware.edition.domain.LdoD;
 import pt.ist.socialsoftware.edition.domain.LdoDUser;
 import pt.ist.socialsoftware.edition.domain.Role;
 import pt.ist.socialsoftware.edition.domain.Role.RoleType;
+import pt.ist.socialsoftware.edition.export.ExpertEditionTEIExport;
+import pt.ist.socialsoftware.edition.export.UsersXMLExport;
 import pt.ist.socialsoftware.edition.forms.EditUserForm;
 import pt.ist.socialsoftware.edition.loaders.LoadTEICorpus;
 import pt.ist.socialsoftware.edition.loaders.LoadTEIFragments;
+import pt.ist.socialsoftware.edition.loaders.UsersXMLImport;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDException;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDLoadException;
+import pt.ist.socialsoftware.edition.utils.PropertiesManager;
 import pt.ist.socialsoftware.edition.validator.EditUserValidator;
-import pt.ist.socialsoftware.edition.visitors.JDomTEIGenerator;
 
 @Controller
 @RequestMapping("/admin")
@@ -230,7 +235,7 @@ public class AdminController {
 
 		LdoDUser user = LdoD.getInstance().getUser(form.getOldUsername());
 
-		user.update(passwordEncoder, form.getOldUsername(), form.getNewUsername(), form.getFirstName(),
+		user.update(this.passwordEncoder, form.getOldUsername(), form.getNewUsername(), form.getFirstName(),
 				form.getLastName(), form.getEmail(), form.getNewPassword(), form.isUser(), form.isAdmin());
 
 		return "redirect:/admin/user/list";
@@ -266,7 +271,7 @@ public class AdminController {
 
 		LdoD ldoD = LdoD.getInstance();
 
-		List<String> frags = new ArrayList<String>();
+		List<String> frags = new ArrayList<>();
 		int n = 0;
 
 		if (query.compareTo("") != 0) {
@@ -291,11 +296,11 @@ public class AdminController {
 
 		LdoD ldoD = LdoD.getInstance();
 
-		Map<Fragment, Set<FragInter>> searchResult = new HashMap<Fragment, Set<FragInter>>();
+		Map<Fragment, Set<FragInter>> searchResult = new HashMap<>();
 
 		for (Fragment frag : ldoD.getFragmentsSet()) {
 			if (frag.getTitle().contains(query)) {
-				Set<FragInter> inters = new HashSet<FragInter>();
+				Set<FragInter> inters = new HashSet<>();
 				for (FragInter inter : frag.getFragmentInterSet()) {
 					if (inter.getSourceType() != EditionType.VIRTUAL) {
 						inters.add(inter);
@@ -305,7 +310,7 @@ public class AdminController {
 			}
 		}
 
-		JDomTEIGenerator teiGenerator = new JDomTEIGenerator();
+		ExpertEditionTEIExport teiGenerator = new ExpertEditionTEIExport();
 		teiGenerator.generate(searchResult);
 
 		try {
@@ -326,10 +331,10 @@ public class AdminController {
 
 		LdoD ldoD = LdoD.getInstance();
 
-		Map<Fragment, Set<FragInter>> searchResult = new HashMap<Fragment, Set<FragInter>>();
+		Map<Fragment, Set<FragInter>> searchResult = new HashMap<>();
 
 		for (Fragment frag : ldoD.getFragmentsSet()) {
-			Set<FragInter> inters = new HashSet<FragInter>();
+			Set<FragInter> inters = new HashSet<>();
 
 			for (FragInter inter : frag.getFragmentInterSet()) {
 				if (inter.getSourceType() != EditionType.VIRTUAL) {
@@ -340,7 +345,7 @@ public class AdminController {
 			searchResult.put(frag, inters);
 		}
 
-		JDomTEIGenerator teiGenerator = new JDomTEIGenerator();
+		ExpertEditionTEIExport teiGenerator = new ExpertEditionTEIExport();
 		teiGenerator.generate(searchResult);
 
 		try {
@@ -361,11 +366,11 @@ public class AdminController {
 
 		LdoD ldoD = LdoD.getInstance();
 
-		Map<Fragment, Set<FragInter>> searchResult = new HashMap<Fragment, Set<FragInter>>();
+		Map<Fragment, Set<FragInter>> searchResult = new HashMap<>();
 
-		List<Fragment> fragments = new ArrayList<Fragment>(LdoD.getInstance().getFragmentsSet());
+		List<Fragment> fragments = new ArrayList<>(LdoD.getInstance().getFragmentsSet());
 
-		List<String> fragsRandom = new ArrayList<String>();
+		List<String> fragsRandom = new ArrayList<>();
 
 		int size = fragments.size();
 
@@ -378,7 +383,7 @@ public class AdminController {
 
 			fragsRandom.add("<a href=\"/fragments/fragment/" + frag.getExternalId() + "\">" + frag.getTitle() + "</a>");
 
-			Set<FragInter> inters = new HashSet<FragInter>();
+			Set<FragInter> inters = new HashSet<>();
 			for (FragInter inter : frag.getFragmentInterSet()) {
 				if (inter.getSourceType() != EditionType.VIRTUAL) {
 
@@ -388,7 +393,7 @@ public class AdminController {
 			searchResult.put(frag, inters);
 		}
 
-		JDomTEIGenerator teiGenerator = new JDomTEIGenerator();
+		ExpertEditionTEIExport teiGenerator = new ExpertEditionTEIExport();
 		teiGenerator.generate(searchResult);
 
 		try {
@@ -402,6 +407,49 @@ public class AdminController {
 			System.out.println("Error writing file to output stream. Filename was '{}'");
 			throw new RuntimeException("IOError writing file to output stream");
 		}
+	}
+
+	@RequestMapping(method = RequestMethod.GET, value = "/export/users")
+	public void exportUsers(HttpServletResponse response) {
+		UsersXMLExport generator = new UsersXMLExport();
+
+		try {
+			String exportDir = PropertiesManager.getProperties().getProperty("export.dir");
+			String timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
+			// get your file as InputStream
+			InputStream is = IOUtils.toInputStream(generator.export(), "UTF-8");
+			response.setHeader("Content-Disposition", "attachment; filename=users-" + timeStamp + ".xml");
+			response.setContentType("application/xml");
+			IOUtils.copy(is, response.getOutputStream());
+			response.flushBuffer();
+		} catch (IOException ex) {
+			System.out.println("Error writing file to output stream. Filename was '{}'");
+			throw new RuntimeException("IOError writing file to output stream");
+		}
+	}
+
+	@RequestMapping(method = RequestMethod.POST, value = "/load/users")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	public String loadUsersXML(RedirectAttributes redirectAttributes, @RequestParam("file") MultipartFile file)
+			throws LdoDLoadException {
+		if (file == null) {
+			redirectAttributes.addFlashAttribute("error", true);
+			redirectAttributes.addFlashAttribute("message", "Deve escolher um ficheiro");
+			return "redirect:/admin/loadForm";
+		}
+
+		UsersXMLImport loader = new UsersXMLImport();
+		try {
+			loader.importUsers(file.getInputStream());
+		} catch (IOException e) {
+			redirectAttributes.addFlashAttribute("error", true);
+			redirectAttributes.addFlashAttribute("message", "Problemas com o ficheiro, tipo ou formato");
+			return "redirect:/admin/loadForm";
+		}
+
+		redirectAttributes.addFlashAttribute("error", false);
+		redirectAttributes.addFlashAttribute("message", "Utilizadores Carregados");
+		return "redirect:/admin/loadForm";
 	}
 
 }

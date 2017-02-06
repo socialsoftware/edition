@@ -3,7 +3,7 @@ package pt.ist.socialsoftware.edition.domain;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import pt.ist.socialsoftware.edition.visitors.TextPortionVisitor;
+import pt.ist.socialsoftware.edition.generators.TextPortionVisitor;
 
 /**
  * Contains the simple text, no line or pages breaks, spaces, formating, etc

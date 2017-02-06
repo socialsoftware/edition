@@ -7,8 +7,8 @@ import java.io.IOException;
 
 import pt.ist.socialsoftware.edition.domain.Fragment;
 import pt.ist.socialsoftware.edition.domain.SourceInter;
+import pt.ist.socialsoftware.edition.generators.PlainTextFragmentWriter;
 import pt.ist.socialsoftware.edition.utils.PropertiesManager;
-import pt.ist.socialsoftware.edition.visitors.PlainTextFragmentWriter;
 
 public class CorpusGenerator {
 

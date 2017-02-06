@@ -43,9 +43,9 @@ import org.slf4j.LoggerFactory;
 import pt.ist.socialsoftware.edition.domain.FragInter;
 import pt.ist.socialsoftware.edition.domain.Fragment;
 import pt.ist.socialsoftware.edition.domain.SourceInter;
+import pt.ist.socialsoftware.edition.generators.PlainTextFragmentWriter;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDException;
 import pt.ist.socialsoftware.edition.utils.PropertiesManager;
-import pt.ist.socialsoftware.edition.visitors.PlainTextFragmentWriter;
 
 public class Indexer {
 	private static Logger logger = LoggerFactory.getLogger(Indexer.class);
@@ -308,7 +308,10 @@ public class Indexer {
 			terms.add(list.get(i).getKey());
 		}
 		return terms;
+	}
 
+	public static void clearTermsTFIDFCache() {
+		termsTFIDFCache.clear();
 	}
 
 }

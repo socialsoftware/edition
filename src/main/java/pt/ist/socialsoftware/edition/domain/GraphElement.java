@@ -3,7 +3,7 @@
  */
 package pt.ist.socialsoftware.edition.domain;
 
-import pt.ist.socialsoftware.edition.visitors.TextPortionVisitor;
+import pt.ist.socialsoftware.edition.generators.TextPortionVisitor;
 
 /**
  * An interface for the text graph elements: Reading, VariationPoint and LdoText

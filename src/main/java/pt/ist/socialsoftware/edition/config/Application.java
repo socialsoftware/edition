@@ -11,6 +11,7 @@ import org.springframework.boot.context.web.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
 import org.springframework.social.connect.web.SignInAdapter;
 
@@ -20,6 +21,7 @@ import pt.ist.socialsoftware.edition.utils.Bootstrap;
 @PropertySource({ "classpath:application.properties", "classpath:secrete.properties" })
 @ComponentScan(basePackages = "pt.ist.socialsoftware.edition")
 @SpringBootApplication
+@EnableScheduling
 @EnableAutoConfiguration(exclude = { SocialWebAutoConfiguration.class, DataSourceAutoConfiguration.class })
 public class Application extends SpringBootServletInitializer implements InitializingBean {
 

@@ -268,8 +268,6 @@ public class Bootstrap implements WebApplicationInitializer {
 
 	@Atomic(mode = TxMode.WRITE)
 	public static void loadRecommendationCache() {
-		LdoD ldod = LdoD.getInstance();
-
 		Set<Fragment> fragments = LdoD.getInstance().getFragmentsSet();
 
 		if (fragments.size() > 500) {
@@ -285,6 +283,8 @@ public class Bootstrap implements WebApplicationInitializer {
 				recommender.getMostSimilarItem(fragment, fragments, properties);
 			}
 		}
+
+		Indexer.clearTermsTFIDFCache();
 	}
 
 }

@@ -2,7 +2,7 @@ package pt.ist.socialsoftware.edition.domain;
 
 import java.util.Set;
 
-import pt.ist.socialsoftware.edition.visitors.TextPortionVisitor;
+import pt.ist.socialsoftware.edition.generators.TextPortionVisitor;
 
 public class PbText extends PbText_Base {
 

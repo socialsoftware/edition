@@ -6,7 +6,7 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import pt.ist.socialsoftware.edition.visitors.TextPortionVisitor;
+import pt.ist.socialsoftware.edition.generators.TextPortionVisitor;
 
 public abstract class TextPortion extends TextPortion_Base implements GraphElement {
 	private static Logger logger = LoggerFactory.getLogger(TextPortion.class);

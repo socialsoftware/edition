@@ -8,9 +8,24 @@
     <%@ include file="/WEB-INF/jsp/common/fixed-top-ldod-header.jsp"%>
 	
     <div class="container">
-        <h1 class="text-center">
-         EXPORTAR ARQUIVO
-        </h1>
+    <h2>EXPORTAR</h2>
+        <h3 class="text-center">
+         Exportar Utilizadores
+        </h3>
+        <hr>
+        <div class="row">
+            <form class="form-inline" method="GET"
+                action="${contextPath}/admin/export/users">
+                <button type="submit" class="btn btn-primary">
+                    <span class="glyphicon glyphicon-export"></span>
+                    Exportar utilizadores
+                </button>
+                <br><br>
+            </form>
+        </div>
+        <h3 class="text-center">
+         Exportar Fragmentos
+        </h3>
         <hr>
         <div class="row">
             <form class="form-inline" method="GET"
