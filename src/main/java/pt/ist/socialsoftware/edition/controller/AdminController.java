@@ -46,7 +46,6 @@ import pt.ist.socialsoftware.edition.loaders.LoadTEIFragments;
 import pt.ist.socialsoftware.edition.loaders.UsersXMLImport;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDException;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDLoadException;
-import pt.ist.socialsoftware.edition.utils.PropertiesManager;
 import pt.ist.socialsoftware.edition.validator.EditUserValidator;
 
 @Controller
@@ -414,7 +413,6 @@ public class AdminController {
 		UsersXMLExport generator = new UsersXMLExport();
 
 		try {
-			String exportDir = PropertiesManager.getProperties().getProperty("export.dir");
 			String timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
 			// get your file as InputStream
 			InputStream is = IOUtils.toInputStream(generator.export(), "UTF-8");
