@@ -1,6 +1,8 @@
 package pt.ist.socialsoftware.edition.controller;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -40,7 +42,6 @@ import pt.ist.socialsoftware.edition.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.domain.VirtualEditionInter;
 import pt.ist.socialsoftware.edition.dto.EditionTranscriptionsDTO;
 import pt.ist.socialsoftware.edition.dto.TranscriptionDTO;
-import pt.ist.socialsoftware.edition.generators.PlainTextFragmentWriter;
 import pt.ist.socialsoftware.edition.security.LdoDUserDetails;
 import pt.ist.socialsoftware.edition.session.LdoDSession;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDCreateVirtualEditionException;
@@ -50,6 +51,7 @@ import pt.ist.socialsoftware.edition.shared.exception.LdoDEditVirtualEditionExce
 import pt.ist.socialsoftware.edition.shared.exception.LdoDException;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDExceptionNonAuthorized;
 import pt.ist.socialsoftware.edition.topicmodeling.TopicModeler;
+import pt.ist.socialsoftware.edition.utils.PropertiesManager;
 import pt.ist.socialsoftware.edition.utils.TopicListDTO;
 import pt.ist.socialsoftware.edition.validator.VirtualEditionValidator;
 
@@ -266,15 +268,24 @@ public class VirtualEditionController {
 		if (virtualEdition == null) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		} else {
-
+			String intersFilesPath = PropertiesManager.getProperties().getProperty("inters.dir");
 			List<TranscriptionDTO> transcriptions = new ArrayList<>();
 
 			for (FragInter inter : virtualEdition.getIntersSet()) {
 				FragInter lastInter = inter.getLastUsed();
-				PlainTextFragmentWriter writer = new PlainTextFragmentWriter(lastInter);
-				writer.write();
+				// PlainTextFragmentWriter writer = new
+				// PlainTextFragmentWriter(lastInter);
+				// writer.write();
 				String title = lastInter.getTitle();
-				String text = writer.getTranscription();
+				// String text = writer.getTranscription();
+				String text;
+				try {
+					text = new String(
+							Files.readAllBytes(Paths.get(intersFilesPath + lastInter.getExternalId() + ".txt")));
+				} catch (IOException e) {
+					throw new LdoDException("VirtualEditionController::getTranscriptions IOException");
+				}
+
 				transcriptions.add(new TranscriptionDTO(title, text));
 			}
 
