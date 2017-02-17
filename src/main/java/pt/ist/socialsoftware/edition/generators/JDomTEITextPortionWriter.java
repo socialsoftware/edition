@@ -9,12 +9,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import pt.ist.socialsoftware.edition.domain.AddText;
-import pt.ist.socialsoftware.edition.domain.AddText.Place;
 import pt.ist.socialsoftware.edition.domain.AltText;
 import pt.ist.socialsoftware.edition.domain.AltTextWeight;
 import pt.ist.socialsoftware.edition.domain.AppText;
 import pt.ist.socialsoftware.edition.domain.DelText;
-import pt.ist.socialsoftware.edition.domain.DelText.HowDel;
 import pt.ist.socialsoftware.edition.domain.FragInter;
 import pt.ist.socialsoftware.edition.domain.GapText;
 import pt.ist.socialsoftware.edition.domain.LbText;
@@ -30,6 +28,8 @@ import pt.ist.socialsoftware.edition.domain.SimpleText;
 import pt.ist.socialsoftware.edition.domain.SpaceText;
 import pt.ist.socialsoftware.edition.domain.SubstText;
 import pt.ist.socialsoftware.edition.domain.UnclearText;
+import pt.ist.socialsoftware.edition.domain.AddText.Place;
+import pt.ist.socialsoftware.edition.domain.DelText.HowDel;
 
 public class JDomTEITextPortionWriter implements TextPortionVisitor {
 	private final static Logger logger = LoggerFactory.getLogger(JDomTEITextPortionWriter.class);

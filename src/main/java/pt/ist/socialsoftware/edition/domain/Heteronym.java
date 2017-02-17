@@ -1,5 +1,7 @@
 package pt.ist.socialsoftware.edition.domain;
 
+import pt.ist.socialsoftware.edition.domain.Heteronym_Base;
+
 public class Heteronym extends Heteronym_Base implements Comparable<Heteronym> {
 
 	public Heteronym() {

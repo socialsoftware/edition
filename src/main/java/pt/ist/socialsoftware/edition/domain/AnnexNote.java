@@ -1,5 +1,7 @@
 package pt.ist.socialsoftware.edition.domain;
 
+import pt.ist.socialsoftware.edition.domain.AnnexNote_Base;
+
 public class AnnexNote extends AnnexNote_Base implements Comparable<AnnexNote> {
 
 	public AnnexNote(FragInter inter, NoteText noteText) {

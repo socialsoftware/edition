@@ -1,5 +1,6 @@
 package pt.ist.socialsoftware.edition.domain;
 
+import pt.ist.socialsoftware.edition.domain.SpaceText_Base;
 import pt.ist.socialsoftware.edition.generators.TextPortionVisitor;
 
 public class SpaceText extends SpaceText_Base {

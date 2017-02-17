@@ -20,14 +20,14 @@ import pt.ist.socialsoftware.edition.domain.RdgGrpText;
 import pt.ist.socialsoftware.edition.domain.RdgText;
 import pt.ist.socialsoftware.edition.domain.RefText;
 import pt.ist.socialsoftware.edition.domain.Rend;
-import pt.ist.socialsoftware.edition.domain.Rend.Rendition;
 import pt.ist.socialsoftware.edition.domain.SegText;
 import pt.ist.socialsoftware.edition.domain.SimpleText;
 import pt.ist.socialsoftware.edition.domain.SourceInter;
 import pt.ist.socialsoftware.edition.domain.SpaceText;
-import pt.ist.socialsoftware.edition.domain.SpaceText.SpaceDim;
 import pt.ist.socialsoftware.edition.domain.SubstText;
 import pt.ist.socialsoftware.edition.domain.UnclearText;
+import pt.ist.socialsoftware.edition.domain.Rend.Rendition;
+import pt.ist.socialsoftware.edition.domain.SpaceText.SpaceDim;
 
 public class PlainHtmlWriter4OneInter implements TextPortionVisitor {
 	protected FragInter fragInter = null;

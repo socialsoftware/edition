@@ -8,6 +8,8 @@ import java.util.Set;
 
 import org.joda.time.LocalDate;
 
+import pt.ist.socialsoftware.edition.domain.ExpertEdition_Base;
+
 public class ExpertEdition extends ExpertEdition_Base implements Comparable<ExpertEdition> {
 	public ExpertEdition(LdoD ldoD, String title, String author, String editor, LocalDate date) {
 		setTitle(title);

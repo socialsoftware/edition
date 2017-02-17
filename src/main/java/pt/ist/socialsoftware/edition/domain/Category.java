@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
+import pt.ist.socialsoftware.edition.domain.Category_Base;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDDuplicateNameException;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDException;
 

@@ -3,6 +3,8 @@ package pt.ist.socialsoftware.edition.domain;
 import java.util.HashSet;
 import java.util.Set;
 
+import pt.ist.socialsoftware.edition.domain.NullEdition_Base;
+
 public class NullEdition extends NullEdition_Base {
 
 	@Override

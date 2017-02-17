@@ -9,6 +9,7 @@ import org.joda.time.Period;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
+import pt.ist.socialsoftware.edition.domain.RegistrationToken_Base;
 import pt.ist.socialsoftware.edition.utils.Emailer;
 import pt.ist.socialsoftware.edition.utils.PropertiesManager;
 

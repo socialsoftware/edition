@@ -1,5 +1,7 @@
 package pt.ist.socialsoftware.edition.domain;
 
+import pt.ist.socialsoftware.edition.domain.NullHeteronym_Base;
+
 public class NullHeteronym extends NullHeteronym_Base {
 
 	public static NullHeteronym getNullHeteronym() {

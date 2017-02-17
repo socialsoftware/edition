@@ -14,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.fenixframework.FenixFramework;
+import pt.ist.socialsoftware.edition.domain.LdoD_Base;
 import pt.ist.socialsoftware.edition.domain.LdoDUser.SocialMediaService;
 import pt.ist.socialsoftware.edition.domain.Role.RoleType;
 import pt.ist.socialsoftware.edition.session.LdoDSession;
@@ -47,7 +48,11 @@ public class LdoD extends LdoD_Base {
 			}
 		}
 
-		for (Edition edition : getVirtualEditionsSet()) {
+		return getVirtualEdition(acronym);
+	}
+
+	public VirtualEdition getVirtualEdition(String acronym) {
+		for (VirtualEdition edition : getVirtualEditionsSet()) {
 			if (edition.getAcronym().toUpperCase().equals(acronym.toUpperCase())) {
 				return edition;
 			}
@@ -67,17 +72,18 @@ public class LdoD extends LdoD_Base {
 
 	public Fragment getFragment(String target) {
 		for (Fragment fragment : getFragmentsSet()) {
-			if (fragment.getXmlId().equals(target))
+			if (fragment.getXmlId().equals(target)) {
 				return fragment;
+			}
 		}
 		return null;
 	}
 
 	public List<VirtualEdition> getVirtualEditions4User(LdoDUser user, LdoDSession session) {
-		List<VirtualEdition> manageVE = new ArrayList<VirtualEdition>();
-		List<VirtualEdition> selectedVE = new ArrayList<VirtualEdition>();
-		List<VirtualEdition> mineVE = new ArrayList<VirtualEdition>();
-		List<VirtualEdition> publicVE = new ArrayList<VirtualEdition>();
+		List<VirtualEdition> manageVE = new ArrayList<>();
+		List<VirtualEdition> selectedVE = new ArrayList<>();
+		List<VirtualEdition> mineVE = new ArrayList<>();
+		List<VirtualEdition> publicVE = new ArrayList<>();
 
 		session.synchronizeSession(user);
 

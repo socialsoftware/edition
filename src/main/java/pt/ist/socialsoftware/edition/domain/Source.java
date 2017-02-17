@@ -1,5 +1,7 @@
 package pt.ist.socialsoftware.edition.domain;
 
+import pt.ist.socialsoftware.edition.domain.Source_Base;
+
 public abstract class Source extends Source_Base implements Comparable<Source> {
 
 	public enum SourceType {

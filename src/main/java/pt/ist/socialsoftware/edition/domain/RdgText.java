@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import pt.ist.socialsoftware.edition.domain.RdgText_Base;
 import pt.ist.socialsoftware.edition.generators.TextPortionVisitor;
 
 public class RdgText extends RdgText_Base implements GraphElement {

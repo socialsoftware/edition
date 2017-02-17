@@ -3,6 +3,8 @@ package pt.ist.socialsoftware.edition.domain;
 import java.util.ArrayList;
 import java.util.List;
 
+import pt.ist.socialsoftware.edition.domain.Facsimile_Base;
+
 public class Facsimile extends Facsimile_Base {
 
 	public Facsimile(Source source, String xmlID) {

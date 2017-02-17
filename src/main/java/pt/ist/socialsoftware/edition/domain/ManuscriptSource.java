@@ -3,6 +3,8 @@ package pt.ist.socialsoftware.edition.domain;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import pt.ist.socialsoftware.edition.domain.ManuscriptSource_Base;
+
 public class ManuscriptSource extends ManuscriptSource_Base {
 
 	public enum Form {

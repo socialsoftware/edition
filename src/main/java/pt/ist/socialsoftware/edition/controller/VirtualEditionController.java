@@ -11,6 +11,8 @@ import java.util.stream.Collectors;
 import org.joda.time.LocalDate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -22,6 +24,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -35,6 +38,9 @@ import pt.ist.socialsoftware.edition.domain.Member.MemberRole;
 import pt.ist.socialsoftware.edition.domain.Taxonomy;
 import pt.ist.socialsoftware.edition.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.domain.VirtualEditionInter;
+import pt.ist.socialsoftware.edition.dto.EditionTranscriptionsDTO;
+import pt.ist.socialsoftware.edition.dto.TranscriptionDTO;
+import pt.ist.socialsoftware.edition.generators.PlainTextFragmentWriter;
 import pt.ist.socialsoftware.edition.security.LdoDUserDetails;
 import pt.ist.socialsoftware.edition.session.LdoDSession;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDCreateVirtualEditionException;
@@ -247,6 +253,33 @@ public class VirtualEditionController {
 		ldoDSession.toggleSelectedVirtualEdition(user, virtualEdition);
 
 		return "redirect:/virtualeditions";
+	}
+
+	@RequestMapping(method = RequestMethod.GET, value = "/restricted/acronym/{acronym}/transcriptions")
+	@PreAuthorize("hasPermission(#acronym, 'editionacronym.public')")
+	public @ResponseBody ResponseEntity<EditionTranscriptionsDTO> getTranscriptions(Model model,
+			@PathVariable String acronym) {
+		logger.debug("getTranscriptions acronym:{}", acronym);
+
+		VirtualEdition virtualEdition = LdoD.getInstance().getVirtualEdition(acronym);
+
+		if (virtualEdition == null) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		} else {
+
+			List<TranscriptionDTO> transcriptions = new ArrayList<>();
+
+			for (FragInter inter : virtualEdition.getIntersSet()) {
+				FragInter lastInter = inter.getLastUsed();
+				PlainTextFragmentWriter writer = new PlainTextFragmentWriter(lastInter);
+				writer.write();
+				String title = lastInter.getTitle();
+				String text = writer.getTranscription();
+				transcriptions.add(new TranscriptionDTO(title, text));
+			}
+
+			return new ResponseEntity<>(new EditionTranscriptionsDTO(transcriptions), HttpStatus.OK);
+		}
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/restricted/{externalId}/participants")

@@ -18,6 +18,7 @@ import org.slf4j.LoggerFactory;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.fenixframework.FenixFramework;
+import pt.ist.socialsoftware.edition.domain.VirtualEdition_Base;
 import pt.ist.socialsoftware.edition.domain.Member.MemberRole;
 import pt.ist.socialsoftware.edition.recommendation.VSMVirtualEditionInterRecommender;
 import pt.ist.socialsoftware.edition.recommendation.properties.Property;

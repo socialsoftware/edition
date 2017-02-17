@@ -23,13 +23,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import pt.ist.fenixframework.FenixFramework;
-import pt.ist.socialsoftware.edition.domain.Edition.EditionType;
 import pt.ist.socialsoftware.edition.domain.LdoD;
 import pt.ist.socialsoftware.edition.domain.LdoDUser;
 import pt.ist.socialsoftware.edition.domain.RecommendationWeights;
 import pt.ist.socialsoftware.edition.domain.Section;
 import pt.ist.socialsoftware.edition.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.domain.VirtualEditionInter;
+import pt.ist.socialsoftware.edition.domain.Edition.EditionType;
 import pt.ist.socialsoftware.edition.recommendation.Cluster;
 import pt.ist.socialsoftware.edition.recommendation.VSMVirtualEditionInterRecommender;
 import pt.ist.socialsoftware.edition.recommendation.dto.PropertyWithLevel;

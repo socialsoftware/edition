@@ -2,6 +2,8 @@ package pt.ist.socialsoftware.edition.domain;
 
 import org.springframework.dao.DuplicateKeyException;
 
+import pt.ist.socialsoftware.edition.domain.UserConnection_Base;
+
 public class UserConnection extends UserConnection_Base {
 
 	public UserConnection(LdoD ldod, String userId, String providerId, String providerUserId, int rank,

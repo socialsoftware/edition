@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.fenixframework.FenixFramework;
+import pt.ist.socialsoftware.edition.domain.Taxonomy_Base;
 import pt.ist.socialsoftware.edition.utils.TopicDTO;
 import pt.ist.socialsoftware.edition.utils.TopicInterPercentageDTO;
 import pt.ist.socialsoftware.edition.utils.TopicListDTO;

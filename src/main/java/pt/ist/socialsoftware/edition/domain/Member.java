@@ -2,6 +2,8 @@ package pt.ist.socialsoftware.edition.domain;
 
 import org.joda.time.LocalDate;
 
+import pt.ist.socialsoftware.edition.domain.Member_Base;
+
 public class Member extends Member_Base {
 
 	public enum MemberRole {

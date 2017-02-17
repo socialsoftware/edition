@@ -1,5 +1,7 @@
 package pt.ist.socialsoftware.edition.domain;
 
+import pt.ist.socialsoftware.edition.domain.Rend_Base;
+
 public class Rend extends Rend_Base {
 
 	public enum Rendition {

@@ -7,8 +7,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import pt.ist.socialsoftware.edition.domain.FragInter;
 import pt.ist.socialsoftware.edition.domain.ManuscriptSource;
-import pt.ist.socialsoftware.edition.domain.Source.SourceType;
 import pt.ist.socialsoftware.edition.domain.SourceInter;
+import pt.ist.socialsoftware.edition.domain.Source.SourceType;
 
 public abstract class AuthoralSearchOption extends SearchOption {
 

@@ -8,6 +8,7 @@ import java.util.Set;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
+import pt.ist.socialsoftware.edition.domain.Fragment_Base;
 import pt.ist.socialsoftware.edition.domain.Edition.EditionType;
 
 public class Fragment extends Fragment_Base implements Comparable<Fragment> {

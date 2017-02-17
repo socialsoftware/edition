@@ -3,6 +3,7 @@ package pt.ist.socialsoftware.edition.domain;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import pt.ist.socialsoftware.edition.domain.SimpleText_Base;
 import pt.ist.socialsoftware.edition.generators.TextPortionVisitor;
 
 /**

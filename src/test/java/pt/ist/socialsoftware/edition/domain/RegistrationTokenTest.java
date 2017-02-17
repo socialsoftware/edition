@@ -5,6 +5,10 @@ import static org.junit.Assert.assertEquals;
 import org.joda.time.DateTime;
 import org.junit.Test;
 
+import pt.ist.socialsoftware.edition.domain.LdoD;
+import pt.ist.socialsoftware.edition.domain.LdoDUser;
+import pt.ist.socialsoftware.edition.domain.RegistrationToken;
+
 public class RegistrationTokenTest extends RollbackCaseTest {
 
 	LdoD ldoD;

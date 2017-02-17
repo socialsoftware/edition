@@ -1,5 +1,6 @@
 package pt.ist.socialsoftware.edition.domain;
 
+import pt.ist.socialsoftware.edition.domain.SegText_Base;
 import pt.ist.socialsoftware.edition.generators.TextPortionVisitor;
 
 public class SegText extends SegText_Base {

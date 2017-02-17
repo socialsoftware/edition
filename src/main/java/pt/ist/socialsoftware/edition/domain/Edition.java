@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import pt.ist.socialsoftware.edition.domain.Edition_Base;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDDuplicateAcronymException;
 
 public abstract class Edition extends Edition_Base {

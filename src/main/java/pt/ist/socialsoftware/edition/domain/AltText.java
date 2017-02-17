@@ -2,6 +2,7 @@ package pt.ist.socialsoftware.edition.domain;
 
 import java.util.List;
 
+import pt.ist.socialsoftware.edition.domain.AltText_Base;
 import pt.ist.socialsoftware.edition.generators.TextPortionVisitor;
 
 public class AltText extends AltText_Base {

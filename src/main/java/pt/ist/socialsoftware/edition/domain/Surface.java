@@ -1,5 +1,7 @@
 package pt.ist.socialsoftware.edition.domain;
 
+import pt.ist.socialsoftware.edition.domain.Surface_Base;
+
 public class Surface extends Surface_Base {
 
 	public Surface(Facsimile facsimile, String graphic) {

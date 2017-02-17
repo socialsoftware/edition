@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import pt.ist.socialsoftware.edition.domain.AppText_Base;
 import pt.ist.socialsoftware.edition.generators.TextPortionVisitor;
 
 public class AppText extends AppText_Base {

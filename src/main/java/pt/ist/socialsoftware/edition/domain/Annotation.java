@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
+import pt.ist.socialsoftware.edition.domain.Annotation_Base;
 
 public class Annotation extends Annotation_Base {
 

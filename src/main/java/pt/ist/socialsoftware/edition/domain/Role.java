@@ -1,5 +1,7 @@
 package pt.ist.socialsoftware.edition.domain;
 
+import pt.ist.socialsoftware.edition.domain.Role_Base;
+
 public class Role extends Role_Base {
 
 	public enum RoleType {

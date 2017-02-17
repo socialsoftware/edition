@@ -28,8 +28,8 @@ import org.springframework.web.context.request.WebRequest;
 
 import pt.ist.socialsoftware.edition.domain.LdoD;
 import pt.ist.socialsoftware.edition.domain.LdoDUser;
-import pt.ist.socialsoftware.edition.domain.LdoDUser.SocialMediaService;
 import pt.ist.socialsoftware.edition.domain.RegistrationToken;
+import pt.ist.socialsoftware.edition.domain.LdoDUser.SocialMediaService;
 import pt.ist.socialsoftware.edition.forms.SignupForm;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDException;
 import pt.ist.socialsoftware.edition.utils.PropertiesManager;

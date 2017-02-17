@@ -8,12 +8,12 @@ import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import pt.ist.socialsoftware.edition.domain.Edition.EditionType;
 import pt.ist.socialsoftware.edition.domain.ExpertEditionInter;
 import pt.ist.socialsoftware.edition.domain.FragInter;
 import pt.ist.socialsoftware.edition.domain.LdoDDate;
 import pt.ist.socialsoftware.edition.domain.Source;
 import pt.ist.socialsoftware.edition.domain.SourceInter;
+import pt.ist.socialsoftware.edition.domain.Edition.EditionType;
 
 public final class DateSearchOption extends SearchOption {
 	private static Logger logger = LoggerFactory.getLogger(DateSearchOption.class);

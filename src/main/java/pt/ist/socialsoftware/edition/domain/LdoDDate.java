@@ -1,5 +1,6 @@
 package pt.ist.socialsoftware.edition.domain;
 
+import pt.ist.socialsoftware.edition.domain.LdoDDate_Base;
 import pt.ist.socialsoftware.edition.domain.Fragment.PrecisionType;
 import pt.ist.socialsoftware.edition.utils.DateUtils;
 

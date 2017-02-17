@@ -1,5 +1,7 @@
 package pt.ist.socialsoftware.edition.domain;
 
+import pt.ist.socialsoftware.edition.domain.AltTextWeight_Base;
+
 public class AltTextWeight extends AltTextWeight_Base {
 
 	public AltTextWeight() {

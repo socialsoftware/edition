@@ -8,6 +8,7 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import pt.ist.socialsoftware.edition.domain.FragInter_Base;
 import pt.ist.socialsoftware.edition.domain.Edition.EditionType;
 
 public abstract class FragInter extends FragInter_Base implements Comparable<FragInter> {
