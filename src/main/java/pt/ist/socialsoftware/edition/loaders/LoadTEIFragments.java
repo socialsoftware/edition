@@ -27,24 +27,32 @@ import org.jdom2.xpath.XPathFactory;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.socialsoftware.edition.domain.AddText;
+import pt.ist.socialsoftware.edition.domain.AddText.Place;
 import pt.ist.socialsoftware.edition.domain.AltText;
+import pt.ist.socialsoftware.edition.domain.AltText.AltMode;
 import pt.ist.socialsoftware.edition.domain.AnnexNote;
 import pt.ist.socialsoftware.edition.domain.AppText;
 import pt.ist.socialsoftware.edition.domain.DelText;
+import pt.ist.socialsoftware.edition.domain.DelText.HowDel;
 import pt.ist.socialsoftware.edition.domain.Dimensions;
 import pt.ist.socialsoftware.edition.domain.ExpertEdition;
 import pt.ist.socialsoftware.edition.domain.ExpertEditionInter;
 import pt.ist.socialsoftware.edition.domain.Facsimile;
 import pt.ist.socialsoftware.edition.domain.FragInter;
 import pt.ist.socialsoftware.edition.domain.Fragment;
+import pt.ist.socialsoftware.edition.domain.Fragment.PrecisionType;
 import pt.ist.socialsoftware.edition.domain.GapText;
+import pt.ist.socialsoftware.edition.domain.GapText.GapReason;
+import pt.ist.socialsoftware.edition.domain.GapText.GapUnit;
 import pt.ist.socialsoftware.edition.domain.HandNote;
 import pt.ist.socialsoftware.edition.domain.Heteronym;
 import pt.ist.socialsoftware.edition.domain.LbText;
 import pt.ist.socialsoftware.edition.domain.LdoD;
 import pt.ist.socialsoftware.edition.domain.LdoDDate;
 import pt.ist.socialsoftware.edition.domain.ManuscriptSource;
+import pt.ist.socialsoftware.edition.domain.ManuscriptSource.Medium;
 import pt.ist.socialsoftware.edition.domain.NoteText;
+import pt.ist.socialsoftware.edition.domain.NoteText.NoteType;
 import pt.ist.socialsoftware.edition.domain.NullHeteronym;
 import pt.ist.socialsoftware.edition.domain.ParagraphText;
 import pt.ist.socialsoftware.edition.domain.PbText;
@@ -53,32 +61,24 @@ import pt.ist.socialsoftware.edition.domain.PrintedSource;
 import pt.ist.socialsoftware.edition.domain.RdgGrpText;
 import pt.ist.socialsoftware.edition.domain.RdgText;
 import pt.ist.socialsoftware.edition.domain.RefText;
+import pt.ist.socialsoftware.edition.domain.RefText.RefType;
 import pt.ist.socialsoftware.edition.domain.Rend;
+import pt.ist.socialsoftware.edition.domain.Rend.Rendition;
 import pt.ist.socialsoftware.edition.domain.SegText;
 import pt.ist.socialsoftware.edition.domain.SimpleText;
 import pt.ist.socialsoftware.edition.domain.Source;
 import pt.ist.socialsoftware.edition.domain.SourceInter;
 import pt.ist.socialsoftware.edition.domain.SpaceText;
+import pt.ist.socialsoftware.edition.domain.SpaceText.SpaceDim;
+import pt.ist.socialsoftware.edition.domain.SpaceText.SpaceUnit;
 import pt.ist.socialsoftware.edition.domain.SubstText;
 import pt.ist.socialsoftware.edition.domain.Surface;
 import pt.ist.socialsoftware.edition.domain.TextPortion;
+import pt.ist.socialsoftware.edition.domain.TextPortion.VariationType;
 import pt.ist.socialsoftware.edition.domain.TypeNote;
 import pt.ist.socialsoftware.edition.domain.UnclearText;
-import pt.ist.socialsoftware.edition.domain.VirtualEdition;
-import pt.ist.socialsoftware.edition.domain.AddText.Place;
-import pt.ist.socialsoftware.edition.domain.AltText.AltMode;
-import pt.ist.socialsoftware.edition.domain.DelText.HowDel;
-import pt.ist.socialsoftware.edition.domain.Fragment.PrecisionType;
-import pt.ist.socialsoftware.edition.domain.GapText.GapReason;
-import pt.ist.socialsoftware.edition.domain.GapText.GapUnit;
-import pt.ist.socialsoftware.edition.domain.ManuscriptSource.Medium;
-import pt.ist.socialsoftware.edition.domain.NoteText.NoteType;
-import pt.ist.socialsoftware.edition.domain.RefText.RefType;
-import pt.ist.socialsoftware.edition.domain.Rend.Rendition;
-import pt.ist.socialsoftware.edition.domain.SpaceText.SpaceDim;
-import pt.ist.socialsoftware.edition.domain.SpaceText.SpaceUnit;
-import pt.ist.socialsoftware.edition.domain.TextPortion.VariationType;
 import pt.ist.socialsoftware.edition.domain.UnclearText.UnclearReason;
+import pt.ist.socialsoftware.edition.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.search.Indexer;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDException;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDLoadException;
@@ -99,17 +99,17 @@ public class LoadTEIFragments {
 
 	private void putObjectDirectIdMap(String xmlID, Object object) {
 
-		List<Object> list = directIdMap.get(xmlID);
+		List<Object> list = this.directIdMap.get(xmlID);
 		if (list == null) {
 			list = new ArrayList<>();
 		}
 		list.add(object);
 
-		directIdMap.put(xmlID, list);
+		this.directIdMap.put(xmlID, list);
 	}
 
 	private List<Object> getObjectDirectIdMap(String xmlID) {
-		List<Object> objects = directIdMap.get(xmlID);
+		List<Object> objects = this.directIdMap.get(xmlID);
 		return objects;
 	}
 
@@ -143,31 +143,31 @@ public class LoadTEIFragments {
 	private final Map<String, Set<Object>> inverseIdMap = new HashMap<>();
 
 	private Set<Object> getObjectInverseIdMap(String xmlID) {
-		if (inverseIdMap.get(xmlID) == null) {
+		if (this.inverseIdMap.get(xmlID) == null) {
 			return new HashSet<>();
 		} else {
-			Set<Object> objects = inverseIdMap.get(xmlID);
+			Set<Object> objects = this.inverseIdMap.get(xmlID);
 			return objects;
 		}
 	}
 
 	private void putObjectInverseIdMap(String xmlID, Object object) {
 
-		Set<Object> list = inverseIdMap.get(xmlID);
+		Set<Object> list = this.inverseIdMap.get(xmlID);
 		if (list == null) {
 			list = new HashSet<>();
 		}
 		list.add(object);
 
-		inverseIdMap.put(xmlID, list);
+		this.inverseIdMap.put(xmlID, list);
 	}
 
 	private void getCorpusXmlIds() {
-		for (ExpertEdition edition : ldoD.getExpertEditionsSet()) {
+		for (ExpertEdition edition : this.ldoD.getExpertEditionsSet()) {
 			putObjectDirectIdMap(edition.getXmlId(), edition);
 		}
 
-		for (Heteronym heteronym : ldoD.getHeteronymsSet()) {
+		for (Heteronym heteronym : this.ldoD.getHeteronymsSet()) {
 			putObjectDirectIdMap(heteronym.getXmlId(), heteronym);
 		}
 	}
@@ -179,7 +179,7 @@ public class LoadTEIFragments {
 		builder.setIgnoringElementContentWhitespace(true);
 		try {
 			// TODO: create a config variable for the xml file
-			doc = builder.build(file);
+			this.doc = builder.build(file);
 		} catch (FileNotFoundException e) {
 			throw new LdoDLoadException("Ficheiro não encontrado");
 		} catch (JDOMException e) {
@@ -188,13 +188,13 @@ public class LoadTEIFragments {
 			throw new LdoDLoadException("Problemas com o ficheiro, tipo ou formato: " + e.getStackTrace().toString());
 		}
 
-		if (doc == null) {
+		if (this.doc == null) {
 			LdoDLoadException ex = new LdoDLoadException("Ficheiro inexistente ou sem formato TEI");
 			throw ex;
 		}
 
-		ldoDTEI = doc.getRootElement();
-		namespace = ldoDTEI.getNamespace();
+		this.ldoDTEI = this.doc.getRootElement();
+		this.namespace = this.ldoDTEI.getNamespace();
 	}
 
 	@Atomic(mode = TxMode.WRITE)
@@ -203,19 +203,19 @@ public class LoadTEIFragments {
 
 		parseTEIFile(file);
 
-		ldoD = LdoD.getInstance();
+		this.ldoD = LdoD.getInstance();
 
 		getCorpusXmlIds();
 
-		XPathExpression<Element> xp = xpfac.compile("//def:TEI/def:teiHeader", Filters.element(), null,
-				Namespace.getNamespace("def", namespace.getURI()));
+		XPathExpression<Element> xp = this.xpfac.compile("//def:TEI/def:teiHeader", Filters.element(), null,
+				Namespace.getNamespace("def", this.namespace.getURI()));
 
-		for (Element element : xp.evaluate(doc)) {
+		for (Element element : xp.evaluate(this.doc)) {
 			String xmlId = getFragmentXmlId(element);
 			String title = getFragmentTitle(element);
 
 			Fragment oldFragment = null;
-			for (Fragment frag : ldoD.getFragmentsSet()) {
+			for (Fragment frag : this.ldoD.getFragmentsSet()) {
 				if (frag.getXmlId().equals(xmlId)) {
 					oldFragment = frag;
 					break;
@@ -244,11 +244,11 @@ public class LoadTEIFragments {
 
 		parseTEIFile(file);
 
-		XPathExpression<Element> xp = xpfac.compile("//def:TEI/def:teiHeader", Filters.element(), null,
-				Namespace.getNamespace("def", namespace.getURI()));
+		XPathExpression<Element> xp = this.xpfac.compile("//def:TEI/def:teiHeader", Filters.element(), null,
+				Namespace.getNamespace("def", this.namespace.getURI()));
 
-		for (Element element : xp.evaluate(doc)) {
-			ldoD = LdoD.getInstance();
+		for (Element element : xp.evaluate(this.doc)) {
+			this.ldoD = LdoD.getInstance();
 
 			String xmlId = getFragmentXmlId(element);
 			String title = getFragmentTitle(element);
@@ -256,7 +256,7 @@ public class LoadTEIFragments {
 			result = "CARREGAR: [" + xmlId + "(" + title + ")] <br>";
 
 			Boolean exists = false;
-			for (Fragment frag : ldoD.getFragmentsSet()) {
+			for (Fragment frag : this.ldoD.getFragmentsSet()) {
 				if (frag.getXmlId().equals(xmlId)) {
 					result = result + "------------> FRAG-ID JÁ EXISTE LOGO NÃO FOI CARREGADO <br>";
 					exists = true;
@@ -277,14 +277,14 @@ public class LoadTEIFragments {
 
 	@Atomic(mode = TxMode.WRITE)
 	private void atomicLoadFragment(String title, String xmlId) {
-		directIdMap.clear();
-		inverseIdMap.clear();
+		this.directIdMap.clear();
+		this.inverseIdMap.clear();
 		getCorpusXmlIds();
 		loadFragment(title, xmlId);
 	}
 
 	private void loadFragment(String title, String xmlId) {
-		Fragment fragment = new Fragment(ldoD, title, xmlId);
+		Fragment fragment = new Fragment(this.ldoD, title, xmlId);
 
 		putObjectDirectIdMap(xmlId, fragment);
 
@@ -302,7 +302,7 @@ public class LoadTEIFragments {
 		} catch (FileNotFoundException e1) {
 			throw new LdoDLoadException(
 					"LoadTEIFragments.loadFragment erro FileNotFoundException a gerar corpus do fragmento "
-							+ fragment.getXmlId());
+							+ fragment.getXmlId() + e1.getMessage());
 		} catch (IOException e1) {
 			throw new LdoDLoadException("LoadTEIFragments.loadFragment erro IOException a gerar corpus do fragmento "
 					+ fragment.getXmlId());
@@ -351,8 +351,8 @@ public class LoadTEIFragments {
 		String selectThisFragment = "[@xml:id='" + fragmentXmlID + "']";
 		String queryExpression = "//def:TEI" + selectThisFragment + "/def:text/def:body";
 
-		XPathExpression<Element> xp = xpfac.compile(queryExpression, Filters.element(), null,
-				Namespace.getNamespace("def", namespace.getURI()));
+		XPathExpression<Element> xp = this.xpfac.compile(queryExpression, Filters.element(), null,
+				Namespace.getNamespace("def", this.namespace.getURI()));
 
 		Set<FragInter> fragInters = fragment.getFragmentInterSet();
 
@@ -360,7 +360,7 @@ public class LoadTEIFragments {
 		app.setFragment(fragment);
 		RdgText rdg = new RdgText(app, VariationType.UNSPECIFIED, fragInters);
 
-		Element element = xp.evaluate(doc).get(0);
+		Element element = xp.evaluate(this.doc).get(0);
 
 		loadElement(element, rdg);
 	}
@@ -494,10 +494,11 @@ public class LoadTEIFragments {
 		List<SegText> segTextList = new ArrayList<>();
 		for (String xmlId : targetList) {
 			List<Object> listSegTextList = getObjectDirectIdMap(xmlId.substring(1));
-			if (listSegTextList == null)
+			if (listSegTextList == null) {
 				throw new LdoDLoadException(
 						"Não está declarado xml:id associado a um identicador target do elemento alt. Valor="
 								+ xmlId.substring(1));
+			}
 			SegText segText = (SegText) listSegTextList.get(0);
 			if (segText == null) {
 				throw new LdoDLoadException(
@@ -519,11 +520,13 @@ public class LoadTEIFragments {
 	private void loadUnclear(Element element, TextPortion parent) {
 		List<Content> contentList = element.getContent();
 
-		if (contentList.size() != 1)
+		if (contentList.size() != 1) {
 			throw new LdoDLoadException("unclear não contém apenas texto" + element.getText());
+		}
 
-		if (contentList.get(0).getCType() != CType.Text)
+		if (contentList.get(0).getCType() != CType.Text) {
 			throw new LdoDLoadException("unclear não contém apenas texto" + element.getText());
+		}
 
 		UnclearReason reason = getUnclearReasonAttribute(element);
 		if (reason == UnclearReason.NONSPECIFIED) {
@@ -669,11 +672,13 @@ public class LoadTEIFragments {
 	private void loadSeg(Element element, TextPortion parent) {
 		List<Content> contentList = element.getContent();
 
-		if (contentList.size() != 1)
+		if (contentList.size() != 1) {
 			throw new LdoDLoadException("seg não contém apenas texto" + element.getText());
+		}
 
-		if (contentList.get(0).getCType() != CType.Text)
+		if (contentList.get(0).getCType() != CType.Text) {
 			throw new LdoDLoadException("seg não contém apenas texto" + element.getText());
+		}
 
 		SegText segText = new SegText(parent);
 
@@ -714,8 +719,9 @@ public class LoadTEIFragments {
 
 		Attribute witAttribute = rdgElement.getAttribute("wit");
 
-		if (witAttribute == null)
+		if (witAttribute == null) {
 			throw new LdoDLoadException("elemento rdg necessita de atributo wit " + rdgElement.getText());
+		}
 
 		String witValue = rdgElement.getAttribute("wit").getValue().trim();
 
@@ -765,7 +771,7 @@ public class LoadTEIFragments {
 			}
 		}
 
-		PbText pbText = new PbText(parent, toFragInters, pbOrder++);
+		PbText pbText = new PbText(parent, toFragInters, this.pbOrder++);
 
 		Attribute facsAttribute = element.getAttribute("facs");
 		if (facsAttribute != null) {
@@ -845,17 +851,19 @@ public class LoadTEIFragments {
 		String selectThisFragment = "[@xml:id='" + fragmentTEIID + "']";
 		String queryExpression = "//def:TEI" + selectThisFragment + "/def:facsimile";
 
-		XPathExpression<Element> xp = xpfac.compile(queryExpression, Filters.element(), null,
-				Namespace.getNamespace("def", namespace.getURI()));
+		XPathExpression<Element> xp = this.xpfac.compile(queryExpression, Filters.element(), null,
+				Namespace.getNamespace("def", this.namespace.getURI()));
 
-		for (Element facsElement : xp.evaluate(doc)) {
+		for (Element facsElement : xp.evaluate(this.doc)) {
 			String xmlID = facsElement.getAttributeValue("id", facsElement.getNamespace("xml"));
 
-			if (xmlID == null)
+			if (xmlID == null) {
 				throw new LdoDLoadException("elemento facsimile sem atributo xml:id");
+			}
 
-			if (getObjectDirectIdMap(xmlID) != null)
+			if (getObjectDirectIdMap(xmlID) != null) {
 				throw new LdoDLoadException("o atributo xml:id=" + xmlID + " de facsimile já foi declarado");
+			}
 
 			Attribute correspAtt = facsElement.getAttribute("corresp");
 			String sourceID = null;
@@ -888,8 +896,8 @@ public class LoadTEIFragments {
 	}
 
 	private void loadSurface(Element facsElement, Facsimile facsimile) {
-		for (Element surfElement : facsElement.getChildren("surface", namespace)) {
-			Element graphElement = surfElement.getChild("graphic", namespace);
+		for (Element surfElement : facsElement.getChildren("surface", this.namespace)) {
+			Element graphElement = surfElement.getChild("graphic", this.namespace);
 
 			if (graphElement == null) {
 				throw new LdoDLoadException("elemento surface não possui elemento graphic");
@@ -921,17 +929,19 @@ public class LoadTEIFragments {
 		String queryExpression = "//def:TEI" + selectThisFragment
 				+ "/def:teiHeader/def:fileDesc/def:sourceDesc/def:listWit/.//def:witness";
 
-		XPathExpression<Element> xp = xpfac.compile(queryExpression, Filters.element(), null,
-				Namespace.getNamespace("def", namespace.getURI()));
+		XPathExpression<Element> xp = this.xpfac.compile(queryExpression, Filters.element(), null,
+				Namespace.getNamespace("def", this.namespace.getURI()));
 
-		for (Element witness : xp.evaluate(doc)) {
-			String sourceOrEditionXmlID = witness.getChild("ref", namespace).getAttributeValue("target").substring(1);
+		for (Element witness : xp.evaluate(this.doc)) {
+			String sourceOrEditionXmlID = witness.getChild("ref", this.namespace).getAttributeValue("target")
+					.substring(1);
 
 			List<Object> objects = getObjectDirectIdMap(sourceOrEditionXmlID);
 
-			if ((objects == null) || (objects.isEmpty()))
+			if ((objects == null) || (objects.isEmpty())) {
 				throw new LdoDLoadException(
 						"não existe uma fonte declarada para o atributo xml:id=" + sourceOrEditionXmlID);
+			}
 
 			assert (objects != null) && (!objects.isEmpty()) : "MISSING SOURCE OBJECT FOR xml:id:"
 					+ sourceOrEditionXmlID;
@@ -941,20 +951,24 @@ public class LoadTEIFragments {
 			String witnessListXmlID2 = witness.getParentElement().getParentElement().getAttributeValue("id",
 					witness.getNamespace("xml"));
 
-			if (witnessXmlID == null)
+			if (witnessXmlID == null) {
 				throw new LdoDLoadException("elemento wit sem atributo xml:id=" + witnessXmlID);
+			}
 			assert witnessXmlID != null : "MISSING xml:id FOR WITNESS";
 
-			if (getObjectDirectIdMap(witnessXmlID) != null)
+			if (getObjectDirectIdMap(witnessXmlID) != null) {
 				throw new LdoDLoadException("já está declarado o atributo xml:id=" + witnessXmlID);
+			}
 			assert getObjectDirectIdMap(witnessXmlID) == null : "xml:id:" + witnessXmlID + " IS ALREADY DECLARED";
 
-			if (witnessListXmlID == null)
+			if (witnessListXmlID == null) {
 				throw new LdoDLoadException("falta atributo xml:id para listWit");
+			}
 			assert witnessListXmlID != null : "MISSING xml:id FOR WITNESS LIST";
 
-			if (witnessListXmlID2 == null)
+			if (witnessListXmlID2 == null) {
 				throw new LdoDLoadException("falta atributo xml:id para listWit");
+			}
 			assert witnessListXmlID2 != null : "MISSING xml:id FOR WITNESS LIST";
 
 			Object object = objects.get(0);
@@ -983,20 +997,21 @@ public class LoadTEIFragments {
 				((RefText) refText).setFragInter(fragInter);
 			}
 
-			Element bibl = witness.getChild("bibl", namespace);
+			Element bibl = witness.getChild("bibl", this.namespace);
 			if (bibl != null) {
 				Heteronym heteronym = getHeteronym(bibl);
-				if (heteronym != null)
+				if (heteronym != null) {
 					fragInter.setHeteronym(heteronym);
-				else
+				} else {
 					fragInter.setHeteronym(NullHeteronym.getNullHeteronym());
+				}
 
-				Element titleElement = bibl.getChild("title", namespace);
+				Element titleElement = bibl.getChild("title", this.namespace);
 				if ((titleElement != null) && (fragInter instanceof ExpertEditionInter)) {
 					((ExpertEditionInter) fragInter).setTitle(titleElement.getTextTrim());
 				}
 
-				Element dateElement = bibl.getChild("date", namespace);
+				Element dateElement = bibl.getChild("date", this.namespace);
 				if (dateElement != null) {
 					Attribute whenAttribute = dateElement.getAttribute("when");
 					if (whenAttribute == null) {
@@ -1011,8 +1026,9 @@ public class LoadTEIFragments {
 				setBiblScopes(fragInter, bibl);
 
 				setNotes(fragInter, bibl);
-			} else
+			} else {
 				fragInter.setHeteronym(NullHeteronym.getNullHeteronym());
+			}
 
 			fragInter.setXmlId(witnessXmlID);
 
@@ -1025,11 +1041,12 @@ public class LoadTEIFragments {
 
 	private void setNotes(FragInter fragInter, Element bibl) {
 		String notes = "";
-		List<Element> notesList = bibl.getChildren("note", namespace);
+		List<Element> notesList = bibl.getChildren("note", this.namespace);
 		for (Element noteElement : notesList) {
 			String typeValue = noteElement.getAttributeValue("type");
-			if (typeValue == null)
+			if (typeValue == null) {
 				throw new LdoDLoadException("elemento note sem atributo type");
+			}
 			if (typeValue.equals("physDesc")) {
 				notes = notes + noteElement.getTextTrim() + ";";
 			} else if (typeValue.equals("annex")) {
@@ -1116,11 +1133,11 @@ public class LoadTEIFragments {
 	}
 
 	private void setBiblScopes(FragInter fragInter, Element bibl) {
-		for (Element biblScope : bibl.getChildren("biblScope", namespace)) {
+		for (Element biblScope : bibl.getChildren("biblScope", this.namespace)) {
 			Attribute unitAtt = biblScope.getAttribute("unit");
 			if (unitAtt == null) {
-				throw new LdoDLoadException(
-						"elemento biblScope sem atributo unit" + " título=" + bibl.getChildren("title", namespace));
+				throw new LdoDLoadException("elemento biblScope sem atributo unit" + " título="
+						+ bibl.getChildren("title", this.namespace));
 			}
 			String value = biblScope.getTextTrim();
 			switch (unitAtt.getValue()) {
@@ -1158,9 +1175,9 @@ public class LoadTEIFragments {
 	private Heteronym getHeteronym(Element bibl) {
 		Heteronym heteronym;
 		String hetXmlId = null;
-		Element respStmt = bibl.getChild("respStmt", namespace);
+		Element respStmt = bibl.getChild("respStmt", this.namespace);
 		if (respStmt != null) {
-			Element persName = respStmt.getChild("persName", namespace);
+			Element persName = respStmt.getChild("persName", this.namespace);
 			if (persName != null) {
 				Attribute correspAtt = persName.getAttribute("corresp");
 				if (correspAtt != null) {
@@ -1190,20 +1207,21 @@ public class LoadTEIFragments {
 		String queryExpression = "//def:TEI" + selectThisFragment
 				+ "/def:teiHeader/def:fileDesc/def:sourceDesc/def:listBibl/.//def:bibl";
 
-		XPathExpression<Element> xp = xpfac.compile(queryExpression, Filters.element(), null,
-				Namespace.getNamespace("def", namespace.getURI()));
+		XPathExpression<Element> xp = this.xpfac.compile(queryExpression, Filters.element(), null,
+				Namespace.getNamespace("def", this.namespace.getURI()));
 
-		for (Element bibl : xp.evaluate(doc)) {
+		for (Element bibl : xp.evaluate(this.doc)) {
 			PrintedSource printedSource = new PrintedSource();
 			printedSource.setFragment(fragment);
 
-			Element msId = bibl.getChild("msIdentifier", namespace);
+			Element msId = bibl.getChild("msIdentifier", this.namespace);
 			loadMsId(msId, printedSource);
 
 			String biblID = bibl.getAttributeValue("id", bibl.getNamespace("xml"));
 
-			if (getObjectDirectIdMap(biblID) != null)
+			if (getObjectDirectIdMap(biblID) != null) {
 				throw new LdoDLoadException("já está declarado o atributo xml:id=" + biblID);
+			}
 			assert getObjectDirectIdMap(biblID) == null : "xml:id:" + biblID + " IS ALREADY DECLARED";
 
 			putObjectDirectIdMap(biblID, printedSource);
@@ -1213,7 +1231,7 @@ public class LoadTEIFragments {
 			Heteronym heteronym = getHeteronym(bibl);
 			printedSource.setHeteronym(heteronym);
 
-			for (Element title : bibl.getChildren("title", namespace)) {
+			for (Element title : bibl.getChildren("title", this.namespace)) {
 				Attribute levelAtt = title.getAttribute("level");
 				if (levelAtt == null) {
 					throw new LdoDLoadException("elemento title sem level " + " biblID=" + printedSource.getXmlId());
@@ -1236,9 +1254,9 @@ public class LoadTEIFragments {
 				}
 			}
 
-			printedSource.setPubPlace(bibl.getChildText("pubPlace", namespace));
+			printedSource.setPubPlace(bibl.getChildText("pubPlace", this.namespace));
 
-			Element dateElement = bibl.getChild("date", namespace);
+			Element dateElement = bibl.getChild("date", this.namespace);
 			if (dateElement != null) {
 				Attribute whenAttribute = dateElement.getAttribute("when");
 
@@ -1253,7 +1271,7 @@ public class LoadTEIFragments {
 						"A fonte autoral impressa não possui data attibuída " + printedSource.getTitle());
 			}
 
-			for (Element biblScope : bibl.getChildren("biblScope", namespace)) {
+			for (Element biblScope : bibl.getChildren("biblScope", this.namespace)) {
 				Attribute unitAtt = biblScope.getAttribute("unit");
 				if (unitAtt == null) {
 					throw new LdoDLoadException(
@@ -1296,23 +1314,24 @@ public class LoadTEIFragments {
 		String queryExpression = "//def:TEI" + selectThisFragment
 				+ "/def:teiHeader/def:fileDesc/def:sourceDesc/def:listBibl/.//def:msDesc";
 
-		XPathExpression<Element> xp = xpfac.compile(queryExpression, Filters.element(), null,
-				Namespace.getNamespace("def", namespace.getURI()));
+		XPathExpression<Element> xp = this.xpfac.compile(queryExpression, Filters.element(), null,
+				Namespace.getNamespace("def", this.namespace.getURI()));
 
-		for (Element msDesc : xp.evaluate(doc)) {
+		for (Element msDesc : xp.evaluate(this.doc)) {
 			ManuscriptSource manuscript = new ManuscriptSource();
 			manuscript.setFragment(fragment);
 
 			String manuscriptID = msDesc.getAttributeValue("id", msDesc.getNamespace("xml"));
 
-			if (getObjectDirectIdMap(manuscriptID) != null)
+			if (getObjectDirectIdMap(manuscriptID) != null) {
 				throw new LdoDLoadException("já está declarado o atributo xml:id=" + manuscriptID);
+			}
 
 			putObjectDirectIdMap(manuscriptID, manuscript);
 
 			manuscript.setXmlId(manuscriptID);
 
-			Element msId = msDesc.getChild("msIdentifier", namespace);
+			Element msId = msDesc.getChild("msIdentifier", this.namespace);
 			loadMsId(msId, manuscript);
 
 			loadPhysDesc(msDesc, manuscript);
@@ -1322,7 +1341,8 @@ public class LoadTEIFragments {
 	}
 
 	private void loadDimensions(Element supportDesc, ManuscriptSource manuscript) {
-		List<Element> dimensionsList = supportDesc.getChild("extent", namespace).getChildren("dimensions", namespace);
+		List<Element> dimensionsList = supportDesc.getChild("extent", this.namespace).getChildren("dimensions",
+				this.namespace);
 
 		int position = 1;
 		for (Element dimensions : dimensionsList) {
@@ -1333,18 +1353,18 @@ public class LoadTEIFragments {
 
 			Float height;
 			try {
-				height = Float.parseFloat(dimensions.getChildTextTrim("height", namespace));
+				height = Float.parseFloat(dimensions.getChildTextTrim("height", this.namespace));
 			} catch (NumberFormatException e) {
 				throw new LdoDException("O valor de height do elemento dimensions não pode ser "
-						+ dimensions.getChildTextTrim("height", namespace));
+						+ dimensions.getChildTextTrim("height", this.namespace));
 			}
 
 			Float width;
 			try {
-				width = Float.parseFloat(dimensions.getChildTextTrim("width", namespace));
+				width = Float.parseFloat(dimensions.getChildTextTrim("width", this.namespace));
 			} catch (NumberFormatException e) {
 				throw new LdoDException("O valor de width do elemento dimensions não pode ser "
-						+ dimensions.getChildTextTrim("width", namespace));
+						+ dimensions.getChildTextTrim("width", this.namespace));
 			}
 
 			manuscript.addDimensions(new Dimensions(height, width, ++position));
@@ -1354,12 +1374,12 @@ public class LoadTEIFragments {
 	private void loadMsHistory(Element msDesc, ManuscriptSource manuscript) {
 		manuscript.setLdoDDate(null);
 
-		Element history = msDesc.getChild("history", namespace);
+		Element history = msDesc.getChild("history", this.namespace);
 		if (history != null) {
-			Element origin = history.getChild("origin", namespace);
+			Element origin = history.getChild("origin", this.namespace);
 
 			if (origin != null) {
-				Element origDate = origin.getChild("origDate", namespace);
+				Element origDate = origin.getChild("origDate", this.namespace);
 
 				if (origDate != null) {
 					Attribute when = origDate.getAttribute("when");
@@ -1382,24 +1402,24 @@ public class LoadTEIFragments {
 	}
 
 	private void loadMsId(Element msIdentifier, Source source) {
-		source.setSettlement(msIdentifier.getChildText("settlement", namespace));
-		source.setRepository(msIdentifier.getChildText("repository", namespace));
-		source.setIdno(msIdentifier.getChildText("idno", namespace));
+		source.setSettlement(msIdentifier.getChildText("settlement", this.namespace));
+		source.setRepository(msIdentifier.getChildText("repository", this.namespace));
+		source.setIdno(msIdentifier.getChildText("idno", this.namespace));
 
-		Element altElement = msIdentifier.getChild("altIdentifier", namespace);
+		Element altElement = msIdentifier.getChild("altIdentifier", this.namespace);
 
 		if (altElement == null) {
 			throw new LdoDLoadException(
 					"falta declarar altIdentifier de um msIdentifier" + " _VALOR_ " + msIdentifier.getContent());
 		}
 
-		source.setAltIdentifier(altElement.getChildText("idno", namespace));
+		source.setAltIdentifier(altElement.getChildText("idno", this.namespace));
 	}
 
 	private void loadPhysDesc(Element msDesc, ManuscriptSource manuscript) {
-		Element physDesc = msDesc.getChild("physDesc", namespace);
+		Element physDesc = msDesc.getChild("physDesc", this.namespace);
 
-		Element objectDesc = physDesc.getChild("objectDesc", namespace);
+		Element objectDesc = physDesc.getChild("objectDesc", this.namespace);
 		if (objectDesc.getAttributeValue("form").equals("leaf")) {
 			manuscript.setForm(ManuscriptSource.Form.LEAF);
 		} else {
@@ -1407,7 +1427,7 @@ public class LoadTEIFragments {
 					+ objectDesc.getAttributeValue("form") + " _VALOR_ " + objectDesc.getContent());
 		}
 
-		Element supportDesc = objectDesc.getChild("supportDesc", namespace);
+		Element supportDesc = objectDesc.getChild("supportDesc", this.namespace);
 		if (supportDesc.getAttributeValue("material").equals("paper")) {
 			manuscript.setMaterial(ManuscriptSource.Material.PAPER);
 		} else {
@@ -1415,34 +1435,34 @@ public class LoadTEIFragments {
 					+ supportDesc.getAttributeValue("material") + " _VALOR_ " + supportDesc.getContent());
 		}
 
-		if (supportDesc.getChild("extent", namespace) != null) {
+		if (supportDesc.getChild("extent", this.namespace) != null) {
 			loadDimensions(supportDesc, manuscript);
 		}
 
-		Element layoutElement = objectDesc.getChild("layoutDesc", namespace).getChild("layout", namespace);
+		Element layoutElement = objectDesc.getChild("layoutDesc", this.namespace).getChild("layout", this.namespace);
 		manuscript.setColumns(Integer.parseInt(layoutElement.getAttributeValue("columns")));
 
-		if (physDesc.getChild("handDesc", namespace) != null) {
+		if (physDesc.getChild("handDesc", this.namespace) != null) {
 			loadHandDesc(manuscript, physDesc);
 		}
-		if (physDesc.getChild("typeDesc", namespace) != null) {
+		if (physDesc.getChild("typeDesc", this.namespace) != null) {
 			loadTypeDesc(manuscript, physDesc);
 		}
 
-		Element additions = physDesc.getChild("additions", namespace);
+		Element additions = physDesc.getChild("additions", this.namespace);
 		if (additions.getTextTrim().equals("LdoD")) {
 			manuscript.setHasLdoDLabel(true);
 		}
 
-		Element binding = physDesc.getChild("bindingDesc", namespace).getChild("binding", namespace).getChild("p",
-				namespace);
+		Element binding = physDesc.getChild("bindingDesc", this.namespace).getChild("binding", this.namespace)
+				.getChild("p", this.namespace);
 
 		manuscript.setNotes(additions.getTextTrim() + ", " + binding.getTextTrim());
 	}
 
 	private void loadTypeDesc(ManuscriptSource manuscript, Element physDesc) {
-		Element typeDesc = physDesc.getChild("typeDesc", namespace);
-		Element typeDescParagraph = typeDesc.getChild("p", namespace);
+		Element typeDesc = physDesc.getChild("typeDesc", this.namespace);
+		Element typeDescParagraph = typeDesc.getChild("p", this.namespace);
 		String stringTypeNote = null;
 
 		if (typeDescParagraph != null) {
@@ -1450,14 +1470,14 @@ public class LoadTEIFragments {
 			TypeNote typeNote = new TypeNote(null, stringTypeNote);
 			typeNote.setManuscript(manuscript);
 		} else {
-			for (Element typeNoteElement : typeDesc.getChildren("typeNote", namespace)) {
+			for (Element typeNoteElement : typeDesc.getChildren("typeNote", this.namespace)) {
 				String mediumValue = typeNoteElement.getAttributeValue("medium");
 				Medium medium = getMedium(mediumValue);
 
-				if (typeNoteElement.getChild("locus", namespace) != null) {
-					stringTypeNote = typeNoteElement.getChild("locus", namespace).getTextTrim();
-				} else if (typeNoteElement.getChild("p", namespace) != null) {
-					stringTypeNote = typeNoteElement.getChild("p", namespace).getTextTrim();
+				if (typeNoteElement.getChild("locus", this.namespace) != null) {
+					stringTypeNote = typeNoteElement.getChild("locus", this.namespace).getTextTrim();
+				} else if (typeNoteElement.getChild("p", this.namespace) != null) {
+					stringTypeNote = typeNoteElement.getChild("p", this.namespace).getTextTrim();
 				} else {
 					throw new LdoDLoadException(
 							"Elemento typeNote sem locus ou p " + "_VALOR_ " + typeNoteElement.getContent());
@@ -1466,9 +1486,9 @@ public class LoadTEIFragments {
 				TypeNote typeNote = new TypeNote(medium, stringTypeNote);
 				typeNote.setManuscript(manuscript);
 
-				if ((typeNoteElement.getChild("locus", namespace) != null)) {
-					String[] targets = typeNoteElement.getChild("locus", namespace).getAttributeValue("target").trim()
-							.split("\\s+");
+				if ((typeNoteElement.getChild("locus", this.namespace) != null)) {
+					String[] targets = typeNoteElement.getChild("locus", this.namespace).getAttributeValue("target")
+							.trim().split("\\s+");
 					for (String target : targets) {
 						putObjectInverseIdMap(target.substring(1), typeNote);
 					}
@@ -1478,8 +1498,8 @@ public class LoadTEIFragments {
 	}
 
 	private void loadHandDesc(ManuscriptSource manuscript, Element physDesc) {
-		Element handDesc = physDesc.getChild("handDesc", namespace);
-		Element handDescParagraph = handDesc.getChild("p", namespace);
+		Element handDesc = physDesc.getChild("handDesc", this.namespace);
+		Element handDescParagraph = handDesc.getChild("p", this.namespace);
 		String stringHandNote = null;
 
 		if (handDescParagraph != null) {
@@ -1488,14 +1508,14 @@ public class LoadTEIFragments {
 			HandNote handNote = new HandNote(null, stringHandNote);
 			handNote.setManuscript(manuscript);
 		} else {
-			for (Element handNoteElement : handDesc.getChildren("handNote", namespace)) {
+			for (Element handNoteElement : handDesc.getChildren("handNote", this.namespace)) {
 				String mediumValue = handNoteElement.getAttributeValue("medium");
 				Medium medium = getMedium(mediumValue);
 
-				if (handNoteElement.getChild("locus", namespace) != null) {
-					stringHandNote = handNoteElement.getChild("locus", namespace).getTextTrim();
-				} else if (handNoteElement.getChild("p", namespace) != null) {
-					stringHandNote = handNoteElement.getChild("p", namespace).getTextTrim();
+				if (handNoteElement.getChild("locus", this.namespace) != null) {
+					stringHandNote = handNoteElement.getChild("locus", this.namespace).getTextTrim();
+				} else if (handNoteElement.getChild("p", this.namespace) != null) {
+					stringHandNote = handNoteElement.getChild("p", this.namespace).getTextTrim();
 				} else {
 					throw new LdoDLoadException(
 							"Elemento handNote sem locus ou p " + "_VALOR_ " + handNoteElement.getContent());
@@ -1504,9 +1524,9 @@ public class LoadTEIFragments {
 				HandNote handNote = new HandNote(medium, stringHandNote);
 				handNote.setManuscript(manuscript);
 
-				if ((handNoteElement.getChild("locus", namespace) != null)) {
-					String[] targets = handNoteElement.getChild("locus", namespace).getAttributeValue("target").trim()
-							.split("\\s+");
+				if ((handNoteElement.getChild("locus", this.namespace) != null)) {
+					String[] targets = handNoteElement.getChild("locus", this.namespace).getAttributeValue("target")
+							.trim().split("\\s+");
 					for (String target : targets) {
 						putObjectInverseIdMap(target.substring(1), handNote);
 					}
@@ -1589,8 +1609,9 @@ public class LoadTEIFragments {
 			typeValue = typeAttribute.getValue();
 		}
 
-		if (typeValue == null)
+		if (typeValue == null) {
 			throw new LdoDLoadException("elemento note não possui atributo type");
+		}
 
 		switch (typeValue) {
 		case "annex":
@@ -2017,8 +2038,8 @@ public class LoadTEIFragments {
 	}
 
 	private String getFragmentTitle(Element element) {
-		String title = element.getChild("fileDesc", namespace).getChild("titleStmt", namespace).getChildText("title",
-				namespace);
+		String title = element.getChild("fileDesc", this.namespace).getChild("titleStmt", this.namespace)
+				.getChildText("title", this.namespace);
 		return title;
 	}
 
@@ -2026,8 +2047,9 @@ public class LoadTEIFragments {
 		String xmlId = element.getParentElement().getAttributeValue("id", element.getNamespace("xml"));
 
 		if (xmlId == null) {
-			throw new LdoDLoadException("falta xml:id de um fragmento" + " VALOR=" + element
-					.getChild("fileDesc", namespace).getChild("titleStmt", namespace).getChildText("title", namespace));
+			throw new LdoDLoadException(
+					"falta xml:id de um fragmento" + " VALOR=" + element.getChild("fileDesc", this.namespace)
+							.getChild("titleStmt", this.namespace).getChildText("title", this.namespace));
 		}
 
 		assert xmlId != null : "MISSING xml:id ATTRIBUTE IN FRAGMENT <TEI > ELEMENT";

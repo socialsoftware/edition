@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import pt.ist.socialsoftware.edition.domain.FragInter;
 import pt.ist.socialsoftware.edition.domain.Fragment;
 import pt.ist.socialsoftware.edition.domain.SourceInter;
 import pt.ist.socialsoftware.edition.generators.PlainTextFragmentWriter;
@@ -13,26 +14,54 @@ import pt.ist.socialsoftware.edition.utils.PropertiesManager;
 public class CorpusGenerator {
 
 	public void generate(Fragment fragment) throws FileNotFoundException, IOException {
-		String corpusFilesPath = PropertiesManager.getProperties().getProperty("corpus.files.dir");
-		File directory = new File(corpusFilesPath);
+		generateCorpus(fragment);
+		generateInters(fragment);
+	}
 
-		// use the representative interpretation
+	public void generateCorpus(Fragment fragment) throws FileNotFoundException, IOException {
+		String corpusFilesPath = PropertiesManager.getProperties().getProperty("corpus.files.dir");
+		File corpusDirectory = new File(corpusFilesPath);
+
+		// use the representative interpretation for corpus
 		SourceInter sourceInter = fragment.getRepresentativeSourceInter();
 
-		File file = new File(directory, sourceInter.getExternalId() + ".txt");
+		File file = new File(corpusDirectory, sourceInter.getExternalId() + ".txt");
 
 		// delete file if it already exists, for a clean generation
-		if (file.exists())
+		if (file.exists()) {
 			file.delete();
+		}
 
 		PlainTextFragmentWriter writer = new PlainTextFragmentWriter(sourceInter);
 		writer.write();
 
-		file = new File(directory, sourceInter.getExternalId() + ".txt");
+		file = new File(corpusDirectory, sourceInter.getExternalId() + ".txt");
 		try (FileOutputStream out = new FileOutputStream(file)) {
 			out.write(writer.getTranscription().getBytes());
 		}
-
 	}
 
+	public void generateInters(Fragment fragment) throws FileNotFoundException, IOException {
+		String intersFilesPath = PropertiesManager.getProperties().getProperty("inters.dir");
+		File intersDirectory = new File(intersFilesPath);
+
+		for (FragInter inter : fragment.getFragmentInterSet()) {
+
+			File file = new File(intersDirectory, inter.getExternalId() + ".txt");
+
+			// delete file if it already exists, for a clean generation
+			if (file.exists()) {
+				file.delete();
+			}
+
+			PlainTextFragmentWriter writer = new PlainTextFragmentWriter(inter);
+			writer.write();
+
+			file = new File(intersDirectory, inter.getExternalId() + ".txt");
+			try (FileOutputStream out = new FileOutputStream(file)) {
+				out.write(writer.getTranscription().getBytes());
+			}
+		}
+
+	}
 }

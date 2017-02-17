@@ -21,10 +21,10 @@ import pt.ist.socialsoftware.edition.domain.Edition;
 import pt.ist.socialsoftware.edition.domain.Fragment;
 import pt.ist.socialsoftware.edition.domain.LdoD;
 import pt.ist.socialsoftware.edition.domain.LdoDUser;
-import pt.ist.socialsoftware.edition.domain.Role;
-import pt.ist.socialsoftware.edition.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.domain.Member.MemberRole;
+import pt.ist.socialsoftware.edition.domain.Role;
 import pt.ist.socialsoftware.edition.domain.Role.RoleType;
+import pt.ist.socialsoftware.edition.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.recommendation.VSMFragmentRecommender;
 import pt.ist.socialsoftware.edition.recommendation.properties.DateProperty;
 import pt.ist.socialsoftware.edition.recommendation.properties.HeteronymProperty;
@@ -58,6 +58,7 @@ public class Bootstrap implements WebApplicationInitializer {
 		if (LdoD.getInstance() == null) {
 			new LdoD();
 			cleanCorpusRepository();
+			cleanIntersRepository();
 			cleanTopicModeler();
 			cleanLucene();
 			createUsersAndRoles();
@@ -77,6 +78,20 @@ public class Bootstrap implements WebApplicationInitializer {
 			} catch (IOException e) {
 				throw new LdoDException(
 						"Bootstrap.populateDatabaseUsersAndRoles cannot delete directory for corpus.files.dir");
+			}
+		}
+		directory.mkdirs();
+	}
+
+	public static void cleanIntersRepository() {
+		String intersFilesPath = PropertiesManager.getProperties().getProperty("inters.dir");
+		File directory = new File(intersFilesPath);
+		if (directory.exists()) {
+			try {
+				FileUtils.deleteDirectory(directory);
+			} catch (IOException e) {
+				throw new LdoDException(
+						"Bootstrap.populateDatabaseUsersAndRoles cannot delete directory for inters.dir");
 			}
 		}
 		directory.mkdirs();
