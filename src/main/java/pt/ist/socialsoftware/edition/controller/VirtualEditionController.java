@@ -37,6 +37,7 @@ import pt.ist.socialsoftware.edition.domain.FragInter;
 import pt.ist.socialsoftware.edition.domain.LdoD;
 import pt.ist.socialsoftware.edition.domain.LdoDUser;
 import pt.ist.socialsoftware.edition.domain.Member.MemberRole;
+import pt.ist.socialsoftware.edition.domain.Tag;
 import pt.ist.socialsoftware.edition.domain.Taxonomy;
 import pt.ist.socialsoftware.edition.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.domain.VirtualEditionInter;
@@ -285,6 +286,36 @@ public class VirtualEditionController {
 				} catch (IOException e) {
 					throw new LdoDException("VirtualEditionController::getTranscriptions IOException");
 				}
+
+				transcriptions.add(new TranscriptionDTO(title, text));
+			}
+
+			return new ResponseEntity<>(new EditionTranscriptionsDTO(transcriptions), HttpStatus.OK);
+		}
+	}
+
+	@RequestMapping(method = RequestMethod.GET, value = "/restricted/acronym/{acronym}/{category}/transcriptions")
+	@PreAuthorize("hasPermission(#acronym, 'editionacronym.public')")
+	public @ResponseBody ResponseEntity<EditionTranscriptionsDTO> getTranscriptionsTag(Model model,
+			@PathVariable String acronym, @PathVariable String category) {
+		logger.debug("getTranscriptionsTag acronym:{}, category:{}", acronym, category);
+
+		VirtualEdition virtualEdition = LdoD.getInstance().getVirtualEdition(acronym);
+
+		if (virtualEdition == null) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		} else {
+			List<TranscriptionDTO> transcriptions = new ArrayList<>();
+
+			Category categoryObject = virtualEdition.getTaxonomy().getCategory(category);
+
+			if (categoryObject == null) {
+				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			}
+
+			for (Tag tag : categoryObject.getTagSet()) {
+				String title = tag.getInter().getTitle();
+				String text = tag.getAnnotation().getQuote();
 
 				transcriptions.add(new TranscriptionDTO(title, text));
 			}
