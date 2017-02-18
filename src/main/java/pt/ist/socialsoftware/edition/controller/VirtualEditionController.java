@@ -314,10 +314,12 @@ public class VirtualEditionController {
 			}
 
 			for (Tag tag : categoryObject.getTagSet()) {
-				String title = tag.getInter().getTitle();
-				String text = tag.getAnnotation().getQuote();
+				if (tag.getAnnotation() != null) {
+					String title = tag.getInter().getTitle();
+					String text = tag.getAnnotation().getQuote();
 
-				transcriptions.add(new TranscriptionDTO(title, text));
+					transcriptions.add(new TranscriptionDTO(title, text));
+				}
 			}
 
 			return new ResponseEntity<>(new EditionTranscriptionsDTO(transcriptions), HttpStatus.OK);
