@@ -20,6 +20,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.session.SessionInformation;
+import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,12 +33,12 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import pt.ist.fenixframework.FenixFramework;
+import pt.ist.socialsoftware.edition.domain.Edition.EditionType;
 import pt.ist.socialsoftware.edition.domain.FragInter;
 import pt.ist.socialsoftware.edition.domain.Fragment;
 import pt.ist.socialsoftware.edition.domain.LdoD;
 import pt.ist.socialsoftware.edition.domain.LdoDUser;
 import pt.ist.socialsoftware.edition.domain.Role;
-import pt.ist.socialsoftware.edition.domain.Edition.EditionType;
 import pt.ist.socialsoftware.edition.domain.Role.RoleType;
 import pt.ist.socialsoftware.edition.export.ExpertEditionTEIExport;
 import pt.ist.socialsoftware.edition.export.UsersXMLExport;
@@ -44,6 +46,7 @@ import pt.ist.socialsoftware.edition.forms.EditUserForm;
 import pt.ist.socialsoftware.edition.loaders.LoadTEICorpus;
 import pt.ist.socialsoftware.edition.loaders.LoadTEIFragments;
 import pt.ist.socialsoftware.edition.loaders.UsersXMLImport;
+import pt.ist.socialsoftware.edition.security.LdoDUserDetails;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDException;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDLoadException;
 import pt.ist.socialsoftware.edition.validator.EditUserValidator;
@@ -52,6 +55,9 @@ import pt.ist.socialsoftware.edition.validator.EditUserValidator;
 @RequestMapping("/admin")
 public class AdminController {
 	private static Logger logger = LoggerFactory.getLogger(AdminController.class);
+
+	@Inject
+	private SessionRegistry sessionRegistry;
 
 	@Inject
 	private PasswordEncoder passwordEncoder;
@@ -194,10 +200,51 @@ public class AdminController {
 		return "redirect:/admin/fragment/list";
 	}
 
+	@Secured({ "ROLE_ADMIN" })
+	@RequestMapping(method = RequestMethod.POST, value = "/switch")
+	public String switchAdminMode() {
+		logger.debug("switchAdminMode");
+
+		LdoD ldoD = LdoD.getInstance();
+		ldoD.switchAdmin();
+
+		return "redirect:/admin/user/list";
+	}
+
+	@Secured({ "ROLE_ADMIN" })
+	@RequestMapping(method = RequestMethod.POST, value = "/sessions/delete")
+	public String deleteUserSessons() {
+		logger.debug("deleteUserSessons");
+
+		List<SessionInformation> activeSessions = new ArrayList<>();
+		for (Object principal : this.sessionRegistry.getAllPrincipals()) {
+			activeSessions.addAll(this.sessionRegistry.getAllSessions(principal, false));
+		}
+
+		for (SessionInformation session : activeSessions) {
+			if (session.getPrincipal() instanceof LdoDUserDetails) {
+				LdoDUser ldoDUser = ((LdoDUserDetails) session.getPrincipal()).getUser();
+
+				if (!ldoDUser.getRolesSet().contains(Role.getRole(RoleType.ROLE_ADMIN))) {
+					session.expireNow();
+				}
+			}
+		}
+
+		return "redirect:/admin/user/list";
+	}
+
 	@RequestMapping(method = RequestMethod.GET, value = "/user/list")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public String listUser(Model model) {
+		List<SessionInformation> activeSessions = new ArrayList<>();
+		for (Object principal : this.sessionRegistry.getAllPrincipals()) {
+			activeSessions.addAll(this.sessionRegistry.getAllSessions(principal, false));
+		}
+
+		model.addAttribute("ldoD", LdoD.getInstance());
 		model.addAttribute("users", LdoD.getInstance().getUsersSet());
+		model.addAttribute("sessions", activeSessions);
 		return "admin/listUsers";
 	}
 

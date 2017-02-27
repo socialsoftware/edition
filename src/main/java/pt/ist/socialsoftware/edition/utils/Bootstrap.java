@@ -56,7 +56,8 @@ public class Bootstrap implements WebApplicationInitializer {
 	@Atomic(mode = TxMode.WRITE)
 	public static void initializeSystem() {
 		if (LdoD.getInstance() == null) {
-			new LdoD();
+			LdoD ldoD = new LdoD();
+			ldoD.setAdmin(true);
 			cleanCorpusRepository();
 			cleanIntersRepository();
 			cleanTopicModeler();

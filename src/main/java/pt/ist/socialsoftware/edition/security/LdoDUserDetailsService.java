@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import pt.ist.socialsoftware.edition.domain.LdoD;
 import pt.ist.socialsoftware.edition.domain.LdoDUser;
 import pt.ist.socialsoftware.edition.domain.Role;
+import pt.ist.socialsoftware.edition.domain.Role.RoleType;
 
 @Service
 public class LdoDUserDetailsService implements UserDetailsService {
@@ -28,8 +29,9 @@ public class LdoDUserDetailsService implements UserDetailsService {
 
 		for (LdoDUser user : ldoD.getUsersSet()) {
 
-			if (user.getEnabled() && user.getActive() && user.getUsername().equals(username)) {
-				Set<GrantedAuthority> authorities = new HashSet<GrantedAuthority>();
+			if (user.getEnabled() && user.getActive() && user.getUsername().equals(username)
+					&& (!ldoD.getAdmin() || user.getRolesSet().contains(Role.getRole(RoleType.ROLE_ADMIN)))) {
+				Set<GrantedAuthority> authorities = new HashSet<>();
 				for (Role role : user.getRolesSet()) {
 					authorities.add(new GrantedAuthorityImpl(role.getType().name()));
 				}

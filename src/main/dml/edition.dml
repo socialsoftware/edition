@@ -29,6 +29,7 @@ class LdoD {
 	String sponsor;
 	String principal;
 	String funder;
+	boolean admin;
 }
 
 relation DomainRootHasLdoDApplication {

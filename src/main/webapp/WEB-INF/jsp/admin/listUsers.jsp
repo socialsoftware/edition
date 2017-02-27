@@ -12,6 +12,51 @@
 			<spring:message code="user.list" />
 		</h1>
 
+		<div class="row">
+			<form class="form-inline" method="POST"
+				action="${contextPath}/admin/switch">
+				<button type="submit" class="btn btn-danger btn-sm pull-right">
+					<span class="glyphicon glyphicon-edit"></span>
+					<c:if test="${ldoD.getAdmin()}">Administration Mode</c:if>
+					<c:if test="${!ldoD.getAdmin()}">User Mode</c:if>
+				</button>
+			</form>
+		</div>
+
+		<br /> <br />
+
+		<div class="row">
+			<form class="form-inline" method="POST"
+				action="${contextPath}/admin/sessions/delete">
+				<button type="submit" class="btn btn-danger btn-sm pull-right">
+					<span class="glyphicon glyphicon-edit"></span> Delete User Sessions
+				</button>
+			</form>
+		</div>
+		<br />
+		<div class="row">
+			<table class="table table-striped table-bordered table-condensed">
+				<thead>
+					<tr>
+						<td><strong>Username</strong></td>
+						<td><strong>Last Request</strong></td>
+						<td><strong>Session ID</strong></td>
+					</tr>
+				</thead>
+				<tbody>
+					<c:forEach var="session" items='${sessions}'>
+						<tr>
+							<td>${session.getPrincipal().getUser().getUsername()}</td>
+							<td>${session.getLastRequest()}</td>
+							<td>${session.getSessionId()}</td>
+						</tr>
+					</c:forEach>
+				</tbody>
+			</table>
+		</div>
+
+		<br /> <br />
+
 		<div id="fragmentList" class="row">
 			<table class="table table-striped table-bordered table-condensed">
 				<thead>
@@ -47,7 +92,7 @@
 									action="${contextPath}/admin/user/active">
 									<input type="hidden" name="externalId"
 										value="${user.externalId}" />
-									<button type="submit" class="btn btn-sm pull-right">
+									<button type="submit" class="btn btn-primary btn-sm pull-right">
 										<span class="glyphicon glyphicon-edit"></span>
 										<c:choose>
 											<c:when test="${user.getActive()}">
@@ -63,7 +108,7 @@
 									action="${contextPath}/admin/user/edit">
 									<input type="hidden" name="externalId"
 										value="${user.externalId}" />
-									<button type="submit" class="btn btn-sm pull-right">
+									<button type="submit" class="btn btn-primary btn-sm pull-right">
 										<span class="glyphicon glyphicon-edit"></span>
 										<spring:message code="general.edit" />
 									</button>
@@ -72,7 +117,7 @@
 									action="${contextPath}/admin/user/delete">
 									<input type="hidden" name="externalId"
 										value="${user.externalId}" />
-									<button type="submit" class="btn btn-sm pull-right">
+									<button type="submit" class="btn btn-danger btn-sm pull-right">
 										<span class="glyphicon glyphicon-remove"></span>
 										<spring:message code="general.remove" />
 									</button>

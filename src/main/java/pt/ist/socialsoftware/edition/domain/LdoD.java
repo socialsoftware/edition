@@ -14,7 +14,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.fenixframework.FenixFramework;
-import pt.ist.socialsoftware.edition.domain.LdoD_Base;
 import pt.ist.socialsoftware.edition.domain.LdoDUser.SocialMediaService;
 import pt.ist.socialsoftware.edition.domain.Role.RoleType;
 import pt.ist.socialsoftware.edition.session.LdoDSession;
@@ -121,8 +120,8 @@ public class LdoD extends LdoD_Base {
 	}
 
 	@Atomic(mode = TxMode.WRITE)
-	public void setIntersNumber(VirtualEditionInter virtualEdtionInter, int page) {
-		virtualEdtionInter.setNumber(page);
+	public void switchAdmin() {
+		setAdmin(!getAdmin());
 	}
 
 	@Atomic(mode = TxMode.WRITE)

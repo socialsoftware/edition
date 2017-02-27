@@ -13,6 +13,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.servlet.configuration.EnableWebMvcSecurity;
+import org.springframework.security.core.session.SessionRegistry;
+import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.encrypt.Encryptors;
 import org.springframework.security.crypto.encrypt.TextEncryptor;
@@ -51,6 +53,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/", "/auth/**", "/signin/**", "/signup/**").permitAll().anyRequest().authenticated()
 				.antMatchers("/virtualeditions/restricted/**").authenticated().antMatchers("/admin/**")
 				.hasAuthority(RoleType.ROLE_ADMIN.name());
+
+		http.sessionManagement().maximumSessions(2).sessionRegistry(sessionRegistry());
 	}
 
 	@Inject
@@ -58,6 +62,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		log.debug("registerAuthentication");
 
 		auth.userDetailsService(ldoDUserDetailsService()).passwordEncoder(passwordEncoder());
+	}
+
+	@Bean
+	public SessionRegistry sessionRegistry() {
+		return new SessionRegistryImpl();
 	}
 
 	@Bean
