@@ -1163,9 +1163,16 @@ public class LoadTEIFragments {
 				break;
 			case "number":
 				if (value != null && !value.equals("")) {
-					((ExpertEditionInter) fragInter).setNumber(Integer.parseInt(value));
+					((ExpertEditionInter) fragInter).setNumber(Integer.parseInt(value.trim()));
 				} else {
 					((ExpertEditionInter) fragInter).setNumber(0);
+				}
+				break;
+			case "subnumber":
+				if (value != null && !value.trim().equals("")) {
+					((ExpertEditionInter) fragInter).setSubNumber(value.trim());
+				} else {
+					((ExpertEditionInter) fragInter).setSubNumber("");
 				}
 				break;
 			}

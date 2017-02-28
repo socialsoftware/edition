@@ -225,9 +225,14 @@ public class AdminController {
 			if (session.getPrincipal() instanceof LdoDUserDetails) {
 				LdoDUser ldoDUser = ((LdoDUserDetails) session.getPrincipal()).getUser();
 
-				if (!ldoDUser.getRolesSet().contains(Role.getRole(RoleType.ROLE_ADMIN))) {
+				if (ldoDUser != LdoDUser.getAuthenticatedUser()) {
 					session.expireNow();
 				}
+				// if
+				// (!ldoDUser.getRolesSet().contains(Role.getRole(RoleType.ROLE_ADMIN)))
+				// {
+				// session.expireNow();
+				// }
 			}
 		}
 
@@ -246,6 +251,7 @@ public class AdminController {
 		model.addAttribute("users", LdoD.getInstance().getUsersSet());
 		model.addAttribute("sessions", activeSessions);
 		return "admin/listUsers";
+
 	}
 
 	@Secured({ "ROLE_ADMIN" })

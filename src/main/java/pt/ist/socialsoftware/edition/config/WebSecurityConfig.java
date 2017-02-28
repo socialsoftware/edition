@@ -49,9 +49,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 		http.csrf().disable().formLogin().loginPage("/signin").successHandler(ldoDAuthenticationSuccessHandler())
 				.loginProcessingUrl("/signin/authenticate").failureUrl("/signin?param.error=bad_credentials").and()
-				.logout().logoutUrl("/signout").deleteCookies("JSESSIONID").and().authorizeRequests()
-				.antMatchers("/", "/auth/**", "/signin/**", "/signup/**").permitAll().anyRequest().authenticated()
-				.antMatchers("/virtualeditions/restricted/**").authenticated().antMatchers("/admin/**")
+				.logout().logoutUrl("/signout").deleteCookies("JSESSIONID").invalidateHttpSession(true).and()
+				.authorizeRequests().antMatchers("/", "/auth/**", "/signin/**", "/signup/**").permitAll().anyRequest()
+				.authenticated().antMatchers("/virtualeditions/restricted/**").authenticated().antMatchers("/admin/**")
+				.hasAuthority(RoleType.ROLE_ADMIN.name()).antMatchers("/user/**")
 				.hasAuthority(RoleType.ROLE_ADMIN.name());
 
 		http.sessionManagement().maximumSessions(2).sessionRegistry(sessionRegistry());

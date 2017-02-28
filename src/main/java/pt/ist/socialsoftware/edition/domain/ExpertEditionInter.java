@@ -5,7 +5,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import pt.ist.socialsoftware.edition.domain.ExpertEditionInter_Base;
 import pt.ist.socialsoftware.edition.domain.Edition.EditionType;
 import pt.ist.socialsoftware.edition.search.Indexer;
 import pt.ist.socialsoftware.edition.topicmodeling.TopicModeler;
@@ -15,6 +14,7 @@ public class ExpertEditionInter extends ExpertEditionInter_Base {
 	public ExpertEditionInter() {
 		setNotes("");
 		setVolume("");
+		setSubNumber("");
 	}
 
 	@Override
@@ -99,7 +99,15 @@ public class ExpertEditionInter extends ExpertEditionInter_Base {
 	}
 
 	private int compareNumber(ExpertEditionInter other) {
-		return getNumber() - other.getNumber();
+		int result = getNumber() - other.getNumber();
+		if (result == 0) {
+			return compareSubNumber(other);
+		}
+		return result;
+	}
+
+	private int compareSubNumber(ExpertEditionInter other) {
+		return getSubNumber().compareTo(other.getSubNumber());
 	}
 
 	@Override
@@ -141,6 +149,10 @@ public class ExpertEditionInter extends ExpertEditionInter_Base {
 	@Override
 	public Set<Tag> getAllDepthTags() {
 		return new HashSet<>();
+	}
+
+	public String getCompleteNumber() {
+		return Integer.toString(getNumber()) + (!getSubNumber().equals("") ? "-" + getSubNumber() : getSubNumber());
 	}
 
 }

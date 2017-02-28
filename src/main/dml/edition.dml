@@ -251,6 +251,7 @@ class ExpertEditionInter extends FragInter {
 	String title;
 	String volume;
 	int number;
+	String subNumber;
 	int startPage;
 	int endPage;
 	String notes;

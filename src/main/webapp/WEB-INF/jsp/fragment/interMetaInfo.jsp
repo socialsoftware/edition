@@ -98,16 +98,16 @@
 
 <c:choose>
 	<c:when test="${isEditorial}">
-		<c:set var="number" value="${inter.getNumber()}" />
+		<c:set var="number" value="${inter.getCompleteNumber()}" />
 	</c:when>
 	<c:when test="${isManuscript}">
-		<c:set var="number" value="0" />
+		<c:set var="number" value="" />
 	</c:when>
 	<c:when test="${isPublication}">
 		<c:set var="number" value="${inter.getSource().getIssue()}" />
 	</c:when>
 </c:choose>
-<c:if test="${number != 0}">
+<c:if test='${!number.equals("")}'> 
 	<br>
 	<strong><spring:message code="tableofcontents.number" />:</strong>
 	${number}</c:if>

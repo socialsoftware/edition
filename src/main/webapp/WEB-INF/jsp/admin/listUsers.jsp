@@ -39,6 +39,8 @@
 				<thead>
 					<tr>
 						<td><strong>Username</strong></td>
+						<td><strong>First Name</strong></td>
+						<td><strong>Last Name</strong></td>
 						<td><strong>Last Request</strong></td>
 						<td><strong>Session ID</strong></td>
 					</tr>
@@ -47,6 +49,8 @@
 					<c:forEach var="session" items='${sessions}'>
 						<tr>
 							<td>${session.getPrincipal().getUser().getUsername()}</td>
+							<td>${session.getPrincipal().getUser().getFirstName()}</td>
+							<td>${session.getPrincipal().getUser().getLastName()}</td>
 							<td>${session.getLastRequest()}</td>
 							<td>${session.getSessionId()}</td>
 						</tr>
