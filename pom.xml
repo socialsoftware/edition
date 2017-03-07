@@ -243,7 +243,7 @@
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
-			</dependency>
+		</dependency>
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
@@ -278,7 +278,6 @@
 			<artifactId>jblas</artifactId>
 			<version>${version.org.jblas.jblas}</version>
 		</dependency>
-
 	</dependencies>
 
 	<repositories>
@@ -303,5 +302,4 @@
 			<url>https://repo.fenixedu.org/fenixedu-maven-repository</url>
 		</pluginRepository>
 	</pluginRepositories>
-
 </project>

@@ -1,4 +1,21 @@
 <h3>The Archive</h3>
+<h5>What is the LdoDArchive?</h5>
+<p>The LdoD Archive is a collaborative digital archive of the Book
+	of Disquiet by Fernando Pessoa. It contains images of the autograph
+	documents, new transcriptions of those documents and also
+	transcriptions of four editions of the work. In addition to reading and
+	comparing transcriptions, the LdoD Archive enables users to collaborate
+	in creating virtual editions of the Book of Disquiet. It also includes
+	a writing module which, in the future, will allow users to write
+	variations based on fragments of the Book.Thus the LdoD Archive
+	combines a representational principle with a simulation principle: the
+	first is expressed through the representation of the history and
+	processes of writing and editing the Book; the second is embodied in
+	the fact that users are given the possibility of playing various roles
+	in the literary process (reading, editing, writing), using the
+	flexibility of the digital medium for experimenting with the Book of
+	Disquiet as a literary machine.</p>
+<h5>What does the LdoD Archive contain?</h5>
 <p>
 	The <em>LdoD Archive</em> consists of a group of fragments that
 	Fernando Pessoa explicitly attributed to the <em>Book of Disquiet</em>
@@ -11,15 +28,15 @@
 	interpretations associated with it. An interpretation is constituted by
 	a transcription of the text and a set of metadata about it, such as
 	date or heteronym attribution, or the indication of the shelf-mark of
-	the National Library of Portugal that identifies the authorial source.
-	The various editors of the Book have produced interpretations that may
+	the National Library of Portugal that identifies the witness. The
+	various editors of the Book have produced interpretations that may
 	differ in both transcription and metadata. Thus, in the <em>LdoD
 		Archive</em>, a fragment has interpretations by its editors (editorial
 	interpretations), and it may occur that some of the editors do not
 	consider a given fragment as part of the <em>Book of Disquiet</em>, in
 	which case there will be no interpretation associated with that expert.
 	In addition, a fragment has one or more interpretations of the
-	authorial sources (authorial interpretations), and there may be several
+	witnesses (authorial interpretations), and there may be several
 	authorial interpretations of the same fragment due, for example, to the
 	existence of several manuscripts or typescripts for the same text. The
 	transcription and metadata associated with an authorial interpretation
@@ -28,24 +45,54 @@
 <h5>What is a fragment in the LdoD Archive?</h5>
 <p>
 	A fragment is a modular textual sequence and it constitutes the basic
-	unit of composition of the <em>Book</em>. Most textual sequences are
-	also separated material units, since they are written in single loose
-	sheets (or small groups of loose sheets) without a defined relative
-	ordering. The fragments encoded in the <em>LdoD Archive</em> correspond
-	to the sum of all texts that were considered as belonging to or
-	associated with the <em>Book of Disquiet</em> by the four critical
+	unit of composition of the <em>LdoD Archive</em>. Most textual
+	sequences are also separated material units, since they are written in
+	single loose sheets (or small groups of loose sheets) without a defined
+	relative ordering. The fragments encoded in the <em>LdoD Archive</em>
+	correspond to the sum of all texts that were considered as belonging to
+	or associated with the <em>Book of Disquiet</em> by the four critical
 	editions, including those texts that are published as appendix or annex
 	to the main text.
 </p>
+<h5>What is the relationship between a text in the Book of Disquiet
+	and a fragment in the LdoD Archive?</h5>
+<p>All fragments of the LdoD Archive are also textual units of the
+	Book of Disquiet according to at least one of the editions. The
+	structure of the Archive places all the fragments at the same relative
+	distance from one another, that is, with the same modularity index.
+	However, in the editions, not all textual units have the same degree of
+	relative independence, since there are groups of texts that are closer
+	to each other, either because they are part of a larger textual unit,
+	or because of thematic or chronological proximity. The textual units of
+	the editions have different indexes of modularity, as there are groups
+	of texts which are closer to one another. This is the main difference
+	between a text as a unit within a given edition and a fragment as a
+	unit within the LdoD Archive.</p>
+<h5>Why is the fragment treated as a modular unit in the LdoD
+	Archive?</h5>
+<p>The modular organization of the fragments (i.e., the fact that
+	they at the same relative distance from each other) in the LdoD Archive
+	is a precondition for the comparison and virtualization of the editions
+	to be processed in the open way envisioned by our model. This stressing
+	of the modular fragmentarity of the Book in the LdoD Archive is a
+	critical tool for opening up the works potential for reading, editing
+	and writing to new interventions. The distortion introduced by our data
+	model - which is the major support of the dynamic features of the LdoD
+	Archive - gives technical expression to a digital rematerialization of
+	documents, texts and work beyond bibliographic models. The Book of
+	Disquiet is not an entirely free assemblage of loose fragments, but the
+	radial and hetararchical configuration of its units in the LdoD Archive
+	allows us to simulate authorial projectuality and editorial
+	projectuality as processes for imagining the work as a book.</p>
 <h5>What is an interpretation in the LdoD Archive?</h5>
 <p>
 	An interpretation is the set formed by a transcription and the metadata
 	associated with it. The interpretations of the five versions (i.e., the
 	four editions of the experts and the genetic representation of the
-	authorial sources) are not totally coincident with each other, either
-	because of micro-textual variations and differences (transcription of
-	certain passages, internal ordering of paragraphs, relative division of
-	fragments, for example), or by macro-textual variations (i.e., relative
+	witnesses) are not totally coincident with each other, either because
+	of micro-textual variations and differences (orthography, punctuation,
+	choice of variants, internal ordering of paragraphs, for example), or
+	by macro-textual variations (i.e., relative division of fragments,
 	ordering of the fragment within the architecture of the <em>Book</em>,
 	inclusion or exclusion of a given fragment from the corpus of the <em>Book</em>).
 </p>
@@ -66,12 +113,12 @@
 	representative authorial interpretation in order to have a reference
 	transcription, for example, for calculating the textual similarity
 	between two fragments when using the recommendation algorithm.</p>
-<h3>Authorial Sources</h3>
-<h5>What are the authorial sources?</h5>
+<h3>Witnesses</h3>
+<h5>What are the witnesses?</h5>
 <p>
-	The authorial sources are the interpretations of the fragments made up
-	of genetic transcriptions of handwritten and typewritten autographs,
-	and also of printed texts published by Pessoa, all of which have been
+	The witnesses are the interpretations of the fragments made up of
+	genetic transcriptions of handwritten and typewritten autographs, and
+	also of printed texts published by Pessoa, all of which have been
 	encoded by the <em>LdoD Archive</em> team. In addition to the
 	transcription, there is a set of metadata about the documentary
 	witnesses (material and medium of the inscription, paper size, other
@@ -104,22 +151,22 @@
 <h3>Experts&rsquo; Editions</h3>
 <h5>What are the experts&rsquo; editions?</h5>
 <p>
-	The editions by the experts included in the Archive are the main
-	critical editions published between 1982 and 2012. These four critical
-	editions (prepared from the autographs) were organized, respectively,
-	by Jacinto do Prado Coelho (1982; reprinted 1997), Teresa Sobral Cunha
-	(2008; 1st ed. 1990-1991), Richard Zenith (2012; 1st ed. 1998), and
-	Jer&oacute;nimo Pizarro (2010). The sequence of presentation of the
-	experts' editions in the menu corresponds to the chronological order of
-	the date of their original publication. The editions by the experts are
-	therefore very significant both from a philological point of view, and
-	from the point of view of the socialization of the work. Although the
-	relative scale of each critical apparatus varies considerably, those
-	four editors have worked from the originals with the aim of producing a
-	readable integral version of the <em>Book</em>. In addition, these
-	editions have determined the dissemination of the <em>Book of
-		Disquiet</em> since 1982, both in Portuguese and in other languages, since
-	they were taken as a basis for other Portuguese editions and for
+	The editions by the experts included in the <em>LdoD Archive</em> are
+	the main critical editions published between 1982 and 2012. These four
+	critical editions (prepared from the autographs) were organized,
+	respectively, by Jacinto do Prado Coelho (1982; reprinted 1997), Teresa
+	Sobral Cunha (2008; 1st ed. 1990-1991), Richard Zenith (2012; 1st ed.
+	1998), and Jer&oacute;nimo Pizarro (2010). The sequence of presentation
+	of the experts' editions in the menu corresponds to the chronological
+	order of the date of their original publication. The editions by the
+	experts are therefore very significant both from a philological point
+	of view, and from the point of view of the socialization of the work.
+	Although the relative scale of each critical apparatus varies
+	considerably, those four editors have worked from the originals with
+	the aim of producing a readable integral version of the <em>Book</em>.
+	In addition, these editions have determined the dissemination of the <em>Book
+		of Disquiet</em> since 1982, both in Portuguese and in other languages,
+	since they were taken as a basis for other Portuguese editions and for
 	numerous translations. With the exception of Jacinto do Prado Coelho's
 	edition, which was reprinted only once without changes after its
 	editor's death, all other editions have been altered and corrected
@@ -127,7 +174,7 @@
 	(1920-1984)&rsquo;s edition is historically significant because it was
 	the first, and the other three are historically significant because
 	they demonstrate the possibility of reediting and reorganizing the <em>Book.</em>
-	The Jer&oacute;nimo Pizarro edition is also significant for having
+	Jer&oacute;nimo Pizarro's edition is also significant for having
 	ordered the texts by date of composition and for having developed a
 	systematic and exhaustive critical-genetic apparatus.
 </p>
@@ -137,12 +184,12 @@
 	2012; and Pizarro 2010) were the latest editions when we began encoding
 	the files for the <em>LdoD Archive</em> in the year 2012. The 1982
 	edition (reprinted only once in 1997) is the only one that has not
-	changed. The other three editions have continued to undergo a number of
-	changes (in the corpus, in the transcription, in the ordering of
-	texts), although they have maintained their basic structure and
+	changed. The other three editions have continued to undergo a number
+	small of changes (in the corpus, in the transcription, in the ordering
+	of texts), although they have maintained their basic structure and
 	principles of organization. In the meantime (i.e., since 2012) new
-	editions have already been published (Cunha 2013 and 2016; Pizarro 2013
-	and 2014; Zenith 2015).
+	editions have already been published (Sobral Cunha 2013 and 2016;
+	Pizarro 2013 and 2014; Zenith 2015).
 </p>
 <h5>Will the experts' editions be updated in the future?</h5>
 <p>
@@ -157,15 +204,40 @@
 	Cunha-2008, Zenith-2012 and Pizarro- 2010), and not to an eclectic
 	combination of readings collected in different editions of the text.
 </p>
+<h3>XML-TEI encoding</h3>
+<h5>How did we encode the texts in the Archive?</h5>
+<p>The encoding was made according to the guidelines of the Text
+	Encoding Initiative (TEI) in the P5 version of the implementation. An
+	example of our XML encoding template can be found HERE. The work was
+	carried out over four years, by a team of five people, representing a
+	total of twelve thousand hours of encoding and revision.</p>
+<h5>What elements have been encoded?</h5>
+<p>The XML encoding of both the witnesses and the four expert
+	editions contained in the LdoD Archive has been extremely granular, so
+	that all variations could become comparable either (a) at the internal
+	microtextual scale of each fragment, or (b ) at the macrotextual scale
+	of the external organization of the fragments in the Book, or (c) at
+	the level of the metadata about each item in the Archive. The elements
+	that have been formally represented include (a) punctuation, spelling,
+	words, division/aggregation of paragraphs and spaces between
+	paragraphs, but also (b) division/aggregation and ordering of fragments
+	within the structure of the Book, as well as (c) metainformation
+	concerning editorial attribution of date and heteronym or relative to
+	the material nature of the witnesses. In the case of the witnesses, all
+	acts of authorial revision (deletions, additions, substitutions,
+	variants) have been encoded, as well as the topography of line breaks
+	and the use of spaces or rules for dividing blocks of text in all
+	documents. In the case of the experts editions all spaces and rules of
+	division between paragraphs have also been marked up.</p>
 <h3>Edition Comparison</h3>
 <h5>What is the edition comparison interface for?</h5>
 <p>
 	The edition comparison interface has been designed to relate the
-	various interpretations of the same fragment (i.e., the interpretations
-	of the authorial sources and the interpretations of experts&rsquo;
-	editions) to each other. The parallel segmentation and visualization of
-	the fragments allows you to compare the transcriptions of each
-	fragment, as well as their relative position within the order of the <em>Book.</em>
+	various interpretations of the same fragment (i.e., interpretations of
+	the witnesses and interpretations of experts&rsquo; editions) to each
+	other. The parallel segmentation and visualization of the fragments
+	allows you to compare the transcriptions of each fragment, as well as
+	their relative position within the order of the <em>Book.</em>
 </p>
 <h5>What does the &ldquo;highlight differences&rdquo; view show?</h5>
 <p>This feature shows the points of variation between the
@@ -204,10 +276,9 @@
 		fragment</em> indicates that the compared editions have split the fragments
 	differently, that is, the match is not one text to one text, but one to
 	two or to more than two texts. In these cases, the table of variations
-	only indicates those macro-textual differences &ndash; it is necessary
-	to see the <em>highlights within the text itself</em> in order to
-	identify other points of variation on the lower scale of the word or
-	group of words, punctuation mark, and sentence or group of sentences.
+	indicates both those macro-textual differences and the points of
+	variation at the lower scale of the word or group of words, punctuation
+	mark, and sentence or group of sentences.
 </p>
 <h5>What does the comparison reveal about the editions?</h5>
 <p>
@@ -298,8 +369,8 @@
 <h3>Reading</h3>
 <p>
 	The reading interface offers the possibility of reading the fragments
-	of the <em>Book of Disquiet</em>, according to the sequences proposed
-	by each of its editors. In addition, the <em>Archive </em>recommends a
+	of the <em>Book of Disquiet</em> according to the sequences proposed by
+	each of its editors. In addition, the <em>Archive </em>recommends a
 	reading sequence based on weights (ranging from 0.0 to 1.0, with
 	intervals of 0.2) that the user can assign to four criteria: heteronym,
 	date, text, and taxonomy. For the fragment that the user is currently
@@ -392,12 +463,27 @@
 	interpretations for reading is based on the calculation of the
 	similarity between fragments.</p>
 <h3>Virtual Edition</h3>
+<h5>What is a Virtual Edition?</h5>
 <p>A virtual edition is a selection of fragments that one or more
 	users define by choosing from among existing interpretations. A virtual
 	edition is a unique entity because it allows its virtual editors to
 	choose the fragments they want to include, their ordering, and their
 	annotation through notes and categories. The set of categories
 	associated with a virtual edition defines its taxonomy.</p>
+<h5>What are the limitations to the editorial function in the LdoD
+	Archive?</h5>
+<p>The editorial function in the LdoD Archive is limited to the
+	selection, ordering and annotation of the interpretations of the
+	fragments. Virtual editors cannot change the transcriptions or the
+	modularity of the selected interpretations. These limitations are
+	determined by two factors: on the one hand, by the need to control the
+	quality of the transcriptions and the encoding associated with them; on
+	the other hand, by the need to limit the complexity of processing the
+	materials produced by users. The inclusion of a transcription and
+	encoding module, with its own validation system - which would be
+	particularly useful in the context of specialized learning of digital
+	critical editing - may be considered in the future, depending on the
+	available resources.</p>
 <h5>What is LdoD Archive Edition?</h5>
 <p>
 	It is an experimental edition of the <em>LdoD Archive</em> that uses
@@ -610,4 +696,4 @@
 	[<em>Translation by Manuel Portela</em>]
 </p>
 <p>&nbsp;</p>
-<p>[updated 02-01-2017]</p>
+<p>[updated 05-03-2017]</p>

@@ -2,6 +2,8 @@
 	<a href="#T1T">O Arquivo</a>
 </h4>
 <ul>
+	<li><a href="#Q52Q">O que é o Arquivo LdoD?</a></li>
+	<li><a href="#Q53Q">O que contém o Arquivo LdoD?</a></li>
 	<li><a href="#Q1Q">O que &eacute; um fragmento no Arquivo
 			LdoD?</a></li>
 	<li><a href="#Q2Q">O que &eacute; uma
@@ -13,14 +15,14 @@
 			interpreta&ccedil;&atilde;o autoral representativa de um fragmento?</a></li>
 </ul>
 <h4>
-	<a href="#T2T">Fontes Autorais</a>
+	<a href="#T2T">Testemunhos</a>
 </h4>
 <ul>
-	<li><a href="#Q5Q">O que s&atilde;o as fontes autorais?</a></li>
+	<li><a href="#Q5Q">O que s&atilde;o os testemunhos?</a></li>
 	<li><a href="#Q6Q">O que &eacute; uma
 			transcri&ccedil;&atilde;o gen&eacute;tica?</a></li>
 	<li><a href="#Q7Q">O que permite a interface de
-			visualiza&ccedil;&atilde;o das fontes autorais?</a></li>
+			visualiza&ccedil;&atilde;o dos testemunhos?</a></li>
 	<li><a href="#Q8Q">O que &eacute; o fac-s&iacute;mile?</a></li>
 </ul>
 <h4>
@@ -106,7 +108,10 @@
 	<a href="#T8T">Edi&ccedil;&atilde;o Virtual</a>
 </h4>
 <ul>
-	<li><a href="#Q32Q">O que &eacute; a Edi&ccedil;&atilde;o do
+	<li><a href="#Q54Q">O que é uma Edição Virtual?</a></li>
+	<li><a href="#Q55Q">Quais as limitações ao exercício da função
+			editorial no Arquivo LdoD?</a></li>
+	<li><a href="#Q56Q">O que &eacute; a Edi&ccedil;&atilde;o do
 			Arquivo LdoD?</a></li>
 	<li><a href="#Q33Q">Como posso criar uma edi&ccedil;&atilde;o
 			virtual?</a></li>
@@ -152,6 +157,25 @@
 
 <h3 id="T1T" style="padding-top: 60px; margin-top: -60px;">O
 	Arquivo</h3>
+<h5 id="Q52Q" style="padding-top: 60px; margin-top: -60px;">O que é
+	o Arquivo LdoD?</h5>
+<p>O Arquivo LdoD é um arquivo digital colaborativo do Livro do
+	Desassossego de Fernando Pessoa. Contém imagens dos documentos
+	autógrafos, novas transcrições desses documentos e ainda transcrições
+	de quatro edições da obra. Além da leitura e comparação das
+	transcrições, o Arquivo LdoD permite que os utilizadores colaborem na
+	criação de edições virtuais do Livro do Desassossego. Inclui ainda um
+	módulo de escrita que, futuramente, permitirá aos utilizadores
+	escreverem variações a partir dos fragmentos do Livro. Deste modo, o
+	Arquivo LdoD combina um princípio representacional com um princípio
+	simulatório: o primeiro consiste na representação da história e dos
+	processos de escrita e de edição do Livro; o segundo consiste na
+	possibilidade de os utilizadores assumirem diferentes papéis no
+	processo literário (ler, editar, escrever), usando a flexibilidade do
+	meio digital para experimentarem o Livro do Desassossego como máquina
+	literária.</p>
+<h5 id="Q53Q" style="padding-top: 60px; margin-top: -60px;">O que
+	contém o Arquivo LdoD?</h5>
 <p>
 	O <em>Arquivo LdoD</em> &eacute; constitu&iacute;do por um grupo de
 	fragmentos que Fernando Pessoa explicitamente indicou pertencerem ao <em>Livro
@@ -168,7 +192,7 @@
 	metainforma&ccedil;&atilde;o sobre o mesmo, como seja a
 	atribui&ccedil;&atilde;o de uma data, ou de um heter&oacute;nimo, ou a
 	indica&ccedil;&atilde;o da cota da Biblioteca Nacional de Portugal que
-	identifica a fonte autoral em causa. Os diferentes editores do<em>
+	identifica o testemunho em causa. Os diferentes editores do<em>
 		Livro</em> produziram interpreta&ccedil;&otilde;es que podem diferir quer
 	na transcri&ccedil;&atilde;o quer na metainforma&ccedil;&atilde;o.
 	Assim, no <em>Arquivo LdoD</em>, um fragmento possui
@@ -177,11 +201,11 @@
 	dos editores n&atilde;o considere esse fragmento como fazendo parte do
 	<em>Livro</em>, situa&ccedil;&atilde;o em que n&atilde;o haver&aacute;
 	interpreta&ccedil;&atilde;o associada a esse perito. Adicionalmente, um
-	fragmento possui uma ou mais interpreta&ccedil;&otilde;es das fontes
-	autorais (interpreta&ccedil;&otilde;es autorais), sendo que pode haver
-	v&aacute;rias interpreta&ccedil;&otilde;es autorais do mesmo fragmento
-	devido, por exemplo, &agrave; exist&ecirc;ncia de v&aacute;rios
-	manuscritos e datiloscritos de um mesmo texto. A
+	fragmento possui uma ou mais interpreta&ccedil;&otilde;es dos
+	testemunhos (interpreta&ccedil;&otilde;es autorais), sendo que pode
+	haver v&aacute;rias interpreta&ccedil;&otilde;es autorais do mesmo
+	fragmento devido, por exemplo, &agrave; exist&ecirc;ncia de
+	v&aacute;rios manuscritos e datiloscritos de um mesmo texto. A
 	transcri&ccedil;&atilde;o e metainforma&ccedil;&atilde;o associada a
 	uma interpreta&ccedil;&atilde;o autoral &eacute; da responsabilidade da
 	equipa do <em>Arquivo LdoD.</em>
@@ -190,10 +214,10 @@
 	&eacute; um fragmento no Arquivo LdoD?</h5>
 <p>
 	Um fragmento &eacute; uma sequ&ecirc;ncia textual modular e constitui a
-	unidade b&aacute;sica de composi&ccedil;&atilde;o do <em>Livro.</em> A
-	maior parte das sequ&ecirc;ncias textuais constituem tamb&eacute;m
-	unidades materiais delimitadas, uma vez que est&atilde;o escritas em
-	folhas soltas (ou pequenos grupos de folhas) sem uma
+	unidade b&aacute;sica de composi&ccedil;&atilde;o do <em>Arquivo
+		LdoD</em>. A maior parte das sequ&ecirc;ncias textuais constituem
+	tamb&eacute;m unidades materiais delimitadas, uma vez que est&atilde;o
+	escritas em folhas soltas (ou pequenos grupos de folhas) sem uma
 	ordena&ccedil;&atilde;o definida entre si. Os fragmentos codificados no
 	<em>Arquivo LdoD</em> correspondem &agrave; soma de todos os textos que
 	foram considerados como pertencentes ou como estando associados ao <em>Livro
@@ -201,6 +225,37 @@
 	incluindo aqueles textos que s&atilde;o publicados em ap&ecirc;ndice ou
 	em anexo.
 </p>
+<h5>Qual a relação entre um texto no Livro do Desassossego e um
+	fragmento no Arquivo LdoD?</h5>
+<p>Todos os fragmentos do Arquivo LdoD são também unidades textuais
+	do Livro do Desassossego segundo pelo menos uma das edições. A
+	estrutura do Arquivo coloca todos os fragmentos à mesma distância uns
+	dos outros, isto é, com o mesmo índice de modularidade. Todavia, nas
+	edições, nem todas as unidades textuais têm o mesmo grau de
+	independência relativa, uma vez que há grupos de textos que estão mais
+	próximos entre si, quer por serem partes de uma unidade textual maior,
+	quer por proximidade temática ou cronológica. As unidades textuais das
+	edições têm diferentes índices de modularidade, pois há grupos de
+	textos mais próximos entre si. Essa é a diferença principal entre um
+	texto como unidade de uma dade edição e um fragmento como unidade do
+	Arquivo LdoD.</p>
+<h5>Por que motivo o fragmento é tratado como unidade modular no
+	Arquivo LdoD?</h5>
+<p>A organização modular dos fragmentos (isto é, à mesma distância
+	relativa uns dos outros) no Arquivo LdoD é uma pré-condição para que a
+	comparação e a virtualização das edições possa ser processada da forma
+	aberta concebida pelo nosso modelo. Esta sobrevalorização da
+	fragmentariedade modular do Livro no Arquivo LdoD constitui um
+	instrumento crítico para abrir o potencial de leitura, edição e escrita
+	da obra a novas intervenções. A distorção introduzida pelo modelo de
+	dados - suporte principal das funcionalidades dinâmicas do Arquivo LdoD
+	- dá expressão técnica a uma rematerialização digital de documentos,
+	textos e obra para além dos modelos bibliográficos. O Livro do
+	Desasssossego não é uma organização inteiramente livre de fragmentos
+	soltos, mas a configuração radial e desierarquizada das suas unidades
+	no Arquivo LdoD permite simular a projetualidade autoral e a
+	projetualidade editorial como processos de imaginação da obra enquanto
+	livro.</p>
 <h5 id="Q2Q" style="padding-top: 60px; margin-top: -60px;">O que
 	&eacute; uma interpreta&ccedil;&atilde;o no Arquivo LdoD?</h5>
 <p>
@@ -208,25 +263,25 @@
 	transcri&ccedil;&atilde;o e pela metainforma&ccedil;&atilde;o que lhe
 	est&aacute; associada. As interpreta&ccedil;&otilde;es das cinco
 	vers&otilde;es (isto &eacute;, das quatro edi&ccedil;&otilde;es dos
-	peritos e ainda da representa&ccedil;&atilde;o gen&eacute;tica das
-	fontes autorais) n&atilde;o s&atilde;o totalmente coincidentes entre
-	si, quer por varia&ccedil;&otilde;es e diferen&ccedil;as microtextuais
-	(transcri&ccedil;&atilde;o de passos, ordena&ccedil;&atilde;o interna
-	dos par&aacute;grafos, divis&atilde;o dos fragmentos entre si, por
-	exemplo), quer por varia&ccedil;&otilde;es macrotextuais (isto
-	&eacute;, ordena&ccedil;&atilde;o relativa do fragmento na arquitetura
-	do <em>Livro</em>, inclus&atilde;o ou exclus&atilde;o de um determinado
-	fragmento do corpus do <em>Livro</em>).
+	peritos e ainda da representa&ccedil;&atilde;o gen&eacute;tica dos
+	testemunho) n&atilde;o s&atilde;o totalmente coincidentes entre si,
+	quer por varia&ccedil;&otilde;es e diferen&ccedil;as microtextuais
+	(ortografia, pontuação, escolha de variantes, ordena&ccedil;&atilde;o
+	interna dos par&aacute;grafos, por exemplo), quer por
+	varia&ccedil;&otilde;es macrotextuais (isto &eacute;, divisão dos
+	fragmentos entre si, ordena&ccedil;&atilde;o relativa do fragmento na
+	arquitetura do <em>Livro</em>, inclus&atilde;o ou exclus&atilde;o de um
+	determinado fragmento do corpus do <em>Livro</em>).
 </p>
 <h5 id="Q3Q" style="padding-top: 60px; margin-top: -60px;">Porque
 	&eacute; que alguns fragmentos possuem mais que uma
 	interpreta&ccedil;&atilde;o editorial para o mesmo editor?</h5>
 <p>Isso acontece porque os editores dividem, por vezes, um fragmento
 	ou associam v&aacute;rios fragmentos. Por exemplo, um editor pode
-	considerar como sendo um &uacute;nico fragmento o que outro editor
-	considera serem dois fragmentos distintos, ou seja, para o primeiro
-	editor o arquivo associa uma &uacute;nica interpreta&ccedil;&atilde;o
-	enquanto para o segundo editor associa duas.</p>
+	considerar como sendo um &uacute;nico texto o que outro editor
+	considera serem dois textos distintos, ou seja, para o primeiro editor
+	o arquivo associa uma &uacute;nica interpreta&ccedil;&atilde;o enquanto
+	para o segundo editor associa duas.</p>
 <h5 id="Q4Q" style="padding-top: 60px; margin-top: -60px;">O que
 	&eacute; a interpreta&ccedil;&atilde;o autoral representativa de um
 	fragmento?</h5>
@@ -238,12 +293,11 @@
 	refer&ecirc;ncia, por exemplo, para calcular a similaridade textual
 	entre dois fragmentos quando se usa o algoritmo de
 	recomenda&ccedil;&atilde;o.</p>
-<h3 id="T2T" style="padding-top: 60px; margin-top: -60px;">Fontes
-	Autorais</h3>
+<h3 id="T2T" style="padding-top: 60px; margin-top: -60px;">Testemunhos</h3>
 <h5 id="Q5Q" style="padding-top: 60px; margin-top: -60px;">O que
-	s&atilde;o as fontes autorais?</h5>
+	s&atilde;o os testemunhos?</h5>
 <p>
-	As fontes autorais s&atilde;o as interpreta&ccedil;&otilde;es dos
+	Os testemunhos s&atilde;o as interpreta&ccedil;&otilde;es dos
 	fragmentos constitu&iacute;das por transcri&ccedil;&otilde;es
 	gen&eacute;ticas de manuscritos e datiloscritos aut&oacute;grafos, e
 	ainda impressos publicados por Pessoa, codificadas pela equipa do<em>
@@ -260,15 +314,15 @@
 	camadas de composi&ccedil;&atilde;o do texto e n&atilde;o apenas a
 	vers&atilde;o final.</p>
 <h5 id="Q7Q" style="padding-top: 60px; margin-top: -60px;">O que
-	permite a interface de visualiza&ccedil;&atilde;o das fontes autorais?</h5>
+	permite a interface de visualiza&ccedil;&atilde;o dos testemunhos?</h5>
 <p>Permite ver a transcri&ccedil;&atilde;o de um testemunho autoral
 	que respeita a topografia de quebras de linha e de
 	distribui&ccedil;&atilde;o de espa&ccedil;os do original. Permite ver
 	tamb&eacute;m os elementos textuais cancelados, substitu&iacute;dos ou
 	acrescentados por Fernando Pessoa, assim como o fac-s&iacute;mile
-	digital dos documentos originais. S&atilde;o representadas
-	tamb&eacute;m todas as variantes, isto &eacute;, aqueles passos
-	textuais para os quais existem duas ou mais alternativas.</p>
+	digital dos documentos originais. S&atilde;o representadas ainda todas
+	as variantes, isto &eacute;, aqueles passos textuais para os quais
+	existem duas ou mais alternativas.</p>
 <h5 id="Q8Q" style="padding-top: 60px; margin-top: -60px;">O que
 	&eacute; o fac-s&iacute;mile?</h5>
 <p>
@@ -285,14 +339,14 @@
 <h5 id="Q9Q" style="padding-top: 60px; margin-top: -60px;">O que
 	s&atilde;o as edi&ccedil;&otilde;es dos peritos?</h5>
 <p>
-	As edi&ccedil;&otilde;es dos peritos que constam do Arquivo s&atilde;o
-	as principais edi&ccedil;&otilde;es cr&iacute;ticas publicadas entre
-	1982 e 2012. Estas quatro edi&ccedil;&otilde;es cr&iacute;ticas
-	(preparadas a partir dos testemunhos aut&oacute;grafos) foram
-	organizadas, respetivamente, por Jacinto do Prado Coelho (1982, reimp.
-	1997), Teresa Sobral Cunha (2008; 1&ordf; ed. 1990-1991), Richard
-	Zenith (2012; 1&ordf; ed. 1998)&nbsp; e Jer&oacute;nimo Pizarro (2010).
-	A sequ&ecirc;ncia de apresenta&ccedil;&atilde;o das
+	As edi&ccedil;&otilde;es dos peritos que constam do <em>Arquivo
+		LdoD</em> s&atilde;o as principais edi&ccedil;&otilde;es cr&iacute;ticas
+	publicadas entre 1982 e 2012. Estas quatro edi&ccedil;&otilde;es
+	cr&iacute;ticas (preparadas a partir dos testemunhos aut&oacute;grafos)
+	foram organizadas, respetivamente, por Jacinto do Prado Coelho (1982,
+	reimp. 1997), Teresa Sobral Cunha (2008; 1&ordf; ed. 1990-1991),
+	Richard Zenith (2012; 1&ordf; ed. 1998)&nbsp; e Jer&oacute;nimo Pizarro
+	(2010). A sequ&ecirc;ncia de apresenta&ccedil;&atilde;o das
 	edi&ccedil;&otilde;es dos peritos no menu corresponde &agrave; ordem
 	cronol&oacute;gica da data da sua publica&ccedil;&atilde;o original. As
 	edi&ccedil;&otilde;es dos peritos s&atilde;o portanto muito
@@ -328,15 +382,15 @@
 	2008; Zenith 2012 e Pizarro 2010) eram as &uacute;ltimas
 	edi&ccedil;&otilde;es no momento em que a codifica&ccedil;&atilde;o dos
 	ficheiros do <em>Arquivo LdoD</em> teve in&iacute;cio, no ano de 2012.
-	A edi&ccedil;&atilde;o de 1982 (reimpressa uma &uacute;nica vezem 1997)
-	&eacute; a &uacute;nica que n&atilde;o sofreu altera&ccedil;&otilde;es.
-	As outras tr&ecirc;s edi&ccedil;&otilde;es continuam a sofrer
-	altera&ccedil;&otilde;es (no <em>corpus</em>, na
-	transcri&ccedil;&atilde;o, na ordena&ccedil;&atilde;o), ainda que
+	A edi&ccedil;&atilde;o de 1982 (reimpressa uma &uacute;nica vez em
+	1997) &eacute; a &uacute;nica que n&atilde;o sofreu
+	altera&ccedil;&otilde;es. As outras tr&ecirc;s edi&ccedil;&otilde;es
+	continuam a sofrer pequenas altera&ccedil;&otilde;es (no <em>corpus</em>,
+	na transcri&ccedil;&atilde;o, na ordena&ccedil;&atilde;o), ainda que
 	mantendo o essencial das respetivas estruturas e princ&iacute;pios de
 	ordena&ccedil;&atilde;o.&nbsp; Entretanto, desde 2012, foram j&aacute;
-	publicadas novas edi&ccedil;&otilde;es (Cunha 2013 e 2016; Pizarro 2013
-	e 2014; Zenith 2015).
+	publicadas novas edi&ccedil;&otilde;es (Sobral Cunha 2013 e 2016;
+	Pizarro 2013 e 2014; Zenith 2015).
 </p>
 <h5 id="Q11Q" style="padding-top: 60px; margin-top: -60px;">As
 	edi&ccedil;&otilde;es dos peritos ser&atilde;o atualizadas futuramente?</h5>
@@ -371,7 +425,7 @@
 <h5 id="Q13Q" style="padding-top: 60px; margin-top: -60px;">Que
 	elementos foram codificados?</h5>
 <p>
-	A codifica&ccedil;&atilde;o XML das fontes autorais e das quatro
+	A codifica&ccedil;&atilde;o XML dos testemunhos e das quatro
 	edi&ccedil;&otilde;es dos peritos contidas no <em>Arquivo LdoD</em> foi
 	feita de forma extremamente granular, de modo a que todas as
 	varia&ccedil;&otilde;es pudessem ser compar&aacute;veis quer (a) na
@@ -386,7 +440,7 @@
 	fragmentos na estrutura do <em>Livro</em>, assim como (c)
 	metainforma&ccedil;&atilde;o relativa &agrave; atribui&ccedil;&atilde;o
 	editorial de data e heter&oacute;nimo ou relativa &agrave; natureza
-	material das fontes autorais. No caso das fontes autorais, foram ainda
+	material dos testemunhos. No caso dos testemunhos, foram ainda
 	codificados todos os atos de revis&atilde;o autoral (cancelados,
 	adi&ccedil;&otilde;es, substitui&ccedil;&otilde;es, variantes), bem
 	como a topografia das quebras de linha e do uso de espa&ccedil;os ou
@@ -400,15 +454,16 @@
 <h5 id="Q14Q" style="padding-top: 60px; margin-top: -60px;">Para
 	que serve a interface de compara&ccedil;&atilde;o das
 	edi&ccedil;&otilde;es?</h5>
-<p>A interface de compara&ccedil;&atilde;o das edi&ccedil;&otilde;es
-	serve para relacionar entre si as v&aacute;rias
-	interpreta&ccedil;&otilde;es de um mesmo fragmento, isto &eacute;, as
-	interpreta&ccedil;&otilde;es das fontes autorais e as
-	interpreta&ccedil;&otilde;es das edi&ccedil;&otilde;es dos peritos. A
-	visualiza&ccedil;&atilde;o paralela dos fragmentos permite comparar
-	entre si as transcri&ccedil;&otilde;es de cada fragmento, e
-	tamb&eacute;m a sua posi&ccedil;&atilde;o relativa dentro da
-	ordena&ccedil;&atilde;o do Livro.</p>
+<p>
+	A interface de compara&ccedil;&atilde;o das edi&ccedil;&otilde;es serve
+	para relacionar entre si as v&aacute;rias interpreta&ccedil;&otilde;es
+	de um mesmo fragmento, isto &eacute;, as interpreta&ccedil;&otilde;es
+	dos testemunhos e as interpreta&ccedil;&otilde;es das
+	edi&ccedil;&otilde;es dos peritos. A visualiza&ccedil;&atilde;o
+	paralela dos fragmentos permite comparar entre si as
+	transcri&ccedil;&otilde;es de cada fragmento, e tamb&eacute;m a sua
+	posi&ccedil;&atilde;o relativa dentro da ordena&ccedil;&atilde;o do <em>Livro</em>.
+</p>
 <h5 id="Q15Q" style="padding-top: 60px; margin-top: -60px;">O que
 	mostra a visualiza&ccedil;&atilde;o de realce de diferen&ccedil;as?</h5>
 <p>Esta funcionalidade mostra os pontos de varia&ccedil;&atilde;o
@@ -459,11 +514,9 @@
 	fragmentos entre si de forma diferente, ou seja, a
 	correspond&ecirc;ncia n&atilde;o &eacute; de 1 para 1, mas de 1 para 2
 	ou para mais de 2. Nestes casos a tabela de varia&ccedil;&otilde;es
-	indica apenas as diferen&ccedil;as macrotextuais, sendo
-	necess&aacute;rio ver os realces no pr&oacute;prio texto para
-	identificar os outros pontos de varia&ccedil;&atilde;o &agrave; escala
-	inferior da palavra ou grupo de palavras, sinal de
-	pontua&ccedil;&atilde;o e frase ou grupo de frases.
+	indica quer as diferen&ccedil;as macrotextuais, quer pontos de
+	varia&ccedil;&atilde;o &agrave; escala inferior da palavra ou grupo de
+	palavras, sinal de pontua&ccedil;&atilde;o e frase ou grupo de frases.
 </p>
 <h5 id="Q17Q" style="padding-top: 60px; margin-top: -60px;">O que
 	&eacute; que a compara&ccedil;&atilde;o revela sobre as
@@ -584,8 +637,8 @@
 	raz&atilde;o pela qual o fragmento foi selecionado.</p>
 <h3 id="T7T" style="padding-top: 60px; margin-top: -60px;">Leitura</h3>
 <p>
-	A interface de leitura oferece a possibilidade de ler os fragmentos do
-	<em>Livro do Desassossego</em>, de acordo com as sequ&ecirc;ncias
+	A interface de leitura oferece a possibilidade de se ler os fragmentos
+	do <em>Livro do Desassossego</em>, de acordo com as sequ&ecirc;ncias
 	propostas por cada um dos seus editores. Adicionalmente o <em>Arquivo</em>
 	recomenda uma sequ&ecirc;ncia de leitura com base em pesos (que variam
 	entre 0.0 e 1.0, com intervalos de 0.2) que o utilizador pode atribuir
@@ -706,6 +759,7 @@
 	c&aacute;lculo da similaridade entre fragmentos.</p>
 <h3 id="T8T" style="padding-top: 60px; margin-top: -60px;">Edi&ccedil;&atilde;o
 	Virtual</h3>
+<h5 id="Q54Q" style="padding-top: 60px; margin-top: -60px;">O que é uma Edição Virtual?</h5>
 <p>Uma edi&ccedil;&atilde;o virtual &eacute; uma
 	sele&ccedil;&atilde;o de fragmentos que um ou mais utilizadores definem
 	escolhendo de entre as interpreta&ccedil;&otilde;es existentes. Uma
@@ -715,8 +769,22 @@
 	anota&ccedil;&atilde;o atrav&eacute;s de notas e categorias. O conjunto
 	de categorias associadas a uma edi&ccedil;&atilde;o virtual define a
 	sua taxonomia.</p>
-<h5 id="Q33Q" style="padding-top: 60px; margin-top: -60px;">O que
-	&eacute; a Edi&ccedil;&atilde;o do Arquivo LdoD?</h5>
+<h5 id="Q55Q" style="padding-top: 60px; margin-top: -60px;">Quais as limitações ao exercício da função editorial no Arquivo
+	LdoD?</h5>
+<p>O exercício da função editorial no Arquivo LdoD está limitado à
+	seleção, ordenação e anotação das interpretações dos fragmentos. Os
+	editores virtuais não podem alterar as transcrições ou a modularidade
+	das interpretações selecionadas. Estas limitações são determinadas por
+	dois fatores: por um lado, pela necessidade de controlar a qualidade
+	das transcrições e da codificação que lhes está associada; por outro
+	lado, pela necessidade de limitar a complexidade do processamento dos
+	materiais produzidos pelos utilizadores. A inclusão de um módulo de
+	transcrição e codificação, com o respetivo sistema de validação -
+	particularmente útil num contexto de aprendizagem especializada das
+	práticas de crítica textual -, poderá vir a ser considerada futuramente
+	em função dos recursos disponíveis.</p>
+<h5 id="Q56Q" style="padding-top: 60px; margin-top: -60px;">O que &eacute; a Edi&ccedil;&atilde;o do Arquivo LdoD?
+</h5>
 <p>
 	&Eacute; uma edi&ccedil;&atilde;o experimental do <em>Arquivo LdoD</em>
 	que usa a interpreta&ccedil;&atilde;o autoral representativa de cada um
@@ -725,7 +793,7 @@
 	anotaram as interpreta&ccedil;&otilde;es com as categorias da
 	taxonomia.
 </p>
-<h5 id="Q34Q" style="padding-top: 60px; margin-top: -60px;">Como
+<h5 id="Q33Q" style="padding-top: 60px; margin-top: -60px;">Como
 	posso criar uma edi&ccedil;&atilde;o virtual?</h5>
 <p>Na interface virtual pode-se criar uma nova edi&ccedil;&atilde;o
 	virtual. A edi&ccedil;&atilde;o virtual pode usar uma
@@ -745,13 +813,13 @@
 	s&atilde;o vis&iacute;veis na nova edi&ccedil;&atilde;o. Este
 	crit&eacute;rio foi escolhido para respeitar a autoria das
 	anota&ccedil;&otilde;es.</p>
-<h5 id="Q35Q" style="padding-top: 60px; margin-top: -60px;">Uma
+<h5 id="Q34Q" style="padding-top: 60px; margin-top: -60px;">Uma
 	edi&ccedil;&atilde;o virtual pode possuir mais do que uma
 	interpreta&ccedil;&atilde;o do mesmo fragmento?</h5>
 <p>N&atilde;o, apenas &eacute; poss&iacute;vel associar uma
 	interpreta&ccedil;&atilde;o por fragmento a uma edi&ccedil;&atilde;o
 	virtual.</p>
-<h5 id="Q36Q" style="padding-top: 60px; margin-top: -60px;">Como
+<h5 id="Q35Q" style="padding-top: 60px; margin-top: -60px;">Como
 	adiciono uma interpreta&ccedil;&atilde;o a uma edi&ccedil;&atilde;o
 	virtual?</h5>
 <p>Existem diversas formas de associar uma
@@ -764,7 +832,7 @@
 	ordena&ccedil;&atilde;o manual da edi&ccedil;&atilde;o virtual &eacute;
 	poss&iacute;vel pesquisar fragmentos e adicion&aacute;-los &agrave;
 	edi&ccedil;&atilde;o virtual.</p>
-<h5 id="Q37Q" style="padding-top: 60px; margin-top: -60px;">Como
+<h5 id="Q36Q" style="padding-top: 60px; margin-top: -60px;">Como
 	posso remover uma interpreta&ccedil;&atilde;o de uma
 	edi&ccedil;&atilde;o virtual?</h5>
 <p>Na interface de ordena&ccedil;&atilde;o manual da
@@ -1008,4 +1076,4 @@
 <p>&nbsp;</p>
 <p>Manuel Portela e Ant&oacute;nio Rito Silva</p>
 <p>&nbsp;</p>
-<p>[atualiza&ccedil;&atilde;o 02-01-2017]</p>
+<p>[atualiza&ccedil;&atilde;o 05-03-2017]</p>

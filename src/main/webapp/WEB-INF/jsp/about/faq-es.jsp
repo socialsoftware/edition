@@ -1,4 +1,21 @@
 <h3>El Archivo</h3>
+<h5>&iquest;Qu&eacute; es el Archivo LdoD?</h5>
+<p>El Archivo LdoD es un archivo digital colaborativo del Libro del
+	desasosiego de Fernando Pessoa. Contiene imágenes de los documentos
+	originales, nuevas transcripciones de estos documentos y
+	transcripciones de cuatro ediciones de la obra. Además de la lectura y
+	la comparación de las transcripciones, el Archivo LdoD permite a los
+	usuarios colaborar en la creación de ediciones virtuales del Libro del
+	desasosiego. Incluye un módulo de escritura que, futuramente, permitirá
+	a los usuarios escribir variaciones basadas en los fragmentos del
+	Libro. De este modo, el Archivo LdoD combina un principio de
+	representación con un principio de simulación: el primero consiste en
+	representar la historia y los procesos de escritura y de edición del
+	Libro; el segundo consiste en la posibilidad de que los usuarios asuman
+	diferentes papeles en el proceso literario, utilizando la flexibilidad
+	del medio digital para experimentar con el Libro del desasosiego como
+	máquina literaria.</p>
+<h5>&iquest;Qu&eacute; contiene el Archivo LdoD?</h5>
 <p>
 	El <em>Archivo LdoD</em> est&aacute; constituido, por un lado, por un
 	grupo de fragmentos que Fernando Pessoa expl&iacute;citamente
@@ -14,16 +31,16 @@
 	conjunto de metainformaci&oacute;n sobre el mismo, como por ejemplo la
 	atribuci&oacute;n de una fecha, o de un heter&oacute;nimo, o la
 	indicaci&oacute;n de la referencia de la Biblioteca Nacional de
-	Portugal que identifica la fuente autoral en causa dentro del legado.
-	Los diferentes editores del <em>Libro</em> produjeron interpretaciones
-	que pueden diferir bien en la transcripci&oacute;n bien en la
+	Portugal que identifica el testimonio en causa dentro del legado. Los
+	diferentes editores del <em>Libro</em> produjeron interpretaciones que
+	pueden diferir bien en la transcripci&oacute;n bien en la
 	metainformaci&oacute;n. As&iacute;, en el <em>Archivo LdoD</em>, un
 	fragmento posee interpretaciones de los editores (interpretaciones
 	editoriales) y puede ocurrir que alguno de los editores no considere
 	ese fragmento como perteneciente al <em>Libro</em>, con lo que no
 	habr&aacute; interpretaci&oacute;n asociada a ese especialista.
 	Adem&aacute;s, un fragmento posee una o m&aacute;s interpretaciones de
-	las fuentes autorales (interpretaciones autorales) y puede haber varias
+	los testimonios (interpretaciones autorales) y puede haber varias
 	interpretaciones autorales del mismo fragmento, debido, por ejemplo, a
 	la existencia de varios manuscritos y datiloscritos (escritos a
 	m&aacute;quina) de un mismo texto. La transcripci&oacute;n y
@@ -33,8 +50,8 @@
 <h5>&iquest;Qu&eacute; es un fragmento en el Archivo LdoD?</h5>
 <p>
 	Un fragmento es una secuencia textual modular que constituye la unidad
-	b&aacute;sica de composici&oacute;n del <em>Libro</em>. La mayor parte
-	de las secuencias textuales constituyen tambi&eacute;n unidades
+	b&aacute;sica de composici&oacute;n del <em>Archivo LdoD</em>. La mayor
+	parte de las secuencias textuales constituyen tambi&eacute;n unidades
 	materiales delimitadas, en la medida en que estas est&aacute;n escritas
 	en hojas sueltas (o peque&ntilde;os grupos de hojas) sin una
 	ordenaci&oacute;n definida entre s&iacute;. Los fragmentos codificados
@@ -43,6 +60,38 @@
 		del desasosiego</em> por las cuatro ediciones cr&iacute;ticas, incluyendo
 	aquellos textos que son publicados en ap&eacute;ndice o anexo.
 </p>
+<h5>¿Cuál es la relación entre un texto en el Libro del desasosiego
+	y un fragmento en Archivo LdoD?</h5>
+<p>Todos los fragmentos del Archivo LdoD son también unidades
+	textuales del Libro del desasosiego de acuerdo con al menos una de las
+	ediciones. La estructura del Archivo pone todos los fragmentos a la
+	misma distancia unos de otros, es decir, con el mismo índice de
+	modularidad. Sin embargo, en las ediciones, no todas las unidades
+	textuales tienen el mismo grado de independencia relativa, ya que hay
+	grupos de textos que están más próximos entre sí, ya sea por ser parte
+	de una unidad textual más grande, ya sea por proximidad temática o
+	cronológica. Las unidades textuales de las ediciones tienen diferentes
+	índices de modularidad, ya que hay grupos de textos que están más
+	próximos entre sí. Esta es la principal diferencia entre un texto como
+	unidad de determinada edición y un fragmento como unidad del Archivo
+	LdoD.</p>
+<h5>¿Por qué se trata el fragmento como una unidad modular en el
+	Archivo LdoD?</h5>
+<p>La organización modular de los fragmentos (es decir, a la misma
+	distancia relativa entre sí) en el Archivo LdoD es una condición previa
+	para que la comparación y la virtualización de las ediciones puedan ser
+	procesadas de la forma abierta concebida por nuestro modelo. Esta
+	sobrevaloración de la fragmentariedad modular del Libro en el Archivo
+	LdoD es una herramienta crítica para abrir el potencial de lectura,
+	escritura y edición de la obra a nuevas intervenciones. La distorsión
+	introducida por el modelo de datos - el principal soporte de las
+	características dinámicas del Archivo LdoD - proporciona expresión
+	técnica a una rematerialización digital de documentos, textos y obra
+	más allá de los modelos bibliográficos. El Libro del desasosiego no es
+	una organización totalmente libre de fragmentos sueltos, pero la
+	configuración radial y desierarquizada de sus unidades en el Archivo
+	LdoD nos permite simular la proyectualidad autoral y la proyectualidad
+	editorial como procesos de imaginación de la obra como un libro.</p>
 <h5>&iquest;Qu&eacute; es una interpretaci&oacute;n en el Archivo
 	LdoD?</h5>
 <p>
@@ -50,23 +99,23 @@
 	transcripci&oacute;n y por la metainformaci&oacute;n asociada. Las
 	interpretaciones de las cinco versiones (esto es, de las cuatro
 	ediciones de los especialistas y tambi&eacute;n de la
-	representaci&oacute;n gen&eacute;tica de las fuentes autorales) no son
+	representaci&oacute;n gen&eacute;tica de los testimonios) no son
 	totalmente coincidentes entre s&iacute;, bien sea por variaciones y
-	diferencias microtextuales (transcripci&oacute;n de frases,
-	ordenaci&oacute;n interna de los par&aacute;grafos, divisi&oacute;n de
-	los fragmentos entre s&iacute;, por ejemplo), bien por variaciones
-	macrotextuales (esto es, ordenaci&oacute;n relativa del fragmento en la
-	arquitectura del <em>Libro</em>, inclusi&oacute;n o exclusi&oacute;n de
-	un determinado fragmento del corpus del <em>Libro</em>).
+	diferencias microtextuales (ortografía, puntuación, selección de
+	variantes, ordenación interna de los parágrafos, por ejemplo), bien por
+	variaciones macrotextuales (esto es, división de los fragmentos entre
+	sí, ordenaci&oacute;n relativa del fragmento en la arquitectura del <em>Libro</em>,
+	inclusi&oacute;n o exclusi&oacute;n de un determinado fragmento del
+	corpus del <em>Libro</em>).
 </p>
 <h5>&iquest;Por qu&eacute; algunos fragmentos poseen m&aacute;s de
 	una interpretaci&oacute;n editorial para el mismo editor?</h5>
 <p>Esta situaci&oacute;n se da porque los editores dividen, a veces,
 	un fragmento o asocian varios fragmentos. Por ejemplo, un editor puede
-	considerar como un &uacute;nico fragmento lo que otro editor considera
-	dos fragmentos distintos, o sea, para el primer editor el archivo
-	asocia una &uacute;nica interpretaci&oacute;n mientras que para el
-	segundo asocia dos.</p>
+	considerar como un &uacute;nico texto lo que otro editor considera dos
+	textos distintos, o sea, para el primer editor el archivo asocia una
+	&uacute;nica interpretaci&oacute;n mientras que para el segundo asocia
+	dos.</p>
 <h5>&iquest;Qu&eacute; es la interpretaci&oacute;n autoral
 	representativa de un fragmento?</h5>
 <p>Es la interpretaci&oacute;n autoral de la fuente impresa, en caso
@@ -75,24 +124,24 @@
 	autoral representativa para tener una transcripci&oacute;n de
 	referencia, por ejemplo, para calcular la similitud textual entre dos
 	fragmentos cuando se usa el algoritmo de recomendaci&oacute;n.</p>
-<h3>Fuentes Autorales</h3>
-<h5>&iquest;Qu&eacute; son las fuentes autorales?</h5>
+<h3>Los Testimonios</h3>
+<h5>&iquest;Qu&eacute; son los testimonios?</h5>
 <p>
-	Las fuentes autorales son las interpretaciones de los fragmentos
-	constituidas por transcripciones gen&eacute;ticas de manuscritos y
-	dactiloscritos aut&oacute;grafos, y tambi&eacute;n textos publicados
-	por Pessoa, codificados por el equipo del <em>Archivo LdoD</em>.
-	Adem&aacute;s de la transcripci&oacute;n, hay un conjunto de
-	metainformaci&oacute;n sobre los testimonios documentales (soporte y
-	medio de la inscripci&oacute;n, dimensiones de la hoja, eventuales
-	particularidades del documento, referencia de la BNP, etc.).
+	Los testimonios son las interpretaciones de los fragmentos constituidas
+	por transcripciones gen&eacute;ticas de manuscritos y dactiloscritos
+	aut&oacute;grafos, y tambi&eacute;n textos publicados por Pessoa,
+	codificados por el equipo del <em>Archivo LdoD</em>. Adem&aacute;s de
+	la transcripci&oacute;n, hay un conjunto de metainformaci&oacute;n
+	sobre los testimonios documentales (soporte y medio de la
+	inscripci&oacute;n, dimensiones de la hoja, eventuales particularidades
+	del documento, referencia de la BNP, etc.).
 </p>
 <h5>&iquest;Qu&eacute; es una transcripci&oacute;n gen&eacute;tica?</h5>
 <p>Es una transcripci&oacute;n que permite observar el proceso de
 	escritura y revisi&oacute;n autoral, registrando todas las capas de
 	composici&oacute;n del texto y no apenas la versi&oacute;n final.</p>
 <h5>&iquest;Qu&eacute; permite la interfaz de visualizaci&oacute;n
-	de las fuentes autorales?</h5>
+	de los testimonios?</h5>
 <p>Permite ver la transcripci&oacute;n de un testimonio autoral que
 	respeta la topograf&iacute;a de los saltos de l&iacute;nea y de
 	distribuci&oacute;n de espacios del documento original. Permite ver
@@ -105,7 +154,7 @@
 <p>
 	El facs&iacute;mil es una imagen digital del documento original, que es
 	representado a trav&eacute;s de la unidad de la p&aacute;gina (con
-	excepci&oacute;n de las fuentes publicadas, en las que es usada una
+	excepci&oacute;n de los testimonios publicados, en las que es usada una
 	doble p&aacute;gina). Son incluidas im&aacute;genes de todas las caras
 	escritas (frente y verso) de documentos cuyo texto fue atribuido o
 	relacionado com ell <em>Libro</em>. Hay, por eso, hojas representadas
@@ -155,13 +204,13 @@
 	2012 y Pizarro 2010) fueron las &uacute;ltimas ediciones en el momento
 	en que la codificaci&oacute;n de los ficheros del <em>Archivo LdoD</em>
 	se inici&oacute;, en el 2012. La edici&oacute;n de 1982 (reimpresa una
-	&uacute;nica vezen 1997) es la &uacute;nica que no sufri&oacute;
+	&uacute;nica vez en 1997) es la &uacute;nica que no sufri&oacute;
 	modificaciones. Las otras tres ediciones contin&uacute;an sufriendo
-	cambios (en el corpus, en la transcripci&oacute;n, en la
-	ordenaci&oacute;n), aunque mantienen lo esencial de las respectivas
+	pequeños cambios (en el <em>corpus</em>, en la transcripci&oacute;n, en
+	la ordenaci&oacute;n), aunque mantienen las respectivas
 	estructuras y principios de ordenaci&oacute;n. Entre tanto, desde 2012,
-	fueron publicadas nuevas ediciones (Cunha 2013 y 2016; Pizarro 2013 y
-	2014; Zenith 2015).
+	fueron publicadas nuevas ediciones (Sobral Cunha 2013 y 2016; Pizarro
+	2013 y 2014; Zenith 2015).
 </p>
 <h5>&iquest;Las ediciones de los especialistas ser&aacute;n
 	actualizadas en el futuro?</h5>
@@ -193,12 +242,12 @@
 </p>
 <h5>&iquest;Qu&eacute; elementos fueron codificados?</h5>
 <p>
-	La codificaci&oacute;n XML de las fuentes autorales y de las cuatro
-	ediciones de los especialistas contenidas en el <em>Archivo LdoD</em>
-	fue hecha de forma extremamente granular, de modo que todas las
-	variaciones pudiesen ser comparables, bien (a) en la escala
-	microtextual interna a cada fragmento, bien (b) en la escala
-	macrotextual de organizaci&oacute;n externa de los fragmentos en el <em>Libro</em>,
+	La codificaci&oacute;n XML de los testimonios y de las cuatro ediciones
+	de los especialistas contenidas en el <em>Archivo LdoD</em> fue hecha
+	de forma extremamente granular, de modo que todas las variaciones
+	pudiesen ser comparables, bien (a) en la escala microtextual interna a
+	cada fragmento, bien (b) en la escala macrotextual de
+	organizaci&oacute;n externa de los fragmentos en el <em>Libro</em>,
 	tambi&eacute;n todav&iacute;a (c) a nivel de la metainformaci&oacute;n
 	sobre cada &iacute;tem del archivo. Los elementos formalmente
 	representados abarcan (a) puntuaci&oacute;n, ortograf&iacute;a,
@@ -208,12 +257,12 @@
 	la estructura del <em>Libro</em>, as&iacute; como (c)
 	metainformaci&oacute;n relativa a la atribuci&oacute;n editorial de
 	fecha y heter&oacute;nimo o relativa a la naturaleza material de las
-	fuentes autorales. En el caso de las fuentes autorales, fueron
-	tambi&eacute;n codificados todos los actos de revisi&oacute;n autoral
-	(eliminaciones, adiciones, substituciones, variantes), as&iacute; como
-	la topograf&iacute;a de los saltos de l&iacute;nea y del uso de
-	espacios o trazos de divisi&oacute;n entre bloques de texto en todos
-	los documentos. En el caso de las ediciones de los especialistas fueron
+	fuentes autorales. En el caso de los testimonios, fueron tambi&eacute;n
+	codificados todos los actos de revisi&oacute;n autoral (eliminaciones,
+	adiciones, substituciones, variantes), as&iacute; como la
+	topograf&iacute;a de los saltos de l&iacute;nea y del uso de espacios o
+	trazos de divisi&oacute;n entre bloques de texto en todos los
+	documentos. En el caso de las ediciones de los especialistas fueron
 	codificados tambi&eacute;n todos los espacios relativos y trazos de
 	divisi&oacute;n entre par&aacute;grafos.
 </p>
@@ -223,7 +272,7 @@
 <p>
 	La interfaz de comparaci&oacute;n de las ediciones sirve para
 	relacionar entre s&iacute; las varias interpretaciones de un mismo
-	fragmento, esto es, las interpretaciones de las fuentes autorales y las
+	fragmento, esto es, las interpretaciones de los testimonios y las
 	interpretaciones de las ediciones de los especialistas. La
 	visualizaci&oacute;n paralela de los fragmentos permite comparar entre
 	s&iacute; las transcripciones de cada fragmento, y tambi&eacute;n su
@@ -273,11 +322,9 @@
 	fragmento indica que las ediciones dividen los fragmentos entre
 	s&iacute; de forma diferente, o sea, la correspondencia no es de 1 a 1,
 	si no de 1 a 2 o a m&aacute;s de 2. En estos casos la tabla de
-	variaciones indica s&oacute;lo las diferencias macrotextuales, por lo
-	que es necesario ver los realces en el propio texto para identificar
-	los otros puntos de variaci&oacute;n a la escala inferior de la palabra
-	o grupo de palabras, signo de puntuaci&oacute;n y frase o grupo de
-	frases.</p>
+	variaciones indica ya sea las diferencias macrotextuales, ya sea puntos
+	de variaci&oacute;n a la escala inferior de la palabra o grupo de
+	palabras, signo de puntuaci&oacute;n y frase o grupo de frases.</p>
 <h5>&iquest;Qu&eacute; revela la comparaci&oacute;n sobre las
 	ediciones?</h5>
 <p>
@@ -383,8 +430,8 @@
 <h3>Lectura</h3>
 <p>
 	La interfaz de lectura ofrece la posibilidad de leer los fragmentos del
-	<em>Libro del desasosiego</em>, de acuerdo con las secuencias
-	propuestas por cada uno de los editores. Adem&aacute;s, el <em>Archivo</em>
+	<em>Libro del desasosiego</em> de acuerdo con las secuencias propuestas
+	por cada uno de los editores. Adem&aacute;s, el <em>Archivo</em>
 	recomienda una secuencia de lectura en base a pesos (entre 0.0 y 1.0,
 	con intervalos de 0.2), que el usuario puede atribuir a cuatro
 	criterios: heter&oacute;nimo, fecha, texto y taxonom&iacute;a. Para el
@@ -493,6 +540,7 @@
 	recomendaci&oacute;n de interpretaciones para la lectura se basa en el
 	c&aacute;lculo de similitud entre fragmentos.</p>
 <h3>Edici&oacute;n virtual</h3>
+<h5>¿Que es una Edición Virtual?</h5>
 <p>Una edici&oacute;n virtual es una selecci&oacute;n de fragmentos
 	que uno o m&aacute;s usuarios definen al escoger entre las
 	interpretaciones existentes. Una edici&oacute;n virtual es una entidad
@@ -501,6 +549,21 @@
 	trav&eacute;s de notas y categor&iacute;as. El conjunto de
 	categor&iacute;as asociadas a una edici&oacute;n virtual define su
 	taxonom&iacute;a.</p>
+<h5>¿Cuáles son las limitaciones en el ejercicio de la función
+	editorial en el Archivo LdoD?</h5>
+<p>El ejercicio de la función editorial en el Archivo LdoD se limita
+	a la selección, ordenación y anotación de las interpretaciones de los
+	fragmentos. Editores virtuales no pueden cambiar las transcripciones o
+	la modularidad de las interpretaciones seleccionadas. Estas
+	limitaciones están determinados por dos factores: primero, la necesidad
+	de controlar la calidad de las transcripciones y de la respectiva
+	codificación; segundo, por la necesidad de limitar la complejidad de
+	procesamiento de los materiales producidos por los usuarios. La
+	inclusión de un módulo de transcripción y codificación con un sistema
+	de validación apropiado - particularmente útil en un contexto de
+	aprendizaje especializada de las prácticas de crítica textual digital
+	-, podrá ser considerada en el futuro de acuerdo con los recursos
+	disponibles.</p>
 <h5>&iquest;Qu&eacute; es la Edici&oacute;n del Archivo LdoD?</h5>
 <p>
 	Es una edici&oacute;n experimental del <em>Archivo LdoD</em> que
@@ -762,5 +825,5 @@
 	[<em>T</em><em>raducci&oacute;n de</em><em> Diego Gim&eacute;nez</em>]
 </p>
 <p>&nbsp;</p>
-<p>[actualizaci&oacute;n 02-01-2017]</p>
+<p>[actualizaci&oacute;n 05-03-2017]</p>
 <p>&nbsp;</p>

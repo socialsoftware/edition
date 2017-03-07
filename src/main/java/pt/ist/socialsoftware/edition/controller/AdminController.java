@@ -10,6 +10,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletResponse;
@@ -246,10 +247,13 @@ public class AdminController {
 		for (Object principal : this.sessionRegistry.getAllPrincipals()) {
 			activeSessions.addAll(this.sessionRegistry.getAllSessions(principal, false));
 		}
+		activeSessions.stream().sorted((s1, s2) -> s1.getLastRequest().compareTo(s2.getLastRequest()));
 
 		model.addAttribute("ldoD", LdoD.getInstance());
-		model.addAttribute("users", LdoD.getInstance().getUsersSet());
-		model.addAttribute("sessions", activeSessions);
+		model.addAttribute("users", LdoD.getInstance().getUsersSet().stream()
+				.sorted((u1, u2) -> u1.getUsername().compareTo(u2.getUsername())).collect(Collectors.toList()));
+		model.addAttribute("sessions", activeSessions.stream()
+				.sorted((s1, s2) -> s2.getLastRequest().compareTo(s1.getLastRequest())).collect(Collectors.toList()));
 		return "admin/listUsers";
 
 	}

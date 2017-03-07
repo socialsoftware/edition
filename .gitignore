@@ -16,3 +16,5 @@ jmeter.log
 userpasswords.txt
 
 /.DS_Store
+/infer-out/
+/pom.xml.infer-orig
