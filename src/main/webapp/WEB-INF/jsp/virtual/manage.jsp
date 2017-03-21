@@ -16,7 +16,7 @@
 		<h3 class="text-center">
 			${virtualEdition.title}
 			<c:if test="${virtualEdition.getAdminSet().contains(user)}">
-				<a class="" role="button" data-toggle="collapse"
+				<a class="tip" role="button" data-toggle="collapse" title="<spring:message code="virtualedition.tt.edit" />" 
 					href="#collapsemenu" aria-expanded="false"
 					aria-controls="collapseExample" style="font-size: 18px"> <span
 					class="glyphicon glyphicon-pencil"></span>
@@ -190,26 +190,7 @@
 		<div class="row">
 			<div>
 				<table class="table table-hover">
-<%-- 					<thead>
-						<tr>
-							<th class="text-center"><span class="tip"
-								title="<spring:message code="virtualedition.tt.taxonomies" />"><spring:message
-										code="general.taxonomies" /></span></th>
-							<th class="text-center"><span class="tip"
-								title="<spring:message code="virtualedition.tt.edit" />"><spring:message
-										code="general.edit" /></span></th>
-							<th class="text-center"><span class="tip"
-								title="<spring:message code="virtualedition.tt.recommendations" />"><spring:message
-										code="general.recommendations" /></span></th>
-							<th class="text-center"><span class="tip"
-								title="<spring:message code="virtualedition.tt.participants" />"><spring:message
-										code="general.participants" /></span></th>
-							<th class="text-center"><span class="tip"
-								title="<spring:message code="virtualedition.tt.delete" />"><spring:message
-										code="general.delete" /></span></th>
-						</tr>
-					</thead>
- --%>					<tbody>
+				<tbody>
 						<c:set var="isAdmin"
 							value="${virtualEdition.getAdminSet().contains(user)}" />
 						<c:set var="isMember"
@@ -275,7 +256,7 @@
 											action="${contextPath}/virtualeditions/restricted/delete">
 											<input type="hidden" name="externalId"
 												value="${virtualEdition.externalId}" />
-											<button type="submit" 
+											<button type="submit" id="btdelete"
 												style="border: none; background: none !important;">
 												<span class="glyphicon glyphicon-trash"></span>
 											</button>
@@ -285,6 +266,24 @@
 						</c:if>
 					</tbody>
 				</table>
+			</div>
+			<div id="confirm" class="modal fade">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-body">
+							<spring:message code="general.deleteconfirmation" />
+						</div>
+						<div class="modal-footer">
+							<button type="button" data-dismiss="modal"
+								class="btn btn-primary" id="delete">
+								<spring:message code="general.delete" />
+							</button>
+							<button type="button" data-dismiss="modal" class="btn">
+								<spring:message code="general.cancel" />
+							</button>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -299,6 +298,17 @@
 
 	$('#collapse').on('show.bs.collapse', function() {
 		$('.text-error').hide();
+	});
+
+	$('#btdelete').on('click', function(e) {
+		var $form = $('#formdelete');
+		e.preventDefault();
+		$('#confirm').modal({
+			backdrop : 'static',
+			keyboard : false
+		}).one('click', '#delete', function(e) {
+			$form.trigger('submit');
+		});
 	});
 </script>
 </html>

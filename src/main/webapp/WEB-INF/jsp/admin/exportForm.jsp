@@ -24,6 +24,20 @@
             </form>
         </div>
         <h3 class="text-center">
+         Exportar Edições Virtuais
+        </h3>
+        <hr>
+        <div class="row">
+            <form class="form-inline" method="GET"
+                action="${contextPath}/admin/export/virtualeditions">
+                <button type="submit" class="btn btn-primary">
+                    <span class="glyphicon glyphicon-export"></span>
+                    Exportar edições virtuais
+                </button>
+                <br><br>
+            </form>
+        </div>
+        <h3 class="text-center">
          Exportar Fragmentos
         </h3>
         <hr>

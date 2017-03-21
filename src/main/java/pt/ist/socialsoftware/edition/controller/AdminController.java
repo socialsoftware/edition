@@ -43,6 +43,7 @@ import pt.ist.socialsoftware.edition.domain.Role;
 import pt.ist.socialsoftware.edition.domain.Role.RoleType;
 import pt.ist.socialsoftware.edition.export.ExpertEditionTEIExport;
 import pt.ist.socialsoftware.edition.export.UsersXMLExport;
+import pt.ist.socialsoftware.edition.export.VirtualEditionXMLExport;
 import pt.ist.socialsoftware.edition.forms.EditUserForm;
 import pt.ist.socialsoftware.edition.loaders.LoadTEICorpus;
 import pt.ist.socialsoftware.edition.loaders.LoadTEIFragments;
@@ -505,6 +506,24 @@ public class AdminController {
 		redirectAttributes.addFlashAttribute("error", false);
 		redirectAttributes.addFlashAttribute("message", "Utilizadores Carregados");
 		return "redirect:/admin/loadForm";
+	}
+
+	@RequestMapping(method = RequestMethod.GET, value = "/export/virtualeditions")
+	public void exportVirtualEditions(HttpServletResponse response) {
+		VirtualEditionXMLExport generator = new VirtualEditionXMLExport();
+
+		String timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
+		try {
+			// get your file as InputStream
+			InputStream is = IOUtils.toInputStream(generator.export(), "UTF-8");
+			response.setHeader("Content-Disposition", "attachment; filename=virtual-editions-" + timeStamp + ".xml");
+			response.setContentType("application/xml");
+			IOUtils.copy(is, response.getOutputStream());
+			response.flushBuffer();
+		} catch (IOException ex) {
+			System.out.println("Error writing file to output stream. Filename was '{}'");
+			throw new RuntimeException("IOError writing file to output stream");
+		}
 	}
 
 }

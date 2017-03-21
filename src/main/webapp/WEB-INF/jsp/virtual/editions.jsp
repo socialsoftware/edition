@@ -234,24 +234,6 @@
 				</div>
 			</div>
 
-			<div id="confirm" class="modal fade">
-				<div class="modal-dialog">
-					<div class="modal-content">
-						<div class="modal-body">
-							<spring:message code="general.deleteconfirmation" />
-						</div>
-						<div class="modal-footer">
-							<button type="button" data-dismiss="modal"
-								class="btn btn-primary" id="delete">
-								<spring:message code="general.delete" />
-							</button>
-							<button type="button" data-dismiss="modal" class="btn">
-								<spring:message code="general.cancel" />
-							</button>
-						</div>
-					</div>
-				</div>
-			</div>
 		</div>
 	</div>
 </body>
@@ -265,17 +247,6 @@
 
 	$('#collapse').on('show.bs.collapse', function() {
 		$('.text-error').hide();
-	});
-
-	$('#btdelete').on('click', function(e) {
-		var $form = $('#formdelete');
-		e.preventDefault();
-		$('#confirm').modal({
-			backdrop : 'static',
-			keyboard : false
-		}).one('click', '#delete', function(e) {
-			$form.trigger('submit');
-		});
 	});
 </script>
 </html>

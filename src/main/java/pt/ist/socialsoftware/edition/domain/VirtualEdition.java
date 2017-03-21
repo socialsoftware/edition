@@ -18,7 +18,6 @@ import org.slf4j.LoggerFactory;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.fenixframework.FenixFramework;
-import pt.ist.socialsoftware.edition.domain.VirtualEdition_Base;
 import pt.ist.socialsoftware.edition.domain.Member.MemberRole;
 import pt.ist.socialsoftware.edition.recommendation.VSMVirtualEditionInterRecommender;
 import pt.ist.socialsoftware.edition.recommendation.properties.Property;
@@ -32,8 +31,9 @@ public class VirtualEdition extends VirtualEdition_Base {
 
 	@Override
 	public void setAcronym(String acronym) {
-		if (acronym.split("\\s+").length != 1)
+		if (acronym.split("\\s+").length != 1) {
 			throw new LdoDException("acronym");
+		}
 
 		// cannot change acronym of the archive edition
 		if (getAcronym() == null || !getAcronym().equals(ARCHIVE_EDITION_ACRONYM)) {
@@ -356,8 +356,9 @@ public class VirtualEdition extends VirtualEdition_Base {
 		int max = 0;
 		for (Section section : getSectionsSet()) {
 			int depth = section.getDepth();
-			if (max < depth)
+			if (max < depth) {
 				max = depth;
+			}
 		}
 		return max;
 	}
@@ -389,34 +390,38 @@ public class VirtualEdition extends VirtualEdition_Base {
 
 	@Atomic(mode = TxMode.WRITE)
 	public void addMember(LdoDUser user, MemberRole role, boolean active) {
-		if (!getMemberSet().stream().filter(m -> m.getUser() == user).findFirst().isPresent())
+		if (!getMemberSet().stream().filter(m -> m.getUser() == user).findFirst().isPresent()) {
 			new Member(this, user, role, active);
+		}
 	}
 
 	@Atomic(mode = TxMode.WRITE)
 	public void cancelParticipationSubmission(LdoDUser user) {
 		Member member = getMemberSet().stream().filter(m -> !m.getActive() && m.getUser() == user).findFirst()
 				.orElse(null);
-		if (member != null)
+		if (member != null) {
 			member.remove();
+		}
 	}
 
 	@Atomic(mode = TxMode.WRITE)
 	public void addApprove(LdoDUser user) {
 		Member member = getMemberSet().stream().filter(m -> !m.getActive() && m.getUser() == user).findFirst()
 				.orElse(null);
-		if (member != null)
+		if (member != null) {
 			member.setActive(true);
+		}
 	}
 
 	@Atomic(mode = TxMode.WRITE)
 	public void switchRole(LdoDUser user) {
 		Member member = getMemberSet().stream().filter(m -> m.getUser() == user).findFirst().orElse(null);
 		if (member != null) {
-			if (member.getRole().equals(MemberRole.ADMIN))
+			if (member.getRole().equals(MemberRole.ADMIN)) {
 				member.setRole(MemberRole.MEMBER);
-			else
+			} else {
 				member.setRole(MemberRole.ADMIN);
+			}
 		}
 	}
 
@@ -450,14 +455,17 @@ public class VirtualEdition extends VirtualEdition_Base {
 		MemberRole roleActor = getMemberSet().stream().filter(m -> m.getUser() == actor).map(m -> m.getRole())
 				.findFirst().get();
 
-		if (roleActor.equals(MemberRole.ADMIN) && getAdminMemberSet().size() > 1)
+		if (roleActor.equals(MemberRole.ADMIN) && getAdminMemberSet().size() > 1) {
 			return true;
+		}
 
-		if (roleActor.equals(MemberRole.ADMIN) && getAdminMemberSet().size() == 1 && actor != user)
+		if (roleActor.equals(MemberRole.ADMIN) && getAdminMemberSet().size() == 1 && actor != user) {
 			return true;
+		}
 
-		if (roleActor.equals(MemberRole.MEMBER) && actor == user)
+		if (roleActor.equals(MemberRole.MEMBER) && actor == user) {
 			return true;
+		}
 
 		return false;
 	}
@@ -466,11 +474,13 @@ public class VirtualEdition extends VirtualEdition_Base {
 		MemberRole roleActor = getMemberSet().stream().filter(m -> m.getUser() == actor).map(m -> m.getRole())
 				.findFirst().get();
 
-		if (roleActor.equals(MemberRole.ADMIN) && getAdminMemberSet().size() > 1)
+		if (roleActor.equals(MemberRole.ADMIN) && getAdminMemberSet().size() > 1) {
 			return true;
+		}
 
-		if (roleActor.equals(MemberRole.ADMIN) && getAdminMemberSet().size() == 1 && actor != user)
+		if (roleActor.equals(MemberRole.ADMIN) && getAdminMemberSet().size() == 1 && actor != user) {
 			return true;
+		}
 
 		return false;
 	}

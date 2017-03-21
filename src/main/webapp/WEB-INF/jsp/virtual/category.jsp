@@ -122,7 +122,7 @@
 			<table class="table table-hover">
 				<thead>
 					<tr>
-						<th><spring:message code="fragments" /></th>
+						<th><span class="tip" title="<spring:message code='taxonomies.tt.fragments' />"><spring:message code="fragments" /></span></th>
 					</tr>
 				</thead>
 				<tbody>
@@ -141,7 +141,7 @@
 		</div>
 		<c:if test="${taxonomy.canManipulateTaxonomy(userLdoD)}">
 			<div class="row pull-right">
-				<button class="btn btn-primary pull-right" data-toggle="modal"
+				<button class="btn btn-primary pull-right tip" title="<spring:message code='taxonomies.tt.extractedcategory' />" data-toggle="modal"
 					data-target="#extractModal">
 					<span class="glyphicon glyphicon-edit"></span>
 					<spring:message code="general.extract" />
@@ -218,7 +218,7 @@
 							</tbody>
 						</table>
 						<div class="form-group text-center">
-							<button type="submit" class="btn btn-sm btn-primary">
+							<button type="submit" class="btn btn-sm btn-primary tip" title="<spring:message code='taxonomies.tt.extractedcategory' />">
 								<spring:message code="general.extract" />
 							</button>
 						</div>
@@ -232,6 +232,10 @@
 			</div>
 		</div>
 	</div>
-
+	<script>
+		$(".tip").tooltip({
+			placement : 'bottom'
+		});
+	</script>
 </body>
 </html>

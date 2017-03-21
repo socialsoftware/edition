@@ -22,7 +22,6 @@ public class ScheduledTasks {
 	public void reportCurrentTime() throws IOException {
 		String exportDir = PropertiesManager.getProperties().getProperty("export.dir");
 		String timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
-		logger.debug(exportDir + timeStamp);
 
 		File directory = new File(exportDir);
 		File file = new File(directory, "users-" + timeStamp + ".xml");

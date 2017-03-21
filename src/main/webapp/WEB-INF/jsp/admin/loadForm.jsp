@@ -29,7 +29,7 @@
 			</div>
 			<div class="col-md-3">
 				<h4>
-					Carregar Utilizadores
+					Load Users
 				</h4>
 				<form class="form-inline" method="POST"
 					action="${contextPath}/admin/load/users"

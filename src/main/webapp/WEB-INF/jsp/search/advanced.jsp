@@ -564,13 +564,14 @@
 		html += "</select>" + "</div>";
 		html += "<div class=\"extended col-xs-8 col-md-8\">" + element + "</div>";
 		html += "<div class=\"col-xs-2 col-md-2\" align =right>"
-				+ "<button id=minusBtn type=button class=\"btn btn-default\">"
+				+ "<button id=\"minusBtn\" type=\"button\" class=\"btn btn-default tip\""+ 
+				" title=\"<spring:message code='search.removecriteria' />\">"
 				+ "<span class=\"glyphicon glyphicon-minus\"></span>" + "</button></div></div>";
 		return html;
 
 	}
 
-	//Expecification of available options.
+	//Specification of available options.
 	Domain = {
 		Edition : '<spring:message javaScriptEscape="true" code="navigation.edition" />',
 		Manuscript : '<spring:message javaScriptEscape="true" code="general.manuscript" />',
@@ -772,7 +773,7 @@
 
 			<div class="col-xs-6 col-md-6" align="right">
 				<button id="plusBtn" type="button" class="btn btn-default tip"
-					title=<spring:message code="search.addcriteria" />>
+					title='<spring:message code="search.addcriteria" />'>
 					<span class="glyphicon glyphicon-plus"></span>
 				</button>
 			</div>

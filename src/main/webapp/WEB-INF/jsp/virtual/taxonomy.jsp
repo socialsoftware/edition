@@ -109,14 +109,14 @@
 						<thead>
 							<tr>
 								<th><spring:message code="general.category" /></th>
-								<th><spring:message code="fragments" /></th>
+								<th><span class="tip" title="<spring:message code='taxonomies.tt.fragments' />"><spring:message code="fragments" /></span></th>
 								<c:if test="${taxonomy.canManipulateTaxonomy(userLdoD)}">
 									<th class="text-center">
 										<div class="dropdown">
 											<button class="btn btn-primary dropdown-toggle" type="button"
 												id="dropdownMenu" data-toggle="dropdown"
 												aria-haspopup="true" aria-expanded="true">
-												<spring:message code="general.action" />
+												<spring:message code="general.operation" />
 												<span class="caret"></span>
 											</button>
 											<ul class="dropdown-menu" aria-labelledby="dropdownMenu">
