@@ -7,6 +7,7 @@
 	integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7"
 	crossorigin="anonymous">
 <link rel="stylesheet" type="text/css" href="/resources/css/style.css" />
+<link rel="stylesheet" type="text/css" href="/resources/css/ldod.css" />
 <link rel="stylesheet" type="text/css"
 	href="/resources/css/font-awesome.min.css" />
 

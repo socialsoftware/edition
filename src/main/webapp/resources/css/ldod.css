@@ -1,0 +1,234 @@
+@CHARSET "UTF-8";
+
+/* 
+ * LdoD Main CSS Styling
+ * 
+ */
+ 
+ 
+ 
+/* === FONT FACE IMPORTS === */
+
+@font-face {
+	font-family: 'Gravitas-One';
+	src: url('../fonts/gravitas-one/GravitasOne.ttf') format('truetype');
+	font-style: normal;
+	font-weight: regular;
+}
+
+@font-face {
+	font-family: 'League-Gothic';
+	src: url('../fonts/League-Gothic/LeagueGothic-Regular.otf') format('truetype');
+	font-style: normal;
+	font-weight: regular;
+}
+
+@font-face {
+	font-family: 'League-Gothic';
+	src: url('../fonts/League-Gothic/LeagueGothic-Italic.otf') format('truetype');
+	font-style: italic;
+	font-weight: regular;
+}
+
+@font-face {
+	font-family: 'League-Gothic-Condensed';
+	src: url('../fonts/League-Gothic/LeagueGothic-CondensedRegular.otf') format('truetype');
+	font-style: normal;
+	font-weight: regular;
+}
+
+@font-face {
+	font-family: 'League-Gothic-Condensed';
+	src: url('../fonts/League-Gothic/LeagueGothic-CondensedItalic.otf') format('truetype');
+	font-style: italic;
+	font-weight: regular;
+}
+
+@font-face {
+	font-family: 'League-Spartan-Bold';
+	src: url('../fonts/league-spartan-master/leaguespartan-bold.eot');
+	src: url('../fonts/league-spartan-master/leaguespartan-bold.eot?#iefix') format('embedded-opentype'),
+		url('../fonts/league-spartan-master/leaguespartan-bold.woff') format('woff'),
+		url('../fonts/league-spartan-master/leaguespartan-bold.ttf') format('truetype'),
+		url('../fonts/league-spartan-master/leaguespartan-bold.ttf.otf') format('truetype'),
+		url('../fonts/league-spartan-master/leaguespartan-bold.svg#League-Spartan-Bold') format('svg');
+	font-style: normal;
+	font-weight: bold;
+}
+
+@font-face {
+	font-family: 'Poller-One';
+	src: url('../fonts/Poller_One/PollerOne.ttf') format('truetype');
+	font-style: normal;
+	font-weight: regular;
+}
+
+@font-face {
+	font-family: 'Space-Mono';
+	src: url('../fonts/Space_Mono/SpaceMono-Regular.ttf') format('truetype');
+	font-style: normal;
+	font-weight: regular;
+}
+
+@font-face {
+	font-family: 'Space-Mono';
+	src: url('../fonts/Space_Mono/SpaceMono-Bold.ttf') format('truetype');
+	font-style: normal;
+	font-weight: bold;
+}
+
+@font-face {
+	font-family: 'Space-Mono';
+	src: url('../fonts/Space_Mono/SpaceMono-Italic.ttf') format('truetype');
+	font-style: italic;
+	font-weight: regular;
+}
+
+@font-face {
+	font-family: 'Space-Mono';
+	src: url('../fonts/Space_Mono/SpaceMono-BoldItalic.ttf') format('truetype');
+	font-style: italic;
+	font-weight: bold;
+}
+
+@font-face {
+	font-family: 'Ultra';
+	src: url('../fonts/Ultra/Ultra.ttf') format('truetype');
+	font-style: normal;
+	font-weight: regular;
+}
+
+@font-face {
+	font-family: 'Work-Sans';
+	src: url('../fonts/Work_Sans/WorkSans-Regular.ttf') format('truetype');
+	font-style: normal;
+	font-weight: regular;
+}
+
+@font-face {
+	font-family: 'Work-Sans';
+	src: url('../fonts/Work_Sans/WorkSans-Bold.ttf') format('truetype');
+	font-style: normal;
+	font-weight: bold;
+}
+
+@font-face {
+	font-family: 'Work-Sans';
+	src: url('../fonts/Work_Sans/WorkSans-Thin.ttf') format('truetype');
+	font-style: normal;
+	font-weight: 100;
+}
+
+@font-face {
+	font-family: 'Work-Sans';
+	src: url('../fonts/Work_Sans/WorkSans-ExtraLight.ttf') format('truetype');
+	font-style: normal;
+	font-weight: 200;
+}
+
+@font-face {
+	font-family: 'Work-Sans';
+	src: url('../fonts/Work_Sans/WorkSans-Light.ttf') format('truetype');
+	font-style: normal;
+	font-weight: 300;
+}
+
+@font-face {
+	font-family: 'Work-Sans';
+	src: url('../fonts/Work_Sans/WorkSans-Medium.ttf') format('truetype');
+	font-style: normal;
+	font-weight: 500;
+}
+
+@font-face {
+	font-family: 'Work-Sans';
+	src: url('../fonts/Work_Sans/WorkSans-SemiBold.ttf') format('truetype');
+	font-style: normal;
+	font-weight: 600;
+}
+
+@font-face {
+	font-family: 'Work-Sans';
+	src: url('../fonts/Work_Sans/WorkSans-ExtraBold.ttf') format('truetype');
+	font-style: normal;
+	font-weight: 800;
+}
+
+@font-face {
+	font-family: 'Work-Sans';
+	src: url('../fonts/Work_Sans/WorkSans-Black.ttf') format('truetype');
+	font-style: normal;
+	font-weight: 900;
+}
+
+@font-face {
+	font-family: 'Linux-Libertine';
+	src: url('../fonts/linux_libertine/LinLibertine_R.ttf') format('truetype');
+	font-style: normal;
+	font-weight: regular;
+}
+
+@font-face {
+	font-family: 'Linux-Libertine';
+	src: url('../fonts/linux_libertine/LinLibertine_RB.ttf') format('truetype');
+	font-style: normal;
+	font-weight: bold;
+}
+
+@font-face {
+	font-family: 'Linux-Libertine';
+	src: url('../fonts/linux_libertine/LinLibertine_RI.ttf') format('truetype');
+	font-style: italic;
+	font-weight: regular;
+}
+
+@font-face {
+	font-family: 'Linux-Libertine';
+	src: url('../fonts/linux_libertine/LinLibertine_RBI.ttf') format('truetype');
+	font-style: italic;
+	font-weight: bold;
+}
+
+@font-face {
+	font-family: 'Linux-Libertine';
+	src: url('../fonts/linux_libertine/LinLibertine_RZ.ttf') format('truetype');
+	font-style: normal;
+	font-weight: 600;
+}
+
+@font-face {
+	font-family: 'Linux-Libertine';
+	src: url('../fonts/linux_libertine/LinLibertine_RZI.ttf') format('truetype');
+	font-style: italic;
+	font-weight: 600;
+}
+
+
+
+/* === BASE STYLES === */
+
+.font-didone    { font-family: 'Gravitas-One'; }
+.font-condensed { font-family: 'League-Gothic'; }
+.font-geometric { font-family: 'League-Spartan-Bold'; }
+.font-art-deco  { font-family: 'Poller-One'; }
+.font-monospace { font-family: 'Space-Mono'; }
+.font-egyptian  { font-family: 'Ultra'; }
+.font-grotesque { font-family: 'Work-Sans' }
+.font-serif     { font-family: 'Linux-Libertine' }
+
+
+
+/* === NAVBAR === */
+
+.ldod-navbar {
+	border-top: 10px solid #FC1B27;
+}
+
+
+.ldod-navbar-header {
+	font-weight: 800;
+}
+
+.ldod-navbar-header a {
+	color: black;
+}
