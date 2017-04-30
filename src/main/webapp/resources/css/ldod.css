@@ -207,6 +207,17 @@
 
 /* === BASE STYLES === */
 
+* ::-moz-selection {
+  /* Code for Firefox */
+  color: white;
+  background: black;
+}
+
+* ::selection {
+  color: white;
+  background: black;
+}
+
 .font-didone    { font-family: 'Gravitas-One'; }
 .font-condensed { font-family: 'League-Gothic'; }
 .font-geometric { font-family: 'League-Spartan-Bold'; }
@@ -222,13 +233,39 @@
 
 .ldod-navbar {
 	border-top: 10px solid #FC1B27;
+	font-family: 'Space-Mono';
+	font-weight: bold;
 }
 
-
-.ldod-navbar-header {
-	font-weight: 800;
+.ldod-navbar .container-fluid:first-of-type {
+	border-bottom: 1px solid #FC1B27;
 }
 
-.ldod-navbar-header a {
+.ldod-navbar.navbar-default {
+	background-color: rgba(255, 255, 255, 0.8);
+}
+
+.ldod-navbar.navbar-default .navbar-brand {
 	color: black;
+	font-family: 'Work-Sans';
+	font-weight: 800;
+	padding-top: 20px;
+	padding-bottom: 20px;
+	height: 60px;
+}
+
+.ldod-navbar.navbar-default .navbar-nav>li>a {
+	color: black;
+}
+
+.ldod-navbar .navbar-header {
+	float: none;
+}
+
+.ldod-navbar .navbar-brand {
+	font-size: 3rem;
+}
+
+.ldod-navbar .navbar-nav {
+	text-transform: uppercase;
 }
