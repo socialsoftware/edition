@@ -243,6 +243,7 @@
 
 .ldod-navbar.navbar-default {
 	background-color: rgba(255, 255, 255, 0.8);
+	border-bottom: none;
 }
 
 .ldod-navbar.navbar-default .navbar-brand {
@@ -250,12 +251,21 @@
 	font-family: 'Work-Sans';
 	font-weight: 800;
 	padding-top: 20px;
-	padding-bottom: 20px;
-	height: 60px;
+	padding-bottom: 22px;
+	height: 62px;
 }
 
 .ldod-navbar.navbar-default .navbar-nav>li>a {
 	color: black;
+}
+
+.ldod-navbar.navbar-default .navbar-brand:hover,
+.ldod-navbar.navbar-default .navbar-nav>li>a:hover {
+	color: #0C4EF6;
+}
+
+.ldod-navbar.navbar-default .navbar-header .navbar-nav>li>a {
+	line-height: 32px;
 }
 
 .ldod-navbar .navbar-header {
