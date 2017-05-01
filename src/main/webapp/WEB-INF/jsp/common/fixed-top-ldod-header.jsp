@@ -61,7 +61,7 @@
 	<div class="container">
 		
 		<div class="collapse navbar-collapse">
-			<ul class="nav navbar-nav">
+			<ul class="nav navbar-nav navbar-nav-flex">
 			
 				<!-- About -->
 				<li class="dropdown">
@@ -73,6 +73,7 @@
 						<span class="caret"></span>
 					</a>
 					<ul class="dropdown-menu">
+						<div class="dropdown-menu-bg"></div>
 						<li><a href="${contextPath}/about/archive"><spring:message code="header.archive" /></a></li>
 						<li><a href="${contextPath}/about/faq"><spring:message code="header.faq" /></a></li>
 						<li><a href="${contextPath}/about/articles"><spring:message code="header.articles" /></a></li>
@@ -95,6 +96,7 @@
 						<span class="caret"></span>
 					</a>
 					<ul class="dropdown-menu">
+						<div class="dropdown-menu-bg"></div>
 						<li><a href="${contextPath}/source/list"><spring:message code="authorial.source" /></a></li>
 						<li><a href="${contentPath}/fragments"><spring:message code="fragment.codified" /></a></li>
 					</ul>
@@ -110,6 +112,7 @@
 						<span class="caret"></span>
 					</a>
 					<ul class="dropdown-menu">
+						<div class="dropdown-menu-bg"></div>
 						<li><a href="${contextPath}/edition/acronym/JPC">Jacinto do Prado Coelho</a></li>
 						<li><a href="${contextPath}/edition/acronym/TSC">Teresa Sobral Cunha</a></li>
 						<li><a href="${contextPath}/edition/acronym/RZ">Richard Zenith</a></li>
@@ -134,6 +137,7 @@
 					</a>
 				
 					<ul class="dropdown-menu">
+						<div class="dropdown-menu-bg"></div>
 						<li><a href="${contextPath}/search/simple"> <spring:message code="header.search.simple" /></a></li>
 						<li><a href="${contentPath}/search/advanced"> <spring:message code="header.search.advanced" /></a></li>
 					</ul>
@@ -156,6 +160,7 @@
 						</a>
 					
 						<ul class="dropdown-menu">
+							<div class="dropdown-menu-bg"></div>
 							<li><a href="${contextPath}/admin/loadForm"><spring:message code="load" /></a></li>
 							<li class="divider"></li>
 							<li><a href="${contextPath}/admin/exportForm"><spring:message code="general.export" /></a></li>
@@ -166,27 +171,15 @@
 						</ul>
 					</li>
 				</c:if>
-			</ul>
-			
-			<ul class="nav navbar-nav navbar-right">			
+				
 				<!--  Language -->
-				<li class="dropdown">
-					<a href="#"
-						class="dropdown-toggle"
-						data-toggle="dropdown">
-						
-						<span class="glyphicon glyphicon-flag"></span>
-						<span class="caret"></span>
-					</a>
-					
-					<ul class="dropdown-menu">
-						<li><a href="/?lang=pt_PT">Português</a></li>
-						<li><a href="/?lang=en">English</a></li>
-						<li><a href="/?lang=es">Español</a></li>
-					</ul>
+				<li class="nav-lang">
+					<a href="/?lang=pt_PT" class="active">PT</a>
+					<a href="/?lang=en">EN</a>
+					<a href="/?lang=es">ES</a>
 				</li>
 			</ul>
-
+			
 		</div>
 	</div>
 </nav>
