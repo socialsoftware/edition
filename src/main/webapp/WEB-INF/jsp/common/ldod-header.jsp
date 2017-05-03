@@ -164,7 +164,30 @@
 					</ul>
 				</li>
 			</c:if>
-			
+
+			<!-- Login -->
+			<c:choose>
+				<c:when test="${pageContext.request.userPrincipal.authenticated}">
+					<li class="dropdown login logged-in visible-xs">
+						<a href="#"
+							class="dropdown-toggle"
+							data-toggle="dropdown">
+							
+							${pageContext.request.userPrincipal.principal.getUser().getFirstName()}
+							${pageContext.request.userPrincipal.principal.getUser().getLastName()}
+							<span class="caret"></span>
+						</a>
+						
+						<ul class="dropdown-menu">
+							<li><a href="<c:url value="${contextPath}/user/changePassword"/>"><spring:message code="user.password" /></a></li>
+							<li><a href="<c:url value="${contextPath}/signout"/>"><spring:message code="header.logout" /></a></li>
+						</ul>
+				</c:when>
+				<c:otherwise>
+					<li class="login visible-xs"><a href="${contextPath}/signin"><spring:message code="header.login" /></a></li>
+				</c:otherwise>
+			</c:choose>
+
 			<!--  Language -->
 			<li class="nav-lang">
 				<a href="/?lang=pt_PT" class="active">PT</a>
