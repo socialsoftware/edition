@@ -274,6 +274,10 @@
 	color: black;
 }
 
+.ldod-navbar.navbar-default .navbar-nav>li.dropdown.logged-in>a {
+	color: #FC1B27;
+}
+
 .ldod-navbar.navbar-default .navbar-nav>.open>a {
 	background: none;
 }
@@ -379,6 +383,14 @@
 	z-index: -1;
 	border-top: 1px dashed #FC1B27;
 	border-bottom: 1px solid #FC1B27;
+}
+
+.ldod-navbar .navbar-right>li.login .dropdown-menu {
+	background-color: white;
+	border: 1px solid #FC1B27;
+	margin-right: 15px;
+	padding-left: 15px;
+	left: 0;
 }
 
 /* Navbar Mobile XS Media Query */

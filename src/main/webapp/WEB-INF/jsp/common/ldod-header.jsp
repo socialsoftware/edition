@@ -23,7 +23,7 @@
 			<!-- Login -->
 			<c:choose>
 				<c:when test="${pageContext.request.userPrincipal.authenticated}">
-					<li class="dropdown">
+					<li class="dropdown login logged-in">
 						<a href="#"
 							class="dropdown-toggle"
 							data-toggle="dropdown">
