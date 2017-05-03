@@ -15,6 +15,6 @@ src/main/resources/configuration.properties
 jmeter.log
 userpasswords.txt
 
-/.DS_Store
+*.DS_Store
 /infer-out/
 /pom.xml.infer-orig
