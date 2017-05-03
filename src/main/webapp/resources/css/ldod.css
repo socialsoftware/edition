@@ -289,6 +289,19 @@
 	color: #0C4EF6;
 }
 
+.ldod-navbar.navbar-default .navbar-toggle:focus,
+.ldod-navbar.navbar-default .navbar-toggle:hover {
+	background: none;
+}
+
+.ldod-navbar.navbar-default .navbar-toggle .icon-bar {
+	background-color: black;
+}
+
+.ldod-navbar.navbar-default .navbar-toggle:hover .icon-bar {
+	background-color: #0C4EF6;
+}
+
 .ldod-navbar.navbar-default .navbar-header .navbar-nav>li>a {
 	line-height: 32px;
 	padding-right: 15px;
@@ -300,6 +313,21 @@
 
 .ldod-navbar .navbar-brand {
 	font-size: 3rem;
+}
+
+.ldod-navbar .navbar-toggle {
+	border: none;
+	margin-top: 13px;
+	margin-bottom: 12px;
+	margin-right: -10px;
+}
+
+.ldod-navbar .navbar-toggle .icon-bar {
+	height: 3px;
+}
+
+.ldod-navbar .navbar-toggle .icon-bar+.icon-bar {
+	margin-top: 5px;
 }
 
 .ldod-navbar .navbar-nav {
