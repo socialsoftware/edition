@@ -1,13 +1,11 @@
 package pt.ist.socialsoftware.edition.domain;
 
-import pt.ist.socialsoftware.edition.domain.DelText_Base;
 import pt.ist.socialsoftware.edition.generators.TextPortionVisitor;
 
 public class DelText extends DelText_Base {
 
 	public enum HowDel {
-		OVERSTRIKE("overstrike"), OVERTYPED("overtyped"), OVERWRITTEN(
-				"overwritten"), UNSPECIFIED("unspecified");
+		OVERSTRIKE("overstrike"), OVERTYPED("overtyped"), OVERWRITTEN("overwritten"), UNSPECIFIED("unspecified");
 
 		private String desc;
 
@@ -16,7 +14,7 @@ public class DelText extends DelText_Base {
 		}
 
 		public String getDesc() {
-			return desc;
+			return this.desc;
 		}
 	};
 
@@ -31,8 +29,7 @@ public class DelText extends DelText_Base {
 	}
 
 	@Override
-	public Boolean isFormat(Boolean displayDel, Boolean highlightSubst,
-			FragInter fragInter) {
+	public Boolean isFormat(Boolean displayDel, Boolean highlightSubst, FragInter fragInter) {
 		if (getInterps().contains(fragInter) && displayDel) {
 			return true;
 		} else {
