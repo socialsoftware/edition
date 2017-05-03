@@ -1,14 +1,14 @@
 body {
-    padding-top: 100px;
+    padding-top: 190px;
   }
 @media (min-width: 1200px) {
     body {
-      padding-top: 60px;
+      padding-top: 150px;
     }
   }
 @media (max-width: 767px) {
     body {
-      padding-top: 60px;
+      padding-top: 150px;
     }
   }
 
