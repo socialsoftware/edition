@@ -390,7 +390,7 @@
 	border: 1px solid #FC1B27;
 	margin-right: 15px;
 	padding-left: 15px;
-	left: 0;
+	padding-right: 15px;
 }
 
 /* Navbar Mobile XS Media Query */
