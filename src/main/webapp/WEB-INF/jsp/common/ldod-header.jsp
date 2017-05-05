@@ -190,9 +190,9 @@
 
 			<!--  Language -->
 			<li class="nav-lang">
-				<a href="/?lang=pt_PT" class="active">PT</a>
-				<a href="/?lang=en">EN</a>
-				<a href="/?lang=es">ES</a>
+				<a href="/?lang=pt_PT" class="${pageContext.response.locale.language.equalsIgnoreCase('pt') ? 'active' : ''}">PT</a>
+				<a href="/?lang=en" class="${pageContext.response.locale.language.equalsIgnoreCase('en') ? 'active' : ''}">EN</a>
+				<a href="/?lang=es" class="${pageContext.response.locale.language.equalsIgnoreCase('es') ? 'active' : ''}">ES</a>
 			</li>
 		</ul>
 		
