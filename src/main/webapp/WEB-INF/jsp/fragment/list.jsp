@@ -12,7 +12,7 @@
 
 	<div class="container">
 		<h1 class="text-center">
-			<spring:message code="fragmentlist.title" />
+			<spring:message code="fragment.codified" />
 			(${fragments.size()})
 		</h1>
 		<div class="row">
