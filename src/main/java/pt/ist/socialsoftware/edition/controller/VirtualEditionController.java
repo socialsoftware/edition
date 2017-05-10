@@ -41,7 +41,10 @@ import pt.ist.socialsoftware.edition.domain.Tag;
 import pt.ist.socialsoftware.edition.domain.Taxonomy;
 import pt.ist.socialsoftware.edition.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.domain.VirtualEditionInter;
+import pt.ist.socialsoftware.edition.dto.EditionFragmentsDTO;
 import pt.ist.socialsoftware.edition.dto.EditionTranscriptionsDTO;
+import pt.ist.socialsoftware.edition.dto.FragmentDTO;
+import pt.ist.socialsoftware.edition.dto.FragmentMetaInfoDTO;
 import pt.ist.socialsoftware.edition.dto.TranscriptionDTO;
 import pt.ist.socialsoftware.edition.security.LdoDUserDetails;
 import pt.ist.socialsoftware.edition.session.LdoDSession;
@@ -258,6 +261,45 @@ public class VirtualEditionController {
 		return "redirect:/virtualeditions";
 	}
 
+	@RequestMapping(method = RequestMethod.GET, value = "/restricted/acronym/{acronym}/fragments")
+	@PreAuthorize("hasPermission(#acronym, 'editionacronym.public')")
+	public @ResponseBody ResponseEntity<EditionFragmentsDTO> getFragments(Model model, @PathVariable String acronym) {
+		logger.debug("getFragments acronym:{}", acronym);
+
+		VirtualEdition virtualEdition = LdoD.getInstance().getVirtualEdition(acronym);
+
+		if (virtualEdition == null) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		} else {
+			EditionFragmentsDTO editionFragments = new EditionFragmentsDTO();
+
+			String intersFilesPath = PropertiesManager.getProperties().getProperty("inters.dir");
+			List<FragmentDTO> fragments = new ArrayList<>();
+
+			for (FragInter inter : virtualEdition.getIntersSet()) {
+				FragInter lastInter = inter.getLastUsed();
+				String text;
+				try {
+					text = new String(
+							Files.readAllBytes(Paths.get(intersFilesPath + lastInter.getExternalId() + ".txt")));
+				} catch (IOException e) {
+					throw new LdoDException("VirtualEditionController::getTranscriptions IOException");
+				}
+
+				FragmentDTO fragment = new FragmentDTO();
+				fragment.setMeta(new FragmentMetaInfoDTO(lastInter));
+				fragment.setText(text);
+
+				fragments.add(fragment);
+
+			}
+
+			editionFragments.setFragments(fragments);
+
+			return new ResponseEntity<>(editionFragments, HttpStatus.OK);
+		}
+	}
+
 	@RequestMapping(method = RequestMethod.GET, value = "/restricted/acronym/{acronym}/transcriptions")
 	@PreAuthorize("hasPermission(#acronym, 'editionacronym.public')")
 	public @ResponseBody ResponseEntity<EditionTranscriptionsDTO> getTranscriptions(Model model,
@@ -274,11 +316,7 @@ public class VirtualEditionController {
 
 			for (FragInter inter : virtualEdition.getIntersSet()) {
 				FragInter lastInter = inter.getLastUsed();
-				// PlainTextFragmentWriter writer = new
-				// PlainTextFragmentWriter(lastInter);
-				// writer.write();
 				String title = lastInter.getTitle();
-				// String text = writer.getTranscription();
 				String text;
 				try {
 					text = new String(
