@@ -9,11 +9,11 @@
 	<%@ include file="/WEB-INF/jsp/common/fixed-top-ldod-header.jsp"%>
 	<div class="container">
 		<br />
-		<div class="row col-md-2 pull-right">
+		<div class="row col-md-1">
 			<form class="form-inline" method="GET"
 				action="${contextPath}/virtualeditions/restricted/manage/${edition.externalId}">
 				<button type="submit" class="btn btn-default">
-					<span class="glyphicon glyphicon-remove"></span>
+					<span class="glyphicon glyphicon-arrow-left"></span>
 					<spring:message code="general.back" />
 				</button>
 			</form>
