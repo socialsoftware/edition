@@ -30,6 +30,9 @@ public class SourceInter extends SourceInter_Base {
 
 	@Override
 	public LdoDDate getLdoDDate() {
+		if (getSource() == null) {
+			return null;
+		}
 		return getSource().getLdoDDate();
 	}
 
