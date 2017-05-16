@@ -116,8 +116,6 @@ public class Indexer {
 	}
 
 	private List<String> getResults(String queryString) throws IOException, ParseException {
-		logger.debug("Query: {}", queryString);
-
 		Query query = this.queryParser.parse(queryString);
 		Directory directory = new NIOFSDirectory(this.docDir);
 		IndexReader reader = DirectoryReader.open(directory);

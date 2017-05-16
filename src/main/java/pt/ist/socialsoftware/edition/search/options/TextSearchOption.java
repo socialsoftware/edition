@@ -27,9 +27,7 @@ public final class TextSearchOption extends SearchOption {
 
 	public TextSearchOption(@JsonProperty("text") String text) {
 		text = purgeSearchText(text);
-		logger.debug("purge {}", text);
 		text = QueryParser.escape(text);
-		logger.debug("escape {}", text);
 		this.text = text.equals("null") || text.equals("") ? null : text.trim();
 	}
 
@@ -40,7 +38,7 @@ public final class TextSearchOption extends SearchOption {
 
 	@Override
 	public String toString() {
-		return "Text:" + text;
+		return "Text:" + this.text;
 	}
 
 	@Override
@@ -51,10 +49,11 @@ public final class TextSearchOption extends SearchOption {
 
 	public List<FragInter> search() {
 		List<String> hits = new ArrayList<>();
-		if (text != null) {
+		if (this.text != null) {
 			Indexer indexer = Indexer.getIndexer();
 			try {
-				hits = indexer.search(text);
+				hits = indexer.search(this.text);
+				logger.debug("search hits for:{} size:{}", this.text, hits.size());
 			} catch (ParseException | IOException e) {
 				throw new LdoDException("Error associated with textual search on Lucene");
 			}
@@ -71,16 +70,12 @@ public final class TextSearchOption extends SearchOption {
 				DomainObject object = FenixFramework.getDomainObject(hit);
 				if (!FenixFramework.isDomainObjectValid(object)) {
 					misses.add(hit);
-					break;
-				}
-				if (!(object instanceof FragInter)) {
+				} else if (!(object instanceof FragInter)) {
 					misses.add(hit);
-					break;
+				} else {
+					FragInter inter = (FragInter) object;
+					result.add(inter);
 				}
-
-				FragInter inter = (FragInter) object;
-				result.add(inter);
-
 			} catch (InstantiationError e) {
 				misses.add(hit);
 			}
