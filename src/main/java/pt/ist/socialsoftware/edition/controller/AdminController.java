@@ -253,7 +253,7 @@ public class AdminController {
 		model.addAttribute("ldoD", LdoD.getInstance());
 		model.addAttribute("users",
 				LdoD.getInstance().getUsersSet().stream()
-						.sorted((u1, u2) -> u1.getUsername().toLowerCase().compareTo(u2.getUsername().toLowerCase()))
+						.sorted((u1, u2) -> u1.getFirstName().toLowerCase().compareTo(u2.getFirstName().toLowerCase()))
 						.collect(Collectors.toList()));
 		model.addAttribute("sessions", activeSessions.stream()
 				.sorted((s1, s2) -> s2.getLastRequest().compareTo(s1.getLastRequest())).collect(Collectors.toList()));
