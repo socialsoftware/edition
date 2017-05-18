@@ -7,7 +7,6 @@ import java.util.stream.Collectors;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
-import pt.ist.socialsoftware.edition.domain.Category_Base;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDDuplicateNameException;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDException;
 
@@ -38,7 +37,7 @@ public class Category extends Category_Base implements Comparable<Category> {
 	}
 
 	public static String purgeName(String name) {
-		return name.replaceAll("[^\\p{L}0-9\\.\\-\\s]+", "");
+		return name.replaceAll("[^\\p{L}0-9\\-\\s]+", "");
 	}
 
 	@Atomic(mode = TxMode.WRITE)
@@ -100,15 +99,16 @@ public class Category extends Category_Base implements Comparable<Category> {
 	}
 
 	public int compareInEditionContext(VirtualEdition edition, Category other) {
-		if (this.getTaxonomy() == other.getTaxonomy())
+		if (this.getTaxonomy() == other.getTaxonomy()) {
 			return compareTo(other);
-		else if (edition.getTaxonomy() == this.getTaxonomy())
+		} else if (edition.getTaxonomy() == this.getTaxonomy()) {
 			return -1;
-		else if (edition.getTaxonomy() == other.getTaxonomy())
+		} else if (edition.getTaxonomy() == other.getTaxonomy()) {
 			return 1;
-		else
+		} else {
 			return this.getTaxonomy().getEdition().getAcronym()
 					.compareTo(other.getTaxonomy().getEdition().getAcronym());
+		}
 	}
 
 }

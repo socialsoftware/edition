@@ -1,5 +1,7 @@
 package pt.ist.socialsoftware.edition.forms;
 
+import javax.validation.constraints.Pattern;
+
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -9,6 +11,7 @@ public class EditUserForm {
 	private String oldUsername;
 
 	@NotEmpty
+	@Pattern(regexp = "^[A-Za-z0-9\\-]+$", message = "{required.alphanumeric}")
 	private String newUsername;
 
 	@NotEmpty
@@ -28,7 +31,7 @@ public class EditUserForm {
 	private String newPassword;
 
 	public String getOldUsername() {
-		return oldUsername;
+		return this.oldUsername;
 	}
 
 	public void setOldUsername(String oldUsername) {
@@ -36,7 +39,7 @@ public class EditUserForm {
 	}
 
 	public String getNewUsername() {
-		return newUsername;
+		return this.newUsername;
 	}
 
 	public void setNewUsername(String newUsername) {
@@ -44,7 +47,7 @@ public class EditUserForm {
 	}
 
 	public String getNewPassword() {
-		return newPassword;
+		return this.newPassword;
 	}
 
 	public void setNewPassword(String newPassword) {
@@ -52,7 +55,7 @@ public class EditUserForm {
 	}
 
 	public String getFirstName() {
-		return firstName;
+		return this.firstName;
 	}
 
 	public void setFirstName(String firstName) {
@@ -60,7 +63,7 @@ public class EditUserForm {
 	}
 
 	public String getLastName() {
-		return lastName;
+		return this.lastName;
 	}
 
 	public void setLastName(String lastName) {
@@ -68,7 +71,7 @@ public class EditUserForm {
 	}
 
 	public String getEmail() {
-		return email;
+		return this.email;
 	}
 
 	public void setEmail(String email) {
@@ -76,7 +79,7 @@ public class EditUserForm {
 	}
 
 	public boolean isUser() {
-		return user;
+		return this.user;
 	}
 
 	public void setUser(boolean roleUser) {
@@ -84,7 +87,7 @@ public class EditUserForm {
 	}
 
 	public boolean isAdmin() {
-		return admin;
+		return this.admin;
 	}
 
 	public void setAdmin(boolean roleAdmin) {

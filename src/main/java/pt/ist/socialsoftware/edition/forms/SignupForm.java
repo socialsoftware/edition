@@ -1,5 +1,6 @@
 package pt.ist.socialsoftware.edition.forms;
 
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Email;
@@ -9,9 +10,10 @@ import org.springframework.social.connect.UserProfile;
 public class SignupForm {
 
 	@NotEmpty
+	@Pattern(regexp = "^[A-Za-z0-9\\-]+$", message = "{required.alphanumeric}")
 	private String username;
 
-	@Size(min = 6, message = "must be at least 6 characters")
+	@Size(min = 6)
 	private String password;
 
 	@NotEmpty

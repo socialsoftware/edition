@@ -25,8 +25,8 @@ public class VirtualEditionValidator extends AbstractLdoDValidator {
 			this.values.put("acronym", this.virtualEdition != null ? this.virtualEdition.getShortAcronym() : "");
 		}
 
-		if (LdoDValidatorFunctions.hasDots(this.acronym)) {
-			this.errors.add("virtualedition.acronym.dots");
+		if (!this.acronym.matches("^[A-Za-z0-9]+$")) {
+			this.errors.add("virtualedition.acronym.alphanumeric");
 			this.values.put("acronym", this.virtualEdition != null ? this.virtualEdition.getShortAcronym() : "");
 		}
 

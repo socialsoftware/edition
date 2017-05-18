@@ -225,11 +225,14 @@ public class LoadTEIFragments {
 			try {
 				loadFragment(title, xmlId);
 			} catch (LdoDLoadException e) {
-				message = e.getMessage();
-				if (oldFragment != null) {
-					oldFragment.remove();
-				}
-				break;
+				throw new LdoDLoadException("[" + title + "(" + xmlId + ")]: " + e.getMessage());
+				// Warning: using the code below inconsistent data can be
+				// committed
+				// message = e.getMessage();
+				// if (oldFragment != null) {
+				// oldFragment.remove();
+				// }
+				// break;
 			}
 
 			if (oldFragment != null) {
