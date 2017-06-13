@@ -15,24 +15,29 @@ public class VirtualEditionValidator extends AbstractLdoDValidator {
 	}
 
 	public void validate() {
-		if (LdoDValidatorFunctions.emptyOrWhitespaceString(acronym)) {
-			errors.add("virtualedition.acronym.empty");
-			values.put("acronym", virtualEdition != null ? virtualEdition.getShortAcronym() : "");
+		if (LdoDValidatorFunctions.emptyOrWhitespaceString(this.acronym)) {
+			this.errors.add("virtualedition.acronym.empty");
+			this.values.put("acronym", this.virtualEdition != null ? this.virtualEdition.getShortAcronym() : "");
 		}
 
-		if (LdoDValidatorFunctions.hasBlanks(acronym)) {
-			errors.add("virtualedition.acronym.blanks");
-			values.put("acronym", virtualEdition != null ? virtualEdition.getShortAcronym() : "");
+		if (LdoDValidatorFunctions.hasBlanks(this.acronym)) {
+			this.errors.add("virtualedition.acronym.blanks");
+			this.values.put("acronym", this.virtualEdition != null ? this.virtualEdition.getShortAcronym() : "");
 		}
 
-		if (LdoDValidatorFunctions.lengthLimit(acronym, 10)) {
-			errors.add("virtualedition.acronym.length");
-			values.put("acronym", virtualEdition != null ? virtualEdition.getShortAcronym() : "");
+		if (!this.acronym.matches("^[A-Za-z0-9]+$")) {
+			this.errors.add("virtualedition.acronym.alphanumeric");
+			this.values.put("acronym", this.virtualEdition != null ? this.virtualEdition.getShortAcronym() : "");
 		}
 
-		if (LdoDValidatorFunctions.emptyOrWhitespaceString(title)) {
-			errors.add("virtualedition.title.empty");
-			values.put("title", virtualEdition != null ? virtualEdition.getTitle() : "");
+		if (LdoDValidatorFunctions.lengthLimit(this.acronym, 10)) {
+			this.errors.add("virtualedition.acronym.length");
+			this.values.put("acronym", this.virtualEdition != null ? this.virtualEdition.getShortAcronym() : "");
+		}
+
+		if (LdoDValidatorFunctions.emptyOrWhitespaceString(this.title)) {
+			this.errors.add("virtualedition.title.empty");
+			this.values.put("title", this.virtualEdition != null ? this.virtualEdition.getTitle() : "");
 		}
 
 	}

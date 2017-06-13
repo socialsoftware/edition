@@ -13,7 +13,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
-import pt.ist.socialsoftware.edition.domain.LdoDUser_Base;
 import pt.ist.socialsoftware.edition.domain.Role.RoleType;
 import pt.ist.socialsoftware.edition.security.LdoDUserDetails;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDDuplicateUsernameException;
@@ -51,8 +50,9 @@ public class LdoDUser extends LdoDUser_Base {
 
 		getLdoD().getUserConnectionSet().stream().filter(uc -> uc.getUserId().equals(getUsername()))
 				.forEach(uc -> uc.remove());
-		if (getToken() != null)
+		if (getToken() != null) {
 			getToken().remove();
+		}
 		getRolesSet().stream().forEach(r -> removeRoles(r));
 		setLdoD(null);
 
@@ -85,16 +85,18 @@ public class LdoDUser extends LdoDUser_Base {
 	}
 
 	public List<VirtualEditionInter> getFragInterSet() {
-		Set<VirtualEditionInter> inters = new HashSet<VirtualEditionInter>();
+		Set<VirtualEditionInter> inters = new HashSet<>();
 
 		for (Annotation annotation : getAnnotationSet()) {
-			if (annotation.getVirtualEditionInter().getVirtualEdition().checkAccess())
+			if (annotation.getVirtualEditionInter().getVirtualEdition().checkAccess()) {
 				inters.add(annotation.getVirtualEditionInter());
+			}
 		}
 
 		for (Tag tag : getTagSet()) {
-			if (tag.getInter().getVirtualEdition().checkAccess())
+			if (tag.getInter().getVirtualEdition().checkAccess()) {
 				inters.add(tag.getInter());
+			}
 		}
 
 		return inters.stream().sorted((i1, i2) -> i1.getTitle().compareTo(i2.getTitle())).collect(Collectors.toList());
@@ -118,14 +120,16 @@ public class LdoDUser extends LdoDUser_Base {
 	@Atomic(mode = TxMode.WRITE)
 	public void enableUnconfirmedUser() {
 		setEnabled(true);
-		if (getToken() != null)
+		if (getToken() != null) {
 			getToken().remove();
+		}
 	}
 
 	@Atomic(mode = TxMode.WRITE)
 	public void updatePassword(PasswordEncoder passwordEncoder, String currentPassword, String newPassword) {
-		if (!passwordEncoder.matches(currentPassword, getPassword()))
+		if (!passwordEncoder.matches(currentPassword, getPassword())) {
 			throw new LdoDException();
+		}
 
 		setPassword(passwordEncoder.encode(newPassword));
 	}
@@ -136,18 +140,20 @@ public class LdoDUser extends LdoDUser_Base {
 
 	@Atomic(mode = TxMode.WRITE)
 	public void switchActive() {
-		if (getActive())
+		if (getActive()) {
 			setActive(false);
-		else
+		} else {
 			setActive(true);
+		}
 	}
 
 	@Atomic(mode = TxMode.WRITE)
 	public void update(PasswordEncoder passwordEncoder, String oldUsername, String newUsername, String firstName,
 			String lastName, String email, String newPassword, boolean isUser, boolean isAdmin) {
 
-		if (!oldUsername.equals(newUsername))
+		if (!oldUsername.equals(newUsername)) {
 			changeUsername(oldUsername, newUsername);
+		}
 
 		setFirstName(firstName);
 		setLastName(lastName);
@@ -155,14 +161,17 @@ public class LdoDUser extends LdoDUser_Base {
 
 		getRolesSet().clear();
 
-		if (isUser)
+		if (isUser) {
 			addRoles(Role.getRole(RoleType.ROLE_USER));
+		}
 
-		if (isAdmin)
+		if (isAdmin) {
 			addRoles(Role.getRole(RoleType.ROLE_ADMIN));
+		}
 
-		if (newPassword != null && !newPassword.trim().equals(""))
+		if (newPassword != null && !newPassword.trim().equals("")) {
 			setPassword(passwordEncoder.encode(newPassword));
+		}
 
 	}
 
@@ -170,11 +179,11 @@ public class LdoDUser extends LdoDUser_Base {
 		setUsername(newUsername);
 
 		UserConnection userConnection = getLdoD().getUserConnectionSet().stream()
-				.filter(uc -> uc.getUserId().equals(oldUsername)).findFirst().get();
+				.filter(uc -> uc.getUserId().equals(oldUsername)).findFirst().orElse(null);
 
-		assert userConnection != null;
-
-		userConnection.setUserId(newUsername);
+		if (userConnection != null) {
+			userConnection.setUserId(newUsername);
+		}
 
 	}
 

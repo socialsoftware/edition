@@ -5,7 +5,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import pt.ist.socialsoftware.edition.domain.SourceInter_Base;
 import pt.ist.socialsoftware.edition.domain.Edition.EditionType;
 import pt.ist.socialsoftware.edition.domain.Source.SourceType;
 
@@ -27,6 +26,14 @@ public class SourceInter extends SourceInter_Base {
 	@Override
 	public String getTitle() {
 		return getFragment().getTitle();
+	}
+
+	@Override
+	public LdoDDate getLdoDDate() {
+		if (getSource() == null) {
+			return null;
+		}
+		return getSource().getLdoDDate();
 	}
 
 	@Override
@@ -101,7 +108,7 @@ public class SourceInter extends SourceInter_Base {
 
 	@Override
 	public List<FragInter> getListUsed() {
-		List<FragInter> listUses = new ArrayList<FragInter>();
+		List<FragInter> listUses = new ArrayList<>();
 		return listUses;
 	}
 
@@ -115,33 +122,37 @@ public class SourceInter extends SourceInter_Base {
 			return null;
 		} else {
 			PbText prevPbText = pbText.getPrevPbText(this);
-			if (prevPbText == null)
+			if (prevPbText == null) {
 				return getSource().getFacsimile().getFirstSurface();
-			else
+			} else {
 				return prevPbText.getSurface();
+			}
 		}
 	}
 
 	public Surface getNextSurface(PbText pbText) {
 		if (pbText == null) {
-			if (getFirstPbText() == null)
+			if (getFirstPbText() == null) {
 				return null;
-			else
+			} else {
 				return getFirstPbText().getSurface();
+			}
 		} else {
 			PbText nextPbText = pbText.getNextPbText(this);
-			if (nextPbText == null)
+			if (nextPbText == null) {
 				return null;
-			else
+			} else {
 				return nextPbText.getSurface();
+			}
 		}
 	}
 
 	private PbText getFirstPbText() {
 		PbText firstPbText = null;
 		for (PbText pbText : getPbTextSet()) {
-			if ((firstPbText == null) || (firstPbText.getOrder() > pbText.getOrder()))
+			if ((firstPbText == null) || (firstPbText.getOrder() > pbText.getOrder())) {
 				firstPbText = pbText;
+			}
 		}
 		return firstPbText;
 	}
@@ -164,17 +175,17 @@ public class SourceInter extends SourceInter_Base {
 
 	@Override
 	public Set<Category> getAllDepthCategories() {
-		return new HashSet<Category>();
+		return new HashSet<>();
 	}
 
 	@Override
 	public Set<Annotation> getAllDepthAnnotations() {
-		return new HashSet<Annotation>();
+		return new HashSet<>();
 	}
 
 	@Override
 	public Set<Tag> getAllDepthTags() {
-		return new HashSet<Tag>();
+		return new HashSet<>();
 	}
 
 }

@@ -24,8 +24,7 @@
 	<li>Reading: reading the work according to different sequences;</li>
 	<li>Documents: listing of all fragments and information about
 		sources;</li>
-	<li>Editions: visualizing autographs, comparing transcriptions and
-		annotating;</li>
+	<li>Editions: visualizing autographs and comparing transcriptions;</li>
 	<li>Search: selecting fragments according to multiple criteria;</li>
 	<li>Virtual: creating virtual editions and their taxonomies;</li>
 	<li>Writing: writing variations based on the fragments [<em>functionality

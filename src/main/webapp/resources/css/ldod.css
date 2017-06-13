@@ -251,9 +251,17 @@
 /* === NAVBAR === */
 
 .navbar-nav-flex {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -moz-box;
+	display: -ms-flexbox;
 	display: flex;
     width: 100%;
-    justify-content: space-between;
+    -webkit-box-pack: justify;
+    -webkit-justify-content: space-between;
+       -moz-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
 }
 
 .navbar-nav-flex::before,
@@ -330,6 +338,8 @@
 }
 
 .ldod-navbar.navbar-fixed-top .navbar-collapse {
+	max-height: -webkit-calc(100vh - 100px);
+	max-height: -moz-calc(100vh - 100px);
 	max-height: calc(100vh - 100px);
 }
 
@@ -371,9 +381,13 @@
 }
 
 .ldod-navbar .dropdown-menu {
-	border-radius: 0;
+	-webkit-border-radius: 0;
+	   -moz-border-radius: 0;
+	        border-radius: 0;
 	border: none;
-	box-shadow: none;
+	-webkit-box-shadow: none;
+	   -moz-box-shadow: none;
+	        box-shadow: none;
 	background: none;
 	padding-top: 15px;
 	padding-bottom: 15px;
@@ -398,7 +412,11 @@
 	top: 0;
 	bottom: 0;
 	width: 200vw;
-	transform: translateX(-50%);
+	-webkit-transform: translateX(-50%);
+	   -moz-transform: translateX(-50%);
+	    -ms-transform: translateX(-50%);
+	     -o-transform: translateX(-50%);
+	        transform: translateX(-50%);
 	background-color: rgba(255, 255, 255, 0.8);
 	z-index: -1;
 	border-top: 1px dashed #FC1B27;
@@ -431,7 +449,13 @@
 	}
 
 	.navbar-nav-flex {
-		flex-direction: column;
+		-webkit-box-orient: vertical;
+		-webkit-box-direction: normal;
+		-webkit-flex-direction: column;
+		   -moz-box-orient: vertical;
+		   -moz-box-direction: normal;
+		    -ms-flex-direction: column;
+		        flex-direction: column;
 	}
 
 	.ldod-navbar .dropdown-menu {

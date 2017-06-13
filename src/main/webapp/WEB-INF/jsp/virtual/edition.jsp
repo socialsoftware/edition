@@ -93,21 +93,21 @@ aside {
 	height: 100%;
 	overflow: hidden;
 	z-index: 10;
-	top: 150px;
+	top: 223px;
 	background-color: #ffffff;
 }
 
 #panel.affix {
 	position: fixed;
-	top: 60px;
+	top: 133px;
 	z-index: 10;
 }
 
 .subnav {
 	margin: 0;
-	top: 50px;
+	top: 123px;
 	z-index: 10;
-	background-color: rgb(247, 247, 247);
+	background-color: rgba(255, 255, 255, 0.8);
 	border-bottom: 1px solid #E1E1E1;
 	padding: 0px 0px 0px 0px;
 	position: fixed;
@@ -116,7 +116,7 @@ aside {
 
 .subnav.affix {
 	position: fixed;
-	top: 50;
+	top: 123;
 	width: 100%;
 	z-index: 10;
 }
@@ -599,11 +599,11 @@ console.log(editionData);
 
 
 	<div class="container">
-		<div class="row col-md-2 pull-right">
+		<div class="row col-md-1">
 			<form class="form-inline" method="GET"
 				action="${contextPath}/virtualeditions/restricted/manage/${virtualEdition.externalId}">
 				<button type="submit" class="btn btn-default">
-					<span class="glyphicon glyphicon-remove"></span>
+					<span class="glyphicon glyphicon-arrow-left"></span>
 					<spring:message code="general.back" />
 				</button>
 			</form>
@@ -1329,7 +1329,7 @@ $( "#outline" ).mousemove(function( event ) {
 	
 	$('.subnav').affix({
 	      offset: {
-	        top: $('.navbar-header').height()
+	        top: $('.navbar-fixed-top').height()
 	      }
 	}); 
 	//-------------------------------

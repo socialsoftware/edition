@@ -30,8 +30,7 @@
 	<li>Documentos: listagem de todos os fragmentos e
 		informa&ccedil;&atilde;o acerca das fontes;</li>
 	<li>Edi&ccedil;&otilde;es: visualiza&ccedil;&atilde;o dos
-		originais, compara&ccedil;&atilde;o das transcri&ccedil;&otilde;es e
-		anota&ccedil;&atilde;o;</li>
+		originais e compara&ccedil;&atilde;o das transcri&ccedil;&otilde;es;</li>
 	<li>Pesquisa: sele&ccedil;&atilde;o de fragmentos de acordo com
 		m&uacute;ltiplos crit&eacute;rios;</li>
 	<li>Virtual: cria&ccedil;&atilde;o de edi&ccedil;&otilde;es

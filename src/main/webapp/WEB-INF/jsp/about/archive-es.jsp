@@ -27,8 +27,8 @@
 		secuencias;</li>
 	<li>Documentos: lista de todos los fragmentos e informaci&oacute;n
 		acerca de las fuentes;</li>
-	<li>Ediciones: visualizaci&oacute;n de los originales,
-		comparaci&oacute;n de las transcripciones y anotaci&oacute;n;</li>
+	<li>Ediciones: visualizaci&oacute;n de los originales y
+		comparaci&oacute;n de las transcripciones;</li>
 	<li>B&uacute;squeda: selecci&oacute;n de fragmentos de acuerdo con
 		m&uacute;ltiples criterios;</li>
 	<li>Virtual: creaci&oacute;n de ediciones virtuales y sus

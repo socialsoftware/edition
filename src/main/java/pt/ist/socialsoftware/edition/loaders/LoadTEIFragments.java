@@ -23,6 +23,7 @@ import org.jdom2.filter.Filters;
 import org.jdom2.input.SAXBuilder;
 import org.jdom2.xpath.XPathExpression;
 import org.jdom2.xpath.XPathFactory;
+import org.slf4j.LoggerFactory;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
@@ -85,6 +86,7 @@ import pt.ist.socialsoftware.edition.shared.exception.LdoDLoadException;
 import pt.ist.socialsoftware.edition.topicmodeling.CorpusGenerator;
 
 public class LoadTEIFragments {
+	private static org.slf4j.Logger logger = LoggerFactory.getLogger(LoadTEIFragments.class);
 
 	private Element ldoDTEI = null;
 	private Namespace namespace = null;
@@ -225,11 +227,14 @@ public class LoadTEIFragments {
 			try {
 				loadFragment(title, xmlId);
 			} catch (LdoDLoadException e) {
-				message = e.getMessage();
-				if (oldFragment != null) {
-					oldFragment.remove();
-				}
-				break;
+				throw new LdoDLoadException("[" + title + "(" + xmlId + ")]: " + e.getMessage());
+				// Warning: using the code below inconsistent data can be
+				// committed
+				// message = e.getMessage();
+				// if (oldFragment != null) {
+				// oldFragment.remove();
+				// }
+				// break;
 			}
 
 			if (oldFragment != null) {
@@ -330,8 +335,9 @@ public class LoadTEIFragments {
 		// the archive edition we have to add it
 		if (archiveEdition != null
 				&& !archiveEdition.getIntersSet().contains(fragment.getRepresentativeSourceInter())) {
+			logger.debug("loadFragment ldod-edition-size:{}", archiveEdition.getAllDepthVirtualEditionInters().size());
 			archiveEdition.createVirtualEditionInter(fragment.getRepresentativeSourceInter(),
-					archiveEdition.getAllDepthVirtualEditionInters().size() + 1);
+					archiveEdition.getMaxFragNumber() + 1);
 		}
 
 		// uncomment when a pretty print of the result of load is required in

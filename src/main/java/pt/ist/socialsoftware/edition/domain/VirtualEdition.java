@@ -34,6 +34,9 @@ public class VirtualEdition extends VirtualEdition_Base {
 		if (acronym.split("\\s+").length != 1) {
 			throw new LdoDException("acronym");
 		}
+		if (acronym.contains(".")) {
+			throw new LdoDException("acronym");
+		}
 
 		// cannot change acronym of the archive edition
 		if (getAcronym() == null || !getAcronym().equals(ARCHIVE_EDITION_ACRONYM)) {
