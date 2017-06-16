@@ -47,7 +47,7 @@
 						<c:when test="${ fragInterEntry.value.size()>0 }">
 							<tr>
 								<td><a
-									href="/fragments/fragment/${fragmentEntry.key.getExternalId()}">${fragmentEntry.key.getTitle()}</a></td>
+									href="/fragments/fragment/${fragmentEntry.key.getXmlId()}">${fragmentEntry.key.getTitle()}</a></td>
 
 
 								<c:choose>

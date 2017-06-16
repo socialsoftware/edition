@@ -33,7 +33,7 @@
 					<c:forEach var="fragment" items='${fragments}'>
 						<tr>
 							<td><a
-								href="${contextPath}/fragments/fragment/${fragment.externalId}">${fragment.title}</a>
+								href="${contextPath}/fragments/fragment/${fragment.xmlId}">${fragment.title}</a>
 							</td>
 							<td><c:forEach var="inter"
 									items='${fragment.getExpertEditionInters(jpcEdition)}'><%@ include
