@@ -1,7 +1,7 @@
 <h3>Editor</h3>
 <p>Manuel Portela, Centro de Literatura Portuguesa (CLP),
 	Universidad de Coimbra</p>
-<h3>Dise&ntilde;o de sistema y programci&oacute;n</h3>
+<h3>Dise&ntilde;o y desarrollo de sistema</h3>
 <p>Ant&oacute;nio Rito Silva, INESC-ID, Instituto Superior
 	T&eacute;cnico (IST), Universidad de Lisboa</p>
 <h3>Equipo de investigaci&oacute;n</h3>

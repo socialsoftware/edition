@@ -437,7 +437,7 @@ public class LoadTEIFragments {
 		case WITNESS:
 			// considers that it only refers to interpretations in the same
 			// fragment
-			FragInter inter = parent.getFragment().getFragInter(target);
+			FragInter inter = parent.getFragment().getFragInterByXmlId(target);
 			if (inter != null) {
 				refText.setFragInter(inter);
 			} else {
@@ -1088,7 +1088,7 @@ public class LoadTEIFragments {
 									putObjectInverseIdMap(target, refText);
 								}
 							} else if (refType == RefType.WITNESS) {
-								FragInter inter = fragInter.getFragment().getFragInter(target);
+								FragInter inter = fragInter.getFragment().getFragInterByXmlId(target);
 								if (inter != null) {
 									refText.setFragInter(inter);
 								} else {
@@ -1116,7 +1116,7 @@ public class LoadTEIFragments {
 								// }
 							}
 
-							fragInter.getFragment().getFragInter(target);
+							fragInter.getFragment().getFragInterByXmlId(target);
 
 							List<Content> contentList = element2.getContent();
 

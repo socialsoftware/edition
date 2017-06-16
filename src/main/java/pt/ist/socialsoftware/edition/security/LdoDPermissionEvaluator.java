@@ -12,6 +12,7 @@ import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.domain.Category;
 import pt.ist.socialsoftware.edition.domain.Edition;
 import pt.ist.socialsoftware.edition.domain.FragInter;
+import pt.ist.socialsoftware.edition.domain.Fragment;
 import pt.ist.socialsoftware.edition.domain.LdoD;
 import pt.ist.socialsoftware.edition.domain.LdoDUser;
 import pt.ist.socialsoftware.edition.domain.Tag;
@@ -42,17 +43,19 @@ public class LdoDPermissionEvaluator implements PermissionEvaluator {
 			switch (permissions[0]) {
 			case "edition":
 				Edition edition = FenixFramework.getDomainObject((String) targetDomainObject);
-				if (edition instanceof VirtualEdition)
+				if (edition instanceof VirtualEdition) {
 					virtualEdition = (VirtualEdition) edition;
-				else
+				} else {
 					virtualEdition = null;
+				}
 				break;
 			case "editionacronym":
 				edition = LdoD.getInstance().getEdition((String) targetDomainObject);
-				if (edition instanceof VirtualEdition)
+				if (edition instanceof VirtualEdition) {
 					virtualEdition = (VirtualEdition) edition;
-				else
+				} else {
 					virtualEdition = null;
+				}
 				break;
 			case "virtualedition":
 				virtualEdition = FenixFramework.getDomainObject((String) targetDomainObject);
@@ -109,7 +112,26 @@ public class LdoDPermissionEvaluator implements PermissionEvaluator {
 	@Override
 	public boolean hasPermission(Authentication authentication, Serializable targetId, String targetType,
 			Object permission) {
-		return false;
+		// it is only implementing "hasPermission(#xmlId, #urlId,
+		// 'fragInter.public')"
+
+		Fragment fragment = FenixFramework.getDomainRoot().getLdoD().getFragment((String) targetId);
+
+		if (fragment == null) {
+			return false;
+		}
+
+		FragInter inter = fragment.getFragInterByUrlId(targetType);
+
+		if (inter == null) {
+			return false;
+		}
+
+		if (inter instanceof VirtualEditionInter) {
+			return ((VirtualEdition) inter.getEdition()).checkAccess();
+		} else {
+			return true;
+		}
 	}
 
 }
