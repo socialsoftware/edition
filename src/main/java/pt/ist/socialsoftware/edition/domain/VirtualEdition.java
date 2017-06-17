@@ -139,25 +139,39 @@ public class VirtualEdition extends VirtualEdition_Base {
 		for (VirtualEditionInter inter : getAllDepthVirtualEditionInters()) {
 			if (inter.getFragment() == fragment) {
 				FragInter usedInter = inter.getLastUsed();
-				if (usedAddInter == usedInter) {
-					return false;
-				}
-				if ((usedInter instanceof SourceInter) || (usedAddInter instanceof SourceInter)) {
+				if (isSameInterpretation(usedAddInter, usedInter)) {
 					return false;
 				}
 
-				ExpertEdition addExpertEdition = ((ExpertEditionInter) usedAddInter).getExpertEdition();
-				ExpertEdition expertEdition = ((ExpertEditionInter) usedInter).getExpertEdition();
-				if (addExpertEdition != expertEdition) {
+				if (atLeastOneIsSourceInterpretation(usedAddInter, usedInter)) {
 					return false;
-				} else {
-					int numberOfInter4Expert = fragment.getNumberOfInter4Edition(expertEdition);
-					int numberOfInter4Virtual = fragment.getNumberOfInter4Edition(this);
-					return numberOfInter4Expert > numberOfInter4Virtual;
 				}
+
+				if (belongToDifferentExpertEditions(usedAddInter, usedInter)) {
+					return false;
+				}
+
+				ExpertEdition expertEdition = ((ExpertEditionInter) usedInter).getExpertEdition();
+				int numberOfInter4Expert = fragment.getNumberOfInter4Edition(expertEdition);
+				int numberOfInter4Virtual = fragment.getNumberOfInter4Edition(this);
+				return numberOfInter4Expert > numberOfInter4Virtual;
 			}
 		}
 		return true;
+	}
+
+	private boolean belongToDifferentExpertEditions(FragInter usedAddInter, FragInter usedInter) {
+		ExpertEdition addExpertEdition = ((ExpertEditionInter) usedAddInter).getExpertEdition();
+		ExpertEdition expertEdition = ((ExpertEditionInter) usedInter).getExpertEdition();
+		return (addExpertEdition != expertEdition);
+	}
+
+	public boolean atLeastOneIsSourceInterpretation(FragInter usedAddInter, FragInter usedInter) {
+		return (usedInter instanceof SourceInter) || (usedAddInter instanceof SourceInter);
+	}
+
+	public boolean isSameInterpretation(FragInter usedAddInter, FragInter usedInter) {
+		return (usedAddInter == usedInter);
 	}
 
 	public int getMaxFragNumber() {
@@ -291,19 +305,19 @@ public class VirtualEdition extends VirtualEdition_Base {
 	@Atomic(mode = TxMode.WRITE)
 	public VirtualEditionInter createVirtualEditionInter(FragInter inter, int number) {
 		VirtualEditionInter virtualInter = null;
-		if (getSectionsSet().isEmpty()) {
-			if (canAddFragInter(inter)) {
+
+		if (canAddFragInter(inter)) {
+			if (getSectionsSet().isEmpty()) {
 				Section section = new Section(this, Section.DEFAULT, 0);
 				virtualInter = new VirtualEditionInter(section, inter, number);
 				section.addVirtualEditionInter(virtualInter);
 				addSections(section);
-			}
-		} else {
-			if (canAddFragInter(inter)) {
+			} else {
 				Section section = getSectionsSet().iterator().next();
 				virtualInter = new VirtualEditionInter(section, inter, number);
 			}
 		}
+
 		return virtualInter;
 	}
 
