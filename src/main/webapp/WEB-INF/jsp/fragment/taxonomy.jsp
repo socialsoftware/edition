@@ -61,6 +61,8 @@
 				<div class="row text-center">
 					<form class="form" role="form" method="POST"
 						action="/virtualeditions/restricted/tag/associate">
+						<input type="hidden" name="${_csrf.parameterName}"
+							value="${_csrf.token}" />
 						<div class="form-group">
 							<div class="hidden">
 								<input type="hidden" name="fragInterId" class="form-control"

@@ -45,6 +45,8 @@
 			<c:if test="${isAdmin}">
 				<form class="form-inline" method="POST"
 					action="${contextPath}/virtualeditions/restricted/${virtualEdition.externalId}/participants/add">
+					<input type="hidden" name="${_csrf.parameterName}"
+						value="${_csrf.token}" />
 					<div class="form-group">
 						<input type="hidden" class="form-control" name="externalId"
 							value="${virtualEdition.externalId}" />
@@ -90,8 +92,9 @@
 										test="${virtualEdition.canSwitchRole(user, member.getUser())}">
 										<form class="form-inline" method="POST"
 											action="${contextPath}/virtualeditions/restricted/${virtualEdition.externalId}/participants/role">
-											<input type="hidden" name="username"
-												value="${member.getUser().getUsername()}" />
+											<input type="hidden" name="${_csrf.parameterName}"
+												value="${_csrf.token}" /> <input type="hidden"
+												name="username" value="${member.getUser().getUsername()}" />
 											<button type="submit" class="btn btn-primary btn-sm">
 												<span class="glyphicon glyphicon-retweet"></span>
 												<c:choose>
@@ -99,7 +102,8 @@
 														<spring:message code="general.manager" />
 													</c:when>
 													<c:otherwise>
-														<spring:message code="general.editor" /></c:otherwise>
+														<spring:message code="general.editor" />
+													</c:otherwise>
 												</c:choose>
 											</button>
 										</form>
@@ -110,7 +114,8 @@
 												<spring:message code="general.manager" />
 											</c:when>
 											<c:otherwise>
-												<spring:message code="general.editor" /></c:otherwise>
+												<spring:message code="general.editor" />
+											</c:otherwise>
 										</c:choose>
 									</c:otherwise>
 								</c:choose></td>
@@ -118,7 +123,8 @@
 									test="${virtualEdition.canRemoveMember(user, member.getUser())}">
 									<form class="form-inline" method="POST"
 										action="${contextPath}/virtualeditions/restricted/${virtualEdition.externalId}/participants/remove">
-										<input type="hidden" name="userId"
+										<input type="hidden" name="${_csrf.parameterName}"
+											value="${_csrf.token}" /> <input type="hidden" name="userId"
 											value="${member.getUser().getExternalId()}" />
 										<button type="submit" class="btn btn-primary btn-sm">
 											<span class="glyphicon glyphicon-remove"></span>
@@ -160,8 +166,9 @@
 							<td><c:if test="${isAdmin}">
 									<form class="form-inline" method="POST"
 										action="${contextPath}/virtualeditions/restricted/${virtualEdition.getExternalId()}/participants/approve">
-										<input type="hidden" name="username"
-											value="${pending.getUser().getUsername()}" />
+										<input type="hidden" name="${_csrf.parameterName}"
+											value="${_csrf.token}" /> <input type="hidden"
+											name="username" value="${pending.getUser().getUsername()}" />
 										<button type="submit" class="btn btn-primary btn-sm">
 											<span class="glyphicon glyphicon-plus"></span>
 											<spring:message code="general.add" />

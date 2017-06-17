@@ -46,8 +46,9 @@
 							<td>${user.getListOfRolesAsStrings()}</td>
 							<td><form class="form-inline" method="POST"
 									action="${contextPath}/admin/user/active">
-									<input type="hidden" name="externalId"
-										value="${user.externalId}" />
+									<input type="hidden" name="${_csrf.parameterName}"
+										value="${_csrf.token}" /> <input type="hidden"
+										name="externalId" value="${user.externalId}" />
 									<button type="submit" class="btn btn-primary btn-sm pull-right">
 										<span class="glyphicon glyphicon-edit"></span>
 										<c:choose>
@@ -71,8 +72,9 @@
 								</form></td>
 							<td><form class="form-inline" method="POST"
 									action="${contextPath}/admin/user/delete">
-									<input type="hidden" name="externalId"
-										value="${user.externalId}" />
+									<input type="hidden" name="${_csrf.parameterName}"
+										value="${_csrf.token}" /> <input type="hidden"
+										name="externalId" value="${user.externalId}" />
 									<button type="submit" class="btn btn-danger btn-sm pull-right">
 										<span class="glyphicon glyphicon-remove"></span>
 										<spring:message code="general.remove" />
@@ -83,15 +85,15 @@
 				</tbody>
 			</table>
 		</div>
-				
+
 		<br /> <br />
-		
-		<h1 class="text-center">
-			Sessions
-		</h1>
+
+		<h1 class="text-center">Sessions</h1>
 		<div class="row">
 			<form class="form-inline" method="POST"
 				action="${contextPath}/admin/switch">
+				<input type="hidden" name="${_csrf.parameterName}"
+					value="${_csrf.token}" />
 				<button type="submit" class="btn btn-danger btn-sm pull-right">
 					<span class="glyphicon glyphicon-edit"></span>
 					<c:if test="${ldoD.getAdmin()}">Administration Mode</c:if>
@@ -105,6 +107,8 @@
 		<div class="row">
 			<form class="form-inline" method="POST"
 				action="${contextPath}/admin/sessions/delete">
+				<input type="hidden" name="${_csrf.parameterName}"
+					value="${_csrf.token}" />
 				<button type="submit" class="btn btn-danger btn-sm pull-right">
 					<span class="glyphicon glyphicon-edit"></span> Delete User Sessions
 				</button>

@@ -210,6 +210,8 @@
 							<td></td>
 							<td><form class="form-horizontal" method="POST"
 									action="/virtualeditions/restricted/addinter/${archiveEdition.externalId}/${inters.get(0).externalId}">
+									<input type="hidden" name="${_csrf.parameterName}"
+										value="${_csrf.token}" />
 									<fieldset>
 										<button type="submit" class="btn btn-primary btn-xs">
 											<span class="glyphicon glyphicon-plus"></span>

@@ -602,6 +602,8 @@ console.log(editionData);
 		<div class="row col-md-1">
 			<form class="form-inline" method="GET"
 				action="${contextPath}/virtualeditions/restricted/manage/${virtualEdition.externalId}">
+				<input type="hidden" name="${_csrf.parameterName}"
+					value="${_csrf.token}" />
 				<button type="submit" class="btn btn-default">
 					<span class="glyphicon glyphicon-arrow-left"></span>
 					<spring:message code="general.back" />
@@ -631,6 +633,8 @@ console.log(editionData);
 					<form class="form-inline" role="form" method="POST"
 						id="formedition"
 						action="/virtualeditions/restricted/reorder/${externalId}">
+						<input type="hidden" name="${_csrf.parameterName}"
+							value="${_csrf.token}" />
 						<div class="form-group pull-right"
 							style="padding-right: 0px; padding-left: 0px">
 							<input type="hidden" name="fraginters" value="" id="fraginters">

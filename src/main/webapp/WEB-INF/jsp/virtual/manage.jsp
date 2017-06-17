@@ -16,7 +16,8 @@
 		<h3 class="text-center">
 			${virtualEdition.title}
 			<c:if test="${virtualEdition.getAdminSet().contains(user)}">
-				<a class="tip" role="button" data-toggle="collapse" title="<spring:message code="virtualedition.tt.edit" />" 
+				<a class="tip" role="button" data-toggle="collapse"
+					title="<spring:message code="virtualedition.tt.edit" />"
 					href="#collapsemenu" aria-expanded="false"
 					aria-controls="collapseExample" style="font-size: 18px"> <span
 					class="glyphicon glyphicon-pencil"></span>
@@ -35,7 +36,8 @@
 			<div class="collapse" id="collapsemenu">
 				<form class="form-inline" role="form" method="POST" id="formedition"
 					action="/virtualeditions/restricted/edit/${externalId}">
-
+					<input type="hidden" name="${_csrf.parameterName}"
+						value="${_csrf.token}" />
 					<div class="row col-md-12">
 						<div class="form-group pull-right"
 							style="padding-right: 0px; padding-left: 0px">
@@ -66,9 +68,8 @@
 									<input type="text" class="form-control tip" name="acronym"
 										id="acronym"
 										placeholder="<spring:message code="virtualeditionlist.acronym" />"
-										value="${virtualEdition.shortAcronym}" 
-										title="<spring:message code="virtualedition.tt.acronym" />" 
-										/>
+										value="${virtualEdition.shortAcronym}"
+										title="<spring:message code="virtualedition.tt.acronym" />" />
 								</div>
 							</div>
 							<div class="form-group col-md-3" style="padding-left: 0px">
@@ -76,21 +77,21 @@
 										code="virtualeditionlist.name" /></label> <input type="text"
 									class="form-control tip" name="title" id="title"
 									placeholder="<spring:message code="virtualeditionlist.name" />"
-									value="${virtualEdition.title}" 
-									title="<spring:message code="virtualedition.tt.title" />" 
-									/>
+									value="${virtualEdition.title}"
+									title="<spring:message code="virtualedition.tt.title" />" />
 							</div>
 							<div class="form-group col-md-3" style="padding-left: 0px">
 								<label class="control-label" for="date"><spring:message
 										code="general.date" /></label> <input class="form-control tip"
 									id="disabledInput" type="text" name="date" id="date"
-									value="${virtualEdition.date}" disabled 
+									value="${virtualEdition.date}" disabled
 									title="<spring:message code="virtualedition.tt.date" />" />
 							</div>
 							<div class="form-group col-md-2" style="padding-left: 0px">
 								<label class="control-label" for="pub"><spring:message
 										code="general.access" /></label> <select class="form-control tip"
-									name="pub" id="pub" title="<spring:message code="virtualedition.tt.access" />" >
+									name="pub" id="pub"
+									title="<spring:message code="virtualedition.tt.access" />">
 									<c:choose>
 										<c:when test="${virtualEdition.pub == false}">
 											<option value="true">
@@ -114,7 +115,8 @@
 							<div class="form-group col-md-4" style="padding-left: 0px">
 								<label class="control-label for="acronym"><spring:message
 										code="taxonomy.manage" /></label> <select class="form-control tip"
-									name="management" id="management" title="<spring:message code="virtualedition.tt.manage.categories" />" >
+									name="management" id="management"
+									title="<spring:message code="virtualedition.tt.manage.categories" />">
 									<c:choose>
 										<c:when
 											test="${virtualEdition.taxonomy.getOpenManagement() == true}">
@@ -135,8 +137,9 @@
 							</div>
 							<div class="form-group  col-md-4" style="padding-left: 0px">
 								<label class="control-label" for="pub"><spring:message
-										code="taxonomy.annotation" /></label> <select class="form-control tip"
-									name="annotation" id="annotation" title="<spring:message code="virtualedition.tt.manage.annotations" />" >
+										code="taxonomy.annotation" /></label> <select
+									class="form-control tip" name="annotation" id="annotation"
+									title="<spring:message code="virtualedition.tt.manage.annotations" />">
 									<c:choose>
 										<c:when
 											test="${virtualEdition.taxonomy.getOpenAnnotation() == true}">
@@ -157,8 +160,9 @@
 							</div>
 							<div class="form-group  col-md-3" style="padding-left: 0px">
 								<label class="control-label" for="title"><spring:message
-										code="taxonomy.vocabulary" /></label> <select class="form-control tip"
-									name="vocabulary" id="vocabulary" title="<spring:message code="virtualedition.tt.manage.vocabulary" />" >
+										code="taxonomy.vocabulary" /></label> <select
+									class="form-control tip" name="vocabulary" id="vocabulary"
+									title="<spring:message code="virtualedition.tt.manage.vocabulary" />">
 									<c:choose>
 										<c:when
 											test="${virtualEdition.taxonomy.getOpenVocabulary() == true}">
@@ -183,14 +187,12 @@
 			</div>
 		</div>
 
-<br/>
-<br/>
-<br/>
+		<br /> <br /> <br />
 
 		<div class="row">
 			<div>
 				<table class="table table-hover">
-				<tbody>
+					<tbody>
 						<c:set var="isAdmin"
 							value="${virtualEdition.getAdminSet().contains(user)}" />
 						<c:set var="isMember"
@@ -230,8 +232,9 @@
 										<c:when test="${isAuthenticated && !isPending}">
 											<form class="form-inline" method="POST"
 												action="${contextPath}/virtualeditions/restricted/${virtualEdition.externalId}/participants/submit">
-												<input type="hidden" name="externalId"
-													value="${virtualEdition.externalId}" />
+												<input type="hidden" name="${_csrf.parameterName}"
+													value="${_csrf.token}" /> <input type="hidden"
+													name="externalId" value="${virtualEdition.externalId}" />
 												<button type="submit" class="btn btn-primary btn-sm">
 													<span class="glyphicon glyphicon-plus"></span>
 													<spring:message code="general.submit" />
@@ -241,8 +244,9 @@
 										<c:when test="${isAuthenticated && isPending}">
 											<form class="form-inline" method="POST"
 												action="${contextPath}/virtualeditions/restricted/${virtualEdition.externalId}/participants/cancel">
-												<input type="hidden" name="externalId"
-													value="${virtualEdition.externalId}" />
+												<input type="hidden" name="${_csrf.parameterName}"
+													value="${_csrf.token}" /> <input type="hidden"
+													name="externalId" value="${virtualEdition.externalId}" />
 												<button type="submit" class="btn btn-primary btn-sm">
 													<span class="glyphicon glyphicon-remove"></span>
 													<spring:message code="general.cancel" />
@@ -254,8 +258,9 @@
 										test="${isAdmin && !isLdoDEdition}">
 										<form id="formdelete" class="form-inline" method="POST"
 											action="${contextPath}/virtualeditions/restricted/delete">
-											<input type="hidden" name="externalId"
-												value="${virtualEdition.externalId}" />
+											<input type="hidden" name="${_csrf.parameterName}"
+												value="${_csrf.token}" /> <input type="hidden"
+												name="externalId" value="${virtualEdition.externalId}" />
 											<button type="submit" id="btdelete"
 												style="border: none; background: none !important;">
 												<span class="glyphicon glyphicon-trash"></span>

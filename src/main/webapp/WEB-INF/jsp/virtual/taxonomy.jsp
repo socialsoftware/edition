@@ -57,6 +57,7 @@
 					<form name="createCategory" class="form-inline" method="POST"
 						action="/virtualeditions/restricted/category/create"
 						onsubmit="return validateCreateCategoryForm()">
+						<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 						<div class="form-group">
 							<input type="hidden" class="form-control" name="externalId"
 								value="${virtualEdition.externalId}" />
@@ -100,8 +101,10 @@
 					action="/virtualeditions/restricted/category/mulop" id="mulopForm">
 					<div class="form-group">
 						<div class="hidden">
-							<label> <input type="hidden" name="taxonomyId"
-								value="${taxonomy.getExternalId()}">
+							<input type="hidden" name="${_csrf.parameterName}"
+								value="${_csrf.token}" /> 
+							<label> <input type="hidden"
+								name="taxonomyId" value="${taxonomy.getExternalId()}">
 							</label> <label> <input type="hidden" name="type" id="type">
 							</label>
 						</div>

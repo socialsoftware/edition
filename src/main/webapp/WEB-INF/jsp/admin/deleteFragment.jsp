@@ -11,29 +11,29 @@
 		<h3 class="text-center">
 			<spring:message code="deletefragment.title" />
 		</h3>
-		<br />
-		<br />
+		<br /> <br />
 		<div id="fragmentList" class="row">
 			<table class="table table-striped table-bordered table-condensed">
 				<thead>
 					<tr>
 						<th><form class="form-inline" method="POST"
 								action="${contextPath}/admin/fragment/deleteAll">
-
+								<input type="hidden" name="${_csrf.parameterName}"
+									value="${_csrf.token}" />
 								<button type="submit" class="btn btn-danger btn-sm pull-right">
 									<span class="glyphicon glyphicon-remove"></span>
 									<spring:message code="general.removeAll" />
 								</button>
-							</form>
-							<spring:message code="tableofcontents.title" /></th>
+							</form> <spring:message code="tableofcontents.title" /></th>
 					</tr>
 				<tbody>
 					<c:forEach var="fragment" items='${fragments}'>
 						<tr>
 							<td><form class="form-inline" method="POST"
 									action="${contextPath}/admin/fragment/delete">
-									${fragment.title} <input type="hidden" name="externalId"
-										value="${fragment.externalId}" />
+									${fragment.title}<input type="hidden"
+										name="${_csrf.parameterName}" value="${_csrf.token}" /> <input
+										type="hidden" name="externalId" value="${fragment.externalId}" />
 									<button type="submit" class="btn btn-danger btn-sm pull-right">
 										<span class="glyphicon glyphicon-remove"></span>
 										<spring:message code="general.remove" />

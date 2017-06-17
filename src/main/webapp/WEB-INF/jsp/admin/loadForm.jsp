@@ -16,6 +16,8 @@
 				<form class="form-inline" method="POST"
 					action="${contextPath}/admin/load/corpus"
 					enctype="multipart/form-data">
+					<input type="hidden" name="${_csrf.parameterName}"
+						value="${_csrf.token}" />
 					<div class="form-group">
 						<input type="file" name="file">
 					</div>
@@ -28,12 +30,12 @@
 				</form>
 			</div>
 			<div class="col-md-3">
-				<h4>
-					Load Users
-				</h4>
+				<h4>Load Users</h4>
 				<form class="form-inline" method="POST"
 					action="${contextPath}/admin/load/users"
 					enctype="multipart/form-data">
+					<input type="hidden" name="${_csrf.parameterName}"
+						value="${_csrf.token}" />
 					<div class="form-group">
 						<input type="file" name="file">
 					</div>
@@ -52,6 +54,8 @@
 				<form class="form-inline" method="POST"
 					action="${contextPath}/admin/load/fragmentsAtOnce"
 					enctype="multipart/form-data">
+					<input type="hidden" name="${_csrf.parameterName}"
+						value="${_csrf.token}" />
 					<div class="form-group">
 						<input type="file" name="file">
 					</div>
@@ -70,6 +74,8 @@
 				<form class="form-inline" method="POST"
 					action="${contextPath}/admin/load/fragmentsStepByStep"
 					enctype="multipart/form-data">
+					<input type="hidden" name="${_csrf.parameterName}"
+						value="${_csrf.token}" />
 					<div class="form-group">
 						<input type="file" multiple name="files">
 					</div>
