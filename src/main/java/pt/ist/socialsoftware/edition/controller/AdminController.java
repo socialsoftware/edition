@@ -43,7 +43,7 @@ import pt.ist.socialsoftware.edition.domain.Role;
 import pt.ist.socialsoftware.edition.domain.Role.RoleType;
 import pt.ist.socialsoftware.edition.export.ExpertEditionTEIExport;
 import pt.ist.socialsoftware.edition.export.UsersXMLExport;
-import pt.ist.socialsoftware.edition.export.VirtualEditionXMLExport;
+import pt.ist.socialsoftware.edition.export.VirtualEditionsHeaderXMLExport;
 import pt.ist.socialsoftware.edition.forms.EditUserForm;
 import pt.ist.socialsoftware.edition.loaders.LoadTEICorpus;
 import pt.ist.socialsoftware.edition.loaders.LoadTEIFragments;
@@ -512,7 +512,7 @@ public class AdminController {
 
 	@RequestMapping(method = RequestMethod.GET, value = "/export/virtualeditions")
 	public void exportVirtualEditions(HttpServletResponse response) {
-		VirtualEditionXMLExport generator = new VirtualEditionXMLExport();
+		VirtualEditionsHeaderXMLExport generator = new VirtualEditionsHeaderXMLExport();
 
 		String timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
 		try {

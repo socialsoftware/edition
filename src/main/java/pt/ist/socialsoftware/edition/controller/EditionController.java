@@ -23,21 +23,11 @@ import pt.ist.socialsoftware.edition.domain.Taxonomy;
 public class EditionController {
 	private static Logger logger = LoggerFactory.getLogger(EditionController.class);
 
-	@RequestMapping(method = RequestMethod.GET, value = "/acronym/{acronym}/intro")
-	@PreAuthorize("hasPermission(#acronym, 'editionacronym.public')")
-	public String getEditionIntroductionByAcronym(Model model, @PathVariable String acronym) {
-		logger.debug("getEditionIntroductionByAcronym acronym:{}", acronym);
+	@RequestMapping(method = RequestMethod.GET)
+	public String editionIntro(Model model) {
+		logger.debug("editionIntro");
 
-		Edition edition = LdoD.getInstance().getEdition(acronym);
-
-		if (edition == null) {
-			return "utils/pageNotFound";
-		} else {
-			model.addAttribute("edition", edition);
-
-			return "edition/introduction-main";
-		}
-
+		return "edition/introduction-main";
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/acronym/{acronym}")
