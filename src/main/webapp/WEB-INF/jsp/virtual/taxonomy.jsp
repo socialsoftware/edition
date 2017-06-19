@@ -57,6 +57,7 @@
 					<form name="createCategory" class="form-inline" method="POST"
 						action="/virtualeditions/restricted/category/create"
 						onsubmit="return validateCreateCategoryForm()">
+						<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 						<div class="form-group">
 							<input type="hidden" class="form-control" name="externalId"
 								value="${virtualEdition.externalId}" />
@@ -84,8 +85,9 @@
 					</div>
 				</div>
 				<div class="pull-right">
-					<button class="btn btn-primary pull-right tipleft" data-toggle="modal"
-						data-target="#topicModal" title="<spring:message code="taxonomies.tt.create" />">
+					<button class="btn btn-primary pull-right tipleft"
+						data-toggle="modal" data-target="#topicModal"
+						title="<spring:message code="taxonomies.tt.create" />">
 						<span class="glyphicon glyphicon-plus"></span>
 						<spring:message code="topics.generate.short" />
 					</button>
@@ -99,8 +101,10 @@
 					action="/virtualeditions/restricted/category/mulop" id="mulopForm">
 					<div class="form-group">
 						<div class="hidden">
-							<label> <input type="hidden" name="taxonomyId"
-								value="${taxonomy.getExternalId()}">
+							<input type="hidden" name="${_csrf.parameterName}"
+								value="${_csrf.token}" /> 
+							<label> <input type="hidden"
+								name="taxonomyId" value="${taxonomy.getExternalId()}">
 							</label> <label> <input type="hidden" name="type" id="type">
 							</label>
 						</div>
@@ -109,7 +113,9 @@
 						<thead>
 							<tr>
 								<th><spring:message code="general.category" /></th>
-								<th><span class="tip" title="<spring:message code='taxonomies.tt.fragments' />"><spring:message code="fragments" /></span></th>
+								<th><span class="tip"
+									title="<spring:message code='taxonomies.tt.fragments' />"><spring:message
+											code="fragments" /></span></th>
 								<c:if test="${taxonomy.canManipulateTaxonomy(userLdoD)}">
 									<th class="text-center">
 										<div class="dropdown">
@@ -179,7 +185,7 @@
 						<span aria-hidden="true">&times;</span>
 					</button>
 					<h4 class="modal-title text-center">
-						<spring:message code="topics.generate.long" /> 
+						<spring:message code="topics.generate.long" />
 					</h4>
 				</div>
 				<div class="modal-body">
@@ -195,7 +201,8 @@
 								title="<spring:message code="taxonomies.tt.nrofwords" />">
 						</div>
 						<div class="col-md-2">
-							<input type="text" class="form-control tip" id="thresholdCategories"
+							<input type="text" class="form-control tip"
+								id="thresholdCategories"
 								placeholder="<spring:message code="general.taxonomies.threshold.categories" />"
 								title="<spring:message code="taxonomies.tt.catcut" />">
 						</div>
@@ -259,24 +266,24 @@ function validateGenerateTopics(topics, words, threshold, iterations) {
 	
 	var errors = [];
     if (topics == null || topics == "") {
-    	errors.push('<spring:message code="validateGenerateTopics.topics.number"/>');
-    } else if (isNaN(topics) || topics < 1) {
+    		errors.push('<spring:message code="validateGenerateTopics.topics.number"/>');
+    } else if (isNaN(topics) || topics < 1 || topics > 100) {
     	errors.push('<spring:message code="validateGenerateTopics.topics.positive"/>');
     }
     if (words == null || words == "") {
-    	errors.push('<spring:message code="validateGenerateTopics.words.number"/>');
-    } else if (isNaN(words) || words < 1) {
-    	errors.push('<spring:message code="validateGenerateTopics.words.positive"/>');
+    		errors.push('<spring:message code="validateGenerateTopics.words.number"/>');
+    } else if (isNaN(words) || words < 1 || words > 10) {
+    		errors.push('<spring:message code="validateGenerateTopics.words.positive"/>');
     }
     if (threshold == null || threshold == "") {
-    	errors.push('<spring:message code="validateGenerateTopics.threshold.value"/>');
+    		errors.push('<spring:message code="validateGenerateTopics.threshold.value"/>');
     } else if (isNaN(threshold) || threshold < 0 || threshold > 100) {
-    	errors.push('<spring:message code="validateGenerateTopics.threshold.range"/>');
+    		errors.push('<spring:message code="validateGenerateTopics.threshold.range"/>');
     }
     if (iterations == null || iterations == "") {
-    	errors.push('<spring:message code="validateGenerateTopics.iterations.value"/>');
+    		errors.push('<spring:message code="validateGenerateTopics.iterations.value"/>');
     } else if (isNaN(iterations) || iterations < 1) {
-    	errors.push('<spring:message code="validateGenerateTopics.iterations.positive"/>');
+    		errors.push('<spring:message code="validateGenerateTopics.iterations.positive"/>');
     }
     
     if (errors.length > 0) {

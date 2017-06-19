@@ -8,11 +8,16 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import pt.ist.socialsoftware.edition.domain.FragInter_Base;
 import pt.ist.socialsoftware.edition.domain.Edition.EditionType;
 
 public abstract class FragInter extends FragInter_Base implements Comparable<FragInter> {
 	private static Logger logger = LoggerFactory.getLogger(FragInter.class);
+
+	@Override
+	public void setXmlId(String xmlId) {
+		setUrlId(xmlId.replace(".", "_"));
+		super.setXmlId(xmlId);
+	}
 
 	public void remove() {
 		setFragment(null);
@@ -92,7 +97,7 @@ public abstract class FragInter extends FragInter_Base implements Comparable<Fra
 	public abstract String getReference();
 
 	public List<AnnexNote> getSortedAnnexNote() {
-		List<AnnexNote> results = new ArrayList<AnnexNote>(getAnnexNoteSet());
+		List<AnnexNote> results = new ArrayList<>(getAnnexNoteSet());
 
 		Collections.sort(results);
 

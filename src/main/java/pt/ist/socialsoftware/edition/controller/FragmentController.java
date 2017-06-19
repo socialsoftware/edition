@@ -78,9 +78,10 @@ public class FragmentController {
 		return "fragment/list";
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "/fragment/{id}")
-	public String getFragment(Model model, @PathVariable String id) {
-		Fragment fragment = FenixFramework.getDomainObject(id);
+	@RequestMapping(method = RequestMethod.GET, value = "/fragment/{xmlId}")
+	public String getFragment(Model model, @PathVariable String xmlId) {
+		logger.debug("getFragment xmlId:{}", xmlId);
+		Fragment fragment = FenixFramework.getDomainRoot().getLdoD().getFragment(xmlId);
 
 		if (fragment == null) {
 			return "utils/pageNotFound";
@@ -93,16 +94,22 @@ public class FragmentController {
 		}
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "/fragment/inter/{externalId}")
-	@PreAuthorize("hasPermission(#externalId, 'fragInter.public')")
-	public String getFragmentWithInter(Model model, @ModelAttribute("ldoDSession") LdoDSession ldoDSession,
-			@PathVariable String externalId) {
-		logger.debug("getFragmentWithInter externalId:{}", externalId);
+	@RequestMapping(method = RequestMethod.GET, value = "/fragment/{xmlId}/inter/{urlId}")
+	@PreAuthorize("hasPermission(#xmlId, #urlId, 'fragInter.public')")
+	public String getFragmentWithInterForUrlId(Model model, @ModelAttribute("ldoDSession") LdoDSession ldoDSession,
+			@PathVariable String xmlId, @PathVariable String urlId) {
+		logger.debug("getFragmentWithInterForUrlId xmlId:{}, urlId:{}", xmlId, urlId);
 
-		FragInter inter = FenixFramework.getDomainObject(externalId);
+		Fragment fragment = FenixFramework.getDomainRoot().getLdoD().getFragment(xmlId);
+
+		if (fragment == null) {
+			return "utils/pageNotFound";
+		}
+
+		FragInter inter = fragment.getFragInterByUrlId(urlId);
 
 		if (inter == null) {
-			return "util/pageNotFound";
+			return "utils/pageNotFound";
 		}
 
 		PlainHtmlWriter4OneInter writer = new PlainHtmlWriter4OneInter(inter.getLastUsed());
@@ -134,6 +141,20 @@ public class FragmentController {
 		return "fragment/main";
 	}
 
+	@RequestMapping(method = RequestMethod.GET, value = "/fragment/inter/{externalId}")
+	@PreAuthorize("hasPermission(#externalId, 'fragInter.public')")
+	public String getFragmentWithInter(Model model, @PathVariable String externalId) {
+		logger.debug("getFragmentWithInter externalId:{}", externalId);
+
+		FragInter inter = FenixFramework.getDomainObject(externalId);
+
+		if (inter == null) {
+			return "utils/pageNotFound";
+		}
+
+		return "redirect:/fragments/fragment/" + inter.getFragment().getXmlId() + "/inter/" + inter.getUrlId();
+	}
+
 	@RequestMapping(method = RequestMethod.GET, value = "/fragment/inter/{externalId}/taxonomy")
 	@PreAuthorize("hasPermission(#externalId, 'fragInter.public')")
 	public String getTaxonomy(Model model, @ModelAttribute("ldoDSession") LdoDSession ldoDSession,
@@ -143,11 +164,11 @@ public class FragmentController {
 		VirtualEditionInter inter = FenixFramework.getDomainObject(externalId);
 
 		if (inter == null) {
-			return "util/pageNotFound";
+			return "utils/pageNotFound";
 		}
 
 		if (inter.getSourceType() != Edition.EditionType.VIRTUAL) {
-			return "util/pageNotFound";
+			return "utils/pageNotFound";
 		}
 
 		VirtualEdition virtualEdition = (VirtualEdition) inter.getEdition();

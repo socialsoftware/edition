@@ -27,7 +27,7 @@
                         <td>${fragmentEntry.key.getExternalId()}</td>
                         <!--  <td><input type="checkbox" name="selectedinters" value="${fragInterEntry.getExternalId()}" /></td>-->
                         <td><a
-                            href="/fragments/fragment/${fragmentEntry.key.getExternalId()}">${fragmentEntry.key.getTitle()}</a>
+                            href="/fragments/fragment/${fragmentEntry.key.getXmlId()}">${fragmentEntry.key.getTitle()}</a>
                             <input type="hidden" name="title"
                             value="${fragmentEntry.key.getTitle()}"
                             id="title${fragInterEntry.getExternalId()}">

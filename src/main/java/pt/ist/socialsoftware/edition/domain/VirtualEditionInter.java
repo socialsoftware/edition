@@ -14,7 +14,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
-import pt.ist.socialsoftware.edition.domain.VirtualEditionInter_Base;
 import pt.ist.socialsoftware.edition.domain.Edition.EditionType;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDException;
 import pt.ist.socialsoftware.edition.utils.CategoryDTO;
@@ -30,6 +29,8 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 		setSection(section);
 		setNumber(number);
 		setUses(inter);
+		setUrlId(getFragment().getXmlId() + "_WIT_ED_VIRT_" + getVirtualEdition().getAcronym() + "_"
+				+ getFragment().getNumberOfInter4Edition(getVirtualEdition()));
 	}
 
 	@Override
@@ -231,10 +232,11 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 	@Override
 	public Set<Category> getAllDepthCategories() {
 		Set<Category> categories = null;
-		if (getVirtualEdition().checkAccess())
+		if (getVirtualEdition().checkAccess()) {
 			categories = new HashSet<>(getVirtualEdition().getTaxonomy().getCategoriesSet());
-		else
+		} else {
 			categories = new HashSet<>();
+		}
 
 		categories.addAll(getUses().getAllDepthCategories());
 
@@ -244,10 +246,11 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 	@Override
 	public Set<Annotation> getAllDepthAnnotations() {
 		Set<Annotation> annotations = null;
-		if (getVirtualEdition().checkAccess())
+		if (getVirtualEdition().checkAccess()) {
 			annotations = new HashSet<>(getAnnotationSet());
-		else
+		} else {
 			annotations = new HashSet<>();
+		}
 
 		annotations.addAll(getUses().getAllDepthAnnotations());
 
@@ -258,10 +261,11 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 	public Set<Tag> getAllDepthTags() {
 		Set<Tag> tags = null;
 
-		if (getVirtualEdition().checkAccess())
+		if (getVirtualEdition().checkAccess()) {
 			tags = new HashSet<>(getTagSet());
-		else
+		} else {
 			tags = new HashSet<>();
+		}
 
 		tags.addAll(getUses().getAllDepthTags());
 
@@ -295,10 +299,11 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 		if (categoryName.contains(".")) {
 			String[] values = categoryName.split("\\.");
 			VirtualEdition edition = (VirtualEdition) LdoD.getInstance().getEdition(values[0]);
-			if (edition.getTaxonomy().getCategory(values[1]) != null)
+			if (edition.getTaxonomy().getCategory(values[1]) != null) {
 				edition.getTaxonomy().createTag(this, values[1], annotation, user);
-			else
+			} else {
 				throw new LdoDException("Cannot create Category in an inherited Virtual Edition");
+			}
 		} else {
 			getVirtualEdition().getTaxonomy().createTag(this, categoryName, annotation, user);
 		}

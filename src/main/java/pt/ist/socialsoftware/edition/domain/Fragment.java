@@ -8,7 +8,6 @@ import java.util.Set;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
-import pt.ist.socialsoftware.edition.domain.Fragment_Base;
 import pt.ist.socialsoftware.edition.domain.Edition.EditionType;
 
 public class Fragment extends Fragment_Base implements Comparable<Fragment> {
@@ -22,7 +21,7 @@ public class Fragment extends Fragment_Base implements Comparable<Fragment> {
 		}
 
 		public String getDesc() {
-			return desc;
+			return this.desc;
 		}
 	};
 
@@ -55,7 +54,7 @@ public class Fragment extends Fragment_Base implements Comparable<Fragment> {
 	}
 
 	public List<FragInter> getSortedInterps() {
-		List<FragInter> interps = new ArrayList<FragInter>(getFragmentInterSet());
+		List<FragInter> interps = new ArrayList<>(getFragmentInterSet());
 
 		Collections.sort(interps);
 
@@ -63,7 +62,7 @@ public class Fragment extends Fragment_Base implements Comparable<Fragment> {
 	}
 
 	public List<SourceInter> getSortedSourceInter() {
-		List<SourceInter> interps = new ArrayList<SourceInter>();
+		List<SourceInter> interps = new ArrayList<>();
 
 		for (FragInter inter : getFragmentInterSet()) {
 			if ((inter.getSourceType() == EditionType.AUTHORIAL)) {
@@ -81,7 +80,7 @@ public class Fragment extends Fragment_Base implements Comparable<Fragment> {
 		// inter.getEdition() == expertEdition)
 		// .map(ExpertEditionInter.class::cast).collect(Collectors.toSet());
 
-		Set<ExpertEditionInter> result = new HashSet<ExpertEditionInter>();
+		Set<ExpertEditionInter> result = new HashSet<>();
 		for (FragInter inter : getFragmentInterSet()) {
 			if (inter.getEdition() == expertEdition) {
 				result.add((ExpertEditionInter) inter);
@@ -113,9 +112,18 @@ public class Fragment extends Fragment_Base implements Comparable<Fragment> {
 		return null;
 	}
 
-	public FragInter getFragInter(String xmlId) {
+	public FragInter getFragInterByXmlId(String xmlId) {
 		for (FragInter inter : getFragmentInterSet()) {
 			if (xmlId.equals(inter.getXmlId())) {
+				return inter;
+			}
+		}
+		return null;
+	}
+
+	public FragInter getFragInterByUrlId(String urlId) {
+		for (FragInter inter : getFragmentInterSet()) {
+			if (urlId.equals(inter.getUrlId())) {
 				return inter;
 			}
 		}

@@ -43,6 +43,8 @@
 						<div class="well">
 							<form class="form-inline" method="POST"
 								action="/virtualeditions/restricted/create">
+								<input type="hidden" name="${_csrf.parameterName}"
+									value="${_csrf.token}" />
 								<div class="form-group">
 									<div class="input-group">
 										<div class="input-group-addon">LdoD-</div>
@@ -156,9 +158,10 @@
 										<td class="text-center"><c:if test="${!isLdoDEdition}">
 												<form class="form-inline" method="POST"
 													action="${contextPath}/virtualeditions/toggleselection">
-													<input type="hidden" name="externalId"
-														value="${virtualEdition.externalId}" /> <input
-														type="checkbox" onChange="this.form.submit()"
+													<input type="hidden" name="${_csrf.parameterName}"
+														value="${_csrf.token}" /> <input type="hidden"
+														name="externalId" value="${virtualEdition.externalId}" />
+													<input type="checkbox" onChange="this.form.submit()"
 														<c:choose>
 													<c:when
 														test="${ldoDSession.materializeVirtualEditions().contains(virtualEdition)}">
@@ -206,8 +209,9 @@
 												<c:when test="${isAuthenticated && !isPending}">
 													<form class="form-inline" method="POST"
 														action="${contextPath}/virtualeditions/restricted/${virtualEdition.externalId}/participants/submit">
-														<input type="hidden" name="externalId"
-															value="${virtualEdition.externalId}" />
+														<input type="hidden" name="${_csrf.parameterName}"
+															value="${_csrf.token}" /> <input type="hidden"
+															name="externalId" value="${virtualEdition.externalId}" />
 														<button type="submit" class="btn btn-primary btn-sm">
 															<span class="glyphicon glyphicon-plus"></span>
 															<spring:message code="general.submit" />
@@ -217,8 +221,9 @@
 												<c:when test="${isAuthenticated && isPending}">
 													<form class="form-inline" method="POST"
 														action="${contextPath}/virtualeditions/restricted/${virtualEdition.externalId}/participants/cancel">
-														<input type="hidden" name="externalId"
-															value="${virtualEdition.externalId}" />
+														<input type="hidden" name="${_csrf.parameterName}"
+															value="${_csrf.token}" /> <input type="hidden"
+															name="externalId" value="${virtualEdition.externalId}" />
 														<button type="submit" class="btn btn-primary btn-sm">
 															<span class="glyphicon glyphicon-remove"></span>
 															<spring:message code="general.cancel" />

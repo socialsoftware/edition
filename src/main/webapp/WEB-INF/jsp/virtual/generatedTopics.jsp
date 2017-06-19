@@ -32,8 +32,8 @@
 									<td><form:input type="hidden" name="name"
 											path="topics[${statusOne.index}].name"
 											value="${topic.getName()}" /> <strong>${topic.getName()}</strong></td>
-									<td><c:forEach var="fragment"
-											items="${topic.getInters()}" varStatus="statusTwo">
+									<td><c:forEach var="fragment" items="${topic.getInters()}"
+											varStatus="statusTwo">
 											<form:input type="hidden" name="fragExternalId"
 												path="topics[${statusOne.index}].inters[${statusTwo.index}].externalId"
 												value="${fragment.getExternalId()}" />

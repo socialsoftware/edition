@@ -12,6 +12,8 @@
 		<div class="row col-md-1">
 			<form class="form-inline" method="GET"
 				action="${contextPath}/virtualeditions/restricted/manage/${fragInter.getEdition().getExternalId()}">
+				<input type="hidden" name="${_csrf.parameterName}"
+					value="${_csrf.token}" />
 				<button type="submit" class="btn btn-default">
 					<span class="glyphicon glyphicon-arrow-left"></span>
 					<spring:message code="general.back" />
@@ -60,5 +62,6 @@
 				</table>
 			</div>
 		</div>
+	</div>
 </body>
 </html>

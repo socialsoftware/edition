@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import pt.ist.socialsoftware.edition.domain.Edition_Base;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDDuplicateAcronymException;
 
 public abstract class Edition extends Edition_Base {
@@ -100,6 +99,10 @@ public abstract class Edition extends Edition_Base {
 
 	public boolean isLdoDEdition() {
 		return getAcronym().equals(Edition.ARCHIVE_EDITION_ACRONYM);
+	}
+
+	public FragInter getFragInterByUrlId(String urlId) {
+		return getIntersSet().stream().filter(i -> i.getUrlId().equals(urlId)).findFirst().orElse(null);
 	}
 
 }

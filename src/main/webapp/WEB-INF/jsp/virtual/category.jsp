@@ -72,6 +72,8 @@
 					<form name="updateName" class="form-inline" method="POST"
 						action="/virtualeditions/restricted/category/update"
 						onsubmit="return validateForm()">
+						<input type="hidden" name="${_csrf.parameterName}"
+							value="${_csrf.token}" />
 						<div class="form-group">
 							<input type="hidden" class="form-control" name="categoryId"
 								value="${category.externalId}" />
@@ -105,6 +107,8 @@
 				<div class="col-md-1">
 					<form class="form-inline" method="POST"
 						action="/virtualeditions/restricted/category/delete">
+						<input type="hidden" name="${_csrf.parameterName}"
+							value="${_csrf.token}" />
 						<div class="form-group">
 							<input type="hidden" class="form-control" name="categoryId"
 								value="${category.externalId}" />
@@ -122,7 +126,9 @@
 			<table class="table table-hover">
 				<thead>
 					<tr>
-						<th><span class="tip" title="<spring:message code='taxonomies.tt.fragments' />"><spring:message code="fragments" /></span></th>
+						<th><span class="tip"
+							title="<spring:message code='taxonomies.tt.fragments' />"><spring:message
+									code="fragments" /></span></th>
 					</tr>
 				</thead>
 				<tbody>
@@ -141,8 +147,9 @@
 		</div>
 		<c:if test="${taxonomy.canManipulateTaxonomy(userLdoD)}">
 			<div class="row pull-right">
-				<button class="btn btn-primary pull-right tip" title="<spring:message code='taxonomies.tt.extractedcategory' />" data-toggle="modal"
-					data-target="#extractModal">
+				<button class="btn btn-primary pull-right tip"
+					title="<spring:message code='taxonomies.tt.extractedcategory' />"
+					data-toggle="modal" data-target="#extractModal">
 					<span class="glyphicon glyphicon-edit"></span>
 					<spring:message code="general.extract" />
 				</button>
@@ -186,6 +193,8 @@
 				<div class="modal-body">
 					<form class="form-horizontal" role="form" method="POST"
 						action="/virtualeditions/restricted/category/extract">
+						<input type="hidden" name="${_csrf.parameterName}"
+							value="${_csrf.token}" />
 						<div class="form-group">
 							<div class="hidden">
 								<label> <input type="hidden" name="categoryId"
@@ -218,7 +227,8 @@
 							</tbody>
 						</table>
 						<div class="form-group text-center">
-							<button type="submit" class="btn btn-sm btn-primary tip" title="<spring:message code='taxonomies.tt.extractedcategory' />">
+							<button type="submit" class="btn btn-sm btn-primary tip"
+								title="<spring:message code='taxonomies.tt.extractedcategory' />">
 								<spring:message code="general.extract" />
 							</button>
 						</div>
