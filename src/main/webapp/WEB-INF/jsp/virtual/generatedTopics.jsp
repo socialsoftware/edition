@@ -46,11 +46,13 @@
 							</c:forEach>
 						</tbody>
 					</table>
-					<div class="text-center">
-						<button type="submit" class="btn btn-primary">
-							<spring:message code="general.add" />
-						</button>
-					</div>
+					<c:if test="${topicList.getTopics() == null}">
+						<div class="text-center">
+							<button type="submit" class="btn btn-primary">
+								<spring:message code="general.add" />
+							</button>
+						</div>
+					</c:if>
 				</form:form>
 			</div>
 		</div>

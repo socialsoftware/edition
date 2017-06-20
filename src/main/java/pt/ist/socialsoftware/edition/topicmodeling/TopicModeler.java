@@ -53,14 +53,14 @@ public class TopicModeler {
 	public TopicListDTO generate(LdoDUser user, VirtualEdition edition, int numTopics, int numWords,
 			int thresholdCategories, int numIterations) throws IOException {
 		// if a corpus is absent
-		File directory = new File(corpusFilesPath);
+		File directory = new File(this.corpusFilesPath);
 		if (!directory.exists()) {
 			throw new LdoDException("TopicModeler.generate corpus is empty");
 		}
 
-		pipe = buildPipe();
+		this.pipe = buildPipe();
 
-		InstanceList instances = readDirectory(edition, new File(corpusFilesPath));
+		InstanceList instances = readDirectory(edition, new File(this.corpusFilesPath));
 
 		int numInstances = instances.size();
 
@@ -113,7 +113,7 @@ public class TopicModeler {
 		pipeList.add(new Input2CharSequence("UTF-8"));
 		pipeList.add(new CharSequence2TokenSequence(Pattern.compile("\\p{L}[\\p{L}\\p{P}]+\\p{L}")));
 		pipeList.add(new TokenSequenceLowercase());
-		pipeList.add(new TokenSequenceRemoveStopwords(new File(stopListPath), "UTF-8", false, false, false));
+		pipeList.add(new TokenSequenceRemoveStopwords(new File(this.stopListPath), "UTF-8", false, false, false));
 		// pipeList.add(new TokenSequenceRemoveStopwords(false, false));
 		pipeList.add(new TokenSequence2FeatureSequence());
 
@@ -137,7 +137,7 @@ public class TopicModeler {
 
 		// Construct a new instance list, passing it the pipe
 		// we want to use to process instances.
-		InstanceList instances = new InstanceList(pipe);
+		InstanceList instances = new InstanceList(this.pipe);
 
 		// Now process each instance provided by the iterator.
 		instances.addThruPipe(iterator);
@@ -223,10 +223,17 @@ public class TopicModeler {
 			}
 		}
 
+		// remove empty topics and topics without interpretations
+		topics.getTopics().removeAll(topics.getTopics().stream().filter(
+				t -> t.getName() == null || t.getName().equals("") || t.getInters() == null || t.getInters().isEmpty())
+				.collect(Collectors.toList()));
+
+		// sort topics
 		List<TopicDTO> sortedList = topics.getTopics().stream().sorted((t1, t2) -> t1.getName().compareTo(t2.getName()))
 				.collect(Collectors.toList());
 		topics.setTopics(sortedList);
 
+		// sort interpretations
 		for (TopicDTO topic : sortedList) {
 			List<TopicInterPercentageDTO> sortedFrags = topic.getInters().stream()
 					.sorted((i1, i2) -> i2.getPercentage() - i1.getPercentage()).collect(Collectors.toList());
@@ -241,21 +248,21 @@ public class TopicModeler {
 	}
 
 	public void deleteFile(String externalId) {
-		if (Files.exists(Paths.get(corpusFilesPath + externalId + ".txt"))) {
+		if (Files.exists(Paths.get(this.corpusFilesPath + externalId + ".txt"))) {
 			try {
-				Files.delete(Paths.get(corpusFilesPath + externalId + ".txt"));
+				Files.delete(Paths.get(this.corpusFilesPath + externalId + ".txt"));
 			} catch (IOException e) {
 				throw new LdoDException(
-						"TopicModeler.deleteFile cannot delete file " + corpusFilesPath + externalId + ".txt");
+						"TopicModeler.deleteFile cannot delete file " + this.corpusFilesPath + externalId + ".txt");
 			}
 		}
 	}
 
 	public void cleanDirectory() {
 		try {
-			FileUtils.cleanDirectory(new File(corpusFilesPath));
+			FileUtils.cleanDirectory(new File(this.corpusFilesPath));
 		} catch (IOException e) {
-			throw new LdoDException("TopicModeler.cleanDirectory cannot delete directory " + corpusFilesPath);
+			throw new LdoDException("TopicModeler.cleanDirectory cannot delete directory " + this.corpusFilesPath);
 		}
 	}
 
@@ -265,7 +272,7 @@ public class TopicModeler {
 
 		public EditionFilter(VirtualEdition edition) {
 			for (VirtualEditionInter inter : edition.getAllDepthVirtualEditionInters()) {
-				filenames.add(inter.getFragment().getRepresentativeSourceInter().getExternalId() + ".txt");
+				this.filenames.add(inter.getFragment().getRepresentativeSourceInter().getExternalId() + ".txt");
 			}
 		}
 
@@ -275,7 +282,7 @@ public class TopicModeler {
 		 */
 		@Override
 		public boolean accept(File file) {
-			return filenames.contains(file.getName());
+			return this.filenames.contains(file.getName());
 		}
 	}
 

@@ -27,11 +27,18 @@ public class VirtualEditionsHeaderXMLExport {
 		Element rootElement = new Element("teiCorpus");
 		rootElement.setNamespace(this.xmlns);
 		this.jdomDoc.setRootElement(rootElement);
+		Element teiHeader = new Element("teiHeader", this.xmlns);
+		teiHeader.setAttribute("type", "corpus");
+		rootElement.addContent(teiHeader);
 
-		Element listBibl = generateTeiHeader(rootElement);
-
+		Element listBibl = generateFileDesc(teiHeader);
 		for (VirtualEdition virtualEdition : LdoD.getInstance().getVirtualEditionsSet()) {
 			exportVirtualEditionBibl(listBibl, virtualEdition);
+		}
+
+		Element classDecl = generateEncodingDesc(teiHeader);
+		for (VirtualEdition virtualEdition : LdoD.getInstance().getVirtualEditionsSet()) {
+			exportVirtualEditionTaxonomy(classDecl, virtualEdition);
 		}
 
 		XMLOutputter xml = new XMLOutputter();
@@ -41,10 +48,7 @@ public class VirtualEditionsHeaderXMLExport {
 		return xml.outputString(rootElement);
 	}
 
-	public Element generateTeiHeader(Element rootElement) {
-		Element teiHeader = new Element("teiHeader", this.xmlns);
-		teiHeader.setAttribute("type", "corpus");
-		rootElement.addContent(teiHeader);
+	private Element generateFileDesc(Element teiHeader) {
 		Element fileDesc = new Element("fileDesc", this.xmlns);
 		teiHeader.addContent(fileDesc);
 		Element sourceDesc = new Element("sourceDesc", this.xmlns);
@@ -60,6 +64,7 @@ public class VirtualEditionsHeaderXMLExport {
 		Element bibl = new Element("bibl", this.xmlns);
 		Attribute id = new Attribute("id", ED_VIRT + "." + virtualEdition.getAcronym(), Namespace.XML_NAMESPACE);
 		bibl.setAttribute(id);
+		bibl.setAttribute("status", virtualEdition.getPub() ? "PUBLIC" : "PRIVATE");
 
 		Element idElement = new Element("id", this.xmlns);
 		idElement.setText(virtualEdition.getAcronym());
@@ -73,35 +78,63 @@ public class VirtualEditionsHeaderXMLExport {
 		date.setAttribute("when", virtualEdition.getDate().toString());
 		bibl.addContent(date);
 
-		bibl.setAttribute("pub", exportBoolean(virtualEdition.getPub()));
-
 		exportEditors(bibl, virtualEdition);
-		exportTaxonomy(bibl, virtualEdition.getTaxonomy());
 
 		element.addContent(bibl);
 	}
 
 	private void exportEditors(Element element, VirtualEdition virtualEdition) {
-		Element editorsElement = new Element("editor");
-
 		for (Member member : virtualEdition.getMemberSet()) {
-			exportEditor(editorsElement, member);
+			exportEditor(element, member);
 		}
-
-		element.addContent(editorsElement);
 	}
 
 	private void exportEditor(Element element, Member member) {
-		Element editorElement = new Element("persName");
-		editorElement.setAttribute("user", member.getUser().getUsername());
+		Element editorElement = new Element("editor", this.xmlns);
+		editorElement.setAttribute("nymRef", member.getUser().getUsername());
+		editorElement.setAttribute("date", member.getDate().toString());
 		editorElement.setAttribute("role", member.getRole().toString());
 		editorElement.setAttribute("active", exportBoolean(member.getActive()));
-
 		element.addContent(editorElement);
+
+		Element persNameElement = new Element("persName", this.xmlns);
+		persNameElement.setText(member.getUser().getFirstName() + " " + member.getUser().getLastName());
+
+		editorElement.addContent(persNameElement);
 	}
 
-	private void exportTaxonomy(Element element, Taxonomy taxonomy) {
-		Element taxonomyElement = new Element("taxonomy");
+	private Element generateEncodingDesc(Element teiHeader) {
+		Element encodingDesc = new Element("encodingDesc", this.xmlns);
+		teiHeader.addContent(encodingDesc);
+		Element classDecl = new Element("classDecl", this.xmlns);
+		encodingDesc.addContent(classDecl);
+		return classDecl;
+	}
+
+	private void exportVirtualEditionTaxonomy(Element element, VirtualEdition virtualEdition) {
+		Taxonomy taxonomy = virtualEdition.getTaxonomy();
+
+		Element taxonomyElement = new Element("taxonomy", this.xmlns);
+		taxonomyElement.setAttribute("corresp", "#" + ED_VIRT + "." + virtualEdition.getAcronym());
+
+		Element taxonomyDesc = new Element("desc", this.xmlns);
+		taxonomyElement.addContent(taxonomyDesc);
+
+		Element descList = new Element("list", this.xmlns);
+		descList.setAttribute("type", "interaction");
+		taxonomyDesc.addContent(descList);
+
+		Element listItem = new Element("item", this.xmlns);
+		listItem.setText(taxonomy.getOpenManagement() ? "OPEN_MANAGEMENT" : "CLOSED_MANAGEMENT");
+		descList.addContent(listItem);
+
+		listItem = new Element("item", this.xmlns);
+		listItem.setText(taxonomy.getOpenAnnotation() ? "OPEN_ANNOTATION" : "CLOSED_ANNOTATION");
+		descList.addContent(listItem);
+
+		listItem = new Element("item", this.xmlns);
+		listItem.setText(taxonomy.getOpenVocabulary() ? "OPEN_VOCABULARY" : "CLOSED_VOCABULARY");
+		descList.addContent(listItem);
 
 		for (Category category : taxonomy.getCategoriesSet()) {
 			exportCategory(taxonomyElement, category);
@@ -111,10 +144,14 @@ public class VirtualEditionsHeaderXMLExport {
 	}
 
 	private void exportCategory(Element element, Category category) {
-		Element categoryElement = new Element("category");
-		categoryElement.setAttribute("name", category.getName());
-
+		Element categoryElement = new Element("category", this.xmlns);
 		element.addContent(categoryElement);
+
+		Element catDescElement = new Element("catDesc", this.xmlns);
+		catDescElement.setText(category.getName());
+
+		categoryElement.addContent(catDescElement);
+
 	}
 
 	private String exportBoolean(boolean value) {
