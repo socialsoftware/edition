@@ -198,4 +198,8 @@ public class LdoD extends LdoD_Base {
 				.findFirst().orElse(null);
 	}
 
+	public VirtualEdition getVirtualEditionByXmlId(String xmlId) {
+		return getVirtualEditionsSet().stream().filter(ve -> ve.getXmlId().equals(xmlId)).findFirst().orElse(null);
+	}
+
 }

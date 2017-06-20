@@ -14,7 +14,7 @@ import pt.ist.socialsoftware.edition.domain.Member;
 import pt.ist.socialsoftware.edition.domain.Taxonomy;
 import pt.ist.socialsoftware.edition.domain.VirtualEdition;
 
-public class VirtualEditionsHeaderXMLExport {
+public class VirtualEditionsTEICorpusExport {
 	private static final String ED_VIRT = "ED.VIRT";
 
 	Namespace xmlns = Namespace.getNamespace("http://www.tei-c.org/ns/1.0");
@@ -62,7 +62,7 @@ public class VirtualEditionsHeaderXMLExport {
 
 	private void exportVirtualEditionBibl(Element element, VirtualEdition virtualEdition) {
 		Element bibl = new Element("bibl", this.xmlns);
-		Attribute id = new Attribute("id", ED_VIRT + "." + virtualEdition.getAcronym(), Namespace.XML_NAMESPACE);
+		Attribute id = new Attribute("id", virtualEdition.getAcronym(), Namespace.XML_NAMESPACE);
 		bibl.setAttribute(id);
 		bibl.setAttribute("status", virtualEdition.getPub() ? "PUBLIC" : "PRIVATE");
 

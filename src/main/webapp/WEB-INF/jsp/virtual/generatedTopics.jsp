@@ -46,7 +46,7 @@
 							</c:forEach>
 						</tbody>
 					</table>
-					<c:if test="${topicList.getTopics() == null}">
+					<c:if test="${!topicList.getTopics().isEmpty()}">
 						<div class="text-center">
 							<button type="submit" class="btn btn-primary">
 								<spring:message code="general.add" />

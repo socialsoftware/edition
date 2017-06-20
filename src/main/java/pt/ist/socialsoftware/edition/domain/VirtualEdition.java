@@ -44,10 +44,16 @@ public class VirtualEdition extends VirtualEdition_Base {
 		}
 	}
 
+	@Override
+	public String getXmlId() {
+		return "ED.VIRT." + getAcronym();
+	}
+
 	public VirtualEdition(LdoD ldod, LdoDUser participant, String acronym, String title, LocalDate date, Boolean pub,
 			Edition usedEdition) {
 		setLdoD4Virtual(ldod);
 		new Member(this, participant, MemberRole.ADMIN, true);
+		setXmlId("ED.VIRT." + acronym);
 		setAcronym(acronym);
 		setTitle(title);
 		setDate(date);
@@ -403,6 +409,10 @@ public class VirtualEdition extends VirtualEdition_Base {
 	public void removeMember(LdoDUser user) {
 		getMemberSet().stream().filter(m -> m.getUser() == user).forEach(m -> m.remove());
 		removeSelectedBy(user);
+	}
+
+	public Member getMember(LdoDUser user) {
+		return getMemberSet().stream().filter(m -> m.getUser() == user).findFirst().orElse(null);
 	}
 
 	@Atomic(mode = TxMode.WRITE)
