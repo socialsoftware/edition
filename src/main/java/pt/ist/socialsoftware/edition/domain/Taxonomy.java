@@ -13,7 +13,6 @@ import org.slf4j.LoggerFactory;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.fenixframework.FenixFramework;
-import pt.ist.socialsoftware.edition.domain.Taxonomy_Base;
 import pt.ist.socialsoftware.edition.utils.TopicDTO;
 import pt.ist.socialsoftware.edition.utils.TopicInterPercentageDTO;
 import pt.ist.socialsoftware.edition.utils.TopicListDTO;
@@ -127,8 +126,9 @@ public class Taxonomy extends Taxonomy_Base {
 	public Category extract(Category category, Set<VirtualEditionInter> inters) {
 		String suffix = "_Extracted";
 		String newName = category.getName() + suffix;
-		while (getCategory(newName) != null)
+		while (getCategory(newName) != null) {
 			newName = newName + suffix;
+		}
 
 		Category newCategory = new Category().init(this, newName);
 
@@ -142,8 +142,9 @@ public class Taxonomy extends Taxonomy_Base {
 
 	public void createTag(VirtualEditionInter virtualEditionInter, String categoryName, Annotation annotation,
 			LdoDUser ldoDUser) {
-		if (!getOpenVocabulary() && getCategory(categoryName) == null)
+		if (!getOpenVocabulary() && getCategory(categoryName) == null) {
 			return;
+		}
 		new Tag().init(this.getEdition(), virtualEditionInter, categoryName, annotation, ldoDUser);
 	}
 
@@ -154,6 +155,10 @@ public class Taxonomy extends Taxonomy_Base {
 
 	@Atomic(mode = TxMode.WRITE)
 	public void createGeneratedCategories(TopicListDTO topicList) {
+		if (topicList.getTopics() == null) {
+			return;
+		}
+
 		LdoDUser user = LdoD.getInstance().getUser(topicList.getUsername());
 
 		for (TopicDTO topic : topicList.getTopics()) {
@@ -180,17 +185,19 @@ public class Taxonomy extends Taxonomy_Base {
 	}
 
 	public boolean canManipulateAnnotation(LdoDUser user) {
-		if (user != null && getOpenAnnotation())
+		if (user != null && getOpenAnnotation()) {
 			return true;
-		else
+		} else {
 			return getEdition().getParticipantSet().contains(user);
+		}
 	}
 
 	public boolean canManipulateTaxonomy(LdoDUser user) {
-		if (getOpenManagement())
+		if (getOpenManagement()) {
 			return getEdition().getParticipantSet().contains(user);
-		else
+		} else {
 			return getEdition().getAdminSet().contains(user);
+		}
 	}
 
 }
