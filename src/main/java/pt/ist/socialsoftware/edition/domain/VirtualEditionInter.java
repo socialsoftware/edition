@@ -29,6 +29,8 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 		setSection(section);
 		setNumber(number);
 		setUses(inter);
+		setXmlId(inter.getFragment().getXmlId() + ".WIT.ED.VIRT." + getVirtualEdition().getAcronym() + "."
+				+ getFragment().getNumberOfInter4Edition(getVirtualEdition()));
 		setUrlId(getFragment().getXmlId() + "_WIT_ED_VIRT_" + getVirtualEdition().getAcronym() + "_"
 				+ getFragment().getNumberOfInter4Edition(getVirtualEdition()));
 	}

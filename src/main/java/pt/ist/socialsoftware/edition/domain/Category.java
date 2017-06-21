@@ -12,6 +12,11 @@ import pt.ist.socialsoftware.edition.shared.exception.LdoDException;
 
 public class Category extends Category_Base implements Comparable<Category> {
 
+	@Override
+	public String getXmlId() {
+		return getTaxonomy().getEdition().getXmlId() + "." + getName();
+	}
+
 	public Category init(Taxonomy taxonomy) {
 		setTaxonomy(taxonomy);
 
