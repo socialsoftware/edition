@@ -155,4 +155,9 @@ public class ExpertEditionInter extends ExpertEditionInter_Base {
 		return Integer.toString(getNumber()) + (!getSubNumber().equals("") ? "-" + getSubNumber() : getSubNumber());
 	}
 
+	@Override
+	public int getUsesDepth() {
+		return 0;
+	}
+
 }

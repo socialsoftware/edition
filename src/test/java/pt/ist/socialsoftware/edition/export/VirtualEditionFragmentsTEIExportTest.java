@@ -1,5 +1,10 @@
 package pt.ist.socialsoftware.edition.export;
 
+import static org.junit.Assert.assertEquals;
+
+import java.util.Arrays;
+import java.util.stream.Collectors;
+
 import javax.transaction.NotSupportedException;
 import javax.transaction.SystemException;
 
@@ -12,6 +17,8 @@ import pt.ist.fenixframework.FenixFramework;
 import pt.ist.fenixframework.core.WriteOnReadError;
 import pt.ist.socialsoftware.edition.domain.Fragment;
 import pt.ist.socialsoftware.edition.domain.LdoD;
+import pt.ist.socialsoftware.edition.domain.VirtualEditionInter;
+import pt.ist.socialsoftware.edition.loaders.VirtualEditionFragmentsTEIImport;
 
 public class VirtualEditionFragmentsTEIExportTest {
 	@Before
@@ -28,20 +35,21 @@ public class VirtualEditionFragmentsTEIExportTest {
 			String fragmentTEI = export.exportFragment(fragment);
 			System.out.println(fragmentTEI);
 
-			// int numOfFragments = LdoD.getInstance().getFragmentsSet().size();
-			//
-			// LdoD.getInstance().getFragmentsSet().forEach(f -> f.remove());
-			//
-			// VirtualEditionFragmentsTEIImport im = new
-			// VirtualEditionFragmentsTEIImport();
-			// im.importFragement(fragmentTEI);
-			//
-			// assertEquals(numOfFragments,
-			// LdoD.getInstance().getFragmentsSet().size());
-			//
-			// System.out.println(export.export());
-			// assertEquals(Arrays.stream(fragmentTEI.split("\\r?\\n")).sorted().collect(Collectors.joining("\\n")),
-			// Arrays.stream(export.export().split("\\r?\\n")).sorted().collect(Collectors.joining("\\n")));
+			int numberOfInters = fragment.getVirtualEditionInters().size();
+
+			for (VirtualEditionInter inter : fragment.getVirtualEditionInters()) {
+				inter.remove();
+			}
+
+			VirtualEditionFragmentsTEIImport im = new VirtualEditionFragmentsTEIImport();
+			im.importFragmentFromTEI(fragmentTEI);
+
+			assertEquals(numberOfInters, fragment.getVirtualEditionInters().size());
+
+			System.out.println(export.exportFragment(fragment));
+			assertEquals(Arrays.stream(fragmentTEI.split("\\r?\\n")).sorted().collect(Collectors.joining("\\n")),
+					Arrays.stream(export.exportFragment(fragment).split("\\r?\\n")).sorted()
+							.collect(Collectors.joining("\\n")));
 		}
 	}
 

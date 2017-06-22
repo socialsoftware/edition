@@ -352,4 +352,9 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 		return result;
 	}
 
+	@Override
+	public int getUsesDepth() {
+		return getUses().getUsesDepth() + 1;
+	}
+
 }
