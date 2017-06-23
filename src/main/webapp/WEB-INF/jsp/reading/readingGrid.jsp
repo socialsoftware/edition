@@ -73,7 +73,8 @@ ${inter.getEdition().getAcronym()}
     <!--<div class="reading__column col-xs-12 col-sm-1 no-pad">-->
     
          <h4>
-          <a href="${contextPath}/edition/internalid/${expertEdition.externalId}">${expertEdition.editor}</a>
+          <!--<a href="${contextPath}/edition/internalid/${expertEdition.externalId}">${expertEdition.editor}</a>-->
+          ${expertEdition.editor}
           </h4>
 
           <!--

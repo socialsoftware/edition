@@ -713,10 +713,14 @@
 .ldod-default .reading__column h4 a {
 		color: black;	
 		text-decoration: none;
+		border: 2px dotted black;
+		padding: 0px 4px;
+
 }
 .ldod-default .reading__column h4 a:hover {
 		color: #0C4EF6;	
 		text-decoration: none;
+		border: 2px dotted #0C4EF6;
 }
 
 
@@ -917,8 +921,8 @@
         line-height: 3.73333rem; } }
     @media (min-width: 1200px) {
      .ldod-default  .reading__column h2, .reading__column--open h2 {
-        font-size: 34px;
-        font-size: 3.4rem;
+        font-size: 28px;
+        /*font-size: 3.4rem;*/
         font-family: "Ultra";
         font-weight: regular;
         line-height: 45.33333px;

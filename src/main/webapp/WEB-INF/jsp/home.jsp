@@ -158,8 +158,7 @@
 	    </a>
 
 	    <hr class="line-points">
-
-	     <a href="">
+	     <a href="/search/simple">
 		  <div class="div-link">
 		    <img src="../resources/img/boxes/D-PT-04-<%=img4%>.svg">
 		    <img src="../resources/img/boxes/D-PT-04-<%=img4%>-h.svg">
@@ -175,6 +174,7 @@
 		  </div>
 	    </a>
 
+	    <!--
 	    <hr class="line-points">
 
 	     <a href="">
@@ -183,6 +183,7 @@
 		    <img src="../resources/img/boxes/D-PT-06-<%=img6%>-h.svg">
 		  </div>
 	    </a>
+	    -->
 
 	  </div>
 
