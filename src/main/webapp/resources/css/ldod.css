@@ -227,6 +227,26 @@
 .font-grotesque { font-family: 'Work-Sans' }
 .font-serif     { font-family: 'Linux-Libertine' }
 
+/* === PREFIXED BASE STYLES === */
+
+.ldod-default {
+	font-family: 'Work-Sans';
+	color: black;
+	font-size:15px;
+	line-height: 1.5;
+}
+
+.ldod-default h1,
+.ldod-default h2,
+.ldod-default h3,
+.ldod-default h4,
+.ldod-default h5,
+.ldod-default h6 {
+	font-family: 'League-Gothic';
+	text-transform: uppercase;
+	margin-top: 40px;
+	margin-bottom: 15px;
+}
 
 
 /* === NAVBAR === */
@@ -254,10 +274,11 @@
 	display: inline-block;
 }
 
-.ldod-navbar {
+.ldod-navbar.navbar{
 	border-top: 10px solid #FC1B27;
 	font-family: 'Space-Mono';
 	font-weight: bold;
+	font-size: 14px;
 }
 
 .ldod-navbar .container-fluid:first-of-type {
@@ -465,3 +486,553 @@
 		color: #0C4EF6;
 	}
 }
+
+
+/* === HOMEPAGE === */
+
+
+.ldod-default .frag-number {
+	font-size: 80px;
+	padding-left: 8%;
+}
+
+.ldod-default .frag-editor {
+	position: relative;
+	font-weight: 600;
+	font-size: 40px;
+	padding-left: 2%;
+	text-transform: uppercase;
+	vertical-align: top;
+	top:16px;
+}
+
+.ldod-default .frag-excerpt {
+	color: #FC1B27;
+}
+
+.ldod-default .frag-excerpt-text p {
+	font-weight: 600;
+	font-size: 50px;
+	line-height: 58px;
+}
+
+.ldod-default .line-points {
+	border-top:3px dotted #FC1B27;
+	margin-bottom: 30px;
+	margin-top:30px;
+}
+
+
+.ldod-default .about {
+	margin-top: 30px;
+  	margin-bottom: 40px;
+}
+
+.ldod-default .about p {
+	color: #0C4EF6;
+	font-size: 36px;
+	line-height: 48px;
+}
+
+/*
+.ldod-default .about p .s-underl {
+	box-shadow: 0 -2px 0 #FC1B27 inset;
+}
+*/
+
+.ldod-default .line-x {
+	height: 20px;
+	background: url('../img/x.png') repeat-x 0 0;
+	border: 0;
+}
+
+.ldod-default .menu-boxes {
+	position: relative;
+	display: block;
+	padding: 0;
+	margin-top:20px;
+}
+
+.ldod-default .menu-boxes img{
+	position: relative;
+    width: 100%;
+}
+
+.ldod-default .div-link img:nth-child(2) {
+	display: none;
+}
+
+.ldod-default .div-link:hover img:nth-child(2) {
+	display: inline;
+}
+
+.ldod-default .div-link:hover img:nth-child(1) {
+	display: none;
+}
+
+.ldod-default  .bottom-info {
+	position: relative;
+  float: left;
+  margin-top: 30px;
+  font-size: 10px;
+}
+
+.ldod-default  .bottom-bar {
+  position: relative;
+  width: 100%;
+  height: 60px;
+  border-bottom:40px solid #FC1B27;
+}
+
+.ldod-default .frag-excerpt:hover {
+	color:#0C4EF6;
+}
+
+
+/* ------ reading ------  */
+
+
+/*
+.ldod-default  .reading-container {
+  position: relative;
+  float: left;
+  height: auto;
+}
+
+@media (min-width: 768px) {
+	.ldod-default  .reading-container {
+	margin-top: 60px;
+    height: 100%;
+    min-height: 70vh;
+	}
+}
+
+
+
+
+.ldod-default  .reading__column {
+  position: relative;
+  height: 8.33333%;
+  float: left;
+  padding: 5px 0;
+  border-top: 2px dotted black;
+  text-align: left;
+}
+
+.ldod-default .reading__column h4{
+    display: inline-block;
+    margin: 0;
+    width: 100%;
+    height: auto;
+    text-transform: uppercase;
+    font-size: 30px;
+    font-family: 'League-Gothic';
+
+
+    /* 760 */
+
+/*
+     height: 120px;
+
+     font-size: 2.4rem;
+     line-height: 22px;
+}
+
+.ldod-default .reading__column {
+
+}
+
+.ldod-default .reading__column {
+
+}
+
+
+
+.ldod-default  .reading__text {
+  padding: 15px 0;
+  height: 100%;
+  border: 0;
+  border-top: 2px dotted black;
+
+  	/* */
+
+/*
+    padding: 120px 15px 15px;
+    border: 0;
+    border-left: 2px dotted black;
+    border-right: 2px dotted black;
+}
+
+.ldod-default  .reading__text h1 {
+	 margin: 0;
+	 text-transform: uppercase;
+	  font-family: 'League-Gothic';
+	  font-size: 35px;
+}
+
+.ldod-default  .reading__text span{
+	 float: left;
+    padding-top: 25px;
+    font-size: 16px;
+     font-family: 'Work-Sans';
+
+}
+
+.ldod-default  .reading__text p{
+	 float: left;
+    margin: 0;
+    padding-top: 25px;
+     font-family: 'Work-Sans';
+     font-size: 18px;
+     line-height: 24px;
+}
+
+*/
+
+
+
+.ldod-default .reading-container {
+  position: relative;
+  float: left;
+  height: auto; }
+  @media (min-width: 768px) {
+    .reading-container {
+      margin-top: 60px;
+      height: 100%;
+      min-height: 70vh; } }
+
+.ldod-default .reading__column, .reading__column--open {
+  position: relative;
+  height: 8.33333%;
+  float: left;
+  padding: 5px 0;
+  border-top: 2px dotted black;
+  text-align: left;
+}
+
+.ldod-default .reading__column h4 a {
+		color: black;	
+		text-decoration: none;
+}
+.ldod-default .reading__column h4 a:hover {
+		color: #0C4EF6;	
+		text-decoration: none;
+}
+
+
+.ldod-default .reading__column--open h4 a {
+		color: #FC1B27;	
+		text-decoration: none;
+}
+
+.ldod-default .reading__column--open h4 a:hover {
+		color: #0C4EF6;	
+}
+
+
+
+.ldod-default .reading__column h2 {
+		color: black;	
+		text-decoration: none;
+}
+
+.ldod-default .reading__column h2:hover {
+		color: #0C4EF6;	
+}
+
+.ldod-default .reading__column--open h2:hover {
+		color: #0C4EF6;	
+}
+
+
+.ldod-default .reading__column a {
+		color: black;	
+		text-decoration: none;
+}
+
+.ldod-default .reading__column a:hover {
+		color: #0C4EF6;	
+		
+}
+
+
+  @media (min-width: 768px) {
+    .ldod-default .reading__column, .reading__column--open {
+      padding: 0 5px;
+      height: 100%;
+      border: 0;
+      border-left: 2px dotted black;
+      text-align: center; } }
+  .ldod-default .reading__column h4, .reading__column--open h4 {
+    display: inline-block;
+    margin: 0;
+    width: 100%;
+    height: auto;
+    font-size: 30px;
+    font-size: 3rem;
+    font-family: "League-Gothic";
+    font-weight: regular;
+    line-height: 40px;
+    line-height: 4rem;
+    text-transform: uppercase; }
+     .ldod-default  .reading__column h4, .reading__column--open h4 {
+        height: 120px;
+        font-size: 18px;
+        font-size: 1.8rem;
+        font-family: "League-Gothic";
+        font-weight: regular;
+        line-height: 24px;
+        line-height: 2.4rem; } }
+
+
+	
+
+    @media (min-width: 992px) {
+     .ldod-default  .reading__column h4, .reading__column--open h4 {
+        font-size: 20px;
+        font-size: 2rem;
+        font-family: "League-Gothic";
+        font-weight: regular;
+        line-height: 26.66667px;
+        line-height: 2.66667rem; } }
+    @media (min-width: 1200px) {
+     .ldod-default  .reading__column h4, .reading__column--open h4 {
+        font-size: 24px;
+        font-size: 2.4rem;
+        font-family: "League-Gothic";
+        font-weight: regular;
+        line-height: 32px;
+        line-height: 3.2rem; } }
+  .ldod-default  .reading__column .f--condensed, .reading__column--open .f--condensed {
+    font-size: 30px;
+    font-size: 3rem;
+    font-family: "League-Gothic";
+    font-weight: regular;
+    line-height: 40px;
+    line-height: 4rem;
+    margin-bottom: 20px; }
+    @media (min-width: 768px) {
+      .reading__column .f--condensed, .reading__column--open .f--condensed {
+        margin-bottom: 0;
+        font-size: 18px;
+        font-size: 1.8rem;
+        font-family: "League-Gothic-Condensed";
+        font-weight: regular;
+        line-height: 24px;
+        line-height: 2.4rem; } }
+    @media (min-width: 992px) {
+    .ldod-default  .reading__column .f--condensed, .reading__column--open .f--condensed {
+        font-size: 20px;
+        font-size: 2rem;
+        font-family: "League-Gothic-Condensed";
+        font-weight: regular;
+        line-height: 26.66667px;
+        line-height: 2.66667rem; } }
+    @media (min-width: 1200px) {
+     .ldod-default  .reading__column .f--condensed, .reading__column--open .f--condensed {
+        font-size: 24px;
+        font-size: 2.4rem;
+        font-family: "League-Gothic-Condensed";
+        font-weight: regular;
+        line-height: 32px;
+        line-height: 3.2rem; } }
+  .ldod-default  .reading__column .h3-group, .reading__column--open .h3-group {
+    margin-top: 0; }
+    @media (min-width: 768px) {
+     .ldod-default  .reading__column .h3-group, .reading__column--open .h3-group {
+        margin-top: -21px; } }
+    @media (min-width: 992px) {
+     .ldod-default  .reading__column .h3-group, .reading__column--open .h3-group {
+        margin-top: -77px; } }
+    .ldod-default .reading__column .h3-group div, .reading__column--open .h3-group div {
+      width: 100%;
+      display: block;
+      position: relative; }
+    .ldod-default .reading__column .h3-group h3, .reading__column--open .h3-group h3 {
+      width: 100%;
+      margin: 0;
+      padding-top: 0;
+      font-size: 26px;
+      font-size: 2.6rem;
+      font-family: "League-Gothic";
+      font-weight: regular;
+      line-height: 34.66667px;
+      line-height: 3.46667rem;
+      text-transform: uppercase; }
+      @media (min-width: 768px) {
+        .ldod-default  .reading__column .h3-group h3, .reading__column--open .h3-group h3 {
+          font-size: 16px;
+          font-size: 1.6rem;
+          font-family: "League-Gothic";
+          font-weight: regular;
+          line-height: 21.33333px;
+          line-height: 2.13333rem; } }
+      @media (min-width: 992px) {
+        .ldod-default  .reading__column .h3-group h3, .reading__column--open .h3-group h3 {
+          font-size: 20px;
+          font-size: 2rem;
+          font-family: "League-Gothic";
+          font-weight: regular;
+          line-height: 26.66667px;
+          line-height: 2.66667rem; } }
+      @media (min-width: 1200px) {
+        .ldod-default .reading__column .h3-group h3, .reading__column--open .h3-group h3 {
+          font-size: 24px;
+
+          font-size: 2.4rem;
+          font-family: "League-Gothic";
+          font-weight: regular;
+          line-height: 32px;
+          line-height: 3.2rem; 
+          margin-top: 25px;
+          } }
+  .ldod-default  .reading__column h2, .reading__column--open h2 {
+    display: inline-block;
+    margin: 0;
+    width: auto;
+    height: auto;
+    font-size: 60px;
+    font-size: 6rem;
+    font-family: "Ultra";
+    font-weight: regular;
+    line-height: 80px;
+    line-height: 8rem; }
+    @media (min-width: 768px) {
+     .ldod-default  .reading__column h2, .reading__column--open h2 {
+        padding: 0;
+        /*height: 70px;*/
+        font-size: 20px;
+        font-size: 2rem;
+        font-family: "Ultra";
+        font-weight: regular;
+        line-height: 26.66667px;
+        line-height: 2.66667rem; } }
+    @media (min-width: 992px) {
+     .ldod-default  .reading__column h2, .reading__column--open h2 {
+        font-size: 28px;
+        font-size: 2.8rem;
+        font-family: "Ultra";
+        font-weight: regular;
+        line-height: 37.33333px;
+        line-height: 3.73333rem; } }
+    @media (min-width: 1200px) {
+     .ldod-default  .reading__column h2, .reading__column--open h2 {
+        font-size: 34px;
+        font-size: 3.4rem;
+        font-family: "Ultra";
+        font-weight: regular;
+        line-height: 45.33333px;
+        line-height: 4.53333rem; } }
+ .ldod-default .reading__column > .arrows, .reading__column--open > .arrows {
+    float: right;
+    margin-top: -10px; }
+    @media (min-width: 768px) {
+      .ldod-default  .reading__column > .arrows, .reading__column--open > .arrows {
+        float: none;
+        margin-top: 0; 
+        margin-bottom: 25px;
+
+      } }
+  .ldod-default .reading__column img, .reading__column--open img {
+    display: block;
+    margin: 0;
+    padding: 2px;
+    width: 35px;
+    -webkit-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    transform: rotate(90deg); }
+    @media (min-width: 768px) {
+      .ldod-default  .reading__column img, .reading__column--open img {
+        display: inline-block;
+        padding: 0;
+        width: 24px;
+        -webkit-transform: rotate(0deg);
+        -moz-transform: rotate(0deg);
+        -ms-transform: rotate(0deg);
+        transform: rotate(0deg); } }
+
+.ldod-default .reading__column--open {
+  border: 0;
+  border-top: 2px dotted #FC1B27; }
+  @media (min-width: 768px) {
+    .ldod-default .reading__column--open {
+      border: 0;
+      border-left: 2px dotted #FC1B27; } }
+  .ldod-default  .reading__column--open h2,
+  .ldod-default  .reading__column--open h4 {
+    color: #FC1B27; }
+
+.ldod-default .reading__text {
+  padding: 15px 0;
+  height: 100%;
+  border: 0;
+  border-top: 2px dotted black; }
+  @media (min-width: 768px) {
+    .ldod-default .reading__text {
+      padding: 120px 15px 15px;
+      border: 0;
+      border-left: 2px dotted gray;
+      /*border-right: 2px dotted black;*/ } }
+  .ldod-default .reading__text h1 {
+    margin: 0;
+    font-size: 35px;
+    font-size: 3.5rem;
+    font-family: "League-Gothic";
+    font-weight: regular;
+    line-height: 46.66667px;
+    line-height: 4.66667rem;
+    text-transform: uppercase; }
+
+   .ldod-default .reading__text h1 a {
+   		color: black;
+   		text-decoration: none;
+   }
+
+   .ldod-default .reading__text h1 a:hover {
+   		color: #0C4EF6;
+   }
+
+  .ldod-default .reading__text span {
+    float: left;
+    padding-top: 25px;
+    font-size: 16px;
+    font-size: 1.6rem;
+    font-family: "Work-Sans";
+    font-weight: 400;
+    line-height: 21.33333px;
+    line-height: 2.13333rem; }
+  .ldod-default .reading__text p {
+    float: left;
+    margin: 0;
+    padding-top: 25px;
+    font-size: 18px;
+    font-size: 1.8rem;
+    font-family: "Work-Sans";
+    font-weight: 400;
+    line-height: 24px;
+    line-height: 2.4rem; }
+    @media (min-width: 768px) {
+     .ldod-default  .reading__text p {
+        font-size: 16px;
+        font-size: 1.6rem;
+        font-family: "Work-Sans";
+        font-weight: 400;
+        line-height: 21.33333px;
+        line-height: 2.13333rem; } }
+    @media (min-width: 992px) {
+      .ldod-default .reading__text p {
+        font-size: 18px;
+        font-size: 1.8rem;
+        font-family: "Work-Sans";
+        font-weight: 400;
+        line-height: 24px;
+        line-height: 2.4rem; } }
+    @media (max-width: 530px) {
+    .ldod-default   .reading__text p {
+        font-size: 15px;
+        font-size: 1.5rem;
+        font-family: "Work-Sans";
+        font-weight: 400;
+        line-height: 20px;
+        line-height: 2rem; } }

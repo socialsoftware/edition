@@ -1,16 +1,18 @@
 body {
-    padding-top: 190px;
-  }
+  padding-top: 190px;
+}
+
 @media (min-width: 1200px) {
-    body {
-      padding-top: 150px;
-    }
+  body {
+    padding-top: 150px;
   }
+}
+
 @media (max-width: 767px) {
-    body {
-      padding-top: 150px;
-    }
+  body {
+    padding-top: 150px;
   }
+}
 
 li.list-recommedation {
 	 list-style-type: none;

@@ -11,8 +11,8 @@
 
 	<div class="container">
 		<div class="col-md-8 col-md-offset-2">
-			<h1 class="text-center">
-					INTRODUCTION
+			<h2 class="text-center">
+			<spring:message code="header.editions" />
 			</h1>
 			<p>&nbsp;</p>
 			<c:choose>

@@ -138,7 +138,7 @@
 		
 			<!-- Manage Virtual Editions -->
 			<li><a href="${contextPath}/virtualeditions"><spring:message code="virtual" /> </a></li>
-		
+
 			<!-- Administration -->
 
 			<c:if test='${pageContext.request.userPrincipal.principal.hasRole("ROLE_ADMIN")}'>

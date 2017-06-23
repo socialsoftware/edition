@@ -13,12 +13,21 @@
 			<%@ include file="/WEB-INF/jsp/reading/readingGrid.jsp"%>
 			</div>
 
+
+			
+			<br><br><br><br><br><br>
+			<h2 class="text-center"><spring:message code="general.reading"/></h2>
+			<div class="row col-md-offset-2">
+				<%@ include file="/WEB-INF/jsp/reading/readingNavigation.jsp" %>
+			</div>
+			<br>
+			<div class="row">
+				<%@ include file="/WEB-INF/jsp/reading/readingText.jsp"%>
+			</div>
 			
 
 		<!-- </div> -->
 	</div>
-
-	<br><br>
 </body>
 <script>
 	$(".tip").tooltip({
