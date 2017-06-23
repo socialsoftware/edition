@@ -68,20 +68,20 @@
 		String [][] excerpts =  {{"BNP/E3","E eu offereço-te este livro porque sei que elle é bello e inutil.","9-39, 9-41, 9-31","Fr449/inter/Fr449_WIT_MS_Fr449a_000"},
 {"Jacinto do Prado Coelho","Senti-me agora respirar como se houvesse practicado uma cousa nova, ou atrazada.","188","Fr456/inter/Fr157_WIT_ED_CRIT_C"},
 {"Teresa Sobral Cunha","Em mim foi sempre menor a intensidade das sensações que a intensidade da sensação delas.","283","Fr309/inter/Fr309_WIT_ED_CRIT_SC"},
-{"Richard Zenith","O silencio que sahe do som da chuva espalha-se, num crescendo de monotonia cinzenta, pela rua estreita que fito.","41","Fr175/inter/Fr175_WIT_ED_CRIT_Z"},
+{"Richard Zenith","O silêncio que sai do som da chuva espalha-se, num crescendo de monotonia cinzenta, pela rua estreita que fito.","41","Fr175/inter/Fr175_WIT_ED_CRIT_Z"},
 {"Jerónimo Pizarro","A grande terra, que serve os mortos, serviria, menos maternalmente, esses papeis.","387","Fr159.b/inter/Fr159_b_WIT_ED_CRIT_P_1"},
 {"BNP/E3","Em cada pingo de chuva a minha vida falhada chora na natureza.","7-31","Fr390/inter/Fr390_WIT_MS_Fr390a_000"},
-{"Jacinto do Prado Coelho","Como nos nas horas em que a trovoada se prepara e os ruidos da rua fallam alto com uma voz separada.","45","Fr042/inter/Fr042.WIT.ED.CRIT.C"},
-{"Teresa Sobral Cunha","Ninguem estava quem era, e o patrão Vasques appareceu á porta do gabinete para pensar em dizer qualquer coisa.","441","Fr042/inter/Fr043.WIT.ED.CRIT.SC"},
+{"Jacinto do Prado Coelho","Como nos dias em que a trovoada se prepara e os ruidos da rua fallam alto com uma voz solitária.","45","Fr042/inter/Fr042_WIT_ED_CRIT_C"},
+{"Teresa Sobral Cunha","Ninguém estava quem era, e o patrão Vasques apareceu à porta do gabinete para pensar em dizer qualquer coisa.","441","Fr042/inter/Fr043.WIT.ED.CRIT.SC"},
 {"Richard Zenith","'Vem aí uma grande trovoada', disse o Moreira, e voltou a página do Razão.","183","Fr044/inter/Fr044_WIT_ED_CRIT_Z"},
 {"Jerónimo Pizarro","E então, em plena vida, é que o sonho tem grandes cinemas.","262","Fr149/inter/Fr149_WIT_ED_CRIT_P"},
 {"BNP/E3","Lêr é sonhar pela mão de outrem.","144D(2)-137v","Fr554/inter/Fr554_WIT_MS_Fr554a_000"},
 {"Jacinto do Prado Coelho","Devo ao ser guarda-livros grande parte do que posso sentir e pensar como a negação e a fuga do cargo.","133","Fr198/inter/Fr198_WIT_ED_CRIT_C"},
-{"Teresa Sobral Cunha","Durmo sobre os cotovelos onde o corrimão me doe, e sei de nada como um grande prometimento.","441","Fr030/inter/Fr030_WIT_ED_CRIT_SC"},
+{"Teresa Sobral Cunha","Durmo sobre os cotovelos onde o corrimão me doe, e sei de nada como um grande prometimento.","380","Fr030/inter/Fr030_WIT_ED_CRIT_SC"},
 {"Richard Zenith","Sentado à janela, contemplo com os sentidos todos esta coisa nenhuma da vida universal que está lá fora.","50","Fr118/inter/Fr118_WIT_ED_CRIT_Z"},
-{"Jerónimo Pizarro","Já me cansa a rua, mas não, não me cansa — tudo é rua na vida.","284","Fr523/inter/Fr523_WIT_ED_CRIT_P"},
+{"Jerónimo Pizarro","Já me cansa a rua, mas não, não me cansa — tudo é rua na vida.","294","Fr523/inter/Fr523_WIT_ED_CRIT_P"},
 {"BNP/E3","Mergulhou na sombra como quem entra na porta onde chega.","5-15r-16r","Fr306a/inter/Fr306a_WIT_MS_Fr306aa_372"},
-{"Jacinto do Prado Coelho","Para mim os pormenores são coisas, vozes, lettras.","164","Fr255/inter/Fr255_WIT_ED_CRIT_C"},
+{"Jacinto do Prado Coelho","Para mim os pormenores são coisas, vozes, lettras.","163","Fr255/inter/Fr255_WIT_ED_CRIT_C"},
 {"Teresa Sobral Cunha","Entre mim e a vida há um vidro ténue.","171","Fr447/inter/Fr447_WIT_ED_CRIT_SC"},
 {"Richard Zenith","Não toquemos na vida nem com as pontas dos dedos.","284","Fr452/inter/Fr452_WIT_ED_CRIT_Z"},
 {"Jerónimo Pizarro","Não era isto, porém, que eu queria dizer.","394","Fr264/inter/Fr264_WIT_ED_CRIT_P"},
@@ -93,12 +93,12 @@
 {"BNP/E3","Não consegui nunca ver-me de fóra.","1-31","Fr028/inter/Fr028_WIT_MS_Fr028a_32"},
 {"Jacinto do Prado Coelho","Jogar ás escondidas com a nossa consciencia de viver.","370","Fr437/inter/Fr437_WIT_ED_CRIT_C"},
 {"Teresa Sobral Cunha","A arte livra-nos ilusoriamente da sordidez de sermos.","456","Fr163/inter/Fr163_WIT_ED_CRIT_SC"},
-{"Richard Zenith","As coisas sonhadas só têm o lado de cá.","346","Fr510/inter/Fr510_WIT_ED_CRIT_Z"},
+{"Richard Zenith","As coisas sonhadas só têm o lado de cá","346","Fr510/inter/Fr510_WIT_ED_CRIT_Z"},
 {"Jerónimo Pizarro","Sou uma placa photographica prolixamente impressionavel.","59","Fr456/inter/Fr456_WIT_ED_CRIT_P"}};
 
 
 
-		int excerptID = (int) (Math.random() * 28);
+		int excerptID = (int) (Math.random() * 30);
 	  %>
 
 	<div class="container ldod-default">
