@@ -1,5 +1,7 @@
 package pt.ist.socialsoftware.edition.controller;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
@@ -11,6 +13,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletResponse;
@@ -51,6 +55,7 @@ import pt.ist.socialsoftware.edition.loaders.UsersXMLImport;
 import pt.ist.socialsoftware.edition.security.LdoDUserDetails;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDException;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDLoadException;
+import pt.ist.socialsoftware.edition.utils.PropertiesManager;
 import pt.ist.socialsoftware.edition.validator.EditUserValidator;
 
 @Controller
@@ -511,21 +516,50 @@ public class AdminController {
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/export/virtualeditions")
-	public void exportVirtualEditions(HttpServletResponse response) {
+	public void exportVirtualEditions(HttpServletResponse response) throws IOException {
+		String timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
+
+		String exportDir = PropertiesManager.getProperties().getProperty("export.dir");
+		File directory = new File(exportDir);
+		FileOutputStream fos = new FileOutputStream(
+				directory.getAbsolutePath() + "/virtualeditions-" + timeStamp + ".zip");
+
+		// FileOutputStream fos = new FileOutputStream("virtualeditions-" +
+		// timeStamp + ".zip");
+		ZipOutputStream zos = new ZipOutputStream(fos);
+		byte[] buffer = new byte[1024];
+
+		UsersXMLExport usersExporter = new UsersXMLExport();
+
+		InputStream in = IOUtils.toInputStream(usersExporter.export(), "UTF-8");
+		response.setHeader("Content-Disposition", "attachment; filename=users.xml");
+		response.setContentType("application/xml");
+
+		zos.putNextEntry(new ZipEntry("users.xml"));
+
+		int len;
+		while ((len = in.read(buffer)) > 0) {
+			zos.write(buffer, 0, len);
+		}
+
+		in.close();
+		zos.closeEntry();
+
 		VirtualEditionsTEICorpusExport generator = new VirtualEditionsTEICorpusExport();
 
-		String timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
-		try {
-			// get your file as InputStream
-			InputStream is = IOUtils.toInputStream(generator.export(), "UTF-8");
-			response.setHeader("Content-Disposition", "attachment; filename=virtual-editions-" + timeStamp + ".xml");
-			response.setContentType("application/xml");
-			IOUtils.copy(is, response.getOutputStream());
-			response.flushBuffer();
-		} catch (IOException ex) {
-			System.out.println("Error writing file to output stream. Filename was '{}'");
-			throw new RuntimeException("IOError writing file to output stream");
+		in = IOUtils.toInputStream(generator.export(), "UTF-8");
+		response.setHeader("Content-Disposition", "attachment; filename=corpus.xml");
+		response.setContentType("application/xml");
+
+		zos.putNextEntry(new ZipEntry("corpus.xml"));
+
+		while ((len = in.read(buffer)) > 0) {
+			zos.write(buffer, 0, len);
 		}
+
+		in.close();
+		zos.closeEntry();
+		zos.close();
 	}
 
 }
