@@ -24,13 +24,24 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 
 	// TODO: TO BE REMOVED AFTER SUCCESSFUL MIGRATION IN THE PRODUCTION SERVER
 	@Override
+	@Atomic(mode = TxMode.WRITE)
 	public String getXmlId() {
 		if (super.getXmlId() == null) {
-			return getFragment().getXmlId() + ".WIT.ED.VIRT." + getVirtualEdition().getAcronym() + "."
-					+ getFragment().getNumberOfInter4Edition(getVirtualEdition());
-		} else {
-			return super.getXmlId();
+			setXmlId(getFragment().getXmlId() + ".WIT.ED.VIRT." + getVirtualEdition().getAcronym() + "."
+					+ getFragment().getNumberOfInter4Edition(getVirtualEdition()));
 		}
+		return super.getXmlId();
+	}
+
+	// TODO: TO BE REMOVED AFTER SUCCESSFUL MIGRATION IN THE PRODUCTION SERVER
+	@Override
+	@Atomic(mode = TxMode.WRITE)
+	public String getUrlId() {
+		if (super.getUrlId() == null) {
+			setXmlId(getFragment().getXmlId() + "_WIT_ED_VIRT_" + getVirtualEdition().getAcronym() + "_"
+					+ getFragment().getNumberOfInter4Edition(getVirtualEdition()));
+		}
+		return super.getUrlId();
 	}
 
 	public VirtualEditionInter(Section section, FragInter inter, int number) {
