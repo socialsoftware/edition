@@ -5,11 +5,23 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import pt.ist.fenixframework.Atomic;
+import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.socialsoftware.edition.domain.Edition.EditionType;
 import pt.ist.socialsoftware.edition.search.Indexer;
 import pt.ist.socialsoftware.edition.topicmodeling.TopicModeler;
 
 public class ExpertEditionInter extends ExpertEditionInter_Base {
+
+	// TODO: TO BE REMOVED AFTER SUCCESSFUL MIGRATION IN THE PRODUCTION SERVER
+	@Override
+	@Atomic(mode = TxMode.WRITE)
+	public String getUrlId() {
+		if (super.getUrlId() == null) {
+			setUrlId(getXmlId().replace(".", "_"));
+		}
+		return super.getUrlId();
+	}
 
 	public ExpertEditionInter() {
 		setNotes("");

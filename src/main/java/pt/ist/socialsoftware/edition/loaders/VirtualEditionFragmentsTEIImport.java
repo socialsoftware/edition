@@ -149,7 +149,7 @@ public class VirtualEditionFragmentsTEIImport {
 
 		Namespace namespace = doc.getRootElement().getNamespace();
 		XPathFactory xpfac = XPathFactory.instance();
-		XPathExpression<Element> xp = xpfac.compile("//def:teiHeader", Filters.element(), null,
+		XPathExpression<Element> xp = xpfac.compile("//def:TEI", Filters.element(), null,
 				Namespace.getNamespace("def", namespace.getURI()));
 		String fragXmlId = xp.evaluate(doc).get(0).getAttributeValue("id", Namespace.XML_NAMESPACE);
 
