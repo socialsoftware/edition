@@ -1,15 +1,16 @@
 <teiHeader type="corpus">
     <fileDesc>
         <titleStmt>
-            <title>O Livro do Desassossego</title>
+            <title>Livro do Desassossego</title>
             <author>Fernando Pessoa</author>
             <editor>Project: Nenhum Problema tem Solução</editor>
             <sponsor/>
-            <funder>FCT</funder>
+            <funder>Fundação para a Ciência e a Tecnologia - FCT</funder>
             <principal>Manuel Portela</principal>
+            <principal>António Rito Silva</principal>
             <respStmt>
                 <resp>encoding</resp>
-                <name>Diego Gimenez</name>
+                <name>Diego Giménez, Tiago Santos, Manuel Portela</name>
             </respStmt>
             <respStmt>
                 <resp>schema definition</resp>
@@ -20,22 +21,22 @@
                 <name>António Rito Silva</name>
             </respStmt>
             <respStmt>
-                <resp>encoding</resp>
-                <name>Diego Gimenez</name>
+                <resp>revision</resp>
+                <name>Tiago Santos, Daniela Maduro, Rita Marrone, Manuel Portela</name>
             </respStmt>
         </titleStmt>
         <publicationStmt>
-            <publisher>University of Coimbra</publisher>
+            <publisher>Centre for Portuguese Literature at the University of Coimbra</publisher>
             <pubPlace>Coimbra</pubPlace>
             <availability
                 status="restricted">
                 <licence
-                    target="http://creativecommons.org/licenses/by-sa/3.0/">
-                    <p>XPTO</p>
+                    target="https://creativecommons.org/licenses/by-nc/4.0/">
+                    <p>All items in the LdoD Archive may be shared in accordance with the Creative Commons “Attribution-NonCommercial 4.0 International” license (CC BY-NC 4.0).</p>
                 </licence>
             </availability>
             <date
-                when="2014"/>
+                when="2017"/>
         </publicationStmt>
         <!-- RELEVANT: Here we codify the 4 existing editions of LdoD -->
         <sourceDesc>
@@ -48,7 +49,7 @@
                         corresp="#FP">
                         <persName>Fernando Pessoa</persName>
                     </author>
-                    <title>O Livro do Desassossego</title>
+                    <title>Livro do Desassossego</title>
                     <editor>
                         <persName>Jacinto do Prado Coelho</persName>
                     </editor>
@@ -62,14 +63,14 @@
                         corresp="#FP">
                         <persName>Fernando Pessoa</persName>
                     </author>
-                    <title>O Livro do Desassossego</title>
+                    <title>Livro do Desassossego</title>
                     <editor>
                         <persName>Teresa Sobral Cunha</persName>
                     </editor>
                     <!-- Other bibliographic information -->
                     <date
                         type="edition"
-                        when="1997"/>
+                        when="2008"/>
                 </bibl>
                 <bibl
                     xml:id="ED.CRIT.Z">
@@ -77,14 +78,14 @@
                         corresp="#FP">
                         <persName>Fernando Pessoa</persName>
                     </author>
-                    <title>O Livro do Desassossego</title>
+                    <title>Livro do Desassossego</title>
                     <editor>
                         <persName>Richard Zenith</persName>
                     </editor>
                     <!-- Other bibliographic information -->
                     <date
                         type="edition"
-                        when="2007"/>
+                        when="2012"/>
                 </bibl>
                 <bibl
                     xml:id="ED.CRIT.P">
@@ -92,7 +93,7 @@
                         corresp="#FP">
                         <persName>Fernando Pessoa</persName>
                     </author>
-                    <title>O Livro do Desassossego</title>
+                    <title>Livro do Desasocego</title>
                     <editor>
                         <persName>Jerónimo Pizarro</persName>
                     </editor>
@@ -107,13 +108,30 @@
     <!-- Encoding information, not relevant for the open -->
     <encodingDesc>
         <projectDesc>
-            <p>Description of the Nenhum... project</p>
+            <p>The LdoD Archive is a collaborative digital archive of the Book of Disquiet by Fernando Pessoa. 
+                It contains images of the autograph documents, new transcriptions of those documents and also 
+                transcriptions of four editions of the work. In addition to reading and comparing transcriptions, 
+                the LdoD Archive enables users to collaborate in creating virtual editions of the Book of Disquiet.</p>
         </projectDesc>
         <samplingDecl>
-            <p>the rationale and methods used in selecting texts, or...</p>
+            <p>The witnesses selected for inclusion in the archive are the total sum of the witnesses that were 
+                selected by the four expert editions. The editions by the experts included in the LdoD Archive are 
+                the main critical editions published between 1982 and 2012. These four critical editions (prepared 
+                from the autographs) were organized, respectively, by Jacinto do Prado Coelho (1982; reprinted 1997), 
+                Teresa Sobral Cunha (2008; 1st ed. 1990-1991), Richard Zenith (2012; 1st ed. 1998), and Jerónimo Pizarro (2010).</p>
         </samplingDecl>
         <editorialDecl>
-            <p>provide details of the editorial practices applied during the encoding</p>
+            <p>The XML encoding of both the witnesses and the four expert editions contained in the LdoD Archive 
+                has been extremely granular, so that all variations could become comparable either (a) at the internal
+                microtextual scale of each fragment, or (b) at the macrotextual scale of the external organization of the 
+                fragments in the Book, or (c) at the level of the metadata about each item in the Archive. The elements 
+                that have been formally represented include (a) punctuation, spelling, words, division/aggregation of 
+                paragraphs and spaces between paragraphs, but also (b) division/aggregation and ordering of fragments 
+                within the structure of the Book, as well as (c) metainformation concerning editorial attribution of date 
+                and heteronym or relative to the material nature of the witnesses. In the case of the witnesses, all acts 
+                of authorial revision (deletions, additions, substitutions, variants) have been encoded, as well as the 
+                topography of line breaks and the use of spaces or rules for dividing blocks of text in all documents. 
+                In the case of the experts editions all spaces and rules of division between paragraphs have also been marked up.</p>
         </editorialDecl>
         <!-- Similar to Swinburne Project (http://swinburneproject.indiana.edu/swinburne/resources/swinburne_data.zip) -->
         <tagsDecl
@@ -375,20 +393,7 @@
             location="internal"
             method="parallel-segmentation"/>
         <classDecl>
-            <!-- RELEVANT: For each classification a taxonomy is defined with its respective categories. -->
-            <!-- OPEN ISSUE: Some of the taxonomies are specific of one edition. How can we represent it? -->
-            <taxonomy
-                xml:id="C.AQ">
-                <bibl>António Quadros</bibl>
-                <category
-                    xml:id="C.AQ.FC">
-                    <catDesc>Fase Confessional</catDesc>
-                </category>
-                <category
-                    xml:id="C.AQ.FD">
-                    <catDesc>Fase Decadentista</catDesc>
-                </category>
-            </taxonomy>
+           
         </classDecl>
     </encodingDesc>
     <profileDesc>
