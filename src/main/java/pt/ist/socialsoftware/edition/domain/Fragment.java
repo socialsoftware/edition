@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
@@ -97,6 +98,11 @@ public class Fragment extends Fragment_Base implements Comparable<Fragment> {
 			}
 		}
 		return result;
+	}
+
+	public List<VirtualEditionInter> getVirtualEditionInters(VirtualEdition virtualEdition) {
+		return getFragmentInterSet().stream().filter(inter -> inter.getEdition() == virtualEdition)
+				.map(VirtualEditionInter.class::cast).sorted().collect(Collectors.toList());
 	}
 
 	public int getNumberOfInter4Edition(Edition edition) {

@@ -26,10 +26,13 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 	@Override
 	@Atomic(mode = TxMode.WRITE)
 	public String getXmlId() {
-		if (super.getXmlId() == null) {
-			setXmlId(getFragment().getXmlId() + ".WIT.ED.VIRT." + getVirtualEdition().getAcronym() + "."
-					+ getFragment().getNumberOfInter4Edition(getVirtualEdition()));
+		int counter = 1;
+		for (VirtualEditionInter inter : getFragment().getVirtualEditionInters(getVirtualEdition())) {
+			inter.setXmlId(
+					getFragment().getXmlId() + ".WIT.ED.VIRT." + getVirtualEdition().getAcronym() + "." + counter);
+			counter++;
 		}
+
 		return super.getXmlId();
 	}
 
@@ -37,10 +40,8 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 	@Override
 	@Atomic(mode = TxMode.WRITE)
 	public String getUrlId() {
-		if (super.getUrlId() == null) {
-			setXmlId(getFragment().getXmlId() + "_WIT_ED_VIRT_" + getVirtualEdition().getAcronym() + "_"
-					+ getFragment().getNumberOfInter4Edition(getVirtualEdition()));
-		}
+		setUrlId(getXmlId().replace(".", "_"));
+
 		return super.getUrlId();
 	}
 
@@ -52,8 +53,6 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 		setNumber(number);
 		setUses(inter);
 		setXmlId(inter.getFragment().getXmlId() + ".WIT.ED.VIRT." + getVirtualEdition().getAcronym() + "."
-				+ getFragment().getNumberOfInter4Edition(getVirtualEdition()));
-		setUrlId(getFragment().getXmlId() + "_WIT_ED_VIRT_" + getVirtualEdition().getAcronym() + "_"
 				+ getFragment().getNumberOfInter4Edition(getVirtualEdition()));
 	}
 
