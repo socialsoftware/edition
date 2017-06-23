@@ -93,7 +93,7 @@
 {"BNP/E3","Não consegui nunca ver-me de fóra.","1-31","Fr028/inter/Fr028_WIT_MS_Fr028a_32"},
 {"Jacinto do Prado Coelho","Jogar ás escondidas com a nossa consciencia de viver.","370","Fr437/inter/Fr437_WIT_ED_CRIT_C"},
 {"Teresa Sobral Cunha","A arte livra-nos ilusoriamente da sordidez de sermos.","456","Fr163/inter/Fr163_WIT_ED_CRIT_SC"},
-{"Richard Zenith","As coisas sonhadas só têm o lado de cá","346","Fr510/inter/Fr510_WIT_ED_CRIT_Z"},
+{"Richard Zenith","As coisas sonhadas só têm o lado de cá.","346","Fr510/inter/Fr510_WIT_ED_CRIT_Z"},
 {"Jerónimo Pizarro","Sou uma placa photographica prolixamente impressionavel.","59","Fr456/inter/Fr456_WIT_ED_CRIT_P"}};
 
 
