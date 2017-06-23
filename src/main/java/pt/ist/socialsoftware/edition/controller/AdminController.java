@@ -1,6 +1,7 @@
 package pt.ist.socialsoftware.edition.controller;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -30,6 +31,7 @@ import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -47,6 +49,7 @@ import pt.ist.socialsoftware.edition.domain.Role;
 import pt.ist.socialsoftware.edition.domain.Role.RoleType;
 import pt.ist.socialsoftware.edition.export.ExpertEditionTEIExport;
 import pt.ist.socialsoftware.edition.export.UsersXMLExport;
+import pt.ist.socialsoftware.edition.export.VirtualEditionFragmentsTEIExport;
 import pt.ist.socialsoftware.edition.export.VirtualEditionsTEICorpusExport;
 import pt.ist.socialsoftware.edition.forms.EditUserForm;
 import pt.ist.socialsoftware.edition.loaders.LoadTEICorpus;
@@ -523,43 +526,68 @@ public class AdminController {
 		File directory = new File(exportDir);
 		FileOutputStream fos = new FileOutputStream(
 				directory.getAbsolutePath() + "/virtualeditions-" + timeStamp + ".zip");
-
-		// FileOutputStream fos = new FileOutputStream("virtualeditions-" +
-		// timeStamp + ".zip");
 		ZipOutputStream zos = new ZipOutputStream(fos);
-		byte[] buffer = new byte[1024];
-
-		UsersXMLExport usersExporter = new UsersXMLExport();
-
-		InputStream in = IOUtils.toInputStream(usersExporter.export(), "UTF-8");
-		response.setHeader("Content-Disposition", "attachment; filename=users.xml");
-		response.setContentType("application/xml");
 
 		zos.putNextEntry(new ZipEntry("users.xml"));
+		InputStream in = generateUsersInputStream(response);
+		copyToZipStream(zos, in);
+		zos.closeEntry();
 
+		zos.putNextEntry(new ZipEntry("corpus.xml"));
+		in = generateCorpusInputStream(response);
+		copyToZipStream(zos, in);
+		zos.closeEntry();
+
+		for (Fragment fragment : LdoD.getInstance().getFragmentsSet()) {
+			zos.putNextEntry(new ZipEntry(fragment.getXmlId() + ".xml"));
+			in = generateFragmentInputStream(response, fragment);
+			copyToZipStream(zos, in);
+			zos.closeEntry();
+
+		}
+
+		zos.close();
+
+		File file = new File(directory.getAbsolutePath() + "/virtualeditions-" + timeStamp + ".zip");
+		response.setHeader("Content-Disposition", "attachment; filename=virtualeditions-" + timeStamp + ".zip");
+		response.setHeader("Content-Type", "application/zip");
+		InputStream is = new FileInputStream(file);
+		FileCopyUtils.copy(IOUtils.toByteArray(is), response.getOutputStream());
+		response.flushBuffer();
+	}
+
+	private void copyToZipStream(ZipOutputStream zos, InputStream in) throws IOException {
+		byte[] buffer = new byte[1024];
 		int len;
 		while ((len = in.read(buffer)) > 0) {
 			zos.write(buffer, 0, len);
 		}
-
 		in.close();
-		zos.closeEntry();
+	}
 
+	private InputStream generateUsersInputStream(HttpServletResponse response) throws IOException {
+		UsersXMLExport usersExporter = new UsersXMLExport();
+		InputStream in = IOUtils.toInputStream(usersExporter.export(), "UTF-8");
+		response.setHeader("Content-Disposition", "attachment; filename=users.xml");
+		response.setContentType("application/xml");
+		return in;
+	}
+
+	private InputStream generateCorpusInputStream(HttpServletResponse response) throws IOException {
 		VirtualEditionsTEICorpusExport generator = new VirtualEditionsTEICorpusExport();
-
-		in = IOUtils.toInputStream(generator.export(), "UTF-8");
+		InputStream in = IOUtils.toInputStream(generator.export(), "UTF-8");
 		response.setHeader("Content-Disposition", "attachment; filename=corpus.xml");
 		response.setContentType("application/xml");
+		return in;
+	}
 
-		zos.putNextEntry(new ZipEntry("corpus.xml"));
-
-		while ((len = in.read(buffer)) > 0) {
-			zos.write(buffer, 0, len);
-		}
-
-		in.close();
-		zos.closeEntry();
-		zos.close();
+	private InputStream generateFragmentInputStream(HttpServletResponse response, Fragment fragment)
+			throws IOException {
+		VirtualEditionFragmentsTEIExport generator = new VirtualEditionFragmentsTEIExport();
+		InputStream in = IOUtils.toInputStream(generator.exportFragment(fragment), "UTF-8");
+		response.setHeader("Content-Disposition", "attachment; filename=corpus.xml");
+		response.setContentType("application/xml");
+		return in;
 	}
 
 }
