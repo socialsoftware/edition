@@ -34,11 +34,13 @@ public class VirtualEditionFragmentsTEIExport {
 		Element rootElement = new Element("teiCorpus");
 		rootElement.setNamespace(this.xmlns);
 		this.jdomDoc.setRootElement(rootElement);
+		Element tei = new Element("TEI", this.xmlns);
+		Attribute id = new Attribute("id", fragment.getXmlId(), Namespace.XML_NAMESPACE);
+		tei.setAttribute(id);
+		rootElement.addContent(tei);
 		Element teiHeader = new Element("teiHeader", this.xmlns);
 		teiHeader.setAttribute("type", "text");
-		Attribute id = new Attribute("id", fragment.getXmlId(), Namespace.XML_NAMESPACE);
-		teiHeader.setAttribute(id);
-		rootElement.addContent(teiHeader);
+		tei.addContent(teiHeader);
 
 		Element witnesses = new Element("listWit", this.xmlns);
 		id = new Attribute("id", fragment.getXmlId() + ".WIT.ED.VIRT", Namespace.XML_NAMESPACE);

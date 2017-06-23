@@ -392,9 +392,6 @@
         <variantEncoding
             location="internal"
             method="parallel-segmentation"/>
-        <classDecl>
-           
-        </classDecl>
     </encodingDesc>
     <profileDesc>
         <creation>
