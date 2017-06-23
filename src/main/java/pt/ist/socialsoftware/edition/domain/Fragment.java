@@ -89,6 +89,16 @@ public class Fragment extends Fragment_Base implements Comparable<Fragment> {
 		return result;
 	}
 
+	public Set<VirtualEditionInter> getVirtualEditionInters() {
+		Set<VirtualEditionInter> result = new HashSet<>();
+		for (FragInter inter : getFragmentInterSet()) {
+			if (inter instanceof VirtualEditionInter) {
+				result.add((VirtualEditionInter) inter);
+			}
+		}
+		return result;
+	}
+
 	public int getNumberOfInter4Edition(Edition edition) {
 		int number = 0;
 		for (FragInter inter : getFragmentInterSet()) {

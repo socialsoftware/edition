@@ -115,7 +115,7 @@ public class VirtualEditionsTEICorpusExport {
 		Taxonomy taxonomy = virtualEdition.getTaxonomy();
 
 		Element taxonomyElement = new Element("taxonomy", this.xmlns);
-		taxonomyElement.setAttribute("corresp", "#" + ED_VIRT + "." + virtualEdition.getAcronym());
+		taxonomyElement.setAttribute("source", "#" + ED_VIRT + "." + virtualEdition.getAcronym());
 
 		Element taxonomyDesc = new Element("desc", this.xmlns);
 		taxonomyElement.addContent(taxonomyDesc);
@@ -145,6 +145,8 @@ public class VirtualEditionsTEICorpusExport {
 
 	private void exportCategory(Element element, Category category) {
 		Element categoryElement = new Element("category", this.xmlns);
+		Attribute id = new Attribute("id", category.getXmlId(), Namespace.XML_NAMESPACE);
+		categoryElement.setAttribute(id);
 		element.addContent(categoryElement);
 
 		Element catDescElement = new Element("catDesc", this.xmlns);

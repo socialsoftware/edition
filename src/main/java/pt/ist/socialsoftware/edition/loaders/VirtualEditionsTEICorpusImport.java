@@ -121,7 +121,7 @@ public class VirtualEditionsTEICorpusImport {
 		XPathExpression<Element> xp = xpfac.compile("//def:taxonomy", Filters.element(), null,
 				Namespace.getNamespace("def", namespace.getURI()));
 		for (Element tax : xp.evaluate(doc)) {
-			String xmlId = tax.getAttributeValue("corresp").substring(1);
+			String xmlId = tax.getAttributeValue("source").substring(1);
 			Taxonomy taxonomy = LdoD.getInstance().getVirtualEditionByXmlId(xmlId).getTaxonomy();
 
 			for (Element item : tax.getChild("desc", namespace).getChild("list", namespace).getChildren("item",

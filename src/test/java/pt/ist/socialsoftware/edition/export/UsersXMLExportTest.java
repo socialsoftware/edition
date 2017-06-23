@@ -19,7 +19,7 @@ import pt.ist.socialsoftware.edition.domain.LdoDUser;
 import pt.ist.socialsoftware.edition.domain.RegistrationToken;
 import pt.ist.socialsoftware.edition.loaders.UsersXMLImport;
 
-public class ExportUsersTest {
+public class UsersXMLExportTest {
 	@Before
 	public void setUp() throws WriteOnReadError, NotSupportedException, SystemException {
 		FenixFramework.getTransactionManager().begin(false);

@@ -22,6 +22,17 @@ import pt.ist.socialsoftware.edition.utils.RangeJson;
 public class VirtualEditionInter extends VirtualEditionInter_Base {
 	private static Logger logger = LoggerFactory.getLogger(VirtualEditionInter.class);
 
+	// TODO: TO BE REMOVED AFTER SUCCESSFUL MIGRATION IN THE PRODUCTION SERVER
+	@Override
+	public String getXmlId() {
+		if (super.getXmlId() == null) {
+			return getFragment().getXmlId() + ".WIT.ED.VIRT." + getVirtualEdition().getAcronym() + "."
+					+ getFragment().getNumberOfInter4Edition(getVirtualEdition());
+		} else {
+			return super.getXmlId();
+		}
+	}
+
 	public VirtualEditionInter(Section section, FragInter inter, int number) {
 		setFragment(inter.getFragment());
 		setHeteronym(null);
@@ -29,6 +40,8 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 		setSection(section);
 		setNumber(number);
 		setUses(inter);
+		setXmlId(inter.getFragment().getXmlId() + ".WIT.ED.VIRT." + getVirtualEdition().getAcronym() + "."
+				+ getFragment().getNumberOfInter4Edition(getVirtualEdition()));
 		setUrlId(getFragment().getXmlId() + "_WIT_ED_VIRT_" + getVirtualEdition().getAcronym() + "_"
 				+ getFragment().getNumberOfInter4Edition(getVirtualEdition()));
 	}
@@ -348,6 +361,11 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 			parent = parent.getParentSection();
 		}
 		return result;
+	}
+
+	@Override
+	public int getUsesDepth() {
+		return getUses().getUsesDepth() + 1;
 	}
 
 }

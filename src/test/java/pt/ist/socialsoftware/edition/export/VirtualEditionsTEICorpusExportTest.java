@@ -18,7 +18,7 @@ import pt.ist.fenixframework.core.WriteOnReadError;
 import pt.ist.socialsoftware.edition.domain.LdoD;
 import pt.ist.socialsoftware.edition.loaders.VirtualEditionsTEICorpusImport;
 
-public class ExportVirtualEditionsTEICorpusTest {
+public class VirtualEditionsTEICorpusExportTest {
 	@Before
 	public void setUp() throws WriteOnReadError, NotSupportedException, SystemException {
 		FenixFramework.getTransactionManager().begin(false);
@@ -49,5 +49,4 @@ public class ExportVirtualEditionsTEICorpusTest {
 	public void tearDown() throws IllegalStateException, SecurityException, SystemException {
 		FenixFramework.getTransactionManager().rollback();
 	}
-
 }

@@ -188,4 +188,9 @@ public class SourceInter extends SourceInter_Base {
 		return new HashSet<>();
 	}
 
+	@Override
+	public int getUsesDepth() {
+		return 0;
+	}
+
 }
