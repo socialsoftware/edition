@@ -56,7 +56,7 @@ public class ReadingController {
 			@PathVariable String urlId) {
 		logger.debug("readInterpretation urlId:{}", urlId);
 		ExpertEditionInter expertEditionInter = (ExpertEditionInter) LdoD.getInstance()
-				.getFragment(urlId.substring(0, urlId.indexOf("_"))).getFragInterByUrlId(urlId);
+				.getFragment(urlId.substring(0, urlId.indexOf("WIT"))).getFragInterByUrlId(urlId);
 
 		Set<ExpertEditionInter> recommendations = ldoDSession.getRecommendation()
 				.getNextRecommendations(expertEditionInter.getExternalId());
