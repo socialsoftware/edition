@@ -51,14 +51,15 @@ public class ReadingController {
 		return "reading/readingMain";
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "/inter/{expertEditionInterId}")
+	@RequestMapping(method = RequestMethod.GET, value = "/inter/{urlId}")
 	public String readInterpretation(Model model, @ModelAttribute("ldoDSession") LdoDSession ldoDSession,
-			@PathVariable String expertEditionInterId) {
-		logger.debug("readInterpretation expertEditionInterId:{}", expertEditionInterId);
-		ExpertEditionInter expertEditionInter = FenixFramework.getDomainObject(expertEditionInterId);
+			@PathVariable String urlId) {
+		logger.debug("readInterpretation urlId:{}", urlId);
+		ExpertEditionInter expertEditionInter = (ExpertEditionInter) LdoD.getInstance()
+				.getFragment(urlId.substring(0, urlId.indexOf("_"))).getFragInterByUrlId(urlId);
 
 		Set<ExpertEditionInter> recommendations = ldoDSession.getRecommendation()
-				.getNextRecommendations(expertEditionInterId);
+				.getNextRecommendations(expertEditionInter.getExternalId());
 		ExpertEditionInter prevRecom = ldoDSession.getRecommendation().getPrevRecommendation();
 
 		PlainHtmlWriter4OneInter writer = new PlainHtmlWriter4OneInter(expertEditionInter);
@@ -82,16 +83,17 @@ public class ReadingController {
 		ldoDSession.getRecommendation().clean();
 		ldoDSession.getRecommendation().setTextWeight(1.0);
 
-		return "redirect:/reading/inter/" + expertEditionInter.getExternalId();
+		return "redirect:/reading/inter/" + expertEditionInter.getUrlId();
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/inter/first/inter/{expertEditionInterId}")
 	public String readFirstInterpretationFromInter(Model model, @ModelAttribute("ldoDSession") LdoDSession ldoDSession,
 			@PathVariable String expertEditionInterId) {
+		ExpertEditionInter expertEditionInter = FenixFramework.getDomainObject(expertEditionInterId);
 		ldoDSession.getRecommendation().clean();
 		ldoDSession.getRecommendation().setTextWeight(1.0);
 
-		return "redirect:/reading/inter/" + expertEditionInterId;
+		return "redirect:/reading/inter/" + expertEditionInter.getUrlId();
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/inter/next/number/{expertEditionInterId}")
@@ -101,7 +103,7 @@ public class ReadingController {
 		FragInter nextExpertEditionInter = expertEditionInter.getEdition().getNextNumberInter(expertEditionInter,
 				expertEditionInter.getNumber());
 
-		return "redirect:/reading/inter/" + nextExpertEditionInter.getExternalId();
+		return "redirect:/reading/inter/" + nextExpertEditionInter.getUrlId();
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/inter/prev/number/{expertEditionInterId}")
@@ -111,7 +113,7 @@ public class ReadingController {
 		FragInter prevExpertEditionInter = expertEditionInter.getEdition().getPrevNumberInter(expertEditionInter,
 				expertEditionInter.getNumber());
 
-		return "redirect:/reading/inter/" + prevExpertEditionInter.getExternalId();
+		return "redirect:/reading/inter/" + prevExpertEditionInter.getUrlId();
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/inter/prev/recom")
@@ -119,8 +121,9 @@ public class ReadingController {
 		// logger.debug("readPreviousRecommendedFragment");
 
 		String expertEditionInterId = ldoDSession.getRecommendation().prevRecommendation();
+		ExpertEditionInter expertEditionInter = FenixFramework.getDomainObject(expertEditionInterId);
 
-		return "redirect:/reading/inter/" + expertEditionInterId;
+		return "redirect:/reading/inter/" + expertEditionInter.getUrlId();
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/inter/prev/recom/reset")
@@ -131,8 +134,9 @@ public class ReadingController {
 		ldoDSession.getRecommendation().resetPrevRecommendations();
 
 		String expertEditionInterId = ldoDSession.getRecommendation().getCurrentInterpretation();
+		ExpertEditionInter expertEditionInter = FenixFramework.getDomainObject(expertEditionInterId);
 
-		return "redirect:/reading/inter/" + expertEditionInterId;
+		return "redirect:/reading/inter/" + expertEditionInter.getUrlId();
 	}
 
 	@RequestMapping(method = RequestMethod.POST, value = "/weight")
