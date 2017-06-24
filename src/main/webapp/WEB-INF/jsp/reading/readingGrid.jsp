@@ -97,7 +97,7 @@ ${inter.getEdition().getAcronym()}
               
 
                 <a
-                  href="${contextPath}/reading/inter/${expertEditionInter.urlId}"><!--${expertEditionInter.getEdition().getAcronym()}-->
+                  href="${contextPath}/reading/fragment/${fragment.xmlId}/inter/${expertEditionInter.urlId}"><!--${expertEditionInter.getEdition().getAcronym()}-->
                   <h2>${expertEditionInter.number}</h2></a>
 
 
@@ -153,14 +153,14 @@ ${inter.getEdition().getAcronym()}
         </c:if>
         
         <div>
-          <a href="${contextPath}/reading/inter/${inter.urlId}">
+          <a href="${contextPath}/reading/fragment/${fragment.xmlId}/inter/${inter.urlId}">
           <!--<span class="glyphicon glyphicon-play"></span>-->
            <h3>${inter.getEdition().getAcronym()}</h3><h2>${inter.number}</h2></a>
         </div>
         
         <c:forEach var="recomInter" items="${recommendations}">
           <div>
-            <a href="${contextPath}/reading/inter/${recomInter.urlId}">
+            <a href="${contextPath}/reading/fragment/${recomInter.fragment.xmlId}/inter/${recomInter.urlId}">
             <!--<span class="glyphicon glyphicon-forward"></span>-->
               <h3>${recomInter.getEdition().getAcronym()}</h3><h2>${recomInter.number}</h2></a>
           </div>

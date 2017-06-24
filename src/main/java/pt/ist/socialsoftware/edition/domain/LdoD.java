@@ -69,7 +69,7 @@ public class LdoD extends LdoD_Base {
 		return null;
 	}
 
-	public Fragment getFragment(String target) {
+	public Fragment getFragmentByXmlId(String target) {
 		for (Fragment fragment : getFragmentsSet()) {
 			if (fragment.getXmlId().equals(target)) {
 				return fragment;

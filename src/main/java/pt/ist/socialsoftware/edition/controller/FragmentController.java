@@ -81,7 +81,7 @@ public class FragmentController {
 	@RequestMapping(method = RequestMethod.GET, value = "/fragment/{xmlId}")
 	public String getFragment(Model model, @PathVariable String xmlId) {
 		logger.debug("getFragment xmlId:{}", xmlId);
-		Fragment fragment = FenixFramework.getDomainRoot().getLdoD().getFragment(xmlId);
+		Fragment fragment = FenixFramework.getDomainRoot().getLdoD().getFragmentByXmlId(xmlId);
 
 		if (fragment == null) {
 			return "utils/pageNotFound";
@@ -100,7 +100,7 @@ public class FragmentController {
 			@PathVariable String xmlId, @PathVariable String urlId) {
 		logger.debug("getFragmentWithInterForUrlId xmlId:{}, urlId:{}", xmlId, urlId);
 
-		Fragment fragment = FenixFramework.getDomainRoot().getLdoD().getFragment(xmlId);
+		Fragment fragment = FenixFramework.getDomainRoot().getLdoD().getFragmentByXmlId(xmlId);
 
 		if (fragment == null) {
 			return "utils/pageNotFound";

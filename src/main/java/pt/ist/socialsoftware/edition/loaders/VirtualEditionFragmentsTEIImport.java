@@ -153,7 +153,7 @@ public class VirtualEditionFragmentsTEIImport {
 				Namespace.getNamespace("def", namespace.getURI()));
 		String fragXmlId = xp.evaluate(doc).get(0).getAttributeValue("id", Namespace.XML_NAMESPACE);
 
-		return ldoD.getFragment(fragXmlId);
+		return ldoD.getFragmentByXmlId(fragXmlId);
 	}
 
 	private List<Element> sortByUsedFirst(List<Element> wits, Fragment fragment) {
