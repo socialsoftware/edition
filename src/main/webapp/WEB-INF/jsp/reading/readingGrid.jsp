@@ -89,7 +89,7 @@ ${inter.getEdition().getAcronym()}
           <c:when test="${fragment == null}">
             <a
               href="${contextPath}/reading/inter/first/edition/${expertEdition.getExternalId()}"><%-- <spring:message
-                code="general.reading.start" /> --%> <img src="../../resources/img/graphics/arrow_right.png"></a>
+                code="general.reading.start" /> --%> <img src="/resources/img/graphics/arrow_right.png"></a>
           </c:when>
           <c:otherwise>
             <c:forEach var="expertEditionInter"
@@ -104,11 +104,11 @@ ${inter.getEdition().getAcronym()}
                 <div class="arrows">
 
                 <a href="${contextPath}/reading/inter/prev/number/${expertEditionInter.externalId}">
-                 <img src="../../resources/img/graphics/arrow_left.png"></a>
+                 <img src="/resources/img/graphics/arrow_left.png"></a>
 
                 <a
                   href="${contextPath}/reading/inter/next/number/${expertEditionInter.externalId}">
-                 <img src="../../resources/img/graphics/arrow_right.png"></a>
+                 <img src="/resources/img/graphics/arrow_right.png"></a>
                  </div>
             
             </c:forEach>
