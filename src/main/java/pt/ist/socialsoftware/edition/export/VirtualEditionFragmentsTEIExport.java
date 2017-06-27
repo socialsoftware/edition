@@ -41,11 +41,15 @@ public class VirtualEditionFragmentsTEIExport {
 		Element teiHeader = new Element("teiHeader", this.xmlns);
 		teiHeader.setAttribute("type", "text");
 		tei.addContent(teiHeader);
+		Element fileDesc = new Element("fileDesc", this.xmlns);
+		teiHeader.addContent(fileDesc);
+		Element sourceDesc = new Element("sourceDesc", this.xmlns);
+		fileDesc.addContent(sourceDesc);
 
 		Element witnesses = new Element("listWit", this.xmlns);
 		id = new Attribute("id", fragment.getXmlId() + ".WIT.ED.VIRT", Namespace.XML_NAMESPACE);
 		witnesses.setAttribute(id);
-		teiHeader.addContent(witnesses);
+		sourceDesc.addContent(witnesses);
 		for (VirtualEditionInter virtualEditionInter : fragment.getVirtualEditionInters()) {
 			exportVirtualEditionInterWitness(witnesses, virtualEditionInter);
 		}
@@ -69,7 +73,7 @@ public class VirtualEditionFragmentsTEIExport {
 	}
 
 	private void exportVirtualEditionInterWitness(Element witnesses, VirtualEditionInter virtualEditionInter) {
-		Element witness = new Element("wit", this.xmlns);
+		Element witness = new Element("witness", this.xmlns);
 		Attribute id = new Attribute("id", virtualEditionInter.getXmlId(), Namespace.XML_NAMESPACE);
 		witness.setAttribute(id);
 		witness.setAttribute("source", "#" + virtualEditionInter.getUses().getXmlId());

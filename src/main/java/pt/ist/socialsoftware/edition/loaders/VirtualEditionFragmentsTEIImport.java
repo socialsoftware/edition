@@ -81,7 +81,7 @@ public class VirtualEditionFragmentsTEIImport {
 
 	private void importWitnesses(Document doc, Fragment fragment) {
 		XPathFactory xpfac = XPathFactory.instance();
-		XPathExpression<Element> xp = xpfac.compile("//def:wit", Filters.element(), null,
+		XPathExpression<Element> xp = xpfac.compile("//def:witness", Filters.element(), null,
 				Namespace.getNamespace("def", this.namespace.getURI()));
 		List<Element> wits = sortByUsedFirst(xp.evaluate(doc));
 
@@ -133,13 +133,13 @@ public class VirtualEditionFragmentsTEIImport {
 
 	private void importAnnotation(Element note, VirtualEditionInter inter) {
 		String username = note.getAttributeValue("resp").substring(1);
-		String text = note.getText();
+		String text = note.getText().trim();
 		Element quoteElement = note.getChild("quote", this.namespace);
 		String from = quoteElement.getAttributeValue("from");
 		String to = quoteElement.getAttributeValue("to");
 		String fromOffset = quoteElement.getAttributeValue("fromOffset");
 		String toOffset = quoteElement.getAttributeValue("toOffset");
-		String quote = quoteElement.getText();
+		String quote = quoteElement.getText().trim();
 
 		RangeJson range = new RangeJson();
 		range.setStart(from);

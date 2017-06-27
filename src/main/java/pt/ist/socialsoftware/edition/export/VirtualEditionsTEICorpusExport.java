@@ -66,10 +66,6 @@ public class VirtualEditionsTEICorpusExport {
 		bibl.setAttribute(id);
 		bibl.setAttribute("status", virtualEdition.getPub() ? "PUBLIC" : "PRIVATE");
 
-		Element idElement = new Element("id", this.xmlns);
-		idElement.setText(virtualEdition.getAcronym());
-		bibl.addContent(idElement);
-
 		Element title = new Element("title", this.xmlns);
 		title.setText(virtualEdition.getTitle());
 		bibl.addContent(title);
@@ -92,15 +88,18 @@ public class VirtualEditionsTEICorpusExport {
 	private void exportEditor(Element element, Member member) {
 		Element editorElement = new Element("editor", this.xmlns);
 		editorElement.setAttribute("nymRef", member.getUser().getUsername());
-		editorElement.setAttribute("date", member.getDate().toString());
 		editorElement.setAttribute("role", member.getRole().toString());
 		editorElement.setAttribute("active", exportBoolean(member.getActive()));
 		element.addContent(editorElement);
 
 		Element persNameElement = new Element("persName", this.xmlns);
 		persNameElement.setText(member.getUser().getFirstName() + " " + member.getUser().getLastName());
-
 		editorElement.addContent(persNameElement);
+
+		Element date = new Element("date", this.xmlns);
+		date.setAttribute("when", member.getDate().toString());
+		editorElement.addContent(date);
+
 	}
 
 	private Element generateEncodingDesc(Element teiHeader) {

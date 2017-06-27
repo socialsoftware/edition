@@ -77,7 +77,7 @@ public class VirtualEditionsTEICorpusImport {
 			VirtualEdition virtualEdition = null;
 
 			boolean pub = bibl.getAttributeValue("status").equals("PUBLIC") ? true : false;
-			String acronym = bibl.getChildText("id", namespace);
+			String acronym = bibl.getAttributeValue("id", Namespace.XML_NAMESPACE);
 			String title = bibl.getChildText("title", namespace);
 			LocalDate date = LocalDate.parse(bibl.getChild("date", namespace).getAttributeValue("when"));
 
@@ -109,7 +109,7 @@ public class VirtualEditionsTEICorpusImport {
 					member = new Member(virtualEdition, user, role, active);
 				}
 
-				date = LocalDate.parse(editor.getAttributeValue("date"));
+				date = LocalDate.parse(editor.getChild("date", namespace).getAttributeValue("when"));
 				member.setDate(date);
 			}
 		}
