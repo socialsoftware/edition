@@ -51,6 +51,8 @@ import pt.ist.socialsoftware.edition.forms.EditUserForm;
 import pt.ist.socialsoftware.edition.loaders.LoadTEICorpus;
 import pt.ist.socialsoftware.edition.loaders.LoadTEIFragments;
 import pt.ist.socialsoftware.edition.loaders.UsersXMLImport;
+import pt.ist.socialsoftware.edition.loaders.VirtualEditionFragmentsTEIImport;
+import pt.ist.socialsoftware.edition.loaders.VirtualEditionsTEICorpusImport;
 import pt.ist.socialsoftware.edition.security.LdoDUserDetails;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDException;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDLoadException;
@@ -527,5 +529,64 @@ public class AdminController {
 		InputStream is = new FileInputStream(file);
 		FileCopyUtils.copy(IOUtils.toByteArray(is), response.getOutputStream());
 		response.flushBuffer();
+	}
+
+	@RequestMapping(method = RequestMethod.POST, value = "/load/virtual-corpus")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	public String loadVirtualCorpus(RedirectAttributes redirectAttributes, @RequestParam("file") MultipartFile file)
+			throws LdoDLoadException {
+		if (file == null) {
+			redirectAttributes.addFlashAttribute("error", true);
+			redirectAttributes.addFlashAttribute("message", "Deve escolher um ficheiro");
+			return "redirect:/admin/loadForm";
+		}
+
+		VirtualEditionsTEICorpusImport loader = new VirtualEditionsTEICorpusImport();
+		try {
+			loader.importVirtualEditionsCorpus(file.getInputStream());
+		} catch (IOException e) {
+			redirectAttributes.addFlashAttribute("error", true);
+			redirectAttributes.addFlashAttribute("message", "Problemas com o ficheiro, tipo ou formato");
+			return "redirect:/admin/loadForm";
+		}
+
+		redirectAttributes.addFlashAttribute("error", false);
+		redirectAttributes.addFlashAttribute("message", "Corpus das edições virtuais carregado");
+		return "redirect:/admin/loadForm";
+	}
+
+	@RequestMapping(method = RequestMethod.POST, value = "/load/virtual-fragments")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	public String loadVirtualFragments(RedirectAttributes redirectAttributes,
+			@RequestParam("files") MultipartFile[] files) throws LdoDLoadException {
+		if (files == null) {
+			redirectAttributes.addFlashAttribute("error", true);
+			redirectAttributes.addFlashAttribute("message", "Deve escolher um ficheiro");
+			return "redirect:/admin/loadForm";
+		}
+
+		VirtualEditionFragmentsTEIImport loader = new VirtualEditionFragmentsTEIImport();
+
+		String list = "";
+		int total = 0;
+		for (MultipartFile file : files) {
+			try {
+				list = list + "<br/>" + loader.importFragmentFromTEI(file.getInputStream());
+				total++;
+			} catch (IOException e) {
+				redirectAttributes.addFlashAttribute("error", true);
+				redirectAttributes.addFlashAttribute("message", "Problemas com o ficheiro, tipo ou formato");
+				return "redirect:/admin/loadForm";
+			} catch (LdoDException ldodE) {
+				redirectAttributes.addFlashAttribute("error", true);
+				redirectAttributes.addFlashAttribute("message", ldodE.getMessage());
+				return "redirect:/admin/loadForm";
+			}
+		}
+
+		redirectAttributes.addFlashAttribute("error", false);
+		redirectAttributes.addFlashAttribute("message",
+				"Fragmentos das edições virtuais carregados: " + total + "<br>" + list);
+		return "redirect:/admin/loadForm";
 	}
 }

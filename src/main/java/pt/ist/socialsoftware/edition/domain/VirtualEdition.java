@@ -142,26 +142,28 @@ public class VirtualEdition extends VirtualEdition_Base {
 	public Boolean canAddFragInter(FragInter addInter) {
 		Fragment fragment = addInter.getFragment();
 		FragInter usedAddInter = addInter.getLastUsed();
-		for (VirtualEditionInter inter : getAllDepthVirtualEditionInters()) {
-			if (inter.getFragment() == fragment) {
-				FragInter usedInter = inter.getLastUsed();
-				if (isSameInterpretation(usedAddInter, usedInter)) {
-					return false;
-				}
-
-				if (atLeastOneIsSourceInterpretation(usedAddInter, usedInter)) {
-					return false;
-				}
-
-				if (belongToDifferentExpertEditions(usedAddInter, usedInter)) {
-					return false;
-				}
-
-				ExpertEdition expertEdition = ((ExpertEditionInter) usedInter).getExpertEdition();
-				int numberOfInter4Expert = fragment.getNumberOfInter4Edition(expertEdition);
-				int numberOfInter4Virtual = fragment.getNumberOfInter4Edition(this);
-				return numberOfInter4Expert > numberOfInter4Virtual;
+		for (VirtualEditionInter inter : fragment.getVirtualEditionInters(this)) {
+			FragInter usedInter = inter.getLastUsed();
+			logger.debug("begin", usedAddInter, usedInter);
+			if (isSameInterpretation(usedAddInter, usedInter)) {
+				logger.debug("canAddFragInter same {} == {}", usedAddInter, usedInter);
+				return false;
 			}
+
+			if (atLeastOneIsSourceInterpretation(usedAddInter, usedInter)) {
+				logger.debug("canAddFragInter one is source");
+				return false;
+			}
+
+			if (belongToDifferentExpertEditions(usedAddInter, usedInter)) {
+				logger.debug("canAddFragInter different expert editions");
+				return false;
+			}
+
+			ExpertEdition expertEdition = ((ExpertEditionInter) usedInter).getExpertEdition();
+			int numberOfInter4Expert = fragment.getNumberOfInter4Edition(expertEdition);
+			int numberOfInter4Virtual = fragment.getNumberOfInter4Edition(this);
+			return numberOfInter4Expert > numberOfInter4Virtual;
 		}
 		return true;
 	}
@@ -310,9 +312,11 @@ public class VirtualEdition extends VirtualEdition_Base {
 	// Default section
 	@Atomic(mode = TxMode.WRITE)
 	public VirtualEditionInter createVirtualEditionInter(FragInter inter, int number) {
+		logger.debug("createVirtualEditionInter inter:{}, number:{}", inter, number);
 		VirtualEditionInter virtualInter = null;
 
 		if (canAddFragInter(inter)) {
+			logger.debug("createVirtualEditionInter canAddFragInter");
 			if (getSectionsSet().isEmpty()) {
 				Section section = new Section(this, Section.DEFAULT, 0);
 				virtualInter = new VirtualEditionInter(section, inter, number);
