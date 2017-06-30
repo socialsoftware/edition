@@ -1,5 +1,6 @@
 package pt.ist.socialsoftware.edition.recommendation;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -21,7 +22,9 @@ import pt.ist.socialsoftware.edition.recommendation.properties.Property.Property
 import pt.ist.socialsoftware.edition.recommendation.properties.TaxonomyProperty;
 import pt.ist.socialsoftware.edition.recommendation.properties.TextProperty;
 
-public class ReadingRecommendation {
+public class ReadingRecommendation implements Serializable {
+	private static final long serialVersionUID = 1L;
+
 	private static Logger logger = LoggerFactory.getLogger(ReadingRecommendation.class);
 
 	private final List<String> read = new ArrayList<>();
