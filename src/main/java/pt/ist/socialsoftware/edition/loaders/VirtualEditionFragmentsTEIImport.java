@@ -72,8 +72,6 @@ public class VirtualEditionFragmentsTEIImport {
 
 		Fragment fragment = getFragment(doc);
 
-		logger.debug("processImport fragment:{}", fragment.getXmlId());
-
 		importWitnesses(doc, fragment);
 
 		importTextClasses(doc, fragment);
@@ -87,18 +85,11 @@ public class VirtualEditionFragmentsTEIImport {
 				Namespace.getNamespace("def", this.namespace.getURI()));
 		List<Element> wits = sortByUsedFirst(xp.evaluate(doc));
 
-		for (Element element : wits) {
-			logger.debug("importWitnesses sorted {}", element.getAttributeValue("id", Namespace.XML_NAMESPACE));
-		}
-
 		for (Element wit : wits) {
 			String interXmlId = wit.getAttributeValue("id", Namespace.XML_NAMESPACE);
 			String editionAcronym = interXmlId.substring(interXmlId.lastIndexOf("VIRT.") + "VIRT.".length(),
 					interXmlId.lastIndexOf('.'));
 			VirtualEdition virtualEdition = this.ldoD.getVirtualEdition(editionAcronym);
-
-			logger.debug("importWitnesses interXmlId:{}, editionAcronym:{}, virtualEdition:{}", interXmlId,
-					editionAcronym, virtualEdition);
 
 			VirtualEditionInter inter = virtualEdition.createVirtualEditionInter(
 					fragment.getFragInterByXmlId(wit.getAttributeValue("source").substring(1)),

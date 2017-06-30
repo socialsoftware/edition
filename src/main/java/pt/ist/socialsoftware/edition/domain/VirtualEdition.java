@@ -144,19 +144,15 @@ public class VirtualEdition extends VirtualEdition_Base {
 		FragInter usedAddInter = addInter.getLastUsed();
 		for (VirtualEditionInter inter : fragment.getVirtualEditionInters(this)) {
 			FragInter usedInter = inter.getLastUsed();
-			logger.debug("begin", usedAddInter, usedInter);
 			if (isSameInterpretation(usedAddInter, usedInter)) {
-				logger.debug("canAddFragInter same {} == {}", usedAddInter, usedInter);
 				return false;
 			}
 
 			if (atLeastOneIsSourceInterpretation(usedAddInter, usedInter)) {
-				logger.debug("canAddFragInter one is source");
 				return false;
 			}
 
 			if (belongToDifferentExpertEditions(usedAddInter, usedInter)) {
-				logger.debug("canAddFragInter different expert editions");
 				return false;
 			}
 
@@ -256,9 +252,8 @@ public class VirtualEdition extends VirtualEdition_Base {
 		/*
 		 * int i = 0; for (String fragId : newFragList) { if
 		 * (!actualFragList.contains(fragId)) { FragInter inter =
-		 * FenixFramework.getDomainObject(fragInterList .get(i));
-		 * VirtualEditionInter addInter = createVirtualEditionInter(inter, i); }
-		 * i++; }
+		 * FenixFramework.getDomainObject(fragInterList .get(i)); VirtualEditionInter
+		 * addInter = createVirtualEditionInter(inter, i); } i++; }
 		 */
 
 		System.out.println("V3");
@@ -298,11 +293,10 @@ public class VirtualEdition extends VirtualEdition_Base {
 		 * int i = 1;
 		 * 
 		 * StringTokenizer st = new StringTokenizer(fraginters, ";"); while
-		 * (st.hasMoreElements()) { String fraginterId =
-		 * st.nextElement().toString(); if (fraginterId.length() > 0) {
-		 * FragInter inter = FenixFramework.getDomainObject(fraginterId);
-		 * VirtualEditionInter addInter = createVirtualEditionInter(inter, i);
-		 * i++; }
+		 * (st.hasMoreElements()) { String fraginterId = st.nextElement().toString(); if
+		 * (fraginterId.length() > 0) { FragInter inter =
+		 * FenixFramework.getDomainObject(fraginterId); VirtualEditionInter addInter =
+		 * createVirtualEditionInter(inter, i); i++; }
 		 * 
 		 * }
 		 */
@@ -316,7 +310,6 @@ public class VirtualEdition extends VirtualEdition_Base {
 		VirtualEditionInter virtualInter = null;
 
 		if (canAddFragInter(inter)) {
-			logger.debug("createVirtualEditionInter canAddFragInter");
 			if (getSectionsSet().isEmpty()) {
 				Section section = new Section(this, Section.DEFAULT, 0);
 				virtualInter = new VirtualEditionInter(section, inter, number);
