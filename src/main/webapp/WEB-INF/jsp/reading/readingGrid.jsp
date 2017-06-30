@@ -89,7 +89,7 @@ ${inter.getEdition().getAcronym()}
           <c:when test="${fragment == null}">
             <a
               href="${contextPath}/reading/inter/first/edition/${expertEdition.getExternalId()}"><%-- <spring:message
-                code="general.reading.start" /> --%> <img src="../../resources/img/graphics/arrow_right.png"></a>
+                code="general.reading.start" /> --%> <img src="/resources/img/graphics/arrow_right.png"></a>
           </c:when>
           <c:otherwise>
             <c:forEach var="expertEditionInter"
@@ -97,18 +97,18 @@ ${inter.getEdition().getAcronym()}
               
 
                 <a
-                  href="${contextPath}/reading/inter/${expertEditionInter.externalId}"><!--${expertEditionInter.getEdition().getAcronym()}-->
+                  href="${contextPath}/reading/fragment/${fragment.xmlId}/inter/${expertEditionInter.urlId}"><!--${expertEditionInter.getEdition().getAcronym()}-->
                   <h2>${expertEditionInter.number}</h2></a>
 
 
                 <div class="arrows">
 
                 <a href="${contextPath}/reading/inter/prev/number/${expertEditionInter.externalId}">
-                 <img src="../../resources/img/graphics/arrow_left.png"></a>
+                 <img src="/resources/img/graphics/arrow_left.png"></a>
 
                 <a
                   href="${contextPath}/reading/inter/next/number/${expertEditionInter.externalId}">
-                 <img src="../../resources/img/graphics/arrow_right.png"></a>
+                 <img src="/resources/img/graphics/arrow_right.png"></a>
                  </div>
             
             </c:forEach>
@@ -153,14 +153,14 @@ ${inter.getEdition().getAcronym()}
         </c:if>
         
         <div>
-          <a href="${contextPath}/reading/inter/${inter.externalId}">
+          <a href="${contextPath}/reading/fragment/${fragment.xmlId}/inter/${inter.urlId}">
           <!--<span class="glyphicon glyphicon-play"></span>-->
            <h3>${inter.getEdition().getAcronym()}</h3><h2>${inter.number}</h2></a>
         </div>
         
         <c:forEach var="recomInter" items="${recommendations}">
           <div>
-            <a href="${contextPath}/reading/inter/${recomInter.externalId}">
+            <a href="${contextPath}/reading/fragment/${recomInter.fragment.xmlId}/inter/${recomInter.urlId}">
             <!--<span class="glyphicon glyphicon-forward"></span>-->
               <h3>${recomInter.getEdition().getAcronym()}</h3><h2>${recomInter.number}</h2></a>
           </div>

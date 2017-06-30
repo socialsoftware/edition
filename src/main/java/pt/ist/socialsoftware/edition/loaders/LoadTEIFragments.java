@@ -446,7 +446,7 @@ public class LoadTEIFragments {
 			}
 			break;
 		case FRAGMENT:
-			Fragment fragment = LdoD.getInstance().getFragment(target);
+			Fragment fragment = LdoD.getInstance().getFragmentByXmlId(target);
 			// if (fragment != null) {
 			// if fragment == null is deal in class RefText
 			refText.setRefFrag(fragment);
@@ -1095,7 +1095,7 @@ public class LoadTEIFragments {
 									putObjectInverseIdMap(target, refText);
 								}
 							} else if (refType == RefType.FRAGMENT) {
-								Fragment frag = LdoD.getInstance().getFragment(target);
+								Fragment frag = LdoD.getInstance().getFragmentByXmlId(target);
 								// if (frag != null) {
 								// it is not verified if frag == null but an
 								// exception will be raised when accessing the

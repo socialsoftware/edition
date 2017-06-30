@@ -115,7 +115,7 @@ public class LdoDPermissionEvaluator implements PermissionEvaluator {
 		// it is only implementing "hasPermission(#xmlId, #urlId,
 		// 'fragInter.public')"
 
-		Fragment fragment = FenixFramework.getDomainRoot().getLdoD().getFragment((String) targetId);
+		Fragment fragment = FenixFramework.getDomainRoot().getLdoD().getFragmentByXmlId((String) targetId);
 
 		if (fragment == null) {
 			return false;

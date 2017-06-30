@@ -9,7 +9,7 @@
 
 	<div class="container">
 		<div class="row">
-			<div class="col-md-3">
+			<div class="col-md-4">
 				<h4>
 					<spring:message code="corpus.load.title" />
 				</h4>
@@ -29,25 +29,7 @@
 					</div>
 				</form>
 			</div>
-			<div class="col-md-3">
-				<h4>Load Users</h4>
-				<form class="form-inline" method="POST"
-					action="${contextPath}/admin/load/users"
-					enctype="multipart/form-data">
-					<input type="hidden" name="${_csrf.parameterName}"
-						value="${_csrf.token}" />
-					<div class="form-group">
-						<input type="file" name="file">
-					</div>
-					<br> <br>
-					<div class="form-group">
-						<button type="submit" class="btn btn-primary btn-sm">
-							<spring:message code="general.submit" />
-						</button>
-					</div>
-				</form>
-			</div>
-			<div class="col-md-3">
+			<div class="col-md-4">
 				<h4>
 					<spring:message code="fragment.load.title" />
 				</h4>
@@ -67,12 +49,71 @@
 					</div>
 				</form>
 			</div>
-			<div class="col-md-3">
+			<div class="col-md-4">
 				<h4>
 					<spring:message code="fragment.load.titleAll" />
 				</h4>
 				<form class="form-inline" method="POST"
 					action="${contextPath}/admin/load/fragmentsStepByStep"
+					enctype="multipart/form-data">
+					<input type="hidden" name="${_csrf.parameterName}"
+						value="${_csrf.token}" />
+					<div class="form-group">
+						<input type="file" multiple name="files">
+					</div>
+					<br> <br>
+					<div class="form-group">
+						<button type="submit" class="btn btn-primary btn-sm">
+							<spring:message code="general.submit" />
+						</button>
+					</div>
+				</form>
+			</div>
+		</div>
+		<br/>
+		<br/>
+		<br/>
+		<div class="row">
+			<div class="col-md-4">
+				<h4>Load Users</h4>
+				<form class="form-inline" method="POST"
+					action="${contextPath}/admin/load/users"
+					enctype="multipart/form-data">
+					<input type="hidden" name="${_csrf.parameterName}"
+						value="${_csrf.token}" />
+					<div class="form-group">
+						<input type="file" name="file">
+					</div>
+					<br> <br>
+					<div class="form-group">
+						<button type="submit" class="btn btn-primary btn-sm">
+							<spring:message code="general.submit" />
+						</button>
+					</div>
+				</form>
+			</div>
+			<div class="col-md-4">
+				<h4>Load Virtual Editions Corpus</h4>
+				<form class="form-inline" method="POST"
+					action="${contextPath}/admin/load/virtual-corpus"
+					enctype="multipart/form-data">
+					<input type="hidden" name="${_csrf.parameterName}"
+						value="${_csrf.token}" />
+					<div class="form-group">
+						<input type="file" name="file">
+					</div>
+					<br> <br>
+					<div class="form-group">
+						<button type="submit" class="btn btn-primary btn-sm">
+							<spring:message code="general.submit" />
+						</button>
+					</div>
+				</form>
+			</div>
+			<div class="col-md-4">
+				<h4>Load Virtual Editions Fragments</h4>
+				<form class="form-inline" method="POST"
+					action="${contextPath}/admin/load/virtual-fragments"
 					enctype="multipart/form-data">
 					<input type="hidden" name="${_csrf.parameterName}"
 						value="${_csrf.token}" />

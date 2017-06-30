@@ -80,7 +80,7 @@
 								<a
 									href="${contextPath}/reading/inter/prev/number/${expertEditionInter.externalId}"><span
 									class="glyphicon glyphicon-backward"></span></a> <a
-									href="${contextPath}/reading/inter/${expertEditionInter.externalId}">${expertEditionInter.getEdition().getAcronym()}
+									href="${contextPath}/reading/fragment/${fragment.xmlId}/inter/${expertEditionInter.urlId}">${expertEditionInter.getEdition().getAcronym()}
 									${expertEditionInter.number} </a> <a
 									href="${contextPath}/reading/inter/next/number/${expertEditionInter.externalId}"><span
 									class="glyphicon glyphicon-forward"></span></a>
@@ -105,13 +105,13 @@
 					</div>
 				</c:if>
 				<div>
-					<a href="${contextPath}/reading/inter/${inter.externalId}"><span
+					<a href="${contextPath}/reading/fragment/${fragment.xmlId}/inter/${inter.urlId}"><span
 						class="glyphicon glyphicon-play"></span>
 						${inter.getEdition().getAcronym()} ${inter.number} </a>
 				</div>
 				<c:forEach var="recomInter" items="${recommendations}">
 					<div>
-						<a href="${contextPath}/reading/inter/${recomInter.externalId}"><span
+						<a href="${contextPath}/reading/fragment/${fragment.xmlId}/inter/${recomInter.urlId}"><span
 							class="glyphicon glyphicon-forward"></span>
 							${recomInter.getEdition().getAcronym()} ${recomInter.number} </a>
 					</div>

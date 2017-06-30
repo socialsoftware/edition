@@ -2,7 +2,6 @@ package pt.ist.socialsoftware.edition.controller;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
@@ -14,8 +13,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletResponse;
@@ -49,12 +46,13 @@ import pt.ist.socialsoftware.edition.domain.Role;
 import pt.ist.socialsoftware.edition.domain.Role.RoleType;
 import pt.ist.socialsoftware.edition.export.ExpertEditionTEIExport;
 import pt.ist.socialsoftware.edition.export.UsersXMLExport;
-import pt.ist.socialsoftware.edition.export.VirtualEditionFragmentsTEIExport;
-import pt.ist.socialsoftware.edition.export.VirtualEditionsTEICorpusExport;
+import pt.ist.socialsoftware.edition.export.WriteVirtualEditonsToFile;
 import pt.ist.socialsoftware.edition.forms.EditUserForm;
 import pt.ist.socialsoftware.edition.loaders.LoadTEICorpus;
 import pt.ist.socialsoftware.edition.loaders.LoadTEIFragments;
 import pt.ist.socialsoftware.edition.loaders.UsersXMLImport;
+import pt.ist.socialsoftware.edition.loaders.VirtualEditionFragmentsTEIImport;
+import pt.ist.socialsoftware.edition.loaders.VirtualEditionsTEICorpusImport;
 import pt.ist.socialsoftware.edition.security.LdoDUserDetails;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDException;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDLoadException;
@@ -520,74 +518,75 @@ public class AdminController {
 
 	@RequestMapping(method = RequestMethod.GET, value = "/export/virtualeditions")
 	public void exportVirtualEditions(HttpServletResponse response) throws IOException {
-		String timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
+		WriteVirtualEditonsToFile write = new WriteVirtualEditonsToFile();
+		String filename = write.export();
 
 		String exportDir = PropertiesManager.getProperties().getProperty("export.dir");
 		File directory = new File(exportDir);
-		FileOutputStream fos = new FileOutputStream(
-				directory.getAbsolutePath() + "/virtualeditions-" + timeStamp + ".zip");
-		ZipOutputStream zos = new ZipOutputStream(fos);
-
-		zos.putNextEntry(new ZipEntry("users.xml"));
-		InputStream in = generateUsersInputStream(response);
-		copyToZipStream(zos, in);
-		zos.closeEntry();
-
-		zos.putNextEntry(new ZipEntry("corpus.xml"));
-		in = generateCorpusInputStream(response);
-		copyToZipStream(zos, in);
-		zos.closeEntry();
-
-		for (Fragment fragment : LdoD.getInstance().getFragmentsSet()) {
-			zos.putNextEntry(new ZipEntry(fragment.getXmlId() + ".xml"));
-			in = generateFragmentInputStream(response, fragment);
-			copyToZipStream(zos, in);
-			zos.closeEntry();
-
-		}
-
-		zos.close();
-
-		File file = new File(directory.getAbsolutePath() + "/virtualeditions-" + timeStamp + ".zip");
-		response.setHeader("Content-Disposition", "attachment; filename=virtualeditions-" + timeStamp + ".zip");
+		File file = new File(directory, filename);
+		response.setHeader("Content-Disposition", "attachment; filename=" + filename);
 		response.setHeader("Content-Type", "application/zip");
 		InputStream is = new FileInputStream(file);
 		FileCopyUtils.copy(IOUtils.toByteArray(is), response.getOutputStream());
 		response.flushBuffer();
 	}
 
-	private void copyToZipStream(ZipOutputStream zos, InputStream in) throws IOException {
-		byte[] buffer = new byte[1024];
-		int len;
-		while ((len = in.read(buffer)) > 0) {
-			zos.write(buffer, 0, len);
+	@RequestMapping(method = RequestMethod.POST, value = "/load/virtual-corpus")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	public String loadVirtualCorpus(RedirectAttributes redirectAttributes, @RequestParam("file") MultipartFile file)
+			throws LdoDLoadException {
+		if (file == null) {
+			redirectAttributes.addFlashAttribute("error", true);
+			redirectAttributes.addFlashAttribute("message", "Deve escolher um ficheiro");
+			return "redirect:/admin/loadForm";
 		}
-		in.close();
+
+		VirtualEditionsTEICorpusImport loader = new VirtualEditionsTEICorpusImport();
+		try {
+			loader.importVirtualEditionsCorpus(file.getInputStream());
+		} catch (IOException e) {
+			redirectAttributes.addFlashAttribute("error", true);
+			redirectAttributes.addFlashAttribute("message", "Problemas com o ficheiro, tipo ou formato");
+			return "redirect:/admin/loadForm";
+		}
+
+		redirectAttributes.addFlashAttribute("error", false);
+		redirectAttributes.addFlashAttribute("message", "Corpus das edições virtuais carregado");
+		return "redirect:/admin/loadForm";
 	}
 
-	private InputStream generateUsersInputStream(HttpServletResponse response) throws IOException {
-		UsersXMLExport usersExporter = new UsersXMLExport();
-		InputStream in = IOUtils.toInputStream(usersExporter.export(), "UTF-8");
-		response.setHeader("Content-Disposition", "attachment; filename=users.xml");
-		response.setContentType("application/xml");
-		return in;
-	}
+	@RequestMapping(method = RequestMethod.POST, value = "/load/virtual-fragments")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	public String loadVirtualFragments(RedirectAttributes redirectAttributes,
+			@RequestParam("files") MultipartFile[] files) throws LdoDLoadException {
+		if (files == null) {
+			redirectAttributes.addFlashAttribute("error", true);
+			redirectAttributes.addFlashAttribute("message", "Deve escolher um ficheiro");
+			return "redirect:/admin/loadForm";
+		}
 
-	private InputStream generateCorpusInputStream(HttpServletResponse response) throws IOException {
-		VirtualEditionsTEICorpusExport generator = new VirtualEditionsTEICorpusExport();
-		InputStream in = IOUtils.toInputStream(generator.export(), "UTF-8");
-		response.setHeader("Content-Disposition", "attachment; filename=corpus.xml");
-		response.setContentType("application/xml");
-		return in;
-	}
+		VirtualEditionFragmentsTEIImport loader = new VirtualEditionFragmentsTEIImport();
 
-	private InputStream generateFragmentInputStream(HttpServletResponse response, Fragment fragment)
-			throws IOException {
-		VirtualEditionFragmentsTEIExport generator = new VirtualEditionFragmentsTEIExport();
-		InputStream in = IOUtils.toInputStream(generator.exportFragment(fragment), "UTF-8");
-		response.setHeader("Content-Disposition", "attachment; filename=corpus.xml");
-		response.setContentType("application/xml");
-		return in;
-	}
+		String list = "";
+		int total = 0;
+		for (MultipartFile file : files) {
+			try {
+				list = list + "<br/>" + loader.importFragmentFromTEI(file.getInputStream());
+				total++;
+			} catch (IOException e) {
+				redirectAttributes.addFlashAttribute("error", true);
+				redirectAttributes.addFlashAttribute("message", "Problemas com o ficheiro, tipo ou formato");
+				return "redirect:/admin/loadForm";
+			} catch (LdoDException ldodE) {
+				redirectAttributes.addFlashAttribute("error", true);
+				redirectAttributes.addFlashAttribute("message", ldodE.getMessage());
+				return "redirect:/admin/loadForm";
+			}
+		}
 
+		redirectAttributes.addFlashAttribute("error", false);
+		redirectAttributes.addFlashAttribute("message",
+				"Fragmentos das edições virtuais carregados: " + total + "<br>" + list);
+		return "redirect:/admin/loadForm";
+	}
 }
