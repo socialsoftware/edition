@@ -72,6 +72,8 @@ public class VirtualEditionFragmentsTEIImport {
 
 		Fragment fragment = getFragment(doc);
 
+		logger.debug("processImport fragment:{}", fragment.getXmlId());
+
 		importWitnesses(doc, fragment);
 
 		importTextClasses(doc, fragment);
@@ -175,26 +177,29 @@ public class VirtualEditionFragmentsTEIImport {
 
 		while (!modifiableWits.isEmpty()) {
 			Element wit = modifiableWits.remove(0);
-			if (result.isEmpty()) {
+			if (sourceIsBase(wit)) {
 				result.add(wit);
+			} else if (result.size() == 0) {
+				modifiableWits.add(wit);
 			} else {
 				for (int i = 0; i < result.size(); i++) {
 					if (wit.getAttributeValue("source").substring(1)
 							.equals(result.get(i).getAttributeValue("id", Namespace.XML_NAMESPACE))) {
 						result.add(i + 1, wit);
 						break;
-					} else if (result.get(i).getAttributeValue("source").substring(1)
-							.equals(wit.getAttributeValue("id", Namespace.XML_NAMESPACE))) {
-						result.add(i, wit);
-						break;
 					} else if (i == result.size() - 1) {
-						result.add(wit);
-						break;
+						modifiableWits.add(wit);
 					}
 				}
 			}
 		}
 
 		return result;
+	}
+
+	private boolean sourceIsBase(Element wit) {
+		return wit.getAttributeValue("source").contains(".WIT.MS.")
+				|| wit.getAttributeValue("source").contains(".WIT.ED.ORIG.")
+				|| wit.getAttributeValue("source").contains(".WIT.ED.CRIT.");
 	}
 }

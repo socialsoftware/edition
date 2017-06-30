@@ -44,9 +44,10 @@ public class VirtualEditionFragmentsTEIExportTest {
 			VirtualEditionFragmentsTEIImport im = new VirtualEditionFragmentsTEIImport();
 			im.importFragmentFromTEI(fragmentTEI);
 
+			System.out.println(export.exportFragment(fragment));
+
 			assertEquals(numberOfInters, fragment.getVirtualEditionInters().size());
 
-			System.out.println(export.exportFragment(fragment));
 			assertEquals(Arrays.stream(fragmentTEI.split("\\r?\\n")).sorted().collect(Collectors.joining("\\n")),
 					Arrays.stream(export.exportFragment(fragment).split("\\r?\\n")).sorted()
 							.collect(Collectors.joining("\\n")));

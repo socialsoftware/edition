@@ -22,29 +22,6 @@ import pt.ist.socialsoftware.edition.utils.RangeJson;
 public class VirtualEditionInter extends VirtualEditionInter_Base {
 	private static Logger logger = LoggerFactory.getLogger(VirtualEditionInter.class);
 
-	// TODO: TO BE REMOVED AFTER SUCCESSFUL MIGRATION IN THE PRODUCTION SERVER
-	@Override
-	@Atomic(mode = TxMode.WRITE)
-	public String getXmlId() {
-		int counter = 1;
-		for (VirtualEditionInter inter : getFragment().getVirtualEditionInters(getVirtualEdition())) {
-			inter.setXmlId(
-					getFragment().getXmlId() + ".WIT.ED.VIRT." + getVirtualEdition().getAcronym() + "." + counter);
-			counter++;
-		}
-
-		return super.getXmlId();
-	}
-
-	// TODO: TO BE REMOVED AFTER SUCCESSFUL MIGRATION IN THE PRODUCTION SERVER
-	@Override
-	@Atomic(mode = TxMode.WRITE)
-	public String getUrlId() {
-		setUrlId(getXmlId().replace(".", "_"));
-
-		return super.getUrlId();
-	}
-
 	public VirtualEditionInter(Section section, FragInter inter, int number) {
 		setFragment(inter.getFragment());
 		setHeteronym(null);

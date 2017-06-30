@@ -5,22 +5,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import pt.ist.fenixframework.Atomic;
-import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.socialsoftware.edition.domain.Edition.EditionType;
 import pt.ist.socialsoftware.edition.domain.Source.SourceType;
 
 public class SourceInter extends SourceInter_Base {
-	// TODO: TO BE REMOVED AFTER SUCCESSFUL MIGRATION IN THE PRODUCTION SERVER
-	@Override
-	@Atomic(mode = TxMode.WRITE)
-	public String getUrlId() {
-		if (super.getUrlId() == null) {
-			setUrlId(getXmlId().replace(".", "_"));
-		}
-		return super.getUrlId();
-	}
-
 	public SourceInter() {
 	}
 
