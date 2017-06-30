@@ -65,14 +65,14 @@
 	  	//{{"BNP/E3","E eu offereço-te este livro porque sei que elle é bello e inutil.","9-39, 9-41, 9-31","Fr449/inter/Fr449_WIT_MS_Fr449a_000"},
 
 
-		String [][] excerpts =  {{"BNP/E3","E eu offereço-te este livro porque sei que elle é bello e inutil.","9-39, 9-41, 9-31","Fr449/inter/Fr449_WIT_MS_Fr449a_000"},
+		String [][] excerpts =  {{"BNP/E3","E eu offereço-te este livro porque sei que elle é bello e inutil.","9-39-41r-31","Fr449/inter/Fr449_WIT_MS_Fr449a_000"},
 {"Jacinto do Prado Coelho","Senti-me agora respirar como se houvesse practicado uma cousa nova, ou atrazada.","188","Fr456/inter/Fr157_WIT_ED_CRIT_C"},
 {"Teresa Sobral Cunha","Em mim foi sempre menor a intensidade das sensações que a intensidade da sensação delas.","283","Fr309/inter/Fr309_WIT_ED_CRIT_SC"},
 {"Richard Zenith","O silêncio que sai do som da chuva espalha-se, num crescendo de monotonia cinzenta, pela rua estreita que fito.","41","Fr175/inter/Fr175_WIT_ED_CRIT_Z"},
 {"Jerónimo Pizarro","A grande terra, que serve os mortos, serviria, menos maternalmente, esses papeis.","387","Fr159.b/inter/Fr159_b_WIT_ED_CRIT_P_1"},
 {"BNP/E3","Em cada pingo de chuva a minha vida falhada chora na natureza.","7-31","Fr390/inter/Fr390_WIT_MS_Fr390a_000"},
 {"Jacinto do Prado Coelho","Como nos dias em que a trovoada se prepara e os ruidos da rua fallam alto com uma voz solitária.","45","Fr042/inter/Fr042_WIT_ED_CRIT_C"},
-{"Teresa Sobral Cunha","Ninguém estava quem era, e o patrão Vasques apareceu à porta do gabinete para pensar em dizer qualquer coisa.","441","Fr042/inter/Fr043_WIT_ED_CRIT_SC"},
+{"Teresa Sobral Cunha","Ninguém estava quem era, e o patrão Vasques apareceu à porta do gabinete para pensar em dizer qualquer coisa.","441","Fr043/inter/Fr043_WIT_ED_CRIT_SC"},
 {"Richard Zenith","'Vem aí uma grande trovoada', disse o Moreira, e voltou a página do Razão.","183","Fr044/inter/Fr044_WIT_ED_CRIT_Z"},
 {"Jerónimo Pizarro","E então, em plena vida, é que o sonho tem grandes cinemas.","262","Fr149/inter/Fr149_WIT_ED_CRIT_P"},
 {"BNP/E3","Lêr é sonhar pela mão de outrem.","144D(2)-137v","Fr554/inter/Fr554_WIT_MS_Fr554a_000"},
@@ -104,7 +104,7 @@
 	<div class="container ldod-default">
 
 
-		<a href="/fragments/fragment/<%=excerpts[excerptID][3]%>" class="frag-link">
+		<a href="/reading/fragment/<%=excerpts[excerptID][3]%>" class="frag-link">
 		<div class="raw col-xs-12 frag-excerpt">
 			<span class="frag-number font-egyptian"><%=excerpts[excerptID][2]%></span>
 			<span class="frag-editor font-condensed"><%=excerpts[excerptID][0]%></span>
