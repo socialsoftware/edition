@@ -7,7 +7,7 @@
 	<li><a href="#Q02Q">What does the LdoD Archive contain?</a></li>
 	<li><a href="#Q03Q">What is a fragment in the LdoD Archive?</a></li>
 	<li><a href="#Q04Q">What is the relationship between a text in the 
-		<em>Book of Disquiet</em> and a fragment in the <em>LdoD Archive?</a></li>
+		<em>Book of Disquiet</em> and a fragment in the LdoD Archive?</a></li>
 	<li><a href="#Q05Q">Why is the fragment treated as a modular unit in the LdoD Archive?</a></li>
 	<li><a href="#Q06Q">What is an interpretation in the LdoD Archive?</a></li>
 	<li><a href="#Q07Q">Why do fragments have more than one editorial interpretation 
