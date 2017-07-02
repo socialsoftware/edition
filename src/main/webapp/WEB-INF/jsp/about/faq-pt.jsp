@@ -461,7 +461,7 @@
 <h3 id="T4T" style="padding-top: 60px; margin-top: -60px;">Codifica&ccedil;&atilde;o
 	XML-TEI</h3>
 <h5 id="Q12Q" style="padding-top: 60px; margin-top: -60px;">Como
-	foi feita a codifica&ccedil;&atilde;o dos textos do Arquivo?</h5>
+	foi feita a codifica&ccedil;&atilde;o dos textos do <em>Arquivo LdoD</em>?</h5>
 <p>
 	A codifica&ccedil;&atilde;o foi realizada de acordo com as
 	recomenda&ccedil;&otilde;es da Text Encoding Initiative (TEI) na
