@@ -2,8 +2,8 @@
 	<a href="#T1T">O Arquivo</a>
 </h4>
 <ul>
-	<li><a href="#Q52Q">O que È o Arquivo LdoD?</a></li>
-	<li><a href="#Q53Q">O que contÈm o Arquivo LdoD?</a></li>
+	<li><a href="#Q52Q">O que √© o Arquivo LdoD?</a></li>
+	<li><a href="#Q53Q">O que cont√©m o Arquivo LdoD?</a></li>
 	<li><a href="#Q1Q">O que &eacute; um fragmento no Arquivo
 			LdoD?</a></li>
 	<li><a href="#Q2Q">O que &eacute; uma
@@ -35,6 +35,7 @@
 			edi&ccedil;&otilde;es espec&iacute;ficas dos peritos?</a></li>
 	<li><a href="#Q11Q">As edi&ccedil;&otilde;es dos peritos
 			ser&atilde;o atualizadas futuramente?</a></li>
+	<li><a href="#Q57Q">Qual a  diferen√ßa entre &ldquo;testemunhos&rdquo; e &ldquo;fragmentos codificados&rdquo;? </a></li>
 </ul>
 <h4>
 	<a href="#T4T">Codifica&ccedil;&atilde;o XML-TEI</a>
@@ -108,8 +109,8 @@
 	<a href="#T8T">Edi&ccedil;&atilde;o Virtual</a>
 </h4>
 <ul>
-	<li><a href="#Q54Q">O que È uma EdiÁ„o Virtual?</a></li>
-	<li><a href="#Q55Q">Quais as limitaÁıes ao exercÌcio da funÁ„o
+	<li><a href="#Q54Q">O que √© uma Edi√ß√£o Virtual?</a></li>
+	<li><a href="#Q55Q">Quais as limita√ß√µes ao exerc√≠cio da fun√ß√£o
 			editorial no Arquivo LdoD?</a></li>
 	<li><a href="#Q56Q">O que &eacute; a Edi&ccedil;&atilde;o do
 			Arquivo LdoD?</a></li>
@@ -157,25 +158,25 @@
 
 <h3 id="T1T" style="padding-top: 60px; margin-top: -60px;">O
 	Arquivo</h3>
-<h5 id="Q52Q" style="padding-top: 60px; margin-top: -60px;">O que È
+<h5 id="Q52Q" style="padding-top: 60px; margin-top: -60px;">O que √©
 	o Arquivo LdoD?</h5>
-<p>O Arquivo LdoD È um arquivo digital colaborativo do Livro do
-	Desassossego de Fernando Pessoa. ContÈm imagens dos documentos
-	autÛgrafos, novas transcriÁıes desses documentos e ainda transcriÁıes
-	de quatro ediÁıes da obra. AlÈm da leitura e comparaÁ„o das
-	transcriÁıes, o Arquivo LdoD permite que os utilizadores colaborem na
-	criaÁ„o de ediÁıes virtuais do Livro do Desassossego. Inclui ainda um
-	mÛdulo de escrita que, futuramente, permitir· aos utilizadores
-	escreverem variaÁıes a partir dos fragmentos do Livro. Deste modo, o
-	Arquivo LdoD combina um princÌpio representacional com um princÌpio
-	simulatÛrio: o primeiro consiste na representaÁ„o da histÛria e dos
-	processos de escrita e de ediÁ„o do Livro; o segundo consiste na
-	possibilidade de os utilizadores assumirem diferentes papÈis no
-	processo liter·rio (ler, editar, escrever), usando a flexibilidade do
-	meio digital para experimentarem o Livro do Desassossego como m·quina
-	liter·ria.</p>
+<p>O Arquivo LdoD √© um arquivo digital colaborativo do Livro do
+	Desassossego de Fernando Pessoa. Cont√©m imagens dos documentos
+	aut√≥grafos, novas transcri√ß√µes desses documentos e ainda transcri√ß√µes
+	de quatro edi√ß√µes da obra. Al√©m da leitura e compara√ß√£o das
+	transcri√ß√µes, o Arquivo LdoD permite que os utilizadores colaborem na
+	cria√ß√£o de edi√ß√µes virtuais do Livro do Desassossego. Inclui ainda um
+	m√≥dulo de escrita que, futuramente, permitir√° aos utilizadores
+	escreverem varia√ß√µes a partir dos fragmentos do Livro. Deste modo, o
+	Arquivo LdoD combina um princ√≠pio representacional com um princ√≠pio
+	simulat√≥rio: o primeiro consiste na representa√ß√£o da hist√≥ria e dos
+	processos de escrita e de edi√ß√£o do Livro; o segundo consiste na
+	possibilidade de os utilizadores assumirem diferentes pap√©is no
+	processo liter√°rio (ler, editar, escrever), usando a flexibilidade do
+	meio digital para experimentarem o Livro do Desassossego como m√°quina
+	liter√°ria.</p>
 <h5 id="Q53Q" style="padding-top: 60px; margin-top: -60px;">O que
-	contÈm o Arquivo LdoD?</h5>
+	cont√©m o Arquivo LdoD?</h5>
 <p>
 	O <em>Arquivo LdoD</em> &eacute; constitu&iacute;do por um grupo de
 	fragmentos que Fernando Pessoa explicitamente indicou pertencerem ao <em>Livro
@@ -225,36 +226,36 @@
 	incluindo aqueles textos que s&atilde;o publicados em ap&ecirc;ndice ou
 	em anexo.
 </p>
-<h5>Qual a relaÁ„o entre um texto no Livro do Desassossego e um
+<h5>Qual a rela√ß√£o entre um texto no Livro do Desassossego e um
 	fragmento no Arquivo LdoD?</h5>
-<p>Todos os fragmentos do Arquivo LdoD s„o tambÈm unidades textuais
-	do Livro do Desassossego segundo pelo menos uma das ediÁıes. A
-	estrutura do Arquivo coloca todos os fragmentos ‡ mesma dist‚ncia uns
-	dos outros, isto È, com o mesmo Ìndice de modularidade. Todavia, nas
-	ediÁıes, nem todas as unidades textuais tÍm o mesmo grau de
-	independÍncia relativa, uma vez que h· grupos de textos que est„o mais
-	prÛximos entre si, quer por serem partes de uma unidade textual maior,
-	quer por proximidade tem·tica ou cronolÛgica. As unidades textuais das
-	ediÁıes tÍm diferentes Ìndices de modularidade, pois h· grupos de
-	textos mais prÛximos entre si. Essa È a diferenÁa principal entre um
-	texto como unidade de uma dade ediÁ„o e um fragmento como unidade do
+<p>Todos os fragmentos do Arquivo LdoD s√£o tamb√©m unidades textuais
+	do Livro do Desassossego segundo pelo menos uma das edi√ß√µes. A
+	estrutura do Arquivo coloca todos os fragmentos √† mesma dist√¢ncia uns
+	dos outros, isto √©, com o mesmo √≠ndice de modularidade. Todavia, nas
+	edi√ß√µes, nem todas as unidades textuais t√™m o mesmo grau de
+	independ√™ncia relativa, uma vez que h√° grupos de textos que est√£o mais
+	pr√≥ximos entre si, quer por serem partes de uma unidade textual maior,
+	quer por proximidade tem√°tica ou cronol√≥gica. As unidades textuais das
+	edi√ß√µes t√™m diferentes √≠ndices de modularidade, pois h√° grupos de
+	textos mais pr√≥ximos entre si. Essa √© a diferen√ßa principal entre um
+	texto como unidade de uma dade edi√ß√£o e um fragmento como unidade do
 	Arquivo LdoD.</p>
-<h5>Por que motivo o fragmento È tratado como unidade modular no
+<h5>Por que motivo o fragmento √© tratado como unidade modular no
 	Arquivo LdoD?</h5>
-<p>A organizaÁ„o modular dos fragmentos (isto È, ‡ mesma dist‚ncia
-	relativa uns dos outros) no Arquivo LdoD È uma prÈ-condiÁ„o para que a
-	comparaÁ„o e a virtualizaÁ„o das ediÁıes possa ser processada da forma
-	aberta concebida pelo nosso modelo. Esta sobrevalorizaÁ„o da
+<p>A organiza√ß√£o modular dos fragmentos (isto √©, √† mesma dist√¢ncia
+	relativa uns dos outros) no Arquivo LdoD √© uma pr√©-condi√ß√£o para que a
+	compara√ß√£o e a virtualiza√ß√£o das edi√ß√µes possa ser processada da forma
+	aberta concebida pelo nosso modelo. Esta sobrevaloriza√ß√£o da
 	fragmentariedade modular do Livro no Arquivo LdoD constitui um
-	instrumento crÌtico para abrir o potencial de leitura, ediÁ„o e escrita
-	da obra a novas intervenÁıes. A distorÁ„o introduzida pelo modelo de
-	dados - suporte principal das funcionalidades din‚micas do Arquivo LdoD
-	- d· express„o tÈcnica a uma rematerializaÁ„o digital de documentos,
-	textos e obra para alÈm dos modelos bibliogr·ficos. O Livro do
-	Desasssossego n„o È uma organizaÁ„o inteiramente livre de fragmentos
-	soltos, mas a configuraÁ„o radial e desierarquizada das suas unidades
+	instrumento cr√≠tico para abrir o potencial de leitura, edi√ß√£o e escrita
+	da obra a novas interven√ß√µes. A distor√ß√£o introduzida pelo modelo de
+	dados - suporte principal das funcionalidades din√¢micas do Arquivo LdoD
+	- d√° express√£o t√©cnica a uma rematerializa√ß√£o digital de documentos,
+	textos e obra para al√©m dos modelos bibliogr√°ficos. O Livro do
+	Desasssossego n√£o √© uma organiza√ß√£o inteiramente livre de fragmentos
+	soltos, mas a configura√ß√£o radial e desierarquizada das suas unidades
 	no Arquivo LdoD permite simular a projetualidade autoral e a
-	projetualidade editorial como processos de imaginaÁ„o da obra enquanto
+	projetualidade editorial como processos de imagina√ß√£o da obra enquanto
 	livro.</p>
 <h5 id="Q2Q" style="padding-top: 60px; margin-top: -60px;">O que
 	&eacute; uma interpreta&ccedil;&atilde;o no Arquivo LdoD?</h5>
@@ -266,9 +267,9 @@
 	peritos e ainda da representa&ccedil;&atilde;o gen&eacute;tica dos
 	testemunho) n&atilde;o s&atilde;o totalmente coincidentes entre si,
 	quer por varia&ccedil;&otilde;es e diferen&ccedil;as microtextuais
-	(ortografia, pontuaÁ„o, escolha de variantes, ordena&ccedil;&atilde;o
+	(ortografia, pontua√ß√£o, escolha de variantes, ordena&ccedil;&atilde;o
 	interna dos par&aacute;grafos, por exemplo), quer por
-	varia&ccedil;&otilde;es macrotextuais (isto &eacute;, divis„o dos
+	varia&ccedil;&otilde;es macrotextuais (isto &eacute;, divis√£o dos
 	fragmentos entre si, ordena&ccedil;&atilde;o relativa do fragmento na
 	arquitetura do <em>Livro</em>, inclus&atilde;o ou exclus&atilde;o de um
 	determinado fragmento do corpus do <em>Livro</em>).
@@ -409,6 +410,36 @@
 	Pizarro-2010) e n&atilde;o a uma combinat&oacute;ria ecl&eacute;tica de
 	leituras colhidas em diferentes edi&ccedil;&otilde;es do texto.
 </p>
+
+<h5 id="Q57Q" style="padding-top: 60px; margin-top: -60px;">Qual a  diferen√ßa entre 
+	&ldquo;testemunhos&rdquo; e &ldquo;fragmentos codificados&rdquo;?</h5>
+<p>
+	As designa&ccedil;&otilde;es &ldquo;testemunhos&rdquo; e &ldquo;fragmentos codificados&rdquo; 
+	s&atilde;o perspetivas diferentes sobre os mesmos materiais. &ldquo;Testemunhos&rdquo;  
+	apresenta uma perspetiva dos materiais a partir das unidades definidas pela 
+	Biblioteca Nacional de Portugal, ou seja, a partir das cotas que determinam 
+	a unidade material de cada documento aut&oacute;grafo como objeto referenci&aacute;vel. &ldquo;Fragmentos 
+	codificados&rdquo;, por seu turno, apresenta  uma perspetiva dos materiais a 
+	partir das unidades do pr&oacute;prio <em>Arquivo LdoD</em>, ou seja, dos ficheiros XML 
+	como unidades que  garantem a modularidade dos fragmentos e das interpreta&ccedil;&otilde;es (transcri&ccedil;&otilde;es) 
+	que  lhes est&atilde;o associadas. Se se observarem as respetivas tabelas, torna-se mais  
+	clara a respetiva l√≥gica: os 756 &ldquo;testemunhos&rdquo; correspondem a documentos 
+	aut&oacute;grafos da BNP que t√™m uma cota espec√≠fica (ou, no caso de algumas cartas, cotas 
+	de  outros arquivos) e ainda a 12 textos publicadas; j√° os 722 &ldquo;fragmentos  
+	codificados&rdquo; correspondem aos ficheiros XML do <em>Arquivo LdoD</em>, cada um 
+	dos quais cont√©m um certo n√∫mero de  interpreta√ß√µes para o mesmo fragmento. Do ponto de 
+	vista do nosso modelo de  dados no Arquivo, √© como se o fragmento fosse uma entidade 
+	abstrata, que depois tem m√∫ltiplas instancia&ccedil;&otilde;es: as transcri√ß√µes de JPC, TSC, RZ e JP, 
+	e ainda as nossas pr√≥prias transcri&ccedil;&otilde;es dos  testemunhos. Geralmente surge apenas uma 
+	interpreta√ß&atilde;o de cada edi√ß&atilde;o para cada  fragmento (ou seja, cinco ao todo), mas este n√∫mero 
+	pode ir at√© sete quando, al√©m das cinco interpreta&ccedil;&otilde;es editorias h&aacute; v&aacute;rios aut&oacute;grafos ‚Äì 
+	por exemplo, dois datiloscritos diferentes e uma vers&atilde;o publicada em revista. 
+	Neste caso, o <em>Arquivo LdoD</em> transcreve as tr√™s vers&ccedil;&otilde;s  aut&oacute;grafas. 
+	Atrav√©s da tabela dos &ldquo;fragmentos codificados&rdquo; temos uma imagem  global do 
+	conte√∫do do <em>Arquivo LdoD</em>.  De um ponto de vista te&oacute;rico, podemos dizer 
+	que os ficheiros XML s&atilde;o documentos do <em>Arquivo  LdoD</em> tal como os aut&oacute;grafos 
+	s&atilde;o documentos do esp&oacute;lio de FP na BNP. Estes  √∫ltimos est&atilde;o representados no <em>Arquivo  LdoD</em> 
+	atrav&eacute;s de uma imagem fac-similada e de uma nova transcri√ß&atilde;o gen&eacute;tica topogr&aacute;fica. </p>
 <h3 id="T4T" style="padding-top: 60px; margin-top: -60px;">Codifica&ccedil;&atilde;o
 	XML-TEI</h3>
 <h5 id="Q12Q" style="padding-top: 60px; margin-top: -60px;">Como
@@ -759,7 +790,7 @@
 	c&aacute;lculo da similaridade entre fragmentos.</p>
 <h3 id="T8T" style="padding-top: 60px; margin-top: -60px;">Edi&ccedil;&atilde;o
 	Virtual</h3>
-<h5 id="Q54Q" style="padding-top: 60px; margin-top: -60px;">O que È uma EdiÁ„o Virtual?</h5>
+<h5 id="Q54Q" style="padding-top: 60px; margin-top: -60px;">O que √© uma Edi√ß√£o Virtual?</h5>
 <p>Uma edi&ccedil;&atilde;o virtual &eacute; uma
 	sele&ccedil;&atilde;o de fragmentos que um ou mais utilizadores definem
 	escolhendo de entre as interpreta&ccedil;&otilde;es existentes. Uma
@@ -769,20 +800,20 @@
 	anota&ccedil;&atilde;o atrav&eacute;s de notas e categorias. O conjunto
 	de categorias associadas a uma edi&ccedil;&atilde;o virtual define a
 	sua taxonomia.</p>
-<h5 id="Q55Q" style="padding-top: 60px; margin-top: -60px;">Quais as limitaÁıes ao exercÌcio da funÁ„o editorial no Arquivo
+<h5 id="Q55Q" style="padding-top: 60px; margin-top: -60px;">Quais as limita√ß√µes ao exerc√≠cio da fun√ß√£o editorial no Arquivo
 	LdoD?</h5>
-<p>O exercÌcio da funÁ„o editorial no Arquivo LdoD est· limitado ‡
-	seleÁ„o, ordenaÁ„o e anotaÁ„o das interpretaÁıes dos fragmentos. Os
-	editores virtuais n„o podem alterar as transcriÁıes ou a modularidade
-	das interpretaÁıes selecionadas. Estas limitaÁıes s„o determinadas por
+<p>O exerc√≠cio da fun√ß√£o editorial no Arquivo LdoD est√° limitado √†
+	sele√ß√£o, ordena√ß√£o e anota√ß√£o das interpreta√ß√µes dos fragmentos. Os
+	editores virtuais n√£o podem alterar as transcri√ß√µes ou a modularidade
+	das interpreta√ß√µes selecionadas. Estas limita√ß√µes s√£o determinadas por
 	dois fatores: por um lado, pela necessidade de controlar a qualidade
-	das transcriÁıes e da codificaÁ„o que lhes est· associada; por outro
+	das transcri√ß√µes e da codifica√ß√£o que lhes est√° associada; por outro
 	lado, pela necessidade de limitar a complexidade do processamento dos
-	materiais produzidos pelos utilizadores. A inclus„o de um mÛdulo de
-	transcriÁ„o e codificaÁ„o, com o respetivo sistema de validaÁ„o -
-	particularmente ˙til num contexto de aprendizagem especializada das
-	pr·ticas de crÌtica textual -, poder· vir a ser considerada futuramente
-	em funÁ„o dos recursos disponÌveis.</p>
+	materiais produzidos pelos utilizadores. A inclus√£o de um m√≥dulo de
+	transcri√ß√£o e codifica√ß√£o, com o respetivo sistema de valida√ß√£o -
+	particularmente √∫til num contexto de aprendizagem especializada das
+	pr√°ticas de cr√≠tica textual -, poder√° vir a ser considerada futuramente
+	em fun√ß√£o dos recursos dispon√≠veis.</p>
 <h5 id="Q56Q" style="padding-top: 60px; margin-top: -60px;">O que &eacute; a Edi&ccedil;&atilde;o do Arquivo LdoD?
 </h5>
 <p>
