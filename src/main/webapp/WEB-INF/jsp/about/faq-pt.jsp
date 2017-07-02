@@ -24,6 +24,7 @@
 	<li><a href="#Q7Q">O que permite a interface de
 			visualiza&ccedil;&atilde;o dos testemunhos?</a></li>
 	<li><a href="#Q8Q">O que &eacute; o fac-s&iacute;mile?</a></li>
+	<li><a href="#Q57Q">Qual a  diferen&ccedil;a entre &ldquo;testemunhos&rdquo; e &ldquo;fragmentos codificados&rdquo;? </a></li>
 </ul>
 <h4>
 	<a href="#T3T">Edi&ccedil;&otilde;es dos Peritos</a>
@@ -35,7 +36,8 @@
 			edi&ccedil;&otilde;es espec&iacute;ficas dos peritos?</a></li>
 	<li><a href="#Q11Q">As edi&ccedil;&otilde;es dos peritos
 			ser&atilde;o atualizadas futuramente?</a></li>
-	<li><a href="#Q57Q">Qual a  diferença entre &ldquo;testemunhos&rdquo; e &ldquo;fragmentos codificados&rdquo;? </a></li>
+	<li><a href="#Q58Q">Por que não  foi inclu&iacute;da a edi&ccedil;&atilde;o de Teresa Rita Lopes (2015)?</a></li>
+	
 </ul>
 <h4>
 	<a href="#T4T">Codifica&ccedil;&atilde;o XML-TEI</a>
@@ -335,6 +337,36 @@
 	relacionado com <em>Livro</em>. H&aacute; por isso folhas representadas
 	apenas em <em>recto</em> e outras em <em>recto</em> e <em>verso</em>.
 </p>
+<h5 id="Q57Q" style="padding-top: 60px; margin-top: -60px;">Qual a diferen&ccedil;a entre 
+	&ldquo;testemunhos&rdquo; e &ldquo;fragmentos codificados&rdquo;?</h5>
+<p>
+	As designa&ccedil;&otilde;es &ldquo;testemunhos&rdquo; e &ldquo;fragmentos codificados&rdquo; 
+	s&atilde;o perspetivas diferentes sobre os mesmos materiais. &ldquo;Testemunhos&rdquo;  
+	apresenta uma perspetiva dos materiais a partir das unidades definidas pela 
+	Biblioteca Nacional de Portugal, ou seja, a partir das cotas que determinam 
+	a unidade material de cada documento aut&oacute;grafo como objeto referenci&aacute;vel. &ldquo;Fragmentos 
+	codificados&rdquo;, por seu turno, apresenta uma perspetiva dos materiais a 
+	partir das unidades do pr&oacute;prio <em>Arquivo LdoD</em>, ou seja, dos ficheiros XML 
+	como unidades que garantem a modularidade dos fragmentos e das interpreta&ccedil;&otilde;es (transcri&ccedil;&otilde;es) 
+	que lhes est&atilde;o associadas. Se se observarem as respetivas tabelas, torna-se mais  
+	clara a respetiva lógica: os 756 &ldquo;testemunhos&rdquo; correspondem a documentos 
+	aut&oacute;grafos da BNP que têm uma cota específica (ou, no caso de algumas cartas, cotas 
+	de  outros arquivos) e ainda a 12 textos publicadas; já os 722 &ldquo;fragmentos  
+	codificados&rdquo; correspondem aos ficheiros XML do <em>Arquivo LdoD</em>, cada um 
+	dos quais contém um certo número de interpretações para o mesmo fragmento. Do ponto de 
+	vista do nosso modelo de dados no Arquivo, é como se o fragmento fosse uma entidade 
+	abstrata, que depois tem múltiplas instancia&ccedil;&otilde;es: as transcrições de JPC, TSC, RZ e JP, 
+	e ainda as nossas próprias transcri&ccedil;&otilde;es dos testemunhos. Geralmente surge apenas uma 
+	interpretaç&atilde;o de cada ediç&atilde;o para cada fragmento (ou seja, cinco ao todo), mas este número 
+	pode ir até sete quando, além das cinco interpreta&ccedil;&otilde;es editorias h&aacute; v&aacute;rios aut&oacute;grafos – 
+	por exemplo, dois datiloscritos diferentes e uma vers&atilde;o publicada em revista. 
+	Neste caso, o <em>Arquivo LdoD</em> transcreve as três vers&ccedil;&otilde;s aut&oacute;grafas. 
+	Através da tabela dos &ldquo;fragmentos codificados&rdquo; temos uma imagem global do 
+	conteúdo do <em>Arquivo LdoD</em>. De um ponto de vista te&oacute;rico, podemos dizer 
+	que os ficheiros XML s&atilde;o documentos do <em>Arquivo LdoD</em> tal como os aut&oacute;grafos 
+	s&atilde;o documentos do esp&oacute;lio de FP na BNP. Estes últimos est&atilde;o representados no <em>Arquivo  LdoD</em> 
+	atrav&eacute;s de uma imagem fac-similada e de uma nova transcriç&atilde;o gen&eacute;tica topogr&aacute;fica. </p>
+
 <h3 id="T3T" style="padding-top: 60px; margin-top: -60px;">Edi&ccedil;&otilde;es
 	dos Peritos</h3>
 <h5 id="Q9Q" style="padding-top: 60px; margin-top: -60px;">O que
@@ -410,36 +442,22 @@
 	Pizarro-2010) e n&atilde;o a uma combinat&oacute;ria ecl&eacute;tica de
 	leituras colhidas em diferentes edi&ccedil;&otilde;es do texto.
 </p>
-
-<h5 id="Q57Q" style="padding-top: 60px; margin-top: -60px;">Qual a  diferença entre 
-	&ldquo;testemunhos&rdquo; e &ldquo;fragmentos codificados&rdquo;?</h5>
 <p>
-	As designa&ccedil;&otilde;es &ldquo;testemunhos&rdquo; e &ldquo;fragmentos codificados&rdquo; 
-	s&atilde;o perspetivas diferentes sobre os mesmos materiais. &ldquo;Testemunhos&rdquo;  
-	apresenta uma perspetiva dos materiais a partir das unidades definidas pela 
-	Biblioteca Nacional de Portugal, ou seja, a partir das cotas que determinam 
-	a unidade material de cada documento aut&oacute;grafo como objeto referenci&aacute;vel. &ldquo;Fragmentos 
-	codificados&rdquo;, por seu turno, apresenta  uma perspetiva dos materiais a 
-	partir das unidades do pr&oacute;prio <em>Arquivo LdoD</em>, ou seja, dos ficheiros XML 
-	como unidades que  garantem a modularidade dos fragmentos e das interpreta&ccedil;&otilde;es (transcri&ccedil;&otilde;es) 
-	que  lhes est&atilde;o associadas. Se se observarem as respetivas tabelas, torna-se mais  
-	clara a respetiva lógica: os 756 &ldquo;testemunhos&rdquo; correspondem a documentos 
-	aut&oacute;grafos da BNP que têm uma cota específica (ou, no caso de algumas cartas, cotas 
-	de  outros arquivos) e ainda a 12 textos publicadas; já os 722 &ldquo;fragmentos  
-	codificados&rdquo; correspondem aos ficheiros XML do <em>Arquivo LdoD</em>, cada um 
-	dos quais contém um certo número de  interpretações para o mesmo fragmento. Do ponto de 
-	vista do nosso modelo de  dados no Arquivo, é como se o fragmento fosse uma entidade 
-	abstrata, que depois tem múltiplas instancia&ccedil;&otilde;es: as transcrições de JPC, TSC, RZ e JP, 
-	e ainda as nossas próprias transcri&ccedil;&otilde;es dos  testemunhos. Geralmente surge apenas uma 
-	interpretaç&atilde;o de cada ediç&atilde;o para cada  fragmento (ou seja, cinco ao todo), mas este número 
-	pode ir até sete quando, além das cinco interpreta&ccedil;&otilde;es editorias h&aacute; v&aacute;rios aut&oacute;grafos – 
-	por exemplo, dois datiloscritos diferentes e uma vers&atilde;o publicada em revista. 
-	Neste caso, o <em>Arquivo LdoD</em> transcreve as três vers&ccedil;&otilde;s  aut&oacute;grafas. 
-	Através da tabela dos &ldquo;fragmentos codificados&rdquo; temos uma imagem  global do 
-	conteúdo do <em>Arquivo LdoD</em>.  De um ponto de vista te&oacute;rico, podemos dizer 
-	que os ficheiros XML s&atilde;o documentos do <em>Arquivo  LdoD</em> tal como os aut&oacute;grafos 
-	s&atilde;o documentos do esp&oacute;lio de FP na BNP. Estes  últimos est&atilde;o representados no <em>Arquivo  LdoD</em> 
-	atrav&eacute;s de uma imagem fac-similada e de uma nova transcriç&atilde;o gen&eacute;tica topogr&aacute;fica. </p>
+<h5 id="Q58Q" style="padding-top: 60px; margin-top: -60px;">Por que não foi 
+		incluída a edição de Teresa Rita Lopes (2015)?</h5>
+<p>	
+	Teresa Rita Lopes publicou em 2015 uma nova edição intitulada <em>Livros do Desassossego</em>, 
+	na qual integra na obra trinta e cinco textos do Barão de Teive, além dos de 
+	Vicente Guedes e Bernardo Soares. Embora a edição de Teresa Rita Lopes seja uma  
+	nova demonstração da projetualidade autoral e editorial da obra – reforçando,  
+	de certo modo, a justificação teórica do <em>Arquivo  LdoD</em> para desenvolver 
+	funcionalidades dinâmicas – não foi possível incluí-la porque todo o trabalho de 
+	codificação estava concluído nessa data e não dispúnhamos dos recursos adicionais 
+	necessários para recodificar os  ficheiros. Caso contrário, esta edição teria sido 
+	incluída, uma vez que satisfaz as condições através das quais definimos as 
+	edições dos peritos.</p>
+<p>
+
 <h3 id="T4T" style="padding-top: 60px; margin-top: -60px;">Codifica&ccedil;&atilde;o
 	XML-TEI</h3>
 <h5 id="Q12Q" style="padding-top: 60px; margin-top: -60px;">Como
