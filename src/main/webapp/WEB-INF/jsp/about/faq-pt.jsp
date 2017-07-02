@@ -9,7 +9,7 @@
 	<li><a href="#Q2Q">O que &eacute; uma
 			interpreta&ccedil;&atilde;o no Arquivo LdoD?</a></li>
 	<li><a href="#Q3Q">Porque &eacute; que alguns fragmentos
-			possuem mais que uma interpreta&ccedil;&atilde;o editorial para o
+			possuem mais do que uma interpreta&ccedil;&atilde;o editorial para o
 			mesmo editor?</a></li>
 	<li><a href="#Q4Q">O que &eacute; a
 			interpreta&ccedil;&atilde;o autoral representativa de um fragmento?</a></li>
@@ -161,24 +161,24 @@
 <h3 id="T1T" style="padding-top: 60px; margin-top: -60px;">O
 	Arquivo</h3>
 <h5 id="Q52Q" style="padding-top: 60px; margin-top: -60px;">O que é
-	o Arquivo LdoD?</h5>
-<p>O Arquivo LdoD é um arquivo digital colaborativo do Livro do
-	Desassossego de Fernando Pessoa. Contém imagens dos documentos
+	o <em>Arquivo LdoD</em>?</h5>
+<p>O <em>Arquivo LdoD</em> é um arquivo digital colaborativo do <em>Livro do
+	Desassossego</em> de Fernando Pessoa. Contém imagens dos documentos
 	autógrafos, novas transcrições desses documentos e ainda transcrições
 	de quatro edições da obra. Além da leitura e comparação das
-	transcrições, o Arquivo LdoD permite que os utilizadores colaborem na
-	criação de edições virtuais do Livro do Desassossego. Inclui ainda um
+	transcrições, o <em>Arquivo LdoD</em> permite que os utilizadores colaborem na
+	criação de edições virtuais do <em>Livro do Desassossego</em>. Inclui ainda um
 	módulo de escrita que, futuramente, permitirá aos utilizadores
 	escreverem variações a partir dos fragmentos do Livro. Deste modo, o
-	Arquivo LdoD combina um princípio representacional com um princípio
+	<em>Arquivo LdoD</em> combina um princípio representacional com um princípio
 	simulatório: o primeiro consiste na representação da história e dos
 	processos de escrita e de edição do Livro; o segundo consiste na
 	possibilidade de os utilizadores assumirem diferentes papéis no
 	processo literário (ler, editar, escrever), usando a flexibilidade do
-	meio digital para experimentarem o Livro do Desassossego como máquina
+	meio digital para experimentarem o <em>Livro do Desassossego</em> como máquina
 	literária.</p>
 <h5 id="Q53Q" style="padding-top: 60px; margin-top: -60px;">O que
-	contém o Arquivo LdoD?</h5>
+	contém o <em>Arquivo LdoD</em>?</h5>
 <p>
 	O <em>Arquivo LdoD</em> &eacute; constitu&iacute;do por um grupo de
 	fragmentos que Fernando Pessoa explicitamente indicou pertencerem ao <em>Livro
@@ -188,7 +188,7 @@
 	aut&oacute;grafos.
 </p>
 <p>
-	Para cada fragmento o <em>Arquivo</em> cont&eacute;m o conjunto das
+	Para cada fragmento o <em>Arquivo LdoD</em> cont&eacute;m o conjunto das
 	interpreta&ccedil;&otilde;es associadas a esse fragmento. Uma
 	interpreta&ccedil;&atilde;o &eacute; constitu&iacute;da por uma
 	transcri&ccedil;&atilde;o do texto e um conjunto de
@@ -214,7 +214,7 @@
 	equipa do <em>Arquivo LdoD.</em>
 </p>
 <h5 id="Q1Q" style="padding-top: 60px; margin-top: -60px;">O que
-	&eacute; um fragmento no Arquivo LdoD?</h5>
+	&eacute; um fragmento no <em>Arquivo LdoD</em>?</h5>
 <p>
 	Um fragmento &eacute; uma sequ&ecirc;ncia textual modular e constitui a
 	unidade b&aacute;sica de composi&ccedil;&atilde;o do <em>Arquivo
@@ -228,11 +228,11 @@
 	incluindo aqueles textos que s&atilde;o publicados em ap&ecirc;ndice ou
 	em anexo.
 </p>
-<h5>Qual a relação entre um texto no Livro do Desassossego e um
-	fragmento no Arquivo LdoD?</h5>
-<p>Todos os fragmentos do Arquivo LdoD são também unidades textuais
-	do Livro do Desassossego segundo pelo menos uma das edições. A
-	estrutura do Arquivo coloca todos os fragmentos à mesma distância uns
+<h5>Qual a relação entre um texto no <em>Livro do Desassossego</em> e um
+	fragmento no <em>Arquivo LdoD</em>?</h5>
+<p>Todos os fragmentos do <em>Arquivo LdoD</em> são também unidades textuais
+	do <em>Livro do Desassossego</em> segundo pelo menos uma das edições. A
+	estrutura do <em>Arquivo LdoD</em> coloca todos os fragmentos à mesma distância uns
 	dos outros, isto é, com o mesmo índice de modularidade. Todavia, nas
 	edições, nem todas as unidades textuais têm o mesmo grau de
 	independência relativa, uma vez que há grupos de textos que estão mais
@@ -240,27 +240,27 @@
 	quer por proximidade temática ou cronológica. As unidades textuais das
 	edições têm diferentes índices de modularidade, pois há grupos de
 	textos mais próximos entre si. Essa é a diferença principal entre um
-	texto como unidade de uma dade edição e um fragmento como unidade do
-	Arquivo LdoD.</p>
+	texto como unidade de uma dada edição e um fragmento como unidade do
+	<em>Arquivo LdoD</em>.</p>
 <h5>Por que motivo o fragmento é tratado como unidade modular no
-	Arquivo LdoD?</h5>
+	<em>Arquivo LdoD</em>?</h5>
 <p>A organização modular dos fragmentos (isto é, à mesma distância
-	relativa uns dos outros) no Arquivo LdoD é uma pré-condição para que a
+	relativa uns dos outros) no <em>Arquivo LdoD</em> é uma pré-condição para que a
 	comparação e a virtualização das edições possa ser processada da forma
 	aberta concebida pelo nosso modelo. Esta sobrevalorização da
-	fragmentariedade modular do Livro no Arquivo LdoD constitui um
+	fragmentariedade modular do <em>Livro</em> no <em>Arquivo LdoD</em> constitui um
 	instrumento crítico para abrir o potencial de leitura, edição e escrita
 	da obra a novas intervenções. A distorção introduzida pelo modelo de
-	dados - suporte principal das funcionalidades dinâmicas do Arquivo LdoD
+	dados - suporte principal das funcionalidades dinâmicas do <em>Arquivo LdoD</em>
 	- dá expressão técnica a uma rematerialização digital de documentos,
-	textos e obra para além dos modelos bibliográficos. O Livro do
-	Desasssossego não é uma organização inteiramente livre de fragmentos
+	textos e obra para além dos modelos bibliográficos. O <emZ>Livro do
+	Desasssossego</em> não é uma organização inteiramente livre de fragmentos
 	soltos, mas a configuração radial e desierarquizada das suas unidades
-	no Arquivo LdoD permite simular a projetualidade autoral e a
+	no <em>Arquivo LdoD</em> permite simular a projetualidade autoral e a
 	projetualidade editorial como processos de imaginação da obra enquanto
 	livro.</p>
 <h5 id="Q2Q" style="padding-top: 60px; margin-top: -60px;">O que
-	&eacute; uma interpreta&ccedil;&atilde;o no Arquivo LdoD?</h5>
+	&eacute; uma interpreta&ccedil;&atilde;o no <em>Arquivo LdoD</em>?</h5>
 <p>
 	Uma interpreta&ccedil;&atilde;o &eacute; o conjunto formado por uma
 	transcri&ccedil;&atilde;o e pela metainforma&ccedil;&atilde;o que lhe
@@ -277,7 +277,7 @@
 	determinado fragmento do corpus do <em>Livro</em>).
 </p>
 <h5 id="Q3Q" style="padding-top: 60px; margin-top: -60px;">Porque
-	&eacute; que alguns fragmentos possuem mais que uma
+	&eacute; que alguns fragmentos possuem mais do que uma
 	interpreta&ccedil;&atilde;o editorial para o mesmo editor?</h5>
 <p>Isso acontece porque os editores dividem, por vezes, um fragmento
 	ou associam v&aacute;rios fragmentos. Por exemplo, um editor pode
@@ -351,7 +351,7 @@
 	que lhes est&atilde;o associadas. Se se observarem as respetivas tabelas, torna-se mais  
 	clara a respetiva lógica: os 756 &ldquo;testemunhos&rdquo; correspondem a documentos 
 	aut&oacute;grafos da BNP que têm uma cota específica (ou, no caso de algumas cartas, cotas 
-	de  outros arquivos) e ainda a 12 textos publicadas; já os 722 &ldquo;fragmentos  
+	de  outros arquivos) e ainda a 12 textos publicados; já os 722 &ldquo;fragmentos  
 	codificados&rdquo; correspondem aos ficheiros XML do <em>Arquivo LdoD</em>, cada um 
 	dos quais contém um certo número de interpretações para o mesmo fragmento. Do ponto de 
 	vista do nosso modelo de dados no Arquivo, é como se o fragmento fosse uma entidade 
@@ -447,7 +447,7 @@
 		incluída a edição de Teresa Rita Lopes (2015)?</h5>
 <p>	
 	Teresa Rita Lopes publicou em 2015 uma nova edição intitulada <em>Livros do Desassossego</em>, 
-	na qual integra na obra trinta e cinco textos do Barão de Teive, além dos de 
+	na qual integra trinta e cinco textos do Barão de Teive, além dos de 
 	Vicente Guedes e Bernardo Soares. Embora a edição de Teresa Rita Lopes seja uma  
 	nova demonstração da projetualidade autoral e editorial da obra – reforçando,  
 	de certo modo, a justificação teórica do <em>Arquivo  LdoD</em> para desenvolver 
@@ -667,7 +667,7 @@
 	Por exemplo, numa pesquisa em que no campo do crit&eacute;rio de texto
 	se coloca "alma liberdade" e no campo do crit&eacute;rio
 	heter&oacute;nimo se escolhe "Vicente Guedes", v&atilde;o ser
-	selecionados todos os fragmentos que possuem pela menos uma
+	selecionados todos os fragmentos que possuem pelo menos uma
 	interpreta&ccedil;&atilde;o que no seu texto inclui as duas palavras e
 	que tem pelo menos uma interpreta&ccedil;&atilde;o que atribui o
 	fragmento a Vicente Guedes. Note-se que n&atilde;o necessita de ser a
@@ -818,9 +818,8 @@
 	anota&ccedil;&atilde;o atrav&eacute;s de notas e categorias. O conjunto
 	de categorias associadas a uma edi&ccedil;&atilde;o virtual define a
 	sua taxonomia.</p>
-<h5 id="Q55Q" style="padding-top: 60px; margin-top: -60px;">Quais as limitações ao exercício da função editorial no Arquivo
-	LdoD?</h5>
-<p>O exercício da função editorial no Arquivo LdoD está limitado à
+<h5 id="Q55Q" style="padding-top: 60px; margin-top: -60px;">Quais as limitações ao exercício da função editorial no <em>Arquivo LdoD</em>?</h5>
+<p>O exercício da função editorial no <em>Arquivo LdoD</em> está limitado à
 	seleção, ordenação e anotação das interpretações dos fragmentos. Os
 	editores virtuais não podem alterar as transcrições ou a modularidade
 	das interpretações selecionadas. Estas limitações são determinadas por
@@ -832,7 +831,7 @@
 	particularmente útil num contexto de aprendizagem especializada das
 	práticas de crítica textual -, poderá vir a ser considerada futuramente
 	em função dos recursos disponíveis.</p>
-<h5 id="Q56Q" style="padding-top: 60px; margin-top: -60px;">O que &eacute; a Edi&ccedil;&atilde;o do Arquivo LdoD?
+<h5 id="Q56Q" style="padding-top: 60px; margin-top: -60px;">O que &eacute; a Edi&ccedil;&atilde;o do <em>Arquivo LdoD</em>?
 </h5>
 <p>
 	&Eacute; uma edi&ccedil;&atilde;o experimental do <em>Arquivo LdoD</em>
