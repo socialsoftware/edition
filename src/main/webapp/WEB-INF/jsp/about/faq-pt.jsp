@@ -360,7 +360,7 @@
 	interpretaç&atilde;o de cada ediç&atilde;o para cada fragmento (ou seja, cinco ao todo), mas este número 
 	pode ir até sete quando, além das cinco interpreta&ccedil;&otilde;es editorias h&aacute; v&aacute;rios aut&oacute;grafos – 
 	por exemplo, dois datiloscritos diferentes e uma vers&atilde;o publicada em revista. 
-	Neste caso, o <em>Arquivo LdoD</em> transcreve as três vers&ccedil;&otilde;s aut&oacute;grafas. 
+	Neste caso, o <em>Arquivo LdoD</em> transcreve as três vers&otilde;s aut&oacute;grafas. 
 	Através da tabela dos &ldquo;fragmentos codificados&rdquo; temos uma imagem global do 
 	conteúdo do <em>Arquivo LdoD</em>. De um ponto de vista te&oacute;rico, podemos dizer 
 	que os ficheiros XML s&atilde;o documentos do <em>Arquivo LdoD</em> tal como os aut&oacute;grafos 
