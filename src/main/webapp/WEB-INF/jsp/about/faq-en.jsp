@@ -1,21 +1,180 @@
+
+<h4>
+	<a href="#T1T">The Archive</a>
+</h4>
+<ul>
+	<li><a href="#Q01Q">What is the LdoD Archive?</a></li>
+	<li><a href="#Q02Q">What does the LdoD Archive contain?</a></li>
+	<li><a href="#Q03Q">What is a fragment in the LdoD Archive?</a></li>
+	<li><a href="#Q04Q">What is the relationship between a text in the 
+		<em>Book of Disquiet</em> and a fragment in the <em>LdoD Archive?</a></li>
+	<li><a href="#Q05Q">Why is the fragment treated as a modular unit in the LdoD Archive?</a></li>
+	<li><a href="#Q06Q">What is an interpretation in the LdoD Archive?</a></li>
+	<li><a href="#Q07Q">Why do fragments have more than one editorial interpretation 
+		for the same editor?</a></li>
+	<li><a href="#Q08Q">What is the authorial interpretation representative of a fragment?</a></li>
+
+</ul>
+<h4>
+	<a href="#T2T">Witnesses</a>
+</h4>
+<ul>
+	<li><a href="#Q09Q">What are the witnesses?</a></li>
+	<li><a href="#Q10Q">What is a genetic transcription</a></li>
+	<li><a href="#Q11Q">What can we see in the interface for visualizing authorial
+	sources?</a></li>
+	<li><a href="#Q12Q">What is the facsimile?</a></li>
+	<li><a href="#Q13Q">What is the difference between &ldquo;witnesses&rdquo; and &ldquo;encoded fragments&rdquo;? </a></li>
+</ul>
+<h4>
+	<a href="#T3T">Experts' Editions</a>
+</h4>
+<ul>
+	<li><a href="#Q14Q">What are the Experts' Editions?</a></li>
+	<li><a href="#Q15Q">Why were these specific experts’ editions selected?</a></li>
+	<li><a href="#Q16Q">Will the experts' editions be updated in the future?</a></li>
+	<li><a href="#Q17Q">Why did you not include the new edition by Teresa Rita Lopes (2015)?</a></li>
+	
+</ul>
+<h4>
+	<a href="#T4T">Codifica&ccedil;&atilde;o XML-TEI</a>
+</h4>
+<ul>
+	<li><a href="#Q16Q">Como foi feita a codifica&ccedil;&atilde;o
+			dos textos do Arquivo?</a></li>
+	<li><a href="#Q17Q">Que elementos foram codificados?</a></li>
+</ul>
+<h4>
+	<a href="#T5T">Compara&ccedil;&atilde;o de Edi&ccedil;&otilde;es</a>
+</h4>
+<ul>
+	<li><a href="#Q18Q">Para que serve a interface de
+			compara&ccedil;&atilde;o das edi&ccedil;&otilde;es?</a></li>
+	<li><a href="#Q19Q">O que mostra a visualiza&ccedil;&atilde;o
+			de realce de diferen&ccedil;as?</a></li>
+	<li><a href="#Q20Q">Quais s&atilde;o as unidades de realce de
+			diferen&ccedil;a?</a></li>
+	<li><a href="#Q21Q">O que &eacute; que a
+			compara&ccedil;&atilde;o revela sobre as edi&ccedil;&otilde;es?</a></li>
+	<li><a href="#Q22Q">&Eacute; poss&iacute;vel comparar uma
+			interpreta&ccedil;&atilde;o editorial ou autoral com uma
+			interpreta&ccedil;&atilde;o virtual?</a></li>
+	<li><a href="#Q23Q">O que mostra a compara&ccedil;&atilde;o
+			das anota&ccedil;&otilde;es de fragmentos das edi&ccedil;&otilde;es
+			virtuais?</a></li>
+</ul>
+<h4>
+	<a href="#T6T">Pesquisa</a>
+</h4>
+<ul>
+	<li><a href="#Q24Q">O que &eacute; a pesquisa simples?</a></li>
+	<li><a href="#Q25Q">Quais s&atilde;o os caracteres permitidos
+			no crit&eacute;rio de pesquisa por texto?</a></li>
+	<li><a href="#Q26Q">O que &eacute; a pesquisa avan&ccedil;ada?</a></li>
+</ul>
+<h4>
+	<a href="#T7T">Leitura</a>
+</h4>
+<ul>
+	<li><a href="#Q27Q">Como &eacute; calculada a dist&acirc;ncia
+			entre dois fragmentos?</a></li>
+	<li><a href="#Q28Q">Como &eacute; calculado o vetor associado
+			ao heter&oacute;nimo?</a></li>
+	<li><a href="#Q29Q">Como &eacute; calculado o vetor associado
+			&agrave; data?</a></li>
+	<li><a href="#Q30Q">Como &eacute; calculado o vetor associado
+			ao texto?</a></li>
+	<li><a href="#Q31Q">Como &eacute; calculado o vetor associado
+			&agrave; taxonomia?</a></li>
+	<li><a href="#Q32Q">O que significa a
+			recomenda&ccedil;&atilde;o de leitura quando todos os pesos dos
+			crit&eacute;rios est&atilde;o a zero?</a></li>
+	<li><a href="#Q33Q">A similaridade &eacute; calculada entre
+			fragmentos, mas o que o Arquivo me recomenda para leitura &eacute;
+			uma interpreta&ccedil;&atilde;o e n&atilde;o um fragmento,
+			porqu&ecirc;?</a></li>
+	<li><a href="#Q34Q">Os fragmentos que j&aacute; foram
+			recomendados podem voltar a ser recomendados?</a></li>
+	<li><a href="#Q35Q">Pode surgir mais do que um fragmento
+			recomendado?</a></li>
+	<li><a href="#Q36Q">Porque &eacute; que depois de recomendada
+			uma interpreta&ccedil;&atilde;o de fragmento mais nenhuma
+			interpreta&ccedil;&atilde;o do mesmo fragmento volta a ser
+			recomendada, mesmo que a interpreta&ccedil;&atilde;o lida seja de uma
+			edi&ccedil;&atilde;o que possui duas interpreta&ccedil;&otilde;es
+			para esse fragmento?</a></li>
+</ul>
+<h4>
+	<a href="#T8T">Edi&ccedil;&atilde;o Virtual</a>
+</h4>
+<ul>
+	<li><a href="#Q37Q">O que é uma Edição Virtual?</a></li>
+	<li><a href="#Q38Q">Quais as limitações ao exercício da função
+			editorial no Arquivo LdoD?</a></li>
+	<li><a href="#Q39Q">O que &eacute; a Edi&ccedil;&atilde;o do
+			Arquivo LdoD?</a></li>
+	<li><a href="#Q40Q">Como posso criar uma edi&ccedil;&atilde;o
+			virtual?</a></li>
+	<li><a href="#Q41Q">Uma edi&ccedil;&atilde;o virtual pode
+			possuir mais do que uma interpreta&ccedil;&atilde;o do mesmo
+			fragmento?</a></li>
+	<li><a href="#Q42Q">Como adiciono uma
+			interpreta&ccedil;&atilde;o a uma edi&ccedil;&atilde;o virtual?</a></li>
+	<li><a href="#Q43Q">Como posso remover uma
+			interpreta&ccedil;&atilde;o de uma edi&ccedil;&atilde;o virtual?</a></li>
+	<li><a href="#Q44Q">Quem pode adicionar e remover
+			interpreta&ccedil;&otilde;es a uma edi&ccedil;&atilde;o virtual?</a></li>
+	<li><a href="#Q45Q">Posso colaborar com outras pessoas na
+			constru&ccedil;&atilde;o da edi&ccedil;&atilde;o virtual?</a></li>
+	<li><a href="#Q46Q">O que distingue uma edi&ccedil;&atilde;o
+			virtual p&uacute;blica de uma privada?</a></li>
+	<li><a href="#Q47Q">Como posso anotar as
+			interpreta&ccedil;&otilde;es de uma edi&ccedil;&atilde;o virtual?</a></li>
+	<li><a href="#Q48Q">Quem pode anotar
+			interpreta&ccedil;&otilde;es de uma edi&ccedil;&atilde;o virtual?</a></li>
+	<li><a href="#Q49Q">Como se define o conjunto de categorias de
+			uma taxonomia?</a></li>
+	<li><a href="#Q50Q">Quem pode definir se uma taxonomia
+			&eacute; aberta ou fechada?</a></li>
+	<li><a href="#Q51Q">O que &eacute; o algoritmo de
+			gera&ccedil;&atilde;o de t&oacute;picos?</a></li>
+	<li><a href="#Q52Q">Quem pode manipular as categorias de uma
+			edi&ccedil;&atilde;o virtual?</a></li>
+	<li><a href="#Q53Q">Posso usar as categorias das taxonomias
+			das edi&ccedil;&otilde;es base nas anota&ccedil;&otilde;es da minha
+			edi&ccedil;&atilde;o virtual?</a></li>
+	<li><a href="#Q54Q">Como posso reordenar as
+			interpreta&ccedil;&otilde;es numa edi&ccedil;&atilde;o virtual?</a></li>
+	<li><a href="#Q55Q">Quem pode reordenar as
+			interpreta&ccedil;&otilde;es numa edi&ccedil;&atilde;o virtual?</a></li>
+	<li><a href="#Q56Q">Quando uma edi&ccedil;&atilde;o virtual
+			&eacute; criada quais s&atilde;o as configura&ccedil;&otilde;es por
+			omiss&atilde;o?</a></li>
+	<li><a href="#Q57Q">Quais poder&atilde;o ser alguns dos
+			cen&aacute;rios t&iacute;picos associados &agrave;
+			cria&ccedil;&atilde;o de edi&ccedil;&otilde;es virtuais?</a></li>
+</ul>
 <h3>The Archive</h3>
-<h5>What is the LdoDArchive?</h5>
-<p>The LdoD Archive is a collaborative digital archive of the Book
-	of Disquiet by Fernando Pessoa. It contains images of the autograph
+
+<h5 id="Q01Q" style="padding-top: 60px; margin-top: -60px;">What is
+	the <em>LdoD Archive</em>?</h5>
+<p>The <em>LdoD Archive</em> is a collaborative digital archive of the <em>Book
+	of Disquiet</em> by Fernando Pessoa. It contains images of the autograph
 	documents, new transcriptions of those documents and also
 	transcriptions of four editions of the work. In addition to reading and
-	comparing transcriptions, the LdoD Archive enables users to collaborate
-	in creating virtual editions of the Book of Disquiet. It also includes
+	comparing transcriptions, the <em>LdoD Archive</em> enables users to collaborate
+	in creating virtual editions of the <em>Book of Disquiet</em>. It also includes
 	a writing module which, in the future, will allow users to write
-	variations based on fragments of the Book.Thus the LdoD Archive
+	variations based on fragments of the <em>Book</em>.Thus the <em>LdoD Archive</em>
 	combines a representational principle with a simulation principle: the
 	first is expressed through the representation of the history and
-	processes of writing and editing the Book; the second is embodied in
+	processes of writing and editing the <em>Book</em>; the second is embodied in
 	the fact that users are given the possibility of playing various roles
 	in the literary process (reading, editing, writing), using the
-	flexibility of the digital medium for experimenting with the Book of
-	Disquiet as a literary machine.</p>
-<h5>What does the LdoD Archive contain?</h5>
+	flexibility of the digital medium for experimenting with the <em>Book of
+	Disquiet</em> as a literary machine.</p>
+
+<h5 id="Q02Q" style="padding-top: 60px; margin-top: -60px;">What does the <em>LdoD Archive</em> contain?</h5>
 <p>
 	The <em>LdoD Archive</em> consists of a group of fragments that
 	Fernando Pessoa explicitly attributed to the <em>Book of Disquiet</em>
@@ -42,7 +201,8 @@
 	transcription and metadata associated with an authorial interpretation
 	is the responsibility of the <em>LdoD Archive</em> team.
 </p>
-<h5>What is a fragment in the LdoD Archive?</h5>
+<h5 id="Q03Q" style="padding-top: 60px; margin-top: -60px;">What is a fragment in the <em>LdoD Archive</em>?</h5>
+
 <p>
 	A fragment is a modular textual sequence and it constitutes the basic
 	unit of composition of the <em>LdoD Archive</em>. Most textual
@@ -54,11 +214,12 @@
 	editions, including those texts that are published as appendix or annex
 	to the main text.
 </p>
-<h5>What is the relationship between a text in the Book of Disquiet
-	and a fragment in the LdoD Archive?</h5>
-<p>All fragments of the LdoD Archive are also textual units of the
-	Book of Disquiet according to at least one of the editions. The
-	structure of the Archive places all the fragments at the same relative
+<h5 id="Q04Q" style="padding-top: 60px; margin-top: -60px;">What is the relationship 
+	between a text in the <em>Book of Disquiet</em> and a fragment in the <em>LdoD Archive</em>?</h5>
+<p>
+	All fragments of the <em>LdoD Archive</em> are also textual units of the
+	<em>Book of Disquiet</em> according to at least one of the editions. The
+	structure of the <em>LdoD Archive</em> places all the fragments at the same relative
 	distance from one another, that is, with the same modularity index.
 	However, in the editions, not all textual units have the same degree of
 	relative independence, since there are groups of texts that are closer
@@ -67,28 +228,33 @@
 	the editions have different indexes of modularity, as there are groups
 	of texts which are closer to one another. This is the main difference
 	between a text as a unit within a given edition and a fragment as a
-	unit within the LdoD Archive.</p>
-<h5>Why is the fragment treated as a modular unit in the LdoD
-	Archive?</h5>
-<p>The modular organization of the fragments (i.e., the fact that
-	they at the same relative distance from each other) in the LdoD Archive
+	unit within the <em>LdoD Archive</em>.</p>
+
+<h5 id="Q05Q" style="padding-top: 60px; margin-top: -60px;">Why is the fragment 
+	treated as a modular unit in the <em>LdoD Archive</em>?</h5>
+
+<p>
+	The modular organization of the fragments (i.e., the fact that
+	they at the same relative distance from each other) in the <em>LdoD Archive</em>
 	is a precondition for the comparison and virtualization of the editions
 	to be processed in the open way envisioned by our model. This stressing
-	of the modular fragmentarity of the Book in the LdoD Archive is a
-	critical tool for opening up the works potential for reading, editing
+	of the modular fragmentarity of the <em>Book</em> in the <em>LdoD Archive</em> is a
+	critical tool for opening up this work's potential for reading, editing
 	and writing to new interventions. The distortion introduced by our data
-	model - which is the major support of the dynamic features of the LdoD
-	Archive - gives technical expression to a digital rematerialization of
-	documents, texts and work beyond bibliographic models. The Book of
-	Disquiet is not an entirely free assemblage of loose fragments, but the
-	radial and hetararchical configuration of its units in the LdoD Archive
+	model – which is the major support of the dynamic features of the <em>LdoD Archive</em>
+	– gives technical expression to a digital rematerialization of
+	documents, texts and work beyond bibliographic models. The <em>Book of
+	Disquiet</em> is not an entirely free assemblage of loose fragments, but the
+	radial and hetararchical configuration of its units in the <em>LdoD Archive</em>
 	allows us to simulate authorial projectuality and editorial
 	projectuality as processes for imagining the work as a book.</p>
-<h5>What is an interpretation in the LdoD Archive?</h5>
+
+<h5 id="Q06Q" style="padding-top: 60px; margin-top: -60px;">What is an interpretation in 
+	the <em>LdoD Archive</em>?</h5>
 <p>
 	An interpretation is the set formed by a transcription and the metadata
 	associated with it. The interpretations of the five versions (i.e., the
-	four editions of the experts and the genetic representation of the
+	four editions by the experts and our genetic representation of the
 	witnesses) are not totally coincident with each other, either because
 	of micro-textual variations and differences (orthography, punctuation,
 	choice of variants, internal ordering of paragraphs, for example), or
@@ -96,25 +262,31 @@
 	ordering of the fragment within the architecture of the <em>Book</em>,
 	inclusion or exclusion of a given fragment from the corpus of the <em>Book</em>).
 </p>
-<h5>Why do fragments have more than one editorial interpretation
-	for the same editor?</h5>
-<p>This is because editors sometimes split a fragment or associate
+<h5 id="Q07Q" style="padding-top: 60px; margin-top: -60px;">Why do fragments have 
+	more than one editorial interpretation for the same editor?</h5>
+<p>
+	This is because editors sometimes split a fragment or associate
 	multiple fragments. For example, an editor may consider a given
 	fragment as being a single text and another editor may consider it to
 	be two distinct texts, which means that for the first editor the
 	Archive associates a single interpretation to that fragment while for
-	the second editor it associates two interpretations.</p>
-<h5>What is the authorial interpretation representative of a
-	fragment?</h5>
-<p>It is the authorial interpretation of a printed source, if it
+	the second editor it associates two interpretations.
+</p>
+<h5 id="Q08Q" style="padding-top: 60px; margin-top: -60px;">
+	What is the authorial interpretation representative of a fragment?</h5>
+
+<p>
+	It is the authorial interpretation of a printed source, if it
 	exists; if a printed source does not exist, it is the interpretation of
 	a typescript source; and if a typescript source does not exist, it is
 	the interpretation of a manuscript source. It is necessary to define a
 	representative authorial interpretation in order to have a reference
 	transcription, for example, for calculating the textual similarity
 	between two fragments when using the recommendation algorithm.</p>
+
 <h3>Witnesses</h3>
-<h5>What are the witnesses?</h5>
+<h5 id="Q09Q" style="padding-top: 60px; margin-top: -60px;">
+	What are the witnesses?</h5>
 <p>
 	The witnesses are the interpretations of the fragments made up of
 	genetic transcriptions of handwritten and typewritten autographs, and
@@ -124,32 +296,72 @@
 	witnesses (material and medium of the inscription, paper size, other
 	document features, BNP shelf-mark, etc.).
 </p>
-<h5>What is a genetic transcription?</h5>
-<p>It is a transcription that allows you to observe the authorial
+<h5 id="Q10Q" style="padding-top: 60px; margin-top: -60px;">
+	What is a genetic transcription?</h5>
+
+<p>
+	It is a transcription that allows you to observe the authorial
 	writing and revision process, recording all layers of textual
 	composition and not just the final version. Deletions, additions,
 	substitutions, and transpositions made during and after the initial
 	stage of writing have been marked up.</p>
-<h5>What can we see in the interface for visualizing authorial
+
+<h5 id="Q11Q" style="padding-top: 60px; margin-top: -60px;">
+	What can we see in the interface for visualizing authorial
 	sources?</h5>
-<p>This interface allows you to see the transcription of an
+<p>
+	This interface allows you to see the transcription of an
 	authorial witness that respects the topography of line breaks and the
 	distribution of spaces of the original. It also allows you to see the
 	textual elements canceled, substituted, added or transposed by Fernando
 	Pessoa, as well as the digital facsimile of the original documents. All
 	textual variants are also represented, that is, those textual passages
-	for which there are two or more alternatives.</p>
-<h5>What is facsimile?</h5>
+	for which there are two or more alternatives.
+</p>
+<h5 id="Q12Q" style="padding-top: 60px; margin-top: -60px;">
+	>What is the facsimile?</h5>
 <p>
-	A facsimile is a digital image of the original document, which is
+	The facsimile is a digital image of the original document, which is
 	represented by the page unit (with the exception of published sources,
-	in which the double spread is used). The <em>Archive</em> includes
+	in which the double spread is used). The <em>LdoD Archive</em> includes
 	images of all written documents whose text has been assigned or related
 	to the <em>Book</em>. There are therefore sheets represented by <em>recto</em>
 	pages only, and others by <em>recto </em>and <em>verso </em>pages.
 </p>
+<h5 id="Q13Q" style="padding-top: 60px; margin-top: -60px;">
+	What is the difference between “witnesses” and “encoded fragments”?</h5>
+<p>The designations “witnesses” and “encoded fragments” are different 
+	perspectives on the same materials. “Witnesses” presents a perspective 
+	of the materials based on the units defined by the National Library of 
+	Portugal (BNP), i.e., based on the shelf-marks that determine the material 
+	unit of each autograph document as a referable object. “Encoded fragments”, 
+	in turn, presents a perspective of the materials based on the units of the 
+	LdoD Archive itself, that is, of the XML files as units that guarantee 
+	the modularity of the fragments and the interpretations (transcriptions) 
+	associated with them. If their respective tables are observed, their rationale 
+	becomes clearer: the 756 witnesses correspond to all BNP autograph documents 
+	that have a specific shelf-mark (or, in the case of some letters by Fernando 
+	Pessoa, shelf-marks from other archives) and also to twelve published texts; the 
+	722 “encoded fragments” correspond to the XML files of the LdoD Archive, each 
+	of which contains a number of interpretations for the same fragment. From the 
+	point of view of our data model in the Archive, it is as if the fragment were 
+	an abstract entity, which then has multiple instantiations: the transcriptions 
+	by JPC, TSC, RZ and JP, and also our own transcriptions of the witnesses. Usually 
+	there is only one interpretation of each edition for each fragment (that is, five 
+	in all), but this number can go up to seven when, in addition to the five editorial 
+	interpretations there are several autographs – for example, two different typewritten 
+	witnesses and a version published in a magazine. In this case, the LdoD Archive 
+	transcribes the three autograph versions. The table of “encoded fragments” offers 
+	an overall picture of the contents of the LdoD Archive. From a theoretical point 
+	of view, we can say that the XML files are documents of the LdoD Archive just as the 
+	autographs are documents of Fernando Pessoa’s archive in the BNP. The latter are 
+	represented in the LdoD Archive through a facsimile image and a new topographic 
+	genetic transcription.
+</p>
+
 <h3>Experts&rsquo; Editions</h3>
-<h5>What are the experts&rsquo; editions?</h5>
+<h5 id="Q14Q" style="padding-top: 60px; margin-top: -60px;">
+	What are the experts&rsquo; editions?</h5>
 <p>
 	The editions by the experts included in the <em>LdoD Archive</em> are
 	the main critical editions published between 1982 and 2012. These four
@@ -178,7 +390,8 @@
 	ordered the texts by date of composition and for having developed a
 	systematic and exhaustive critical-genetic apparatus.
 </p>
-<h5>Why were these specific experts&rsquo; editions selected?</h5>
+<h5 id="Q15Q" style="padding-top: 60px; margin-top: -60px;">
+	Why were these specific experts&rsquo; editions selected?</h5>
 <p>
 	Because these four editions (Coelho 1982; Sobral Cunha 2008; Zenith
 	2012; and Pizarro 2010) were the latest editions when we began encoding
@@ -191,7 +404,9 @@
 	editions have already been published (Sobral Cunha 2013 and 2016;
 	Pizarro 2013 and 2014; Zenith 2015).
 </p>
-<h5>Will the experts' editions be updated in the future?</h5>
+<h5 id="Q16Q" style="padding-top: 60px; margin-top: -60px;">
+	Will the experts' editions be updated in the future?</h5>
+
 <p>
 	While the experts have expressed their desire to see the latest version
 	of their editions represented in the <em>LdoD Archive</em>, a future
@@ -204,7 +419,22 @@
 	Cunha-2008, Zenith-2012 and Pizarro- 2010), and not to an eclectic
 	combination of readings collected in different editions of the text.
 </p>
+<h5 id="Q17Q" style="padding-top: 60px; margin-top: -60px;">
+	Why did you not include the new edition by Teresa Rita Lopes (2015)?</h5>
+<p>
+	In 2015 Teresa Rita Lopes published a new edition titled <em>Books of Disquiet</em>, 
+	in which she adds thirty-five texts by Barão de Teive to the corpus of texts 
+	attributed to Vicente Guedes and Bernardo Soares. Although the edition by 
+	Teresa Rita Lopes is a new demonstration of the projectual nature of the authorial 
+	and editorial forms of the work – reinforcing, to a certain extent, the theoretical 
+	justification of the LdoD Archive for developing its dynamic functionalities – 
+	it was not possible to include it because all the encoding had been completed 
+	and we did not have the additional resources needed to re-encode the files. Otherwise, 
+	her edition would have been included since it meets the conditions by which we 
+	have defined the expert editions.
+</p>
 <h3>XML-TEI encoding</h3>
+
 <h5>How did we encode the texts in the Archive?</h5>
 <p>The encoding was made according to the guidelines of the Text
 	Encoding Initiative (TEI) in the P5 version of the implementation. An
