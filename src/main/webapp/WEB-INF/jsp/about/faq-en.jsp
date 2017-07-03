@@ -22,7 +22,7 @@
 	<li><a href="#Q09Q">What are the witnesses?</a></li>
 	<li><a href="#Q10Q">What is a genetic transcription</a></li>
 	<li><a href="#Q11Q">What can we see in the interface for visualizing authorial
-	sources?</a></li>
+		sources?</a></li>
 	<li><a href="#Q12Q">What is the facsimile?</a></li>
 	<li><a href="#Q13Q">What is the difference between &ldquo;witnesses&rdquo; and &ldquo;encoded fragments&rdquo;? </a></li>
 </ul>
@@ -37,122 +37,80 @@
 	
 </ul>
 <h4>
-	<a href="#T4T">Codifica&ccedil;&atilde;o XML-TEI</a>
+	<a href="#T4T">XML-TEI encoding</a>
 </h4>
 <ul>
-	<li><a href="#Q16Q">Como foi feita a codifica&ccedil;&atilde;o
-			dos textos do Arquivo?</a></li>
-	<li><a href="#Q17Q">Que elementos foram codificados?</a></li>
+	<li><a href="#Q18Q">How did we encode the texts in the Archive?</a></li>
+	<li><a href="#Q19Q">What elements have been encoded?</a></li>
 </ul>
 <h4>
-	<a href="#T5T">Compara&ccedil;&atilde;o de Edi&ccedil;&otilde;es</a>
+	<a href="#T5T">Edition Comparison</a>
 </h4>
 <ul>
-	<li><a href="#Q18Q">Para que serve a interface de
-			compara&ccedil;&atilde;o das edi&ccedil;&otilde;es?</a></li>
-	<li><a href="#Q19Q">O que mostra a visualiza&ccedil;&atilde;o
-			de realce de diferen&ccedil;as?</a></li>
-	<li><a href="#Q20Q">Quais s&atilde;o as unidades de realce de
-			diferen&ccedil;a?</a></li>
-	<li><a href="#Q21Q">O que &eacute; que a
-			compara&ccedil;&atilde;o revela sobre as edi&ccedil;&otilde;es?</a></li>
-	<li><a href="#Q22Q">&Eacute; poss&iacute;vel comparar uma
-			interpreta&ccedil;&atilde;o editorial ou autoral com uma
-			interpreta&ccedil;&atilde;o virtual?</a></li>
-	<li><a href="#Q23Q">O que mostra a compara&ccedil;&atilde;o
-			das anota&ccedil;&otilde;es de fragmentos das edi&ccedil;&otilde;es
-			virtuais?</a></li>
+	<li><a href="#Q20Q">What is the edition comparison interface for?</a></li>
+	<li><a href="#Q21Q">What does the &ldquo;highlight differences&rdquo; view show?</a></li>
+	<li><a href="#Q22Q">Which are the differentiation units for highlighting?</a></li>
+	<li><a href="#Q23Q">What does the comparison reveal about the editions?</a></li>
+	<li><a href="#Q24Q">Is it possible to compare an editorial or authorial
+		interpretation with a virtual interpretation?</a></li>
+	<li><a href="#Q25Q">What does the comparison of fragments&rsquo; annotations in
+		virtual editions show?</a></li>
 </ul>
 <h4>
-	<a href="#T6T">Pesquisa</a>
+	<a href="#T6T">Search</a>
 </h4>
 <ul>
-	<li><a href="#Q24Q">O que &eacute; a pesquisa simples?</a></li>
-	<li><a href="#Q25Q">Quais s&atilde;o os caracteres permitidos
-			no crit&eacute;rio de pesquisa por texto?</a></li>
-	<li><a href="#Q26Q">O que &eacute; a pesquisa avan&ccedil;ada?</a></li>
+	<li><a href="#Q26Q">What is simple search?</a></li>
+	<li><a href="#Q27Q">Which characters are allowed in the search criteria by text?</a></li>
+	<li><a href="#Q28Q">What is advanced search?</a></li>
 </ul>
 <h4>
-	<a href="#T7T">Leitura</a>
+	<a href="#T7T">Reading</a>
 </h4>
 <ul>
-	<li><a href="#Q27Q">Como &eacute; calculada a dist&acirc;ncia
-			entre dois fragmentos?</a></li>
-	<li><a href="#Q28Q">Como &eacute; calculado o vetor associado
-			ao heter&oacute;nimo?</a></li>
-	<li><a href="#Q29Q">Como &eacute; calculado o vetor associado
-			&agrave; data?</a></li>
-	<li><a href="#Q30Q">Como &eacute; calculado o vetor associado
-			ao texto?</a></li>
-	<li><a href="#Q31Q">Como &eacute; calculado o vetor associado
-			&agrave; taxonomia?</a></li>
-	<li><a href="#Q32Q">O que significa a
-			recomenda&ccedil;&atilde;o de leitura quando todos os pesos dos
-			crit&eacute;rios est&atilde;o a zero?</a></li>
-	<li><a href="#Q33Q">A similaridade &eacute; calculada entre
-			fragmentos, mas o que o Arquivo me recomenda para leitura &eacute;
-			uma interpreta&ccedil;&atilde;o e n&atilde;o um fragmento,
-			porqu&ecirc;?</a></li>
-	<li><a href="#Q34Q">Os fragmentos que j&aacute; foram
-			recomendados podem voltar a ser recomendados?</a></li>
-	<li><a href="#Q35Q">Pode surgir mais do que um fragmento
-			recomendado?</a></li>
-	<li><a href="#Q36Q">Porque &eacute; que depois de recomendada
-			uma interpreta&ccedil;&atilde;o de fragmento mais nenhuma
-			interpreta&ccedil;&atilde;o do mesmo fragmento volta a ser
-			recomendada, mesmo que a interpreta&ccedil;&atilde;o lida seja de uma
-			edi&ccedil;&atilde;o que possui duas interpreta&ccedil;&otilde;es
-			para esse fragmento?</a></li>
+	<li><a href="#Q29Q">How is the distance between two fragments calculated?</a></li>
+	<li><a href="#Q30Q">How is the vector associated with the heteronym calculated?</a></li>
+	<li><a href="#Q31Q">How is the vector associated with the date calculated?</a></li>
+	<li><a href="#Q32Q">How is the vector associated with the text calculated?</a></li>
+	<li><a href="#Q33Q">How is the vector associated with taxonomy calculated?</a></li>
+	<li><a href="#Q34Q">What does the reading recommendation mean when all weights in
+		the criteria are set to zero?</a></li>
+	<li><a href="#Q35Q">The similarity is calculated between fragments, but what the
+		LdoD Archive recommends for reading is an interpretation and not a fragment,
+		why?</a></li>
+	<li><a href="#Q36Q">Can fragments that have been recommended be recommended again?</a></li>
+	<li><a href="#Q37Q">Can more than one fragment be recommended?</a></li>
+	<li><a href="#Q38Q">Why is it that after a fragment interpretation is recommended,
+		no further interpretation of the same fragment is recommenced, even if
+		the interpretation read is from an edition that has two interpretations
+		for that fragment?</a></li>
 </ul>
 <h4>
-	<a href="#T8T">Edi&ccedil;&atilde;o Virtual</a>
+	<a href="#T8T">Virtual Edition</a>
 </h4>
 <ul>
-	<li><a href="#Q37Q">O que é uma Edição Virtual?</a></li>
-	<li><a href="#Q38Q">Quais as limitações ao exercício da função
-			editorial no Arquivo LdoD?</a></li>
-	<li><a href="#Q39Q">O que &eacute; a Edi&ccedil;&atilde;o do
-			Arquivo LdoD?</a></li>
-	<li><a href="#Q40Q">Como posso criar uma edi&ccedil;&atilde;o
-			virtual?</a></li>
-	<li><a href="#Q41Q">Uma edi&ccedil;&atilde;o virtual pode
-			possuir mais do que uma interpreta&ccedil;&atilde;o do mesmo
-			fragmento?</a></li>
-	<li><a href="#Q42Q">Como adiciono uma
-			interpreta&ccedil;&atilde;o a uma edi&ccedil;&atilde;o virtual?</a></li>
-	<li><a href="#Q43Q">Como posso remover uma
-			interpreta&ccedil;&atilde;o de uma edi&ccedil;&atilde;o virtual?</a></li>
-	<li><a href="#Q44Q">Quem pode adicionar e remover
-			interpreta&ccedil;&otilde;es a uma edi&ccedil;&atilde;o virtual?</a></li>
-	<li><a href="#Q45Q">Posso colaborar com outras pessoas na
-			constru&ccedil;&atilde;o da edi&ccedil;&atilde;o virtual?</a></li>
-	<li><a href="#Q46Q">O que distingue uma edi&ccedil;&atilde;o
-			virtual p&uacute;blica de uma privada?</a></li>
-	<li><a href="#Q47Q">Como posso anotar as
-			interpreta&ccedil;&otilde;es de uma edi&ccedil;&atilde;o virtual?</a></li>
-	<li><a href="#Q48Q">Quem pode anotar
-			interpreta&ccedil;&otilde;es de uma edi&ccedil;&atilde;o virtual?</a></li>
-	<li><a href="#Q49Q">Como se define o conjunto de categorias de
-			uma taxonomia?</a></li>
-	<li><a href="#Q50Q">Quem pode definir se uma taxonomia
-			&eacute; aberta ou fechada?</a></li>
-	<li><a href="#Q51Q">O que &eacute; o algoritmo de
-			gera&ccedil;&atilde;o de t&oacute;picos?</a></li>
-	<li><a href="#Q52Q">Quem pode manipular as categorias de uma
-			edi&ccedil;&atilde;o virtual?</a></li>
-	<li><a href="#Q53Q">Posso usar as categorias das taxonomias
-			das edi&ccedil;&otilde;es base nas anota&ccedil;&otilde;es da minha
-			edi&ccedil;&atilde;o virtual?</a></li>
-	<li><a href="#Q54Q">Como posso reordenar as
-			interpreta&ccedil;&otilde;es numa edi&ccedil;&atilde;o virtual?</a></li>
-	<li><a href="#Q55Q">Quem pode reordenar as
-			interpreta&ccedil;&otilde;es numa edi&ccedil;&atilde;o virtual?</a></li>
-	<li><a href="#Q56Q">Quando uma edi&ccedil;&atilde;o virtual
-			&eacute; criada quais s&atilde;o as configura&ccedil;&otilde;es por
-			omiss&atilde;o?</a></li>
-	<li><a href="#Q57Q">Quais poder&atilde;o ser alguns dos
-			cen&aacute;rios t&iacute;picos associados &agrave;
-			cria&ccedil;&atilde;o de edi&ccedil;&otilde;es virtuais?</a></li>
+	<li><a href="#Q39Q">What is a virtual edition?</a></li>
+	<li><a href="#Q40Q">What are the limitations to the editorial function in the <em>LdoD Archive</em>?</a></li>
+	<li><a href="#Q41Q">What is <em>LdoD Archive Edition</em>?</a></li>
+	<li><a href="#Q42Q">How can I create a virtual edition?</a></li>
+	<li><a href="#Q43Q">Can a virtual edition have more than one interpretation of the same fragment?</a></li>
+	<li><a href="#Q44Q">How do I add an interpretation to a virtual edition?</a></li>
+	<li><a href="#Q45Q">How can I remove an interpretation of a virtual edition?</a></li>
+	<li><a href="#Q46Q">Who can add to and remove interpretations from a virtual edition?</a></li>
+	<li><a href="#Q47Q">Can I collaborate with other people in building a virtual edition?</a></li>
+	<li><a href="#Q48Q">What distinguishes a public virtual edition from a private one?</a></li>
+	<li><a href="#Q49Q">How can I annotate the interpretations of a virtual edition?</a></li>
+	<li><a href="#Q50Q">Who can annotate interpretations of a virtual edition?</a></li>
+	<li><a href="#Q51Q">How do you define the set of categories of a taxonomy?</a></li>
+	<li><a href="#Q52Q">Who can define whether a taxonomy is open or closed?</a></li>
+	<li><a href="#Q53Q">What is the topic-generation algorithm?</a></li>
+	<li><a href="#Q54Q">Who can change the categories of a virtual edition?</a></li>
+	<li><a href="#Q55Q">Can I use the base edition taxonomy categories in my virtual edition annotations?</a></li>
+	<li><a href="#Q56Q">How can I reorder the interpretations in a virtual edition?</a></li>
+	<li><a href="#Q57Q">Who can reorder the interpretations in a virtual edition?</a></li>
+	<li><a href="#Q58Q">When a virtual edition is created which are its default settings?</a></li>
+	<li><a href="#Q59Q">What might be some of the typical scenarios associated with
+			creating virtual editions?</a></li>
 </ul>
 <h3>The Archive</h3>
 
@@ -319,7 +277,7 @@
 	for which there are two or more alternatives.
 </p>
 <h5 id="Q12Q" style="padding-top: 60px; margin-top: -60px;">
-	>What is the facsimile?</h5>
+	What is the facsimile?</h5>
 <p>
 	The facsimile is a digital image of the original document, which is
 	represented by the page unit (with the exception of published sources,
@@ -330,19 +288,20 @@
 </p>
 <h5 id="Q13Q" style="padding-top: 60px; margin-top: -60px;">
 	What is the difference between “witnesses” and “encoded fragments”?</h5>
-<p>The designations “witnesses” and “encoded fragments” are different 
+<p>
+	The designations “witnesses” and “encoded fragments” are different 
 	perspectives on the same materials. “Witnesses” presents a perspective 
 	of the materials based on the units defined by the National Library of 
 	Portugal (BNP), i.e., based on the shelf-marks that determine the material 
 	unit of each autograph document as a referable object. “Encoded fragments”, 
 	in turn, presents a perspective of the materials based on the units of the 
-	LdoD Archive itself, that is, of the XML files as units that guarantee 
+	<em>LdoD Archive</em> itself, that is, of the XML files as units that guarantee 
 	the modularity of the fragments and the interpretations (transcriptions) 
 	associated with them. If their respective tables are observed, their rationale 
 	becomes clearer: the 756 witnesses correspond to all BNP autograph documents 
 	that have a specific shelf-mark (or, in the case of some letters by Fernando 
 	Pessoa, shelf-marks from other archives) and also to twelve published texts; the 
-	722 “encoded fragments” correspond to the XML files of the LdoD Archive, each 
+	722 “encoded fragments” correspond to the XML files of the <em>LdoD Archive</em>, each 
 	of which contains a number of interpretations for the same fragment. From the 
 	point of view of our data model in the Archive, it is as if the fragment were 
 	an abstract entity, which then has multiple instantiations: the transcriptions 
@@ -350,12 +309,12 @@
 	there is only one interpretation of each edition for each fragment (that is, five 
 	in all), but this number can go up to seven when, in addition to the five editorial 
 	interpretations there are several autographs – for example, two different typewritten 
-	witnesses and a version published in a magazine. In this case, the LdoD Archive 
+	witnesses and a version published in a magazine. In this case, the <em>LdoD Archive</em> 
 	transcribes the three autograph versions. The table of “encoded fragments” offers 
-	an overall picture of the contents of the LdoD Archive. From a theoretical point 
-	of view, we can say that the XML files are documents of the LdoD Archive just as the 
+	an overall picture of the contents of the <em>LdoD Archive</em>. From a theoretical point 
+	of view, we can say that the XML files are documents of the <em>LdoD Archive</em> just as the 
 	autographs are documents of Fernando Pessoa’s archive in the BNP. The latter are 
-	represented in the LdoD Archive through a facsimile image and a new topographic 
+	represented in the <em>LdoD Archive</em> through a facsimile image and a new topographic 
 	genetic transcription.
 </p>
 
@@ -401,7 +360,7 @@
 	small of changes (in the corpus, in the transcription, in the ordering
 	of texts), although they have maintained their basic structure and
 	principles of organization. In the meantime (i.e., since 2012) new
-	editions have already been published (Sobral Cunha 2013 and 2016;
+	editions have already been published (Sobral Cunha 2013;
 	Pizarro 2013 and 2014; Zenith 2015).
 </p>
 <h5 id="Q16Q" style="padding-top: 60px; margin-top: -60px;">
@@ -427,40 +386,46 @@
 	attributed to Vicente Guedes and Bernardo Soares. Although the edition by 
 	Teresa Rita Lopes is a new demonstration of the projectual nature of the authorial 
 	and editorial forms of the work – reinforcing, to a certain extent, the theoretical 
-	justification of the LdoD Archive for developing its dynamic functionalities – 
+	justification of the <em>LdoD Archive</em> for developing its dynamic functionalities – 
 	it was not possible to include it because all the encoding had been completed 
 	and we did not have the additional resources needed to re-encode the files. Otherwise, 
 	her edition would have been included since it meets the conditions by which we 
 	have defined the expert editions.
 </p>
 <h3>XML-TEI encoding</h3>
-
-<h5>How did we encode the texts in the Archive?</h5>
-<p>The encoding was made according to the guidelines of the Text
+<h5 id="Q18Q" style="padding-top: 60px; margin-top: -60px;">
+	How did we encode the texts in the <em>LdoD Archive</em>?</h5>
+<p>
+	The encoding was made according to the guidelines of the Text
 	Encoding Initiative (TEI) in the P5 version of the implementation. An
 	example of our XML encoding template can be found HERE. The work was
 	carried out over four years, by a team of five people, representing a
-	total of twelve thousand hours of encoding and revision.</p>
-<h5>What elements have been encoded?</h5>
-<p>The XML encoding of both the witnesses and the four expert
-	editions contained in the LdoD Archive has been extremely granular, so
+	total of twelve thousand hours of encoding and revision.
+</p>
+<h5 id="Q19Q" style="padding-top: 60px; margin-top: -60px;">
+	What elements have been encoded?</h5>
+<p>
+	The XML encoding of both the witnesses and the four expert
+	editions contained in the <em>LdoD Archive</em> has been extremely granular, so
 	that all variations could become comparable either (a) at the internal
 	microtextual scale of each fragment, or (b ) at the macrotextual scale
-	of the external organization of the fragments in the Book, or (c) at
+	of the external organization of the fragments in the <em>Book</em>, or (c) at
 	the level of the metadata about each item in the Archive. The elements
 	that have been formally represented include (a) punctuation, spelling,
 	words, division/aggregation of paragraphs and spaces between
 	paragraphs, but also (b) division/aggregation and ordering of fragments
-	within the structure of the Book, as well as (c) metainformation
+	within the structure of the <em>Book</em>, as well as (c) metainformation
 	concerning editorial attribution of date and heteronym or relative to
 	the material nature of the witnesses. In the case of the witnesses, all
 	acts of authorial revision (deletions, additions, substitutions,
 	variants) have been encoded, as well as the topography of line breaks
 	and the use of spaces or rules for dividing blocks of text in all
 	documents. In the case of the experts editions all spaces and rules of
-	division between paragraphs have also been marked up.</p>
+	division between paragraphs have also been marked up.
+</p>
 <h3>Edition Comparison</h3>
-<h5>What is the edition comparison interface for?</h5>
+<h5 id="Q20Q" style="padding-top: 60px; margin-top: -60px;">
+	What is the edition comparison interface for?</h5>
 <p>
 	The edition comparison interface has been designed to relate the
 	various interpretations of the same fragment (i.e., interpretations of
@@ -469,8 +434,10 @@
 	allows you to compare the transcriptions of each fragment, as well as
 	their relative position within the order of the <em>Book.</em>
 </p>
-<h5>What does the &ldquo;highlight differences&rdquo; view show?</h5>
-<p>This feature shows the points of variation between the
+<h5 id="Q21Q" style="padding-top: 60px; margin-top: -60px;">
+	What does the &ldquo;highlight differences&rdquo; view show?</h5>
+<p>
+	This feature shows the points of variation between the
 	interpretations being compared. These variation points are highlighted
 	in blue within the body of the text, and they are also presented in the
 	form of a table following the text at the bottom of the page. The
@@ -478,8 +445,10 @@
 	variation: the existence of variation in a single interpretation
 	results in the lighter blue shade and the existence of variations in
 	all interpretations results in the darker blue shade, and there are
-	also two intermediate shades.</p>
-<h5>Which are the differentiation units for highlighting?</h5>
+	also two intermediate shades.
+</p>
+<h5 id="Q22Q" style="padding-top: 60px; margin-top: -60px;">
+	Which are the differentiation units for highlighting?</h5>
 <p>
 	The differentiation units for highlighting can be of four types: (a)
 	word or group of words, (b) punctuation mark, (c) sentence or group of
@@ -510,7 +479,8 @@
 	variation at the lower scale of the word or group of words, punctuation
 	mark, and sentence or group of sentences.
 </p>
-<h5>What does the comparison reveal about the editions?</h5>
+<h5 id="Q23Q" style="padding-top: 60px; margin-top: -60px;">
+	What does the comparison reveal about the editions?</h5>
 <p>
 	The comparison provides a better understanding of each edition and
 	makes explicit editorial criteria that are not always stated in the
@@ -540,38 +510,52 @@
 	experts&rsquo; editions corpus allow us to prove the existence of four
 	distinct models for producing the <em>Book of Disquiet.</em>
 </p>
-<h5>Is it possible to compare an editorial or authorial
+<h5 id="Q24Q" style="padding-top: 60px; margin-top: -60px;">
+	Is it possible to compare an editorial or authorial
 	interpretation with a virtual interpretation?</h5>
-<p>No, because a virtual interpretation never changes the
-	transcription of the interpretation it uses.</p>
-<h5>What does the comparison of fragments&rsquo; annotations in
+<p>
+	No, because a virtual interpretation never changes the
+	transcription of the interpretation it uses.
+</p>
+<h5 id="Q25Q" style="padding-top: 60px; margin-top: -60px;">
+	What does the comparison of fragments&rsquo; annotations in
 	virtual editions show?</h5>
-<p>In this interface it is possible to compare the annotations that
+<p>
+	In this interface it is possible to compare the annotations that
 	the virtual editors applied on the virtual interpretations. For
 	example, what was cited, and what notes and tags were associated with
 	the citation by the virtual editors. Note that the comparison is
 	between interpretations of the same fragment even when the base
-	interpretation used is not the same.</p>
+	interpretation used is not the same.
+</p>
 <h3>Search</h3>
 <p>The search allows you to select fragments according to a set of
 	criteria.</p>
-<h5>What is simple search?</h5>
-<p>In simple search it is possible to select the set of fragments
+<h5 id="Q26Q" style="padding-top: 60px; margin-top: -60px;">
+	What is simple search?</h5>
+<p>
+	In simple search it is possible to select the set of fragments
 	according to two criteria: text and type of source. The text criterion
 	can be applied to the entire textual transcription or only to its
 	title. The result is the set of interpretations that include the
 	textual string entered in the search field. It should be noted that the
 	search result may include several interpretations associated with the
 	same fragment (i.e., authorial interpretations and editorial
-	interpretations).</p>
-<h5>Which characters are allowed in the search criteria by text?</h5>
-<p>Only alpha-numeric characters, hyphen, ampersand and space are
+	interpretations).
+</p>
+<h5 id="Q27Q" style="padding-top: 60px; margin-top: -60px;">
+	Which characters are allowed in the search criteria by text?</h5>
+
+<p>
+	Only alpha-numeric characters, hyphen, ampersand and space are
 	allowed. All other characters are ignored, for example, when entering
 	"al*ma" in the search field the result will include all interpretations
 	where the word "alma" appears. Note that there is no distinction
 	between lowercase and uppercase, so in the previous example the result
-	will also include those interpretations where the word "Alma" appears.</p>
-<h5>What is advanced search?</h5>
+	will also include those interpretations where the word "Alma" appears.
+</p>
+<h5 id="Q28Q" style="padding-top: 60px; margin-top: -60px;">
+	What is advanced search?</h5>
 <p>
 	In advanced search you can use a larger set of criteria. In addition,
 	it is possible to perform a search by combining the criteria in two
@@ -607,7 +591,8 @@
 	reading the system recommends what it considers closest according to a
 	measure of distance between fragments.
 </p>
-<h5>How is the distance between two fragments calculated?</h5>
+<h5 id="Q29Q" style="padding-top: 60px; margin-top: -60px;">
+	How is the distance between two fragments calculated?</h5>
 <p>
 	It is calculated by applying the <a
 		href="https://en.wikipedia.org/wiki/Cosine_similarity">cosine
@@ -618,15 +603,20 @@
 	with all the interpretations of the fragment multiplied by the weight
 	assigned by the user to that criterion, a value between 0.2 and 1.0.
 </p>
-<h5>How is the vector associated with the heteronym?</h5>
-<p>The heteronym vector has two cells, one for each of the
+<h5 id="Q30Q" style="padding-top: 60px; margin-top: -60px;">
+	How is the vector associated with the heteronym?</h5>
+
+<p>
+	The heteronym vector has two cells, one for each of the
 	heteronyms, Vicente Guedes and Bernardo Soares. A cell has a value of
 	1.0 if at least one of the interpretations assigns the heteronomy of
 	the fragment to the heteronym associated with that cell and 0.0
 	otherwise. For example, if a fragment is attributed to Vicente Guedes
 	by one of the editors and to Bernardo Soares by two of the other
-	editors, the heteronym vector will have 1.0 in both cells.</p>
-<h5>How is the vector associated with the date calculated?</h5>
+	editors, the heteronym vector will have 1.0 in both cells.
+</p>
+<h5 id="Q31Q" style="padding-top: 60px; margin-top: -60px;">
+	How is the vector associated with the date calculated?</h5>
 <p>
 	The date vector has 22 cells, one for each of the years between the
 	year of the first fragment assigned to the <em>Book,</em> 1913, and the
@@ -637,7 +627,8 @@
 	in which N is the distance between the year associated with the cell
 	and the nearest cell with value 1.0.
 </p>
-<h5>How is the vector associated with the text calculated?</h5>
+<h5 id="Q32Q" style="padding-top: 60px; margin-top: -60px;">
+	How is the vector associated with the text calculated?</h5>
 <p>
 	Initially, the set of the first 100 <a
 		href="https://en.wikipedia.org/wiki/Tf%E2%80%93idf">tf-idf</a> (<em>term
@@ -652,7 +643,8 @@
 	the transcription associated with a representative authorial
 	interpretation is used.
 </p>
-<h5>How is the vector associated with taxonomy calculated?</h5>
+<h5 id="Q33Q" style="padding-top: 60px; margin-top: -60px;">
+	How is the vector associated with taxonomy calculated?</h5>
 <p>
 	The vector has a number of cells equal to the number of tags in the <em>LdoD
 		Archive Edition</em> taxonomy. The cell associated with a category has a
@@ -660,49 +652,71 @@
 		Archive Edition</em> has assigned that category to any tag, and has a value
 	of 0.0 otherwise.
 </p>
-<h5>What does the reading recommendation mean when all weights in
+<h5 id="Q34Q" style="padding-top: 60px; margin-top: -60px;">
+	What does the reading recommendation mean when all weights in
 	the criteria are set to zero?</h5>
-<p>It means there is no similarity between the fragments, i.e., the
-	value of similarity between any two fragments is 0.0.</p>
-<h5>The similarity is calculated between fragments, but what the
-	Archive recommends for reading is an interpretation and not a fragment,
+<p>
+	It means there is no similarity between the fragments, i.e., the
+	value of similarity between any two fragments is 0.0.
+</p>
+<h5 id="Q35Q" style="padding-top: 60px; margin-top: -60px;">
+	The similarity is calculated between fragments, but what the
+	<em>LdoD Archive</em> recommends for reading is an interpretation and not a fragment,
 	why?</h5>
-<p>Similarity is calculated between the fragments, but the reading
+
+<p>
+	Similarity is calculated between the fragments, but the reading
 	must be done using the transcription of one of the interpretations.
 	Thus, the transcription associated with the edition whose transcription
-	the user is currently reading is suggested for reading.</p>
-<h5>Can fragments that have been recommended be recommended again?</h5>
+	the user is currently reading is suggested for reading.
+</p>
+<h5 id="Q36Q" style="padding-top: 60px; margin-top: -60px;">
+	Can fragments that have been recommended be recommended again?</h5>
 <p>
 	Only those fragments that have not been read since the user started a
 	reading sequence are recommended, but if there are only 50 fragments
 	remaining, the <em>Archive</em> will again consider the first 50
 	fragments read for its recommendation.
 </p>
-<h5>Can more than one fragment be recommended?</h5>
-<p>Yes, the system suggests the most similar fragment to the one
+<h5 id="Q37Q" style="padding-top: 60px; margin-top: -60px;">
+	Can more than one fragment be recommended?</h5>
+<p>
+	Yes, the system suggests the most similar fragment to the one
 	that is being read plus all fragments whose difference between their
 	similarity value and the suggested similarity value is less than 0.001,
 	up to a maximum of 5 fragments. Note that the suggested fragment is the
 	most similar that has an interpretation in the edition of the
-	transcription that is currently being read.</p>
-<h5>Why is it that after a fragment interpretation is recommended,
+	transcription that is currently being read.
+</p>
+<h5 id="Q38Q" style="padding-top: 60px; margin-top: -60px;">
+	Why is it that after a fragment interpretation is recommended,
 	no further interpretation of the same fragment is recommenced, even if
 	the interpretation read is from an edition that has two interpretations
 	for that fragment?</h5>
-<p>This is because the mechanism of recommendation of
+<p>
+	This is because the mechanism of recommendation of
 	interpretations for reading is based on the calculation of the
-	similarity between fragments.</p>
+	similarity between fragments.
+</p>
+
 <h3>Virtual Edition</h3>
-<h5>What is a Virtual Edition?</h5>
-<p>A virtual edition is a selection of fragments that one or more
+<h5 id="Q39Q" style="padding-top: 60px; margin-top: -60px;">
+	What is a virtual edition?</h5>
+
+<p>
+	A virtual edition is a selection of fragments that one or more
 	users define by choosing from among existing interpretations. A virtual
 	edition is a unique entity because it allows its virtual editors to
 	choose the fragments they want to include, their ordering, and their
 	annotation through notes and categories. The set of categories
-	associated with a virtual edition defines its taxonomy.</p>
-<h5>What are the limitations to the editorial function in the LdoD
-	Archive?</h5>
-<p>The editorial function in the LdoD Archive is limited to the
+	associated with a virtual edition defines its taxonomy.
+</p>
+<h5 id="Q40Q" style="padding-top: 60px; margin-top: -60px;">
+	What are the limitations to the editorial function in the <em>LdoD
+	Archive</em>?</h5>
+
+<p>
+	The editorial function in the <em>LdoD Archive</em> is limited to the
 	selection, ordering and annotation of the interpretations of the
 	fragments. Virtual editors cannot change the transcriptions or the
 	modularity of the selected interpretations. These limitations are
@@ -710,11 +724,13 @@
 	quality of the transcriptions and the encoding associated with them; on
 	the other hand, by the need to limit the complexity of processing the
 	materials produced by users. The inclusion of a transcription and
-	encoding module, with its own validation system - which would be
+	encoding module, with its own validation system – which would be
 	particularly useful in the context of specialized learning of digital
-	critical editing - may be considered in the future, depending on the
-	available resources.</p>
-<h5>What is LdoD Archive Edition?</h5>
+	critical editing – may be considered in the future, depending on the
+	available resources.
+</p>
+<h5 id="Q41Q" style="padding-top: 60px; margin-top: -60px;">
+	What is <em>LdoD Archive Edition</em>?</h5>
 <p>
 	It is an experimental edition of the <em>LdoD Archive</em> that uses
 	the representative authorial interpretation of each of the fragments.
@@ -722,8 +738,10 @@
 	by the editors of the <em>Archive</em>, who additionally have annotated
 	the interpretations using the categories of that taxonomy.
 </p>
-<h5>How can I create a virtual edition?</h5>
-<p>In the virtual interface you can create a new virtual edition.
+<h5 id="Q42Q" style="padding-top: 60px; margin-top: -60px;">
+	How can I create a virtual edition?</h5>
+<p>
+	In the virtual interface you can create a new virtual edition.
 	The virtual edition can use an already existing expert or virtual
 	edition as its base, thus inheriting all the information associated
 	with the base edition. If an edition is not chosen as the base, the new
@@ -735,27 +753,42 @@
 	changed at the level of its base edition, by editors of the base
 	edition, the effects of the changes are visible in the new virtual
 	edition. This criterion was chosen to respect the authorship of the
-	annotations.</p>
-<h5>Can a virtual edition have more than one interpretation of the
+	annotations.
+</p>
+<h5 id="Q43Q" style="padding-top: 60px; margin-top: -60px;">
+	Can a virtual edition have more than one interpretation of the
 	same fragment?</h5>
-<p>No, it is only possible to associate one interpretation per
-	fragment with a virtual edition.</p>
-<h5>How do I add an interpretation to a virtual edition?</h5>
-<p>There are several ways to associate an interpretation of a
+<p>
+	No, it is only possible to associate one interpretation per
+	fragment with a virtual edition.
+</p>
+<h5 id="Q44Q" style="padding-top: 60px; margin-top: -60px;">
+	How do I add an interpretation to a virtual edition?</h5>
+<p>
+	There are several ways to associate an interpretation of a
 	fragment with a virtual edition: (a) when the interpretation is being
 	viewed on the edition comparison screen, it is possible to add it
 	individually if it is not already part of the virtual edition; (2) in
 	the manual sorting interface of the virtual edition you can also search
-	for fragments and add them to the virtual edition.</p>
-<h5>How can I remove an interpretation of a virtual edition?</h5>
-<p>In the manual sorting interface of the virtual edition you can
-	select one or more interpretations and remove them.</p>
-<h5>Who can add to and remove interpretations from a virtual
+	for fragments and add them to the virtual edition.
+</p>
+<h5 id="Q45Q" style="padding-top: 60px; margin-top: -60px;">
+	How can I remove an interpretation of a virtual edition?</h5>
+<p>
+	In the manual sorting interface of the virtual edition you can
+	select one or more interpretations and remove them.
+</p>
+<h5 id="Q46Q" style="padding-top: 60px; margin-top: -60px;">
+	Who can add to and remove interpretations from a virtual
 	edition?</h5>
-<p>All editors of the virtual edition.</p>
-<h5>Can I collaborate with other people in building a virtual
+<p>
+	All editors of the virtual edition.
+</p>
+<h5 id="Q47Q" style="padding-top: 60px; margin-top: -60px;">
+	Can I collaborate with other people in building a virtual
 	edition?</h5>
-<p>Yes, a virtual edition can have multiple editors. There are two
+<p>
+	Yes, a virtual edition can have multiple editors. There are two
 	types of role for participants in a virtual edition: managers and
 	editors. Managers can add new members to the virtual edition, they just
 	need to know which is their User Name. On the other hand, managers can
@@ -763,8 +796,10 @@
 	user can apply to join a public virtual edition. A manager can remove
 	another user from the list of editors or change his/her role. Note that
 	managers are also, inherently, editors, thus having all the privileges
-	of an editor.</p>
-<h5>What distinguishes a public virtual edition from a private one?</h5>
+	of an editor.
+</p>
+<h5 id="Q48Q" style="padding-top: 60px; margin-top: -60px;">
+	What distinguishes a public virtual edition from a private one?</h5>
 <p>
 	A private edition is only visible and can only be manipulated by its
 	editors. A public edition is visible to the entire <em>LdoD
@@ -774,8 +809,10 @@
 	can change the state of the edition from private to public, as well as
 	its name and acronym.
 </p>
-<h5>How can I annotate the interpretations of a virtual edition?</h5>
-<p>Interpretations of a virtual edition can be annotated manually
+<h5 id="Q49Q" style="padding-top: 60px; margin-top: -60px;">
+	How can I annotate the interpretations of a virtual edition?</h5>
+<p>
+	Interpretations of a virtual edition can be annotated manually
 	and automatically. Manual annotation can be applied to the entire
 	transcription or to a portion of the transcription text. Manual
 	annotation occurs in the edition comparison interface. Manual
@@ -790,17 +827,23 @@
 	virtual edition occurs when the topic-generating algorithm is applied,
 	within the interface of the virtual edition, resulting in the
 	annotation the transcription of those interpretations with the
-	generated categories.</p>
-<h5>Who can annotate interpretations of a virtual edition?</h5>
-<p>In the taxonomy interface, within the virtual edition, managers
+	generated categories.
+</p>
+<h5 id="Q50Q" style="padding-top: 60px; margin-top: -60px;">
+	Who can annotate interpretations of a virtual edition?</h5>
+<p>
+	In the taxonomy interface, within the virtual edition, managers
 	of the virtual edition can indicate who can annotate an interpretation.
 	Two possibilities are offered: the creation of annotations is
 	restricted to editors of the virtual edition; or any authenticated user
 	can create annotations. With regard to editing and removing
 	annotations, only the user who created them can perform these
-	operations.</p>
-<h5>How do you define the set of categories of a taxonomy?</h5>
-<p>The taxonomy of a virtual edition can be open or closed,
+	operations.
+</p>
+<h5 id="Q51Q" style="padding-top: 60px; margin-top: -60px;">
+	How do you define the set of categories of a taxonomy?</h5>
+<p>
+	The taxonomy of a virtual edition can be open or closed,
 	depending on whether you can or cannot add new categories when
 	annotating an interpretation. The annotation of an interpretation
 	occurs in the interface for edition comparison. In cases where the
@@ -812,11 +855,16 @@
 	and category removal. This manipulation of the set of taxonomy
 	categories is done through the virtual edition taxonomy interface. It
 	is also possible to automatically increase the number of categories of
-	a virtual edition by applying the topic-generation algorithm.</p>
-<h5>Who can define whether a taxonomy is open or closed?</h5>
-<p>In the taxonomy interface, within a virtual edition, virtual
-	edition managers can define whether the taxonomy is open or closed.</p>
-<h5>What is the topic-generation algorithm?</h5>
+	a virtual edition by applying the topic-generation algorithm.
+</p>
+<h5 id="Q52Q" style="padding-top: 60px; margin-top: -60px;">
+	Who can define whether a taxonomy is open or closed?</h5>
+<p>
+	In the taxonomy interface, within a virtual edition, virtual
+	edition managers can define whether the taxonomy is open or closed.
+</p>
+<h5 id="Q53Q" style="padding-top: 60px; margin-top: -60px;">
+	What is the topic-generation algorithm?</h5>
 <p>
 	The <a href="https://en.wikipedia.org/wiki/Topic_model">topic-generation
 		algorithm</a> groups the interpretations of the virtual edition into
@@ -834,11 +882,15 @@
 	generation of topics, one must access the taxonomy in the interface of
 	the virtual edition.
 </p>
-<h5>Who can change the categories of a virtual edition?</h5>
-<p>In the taxonomy interface, within a virtual edition, managers can
+<h5 id="Q54Q" style="padding-top: 60px; margin-top: -60px;">
+	Who can change the categories of a virtual edition?</h5>
+<p>
+	In the taxonomy interface, within a virtual edition, managers can
 	define whether it is only managers who can manipulate the categories,
-	or whether all editors of the virtual edition can do so.</p>
-<h5>Can I use the base edition taxonomy categories in my virtual
+	or whether all editors of the virtual edition can do so.
+</p>
+<h5 id="Q55Q" style="padding-top: 60px; margin-top: -60px;">
+	Can I use the base edition taxonomy categories in my virtual
 	edition annotations?</h5>
 <p>
 	Yes, when using a virtual edition in the creation of a new virtual
@@ -850,7 +902,8 @@
 	that used that category in the new virtual edition because the <em>LdoD
 		Archive</em> preserves the authorship of the annotations.
 </p>
-<h5>How can I reorder the interpretations in a virtual edition?</h5>
+<h5 id="Q56Q" style="padding-top: 60px; margin-top: -60px;">
+	How can I reorder the interpretations in a virtual edition?</h5>
 <p>
 	There are two modes for reordering the interpretations: a manual mode
 	and an assisted mode. The manual mode occurs in the editing interface
@@ -872,15 +925,21 @@
 	saved, leading to a redefinition of the numbering associated with each
 	interpretation.
 </p>
-<h5>Who can reorder the interpretations in a virtual edition?</h5>
-<p>All the editors of that virtual edition.</p>
-<h5>When a virtual edition is created which are its default
-	settings?</h5>
-<p>By default the virtual editors can annotate the interpretations,
+<h5 id="Q57Q" style="padding-top: 60px; margin-top: -60px;">
+	Who can reorder the interpretations in a virtual edition?</h5>
+<p>
+	All the editors of that virtual edition.
+</p>
+<h5 id="Q58Q" style="padding-top: 60px; margin-top: -60px;">
+	When a virtual edition is created which are its default settings?</h5>
+<p>
+	By default the virtual editors can annotate the interpretations,
 	but this possibility is not allowed to authenticated users; only
 	managers can change the categories of the taxonomy; and the vocabulary
-	of the taxonomy is open.</p>
-<h5>What might be some of the typical scenarios associated with
+	of the taxonomy is open.
+</p>
+<h5 id="Q59Q" style="padding-top: 60px; margin-top: -60px;">
+	What might be some of the typical scenarios associated with
 	creating virtual editions?</h5>
 <ul>
 	<li>(a) A teacher decides to create a virtual edition so that
@@ -926,4 +985,4 @@
 	[<em>Translation by Manuel Portela</em>]
 </p>
 <p>&nbsp;</p>
-<p>[updated 05-03-2017]</p>
+<p>[updated 03-07-2017]</p>
