@@ -112,7 +112,7 @@
 	<li><a href="#Q59Q">What might be some of the typical scenarios associated with
 			creating virtual editions?</a></li>
 </ul>
-<h3>The Archive</h3>
+<h3 id="#T1T">The Archive</h3>
 
 <h5 id="Q01Q" style="padding-top: 60px; margin-top: -60px;">What is
 	the <em>LdoD Archive</em>?</h5>
@@ -242,7 +242,7 @@
 	transcription, for example, for calculating the textual similarity
 	between two fragments when using the recommendation algorithm.</p>
 
-<h3>Witnesses</h3>
+<h3 id="#T2T">Witnesses</h3>
 <h5 id="Q09Q" style="padding-top: 60px; margin-top: -60px;">
 	What are the witnesses?</h5>
 <p>
@@ -318,7 +318,7 @@
 	genetic transcription.
 </p>
 
-<h3>Experts&rsquo; Editions</h3>
+<h3 id="#T3T">Experts&rsquo; Editions</h3>
 <h5 id="Q14Q" style="padding-top: 60px; margin-top: -60px;">
 	What are the experts&rsquo; editions?</h5>
 <p>
@@ -392,7 +392,7 @@
 	her edition would have been included since it meets the conditions by which we 
 	have defined the expert editions.
 </p>
-<h3>XML-TEI encoding</h3>
+<h3 id="#T4T">XML-TEI encoding</h3>
 <h5 id="Q18Q" style="padding-top: 60px; margin-top: -60px;">
 	How did we encode the texts in the <em>LdoD Archive</em>?</h5>
 <p>
@@ -423,7 +423,7 @@
 	documents. In the case of the experts editions all spaces and rules of
 	division between paragraphs have also been marked up.
 </p>
-<h3>Edition Comparison</h3>
+<h3 id="#T5T">Edition Comparison</h3>
 <h5 id="Q20Q" style="padding-top: 60px; margin-top: -60px;">
 	What is the edition comparison interface for?</h5>
 <p>
@@ -528,7 +528,7 @@
 	between interpretations of the same fragment even when the base
 	interpretation used is not the same.
 </p>
-<h3>Search</h3>
+<h3 id="#T6T">Search</h3>
 <p>The search allows you to select fragments according to a set of
 	criteria.</p>
 <h5 id="Q26Q" style="padding-top: 60px; margin-top: -60px;">
@@ -580,7 +580,7 @@
 	each interpretation satisfies, and thus justifying the reason why the
 	fragment was selected.
 </p>
-<h3>Reading</h3>
+<h3 id="#T7T">>Reading</h3>
 <p>
 	The reading interface offers the possibility of reading the fragments
 	of the <em>Book of Disquiet</em> according to the sequences proposed by
@@ -699,7 +699,7 @@
 	similarity between fragments.
 </p>
 
-<h3>Virtual Edition</h3>
+<h3 id="#T8T">Virtual Edition</h3>
 <h5 id="Q39Q" style="padding-top: 60px; margin-top: -60px;">
 	What is a virtual edition?</h5>
 
