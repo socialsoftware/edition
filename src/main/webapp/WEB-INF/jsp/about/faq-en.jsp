@@ -20,7 +20,7 @@
 </h4>
 <ul>
 	<li><a href="#Q09Q">What are the witnesses?</a></li>
-	<li><a href="#Q10Q">What is a genetic transcription</a></li>
+	<li><a href="#Q10Q">What is a genetic transcription?</a></li>
 	<li><a href="#Q11Q">What can we see in the interface for visualizing authorial
 		sources?</a></li>
 	<li><a href="#Q12Q">What is the facsimile?</a></li>
