@@ -580,7 +580,7 @@
 	each interpretation satisfies, and thus justifying the reason why the
 	fragment was selected.
 </p>
-<h3 id="T7T">>Reading</h3>
+<h3 id="T7T">Reading</h3>
 <p>
 	The reading interface offers the possibility of reading the fragments
 	of the <em>Book of Disquiet</em> according to the sequences proposed by
