@@ -90,7 +90,7 @@
 </h4>
 <ul>
 	<li><a href="#Q39Q">What is a virtual edition?</a></li>
-	<li><a href="#Q40Q">What are the limitations to the editorial function in the <em>LdoD Archive</em>?</a></li>
+	<li><a href="#Q40Q">What are the limitations to the editorial function in the LdoD Archive?</a></li>
 	<li><a href="#Q41Q">What is <em>LdoD Archive Edition</em>?</a></li>
 	<li><a href="#Q42Q">How can I create a virtual edition?</a></li>
 	<li><a href="#Q43Q">Can a virtual edition have more than one interpretation of the same fragment?</a></li>
@@ -114,7 +114,7 @@
 </ul>
 <h3 id="T1T">The Archive</h3>
 
-<h5 id="Q01Q" style="padding-top: 60px; margin-top: -60px;">What is
+<h5 id="Q01Q" style="padding-top: 120px; margin-top: -60px;">What is
 	the <em>LdoD Archive</em>?</h5>
 <p>The <em>LdoD Archive</em> is a collaborative digital archive of the <em>Book
 	of Disquiet</em> by Fernando Pessoa. It contains images of the autograph
@@ -138,10 +138,7 @@
 	Fernando Pessoa explicitly attributed to the <em>Book of Disquiet</em>
 	and another group, without the indication "L. do D.", which its editors
 	have chosen based on material or stylistic evidence from the autograph
-	witnesses.
-</p>
-<p>
-	For each fragment the <em>Archive</em> contains the set of
+	witnesses. For each fragment the <em>Archive</em> contains the set of
 	interpretations associated with it. An interpretation is constituted by
 	a transcription of the text and a set of metadata about it, such as
 	date or heteronym attribution, or the indication of the shelf-mark of
@@ -985,4 +982,4 @@
 	[<em>Translation by Manuel Portela</em>]
 </p>
 <p>&nbsp;</p>
-<p>[updated 03-07-2017]</p>
+<p>[updated 04-07-2017]</p>
