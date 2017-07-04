@@ -765,7 +765,7 @@
 	There are several ways to associate an interpretation of a
 	fragment with a virtual edition: (a) when the interpretation is being
 	viewed on the edition comparison screen, it is possible to add it
-	individually if it is not already part of the virtual edition; (2) in
+	individually if it is not already part of the virtual edition; (b) in
 	the manual sorting interface of the virtual edition you can also search
 	for fragments and add them to the virtual edition.
 </p>
