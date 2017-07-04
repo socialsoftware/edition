@@ -2,67 +2,70 @@
 	<a href="#T1T">O Arquivo</a>
 </h4>
 <ul>
-	<li><a href="#Q52Q">O que é o Arquivo LdoD?</a></li>
-	<li><a href="#Q53Q">O que contém o Arquivo LdoD?</a></li>
-	<li><a href="#Q1Q">O que &eacute; um fragmento no Arquivo
+	<li><a href="#Q01Q">O que &eacute; o Arquivo LdoD?</a></li>
+	<li><a href="#Q02Q">O que cont&eacute;m o Arquivo LdoD?</a></li>
+	<li><a href="#Q03Q">O que &eacute; um fragmento no Arquivo
 			LdoD?</a></li>
-	<li><a href="#Q2Q">O que &eacute; uma
+	<li><a href="#Q04Q">Qual a rela&ccedil;&atilde;o entre um texto no <em>Livro do Desassossego</em> e um
+		fragmento no Arquivo LdoD?</a></li>
+	<li><a href="#Q05Q">Por que motivo o fragmento &eacute; tratado como unidade modular no Arquivo LdoD?</a></li>
+	<li><a href="#Q06Q">O que &eacute; uma
 			interpreta&ccedil;&atilde;o no Arquivo LdoD?</a></li>
-	<li><a href="#Q3Q">Porque &eacute; que alguns fragmentos
+	<li><a href="#Q07Q">Porque &eacute; que alguns fragmentos
 			possuem mais do que uma interpreta&ccedil;&atilde;o editorial para o
 			mesmo editor?</a></li>
-	<li><a href="#Q4Q">O que &eacute; a
+	<li><a href="#Q8Q">O que &eacute; a
 			interpreta&ccedil;&atilde;o autoral representativa de um fragmento?</a></li>
 </ul>
 <h4>
 	<a href="#T2T">Testemunhos</a>
 </h4>
 <ul>
-	<li><a href="#Q5Q">O que s&atilde;o os testemunhos?</a></li>
-	<li><a href="#Q6Q">O que &eacute; uma
+	<li><a href="#Q09Q">O que s&atilde;o os testemunhos?</a></li>
+	<li><a href="#Q10Q">O que &eacute; uma
 			transcri&ccedil;&atilde;o gen&eacute;tica?</a></li>
-	<li><a href="#Q7Q">O que permite a interface de
+	<li><a href="#Q11Q">O que permite a interface de
 			visualiza&ccedil;&atilde;o dos testemunhos?</a></li>
-	<li><a href="#Q8Q">O que &eacute; o fac-s&iacute;mile?</a></li>
-	<li><a href="#Q57Q">Qual a  diferen&ccedil;a entre &ldquo;testemunhos&rdquo; e &ldquo;fragmentos codificados&rdquo;? </a></li>
+	<li><a href="#Q12Q">O que &eacute; o fac-s&iacute;mile?</a></li>
+	<li><a href="#Q13Q">Qual a diferen&ccedil;a entre testemunhos e fragmentos codificados? </a></li>
 </ul>
 <h4>
 	<a href="#T3T">Edi&ccedil;&otilde;es dos Peritos</a>
 </h4>
 <ul>
-	<li><a href="#Q9Q">O que s&atilde;o as edi&ccedil;&otilde;es
+	<li><a href="#Q14Q">O que s&atilde;o as edi&ccedil;&otilde;es
 			dos peritos?</a></li>
-	<li><a href="#Q10Q">Por que foram escolhidas estas
+	<li><a href="#Q15Q">Por que foram escolhidas estas
 			edi&ccedil;&otilde;es espec&iacute;ficas dos peritos?</a></li>
-	<li><a href="#Q11Q">As edi&ccedil;&otilde;es dos peritos
+	<li><a href="#Q16Q">As edi&ccedil;&otilde;es dos peritos
 			ser&atilde;o atualizadas futuramente?</a></li>
-	<li><a href="#Q58Q">Por que não  foi inclu&iacute;da a edi&ccedil;&atilde;o de Teresa Rita Lopes (2015)?</a></li>
+	<li><a href="#Q17Q">Por que n&atilde;o  foi inclu&iacute;da a edi&ccedil;&atilde;o de Teresa Rita Lopes (2015)?</a></li>
 	
 </ul>
 <h4>
 	<a href="#T4T">Codifica&ccedil;&atilde;o XML-TEI</a>
 </h4>
 <ul>
-	<li><a href="#Q12Q">Como foi feita a codifica&ccedil;&atilde;o
+	<li><a href="#Q18Q">Como foi feita a codifica&ccedil;&atilde;o
 			dos textos do Arquivo?</a></li>
-	<li><a href="#Q13Q">Que elementos foram codificados?</a></li>
+	<li><a href="#Q19Q">Que elementos foram codificados?</a></li>
 </ul>
 <h4>
 	<a href="#T5T">Compara&ccedil;&atilde;o de Edi&ccedil;&otilde;es</a>
 </h4>
 <ul>
-	<li><a href="#Q14Q">Para que serve a interface de
+	<li><a href="#Q20Q">Para que serve a interface de
 			compara&ccedil;&atilde;o das edi&ccedil;&otilde;es?</a></li>
-	<li><a href="#Q15Q">O que mostra a visualiza&ccedil;&atilde;o
+	<li><a href="#Q21Q">O que mostra a visualiza&ccedil;&atilde;o
 			de realce de diferen&ccedil;as?</a></li>
-	<li><a href="#Q16Q">Quais s&atilde;o as unidades de realce de
+	<li><a href="#Q22Q">Quais s&atilde;o as unidades de realce de
 			diferen&ccedil;a?</a></li>
-	<li><a href="#Q17Q">O que &eacute; que a
+	<li><a href="#Q23Q">O que &eacute; que a
 			compara&ccedil;&atilde;o revela sobre as edi&ccedil;&otilde;es?</a></li>
-	<li><a href="#Q18Q">&Eacute; poss&iacute;vel comparar uma
+	<li><a href="#Q24Q">&Eacute; poss&iacute;vel comparar uma
 			interpreta&ccedil;&atilde;o editorial ou autoral com uma
 			interpreta&ccedil;&atilde;o virtual?</a></li>
-	<li><a href="#Q19Q">O que mostra a compara&ccedil;&atilde;o
+	<li><a href="#Q25Q">O que mostra a compara&ccedil;&atilde;o
 			das anota&ccedil;&otilde;es de fragmentos das edi&ccedil;&otilde;es
 			virtuais?</a></li>
 </ul>
@@ -70,37 +73,37 @@
 	<a href="#T6T">Pesquisa</a>
 </h4>
 <ul>
-	<li><a href="#Q20Q">O que &eacute; a pesquisa simples?</a></li>
-	<li><a href="#Q21Q">Quais s&atilde;o os caracteres permitidos
+	<li><a href="#Q26Q">O que &eacute; a pesquisa simples?</a></li>
+	<li><a href="#Q27Q">Quais s&atilde;o os caracteres permitidos
 			no crit&eacute;rio de pesquisa por texto?</a></li>
-	<li><a href="#Q22Q">O que &eacute; a pesquisa avan&ccedil;ada?</a></li>
+	<li><a href="#Q28Q">O que &eacute; a pesquisa avan&ccedil;ada?</a></li>
 </ul>
 <h4>
 	<a href="#T7T">Leitura</a>
 </h4>
 <ul>
-	<li><a href="#Q23Q">Como &eacute; calculada a dist&acirc;ncia
+	<li><a href="#Q29Q">Como &eacute; calculada a dist&acirc;ncia
 			entre dois fragmentos?</a></li>
-	<li><a href="#Q24Q">Como &eacute; calculado o vetor associado
+	<li><a href="#Q30Q">Como &eacute; calculado o vetor associado
 			ao heter&oacute;nimo?</a></li>
-	<li><a href="#Q25Q">Como &eacute; calculado o vetor associado
+	<li><a href="#Q31Q">Como &eacute; calculado o vetor associado
 			&agrave; data?</a></li>
-	<li><a href="#Q26Q">Como &eacute; calculado o vetor associado
+	<li><a href="#Q32Q">Como &eacute; calculado o vetor associado
 			ao texto?</a></li>
-	<li><a href="#Q27Q">Como &eacute; calculado o vetor associado
+	<li><a href="#Q33Q">Como &eacute; calculado o vetor associado
 			&agrave; taxonomia?</a></li>
-	<li><a href="#Q28Q">O que significa a
+	<li><a href="#Q34Q">O que significa a
 			recomenda&ccedil;&atilde;o de leitura quando todos os pesos dos
 			crit&eacute;rios est&atilde;o a zero?</a></li>
-	<li><a href="#Q29Q">A similaridade &eacute; calculada entre
+	<li><a href="#Q35Q">A similaridade &eacute; calculada entre
 			fragmentos, mas o que o Arquivo me recomenda para leitura &eacute;
 			uma interpreta&ccedil;&atilde;o e n&atilde;o um fragmento,
 			porqu&ecirc;?</a></li>
-	<li><a href="#Q30Q">Os fragmentos que j&aacute; foram
+	<li><a href="#Q36Q">Os fragmentos que j&aacute; foram
 			recomendados podem voltar a ser recomendados?</a></li>
-	<li><a href="#Q31Q">Pode surgir mais do que um fragmento
+	<li><a href="#Q37Q">Pode surgir mais do que um fragmento
 			recomendado?</a></li>
-	<li><a href="#Q32Q">Porque &eacute; que depois de recomendada
+	<li><a href="#Q38Q">Porque &eacute; que depois de recomendada
 			uma interpreta&ccedil;&atilde;o de fragmento mais nenhuma
 			interpreta&ccedil;&atilde;o do mesmo fragmento volta a ser
 			recomendada, mesmo que a interpreta&ccedil;&atilde;o lida seja de uma
@@ -111,84 +114,83 @@
 	<a href="#T8T">Edi&ccedil;&atilde;o Virtual</a>
 </h4>
 <ul>
-	<li><a href="#Q54Q">O que é uma Edição Virtual?</a></li>
-	<li><a href="#Q55Q">Quais as limitações ao exercício da função
+	<li><a href="#Q39Q">O que &eacute; uma Edi&ccedil;&atilde;o Virtual?</a></li>
+	<li><a href="#Q40Q">Quais as limita&ccedil;&otilde;es ao exerc&iacute;cio da fun&ccedil;&atilde;o
 			editorial no Arquivo LdoD?</a></li>
-	<li><a href="#Q56Q">O que &eacute; a Edi&ccedil;&atilde;o do
+	<li><a href="#Q41Q">O que &eacute; a Edi&ccedil;&atilde;o do
 			Arquivo LdoD?</a></li>
-	<li><a href="#Q33Q">Como posso criar uma edi&ccedil;&atilde;o
+	<li><a href="#Q42Q">Como posso criar uma edi&ccedil;&atilde;o
 			virtual?</a></li>
-	<li><a href="#Q34Q">Uma edi&ccedil;&atilde;o virtual pode
+	<li><a href="#Q43Q">Uma edi&ccedil;&atilde;o virtual pode
 			possuir mais do que uma interpreta&ccedil;&atilde;o do mesmo
 			fragmento?</a></li>
-	<li><a href="#Q35Q">Como adiciono uma
+	<li><a href="#Q44Q">Como adiciono uma
 			interpreta&ccedil;&atilde;o a uma edi&ccedil;&atilde;o virtual?</a></li>
-	<li><a href="#Q36Q">Como posso remover uma
+	<li><a href="#Q45Q">Como posso remover uma
 			interpreta&ccedil;&atilde;o de uma edi&ccedil;&atilde;o virtual?</a></li>
-	<li><a href="#Q38Q">Quem pode adicionar e remover
+	<li><a href="#Q46Q">Quem pode adicionar e remover
 			interpreta&ccedil;&otilde;es a uma edi&ccedil;&atilde;o virtual?</a></li>
-	<li><a href="#Q39Q">Posso colaborar com outras pessoas na
+	<li><a href="#Q47Q">Posso colaborar com outras pessoas na
 			constru&ccedil;&atilde;o da edi&ccedil;&atilde;o virtual?</a></li>
-	<li><a href="#Q40Q">O que distingue uma edi&ccedil;&atilde;o
+	<li><a href="#Q48Q">O que distingue uma edi&ccedil;&atilde;o
 			virtual p&uacute;blica de uma privada?</a></li>
-	<li><a href="#Q41Q">Como posso anotar as
+	<li><a href="#Q49Q">Como posso anotar as
 			interpreta&ccedil;&otilde;es de uma edi&ccedil;&atilde;o virtual?</a></li>
-	<li><a href="#Q42Q">Quem pode anotar
+	<li><a href="#Q50Q">Quem pode anotar
 			interpreta&ccedil;&otilde;es de uma edi&ccedil;&atilde;o virtual?</a></li>
-	<li><a href="#Q43Q">Como se define o conjunto de categorias de
+	<li><a href="#Q51Q">Como se define o conjunto de categorias de
 			uma taxonomia?</a></li>
-	<li><a href="#Q44Q">Quem pode definir se uma taxonomia
+	<li><a href="#Q52Q">Quem pode definir se uma taxonomia
 			&eacute; aberta ou fechada?</a></li>
-	<li><a href="#Q45Q">O que &eacute; o algoritmo de
+	<li><a href="#Q53Q">O que &eacute; o algoritmo de
 			gera&ccedil;&atilde;o de t&oacute;picos?</a></li>
-	<li><a href="#Q46Q">Quem pode manipular as categorias de uma
+	<li><a href="#Q54Q">Quem pode manipular as categorias de uma
 			edi&ccedil;&atilde;o virtual?</a></li>
-	<li><a href="#Q47Q">Posso usar as categorias das taxonomias
+	<li><a href="#Q55Q">Posso usar as categorias das taxonomias
 			das edi&ccedil;&otilde;es base nas anota&ccedil;&otilde;es da minha
 			edi&ccedil;&atilde;o virtual?</a></li>
-	<li><a href="#Q48Q">Como posso reordenar as
+	<li><a href="#Q56Q">Como posso reordenar as
 			interpreta&ccedil;&otilde;es numa edi&ccedil;&atilde;o virtual?</a></li>
-	<li><a href="#Q49Q">Quem pode reordenar as
+	<li><a href="#Q57Q">Quem pode reordenar as
 			interpreta&ccedil;&otilde;es numa edi&ccedil;&atilde;o virtual?</a></li>
-	<li><a href="#Q50Q">Quando uma edi&ccedil;&atilde;o virtual
+	<li><a href="#Q58Q">Quando uma edi&ccedil;&atilde;o virtual
 			&eacute; criada quais s&atilde;o as configura&ccedil;&otilde;es por
 			omiss&atilde;o?</a></li>
-	<li><a href="#Q51Q">Quais poder&atilde;o ser alguns dos
+	<li><a href="#Q59Q">Quais poder&atilde;o ser alguns dos
 			cen&aacute;rios t&iacute;picos associados &agrave;
 			cria&ccedil;&atilde;o de edi&ccedil;&otilde;es virtuais?</a></li>
 </ul>
 
 <h3 id="T1T" style="padding-top: 60px; margin-top: -60px;">O
 	Arquivo</h3>
-<h5 id="Q52Q" style="padding-top: 60px; margin-top: -60px;">O que é
+<h5 id="Q01Q" style="padding-top: 60px; margin-top: -60px;">O que &eacute;
 	o <em>Arquivo LdoD</em>?</h5>
-<p>O <em>Arquivo LdoD</em> é um arquivo digital colaborativo do <em>Livro do
-	Desassossego</em> de Fernando Pessoa. Contém imagens dos documentos
-	autógrafos, novas transcrições desses documentos e ainda transcrições
-	de quatro edições da obra. Além da leitura e comparação das
-	transcrições, o <em>Arquivo LdoD</em> permite que os utilizadores colaborem na
-	criação de edições virtuais do <em>Livro do Desassossego</em>. Inclui ainda um
-	módulo de escrita que, futuramente, permitirá aos utilizadores
-	escreverem variações a partir dos fragmentos do Livro. Deste modo, o
-	<em>Arquivo LdoD</em> combina um princípio representacional com um princípio
-	simulatório: o primeiro consiste na representação da história e dos
-	processos de escrita e de edição do Livro; o segundo consiste na
-	possibilidade de os utilizadores assumirem diferentes papéis no
-	processo literário (ler, editar, escrever), usando a flexibilidade do
-	meio digital para experimentarem o <em>Livro do Desassossego</em> como máquina
-	literária.</p>
-<h5 id="Q53Q" style="padding-top: 60px; margin-top: -60px;">O que
-	contém o <em>Arquivo LdoD</em>?</h5>
+<p>
+	O <em>Arquivo LdoD</em> &eacute; um arquivo digital colaborativo do <em>Livro do
+	Desassossego</em> de Fernando Pessoa. Cont&eacute;m imagens dos documentos
+	aut&oacute;grafos, novas transcri&ccedil;&otilde;es desses documentos e ainda transcri&ccedil;&otilde;es
+	de quatro edi&ccedil;&otilde;es da obra. Al&eacute;m da leitura e compara&ccedil;&atilde;o das
+	transcri&ccedil;&otilde;es, o <em>Arquivo LdoD</em> permite que os utilizadores colaborem na
+	cria&ccedil;&atilde;o de edi&ccedil;&otilde;es virtuais do <em>Livro do Desassossego</em>. Inclui ainda um
+	m&oacute;dulo de escrita que, futuramente, permitir&aacute; aos utilizadores
+	escreverem varia&ccedil;&otilde;es a partir dos fragmentos do <em>Livro</em>. Deste modo, o
+	<em>Arquivo LdoD</em> combina um princ&iacute;pio representacional com um princ&iacute;pio
+	simulat&oacute;rio: o primeiro consiste na representa&ccedil;&atilde;o da hist&oacute;ria e dos
+	processos de escrita e de edi&ccedil;&atilde;o do <em>Livro</em>; o segundo consiste na
+	possibilidade de os utilizadores assumirem diferentes pap&eacute;is no
+	processo liter&aacute;rio (ler, editar, escrever), usando a flexibilidade do
+	meio digital para experimentarem o <em>Livro do Desassossego</em> como m&aacute;quina
+	liter&aacute;ria.
+</p>
+<h5 id="Q02Q" style="padding-top: 60px; margin-top: -60px;">O que
+	cont&eacute;m o <em>Arquivo LdoD</em>?</h5>
 <p>
 	O <em>Arquivo LdoD</em> &eacute; constitu&iacute;do por um grupo de
 	fragmentos que Fernando Pessoa explicitamente indicou pertencerem ao <em>Livro
 		do Desassossego</em> e um outro grupo, sem a indica&ccedil;&atilde;o
 	&ldquo;L. do D.&rdquo;, que os seus editores escolheram a partir de
 	evid&ecirc;ncias materiais ou estil&iacute;sticas dos testemunhos
-	aut&oacute;grafos.
-</p>
-<p>
-	Para cada fragmento o <em>Arquivo LdoD</em> cont&eacute;m o conjunto das
+	aut&oacute;grafos. Para cada fragmento o <em>Arquivo LdoD</em> cont&eacute;m o conjunto das
 	interpreta&ccedil;&otilde;es associadas a esse fragmento. Uma
 	interpreta&ccedil;&atilde;o &eacute; constitu&iacute;da por uma
 	transcri&ccedil;&atilde;o do texto e um conjunto de
@@ -211,9 +213,9 @@
 	v&aacute;rios manuscritos e datiloscritos de um mesmo texto. A
 	transcri&ccedil;&atilde;o e metainforma&ccedil;&atilde;o associada a
 	uma interpreta&ccedil;&atilde;o autoral &eacute; da responsabilidade da
-	equipa do <em>Arquivo LdoD.</em>
+	equipa do <em>Arquivo LdoD</em>.
 </p>
-<h5 id="Q1Q" style="padding-top: 60px; margin-top: -60px;">O que
+<h5 id="Q03Q" style="padding-top: 60px; margin-top: -60px;">O que
 	&eacute; um fragmento no <em>Arquivo LdoD</em>?</h5>
 <p>
 	Um fragmento &eacute; uma sequ&ecirc;ncia textual modular e constitui a
@@ -228,38 +230,42 @@
 	incluindo aqueles textos que s&atilde;o publicados em ap&ecirc;ndice ou
 	em anexo.
 </p>
-<h5>Qual a relação entre um texto no <em>Livro do Desassossego</em> e um
+<h5 id="Q04Q">Qual a rela&ccedil;&atilde;o entre um texto no <em>Livro do Desassossego</em> e um
 	fragmento no <em>Arquivo LdoD</em>?</h5>
-<p>Todos os fragmentos do <em>Arquivo LdoD</em> são também unidades textuais
-	do <em>Livro do Desassossego</em> segundo pelo menos uma das edições. A
-	estrutura do <em>Arquivo LdoD</em> coloca todos os fragmentos à mesma distância uns
-	dos outros, isto é, com o mesmo índice de modularidade. Todavia, nas
-	edições, nem todas as unidades textuais têm o mesmo grau de
-	independência relativa, uma vez que há grupos de textos que estão mais
-	próximos entre si, quer por serem partes de uma unidade textual maior,
-	quer por proximidade temática ou cronológica. As unidades textuais das
-	edições têm diferentes índices de modularidade, pois há grupos de
-	textos mais próximos entre si. Essa é a diferença principal entre um
-	texto como unidade de uma dada edição e um fragmento como unidade do
-	<em>Arquivo LdoD</em>.</p>
-<h5>Por que motivo o fragmento é tratado como unidade modular no
+<p>
+	Todos os fragmentos do <em>Arquivo LdoD</em> s&atilde;o tamb&eacute;m unidades textuais
+	do <em>Livro do Desassossego</em> segundo pelo menos uma das edi&ccedil;&otilde;es. A
+	estrutura do <em>Arquivo LdoD</em> coloca todos os fragmentos &agrave; mesma dist&acirc;ncia uns
+	dos outros, isto &eacute;, com o mesmo &iacute;ndice de modularidade. Todavia, nas
+	edi&ccedil;&otilde;es, nem todas as unidades textuais t&ecirc;m o mesmo grau de
+	independ&ecirc;ncia relativa, uma vez que h&aacute; grupos de textos que est&atilde;o mais
+	pr&oacute;ximos entre si, quer por serem partes de uma unidade textual maior,
+	quer por proximidade tem&aacute;tica ou cronol&oacute;gica. As unidades textuais das
+	edi&ccedil;&otilde;es t&ecirc;m diferentes &iacute;ndices de modularidade, pois h&aacute; grupos de
+	textos mais pr&oacute;ximos entre si. Essa &eacute; a diferen&ccedil;a principal entre um
+	texto como unidade de uma dada edi&ccedil;&atilde;o e um fragmento como unidade do
+	<em>Arquivo LdoD</em>.
+</p>
+<h5 id="Q05Q">Por que motivo o fragmento &eacute; tratado como unidade modular no
 	<em>Arquivo LdoD</em>?</h5>
-<p>A organização modular dos fragmentos (isto é, à mesma distância
-	relativa uns dos outros) no <em>Arquivo LdoD</em> é uma pré-condição para que a
-	comparação e a virtualização das edições possa ser processada da forma
-	aberta concebida pelo nosso modelo. Esta sobrevalorização da
+<p>
+	A organiza&ccedil;&atilde;o modular dos fragmentos (isto &eacute;, &agrave; mesma dist&acirc;ncia
+	relativa uns dos outros) no <em>Arquivo LdoD</em> &eacute; uma pr&eacute;-condi&ccedil;&atilde;o para que a
+	compara&ccedil;&atilde;o e a virtualiza&ccedil;&atilde;o das edi&ccedil;&otilde;es possa ser processada da forma
+	aberta concebida pelo nosso modelo. Esta sobrevaloriza&ccedil;&atilde;o da
 	fragmentariedade modular do <em>Livro</em> no <em>Arquivo LdoD</em> constitui um
-	instrumento crítico para abrir o potencial de leitura, edição e escrita
-	da obra a novas intervenções. A distorção introduzida pelo modelo de
-	dados - suporte principal das funcionalidades dinâmicas do <em>Arquivo LdoD</em>
-	- dá expressão técnica a uma rematerialização digital de documentos,
-	textos e obra para além dos modelos bibliográficos. O <emZ>Livro do
-	Desasssossego</em> não é uma organização inteiramente livre de fragmentos
-	soltos, mas a configuração radial e desierarquizada das suas unidades
+	instrumento cr&iacute;tico para abrir o potencial de leitura, edi&ccedil;&atilde;o e escrita
+	da obra a novas interven&ccedil;&otilde;es. A distor&ccedil;&atilde;o introduzida pelo modelo de
+	dados - suporte principal das funcionalidades din&acirc;micas do <em>Arquivo LdoD</em>
+	- d&aacute; express&atilde;o t&eacute;cnica a uma rematerializa&ccedil;&atilde;o digital de documentos,
+	textos e obra para al&eacute;m dos modelos bibliogr&aacute;ficos. O <emZ>Livro do
+	Desasssossego</em> n&atilde;o &eacute; uma organiza&ccedil;&atilde;o inteiramente livre de fragmentos
+	soltos, mas a configura&ccedil;&atilde;o radial e desierarquizada das suas unidades
 	no <em>Arquivo LdoD</em> permite simular a projetualidade autoral e a
-	projetualidade editorial como processos de imaginação da obra enquanto
-	livro.</p>
-<h5 id="Q2Q" style="padding-top: 60px; margin-top: -60px;">O que
+	projetualidade editorial como processos de imagina&ccedil;&atilde;o da obra enquanto
+	livro.
+</p>
+<h5 id="Q06Q" style="padding-top: 60px; margin-top: -60px;">O que
 	&eacute; uma interpreta&ccedil;&atilde;o no <em>Arquivo LdoD</em>?</h5>
 <p>
 	Uma interpreta&ccedil;&atilde;o &eacute; o conjunto formado por uma
@@ -269,64 +275,72 @@
 	peritos e ainda da representa&ccedil;&atilde;o gen&eacute;tica dos
 	testemunho) n&atilde;o s&atilde;o totalmente coincidentes entre si,
 	quer por varia&ccedil;&otilde;es e diferen&ccedil;as microtextuais
-	(ortografia, pontuação, escolha de variantes, ordena&ccedil;&atilde;o
+	(ortografia, pontua&ccedil;&atilde;o, escolha de variantes, ordena&ccedil;&atilde;o
 	interna dos par&aacute;grafos, por exemplo), quer por
-	varia&ccedil;&otilde;es macrotextuais (isto &eacute;, divisão dos
+	varia&ccedil;&otilde;es macrotextuais (isto &eacute;, divis&atilde;o dos
 	fragmentos entre si, ordena&ccedil;&atilde;o relativa do fragmento na
 	arquitetura do <em>Livro</em>, inclus&atilde;o ou exclus&atilde;o de um
 	determinado fragmento do corpus do <em>Livro</em>).
 </p>
-<h5 id="Q3Q" style="padding-top: 60px; margin-top: -60px;">Porque
+<h5 id="Q07Q" style="padding-top: 60px; margin-top: -60px;">Porque
 	&eacute; que alguns fragmentos possuem mais do que uma
 	interpreta&ccedil;&atilde;o editorial para o mesmo editor?</h5>
-<p>Isso acontece porque os editores dividem, por vezes, um fragmento
+<p>
+	Isso acontece porque os editores dividem, por vezes, um fragmento
 	ou associam v&aacute;rios fragmentos. Por exemplo, um editor pode
 	considerar como sendo um &uacute;nico texto o que outro editor
 	considera serem dois textos distintos, ou seja, para o primeiro editor
 	o arquivo associa uma &uacute;nica interpreta&ccedil;&atilde;o enquanto
-	para o segundo editor associa duas.</p>
-<h5 id="Q4Q" style="padding-top: 60px; margin-top: -60px;">O que
+	para o segundo editor associa duas.
+</p>
+<h5 id="Q08Q" style="padding-top: 60px; margin-top: -60px;">O que
 	&eacute; a interpreta&ccedil;&atilde;o autoral representativa de um
 	fragmento?</h5>
-<p>&Eacute; a interpreta&ccedil;&atilde;o autoral da fonte impressa,
+<p>
+	&Eacute; a interpreta&ccedil;&atilde;o autoral da fonte impressa,
 	caso exista; sen&atilde;o, de uma fonte datiloscrita, e se esta
 	tamb&eacute;m n&atilde;o existir, de uma fonte manuscrita. &Eacute;
 	necess&aacute;rio definir uma interpreta&ccedil;&atilde;o autoral
 	representativa para se ter uma transcri&ccedil;&atilde;o de
 	refer&ecirc;ncia, por exemplo, para calcular a similaridade textual
 	entre dois fragmentos quando se usa o algoritmo de
-	recomenda&ccedil;&atilde;o.</p>
+	recomenda&ccedil;&atilde;o.
+</p>
 <h3 id="T2T" style="padding-top: 60px; margin-top: -60px;">Testemunhos</h3>
-<h5 id="Q5Q" style="padding-top: 60px; margin-top: -60px;">O que
+<h5 id="Q09Q" style="padding-top: 60px; margin-top: -60px;">O que
 	s&atilde;o os testemunhos?</h5>
 <p>
 	Os testemunhos s&atilde;o as interpreta&ccedil;&otilde;es dos
 	fragmentos constitu&iacute;das por transcri&ccedil;&otilde;es
 	gen&eacute;ticas de manuscritos e datiloscritos aut&oacute;grafos, e
-	ainda impressos publicados por Pessoa, codificadas pela equipa do<em>
-		Arquivo LdoD</em>. Al&eacute;m da transcri&ccedil;&atilde;o, h&aacute; um
+	ainda impressos publicados por Pessoa, codificadas pela equipa do
+	<em>Arquivo LdoD</em>. Al&eacute;m da transcri&ccedil;&atilde;o, h&aacute; um
 	conjunto de metainforma&ccedil;&atilde;o sobre os testemunhos
 	documentais (suporte e meio da inscri&ccedil;&atilde;o,
 	dimens&otilde;es do papel, eventuais particularidades do documento,
 	cota da BNP, etc.).
 </p>
-<h5 id="Q6Q" style="padding-top: 60px; margin-top: -60px;">O que
+<h5 id="Q10Q" style="padding-top: 60px; margin-top: -60px;">O que
 	&eacute; uma transcri&ccedil;&atilde;o gen&eacute;tica?</h5>
-<p>&Eacute; uma transcri&ccedil;&atilde;o que permite observar o
+<p>
+	&Eacute; uma transcri&ccedil;&atilde;o que permite observar o
 	processo de escrita e revis&atilde;o autoral, registando todas as
 	camadas de composi&ccedil;&atilde;o do texto e n&atilde;o apenas a
-	vers&atilde;o final.</p>
-<h5 id="Q7Q" style="padding-top: 60px; margin-top: -60px;">O que
+	vers&atilde;o final.
+</p>
+<h5 id="Q11Q" style="padding-top: 60px; margin-top: -60px;">O que
 	permite a interface de visualiza&ccedil;&atilde;o dos testemunhos?</h5>
-<p>Permite ver a transcri&ccedil;&atilde;o de um testemunho autoral
+<p>
+	Permite ver a transcri&ccedil;&atilde;o de um testemunho autoral
 	que respeita a topografia de quebras de linha e de
 	distribui&ccedil;&atilde;o de espa&ccedil;os do original. Permite ver
 	tamb&eacute;m os elementos textuais cancelados, substitu&iacute;dos ou
 	acrescentados por Fernando Pessoa, assim como o fac-s&iacute;mile
 	digital dos documentos originais. S&atilde;o representadas ainda todas
 	as variantes, isto &eacute;, aqueles passos textuais para os quais
-	existem duas ou mais alternativas.</p>
-<h5 id="Q8Q" style="padding-top: 60px; margin-top: -60px;">O que
+	existem duas ou mais alternativas.
+</p>
+<h5 id="Q12Q" style="padding-top: 60px; margin-top: -60px;">O que
 	&eacute; o fac-s&iacute;mile?</h5>
 <p>
 	O fac-s&iacute;mile &eacute; uma imagem digital do documento original,
@@ -337,8 +351,8 @@
 	relacionado com <em>Livro</em>. H&aacute; por isso folhas representadas
 	apenas em <em>recto</em> e outras em <em>recto</em> e <em>verso</em>.
 </p>
-<h5 id="Q57Q" style="padding-top: 60px; margin-top: -60px;">Qual a diferen&ccedil;a entre 
-	&ldquo;testemunhos&rdquo; e &ldquo;fragmentos codificados&rdquo;?</h5>
+<h5 id="Q13Q" style="padding-top: 60px; margin-top: -60px;">Qual a diferen&ccedil;a entre 
+	testemunhos e fragmentos codificados?</h5>
 <p>
 	As designa&ccedil;&otilde;es &ldquo;testemunhos&rdquo; e &ldquo;fragmentos codificados&rdquo; 
 	s&atilde;o perspetivas diferentes sobre os mesmos materiais. &ldquo;Testemunhos&rdquo;  
@@ -349,27 +363,28 @@
 	partir das unidades do pr&oacute;prio <em>Arquivo LdoD</em>, ou seja, dos ficheiros XML 
 	como unidades que garantem a modularidade dos fragmentos e das interpreta&ccedil;&otilde;es (transcri&ccedil;&otilde;es) 
 	que lhes est&atilde;o associadas. Se se observarem as respetivas tabelas, torna-se mais  
-	clara a respetiva lógica: os 756 &ldquo;testemunhos&rdquo; correspondem a documentos 
-	aut&oacute;grafos da BNP que têm uma cota específica (ou, no caso de algumas cartas, cotas 
-	de  outros arquivos) e ainda a 12 textos publicados; já os 722 &ldquo;fragmentos  
+	clara a respetiva l&oacute;gica: os 756 &ldquo;testemunhos&rdquo; correspondem a documentos 
+	aut&oacute;grafos da BNP que t&ecirc;m uma cota espec&iacute;fica (ou, no caso de algumas cartas, cotas 
+	de  outros arquivos) e ainda a 12 textos publicados; j&aacute; os 722 &ldquo;fragmentos  
 	codificados&rdquo; correspondem aos ficheiros XML do <em>Arquivo LdoD</em>, cada um 
-	dos quais contém um certo número de interpretações para o mesmo fragmento. Do ponto de 
-	vista do nosso modelo de dados no Arquivo, é como se o fragmento fosse uma entidade 
-	abstrata, que depois tem múltiplas instancia&ccedil;&otilde;es: as transcrições de JPC, TSC, RZ e JP, 
-	e ainda as nossas próprias transcri&ccedil;&otilde;es dos testemunhos. Geralmente surge apenas uma 
-	interpretaç&atilde;o de cada ediç&atilde;o para cada fragmento (ou seja, cinco ao todo), mas este número 
-	pode ir até sete quando, além das cinco interpreta&ccedil;&otilde;es editorias h&aacute; v&aacute;rios aut&oacute;grafos – 
+	dos quais cont&eacute;m um certo n&uacute;mero de interpreta&ccedil;&otilde;es para o mesmo fragmento. Do ponto de 
+	vista do nosso modelo de dados no Arquivo, &eacute; como se o fragmento fosse uma entidade 
+	abstrata, que depois tem m&uacute;ltiplas instancia&ccedil;&otilde;es: as transcri&ccedil;&otilde;es de JPC, TSC, RZ e JP, 
+	e ainda as nossas pr&oacute;prias transcri&ccedil;&otilde;es dos testemunhos. Geralmente surge apenas uma 
+	interpreta&ccedil;&atilde;o de cada edi&ccedil;&atilde;o para cada fragmento (ou seja, cinco ao todo), mas este n&uacute;mero 
+	pode ir at&eacute; sete quando, al&eacute;m das cinco interpreta&ccedil;&otilde;es editorias h&aacute; v&aacute;rios aut&oacute;grafos – 
 	por exemplo, dois datiloscritos diferentes e uma vers&atilde;o publicada em revista. 
-	Neste caso, o <em>Arquivo LdoD</em> transcreve as três vers&otilde;s aut&oacute;grafas. 
-	Através da tabela dos &ldquo;fragmentos codificados&rdquo; temos uma imagem global do 
-	conteúdo do <em>Arquivo LdoD</em>. De um ponto de vista te&oacute;rico, podemos dizer 
+	Neste caso, o <em>Arquivo LdoD</em> transcreve as tr&ecirc;s vers&otilde;s aut&oacute;grafas. 
+	Atrav&eacute;s da tabela dos &ldquo;fragmentos codificados&rdquo; temos uma imagem global do 
+	conte&uacute;do do <em>Arquivo LdoD</em>. De um ponto de vista te&oacute;rico, podemos dizer 
 	que os ficheiros XML s&atilde;o documentos do <em>Arquivo LdoD</em> tal como os aut&oacute;grafos 
-	s&atilde;o documentos do esp&oacute;lio de FP na BNP. Estes últimos est&atilde;o representados no <em>Arquivo  LdoD</em> 
-	atrav&eacute;s de uma imagem fac-similada e de uma nova transcriç&atilde;o gen&eacute;tica topogr&aacute;fica. </p>
+	s&atilde;o documentos do esp&oacute;lio de FP na BNP. Estes &uacute;ltimos est&atilde;o representados no <em>Arquivo  LdoD</em> 
+	atrav&eacute;s de uma imagem fac-similada e de uma nova transcri&ccedil;&atilde;o gen&eacute;tica topogr&aacute;fica. 
+</p>
 
 <h3 id="T3T" style="padding-top: 60px; margin-top: -60px;">Edi&ccedil;&otilde;es
 	dos Peritos</h3>
-<h5 id="Q9Q" style="padding-top: 60px; margin-top: -60px;">O que
+<h5 id="Q14Q" style="padding-top: 60px; margin-top: -60px;">O que
 	s&atilde;o as edi&ccedil;&otilde;es dos peritos?</h5>
 <p>
 	As edi&ccedil;&otilde;es dos peritos que constam do <em>Arquivo
@@ -407,7 +422,7 @@
 	desenvolvido um aparato cr&iacute;tico-gen&eacute;tico
 	sistem&aacute;tico e exaustivo.
 </p>
-<h5 id="Q10Q" style="padding-top: 60px; margin-top: -60px;">Por que
+<h5 id="Q15Q" style="padding-top: 60px; margin-top: -60px;">Por que
 	foram escolhidas estas edi&ccedil;&otilde;es espec&iacute;ficas dos
 	peritos?</h5>
 <p>
@@ -422,10 +437,10 @@
 	na transcri&ccedil;&atilde;o, na ordena&ccedil;&atilde;o), ainda que
 	mantendo o essencial das respetivas estruturas e princ&iacute;pios de
 	ordena&ccedil;&atilde;o.&nbsp; Entretanto, desde 2012, foram j&aacute;
-	publicadas novas edi&ccedil;&otilde;es (Sobral Cunha 2013 e 2016;
+	publicadas novas edi&ccedil;&otilde;es (Sobral Cunha 2013;
 	Pizarro 2013 e 2014; Zenith 2015).
 </p>
-<h5 id="Q11Q" style="padding-top: 60px; margin-top: -60px;">As
+<h5 id="Q16Q" style="padding-top: 60px; margin-top: -60px;">As
 	edi&ccedil;&otilde;es dos peritos ser&atilde;o atualizadas futuramente?</h5>
 <p>
 	Embora os peritos tenham manifestado o desejo de ver a &uacute;ltima
@@ -443,24 +458,24 @@
 	leituras colhidas em diferentes edi&ccedil;&otilde;es do texto.
 </p>
 <p>
-<h5 id="Q58Q" style="padding-top: 60px; margin-top: -60px;">Por que não foi 
-		incluída a edição de Teresa Rita Lopes (2015)?</h5>
+<h5 id="Q17Q" style="padding-top: 60px; margin-top: -60px;">Por que n&atilde;o foi 
+		inclu&iacute;da a edi&ccedil;&atilde;o de Teresa Rita Lopes (2015)?</h5>
 <p>	
-	Teresa Rita Lopes publicou em 2015 uma nova edição intitulada <em>Livros do Desassossego</em>, 
-	na qual integra trinta e cinco textos do Barão de Teive, além dos de 
-	Vicente Guedes e Bernardo Soares. Embora a edição de Teresa Rita Lopes seja uma  
-	nova demonstração da projetualidade autoral e editorial da obra – reforçando,  
-	de certo modo, a justificação teórica do <em>Arquivo  LdoD</em> para desenvolver 
-	funcionalidades dinâmicas – não foi possível incluí-la porque todo o trabalho de 
-	codificação estava concluído nessa data e não dispúnhamos dos recursos adicionais 
-	necessários para recodificar os  ficheiros. Caso contrário, esta edição teria sido 
-	incluída, uma vez que satisfaz as condições através das quais definimos as 
-	edições dos peritos.</p>
+	Teresa Rita Lopes publicou em 2015 uma nova edi&ccedil;&atilde;o intitulada <em>Livros do Desassossego</em>, 
+	na qual integra trinta e cinco textos do Bar&atilde;o de Teive, al&eacute;m dos de 
+	Vicente Guedes e Bernardo Soares. Embora a edi&ccedil;&atilde;o de Teresa Rita Lopes seja uma  
+	nova demonstra&ccedil;&atilde;o da projetualidade autoral e editorial da obra – refor&ccedil;ando,  
+	de certo modo, a justifica&ccedil;&atilde;o te&oacute;rica do <em>Arquivo  LdoD</em> para desenvolver 
+	funcionalidades din&acirc;micas – n&atilde;o foi poss&iacute;vel inclu&iacute;-la porque todo o trabalho de 
+	codifica&ccedil;&atilde;o estava conclu&iacute;do nessa data e n&atilde;o disp&uacute;nhamos dos recursos adicionais 
+	necess&aacute;rios para recodificar os  ficheiros. Caso contr&aacute;rio, esta edi&ccedil;&atilde;o teria sido 
+	inclu&iacute;da, uma vez que satisfaz as condi&ccedil;&otilde;es atrav&eacute;s das quais definimos as 
+	edi&ccedil;&otilde;es dos peritos.</p>
 
 
 <h3 id="T4T" style="padding-top: 60px; margin-top: -60px;">Codifica&ccedil;&atilde;o
 	XML-TEI</h3>
-<h5 id="Q12Q" style="padding-top: 60px; margin-top: -60px;">Como
+<h5 id="Q18Q" style="padding-top: 60px; margin-top: -60px;">Como
 	foi feita a codifica&ccedil;&atilde;o dos textos do <em>Arquivo LdoD</em>?</h5>
 <p>
 	A codifica&ccedil;&atilde;o foi realizada de acordo com as
@@ -471,7 +486,7 @@
 	cinco pessoas, num total de doze mil horas de codifica&ccedil;&atilde;o
 	e de revis&atilde;o.
 </p>
-<h5 id="Q13Q" style="padding-top: 60px; margin-top: -60px;">Que
+<h5 id="Q19Q" style="padding-top: 60px; margin-top: -60px;">Que
 	elementos foram codificados?</h5>
 <p>
 	A codifica&ccedil;&atilde;o XML dos testemunhos e das quatro
@@ -500,7 +515,7 @@
 </p>
 <h3 id="T5T" style="padding-top: 60px; margin-top: -60px;">Compara&ccedil;&atilde;o
 	de Edi&ccedil;&otilde;es</h3>
-<h5 id="Q14Q" style="padding-top: 60px; margin-top: -60px;">Para
+<h5 id="Q20Q" style="padding-top: 60px; margin-top: -60px;">Para
 	que serve a interface de compara&ccedil;&atilde;o das
 	edi&ccedil;&otilde;es?</h5>
 <p>
@@ -513,9 +528,10 @@
 	transcri&ccedil;&otilde;es de cada fragmento, e tamb&eacute;m a sua
 	posi&ccedil;&atilde;o relativa dentro da ordena&ccedil;&atilde;o do <em>Livro</em>.
 </p>
-<h5 id="Q15Q" style="padding-top: 60px; margin-top: -60px;">O que
+<h5 id="Q21Q" style="padding-top: 60px; margin-top: -60px;">O que
 	mostra a visualiza&ccedil;&atilde;o de realce de diferen&ccedil;as?</h5>
-<p>Esta funcionalidade mostra os pontos de varia&ccedil;&atilde;o
+<p>
+	Esta funcionalidade mostra os pontos de varia&ccedil;&atilde;o
 	entre as interpreta&ccedil;&otilde;es que est&atilde;o a ser
 	comparadas. Estes pontos de varia&ccedil;&atilde;o s&atilde;o
 	real&ccedil;ados a azul no corpo do texto, sendo apresentados sob a
@@ -526,8 +542,9 @@
 	interpreta&ccedil;&atilde;o resulta no tom azul mais claro e a
 	exist&ecirc;ncia de varia&ccedil;&otilde;es em todas as
 	interpreta&ccedil;&otilde;es resulta no tom azul mais escuro, havendo
-	ainda duas tonalidades interm&eacute;dias).</p>
-<h5 id="Q16Q" style="padding-top: 60px; margin-top: -60px;">Quais
+	ainda duas tonalidades interm&eacute;dias).
+</p>
+<h5 id="Q22Q" style="padding-top: 60px; margin-top: -60px;">Quais
 	s&atilde;o as unidades de realce de diferen&ccedil;a?</h5>
 <p>
 	As unidades de realce de diferen&ccedil;as podem ser de quatro tipos:
@@ -567,7 +584,7 @@
 	varia&ccedil;&atilde;o &agrave; escala inferior da palavra ou grupo de
 	palavras, sinal de pontua&ccedil;&atilde;o e frase ou grupo de frases.
 </p>
-<h5 id="Q17Q" style="padding-top: 60px; margin-top: -60px;">O que
+<h5 id="Q23Q" style="padding-top: 60px; margin-top: -60px;">O que
 	&eacute; que a compara&ccedil;&atilde;o revela sobre as
 	edi&ccedil;&otilde;es?</h5>
 <p>
@@ -611,29 +628,36 @@
 	de quatro modelos distintos de produ&ccedil;&atilde;o do <em>Livro
 		do Desassossego.</em>
 </p>
-<h5 id="Q18Q" style="padding-top: 60px; margin-top: -60px;">&Eacute;
+<h5 id="Q24Q" style="padding-top: 60px; margin-top: -60px;">&Eacute;
 	poss&iacute;vel comparar uma interpreta&ccedil;&atilde;o editorial ou
 	autoral com uma interpreta&ccedil;&atilde;o virtual?</h5>
-<p>N&atilde;o, pois uma interpreta&ccedil;&atilde;o virtual nunca
+<p>
+	N&atilde;o, pois uma interpreta&ccedil;&atilde;o virtual nunca
 	altera a transcri&ccedil;&atilde;o da interpreta&ccedil;&atilde;o que
-	usa.</p>
-<h5 id="Q19Q" style="padding-top: 60px; margin-top: -60px;">O que
+	usa.
+</p>
+<h5 id="Q25Q" style="padding-top: 60px; margin-top: -60px;">O que
 	mostra a compara&ccedil;&atilde;o das anota&ccedil;&otilde;es de
 	fragmentos das edi&ccedil;&otilde;es virtuais?</h5>
-<p>Nessa interface &eacute; poss&iacute;vel comparar as
+<p>
+	Nessa interface &eacute; poss&iacute;vel comparar as
 	anota&ccedil;&otilde;es que os editores virtuais aplicaram sobre as
 	interpreta&ccedil;&otilde;es virtuais. Por exemplo, o que foi citado, e
 	que notas e categorias foram associadas &agrave; cita&ccedil;&atilde;o
 	pelos editores virtuais. Note-se que a compara&ccedil;&atilde;o
 	&eacute; entre interpreta&ccedil;&otilde;es do mesmo fragmento, mesmo
 	quando a interpreta&ccedil;&atilde;o base usada n&atilde;o &eacute; a
-	mesma.</p>
+	mesma.
+</p>
 <h3 id="T6T" style="padding-top: 60px; margin-top: -60px;">Pesquisa</h3>
-<p>A pesquisa permite selecionar fragmentos de acordo com um
-	conjunto de crit&eacute;rios.</p>
-<h5 id="Q20Q" style="padding-top: 60px; margin-top: -60px;">O que
+<p>
+	A pesquisa permite selecionar fragmentos de acordo com um
+	conjunto de crit&eacute;rios.
+</p>
+<h5 id="Q26Q" style="padding-top: 60px; margin-top: -60px;">O que
 	&eacute; a pesquisa simples?</h5>
-<p>Na pesquisa simples &eacute; poss&iacute;vel selecionar o
+<p>
+	Na pesquisa simples &eacute; poss&iacute;vel selecionar o
 	conjunto de fragmentos de acordo com dois&nbsp; crit&eacute;rios: texto
 	e tipo de fonte. O crit&eacute;rio do texto pode-se aplicar a toda
 	transcri&ccedil;&atilde;o ou apenas ao t&iacute;tulo. O resultado
@@ -641,11 +665,13 @@
 	inserido no campo de pesquisa. Note-se que o resultado da pesquisa pode
 	incluir v&aacute;rias interpreta&ccedil;&otilde;es associadas ao mesmo
 	fragmento (isto &eacute;, interpreta&ccedil;&otilde;es autorais e
-	interpreta&ccedil;&otilde;es editoriais).</p>
-<h5 id="Q21Q" style="padding-top: 60px; margin-top: -60px;">Quais
+	interpreta&ccedil;&otilde;es editoriais).
+</p>
+<h5 id="Q27Q" style="padding-top: 60px; margin-top: -60px;">Quais
 	s&atilde;o os caracteres permitidos no crit&eacute;rio de pesquisa por
 	texto?</h5>
-<p>Apenas s&atilde;o permitidos os caracteres alfa-num&eacute;ricos,
+<p>
+	Apenas s&atilde;o permitidos os caracteres alfa-num&eacute;ricos,
 	o h&iacute;fen, o "&amp;" comercial e o espa&ccedil;o. Todos os
 	restantes caracteres s&atilde;o ignorados, por exemplo ao inserir-se
 	"al*ma" no campo de pesquisa o resultado incluir&aacute; todas as
@@ -653,10 +679,12 @@
 	n&atilde;o h&aacute; distin&ccedil;&atilde;o entre min&uacute;scula e
 	mai&uacute;scula, pelo que no exemplo anterior tamb&eacute;m se
 	obter&aacute; no resultado as interpreta&ccedil;&otilde;es onde surja a
-	palavra "Alma".</p>
-<h5 id="Q22Q" style="padding-top: 60px; margin-top: -60px;">O que
+	palavra "Alma".
+</p>
+<h5 id="Q28Q" style="padding-top: 60px; margin-top: -60px;">O que
 	&eacute; a pesquisa avan&ccedil;ada?</h5>
-<p>Na pesquisa avan&ccedil;ada &eacute; poss&iacute;vel usar um
+<p>
+	Na pesquisa avan&ccedil;ada &eacute; poss&iacute;vel usar um
 	maior conjunto de crit&eacute;rios. Adicionalmente &eacute;
 	poss&iacute;vel formular uma pesquisa que componha os crit&eacute;rios
 	de duas formas: de acordo com todos os crit&eacute;rios ou de acordo
@@ -683,7 +711,8 @@
 	resultado da pesquisa inclui as interpreta&ccedil;&otilde;es dos
 	fragmentos selecionados, indicando quais os crit&eacute;rios que cada
 	uma das interpreta&ccedil;&otilde;es satisfaz e assim justificando a
-	raz&atilde;o pela qual o fragmento foi selecionado.</p>
+	raz&atilde;o pela qual o fragmento foi selecionado.
+</p>
 <h3 id="T7T" style="padding-top: 60px; margin-top: -60px;">Leitura</h3>
 <p>
 	A interface de leitura oferece a possibilidade de se ler os fragmentos
@@ -696,7 +725,7 @@
 	sistema recomenda o que considera mais pr&oacute;ximo de acordo com uma
 	medida de dist&acirc;ncia entre fragmentos.
 </p>
-<h5 id="Q23Q" style="padding-top: 60px; margin-top: -60px;">Como
+<h5 id="Q29Q" style="padding-top: 60px; margin-top: -60px;">Como
 	&eacute; calculada a dist&acirc;ncia entre dois fragmentos?</h5>
 <p>
 	&Eacute; calculada aplicando a <a
@@ -711,9 +740,10 @@
 	atribu&iacute;do pelo utilizador a esse crit&eacute;rio, um valor entre
 	0.2 e 1.0.
 </p>
-<h5 id="Q24Q" style="padding-top: 60px; margin-top: -60px;">Como
+<h5 id="Q30Q" style="padding-top: 60px; margin-top: -60px;">Como
 	&eacute; calculado o vetor associado ao heter&oacute;nimo?</h5>
-<p>O vetor de heter&oacute;nimo possui 2 c&eacute;lulas, uma para
+<p>
+	O vetor de heter&oacute;nimo possui 2 c&eacute;lulas, uma para
 	cada um dos heter&oacute;nimos, Vicente Guedes e Bernardo Soares. Uma
 	c&eacute;lula possui o valor 1.0 se pelo menos uma das
 	interpreta&ccedil;&otilde;es atribui a heteronomia do fragmento ao
@@ -721,8 +751,9 @@
 	contr&aacute;rio. Por exemplo, se um fragmento &eacute;
 	atribu&iacute;do a Vicente Guedes por um dos editores e a Bernardo
 	Soares por dois dos outros editores, o vetor de heter&oacute;nimo
-	ter&aacute; 1.0 em ambas as c&eacute;lulas.</p>
-<h5 id="Q25Q" style="padding-top: 60px; margin-top: -60px;">Como
+	ter&aacute; 1.0 em ambas as c&eacute;lulas.
+</p>
+<h5 id="Q31Q" style="padding-top: 60px; margin-top: -60px;">Como
 	&eacute; calculado o vetor associado &agrave; data?</h5>
 <p>
 	O vetor de data tem 22 c&eacute;lulas, uma por cada um dos anos que
@@ -736,7 +767,7 @@
 	associado &agrave; c&eacute;lula e a c&eacute;lula mais pr&oacute;xima
 	com valor 1.0.
 </p>
-<h5 id="Q26Q" style="padding-top: 60px; margin-top: -60px;">Como
+<h5 id="Q32Q" style="padding-top: 60px; margin-top: -60px;">Como
 	&eacute; calculado o vetor associado ao texto?</h5>
 <p>
 	Inicialmente &eacute; calculado o conjunto dos 100 primeiros <a
@@ -754,7 +785,7 @@
 	transcri&ccedil;&atilde;o associada &agrave;
 	interpreta&ccedil;&atilde;o autoral representativa.
 </p>
-<h5 id="Q27Q" style="padding-top: 60px; margin-top: -60px;">Como
+<h5 id="Q33Q" style="padding-top: 60px; margin-top: -60px;">Como
 	&eacute; calculado o vetor associado &agrave; taxonomia?</h5>
 <p>
 	O vetor tem um n&uacute;mero de c&eacute;lulas igual ao n&uacute;mero
@@ -764,52 +795,63 @@
 		do Arquivo LdoD</em> atribuiu essa categoria a alguma etiqueta, e tem o
 	valor 0.0 no caso contr&aacute;rio.
 </p>
-<h5 id="Q28Q" style="padding-top: 60px; margin-top: -60px;">O que
+<h5 id="Q34Q" style="padding-top: 60px; margin-top: -60px;">O que
 	significa a recomenda&ccedil;&atilde;o de leitura quando todos os pesos
 	dos crit&eacute;rios est&atilde;o a zero?</h5>
-<p>Quer dizer que n&atilde;o existe similaridade entre os
+<p>
+	Quer dizer que n&atilde;o existe similaridade entre os
 	fragmentos, o valor da similaridade entre quaisquer dois fragmentos
-	&eacute; 0.0.</p>
-<h5 id="Q29Q" style="padding-top: 60px; margin-top: -60px;">A
+	&eacute; 0.0.
+</p>
+<h5 id="Q35Q" style="padding-top: 60px; margin-top: -60px;">A
 	similaridade &eacute; calculada entre fragmentos, mas o que o Arquivo
 	me recomenda para leitura &eacute; uma interpreta&ccedil;&atilde;o e
 	n&atilde;o um fragmento, porqu&ecirc;?</h5>
-<p>A similaridade &eacute; calculada entre os fragmentos, mas a
+<p>
+	A similaridade &eacute; calculada entre os fragmentos, mas a
 	leitura deve ser efetuada sobre a transcri&ccedil;&atilde;o de uma das
 	interpreta&ccedil;&otilde;es. Assim, &eacute; sugerida para leitura a
 	transcri&ccedil;&atilde;o associada &agrave; edi&ccedil;&atilde;o da
 	transcri&ccedil;&atilde;o que o utilizador se encontra atualmente a
-	ler.</p>
-<h5 id="Q30Q" style="padding-top: 60px; margin-top: -60px;">Os
+	ler.
+</p>
+<h5 id="Q36Q" style="padding-top: 60px; margin-top: -60px;">Os
 	fragmentos que j&aacute; foram recomendados podem voltar a ser
 	recomendados?</h5>
-<p>Apenas s&atilde;o recomendados para leitura os fragmentos que
+<p>
+	Apenas s&atilde;o recomendados para leitura os fragmentos que
 	ainda n&atilde;o foram lidos desde que o utilizador iniciou uma
 	sequ&ecirc;ncia de leitura, mas se j&aacute; apenas restam 50
 	fragmentos por ler o arquivo volta a considerar na sua
-	recomenda&ccedil;&atilde;o os primeiros 50 fragmentos lidos.</p>
-<h5 id="Q31Q" style="padding-top: 60px; margin-top: -60px;">Pode
+	recomenda&ccedil;&atilde;o os primeiros 50 fragmentos lidos.
+</p>
+<h5 id="Q37Q" style="padding-top: 60px; margin-top: -60px;">Pode
 	surgir mais do que um fragmento recomendado?</h5>
-<p>Sim, &eacute; sugerido o fragmento mais similar ao que
+<p>
+	Sim, &eacute; sugerido o fragmento mais similar ao que
 	est&aacute; a ser lido mais todos os fragmentos cuja diferen&ccedil;a
 	entre o valor da sua similaridade e o valor da similaridade do sugerido
 	&eacute; menor que 0.001, at&eacute; um m&aacute;ximo de 5 fragmentos.
 	Note-se que o fragmento sugerido &eacute; o mais similar que tem uma
 	interpreta&ccedil;&atilde;o na edi&ccedil;&atilde;o da
-	transcri&ccedil;&atilde;o que se encontra a ser lida.</p>
-<h5 id="Q32Q" style="padding-top: 60px; margin-top: -60px;">Porque
+	transcri&ccedil;&atilde;o que se encontra a ser lida.
+</p>
+<h5 id="Q38Q" style="padding-top: 60px; margin-top: -60px;">Porque
 	&eacute; que depois de recomendada uma interpreta&ccedil;&atilde;o de
 	fragmento mais nenhuma interpreta&ccedil;&atilde;o do mesmo fragmento
 	volta a ser recomendada, mesmo que a interpreta&ccedil;&atilde;o lida
 	seja de uma edi&ccedil;&atilde;o que possui duas
 	interpreta&ccedil;&otilde;es para esse fragmento?</h5>
-<p>Isso acontece porque o mecanismo de recomenda&ccedil;&atilde;o de
+<p>
+	Isso acontece porque o mecanismo de recomenda&ccedil;&atilde;o de
 	interpreta&ccedil;&otilde;es para leitura &eacute; baseado no
-	c&aacute;lculo da similaridade entre fragmentos.</p>
+	c&aacute;lculo da similaridade entre fragmentos.
+</p>
 <h3 id="T8T" style="padding-top: 60px; margin-top: -60px;">Edi&ccedil;&atilde;o
 	Virtual</h3>
-<h5 id="Q54Q" style="padding-top: 60px; margin-top: -60px;">O que é uma Edição Virtual?</h5>
-<p>Uma edi&ccedil;&atilde;o virtual &eacute; uma
+<h5 id="Q39Q" style="padding-top: 60px; margin-top: -60px;">O que &eacute; uma Edi&ccedil;&atilde;o Virtual?</h5>
+<p>
+	Uma edi&ccedil;&atilde;o virtual &eacute; uma
 	sele&ccedil;&atilde;o de fragmentos que um ou mais utilizadores definem
 	escolhendo de entre as interpreta&ccedil;&otilde;es existentes. Uma
 	edi&ccedil;&atilde;o virtual &eacute; uma entidade singular pois
@@ -817,21 +859,25 @@
 	desejam incluir, a sua ordena&ccedil;&atilde;o, e a sua
 	anota&ccedil;&atilde;o atrav&eacute;s de notas e categorias. O conjunto
 	de categorias associadas a uma edi&ccedil;&atilde;o virtual define a
-	sua taxonomia.</p>
-<h5 id="Q55Q" style="padding-top: 60px; margin-top: -60px;">Quais as limitações ao exercício da função editorial no <em>Arquivo LdoD</em>?</h5>
-<p>O exercício da função editorial no <em>Arquivo LdoD</em> está limitado à
-	seleção, ordenação e anotação das interpretações dos fragmentos. Os
-	editores virtuais não podem alterar as transcrições ou a modularidade
-	das interpretações selecionadas. Estas limitações são determinadas por
+	sua taxonomia.
+</p>
+<h5 id="Q40Q" style="padding-top: 60px; margin-top: -60px;">Quais as limita&ccedil;&otilde;es ao exerc&iacute;cio da fun&ccedil;&atilde;o 
+	editorial no <em>Arquivo LdoD</em>?</h5>
+<p>
+	O exerc&iacute;cio da fun&ccedil;&atilde;o editorial no <em>Arquivo LdoD</em> est&aacute; limitado &agrave;
+	sele&ccedil;&atilde;o, ordena&ccedil;&atilde;o e anota&ccedil;&atilde;o das interpreta&ccedil;&otilde;es dos fragmentos. Os
+	editores virtuais n&atilde;o podem alterar as transcri&ccedil;&otilde;es ou a modularidade
+	das interpreta&ccedil;&otilde;es selecionadas. Estas limita&ccedil;&otilde;es s&atilde;o determinadas por
 	dois fatores: por um lado, pela necessidade de controlar a qualidade
-	das transcrições e da codificação que lhes está associada; por outro
+	das transcri&ccedil;&otilde;es e da codifica&ccedil;&atilde;o que lhes est&aacute; associada; por outro
 	lado, pela necessidade de limitar a complexidade do processamento dos
-	materiais produzidos pelos utilizadores. A inclusão de um módulo de
-	transcrição e codificação, com o respetivo sistema de validação -
-	particularmente útil num contexto de aprendizagem especializada das
-	práticas de crítica textual -, poderá vir a ser considerada futuramente
-	em função dos recursos disponíveis.</p>
-<h5 id="Q56Q" style="padding-top: 60px; margin-top: -60px;">O que &eacute; a Edi&ccedil;&atilde;o do <em>Arquivo LdoD</em>?
+	materiais produzidos pelos utilizadores. A inclus&atilde;o de um m&oacute;dulo de
+	transcri&ccedil;&atilde;o e codifica&ccedil;&atilde;o, com o respetivo sistema de valida&ccedil;&atilde;o -
+	particularmente &uacute;til num contexto de aprendizagem especializada das
+	pr&aacute;ticas de cr&iacute;tica textual -, poder&aacute; vir a ser considerada futuramente
+	em fun&ccedil;&atilde;o dos recursos dispon&iacute;veis.
+</p>
+<h5 id="Q41Q" style="padding-top: 60px; margin-top: -60px;">O que &eacute; a <em>Edi&ccedil;&atilde;o do Arquivo LdoD</em>?
 </h5>
 <p>
 	&Eacute; uma edi&ccedil;&atilde;o experimental do <em>Arquivo LdoD</em>
@@ -841,9 +887,10 @@
 	anotaram as interpreta&ccedil;&otilde;es com as categorias da
 	taxonomia.
 </p>
-<h5 id="Q33Q" style="padding-top: 60px; margin-top: -60px;">Como
+<h5 id="Q42Q" style="padding-top: 60px; margin-top: -60px;">Como
 	posso criar uma edi&ccedil;&atilde;o virtual?</h5>
-<p>Na interface virtual pode-se criar uma nova edi&ccedil;&atilde;o
+<p>
+	Na interface virtual pode-se criar uma nova edi&ccedil;&atilde;o
 	virtual. A edi&ccedil;&atilde;o virtual pode usar uma
 	edi&ccedil;&atilde;o, de perito ou virtual, j&aacute; existente como
 	base, ficando assim com toda a informa&ccedil;&atilde;o associada
@@ -860,37 +907,44 @@
 	edi&ccedil;&atilde;o base, os efeitos das altera&ccedil;&otilde;es
 	s&atilde;o vis&iacute;veis na nova edi&ccedil;&atilde;o. Este
 	crit&eacute;rio foi escolhido para respeitar a autoria das
-	anota&ccedil;&otilde;es.</p>
-<h5 id="Q34Q" style="padding-top: 60px; margin-top: -60px;">Uma
+	anota&ccedil;&otilde;es.
+</p>
+<h5 id="Q43Q" style="padding-top: 60px; margin-top: -60px;">Uma
 	edi&ccedil;&atilde;o virtual pode possuir mais do que uma
 	interpreta&ccedil;&atilde;o do mesmo fragmento?</h5>
-<p>N&atilde;o, apenas &eacute; poss&iacute;vel associar uma
+<p>
+	N&atilde;o, apenas &eacute; poss&iacute;vel associar uma
 	interpreta&ccedil;&atilde;o por fragmento a uma edi&ccedil;&atilde;o
-	virtual.</p>
-<h5 id="Q35Q" style="padding-top: 60px; margin-top: -60px;">Como
+	virtual.
+</p>
+<h5 id="Q44Q" style="padding-top: 60px; margin-top: -60px;">Como
 	adiciono uma interpreta&ccedil;&atilde;o a uma edi&ccedil;&atilde;o
 	virtual?</h5>
-<p>Existem diversas formas de associar uma
+<p>
+	Existem diversas formas de associar uma
 	interpreta&ccedil;&atilde;o de um fragmento a uma edi&ccedil;&atilde;o
 	virtual: (a) quando a interpreta&ccedil;&atilde;o est&aacute; a ser
 	visualizada no ecr&atilde; de compara&ccedil;&atilde;o de
 	edi&ccedil;&otilde;es, &eacute; poss&iacute;vel adicion&aacute;-la
 	individualmente se ela ainda n&atilde;o fizer parte da
-	edi&ccedil;&atilde;o virtual; (2) na interface de
+	edi&ccedil;&atilde;o virtual; (b) na interface de
 	ordena&ccedil;&atilde;o manual da edi&ccedil;&atilde;o virtual &eacute;
 	poss&iacute;vel pesquisar fragmentos e adicion&aacute;-los &agrave;
-	edi&ccedil;&atilde;o virtual.</p>
-<h5 id="Q36Q" style="padding-top: 60px; margin-top: -60px;">Como
+	edi&ccedil;&atilde;o virtual.
+</p>
+<h5 id="Q45Q" style="padding-top: 60px; margin-top: -60px;">Como
 	posso remover uma interpreta&ccedil;&atilde;o de uma
 	edi&ccedil;&atilde;o virtual?</h5>
-<p>Na interface de ordena&ccedil;&atilde;o manual da
+<p>	Na interface de ordena&ccedil;&atilde;o manual da
 	edi&ccedil;&atilde;o virtual &eacute; poss&iacute;vel selecionar uma ou
-	mais interpreta&ccedil;&otilde;es e remov&ecirc;-las.</p>
-<h5 id="Q38Q" style="padding-top: 60px; margin-top: -60px;">Quem
+	mais interpreta&ccedil;&otilde;es e remov&ecirc;-las.
+</p>
+<h5 id="Q46Q" style="padding-top: 60px; margin-top: -60px;">Quem
 	pode adicionar e remover interpreta&ccedil;&otilde;es a uma
 	edi&ccedil;&atilde;o virtual?</h5>
-<p>Todos os editores da edi&ccedil;&atilde;o virtual.</p>
-<h5 id="Q39Q" style="padding-top: 60px; margin-top: -60px;">Posso
+<p>
+	Todos os editores da edi&ccedil;&atilde;o virtual.</p>
+<h5 id="Q47Q" style="padding-top: 60px; margin-top: -60px;">Posso
 	colaborar com outras pessoas na constru&ccedil;&atilde;o da
 	edi&ccedil;&atilde;o virtual?</h5>
 <p>
@@ -906,7 +960,7 @@
 	os gestores s&atilde;o tamb&eacute;m, por iner&ecirc;ncia, editores,
 	possuindo todos os privil&eacute;gios de um editor.
 </p>
-<h5 id="Q40Q" style="padding-top: 60px; margin-top: -60px;">O que
+<h5 id="Q48Q" style="padding-top: 60px; margin-top: -60px;">O que
 	distingue uma edi&ccedil;&atilde;o virtual p&uacute;blica de uma
 	privada?</h5>
 <p>
@@ -920,10 +974,11 @@
 	estado da edi&ccedil;&atilde;o entre p&uacute;blica e privada, assim
 	como o seu nome e acr&oacute;nimo.
 </p>
-<h5 id="Q41Q" style="padding-top: 60px; margin-top: -60px;">Como
+<h5 id="Q49Q" style="padding-top: 60px; margin-top: -60px;">Como
 	posso anotar as interpreta&ccedil;&otilde;es de uma
 	edi&ccedil;&atilde;o virtual?</h5>
-<p>As interpreta&ccedil;&otilde;es de uma edi&ccedil;&atilde;o
+<p>
+	As interpreta&ccedil;&otilde;es de uma edi&ccedil;&atilde;o
 	virtual podem ser anotadas manual e automaticamente. A
 	anota&ccedil;&atilde;o manual pode-se aplicar a toda a
 	transcri&ccedil;&atilde;o ou apenas a uma por&ccedil;&atilde;o de texto
@@ -943,11 +998,13 @@
 	edi&ccedil;&atilde;o virtual ocorre quando se aplica o algoritmo de
 	gera&ccedil;&atilde;o de t&oacute;picos, na interface de
 	edi&ccedil;&atilde;o virtual, ficando a transcri&ccedil;&atilde;o das
-	interpreta&ccedil;&otilde;es anotadas com as categorias geradas.</p>
-<h5 id="Q42Q" style="padding-top: 60px; margin-top: -60px;">Quem
+	interpreta&ccedil;&otilde;es anotadas com as categorias geradas.
+</p>
+<h5 id="Q50Q" style="padding-top: 60px; margin-top: -60px;">Quem
 	pode anotar interpreta&ccedil;&otilde;es de uma edi&ccedil;&atilde;o
 	virtual?</h5>
-<p>Na interface de taxonomia, em edi&ccedil;&atilde;o virtual, os
+<p>
+	Na interface de taxonomia, em edi&ccedil;&atilde;o virtual, os
 	gestores da edi&ccedil;&atilde;o virtual podem indicar quem pode anotar
 	uma interpreta&ccedil;&atilde;o. S&atilde;o oferecidas duas
 	possibilidades: a cria&ccedil;&atilde;o de anota&ccedil;&otilde;es
@@ -955,10 +1012,12 @@
 	qualquer utilizador autenticado pode criar anota&ccedil;&otilde;es. No
 	que diz respeito &agrave; edi&ccedil;&atilde;o e remo&ccedil;&atilde;o
 	de anota&ccedil;&otilde;es, apenas o utilizador que as criou pode
-	efetuar estas opera&ccedil;&otilde;es.</p>
-<h5 id="Q43Q" style="padding-top: 60px; margin-top: -60px;">Como se
+	efetuar estas opera&ccedil;&otilde;es.
+</p>
+<h5 id="Q51Q" style="padding-top: 60px; margin-top: -60px;">Como se
 	define o conjunto de categorias de uma taxonomia?</h5>
-<p>A taxonomia de uma edi&ccedil;&atilde;o virtual pode ser aberta
+<p>	
+	A taxonomia de uma edi&ccedil;&atilde;o virtual pode ser aberta
 	ou fechada, conforme seja poss&iacute;vel, ou n&atilde;o, adicionar
 	novas categorias durante a anota&ccedil;&atilde;o de uma
 	interpreta&ccedil;&atilde;o. A anota&ccedil;&atilde;o de uma
@@ -978,13 +1037,16 @@
 	poss&iacute;vel aumentar automaticamente o n&uacute;mero de categorias
 	de uma edi&ccedil;&atilde;o virtual atrav&eacute;s da
 	aplica&ccedil;&atilde;o do algoritmo de gera&ccedil;&atilde;o de
-	t&oacute;picos.</p>
-<h5 id="Q44Q" style="padding-top: 60px; margin-top: -60px;">Quem
+	t&oacute;picos.
+</p>
+<h5 id="Q52Q" style="padding-top: 60px; margin-top: -60px;">Quem
 	pode definir se uma taxonomia &eacute; aberta ou fechada?</h5>
-<p>Na interface de taxonomia, em edi&ccedil;&atilde;o virtual, os
+<p>
+	Na interface de taxonomia, em edi&ccedil;&atilde;o virtual, os
 	gestores da edi&ccedil;&atilde;o virtual podem definir se a taxonomia
-	&eacute; aberta ou fechada.</p>
-<h5 id="Q45Q" style="padding-top: 60px; margin-top: -60px;">O que
+	&eacute; aberta ou fechada.
+</p>
+<h5 id="Q53Q" style="padding-top: 60px; margin-top: -60px;">O que
 	&eacute; o algoritmo de gera&ccedil;&atilde;o de t&oacute;picos?</h5>
 <p>
 	O <a href="https://en.wikipedia.org/wiki/Topic_model">algoritmo de
@@ -1008,13 +1070,15 @@
 	t&oacute;picos deve-se aceder &agrave; taxonomia na interface da
 	edi&ccedil;&atilde;o virtual.
 </p>
-<h5 id="Q46Q" style="padding-top: 60px; margin-top: -60px;">Quem
+<h5 id="Q54Q" style="padding-top: 60px; margin-top: -60px;">Quem
 	pode manipular as categorias de uma edi&ccedil;&atilde;o virtual?</h5>
-<p>Na interface de taxonomia, em edi&ccedil;&atilde;o virtual, os
+<p>
+	Na interface de taxonomia, em edi&ccedil;&atilde;o virtual, os
 	gestores podem definir se s&atilde;o apenas os gestores que podem
 	manipular as categorias, ou se todos os editores da
-	edi&ccedil;&atilde;o virtual o podem fazer.</p>
-<h5 id="Q47Q" style="padding-top: 60px; margin-top: -60px;">Posso
+	edi&ccedil;&atilde;o virtual o podem fazer.
+</p>
+<h5 id="Q55Q" style="padding-top: 60px; margin-top: -60px;">Posso
 	usar as categorias das taxonomias das edi&ccedil;&otilde;es base nas
 	anota&ccedil;&otilde;es da minha edi&ccedil;&atilde;o virtual?</h5>
 <p>
@@ -1029,7 +1093,7 @@
 	refletem-se na anota&ccedil;&atilde;o que usou a categoria pois o <em>Arquivo
 		LdoD</em> preserva a autoria das anota&ccedil;&otilde;es
 </p>
-<h5 id="Q48Q" style="padding-top: 60px; margin-top: -60px;">Como
+<h5 id="Q56Q" style="padding-top: 60px; margin-top: -60px;">Como
 	posso reordenar as interpreta&ccedil;&otilde;es numa
 	edi&ccedil;&atilde;o virtual?</h5>
 <p>
@@ -1059,11 +1123,13 @@
 	guardada, levando a uma redefini&ccedil;&atilde;o da
 	numera&ccedil;&atilde;o associada a cada interpreta&ccedil;&atilde;o.
 </p>
-<h5 id="Q49Q" style="padding-top: 60px; margin-top: -60px;">Quem
+<h5 id="Q57Q" style="padding-top: 60px; margin-top: -60px;">Quem
 	pode reordenar as interpreta&ccedil;&otilde;es numa
 	edi&ccedil;&atilde;o virtual?</h5>
-<p>Todos os editores da edi&ccedil;&atilde;o virtual.</p>
-<h5 id="Q50Q" style="padding-top: 60px; margin-top: -60px;">Quando
+<p>
+	Todos os editores da edi&ccedil;&atilde;o virtual.
+</p>
+<h5 id="Q58Q" style="padding-top: 60px; margin-top: -60px;">Quando
 	uma edi&ccedil;&atilde;o virtual &eacute; criada quais s&atilde;o as
 	configura&ccedil;&otilde;es por omiss&atilde;o?</h5>
 <p>
@@ -1072,7 +1138,7 @@
 	aos utilizadores autenticados, apenas os gestores podem manipular as
 	categorias da taxonomia, sendo o vocabul&aacute;rio da taxonomia <em>aberto</em>.
 </p>
-<h5 id="Q51Q" style="padding-top: 60px; margin-top: -60px;">Quais
+<h5 id="Q59Q" style="padding-top: 60px; margin-top: -60px;">Quais
 	poder&atilde;o ser alguns dos cen&aacute;rios t&iacute;picos associados
 	&agrave; cria&ccedil;&atilde;o de edi&ccedil;&otilde;es virtuais?</h5>
 <ul>
@@ -1123,4 +1189,4 @@
 </ul>
 <p>&nbsp;</p>
 <p>Manuel Portela e Ant&oacute;nio Rito Silva</p>
-<p>[atualiza&ccedil;&atilde;o 02-07-2017]</p></h5>
+<p>[atualiza&ccedil;&atilde;o 04-07-2017]</p></h5>
