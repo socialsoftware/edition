@@ -51,9 +51,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.loginProcessingUrl("/signin/authenticate").failureUrl("/signin?param.error=bad_credentials").and()
 				.logout().logoutUrl("/signout").deleteCookies("JSESSIONID").invalidateHttpSession(true);
 
-		http.authorizeRequests().antMatchers("/", "/auth/**", "/signin/**", "/signup/**").permitAll().anyRequest()
-				.authenticated().antMatchers("/virtualeditions/restricted/**").authenticated().antMatchers("/admin/**")
-				.hasAuthority(RoleType.ROLE_ADMIN.name()).antMatchers("/user/**")
+		http.authorizeRequests().antMatchers("/", "/auth/**", "/signin/**", "/signup/**", "/about/**", "/reading/**")
+				.permitAll().anyRequest().authenticated().antMatchers("/virtualeditions/restricted/**").authenticated()
+				.antMatchers("/admin/**").hasAuthority(RoleType.ROLE_ADMIN.name()).antMatchers("/user/**")
 				.hasAuthority(RoleType.ROLE_ADMIN.name());
 
 		http.sessionManagement().maximumSessions(2).sessionRegistry(sessionRegistry());
