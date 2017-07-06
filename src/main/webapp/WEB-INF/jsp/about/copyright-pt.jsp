@@ -30,7 +30,8 @@
 	</strong> A sua redistribui&ccedil;&atilde;o ou
 	republica&ccedil;&atilde;o noutros termos, em quaisquer meios, requer o
 	consentimento expresso por escrito dos editores ou seus representantes
-	legais. O c&oacute;digo do <em>Arquivo LdoD</em> pode ser partilhado de acordo
+	legais. <a
+		href="https://github.com/socialsoftware/edition">O c&oacute;digo do <em>Arquivo LdoD</em></a> pode ser partilhado de acordo
 	com a licen&ccedil;a <a
 		href="https://en.wikipedia.org/wiki/BSD_licenses">"FreeBSD"</a>.
 </p>

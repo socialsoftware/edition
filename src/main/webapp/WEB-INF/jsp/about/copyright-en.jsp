@@ -27,7 +27,8 @@
 		only be used within the <em>LdoD Archive</em> infrastructure
 	</strong>. Their redistribution or republication on other terms, in any medium,
 	requires express written consent from the editors or their legal
-	representatives. The code of the <em>LdoD Archive</em> may be shared
+	representatives. <a
+		href="https://github.com/socialsoftware/edition">The code of the <em>LdoD Archive</em></a> may be shared
 	according to the license <a
 		href="https://en.wikipedia.org/wiki/BSD_licenses">"FreeBSD"</a>.
 </p>

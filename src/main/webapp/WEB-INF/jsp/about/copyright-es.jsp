@@ -29,8 +29,9 @@
 			LdoD</em>.
 	</strong> La redistribuci&oacute;n o republicaci&oacute;n en otros
 	t&eacute;rminos, en cualquier medio, requiere el consentimiento expreso
-	y por escrito de los editores o sus representantes legales. El
-	c&oacute;digo del <em>Archivo LdoD</em> puede ser compartido de acuerdo
+	y por escrito de los editores o sus representantes legales. <a
+		href="https://github.com/socialsoftware/edition">El
+	c&oacute;digo del <em>Archivo LdoD</em></a> puede ser compartido de acuerdo
 	con una licencia <a href="https://en.wikipedia.org/wiki/BSD_licenses">"FreeBSD"</a>.
 
 </p>
