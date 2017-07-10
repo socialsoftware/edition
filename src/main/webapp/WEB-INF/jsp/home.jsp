@@ -65,7 +65,7 @@
 	  	//{{"BNP/E3","E eu offereço-te este livro porque sei que elle é bello e inutil.","9-39, 9-41, 9-31","Fr449/inter/Fr449_WIT_MS_Fr449a_000"},
 
 
-		String [][] excerpts =  {{"BNP/E3","E eu offereço-te este livro porque sei que elle é bello e inutil.","9-39-41r-31","Fr449/inter/Fr449_WIT_MS_Fr449a_000"},
+String [][] excerpts =  {{"BNP/E3","E eu offereço-te este livro porque sei que elle é bello e inutil.","9-39-41r-31","Fr449/inter/Fr449_WIT_MS_Fr449a_000"},
 {"Jacinto do Prado Coelho","Senti-me agora respirar como se houvesse practicado uma cousa nova, ou atrazada.","188","Fr456/inter/Fr157_WIT_ED_CRIT_C"},
 {"Teresa Sobral Cunha","Em mim foi sempre menor a intensidade das sensações que a intensidade da sensação delas.","283","Fr309/inter/Fr309_WIT_ED_CRIT_SC"},
 {"Richard Zenith","O silêncio que sai do som da chuva espalha-se, num crescendo de monotonia cinzenta, pela rua estreita que fito.","41","Fr175/inter/Fr175_WIT_ED_CRIT_Z"},
@@ -97,12 +97,14 @@
 {"Jerónimo Pizarro","Sou uma placa photographica prolixamente impressionavel.","59","Fr456/inter/Fr456_WIT_ED_CRIT_P"}};
 
 
-
 		int excerptID = (int) (Math.random() * 30);
+
 	  %>
 
 	<div class="container ldod-default">
 
+		
+		
 
 		<a href="/reading/fragment/<%=excerpts[excerptID][3]%>" class="frag-link">
 		<div class="raw col-xs-12 frag-excerpt">
@@ -118,13 +120,31 @@
 		<hr class="line-points">
 
 		<div class="about font-monospace">
-	    <p>
-	      O Arquivo LdoD é um arquivo digital colaborativo do <span class="s-ws">Livro do Desassossego</span> de <span class="s-ws">Fernando Pessoa</span>.
-	      Contém <span class="s-underl">imagens</span> dos documentos autógrafos, <span class="s-underl">novas transcrições</span>
-	      desses documentos e ainda transcrições de <span class="s-underl">quatro edições da obra</span>.
-	      Além da <span class="s-underl">leitura</span> e <span class="s-underl">comparação</span> das transcrições, o Arquivo LdoD permite que os
-	      utilizadores colaborem na criação de <span class="s-underl">edições virtuais</span> do Livro do Desassossego.
-	    </p>
+
+		<c:choose>
+		<c:when test="${pageContext.response.locale.language.equalsIgnoreCase('pt')}">
+			<p>
+		      O Arquivo LdoD é um arquivo digital colaborativo do <span class="s-ws">Livro do Desassossego</span> de <span class="s-ws">Fernando Pessoa</span>.
+		      Contém <span class="s-underl">imagens</span> dos documentos autógrafos, <span class="s-underl">novas transcrições</span>
+		      desses documentos e ainda transcrições de <span class="s-underl">quatro edições da obra</span>.
+		      Além da <span class="s-underl">leitura</span> e <span class="s-underl">comparação</span> das transcrições, o Arquivo LdoD permite que os
+		      utilizadores colaborem na criação de <span class="s-underl">edições virtuais</span> do Livro do Desassossego.
+		    </p>
+		</c:when>
+			<c:when test="${pageContext.response.locale.language.equalsIgnoreCase('en')}">
+			<p>
+			The LdoD Archive is a collaborative digital archive of the Book of Disquiet by Fernando Pessoa. It contains images of the autograph documents, new transcriptions of those documents and also transcriptions of four editions of the work. In addition to reading and comparing transcriptions, the LdoD Archive enables users to collaborate in creating virtual editions of the Book of Disquiet.
+			</p>
+		</c:when>  
+		<c:when test="${pageContext.response.locale.language.equalsIgnoreCase('es')}">
+			<p>
+			El Archivo LdoD es un archivo digital colaborativo del Libro del desasosiego de Fernando Pessoa. Contiene imágenes de los documentos originales, nuevas transcripciones de estos documentos y transcripciones de cuatro ediciones de la obra. Además de la lectura y la comparación de las transcripciones, el Archivo LdoD permite a los usuarios colaborar en la creación de ediciones virtuales del Libro del desasosiego.
+			</p>
+		</c:when>   
+	
+		</c:choose>
+
+	    
 	  </div>
 
 	  <hr class="line-x">
@@ -134,8 +154,8 @@
 	   <div class="menu-boxes col-xs-12">
 	    <a href="/reading">
 		  <div class="div-link">
-		    <img src="../resources/img/boxes/D-PT-01-<%=img1%>.svg">
-		    <img src="../resources/img/boxes/D-PT-01-<%=img1%>-h.svg">
+		    <img src="../resources/img/boxes/D-${pageContext.response.locale.language}-01-<%=img1%>.svg">
+		    <img src="../resources/img/boxes/D-${pageContext.response.locale.language}-01-<%=img1%>-h.svg">
 		  </div>
 	    </a>
 
@@ -143,8 +163,8 @@
 
 	    <a href="/source/list">
 		  <div class="div-link">
-		    <img src="../resources/img/boxes/D-PT-02-<%=img2%>.svg">
-		    <img src="../resources/img/boxes/D-PT-02-<%=img2%>-h.svg">
+		    <img src="../resources/img/boxes/D-${pageContext.response.locale.language}-02-<%=img2%>.svg">
+		    <img src="../resources/img/boxes/D-${pageContext.response.locale.language}-02-<%=img2%>-h.svg">
 		  </div>
 	    </a>
 
@@ -152,16 +172,16 @@
 
 	     <a href="/edition">
 		  <div class="div-link">
-		    <img src="../resources/img/boxes/D-PT-03-<%=img3%>.svg">
-		    <img src="../resources/img/boxes/D-PT-03-<%=img3%>-h.svg">
+		    <img src="../resources/img/boxes/D-${pageContext.response.locale.language}-03-<%=img3%>.svg">
+		    <img src="../resources/img/boxes/D-${pageContext.response.locale.language}-03-<%=img3%>-h.svg">
 		  </div>
 	    </a>
 
 	    <hr class="line-points">
 	     <a href="/search/simple">
 		  <div class="div-link">
-		    <img src="../resources/img/boxes/D-PT-04-<%=img4%>.svg">
-		    <img src="../resources/img/boxes/D-PT-04-<%=img4%>-h.svg">
+		    <img src="../resources/img/boxes/D-${pageContext.response.locale.language}-04-<%=img4%>.svg">
+		    <img src="../resources/img/boxes/D-${pageContext.response.locale.language}-04-<%=img4%>-h.svg">
 		  </div>
 	    </a>
 
@@ -169,8 +189,8 @@
 
 	     <a href="/virtualeditions">
 		  <div class="div-link">
-		    <img src="../resources/img/boxes/D-PT-05-<%=img5%>.svg">
-		    <img src="../resources/img/boxes/D-PT-05-<%=img5%>-h.svg">
+		    <img src="../resources/img/boxes/D-${pageContext.response.locale.language}-05-<%=img5%>.svg">
+		    <img src="../resources/img/boxes/D-${pageContext.response.locale.language}-05-<%=img5%>-h.svg">
 		  </div>
 	    </a>
 
