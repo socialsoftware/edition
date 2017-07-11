@@ -156,8 +156,8 @@ String [][] excerpts =  {{"Jerónimo Pizarro","E eu offereço-te este livro porque
 	   <div class="menu-boxes hidden-xs col-xs-12">
 	    <a href="/reading">
 		  <div class="div-link">
-		    <img src="../resources/img/boxes/D-${pageContext.response.locale.language}-01-<%=img1%>.svg">
-		    <img src="../resources/img/boxes/D-${pageContext.response.locale.language}-01-<%=img1%>-h.svg">
+		    <img src="/resources/img/boxes/D-${pageContext.response.locale.language}-01-<%=img1%>.svg">
+		    <img src="/resources/img/boxes/D-${pageContext.response.locale.language}-01-<%=img1%>-h.svg">
 		  </div>
 	    </a>
 
@@ -165,8 +165,8 @@ String [][] excerpts =  {{"Jerónimo Pizarro","E eu offereço-te este livro porque
 
 	    <a href="/source/list">
 		  <div class="div-link">
-		    <img src="../resources/img/boxes/D-${pageContext.response.locale.language}-02-<%=img2%>.svg">
-		    <img src="../resources/img/boxes/D-${pageContext.response.locale.language}-02-<%=img2%>-h.svg">
+		    <img src="/resources/img/boxes/D-${pageContext.response.locale.language}-02-<%=img2%>.svg">
+		    <img src="/resources/img/boxes/D-${pageContext.response.locale.language}-02-<%=img2%>-h.svg">
 		  </div>
 	    </a>
 
@@ -174,16 +174,16 @@ String [][] excerpts =  {{"Jerónimo Pizarro","E eu offereço-te este livro porque
 
 	     <a href="/edition">
 		  <div class="div-link">
-		    <img src="../resources/img/boxes/D-${pageContext.response.locale.language}-03-<%=img3%>.svg">
-		    <img src="../resources/img/boxes/D-${pageContext.response.locale.language}-03-<%=img3%>-h.svg">
+		    <img src="/resources/img/boxes/D-${pageContext.response.locale.language}-03-<%=img3%>.svg">
+		    <img src="/resources/img/boxes/D-${pageContext.response.locale.language}-03-<%=img3%>-h.svg">
 		  </div>
 	    </a>
 
 	    <hr class="line-points">
 	     <a href="/search/simple">
 		  <div class="div-link">
-		    <img src="../resources/img/boxes/D-${pageContext.response.locale.language}-04-<%=img4%>.svg">
-		    <img src="../resources/img/boxes/D-${pageContext.response.locale.language}-04-<%=img4%>-h.svg">
+		    <img src="/resources/img/boxes/D-${pageContext.response.locale.language}-04-<%=img4%>.svg">
+		    <img src="/resources/img/boxes/D-${pageContext.response.locale.language}-04-<%=img4%>-h.svg">
 		  </div>
 	    </a>
 
@@ -191,8 +191,8 @@ String [][] excerpts =  {{"Jerónimo Pizarro","E eu offereço-te este livro porque
 
 	     <a href="/virtualeditions">
 		  <div class="div-link">
-		    <img src="../resources/img/boxes/D-${pageContext.response.locale.language}-05-<%=img5%>.svg">
-		    <img src="../resources/img/boxes/D-${pageContext.response.locale.language}-05-<%=img5%>-h.svg">
+		    <img src="/resources/img/boxes/D-${pageContext.response.locale.language}-05-<%=img5%>.svg">
+		    <img src="/resources/img/boxes/D-${pageContext.response.locale.language}-05-<%=img5%>-h.svg">
 		  </div>
 	    </a>
 
@@ -201,8 +201,8 @@ String [][] excerpts =  {{"Jerónimo Pizarro","E eu offereço-te este livro porque
 
 	     <a href="">
 		  <div class="div-link">
-		    <img src="../resources/img/boxes/D-PT-06-<%=img6%>.svg">
-		    <img src="../resources/img/boxes/D-PT-06-<%=img6%>-h.svg">
+		    <img src="/resources/img/boxes/D-PT-06-<%=img6%>.svg">
+		    <img src="/resources/img/boxes/D-PT-06-<%=img6%>-h.svg">
 		  </div>
 	    </a>
 	    -->
@@ -213,8 +213,8 @@ String [][] excerpts =  {{"Jerónimo Pizarro","E eu offereço-te este livro porque
 	  <div class="menu-boxes visible-xs-inline col-xs-12">
 	    <a href="/reading">
 		  <div class="div-link">
-		    <img src="../resources/img/boxes/M-${pageContext.response.locale.language}-01-<%=img1%>.svg">
-		    <img src="../resources/img/boxes/M-${pageContext.response.locale.language}-01-<%=img1%>-h.svg">
+		    <img src="/resources/img/boxes/M-${pageContext.response.locale.language}-01-<%=img1%>.svg">
+		    <img src="/resources/img/boxes/M-${pageContext.response.locale.language}-01-<%=img1%>-h.svg">
 		  </div>
 	    </a>
 
@@ -222,8 +222,8 @@ String [][] excerpts =  {{"Jerónimo Pizarro","E eu offereço-te este livro porque
 
 	    <a href="/source/list">
 		  <div class="div-link">
-		    <img src="../resources/img/boxes/M-${pageContext.response.locale.language}-02-<%=img2%>.svg">
-		    <img src="../resources/img/boxes/M-${pageContext.response.locale.language}-02-<%=img2%>-h.svg">
+		    <img src="/resources/img/boxes/M-${pageContext.response.locale.language}-02-<%=img2%>.svg">
+		    <img src="/resources/img/boxes/M-${pageContext.response.locale.language}-02-<%=img2%>-h.svg">
 		  </div>
 	    </a>
 
@@ -231,16 +231,16 @@ String [][] excerpts =  {{"Jerónimo Pizarro","E eu offereço-te este livro porque
 
 	     <a href="/edition">
 		  <div class="div-link">
-		    <img src="../resources/img/boxes/M-${pageContext.response.locale.language}-03-<%=img3%>.svg">
-		    <img src="../resources/img/boxes/M-${pageContext.response.locale.language}-03-<%=img3%>-h.svg">
+		    <img src="/resources/img/boxes/M-${pageContext.response.locale.language}-03-<%=img3%>.svg">
+		    <img src="/resources/img/boxes/M-${pageContext.response.locale.language}-03-<%=img3%>-h.svg">
 		  </div>
 	    </a>
 
 	    <hr class="line-points">
 	     <a href="/search/simple">
 		  <div class="div-link">
-		    <img src="../resources/img/boxes/M-${pageContext.response.locale.language}-04-<%=img4%>.svg">
-		    <img src="../resources/img/boxes/M-${pageContext.response.locale.language}-04-<%=img4%>-h.svg">
+		    <img src="/resources/img/boxes/M-${pageContext.response.locale.language}-04-<%=img4%>.svg">
+		    <img src="/resources/img/boxes/M-${pageContext.response.locale.language}-04-<%=img4%>-h.svg">
 		  </div>
 	    </a>
 
@@ -248,8 +248,8 @@ String [][] excerpts =  {{"Jerónimo Pizarro","E eu offereço-te este livro porque
 
 	     <a href="/virtualeditions">
 		  <div class="div-link">
-		    <img src="../resources/img/boxes/M-${pageContext.response.locale.language}-05-<%=img5%>.svg">
-		    <img src="../resources/img/boxes/M-${pageContext.response.locale.language}-05-<%=img5%>-h.svg">
+		    <img src="/resources/img/boxes/M-${pageContext.response.locale.language}-05-<%=img5%>.svg">
+		    <img src="/resources/img/boxes/M-${pageContext.response.locale.language}-05-<%=img5%>-h.svg">
 		  </div>
 	    </a>
 
@@ -258,8 +258,8 @@ String [][] excerpts =  {{"Jerónimo Pizarro","E eu offereço-te este livro porque
 
 	     <a href="">
 		  <div class="div-link">
-		    <img src="../resources/img/boxes/D-PT-06-<%=img6%>.svg">
-		    <img src="../resources/img/boxes/D-PT-06-<%=img6%>-h.svg">
+		    <img src="/resources/img/boxes/D-PT-06-<%=img6%>.svg">
+		    <img src="/resources/img/boxes/D-PT-06-<%=img6%>-h.svg">
 		  </div>
 	    </a>
 	    -->
@@ -268,8 +268,8 @@ String [][] excerpts =  {{"Jerónimo Pizarro","E eu offereço-te este livro porque
 
 	  <!-- apoios info -->
     <div class="bottom-info font-monospace">
-     <img class="hidden-xs" src="../resources/img/logotipos.png" width="100%">
-      <img class="visible-xs-inline " src="../resources/img/logotiposm.png" width="100%">
+     <img class="hidden-xs" src="/resources/img/logotipos.png" width="100%">
+      <img class="visible-xs-inline " src="/resources/img/logotiposm.png" width="100%">
      <br><br>
      <br>
       <p>
