@@ -589,6 +589,52 @@
 }
 
 
+ /* mobile */
+ @media (max-width: 767px) {
+
+ 	body {
+ 		padding-top: 100px;
+ 	}
+
+ 	.ldod-default .frag-number {
+	font-size: 35px;
+	}
+
+	.ldod-default .frag-editor {
+		font-size: 20px;
+		top:6px;
+	}
+
+	.ldod-default .frag-excerpt-text p {
+	font-weight: 600;
+	font-size: 32px;
+	line-height: 36px;
+	}
+
+	.ldod-default .about p {
+		font-size: 20px;
+		line-height: 25px;
+		margin-top:0px;
+		margin-bottom:0px;
+	}
+
+	.ldod-default .about {
+		margin-top:20px;
+		margin-bottom:20px;
+	}
+
+	.ldod-default .line-points {
+		margin-bottom: 20px;
+		margin-top:20px;
+	}
+
+	.ldod-default .menu-boxes {
+		margin-top:7px;
+	}
+ }
+
+
+
 /* ------ reading ------  */
 
 
@@ -688,7 +734,6 @@
 }
 
 */
-
 
 
 .ldod-default .reading-container {
