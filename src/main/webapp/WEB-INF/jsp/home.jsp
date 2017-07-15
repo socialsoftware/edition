@@ -101,17 +101,7 @@ String [][] excerpts =  {{"Jerónimo Pizarro","E eu offereço-te este livro porque
 
 	  %>
 
-
-
 	<div class="container ldod-default">
-
-		
-		<!-- debug -->
-		<% for(int i = 0; i < 30; i+=1) { %>
-		<%=excerpts[i][2]%>
-		<a href="/reading/fragment/<%=excerpts[i][3]%>" class="frag-link"><%=excerpts[i][0]%></a><br>
-		<% } %>
-		
 
 		<a href="/reading/fragment/<%=excerpts[excerptID][3]%>" class="frag-link">
 		<div class="raw col-xs-12 frag-excerpt">
