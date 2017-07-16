@@ -40,9 +40,13 @@ $(window).on("load resize",function(e){
     $(".reading__column--open").css("height", height+50);
     $(".reading__text").css("height", height+50);
   }else{
+    /*
     $(".reading__column").css("height", "8.33333%");
     $(".reading__column--open").css("height", "8.33333%");
     $(".reading__text").css("height", height+50);
+    */
+    $(".reading__text").prependTo('.reading-grid');
+    $(".reading__column--open").prependTo('.reading-grid');
   }
   
 });
@@ -53,15 +57,29 @@ $(window).on("load resize",function(e){
   <c:set var="fragment" value="${inter.getFragment()}" />
 </c:if>
 
+
 <!--
 ${inter.getEdition().getAcronym()}
  ${expertEdition.getAcronym()}-->
+
 <div class="row reading-grid">
+
+
+<c:choose>
+          <c:when test="${fragment == null}">
+           <div class="col-xs-12 col-sm-7 no-pad reading-book-title">
+           <p>Livro do Desassossego<br>de Fernando Pessoa<p>
+           </div>
+          </c:when>
+</c:choose>
+
+
 <c:forEach var="expertEdition" items='${ldoD.sortedExpertEdition}'>
 
-   
 
-   <c:choose>
+
+   
+<c:choose>
     <c:when test="${inter.getEdition().getAcronym() == expertEdition.getAcronym()}">
       <div class="reading__column--open col-xs-12 col-sm-1 no-pad">
     </c:when>
@@ -70,20 +88,13 @@ ${inter.getEdition().getAcronym()}
     </c:otherwise>
 </c:choose>
 
-    <!--<div class="reading__column col-xs-12 col-sm-1 no-pad">-->
     
          <h4>
           <!--<a href="${contextPath}/edition/internalid/${expertEdition.externalId}">${expertEdition.editor}</a>-->
           ${expertEdition.editor}
           </h4>
 
-          <!--
-          <h2>578</h2>
-          <div class="arrows">
-            <img src="../../resources/img/graphics/arrow_left.png">
-            <img src="../../resources/img/graphics/arrow_right.png">
-          </div>
-          -->
+          
 
           <c:choose>
           <c:when test="${fragment == null}">
@@ -91,11 +102,15 @@ ${inter.getEdition().getAcronym()}
               href="${contextPath}/reading/inter/first/edition/${expertEdition.getExternalId()}"><%-- <spring:message
                 code="general.reading.start" /> --%> <img src="/resources/img/graphics/arrow_right.png"></a>
           </c:when>
+
           <c:otherwise>
+
+            <!-- ###################### interpretations ###################### -->
             <c:forEach var="expertEditionInter"
               items="${expertEdition.getSortedInter4Frag(fragment)}">
               
-
+                <!-- ###################### interpretations desktop ###################### -->
+                <div class="hidden-xs" style="margin-bottom:25px">
                 <a
                   href="${contextPath}/reading/fragment/${fragment.xmlId}/inter/${expertEditionInter.urlId}"><!--${expertEditionInter.getEdition().getAcronym()}-->
                   <h2>${expertEditionInter.number}</h2></a>
@@ -110,7 +125,29 @@ ${inter.getEdition().getAcronym()}
                   href="${contextPath}/reading/inter/next/number/${expertEditionInter.externalId}">
                  <img src="/resources/img/graphics/arrow_right.png"></a>
                  </div>
-            
+                </div>
+
+                <!-- ###################### interpretations mobile ###################### -->
+                <div class="visible-xs-block">
+                <a
+                  href="${contextPath}/reading/fragment/${fragment.xmlId}/inter/${expertEditionInter.urlId}"><!--${expertEditionInter.getEdition().getAcronym()}-->
+                  <h2>${expertEditionInter.number}</h2></a>
+
+
+               
+
+                 <a href="${contextPath}/reading/inter/next/number/${expertEditionInter.externalId}">
+                 <img src="/resources/img/graphics/arrow_right.png"></a>
+
+                <a href="${contextPath}/reading/inter/prev/number/${expertEditionInter.externalId}">
+                 <img src="/resources/img/graphics/arrow_left.png"></a>
+
+               
+               
+                </div>
+
+               
+                 
             </c:forEach>
           </c:otherwise>
         </c:choose>
@@ -129,8 +166,9 @@ ${inter.getEdition().getAcronym()}
 </c:forEach>
 
 
-   <!-- RECOMMENDATION -->
-<div class="reading__column col-xs-12 col-sm-1 no-pad" style="border-right: 2px dotted black;">
+<!-- ###################### RECOMMENDATION ###################### -->
+
+<div class="reading__column col-xs-12 col-sm-1 no-pad recommendation-line">
       <h4 class="f--condensed"><a href="#" onClick="openRecomModal()"><spring:message
             code="general.recommendation" /> </a></h4>
 
@@ -168,115 +206,12 @@ ${inter.getEdition().getAcronym()}
 
         </div>
   </c:if>
-      <!--
-      <div class="h3-group">
-        <div class="h3-div">
-          <h3>J.P.C.</h3>
-          <h2>011</h2>
-         </div>
-
-        <div class="h3-div">
-          <h3>J.P.C.</h4>
-          <h2>367</h2>
-        </div>
-
-        <div class="h3-div">
-          <h3>J.P.C.</h3>
-          <h2>212</h2>
-        </div>
-      </div>
-      -->
-</div>
-</div>
- <!-- TEXT -->
-
-
-<!--
-
-
-<br>
-<br>
-<br>
-<br>
-<br>
-
-
-   <div class="reading-container col-xs-12 no-pad">
-    <div class="reading__column--open col-xs-12 col-sm-1 no-pad style-point">
-      <h4>Jacinto do Prado Coelho</h4>
-      <h2>012</h2>
-      <div class="arrows">
-        <img src="../../resources/img/graphics/arrow_left.png">
-        <img src="../../resources/img/graphics/arrow_right.png">
-      </div>
-    </div>
-
-    <!-- TEXT -->
-
-  <!--
-    <div class="reading__text col-xs-12 col-sm-7 no-pad style-point">
-      <h1>${inter.title}</h1>
-      <br><br>
-      <p>
-       ${writer.getTranscription()}
-      </p>
-    </div>
-
-
-    <div class="reading__column col-xs-12 col-sm-1 no-pad">
-      <h4>Teresa Sobral Cunha</h4>
-      <h2>578</h2>
-      <div class="arrows">
-        <img src="../../resources/img/graphics/arrow_left.png">
-        <img src="../../resources/img/graphics/arrow_right.png">
-      </div>
-    </div>
-
-    <div class="reading__column col-xs-12 col-sm-1 no-pad">
-      <h4>Richard Zenith</h4>
-      <h2>012</h2>
-      <div class="arrows">
-        <img src="../../resources/img/graphics/arrow_left.png">
-        <img src="../../resources/img/graphics/arrow_right.png">
-      </div>
-    </div>
-
-    <div class="reading__column col-xs-12 col-sm-1 no-pad">
-      <h4>Jerónimo Pizarro</h4>
-      <h2>222</h2>
-      <div class="arrows">
-        <img src="../../resources/img/graphics/arrow_left.png">
-        <img src="../../resources/img/graphics/arrow_right.png">
-      </div>
-    </div>
-
-    <div class="reading__column col-xs-12 col-sm-1 no-pad">
-      <h4 class="f--condensed">Recomendação</h4>
-
-      <div class="h3-group">
-        <div class="h3-div">
-          <h3>J.P.C.</h3>
-          <h2>011</h2>
-         </div>
-
-        <div class="h3-div">
-          <h3>J.P.C.</h4>
-          <h2>367</h2>
-        </div>
-
-        <div class="h3-div">
-          <h3>J.P.C.</h3>
-          <h2>212</h2>
-        </div>
-      </div>
-
-    </div>
-
-  </div>
 
 </div>
-<!-- END OF main container -->
+</div>
 
+ 
+<!-- ###################### MODAL ###################### -->
 
 <!-- Recommendations configuration Modal HTML -->
 <div class="modal fade" id="recommendationModal" tabindex="-1"
