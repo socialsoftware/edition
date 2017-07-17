@@ -736,6 +736,44 @@
 */
 
 
+.ldod-default .reading-book-title {
+	font-size: 40px;
+	font-family: 'Work-Sans';
+	font-weight:800;
+}
+
+@media (max-width: 767px) {
+	.ldod-default .reading-book-title {
+		font-size: 24px;
+		line-height: 30px;
+		padding-left: 0px;
+		padding-bottom: 15px;
+	}
+}
+@media (min-width: 768px) {
+	.ldod-default .reading-book-title {
+		font-size: 35px;
+		line-height: 40px;
+	}
+}
+
+@media (min-width: 992px) {
+	.ldod-default .reading-book-title {
+		font-size: 45px;
+		line-height: 55px;
+	}
+}
+
+@media (min-width: 1200px) {
+	.ldod-default .reading-book-title {
+		font-size: 50px;
+		line-height: 60px;
+	}
+}
+
+
+
+
 .ldod-default .reading-container {
   position: relative;
   float: left;
@@ -806,12 +844,23 @@
 
 
   @media (min-width: 768px) {
-    .ldod-default .reading__column, .reading__column--open {
+
+  	
+
+   .ldod-default .reading__column, .reading__column--open {
       padding: 0 5px;
       height: 100%;
       border: 0;
       border-left: 2px dotted black;
-      text-align: center; } }
+      text-align: center; 
+  } 
+
+  .recommendation-line {
+	border-right: 2px dotted black !important;
+	}
+  
+  }
+
   .ldod-default .reading__column h4, .reading__column--open h4 {
     display: inline-block;
     margin: 0;
@@ -823,18 +872,20 @@
     font-weight: regular;
     line-height: 40px;
     line-height: 4rem;
-    text-transform: uppercase; }
-     .ldod-default  .reading__column h4, .reading__column--open h4 {
+    text-transform: uppercase; 
+    }
+
+    .ldod-default  .reading__column h4, .reading__column--open h4 {
         height: 120px;
         font-size: 18px;
         font-size: 1.8rem;
         font-family: "League-Gothic";
         font-weight: regular;
         line-height: 24px;
-        line-height: 2.4rem; } }
+        line-height: 2.4rem; }
+}
 
 
-	
 
     @media (min-width: 992px) {
      .ldod-default  .reading__column h4, .reading__column--open h4 {
@@ -852,23 +903,29 @@
         font-weight: regular;
         line-height: 32px;
         line-height: 3.2rem; } }
-  .ldod-default  .reading__column .f--condensed, .reading__column--open .f--condensed {
+
+
+/*f--condensed*/
+.ldod-default  .reading__column .f--condensed, .reading__column--open .f--condensed {
     font-size: 30px;
     font-size: 3rem;
     font-family: "League-Gothic";
     font-weight: regular;
     line-height: 40px;
     line-height: 4rem;
-    margin-bottom: 20px; }
-    @media (min-width: 768px) {
-      .reading__column .f--condensed, .reading__column--open .f--condensed {
+    margin-bottom: 20px; 
+}
+
+@media (min-width: 768px) {
+     .ldod-default .reading__column .f--condensed, .reading__column--open .f--condensed {
         margin-bottom: 0;
-        font-size: 18px;
-        font-size: 1.8rem;
+        font-size: 12px;
+        font-size: 1.2rem;
         font-family: "League-Gothic-Condensed";
         font-weight: regular;
         line-height: 24px;
         line-height: 2.4rem; } }
+
     @media (min-width: 992px) {
     .ldod-default  .reading__column .f--condensed, .reading__column--open .f--condensed {
         font-size: 20px;
@@ -931,6 +988,7 @@
           font-size: 2.4rem;
           font-family: "League-Gothic";
           font-weight: regular;
+          
           line-height: 32px;
           line-height: 3.2rem; 
           margin-top: 25px;
@@ -940,12 +998,15 @@
     margin: 0;
     width: auto;
     height: auto;
-    font-size: 60px;
-    font-size: 6rem;
+    font-size: 40px;
+    /*font-size: 6rem;*/
     font-family: "Ultra";
     font-weight: regular;
+    /*
     line-height: 80px;
-    line-height: 8rem; }
+    line-height: 8rem; 
+    */
+    }
     @media (min-width: 768px) {
      .ldod-default  .reading__column h2, .reading__column--open h2 {
         padding: 0;
@@ -982,6 +1043,8 @@
         margin-bottom: 25px;
 
       } }
+
+
   .ldod-default .reading__column img, .reading__column--open img {
     display: block;
     margin: 0;
@@ -991,6 +1054,20 @@
     -moz-transform: rotate(90deg);
     -ms-transform: rotate(90deg);
     transform: rotate(90deg); }
+
+   @media (max-width: 767px) {
+      .ldod-default .reading__column img, .reading__column--open img {
+        display: inline-block;
+        padding: 0;
+        width: 35px;
+        float:right;
+        -webkit-transform: rotate(0deg);
+        -moz-transform: rotate(0deg);
+        -ms-transform: rotate(0deg);
+        transform: rotate(0deg); 
+        padding-top: 5px;
+    } 
+   }
     @media (min-width: 768px) {
       .ldod-default  .reading__column img, .reading__column--open img {
         display: inline-block;
@@ -1051,6 +1128,15 @@
     font-weight: 400;
     line-height: 21.33333px;
     line-height: 2.13333rem; }
+
+
+  .ldod-default .reading__text {
+  	font-size: 18px;
+    font-size: 1.8rem;
+  	line-height: 24px;
+    line-height: 2.4rem;
+  }
+
   .ldod-default .reading__text p {
     float: left;
     margin: 0;
@@ -1061,6 +1147,7 @@
     font-weight: 400;
     line-height: 24px;
     line-height: 2.4rem; }
+
     @media (min-width: 768px) {
      .ldod-default  .reading__text p {
         font-size: 16px;
@@ -1068,7 +1155,14 @@
         font-family: "Work-Sans";
         font-weight: 400;
         line-height: 21.33333px;
-        line-height: 2.13333rem; } }
+        line-height: 2.13333rem; } 
+      .ldod-default .reading__text {
+	  	font-size: 16px;
+	    font-size: 1.6rem;
+	  	line-height: 21.333px;
+	    line-height: 2.1333rem;
+	  }
+    }
     @media (min-width: 992px) {
       .ldod-default .reading__text p {
         font-size: 18px;
@@ -1076,7 +1170,15 @@
         font-family: "Work-Sans";
         font-weight: 400;
         line-height: 24px;
-        line-height: 2.4rem; } }
+        line-height: 2.4rem; } 
+
+       .ldod-default .reading__text {
+	  	font-size: 18px;
+	    font-size: 1.8rem;
+	  	line-height: 24px;
+	    line-height: 2.4rem;
+	  }
+    }
     @media (max-width: 530px) {
     .ldod-default   .reading__text p {
         font-size: 15px;
@@ -1084,4 +1186,56 @@
         font-family: "Work-Sans";
         font-weight: 400;
         line-height: 20px;
-        line-height: 2rem; } }
+        line-height: 2rem; } 
+
+    .ldod-default .reading__text {
+	  	font-size: 15px;
+	    font-size: 1.5rem;
+	  	line-height: 20px;
+	    line-height: 2rem;
+	  }
+
+    }
+
+
+
+
+ /* mobile */
+
+@media (max-width: 767px) {
+
+.container .row:first-child {
+ 	margin-left:15px;
+ 	margin-right:15px;
+}
+
+.ldod-default .reading__column h4{
+	height: 30px;
+	margin-right: -50px;
+	font-size: 22px;
+}
+
+.ldod-default .reading__column--open h4 {
+	font-size: 22px;
+	height: auto;
+}
+
+
+.ldod-default  .reading__column .f--condensed {
+	font-size: 22px;
+}
+
+.ldod-default .reading__column img {
+	transform: rotate(0deg);
+	float:right;
+}
+
+.recommendation-line {
+	border-right: 0px;
+}
+}
+
+
+.text-center em {
+	display: inline-block;
+}

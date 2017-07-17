@@ -66,20 +66,20 @@
 
 
 String [][] excerpts =  {{"Jerónimo Pizarro","E eu offereço-te este livro porque sei que elle é bello e inutil.","17","Fr449/inter/Fr449_WIT_ED_CRIT_P"},
-{"Jacinto do Prado Coelho","Senti-me agora respirar como se houvesse practicado uma cousa nova, ou atrazada.","188","Fr456/inter/Fr157_WIT_ED_CRIT_C"},
+{"Jacinto do Prado Coelho","Senti-me agora respirar como se houvesse practicado uma cousa nova, ou atrazada.","188","Fr157/inter/Fr157_WIT_ED_CRIT_C"},
 {"Teresa Sobral Cunha","Em mim foi sempre menor a intensidade das sensações que a intensidade da sensação delas.","283","Fr309/inter/Fr309_WIT_ED_CRIT_SC"},
 {"Richard Zenith","O silêncio que sai do som da chuva espalha-se, num crescendo de monotonia cinzenta, pela rua estreita que fito.","41","Fr175/inter/Fr175_WIT_ED_CRIT_Z"},
 {"Jerónimo Pizarro","A grande terra, que serve os mortos, serviria, menos maternalmente, esses papeis.","387","Fr159.b/inter/Fr159_b_WIT_ED_CRIT_P_1"},
 {"Teresa Sobral Cunha","Em cada pingo de chuva a minha vida falhada chora na natureza.","266","Fr390/inter/Fr390_WIT_ED_CRIT_SC"}, 
 {"Jacinto do Prado Coelho","Como nos dias em que a trovoada se prepara e os ruidos da rua fallam alto com uma voz solitária.","45","Fr042/inter/Fr042_WIT_ED_CRIT_C"},
-{"Teresa Sobral Cunha","Ninguém estava quem era, e o patrão Vasques apareceu à porta do gabinete para pensar em dizer qualquer coisa.","441","Fr042/inter/Fr043_WIT_ED_CRIT_SC"},
+{"Teresa Sobral Cunha","Ninguém estava quem era, e o patrão Vasques apareceu à porta do gabinete para pensar em dizer qualquer coisa.","441","Fr043/inter/Fr043_WIT_ED_CRIT_SC"},
 {"Richard Zenith","'Vem aí uma grande trovoada', disse o Moreira, e voltou a página do Razão.","183","Fr044/inter/Fr044_WIT_ED_CRIT_Z"},
 {"Jerónimo Pizarro","E então, em plena vida, é que o sonho tem grandes cinemas.","262","Fr149/inter/Fr149_WIT_ED_CRIT_P"},
 {"Jerónimo Pizarro","Lêr é sonhar pela mão de outrem.","586","Fr554/inter/Fr554_WIT_ED_CRIT_P"},
 {"Jacinto do Prado Coelho","Devo ao ser guarda-livros grande parte do que posso sentir e pensar como a negação e a fuga do cargo.","133","Fr198/inter/Fr198_WIT_ED_CRIT_C"},
 {"Teresa Sobral Cunha","Durmo sobre os cotovelos onde o corrimão me doe, e sei de nada como um grande prometimento.","380","Fr030/inter/Fr030_WIT_ED_CRIT_SC"},
 {"Richard Zenith","Sentado à janela, contemplo com os sentidos todos esta coisa nenhuma da vida universal que está lá fora.","50","Fr118/inter/Fr118_WIT_ED_CRIT_Z"},
-{"Jerónimo Pizarro","Já me cansa a rua, mas não, não me cansa — tudo é rua na vida.","294","Fr523/inter/Fr523_WIT_ED_CRIT_P"},
+{"Jerónimo Pizarro","Já me cansa a rua, mas não, não me cansa — tudo é rua na vida.","284","Fr523/inter/Fr523_WIT_ED_CRIT_P"},
 {"Jacinto do Prado Coelho","Mergulhou na sombra como quem entra na porta onde chega.","485","Fr306a/inter/Fr306a_WIT_ED_CRIT_C"},
 {"Jacinto do Prado Coelho","Para mim os pormenores são coisas, vozes, lettras.","163","Fr255/inter/Fr255_WIT_ED_CRIT_C"},
 {"Teresa Sobral Cunha","Entre mim e a vida há um vidro ténue.","171","Fr447/inter/Fr447_WIT_ED_CRIT_SC"},
@@ -89,7 +89,7 @@ String [][] excerpts =  {{"Jerónimo Pizarro","E eu offereço-te este livro porque
 {"Jacinto do Prado Coelho","Eu não sei quem tu és, mas sei ao certo o que sou?","254","Fr285/inter/Fr285_WIT_ED_CRIT_C"},
 {"Teresa Sobral Cunha","Pasmo sempre quando acabo qualquer coisa.","711","Fr009/inter/Fr009_WIT_ED_CRIT_SC"},
 {"Richard Zenith","É uma oleografia sem remédio.","25","Fr010/inter/Fr010_WIT_ED_CRIT_Z"},
-{"Jerónimo Pizarro","Toda a vida é um somno.","284","Fr027/inter/Fr027_WIT_ED_CRIT_P"},
+{"Jerónimo Pizarro","Toda a vida é um somno.","197","Fr027/inter/Fr027_WIT_ED_CRIT_P"},
 {"Richard Zenith","Não consegui nunca ver-me de fora.","338","Fr028/inter/Fr028_WIT_ED_CRIT_Z"},
 {"Jacinto do Prado Coelho","Jogar ás escondidas com a nossa consciencia de viver.","370","Fr437/inter/Fr437_WIT_ED_CRIT_C"},
 {"Teresa Sobral Cunha","A arte livra-nos ilusoriamente da sordidez de sermos.","456","Fr163/inter/Fr163_WIT_ED_CRIT_SC"},
@@ -102,9 +102,6 @@ String [][] excerpts =  {{"Jerónimo Pizarro","E eu offereço-te este livro porque
 	  %>
 
 	<div class="container ldod-default">
-
-		
-		
 
 		<a href="/reading/fragment/<%=excerpts[excerptID][3]%>" class="frag-link">
 		<div class="raw col-xs-12 frag-excerpt">
@@ -244,6 +241,7 @@ String [][] excerpts =  {{"Jerónimo Pizarro","E eu offereço-te este livro porque
 		  </div>
 	    </a>
 
+	    
 	    <hr class="line-points">
 
 	     <a href="/virtualeditions">
