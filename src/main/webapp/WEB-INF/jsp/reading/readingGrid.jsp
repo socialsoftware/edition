@@ -67,9 +67,25 @@ ${inter.getEdition().getAcronym()}
 
 <c:choose>
           <c:when test="${fragment == null}">
-           <div class="col-xs-12 col-sm-7 no-pad reading-book-title">
-           <p>Livro do Desassossego<br>de Fernando Pessoa<p>
-           </div>
+          
+
+
+           <div class="reading__text col-xs-12 col-sm-7 no-pad style-point reading-book-title">
+            
+
+            <c:choose>
+            <c:when test="${pageContext.response.locale.language.equalsIgnoreCase('pt')}">
+              <h1>Livro do Desassossego de Fernando Pessoa</h1>
+            </c:when>
+            <c:when test="${pageContext.response.locale.language.equalsIgnoreCase('en')}">
+             <h1>Book of Disquiet by Fernando Pessoa</h1>
+            </c:when>  
+            <c:when test="${pageContext.response.locale.language.equalsIgnoreCase('es')}">
+              <h1>Libro del Desasosiego de Fernando Pessoa</h1>
+            </c:when>   
+            </c:choose>
+          </div>
+
           </c:when>
 </c:choose>
 

@@ -736,42 +736,6 @@
 */
 
 
-.ldod-default .reading-book-title {
-	font-size: 40px;
-	font-family: 'Work-Sans';
-	font-weight:800;
-}
-
-@media (max-width: 767px) {
-	.ldod-default .reading-book-title {
-		font-size: 24px;
-		line-height: 30px;
-		padding-left: 0px;
-		padding-bottom: 15px;
-	}
-}
-@media (min-width: 768px) {
-	.ldod-default .reading-book-title {
-		font-size: 35px;
-		line-height: 40px;
-	}
-}
-
-@media (min-width: 992px) {
-	.ldod-default .reading-book-title {
-		font-size: 45px;
-		line-height: 55px;
-	}
-}
-
-@media (min-width: 1200px) {
-	.ldod-default .reading-book-title {
-		font-size: 50px;
-		line-height: 60px;
-	}
-}
-
-
 
 
 .ldod-default .reading-container {
@@ -1239,3 +1203,15 @@
 .text-center em {
 	display: inline-block;
 }
+
+
+
+@media (max-width: 767px) {
+	.ldod-default .reading-book-title {
+		border-top:0px;
+	}
+}
+
+
+
+
