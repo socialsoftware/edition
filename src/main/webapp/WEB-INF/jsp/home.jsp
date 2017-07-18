@@ -271,7 +271,20 @@ String [][] excerpts =  {{"Jerónimo Pizarro","E eu offereço-te este livro porque
      <br><br>
      <br>
       <p>
-        Arquivo digital desenvolvido no âmbito do projecto de investigação ‘Nenhum Problema Tem Solução: Um Arquivo Digital do Livro do Desassossego’ (PTDC/CLE-LLI/118713/2010). Projecto financiado pela FCT - Fundação para a Ciência e a Tecnologia e co-financiado pelo Fundo Europeu de Desenvolvimento Regional (FEDER), através do Eixo I do Programa Operacional Fatores de Competitividade (POFC) do QREN - União Europeia, COMPETE: FCOMP-01-0124-FEDER-019715. Financiado ainda por Fundos Nacionais através da FCT - Fundação para Ciência e a Tecnologia no âmbito dos projectos “Financiamento Plurianual - Unidade 759”: “PEst-OE/ELT/00759/2013” e “PEst-OE/ELT/UI0759/2014”.
+
+      	 <c:choose>
+         <c:when test="${pageContext.response.locale.language.equalsIgnoreCase('pt')}">
+         O Arquivo LdoD foi desenvolvido no âmbito do projeto de investigação "Nenhum Problema Tem Solução: Um Arquivo Digital do Livro do Desassossego" (PTDC/CLE-LLI/118713/2010), do Centro de Literatura Portuguesa da Universidade de Coimbra. Projeto financiado pela Fundação para a Ciência e a Tecnologia (FCT), e cofinanciado pelo Fundo Europeu de Desenvolvimento Regional (FEDER), através do Eixo I do Programa Operacional Fatores de Competitividade (POFC) do QREN–União Europeia, COMPETE: FCOMP-01-0124-FEDER-019715. Financiado ainda por fundos nacionais, através da Fundação para Ciência e a Tecnologia (FCT), no âmbito dos projetos “Financiamento Plurianual–Unidade 759": "PEst-OE/ELT/00759/2013" e "PEst-OE/ELT/UI0759/2014".
+         </c:when>
+         <c:when test="${pageContext.response.locale.language.equalsIgnoreCase('en')}">
+         The LdoD Archive is an outcome of the research project "No Problem Has a Solution: A Digital Archive of the Book of Disquiet" (PTDC/CLE-LLI/118713/2010), developed by the Centre for Portuguese Literature at the University of Coimbra. The research project was funded by the Foundation for Science and Technology (FCT), and co-funded by the European Regional Development Fund (FEDER), through Axis 1 of the Operational Competitiveness Program (POFC) of the National Strategic Framework (QREN)–European Union, COMPETE: FCOMP-01-0124-FEDER-019715. Additional national funds by the Foundation for Science and Technology (FCT), under the "Plurianual Funding–Unit 759" projects: “PEst-OE/ELT/00759/2013" and "PEst-OE/ELT/UI0759/2014".
+         </c:when>  
+         <c:when test="${pageContext.response.locale.language.equalsIgnoreCase('es')}">
+         El Archivo LdoD es un resultado del proyecto de investigación "Ningún problema tiene solución: un archivo digital del Libro del desasosiego" (PTDC/CLE-LLI/118713/2010), del Centro de Literatura Portuguesa de la Universidad de Coimbra. Proyecto financiado por la Fundación para la Ciencia y la Tecnología (FCT), y cofinanciado por el Fondo Europeo de Desarrollo Regional (FEDER), a través del Eje I del Programa Operativo Factores de Competitividad (POFC) del QREN-Unión Europea, COMPET: FCOMP-01- 0124-FEDER-019715. Financiado también por fondos nacionales, a través de la Fundación para Ciencia y la Tecnología (FCT), en el marco de los proyectos de "Financiación Plurianual–Unidad 759": "PEst-OE/ELT/00759/2013" y "PEst-OE/ELT/UI0759/2014".
+         </c:when>   
+        </c:choose>
+
+
       </p>
     </div>
     <!-- END OF apoios -->
