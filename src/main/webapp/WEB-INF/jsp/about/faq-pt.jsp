@@ -256,8 +256,8 @@
 	fragmentariedade modular do <em>Livro</em> no <em>Arquivo LdoD</em> constitui um
 	instrumento cr&iacute;tico para abrir o potencial de leitura, edi&ccedil;&atilde;o e escrita
 	da obra a novas interven&ccedil;&otilde;es. A distor&ccedil;&atilde;o introduzida pelo modelo de
-	dados - suporte principal das funcionalidades din&acirc;micas do <em>Arquivo LdoD</em>
-	- d&aacute; express&atilde;o t&eacute;cnica a uma rematerializa&ccedil;&atilde;o digital de documentos,
+	dados &mdash; suporte principal das funcionalidades din&acirc;micas do <em>Arquivo LdoD</em>
+	&mdash; d&aacute; express&atilde;o t&eacute;cnica a uma rematerializa&ccedil;&atilde;o digital de documentos,
 	textos e obra para al&eacute;m dos modelos bibliogr&aacute;ficos. O <emZ>Livro do
 	Desasssossego</em> n&atilde;o &eacute; uma organiza&ccedil;&atilde;o inteiramente livre de fragmentos
 	soltos, mas a configura&ccedil;&atilde;o radial e desierarquizada das suas unidades
@@ -348,7 +348,7 @@
 	exce&ccedil;&atilde;o das fontes publicadas, nas quais &eacute; usada a
 	dupla p&aacute;gina). S&atilde;o inclu&iacute;das imagens de todas as
 	faces escritas de documentos cujo texto foi atribu&iacute;do ou
-	relacionado com <em>Livro</em>. H&aacute; por isso folhas representadas
+	relacionado com o <em>Livro</em>. H&aacute; por isso folhas representadas
 	apenas em <em>recto</em> e outras em <em>recto</em> e <em>verso</em>.
 </p>
 <h5 id="Q13Q" style="padding-top: 60px; margin-top: -60px;">Qual a diferen&ccedil;a entre 
@@ -368,11 +368,12 @@
 	de  outros arquivos) e ainda a 12 textos publicados; j&aacute; os 722 &ldquo;fragmentos  
 	codificados&rdquo; correspondem aos ficheiros XML do <em>Arquivo LdoD</em>, cada um 
 	dos quais cont&eacute;m um certo n&uacute;mero de interpreta&ccedil;&otilde;es para o mesmo fragmento. Do ponto de 
-	vista do nosso modelo de dados no Arquivo, &eacute; como se o fragmento fosse uma entidade 
+	vista do nosso modelo de dados no <em>Arquivo LdoD</em>, &eacute; como se o fragmento fosse uma entidade 
 	abstrata, que depois tem m&uacute;ltiplas instancia&ccedil;&otilde;es: as transcri&ccedil;&otilde;es de JPC, TSC, RZ e JP, 
 	e ainda as nossas pr&oacute;prias transcri&ccedil;&otilde;es dos testemunhos. Geralmente surge apenas uma 
 	interpreta&ccedil;&atilde;o de cada edi&ccedil;&atilde;o para cada fragmento (ou seja, cinco ao todo), mas este n&uacute;mero 
-	pode ir at&eacute; sete quando, al&eacute;m das cinco interpreta&ccedil;&otilde;es editorias h&aacute; v&aacute;rios aut&oacute;grafos – 
+	pode ir at&eacute; sete quando, al&eacute;m das cinco interpreta&ccedil;&otilde;es editorias h&aacute; 
+	v&aacute;rios aut&oacute;grafos &mdash; 
 	por exemplo, dois datiloscritos diferentes e uma vers&atilde;o publicada em revista. 
 	Neste caso, o <em>Arquivo LdoD</em> transcreve as tr&ecirc;s vers&otilde;s aut&oacute;grafas. 
 	Atrav&eacute;s da tabela dos &ldquo;fragmentos codificados&rdquo; temos uma imagem global do 
@@ -406,7 +407,7 @@
 	Al&eacute;m disso, estas edi&ccedil;&otilde;es determinaram a
 	dissemina&ccedil;&atilde;o do <em>Livro do Desassossego</em> desde
 	1982, quer em portugu&ecirc;s, quer noutras l&iacute;nguas, uma vez que
-	foram tomadas como base para outras edi&ccedil;&otilde;es portuguesas e
+	foram tomadas como base para outras edi&ccedil;&otilde;es em português e
 	para in&uacute;meras tradu&ccedil;&otilde;es. Com exce&ccedil;&atilde;o
 	da edi&ccedil;&atilde;o de Jacinto do Prado Coelho (1920-1984), que foi
 	reimpressa uma &uacute;nica vez sem altera&ccedil;&otilde;es
@@ -464,9 +465,9 @@
 	Teresa Rita Lopes publicou em 2015 uma nova edi&ccedil;&atilde;o intitulada <em>Livros do Desassossego</em>, 
 	na qual integra trinta e cinco textos do Bar&atilde;o de Teive, al&eacute;m dos de 
 	Vicente Guedes e Bernardo Soares. Embora a edi&ccedil;&atilde;o de Teresa Rita Lopes seja uma  
-	nova demonstra&ccedil;&atilde;o da projetualidade autoral e editorial da obra – refor&ccedil;ando,  
+	nova demonstra&ccedil;&atilde;o da projetualidade autoral e editorial da obra &mdash; refor&ccedil;ando,  
 	de certo modo, a justifica&ccedil;&atilde;o te&oacute;rica do <em>Arquivo  LdoD</em> para desenvolver 
-	funcionalidades din&acirc;micas – n&atilde;o foi poss&iacute;vel inclu&iacute;-la porque todo o trabalho de 
+	funcionalidades din&acirc;micas &mdash;, n&atilde;o foi poss&iacute;vel inclu&iacute;-la porque todo o trabalho de 
 	codifica&ccedil;&atilde;o estava conclu&iacute;do nessa data e n&atilde;o disp&uacute;nhamos dos recursos adicionais 
 	necess&aacute;rios para recodificar os  ficheiros. Caso contr&aacute;rio, esta edi&ccedil;&atilde;o teria sido 
 	inclu&iacute;da, uma vez que satisfaz as condi&ccedil;&otilde;es atrav&eacute;s das quais definimos as 
@@ -583,6 +584,25 @@
 	indica quer as diferen&ccedil;as macrotextuais, quer pontos de
 	varia&ccedil;&atilde;o &agrave; escala inferior da palavra ou grupo de
 	palavras, sinal de pontua&ccedil;&atilde;o e frase ou grupo de frases.
+	</p>
+<h5 id="Q60Q" style="padding-top: 60px; margin-top: -60px;">
+	Por que motivo o realce de diferen&ccedil;as repete, por vezes, palavras 
+	isoladas que pertencem a um bloco textual real&ccedil;ado?</h5>
+<p>
+	Quando os par&aacute;grafos est&atilde;o divididos de forma diferente entre si no 
+	corpus das cinco transcri&ccedil;&otilde;es, codific&aacute;mos dois tipos de diferen&ccedil;a que se 
+	sobrep&otilde;em: a) as diferen&ccedil;as ao n&iacute;vel da palavra e b) as diferen&ccedil;as 
+	ao n&iacute;vel do par&aacute;grafo no seu todo. O programa interpreta duas vezes 
+	as diferen&ccedil;as: antep&otilde;e (ou posp&otilde;e) as palavras que est&atilde;o marcadas 
+	como diferentes entre si dentro do par&aacute;grafo, ao mesmo tempo que 
+	real&ccedil;a a marca&ccedil;&atilde;o da diferen&ccedil;a do par&aacute;grafo no seu todo. Isto 
+	verifica-se porque o m&eacute;todo de segmenta&ccedil;&atilde;o paralela que adot&aacute;mos 
+	na codifica&ccedil;&atilde;o não permite a sobreposi&ccedil;&atilde;o de hierarquias. A representa&ccedil;&atilde;o 
+	dos dois tipos de diferen&ccedil;as &mdash; a diferen&ccedil;as na divis&atilde;o dos par&aacute;grafos 
+	e as diferen&ccedil;as entre palavras dentro desses par&aacute;grafos &mdash; tem de ser 
+	feita duplicando a hierarquia da codifica&ccedil;&atilde;o, o que faz com que o 
+	realce assinale palavras e par&aacute;grafos desse modo.
+</p>
 </p>
 <h5 id="Q23Q" style="padding-top: 60px; margin-top: -60px;">O que
 	&eacute; que a compara&ccedil;&atilde;o revela sobre as
@@ -608,7 +628,7 @@
 	inicialmente leituras conjeturais) vai apresentando menos
 	varia&ccedil;&atilde;o entre si de edi&ccedil;&atilde;o para
 	edi&ccedil;&atilde;o, na medida em que novas decifra&ccedil;&otilde;es,
-	com um grau maior de probabilidade de estarem corretas, s&atilde;o
+	com maior de probabilidade de estarem corretas, s&atilde;o
 	incorporadas nas edi&ccedil;&otilde;es subsequentes, mostrando que os
 	peritos cooperam no esfor&ccedil;o para ler a caligrafia, por vezes,
 	idiossincr&aacute;tica e vari&aacute;vel de Fernando Pessoa. Embora na
@@ -623,6 +643,10 @@
 	exce&ccedil;&atilde;o de pequenas altera&ccedil;&otilde;es, essa
 	ordena&ccedil;&atilde;o dos fragmentos no <em>Livro</em> permanece
 	est&aacute;vel de edi&ccedil;&atilde;o para edi&ccedil;&atilde;o.
+	As altera&ccedil;&otilde;es mais significativas verificam-se 
+	nas edi&ccedil;&otilde;es de Teresa Sobral Cunha,
+	no que respeita &agrave; inclus&atilde;o ou exclus&atilde;o de um n&uacute;mero 
+	significativo de textos de edi&ccedil;&atilde;o para edi&ccedil;&atilde;o.
 	&Agrave; escala do <em>Livro</em>, a compara&ccedil;&atilde;o entre as
 	edi&ccedil;&otilde;es dos peritos permite comprovar a exist&ecirc;ncia
 	de quatro modelos distintos de produ&ccedil;&atilde;o do <em>Livro
@@ -872,9 +896,9 @@
 	das transcri&ccedil;&otilde;es e da codifica&ccedil;&atilde;o que lhes est&aacute; associada; por outro
 	lado, pela necessidade de limitar a complexidade do processamento dos
 	materiais produzidos pelos utilizadores. A inclus&atilde;o de um m&oacute;dulo de
-	transcri&ccedil;&atilde;o e codifica&ccedil;&atilde;o, com o respetivo sistema de valida&ccedil;&atilde;o -
+	transcri&ccedil;&atilde;o e codifica&ccedil;&atilde;o, com o respetivo sistema de valida&ccedil;&atilde;o &mdash;
 	particularmente &uacute;til num contexto de aprendizagem especializada das
-	pr&aacute;ticas de cr&iacute;tica textual -, poder&aacute; vir a ser considerada futuramente
+	pr&aacute;ticas de cr&iacute;tica textual &mdash;, poder&aacute; vir a ser considerada futuramente
 	em fun&ccedil;&atilde;o dos recursos dispon&iacute;veis.
 </p>
 <h5 id="Q41Q" style="padding-top: 60px; margin-top: -60px;">O que &eacute; a <em>Edi&ccedil;&atilde;o do Arquivo LdoD</em>?
