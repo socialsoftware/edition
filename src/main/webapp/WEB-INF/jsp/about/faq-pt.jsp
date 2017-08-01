@@ -464,7 +464,7 @@
 <h5 id="Q17Q" style="padding-top: 60px; margin-top: -60px;">Por que n&atilde;o foi 
 		inclu&iacute;da a edi&ccedil;&atilde;o de Teresa Rita Lopes (2015)?</h5>
 <p>	
-	Teresa Rita Lopes publicou em 2015 uma nova edi&ccedil;&atilde;o intitulada <em>Livros do Desassossego</em>, 
+	Teresa Rita Lopes publicou em 2015 uma nova edi&ccedil;&atilde;o intitulada <em>Livro(s) do Desassossego</em>, 
 	na qual integra trinta e cinco textos do Bar&atilde;o de Teive, al&eacute;m dos de 
 	Vicente Guedes e Bernardo Soares. Embora a edi&ccedil;&atilde;o de Teresa Rita Lopes seja uma  
 	nova demonstra&ccedil;&atilde;o da projetualidade autoral e editorial da obra &mdash; refor&ccedil;ando,  
@@ -1215,4 +1215,4 @@
 </ul>
 <p>&nbsp;</p>
 <p>Manuel Portela e Ant&oacute;nio Rito Silva</p>
-<p>[atualiza&ccedil;&atilde;o 04-07-2017]</p></h5>
+<p>[atualiza&ccedil;&atilde;o 01-08-2017]</p></h5>
