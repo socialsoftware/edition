@@ -60,6 +60,8 @@
 			de realce de diferen&ccedil;as?</a></li>
 	<li><a href="#Q22Q">Quais s&atilde;o as unidades de realce de
 			diferen&ccedil;a?</a></li>
+	<li><a href="#Q60Q">Por que motivo o realce de diferen&ccedil;as repete, por vezes, palavras 
+			isoladas que pertencem a um bloco textual real&ccedil;ado?</a></li>
 	<li><a href="#Q23Q">O que &eacute; que a
 			compara&ccedil;&atilde;o revela sobre as edi&ccedil;&otilde;es?</a></li>
 	<li><a href="#Q24Q">&Eacute; poss&iacute;vel comparar uma
