@@ -55,7 +55,7 @@
 	<li><a href="#Q21Q">&iquest;Qu&eacute; muestra la visualizaci&oacute;n de realce de diferencias?</a></li>
 	<li><a href="#Q22Q">&iquest;Cu&aacute;les son las unidades de realce de
 		diferencias?</a></li>
-	<li><a href="#Q60Q">¿Por qu&eacute; el realce de diferencias repite a veces palabras aisladas que 
+	<li><a href="#Q60Q">&iquest;Por qu&eacute; el realce de diferencias repite a veces palabras aisladas que 
 		pertenecen a un bloque textual resaltado?</a></li>
 	<li><a href="#Q23Q">&iquest;Qu&eacute; revela la comparaci&oacute;n sobre las ediciones?</a></li>
 	<li><a href="#Q24Q">&iquest;Es posible comparar una interpretaci&oacute;n editorial
@@ -541,7 +541,7 @@
 	
 	
 </p>
-<h5 id="Q60Q" style="padding-top: 60px; margin-top: -60px;">¿Por qu&eacute; el realce de 
+<h5 id="Q60Q" style="padding-top: 60px; margin-top: -60px;">&iquest;Por qu&eacute; el realce de 
 	diferencias repite a veces palabras aisladas que pertenecen a un bloque textual resaltado?</h5>
 <p>
 	Cuando los par&aacute;grafos se dividen de forma diferente entre s&iacute; en el corpus de 
