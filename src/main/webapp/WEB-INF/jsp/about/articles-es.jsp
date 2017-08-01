@@ -132,10 +132,10 @@ Santos, Andr&eacute; (2015). <em>Arquivo Digital do Livro do Desassossego: Pesqu
 <strong>2017</strong>
 </p>
 <p>
-Martins, Pedro (2017). <em>O Arquivo para al&eacute;m do Arquivo: Cria&ccedil;&atilde;o de ontologias a partir de etiquetas geradas pelos utilizadores</em>. Lisboa: Instituto Superior T&eacute;cnico da Universidade de Lisboa. Tese de mestrado em Engenharia Inform&aacute;tica e Computadores [em curso]. 
+Martins, Pedro (2017). <em>O Arquivo para al&eacute;m do Arquivo: Cria&ccedil;&atilde;o de ontologias a partir de etiquetas geradas pelos utilizadores</em>. Lisboa: Instituto Superior T&eacute;cnico da Universidade de Lisboa. Tese de mestrado em Engenharia Inform&aacute;tica e Computadores [en curso]. 
 </p>
 <p>
-Magalh&atilde;es, Cec&iacute;lia (2017-). <em>Fragmentos em pr&aacute;tica: intera&ccedil;&atilde;o, colabora&ccedil;&atilde;o e criatividade no </em>Arquivo LdoD. Coimbra: Universidade de Coimbra. Tese de doutoramento em Materialidades da Literatura [em curso].
+Magalh&atilde;es, Cec&iacute;lia (2017-). <em>Fragmentos em pr&aacute;tica: intera&ccedil;&atilde;o, colabora&ccedil;&atilde;o e criatividade no </em>Arquivo LdoD. Coimbra: Universidade de Coimbra. Tese de doutoramento em Materialidades da Literatura [en curso].
 </p>
 <p>
 <strong>&nbsp;</strong>
