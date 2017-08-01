@@ -55,6 +55,8 @@
 	<li><a href="#Q21Q">&iquest;Qu&eacute; muestra la visualizaci&oacute;n de realce de diferencias?</a></li>
 	<li><a href="#Q22Q">&iquest;Cu&aacute;les son las unidades de realce de
 		diferencias?</a></li>
+	<li><a href="#Q60Q">¿Por qu&eacute; el realce de diferencias repite a veces palabras aisladas que 
+		pertenecen a un bloque textual resaltado?</a></li>
 	<li><a href="#Q23Q">&iquest;Qu&eacute; revela la comparaci&oacute;n sobre las ediciones?</a></li>
 	<li><a href="#Q24Q">&iquest;Es posible comparar una interpretaci&oacute;n editorial
 		o autoral con una interpretaci&oacute;n virtual?</a></li>
@@ -228,8 +230,8 @@
 	sobrevaloraci&oacute;n de la fragmentariedad modular del <em>Libro</em> en el <em>Archivo
 	LdoD</em> es una herramienta cr&iacute;tica para abrir el potencial de lectura,
 	escritura y edici&oacute;n de la obra a nuevas intervenciones. La distorsi&oacute;n
-	introducida por el modelo de datos - el principal soporte de las
-	caracter&iacute;sticas din&aacute;micas del <em>Archivo LdoD</em> - proporciona expresi&oacute;n
+	introducida por el modelo de datos &mdash; el principal soporte de las
+	caracter&iacute;sticas din&aacute;micas del <em>Archivo LdoD</em> &mdash; proporciona expresi&oacute;n
 	t&eacute;cnica a una rematerializaci&oacute;n digital de documentos, textos y obra
 	m&aacute;s all&aacute; de los modelos bibliogr&aacute;ficos. El <em>Libro del desasosiego</em> no es
 	una organizaci&oacute;n totalmente libre de fragmentos sueltos, pero la
@@ -424,7 +426,7 @@
 <h5 id="Q17Q" style="padding-top: 60px; margin-top: -60px;">
 	&iquest;Por qu&eacute; no se incluy&oacute; la edici&oacute;n de Teresa Rita Lopes (2015)?</h5>
 <p>
-	Teresa Rita Lopes public&oacute; en 2015 una nueva edici&oacute;n titulada <em>Libros del desasosiego</em>, 
+	Teresa Rita Lopes public&oacute; en 2015 una nueva edici&oacute;n titulada <em>Libro(s) del desasosiego</em>, 
 	en la que integra en la obra treinta y cinco textos del Bar&oacute;n de Teive, 
 	adem&aacute;s de los de Vicente Guedes y Bernardo Soares. Aunque la edici&oacute;n de 
 	Teresa Rita Lopes sea una nueva demostraci&oacute;n de la proyectualidad autoral 
@@ -536,6 +538,25 @@
 	variaciones indica ya sea las diferencias macrotextuales, ya sea puntos
 	de variaci&oacute;n a la escala inferior de la palabra o grupo de
 	palabras, signo de puntuaci&oacute;n y frase o grupo de frases.
+	
+	
+</p>
+<h5 id="Q60Q" style="padding-top: 60px; margin-top: -60px;">¿Por qu&eacute; el realce de 
+	diferencias repite a veces palabras aisladas que pertenecen a un bloque textual resaltado?</h5>
+<p>
+	Cuando los par&aacute;grafos se dividen de forma diferente entre s&iacute; en el corpus de 
+	las cinco transcripciones, codificamos dos tipos de diferencias que se 
+	superponen: a) las diferencias a nivel de la palabra y b) las diferencias 
+	a nivel del par&aacute;grafos en su totalidad. El programa interpreta dos veces las 
+	diferencias: antepone (o pospone) las palabras que est&aacute;n marcadas 
+	como diferentes entre sí dentro del par&aacute;grafos, al tiempo que resalta la 
+	marcaci&oacute;n de la diferencia del par&aacute;grafos en su totalidad. Esto se debe a 
+	que el m&eacute;todo de segmentaci&oacute;n paralela que adoptamos en la codificaci&oacute;n 
+	no permite la superposici&oacute;n de jerarqu&iacute;as. La representaci&oacute;n de los dos 
+	tipos de diferencias &mdash; las diferencias en la división del par&aacute;grafos y 
+	las diferencias entre palabras dentro de esos par&aacute;grafos &mdash; 
+	debe hacerse duplicando la jerarqu&iacute;a de la codificaci&oacute;n, lo que hace 
+	que el realce se&ntilde;ale palabras y par&aacute;grafos de ese modo.
 </p>
 <h5 id="Q23Q" style="padding-top: 60px; margin-top: -60px;">&iquest;Qu&eacute; revela la comparaci&oacute;n sobre las
 	ediciones?</h5>
@@ -1118,5 +1139,5 @@
 	[<em>Traducci&oacute;n de Diego Gim&eacute;nez</em>]
 </p>
 <p>&nbsp;</p>
-<p>[actualizaci&oacute;n 04-07-2017]</p>
+<p>[actualizaci&oacute;n 01-08-2017]</p>
 <p>&nbsp;</p>
