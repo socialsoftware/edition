@@ -260,7 +260,7 @@
 	da obra a novas interven&ccedil;&otilde;es. A distor&ccedil;&atilde;o introduzida pelo modelo de
 	dados &mdash; suporte principal das funcionalidades din&acirc;micas do <em>Arquivo LdoD</em>
 	&mdash; d&aacute; express&atilde;o t&eacute;cnica a uma rematerializa&ccedil;&atilde;o digital de documentos,
-	textos e obra para al&eacute;m dos modelos bibliogr&aacute;ficos. O <emZ>Livro do
+	textos e obra para al&eacute;m dos modelos bibliogr&aacute;ficos. O <em>Livro do
 	Desasssossego</em> n&atilde;o &eacute; uma organiza&ccedil;&atilde;o inteiramente livre de fragmentos
 	soltos, mas a configura&ccedil;&atilde;o radial e desierarquizada das suas unidades
 	no <em>Arquivo LdoD</em> permite simular a projetualidade autoral e a
@@ -599,7 +599,7 @@
 	como diferentes entre si dentro do par&aacute;grafo, ao mesmo tempo que 
 	real&ccedil;a a marca&ccedil;&atilde;o da diferen&ccedil;a do par&aacute;grafo no seu todo. Isto 
 	verifica-se porque o m&eacute;todo de segmenta&ccedil;&atilde;o paralela que adot&aacute;mos 
-	na codifica&ccedil;&atilde;o não permite a sobreposi&ccedil;&atilde;o de hierarquias. A representa&ccedil;&atilde;o 
+	na codifica&ccedil;&atilde;o n&atilde;o permite a sobreposi&ccedil;&atilde;o de hierarquias. A representa&ccedil;&atilde;o 
 	dos dois tipos de diferen&ccedil;as &mdash; a diferen&ccedil;as na divis&atilde;o dos par&aacute;grafos 
 	e as diferen&ccedil;as entre palavras dentro desses par&aacute;grafos &mdash; tem de ser 
 	feita duplicando a hierarquia da codifica&ccedil;&atilde;o, o que faz com que o 
