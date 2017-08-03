@@ -50,6 +50,7 @@
 	<li><a href="#Q20Q">What is the edition comparison interface for?</a></li>
 	<li><a href="#Q21Q">What does the &ldquo;highlight differences&rdquo; view show?</a></li>
 	<li><a href="#Q22Q">Which are the differentiation units for highlighting?</a></li>
+	<li><a href="#Q60Q">Why does highlighting sometimes repeat single words that belong to a highlighted textual block?</a></li>
 	<li><a href="#Q23Q">What does the comparison reveal about the editions?</a></li>
 	<li><a href="#Q24Q">Is it possible to compare an editorial or authorial
 		interpretation with a virtual interpretation?</a></li>
@@ -143,7 +144,7 @@
 	a transcription of the text and a set of metadata about it, such as
 	date or heteronym attribution, or the indication of the shelf-mark of
 	the National Library of Portugal that identifies the witness. The
-	various editors of the Book have produced interpretations that may
+	various editors of the <em>Book</em> have produced interpretations that may
 	differ in both transcription and metadata. Thus, in the <em>LdoD
 		Archive</em>, a fragment has interpretations by its editors (editorial
 	interpretations), and it may occur that some of the editors do not
@@ -196,8 +197,8 @@
 	of the modular fragmentarity of the <em>Book</em> in the <em>LdoD Archive</em> is a
 	critical tool for opening up this work's potential for reading, editing
 	and writing to new interventions. The distortion introduced by our data
-	model – which is the major support of the dynamic features of the <em>LdoD Archive</em>
-	– gives technical expression to a digital rematerialization of
+	model &mdash; which is the major support of the dynamic features of the <em>LdoD Archive</em>
+	&mdash; gives technical expression to a digital rematerialization of
 	documents, texts and work beyond bibliographic models. The <em>Book of
 	Disquiet</em> is not an entirely free assemblage of loose fragments, but the
 	radial and hetararchical configuration of its units in the <em>LdoD Archive</em>
@@ -372,13 +373,13 @@
 	necessary that the interpretations contained in the <em>LdoD
 		Archive</em> for representing the experts&rsquo; editions correspond to a
 	specific witness (in this case, the editions Coelho-1982, Sobral
-	Cunha-2008, Zenith-2012 and Pizarro- 2010), and not to an eclectic
+	Cunha-2008, Zenith-2012 and Pizarro-2010), and not to an eclectic
 	combination of readings collected in different editions of the text.
 </p>
 <h5 id="Q17Q" style="padding-top: 60px; margin-top: -60px;">
 	Why did you not include the new edition by Teresa Rita Lopes (2015)?</h5>
 <p>
-	In 2015 Teresa Rita Lopes published a new edition titled <em>Books of Disquiet</em>, 
+	In 2015 Teresa Rita Lopes published a new edition titled <em>Book(s) of Disquiet</em>, 
 	in which she adds thirty-five texts by Barão de Teive to the corpus of texts 
 	attributed to Vicente Guedes and Bernardo Soares. Although the edition by 
 	Teresa Rita Lopes is a new demonstration of the projectual nature of the authorial 
@@ -476,6 +477,24 @@
 	variation at the lower scale of the word or group of words, punctuation
 	mark, and sentence or group of sentences.
 </p>
+<h5 id="Q60Q" style="padding-top: 60px; margin-top: -60px;">
+	Why does highlighting sometimes repeat single words that belong to a highlighted textual block?</h5>
+<p>	When paragraphs are divided differently from each other 
+	in the corpus of the five transcriptions, we have encoded two 
+	overlapping types of difference: a) differences at word level and 
+	b) differences at the level of the paragraph as a whole. 
+	The program interprets those differences twice: it highlights 
+	the individual words that are marked as different within the paragraph 
+	(repeating them at the beginning or at the end of the textual block), 
+	while also highlighting the marked up difference of the paragraph 
+	as a whole. This happens because the parallel segmentation method 
+	we have adopted in the encoding does not allow overlapping 
+	hierarchies. The representation of the two types of difference &mdash; 
+	differences in paragraph division and differences between words
+	within those paragraphs &mdash; must be made by duplicating the encoding hierarchy, 
+	which results in highlighting words and paragraphs in this way.
+
+</p>
 <h5 id="Q23Q" style="padding-top: 60px; margin-top: -60px;">
 	What does the comparison reveal about the editions?</h5>
 <p>
@@ -503,7 +522,10 @@
 	remain faithful to the structure and model that they initially
 	conceived. With the exception of minor changes, the ordering of the
 	fragments in the <em>Book </em>has remained stable from edition to
-	edition. At the scale of the <em>Book</em>, comparisons across the
+	edition. The most significant changes can be found in editions by Teresa 
+	Sobral Cunha, in particular the inclusion or 
+	exclusion of a significant number of texts from one edition 
+	to another.At the scale of the <em>Book</em>, comparisons across the
 	experts&rsquo; editions corpus allow us to prove the existence of four
 	distinct models for producing the <em>Book of Disquiet.</em>
 </p>
@@ -721,9 +743,9 @@
 	quality of the transcriptions and the encoding associated with them; on
 	the other hand, by the need to limit the complexity of processing the
 	materials produced by users. The inclusion of a transcription and
-	encoding module, with its own validation system – which would be
+	encoding module, with its own validation system &mdash; which would be
 	particularly useful in the context of specialized learning of digital
-	critical editing – may be considered in the future, depending on the
+	critical editing &mdash; may be considered in the future, depending on the
 	available resources.
 </p>
 <h5 id="Q41Q" style="padding-top: 60px; margin-top: -60px;">
@@ -982,4 +1004,4 @@
 	[<em>Translation by Manuel Portela</em>]
 </p>
 <p>&nbsp;</p>
-<p>[updated 04-07-2017]</p>
+<p>[updated 01-08-2017]</p>
