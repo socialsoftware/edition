@@ -161,6 +161,8 @@
 						<li><a href="${contextPath}/admin/fragment/list"><spring:message code="fragment.delete" /></a></li>
 						<li class="divider"></li>
 						<li><a href="${contextPath}/admin/user/list"><spring:message code="user.manage" /></a></li>
+						<li class="divider"></li>
+						<li><a href="${contextPath}/admin/virtual/list">Manage Virtual Editions</a></li>
 					</ul>
 				</li>
 			</c:if>

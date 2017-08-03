@@ -44,6 +44,7 @@ import pt.ist.socialsoftware.edition.domain.LdoD;
 import pt.ist.socialsoftware.edition.domain.LdoDUser;
 import pt.ist.socialsoftware.edition.domain.Role;
 import pt.ist.socialsoftware.edition.domain.Role.RoleType;
+import pt.ist.socialsoftware.edition.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.export.ExpertEditionTEIExport;
 import pt.ist.socialsoftware.edition.export.UsersXMLExport;
 import pt.ist.socialsoftware.edition.export.WriteVirtualEditonsToFile;
@@ -589,4 +590,26 @@ public class AdminController {
 				"Fragmentos das edições virtuais carregados: " + total + "<br>" + list);
 		return "redirect:/admin/loadForm";
 	}
+
+	@RequestMapping(method = RequestMethod.GET, value = "/virtual/list")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	public String manageVirtualEditions(Model model) {
+		model.addAttribute("editions", LdoD.getInstance().getVirtualEditionsSet().stream()
+				.sorted((v1, v2) -> v1.getAcronym().compareTo(v2.getAcronym())).collect(Collectors.toList()));
+
+		return "admin/listVirtualEditions";
+	}
+
+	@RequestMapping(method = RequestMethod.POST, value = "/virtual/delete")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	public String deleteVirtualEdition(Model model, @RequestParam("externalId") String externalId) {
+		VirtualEdition edition = FenixFramework.getDomainObject(externalId);
+		if (edition == null) {
+			return "utils/pageNotFound";
+		} else {
+			edition.remove();
+		}
+		return "redirect:/admin/virtual/list";
+	}
+
 }

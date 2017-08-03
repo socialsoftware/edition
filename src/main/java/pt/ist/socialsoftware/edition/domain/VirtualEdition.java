@@ -540,4 +540,14 @@ public class VirtualEdition extends VirtualEdition_Base {
 				.collect(Collectors.toList());
 	}
 
+	public List<Annotation> getAnnotationList() {
+		return getAllDepthVirtualEditionInters().stream().flatMap(i -> i.getAnnotationSet().stream())
+				.collect(Collectors.toList());
+	}
+
+	public List<String> getAnnotationTextList() {
+		return getAnnotationList().stream().filter(a -> a.getText() != null && !a.getText().isEmpty())
+				.map(a -> a.getText()).sorted().collect(Collectors.toList());
+	}
+
 }
