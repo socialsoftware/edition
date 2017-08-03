@@ -7,7 +7,7 @@
 <p>&nbsp;</p>
 
 <h3>XML encoding</h3>
-<p>Diego Gim&eacute;nez,  Centre for Portuguese Literature (CLP) | University of Londrina</p>
+<p>Diego Gim&eacute;nez,  Centre for Portuguese Literature (CLP) | State University of Londrina</p>
 <p>Manuel Portela, Centre for Portuguese Literature (CLP), University of Coimbra</p>
 <p>Tiago Santos, Centre for Portuguese Literature (CLP), University of Coimbra</p>
 <p>&nbsp;</p>
@@ -34,14 +34,14 @@
 <p>Ant&oacute;nio Rito Silva, INESC-ID, <em>Instituto Superior T&eacute;cnico</em> (IST), University of Lisbon
 <p>Ant&oacute;nio Sousa Ribeiro, University of Coimbra</p>
 <p>Daniela C&ocirc;rtes Maduro, Centre for Portuguese Literature (CLP) | University of Bremen</p>
-<p>Diego Gim&eacute;nez,  Centre for Portuguese Literature (CLP) | University of Londrina</p>
+<p>Diego Gim&eacute;nez,  Centre for Portuguese Literature (CLP) | State University of Londrina</p>
 <p>John David Mock, University of Coimbra</p>
 <p>Lu&iacute;s Lucas Pereira, Centre for Portuguese Literature (CLP) | Engineering Informatics Department (DEI), University of Coimbra</p>
 <p>Manuel Portela (<strong>PI</strong>), Centre for Portuguese Literature (CLP), University of Coimbra</p>
 <p>Osvaldo Manuel Silvestre, Centre for Portuguese Literature (CLP), University of Coimbra</p>
 <p>Paulo Silva Pereira, Centre for Portuguese Literature (CLP), University of Coimbra</p>
 <p>Pedro Serra, University of Salamanca</p>
-<p>Ricardo Namora, Centre for Portuguese Literature (CLP) | University of Stockholm</p>
+<p>Ricardo Namora, Centre for Portuguese Literature (CLP), University of Coimbra</p>
 <p>Rita Catania Marrone, Centre for Portuguese Literature (CLP), University of Coimbra</p>
 <p>Samuel Teixeira, Centre for Portuguese Literature (CLP), University of Coimbra</p>
 <p>Tiago Santos, Centre for Portuguese Literature (CLP), University of Coimbra</p>
