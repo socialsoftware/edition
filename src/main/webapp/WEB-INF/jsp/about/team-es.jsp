@@ -37,7 +37,7 @@
 <p>Diego Gim&eacute;nez, Centro de Literatura Portuguesa (CLP) | Universidad Estatal de Londrina</p>
 <p>John David Mock, Universidad de Coimbra</p>
 <p>Lu&iacute;s Lucas Pereira, Centro de Literatura Portuguesa (CLP) | Departamento de Ingenier&iacute;a Inform&aacute;tica (DEI), Universidad de Coimbra</p>
-<p>Manuel Portela (<strong>PI</strong>), Centro de Literatura Portuguesa (CLP), Universidad de Coimbra</p>
+<p>Manuel Portela (<strong>IP</strong>), Centro de Literatura Portuguesa (CLP), Universidad de Coimbra</p>
 <p>Osvaldo Manuel Silvestre, Centro de Literatura Portuguesa (CLP), Universidad de Coimbra</p>
 <p>Paulo Silva Pereira, Centro de Literatura Portuguesa (CLP), Universidad de Coimbra</p>
 <p>Pedro Serra, Universidad de Salamanca</p>
