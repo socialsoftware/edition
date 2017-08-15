@@ -96,7 +96,7 @@
 	<li><a href="#Q42Q">How can I create a virtual edition?</a></li>
 	<li><a href="#Q43Q">Can a virtual edition have more than one interpretation of the same fragment?</a></li>
 	<li><a href="#Q44Q">How do I add an interpretation to a virtual edition?</a></li>
-	<li><a href="#Q45Q">How can I remove an interpretation of a virtual edition?</a></li>
+	<li><a href="#Q45Q">How can I remove an interpretation from a virtual edition?</a></li>
 	<li><a href="#Q46Q">Who can add to and remove interpretations from a virtual edition?</a></li>
 	<li><a href="#Q47Q">Can I collaborate with other people in building a virtual edition?</a></li>
 	<li><a href="#Q48Q">What distinguishes a public virtual edition from a private one?</a></li>
@@ -469,7 +469,7 @@
 		of</em> <em>sentences</em> indicates that one or more transcriptions divide
 	paragraphs differently. These cases are indicated in the table of
 	variations by the typology "paragraph" (that is, variation in the
-	division of paragraphs). Highlighting <em>part or the entire
+	division of paragraphs). Highlighting <em>a part of</em> or <em>the entire
 		fragment</em> indicates that the compared editions have split the fragments
 	differently, that is, the match is not one text to one text, but one to
 	two or to more than two texts. In these cases, the table of variations
@@ -792,7 +792,7 @@
 	for fragments and add them to the virtual edition.
 </p>
 <h5 id="Q45Q" style="padding-top: 60px; margin-top: -60px;">
-	How can I remove an interpretation of a virtual edition?</h5>
+	How can I remove an interpretation from a virtual edition?</h5>
 <p>
 	In the manual sorting interface of the virtual edition you can
 	select one or more interpretations and remove them.
@@ -971,11 +971,11 @@
 	<li>(b) A researcher wishes to conduct a study on the social
 		interpretation of the <em>Book of Disquiet </em>which involves the
 		participation of a non-predefined number of persons. In order to do
-		this he/she creates a public virtual edition of which he/she is the
+		this s/he creates a public virtual edition of which s/he is the
 		only editor and manager, defines the taxonomy vocabulary as open and
 		gives annotation access to all authenticated users. Once the virtual
-		edition is set up, he/she disseminates the experiment through social
-		networks requesting that interested participants register in the <em>LdoD
+		edition is set up, s/he disseminates the experiment through social
+		media requesting that interested participants register in the <em>LdoD
 			Archive</em> and begin to annotate the interpretations, either by creating
 		new categories or using the already existing categories.
 	</li>
@@ -990,7 +990,7 @@
 		edition of the <em>Book</em>. For this s/he creates a private virtual
 		edition without using any of the existing ones. S/he adds the
 		interpretations s/he considers to be relevant, defining their specific
-		order. Additionally s/he defines this editions&rsquo; taxonomy and
+		order. Additionally s/he defines this edition&rsquo;s taxonomy and
 		annotates the interpretations. When s/he finishes the edition, s/he
 		makes it public and announces its publication. In this scenario, there
 		is only one editor, who is also the manager. This editor-manager can
@@ -1004,4 +1004,4 @@
 	[<em>Translation by Manuel Portela</em>]
 </p>
 <p>&nbsp;</p>
-<p>[updated 01-08-2017]</p>
+<p>[updated 14-08-2017]</p>
