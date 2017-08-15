@@ -409,7 +409,7 @@
 	Al&eacute;m disso, estas edi&ccedil;&otilde;es determinaram a
 	dissemina&ccedil;&atilde;o do <em>Livro do Desassossego</em> desde
 	1982, quer em portugu&ecirc;s, quer noutras l&iacute;nguas, uma vez que
-	foram tomadas como base para outras edi&ccedil;&otilde;es em português e
+	foram tomadas como base para outras edi&ccedil;&otilde;es em portugu&ecirc;s e
 	para in&uacute;meras tradu&ccedil;&otilde;es. Com exce&ccedil;&atilde;o
 	da edi&ccedil;&atilde;o de Jacinto do Prado Coelho (1920-1984), que foi
 	reimpressa uma &uacute;nica vez sem altera&ccedil;&otilde;es
@@ -786,7 +786,7 @@
 	medeiam entre o ano do primeiro fragmento atribu&iacute;do ao<em>
 		Livro,</em> 1913, e o ano do &uacute;ltimo fragmento atribu&iacute;do,
 	1934. Se, por exemplo, duas interpreta&ccedil;&otilde;es
-	atribu&iacute;rem datas diferentes a um fragmento as respectivas
+	atribu&iacute;rem datas diferentes a um fragmento as respetivas
 	c&eacute;lulas ter&atilde;o o valor 1.0 e as restantes ser&atilde;o
 	preenchidas com valores menores que 1.0 com um decaimento de MAX(0.0,
 	1.0 - N x 0.1) em que N &eacute; a dist&acirc;ncia entre o ano
@@ -1215,4 +1215,5 @@
 </ul>
 <p>&nbsp;</p>
 <p>Manuel Portela e Ant&oacute;nio Rito Silva</p>
-<p>[atualiza&ccedil;&atilde;o 01-08-2017]</p>
+<p>[atualiza&ccedil;&atilde;o 14-08-2017]</p>
+<p>&nbsp;</p>
