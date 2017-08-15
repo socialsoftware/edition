@@ -400,7 +400,7 @@
 	se inici&oacute;, en el 2012. La edici&oacute;n de 1982 (reimpresa una
 	&uacute;nica vez en 1997) es la &uacute;nica que no sufri&oacute;
 	modificaciones. Las otras tres ediciones contin&uacute;an sufriendo
-	pequeños cambios (en el <em>corpus</em>, en la transcripci&oacute;n, en
+	peque&ntilde;os cambios (en el <em>corpus</em>, en la transcripci&oacute;n, en
 	la ordenaci&oacute;n), aunque mantienen las respectivas
 	estructuras y principios de ordenaci&oacute;n. Entre tanto, desde 2012,
 	fueron publicadas nuevas ediciones (Sobral Cunha 2013; Pizarro
@@ -549,11 +549,11 @@
 	superponen: a) las diferencias a nivel de la palabra y b) las diferencias 
 	a nivel del par&aacute;grafos en su totalidad. El programa interpreta dos veces las 
 	diferencias: antepone (o pospone) las palabras que est&aacute;n marcadas 
-	como diferentes entre sí dentro del par&aacute;grafos, al tiempo que resalta la 
+	como diferentes entre s&iacute; dentro del par&aacute;grafos, al tiempo que resalta la 
 	marcaci&oacute;n de la diferencia del par&aacute;grafos en su totalidad. Esto se debe a 
 	que el m&eacute;todo de segmentaci&oacute;n paralela que adoptamos en la codificaci&oacute;n 
 	no permite la superposici&oacute;n de jerarqu&iacute;as. La representaci&oacute;n de los dos 
-	tipos de diferencias &mdash; las diferencias en la división del par&aacute;grafos y 
+	tipos de diferencias &mdash; las diferencias en la divisi&oacute;n del par&aacute;grafos y 
 	las diferencias entre palabras dentro de esos par&aacute;grafos &mdash; 
 	debe hacerse duplicando la jerarqu&iacute;a de la codificaci&oacute;n, lo que hace 
 	que el realce se&ntilde;ale palabras y par&aacute;grafos de ese modo.
@@ -1139,5 +1139,5 @@
 	[<em>Traducci&oacute;n de Diego Gim&eacute;nez</em>]
 </p>
 <p>&nbsp;</p>
-<p>[actualizaci&oacute;n 01-08-2017]</p>
+<p>[actualizaci&oacute;n 14-08-2017]</p>
 <p>&nbsp;</p>
