@@ -4,35 +4,29 @@
 	by the Foundation for Science and Technology (FCT), and supported by
 	the Centre for Portuguese Literature at the University of Coimbra
 	(CLP), the <em>Instituto de Engenharia de Sistemas e Computadores,
-		Investigação e Desenvolvimento em Lisboa</em> (INESC-ID), the National
-	Library of Portugal (BNP), and the PhD Programme in Materialities of
+	Investiga&ccedil;&atilde;o e Desenvolvimento em Lisboa</em> (INESC-ID), the National 
+    Library of Portugal (BNP), and the PhD Programme in Materialities of
 	Literature (MATLIT).
 </p>
 <p>
 
-	The <em>LdoD Archive</em> was developed under the research project
-	“No Problem Has a Solution: A Digital Archive of the <em>Book of
-		Disquiet</em>,” coordinated by Manuel Portela, 2012-2015
-	(PTDC/CLE-LLI/118713/2010). Project funded by the Foundation for
-	Science and Technology (FCT) and co-funded by the European Regional
-	Development Fund (FEDER), through Axis I of the Competitiveness Factors
-	Operational Program (POFC) of the European Union’s QREN. COMPETE:
-	FCOMP-01- 0124-FEDER-019715. Funded also by National Funds through the
-	Foundation for Science and Technology under the &ldquo;Multi-annual
-	Financing - Unit 759&rdquo; projects:
-	&ldquo;PEst-OE/ELT/UI00759/2013&rdquo; y
+The <em>LdoD Archive</em> was developed under the research project &ldquo;No Problem Has a Solution: A Digital Archive of the <em>Book of Disquiet</em>,&rdquo; coordinated by Manuel Portela (PTDC/CLE-LLI/118713/2010). Project funded by the Foundation for Science and Technology (FCT), and co-funded by the European Regional Development Fund (FEDER), through Axis I of the Competitiveness Factors Operational Program (POFC) of the National Strategic Framework (QREN)&mdash;European Union (COMPETE: FCOMP-01-0124-FEDER-019715). Additional national funds by the Foundation for Science and Technology (FCT), under the &ldquo;Plurianual Funding&mdash;Unit 759&rdquo; projects: &ldquo;PEst-OE/ELT/UI0759/2013&rdquo; y
 	&ldquo;PEst-OE/ELT/UI0759/2014&rdquo;.
 </p>
 <p>&nbsp;</p>
 
-<h3>Thanks</h3>
+<h3>Collaboration</h3>
 <p>
 	During its development period, the <em>LdoD Archive</em> benefited from
 	the collaboration of several individuals and institutions. Our
 	gratitude is due, first and foremost, to the editors Jer&oacute;nimo
 	Pizarro, Richard Zenith, and Teresa Sobral Cunha, for consulting as
 	specialists in the editorial problems of the <em>Book of Disquiet</em>.
-	The <em>LdoD Archive</em> acknowledges the collaboration of the
+    Our team of project consultants included three leading digital humanities
+    scholars whose peer-review contributed to the advancement of our 
+    ideas: Johanna Drucker, Matthew G. Kirschenbaum, and Susan Schreibman have
+    generously shared their expertise and provided continuing support and inspiration.
+	The <em>LdoD Archive</em> further acknowledges the collaboration of the
 	Archives of Contemporary Portuguese Culture (National Library of
 	Portugal), the Public Library and Regional Archive of Ponta Delgada
 	(Regional Directorate for Culture of the Government of the Azores), and
@@ -69,8 +63,8 @@
 			(FCSH): VI Seminar &ldquo;<a
 			href="http://elab.fcsh.unl.pt/actividades/estranhar-pessoa-vi-seminario"
 			target="new">Assuntos Materiais</a>,&rdquo; organized by the Project
-			&ldquo;Estranhar Pessoa&rdquo; (Februrary 7, 2013; coords. António
-			M. Feijó and Abel Barros Baptista)
+			&ldquo;Estranhar Pessoa&rdquo; (Februrary 7, 2013; coords. Ant&oacute;nio
+			M. Feij&oacute; and Abel Barros Baptista)
 		</li>
 		<li>University of Western Sydney, School of Humanities and
 			Communication Arts: Symposium &ldquo;Surface Tensions: Literature in
@@ -114,7 +108,7 @@
 		<li>University of Coimbra, Biblioteca Geral: International
 			Congress &ldquo;<a
 			href="http://www.uc.pt/bguc/500anos/Congresso_internacional"
-			target="new">A Biblioteca da Universidade: Permanências e
+			target="new">A Biblioteca da Universidade: Perman&ecirc;ncias e
 				Metamorfoses</a>&rdquo; (January 16-18, 2014; coord. J. A. Cardoso
 			Bernardes)
 		</li>
@@ -124,15 +118,16 @@
 			&ldquo;Estranhar Pessoa,&rdquo; Laboratory of Advanced Literary
 			Studies (ELAB), Network of Philosophy and Literature, Institute of
 			Philosophy of Language (IFL) and Program in Theory of Literature
-			(March 6-8, 2014; coords. António M. Feijó and Abel Barros
+			(March 6-8, 2014; coords. Ant&oacute;nio M. Feij&oacute; and Abel Barros
 			Baptista)
 		</li>
 		<li>Los Andes University, Bogot&aacute;: International conference
 			&ldquo;<a
 			href="https://ilusionymaterialidad.wordpress.com/programa-2/"
-			target="new">Ilusión y materialidad de los archivos literarios</a>,&rdquo;
+			target="new">Ilusi&oacute;n y materialidad de los archivos literarios</a>,				
+            &rdquo;
 			organized by Universidad de los Andes, Instituto Caro y Cuervo and
-			Biblioteca Luis &Aacute;ngel Arango (May 6-8, 2014; coord. Jerónimo
+			Biblioteca Luis &Aacute;ngel Arango (May 6-8, 2014; coord. Jer&oacute;nimo
 			Pizarro)
 		</li>
 		<li>University of Salamanca: Seminar Series &ldquo;Arc&aacute;dia
@@ -150,9 +145,9 @@
 		<li>University of Grenoble: Symposium &ldquo;<a
 			href="http://www.nedimah.eu/reports/toward-new-social-contract-between-publishers-and-editors"
 			target="new">Toward a New Social Contract between Publishers and
-				Editors</a>,&rdquo; organized by theNetwork for Digital Methods in the
-			Arts and Humanities–NeDiMAH (European Science Foundation), Maison
-			des Sciences de l’Homme and Universit&eacute; de Grenoble (January
+				Editors</a>,&rdquo; organized by the Network for Digital Methods in the
+			Arts and Humanities&mdash;NeDiMAH (European Science Foundation), Maison
+			des Sciences de l&rsquo;Homme and Universit&eacute; de Grenoble (January
 			26, 2015; coords. Matthew Driscol and Elena Pierazzo)
 		</li>
 		<li>University of Rome La Sapienza: Symposium &ldquo;<a
@@ -205,7 +200,7 @@
 			target="new">On/Off: Navegando pelas Culturas Digitais,
 				Tecnologia e Conhecimento</a>,&rdquo; organized by the &ldquo;Art,
 			Culture and Communication&rdquo; Section of the Portuguese
-			Association of Sociology (September 26, 2015; coords. Claudino
+			Association of Sociology (November 26, 2015; coords. Claudino
 			Ferreira and Paula Abreu)
 		</li>
 	</ul>
@@ -269,15 +264,20 @@
 
 <h3>Used Tools</h3>
 <ul>
-	<li><a href="https://projects.spring.io/spring-boot/">Spring Boot</a></li>
-	<li><a href="http://projects.spring.io/spring-social/">Spring Social</a></li>
-	<li><a href="https://fenix-framework.github.io/">F�nix Framework</a></li>
-	<li><a href="https://tomcat.apache.org/">Tomcat</a></li>
-	<li><a href="https://www.mysql.com/">MySQL</a></li>
+	<li><a href="http://annotatorjs.org/">Annotator</a></li>
+    <li><a href="http://getbootstrap.com/">Bootstrap</a></li>
+    <li><a href="https://github.com/wenzhixin/bootstrap-table">Bootstrap Table</a></li> 
+	<li><a href="https://fenix-framework.github.io/">Fénix Framework</a></li>
+	<li><a href="http://www.oracle.com/technetwork/java/javaee/jsp/index.html">JavaServer Pages</a></li>
+	<li><a href="https://jquery.com/">jQuery</a></li>
 	<li><a href="https://lucene.apache.org/">Lucene</a></li>
 	<li><a href="http://mallet.cs.umass.edu/">Mallet</a></li>
-	<li><a href="http://www.oracle.com/technetwork/java/javaee/jsp/index.html">JavaServer Pages</a></li>
-	<li><a href="http://getbootstrap.com/">Bootstrap</a></li>
-	<li><a href="https://jquery.com/">jQuery</a></li>
-	<li><a href="http://annotatorjs.org/">Annotator</a></li>
+    <li><a href="https://www.mysql.com/">MySQL</a></li>
+	<li><a href="http://openseadragon.github.io">OpenSeadragon</a></li>
+    <li><a href="https://www.oxygenxml.com/">Oxygen</a></li>
+	<li><a href="http://github.com/mleibman/slickgrid">SlickGrid</a></li>
+    <li><a href="https://projects.spring.io/spring-boot/">Spring Boot</a></li>
+	<li><a href="http://projects.spring.io/spring-social/">Spring Social</a></li>
+    <li><a href="https://tomcat.apache.org/">Tomcat</a></li>
+
 </ul>
