@@ -10,6 +10,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import pt.ist.fenixframework.Atomic;
+import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.socialsoftware.edition.domain.LdoD;
 import pt.ist.socialsoftware.edition.domain.LdoDUser;
 import pt.ist.socialsoftware.edition.domain.Role;
@@ -20,6 +22,7 @@ public class LdoDUserDetailsService implements UserDetailsService {
 	private static Logger log = LoggerFactory.getLogger(LdoDUserDetailsService.class);
 
 	@Override
+	@Atomic(mode = TxMode.READ)
 	public LdoDUserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		log.debug("loadUserByUsername username:{}", username);
 
