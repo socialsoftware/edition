@@ -320,12 +320,12 @@
 <h5 id="Q13Q" style="padding-top: 60px; margin-top: -60px;">
 	&iquest;Cu&aacute;l es la diferencia entre testimonios y fragmentos codificados?</h5>
 <p>
-	Las designaciones “testimonios” y “fragmentos codificados” ofrecen diferentes 
-	perspectivas sobre los mismos materiales textuales. "Testimonios" 
+	Las designaciones &ldquo;testimonios&rdquo; y &ldquo;fragmentos codificados&rdquo; ofrecen diferentes 
+	perspectivas sobre los mismos materiales textuales. &ldquo;Testimonios&rdquo; 
 	presenta una perspectiva de dichos materiales a partir de las unidades 
 	definidas por la Biblioteca Nacional de Portugal, es decir, a partir de 
 	la referencia de catalogaci&oacute;n que determina la unidad material de cada 
-	documento aut&oacute;grafo como objeto de referencia. “Fragmentos codificados”, 
+	documento aut&oacute;grafo como objeto de referencia. &ldquo;Fragmentos codificados&rdquo;, 
 	a su vez, presenta una perspectiva de los materiales a partir de las unidades 
 	del propio <em>Archivo LdoD</em>, es decir, de los archivos XML como unidades que 
 	garantizan la modularidad de los fragmentos y de las interpretaciones 
@@ -345,7 +345,7 @@
 	adem&aacute;s de las cinco interpretaciones editoriales, hay varios aut&oacute;grafos – 
 	por ejemplo, dos versiones mecanografiadas y una versi&oacute;n publicada en revista. 
 	En este caso, el <em>Archivo LdoD</em> transcribe las tres versiones aut&oacute;grafas. 
-	A trav&eacute;s de la tabla de “fragmentos codificados” tenemos una imagen global 
+	A trav&eacute;s de la tabla de &ldquo;fragmentos codificados&rdquo; tenemos una imagen global 
 	del contenido del <em>Archivo LdoD</em>. Desde un punto de vista te&oacute;rico, podemos 
 	decir que los archivos XML son documentos del <em>Archivo LdoD</em> tal como los aut&oacute;grafos 
 	son documentos del archivo de FP en la BNP. Estos &uacute;ltimos est&aacute;n representados 
