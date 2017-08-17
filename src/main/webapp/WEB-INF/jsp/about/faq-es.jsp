@@ -549,11 +549,11 @@
 	superponen: a) las diferencias a nivel de la palabra y b) las diferencias 
 	a nivel del par&aacute;grafos en su totalidad. El programa interpreta dos veces las 
 	diferencias: antepone (o pospone) las palabras que est&aacute;n marcadas 
-	como diferentes entre s&iacute; dentro del par&aacute;grafos, al tiempo que resalta la 
-	marcaci&oacute;n de la diferencia del par&aacute;grafos en su totalidad. Esto se debe a 
+	como diferentes entre s&iacute; dentro del par&aacute;grafo, al tiempo que resalta la 
+	marcaci&oacute;n de la diferencia de par&aacute;grafos en su totalidad. Esto se debe a 
 	que el m&eacute;todo de segmentaci&oacute;n paralela que adoptamos en la codificaci&oacute;n 
 	no permite la superposici&oacute;n de jerarqu&iacute;as. La representaci&oacute;n de los dos 
-	tipos de diferencias &mdash; las diferencias en la divisi&oacute;n del par&aacute;grafos y 
+	tipos de diferencias &mdash; las diferencias en la divisi&oacute;n de par&aacute;grafos y 
 	las diferencias entre palabras dentro de esos par&aacute;grafos &mdash; 
 	debe hacerse duplicando la jerarqu&iacute;a de la codificaci&oacute;n, lo que hace 
 	que el realce se&ntilde;ale palabras y par&aacute;grafos de ese modo.
