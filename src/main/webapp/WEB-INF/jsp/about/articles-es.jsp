@@ -307,7 +307,7 @@ Zenith, Richard (2016). &ldquo;<em>Livro do Desassossego:</em> translating, read
     <td width="5%" valign="top"><p align="center"><strong>1982</strong></p></td>
     <td width="19%" valign="top"><p><em>Livro do Desassossego</em>. Editado por Jacinto do Prado Coelho. Compilaci&oacute;n y transcripci&oacute;n de los textos por Maria Aliete Galhoz y Teresa Sobral Cunha. Lisboa: Edi&ccedil;&otilde;es &Aacute;tica. <br>
       [2 volumes] <br>
-      <strong>1ª edici&oacute;n</strong></p></td>
+      <strong>1&ordf; edici&oacute;n</strong></p></td>
     <td width="19%" valign="top"><p>&nbsp;</p></td>
     <td width="19%" valign="top"><p>&nbsp;</p></td>
     <td width="19%" valign="top"><p>&nbsp;</p></td>
@@ -318,7 +318,7 @@ Zenith, Richard (2016). &ldquo;<em>Livro do Desassossego:</em> translating, read
     <td width="19%" valign="top"><p>&nbsp;</p></td>
     <td width="19%" valign="top"><p><em>Livro do Desassossego</em>. Editado por Teresa Sobral    Cunha. Lisboa: Editorial Presen&ccedil;a. <br>
       [volume 1, por Vicente Guedes] <br>
-      <strong>1ª edici&oacute;n</strong> <br>
+      <strong>1&ordf; edici&oacute;n</strong> <br>
       ISBN 972-23-1330-4</p></td>
     <td width="19%" valign="top"><p>&nbsp;</p></td>
     <td width="19%" valign="top"><p>&nbsp;</p></td>
@@ -329,7 +329,7 @@ Zenith, Richard (2016). &ldquo;<em>Livro do Desassossego:</em> translating, read
     <td width="19%" valign="top"><p>&nbsp;</p></td>
     <td width="19%" valign="top"><p><em>Livro do Desassossego</em>. Editado por Teresa Sobral    Cunha. Lisboa: Editorial Presen&ccedil;a. <br>
       [volume 2, por Bernardo Soares] <br>
-      <strong>1ª edici&oacute;n</strong> <br>
+      <strong>1&ordf; edici&oacute;n</strong> <br>
       ISBN 972-23-1375-4</p></td>
     <td width="19%" valign="top"><p>&nbsp;</p></td>
     <td width="19%" valign="top"><p>&nbsp;</p></td>
@@ -340,7 +340,7 @@ Zenith, Richard (2016). &ldquo;<em>Livro do Desassossego:</em> translating, read
     <td width="19%" valign="top"><p>&nbsp;</p></td>
     <td width="19%" valign="top"><p><em>Livro do Desassossego</em>. Editado por Teresa Sobral    Cunha. Campinas, SP: Unicamp. <br>
       [2 volumes]<br>
-      <strong>2ª edici&oacute;n</strong> <br>
+      <strong>2&ordf; edici&oacute;n</strong> <br>
       ISBN 85-268-0288-7</p></td>
     <td width="19%" valign="top"><p>&nbsp;</p></td>
     <td width="19%" valign="top"><p>&nbsp;</p></td>
@@ -349,7 +349,7 @@ Zenith, Richard (2016). &ldquo;<em>Livro do Desassossego:</em> translating, read
   <tr>
     <td width="5%" valign="top"><p align="center"><strong>1996</strong></p></td>
     <td width="19%" valign="top"><p><em>&nbsp;</em></p></td>
-    <td width="19%" valign="top"><p><em>Livro do Desassossego</em>. Editado por Teresa Sobral    Cunha. Campinas, SP: Unicamp. <br>
+    <td width="19%" valign="top"><p><em>Livro do Desassossego</em>. Editado por Teresa Sobral Cunha. Campinas, SP: Unicamp. <br>
       [2 volumes]<br>
       [reimpresi&oacute;n]<br>
       ISBN 85-268-0288-7</p></td>
@@ -365,7 +365,7 @@ Zenith, Richard (2016). &ldquo;<em>Livro do Desassossego:</em> translating, read
       ISBN 972-617-131-8</p></td>
     <td width="19%" valign="top"><p><em>Livro do Desassossego</em>. Editado por Teresa Sobral    Cunha. Lisboa: Editorial Presen&ccedil;a.<br>
      [2 volumes]<br>
-      <strong>3ª edici&oacute;n</strong></p></td>
+      <strong>3&ordf; edici&oacute;n</strong></p></td>
     <td width="19%" valign="top"><p>&nbsp;</p></td>
     <td width="19%" valign="top"><p>&nbsp;</p></td>
     <td width="19%" valign="top"><p>&nbsp;</p></td>
@@ -375,7 +375,7 @@ Zenith, Richard (2016). &ldquo;<em>Livro do Desassossego:</em> translating, read
     <td width="19%" valign="top"><p>&nbsp;</p></td>
     <td width="19%" valign="top"><p><em>&nbsp;</em></p></td>
     <td width="19%" valign="top"><p><em>Livro do Desassossego</em>. Editado por Richard Zenith. Lisboa: Ass&iacute;rio &amp; Alvim. <br>
-      <strong>1ª edici&oacute;n</strong> <br>
+      <strong>1&ordf; edici&oacute;n</strong> <br>
       ISBN 972-37-0476-5</p></td>
     <td width="19%" valign="top"><p>&nbsp;</p></td>
     <td width="19%" valign="top"><p>&nbsp;</p></td>
@@ -384,8 +384,8 @@ Zenith, Richard (2016). &ldquo;<em>Livro do Desassossego:</em> translating, read
     <td width="5%" valign="top"><p align="center"><strong>1999</strong></p></td>
     <td width="19%" valign="top"><p>&nbsp;</p></td>
     <td width="19%" valign="top"><p><em>&nbsp;</em></p></td>
-    <td width="19%" valign="top"><p><em>Livro do Desassossego</em>.    Editado por Richard Zenith. S&atilde;o Paulo: Companhia das Letras. <br>
-    <strong>2ª edici&oacute;n</strong><br>
+    <td width="19%" valign="top"><p><em>Livro do Desassossego</em>. Editado por Richard Zenith. S&atilde;o Paulo: Companhia das Letras. <br>
+    <strong>2&ordf; edici&oacute;n</strong><br>
     ISBN 85-7164-857-3</p></td>
     <td width="19%" valign="top"><p>&nbsp;</p></td>
     <td width="19%" valign="top"><p>&nbsp;</p></td>
@@ -395,7 +395,7 @@ Zenith, Richard (2016). &ldquo;<em>Livro do Desassossego:</em> translating, read
     <td width="19%" valign="top"><p>&nbsp;</p></td>
     <td width="19%" valign="top"><p><em>&nbsp;</em></p></td>
     <td width="19%" valign="top"><p><em>Livro do Desassossego</em>.    Editado por Richard Zenith. Lisboa: Ass&iacute;rio &amp; Alvim. <br>
-      <strong>3ª edici&oacute;n </strong><br>
+      <strong>3&ordf; edici&oacute;n </strong><br>
       ISBN 972-37-0496-X</p></td>
     <td width="19%" valign="top"><p>&nbsp;</p></td>
     <td width="19%" valign="top"><p>&nbsp;</p></td>
@@ -405,7 +405,7 @@ Zenith, Richard (2016). &ldquo;<em>Livro do Desassossego:</em> translating, read
     <td width="19%" valign="top"><p>&nbsp;</p></td>
     <td width="19%" valign="top"><p><em>&nbsp;</em></p></td>
     <td width="19%" valign="top"><p><em>Livro do Desassossego</em>.    Editado por Richard Zenith. Lisboa: Ass&iacute;rio &amp; Alvim. <br>
-      <strong>4ª edici&oacute;n </strong><br>
+      <strong>4&ordf; edici&oacute;n </strong><br>
       ISBN 972-37-0476-5</p></td>
     <td width="19%" valign="top"><p>&nbsp;</p></td>
     <td width="19%" valign="top"><p>&nbsp;</p></td>
@@ -415,7 +415,7 @@ Zenith, Richard (2016). &ldquo;<em>Livro do Desassossego:</em> translating, read
     <td width="19%" valign="top"><p>&nbsp;</p></td>
     <td width="19%" valign="top"><p><em>&nbsp;</em></p></td>
     <td width="19%" valign="top"><p><em>Livro do Desassossego</em>.    Editado por Richard Zenith. Lisboa: Ass&iacute;rio &amp; Alvim. <br>
-      <strong>5ª edici&oacute;n</strong> <br>
+      <strong>5&ordf; edici&oacute;n</strong> <br>
       ISBN 972-37-0476-5</p></td>
     <td width="19%" valign="top"><p>&nbsp;</p></td>
     <td width="19%" valign="top"><p>&nbsp;</p></td>
@@ -425,7 +425,7 @@ Zenith, Richard (2016). &ldquo;<em>Livro do Desassossego:</em> translating, read
     <td width="19%" valign="top"><p>&nbsp;</p></td>
     <td width="19%" valign="top"><p><em>&nbsp;</em></p></td>
     <td width="19%" valign="top"><p><em>Livro do Desassossego</em>.    Editado por Richard Zenith. Lisboa: C&iacute;rculo de Leitores. <br>
-      <strong>6ª edici&oacute;n</strong> <br>
+      <strong>6&ordf; edici&oacute;n</strong> <br>
       ISBN 972-42-3806-7</p></td>
     <td width="19%" valign="top"><p>&nbsp;</p></td>
     <td width="19%" valign="top"><p>&nbsp;</p></td>
@@ -435,7 +435,7 @@ Zenith, Richard (2016). &ldquo;<em>Livro do Desassossego:</em> translating, read
     <td width="19%" valign="top"><p>&nbsp;</p></td>
     <td width="19%" valign="top"><p><em>&nbsp;</em></p></td>
     <td width="19%" valign="top"><p><em>Livro do Desassossego</em>.    Editado por Richard Zenith. Lisboa: Ass&iacute;rio &amp; Alvim. <br>
-      <strong>7ª edici&oacute;n</strong> <br>
+      <strong>7&ordf; edici&oacute;n</strong> <br>
       ISBN 978-972-37-0476-1</p></td>
     <td width="19%" valign="top"><p>&nbsp;</p></td>
     <td width="19%" valign="top"><p>&nbsp;</p></td>
@@ -444,7 +444,7 @@ Zenith, Richard (2016). &ldquo;<em>Livro do Desassossego:</em> translating, read
     <td width="5%" valign="top"><p align="center"><strong>2008</strong></p></td>
     <td width="19%" valign="top"><p>&nbsp;</p></td>
     <td width="19%" valign="top"><p><em>Livro do Desassossego</em>. Editado por Teresa Sobral Cunha. Lisboa: Rel&oacute;gio d&rsquo;&Aacute;gua.<br>
-      <strong>4ª    edici&oacute;n</strong> <br>
+      <strong>4&ordf; edici&oacute;n</strong> <br>
       ISBN 978-972-708-954-3 </p></td>
     <td width="19%" valign="top"><p>&nbsp;</p></td>
     <td width="19%" valign="top"><p>&nbsp;</p></td>
@@ -455,7 +455,7 @@ Zenith, Richard (2016). &ldquo;<em>Livro do Desassossego:</em> translating, read
     <td width="19%" valign="top"><p>&nbsp;</p></td>
     <td width="19%" valign="top"><p>&nbsp;</p></td>
     <td width="19%" valign="top"><p><em>Livro do Desassossego</em>.    Editado por Richard Zenith. Lisboa: Ass&iacute;rio &amp; Alvim. <br>
-      <strong>8ª edici&oacute;n</strong> <br>
+      <strong>8&ordf; edici&oacute;n</strong> <br>
       ISBN 978-972-37-0476-1</p></td>
     <td width="19%" valign="top"><p>&nbsp;</p></td>
     <td width="19%" valign="top"><p>&nbsp;</p></td>
@@ -467,7 +467,7 @@ Zenith, Richard (2016). &ldquo;<em>Livro do Desassossego:</em> translating, read
     <td width="19%" valign="top"><p>&nbsp;</p></td>
     <td width="19%" valign="top"><p><em>Livro do Desasocego</em>. Editado por Jer&oacute;nimo Pizarro. Lisboa: Imprensa Nacional-Casa da Moeda. <br>
       [2 volumes]<br>
-      <strong>1ª    edici&oacute;n</strong> <br>
+      <strong>1&ordf; edici&oacute;n</strong> <br>
       ISBN 978-972-27-1849-3 </p></td>
     <td width="19%" valign="top"><p><em>&nbsp;</em></p></td>
   </tr>
@@ -476,7 +476,7 @@ Zenith, Richard (2016). &ldquo;<em>Livro do Desassossego:</em> translating, read
     <td width="19%" valign="top"><p>&nbsp;</p></td>
     <td width="19%" valign="top"><p>&nbsp;</p></td>
     <td width="19%" valign="top"><p><em>Livro do Desassossego</em>.    Editado por Richard Zenith. Lisboa: Ass&iacute;rio &amp; Alvim.<br>
-      <strong>9ª edici&oacute;n </strong><br>
+      <strong>9&ordf; edici&oacute;n </strong><br>
       ISBN 978-972-37-0476-1</p></td>
     <td width="19%" valign="top"><p>&nbsp;</p></td>
     <td width="19%" valign="top"><p>&nbsp;</p></td>
@@ -486,7 +486,7 @@ Zenith, Richard (2016). &ldquo;<em>Livro do Desassossego:</em> translating, read
     <td width="19%" valign="top"><p>&nbsp;</p></td>
     <td width="19%" valign="top"><p>&nbsp;</p></td>
     <td width="19%" valign="top"><p><em>Livro do Desassossego</em>. Editado por Richard Zenith. Lisboa: Ass&iacute;rio &amp; Alvim. <br>
-      <strong>10ª    edici&oacute;n </strong><br>
+      <strong>10&ordf; edici&oacute;n </strong><br>
       ISBN 978-972-0-78330-1<strong> </strong></p></td>
     <td width="19%" valign="top"><p>&nbsp;</p></td>
     <td width="19%" valign="top"><p>&nbsp;</p></td>
@@ -495,12 +495,12 @@ Zenith, Richard (2016). &ldquo;<em>Livro do Desassossego:</em> translating, read
     <td width="5%" valign="top"><p align="center"><strong>2013</strong></p></td>
     <td width="19%" valign="top"><p>&nbsp;</p></td>
     <td width="19%" valign="top"><p><em>Livro do Desassossego</em>. Editado por Teresa Sobral    Cunha. Lisboa: Rel&oacute;gio d&rsquo;&Aacute;gua.<br>
-      <strong>5ª edici&oacute;n</strong> <br>
+      <strong>5&ordf; edici&oacute;n</strong> <br>
       ISBN 978-972-641-397-2</p></td>
-    <td width="19%" valign="top"><p><em>Livro do Desassossego</em>.    Editado por Richard Zenith. Lisboa: Ass&iacute;rio &amp; Alvim. <br>[reimpresi&oacute;n]<br>
+    <td width="19%" valign="top"><p><em>Livro do Desassossego</em>. Editado por Richard Zenith. Lisboa: Ass&iacute;rio &amp; Alvim. <br>[reimpresi&oacute;n]<br>
       ISBN 978-972-37-1121-9</p></td>
-    <td width="19%" valign="top"><p><em>Livro do Desassossego</em>.    Editado por Jer&oacute;nimo Pizarro. Lisboa: Tinta-da-China. <br>
-      <strong>2ª edici&oacute;n</strong> <br>
+    <td width="19%" valign="top"><p><em>Livro do Desassossego</em>. Editado por Jer&oacute;nimo Pizarro. Lisboa: Tinta-da-China. <br>
+      <strong>2&ordf; edici&oacute;n</strong> <br>
       ISBN 978-989-671-207-5</p></td>
     <td width="19%" valign="top"><p><em>&nbsp;</em></p></td>
   </tr>
@@ -509,10 +509,10 @@ Zenith, Richard (2016). &ldquo;<em>Livro do Desassossego:</em> translating, read
     <td width="19%" valign="top"><p>&nbsp;</p></td>
     <td width="19%" valign="top"><p>&nbsp;</p></td>
     <td width="19%" valign="top"><p><em>Livro do Desassossego</em>.    Editado por Richard Zenith. Lisboa: Ass&iacute;rio &amp; Alvim. <br>
-      <strong>11ª edici&oacute;n</strong> <br>
+      <strong>11&ordf; edici&oacute;n</strong> <br>
       ISBN 978-972-37-1787-7</p></td>
     <td width="19%" valign="top"><p><em>Livro do Desassossego.</em> Editado por Jer&oacute;nimo Pizarro. Lisboa: Tinta-da-China. <br>
-      <strong>3ª edici&oacute;n </strong><br>
+      <strong>3&ordf; edici&oacute;n </strong><br>
       ISBN 978-989-671-180-1<strong></strong><br>
       </p></td>
     <td width="19%" valign="top"><p><em>&nbsp;</em></p></td>
@@ -525,7 +525,7 @@ Zenith, Richard (2016). &ldquo;<em>Livro do Desassossego:</em> translating, read
       ISBN 978-972-37-1787-7 </p></td>
     <td width="19%" valign="top"><p>&nbsp;</p></td>
     <td width="19%" valign="top"><p><em>Livro(s) do Desassossego</em>.    Editado por Teresa Rita Lopes. S&atilde;o Paulo: Global Editora.<br>
-      <strong>1ª edici&oacute;n</strong><br>
+      <strong>1&ordf; edici&oacute;n</strong><br>
       ISBN 978-852-60-2206-5</p></td>
   </tr>
   <tr>
