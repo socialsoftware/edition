@@ -12,7 +12,7 @@
 	<div class="container">
 		<div class="col-md-8 col-md-offset-2">
 			<h1 class="text-center">
-				<spring:message code="header.articles" />
+				<spring:message code="header.bibliography" />
 			</h1>
 			<p>&nbsp;</p>
 			<c:choose>
