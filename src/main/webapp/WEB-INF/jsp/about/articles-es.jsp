@@ -164,6 +164,9 @@ Ribeiro, Ant&oacute;nio Sousa (2013). &ldquo;Estranhamentos: materialidades da e
 <br/>URL: <a href="http://iduc.uc.pt/index.php/matlit/article/view/1634">http://iduc.uc.pt/index.php/matlit/article/view/1634</a>
 </p>
 <p>
+Serra, Pedro (2013). &ldquo;Arqueofon&iacute;a y materialidades del libro.&rdquo; <em>Documentos electr&oacute;nicos y textualidades digitales: nuevos lectores, nuevas lecturas, nuevos g&eacute;neros</em>. Eds. Jos&eacute; Antonio Cord&oacute;n-Garc&iacute;a, Raquel G&oacute;mez-D&iacute;az y Julio Alonso Ar&eacute;valo. Salamanca: Ediciones Universidad de Salamanca. 91-104.
+</p>
+<p>
 Silvestre, Osvaldo Manuel (2013). &ldquo;As &uacute;nicas coisas nobres que a vida cont&eacute;m.&rdquo; <em>MATLIT: Materialidades da Literatura</em> 1.1: 89-112.
 <br/>URL: <a href="http://iduc.uc.pt/index.php/matlit/article/view/1637">http://iduc.uc.pt/index.php/matlit/article/view/1637</a>
 </p>
@@ -196,6 +199,11 @@ Namora, Ricardo (2015). &ldquo;(Re)criando infraestruturas: o que &eacute; exata
 <p>
 Pereira, Paulo Silva (2015). &ldquo;Barroco digital: remedia&ccedil;&atilde;o, edi&ccedil;&atilde;o textual e arquivo.&rdquo; <em>Col&oacute;quio Letras</em> 188: 20-32.<br/>URL: <a href="http://coloquio.gulbenkian.pt/bib/sirius.exe/do?bibrecord&id=PT.FCG.RCL.9780&org=I&orgp=188">
 http://coloquio.gulbenkian.pt/bib/sirius.exe/do?bibrecord&id=PT.FCG.RCL.9780&org=I&orgp=188</a>
+</p>
+<p>
+Pereira, Paulo Silva (2015). &ldquo;Academia, Geopol&iacute;tica das Humanidades Digitais e Pensamento Cr&iacute;tico.&rdquo; <em>MATLIT: Materialidades da Literatura</em> 3.1: 111-140.<br/>
+  URL: <a href="http://impactum-journals.uc.pt/matlit/article/view/2517">http://impactum-journals.uc.pt/matlit/article/view/2517</a> <br>
+  DOI: <a href="http://dx.doi.org/10.14195/2182-8830_3-1_7">http://dx.doi.org/10.14195/2182-8830_3-1_7</a>
 </p>
 <p>
 Teixeira, Samuel (2015). &ldquo;The Virtualization of Artists&rsquo; Books: The Rationale of Remediation.&rdquo; <em>Betwixt &amp; Between</em> [&lsquo;The Artist&rsquo;s Book and Materiality / Het Kunstenaarsboek en Materialiteit&rsquo;] 36.1: 37-50.
