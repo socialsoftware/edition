@@ -21,7 +21,7 @@ O <em>Arquivo LdoD</em> foi desenvolvido no &acirc;mbito do projeto de investiga
 </p>
 <p>&nbsp;</p>
 
-<h3>ColaboraÃ§Ã£o</h3>
+<h3>Colaboração</h3>
 <p>Ao longo do seu per&iacute;odo de desenvolvimento, o <em>Arquivo LdoD</em> 
 beneficiou da colabora&ccedil;&atilde;o de diversos indiv&iacute;duos e institui&ccedil;&otilde;es. 
 Os agradecimentos s&atilde;o devidos, em primeiro lugar, aos editores Jer&oacute;nimo Pizarro, Richard Zenith e Teresa Sobral Cunha, pela consultoria como especialistas nos problemas editoriais do <em>Livro do Desassossego</em>. 

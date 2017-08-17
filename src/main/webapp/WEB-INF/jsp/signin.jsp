@@ -79,45 +79,36 @@
 				</form>
 			</div>
 			<br>
+			
 			<!-- FACEBOOK SIGNIN -->
-			<!-- 
-            <div class="row">
-                <form name="fb_signin" id="fb_signin"
-                    action="/signin/facebook" method="POST">
-                    <input type="hidden" name="_csrf"
-                        value="${_csrf.token}"></input> 
-                   <input
-                        type="hidden" name="scope"
-                        value="public_profile"></input>
-                    <div class="col-md-offset-5 col-md-2">
-                        <button
-                            class="btn btn-block btn-social btn-facebook"
-                            type="submit">
-                            <span class="fa fa-facebook"></span>Facebook
-                        </button>
-                    </div>
-                </form>
-            </div>
-            <br>
-             -->
+			<div class="row">
+				<form id="fb_signin" action="/signin/facebook" method="POST">
+					<input type="hidden" name="_csrf" value="${_csrf.token}"></input> <input
+						type="hidden" name="scope" value="public_profile"></input>
+					<div class="col-md-offset-5 col-md-2">
+						<button class="btn btn-block btn-social btn-facebook"
+							type="submit">
+							<span class="fa fa-facebook"></span>Facebook
+						</button>
+					</div>
+				</form>
+			</div>
+			<br>
+			
 			<!-- LINKEDIN SIGNIN -->
-			<!-- 
-            <div class="row">
-                <form name="li_signin" id="li_signin"
-                    action="/signin/linkedin" method="POST">
-                    <input type="hidden" name="_csrf"
-                        value="${_csrf.token}"></input>
-                    <div class="col-md-offset-5 col-md-2">
-                        <button
-                            class="btn btn-block btn-social btn-linkedin"
-                            type="submit">
-                            <span class="fa fa-linkedin"></span>Linkedin
-                        </button>
-                    </div>
-                </form>
-            </div>
-            <br>
-             -->
+			<div class="row">
+				<form id="li_signin" action="/signin/linkedin" method="POST">
+					<input type="hidden" name="_csrf" value="${_csrf.token}"></input>
+					<div class="col-md-offset-5 col-md-2">
+						<button class="btn btn-block btn-social btn-linkedin"
+							type="submit">
+							<span class="fa fa-linkedin"></span>Linkedin
+						</button>
+					</div>
+				</form>
+			</div>
+			<br>
+			
 			<!-- SIGNUP -->
 			<div class="row">
 				<a href="/signup"><spring:message code="signup.message" /></a>
