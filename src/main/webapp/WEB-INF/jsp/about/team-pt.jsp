@@ -52,7 +52,7 @@
 <p>&nbsp;</p>
 
 <h3>Consultores do <em>Livro do Desassossego</em></h3>
-<p>Jer&oacute;nimo Pizarro, Editor | Universidade de Los Andes, Bogotá</p>
+<p>Jer&oacute;nimo Pizarro, Editor | Universidade de Los Andes, Bogot&aacute;</p>
 <p>Richard Zenith, Editor</p>
 <p>Teresa Sobral Cunha, Editora</p>
 <p>&nbsp;</p>
