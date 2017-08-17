@@ -25,7 +25,7 @@ O <em>Arquivo LdoD</em> foi desenvolvido no &acirc;mbito do projeto de investiga
 <p>Ao longo do seu per&iacute;odo de desenvolvimento, o <em>Arquivo LdoD</em> 
 beneficiou da colabora&ccedil;&atilde;o de diversos indiv&iacute;duos e institui&ccedil;&otilde;es. 
 Os agradecimentos s&atilde;o devidos, em primeiro lugar, aos editores Jer&oacute;nimo Pizarro, Richard Zenith e Teresa Sobral Cunha, pela consultoria como especialistas nos problemas editoriais do <em>Livro do Desassossego</em>. 
-A nossa equipa de consultores do projeto contou ainda com trÃªs especialistas em humanidades digitais, cuja avaliaÃ§Ã£o cr&iacute;tica contribuiu para o avanÃ§o de nossas ideias: Johanna Drucker, Matthew G. Kirschenbaum e Susan Schreibman partilharam generosamente os seus conhecimentos e foram uma fonte constante de incentivo e inspiraÃ§Ã£o.
+A nossa equipa de consultores do projeto contou ainda com três especialistas em humanidades digitais, cuja avaliação cr&iacute;tica contribuiu para o avanço de nossas ideias: Johanna Drucker, Matthew G. Kirschenbaum e Susan Schreibman partilharam generosamente os seus conhecimentos e foram uma fonte constante de incentivo e inspiração.
 O <em>Arquivo LdoD</em> agradece tamb&eacute;m a colabora&ccedil;&atilde;o do 
 Arquivo de Cultura Portuguesa Contempor&acirc;nea (Biblioteca Nacional de Portugal), da Biblioteca P&uacute;blica e Arquivo Regional de Ponta Delgada 
 (Dire&ccedil;&atilde;o Regional da Cultura do Governo dos A&ccedil;ores) e do Servi&ccedil;o de Gest&atilde;o de Sistemas e Infraestruturas de Informa&ccedil;&atilde;o e Comunica&ccedil;&atilde;o (SGSIIC) da Universidade de Coimbra. Agradece igualmente a todos os utilizadores-beta que, em setembro de 2014 e em maio de 2017, participaram nos testes das funcionalidades e do desenho web do <em>Arquivo LdoD</em>.</p>
@@ -99,7 +99,7 @@ Espanha, Col&ocirc;mbia, Estados Unidos da Am&eacute;rica, Su&eacute;cia e Gr&ea
 	<li><a href="http://annotatorjs.org/">Annotator</a></li>
     <li><a href="http://getbootstrap.com/">Bootstrap</a></li>
     <li><a href="https://github.com/wenzhixin/bootstrap-table">Bootstrap Table</a></li> 
-	<li><a href="https://fenix-framework.github.io/">FÃ©nix Framework</a></li>
+	<li><a href="https://fenix-framework.github.io/">Fénix Framework</a></li>
 	<li><a href="http://www.oracle.com/technetwork/java/javaee/jsp/index.html">JavaServer Pages</a></li>
 	<li><a href="https://jquery.com/">jQuery</a></li>
 	<li><a href="https://lucene.apache.org/">Lucene</a></li>
