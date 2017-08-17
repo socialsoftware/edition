@@ -6,7 +6,7 @@
 	<li><a href="#Q02Q">&iquest;Qu&eacute; contiene el Archivo LdoD?</a></li>
 	<li><a href="#Q03Q">&iquest;Qu&eacute; es un fragmento en el Archivo LdoD?</a></li>
 	<li><a href="#Q04Q">&iquest;Cu&aacute;l es la relaci&oacute;n entre un texto en el <em>Libro del desasosiego</em>
-		y un fragmento en Archivo LdoD?</a></li>
+		y un fragmento en el Archivo LdoD?</a></li>
 	<li><a href="#Q05Q">&iquest;Por qu&eacute; se trata el fragmento como una unidad modular en el
 		Archivo LdoD?</a></li>
 	<li><a href="#Q06Q">&iquest;Qu&eacute; es una interpretaci&oacute;n en el Archivo LdoD?</a></li>
@@ -205,7 +205,7 @@
 </p>
 <h5 id="Q04Q" style="padding-top: 60px; margin-top: -60px;">&iquest;Cu&aacute;l es la relaci&oacute;n 
 	entre un texto en el <em>Libro del desasosiego</em>
-	y un fragmento en <em>Archivo LdoD</em>?</h5>
+	y un fragmento en el <em>Archivo LdoD</em>?</h5>
 <p>
 	Todos los fragmentos del <em>Archivo LdoD</em> son tambi&eacute;n unidades
 	textuales del <em>Libro del desasosiego</em> de acuerdo con al menos una de las
