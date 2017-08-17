@@ -1,4 +1,4 @@
-<h3>Apoios</h3>
+<h3>Patrocinadores</h3>
 <p>
 	O <em>Arquivo LdoD</em> &eacute; um arquivo digital colaborativo
 	patrocinado pela Funda&ccedil;&atilde;o para a Ci&ecirc;ncia e a
@@ -9,28 +9,23 @@
 	Doutoramento em Materialidades da Literatura (MATLIT).
 </p>
 <p>
-	O <em>Arquivo LdoD</em> foi desenvolvido no &acirc;mbito do projeto de
-	investiga&ccedil;&atilde;o &ldquo;Nenhum Problema Tem
-	Solu&ccedil;&atilde;o: Um Arquivo Digital do <em>Livro do
-		Desassossego</em>&rdquo;, coordenado por Manuel Portela, 2012-2015&nbsp;
-	(PTDC/CLE-LLI/118713/2010). Projeto financiado pela
-	Funda&ccedil;&atilde;o para a Ci&ecirc;ncia e a Tecnologia (FCT) e
-	cofinanciado pelo Fundo Europeu de Desenvolvimento Regional (FEDER),
-	atrav&eacute;s do Eixo I do Programa Operacional Fatores de
-	Competitividade (POFC) do QREN-Uni&atilde;o Europeia, COMPETE:
-	FCOMP-01-0124-FEDER-019715. Financiado ainda por Fundos Nacionais
-	atrav&eacute;s da Funda&ccedil;&atilde;o para a Ci&ecirc;ncia e a
-	Tecnologia no &acirc;mbito dos projetos &ldquo;Financiamento Plurianual
-	- Unidade 759&rdquo;: &ldquo;PEst-OE/ELT/UI00759/2013&rdquo; e
-	&ldquo;PEst-OE/ELT/UI0759/2014&rdquo;.
+O <em>Arquivo LdoD</em> foi desenvolvido no &acirc;mbito do projeto de investiga&ccedil;&atilde;o &ldquo;Nenhum Problema 
+	Tem Solu&ccedil;&atilde;o: Um Arquivo Digital do <em>Livro do Desassossego</em>&rdquo;, 
+	coordenado por Manuel Portela (PTDC/CLE-LLI/118713/2010). Projeto financiado pela Funda&ccedil;&atilde;o 
+	para a Ci&ecirc;ncia e a Tecnologia (FCT), e cofinanciado pelo Fundo Europeu de Desenvolvimento 
+	Regional (FEDER), atrav&eacute;s do Eixo I do Programa Operacional Fatores de Competitividade (POFC) do 
+	QREN&mdash;Uni&atilde;o Europeia (COMPETE: FCOMP-01-0124-FEDER-019715). 
+	Financiado ainda por fundos nacionais, atrav&eacute;s da Funda&ccedil;&atilde;o para 
+	Ci&ecirc;ncia e a Tecnologia (FCT), no &acirc;mbito dos projetos de  &ldquo;Financiamento 
+	Plurianual&mdash;Unidade 759&rdquo;:  &ldquo;PEst-OE/ELT/UI0759/2013 &rdquo; e &ldquo;PEst-OE/ELT/UI0759/2014&rdquo;. 
 </p>
 <p>&nbsp;</p>
 
-<h3>Reconhecimento</h3>
-
+<h3>Colaboração</h3>
 <p>Ao longo do seu per&iacute;odo de desenvolvimento, o <em>Arquivo LdoD</em> 
 beneficiou da colabora&ccedil;&atilde;o de diversos indiv&iacute;duos e institui&ccedil;&otilde;es. 
 Os agradecimentos s&atilde;o devidos, em primeiro lugar, aos editores Jer&oacute;nimo Pizarro, Richard Zenith e Teresa Sobral Cunha, pela consultoria como especialistas nos problemas editoriais do <em>Livro do Desassossego</em>. 
+A nossa equipa de consultores do projeto contou ainda com três especialistas em humanidades digitais, cuja avaliação cr&iacute;tica contribuiu para o avanço de nossas ideias: Johanna Drucker, Matthew G. Kirschenbaum e Susan Schreibman partilharam generosamente os seus conhecimentos e foram uma fonte constante de incentivo e inspiração.
 O <em>Arquivo LdoD</em> agradece tamb&eacute;m a colabora&ccedil;&atilde;o do 
 Arquivo de Cultura Portuguesa Contempor&acirc;nea (Biblioteca Nacional de Portugal), da Biblioteca P&uacute;blica e Arquivo Regional de Ponta Delgada 
 (Dire&ccedil;&atilde;o Regional da Cultura do Governo dos A&ccedil;ores) e do Servi&ccedil;o de Gest&atilde;o de Sistemas e Infraestruturas de Informa&ccedil;&atilde;o e Comunica&ccedil;&atilde;o (SGSIIC) da Universidade de Coimbra. Agradece igualmente a todos os utilizadores-beta que, em setembro de 2014 e em maio de 2017, participaram nos testes das funcionalidades e do desenho web do <em>Arquivo LdoD</em>.</p>
@@ -94,21 +89,27 @@ Espanha, Col&ocirc;mbia, Estados Unidos da Am&eacute;rica, Su&eacute;cia e Gr&ea
 <li>Universidade Fernando Pessoa, Porto: Col&oacute;quio internacional &ldquo;<a href="https://conference.eliterature.org/2017/conference" target="new">ELO 2017: Affiliations, Communities, Translations</a>&rdquo; (18-22 de julho de 2017; coords. Rui Torres e Sandy Baldwin)</li>
 <li>Universidade Complutense de Madrid, Faculdade de Educa&ccedil;&atilde;o: Simp&oacute;sio internacional de Humanidades Digitais do Sul &ldquo;<a href="https://www.ucm.es/leethi/esc-programa" target="new">Escritura Creativa Digital y Colecciones Digitales</a>&rdquo; organizado pelo grupo de investiga&ccedil;&atilde;o LEETHI-Literaturas Espa&ntilde;olas y Europeas del Texto al Hipermedia (13-15 de setembro de 2017; coord. Amelia Sanz)</li>
 </ul>
+
 </ul>
 
 <p>&nbsp;</p>
 
 <h3>Ferramentas Utilizadas</h3>
 <ul>
-	<li><a href="https://projects.spring.io/spring-boot/">Spring Boot</a></li>
-	<li><a href="http://projects.spring.io/spring-social/">Spring Social</a></li>
-	<li><a href="https://fenix-framework.github.io/">F�nix Framework</a></li>
-	<li><a href="https://tomcat.apache.org/">Tomcat</a></li>
-	<li><a href="https://www.mysql.com/">MySQL</a></li>
+	<li><a href="http://annotatorjs.org/">Annotator</a></li>
+    <li><a href="http://getbootstrap.com/">Bootstrap</a></li>
+    <li><a href="https://github.com/wenzhixin/bootstrap-table">Bootstrap Table</a></li> 
+	<li><a href="https://fenix-framework.github.io/">Fénix Framework</a></li>
+	<li><a href="http://www.oracle.com/technetwork/java/javaee/jsp/index.html">JavaServer Pages</a></li>
+	<li><a href="https://jquery.com/">jQuery</a></li>
 	<li><a href="https://lucene.apache.org/">Lucene</a></li>
 	<li><a href="http://mallet.cs.umass.edu/">Mallet</a></li>
-	<li><a href="http://www.oracle.com/technetwork/java/javaee/jsp/index.html">JavaServer Pages</a></li>
-	<li><a href="http://getbootstrap.com/">Bootstrap</a></li>
-	<li><a href="https://jquery.com/">jQuery</a></li>
-	<li><a href="http://annotatorjs.org/">Annotator</a></li>
+    <li><a href="https://www.mysql.com/">MySQL</a></li>
+	<li><a href="http://openseadragon.github.io">OpenSeadragon</a></li>
+    <li><a href="https://www.oxygenxml.com/">Oxygen</a></li>
+	<li><a href="http://github.com/mleibman/slickgrid">SlickGrid</a></li>
+    <li><a href="https://projects.spring.io/spring-boot/">Spring Boot</a></li>
+	<li><a href="http://projects.spring.io/spring-social/">Spring Social</a></li>
+    <li><a href="https://tomcat.apache.org/">Tomcat</a></li>
+
 </ul>
