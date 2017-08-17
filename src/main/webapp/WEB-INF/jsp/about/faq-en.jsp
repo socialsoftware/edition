@@ -24,7 +24,7 @@
 	<li><a href="#Q11Q">What can we see in the interface for visualizing authorial
 		sources?</a></li>
 	<li><a href="#Q12Q">What is the facsimile?</a></li>
-	<li><a href="#Q13Q">What is the difference between &ldquo;witnesses&rdquo; and &ldquo;encoded fragments&rdquo;? </a></li>
+	<li><a href="#Q13Q">What is the difference between witnesses and encoded fragments? </a></li>
 </ul>
 <h4>
 	<a href="#T3T">Experts&rsquo; Editions</a>
@@ -285,13 +285,13 @@
 	pages only, and others by <em>recto </em>and <em>verso </em>pages.
 </p>
 <h5 id="Q13Q" style="padding-top: 60px; margin-top: -60px;">
-	What is the difference between “witnesses” and “encoded fragments”?</h5>
+	What is the difference between witnesses and encoded fragments?</h5>
 <p>
-	The designations “witnesses” and “encoded fragments” are different 
-	perspectives on the same materials. “Witnesses” presents a perspective 
+	The designations &ldquo;witnesses&rdquo; and “&ldquo;encoded fragments&rdquo; are different 
+	perspectives on the same materials. &ldquo;Witnesses&rdquo; presents a perspective 
 	of the materials based on the units defined by the National Library of 
 	Portugal (BNP), i.e., based on the shelf-marks that determine the material 
-	unit of each autograph document as a referable object. “Encoded fragments”, 
+	unit of each autograph document as a referable object. &ldquo;Encoded fragments&rdquo;, 
 	in turn, presents a perspective of the materials based on the units of the 
 	<em>LdoD Archive</em> itself, that is, of the XML files as units that guarantee 
 	the modularity of the fragments and the interpretations (transcriptions) 
@@ -299,7 +299,7 @@
 	becomes clearer: the 756 witnesses correspond to all BNP autograph documents 
 	that have a specific shelf-mark (or, in the case of some letters by Fernando 
 	Pessoa, shelf-marks from other archives) and also to twelve published texts; the 
-	722 “encoded fragments” correspond to the XML files of the <em>LdoD Archive</em>, each 
+	722 &ldquo;encoded fragments&rdquo; correspond to the XML files of the <em>LdoD Archive</em>, each 
 	of which contains a number of interpretations for the same fragment. From the 
 	point of view of our data model in the Archive, it is as if the fragment were 
 	an abstract entity, which then has multiple instantiations: the transcriptions 
@@ -308,10 +308,10 @@
 	in all), but this number can go up to seven when, in addition to the five editorial 
 	interpretations there are several autographs – for example, two different typewritten 
 	witnesses and a version published in a magazine. In this case, the <em>LdoD Archive</em> 
-	transcribes the three autograph versions. The table of “encoded fragments” offers 
+	transcribes the three autograph versions. The table of &ldquo;encoded fragments&rdquo; offers 
 	an overall picture of the contents of the <em>LdoD Archive</em>. From a theoretical point 
 	of view, we can say that the XML files are documents of the <em>LdoD Archive</em> just as the 
-	autographs are documents of Fernando Pessoa’s archive in the BNP. The latter are 
+	autographs are documents of Fernando Pessoa&rsquo;s archive in the BNP. The latter are 
 	represented in the <em>LdoD Archive</em> through a facsimile image and a new topographic 
 	genetic transcription.
 </p>
