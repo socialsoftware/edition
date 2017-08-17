@@ -82,6 +82,32 @@
 					</div>
 				</div>
 				<div class="form-group">
+					<label class="col-sm-3 col-sm-offset-1 control-label"><spring:message
+							code="header.conduct.accept" /></label>
+					<div class="col-sm-4">
+						<form:checkbox class="form-control" path="conduct" />
+					</div>
+					<div class="col-sm-2">
+						<form:errors class="has-error" path="conduct" />
+					</div>
+				</div>
+
+				<div class="col-md-8 col-md-offset-2 text-left">
+					<c:choose>
+						<c:when
+							test='${pageContext.response.locale.getLanguage().equals("en")}'>
+							<%@ include file="/WEB-INF/jsp/about/conduct-en.jsp"%>
+						</c:when>
+						<c:when
+							test='${pageContext.response.locale.getLanguage().equals("es")}'>
+							<%@ include file="/WEB-INF/jsp/about/conduct-es.jsp"%>
+						</c:when>
+						<c:otherwise><%@ include
+								file="/WEB-INF/jsp/about/conduct-pt.jsp"%></c:otherwise>
+					</c:choose>
+				</div>
+
+				<div class="form-group">
 					<div class="col-sm-12">
 						<button type="submit" class="btn btn-primary">
 							<spring:message code="signup" />

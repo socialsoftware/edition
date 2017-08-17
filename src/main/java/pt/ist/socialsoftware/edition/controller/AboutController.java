@@ -26,6 +26,11 @@ public class AboutController {
 		return "about/articles-main";
 	}
 
+	@RequestMapping(method = RequestMethod.GET, value = "/conduct")
+	public String showConduct() {
+		return "about/conduct-main";
+	}
+
 	@RequestMapping(method = RequestMethod.GET, value = "/team")
 	public String showTeam() {
 		return "about/team-main";

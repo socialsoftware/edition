@@ -26,6 +26,8 @@ public class SignupForm {
 	@Email
 	private String email;
 
+	private boolean conduct;
+
 	private String socialMediaService;
 
 	private String socialMediaId;
@@ -68,6 +70,14 @@ public class SignupForm {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public boolean isConduct() {
+		return this.conduct;
+	}
+
+	public void setConduct(boolean conduct) {
+		this.conduct = conduct;
 	}
 
 	public String getSocialMediaService() {

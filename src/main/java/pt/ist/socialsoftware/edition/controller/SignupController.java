@@ -28,8 +28,8 @@ import org.springframework.web.context.request.WebRequest;
 
 import pt.ist.socialsoftware.edition.domain.LdoD;
 import pt.ist.socialsoftware.edition.domain.LdoDUser;
-import pt.ist.socialsoftware.edition.domain.RegistrationToken;
 import pt.ist.socialsoftware.edition.domain.LdoDUser.SocialMediaService;
+import pt.ist.socialsoftware.edition.domain.RegistrationToken;
 import pt.ist.socialsoftware.edition.forms.SignupForm;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDException;
 import pt.ist.socialsoftware.edition.utils.PropertiesManager;
@@ -82,36 +82,40 @@ public class SignupController {
 			return null;
 		}
 
-		SocialMediaService socialMediaService = form.getSocialMediaService().equals("") ? null
-				: SocialMediaService.valueOf(form.getSocialMediaService().toUpperCase());
+		if (!form.isConduct()) {
+			formBinding.rejectValue("conduct", "header.conduct.error");
+		} else {
+			SocialMediaService socialMediaService = form.getSocialMediaService().equals("") ? null
+					: SocialMediaService.valueOf(form.getSocialMediaService().toUpperCase());
 
-		LdoDUser user = null;
-		RegistrationToken token = null;
-		try {
-			user = LdoD.getInstance().createUser(this.passwordEncoder, form.getUsername(), form.getPassword(),
-					form.getFirstName(), form.getLastName(), form.getEmail(), socialMediaService,
-					form.getSocialMediaId());
-			token = user.createRegistrationToken(UUID.randomUUID().toString());
-		} catch (LdoDException e) {
-			formBinding.rejectValue("username", "user.duplicateUsername");
-		}
-
-		if (user != null) {
+			LdoDUser user = null;
+			RegistrationToken token = null;
 			try {
-				token.requestAuthorization(servletRequest);
-			} catch (AddressException e) {
-				throw new LdoDException("Token Confirmation - AddressException");
-			} catch (MessagingException e) {
-				throw new LdoDException("Token Confirmation - MessagingException");
-
+				user = LdoD.getInstance().createUser(this.passwordEncoder, form.getUsername(), form.getPassword(),
+						form.getFirstName(), form.getLastName(), form.getEmail(), socialMediaService,
+						form.getSocialMediaId());
+				token = user.createRegistrationToken(UUID.randomUUID().toString());
+			} catch (LdoDException e) {
+				formBinding.rejectValue("username", "user.duplicateUsername");
 			}
-			this.providerSignInUtils.doPostSignUp(user.getUsername(), request);
 
-			model.addAttribute("message", "signup.confirmation");
-			model.addAttribute("argument",
-					PropertiesManager.getProperties().getProperty("registration.confirmation.email.address"));
+			if (user != null) {
+				try {
+					token.requestAuthorization(servletRequest);
+				} catch (AddressException e) {
+					throw new LdoDException("Token Confirmation - AddressException");
+				} catch (MessagingException e) {
+					throw new LdoDException("Token Confirmation - MessagingException");
 
-			return "signin";
+				}
+				this.providerSignInUtils.doPostSignUp(user.getUsername(), request);
+
+				model.addAttribute("message", "signup.confirmation");
+				model.addAttribute("argument",
+						PropertiesManager.getProperties().getProperty("registration.confirmation.email.address"));
+
+				return "signin";
+			}
 		}
 		return null;
 	}
