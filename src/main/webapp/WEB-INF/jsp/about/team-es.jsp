@@ -29,6 +29,10 @@
 <p>Lu&iacute;s Lucas Pereira, Centro de Literatura Portuguesa (CLP) | Departamento de Ingenier&iacute;a Inform&aacute;tica (DEI), Universidad de Coimbra</p>
 <p>&nbsp;</p>
 
+<h3>V&iacute;deo</h3>
+<p>Tiago Cravid&atilde;o</p>
+<p>&nbsp;</p>
+
 <h3>Equipo de investigaci&oacute;n del proyecto</h3>
 <p>Abel Barros Baptista, NOVA-Universidad Nova de Lisboa</p>
 <p>Ant&oacute;nio Rito Silva, INESC-ID, <em>Instituto Superior T&eacute;cnico</em> (IST), Universidad de Lisboa</p>
