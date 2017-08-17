@@ -186,7 +186,8 @@ Namora, Ricardo (2015). &ldquo;(Re)criando infraestruturas: o que &eacute; exata
 <br/>URL: <a href="http://coloquio.gulbenkian.pt/bib/sirius.exe/do?bibrecord&amp;id=PT.FCG.RCL.9782&amp;org=I&amp;orgp=188">http://coloquio.gulbenkian.pt/bib/sirius.exe/do?bibrecord&amp;id=PT.FCG.RCL.9782&amp;org=I&amp;orgp=188 </a>
 </p>
 <p>
-Pereira, Paulo Silva (2015). &ldquo;Barroco digital: remedia&ccedil;&atilde;o, edi&ccedil;&atilde;o textual e arquivo.&rdquo; <em>Col&oacute;quio Letras</em> 188: 20-32.<br/>URL: <a href="http://coloquio.gulbenkian.pt/bib/sirius.exe/do?bibrecord&id=PT.FCG.RCL.9780&org=I&orgp=188">
+Pereira, Paulo Silva (2015). &ldquo;Barroco digital: remedia&ccedil;&atilde;o, edi&ccedil;&atilde;o textual e arquivo.&rdquo; <em>Col&oacute;quio Letras</em> 188: 20-32.<br/>
+	URL: <a href="http://coloquio.gulbenkian.pt/bib/sirius.exe/do?bibrecord&amp;id=PT.FCG.RCL.9780&amp;org=I&amp;orgp=188">
 http://coloquio.gulbenkian.pt/bib/sirius.exe/do?bibrecord&amp;id=PT.FCG.RCL.9780&amp;org=I&amp;orgp=188</a>
 </p>
 <p>
