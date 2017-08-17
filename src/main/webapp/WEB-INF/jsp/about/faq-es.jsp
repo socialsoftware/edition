@@ -6,7 +6,7 @@
 	<li><a href="#Q02Q">&iquest;Qu&eacute; contiene el Archivo LdoD?</a></li>
 	<li><a href="#Q03Q">&iquest;Qu&eacute; es un fragmento en el Archivo LdoD?</a></li>
 	<li><a href="#Q04Q">&iquest;Cu&aacute;l es la relaci&oacute;n entre un texto en el <em>Libro del desasosiego</em>
-		y un fragmento en Archivo LdoD?</a></li>
+		y un fragmento en el Archivo LdoD?</a></li>
 	<li><a href="#Q05Q">&iquest;Por qu&eacute; se trata el fragmento como una unidad modular en el
 		Archivo LdoD?</a></li>
 	<li><a href="#Q06Q">&iquest;Qu&eacute; es una interpretaci&oacute;n en el Archivo LdoD?</a></li>
@@ -205,7 +205,7 @@
 </p>
 <h5 id="Q04Q" style="padding-top: 60px; margin-top: -60px;">&iquest;Cu&aacute;l es la relaci&oacute;n 
 	entre un texto en el <em>Libro del desasosiego</em>
-	y un fragmento en <em>Archivo LdoD</em>?</h5>
+	y un fragmento en el <em>Archivo LdoD</em>?</h5>
 <p>
 	Todos los fragmentos del <em>Archivo LdoD</em> son tambi&eacute;n unidades
 	textuales del <em>Libro del desasosiego</em> de acuerdo con al menos una de las
@@ -549,11 +549,11 @@
 	superponen: a) las diferencias a nivel de la palabra y b) las diferencias 
 	a nivel del par&aacute;grafos en su totalidad. El programa interpreta dos veces las 
 	diferencias: antepone (o pospone) las palabras que est&aacute;n marcadas 
-	como diferentes entre s&iacute; dentro del par&aacute;grafos, al tiempo que resalta la 
-	marcaci&oacute;n de la diferencia del par&aacute;grafos en su totalidad. Esto se debe a 
+	como diferentes entre s&iacute; dentro del par&aacute;grafo, al tiempo que resalta la 
+	marcaci&oacute;n de la diferencia de par&aacute;grafos en su totalidad. Esto se debe a 
 	que el m&eacute;todo de segmentaci&oacute;n paralela que adoptamos en la codificaci&oacute;n 
 	no permite la superposici&oacute;n de jerarqu&iacute;as. La representaci&oacute;n de los dos 
-	tipos de diferencias &mdash; las diferencias en la divisi&oacute;n del par&aacute;grafos y 
+	tipos de diferencias &mdash; las diferencias en la divisi&oacute;n de par&aacute;grafos y 
 	las diferencias entre palabras dentro de esos par&aacute;grafos &mdash; 
 	debe hacerse duplicando la jerarqu&iacute;a de la codificaci&oacute;n, lo que hace 
 	que el realce se&ntilde;ale palabras y par&aacute;grafos de ese modo.

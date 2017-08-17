@@ -4,7 +4,7 @@
 		As funcionalidades de edi&ccedil;&atilde;o virtual e de escrita
 		virtual s&atilde;o parte integrante das camadas din&acirc;micas do
 		ambiente textual colaborativo do <em>Arquivo LdoD</em>. Destinam-se a
-		ser usadas ​​em pr&aacute;ticas de aprendizagem,
+		ser usadas em pr&aacute;ticas de aprendizagem,
 		investiga&ccedil;&atilde;o e cria&ccedil;&atilde;o. Os utilizadores
 		registados podem criar, anotar e publicar suas pr&oacute;prias
 		edi&ccedil;&otilde;es virtuais livremente. Quando a funcionalidade de
@@ -79,7 +79,7 @@
 		<li>apagar qualquer conte&uacute;do gerado pelos utilizadores que
 			n&atilde;o cumpra este c&oacute;digo de conduta.</li>
 		<li>impedir os utilizadores registados que desrespeitem este
-			c&oacute;digo de conduta de aceder às funcionalidades virtuais de
+			c&oacute;digo de conduta de aceder &agrave;s funcionalidades virtuais de
 			edi&ccedil;&atilde;o e de escrita da plataforma.</li>
 	</ol>
 	<strong>&nbsp;</strong>

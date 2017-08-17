@@ -27,12 +27,12 @@
 	<li><a href="#Q13Q">What is the difference between &ldquo;witnesses&rdquo; and &ldquo;encoded fragments&rdquo;? </a></li>
 </ul>
 <h4>
-	<a href="#T3T">Experts' Editions</a>
+	<a href="#T3T">Experts&rsquo; Editions</a>
 </h4>
 <ul>
-	<li><a href="#Q14Q">What are the Experts' Editions?</a></li>
-	<li><a href="#Q15Q">Why were these specific experts’ editions selected?</a></li>
-	<li><a href="#Q16Q">Will the experts' editions be updated in the future?</a></li>
+	<li><a href="#Q14Q">What are the Experts&rsquo; Editions?</a></li>
+	<li><a href="#Q15Q">Why were these specific experts&rsquo; editions selected?</a></li>
+	<li><a href="#Q16Q">Will the experts&rsquo; editions be updated in the future?</a></li>
 	<li><a href="#Q17Q">Why did you not include the new edition by Teresa Rita Lopes (2015)?</a></li>
 	
 </ul>
@@ -362,7 +362,7 @@
 	Pizarro 2013 and 2014; Zenith 2015).
 </p>
 <h5 id="Q16Q" style="padding-top: 60px; margin-top: -60px;">
-	Will the experts' editions be updated in the future?</h5>
+	Will the experts&rsquo; editions be updated in the future?</h5>
 
 <p>
 	While the experts have expressed their desire to see the latest version
