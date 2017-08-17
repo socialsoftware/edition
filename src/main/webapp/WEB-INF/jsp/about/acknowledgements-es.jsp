@@ -12,23 +12,22 @@
 	El <em>Archivo LdoD</em> ha sido desarrollado en el &aacute;mbito del
 	proyecto de investigaci&oacute;n &ldquo;Ning&uacute;n problema tiene
 	soluci&oacute;n: Un archivo digital del <em>Libro del desasosiego</em>&rdquo;,
-	coordinado por Manuel Portela, 2012-2015 (PTDC/CLE-LLI/118713/2010). 
+	coordinado por Manuel Portela (PTDC/CLE-LLI/118713/2010). 
     Proyecto financiado por la Fundaci&oacute;n para la
 	Ciencia y la Tecnolog&iacute;a (FCT) y cofinanciado por el Fondo Europeo de
 	Desarrollo Regional (FEDER), a trav&eacute;s de la Prioridad I del
-	Programa Operativo de los Factores de Competitividad (POFC) del QREN
-	-Uni&oacute;n Europea, COMPETE: FCOMP-01- 0124-FEDER-019715. Financiado
+	Programa Operativo de los Factores de Competitividad (POFC) del QREN&mdash;Uni&oacute;n Europea (COMPETE: FCOMP-01-0124-FEDER-019715). Financiado
 	tambi&eacute;n por Fondos Nacionales a trav&eacute;s de la
 	Fundaci&oacute;n para la Ciencia y la Tecnolog&iacute;a en el
-	&aacute;mbito de los proyectos de &ldquo;Financiaci&oacute;n Plurianual
-	- Unidad 759&rdquo;: &ldquo;PEst-OE/ELT/UI00759/2013&rdquo; y
+	&aacute;mbito de los proyectos de &ldquo;Financiaci&oacute;n Plurianual&mdash;Unidad 759&rdquo;: &ldquo;PEst-OE/ELT/UI0759/2013&rdquo; y
 	&ldquo;PEst-OE/ELT/UI0759/2014&rdquo;.
 </p>
 <p>&nbsp;</p>
 
-<h3>Reconocimiento</h3>
+<h3>Colaboraci&oacute;n</h3>
 
-A lo largo de su per&iacute;odo de desarrollo, el <em>Archivo LdoD</em> se benefici&oacute; de la colaboraci&oacute;n de diversos individuos e instituciones. Los agradecimientos son debidos, en primer lugar, a los editores Jer&oacute;nimo Pizarro, Richard Zenith y Teresa Sobral Cunha, por la consultor&iacute;a como especialistas en los problemas editoriales del <em>Libro del Desasosiego</em>. El <em>Archivo LdoD</em> agradece tambi&eacute;n la colaboraci&oacute;n del Archivo de Cultura Portuguesa Contempor&aacute;nea (Biblioteca Nacional de Portugal), de la Biblioteca P&uacute;blica y Archivo Regional de Ponta Delgada (Direcci&oacute;n Regional de Cultura del Gobierno de las Azores) y del Servicio de Gesti&oacute;n de Sistemas e Infraestructuras de Informaci&oacute;n y Comunicaci&oacute;n (SGSIIC) de la Universidad de Coimbra. Agradece adem&aacute;s a todos los usuarios beta que, en septiembre de 2014 y en mayo de 2017, participaron en las pruebas de las funcionalidades y del dise&ntilde;o web del <em>Archivo LdoD</em>.
+A lo largo de su per&iacute;odo de desarrollo, el <em>Archivo LdoD</em> se benefici&oacute; de la colaboraci&oacute;n de diversos individuos e instituciones. Los agradecimientos son debidos, en primer lugar, a los editores Jer&oacute;nimo Pizarro, Richard Zenith y Teresa Sobral Cunha, por la consultor&iacute;a como especialistas en los problemas editoriales del <em>Libro del Desasosiego</em>. 
+Nuestro equipo de consultores de proyecto incluy&oacute; tres grandes especialistas de humanidades digitales cuyo asesoramiento contribuy&oacute; al avance de nuestras ideas: Johanna Drucker, Matthew G. Kirschenbaum y Susan Schreibman han compartido generosamente sus conocimientos y proporcionaron apoyo e inspiraci&oacute;n continuada. El <em>Archivo LdoD</em> agradece tambi&eacute;n la colaboraci&oacute;n del Archivo de Cultura Portuguesa Contempor&aacute;nea (Biblioteca Nacional de Portugal), de la Biblioteca P&uacute;blica y Archivo Regional de Ponta Delgada (Direcci&oacute;n Regional de Cultura del Gobierno de las Azores) y del Servicio de Gesti&oacute;n de Sistemas e Infraestructuras de Informaci&oacute;n y Comunicaci&oacute;n (SGSIIC) de la Universidad de Coimbra. Agradece adem&aacute;s a todos los usuarios beta que, en septiembre de 2014 y en mayo de 2017, participaron en las pruebas de las funcionalidades y del dise&ntilde;o web del <em>Archivo LdoD</em>.
 </p>
 <p>
 Estos agradecimientos se extienden a los organizadores y participantes de seminarios y encuentros cient&iacute;ficos nacionales e internacionales, en los que se presentaron los diversos componentes concetuales y t&eacute;cnicos del <em>Archivo LdoD</em>, en particular en universidades y centros de investigaci&oacute;n en Portugal, Australia, Chipre, Italia, Francia, Espa&ntilde;a, Colombia, Estados Unidos, Suecia y Grecia. La interacci&oacute;n con diferentes comunidades de investigadores (humanidades digitales, ciencias de la computaci&oacute;n, ciencias de la informaci&oacute;n, codificaci&oacute;n textual, cr&iacute;tica textual, estudios pessoanos, literatura electr&oacute;nica) fue esencial para el resultado alcanzado. Destacamos las siguientes presentaciones:
@@ -51,19 +50,24 @@ Estos agradecimientos se extienden a los organizadores y participantes de semina
 
 <h4>2014</h4>
 <ul>
-<li>Universidad de Coimbra, Biblioteca Geral: Congreso internacional &ldquo;<a href="http://www.uc.pt/bguc/500anos/Congresso_internacional" target="new">A Biblioteca da Universidade: Permanências e Metamorfoses</a>&rdquo; (16-18 de enero de 2014; coord. J. A. Cardoso Bernardes) </li>
+<li>Universidad de Coimbra, Biblioteca Geral: Congreso internacional &ldquo;<a href="http://www.uc.pt/bguc/500anos/Congresso_internacional" target="new">A Biblioteca da Universidade: Perman&ecirc;ncias e Metamorfoses</a>&rdquo; (16-18 de enero de 2014; coord. J. A. Cardoso Bernardes) </li>
 <li>Fundaci&oacute;n Calouste Gulbenkian: Coloquio internacional &ldquo;<a href="http://estranharpessoa.com/programa" target="new">O Dia Triunfal de Fernando Pessoa</a>&rdquo;, organizado por el Proyecto Estranhar Pessoa, Laboratorio de Estudios Literarios Avanzados (ELAB), Red de Filosof&iacute;a y Literatura, Instituto de Filosof&iacute;a del Lenguaje (IFL) y Programa en Teor&iacute;a de la Literatura (6-8 de mar&ccedil;o de 2014; coords. Ant&oacute;nio M. Feij&oacute; y Abel Barros Baptista)</li>
 <li>Universidad de Los Andes, Bogot&aacute;: Coloquio internacional &ldquo;<a href="https://ilusionymaterialidad.wordpress.com/programa-2/" target="new">Ilusi&oacute;n y materialidad de los archivos literarios</a>&rdquo;, organizado por la Universidad de los Andes, Instituto Caro y Cuervo y Biblioteca Luis &Aacute;ngel Arango (6-8 de mayo de 2014; coord. Jer&oacute;nimo Pizarro)</li>
-<li>Universidad de Salamanca:  Seminario Permanente &ldquo;Arc&aacute;dia Bab&eacute;lica&rdquo;, organizado por el Departamento de Filologia de la Universidad de Salamanca (20 de junio de 2014; coord. Pedro Serra)</li>
+<li>Universidad de Salamanca: Seminario Permanente &ldquo;Arc&aacute;dia Bab&eacute;lica&rdquo;, organizado por el Departamento de Filologia de la Universidad de Salamanca (20 de junio de 2014; coord. Pedro Serra)</li>
 <li>Northwestern University, Evanston, Illinois: Coloquio internacional &ldquo;<a href="http://tei.northwestern.edu/" target="new">Decoding the Encoded</a>&rdquo;, organizado por el Text Encoding Initiative Consortium (22-24 de octubre de 2014; coord. Martin Mueller)
 </li>
 </ul>
 
 <h4>2015</h4>
 <ul>
-<li>Universidad de Grenoble: Simposio &ldquo;<a href="http://www.nedimah.eu/reports/toward-new-social-contract-between-publishers-and-editors" target="new">Toward a New Social Contract between Publishers and Editors</a>&rdquo;, organizado por la Network for Digital Methods in the Arts and Humanities–NeDiMAH (European Science Foundation), Maison des Sciences de l’Homme y Universit&eacute; de Grenoble (26 enero de 2015; coords. Matthew Driscol y Elena Pierazzo)</li>
+<li>University of Grenoble: Symposium &ldquo;<a
+href="http://www.nedimah.eu/reports/toward-new-social-contract-between-publishers-and-editors"
+			target="new">Toward a New Social Contract between Publishers and
+				Editors</a>,&rdquo; organizado por la Network for Digital Methods in the
+			Arts and Humanities&mdash;NeDiMAH (European Science Foundation), Maison
+			des Sciences de l&rsquo;Homme and Universit&eacute; de Grenoble (26 enero de 2015; coords. Matthew Driscol y Elena Pierazzo)</li>
 <li>Universidad de Roma La Sapienza: Simposio &ldquo;<a href="http://www.disp.let.uniroma1.it/archivionotizie/ecd/dce-edizioni-confronto/comparing-editions" target="new">Edizioni Critiche Digitali: Edizioni a Confronto / Digital Critical Editions: Comparing Editions</a>&rdquo;, organizado por el Dipartimento di Studi Greco-Latini, Italiani, Scenico-Musicali, Universit&aacute; la Sapienza, Roma (27 marzo de 2105; coords. Paola Italia y Claudia Bonsi)</li>
-<li>Universidad de Georgia, Athens, GA, Wilson Center for Humanities and Arts: Simposio &ldquo;<a href="https://willson.uga.edu/event/textual-machines-a-spring-symposium-exhibit/" target="new">Textual Machines</a>&rdquo; (April 17-18, 2015; coord.  Jonathan Baillehache)</li>
+<li>Universidad de Georgia, Athens, GA, Wilson Center for Humanities and Arts: Simposio &ldquo;<a href="https://willson.uga.edu/event/textual-machines-a-spring-symposium-exhibit/" target="new">Textual Machines</a>&rdquo; (17-18 de abril, 2015; coord.  Jonathan Baillehache)</li>
 <li>Universidad de Coimbra, Centro de Literatura Portuguesa (CLP): Coloquio internacional &ldquo;<a href="https://eld2015.wordpress.com/programme/" target="new">Digital Literary Studies | Estudos Liter&aacute;rios Digitais</a>&rdquo; (14-15 de mayo de 2015; coord. Manuel Portela)</li>
 <li>Universidad de Lisboa,  Instituto de Ci&ecirc;ncias Sociais (ICS): Coloquio &ldquo;Cultura e Digital em Portugal em 2015&rdquo; (17 de junio de 2015; coords.  Jos&eacute; Lu&iacute;s Garcia, Jo&atilde;o Teixeira Lopes y Teresa Duarte Martinho)</li>
 <li>Universidad de Gotemburgo, Centro de Humanidades Digitales: <a href="http://cdh.hum.gu.se/Aktuellt/e/?eventId=2355210788" target="new">Seminario</a> (24 de septiembre de 2015; coord. Jenny Bergenmar)</li>
@@ -93,15 +97,20 @@ Estos agradecimientos se extienden a los organizadores y participantes de semina
 
 <h3>Herramientas Usadas</h3>
 <ul>
-	<li><a href="https://projects.spring.io/spring-boot/">Spring Boot</a></li>
-	<li><a href="http://projects.spring.io/spring-social/">Spring Social</a></li>
-	<li><a href="https://fenix-framework.github.io/">F�nix Framework</a></li>
-	<li><a href="https://tomcat.apache.org/">Tomcat</a></li>
-	<li><a href="https://www.mysql.com/">MySQL</a></li>
+	<li><a href="http://annotatorjs.org/">Annotator</a></li>
+    <li><a href="http://getbootstrap.com/">Bootstrap</a></li>
+    <li><a href="https://github.com/wenzhixin/bootstrap-table">Bootstrap Table</a></li> 
+	<li><a href="https://fenix-framework.github.io/">F&eacute;nix Framework</a></li>
+	<li><a href="http://www.oracle.com/technetwork/java/javaee/jsp/index.html">JavaServer Pages</a></li>
+	<li><a href="https://jquery.com/">jQuery</a></li>
 	<li><a href="https://lucene.apache.org/">Lucene</a></li>
 	<li><a href="http://mallet.cs.umass.edu/">Mallet</a></li>
-	<li><a href="http://www.oracle.com/technetwork/java/javaee/jsp/index.html">JavaServer Pages</a></li>
-	<li><a href="http://getbootstrap.com/">Bootstrap</a></li>
-	<li><a href="https://jquery.com/">jQuery</a></li>
-	<li><a href="http://annotatorjs.org/">Annotator</a></li>
+    <li><a href="https://www.mysql.com/">MySQL</a></li>
+	<li><a href="http://openseadragon.github.io">OpenSeadragon</a></li>
+    <li><a href="https://www.oxygenxml.com/">Oxygen</a></li>
+	<li><a href="http://github.com/mleibman/slickgrid">SlickGrid</a></li>
+    <li><a href="https://projects.spring.io/spring-boot/">Spring Boot</a></li>
+	<li><a href="http://projects.spring.io/spring-social/">Spring Social</a></li>
+    <li><a href="https://tomcat.apache.org/">Tomcat</a></li>
+
 </ul>
