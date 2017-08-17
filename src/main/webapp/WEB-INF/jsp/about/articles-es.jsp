@@ -194,11 +194,11 @@ Silvestre, Osvaldo Manuel (2014). &ldquo;O Que Nos Ensinam os Novos Meios sobre 
 </p>
 <p>
 Namora, Ricardo (2015). &ldquo;(Re)criando infraestruturas: o que &eacute; exatamente a e-Filologia?&rdquo; <em>Col&oacute;quio Letras</em> 188: 48-60.
-<br/>URL: <a href="http://coloquio.gulbenkian.pt/bib/sirius.exe/do?bibrecord&id=PT.FCG.RCL.9782&org=I&orgp=188">http://coloquio.gulbenkian.pt/bib/sirius.exe/do?bibrecord&id=PT.FCG.RCL.9782&org=I&orgp=188 </a>
+<br/>URL: <a href="http://coloquio.gulbenkian.pt/bib/sirius.exe/do?bibrecord;id=PT.FCG.RCL.9782;org=I;orgp=188">http://coloquio.gulbenkian.pt/bib/sirius.exe/do?bibrecord&id=PT.FCG.RCL.9782&org=I&orgp=188 </a>
 </p>
 <p>
 Pereira, Paulo Silva (2015). &ldquo;Barroco digital: remedia&ccedil;&atilde;o, edi&ccedil;&atilde;o textual e arquivo.&rdquo; <em>Col&oacute;quio Letras</em> 188: 20-32.<br/>URL: <a href="http://coloquio.gulbenkian.pt/bib/sirius.exe/do?bibrecord&id=PT.FCG.RCL.9780&org=I&orgp=188">
-http://coloquio.gulbenkian.pt/bib/sirius.exe/do?bibrecord&id=PT.FCG.RCL.9780&org=I&orgp=188</a>
+http://coloquio.gulbenkian.pt/bib/sirius.exe/do?bibrecord;id=PT.FCG.RCL.9780;org=I;orgp=188</a>
 </p>
 <p>
 Pereira, Paulo Silva (2015). &ldquo;Academia, Geopol&iacute;tica das Humanidades Digitais e Pensamento Cr&iacute;tico.&rdquo; <em>MATLIT: Materialidades da Literatura</em> 3.1: 111-140.<br/>
