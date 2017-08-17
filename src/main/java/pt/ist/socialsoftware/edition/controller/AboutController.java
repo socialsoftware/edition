@@ -41,6 +41,11 @@ public class AboutController {
 		return "about/sponsors-main";
 	}
 
+	@RequestMapping(method = RequestMethod.GET, value = "/acknowledgements")
+	public String showAcknowledgements() {
+		return "about/acknowledgements-main";
+	}
+
 	@RequestMapping(method = RequestMethod.GET, value = "/copyright")
 	public String showCopyright() {
 		return "about/copyright-main";

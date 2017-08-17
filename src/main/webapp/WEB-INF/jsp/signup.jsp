@@ -31,7 +31,7 @@
 				<form:input type="hidden" path="socialMediaId"
 					value="${signupForm.socialMediaId}" />
 
-				<div class="form-group">
+				<div class="form-group row">
 					<label class="col-sm-4 control-label"><spring:message
 							code="user.firstName" /></label>
 					<div class="col-sm-4">
@@ -41,7 +41,7 @@
 						<form:errors class="has-error" path="firstName" />
 					</div>
 				</div>
-				<div class="form-group">
+				<div class="form-group row">
 					<label class="col-sm-4 control-label"><spring:message
 							code="user.lastName" /></label>
 					<div class="col-sm-4">
@@ -51,7 +51,7 @@
 						<form:errors class="has-error" path="lastName" />
 					</div>
 				</div>
-				<div class="form-group">
+				<div class="form-group row">
 					<label class="col-sm-4 control-label"><spring:message
 							code="login.username" /></label>
 					<div class="col-sm-4">
@@ -61,7 +61,7 @@
 						<form:errors class="has-error" path="username" />
 					</div>
 				</div>
-				<div class="form-group">
+				<div class="form-group row">
 					<label class="col-sm-4 control-label"><spring:message
 							code="login.password" /></label>
 					<div class="col-sm-4">
@@ -71,7 +71,7 @@
 						<form:errors class="has-error" path="password" />
 					</div>
 				</div>
-				<div class="form-group">
+				<div class="form-group row">
 					<label class="col-sm-4 control-label"><spring:message
 							code="user.email" /></label>
 					<div class="col-sm-4">
@@ -81,18 +81,20 @@
 						<form:errors class="has-error" path="email" />
 					</div>
 				</div>
-				<div class="form-group">
-					<label class="col-sm-3 col-sm-offset-1 control-label"><spring:message
-							code="header.conduct.accept" /></label>
+				<div class="form-group row">
+					<label class="col-sm-4 control-label"><spring:message
+							code="header.conduct" /></label>
 					<div class="col-sm-4">
-						<form:checkbox class="form-control" path="conduct" />
+						<label class="form-check-label"><form:checkbox
+								class="form-check-input" path="conduct" /> <spring:message
+								code="header.conduct.accept" /></label>
 					</div>
 					<div class="col-sm-2">
 						<form:errors class="has-error" path="conduct" />
 					</div>
 				</div>
 
-				<div class="col-md-8 col-md-offset-2 text-left">
+				<div class="col-md-8 col-md-offset-2 text-left row">
 					<c:choose>
 						<c:when
 							test='${pageContext.response.locale.getLanguage().equals("en")}'>
@@ -107,7 +109,7 @@
 					</c:choose>
 				</div>
 
-				<div class="form-group">
+				<div class="form-group row">
 					<div class="col-sm-12">
 						<button type="submit" class="btn btn-primary">
 							<spring:message code="signup" />
