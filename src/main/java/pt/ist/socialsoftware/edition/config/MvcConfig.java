@@ -31,6 +31,7 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		String facsimilesDir = PropertiesManager.getProperties().getProperty("facsimiles.dir");
+		registry.addResourceHandler("/webjars/**").addResourceLocations("/webjars/");
 		registry.addResourceHandler("/facs/**").addResourceLocations("file:" + facsimilesDir);
 	}
 
