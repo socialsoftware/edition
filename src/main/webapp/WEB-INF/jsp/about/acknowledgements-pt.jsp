@@ -9,31 +9,40 @@
 	Doutoramento em Materialidades da Literatura (MATLIT).
 </p>
 <p>
-O <em>Arquivo LdoD</em> foi desenvolvido no &acirc;mbito do projeto de investiga&ccedil;&atilde;o &ldquo;Nenhum Problema 
-	Tem Solu&ccedil;&atilde;o: Um Arquivo Digital do <em>Livro do Desassossego</em>&rdquo;, 
-	coordenado por Manuel Portela (PTDC/CLE-LLI/118713/2010). Projeto financiado pela Funda&ccedil;&atilde;o 
-	para a Ci&ecirc;ncia e a Tecnologia (FCT), e cofinanciado pelo Fundo Europeu de Desenvolvimento 
-	Regional (FEDER), atrav&eacute;s do Eixo I do Programa Operacional Fatores de Competitividade (POFC) do 
-	QREN&mdash;Uni&atilde;o Europeia (COMPETE: FCOMP-01-0124-FEDER-019715). 
-	Financiado ainda por fundos nacionais, atrav&eacute;s da Funda&ccedil;&atilde;o para 
-	Ci&ecirc;ncia e a Tecnologia (FCT), no &acirc;mbito dos projetos de  &ldquo;Financiamento 
-	Plurianual&mdash;Unidade 759&rdquo;:  &ldquo;PEst-OE/ELT/UI0759/2013 &rdquo; e &ldquo;PEst-OE/ELT/UI0759/2014&rdquo;. 
+O <em>Arquivo LdoD</em> foi desenvolvido no &acirc;mbito do projeto de investiga&ccedil;&atilde;o &ldquo;Nenhum Problema Tem Solu&ccedil;&atilde;o: Um Arquivo Digital do <em>Livro do Desassossego</em>&rdquo;, coordenado por Manuel Portela (PTDC/CLE-LLI/118713/2010). Projeto financiado pela Funda&ccedil;&atilde;o para a Ci&ecirc;ncia e a Tecnologia (FCT), e cofinanciado pelo Fundo Europeu de Desenvolvimento Regional (FEDER), atrav&eacute;s do Eixo I do Programa Operacional Fatores de Competitividade (POFC) do QRENÂ–&mdash;Uni&atilde;o Europeia (COMPETE: FCOMP-01-0124-FEDER-019715). Financiado ainda por fundos nacionais, atrav&eacute;s da Funda&ccedil;&atilde;o para Ci&ecirc;ncia e a Tecnologia (FCT), no &acirc;mbito dos projetos de  &ldquo;Â“Financiamento Plurianual&mdash;Unidade 759&rdquo;:  &ldquo;PEst-OE/ELT/UI0759/2013 &rdquo; e  &ldquo;PEst-OE/ELT/UI0759/2014&rdquo;. 
 </p>
 <p>&nbsp;</p>
 
-<h3>Colaboração</h3>
-<p>Ao longo do seu per&iacute;odo de desenvolvimento, o <em>Arquivo LdoD</em> 
-beneficiou da colabora&ccedil;&atilde;o de diversos indiv&iacute;duos e institui&ccedil;&otilde;es. 
-Os agradecimentos s&atilde;o devidos, em primeiro lugar, aos editores Jer&oacute;nimo Pizarro, Richard Zenith e Teresa Sobral Cunha, pela consultoria como especialistas nos problemas editoriais do <em>Livro do Desassossego</em>. 
-A nossa equipa de consultores do projeto contou ainda com três especialistas em humanidades digitais, cuja avaliação cr&iacute;tica contribuiu para o avanço de nossas ideias: Johanna Drucker, Matthew G. Kirschenbaum e Susan Schreibman partilharam generosamente os seus conhecimentos e foram uma fonte constante de incentivo e inspiração.
-O <em>Arquivo LdoD</em> agradece tamb&eacute;m a colabora&ccedil;&atilde;o do 
-Arquivo de Cultura Portuguesa Contempor&acirc;nea (Biblioteca Nacional de Portugal), da Biblioteca P&uacute;blica e Arquivo Regional de Ponta Delgada 
-(Dire&ccedil;&atilde;o Regional da Cultura do Governo dos A&ccedil;ores) e do Servi&ccedil;o de Gest&atilde;o de Sistemas e Infraestruturas de Informa&ccedil;&atilde;o e Comunica&ccedil;&atilde;o (SGSIIC) da Universidade de Coimbra. Agradece igualmente a todos os utilizadores-beta que, em setembro de 2014 e em maio de 2017, participaram nos testes das funcionalidades e do desenho web do <em>Arquivo LdoD</em>.</p>
+<h3>ColaboraÃ§Ã£o</h3>
+<p>
+	Ao longo do seu per&iacute;odo de desenvolvimento, o <em>Arquivo LdoD</em> 
+	beneficiou da colabora&ccedil;&atilde;o de diversos indiv&iacute;duos e institui&ccedil;&otilde;es. 
+	Os agradecimentos s&atilde;o devidos, em primeiro lugar, aos editores Jer&oacute;nimo Pizarro, 
+	Richard Zenith e Teresa Sobral Cunha, pela consultoria como especialistas nos problemas editoriais 
+	do <em>Livro do Desassossego</em>. A nossa equipa de consultores do projeto contou ainda com tr&ecirc;s 
+	especialistas em humanidades digitais, cuja vis&atilde;o cr&iacute;tica contribuiu para o avanÃ§o das nossas 
+	ideias: Johanna Drucker, Matthew G. Kirschenbaum e Susan Schreibman partilharam generosamente os seus 
+	conhecimentos e foram uma fonte de inspira&ccedil;&atilde;o e incentivo. Agradecemos ainda o contributo de 
+	Timothy Thompson para a defini&ccedil;&atilde;o inicial do esquema de codifica&ccedil;&atilde;o TEI. O 
+	<em>Arquivo LdoD</em> agradece a colabora&ccedil;&atilde;o do
+	Arquivo de Cultura Portuguesa Contempor&acirc;nea (Biblioteca Nacional de Portugal), da Biblioteca P&uacute;blica e 
+	Arquivo Regional de Ponta Delgada (Dire&ccedil;&atilde;o Regional da Cultura do Governo dos A&ccedil;ores) e 
+	do Servi&ccedil;o de Gest&atilde;o de Sistemas e Infraestruturas de Informa&ccedil;&atilde;o e 
+	Comunica&ccedil;&atilde;o (SGSIIC) da Universidade de Coimbra. Agradece igualmente a todos os utilizadores-beta 
+	que, em setembro de 2014 e em maio de 2017, participaram nos testes das funcionalidades e do desenho web do 
+	<em>Arquivo LdoD</em>.</p>
 
-<p>Estes agradecimentos s&atilde;o extensivos aos organizadores e participantes de semin&aacute;rios e encontros cient&iacute;ficos nacionais e internacionais,  
-no &acirc;mbito dos quais os diversos componentes concetuais e t&eacute;cnicos
-do <em>Arquivo LdoD</em> foram apresentados, designadamente em universidades e centros de investiga&ccedil;&atilde;o em Portugal, Austr&aacute;lia, Chipre, It&aacute;lia, Fran&ccedil;a, 
-Espanha, Col&ocirc;mbia, Estados Unidos da Am&eacute;rica, Su&eacute;cia e Gr&eacute;cia. A intera&ccedil;&atilde;o com  diferentes comunidades de investigadores (humanidades digitais, ci&ecirc;ncias da computa&ccedil;&atilde;o, ci&ecirc;ncias da informa&ccedil;&atilde;o, codifica&ccedil;&atilde;o textual,  cr&iacute;tica textual, estudos pessoanos, literatura eletr&oacute;nica) foi essencial para o resultado alcan&ccedil;ado. Destacamos as seguintes apresenta&ccedil;&otilde;es:
+<p>
+	Estes agradecimentos s&atilde;o extensivos aos organizadores e participantes de semin&aacute;rios e 
+	encontros cient&iacute;ficos nacionais e internacionais,  
+	no &acirc;mbito dos quais os diversos componentes concetuais e t&eacute;cnicos
+	do <em>Arquivo LdoD</em> foram apresentados, designadamente em universidades e centros de 
+	investiga&ccedil;&atilde;o em Portugal, Austr&aacute;lia, Chipre, It&aacute;lia, Fran&ccedil;a, 
+	Espanha, Col&ocirc;mbia, Estados Unidos da Am&eacute;rica, Su&eacute;cia e Gr&eacute;cia. A intera&ccedil;&atilde;o 
+	com  diferentes comunidades de investigadores (humanidades digitais, ci&ecirc;ncias da computa&ccedil;&atilde;o, 
+	ci&ecirc;ncias da informa&ccedil;&atilde;o, codifica&ccedil;&atilde;o textual, 
+	cr&iacute;tica textual, estudos pessoanos, literatura eletr&oacute;nica) foi essencial para o 
+	resultado alcan&ccedil;ado. Destacamos as seguintes apresenta&ccedil;&otilde;es:
 </p>
 <ul>
 <h4>2012</h4>
@@ -99,7 +108,7 @@ Espanha, Col&ocirc;mbia, Estados Unidos da Am&eacute;rica, Su&eacute;cia e Gr&ea
 	<li><a href="http://annotatorjs.org/">Annotator</a></li>
     <li><a href="http://getbootstrap.com/">Bootstrap</a></li>
     <li><a href="https://github.com/wenzhixin/bootstrap-table">Bootstrap Table</a></li> 
-	<li><a href="https://fenix-framework.github.io/">Fénix Framework</a></li>
+	<li><a href="https://fenix-framework.github.io/">FÃ©nix Framework</a></li>
 	<li><a href="http://www.oracle.com/technetwork/java/javaee/jsp/index.html">JavaServer Pages</a></li>
 	<li><a href="https://jquery.com/">jQuery</a></li>
 	<li><a href="https://lucene.apache.org/">Lucene</a></li>
@@ -113,3 +122,6 @@ Espanha, Col&ocirc;mbia, Estados Unidos da Am&eacute;rica, Su&eacute;cia e Gr&ea
     <li><a href="https://tomcat.apache.org/">Tomcat</a></li>
 
 </ul>
+<p>&nbsp;</p>
+<p>[atualiza&ccedil;&atilde;o 18-08-2017]</p>
+<p>&nbsp;</p>
