@@ -342,7 +342,7 @@
 	JP y a&uacute;n nuestras propias transcripciones de los testimonios. Generalmente 
 	surge s&oacute;lo una interpretaci&oacute;n de cada edici&oacute;n para cada fragmento 
 	(es decir, cinco en total), pero este n&uacute;mero puede subir hasta siete cuando, 
-	adem&aacute;s de las cinco interpretaciones editoriales, hay varios aut&oacute;grafos – 
+	adem&aacute;s de las cinco interpretaciones editoriales, hay varios aut&oacute;grafos &mdash;  
 	por ejemplo, dos versiones mecanografiadas y una versi&oacute;n publicada en revista. 
 	En este caso, el <em>Archivo LdoD</em> transcribe las tres versiones aut&oacute;grafas. 
 	A trav&eacute;s de la tabla de &ldquo;fragmentos codificados&rdquo; tenemos una imagen global 
@@ -430,8 +430,8 @@
 	en la que integra en la obra treinta y cinco textos del Bar&oacute;n de Teive, 
 	adem&aacute;s de los de Vicente Guedes y Bernardo Soares. Aunque la edici&oacute;n de 
 	Teresa Rita Lopes sea una nueva demostraci&oacute;n de la proyectualidad autoral 
-	y editorial de la obra – reforzando, en cierto modo, la justificaci&oacute;n te&oacute;rica 
-	del <em>Archivo LdoD</em> para desarrollar funcionalidades din&aacute;micas – no fue posible 
+	y editorial de la obra &mdash;  reforzando, en cierto modo, la justificaci&oacute;n te&oacute;rica 
+	del <em>Archivo LdoD</em> para desarrollar funcionalidades din&aacute;micas &mdash; no fue posible 
 	incluirla porque todo el trabajo de codificaci&oacute;n estaba concluido en esa fecha 
 	y no dispon&iacute;amos de los recursos adicionales necesarios para recodificar 
 	los archivos. De lo contrario, esta edici&oacute;n habr&iacute;a sido incluida, ya que 
@@ -829,7 +829,7 @@
 	codificaci&oacute;n; segundo, por la necesidad de limitar la complejidad de
 	procesamiento de los materiales producidos por los usuarios. La
 	inclusi&oacute;n de un m&oacute;dulo de transcripci&oacute;n y codificaci&oacute;n con un sistema
-	de validaci&oacute;n apropiado – particularmente &uacute;til en un contexto de
+	de validaci&oacute;n apropiado &mdash; particularmente &uacute;til en un contexto de
 	aprendizaje especializada de las pr&aacute;cticas de cr&iacute;tica textual digital
 	–, podr&aacute; ser considerada en el futuro de acuerdo con los recursos
 	disponibles.</p>
@@ -1139,5 +1139,5 @@
 	[<em>Traducci&oacute;n de Diego Gim&eacute;nez</em>]
 </p>
 <p>&nbsp;</p>
-<p>[actualizaci&oacute;n 14-08-2017]</p>
+<p>[actualizaci&oacute;n 18-08-2017]</p>
 <p>&nbsp;</p>
