@@ -19,7 +19,7 @@
   <li>the  four experts' editions transcribed in the <em>LdoD  Archive</em> may only be used in the context of the platform, as defined in the <a href="https://ldod.uc.pt/about/copyright">Copyright Notice</a>.</li>
 </ol>
 <p>&nbsp;</p>
-<p>The editors of the<em> LdoD Archive</em> reserve the right to:</p>
+<p>The editors of the <em>LdoD Archive</em> reserve the right to:</p>
 <ol>
   <li>delete any user-generated content that  does not comply with this code of conduct.</li>
   <li>prevent  registered users who fail to comply with its code of conduct from accessing the  virtual editing and virtual writing functionalities of the platform.</li>

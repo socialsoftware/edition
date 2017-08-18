@@ -4,6 +4,8 @@ import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -155,10 +157,10 @@ public class ReadingController {
 				+ expertEditionInter.getUrlId();
 	}
 
-	@RequestMapping(method = RequestMethod.POST, value = "/weight")
-	public String changeWeight(Model model, @ModelAttribute("ldoDSession") LdoDSession ldoDSession,
+	@RequestMapping(method = RequestMethod.POST, value = "/weight", produces = "application/json")
+	public ResponseEntity<String> changeWeight(Model model, @ModelAttribute("ldoDSession") LdoDSession ldoDSession,
 			@RequestParam String type, @RequestParam double value) {
-		// logger.debug("changeWeight type:{}, value:{}", type, value);
+		logger.debug("changeWeight type:{}, value:{}", type, value);
 
 		switch (type) {
 		case "heteronym":
@@ -176,7 +178,7 @@ public class ReadingController {
 		default:
 			throw new LdoDException("ReadingController.changeWeight type does not exist " + type);
 		}
-		return "OK";
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
 }

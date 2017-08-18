@@ -23,7 +23,7 @@ Al registrarse como usuario del <em>Archivo LdoD</em>, usted est&aacute; de acue
   <li>las  cuatro ediciones de los especialistas transcritas en el <em>Archivo LdoD</em> s&oacute;lo se pueden utilizar en el contexto de la  plataforma, tal como se define en el <a href="https://ldod.uc.pt/about/copyright">Aviso de Copyright</a>.</li>
 </ol>
 <p>&nbsp;</p>
-<p>Los editores del <em>Archivo LdoD </em>se reservan el derecho de:</p>
+<p>Los editores del <em>Archivo LdoD</em> se reservan el derecho de:</p>
 <ol>
   <li>eliminar  cualquier contenido generado por el usuario que no cumpla con este c&oacute;digo de  conducta.</li>
   <li>impedir  a los usuarios registrados que no respeten este c&oacute;digo de conducta el acceso a  las funcionalidades virtuales de edici&oacute;n y escritura de la plataforma.</li>

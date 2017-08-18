@@ -73,7 +73,7 @@
 	</ol>
 	<strong>&nbsp;</strong>
 	<p>
-		Os editores do<em> Arquivo LdoD</em> reservam o direito de:
+		Os editores do <em>Arquivo LdoD</em> reservam o direito de:
 	</p>
 	<ol>
 		<li>apagar qualquer conte&uacute;do gerado pelos utilizadores que

@@ -17,7 +17,7 @@
       'type' : type,
       'value' : value
     }, function(result) {
-      alert(result);
+     // alert(result);
     });
   }
 
