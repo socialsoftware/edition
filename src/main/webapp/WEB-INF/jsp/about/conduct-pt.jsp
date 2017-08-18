@@ -83,4 +83,4 @@
 			edi&ccedil;&atilde;o e de escrita da plataforma.</li>
 	</ol>
 	<strong>&nbsp;</strong>
-	<p> [atualizado em 14-08-2017]</p>
+	<p>[atualizado em 14-08-2017]</p>

@@ -45,7 +45,7 @@ public class ReadingController {
 	}
 
 	@RequestMapping(method = RequestMethod.GET)
-	public String startReading(Model model) {
+	public String startReading(Model model, @ModelAttribute("ldoDSession") LdoDSession ldoDSession) {
 		model.addAttribute("ldoD", LdoD.getInstance());
 		model.addAttribute("inter", null);
 
@@ -107,7 +107,8 @@ public class ReadingController {
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/inter/next/number/{expertEditionInterId}")
-	public String readNextInterpretation(Model model, @PathVariable String expertEditionInterId) {
+	public String readNextInterpretation(Model model, @ModelAttribute("ldoDSession") LdoDSession ldoDSession,
+			@PathVariable String expertEditionInterId) {
 		ExpertEditionInter expertEditionInter = FenixFramework.getDomainObject(expertEditionInterId);
 
 		FragInter nextExpertEditionInter = expertEditionInter.getEdition().getNextNumberInter(expertEditionInter,
@@ -118,7 +119,8 @@ public class ReadingController {
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/inter/prev/number/{expertEditionInterId}")
-	public String readPrevInterpretation(Model model, @PathVariable String expertEditionInterId) {
+	public String readPrevInterpretation(Model model, @ModelAttribute("ldoDSession") LdoDSession ldoDSession,
+			@PathVariable String expertEditionInterId) {
 		ExpertEditionInter expertEditionInter = FenixFramework.getDomainObject(expertEditionInterId);
 
 		FragInter prevExpertEditionInter = expertEditionInter.getEdition().getPrevNumberInter(expertEditionInter,
