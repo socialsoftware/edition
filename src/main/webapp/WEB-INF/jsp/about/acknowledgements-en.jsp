@@ -10,7 +10,13 @@
 </p>
 <p>
 
-The <em>LdoD Archive</em> was developed under the research project &ldquo;No Problem Has a Solution: A Digital Archive of the <em>Book of Disquiet</em>,&rdquo; coordinated by Manuel Portela (PTDC/CLE-LLI/118713/2010). Project funded by the Foundation for Science and Technology (FCT), and co-funded by the European Regional Development Fund (FEDER), through Axis I of the Competitiveness Factors Operational Program (POFC) of the National Strategic Framework (QREN)&mdash;European Union (COMPETE: FCOMP-01-0124-FEDER-019715). Additional national funds by the Foundation for Science and Technology (FCT), under the &ldquo;Plurianual Funding&mdash;Unit 759&rdquo; projects: &ldquo;PEst-OE/ELT/UI0759/2013&rdquo; y
+The <em>LdoD Archive</em> was developed under the research project &ldquo;No Problem Has a Solution: 
+	A Digital Archive of the <em>Book of Disquiet</em>,&rdquo; coordinated by Manuel Portela 
+	(PTDC/CLE-LLI/118713/2010). Project funded by the Foundation for Science and Technology (FCT), 
+	and co-funded by the European Regional Development Fund (FEDER), through Axis I of the Competitiveness 
+	Factors Operational Program (POFC) of the National Strategic Framework (QREN)&mdash;European Union 
+	(COMPETE: FCOMP-01-0124-FEDER-019715). Additional national funds by the Foundation for Science and 
+	Technology (FCT), under the &ldquo;Plurianual Funding&mdash;Unit 759&rdquo; projects: &ldquo;PEst-OE/ELT/UI0759/2013&rdquo; y
 	&ldquo;PEst-OE/ELT/UI0759/2014&rdquo;.
 </p>
 <p>&nbsp;</p>
@@ -23,17 +29,18 @@ The <em>LdoD Archive</em> was developed under the research project &ldquo;No Pro
 	Pizarro, Richard Zenith, and Teresa Sobral Cunha, for consulting as
 	specialists in the editorial problems of the <em>Book of Disquiet</em>.
     Our team of project consultants included three leading digital humanities
-    scholars whose peer-review contributed to the advancement of our 
+    scholars whose critical insight contributed to the advancement of our 
     ideas: Johanna Drucker, Matthew G. Kirschenbaum, and Susan Schreibman have
     generously shared their expertise and provided continuing support and inspiration.
-	The <em>LdoD Archive</em> further acknowledges the collaboration of the
+	We also want to thank Timothy Thompson for his contribution to the initial definition of 
+    the TEI schema. The <em>LdoD Archive</em> further acknowledges the collaboration of the
 	Archives of Contemporary Portuguese Culture (National Library of
 	Portugal), the Public Library and Regional Archive of Ponta Delgada
 	(Regional Directorate for Culture of the Government of the Azores), and
 	the Information and Communication Systems and Infrastructures
 	Management Service (SGSIIC) at the University of Coimbra. We are also
-	grateful to all beta users who, in September 2014 and in May 2017,
-	participated in the usability tests of the functionalities and web
+	grateful to all beta users who, in September 2014 and May 2017,
+	participated in usability tests of the functionalities and web
 	design of the <em>LdoD Archive</em>.
 </p>
 <p>
@@ -283,3 +290,6 @@ The <em>LdoD Archive</em> was developed under the research project &ldquo;No Pro
     <li><a href="https://tomcat.apache.org/">Tomcat</a></li>
 
 </ul>
+<p>&nbsp;</p>
+<p>[updated 18-08-2017]</p>
+<p>&nbsp;</p>
