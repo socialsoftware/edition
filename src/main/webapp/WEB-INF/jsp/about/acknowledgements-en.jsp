@@ -267,11 +267,13 @@ The <em>LdoD Archive</em> was developed under the research project &ldquo;No Pro
 	<li><a href="http://annotatorjs.org/">Annotator</a></li>
     <li><a href="http://getbootstrap.com/">Bootstrap</a></li>
     <li><a href="https://github.com/wenzhixin/bootstrap-table">Bootstrap Table</a></li> 
+    <li><a href="https://eclipse.org/">Eclipse</a></li> 
 	<li><a href="https://fenix-framework.github.io/">Fénix Framework</a></li>
 	<li><a href="http://www.oracle.com/technetwork/java/javaee/jsp/index.html">JavaServer Pages</a></li>
 	<li><a href="https://jquery.com/">jQuery</a></li>
 	<li><a href="https://lucene.apache.org/">Lucene</a></li>
 	<li><a href="http://mallet.cs.umass.edu/">Mallet</a></li>
+	<li><a href="https://maven.apache.org/">Maven</a></li>
     <li><a href="https://www.mysql.com/">MySQL</a></li>
 	<li><a href="http://openseadragon.github.io">OpenSeadragon</a></li>
     <li><a href="https://www.oxygenxml.com/">Oxygen</a></li>

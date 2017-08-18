@@ -60,12 +60,12 @@ public class ReadingController {
 		logger.debug("readInterpretation xmlId:{}, urlId:{}", xmlId, urlId);
 		Fragment fragment = LdoD.getInstance().getFragmentByXmlId(xmlId);
 		if (fragment == null) {
-			return "utils/pageNotFound";
+			return "redirect:/error";
 		}
 
 		ExpertEditionInter expertEditionInter = (ExpertEditionInter) fragment.getFragInterByUrlId(urlId);
 		if (expertEditionInter == null) {
-			return "utils/pageNotFound";
+			return "redirect:/error";
 		}
 
 		Set<ExpertEditionInter> recommendations = ldoDSession.getRecommendation()

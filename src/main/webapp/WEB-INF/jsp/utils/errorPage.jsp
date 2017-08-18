@@ -9,13 +9,8 @@
 
 	<div class="container">
 		<div class="hero-unit">
-			<h1><spring:message code="exceptions.error" /></h1>
-			<br>
-			<div class="alert alert-danger">
-				<a class="close" data-dismiss="alert"></a> <strong><c:choose>
-						<c:when test="${i18n}"><spring:message code="${message}" /></c:when>
-						<c:otherwise>${message}</c:otherwise>
-					</c:choose> </strong>
+			<div class="alert alert-light">
+				<spring:message code="${message}" />
 			</div>
 		</div>
 	</div>

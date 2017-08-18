@@ -23,13 +23,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import pt.ist.fenixframework.FenixFramework;
+import pt.ist.socialsoftware.edition.domain.Edition.EditionType;
 import pt.ist.socialsoftware.edition.domain.LdoD;
 import pt.ist.socialsoftware.edition.domain.LdoDUser;
 import pt.ist.socialsoftware.edition.domain.RecommendationWeights;
 import pt.ist.socialsoftware.edition.domain.Section;
 import pt.ist.socialsoftware.edition.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.domain.VirtualEditionInter;
-import pt.ist.socialsoftware.edition.domain.Edition.EditionType;
 import pt.ist.socialsoftware.edition.recommendation.Cluster;
 import pt.ist.socialsoftware.edition.recommendation.VSMVirtualEditionInterRecommender;
 import pt.ist.socialsoftware.edition.recommendation.dto.PropertyWithLevel;
@@ -61,7 +61,7 @@ public class RecommendationController {
 
 		VirtualEdition virtualEdition = FenixFramework.getDomainObject(externalId);
 		if (virtualEdition == null) {
-			return "utils/pageNotFound";
+			return "redirect:/error";
 		} else {
 			logger.debug("presentEditionWithRecommendation sections: {}",
 					virtualEdition.getSectionsSet().stream().map(s -> s.print(1)).collect(Collectors.joining()));
@@ -97,10 +97,7 @@ public class RecommendationController {
 	@RequestMapping(value = "/linear", method = RequestMethod.POST, headers = {
 			"Content-type=application/json;charset=UTF-8" })
 	public String setLinearVirtualEdition(Model model, @RequestBody RecommendVirtualEditionParam params) {
-		logger.debug(
-				"setLinearVirtualEdition acronym:{}, id:{}, properties:{}", params
-						.getAcronym(),
-				params.getId(),
+		logger.debug("setLinearVirtualEdition acronym:{}, id:{}, properties:{}", params.getAcronym(), params.getId(),
 				params.getProperties().stream()
 						.map(p -> p.getClass().getName().substring(p.getClass().getName().lastIndexOf(".") + 1) + " "
 								+ p.getWeight())
@@ -224,14 +221,15 @@ public class RecommendationController {
 		VirtualEdition virtualEdition = (VirtualEdition) LdoD.getInstance()
 				.getEdition(virtualEditionWithSectionsDTO.getAcronym());
 		if (virtualEdition == null) {
-			return "utils/pageNotFound";
+			return "redirect:/error";
 		} else {
 			int i = 1;
 			for (SectionDTO sectionDTO : virtualEditionWithSectionsDTO.getSections()) {
 				List<String> sections = sectionDTO.getSections();
 
 				Section section = virtualEdition.getSection(sections.get(0)) == null
-						? virtualEdition.createSection(sections.get(0)) : virtualEdition.getSection(sections.get(0));
+						? virtualEdition.createSection(sections.get(0))
+						: virtualEdition.getSection(sections.get(0));
 				for (int j = 1; j < sections.size(); j++) {
 					section = section.getSection(sections.get(j)) == null ? section.createSection(sections.get(j))
 							: section.getSection(sections.get(j));

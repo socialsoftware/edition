@@ -30,7 +30,7 @@ public class LdoDExceptionHandler {
 		logger.debug("LdoDLoadException: {}", ex.getMessage());
 
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("utils/ldoDExceptionPage");
+		modelAndView.setViewName("utils/notOkMessage");
 		modelAndView.addObject("message", ex.getMessage());
 		return modelAndView;
 	}
@@ -72,8 +72,7 @@ public class LdoDExceptionHandler {
 		logger.debug("AccessDeniedException: {}", ex.getMessage());
 
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("utils/ldoDExceptionPage");
-		modelAndView.addObject("i18n", true);
+		modelAndView.setViewName("utils/errorPage");
 		modelAndView.addObject("message", "general.access.denied");
 		return modelAndView;
 	}
@@ -84,7 +83,7 @@ public class LdoDExceptionHandler {
 		logger.debug("LdoDException: {}", ExceptionUtils.getStackTrace(ex));
 
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("utils/ldoDExceptionPage");
+		modelAndView.setViewName("utils/notOkMessage");
 		modelAndView.addObject("message", ex.getMessage());
 		return modelAndView;
 	}
@@ -95,7 +94,7 @@ public class LdoDExceptionHandler {
 		logger.error("Exception: {}", ExceptionUtils.getStackTrace(ex));
 
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("utils/ldoDExceptionPage");
+		modelAndView.setViewName("utils/notOkMessage");
 		modelAndView.addObject("message", ex.getMessage());
 		return modelAndView;
 	}
@@ -103,7 +102,7 @@ public class LdoDExceptionHandler {
 	@ExceptionHandler(NoHandlerFoundException.class)
 	public ModelAndView handleAnyException(HttpServletRequest request, Exception ex) {
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("utils/ldoDExceptionPage");
+		modelAndView.setViewName("utils/notOkMessage");
 		modelAndView.addObject("message", ex.getMessage());
 		return modelAndView;
 	}

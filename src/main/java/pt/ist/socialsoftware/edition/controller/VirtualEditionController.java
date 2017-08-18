@@ -140,7 +140,7 @@ public class VirtualEditionController {
 		logger.debug("deleteVirtualEdition externalId:{}", externalId);
 		VirtualEdition virtualEdition = FenixFramework.getDomainObject(externalId);
 		if (virtualEdition == null) {
-			return "utils/pageNotFound";
+			return "redirect:/error";
 		} else {
 
 			String acronym = virtualEdition.getAcronym();
@@ -161,7 +161,7 @@ public class VirtualEditionController {
 		VirtualEdition virtualEdition = FenixFramework.getDomainObject(externalId);
 		logger.debug("manageVirtualEdition externalId:{}", externalId);
 		if (virtualEdition == null) {
-			return "utils/pageNotFound";
+			return "redirect:/error";
 		} else {
 			model.addAttribute("virtualEdition", virtualEdition);
 			model.addAttribute("user", LdoDUser.getAuthenticatedUser());
@@ -177,7 +177,7 @@ public class VirtualEditionController {
 				externalId, virtualEdition.getAcronym(), virtualEdition.getTitle(), virtualEdition.getPub(),
 				virtualEdition.getIntersSet().size());
 		if (virtualEdition == null) {
-			return "utils/pageNotFound";
+			return "redirect:/error";
 		} else {
 			model.addAttribute("virtualEdition", virtualEdition);
 			model.addAttribute("externalId", virtualEdition.getExternalId());
@@ -202,7 +202,7 @@ public class VirtualEditionController {
 
 		VirtualEdition virtualEdition = FenixFramework.getDomainObject(externalId);
 		if (virtualEdition == null) {
-			return "utils/pageNotFound";
+			return "redirect:/error";
 		}
 
 		title = title.trim();
@@ -236,7 +236,7 @@ public class VirtualEditionController {
 
 		VirtualEdition virtualEdition = FenixFramework.getDomainObject(externalId);
 		if (virtualEdition == null) {
-			return "utils/pageNotFound";
+			return "redirect:/error";
 		}
 
 		virtualEdition.updateVirtualEditionInters(fraginters);
@@ -251,7 +251,7 @@ public class VirtualEditionController {
 		final VirtualEdition virtualEdition = FenixFramework.getDomainObject(externalId);
 
 		if (virtualEdition == null) {
-			return "utils/pageNotFound";
+			return "redirect:/error";
 		}
 
 		LdoDUser user = LdoDUser.getAuthenticatedUser();
@@ -369,7 +369,7 @@ public class VirtualEditionController {
 	public String showParticipants(Model model, @PathVariable String externalId) {
 		VirtualEdition virtualEdition = FenixFramework.getDomainObject(externalId);
 		if (virtualEdition == null) {
-			return "utils/pageNotFound";
+			return "redirect:/error";
 		} else {
 			List<String> errors = (List<String>) model.asMap().get("errors");
 			String username = (String) model.asMap().get("username");
@@ -387,7 +387,7 @@ public class VirtualEditionController {
 		LdoDUser user = LdoDUser.getAuthenticatedUser();
 
 		if (virtualEdition == null || user == null) {
-			return "utils/pageNotFound";
+			return "redirect:/error";
 		} else {
 			virtualEdition.addMember(user, MemberRole.MEMBER, false);
 			return "redirect:/virtualeditions";
@@ -401,7 +401,7 @@ public class VirtualEditionController {
 		LdoDUser user = LdoDUser.getAuthenticatedUser();
 
 		if (virtualEdition == null || user == null) {
-			return "utils/pageNotFound";
+			return "redirect:/error";
 		} else {
 			virtualEdition.cancelParticipationSubmission(user);
 			return "redirect:/virtualeditions";
@@ -415,7 +415,7 @@ public class VirtualEditionController {
 
 		VirtualEdition virtualEdition = FenixFramework.getDomainObject(externalId);
 		if (virtualEdition == null) {
-			return "utils/pageNotFound";
+			return "redirect:/error";
 		}
 
 		LdoD ldoD = LdoD.getInstance();
@@ -439,7 +439,7 @@ public class VirtualEditionController {
 
 		VirtualEdition virtualEdition = FenixFramework.getDomainObject(externalId);
 		if (virtualEdition == null) {
-			return "utils/pageNotFound";
+			return "redirect:/error";
 		}
 
 		LdoD ldoD = LdoD.getInstance();
@@ -463,7 +463,7 @@ public class VirtualEditionController {
 
 		VirtualEdition virtualEdition = FenixFramework.getDomainObject(externalId);
 		if (virtualEdition == null) {
-			return "utils/pageNotFound";
+			return "redirect:/error";
 		}
 
 		LdoD ldoD = LdoD.getInstance();
@@ -490,7 +490,7 @@ public class VirtualEditionController {
 		LdoDUser user = FenixFramework.getDomainObject(userId);
 
 		if ((virtualEdition == null) || (user == null)) {
-			return "utils/pageNotFound";
+			return "redirect:/error";
 		}
 
 		if (!virtualEdition.canRemoveMember(LdoDUser.getAuthenticatedUser(), user)) {
@@ -525,14 +525,14 @@ public class VirtualEditionController {
 		VirtualEdition virtualEdition = FenixFramework.getDomainObject(veId);
 		FragInter inter = FenixFramework.getDomainObject(interId);
 		if ((virtualEdition == null) || (inter == null)) {
-			return "utils/pageNotFound";
+			return "redirect:/error";
 		}
 
 		VirtualEditionInter addInter = virtualEdition.createVirtualEditionInter(inter,
 				virtualEdition.getMaxFragNumber() + 1);
 
 		if (addInter == null) {
-			return "utils/pageNotFound";
+			return "redirect:/error";
 		} else {
 			return "redirect:/fragments/fragment/inter/" + interId;
 		}
@@ -543,7 +543,7 @@ public class VirtualEditionController {
 	public String taxonomy(Model model, @PathVariable String externalId) {
 		VirtualEdition virtualEdition = FenixFramework.getDomainObject(externalId);
 		if (virtualEdition == null) {
-			return "utils/pageNotFound";
+			return "redirect:/error";
 		} else {
 			List<String> errors = (List<String>) model.asMap().get("categoryErrors");
 			model.addAttribute("categoryErrors", errors);
@@ -562,7 +562,7 @@ public class VirtualEditionController {
 
 		VirtualEdition edition = FenixFramework.getDomainObject(externalId);
 		if (edition == null) {
-			return "utils/pageNotFound";
+			return "redirect:/error";
 		} else {
 			edition.getTaxonomy().edit(management, vocabulary, annotation);
 			return "redirect:/virtualeditions/restricted/" + externalId + "/taxonomy";
@@ -581,7 +581,7 @@ public class VirtualEditionController {
 
 		VirtualEdition virtualEdition = FenixFramework.getDomainObject(externalId);
 		if (virtualEdition == null) {
-			return "utils/pageNotFound";
+			return "redirect:/error";
 		} else {
 			LdoDUserDetails userDetails = (LdoDUserDetails) SecurityContextHolder.getContext().getAuthentication()
 					.getPrincipal();
@@ -620,7 +620,7 @@ public class VirtualEditionController {
 
 		VirtualEdition virtualEdition = FenixFramework.getDomainObject(externalId);
 		if (virtualEdition == null) {
-			return "utils/pageNotFound";
+			return "redirect:/error";
 		} else {
 			Taxonomy taxonomy = virtualEdition.getTaxonomy();
 			taxonomy.createGeneratedCategories(topicList);
@@ -636,7 +636,7 @@ public class VirtualEditionController {
 			@RequestParam("taxonomyExternalId") String taxonomyExternalId) {
 		Taxonomy taxonomy = FenixFramework.getDomainObject(taxonomyExternalId);
 		if (taxonomy == null) {
-			return "utils/pageNotFound";
+			return "redirect:/error";
 		} else {
 			VirtualEdition edition = taxonomy.getEdition();
 			taxonomy.remove();
@@ -653,7 +653,7 @@ public class VirtualEditionController {
 		VirtualEdition edition = FenixFramework.getDomainObject(externalId);
 		List<String> errors = new ArrayList<>();
 		if (edition == null) {
-			return "utils/pageNotFound";
+			return "redirect:/error";
 		} else {
 			try {
 				edition.getTaxonomy().createCategory(name);
@@ -677,7 +677,7 @@ public class VirtualEditionController {
 		Category category = FenixFramework.getDomainObject(categoryId);
 		List<String> errors = new ArrayList<>();
 		if (category == null) {
-			return "utils/pageNotFound";
+			return "redirect:/error";
 		} else {
 			try {
 				category.setName(name);
@@ -694,7 +694,7 @@ public class VirtualEditionController {
 	public String deleteCategory(Model model, @RequestParam("categoryId") String categoryId) {
 		Category category = FenixFramework.getDomainObject(categoryId);
 		if (category == null) {
-			return "utils/pageNotFound";
+			return "redirect:/error";
 		}
 		VirtualEdition virtualEdition = category.getTaxonomy().getEdition();
 		category.remove();
@@ -707,7 +707,7 @@ public class VirtualEditionController {
 	public String showCategory(Model model, @PathVariable String categoryId) {
 		Category category = FenixFramework.getDomainObject(categoryId);
 		if (category == null) {
-			return "utils/pageNotFound";
+			return "redirect:/error";
 		} else {
 			List<String> errors = (List<String>) model.asMap().get("errors");
 			model.addAttribute("errors", errors);
@@ -723,7 +723,7 @@ public class VirtualEditionController {
 			@RequestParam(value = "categories[]", required = false) String categoriesIds[]) {
 		Taxonomy taxonomy = FenixFramework.getDomainObject(taxonomyId);
 		if (taxonomy == null) {
-			return "utils/pageNotFound";
+			return "redirect:/error";
 		}
 
 		if (categoriesIds == null) {
@@ -754,7 +754,7 @@ public class VirtualEditionController {
 	public String extractForm(Model model, @RequestParam("categoryId") String categoryId) {
 		Category category = FenixFramework.getDomainObject(categoryId);
 		if (category == null) {
-			return "utils/pageNotFound";
+			return "redirect:/error";
 		}
 
 		model.addAttribute("category", category);
@@ -768,7 +768,7 @@ public class VirtualEditionController {
 			@RequestParam(value = "inters[]", required = false) String interIds[]) {
 		Category category = FenixFramework.getDomainObject(categoryId);
 		if (category == null) {
-			return "utils/pageNotFound";
+			return "redirect:/error";
 		}
 
 		if ((interIds == null) || (interIds.length == 0)) {
@@ -791,7 +791,7 @@ public class VirtualEditionController {
 	public String showFragmentInterpretation(Model model, @PathVariable String fragInterId) {
 		FragInter fragInter = FenixFramework.getDomainObject(fragInterId);
 		if (fragInter == null) {
-			return "utils/pageNotFound";
+			return "redirect:/error";
 		} else {
 			model.addAttribute("fragInter", fragInter);
 			return "virtual/fragInter";
@@ -805,7 +805,7 @@ public class VirtualEditionController {
 
 		Category category = FenixFramework.getDomainObject(categoryId);
 		if (inter == null || category == null) {
-			return "utils/pageNotFound";
+			return "redirect:/error";
 		}
 
 		LdoDUser user = LdoDUser.getAuthenticatedUser();
@@ -825,7 +825,7 @@ public class VirtualEditionController {
 		VirtualEditionInter inter = FenixFramework.getDomainObject(fragInterId);
 
 		if (inter == null) {
-			return "utils/pageNotFound";
+			return "redirect:/error";
 		}
 
 		if ((categories != null) && (categories.length > 0)) {

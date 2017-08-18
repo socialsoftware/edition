@@ -37,7 +37,7 @@ public class EditionController {
 		Edition edition = LdoD.getInstance().getEdition(acronym);
 
 		if (edition == null) {
-			return "utils/pageNotFound";
+			return "redirect:/error";
 		} else {
 			model.addAttribute("heteronym", null);
 			model.addAttribute("edition", edition);
@@ -54,7 +54,7 @@ public class EditionController {
 		Edition edition = FenixFramework.getDomainObject(externalId);
 
 		if (edition == null) {
-			return "utils/pageNotFound";
+			return "redirect:/error";
 		} else {
 			model.addAttribute("heteronym", null);
 			model.addAttribute("edition", edition);
@@ -71,9 +71,9 @@ public class EditionController {
 		Heteronym heteronym = FenixFramework.getDomainObject(id2);
 
 		if (edition == null) {
-			return "utils/pageNotFound";
+			return "redirect:/error";
 		} else if (heteronym == null) {
-			return "utils/pageNotFound";
+			return "redirect:/error";
 		} else {
 			model.addAttribute("heteronym", heteronym);
 			model.addAttribute("edition", edition);
@@ -91,7 +91,7 @@ public class EditionController {
 			model.addAttribute("user", user);
 			return "edition/userContributions";
 		} else {
-			return "utils/pageNotFound";
+			return "redirect:/error";
 		}
 	}
 
@@ -105,7 +105,7 @@ public class EditionController {
 			model.addAttribute("taxonomy", taxonomy);
 			return "edition/taxonomyTableOfContents";
 		} else {
-			return "utils/pageNotFound";
+			return "redirect:/error";
 		}
 	}
 
@@ -119,7 +119,7 @@ public class EditionController {
 			model.addAttribute("category", category);
 			return "edition/categoryTableOfContents";
 		} else {
-			return "utils/pageNotFound";
+			return "redirect:/error";
 		}
 	}
 

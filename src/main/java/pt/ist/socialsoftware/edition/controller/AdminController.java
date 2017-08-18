@@ -193,7 +193,7 @@ public class AdminController {
 	public String deleteFragment(Model model, @RequestParam("externalId") String externalId) {
 		Fragment fragment = FenixFramework.getDomainObject(externalId);
 		if (fragment == null) {
-			return "utils/pageNotFound";
+			return "redirect:/error";
 		} else if (LdoD.getInstance().getFragmentsSet().size() >= 1) {
 			fragment.remove();
 		}
@@ -605,7 +605,7 @@ public class AdminController {
 	public String deleteVirtualEdition(Model model, @RequestParam("externalId") String externalId) {
 		VirtualEdition edition = FenixFramework.getDomainObject(externalId);
 		if (edition == null) {
-			return "utils/pageNotFound";
+			return "redirect:/error";
 		} else {
 			edition.remove();
 		}

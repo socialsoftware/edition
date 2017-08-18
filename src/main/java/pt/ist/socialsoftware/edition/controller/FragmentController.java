@@ -84,7 +84,7 @@ public class FragmentController {
 		Fragment fragment = FenixFramework.getDomainRoot().getLdoD().getFragmentByXmlId(xmlId);
 
 		if (fragment == null) {
-			return "utils/pageNotFound";
+			return "redirect:/error";
 		} else {
 			model.addAttribute("ldoD", LdoD.getInstance());
 			model.addAttribute("user", LdoDUser.getAuthenticatedUser());
@@ -103,13 +103,13 @@ public class FragmentController {
 		Fragment fragment = FenixFramework.getDomainRoot().getLdoD().getFragmentByXmlId(xmlId);
 
 		if (fragment == null) {
-			return "utils/pageNotFound";
+			return "redirect:/error";
 		}
 
 		FragInter inter = fragment.getFragInterByUrlId(urlId);
 
 		if (inter == null) {
-			return "utils/pageNotFound";
+			return "redirect:/error";
 		}
 
 		PlainHtmlWriter4OneInter writer = new PlainHtmlWriter4OneInter(inter.getLastUsed());
@@ -149,7 +149,7 @@ public class FragmentController {
 		FragInter inter = FenixFramework.getDomainObject(externalId);
 
 		if (inter == null) {
-			return "utils/pageNotFound";
+			return "redirect:/error";
 		}
 
 		return "redirect:/fragments/fragment/" + inter.getFragment().getXmlId() + "/inter/" + inter.getUrlId();
@@ -164,11 +164,11 @@ public class FragmentController {
 		VirtualEditionInter inter = FenixFramework.getDomainObject(externalId);
 
 		if (inter == null) {
-			return "utils/pageNotFound";
+			return "redirect:/error";
 		}
 
 		if (inter.getSourceType() != Edition.EditionType.VIRTUAL) {
-			return "utils/pageNotFound";
+			return "redirect:/error";
 		}
 
 		VirtualEdition virtualEdition = (VirtualEdition) inter.getEdition();
