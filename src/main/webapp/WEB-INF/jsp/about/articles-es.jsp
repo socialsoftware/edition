@@ -296,7 +296,7 @@ Zenith, Richard (2016). &ldquo;<em>Livro do Desassossego:</em> translating, read
 <table border="1" cellspacing="0" cellpadding="10" width="100%">
   <tr>
     <td width="5%">
-      <p align="center"><strong>Datas</strong></p></td>
+      <p align="center"><strong>Fechas</strong></p></td>
     <td width="19%"><p align="center"><strong>Jacinto do Prado Coelho</strong></p></td>
     <td width="19%"><p align="center"><strong>Teresa Sobral Cunha</strong></p></td>
     <td width="19%"><p align="center"><strong>Richard Zenith</strong></p></td>

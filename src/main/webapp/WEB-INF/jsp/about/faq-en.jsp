@@ -1,4 +1,3 @@
-
 <h4>
 	<a href="#T1T">The Archive</a>
 </h4>
@@ -287,7 +286,7 @@
 <h5 id="Q13Q" style="padding-top: 60px; margin-top: -60px;">
 	What is the difference between witnesses and encoded fragments?</h5>
 <p>
-	The designations &ldquo;witnesses&rdquo; and “&ldquo;encoded fragments&rdquo; are different 
+	The designations &ldquo;witnesses&rdquo; and &ldquo;encoded fragments&rdquo; are different 
 	perspectives on the same materials. &ldquo;Witnesses&rdquo; presents a perspective 
 	of the materials based on the units defined by the National Library of 
 	Portugal (BNP), i.e., based on the shelf-marks that determine the material 
@@ -306,7 +305,7 @@
 	by JPC, TSC, RZ and JP, and also our own transcriptions of the witnesses. Usually 
 	there is only one interpretation of each edition for each fragment (that is, five 
 	in all), but this number can go up to seven when, in addition to the five editorial 
-	interpretations there are several autographs – for example, two different typewritten 
+	interpretations there are several autographs &mdash; for example, two different typewritten 
 	witnesses and a version published in a magazine. In this case, the <em>LdoD Archive</em> 
 	transcribes the three autograph versions. The table of &ldquo;encoded fragments&rdquo; offers 
 	an overall picture of the contents of the <em>LdoD Archive</em>. From a theoretical point 
@@ -362,7 +361,7 @@
 	Pizarro 2013 and 2014; Zenith 2015).
 </p>
 <h5 id="Q16Q" style="padding-top: 60px; margin-top: -60px;">
-	Will the experts&rsquo; editions be updated in the future?</h5>
+	Will the experts' editions be updated in the future?</h5>
 
 <p>
 	While the experts have expressed their desire to see the latest version
@@ -380,11 +379,11 @@
 	Why did you not include the new edition by Teresa Rita Lopes (2015)?</h5>
 <p>
 	In 2015 Teresa Rita Lopes published a new edition titled <em>Book(s) of Disquiet</em>, 
-	in which she adds thirty-five texts by Barão de Teive to the corpus of texts 
+	in which she adds thirty-five texts by Bar&atilde;o de Teive to the corpus of texts 
 	attributed to Vicente Guedes and Bernardo Soares. Although the edition by 
 	Teresa Rita Lopes is a new demonstration of the projectual nature of the authorial 
-	and editorial forms of the work – reinforcing, to a certain extent, the theoretical 
-	justification of the <em>LdoD Archive</em> for developing its dynamic functionalities – 
+	and editorial forms of the work &mdash;  reinforcing, to a certain extent, the 		 			theoretical 
+	justification of the <em>LdoD Archive</em> for developing its dynamic functionalities &mdash;  
 	it was not possible to include it because all the encoding had been completed 
 	and we did not have the additional resources needed to re-encode the files. Otherwise, 
 	her edition would have been included since it meets the conditions by which we 
@@ -1004,5 +1003,5 @@
 	[<em>Translation by Manuel Portela</em>]
 </p>
 <p>&nbsp;</p>
-<p>[updated 14-08-2017]</p>
+<p>[updated 18-08-2017]</p>
 <p>&nbsp;</p>

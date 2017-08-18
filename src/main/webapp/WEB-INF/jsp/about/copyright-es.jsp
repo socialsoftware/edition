@@ -1,5 +1,5 @@
 <p>
-	&copy; Manuel Portela y Antonio Silva Rito para los contenidos e
+	&copy; Manuel Portela y Antonio Rito Silva para los contenidos e
 	infraestructura del <em>Archivo LdoD</em>.
 </p>
 <p>
