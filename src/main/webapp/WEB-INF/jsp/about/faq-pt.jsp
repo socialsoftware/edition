@@ -1215,5 +1215,5 @@
 </ul>
 <p>&nbsp;</p>
 <p>Manuel Portela e Ant&oacute;nio Rito Silva</p>
-<p>[atualiza&ccedil;&atilde;o 14-08-2017]</p>
+<p>[atualiza&ccedil;&atilde;o 18-08-2017]</p>
 <p>&nbsp;</p>
