@@ -1,4 +1,4 @@
-<h3>Apoyos</h3>
+<h3>Patrocinadores</h3>
 <p>
 	El <em>Archivo LdoD</em> es un archivo digital colaborativo patrocinado
 	por la Fundaci&oacute;n para la Ciencia y la Tecnolog&iacute;a (FCT), y
@@ -26,11 +26,30 @@
 
 <h3>Colaboraci&oacute;n</h3>
 
-A lo largo de su per&iacute;odo de desarrollo, el <em>Archivo LdoD</em> se benefici&oacute; de la colaboraci&oacute;n de diversos individuos e instituciones. Los agradecimientos son debidos, en primer lugar, a los editores Jer&oacute;nimo Pizarro, Richard Zenith y Teresa Sobral Cunha, por la consultor&iacute;a como especialistas en los problemas editoriales del <em>Libro del Desasosiego</em>. 
-Nuestro equipo de consultores de proyecto incluy&oacute; tres grandes especialistas de humanidades digitales cuyo asesoramiento contribuy&oacute; al avance de nuestras ideas: Johanna Drucker, Matthew G. Kirschenbaum y Susan Schreibman han compartido generosamente sus conocimientos y proporcionaron apoyo e inspiraci&oacute;n continuada. El <em>Archivo LdoD</em> agradece tambi&eacute;n la colaboraci&oacute;n del Archivo de Cultura Portuguesa Contempor&aacute;nea (Biblioteca Nacional de Portugal), de la Biblioteca P&uacute;blica y Archivo Regional de Ponta Delgada (Direcci&oacute;n Regional de Cultura del Gobierno de las Azores) y del Servicio de Gesti&oacute;n de Sistemas e Infraestructuras de Informaci&oacute;n y Comunicaci&oacute;n (SGSIIC) de la Universidad de Coimbra. Agradece adem&aacute;s a todos los usuarios beta que, en septiembre de 2014 y en mayo de 2017, participaron en las pruebas de las funcionalidades y del dise&ntilde;o web del <em>Archivo LdoD</em>.
+A lo largo de su per&iacute;odo de desarrollo, el <em>Archivo LdoD</em> se benefici&oacute; de 
+la colaboraci&oacute;n de diversos individuos e instituciones. Los agradecimientos son debidos, 
+en primer lugar, a los editores Jer&oacute;nimo Pizarro, Richard Zenith y Teresa Sobral Cunha, 
+por la consultor&iacute;a como especialistas en los problemas editoriales del <em>Libro del Desasosiego</em>. 
+Nuestro equipo de consultores de proyecto incluy&oacute; tres grandes especialistas de humanidades digitales 
+cuya visi&oacute;n cr&iacute;tica contribuy&oacute; al avance de nuestras ideas: Johanna Drucker, Matthew G. Kirschenbaum 
+y Susan Schreibman han compartido generosamente sus conocimientos y fueron una fuente de inspiraci&oacute;n e incentivo. 
+Tambi&eacute;n agradecemos la contribuci&oacute;n de Timothy Thompson a la definici&oacute;n inicial del 
+esquema de codificaci&oacute;n TEI. El <em>Archivo LdoD</em> agradece la colaboraci&oacute;n del Archivo de 
+Cultura Portuguesa Contempor&aacute;nea (Biblioteca Nacional de Portugal), de la Biblioteca P&uacute;blica y 
+Archivo Regional de Ponta Delgada (Direcci&oacute;n Regional de Cultura del Gobierno de las Azores) y del Servicio 
+de Gesti&oacute;n de Sistemas e Infraestructuras de Informaci&oacute;n y Comunicaci&oacute;n (SGSIIC) de la Universidad de 
+Coimbra. Agradece adem&aacute;s a todos los usuarios beta que, en septiembre de 2014 y en mayo de 2017, 
+participaron en las pruebas de las funcionalidades y del dise&ntilde;o web del <em>Archivo LdoD</em>.
 </p>
 <p>
-Estos agradecimientos se extienden a los organizadores y participantes de seminarios y encuentros cient&iacute;ficos nacionales e internacionales, en los que se presentaron los diversos componentes concetuales y t&eacute;cnicos del <em>Archivo LdoD</em>, en particular en universidades y centros de investigaci&oacute;n en Portugal, Australia, Chipre, Italia, Francia, Espa&ntilde;a, Colombia, Estados Unidos, Suecia y Grecia. La interacci&oacute;n con diferentes comunidades de investigadores (humanidades digitales, ciencias de la computaci&oacute;n, ciencias de la informaci&oacute;n, codificaci&oacute;n textual, cr&iacute;tica textual, estudios pessoanos, literatura electr&oacute;nica) fue esencial para el resultado alcanzado. Destacamos las siguientes presentaciones:
+Estos agradecimientos se extienden a los organizadores y participantes de seminarios y encuentros 
+	cient&iacute;ficos nacionales e internacionales, en los que se presentaron los diversos componentes 
+	concetuales y t&eacute;cnicos del <em>Archivo LdoD</em>, en particular en universidades y centros de 
+	investigaci&oacute;n en Portugal, Australia, Chipre, Italia, Francia, Espa&ntilde;a, Colombia, Estados 
+	Unidos, Suecia y Grecia. La interacci&oacute;n con diferentes comunidades de investigadores 
+	(humanidades digitales, ciencias de la computaci&oacute;n, ciencias de la informaci&oacute;n, 
+	codificaci&oacute;n textual, cr&iacute;tica textual, estudios pessoanos, literatura electr&oacute;nica) 
+	fue esencial para el resultado alcanzado. Destacamos las siguientes presentaciones:
 </p>
 <ul>
 <h4>2012</h4>
@@ -53,7 +72,7 @@ Estos agradecimientos se extienden a los organizadores y participantes de semina
 <li>Universidad de Coimbra, Biblioteca Geral: Congreso internacional &ldquo;<a href="http://www.uc.pt/bguc/500anos/Congresso_internacional" target="new">A Biblioteca da Universidade: Perman&ecirc;ncias e Metamorfoses</a>&rdquo; (16-18 de enero de 2014; coord. J. A. Cardoso Bernardes) </li>
 <li>Fundaci&oacute;n Calouste Gulbenkian: Coloquio internacional &ldquo;<a href="http://estranharpessoa.com/programa" target="new">O Dia Triunfal de Fernando Pessoa</a>&rdquo;, organizado por el Proyecto Estranhar Pessoa, Laboratorio de Estudios Literarios Avanzados (ELAB), Red de Filosof&iacute;a y Literatura, Instituto de Filosof&iacute;a del Lenguaje (IFL) y Programa en Teor&iacute;a de la Literatura (6-8 de mar&ccedil;o de 2014; coords. Ant&oacute;nio M. Feij&oacute; y Abel Barros Baptista)</li>
 <li>Universidad de Los Andes, Bogot&aacute;: Coloquio internacional &ldquo;<a href="https://ilusionymaterialidad.wordpress.com/programa-2/" target="new">Ilusi&oacute;n y materialidad de los archivos literarios</a>&rdquo;, organizado por la Universidad de los Andes, Instituto Caro y Cuervo y Biblioteca Luis &Aacute;ngel Arango (6-8 de mayo de 2014; coord. Jer&oacute;nimo Pizarro)</li>
-<li>Universidad de Salamanca: Seminario Permanente &ldquo;Arc&aacute;dia Bab&eacute;lica&rdquo;, organizado por el Departamento de Filologia de la Universidad de Salamanca (20 de junio de 2014; coord. Pedro Serra)</li>
+<li>Universidad de Salamanca:  Seminario Permanente &ldquo;Arc&aacute;dia Bab&eacute;lica&rdquo;, organizado por el Departamento de Filologia de la Universidad de Salamanca (20 de junio de 2014; coord. Pedro Serra)</li>
 <li>Northwestern University, Evanston, Illinois: Coloquio internacional &ldquo;<a href="http://tei.northwestern.edu/" target="new">Decoding the Encoded</a>&rdquo;, organizado por el Text Encoding Initiative Consortium (22-24 de octubre de 2014; coord. Martin Mueller)
 </li>
 </ul>
@@ -114,3 +133,6 @@ href="http://www.nedimah.eu/reports/toward-new-social-contract-between-publisher
     <li><a href="https://tomcat.apache.org/">Tomcat</a></li>
 
 </ul>
+<p>&nbsp;</p>
+<p>[actualizaci&oacute;n 18-08-2017]</p>
+<p>&nbsp;</p>
