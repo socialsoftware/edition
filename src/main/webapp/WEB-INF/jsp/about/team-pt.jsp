@@ -61,3 +61,4 @@
 <p>Johanna Drucker,  Universidade da Calif&oacute;rnia Los Angeles</p>
 <p>Matthew G. Kirschenbaum, Universidade de Maryland | MITH - Instituto de Tecnologia para las Humanidades de Maryland</p>
 <p>Susan Schreibman, Universidade de Maynooth | An Foras Feasa - Instituto de Investiga&ccedil;&atilde;o em Humanidades</p>
+<p>&nbsp;</p>
