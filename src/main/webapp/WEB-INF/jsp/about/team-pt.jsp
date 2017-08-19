@@ -20,7 +20,7 @@
 
 <h3>Programa&ccedil;&atilde;o</h3>
 <p>Andr&eacute; Santos, INESC-ID, Instituto Superior T&eacute;cnico (IST), Universidade de Lisboa</p>
-<p>Ant&oacute;nio Rito Silva, INESC-ID, <em>Instituto Superior T&eacute;cnico</em> (IST), Universidade de Lisboa</p>
+<p>Ant&oacute;nio Rito Silva, INESC-ID, Instituto Superior T&eacute;cnico (IST), Universidade de Lisboa</p>
 <p>Lu&iacute;s Lucas Pereira, Centro de Literatura Portuguesa (CLP) | Departamento de Engenharia Inform&aacute;tica (DEI), Universidade de Coimbra</p>
 <p>&nbsp;</p>
 
@@ -58,6 +58,6 @@
 <p>&nbsp;</p>
 
 <h3>Consultores do projeto</h3>
-<p>Johanna Drucker,  Universidade da Califórnia Los Angeles</p>
+<p>Johanna Drucker,  Universidade da Calif&oacute;rnia Los Angeles</p>
 <p>Matthew G. Kirschenbaum, Universidade de Maryland | MITH - Instituto de Tecnologia para las Humanidades de Maryland</p>
-<p>Susan Schreibman, Universidade de Maynooth | An Foras Feasa - Instituto de Investigação em Humanidades</p>
+<p>Susan Schreibman, Universidade de Maynooth | An Foras Feasa - Instituto de Investiga&ccedil;&atilde;o em Humanidades</p>
