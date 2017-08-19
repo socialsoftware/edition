@@ -39,7 +39,7 @@
 	cr&iacute;tica contribuiu para o avan&ccedil;o de nossas ideias: Johanna
 	Drucker, Matthew G. Kirschenbaum e Susan Schreibman partilharam
 	generosamente os seus conhecimentos e foram uma fonte constante de
-	inspira&ccedil;&atilde;o. e incentivo.  Agradecemos ainda o contributo de Timothy
+	inspira&ccedil;&atilde;o e incentivo. Agradecemos ainda o contributo de Timothy
 	Thompson para a defini&ccedil;&atilde;o inicial do esquema de
 	codifica&ccedil;&atilde;o TEI. O <em>Arquivo LdoD</em> agradece
 	a colabora&ccedil;&atilde;o do Arquivo de Cultura
