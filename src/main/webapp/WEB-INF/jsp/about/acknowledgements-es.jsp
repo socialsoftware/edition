@@ -30,7 +30,7 @@ A lo largo de su per&iacute;odo de desarrollo, el <em>Archivo LdoD</em> se benef
 la colaboraci&oacute;n de diversos individuos e instituciones. Los agradecimientos son debidos, 
 en primer lugar, a los editores Jer&oacute;nimo Pizarro, Richard Zenith y Teresa Sobral Cunha, 
 por la consultor&iacute;a como especialistas en los problemas editoriales del <em>Libro del Desasosiego</em>. 
-Nuestro equipo de consultores de proyecto incluy&oacute; tres grandes especialistas de humanidades digitales 
+Nuestro equipo de consultores de proyecto incluy&oacute; tres grandes especialistas en humanidades digitales 
 cuya visi&oacute;n cr&iacute;tica contribuy&oacute; al avance de nuestras ideas: Johanna Drucker, Matthew G. Kirschenbaum 
 y Susan Schreibman han compartido generosamente sus conocimientos y fueron una fuente de inspiraci&oacute;n e incentivo. 
 Tambi&eacute;n agradecemos la contribuci&oacute;n de Timothy Thompson a la definici&oacute;n inicial del 
