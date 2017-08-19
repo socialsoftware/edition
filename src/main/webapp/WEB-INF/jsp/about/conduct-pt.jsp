@@ -57,10 +57,10 @@
 				conte&uacute;dos de edi&ccedil;&atilde;o virtual e escrita virtual
 				seja preservada.</em> Qualquer utiliza&ccedil;&atilde;o adicional,
 			noutros meios, de conte&uacute;do gerado pelos utilizadores do <em>Arquivo
-				LdoD </em>tem de ser atribu&iacute;da.
+				LdoD</em> tem de ser atribu&iacute;da.
 		</li>
 		<li>todo o conte&uacute;do gerado pelos utilizadores no
-			&acirc;mbito do <em>Arquivo LdoD </em>pode ser partilhado de acordo
+			&acirc;mbito do <em>Arquivo LdoD</em> pode ser partilhado de acordo
 			com a licen&ccedil;a Creative Commons &ldquo;<a
 			href="https://creativecommons.org/licenses/by-nc/4.0/">Attribution-NonCommercial
 				4.0 International</a>&rdquo; (CC BY-NC 4.0).
@@ -79,8 +79,8 @@
 		<li>apagar qualquer conte&uacute;do gerado pelos utilizadores que
 			n&atilde;o cumpra este c&oacute;digo de conduta.</li>
 		<li>impedir os utilizadores registados que desrespeitem este
-			c&oacute;digo de conduta de aceder &agrave;s funcionalidades virtuais de
-			edi&ccedil;&atilde;o e de escrita da plataforma.</li>
+			c&oacute;digo de conduta de aceder &agrave;s funcionalidades virtuais
+			de edi&ccedil;&atilde;o e de escrita da plataforma.</li>
 	</ol>
 	<strong>&nbsp;</strong>
 	<p>[atualizado em 14-08-2017]</p>
