@@ -34,15 +34,15 @@
 	s&atilde;o devidos, em primeiro lugar, aos editores Jer&oacute;nimo
 	Pizarro, Richard Zenith e Teresa Sobral Cunha, pela consultoria como
 	especialistas nos problemas editoriais do <em>Livro do
-		Desassossego</em>. A nossa equipa de consultores do projeto contou ainda
+		Desassossego</em>. A nossa equipa de consultores do projeto contou
 	com tr&ecirc;s especialistas em humanidades digitais, cuja vis&atilde;o
 	cr&iacute;tica contribuiu para o avan&ccedil;o de nossas ideias: Johanna
 	Drucker, Matthew G. Kirschenbaum e Susan Schreibman partilharam
 	generosamente os seus conhecimentos e foram uma fonte constante de
-	incentivo e inspira&ccedil;&atilde;o. Agradecemos ainda o contributo de Timothy
+	inspira&ccedil;&atilde;o. e incentivo.  Agradecemos ainda o contributo de Timothy
 	Thompson para a defini&ccedil;&atilde;o inicial do esquema de
 	codifica&ccedil;&atilde;o TEI. O <em>Arquivo LdoD</em> agradece
-	tamb&eacute;m a colabora&ccedil;&atilde;o do Arquivo de Cultura
+	a colabora&ccedil;&atilde;o do Arquivo de Cultura
 	Portuguesa Contempor&acirc;nea (Biblioteca Nacional de Portugal), da
 	Biblioteca P&uacute;blica e Arquivo Regional de Ponta Delgada
 	(Dire&ccedil;&atilde;o Regional da Cultura do Governo dos
