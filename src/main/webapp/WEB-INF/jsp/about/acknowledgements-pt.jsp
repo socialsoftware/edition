@@ -26,7 +26,7 @@
 </p>
 <p>&nbsp;</p>
 
-<h3>Colaboração</h3>
+<h3>Colabora&ccedil;&atilde;o</h3>
 <p>
 	Ao longo do seu per&iacute;odo de desenvolvimento, o <em>Arquivo
 		LdoD</em> beneficiou da colabora&ccedil;&atilde;o de diversos
@@ -35,11 +35,11 @@
 	Pizarro, Richard Zenith e Teresa Sobral Cunha, pela consultoria como
 	especialistas nos problemas editoriais do <em>Livro do
 		Desassossego</em>. A nossa equipa de consultores do projeto contou ainda
-	com três especialistas em humanidades digitais, cuja visão
-	cr&iacute;tica contribuiu para o avanço de nossas ideias: Johanna
+	com tr&ecirc;s especialistas em humanidades digitais, cuja vis&atilde;o
+	cr&iacute;tica contribuiu para o avan&ccedil;o de nossas ideias: Johanna
 	Drucker, Matthew G. Kirschenbaum e Susan Schreibman partilharam
 	generosamente os seus conhecimentos e foram uma fonte constante de
-	incentivo e inspiração. Agradecemos ainda o contributo de Timothy
+	incentivo e inspira&ccedil;&atilde;o. Agradecemos ainda o contributo de Timothy
 	Thompson para a defini&ccedil;&atilde;o inicial do esquema de
 	codifica&ccedil;&atilde;o TEI. O <em>Arquivo LdoD</em> agradece
 	tamb&eacute;m a colabora&ccedil;&atilde;o do Arquivo de Cultura
@@ -301,11 +301,8 @@
 	<li><a href="https://github.com/wenzhixin/bootstrap-table">Bootstrap
 			Table</a></li>
 	<li><a href="https://eclipse.org/">Eclipse</a></li>
-	<li><a href="https://fenix-framework.github.io/">Fénix
-			Framework</a></li>
-	<li><a
-		href="http://www.oracle.com/technetwork/java/javaee/jsp/index.html">JavaServer
-			Pages</a></li>
+	<li><a href="https://fenix-framework.github.io/">F&eacute;nix Framework</a></li>
+	<li><a href="http://www.oracle.com/technetwork/java/javaee/jsp/index.html">JavaServer Pages</a></li>
 	<li><a href="https://jquery.com/">jQuery</a></li>
 	<li><a href="https://lucene.apache.org/">Lucene</a></li>
 	<li><a href="http://mallet.cs.umass.edu/">Mallet</a></li>
@@ -314,10 +311,8 @@
 	<li><a href="http://openseadragon.github.io">OpenSeadragon</a></li>
 	<li><a href="https://www.oxygenxml.com/">Oxygen</a></li>
 	<li><a href="http://github.com/mleibman/slickgrid">SlickGrid</a></li>
-	<li><a href="https://projects.spring.io/spring-boot/">Spring
-			Boot</a></li>
-	<li><a href="http://projects.spring.io/spring-social/">Spring
-			Social</a></li>
+	<li><a href="https://projects.spring.io/spring-boot/">Spring Boot</a></li>
+	<li><a href="http://projects.spring.io/spring-social/">Spring Social</a></li>
 	<li><a href="https://tomcat.apache.org/">Tomcat</a></li>
 
 </ul>
