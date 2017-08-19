@@ -26,7 +26,7 @@
 </p>
 <p>&nbsp;</p>
 
-<h3>Colaboração</h3>
+<h3>ColaboraÃ§Ã£o</h3>
 <p>
 	Ao longo do seu per&iacute;odo de desenvolvimento, o <em>Arquivo
 		LdoD</em> beneficiou da colabora&ccedil;&atilde;o de diversos
@@ -35,11 +35,11 @@
 	Pizarro, Richard Zenith e Teresa Sobral Cunha, pela consultoria como
 	especialistas nos problemas editoriais do <em>Livro do
 		Desassossego</em>. A nossa equipa de consultores do projeto contou ainda
-	com três especialistas em humanidades digitais, cuja visão
-	cr&iacute;tica contribuiu para o avanço de nossas ideias: Johanna
+	com trÃªs especialistas em humanidades digitais, cuja visÃ£o
+	cr&iacute;tica contribuiu para o avanÃ§o de nossas ideias: Johanna
 	Drucker, Matthew G. Kirschenbaum e Susan Schreibman partilharam
 	generosamente os seus conhecimentos e foram uma fonte constante de
-	incentivo e inspiração. Agradecemos ainda o contributo de Timothy
+	incentivo e inspiraÃ§Ã£o. Agradecemos ainda o contributo de Timothy
 	Thompson para a defini&ccedil;&atilde;o inicial do esquema de
 	codifica&ccedil;&atilde;o TEI. O <em>Arquivo LdoD</em> agradece
 	tamb&eacute;m a colabora&ccedil;&atilde;o do Arquivo de Cultura
@@ -171,8 +171,8 @@
 		href="http://www.nedimah.eu/reports/toward-new-social-contract-between-publishers-and-editors"
 		target="new">Toward a New Social Contract between Publishers and
 			Editors</a>&rdquo;, organizado pela Network for Digital Methods in the
-		Arts and Humanitiesâ€“NeDiMAH (European Science Foundation), Maison
-		des Sciences de lâ€™Homme e Universit&eacute; de Grenoble (26 janeiro
+		Arts and Humanities&mdash;NeDiMAH (European Science Foundation), Maison
+		des Sciences de l&rsquo;Homme e Universit&eacute; de Grenoble (26 janeiro
 		de 2015; coords. Matthew Driscol e Elena Pierazzo)
 	</li>
 	<li>Universidade de Roma La Sapienza: Simp&oacute;sio &ldquo;<a
@@ -301,7 +301,7 @@
 	<li><a href="https://github.com/wenzhixin/bootstrap-table">Bootstrap
 			Table</a></li>
 	<li><a href="https://eclipse.org/">Eclipse</a></li>
-	<li><a href="https://fenix-framework.github.io/">Fénix
+	<li><a href="https://fenix-framework.github.io/">FÃ©nix
 			Framework</a></li>
 	<li><a
 		href="http://www.oracle.com/technetwork/java/javaee/jsp/index.html">JavaServer
