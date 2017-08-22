@@ -33,7 +33,7 @@
 <p>Tiago Cravid&atilde;o</p>
 <p>&nbsp;</p>
 
-<h3>Equipa de investiga&ccedil;&atilde;o do projeto</h3>
+<h3>Equipa de investiga&ccedil;&atilde;o do projeto (2012-2015)</h3>
 <p>Abel Barros Baptista, NOVA-Universidade Nova de Lisboa</p>
 <p>Ant&oacute;nio Rito Silva, INESC-ID, Instituto Superior T&eacute;cnico (IST), Universidade de Lisboa</p>
 <p>Ant&oacute;nio Sousa Ribeiro, Universidade de Coimbra</p>
