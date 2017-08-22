@@ -51,13 +51,13 @@
 <p>Tiago Santos, Centre for Portuguese Literature (CLP), University of Coimbra</p>
 <p>&nbsp;</p>
 
-<h3>Consultants for the <em>Book of Disquiet</em></h3>
+<h3>Consultants for the <em>Book of Disquiet</em> (2012-2015)</h3>
 <p>Jer&oacute;nimo Pizarro, Editor | Los Andes University, Bogotá</p>
 <p>Richard Zenith, Editor</p>
 <p>Teresa Sobral Cunha, Editor</p>
 <p>&nbsp;</p>
 
-<h3>Project consultants</h3>
+<h3>Project consultants (2012-2015)</h3>
 <p>Johanna Drucker, University of California Los Angeles</p>
 <p>Matthew G. Kirschenbaum, University of Maryland | MITH - Maryland Institute for Technology in the Humanities</p>
 <p>Susan Schreibman, Maynooth University | An Foras Feasa - Humanities Research Institute</p>
