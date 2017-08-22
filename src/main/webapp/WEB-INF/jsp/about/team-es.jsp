@@ -51,13 +51,13 @@
 <p>Tiago Santos, Centro de Literatura Portuguesa (CLP), Universidad de Coimbra</p>
 <p>&nbsp;</p>
 
-<h3>Consultores del <em>Libro del Desasosiego</em></h3>
+<h3>Consultores del <em>Libro del Desasosiego</em> (2012-2015)</h3>
 <p>Jer&oacute;nimo Pizarro, Editor | Universidad de Los Andes, Bogot&aacute;</p>
 <p>Richard Zenith, Editor</p>
 <p>Teresa Sobral Cunha, Editora</p>
 <p>&nbsp;</p>
 
-<h3>Consultores del proyecto</h3>
+<h3>Consultores del proyecto (2012-2015)</h3>
 <p>Johanna Drucker,  Universidad de California Los Angeles</p>
 <p>Matthew G. Kirschenbaum, Universidad de Maryland | MITH - Instituto de Tecnolog&iacute;a para las Humanidades de Maryland</p>
 <p>Susan Schreibman, Universidad de Maynooth | An Foras Feasa - Instituto de Investigaci&oacute;n en Humanidades</p>
