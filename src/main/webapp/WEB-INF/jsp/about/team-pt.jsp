@@ -51,13 +51,13 @@
 <p>Tiago Santos, Centro de Literatura Portuguesa (CLP), Universidade de Coimbra</p>
 <p>&nbsp;</p>
 
-<h3>Consultores do <em>Livro do Desassossego</em></h3>
+<h3>Consultores do <em>Livro do Desassossego</em> (2012-2015)</h3>
 <p>Jer&oacute;nimo Pizarro, Editor | Universidade de Los Andes, Bogot&aacute;</p>
 <p>Richard Zenith, Editor</p>
 <p>Teresa Sobral Cunha, Editora</p>
 <p>&nbsp;</p>
 
-<h3>Consultores do projeto</h3>
+<h3>Consultores do projeto (2012-2015)</h3>
 <p>Johanna Drucker,  Universidade da Calif&oacute;rnia Los Angeles</p>
 <p>Matthew G. Kirschenbaum, Universidade de Maryland | MITH - Instituto de Tecnologia para las Humanidades de Maryland</p>
 <p>Susan Schreibman, Universidade de Maynooth | An Foras Feasa - Instituto de Investiga&ccedil;&atilde;o em Humanidades</p>
