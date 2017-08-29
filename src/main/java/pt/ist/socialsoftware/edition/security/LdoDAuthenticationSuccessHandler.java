@@ -6,6 +6,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.joda.time.LocalDate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
@@ -34,7 +35,9 @@ public class LdoDAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuc
 		} else {
 			ldoDSession = (LdoDSession) request.getSession().getAttribute("ldoDSession");
 		}
-		ldoDSession.updateSession(LdoDUser.getAuthenticatedUser());
+		LdoDUser user = LdoDUser.getAuthenticatedUser();
+		user.setLastLogin(LocalDate.now());
+		ldoDSession.updateSession(user);
 
 		super.onAuthenticationSuccess(request, response, authentication);
 		log.debug("onAuthenticationSuccess");

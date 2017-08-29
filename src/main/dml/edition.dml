@@ -68,6 +68,7 @@ class LdoDUser {
 	String firstName;
 	String lastName;
 	String email;
+	LocalDate lastLogin;
 	SocialMediaService socialMediaService;
 	String socialMediaId;
 }

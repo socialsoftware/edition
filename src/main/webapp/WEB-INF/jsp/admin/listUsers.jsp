@@ -9,7 +9,7 @@
 
 	<div class="container">
 		<h1 class="text-center">
-			<spring:message code="user.list" />
+			<spring:message code="user.list" /> (${users.size()})
 		</h1>
 		<br /> <br />
 
@@ -23,6 +23,7 @@
 						<td><strong><spring:message code="user.email" /></strong></td>
 						<td><strong><spring:message code="user.enabled" /></strong></td>
 						<td><strong><spring:message code="user.roles" /></strong></td>
+						<td><strong><spring:message code="user.lastLogin" /></strong></td>
 						<td><strong><spring:message code="user.active" /></strong></td>
 						<td><strong><spring:message code="general.edit" /></strong></td>
 						<td><strong><spring:message code="general.delete" /></strong></td>
@@ -44,6 +45,7 @@
 									</c:otherwise>
 								</c:choose></td>
 							<td>${user.getListOfRolesAsStrings()}</td>
+							<td>${user.getLastLogin()}</td>
 							<td><form class="form-inline" method="POST"
 									action="${contextPath}/admin/user/active">
 									<input type="hidden" name="${_csrf.parameterName}"
