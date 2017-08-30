@@ -58,6 +58,9 @@ public class UsersXMLExport {
 		userElement.setAttribute("firstName", user.getFirstName());
 		userElement.setAttribute("lastName", user.getLastName());
 		userElement.setAttribute("email", user.getEmail());
+		if (user.getLastLogin() != null) {
+			userElement.setAttribute("lastLogin", user.getLastLogin().toString());
+		}
 		if (user.getSocialMediaService() != null) {
 			userElement.setAttribute("socialMediaService", user.getSocialMediaService().toString());
 		}

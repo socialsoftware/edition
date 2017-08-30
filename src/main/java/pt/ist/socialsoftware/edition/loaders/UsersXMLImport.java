@@ -12,6 +12,7 @@ import org.jdom2.filter.Filters;
 import org.jdom2.input.SAXBuilder;
 import org.jdom2.xpath.XPathExpression;
 import org.jdom2.xpath.XPathFactory;
+import org.joda.time.LocalDate;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
@@ -80,6 +81,10 @@ public class UsersXMLImport {
 				String email = element.getAttributeValue("email");
 
 				LdoDUser user = new LdoDUser(ldoD, username, password, firstName, lastName, email);
+
+				if (element.getAttributeValue("lastLogin") != null) {
+					user.setLastLogin(LocalDate.parse(element.getAttributeValue("lastLogin")));
+				}
 
 				user.setActive(convertToBool(element.getAttributeValue("active")));
 				user.setEnabled(convertToBool(element.getAttributeValue("enabled")));
