@@ -302,7 +302,9 @@
 			Table</a></li>
 	<li><a href="https://eclipse.org/">Eclipse</a></li>
 	<li><a href="https://fenix-framework.github.io/">F&eacute;nix Framework</a></li>
+	<li><a href="https://www.java.com/">Java</a></li>
 	<li><a href="http://www.oracle.com/technetwork/java/javaee/jsp/index.html">JavaServer Pages</a></li>
+	<li><a href="http://http://jblas.org/">jblas</a></li>
 	<li><a href="https://jquery.com/">jQuery</a></li>
 	<li><a href="https://lucene.apache.org/">Lucene</a></li>
 	<li><a href="http://mallet.cs.umass.edu/">Mallet</a></li>
