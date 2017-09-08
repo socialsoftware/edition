@@ -36,7 +36,7 @@
 	especialistas nos problemas editoriais do <em>Livro do
 		Desassossego</em>. A nossa equipa de consultores do projeto contou
 	com tr&ecirc;s especialistas em humanidades digitais, cuja vis&atilde;o
-	cr&iacute;tica contribuiu para o avan&ccedil;o de nossas ideias: Johanna
+	cr&iacute;tica contribuiu para o avan&ccedil;o das nossas ideias: Johanna
 	Drucker, Matthew G. Kirschenbaum e Susan Schreibman partilharam
 	generosamente os seus conhecimentos e foram uma fonte constante de
 	inspira&ccedil;&atilde;o e incentivo. Agradecemos ainda o contributo de Timothy
