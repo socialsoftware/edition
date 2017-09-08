@@ -3,7 +3,8 @@
 <html>
 <head>
 <%@ include file="/WEB-INF/jsp/common/meta-head.jsp"%>
-<link rel="stylesheet" type="text/css" href="/resources/css/bootstrap-table.min.css">
+<link rel="stylesheet" type="text/css"
+	href="/resources/css/bootstrap-table.min.css">
 <script src="/resources/js/bootstrap-table.min.js"></script>
 </head>
 <body>
@@ -16,8 +17,8 @@
 			(${user.getFragInterSet().size()})
 		</h3>
 		<br>
-		<table id="tableUser" data-pagination="false">
-		<!-- <table class="table table-hover table-condensed"> -->
+		<table id="tableUser" data-pagination="false" style="display: none;">
+			<!-- <table class="table table-hover table-condensed"> -->
 			<thead>
 				<tr>
 					<th><spring:message code="tableofcontents.title" /></th>
@@ -37,7 +38,7 @@
 								<a
 									href="${contextPath}/edition/category/${category.getExternalId()}">
 									${category.getNameInEditionContext(inter.getEdition())} </a>
-                            </c:forEach></td>
+							</c:forEach></td>
 						<td><c:forEach var="used" items="${inter.getListUsed()}">-><a
 									href="${contextPath}/fragments/fragment/inter/${used.externalId}">${used.shortName}</a>
 							</c:forEach></td>
@@ -47,10 +48,18 @@
 		</table>
 	</div>
 </body>
-</html>
 <script>
-$('#tableUser').attr("data-search","true");
-$('#tableUser').bootstrapTable();
-$(".tip").tooltip({placement: 'bottom'});
+	$('#tableUser').attr("data-search", "true");
+	$('#tableUser').bootstrapTable();
+	$(".tip").tooltip({
+		placement : 'bottom'
+	});
 </script>
+<script>
+	$(document).ready(function() {
+		$('#tableUser').show();
+	});
+</script>
+</html>
+
 

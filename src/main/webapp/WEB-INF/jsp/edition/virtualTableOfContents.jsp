@@ -3,7 +3,7 @@
 	<spring:message code="virtualedition" />
 	${edition.title} (${edition.getSortedInterps().size()})
 </h3>
-<table id="tablevirtual" data-pagination="false">
+<table id="tablevirtual" data-pagination="false" style="display: none;">
 	<!-- <table class="table table-hover table-condensed"> -->
 	<thead>
 		<tr>
@@ -48,5 +48,10 @@
 	$('#tablevirtual').bootstrapTable();
 	$(".tip").tooltip({
 		placement : 'bottom'
+	});
+</script>
+<script>
+	$(document).ready(function() {
+		$('#tablevirtual').show();
 	});
 </script>

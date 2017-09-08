@@ -3,7 +3,8 @@
 <html>
 <head>
 <%@ include file="/WEB-INF/jsp/common/meta-head.jsp"%>
-<link rel="stylesheet" type="text/css" href="/resources/css/bootstrap-table.min.css">
+<link rel="stylesheet" type="text/css"
+	href="/resources/css/bootstrap-table.min.css">
 <script src="/resources/js/bootstrap-table.min.js"></script>
 </head>
 <body>
@@ -19,8 +20,9 @@
 				${taxonomy.getEdition().title}</a>
 		</h3>
 		<br>
-		<table id="tableTaxonomy" data-pagination="false">
-		<!-- <table class="table table-hover table-condensed"> -->
+		<table id="tableTaxonomy" data-pagination="false"
+			style="display: none;">
+			<!-- <table class="table table-hover table-condensed"> -->
 			<thead>
 				<tr>
 					<th><spring:message code="general.category" /></th>
@@ -36,12 +38,14 @@
 						</td>
 						<td><c:forEach var="user"
 								items="${category.getSortedUsers()}">
-								<a href="${contextPath}/edition/user/${user.getUsername()}">${user.getUsername()}</a><br>
+								<a href="${contextPath}/edition/user/${user.getUsername()}">${user.getUsername()}</a>
+								<br>
 							</c:forEach></td>
 						<td><c:forEach var="edition"
 								items="${category.getSortedEditions()}">
 								<a
-									href="${contextPath}/edition/internalid/${edition.getExternalId()}">${edition.getTitle()}</a><br>
+									href="${contextPath}/edition/internalid/${edition.getExternalId()}">${edition.getTitle()}</a>
+								<br>
 							</c:forEach></td>
 						<td><c:forEach var="inter"
 								items='${category.getSortedInters()}'>
@@ -56,9 +60,17 @@
 		</table>
 	</div>
 </body>
-</html>
 <script>
-$('#tableTaxonomy').attr("data-search","true");
-$('#tableTaxonomy').bootstrapTable();
-$(".tip").tooltip({placement: 'bottom'});
+	$('#tableTaxonomy').attr("data-search", "true");
+	$('#tableTaxonomy').bootstrapTable();
+	$(".tip").tooltip({
+		placement : 'bottom'
+	});
 </script>
+<script>
+	$(document).ready(function() {
+		$('#tableTaxonomy').show();
+	});
+</script>
+</html>
+

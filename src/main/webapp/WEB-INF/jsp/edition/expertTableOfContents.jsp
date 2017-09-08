@@ -11,7 +11,7 @@
 	<br>
 </c:if>
 <br>
-<table id="tableexperts" data-pagination="false">
+<table id="tableexperts" data-pagination="false" style="display: none;">
 	<!-- <table class="table table-hover table-condensed"> -->
 	<thead>
 		<tr>
@@ -70,4 +70,9 @@
 	$(".tip").tooltip({
 		placement : 'bottom'
 	});
+</script>
+<script>
+$(document).ready(function() {
+    $('#tableexperts').show();
+});
 </script>
