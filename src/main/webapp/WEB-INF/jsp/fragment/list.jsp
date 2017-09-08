@@ -12,14 +12,15 @@
 	<%@ include file="/WEB-INF/jsp/common/fixed-top-ldod-header.jsp"%>
 
 	<div class="container">
+		<h1 class="text-center">
+			<spring:message code="fragment.codified" />
+			(${fragments.size()})
+		</h1>
 		<div class="text-center" id="wait" style="width: 100%;">
+			<br /> <br />
 			<div class="spinner-loader"></div>
 		</div>
 		<div id="page" style="display: none;">
-			<h1 class="text-center">
-				<spring:message code="fragment.codified" />
-				(${fragments.size()})
-			</h1>
 			<div class="row">
 				<table id="tablefragments" data-pagination="false">
 					<!-- <table class="table table-striped table-bordered table-condensed"> -->
