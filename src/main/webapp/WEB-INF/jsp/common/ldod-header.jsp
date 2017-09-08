@@ -69,6 +69,7 @@
 					<div class="dropdown-menu-bg"></div>
 					<li><a href="${contextPath}/about/archive"><spring:message code="header.archive" /></a></li>
 					<li><a href="${contextPath}/about/faq"><spring:message code="header.faq" /></a></li>
+					<li><a href="${contextPath}/about/encoding"><spring:message code="header.encoding" /></a></li>
 					<li><a href="${contextPath}/about/articles"><spring:message code="header.bibliography" /></a></li>
 					<li><a href="${contextPath}/about/conduct"><spring:message code="header.conduct" /></a></li>
 					<li><a href="${contextPath}/about/team"><spring:message code="header.team" /></a></li>

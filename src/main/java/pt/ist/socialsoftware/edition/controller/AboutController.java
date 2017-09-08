@@ -21,6 +21,11 @@ public class AboutController {
 		return "about/faq-main";
 	}
 
+	@RequestMapping(method = RequestMethod.GET, value = "/encoding")
+	public String showEncoding() {
+		return "about/encoding-main";
+	}
+
 	@RequestMapping(method = RequestMethod.GET, value = "/articles")
 	public String showArticles() {
 		return "about/articles-main";
