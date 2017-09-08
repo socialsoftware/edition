@@ -5,7 +5,7 @@ Social Edition - LdoD
 
 <span>Social Edition - LdoD</span> by <span>CLP / FLUC / UC and ESW / INESC-ID / IST</span> in <span>Nenhum Problema Tem Solução Project</span> is licensed under a FreeBSD License</a>.
 
-Copyright (c) 2013, CLP / FLUC / UC and ESW / INESC-ID / IST
+Copyright (c) 2017, CLP / FLUC / UC and ESW / INESC-ID / IST
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
