@@ -52,7 +52,7 @@
 <p>&nbsp;</p>
 
 <h3>Consultants for the <em>Book of Disquiet</em> (2012-2015)</h3>
-<p>Jer&oacute;nimo Pizarro, Editor | Los Andes University, Bogotá</p>
+<p>Jer&oacute;nimo Pizarro, Editor | Los Andes University, Bogot&aacute;</p>
 <p>Richard Zenith, Editor</p>
 <p>Teresa Sobral Cunha, Editor</p>
 <p>&nbsp;</p>
