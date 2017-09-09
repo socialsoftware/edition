@@ -3,7 +3,8 @@
 <html>
 <head>
 <%@ include file="/WEB-INF/jsp/common/meta-head.jsp"%>
-<link rel="stylesheet" type="text/css" href="/resources/css/bootstrap-table.min.css">
+<link rel="stylesheet" type="text/css"
+	href="/resources/css/bootstrap-table.min.css">
 <script src="/resources/js/bootstrap-table.min.js"></script>
 </head>
 <body>
@@ -19,7 +20,8 @@
 			${category.getName()} (${category.getTagSet().size()})
 		</h3>
 		<br>
-		<table id="tableCategory" data-pagination="false">
+		<table id="tableCategory" data-pagination="false"
+			style="display: none;">
 			<!-- <table class="table table-hover table-condensed"> -->
 			<thead>
 				<tr>
@@ -48,15 +50,20 @@
 				</c:forEach>
 			</tbody>
 		</table>
-		<script>
-			$('#tableCategory').attr("data-search", "true");
-			$('#tableCategory').bootstrapTable();
-			$(".tip").tooltip({
-				placement : 'bottom'
-			});
-		</script>
 	</div>
 </body>
+<script>
+	$('#tableCategory').attr("data-search", "true");
+	$('#tableCategory').bootstrapTable();
+	$(".tip").tooltip({
+		placement : 'bottom'
+	});
+</script>
+<script>
+	$(document).ready(function() {
+		$('#tableCategory').show();
+	});
+</script>
 </html>
 
 

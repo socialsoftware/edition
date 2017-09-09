@@ -12,10 +12,10 @@
 	<%@ include file="/WEB-INF/jsp/common/fixed-top-ldod-header.jsp"%>
 
 	<div class="container">
-		<h1 class="text-center">
+		<h3 class="text-center">
 			<spring:message code="fragment.codified" />
 			(${fragments.size()})
-		</h1>
+		</h3>
 		<div class="text-center" id="wait" style="width: 100%;">
 			<br /> <br />
 			<div class="spinner-loader"></div>
