@@ -38,7 +38,7 @@ El equipo del <em>Archivo  LdoD </em>defini&oacute; un conjunto de criterios de 
 <strong>&nbsp;</strong>
 </p>
 <h3>4. Informaci&oacute;n adicional</h3>
-  Quien est&eacute; interesado en una descripci&oacute;n detallada de las  opciones de codificaci&oacute;n puede consultar la matriz de un archivo XML comentado  AQU&Iacute;. Se sugiere tambi&eacute;n la lectura del art&iacute;culo siguiente: Ant&oacute;nio Rito Silva y Manuel Portela, &ldquo;<a href="http://jtei.revues.org/1171">TEI4LdoD:  Textual Encoding and Social Editing in Web 2.0 Environments.</a>&rdquo; <em>Journal of the Text Encoding Initiative</em> 8 (2014-2015).</p>
+  Quien est&eacute; interesado en una descripci&oacute;n detallada de las  opciones de codificaci&oacute;n puede consultar la matriz de un archivo XML comentado <strong><a target="_blank" href="/encoding/LdoD_XML-Template_ES.xml">AQU&Iacute;</a></strong>. Se sugiere tambi&eacute;n la lectura del art&iacute;culo siguiente: Ant&oacute;nio Rito Silva y Manuel Portela, &ldquo;<a href="http://jtei.revues.org/1171">TEI4LdoD:  Textual Encoding and Social Editing in Web 2.0 Environments.</a>&rdquo; <em>Journal of the Text Encoding Initiative</em> 8 (2014-2015).</p>
 <p>&nbsp;</p>
 <p>[actualizado 08-09-2017]
 </p>

@@ -36,6 +36,6 @@
 
 <p>&nbsp;</p>
 <h3>4. Additional information</h3>
-  Anyone interested in a more technical description of our encoding options can look at the template of an annotated XML file HERE. We also suggest the  reading of the following article: Ant&oacute;nio Rito  Silva and Manuel Portela, &ldquo;<a href="http://jtei.revues.org/1171">TEI4LdoD: Textual Encoding and Social Editing in Web 2.0 Environments.</a>&rdquo; <em>Journal of the Text Encoding Initiative</em> 8 (2014-2015).</p>
+  Anyone interested in a more technical description of our encoding options can look at the template of an annotated XML file <strong><a target="_blank" href="/encoding/LdoD_XML-Template_EN.xml">HERE</a></strong>. We also suggest the  reading of the following article: Ant&oacute;nio Rito  Silva and Manuel Portela, &ldquo;<a href="http://jtei.revues.org/1171">TEI4LdoD: Textual Encoding and Social Editing in Web 2.0 Environments.</a>&rdquo; <em>Journal of the Text Encoding Initiative</em> 8 (2014-2015).</p>
 <p>&nbsp;</p>
 <p>[updated 08-09-2017]</p>

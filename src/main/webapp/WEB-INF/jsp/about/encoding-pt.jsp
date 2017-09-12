@@ -36,7 +36,7 @@ A codifica&ccedil;&atilde;o adotada permite ainda observar todas as varia&ccedil
 <strong>&nbsp;</strong>
 </p>
 <h3>4. Informa&ccedil;&atilde;o adicional</h3>
-<p>Quem estiver interessado numa descri&ccedil;&atilde;o detalhada das op&ccedil;&otilde;es de codifica&ccedil;&atilde;o pode consultar a matriz de um ficheiro XML comentado AQUI. Sugere-se ainda a leitura do artigo seguinte: Ant&oacute;nio Rito Silva e Manuel Portela, &ldquo;<a href="http://jtei.revues.org/1171">TEI4LdoD:  Textual Encoding and Social Editing in Web 2.0 Environments</a>.&rdquo; <em>Journal of the Text Encoding Initiative</em> 8 (2014-2015).</p> 
+<p>Quem estiver interessado numa descri&ccedil;&atilde;o detalhada das op&ccedil;&otilde;es de codifica&ccedil;&atilde;o pode consultar a matriz de um ficheiro XML comentado <strong><a target="_blank" href="/encoding/LdoD_XML-Template_PT.xml">AQUI</a></strong>. Sugere-se ainda a leitura do artigo seguinte: Ant&oacute;nio Rito Silva e Manuel Portela, &ldquo;<a href="http://jtei.revues.org/1171">TEI4LdoD:  Textual Encoding and Social Editing in Web 2.0 Environments</a>.&rdquo; <em>Journal of the Text Encoding Initiative</em> 8 (2014-2015).</p> 
 <p>
 <strong>&nbsp;</strong>
 </p>

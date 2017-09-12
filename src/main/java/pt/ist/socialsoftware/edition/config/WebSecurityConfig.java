@@ -53,7 +53,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 		http.authorizeRequests()
 				.antMatchers("/", "/error", "/webjars/**", "/auth/**", "/signin/**", "/signup/**", "/about/**",
-						"/reading/**", "/source/**", "/fragments", "/search/**")
+						"/reading/**", "/source/**", "/fragments", "/search/**", "/encoding/**")
 				.permitAll().anyRequest().authenticated().antMatchers("/virtualeditions/restricted/**").authenticated()
 				.antMatchers("/admin/**").hasAuthority(RoleType.ROLE_ADMIN.name()).antMatchers("/user/**")
 				.hasAuthority(RoleType.ROLE_ADMIN.name());
