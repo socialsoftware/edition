@@ -14,7 +14,7 @@
 	<li><a href="#Q07Q">Porque &eacute; que alguns fragmentos
 			possuem mais do que uma interpreta&ccedil;&atilde;o editorial para o
 			mesmo editor?</a></li>
-	<li><a href="#Q8Q">O que &eacute; a
+	<li><a href="#Q08Q">O que &eacute; a
 			interpreta&ccedil;&atilde;o autoral representativa de um fragmento?</a></li>
 </ul>
 <h4>

@@ -12,7 +12,7 @@
 	<li><a href="#Q06Q">&iquest;Qu&eacute; es una interpretaci&oacute;n en el Archivo LdoD?</a></li>
 	<li><a href="#Q07Q">&iquest;Por qu&eacute; algunos fragmentos poseen m&aacute;s de
 		una interpretaci&oacute;n editorial para el mismo editor?</a></li>
-	<li><a href="#Q8Q">&iquest;Qu&eacute; es la interpretaci&oacute;n autoral
+	<li><a href="#Q08Q">&iquest;Qu&eacute; es la interpretaci&oacute;n autoral
 		representativa de un fragmento?</a></li>
 </ul>
 <h4>
