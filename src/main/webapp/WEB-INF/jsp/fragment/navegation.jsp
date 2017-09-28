@@ -145,6 +145,8 @@
 		</c:forEach>
 	</div>
 	<br> <br>
+	<!--  Only while virtual editions are not made public -->
+	<c:if test="${pageContext.request.userPrincipal.authenticated}">
 	<!-- VIRTUAL -->
 	<div id="virtualinter" data-toggle="checkbox">
 		<h5 class="text-center">
@@ -302,6 +304,7 @@
 			</div>
 		</c:if>
 	</div>
+	</c:if>
 </div>
 
 <script type="text/javascript">
