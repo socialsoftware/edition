@@ -112,15 +112,15 @@
 					<li><a href="${contextPath}/edition/acronym/TSC">Teresa Sobral Cunha</a></li>
 					<li><a href="${contextPath}/edition/acronym/RZ">Richard Zenith</a></li>
 					<li><a href="${contextPath}/edition/acronym/JP">Jerónimo Pizarro</a></li>
-					<!--  Only while virtual editions are not made public -->
+					<!--  Only while LdoD virtual edition is not made public -->
 					<c:if test="${pageContext.request.userPrincipal.authenticated}">
 					<li class="divider"></li>
 					<li><a href="${contextPath}/edition/acronym/LdoD-Arquivo">Arquivo LdoD</a></li>
+					</c:if>
 					<li class="divider"></li>
 					<c:forEach var="acronym" items='${ldoDSession.selectedVEAcr}'>
 						<li><a href="${contextPath}/edition/acronym/${acronym}">${acronym}</a></li>
 					</c:forEach>
-					</c:if>
 				</ul>
 			</li>
 			

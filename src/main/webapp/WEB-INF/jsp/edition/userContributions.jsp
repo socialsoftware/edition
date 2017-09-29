@@ -28,6 +28,8 @@
 				</tr>
 			<tbody>
 				<c:forEach var="inter" items='${user.getFragInterSet()}'>
+					<!--  Only while LdoD virtual edition is not made public -->
+					<c:if test='${!inter.edition.getAcronym().equals("LdoD-Arquivo") || pageContext.request.userPrincipal.authenticated}'>
 					<tr>
 						<td><a
 							href="${contextPath}/fragments/fragment/inter/${inter.externalId}">${inter.title}</a></td>
@@ -43,6 +45,7 @@
 									href="${contextPath}/fragments/fragment/inter/${used.externalId}">${used.shortName}</a>
 							</c:forEach></td>
 					</tr>
+					</c:if>
 				</c:forEach>
 			</tbody>
 		</table>

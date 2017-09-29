@@ -145,8 +145,6 @@
 		</c:forEach>
 	</div>
 	<br> <br>
-	<!--  Only while virtual editions are not made public -->
-	<c:if test="${pageContext.request.userPrincipal.authenticated}">
 	<!-- VIRTUAL -->
 	<div id="virtualinter" data-toggle="checkbox">
 		<h5 class="text-center">
@@ -157,6 +155,8 @@
 				class="glyphicon glyphicon-info-sign"></span>
 			</a>
 		</h5>
+		<!--  Only while LdoD virtual edition is not made public -->
+		<c:if test="${pageContext.request.userPrincipal.authenticated}">
 		<!-- ARCHIVE VIRTUAL EDITION -->
 		<c:set var="archiveEdition" value="${ldoD.getArchiveEdition()}" />
 		<div class="text-center">
@@ -228,7 +228,8 @@
 				</tbody>
 			</table>
 		</div>
-
+		</c:if>
+	
 		<!-- OTHER VIRTUAL EDITIONS -->
 		<c:if
 			test="${(ldoDSession != null) && (ldoDSession.materializeVirtualEditions().size() != 0)}">
@@ -304,7 +305,6 @@
 			</div>
 		</c:if>
 	</div>
-	</c:if>
 </div>
 
 <script type="text/javascript">

@@ -52,11 +52,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.logout().logoutUrl("/signout").deleteCookies("JSESSIONID").invalidateHttpSession(true);
 
 		http.authorizeRequests()
-				.antMatchers("/", "/error", "/webjars/**", "/auth/**", "/signin/**", "/signup/**", "/about/**",
-						"/reading/**", "/source/**", "/edition/**", "/fragments/**", "/facs/**", "/search/**",
-						"/encoding/**")
-				.permitAll().anyRequest().authenticated().antMatchers("/virtualeditions/restricted/**").authenticated()
-				.antMatchers("/admin/**").hasAuthority(RoleType.ROLE_ADMIN.name()).antMatchers("/user/**")
+				// .antMatchers("/", "/error", "/webjars/**", "/auth/**", "/signin/**",
+				// "/signup/**", "/about/**",
+				// "/reading/**", "/source/**", "/edition/**", "/fragments/**", "/facs/**",
+				// "/search/**",
+				// "/encoding/**")
+				// .permitAll()// .anyRequest().authenticated()
+				.antMatchers("/virtualeditions/restricted/**").authenticated().antMatchers("/admin/**")
+				.hasAuthority(RoleType.ROLE_ADMIN.name()).antMatchers("/user/**")
 				.hasAuthority(RoleType.ROLE_ADMIN.name());
 
 		http.sessionManagement().maximumSessions(2).sessionRegistry(sessionRegistry());
