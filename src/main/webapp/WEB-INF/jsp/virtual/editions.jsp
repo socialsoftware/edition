@@ -14,6 +14,11 @@
 		<div class="row">
 			<h3 class="text-center">
 				<spring:message code="virtual.editions" />
+				<a id="infovirtualeditions" data-placement="bottom"
+					class="infobutton" role="button" data-toggle="popover"
+					data-content="<spring:message code="info.virtualeditions.authenticate" />">
+					<span class="glyphicon glyphicon-info-sign"></span>
+				</a>
 			</h3>
 
 			<c:if test="${isAuthenticated}">
@@ -254,4 +259,8 @@
 		$('.text-error').hide();
 	});
 </script>
+<script type="text/javascript">
+	$('#infovirtualeditions').popover();
+</script>
+
 </html>
