@@ -16,7 +16,7 @@
 			(${taxonomy.getCategoriesSet().size()}) -
 			<spring:message code="virtualedition" />
 			<a
-				href="${contextPath}/edition/internalid/${taxonomy.getEdition().getExternalId()}">
+				href="${contextPath}/edition/acronym/${edition.getAcronym()}/taxonomy">
 				${taxonomy.getEdition().title}</a>
 		</h3>
 		<br>
@@ -34,7 +34,7 @@
 				<c:forEach var="category" items='${taxonomy.getCategoriesSet()}'>
 					<tr>
 						<td><a
-							href="${contextPath}/edition/category/${category.getExternalId()}">${category.getName()}</a>
+							href="${contextPath}/edition/acronym/${edition.getAcronym()}/category/${category.getExternalId()}">${category.getName()}</a>
 						</td>
 						<td><c:forEach var="user"
 								items="${category.getSortedUsers()}">
@@ -44,7 +44,7 @@
 						<td><c:forEach var="edition"
 								items="${category.getSortedEditions()}">
 								<a
-									href="${contextPath}/edition/internalid/${edition.getExternalId()}">${edition.getTitle()}</a>
+									href="${contextPath}/edition/acronym/${edition.getAcronym()}">${edition.getTitle()}</a>
 								<br>
 							</c:forEach></td>
 						<td><c:forEach var="inter"

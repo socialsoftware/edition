@@ -30,7 +30,7 @@
 				<td><c:forEach var="category"
 						items='${inter.getAssignedCategories()}'>
 						<a
-							href="${contextPath}/edition/category/${category.getExternalId()}">
+							href="${contextPath}/edition/acronym/${edition.getAcronym()}/category/${category.getExternalId()}">
 							${category.getNameInEditionContext(edition)}</a>
 						<br>
 					</c:forEach></td>

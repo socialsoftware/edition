@@ -30,7 +30,7 @@
 			<c:forEach var="category" items='${inter.getAssignedCategories()}'>
 				<tr>
 					<td><a
-						href="${contextPath}/edition/category/${category.getExternalId()}">${category.getNameInEditionContext(taxonomy.getEdition())}</a>
+						href="${contextPath}/edition/acronym/${category.getTaxonomy().getEdition().getAcronym()}/category/${category.getExternalId()}">${category.getNameInEditionContext(taxonomy.getEdition())}</a>
 						<c:if
 							test="${inter.getContributorSet(category).contains(userLdoD)}">
 							<a

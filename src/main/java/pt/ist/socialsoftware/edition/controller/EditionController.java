@@ -56,10 +56,7 @@ public class EditionController {
 		if (edition == null) {
 			return "redirect:/error";
 		} else {
-			model.addAttribute("heteronym", null);
-			model.addAttribute("edition", edition);
-
-			return "edition/tableOfContents";
+			return "redirect:/edition/acronym/" + edition.getAcronym();
 		}
 
 	}
@@ -95,12 +92,10 @@ public class EditionController {
 		}
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "/taxonomy/{externalId}")
-	@PreAuthorize("hasPermission(#externalId, 'taxonomy.public')")
-	public String getTaxonomyTableOfContents(Model model, @PathVariable String externalId) {
-
-		Taxonomy taxonomy = FenixFramework.getDomainObject(externalId);
-
+	@RequestMapping(method = RequestMethod.GET, value = "/acronym/{acronym}/taxonomy")
+	@PreAuthorize("hasPermission(#acronym, 'editionacronym.public')")
+	public String getTaxonomyTableOfContents(Model model, @PathVariable String acronym) {
+		Taxonomy taxonomy = LdoD.getInstance().getVirtualEdition(acronym).getTaxonomy();
 		if (taxonomy != null) {
 			model.addAttribute("taxonomy", taxonomy);
 			return "edition/taxonomyTableOfContents";
@@ -109,9 +104,10 @@ public class EditionController {
 		}
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "/category/{externalId}")
-	@PreAuthorize("hasPermission(#externalId, 'category.public')")
-	public String getCategoryTableOfContents(Model model, @PathVariable String externalId) {
+	@RequestMapping(method = RequestMethod.GET, value = "/acronym/{acronym}/category/{externalId}")
+	@PreAuthorize("hasPermission(#acronym, 'editionacronym.public')")
+	public String getCategoryTableOfContents(Model model, @PathVariable String acronym,
+			@PathVariable String externalId) {
 
 		Category category = FenixFramework.getDomainObject(externalId);
 

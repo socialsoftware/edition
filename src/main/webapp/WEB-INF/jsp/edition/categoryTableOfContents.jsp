@@ -14,7 +14,7 @@
 		<h3 class="text-center">
 			<spring:message code="general.taxonomy" />
 			<a
-				href="${contextPath}/edition/taxonomy/${category.getTaxonomy().getExternalId()}">
+				href="${contextPath}/edition/acronym/${category.getTaxonomy().getEdition().getAcronym()}/taxonomy">
 				${category.getTaxonomy().getEdition().title}</a>:
 			<spring:message code="general.category" />
 			${category.getName()} (${category.getTagSet().size()})
@@ -36,7 +36,7 @@
 						<td><a
 							href="${contextPath}/fragments/fragment/inter/${inter.getExternalId()}">${inter.getTitle()}</a></td>
 						<td><a
-							href="${contextPath}/edition/internalid/${inter.getEdition().getExternalId()}">${inter.getEdition().getTitle()}</a></td>
+							href="${contextPath}/edition/acronym/${inter.getEdition().getAcronym()}">${inter.getEdition().getTitle()}</a></td>
 						<td><c:forEach var="user"
 								items="${inter.getContributorSet(category)}">
 								<a href="${contextPath}/edition/user/${user.username}">${user.username}</a>
