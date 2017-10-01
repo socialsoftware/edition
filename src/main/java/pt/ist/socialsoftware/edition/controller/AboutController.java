@@ -16,6 +16,11 @@ public class AboutController {
 		return "about/archive-main";
 	}
 
+	@RequestMapping(method = RequestMethod.GET, value = "/videos")
+	public String showVideos() {
+		return "about/videos-main";
+	}
+
 	@RequestMapping(method = RequestMethod.GET, value = "/faq")
 	public String showFAQ() {
 		return "about/faq-main";

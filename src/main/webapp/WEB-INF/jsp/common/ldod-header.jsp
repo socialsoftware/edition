@@ -68,6 +68,7 @@
 				<ul class="dropdown-menu">
 					<div class="dropdown-menu-bg"></div>
 					<li><a href="${contextPath}/about/archive"><spring:message code="header.archive" /></a></li>
+					<li><a href="${contextPath}/about/videos"><spring:message code="header.videos" /></a></li>
 					<li><a href="${contextPath}/about/faq"><spring:message code="header.faq" /></a></li>
 					<li><a href="${contextPath}/about/encoding"><spring:message code="header.encoding" /></a></li>
 					<li><a href="${contextPath}/about/articles"><spring:message code="header.bibliography" /></a></li>

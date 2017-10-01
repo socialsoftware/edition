@@ -11,20 +11,20 @@
 
 	<div class="container">
 		<div class="col-md-8 col-md-offset-2">
-			<h2 class="text-center">
-			<spring:message code="header.editions" />
+			<h1 class="text-center">
+				<spring:message code="header.videos" />
 			</h1>
 			<p>&nbsp;</p>
 			<c:choose>
 				<c:when
 					test='${pageContext.response.locale.getLanguage().equals("en")}'>
-					<%@ include file="/WEB-INF/jsp/edition/introduction-en.jsp"%>
+					<%@ include file="/WEB-INF/jsp/about/videos-en.jsp"%>
 				</c:when>
 				<c:when
 					test='${pageContext.response.locale.getLanguage().equals("es")}'>
-					<%@ include file="/WEB-INF/jsp/edition/introduction-es.jsp"%>
+					<%@ include file="/WEB-INF/jsp/about/videos-es.jsp"%>
 				</c:when>
-				<c:otherwise><%@ include file="/WEB-INF/jsp/edition/introduction-pt.jsp"%></c:otherwise>
+				<c:otherwise><%@ include file="/WEB-INF/jsp/about/videos-pt.jsp"%></c:otherwise>
 			</c:choose>
 		</div>
 	</div>
