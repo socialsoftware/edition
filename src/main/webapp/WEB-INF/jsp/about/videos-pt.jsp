@@ -81,12 +81,12 @@
 <br/>
 
 <h5>Porquê editar?</h5>
-<iframe width="560" height="315" src="https://www.youtube.com/embed/qdc3y_pUBII" frameborder="0" allo
+<iframe width="560" height="315" src="https://www.youtube.com/embed/qdc3y_pUBII" frameborder="0" allowfullscreen></iframe>
 <br/>
 <br/>
 
 <h5>Organização cronológica</h5>
-<iframe width="560" height="315" src="https://www.youtube.com/embed/0E8-k7ZuCd8" fr
+<iframe width="560" height="315" src="https://www.youtube.com/embed/0E8-k7ZuCd8" frameborder="0" allowfullscreen></iframe>
 <br/>
 <br/>
 
@@ -132,7 +132,6 @@
 
 <h5>Simulador de performatividade literária</h5>
 <iframe width="560" height="315" src="https://www.youtube.com/embed/OF3OD3-i1EY" frameborder="0" allowfullscreen></iframe>
-<br/>
 <br/>
 <br/>
 
