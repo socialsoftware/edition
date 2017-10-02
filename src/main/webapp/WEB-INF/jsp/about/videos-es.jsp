@@ -24,26 +24,146 @@
 
 
 
-<h5>Índice de los vídeos</h5>
+<h5>Índice de los vídeos:</h5>
 
 <ul>
-	<li>Teaser_LdoD: Archivo LdoD</li>
-	<li>TSC_001: La realidad documental está desorganizada</li>
-	<li>TSC_002: Vicente Guedes y Bernardo Soares</li>
-	<li>TSC_003: Creación de unidades discursivas</li>
-	<li>TSC_004: Creación de párrafos</li>
-	<li>TSC_005: Habla humana</li>
-	<li>JP_001: ¿Por qué editar?</li>
-	<li>JP_002: Organización cronológica</li>
-	<li>JP_003: Heterónimos</li>
-	<li>JP_004: Posibilidades de edición</li>
-	<li>JP_005: Materialidad y crítica</li>
-	<li>JP_006: Lectura espontánea</li>
-	<li>JP_007: Hiperconciencia</li>
-	<li>MP_001: Archivo LdoD</li>
-	<li>MP_002: Archivo dinámico</li>
-	<li>MP_003: Aprender Investigar Crear</li>
-	<li>MP_004: Simulador de performatividad literaria</li>
+	<li><a href="#V1">Teaser_LdoD: Archivo LdoD</a></li>
+	<li><a href="#V2">La realidad documental está desorganizada</a></li>
+	<li><a href="#V3">Vicente Guedes y Bernardo Soares</a></li>
+	<li><a href="#V4">Creación de unidades discursivas</a></li>
+	<li><a href="#V5">Creación de párrafos</a></li>
+	<li><a href="#V6">Habla humana</a></li>
+	<li><a href="#V7">¿Por qué editar?</a></li>
+	<li><a href="#V8">Organización cronológica</a></li>
+	<li><a href="#V9">Heterónimos</a></li>
+	<li><a href="#V10">Posibilidades de edición</a></li>
+	<li><a href="#V11">Materialidad y crítica</a></li>
+	<li><a href="#V12">Lectura espontánea</a></li>
+	<li><a href="#V13">Hiperconciencia</a></li>
+	<li><a href="#V14">Archivo LdoD</a></li>
+	<li><a href="#V15">Archivo dinámico</a></li>
+	<li><a href="#V16">Aprender Investigar Crear</a></li>
+	<li><a href="#V17">Simulador de performatividad literaria</a></li>
 </ul>
+
+<br />
+<h5 id="V1" style="padding-top: 130px; margin-top: -130px;">Teaser_LdoD: Archivo LdoD</h5>
+<iframe width="560" height="315"
+	src="https://www.youtube.com/embed/dEnavuucyrY" frameborder="0"
+	allowfullscreen></iframe>
+<br />
+<br />
+
+<h5 id="V2" style="padding-top: 130px; margin-top: -130px;">La realidad documental está desorganizada</h5>
+<iframe width="560" height="315"
+	src="https://www.youtube.com/embed/wHMLD23JkIw" frameborder="0"
+	allowfullscreen></iframe>
+<br />
+<br />
+
+<h5 id="V3" style="padding-top: 130px; margin-top: -130px;">Vicente Guedes y Bernardo Soares</h5>
+<iframe width="560" height="315"
+	src="https://www.youtube.com/embed/AfTDWoOFEMA" frameborder="0"
+	allowfullscreen></iframe>
+<br />
+<br />
+
+<h5 id="V4" style="padding-top: 130px; margin-top: -130px;">Creación de unidades discursivas</h5>
+<iframe width="560" height="315"
+	src="https://www.youtube.com/embed/EZYBzryVWYI" frameborder="0"
+	allowfullscreen></iframe>
+<br />
+<br />
+
+<h5 id="V5" style="padding-top: 130px; margin-top: -130px;">Creación de párrafos</h5>
+<iframe width="560" height="315"
+	src="https://www.youtube.com/embed/-LGEm7qf6qc" frameborder="0"
+	allowfullscreen></iframe>
+<br />
+<br />
+
+<h5 id="V6" style="padding-top: 130px; margin-top: -130px;">Habla humana</h5>
+<iframe width="560" height="315"
+	src="https://www.youtube.com/embed/ObI5qTT1qhU" frameborder="0"
+	allowfullscreen></iframe>
+<br />
+<br />
+
+<h5 id="V7" style="padding-top: 130px; margin-top: -130px;">¿Por qué editar?</h5>
+<iframe width="560" height="315"
+	src="https://www.youtube.com/embed/qdc3y_pUBII" frameborder="0"
+	allowfullscreen></iframe>
+<br />
+<br />
+
+<h5 id="V8" style="padding-top: 130px; margin-top: -130px;">Organización cronológica</h5>
+<iframe width="560" height="315"
+	src="https://www.youtube.com/embed/0E8-k7ZuCd8" frameborder="0"
+	allowfullscreen></iframe>
+<br />
+<br />
+
+<h5 id="V9" style="padding-top: 130px; margin-top: -130px;">Heterónimos</h5>
+<iframe width="560" height="315"
+	src="https://www.youtube.com/embed/sXliW-96fLw" frameborder="0"
+	allowfullscreen></iframe>
+<br />
+<br />
+
+<h5 id="V10" style="padding-top: 130px; margin-top: -130px;">Posibilidades de edición</h5>
+<iframe width="560" height="315"
+	src="https://www.youtube.com/embed/CODlWW6BqhE" frameborder="0"
+	allowfullscreen></iframe>
+<br />
+<br />
+
+<h5 id="V11" style="padding-top: 130px; margin-top: -130px;">Materialidad y crítica</h5>
+<iframe width="560" height="315"
+	src="https://www.youtube.com/embed/N-6lEbfFB6E" frameborder="0"
+	allowfullscreen></iframe>
+<br />
+<br />
+
+<h5 id="V12" style="padding-top: 130px; margin-top: -130px;">Lectura espontánea</h5>
+<iframe width="560" height="315"
+	src="https://www.youtube.com/embed/chTLiJDAhCA" frameborder="0"
+	allowfullscreen></iframe>
+<br />
+<br />
+
+<h5 id="V13" style="padding-top: 130px; margin-top: -130px;">Hiperconciencia</h5>
+<iframe width="560" height="315"
+	src="https://www.youtube.com/embed/oAFPcx6_rbs" frameborder="0"
+	allowfullscreen></iframe>
+<br />
+<br />
+
+<h5 id="V14" style="padding-top: 130px; margin-top: -130px;">Archivo LdoD</h5>
+<iframe width="560" height="315"
+	src="https://www.youtube.com/embed/6MiYye4rQJk" frameborder="0"
+	allowfullscreen></iframe>
+<br />
+<br />
+
+<h5 id="V15" style="padding-top: 130px; margin-top: -130px;">Archivo dinámico</h5>
+<iframe width="560" height="315"
+	src="https://www.youtube.com/embed/7_6pKD2ktSY" frameborder="0"
+	allowfullscreen></iframe>
+<br />
+<br />
+
+<h5 id="V16" style="padding-top: 130px; margin-top: -130px;">Aprender Investigar Crear</h5>
+<iframe width="560" height="315"
+	src="https://www.youtube.com/embed/MxycSwfE8XY" frameborder="0"
+	allowfullscreen></iframe>
+<br />
+<br />
+
+<h5 id="V17" style="padding-top: 130px; margin-top: -130px;">Simulador de performatividad literaria</h5>
+<iframe width="560" height="315"
+	src="https://www.youtube.com/embed/OF3OD3-i1EY" frameborder="0"
+	allowfullscreen></iframe>
+<br />
+<br />
 
 <p>[actualización 01-10-2017]</p>
