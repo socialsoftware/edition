@@ -23,7 +23,7 @@
 
 
 
-<h5>Índice dos vídeos</h5>
+<!-- <h5>Índice dos vídeos</h5>
 <ul>
 	<li>Teaser_LdoD: Arquivo LdoD</li>
 	<li>TSC_001: A realidade documental é desorganizada</li>
@@ -43,5 +43,97 @@
 	<li>MP_003: Aprender Investigar Criar</li>
 	<li>MP_004: Simulador de performatividade literária</li>
 </ul>
+ -->
+ 
+<br/>
+<h5>Teaser_LdoD: Arquivo LdoD</h5>
+<iframe width="560" height="315"
+	src="https://www.youtube.com/embed/dEnavuucyrY" frameborder="0"
+	allowfullscreen></iframe>
+<br/>
+<br/>
+
+<h5>A realidade documental é desorganizada</h5>
+<iframe width="560" height="315"
+	src="https://www.youtube.com/embed/wHMLD23JkIw" frameborder="0"
+	allowfullscreen></iframe>
+<br/>
+<br/>
+
+<h5>Vicente Guedes e Bernardo Soares</h5>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/AfTDWoOFEMA" frameborder="0" allowfullscreen></iframe>
+<br/>
+<br/>
+
+<h5>Criação de unidades discursivas</h5>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/EZYBzryVWYI" frameborder="0" allowfullscreen></iframe>
+<br/>
+<br/>
+
+<h5>Criação de parágrafos</h5>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/-LGEm7qf6qc" frameborder="0" allowfullscreen></iframe>
+<br/>
+<br/>
+
+<h5>Fala humana</h5>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/ObI5qTT1qhU" frameborder="0" allowfullscreen></iframe>
+<br/>
+<br/>
+
+<h5>Porquê editar?</h5>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/qdc3y_pUBII" frameborder="0" allo
+<br/>
+<br/>
+
+<h5>Organização cronológica</h5>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/0E8-k7ZuCd8" fr
+<br/>
+<br/>
+
+<h5>Heterónimos</h5>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/sXliW-96fLw" frameborder="0" allowfullscreen></iframe>
+<br/>
+<br/>
+
+<h5>Possibilidades de edição</h5>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/CODlWW6BqhE" frameborder="0" allowfullscreen></iframe>
+<br/>
+<br/>
+
+<h5>Materialidade e crítica</h5>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/N-6lEbfFB6E" frameborder="0" allowfullscreen></iframe>
+<br/>
+<br/>
+
+<h5>Leitura espontânea</h5>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/chTLiJDAhCA" frameborder="0" allowfullscreen></iframe>
+<br/>
+<br/>
+
+<h5>Hiperconsciência</h5>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/oAFPcx6_rbs" frameborder="0" allowfullscreen></iframe>
+<br/>
+<br/>
+
+<h5>Arquivo LdoD</h5>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/6MiYye4rQJk" frameborder="0" allowfullscreen></iframe>
+<br/>
+<br/>
+
+<h5>Arquivo dinâmico</h5>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/7_6pKD2ktSY" frameborder="0" allowfullscreen></iframe>
+<br/>
+<br/>
+
+<h5> Aprender Investigar Criar</h5>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/MxycSwfE8XY" frameborder="0" allowfullscreen></iframe>
+<br/>
+<br/>
+
+<h5>Simulador de performatividade literária</h5>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/OF3OD3-i1EY" frameborder="0" allowfullscreen></iframe>
+<br/>
+<br/>
+<br/>
 
 <p>[atualização 01-10-2017]</p>
