@@ -1,19 +1,19 @@
 <p>Esta página contiene vídeos con testimonios de dos editores del
-	Libro del desasosiego y del editor del Archivo LdoD. Teresa Sobral
+	<em>Libro del desasosiego</em> y del editor del <em>Archivo LdoD</em>. Teresa Sobral
 	Cunha y Jerónimo Pizarro fueron entrevistados en noviembre y diciembre
 	de 2015, respectivamente. Manuel Portela fue entrevistado en agosto de
 	2017. Las entrevistas fueron editadas de acuerdo con temas específicos
-	relativos a la historia material y editorial del Libro del desasosiego,
-	y a la naturaleza del Archivo LdoD como representación y simulación de
-	las ediciones del Libro. En el caso de los editores del Libro, la
+	relativos a la historia material y editorial del <em>Libro del desasosiego</em>,
+	y a la naturaleza del <em>Archivo LdoD</em> como representación y simulación de
+	las ediciones del Libro. En el caso de los editores del <em>Libro</em>, la
 	entrevista se centró en un conjunto de cuestiones sobre el primer
-	contacto con los materiales del Libro, la concetualización de un modelo
-	para el Libro, los criterios de selección y ordenación de los textos, y
-	la percepción sobre la importancia y el significado actual del Libro
-	del desasosiego. En el caso del editor del Archivo LdoD, las preguntas
-	se referían a la naturaleza dinámica y simulatoria del Archivo, y a su
+	contacto con los materiales del <em>Libro</em>, la concetualización de un modelo
+	para el <em>Libro</em>, los criterios de selección y ordenación de los textos, y
+	la percepción sobre la importancia y el significado actual del <em>Libro
+	del desasosiego</em>. En el caso del editor del <em>Archivo LdoD</em>, las preguntas
+	se referían a la naturaleza dinámica y simulatoria del <em>Archivo</em>, y a su
 	potencial como entorno textual de aprendizaje, investigación y
-	creación. También hay un breve vídeo de presentación del Archivo LdoD,
+	creación. También hay un breve vídeo de presentación del <em>Archivo LdoD</em>,
 	mostrando extractos de los autógrafos y de las ediciones de los textos
 	"Amo, pelas tardes demoradas de verão" y ""Sinfonia de uma noite
 	inquieta", leídos, respectivamente, por Jerónimo Pizarro y Teresa

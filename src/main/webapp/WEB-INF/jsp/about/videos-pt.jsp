@@ -1,19 +1,19 @@
 <p>Esta página contém vídeos com depoimentos de dois editores do
-	Livro do Desassossego e do editor do Arquivo LdoD. Teresa Sobral Cunha
+	<em>Livro do Desassossego</em> e do editor do <em>Arquivo LdoD</em>. Teresa Sobral Cunha
 	e Jerónimo Pizarro foram entrevistados em novembro e dezembro de 2015,
 	respetivamente. Manuel Portela foi entrevistado em agosto de 2017. As
 	entrevistas foram segmentadas de acordo com tópicos relativos quer à
-	história material e editorial do Livro do Desassossego, quer à natureza
-	do Arquivo LdoD como representação e simulação das edições do Livro. No
-	caso dos editores do Livro, as entrevistas centraram-se num conjunto de
-	questões sobre o primeiro contacto com os materiais do Livro, a
-	concetualização de um modelo para o Livro, os critérios de seleção e
+	história material e editorial do <em>Livro do Desassossego</em>, quer à natureza
+	do <em>Arquivo LdoD</em> como representação e simulação das edições do <em>Livro</em>. No
+	caso dos editores do <em>Livro</em>, as entrevistas centraram-se num conjunto de
+	questões sobre o primeiro contacto com os materiais do <em>Livro</em>, a
+	concetualização de um modelo para o <em>Livro</em>, os critérios de seleção e
 	ordenação dos textos, e a perceção sobre a importância e o significado
-	atual do Livro do Desassossego. No caso do editor do Arquivo LdoD, as
-	perguntas incidiram sobre a natureza dinâmica e simulatória do Arquivo,
+	atual do <em>Livro do Desassossego</em>. No caso do editor do <em>Arquivo LdoD</em>, as
+	perguntas incidiram sobre a natureza dinâmica e simulatória do <em>Arquivo</em>,
 	e sobre o seu potencial como ambiente textual de aprendizagem,
 	investigação e criação. Há ainda um breve vídeo de apresentação do
-	Arquivo LdoD, mostrando excertos dos autógrafos e das edições dos
+	<em>Arquivo LdoD</em>, mostrando excertos dos autógrafos e das edições dos
 	textos "Amo, pelas tardes demoradas de verão" e Sinfonia de uma noite
 	inquieta", lidos, respetivamente, por Jerónimo Pizarro e Teresa Sobral
 	Cunha. Os temas de cada vídeo estão referenciados através de
