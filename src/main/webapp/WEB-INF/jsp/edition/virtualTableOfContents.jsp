@@ -3,6 +3,10 @@
 	<spring:message code="virtualedition" />
 	${edition.title} (${edition.getSortedInterps().size()})
 </h3>
+<br/>
+<h4><spring:message code="virtualedition.synopsis" /></h4>
+<p>${edition.synopsis}</p>
+<br/>
 <table id="tablevirtual" data-pagination="false" style="display: none;">
 	<!-- <table class="table table-hover table-condensed"> -->
 	<thead>

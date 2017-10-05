@@ -20,6 +20,7 @@
 	intertítulos, de acordo com a sequência indicada a seguir. Registo e
 	montagem de todos os vídeos: Tiago Cravidão. Financiamento: Fundação
 	para a Ciência e a Tecnologia.</p>
+<br />
 
 
 

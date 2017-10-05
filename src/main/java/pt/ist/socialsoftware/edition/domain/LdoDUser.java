@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
@@ -24,6 +25,25 @@ public class LdoDUser extends LdoDUser_Base {
 	public enum SocialMediaService {
 		TWITTER, FACEBOOK, LINKEDIN, GOOGLE
 	};
+
+	@Override
+	public void setUsername(String username) {
+		String escapedUsername = StringEscapeUtils.escapeHtml(username);
+		checkUniqueUsername(escapedUsername);
+		super.setUsername(escapedUsername);
+	}
+
+	@Override
+	public void setFirstName(String firstName) {
+		String escapedFirstName = StringEscapeUtils.escapeHtml(firstName);
+		super.setFirstName(escapedFirstName);
+	}
+
+	@Override
+	public void setLastName(String lastName) {
+		String escapedLastName = StringEscapeUtils.escapeHtml(lastName);
+		super.setLastName(escapedLastName);
+	}
 
 	static public LdoDUser getAuthenticatedUser() {
 		logger.debug("getAuthenticatedUser");
@@ -68,12 +88,6 @@ public class LdoDUser extends LdoDUser_Base {
 		setFirstName(firstName);
 		setLastName(lastName);
 		setEmail(email);
-	}
-
-	@Override
-	public void setUsername(String username) {
-		checkUniqueUsername(username);
-		super.setUsername(username);
 	}
 
 	private void checkUniqueUsername(String username) {

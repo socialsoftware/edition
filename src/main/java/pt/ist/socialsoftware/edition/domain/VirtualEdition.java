@@ -11,6 +11,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang.StringEscapeUtils;
 import org.joda.time.LocalDate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,17 +32,31 @@ public class VirtualEdition extends VirtualEdition_Base {
 
 	@Override
 	public void setAcronym(String acronym) {
-		if (acronym.split("\\s+").length != 1) {
+		String escapedAcronym = StringEscapeUtils.escapeHtml(acronym);
+
+		if (escapedAcronym.split("\\s+").length != 1) {
 			throw new LdoDException("acronym");
 		}
-		if (acronym.contains(".")) {
+		if (escapedAcronym.contains(".")) {
 			throw new LdoDException("acronym");
 		}
 
 		// cannot change acronym of the archive edition
 		if (getAcronym() == null || !getAcronym().equals(ARCHIVE_EDITION_ACRONYM)) {
-			super.setAcronym(acronym);
+			super.setAcronym(escapedAcronym);
 		}
+	}
+
+	@Override
+	public void setTitle(String title) {
+		String escapedTitle = StringEscapeUtils.escapeHtml(title);
+		super.setTitle(escapedTitle);
+	}
+
+	@Override
+	public void setSynopsis(String synopsis) {
+		String escapedSynopsis = StringEscapeUtils.escapeHtml(synopsis);
+		super.setSynopsis(escapedSynopsis);
 	}
 
 	@Override
@@ -202,10 +217,15 @@ public class VirtualEdition extends VirtualEdition_Base {
 	}
 
 	@Atomic(mode = TxMode.WRITE)
-	public void edit(String acronym, String title, boolean pub, boolean openManagement, boolean openVocabulary,
-			boolean openAnnotation) {
+	public void edit(String acronym, String title, String synopsis, boolean pub, boolean openManagement,
+			boolean openVocabulary, boolean openAnnotation) {
 		setPub(pub);
 		setTitle(title);
+		if (synopsis.length() > 1500) {
+			setSynopsis(synopsis.substring(0, 1499));
+		} else {
+			setSynopsis(synopsis);
+		}
 		setAcronym(acronym);
 		getTaxonomy().edit(openManagement, openVocabulary, openAnnotation);
 	}

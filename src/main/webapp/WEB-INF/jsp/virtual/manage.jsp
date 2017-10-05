@@ -57,7 +57,7 @@
 						</div>
 					</div>
 					<br> <br>
-					<div class="well" style="height: 120px">
+					<div class="well" style="height: 350px">
 
 						<div class="row">
 							<div class="form-group col-md-4" style="padding-left: 0px">
@@ -182,6 +182,15 @@
 								</select>
 							</div>
 						</div>
+						<br>
+						<div class="row">
+							<div class="form-group" style="padding-left: 0px">
+								<label class="control-label" for="synopsis"><spring:message code="virtualedition.synopsis" /></label>
+								<textarea class="form-control" name="synopsis" id="synopsis"
+									rows="9" cols="140" maxlength="1500">${virtualEdition.synopsis}</textarea>
+								<div class="pull-right" id="synopsis_feedback"></div>
+							</div>
+						</div>
 					</div>
 				</form>
 			</div>
@@ -293,6 +302,17 @@
 		</div>
 	</div>
 </body>
+<script>
+$(document).ready(function() {
+    var text_max = 1500;
+    $('#synopsis').keyup(function() {
+        var text_length = $('#synopsis').val().length;
+        var text_remaining = text_max - text_length;
+
+        $('#synopsis_feedback').html('faltam ' + text_remaining + ' caracteres');
+    });
+});
+</script>
 <script>
 	$(".tipleft").tooltip({
 		placement : 'left'

@@ -20,6 +20,7 @@
 	The topics of each video are referenced through intertitles, according
 	to the sequence described below. Recording and editing of all videos:
 	Tiago Cravidão. Funding: Foundation for Science and Technology.</p>
+<br />
 
 <h5>Table of Contents:</h5>
 <ul>

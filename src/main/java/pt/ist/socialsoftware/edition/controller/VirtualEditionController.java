@@ -193,9 +193,9 @@ public class VirtualEditionController {
 	@PreAuthorize("hasPermission(#externalId, 'virtualedition.admin')")
 	public String editVirtualEdition(Model model, @ModelAttribute("ldoDSession") LdoDSession ldoDSession,
 			@PathVariable String externalId, @RequestParam("acronym") String acronym,
-			@RequestParam("title") String title, @RequestParam("pub") boolean pub,
-			@RequestParam("management") boolean management, @RequestParam("vocabulary") boolean vocabulary,
-			@RequestParam("annotation") boolean annotation) {
+			@RequestParam("title") String title, @RequestParam("synopsis") String synopsis,
+			@RequestParam("pub") boolean pub, @RequestParam("management") boolean management,
+			@RequestParam("vocabulary") boolean vocabulary, @RequestParam("annotation") boolean annotation) {
 		logger.debug(
 				"editVirtualEdition externalId:{}, acronym:{}, title:{}, pub:{}, management:{}, vocabulary:{}, annotation:{}",
 				externalId, acronym, title, pub, management, vocabulary, annotation);
@@ -218,7 +218,7 @@ public class VirtualEditionController {
 		}
 
 		try {
-			virtualEdition.edit(VirtualEdition.ACRONYM_PREFIX + acronym, title, pub, management, vocabulary,
+			virtualEdition.edit(VirtualEdition.ACRONYM_PREFIX + acronym, title, synopsis, pub, management, vocabulary,
 					annotation);
 		} catch (LdoDDuplicateAcronymException ex) {
 			errors.add("virtualedition.acronym.duplicate");

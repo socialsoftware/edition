@@ -3,17 +3,22 @@ package pt.ist.socialsoftware.edition.domain;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang.StringEscapeUtils;
+
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
-import pt.ist.socialsoftware.edition.domain.Annotation_Base;
 
 public class Annotation extends Annotation_Base {
 
 	@Override
 	public void setText(String text) {
-		if (text == null || text.trim().equals(""))
-			text = null;
-		super.setText(text);
+		String escapedText = null;
+		if (text == null || text.trim().equals("")) {
+			escapedText = null;
+		} else {
+			escapedText = StringEscapeUtils.escapeHtml(text);
+		}
+		super.setText(escapedText);
 	}
 
 	public Annotation(VirtualEditionInter inter, SimpleText startText, SimpleText endText, String quote, String text,
