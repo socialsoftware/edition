@@ -79,6 +79,7 @@ public class VirtualEditionsTEICorpusImport {
 			boolean pub = bibl.getAttributeValue("status").equals("PUBLIC") ? true : false;
 			String acronym = bibl.getAttributeValue("id", Namespace.XML_NAMESPACE);
 			String title = bibl.getChildText("title", namespace);
+			String synopsis = bibl.getChildText("synopsis", namespace);
 			LocalDate date = LocalDate.parse(bibl.getChild("date", namespace).getAttributeValue("when"));
 
 			LdoDUser owner = null;
@@ -93,6 +94,7 @@ public class VirtualEditionsTEICorpusImport {
 						virtualEdition = null;
 					}
 					virtualEdition = ldoD.createVirtualEdition(owner, acronym, title, date, pub, null);
+					virtualEdition.setSynopsis(synopsis);
 					break;
 				}
 			}

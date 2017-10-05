@@ -70,6 +70,10 @@ public class VirtualEditionsTEICorpusExport {
 		title.setText(virtualEdition.getTitle());
 		bibl.addContent(title);
 
+		Element synopsis = new Element("synopsis", this.xmlns);
+		synopsis.setText(virtualEdition.getSynopsis());
+		bibl.addContent(synopsis);
+
 		Element date = new Element("date", this.xmlns);
 		date.setAttribute("when", virtualEdition.getDate().toString());
 		bibl.addContent(date);
