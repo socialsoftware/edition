@@ -45,7 +45,7 @@
 							href="${contextPath}/edition/acronym/${inter.getEdition().getAcronym()}">${inter.getEdition().getTitle()}</a></td>
 						<td><c:forEach var="user"
 								items="${inter.getContributorSet(category)}">
-								<a href="${contextPath}/edition/user/${user.username}">${user.username}</a>
+								<a href="${contextPath}/edition/user/${user.username}">${user.firstName} ${user.lastName} (${user.getUsername()})</a>
 								<br>
 							</c:forEach></td>
 						<td><c:forEach var="used" items="${inter.getListUsed()}">-><a

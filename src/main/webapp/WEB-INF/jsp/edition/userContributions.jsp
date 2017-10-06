@@ -15,6 +15,15 @@
 			(${user.username})</h3>
 		<br />
 		<p>
+			<strong><spring:message code="header.editions" />: </strong>
+			<c:forEach var="edition" items="${user.getEditionList()}"
+				varStatus="loop">
+				<a href="${contextPath}/edition/acronym/${edition.getAcronym()}">
+					${edition.getTitle()}</a>
+				<c:if test="${!loop.last}">, </c:if>
+			</c:forEach>
+		</p>
+		<p>
 			<strong>${user.getFragInterSet().size()} <spring:message
 					code="fragments" />:
 			</strong>

@@ -39,7 +39,7 @@
 						</c:if></td>
 					<td><c:forEach var="user"
 							items='${inter.getContributorSet(category)}'>
-							<a href="${contextPath}/edition/user/${user.username}">${user.username}</a>
+							<a href="${contextPath}/edition/user/${user.username}">${user.firstName} ${user.lastName} (${user.getUsername()})</a>
 						</c:forEach></td>
 				</tr>
 			</c:forEach>

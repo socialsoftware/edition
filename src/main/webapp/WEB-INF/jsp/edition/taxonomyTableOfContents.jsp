@@ -44,7 +44,7 @@
 						</td>
 						<td><c:forEach var="user"
 								items="${category.getSortedUsers()}">
-								<a href="${contextPath}/edition/user/${user.getUsername()}">${user.getUsername()}</a>
+								<a href="${contextPath}/edition/user/${user.getUsername()}">${user.firstName} ${user.lastName} (${user.getUsername()})</a>
 								<br>
 							</c:forEach></td>
 						<td><c:forEach var="edition"
