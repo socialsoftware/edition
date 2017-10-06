@@ -4,13 +4,23 @@
 	${edition.title} (${edition.getSortedInterps().size()})
 </h3>
 <br />
+<p>
+	<strong><spring:message code="general.editors" />: </strong>
+	<c:forEach var="user" items="${edition.getParticipantList()}"
+		varStatus="loop">
+		<a href="${contextPath}/edition/user/${user.getUsername()}">${user.getFirstName()}
+			${user.getLastName()}</a><c:if test="${!loop.last}">, </c:if>
+	</c:forEach>
+</p>
 <c:if test="${edition.getSynopsis().length() > 0}">
-	<h4>
-		<spring:message code="virtualedition.synopsis" />
-	</h4>
-	<p>${edition.synopsis}</p>
-	<br />
+	<p>
+		<strong><spring:message code="virtualedition.synopsis" />: </strong>
+		${edition.synopsis}
+	</p>
 </c:if>
+<p>
+	<strong><spring:message code="fragments" />: </strong>
+</p>
 <table id="tablevirtual" data-pagination="false" style="display: none;">
 	<!-- <table class="table table-hover table-condensed"> -->
 	<thead>

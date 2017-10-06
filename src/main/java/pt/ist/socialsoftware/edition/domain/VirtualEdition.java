@@ -473,6 +473,11 @@ public class VirtualEdition extends VirtualEdition_Base {
 		return getMemberSet().stream().filter(m -> m.getActive()).map(m -> m.getUser()).collect(Collectors.toSet());
 	}
 
+	public List<LdoDUser> getParticipantList() {
+		return getParticipantSet().stream().sorted((u1, u2) -> u1.getFirstName().compareTo(u2.getFirstName()))
+				.collect(Collectors.toList());
+	}
+
 	public Set<Member> getActiveMemberSet() {
 		return getMemberSet().stream().filter(m -> m.getActive()).collect(Collectors.toSet());
 	}
