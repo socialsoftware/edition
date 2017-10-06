@@ -58,9 +58,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				// "/search/**",
 				// "/encoding/**")
 				// .permitAll()// .anyRequest().authenticated()
-				.antMatchers("/virtualeditions/restricted/**", "/edition/acronym/LdoD-Arquivo/**").authenticated()
-				.antMatchers("/admin/**").hasAuthority(RoleType.ROLE_ADMIN.name()).antMatchers("/user/**")
-				.hasAuthority(RoleType.ROLE_ADMIN.name());
+				.antMatchers("/virtualeditions/restricted/**", "/user/**", "/edition/acronym/LdoD-Arquivo/**")
+				.authenticated().antMatchers("/admin/**").hasAuthority(RoleType.ROLE_ADMIN.name());
 
 		http.sessionManagement().maximumSessions(2).sessionRegistry(sessionRegistry());
 	}

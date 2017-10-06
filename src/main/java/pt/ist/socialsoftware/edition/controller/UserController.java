@@ -5,7 +5,6 @@ import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -25,18 +24,16 @@ public class UserController {
 	@Inject
 	private PasswordEncoder passwordEncoder;
 
-	@Secured({ "ROLE_ADMIN" })
 	@RequestMapping(method = RequestMethod.GET, value = "/changePassword")
 	public ChangePasswordForm passwordForm() {
 		return new ChangePasswordForm();
 	}
 
-	@Secured({ "ROLE_ADMIN" })
 	@RequestMapping(method = RequestMethod.POST, value = "/changePassword")
 	public String changePassword(@Valid ChangePasswordForm form, BindingResult formBinding) {
 		log.debug("changePassword username:{}", form.getUsername());
 
-		ChangePasswordValidator validator = new ChangePasswordValidator(passwordEncoder);
+		ChangePasswordValidator validator = new ChangePasswordValidator(this.passwordEncoder);
 		validator.validate(form, formBinding);
 
 		if (formBinding.hasErrors()) {
@@ -45,7 +42,7 @@ public class UserController {
 
 		LdoDUser user = LdoD.getInstance().getUser(form.getUsername());
 
-		user.updatePassword(passwordEncoder, form.getCurrentPassword(), form.getNewPassword());
+		user.updatePassword(this.passwordEncoder, form.getCurrentPassword(), form.getNewPassword());
 
 		return "redirect:/";
 	}
