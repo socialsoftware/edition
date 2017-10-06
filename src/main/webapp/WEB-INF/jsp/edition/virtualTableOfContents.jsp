@@ -1,7 +1,7 @@
 <%@ include file="/WEB-INF/jsp/common/tags-head.jsp"%>
 <h3 class="text-center">
-	<spring:message code="virtualedition" />
-	${edition.title} (${edition.getSortedInterps().size()})
+	<spring:message code="virtualedition" />:
+	${edition.title}
 </h3>
 <br />
 <p>
@@ -19,7 +19,7 @@
 	</p>
 </c:if>
 <p>
-	<strong><spring:message code="fragments" />: </strong>
+	<strong>${edition.getSortedInterps().size()} <spring:message code="fragments" />: </strong>
 </p>
 <table id="tablevirtual" data-pagination="false" style="display: none;">
 	<!-- <table class="table table-hover table-condensed"> -->

@@ -12,14 +12,20 @@
 
 	<div class="container">
 		<h3 class="text-center">
-			<spring:message code="general.taxonomy" />
-			<a
-				href="${contextPath}/edition/acronym/${category.getTaxonomy().getEdition().getAcronym()}/taxonomy">
-				${category.getTaxonomy().getEdition().title}</a>:
-			<spring:message code="general.category" />
-			${category.getName()} (${category.getTagSet().size()})
+			<spring:message code="general.category" />:
+			${category.getName()}
 		</h3>
-		<br>
+		<br />
+		<p>
+			<strong><spring:message code="general.taxonomy" />: </strong><a
+				href="${contextPath}/edition/acronym/${category.getTaxonomy().getEdition().getAcronym()}/taxonomy">
+				${category.getTaxonomy().getEdition().title}</a>
+		</p>
+		<p>
+			<strong>${category.getTagSet().size()} <spring:message code="fragments" />: </strong>
+		</p>
+
+		<br />
 		<table id="tableCategory" data-pagination="false"
 			style="display: none;">
 			<!-- <table class="table table-hover table-condensed"> -->

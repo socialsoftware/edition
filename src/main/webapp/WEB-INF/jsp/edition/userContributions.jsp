@@ -11,12 +11,15 @@
 	<%@ include file="/WEB-INF/jsp/common/fixed-top-ldod-header.jsp"%>
 
 	<div class="container">
-		<h3 class="text-center">
-			<spring:message code="general.contributionsOf" />
-			${user.firstName} ${user.lastName} (${user.username})
-			(${user.getFragInterSet().size()})
-		</h3>
-		<br>
+		<h3 class="text-center">${user.firstName} ${user.lastName}
+			(${user.username})</h3>
+		<br />
+		<p>
+			<strong>${user.getFragInterSet().size()} <spring:message
+					code="fragments" />:
+			</strong>
+		</p>
+		<br />
 		<table id="tableUser" data-pagination="false" style="display: none;">
 			<!-- <table class="table table-hover table-condensed"> -->
 			<thead>

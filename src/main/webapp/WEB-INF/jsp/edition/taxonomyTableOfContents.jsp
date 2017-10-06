@@ -12,14 +12,20 @@
 
 	<div class="container">
 		<h3 class="text-center">
-			<spring:message code="general.taxonomy" />
-			(${taxonomy.getCategoriesSet().size()}) -
-			<spring:message code="virtualedition" />
-			<a
-				href="${contextPath}/edition/acronym/${edition.getAcronym()}/taxonomy">
-				${taxonomy.getEdition().title}</a>
+			<spring:message code="general.taxonomy" />: ${taxonomy.getEdition().title}
 		</h3>
-		<br>
+		<br />
+		<p>
+			<strong><spring:message code="virtualedition" />: <a
+				href="${contextPath}/edition/acronym/${taxonomy.getEdition().getAcronym()}">
+					${taxonomy.getEdition().title}</a> </strong>
+		</p>
+		<p>
+			<strong>${taxonomy.getCategoriesSet().size()} <spring:message
+					code="general.categories" />:
+			</strong>
+		</p>
+		<br />
 		<table id="tableTaxonomy" data-pagination="false"
 			style="display: none;">
 			<!-- <table class="table table-hover table-condensed"> -->
@@ -34,7 +40,7 @@
 				<c:forEach var="category" items='${taxonomy.getCategoriesSet()}'>
 					<tr>
 						<td><a
-							href="${contextPath}/edition/acronym/${edition.getAcronym()}/category/${category.getExternalId()}">${category.getName()}</a>
+							href="${contextPath}/edition/acronym/${taxonomy.getEdition().getAcronym()}/category/${category.getExternalId()}">${category.getName()}</a>
 						</td>
 						<td><c:forEach var="user"
 								items="${category.getSortedUsers()}">
@@ -44,7 +50,7 @@
 						<td><c:forEach var="edition"
 								items="${category.getSortedEditions()}">
 								<a
-									href="${contextPath}/edition/acronym/${edition.getAcronym()}">${edition.getTitle()}</a>
+									href="${contextPath}/edition/acronym/${taxonomy.getEdition().getAcronym()}">${edition.getTitle()}</a>
 								<br>
 							</c:forEach></td>
 						<td><c:forEach var="inter"
