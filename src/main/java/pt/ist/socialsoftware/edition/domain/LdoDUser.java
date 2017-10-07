@@ -117,7 +117,7 @@ public class LdoDUser extends LdoDUser_Base {
 	}
 
 	public List<VirtualEdition> getEditionList() {
-		return getFragInterSet().stream().map(i -> i.getVirtualEdition()).distinct()
+		return getMemberSet().stream().map(m -> m.getVirtualEdition()).distinct()
 				.sorted((e1, e2) -> e1.getTitle().compareTo(e2.getTitle())).collect(Collectors.toList());
 	}
 
