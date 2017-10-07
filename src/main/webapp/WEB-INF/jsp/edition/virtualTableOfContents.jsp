@@ -18,6 +18,13 @@
 		${edition.synopsis}
 	</p>
 </c:if>
+<c:if test="${edition.getTaxonomy().getCategoriesSet().size() > 0}">
+	<p>
+		<strong><spring:message code="general.taxonomy" />: </strong><a
+			href="${contextPath}/edition/acronym/${edition.getAcronym()}/taxonomy">
+			${edition.title}</a>
+	</p>
+</c:if>
 <p>
 	<strong>${edition.getSortedInterps().size()} <spring:message code="fragments" />: </strong>
 </p>

@@ -19,8 +19,7 @@
 			<c:forEach var="edition" items="${user.getEditionList()}"
 				varStatus="loop">
 				<a href="${contextPath}/edition/acronym/${edition.getAcronym()}">
-					${edition.getTitle()}</a>
-				<c:if test="${!loop.last}">, </c:if>
+					${edition.getTitle()}</a><c:if test="${!loop.last}">, </c:if>
 			</c:forEach>
 		</p>
 		<p>

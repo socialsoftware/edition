@@ -16,9 +16,9 @@
 		</h3>
 		<br />
 		<p>
-			<strong><spring:message code="virtualedition" />: <a
+			<strong><spring:message code="virtualedition" />:</strong> <a
 				href="${contextPath}/edition/acronym/${taxonomy.getEdition().getAcronym()}">
-					${taxonomy.getEdition().title}</a> </strong>
+					${taxonomy.getEdition().title}</a> 
 		</p>
 		<p>
 			<strong>${taxonomy.getCategoriesSet().size()} <spring:message
