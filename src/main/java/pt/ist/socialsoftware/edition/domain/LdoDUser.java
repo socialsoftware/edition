@@ -116,8 +116,8 @@ public class LdoDUser extends LdoDUser_Base {
 		return inters.stream().sorted((i1, i2) -> i1.getTitle().compareTo(i2.getTitle())).collect(Collectors.toList());
 	}
 
-	public List<VirtualEdition> getEditionList() {
-		return getMemberSet().stream().map(m -> m.getVirtualEdition()).distinct()
+	public List<VirtualEdition> getPublicEditionList() {
+		return getMemberSet().stream().map(m -> m.getVirtualEdition()).filter(v -> v.getPub()).distinct()
 				.sorted((e1, e2) -> e1.getTitle().compareTo(e2.getTitle())).collect(Collectors.toList());
 	}
 
