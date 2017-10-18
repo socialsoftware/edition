@@ -3,7 +3,8 @@
 <html>
 <head>
 <%@ include file="/WEB-INF/jsp/common/meta-head.jsp"%>
-
+<link rel="stylesheet" type="text/css" href="/resources/css/bootstrap-table.min.css">
+<script src="/resources/js/bootstrap-table.min.js"></script>
 </head>
 
 <body>
