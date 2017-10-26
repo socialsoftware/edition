@@ -539,7 +539,7 @@ public class VirtualEditionController {
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/restricted/{externalId}/taxonomy")
-	@PreAuthorize("hasPermission(#externalId, 'virtualedition.public')")
+	@PreAuthorize("hasPermission(#externalId, 'virtualedition.participant')")
 	public String taxonomy(Model model, @PathVariable String externalId) {
 		VirtualEdition virtualEdition = FenixFramework.getDomainObject(externalId);
 		if (virtualEdition == null) {
@@ -703,7 +703,7 @@ public class VirtualEditionController {
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/restricted/category/{categoryId}")
-	@PreAuthorize("hasPermission(#categoryId, 'category.public')")
+	@PreAuthorize("hasPermission(#categoryId, 'category.participant')")
 	public String showCategory(Model model, @PathVariable String categoryId) {
 		Category category = FenixFramework.getDomainObject(categoryId);
 		if (category == null) {
@@ -787,7 +787,7 @@ public class VirtualEditionController {
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/restricted/fraginter/{fragInterId}")
-	@PreAuthorize("hasPermission(#fragInterId, 'fragInter.public')")
+	@PreAuthorize("hasPermission(#fragInterId, 'fragInter.participant')")
 	public String showFragmentInterpretation(Model model, @PathVariable String fragInterId) {
 		FragInter fragInter = FenixFramework.getDomainObject(fragInterId);
 		if (fragInter == null) {

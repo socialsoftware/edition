@@ -1,16 +1,13 @@
 package pt.ist.socialsoftware.edition.controller;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.joda.time.LocalDate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
@@ -30,14 +27,9 @@ import pt.ist.socialsoftware.edition.domain.RecommendationWeights;
 import pt.ist.socialsoftware.edition.domain.Section;
 import pt.ist.socialsoftware.edition.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.domain.VirtualEditionInter;
-import pt.ist.socialsoftware.edition.recommendation.Cluster;
-import pt.ist.socialsoftware.edition.recommendation.VSMVirtualEditionInterRecommender;
-import pt.ist.socialsoftware.edition.recommendation.dto.PropertyWithLevel;
 import pt.ist.socialsoftware.edition.recommendation.dto.RecommendVirtualEditionParam;
-import pt.ist.socialsoftware.edition.recommendation.dto.SectionDTO;
 import pt.ist.socialsoftware.edition.recommendation.dto.SectionVirtualEditionParam;
 import pt.ist.socialsoftware.edition.recommendation.dto.VirtualEditionWithSectionsDTO;
-import pt.ist.socialsoftware.edition.recommendation.properties.Property;
 import pt.ist.socialsoftware.edition.session.LdoDSession;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDCreateVirtualEditionException;
 import pt.ist.socialsoftware.edition.validator.VirtualEditionValidator;
@@ -56,6 +48,7 @@ public class RecommendationController {
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/restricted/{externalId}")
+	@PreAuthorize("hasPermission(#externalId, 'virtualedition.participant')")
 	public String presentEditionWithRecommendation(Model model, @PathVariable String externalId) {
 		logger.debug("presentEditionWithRecommendation");
 
@@ -124,6 +117,7 @@ public class RecommendationController {
 	}
 
 	@RequestMapping(value = "/linear/save", method = RequestMethod.POST)
+	@PreAuthorize("hasPermission(#acronym, 'editionacronym.participant')")
 	public String saveLinearVirtualEdition(Model model, @RequestParam("acronym") String acronym,
 			@RequestParam(value = "inter[]", required = false) String[] inters) {
 		logger.debug("saveLinearVirtualEdition");
@@ -145,6 +139,7 @@ public class RecommendationController {
 	}
 
 	@RequestMapping(value = "/linear/create", method = RequestMethod.POST)
+	@PreAuthorize("hasPermission(#acronym, 'editionacronym.participant')")
 	public String createLinearVirtualEdition(Model model, @ModelAttribute("ldoDSession") LdoDSession ldoDSession,
 			@RequestParam("acronym") String acronym, @RequestParam("title") String title,
 			@RequestParam("pub") boolean pub, @RequestParam("inter[]") String[] inters) {
@@ -183,28 +178,32 @@ public class RecommendationController {
 		logger.debug("setSectionVirtualEdition properties:{}", params.getPropertiesWithLevel().stream()
 				.map(p -> "(" + p.getProperty().getWeight() + "," + p.getLevel() + ")").collect(Collectors.joining()));
 
-		VirtualEdition virtualEdition = (VirtualEdition) LdoD.getInstance().getEdition(params.getAcronym());
-		VirtualEditionInter inter = FenixFramework.getDomainObject(params.getId());
-
-		List<VirtualEditionInter> inters = virtualEdition.getAllDepthVirtualEditionInters();
-		VSMVirtualEditionInterRecommender recommender = new VSMVirtualEditionInterRecommender();
-		Map<Integer, Collection<Property>> map = new HashMap<>();
-		LdoDUser user = LdoDUser.getAuthenticatedUser();
-		RecommendationWeights recommendationWeights = user.getRecommendationWeights(virtualEdition);
-		recommendationWeights.setWeights(params.getProperties());
-		for (PropertyWithLevel property : params.getPropertiesWithLevel()) {
-			if (property.getProperty().getWeight() > 0) {
-				if (!map.containsKey(property.getLevel())) {
-					map.put(property.getLevel(), new ArrayList<Property>());
-				}
-				map.get(property.getLevel()).add(property.getProperty());
-			}
-		}
-		Cluster cluster = recommender.getCluster(inter, inters, map);
-
-		model.addAttribute("edition", virtualEdition);
-		model.addAttribute("cluster", cluster);
-		model.addAttribute("selected", params.getId());
+		// VirtualEdition virtualEdition = (VirtualEdition)
+		// LdoD.getInstance().getEdition(params.getAcronym());
+		// VirtualEditionInter inter = FenixFramework.getDomainObject(params.getId());
+		//
+		// List<VirtualEditionInter> inters =
+		// virtualEdition.getAllDepthVirtualEditionInters();
+		// VSMVirtualEditionInterRecommender recommender = new
+		// VSMVirtualEditionInterRecommender();
+		// Map<Integer, Collection<Property>> map = new HashMap<>();
+		// LdoDUser user = LdoDUser.getAuthenticatedUser();
+		// RecommendationWeights recommendationWeights =
+		// user.getRecommendationWeights(virtualEdition);
+		// recommendationWeights.setWeights(params.getProperties());
+		// for (PropertyWithLevel property : params.getPropertiesWithLevel()) {
+		// if (property.getProperty().getWeight() > 0) {
+		// if (!map.containsKey(property.getLevel())) {
+		// map.put(property.getLevel(), new ArrayList<Property>());
+		// }
+		// map.get(property.getLevel()).add(property.getProperty());
+		// }
+		// }
+		// Cluster cluster = recommender.getCluster(inter, inters, map);
+		//
+		// model.addAttribute("edition", virtualEdition);
+		// model.addAttribute("cluster", cluster);
+		// model.addAttribute("selected", params.getId());
 
 		return "recommendation/virtualTableWithSections";
 	}
@@ -223,27 +222,30 @@ public class RecommendationController {
 		if (virtualEdition == null) {
 			return "redirect:/error";
 		} else {
-			int i = 1;
-			for (SectionDTO sectionDTO : virtualEditionWithSectionsDTO.getSections()) {
-				List<String> sections = sectionDTO.getSections();
-
-				Section section = virtualEdition.getSection(sections.get(0)) == null
-						? virtualEdition.createSection(sections.get(0))
-						: virtualEdition.getSection(sections.get(0));
-				for (int j = 1; j < sections.size(); j++) {
-					section = section.getSection(sections.get(j)) == null ? section.createSection(sections.get(j))
-							: section.getSection(sections.get(j));
-				}
-				VirtualEditionInter virtualEditionInter = FenixFramework.getDomainObject(sectionDTO.getInter());
-				section.addVirtualEditionInter(virtualEditionInter, i++);
-			}
-			virtualEdition.clearEmptySections();
+			// int i = 1;
+			// for (SectionDTO sectionDTO : virtualEditionWithSectionsDTO.getSections()) {
+			// List<String> sections = sectionDTO.getSections();
+			//
+			// Section section = virtualEdition.getSection(sections.get(0)) == null
+			// ? virtualEdition.createSection(sections.get(0))
+			// : virtualEdition.getSection(sections.get(0));
+			// for (int j = 1; j < sections.size(); j++) {
+			// section = section.getSection(sections.get(j)) == null ?
+			// section.createSection(sections.get(j))
+			// : section.getSection(sections.get(j));
+			// }
+			// VirtualEditionInter virtualEditionInter =
+			// FenixFramework.getDomainObject(sectionDTO.getInter());
+			// section.addVirtualEditionInter(virtualEditionInter, i++);
+			// }
+			// virtualEdition.clearEmptySections();
 		}
 
 		return "redirect:/recommendation/restricted/" + virtualEdition.getExternalId();
 	}
 
 	@RequestMapping(value = "/section/create", method = RequestMethod.POST)
+	@PreAuthorize("hasPermission(#acronym, 'editionacronym.participant')")
 	public String createSectionVirtualEdition(Model model, @RequestParam("acronym") String acronym,
 			@RequestParam("title") String title, @RequestParam("pub") boolean pub,
 			@RequestParam("inter[]") String[] inters, @RequestParam("depth[]") String[] depth) {
