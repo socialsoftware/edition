@@ -1,5 +1,6 @@
 package pt.ist.socialsoftware.edition.export;
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.jdom2.Attribute;
 import org.jdom2.Document;
 import org.jdom2.Element;
@@ -100,7 +101,7 @@ public class VirtualEditionFragmentsTEIExport {
 		for (Annotation annotation : virtualEditionInter.getAnnotationSet()) {
 			Element note = new Element("note", this.xmlns);
 			note.setAttribute("resp", "#" + annotation.getUser().getUsername());
-			note.setText(annotation.getText());
+			note.setText(StringEscapeUtils.unescapeHtml(annotation.getText()));
 			textClass.addContent(note);
 
 			for (Range range : annotation.getRangeSet()) {

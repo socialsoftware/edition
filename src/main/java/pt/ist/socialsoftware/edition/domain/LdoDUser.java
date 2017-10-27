@@ -28,9 +28,11 @@ public class LdoDUser extends LdoDUser_Base {
 
 	@Override
 	public void setUsername(String username) {
-		String escapedUsername = StringEscapeUtils.escapeHtml(username);
-		checkUniqueUsername(escapedUsername);
-		super.setUsername(escapedUsername);
+		if (!username.matches("^[A-Za-z0-9\\-]+$")) {
+			throw new LdoDException(username);
+		}
+		checkUniqueUsername(username);
+		super.setUsername(username);
 	}
 
 	@Override

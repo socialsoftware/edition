@@ -1,5 +1,6 @@
 package pt.ist.socialsoftware.edition.export;
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.jdom2.Attribute;
 import org.jdom2.Document;
 import org.jdom2.Element;
@@ -67,11 +68,11 @@ public class VirtualEditionsTEICorpusExport {
 		bibl.setAttribute("status", virtualEdition.getPub() ? "PUBLIC" : "PRIVATE");
 
 		Element title = new Element("title", this.xmlns);
-		title.setText(virtualEdition.getTitle());
+		title.setText(StringEscapeUtils.unescapeHtml(virtualEdition.getTitle()));
 		bibl.addContent(title);
 
 		Element synopsis = new Element("synopsis", this.xmlns);
-		synopsis.setText(virtualEdition.getSynopsis());
+		synopsis.setText(StringEscapeUtils.unescapeHtml(virtualEdition.getSynopsis()));
 		bibl.addContent(synopsis);
 
 		Element date = new Element("date", this.xmlns);
@@ -97,7 +98,8 @@ public class VirtualEditionsTEICorpusExport {
 		element.addContent(editorElement);
 
 		Element persNameElement = new Element("persName", this.xmlns);
-		persNameElement.setText(member.getUser().getFirstName() + " " + member.getUser().getLastName());
+		persNameElement.setText(StringEscapeUtils.unescapeHtml(member.getUser().getFirstName()) + " "
+				+ StringEscapeUtils.unescapeHtml(member.getUser().getLastName()));
 		editorElement.addContent(persNameElement);
 
 		Element date = new Element("date", this.xmlns);
