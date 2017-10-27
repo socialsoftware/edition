@@ -22,6 +22,11 @@ public class ExpertEditionInter extends ExpertEditionInter_Base {
 
 		String externalId = getExternalId();
 
+		for (VirtualEditionInter inter : getIsUsedBySet()) {
+			// it is necessary to remove all the that use the expert interpretation
+			inter.remove();
+		}
+
 		super.remove();
 
 		// remove from Lucene

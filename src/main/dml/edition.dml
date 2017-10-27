@@ -222,7 +222,6 @@ relation LdoDHasFragments {
 
 class FragInter {
 	String xmlId;
-	String urlId;
 	int numAnnexNotes;
 }
 

@@ -111,6 +111,10 @@ public class VirtualEdition extends VirtualEdition_Base {
 			section.remove();
 		}
 
+		for (VirtualEditionInter inter : getAllDepthVirtualEditionInters()) {
+			inter.remove();
+		}
+
 		for (RecommendationWeights weights : getRecommendationWeightsSet()) {
 			weights.remove();
 		}

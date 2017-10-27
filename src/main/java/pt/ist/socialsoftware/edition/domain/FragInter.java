@@ -13,10 +13,8 @@ import pt.ist.socialsoftware.edition.domain.Edition.EditionType;
 public abstract class FragInter extends FragInter_Base implements Comparable<FragInter> {
 	private static Logger logger = LoggerFactory.getLogger(FragInter.class);
 
-	@Override
-	public void setXmlId(String xmlId) {
-		setUrlId(xmlId.replace(".", "_"));
-		super.setXmlId(xmlId);
+	public String getUrlId() {
+		return getXmlId().replace(".", "_");
 	}
 
 	public void remove() {

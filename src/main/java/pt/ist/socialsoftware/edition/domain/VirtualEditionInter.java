@@ -22,6 +22,11 @@ import pt.ist.socialsoftware.edition.utils.RangeJson;
 public class VirtualEditionInter extends VirtualEditionInter_Base {
 	private static Logger logger = LoggerFactory.getLogger(VirtualEditionInter.class);
 
+	@Override
+	public String getXmlId() {
+		return getFragment().getXmlId() + ".WIT.ED.VIRT." + getVirtualEdition().getAcronym() + "." + super.getXmlId();
+	}
+
 	public VirtualEditionInter(Section section, FragInter inter, int number) {
 		setFragment(inter.getFragment());
 		setHeteronym(null);
@@ -29,8 +34,9 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 		setSection(section);
 		setNumber(number);
 		setUses(inter);
-		setXmlId(inter.getFragment().getXmlId() + ".WIT.ED.VIRT." + getVirtualEdition().getAcronym() + "."
-				+ getFragment().getNumberOfInter4Edition(getVirtualEdition()));
+		// needs to store the number of interpretations in this fragment for this
+		// edition
+		setXmlId(Integer.toString(getFragment().getNumberOfInter4Edition(getVirtualEdition())));
 	}
 
 	@Override
@@ -38,6 +44,8 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 		for (VirtualEditionInter inter : getIsUsedBySet()) {
 			inter.setUses(getUses());
 		}
+
+		setFragment(null);
 
 		setSection(null);
 

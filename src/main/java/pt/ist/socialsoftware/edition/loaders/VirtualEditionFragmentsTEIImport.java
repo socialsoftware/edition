@@ -91,10 +91,10 @@ public class VirtualEditionFragmentsTEIImport {
 					interXmlId.lastIndexOf('.'));
 			VirtualEdition virtualEdition = this.ldoD.getVirtualEdition(editionAcronym);
 
-			VirtualEditionInter inter = virtualEdition.createVirtualEditionInter(
+			wit.getAttributeValue("source").substring(1);
+			virtualEdition.createVirtualEditionInter(
 					fragment.getFragInterByXmlId(wit.getAttributeValue("source").substring(1)),
 					Integer.parseInt(wit.getChild("num", this.namespace).getAttributeValue("value")));
-			inter.setXmlId(interXmlId);
 		}
 	}
 
