@@ -28,7 +28,7 @@ public class LdoDUser extends LdoDUser_Base {
 
 	@Override
 	public void setUsername(String username) {
-		if (!username.matches("^[A-Za-z0-9\\-]+$")) {
+		if (!username.matches("^[A-Za-z0-9_\\s\\-]+$")) {
 			throw new LdoDException(username);
 		}
 		checkUniqueUsername(username);

@@ -22,8 +22,9 @@ public class ExpertEditionInter extends ExpertEditionInter_Base {
 
 		String externalId = getExternalId();
 
-		for (VirtualEditionInter inter : getIsUsedBySet()) {
-			// it is necessary to remove all the that use the expert interpretation
+		for (VirtualEditionInter inter : getIsUsedByDepthSet()) {
+			// it is necessary to remove all interpretations that use the expert
+			// interpretation
 			inter.remove();
 		}
 
