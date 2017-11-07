@@ -82,6 +82,12 @@ public class SourceInter extends SourceInter_Base {
 	public void remove() {
 		setSource(null);
 
+		for (VirtualEditionInter inter : getIsUsedByDepthSet()) {
+			// it is necessary to remove all interpretations that use the expert
+			// interpretation
+			inter.remove();
+		}
+
 		super.remove();
 	}
 
