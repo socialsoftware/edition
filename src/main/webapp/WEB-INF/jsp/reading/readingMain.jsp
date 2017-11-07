@@ -22,7 +22,14 @@
 </body>
 <script>
 	$(".tip").tooltip({
-		placement : 'bottom'
+		placement : 'bottom',
+
+	});
+	$('#inforecom').popover({
+		container: 'body'
 	});
 </script>
+
+
+
 </html>

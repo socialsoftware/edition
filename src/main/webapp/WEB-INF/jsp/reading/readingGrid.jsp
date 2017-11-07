@@ -35,10 +35,11 @@ $(window).on("load resize",function(e){
   $(".reading__text").css("height", "auto");
   
   var height = $(".reading-grid").height();
+
   if( $(window).width() >= 768 ){
-    $(".reading__column").css("height", height+50);
-    $(".reading__column--open").css("height", height+50);
-    $(".reading__text").css("height", height+50);
+    $(".reading__column").css("height", height);
+    $(".reading__column--open").css("height", height);
+    $(".reading__text").css("height", height);
   }else{
     /*
     $(".reading__column").css("height", "8.33333%");
@@ -105,12 +106,15 @@ ${inter.getEdition().getAcronym()}
 </c:choose>
 
     
-         <h4>
-          <!--<a href="${contextPath}/edition/internalid/${expertEdition.externalId}">${expertEdition.editor}</a>-->
-          ${expertEdition.editor}
+          <h4>
+          <a href="${contextPath}/reading/inter/first/edition/${expertEdition.getExternalId()}">${expertEdition.editor}</a>
+          <!--${expertEdition.editor}-->
           </h4>
-
-          
+          <c:choose>
+          <c:when test="${fragment != null}">
+          <br>
+          </c:when>
+          </c:choose>
 
           <c:choose>
           <c:when test="${fragment == null}">
@@ -185,38 +189,69 @@ ${inter.getEdition().getAcronym()}
 <!-- ###################### RECOMMENDATION ###################### -->
 
 <div class="reading__column col-xs-12 col-sm-1 no-pad recommendation-line">
-      <h4 class="f--condensed"><a href="#" onClick="openRecomModal()"><spring:message
-            code="general.recommendation" /> </a></h4>
+      <h4 class="f--condensed"><a href="#" class="f--condensed--link" onClick="openRecomModal()"><spring:message
+            code="general.recommendation" /> </a>
+          <span class="visible-xs-inline">&nbsp;</span>
+          <a id="inforecom" class="infobutton"
+        data-placement="bottom" role="button" data-toggle="popover"
+        data-content="<spring:message code="reading.tt.recom" />">
+        <span class="glyphicon glyphicon-info-sign"></span>
+      </a>
+      </h4>
 
 
      
   <c:if test="${fragment != null}">
         <div class="h3-group">
       
-
-        <c:if test="${prevRecom != null}">
-          <div class="h3-div">
-
-            <a href="${contextPath}/reading/inter/prev/recom">
-              <h3>${prevRecom.getEdition().getAcronym()}</h3>
-              <h2>${prevRecom.number}</h2>
-              <!--<img src="../../resources/img/graphics/arrow_left.png">-->
-            </a>
-          
-          </div>
-        </c:if>
         
+       
+
+
         <div>
-          <a href="${contextPath}/reading/fragment/${fragment.xmlId}/inter/${inter.urlId}">
+          <a     href="${contextPath}/reading/fragment/${fragment.xmlId}/inter/${inter.urlId}">
           <!--<span class="glyphicon glyphicon-play"></span>-->
-           <h3>${inter.getEdition().getAcronym()}</h3><h2>${inter.number}</h2></a>
+           <h3 style="color:#FC1B27">${inter.getEdition().getAcronym()}</h3><h2 style="color:#FC1B27">${inter.number}</h2></a>
         </div>
+
+         <div class="ldod-reading-prevrecom">
+          <c:if test="${prevRecom != null}">
+            <div class="h3-div">
+              <a href="${contextPath}/reading/inter/prev/recom">
+                <h3>${prevRecom.getEdition().getAcronym()}</h3>
+                <h2 class="recom-h2">${prevRecom.number}
+                
+                 <span class="visible-xs-inline" style="float:right">
+              <img src="/resources/img/graphics/arrow_left.png">
+              </span>
+              <div class="arrows-recom hidden-xs">
+              <img src="/resources/img/graphics/arrow_left.png">
+              </div>
+                </h2>
+
+              </a>
+            </div>
+          </c:if>
+        </div>
+
         
         <c:forEach var="recomInter" items="${recommendations}">
           <div>
             <a href="${contextPath}/reading/fragment/${recomInter.fragment.xmlId}/inter/${recomInter.urlId}">
             <!--<span class="glyphicon glyphicon-forward"></span>-->
-              <h3>${recomInter.getEdition().getAcronym()}</h3><h2>${recomInter.number}</h2></a>
+              <h3>${recomInter.getEdition().getAcronym()}</h3>
+              <h2 class="recom-h2">${recomInter.number}
+             
+              
+              <span class="visible-xs-inline" style="float:right">
+              <img src="/resources/img/graphics/arrow_right.png">
+              </span>
+              <div class="arrows-recom hidden-xs">
+              <img src="/resources/img/graphics/arrow_right.png">
+              </div>
+              </h2>
+              </a>
+              
           </div>
         </c:forEach>
 
@@ -243,6 +278,7 @@ ${inter.getEdition().getAcronym()}
           <spring:message code="general.recommendation.config" />
         </h3>
       </div>
+      <!--
       <div class="modal-body">
         <div class="row">
           <div class="form-group" id="clearPrevRecomForm">
@@ -262,35 +298,44 @@ ${inter.getEdition().getAcronym()}
           </div>
         </div>
         <hr>
-        <div class="row text-center">
+        -->
+        <div class="modal-body">
+        <h3 class="text-center">
+              <spring:message code="recommendation.criteria" />
+              :
+        </h3>
+        </div>
+        <div class="row text-center" style="padding-left:15px; padding-right:15px">
+          <!--
           <div class="col-md-3 text-center">
             <h4>
               <spring:message code="recommendation.criteria" />
               :
             </h4>
           </div>
-          <div class="col-md-2 col-sm-4">
+          -->
+          <div class="col-md-3 col-sm-4">
             <spring:message code="general.heteronym" />
             <input type="range" class="range"
               onChange="changeWeight('heteronym', value)"
               value='${ldoDSession.getRecommendation().getHeteronymWeight()}'
               max="1" min="0" step="0.2">
           </div>
-          <div class="col-md-2 col-sm-4">
+          <div class="col-md-3 col-sm-4">
             <spring:message code="general.date" />
             <input type="range" class="range"
               onChange="changeWeight('date', value)"
               value='${ldoDSession.getRecommendation().getDateWeight()}'
               max="1" min="0" step="0.2">
           </div>
-          <div class="col-md-2 col-sm-4">
+          <div class="col-md-3 col-sm-4">
             <spring:message code="general.text" />
             <input type="range" class="range"
               onChange="changeWeight('text', value)"
               value='${ldoDSession.getRecommendation().getTextWeight()}'
               max="1" min="0" step="0.2">
           </div>
-          <div class="col-md-2 col-sm-4">
+          <div class="col-md-3 col-sm-4">
             <spring:message code="general.taxonomy" />
             <input type="range" class="range"
               onChange="changeWeight('taxonomy', value)"
@@ -300,7 +345,13 @@ ${inter.getEdition().getAcronym()}
         </div>
         <br>
         <div class="modal-footer">
-          <button type="button" class="btn btn-default" onclick="reload()"
+        <button type="submit" class="btn btn-danger"
+                onclick="resetPrevRecom()">
+                <span class="glyphicon glyphicon-saved"></span>
+                <spring:message code="general.reset" />
+              </button>
+
+          <button type="button" class="btn btn-primary" onclick="reload()"
             data-dismiss="modal">
             <spring:message code="general.close" />
           </button>

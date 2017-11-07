@@ -755,19 +755,31 @@
   padding: 5px 0;
   border-top: 2px dotted black;
   text-align: left;
+
+}
+
+ @media (max-width: 767px) {
+ 	.ldod-default .reading__column, .reading__column--open {
+ 		padding-bottom: 12px;
+ 	}
+
+ }
+
+.f--condensed--link {
+		color: black;	
+		text-decoration: underline !important;
+		padding: 0px 0px;
+
 }
 
 .ldod-default .reading__column h4 a {
 		color: black;	
 		text-decoration: none;
-		border: 2px dotted black;
-		padding: 0px 4px;
+		padding: 0px 0px;
 
 }
 .ldod-default .reading__column h4 a:hover {
 		color: #0C4EF6;	
-		text-decoration: none;
-		border: 2px dotted #0C4EF6;
 }
 
 
@@ -845,8 +857,7 @@
         font-size: 1.8rem;
         font-family: "League-Gothic";
         font-weight: regular;
-        line-height: 24px;
-        line-height: 2.4rem; }
+        line-height: 2rem; }
 }
 
 
@@ -866,7 +877,7 @@
         font-family: "League-Gothic";
         font-weight: regular;
         line-height: 32px;
-        line-height: 3.2rem; } }
+        line-height: 2.6rem; } }
 
 
 /*f--condensed*/
@@ -900,20 +911,22 @@
         line-height: 2.66667rem; } }
     @media (min-width: 1200px) {
      .ldod-default  .reading__column .f--condensed, .reading__column--open .f--condensed {
-        font-size: 24px;
-        font-size: 2.4rem;
+        font-size: 2.5rem;
         font-family: "League-Gothic-Condensed";
         font-weight: regular;
         line-height: 32px;
         line-height: 3.2rem; } }
   .ldod-default  .reading__column .h3-group, .reading__column--open .h3-group {
     margin-top: 0; }
+    @media (max-width: 767px) {
+     .ldod-default .reading__column .h3-group h3, .reading__column--open .h3-group h3 {
+        margin-top: 10px !important; } }
     @media (min-width: 768px) {
      .ldod-default  .reading__column .h3-group, .reading__column--open .h3-group {
         margin-top: -21px; } }
     @media (min-width: 992px) {
      .ldod-default  .reading__column .h3-group, .reading__column--open .h3-group {
-        margin-top: -77px; } }
+        margin-top: -47px; } }
     .ldod-default .reading__column .h3-group div, .reading__column--open .h3-group div {
       width: 100%;
       display: block;
@@ -929,6 +942,13 @@
       line-height: 34.66667px;
       line-height: 3.46667rem;
       text-transform: uppercase; }
+
+
+      @media (max-width: 767px) {
+      .ldod-default .reading__column .h3-group h3 {
+      	margin-bottom:-10px;
+      }}
+
       @media (min-width: 768px) {
         .ldod-default  .reading__column .h3-group h3, .reading__column--open .h3-group h3 {
           font-size: 16px;
@@ -936,7 +956,9 @@
           font-family: "League-Gothic";
           font-weight: regular;
           line-height: 21.33333px;
-          line-height: 2.13333rem; } }
+          line-height: 2.13333rem; 
+          margin-top: 25px;
+          } }
       @media (min-width: 992px) {
         .ldod-default  .reading__column .h3-group h3, .reading__column--open .h3-group h3 {
           font-size: 20px;
@@ -944,7 +966,14 @@
           font-family: "League-Gothic";
           font-weight: regular;
           line-height: 26.66667px;
-          line-height: 2.66667rem; } }
+          line-height: 2.66667rem; 
+          margin-top: 25px;
+         } 
+
+         .arrows-recom {
+         	margin-top:5px !important;
+         }
+     }
       @media (min-width: 1200px) {
         .ldod-default .reading__column .h3-group h3, .reading__column--open .h3-group h3 {
           font-size: 24px;
@@ -953,10 +982,16 @@
           font-family: "League-Gothic";
           font-weight: regular;
           
-          line-height: 32px;
-          line-height: 3.2rem; 
-          margin-top: 25px;
+          /*line-height: 32px;*/
+          line-height: 1.2rem; 
+          margin-top: 35px;
           } }
+
+   @media (max-width: 767px) {
+   	.recom-h2 {
+   		width: 100% !important;
+   	}
+   }
   .ldod-default  .reading__column h2, .reading__column--open h2 {
     display: inline-block;
     margin: 0;
@@ -1017,7 +1052,9 @@
     -webkit-transform: rotate(90deg);
     -moz-transform: rotate(90deg);
     -ms-transform: rotate(90deg);
-    transform: rotate(90deg); }
+    transform: rotate(90deg); 
+     margin-top:4px;
+	}
 
    @media (max-width: 767px) {
       .ldod-default .reading__column img, .reading__column--open img {
@@ -1032,7 +1069,7 @@
         padding-top: 5px;
     } 
    }
-    @media (min-width: 768px) {
+   @media (min-width: 768px){
       .ldod-default  .reading__column img, .reading__column--open img {
         display: inline-block;
         padding: 0;
@@ -1040,15 +1077,57 @@
         -webkit-transform: rotate(0deg);
         -moz-transform: rotate(0deg);
         -ms-transform: rotate(0deg);
-        transform: rotate(0deg); } }
+        transform: rotate(0deg); 
+        margin-top:-8px;
+        } 
+
+        .reading-grid {
+ 	 		margin-right: 5px !important;
+ 	 		margin-left:5px !important;
+ 	 	}
+	}
+
+ 	@media (min-width: 768px) and (max-width: 991px) { 
+ 	 	.ldod-default  .reading__column img, .reading__column--open img {
+ 	 	margin-top:5px;
+ 	 	}
+
+ 	 	.ldod-default .reading__text {
+ 	 		padding: 112px 15px 15px !important;
+ 	 	}
+
+ 	 	.ldod-default .reading__text h1 {
+ 	 		font-size:3rem !important;
+ 	 		line-height:3.5rem !important;
+ 	 	}
+
+ 	 	.ldod-default .reading__column .f--condensed, .reading__column--open .f--condensed {
+ 	 		font-size: 1.6rem !important;
+ 	 		height: 96px !important;
+ 	 	}
+ 	}
+
+ 	
+
+ 	
 
 .ldod-default .reading__column--open {
   border: 0;
   border-top: 2px dotted #FC1B27; }
+
+  @media (max-width: 767px) {
+  	 .ldod-default .reading__column--open {
+  	 padding-right: 0px !important;
+      padding-left: 0px !important;
+  	 } 
+  }
   @media (min-width: 768px) {
     .ldod-default .reading__column--open {
       border: 0;
-      border-left: 2px dotted #FC1B27; } }
+      border-left: 2px dotted #FC1B27;
+      padding-right: 5px;
+      padding-left: 5px;
+  	 } }
   .ldod-default  .reading__column--open h2,
   .ldod-default  .reading__column--open h4 {
     color: #FC1B27; }
@@ -1060,18 +1139,23 @@
   border-top: 2px dotted black; }
   @media (min-width: 768px) {
     .ldod-default .reading__text {
-      padding: 120px 15px 15px;
+      padding: 122px 15px 15px;
       border: 0;
       border-left: 2px dotted gray;
-      /*border-right: 2px dotted black;*/ } }
+      /*border-right: 2px dotted black;*/ } 
+
+    .reading-book-title
+	 {
+       padding: 102px 15px 15px !important;	
+    }
+  }
   .ldod-default .reading__text h1 {
     margin: 0;
     font-size: 35px;
     font-size: 3.5rem;
     font-family: "League-Gothic";
     font-weight: regular;
-    line-height: 46.66667px;
-    line-height: 4.66667rem;
+    line-height: 3.8rem;
     text-transform: uppercase; }
 
    .ldod-default .reading__text h1 a {
@@ -1099,6 +1183,10 @@
     font-size: 1.8rem;
   	line-height: 24px;
     line-height: 2.4rem;
+  }
+
+  .ldod-default .reading__text .text-lg-justify {
+  	text-align:left !important;
   }
 
   .ldod-default .reading__text p {
@@ -1145,12 +1233,12 @@
     }
     @media (max-width: 530px) {
     .ldod-default   .reading__text p {
-        font-size: 15px;
-        font-size: 1.5rem;
+
+        font-size: 1.6rem;
         font-family: "Work-Sans";
         font-weight: 400;
         line-height: 20px;
-        line-height: 2rem; } 
+        line-height: 2.1rem; } 
 
     .ldod-default .reading__text {
 	  	font-size: 15px;
@@ -1176,17 +1264,20 @@
 .ldod-default .reading__column h4{
 	height: 30px;
 	margin-right: -50px;
-	font-size: 22px;
+	font-size: 2.75rem;
+	padding-top: 15px;
 }
 
 .ldod-default .reading__column--open h4 {
-	font-size: 22px;
+	font-size: 2.75rem;
+	padding-top: 4px;
 	height: auto;
 }
 
 
 .ldod-default  .reading__column .f--condensed {
-	font-size: 22px;
+	font-size: 2.75rem;
+	padding-top: 8px;
 }
 
 .ldod-default .reading__column img {
