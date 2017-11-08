@@ -45,122 +45,140 @@
 
 
 <br />
-<h5 id="V1" style="padding-top: 130px; margin-top: -130px;">Teaser_LdoD: LdoD Archive</h5>
+<h5 id="V1" >Teaser_LdoD: LdoD Archive</h5>
+
+<div class="videoWrapper">
 <iframe width="560" height="315"
 	src="https://www.youtube.com/embed/dEnavuucyrY" frameborder="0"
-	allowfullscreen></iframe>
+	allowfullscreen></iframe></div>
 <br />
 <br />
 
-<h5 id="V2" style="padding-top: 130px; margin-top: -130px;">Documentary reality is disorganized</h5>
+<h5 id="V2" >Documentary reality is disorganized</h5>
+<div class="videoWrapper">
 <iframe width="560" height="315"
 	src="https://www.youtube.com/embed/wHMLD23JkIw" frameborder="0"
-	allowfullscreen></iframe>
+	allowfullscreen></iframe></div>
 <br />
 <br />
 
-<h5 id="V3" style="padding-top: 130px; margin-top: -130px;">Vicente Guedes and Bernardo Soares</h5>
+<h5 id="V3" >Vicente Guedes and Bernardo Soares</h5>
+<div class="videoWrapper">
 <iframe width="560" height="315"
 	src="https://www.youtube.com/embed/AfTDWoOFEMA" frameborder="0"
-	allowfullscreen></iframe>
+	allowfullscreen></iframe></div>
 <br />
 <br />
 
-<h5 id="V4" style="padding-top: 130px; margin-top: -130px;">Defining discursive units</h5>
+<h5 id="V4" >Defining discursive units</h5>
+<div class="videoWrapper">
 <iframe width="560" height="315"
 	src="https://www.youtube.com/embed/EZYBzryVWYI" frameborder="0"
-	allowfullscreen></iframe>
+	allowfullscreen></iframe></div>
 <br />
 <br />
 
-<h5 id="V5" style="padding-top: 130px; margin-top: -130px;">Defining paragraphs</h5>
+<h5 id="V5" >Defining paragraphs</h5>
+<div class="videoWrapper">
 <iframe width="560" height="315"
 	src="https://www.youtube.com/embed/-LGEm7qf6qc" frameborder="0"
-	allowfullscreen></iframe>
+	allowfullscreen></iframe></div>
 <br />
 <br />
 
-<h5 id="V6" style="padding-top: 130px; margin-top: -130px;">Human speech</h5>
+<h5 id="V6" >Human speech</h5>
+<div class="videoWrapper">
 <iframe width="560" height="315"
 	src="https://www.youtube.com/embed/ObI5qTT1qhU" frameborder="0"
-	allowfullscreen></iframe>
+	allowfullscreen></iframe></div>
 <br />
 <br />
 
-<h5 id="V7" style="padding-top: 130px; margin-top: -130px;">Why editing?</h5>
+<h5 id="V7" >Why editing?</h5>
+<div class="videoWrapper">
 <iframe width="560" height="315"
 	src="https://www.youtube.com/embed/qdc3y_pUBII" frameborder="0"
-	allowfullscreen></iframe>
+	allowfullscreen></iframe></div>
 <br />
 <br />
 
-<h5 id="V8" style="padding-top: 130px; margin-top: -130px;">Chronological organization</h5>
+<h5 id="V8" >Chronological organization</h5>
+<div class="videoWrapper">
 <iframe width="560" height="315"
 	src="https://www.youtube.com/embed/0E8-k7ZuCd8" frameborder="0"
-	allowfullscreen></iframe>
+	allowfullscreen></iframe></div>
 <br />
 <br />
 
-<h5 id="V9" style="padding-top: 130px; margin-top: -130px;">Heteronyms</h5>
+<h5 id="V9" >Heteronyms</h5>
+<div class="videoWrapper">
 <iframe width="560" height="315"
 	src="https://www.youtube.com/embed/sXliW-96fLw" frameborder="0"
-	allowfullscreen></iframe>
+	allowfullscreen></iframe></div>
 <br />
 <br />
 
-<h5 id="V10" style="padding-top: 130px; margin-top: -130px;">Editing possibilities</h5>
+<h5 id="V10" >Editing possibilities</h5>
+<div class="videoWrapper">
 <iframe width="560" height="315"
 	src="https://www.youtube.com/embed/CODlWW6BqhE" frameborder="0"
-	allowfullscreen></iframe>
+	allowfullscreen></iframe></div>
 <br />
 <br />
 
-<h5 id="V11" style="padding-top: 130px; margin-top: -130px;">Materiality and criticism</h5>
+<h5 id="V11" >Materiality and criticism</h5>
+<div class="videoWrapper">
 <iframe width="560" height="315"
 	src="https://www.youtube.com/embed/N-6lEbfFB6E" frameborder="0"
-	allowfullscreen></iframe>
+	allowfullscreen></iframe></div>
 <br />
 <br />
 
-<h5 id="V12" style="padding-top: 130px; margin-top: -130px;">Spontaneous reading</h5>
+<h5 id="V12" >Spontaneous reading</h5>
+<div class="videoWrapper">
 <iframe width="560" height="315"
 	src="https://www.youtube.com/embed/chTLiJDAhCA" frameborder="0"
-	allowfullscreen></iframe>
+	allowfullscreen></iframe></div>
 <br />
 <br />
 
-<h5 id="V13" style="padding-top: 130px; margin-top: -130px;">Hyperconsciousness</h5>
+<h5 id="V13" >Hyperconsciousness</h5>
+<div class="videoWrapper">
 <iframe width="560" height="315"
 	src="https://www.youtube.com/embed/oAFPcx6_rbs" frameborder="0"
-	allowfullscreen></iframe>
+	allowfullscreen></iframe></div>
 <br />
 <br />
 
-<h5 id="V14" style="padding-top: 130px; margin-top: -130px;">LdoD Archive</h5>
+<h5 id="V14" >LdoD Archive</h5>
+<div class="videoWrapper">
 <iframe width="560" height="315"
 	src="https://www.youtube.com/embed/6MiYye4rQJk" frameborder="0"
-	allowfullscreen></iframe>
+	allowfullscreen></iframe></div>
 <br />
 <br />
 
-<h5 id="V15" style="padding-top: 130px; margin-top: -130px;">Dynamic archive</h5>
+<h5 id="V15" >Dynamic archive</h5>
+<div class="videoWrapper">
 <iframe width="560" height="315"
 	src="https://www.youtube.com/embed/7_6pKD2ktSY" frameborder="0"
-	allowfullscreen></iframe>
+	allowfullscreen></iframe></div>
 <br />
 <br />
 
-<h5 id="V16" style="padding-top: 130px; margin-top: -130px;">Learning Researching Creating</h5>
+<h5 id="V16" >Learning Researching Creating</h5>
+<div class="videoWrapper">
 <iframe width="560" height="315"
 	src="https://www.youtube.com/embed/MxycSwfE8XY" frameborder="0"
-	allowfullscreen></iframe>
+	allowfullscreen></iframe></div>
 <br />
 <br />
 
-<h5 id="V17" style="padding-top: 130px; margin-top: -130px;">Literary performativity simulator</h5>
+<h5 id="V17" >Literary performativity simulator</h5>
+<div class="videoWrapper">
 <iframe width="560" height="315"
 	src="https://www.youtube.com/embed/OF3OD3-i1EY" frameborder="0"
-	allowfullscreen></iframe>
+	allowfullscreen></iframe></div>
 <br />
 <br />
 

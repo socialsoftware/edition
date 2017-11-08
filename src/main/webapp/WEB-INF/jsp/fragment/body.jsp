@@ -1,7 +1,7 @@
 <%@ include file="/WEB-INF/jsp/common/tags-head.jsp"%>
 <div id="fragmentBody">
     <div class="container">
-        <div class="row">
+        <div class="row" style="margin-left:0px;margin-right:0px">
             <div class="col-md-9">
                 <c:choose>
                     <c:when test="${inters.size() == 0}"><%@ include
@@ -27,3 +27,5 @@
         </div>
     </div>
 </div>
+<br>
+<br>

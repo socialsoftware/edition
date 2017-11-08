@@ -1,4 +1,4 @@
-<p>
+<p class="ldod-about semibold">
 	The <em>LdoD Archive</em> is a collaborative digital archive of the <em>Book
 		of Disquiet</em> by Fernando Pessoa. It contains images of the autograph
 	documents, new transcriptions of those documents and also
@@ -15,6 +15,8 @@
 	writing), using the flexibility of the digital medium for experimenting
 	with the <em>Book of Disquiet</em> as a literary machine.
 </p>
+<p>&nbsp;</p>
+<hr class="ldod-about">
 <p>&nbsp;</p>
 <p>
 	The main features of the <em>LdoD Archive</em> are expressed through

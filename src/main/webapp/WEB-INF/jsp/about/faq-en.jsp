@@ -112,9 +112,9 @@
 	<li><a href="#Q59Q">What might be some of the typical scenarios associated with
 			creating virtual editions?</a></li>
 </ul>
-<h3 id="T1T" style="padding-top: 130px; margin-top: -130px;">The Archive</h3>
+<h3 id="T1T" >The Archive</h3>
 
-<h5 id="Q01Q" style="padding-top: 130px; margin-top: -130px;">What is
+<h5 id="Q01Q" >What is
 	the <em>LdoD Archive</em>?</h5>
 <p>The <em>LdoD Archive</em> is a collaborative digital archive of the <em>Book
 	of Disquiet</em> by Fernando Pessoa. It contains images of the autograph
@@ -132,7 +132,7 @@
 	flexibility of the digital medium for experimenting with the <em>Book of
 	Disquiet</em> as a literary machine.</p>
 
-<h5 id="Q02Q" style="padding-top: 130px; margin-top: -130px;">What does the <em>LdoD Archive</em> contain?</h5>
+<h5 id="Q02Q" >What does the <em>LdoD Archive</em> contain?</h5>
 <p>
 	The <em>LdoD Archive</em> consists of a group of fragments that
 	Fernando Pessoa explicitly attributed to the <em>Book of Disquiet</em>
@@ -156,7 +156,7 @@
 	transcription and metadata associated with an authorial interpretation
 	is the responsibility of the <em>LdoD Archive</em> team.
 </p>
-<h5 id="Q03Q" style="padding-top: 130px; margin-top: -130px;">What is a fragment in the <em>LdoD Archive</em>?</h5>
+<h5 id="Q03Q" >What is a fragment in the <em>LdoD Archive</em>?</h5>
 
 <p>
 	A fragment is a modular textual sequence and it constitutes the basic
@@ -169,7 +169,7 @@
 	editions, including those texts that are published as appendix or annex
 	to the main text.
 </p>
-<h5 id="Q04Q" style="padding-top: 130px; margin-top: -130px;">What is the relationship 
+<h5 id="Q04Q" >What is the relationship 
 	between a text in the <em>Book of Disquiet</em> and a fragment in the <em>LdoD Archive</em>?</h5>
 <p>
 	All fragments of the <em>LdoD Archive</em> are also textual units of the
@@ -185,7 +185,7 @@
 	between a text as a unit within a given edition and a fragment as a
 	unit within the <em>LdoD Archive</em>.</p>
 
-<h5 id="Q05Q" style="padding-top: 130px; margin-top: -130px;">Why is the fragment 
+<h5 id="Q05Q" >Why is the fragment 
 	treated as a modular unit in the <em>LdoD Archive</em>?</h5>
 
 <p>
@@ -204,7 +204,7 @@
 	allows us to simulate authorial projectuality and editorial
 	projectuality as processes for imagining the work as a book.</p>
 
-<h5 id="Q06Q" style="padding-top: 130px; margin-top: -130px;">What is an interpretation in 
+<h5 id="Q06Q" >What is an interpretation in 
 	the <em>LdoD Archive</em>?</h5>
 <p>
 	An interpretation is the set formed by a transcription and the metadata
@@ -217,7 +217,7 @@
 	ordering of the fragment within the architecture of the <em>Book</em>,
 	inclusion or exclusion of a given fragment from the corpus of the <em>Book</em>).
 </p>
-<h5 id="Q07Q" style="padding-top: 130px; margin-top: -130px;">Why do fragments have 
+<h5 id="Q07Q" >Why do fragments have 
 	more than one editorial interpretation for the same editor?</h5>
 <p>
 	This is because editors sometimes split a fragment or associate
@@ -227,7 +227,7 @@
 	Archive associates a single interpretation to that fragment while for
 	the second editor it associates two interpretations.
 </p>
-<h5 id="Q08Q" style="padding-top: 130px; margin-top: -130px;">
+<h5 id="Q08Q" >
 	What is the authorial interpretation representative of a fragment?</h5>
 
 <p>
@@ -239,8 +239,8 @@
 	transcription, for example, for calculating the textual similarity
 	between two fragments when using the recommendation algorithm.</p>
 
-<h3 id="T2T"  style="padding-top: 130px; margin-top: -130px;">Witnesses</h3>
-<h5 id="Q09Q" style="padding-top: 130px; margin-top: -130px;">
+<h3 id="T2T"  >Witnesses</h3>
+<h5 id="Q09Q" >
 	What are the witnesses?</h5>
 <p>
 	The witnesses are the interpretations of the fragments made up of
@@ -251,7 +251,7 @@
 	witnesses (material and medium of the inscription, paper size, other
 	document features, BNP shelf-mark, etc.).
 </p>
-<h5 id="Q10Q" style="padding-top: 130px; margin-top: -130px;">
+<h5 id="Q10Q" >
 	What is a genetic transcription?</h5>
 
 <p>
@@ -261,7 +261,7 @@
 	substitutions, and transpositions made during and after the initial
 	stage of writing have been marked up.</p>
 
-<h5 id="Q11Q" style="padding-top: 130px; margin-top: -130px;">
+<h5 id="Q11Q" >
 	What can we see in the interface for visualizing authorial
 	sources?</h5>
 <p>
@@ -273,7 +273,7 @@
 	textual variants are also represented, that is, those textual passages
 	for which there are two or more alternatives.
 </p>
-<h5 id="Q12Q" style="padding-top: 130px; margin-top: -130px;">
+<h5 id="Q12Q" >
 	What is the facsimile?</h5>
 <p>
 	The facsimile is a digital image of the original document, which is
@@ -283,7 +283,7 @@
 	to the <em>Book</em>. There are therefore sheets represented by <em>recto</em>
 	pages only, and others by <em>recto </em>and <em>verso </em>pages.
 </p>
-<h5 id="Q13Q" style="padding-top: 130px; margin-top: -130px;">
+<h5 id="Q13Q" >
 	What is the difference between witnesses and encoded fragments?</h5>
 <p>
 	The designations &ldquo;witnesses&rdquo; and &ldquo;encoded fragments&rdquo; are different 
@@ -315,8 +315,8 @@
 	genetic transcription.
 </p>
 
-<h3 id="T3T"  style="padding-top: 130px; margin-top: -130px;">Experts&rsquo; Editions</h3>
-<h5 id="Q14Q" style="padding-top: 130px; margin-top: -130px;">
+<h3 id="T3T"  >Experts&rsquo; Editions</h3>
+<h5 id="Q14Q" >
 	What are the experts&rsquo; editions?</h5>
 <p>
 	The editions by the experts included in the <em>LdoD Archive</em> are
@@ -346,7 +346,7 @@
 	ordered the texts by date of composition and for having developed a
 	systematic and exhaustive critical-genetic apparatus.
 </p>
-<h5 id="Q15Q" style="padding-top: 130px; margin-top: -130px;">
+<h5 id="Q15Q" >
 	Why were these specific experts&rsquo; editions selected?</h5>
 <p>
 	Because these four editions (Coelho 1982; Sobral Cunha 2008; Zenith
@@ -360,7 +360,7 @@
 	editions have already been published (Sobral Cunha 2013;
 	Pizarro 2013 and 2014; Zenith 2015).
 </p>
-<h5 id="Q16Q" style="padding-top: 130px; margin-top: -130px;">
+<h5 id="Q16Q" >
 	Will the experts' editions be updated in the future?</h5>
 
 <p>
@@ -375,7 +375,7 @@
 	Cunha-2008, Zenith-2012 and Pizarro-2010), and not to an eclectic
 	combination of readings collected in different editions of the text.
 </p>
-<h5 id="Q17Q" style="padding-top: 130px; margin-top: -130px;">
+<h5 id="Q17Q" >
 	Why did you not include the new edition by Teresa Rita Lopes (2015)?</h5>
 <p>
 	In 2015 Teresa Rita Lopes published a new edition titled <em>Book(s) of Disquiet</em>, 
@@ -389,8 +389,8 @@
 	her edition would have been included since it meets the conditions by which we 
 	have defined the expert editions.
 </p>
-<h3 id="T4T"  style="padding-top: 130px; margin-top: -130px;">XML-TEI encoding</h3>
-<h5 id="Q18Q" style="padding-top: 130px; margin-top: -130px;">
+<h3 id="T4T"  >XML-TEI encoding</h3>
+<h5 id="Q18Q" >
 	How did we encode the texts in the <em>LdoD Archive</em>?</h5>
 <p>
 	The encoding was made according to the guidelines of the Text
@@ -399,7 +399,7 @@
 	carried out over four years, by a team of five people, representing a
 	total of twelve thousand hours of encoding and revision.
 </p>
-<h5 id="Q19Q" style="padding-top: 130px; margin-top: -130px;">
+<h5 id="Q19Q" >
 	What elements have been encoded?</h5>
 <p>
 	The XML encoding of both the witnesses and the four expert
@@ -420,8 +420,8 @@
 	documents. In the case of the experts editions all spaces and rules of
 	division between paragraphs have also been marked up.
 </p>
-<h3 id="T5T"  style="padding-top: 130px; margin-top: -130px;">Edition Comparison</h3>
-<h5 id="Q20Q" style="padding-top: 130px; margin-top: -130px;">
+<h3 id="T5T"  >Edition Comparison</h3>
+<h5 id="Q20Q" >
 	What is the edition comparison interface for?</h5>
 <p>
 	The edition comparison interface has been designed to relate the
@@ -431,7 +431,7 @@
 	allows you to compare the transcriptions of each fragment, as well as
 	their relative position within the order of the <em>Book.</em>
 </p>
-<h5 id="Q21Q" style="padding-top: 130px; margin-top: -130px;">
+<h5 id="Q21Q" >
 	What does the &ldquo;highlight differences&rdquo; view show?</h5>
 <p>
 	This feature shows the points of variation between the
@@ -444,7 +444,7 @@
 	all interpretations results in the darker blue shade, and there are
 	also two intermediate shades.
 </p>
-<h5 id="Q22Q" style="padding-top: 130px; margin-top: -130px;">
+<h5 id="Q22Q" >
 	Which are the differentiation units for highlighting?</h5>
 <p>
 	The differentiation units for highlighting can be of four types: (a)
@@ -476,7 +476,7 @@
 	variation at the lower scale of the word or group of words, punctuation
 	mark, and sentence or group of sentences.
 </p>
-<h5 id="Q60Q" style="padding-top: 130px; margin-top: -130px;">
+<h5 id="Q60Q" >
 	Why does highlighting sometimes repeat single words that belong to a highlighted textual block?</h5>
 <p>	When paragraphs are divided differently from each other 
 	in the corpus of the five transcriptions, we have encoded two 
@@ -494,7 +494,7 @@
 	which results in highlighting words and paragraphs in this way.
 
 </p>
-<h5 id="Q23Q" style="padding-top: 130px; margin-top: -130px;">
+<h5 id="Q23Q" >
 	What does the comparison reveal about the editions?</h5>
 <p>
 	The comparison provides a better understanding of each edition and
@@ -528,14 +528,14 @@
 	experts&rsquo; editions corpus allow us to prove the existence of four
 	distinct models for producing the <em>Book of Disquiet.</em>
 </p>
-<h5 id="Q24Q" style="padding-top: 130px; margin-top: -130px;">
+<h5 id="Q24Q" >
 	Is it possible to compare an editorial or authorial
 	interpretation with a virtual interpretation?</h5>
 <p>
 	No, because a virtual interpretation never changes the
 	transcription of the interpretation it uses.
 </p>
-<h5 id="Q25Q" style="padding-top: 130px; margin-top: -130px;">
+<h5 id="Q25Q" >
 	What does the comparison of fragments&rsquo; annotations in
 	virtual editions show?</h5>
 <p>
@@ -546,10 +546,10 @@
 	between interpretations of the same fragment even when the base
 	interpretation used is not the same.
 </p>
-<h3 id="T6T" style="padding-top: 130px; margin-top: -130px;">Search</h3>
+<h3 id="T6T" >Search</h3>
 <p>The search allows you to select fragments according to a set of
 	criteria.</p>
-<h5 id="Q26Q" style="padding-top: 130px; margin-top: -130px;">
+<h5 id="Q26Q" >
 	What is simple search?</h5>
 <p>
 	In simple search it is possible to select the set of fragments
@@ -561,7 +561,7 @@
 	same fragment (i.e., authorial interpretations and editorial
 	interpretations).
 </p>
-<h5 id="Q27Q" style="padding-top: 130px; margin-top: -130px;">
+<h5 id="Q27Q" >
 	Which characters are allowed in the search criteria by text?</h5>
 
 <p>
@@ -572,7 +572,7 @@
 	between lowercase and uppercase, so in the previous example the result
 	will also include those interpretations where the word "Alma" appears.
 </p>
-<h5 id="Q28Q" style="padding-top: 130px; margin-top: -130px;">
+<h5 id="Q28Q" >
 	What is advanced search?</h5>
 <p>
 	In advanced search you can use a larger set of criteria. In addition,
@@ -598,7 +598,7 @@
 	each interpretation satisfies, and thus justifying the reason why the
 	fragment was selected.
 </p>
-<h3 id="T7T" style="padding-top: 130px; margin-top: -130px;">Reading</h3>
+<h3 id="T7T" >Reading</h3>
 <p>
 	The reading interface offers the possibility of reading the fragments
 	of the <em>Book of Disquiet</em> according to the sequences proposed by
@@ -609,7 +609,7 @@
 	reading the system recommends what it considers closest according to a
 	measure of distance between fragments.
 </p>
-<h5 id="Q29Q" style="padding-top: 130px; margin-top: -130px;">
+<h5 id="Q29Q" >
 	How is the distance between two fragments calculated?</h5>
 <p>
 	It is calculated by applying the <a
@@ -621,7 +621,7 @@
 	with all the interpretations of the fragment multiplied by the weight
 	assigned by the user to that criterion, a value between 0.2 and 1.0.
 </p>
-<h5 id="Q30Q" style="padding-top: 130px; margin-top: -130px;">
+<h5 id="Q30Q" >
 	How is the vector associated with the heteronym?</h5>
 
 <p>
@@ -633,7 +633,7 @@
 	by one of the editors and to Bernardo Soares by two of the other
 	editors, the heteronym vector will have 1.0 in both cells.
 </p>
-<h5 id="Q31Q" style="padding-top: 130px; margin-top: -130px;">
+<h5 id="Q31Q" >
 	How is the vector associated with the date calculated?</h5>
 <p>
 	The date vector has 22 cells, one for each of the years between the
@@ -645,7 +645,7 @@
 	in which N is the distance between the year associated with the cell
 	and the nearest cell with value 1.0.
 </p>
-<h5 id="Q32Q" style="padding-top: 130px; margin-top: -130px;">
+<h5 id="Q32Q" >
 	How is the vector associated with the text calculated?</h5>
 <p>
 	Initially, the set of the first 100 <a
@@ -661,7 +661,7 @@
 	the transcription associated with a representative authorial
 	interpretation is used.
 </p>
-<h5 id="Q33Q" style="padding-top: 130px; margin-top: -130px;">
+<h5 id="Q33Q" >
 	How is the vector associated with taxonomy calculated?</h5>
 <p>
 	The vector has a number of cells equal to the number of tags in the <em>LdoD
@@ -670,14 +670,14 @@
 		Archive Edition</em> has assigned that category to any tag, and has a value
 	of 0.0 otherwise.
 </p>
-<h5 id="Q34Q" style="padding-top: 130px; margin-top: -130px;">
+<h5 id="Q34Q" >
 	What does the reading recommendation mean when all weights in
 	the criteria are set to zero?</h5>
 <p>
 	It means there is no similarity between the fragments, i.e., the
 	value of similarity between any two fragments is 0.0.
 </p>
-<h5 id="Q35Q" style="padding-top: 130px; margin-top: -130px;">
+<h5 id="Q35Q" >
 	The similarity is calculated between fragments, but what the
 	<em>LdoD Archive</em> recommends for reading is an interpretation and not a fragment,
 	why?</h5>
@@ -688,7 +688,7 @@
 	Thus, the transcription associated with the edition whose transcription
 	the user is currently reading is suggested for reading.
 </p>
-<h5 id="Q36Q" style="padding-top: 130px; margin-top: -130px;">
+<h5 id="Q36Q" >
 	Can fragments that have been recommended be recommended again?</h5>
 <p>
 	Only those fragments that have not been read since the user started a
@@ -696,7 +696,7 @@
 	remaining, the <em>Archive</em> will again consider the first 50
 	fragments read for its recommendation.
 </p>
-<h5 id="Q37Q" style="padding-top: 130px; margin-top: -130px;">
+<h5 id="Q37Q" >
 	Can more than one fragment be recommended?</h5>
 <p>
 	Yes, the system suggests the most similar fragment to the one
@@ -706,7 +706,7 @@
 	most similar that has an interpretation in the edition of the
 	transcription that is currently being read.
 </p>
-<h5 id="Q38Q" style="padding-top: 130px; margin-top: -130px;">
+<h5 id="Q38Q" >
 	Why is it that after a fragment interpretation is recommended,
 	no further interpretation of the same fragment is recommenced, even if
 	the interpretation read is from an edition that has two interpretations
@@ -717,8 +717,8 @@
 	similarity between fragments.
 </p>
 
-<h3 id="T8T"  style="padding-top: 130px; margin-top: -130px;">Virtual Edition</h3>
-<h5 id="Q39Q" style="padding-top: 130px; margin-top: -130px;">
+<h3 id="T8T"  >Virtual Edition</h3>
+<h5 id="Q39Q" >
 	What is a virtual edition?</h5>
 
 <p>
@@ -729,7 +729,7 @@
 	annotation through notes and categories. The set of categories
 	associated with a virtual edition defines its taxonomy.
 </p>
-<h5 id="Q40Q" style="padding-top: 130px; margin-top: -130px;">
+<h5 id="Q40Q" >
 	What are the limitations to the editorial function in the <em>LdoD
 	Archive</em>?</h5>
 
@@ -747,7 +747,7 @@
 	critical editing &mdash; may be considered in the future, depending on the
 	available resources.
 </p>
-<h5 id="Q41Q" style="padding-top: 130px; margin-top: -130px;">
+<h5 id="Q41Q" >
 	What is <em>LdoD Archive Edition</em>?</h5>
 <p>
 	It is an experimental edition of the <em>LdoD Archive</em> that uses
@@ -756,7 +756,7 @@
 	by the editors of the <em>Archive</em>, who additionally have annotated
 	the interpretations using the categories of that taxonomy.
 </p>
-<h5 id="Q42Q" style="padding-top: 130px; margin-top: -130px;">
+<h5 id="Q42Q" >
 	How can I create a virtual edition?</h5>
 <p>
 	In the virtual interface you can create a new virtual edition.
@@ -773,14 +773,14 @@
 	edition. This criterion was chosen to respect the authorship of the
 	annotations.
 </p>
-<h5 id="Q43Q" style="padding-top: 130px; margin-top: -130px;">
+<h5 id="Q43Q" >
 	Can a virtual edition have more than one interpretation of the
 	same fragment?</h5>
 <p>
 	No, it is only possible to associate one interpretation per
 	fragment with a virtual edition.
 </p>
-<h5 id="Q44Q" style="padding-top: 130px; margin-top: -130px;">
+<h5 id="Q44Q" >
 	How do I add an interpretation to a virtual edition?</h5>
 <p>
 	There are several ways to associate an interpretation of a
@@ -790,19 +790,19 @@
 	the manual sorting interface of the virtual edition you can also search
 	for fragments and add them to the virtual edition.
 </p>
-<h5 id="Q45Q" style="padding-top: 130px; margin-top: -130px;">
+<h5 id="Q45Q" >
 	How can I remove an interpretation from a virtual edition?</h5>
 <p>
 	In the manual sorting interface of the virtual edition you can
 	select one or more interpretations and remove them.
 </p>
-<h5 id="Q46Q" style="padding-top: 130px; margin-top: -130px;">
+<h5 id="Q46Q" >
 	Who can add to and remove interpretations from a virtual
 	edition?</h5>
 <p>
 	All editors of the virtual edition.
 </p>
-<h5 id="Q47Q" style="padding-top: 130px; margin-top: -130px;">
+<h5 id="Q47Q" >
 	Can I collaborate with other people in building a virtual
 	edition?</h5>
 <p>
@@ -816,7 +816,7 @@
 	managers are also, inherently, editors, thus having all the privileges
 	of an editor.
 </p>
-<h5 id="Q48Q" style="padding-top: 130px; margin-top: -130px;">
+<h5 id="Q48Q" >
 	What distinguishes a public virtual edition from a private one?</h5>
 <p>
 	A private edition is only visible and can only be manipulated by its
@@ -827,7 +827,7 @@
 	can change the state of the edition from private to public, as well as
 	its name and acronym.
 </p>
-<h5 id="Q49Q" style="padding-top: 130px; margin-top: -130px;">
+<h5 id="Q49Q" >
 	How can I annotate the interpretations of a virtual edition?</h5>
 <p>
 	Interpretations of a virtual edition can be annotated manually
@@ -847,7 +847,7 @@
 	annotation the transcription of those interpretations with the
 	generated categories.
 </p>
-<h5 id="Q50Q" style="padding-top: 130px; margin-top: -130px;">
+<h5 id="Q50Q" >
 	Who can annotate interpretations of a virtual edition?</h5>
 <p>
 	In the taxonomy interface, within the virtual edition, managers
@@ -858,7 +858,7 @@
 	annotations, only the user who created them can perform these
 	operations.
 </p>
-<h5 id="Q51Q" style="padding-top: 130px; margin-top: -130px;">
+<h5 id="Q51Q" >
 	How do you define the set of categories of a taxonomy?</h5>
 <p>
 	The taxonomy of a virtual edition can be open or closed,
@@ -875,13 +875,13 @@
 	is also possible to automatically increase the number of categories of
 	a virtual edition by applying the topic-generation algorithm.
 </p>
-<h5 id="Q52Q" style="padding-top: 130px; margin-top: -130px;">
+<h5 id="Q52Q" >
 	Who can define whether a taxonomy is open or closed?</h5>
 <p>
 	In the taxonomy interface, within a virtual edition, virtual
 	edition managers can define whether the taxonomy is open or closed.
 </p>
-<h5 id="Q53Q" style="padding-top: 130px; margin-top: -130px;">
+<h5 id="Q53Q" >
 	What is the topic-generation algorithm?</h5>
 <p>
 	The <a href="https://en.wikipedia.org/wiki/Topic_model">topic-generation
@@ -900,14 +900,14 @@
 	generation of topics, one must access the taxonomy in the interface of
 	the virtual edition.
 </p>
-<h5 id="Q54Q" style="padding-top: 130px; margin-top: -130px;">
+<h5 id="Q54Q" >
 	Who can change the categories of a virtual edition?</h5>
 <p>
 	In the taxonomy interface, within a virtual edition, managers can
 	define whether it is only managers who can manipulate the categories,
 	or whether all editors of the virtual edition can do so.
 </p>
-<h5 id="Q55Q" style="padding-top: 130px; margin-top: -130px;">
+<h5 id="Q55Q" >
 	Can I use the base edition taxonomy categories in my virtual
 	edition annotations?</h5>
 <p>
@@ -920,7 +920,7 @@
 	that used that category in the new virtual edition because the <em>LdoD
 		Archive</em> preserves the authorship of the annotations.
 </p>
-<h5 id="Q56Q" style="padding-top: 130px; margin-top: -130px;">
+<h5 id="Q56Q" >
 	How can I reorder the interpretations in a virtual edition?</h5>
 <p>
 	There are two modes for reordering the interpretations: a manual mode
@@ -943,12 +943,12 @@
 	saved, leading to a redefinition of the numbering associated with each
 	interpretation.
 </p>
-<h5 id="Q57Q" style="padding-top: 130px; margin-top: -130px;">
+<h5 id="Q57Q" >
 	Who can reorder the interpretations in a virtual edition?</h5>
 <p>
 	All the editors of that virtual edition.
 </p>
-<h5 id="Q58Q" style="padding-top: 130px; margin-top: -130px;">
+<h5 id="Q58Q" >
 	When a virtual edition is created which are its default settings?</h5>
 <p>
 	By default the virtual editors can annotate the interpretations,
@@ -956,7 +956,7 @@
 	managers can change the categories of the taxonomy; and the vocabulary
 	of the taxonomy is open.
 </p>
-<h5 id="Q59Q" style="padding-top: 130px; margin-top: -130px;">
+<h5 id="Q59Q" >
 	What might be some of the typical scenarios associated with
 	creating virtual editions?</h5>
 <ul>

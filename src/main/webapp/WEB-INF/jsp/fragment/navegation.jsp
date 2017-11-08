@@ -116,7 +116,7 @@
 									<td></td>
 									<td><c:choose>
 											<c:when test="${inters.contains(expertEditionInter)}">
-												<input type="checkbox"
+												<input class="" type="checkbox"
 													name="${expertEditionInter.externalId}"
 													value="${expertEditionInter.externalId}" checked />
 											</c:when>
