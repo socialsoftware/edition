@@ -10,7 +10,7 @@
 	<%@ include file="/WEB-INF/jsp/common/fixed-top-ldod-header.jsp"%>
 
 	<div class="container">
-		<div class="col-md-8 col-md-offset-2">
+		<div class="col-md-6 col-md-offset-3 intro-editions">
 			<h2 class="text-center">
 			<spring:message code="header.editions" />
 			</h1>
