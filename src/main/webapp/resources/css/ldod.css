@@ -1352,6 +1352,21 @@
 	padding-right: 0;
 	padding-left: 0;
 }
+
+.search-simple .form-control {
+	margin-bottom: 15px;
+}
+
+.container.search-simple {
+	padding-right: 0px;
+	padding-left: 0px;
+}
+
+.search-simple #searchresult {
+	padding-right: 15px;
+	padding-left: 15px;
+}
+
 }
 hr.ldod-about {
 	margin-bottom: 10px;

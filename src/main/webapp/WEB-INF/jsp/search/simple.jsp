@@ -22,7 +22,7 @@
 <spring:message code="search.authorial" var="searchAuthorial" />
 
 	<%@ include file="/WEB-INF/jsp/common/fixed-top-ldod-header.jsp"%>
-	<div class='container'>
+	<div class="container search-simple">
 	<div>
 		<h3 class="text-center">
 			<spring:message code="header.search.simple" />
@@ -38,7 +38,7 @@
 		</button>
 	</div>
 	-->
-	 <div class="form-group">
+	 <div class="form-group search-simple">
     
 	    <div class="col-sm-4">
 	      <input type="text" class="form-control tip" id="query" title="" placeholder='<spring:message code="general.searching.for" />'>
