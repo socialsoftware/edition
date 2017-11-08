@@ -1,4 +1,4 @@
-<ul>
+
 <p>The virtual editing and the virtual  writing functionalities are provided as part of the dynamic layers of the  textual collaborative environment of the <em>LdoD Archive</em>.  They are meant to be used for learning, research, and creative practices.  Registered users are free to create, annotate, and publish their own virtual  editions. Once the writing functionality becomes available, they are also free  to write and publish variations based on particular textual references from the <em>Book of Disquiet</em>. All registered  users of the <em>LdoD Archive</em> must  respect its code of conduct as laid out in this document. </p>
 <p>&nbsp;</p>
 <p>By registering as a user of the<em> LdoD Archive,</em> you agree to not use the platform  to:</p>

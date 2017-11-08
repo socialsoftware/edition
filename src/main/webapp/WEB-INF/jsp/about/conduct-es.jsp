@@ -1,4 +1,3 @@
-<ul>
 
 <p>Las funcionalidades de edici&oacute;n virtual y de escritura virtual son parte integrante de los niveles din&aacute;micos del ambiente textual colaborativo del <em>Archivo LdoD</em>. Se destinan a ser utilizadas en pr&aacute;cticas de aprendizaje, investigaci&oacute;n y creaci&oacute;n. Los usuarios registrados pueden crear, anotar y publicar libremente sus propias ediciones virtuales. Una vez que la funcionalidad de escritura est&eacute; disponible, tambi&eacute;n son libres de escribir y publicar variaciones basadas en referencias textuales particulares del <em>Libro del desasosiego</em>. Todos los usuarios registrados del <em>Archivo LdoD </em> deben respetar las reglas de conducta establecidas en este documento.
 </p>

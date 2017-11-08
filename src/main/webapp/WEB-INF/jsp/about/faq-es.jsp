@@ -141,8 +141,8 @@
 	<li><a href="#Q59Q">&iquest;Cu&aacute;les pueden ser algunos de los escenarios
  		t&iacute;picos asociados a la creaci&oacute;n de ediciones virtuales?</a></li>
 </ul>
-<h3 id="T1T" style="padding-top: 130px; margin-top: -130px;">El Archivo</h3>
-<h5 id="Q01Q" style="padding-top: 130px; margin-top: -130px;">&iquest;Qu&eacute; es el <em>Archivo LdoD</em>?</h5>
+<h3 id="T1T" >El Archivo</h3>
+<h5 id="Q01Q" >&iquest;Qu&eacute; es el <em>Archivo LdoD</em>?</h5>
 <p>
 	El <em>Archivo LdoD</em> es un archivo digital colaborativo del <em>Libro del
 	desasosiego</em> de Fernando Pessoa. Contiene im&aacute;genes de los documentos
@@ -160,7 +160,7 @@
 	del medio digital para experimentar con el <em>Libro del desasosiego</em> como
 	m&aacute;quina literaria.
 </p>
-<h5 id="Q02Q" style="padding-top: 130px; margin-top: -130px;">&iquest;Qu&eacute; contiene el <em>Archivo LdoD</em>?</h5>
+<h5 id="Q02Q" >&iquest;Qu&eacute; contiene el <em>Archivo LdoD</em>?</h5>
 <p>
 	El <em>Archivo LdoD</em> est&aacute; constituido, por un lado, por un
 	grupo de fragmentos que Fernando Pessoa expl&iacute;citamente
@@ -190,7 +190,7 @@
 	metainformaci&oacute;n asociada a una interpretaci&oacute;n autoral son
 	de responsabilidad del equipo del <em>Archivo LdoD</em>.
 </p>
-<h5 id="Q03Q" style="padding-top: 130px; margin-top: -130px;">&iquest;Qu&eacute; es un fragmento en el <em>Archivo LdoD</em>?</h5>
+<h5 id="Q03Q" >&iquest;Qu&eacute; es un fragmento en el <em>Archivo LdoD</em>?</h5>
 <p>
 	Un fragmento es una secuencia textual modular que constituye la unidad
 	b&aacute;sica de composici&oacute;n del <em>Archivo LdoD</em>. La mayor
@@ -203,7 +203,7 @@
 		del desasosiego</em> por las cuatro ediciones cr&iacute;ticas, incluyendo
 	aquellos textos que son publicados en ap&eacute;ndice o anexo.
 </p>
-<h5 id="Q04Q" style="padding-top: 130px; margin-top: -130px;">&iquest;Cu&aacute;l es la relaci&oacute;n 
+<h5 id="Q04Q" >&iquest;Cu&aacute;l es la relaci&oacute;n 
 	entre un texto en el <em>Libro del desasosiego</em>
 	y un fragmento en el <em>Archivo LdoD</em>?</h5>
 <p>
@@ -220,7 +220,7 @@
 	pr&oacute;ximos entre s&iacute;. Esta es la principal diferencia entre un texto como
 	unidad de determinada edici&oacute;n y un fragmento como unidad del <em>Archivo
 	LdoD</em>.</p>
-<h5 id="Q05Q" style="padding-top: 130px; margin-top: -130px;">&iquest;Por qu&eacute; se trata el fragmento como una unidad modular en el
+<h5 id="Q05Q" >&iquest;Por qu&eacute; se trata el fragmento como una unidad modular en el
 	<em>Archivo LdoD</em>?</h5>
 <p>
 	La organizaci&oacute;n modular de los fragmentos (es decir, a la misma
@@ -238,7 +238,7 @@
 	configuraci&oacute;n radial y desierarquizada de sus unidades en el <em>Archivo
 	LdoD</em> nos permite simular la proyectualidad autoral y la proyectualidad
 	editorial como procesos de imaginaci&oacute;n de la obra como un libro.</p>
-<h5 id="Q06Q" style="padding-top: 130px; margin-top: -130px;">&iquest;Qu&eacute; es una interpretaci&oacute;n en el <em>Archivo
+<h5 id="Q06Q" >&iquest;Qu&eacute; es una interpretaci&oacute;n en el <em>Archivo
 	LdoD</em>?</h5>
 <p>
 	Una interpretaci&oacute;n es el conjunto formado por una
@@ -254,7 +254,7 @@
 	inclusi&oacute;n o exclusi&oacute;n de un determinado fragmento del
 	corpus del <em>Libro</em>).
 </p>
-<h5 id="Q07Q" style="padding-top: 130px; margin-top: -130px;">&iquest;Por qu&eacute; algunos fragmentos poseen m&aacute;s de
+<h5 id="Q07Q" >&iquest;Por qu&eacute; algunos fragmentos poseen m&aacute;s de
 	una interpretaci&oacute;n editorial para el mismo editor?</h5>
 <p>
 	Esta situaci&oacute;n se da porque los editores dividen, a veces,
@@ -264,7 +264,7 @@
 	&uacute;nica interpretaci&oacute;n mientras que para el segundo asocia
 	dos.
 </p>
-<h5 id="Q08Q" style="padding-top: 130px; margin-top: -130px;">&iquest;Qu&eacute; es la interpretaci&oacute;n autoral
+<h5 id="Q08Q" >&iquest;Qu&eacute; es la interpretaci&oacute;n autoral
 	representativa de un fragmento?</h5>
 <p>
 	Es la interpretaci&oacute;n autoral de la fuente impresa, en caso
@@ -274,8 +274,8 @@
 	referencia, por ejemplo, para calcular la similitud textual entre dos
 	fragmentos cuando se usa el algoritmo de recomendaci&oacute;n.
 </p>
-<h3 id="T2T" style="padding-top: 130px; margin-top: -130px;">Los Testimonios</h3>
-<h5 id="Q09Q" style="padding-top: 130px; margin-top: -130px;">&iquest;Qu&eacute; son los testimonios?</h5>
+<h3 id="T2T" >Los Testimonios</h3>
+<h5 id="Q09Q" >&iquest;Qu&eacute; son los testimonios?</h5>
 <p>
 	Los testimonios son las interpretaciones de los fragmentos constituidas
 	por transcripciones gen&eacute;ticas de manuscritos y dactiloscritos
@@ -286,14 +286,14 @@
 	inscripci&oacute;n, dimensiones de la hoja, eventuales particularidades
 	del documento, referencia de la BNP, etc.).
 </p>
-<h5 id="Q10Q" style="padding-top: 130px; margin-top: -130px;">
+<h5 id="Q10Q" >
 	&iquest;Qu&eacute; es una transcripci&oacute;n gen&eacute;tica?</h5>
 <p>
 	Es una transcripci&oacute;n que permite observar el proceso de
 	escritura y revisi&oacute;n autoral, registrando todas las capas de
 	composici&oacute;n del texto y no apenas la versi&oacute;n final.
 </p>
-<h5 id="Q11Q" style="padding-top: 130px; margin-top: -130px;">
+<h5 id="Q11Q" >
 	&iquest;Qu&eacute; permite la interfaz de visualizaci&oacute;n
 	de los testimonios?</h5>
 <p>
@@ -306,7 +306,7 @@
 	todas las variantes, esto es, aquellas partes del texto para las que
 	existen dos o m&aacute;s alternativas.
 </p>
-<h5 id="Q12Q" style="padding-top: 130px; margin-top: -130px;">
+<h5 id="Q12Q" >
 	&iquest;Qu&eacute; es un facs&iacute;mil?</h5>
 <p>
 	El facs&iacute;mil es una imagen digital del documento original, que es
@@ -317,7 +317,7 @@
 	relacionado com ell <em>Libro</em>. Hay, por eso, hojas representadas
 	apenas en su frente y otras en frente y verso.
 </p>
-<h5 id="Q13Q" style="padding-top: 130px; margin-top: -130px;">
+<h5 id="Q13Q" >
 	&iquest;Cu&aacute;l es la diferencia entre testimonios y fragmentos codificados?</h5>
 <p>
 	Las designaciones &ldquo;testimonios&rdquo; y &ldquo;fragmentos codificados&rdquo; ofrecen diferentes 
@@ -353,8 +353,8 @@
 	transcripci&oacute;n gen&eacute;tica topogr&aacute;fica.
 
 </p>
-<h3 id="T3T" style="padding-top: 130px; margin-top: -130px;">Ediciones de los especialistas</h3>
-<h5 id="Q14Q" style="padding-top: 130px; margin-top: -130px;">
+<h3 id="T3T" >Ediciones de los especialistas</h3>
+<h5 id="Q14Q" >
 	&iquest;Qu&eacute; son las ediciones de los especialistas?</h5>
 <p>
 	Las ediciones de los especialistas que constan en el <em>Archivo
@@ -391,7 +391,7 @@
 	desarrollado un aparato cr&iacute;tico gen&eacute;tico
 	sistem&aacute;tico y exhaustivo.
 </p>
-<h5 id="Q15Q" style="padding-top: 130px; margin-top: -130px;">&iquest;Por qu&eacute; se escogieron estas ediciones
+<h5 id="Q15Q" >&iquest;Por qu&eacute; se escogieron estas ediciones
 	espec&iacute;ficas de los especialistas?</h5>
 <p>
 	Porque estas cuatro ediciones (Coelho 1982; Sobral Cunha 2008; Zenith
@@ -406,7 +406,7 @@
 	fueron publicadas nuevas ediciones (Sobral Cunha 2013; Pizarro
 	2013 y 2014; Zenith 2015).
 </p>
-<h5 id="Q16Q" style="padding-top: 130px; margin-top: -130px;">&iquest;Las ediciones de los especialistas ser&aacute;n
+<h5 id="Q16Q" >&iquest;Las ediciones de los especialistas ser&aacute;n
 	actualizadas en el futuro?</h5>
 <p>
 	Aunque los especialistas hayan manifestado el deseo de ver la
@@ -423,7 +423,7 @@
 	combinaci&oacute;n ecl&eacute;ctica de lecturas escogidas en diferentes
 	ediciones de texto.
 </p>
-<h5 id="Q17Q" style="padding-top: 130px; margin-top: -130px;">
+<h5 id="Q17Q" >
 	&iquest;Por qu&eacute; no se incluy&oacute; la edici&oacute;n de Teresa Rita Lopes (2015)?</h5>
 <p>
 	Teresa Rita Lopes public&oacute; en 2015 una nueva edici&oacute;n titulada <em>Libro(s) del desasosiego</em>, 
@@ -439,8 +439,8 @@
 	de los especialistas.
 </p>
 
-<h3 id="T4T" style="padding-top: 130px; margin-top: -130px;">Codificaci&oacute;n XML-TEI</h3>
-<h5 id="Q18Q" style="padding-top: 130px; margin-top: -130px;">&iquest;C&oacute;mo se realiz&oacute; la codificaci&oacute;n de
+<h3 id="T4T" >Codificaci&oacute;n XML-TEI</h3>
+<h5 id="Q18Q" >&iquest;C&oacute;mo se realiz&oacute; la codificaci&oacute;n de
 	los textos del <em>Archivo LdoD</em>?</h5>
 <p>
 	La codificaci&oacute;n fue realizada de acuerdo con las recomendaciones
@@ -450,7 +450,7 @@
 	largo de cuatro a&ntilde;os, por un equipo de cinco personas, en un
 	total de doce mil horas de codificaci&oacute;n y revisi&oacute;n.
 </p>
-<h5 id="Q19Q" style="padding-top: 130px; margin-top: -130px;">&iquest;Qu&eacute; elementos fueron codificados?</h5>
+<h5 id="Q19Q" >&iquest;Qu&eacute; elementos fueron codificados?</h5>
 <p>
 	La codificaci&oacute;n XML de los testimonios y de las cuatro ediciones
 	de los especialistas contenidas en el <em>Archivo LdoD</em> fue hecha
@@ -476,8 +476,8 @@
 	codificados tambi&eacute;n todos los espacios relativos y trazos de
 	divisi&oacute;n entre par&aacute;grafos.
 </p>
-<h3 id="T5T" style="padding-top: 130px; margin-top: -130px;">Comparaci&oacute;n de ediciones</h3>
-<h5 id="Q20Q" style="padding-top: 130px; margin-top: -130px;">&iquest;Para qu&eacute; sirve la interfaz de comparaci&oacute;n
+<h3 id="T5T" >Comparaci&oacute;n de ediciones</h3>
+<h5 id="Q20Q" >&iquest;Para qu&eacute; sirve la interfaz de comparaci&oacute;n
 	de las ediciones?</h5>
 <p>
 	La interfaz de comparaci&oacute;n de las ediciones sirve para
@@ -488,7 +488,7 @@
 	s&iacute; las transcripciones de cada fragmento, y tambi&eacute;n su
 	posici&oacute;n relativa dentro de la ordenaci&oacute;n del <em>Libro</em>.
 </p>
-<h5 id="Q21Q" style="padding-top: 130px; margin-top: -130px;">&iquest;Qu&eacute; muestra la visualizaci&oacute;n de realce de
+<h5 id="Q21Q" >&iquest;Qu&eacute; muestra la visualizaci&oacute;n de realce de
 	diferencias?</h5>
 <p>
 	Esta funci&oacute;n muestra los puntos de variaci&oacute;n entre
@@ -503,7 +503,7 @@
 	tono azul m&aacute;s oscuro, existiendo todav&iacute;a dos tonalidades
 	intermedias).
 </p>
-<h5 id="Q22Q" style="padding-top: 130px; margin-top: -130px;">&iquest;Cu&aacute;les son las unidades de realce de
+<h5 id="Q22Q" >&iquest;Cu&aacute;les son las unidades de realce de
 	diferencias?</h5>
 <p>
 	Las unidades de realce de diferencias pueden ser de cuatro tipos:
@@ -541,7 +541,7 @@
 	
 	
 </p>
-<h5 id="Q60Q" style="padding-top: 130px; margin-top: -130px;">&iquest;Por qu&eacute; el realce de 
+<h5 id="Q60Q" >&iquest;Por qu&eacute; el realce de 
 	diferencias repite a veces palabras aisladas que pertenecen a un bloque textual resaltado?</h5>
 <p>
 	Cuando los par&aacute;grafos se dividen de forma diferente entre s&iacute; en el corpus de 
@@ -558,7 +558,7 @@
 	debe hacerse duplicando la jerarqu&iacute;a de la codificaci&oacute;n, lo que hace 
 	que el realce se&ntilde;ale palabras y par&aacute;grafos de ese modo.
 </p>
-<h5 id="Q23Q" style="padding-top: 130px; margin-top: -130px;">&iquest;Qu&eacute; revela la comparaci&oacute;n sobre las
+<h5 id="Q23Q" >&iquest;Qu&eacute; revela la comparaci&oacute;n sobre las
 	ediciones?</h5>
 <p>
 	La comparaci&oacute;n permite conocer mejor cada una de las ediciones y
@@ -596,13 +596,13 @@
 	comprobar la existencia de cuatro modelos distintos de
 	producci&oacute;n en el <em>Libro del desasosiego</em>.
 </p>
-<h5 id="Q24Q" style="padding-top: 130px; margin-top: -130px;">&iquest;Es posible comparar una interpretaci&oacute;n editorial
+<h5 id="Q24Q" >&iquest;Es posible comparar una interpretaci&oacute;n editorial
 	o autoral con una interpretaci&oacute;n virtual?</h5>
 <p>
 	No, dado que una interpretaci&oacute;n virtual nunca altera la
 	transcripci&oacute;n de la interpretaci&oacute;n que utiliza.
 </p>
-<h5 id="Q25Q" style="padding-top: 130px; margin-top: -130px;">&iquest;Qu&eacute; muestra la comparaci&oacute;n de las
+<h5 id="Q25Q" >&iquest;Qu&eacute; muestra la comparaci&oacute;n de las
 	anotaciones de fragmentos de las ediciones virtuales?</h5>
 <p>
 	En esa interfaz es posible comparar las anotaciones que los
@@ -613,10 +613,10 @@
 	fragmento, incluso cuando la interpretaci&oacute;n de base utilizada no
 	es la misma.
 </p>
-<h3 id="T6T" style="padding-top: 130px; margin-top: -130px;">B&uacute;squeda</h3>
+<h3 id="T6T" >B&uacute;squeda</h3>
 <p>La b&uacute;squeda permite seleccionar fragmentos de acuerdo a un
 	conjunto de criterios.</p>
-<h5 id="Q26Q" style="padding-top: 130px; margin-top: -130px;">&iquest;Qu&eacute; es una b&uacute;squeda simple?</h5>
+<h5 id="Q26Q" >&iquest;Qu&eacute; es una b&uacute;squeda simple?</h5>
 <p>
 	En la b&uacute;squeda simple es posible seleccionar el conjunto
 	de fragmentos de acuerdo con dos criterios: texto y tipo de fuente. El
@@ -627,7 +627,7 @@
 	interpretaciones asociadas al mismo fragmento (esto es,
 	interpretaciones autorales e interpretaciones editoriales).
 </p>
-<h5 id="Q27Q" style="padding-top: 130px; margin-top: -130px;">&iquest;Cu&aacute;les son los caracteres permitidos en el
+<h5 id="Q27Q" >&iquest;Cu&aacute;les son los caracteres permitidos en el
 	criterio de b&uacute;squeda por texto?</h5>
 <p>
 	S&oacute;lo son permitidos los caracteres alfanum&eacute;ricos,
@@ -640,7 +640,7 @@
 	anterior tambi&eacute;n se obtendr&aacute;, en el resultado, las
 	interpretaciones en donde surja la palabra &ldquo;Alma&rdquo;.
 </p>
-<h5 id="Q28Q" style="padding-top: 130px; margin-top: -130px;">&iquest;Qu&eacute; es una b&uacute;squeda avanzada?</h5>
+<h5 id="Q28Q" >&iquest;Qu&eacute; es una b&uacute;squeda avanzada?</h5>
 <p>
 	En la b&uacute;squeda avanzada es posible usar un mayor conjunto
 	de criterios. Adem&aacute;s, es posible formular una b&uacute;squeda
@@ -670,7 +670,7 @@
 	de las interpretaciones satisface y as&iacute; justificando el motivo
 	por el que el fragmento fue seleccionado.
 </p>
-<h3 id="T7T" style="padding-top: 130px; margin-top: -130px;">Lectura</h3>
+<h3 id="T7T" >Lectura</h3>
 <p>
 	La interfaz de lectura ofrece la posibilidad de leer los fragmentos del
 	<em>Libro del desasosiego</em> de acuerdo con las secuencias propuestas
@@ -682,7 +682,7 @@
 	que considera m&aacute;s pr&oacute;ximo de acuerdo con una medida de
 	distancia entre fragmentos.
 </p>
-<h5 id="Q29Q" style="padding-top: 130px; margin-top: -130px;">
+<h5 id="Q29Q" >
 	&iquest;C&oacute;mo es calculada la distancia entre dos
 	fragmentos?</h5>
 <p>
@@ -696,7 +696,7 @@
 	interpretaciones del fragmento y multiplicados por el peso atribuido
 	por el usuario a ese criterio, un valor entre 0.2 y 1.0.
 </p>
-<h5 id="Q30Q" style="padding-top: 130px; margin-top: -130px;">
+<h5 id="Q30Q" >
 	&iquest;C&oacute;mo se calcula el vector asociado al
 	heter&oacute;nimo?</h5>
 <p>
@@ -710,7 +710,7 @@
 	editores, el vector de heter&oacute;nimo tendr&aacute; 1.0 en ambas
 	c&eacute;lulas.
 </p>
-<h5 id="Q31Q" style="padding-top: 130px; margin-top: -130px;">
+<h5 id="Q31Q" >
 	&iquest;C&oacute;mo es calculado el vector asociado a la fecha?</h5>
 <p>
 	El vector de fecha tiene 22 c&eacute;lulas, una por cada uno de los
@@ -724,7 +724,7 @@
 	asociado a la c&eacute;lula y la c&eacute;lula m&aacute;s
 	pr&oacute;xima con valor 1.0.
 </p>
-<h5 id="Q32Q" style="padding-top: 130px; margin-top: -130px;">
+<h5 id="Q32Q" >
 	&iquest;C&oacute;mo es calculado el vector asociado al texto?</h5>
 <p>
 	Inicialmente es calculado el conjunto de los 100 primeros <a
@@ -743,7 +743,7 @@
 	transcripci&oacute;n asociada a la interpretaci&oacute;n autoral
 	representativa.
 </p>
-<h5 id="Q33Q" style="padding-top: 130px; margin-top: -130px;">
+<h5 id="Q33Q" >
 	&iquest;C&oacute;mo es calculado el vector asociado a la
 	taxonom&iacute;a?</h5>
 <p>
@@ -755,14 +755,14 @@
 	esa categor&iacute;a a alguna etiqueta, y tiene el valor 0.0 en caso
 	contrario.
 </p>
-<h5 id="Q34Q" style="padding-top: 130px; margin-top: -130px;">
+<h5 id="Q34Q" >
 	&iquest;Qu&eacute; significa la recomendaci&oacute;n de lectura
 	cuando todos los pesos de los criterios est&aacute;n a cero?</h5>
 <p>
 	Quiere decir que no existe similitud entre los fragmentos, el
 	valor de la similitud entre cualquiera de los fragmentos es 0.0.
 </p>
-<h5 id="Q35Q" style="padding-top: 130px; margin-top: -130px;">
+<h5 id="Q35Q" >
 	La similitud es calculada entre fragmentos, pero lo que
 	recomienda el Archivo para lectura es una interpretaci&oacute;n y no un
 	fragmento, &iquest;por qu&eacute;?</h5>
@@ -773,7 +773,7 @@
 	transcripci&oacute;n asociada a la edici&oacute;n de la
 	transcripci&oacute;n que el usuario lee.
 </p>
-<h5 id="Q36Q" style="padding-top: 130px; margin-top: -130px;">
+<h5 id="Q36Q" >
 	&iquest;Los fragmentos que fueron recomendados pueden volver a
 	ser recomendados?</h5>
 <p>
@@ -783,7 +783,7 @@
 	el archivo vuelve a considerar en su recomendaci&oacute;n los primeros
 	50 fragmentos le&iacute;dos.
 </p>
-<h5 id="Q37Q" style="padding-top: 130px; margin-top: -130px;">
+<h5 id="Q37Q" >
 	&iquest;Puede surgir m&aacute;s de un fragmento recomendado?</h5>
 <p>
 	S&iacute;, se sugiere el fragmento m&aacute;s semejante al que se
@@ -793,7 +793,7 @@
 	sugerido es el m&aacute;s similar que tiene una interpretaci&oacute;n
 	en la edici&oacute;n de la transcripci&oacute;n que es le&iacute;da.
 </p>
-<h5 id="Q38Q" style="padding-top: 130px; margin-top: -130px;">
+<h5 id="Q38Q" >
 	&iquest;Por qu&eacute; despu&eacute;s de ser recomendada una
 	interpretaci&oacute;n de un fragmento ninguna otra
 	interpretaci&oacute;n del mismo fragmento vuelve a ser recomendada,
@@ -804,8 +804,8 @@
 	recomendaci&oacute;n de interpretaciones para la lectura se basa en el
 	c&aacute;lculo de similitud entre fragmentos.
 </p>
-<h3 id="T8T" style="padding-top: 130px; margin-top: -130px;">Edici&oacute;n virtual</h3>
-<h5 id="Q39Q" style="padding-top: 130px; margin-top: -130px;">&iquest;Que es una Edici&oacute;n Virtual?</h5>
+<h3 id="T8T" >Edici&oacute;n virtual</h3>
+<h5 id="Q39Q" >&iquest;Que es una Edici&oacute;n Virtual?</h5>
 <p>
 	Una edici&oacute;n virtual es una selecci&oacute;n de fragmentos
 	que uno o m&aacute;s usuarios definen al escoger entre las
@@ -816,7 +816,7 @@
 	categor&iacute;as asociadas a una edici&oacute;n virtual define su
 	taxonom&iacute;a.
 </p>
-<h5 id="Q40Q" style="padding-top: 130px; margin-top: -130px;">
+<h5 id="Q40Q" >
 	&iquest;Cu&aacute;les son las limitaciones en el ejercicio de la funci&oacute;n
 	editorial en el <em>Archivo LdoD</em>?</h5>
 <p>
@@ -834,7 +834,7 @@
 	–, podr&aacute; ser considerada en el futuro de acuerdo con los recursos
 	disponibles.</p>
 
-<h5 id="Q41Q" style="padding-top: 130px; margin-top: -130px;">
+<h5 id="Q41Q" >
 	&iquest;Qu&eacute; es la <em>Edici&oacute;n del Archivo LdoD</em>?</h5>
 <p>
 	Es una edici&oacute;n experimental del <em>Archivo LdoD</em> que
@@ -844,7 +844,7 @@
 	adicionalmente anotaron las interpretaciones con las categor&iacute;as
 	de la taxonom&iacute;a.
 </p>
-<h5 id="Q42Q" style="padding-top: 130px; margin-top: -130px;">
+<h5 id="Q42Q" >
 	&iquest;C&oacute;mo puedo crear una edici&oacute;n virtual?</h5>
 <p>
 	En la interfaz virtual se puede crear una nueva edici&oacute;n
@@ -863,14 +863,14 @@
 	edici&oacute;n. Este criterio fue escogido para respetar la
 	autor&iacute;a de las anotaciones.
 </p>
-<h5 id="Q43Q" style="padding-top: 130px; margin-top: -130px;">
+<h5 id="Q43Q" >
 	&iquest;Una edici&oacute;n virtual puede poseer m&aacute;s de
 	una interpretaci&oacute;n del mismo fragmento?</h5>
 <p>
 	No, s&oacute;lo es posible asociar una interpretaci&oacute;n por
 	fragmento a una edici&oacute;n virtual.
 </p>
-<h5 id="Q44Q" style="padding-top: 130px; margin-top: -130px;">
+<h5 id="Q44Q" >
 	&iquest;C&oacute;mo adiciono una interpretaci&oacute;n a una
 	edici&oacute;n virtual?</h5>
 <p>
@@ -882,7 +882,7 @@
 	la interfaz de ordenaci&oacute;n manual de la edici&oacute;n virtual es
 	posible buscar fragmentos y adicionarlos a la edici&oacute;n virtual.
 </p>
-<h5 id="Q45Q" style="padding-top: 130px; margin-top: -130px;">
+<h5 id="Q45Q" >
 	&iquest;C&oacute;mo puedo eliminar una interpretaci&oacute;n de
 	una edici&oacute;n virtual?</h5>
 <p>
@@ -890,13 +890,13 @@
 	virtual es posible seleccionar una o m&aacute;s interpretaciones y
 	removerlas.
 </p>
-<h5 id="Q46Q" style="padding-top: 130px; margin-top: -130px;">
+<h5 id="Q46Q" >
 	&iquest;Qui&eacute;n puede adicionar y eliminar
 	interpretaciones en una edici&oacute;n virtual?</h5>
 <p>
 	Todos los editores de la edici&oacute;n virtual.
 </p>
-<h5 id="Q47Q" style="padding-top: 130px; margin-top: -130px;">
+<h5 id="Q47Q" >
 	&iquest;Puedo colaborar con otras personas en la
 	construcci&oacute;n de una edici&oacute;n virtual?</h5>
 <p>
@@ -912,7 +912,7 @@
 	los gestores son tambi&eacute;n, por inherencia, editores, al poseer
 	todos los privilegios de un editor.
 </p>
-<h5 id="Q48Q" style="padding-top: 130px; margin-top: -130px;">
+<h5 id="Q48Q" >
 	&iquest;Qu&eacute; distingue una edici&oacute;n virtual
 	p&uacute;blica de una privada?</h5>
 <p>
@@ -926,7 +926,7 @@
 	entre p&uacute;blica y privada, as&iacute; como su nombre y
 	acr&oacute;nimo.
 </p>
-<h5 id="Q49Q" style="padding-top: 130px; margin-top: -130px;">
+<h5 id="Q49Q" >
 	&iquest;C&oacute;mo puedo anotar las interpretaciones de una
 	edici&oacute;n virtual?</h5>
 <p>
@@ -949,7 +949,7 @@
 	el algoritmo de generaci&oacute;n de t&oacute;picos, en la interfaz de
 	la edici&oacute;n virtual, al quedar la transcripci&oacute;n de las
 	interpretaciones anotadas con las categor&iacute;as generadas.</p>
-<h5 id="Q50Q" style="padding-top: 130px; margin-top: -130px;">
+<h5 id="Q50Q" >
 	&iquest;Qui&eacute;n puede anotar interpretaciones de una
 	edici&oacute;n virtual?</h5>
 <p>
@@ -962,7 +962,7 @@
 	edici&oacute;n y eliminaci&oacute;n de anotaciones, s&oacute;lo el
 	usuario que las cre&oacute; puede efectuar estas operaciones.
 </p>
-<h5 id="Q51Q" style="padding-top: 130px; margin-top: -130px;">
+<h5 id="Q51Q" >
 	&iquest;C&oacute;mo se define el conjunto de categor&iacute;as
 	de una taxonom&iacute;a?</h5>
 <p> 
@@ -986,7 +986,7 @@
 	de una edici&oacute;n virtual por medio de la aplicaci&oacute;n del
 	algoritmo de generaci&oacute;n de t&oacute;picos.
 </p>
-<h5 id="Q52Q" style="padding-top: 130px; margin-top: -130px;">
+<h5 id="Q52Q" >
 	&iquest;Qui&eacute;n pude definir si una taxonom&iacute;a es
 	abierta o cerrada?</h5>
 <p>
@@ -994,7 +994,7 @@
 	los gestores de la edici&oacute;n virtual pueden definir si la
 	taxonom&iacute;a es abierta o cerrada.
 </p>
-<h5 id="Q53Q" style="padding-top: 130px; margin-top: -130px;">
+<h5 id="Q53Q" >
 	&iquest;Qu&eacute; es el algoritmo de creaci&oacute;n de
 	t&oacute;picos?</h5>
 <p>
@@ -1018,7 +1018,7 @@
 	t&oacute;picos se debe acceder a la taxonom&iacute;a en la interfaz de
 	la edici&oacute;n virtual.
 </p>
-<h5 id="Q54Q" style="padding-top: 130px; margin-top: -130px;">
+<h5 id="Q54Q" >
 	&iquest;Qui&eacute;n puede manipular las categor&iacute;as de
 	una edici&oacute;n virtual?</h5>
 <p>
@@ -1027,7 +1027,7 @@
 	manipular las categor&iacute;as, o si todos los editores de la
 	edici&oacute;n virtual lo pueden hacer.
 </p>
-<h5 id="Q55Q" style="padding-top: 130px; margin-top: -130px;">
+<h5 id="Q55Q" >
 	&iquest;Puedo utilizar las categor&iacute;as de las
 	taxonom&iacute;as de las ediciones de base en las anotaciones de mi
 	edici&oacute;n virtual?</h5>
@@ -1044,7 +1044,7 @@
 	utiliz&oacute; la categor&iacute;a, pues el <em>Archivo LdoD</em>
 	preserva la autor&iacute;a de las anotaciones.
 </p>
-<h5 id="Q56Q" style="padding-top: 130px; margin-top: -130px;">
+<h5 id="Q56Q" >
 	&iquest;C&oacute;mo puedo reordenar las interpretaciones en una
 	edici&oacute;n virtual?</h5>
 <p>
@@ -1071,13 +1071,13 @@
 	guardada, lo que conlleva una redefinici&oacute;n de la
 	numeraci&oacute;n asociada a cada interpretaci&oacute;n.
 </p>
-<h5 id="Q57Q" style="padding-top: 130px; margin-top: -130px;">
+<h5 id="Q57Q" >
 	&iquest;Qui&eacute;n puede reordenar las interpretaciones en
 	una edici&oacute;n virtual?</h5>
 <p>
 	Todos los editores de la edici&oacute;n virtual.
 </p>
-<h5 id="Q58Q" style="padding-top: 130px; margin-top: -130px;">
+<h5 id="Q58Q" >
 	Cuando una edici&oacute;n virtual es creada,
 	&iquest;cu&aacute;les son las configuraciones por defecto?</h5>
 <p>
@@ -1086,7 +1086,7 @@
 	s&oacute;lo los gestores pueden manipular las categor&iacute;as de la
 	taxonom&iacute;a, al ser el vocabulario de la taxonom&iacute;a abierto.
 </p>
-<h5 id="Q59Q" style="padding-top: 130px; margin-top: -130px;">
+<h5 id="Q59Q" >
 	&iquest;Cu&aacute;les pueden ser algunos de los escenarios
 	t&iacute;picos asociados a la creaci&oacute;n de ediciones virtuales?</h5>
 <ul>

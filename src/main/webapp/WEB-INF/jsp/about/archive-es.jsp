@@ -1,4 +1,4 @@
-<p>
+<p class="ldod-about semibold">
 	El <em>Archivo LdoD</em> es un archivo digital colaborativo del <em>Libro
 		del desasosiego</em> de Fernando Pessoa. Contiene im&aacute;genes de los
 	documentos originales, nuevas transcripciones de estos documentos y
@@ -17,6 +17,10 @@
 	experimentar con el <em>Libro del desasosiego</em> como m&aacute;quina
 	literaria.
 </p>
+<p>&nbsp;</p>
+
+<hr class="ldod-about">
+
 <p>&nbsp;</p>
 <p>
 	Las principales caracter&iacute;sticas del <em>Archivo LdoD</em> se

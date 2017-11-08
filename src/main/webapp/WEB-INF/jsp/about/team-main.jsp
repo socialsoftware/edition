@@ -10,7 +10,7 @@
 	<%@ include file="/WEB-INF/jsp/common/fixed-top-ldod-header.jsp"%>
 
 	<div class="container">
-		<div class="col-md-8 col-md-offset-2">
+		<div class="col-md-8 col-md-offset-2 ldod-about">
 			<h1 class="text-center">
 				<spring:message code="header.team" />
 			</h1>
@@ -29,7 +29,7 @@
 		</div>
 
 <!-- apoios info -->
-	<div class="ldod-default col-md-8 col-md-offset-2">
+	<div class="ldod-default col-md-8 col-md-offset-2 ldod-about">
     <div class="bottom-info font-monospace" >
      <img class="hidden-xs" src="/resources/img/logotipos.png" width="100%">
       <img class="visible-xs-inline " src="/resources/img/logotiposm.png" width="100%">

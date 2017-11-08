@@ -1,4 +1,4 @@
-<h3>
+<h4>
 	<ul>
 		<li><a href="#Q01Q">A. Articles about the <em>LdoD
 					Archive</em></a></li>
@@ -13,7 +13,7 @@
 					Disquiet</em> (1982-2017)
 		</a></li>
 	</ul>
-</h3>
+</h4>
 <p>
 	<strong>&nbsp;</strong>
 </p>

@@ -1,4 +1,4 @@
-<p>
+<p class="ldod-about semibold">
 	O <em>Arquivo LdoD</em> &eacute; um arquivo digital colaborativo do <em>Livro
 		do Desassossego </em>de Fernando Pessoa. Cont&eacute;m imagens dos
 	documentos aut&oacute;grafos, novas transcri&ccedil;&otilde;es desses
@@ -19,6 +19,8 @@
 	flexibilidade do meio digital para experimentarem o <em>Livro do
 		Desassossego</em> como m&aacute;quina liter&aacute;ria.
 </p>
+<p>&nbsp;</p>
+<hr class="ldod-about">
 <p>&nbsp;</p>
 <p>
 	As funcionalidades principais do <em>Arquivo LdoD</em> t&ecirc;m

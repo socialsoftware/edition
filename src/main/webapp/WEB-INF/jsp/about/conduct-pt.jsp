@@ -1,4 +1,4 @@
-<ul>
+
 
 	<p>
 		As funcionalidades de edi&ccedil;&atilde;o virtual e de escrita
