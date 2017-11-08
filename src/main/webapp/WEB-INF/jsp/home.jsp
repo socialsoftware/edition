@@ -261,11 +261,11 @@ String [][] excerpts =  {{"Jerónimo Pizarro","E eu offereço-te este livro porque
 		  </div>
 	    </a>
 	    -->
-
 	  </div>
 
-	  <!-- apoios info -->
-    <div class="bottom-info font-monospace">
+
+	<!-- apoios info -->
+    <div class="bottom-info font-monospace" >
      <img class="hidden-xs" src="/resources/img/logotipos.png" width="100%">
       <img class="visible-xs-inline " src="/resources/img/logotiposm.png" width="100%">
      <br><br>
@@ -274,13 +274,25 @@ String [][] excerpts =  {{"Jerónimo Pizarro","E eu offereço-te este livro porque
 
       	 <c:choose>
          <c:when test="${pageContext.response.locale.language.equalsIgnoreCase('pt')}">
-         O Arquivo LdoD foi desenvolvido no âmbito do projeto de investigação "Nenhum Problema Tem Solução: Um Arquivo Digital do Livro do Desassossego" (PTDC/CLE-LLI/118713/2010), do Centro de Literatura Portuguesa da Universidade de Coimbra. Projeto financiado pela Fundação para a Ciência e a Tecnologia (FCT), e cofinanciado pelo Fundo Europeu de Desenvolvimento Regional (FEDER), através do Eixo I do Programa Operacional Fatores de Competitividade (POFC) do QREN–União Europeia, COMPETE: FCOMP-01-0124-FEDER-019715. Financiado ainda por fundos nacionais, através da Fundação para Ciência e a Tecnologia (FCT), no âmbito dos projetos “Financiamento Plurianual–Unidade 759": "PEst-OE/ELT/00759/2013" e "PEst-OE/ELT/UI0759/2014".
+         O <em>Arquivo LdoD</em> foi desenvolvido no &acirc;mbito do projeto de investiga&ccedil;&atilde;o &ldquo;Nenhum Problema Tem Solu&ccedil;&atilde;o: Um Arquivo Digital do <em>Livro do Desassossego</em>&rdquo; (PTDC/CLE-LLI/118713/2010) do Centro de Literatura Portuguesa da Universidade de Coimbra (CLP). Projeto financiado pela Funda&ccedil;&atilde;o para a Ci&ecirc;ncia e a Tecnologia (FCT) e 	cofinanciado pelo Fundo Europeu de Desenvolvimento Regional (FEDER), atrav&eacute;s do Eixo I do Programa Operacional Fatores de Competitividade (POFC) do Quadro de Referência Estratégica Nacional (QREN)&mdash;Uni&atilde;o Europeia (COMPETE: FCOMP-01-0124-FEDER-019715). Financiado ainda por Fundos Nacionais atrav&eacute;s da Funda&ccedil;&atilde;o para a Ci&ecirc;ncia e a Tecnologia no &acirc;mbito dos projetos de &ldquo;Financiamento Plurianual &mdash;Unidade 759&rdquo;: &ldquo;PEst-OE/ELT/UI00759/2013&rdquo; e &ldquo;PEst-OE/ELT/UI0759/2014&rdquo;. 
          </c:when>
          <c:when test="${pageContext.response.locale.language.equalsIgnoreCase('en')}">
-         The LdoD Archive is an outcome of the research project "No Problem Has a Solution: A Digital Archive of the Book of Disquiet" (PTDC/CLE-LLI/118713/2010), developed by the Centre for Portuguese Literature at the University of Coimbra. The research project was funded by the Foundation for Science and Technology (FCT), and co-funded by the European Regional Development Fund (FEDER), through Axis 1 of the Operational Competitiveness Program (POFC) of the National Strategic Framework (QREN)–European Union, COMPETE: FCOMP-01-0124-FEDER-019715. Additional national funds by the Foundation for Science and Technology (FCT), under the "Plurianual Funding–Unit 759" projects: “PEst-OE/ELT/00759/2013" and "PEst-OE/ELT/UI0759/2014".
+         The <em>LdoD Archive</em> was developed under the research project &ldquo;No Problem Has a Solution: A Digital Archive of the <em>Book of Disquiet</em>,&rdquo; (PTDC/CLE-LLI/118713/2010) of the Centre for Portuguese Literature at the University of Coimbra (CLP). Project funded by the Foundation for Science and Technology (FCT) and co-funded by the European Regional Development Fund (FEDER), through Axis I of the Competitiveness Factors Operational Program (POFC) of the National Strategic Framework (QREN)&mdash;European Union (COMPETE: FCOMP-01-0124-FEDER-019715). Additional national funds by the Foundation for Science and Technology under the &ldquo;Multi-annual Financing&mdash;Unit 759&rdquo; projects: &ldquo;PEst-OE/ELT/UI00759/2013&rdquo; and
+	&ldquo;PEst-OE/ELT/UI0759/2014&rdquo;.
          </c:when>  
          <c:when test="${pageContext.response.locale.language.equalsIgnoreCase('es')}">
-         El Archivo LdoD es un resultado del proyecto de investigación "Ningún problema tiene solución: un archivo digital del Libro del desasosiego" (PTDC/CLE-LLI/118713/2010), del Centro de Literatura Portuguesa de la Universidad de Coimbra. Proyecto financiado por la Fundación para la Ciencia y la Tecnología (FCT), y cofinanciado por el Fondo Europeo de Desarrollo Regional (FEDER), a través del Eje I del Programa Operativo Factores de Competitividad (POFC) del QREN-Unión Europea, COMPET: FCOMP-01- 0124-FEDER-019715. Financiado también por fondos nacionales, a través de la Fundación para Ciencia y la Tecnología (FCT), en el marco de los proyectos de "Financiación Plurianual–Unidad 759": "PEst-OE/ELT/00759/2013" y "PEst-OE/ELT/UI0759/2014".
+		El <em>Archivo LdoD</em> resulta del
+		proyecto de investigaci&oacute;n &ldquo;Ning&uacute;n problema tiene
+		soluci&oacute;n: Un archivo digital del <em>Libro del desasosiego</em>&rdquo;,
+		(PTDC/CLE-LLI/118713/2010) del Centro de Literatura Portuguesa de la Universidad de Coimbra. 
+	    Proyecto financiado por la Fundaci&oacute;n para la
+		Ciencia y la Tecnolog&iacute;a (FCT) y cofinanciado por el Fondo Europeo de
+		Desarrollo Regional (FEDER), a trav&eacute;s de la Prioridad I del
+		Programa Operativo de los Factores de Competitividad (POFC) del Marco de Referencia Estrat&eacute;gica Nacional (QREN)&mdash;Uni&oacute;n Europea (COMPETE: FCOMP-01- 0124-FEDER-019715). Financiado
+		tambi&eacute;n por Fondos Nacionales a trav&eacute;s de la
+		Fundaci&oacute;n para la Ciencia y la Tecnolog&iacute;a en el
+		marco de los proyectos de &ldquo;Financiaci&oacute;n Plurianual&mdash;Unidad 759&rdquo;: &ldquo;PEst-OE/ELT/UI00759/2013&rdquo; y
+		&ldquo;PEst-OE/ELT/UI0759/2014&rdquo;.
          </c:when>   
         </c:choose>
 
@@ -288,35 +300,8 @@ String [][] excerpts =  {{"Jerónimo Pizarro","E eu offereço-te este livro porque
       </p>
     </div>
     <!-- END OF apoios -->
-
-    
-
-    <!--
-		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla blandit ac massa sit amet viverra. In dapibus nibh nec tempus suscipit. Mauris efficitur turpis quis neque blandit, consectetur placerat lorem fringilla. Suspendisse volutpat nunc luctus accumsan scelerisque. Aliquam sit amet posuere nunc. Nullam dapibus tristique sem, quis porta lacus. Nulla mauris nunc, lacinia sit amet condimentum a, dapibus eu sem. Sed malesuada dapibus hendrerit. In bibendum interdum enim sed suscipit. Vestibulum tristique lorem id mi iaculis, eget pellentesque nisi dignissim. Sed sit amet tortor vel risus efficitur pharetra. Proin mollis turpis eros, nec venenatis mauris pulvinar eget. Maecenas convallis at nunc ut feugiat.</p>
-
-		<h1>Invejo - mas nao sei se invejo</h1>
-
-		<p>Invejo . mas nao sei se invejo . aquelles de quem se pode escrever uma biografia, ou que podem escrever a propria. Nestas impressaes sem nexo, nem desejo de nexo, narro indifferentemente a minha autobiogra a sem factos, a minha historia sem vida. Sao as minhas Confissoes, e, se nellas nada digo, a que nada tenho que dizer.</p>
-
-		<h1>Heading 1</h1>
-		<h2>Heading 2</h2>
-		<h3>Heading 3</h3>
-
-		<p>Phasellus vel nibh quis dolor ullamcorper eleifend. Praesent mi odio, tincidunt nec efficitur eu, tincidunt id nunc. Nullam maximus nisi eros, nec tempor leo pulvinar at. Praesent euismod mauris eget elementum dapibus. Aenean id turpis nec tortor vulputate pellentesque. Nam fringilla, quam eu blandit gravida, lectus quam sodales lacus, nec hendrerit eros mauris sollicitudin justo. Nunc eget dui eu augue facilisis ultrices vitae ac quam. Donec sodales eros ut mattis tincidunt. Cras sed vulputate nunc. Pellentesque non ullamcorper magna. Nunc condimentum sem rhoncus ornare viverra. Phasellus tempus posuere nulla at pretium.</p>
-
-		<h1>Heading 1</h1>
-	
-		<p>Ut semper consequat velit, vitae sollicitudin dolor bibendum sit amet. Suspendisse aliquam justo nunc. Morbi posuere fermentum est in congue. Nullam in maximus libero. Donec sit amet ligula fringilla, ullamcorper lacus in, placerat purus. Vivamus aliquet odio diam, in cursus lacus congue nec. In hac habitasse platea dictumst. Integer eget arcu eu eros consectetur lobortis. Nulla vel nulla ac erat molestie placerat placerat non enim.</p>
-
-		<h2>Heading 2</h2>
-	
-		<p>Quisque enim ligula, porttitor eget est eu, elementum venenatis diam. Nam consequat in libero euismod scelerisque. Aenean placerat libero eleifend purus ultricies ullamcorper. Nunc rhoncus id tellus ut mattis. Nunc placerat tortor et lectus dictum scelerisque. Pellentesque id ultricies lectus. Maecenas aliquet ac tortor et porttitor. Phasellus aliquam magna laoreet rutrum laoreet. In aliquam nulla leo, et egestas mi dapibus nec. In tincidunt sollicitudin eros sed aliquet. In non justo in tellus eleifend tincidunt vitae vel ligula. Cras condimentum efficitur rhoncus. Nulla dapibus a nisi sit amet ullamcorper. Fusce laoreet erat eros, a commodo est sagittis a. Praesent auctor nulla ipsum, et porta sapien vestibulum quis.</p>
-
-		<h3>Heading 3</h3>
-
-		<p>Vestibulum non felis commodo, molestie lacus at, sagittis tortor. Nam feugiat, turpis eget cursus aliquam, nisl felis scelerisque odio, vitae dapibus metus sem ut justo. Fusce eu justo arcu. Etiam est erat, pulvinar at odio at, accumsan lacinia nisi. Quisque cursus quis massa sed eleifend. Sed luctus nulla in magna gravida placerat. Praesent sit amet dui id nunc fermentum suscipit a ac est. Sed felis libero, feugiat eget metus ac, dictum volutpat risus. Duis sagittis, nisi sed ullamcorper pretium, nisl diam iaculis mi, quis tempus mauris lorem a ex. Aliquam euismod vel tellus non bibendum. Duis et ultricies nisi.</p>
-	-->
 	</div>
+
 
 	<div class="bottom-bar">
     </div>
