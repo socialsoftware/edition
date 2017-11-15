@@ -1,36 +1,20 @@
 <%@ include file="/WEB-INF/jsp/common/tags-head.jsp"%>
 <script type="text/javascript">
-	$(document)
-			.ready(
-					function() {
-						$(
-								'[id="visualisation-properties-editorial"][data-toggle="checkbox"]')
-								.on(
-										'click',
-										function() {
-											var data = new Array();
-											$('#baseinter :checked').each(
-													function() {
-														data.push(this.value);
-													});
-											var selDiff = $(
-													'input:checkbox[name=diff]')
-													.is(':checked');
-											$
-													.get(
-															"${contextPath}/fragments/fragment/inter/editorial",
-															{
-																interp : data,
-																diff : selDiff
-															},
-															function(html) {
-																$(
-																		"#fragmentTranscription")
-																		.replaceWith(
-																				html);
-															});
-										});
-					});
+	$(document).ready(function() {
+		$('[id="visualisation-properties-editorial"][data-toggle="checkbox"]').on('click', function() {
+			var data = new Array();
+			$('#baseinter :checked').each(function() {
+				data.push(this.value);
+			});
+			var selDiff = $('input:checkbox[name=diff]').is(':checked');
+			$.get("${contextPath}/fragments/fragment/inter/editorial", {
+				interp : data,
+				diff : selDiff
+			}, function(html) {
+				$("#fragmentTranscription").replaceWith(html);
+			});
+		});
+	});
 </script>
 
 <div id=fragmentInter class="row">

@@ -2,7 +2,7 @@
 <p>Manuel Portela, Centro de Literatura Portuguesa (CLP), Universidade de Coimbra</p>
 <p>&nbsp;</p>
 
-<h3>Desenho e desenvolvimento do sistema</h3>
+<h3>Arquitetura de Software</h3>
 <p>Ant&oacute;nio Rito Silva, INESC-ID, Instituto Superior T&eacute;cnico (IST), Universidade de Lisboa</p>
 <p>&nbsp;</p>
 
@@ -25,7 +25,7 @@
 <p>&nbsp;</p>
 
 <h3>Desenho web</h3>
-<p>Jos&eacute; Maria Cunha</p>
+<p><a href="http://www.josemariacunha.com/">Jos&eacute; Maria Cunha</a></p>
 <p>Lu&iacute;s Lucas Pereira, Centro de Literatura Portuguesa (CLP) | Departamento de Engenharia Inform&aacute;tica (DEI), Universidade de Coimbra</p>
 <p>&nbsp;</p>
 
