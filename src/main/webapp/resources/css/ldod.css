@@ -1331,9 +1331,11 @@
 	font-weight: 500;
 }
 
+/*
 .ldod-about h1 {
 	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
 }
+*/
 
 .ldod-about h5 {
 	font-size: 18px;
@@ -1394,3 +1396,22 @@ hr.ldod-about {
 }
 
 
+.ldod-default .reading__column .glyphicon {
+	color:lightgray;
+}
+
+.ldod-default .reading__column .glyphicon:hover {
+	color:#0C4EF6;
+}
+
+#fragment .glyphicon-info-sign {
+	color:lightgray;
+}
+
+#fragment .glyphicon-info-sign:hover {
+	color:#0C4EF6;
+}
+
+.glyphicon-info-sign:hover  {
+	color:#0C4EF6;
+}
