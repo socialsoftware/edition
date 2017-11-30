@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringEscapeUtils;
+
 import pt.ist.socialsoftware.edition.domain.Annotation;
 import pt.ist.socialsoftware.edition.domain.Range;
 import pt.ist.socialsoftware.edition.domain.Tag;
@@ -27,18 +29,18 @@ public class AnnotationDTO implements Serializable {
 	public AnnotationDTO(Annotation annotation) {
 		setId(annotation.getExternalId());
 		setQuote(annotation.getQuote());
-		setText(annotation.getText());
+		setText(StringEscapeUtils.unescapeHtml(annotation.getText()));
 		setUri(annotation.getVirtualEditionInter().getExternalId());
 
-		tags = new ArrayList<String>();
+		this.tags = new ArrayList<>();
 		for (Tag tag : annotation.getTagSet()) {
-			tags.add(
+			this.tags.add(
 					tag.getCategory().getNameInEditionContext(annotation.getVirtualEditionInter().getVirtualEdition()));
 		}
 
-		ranges = new ArrayList<RangeJson>();
+		this.ranges = new ArrayList<>();
 		for (Range range : annotation.getRangeSet()) {
-			ranges.add(new RangeJson(range));
+			this.ranges.add(new RangeJson(range));
 		}
 
 		setUser(annotation.getUser().getUsername());
@@ -48,7 +50,7 @@ public class AnnotationDTO implements Serializable {
 	}
 
 	public List<RangeJson> getRanges() {
-		return ranges;
+		return this.ranges;
 	}
 
 	public void setRanges(List<RangeJson> range) {
@@ -56,7 +58,7 @@ public class AnnotationDTO implements Serializable {
 	}
 
 	public String getQuote() {
-		return quote;
+		return this.quote;
 	}
 
 	public void setQuote(String quote) {
@@ -64,7 +66,7 @@ public class AnnotationDTO implements Serializable {
 	}
 
 	public String getText() {
-		return text;
+		return this.text;
 	}
 
 	public void setText(String text) {
@@ -72,7 +74,7 @@ public class AnnotationDTO implements Serializable {
 	}
 
 	public List<String> getTags() {
-		return tags;
+		return this.tags;
 	}
 
 	public void setTags(List<String> tags) {
@@ -80,7 +82,7 @@ public class AnnotationDTO implements Serializable {
 	}
 
 	public String getUri() {
-		return uri;
+		return this.uri;
 	}
 
 	public void setUri(String uri) {
@@ -92,7 +94,7 @@ public class AnnotationDTO implements Serializable {
 	}
 
 	public String getId() {
-		return id;
+		return this.id;
 	}
 
 	public void setId(String id) {
@@ -100,7 +102,7 @@ public class AnnotationDTO implements Serializable {
 	}
 
 	public String getUser() {
-		return user;
+		return this.user;
 	}
 
 	public void setUser(String user) {
@@ -108,7 +110,7 @@ public class AnnotationDTO implements Serializable {
 	}
 
 	public PermissionDTO getPermissions() {
-		return permissions;
+		return this.permissions;
 	}
 
 	public void setPermissions(PermissionDTO permissions) {

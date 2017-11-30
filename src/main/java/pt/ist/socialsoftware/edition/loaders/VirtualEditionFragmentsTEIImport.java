@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
@@ -126,7 +127,7 @@ public class VirtualEditionFragmentsTEIImport {
 
 	private void importAnnotation(Element note, VirtualEditionInter inter) {
 		String username = note.getAttributeValue("resp").substring(1);
-		String text = note.getText().trim();
+		String text = StringEscapeUtils.escapeHtml(note.getText().trim());
 		Element quoteElement = note.getChild("quote", this.namespace);
 		String from = quoteElement.getAttributeValue("from");
 		String to = quoteElement.getAttributeValue("to");
