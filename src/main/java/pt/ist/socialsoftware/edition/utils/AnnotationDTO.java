@@ -28,7 +28,7 @@ public class AnnotationDTO implements Serializable {
 
 	public AnnotationDTO(Annotation annotation) {
 		setId(annotation.getExternalId());
-		setQuote(annotation.getQuote());
+		setQuote(StringEscapeUtils.unescapeHtml(annotation.getQuote()));
 		setText(StringEscapeUtils.unescapeHtml(annotation.getText()));
 		setUri(annotation.getVirtualEditionInter().getExternalId());
 

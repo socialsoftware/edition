@@ -15,9 +15,11 @@ public class EditUserForm {
 	private String newUsername;
 
 	@NotEmpty
+	@Pattern(regexp = "^[\\p{L}\\s]+$", message = "{required.alpha}")
 	private String firstName;
 
 	@NotEmpty
+	@Pattern(regexp = "^[\\p{L}\\s]+$", message = "{required.alpha}")
 	private String lastName;
 
 	@NotEmpty

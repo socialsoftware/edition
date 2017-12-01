@@ -110,7 +110,7 @@ public class VirtualEditionFragmentsTEIExport {
 				quote.setAttribute("to", range.getEnd());
 				quote.setAttribute("fromOffset", Integer.toString(range.getStartOffset()));
 				quote.setAttribute("toOffset", Integer.toString(range.getEndOffset()));
-				quote.setText(annotation.getQuote());
+				quote.setText(StringEscapeUtils.unescapeHtml(annotation.getQuote()));
 				note.addContent(quote);
 			}
 

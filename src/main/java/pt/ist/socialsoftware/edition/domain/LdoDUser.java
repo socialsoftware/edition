@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.apache.commons.lang.StringEscapeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
@@ -27,24 +26,28 @@ public class LdoDUser extends LdoDUser_Base {
 	};
 
 	@Override
+	public void setFirstName(String firstName) {
+		if (!firstName.matches("^[\\p{L}\\s]+$")) {
+			throw new LdoDException(firstName);
+		}
+		super.setFirstName(firstName);
+	}
+
+	@Override
+	public void setLastName(String lastName) {
+		if (!lastName.matches("^[\\p{L}\\s]+$")) {
+			throw new LdoDException(lastName);
+		}
+		super.setLastName(lastName);
+	}
+
+	@Override
 	public void setUsername(String username) {
 		if (!username.matches("^[A-Za-z0-9_\\s\\-]+$")) {
 			throw new LdoDException(username);
 		}
 		checkUniqueUsername(username);
 		super.setUsername(username);
-	}
-
-	@Override
-	public void setFirstName(String firstName) {
-		String escapedFirstName = StringEscapeUtils.escapeHtml(firstName);
-		super.setFirstName(escapedFirstName);
-	}
-
-	@Override
-	public void setLastName(String lastName) {
-		String escapedLastName = StringEscapeUtils.escapeHtml(lastName);
-		super.setLastName(escapedLastName);
 	}
 
 	static public LdoDUser getAuthenticatedUser() {

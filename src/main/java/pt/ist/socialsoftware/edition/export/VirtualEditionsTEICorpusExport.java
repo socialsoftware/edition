@@ -98,8 +98,7 @@ public class VirtualEditionsTEICorpusExport {
 		element.addContent(editorElement);
 
 		Element persNameElement = new Element("persName", this.xmlns);
-		persNameElement.setText(StringEscapeUtils.unescapeHtml(member.getUser().getFirstName()) + " "
-				+ StringEscapeUtils.unescapeHtml(member.getUser().getLastName()));
+		persNameElement.setText(member.getUser().getFirstName() + " " + member.getUser().getLastName());
 		editorElement.addContent(persNameElement);
 
 		Element date = new Element("date", this.xmlns);

@@ -22,7 +22,7 @@ public class CategoryDTO implements Serializable {
 	}
 
 	public String getId() {
-		return id;
+		return this.id;
 	}
 
 	public void setId(String id) {
@@ -30,7 +30,7 @@ public class CategoryDTO implements Serializable {
 	}
 
 	public String getText() {
-		return text;
+		return this.text;
 	}
 
 	public void setText(String name) {
@@ -38,7 +38,7 @@ public class CategoryDTO implements Serializable {
 	}
 
 	public String getSelected() {
-		return selected;
+		return this.selected;
 	}
 
 	public void setSelected(String selected) {

@@ -31,6 +31,16 @@ public class VirtualEdition extends VirtualEdition_Base {
 	public static String ACRONYM_PREFIX = "LdoD-";
 
 	@Override
+	public String getTitle() {
+		return StringEscapeUtils.escapeHtml(super.getTitle());
+	}
+
+	@Override
+	public String getSynopsis() {
+		return StringEscapeUtils.escapeHtml(super.getSynopsis());
+	}
+
+	@Override
 	public void setAcronym(String acronym) {
 		if (!acronym.matches("^[A-Za-z0-9\\-]+$")) {
 			throw new LdoDException("acronym");
@@ -40,18 +50,6 @@ public class VirtualEdition extends VirtualEdition_Base {
 		if (getAcronym() == null || !getAcronym().equals(ARCHIVE_EDITION_ACRONYM)) {
 			super.setAcronym(acronym);
 		}
-	}
-
-	@Override
-	public void setTitle(String title) {
-		String escapedTitle = StringEscapeUtils.escapeHtml(title);
-		super.setTitle(escapedTitle);
-	}
-
-	@Override
-	public void setSynopsis(String synopsis) {
-		String escapedSynopsis = StringEscapeUtils.escapeHtml(synopsis);
-		super.setSynopsis(escapedSynopsis);
 	}
 
 	@Override
