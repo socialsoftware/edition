@@ -821,4 +821,4 @@ DOI: <a href="http://dx.doi.org/10.14195/2182-8830_2-1_3" target="_new">http://
 	</tbody>
 </table>
 <strong>&nbsp;</strong>
-<p>[atualiza&ccedil;&atilde;o 14-08-2017]</p>
+<p>[atualiza&ccedil;&atilde;o 01-12-2017]</p>
