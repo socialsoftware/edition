@@ -6,7 +6,7 @@
 	comparing transcriptions, the <em>LdoD Archive</em> enables users to
 	collaborate in creating virtual editions of the <em>Book of
 		Disquiet.</em> It also includes a writing module which, in the future, will
-	allow users to write variations based on fragments of the <em>Book</em>.Thus
+	allow users to write variations based on fragments from the <em>Book</em>. Thus
 	the <em>LdoD Archive</em> combines a representational principle with a
 	simulation principle: the first is expressed through the representation
 	of the history and processes of writing and editing the <em>Book</em>;
