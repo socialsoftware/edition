@@ -13,7 +13,7 @@
 <p>&nbsp;</p>
 
 <h3>Revis&atilde;o</h3>
-<p>Daniela C&ocirc;rtes Maduro, Centro de Literatura Portuguesa (CLP) | Universidade de Bremen</p>
+<p>Daniela C&ocirc;rtes Maduro, Centro de Literatura Portuguesa (CLP), Universidade de Coimbra</p>
 <p>Manuel Portela, Centro de Literatura Portuguesa (CLP), Universidade de Coimbra</p>
 <p>Rita Catania Marrone, Centro de Literatura Portuguesa (CLP), Universidade de Coimbra</p>
 <p>&nbsp;</p>
@@ -37,7 +37,7 @@
 <p>Abel Barros Baptista, NOVA-Universidade Nova de Lisboa</p>
 <p>Ant&oacute;nio Rito Silva, INESC-ID, Instituto Superior T&eacute;cnico (IST), Universidade de Lisboa</p>
 <p>Ant&oacute;nio Sousa Ribeiro, Universidade de Coimbra</p>
-<p>Daniela C&ocirc;rtes Maduro, Centro de Literatura Portuguesa (CLP) | Universidade de Bremen</p>
+<p>Daniela C&ocirc;rtes Maduro, Centro de Literatura Portuguesa (CLP), Universidade de Coimbra</p>
 <p>Diego Gim&eacute;nez, Centro de Literatura Portuguesa (CLP) | Universidade Estadual de Londrina</p>
 <p>John David Mock, Universidade de Coimbra</p>
 <p>Lu&iacute;s Lucas Pereira, Centro de Literatura Portuguesa (CLP) | Departamento de Engenharia Inform&aacute;tica (DEI), Universidade de Coimbra</p>
@@ -59,6 +59,6 @@
 
 <h3>Consultores do projeto (2012-2015)</h3>
 <p>Johanna Drucker,  Universidade da Calif&oacute;rnia Los Angeles</p>
-<p>Matthew G. Kirschenbaum, Universidade de Maryland | MITH - Instituto de Tecnologia para las Humanidades de Maryland</p>
+<p>Matthew G. Kirschenbaum, Universidade de Maryland | MITH - Instituto de Tecnologia para as Humanidades de Maryland</p>
 <p>Susan Schreibman, Universidade de Maynooth | An Foras Feasa - Instituto de Investiga&ccedil;&atilde;o em Humanidades</p>
 <p>&nbsp;</p>
