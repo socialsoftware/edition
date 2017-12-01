@@ -1,6 +1,6 @@
 <p>This page contains videos with testimonials from two editors of
 	the <em>Book of Disquiet</em> and the editor of the <em>LdoD Archive</em>. Teresa Sobral
-	Cunha and Jerónimo Pizarro were interviewed in November and December
+	Cunha and Jer&oacute;nimo Pizarro were interviewed in November and December
 	2015, respectively. Manuel Portela was interviewed in August 2017. The
 	interviews were edited according to topics related to both the material
 	and editorial history of the <em>Book of Disquiet</em> and the nature of the
@@ -14,12 +14,12 @@
 	on the dynamic and simulatory nature of the Archive, and on its
 	potential as a textual environment for learning, research and
 	creativity. There is also a brief introduction to the <em>LdoD Archive</em>,
-	showing excerpts from autographs and editions of two texts: "Amo, pelas
-	tardes demoradas de verão" and "Sinfonia de uma noite inquieta,"" which
-	are read, respectively, by Jerónimo Pizarro and Teresa Sobral Cunha.
+	showing excerpts from autographs and editions of two texts: &ldquo;Amo, pelas
+	tardes demoradas de ver&atilde;o&rdquo; and &ldquo;Sinfonia de uma noite inquieta,&rdquo; which
+	are read, respectively, by Jer&oacute;nimo Pizarro and Teresa Sobral Cunha.
 	The topics of each video are referenced through intertitles, according
 	to the sequence described below. Recording and editing of all videos:
-	Tiago Cravidão. Funding: Foundation for Science and Technology.</p>
+	Tiago Cravid&atilde;o. Funding: Foundation for Science and Technology.</p>
 <br />
 
 <h5>Table of Contents:</h5>
