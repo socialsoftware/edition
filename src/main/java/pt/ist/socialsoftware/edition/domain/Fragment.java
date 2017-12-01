@@ -38,6 +38,11 @@ public class Fragment extends Fragment_Base implements Comparable<Fragment> {
 
 		getTextPortion().remove();
 
+		// remove virtual edition interpretations first
+		for (VirtualEditionInter inter : getVirtualEditionInters()) {
+			inter.remove();
+		}
+
 		for (FragInter inter : getFragmentInterSet()) {
 			inter.remove();
 		}
