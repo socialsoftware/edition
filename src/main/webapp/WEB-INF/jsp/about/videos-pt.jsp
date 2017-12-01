@@ -25,7 +25,7 @@
 
 
 
-<h5>&iacute;ndice dos v&iacute;deos:</h5>
+<h5>&Iacute;ndice dos v&iacute;deos:</h5>
 <ul>
 	<li><a href="#V1">Teaser_LdoD: Arquivo LdoD</a></li>
 	<li><a href="#V2">A realidade documental &eacute; desorganizada</a></li>
