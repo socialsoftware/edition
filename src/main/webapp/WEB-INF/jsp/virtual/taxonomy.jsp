@@ -37,14 +37,14 @@
 						<spring:message code="general.usedIn" />: <c:forEach
 							var='edition' items='${taxonomy.getUsedIn()}'>
 							<a
-								href="${contextPath}/edition/internalid/${edition.getExternalId()}">${edition.getAcronym()}</a>
+								href="${contextPath}/edition/acronym/${edition.getAcronym()}">${edition.getAcronym()}</a>
 						</c:forEach>
 					</span>
 				</c:if>
 				<span>&nbsp</span> <span class="bg-info"
 					style="padding: 10px; line-height: 20px"> <spring:message
 						code="general.public.pages" />: <a
-					href="${contextPath}/edition/internalid/${virtualEdition.getExternalId()}">
+					href="${contextPath}/edition/acronym/${virtualEdition.getAcronym()}">
 						<span class="glyphicon glyphicon glyphicon-list-alt"></span> <spring:message
 							code="general.edition" />
 				</a></span>

@@ -192,27 +192,42 @@ public class FragmentController {
 		return "fragment/taxonomy";
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "/fragment/inter/next/number/{externalId}")
-	@PreAuthorize("hasPermission(#externalId, 'fragInter.public')")
-	public String getNextFragmentWithInter(Model model, @PathVariable String externalId) {
+	@RequestMapping(method = RequestMethod.GET, value = "/fragment/{xmlId}/inter/{urlId}/next")
+	@PreAuthorize("hasPermission(#xmlId, #urlId, 'fragInter.public')")
+	public String getNextFragmentWithInter(Model model, @PathVariable String xmlId, @PathVariable String urlId) {
+		Fragment fragment = FenixFramework.getDomainRoot().getLdoD().getFragmentByXmlId(xmlId);
+		if (fragment == null) {
+			return "redirect:/error";
+		}
 
-		FragInter inter = FenixFramework.getDomainObject(externalId);
+		FragInter inter = fragment.getFragInterByUrlId(urlId);
+		if (inter == null) {
+			return "redirect:/error";
+		}
 
 		Edition edition = inter.getEdition();
 		inter = edition.getNextNumberInter(inter, inter.getNumber());
 
-		return "redirect:/fragments/fragment/inter/" + inter.getExternalId();
+		return "redirect:/fragments/fragment/" + inter.getFragment().getXmlId() + "/inter/" + inter.getUrlId();
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "/fragment/inter/prev/number/{externalId}")
-	@PreAuthorize("hasPermission(#externalId, 'fragInter.public')")
-	public String getPrevFragmentWithInter(Model model, @PathVariable String externalId) {
-		FragInter inter = FenixFramework.getDomainObject(externalId);
+	@RequestMapping(method = RequestMethod.GET, value = "/fragment/{xmlId}/inter/{urlId}/prev")
+	@PreAuthorize("hasPermission(#xmlId, #urlId, 'fragInter.public')")
+	public String getPrevFragmentWithInter(Model model, @PathVariable String xmlId, @PathVariable String urlId) {
+		Fragment fragment = FenixFramework.getDomainRoot().getLdoD().getFragmentByXmlId(xmlId);
+		if (fragment == null) {
+			return "redirect:/error";
+		}
+
+		FragInter inter = fragment.getFragInterByUrlId(urlId);
+		if (inter == null) {
+			return "redirect:/error";
+		}
 
 		Edition edition = inter.getEdition();
 		inter = edition.getPrevNumberInter(inter, inter.getNumber());
 
-		return "redirect:/fragments/fragment/inter/" + inter.getExternalId();
+		return "redirect:/fragments/fragment/" + inter.getFragment().getXmlId() + "/inter/" + inter.getUrlId();
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/fragment/inter")

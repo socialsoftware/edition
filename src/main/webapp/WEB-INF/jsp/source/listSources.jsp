@@ -60,11 +60,11 @@
 				<c:forEach var="source" items='${sources}'>
 					<tr>
 						<td>${source.name}</td>
-						<td><c:forEach var='iter'
+						<td><c:forEach var='inter'
 								items='${source.getSourceIntersSet()}'>
 								<a
-									href="${contextPath}/fragments/fragment/inter/${iter.externalId}">
-									${iter.title}</a>
+									href="${contextPath}/fragments/fragment/${inter.getFragment().getXmlId()}/inter/${inter.getUrlId()}">
+									${inter.title}</a>
 							</c:forEach></td>
 						<td>${source.getLdoDDate().print()}</td>
 						<td><c:choose>

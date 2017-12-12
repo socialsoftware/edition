@@ -16,11 +16,11 @@
 					<td><c:choose>
 							<c:when test="${inter.externalId == selected}">
 								<a id="${inter.externalId}" class="inter selected"
-									href="${contextPath}/fragments/fragment/inter/${inter.externalId}">${inter.title}</a>
+									href="${contextPath}/fragments/fragment/${inter.getFragment().getXmlId()}/inter/${inter.getUrlId()}">${inter.title}</a>
 							</c:when>
 							<c:otherwise>
 								<a id="${inter.externalId}" class="inter"
-									href="${contextPath}/fragments/fragment/inter/${inter.externalId}">${inter.title}</a>
+									href="${contextPath}/fragments/fragment/${inter.getFragment().getXmlId()}/inter/${inter.getUrlId()}">${inter.title}</a>
 							</c:otherwise>
 						</c:choose></td>
 					<td><c:if test="${inter.externalId != selected}">
@@ -30,7 +30,7 @@
 							</button>
 						</c:if></td>
 					<td><c:forEach var="used" items="${inter.getListUsed()}">-><a
-								href="${contextPath}/fragments/fragment/inter/${used.externalId}">${used.shortName}</a>
+								href="${contextPath}/fragments/fragment/${used.getFragment().getXmlId()}/inter/${used.getUrlId()}">${used.shortName}</a>
 						</c:forEach></td>
 				</tr>
 			</c:forEach>

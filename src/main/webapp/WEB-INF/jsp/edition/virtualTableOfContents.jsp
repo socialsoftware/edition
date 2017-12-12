@@ -51,7 +51,7 @@
 			<tr>
 				<td><c:if test="${inter.number!=0}">${inter.number}</c:if></td>
 				<td><a
-					href="${contextPath}/fragments/fragment/inter/${inter.externalId}">${inter.title}</a></td>
+					href="${contextPath}/fragments/fragment/${inter.getFragment().getXmlId()}/inter/${inter.getUrlId()}">${inter.title}</a></td>
 				<td><c:forEach var="category"
 						items='${inter.getAssignedCategories()}'>
 						<a
@@ -60,7 +60,7 @@
 						<br>
 					</c:forEach></td>
 				<td><c:forEach var="used" items="${inter.getListUsed()}">-><a
-							href="${contextPath}/fragments/fragment/inter/${used.externalId}">${used.shortName}</a>
+							href="${contextPath}/fragments/fragment/${used.getFragment().getXmlId()}/inter/${used.getUrlId()}">${used.shortName}</a>
 						<br>
 					</c:forEach></td>
 			</tr>

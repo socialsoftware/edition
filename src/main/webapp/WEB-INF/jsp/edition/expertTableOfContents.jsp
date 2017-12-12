@@ -47,9 +47,9 @@
 					<td class="text-center"><c:if test="${interp.number!=0}">${interp.getCompleteNumber()}</c:if>
 						</td>
 					<td><a
-						href="${contextPath}/fragments/fragment/inter/${interp.externalId}">${interp.title}</a></td>
-					<td class="text-center"><a
-						href="${contextPath}/reading/inter/first/inter/${interp.externalId}"><span
+						href="${contextPath}/fragments/fragment/${interp.getFragment().getXmlId()}/inter/${interp.getUrlId()}">${interp.title}</a></td>
+					<td class="text-center"><a 
+						href="${contextPath}/reading/fragment/${interp.getFragment().getXmlId()}/inter/${interp.getUrlId()}/start"><span
 							class="glyphicon glyphicon-eye-open"></span></a></td>
 					<c:if test='${edition.getAcronym().equals("JPC")}'>
 						<td class="text-center">${interp.volume}</td>

@@ -56,7 +56,7 @@
 						<td><c:forEach var="inter"
 								items='${category.getSortedInters()}'>
 								<a
-									href="${contextPath}/fragments/fragment/inter/${inter.getExternalId()}">
+									href="${contextPath}/fragments/fragment/${inter.getFragment().getXmlId()}/inter/${inter.getUrlId()}">
 									${inter.getTitle()}</a>
 								<br>
 							</c:forEach></td>

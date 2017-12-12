@@ -40,7 +40,7 @@
 				<c:forEach var="inter" items='${category.getSortedInters()}'>
 					<tr>
 						<td><a
-							href="${contextPath}/fragments/fragment/inter/${inter.getExternalId()}">${inter.getTitle()}</a></td>
+							href="${contextPath}/fragments/fragment/${inter.getFragment().getXmlId()}/inter/${inter.getUrlId()}">${inter.getTitle()}</a></td>
 						<td><a
 							href="${contextPath}/edition/acronym/${inter.getEdition().getAcronym()}">${inter.getEdition().getTitle()}</a></td>
 						<td><c:forEach var="user"
@@ -49,7 +49,7 @@
 								<br>
 							</c:forEach></td>
 						<td><c:forEach var="used" items="${inter.getListUsed()}">-><a
-									href="${contextPath}/fragments/fragment/inter/${used.externalId}">${used.shortName}</a>
+									href="${contextPath}/fragments/fragment/${used.getFragment().getXmlId()}/inter/${used.getUrlId()}">${used.shortName}</a>
 								<br>
 							</c:forEach></td>
 					</tr>

@@ -41,7 +41,7 @@
 				<c:forEach var="inter" items='${user.getFragInterSet()}'>
 					<tr>
 						<td><a
-							href="${contextPath}/fragments/fragment/inter/${inter.externalId}">${inter.title}</a></td>
+							href="${contextPath}/fragments/fragment/${inter.getFragment().getXmlId()}/inter/${inter.getUrlId()}">${inter.title}</a></td>
 						<td><a
 							href="${contextPath}/edition/acronym/${inter.edition.acronym}">${inter.getEdition().getReference()}</a></td>
 						<td><c:forEach var="category"
@@ -51,7 +51,7 @@
 									${category.getNameInEditionContext(inter.getEdition())} </a>
 							</c:forEach></td>
 						<td><c:forEach var="used" items="${inter.getListUsed()}">-><a
-									href="${contextPath}/fragments/fragment/inter/${used.externalId}">${used.shortName}</a>
+									href="${contextPath}/fragments/fragment/${used.getFragment().getXmlId()}/inter/${used.getUrlId()}">${used.shortName}</a>
 							</c:forEach></td>
 					</tr>
 				</c:forEach>

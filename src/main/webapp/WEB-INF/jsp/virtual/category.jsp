@@ -53,11 +53,11 @@
 			<div class="pull-right" align="center">
 				<span class="bg-info" style="padding: 8px"> <spring:message
 						code="general.public.pages" />: <a
-					href="${contextPath}/edition/internalid/${category.getTaxonomy().getEdition().getExternalId()}">
+					href="${contextPath}/edition/acronym/${category.getTaxonomy().getEdition().getAcronym()}">
 						<span class="glyphicon glyphicon-list-alt"></span> <spring:message
 							code="general.edition" />
 				</a> - <a
-					href="${contextPath}/edition/category/${category.getExternalId()}">
+					href="${contextPath}/edition/acronym/${category.getTaxonomy().getEdition().getAcronym()}/category/${category.getExternalId()}">
 						<span class="glyphicon glyphicon-tag"></span> <spring:message
 							code="general.category" />
 				</a>

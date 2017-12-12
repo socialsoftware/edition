@@ -107,7 +107,7 @@ ${inter.getEdition().getAcronym()}
 
     
           <h4>
-          <a href="${contextPath}/reading/inter/first/edition/${expertEdition.getExternalId()}">${expertEdition.editor}</a>
+          <a href="${contextPath}/reading/edition/${expertEdition.getAcronym()}/start/">${expertEdition.editor}</a>
           <!--${expertEdition.editor}-->
           </h4>
           <c:choose>
@@ -119,7 +119,7 @@ ${inter.getEdition().getAcronym()}
           <c:choose>
           <c:when test="${fragment == null}">
             <a
-              href="${contextPath}/reading/inter/first/edition/${expertEdition.getExternalId()}"><%-- <spring:message
+              href="${contextPath}/reading/edition/${expertEdition.getAcronym()}/start/"><%-- <spring:message
                 code="general.reading.start" /> --%> <img src="/resources/img/graphics/arrow_right.png"></a>
           </c:when>
 
@@ -138,11 +138,11 @@ ${inter.getEdition().getAcronym()}
 
                 <div class="arrows">
 
-                <a href="${contextPath}/reading/inter/prev/number/${expertEditionInter.externalId}">
+                <a href="${contextPath}/reading/fragment/${fragment.xmlId}/inter/${expertEditionInter.urlId}/prev">
                  <img src="/resources/img/graphics/arrow_left.png"></a>
 
                 <a
-                  href="${contextPath}/reading/inter/next/number/${expertEditionInter.externalId}">
+                  href="${contextPath}/reading/fragment/${fragment.xmlId}/inter/${expertEditionInter.urlId}/next">
                  <img src="/resources/img/graphics/arrow_right.png"></a>
                  </div>
                 </div>
@@ -153,13 +153,10 @@ ${inter.getEdition().getAcronym()}
                   href="${contextPath}/reading/fragment/${fragment.xmlId}/inter/${expertEditionInter.urlId}"><!--${expertEditionInter.getEdition().getAcronym()}-->
                   <h2>${expertEditionInter.number}</h2></a>
 
-
-               
-
-                 <a href="${contextPath}/reading/inter/next/number/${expertEditionInter.externalId}">
+                 <a href="${contextPath}/reading/fragment/${fragment.xmlId}/inter/${expertEditionInter.urlId}/next">
                  <img src="/resources/img/graphics/arrow_right.png"></a>
 
-                <a href="${contextPath}/reading/inter/prev/number/${expertEditionInter.externalId}">
+                <a href="${contextPath}/reading/fragment/${fragment.xmlId}/inter/${expertEditionInter.urlId}/prev">
                  <img src="/resources/img/graphics/arrow_left.png"></a>
 
                
@@ -175,7 +172,7 @@ ${inter.getEdition().getAcronym()}
 
     <c:if test="${inter.getEdition().getAcronym() == expertEdition.getAcronym()}">
       <div class="reading__text col-xs-12 col-sm-7 no-pad style-point">
-      <h1><a href="/fragments/fragment/inter/${inter.getExternalId()}">${inter.title}</a></h1>
+      <h1><a href="${contextPath}/fragments/fragment/${inter.getFragment().getXmlId()}/inter/${inter.getUrlId()}">${inter.title}</a></h1>
       <br><br>
       <p>
        ${writer.getTranscription()}

@@ -84,10 +84,10 @@ public class ReadingController {
 		return "reading/readingMain";
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "/inter/first/edition/{expertEditionId}")
-	public String readFirstInterpretationFromEdition(Model model,
-			@ModelAttribute("ldoDSession") LdoDSession ldoDSession, @PathVariable String expertEditionId) {
-		ExpertEdition expertEdition = FenixFramework.getDomainObject(expertEditionId);
+	@RequestMapping(method = RequestMethod.GET, value = "/edition/{acronym}/start")
+	public String startReadingEdition(Model model, @ModelAttribute("ldoDSession") LdoDSession ldoDSession,
+			@PathVariable String acronym) {
+		ExpertEdition expertEdition = (ExpertEdition) LdoD.getInstance().getEdition(acronym);
 		ExpertEditionInter expertEditionInter = expertEdition.getFirstInterpretation();
 
 		ldoDSession.getRecommendation().clean();
@@ -97,10 +97,19 @@ public class ReadingController {
 				+ expertEditionInter.getUrlId();
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "/inter/first/inter/{expertEditionInterId}")
-	public String readFirstInterpretationFromInter(Model model, @ModelAttribute("ldoDSession") LdoDSession ldoDSession,
-			@PathVariable String expertEditionInterId) {
-		ExpertEditionInter expertEditionInter = FenixFramework.getDomainObject(expertEditionInterId);
+	@RequestMapping(method = RequestMethod.GET, value = "/fragment/{xmlId}/inter/{urlId}/start")
+	public String startReadingFromInter(Model model, @ModelAttribute("ldoDSession") LdoDSession ldoDSession,
+			@PathVariable String xmlId, @PathVariable String urlId) {
+		Fragment fragment = LdoD.getInstance().getFragmentByXmlId(xmlId);
+		if (fragment == null) {
+			return "redirect:/error";
+		}
+
+		ExpertEditionInter expertEditionInter = (ExpertEditionInter) fragment.getFragInterByUrlId(urlId);
+		if (expertEditionInter == null) {
+			return "redirect:/error";
+		}
+
 		ldoDSession.getRecommendation().clean();
 		ldoDSession.getRecommendation().setTextWeight(1.0);
 
@@ -108,10 +117,18 @@ public class ReadingController {
 				+ expertEditionInter.getUrlId();
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "/inter/next/number/{expertEditionInterId}")
+	@RequestMapping(method = RequestMethod.GET, value = "/fragment/{xmlId}/inter/{urlId}/next")
 	public String readNextInterpretation(Model model, @ModelAttribute("ldoDSession") LdoDSession ldoDSession,
-			@PathVariable String expertEditionInterId) {
-		ExpertEditionInter expertEditionInter = FenixFramework.getDomainObject(expertEditionInterId);
+			@PathVariable String xmlId, @PathVariable String urlId) {
+		Fragment fragment = LdoD.getInstance().getFragmentByXmlId(xmlId);
+		if (fragment == null) {
+			return "redirect:/error";
+		}
+
+		ExpertEditionInter expertEditionInter = (ExpertEditionInter) fragment.getFragInterByUrlId(urlId);
+		if (expertEditionInter == null) {
+			return "redirect:/error";
+		}
 
 		FragInter nextExpertEditionInter = expertEditionInter.getEdition().getNextNumberInter(expertEditionInter,
 				expertEditionInter.getNumber());
@@ -120,10 +137,18 @@ public class ReadingController {
 				+ nextExpertEditionInter.getUrlId();
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "/inter/prev/number/{expertEditionInterId}")
+	@RequestMapping(method = RequestMethod.GET, value = "/fragment/{xmlId}/inter/{urlId}/prev")
 	public String readPrevInterpretation(Model model, @ModelAttribute("ldoDSession") LdoDSession ldoDSession,
-			@PathVariable String expertEditionInterId) {
-		ExpertEditionInter expertEditionInter = FenixFramework.getDomainObject(expertEditionInterId);
+			@PathVariable String xmlId, @PathVariable String urlId) {
+		Fragment fragment = LdoD.getInstance().getFragmentByXmlId(xmlId);
+		if (fragment == null) {
+			return "redirect:/error";
+		}
+
+		ExpertEditionInter expertEditionInter = (ExpertEditionInter) fragment.getFragInterByUrlId(urlId);
+		if (expertEditionInter == null) {
+			return "redirect:/error";
+		}
 
 		FragInter prevExpertEditionInter = expertEditionInter.getEdition().getPrevNumberInter(expertEditionInter,
 				expertEditionInter.getNumber());
