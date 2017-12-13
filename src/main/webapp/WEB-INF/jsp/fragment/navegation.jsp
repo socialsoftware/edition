@@ -161,7 +161,7 @@
 			<div class="text-center" style="padding: 8px">
 				<a
 					href="${contextPath}/edition/acronym/${archiveEdition.getAcronym()}">
-					Arquivo do LdoD</a>
+					Arquivo LdoD</a>
 			</div>
 			<table width="100%">
 				<thead>
