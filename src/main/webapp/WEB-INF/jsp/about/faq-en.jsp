@@ -295,10 +295,10 @@
 	<em>LdoD Archive</em> itself, that is, of the XML files as units that guarantee 
 	the modularity of the fragments and the interpretations (transcriptions) 
 	associated with them. If their respective tables are observed, their rationale 
-	becomes clearer: the 756 witnesses correspond to all BNP autograph documents 
+	becomes clearer: the 755 witnesses correspond to all BNP autograph documents 
 	that have a specific shelf-mark (or, in the case of some letters by Fernando 
 	Pessoa, shelf-marks from other archives) and also to twelve published texts; the 
-	722 &ldquo;encoded fragments&rdquo; correspond to the XML files of the <em>LdoD Archive</em>, each 
+	721 &ldquo;encoded fragments&rdquo; correspond to the XML files of the <em>LdoD Archive</em>, each 
 	of which contains a number of interpretations for the same fragment. From the 
 	point of view of our data model in the Archive, it is as if the fragment were 
 	an abstract entity, which then has multiple instantiations: the transcriptions 
