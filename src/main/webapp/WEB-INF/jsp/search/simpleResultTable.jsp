@@ -37,20 +37,20 @@
                                 test="${fragInterEntry.getClass().getSimpleName().equals('SourceInter') && 
 										fragInterEntry.getSource().getType() == 'MANUSCRIPT'}">
                                 <td><a
-                                    href="/fragments/fragment/inter/${fragInterEntry.getExternalId()}">${fragInterEntry.getShortName()}</a>
+                                    href="/fragments/fragment/${fragInterEntry.getFragment().getXmlId()}/inter/${fragInterEntry.getUrlId()}">${fragInterEntry.getShortName()}</a>
                                 </td>
                             </c:when>
                             <c:when
                                 test="${fragInterEntry.getClass().getSimpleName().equals('ExpertEditionInter')}">
                                 <td><a
-                                    href="/fragments/fragment/inter/${fragInterEntry.getExternalId()}">${fragInterEntry.getTitle()}
+                                    href="/fragments/fragment/${fragInterEntry.getFragment().getXmlId()}/inter/${fragInterEntry.getUrlId()}">${fragInterEntry.getTitle()}
                                         (${fragInterEntry.getEdition().getEditor()})</a>
 
                                 </td>
                             </c:when>
                             <c:otherwise>
                                 <td><a
-                                    href="/fragments/fragment/inter/${fragInterEntry.getExternalId()}">${fragInterEntry.getTitle()}</a></td>
+                                    href="/fragments/fragment/${fragInterEntry.getFragment().getXmlId()}/inter/${fragInterEntry.getUrlId()}">${fragInterEntry.getTitle()}</a></td>
                             </c:otherwise>
                         </c:choose>
                 </c:forEach>

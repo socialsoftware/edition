@@ -155,80 +155,77 @@
 				class="glyphicon glyphicon-info-sign"></span>
 			</a>
 		</h5>
-		<!--  Only while LdoD virtual edition is not made public -->
-		<c:if test="${pageContext.request.userPrincipal.authenticated}">
-			<!-- ARCHIVE VIRTUAL EDITION -->
-			<c:set var="archiveEdition" value="${ldoD.getArchiveEdition()}" />
-			<div class="text-center">
-				<div class="text-center" style="padding: 8px">
-					<a
-						href="${contextPath}/edition/acronym/${archiveEdition.getAcronym()}">
-						Arquivo do LdoD</a>
-				</div>
-				<table width="100%">
-					<thead>
-						<tr>
-							<th style="width: 10%"></th>
-							<th style="width: 10%"></th>
-							<th style="width: 25%"></th>
-							<th style="width: 10%"></th>
-							<th style="width: 25%"></th>
-							<th style="width: 20%"></th>
-						</tr>
-					</thead>
-					<tbody>
-						<c:forEach var="virtualEditionInter"
-							items="${archiveEdition.getSortedInter4Frag(fragment)}">
-							<tr>
-								<td></td>
-								<td><c:choose>
-										<c:when test="${inters.contains(virtualEditionInter)}">
-											<input type="checkbox"
-												name="${virtualEditionInter.externalId}"
-												value="${virtualEditionInter.externalId}" checked />
-										</c:when>
-										<c:otherwise>
-											<input type="checkbox"
-												name="${virtualEditionInter.externalId}"
-												value="${virtualEditionInter.externalId}" />
-										</c:otherwise>
-									</c:choose></td>
-								<td><a
-									href="${contextPath}/fragments/fragment/${virtualEditionInter.getFragment().getXmlId()}/inter/${virtualEditionInter.getUrlId()}/prev"><span
-										class="glyphicon glyphicon-chevron-left"></span></a></td>
-								<td><a
-									href="${contextPath}/fragments/fragment/${virtualEditionInter.getFragment().getXmlId()}/inter/${virtualEditionInter.getUrlId()}">${virtualEditionInter.number}</a></td>
-								<td><a
-									href="${contextPath}/fragments/fragment/${virtualEditionInter.getFragment().getXmlId()}/inter/${virtualEditionInter.getUrlId()}/next"><span
-										class="glyphicon glyphicon-chevron-right"></span></a></td>
-								<td></td>
-							</tr>
-						</c:forEach>
-						<c:if
-							test="${archiveEdition.participantSet.contains(user) && (inters.size() == 1) && archiveEdition.canAddFragInter(inters.get(0))}">
-							<tr>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td><form class="form-horizontal" method="POST"
-										action="/virtualeditions/restricted/addinter/${archiveEdition.externalId}/${inters.get(0).externalId}">
-										<input type="hidden" name="${_csrf.parameterName}"
-											value="${_csrf.token}" />
-										<fieldset>
-											<button type="submit" class="btn btn-primary btn-xs">
-												<span class="glyphicon glyphicon-plus"></span>
-												<spring:message code="general.add" />
-											</button>
-										</fieldset>
-									</form></td>
-								<td></td>
-								<td></td>
-							</tr>
-						</c:if>
-					</tbody>
-				</table>
+		<!-- ARCHIVE VIRTUAL EDITION -->
+		<c:set var="archiveEdition" value="${ldoD.getArchiveEdition()}" />
+		<div class="text-center">
+			<div class="text-center" style="padding: 8px">
+				<a
+					href="${contextPath}/edition/acronym/${archiveEdition.getAcronym()}">
+					Arquivo do LdoD</a>
 			</div>
-		</c:if>
+			<table width="100%">
+				<thead>
+					<tr>
+						<th style="width: 10%"></th>
+						<th style="width: 10%"></th>
+						<th style="width: 25%"></th>
+						<th style="width: 10%"></th>
+						<th style="width: 25%"></th>
+						<th style="width: 20%"></th>
+					</tr>
+				</thead>
+				<tbody>
+					<c:forEach var="virtualEditionInter"
+						items="${archiveEdition.getSortedInter4Frag(fragment)}">
+						<tr>
+							<td></td>
+							<td><c:choose>
+									<c:when test="${inters.contains(virtualEditionInter)}">
+										<input type="checkbox"
+											name="${virtualEditionInter.externalId}"
+											value="${virtualEditionInter.externalId}" checked />
+									</c:when>
+									<c:otherwise>
+										<input type="checkbox"
+											name="${virtualEditionInter.externalId}"
+											value="${virtualEditionInter.externalId}" />
+									</c:otherwise>
+								</c:choose></td>
+							<td><a
+								href="${contextPath}/fragments/fragment/${virtualEditionInter.getFragment().getXmlId()}/inter/${virtualEditionInter.getUrlId()}/prev"><span
+									class="glyphicon glyphicon-chevron-left"></span></a></td>
+							<td><a
+								href="${contextPath}/fragments/fragment/${virtualEditionInter.getFragment().getXmlId()}/inter/${virtualEditionInter.getUrlId()}">${virtualEditionInter.number}</a></td>
+							<td><a
+								href="${contextPath}/fragments/fragment/${virtualEditionInter.getFragment().getXmlId()}/inter/${virtualEditionInter.getUrlId()}/next"><span
+									class="glyphicon glyphicon-chevron-right"></span></a></td>
+							<td></td>
+						</tr>
+					</c:forEach>
+					<c:if
+						test="${archiveEdition.participantSet.contains(user) && (inters.size() == 1) && archiveEdition.canAddFragInter(inters.get(0))}">
+						<tr>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td><form class="form-horizontal" method="POST"
+									action="/virtualeditions/restricted/addinter/${archiveEdition.externalId}/${inters.get(0).externalId}">
+									<input type="hidden" name="${_csrf.parameterName}"
+										value="${_csrf.token}" />
+									<fieldset>
+										<button type="submit" class="btn btn-primary btn-xs">
+											<span class="glyphicon glyphicon-plus"></span>
+											<spring:message code="general.add" />
+										</button>
+									</fieldset>
+								</form></td>
+							<td></td>
+							<td></td>
+						</tr>
+					</c:if>
+				</tbody>
+			</table>
+		</div>
 
 		<!-- OTHER VIRTUAL EDITIONS -->
 		<c:if

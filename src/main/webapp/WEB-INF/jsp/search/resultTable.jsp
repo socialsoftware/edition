@@ -55,11 +55,11 @@
 										test="${ fragInterEntry.key.getClass().getSimpleName().equals('SourceInter') && 
 										fragInterEntry.key.getSource().getType() == 'MANUSCRIPT'}">
 										<td><a
-											href="/fragments/fragment/inter/${fragInterEntry.key.getExternalId()}">${fragInterEntry.key.getShortName()}</a></td>
+											href="/fragments/fragment/${fragInterEntry.key.getFragment().getXmlId()}/inter/${fragInterEntry.key.getUrlId()}">${fragInterEntry.key.getShortName()}</a></td>
 									</c:when>
 									<c:otherwise>
 										<td><a
-											href="/fragments/fragment/inter/${fragInterEntry.key.getExternalId()}">${fragInterEntry.key.getTitle()}</a></td>
+											href="/fragments/fragment/${fragInterEntry.key.getFragment().getXmlId()}/inter/${fragInterEntry.key.getUrlId()}">${fragInterEntry.key.getTitle()}</a></td>
 									</c:otherwise>
 								</c:choose>
 
