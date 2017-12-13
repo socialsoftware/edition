@@ -1,5 +1,6 @@
 package pt.ist.socialsoftware.edition.domain;
 
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -11,6 +12,11 @@ import pt.ist.socialsoftware.edition.shared.exception.LdoDDuplicateNameException
 import pt.ist.socialsoftware.edition.shared.exception.LdoDException;
 
 public class Category extends Category_Base implements Comparable<Category> {
+
+	public String getUrlId() {
+		String result = Normalizer.normalize(getName(), Normalizer.Form.NFD);
+		return result.replaceAll("[^\\p{ASCII}]", "");
+	}
 
 	@Override
 	public String getXmlId() {

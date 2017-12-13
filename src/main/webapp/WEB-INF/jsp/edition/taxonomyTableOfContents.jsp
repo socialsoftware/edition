@@ -40,7 +40,7 @@
 				<c:forEach var="category" items='${taxonomy.getCategoriesSet()}'>
 					<tr>
 						<td><a
-							href="${contextPath}/edition/acronym/${taxonomy.getEdition().getAcronym()}/category/${category.getExternalId()}">${category.getName()}</a>
+							href="${contextPath}/edition/acronym/${taxonomy.getEdition().getAcronym()}/category/${category.getUrlId()}">${category.getName()}</a>
 						</td>
 						<td><c:forEach var="user"
 								items="${category.getSortedUsers()}">

@@ -57,7 +57,7 @@
 						<span class="glyphicon glyphicon-list-alt"></span> <spring:message
 							code="general.edition" />
 				</a> - <a
-					href="${contextPath}/edition/acronym/${category.getTaxonomy().getEdition().getAcronym()}/category/${category.getExternalId()}">
+					href="${contextPath}/edition/acronym/${category.getTaxonomy().getEdition().getAcronym()}/category/${category.getUrlId()}">
 						<span class="glyphicon glyphicon-tag"></span> <spring:message
 							code="general.category" />
 				</a>

@@ -92,6 +92,15 @@ public class Taxonomy extends Taxonomy_Base {
 		return null;
 	}
 
+	public Category getCategoryByUrlId(String urlId) {
+		for (Category category : getCategoriesSet()) {
+			if (urlId.equals(category.getUrlId())) {
+				return category;
+			}
+		}
+		return null;
+	}
+
 	public List<VirtualEdition> getUsedIn() {
 		Set<VirtualEdition> editions = new HashSet<>();
 		for (VirtualEditionInter inter : getEdition().getAllDepthVirtualEditionInters()) {
@@ -199,5 +208,4 @@ public class Taxonomy extends Taxonomy_Base {
 			return getEdition().getAdminSet().contains(user);
 		}
 	}
-
 }

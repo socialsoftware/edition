@@ -20,7 +20,7 @@
 				<td><span class="glyphicon glyphicon-user"></span> <a
 					href="${contextPath}/edition/user/${tag.getContributor().username}">${tag.getContributor().username}</a></td>
 				<td><span class="glyphicon glyphicon-tag"></span> <a
-					href="${contextPath}/edition/category/${tag.getCategory().getExternalId()}">${tag.getCategory().getNameInEditionContext(inter.edition)}</a></td>
+					href="${contextPath}/edition/acronym/${tag.getCategory().getTaxonomy().getEdition().getAcronym()}/category/${tag.getCategory().getUrlId()}">${tag.getCategory().getNameInEditionContext(inter.edition)}</a></td>
 			</tr>
 		</c:forEach>
 		<c:forEach var="annotation" items='${inter. getAllDepthAnnotations()}'>
@@ -32,7 +32,7 @@
 				<td><c:forEach var="tag" items='${annotation.getTagSet()}'>
 						<span class="glyphicon glyphicon-tag"></span>
 						<a
-							href="${contextPath}/edition/category/${tag.getCategory().getExternalId()}">${tag.getCategory().getNameInEditionContext(inter.edition)}</a>
+							href="${contextPath}/edition/acronym/${tag.getCategory().getTaxonomy().getEdition().getAcronym()}/category/${tag.getCategory().getUrlId()}">${tag.getCategory().getNameInEditionContext(inter.edition)}</a>
 					</c:forEach></td>
 			</tr>
 		</c:forEach>

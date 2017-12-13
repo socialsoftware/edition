@@ -17,6 +17,7 @@ import pt.ist.socialsoftware.edition.domain.Heteronym;
 import pt.ist.socialsoftware.edition.domain.LdoD;
 import pt.ist.socialsoftware.edition.domain.LdoDUser;
 import pt.ist.socialsoftware.edition.domain.Taxonomy;
+import pt.ist.socialsoftware.edition.domain.VirtualEdition;
 
 @Controller
 @RequestMapping("/edition")
@@ -104,19 +105,22 @@ public class EditionController {
 		}
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "/acronym/{acronym}/category/{externalId}")
+	@RequestMapping(method = RequestMethod.GET, value = "/acronym/{acronym}/category/{urlId}")
 	@PreAuthorize("hasPermission(#acronym, 'editionacronym.public')")
-	public String getCategoryTableOfContents(Model model, @PathVariable String acronym,
-			@PathVariable String externalId) {
+	public String getCategoryTableOfContents(Model model, @PathVariable String acronym, @PathVariable String urlId) {
 
-		Category category = FenixFramework.getDomainObject(externalId);
-
-		if (category != null) {
-			model.addAttribute("category", category);
-			return "edition/categoryTableOfContents";
-		} else {
+		VirtualEdition virtualEdition = (VirtualEdition) LdoD.getInstance().getEdition(acronym);
+		if (virtualEdition == null) {
 			return "redirect:/error";
 		}
+
+		Category category = virtualEdition.getTaxonomy().getCategoryByUrlId(urlId);
+		if (category == null) {
+			return "redirect:/error";
+		}
+
+		model.addAttribute("category", category);
+		return "edition/categoryTableOfContents";
 	}
 
 }
