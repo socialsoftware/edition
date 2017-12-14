@@ -10,6 +10,15 @@
 	href="/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css" />
 <script src="/webjars/jquery/1.11.3/jquery.min.js"></script>
 <script src="/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-111295843-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-111295843-1');
+</script>
 <style>
 @media ( max-width : 767px) {
 	.text-xs-left {
