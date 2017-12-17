@@ -365,9 +365,9 @@
 	partir das unidades do pr&oacute;prio <em>Arquivo LdoD</em>, ou seja, dos ficheiros XML 
 	como unidades que garantem a modularidade dos fragmentos e das interpreta&ccedil;&otilde;es (transcri&ccedil;&otilde;es) 
 	que lhes est&atilde;o associadas. Se se observarem as respetivas tabelas, torna-se mais  
-	clara a respetiva l&oacute;gica: os 755 &ldquo;testemunhos&rdquo; correspondem a documentos 
+	clara a respetiva l&oacute;gica: os 754 &ldquo;testemunhos&rdquo; correspondem a documentos 
 	aut&oacute;grafos da BNP que t&ecirc;m uma cota espec&iacute;fica (ou, no caso de algumas cartas, cotas 
-	de  outros arquivos) e ainda a 12 textos publicados; j&aacute; os 721 &ldquo;fragmentos  
+	de  outros arquivos) e ainda a 12 textos publicados; j&aacute; os 720 &ldquo;fragmentos  
 	codificados&rdquo; correspondem aos ficheiros XML do <em>Arquivo LdoD</em>, cada um 
 	dos quais cont&eacute;m um certo n&uacute;mero de interpreta&ccedil;&otilde;es para o mesmo fragmento. Do ponto de 
 	vista do nosso modelo de dados no <em>Arquivo LdoD</em>, &eacute; como se o fragmento fosse uma entidade 
