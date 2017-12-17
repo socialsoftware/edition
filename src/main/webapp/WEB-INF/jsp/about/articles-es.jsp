@@ -317,13 +317,13 @@
 <p>Sep&uacute;lveda, Pedro (2013).   &ldquo;Listas do Desassossego.&rdquo; <em>MATLIT: Materialidades
   da Literatura</em> 1.1: 35-55. <br />
   URL: <a href="http://impactum-journals.uc.pt/matlit/article/view/1616" target="_new">http://impactum-journals.uc.pt/matlit/article/view/1616</a> <br/>
-  DOI:  <a href="http://dx.doi.org/10.14195/2182-8830_1-1_2" target="_new">http://dx.doi.org/10.14195/2182-8830_1-1_2</a>&nbsp;</p>
+  DOI: <a href="http://dx.doi.org/10.14195/2182-8830_1-1_2" target="_new">http://dx.doi.org/10.14195/2182-8830_1-1_2</a>&nbsp;</p>
 <p>&nbsp;</p>
 <p><strong>2014</strong></p>
-<p>Sep&uacute;lveda, Pedro (2014). &ldquo;Pessoas-livros: O Arquivo Bibliográfico de Fernando Pessoa.&rdquo;<em> MATLIT: </em><em>Materialidades
+<p>Sep&uacute;lveda, Pedro (2014). &ldquo;Pessoas-livros: O Arquivo Bibliogr&aacute;fico de Fernando Pessoa.&rdquo;<em> MATLIT: </em><em>Materialidades
   da Literatura</em> 2.1:  55-77. <br/>
   URL: <a href="http://impactum-journals.uc.pt/matlit/article/view/1890" target="_new">http://impactum-journals.uc.pt/matlit/article/view/1890 </a> <br/>
-  DOI: <a href="http://dx.doi.org/10.14195/2182-8830_2-1_3" target="_new">http://dx.doi.org/10.14195/2182-8830_2-1_3</a></p>
+  DOI: <a href="http://dx.doi.org/10.14195/2182-8830_2-1_3" target="_new">http://dx.doi.org/10.14195/2182-8830_2-1_3</a></p>
 <p>&nbsp; </p>
 <p> <strong>2016</strong> </p>
 <p> Dols, Nicolau, e Gabriel de la S. T. Sampol (2016). &ldquo;El
