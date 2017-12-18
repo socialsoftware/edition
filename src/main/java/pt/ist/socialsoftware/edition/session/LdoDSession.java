@@ -6,6 +6,11 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.socialsoftware.edition.domain.Edition;
@@ -17,9 +22,32 @@ import pt.ist.socialsoftware.edition.recommendation.ReadingRecommendation;
 public class LdoDSession implements Serializable {
 	private static final long serialVersionUID = 3742738985902099143L;
 
-	private final List<String> selectedVEAcr = new ArrayList<String>();
+	private final List<String> selectedVEAcr = new ArrayList<>();
 
 	private final ReadingRecommendation recommendation = new ReadingRecommendation();
+
+	public static LdoDSession getLdoDSession() {
+		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes())
+				.getRequest();
+
+		LdoDSession ldoDSession = null;
+		if (request.getSession().getAttribute("ldoDSession") == null) {
+			ldoDSession = new LdoDSession();
+			VirtualEdition virtualEdition = LdoD.getInstance().getVirtualEdition("LdoD-JPC-anot");
+			if (virtualEdition != null) {
+				ldoDSession.addSelectedVE(virtualEdition);
+			}
+			virtualEdition = LdoD.getInstance().getVirtualEdition("LdoD-Mallet");
+			if (virtualEdition != null) {
+				ldoDSession.addSelectedVE(virtualEdition);
+			}
+			request.getSession().setAttribute("ldoDSession", ldoDSession);
+		} else {
+			ldoDSession = (LdoDSession) request.getSession().getAttribute("ldoDSession");
+		}
+
+		return ldoDSession;
+	}
 
 	@Atomic(mode = TxMode.WRITE)
 	public void updateSession(LdoDUser user) {
@@ -29,11 +57,11 @@ public class LdoDSession implements Serializable {
 	}
 
 	public boolean hasSelectedVE(String acronym) {
-		return selectedVEAcr.contains(acronym);
+		return this.selectedVEAcr.contains(acronym);
 	}
 
 	public void removeSelectedVE(String acronym) {
-		selectedVEAcr.remove(acronym);
+		this.selectedVEAcr.remove(acronym);
 	}
 
 	public void addSelectedVE(VirtualEdition virtualEdition) {
@@ -41,34 +69,36 @@ public class LdoDSession implements Serializable {
 
 		// do not add the archive virtual edition because it is already
 		// hardcoded in the menu
-		if (!selectedVEAcr.contains(toAddAcr) && !toAddAcr.equals(Edition.ARCHIVE_EDITION_ACRONYM)) {
-			selectedVEAcr.add(toAddAcr);
-			Collections.sort(selectedVEAcr);
+		if (!this.selectedVEAcr.contains(toAddAcr) && !toAddAcr.equals(Edition.ARCHIVE_EDITION_ACRONYM)) {
+			this.selectedVEAcr.add(toAddAcr);
+			Collections.sort(this.selectedVEAcr);
 		}
 	}
 
 	public List<VirtualEdition> materializeVirtualEditions() {
 		LdoD ldod = LdoD.getInstance();
 
-		return selectedVEAcr.stream().map(acr -> ldod.getEdition(acr)).filter(e -> e != null)
+		return this.selectedVEAcr.stream().map(acr -> ldod.getEdition(acr)).filter(e -> e != null)
 				.map(VirtualEdition.class::cast).collect(Collectors.toList());
 
 	}
 
 	public List<String> getSelectedVEAcr() {
-		return selectedVEAcr;
+		return this.selectedVEAcr;
 	}
 
 	@Atomic(mode = TxMode.WRITE)
 	public void toggleSelectedVirtualEdition(LdoDUser user, VirtualEdition virtualEdition) {
 		if (hasSelectedVE(virtualEdition.getAcronym())) {
 			removeSelectedVE(virtualEdition.getAcronym());
-			if (user != null)
+			if (user != null) {
 				user.removeSelectedVirtualEditions(virtualEdition);
+			}
 		} else {
 			addSelectedVE(virtualEdition);
-			if (user != null)
+			if (user != null) {
 				user.addSelectedVirtualEditions(virtualEdition);
+			}
 		}
 	}
 
@@ -85,11 +115,11 @@ public class LdoDSession implements Serializable {
 	}
 
 	private void clearSession() {
-		selectedVEAcr.clear();
+		this.selectedVEAcr.clear();
 	}
 
 	public ReadingRecommendation getRecommendation() {
-		return recommendation;
+		return this.recommendation;
 	}
 
 }

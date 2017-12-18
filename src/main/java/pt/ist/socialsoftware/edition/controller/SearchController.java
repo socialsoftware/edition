@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import pt.ist.socialsoftware.edition.domain.Edition;
+import pt.ist.socialsoftware.edition.domain.Edition.EditionType;
 import pt.ist.socialsoftware.edition.domain.ExpertEdition;
 import pt.ist.socialsoftware.edition.domain.FragInter;
 import pt.ist.socialsoftware.edition.domain.Fragment;
@@ -28,12 +30,11 @@ import pt.ist.socialsoftware.edition.domain.Heteronym;
 import pt.ist.socialsoftware.edition.domain.LdoD;
 import pt.ist.socialsoftware.edition.domain.LdoDUser;
 import pt.ist.socialsoftware.edition.domain.ManuscriptSource;
+import pt.ist.socialsoftware.edition.domain.ManuscriptSource.Medium;
 import pt.ist.socialsoftware.edition.domain.Source;
+import pt.ist.socialsoftware.edition.domain.Source.SourceType;
 import pt.ist.socialsoftware.edition.domain.SourceInter;
 import pt.ist.socialsoftware.edition.domain.VirtualEdition;
-import pt.ist.socialsoftware.edition.domain.Edition.EditionType;
-import pt.ist.socialsoftware.edition.domain.ManuscriptSource.Medium;
-import pt.ist.socialsoftware.edition.domain.Source.SourceType;
 import pt.ist.socialsoftware.edition.search.json.AuthoralJson;
 import pt.ist.socialsoftware.edition.search.json.DatesJson;
 import pt.ist.socialsoftware.edition.search.json.EditionJson;
@@ -49,11 +50,17 @@ import pt.ist.socialsoftware.edition.search.options.TaxonomySearchOption;
 import pt.ist.socialsoftware.edition.search.options.TextSearchOption;
 import pt.ist.socialsoftware.edition.search.options.TypescriptSearchOption;
 import pt.ist.socialsoftware.edition.search.options.VirtualEditionSearchOption;
+import pt.ist.socialsoftware.edition.session.LdoDSession;
 
 @Controller
 @RequestMapping("/search")
 public class SearchController {
 	private static Logger logger = LoggerFactory.getLogger(SearchController.class);
+
+	@ModelAttribute("ldoDSession")
+	public LdoDSession getLdoDSession() {
+		return LdoDSession.getLdoDSession();
+	}
 
 	/*
 	 * EditionController Sets all the empty boxes to null instead of the empty

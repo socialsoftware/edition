@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -18,11 +19,17 @@ import pt.ist.socialsoftware.edition.domain.LdoD;
 import pt.ist.socialsoftware.edition.domain.LdoDUser;
 import pt.ist.socialsoftware.edition.domain.Taxonomy;
 import pt.ist.socialsoftware.edition.domain.VirtualEdition;
+import pt.ist.socialsoftware.edition.session.LdoDSession;
 
 @Controller
 @RequestMapping("/edition")
 public class EditionController {
 	private static Logger logger = LoggerFactory.getLogger(EditionController.class);
+
+	@ModelAttribute("ldoDSession")
+	public LdoDSession getLdoDSession() {
+		return LdoDSession.getLdoDSession();
+	}
 
 	@RequestMapping(method = RequestMethod.GET)
 	public String editionIntro(Model model) {

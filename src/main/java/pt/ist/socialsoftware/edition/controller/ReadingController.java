@@ -21,8 +21,6 @@ import pt.ist.socialsoftware.edition.domain.ExpertEditionInter;
 import pt.ist.socialsoftware.edition.domain.FragInter;
 import pt.ist.socialsoftware.edition.domain.Fragment;
 import pt.ist.socialsoftware.edition.domain.LdoD;
-import pt.ist.socialsoftware.edition.domain.LdoDUser;
-import pt.ist.socialsoftware.edition.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.generators.PlainHtmlWriter4OneInter;
 import pt.ist.socialsoftware.edition.session.LdoDSession;
 import pt.ist.socialsoftware.edition.shared.exception.LdoDException;
@@ -35,15 +33,7 @@ public class ReadingController {
 
 	@ModelAttribute("ldoDSession")
 	public LdoDSession getLdoDSession() {
-		LdoDSession ldoDSession = new LdoDSession();
-
-		LdoDUser user = LdoDUser.getAuthenticatedUser();
-		if (user != null) {
-			for (VirtualEdition virtualEdition : user.getSelectedVirtualEditionsSet()) {
-				ldoDSession.addSelectedVE(virtualEdition);
-			}
-		}
-		return ldoDSession;
+		return LdoDSession.getLdoDSession();
 	}
 
 	@RequestMapping(method = RequestMethod.GET)

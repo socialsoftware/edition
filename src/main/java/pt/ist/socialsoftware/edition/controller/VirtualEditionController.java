@@ -67,15 +67,7 @@ public class VirtualEditionController {
 
 	@ModelAttribute("ldoDSession")
 	public LdoDSession getLdoDSession() {
-		LdoDSession ldoDSession = new LdoDSession();
-
-		LdoDUser user = LdoDUser.getAuthenticatedUser();
-		if (user != null) {
-			for (VirtualEdition virtualEdition : user.getSelectedVirtualEditionsSet()) {
-				ldoDSession.addSelectedVE(virtualEdition);
-			}
-		}
-		return ldoDSession;
+		return LdoDSession.getLdoDSession();
 	}
 
 	@RequestMapping(method = RequestMethod.GET)

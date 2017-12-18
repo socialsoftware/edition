@@ -8,11 +8,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 public class SigninController {
-    private static Logger log = LoggerFactory.getLogger(SigninController.class);
+	private static Logger log = LoggerFactory.getLogger(SigninController.class);
 
-    @RequestMapping(value = "/signin", method = RequestMethod.GET)
-    public void signin() {
-        log.debug("signin");
-    }
+	@RequestMapping(value = "/signin", method = RequestMethod.GET)
+	public void signin() {
+		log.debug("signin");
+	}
 
 }

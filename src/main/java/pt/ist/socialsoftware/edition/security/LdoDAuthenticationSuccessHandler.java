@@ -28,15 +28,11 @@ public class LdoDAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuc
 			Authentication authentication) throws IOException, ServletException {
 		log.debug("onAuthenticationSuccess");
 
-		LdoDSession ldoDSession = null;
-		if (request.getSession().getAttribute("ldoDSession") == null) {
-			ldoDSession = new LdoDSession();
-			request.getSession().setAttribute("ldoDSession", ldoDSession);
-		} else {
-			ldoDSession = (LdoDSession) request.getSession().getAttribute("ldoDSession");
-		}
 		LdoDUser user = LdoDUser.getAuthenticatedUser();
 		user.setLastLogin(LocalDate.now());
+
+		LdoDSession ldoDSession = new LdoDSession();
+		request.getSession().setAttribute("ldoDSession", ldoDSession);
 		ldoDSession.updateSession(user);
 
 		super.onAuthenticationSuccess(request, response, authentication);
