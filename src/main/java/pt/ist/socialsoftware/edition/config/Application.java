@@ -65,7 +65,7 @@ public class Application extends SpringBootServletInitializer implements Initial
 
 			@Override
 			protected void afterRequest(HttpServletRequest request, String message) {
-				if (!message.contains("webjars") && !message.contains("favicon")) {
+				if (!message.contains("webjars") && !message.contains("favicon") && !message.contains("resources")) {
 					this.logger.debug(message);
 				}
 			}
@@ -74,7 +74,7 @@ public class Application extends SpringBootServletInitializer implements Initial
 		loggingFilter.setIncludeQueryString(true);
 		loggingFilter.setIncludePayload(true);
 		loggingFilter.setIncludeHeaders(false);
-		loggingFilter.setAfterMessagePrefix("LOGGING : ");
+		loggingFilter.setAfterMessagePrefix("LOGGING: ");
 		return loggingFilter;
 	}
 
