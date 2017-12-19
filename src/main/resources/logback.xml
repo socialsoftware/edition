@@ -30,10 +30,6 @@
 		<level value="DEBUG" />
 	</logger>
 
- 	<root level="DEBUG">
-		<appender-ref ref="STDOUT" />
-	</root>
-
 	<root level="DEBUG">
 		<appender-ref ref="STDOUT" />
 	</root>

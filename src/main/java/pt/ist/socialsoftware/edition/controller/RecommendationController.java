@@ -1,7 +1,6 @@
 package pt.ist.socialsoftware.edition.controller;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.joda.time.LocalDate;
 import org.slf4j.Logger;
@@ -50,22 +49,24 @@ public class RecommendationController {
 	@RequestMapping(method = RequestMethod.GET, value = "/restricted/{externalId}")
 	@PreAuthorize("hasPermission(#externalId, 'virtualedition.participant')")
 	public String presentEditionWithRecommendation(Model model, @PathVariable String externalId) {
-		logger.debug("presentEditionWithRecommendation");
+		// logger.debug("presentEditionWithRecommendation");
 
 		VirtualEdition virtualEdition = FenixFramework.getDomainObject(externalId);
 		if (virtualEdition == null) {
 			return "redirect:/error";
 		} else {
-			logger.debug("presentEditionWithRecommendation sections: {}",
-					virtualEdition.getSectionsSet().stream().map(s -> s.print(1)).collect(Collectors.joining()));
+			// logger.debug("presentEditionWithRecommendation sections: {}",
+			// virtualEdition.getSectionsSet().stream().map(s ->
+			// s.print(1)).collect(Collectors.joining()));
 
 			RecommendationWeights recommendationWeights = LdoDUser.getAuthenticatedUser()
 					.getRecommendationWeights(virtualEdition);
 
 			recommendationWeights.setWeightsZero();
 
-			logger.debug("presentEditionWithRecommendation sections: {}",
-					virtualEdition.getSectionsSet().stream().map(s -> s.print(1)).collect(Collectors.joining()));
+			// logger.debug("presentEditionWithRecommendation sections: {}",
+			// virtualEdition.getSectionsSet().stream().map(s ->
+			// s.print(1)).collect(Collectors.joining()));
 
 			model.addAttribute("edition", virtualEdition);
 			model.addAttribute("taxonomyWeight", 0.0);
@@ -90,11 +91,14 @@ public class RecommendationController {
 	@RequestMapping(value = "/linear", method = RequestMethod.POST, headers = {
 			"Content-type=application/json;charset=UTF-8" })
 	public String setLinearVirtualEdition(Model model, @RequestBody RecommendVirtualEditionParam params) {
-		logger.debug("setLinearVirtualEdition acronym:{}, id:{}, properties:{}", params.getAcronym(), params.getId(),
-				params.getProperties().stream()
-						.map(p -> p.getClass().getName().substring(p.getClass().getName().lastIndexOf(".") + 1) + " "
-								+ p.getWeight())
-						.collect(Collectors.joining(";")));
+		// logger.debug("setLinearVirtualEdition acronym:{}, id:{}, properties:{}",
+		// params.getAcronym(), params.getId(),
+		// params.getProperties().stream()
+		// .map(p ->
+		// p.getClass().getName().substring(p.getClass().getName().lastIndexOf(".") + 1)
+		// + " "
+		// + p.getWeight())
+		// .collect(Collectors.joining(";")));
 
 		VirtualEdition virtualEdition = (VirtualEdition) LdoD.getInstance().getEdition(params.getAcronym());
 
@@ -120,7 +124,7 @@ public class RecommendationController {
 	@PreAuthorize("hasPermission(#acronym, 'editionacronym.participant')")
 	public String saveLinearVirtualEdition(Model model, @RequestParam("acronym") String acronym,
 			@RequestParam(value = "inter[]", required = false) String[] inters) {
-		logger.debug("saveLinearVirtualEdition");
+		// logger.debug("saveLinearVirtualEdition");
 
 		LdoD ldod = LdoD.getInstance();
 		VirtualEdition virtualEdition = (VirtualEdition) ldod.getEdition(acronym);
@@ -143,7 +147,7 @@ public class RecommendationController {
 	public String createLinearVirtualEdition(Model model, @ModelAttribute("ldoDSession") LdoDSession ldoDSession,
 			@RequestParam("acronym") String acronym, @RequestParam("title") String title,
 			@RequestParam("pub") boolean pub, @RequestParam("inter[]") String[] inters) {
-		logger.debug("createLinearVirtualEdition");
+		// logger.debug("createLinearVirtualEdition");
 
 		title = title == null ? "" : title.trim();
 		acronym = acronym == null ? "" : acronym.trim();
@@ -175,8 +179,10 @@ public class RecommendationController {
 	@RequestMapping(value = "/section", method = RequestMethod.POST, headers = {
 			"Content-type=application/json;charset=UTF-8" })
 	public String setSectionVirtualEdition(Model model, @RequestBody SectionVirtualEditionParam params) {
-		logger.debug("setSectionVirtualEdition properties:{}", params.getPropertiesWithLevel().stream()
-				.map(p -> "(" + p.getProperty().getWeight() + "," + p.getLevel() + ")").collect(Collectors.joining()));
+		// logger.debug("setSectionVirtualEdition properties:{}",
+		// params.getPropertiesWithLevel().stream()
+		// .map(p -> "(" + p.getProperty().getWeight() + "," + p.getLevel() +
+		// ")").collect(Collectors.joining()));
 
 		// VirtualEdition virtualEdition = (VirtualEdition)
 		// LdoD.getInstance().getEdition(params.getAcronym());
@@ -212,10 +218,11 @@ public class RecommendationController {
 			"Content-type=application/json;charset=UTF-8" })
 	public String saveSectionVirtualEdition(Model model,
 			@RequestBody VirtualEditionWithSectionsDTO virtualEditionWithSectionsDTO) {
-		logger.debug("saveSectionVirtualEdition {}",
-				virtualEditionWithSectionsDTO.getSections().stream()
-						.map(s -> s.getInter() + ":" + s.getSections().stream().collect(Collectors.joining(",")))
-						.collect(Collectors.joining("\n")));
+		// logger.debug("saveSectionVirtualEdition {}",
+		// virtualEditionWithSectionsDTO.getSections().stream()
+		// .map(s -> s.getInter() + ":" +
+		// s.getSections().stream().collect(Collectors.joining(",")))
+		// .collect(Collectors.joining("\n")));
 
 		VirtualEdition virtualEdition = (VirtualEdition) LdoD.getInstance()
 				.getEdition(virtualEditionWithSectionsDTO.getAcronym());
@@ -249,7 +256,7 @@ public class RecommendationController {
 	public String createSectionVirtualEdition(Model model, @RequestParam("acronym") String acronym,
 			@RequestParam("title") String title, @RequestParam("pub") boolean pub,
 			@RequestParam("inter[]") String[] inters, @RequestParam("depth[]") String[] depth) {
-		logger.debug("createSectionVirtualEdition");
+		// logger.debug("createSectionVirtualEdition");
 
 		LdoDUser user = LdoDUser.getAuthenticatedUser();
 		VirtualEdition virtualEdition = LdoD.getInstance().createVirtualEdition(user, acronym, title, new LocalDate(),

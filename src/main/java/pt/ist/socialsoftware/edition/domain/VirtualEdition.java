@@ -229,7 +229,7 @@ public class VirtualEdition extends VirtualEdition_Base {
 
 	@Atomic(mode = TxMode.WRITE)
 	public void updateVirtualEditionInters(String fraginters) {
-		logger.debug("updateVirtualEditionInters fragintters:{}", fraginters);
+		// logger.debug("updateVirtualEditionInters fragintters:{}", fraginters);
 
 		List<String> fragInterList = Arrays.stream(fraginters.trim().split(";")).map(item -> item.trim())
 				.filter(item -> !item.equals("")).collect(Collectors.toList());
@@ -240,8 +240,10 @@ public class VirtualEdition extends VirtualEdition_Base {
 		for (String temp : fragInterList) {
 			FragInter inter = FenixFramework.getDomainObject(temp);
 
-			logger.debug("updateVirtualEditionInters temp:{} interLastUsed:{} interTitle:{} interSourceType:{}", temp,
-					inter.getLastUsed().getExternalId(), inter.getTitle(), inter.getSourceType());
+			// logger.debug("updateVirtualEditionInters temp:{} interLastUsed:{}
+			// interTitle:{} interSourceType:{}", temp,
+			// inter.getLastUsed().getExternalId(), inter.getTitle(),
+			// inter.getSourceType());
 
 			newFragList.add(inter.getLastUsed().getExternalId());
 		}
@@ -323,7 +325,7 @@ public class VirtualEdition extends VirtualEdition_Base {
 	// Default section
 	@Atomic(mode = TxMode.WRITE)
 	public VirtualEditionInter createVirtualEditionInter(FragInter inter, int number) {
-		logger.debug("createVirtualEditionInter inter:{}, number:{}", inter, number);
+		// logger.debug("createVirtualEditionInter inter:{}, number:{}", inter, number);
 		VirtualEditionInter virtualInter = null;
 
 		if (canAddFragInter(inter)) {
