@@ -1,5 +1,7 @@
 package pt.ist.socialsoftware.edition.config;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -15,6 +17,7 @@ import org.springframework.context.support.ReloadableResourceBundleMessageSource
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
 import org.springframework.social.connect.web.SignInAdapter;
+import org.springframework.web.filter.CommonsRequestLoggingFilter;
 
 import pt.ist.socialsoftware.edition.security.LdoDSignInAdapter;
 import pt.ist.socialsoftware.edition.utils.Bootstrap;
@@ -51,6 +54,28 @@ public class Application extends SpringBootServletInitializer implements Initial
 		messageSource.setBasenames("classpath:messages");
 		messageSource.setDefaultEncoding("UTF-8");
 		return messageSource;
+	}
+
+	@Bean
+	public CommonsRequestLoggingFilter requestLoggingFilter() {
+		CommonsRequestLoggingFilter loggingFilter = new CommonsRequestLoggingFilter() {
+			@Override
+			protected void beforeRequest(HttpServletRequest request, String message) {
+			}
+
+			@Override
+			protected void afterRequest(HttpServletRequest request, String message) {
+				if (!message.contains("webjars") && !message.contains("favicon")) {
+					this.logger.debug(message);
+				}
+			}
+		};
+		loggingFilter.setIncludeClientInfo(true);
+		loggingFilter.setIncludeQueryString(true);
+		loggingFilter.setIncludePayload(true);
+		loggingFilter.setIncludeHeaders(false);
+		loggingFilter.setAfterMessagePrefix("LOGGING : ");
+		return loggingFilter;
 	}
 
 }
