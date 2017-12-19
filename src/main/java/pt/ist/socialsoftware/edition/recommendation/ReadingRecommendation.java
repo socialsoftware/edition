@@ -28,10 +28,10 @@ public class ReadingRecommendation implements Serializable {
 	private static Logger logger = LoggerFactory.getLogger(ReadingRecommendation.class);
 
 	private final List<String> read = new ArrayList<>();
-	private double heteronymWeight = 1.0;
-	private double dateWeight = 1.0;
+	private double heteronymWeight = 0.0;
+	private double dateWeight = 0.0;
 	private double textWeight = 1.0;
-	private double taxonomyWeight = 1.0;
+	private double taxonomyWeight = 0.0;
 
 	public ReadingRecommendation() {
 	}
