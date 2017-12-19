@@ -330,10 +330,10 @@
 	del propio <em>Archivo LdoD</em>, es decir, de los archivos XML como unidades que 
 	garantizan la modularidad de los fragmentos y de las interpretaciones 
 	(transcripciones) que les est&aacute;n asociadas. Si se observan las respectivas 
-	tablas, se clarifica la estructura l&oacute;gica: los 755 testimonios corresponden 
+	tablas, se clarifica la estructura l&oacute;gica: los 754 testimonios corresponden 
 	a documentos aut&oacute;grafos de la BNP que tienen una referencia de cat&aacute;logo 
 	espec&iacute;fica (o, en el caso de algunas cartas, referencias de otros archivos) 
-	y a 12 textos publicados en vida por Pessoa; los 721 fragmentos 
+	y a 12 textos publicados en vida por Pessoa; los 720 fragmentos 
 	codificados corresponden a los archivos XML del <em>Archivo LdoD</em>, 
 	cada uno de los cuales contiene un cierto n&uacute;mero de interpretaciones 
 	para el mismo fragmento. Desde el punto de vista de nuestro modelo 
