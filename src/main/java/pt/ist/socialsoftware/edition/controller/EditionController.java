@@ -33,8 +33,6 @@ public class EditionController {
 
 	@RequestMapping(method = RequestMethod.GET)
 	public String editionIntro(Model model) {
-		logger.debug("editionIntro");
-
 		return "edition/introduction-main";
 	}
 

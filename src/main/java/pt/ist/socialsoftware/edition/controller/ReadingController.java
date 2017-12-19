@@ -47,7 +47,6 @@ public class ReadingController {
 	@RequestMapping(method = RequestMethod.GET, value = "/fragment/{xmlId}/inter/{urlId}")
 	public String readInterpretation(Model model, @ModelAttribute("ldoDSession") LdoDSession ldoDSession,
 			@PathVariable String xmlId, @PathVariable String urlId) {
-		logger.debug("readInterpretation xmlId:{}, urlId:{}", xmlId, urlId);
 		Fragment fragment = LdoD.getInstance().getFragmentByXmlId(xmlId);
 		if (fragment == null) {
 			return "redirect:/error";
@@ -149,7 +148,6 @@ public class ReadingController {
 
 	@RequestMapping(method = RequestMethod.GET, value = "/inter/prev/recom")
 	public String readPreviousRecommendedFragment(Model model, @ModelAttribute("ldoDSession") LdoDSession ldoDSession) {
-		// logger.debug("readPreviousRecommendedFragment");
 
 		String expertEditionInterId = ldoDSession.getRecommendation().prevRecommendation();
 		ExpertEditionInter expertEditionInter = FenixFramework.getDomainObject(expertEditionInterId);
@@ -161,7 +159,6 @@ public class ReadingController {
 	@RequestMapping(method = RequestMethod.GET, value = "/inter/prev/recom/reset")
 	public String resetPreviousRecommendedFragments(Model model,
 			@ModelAttribute("ldoDSession") LdoDSession ldoDSession) {
-		// logger.debug("readPreviousRecommendedFragment");
 
 		ldoDSession.getRecommendation().resetPrevRecommendations();
 
@@ -175,7 +172,6 @@ public class ReadingController {
 	@RequestMapping(method = RequestMethod.POST, value = "/weight", produces = "application/json")
 	public ResponseEntity<String> changeWeight(Model model, @ModelAttribute("ldoDSession") LdoDSession ldoDSession,
 			@RequestParam String type, @RequestParam double value) {
-		logger.debug("changeWeight type:{}, value:{}", type, value);
 
 		switch (type) {
 		case "heteronym":

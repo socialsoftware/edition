@@ -51,7 +51,6 @@ public class LdoDUser extends LdoDUser_Base {
 	}
 
 	static public LdoDUser getAuthenticatedUser() {
-		logger.debug("getAuthenticatedUser");
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		if (authentication != null) {
 			LdoDUserDetails userDetails = null;
@@ -61,7 +60,6 @@ public class LdoDUser extends LdoDUser_Base {
 				return userDetails.getUser();
 			}
 		}
-		logger.debug("getAuthenticatedUser returns null");
 		return null;
 	}
 

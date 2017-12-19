@@ -72,7 +72,6 @@ public class FragmentController {
 
 	@RequestMapping(method = RequestMethod.GET, value = "/fragment/{xmlId}")
 	public String getFragment(Model model, @PathVariable String xmlId) {
-		logger.debug("getFragment xmlId:{}", xmlId);
 		Fragment fragment = FenixFramework.getDomainRoot().getLdoD().getFragmentByXmlId(xmlId);
 
 		if (fragment == null) {
@@ -90,7 +89,6 @@ public class FragmentController {
 	@PreAuthorize("hasPermission(#xmlId, #urlId, 'fragInter.public')")
 	public String getFragmentWithInterForUrlId(Model model, @ModelAttribute("ldoDSession") LdoDSession ldoDSession,
 			@PathVariable String xmlId, @PathVariable String urlId) {
-		logger.debug("getFragmentWithInterForUrlId xmlId:{}, urlId:{}", xmlId, urlId);
 
 		Fragment fragment = FenixFramework.getDomainRoot().getLdoD().getFragmentByXmlId(xmlId);
 
@@ -151,7 +149,6 @@ public class FragmentController {
 	@PreAuthorize("hasPermission(#externalId, 'fragInter.public')")
 	public String getTaxonomy(Model model, @ModelAttribute("ldoDSession") LdoDSession ldoDSession,
 			@PathVariable String externalId) {
-		logger.debug("getTaxonomy externalId:{}", externalId);
 
 		VirtualEditionInter inter = FenixFramework.getDomainObject(externalId);
 
@@ -370,7 +367,6 @@ public class FragmentController {
 	@RequestMapping(method = RequestMethod.GET, value = "/fragment/search")
 	public @ResponseBody AnnotationSearchJson searchAnnotations(Model model, @RequestParam int limit,
 			@RequestParam String uri) {
-		logger.debug("searchAnnotations limit:{}, uri:{}", limit, uri);
 
 		List<AnnotationDTO> annotations = new ArrayList<>();
 
@@ -453,7 +449,6 @@ public class FragmentController {
 
 	@RequestMapping(method = RequestMethod.GET, value = "/fragment/annotation/{annotationId}/categories")
 	public @ResponseBody ResponseEntity<String[]> getAnnotationInter(Model model, @PathVariable String annotationId) {
-		logger.debug("getAnnotationInter id:{}", annotationId);
 
 		Annotation annotation = FenixFramework.getDomainObject(annotationId);
 
