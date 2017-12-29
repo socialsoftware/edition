@@ -196,8 +196,6 @@ relation TaxonomyHasCategories {
 	Category playsRole categories {multiplicity 0..*;}
 }
 
-class AdHocCategory extends Category;
-
 class Heteronym {
 	String xmlId;
 	String name;
