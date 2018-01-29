@@ -55,7 +55,7 @@
 				<td><c:forEach var="category"
 						items='${inter.getAssignedCategories()}'>
 						<a
-							href="${contextPath}/edition/acronym/${edition.getAcronym()}/category/${category.getUrlId()}">
+							href="${contextPath}/edition/acronym/${category.getTaxonomy().getEdition().getAcronym()}/category/${category.getUrlId()}">
 							${category.getNameInEditionContext(edition)}</a>
 						<br>
 					</c:forEach></td>
