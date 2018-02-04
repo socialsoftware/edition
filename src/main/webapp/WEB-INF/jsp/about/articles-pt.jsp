@@ -828,4 +828,4 @@ DOI: <a href="http://dx.doi.org/10.14195/2182-8830_2-1_3" target="_new">http://d
 	</tbody>
 </table>
 <strong>&nbsp;</strong>
-<p>[atualiza&ccedil;&atilde;o 01-12-2017]</p>
+<p>[atualiza&ccedil;&atilde;o 04-02-2018]</p>
