@@ -1,4 +1,4 @@
-<p>El Centro de Literatura Portuguesa de la Universidad de Coimbra (&ldquo;nosotros&rdquo; o &ldquo;nuestro&rdquo;) opera y es responsable por <a href="http://ldod.uc.pt"> http://ldod.uc.pt</a> (el &ldquo;Sitio&rdquo;). Esta p&aacute;gina indica cu&aacute;l es nuestra pol&iacute;tica en relaci&oacute;n con la recogida, uso y divulgaci&oacute;n de la informaci&oacute;n personal que obtenemos de los usuarios del Sitio.</p>
+<p>El Centro de Literatura Portuguesa de la Universidad de Coimbra (&ldquo;nosotros&rdquo; o &ldquo;nuestro&rdquo;) opera y es responsable por <a href="https://ldod.uc.pt"> https://ldod.uc.pt</a> (el &ldquo;Sitio&rdquo;). Esta p&aacute;gina indica cu&aacute;l es nuestra pol&iacute;tica en relaci&oacute;n con la recogida, uso y divulgaci&oacute;n de la informaci&oacute;n personal que obtenemos de los usuarios del Sitio.</p>
 <p>Utilizamos la informaci&oacute;n personal s&oacute;lo para mejorar el Sitio. Al usar el Sitio, est&aacute; de acuerdo con la recogida y el uso de la informaci&oacute;n de acuerdo con esta pol&iacute;tica.</p>
 <p><br>
   <br>
