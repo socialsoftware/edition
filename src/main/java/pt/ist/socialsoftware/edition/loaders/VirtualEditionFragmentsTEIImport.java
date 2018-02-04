@@ -84,18 +84,24 @@ public class VirtualEditionFragmentsTEIImport {
 		XPathFactory xpfac = XPathFactory.instance();
 		XPathExpression<Element> xp = xpfac.compile("//def:witness", Filters.element(), null,
 				Namespace.getNamespace("def", this.namespace.getURI()));
-		List<Element> wits = sortByUsedFirst(xp.evaluate(doc));
+		List<Element> wits = new ArrayList<>(xp.evaluate(doc));
 
-		for (Element wit : wits) {
-			String interXmlId = wit.getAttributeValue("id", Namespace.XML_NAMESPACE);
-			String editionAcronym = interXmlId.substring(interXmlId.lastIndexOf("VIRT.") + "VIRT.".length(),
-					interXmlId.lastIndexOf('.'));
-			VirtualEdition virtualEdition = this.ldoD.getVirtualEdition(editionAcronym);
+		while (!wits.isEmpty()) {
+			Element wit = wits.remove(0);
+			if (fragment.getFragInterByXmlId(wit.getAttributeValue("source").substring(1)) == null) {
+				wits.add(wit);
+			} else {
+				String interXmlId = wit.getAttributeValue("id", Namespace.XML_NAMESPACE);
+				String editionAcronym = interXmlId.substring(interXmlId.lastIndexOf("VIRT.") + "VIRT.".length(),
+						interXmlId.lastIndexOf('.'));
+				VirtualEdition virtualEdition = this.ldoD.getVirtualEdition(editionAcronym);
 
-			wit.getAttributeValue("source").substring(1);
-			virtualEdition.createVirtualEditionInter(
-					fragment.getFragInterByXmlId(wit.getAttributeValue("source").substring(1)),
-					Integer.parseInt(wit.getChild("num", this.namespace).getAttributeValue("value")));
+				wit.getAttributeValue("source").substring(1);
+				logger.debug("importWitnesses id: {}, source: {}", interXmlId, wit.getAttributeValue("source"));
+				virtualEdition.createVirtualEditionInter(
+						fragment.getFragInterByXmlId(wit.getAttributeValue("source").substring(1)),
+						Integer.parseInt(wit.getChild("num", this.namespace).getAttributeValue("value")));
+			}
 		}
 	}
 
@@ -161,37 +167,5 @@ public class VirtualEditionFragmentsTEIImport {
 		String fragXmlId = xp.evaluate(doc).get(0).getAttributeValue("id", Namespace.XML_NAMESPACE);
 
 		return ldoD.getFragmentByXmlId(fragXmlId);
-	}
-
-	private List<Element> sortByUsedFirst(List<Element> wits) {
-		List<Element> result = new ArrayList<>();
-		List<Element> modifiableWits = new ArrayList<>(wits);
-
-		while (!modifiableWits.isEmpty()) {
-			Element wit = modifiableWits.remove(0);
-			if (sourceIsBase(wit)) {
-				result.add(wit);
-			} else if (result.size() == 0) {
-				modifiableWits.add(wit);
-			} else {
-				for (int i = 0; i < result.size(); i++) {
-					if (wit.getAttributeValue("source").substring(1)
-							.equals(result.get(i).getAttributeValue("id", Namespace.XML_NAMESPACE))) {
-						result.add(i + 1, wit);
-						break;
-					} else if (i == result.size() - 1) {
-						modifiableWits.add(wit);
-					}
-				}
-			}
-		}
-
-		return result;
-	}
-
-	private boolean sourceIsBase(Element wit) {
-		return wit.getAttributeValue("source").contains(".WIT.MS.")
-				|| wit.getAttributeValue("source").contains(".WIT.ED.ORIG.")
-				|| wit.getAttributeValue("source").contains(".WIT.ED.CRIT.");
 	}
 }
