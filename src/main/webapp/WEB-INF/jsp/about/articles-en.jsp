@@ -140,30 +140,35 @@
 <p>
 	<strong>&nbsp;</strong>
 </p>
-<strong>2015</strong>
-<p>
-	Santos, Andr&eacute; (2015). <em>Arquivo Digital do Livro do
-		Desassossego: Pesquisa e Recomendac&otilde;es.</em> [Digital Archive of the<em> Book of Disquiet:</em> Search and Recommendations] Lisboa: Instituto
-	Superior T&eacute;cnico da Universidade de Lisboa. MA dissertation in Informatics Engineering and Computers. 
-URL: <a
+<p><strong>2015</strong> </p>
+<p> Santos, Andr&eacute; (2015). <em>Arquivo Digital do Livro do
+  Desassossego: Pesquisa e Recomendac&otilde;es. </em>Lisboa: Instituto
+  Superior T&eacute;cnico da Universidade de Lisboa. Disserta&ccedil;&atilde;o de mestrado em
+  Engenharia Inform&aacute;tica e Computadores. <br/>
+  URL: <a
 		href= "https://fenix.tecnico.ulisboa.pt/cursos/meic-a/dissertacao/846778572211152" target="_new">https://fenix.tecnico.ulisboa.pt/cursos/meic-a/dissertacao/846778572211152</a></p>
-<p>
-	<strong>&nbsp;</strong>
-</p>
-<p>
-	<strong>2017</strong>
-</p>
-
-<p>
-	Martins, Pedro (2017). <em>O Arquivo para al&eacute;m do Arquivo:
-		Cria&ccedil;&atilde;o de ontologias a partir de etiquetas geradas
-		pelos utilizadores</em>. [The Archive beyond the Archive: Creating Ontologies based on User-generated Tags] Lisboa: Instituto Superior T&eacute;cnico da
-	Universidade de Lisboa. MA dissertation in Informatics Engineering and Computers [in progress].
-</p>
-<p>Magalh&atilde;es, Cec&iacute;lia (2017-). <em>Fragmentos em
-		pr&aacute;tica: intera&ccedil;&atilde;o, colabora&ccedil;&atilde;o e
-criatividade no </em>Arquivo LdoD.  [Fragments in Practice: Interaction, Collaboration, and Creativity in the<em> LdoD Archive</em>] Coimbra: Universidade de Coimbra. PhD thesis in Materialities of Literature [in progress]. </p>
-<p>
+<strong>&nbsp;</strong>
+<p> <strong>2017</strong> </p>
+<p> Martins, Pedro (2017-). <em>O Arquivo para al&eacute;m do Arquivo:
+  Cria&ccedil;&atilde;o de ontologias a partir de etiquetas geradas
+  pelos utilizadores</em>. Lisboa: Instituto Superior T&eacute;cnico da
+  Universidade de Lisboa. Disserta&ccedil;&atilde;o de mestrado em Engenharia
+  Inform&aacute;tica e Computadores [en marcha]. </p>
+<p> Magalh&atilde;es, Cec&iacute;lia (2017-). <em>Fragmentos em
+  pr&aacute;tica: intera&ccedil;&atilde;o, colabora&ccedil;&atilde;o e
+  criatividade no </em>Arquivo LdoD. Coimbra: Universidade de Coimbra. Tese
+  de doutoramento em Materialidades da Literatura [en marcha]. </p>
+<strong>&nbsp;</strong>
+<p> <strong>2018</strong> </p>
+	<p>Oliveira, Duarte (2018-). <em>Automatic Collection of Citations in the LdoD Archive</em>. Lisboa: Instituto Superior T&eacute;cnico da
+  Universidade de Lisboa. Disserta&ccedil;&atilde;o de mestrado em Engenharia
+  Inform&aacute;tica e Computadores [en marcha]. </p>
+<p> Marques, Gonçalo (2018-). <em>Virtual Editions in the LdoD Archive using Crowdsourcing and Gamification</em>. Lisboa: Instituto Superior T&eacute;cnico da
+  Universidade de Lisboa. Disserta&ccedil;&atilde;o de mestrado em Engenharia
+  Inform&aacute;tica e Computadores [en marcha]. </p>
+  <p> Cruz, Miguel (2018-). <em>Reusable Framework for Digital Humanities Repositories</em>. Lisboa: Instituto Superior T&eacute;cnico da
+  Universidade de Lisboa. Disserta&ccedil;&atilde;o de mestrado em Engenharia
+  Inform&aacute;tica e Computadores [en marcha]. </p>
 	<strong>&nbsp;</strong>
 </p>
 <p>
