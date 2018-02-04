@@ -1,6 +1,6 @@
 <p>
 O Centro de Literatura Portuguesa da Universidade de Coimbra (&ldquo;n&oacute;s&rdquo;
-ou &ldquo;nosso&rdquo;) opera e &eacute; respons&aacute;vel por <a href="http://ldod.uc.pt"> http://ldod.uc.pt</a>
+ou &ldquo;nosso&rdquo;) opera e &eacute; respons&aacute;vel por <a href="https://ldod.uc.pt"> https://ldod.uc.pt</a>
 (o &ldquo;Site&rdquo;). Esta p&aacute;gina indica qual a nossa pol&iacute;tica em rela&ccedil;&atilde;o &agrave; recolha, uso e divulga&ccedil;&atilde;o das informa&ccedil;&otilde;es pessoais que obtemos dos
 utilizadores do Site.</p>
 
@@ -22,7 +22,7 @@ navegador envia sempre que aceder ao nosso Site (&ldquo;Recolha e Uso de Informa
 endere&ccedil;o do protocolo de Internet (&ldquo;IP&rdquo;), tipo de navegador, vers&atilde;o do navegador, 
 p&aacute;ginas do Site &agrave;s quais acede, hora e data de acesso,
 tempo gasto nessas p&aacute;ginas e outras estat&iacute;sticas.</p>
-<p>Al&eacute;m disso, podemos usar servi&ccedil;os de terceiros &mdash; como a Google Analytics &mdash;
+<p>Al&eacute;m disso, podemos usar servi&ccedil;os de terceiros, como a Google Analytics,
 que recolhem, monitorizam e analisam os padr&otilde;es de acesso e
 uso do Site.</p>
 <strong>&nbsp;</strong>
@@ -61,4 +61,4 @@ notific&aacute;-lo atrav&eacute;s do endere&ccedil;o de e-mail que nos forneceu 
 <a href="mailto:arquivo.ldod@gmail.com"> arquivo.ldod@gmail.com</a></p>
 <p><strong>&nbsp;</strong></p>
 
-<p> [Atualiza&ccedil;&atilde;o: fevereiro de 2018] </p>
+<p> [atualiza&ccedil;&atilde;o 04-02-2018] </p>
