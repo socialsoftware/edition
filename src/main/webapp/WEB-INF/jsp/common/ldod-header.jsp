@@ -73,8 +73,10 @@
 					<li><a href="${contextPath}/about/encoding"><spring:message code="header.encoding" /></a></li>
 					<li><a href="${contextPath}/about/articles"><spring:message code="header.bibliography" /></a></li>
 					<li><a href="${contextPath}/about/conduct"><spring:message code="header.conduct" /></a></li>
+					<li><a href="${contextPath}/about/privacy"><spring:message code="header.privacy" /></a></li>
 					<li><a href="${contextPath}/about/team"><spring:message code="header.team" /></a></li>
 					<li><a href="${contextPath}/about/acknowledgements"><spring:message code="header.acknowledgements" /></a></li>
+					<li><a href="${contextPath}/about/contact"><spring:message code="header.contact" /></a></li>
 					<li><a href="${contextPath}/about/copyright"><spring:message code="header.copyright" /></a></li>
 				</ul>
 			</li>

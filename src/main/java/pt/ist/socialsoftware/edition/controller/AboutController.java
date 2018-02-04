@@ -49,6 +49,11 @@ public class AboutController {
 		return "about/conduct-main";
 	}
 
+	@RequestMapping(method = RequestMethod.GET, value = "/privacy")
+	public String showPrivacy() {
+		return "about/privacy-main";
+	}
+
 	@RequestMapping(method = RequestMethod.GET, value = "/team")
 	public String showTeam() {
 		return "about/team-main";
@@ -57,6 +62,11 @@ public class AboutController {
 	@RequestMapping(method = RequestMethod.GET, value = "/acknowledgements")
 	public String showAcknowledgements() {
 		return "about/acknowledgements-main";
+	}
+
+	@RequestMapping(method = RequestMethod.GET, value = "/contact")
+	public String showContact() {
+		return "about/contact-main";
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/copyright")
