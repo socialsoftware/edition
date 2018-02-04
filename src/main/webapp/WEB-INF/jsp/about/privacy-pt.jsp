@@ -1,70 +1,62 @@
 <p>
-O Centro de Literatura Portuguesa da Universidade de Coimbra ("nós",
-ou "nosso") opera e é responsável por <a href="http://ldod.uc.pt"> http://ldod.uc.pt</a>
-(o "Site"). Esta página indica quais as nossas políticas em relação à recolha, uso e divulgação de Informações Pessoais que obtemos de
-utilizadores do site.</p>
-<strong>&nbsp;</strong>
+O Centro de Literatura Portuguesa da Universidade de Coimbra (&ldquo;n&oacute;s&rdquo;
+ou &ldquo;nosso&rdquo;) opera e &eacute; respons&aacute;vel por <a href="http://ldod.uc.pt"> http://ldod.uc.pt</a>
+(o &ldquo;Site&rdquo;). Esta p&aacute;gina indica qual a nossa pol&iacute;tica em rela&ccedil;&atilde;o &agrave; recolha, uso e divulga&ccedil;&atilde;o das informa&ccedil;&otilde;es pessoais que obtemos dos
+utilizadores do Site.</p>
 
-<p>Utilizamos as informações pessoais apenas para melhorar
+<p>Utilizamos as informa&ccedil;&otilde;es pessoais apenas para melhorar
 o Site. Ao usar o Site, concorda com a recolha e uso de
-informações de acordo com esta política.</p>
+informa&ccedil;&otilde;es de acordo com esta pol&iacute;tica.</p>
 <strong>&nbsp;</strong>
 
-<h4>Recolha e Uso de Informações</h4>
-<p>Ao usar nosso Site, podemos pedir que nos forneça
-informações de identificação pessoal que podem ser usadas para contatar ou
-identificá-lo. As informações pessoalmente identificáveis podem incluir, mas é
-não limitado ao seu nome ("Informações pessoais").</p>
+<h4>Recolha e Uso de Informa&ccedil;&otilde;es</h4>
+<p>Ao usar o nosso Site, podemos pedir que nos forne&ccedil;a
+informa&ccedil;&otilde;es de identifica&ccedil;&atilde;o pessoal que podem ser usadas para contat&aacute;-lo ou
+identific&aacute;-lo. As informa&ccedil;&otilde;es pessoalmente identific&aacute;veis podem incluir o seu nome, mas n&atilde;o est&atilde;o limitadas ao seu nome (&ldquo;Informa&ccedil;&otilde;es Pessoais&rdquo;).</p>
 <strong>&nbsp;</strong>
 
 <h4>Dados de Registo</h4>
-<p>Como muitos operadores de sites, nós recolhemos informações que o
-navegador envia sempre que aceder ao nosso Site ("Recolha e Uso de Informações").</p>
-<p>Estes Dados de Registo podem incluir informações como a do seu computador,
-endereço do protocolo Internet ("IP"), tipo de navegador, versão do navegador, as
-páginas do nosso site que acede, a hora e a data do seu acesso, a
-tempo gasto nessas páginas e outras estatísticas.</p>
-<p>Além disso, podemos usar serviços de terceiros como Google
-Análises que recolhem, monitoram e analisam os padrões de acesso e
-uso do site</p>
+<p>Como muitos operadores de sites, recolhemos informa&ccedil;&otilde;es que o
+navegador envia sempre que aceder ao nosso Site (&ldquo;Recolha e Uso de Informa&ccedil;&otilde;es&rdquo;).</p>
+<p>Estes Dados de Registo podem incluir informa&ccedil;&otilde;es referentes ao seu computador,
+endere&ccedil;o do protocolo de Internet (&ldquo;IP&rdquo;), tipo de navegador, vers&atilde;o do navegador, 
+p&aacute;ginas do Site &agrave;s quais acede, hora e data de acesso,
+tempo gasto nessas p&aacute;ginas e outras estat&iacute;sticas.</p>
+<p>Al&eacute;m disso, podemos usar servi&ccedil;os de terceiros &mdash; como a Google Analytics &mdash;
+que recolhem, monitorizam e analisam os padr&otilde;es de acesso e
+uso do Site.</p>
 <strong>&nbsp;</strong>
 
 <h4>Cookies</h4>
-<p>Os <em>cookies</em> são arquivos com uma pequena quantidade de dados, que podem incluir um
-identificador exclusivo anónimo Os <em>cookies</em> são enviados para o seu navegador a partir de um sítio web
-e são armazenados no disco rígido do seu computador.</p>
-<p> Como muitos sites, usamos "<em>cookies</em>" para recolher informações. Pode
+<p>Os <em>cookies</em> s&atilde;o ficheiros com uma pequena quantidade de dados, que podem incluir um
+identificador exclusivo an&oacute;nimo. Os <em>cookies</em> s&atilde;o enviados para o seu navegador a partir de um s&iacute;tio web
+e s&atilde;o armazenados no disco r&iacute;gido do seu computador.</p>
+<p> Como muitos sites, usamos <em>cookies</em> para recolher informa&ccedil;&otilde;es. Pode
 pedir ao seu navegador para recusar todos os <em>cookies</em> ou para indicar quando um
-o <em>cookie</em> está a ser enviado. No entanto, se não aceitar <em>cookies</em>, pode
-não ser possível usar algumas partes do nosso site.</p>
+<em>cookie</em> est&aacute; a ser enviado. No entanto, se n&atilde;o aceitar <em>cookies</em>, pode
+nÃ£o ser poss&iacute;vel usar algumas partes do site.</p>
 <strong>&nbsp;</strong>
 
-<h4>Segurança</h4>
-<p>A segurança da sua informação pessoal é importante para nós, mas
-lembre-se de que nenhum método de transmissão através da Internet, ou método de
-armazenamento eletrónico, é 100% seguro. Enquanto nos esforçamos para usar comercialmente
-meios aceitáveis para proteger suas informações pessoais, não podemos
-garantem a sua segurança absoluta.</p>
+<h4>Seguran&ccedil;a</h4>
+<p>A seguranÃ§a da sua informa&ccedil;&atilde;o pessoal &eacute; importante para n&oacute;s, mas
+lembre-se de que nenhum m&eacute;todo de transmiss&atilde;o atrav&eacute;s da Internet, ou m&eacute;todo de
+armazenamento eletr&oacute;nico, Ã© 100% seguro. Embora usemos todos os meios dispon&iacute;veis para proteger suas informa&ccedil;&atilde;es pessoais, n&atilde;o podemos
+garantir a sua seguran&ccedil;a absoluta.</p>
 <strong>&nbsp;</strong>
 
-<h4>Alterações desta Política de Privacidade</h4>
-<p>Esta Política de Privacidade é efetiva a partir de fevereiro de 2018 e
-permanece em vigor, exceto em relação a qualquer alteração a realizar no futuro
-no futuro, que ficará em vigor imediatamente após ser publicada
-nesta página.</p>
-<p> Reservamo-nos o direito de atualizar ou alterar nossa Política de Privacidade
-a qualquer momento e deve verificar esta Política de Privacidade periodicamente. O
-uso continuado do Serviço depois de publicarmos quaisquer modificações no
-A Política de Privacidade nesta página constituirá o seu reconhecimento das
-modificações e seu consentimento a ser vinculado pela modificação
-Política de privacidade.</p>
-<p>Se fizermos alterações materiais a esta Política de Privacidade, iremos
-notificá-lo através do endereço de e-mail que você nos forneceu ou publicando uma notícia no nosso site.</p>
+<h4>Altera&ccedil;&otilde;es desta Pol&iacute;tica de Privacidade</h4>
+<p>Esta Pol&iacute;tica de Privacidade entra em vigor a partir de fevereiro de 2018, exceto em rela&ccedil;&atilde;o a qualquer altera&ccedil;&atilde;o futura, que entrar&aacute; em vigor imediatamente ap&oacute;s ser publicada
+nesta p&aacute;gina.</p>
+<p> Reservamo-nos o direito de atualizar ou alterar esta Pol&iacute;tica de Privacidade
+a qualquer momento, pelo que deve verificar a Pol&iacute;tica de Privacidade periodicamente. O
+uso continuado do Site depois de publicarmos quaisquer modifica&ccedil;&otilde;es referentes &agrave; Pol&iacute;tica de Privacidade nesta p&aacute;gina constituir&aacute; o seu reconhecimento das
+modifica&ccedil;&otilde;es e o seu consentimento a ser vinculado pela modifica&ccedil;&atilde;o
+da Pol&iacute;tica de Privacidade.</p>
+<p>Se fizermos altera&ccedil;&otilde;es a esta Pol&iacute;tica de Privacidade, iremos
+notific&aacute;-lo atrav&eacute;s do endereÃ§o de e-mail que nos forneceu ou publicando uma not&iacute;cia no nosso Site.</p>
 <strong>&nbsp;</strong>
 
 <h4>Contacte-nos</h4>
-<p>Se você tiver alguma dúvida sobre esta Política de Privacidade, entre em contacto connosco,
+<p>Se tiver alguma d&uacute;vida sobre esta Pol&iacute;tica de Privacidade, entre em contacto connosco:
 <a href="mailto:arquivo.ldod@gmail.com"> arquivo.ldod@gmail.com</a></p>
-<strong>&nbsp;</strong>
-
-<p> [Última atualização: fevereiro de 2018] </p>
+<p><strong>&nbsp;</strong></p>
