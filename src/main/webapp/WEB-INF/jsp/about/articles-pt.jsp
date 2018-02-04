@@ -199,20 +199,27 @@ URL: <a
 <p>
 	<strong>2017</strong>
 </p>
-<p>
-	Martins, Pedro (2017). <em>O Arquivo para al&eacute;m do Arquivo:
-		Cria&ccedil;&atilde;o de ontologias a partir de etiquetas geradas
-		pelos utilizadores</em>. Lisboa: Instituto Superior T&eacute;cnico da
-	Universidade de Lisboa. Disserta&ccedil;&atilde;o de mestrado em Engenharia
-	Inform&aacute;tica e Computadores [em curso].
-</p>
-<p>
-	Magalh&atilde;es, Cec&iacute;lia (2017-). <em>Fragmentos em
-		pr&aacute;tica: intera&ccedil;&atilde;o, colabora&ccedil;&atilde;o e
-		criatividade no </em>Arquivo LdoD. Coimbra: Universidade de Coimbra. Tese
-	de doutoramento em Materialidades da Literatura [em curso].
-</p>
-
+<p> <strong>2017</strong> </p>
+<p> Martins, Pedro (2017-). <em>O Arquivo para al&eacute;m do Arquivo:
+  Cria&ccedil;&atilde;o de ontologias a partir de etiquetas geradas
+  pelos utilizadores</em>. Lisboa: Instituto Superior T&eacute;cnico da
+  Universidade de Lisboa. Disserta&ccedil;&atilde;o de mestrado em Engenharia
+  Inform&aacute;tica e Computadores [em curso]. </p>
+<p> Magalh&atilde;es, Cec&iacute;lia (2017-). <em>Fragmentos em
+  pr&aacute;tica: intera&ccedil;&atilde;o, colabora&ccedil;&atilde;o e
+  criatividade no </em>Arquivo LdoD. Coimbra: Universidade de Coimbra. Tese
+  de doutoramento em Materialidades da Literatura [em curso]. </p>
+<strong>&nbsp;</strong>
+<p> <strong>2018</strong> </p>
+	<p>Oliveira, Duarte (2018-). <em>Automatic Collection of Citations in the LdoD Archive</em>. Lisboa: Instituto Superior T&eacute;cnico da
+  Universidade de Lisboa. Disserta&ccedil;&atilde;o de mestrado em Engenharia
+  Inform&aacute;tica e Computadores [em curso]. </p>
+<p> Marques, Gonçalo (2018-). <em>Virtual Editions in the LdoD Archive using Crowdsourcing and Gamification</em>. Lisboa: Instituto Superior T&eacute;cnico da
+  Universidade de Lisboa. Disserta&ccedil;&atilde;o de mestrado em Engenharia
+  Inform&aacute;tica e Computadores [em curso]. </p>
+  <p> Cruz, Miguel (2018-). <em>Reusable Framework for Digital Humanities Repositories</em>. Lisboa: Instituto Superior T&eacute;cnico da
+  Universidade de Lisboa. Disserta&ccedil;&atilde;o de mestrado em Engenharia
+  Inform&aacute;tica e Computadores [em curso]. </p>
 <p>
 	<strong>&nbsp;</strong>
 </p>
