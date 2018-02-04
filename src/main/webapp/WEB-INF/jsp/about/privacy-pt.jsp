@@ -40,7 +40,7 @@ não ser poss&iacute;vel usar algumas partes do site.</p>
 <h4>Seguran&ccedil;a</h4>
 <p>A seguran&ccedil;a da sua informa&ccedil;&atilde;o pessoal &eacute; importante para n&oacute;s, mas
 lembre-se de que nenhum m&eacute;todo de transmiss&atilde;o atrav&eacute;s da Internet, ou m&eacute;todo de
-armazenamento eletr&oacute;nico, é 100% seguro. Embora usemos todos os meios dispon&iacute;veis para proteger suas informa&ccedil;&atilde;es pessoais, n&atilde;o podemos
+armazenamento eletr&oacute;nico, &eacute; 100% seguro. Embora usemos todos os meios dispon&iacute;veis para proteger suas informa&ccedil;&atilde;es pessoais, n&atilde;o podemos
 garantir a sua seguran&ccedil;a absoluta.</p>
 <strong>&nbsp;</strong>
 
