@@ -38,7 +38,7 @@ não ser poss&iacute;vel usar algumas partes do site.</p>
 <strong>&nbsp;</strong>
 
 <h4>Seguran&ccedil;a</h4>
-<p>A segurança da sua informa&ccedil;&atilde;o pessoal &eacute; importante para n&oacute;s, mas
+<p>A seguran&ccedil;a da sua informa&ccedil;&atilde;o pessoal &eacute; importante para n&oacute;s, mas
 lembre-se de que nenhum m&eacute;todo de transmiss&atilde;o atrav&eacute;s da Internet, ou m&eacute;todo de
 armazenamento eletr&oacute;nico, é 100% seguro. Embora usemos todos os meios dispon&iacute;veis para proteger suas informa&ccedil;&atilde;es pessoais, n&atilde;o podemos
 garantir a sua seguran&ccedil;a absoluta.</p>
@@ -53,10 +53,12 @@ uso continuado do Site depois de publicarmos quaisquer modifica&ccedil;&otilde;e
 modifica&ccedil;&otilde;es e o seu consentimento a ser vinculado pela modifica&ccedil;&atilde;o
 da Pol&iacute;tica de Privacidade.</p>
 <p>Se fizermos altera&ccedil;&otilde;es a esta Pol&iacute;tica de Privacidade, iremos
-notific&aacute;-lo atrav&eacute;s do endereço de e-mail que nos forneceu ou publicando uma not&iacute;cia no nosso Site.</p>
+notific&aacute;-lo atrav&eacute;s do endere&ccedil;o de e-mail que nos forneceu ou publicando uma not&iacute;cia no nosso Site.</p>
 <strong>&nbsp;</strong>
 
 <h4>Contacte-nos</h4>
 <p>Se tiver alguma d&uacute;vida sobre esta Pol&iacute;tica de Privacidade, entre em contacto connosco:
 <a href="mailto:arquivo.ldod@gmail.com"> arquivo.ldod@gmail.com</a></p>
 <p><strong>&nbsp;</strong></p>
+
+<p> [Atualiza&ccedil;&atilde;o: fevereiro de 2018] </p>
