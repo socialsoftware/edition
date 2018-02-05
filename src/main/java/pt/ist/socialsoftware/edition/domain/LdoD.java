@@ -202,4 +202,25 @@ public class LdoD extends LdoD_Base {
 		return getVirtualEditionsSet().stream().filter(ve -> ve.getXmlId().equals(xmlId)).findFirst().orElse(null);
 	}
 
+	@Atomic(mode = TxMode.WRITE)
+	public void createTestUsers(PasswordEncoder passwordEncoder) {
+		LdoD ldod = LdoD.getInstance();
+
+		Role userRole = Role.getRole(RoleType.ROLE_USER);
+		Role admin = Role.getRole(RoleType.ROLE_ADMIN);
+
+		// the bcrypt generator
+		// https://www.dailycred.com/blog/12/bcrypt-calculator
+		for (int i = 0; i < 6; i++) {
+			String username = "zuser" + Integer.toString(i + 1);
+			if (LdoD.getInstance().getUser(username) == null) {
+				LdoDUser user = new LdoDUser(ldod, username, passwordEncoder.encode(username), "zuser", "zuser",
+						"zuser" + Integer.toString(i + 1) + "@teste.pt");
+
+				user.setEnabled(true);
+				user.addRoles(userRole);
+			}
+		}
+
+	}
 }
