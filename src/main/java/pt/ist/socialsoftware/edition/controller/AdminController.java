@@ -283,6 +283,7 @@ public class AdminController {
 		form.setEmail(user.getEmail());
 		form.setUser(user.getRolesSet().contains(Role.getRole(RoleType.ROLE_USER)));
 		form.setAdmin(user.getRolesSet().contains(Role.getRole(RoleType.ROLE_ADMIN)));
+		form.setEnabled(user.getEnabled());
 
 		return form;
 	}
@@ -302,7 +303,8 @@ public class AdminController {
 		LdoDUser user = LdoD.getInstance().getUser(form.getOldUsername());
 
 		user.update(this.passwordEncoder, form.getOldUsername(), form.getNewUsername(), form.getFirstName(),
-				form.getLastName(), form.getEmail(), form.getNewPassword(), form.isUser(), form.isAdmin());
+				form.getLastName(), form.getEmail(), form.getNewPassword(), form.isUser(), form.isAdmin(),
+				form.isEnabled());
 
 		return "redirect:/admin/user/list";
 	}
