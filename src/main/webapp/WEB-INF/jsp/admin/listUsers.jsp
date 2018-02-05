@@ -9,7 +9,8 @@
 
 	<div class="container">
 		<h1 class="text-center">
-			<spring:message code="user.list" /> (${users.size()})
+			<spring:message code="user.list" />
+			(${users.size()})
 		</h1>
 		<br /> <br />
 
@@ -141,6 +142,26 @@
 				</tbody>
 			</table>
 		</div>
+
+		<br /> <br />
+
+		<br /> <br />
+
+		<br /> <br />
+
+		<h1 class="text-danger">Create Users for Test in Development Mode
+			(DANGER)</h1>
+		<div class="row">
+			<form class="form-inline" method="POST"
+				action="${contextPath}/admin/createTestUsers">
+				<input type="hidden" name="${_csrf.parameterName}"
+					value="${_csrf.token}" />
+				<button type="submit" class="btn btn-danger pull-right">
+					<span class="glyphicon glyphicon-user"></span> Create
+				</button>
+			</form>
+		</div>
+
 	</div>
 </body>
 </html>

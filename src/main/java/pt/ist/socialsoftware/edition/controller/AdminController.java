@@ -612,4 +612,12 @@ public class AdminController {
 		return "redirect:/admin/virtual/list";
 	}
 
+	@RequestMapping(method = RequestMethod.POST, value = "/createTestUsers")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	public String createTestUsers(Model model) {
+		logger.debug("createTestUsers");
+		LdoD.getInstance().createTestUsers(this.passwordEncoder);
+		return "redirect:/admin/user/list";
+	}
+
 }
