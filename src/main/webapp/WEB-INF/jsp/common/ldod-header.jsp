@@ -114,7 +114,7 @@
 					<li><a href="${contextPath}/edition/acronym/JPC">Jacinto do Prado Coelho</a></li>
 					<li><a href="${contextPath}/edition/acronym/TSC">Teresa Sobral Cunha</a></li>
 					<li><a href="${contextPath}/edition/acronym/RZ">Richard Zenith</a></li>
-					<li><a href="${contextPath}/edition/acronym/JP">Jerónimo Pizarro</a></li>
+					<li><a href="${contextPath}/edition/acronym/JP">JerÃ³nimo Pizarro</a></li>
 					<li class="divider"></li>
 					<li><a href="${contextPath}/edition/acronym/LdoD-Arquivo">Arquivo LdoD</a></li>
 					<li class="divider"></li>
@@ -143,6 +143,23 @@
 		
 			<!-- Manage Virtual Editions -->
 			<li><a href="${contextPath}/virtualeditions"><spring:message code="virtual" /> </a></li>
+
+			<!-- Social -->
+			<li class='dropdown'>
+				<a href="#"
+				   class="dropdown-toggle"
+				   data-toggle="dropdown">
+
+					Social
+					<span class='caret'></span>
+				</a>
+
+				<ul class="dropdown-menu">
+					<div class="dropdown-menu-bg"></div>
+					<li><a href="${contextPath}/social/facebook/home">Facebook</a></li>
+					<li><a href="${contentPath}/social/">TBD</a></li>
+				</ul>
+			</li>
 
 			<!-- Administration -->
 

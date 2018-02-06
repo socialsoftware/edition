@@ -22,6 +22,8 @@ userpasswords.txt
 *.jtl
 *.hprof
 
+#opt folder
+/opt
 
 # Created by https://www.gitignore.io/api/intellij
 
