@@ -30,6 +30,8 @@ public class EditUserForm {
 
 	private boolean admin;
 
+	private boolean enabled;
+
 	private String newPassword;
 
 	public String getOldUsername() {
@@ -94,6 +96,14 @@ public class EditUserForm {
 
 	public void setAdmin(boolean roleAdmin) {
 		this.admin = roleAdmin;
+	}
+
+	public boolean isEnabled() {
+		return this.enabled;
+	}
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
 	}
 
 }

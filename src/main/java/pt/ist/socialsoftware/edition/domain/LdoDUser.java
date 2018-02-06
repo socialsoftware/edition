@@ -170,7 +170,7 @@ public class LdoDUser extends LdoDUser_Base {
 
 	@Atomic(mode = TxMode.WRITE)
 	public void update(PasswordEncoder passwordEncoder, String oldUsername, String newUsername, String firstName,
-			String lastName, String email, String newPassword, boolean isUser, boolean isAdmin) {
+			String lastName, String email, String newPassword, boolean isUser, boolean isAdmin, boolean isEnabled) {
 
 		if (!oldUsername.equals(newUsername)) {
 			changeUsername(oldUsername, newUsername);
@@ -189,6 +189,8 @@ public class LdoDUser extends LdoDUser_Base {
 		if (isAdmin) {
 			addRoles(Role.getRole(RoleType.ROLE_ADMIN));
 		}
+
+		setEnabled(isEnabled);
 
 		if (newPassword != null && !newPassword.trim().equals("")) {
 			setPassword(passwordEncoder.encode(newPassword));

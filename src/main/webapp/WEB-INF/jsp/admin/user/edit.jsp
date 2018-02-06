@@ -92,6 +92,17 @@
                             path="admin" />
                     </div>
                 </div>
+               <div class="form-group">
+                    <label class="col-sm-4 control-label"><spring:message code="user.enabled" /></label>
+                    <div class="col-sm-4">
+                        <form:checkbox class="form-control"
+                            path="enabled" value="${editUserForm.isEnabled()}" />
+                    </div>
+                    <div class="col-sm-2">
+                        <form:errors class="has-error"
+                            path="enabled" />
+                    </div>
+                </div>
                 <div class="form-group">
                     <label class="col-sm-4 control-label"><spring:message code="user.password.new" /></label>
                     <div class="col-sm-4">
