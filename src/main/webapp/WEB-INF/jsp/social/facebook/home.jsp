@@ -7,7 +7,7 @@
 <body>
 <%@ include file="/WEB-INF/jsp/common/fixed-top-ldod-header.jsp"%>
 
-<h1> Get User Feed </h1>
+<h1> Create a Post on your Facebook Profile </h1>
 <div class="row">
     <div class="col-md-4">
         <form class="form-inline" method="POST"
@@ -16,7 +16,8 @@
             <input type="hidden" name="${_csrf.parameterName}"
                    value="${_csrf.token}" />
             <div class="form-group">
-                <input type="text" name="id">
+                <h3>Please put your message here</h3>
+                <input type="text" name="message">
             </div>
             <br> <br>
             <div class="form-group">

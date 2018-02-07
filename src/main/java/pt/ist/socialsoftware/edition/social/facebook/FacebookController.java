@@ -9,6 +9,7 @@ import org.springframework.social.connect.Connection;
 import org.springframework.social.connect.ConnectionRepository;
 import org.springframework.social.facebook.api.Facebook;
 import org.springframework.social.facebook.api.User;
+import org.springframework.social.facebook.api.impl.FacebookTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
@@ -29,7 +30,7 @@ public class FacebookController {
     private static final String REDIRECT_LOGIN = "redirect:/signin";
 
     @Inject
-    private Facebook fb;
+    private Facebook facebook;
     private User user;
 
     @RequestMapping(value="/home", method=RequestMethod.GET)
@@ -39,11 +40,13 @@ public class FacebookController {
     }
 
     @RequestMapping(value="/user", method=RequestMethod.POST)
-    public String getFacebookUser(Model model, @RequestParam("id") String id) {
+    public String getFacebookUser(Model model, @RequestParam("message") String message) {
         logger.debug("getFBUser");
-        logger.debug(id);
-        //user = fb.userOperations().getUserProfile();
-        return "redirect:/social/facebook/home";
+        user = facebook.userOperations().getUserProfile();
+        String uID = user.getId();
+        logger.debug(user.getName());
+        //facebook.feedOperations().post(uID, message);
+        return "/social/facebook/success";
     }
 
    /* @RequestMapping(value="/home", method=RequestMethod.GET)
@@ -54,7 +57,7 @@ public class FacebookController {
 
     @RequestMapping(value="/feed", method=RequestMethod.POST)
     public String postUpdate(String message) {
-        fb.feedOperations().updateStatus(message);
+        facebook.feedOperations().updateStatus(message);
         return "redirect:/facebook/home";
     }
 
