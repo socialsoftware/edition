@@ -142,7 +142,7 @@
 				</tbody>
 			</table>
 		</div>
-
+		<%--
 		<br /> <br />
 
 		<br /> <br />
@@ -151,7 +151,7 @@
 
 		<h1 class="text-danger">Create Users for Test in Development Mode
 			(DANGER)</h1>
-		<div class="row">
+ 		<div class="row">
 			<form class="form-inline" method="POST"
 				action="${contextPath}/admin/createTestUsers">
 				<input type="hidden" name="${_csrf.parameterName}"
@@ -161,7 +161,7 @@
 				</button>
 			</form>
 		</div>
-
+ --%>
 	</div>
 </body>
 </html>
