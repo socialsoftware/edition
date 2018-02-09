@@ -8,6 +8,9 @@ doc
 test-db
 commands
 src/main/resources/configuration.properties
+.idea/
+*.iml
+opt/
 
 *.class
 /target/
