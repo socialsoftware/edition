@@ -128,9 +128,7 @@
 <p>&nbsp;</p>
 <p><strong>2018</strong> </p>
 <p>Pereira, Lu&iacute;s Lucas, Manuel Portela, and Lic&iacute;nio Roque
-  (2018). &ldquo;<em>Machines of Disquiet</em>: Textual Experience in the <em>LdoD Archive.</em>&rdquo; <em>ELO 2017: Affiliations,
-    Communities, Translations</em>. Ed. Rui Torres. Porto:
-  Universidade Fernando Pessoa. [forthcoming] </p>
+  (2018). &ldquo;<em>Machines of Disquiet</em>: Textual Experience in the <em>LdoD Archive.</em>&rdquo; <em>MATLIT: Materialidades da Literatura</em> 6.3 [forthcoming]. </p>
 <p>
 	<strong>&nbsp;</strong></p>
 <p>&nbsp;</p>
