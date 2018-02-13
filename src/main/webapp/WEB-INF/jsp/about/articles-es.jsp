@@ -170,9 +170,8 @@
 </p>
 <p>Pereira, Lu&iacute;s Lucas, Manuel Portela, and Lic&iacute;nio Roque
 	(2018). &ldquo;<em>Machines of Disquiet</em>: Textual Experience in the
-	<em>LdoD Archive.</em>&rdquo; <em>ELO 2017: Affiliations,
-		Communities, Translations</em>. Ed. Rui Torres. Porto:
-	Universidade Fernando Pessoa. [en el prelo]
+	<em>LdoD Archive.</em>&rdquo; <em>MATLIT: Materialidades da Literatura</em> 6.3 [en el prelo]. </p>
+<p>
 </p>
 
 <p>
@@ -206,7 +205,7 @@
 <p> <strong>2018</strong> </p>
 	<p>Oliveira, Duarte (2018-). <em>Automatic Collection of Citations in the LdoD Archive</em>. Lisboa: Instituto Superior T&eacute;cnico da
   Universidade de Lisboa. Tesis de maestr&iacute;a en Ingenier&iacute;a Inform&aacute;tica.  [en marcha]. </p>
-<p> Marques, Gonçalo (2018-). <em>Virtual Editions in the LdoD Archive using Crowdsourcing and Gamification</em>. Lisboa: Instituto Superior T&eacute;cnico da
+<p> Marques, Gon&ccedil;alo (2018-). <em>Virtual Editions in the LdoD Archive using Crowdsourcing and Gamification</em>. Lisboa: Instituto Superior T&eacute;cnico da
   Universidade de Lisboa. Tesis de maestr&iacute;a en Ingenier&iacute;a Inform&aacute;tica   [en marcha]. </p>
   <p> Cruz, Miguel (2018-). <em>Reusable Framework for Digital Humanities Repositories</em>. Lisboa: Instituto Superior T&eacute;cnico da
   Universidade de Lisboa. Tesis de maestr&iacute;a en Ingenier&iacute;a Inform&aacute;tica  [en marcha]. </p>
