@@ -196,7 +196,7 @@ URL: <a
 		href= "https://fenix.tecnico.ulisboa.pt/cursos/meic-a/dissertacao/846778572211152" target="_new">https://fenix.tecnico.ulisboa.pt/cursos/meic-a/dissertacao/846778572211152</a></p>
 <strong>&nbsp;</strong>
 <p>
-	<strong>2017</strong>
+	<strong>&nbsp;</strong>
 </p>
 <p> <strong>2017</strong> </p>
 <p> Martins, Pedro (2017-). <em>O Arquivo para al&eacute;m do Arquivo:
