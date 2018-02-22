@@ -128,9 +128,7 @@
 <p>&nbsp;</p>
 <p><strong>2018</strong> </p>
 <p>Pereira, Lu&iacute;s Lucas, Manuel Portela, and Lic&iacute;nio Roque
-  (2018). &ldquo;<em>Machines of Disquiet</em>: Textual Experience in the <em>LdoD Archive.</em>&rdquo; <em>ELO 2017: Affiliations,
-    Communities, Translations</em>. Ed. Rui Torres. Porto:
-  Universidade Fernando Pessoa. [forthcoming] </p>
+  (2018). &ldquo;<em>Machines of Disquiet</em>: Textual Experience in the <em>LdoD Archive.</em>&rdquo; <em>MATLIT: Materialidades da Literatura</em> 6.3 [forthcoming]. </p>
 <p>
 	<strong>&nbsp;</strong></p>
 <p>&nbsp;</p>
@@ -153,22 +151,22 @@
   Cria&ccedil;&atilde;o de ontologias a partir de etiquetas geradas
   pelos utilizadores</em>. Lisboa: Instituto Superior T&eacute;cnico da
   Universidade de Lisboa. Disserta&ccedil;&atilde;o de mestrado em Engenharia
-  Inform&aacute;tica e Computadores [en marcha]. </p>
+  Inform&aacute;tica e Computadores [in progress]. </p>
 <p> Magalh&atilde;es, Cec&iacute;lia (2017-). <em>Fragmentos em
   pr&aacute;tica: intera&ccedil;&atilde;o, colabora&ccedil;&atilde;o e
   criatividade no </em>Arquivo LdoD. Coimbra: Universidade de Coimbra. Tese
-  de doutoramento em Materialidades da Literatura [en marcha]. </p>
+  de doutoramento em Materialidades da Literatura [in progress]. </p>
 <strong>&nbsp;</strong>
 <p> <strong>2018</strong> </p>
 	<p>Oliveira, Duarte (2018-). <em>Automatic Collection of Citations in the LdoD Archive</em>. Lisboa: Instituto Superior T&eacute;cnico da
   Universidade de Lisboa. Disserta&ccedil;&atilde;o de mestrado em Engenharia
-  Inform&aacute;tica e Computadores [en marcha]. </p>
-<p> Marques, Gonçalo (2018-). <em>Virtual Editions in the LdoD Archive using Crowdsourcing and Gamification</em>. Lisboa: Instituto Superior T&eacute;cnico da
+  Inform&aacute;tica e Computadores [in progress]. </p>
+<p> Marques, Gon&ccedil;alo (2018-). <em>Virtual Editions in the LdoD Archive using Crowdsourcing and Gamification</em>. Lisboa: Instituto Superior T&eacute;cnico da
   Universidade de Lisboa. Disserta&ccedil;&atilde;o de mestrado em Engenharia
-  Inform&aacute;tica e Computadores [en marcha]. </p>
+  Inform&aacute;tica e Computadores [in progress]. </p>
   <p> Cruz, Miguel (2018-). <em>Reusable Framework for Digital Humanities Repositories</em>. Lisboa: Instituto Superior T&eacute;cnico da
   Universidade de Lisboa. Disserta&ccedil;&atilde;o de mestrado em Engenharia
-  Inform&aacute;tica e Computadores [en marcha]. </p>
+  Inform&aacute;tica e Computadores [in progress]. </p>
 	<strong>&nbsp;</strong>
 </p>
 <p>

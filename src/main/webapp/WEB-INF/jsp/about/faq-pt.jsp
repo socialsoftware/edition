@@ -275,7 +275,7 @@
 	est&aacute; associada. As interpreta&ccedil;&otilde;es das cinco
 	vers&otilde;es (isto &eacute;, das quatro edi&ccedil;&otilde;es dos
 	peritos e ainda da representa&ccedil;&atilde;o gen&eacute;tica dos
-	testemunho) n&atilde;o s&atilde;o totalmente coincidentes entre si,
+	testemunhos) n&atilde;o s&atilde;o totalmente coincidentes entre si,
 	quer por varia&ccedil;&otilde;es e diferen&ccedil;as microtextuais
 	(ortografia, pontua&ccedil;&atilde;o, escolha de variantes, ordena&ccedil;&atilde;o
 	interna dos par&aacute;grafos, por exemplo), quer por
