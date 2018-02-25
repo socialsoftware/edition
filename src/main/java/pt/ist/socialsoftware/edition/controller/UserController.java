@@ -7,7 +7,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -47,4 +49,28 @@ public class UserController {
 		return "redirect:/";
 	}
 
+	/*@RequestMapping(method = RequestMethod.GET, value = "/profile/{username}")
+	public String userContributions(Model model, @PathVariable String username) {
+
+		LdoDUser user = LdoD.getInstance().getUser(username);
+
+		if (user != null) {
+			model.addAttribute("user", user);
+			return "edition/userContributions";
+		} else {
+			return "redirect:/error";
+		}
+	}*/
+    @RequestMapping(method = RequestMethod.GET, value = "/profile/{username}")
+    public String profile(Model model,  @PathVariable String username) {
+
+        LdoDUser user = LdoD.getInstance().getUser(username);
+
+        if (user != null) {
+			model.addAttribute("user", user);
+            return "social/profile";
+        } else {
+            return "redirect:/error";
+        }
+    }
 }

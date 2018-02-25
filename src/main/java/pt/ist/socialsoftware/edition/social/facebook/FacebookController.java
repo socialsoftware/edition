@@ -26,8 +26,6 @@ import pt.ist.socialsoftware.edition.session.LdoDSession;
 public class FacebookController {
     private static Logger logger = LoggerFactory.getLogger(FacebookController.class);
 
-    private static final String FACEBOOK = "facebook";
-    private static final String REDIRECT_LOGIN = "redirect:/signin";
 
     @Inject
     private Facebook facebook;
