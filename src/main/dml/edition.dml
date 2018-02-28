@@ -1,26 +1,26 @@
-package pt.ist.socialsoftware.edition.domain;
+package pt.ist.socialsoftware.edition.core.domain;
 
-enum pt.ist.socialsoftware.edition.domain.LdoDUser.SocialMediaService as SocialMediaService;
-enum pt.ist.socialsoftware.edition.domain.Role.RoleType as RoleType;
-enum pt.ist.socialsoftware.edition.domain.Member.MemberRole as MemberRole;
-enum pt.ist.socialsoftware.edition.domain.LdoDDate.DateType as DateType;
-enum pt.ist.socialsoftware.edition.domain.Fragment.PrecisionType as PrecisionType;
-enum pt.ist.socialsoftware.edition.domain.Source.SourceType as SourceType;
-enum pt.ist.socialsoftware.edition.domain.ManuscriptSource.Medium as Medium;
-enum pt.ist.socialsoftware.edition.domain.ManuscriptSource.Form as Form;
-enum pt.ist.socialsoftware.edition.domain.ManuscriptSource.Material as Material;
-enum pt.ist.socialsoftware.edition.domain.SpaceText.SpaceDim as SpaceDim;
-enum pt.ist.socialsoftware.edition.domain.SpaceText.SpaceUnit as SpaceUnit;
-enum pt.ist.socialsoftware.edition.domain.Rend.Rendition as Rendition;
-enum pt.ist.socialsoftware.edition.domain.AddText.Place as Place;
-enum pt.ist.socialsoftware.edition.domain.DelText.HowDel as HowDel;
-enum pt.ist.socialsoftware.edition.domain.TextPortion.VariationType as VariationType;
-enum pt.ist.socialsoftware.edition.domain.GapText.GapUnit as GapUnit;
-enum pt.ist.socialsoftware.edition.domain.GapText.GapReason as GapReason;
-enum pt.ist.socialsoftware.edition.domain.UnclearText.UnclearReason as UnclearReason;
-enum pt.ist.socialsoftware.edition.domain.AltText.AltMode as AltMode;
-enum pt.ist.socialsoftware.edition.domain.NoteText.NoteType as NoteType;
-enum pt.ist.socialsoftware.edition.domain.RefText.RefType as RefType;
+enum LdoDUser.SocialMediaService as SocialMediaService;
+enum Role.RoleType as RoleType;
+enum Member.MemberRole as MemberRole;
+enum LdoDDate.DateType as DateType;
+enum Fragment.PrecisionType as PrecisionType;
+enum Source.SourceType as SourceType;
+enum ManuscriptSource.Medium as Medium;
+enum ManuscriptSource.Form as Form;
+enum ManuscriptSource.Material as Material;
+enum SpaceText.SpaceDim as SpaceDim;
+enum SpaceText.SpaceUnit as SpaceUnit;
+enum Rend.Rendition as Rendition;
+enum AddText.Place as Place;
+enum DelText.HowDel as HowDel;
+enum TextPortion.VariationType as VariationType;
+enum GapText.GapUnit as GapUnit;
+enum GapText.GapReason as GapReason;
+enum UnclearText.UnclearReason as UnclearReason;
+enum AltText.AltMode as AltMode;
+enum NoteText.NoteType as NoteType;
+enum RefText.RefType as RefType;
 
 class LdoD {
 	String title;
