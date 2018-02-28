@@ -1,5 +1,5 @@
 <%@ attribute name="cluster"
-	type="pt.ist.socialsoftware.edition.recommendation.Cluster"
+	type="pt.ist.socialsoftware.edition.core.recommendation.Cluster"
 	required="true"%>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="edition"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
