@@ -9,7 +9,7 @@
  		<version>1.0</version>
 	</parent>
 
-	<artifactId>core</artifactId>
+	<artifactId>edition-core</artifactId>
 	<build>
 		<plugins>
 			<plugin>

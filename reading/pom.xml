@@ -9,7 +9,7 @@
  		<version>1.0</version>
 	</parent>
 
-	<artifactId>reading</artifactId>
+	<artifactId>edition-reading</artifactId>
 	<build>
 		<plugins>
 			<plugin>
