@@ -1,0 +1,62 @@
+body {
+  padding-top: 190px;
+}
+
+@media (min-width: 1200px) {
+  body {
+    padding-top: 150px;
+  }
+}
+
+@media (max-width: 767px) {
+  body {
+    padding-top: 150px;
+  }
+}
+
+li.list-recommedation {
+	 list-style-type: none;
+}
+
+/* centered columns styles */
+.row-centered {
+    text-align:center;
+}
+.row-centered > div {
+    display:inline-block;
+    float:none;
+    /* reset the text-align */
+  //  text-align:left;
+    /* inline-block space fix */
+    margin-right:-4px;
+}
+
+.draggable{
+	cursor: move;
+}
+
+.progress{
+	cursor: progress;
+}
+
+.inherit{
+	cursor: inherit;
+}
+
+div .checkbox{
+	padding-right:10px;
+}
+
+.checkbox input {
+	margin-bottom:6px;
+}
+
+#fragmentInter {
+	padding-top:6px;
+}
+
+.infobutton {
+	color:lightgray;
+	font-size:12px;	
+}
+
