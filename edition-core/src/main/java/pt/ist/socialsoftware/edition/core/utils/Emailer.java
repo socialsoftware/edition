@@ -29,7 +29,7 @@ public class Emailer {
 
 	private static void sendMessage(Session getMailSession, Message generateMailMessage) throws MessagingException {
 		Transport transport = getMailSession.getTransport("smtp");
-		transport.connect("smtp.gmail.com",
+		transport.connect((String) PropertiesManager.getProperties().get("registration.confirmation.mail.smtp.host"),
 				(String) PropertiesManager.getProperties().get("registration.confirmation.email.user"),
 				(String) PropertiesManager.getProperties().get("registration.confirmation.email.password"));
 		transport.sendMessage(generateMailMessage, generateMailMessage.getAllRecipients());
@@ -50,8 +50,10 @@ public class Emailer {
 		Properties properties = new Properties();
 		properties.put("mail.smtp.auth", "true");
 		properties.put("mail.smtp.starttls.enable", "true");
-		properties.put("mail.smtp.host", "smtp.gmail.com");
-		properties.put("mail.smtp.port", "587");
+		properties.put("mail.smtp.host",
+				PropertiesManager.getProperties().get("registration.confirmation.mail.smtp.host"));
+		properties.put("mail.smtp.port",
+				PropertiesManager.getProperties().get("registration.confirmation.mail.smtp.port"));
 		return properties;
 	}
 }
