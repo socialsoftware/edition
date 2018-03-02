@@ -13,7 +13,6 @@
 			<%@ include file="/WEB-INF/jsp/reading/readingGrid.jsp"%>
 			</div>
 
-			
 
 		<!-- </div> -->
 	</div>

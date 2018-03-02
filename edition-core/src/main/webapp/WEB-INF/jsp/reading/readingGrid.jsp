@@ -16,7 +16,7 @@
     $.post('${contextPath}/reading/weight', {
       'type' : type,
       'value' : value
-    }, function(result) {
+    }, function(result) { 
      // alert(result);
     });
   }

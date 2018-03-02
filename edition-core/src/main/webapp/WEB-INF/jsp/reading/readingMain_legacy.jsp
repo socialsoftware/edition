@@ -13,7 +13,6 @@
 			<%@ include file="/WEB-INF/jsp/reading/readingGrid.jsp"%>
 			</div>
 
-
 			
 			<br><br><br><br><br><br>
 			<h2 class="text-center"><spring:message code="general.reading"/></h2>

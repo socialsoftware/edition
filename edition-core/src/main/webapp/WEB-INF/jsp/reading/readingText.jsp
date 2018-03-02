@@ -13,7 +13,7 @@
 				<div class="well" style="font-family: courier;">
 					<p>${writer.getTranscription()}</p>
 				</div>
-			</c:otherwise>
+			</c:otherwise> 
 		</c:choose>
 	</c:if>
 </div>
