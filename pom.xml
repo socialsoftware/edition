@@ -310,7 +310,7 @@
 	</pluginRepositories>
 	
 	<modules>
-		<module>core</module>
-		<module>reading</module>
+		<module>edition-core</module>
+		<module>edition-reading</module>
 	</modules>
 </project>

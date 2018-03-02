@@ -22,7 +22,7 @@ import org.springframework.web.filter.CommonsRequestLoggingFilter;
 import pt.ist.socialsoftware.edition.core.security.LdoDSignInAdapter;
 import pt.ist.socialsoftware.edition.core.utils.Bootstrap;
 
-@PropertySource({ "classpath:application.properties", "classpath:secrete.properties" })
+@PropertySource({ "classpath:application.properties", "classpath:specific.properties", "classpath:secrete.properties" })
 @ComponentScan(basePackages = "pt.ist.socialsoftware.edition")
 @SpringBootApplication
 @EnableScheduling
