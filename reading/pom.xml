@@ -4,10 +4,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<groupId>pt.ist.socialsoftware.edition</groupId>
-		<artifactId>parent</artifactId>
+		<groupId>pt.ist.socialsoftware</groupId>
+		<artifactId>edition</artifactId>
  		<version>1.0</version>
 	</parent>
+
 
 	<artifactId>edition-reading</artifactId>
 	<packaging>war</packaging>
@@ -26,12 +27,12 @@
 
 	<dependencies>
 		<!-- Services -->
-		<dependency>
-			<groupId>pt.ist.socialsoftware.edition</groupId>
-			<artifactId>core</artifactId>
-			<version>1.0</version>
-			<scope>compile</scope>
-		</dependency>
+        <dependency>
+            <groupId>pt.ist.socialsoftware.edition</groupId>
+            <artifactId>core</artifactId>
+            <version>1.0</version>
+        </dependency>
 	</dependencies>
+
 
 </project>

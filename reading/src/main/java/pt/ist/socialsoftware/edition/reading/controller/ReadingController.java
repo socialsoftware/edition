@@ -1,29 +1,7 @@
-package pt.ist.socialsoftware.edition.core.controller;
+package pt.ist.socialsoftware.edition.reading.controller;
 
-import java.util.Set;
+import pt.ist.socialsoftware.edition.core.
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttributes;
-
-import pt.ist.fenixframework.FenixFramework;
-import pt.ist.socialsoftware.edition.core.domain.FragInter;
-import pt.ist.socialsoftware.edition.core.domain.LdoD;
-import pt.ist.socialsoftware.edition.core.session.LdoDSession;
-import pt.ist.socialsoftware.edition.core.shared.exception.LdoDException;
-import pt.ist.socialsoftware.edition.core.domain.ExpertEdition;
-import pt.ist.socialsoftware.edition.core.domain.ExpertEditionInter;
-import pt.ist.socialsoftware.edition.core.domain.Fragment;
-import pt.ist.socialsoftware.edition.core.generators.PlainHtmlWriter4OneInter;
 
 @Controller
 @SessionAttributes({ "ldoDSession" })
@@ -76,7 +54,7 @@ public class ReadingController {
 	@RequestMapping(method = RequestMethod.GET, value = "/edition/{acronym}/start")
 	public String startReadingEdition(Model model, @ModelAttribute("ldoDSession") LdoDSession ldoDSession,
 			@PathVariable String acronym) {
-		ExpertEdition expertEdition = (ExpertEdition) LdoD.getInstance().getEdition(acronym);
+		 expertEdition = (ExpertEdition) LdoD.getInstance().getEdition(acronym);
 		ExpertEditionInter expertEditionInter = expertEdition.getFirstInterpretation();
 
 		ldoDSession.getRecommendation().clean();
