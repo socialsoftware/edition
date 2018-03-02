@@ -10,6 +10,7 @@
 	</parent>
 
 	<artifactId>edition-reading</artifactId>
+	<packaging>war</packaging>
 	<build>
 		<plugins>
 			<plugin>

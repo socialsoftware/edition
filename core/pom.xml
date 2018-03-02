@@ -10,6 +10,8 @@
 	</parent>
 
 	<artifactId>edition-core</artifactId>
+	<packaging>war</packaging>
+	
 	<build>
 		<plugins>
 			<plugin>
