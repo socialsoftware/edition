@@ -8,6 +8,8 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import pt.ist.socialsoftware.edition.core.export.WriteVirtualEditonsToFile;
+import pt.ist.socialsoftware.edition.core.social.aware.FetchCitationsFromTwitter;
+//import pt.ist.socialsoftware.edition.core.social.aware.FetchCitationsFromTwitter;
 
 @Component
 public class ScheduledTasks {
@@ -18,5 +20,10 @@ public class ScheduledTasks {
 		WriteVirtualEditonsToFile write = new WriteVirtualEditonsToFile();
 		write.export();
 	}
-
+	
+	@Scheduled(cron = "0 0 20 * * *")
+	public void fetchFromTwitter() throws IOException {
+		FetchCitationsFromTwitter fetch = new FetchCitationsFromTwitter();
+		fetch.fetch();
+	}
 }

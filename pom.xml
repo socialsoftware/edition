@@ -164,6 +164,7 @@
 			<version>1.0.0.RELEASE</version>
 		</dependency>
 
+		
 		<!-- Bootstrap -->
 		<dependency>
 			<groupId>org.webjars</groupId>

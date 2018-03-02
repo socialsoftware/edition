@@ -29,4 +29,13 @@
 		</plugins>
 	</build>
 
+	<!-- https://mvnrepository.com/artifact/org.twitter4j/twitter4j-core -->
+	<dependencies>
+		<dependency>
+		    <groupId>org.twitter4j</groupId>
+		    <artifactId>twitter4j-core</artifactId>
+		    <version>4.0.6</version>
+		</dependency>
+	</dependencies>
+	
 </project>
