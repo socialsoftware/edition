@@ -28,7 +28,7 @@
 		<!-- Services -->
 		<dependency>
 			<groupId>pt.ist.socialsoftware.edition</groupId>
-			<artifactId>core</artifactId>
+			<artifactId>edition-core</artifactId>
 			<version>1.0</version>
 			<scope>compile</scope>
 		</dependency>
