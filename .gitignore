@@ -24,3 +24,6 @@ userpasswords.txt
 
 *.jtl
 *.hprof
+
+.idea/
+*.iml

@@ -6,19 +6,19 @@
 	<groupId>pt.ist.socialsoftware</groupId>
 	<artifactId>edition</artifactId>
 	<version>1.0</version>
-	<packaging>war</packaging>
+	<packaging>pom</packaging>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
- 		<version>1.5.9.RELEASE</version>
+		<version>1.5.9.RELEASE</version>
 	</parent>
 
 	<name>edition</name>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		
+
 		<version.org.webjars.bootstrap>3.3.7-1</version.org.webjars.bootstrap>
 		<version.org.webjars.jquery>1.11.3</version.org.webjars.jquery>
 
@@ -51,55 +51,56 @@
 			</build>
 		</profile>
 	</profiles>
-	
+
 	<build>
 		<finalName>ldod</finalName>
-		<plugins>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
-					<enableAssertions>true</enableAssertions>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>pt.ist</groupId>
-				<artifactId>ff-maven-plugin</artifactId>
-				<version>${version.fenixframework}</version>
-				<configuration>
-					<codeGeneratorClassName>${fenix.framework.codeGeneratorClassName}</codeGeneratorClassName>
-					<params>
-						<ptIstTxIntrospectorEnable>false</ptIstTxIntrospectorEnable>
-					</params>
-				</configuration>
-				<executions>
-					<execution>
-						<goals>
-							<goal>ff-generate-domain</goal>
-							<goal>ff-process-atomic-annotations</goal>
-							<goal>ff-test-process-atomic-annotations</goal>
-						</goals>
-					</execution>
-				</executions>
-				<dependencies>
-					<dependency>
-						<groupId>pt.ist</groupId>
-						<artifactId>fenix-framework-backend-jvstm-ojb-code-generator</artifactId>
-						<version>${version.fenixframework}</version>
-					</dependency>
-				</dependencies>
-			</plugin>
-		</plugins>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-maven-plugin</artifactId>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<configuration>
+						<source>1.8</source>
+						<target>1.8</target>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>pt.ist</groupId>
+					<artifactId>ff-maven-plugin</artifactId>
+					<version>${version.fenixframework}</version>
+					<configuration>
+						<codeGeneratorClassName>${fenix.framework.codeGeneratorClassName}</codeGeneratorClassName>
+						<params>
+							<ptIstTxIntrospectorEnable>false</ptIstTxIntrospectorEnable>
+						</params>
+					</configuration>
+					<executions>
+						<execution>
+							<goals>
+								<goal>ff-generate-domain</goal>
+								<goal>ff-process-atomic-annotations</goal>
+								<goal>ff-test-process-atomic-annotations</goal>
+							</goals>
+						</execution>
+					</executions>
+					<dependencies>
+						<dependency>
+							<groupId>pt.ist</groupId>
+							<artifactId>fenix-framework-backend-jvstm-ojb-code-generator</artifactId>
+							<version>${version.fenixframework}</version>
+						</dependency>
+					</dependencies>
+				</plugin>
+			</plugins>
+		</pluginManagement>
 	</build>
 
 	<dependencies>
- 		<dependency>
+		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
@@ -107,17 +108,17 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
- 		<dependency>
+		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-tomcat</artifactId>
 			<scope>provided</scope>
 		</dependency>
- 		<dependency>
+		<dependency>
 			<groupId>org.apache.tomcat.embed</groupId>
 			<artifactId>tomcat-embed-jasper</artifactId>
 			<scope>provided</scope>
 		</dependency>
- 		<dependency>
+		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>jstl</artifactId>
 		</dependency>
@@ -130,12 +131,12 @@
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-taglibs</artifactId>
 		</dependency>
- 		<dependency>
+		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>
 		</dependency>
-		
- 
+
+
 		<!-- Spring Social -->
 		<dependency>
 			<groupId>org.springframework.social</groupId>
@@ -192,12 +193,12 @@
 			<artifactId>javax.mail-api</artifactId>
 		</dependency>
 
- 		<dependency>
+		<dependency>
 			<groupId>com.jayway.jsonpath</groupId>
 			<artifactId>json-path</artifactId>
 			<scope>test</scope>
 		</dependency>
- 
+
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
@@ -307,4 +308,9 @@
 			<url>https://repo.fenixedu.org/fenixedu-maven-repository</url>
 		</pluginRepository>
 	</pluginRepositories>
+	
+	<modules>
+		<module>edition-core</module>
+		<module>edition-reading</module>
+	</modules>
 </project>
