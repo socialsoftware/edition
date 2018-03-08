@@ -1,4 +1,6 @@
 <%@ include file="/WEB-INF/jsp/common/tags-head.jsp"%>
+<%@ include file="/WEB-INF/jsp/common/meta-head.jsp"%>
+
 <link
 	href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/css/select2.min.css"
 	rel="stylesheet" />
@@ -23,6 +25,9 @@
 			<tr>
 				<th><span class="glyphicon glyphicon-tag"></span></th>
 				<th><span class="glyphicon glyphicon-user"></span></th>
+				<!-- Facebook Share-->
+				<th> <div class="fb-share-button" data-href="${requestScope['javax.servlet.forward.request_uri']}" data-layout="button" data-size="small" data-mobile-iframe="true"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=${requestScope['javax.servlet.forward.request_uri']};src=sdkpreparse" class="fb-xfbml-parse-ignore"></a></div></th>
+				<!--<th> <div class="fb-share-button" data-href="https://ldod.uc.pt/${requestScope['javax.servlet.forward.request_uri']}" data-layout="button" data-size="small" data-mobile-iframe="true"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://ldod.uc.pt/${requestScope['javax.servlet.forward.request_uri']};src=sdkpreparse" class="fb-xfbml-parse-ignore"></a></div></th>-->
 			</tr>
 
 		</thead>

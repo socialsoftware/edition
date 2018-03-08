@@ -42,7 +42,7 @@ public class SocialConfig implements SocialConfigurer {
 	public void addConnectionFactories(ConnectionFactoryConfigurer cfConfig, Environment env) {
 		GoogleConnectionFactory gcf = new GoogleConnectionFactory(env.getProperty("spring.social.google.appId"),
 				env.getProperty("spring.social.google.appSecret"));
-		gcf.setScope("profile");
+		gcf.setScope("header.profile");
 		cfConfig.addConnectionFactory(gcf);
 	}
 

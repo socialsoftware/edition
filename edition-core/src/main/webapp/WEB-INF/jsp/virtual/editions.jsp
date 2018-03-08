@@ -234,6 +234,8 @@
 													</form>
 												</c:when>
 											</c:choose></td>
+										<!-- Facebook Share-->
+										<td> <div class="fb-share-button" data-href="/edition/acronym/${virtualEdition.acronym}" data-layout="button" data-size="small" data-mobile-iframe="true"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=/edition/acronym/${virtualEdition.acronym};src=sdkpreparse" class="fb-xfbml-parse-ignore"></a></div></td>
 									</tr>
 								</c:if>
 							</c:forEach>

@@ -35,7 +35,7 @@
 						
 						<ul class="dropdown-menu">
 							<li><a href="<c:url value="${contextPath}/user/changePassword"/>"><spring:message code="user.password" /></a></li>
-							<li><a href="<c:url value="${contextPath}/user/profile/${pageContext.request.userPrincipal.principal.getUser().getUsername()}"/>">Profile</a></li>
+							<li><a href="<c:url value="${contextPath}/user/profile/${pageContext.request.userPrincipal.principal.getUser().getUsername()}"/>"><spring:message code="header.profile" /></a></li>
 							<li><a href="<c:url value="${contextPath}/signout"/>"><spring:message code="header.logout" /></a></li>
 						</ul>
 				</c:when>
@@ -115,7 +115,7 @@
 					<li><a href="${contextPath}/edition/acronym/JPC">Jacinto do Prado Coelho</a></li>
 					<li><a href="${contextPath}/edition/acronym/TSC">Teresa Sobral Cunha</a></li>
 					<li><a href="${contextPath}/edition/acronym/RZ">Richard Zenith</a></li>
-					<li><a href="${contextPath}/edition/acronym/JP">Jerónimo Pizarro</a></li>
+					<li><a href="${contextPath}/edition/acronym/JP">JerÃ³nimo Pizarro</a></li>
 					<li class="divider"></li>
 					<li><a href="${contextPath}/edition/acronym/LdoD-Arquivo">Arquivo LdoD</a></li>
 					<li class="divider"></li>

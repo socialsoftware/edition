@@ -66,9 +66,10 @@ public class UserController {
 
         LdoDUser user = LdoD.getInstance().getUser(username);
 
+
         if (user != null) {
 			model.addAttribute("user", user);
-            return "social/profile";
+			return "social/profile";
         } else {
             return "redirect:/error";
         }
