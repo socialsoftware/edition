@@ -13,11 +13,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
-import pt.ist.socialsoftware.edition.core.security.LdoDUserDetails;
-import pt.ist.socialsoftware.edition.core.shared.exception.LdoDException;
-import pt.ist.socialsoftware.edition.core.domain.LdoDUser_Base;
 import pt.ist.socialsoftware.edition.core.domain.Role.RoleType;
+import pt.ist.socialsoftware.edition.core.security.LdoDUserDetails;
 import pt.ist.socialsoftware.edition.core.shared.exception.LdoDDuplicateUsernameException;
+import pt.ist.socialsoftware.edition.core.shared.exception.LdoDException;
 
 public class LdoDUser extends LdoDUser_Base {
 	private static Logger logger = LoggerFactory.getLogger(LdoDUser.class);
@@ -51,7 +50,7 @@ public class LdoDUser extends LdoDUser_Base {
 		super.setUsername(username);
 	}
 
-	static public LdoDUser getAuthenticatedUser() {
+	public static LdoDUser getAuthenticatedUser() {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		if (authentication != null) {
 			LdoDUserDetails userDetails = null;
