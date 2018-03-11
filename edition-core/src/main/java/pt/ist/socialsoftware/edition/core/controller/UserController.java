@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import pt.ist.socialsoftware.edition.core.domain.Edition;
 import pt.ist.socialsoftware.edition.core.domain.LdoD;
 import pt.ist.socialsoftware.edition.core.domain.LdoDUser;
+import pt.ist.socialsoftware.edition.core.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.core.forms.ChangePasswordForm;
 import pt.ist.socialsoftware.edition.core.validator.ChangePasswordValidator;
 
@@ -65,6 +67,10 @@ public class UserController {
     public String profile(Model model,  @PathVariable String username) {
 
         LdoDUser user = LdoD.getInstance().getUser(username);
+
+        for(VirtualEdition ve: user.getPublicEditionList()){
+        	log.debug("TESTE"+ve.toString());
+		}
 
 
         if (user != null) {

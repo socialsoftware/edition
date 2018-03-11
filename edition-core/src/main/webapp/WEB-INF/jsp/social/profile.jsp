@@ -26,7 +26,16 @@
                         <li><p><span class="glyphicon glyphicon-user one" style="width:50px;"></span>${user.getUsername()}</p></li>
                     </ul>
                     <hr>
-                    <div class="col-sm-5 col-xs-6 tital " >Member since: </div>
+                    <div class="col-sm-5 col-xs-6 tital ">Member since: </div>
+                    <div class="col-sm-5 col-xs-6 tital"> Virtual Editions:</div>
+                    <p>
+                        <strong><spring:message code="header.editions" />: </strong>
+                        <c:forEach var="edition" items="${user.getPublicEditionList()}"
+                                   varStatus="loop">
+                            <a href="${contextPath}/edition/acronym/${edition.getAcronym()}">
+                                    ${edition.getTitle()}</a><c:if test="${!loop.last}">, </c:if>
+                        </c:forEach>
+                    </p>
                 </div>
             </div>
         </div>
