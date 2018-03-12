@@ -68,11 +68,6 @@ public class UserController {
 
         LdoDUser user = LdoD.getInstance().getUser(username);
 
-        for(VirtualEdition ve: user.getPublicEditionList()){
-        	log.debug("TESTE"+ve.toString());
-		}
-
-
         if (user != null) {
 			model.addAttribute("user", user);
 			return "social/profile";
@@ -80,4 +75,17 @@ public class UserController {
             return "redirect:/error";
         }
     }
+
+	@RequestMapping(method = RequestMethod.GET, value = "/profile/{username}/achievements")
+	public String achievements(Model model,  @PathVariable String username) {
+
+		LdoDUser user = LdoD.getInstance().getUser(username);
+
+		if (user != null) {
+			model.addAttribute("user", user);
+			return "social/achievements";
+		} else {
+			return "redirect:/error";
+		}
+	}
 }

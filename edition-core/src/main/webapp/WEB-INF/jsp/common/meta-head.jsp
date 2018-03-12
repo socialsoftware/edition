@@ -10,21 +10,6 @@
 	href="/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css" />
 <script src="/webjars/jquery/1.11.3/jquery.min.js"></script>
 <script src="/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js"></script>
-<!--Facebook Info-->
-<meta property="og:url"           content="https://ldod.uc.pt/" />
-<meta property="og:type"          content="website" />
-<meta property="og:title"         content="LdoD" />
-<meta property="og:description"   content="Teste" />
-<!--Facebook Javascript SDK-->
-<!-- TODO: FIX LOCALE-->
-<div id="fb-root"></div>
-<script>(function(d, s, id) {
-var js, fjs = d.getElementsByTagName(s)[0];
-if (d.getElementById(id)) return;
-js = d.createElement(s); js.id = id;
-js.src = 'https://connect.facebook.net/pt_PT/sdk.js#xfbml=1&version=v2.12';
-fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));</script>
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-111295843-1"></script>
 <script>

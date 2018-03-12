@@ -9,25 +9,22 @@
     <script src="/resources/js/bootstrap-table.min.js"></script>
 </head>
 <body>
+
 <div class="container">
     <div class="row">
         <div class="panel panel-default">
             <div class="panel-heading">  <h4 ></h4></div>
             <div class="panel-body">
-                <div class="col-md-4 col-xs-12 col-sm-6 col-lg-4">
-                    <img alt="User Pic" src="https://x1.xingassets.com/assets/frontend_minified/img/users/nobody_m.original.jpg" id="profile-image1" class="img-circle img-responsive">
-                </div>
                 <div class="col-md-8 col-xs-12 col-sm-6 col-lg-8" >
                     <div class="container" >
                         <h2>${user.firstName} ${user.lastName}</h2>
                     </div>
                     <hr>
-                    <ul class="container details" >
-                        <li><p><span class="glyphicon glyphicon-user one" style="width:50px;"></span>${user.getUsername()}</p></li>
-                    </ul>
+                    <div class="container details" >
+                        <span class="glyphicon glyphicon-user one" style="width:50px;">${user.getUsername()}</span>
+                    </div>
                     <hr>
                     <div class="col-sm-5 col-xs-6 tital ">Member since: </div>
-                    <div class="col-sm-5 col-xs-6 tital"> Virtual Editions:</div>
                     <p>
                         <strong><spring:message code="header.editions" />: </strong>
                         <c:forEach var="edition" items="${user.getPublicEditionList()}"
