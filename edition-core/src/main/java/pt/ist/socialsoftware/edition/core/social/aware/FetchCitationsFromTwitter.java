@@ -1,7 +1,10 @@
 package pt.ist.socialsoftware.edition.core.social.aware;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -9,6 +12,13 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
+//import org.json.JSONException;
+//import org.json.JSONObject;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.socialsoftware.edition.core.utils.PropertiesManager;
@@ -25,8 +35,8 @@ import twitter4j.conf.ConfigurationBuilder;
 
 public class FetchCitationsFromTwitter {
 	
-	private static final int TWEETS_PER_QUERY = 100;
-	private static final int MAX_QUERIES = 180; //Queries = pages obtained (máximo empírico até agora foi 100 páginas, máximo = 180)
+	private static final int TWEETS_PER_QUERY = 2;
+	private static final int MAX_QUERIES = 2; //Queries = pages obtained (máximo empírico até agora foi 100 páginas, máximo = 180)
 	private static final Map<String, String> TERMS_MAP = createTermsMap();
 	
 	@Atomic
@@ -53,9 +63,13 @@ public class FetchCitationsFromTwitter {
 				
 				String timeStamp = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
 				String exportDir = PropertiesManager.getProperties().getProperty("social.aware.dir");
-				file = new File(exportDir + "twitter-" + fileName + "-" + timeStamp + ".txt");
+				file = new File(exportDir + "twitter-" + fileName + "-" + timeStamp + ".json");
+				
+				//fos vs fileWriter
 				fos = new FileOutputStream(file);
-			
+				//FileWriter fileWriter = new FileWriter(file);
+				
+				
 				//This returns all the various rate limits in effect for us with the Twitter API
 				Map<String, RateLimitStatus> rateLimitStatus = twitter.getRateLimitStatus("search");
 				//	This finds the rate limit specifically for doing the search API call we use in this program
@@ -67,8 +81,6 @@ public class FetchCitationsFromTwitter {
 						(searchTweetsRateLimit.getSecondsUntilReset())/60.0);
 				
 				int numElli = 0;
-				List<String> countries = new ArrayList<String>();
-				List<String> locations = new ArrayList<String>();
 				//	This is the loop that retrieve multiple blocks of tweets from Twitter
 				for (int queryNumber = 0; queryNumber < MAX_QUERIES; queryNumber++) {
 					System.out.printf("\n\n!!! Starting loop %d\n\n", queryNumber);
@@ -95,7 +107,7 @@ public class FetchCitationsFromTwitter {
 					Query q = new Query(term);			// Search for tweets that contains this term
 					q.setCount(TWEETS_PER_QUERY);				// How many tweets, max, to retrieve
 					q.setResultType(ResultType.recent);						// Get all tweets
-					q.setLang("pt");							// English language tweets, please
+					q.setLang("pt");						
 	
 					//	If maxID is -1, then this is our first call and we do not want to tell Twitter what the maximum
 					//	tweet id is we want to retrieve.  But if it is not -1, then it represents the lowest tweet ID
@@ -153,12 +165,10 @@ public class FetchCitationsFromTwitter {
 						String country = "unknown";
 						if(place != null) 
 							country = place.getCountry();
-						countries.add(country);
 					
 						String location = s.getUser().getLocation();
 						if(location.equals(""))
 							location = "unknown";
-						locations.add(location);
 						
 						String username = s.getUser().getScreenName();
 						String tweetURL = "https://twitter.com/" + username + "/status/" + s.getId();
@@ -167,8 +177,11 @@ public class FetchCitationsFromTwitter {
 
 						formatedDate = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss").format(s.getCreatedAt());
 						
+						long tweetID =  s.getId();
+						
+					
 						toWrite = "\t At " + formatedDate + ", @" + username 
-								+ " (id: " + s.getId() + ")" + "\n" + "said: " + text + "\n"
+								+ " (id: " + + tweetID + ")" + "\n" + "said: " + text + "\n"
 								+ "country: " + country + "\n"
 								+ "location: " + location + "\n"
 								+ "tweet URL: " + tweetURL + "\n"
@@ -176,9 +189,23 @@ public class FetchCitationsFromTwitter {
 								+ "profile Picture: " + profImg + "\n"
 								+ "############################" + "\n";
 						
-						fos.write(toWrite.getBytes());
+						//Writing - old version (human readable)
+						//fos.write(toWrite.getBytes());
 						
-						
+						//Writing - JSON version
+						JSONObject obj = new JSONObject();
+						obj.put("date", formatedDate);
+						obj.put("username", username);
+					    obj.put("tweetID", tweetID);
+					    obj.put("text", text);
+					    obj.put("country", country);
+					    obj.put("location", location);
+					    obj.put("tweetURL", tweetURL);
+					    obj.put("profURL", profURL);
+					    obj.put("profImg", profImg);
+						fos.write(obj.toString().getBytes());
+						fos.write("\n".getBytes());
+		
 						System.out.println("####################################");
 					}
 	
@@ -195,8 +222,43 @@ public class FetchCitationsFromTwitter {
 						searchTweetsRateLimit.getSecondsUntilReset(),
 						(searchTweetsRateLimit.getSecondsUntilReset())/60.0);	
 				System.out.println("++++++++++++++++++++++++++++++ OUTRO FICHEIRO ++++++++++++++++++++++++++++++");
-		
 				fos.close();
+				
+				
+				//Read tweetText from JSON file - org.json version: works!
+				/*
+				List<JSONObject> json = new ArrayList<JSONObject>();
+			    JSONObject obj;
+			    String line = null;
+		        BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
+		        while((line = bufferedReader.readLine()) != null) {
+		            try {
+						obj = (JSONObject) new JSONParser().parse(line);
+						json.add(obj);
+			            System.out.println((String)obj.get("text"));
+					} catch (ParseException e) {
+						System.out.println("Parse Exception!!!");
+						e.printStackTrace();
+					}  
+		        }
+		        bufferedReader.close();  
+				*/
+				
+				//org.json.simple version: doesn't work tho
+				/*
+				JSONParser parser = new JSONParser();
+				try {
+					Object obj = parser.parse(new FileReader(file));
+					JSONObject jsonObject = (JSONObject) obj;
+		            String name = (String) jsonObject.get("username");
+		            System.out.println(name);
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				*/
+	            
+				
 			}catch(IOException ioE) {
 				ioE.printStackTrace();
 				System.out.println("IOException at FetchCitationsFromTwitter!!: ");
@@ -210,10 +272,10 @@ public class FetchCitationsFromTwitter {
 	
 	private static Map<String, String> createTermsMap() {
         Map<String,String> termsMap = new HashMap<String,String>();
-        termsMap.put("Livro do Desassossego", "livro.txt");
-        termsMap.put("Fernando Pessoa", "fp.txt");
-        termsMap.put("Bernardo Soares", "bernardo.txt");
-        termsMap.put("Vicente Guedes", "vicente.txt");
+        termsMap.put("Livro do Desassossego", "livro");
+        termsMap.put("Fernando Pessoa", "fp");
+        termsMap.put("Bernardo Soares", "bernardo");
+        termsMap.put("Vicente Guedes", "vicente");
         return termsMap;
     }
 	
