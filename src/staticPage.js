@@ -1,7 +1,11 @@
-import ReactHTMLParser from 'react-html-parser';
 import React from 'react';
+import ReactHTMLParser from 'react-html-parser';
 
-export default class HomePage extends React.Component {
+
+export default class StaticPage extends React.Component {
+
+    static baseURL = 'http://1.1.1.10:8080';
+
     constructor(props) {
         super(props);
         this.state = {
@@ -11,8 +15,8 @@ export default class HomePage extends React.Component {
         };
     }
 
-    componentDidMount() {
-        fetch('http://1.1.1.10:8080')
+    htmlRequest(url) {
+        fetch(url)
             .then(res => res.text())
             .then(
                 (result) => {
@@ -30,6 +34,14 @@ export default class HomePage extends React.Component {
                 });
     }
 
+    componentDidMount() {
+        this.htmlRequest(StaticPage.baseURL + this.props.url);
+    }
+
+    componentWillReceiveProps(nextProps) {
+        this.htmlRequest(StaticPage.baseURL + nextProps.url);
+    }
+
     render() {
         const { error, isLoaded, html } = this.state;
         if (this.state.error) {
@@ -37,10 +49,11 @@ export default class HomePage extends React.Component {
         } else if (!isLoaded) {
             return <div>Loading...</div>;
         }
-        return (<div className={'container ldod-default'}>
-            {/* The response comes with entire body. props.children removes the element body */}
-            {html.props.children}
-        </div>
+        return (
+            <div className={'container ldod-default'}>
+                {/* The response comes with entire body. props.children removes the element body */}
+                {html.props.children}
+            </div>
         );
     }
 }

@@ -2,8 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
 import { NavDropdown, MenuItem } from 'react-bootstrap';
 import ReactDOM from 'react-dom';
-import HomePage from './home';
-import About from './about';
+import StaticPage from './staticPage';
 import './resources/css/style.css';
 import './resources/css/ldod.css';
 import './resources/css/font-awesome.min.css';
@@ -14,7 +13,7 @@ function TopBarStatic() {
         <div className={'container-fluid'}>
             <div className={'container'}>
                 <div className={'navbar-header'}>
-                    <a className={'navbar-brand'}>Arquivo LdoD</a>
+                    <Link to={'/'} className={'navbar-brand'}>Arquivo LdoD</Link>
                     <ul className={'nav navbar-nav navbar-right hidden-xs'}>
                         <li>
                             <a>Iniciar Sessão</a>
@@ -39,10 +38,14 @@ function TopBarElement(props) {
     if (props.baseLink) {
         baseLink = `/${props.baseLink}`;
     }
-
     const subsecs = props.subsections.map(subsection =>
-        <MenuItem href={`${baseLink}/${subsection.link}`}>{subsection.title}</MenuItem>);
-    console.log(subsecs);
+        (<Route render={({ history }) => (
+            <MenuItem
+                onClick={() => { history.push(`${baseLink}/${subsection.link}`); }}>
+                {subsection.title}
+            </MenuItem>
+        )} />));
+
 
     if (props.division) {
         subsecs.splice(props.division, 0, <MenuItem divider />);
@@ -138,8 +141,17 @@ function App() {
             <div>
                 <TopBar />
                 <Switch>
-                    <Route path={'/about/archive'} render={() => <About url={'archive'} />} />
-                    <Route path={'/'} component={HomePage} />
+                    <Route path={'/about/archive'} render={() => <StaticPage url={'/about/archive'} />} />
+                    <Route path={'/about/videos'} render={() => <StaticPage url={'/about/videos'} />} />
+                    <Route path={'/about/encoding'} render={() => <StaticPage url={'/about/encoding'} />} />
+                    <Route path={'/about/articles'} render={() => <StaticPage url={'/about/articles'} />} />
+                    <Route path={'/about/conduct'} render={() => <StaticPage url={'/about/conduct'} />} />
+                    <Route path={'/about/privacy'} render={() => <StaticPage url={'/about/privacy'} />} />
+                    <Route path={'/about/team'} render={() => <StaticPage url={'/about/team'} />} />
+                    <Route path={'/about/acknowledgements'} render={() => <StaticPage url={'/about/acknowledgements'} />} />
+                    <Route path={'/about/contact'} render={() => <StaticPage url={'/about/contact'} />} />
+                    <Route path={'/about/copyright'} render={() => <StaticPage url={'/about/copyright'} />} />
+                    <Route exact path={'/'} render={() => <StaticPage url={'/'} />} />
                 </Switch>
             </div>
         </Router>
