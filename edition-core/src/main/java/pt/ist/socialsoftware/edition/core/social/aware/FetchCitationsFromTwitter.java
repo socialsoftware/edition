@@ -1,11 +1,14 @@
 package pt.ist.socialsoftware.edition.core.social.aware;
 
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -35,8 +38,8 @@ import twitter4j.conf.ConfigurationBuilder;
 
 public class FetchCitationsFromTwitter {
 	
-	private static final int TWEETS_PER_QUERY = 2;
-	private static final int MAX_QUERIES = 2; //Queries = pages obtained (máximo empírico até agora foi 100 páginas, máximo = 180)
+	private static final int TWEETS_PER_QUERY = 100;
+	private static final int MAX_QUERIES = 180; //Queries = pages obtained (máximo empírico até agora foi 100 páginas, máximo = 180)
 	private static final Map<String, String> TERMS_MAP = createTermsMap();
 	
 	@Atomic
@@ -46,10 +49,8 @@ public class FetchCitationsFromTwitter {
 		
 		for(String term: TERMS_MAP.keySet()) {
 			String fileName = TERMS_MAP.get(term);
-			System.out.println(term);
 			System.out.println(fileName);
-			
-		
+					
 			/****************************** Writing tweets to file *****************************/
 			int numTweets = 0;
 			long maxID = -1;
@@ -57,7 +58,10 @@ public class FetchCitationsFromTwitter {
 			String toWrite = "";
 			String formatedDate = "";
 			
-			FileOutputStream fos = null;
+			BufferedWriter bw = null;
+			FileWriter fw = null;
+			
+			//FileOutputStream fos = null;
 		    File file;
 			try{
 				
@@ -65,9 +69,9 @@ public class FetchCitationsFromTwitter {
 				String exportDir = PropertiesManager.getProperties().getProperty("social.aware.dir");
 				file = new File(exportDir + "twitter-" + fileName + "-" + timeStamp + ".json");
 				
-				//fos vs fileWriter
-				fos = new FileOutputStream(file);
-				//FileWriter fileWriter = new FileWriter(file);
+				//fos = new FileOutputStream(file); //descomentar provavelmente
+				fw = new FileWriter(file);
+				bw = new BufferedWriter(fw);
 				
 				
 				//This returns all the various rate limits in effect for us with the Twitter API
@@ -132,6 +136,7 @@ public class FetchCitationsFromTwitter {
 					//	out, but in a real application you might save them to a database, a CSV file, do some
 					//	analysis on them, whatever...
 					//  Loop through all the tweets...
+					int count = 0;
 					for (Status s: r.getTweets()) {
 						//	Increment our count of tweets retrieved
 						numTweets++;
@@ -188,11 +193,14 @@ public class FetchCitationsFromTwitter {
 								+ "profile URL: " + profURL + "\n"
 								+ "profile Picture: " + profImg + "\n"
 								+ "############################" + "\n";
+						/*
+						//Writing in txt file - old version (human readable)
+						fos.write(("Num " + count + "\n").getBytes());
+						count++;
+						fos.write(toWrite.getBytes());
+						*/
 						
-						//Writing - old version (human readable)
-						//fos.write(toWrite.getBytes());
-						
-						//Writing - JSON version
+						//Writing in json file - JSON version
 						JSONObject obj = new JSONObject();
 						obj.put("date", formatedDate);
 						obj.put("username", username);
@@ -203,9 +211,12 @@ public class FetchCitationsFromTwitter {
 					    obj.put("tweetURL", tweetURL);
 					    obj.put("profURL", profURL);
 					    obj.put("profImg", profImg);
-						fos.write(obj.toString().getBytes());
-						fos.write("\n".getBytes());
-		
+						
+					    //fos.write(obj.toString().getBytes(StandardCharsets.UTF_8));
+						//fos.write("\n".getBytes());
+						bw.write(obj.toString());
+						bw.write("\n");
+						
 						System.out.println("####################################");
 					}
 	
@@ -222,8 +233,10 @@ public class FetchCitationsFromTwitter {
 						searchTweetsRateLimit.getSecondsUntilReset(),
 						(searchTweetsRateLimit.getSecondsUntilReset())/60.0);	
 				System.out.println("++++++++++++++++++++++++++++++ OUTRO FICHEIRO ++++++++++++++++++++++++++++++");
-				fos.close();
 				
+				//fos.close();
+				bw.close();
+				fw.close();
 				
 				//Read tweetText from JSON file - org.json version: works!
 				/*
@@ -253,7 +266,6 @@ public class FetchCitationsFromTwitter {
 		            String name = (String) jsonObject.get("username");
 		            System.out.println(name);
 				} catch (ParseException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				*/
