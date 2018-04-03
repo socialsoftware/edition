@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactHTMLParser from 'react-html-parser';
+import i18next from './i18next';
 
 
 export default class StaticPage extends React.Component {
@@ -16,6 +17,7 @@ export default class StaticPage extends React.Component {
     }
 
     htmlRequest(url) {
+        console.log(url);
         fetch(url)
             .then(res => res.text())
             .then(
@@ -35,11 +37,11 @@ export default class StaticPage extends React.Component {
     }
 
     componentDidMount() {
-        this.htmlRequest(StaticPage.baseURL + this.props.url);
+        this.htmlRequest(StaticPage.baseURL + this.props.url + i18next.t('lang'));
     }
 
     componentWillReceiveProps(nextProps) {
-        this.htmlRequest(StaticPage.baseURL + nextProps.url);
+        this.htmlRequest(StaticPage.baseURL + nextProps.url + i18next.t('lang'));
     }
 
     render() {

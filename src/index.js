@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
 import { NavDropdown, MenuItem } from 'react-bootstrap';
 import ReactDOM from 'react-dom';
 import StaticPage from './staticPage';
+import i18next from './i18next';
 import './resources/css/style.css';
 import './resources/css/ldod.css';
 import './resources/css/font-awesome.min.css';
@@ -13,10 +14,10 @@ function TopBarStatic() {
         <div className={'container-fluid'}>
             <div className={'container'}>
                 <div className={'navbar-header'}>
-                    <Link to={'/'} className={'navbar-brand'}>Arquivo LdoD</Link>
+                    <Link to={'/'} className={'navbar-brand'}>{i18next.t('appName', 'en')}</Link>
                     <ul className={'nav navbar-nav navbar-right hidden-xs'}>
                         <li>
-                            <a>Iniciar Sessão</a>
+                            <a>{i18next.t('login')}</a>
                         </li>
                     </ul>
                 </div>
@@ -66,33 +67,33 @@ function TopBarList() {
                 <ul className={'nav navbar-nav navbar-nav-flex'}>
                     {/* About */}
                     <TopBarElement
-                        title={'Acerca'}
+                        title={i18next.t('topBar.about.title')}
                         baseLink={'about'}
                         subsections={[
-                            { title: 'Arquivo LdoD', link: 'archive' },
-                            { title: 'Vídeos', link: 'videos' },
-                            { title: 'Preguntas Frequentes', link: 'faq' },
-                            { title: 'Codificação de Texto', link: 'encoding' },
-                            { title: 'Bibliografia', link: 'articles' },
-                            { title: 'Código de Conduta', link: 'conduct' },
-                            { title: 'Política de Privacidade', link: 'privacy' },
-                            { title: 'Equipa Editorial', link: 'team' },
-                            { title: 'Agradecimentos', link: 'acknowledgements' },
-                            { title: 'Contacto', link: 'contact' },
-                            { title: 'Copyright', link: 'copyright' },
+                            { title: i18next.t('topBar.about.archive'), link: 'archive' },
+                            { title: i18next.t('topBar.about.videos'), link: 'videos' },
+                            { title: i18next.t('topBar.about.faq'), link: 'faq' },
+                            { title: i18next.t('topBar.about.encoding'), link: 'encoding' },
+                            { title: i18next.t('topBar.about.articles'), link: 'articles' },
+                            { title: i18next.t('topBar.about.conduct'), link: 'conduct' },
+                            { title: i18next.t('topBar.about.privacy'), link: 'privacy' },
+                            { title: i18next.t('topBar.about.team'), link: 'team' },
+                            { title: i18next.t('topBar.about.acknowledgements'), link: 'acknowledgements' },
+                            { title: i18next.t('topBar.about.contact'), link: 'contact' },
+                            { title: i18next.t('topBar.about.copyright'), link: 'copyright' },
                         ]} />
                     {/* Reading */}
-                    <TopBarElement title={'Leitura'} baseLink={'reading'} />
+                    <TopBarElement title={i18next.t('topBar.reading')} baseLink={'reading'} />
                     {/* Documents */}
                     <TopBarElement
-                        title={'Documentos'}
+                        title={i18next.t('topBar.documents.title')}
                         subsections={[
-                            { title: 'Testemunhos', link: 'source/list' },
-                            { title: 'Fragmentos Codificados', link: 'fragments' },
+                            { title: i18next.t('topBar.documents.witnesses'), link: 'source/list' },
+                            { title: i18next.t('topBar.documents.fragments'), link: 'fragments' },
                         ]} />
                     {/* Editions */}
                     <TopBarElement
-                        title={'Edições'}
+                        title={i18next.t('topBar.editions.title')}
                         baseLink={'edition'}
                         subsections={[
                             { title: 'Jacinto do Prado Coelho', link: 'acronym/JPC' },
@@ -106,25 +107,26 @@ function TopBarList() {
                         division={5} />
                     {/* Search */}
                     <TopBarElement
-                        title={'Pesquisa'}
+                        title={i18next.t('topBar.search.title')}
                         baseLink={'search'}
                         subsections={[
-                            { title: 'Pesquisa Simples', link: 'simple' },
-                            { title: 'Pesquisa Avançada', link: 'advanced' },
+                            { title: i18next.t('topBar.search.simple'), link: 'simple' },
+                            { title: i18next.t('topBar.search.advanced'), link: 'advanced' },
                         ]} />
                     {/* Virtual */}
-                    <TopBarElement title={'Virtual'} baseLink={'virtualeditions'} />
+                    <TopBarElement title={i18next.t('topBar.virtual')} baseLink={'virtualeditions'} />
                     {/* Lang */}
                     <li className={'nav-lang'} >
-                        <a className={'active'}>PT</a>
-                        <a>EN</a>
-                        <a>ES</a>
+                        <a onClick={() => i18next.changeLanguage('pt')}>PT</a>
+                        <a onClick={() => i18next.changeLanguage('en')}>EN</a>
+                        <a onClick={() => i18next.changeLanguage('es')}>ES</a>
                     </li>
                 </ul>
             </div>
         </div>
     );
 }
+
 
 function TopBar() {
     return (
