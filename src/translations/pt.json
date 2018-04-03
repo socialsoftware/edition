@@ -1,0 +1,39 @@
+{
+  "translation": {
+    "appName" : "Arquivo LdoD",
+    "login" : "Iniciar Sessão",
+    "topBar" : {
+      "about" : {
+        "title" : "Acerca",
+        "archive" : "Arquivo",
+        "videos" : "Vídeos",
+        "faq" : "Perguntas Frequentes",
+        "encoding" : "Codificação de Texto",
+        "articles" : "Bibliografia",
+        "conduct" : "Código de Conduta",
+        "privacy" : "Política de Privacidade",
+        "team" : "Equipa Editorial",
+        "acknowledgements" : "Agradecimentos",
+        "contact" : "Contacto",
+        "copyright" : "Copyright"
+      },
+      "reading" : "Leitura",
+      "documents" : {
+        "title" : "Documentos",
+        "witnesses" : "Testemunhos",
+        "fragments" : "Fragmentos Codificados"
+      },
+      "editions" : {
+        "title" : "Edições"
+      },
+      "search" : {
+        "title" : "Pesquisa",
+        "simple" : "Pesquisa Simples",
+        "advanced" : "Pesquisa Avançada"
+      },
+      "virtual" : "Virtual"
+    },
+
+    "lang" : "?lang=pt"
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "translation": {
+    "appName" : "LdoD Archive",
+    "login" : "Login",
+    "topBar" : {
+      "about" : {
+        "title" : "About",
+        "archive" : "LdoD Archive",
+        "videos" : "Videos",
+        "faq" : "Frequently Asked Questions",
+        "encoding" : "Text Encoding",
+        "articles" : "Bibliography",
+        "conduct" : "Code of Conduct",
+        "privacy" : "Privacy Policy",
+        "team" : "Editorial Team",
+        "acknowledgements" : "Acknowledgements",
+        "contact" : "Contact Us",
+        "copyright" : "Copyright"
+      },
+      "reading" : "Reading",
+      "documents" : {
+        "title" : "Documents",
+        "witnesses" : "Witnesses",
+        "fragments" : "Encoded Fragments"
+      },
+      "editions" : {
+        "title" : "Editions"
+      },
+      "search" : {
+        "title" : "Search",
+        "simple" : "Simple Search",
+        "advanced" : "Advanced Search"
+      },
+      "virtual" : "Virtual"
+    },
+
+    "lang" : "?lang=en"
+  }
+}
