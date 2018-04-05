@@ -60,6 +60,40 @@ function TopBarElement(props) {
     );
 }
 
+class LangToggle extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            active: {
+                pt: true,
+                en: false,
+                es: false,
+            },
+        };
+        this.handleClick = this.handleClick.bind(this);
+    }
+
+    handleClick(lang) {
+        const active = this.state.active;
+        Object.keys(active).forEach(el => active[el] = false);
+        active[lang] = true;
+        i18next.changeLanguage(lang);
+        this.setState(active);
+    }
+
+
+    render() {
+        const active = this.state.active;
+        return (
+            <li className={'nav-lang'}>
+                <a onClick={() => this.handleClick('pt')} className={active.pt ? 'active' : ''}>PT</a>
+                <a onClick={() => this.handleClick('en')} className={active.en ? 'active' : ''}>EN</a>
+                <a onClick={() => this.handleClick('es')} className={active.es ? 'active' : ''}>ES</a>
+            </li>
+        );
+    }
+}
+
 function TopBarList() {
     return (
         <div className={'container'}>
@@ -116,11 +150,7 @@ function TopBarList() {
                     {/* Virtual */}
                     <TopBarElement title={i18next.t('topBar.virtual')} baseLink={'virtualeditions'} />
                     {/* Lang */}
-                    <li className={'nav-lang'} >
-                        <a onClick={() => i18next.changeLanguage('pt')}>PT</a>
-                        <a onClick={() => i18next.changeLanguage('en')}>EN</a>
-                        <a onClick={() => i18next.changeLanguage('es')}>ES</a>
-                    </li>
+                    <LangToggle />
                 </ul>
             </div>
         </div>
