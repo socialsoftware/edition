@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactHTMLParser from 'react-html-parser';
+import { injectIntl } from 'react-intl';
 
-
-export default class StaticPage extends React.Component {
+class StaticPage extends React.Component {
 
     static baseURL = 'http://1.1.1.10:8080';
 
@@ -14,6 +14,7 @@ export default class StaticPage extends React.Component {
             html: '',
         };
     }
+
 
     htmlRequest(url) {
         fetch(url)
@@ -35,11 +36,13 @@ export default class StaticPage extends React.Component {
     }
 
     componentDidMount() {
-        this.htmlRequest(StaticPage.baseURL + this.props.url);
+        const lang = this.props.intl.formatMessage({ id: 'lang' });
+        this.htmlRequest(StaticPage.baseURL + this.props.url + lang);
     }
 
     componentWillReceiveProps(nextProps) {
-        this.htmlRequest(StaticPage.baseURL + nextProps.url);
+        const lang = this.props.intl.formatMessage({ id: 'lang' });
+        this.htmlRequest(StaticPage.baseURL + nextProps.url + lang);
     }
 
     render() {
@@ -57,3 +60,6 @@ export default class StaticPage extends React.Component {
         );
     }
 }
+
+
+export default injectIntl(StaticPage);
