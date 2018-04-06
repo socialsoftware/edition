@@ -7,17 +7,17 @@ import en from 'react-intl/locale-data/en';
 import es from 'react-intl/locale-data/es';
 import TopBar from './topBar';
 import StaticPage from './staticPage';
+import localeData from './resources/locales/data.json';
 import './resources/css/style.css';
 import './resources/css/ldod.css';
 import './resources/css/font-awesome.min.css';
 import './resources/css/bootstrap.min.css';
 
-import localeData from './resources/locales/data.json';
 
 addLocaleData(pt);
 addLocaleData(es);
 addLocaleData(en);
-// addLocaleData([pt, en, es]);
+
 
 // Define user's language. Different browsers have the user locale defined
 // on different fields on the `navigator` object, so we make sure to account

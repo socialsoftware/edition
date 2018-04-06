@@ -2,6 +2,7 @@
     "name": "my-ldod",
     "dependencies": {
         "bootstrap": "^3.3.7",
+        "i18next": "^10.6.0",
         "jquery": "^3.3.1",
         "react": "^15.5.4",
         "react-bootstrap": "^0.32.1",
@@ -9,6 +10,7 @@
         "react-html-parser": "^2.0.2",
         "react-intl": "^2.4.0",
         "react-router-dom": "^4.2.2",
+        "save": "^2.3.2",
         "url-loader": "^1.0.1"
     },
     "version": "0.1.0",

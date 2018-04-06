@@ -17,6 +17,7 @@ class StaticPage extends React.Component {
 
 
     htmlRequest(url) {
+        console.log(url);
         fetch(url)
             .then(res => res.text())
             .then(
