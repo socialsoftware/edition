@@ -62,3 +62,9 @@ div .checkbox{
 
 a { cursor: pointer; }
 
+.navbar-default .navbar-nav .open .dropdown-menu > .active > a,
+.navbar-default .navbar-nav .open .dropdown-menu > .active > a:hover,
+.navbar-default .navbar-nav .open .dropdown-menu > .active > a:focus {
+    color: black;
+    background-color: transparent;
+}

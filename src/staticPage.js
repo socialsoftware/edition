@@ -8,10 +8,13 @@ class StaticPage extends React.Component {
 
     constructor(props) {
         super(props);
+        const langConst = `/?lang=${props.intl.locale.split(/[_-]+/)[0]}`;
         this.state = {
             error: null,
             isLoaded: false,
             html: '',
+            lang: langConst,
+            url: StaticPage.baseURL + props.url,
         };
     }
 
@@ -37,13 +40,17 @@ class StaticPage extends React.Component {
     }
 
     componentDidMount() {
-        const lang = this.props.intl.formatMessage({ id: 'lang' });
-        this.htmlRequest(StaticPage.baseURL + this.props.url + lang);
+        this.htmlRequest(this.state.url + this.state.lang);
+        window.scrollTo(0, 0);
     }
 
     componentWillReceiveProps(nextProps) {
-        const lang = this.props.intl.formatMessage({ id: 'lang' });
-        this.htmlRequest(StaticPage.baseURL + nextProps.url + lang);
+        const state = this.state;
+        state.url = StaticPage.baseURL + nextProps.url;
+        state.lang = `/?lang=${nextProps.intl.locale.split(/[_-]+/)[0]}`;
+        this.htmlRequest(state.url + state.lang);
+        this.setState(state);
+        window.scrollTo(0, 0);
     }
 
     render() {

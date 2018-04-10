@@ -1,5 +1,5 @@
 {
-  "pt-PT": {
+  "pt": {
     "appName" : "Arquivo LdoD",
     "login" : "Iniciar Sessão",
     "topBar.about.title" : "Acerca",
@@ -25,7 +25,7 @@
     "topBar.virtual.title" : "Virtual",
     "lang" : "?lang=pt"
   },
-  "en-GB" : {
+  "en" : {
     "appName" : "LdoD Archive",
     "login" : "Login",
     "topBar.about.title" : "About",
@@ -51,7 +51,7 @@
     "topBar.virtual.title" : "Virtual",
     "lang" : "?lang=en"
   },
-  "es-ES" : {
+  "es" : {
     "appName" : "Archivo LdoD",
     "login" : "Iniciar Sesión",
     "topBar.about.title" : "Acerca",

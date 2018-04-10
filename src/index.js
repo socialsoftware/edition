@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import ReactDOM from 'react-dom';
+import PropTypes from 'prop-types';
 import { IntlProvider, addLocaleData } from 'react-intl';
 import pt from 'react-intl/locale-data/pt';
 import en from 'react-intl/locale-data/en';
@@ -8,10 +9,10 @@ import es from 'react-intl/locale-data/es';
 import TopBar from './topBar';
 import StaticPage from './staticPage';
 import localeData from './resources/locales/data.json';
-import './resources/css/style.css';
 import './resources/css/ldod.css';
 import './resources/css/font-awesome.min.css';
 import './resources/css/bootstrap.min.css';
+import './resources/css/style.css';
 
 
 addLocaleData(pt);
@@ -32,7 +33,7 @@ const messages = localeData[languageWithoutRegionCode] || localeData[language] |
 
 class UpdateableIntlProvider extends React.Component {
     static childContextTypes = {
-        updateLocale: React.PropTypes.func,
+        updateLocale: PropTypes.func,
     };
 
     constructor(props) {
@@ -41,7 +42,6 @@ class UpdateableIntlProvider extends React.Component {
             locale: props.locale,
             myMessages: props.messages,
         };
-        console.log(typeof language);
     }
 
     getChildContext() {
@@ -73,6 +73,7 @@ function App() {
                     <Switch>
                         <Route path={'/about/archive'} render={() => <StaticPage url={'/about/archive'} />} />
                         <Route path={'/about/videos'} render={() => <StaticPage url={'/about/videos'} />} />
+                        <Route path={'/about/faq'} render={() => <StaticPage url={'/about/faq'} />} />
                         <Route path={'/about/encoding'} render={() => <StaticPage url={'/about/encoding'} />} />
                         <Route path={'/about/articles'} render={() => <StaticPage url={'/about/articles'} />} />
                         <Route path={'/about/conduct'} render={() => <StaticPage url={'/about/conduct'} />} />

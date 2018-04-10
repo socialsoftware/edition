@@ -1,6 +1,7 @@
 import React from 'react';
-import { Link, Route } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { NavDropdown, MenuItem } from 'react-bootstrap';
+import { LinkContainer } from 'react-router-bootstrap';
 import { FormattedMessage } from 'react-intl';
 import LanguageToggle from './languageToggle';
 
@@ -35,12 +36,16 @@ function TopBarElement(props) {
         baseLink = `/${props.baseLink}`;
     }
     const subsecs = props.subsections.map(subsection =>
-        (<Route render={({ history }) => (
-            <MenuItem
-                onClick={() => { history.push(`${baseLink}/${subsection.link}`); }}>
-                {subsection.title}
-            </MenuItem>
-        )} />));
+        (<LinkContainer to={`${baseLink}/${subsection.link}`}>
+            <MenuItem>{subsection.title}</MenuItem>
+        </LinkContainer>),
+    );
+        // (<Route render={({ history }) => (
+        //     <MenuItem
+        //         onClick={() => { history.push(`${baseLink}/${subsection.link}`); }}>
+        //         {subsection.title}
+        //     </MenuItem>
+        // )} />));
 
 
     if (props.division) {
