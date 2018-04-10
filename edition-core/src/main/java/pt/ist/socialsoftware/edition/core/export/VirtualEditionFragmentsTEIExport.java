@@ -1,5 +1,7 @@
 package pt.ist.socialsoftware.edition.core.export;
 
+import java.util.stream.Collectors;
+
 import org.apache.commons.lang.StringEscapeUtils;
 import org.jdom2.Attribute;
 import org.jdom2.Document;
@@ -9,7 +11,7 @@ import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 
 import pt.ist.fenixframework.Atomic;
-import pt.ist.socialsoftware.edition.core.domain.Annotation;
+import pt.ist.socialsoftware.edition.core.domain.HumanAnnotation;
 import pt.ist.socialsoftware.edition.core.domain.Category;
 import pt.ist.socialsoftware.edition.core.domain.Fragment;
 import pt.ist.socialsoftware.edition.core.domain.LdoD;
@@ -96,9 +98,13 @@ public class VirtualEditionFragmentsTEIExport {
 			}
 		}
 	}
-
+	
+	
+	//Foi alterado por causa das human annotations
 	private void exportVirtualEditionInterAnnotations(Element textClass, VirtualEditionInter virtualEditionInter) {
-		for (Annotation annotation : virtualEditionInter.getAnnotationSet()) {
+		for (HumanAnnotation annotation : virtualEditionInter.getAnnotationSet()
+				.stream().filter(HumanAnnotation.class::isInstance)
+				.map(HumanAnnotation.class::cast).collect(Collectors.toSet())) {
 			Element note = new Element("note", this.xmlns);
 			note.setAttribute("resp", "#" + annotation.getUser().getUsername());
 			note.setText(StringEscapeUtils.unescapeHtml(annotation.getText()));

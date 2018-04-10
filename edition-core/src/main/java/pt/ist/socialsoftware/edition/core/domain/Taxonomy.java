@@ -150,7 +150,7 @@ public class Taxonomy extends Taxonomy_Base {
 		return newCategory;
 	}
 
-	public void createTag(VirtualEditionInter virtualEditionInter, String categoryName, Annotation annotation,
+	public void createTag(VirtualEditionInter virtualEditionInter, String categoryName, HumanAnnotation annotation,
 			LdoDUser ldoDUser) {
 		if (!getOpenVocabulary() && getCategory(categoryName) == null) {
 			return;

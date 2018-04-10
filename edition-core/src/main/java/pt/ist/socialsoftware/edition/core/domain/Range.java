@@ -4,7 +4,7 @@ import pt.ist.socialsoftware.edition.core.domain.Range_Base;
 
 public class Range extends Range_Base {
 
-	public Range(Annotation annotation, String start, int startOffset,
+	public Range(HumanAnnotation annotation, String start, int startOffset,
 			String end, int endOffset) {
 		setAnnotation(annotation);
 		setStart(start);

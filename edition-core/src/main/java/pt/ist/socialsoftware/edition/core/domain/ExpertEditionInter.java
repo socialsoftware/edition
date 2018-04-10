@@ -147,7 +147,7 @@ public class ExpertEditionInter extends ExpertEditionInter_Base {
 	}
 
 	@Override
-	public Set<Annotation> getAllDepthAnnotations() {
+	public Set<HumanAnnotation> getAllDepthHumanAnnotations() {
 		return new HashSet<>();
 	}
 

@@ -563,9 +563,12 @@ public class VirtualEdition extends VirtualEdition_Base {
 		return getAllDepthCategories().stream().sorted((c1, c2) -> c1.getName().compareTo(c2.getName()))
 				.collect(Collectors.toList());
 	}
-
-	public List<Annotation> getAnnotationList() {
+	
+	//Foi alterado por causa das human annotations
+	public List<HumanAnnotation> getAnnotationList() {
 		return getAllDepthVirtualEditionInters().stream().flatMap(i -> i.getAnnotationSet().stream())
+				.filter(HumanAnnotation.class::isInstance)
+				.map(HumanAnnotation.class::cast)
 				.collect(Collectors.toList());
 	}
 

@@ -20,8 +20,8 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-//import org.json.JSONException;
-//import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.socialsoftware.edition.core.utils.PropertiesManager;
@@ -38,6 +38,7 @@ import twitter4j.conf.ConfigurationBuilder;
 
 public class FetchCitationsFromTwitter {
 	
+	private static Logger logger = LoggerFactory.getLogger(FetchCitationsFromTwitter.class);
 	private static final int TWEETS_PER_QUERY = 100;
 	private static final int MAX_QUERIES = 180; //Queries = pages obtained (máximo empírico até agora foi 100 páginas, máximo = 180)
 	private static final Map<String, String> TERMS_MAP = createTermsMap();
@@ -45,7 +46,6 @@ public class FetchCitationsFromTwitter {
 	@Atomic
 	public void fetch() throws IOException {
 		Twitter twitter = getTwitterinstance();
-		
 		
 		for(String term: TERMS_MAP.keySet()) {
 			String fileName = TERMS_MAP.get(term);
@@ -58,10 +58,9 @@ public class FetchCitationsFromTwitter {
 			String toWrite = "";
 			String formatedDate = "";
 			
+			//FileOutputStream fos = null;
 			BufferedWriter bw = null;
 			FileWriter fw = null;
-			
-			//FileOutputStream fos = null;
 		    File file;
 			try{
 				
@@ -278,7 +277,8 @@ public class FetchCitationsFromTwitter {
 				te.printStackTrace();
 				System.out.println("Failed to search tweets!!: " + te.getMessage());
 			}
-		}	
+		}
+		logger.debug("Fim do Fetch Citations");
 		
 	}
 	

@@ -184,7 +184,7 @@ public class SourceInter extends SourceInter_Base {
 	}
 
 	@Override
-	public Set<Annotation> getAllDepthAnnotations() {
+	public Set<HumanAnnotation> getAllDepthHumanAnnotations() {
 		return new HashSet<>();
 	}
 

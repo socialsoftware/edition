@@ -564,13 +564,17 @@ class Annotation {
 	String text;
 }
 
-relation AnnotationHasBeginSimpleText {
-	Annotation playsRole startAnnotations {multiplicity 0..*;}
+class HumanAnnotation extends Annotation;
+
+class AwareAnnotation extends Annotation;
+
+relation HumanAnnotationHasBeginSimpleText {
+	HumanAnnotation playsRole startAnnotations {multiplicity 0..*;}
 	SimpleText playsRole startText {multiplicity 0..1;}
 }
 
-relation AnnotationHasEndSimpleText {
-	Annotation playsRole endAnnotations {multiplicity 0..*;}
+relation HumanAnnotationHasEndSimpleText {
+	HumanAnnotation playsRole endAnnotations {multiplicity 0..*;}
 	SimpleText playsRole endText {multiplicity 0..1;}
 }
 
@@ -579,9 +583,9 @@ relation VirtualEditionInterHasAnnotations {
   Annotation playsRole annotation {multiplicity 0..*;}
 }
 
-relation LdoDUserWritesAnnotations {
+relation LdoDUserWritesHumanAnnotations {
 	LdoDUser playsRole user {multiplicity 1..1;}
-	Annotation playsRole annotation {multiplicity 0..*;}
+	HumanAnnotation playsRole annotation {multiplicity 0..*;}
 }
 
 class Range {
@@ -596,8 +600,8 @@ relation AnnotationHasRanges {
   Range playsRole range {multiplicity 0..*;}
 }
 
-relation AnnotationHasTags {
-  Annotation playsRole annotation {multiplicity 0..1;}
+relation HumanAnnotationHasTags {
+  HumanAnnotation playsRole annotation {multiplicity 0..1;}
   Tag playsRole tag {multiplicity 0..*;}
 }
 
@@ -636,4 +640,30 @@ relation SectionHasSections{
 relation SectionHasVitualEditionInters{
 	Section playsRole section {multiplicity 1..1;}
 	VirtualEditionInter playsRole VirtualEditionInter {multiplicity 0..*;}
+}
+
+class Citation {
+	String sourceLink;
+	String date;
+	String fragText;	
+}
+
+class TwitterCitation extends Citation {
+	String tweetText;
+	String tweetID;
+	String location;
+	String country;
+	String username;
+	String userProfileURL;
+	String userImageURL;
+}
+
+relation CitationHasAwareAnnotations {
+	AwareAnnotation playsRole awareAnnotations {multiplicity 0..*;}
+	Citation playsRole citation {multiplicity 0..1;}
+}
+
+relation FragmentHasCitations {
+	Citation playsRole citations {multiplicity 0..*;}
+	Fragment playsRole fragment {multiplicity 0..1;}
 }

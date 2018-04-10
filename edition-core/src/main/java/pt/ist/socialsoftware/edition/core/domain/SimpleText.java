@@ -22,11 +22,11 @@ public class SimpleText extends SimpleText_Base {
 
 	@Override
 	public void remove() {
-		for (Annotation annotation : getStartAnnotationsSet()) {
+		for (HumanAnnotation annotation : getStartAnnotationsSet()) {
 			annotation.remove();
 		}
 
-		for (Annotation annotation : getEndAnnotationsSet()) {
+		for (HumanAnnotation annotation : getEndAnnotationsSet()) {
 			annotation.remove();
 		}
 

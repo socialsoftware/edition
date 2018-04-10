@@ -6,7 +6,7 @@ import java.util.List;
 
 import org.apache.commons.lang.StringEscapeUtils;
 
-import pt.ist.socialsoftware.edition.core.domain.Annotation;
+import pt.ist.socialsoftware.edition.core.domain.HumanAnnotation;
 import pt.ist.socialsoftware.edition.core.domain.Range;
 import pt.ist.socialsoftware.edition.core.domain.Tag;
 
@@ -26,7 +26,7 @@ public class AnnotationDTO implements Serializable {
 	public AnnotationDTO() {
 	}
 
-	public AnnotationDTO(Annotation annotation) {
+	public AnnotationDTO(HumanAnnotation annotation) {
 		setId(annotation.getExternalId());
 		setQuote(StringEscapeUtils.unescapeHtml(annotation.getQuote()));
 		setText(StringEscapeUtils.unescapeHtml(annotation.getText()));

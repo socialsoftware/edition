@@ -103,7 +103,7 @@ public abstract class FragInter extends FragInter_Base implements Comparable<Fra
 		return results;
 	}
 
-	public abstract Set<Annotation> getAllDepthAnnotations();
+	public abstract Set<HumanAnnotation> getAllDepthHumanAnnotations();
 
 	public abstract Set<Tag> getAllDepthTags();
 

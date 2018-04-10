@@ -55,7 +55,9 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.JSONObject;
 
 import pt.ist.fenixframework.Atomic;
+import pt.ist.socialsoftware.edition.core.domain.Citation;
 import pt.ist.socialsoftware.edition.core.domain.LdoD;
+import pt.ist.socialsoftware.edition.core.domain.TwitterCitation;
 import pt.ist.socialsoftware.edition.core.search.IgnoreDiacriticsAnalyzer;
 import pt.ist.socialsoftware.edition.core.utils.PropertiesManager;
 
@@ -158,7 +160,7 @@ public class CitationDetecter {
 			File file = new File(exportDir + "twitter-" + fileName + "-" + timeStamp + ".json");
 			
 			try {
-				List<JSONObject> json = new ArrayList<JSONObject>();
+				List<JSONObject> json = new ArrayList<JSONObject>(); //acho q não é preciso
 			    JSONObject obj = new JSONObject();
 			    String line = null;
 		        BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
@@ -166,7 +168,7 @@ public class CitationDetecter {
 		        	obj = (JSONObject) new JSONParser()
 							.parse(new InputStreamReader(
 									(InputStream) new ByteArrayInputStream(line.getBytes(StandardCharsets.UTF_8)), StandardCharsets.UTF_8)); //a ver se funciona
-					json.add(obj);
+					json.add(obj); //acho q não é preciso
 					
 					String tweetText = (String)obj.get("text");
 					String tweetTextSubstring = tweetText; //caso não tenha o "http"
@@ -187,22 +189,13 @@ public class CitationDetecter {
 					bw.write("\n");
 					
 					count++;
-					//searchQueryParser("Detesto a leitura");
-					/*
-					searchQueryParser("Agir,  \r\n" + 
-							"Eis a inteligência verdadeira.\r\n" + 
-							"Serei o que quiser.\r\n" + 
-							"Mas tenho que querer o que for.\r\n" + 
-							"O êxito está em ter êxito,\r\n" + 
-							"E não em ter condições de êxito.\r\n" + 
-							"Condições de palácio\r\n" + 
-							"Tem qualquer terra larga,\r\n" + 
-							"Mas onde estará o palácio\r\n" + 
-							"Se não o fizerem ali?");
-					*/
-					searchQueryParser(tweetTextSubstring); //descomentar
-					//searchQueryParser(absoluteSearch(tweetTextSubstring)); //demasiado rígida, nao funciona no nosso caso
-		            System.out.println("-------------------------------- NEXT!!!!!!!!!!!!!!!!!! -----------------------------------------");
+					
+					if(!tweetTextSubstring.equals("")) {
+						searchQueryParserJSON(tweetTextSubstring, obj); //descomentar
+						//searchQueryParser(absoluteSearch(tweetTextSubstring)); //demasiado rígida, nao funciona no nosso caso
+					}
+					
+					System.out.println("-------------------------------- NEXT!!!!!!!!!!!!!!!!!! -----------------------------------------");
 		            bw.write("-------------------------------- NEXT!!!!!!!!!!!!!!!!!! -----------------------------------------");
 		            bw.write("\n");
 		        }
@@ -219,6 +212,98 @@ public class CitationDetecter {
 		}
 		bw.close();
 		fw.close();
+	}
+	
+	public static void searchQueryParserJSON(String query, JSONObject obj) throws ParseException, org.apache.lucene.queryparser.classic.ParseException, IOException {
+        QueryParser parser = new QueryParser(TEXT, analyzer);
+        Query parsedQuery = parser.parse(QueryParser.escape(query)); //escape foi a solução porque ele stressava com o EOF
+        
+        System.out.println("ParsedQuery: " + parsedQuery.toString());
+        System.out.println("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||");
+        bw.write("ParsedQuery: " + parsedQuery.toString());
+        bw.write("\n");
+        bw.write("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||");
+        bw.write("\n");
+        
+        searchIndexAndDisplayResultsJSON(parsedQuery, obj);
+    }
+	
+	
+	public static void searchIndexAndDisplayResultsJSON(Query query, JSONObject obj) {
+	    try {
+	    	int hitsPerPage = 5;
+			Directory directory = new NIOFSDirectory(docDir); //descomentar
+			IndexReader idxReader = DirectoryReader.open(directory);
+	        IndexSearcher idxSearcher = new IndexSearcher(idxReader);
+	
+	        ScoreDoc[] hits = idxSearcher.search(query, hitsPerPage).scoreDocs;
+	        /*
+	        System.out.println("Found " + hits.length + " hits");
+	        for (int i = 0; i < hits.length; i++) {
+				int docId = hits[i].doc;
+				float score = hits[i].score;
+
+				Document d = idxSearcher.doc(docId);
+				System.out.println((i + 1) + "." + " Text: " + d.get(TEXT) + "\n" +
+									"DocID: " + docId + "\t" + "FragInter ID: " + d.get(ID) + "\t" + " Score: " + score);
+				System.out.println("--------------------------------------------------------\n");
+			}
+			*/
+	        if(hits.length > 0) {
+		        int docId = hits[0].doc;
+				float score = hits[0].score;
+				if(score > 30) {	
+					Document d = idxSearcher.doc(docId);
+					
+						if(hits.length > 1) {
+							//Same frag
+					        boolean sameFrag = false;
+							if(LdoD.getInstance().getFragmentByXmlId(d.get(ID))
+									== LdoD.getInstance().getFragmentByXmlId(idxSearcher.doc(hits[1].doc).get(ID))) {
+								sameFrag = true;
+							};
+							System.out.println(sameFrag);
+						}
+					
+					System.out.println("Text: " + d.get(TEXT) + "\n" +
+										"DocID: " + docId + "\t" + "FragInter ID: " + d.get(ID) + "\t" + " Score: " + score);
+					System.out.println("--------------------------------------------------------\n");
+					bw.write("Text: " + d.get(TEXT) + "\n" +
+							"DocID: " + docId + "\t" + "FragInter ID: " + d.get(ID) + "\t" + " Score: " + score);
+					bw.write("\n");
+					bw.write("--------------------------------------------------------\n");
+					bw.write("\n");
+					
+					/*
+					//create citations
+					TwitterCitation c = new TwitterCitation();
+					c.setSourceLink((String)obj.get("tweetURL"));
+					c.setDate((String)obj.get("date"));
+					c.setFragText(d.get(TEXT));
+					c.setTweetText((String)obj.get("text"));
+					c.setTweetID((String)obj.get("tweetID"));
+					c.setLocation((String)obj.get("location"));
+					c.setCountry((String)obj.get("country"));
+					c.setUsername((String)obj.get("username"));
+					c.setUserProfileURL((String)obj.get("profURL"));
+					c.setUserImageURL((String)obj.get("profImg"));
+					*/
+					
+					
+					
+				}
+				else {
+					bw.write("SCORE IS TOO LOW: " + score);
+					bw.write("\n");
+					bw.write("--------------------------------------------------------\n");
+					bw.write("\n");
+				}
+	        }	
+			directory.close(); //descomentar!!
+			//idxReader.close(); 
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    } 
 	}
 	
 	public static void searchQueryParser(String query) throws ParseException, org.apache.lucene.queryparser.classic.ParseException, IOException {
@@ -258,7 +343,7 @@ public class CitationDetecter {
 	        if(hits.length > 0) {
 		        int docId = hits[0].doc;
 				float score = hits[0].score;
-				if(score > 29) {	
+				if(score > 30) {	
 					Document d = idxSearcher.doc(docId);
 					
 						if(hits.length > 1) {
@@ -279,6 +364,10 @@ public class CitationDetecter {
 					bw.write("\n");
 					bw.write("--------------------------------------------------------\n");
 					bw.write("\n");
+					
+					//create citations
+					TwitterCitation c = new TwitterCitation();
+					
 				}
 				else {
 					bw.write("SCORE IS TOO LOW: " + score);
