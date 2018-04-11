@@ -1,72 +1,18 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import ReactDOM from 'react-dom';
-import PropTypes from 'prop-types';
-import { IntlProvider, addLocaleData } from 'react-intl';
-import pt from 'react-intl/locale-data/pt';
-import en from 'react-intl/locale-data/en';
-import es from 'react-intl/locale-data/es';
 import TopBar from './topBar';
 import StaticPage from './staticPage';
-import localeData from './resources/locales/data.json';
+import UpdatableIntlProvider from './updatableIntlProvider';
 import './resources/css/ldod.css';
 import './resources/css/font-awesome.min.css';
 import './resources/css/bootstrap.min.css';
 import './resources/css/style.css';
 
 
-addLocaleData(pt);
-addLocaleData(es);
-addLocaleData(en);
-
-
-// Define user's language. Different browsers have the user locale defined
-// on different fields on the `navigator` object, so we make sure to account
-// for these different by checking all of them
-const language = (navigator.languages && navigator.languages[0]) || navigator.language;
-
-// Split locales with a region code
-const languageWithoutRegionCode = language.toLowerCase().split(/[_-]+/)[0];
-
-// Try full locale, try locale without region code, fallback to 'en'
-const messages = localeData[languageWithoutRegionCode] || localeData[language] || localeData['pt-PT'];
-
-class UpdateableIntlProvider extends React.Component {
-    static childContextTypes = {
-        updateLocale: PropTypes.func,
-    };
-
-    constructor(props) {
-        super(props);
-        this.state = {
-            locale: props.locale,
-            myMessages: props.messages,
-        };
-    }
-
-    getChildContext() {
-        return { updateLocale: this.updateLocale };
-    }
-
-    updateLocale = (locale) => {
-        const myMessages = localeData[locale];
-        this.setState({ locale, myMessages });
-    }
-
-    render() {
-        return (
-            <IntlProvider
-                messages={this.state.myMessages}
-                locale={this.state.locale}>
-                {this.props.children}
-            </IntlProvider>
-        );
-    }
-}
-
 function App() {
     return (
-        <UpdateableIntlProvider locale={language} messages={messages}>
+        <UpdatableIntlProvider>
             <Router>
                 <div>
                     <TopBar />
@@ -86,7 +32,7 @@ function App() {
                     </Switch>
                 </div>
             </Router>
-        </UpdateableIntlProvider>
+        </UpdatableIntlProvider>
     );
 }
 
