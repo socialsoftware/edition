@@ -1,7 +1,18 @@
 import React from 'react';
-import ReactHTMLParser from 'react-html-parser';
+import { Link } from 'react-router-dom';
+import ReactHTMLParser, { convertNodeToElement } from 'react-html-parser';
 import { injectIntl } from 'react-intl';
 
+
+function transform(node) {
+    if (node.type === 'tag' && node.name === 'a' && node.attribs.href) {
+        return (<Link
+            to={node.attribs.href}>
+            {node.children.map((child, index) => convertNodeToElement(child, index, transform))}
+        </Link>);
+    }
+    return undefined;
+}
 class StaticPage extends React.Component {
 
     static baseURL = 'http://1.1.1.10:8080';
@@ -20,7 +31,6 @@ class StaticPage extends React.Component {
 
 
     htmlRequest(url) {
-        console.log(url);
         fetch(url)
             .then(res => res.text())
             .then(
@@ -28,7 +38,7 @@ class StaticPage extends React.Component {
                     this.setState({
                         isLoaded: true,
                         // The response is an array with only 1 element, the element body
-                        html: ReactHTMLParser(result)[0],
+                        html: result,
                     });
                 },
                 (error) => {
@@ -54,7 +64,9 @@ class StaticPage extends React.Component {
     }
 
     render() {
+        const options = { transform };
         const { error, isLoaded, html } = this.state;
+        const parsedHTML = ReactHTMLParser(html, options)[0];
         if (this.state.error) {
             return <div>Error: {error.message}</div>;
         } else if (!isLoaded) {
@@ -62,8 +74,7 @@ class StaticPage extends React.Component {
         }
         return (
             <div className={'container ldod-default'}>
-                {/* The response comes with entire body. props.children removes the element body */}
-                {html.props.children}
+                {parsedHTML.props.children}
             </div>
         );
     }

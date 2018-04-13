@@ -28,6 +28,7 @@ function App() {
                         <Route path={'/about/acknowledgements'} render={() => <StaticPage url={'/about/acknowledgements'} />} />
                         <Route path={'/about/contact'} render={() => <StaticPage url={'/about/contact'} />} />
                         <Route path={'/about/copyright'} render={() => <StaticPage url={'/about/copyright'} />} />
+                        <Route path={'/reading'} render={() => <StaticPage url={'/reading'} />} />
                         <Route exact path={'/'} render={() => <StaticPage url={'/'} />} />
                     </Switch>
                 </div>

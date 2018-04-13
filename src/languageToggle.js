@@ -23,7 +23,7 @@ class LanguageToggle extends React.Component {
 
     handleClick(lang) {
         const active = this.state.active;
-        Object.keys(active).forEach(value => active[value] = false);
+        Object.keys(active).forEach((value) => { active[value] = false; });
         active[lang] = true;
         this.context.updateLocale(lang);
         this.setState(active);

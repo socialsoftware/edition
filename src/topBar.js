@@ -26,7 +26,7 @@ function TopBarElement(props) {
     if (!props.subsections) {
         return (
             <li>
-                <Link to={props.baseLink}>{props.title}</Link>
+                <Link key={props.baseLink} to={props.baseLink}>{props.title}</Link>
             </li>
         );
     }
@@ -36,8 +36,8 @@ function TopBarElement(props) {
         baseLink = `/${props.baseLink}`;
     }
     const subsecs = props.subsections.map(subsection =>
-        (<LinkContainer to={`${baseLink}/${subsection.link}`}>
-            <MenuItem>{subsection.title}</MenuItem>
+        (<LinkContainer key={subsection.link} to={`${baseLink}/${subsection.link}`}>
+            <MenuItem key={subsection.link}>{subsection.title}</MenuItem>
         </LinkContainer>),
     );
         // (<Route render={({ history }) => (
@@ -49,11 +49,11 @@ function TopBarElement(props) {
 
 
     if (props.division) {
-        subsecs.splice(props.division, 0, <MenuItem divider />);
+        subsecs.splice(props.division, 0, <MenuItem key={0} divider />);
     }
 
     return (
-        <NavDropdown title={props.title}>
+        <NavDropdown key={props.baseLink} title={props.title} id={'Navigation Menu'}>
             <div className={'dropdown-menu-bg'} />
             {subsecs}
         </NavDropdown>
