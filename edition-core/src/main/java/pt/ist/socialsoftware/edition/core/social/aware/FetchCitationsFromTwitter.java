@@ -1,24 +1,15 @@
 package pt.ist.socialsoftware.edition.core.social.aware;
 
-import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -55,10 +46,9 @@ public class FetchCitationsFromTwitter {
 			int numTweets = 0;
 			long maxID = -1;
 	
-			String toWrite = "";
+			//String toWrite = "";
 			String formatedDate = "";
 			
-			//FileOutputStream fos = null;
 			BufferedWriter bw = null;
 			FileWriter fw = null;
 		    File file;
@@ -68,10 +58,8 @@ public class FetchCitationsFromTwitter {
 				String exportDir = PropertiesManager.getProperties().getProperty("social.aware.dir");
 				file = new File(exportDir + "twitter-" + fileName + "-" + timeStamp + ".json");
 				
-				//fos = new FileOutputStream(file); //descomentar provavelmente
 				fw = new FileWriter(file);
 				bw = new BufferedWriter(fw);
-				
 				
 				//This returns all the various rate limits in effect for us with the Twitter API
 				Map<String, RateLimitStatus> rateLimitStatus = twitter.getRateLimitStatus("search");
@@ -135,7 +123,6 @@ public class FetchCitationsFromTwitter {
 					//	out, but in a real application you might save them to a database, a CSV file, do some
 					//	analysis on them, whatever...
 					//  Loop through all the tweets...
-					int count = 0;
 					for (Status s: r.getTweets()) {
 						//	Increment our count of tweets retrieved
 						numTweets++;
@@ -166,8 +153,9 @@ public class FetchCitationsFromTwitter {
 						
 						
 						Place place = s.getPlace();
+						
 						String country = "unknown";
-						if(place != null) 
+						if(place != null && !place.getCountry().equals("")) //this equals solves the case where country comes empty
 							country = place.getCountry();
 					
 						String location = s.getUser().getLocation();
@@ -183,7 +171,7 @@ public class FetchCitationsFromTwitter {
 						
 						long tweetID =  s.getId();
 						
-					
+						/*
 						toWrite = "\t At " + formatedDate + ", @" + username 
 								+ " (id: " + + tweetID + ")" + "\n" + "said: " + text + "\n"
 								+ "country: " + country + "\n"
@@ -192,11 +180,6 @@ public class FetchCitationsFromTwitter {
 								+ "profile URL: " + profURL + "\n"
 								+ "profile Picture: " + profImg + "\n"
 								+ "############################" + "\n";
-						/*
-						//Writing in txt file - old version (human readable)
-						fos.write(("Num " + count + "\n").getBytes());
-						count++;
-						fos.write(toWrite.getBytes());
 						*/
 						
 						//Writing in json file - JSON version
@@ -211,8 +194,6 @@ public class FetchCitationsFromTwitter {
 					    obj.put("profURL", profURL);
 					    obj.put("profImg", profImg);
 						
-					    //fos.write(obj.toString().getBytes(StandardCharsets.UTF_8));
-						//fos.write("\n".getBytes());
 						bw.write(obj.toString());
 						bw.write("\n");
 						
@@ -233,43 +214,9 @@ public class FetchCitationsFromTwitter {
 						(searchTweetsRateLimit.getSecondsUntilReset())/60.0);	
 				System.out.println("++++++++++++++++++++++++++++++ OUTRO FICHEIRO ++++++++++++++++++++++++++++++");
 				
-				//fos.close();
 				bw.close();
 				fw.close();
-				
-				//Read tweetText from JSON file - org.json version: works!
-				/*
-				List<JSONObject> json = new ArrayList<JSONObject>();
-			    JSONObject obj;
-			    String line = null;
-		        BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
-		        while((line = bufferedReader.readLine()) != null) {
-		            try {
-						obj = (JSONObject) new JSONParser().parse(line);
-						json.add(obj);
-			            System.out.println((String)obj.get("text"));
-					} catch (ParseException e) {
-						System.out.println("Parse Exception!!!");
-						e.printStackTrace();
-					}  
-		        }
-		        bufferedReader.close();  
-				*/
-				
-				//org.json.simple version: doesn't work tho
-				/*
-				JSONParser parser = new JSONParser();
-				try {
-					Object obj = parser.parse(new FileReader(file));
-					JSONObject jsonObject = (JSONObject) obj;
-		            String name = (String) jsonObject.get("username");
-		            System.out.println(name);
-				} catch (ParseException e) {
-					e.printStackTrace();
-				}
-				*/
-	            
-				
+		
 			}catch(IOException ioE) {
 				ioE.printStackTrace();
 				System.out.println("IOException at FetchCitationsFromTwitter!!: ");
@@ -278,7 +225,7 @@ public class FetchCitationsFromTwitter {
 				System.out.println("Failed to search tweets!!: " + te.getMessage());
 			}
 		}
-		logger.debug("Fim do Fetch Citations");
+		logger.debug("End of Fetch Citations");
 		
 	}
 	

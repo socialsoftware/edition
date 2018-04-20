@@ -32,6 +32,18 @@ class LdoD {
 	boolean admin;
 }
 
+class LastTwitterID {
+	long bookLastTwitterID;
+	long pessoaLastTwitterID;
+	long bernardoLastTwitterID;
+	long vicenteLastTwitterID;
+}
+
+relation LdoDHasLastTwitterID {
+	LdoD playsRole ldoD {multiplicity 1..1;}
+	LastTwitterID playsRole lastTwitterID {multiplicity 0..1;}
+}
+
 relation DomainRootHasLdoDApplication {
 	.pt.ist.fenixframework.DomainRoot playsRole root {
 		multiplicity 1..1;
@@ -650,7 +662,7 @@ class Citation {
 
 class TwitterCitation extends Citation {
 	String tweetText;
-	String tweetID;
+	long tweetID;
 	String location;
 	String country;
 	String username;
@@ -666,4 +678,9 @@ relation CitationHasAwareAnnotations {
 relation FragmentHasCitations {
 	Citation playsRole citations {multiplicity 0..*;}
 	Fragment playsRole fragment {multiplicity 0..1;}
+}
+
+relation LdoDHasCitations {
+	LdoD playsRole ldoD {multiplicity 1..1;}
+	Citation playsRole citations {multiplicity 0..*;}
 }

@@ -21,13 +21,13 @@ public class ScheduledTasks {
 		write.export();
 	}
 	
-	@Scheduled(cron = "0 24 15 * * *")
+	@Scheduled(cron = "0 47 16 * * *")
 	public void fetchFromTwitter() throws IOException {
 		FetchCitationsFromTwitter fetch = new FetchCitationsFromTwitter();
 		fetch.fetch();
 	}
 	
-	@Scheduled(cron = "0 55 14 * * *")
+	@Scheduled(cron = "0 55 16 * * *")
 	public void detectCitations() throws IOException {
 		CitationDetecter detecter = new CitationDetecter();
 		detecter.detect();

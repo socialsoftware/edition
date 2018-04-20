@@ -30,6 +30,7 @@ public class LdoD extends LdoD_Base {
 	public LdoD() {
 		FenixFramework.getDomainRoot().setLdoD(this);
 		setNullEdition(new NullEdition());
+		setLastTwitterID(new LastTwitterID()); //check if this is supposed to be here
 	}
 
 	public List<Heteronym> getSortedHeteronyms() {
