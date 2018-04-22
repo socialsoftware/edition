@@ -29,7 +29,14 @@ public class VirtualEdition extends VirtualEdition_Base {
 	private static Logger logger = LoggerFactory.getLogger(VirtualEdition.class);
 
 	public static String ACRONYM_PREFIX = "LdoD-";
-
+	
+	public boolean isSAVE() {
+		if(!this.getCriteriaSet().isEmpty()) {
+			return true;
+		}	
+		return false;
+	}
+	
 	@Override
 	public String getTitle() {
 		return StringEscapeUtils.escapeHtml(super.getTitle());
@@ -74,7 +81,8 @@ public class VirtualEdition extends VirtualEdition_Base {
 			}
 		}
 	}
-
+	
+	
 	@Override
 	@Atomic(mode = TxMode.WRITE)
 	public void remove() {

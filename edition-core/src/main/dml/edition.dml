@@ -684,3 +684,28 @@ relation LdoDHasCitations {
 	LdoD playsRole ldoD {multiplicity 1..1;}
 	Citation playsRole citations {multiplicity 0..*;}
 }
+
+class SocialMediaCriteria;
+
+class MediaSource extends SocialMediaCriteria {
+	String name;
+}
+
+class TimeWindow extends SocialMediaCriteria {
+	DateType beginDate;
+	DateType endDate;
+}
+
+class GeographicLocation extends SocialMediaCriteria {
+	String location;
+	String country;
+}
+
+class Frequency extends SocialMediaCriteria {
+	int frequency;
+}
+
+relation VirtualEditionHasSocialMediaCriteria{
+	VirtualEdition playsRole virtualEdition {multiplicity 0..1;}
+	SocialMediaCriteria playsRole criteria {multiplicity 0..*;}
+}

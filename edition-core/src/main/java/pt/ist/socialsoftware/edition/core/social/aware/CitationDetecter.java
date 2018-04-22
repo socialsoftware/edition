@@ -39,6 +39,8 @@ import org.slf4j.LoggerFactory;
 import org.json.simple.JSONObject;
 
 import pt.ist.fenixframework.Atomic;
+import pt.ist.fenixframework.FenixFramework;
+import pt.ist.socialsoftware.edition.core.domain.FragInter;
 import pt.ist.socialsoftware.edition.core.domain.Fragment;
 import pt.ist.socialsoftware.edition.core.domain.HumanAnnotation;
 import pt.ist.socialsoftware.edition.core.domain.LastTwitterID;
@@ -254,14 +256,16 @@ public class CitationDetecter {
 					//obtain Fragment
 					
 					//using xml id
-					bw.write("Fragment itself (using XMLID): " + LdoD.getInstance().getFragmentByXmlId(d.get(ID)));
-					bw.write("\n");
+					//bw.write("Fragment itself (using XMLID): " + LdoD.getInstance().getFragmentByXmlId(d.get(ID)));
+					//bw.write("\n");
+					
 					
 					//using external id
+					FragInter inter = FenixFramework.getDomainObject(d.get(ID));
 					bw.write("---------- USING EXTERNAL ID----------------\n");
 					Fragment fragment = null;
 					for (Fragment frag : LdoD.getInstance().getFragmentsSet()) {
-						if (frag.getExternalId().equals(d.get(ID))) {
+						if (frag == inter.getFragment()) {
 							bw.write("Entrei no if do External ID!!");
 							bw.write("\n");
 							fragment = frag;
@@ -279,7 +283,7 @@ public class CitationDetecter {
 					
 					//Fragment está a vir a null! Perguntar ao stor como obter o Fragment!
 					if(!twitterIDExists) {
-						TwitterCitation c = new TwitterCitation(LdoD.getInstance(), fragment,
+						new TwitterCitation(LdoD.getInstance(), fragment,
 								(String)obj.get("tweetURL"), (String)obj.get("date"),
 								d.get(TEXT), (String)obj.get("text"), (long)obj.get("tweetID"), (String)obj.get("location"), 
 								(String)obj.get("country"), (String)obj.get("username"), (String)obj.get("profURL"), 
