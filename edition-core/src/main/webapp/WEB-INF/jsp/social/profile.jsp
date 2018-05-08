@@ -9,35 +9,51 @@
     <script src="/resources/js/bootstrap-table.min.js"></script>
 </head>
 <body>
-
 <div class="container">
     <div class="row">
-        <div class="panel panel-default">
-            <div class="panel-heading">  <h4 ></h4></div>
-            <div class="panel-body">
-                <div class="col-md-8 col-xs-12 col-sm-6 col-lg-8" >
-                    <div class="container" >
-                        <h2>${user.firstName} ${user.lastName}</h2>
-                    </div>
-                    <hr>
-                    <div class="container details" >
-                        <span class="glyphicon glyphicon-user one" style="width:50px;">${user.getUsername()}</span>
-                    </div>
-                    <hr>
-                    <div class="col-sm-5 col-xs-6 tital ">Member since: </div>
-                    <p>
-                        <strong><spring:message code="header.editions" />: </strong>
-                        <c:forEach var="edition" items="${user.getPublicEditionList()}"
-                                   varStatus="loop">
-                            <a href="${contextPath}/edition/acronym/${edition.getAcronym()}">
-                                    ${edition.getTitle()}</a><c:if test="${!loop.last}">, </c:if>
-                        </c:forEach>
-                    </p>
-                </div>
-            </div>
-        </div>
+        <h3 class="text-center">
+            ${user.firstName} ${user.lastName}
+            <i class="glyphicon glyphicon-user"></i>
+        </h3>
+    </div>
+    <div class="row">
+        <ul>
+            <li>Member since:</li>
+            <li>Points:</li>
+        </ul>
+    </div>
+    <p>
+        Member of virtual editions:
+        <c:forEach var="edition" items="${user.getPublicEditionList()}"
+                   varStatus="loop">
+            <a href="${contextPath}/edition/acronym/${edition.getAcronym()}">
+                    ${edition.getTitle()}</a><c:if test="${!loop.last}">, </c:if>
+        </c:forEach>
+    </p>
 </div>
+
+
+<c:set var="isAdmin"
+       value="${virtualEdition.getAdminSet().contains(user)}" />
+<c:set var="isMember"
+       value="${virtualEdition.getParticipantSet().contains(user)}" />
+<c:set var="isPending"
+       value="${virtualEdition.getPendingSet().contains(user)}" />
+<c:set var="isPublic" value="${virtualEdition.pub}" />
+<c:set var="isLdoDEdition"
+       value="${virtualEdition.isLdoDEdition()}" />
+
+<!--
+<form class="form-inline" method="POST"
+      action="${contextPath}/">
+    <input type="hidden" name="${_csrf.parameterName}"
+           value="${_csrf.token}" /> <input type="hidden"
+                                            name="externalId" value="${virtualEdition.externalId}" />
+    <button type="submit" class="btn btn-primary btn-sm">
+        <span class="glyphicon glyphicon-plus"></span>
+        Convite
+    </button>
+</form>
+<!-->
 </body>
 </html>
-
-
