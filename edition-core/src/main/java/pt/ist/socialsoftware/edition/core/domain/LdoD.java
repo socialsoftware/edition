@@ -26,7 +26,49 @@ public class LdoD extends LdoD_Base {
 	public static LdoD getInstance() {
 		return FenixFramework.getDomainRoot().getLdoD();
 	}
-
+	
+	public Set<TwitterCitation> getAllTwitterCitation() {
+		LdoD ldoD = LdoD.getInstance();
+		//allTwitterCitations - all twitter citations in the archive
+		Set<TwitterCitation> allTwitterCitations = ldoD.getCitationsSet()
+						.stream().filter(TwitterCitation.class::isInstance).map(TwitterCitation.class::cast)
+						.collect(Collectors.toSet());
+		return allTwitterCitations;
+	}
+	
+	
+	public TwitterCitation getTwitterCitationByTweetID(long id) {		
+		TwitterCitation result = null;
+		Set<TwitterCitation> allTwiiterCitations = getAllTwitterCitation();
+		for(TwitterCitation tc: allTwiiterCitations) {
+			if(tc.getTweetID() == id) {
+				result = tc;
+			}
+		}
+		return result;
+	}
+	
+	public Tweet getTweetByTweetID(long id) {		
+		Tweet result = null;
+		Set<Tweet> allTweets = getTweetsSet();
+		for(Tweet t: allTweets) {
+			if(t.getTweetID() == id) {
+				result = t;
+			}
+		}
+		return result;
+	}
+	
+	public boolean checkIfTweetExists(long id) {
+		Set<Tweet> allTweets = getTweetsSet();
+		for(Tweet t: allTweets) {
+			if(t.getTweetID() == id) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	public LdoD() {
 		FenixFramework.getDomainRoot().setLdoD(this);
 		setNullEdition(new NullEdition());

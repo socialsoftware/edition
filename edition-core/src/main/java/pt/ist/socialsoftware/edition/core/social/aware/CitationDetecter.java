@@ -85,7 +85,7 @@ public class CitationDetecter {
 		LdoD.getInstance().getLastTwitterID().resetTwitterIDS(); //serve só para testar melhor pq dá reset ao id na base de dados
 		File folder = new File(PropertiesManager.getProperties().getProperty("social.aware.dir"));
 	    for (File fileEntry : folder.listFiles()) {
-			System.out.println("STARTING DEBUG!!");
+			System.out.println("STARTING CITATION DETECTER!!");
 			System.out.println("+++++++++++++++++++++++++++++++++++ JSON ++++++++++++++++++++++++++++++++++++");
 	    	System.out.println(fileEntry.getName());
 	    	bw.write("+++++++++++++++++++++++++++++++++++ JSON ++++++++++++++++++++++++++++++++++++");
@@ -161,7 +161,7 @@ public class CitationDetecter {
 						//count++;
 						
 						if(!tweetTextSubstring.equals("")) {
-							searchQueryParserJSON(tweetTextSubstring, obj); //descomentar
+							searchQueryParserJSON(tweetTextSubstring, obj);
 							//searchQueryParser(absoluteSearch(tweetTextSubstring)); //demasiado rígida, nao funciona no nosso caso
 						}
 						
@@ -239,6 +239,7 @@ public class CitationDetecter {
 					
 					//******************************** CREATE CITATIONS ***************************************/
 					
+					//necessary because the same tweet was collected using different keywords in FetchCitationsFromTwitter class
 					//check if twitter ID already exists in the list of Citations
 					//if it does idExists=true, therefore we don't create a citation for it!
 					Set<TwitterCitation> allTwitterCitations = LdoD.getInstance().getCitationsSet()
@@ -252,6 +253,11 @@ public class CitationDetecter {
 							break;
 						}
 					}
+					
+					//o if(!twitterIDExists) { não deveria vir logo aqui??
+					//atualmente estamos a obter o Fragment e a limpar o http do texto antes desta verificação
+					//não há razão para isso, estamos a ser pouco eficientes
+					
 					
 					//obtain Fragment
 					
@@ -281,11 +287,22 @@ public class CitationDetecter {
 						bw.write("\n");
 					}
 					
-					//Fragment está a vir a null! Perguntar ao stor como obter o Fragment!
+					//Nota: o tweet text que é passado ao construtor tem os https ainda!
+					//(String)obj.get("text") - está errado, temos de limpar os https!!
+					String tweetText = (String)obj.get("text");
+					String tweetTextSubstring = tweetText; //caso não tenha o "http"
+					
+					//removing "http" from tweet text
+					if(tweetText.contains("http")) {
+						int httpIndex = tweetText.indexOf("http");
+						tweetTextSubstring = tweetText.substring(0, httpIndex);
+					}
+					//^pôr isto num método à parte
+					
 					if(!twitterIDExists) {
 						new TwitterCitation(LdoD.getInstance(), fragment,
 								(String)obj.get("tweetURL"), (String)obj.get("date"),
-								d.get(TEXT), (String)obj.get("text"), (long)obj.get("tweetID"), (String)obj.get("location"), 
+								d.get(TEXT), tweetTextSubstring, (long)obj.get("tweetID"), (String)obj.get("location"), 
 								(String)obj.get("country"), (String)obj.get("username"), (String)obj.get("profURL"), 
 								(String)obj.get("profImg"));
 					}		

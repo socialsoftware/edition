@@ -705,7 +705,31 @@ class Frequency extends SocialMediaCriteria {
 	int frequency;
 }
 
-relation VirtualEditionHasSocialMediaCriteria{
+relation VirtualEditionHasSocialMediaCriteria {
 	VirtualEdition playsRole virtualEdition {multiplicity 0..1;}
 	SocialMediaCriteria playsRole criteria {multiplicity 0..*;}
+}
+
+class Tweet {
+	String sourceLink;
+	String date;
+	String tweetText;
+	long tweetID;
+	String location;
+	String country;
+	String username;
+	String userProfileURL;
+	String userImageURL;
+	long originalTweetID;
+	boolean isRetweet;
+}
+
+relation CitationHasTweets {
+	Citation playsRole citation {multiplicity 0..1;}
+	Tweet playsRole tweets {multiplicity 0..*;}
+}
+
+relation LdoDHasTweets {
+	LdoD playsRole ldoD {multiplicity 1..1;}
+	Tweet playsRole tweets {multiplicity 0..*;}
 }

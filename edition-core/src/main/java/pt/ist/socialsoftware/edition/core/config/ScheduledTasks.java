@@ -11,6 +11,7 @@ import pt.ist.socialsoftware.edition.core.export.WriteVirtualEditonsToFile;
 import pt.ist.socialsoftware.edition.core.social.aware.AwareAnnotationFactory;
 import pt.ist.socialsoftware.edition.core.social.aware.CitationDetecter;
 import pt.ist.socialsoftware.edition.core.social.aware.FetchCitationsFromTwitter;
+import pt.ist.socialsoftware.edition.core.social.aware.TweetFactory;
 
 @Component
 public class ScheduledTasks {
@@ -22,19 +23,27 @@ public class ScheduledTasks {
 		write.export();
 	}
 	
-	@Scheduled(cron = "0 35 11 * * *")
+	@Scheduled(cron = "0 16 12 * * *")
 	public void fetchFromTwitter() throws IOException {
 		FetchCitationsFromTwitter fetch = new FetchCitationsFromTwitter();
 		fetch.fetch();
 	}
 	
-	@Scheduled(cron = "0 10 12 * * *")
+	@Scheduled(cron = "0 33 12 * * *")
 	public void detectCitations() throws IOException {
 		CitationDetecter detecter = new CitationDetecter();
 		detecter.detect();
 	}
 	
-	@Scheduled(cron = "0 31 16 * * *")
+	
+	@Scheduled(cron = "0 37 23 * * *")
+	public void createTweets() throws IOException {
+		TweetFactory tweetFactory = new TweetFactory();
+		tweetFactory.create();
+	}
+	
+	
+	@Scheduled(cron = "0 54 12 * * *")
 	public void createAwareAnnotations() throws IOException {
 		AwareAnnotationFactory awareFactory = new AwareAnnotationFactory();
 		awareFactory.create();

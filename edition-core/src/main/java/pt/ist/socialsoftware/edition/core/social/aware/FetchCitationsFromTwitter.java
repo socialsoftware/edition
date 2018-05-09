@@ -46,17 +46,16 @@ public class FetchCitationsFromTwitter {
 			int numTweets = 0;
 			long maxID = -1;
 	
-			//String toWrite = "";
-			String formatedDate = "";
+			String toWrite = "";
 			
 			BufferedWriter bw = null;
 			FileWriter fw = null;
 		    File file;
-			try{
-				
+			try {
 				String timeStamp = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
 				String exportDir = PropertiesManager.getProperties().getProperty("social.aware.dir");
-				file = new File(exportDir + "twitter-" + fileName + "-" + timeStamp + ".json");
+				//file = new File(exportDir + "twitter-" + fileName + "-" + timeStamp + ".json");
+				file = new File(exportDir + "awareTxt/" + "twitter-" + fileName + "-" + timeStamp + ".txt");
 				
 				fw = new FileWriter(file);
 				bw = new BufferedWriter(fw);
@@ -140,6 +139,8 @@ public class FetchCitationsFromTwitter {
 						else
 							text = s.getText();
 						
+						//utilizado inicialmente para fazer debug das reticências
+						/*
 						//debug truncated - Elli
 						if (text.contains("\u2026")) {
 							numElli++;
@@ -150,7 +151,7 @@ public class FetchCitationsFromTwitter {
 									  s.getId(),
 									  text);
 						}
-						
+						*/
 						
 						Place place = s.getPlace();
 						
@@ -167,11 +168,24 @@ public class FetchCitationsFromTwitter {
 						String profURL = "https://twitter.com/" + username;
 						String profImg = s.getUser().getBiggerProfileImageURL();
 
-						formatedDate = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss").format(s.getCreatedAt());
+						String formatedDate = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss").format(s.getCreatedAt());
 						
 						long tweetID =  s.getId();
 						
-						/*
+						boolean isRetweet = s.isRetweet();
+						boolean isRetweeted = s.isRetweeted();
+						int retweetCount = s.getRetweetCount();
+						
+						long originalTweetID = -1L;
+						long currentUserRetID = -1L;
+						if(isRetweet) {
+							originalTweetID = s.getRetweetedStatus().getId();
+							currentUserRetID = s.getCurrentUserRetweetId();
+						}
+						
+					
+						
+						
 						toWrite = "\t At " + formatedDate + ", @" + username 
 								+ " (id: " + + tweetID + ")" + "\n" + "said: " + text + "\n"
 								+ "country: " + country + "\n"
@@ -179,9 +193,27 @@ public class FetchCitationsFromTwitter {
 								+ "tweet URL: " + tweetURL + "\n"
 								+ "profile URL: " + profURL + "\n"
 								+ "profile Picture: " + profImg + "\n"
+								+ "isRetweet: " + isRetweet + "\n"
+								+ "isRetweeted: " + isRetweeted + "\n"
+								+ "retweetCount: " + retweetCount + "\n"
+								+ "originalTweetID: " + originalTweetID + "\n"
+								+ "currentUserRetID: " + currentUserRetID + "\n"
 								+ "############################" + "\n";
-						*/
 						
+						bw.write(toWrite);
+						
+						if(originalTweetID!=-1) {
+							Status originalStatus = getTweetById(originalTweetID, twitter);
+							toWrite = getTweetInfoInStringFormat(originalStatus);
+							bw.write("--------------- ORIGINAL --------------------\n");
+							bw.write(toWrite);
+						}
+						
+						
+						bw.write("\n");
+
+						
+						/*
 						//Writing in json file - JSON version
 						JSONObject obj = new JSONObject();
 						obj.put("date", formatedDate);
@@ -194,8 +226,16 @@ public class FetchCitationsFromTwitter {
 					    obj.put("profURL", profURL);
 					    obj.put("profImg", profImg);
 						
+					    obj.put("isRetweet", isRetweet);
+					    obj.put("isRetweeted", isRetweeted);
+					    obj.put("retweetCount", retweetCount);
+					    obj.put("originalTweetID", originalTweetID);
+					    obj.put("currentUserRetID", currentUserRetID);
+
+					    
 						bw.write(obj.toString());
 						bw.write("\n");
+						*/
 						
 						System.out.println("####################################");
 					}
@@ -229,6 +269,66 @@ public class FetchCitationsFromTwitter {
 		
 	}
 	
+	public static String getTweetInfoInStringFormat(Status s) {
+		String toWrite = "";
+
+		String text = null;
+		if(s.getRetweetedStatus() != null) 
+			text = s.getRetweetedStatus().getText();
+		else
+			text = s.getText();
+		
+		
+		Place place = s.getPlace();
+		
+		String country = "unknown";
+		if(place != null && !place.getCountry().equals("")) //this equals solves the case where country comes empty
+			country = place.getCountry();
+	
+		String location = s.getUser().getLocation();
+		if(location.equals(""))
+			location = "unknown";
+		
+		String username = s.getUser().getScreenName();
+		String tweetURL = "https://twitter.com/" + username + "/status/" + s.getId();
+		String profURL = "https://twitter.com/" + username;
+		String profImg = s.getUser().getBiggerProfileImageURL();
+
+		String formatedDate = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss").format(s.getCreatedAt());
+		
+		long tweetID =  s.getId();
+		
+		boolean isRetweet = s.isRetweet();
+		boolean isRetweeted = s.isRetweeted();
+		int retweetCount = s.getRetweetCount();
+		
+		long originalTweetID = -1L;
+		long currentUserRetID = -1L;
+		if(isRetweet) {
+			originalTweetID = s.getRetweetedStatus().getId();
+			currentUserRetID = s.getCurrentUserRetweetId();
+		}
+		
+	
+		toWrite = "\t At " + formatedDate + ", @" + username 
+				+ " (id: " + + tweetID + ")" + "\n" + "said: " + text + "\n"
+				+ "country: " + country + "\n"
+				+ "location: " + location + "\n"
+				+ "tweet URL: " + tweetURL + "\n"
+				+ "profile URL: " + profURL + "\n"
+				+ "profile Picture: " + profImg + "\n"
+				+ "isRetweet: " + isRetweet + "\n"
+				+ "isRetweeted: " + isRetweeted + "\n"
+				+ "retweetCount: " + retweetCount + "\n"
+				+ "originalTweetID: " + originalTweetID + "\n"
+				+ "currentUserRetID: " + currentUserRetID + "\n"
+				+ "############################" + "\n";
+		
+		
+		
+		return toWrite;
+	}
+	
 	private static Map<String, String> createTermsMap() {
         Map<String,String> termsMap = new HashMap<String,String>();
         termsMap.put("Livro do Desassossego", "livro");
@@ -240,10 +340,10 @@ public class FetchCitationsFromTwitter {
 	
 	
 	//Might be useful
-	public static Status getTweetById(String id, Twitter t) {
+	public static Status getTweetById(long id, Twitter t) {
 		Status s = null;
 		try {
-			s = t.showStatus(Long.parseLong(id));
+			s = t.showStatus(id);
 		} catch (NumberFormatException e) {
 			System.out.println("Number Format Exception while getting tweet by id!!!");
 			e.printStackTrace();
