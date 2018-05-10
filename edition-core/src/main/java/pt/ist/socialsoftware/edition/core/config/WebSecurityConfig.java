@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -20,10 +21,13 @@ import org.springframework.security.crypto.encrypt.Encryptors;
 import org.springframework.security.crypto.encrypt.TextEncryptor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import pt.ist.socialsoftware.edition.core.domain.Role.RoleType;
-import pt.ist.socialsoftware.edition.core.security.LdoDAuthenticationSuccessHandler;
-import pt.ist.socialsoftware.edition.core.security.LdoDSocialUserDetailsService;
-import pt.ist.socialsoftware.edition.core.security.LdoDUserDetailsService;
+import pt.ist.socialsoftware.edition.core.security.*;
+
+import static pt.ist.socialsoftware.edition.core.security.SecurityConstants.*;
 
 @Configuration
 @EnableWebSecurity
@@ -33,6 +37,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Inject
 	Environment environment;
+
 
 	@Override
 	public void configure(WebSecurity web) throws Exception {
@@ -102,6 +107,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Bean
 	public LdoDAuthenticationSuccessHandler ldoDAuthenticationSuccessHandler() {
 		return new LdoDAuthenticationSuccessHandler();
+	}
+
+	@Bean
+	CorsConfigurationSource corsConfigurationSource() {
+		final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+		source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
+		return source;
 	}
 
 }

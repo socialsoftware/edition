@@ -45,6 +45,12 @@
 			<artifactId>google-api-services-plus</artifactId>
 			<version>v1-rev541-1.23.0</version>
 		</dependency>
+		<!-- JSON WebTokens -->
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt</artifactId>
+			<version>0.9.0</version>
+		</dependency>
 	</dependencies>
 
 </project>
