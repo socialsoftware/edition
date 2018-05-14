@@ -14,6 +14,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -21,6 +22,7 @@ import org.springframework.security.crypto.encrypt.Encryptors;
 import org.springframework.security.crypto.encrypt.TextEncryptor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -51,10 +53,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		// to make accessible for unregistered users comment
 		// .anyRequest().authenticated() after .antMatchers("/", "/auth/**",
 		// "/signin/**", "/signup/**").permitAll()
-
 		http.csrf().disable().formLogin().loginPage("/signin").successHandler(ldoDAuthenticationSuccessHandler())
 				.loginProcessingUrl("/signin/authenticate").failureUrl("/signin?param.error=bad_credentials").and()
-				.logout().logoutUrl("/signout").deleteCookies("JSESSIONID").invalidateHttpSession(true);
+				.logout().logoutUrl("/signout").and().
+				addFilterBefore(new JWTLoginFilter("/signin/authenticate", authenticationManager()), UsernamePasswordAuthenticationFilter.class)
+				// Custom filter for authenticating users using tokens
+				.addFilterBefore(new JWTAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+		//deleteCookies("JSESSIONID").invalidateHttpSession(true);
+		//.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
 
 		http.authorizeRequests()
 				// .antMatchers("/", "/error", "/webjars/**", "/auth/**", "/signin/**",
@@ -66,7 +73,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/virtualeditions/restricted/**", "/user/**").authenticated().antMatchers("/admin/**")
 				.hasAuthority(RoleType.ROLE_ADMIN.name());
 
-		http.sessionManagement().maximumSessions(2).sessionRegistry(sessionRegistry());
+		//http.sessionManagement().maximumSessions(2).sessionRegistry(sessionRegistry());
+
 	}
 
 	@Inject

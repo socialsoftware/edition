@@ -4,6 +4,17 @@ public class LdoDUserDTO {
     private long id;
     private String username;
     private String password;
+    private boolean enabled;
+
+    public LdoDUserDTO() {
+    }
+
+    public LdoDUserDTO(String username, String password) {
+        this.username = username;
+        this.password = password;
+        this.enabled = true;
+    }
+
 
     public long getId() {
         return id;

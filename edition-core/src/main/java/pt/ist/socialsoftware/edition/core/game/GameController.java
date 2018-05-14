@@ -19,4 +19,14 @@ public class GameController {
 		log.debug("AQUI --" + LdoDUser.getAuthenticatedUser().getUsername());
 		return new Game(counter.incrementAndGet(),"teste", LdoDUser.getAuthenticatedUser().getUsername(), virtualEdition);
 	}
+
+	@CrossOrigin(origins = "http://localhost:3000")
+	@RequestMapping(method = RequestMethod.POST, value = "/game/login")
+	public Game login() {
+		//log.debug("AQUI --" + LdoDUser.getAuthenticatedUser().getUsername());
+		log.debug("AQUI --");
+		return new Game(counter.incrementAndGet(),"teste", "user","ve");
+	}
+
+
 }
