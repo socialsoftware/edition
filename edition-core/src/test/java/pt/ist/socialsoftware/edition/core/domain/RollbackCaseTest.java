@@ -3,32 +3,23 @@ package pt.ist.socialsoftware.edition.core.domain;
 import javax.transaction.NotSupportedException;
 import javax.transaction.SystemException;
 
-import org.junit.After;
-import org.junit.Before;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.fenixframework.core.WriteOnReadError;
 
 public abstract class RollbackCaseTest {
 
-	@Before
-	public void setUp() throws Exception {
-
-		try {
-			FenixFramework.getTransactionManager().begin(false);
-			populate4Test();
-		} catch (WriteOnReadError | NotSupportedException | SystemException e1) {
-			e1.printStackTrace();
-		}
+	@BeforeEach
+	public void setUp() throws WriteOnReadError, NotSupportedException, SystemException {
+		FenixFramework.getTransactionManager().begin(false);
+		populate4Test();
 	}
 
-	@After
-	public void tearDown() {
-		try {
-			FenixFramework.getTransactionManager().rollback();
-		} catch (IllegalStateException | SecurityException | SystemException e) {
-			e.printStackTrace();
-		}
+	@AfterEach
+	public void tearDown() throws IllegalStateException, SecurityException, SystemException {
+		FenixFramework.getTransactionManager().rollback();
 	}
 
 	public abstract void populate4Test();
