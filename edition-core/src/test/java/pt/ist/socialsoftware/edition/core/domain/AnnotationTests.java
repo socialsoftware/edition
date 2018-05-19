@@ -1,6 +1,7 @@
 package pt.ist.socialsoftware.edition.core.domain;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doCallRealMethod;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -38,7 +39,7 @@ public class AnnotationTests extends RollbackCaseTest {
 
 	@Test
 	public void update() {
-		doCallRealMethod().when(this.annotation).update("text", new ArrayList<String>());
+		doCallRealMethod().when(this.annotation).update(any(), any());
 		when(this.annotation.getVirtualEditionInter()).thenReturn(this.inter);
 
 		this.annotation.update("text", new ArrayList<String>());
@@ -49,7 +50,7 @@ public class AnnotationTests extends RollbackCaseTest {
 
 	@Test
 	public void canUpdateTest() {
-		doCallRealMethod().when(this.annotation).canUpdate(this.user);
+		doCallRealMethod().when(this.annotation).canUpdate(any());
 
 		when(this.annotation.getVirtualEditionInter()).thenReturn(this.inter);
 		when(this.inter.getVirtualEdition()).thenReturn(this.virtualEdition);
