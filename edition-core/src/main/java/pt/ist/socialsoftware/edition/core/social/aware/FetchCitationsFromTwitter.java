@@ -34,6 +34,10 @@ public class FetchCitationsFromTwitter {
 	private static final int MAX_QUERIES = 180; //Queries = pages obtained (máximo empírico até agora foi 100 páginas, máximo = 180)
 	private static final Map<String, String> TERMS_MAP = createTermsMap();
 	
+	public static void logger(Object toPrint) {
+	    System.out.println(toPrint);
+	}
+	
 	@Atomic
 	public void fetch() throws IOException {
 		Twitter twitter = getTwitterinstance();
@@ -54,8 +58,8 @@ public class FetchCitationsFromTwitter {
 			try {
 				String timeStamp = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
 				String exportDir = PropertiesManager.getProperties().getProperty("social.aware.dir");
-				//file = new File(exportDir + "twitter-" + fileName + "-" + timeStamp + ".json");
-				file = new File(exportDir + "awareTxt/" + "twitter-" + fileName + "-" + timeStamp + ".txt");
+				file = new File(exportDir + "twitter-" + fileName + "-" + timeStamp + ".json");
+				//file = new File(exportDir + "fetchTxt/" + "twitter-" + fileName + "-" + timeStamp + ".txt");
 				
 				fw = new FileWriter(file);
 				bw = new BufferedWriter(fw);
@@ -184,8 +188,8 @@ public class FetchCitationsFromTwitter {
 						}
 						
 					
-						
-						
+						//toWrite: used for writing in txt file
+						/*
 						toWrite = "\t At " + formatedDate + ", @" + username 
 								+ " (id: " + + tweetID + ")" + "\n" + "said: " + text + "\n"
 								+ "country: " + country + "\n"
@@ -202,6 +206,7 @@ public class FetchCitationsFromTwitter {
 						
 						bw.write(toWrite);
 						
+						//este if foi usado apenas para debugs e verificações, não correr mais visto q excede o rate limit da API
 						if(originalTweetID!=-1) {
 							Status originalStatus = getTweetById(originalTweetID, twitter);
 							toWrite = getTweetInfoInStringFormat(originalStatus);
@@ -211,9 +216,9 @@ public class FetchCitationsFromTwitter {
 						
 						
 						bw.write("\n");
-
+						*/
 						
-						/*
+						
 						//Writing in json file - JSON version
 						JSONObject obj = new JSONObject();
 						obj.put("date", formatedDate);
@@ -235,7 +240,7 @@ public class FetchCitationsFromTwitter {
 					    
 						bw.write(obj.toString());
 						bw.write("\n");
-						*/
+						
 						
 						System.out.println("####################################");
 					}

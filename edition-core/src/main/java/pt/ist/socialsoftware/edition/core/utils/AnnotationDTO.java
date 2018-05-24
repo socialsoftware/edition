@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.apache.commons.lang.StringEscapeUtils;
 
+import pt.ist.socialsoftware.edition.core.domain.Annotation;
 import pt.ist.socialsoftware.edition.core.domain.HumanAnnotation;
 import pt.ist.socialsoftware.edition.core.domain.Range;
 import pt.ist.socialsoftware.edition.core.domain.Tag;
@@ -26,27 +27,49 @@ public class AnnotationDTO implements Serializable {
 	public AnnotationDTO() {
 	}
 
-	public AnnotationDTO(HumanAnnotation annotation) {
+	public AnnotationDTO(Annotation annotation) {
+		System.out.println("AnnotationDTO constructor");
+		
 		setId(annotation.getExternalId());
 		setQuote(StringEscapeUtils.unescapeHtml(annotation.getQuote()));
 		setText(StringEscapeUtils.unescapeHtml(annotation.getText()));
 		setUri(annotation.getVirtualEditionInter().getExternalId());
-
+		
+		this.ranges = new ArrayList<>();
+		for (Range range : annotation.getRangeSet()) {
+			this.ranges.add(new RangeJson(range));
+		}
+		
+		//código alterado para o cast
+		if(annotation instanceof HumanAnnotation) {
+			System.out.println("AnnotationDTO cast to HumanAnnotation");
+			this.tags = new ArrayList<>();
+			for (Tag tag : ((HumanAnnotation)annotation).getTagSet()) {
+				this.tags.add(
+						tag.getCategory().getNameInEditionContext(((HumanAnnotation)annotation).getVirtualEditionInter().getVirtualEdition()));
+			}
+	
+			setUser(((HumanAnnotation)annotation).getUser().getUsername());
+	
+			setPermissions(
+					new PermissionDTO(((HumanAnnotation)annotation).getVirtualEditionInter().getVirtualEdition(), ((HumanAnnotation)annotation).getUser()));
+		}
+		
+		//código original
+		/*
 		this.tags = new ArrayList<>();
 		for (Tag tag : annotation.getTagSet()) {
 			this.tags.add(
 					tag.getCategory().getNameInEditionContext(annotation.getVirtualEditionInter().getVirtualEdition()));
 		}
 
-		this.ranges = new ArrayList<>();
-		for (Range range : annotation.getRangeSet()) {
-			this.ranges.add(new RangeJson(range));
-		}
+		
 
 		setUser(annotation.getUser().getUsername());
 
 		setPermissions(
 				new PermissionDTO(annotation.getVirtualEditionInter().getVirtualEdition(), annotation.getUser()));
+		*/		
 	}
 
 	public List<RangeJson> getRanges() {

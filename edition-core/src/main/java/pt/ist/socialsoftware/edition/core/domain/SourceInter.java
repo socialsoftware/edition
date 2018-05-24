@@ -187,7 +187,13 @@ public class SourceInter extends SourceInter_Base {
 	public Set<HumanAnnotation> getAllDepthHumanAnnotations() {
 		return new HashSet<>();
 	}
-
+	
+	//solução para suportar os dois tipos de annotations
+	@Override
+	public Set<Annotation> getAllDepthAnnotations() {
+		return new HashSet<>();
+	}
+	
 	@Override
 	public Set<Tag> getAllDepthTags() {
 		return new HashSet<>();

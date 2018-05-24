@@ -29,6 +29,7 @@ import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.core.session.LdoDSession;
 import pt.ist.socialsoftware.edition.core.utils.AnnotationSearchJson;
 import pt.ist.socialsoftware.edition.core.domain.HumanAnnotation;
+import pt.ist.socialsoftware.edition.core.domain.Annotation;
 import pt.ist.socialsoftware.edition.core.domain.AppText;
 import pt.ist.socialsoftware.edition.core.domain.Category;
 import pt.ist.socialsoftware.edition.core.domain.Edition;
@@ -375,7 +376,23 @@ public class FragmentController {
 	public @ResponseBody
 	AnnotationSearchJson searchAnnotations(Model model, @RequestParam int limit,
 										   @RequestParam String uri) {
+		
+		logger.debug("searchAnnotations");
+		
+		//código alterado para funcionar com os dois tipos de anotações
+		List<AnnotationDTO> annotations = new ArrayList<>();
 
+		VirtualEditionInter inter = FenixFramework.getDomainObject(uri);
+
+		for (Annotation annotation : inter.getAllDepthAnnotations()) {
+			AnnotationDTO annotationJson = new AnnotationDTO(annotation);
+			annotations.add(annotationJson);
+		}
+
+		return new AnnotationSearchJson(annotations);
+		
+		//código original
+		/*
 		List<AnnotationDTO> annotations = new ArrayList<>();
 
 		VirtualEditionInter inter = FenixFramework.getDomainObject(uri);
@@ -386,6 +403,7 @@ public class FragmentController {
 		}
 
 		return new AnnotationSearchJson(annotations);
+		*/
 	}
 
 	@RequestMapping(method = RequestMethod.POST, value = "/fragment/annotations")
@@ -394,7 +412,9 @@ public class FragmentController {
 		VirtualEditionInter inter = FenixFramework.getDomainObject(annotationJson.getUri());
 		VirtualEdition virtualEdition = (VirtualEdition) inter.getEdition();
 		LdoDUser user = LdoDUser.getAuthenticatedUser();
-
+		
+		logger.debug("createAnnotation()");
+		
 		HumanAnnotation annotation;
 		if (HumanAnnotation.canCreate(virtualEdition, user)) {
 			annotation = inter.createAnnotation(annotationJson.getQuote(), annotationJson.getText(), user,
@@ -410,6 +430,8 @@ public class FragmentController {
 
 	@RequestMapping(method = RequestMethod.GET, value = "/fragment/annotations/{id}")
 	public @ResponseBody ResponseEntity<AnnotationDTO> getAnnotation(Model model, @PathVariable String id) {
+		logger.debug("getAnnotation");
+
 		HumanAnnotation annotation = FenixFramework.getDomainObject(id);
 		if (annotation != null) {
 			return new ResponseEntity<>(new AnnotationDTO(annotation), HttpStatus.OK);
@@ -421,6 +443,9 @@ public class FragmentController {
 	@RequestMapping(method = RequestMethod.PUT, value = "/fragment/annotations/{id}")
 	public @ResponseBody ResponseEntity<AnnotationDTO> updateAnnotation(Model model, @PathVariable String id,
 			@RequestBody final AnnotationDTO annotationJson) {
+		logger.debug("updateAnnotation");
+
+		
 		HumanAnnotation annotation = FenixFramework.getDomainObject(id);
 		LdoDUser user = LdoDUser.getAuthenticatedUser();
 
@@ -440,6 +465,8 @@ public class FragmentController {
 	@RequestMapping(method = RequestMethod.DELETE, value = "/fragment/annotations/{id}")
 	public @ResponseBody ResponseEntity<AnnotationDTO> deleteAnnotation(Model model, @PathVariable String id,
 			@RequestBody final AnnotationDTO annotationJson) {
+		logger.debug("deleteAnnotation");
+
 		HumanAnnotation annotation = FenixFramework.getDomainObject(id);
 		LdoDUser user = LdoDUser.getAuthenticatedUser();
 
@@ -457,7 +484,8 @@ public class FragmentController {
 
 	@RequestMapping(method = RequestMethod.GET, value = "/fragment/annotation/{annotationId}/categories")
 	public @ResponseBody ResponseEntity<String[]> getAnnotationInter(Model model, @PathVariable String annotationId) {
-
+		logger.debug("getAnnotationInter");
+		
 		HumanAnnotation annotation = FenixFramework.getDomainObject(annotationId);
 
 		List<Category> listCategories = annotation.getCategories();

@@ -257,8 +257,9 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 
 		return categories;
 	}
-
-	/*//Estava a dar erro
+	
+	//Estava a dar erro
+	/*
 	@Override
 	public Set<HumanAnnotation> getAllDepthAnnotations() {
 		Set<HumanAnnotation> annotations = null;
@@ -271,9 +272,10 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 		annotations.addAll(getUses().getAllDepthAnnotations());
 
 		return annotations;
-	}*/
+	}
+	*/
 
-	//Solução
+	//Solução - a funcionar
 	@Override
 	public Set<HumanAnnotation> getAllDepthHumanAnnotations() {
 		Set<HumanAnnotation> annotations = null;
@@ -288,6 +290,22 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 
 		return annotations;
 	}
+	
+	//Solução para suportar os dois tipos de annotation
+	@Override
+	public Set<Annotation> getAllDepthAnnotations() {
+		Set<Annotation> annotations = null;
+		if (getVirtualEdition().checkAccess()) {
+			annotations = new HashSet<>(getAnnotationSet());
+		} else {
+			annotations = new HashSet<>();
+		}
+
+		annotations.addAll(getUses().getAllDepthAnnotations());
+
+		return annotations;
+	}
+	
 	
 	@Override
 	public Set<Tag> getAllDepthTags() {

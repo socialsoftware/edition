@@ -39,17 +39,17 @@ public class TweetFactory {
 	private static File toWriteFile;
 	
 	 public static void logger(Object toPrint) {
-	    	System.out.println(toPrint);
-	    }
+	    System.out.println(toPrint);
+	 }
 	
-	public TweetFactory() throws IOException {	
+	 public TweetFactory() throws IOException {	
 		//just for writing tweet objects in a file 
 		String timeStamp = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
 		//String exportDir = PropertiesManager.getProperties().getProperty("social.aware.dir");
 		toWriteFile = new File("C:/Users/dnf_o/projetoTese/ldod/social/tweetObjects/" + "tweets" + "-" + timeStamp + ".txt");
 		fw = new FileWriter(toWriteFile);
 		bw = new BufferedWriter(fw);
-	}
+	 }
 	
 	
 	@Atomic
@@ -58,7 +58,7 @@ public class TweetFactory {
 		LdoD ldoD = LdoD.getInstance();
 
 		//File folder = new File(PropertiesManager.getProperties().getProperty("social.aware.dir"));
-		File folder = new File("C:/Users/dnf_o/projetoTese/ldod/social/awareCopy");
+		File folder = new File(PropertiesManager.getProperties().getProperty("social.aware.dir"));
 		for (File fileEntry : folder.listFiles()) {
 			logger("início de uma iteração!");
 			bw.write("+++++++++++++++++++++++++++++++++++ JSON ++++++++++++++++++++++++++++++++++++");
@@ -108,56 +108,59 @@ public class TweetFactory {
 							tweetTextSubstring = tweetText.substring(0, httpIndex);
 						}
 						
-						bw.write("\n");
-						bw.write("Date: " + (String)obj.get("date"));
-						bw.write("\n");
-						bw.write("Tweet ID: " + (long)obj.get("tweetID"));
-						bw.write("\n");
-						bw.write("JSON Text: " + tweetTextSubstring);
-						bw.write("\n");
-						
-						bw.write("Original ID: " + (long)obj.get("originalTweetID"));
-						bw.write("\n");
-						bw.write("Retweet: " + (boolean)obj.get("isRetweet"));
-						bw.write("\n");
-						
-						
-						
 						if(!tweetTextSubstring.equals("")) {
-
-							//******************************** CREATE TWEETS ***************************************
+						
+							bw.write("\n");
+							bw.write("Date: " + (String)obj.get("date"));
+							bw.write("\n");
+							bw.write("Tweet ID: " + (long)obj.get("tweetID"));
+							bw.write("\n");
+							bw.write("JSON Text: " + tweetTextSubstring);
+							bw.write("\n");
 							
-								//if is not retweet, aka original, twitterCitation = LdoD.getTwitterCitationByTweetID((long)obj.get("tweetID"))
-								//if it is a retweet, twitterCitation = LdoD.getTwitterCitationByTweetID(originalTweetID)
-								TwitterCitation twitterCitation = null;
-								boolean isRetweet = (boolean)obj.get("isRetweet");
-								if(!isRetweet) {
-									twitterCitation = ldoD.getTwitterCitationByTweetID((long)obj.get("tweetID"));
+							
+							//****************        Obtain Twitter Citation       **********************************/
+							
+							TwitterCitation twitterCitation = null;
+							boolean isRetweet = false;
+							long originalTweetID = -1L;
+							//novos ficheiros JSON contêm este field
+							if(obj.containsKey("originalTweetID")) {
+								bw.write("Original ID: " + (long)obj.get("originalTweetID"));
+								bw.write("\n");
+								bw.write("Retweet: " + (boolean)obj.get("isRetweet"));
+								bw.write("\n");
+								
+								originalTweetID = (long)obj.get("originalTweetID");
+								isRetweet = (boolean)obj.get("isRetweet");
+								//o tweet é um retweet
+								if(isRetweet) {
+									twitterCitation = ldoD.getTwitterCitationByTweetID((long)obj.get("originalTweetID"));
 									
 								}
-								else {
-									twitterCitation = ldoD.getTwitterCitationByTweetID((long)obj.get("originalTweetID"));
-								}
-								
-
-								
-								new Tweet(ldoD, (String)obj.get("tweetURL"), (String)obj.get("date"), tweetTextSubstring, 
-										(long)obj.get("tweetID"), (String)obj.get("location"), 
-										(String)obj.get("country"), (String)obj.get("username"), (String)obj.get("profURL"), 
-										(String)obj.get("profImg"), (long)obj.get("originalTweetID"), isRetweet, twitterCitation);
-								
-								if(twitterCitation != null) {
-									bw.write("Twitter Citation - Frag Text: " + twitterCitation.getFragText());
-									bw.write("\n");
-									bw.write("Twitter Citation - Tweet ID: " + twitterCitation.getTweetID());
-									bw.write("\n");
-								}
-								else {
-									bw.write("Twitter Citation: NULL");
-									bw.write("\n");
-								}
-
-								
+							}
+							//antigos ficheiros JSON ou simplesmente novos ficheiros em q o tweet é um tweet original
+							else {
+								twitterCitation = ldoD.getTwitterCitationByTweetID((long)obj.get("tweetID"));
+							}
+							bw.write("CREATED A NEW TWEET!!");
+							bw.write("\n");
+							//Create tweet
+							new Tweet(ldoD, (String)obj.get("tweetURL"), (String)obj.get("date"), tweetTextSubstring, 
+									(long)obj.get("tweetID"), (String)obj.get("location"), 
+									(String)obj.get("country"), (String)obj.get("username"), (String)obj.get("profURL"), 
+									(String)obj.get("profImg"), originalTweetID, isRetweet, twitterCitation);
+							
+							if(twitterCitation != null) {
+								bw.write("Twitter Citation - Frag Text: " + twitterCitation.getFragText());
+								bw.write("\n");
+								bw.write("Twitter Citation - Tweet ID: " + twitterCitation.getTweetID());
+								bw.write("\n");
+							}
+							else {
+								bw.write("Twitter Citation: NULL");
+								bw.write("\n");
+							}
 						}
 						
 			            bw.write("-------------------------------- NEXT!!!!!!!!!!!!!!!!!! -----------------------------------------");

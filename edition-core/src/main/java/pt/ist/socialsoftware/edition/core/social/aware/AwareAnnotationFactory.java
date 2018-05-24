@@ -13,9 +13,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import pt.ist.fenixframework.Atomic;
+import pt.ist.fenixframework.FenixFramework;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.socialsoftware.edition.core.domain.AwareAnnotation;
+import pt.ist.socialsoftware.edition.core.domain.Category;
 import pt.ist.socialsoftware.edition.core.domain.Citation;
+import pt.ist.socialsoftware.edition.core.domain.FragInter;
 import pt.ist.socialsoftware.edition.core.domain.Fragment;
 import pt.ist.socialsoftware.edition.core.domain.HumanAnnotation;
 import pt.ist.socialsoftware.edition.core.domain.LdoD;
@@ -23,14 +26,18 @@ import pt.ist.socialsoftware.edition.core.domain.LdoDUser;
 import pt.ist.socialsoftware.edition.core.domain.Range;
 import pt.ist.socialsoftware.edition.core.domain.SimpleText;
 import pt.ist.socialsoftware.edition.core.domain.SocialMediaCriteria;
+import pt.ist.socialsoftware.edition.core.domain.Tag;
 import pt.ist.socialsoftware.edition.core.domain.TimeWindow;
 import pt.ist.socialsoftware.edition.core.domain.TwitterCitation;
 import pt.ist.socialsoftware.edition.core.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.core.domain.VirtualEditionInter;
+import pt.ist.socialsoftware.edition.core.generators.PlainHtmlWriter4OneInter;
+import pt.ist.socialsoftware.edition.core.generators.PlainTextFragmentWriter;
 import pt.ist.socialsoftware.edition.core.utils.RangeJson;
+import twitter4j.User;
 
 public class AwareAnnotationFactory {
-	private static Logger logger = LoggerFactory.getLogger(FetchCitationsFromTwitter.class);
+	private static Logger logger = LoggerFactory.getLogger(AwareAnnotationFactory.class);
 	
 	public static void logger(Object toPrint) {
     	System.out.println(toPrint);
@@ -192,37 +199,133 @@ public class AwareAnnotationFactory {
 				}
 			}
 		}
+		*/
+		
 		
 		VirtualEdition duarteEdit = LdoD.getInstance().getVirtualEdition("LdoD-EditDuarte");
-		duarteEdit.addCriteria(new TimeWindow());
-		System.out.println(duarteEdit.isSAVE());
+		//duarteEdit.addCriteria(new TimeWindow());
+		logger("IS SAVE: " + duarteEdit.isSAVE());
+		logger("Size of criteria set: " + duarteEdit.getCriteriaSet().size());
+		
+		String annotQuote = "quote verão"; //string matching algorithm
+		String annotText = "tardes de verão - primeira aware annotation automática"; //meta information inside citation object
+		
+		Set<FragInter> inters = duarteEdit.getIntersSet();
+		logger("Size of inters: " + inters.size());
+		//844639678496964 - virtual inter external id
+		//LENDA IMPERIAL - virtual inter title
+		VirtualEditionInter vei = FenixFramework.getDomainObject("844639678496861");
+		//844639678496818
+		//Prefiro a prosa ao verso
+		//844639678496958
+		//MÁXIMAS
+		
+		
+		/*
+		for(FragInter inter: inters) {
+			logger(inter.getExternalId());
+			logger(inter.getTitle());
+			logger("############");
+		}
 		*/
+		
+		logger(vei.getExternalId());
+		logger(vei.getTitle());
+		SimpleText startText = null;
+		SimpleText endText = null;
+		
+		LdoDUser user = LdoD.getInstance().getUser("ars");
+		
+		logger(vei);
+		logger(vei.getLastUsed());
+		
+		PlainTextFragmentWriter plainWriter = new PlainTextFragmentWriter(vei);
+		plainWriter.write();
+		String plainTransc = plainWriter.getTranscription();
+		logger("plainTransc: " + plainTransc);
+		
+		PlainHtmlWriter4OneInter htmlWriter = new PlainHtmlWriter4OneInter(vei);
+		htmlWriter.write(false);
+		String htmlTransc = htmlWriter.getTranscription();
+		logger("htmlTransc: " + htmlTransc);
+		
+		/*
+		logger("Categories: ");
+		Set<Category> categories = duarteEdit.getTaxonomy().getCategoriesSet();
+		for(Category c: categories) {
+			logger("Category name: " + c.getName());
+			for(Tag t: c.getTagSet()) {
+				logger("Tag: ");
+				logger("Título do fraginter da tag: " + t.getInter().getTitle());
+				logger("Quote: " + t.getAnnotation().getQuote());
+				logger("Text: " + t.getAnnotation().getText());
+				logger("User: " + t.getAnnotation().getUser().getUsername());
+								
+				for(Range r: t.getAnnotation().getRangeSet()) {
+					logger("Range: ");
+					logger("Start: " + r.getStart());
+					logger("Start Offset: " + r.getStartOffset());
+					logger("End: " + r.getEnd());
+					logger("End Offset: " + r.getEndOffset());
+				}
+			}
+		}
+		*/
+		
+		//HumanAnnotation annotation = new HumanAnnotation(vei, startText, endText, annotQuote, annotText, user);
+		//AwareAnnotation annotation = new AwareAnnotation(vei, annotQuote, annotText);
+
+		/*
+		//lenda imperial
+		String start = "/div[1]/div[1]/p[3]";
+		String end = "/div[1]/div[1]/p[3]";
+		int startOffset = 0; 
+		int endOffset = 20;
+		
+		start = "/div[1]/div[1]/p[3]";
+		end = "/div[1]/div[1]/p[3]";
+		startOffset = 25; 
+		endOffset = 35;
+		*/
+		
+		//new Range(annotation, start, startOffset, end, endOffset);
+		
+		
+		/*
+		//processo de criar tags, facultativo. uma anotação não precisa de ter tag/category
+		for (String tag : tagList) {
+			createTag(annotation.getUser(), tag, annotation);
+		}
+		*/
+		
+		
+		
+		//********************************  Pattern finding *******************************		
 		
 		LdoD ldoD = LdoD.getInstance();
 		logger("------------------------------------");
-		int window = 10;
+		int window = 7;
 		
 		BufferedWriter bw = null;
 		FileWriter fw = null;
 		File file;
 		file = new File("C:/Users/dnf_o/projetoTese/ldod/social/citationsPositions/positions.txt");
+		//file = new File("C:/Users/dnf_o/projetoTese/ldod/social/citationsPositions/htmlPositions.txt");
 		fw = new FileWriter(file);
 		bw = new BufferedWriter(fw);
 		
 		Set<TwitterCitation> allTwitterCitations = ldoD.getAllTwitterCitation();
 		
 		for (TwitterCitation c : allTwitterCitations) {
-			/*
-			System.out.println("+++++++++++ CITATIONS ++++++++++++++++");
-			System.out.println(c.getSourceLink());
-			System.out.println(c.getDate());
-			System.out.println(c.getFragText());
-			System.out.println(c.getExternalId());
-			*/
 			
 			//será preciso por estes textos em lowerCase??
 			String text = c.getFragText();
 			String tweet = c.getTweetText();
+			
+			//exemplo para debug da aware annotation highlight
+			//String text = htmlTransc;
+			//String tweet = "Minha Imaginação é uma cidade no Oriente";
+			//tweet = "os recrutas sonambulizam em molhos ora muito ruidosos";
 			
 			//é chato pôr o text é lowercase pq estamos a adulterar a informação original, experimentar outra distance em vez do Jaro
 			text = text.toLowerCase();
@@ -276,7 +379,7 @@ public class AwareAnnotationFactory {
 							//pq a primeira palavra do padrão pode ocorrer várias vezes no texto antes de ocorrer no padrão
 							//o mais correto seria fazer quando count==1 (pq é quando já recolhemos pelo menos uma palavra)
 							//mas como o offset só é updated no início de cada ciclo temos de esperar uma iteração
-							if(count==2) {
+							if(count==2) { //experimentar variar este valor para 3 ou 4 para experimentar
 								//este update ao start dá bug quando as palavras iniciais do padrão aparecem antes do padrão
 								logger("	padrão até agora: " + patternFound);
 								
@@ -318,6 +421,7 @@ public class AwareAnnotationFactory {
 			
 			bw.write("***************** CITATION **************************");
 			bw.write("\n");
+	
 			bw.write("Date: " + c.getDate());
 			bw.write("\n");
 			bw.write("External ID: " + c.getExternalId());
@@ -330,6 +434,7 @@ public class AwareAnnotationFactory {
 			
 			bw.write("Tweet text: " + c.getTweetText());
 			bw.write("\n");
+			
 			
 			bw.write("Start index: " + start);
 			bw.write("\n");
@@ -345,13 +450,60 @@ public class AwareAnnotationFactory {
 				bw.write("\n");			
 			}
 			
-		}
+			if(start == -1 || end == -1) {
+				bw.write("	start or end is -1!!");
+				bw.write("\n");			
+			}
+			
+			logger("Padrão encontrado: " + patternFound);
+			logger("+++++++++++++++++++++++++++++");
+			logger("Padrão limpo: " + tweet);
+			
+			/*
+			//HTML treatment
+			int numOfP = 1 + countOccurencesOfSubstring(text, "<p", start); //+1 porque o getTranscription não traz o primeiro <p
+			logger("Número de <p: " + numOfP);
+				
+			logger("Índice do último '>': " + text.lastIndexOf(">", start));
+			int htmlStart = start - text.lastIndexOf(">", start) - 1; //-1, para compensar
+			int htmlEnd = end - text.lastIndexOf(">", start) -1; //-1, para compensar
+			logger("Índice do htmlStart: " + htmlStart);
+			logger("Índice do htmlEnd: " + htmlEnd);
+			
+			//*************** writing in file html stuff **************
+			
+			//HTML treatment
+			bw.write(("Número de <p: " + numOfP));
+			bw.write("\n");
+
+			bw.write(("Índice do último '>': " + text.lastIndexOf(">", start)));
+			bw.write("\n");
+			bw.write(("Índice do htmlStart: " + htmlStart));
+			bw.write("\n");
+			bw.write(("Índice do htmlEnd: " + htmlEnd));
+			bw.write("\n");
+			*/
+			
+		}//fim do for das twitter citations
 	
 		bw.close();
 		fw.close();
 		
+		//new Range(annotation, "/div[1]/div[1]/p[" + numOfP + "]", htmlStart, "/div[1]/div[1]/p[" + numOfP + "]", htmlEnd);
+		
 		logger.debug("END OF FACTORY"); 
 	}
+	
+	//método responsável por criar aware annotation no vei com meta informação contida na tc
+	public void createAwareAnnotation(VirtualEditionInter vei, TwitterCitation tc) {
+		PlainHtmlWriter4OneInter htmlWriter = new PlainHtmlWriter4OneInter(vei);
+		htmlWriter.write(false);
+		String htmlTransc = htmlWriter.getTranscription();
+		logger("htmlTransc: " + htmlTransc);
+		
+		//TO DO
+	}
+	
 	
 	public Set<TwitterCitation> getTotalTwitterCitationsByInter(Set<TwitterCitation> allTwitterCitations, VirtualEditionInter inter){
 		Set<TwitterCitation> totalTwitterCitations = new HashSet<TwitterCitation>();
@@ -378,7 +530,17 @@ public class AwareAnnotationFactory {
 		return twitterCitations;
 	}
 	
-	
+	public int countOccurencesOfSubstring(final String string, final String substring, final int subsStartPos) {
+	     int count = 0;
+	     int idx = 0;
+
+	     while ((idx = string.indexOf(substring, idx)) != -1 && idx < subsStartPos){
+	        idx++;
+	        count++;
+	     }
+
+	     return count;
+	}
 
 	/************************************** DEBUG DE IDS *************************************************/
 	/*

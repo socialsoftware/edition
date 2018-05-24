@@ -65,6 +65,10 @@ public class CitationDetecter {
 	private static FileWriter fw;
 	private static File toWriteFile;
 	
+	public static void logger(Object toPrint) {
+		System.out.println(toPrint);
+	}
+	
 	public CitationDetecter() throws IOException {
 		String path = PropertiesManager.getProperties().getProperty("indexer.dir");
 		docDir = Paths.get(path);
@@ -82,7 +86,7 @@ public class CitationDetecter {
 
 	@Atomic
 	public void detect() throws IOException {		
-		LdoD.getInstance().getLastTwitterID().resetTwitterIDS(); //serve só para testar melhor pq dá reset ao id na base de dados
+		//LdoD.getInstance().getLastTwitterID().resetTwitterIDS(); //serve só para testar melhor pq dá reset ao id na base de dados
 		File folder = new File(PropertiesManager.getProperties().getProperty("social.aware.dir"));
 	    for (File fileEntry : folder.listFiles()) {
 			System.out.println("STARTING CITATION DETECTER!!");
@@ -106,6 +110,11 @@ public class CitationDetecter {
 				int lineNum = 0;
 			    while((line = bufferedReader.readLine()) != null) {
 			    	obj = (JSONObject) new JSONParser().parse(line);
+			    	
+			    	if(obj.containsKey("isRetweet") && (boolean)obj.get("isRetweet")) {
+			    		continue;
+			    	}
+			    	
 			    	if(lineNum == 0) { 
 			    		//prints e writes para debug
 			    		System.out.println("----------- PRIMEIRA LINHA ---------------");
@@ -183,6 +192,11 @@ public class CitationDetecter {
 			}	
 		} //chaveta do for
 		logger.debug("LdoD BookLastTwitterID:{}", LdoD.getInstance().getLastTwitterID().getBookLastTwitterID()); 
+		logger.debug("LdoD BernardoLastTwitterID:{}", LdoD.getInstance().getLastTwitterID().getBernardoLastTwitterID()); 
+		logger.debug("LdoD VicenteLastTwitterID:{}", LdoD.getInstance().getLastTwitterID().getVicenteLastTwitterID()); 
+		logger.debug("LdoD PessoaLastTwitterID:{}", LdoD.getInstance().getLastTwitterID().getPessoaLastTwitterID()); 
+		logger("FINISHED DETECTING CITATIONS!!!");
+
 		
 		bw.close();
 		fw.close();
@@ -300,6 +314,8 @@ public class CitationDetecter {
 					//^pôr isto num método à parte
 					
 					if(!twitterIDExists) {
+						bw.write("CREATED A NEW TWITTER CITATION!!");
+						bw.write("\n");
 						new TwitterCitation(LdoD.getInstance(), fragment,
 								(String)obj.get("tweetURL"), (String)obj.get("date"),
 								d.get(TEXT), tweetTextSubstring, (long)obj.get("tweetID"), (String)obj.get("location"), 
