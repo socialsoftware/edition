@@ -4,6 +4,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -207,47 +208,24 @@ public class AwareAnnotationFactory {
 		logger("IS SAVE: " + duarteEdit.isSAVE());
 		logger("Size of criteria set: " + duarteEdit.getCriteriaSet().size());
 		
-		String annotQuote = "quote verão"; //string matching algorithm
-		String annotText = "tardes de verão - primeira aware annotation automática"; //meta information inside citation object
-		
 		Set<FragInter> inters = duarteEdit.getIntersSet();
 		logger("Size of inters: " + inters.size());
 		//844639678496964 - virtual inter external id
 		//LENDA IMPERIAL - virtual inter title
-		VirtualEditionInter vei = FenixFramework.getDomainObject("844639678496861");
+		VirtualEditionInter vei = FenixFramework.getDomainObject("844639678497136");
 		//844639678496818
 		//Prefiro a prosa ao verso
 		//844639678496958
 		//MÁXIMAS
 		
-		
-		/*
-		for(FragInter inter: inters) {
-			logger(inter.getExternalId());
-			logger(inter.getTitle());
-			logger("############");
-		}
-		*/
-		
 		logger(vei.getExternalId());
 		logger(vei.getTitle());
-		SimpleText startText = null;
-		SimpleText endText = null;
-		
-		LdoDUser user = LdoD.getInstance().getUser("ars");
 		
 		logger(vei);
 		logger(vei.getLastUsed());
 		
-		PlainTextFragmentWriter plainWriter = new PlainTextFragmentWriter(vei);
-		plainWriter.write();
-		String plainTransc = plainWriter.getTranscription();
-		logger("plainTransc: " + plainTransc);
+		createAwareAnnotation(vei, null);
 		
-		PlainHtmlWriter4OneInter htmlWriter = new PlainHtmlWriter4OneInter(vei);
-		htmlWriter.write(false);
-		String htmlTransc = htmlWriter.getTranscription();
-		logger("htmlTransc: " + htmlTransc);
 		
 		/*
 		logger("Categories: ");
@@ -272,236 +250,47 @@ public class AwareAnnotationFactory {
 		}
 		*/
 		
-		//HumanAnnotation annotation = new HumanAnnotation(vei, startText, endText, annotQuote, annotText, user);
-		//AwareAnnotation annotation = new AwareAnnotation(vei, annotQuote, annotText);
-
-		/*
-		//lenda imperial
-		String start = "/div[1]/div[1]/p[3]";
-		String end = "/div[1]/div[1]/p[3]";
-		int startOffset = 0; 
-		int endOffset = 20;
-		
-		start = "/div[1]/div[1]/p[3]";
-		end = "/div[1]/div[1]/p[3]";
-		startOffset = 25; 
-		endOffset = 35;
-		*/
-		
-		//new Range(annotation, start, startOffset, end, endOffset);
-		
-		
-		/*
 		//processo de criar tags, facultativo. uma anotação não precisa de ter tag/category
-		for (String tag : tagList) {
-			createTag(annotation.getUser(), tag, annotation);
-		}
-		*/
-		
-		
-		
-		//********************************  Pattern finding *******************************		
-		
-		LdoD ldoD = LdoD.getInstance();
-		logger("------------------------------------");
-		int window = 7;
-		
-		BufferedWriter bw = null;
-		FileWriter fw = null;
-		File file;
-		file = new File("C:/Users/dnf_o/projetoTese/ldod/social/citationsPositions/positions.txt");
-		//file = new File("C:/Users/dnf_o/projetoTese/ldod/social/citationsPositions/htmlPositions.txt");
-		fw = new FileWriter(file);
-		bw = new BufferedWriter(fw);
-		
-		Set<TwitterCitation> allTwitterCitations = ldoD.getAllTwitterCitation();
-		
-		for (TwitterCitation c : allTwitterCitations) {
-			
-			//será preciso por estes textos em lowerCase??
-			String text = c.getFragText();
-			String tweet = c.getTweetText();
-			
-			//exemplo para debug da aware annotation highlight
-			//String text = htmlTransc;
-			//String tweet = "Minha Imaginação é uma cidade no Oriente";
-			//tweet = "os recrutas sonambulizam em molhos ora muito ruidosos";
-			
-			//é chato pôr o text é lowercase pq estamos a adulterar a informação original, experimentar outra distance em vez do Jaro
-			text = text.toLowerCase();
-			//o "clean" já mete o tweet em lowerCase
-			tweet = cleanTweetText(tweet);
-			
-			
-			//variables updated over iteration
-			int start = -1;
-			int end = -1;
-			int offset = 0;
-			String patternFound = "";
-			double jaroThreshold = 0.799;
+		//for (String tag : tagList) {
+		//	createTag(annotation.getUser(), tag, annotation);
+		//}
 
-			
-			//algorithm
-			int count = 0; //aux counter to check if we reach the minimum value set by "window" variable
-			outerloop:
-			for (String initialWord : tweet.split("\\s+")) {
-				for(String word: initialWord.split(",")) {
-					logger("--------------------------------------------------");
-					offset = Math.max(start, end);
-					if(offset==-1) {
-						offset=0;
-					}
-					logger("offset: " + offset);
-					
-					JaroInfo info = maxJaroValue(text.substring(offset), word);
-					logger("tweet word: " + word);
-					logger("text word: " + info.wordFound);
-	
-					//a palavra tem de existir no texto e estar à frente do offset!
-					//primeira palavra encontrada
-					if(info.jaroValue > jaroThreshold && text.indexOf(info.wordFound, offset)!=-1) { 
-						logger("	text contains this word");
-						logger(text.indexOf(info.wordFound, offset));
-						logger(info.jaroValue);
-						//é só updated uma vez e é quando o início começa bem
-						if(count==0) {
-							//é só updated uma vez e é quando o início começa bem
-							start = text.indexOf(info.wordFound, offset);
-							logger("	dei update do start para: " + start);
-							logger("	a palavra encontrada no Texto foi: " + info.wordFound);
-							patternFound+= info.wordFound + " ";
-							count=1;
-						}
-						//restantes palavras encontradas
-						//vai sendo constantemente updated enquanto corre bem
-						else {
-							//entra neste if para dar o update exato do start
-							//pq a primeira palavra do padrão pode ocorrer várias vezes no texto antes de ocorrer no padrão
-							//o mais correto seria fazer quando count==1 (pq é quando já recolhemos pelo menos uma palavra)
-							//mas como o offset só é updated no início de cada ciclo temos de esperar uma iteração
-							if(count==2) { //experimentar variar este valor para 3 ou 4 para experimentar
-								//este update ao start dá bug quando as palavras iniciais do padrão aparecem antes do padrão
-								logger("	padrão até agora: " + patternFound);
-								
-								String[] splits = patternFound.split(" ");
-								String firstWordOfPatternFound = splits[0];
-								logger("	primeira palavra: " + firstWordOfPatternFound);
-								String lastWordOfPatternFound = splits[splits.length-1];
-								logger("	última palavra: " + lastWordOfPatternFound);
-								
-								start = text.lastIndexOf(firstWordOfPatternFound, offset-lastWordOfPatternFound.length());
-								logger("	dei update do start para: " + start);
-							}
-							end = text.indexOf(info.wordFound, offset) + info.wordFound.length();
-							logger("	dei update do end para: " + end);
-							logger("	a palavra encontrada no Texto foi: " + info.wordFound);
-							patternFound+= info.wordFound + " ";
-							count++;
-						}
-					}
-					//caso em q a palavra não existe no texto
-					else {
-						logger("	text DOES NOT contains this word");
-						logger(info.jaroValue);
-						if(count<window) { //significa que não fizémos o número mínimo de palavras seguidas, logo é dar reset!!
-							count=0;
-							start=-1;
-							end=-1;
-							patternFound = "";
-							logger("	dei reset ao count, next word!");
-						}
-						else {
-							logger("	vou dar break pq já garanti a window");
-							break outerloop;
-						}
-					}
-					logger("	count: " + count);
-				}//for interno
-			}//for externo
-			
-			bw.write("***************** CITATION **************************");
-			bw.write("\n");
-	
-			bw.write("Date: " + c.getDate());
-			bw.write("\n");
-			bw.write("External ID: " + c.getExternalId());
-			bw.write("\n");
-			bw.write("Tweet ID: " + c.getTweetID());
-			bw.write("\n");
-			
-			bw.write("Frag text: " + c.getFragText());
-			bw.write("\n");
-			
-			bw.write("Tweet text: " + c.getTweetText());
-			bw.write("\n");
-			
-			
-			bw.write("Start index: " + start);
-			bw.write("\n");
-			bw.write("End index: " + end);
-			bw.write("\n");
-			bw.write("Pattern found: " + patternFound);
-			bw.write("\n");
-			bw.write("Pattern clean: " + tweet);
-			bw.write("\n");
-			
-			if(patternFound.equals("")) {
-				bw.write("	Pattern does not exist!");
-				bw.write("\n");			
-			}
-			
-			if(start == -1 || end == -1) {
-				bw.write("	start or end is -1!!");
-				bw.write("\n");			
-			}
-			
-			logger("Padrão encontrado: " + patternFound);
-			logger("+++++++++++++++++++++++++++++");
-			logger("Padrão limpo: " + tweet);
-			
-			/*
-			//HTML treatment
-			int numOfP = 1 + countOccurencesOfSubstring(text, "<p", start); //+1 porque o getTranscription não traz o primeiro <p
-			logger("Número de <p: " + numOfP);
-				
-			logger("Índice do último '>': " + text.lastIndexOf(">", start));
-			int htmlStart = start - text.lastIndexOf(">", start) - 1; //-1, para compensar
-			int htmlEnd = end - text.lastIndexOf(">", start) -1; //-1, para compensar
-			logger("Índice do htmlStart: " + htmlStart);
-			logger("Índice do htmlEnd: " + htmlEnd);
-			
-			//*************** writing in file html stuff **************
-			
-			//HTML treatment
-			bw.write(("Número de <p: " + numOfP));
-			bw.write("\n");
-
-			bw.write(("Índice do último '>': " + text.lastIndexOf(">", start)));
-			bw.write("\n");
-			bw.write(("Índice do htmlStart: " + htmlStart));
-			bw.write("\n");
-			bw.write(("Índice do htmlEnd: " + htmlEnd));
-			bw.write("\n");
-			*/
-			
-		}//fim do for das twitter citations
-	
-		bw.close();
-		fw.close();
 		
-		//new Range(annotation, "/div[1]/div[1]/p[" + numOfP + "]", htmlStart, "/div[1]/div[1]/p[" + numOfP + "]", htmlEnd);
-		
+		//pattern finding code was here
+		//caso seja preciso fazer debug ao algoritmo, é só ir buscar ao backup e testar aqui 
+		//com o ciclo for q percorre todas as twitter citations do sistema
 		logger.debug("END OF FACTORY"); 
 	}
 	
+	
+	
+	
+	
 	//método responsável por criar aware annotation no vei com meta informação contida na tc
-	public void createAwareAnnotation(VirtualEditionInter vei, TwitterCitation tc) {
+	public void createAwareAnnotation(VirtualEditionInter vei, TwitterCitation tc) throws IOException {
 		PlainHtmlWriter4OneInter htmlWriter = new PlainHtmlWriter4OneInter(vei);
 		htmlWriter.write(false);
 		String htmlTransc = htmlWriter.getTranscription();
 		logger("htmlTransc: " + htmlTransc);
 		
-		//TO DO
+		String tempTweetText = "além de me apavorar — não é por medo que eu sinto excessivamente —, perturba-me";
+		List<String> result = patternFinding(htmlTransc, tempTweetText); //para testar
+		//List<String> result = patternFinding(htmlTransc, tc.getTweetText()); //descomentar
+
+		
+		//********************************** CREATE ANNOTATION AND RANGE ********************************
+		
+		LdoDUser user = LdoD.getInstance().getUser("ars");
+		String annotQuote = result.get(0); //string matching algorithm
+		String annotText = "velocidade - segunda aware annotation automática"; //meta information inside citation object
+		
+		//HumanAnnotation annotation = new HumanAnnotation(vei, null, null, annotQuote, annotText, user);
+		AwareAnnotation annotation = new AwareAnnotation(vei, annotQuote, annotText);
+		
+		int htmlStart = Integer.parseInt(result.get(1));
+		int htmlEnd = Integer.parseInt(result.get(2));
+		int numOfP = Integer.parseInt(result.get(3));
+		new Range(annotation, "/div[1]/div[1]/p[" + numOfP + "]", htmlStart, "/div[1]/div[1]/p[" + numOfP + "]", htmlEnd);
 	}
 	
 	
@@ -530,6 +319,173 @@ public class AwareAnnotationFactory {
 		return twitterCitations;
 	}
 	
+
+	public List<String> patternFinding(String text, String tweet) throws IOException{
+		logger("------------------------------ PATTERN FINDING ALGORITHM -------------------------");
+		int window = 7;
+		
+		BufferedWriter bw = null;
+		FileWriter fw = null;
+		File file;
+		//file = new File("C:/Users/dnf_o/projetoTese/ldod/social/citationsPositions/positions.txt");
+		file = new File("C:/Users/dnf_o/projetoTese/ldod/social/citationsPositions/htmlPositions.txt");
+		fw = new FileWriter(file);
+		bw = new BufferedWriter(fw);
+		
+		//é chato pôr o text é lowercase pq estamos a adulterar a informação original, experimentar outra distance em vez do Jaro
+		text = text.toLowerCase();
+		//o "clean" já mete o tweet em lowerCase
+		tweet = cleanTweetText(tweet);
+		
+		//variables updated over iteration
+		int start = -1;
+		int end = -1;
+		int offset = 0;
+		String patternFound = "";
+		double jaroThreshold = 0.799;
+
+		//algorithm
+		int count = 0; //aux counter to check if we reach the minimum value set by "window" variable
+		outerloop:
+		for (String initialWord : tweet.split("\\s+")) {
+			for(String word: initialWord.split(",")) {
+				logger("--------------------------------------------------");
+				offset = Math.max(start, end);
+				if(offset==-1) {
+					offset=0;
+				}
+				logger("offset: " + offset);
+				
+				JaroInfo info = maxJaroValue(text.substring(offset), word);
+				logger("tweet word: " + word);
+				logger("text word: " + info.wordFound);
+
+				//a palavra tem de existir no texto e estar à frente do offset!
+				//primeira palavra encontrada
+				if(info.jaroValue > jaroThreshold && text.indexOf(info.wordFound, offset)!=-1) { 
+					logger("	text contains this word");
+					logger(text.indexOf(info.wordFound, offset));
+					logger(info.jaroValue);
+					//é só updated uma vez e é quando o início começa bem
+					if(count==0) {
+						//é só updated uma vez e é quando o início começa bem
+						start = text.indexOf(info.wordFound, offset);
+						logger("	dei update do start para: " + start);
+						logger("	a palavra encontrada no Texto foi: " + info.wordFound);
+						patternFound+= info.wordFound + " ";
+						count=1;
+					}
+					//restantes palavras encontradas
+					//vai sendo constantemente updated enquanto corre bem
+					else {
+						//entra neste if para dar o update exato do start
+						//pq a primeira palavra do padrão pode ocorrer várias vezes no texto antes de ocorrer no padrão
+						//o mais correto seria fazer quando count==1 (pq é quando já recolhemos pelo menos uma palavra)
+						//mas como o offset só é updated no início de cada ciclo temos de esperar uma iteração
+						if(count==4) { //experimentar variar este valor para 3 ou 4 para experimentar
+							//este update ao start dá bug quando as palavras iniciais do padrão aparecem antes do padrão
+							logger("	padrão até agora: " + patternFound);
+							
+							String[] splits = patternFound.split(" ");
+							String firstWordOfPatternFound = splits[0];
+							logger("	primeira palavra: " + firstWordOfPatternFound);
+							String lastWordOfPatternFound = splits[splits.length-1];
+							logger("	última palavra: " + lastWordOfPatternFound);
+							
+							start = text.lastIndexOf(firstWordOfPatternFound, offset-lastWordOfPatternFound.length());
+							logger("	dei update do start para: " + start);
+						}
+						end = text.indexOf(info.wordFound, offset) + info.wordFound.length();
+						logger("	dei update do end para: " + end);
+						logger("	a palavra encontrada no Texto foi: " + info.wordFound);
+						patternFound+= info.wordFound + " ";
+						count++;
+					}
+				}
+				//caso em q a palavra não existe no texto
+				else {
+					logger("	text DOES NOT contains this word");
+					logger(info.jaroValue);
+					if(count<window) { //significa que não fizémos o número mínimo de palavras seguidas, logo é dar reset!!
+						count=0;
+						start=-1;
+						end=-1;
+						patternFound = "";
+						logger("	dei reset ao count, next word!");
+					}
+					else {
+						logger("	vou dar break pq já garanti a window");
+						break outerloop;
+					}
+				}
+				logger("	count: " + count);
+			}//for interno
+		}//for externo
+		
+		bw.write("***************** CITATION **************************");
+		bw.write("\n");
+
+		bw.write("Start index: " + start);
+		bw.write("\n");
+		bw.write("End index: " + end);
+		bw.write("\n");
+		bw.write("Pattern found: " + patternFound);
+		bw.write("\n");
+		bw.write("Pattern clean: " + tweet);
+		bw.write("\n");
+		
+		if(patternFound.equals("")) {
+			bw.write("	Pattern does not exist!");
+			bw.write("\n");			
+		}
+		
+		if(start == -1 || end == -1) {
+			bw.write("	start or end is -1!!");
+			bw.write("\n");			
+		}
+		
+		
+		//HTML treatment
+		int numOfP = 1 + countOccurencesOfSubstring(text, "<p", start); //+1 porque o getTranscription não traz o primeiro <p
+		logger("Número de <p: " + numOfP);
+			
+		logger("Índice do último '>': " + text.lastIndexOf(">", start));
+		int htmlStart = start - text.lastIndexOf(">", start) - 1; //-1, para compensar
+		int htmlEnd = end - text.lastIndexOf(">", start) -1; //-1, para compensar
+		logger("Índice do htmlStart: " + htmlStart);
+		logger("Índice do htmlEnd: " + htmlEnd);
+		
+		//*************** writing in file html stuff **************
+		
+		//HTML treatment
+		bw.write(("Número de <p: " + numOfP));
+		bw.write("\n");
+
+		bw.write(("Índice do último '>': " + text.lastIndexOf(">", start)));
+		bw.write("\n");
+		bw.write(("Índice do htmlStart: " + htmlStart));
+		bw.write("\n");
+		bw.write(("Índice do htmlEnd: " + htmlEnd));
+		bw.write("\n");
+		bw.write("\n");
+
+		
+		bw.write(text);
+		bw.write("\n");
+
+		
+		bw.close();
+		fw.close();
+		
+		List<String> result = new ArrayList<String>();
+		result.add(patternFound);
+		result.add(String.valueOf(htmlStart));
+		result.add(String.valueOf(htmlEnd));
+		result.add(String.valueOf(numOfP));
+		
+		return result;
+	}
+	
 	public int countOccurencesOfSubstring(final String string, final String substring, final int subsStartPos) {
 	     int count = 0;
 	     int idx = 0;
@@ -541,6 +497,7 @@ public class AwareAnnotationFactory {
 
 	     return count;
 	}
+	
 
 	/************************************** DEBUG DE IDS *************************************************/
 	/*

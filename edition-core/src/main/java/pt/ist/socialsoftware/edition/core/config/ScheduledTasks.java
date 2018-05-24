@@ -43,7 +43,7 @@ public class ScheduledTasks {
 	}
 	
 	
-	@Scheduled(cron = "0 41 20 * * *")
+	@Scheduled(cron = "0 21 20 * * *")
 	public void createAwareAnnotations() throws IOException {
 		AwareAnnotationFactory awareFactory = new AwareAnnotationFactory();
 		awareFactory.create();
