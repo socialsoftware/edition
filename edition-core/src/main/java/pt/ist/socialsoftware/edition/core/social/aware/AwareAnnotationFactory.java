@@ -173,36 +173,264 @@ public class AwareAnnotationFactory {
 	public void create() throws IOException {
 		logger.debug("BEGINNIG OF FACTORY"); 
 		
+		BufferedWriter bw = null;
+		FileWriter fw = null;
+		File file;
+		file = new File("C:/Users/dnf_o/projetoTese/ldod/social/annot/annots.txt");
+		fw = new FileWriter(file);
+		bw = new BufferedWriter(fw);
+		
 		//algoritmo do Annotation Factory
 		//o removeAll modifica o conjunto
 		//experimentar biblioteca Guava do Google, não modifica os sets
-		/*
+		
 		LdoD ldoD = LdoD.getInstance();
 		//allTwitterCitations - all twitter citations in the archive
 		Set<TwitterCitation> allTwitterCitations = ldoD.getCitationsSet()
 				.stream().filter(TwitterCitation.class::isInstance).map(TwitterCitation.class::cast)
 				.collect(Collectors.toSet());
+		
+		logger("All Twitter Citations size: " + allTwitterCitations.size());
+		bw.write("All Twitter Citations size: " + allTwitterCitations.size());
+		bw.write("\n");
 		for(VirtualEdition ve: ldoD.getVirtualEditionsSet()) {
+			logger("VirtualEdition XMLID: " + ve.getXmlId());
 			if(ve.isSAVE()) {
+				logger(" ++++++++++++++++++++++++++ SAVE +++++++++++++++++++++++++++ ");
+				logger(ve.getXmlId() + " is SAVE");
+				logger("All Depth - Inters size: " + ve.getAllDepthVirtualEditionInters().size());
+				logger("            Inters size: " + ve.getIntersSet().size());
+
 				//perguntar ao stor se é este o método correto de obter os Inters a partir de uma VE
+				//ou se basta o getIntersSet
+				int count = 0;
 				for(VirtualEditionInter inter: ve.getAllDepthVirtualEditionInters()) {
-					//currentTwitterCitations - current twitter citations from a certain frag/fragInter
-					//totalTwitterCitations - total twitter citations from a certain frag/fragInter
+					logger(" +++++++++++++++++ VE Inter +++++++++++++++++++");
+					logger("Inter external ID: " + inter.getExternalId());
+					logger("Inter title: " + inter.getTitle());
+					
+					bw.write(" ++++++++++++++++++++++++++++++++++++++++++++++++ VE Inter ++++++++++++++++++++++++++++++++++++++++++++++++");
+					bw.write("\n");
+					bw.write("Inter external ID: " + inter.getExternalId());
+					bw.write("\n");
+					bw.write("Inter title: " + inter.getTitle());
+					bw.write("\n");
+			
+					//currentTwitterCitations - current twitter citations from a certain fragInter
+					//totalTwitterCitations - total twitter citations from a certain fragInter
+					//^baseados nas anotações que já foram criadas para cada fraginter
+					//pq para cada fraginter vai-se ver as anotações que foram criadas e 
+					//daí é q se extraem estes dois Sets
 					Set<TwitterCitation> currentTwitterCitations = getCurrentTwitterCitationsByInter(inter);
+					logger("CurrentTwitterCitations set size: " + currentTwitterCitations.size());
+					bw.write("CurrentTwitterCitations set size: " + currentTwitterCitations.size());
+					bw.write("\n");
+
+					//debug do conteúdo do currentTwitterCitations
+					/*
+					bw.write("\n");
+					for(TwitterCitation tc: currentTwitterCitations) {
+						logger("Entrei no for do currentTwitterCitations");
+						bw.write("Entrei no for do currentTwitterCitations");
+						bw.write("\n");
+						
+						logger(" --------------- Twitter Citation --------------");
+						logger("Date: " + tc.getDate());
+						logger("Tweet ID: " + tc.getTweetID());
+						logger("Tweet Text: " + tc.getTweetText());
+						logger("Frag external ID: " + tc.getFragment().getExternalId());
+						logger("Frag Title: " + tc.getFragment().getTitle());
+						logger("Frag Text: " + tc.getFragText());
+						bw.write(" --------------- Twitter Citation --------------");
+						bw.write("\n");
+						bw.write("Date: " + tc.getDate());
+						bw.write("\n");
+						bw.write("Tweet ID: " + tc.getTweetID());
+						bw.write("\n");
+						bw.write("Tweet Text: " + tc.getTweetText());
+						bw.write("\n");
+						bw.write("Frag external ID: " + tc.getFragment().getExternalId());
+						bw.write("\n");
+						bw.write("Frag Title: " + tc.getFragment().getTitle());
+						bw.write("\n");
+						bw.write("Frag Text: " + tc.getFragText());
+						bw.write("\n");
+					}
+					*/
+					
 					Set<TwitterCitation> totalTwitterCitations = getTotalTwitterCitationsByInter(allTwitterCitations, inter);
+					logger("TotalTwitterCitations set size: " + totalTwitterCitations.size());
+					bw.write("TotalTwitterCitations set size: " + totalTwitterCitations.size());
+					bw.write("\n");
+					bw.write("\n");
+					
+					PlainHtmlWriter4OneInter htmlWriter = new PlainHtmlWriter4OneInter(inter);
+					htmlWriter.write(false);
+					String htmlTransc = htmlWriter.getTranscription();
+					bw.write("htmlTransc: " + htmlTransc);
+					bw.write("\n");
+					bw.write("\n");
+					
+					/*
+					//debug do conteúdo do totalTwitterCitations
+					for(TwitterCitation tc: totalTwitterCitations) {
+						//logger("Entrei no for do totalTwitterCitations");
+						//bw.write("Entrei no for do totalTwitterCitations");
+						//bw.write("\n");
+						
+						
+						logger(" ------------------------------------ Twitter Citation --------------");
+						logger("Date: " + tc.getDate());
+						logger("Tweet ID: " + tc.getTweetID());
+						logger("Tweet Text: " + tc.getTweetText());
+						logger("Frag external ID: " + tc.getFragment().getExternalId());
+						logger("Frag Title: " + tc.getFragment().getTitle());
+						logger("Frag Text: " + tc.getFragText());
+						bw.write(" ----------------------------------- Twitter Citation --------------");
+						bw.write("\n");
+						bw.write("Date: " + tc.getDate());
+						bw.write("\n");
+						bw.write("Tweet ID: " + tc.getTweetID());
+						bw.write("\n");
+						bw.write("Tweet Text: " + tc.getTweetText());
+						bw.write("\n");
+						bw.write("Frag external ID: " + tc.getFragment().getExternalId());
+						bw.write("\n");
+						bw.write("Frag Title: " + tc.getFragment().getTitle());
+						bw.write("\n");
+						bw.write("Frag Text: " + tc.getFragText());
+						bw.write("\n");
+						bw.write("\n");
+					}
+					*/
+					
+					bw.write("TotalTwitterCitations set size BEFORE REMOVAL: " + totalTwitterCitations.size());
+					bw.write("\n");
 					totalTwitterCitations.removeAll(currentTwitterCitations);
+					bw.write("TotalTwitterCitations set size AFTER REMOVAL: " + totalTwitterCitations.size());
+					bw.write("\n");
+					bw.write("\n");
+					
+
 					for(TwitterCitation newCitation: totalTwitterCitations) {
+						logger(" ------------------------------------ Twitter Citation --------------");
+						logger("Date: " + newCitation.getDate());
+						logger("Tweet ID: " + newCitation.getTweetID());
+						logger("Tweet Text: " + newCitation.getTweetText());
+						logger("Frag external ID: " + newCitation.getFragment().getExternalId());
+						logger("Frag Title: " + newCitation.getFragment().getTitle());
+						logger("Frag Text: " + newCitation.getFragText());
+						bw.write(" ----------------------------------- Twitter Citation --------------");
+						bw.write("\n");
+						bw.write("Count = " + count);
+						bw.write("\n");
+						bw.write("\n");
+						count++;
+						
+						bw.write("Date: " + newCitation.getDate());
+						bw.write("\n");
+						bw.write("Tweet ID: " + newCitation.getTweetID());
+						bw.write("\n");
+						bw.write("Tweet Text: " + newCitation.getTweetText());
+						bw.write("\n");
+						bw.write("Frag external ID: " + newCitation.getFragment().getExternalId());
+						bw.write("\n");
+						bw.write("Frag Title: " + newCitation.getFragment().getTitle());
+						bw.write("\n");
+						bw.write("Frag Text: " + newCitation.getFragText());
+						bw.write("\n");
+						bw.write("\n");
+						
+						
+						createAwareAnnotation(inter, newCitation, bw);
 						//String quote = ""; //string matching algorithm
 						//String text = ""; //meta information inside citation object
 						//new AwareAnnotation(inter, quote, text);
 					}
-					
-				}
+				
+				}	
+				
 			}
+			logger(" +++++++++++++++++++++ NEXT VIRTUAL EDITION +++++++++++++++++++++++");
 		}
-		*/
+		bw.close();
+		fw.close();
+
+		//testing code
+		//populateWithAwareAnnotation();
+
 		
+		//pattern finding code was here
+		//caso seja preciso fazer debug ao algoritmo, é só ir buscar ao backup e testar aqui 
+		//com o ciclo for q percorre todas as twitter citations do sistema
+		logger.debug("END OF FACTORY"); 
+	}
+	
+	
+	//método responsável por criar aware annotation no vei com meta informação contida na tc
+	public void createAwareAnnotation(VirtualEditionInter vei, TwitterCitation tc, BufferedWriter bw) throws IOException {
+		PlainHtmlWriter4OneInter htmlWriter = new PlainHtmlWriter4OneInter(vei);
+		htmlWriter.write(false);
+		String htmlTransc = htmlWriter.getTranscription();
+		logger("htmlTransc: " + htmlTransc);
 		
+		String tempTweetText = "Poderei ir buscar riqueza ao Oriente, mas não riqueza de alma, porque a riqueza de minha alma sou eu, e eu estou onde estou, sem Oriente ou com ele.\r\n" + 
+				"\r\n" + 
+				"Compreendo que viaje quem é incapaz de sentir. Por isso são tão pobres sempre como livros de experiência os livros de viagens, valendo somente pela imaginação de quem os escreve";
+		//List<String> result = patternFinding(htmlTransc, tempTweetText); //para testar
+		List<String> result = patternFinding(htmlTransc, tc.getTweetText()); //descomentar
+
+		
+		//********************************** CREATE ANNOTATION AND RANGE ********************************
+		String annotQuote = result.get(0); //string matching algorithm
+		int htmlStart = Integer.parseInt(result.get(1));
+		int htmlEnd = Integer.parseInt(result.get(2));
+		int numOfPStart = Integer.parseInt(result.get(3));
+		int numOfPEnd = Integer.parseInt(result.get(4));
+		
+		if(htmlStart != -1 && htmlEnd !=-1 && annotQuote != "") {
+			bw.write("GOING TO CREATE AN AWARE ANNOTATION!!!");
+			bw.write("\n");
+
+			LdoDUser user = LdoD.getInstance().getUser("ars");
+			String annotText = "tweet meta information"; //meta information inside citation object
+			
+			bw.write("htmlTransc (repeated): " + htmlTransc);
+			bw.write("\n");
+			bw.write("\n");
+
+			bw.write("------------Tweet Text (repeated): " + tc.getTweetText());
+			bw.write("\n");
+			
+			bw.write("------------Annotation quote: " + annotQuote);
+			bw.write("\n");
+			bw.write("\n");
+			
+			bw.write("Número de <p START: " + numOfPStart);
+			bw.write("\n");
+			bw.write("Número de <p END: " + numOfPEnd);
+			bw.write("\n");
+			
+			bw.write("Índice do htmlStart: " + htmlStart);
+			bw.write("\n");
+			bw.write("Índice do htmlEnd: " + htmlEnd);
+			bw.write("\n");
+			bw.write("\n");
+			
+			//HumanAnnotation annotation = new HumanAnnotation(vei, null, null, annotQuote, annotText, user);
+			//AwareAnnotation annotation = new AwareAnnotation(vei, annotQuote, annotText, null); //para testar
+			//AwareAnnotation annotation = new AwareAnnotation(vei, annotQuote, annotText, tc); //descomentar
+			
+			//new Range(annotation, "/div[1]/div[1]/p[" + numOfPStart + "]", htmlStart, "/div[1]/div[1]/p[" + numOfPEnd + "]", htmlEnd);
+			logger("numOfP START: " + numOfPStart);
+			logger("numOfP END: " + numOfPEnd);
+		}	
+	}
+	
+	//método de teste utilizado para criar uma aware annotation
+	public void populateWithAwareAnnotation() throws IOException {
+		//testing code
+		// ********************** POPULATE DB WITH AWARE ANNOTATION ********************************************
 		VirtualEdition duarteEdit = LdoD.getInstance().getVirtualEdition("LdoD-EditDuarte");
 		//duarteEdit.addCriteria(new TimeWindow());
 		logger("IS SAVE: " + duarteEdit.isSAVE());
@@ -212,11 +440,14 @@ public class AwareAnnotationFactory {
 		logger("Size of inters: " + inters.size());
 		//844639678496964 - virtual inter external id
 		//LENDA IMPERIAL - virtual inter title
-		VirtualEditionInter vei = FenixFramework.getDomainObject("844639678497136");
+		VirtualEditionInter vei = FenixFramework.getDomainObject("844639678496875");
 		//844639678496818
 		//Prefiro a prosa ao verso
 		//844639678496958
 		//MÁXIMAS
+		//844639678496875
+		//Há uma erudição do conhecimento
+		
 		
 		logger(vei.getExternalId());
 		logger(vei.getTitle());
@@ -224,9 +455,15 @@ public class AwareAnnotationFactory {
 		logger(vei);
 		logger(vei.getLastUsed());
 		
-		createAwareAnnotation(vei, null);
+		//setup example
+		long tweetID = 997186535761039360L;
+		TwitterCitation twitterCitation = LdoD.getInstance().getTwitterCitationByTweetID(tweetID);
+		logger("Date: " + twitterCitation.getDate());
+		logger("Fragment text: " + twitterCitation.getFragText());
+		//createAwareAnnotation(vei, twitterCitation); //descomentar
+		//createAwareAnnotation(vei, null); //para testar
 		
-		
+	
 		/*
 		logger("Categories: ");
 		Set<Category> categories = duarteEdit.getTaxonomy().getCategoriesSet();
@@ -254,45 +491,7 @@ public class AwareAnnotationFactory {
 		//for (String tag : tagList) {
 		//	createTag(annotation.getUser(), tag, annotation);
 		//}
-
-		
-		//pattern finding code was here
-		//caso seja preciso fazer debug ao algoritmo, é só ir buscar ao backup e testar aqui 
-		//com o ciclo for q percorre todas as twitter citations do sistema
-		logger.debug("END OF FACTORY"); 
 	}
-	
-	
-	
-	
-	
-	//método responsável por criar aware annotation no vei com meta informação contida na tc
-	public void createAwareAnnotation(VirtualEditionInter vei, TwitterCitation tc) throws IOException {
-		PlainHtmlWriter4OneInter htmlWriter = new PlainHtmlWriter4OneInter(vei);
-		htmlWriter.write(false);
-		String htmlTransc = htmlWriter.getTranscription();
-		logger("htmlTransc: " + htmlTransc);
-		
-		String tempTweetText = "além de me apavorar — não é por medo que eu sinto excessivamente —, perturba-me";
-		List<String> result = patternFinding(htmlTransc, tempTweetText); //para testar
-		//List<String> result = patternFinding(htmlTransc, tc.getTweetText()); //descomentar
-
-		
-		//********************************** CREATE ANNOTATION AND RANGE ********************************
-		
-		LdoDUser user = LdoD.getInstance().getUser("ars");
-		String annotQuote = result.get(0); //string matching algorithm
-		String annotText = "velocidade - segunda aware annotation automática"; //meta information inside citation object
-		
-		//HumanAnnotation annotation = new HumanAnnotation(vei, null, null, annotQuote, annotText, user);
-		AwareAnnotation annotation = new AwareAnnotation(vei, annotQuote, annotText);
-		
-		int htmlStart = Integer.parseInt(result.get(1));
-		int htmlEnd = Integer.parseInt(result.get(2));
-		int numOfP = Integer.parseInt(result.get(3));
-		new Range(annotation, "/div[1]/div[1]/p[" + numOfP + "]", htmlStart, "/div[1]/div[1]/p[" + numOfP + "]", htmlEnd);
-	}
-	
 	
 	public Set<TwitterCitation> getTotalTwitterCitationsByInter(Set<TwitterCitation> allTwitterCitations, VirtualEditionInter inter){
 		Set<TwitterCitation> totalTwitterCitations = new HashSet<TwitterCitation>();
@@ -312,18 +511,28 @@ public class AwareAnnotationFactory {
 				.stream().filter(AwareAnnotation.class::isInstance).map(AwareAnnotation.class::cast)
 				.collect(Collectors.toSet());
 		
+		logger(" #################################### ");
+		logger("Estou dentro do getCurrentTwitterCitationsByInter");
+		logger("Aware annotations size: " + awareAnnotations.size());
+		
 		for(AwareAnnotation aa: awareAnnotations) {
+			logger("aa external id: " + aa.getExternalId());
 			twitterCitations.add((TwitterCitation)aa.getCitation());
+			logger("twitterCitations size: " + twitterCitations.size());
+
 		}
 		
+		logger("twitterCitations size: " + twitterCitations.size());
+		logger(" #################################### ");
 		return twitterCitations;
 	}
 	
 
 	public List<String> patternFinding(String text, String tweet) throws IOException{
 		logger("------------------------------ PATTERN FINDING ALGORITHM -------------------------");
-		int window = 7;
+		int window = 10;
 		
+		/*
 		BufferedWriter bw = null;
 		FileWriter fw = null;
 		File file;
@@ -331,6 +540,7 @@ public class AwareAnnotationFactory {
 		file = new File("C:/Users/dnf_o/projetoTese/ldod/social/citationsPositions/htmlPositions.txt");
 		fw = new FileWriter(file);
 		bw = new BufferedWriter(fw);
+		*/
 		
 		//é chato pôr o text é lowercase pq estamos a adulterar a informação original, experimentar outra distance em vez do Jaro
 		text = text.toLowerCase();
@@ -382,7 +592,7 @@ public class AwareAnnotationFactory {
 						//pq a primeira palavra do padrão pode ocorrer várias vezes no texto antes de ocorrer no padrão
 						//o mais correto seria fazer quando count==1 (pq é quando já recolhemos pelo menos uma palavra)
 						//mas como o offset só é updated no início de cada ciclo temos de esperar uma iteração
-						if(count==4) { //experimentar variar este valor para 3 ou 4 para experimentar
+						if(count==4) { //original era 2, experimentar variar este valor para 3 ou 4
 							//este update ao start dá bug quando as palavras iniciais do padrão aparecem antes do padrão
 							logger("	padrão até agora: " + patternFound);
 							
@@ -422,6 +632,8 @@ public class AwareAnnotationFactory {
 			}//for interno
 		}//for externo
 		
+		//writes de debug
+		/*
 		bw.write("***************** CITATION **************************");
 		bw.write("\n");
 
@@ -433,55 +645,86 @@ public class AwareAnnotationFactory {
 		bw.write("\n");
 		bw.write("Pattern clean: " + tweet);
 		bw.write("\n");
+	
 		
 		if(patternFound.equals("")) {
 			bw.write("	Pattern does not exist!");
 			bw.write("\n");			
 		}
+		*/
+		
+		if(count<window && start!=-1) { //caso em que o padrão até existe mas não respeita a window
+			logger("	Pattern may exist but does not respect window size!");
+			start= -1;
+			end= -1;
+			patternFound= "";
+		}
+		
+		//experiment
+		if(patternFound.indexOf("</p>") != -1) {
+			patternFound = patternFound.substring(0, patternFound.indexOf("</p>"));
+		}
 		
 		if(start == -1 || end == -1) {
-			bw.write("	start or end is -1!!");
-			bw.write("\n");			
+			//bw.write("	start or end is -1!!");
+			//bw.write("\n");			
+		}
+		
+		int numOfPStart = -1;
+		int numOfPEnd = -1;
+		int htmlStart = -1;
+		int htmlEnd = -1;
+		
+		if(start != -1 && end != -1) {
+			//HTML treatment
+			numOfPStart = 1 + countOccurencesOfSubstring(text, "<p", start); //+1 porque o getTranscription não traz o primeiro <p
+			logger("Número de <p START: " + numOfPStart);
+			numOfPEnd = 1 + countOccurencesOfSubstring(text, "<p", end); //+1 porque o getTranscription não traz o primeiro <p
+			logger("Número de <p END: " + numOfPEnd);
+				
+			logger("Índice do último '>': " + text.lastIndexOf(">", start));
+			
+			htmlStart = start - text.lastIndexOf(">", start) - 1; //-1, para compensar
+			htmlEnd = end - text.lastIndexOf(">", end) -1; //-1, para compensar
+			logger("Índice do htmlStart: " + htmlStart);
+			logger("Índice do htmlEnd: " + htmlEnd);
+			
+			
+			
+			//*************** writing in file html stuff **************
+			/*
+			//HTML treatment
+			bw.write("Número de <p START: " + numOfPStart);
+			bw.write("\n");
+			bw.write("Número de <p END: " + numOfPEnd);
+			bw.write("\n");
+			
+
+			bw.write("Índice do último '>': " + text.lastIndexOf(">", start));
+			bw.write("\n");
+			bw.write("Índice do htmlStart: " + htmlStart);
+			bw.write("\n");
+			bw.write("Índice do htmlEnd: " + htmlEnd);
+			bw.write("\n");
+			bw.write("\n");
+
+			
+			bw.write(text);
+			bw.write("\n");
+			*/
 		}
 		
 		
-		//HTML treatment
-		int numOfP = 1 + countOccurencesOfSubstring(text, "<p", start); //+1 porque o getTranscription não traz o primeiro <p
-		logger("Número de <p: " + numOfP);
-			
-		logger("Índice do último '>': " + text.lastIndexOf(">", start));
-		int htmlStart = start - text.lastIndexOf(">", start) - 1; //-1, para compensar
-		int htmlEnd = end - text.lastIndexOf(">", start) -1; //-1, para compensar
-		logger("Índice do htmlStart: " + htmlStart);
-		logger("Índice do htmlEnd: " + htmlEnd);
-		
-		//*************** writing in file html stuff **************
-		
-		//HTML treatment
-		bw.write(("Número de <p: " + numOfP));
-		bw.write("\n");
-
-		bw.write(("Índice do último '>': " + text.lastIndexOf(">", start)));
-		bw.write("\n");
-		bw.write(("Índice do htmlStart: " + htmlStart));
-		bw.write("\n");
-		bw.write(("Índice do htmlEnd: " + htmlEnd));
-		bw.write("\n");
-		bw.write("\n");
-
-		
-		bw.write(text);
-		bw.write("\n");
-
-		
-		bw.close();
-		fw.close();
+		//bw.close();
+		//fw.close();
 		
 		List<String> result = new ArrayList<String>();
 		result.add(patternFound);
 		result.add(String.valueOf(htmlStart));
 		result.add(String.valueOf(htmlEnd));
-		result.add(String.valueOf(numOfP));
+		result.add(String.valueOf(numOfPStart));
+		result.add(String.valueOf(numOfPEnd));
+
 		
 		return result;
 	}

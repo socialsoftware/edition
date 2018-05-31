@@ -29,7 +29,7 @@ public class LdoD extends LdoD_Base {
 	
 	public Set<TwitterCitation> getAllTwitterCitation() {
 		LdoD ldoD = LdoD.getInstance();
-		//allTwitterCitations - all twitter citations in the archive
+		//allTwitterCitations -> all twitter citations in the archive
 		Set<TwitterCitation> allTwitterCitations = ldoD.getCitationsSet()
 						.stream().filter(TwitterCitation.class::isInstance).map(TwitterCitation.class::cast)
 						.collect(Collectors.toSet());
