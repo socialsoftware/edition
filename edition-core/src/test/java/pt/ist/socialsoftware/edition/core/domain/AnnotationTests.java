@@ -16,6 +16,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 
 import pt.ist.socialsoftware.edition.core.MockitoExtension;
+import pt.ist.socialsoftware.edition.core.RollbackCaseTest;
 
 @ExtendWith(MockitoExtension.class)
 // @RunWith(JUnitPlatform.class)

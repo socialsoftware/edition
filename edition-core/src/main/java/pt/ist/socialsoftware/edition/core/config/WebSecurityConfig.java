@@ -19,8 +19,13 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.encrypt.Encryptors;
 import org.springframework.security.crypto.encrypt.TextEncryptor;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import pt.ist.socialsoftware.edition.core.domain.Role.RoleType;
+import pt.ist.socialsoftware.edition.core.security.JWTAuthenticationFilter;
+import pt.ist.socialsoftware.edition.core.security.JWTAuthorizationFilter;
 import pt.ist.socialsoftware.edition.core.security.LdoDAuthenticationSuccessHandler;
 import pt.ist.socialsoftware.edition.core.security.LdoDSocialUserDetailsService;
 import pt.ist.socialsoftware.edition.core.security.LdoDUserDetailsService;
@@ -49,19 +54,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 		http.csrf().disable().formLogin().loginPage("/signin").successHandler(ldoDAuthenticationSuccessHandler())
 				.loginProcessingUrl("/signin/authenticate").failureUrl("/signin?param.error=bad_credentials").and()
-				.logout().logoutUrl("/signout").deleteCookies("JSESSIONID").invalidateHttpSession(true);
+				.logout().logoutUrl("/signout").deleteCookies("JSESSIONID").invalidateHttpSession(true).and()
+				.authorizeRequests().antMatchers("/virtualeditions/restricted/**", "/user/**", "/api/services/**")
+				.authenticated().antMatchers("/admin/**").hasAuthority(RoleType.ROLE_ADMIN.name()).and()
+				.sessionManagement().maximumSessions(2).sessionRegistry(sessionRegistry());
 
-		http.authorizeRequests()
-				// .antMatchers("/", "/error", "/webjars/**", "/auth/**", "/signin/**",
-				// "/signup/**", "/about/**",
-				// "/reading/**", "/source/**", "/edition/**", "/fragments/**", "/facs/**",
-				// "/search/**",
-				// "/encoding/**")
-				// .permitAll()// .anyRequest().authenticated()
-				.antMatchers("/virtualeditions/restricted/**", "/user/**").authenticated().antMatchers("/admin/**")
-				.hasAuthority(RoleType.ROLE_ADMIN.name());
+		http.addFilter(new JWTAuthenticationFilter(authenticationManager()))
+				.addFilter(new JWTAuthorizationFilter(authenticationManager()));
+		// this disables session creation on Spring Security
+		// .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
-		http.sessionManagement().maximumSessions(2).sessionRegistry(sessionRegistry());
 	}
 
 	@Inject
@@ -69,6 +71,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		log.debug("registerAuthentication");
 
 		auth.userDetailsService(ldoDUserDetailsService()).passwordEncoder(passwordEncoder());
+	}
+
+	@Bean
+	CorsConfigurationSource corsConfigurationSource() {
+		final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+		source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
+		return source;
 	}
 
 	@Bean

@@ -5,6 +5,8 @@ import static org.junit.Assert.assertEquals;
 import org.joda.time.DateTime;
 import org.junit.jupiter.api.Test;
 
+import pt.ist.socialsoftware.edition.core.RollbackCaseTest;
+
 public class RegistrationTokenTest extends RollbackCaseTest {
 
 	LdoD ldoD;

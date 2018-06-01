@@ -1,4 +1,4 @@
-package pt.ist.socialsoftware.edition.core.domain;
+package pt.ist.socialsoftware.edition.core;
 
 import javax.transaction.NotSupportedException;
 import javax.transaction.SystemException;
