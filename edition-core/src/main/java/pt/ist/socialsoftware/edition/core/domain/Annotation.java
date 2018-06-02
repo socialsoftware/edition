@@ -7,7 +7,6 @@ import org.apache.commons.lang.StringEscapeUtils;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
-import pt.ist.socialsoftware.edition.core.domain.Annotation_Base;
 
 public class Annotation extends Annotation_Base {
 

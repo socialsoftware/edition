@@ -17,7 +17,6 @@
 		</button>
 		<a class="navbar-brand" href="${contextPath}/"><spring:message code="header.title" /></a>
 		
-		
 		<ul class="nav navbar-nav navbar-right hidden-xs">
 		
 			<!-- Login -->
