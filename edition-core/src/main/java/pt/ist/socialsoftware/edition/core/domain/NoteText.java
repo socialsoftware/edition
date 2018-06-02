@@ -1,6 +1,5 @@
 package pt.ist.socialsoftware.edition.core.domain;
 
-import pt.ist.socialsoftware.edition.core.domain.NoteText_Base;
 import pt.ist.socialsoftware.edition.core.domain.RefText.RefType;
 import pt.ist.socialsoftware.edition.core.generators.TextPortionVisitor;
 
@@ -16,7 +15,7 @@ public class NoteText extends NoteText_Base {
 		}
 
 		public String getDesc() {
-			return desc;
+			return this.desc;
 		}
 	};
 
@@ -68,16 +67,16 @@ public class NoteText extends NoteText_Base {
 				if (refText.getType() == RefType.GRAPHIC) {
 					link = "/facs/" + refText.getSurface().getGraphic();
 				} else if (refText.getType() == RefType.WITNESS) {
-					link = "/fragments/fragment/inter/"
-							+ refText.getFragInter().getExternalId();
+					link = "/fragments/fragment/" + refText.getFragInter().getFragment().getXmlId() + "/inter/"
+							+ refText.getFragInter().getUrlId();
 				} else if (refText.getType() == RefType.FRAGMENT) {
-					if (refText.getRefFrag() != null)
-						link = "/fragments/fragment/"
-								+ refText.getRefFrag().getExternalId();
-					else
+					if (refText.getRefFrag() != null) {
+						link = "/fragments/fragment/" + refText.getRefFrag().getXmlId();
+					} else {
 						// this situation should never occur if the fragments
 						// were consistently loaded
 						link = "/fragments/fragment/" + refText.getTarget();
+					}
 				}
 				result = result + "<a href=\"" + link + "\">";
 				SimpleText childText = (SimpleText) text.getFirstChildText();

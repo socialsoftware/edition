@@ -14,9 +14,9 @@ import javax.transaction.SystemException;
 
 import org.apache.lucene.queryparser.classic.ParseException;
 import org.joda.time.LocalDate;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.fenixframework.core.WriteOnReadError;
@@ -46,7 +46,7 @@ public class VSMVirtualEditionInterRecomenderPerformanceTest {
 	private static VSMRecommender<VirtualEditionInter> recommender;
 
 	// Assuming that the 4 expert editions and user ars are in the database
-	@BeforeClass
+	@BeforeAll
 	public static void setUp() throws IOException, WriteOnReadError, NotSupportedException, SystemException {
 		FenixFramework.getTransactionManager().begin(false);
 
@@ -57,8 +57,8 @@ public class VSMVirtualEditionInterRecomenderPerformanceTest {
 
 		LdoDUser userArs = ldoD.getUser("ars");
 		// create pizarro virtual edition
-		pizarroVirtualEdition = ldoD.createVirtualEdition(userArs, "$Test$Pizarro$Recommendations$",
-				"$Test$Pizarro$Recommendations$", LocalDate.now(), true, pizarroEdition);
+		pizarroVirtualEdition = ldoD.createVirtualEdition(userArs, "TestPizarroRecommendations",
+				"TestPizarroRecommendations", LocalDate.now(), true, pizarroEdition);
 		pizarroVirtualEditionInters = pizarroVirtualEdition.getIntersSet().stream().map(VirtualEditionInter.class::cast)
 				.collect(Collectors.toSet());
 
@@ -68,14 +68,14 @@ public class VSMVirtualEditionInterRecomenderPerformanceTest {
 		pizarroVirtualEdition.getTaxonomy().createGeneratedCategories(topicListDTO);
 
 		// create zenith virtual edition
-		zenithVirtualEdition = ldoD.createVirtualEdition(userArs, "$Test$Zenith$Recommendations$",
-				"$Test$Zenith$Recommendations$", LocalDate.now(), true, zenithEdition);
+		zenithVirtualEdition = ldoD.createVirtualEdition(userArs, "TestZenithRecommendations",
+				"TestZenithRecommendations", LocalDate.now(), true, zenithEdition);
 		zenithVirtualEditionInters = zenithVirtualEdition.getIntersSet().stream().map(VirtualEditionInter.class::cast)
 				.collect(Collectors.toSet());
 
 		// create cunha virtual edition
-		cunhaVirtualEdition = ldoD.createVirtualEdition(userArs, "$Test$Cunha$Recommendations$",
-				"$Test$Cunha$Recommendations$", LocalDate.now(), true, cunhaEdition);
+		cunhaVirtualEdition = ldoD.createVirtualEdition(userArs, "TestCunhaRecommendations", "TestCunhaRecommendations",
+				LocalDate.now(), true, cunhaEdition);
 		cunhaVirtualEditionInters = cunhaVirtualEdition.getIntersSet().stream().map(VirtualEditionInter.class::cast)
 				.collect(Collectors.toSet());
 
@@ -83,7 +83,7 @@ public class VSMVirtualEditionInterRecomenderPerformanceTest {
 		recommender = new VSMVirtualEditionInterRecommender();
 	}
 
-	@AfterClass
+	@AfterAll
 	public static void tearDown() throws IllegalStateException, SecurityException, SystemException {
 		// remove virtual edition
 		FenixFramework.getTransactionManager().rollback();

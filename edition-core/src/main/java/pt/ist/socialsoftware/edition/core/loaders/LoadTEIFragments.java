@@ -27,7 +27,6 @@ import org.slf4j.LoggerFactory;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
-import pt.ist.socialsoftware.edition.core.shared.exception.LdoDLoadException;
 import pt.ist.socialsoftware.edition.core.domain.AddText;
 import pt.ist.socialsoftware.edition.core.domain.AddText.Place;
 import pt.ist.socialsoftware.edition.core.domain.AltText;
@@ -78,6 +77,7 @@ import pt.ist.socialsoftware.edition.core.domain.UnclearText;
 import pt.ist.socialsoftware.edition.core.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.core.search.Indexer;
 import pt.ist.socialsoftware.edition.core.shared.exception.LdoDException;
+import pt.ist.socialsoftware.edition.core.shared.exception.LdoDLoadException;
 import pt.ist.socialsoftware.edition.core.topicmodeling.CorpusGenerator;
 
 public class LoadTEIFragments {
@@ -182,7 +182,7 @@ public class LoadTEIFragments {
 		} catch (JDOMException e) {
 			throw new LdoDLoadException("Ficheiro com problemas de codificação TEI");
 		} catch (IOException e) {
-			throw new LdoDLoadException("Problemas com o ficheiro, tipo ou formato: " + e.getStackTrace().toString());
+			throw new LdoDLoadException("Problemas com o ficheiro, tipo ou formato: " + e.getMessage());
 		}
 
 		if (this.doc == null) {
@@ -666,8 +666,8 @@ public class LoadTEIFragments {
 	}
 
 	/**
-	 * In this project a <seg> element can only contain simple text, it is used
-	 * for formating and cross referencing
+	 * In this project a <seg> element can only contain simple text, it is used for
+	 * formating and cross referencing
 	 * 
 	 */
 	private void loadSeg(Element element, TextPortion parent) {
@@ -939,13 +939,12 @@ public class LoadTEIFragments {
 
 			List<Object> objects = getObjectDirectIdMap(sourceOrEditionXmlID);
 
-			if ((objects == null) || (objects.isEmpty())) {
+			if (objects == null || objects.isEmpty()) {
 				throw new LdoDLoadException(
 						"não existe uma fonte declarada para o atributo xml:id=" + sourceOrEditionXmlID);
 			}
 
-			assert (objects != null) && (!objects.isEmpty()) : "MISSING SOURCE OBJECT FOR xml:id:"
-					+ sourceOrEditionXmlID;
+			assert objects != null && !objects.isEmpty() : "MISSING SOURCE OBJECT FOR xml:id:" + sourceOrEditionXmlID;
 
 			String witnessXmlID = witness.getAttributeValue("id", witness.getNamespace("xml"));
 			String witnessListXmlID = witness.getParentElement().getAttributeValue("id", witness.getNamespace("xml"));
@@ -1008,7 +1007,7 @@ public class LoadTEIFragments {
 				}
 
 				Element titleElement = bibl.getChild("title", this.namespace);
-				if ((titleElement != null) && (fragInter instanceof ExpertEditionInter)) {
+				if (titleElement != null && fragInter instanceof ExpertEditionInter) {
 					((ExpertEditionInter) fragInter).setTitle(titleElement.getTextTrim());
 				}
 
@@ -1494,7 +1493,7 @@ public class LoadTEIFragments {
 				TypeNote typeNote = new TypeNote(medium, stringTypeNote);
 				typeNote.setManuscript(manuscript);
 
-				if ((typeNoteElement.getChild("locus", this.namespace) != null)) {
+				if (typeNoteElement.getChild("locus", this.namespace) != null) {
 					String[] targets = typeNoteElement.getChild("locus", this.namespace).getAttributeValue("target")
 							.trim().split("\\s+");
 					for (String target : targets) {
@@ -1532,7 +1531,7 @@ public class LoadTEIFragments {
 				HandNote handNote = new HandNote(medium, stringHandNote);
 				handNote.setManuscript(manuscript);
 
-				if ((handNoteElement.getChild("locus", this.namespace) != null)) {
+				if (handNoteElement.getChild("locus", this.namespace) != null) {
 					String[] targets = handNoteElement.getChild("locus", this.namespace).getAttributeValue("target")
 							.trim().split("\\s+");
 					for (String target : targets) {
@@ -1552,7 +1551,7 @@ public class LoadTEIFragments {
 			throw new LdoDLoadException("É necessário o atributo target para o elemento ref");
 		}
 
-		if ((target != null) && (!target.equals(""))) {
+		if (target != null && !target.equals("")) {
 			return target.substring(1);
 		} else {
 			throw new LdoDLoadException("Falta o valor do atributo target para o elemento ref");
@@ -1564,13 +1563,13 @@ public class LoadTEIFragments {
 		Attribute precisionAttribute = date.getAttribute("precision");
 		if (precisionAttribute != null) {
 			switch (precisionAttribute.getValue()) {
-			case ("high"):
+			case "high":
 				return PrecisionType.HIGH;
-			case ("medium"):
+			case "medium":
 				return PrecisionType.MEDIUM;
-			case ("low"):
+			case "low":
 				return PrecisionType.LOW;
-			case ("unknown"):
+			case "unknown":
 				return PrecisionType.UNKNOWN;
 			default:
 				throw new LdoDLoadException("valor inesperado para atribute precison=" + precisionAttribute.getValue());

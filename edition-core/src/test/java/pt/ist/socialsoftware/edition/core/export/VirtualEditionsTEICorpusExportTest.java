@@ -8,10 +8,9 @@ import java.util.stream.Collectors;
 import javax.transaction.NotSupportedException;
 import javax.transaction.SystemException;
 
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.FenixFramework;
@@ -20,7 +19,7 @@ import pt.ist.socialsoftware.edition.core.domain.LdoD;
 import pt.ist.socialsoftware.edition.core.loaders.VirtualEditionsTEICorpusImport;
 
 public class VirtualEditionsTEICorpusExportTest {
-	@Before
+	@BeforeEach
 	public void setUp() throws WriteOnReadError, NotSupportedException, SystemException {
 		FenixFramework.getTransactionManager().begin(false);
 	}
@@ -39,14 +38,14 @@ public class VirtualEditionsTEICorpusExportTest {
 		VirtualEditionsTEICorpusImport im = new VirtualEditionsTEICorpusImport();
 		im.importVirtualEditionsCorpus(virtualEditionsCorpus);
 
-		Assert.assertEquals(numOfVirtualEditions, LdoD.getInstance().getVirtualEditionsSet().size());
+		assertEquals(numOfVirtualEditions, LdoD.getInstance().getVirtualEditionsSet().size());
 
 		System.out.println(export.export());
 		assertEquals(Arrays.stream(virtualEditionsCorpus.split("\\r?\\n")).sorted().collect(Collectors.joining("\\n")),
 				Arrays.stream(export.export().split("\\r?\\n")).sorted().collect(Collectors.joining("\\n")));
 	}
 
-	@After
+	@AfterEach
 	public void tearDown() throws IllegalStateException, SecurityException, SystemException {
 		FenixFramework.getTransactionManager().rollback();
 	}

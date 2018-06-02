@@ -17,13 +17,13 @@ import org.joda.time.LocalDate;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
-import pt.ist.socialsoftware.edition.core.shared.exception.LdoDLoadException;
 import pt.ist.socialsoftware.edition.core.domain.Category;
 import pt.ist.socialsoftware.edition.core.domain.LdoD;
 import pt.ist.socialsoftware.edition.core.domain.LdoDUser;
 import pt.ist.socialsoftware.edition.core.domain.Member;
 import pt.ist.socialsoftware.edition.core.domain.Taxonomy;
 import pt.ist.socialsoftware.edition.core.domain.VirtualEdition;
+import pt.ist.socialsoftware.edition.core.shared.exception.LdoDLoadException;
 
 public class VirtualEditionsTEICorpusImport {
 
@@ -124,6 +124,8 @@ public class VirtualEditionsTEICorpusImport {
 				Namespace.getNamespace("def", namespace.getURI()));
 		for (Element tax : xp.evaluate(doc)) {
 			String xmlId = tax.getAttributeValue("source").substring(1);
+			System.out.println(xmlId);
+			System.out.println(LdoD.getInstance().getVirtualEditionByXmlId(xmlId));
 			Taxonomy taxonomy = LdoD.getInstance().getVirtualEditionByXmlId(xmlId).getTaxonomy();
 
 			for (Element item : tax.getChild("desc", namespace).getChild("list", namespace).getChildren("item",

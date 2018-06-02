@@ -9,6 +9,11 @@
 </head>
 <body>
 	<%@ include file="/WEB-INF/jsp/common/fixed-top-ldod-header.jsp"%>
+	
+<!-- 	<div class="container text-center">
+	<h2 class="text-danger">ATENÇÃO: EM MIGRAÇÃO PARA UM NOVO SERVIDOR<br>(LOGIN TEMPORARIAMENTE DESATIVADO)</h2>
+	</div>
+ -->	
 
 	<div class="container text-center">
 		<c:if test="${not empty param['param.error']}">

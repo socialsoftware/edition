@@ -96,7 +96,6 @@ public class VirtualEditionFragmentsTEIImport {
 						interXmlId.lastIndexOf('.'));
 				VirtualEdition virtualEdition = this.ldoD.getVirtualEdition(editionAcronym);
 
-				wit.getAttributeValue("source").substring(1);
 				logger.debug("importWitnesses id: {}, source: {}", interXmlId, wit.getAttributeValue("source"));
 				virtualEdition.createVirtualEditionInter(
 						fragment.getFragInterByXmlId(wit.getAttributeValue("source").substring(1)),
