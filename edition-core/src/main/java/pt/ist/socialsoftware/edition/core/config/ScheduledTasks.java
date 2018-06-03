@@ -17,13 +17,13 @@ import pt.ist.socialsoftware.edition.core.social.aware.TweetFactory;
 public class ScheduledTasks {
 	private static Logger logger = LoggerFactory.getLogger(ScheduledTasks.class);
 
-	@Scheduled(cron = "0 0 10,16 * * *")
+	@Scheduled(cron = "0 0 10,15 * * *")
 	public void reportCurrentTime() throws IOException {
 		WriteVirtualEditonsToFile write = new WriteVirtualEditonsToFile();
 		write.export();
 	}
 	
-	@Scheduled(cron = "0 3 7 * * *")
+	@Scheduled(cron = "0 56 15 * * *")
 	public void fetchFromTwitter() throws IOException {
 		FetchCitationsFromTwitter fetch = new FetchCitationsFromTwitter();
 		fetch.fetch();
@@ -43,7 +43,7 @@ public class ScheduledTasks {
 	}
 	
 	
-	@Scheduled(cron = "0 54 22 * * *")
+	@Scheduled(cron = "0 11 17 * * *")
 	public void createAwareAnnotations() throws IOException {
 		AwareAnnotationFactory awareFactory = new AwareAnnotationFactory();
 		awareFactory.create();
