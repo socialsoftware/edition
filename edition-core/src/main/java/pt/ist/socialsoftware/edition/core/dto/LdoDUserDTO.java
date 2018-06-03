@@ -1,8 +1,12 @@
 package pt.ist.socialsoftware.edition.core.dto;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 public class LdoDUserDTO {
     private long id;
+    @NotBlank
     private String username;
+    @NotBlank
     private String password;
     private boolean enabled;
 

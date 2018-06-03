@@ -20,7 +20,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import pt.ist.socialsoftware.edition.core.dto.LdoDUserDto;
+import pt.ist.socialsoftware.edition.core.dto.LdoDUserDTO;
 
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 	private final AuthenticationManager authenticationManager;
@@ -37,7 +37,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 			throws AuthenticationException {
 		this.logger.info("attemptAuthentication");
 		try {
-			LdoDUserDto creds = new ObjectMapper().readValue(req.getInputStream(), LdoDUserDto.class);
+			LdoDUserDTO creds = new ObjectMapper().readValue(req.getInputStream(), LdoDUserDTO.class);
 
 			return this.authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(creds.getUsername(),
 					creds.getPassword(), new ArrayList<>()));

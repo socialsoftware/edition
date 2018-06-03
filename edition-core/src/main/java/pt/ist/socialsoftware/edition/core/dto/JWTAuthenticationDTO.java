@@ -2,11 +2,11 @@ package pt.ist.socialsoftware.edition.core.dto;
 
 import pt.ist.socialsoftware.edition.core.security.SecurityConstants;
 
-public class JwtAuthenticationDto {
+public class JWTAuthenticationDTO {
 	private String accessToken;
 	private String tokenType = SecurityConstants.TOKEN_PREFIX;
 
-	public JwtAuthenticationDto(String accessToken) {
+	public JWTAuthenticationDTO(String accessToken) {
 		this.accessToken = accessToken;
 	}
 
