@@ -671,18 +671,13 @@ class TwitterCitation extends Citation {
 }
 
 relation CitationHasAwareAnnotations {
-	AwareAnnotation playsRole awareAnnotations {multiplicity 0..*;}
-	Citation playsRole citation {multiplicity 0..1;}
+	AwareAnnotation playsRole awareAnnotation {multiplicity 0..*;}
+	Citation playsRole citation {multiplicity 1..1;}
 }
 
 relation FragmentHasCitations {
-	Citation playsRole citations {multiplicity 0..*;}
-	Fragment playsRole fragment {multiplicity 0..1;}
-}
-
-relation LdoDHasCitations {
-	LdoD playsRole ldoD {multiplicity 1..1;}
-	Citation playsRole citations {multiplicity 0..*;}
+	Citation playsRole citation {multiplicity 0..*;}
+	Fragment playsRole fragment {multiplicity 1..1;}
 }
 
 class SocialMediaCriteria;
@@ -692,8 +687,8 @@ class MediaSource extends SocialMediaCriteria {
 }
 
 class TimeWindow extends SocialMediaCriteria {
-	DateType beginDate;
-	DateType endDate;
+	LocalDate beginDate;
+	LocalDate endDate;
 }
 
 class GeographicLocation extends SocialMediaCriteria {
@@ -706,8 +701,8 @@ class Frequency extends SocialMediaCriteria {
 }
 
 relation VirtualEditionHasSocialMediaCriteria {
-	VirtualEdition playsRole virtualEdition {multiplicity 0..1;}
-	SocialMediaCriteria playsRole criteria {multiplicity 0..*;}
+	VirtualEdition playsRole virtualEdition {multiplicity 1..1;}
+	SocialMediaCriteria playsRole criteria {multiplicity 0..4;}
 }
 
 class Tweet {
@@ -726,10 +721,10 @@ class Tweet {
 
 relation CitationHasTweets {
 	Citation playsRole citation {multiplicity 0..1;}
-	Tweet playsRole tweets {multiplicity 0..*;}
+	Tweet playsRole tweet {multiplicity 0..*;}
 }
 
 relation LdoDHasTweets {
 	LdoD playsRole ldoD {multiplicity 1..1;}
-	Tweet playsRole tweets {multiplicity 0..*;}
+	Tweet playsRole tweet {multiplicity 0..*;}
 }

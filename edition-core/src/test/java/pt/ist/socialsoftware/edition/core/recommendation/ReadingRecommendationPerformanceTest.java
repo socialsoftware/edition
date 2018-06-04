@@ -1,6 +1,6 @@
 package pt.ist.socialsoftware.edition.core.recommendation;
 
-import static org.junit.Assert.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -13,9 +13,9 @@ import javax.transaction.NotSupportedException;
 import javax.transaction.SystemException;
 
 import org.apache.lucene.queryparser.classic.ParseException;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.fenixframework.core.WriteOnReadError;
@@ -36,7 +36,7 @@ public class ReadingRecommendationPerformanceTest {
 
 	// Assuming that the 4 expert editions, the archive edition and user ars are
 	// in the database
-	@BeforeClass
+	@BeforeAll
 	public static void setUp() throws IOException, WriteOnReadError, NotSupportedException, SystemException {
 		FenixFramework.getTransactionManager().begin(false);
 
@@ -60,7 +60,7 @@ public class ReadingRecommendationPerformanceTest {
 
 	}
 
-	@AfterClass
+	@AfterAll
 	public static void tearDown() throws IllegalStateException, SecurityException, SystemException {
 		FenixFramework.getTransactionManager().rollback();
 	}

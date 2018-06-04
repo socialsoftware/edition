@@ -8,9 +8,9 @@ import java.io.FileNotFoundException;
 import javax.transaction.NotSupportedException;
 import javax.transaction.SystemException;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.fenixframework.core.WriteOnReadError;
@@ -24,7 +24,7 @@ import pt.ist.socialsoftware.edition.core.utils.PropertiesManager;
 public class PlainTransByInterTest {
 	private final String TESTS_DIR = PropertiesManager.getProperties().getProperty("tests.dir");
 
-	@Before
+	@BeforeEach
 	public void setUp() {
 
 		try {
@@ -35,13 +35,13 @@ public class PlainTransByInterTest {
 
 		LoadTEIFragments fragmentsLoader = new LoadTEIFragments();
 		try {
-			fragmentsLoader.loadFragmentsAtOnce(new FileInputStream(TESTS_DIR + "Frg.1_TEI-encoded_testing.xml"));
+			fragmentsLoader.loadFragmentsAtOnce(new FileInputStream(this.TESTS_DIR + "Frg.1_TEI-encoded_testing.xml"));
 		} catch (FileNotFoundException e) {
 			throw new LdoDException();
 		}
 	}
 
-	@After
+	@AfterEach
 	public void tearDown() {
 		try {
 			FenixFramework.getTransactionManager().rollback();
@@ -69,6 +69,6 @@ public class PlainTransByInterTest {
 
 		System.out.println(service.getTranscription());
 
-		assertEquals(" <p align", service.getTranscription().substring(0, 9));
+		assertEquals(" <p class", service.getTranscription().substring(0, 9));
 	}
 }

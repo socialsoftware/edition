@@ -18,7 +18,7 @@ public class SigninUtils {
 
 	@Atomic(mode = TxMode.WRITE)
 	public static void signin(WebRequest request, LdoDUser user) {
-		log.debug("signin user:{}", user == null ? "NULL" : user.getUsername());
+		log.debug("signin user:{}", user.getUsername());
 
 		user.setLastLogin(LocalDate.now());
 

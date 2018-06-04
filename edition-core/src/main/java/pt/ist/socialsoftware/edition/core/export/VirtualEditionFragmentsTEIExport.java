@@ -1,7 +1,5 @@
 package pt.ist.socialsoftware.edition.core.export;
 
-import java.util.stream.Collectors;
-
 import org.apache.commons.lang.StringEscapeUtils;
 import org.jdom2.Attribute;
 import org.jdom2.Document;
@@ -11,9 +9,11 @@ import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 
 import pt.ist.fenixframework.Atomic;
-import pt.ist.socialsoftware.edition.core.domain.HumanAnnotation;
+import pt.ist.socialsoftware.edition.core.domain.Annotation;
+import pt.ist.socialsoftware.edition.core.domain.AwareAnnotation;
 import pt.ist.socialsoftware.edition.core.domain.Category;
 import pt.ist.socialsoftware.edition.core.domain.Fragment;
+import pt.ist.socialsoftware.edition.core.domain.HumanAnnotation;
 import pt.ist.socialsoftware.edition.core.domain.LdoD;
 import pt.ist.socialsoftware.edition.core.domain.Range;
 import pt.ist.socialsoftware.edition.core.domain.Tag;
@@ -57,6 +57,8 @@ public class VirtualEditionFragmentsTEIExport {
 			exportVirtualEditionInterWitness(witnesses, virtualEditionInter);
 		}
 
+		// TODO: export fragment citations
+
 		Element profileDesc = new Element("profileDesc", this.xmlns);
 		teiHeader.addContent(profileDesc);
 		for (VirtualEditionInter virtualEditionInter : fragment.getVirtualEditionInters()) {
@@ -98,34 +100,49 @@ public class VirtualEditionFragmentsTEIExport {
 			}
 		}
 	}
-	
-	
-	//Foi alterado por causa das human annotations
+
+	// Foi alterado por causa das human annotations
 	private void exportVirtualEditionInterAnnotations(Element textClass, VirtualEditionInter virtualEditionInter) {
-		for (HumanAnnotation annotation : virtualEditionInter.getAnnotationSet()
-				.stream().filter(HumanAnnotation.class::isInstance)
-				.map(HumanAnnotation.class::cast).collect(Collectors.toSet())) {
+		for (Annotation annotation : virtualEditionInter.getAnnotationSet()) {
+
 			Element note = new Element("note", this.xmlns);
-			note.setAttribute("resp", "#" + annotation.getUser().getUsername());
 			note.setText(StringEscapeUtils.unescapeHtml(annotation.getText()));
 			textClass.addContent(note);
 
-			for (Range range : annotation.getRangeSet()) {
-				Element quote = new Element("quote", this.xmlns);
-				quote.setAttribute("from", range.getStart());
-				quote.setAttribute("to", range.getEnd());
-				quote.setAttribute("fromOffset", Integer.toString(range.getStartOffset()));
-				quote.setAttribute("toOffset", Integer.toString(range.getEndOffset()));
-				quote.setText(StringEscapeUtils.unescapeHtml(annotation.getQuote()));
-				note.addContent(quote);
+			exportAnnotationRanges(annotation, note);
+
+			if (annotation instanceof HumanAnnotation) {
+				// TODO: set type
+				note.setAttribute("resp", "#" + ((HumanAnnotation) annotation).getUser().getUsername());
+				exportAnnotationCategories(virtualEditionInter, (HumanAnnotation) annotation, note);
 			}
 
-			for (Category category : annotation.getCategories()) {
-				Element catRef = new Element("catRef", this.xmlns);
-				catRef.setAttribute("scheme", "#" + virtualEditionInter.getEdition().getXmlId());
-				catRef.setAttribute("target", "#" + category.getName());
-				note.addContent(catRef);
+			if (annotation instanceof AwareAnnotation) {
+				// TODO: set type
+				// TODO
 			}
+		}
+	}
+
+	private void exportAnnotationCategories(VirtualEditionInter virtualEditionInter, HumanAnnotation annotation,
+			Element note) {
+		for (Category category : annotation.getCategories()) {
+			Element catRef = new Element("catRef", this.xmlns);
+			catRef.setAttribute("scheme", "#" + virtualEditionInter.getEdition().getXmlId());
+			catRef.setAttribute("target", "#" + category.getName());
+			note.addContent(catRef);
+		}
+	}
+
+	private void exportAnnotationRanges(Annotation annotation, Element note) {
+		for (Range range : annotation.getRangeSet()) {
+			Element quote = new Element("quote", this.xmlns);
+			quote.setAttribute("from", range.getStart());
+			quote.setAttribute("to", range.getEnd());
+			quote.setAttribute("fromOffset", Integer.toString(range.getStartOffset()));
+			quote.setAttribute("toOffset", Integer.toString(range.getEndOffset()));
+			quote.setText(StringEscapeUtils.unescapeHtml(annotation.getQuote()));
+			note.addContent(quote);
 		}
 	}
 

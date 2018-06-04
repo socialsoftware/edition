@@ -14,10 +14,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.fenixframework.FenixFramework;
-import pt.ist.socialsoftware.edition.core.session.LdoDSession;
 import pt.ist.socialsoftware.edition.core.domain.LdoDUser.SocialMediaService;
-import pt.ist.socialsoftware.edition.core.domain.LdoD_Base;
 import pt.ist.socialsoftware.edition.core.domain.Role.RoleType;
+import pt.ist.socialsoftware.edition.core.session.LdoDSession;
 import pt.ist.socialsoftware.edition.core.shared.exception.LdoDDuplicateUsernameException;
 
 public class LdoD extends LdoD_Base {
@@ -26,53 +25,11 @@ public class LdoD extends LdoD_Base {
 	public static LdoD getInstance() {
 		return FenixFramework.getDomainRoot().getLdoD();
 	}
-	
-	public Set<TwitterCitation> getAllTwitterCitation() {
-		LdoD ldoD = LdoD.getInstance();
-		//allTwitterCitations -> all twitter citations in the archive
-		Set<TwitterCitation> allTwitterCitations = ldoD.getCitationsSet()
-						.stream().filter(TwitterCitation.class::isInstance).map(TwitterCitation.class::cast)
-						.collect(Collectors.toSet());
-		return allTwitterCitations;
-	}
-	
-	
-	public TwitterCitation getTwitterCitationByTweetID(long id) {		
-		TwitterCitation result = null;
-		Set<TwitterCitation> allTwiiterCitations = getAllTwitterCitation();
-		for(TwitterCitation tc: allTwiiterCitations) {
-			if(tc.getTweetID() == id) {
-				result = tc;
-			}
-		}
-		return result;
-	}
-	
-	public Tweet getTweetByTweetID(long id) {		
-		Tweet result = null;
-		Set<Tweet> allTweets = getTweetsSet();
-		for(Tweet t: allTweets) {
-			if(t.getTweetID() == id) {
-				result = t;
-			}
-		}
-		return result;
-	}
-	
-	public boolean checkIfTweetExists(long id) {
-		Set<Tweet> allTweets = getTweetsSet();
-		for(Tweet t: allTweets) {
-			if(t.getTweetID() == id) {
-				return true;
-			}
-		}
-		return false;
-	}
-	
+
 	public LdoD() {
 		FenixFramework.getDomainRoot().setLdoD(this);
 		setNullEdition(new NullEdition());
-		setLastTwitterID(new LastTwitterID()); //check if this is supposed to be here
+		setLastTwitterID(new LastTwitterID()); // check if this is supposed to be here
 	}
 
 	public List<Heteronym> getSortedHeteronyms() {
@@ -135,7 +92,7 @@ public class LdoD extends LdoD_Base {
 		}
 
 		for (VirtualEdition virtualEdition : getVirtualEditionsSet()) {
-			if ((user != null) && (virtualEdition.getSelectedBySet().contains(user))) {
+			if (user != null && virtualEdition.getSelectedBySet().contains(user)) {
 				selectedVE.add(virtualEdition);
 			} else if (virtualEdition.getParticipantSet().contains(user)) {
 				mineVE.add(virtualEdition);
@@ -266,5 +223,48 @@ public class LdoD extends LdoD_Base {
 			}
 		}
 
+	}
+
+	public Set<TwitterCitation> getAllTwitterCitation() {
+		// allTwitterCitations -> all twitter citations in the archive
+		Set<TwitterCitation> allTwitterCitations = getCitationSet().stream().filter(TwitterCitation.class::isInstance)
+				.map(TwitterCitation.class::cast).collect(Collectors.toSet());
+		return allTwitterCitations;
+	}
+
+	public TwitterCitation getTwitterCitationByTweetID(long id) {
+		TwitterCitation result = null;
+		Set<TwitterCitation> allTwiiterCitations = getAllTwitterCitation();
+		for (TwitterCitation tc : allTwiiterCitations) {
+			if (tc.getTweetID() == id) {
+				result = tc;
+			}
+		}
+		return result;
+	}
+
+	public Tweet getTweetByTweetID(long id) {
+		Tweet result = null;
+		Set<Tweet> allTweets = getTweetSet();
+		for (Tweet t : allTweets) {
+			if (t.getTweetID() == id) {
+				result = t;
+			}
+		}
+		return result;
+	}
+
+	public boolean checkIfTweetExists(long id) {
+		Set<Tweet> allTweets = getTweetSet();
+		for (Tweet t : allTweets) {
+			if (t.getTweetID() == id) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public Set<Citation> getCitationSet() {
+		return getFragmentsSet().stream().flatMap(f -> f.getCitationSet().stream()).collect(Collectors.toSet());
 	}
 }
