@@ -300,7 +300,6 @@ public class AwareAnnotationFactory {
 						bw.write("Count = " + count);
 						bw.write("\n");
 						bw.write("\n");
-						count++;
 						
 						bw.write("Date: " + newCitation.getDate());
 						bw.write("\n");
@@ -316,9 +315,10 @@ public class AwareAnnotationFactory {
 						bw.write("\n");
 						bw.write("\n");
 						
-						
-						createAwareAnnotation(inter, newCitation, bw);
-					
+						if(count<=2) {
+							createAwareAnnotation(inter, newCitation, bw);
+						}
+						count++;
 					}
 				
 				}	
@@ -398,9 +398,9 @@ public class AwareAnnotationFactory {
 			
 			//HumanAnnotation annotation = new HumanAnnotation(vei, null, null, annotQuote, annotText, user);
 			//AwareAnnotation annotation = new AwareAnnotation(vei, annotQuote, annotText, null); //para testar
-			//AwareAnnotation annotation = new AwareAnnotation(vei, annotQuote, annotText, tc); //descomentar
+			AwareAnnotation annotation = new AwareAnnotation(vei, annotQuote, annotText, tc); //descomentar
 			
-			//new Range(annotation, "/div[1]/div[1]/p[" + numOfPStart + "]", htmlStart, "/div[1]/div[1]/p[" + numOfPEnd + "]", htmlEnd);
+			new Range(annotation, "/div[1]/div[1]/p[" + numOfPStart + "]", htmlStart, "/div[1]/div[1]/p[" + numOfPEnd + "]", htmlEnd);
 			logger("numOfP START: " + numOfPStart);
 			logger("numOfP END: " + numOfPEnd);
 		}	
@@ -528,7 +528,7 @@ public class AwareAnnotationFactory {
 		bw.write("\n");
 		bw.write("Pattern clean: " + tweet);
 		bw.write("\n");
-		 */
+		*/
 	
 		if(patternFound.equals("")) {
 			//bw.write("	Pattern does not exist!");
