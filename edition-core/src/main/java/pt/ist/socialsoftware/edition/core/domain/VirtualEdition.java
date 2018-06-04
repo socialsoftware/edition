@@ -2,6 +2,8 @@ package pt.ist.socialsoftware.edition.core.domain;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -19,6 +21,8 @@ import org.slf4j.LoggerFactory;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.fenixframework.FenixFramework;
+import pt.ist.socialsoftware.edition.core.dto.FragmentDTO;
+import pt.ist.socialsoftware.edition.core.dto.FragmentMetaInfoDTO;
 import pt.ist.socialsoftware.edition.core.recommendation.VSMVirtualEditionInterRecommender;
 import pt.ist.socialsoftware.edition.core.recommendation.properties.Property;
 import pt.ist.socialsoftware.edition.core.shared.exception.LdoDException;
@@ -572,6 +576,32 @@ public class VirtualEdition extends VirtualEdition_Base {
 	public List<String> getAnnotationTextList() {
 		return getAnnotationList().stream().filter(a -> a.getText() != null && !a.getText().isEmpty())
 				.map(a -> a.getText()).sorted().collect(Collectors.toList());
+	}
+
+	/**
+	 * Utility method that builds for this Virtual Edition it's corresponding List of DTO fragments. Adapdted from VEController
+	 * @return List of FragmentDTO of the Virtual Edition
+	 */
+	public List<FragmentDTO> buildEditionDTO() {
+		List<FragmentDTO> fragments = new ArrayList<>();
+		String intersFilesPath = PropertiesManager.getProperties().getProperty("inters.dir");
+		for (FragInter inter : this.getIntersSet()) {
+			FragInter lastInter = inter.getLastUsed();
+			String text;
+			try {
+				text = new String(
+						Files.readAllBytes(Paths.get(intersFilesPath + lastInter.getExternalId() + ".txt")));
+			} catch (IOException e) {
+				throw new LdoDException("VirtualEditionController::getTranscriptions IOException");
+			}
+
+			FragmentDTO fragment = new FragmentDTO();
+			fragment.setMeta(new FragmentMetaInfoDTO(lastInter));
+			fragment.setText(text);
+
+			fragments.add(fragment);
+		}
+		return fragments;
 	}
 
 }
