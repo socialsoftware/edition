@@ -45,7 +45,6 @@ public class TweetFactory {
 	 public TweetFactory() throws IOException {	
 		//just for writing tweet objects in a file 
 		String timeStamp = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-		//String exportDir = PropertiesManager.getProperties().getProperty("social.aware.dir");
 		toWriteFile = new File("C:/Users/dnf_o/projetoTese/ldod/social/tweetObjects/" + "tweets" + "-" + timeStamp + ".txt");
 		fw = new FileWriter(toWriteFile);
 		bw = new BufferedWriter(fw);
@@ -57,7 +56,6 @@ public class TweetFactory {
 		logger("STARTED TWEET FACTORY!!!");
 		LdoD ldoD = LdoD.getInstance();
 
-		//File folder = new File(PropertiesManager.getProperties().getProperty("social.aware.dir"));
 		File folder = new File(PropertiesManager.getProperties().getProperty("social.aware.dir"));
 		for (File fileEntry : folder.listFiles()) {
 			logger("início de uma iteração!");

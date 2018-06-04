@@ -78,7 +78,6 @@ public class CitationDetecter {
 		
 		//just for checking score in cited fragments
 		String timeStamp = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-		//String exportDir = PropertiesManager.getProperties().getProperty("social.aware.dir");
 		toWriteFile = new File("C:/Users/dnf_o/projetoTese/ldod/social/awareGeneric/" + "citations-" + "generic" + "-" + timeStamp + ".txt");
 		fw = new FileWriter(toWriteFile);
 		bw = new BufferedWriter(fw);

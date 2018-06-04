@@ -55,7 +55,7 @@ public class AwareAnnotationFactory {
         }
     }
 	
-	//returns max jaro value between a word in the pattern and every word in the text - not so efficient
+	//returns max jaro value between a word in the pattern and every word in the text
     public static JaroInfo maxJaroValue(String text, String wordToFind) {
 		JaroWinklerDistance jaro = new JaroWinklerDistance();
     	double maxJaroValue = 0.0;
@@ -95,14 +95,14 @@ public class AwareAnnotationFactory {
     }
 	
     public static String cleanCharFromString(char charToClean, String s, int position, int lastCharPos) {
-    	//i!=lastCharPos serve para prevenior um IndexOutOfBound
-    	logger("string s : " + s);
-		logger("position : " + position);
-		logger("lastCharPos : " + lastCharPos);
+    	//!=lastCharPos serve para prevenior um IndexOutOfBound
+    	//logger("string s : " + s);
+		//logger("position : " + position);
+		//logger("lastCharPos : " + lastCharPos);
     	
     	//limpar hífenes que tenham espaços em branco à esquerda ou à direita
     	if(charToClean == '-') {
-			logger("entrei no if do hífen");
+			//logger("entrei no if do hífen");
 			if(position!=0) {
 				if(s.charAt(position-1) == ' ' || (position!=lastCharPos && s.charAt(position+1) == ' ')) {
 					s = s.substring(0,position)+' '+s.substring(position+1);
@@ -111,7 +111,7 @@ public class AwareAnnotationFactory {
 		}
 		//limpar pontos que tenham espaços em branco à esquerda e à direita
 		else if(charToClean == '.') {
-			logger("entrei no if do ponto");
+			//logger("entrei no if do ponto");
 			if(position!=0) {
 				if(s.charAt(position-1) == ' ' && (position!=lastCharPos && s.charAt(position+1) == ' ')) {
 					s = s.substring(0,position)+' '+s.substring(position+1);
@@ -120,14 +120,14 @@ public class AwareAnnotationFactory {
 		}
     	//limpar vírgulas que tenham espaços em branco à esquerda e à direita
 		else if(charToClean == ',') {
-			logger("entrei no if da vírgula");
+			//logger("entrei no if da vírgula");
 			if(s.charAt(position-1) == ' ' && (position!=lastCharPos && s.charAt(position+1) == ' ')) {
 				s = s.substring(0,position)+' '+s.substring(position+1);
 			}
 		}
     	//limpar pontos de interrogação que tenham espaços em branco à esquerda e à direita
 		else if(charToClean == '?') {
-			logger("entrei no if do ponto de interrogação");
+			//logger("entrei no if do ponto de interrogação");
 			if(position!=0) {
 				if(s.charAt(position-1) == ' ' && (position!=lastCharPos && s.charAt(position+1) == ' ')) {
 					s = s.substring(0,position)+' '+s.substring(position+1);
@@ -136,9 +136,9 @@ public class AwareAnnotationFactory {
 		}
     	//substituir as ocorrências da letra 'q' com espaços à esquerda e à direita por "que"
 		else if(charToClean == 'q') {
+			//logger("entrei no if do \"q\"");
 			if(position!=0) {
 				if(s.charAt(position-1) == ' ' && (position!=lastCharPos && s.charAt(position+1) == ' ')) {
-					logger("entrei no if do \"q\"");
 					s = s.substring(0,position)+"que"+s.substring(position+1);
 				}
 			}	
@@ -146,7 +146,7 @@ public class AwareAnnotationFactory {
 		return s;
     }
     
-	
+	//main method of this Factory
 	@Atomic
 	public void create() throws IOException {
 		logger.debug("BEGINNIG OF FACTORY"); 
@@ -159,9 +159,6 @@ public class AwareAnnotationFactory {
 		bw = new BufferedWriter(fw);
 		
 		//algoritmo do Annotation Factory
-		//o removeAll modifica o conjunto
-		//experimentar biblioteca Guava do Google, não modifica os sets
-		
 		LdoD ldoD = LdoD.getInstance();
 		//allTwitterCitations - all twitter citations in the archive
 		Set<TwitterCitation> allTwitterCitations = ldoD.getCitationsSet()
@@ -531,13 +528,13 @@ public class AwareAnnotationFactory {
 		bw.write("\n");
 		bw.write("Pattern clean: " + tweet);
 		bw.write("\n");
+		 */
 	
-		
 		if(patternFound.equals("")) {
-			bw.write("	Pattern does not exist!");
-			bw.write("\n");			
+			//bw.write("	Pattern does not exist!");
+			//bw.write("\n");			
 		}
-		*/
+		
 		
 		if(count < window && start != -1) { //caso em que o padrão até existe mas não respeita a window
 			logger("	Pattern may exist but does not respect window size!");

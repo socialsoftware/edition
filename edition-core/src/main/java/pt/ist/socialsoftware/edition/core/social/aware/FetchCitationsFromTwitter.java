@@ -98,9 +98,9 @@ public class FetchCitationsFromTwitter {
 						}
 					}
 	
-					Query q = new Query(term);			// Search for tweets that contains this term
-					q.setCount(TWEETS_PER_QUERY);				// How many tweets, max, to retrieve
-					q.setResultType(ResultType.recent);						// Get all tweets
+					Query q = new Query(term);	// Search for tweets that contains this term
+					q.setCount(TWEETS_PER_QUERY);	// How many tweets, max, to retrieve
+					q.setResultType(ResultType.recent);	// Get all tweets
 					q.setLang("pt");						
 	
 					//	If maxID is -1, then this is our first call and we do not want to tell Twitter what the maximum
@@ -160,7 +160,7 @@ public class FetchCitationsFromTwitter {
 						Place place = s.getPlace();
 						
 						String country = "unknown";
-						if(place != null && !place.getCountry().equals("")) //this equals solves the case where country comes empty
+						if(place != null && !place.getCountry().equals("")) //"equals" solves the case where country comes empty
 							country = place.getCountry();
 					
 						String location = s.getUser().getLocation();
@@ -287,7 +287,7 @@ public class FetchCitationsFromTwitter {
 		Place place = s.getPlace();
 		
 		String country = "unknown";
-		if(place != null && !place.getCountry().equals("")) //this equals solves the case where country comes empty
+		if(place != null && !place.getCountry().equals("")) //"equals" solves the case where country comes empty
 			country = place.getCountry();
 	
 		String location = s.getUser().getLocation();
@@ -344,7 +344,6 @@ public class FetchCitationsFromTwitter {
     }
 	
 	
-	//Might be useful
 	public static Status getTweetById(long id, Twitter t) {
 		Status s = null;
 		try {
