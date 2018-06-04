@@ -10,10 +10,15 @@ import org.jdom2.output.XMLOutputter;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.socialsoftware.edition.core.domain.Category;
+import pt.ist.socialsoftware.edition.core.domain.Frequency;
+import pt.ist.socialsoftware.edition.core.domain.GeographicLocation;
 import pt.ist.socialsoftware.edition.core.domain.LdoD;
+import pt.ist.socialsoftware.edition.core.domain.MediaSource;
 import pt.ist.socialsoftware.edition.core.domain.Member;
-import pt.ist.socialsoftware.edition.core.domain.VirtualEdition;
+import pt.ist.socialsoftware.edition.core.domain.SocialMediaCriteria;
 import pt.ist.socialsoftware.edition.core.domain.Taxonomy;
+import pt.ist.socialsoftware.edition.core.domain.TimeWindow;
+import pt.ist.socialsoftware.edition.core.domain.VirtualEdition;
 
 public class VirtualEditionsTEICorpusExport {
 	private static final String ED_VIRT = "ED.VIRT";
@@ -40,6 +45,11 @@ public class VirtualEditionsTEICorpusExport {
 		Element classDecl = generateEncodingDesc(teiHeader);
 		for (VirtualEdition virtualEdition : LdoD.getInstance().getVirtualEditionsSet()) {
 			exportVirtualEditionTaxonomy(classDecl, virtualEdition);
+		}
+
+		Element socialMediaCriteria = generateSocialMediaCriteria(teiHeader);
+		for (VirtualEdition virtualEdition : LdoD.getInstance().getVirtualEditionsSet()) {
+			exportVirtualEditionSocialMediaCriteria(socialMediaCriteria, virtualEdition);
 		}
 
 		XMLOutputter xml = new XMLOutputter();
@@ -166,6 +176,46 @@ public class VirtualEditionsTEICorpusExport {
 		} else {
 			return "false";
 		}
+	}
+
+	private Element generateSocialMediaCriteria(Element teiHeader) {
+		Element socialMediaCriteria = new Element("socialMediaCriteria", this.xmlns);
+		teiHeader.addContent(socialMediaCriteria);
+		return socialMediaCriteria;
+	}
+
+	private Element exportVirtualEditionSocialMediaCriteria(Element socialMediaCriteria,
+			VirtualEdition virtualEdition) {
+		Element virtualEditionSocialCriteria = new Element("editionCriteria", this.xmlns);
+		virtualEditionSocialCriteria.setAttribute("source", "#" + ED_VIRT + "." + virtualEdition.getAcronym());
+		socialMediaCriteria.addContent(socialMediaCriteria);
+
+		for (SocialMediaCriteria criteria : virtualEdition.getCriteriaSet()) {
+			if (criteria instanceof MediaSource) {
+				Element mediaSource = new Element("mediaSource", this.xmlns);
+				mediaSource.setAttribute("name", ((MediaSource) criteria).getName());
+				socialMediaCriteria.addContent(mediaSource);
+			} else if (criteria instanceof TimeWindow) {
+				Element timeWindow = new Element("timeWindow", this.xmlns);
+				timeWindow.setAttribute("beginDate", ((TimeWindow) criteria).getBeginDate().toString());
+				timeWindow.setAttribute("endDate", ((TimeWindow) criteria).getEndDate().toString());
+				socialMediaCriteria.addContent(timeWindow);
+			} else if (criteria instanceof GeographicLocation) {
+				Element geographicLocation = new Element("geographicLocation", this.xmlns);
+				geographicLocation.setAttribute("country", ((GeographicLocation) criteria).getCountry());
+				geographicLocation.setAttribute("location", ((GeographicLocation) criteria).getLocation());
+				socialMediaCriteria.addContent(geographicLocation);
+			} else if (criteria instanceof Frequency) {
+				Element frequency = new Element("frequency", this.xmlns);
+				frequency.setAttribute("frequency", Integer.toString(((Frequency) criteria).getFrequency()));
+				socialMediaCriteria.addContent(frequency);
+			} else {
+				assert true;
+			}
+
+		}
+
+		return virtualEditionSocialCriteria;
 	}
 
 }

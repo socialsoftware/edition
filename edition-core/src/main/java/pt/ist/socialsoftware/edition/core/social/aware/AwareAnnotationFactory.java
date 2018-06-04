@@ -161,7 +161,7 @@ public class AwareAnnotationFactory {
 		//algoritmo do Annotation Factory
 		LdoD ldoD = LdoD.getInstance();
 		//allTwitterCitations - all twitter citations in the archive
-		Set<TwitterCitation> allTwitterCitations = ldoD.getCitationsSet()
+		Set<TwitterCitation> allTwitterCitations = ldoD.getCitationSet()
 				.stream().filter(TwitterCitation.class::isInstance).map(TwitterCitation.class::cast)
 				.collect(Collectors.toSet());
 		

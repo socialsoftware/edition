@@ -18,10 +18,14 @@ import org.joda.time.LocalDate;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.socialsoftware.edition.core.domain.Category;
+import pt.ist.socialsoftware.edition.core.domain.Frequency;
+import pt.ist.socialsoftware.edition.core.domain.GeographicLocation;
 import pt.ist.socialsoftware.edition.core.domain.LdoD;
 import pt.ist.socialsoftware.edition.core.domain.LdoDUser;
+import pt.ist.socialsoftware.edition.core.domain.MediaSource;
 import pt.ist.socialsoftware.edition.core.domain.Member;
 import pt.ist.socialsoftware.edition.core.domain.Taxonomy;
+import pt.ist.socialsoftware.edition.core.domain.TimeWindow;
 import pt.ist.socialsoftware.edition.core.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.core.shared.exception.LdoDLoadException;
 
@@ -66,6 +70,8 @@ public class VirtualEditionsTEICorpusImport {
 		importVirtualEditions(doc, ldoD);
 
 		importTaxonomies(doc, ldoD);
+
+		importSocialMediaCriteria(doc, ldoD);
 	}
 
 	private void importVirtualEditions(Document doc, LdoD ldoD) {
@@ -148,6 +154,43 @@ public class VirtualEditionsTEICorpusImport {
 			for (Element cat : tax.getChildren("category", namespace)) {
 				new Category().init(taxonomy, cat.getChildText("catDesc", namespace));
 			}
+		}
+	}
+
+	private void importSocialMediaCriteria(Document doc, LdoD ldoD) {
+		Namespace namespace = doc.getRootElement().getNamespace();
+		XPathFactory xpfac = XPathFactory.instance();
+		XPathExpression<Element> xp = xpfac.compile("//def:editionCriteria", Filters.element(), null,
+				Namespace.getNamespace("def", namespace.getURI()));
+		for (Element editionCriteria : xp.evaluate(doc)) {
+			String xmlId = editionCriteria.getAttributeValue("source").substring(1);
+			System.out.println(xmlId);
+			System.out.println(LdoD.getInstance().getVirtualEditionByXmlId(xmlId));
+
+			VirtualEdition virtualEdition = LdoD.getInstance().getVirtualEditionByXmlId(xmlId);
+
+			Element mediaSource = editionCriteria.getChild("mediaSource", namespace);
+			if (mediaSource != null) {
+				new MediaSource(virtualEdition, mediaSource.getAttributeValue("name"));
+			}
+
+			Element timeWindow = editionCriteria.getChild("timeWindow", namespace);
+			if (timeWindow != null) {
+				new TimeWindow(virtualEdition, LocalDate.parse(timeWindow.getAttributeValue("beginDate")),
+						LocalDate.parse(timeWindow.getAttributeValue("endDate")));
+			}
+
+			Element geographicLocation = editionCriteria.getChild("geographicLocation", namespace);
+			if (geographicLocation != null) {
+				new GeographicLocation(virtualEdition, geographicLocation.getAttributeValue("country"),
+						geographicLocation.getAttributeValue("location"));
+			}
+
+			Element frequency = editionCriteria.getChild("frequency", namespace);
+			if (frequency != null) {
+				new Frequency(virtualEdition, Integer.parseInt(frequency.getAttributeValue("frequency")));
+			}
+
 		}
 	}
 

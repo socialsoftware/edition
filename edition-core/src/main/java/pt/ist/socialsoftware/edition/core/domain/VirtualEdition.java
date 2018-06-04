@@ -22,21 +22,13 @@ import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.core.recommendation.VSMVirtualEditionInterRecommender;
 import pt.ist.socialsoftware.edition.core.recommendation.properties.Property;
 import pt.ist.socialsoftware.edition.core.shared.exception.LdoDException;
-import pt.ist.socialsoftware.edition.core.domain.VirtualEdition_Base;
 import pt.ist.socialsoftware.edition.core.utils.PropertiesManager;
 
 public class VirtualEdition extends VirtualEdition_Base {
 	private static Logger logger = LoggerFactory.getLogger(VirtualEdition.class);
 
 	public static String ACRONYM_PREFIX = "LdoD-";
-	
-	public boolean isSAVE() {
-		if(!this.getCriteriaSet().isEmpty()) {
-			return true;
-		}	
-		return false;
-	}
-	
+
 	@Override
 	public String getTitle() {
 		return StringEscapeUtils.escapeHtml(super.getTitle());
@@ -81,8 +73,7 @@ public class VirtualEdition extends VirtualEdition_Base {
 			}
 		}
 	}
-	
-	
+
 	@Override
 	@Atomic(mode = TxMode.WRITE)
 	public void remove() {
@@ -103,6 +94,8 @@ public class VirtualEdition extends VirtualEdition_Base {
 		getTaxonomy().remove();
 
 		getMemberSet().stream().forEach(m -> m.remove());
+
+		getCriteriaSet().stream().forEach(c -> c.remove());
 
 		for (LdoDUser user : getSelectedBySet()) {
 			removeSelectedBy(user);
@@ -145,7 +138,7 @@ public class VirtualEdition extends VirtualEdition_Base {
 		List<VirtualEditionInter> interps = new ArrayList<>();
 
 		for (FragInter inter : fragment.getFragmentInterSet()) {
-			if ((inter.getSourceType() == EditionType.VIRTUAL)
+			if (inter.getSourceType() == EditionType.VIRTUAL
 					&& ((VirtualEditionInter) inter).getVirtualEdition() == this) {
 				interps.add((VirtualEditionInter) inter);
 			}
@@ -187,21 +180,21 @@ public class VirtualEdition extends VirtualEdition_Base {
 	private boolean belongToDifferentExpertEditions(FragInter usedAddInter, FragInter usedInter) {
 		ExpertEdition addExpertEdition = ((ExpertEditionInter) usedAddInter).getExpertEdition();
 		ExpertEdition expertEdition = ((ExpertEditionInter) usedInter).getExpertEdition();
-		return (addExpertEdition != expertEdition);
+		return addExpertEdition != expertEdition;
 	}
 
 	public boolean atLeastOneIsSourceInterpretation(FragInter usedAddInter, FragInter usedInter) {
-		return (usedInter instanceof SourceInter) || (usedAddInter instanceof SourceInter);
+		return usedInter instanceof SourceInter || usedAddInter instanceof SourceInter;
 	}
 
 	public boolean isSameInterpretation(FragInter usedAddInter, FragInter usedInter) {
-		return (usedAddInter == usedInter);
+		return usedAddInter == usedInter;
 	}
 
 	public int getMaxFragNumber() {
 		int max = 0;
 		for (FragInter inter : getAllDepthVirtualEditionInters()) {
-			max = (inter.getNumber() > max) ? inter.getNumber() : max;
+			max = inter.getNumber() > max ? inter.getNumber() : max;
 		}
 
 		return max;
@@ -571,18 +564,24 @@ public class VirtualEdition extends VirtualEdition_Base {
 		return getAllDepthCategories().stream().sorted((c1, c2) -> c1.getName().compareTo(c2.getName()))
 				.collect(Collectors.toList());
 	}
-	
-	//Foi alterado por causa das human annotations
+
+	// Foi alterado por causa das human annotations
 	public List<HumanAnnotation> getAnnotationList() {
 		return getAllDepthVirtualEditionInters().stream().flatMap(i -> i.getAnnotationSet().stream())
-				.filter(HumanAnnotation.class::isInstance)
-				.map(HumanAnnotation.class::cast)
+				.filter(HumanAnnotation.class::isInstance).map(HumanAnnotation.class::cast)
 				.collect(Collectors.toList());
 	}
 
 	public List<String> getAnnotationTextList() {
 		return getAnnotationList().stream().filter(a -> a.getText() != null && !a.getText().isEmpty())
 				.map(a -> a.getText()).sorted().collect(Collectors.toList());
+	}
+
+	public boolean isSAVE() {
+		if (!this.getCriteriaSet().isEmpty()) {
+			return true;
+		}
+		return false;
 	}
 
 }

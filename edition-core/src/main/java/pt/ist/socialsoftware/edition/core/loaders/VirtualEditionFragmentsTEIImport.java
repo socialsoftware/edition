@@ -139,9 +139,7 @@ public class VirtualEditionFragmentsTEIImport {
 		String fromOffset = quoteElement.getAttributeValue("fromOffset");
 		String toOffset = quoteElement.getAttributeValue("toOffset");
 		String quote = quoteElement.getText().trim();
-		
-		System.out.println("++++++++++++++ CÂO +++++++++++++++");
-		
+
 		RangeJson range = new RangeJson();
 		range.setStart(from);
 		range.setStartOffset(Integer.parseInt(fromOffset));
