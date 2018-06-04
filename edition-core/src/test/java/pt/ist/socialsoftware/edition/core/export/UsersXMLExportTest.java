@@ -7,9 +7,9 @@ import static org.junit.Assert.assertTrue;
 import javax.transaction.NotSupportedException;
 import javax.transaction.SystemException;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.FenixFramework;
@@ -20,7 +20,7 @@ import pt.ist.socialsoftware.edition.core.domain.RegistrationToken;
 import pt.ist.socialsoftware.edition.core.loaders.UsersXMLImport;
 
 public class UsersXMLExportTest {
-	@Before
+	@BeforeEach
 	public void setUp() throws WriteOnReadError, NotSupportedException, SystemException {
 		FenixFramework.getTransactionManager().begin(false);
 	}
@@ -59,7 +59,7 @@ public class UsersXMLExportTest {
 		}
 	}
 
-	@After
+	@AfterEach
 	public void tearDown() throws IllegalStateException, SecurityException, SystemException {
 		FenixFramework.getTransactionManager().rollback();
 	}

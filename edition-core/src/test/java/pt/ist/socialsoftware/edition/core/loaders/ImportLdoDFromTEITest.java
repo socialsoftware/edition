@@ -9,13 +9,12 @@ import java.io.FileNotFoundException;
 import javax.transaction.NotSupportedException;
 import javax.transaction.SystemException;
 
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.fenixframework.core.WriteOnReadError;
-import pt.ist.socialsoftware.edition.core.shared.exception.LdoDException;
 import pt.ist.socialsoftware.edition.core.domain.ExpertEdition;
 import pt.ist.socialsoftware.edition.core.domain.ExpertEditionInter;
 import pt.ist.socialsoftware.edition.core.domain.FragInter;
@@ -26,6 +25,7 @@ import pt.ist.socialsoftware.edition.core.domain.ManuscriptSource;
 import pt.ist.socialsoftware.edition.core.domain.PrintedSource;
 import pt.ist.socialsoftware.edition.core.domain.Source;
 import pt.ist.socialsoftware.edition.core.domain.SourceInter;
+import pt.ist.socialsoftware.edition.core.shared.exception.LdoDException;
 import pt.ist.socialsoftware.edition.core.utils.PropertiesManager;
 
 public class ImportLdoDFromTEITest {
@@ -33,7 +33,7 @@ public class ImportLdoDFromTEITest {
 
 	private static Fragment fragmentTest;
 
-	@BeforeClass
+	@BeforeAll
 	public static void setUp() throws WriteOnReadError, NotSupportedException, SystemException {
 		FenixFramework.getTransactionManager().begin(false);
 
@@ -48,7 +48,7 @@ public class ImportLdoDFromTEITest {
 		fragmentTest = ldoD.getFragmentsSet().stream().filter(f -> f.getXmlId().equals("Fr1TEST")).findFirst().get();
 	}
 
-	@AfterClass
+	@AfterAll
 	public static void tearDown() throws IllegalStateException, SecurityException, SystemException {
 		FenixFramework.getTransactionManager().rollback();
 	}
@@ -71,7 +71,7 @@ public class ImportLdoDFromTEITest {
 
 	@Test
 	public void testLoadWitnesses() {
-		assertEquals(7, fragmentTest.getFragmentInterSet().size());
+		assertEquals(8, fragmentTest.getFragmentInterSet().size());
 		for (FragInter fragmentInter : fragmentTest.getFragmentInterSet()) {
 			if (fragmentInter instanceof ExpertEditionInter) {
 				assertTrue(((ExpertEditionInter) fragmentInter).getExpertEdition() != null);
@@ -117,10 +117,9 @@ public class ImportLdoDFromTEITest {
 		for (ExpertEdition edition : ldoD.getExpertEditionsSet()) {
 			assertEquals("Fernando Pessoa", edition.getAuthor());
 			assertEquals("O Livro do Desassossego", edition.getTitle());
-			assertTrue((edition.getEditor().equals("Jacinto do Prado Coelho"))
-					|| (edition.getEditor().equals("Teresa Sobral Cunha"))
-					|| (edition.getEditor().equals("Richard Zenith"))
-					|| (edition.getEditor().equals("Jerónimo Pizarro")));
+			assertTrue(edition.getEditor().equals("Jacinto do Prado Coelho")
+					|| edition.getEditor().equals("Teresa Sobral Cunha") || edition.getEditor().equals("Richard Zenith")
+					|| edition.getEditor().equals("Jerónimo Pizarro"));
 		}
 	}
 
