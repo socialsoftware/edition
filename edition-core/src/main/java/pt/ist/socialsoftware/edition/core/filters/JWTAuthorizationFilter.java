@@ -1,4 +1,4 @@
-package pt.ist.socialsoftware.edition.core.security;
+package pt.ist.socialsoftware.edition.core.filters;
 
 import static pt.ist.socialsoftware.edition.core.security.SecurityConstants.HEADER_STRING;
 import static pt.ist.socialsoftware.edition.core.security.SecurityConstants.SECRET;
@@ -20,8 +20,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 import io.jsonwebtoken.Jwts;
-import pt.ist.socialsoftware.edition.core.controller.api.APIUserController;
+import org.springframework.stereotype.Component;
+import pt.ist.socialsoftware.edition.core.security.LdoDUserDetailsService;
 
+@Component
 public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
     private static Logger logger = LoggerFactory.getLogger(JWTAuthorizationFilter.class);
     public JWTAuthorizationFilter(AuthenticationManager authManager) {
@@ -31,7 +33,6 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain chain)
             throws IOException, ServletException {
-        logger.debug("doFilterInternal");
         String header = req.getHeader(HEADER_STRING);
 
         if (header == null || !header.startsWith(TOKEN_PREFIX)) {
@@ -40,13 +41,11 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
         }
 
         UsernamePasswordAuthenticationToken authentication = getAuthentication(req);
-
         SecurityContextHolder.getContext().setAuthentication(authentication);
         chain.doFilter(req, res);
     }
 
     private UsernamePasswordAuthenticationToken getAuthentication(HttpServletRequest request) {
-        logger.debug("getAuthentication");
         String token = request.getHeader(HEADER_STRING);
         if (token != null) {
             // parse the token.
@@ -54,7 +53,8 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
                     .getBody().getSubject();
 
             if (user != null) {
-                return new UsernamePasswordAuthenticationToken(user, null, new ArrayList<>());
+                LdoDUserDetailsService service = new LdoDUserDetailsService();
+                return new UsernamePasswordAuthenticationToken(service.loadUserByUsername(user), null, new ArrayList<>());
             }
             return null;
         }

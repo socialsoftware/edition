@@ -26,8 +26,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import pt.ist.socialsoftware.edition.core.domain.Role.RoleType;
-import pt.ist.socialsoftware.edition.core.security.JWTAuthenticationFilter;
-import pt.ist.socialsoftware.edition.core.security.JWTAuthorizationFilter;
+import pt.ist.socialsoftware.edition.core.filters.JWTAuthorizationFilter;
 import pt.ist.socialsoftware.edition.core.security.LdoDAuthenticationSuccessHandler;
 import pt.ist.socialsoftware.edition.core.security.LdoDSocialUserDetailsService;
 import pt.ist.socialsoftware.edition.core.security.LdoDUserDetailsService;
@@ -89,8 +88,7 @@ public class WebSecurityConfig {
 		protected void configure(HttpSecurity http) throws Exception {
 			log.debug("configure");
 
-			http.authorizeRequests().antMatchers("/api/services/**").authenticated().and()
-					.addFilter(new JWTAuthenticationFilter(authenticationManager()))
+			http.authorizeRequests().antMatchers("/api/user/**", "/api/services/**").authenticated().and()
 					.addFilter(new JWTAuthorizationFilter(authenticationManager())).sessionManagement()
 					.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 

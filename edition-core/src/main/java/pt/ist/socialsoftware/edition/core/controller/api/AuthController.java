@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import pt.ist.socialsoftware.edition.core.domain.LdoD;
 import pt.ist.socialsoftware.edition.core.dto.APIResponse;
 import pt.ist.socialsoftware.edition.core.dto.JWTAuthenticationDTO;
 import pt.ist.socialsoftware.edition.core.dto.LdoDUserDTO;
@@ -47,6 +48,12 @@ public class AuthController {
 					HttpStatus.UNAUTHORIZED);
 		}
 
+	}
+
+	@PostMapping("/social")
+	public ResponseEntity<?> authenticateSocial(@RequestBody String socialToken) {
+		logger.debug("authenticateSocial {token}:" + socialToken);
+		return ResponseEntity.ok(new APIResponse(true, "ok"));
 	}
 
 }
