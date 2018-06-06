@@ -377,7 +377,7 @@ public class FragmentController {
 	AnnotationSearchJson searchAnnotations(Model model, @RequestParam int limit,
 										   @RequestParam String uri) {
 		
-		logger.debug("searchAnnotations");
+		logger.debug("+++++++++++++++++++++++++++++++++searchAnnotations");
 		
 		//código alterado para funcionar com os dois tipos de anotações
 		List<AnnotationDTO> annotations = new ArrayList<>();

@@ -12,11 +12,13 @@ import pt.ist.fenixframework.Atomic;
 import pt.ist.socialsoftware.edition.core.domain.Annotation;
 import pt.ist.socialsoftware.edition.core.domain.AwareAnnotation;
 import pt.ist.socialsoftware.edition.core.domain.Category;
+import pt.ist.socialsoftware.edition.core.domain.Citation;
 import pt.ist.socialsoftware.edition.core.domain.Fragment;
 import pt.ist.socialsoftware.edition.core.domain.HumanAnnotation;
 import pt.ist.socialsoftware.edition.core.domain.LdoD;
 import pt.ist.socialsoftware.edition.core.domain.Range;
 import pt.ist.socialsoftware.edition.core.domain.Tag;
+import pt.ist.socialsoftware.edition.core.domain.TwitterCitation;
 import pt.ist.socialsoftware.edition.core.domain.VirtualEditionInter;
 
 public class VirtualEditionFragmentsTEIExport {
@@ -57,8 +59,6 @@ public class VirtualEditionFragmentsTEIExport {
 			exportVirtualEditionInterWitness(witnesses, virtualEditionInter);
 		}
 
-		// TODO: export fragment citations
-
 		Element profileDesc = new Element("profileDesc", this.xmlns);
 		teiHeader.addContent(profileDesc);
 		for (VirtualEditionInter virtualEditionInter : fragment.getVirtualEditionInters()) {
@@ -69,6 +69,9 @@ public class VirtualEditionFragmentsTEIExport {
 			exportVirtualEditionInterTags(textClass, virtualEditionInter);
 			exportVirtualEditionInterAnnotations(textClass, virtualEditionInter);
 		}
+
+		// TODO: export fragment citations
+		exportFragmentCitations(teiHeader, fragment);
 
 		XMLOutputter xml = new XMLOutputter();
 		xml.setFormat(Format.getPrettyFormat());
@@ -101,10 +104,71 @@ public class VirtualEditionFragmentsTEIExport {
 		}
 	}
 
-	// Foi alterado por causa das human annotations
+	private void exportFragmentCitations(Element teiHeader, Fragment fragment) {
+		Element citationList = new Element("citationList", this.xmlns);
+		teiHeader.addContent(citationList);
+		for (Citation citation : fragment.getCitationSet()) {
+			exportCitation(citationList, citation);
+			if (citation instanceof TwitterCitation) {
+				exportTwitterCitation(citationList, (TwitterCitation) citation);
+			}
+		}
+
+	}
+
+	protected void exportCitation(Element citationList, Citation citation) {
+		Element citationElement = new Element("citation", this.xmlns);
+		citationList.addContent(citationElement);
+
+		Element sourceLink = new Element("sourceLink", this.xmlns);
+		sourceLink.addContent(citation.getSourceLink());
+		citationElement.addContent(sourceLink);
+
+		Element date = new Element("date", this.xmlns);
+		date.addContent(citation.getDate());
+		citationElement.addContent(date);
+
+		Element fragText = new Element("fragText", this.xmlns);
+		fragText.addContent(citation.getFragText());
+		citationElement.addContent(fragText);
+	}
+
+	protected void exportTwitterCitation(Element citationList, TwitterCitation citation) {
+		Element citationElement = new Element("citation", this.xmlns);
+		citationElement.setAttribute("type", "twitter");
+		citationList.addContent(citationElement);
+
+		Element tweetText = new Element("tweetText", this.xmlns);
+		tweetText.addContent(citation.getSourceLink());
+		citationElement.addContent(tweetText);
+
+		Element tweetID = new Element("tweetID", this.xmlns);
+		tweetID.addContent(Long.toString(citation.getTweetID()));
+		citationElement.addContent(tweetID);
+
+		Element location = new Element("location", this.xmlns);
+		location.addContent(citation.getLocation());
+		citationElement.addContent(location);
+
+		Element country = new Element("country", this.xmlns);
+		country.addContent(citation.getCountry());
+		citationElement.addContent(country);
+
+		Element username = new Element("username", this.xmlns);
+		username.addContent(citation.getUsername());
+		citationElement.addContent(username);
+
+		Element userProfileURL = new Element("userProfileURL", this.xmlns);
+		userProfileURL.addContent(citation.getUserProfileURL());
+		citationElement.addContent(userProfileURL);
+
+		Element userImageURL = new Element("userImageURL", this.xmlns);
+		userImageURL.addContent(citation.getUserImageURL());
+		citationElement.addContent(userImageURL);
+	}
+
 	private void exportVirtualEditionInterAnnotations(Element textClass, VirtualEditionInter virtualEditionInter) {
 		for (Annotation annotation : virtualEditionInter.getAnnotationSet()) {
-
 			Element note = new Element("note", this.xmlns);
 			note.setText(StringEscapeUtils.unescapeHtml(annotation.getText()));
 			textClass.addContent(note);
@@ -114,12 +178,13 @@ public class VirtualEditionFragmentsTEIExport {
 			if (annotation instanceof HumanAnnotation) {
 				// TODO: set type
 				note.setAttribute("resp", "#" + ((HumanAnnotation) annotation).getUser().getUsername());
+				note.setAttribute("type", "human");
 				exportAnnotationCategories(virtualEditionInter, (HumanAnnotation) annotation, note);
 			}
-
 			if (annotation instanceof AwareAnnotation) {
 				// TODO: set type
 				// TODO
+				note.setAttribute("type", "aware");
 			}
 		}
 	}

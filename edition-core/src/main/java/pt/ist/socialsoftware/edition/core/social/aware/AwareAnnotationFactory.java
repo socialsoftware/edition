@@ -151,12 +151,14 @@ public class AwareAnnotationFactory {
 	public void create() throws IOException {
 		logger.debug("BEGINNIG OF FACTORY"); 
 		
+		
 		BufferedWriter bw = null;
 		FileWriter fw = null;
 		File file;
 		file = new File("C:/Users/dnf_o/projetoTese/ldod/social/annot/annots.txt");
 		fw = new FileWriter(file);
 		bw = new BufferedWriter(fw);
+		
 		
 		//algoritmo do Annotation Factory
 		LdoD ldoD = LdoD.getInstance();
@@ -202,36 +204,35 @@ public class AwareAnnotationFactory {
 					bw.write("\n");
 
 					//debug do conteúdo do currentTwitterCitations
-					/*
-					bw.write("\n");
-					for(TwitterCitation tc: currentTwitterCitations) {
-						logger("Entrei no for do currentTwitterCitations");
-						bw.write("Entrei no for do currentTwitterCitations");
-						bw.write("\n");
-						
-						logger(" --------------- Twitter Citation --------------");
-						logger("Date: " + tc.getDate());
-						logger("Tweet ID: " + tc.getTweetID());
-						logger("Tweet Text: " + tc.getTweetText());
-						logger("Frag external ID: " + tc.getFragment().getExternalId());
-						logger("Frag Title: " + tc.getFragment().getTitle());
-						logger("Frag Text: " + tc.getFragText());
-						bw.write(" --------------- Twitter Citation --------------");
-						bw.write("\n");
-						bw.write("Date: " + tc.getDate());
-						bw.write("\n");
-						bw.write("Tweet ID: " + tc.getTweetID());
-						bw.write("\n");
-						bw.write("Tweet Text: " + tc.getTweetText());
-						bw.write("\n");
-						bw.write("Frag external ID: " + tc.getFragment().getExternalId());
-						bw.write("\n");
-						bw.write("Frag Title: " + tc.getFragment().getTitle());
-						bw.write("\n");
-						bw.write("Frag Text: " + tc.getFragText());
-						bw.write("\n");
-					}
-					*/
+//					bw.write("\n");
+//					for(TwitterCitation tc: currentTwitterCitations) {
+//						logger("Entrei no for do currentTwitterCitations");
+//						bw.write("Entrei no for do currentTwitterCitations");
+//						bw.write("\n");
+//						
+//						logger(" --------------- Twitter Citation --------------");
+//						logger("Date: " + tc.getDate());
+//						logger("Tweet ID: " + tc.getTweetID());
+//						logger("Tweet Text: " + tc.getTweetText());
+//						logger("Frag external ID: " + tc.getFragment().getExternalId());
+//						logger("Frag Title: " + tc.getFragment().getTitle());
+//						logger("Frag Text: " + tc.getFragText());
+//						bw.write(" --------------- Twitter Citation --------------");
+//						bw.write("\n");
+//						bw.write("Date: " + tc.getDate());
+//						bw.write("\n");
+//						bw.write("Tweet ID: " + tc.getTweetID());
+//						bw.write("\n");
+//						bw.write("Tweet Text: " + tc.getTweetText());
+//						bw.write("\n");
+//						bw.write("Frag external ID: " + tc.getFragment().getExternalId());
+//						bw.write("\n");
+//						bw.write("Frag Title: " + tc.getFragment().getTitle());
+//						bw.write("\n");
+//						bw.write("Frag Text: " + tc.getFragText());
+//						bw.write("\n");
+//					}
+					
 					
 					Set<TwitterCitation> totalTwitterCitations = getTotalTwitterCitationsByInter(allTwitterCitations, inter);
 					logger("TotalTwitterCitations set size: " + totalTwitterCitations.size());
@@ -246,38 +247,38 @@ public class AwareAnnotationFactory {
 					bw.write("\n");
 					bw.write("\n");
 					
-					/*
-					//debug do conteúdo do totalTwitterCitations
-					for(TwitterCitation tc: totalTwitterCitations) {
-						//logger("Entrei no for do totalTwitterCitations");
-						//bw.write("Entrei no for do totalTwitterCitations");
-						//bw.write("\n");
-						
-						
-						logger(" ------------------------------------ Twitter Citation --------------");
-						logger("Date: " + tc.getDate());
-						logger("Tweet ID: " + tc.getTweetID());
-						logger("Tweet Text: " + tc.getTweetText());
-						logger("Frag external ID: " + tc.getFragment().getExternalId());
-						logger("Frag Title: " + tc.getFragment().getTitle());
-						logger("Frag Text: " + tc.getFragText());
-						bw.write(" ----------------------------------- Twitter Citation --------------");
-						bw.write("\n");
-						bw.write("Date: " + tc.getDate());
-						bw.write("\n");
-						bw.write("Tweet ID: " + tc.getTweetID());
-						bw.write("\n");
-						bw.write("Tweet Text: " + tc.getTweetText());
-						bw.write("\n");
-						bw.write("Frag external ID: " + tc.getFragment().getExternalId());
-						bw.write("\n");
-						bw.write("Frag Title: " + tc.getFragment().getTitle());
-						bw.write("\n");
-						bw.write("Frag Text: " + tc.getFragText());
-						bw.write("\n");
-						bw.write("\n");
-					}
-					*/
+					
+//					//debug do conteúdo do totalTwitterCitations
+//					for(TwitterCitation tc: totalTwitterCitations) {
+//						//logger("Entrei no for do totalTwitterCitations");
+//						//bw.write("Entrei no for do totalTwitterCitations");
+//						//bw.write("\n");
+//						
+//						
+//						logger(" ------------------------------------ Twitter Citation --------------");
+//						logger("Date: " + tc.getDate());
+//						logger("Tweet ID: " + tc.getTweetID());
+//						logger("Tweet Text: " + tc.getTweetText());
+//						logger("Frag external ID: " + tc.getFragment().getExternalId());
+//						logger("Frag Title: " + tc.getFragment().getTitle());
+//						logger("Frag Text: " + tc.getFragText());
+//						bw.write(" ----------------------------------- Twitter Citation --------------");
+//						bw.write("\n");
+//						bw.write("Date: " + tc.getDate());
+//						bw.write("\n");
+//						bw.write("Tweet ID: " + tc.getTweetID());
+//						bw.write("\n");
+//						bw.write("Tweet Text: " + tc.getTweetText());
+//						bw.write("\n");
+//						bw.write("Frag external ID: " + tc.getFragment().getExternalId());
+//						bw.write("\n");
+//						bw.write("Frag Title: " + tc.getFragment().getTitle());
+//						bw.write("\n");
+//						bw.write("Frag Text: " + tc.getFragText());
+//						bw.write("\n");
+//						bw.write("\n");
+//					}
+					
 					
 					bw.write("TotalTwitterCitations set size BEFORE REMOVAL: " + totalTwitterCitations.size());
 					bw.write("\n");
@@ -315,7 +316,7 @@ public class AwareAnnotationFactory {
 						bw.write("\n");
 						bw.write("\n");
 						
-						if(count<=2) {
+						if(count<=13) {
 							createAwareAnnotation(inter, newCitation, bw);
 						}
 						count++;
@@ -328,10 +329,14 @@ public class AwareAnnotationFactory {
 		}
 		bw.close();
 		fw.close();
+		
 
 		//testing code
-		//populateWithAwareAnnotation();
-
+		/*
+		populateWithAwareAnnotation(bw);
+		bw.close();
+		fw.close();
+		*/
 		
 		//pattern finding code was here
 		//caso seja preciso fazer debug ao algoritmo, é só ir buscar ao backup e testar aqui 
@@ -342,6 +347,9 @@ public class AwareAnnotationFactory {
 	
 	//método responsável por criar aware annotation no vei com meta informação contida na tc
 	public void createAwareAnnotation(VirtualEditionInter vei, TwitterCitation tc, BufferedWriter bw) throws IOException {
+		bw.write("Entrei no create aware annotation");
+		bw.write("\n");
+		
 		PlainHtmlWriter4OneInter htmlWriter = new PlainHtmlWriter4OneInter(vei);
 		htmlWriter.write(false);
 		String htmlTransc = htmlWriter.getTranscription();
@@ -401,6 +409,7 @@ public class AwareAnnotationFactory {
 			AwareAnnotation annotation = new AwareAnnotation(vei, annotQuote, annotText, tc); //descomentar
 			
 			new Range(annotation, "/div[1]/div[1]/p[" + numOfPStart + "]", htmlStart, "/div[1]/div[1]/p[" + numOfPEnd + "]", htmlEnd);
+
 			logger("numOfP START: " + numOfPStart);
 			logger("numOfP END: " + numOfPEnd);
 		}	
@@ -435,7 +444,7 @@ public class AwareAnnotationFactory {
 		//parameters that can be adjusted
 		int window = 10;
 		double jaroThreshold = 0.9;
-		int startCorrectParam = 2; //parâmetro utilizado na correção da start position
+		int startCorrectParam = 3; //parâmetro utilizado na correção da start position
 
 		//algorithm
 		int count = 0; //aux counter to check if we reach the minimum value set by "window" variable
@@ -625,7 +634,7 @@ public class AwareAnnotationFactory {
 	
 	
 	//método de teste utilizado para criar uma aware annotation
-	public void populateWithAwareAnnotation() throws IOException {
+	public void populateWithAwareAnnotation(BufferedWriter bw) throws IOException {
 		//testing code
 		// ********************** POPULATE DB WITH AWARE ANNOTATION ********************************************
 		VirtualEdition duarteEdit = LdoD.getInstance().getVirtualEdition("LdoD-EditDuarte");
@@ -657,7 +666,7 @@ public class AwareAnnotationFactory {
 		TwitterCitation twitterCitation = LdoD.getInstance().getTwitterCitationByTweetID(tweetID);
 		logger("Date: " + twitterCitation.getDate());
 		logger("Fragment text: " + twitterCitation.getFragText());
-		//createAwareAnnotation(vei, twitterCitation); //descomentar
+		createAwareAnnotation(vei, twitterCitation, bw); //descomentar
 		//createAwareAnnotation(vei, null); //para testar
 		
 	
@@ -683,11 +692,6 @@ public class AwareAnnotationFactory {
 			}
 		}
 		*/
-		
-		//processo de criar tags, facultativo. uma anotação não precisa de ter tag/category
-		//for (String tag : tagList) {
-		//	createTag(annotation.getUser(), tag, annotation);
-		//}
 	}
 	
 	public Set<TwitterCitation> getTotalTwitterCitationsByInter(Set<TwitterCitation> allTwitterCitations, VirtualEditionInter inter){
