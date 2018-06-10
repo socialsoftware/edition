@@ -719,8 +719,8 @@ class Tweet {
 	boolean isRetweet;
 }
 
-relation CitationHasTweets {
-	Citation playsRole citation {multiplicity 0..1;}
+relation TwitterCitationHasTweets {
+	TwitterCitation playsRole citation {multiplicity 0..1;}
 	Tweet playsRole tweet {multiplicity 0..*;}
 }
 

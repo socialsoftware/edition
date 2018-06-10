@@ -22,28 +22,26 @@ public class ScheduledTasks {
 		WriteVirtualEditonsToFile write = new WriteVirtualEditonsToFile();
 		write.export();
 	}
-	
-	@Scheduled(cron = "0 56 2 * * *")
+
+	@Scheduled(cron = "0 23 17 * * *")
 	public void fetchFromTwitter() throws IOException {
 		FetchCitationsFromTwitter fetch = new FetchCitationsFromTwitter();
 		fetch.fetch();
 	}
-	
+
 	@Scheduled(cron = "0 4 3 * * *")
 	public void detectCitations() throws IOException {
 		CitationDetecter detecter = new CitationDetecter();
 		detecter.detect();
 	}
-	
-	
+
 	@Scheduled(cron = "0 5 4 * * *")
 	public void createTweets() throws IOException {
 		TweetFactory tweetFactory = new TweetFactory();
 		tweetFactory.create();
 	}
-	
-	
-	@Scheduled(cron = "0 54 16 * * *")
+
+	@Scheduled(cron = "0 12 23 * * *")
 	public void createAwareAnnotations() throws IOException {
 		AwareAnnotationFactory awareFactory = new AwareAnnotationFactory();
 		awareFactory.create();
