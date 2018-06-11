@@ -13,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import pt.ist.fenixframework.Atomic;
+import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.core.domain.AwareAnnotation;
 import pt.ist.socialsoftware.edition.core.domain.FragInter;
@@ -161,126 +162,8 @@ public class AwareAnnotationFactory {
 		for (VirtualEdition ve : ldoD.getVirtualEditionsSet()) {
 			logger("VirtualEdition XMLID: " + ve.getXmlId());
 			if (ve.isSAVE()) {
-				logger(" ++++++++++++++++++++++++++ SAVE +++++++++++++++++++++++++++ ");
-				logger(ve.getXmlId() + " is SAVE");
-				logger("All Depth - Inters size: " + ve.getAllDepthVirtualEditionInters().size());
-				logger("            Inters size: " + ve.getIntersSet().size());
-
-				// debug method for annotation details
-				// annotsDetails(ve, bw);
-
-				// perguntar ao stor se é este o método correto
-				// de obter os Inters a partire uma VE
-				// ou se basta o getIntersSet
-				int count = 0;
-				for (VirtualEditionInter inter : ve.getAllDepthVirtualEditionInters()) {
-					logger(" +++++++++++++++++ VE Inter +++++++++++++++++++");
-					logger("Inter external ID: " + inter.getExternalId());
-					logger("Inter title: " + inter.getTitle());
-
-					bw.write(" +++++++++++++++++++++ VE Inter+++++++++++++++++++++++++");
-					bw.write("\n");
-					bw.write("Inter external ID: " + inter.getExternalId());
-					bw.write("\n");
-					bw.write("Inter title: " + inter.getTitle());
-					bw.write("\n");
-
-					// currentTwitterCitations - current twitter citations from a certain
-					// fragInter
-					// totalTwitterCitations - total twitter citations from a certain fragInter
-					// ^baseados nas anotações que já foram criadas para cada fraginter
-					// pq para cada fraginter vai-se ver as anotações que foram criadas e
-					// daí é q se extraem estes dois Sets
-					List<TwitterCitation> currentTwitterCitations = getCurrentTwitterCitationsByInter(inter);
-					logger("CurrentTwitterCitations set size: " + currentTwitterCitations.size());
-					bw.write("CurrentTwitterCitations set size: " + currentTwitterCitations.size());
-					bw.write("\n");
-
-					List<TwitterCitation> totalTwitterCitations = getTotalTwitterCitationsByInter(allTwitterCitations,
-							inter);
-					logger("TotalTwitterCitations set size: " + totalTwitterCitations.size());
-					bw.write(" TotalTwitterCitations set size: " + totalTwitterCitations.size());
-					bw.write("\n");
-					bw.write("\n");
-
-					PlainHtmlWriter4OneInter htmlWriter = new PlainHtmlWriter4OneInter(inter);
-					htmlWriter.write(false);
-					String htmlTransc = htmlWriter.getTranscription();
-					bw.write("htmlTransc: " + htmlTransc);
-					bw.write("\n");
-					bw.write("\n");
-
-					// *********************** REMOVAL ****************************
-
-					bw.write("TotalTwitterCitations set size BEFORE REMOVAL: " + totalTwitterCitations.size());
-					bw.write("\n");
-
-					List<TwitterCitation> copyOfTotalTwitterCitations = new ArrayList<>();
-					copyOfTotalTwitterCitations.addAll(totalTwitterCitations);
-					bw.write("CopyOfTotalTwitterCitations set size BEFORE REMOVAL: "
-							+ copyOfTotalTwitterCitations.size());
-					bw.write("\n");
-
-					totalTwitterCitations.removeAll(currentTwitterCitations);
-					bw.write("TotalTwitterCitations set size AFTER REMOVAL: " + totalTwitterCitations.size());
-					bw.write("\n");
-					bw.write("CopyOfTotalTwitterCitations set size AFTER REMOVAL: "
-							+ copyOfTotalTwitterCitations.size());
-					bw.write("\n");
-					bw.write("\n");
-
-					// debug do total já removido
-					bw.write("Content of new citations to create for this frag inter:");
-					bw.write("\n");
-					for (TwitterCitation tc : totalTwitterCitations) {
-						bw.write(" Tweet ID: " + tc.getTweetID() + " " + tc.getDate());
-						bw.write("\n");
-					}
-					bw.write("----------------------");
-					bw.write("\n");
-					bw.write("\n");
-
-					// no futuro este for deve iterar o totalTwitterCitation (já com as remoções)
-					// e não será necessário o if antes do createAwareAnnotation
-					// atualmente é iterado o copyOfTotal só por uma questão de debug
-					for (TwitterCitation newCitation : copyOfTotalTwitterCitations) {
-						logger(" ------------ TwitterCitation------");
-						logger("Date: " + newCitation.getDate());
-						logger("Tweet ID: " + newCitation.getTweetID());
-						logger("Tweet Text: " + newCitation.getTweetText());
-						logger("Frag external ID: " + newCitation.getFragment().getExternalId());
-						logger("Frag Title: " + newCitation.getFragment().getTitle());
-						logger("Frag Text: " + newCitation.getFragText());
-						bw.write(" ----------------- Twitter Citation--------");
-						bw.write("\n");
-						bw.write("Count = " + count);
-						bw.write("\n");
-						bw.write("\n");
-
-						bw.write("Date: " + newCitation.getDate());
-						bw.write("\n");
-						bw.write("Tweet ID: " + newCitation.getTweetID());
-						bw.write("\n");
-						bw.write("Tweet Text: " + newCitation.getTweetText());
-						bw.write("\n");
-						bw.write("Frag external ID: " + newCitation.getFragment().getExternalId());
-						bw.write("\n");
-						bw.write("Frag Title: " + newCitation.getFragment().getTitle());
-						bw.write("\n");
-						bw.write("Frag Text: " + newCitation.getFragText());
-						bw.write("\n");
-						bw.write("\n");
-
-						// este contains é só para debug
-						if (count >= 20 && count < 27 && totalTwitterCitations.contains(newCitation)) {
-							createAwareAnnotation(inter, newCitation, bw);
-						}
-						count++;
-					}
-
-				} // for de cada inter
-
-			} // for de cada edition
+				searchForAwareAnnotations(ve, bw, allTwitterCitations);
+			}
 			logger(" +++++++++++++++++++++ NEXT VIRTUAL EDITION +++++++++++++++++++++++");
 		}
 		bw.close();
@@ -296,36 +179,115 @@ public class AwareAnnotationFactory {
 		logger.debug("END OF FACTORY");
 	}
 
-	// debug method
-	private void annotsDetails(VirtualEdition ve, BufferedWriter bw) throws IOException {
-		List<TwitterCitation> allTwitterCitations = LdoD.getInstance().getCitationSet().stream()
-				.filter(TwitterCitation.class::isInstance).map(TwitterCitation.class::cast)
-				.collect(Collectors.toList());
+	// método invocado também quando se cria uma nova SAVE
+	@Atomic
+	private void searchForAwareAnnotations(VirtualEdition ve, BufferedWriter bw,
+			List<TwitterCitation> allTwitterCitations) throws IOException {
+		logger(" ++++++++++++++++++++++++++ SAVE +++++++++++++++++++++++++++ ");
+		logger(ve.getXmlId() + " is SAVE");
+		logger("All Depth - Inters size: " + ve.getAllDepthVirtualEditionInters().size());
+		logger("            Inters size: " + ve.getIntersSet().size());
 
+		// debug method for annotation details
+		// annotsDetails(ve, bw);
+
+		// perguntar ao stor se é este o método correto
+		// de obter os Inters a partire uma VE
+		// ou se basta o getIntersSet
 		int count = 0;
 		for (VirtualEditionInter inter : ve.getAllDepthVirtualEditionInters()) {
+			logger(" +++++++++++++++++ VE Inter +++++++++++++++++++");
+			logger("Inter external ID: " + inter.getExternalId());
+			logger("Inter title: " + inter.getTitle());
+
+			bw.write(" +++++++++++++++++++++ VE Inter+++++++++++++++++++++++++");
+			bw.write("\n");
+			bw.write("Inter external ID: " + inter.getExternalId());
+			bw.write("\n");
 			bw.write("Inter title: " + inter.getTitle());
 			bw.write("\n");
 
-			List<TwitterCitation> totalTwitterCitations = getTotalTwitterCitationsByInter(allTwitterCitations, inter);
-			bw.write("	TotalTwitterCitations set size: " + totalTwitterCitations.size());
+			// currentTwitterCitations - current twitter citations from a certain
+			// fragInter
+			// totalTwitterCitations - total twitter citations from a certain fragInter
+			// ^baseados nas anotações que já foram criadas para cada fraginter
+			// pq para cada fraginter vai-se ver as anotações que foram criadas e
+			// daí é q se extraem estes dois Sets
+			List<TwitterCitation> currentTwitterCitations = getCurrentTwitterCitationsByInter(inter);
+			logger("CurrentTwitterCitations set size: " + currentTwitterCitations.size());
+			bw.write("CurrentTwitterCitations set size: " + currentTwitterCitations.size());
 			bw.write("\n");
 
+			List<TwitterCitation> totalTwitterCitations = getTotalTwitterCitationsByInter(allTwitterCitations, inter);
+			logger("TotalTwitterCitations set size: " + totalTwitterCitations.size());
+			bw.write(" TotalTwitterCitations set size: " + totalTwitterCitations.size());
+			bw.write("\n");
+			bw.write("\n");
+
+			PlainHtmlWriter4OneInter htmlWriter = new PlainHtmlWriter4OneInter(inter);
+			htmlWriter.write(false);
+			String htmlTransc = htmlWriter.getTranscription();
+			bw.write("htmlTransc: " + htmlTransc);
+			bw.write("\n");
+			bw.write("\n");
+
+			// *********************** REMOVAL ****************************
+
+			bw.write("TotalTwitterCitations set size BEFORE REMOVAL: " + totalTwitterCitations.size());
+			bw.write("\n");
+			totalTwitterCitations.removeAll(currentTwitterCitations);
+			bw.write("TotalTwitterCitations set size AFTER REMOVAL: " + totalTwitterCitations.size());
+			bw.write("\n");
+			bw.write("\n");
+
+			// debug do total já removido
+			bw.write("Content of new citations to create for this frag inter:");
+			bw.write("\n");
 			for (TwitterCitation tc : totalTwitterCitations) {
-				bw.write("	Count = " + count);
+				bw.write(" Tweet ID: " + tc.getTweetID() + " " + tc.getDate());
 				bw.write("\n");
-				bw.write("		Tweet ID: " + tc.getTweetID() + " " + tc.getDate());
+			}
+			bw.write("----------------------");
+			bw.write("\n");
+			bw.write("\n");
+
+			for (TwitterCitation newCitation : totalTwitterCitations) {
+				logger(" ------------ TwitterCitation------");
+				logger("Date: " + newCitation.getDate());
+				logger("Tweet ID: " + newCitation.getTweetID());
+				logger("Tweet Text: " + newCitation.getTweetText());
+				logger("Frag external ID: " + newCitation.getFragment().getExternalId());
+				logger("Frag Title: " + newCitation.getFragment().getTitle());
+				logger("Frag Text: " + newCitation.getFragText());
+				bw.write(" ----------------- Twitter Citation--------");
 				bw.write("\n");
+				bw.write("Count = " + count);
+				bw.write("\n");
+				bw.write("\n");
+
+				bw.write("Date: " + newCitation.getDate());
+				bw.write("\n");
+				bw.write("Tweet ID: " + newCitation.getTweetID());
+				bw.write("\n");
+				bw.write("Tweet Text: " + newCitation.getTweetText());
+				bw.write("\n");
+				bw.write("Frag external ID: " + newCitation.getFragment().getExternalId());
+				bw.write("\n");
+				bw.write("Frag Title: " + newCitation.getFragment().getTitle());
+				bw.write("\n");
+				bw.write("Frag Text: " + newCitation.getFragText());
+				bw.write("\n");
+				bw.write("\n");
+
+				createAwareAnnotation(inter, newCitation, bw);
 				count++;
 			}
-			bw.write("--------------------------------------");
-			bw.write("\n");
-			bw.write("\n");
 		}
 	}
 
 	// método responsável por criar aware annotation no vei com meta informação
 	// contida na tc
+	@Atomic(mode = TxMode.WRITE)
 	public void createAwareAnnotation(VirtualEditionInter vei, TwitterCitation tc, BufferedWriter bw)
 			throws IOException {
 		bw.write("Entrei no create aware annotation");
@@ -653,6 +615,34 @@ public class AwareAnnotationFactory {
 		 * r.getStartOffset()); logger("End: " + r.getEnd()); logger("End Offset: " +
 		 * r.getEndOffset()); } } }
 		 */
+	}
+
+	// debug method - writes on annotsDetails.txt details about annotations
+	private void annotsDetails(VirtualEdition ve, BufferedWriter bw) throws IOException {
+		List<TwitterCitation> allTwitterCitations = LdoD.getInstance().getCitationSet().stream()
+				.filter(TwitterCitation.class::isInstance).map(TwitterCitation.class::cast)
+				.collect(Collectors.toList());
+
+		int count = 0;
+		for (VirtualEditionInter inter : ve.getAllDepthVirtualEditionInters()) {
+			bw.write("Inter title: " + inter.getTitle());
+			bw.write("\n");
+
+			List<TwitterCitation> totalTwitterCitations = getTotalTwitterCitationsByInter(allTwitterCitations, inter);
+			bw.write("	TotalTwitterCitations set size: " + totalTwitterCitations.size());
+			bw.write("\n");
+
+			for (TwitterCitation tc : totalTwitterCitations) {
+				bw.write("	Count = " + count);
+				bw.write("\n");
+				bw.write("		Tweet ID: " + tc.getTweetID() + " " + tc.getDate());
+				bw.write("\n");
+				count++;
+			}
+			bw.write("--------------------------------------");
+			bw.write("\n");
+			bw.write("\n");
+		}
 	}
 
 	public List<TwitterCitation> getTotalTwitterCitationsByInter(List<TwitterCitation> allTwitterCitations,

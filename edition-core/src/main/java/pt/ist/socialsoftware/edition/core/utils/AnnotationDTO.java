@@ -27,47 +27,47 @@ public class AnnotationDTO implements Serializable {
 	public AnnotationDTO() {
 	}
 
-	public AnnotationDTO(Annotation annotation) {		
+	public AnnotationDTO(Annotation annotation) {
 		setId(annotation.getExternalId());
 		setQuote(StringEscapeUtils.unescapeHtml(annotation.getQuote()));
 		setText(StringEscapeUtils.unescapeHtml(annotation.getText()));
 		setUri(annotation.getVirtualEditionInter().getExternalId());
-		
+
 		this.ranges = new ArrayList<>();
 		for (Range range : annotation.getRangeSet()) {
 			this.ranges.add(new RangeJson(range));
 		}
-		
-		//código alterado para o cast
-		if(annotation instanceof HumanAnnotation) {
-			System.out.println("AnnotationDTO cast to HumanAnnotation");
+
+		// código alterado para o cast
+		if (annotation instanceof HumanAnnotation) {
 			this.tags = new ArrayList<>();
-			for (Tag tag : ((HumanAnnotation)annotation).getTagSet()) {
-				this.tags.add(
-						tag.getCategory().getNameInEditionContext(((HumanAnnotation)annotation).getVirtualEditionInter().getVirtualEdition()));
+			for (Tag tag : ((HumanAnnotation) annotation).getTagSet()) {
+				this.tags.add(tag.getCategory().getNameInEditionContext(
+						((HumanAnnotation) annotation).getVirtualEditionInter().getVirtualEdition()));
 			}
-	
-			setUser(((HumanAnnotation)annotation).getUser().getUsername());
-	
+
+			setUser(((HumanAnnotation) annotation).getUser().getUsername());
+
 			setPermissions(
-					new PermissionDTO(((HumanAnnotation)annotation).getVirtualEditionInter().getVirtualEdition(), ((HumanAnnotation)annotation).getUser()));
+					new PermissionDTO(((HumanAnnotation) annotation).getVirtualEditionInter().getVirtualEdition(),
+							((HumanAnnotation) annotation).getUser()));
 		}
-		
-		//código original
+
+		// código original
 		/*
-		this.tags = new ArrayList<>();
-		for (Tag tag : annotation.getTagSet()) {
-			this.tags.add(
-					tag.getCategory().getNameInEditionContext(annotation.getVirtualEditionInter().getVirtualEdition()));
-		}
-
-		
-
-		setUser(annotation.getUser().getUsername());
-
-		setPermissions(
-				new PermissionDTO(annotation.getVirtualEditionInter().getVirtualEdition(), annotation.getUser()));
-		*/		
+		 * this.tags = new ArrayList<>(); for (Tag tag : annotation.getTagSet()) {
+		 * this.tags.add(
+		 * tag.getCategory().getNameInEditionContext(annotation.getVirtualEditionInter()
+		 * .getVirtualEdition())); }
+		 * 
+		 * 
+		 * 
+		 * setUser(annotation.getUser().getUsername());
+		 * 
+		 * setPermissions( new
+		 * PermissionDTO(annotation.getVirtualEditionInter().getVirtualEdition(),
+		 * annotation.getUser()));
+		 */
 	}
 
 	public List<RangeJson> getRanges() {

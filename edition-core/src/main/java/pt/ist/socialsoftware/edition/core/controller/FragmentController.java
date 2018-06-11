@@ -408,8 +408,6 @@ public class FragmentController {
 		VirtualEdition virtualEdition = (VirtualEdition) inter.getEdition();
 		LdoDUser user = LdoDUser.getAuthenticatedUser();
 
-		logger.debug("createAnnotation()");
-
 		HumanAnnotation annotation;
 		if (HumanAnnotation.canCreate(virtualEdition, user)) {
 			annotation = inter.createHumanAnnotation(annotationJson.getQuote(), annotationJson.getText(), user,
@@ -425,7 +423,6 @@ public class FragmentController {
 
 	@RequestMapping(method = RequestMethod.GET, value = "/fragment/annotations/{id}")
 	public @ResponseBody ResponseEntity<AnnotationDTO> getAnnotation(Model model, @PathVariable String id) {
-		logger.debug("getAnnotation");
 
 		HumanAnnotation annotation = FenixFramework.getDomainObject(id);
 		if (annotation != null) {
@@ -438,7 +435,6 @@ public class FragmentController {
 	@RequestMapping(method = RequestMethod.PUT, value = "/fragment/annotations/{id}")
 	public @ResponseBody ResponseEntity<AnnotationDTO> updateAnnotation(Model model, @PathVariable String id,
 			@RequestBody final AnnotationDTO annotationJson) {
-		logger.debug("updateAnnotation");
 
 		HumanAnnotation annotation = FenixFramework.getDomainObject(id);
 		LdoDUser user = LdoDUser.getAuthenticatedUser();
@@ -459,7 +455,6 @@ public class FragmentController {
 	@RequestMapping(method = RequestMethod.DELETE, value = "/fragment/annotations/{id}")
 	public @ResponseBody ResponseEntity<AnnotationDTO> deleteAnnotation(Model model, @PathVariable String id,
 			@RequestBody final AnnotationDTO annotationJson) {
-		logger.debug("deleteAnnotation");
 
 		HumanAnnotation annotation = FenixFramework.getDomainObject(id);
 		LdoDUser user = LdoDUser.getAuthenticatedUser();
@@ -478,7 +473,6 @@ public class FragmentController {
 
 	@RequestMapping(method = RequestMethod.GET, value = "/fragment/annotation/{annotationId}/categories")
 	public @ResponseBody ResponseEntity<String[]> getAnnotationInter(Model model, @PathVariable String annotationId) {
-		logger.debug("getAnnotationInter");
 
 		HumanAnnotation annotation = FenixFramework.getDomainObject(annotationId);
 

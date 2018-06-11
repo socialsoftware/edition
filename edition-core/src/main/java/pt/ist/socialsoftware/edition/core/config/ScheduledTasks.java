@@ -41,7 +41,7 @@ public class ScheduledTasks {
 		tweetFactory.create();
 	}
 
-	@Scheduled(cron = "0 12 23 * * *")
+	@Scheduled(cron = "0 7 12 * * *")
 	public void createAwareAnnotations() throws IOException {
 		AwareAnnotationFactory awareFactory = new AwareAnnotationFactory();
 		awareFactory.create();
