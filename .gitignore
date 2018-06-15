@@ -9,6 +9,10 @@ test-db
 commands
 src/main/resources/configuration.properties
 
+secrete.properties
+specific.properties
+fenix-framework.properties
+
 *.class
 /target/
 
