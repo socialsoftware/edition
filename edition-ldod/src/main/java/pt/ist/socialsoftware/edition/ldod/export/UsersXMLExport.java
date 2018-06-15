@@ -6,18 +6,11 @@ import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 
 import pt.ist.fenixframework.Atomic;
-<<<<<<< HEAD:edition-ldod/src/main/java/pt/ist/socialsoftware/edition/ldod/export/UsersXMLExport.java
 import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
-import pt.ist.socialsoftware.edition.ldod.domain.UserConnection;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
 import pt.ist.socialsoftware.edition.ldod.domain.RegistrationToken;
 import pt.ist.socialsoftware.edition.ldod.domain.Role;
-=======
-import pt.ist.socialsoftware.edition.core.domain.LdoD;
-import pt.ist.socialsoftware.edition.core.domain.LdoDUser;
-import pt.ist.socialsoftware.edition.core.domain.RegistrationToken;
-import pt.ist.socialsoftware.edition.core.domain.Role;
-import pt.ist.socialsoftware.edition.core.domain.UserConnection;
+import pt.ist.socialsoftware.edition.ldod.domain.UserConnection;
 
 public class UsersXMLExport {
 
