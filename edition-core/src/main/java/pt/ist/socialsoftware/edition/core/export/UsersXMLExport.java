@@ -7,10 +7,10 @@ import org.jdom2.output.XMLOutputter;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.socialsoftware.edition.core.domain.LdoD;
-import pt.ist.socialsoftware.edition.core.domain.UserConnection;
 import pt.ist.socialsoftware.edition.core.domain.LdoDUser;
 import pt.ist.socialsoftware.edition.core.domain.RegistrationToken;
 import pt.ist.socialsoftware.edition.core.domain.Role;
+import pt.ist.socialsoftware.edition.core.domain.UserConnection;
 
 public class UsersXMLExport {
 
@@ -119,7 +119,9 @@ public class UsersXMLExport {
 		userConnectionElement.setAttribute("providerUserId", userConnection.getProviderUserId());
 		userConnectionElement.setAttribute("rank", Integer.toString(userConnection.getRank()));
 		userConnectionElement.setAttribute("displayName", userConnection.getDisplayName());
-		userConnectionElement.setAttribute("profileUrl", userConnection.getProfileUrl());
+		if (userConnection.getProfileUrl() != null) {
+			userConnectionElement.setAttribute("profileUrl", userConnection.getProfileUrl());
+		}
 		userConnectionElement.setAttribute("imageUrl", userConnection.getImageUrl());
 		userConnectionElement.setAttribute("accessToken", userConnection.getAccessToken());
 		if (userConnection.getSecret() != null) {
