@@ -16,14 +16,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import pt.ist.fenixframework.FenixFramework;
-import pt.ist.socialsoftware.edition.core.domain.ExpertEdition;
-import pt.ist.socialsoftware.edition.core.domain.ExpertEditionInter;
-import pt.ist.socialsoftware.edition.core.domain.FragInter;
-import pt.ist.socialsoftware.edition.core.domain.Fragment;
-import pt.ist.socialsoftware.edition.core.domain.LdoD;
-import pt.ist.socialsoftware.edition.core.generators.PlainHtmlWriter4OneInter;
-import pt.ist.socialsoftware.edition.core.session.LdoDSession;
-import pt.ist.socialsoftware.edition.core.shared.exception.LdoDException;
+import pt.ist.socialsoftware.edition.ldod.domain.ExpertEdition;
+import pt.ist.socialsoftware.edition.ldod.domain.ExpertEditionInter;
+import pt.ist.socialsoftware.edition.ldod.domain.FragInter;
+import pt.ist.socialsoftware.edition.ldod.domain.Fragment;
+import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
+import pt.ist.socialsoftware.edition.ldod.generators.PlainHtmlWriter4OneInter;
+import pt.ist.socialsoftware.edition.ldod.session.LdoDSession;
+import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
 
 @Controller
 @SessionAttributes({ "ldoDSession" })
