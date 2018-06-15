@@ -343,7 +343,7 @@
 	</pluginRepositories>
 
 	<modules>
-		<module>edition-core</module>
+		<module>edition-ldod</module>
 		<module>edition-reading</module>
 	</modules>
 </project>
