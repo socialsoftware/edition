@@ -12,6 +12,10 @@ src/main/resources/configuration.properties
 *.iml
 opt/
 
+secrete.properties
+specific.properties
+fenix-framework.properties
+
 *.class
 /target/
 
