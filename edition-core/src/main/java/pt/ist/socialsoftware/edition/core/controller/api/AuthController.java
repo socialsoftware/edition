@@ -1,5 +1,6 @@
 package pt.ist.socialsoftware.edition.core.controller.api;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,15 +12,14 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import pt.ist.socialsoftware.edition.core.domain.LdoD;
+import org.springframework.web.bind.annotation.*;
+import pt.ist.socialsoftware.edition.core.domain.LdoDUser;
 import pt.ist.socialsoftware.edition.core.dto.APIResponse;
 import pt.ist.socialsoftware.edition.core.dto.JWTAuthenticationDTO;
 import pt.ist.socialsoftware.edition.core.dto.LdoDUserDTO;
 import pt.ist.socialsoftware.edition.core.security.JwtTokenProvider;
+
+import java.security.Principal;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -50,10 +50,14 @@ public class AuthController {
 
 	}
 
-	@PostMapping("/social")
-	public ResponseEntity<?> authenticateSocial(@RequestBody String socialToken) {
-		logger.debug("authenticateSocial {token}:" + socialToken);
-		return ResponseEntity.ok(new APIResponse(true, "ok"));
+	@GetMapping("/social")
+	public ResponseEntity<?> authenticateConfigSocial(HttpSession session, Principal user) {
+		String name = user == null ? null : user.getName();
+		logger.debug("resource " + user.getName());
+
+		String jwt = this.tokenProvider.generateToken(SecurityContextHolder.getContext().getAuthentication());
+		//session.invalidate();
+		return ResponseEntity.ok(new JWTAuthenticationDTO(jwt));
 	}
 
 }

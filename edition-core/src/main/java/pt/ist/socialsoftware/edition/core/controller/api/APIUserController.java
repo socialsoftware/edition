@@ -2,12 +2,16 @@ package pt.ist.socialsoftware.edition.core.controller.api;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import pt.ist.socialsoftware.edition.core.domain.LdoD;
 import pt.ist.socialsoftware.edition.core.domain.LdoDUser;
 import pt.ist.socialsoftware.edition.core.dto.LdoDUserDTO;
+import pt.ist.socialsoftware.edition.core.security.LdoDUserDetails;
+import pt.ist.socialsoftware.edition.core.shared.exception.LdoDException;
 
 
 @RestController
@@ -16,16 +20,20 @@ public class APIUserController {
     private static Logger logger = LoggerFactory.getLogger(APIUserController.class);
 
     @GetMapping
-    public LdoDUserDTO getCurrentUser() {
-        logger.debug("getCurrentUser" + LdoDUser.getAuthenticatedUser().getUsername());
-        return new LdoDUserDTO(LdoDUser.getAuthenticatedUser().getUsername(), "");
+    public LdoDUserDTO getCurrentUser(@AuthenticationPrincipal LdoDUserDetails currentUser) {
+        logger.debug("getCurrentUser");
+        return new LdoDUserDTO(currentUser.getUsername(), currentUser.getPassword());
+
     }
 
     @GetMapping(value = "/{username}")
     public LdoDUserDTO getUserProfile(@PathVariable(value = "username") String username) {
         logger.debug("getUserProfile");
-        LdoDUserDTO user = new LdoDUserDTO(username,"");
-        return user;
-    }
+            LdoDUser user = LdoD.getInstance().getUser(username);
+            if(user != null){
+                return new LdoDUserDTO(user.getUsername(), "");
+            }
+            throw new LdoDException("User not found!");
 
+    }
 }
