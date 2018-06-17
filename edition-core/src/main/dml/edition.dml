@@ -680,6 +680,25 @@ relation FragmentHasCitations {
 	Fragment playsRole fragment {multiplicity 1..1;}
 }
 
+class InfoRange {
+	String start;
+  	int startOffset;
+  	String end;
+  	int endOffset;
+  	String quote;
+	String text;
+}
+
+relation CitationHasInfoRanges {
+	Citation playsRole citation {multiplicity 1..1;}
+	InfoRange playsRole infoRange {multiplicity 0..*;}
+}
+
+relation InfoRangeHasFragInter {
+	InfoRange playsRole infoRange {multiplicity 0..*;}
+	FragInter playsRole fragInter {multiplicity 1..1;}
+}
+
 class SocialMediaCriteria;
 
 class MediaSource extends SocialMediaCriteria {
@@ -728,3 +747,4 @@ relation LdoDHasTweets {
 	LdoD playsRole ldoD {multiplicity 1..1;}
 	Tweet playsRole tweet {multiplicity 0..*;}
 }
+

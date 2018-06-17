@@ -267,4 +267,8 @@ public class LdoD extends LdoD_Base {
 	public Set<Citation> getCitationSet() {
 		return getFragmentsSet().stream().flatMap(f -> f.getCitationSet().stream()).collect(Collectors.toSet());
 	}
+
+	public Citation getCitationById(long id) {
+		return getCitationSet().stream().filter(citation -> citation.getId() == id).findFirst().orElse(null);
+	}
 }

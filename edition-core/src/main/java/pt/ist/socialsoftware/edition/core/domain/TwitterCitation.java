@@ -22,4 +22,9 @@ public class TwitterCitation extends TwitterCitation_Base {
 		super.remove();
 	}
 
+	@Override
+	public long getId() {
+		return getTweetID();
+	}
+
 }

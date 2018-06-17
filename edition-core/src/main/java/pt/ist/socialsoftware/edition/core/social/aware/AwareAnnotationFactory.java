@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -18,7 +19,6 @@ import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.core.domain.AwareAnnotation;
 import pt.ist.socialsoftware.edition.core.domain.FragInter;
 import pt.ist.socialsoftware.edition.core.domain.LdoD;
-import pt.ist.socialsoftware.edition.core.domain.LdoDUser;
 import pt.ist.socialsoftware.edition.core.domain.Range;
 import pt.ist.socialsoftware.edition.core.domain.TwitterCitation;
 import pt.ist.socialsoftware.edition.core.domain.VirtualEdition;
@@ -45,7 +45,7 @@ public class AwareAnnotationFactory {
 
 	// returns max jaro value between a word in the pattern and every word in the
 	// text
-	public static JaroInfo maxJaroValue(String text, String wordToFind) {
+	public JaroInfo maxJaroValue(String text, String wordToFind) {
 		JaroWinklerDistance jaro = new JaroWinklerDistance();
 		double maxJaroValue = 0.0;
 		String wordFound = "";
@@ -64,7 +64,7 @@ public class AwareAnnotationFactory {
 		return info;
 	}
 
-	public static String cleanTweetText(String originalTweetText) {
+	private String cleanTweetText(String originalTweetText) {
 		// regex
 		String result = originalTweetText.toLowerCase().replaceAll("[\"*\\n;«»“”()]", "");
 
@@ -83,7 +83,7 @@ public class AwareAnnotationFactory {
 		return result;
 	}
 
-	public static String cleanCharFromString(char charToClean, String s, int position, int lastCharPos) {
+	private String cleanCharFromString(char charToClean, String s, int position, int lastCharPos) {
 		// !=lastCharPos serve para prevenior um IndexOutOfBound
 		// logger("string s : " + s);
 		// logger("position : " + position);
@@ -138,8 +138,8 @@ public class AwareAnnotationFactory {
 	}
 
 	// main method of this Factory
-	@Atomic
-	public void create() throws IOException {
+	@Atomic(mode = TxMode.WRITE)
+	public void generate() throws IOException {
 		logger.debug("BEGINNIG OF FACTORY");
 
 		BufferedWriter bw = null;
@@ -149,22 +149,12 @@ public class AwareAnnotationFactory {
 		fw = new FileWriter(file);
 		bw = new BufferedWriter(fw);
 
-		// algoritmo do Annotation Factory
-		LdoD ldoD = LdoD.getInstance();
-		// allTwitterCitations - all twitter citations in the archive
-		List<TwitterCitation> allTwitterCitations = ldoD.getCitationSet().stream()
-				.filter(TwitterCitation.class::isInstance).map(TwitterCitation.class::cast)
-				.collect(Collectors.toList());
-
-		logger("All Twitter Citations size: " + allTwitterCitations.size());
-		bw.write("All Twitter Citations size: " + allTwitterCitations.size());
-		bw.write("\n");
-		for (VirtualEdition ve : ldoD.getVirtualEditionsSet()) {
+		for (VirtualEdition ve : LdoD.getInstance().getVirtualEditionsSet()) {
 			logger("VirtualEdition XMLID: " + ve.getXmlId());
 			if (ve.isSAVE()) {
-				searchForAwareAnnotations(ve, bw, allTwitterCitations);
+				searchForAwareAnnotations(ve, bw);
 			}
-			logger(" +++++++++++++++++++++ NEXT VIRTUAL EDITION +++++++++++++++++++++++");
+			logger("+++++++++++++++++++++ NEXT VIRTUAL EDITION +++++++++++++++++++++++");
 		}
 		bw.close();
 		fw.close();
@@ -180,13 +170,17 @@ public class AwareAnnotationFactory {
 	}
 
 	// método invocado também quando se cria uma nova SAVE
-	@Atomic
-	private void searchForAwareAnnotations(VirtualEdition ve, BufferedWriter bw,
-			List<TwitterCitation> allTwitterCitations) throws IOException {
+	public void searchForAwareAnnotations(VirtualEdition ve, BufferedWriter bw) throws IOException {
 		logger(" ++++++++++++++++++++++++++ SAVE +++++++++++++++++++++++++++ ");
 		logger(ve.getXmlId() + " is SAVE");
 		logger("All Depth - Inters size: " + ve.getAllDepthVirtualEditionInters().size());
 		logger("            Inters size: " + ve.getIntersSet().size());
+
+		// allTwitterCitations - all twitter citations in the archive
+		Set<TwitterCitation> allTwitterCitations = LdoD.getInstance().getAllTwitterCitation();
+		logger("All Twitter Citations size: " + allTwitterCitations.size());
+		bw.write("All Twitter Citations size: " + allTwitterCitations.size());
+		bw.write("\n");
 
 		// debug method for annotation details
 		// annotsDetails(ve, bw);
@@ -213,12 +207,12 @@ public class AwareAnnotationFactory {
 			// ^baseados nas anotações que já foram criadas para cada fraginter
 			// pq para cada fraginter vai-se ver as anotações que foram criadas e
 			// daí é q se extraem estes dois Sets
-			List<TwitterCitation> currentTwitterCitations = getCurrentTwitterCitationsByInter(inter);
+			Set<TwitterCitation> currentTwitterCitations = getCurrentTwitterCitationsByInter(inter);
 			logger("CurrentTwitterCitations set size: " + currentTwitterCitations.size());
 			bw.write("CurrentTwitterCitations set size: " + currentTwitterCitations.size());
 			bw.write("\n");
 
-			List<TwitterCitation> totalTwitterCitations = getTotalTwitterCitationsByInter(allTwitterCitations, inter);
+			Set<TwitterCitation> totalTwitterCitations = getTotalTwitterCitationsByInter(allTwitterCitations, inter);
 			logger("TotalTwitterCitations set size: " + totalTwitterCitations.size());
 			bw.write(" TotalTwitterCitations set size: " + totalTwitterCitations.size());
 			bw.write("\n");
@@ -287,7 +281,6 @@ public class AwareAnnotationFactory {
 
 	// método responsável por criar aware annotation no vei com meta informação
 	// contida na tc
-	@Atomic(mode = TxMode.WRITE)
 	public void createAwareAnnotation(VirtualEditionInter vei, TwitterCitation tc, BufferedWriter bw)
 			throws IOException {
 		bw.write("Entrei no create aware annotation");
@@ -307,7 +300,8 @@ public class AwareAnnotationFactory {
 
 		// ********************************** CREATE ANNOTATION AND RANGE
 		// ********************************
-		String annotQuote = result.get(0); // string matching algorithm
+		// string matching algorithm
+		String annotQuote = result.get(0);
 		int htmlStart = Integer.parseInt(result.get(1));
 		int htmlEnd = Integer.parseInt(result.get(2));
 		int numOfPStart = Integer.parseInt(result.get(3));
@@ -317,7 +311,6 @@ public class AwareAnnotationFactory {
 			bw.write("GOING TO CREATE AN AWARE ANNOTATION!!!");
 			bw.write("\n");
 
-			LdoDUser user = LdoD.getInstance().getUser("ars");
 			String annotText = "tweet meta information"; // meta information inside citation object
 
 			bw.write("htmlTransc (repeated): " + htmlTransc);
@@ -362,7 +355,7 @@ public class AwareAnnotationFactory {
 		}
 	}
 
-	public List<String> patternFinding(String text, String tweet, BufferedWriter bw) throws IOException {
+	private List<String> patternFinding(String text, String tweet, BufferedWriter bw) throws IOException {
 		logger("------------------------------ PATTERN FINDING ALGORITHM -------------------------");
 
 		// used for debugging
@@ -566,7 +559,7 @@ public class AwareAnnotationFactory {
 	}
 
 	// método de teste utilizado para criar uma aware annotation
-	public void populateWithAwareAnnotation(BufferedWriter bw) throws IOException {
+	private void populateWithAwareAnnotation(BufferedWriter bw) throws IOException {
 		// testing code
 		// ********************** POPULATE DB WITH AWARE ANNOTATION
 		// ********************************************
@@ -619,16 +612,15 @@ public class AwareAnnotationFactory {
 
 	// debug method - writes on annotsDetails.txt details about annotations
 	private void annotsDetails(VirtualEdition ve, BufferedWriter bw) throws IOException {
-		List<TwitterCitation> allTwitterCitations = LdoD.getInstance().getCitationSet().stream()
-				.filter(TwitterCitation.class::isInstance).map(TwitterCitation.class::cast)
-				.collect(Collectors.toList());
+
+		Set<TwitterCitation> allTwitterCitations = LdoD.getInstance().getAllTwitterCitation();
 
 		int count = 0;
 		for (VirtualEditionInter inter : ve.getAllDepthVirtualEditionInters()) {
 			bw.write("Inter title: " + inter.getTitle());
 			bw.write("\n");
 
-			List<TwitterCitation> totalTwitterCitations = getTotalTwitterCitationsByInter(allTwitterCitations, inter);
+			Set<TwitterCitation> totalTwitterCitations = getTotalTwitterCitationsByInter(allTwitterCitations, inter);
 			bw.write("	TotalTwitterCitations set size: " + totalTwitterCitations.size());
 			bw.write("\n");
 
@@ -645,9 +637,18 @@ public class AwareAnnotationFactory {
 		}
 	}
 
-	public List<TwitterCitation> getTotalTwitterCitationsByInter(List<TwitterCitation> allTwitterCitations,
+	// TODO: create two similar methods for getting the current and total info
+	// ranges for a given fraginter
+
+	// getCurrentInfoRangeInter - chamar o getCurrentCitations e para cada uma delas
+	// chamar o método
+	// da classe Citation getInfoRangeByInter
+
+	// getTotalInfoRangeByInter basta fazer vei.getLastUsed().getInfoRangeSet()
+
+	private Set<TwitterCitation> getTotalTwitterCitationsByInter(Set<TwitterCitation> allTwitterCitations,
 			VirtualEditionInter inter) {
-		List<TwitterCitation> totalTwitterCitations = new ArrayList<TwitterCitation>();
+		Set<TwitterCitation> totalTwitterCitations = new HashSet<TwitterCitation>();
 
 		for (TwitterCitation tc : allTwitterCitations) {
 			if (tc.getFragment().getFragmentInterSet().contains(inter))
@@ -657,11 +658,10 @@ public class AwareAnnotationFactory {
 		return totalTwitterCitations;
 	}
 
-	public List<TwitterCitation> getCurrentTwitterCitationsByInter(VirtualEditionInter inter) {
-		List<TwitterCitation> twitterCitations = new ArrayList<TwitterCitation>();
-		List<AwareAnnotation> awareAnnotations = inter.getAnnotationSet().stream()
-				.filter(AwareAnnotation.class::isInstance).map(AwareAnnotation.class::cast)
-				.collect(Collectors.toList());
+	private Set<TwitterCitation> getCurrentTwitterCitationsByInter(VirtualEditionInter inter) {
+		Set<TwitterCitation> twitterCitations = new HashSet<TwitterCitation>();
+		Set<AwareAnnotation> awareAnnotations = inter.getAnnotationSet().stream()
+				.filter(AwareAnnotation.class::isInstance).map(AwareAnnotation.class::cast).collect(Collectors.toSet());
 
 		logger(" #################################### ");
 		logger("Estou dentro do getCurrentTwitterCitationsByInter");
@@ -679,7 +679,7 @@ public class AwareAnnotationFactory {
 		return twitterCitations;
 	}
 
-	public int countOccurencesOfSubstring(final String string, final String substring, final int subsStartPos) {
+	private int countOccurencesOfSubstring(final String string, final String substring, final int subsStartPos) {
 		int count = 0;
 		int idx = 0;
 

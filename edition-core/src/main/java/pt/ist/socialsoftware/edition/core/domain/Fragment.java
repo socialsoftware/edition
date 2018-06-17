@@ -163,4 +163,8 @@ public class Fragment extends Fragment_Base implements Comparable<Fragment> {
 	public int compareTo(Fragment fragment) {
 		return this.getXmlId().compareTo(fragment.getXmlId());
 	}
+
+	public Citation getCitationById(long id) {
+		return getCitationSet().stream().filter(citation -> citation.getId() == id).findFirst().orElse(null);
+	}
 }

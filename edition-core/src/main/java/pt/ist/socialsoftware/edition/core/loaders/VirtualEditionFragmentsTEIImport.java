@@ -21,6 +21,7 @@ import org.slf4j.LoggerFactory;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
+import pt.ist.socialsoftware.edition.core.domain.Citation;
 import pt.ist.socialsoftware.edition.core.domain.Fragment;
 import pt.ist.socialsoftware.edition.core.domain.LdoD;
 import pt.ist.socialsoftware.edition.core.domain.TwitterCitation;
@@ -74,12 +75,12 @@ public class VirtualEditionFragmentsTEIImport {
 
 		Fragment fragment = getFragment(doc);
 
+		// TODO: importFragmentCitations - done
+		importFragmentCitations(doc, fragment);
+
 		importWitnesses(doc, fragment);
 
 		importTextClasses(doc, fragment);
-
-		// TODO suggestion: importFragmentCitations
-		// importFragmentCitations(doc, fragment);
 
 		return fragment.getXmlId();
 	}
@@ -127,6 +128,37 @@ public class VirtualEditionFragmentsTEIImport {
 		}
 	}
 
+	// TODO - done
+	private void importFragmentCitations(Document doc, Fragment fragment) {
+		XPathFactory xpfac = XPathFactory.instance();
+		XPathExpression<Element> xp = xpfac.compile("//def:fragmentCitations", Filters.element(), null,
+				Namespace.getNamespace("def", this.namespace.getURI()));
+
+		for (Element citationElement : xp.evaluate(doc)) {
+			if (citationElement.getAttributeValue("type") == "twitter") {
+				String sourceLink = citationElement.getAttributeValue("sourceLink");
+				String date = citationElement.getAttributeValue("date");
+
+				Element fragTextElement = citationElement.getChild("fragText", this.namespace);
+				String fragText = fragTextElement.getAttributeValue("fragText");
+
+				Element tweetTextElement = citationElement.getChild("tweetText", this.namespace);
+				String tweetText = tweetTextElement.getAttributeValue("tweetText");
+
+				long tweetID = Long.parseLong(citationElement.getAttributeValue("tweetID"));
+				String location = citationElement.getAttributeValue("location");
+				String country = citationElement.getAttributeValue("country");
+				String username = citationElement.getAttributeValue("username");
+				String userProfileURL = citationElement.getAttributeValue("userProfileURL");
+				String userImageURL = citationElement.getAttributeValue("userImageURL");
+
+				new TwitterCitation(fragment, sourceLink, date, fragText, tweetText, tweetID, location, country,
+						username, userProfileURL, userImageURL);
+			}
+		}
+
+	}
+
 	private void importTag(Element catRef, VirtualEditionInter inter) {
 		String username = catRef.getAttributeValue("resp").substring(1);
 		String tag = catRef.getAttributeValue("target").substring(1);
@@ -134,7 +166,7 @@ public class VirtualEditionFragmentsTEIImport {
 		inter.getVirtualEdition().getTaxonomy().createTag(inter, tag, null, this.ldoD.getUser(username));
 	}
 
-	// TODO: if aware
+	// TODO: else if aware - done
 	// novo import annotation
 	private void importAnnotation(Element note, VirtualEditionInter inter) {
 		String text = StringEscapeUtils.escapeHtml(note.getText().trim());
@@ -164,24 +196,9 @@ public class VirtualEditionFragmentsTEIImport {
 		}
 
 		else if (note.getAttributeValue("type") == "aware") {
-			Element citationElement = note.getChild("citation", this.namespace);
-			if (citationElement.getAttributeValue("type") == "twitter") {
-				String sourceLink = citationElement.getAttributeValue("sourceLink");
-				String date = citationElement.getAttributeValue("date");
-				String fragText = citationElement.getAttributeValue("fragText");
-
-				String tweetText = citationElement.getAttributeValue("tweetText");
-				long tweetID = Long.parseLong(citationElement.getAttributeValue("tweetID"));
-				String location = citationElement.getAttributeValue("location");
-				String country = citationElement.getAttributeValue("country");
-				String username = citationElement.getAttributeValue("username");
-				String userProfileURL = citationElement.getAttributeValue("userProfileURL");
-				String userImageURL = citationElement.getAttributeValue("userImageURL");
-
-				TwitterCitation citation = new TwitterCitation(inter.getFragment(), sourceLink, date, fragText,
-						tweetText, tweetID, location, country, username, userProfileURL, userImageURL);
-				// inter.createAwareAnnotation(quote, text, citation, rangeList);
-			}
+			long tweetID = Long.parseLong(note.getAttributeValue("citationId"));
+			Citation citation = inter.getFragment().getCitationById(tweetID);
+			inter.createAwareAnnotation(quote, text, citation, rangeList);
 		}
 	}
 

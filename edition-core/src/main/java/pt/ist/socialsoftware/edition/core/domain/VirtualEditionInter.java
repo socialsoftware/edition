@@ -165,26 +165,21 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 		return annotation;
 	}
 
-	// TODO: createAwareAnnotation ???
-	// @Atomic(mode = TxMode.WRITE)
-	// public AwareAnnotation createAwareAnnotation(String quote, String text,
-	// Citation citation,
-	// List<RangeJson> rangeList) {
-	// logger.debug("createAwareAnnotation start:{}, startOffset:{}, end:{},
-	// endOffset:{}",
-	// rangeList.get(0).getStart(), rangeList.get(0).getStartOffset(),
-	// rangeList.get(0).getEnd(),
-	// rangeList.get(0).getEndOffset());
-	//
-	// AwareAnnotation annotation = new AwareAnnotation(this, quote, text,
-	// citation);
-	// for (RangeJson rangeJson : rangeList) {
-	// new Range(annotation, rangeJson.getStart(), rangeJson.getStartOffset(),
-	// rangeJson.getEnd(),
-	// rangeJson.getEndOffset());
-	// }
-	// return annotation;
-	// }
+	// TODO: createAwareAnnotation
+	@Atomic(mode = TxMode.WRITE)
+	public AwareAnnotation createAwareAnnotation(String quote, String text, Citation citation,
+			List<RangeJson> rangeList) {
+		logger.debug("createAwareAnnotation start:{}, startOffset:{}, end:{}, endOffset:{}",
+				rangeList.get(0).getStart(), rangeList.get(0).getStartOffset(), rangeList.get(0).getEnd(),
+				rangeList.get(0).getEndOffset());
+
+		AwareAnnotation annotation = new AwareAnnotation(this, quote, text, citation);
+		for (RangeJson rangeJson : rangeList) {
+			new Range(annotation, rangeJson.getStart(), rangeJson.getStartOffset(), rangeJson.getEnd(),
+					rangeJson.getEndOffset());
+		}
+		return annotation;
+	}
 
 	@Atomic(mode = TxMode.WRITE)
 	public void associate(LdoDUser user, Set<String> categoryNames) {

@@ -18,7 +18,6 @@ import pt.ist.socialsoftware.edition.core.domain.HumanAnnotation;
 import pt.ist.socialsoftware.edition.core.domain.LdoD;
 import pt.ist.socialsoftware.edition.core.domain.Range;
 import pt.ist.socialsoftware.edition.core.domain.Tag;
-import pt.ist.socialsoftware.edition.core.domain.Tweet;
 import pt.ist.socialsoftware.edition.core.domain.TwitterCitation;
 import pt.ist.socialsoftware.edition.core.domain.VirtualEditionInter;
 
@@ -71,7 +70,6 @@ public class VirtualEditionFragmentsTEIExport {
 			exportVirtualEditionInterAnnotations(textClass, virtualEditionInter);
 		}
 
-		// TODO: export fragment citations
 		exportFragmentCitations(teiHeader, fragment);
 
 		XMLOutputter xml = new XMLOutputter();
@@ -105,114 +103,49 @@ public class VirtualEditionFragmentsTEIExport {
 		}
 	}
 
-	// TODO suggestion: faz sentido ???
-	private void exportAwareAnnotationCitation(Element note, AwareAnnotation annotation) {
-		exportCitation(note, annotation.getCitation());
-		if (annotation.getCitation() instanceof TwitterCitation) {
-			exportTwitterCitation(note, (TwitterCitation) annotation.getCitation());
-		}
-	}
-
 	private void exportFragmentCitations(Element teiHeader, Fragment fragment) {
 		Element citationList = new Element("citationList", this.xmlns);
 		teiHeader.addContent(citationList);
 		for (Citation citation : fragment.getCitationSet()) {
-			exportCitation(citationList, citation);
+			// acho q afinal vai ser preciso a declaração de citationElement ficar aqui
+			// para passar depois ao método exportTwitterCitation
+			Element citationElement = new Element("citation", this.xmlns);
+			citationList.addContent(citationElement);
+
+			exportCitation(citationElement, citation);
 			if (citation instanceof TwitterCitation) {
-				exportTwitterCitation(citationList, (TwitterCitation) citation);
+				exportTwitterCitation(citationElement, (TwitterCitation) citation);
 			}
 		}
 	}
 
-	protected void exportCitation(Element citationList, Citation citation) {
-		Element citationElement = new Element("citation", this.xmlns);
-		citationList.addContent(citationElement);
-		Element sourceLink = new Element("sourceLink", this.xmlns);
-		sourceLink.addContent(citation.getSourceLink());
-		citationElement.addContent(sourceLink);
-		Element date = new Element("date", this.xmlns);
-		date.addContent(citation.getDate());
-		citationElement.addContent(date);
-		Element fragText = new Element("fragText", this.xmlns);
-		fragText.addContent(citation.getFragText());
-		citationElement.addContent(fragText);
+	protected void exportCitation(Element citationElement, Citation citation) {
+		citationElement.setAttribute("sourceLink", citation.getSourceLink());
+		citationElement.setAttribute("date", citation.getDate());
+		// citationElement.setAttribute("fragText", citation.getFragText());
+
+		Element fragTex = new Element("fragTex", this.xmlns);
+		fragTex.addContent(citation.getFragText());
+		citationElement.addContent(fragTex);
+
+		// old code
+		// Element citationElement = new Element("citation", this.xmlns);
+		// citationList.addContent(citationElement);
 	}
 
-	protected void exportTwitterCitation(Element citationList, TwitterCitation citation) {
-		Element citationElement = new Element("citation", this.xmlns);
+	protected void exportTwitterCitation(Element citationElement, TwitterCitation citation) {
 		citationElement.setAttribute("type", "twitter");
-		citationList.addContent(citationElement);
 
 		Element tweetText = new Element("tweetText", this.xmlns);
-		tweetText.addContent(citation.getSourceLink());
+		tweetText.addContent(citation.getTweetText());
 		citationElement.addContent(tweetText);
-		Element tweetID = new Element("tweetID", this.xmlns);
-		tweetID.addContent(Long.toString(citation.getTweetID()));
-		citationElement.addContent(tweetID);
-		Element location = new Element("location", this.xmlns);
-		location.addContent(citation.getLocation());
-		citationElement.addContent(location);
-		Element country = new Element("country", this.xmlns);
-		country.addContent(citation.getCountry());
-		citationElement.addContent(country);
-		Element username = new Element("username", this.xmlns);
-		username.addContent(citation.getUsername());
-		citationElement.addContent(username);
-		Element userProfileURL = new Element("userProfileURL", this.xmlns);
-		userProfileURL.addContent(citation.getUserProfileURL());
-		citationElement.addContent(userProfileURL);
-		Element userImageURL = new Element("userImageURL", this.xmlns);
-		userImageURL.addContent(citation.getUserImageURL());
-		citationElement.addContent(userImageURL);
 
-		// TODO suggestion: export Tweets here ??
-		Element tweetList = new Element("tweetList", this.xmlns);
-		citationElement.addContent(tweetList);
-		exportTweets(tweetList, citation);
-	}
-
-	private void exportTweets(Element tweetList, TwitterCitation citation) {
-		Element tweetElement = new Element("tweet", this.xmlns);
-		tweetList.addContent(tweetElement);
-
-		for (Tweet tweet : citation.getTweetSet()) {
-			Element sourceLink = new Element("sourceLink", this.xmlns);
-			sourceLink.addContent(tweet.getSourceLink());
-			tweetElement.addContent(sourceLink);
-			Element date = new Element("date", this.xmlns);
-			date.addContent(tweet.getDate());
-			tweetElement.addContent(date);
-
-			Element tweetText = new Element("tweetText", this.xmlns);
-			tweetText.addContent(tweet.getTweetText());
-			tweetElement.addContent(tweetText);
-			Element tweetID = new Element("tweetID", this.xmlns);
-			tweetID.addContent(Long.toString(tweet.getTweetID()));
-			tweetElement.addContent(tweetID);
-			Element location = new Element("location", this.xmlns);
-			location.addContent(tweet.getLocation());
-			tweetElement.addContent(location);
-			Element country = new Element("country", this.xmlns);
-			country.addContent(tweet.getCountry());
-			tweetElement.addContent(country);
-			Element username = new Element("username", this.xmlns);
-			username.addContent(tweet.getUsername());
-			tweetElement.addContent(username);
-			Element userProfileURL = new Element("userProfileURL", this.xmlns);
-			userProfileURL.addContent(tweet.getUserProfileURL());
-			tweetElement.addContent(userProfileURL);
-			Element userImageURL = new Element("userImageURL", this.xmlns);
-			userImageURL.addContent(tweet.getUserImageURL());
-			tweetElement.addContent(userImageURL);
-
-			Element originalTweetID = new Element("originalTweetID", this.xmlns);
-			originalTweetID.addContent(Long.toString(tweet.getOriginalTweetID()));
-			tweetElement.addContent(originalTweetID);
-			Element isRetweet = new Element("isRetweet", this.xmlns);
-			isRetweet.addContent(String.valueOf(tweet.getIsRetweet()));
-			tweetElement.addContent(isRetweet);
-		}
-
+		citationElement.setAttribute("tweetId", Long.toString(citation.getTweetID()));
+		citationElement.setAttribute("location", citation.getLocation());
+		citationElement.setAttribute("country", citation.getCountry());
+		citationElement.setAttribute("username", citation.getUsername());
+		citationElement.setAttribute("userProfileURL", citation.getUserProfileURL());
+		citationElement.setAttribute("userImageURL", citation.getUserProfileURL());
 	}
 
 	private void exportVirtualEditionInterAnnotations(Element textClass, VirtualEditionInter virtualEditionInter) {
@@ -230,9 +163,9 @@ public class VirtualEditionFragmentsTEIExport {
 				exportAnnotationCategories(virtualEditionInter, (HumanAnnotation) annotation, note);
 			} else if (annotation instanceof AwareAnnotation) {
 				// TODO: set type - done
-				// TODO ??? export aware annotation citations???
-				// note.setAttribute("type", "aware");
-				// exportAwareAnnotationCitation(note, ((AwareAnnotation) annotation));
+				// TODO - done
+				note.setAttribute("type", "aware");
+				note.setAttribute("citationId", Long.toString(((AwareAnnotation) annotation).getCitation().getId()));
 			}
 		}
 	}

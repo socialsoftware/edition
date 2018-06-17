@@ -17,4 +17,11 @@ public abstract class Citation extends Citation_Base {
 		deleteDomainObject();
 	}
 
+	public abstract long getId();
+
+	// TODO
+	public InfoRange getInfoRangeByInter(FragInter inter) {
+		return getInfoRangeSet().stream().filter(infoRange -> infoRange.getFragInter() == inter).findFirst()
+				.orElse(null);
+	}
 }

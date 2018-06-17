@@ -18,6 +18,7 @@ import pt.ist.socialsoftware.edition.core.domain.Member;
 import pt.ist.socialsoftware.edition.core.domain.SocialMediaCriteria;
 import pt.ist.socialsoftware.edition.core.domain.Taxonomy;
 import pt.ist.socialsoftware.edition.core.domain.TimeWindow;
+import pt.ist.socialsoftware.edition.core.domain.Tweet;
 import pt.ist.socialsoftware.edition.core.domain.VirtualEdition;
 
 public class VirtualEditionsTEICorpusExport {
@@ -36,6 +37,11 @@ public class VirtualEditionsTEICorpusExport {
 		Element teiHeader = new Element("teiHeader", this.xmlns);
 		teiHeader.setAttribute("type", "corpus");
 		rootElement.addContent(teiHeader);
+
+		Element tweetList = generateTweetList(teiHeader);
+		for (Tweet tweet : LdoD.getInstance().getTweetSet()) {
+			exportTweet(tweetList, tweet);
+		}
 
 		Element listBibl = generateFileDesc(teiHeader);
 		for (VirtualEdition virtualEdition : LdoD.getInstance().getVirtualEditionsSet()) {
@@ -57,6 +63,35 @@ public class VirtualEditionsTEICorpusExport {
 		// System.out.println(xml.outputString(rootElement));
 
 		return xml.outputString(rootElement);
+	}
+
+	// TODO: passar os element para attribute - done
+	private void exportTweet(Element tweetList, Tweet tweet) {
+		Element tweetElement = new Element("tweet", this.xmlns);
+		tweetList.addContent(tweetElement);
+
+		tweetElement.setAttribute("sourceLink", tweet.getSourceLink());
+		tweetElement.setAttribute("date", tweet.getDate());
+
+		Element tweetText = new Element("tweetText", this.xmlns);
+		tweetText.addContent(tweet.getTweetText());
+		tweetElement.addContent(tweetText);
+
+		tweetElement.setAttribute("tweetId", Long.toString(tweet.getTweetID()));
+		tweetElement.setAttribute("location", tweet.getLocation());
+		tweetElement.setAttribute("country", tweet.getCountry());
+		tweetElement.setAttribute("username", tweet.getUsername());
+		tweetElement.setAttribute("userProfileURL", tweet.getUserProfileURL());
+		tweetElement.setAttribute("userImageURL", tweet.getUserProfileURL());
+
+		tweetElement.setAttribute("originalTweetID", Long.toString(tweet.getOriginalTweetID()));
+		tweetElement.setAttribute("isRetweet", String.valueOf(tweet.getIsRetweet()));
+	}
+
+	private Element generateTweetList(Element teiHeader) {
+		Element tweetList = new Element("tweetList", this.xmlns);
+		teiHeader.addContent(tweetList);
+		return tweetList;
 	}
 
 	private Element generateFileDesc(Element teiHeader) {

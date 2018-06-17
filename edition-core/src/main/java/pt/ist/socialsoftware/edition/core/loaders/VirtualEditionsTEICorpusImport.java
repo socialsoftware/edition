@@ -72,6 +72,14 @@ public class VirtualEditionsTEICorpusImport {
 		importTaxonomies(doc, ldoD);
 
 		importSocialMediaCriteria(doc, ldoD);
+
+		// TODO suggestion
+		importTweets(doc, ldoD);// here??
+	}
+
+	// TODO:
+	private void importTweets(Document doc, LdoD ldoD) {
+
 	}
 
 	private void importVirtualEditions(Document doc, LdoD ldoD) {
