@@ -30,7 +30,7 @@ public class AnnotationTests extends RollbackCaseTest {
 	@Mock
 	SimpleText startText, endText;
 	@Mock
-	Annotation annotation;
+	HumanAnnotation annotation;
 
 	@Override
 	public void populate4Test() {

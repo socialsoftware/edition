@@ -6,7 +6,7 @@ import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
 public class Tag extends Tag_Base implements Comparable<Tag> {
 
 	public Tag init(VirtualEdition virtualEdition, VirtualEditionInter inter, String categoryName,
-			Annotation annotation, LdoDUser user) {
+			HumanAnnotation annotation, LdoDUser user) {
 		setInter(inter);
 		Taxonomy taxonomy = virtualEdition.getTaxonomy();
 		Category category = taxonomy.getCategory(categoryName);
