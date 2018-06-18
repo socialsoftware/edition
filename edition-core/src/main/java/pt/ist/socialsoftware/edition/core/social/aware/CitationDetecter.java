@@ -190,7 +190,7 @@ public class CitationDetecter {
 		logger("STARTING CITATION DETECTER!!");
 		// serve só para testar melhor pq dá reset ao id na base de dados:
 		// LdoD.getInstance().getLastTwitterID().resetTwitterIDS();
-		citationDetection();
+		// citationDetection();
 		logger("FINISHED DETECTING CITATIONS!!!");
 
 		// indetify ranges here

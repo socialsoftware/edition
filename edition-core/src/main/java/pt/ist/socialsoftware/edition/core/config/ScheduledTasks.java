@@ -29,7 +29,7 @@ public class ScheduledTasks {
 		fetch.fetch();
 	}
 
-	@Scheduled(cron = "0 3 20 * * *")
+	@Scheduled(cron = "0 6 15 * * *")
 	public void detectCitations() throws IOException {
 		CitationDetecter detecter = new CitationDetecter();
 		detecter.detect();
