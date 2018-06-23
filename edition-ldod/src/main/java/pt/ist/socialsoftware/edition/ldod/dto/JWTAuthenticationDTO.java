@@ -1,12 +1,13 @@
 package pt.ist.socialsoftware.edition.ldod.dto;
 
+
 import pt.ist.socialsoftware.edition.ldod.security.SecurityConstants;
 
-public class JwtAuthenticationDto {
+public class JWTAuthenticationDTO {
 	private String accessToken;
 	private String tokenType = SecurityConstants.TOKEN_PREFIX;
 
-	public JwtAuthenticationDto(String accessToken) {
+	public JWTAuthenticationDTO(String accessToken) {
 		this.accessToken = accessToken;
 	}
 

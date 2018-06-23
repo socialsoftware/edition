@@ -637,21 +637,3 @@ relation SectionHasVitualEditionInters{
 	Section playsRole section {multiplicity 1..1;}
 	VirtualEditionInter playsRole VirtualEditionInter {multiplicity 0..*;}
 }
-
-class Game{
-    String name;
-    double points;
-    double decay;
-    double weight;
-
-}
-
-relation GameHasVirtualEdition{
-	Game playsRole game {multiplicity 1;}
-    VirtualEdition playsRole virtualEdition {multiplicity 1;}
-}
-
-relation GameHasFragments{
-    Game playsRole game {multiplicity 1;}
-    Fragment playsRole fragments {multiplicity 1..*;}
-}

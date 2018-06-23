@@ -21,21 +21,13 @@ import org.slf4j.LoggerFactory;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.fenixframework.FenixFramework;
-<<<<<<< HEAD:edition-core/src/main/java/pt/ist/socialsoftware/edition/core/domain/VirtualEdition.java
-import pt.ist.socialsoftware.edition.core.dto.FragmentDTO;
-import pt.ist.socialsoftware.edition.core.dto.FragmentMetaInfoDTO;
-import pt.ist.socialsoftware.edition.core.recommendation.VSMVirtualEditionInterRecommender;
-import pt.ist.socialsoftware.edition.core.recommendation.properties.Property;
-import pt.ist.socialsoftware.edition.core.shared.exception.LdoDException;
-import pt.ist.socialsoftware.edition.core.domain.VirtualEdition_Base;
-import pt.ist.socialsoftware.edition.core.utils.PropertiesManager;
-=======
+import pt.ist.socialsoftware.edition.ldod.dto.FragmentDTO;
+import pt.ist.socialsoftware.edition.ldod.dto.FragmentMetaInfoDTO;
 import pt.ist.socialsoftware.edition.ldod.recommendation.VSMVirtualEditionInterRecommender;
 import pt.ist.socialsoftware.edition.ldod.recommendation.properties.Property;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition_Base;
 import pt.ist.socialsoftware.edition.ldod.utils.PropertiesManager;
->>>>>>> 252489fe93a93b30bc1e2bcc2a1528fb924cc928:edition-ldod/src/main/java/pt/ist/socialsoftware/edition/ldod/domain/VirtualEdition.java
+
 
 public class VirtualEdition extends VirtualEdition_Base {
 	private static Logger logger = LoggerFactory.getLogger(VirtualEdition.class);

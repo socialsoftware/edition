@@ -12,20 +12,11 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
-<<<<<<< HEAD:edition-core/src/main/java/pt/ist/socialsoftware/edition/core/controller/UserController.java
-import pt.ist.socialsoftware.edition.core.domain.Edition;
-import pt.ist.socialsoftware.edition.core.domain.LdoD;
-import pt.ist.socialsoftware.edition.core.domain.LdoDUser;
-import pt.ist.socialsoftware.edition.core.domain.VirtualEdition;
-import pt.ist.socialsoftware.edition.core.forms.ChangePasswordForm;
-import pt.ist.socialsoftware.edition.core.validator.ChangePasswordValidator;
-=======
 import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
 import pt.ist.socialsoftware.edition.ldod.forms.ChangePasswordForm;
 import pt.ist.socialsoftware.edition.ldod.validator.ChangePasswordValidator;
->>>>>>> 252489fe93a93b30bc1e2bcc2a1528fb924cc928:edition-ldod/src/main/java/pt/ist/socialsoftware/edition/ldod/controller/UserController.java
+
 
 @Controller
 @RequestMapping("/user")

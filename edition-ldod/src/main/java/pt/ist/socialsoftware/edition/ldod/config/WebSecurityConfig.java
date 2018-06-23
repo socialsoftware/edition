@@ -7,7 +7,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
 import org.springframework.core.env.Environment;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -15,7 +14,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -25,22 +23,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-
-<<<<<<< HEAD:edition-core/src/main/java/pt/ist/socialsoftware/edition/core/config/WebSecurityConfig.java
-import pt.ist.socialsoftware.edition.core.domain.Role.RoleType;
-import pt.ist.socialsoftware.edition.core.filters.JWTAuthorizationFilter;
-import pt.ist.socialsoftware.edition.core.security.JwtAuthenticationEntryPoint;
-import pt.ist.socialsoftware.edition.core.security.LdoDAuthenticationSuccessHandler;
-import pt.ist.socialsoftware.edition.core.security.LdoDSocialUserDetailsService;
-import pt.ist.socialsoftware.edition.core.security.LdoDUserDetailsService;
-=======
 import pt.ist.socialsoftware.edition.ldod.domain.Role.RoleType;
-import pt.ist.socialsoftware.edition.ldod.security.JWTAuthenticationFilter;
-import pt.ist.socialsoftware.edition.ldod.security.JWTAuthorizationFilter;
+import pt.ist.socialsoftware.edition.ldod.security.jwt.JWTAuthenticationEntryPoint;
+import pt.ist.socialsoftware.edition.ldod.security.jwt.JWTAuthorizationFilter;
 import pt.ist.socialsoftware.edition.ldod.security.LdoDAuthenticationSuccessHandler;
 import pt.ist.socialsoftware.edition.ldod.security.LdoDSocialUserDetailsService;
 import pt.ist.socialsoftware.edition.ldod.security.LdoDUserDetailsService;
->>>>>>> 252489fe93a93b30bc1e2bcc2a1528fb924cc928:edition-ldod/src/main/java/pt/ist/socialsoftware/edition/ldod/config/WebSecurityConfig.java
 
 @Configuration
 @EnableWebSecurity
@@ -53,7 +41,7 @@ public class WebSecurityConfig extends  WebSecurityConfigurerAdapter{
 	Environment environment;
 
 	@Autowired
-	private JwtAuthenticationEntryPoint unauthorizedHandler;
+	private JWTAuthenticationEntryPoint unauthorizedHandler;
 
 		@Override
 		public void configure(WebSecurity web) throws Exception {
