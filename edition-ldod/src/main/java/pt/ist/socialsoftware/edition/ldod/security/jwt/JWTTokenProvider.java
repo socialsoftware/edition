@@ -1,7 +1,7 @@
 package pt.ist.socialsoftware.edition.ldod.security.jwt;
 
-import static pt.ist.socialsoftware.edition.ldod.security.SecurityConstants.EXPIRATION_TIME;
-import static pt.ist.socialsoftware.edition.ldod.security.SecurityConstants.SECRET;
+import static pt.ist.socialsoftware.edition.ldod.security.jwt.JWTSecurityConstants.EXPIRATION_TIME;
+import static pt.ist.socialsoftware.edition.ldod.security.jwt.JWTSecurityConstants.SECRET;
 
 import java.util.Date;
 

@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import static pt.ist.socialsoftware.edition.ldod.security.SecurityConstants.*;
+import static pt.ist.socialsoftware.edition.ldod.security.jwt.JWTSecurityConstants.*;
 
 
 @Component
