@@ -1,0 +1,93 @@
+/* React imports */
+import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
+
+/* Game imports */
+import Fragment  from './Fragment';
+import { FRAGMENT_LIST_SIZE } from '../utils/Constants';
+import { getVirtualEdition } from '../utils/APIUtils';
+import { Layout, notification } from 'antd';
+import { Icon } from 'antd';
+import { Button } from 'react-bootstrap';
+
+
+class VirtualEdition extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            fragments: [],
+            index: 0,
+            view: false
+        };
+        this.loadVirtualEdition = this.loadVirtualEdition.bind(this);
+        this.nextFragment = this.nextFragment.bind(this);
+    }
+
+    loadVirtualEdition() {
+        let request = getVirtualEdition("LdoD-ok");
+
+        request.then(response =>{
+            localStorage.setItem("virtualEdition", JSON.stringify(response.fragments));
+            this.setState({
+                fragments: response.fragments,
+            })
+            notification.success({
+                message: 'LdoD Game',
+                description: "Virtual Edition loaded",
+            })
+        }).catch(error => {
+            notification.warning({
+                message: 'LdoD Game',
+                description: "Virtual Edition not loaded",
+                icon: <Icon type="warning" style={{ color: '#f1c40f' }} />,
+            });
+        });
+
+    }
+
+    componentWillMount() {
+        this.loadVirtualEdition();
+    }
+
+    nextFragment(){
+        /*for (var i = 0; i < this.state.fragments.length; i++) {
+            console.log(this.state.fragments[i].meta.title);
+            <Fragment key={this.state.fragments[i].meta.title} fragment={this.state.fragments[i]}/>    
+        }*/
+        var i = this.state.index;
+        console.log(this.state.fragments[i].meta.title);
+           
+        this.setState({
+            index: (i+1),
+            view: true,
+        })
+    }
+
+    render() {
+        const fragmentViews = [];
+        this.state.fragments.forEach((f, fIndex) => {
+            fragmentViews.push(<Fragment
+                key={f.meta.title}
+                fragment={f}/>)
+        });
+        if(this.state.view) {
+            var i = this.state.index;
+            return (
+              <div>
+                  <Fragment key={this.state.fragments[i].meta.title} fragment={this.state.fragments[i]}/>
+                  <Button bsStyle="primary" onClick={this.nextFragment}>Next Fragment</Button>
+              </div>
+            );
+        }
+        return (
+            <div>
+                <Button bsStyle="primary" onClick={this.nextFragment}>Next Fragment</Button>
+                {/*{fragmentViews*/}
+                
+            </div>
+        );
+    }
+    
+}
+
+export default withRouter(VirtualEdition);

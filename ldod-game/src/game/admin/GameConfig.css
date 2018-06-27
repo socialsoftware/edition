@@ -1,0 +1,48 @@
+.game-config-container {
+    max-width: 520px;
+    margin: 0 auto;
+    margin-top: 40px;
+}
+
+.game-config-form-button {
+    width: 100%;
+}
+
+.game-config-form-button[disabled], .game-config-form-button[disabled]:hover, .game-config-form-button[disabled]:focus {
+    opacity: 0.6;
+    color: #fff;
+    background-color: #1890ff;
+    border-color: #1890ff;
+}
+
+
+.dynamic-delete-button {
+    cursor: pointer;
+    position: relative;
+    top: 4px;
+    font-size: 24px;
+    color: #999;
+    transition: all .3s;
+}
+
+.optional-choice {
+    width: calc(100% - 35px);
+    margin-right: 8px;
+}
+
+.dynamic-delete-button:hover {
+    color: #777;
+}
+
+.dynamic-delete-button[disabled] {
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+.game-config-form-row {
+    margin-bottom: 20px;
+}
+
+.game-config-form-row input, .game-config-form-row textarea {
+    margin-bottom: 4px;
+}
