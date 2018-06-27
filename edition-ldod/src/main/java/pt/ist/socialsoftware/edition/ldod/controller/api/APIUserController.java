@@ -21,8 +21,8 @@ public class APIUserController {
 
     @GetMapping
     public LdoDUserDTO getCurrentUser(@AuthenticationPrincipal LdoDUserDetails currentUser) {
-        logger.debug("getCurrentUser");
-        return new LdoDUserDTO(currentUser.getUsername(), currentUser.getPassword());
+        logger.debug("getCurrentUser {}", currentUser == null ? "null" : currentUser.getUsername());
+        return new LdoDUserDTO(currentUser.getUsername(), "");
 
     }
 

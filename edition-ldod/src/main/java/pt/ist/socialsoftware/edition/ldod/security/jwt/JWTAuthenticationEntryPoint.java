@@ -1,4 +1,4 @@
-package pt.ist.socialsoftware.edition.ldod.security;
+package pt.ist.socialsoftware.edition.ldod.security.jwt;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,8 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Component
-public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
-    private static Logger logger = LoggerFactory.getLogger(JwtAuthenticationEntryPoint.class);
+public class JWTAuthenticationEntryPoint implements AuthenticationEntryPoint {
+    private static Logger logger = LoggerFactory.getLogger(JWTAuthenticationEntryPoint.class);
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException)
             throws IOException, ServletException {

@@ -16,7 +16,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import pt.ist.socialsoftware.edition.ldod.dto.*;
-import pt.ist.socialsoftware.edition.ldod.security.JwtTokenProvider;
+import pt.ist.socialsoftware.edition.ldod.security.jwt.JWTTokenProvider;
 
 import java.security.Principal;
 
@@ -29,7 +29,7 @@ public class AuthController {
 	AuthenticationManager authenticationManager;
 
 	@Autowired
-	JwtTokenProvider tokenProvider;
+	JWTTokenProvider tokenProvider;
 
 	@PostMapping("/signin")
 	public ResponseEntity<?> authenticateUser(@Valid @RequestBody LdoDUserDTO loginRequest) {

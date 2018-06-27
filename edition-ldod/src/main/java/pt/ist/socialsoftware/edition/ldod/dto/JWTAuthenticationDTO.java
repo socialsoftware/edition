@@ -1,11 +1,11 @@
 package pt.ist.socialsoftware.edition.ldod.dto;
 
 
-import pt.ist.socialsoftware.edition.ldod.security.SecurityConstants;
+import pt.ist.socialsoftware.edition.ldod.utils.PropertiesManager;
 
 public class JWTAuthenticationDTO {
 	private String accessToken;
-	private String tokenType = SecurityConstants.TOKEN_PREFIX;
+	private String tokenType =  PropertiesManager.getProperties().getProperty("spring.security.jwt.token.prefix");
 
 	public JWTAuthenticationDTO(String accessToken) {
 		this.accessToken = accessToken;
