@@ -272,32 +272,9 @@ public class VirtualEditionController {
       return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     } else {
       EditionFragmentsDTO editionFragments = new EditionFragmentsDTO();
-
-      String intersFilesPath = PropertiesManager.getProperties().getProperty("inters.dir");
-      List<FragmentDTO> fragments = new ArrayList<>();
-
-      for (FragInter inter : virtualEdition.getIntersSet()) {
-        FragInter lastInter = inter.getLastUsed();
-        String text;
-        try {
-          text = new String(
-              Files.readAllBytes(Paths.get(intersFilesPath + lastInter.getExternalId() + ".txt")));
-        } catch (IOException e) {
-          throw new LdoDException("VirtualEditionController::getTranscriptions IOException");
-        }
-
-        FragmentDTO fragment = new FragmentDTO();
-        fragment.setMeta(new FragmentMetaInfoDTO(lastInter));
-        fragment.setText(text);
-
-        fragments.add(fragment);
-
-      }
-
-      editionFragments.setFragments(fragments);
-
+      editionFragments.setFragments(virtualEdition.buildEditionDTO());
       return new ResponseEntity<>(editionFragments, HttpStatus.OK);
-    }
+      }
   }
 
   @RequestMapping(method = RequestMethod.GET, value = "/restricted/acronym/{acronym}/transcriptions")
