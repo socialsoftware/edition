@@ -8,7 +8,8 @@ import { FRAGMENT_LIST_SIZE } from '../utils/Constants';
 import { getVirtualEdition } from '../utils/APIUtils';
 import { Layout, notification } from 'antd';
 import { Icon } from 'antd';
-import { Button } from 'react-bootstrap';
+import { Button, ProgressBar, Glyphicon } from 'react-bootstrap';
+
 
 
 class VirtualEdition extends Component {
@@ -55,8 +56,6 @@ class VirtualEdition extends Component {
             <Fragment key={this.state.fragments[i].meta.title} fragment={this.state.fragments[i]}/>    
         }*/
         var i = this.state.index;
-        console.log(this.state.fragments[i].meta.title);
-           
         this.setState({
             index: (i+1),
             view: true,
@@ -74,16 +73,20 @@ class VirtualEdition extends Component {
             var i = this.state.index;
             return (
               <div>
-                  <Fragment key={this.state.fragments[i].meta.title} fragment={this.state.fragments[i]}/>
-                  <Button bsStyle="primary" onClick={this.nextFragment}>Next Fragment</Button>
+                    <ProgressBar min={0} bsStyle="success"active now={this.state.index} />
+                    <Fragment key={this.state.fragments[i].meta.title} fragment={this.state.fragments[i]}/>
+                    <Button bsStyle="primary" onClick={this.nextFragment}>
+                        <Glyphicon glyph="arrow-right"/> 
+                    </Button>
               </div>
             );
         }
         return (
             <div>
-                <Button bsStyle="primary" onClick={this.nextFragment}>Next Fragment</Button>
-                {/*{fragmentViews*/}
-                
+                <Button bsStyle="primary" onClick={this.nextFragment}>
+                    <Glyphicon glyph="ok"/> 
+                </Button>
+                {/*{fragmentViews*/}   
             </div>
         );
     }

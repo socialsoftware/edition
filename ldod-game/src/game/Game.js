@@ -3,8 +3,7 @@ import {
     withRouter
 } from 'react-router-dom';
 
-import { Well, ProgressBar } from 'react-bootstrap';
-import Fragment from './Fragment';
+import { Well } from 'react-bootstrap';
 import VirtualEdition from './VirtualEdition';
 
 class Game extends Component {
@@ -12,7 +11,6 @@ class Game extends Component {
         super(props,  context);
         this.state = {
             current: "",
-            progress: 0,
         };
     }
 
@@ -28,9 +26,7 @@ class Game extends Component {
     return ( 
         <div>
             <Well>
-                <ProgressBar min={0} bsStyle="success"active now={50} />
                 <VirtualEdition/>
-
             </Well>    
       </div>
     );
