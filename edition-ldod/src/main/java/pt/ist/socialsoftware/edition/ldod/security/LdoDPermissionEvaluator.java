@@ -34,6 +34,8 @@ public class LdoDPermissionEvaluator implements PermissionEvaluator {
 	public boolean hasPermission(Authentication authentication, Object targetDomainObject, Object permission) {
 		boolean hasPermission = false;
 
+		LdoDUser loggedUser = LdoDUser.getAuthenticatedUser();
+
 		String[] permissions = ((String) permission).split("\\.");
 
 		log.debug("hasPermission {}, {}, {}", targetDomainObject, permissions[0], permissions[1]);
@@ -86,23 +88,29 @@ public class LdoDPermissionEvaluator implements PermissionEvaluator {
 					virtualEdition = tag.getCategory().getTaxonomy().getEdition();
 				}
 				break;
+			case "logged":
+				if (LdoD.getInstance().getUser((String) targetDomainObject) == loggedUser) {
+					return true;
+				} else {
+					return false;
+				}
+
 			default:
 				assert false;
 			}
 
-			LdoDUser user = LdoDUser.getAuthenticatedUser();
 			if (virtualEdition == null) {
 				hasPermission = true;
 			} else if (permissions[1].equals(ADMIN)) {
-				hasPermission = virtualEdition.getAdminSet().contains(user);
+				hasPermission = virtualEdition.getAdminSet().contains(loggedUser);
 			} else if (permissions[1].equals(PARTICIPANT)) {
-				hasPermission = virtualEdition.getParticipantSet().contains(user);
+				hasPermission = virtualEdition.getParticipantSet().contains(loggedUser);
 			} else if (permissions[1].equals(PUBLIC)) {
 				hasPermission = virtualEdition.checkAccess();
 			} else if (permissions[1].equals(ANNOTATION)) {
-				hasPermission = virtualEdition.getTaxonomy().canManipulateAnnotation(user);
+				hasPermission = virtualEdition.getTaxonomy().canManipulateAnnotation(loggedUser);
 			} else if (permissions[1].equals(TAXONOMY)) {
-				hasPermission = virtualEdition.getTaxonomy().canManipulateTaxonomy(user);
+				hasPermission = virtualEdition.getTaxonomy().canManipulateTaxonomy(loggedUser);
 			}
 		}
 
