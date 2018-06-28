@@ -8,6 +8,7 @@ import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
 
 public class VirtualEditionInterListDto {
 	private List<VirtualEditionInterDto> virtualEditionInterList = new ArrayList<>();
+	private String virtualEditionTitle;
 
 	public VirtualEditionInterListDto() {
 	}
@@ -17,6 +18,7 @@ public class VirtualEditionInterListDto {
 				virtualEdition.getIntersSet().stream().sorted((i1, i2) -> i2.getNumber() - i1.getNumber())
 						.map(i -> new VirtualEditionInterDto(i.getTitle(), i.getNumber(), i.getUrlId()))
 						.collect(Collectors.toList()));
+		this.setVirtualEditionTitle(virtualEdition.getTitle());
 	}
 
 	public List<VirtualEditionInterDto> getVirtualEditionInterList() {
@@ -26,5 +28,14 @@ public class VirtualEditionInterListDto {
 	public void setVirtualEditionInterList(List<VirtualEditionInterDto> virtualEditionInterList) {
 		this.virtualEditionInterList = virtualEditionInterList;
 	}
+
+	public String getVirtualEditionTitle() {
+		return virtualEditionTitle;
+	}
+
+	public void setVirtualEditionTitle(String virtualEditionTitle) {
+		this.virtualEditionTitle = virtualEditionTitle;
+	}
+
 
 }

@@ -12,10 +12,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
+import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
 import pt.ist.socialsoftware.edition.ldod.dto.VirtualEditionInterDto;
 import pt.ist.socialsoftware.edition.ldod.dto.VirtualEditionInterListDto;
+import pt.ist.socialsoftware.edition.ldod.session.LdoDSession;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/services")
@@ -26,7 +31,7 @@ public class APIVirtualEditionController {
 	@PreAuthorize("hasPermission(#acronym, 'editionacronym.public')")
 	public @ResponseBody ResponseEntity<VirtualEditionInterListDto> getVirtualEditionIndex(
 			@PathVariable(value = "acronym") String acronym) {
-		logger.debug("getVirtualEdition acronym:{}", acronym);
+		logger.debug("getVirtualEditionIndex acronym:{}", acronym);
 		VirtualEdition virtualEdition = LdoD.getInstance().getVirtualEdition(acronym);
 
 		if (virtualEdition == null) {
@@ -42,7 +47,7 @@ public class APIVirtualEditionController {
 	@PreAuthorize("hasPermission(#acronym, 'editionacronym.public')")
 	public @ResponseBody ResponseEntity<VirtualEditionInterDto> getVirtualEditionInterText(
 			@PathVariable(value = "acronym") String acronym, @PathVariable(value = "urlId") String urlId) {
-		logger.debug("getVirtualEdition acronym:{}", acronym);
+		logger.debug("getVirtualEditionInterText acronym:{} urlId:{}", acronym, urlId);
 		VirtualEdition virtualEdition = LdoD.getInstance().getVirtualEdition(acronym);
 		if (virtualEdition == null) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -54,6 +59,21 @@ public class APIVirtualEditionController {
 		}
 
 		VirtualEditionInterDto result = new VirtualEditionInterDto(inter);
+		return new ResponseEntity<>(result, HttpStatus.OK);
+
+	}
+
+	@GetMapping("/{username}/virtualeditions")
+	@PreAuthorize("hasPermission(#username, 'logged')")
+	public @ResponseBody ResponseEntity<List<VirtualEditionInterListDto>> getVirtualEditions4User(@PathVariable(value = "username") String username){
+		LdoDUser user = LdoD.getInstance().getUser(username);
+		List<VirtualEdition> vEList =  LdoD.getInstance().getVirtualEditions4User(user, LdoDSession.getLdoDSession());
+		List<VirtualEditionInterListDto> result = new ArrayList<>();
+
+		for(VirtualEdition virtualEdition : vEList){
+			result.add(new VirtualEditionInterListDto(virtualEdition));
+		}
+
 		return new ResponseEntity<>(result, HttpStatus.OK);
 
 	}
