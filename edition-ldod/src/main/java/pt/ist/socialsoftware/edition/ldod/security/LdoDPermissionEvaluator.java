@@ -29,6 +29,7 @@ public class LdoDPermissionEvaluator implements PermissionEvaluator {
 	public static final String PUBLIC = "public";
 	public static final String ANNOTATION = "annotation";
 	public static final String TAXONOMY = "taxonomy";
+	private static final String LOGGED = "logged";
 
 	@Override
 	public boolean hasPermission(Authentication authentication, Object targetDomainObject, Object permission) {
@@ -41,6 +42,7 @@ public class LdoDPermissionEvaluator implements PermissionEvaluator {
 		log.debug("hasPermission {}, {}, {}", targetDomainObject, permissions[0], permissions[1]);
 
 		VirtualEdition virtualEdition = null;
+		LdoDUser user = null;
 		if (targetDomainObject instanceof String) {
 			switch (permissions[0]) {
 			case "edition":
@@ -88,12 +90,8 @@ public class LdoDPermissionEvaluator implements PermissionEvaluator {
 					virtualEdition = tag.getCategory().getTaxonomy().getEdition();
 				}
 				break;
-			case "logged":
-				if (LdoD.getInstance().getUser((String) targetDomainObject) == loggedUser) {
-					return true;
-				} else {
-					return false;
-				}
+			case "user":
+				user = LdoD.getInstance().getUser((String) targetDomainObject);
 
 			default:
 				assert false;
@@ -111,10 +109,13 @@ public class LdoDPermissionEvaluator implements PermissionEvaluator {
 				hasPermission = virtualEdition.getTaxonomy().canManipulateAnnotation(loggedUser);
 			} else if (permissions[1].equals(TAXONOMY)) {
 				hasPermission = virtualEdition.getTaxonomy().canManipulateTaxonomy(loggedUser);
+			} else if (permissions[1].equals(LOGGED)) {
+				hasPermission = loggedUser == user;
 			}
 		}
 
 		return hasPermission;
+
 	}
 
 	@Override
