@@ -19,9 +19,11 @@ public abstract class Citation extends Citation_Base {
 
 	public abstract long getId();
 
-	// TODO
+	// TODO: não deveria ser == inter.getLastUsed()
 	public InfoRange getInfoRangeByInter(FragInter inter) {
 		return getInfoRangeSet().stream().filter(infoRange -> infoRange.getFragInter() == inter).findFirst()
 				.orElse(null);
 	}
+
+	public abstract int getNumberOfRetweets();
 }

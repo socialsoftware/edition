@@ -166,20 +166,25 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 	}
 
 	// TODO: createAwareAnnotation
-	@Atomic(mode = TxMode.WRITE)
-	public AwareAnnotation createAwareAnnotation(String quote, String text, Citation citation,
-			List<RangeJson> rangeList) {
-		logger.debug("createAwareAnnotation start:{}, startOffset:{}, end:{}, endOffset:{}",
-				rangeList.get(0).getStart(), rangeList.get(0).getStartOffset(), rangeList.get(0).getEnd(),
-				rangeList.get(0).getEndOffset());
-
-		AwareAnnotation annotation = new AwareAnnotation(this, quote, text, citation);
-		for (RangeJson rangeJson : rangeList) {
-			new Range(annotation, rangeJson.getStart(), rangeJson.getStartOffset(), rangeJson.getEnd(),
-					rangeJson.getEndOffset());
-		}
-		return annotation;
-	}
+	// @Atomic(mode = TxMode.WRITE)
+	// public AwareAnnotation createAwareAnnotation(String quote, String text,
+	// Citation citation,
+	// List<RangeJson> rangeList) {
+	// logger.debug("createAwareAnnotation start:{}, startOffset:{}, end:{},
+	// endOffset:{}",
+	// rangeList.get(0).getStart(), rangeList.get(0).getStartOffset(),
+	// rangeList.get(0).getEnd(),
+	// rangeList.get(0).getEndOffset());
+	//
+	// AwareAnnotation annotation = new AwareAnnotation(this, quote, text,
+	// citation);
+	// for (RangeJson rangeJson : rangeList) {
+	// new Range(annotation, rangeJson.getStart(), rangeJson.getStartOffset(),
+	// rangeJson.getEnd(),
+	// rangeJson.getEndOffset());
+	// }
+	// return annotation;
+	// }
 
 	@Atomic(mode = TxMode.WRITE)
 	public void associate(LdoDUser user, Set<String> categoryNames) {
@@ -414,4 +419,18 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 		return getUses().getUsesDepth() + 1;
 	}
 
+	// Is it this way? (this method doesn't take into account the retweets)
+	public int getNumberOfTimesCited() {
+		return this.getLastUsed().getInfoRangeSet().size();
+	}
+
+	// this methods takes into account the number of retweets
+	public int getNumberOfTimesCitedIncludingRetweets() {
+		Set<InfoRange> infoRanges = this.getLastUsed().getInfoRangeSet();
+		int count = infoRanges.size();
+		for (InfoRange infoRange : infoRanges) {
+			count += infoRange.getCitation().getNumberOfRetweets();
+		}
+		return count;
+	}
 }

@@ -27,4 +27,9 @@ public class TwitterCitation extends TwitterCitation_Base {
 		return getTweetID();
 	}
 
+	@Override
+	public int getNumberOfRetweets() {
+		return this.getTweetSet().size() - 1; // -1 to not include the original tweet
+	}
+
 }

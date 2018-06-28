@@ -56,7 +56,6 @@ public class TweetFactory {
 			bw.write("\n");
 
 			try {
-
 				JSONObject obj = new JSONObject();
 				String line = null;
 
@@ -133,6 +132,10 @@ public class TweetFactory {
 									twitterCitation = ldoD
 											.getTwitterCitationByTweetID((long) obj.get("originalTweetID"));
 
+								}
+								// o tweet não é um retweet
+								else { // TODO: CHECK IF THIS IS CORRECT!!
+									twitterCitation = ldoD.getTwitterCitationByTweetID((long) obj.get("tweetID"));
 								}
 							}
 							// antigos ficheiros JSON ou simplesmente novos ficheiros em q o tweet é um

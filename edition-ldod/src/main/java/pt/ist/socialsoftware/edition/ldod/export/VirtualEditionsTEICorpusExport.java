@@ -223,7 +223,7 @@ public class VirtualEditionsTEICorpusExport {
 			VirtualEdition virtualEdition) {
 		Element virtualEditionSocialCriteria = new Element("editionCriteria", this.xmlns);
 		virtualEditionSocialCriteria.setAttribute("source", "#" + ED_VIRT + "." + virtualEdition.getAcronym());
-		socialMediaCriteria.addContent(socialMediaCriteria);
+		socialMediaCriteria.addContent(virtualEditionSocialCriteria);
 
 		for (SocialMediaCriteria criteria : virtualEdition.getCriteriaSet()) {
 			if (criteria instanceof MediaSource) {

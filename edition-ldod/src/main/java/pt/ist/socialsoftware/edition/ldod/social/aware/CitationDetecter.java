@@ -13,9 +13,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -47,6 +46,7 @@ import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.ldod.domain.Citation;
 import pt.ist.socialsoftware.edition.ldod.domain.FragInter;
 import pt.ist.socialsoftware.edition.ldod.domain.Fragment;
+import pt.ist.socialsoftware.edition.ldod.domain.InfoRange;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
 import pt.ist.socialsoftware.edition.ldod.domain.TwitterCitation;
 import pt.ist.socialsoftware.edition.ldod.generators.PlainHtmlWriter4OneInter;
@@ -188,8 +188,8 @@ public class CitationDetecter {
 	@Atomic(mode = TxMode.WRITE)
 	public void detect() throws IOException {
 		logger("STARTING CITATION DETECTER!!");
-		// serve só para testar melhor pq dá reset ao id na base de dados:
-		// LdoD.getInstance().getLastTwitterID().resetTwitterIDS();
+		// // serve só para testar melhor pq dá reset ao id na base de dados:
+		// //LdoD.getInstance().getLastTwitterID().resetTwitterIDS();
 		// citationDetection();
 		logger("FINISHED DETECTING CITATIONS!!!");
 
@@ -205,29 +205,52 @@ public class CitationDetecter {
 		bw.write("teste de info ranges!!!\n");
 
 		for (Citation citation : LdoD.getInstance().getCitationSet()) {
-			bw.write("------------------------ CITATION -----------------------------\n");
-			Fragment citationFragment = citation.getFragment();
-			Set<FragInter> inters = citationFragment.getFragmentInterSet();
-			inters.removeAll(citationFragment.getVirtualEditionInters());
+			if (citation.getInfoRangeSet().isEmpty()) {
+				bw.write("----------------- CITATION---------------------\n");
+				bw.write("Tweet ID: " + citation.getId() + "\n");
+				Fragment citationFragment = citation.getFragment();
+				Set<FragInter> inters = new HashSet<FragInter>(citationFragment.getFragmentInterSet());
+				bw.write("Todos os frag inters:\n");
+				for (FragInter inter : inters) {
+					bw.write("	FragInter id: " + inter.getExternalId() + "\n");
+					bw.write("	XML id: " + inter.getXmlId() + "\n");
+					bw.write("	Title: " + inter.getTitle() + "\n");
+					bw.write("\n");
 
-			int editionCount = 0;
-			for (FragInter inter : inters) {
-				bw.write("------------------------ ENTREI NO INFO RANGE -----------------------------\n");
-				editionCount++;
-				createInfoRange(inter, citation, bw);
+				}
+				inters.removeAll(citationFragment.getVirtualEditionInters());
+
+				bw.write("Excepto os virtual:\n");
+				for (FragInter inter : inters) {
+					bw.write("	FragInter id: " + inter.getExternalId() + "\n");
+					bw.write("	XML id: " + inter.getXmlId() + "\n");
+					bw.write("	Title: " + inter.getTitle() + "\n");
+					bw.write("\n");
+
+					// if (inter.getExternalId().equals("281487861614172") && citation.getId() ==
+					// 992561289712095233l) {
+					// String htmlTransc = getHtmlTransc(inter);
+					// bw.write("HTML transc específico: " + htmlTransc + "\n");
+					// }
+				}
+
+				int editionCount = 0;
+				for (FragInter inter : inters) {
+					bw.write("------------ ENTREI NO INFO RANGE ------------------\n");
+					editionCount++;
+					createInfoRange(inter, citation, bw);
+				}
+				bw.write("Potential edition count = " + editionCount + "\n");
 			}
-			bw.write("Potential edition count = " + editionCount + "\n");
 		}
 
 		bw.close();
 		fw.close();
-		logger("FINISHED IDENTIFYING CITATIONS!!!");
+		logger("FINISHED IDENTIFYING RANGES!!!");
 	}
 
 	private void createInfoRange(FragInter inter, Citation citation, BufferedWriter bw) throws IOException {
-		PlainHtmlWriter4OneInter htmlWriter = new PlainHtmlWriter4OneInter(inter);
-		htmlWriter.write(false);
-		String htmlTransc = htmlWriter.getTranscription();
+		String htmlTransc = getHtmlTransc(inter);
 
 		if (citation instanceof TwitterCitation) {
 			List<String> result = patternFinding(htmlTransc, ((TwitterCitation) citation).getTweetText(), bw);
@@ -238,7 +261,8 @@ public class CitationDetecter {
 			int numOfPStart = Integer.parseInt(result.get(3));
 			int numOfPEnd = Integer.parseInt(result.get(4));
 
-			if (htmlStart != -1 && htmlEnd != -1 && infoQuote != "") {
+			if (htmlStart != -1 && htmlEnd != -1 && infoQuote != ""
+					&& !startBiggerThanEnd(htmlStart, htmlEnd, numOfPStart, numOfPEnd)) {
 				bw.write("GOING TO CREATE A INFO RANGE!!!");
 				bw.write("\n");
 
@@ -266,24 +290,22 @@ public class CitationDetecter {
 				bw.write("\n");
 				bw.write("\n");
 
-				if (htmlStart > htmlEnd && numOfPStart == numOfPEnd) {
-					bw.write("start is bigger than end!!");
-					bw.write("\n");
-					bw.write("\n");
-				}
-
-				// // NEW INFO RANGE
-				// new InfoRange(citation, inter, "/div[1]/div[1]/p[" + numOfPStart + "]",
-				// htmlStart,
-				// "/div[1]/div[1]/p[" + numOfPEnd + "]", htmlEnd, infoQuote, infoText);
-
-				// AwareAnnotation annotation = new AwareAnnotation(inter, annotQuote,
-				// annotText, citation);
-				//
-				// new Range(annotation, "/div[1]/div[1]/p[" + numOfPStart + "]", htmlStart,
-				// "/div[1]/div[1]/p[" + numOfPEnd + "]", htmlEnd);
+				// NEW INFO RANGE
+				new InfoRange(citation, inter, "/div[1]/div[1]/p[" + numOfPStart + "]", htmlStart,
+						"/div[1]/div[1]/p[" + numOfPEnd + "]", htmlEnd, infoQuote, infoText);
 			}
 		}
+	}
+
+	private String getHtmlTransc(FragInter inter) {
+		PlainHtmlWriter4OneInter htmlWriter = new PlainHtmlWriter4OneInter(inter);
+		htmlWriter.write(false);
+		String htmlTransc = htmlWriter.getTranscription();
+		return htmlTransc;
+	}
+
+	private boolean startBiggerThanEnd(int htmlStart, int htmlEnd, int numOfPStart, int numOfPEnd) {
+		return (htmlStart > htmlEnd && numOfPStart == numOfPEnd);
 	}
 
 	private List<String> patternFinding(String text, String tweet, BufferedWriter bw) throws IOException {
@@ -412,21 +434,6 @@ public class CitationDetecter {
 			patternFound = "";
 		}
 
-		// já não deve ser preciso pq já faço esta verificação no método maxJaroValue
-		// assim, por norma já não meto lixo no patternFound, logo não é preciso fazer
-		// esta limpeza no final
-		/*
-		 * //experiment, must continuously checking for bugs //removes </p> and <p in
-		 * the end of the patternFound if(patternFound.indexOf("</p>") != -1) {
-		 * if(patternFound.indexOf("<p") != -1) { //entra neste if se o padrão contive a
-		 * palavra "</p><p" end-=2; //-2 pq é o comprimento da palavra "<p" }
-		 * logger("entrei no if do contaitns </p>"); patternFound =
-		 * patternFound.substring(0, patternFound.indexOf("</p>")); end-=4; //para
-		 * adicionalmente ao -2, os 4 caracteres a mais da palavra "</p>"
-		 * 
-		 * }
-		 */
-
 		if (start == -1 || end == -1) {
 			// bw.write(" start or end is -1!!");
 			// bw.write("\n");
@@ -543,22 +550,10 @@ public class CitationDetecter {
 
 					if ((long) obj.get("tweetID") > tempMaxID) {
 						System.out.println("Date: " + (String) obj.get("date"));
-
-						// String tweetText = (String) obj.get("text");
-						// String tweetTextSubstring = tweetText; // caso não tenha o "http"
-						//
-						// // removing "http" from tweet text
-						// if (tweetText.contains("http")) {
-						// int httpIndex = tweetText.indexOf("http");
-						// tweetTextSubstring = tweetText.substring(0, httpIndex);
-						// }
-						// ^a parte comentada passou para o método removeHttp
 						String tweetTextWithoutHttp = removeHttpFromTweetText(obj);
 
-						// System.out.println(term + ": " + count);
 						// System.out.println("JSON Text: " + tweetTextWithoutHttp);
 						// System.out.println("++++++++++++++++++++++++++++++++++++++++");
-						// bw.write(term + ": " + count);
 						bw.write("\n");
 						bw.write("Date: " + (String) obj.get("date"));
 						bw.write("\n");
@@ -662,31 +657,12 @@ public class CitationDetecter {
 							break;
 						}
 					}
-
 					if (!twitterIDExists) {
-						// o if(!twitterIDExists) { não deveria vir logo aqui??
-						// atualmente estamos a obter o Fragment e a limpar o http do texto antes desta
-						// verificação
-						// não há razão para isso, estamos a ser pouco eficientes
-
 						// obtain Fragment
 						// using external id
 						FragInter inter = FenixFramework.getDomainObject(d.get(ID));
 						bw.write("---------- USING EXTERNAL ID----------------\n");
-
-						// não parece fazer sentido, código antigo
-						// Fragment fragment = null;
-						// for (Fragment frag : LdoD.getInstance().getFragmentsSet()) {
-						// if (frag == inter.getFragment()) {
-						// bw.write("Entrei no if do External ID!!");
-						// bw.write("\n");
-						// fragment = frag;
-						// break;
-						// }
-						// }
-						// é simplesmente:
 						Fragment fragment = inter.getFragment();
-
 						bw.write("Fragment itself (using ExternalID): " + fragment);
 						bw.write("\n");
 						if (fragment != null) {
@@ -831,15 +807,6 @@ public class CitationDetecter {
 		TermQuery termQuery = new TermQuery(term);
 
 		searchIndexAndDisplayResults(termQuery);
-	}
-
-	private Map<String, String> createTermsMap() {
-		Map<String, String> termsMap = new HashMap<String, String>();
-		termsMap.put("Livro do Desassossego", "livro");
-		termsMap.put("Fernando Pessoa", "fp");
-		termsMap.put("Bernardo Soares", "bernardo");
-		termsMap.put("Vicente Guedes", "vicente");
-		return termsMap;
 	}
 
 	private int countOccurencesOfSubstring(final String string, final String substring, final int subsStartPos) {
