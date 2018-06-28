@@ -22,8 +22,10 @@ public class APIUserController {
 	@GetMapping
 	public LdoDUserDTO getCurrentUser(@AuthenticationPrincipal LdoDUserDetails currentUser) {
 		logger.debug("getCurrentUser {}", currentUser == null ? "null" : currentUser.getUsername());
-		return new LdoDUserDTO(currentUser.getUser());
-
+		if (currentUser != null) {
+			return new LdoDUserDTO(currentUser.getUser());
+		}
+		throw new LdoDException("No current user!");
 	}
 
 	@GetMapping(value = "/{username}")
