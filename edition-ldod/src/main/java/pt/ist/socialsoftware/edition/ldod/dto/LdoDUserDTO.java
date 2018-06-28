@@ -2,41 +2,74 @@ package pt.ist.socialsoftware.edition.ldod.dto;
 
 import org.hibernate.validator.constraints.NotBlank;
 
+import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
+
 public class LdoDUserDTO {
-    private long id;
-    @NotBlank
-    private String username;
-    @NotBlank
-    private String password;
-    private boolean enabled;
+	private long id;
+	@NotBlank
+	private String username;
+	private String firstName;
+	private String lastName;
+	private boolean enabled;
+	private boolean active;
 
-    public LdoDUserDTO() {
-    }
+	public LdoDUserDTO() {
+	}
 
-    public LdoDUserDTO(String username, String password) {
-        this.username = username;
-        this.password = password;
-        this.enabled = true;
-    }
+	public LdoDUserDTO(LdoDUser user) {
+		this.username = user.getUsername();
+		this.enabled = user.getEnabled();
+		this.active = user.getActive();
+		this.firstName = user.getFirstName();
+		this.lastName = user.getLastName();
+	}
 
+	public long getId() {
+		return this.id;
+	}
 
-    public long getId() {
-        return id;
-    }
+	public void setId(long id) {
+		this.id = id;
+	}
 
-    public String getUsername() {
-        return username;
-    }
+	public String getUsername() {
+		return this.username;
+	}
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
+	public void setUsername(String username) {
+		this.username = username;
+	}
 
-    public String getPassword() {
-        return password;
-    }
+	public String getFirstName() {
+		return this.firstName;
+	}
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return this.lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public boolean isEnabled() {
+		return this.enabled;
+	}
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+	}
+
+	public boolean isActive() {
+		return this.active;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
+	}
+
 }
