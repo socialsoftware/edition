@@ -9,6 +9,9 @@ public class VirtualEditionInterDto {
 	private String urlId;
 	private String text;
 
+	public VirtualEditionInterDto() {
+	}
+
 	public VirtualEditionInterDto(String title, int number, String urlId) {
 		this.title = title;
 		this.number = number;
