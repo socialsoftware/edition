@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
+import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
+import pt.ist.socialsoftware.edition.ldod.dto.VirtualEditionInterDto;
 import pt.ist.socialsoftware.edition.ldod.dto.VirtualEditionInterListDto;
 
 @RestController
@@ -33,6 +35,26 @@ public class APIVirtualEditionController {
 			VirtualEditionInterListDto result = new VirtualEditionInterListDto(virtualEdition);
 			return new ResponseEntity<>(result, HttpStatus.OK);
 		}
+
+	}
+
+	@GetMapping("/edition/{acronym}/inter/{urlId}")
+	@PreAuthorize("hasPermission(#acronym, 'editionacronym.public')")
+	public @ResponseBody ResponseEntity<VirtualEditionInterDto> getVirtualEditionInterText(
+			@PathVariable(value = "acronym") String acronym, @PathVariable(value = "urlId") String urlId) {
+		logger.debug("getVirtualEdition acronym:{}", acronym);
+		VirtualEdition virtualEdition = LdoD.getInstance().getVirtualEdition(acronym);
+		if (virtualEdition == null) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+
+		VirtualEditionInter inter = (VirtualEditionInter) virtualEdition.getFragInterByUrlId(urlId);
+		if (inter == null) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+
+		VirtualEditionInterDto result = new VirtualEditionInterDto(inter);
+		return new ResponseEntity<>(result, HttpStatus.OK);
 
 	}
 
