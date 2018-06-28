@@ -83,9 +83,16 @@ export function getUserProfile(username) {
     });
 }
 
-export function getVirtualEdition(acronym) {
+export function getVirtualEditionIndex(acronym) {
     return request({
-        url: API_BASE_URL + API_SERVICES_URL + "/edition/" + acronym,
+        url: API_BASE_URL + API_SERVICES_URL + "/edition/" + acronym + "/index",
+        method: 'GET'
+    });
+}
+
+export function getVirtualEditionFragment(acronym, urlId) {
+    return request({
+        url: API_BASE_URL + API_SERVICES_URL + "/edition/" + acronym + "/inter/" + urlId,
         method: 'GET'
     });
 }

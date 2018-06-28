@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom';
 /* Game imports */
 import Fragment  from './Fragment';
 import { FRAGMENT_LIST_SIZE } from '../utils/Constants';
-import { getVirtualEdition } from '../utils/APIUtils';
+import { getVirtualEditionIndex } from '../utils/APIUtils';
 import { Layout, notification } from 'antd';
 import { Icon } from 'antd';
 import { Button, ProgressBar, Glyphicon } from 'react-bootstrap';
@@ -25,12 +25,12 @@ class VirtualEdition extends Component {
     }
 
     loadVirtualEdition() {
-        let request = getVirtualEdition("LdoD-ok");
+        let request = getVirtualEditionIndex("LdoD-ok");
 
         request.then(response =>{
-            localStorage.setItem("virtualEdition", JSON.stringify(response.fragments));
+            localStorage.setItem("virtualEdition", JSON.stringify(response.virtualEditionInterList));
             this.setState({
-                fragments: response.fragments,
+                fragments: response.virtualEditionInterList,
             })
             notification.success({
                 message: 'LdoD Game',
@@ -66,7 +66,7 @@ class VirtualEdition extends Component {
         const fragmentViews = [];
         this.state.fragments.forEach((f, fIndex) => {
             fragmentViews.push(<Fragment
-                key={f.meta.title}
+                key={f.title}
                 fragment={f}/>)
         });
         if(this.state.view) {
@@ -74,7 +74,7 @@ class VirtualEdition extends Component {
             return (
               <div>
                     <ProgressBar min={0} bsStyle="success"active now={this.state.index} />
-                    <Fragment key={this.state.fragments[i].meta.title} fragment={this.state.fragments[i]}/>
+                    <Fragment key={this.state.fragments[i].title} fragment={this.state.fragments[i]}/>
                     <Button bsStyle="primary" onClick={this.nextFragment}>
                         <Glyphicon glyph="arrow-right"/> 
                     </Button>
