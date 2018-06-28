@@ -12,7 +12,7 @@ import { Layout, notification } from 'antd';
 /* Game imports */
 import './App.css';
 import { getCurrentUser } from '../utils/APIUtils';
-import { ACCESS_TOKEN } from '../utils/Constants';
+import { ACCESS_TOKEN, LDOD_MESSAGE } from '../utils/Constants';
 import VirtualEdition from '../game/VirtualEdition';
 import Fragment from '../game/Fragment';
 import GameConfig from '../game/admin/GameConfig';
@@ -38,12 +38,13 @@ const { Content } = Layout;
 class App extends Component {
     constructor(props) {
         super(props);
-      
+        
         this.state = {
             currentUser: null,
             isAuthenticated: false,
             isLoading: false
         }
+        
         this.handleLogout = this.handleLogout.bind(this);
         this.loadCurrentUser = this.loadCurrentUser.bind(this);
         this.handleLogin = this.handleLogin.bind(this);
@@ -54,75 +55,69 @@ class App extends Component {
             duration: 2,
         });
     }
-
-
+    
     loadCurrentUser() {
-        this.setState({
-            isLoading: true
-        });
-        getCurrentUser()
-        .then(response => {
             this.setState({
-                currentUser: response,
-                isAuthenticated: true,
-                isLoading: false
+                isLoading: true
             });
-        }).catch(error => {
-            this.setState({
-                isLoading: false});
+            getCurrentUser()
+            .then(response => {
+                this.setState({
+                    currentUser: response,
+                    isAuthenticated: true,
+                    isLoading: false
+                });
+            }).catch(error => {
+                this.setState({
+                    isLoading: false
+                });
         });
     }
-
-  componentWillMount() {
-    // Load current user if logged in
-    this.loadCurrentUser();
-  }
-
-  componentWillUnmount(){
-    localStorage.clear();
     
-  }
+    componentWillMount() {
+        // Load current user if logged in
+        this.loadCurrentUser();
+    }
+    
+    componentWillUnmount() {
+        localStorage.clear();
+    }
 
   // Handle Logout, Set currentUser and isAuthenticated state which will be passed to other components
   handleLogout(redirectTo="/", notificationType="success", description="You're successfully logged out.") {
-    localStorage.removeItem(ACCESS_TOKEN);
-    localStorage.clear();
-
-    this.setState({
-      currentUser: null,
-      isAuthenticated: false
-    });
-
-    this.props.history.push(redirectTo);
+      localStorage.removeItem(ACCESS_TOKEN);
+      localStorage.clear();
+      
+      this.setState({
+          currentUser: null,
+          isAuthenticated: false
+        });
+        
+        this.props.history.push(redirectTo);
+        
+        notification[notificationType]({
+            message: LDOD_MESSAGE,
+            description: description,
+        });
+    }
     
-    notification[notificationType]({
-      message: 'LdoD Game',
-      description: description,
-    });
-  }
-
-  /*
-   This method is called by the Login component after successful login
-   so that we can load the logged-in user details and set the currentUser &
-   isAuthenticated state, which other components will use to render their JSX
-  */
-  handleLogin() {
-    notification.success({
-      message: 'LdoD Game',
-      description: "You're successfully logged in.",
-    });
-              
-    this.loadCurrentUser();
-    this.props.history.push("/");
-  }
-
-  render() {
-    var styles ={
-      fontFamily : 'Ubuntu',
-      color: 'black'
+    handleLogin() {
+        notification.success({
+            message: LDOD_MESSAGE,
+            description: "You're successfully logged in.",
+        });
+        
+        this.loadCurrentUser();
+        this.props.history.push("/");
+    }
+    
+    render() {
+        var styles ={
+            fontFamily : 'Ubuntu',
+            backgroundColor: '#3498db'
     }
     if(this.state.isLoading) {
-      return <LoadingIndicator />
+        return <LoadingIndicator />
     }
   
 
