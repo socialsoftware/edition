@@ -7,7 +7,7 @@ module.exports = function override(config, env) {
       modifyVars: {
           "@layout-body-background": "#FFFFFF",
           "@layout-header-background": "#FFFFFF",
-          "@layout-footer-background": "#FFFFFF"
+          "@layout-footer-background": "#FFFFFF",
       },
     })(config, env);
     return config;
