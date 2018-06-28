@@ -5,7 +5,6 @@ import org.hibernate.validator.constraints.NotBlank;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
 
 public class LdoDUserDTO {
-	private long id;
 	@NotBlank
 	private String username;
 	private String password;
@@ -23,14 +22,6 @@ public class LdoDUserDTO {
 		this.active = user.getActive();
 		this.firstName = user.getFirstName();
 		this.lastName = user.getLastName();
-	}
-
-	public long getId() {
-		return this.id;
-	}
-
-	public void setId(long id) {
-		this.id = id;
 	}
 
 	public String getUsername() {
