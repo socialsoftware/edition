@@ -92,7 +92,7 @@ public class LdoDPermissionEvaluator implements PermissionEvaluator {
 				break;
 			case "user":
 				user = LdoD.getInstance().getUser((String) targetDomainObject);
-
+				break;
 			default:
 				assert false;
 			}
@@ -109,13 +109,16 @@ public class LdoDPermissionEvaluator implements PermissionEvaluator {
 				hasPermission = virtualEdition.getTaxonomy().canManipulateAnnotation(loggedUser);
 			} else if (permissions[1].equals(TAXONOMY)) {
 				hasPermission = virtualEdition.getTaxonomy().canManipulateTaxonomy(loggedUser);
-			} else if (permissions[1].equals(LOGGED)) {
-				hasPermission = loggedUser == user;
+			}
+
+			if (user != null) {
+				if (permissions[1].equals(LOGGED)) {
+					hasPermission = loggedUser == user;
+				}
 			}
 		}
 
 		return hasPermission;
-
 	}
 
 	@Override
