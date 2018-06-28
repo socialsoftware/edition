@@ -2,28 +2,38 @@ package pt.ist.socialsoftware.edition.ldod.controller.api;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+
 import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
-import pt.ist.socialsoftware.edition.ldod.dto.EditionFragmentsDTO;
+import pt.ist.socialsoftware.edition.ldod.dto.VirtualEditionInterListDto;
 
 @RestController
 @RequestMapping("/api/services")
 public class APIVirtualEditionController {
-    private static Logger logger = LoggerFactory.getLogger(APIVirtualEditionController.class);
+	private static Logger logger = LoggerFactory.getLogger(APIVirtualEditionController.class);
 
-    @GetMapping("edition/{acronym}")
-    @PreAuthorize("hasPermission(#acronym, 'editionacronym.public')")
-    public EditionFragmentsDTO getVirtualEdition(@PathVariable(value = "acronym") String acronym) {
-        logger.debug("getVirtualEdition");
-        VirtualEdition virtualEdition = LdoD.getInstance().getVirtualEdition(acronym);
-        EditionFragmentsDTO editionFragmentsDTO = new EditionFragmentsDTO();
-        editionFragmentsDTO.setFragments(virtualEdition.buildEditionDTO());
-        return editionFragmentsDTO;
-    }
+	@GetMapping("/edition/{acronym}/index")
+	@PreAuthorize("hasPermission(#acronym, 'editionacronym.public')")
+	public @ResponseBody ResponseEntity<VirtualEditionInterListDto> getVirtualEditionIndex(
+			@PathVariable(value = "acronym") String acronym) {
+		logger.debug("getVirtualEdition acronym:{}", acronym);
+		VirtualEdition virtualEdition = LdoD.getInstance().getVirtualEdition(acronym);
+
+		if (virtualEdition == null) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		} else {
+			VirtualEditionInterListDto result = new VirtualEditionInterListDto(virtualEdition);
+			return new ResponseEntity<>(result, HttpStatus.OK);
+		}
+
+	}
 
 }
