@@ -42,8 +42,7 @@ public class AuthController {
 			String jwt = this.tokenProvider.generateToken(authentication);
 			return new ResponseEntity<JWTAuthenticationDTO>(new JWTAuthenticationDTO(jwt), HttpStatus.OK);
 		} catch (AuthenticationException e) {
-			logger.debug("Bad Credentials");
-			return new ResponseEntity<JWTAuthenticationDTO>(HttpStatus.UNAUTHORIZED);
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		}
 
 	}

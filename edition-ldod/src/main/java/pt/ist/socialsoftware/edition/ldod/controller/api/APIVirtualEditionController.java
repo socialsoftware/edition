@@ -64,7 +64,7 @@ public class APIVirtualEditionController {
 	}
 
 	@GetMapping("/{username}/virtualeditions")
-	@PreAuthorize("hasPermission(#username, 'logged')")
+	@PreAuthorize("hasPermission(#username, 'user.logged')")
 	public @ResponseBody ResponseEntity<List<VirtualEditionInterListDto>> getVirtualEditions4User(@PathVariable(value = "username") String username){
 		LdoDUser user = LdoD.getInstance().getUser(username);
 		List<VirtualEdition> vEList =  LdoD.getInstance().getVirtualEditions4User(user, LdoDSession.getLdoDSession());

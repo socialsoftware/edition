@@ -9,15 +9,10 @@ import org.springframework.web.bind.annotation.*;
 
 import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.ldod.dto.LdoDUserDTO;
-import pt.ist.socialsoftware.edition.ldod.dto.VirtualEditionInterListDto;
 import pt.ist.socialsoftware.edition.ldod.security.LdoDUserDetails;
-import pt.ist.socialsoftware.edition.ldod.session.LdoDSession;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
 
-import java.util.ArrayList;
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/user")
@@ -25,9 +20,10 @@ public class APIUserController {
 	private static Logger logger = LoggerFactory.getLogger(APIUserController.class);
 
 	@GetMapping
-	public LdoDUserDTO getCurrentUser(@AuthenticationPrincipal LdoDUserDetails currentUser) {
+	public ResponseEntity<LdoDUserDTO> getCurrentUser(@AuthenticationPrincipal LdoDUserDetails currentUser) {
 		logger.debug("getCurrentUser {}", currentUser == null ? "null" : currentUser.getUsername());
-		return new LdoDUserDTO(currentUser.getUser());
+		LdoDUserDTO user = new LdoDUserDTO(currentUser.getUser());
+		return new ResponseEntity<LdoDUserDTO>(user, HttpStatus.OK);
 
 	}
 
