@@ -13,7 +13,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -190,62 +189,64 @@ public class CitationDetecter {
 		logger("STARTING CITATION DETECTER!!");
 		// // serve só para testar melhor pq dá reset ao id na base de dados:
 		// //LdoD.getInstance().getLastTwitterID().resetTwitterIDS();
-		// citationDetection();
+		citationDetection();
 		logger("FINISHED DETECTING CITATIONS!!!");
 
 		// indetify ranges here
 		logger("STARTED IDENTIFYING RANGES!!!");
-		BufferedWriter bw = null;
-		FileWriter fw = null;
-		File file;
-		file = new File("C:/Users/dnf_o/projetoTese/ldod/social/infoRanges/infoRanges.txt");
-		fw = new FileWriter(file);
-		bw = new BufferedWriter(fw);
-
-		bw.write("teste de info ranges!!!\n");
-
-		for (Citation citation : LdoD.getInstance().getCitationSet()) {
-			if (citation.getInfoRangeSet().isEmpty()) {
-				bw.write("----------------- CITATION---------------------\n");
-				bw.write("Tweet ID: " + citation.getId() + "\n");
-				Fragment citationFragment = citation.getFragment();
-				Set<FragInter> inters = new HashSet<FragInter>(citationFragment.getFragmentInterSet());
-				bw.write("Todos os frag inters:\n");
-				for (FragInter inter : inters) {
-					bw.write("	FragInter id: " + inter.getExternalId() + "\n");
-					bw.write("	XML id: " + inter.getXmlId() + "\n");
-					bw.write("	Title: " + inter.getTitle() + "\n");
-					bw.write("\n");
-
-				}
-				inters.removeAll(citationFragment.getVirtualEditionInters());
-
-				bw.write("Excepto os virtual:\n");
-				for (FragInter inter : inters) {
-					bw.write("	FragInter id: " + inter.getExternalId() + "\n");
-					bw.write("	XML id: " + inter.getXmlId() + "\n");
-					bw.write("	Title: " + inter.getTitle() + "\n");
-					bw.write("\n");
-
-					// if (inter.getExternalId().equals("281487861614172") && citation.getId() ==
-					// 992561289712095233l) {
-					// String htmlTransc = getHtmlTransc(inter);
-					// bw.write("HTML transc específico: " + htmlTransc + "\n");
-					// }
-				}
-
-				int editionCount = 0;
-				for (FragInter inter : inters) {
-					bw.write("------------ ENTREI NO INFO RANGE ------------------\n");
-					editionCount++;
-					createInfoRange(inter, citation, bw);
-				}
-				bw.write("Potential edition count = " + editionCount + "\n");
-			}
-		}
-
-		bw.close();
-		fw.close();
+		// BufferedWriter bw = null;
+		// FileWriter fw = null;
+		// File file;
+		// file = new
+		// File("C:/Users/dnf_o/projetoTese/ldod/social/infoRanges/infoRanges.txt");
+		// fw = new FileWriter(file);
+		// bw = new BufferedWriter(fw);
+		//
+		// bw.write("teste de info ranges!!!\n");
+		//
+		// for (Citation citation : LdoD.getInstance().getCitationSet()) {
+		// if (citation.getInfoRangeSet().isEmpty()) {
+		// bw.write("----------------- CITATION---------------------\n");
+		// bw.write("Tweet ID: " + citation.getId() + "\n");
+		// Fragment citationFragment = citation.getFragment();
+		// Set<FragInter> inters = new
+		// HashSet<FragInter>(citationFragment.getFragmentInterSet());
+		// bw.write("Todos os frag inters:\n");
+		// for (FragInter inter : inters) {
+		// bw.write(" FragInter id: " + inter.getExternalId() + "\n");
+		// bw.write(" XML id: " + inter.getXmlId() + "\n");
+		// bw.write(" Title: " + inter.getTitle() + "\n");
+		// bw.write("\n");
+		//
+		// }
+		// inters.removeAll(citationFragment.getVirtualEditionInters());
+		//
+		// bw.write("Excepto os virtual:\n");
+		// for (FragInter inter : inters) {
+		// bw.write(" FragInter id: " + inter.getExternalId() + "\n");
+		// bw.write(" XML id: " + inter.getXmlId() + "\n");
+		// bw.write(" Title: " + inter.getTitle() + "\n");
+		// bw.write("\n");
+		//
+		// // if (inter.getExternalId().equals("281487861614172") && citation.getId() ==
+		// // 992561289712095233l) {
+		// // String htmlTransc = getHtmlTransc(inter);
+		// // bw.write("HTML transc específico: " + htmlTransc + "\n");
+		// // }
+		// }
+		//
+		// int editionCount = 0;
+		// for (FragInter inter : inters) {
+		// bw.write("------------ ENTREI NO INFO RANGE ------------------\n");
+		// editionCount++;
+		// createInfoRange(inter, citation, bw);
+		// }
+		// bw.write("Potential edition count = " + editionCount + "\n");
+		// }
+		// }
+		//
+		// bw.close();
+		// fw.close();
 		logger("FINISHED IDENTIFYING RANGES!!!");
 	}
 

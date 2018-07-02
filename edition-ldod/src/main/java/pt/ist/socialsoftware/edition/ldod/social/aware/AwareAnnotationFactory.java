@@ -8,6 +8,9 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.joda.time.LocalDate;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,9 +20,14 @@ import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.ldod.domain.AwareAnnotation;
 import pt.ist.socialsoftware.edition.ldod.domain.Citation;
 import pt.ist.socialsoftware.edition.ldod.domain.FragInter;
+import pt.ist.socialsoftware.edition.ldod.domain.Frequency;
+import pt.ist.socialsoftware.edition.ldod.domain.GeographicLocation;
 import pt.ist.socialsoftware.edition.ldod.domain.InfoRange;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
+import pt.ist.socialsoftware.edition.ldod.domain.MediaSource;
 import pt.ist.socialsoftware.edition.ldod.domain.Range;
+import pt.ist.socialsoftware.edition.ldod.domain.SocialMediaCriteria;
+import pt.ist.socialsoftware.edition.ldod.domain.TimeWindow;
 import pt.ist.socialsoftware.edition.ldod.domain.TwitterCitation;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
@@ -44,13 +52,21 @@ public class AwareAnnotationFactory {
 		fw = new FileWriter(file);
 		bw = new BufferedWriter(fw);
 
-		for (VirtualEdition ve : LdoD.getInstance().getVirtualEditionsSet()) {
-			logger("VirtualEdition XMLID: " + ve.getXmlId());
-			if (ve.isSAVE()) {
-				searchForAwareAnnotations(ve, bw);
-			}
-			logger("+++++++++++++++++++++ NEXT VIRTUAL EDITION +++++++++++++++++++++++");
-		}
+		// SETUP DOS CRITÉRIOS
+		VirtualEdition duarteEdit = LdoD.getInstance().getVirtualEdition("LdoD-EditDuarte");
+		new MediaSource(duarteEdit, "Twitter");
+		// new TimeWindow(duarteEdit, new LocalDate("2018-03-06"), new
+		// LocalDate("2018-06-24"));
+		// new GeographicLocation(duarteEdit, "Portugal", "Lisboa");
+		// new Frequency(duarteEdit, 10);
+
+		// for (VirtualEdition ve : LdoD.getInstance().getVirtualEditionsSet()) {
+		// logger("VirtualEdition XMLID: " + ve.getXmlId());
+		// if (ve.isSAVE()) {
+		// searchForAwareAnnotations(ve, bw);
+		// }
+		// logger("+++++++++++++++++++++ NEXT VIRTUAL EDITION +++++++++++++++++++++++");
+		// }
 		bw.close();
 		fw.close();
 
@@ -71,10 +87,12 @@ public class AwareAnnotationFactory {
 		logger("All Depth - Inters size: " + ve.getAllDepthVirtualEditionInters().size());
 		logger("            Inters size: " + ve.getIntersSet().size());
 
-		// allTwitterCitations - all twitter citations in the archive
+		// allTwitterCitations - all twitter citations in the archive - debugging
 		Set<TwitterCitation> allTwitterCitations = LdoD.getInstance().getAllTwitterCitation();
 		bw.write("All Twitter Citations size: " + allTwitterCitations.size());
 		bw.write("\n");
+
+		Set<SocialMediaCriteria> criteria = ve.getCriteriaSet();
 
 		// debug method for annotation details
 		// annotsDetails(ve, bw);
@@ -95,48 +113,61 @@ public class AwareAnnotationFactory {
 			bw.write("Inter title: " + inter.getTitle());
 			bw.write("\n");
 
+			if (!validateFrequency(criteria, inter)) {
+				continue;
+			}
+
 			// currentTwitterCitations - current twitter citations from a certain
 			// fragInter
 			// totalTwitterCitations - total twitter citations from a certain fragInter
 			// ^baseados nas anotações que já foram criadas para cada fraginter
 			// pq para cada fraginter vai-se ver as anotações que foram criadas e
 			// daí é q se extraem estes dois Sets
-			Set<TwitterCitation> currentTwitterCitations = getCurrentTwitterCitationsByInter(inter);
-			logger("CurrentTwitterCitations set size: " + currentTwitterCitations.size());
-			bw.write("CurrentTwitterCitations set size: " + currentTwitterCitations.size());
-			bw.write("\n");
 
-			Set<TwitterCitation> totalTwitterCitations = getTotalTwitterCitationsByInter(inter, bw);
+			// Set<TwitterCitation> currentTwitterCitations =
+			// getCurrentTwitterCitationsByInter(inter);
+			// logger("CurrentTwitterCitations set size: " +
+			// currentTwitterCitations.size());
+			// bw.write("CurrentTwitterCitations set size: " +
+			// currentTwitterCitations.size());
+			// bw.write("\n");
+
+			Set<TwitterCitation> totalTwitterCitations = getTotalTwitterCitationsByInterAndCriteria(inter, criteria,
+					bw);
 			logger("TotalTwitterCitations set size: " + totalTwitterCitations.size());
 			bw.write("TotalTwitterCitations set size: " + totalTwitterCitations.size());
 			bw.write("\n");
 			bw.write("\n");
 
 			// debug
-			String htmlTransc = getHtmlTransc(inter);
-			bw.write("htmlTransc: " + htmlTransc);
-			bw.write("\n");
-			bw.write("\n");
+			// String htmlTransc = getHtmlTransc(inter);
+			// bw.write("htmlTransc: " + htmlTransc);
+			// bw.write("\n");
+			// bw.write("\n");
 
 			// *********************** REMOVAL ****************************
 
-			bw.write("TotalTwitterCitations set size BEFORE REMOVAL: " + totalTwitterCitations.size());
-			bw.write("\n");
-			totalTwitterCitations.removeAll(currentTwitterCitations);
-			bw.write("TotalTwitterCitations set size AFTER REMOVAL: " + totalTwitterCitations.size());
-			bw.write("\n");
-			bw.write("\n");
+			// bw.write("TotalTwitterCitations set size BEFORE REMOVAL: " +
+			// totalTwitterCitations.size());
+			// bw.write("\n");
+			// totalTwitterCitations.removeAll(currentTwitterCitations);
+			// bw.write("TotalTwitterCitations set size AFTER REMOVAL: " +
+			// totalTwitterCitations.size());
+			// bw.write("\n");
+			// bw.write("\n");
+			//
+			// // debug do total já removido
+			// bw.write("Content of new citations to create for this frag inter:");
+			// bw.write("\n");
+			// for (TwitterCitation tc : totalTwitterCitations) {
+			// bw.write(" Tweet ID: " + tc.getTweetID() + " " + tc.getDate());
+			// bw.write("\n");
+			// }
+			// bw.write("----------------------");
+			// bw.write("\n");
+			// bw.write("\n");
 
-			// debug do total já removido
-			bw.write("Content of new citations to create for this frag inter:");
-			bw.write("\n");
-			for (TwitterCitation tc : totalTwitterCitations) {
-				bw.write(" Tweet ID: " + tc.getTweetID() + " " + tc.getDate());
-				bw.write("\n");
-			}
-			bw.write("----------------------");
-			bw.write("\n");
-			bw.write("\n");
+			removeAllAwareAnnotationsFromVEInter(inter);
 
 			for (TwitterCitation newCitation : totalTwitterCitations) {
 				bw.write(" ----------------- Twitter Citation --------");
@@ -193,7 +224,7 @@ public class AwareAnnotationFactory {
 		bw.write("\n");
 		bw.write("\n");
 
-		bw.write(" INFOR RANGE - START: " + infoRange.getStart());
+		bw.write(" INFO RANGE - START: " + infoRange.getStart());
 		bw.write("\n");
 		bw.write(" INFO RANGE - END: " + infoRange.getEnd());
 		bw.write("\n");
@@ -248,7 +279,121 @@ public class AwareAnnotationFactory {
 		return infoRange;
 	}
 
-	// método de teste utilizado para criar uma aware annotation
+	// TODO: removeAllAwareAnnotationsFromVEInter
+	private void removeAllAwareAnnotationsFromVEInter(VirtualEditionInter inter) {
+		Set<AwareAnnotation> awareAnnotations = inter.getAnnotationSet().stream()
+				.filter(AwareAnnotation.class::isInstance).map(AwareAnnotation.class::cast).collect(Collectors.toSet());
+		for (AwareAnnotation aa : awareAnnotations) {
+			aa.remove();
+		}
+	}
+
+	// TODO: upgrade to support criteria
+	private Set<TwitterCitation> getTotalTwitterCitationsByInterAndCriteria(VirtualEditionInter inter,
+			Set<SocialMediaCriteria> criteria, BufferedWriter bw) throws IOException {
+		Set<TwitterCitation> totalTwitterCitations = new HashSet<TwitterCitation>();
+		for (Citation tc : inter.getFragment().getCitationSet()) {
+			if (tc instanceof TwitterCitation /* && !tc.getInfoRangeSet().isEmpty() */
+					&& getInfoRangeByVirtualEditionInter(inter, (TwitterCitation) tc, null) != null
+							& validateCriteria(tc, criteria, bw)) {
+				totalTwitterCitations.add((TwitterCitation) tc);
+			}
+		}
+		return totalTwitterCitations;
+	}
+
+	private boolean validateFrequency(Set<SocialMediaCriteria> criteria, VirtualEditionInter inter) {
+		boolean isValid = true;
+		for (SocialMediaCriteria criterion : criteria) {
+			if (criterion instanceof Frequency) {
+				if (((Frequency) criterion).getFrequency() > inter.getNumberOfTimesCitedIncludingRetweets()) {
+					isValid = false;
+				}
+			}
+		}
+		return isValid;
+	}
+
+	private boolean validateCriteria(Citation tc, Set<SocialMediaCriteria> criteria, BufferedWriter bw)
+			throws IOException {
+		boolean isValid = true;
+		for (SocialMediaCriteria criterion : criteria) {
+			if (criterion instanceof MediaSource) {
+				bw.write("		ENTREI NO MEDIA SOURCE \n");
+				if (tc instanceof TwitterCitation && !((MediaSource) criterion).getName().equals("Twitter")) {
+					bw.write("			ENTREI NO IF DO MEDIA SOURCE \n");
+					bw.write("			MEDIA SOURCE NAME: " + ((MediaSource) criterion).getName() + "\n");
+					isValid = false;
+				}
+			} else if (criterion instanceof TimeWindow) {
+				bw.write("		ENTREI NO TIME WINDOW \n");
+				DateTimeFormatter formatter = DateTimeFormat.forPattern("d-MMM-yyyy");
+
+				// estilo: "16-Aug-2016"
+				String date = tc.getDate().split(" ")[0];
+				bw.write("			Original date: " + date + "\n");
+
+				// converter para estilo universal localdate: "2016-08-16"
+				LocalDate localDate = LocalDate.parse(date, formatter);
+				bw.write("			Universal localdate: " + localDate + "\n");
+
+				LocalDate beginDate = ((TimeWindow) criterion).getBeginDate();
+				LocalDate endDate = ((TimeWindow) criterion).getEndDate();
+
+				if (!(((localDate.isAfter(beginDate) || localDate.isEqual(beginDate)))
+						&& (localDate.isBefore(endDate) || localDate.isEqual(endDate)))) {
+					bw.write("			ENTREI NO IF DO TIME WINDOW \n");
+					isValid = false;
+				}
+			} else if (criterion instanceof GeographicLocation) {
+				bw.write("		ENTREI NO GEOGRAPHIC LOCATION \n");
+				if (tc instanceof TwitterCitation && !(((TwitterCitation) tc).getCountry()
+						.equals(((GeographicLocation) criterion).getCountry()))) {
+					bw.write("			ENTREI NO IF DO GEOGRAPHIC LOCATION \n");
+					isValid = false;
+				}
+
+			} else if (criterion instanceof Frequency) {
+				bw.write("		ENTREI NO FREQUENCY \n");
+				// do nothing ...
+			}
+		}
+
+		// just for debug
+		if (tc instanceof TwitterCitation) {
+			bw.write("		ENTREI NO TIME WINDOW FORA DO FOR \n");
+			DateTimeFormatter formatter = DateTimeFormat.forPattern("d-MMM-yyyy");
+
+			// estilo: "16-Aug-2016"
+			String date = tc.getDate().split(" ")[0];
+			bw.write("			Original date: " + date + "\n");
+
+			// converter para estilo universal localdate: "2016-08-16"
+			LocalDate localDate = LocalDate.parse(date, formatter);
+			bw.write("			Universal localdate: " + localDate + "\n");
+
+			bw.write("		ENTREI NO GEOGRAPHIC LOCATION FORA DO FOR \n");
+			bw.write("			Country: " + ((TwitterCitation) tc).getCountry() + "\n");
+			bw.write("			Location: " + ((TwitterCitation) tc).getLocation() + "\n");
+
+		}
+
+		return isValid;
+	}
+
+	// TODO: apagar, porque provavelmente não será necessário
+	private Set<TwitterCitation> getCurrentTwitterCitationsByInter(VirtualEditionInter inter) {
+		Set<TwitterCitation> twitterCitations = new HashSet<TwitterCitation>();
+		Set<AwareAnnotation> awareAnnotations = inter.getAnnotationSet().stream()
+				.filter(AwareAnnotation.class::isInstance).map(AwareAnnotation.class::cast).collect(Collectors.toSet());
+
+		for (AwareAnnotation aa : awareAnnotations) {
+			twitterCitations.add((TwitterCitation) aa.getCitation());
+		}
+		return twitterCitations;
+	}
+
+	// método de teste simples utilizado para criar uma aware annotation
 	private void populateWithAwareAnnotation(BufferedWriter bw) throws IOException {
 		// testing code
 		// ********************** POPULATE DB WITH AWARE ANNOTATION
@@ -286,49 +431,27 @@ public class AwareAnnotationFactory {
 
 	// debug method - writes on annotsDetails.txt details about annotations
 	private void annotsDetails(VirtualEdition ve, BufferedWriter bw) throws IOException {
-		int count = 0;
-		for (VirtualEditionInter inter : ve.getAllDepthVirtualEditionInters()) {
-			bw.write("Inter title: " + inter.getTitle());
-			bw.write("\n");
-
-			Set<TwitterCitation> totalTwitterCitations = getTotalTwitterCitationsByInter(inter, null);
-			bw.write("	TotalTwitterCitations set size: " + totalTwitterCitations.size());
-			bw.write("\n");
-
-			for (TwitterCitation tc : totalTwitterCitations) {
-				bw.write("	Count = " + count);
-				bw.write("\n");
-				bw.write("		Tweet ID: " + tc.getTweetID() + " " + tc.getDate());
-				bw.write("\n");
-				count++;
-			}
-			bw.write("--------------------------------------");
-			bw.write("\n");
-			bw.write("\n");
-		}
-	}
-
-	private Set<TwitterCitation> getTotalTwitterCitationsByInter(VirtualEditionInter inter, BufferedWriter bw)
-			throws IOException {
-		Set<TwitterCitation> totalTwitterCitations = new HashSet<TwitterCitation>();
-		for (Citation tc : inter.getFragment().getCitationSet()) {
-			if (tc instanceof TwitterCitation /* && !tc.getInfoRangeSet().isEmpty() */
-					&& getInfoRangeByVirtualEditionInter(inter, (TwitterCitation) tc, null) != null) {
-				totalTwitterCitations.add((TwitterCitation) tc);
-			}
-		}
-		return totalTwitterCitations;
-	}
-
-	private Set<TwitterCitation> getCurrentTwitterCitationsByInter(VirtualEditionInter inter) {
-		Set<TwitterCitation> twitterCitations = new HashSet<TwitterCitation>();
-		Set<AwareAnnotation> awareAnnotations = inter.getAnnotationSet().stream()
-				.filter(AwareAnnotation.class::isInstance).map(AwareAnnotation.class::cast).collect(Collectors.toSet());
-
-		for (AwareAnnotation aa : awareAnnotations) {
-			twitterCitations.add((TwitterCitation) aa.getCitation());
-		}
-		return twitterCitations;
+		// int count = 0;
+		// for (VirtualEditionInter inter : ve.getAllDepthVirtualEditionInters()) {
+		// bw.write("Inter title: " + inter.getTitle());
+		// bw.write("\n");
+		//
+		// Set<TwitterCitation> totalTwitterCitations =
+		// getTotalTwitterCitationsByInter(inter, null);
+		// bw.write(" TotalTwitterCitations set size: " + totalTwitterCitations.size());
+		// bw.write("\n");
+		//
+		// for (TwitterCitation tc : totalTwitterCitations) {
+		// bw.write(" Count = " + count);
+		// bw.write("\n");
+		// bw.write(" Tweet ID: " + tc.getTweetID() + " " + tc.getDate());
+		// bw.write("\n");
+		// count++;
+		// }
+		// bw.write("--------------------------------------");
+		// bw.write("\n");
+		// bw.write("\n");
+		// }
 	}
 
 	/**************************************

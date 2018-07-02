@@ -229,21 +229,21 @@ public class VirtualEditionsTEICorpusExport {
 			if (criteria instanceof MediaSource) {
 				Element mediaSource = new Element("mediaSource", this.xmlns);
 				mediaSource.setAttribute("name", ((MediaSource) criteria).getName());
-				socialMediaCriteria.addContent(mediaSource);
+				virtualEditionSocialCriteria.addContent(mediaSource);
 			} else if (criteria instanceof TimeWindow) {
 				Element timeWindow = new Element("timeWindow", this.xmlns);
 				timeWindow.setAttribute("beginDate", ((TimeWindow) criteria).getBeginDate().toString());
 				timeWindow.setAttribute("endDate", ((TimeWindow) criteria).getEndDate().toString());
-				socialMediaCriteria.addContent(timeWindow);
+				virtualEditionSocialCriteria.addContent(timeWindow);
 			} else if (criteria instanceof GeographicLocation) {
 				Element geographicLocation = new Element("geographicLocation", this.xmlns);
 				geographicLocation.setAttribute("country", ((GeographicLocation) criteria).getCountry());
 				geographicLocation.setAttribute("location", ((GeographicLocation) criteria).getLocation());
-				socialMediaCriteria.addContent(geographicLocation);
+				virtualEditionSocialCriteria.addContent(geographicLocation);
 			} else if (criteria instanceof Frequency) {
 				Element frequency = new Element("frequency", this.xmlns);
 				frequency.setAttribute("frequency", Integer.toString(((Frequency) criteria).getFrequency()));
-				socialMediaCriteria.addContent(frequency);
+				virtualEditionSocialCriteria.addContent(frequency);
 			} else {
 				assert true;
 			}
