@@ -21,25 +21,14 @@ const request = (options) => {
     options = Object.assign({}, defaults, options);
 
     return fetch(options.url, options)
-    .then(response =>
-        response.json().then(json => {
-            if(!response.ok) {
-                return Promise.reject(json);
-            }
-            return json;
-        })
-    );
+    .then(response =>{
+        if(!response.ok) {
+            return Promise.reject(response);
+        }
+        return response.json();
+    })
 };
 
-/*
-   This method is used only for testing requests
-*/
-export function ping(){
-    return request({
-        url: API_BASE_URL + "/ping",
-        method: 'GET'
-    });
-}
 
 export function login(loginRequest) {
     return request({

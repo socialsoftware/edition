@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { login } from '../../utils/APIUtils';
 import './Login.css';
-import { ACCESS_TOKEN } from '../../utils/Constants';
+import { ACCESS_TOKEN, LDOD_MESSAGE } from '../../utils/Constants';
 
 import { Form, Input, notification } from 'antd';
 import {Glyphicon} from 'react-bootstrap';
@@ -37,10 +37,17 @@ class LoginForm extends Component {
                     localStorage.setItem(ACCESS_TOKEN, response.accessToken);
                     this.props.onLogin();
                 }).catch(error => {
-                    notification.error({
-                        message: 'LdoD Game',
-                        description: error.message
-                    });
+                    if(error.status === 401) {
+                        notification.error({
+                            message: LDOD_MESSAGE,
+                            description: 'Your Username or Password is incorrect. Please try again!'
+                        });                    
+                    } else {
+                        notification.error({
+                            message: LDOD_MESSAGE,
+                            description: error.status | 'Sorry! Something went wrong. Please try again!'
+                        });                                            
+}
                 });
             }
         });

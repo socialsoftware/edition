@@ -4,8 +4,8 @@ import { withRouter } from 'react-router-dom';
 
 /* Game imports */
 import Fragment  from './Fragment';
-import { FRAGMENT_LIST_SIZE } from '../utils/Constants';
-import { getVirtualEditionIndex } from '../utils/APIUtils';
+import { FRAGMENT_LIST_SIZE, LDOD_MESSAGE } from '../utils/Constants';
+import { getVirtualEditionIndex, } from '../utils/APIUtils';
 import { Layout, notification } from 'antd';
 import { Icon } from 'antd';
 import { Button, ProgressBar, Glyphicon } from 'react-bootstrap';
@@ -33,12 +33,12 @@ class VirtualEdition extends Component {
                 fragments: response.virtualEditionInterList,
             })
             notification.success({
-                message: 'LdoD Game',
+                message: LDOD_MESSAGE,
                 description: "Virtual Edition loaded",
             })
         }).catch(error => {
             notification.warning({
-                message: 'LdoD Game',
+                message: LDOD_MESSAGE,
                 description: "Virtual Edition not loaded",
                 icon: <Icon type="warning" style={{ color: '#f1c40f' }} />,
             });
