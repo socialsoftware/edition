@@ -22,17 +22,21 @@ public class APIUserController {
 	@GetMapping
 	public ResponseEntity<LdoDUserDTO> getCurrentUser(@AuthenticationPrincipal LdoDUserDetails currentUser) {
 		logger.debug("getCurrentUser {}", currentUser == null ? "null" : currentUser.getUsername());
-		LdoDUserDTO user = new LdoDUserDTO(currentUser.getUser());
-		return new ResponseEntity<LdoDUserDTO>(user, HttpStatus.OK);
+		if (currentUser != null) {
+			LdoDUserDTO userDTO = new LdoDUserDTO(currentUser.getUser());
+			return new ResponseEntity<LdoDUserDTO>(userDTO, HttpStatus.OK);
+		}
+		throw new LdoDException("No current user!");
 
 	}
 
 	@GetMapping(value = "/{username}")
-	public LdoDUserDTO getUserProfile(@PathVariable(value = "username") String username) {
+	public ResponseEntity<LdoDUserDTO> getUserProfile(@PathVariable(value = "username") String username) {
 		logger.debug("getUserProfile");
 		LdoDUser user = LdoD.getInstance().getUser(username);
 		if (user != null) {
-			return new LdoDUserDTO(user);
+			LdoDUserDTO userDTO = new LdoDUserDTO(user);
+			return new ResponseEntity<LdoDUserDTO>(userDTO, HttpStatus.OK);
 		}
 		throw new LdoDException("User not found!");
 
