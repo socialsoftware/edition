@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import GameLeaderboard from '../../game/GameLeaderboard';
-import { getUserProfile } from '../../utils/APIUtils';
+import { getUserProfile, getPublicVirtualEditions4User } from '../../utils/APIUtils';
 import { Avatar, Tabs } from 'antd';
 import LoadingIndicator  from '../../common/LoadingIndicator';
 import './Profile.css';
@@ -15,15 +15,17 @@ class Profile extends Component {
         super(props);
         this.state = {
             user: null,
-            isLoading: false
+            isLoading: false,
+            notFound: false,
+            publicVEs: []
         }
         this.loadUserProfile = this.loadUserProfile.bind(this);
+        this.getUserPublicVirtualEditions = this.getUserPublicVirtualEditions.bind(this);
     }
-
+    
     loadUserProfile(username) {
         this.setState({
-            isLoading: true
-        });
+            isLoading: true});
 
         getUserProfile(username)
         .then(response => {
@@ -46,9 +48,19 @@ class Profile extends Component {
         });
     }
 
+    getUserPublicVirtualEditions(username){
+        getPublicVirtualEditions4User(username).then(response => {
+            this.setState({
+                publicVEs: response
+            });
+            localStorage.setItem(username + "publicVEs", JSON.stringify(response));
+        });
+    }
+
     componentDidMount() {
         const username = this.props.match.params.username;
         this.loadUserProfile(username);
+        this.getUserPublicVirtualEditions(username);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -91,6 +103,10 @@ class Profile extends Component {
                                     <div className="user-joined">
                                         Joined 
                                     </div>
+                                    <div className="user-joined">
+                                        Virtual Editions: 
+                                        
+                                    </div>
                                 </div>
                             </div>
                             <div className="user-poll-details">
@@ -99,11 +115,9 @@ class Profile extends Component {
                                     tabBarStyle={tabBarStyle}
                                     size="large"
                                     className="profile-tabs">
-                                    <TabPane tab={`${this.state.user.pollCount} Ranking`} key="1">
-                                        <VirtualEdition username={this.props.match.params.username} type="USER_CREATED_POLLS" />
+                                    <TabPane tab={`${this.state.user.username} Ranking`} key="1">
                                     </TabPane>
-                                    <TabPane tab={`${this.state.user.voteCount} Votes`}  key="2">
-                                        <GameLeaderboard username={this.props.match.params.username} type="USER_VOTED_POLLS" />
+                                    <TabPane tab={`${this.state.user.username} Votes`}  key="2">
                                     </TabPane>
                                 </Tabs>
                             </div>

@@ -74,14 +74,28 @@ export function getUserProfile(username) {
 
 export function getVirtualEditionIndex(acronym) {
     return request({
-        url: API_BASE_URL + API_SERVICES_URL + "/edition/" + acronym + "/index",
+        url: API_BASE_URL + API_SERVICES_URL + '/edition/' + acronym + '/index',
         method: 'GET'
     });
 }
 
 export function getVirtualEditionFragment(acronym, urlId) {
     return request({
-        url: API_BASE_URL + API_SERVICES_URL + "/edition/" + acronym + "/inter/" + urlId,
+        url: API_BASE_URL + API_SERVICES_URL + '/edition/' + acronym + '/inter/' + urlId,
+        method: 'GET'
+    });
+}
+
+export function getVirtualEditions4User(username) {
+    return request({
+        url: API_BASE_URL + API_SERVICES_URL + '/' + username + 'restricted' +'/virtualeditions',
+        method: 'GET'
+    });
+}
+
+export function getPublicVirtualEditions4User(username) {
+    return request({
+        url: API_BASE_URL + API_SERVICES_URL + '/' + username + '/public' + '/virtualeditions',
         method: 'GET'
     });
 }

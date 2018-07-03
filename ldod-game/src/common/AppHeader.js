@@ -31,12 +31,12 @@ class AppHeader extends Component {
             </Menu.Item>,
             <Menu.Item key="about">
               <Link to="/about">
-                <Glyphicon glyph="info-sign" className="nav-icon" />
+                About
               </Link>
             </Menu.Item>,
             <Menu.Item key="leaderboard">
               <Link to="/leaderboard">
-                <Glyphicon glyph="stats" className="nav-icon" />
+                Leaderboard
               </Link>
             </Menu.Item>,
           <Menu.Item key="/profile" className="profile-menu">
@@ -80,29 +80,25 @@ class AppHeader extends Component {
 
 function ProfileDropdownMenu(props) {
   const dropdownMenu = (
-    <Menu onClick={props.handleMenuClick} className="profile-dropdown-menu">
-      <Menu.Item key="user-info" className="dropdown-item" disabled>
-        <div className="username-info">
-          {props.currentUser.username}
-        </div>
-      </Menu.Item>
+  <Menu onClick={props.handleMenuClick} className="profile-dropdown-menu">
       <Menu.Item key="profile" className="dropdown-item">
-        <Link to={`/user/${props.currentUser.username}`}>Profile</Link>
-      </Menu.Item>
-      <Menu.Item key="logout" className="dropdown-item">
-        Logout
-      </Menu.Item>
+          <Link to={`/user/${props.currentUser.username}`}>Profile</Link>
+        </Menu.Item>
+        <Menu.Item key="logout" className="dropdown-item">
+            Logout
+        </Menu.Item>
     </Menu>
   );
 
   return (
-    <Dropdown
-      overlay={dropdownMenu}
-      trigger={['click']}
-      getPopupContainer = { () => document.getElementsByClassName('profile-menu')[0]}>
-      <a className="ant-dropdown-link">
-         <Glyphicon glyph="user" className="nav-icon" style={{marginRight: 0}} /> <Glyphicon glyph="menu-down" />
-      </a>
+  <Dropdown
+    overlay={dropdownMenu}
+    trigger={['click']}
+    getPopupContainer = { () => document.getElementsByClassName('profile-menu')[0]}>
+    <a className="ant-dropdown-link">
+       {props.currentUser.firstName} {props.currentUser.lastName}
+       <Glyphicon glyph="menu-down"/>
+    </a>
     </Dropdown>
   );
 }
