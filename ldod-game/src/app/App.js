@@ -27,7 +27,6 @@ import FacebookLogin from '../social/FacebookLogin';
 import LinkedinLogin from '../social/LinkedinLogin';
 import GoogleLogin from '../social/GoogleLogin';
 import TwitterLogin from '../social/TwitterLogin';
-import Test from '../social/Test';
 import Tag from '../game/Tag';
 import { Jumbotron, Button } from 'react-bootstrap';
 
@@ -169,9 +168,6 @@ class App extends Component {
                 </Route>
                 <Route path="/game"
                   render={(props) => <Game/>}>
-                </Route>
-                <Route path="/test"
-                  render={(props) => <Test onLogin={this.handleLogin} />}>
                 </Route>
                 <Route path="/tag"
                   render={(props) => <Tag />}>

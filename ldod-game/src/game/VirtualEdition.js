@@ -44,12 +44,20 @@ class VirtualEdition extends Component {
                 message: LDOD_MESSAGE,
                 description: "Virtual Edition loaded",
             })
-        }).catch(error => {
-            notification.warning({
-                message: LDOD_MESSAGE,
-                description: "Virtual Edition not loaded",
-                icon: <Icon type="warning" style={{ color: '#f1c40f' }} />,
-            });
+        })
+        .catch(error => {
+            if(error.status === 401) {
+                notification.warning({
+                    message: LDOD_MESSAGE,
+                    description: "Please login first!",
+                    icon: <Icon type="warning" style={{ color: '#f1c40f' }} />,
+                });
+            } else {
+                notification.error({
+                    message: LDOD_MESSAGE,
+                    description: "Virtual Edition not loaded, something went wrong",
+                });
+            }
         });
 
     }

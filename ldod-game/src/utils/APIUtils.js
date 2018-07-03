@@ -46,14 +46,6 @@ export function socialLogin(loginRequest) {
     });
 }
 
-export function social() {
-    return request({
-        url: 'http://localhost:8080/api/auth/social',
-        method: 'GET',
-        credentials: 'include',
-    });
-}
-
 export function getCurrentUser() {
     if(!localStorage.getItem(ACCESS_TOKEN)) {
         return Promise.reject("No access token set.");
@@ -88,14 +80,14 @@ export function getVirtualEditionFragment(acronym, urlId) {
 
 export function getVirtualEditions4User(username) {
     return request({
-        url: API_BASE_URL + API_SERVICES_URL + '/' + username + 'restricted' +'/virtualeditions',
+        url: API_BASE_URL + API_SERVICES_URL + '/' + username + '/restricted/virtualeditions',
         method: 'GET'
     });
 }
 
 export function getPublicVirtualEditions4User(username) {
     return request({
-        url: API_BASE_URL + API_SERVICES_URL + '/' + username + '/public' + '/virtualeditions',
+        url: API_BASE_URL + API_SERVICES_URL + '/' + username + '/public/virtualeditions',
         method: 'GET'
     });
 }

@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
-import GameLeaderboard from '../../game/GameLeaderboard';
 import { getUserProfile, getPublicVirtualEditions4User } from '../../utils/APIUtils';
 import { Avatar, Tabs } from 'antd';
 import LoadingIndicator  from '../../common/LoadingIndicator';
 import './Profile.css';
 import NotFound from '../../common/NotFound';
 import ServerError from '../../common/ServerError';
-import VirtualEdition from '../../game/VirtualEdition';
 
 const TabPane = Tabs.TabPane;
 

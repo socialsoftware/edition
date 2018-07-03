@@ -6,4 +6,4 @@ export const API_SERVICES_URL = '/services';
 
 export const FRAGMENT_LIST_SIZE = 10;
 export const TIME = 6;
-export const LDOD_MESSAGE = "LdoD Game: "
+export const LDOD_MESSAGE = "LdoD Game"

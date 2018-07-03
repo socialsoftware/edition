@@ -2,11 +2,8 @@ import React, { Component } from 'react';
 import {
     withRouter
 } from 'react-router-dom';
-import { Card } from 'antd';
 import { Panel } from 'react-bootstrap';
 import { getVirtualEditionFragment } from '../utils/APIUtils';
-import VirtualEdition from './VirtualEdition';
-import { Button, Glyphicon } from 'react-bootstrap';
 
 
 class Fragment extends Component {
@@ -30,17 +27,12 @@ class Fragment extends Component {
             number: this.props.fragment.number,
             urlId: this.props.fragment.urlId,
         });
-        let request = getVirtualEditionFragment(this.props.acronym, this.props.fragment.urlId);
 
-        request.then(response =>{
-            this.setState({
-                text: response.text,
-            })
-        });
+        this.loadFragment(this.props.acronym, this.props.fragment.urlId);
     }
 
-    loadFragment() {
-        let request = getVirtualEditionFragment("LdoD-ok", this.state.urlId);
+    loadFragment(acronym, urlId) {
+        let request = getVirtualEditionFragment(acronym, urlId);
 
         request.then(response =>{
             this.setState({
@@ -50,6 +42,13 @@ class Fragment extends Component {
     }
 
     render() {
+        var fragment = this.state.text;
+        var paragraph = fragment.split("</p>");
+        for (var i = 0; i < paragraph.length; i++) {
+            console.log(paragraph[i]);
+            
+        }
+
         return (
             <div>
                 <Panel bsStyle="primary">
