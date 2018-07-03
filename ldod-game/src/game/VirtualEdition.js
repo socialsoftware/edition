@@ -17,6 +17,11 @@ class VirtualEdition extends Component {
         super(props);
         this.state = {
             fragments: [],
+            title: " ",
+            acronym: " ",
+            pub: false,
+            taxonomy: [],
+            members: [],
             index: 0,
             view: false
         };
@@ -31,6 +36,9 @@ class VirtualEdition extends Component {
             localStorage.setItem("virtualEdition", JSON.stringify(response.virtualEditionInterList));
             this.setState({
                 fragments: response.virtualEditionInterList,
+                title: response.title,
+                acronym: response.acronym,
+                pub: response.pub,
             })
             notification.success({
                 message: LDOD_MESSAGE,
@@ -74,7 +82,7 @@ class VirtualEdition extends Component {
             return (
               <div>
                     <ProgressBar min={0} bsStyle="success"active now={this.state.index} />
-                    <Fragment key={this.state.fragments[i].title} fragment={this.state.fragments[i]}/>
+                    <Fragment key={this.state.fragments[i].title} fragment={this.state.fragments[i]} acronym={this.state.acronym}/>
                     <Button bsStyle="primary" onClick={this.nextFragment}>
                         <Glyphicon glyph="arrow-right"/> 
                     </Button>

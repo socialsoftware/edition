@@ -19,7 +19,7 @@ class Fragment extends Component {
             hasLdoDLabel: false,
             number: 0,
             urlId: "",
-            text: ""
+            text: "",
         };
         this.loadFragment = this.loadFragment.bind(this);
     }
@@ -29,6 +29,13 @@ class Fragment extends Component {
             title: this.props.fragment.title,
             number: this.props.fragment.number,
             urlId: this.props.fragment.urlId,
+        });
+        let request = getVirtualEditionFragment(this.props.acronym, this.props.fragment.urlId);
+
+        request.then(response =>{
+            this.setState({
+                text: response.text,
+            })
         });
     }
 
@@ -45,17 +52,13 @@ class Fragment extends Component {
     render() {
         return (
             <div>
-                <Panel bsStyle="primary" defaultExpanded>
+                <Panel bsStyle="primary">
                     <Panel.Heading>
-                    <Panel.Title componentClass="h3" toggle>{this.state.title}</Panel.Title>
+                        <Panel.Title componentClass="h3" toggle>{this.state.title}</Panel.Title>
                     </Panel.Heading>
                     <Panel.Collapse>
-                        <Button bsStyle="primary" onClick={this.loadFragment}>
-                            <Glyphicon glyph="ok"/> 
-                        </Button>
                         <Panel.Body>
-                            <div dangerouslySetInnerHTML={{__html: this.state.text}} >
-                            </div>
+                            <div dangerouslySetInnerHTML={{__html: this.state.text}}></div>
                         </Panel.Body>
                     </Panel.Collapse>               
                 </Panel>

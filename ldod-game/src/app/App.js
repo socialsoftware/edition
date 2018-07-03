@@ -15,7 +15,6 @@ import { getCurrentUser } from '../utils/APIUtils';
 import { ACCESS_TOKEN, LDOD_MESSAGE } from '../utils/Constants';
 import VirtualEdition from '../game/VirtualEdition';
 import Fragment from '../game/Fragment';
-import GameConfig from '../game/admin/GameConfig';
 import Login from '../user/login/Login';
 import Profile from '../user/profile/Profile';
 import AppHeader from '../common/AppHeader';
@@ -29,6 +28,7 @@ import LinkedinLogin from '../social/LinkedinLogin';
 import GoogleLogin from '../social/GoogleLogin';
 import TwitterLogin from '../social/TwitterLogin';
 import Test from '../social/Test';
+import Tag from '../game/Tag';
 import { Jumbotron, Button } from 'react-bootstrap';
 
 
@@ -164,8 +164,6 @@ class App extends Component {
                 <Route path="/fragment"render={(props) => 
                     <Fragment/>}>
                 </Route>
-                <PrivateRoute authenticated={this.state.isAuthenticated} path="/config" component={GameConfig} handleLogout={this.handleLogout}>
-                </PrivateRoute>
                 <Route path="/leaderboard"
                   render={(props) => <GameLeaderboard/>}>
                 </Route>
@@ -174,6 +172,9 @@ class App extends Component {
                 </Route>
                 <Route path="/test"
                   render={(props) => <Test onLogin={this.handleLogin} />}>
+                </Route>
+                <Route path="/tag"
+                  render={(props) => <Tag />}>
                 </Route>
                 <Route component={NotFound}></Route>
               </Switch>
