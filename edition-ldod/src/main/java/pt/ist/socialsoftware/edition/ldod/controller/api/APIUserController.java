@@ -38,7 +38,7 @@ public class APIUserController {
 			LdoDUserDTO userDTO = new LdoDUserDTO(user);
 			return new ResponseEntity<LdoDUserDTO>(userDTO, HttpStatus.OK);
 		}
-		throw new LdoDException("User not found!");
-
+		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		
 	}
 }
