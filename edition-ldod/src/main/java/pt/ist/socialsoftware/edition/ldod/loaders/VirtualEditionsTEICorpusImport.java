@@ -26,6 +26,7 @@ import pt.ist.socialsoftware.edition.ldod.domain.MediaSource;
 import pt.ist.socialsoftware.edition.ldod.domain.Member;
 import pt.ist.socialsoftware.edition.ldod.domain.Taxonomy;
 import pt.ist.socialsoftware.edition.ldod.domain.TimeWindow;
+import pt.ist.socialsoftware.edition.ldod.domain.Tweet;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDLoadException;
 
@@ -73,13 +74,39 @@ public class VirtualEditionsTEICorpusImport {
 
 		importSocialMediaCriteria(doc, ldoD);
 
-		// TODO suggestion
-		importTweets(doc, ldoD);// here??
+		// TODO suggestion: ao importar os tweets tenho de saber primeiro qual a
+		// citation a passar ao construtor
+		// logo deveria importá-los a seguir a importar as citações
+		importTweets(doc, ldoD);
 	}
 
-	// TODO:
+	// TODO: o construtor recebe a TwitterCitation a null pq ainda não sabe qual é
+	// só no import Twitter Citation da outra classe é q é feita esta ligação
 	private void importTweets(Document doc, LdoD ldoD) {
+		Namespace namespace = doc.getRootElement().getNamespace();
+		XPathFactory xpfac = XPathFactory.instance();
+		XPathExpression<Element> xp = xpfac.compile("//def:tweet", Filters.element(), null,
+				Namespace.getNamespace("def", namespace.getURI()));
+		for (Element tweet : xp.evaluate(doc)) {
+			String sourceLink = tweet.getAttributeValue("sourceLink");
+			String date = tweet.getAttributeValue("date");
 
+			Element tweetTextElement = tweet.getChild("tweetText", namespace);
+			String tweetText = tweetTextElement.getText(); // trim() ?
+
+			long tweetID = Long.parseLong(tweet.getAttributeValue("tweetId"));
+			String location = tweet.getAttributeValue("location");
+			String country = tweet.getAttributeValue("country");
+			String username = tweet.getAttributeValue("username");
+			String userProfileURL = tweet.getAttributeValue("userProfileURL");
+			String userImageURL = tweet.getAttributeValue("userImageURL");
+
+			long originalTweetID = Long.parseLong(tweet.getAttributeValue("originalTweetId"));
+			boolean isRetweet = Boolean.valueOf(tweet.getAttributeValue("isRetweet"));
+
+			new Tweet(ldoD, sourceLink, date, tweetText, tweetID, location, country, username, userProfileURL,
+					userImageURL, originalTweetID, isRetweet, null);
+		}
 	}
 
 	private void importVirtualEditions(Document doc, LdoD ldoD) {

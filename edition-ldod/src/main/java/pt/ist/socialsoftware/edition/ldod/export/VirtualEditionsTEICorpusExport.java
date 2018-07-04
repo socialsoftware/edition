@@ -84,8 +84,14 @@ public class VirtualEditionsTEICorpusExport {
 		tweetElement.setAttribute("userProfileURL", tweet.getUserProfileURL());
 		tweetElement.setAttribute("userImageURL", tweet.getUserProfileURL());
 
-		tweetElement.setAttribute("originalTweetID", Long.toString(tweet.getOriginalTweetID()));
+		tweetElement.setAttribute("originalTweetId", Long.toString(tweet.getOriginalTweetID()));
 		tweetElement.setAttribute("isRetweet", String.valueOf(tweet.getIsRetweet()));
+
+		// TODO: discutir com o professor a utilidade deste atributo, útil apenas para
+		// debug
+		if (tweet.getCitation() != null) {
+			tweetElement.setAttribute("citationId", Long.toString(tweet.getCitation().getId()));
+		}
 	}
 
 	private Element generateTweetList(Element teiHeader) {

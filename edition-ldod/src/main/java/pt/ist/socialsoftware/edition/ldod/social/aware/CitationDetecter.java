@@ -13,6 +13,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -86,104 +87,6 @@ public class CitationDetecter {
 		bw = new BufferedWriter(fw);
 	}
 
-	// returns max jaro value between a word in the pattern and every word in the
-	// text
-	private List<String> maxJaroValue(String text, String wordToFind) {
-		JaroWinklerDistance jaro = new JaroWinklerDistance();
-		double maxJaroValue = 0.0;
-		String wordFound = "";
-		for (String textWord : text.split("\\s+")) {
-			// experiment: cleans "</p>" chars from textWord
-			if (textWord.contains("</p>")) {
-				textWord = textWord.substring(0, textWord.indexOf("</p>"));
-			}
-			if (jaro.apply(textWord, wordToFind) > maxJaroValue) {
-				maxJaroValue = jaro.apply(textWord, wordToFind);
-				wordFound = textWord;
-			}
-		}
-
-		// JaroInfo info = new AwareAnnotationFactory().new JaroInfo(wordFound,
-		// maxJaroValue);
-		List<String> info = new ArrayList<String>();
-		info.add(wordFound);
-		info.add(String.valueOf(maxJaroValue));
-		return info;
-	}
-
-	private String cleanTweetText(String originalTweetText) {
-		// regex
-		String result = originalTweetText.toLowerCase().replaceAll("[\"*\\n;«»“”()]", "");
-
-		// apagar apenas os hífenes e pontos que não fizerem parte de palavras
-		int resultLen = result.length();
-		int lastCharPos = resultLen - 1;
-		String charSet = "-.,?q"; // 'q' porque muitas pessoas escrevem 'q' em vez de "que"
-		for (int i = 0; i < resultLen; i++) {
-			char c = result.charAt(i);
-			// logger(result.charAt(i));
-			if (charSet.indexOf(c) != -1) {
-				// logger("entrei no primeiro if do CLEAN");
-				result = cleanCharFromString(c, result, i, lastCharPos);
-			}
-		}
-		return result;
-	}
-
-	private String cleanCharFromString(char charToClean, String s, int position, int lastCharPos) {
-		// !=lastCharPos serve para prevenior um IndexOutOfBound
-		// logger("string s : " + s);
-		// logger("position : " + position);
-		// logger("lastCharPos : " + lastCharPos);
-
-		// limpar hífenes que tenham espaços em branco à esquerda ou à direita
-		if (charToClean == '-') {
-			// logger("entrei no if do hífen");
-			if (position != 0) {
-				if (s.charAt(position - 1) == ' ' || position != lastCharPos && s.charAt(position + 1) == ' ') {
-					s = s.substring(0, position) + ' ' + s.substring(position + 1);
-				}
-			}
-		}
-		// limpar pontos que tenham espaços em branco à esquerda e à direita
-		else if (charToClean == '.') {
-			// logger("entrei no if do ponto");
-			if (position != 0) {
-				if (s.charAt(position - 1) == ' ' && position != lastCharPos && s.charAt(position + 1) == ' ') {
-					s = s.substring(0, position) + ' ' + s.substring(position + 1);
-				}
-			}
-		}
-		// limpar vírgulas que tenham espaços em branco à esquerda e à direita
-		else if (charToClean == ',') {
-			// logger("entrei no if da vírgula");
-			if (s.charAt(position - 1) == ' ' && position != lastCharPos && s.charAt(position + 1) == ' ') {
-				s = s.substring(0, position) + ' ' + s.substring(position + 1);
-			}
-		}
-		// limpar pontos de interrogação que tenham espaços em branco à esquerda e à
-		// direita
-		else if (charToClean == '?') {
-			// logger("entrei no if do ponto de interrogação");
-			if (position != 0) {
-				if (s.charAt(position - 1) == ' ' && position != lastCharPos && s.charAt(position + 1) == ' ') {
-					s = s.substring(0, position) + ' ' + s.substring(position + 1);
-				}
-			}
-		}
-		// substituir as ocorrências da letra 'q' com espaços à esquerda e à direita por
-		// "que"
-		else if (charToClean == 'q') {
-			// logger("entrei no if do \"q\"");
-			if (position != 0) {
-				if (s.charAt(position - 1) == ' ' && position != lastCharPos && s.charAt(position + 1) == ' ') {
-					s = s.substring(0, position) + "que" + s.substring(position + 1);
-				}
-			}
-		}
-		return s;
-	}
-
 	@Atomic(mode = TxMode.WRITE)
 	public void detect() throws IOException {
 		logger("STARTING CITATION DETECTER!!");
@@ -194,59 +97,57 @@ public class CitationDetecter {
 
 		// indetify ranges here
 		logger("STARTED IDENTIFYING RANGES!!!");
-		// BufferedWriter bw = null;
-		// FileWriter fw = null;
-		// File file;
-		// file = new
-		// File("C:/Users/dnf_o/projetoTese/ldod/social/infoRanges/infoRanges.txt");
-		// fw = new FileWriter(file);
-		// bw = new BufferedWriter(fw);
-		//
-		// bw.write("teste de info ranges!!!\n");
-		//
-		// for (Citation citation : LdoD.getInstance().getCitationSet()) {
-		// if (citation.getInfoRangeSet().isEmpty()) {
-		// bw.write("----------------- CITATION---------------------\n");
-		// bw.write("Tweet ID: " + citation.getId() + "\n");
-		// Fragment citationFragment = citation.getFragment();
-		// Set<FragInter> inters = new
-		// HashSet<FragInter>(citationFragment.getFragmentInterSet());
-		// bw.write("Todos os frag inters:\n");
-		// for (FragInter inter : inters) {
-		// bw.write(" FragInter id: " + inter.getExternalId() + "\n");
-		// bw.write(" XML id: " + inter.getXmlId() + "\n");
-		// bw.write(" Title: " + inter.getTitle() + "\n");
-		// bw.write("\n");
-		//
-		// }
-		// inters.removeAll(citationFragment.getVirtualEditionInters());
-		//
-		// bw.write("Excepto os virtual:\n");
-		// for (FragInter inter : inters) {
-		// bw.write(" FragInter id: " + inter.getExternalId() + "\n");
-		// bw.write(" XML id: " + inter.getXmlId() + "\n");
-		// bw.write(" Title: " + inter.getTitle() + "\n");
-		// bw.write("\n");
-		//
-		// // if (inter.getExternalId().equals("281487861614172") && citation.getId() ==
-		// // 992561289712095233l) {
-		// // String htmlTransc = getHtmlTransc(inter);
-		// // bw.write("HTML transc específico: " + htmlTransc + "\n");
-		// // }
-		// }
-		//
-		// int editionCount = 0;
-		// for (FragInter inter : inters) {
-		// bw.write("------------ ENTREI NO INFO RANGE ------------------\n");
-		// editionCount++;
-		// createInfoRange(inter, citation, bw);
-		// }
-		// bw.write("Potential edition count = " + editionCount + "\n");
-		// }
-		// }
-		//
-		// bw.close();
-		// fw.close();
+		BufferedWriter bw = null;
+		FileWriter fw = null;
+		File file;
+		file = new File("C:/Users/dnf_o/projetoTese/ldod/social/infoRanges/infoRanges.txt");
+		fw = new FileWriter(file);
+		bw = new BufferedWriter(fw);
+
+		bw.write("teste de info ranges!!!\n");
+
+		for (Citation citation : LdoD.getInstance().getCitationSet()) {
+			if (citation.getInfoRangeSet().isEmpty()) {
+				bw.write("----------------- CITATION---------------------\n");
+				bw.write("Tweet ID: " + citation.getId() + "\n");
+				Fragment citationFragment = citation.getFragment();
+				Set<FragInter> inters = new HashSet<FragInter>(citationFragment.getFragmentInterSet());
+				bw.write("Todos os frag inters:\n");
+				for (FragInter inter : inters) {
+					bw.write(" FragInter id: " + inter.getExternalId() + "\n");
+					bw.write(" XML id: " + inter.getXmlId() + "\n");
+					bw.write(" Title: " + inter.getTitle() + "\n");
+					bw.write("\n");
+
+				}
+				inters.removeAll(citationFragment.getVirtualEditionInters());
+
+				bw.write("Excepto os virtual:\n");
+				for (FragInter inter : inters) {
+					bw.write(" FragInter id: " + inter.getExternalId() + "\n");
+					bw.write(" XML id: " + inter.getXmlId() + "\n");
+					bw.write(" Title: " + inter.getTitle() + "\n");
+					bw.write("\n");
+
+					// if (inter.getExternalId().equals("281487861614172") && citation.getId() ==
+					// 992561289712095233l) {
+					// String htmlTransc = getHtmlTransc(inter);
+					// bw.write("HTML transc específico: " + htmlTransc + "\n");
+					// }
+				}
+
+				int editionCount = 0;
+				for (FragInter inter : inters) {
+					bw.write("------------ ENTREI NO INFO RANGE ------------------\n");
+					editionCount++;
+					createInfoRange(inter, citation, bw);
+				}
+				bw.write("Potential edition count = " + editionCount + "\n");
+			}
+		}
+
+		bw.close();
+		fw.close();
 		logger("FINISHED IDENTIFYING RANGES!!!");
 	}
 
@@ -695,6 +596,104 @@ public class CitationDetecter {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	// returns max jaro value between a word in the pattern and every word in the
+	// text
+	private List<String> maxJaroValue(String text, String wordToFind) {
+		JaroWinklerDistance jaro = new JaroWinklerDistance();
+		double maxJaroValue = 0.0;
+		String wordFound = "";
+		for (String textWord : text.split("\\s+")) {
+			// experiment: cleans "</p>" chars from textWord
+			if (textWord.contains("</p>")) {
+				textWord = textWord.substring(0, textWord.indexOf("</p>"));
+			}
+			if (jaro.apply(textWord, wordToFind) > maxJaroValue) {
+				maxJaroValue = jaro.apply(textWord, wordToFind);
+				wordFound = textWord;
+			}
+		}
+
+		// JaroInfo info = new AwareAnnotationFactory().new JaroInfo(wordFound,
+		// maxJaroValue);
+		List<String> info = new ArrayList<String>();
+		info.add(wordFound);
+		info.add(String.valueOf(maxJaroValue));
+		return info;
+	}
+
+	private String cleanTweetText(String originalTweetText) {
+		// regex
+		String result = originalTweetText.toLowerCase().replaceAll("[\"*\\n;«»“”()]", "");
+
+		// apagar apenas os hífenes e pontos que não fizerem parte de palavras
+		int resultLen = result.length();
+		int lastCharPos = resultLen - 1;
+		String charSet = "-.,?q"; // 'q' porque muitas pessoas escrevem 'q' em vez de "que"
+		for (int i = 0; i < resultLen; i++) {
+			char c = result.charAt(i);
+			// logger(result.charAt(i));
+			if (charSet.indexOf(c) != -1) {
+				// logger("entrei no primeiro if do CLEAN");
+				result = cleanCharFromString(c, result, i, lastCharPos);
+			}
+		}
+		return result;
+	}
+
+	private String cleanCharFromString(char charToClean, String s, int position, int lastCharPos) {
+		// !=lastCharPos serve para prevenior um IndexOutOfBound
+		// logger("string s : " + s);
+		// logger("position : " + position);
+		// logger("lastCharPos : " + lastCharPos);
+
+		// limpar hífenes que tenham espaços em branco à esquerda ou à direita
+		if (charToClean == '-') {
+			// logger("entrei no if do hífen");
+			if (position != 0) {
+				if (s.charAt(position - 1) == ' ' || position != lastCharPos && s.charAt(position + 1) == ' ') {
+					s = s.substring(0, position) + ' ' + s.substring(position + 1);
+				}
+			}
+		}
+		// limpar pontos que tenham espaços em branco à esquerda e à direita
+		else if (charToClean == '.') {
+			// logger("entrei no if do ponto");
+			if (position != 0) {
+				if (s.charAt(position - 1) == ' ' && position != lastCharPos && s.charAt(position + 1) == ' ') {
+					s = s.substring(0, position) + ' ' + s.substring(position + 1);
+				}
+			}
+		}
+		// limpar vírgulas que tenham espaços em branco à esquerda e à direita
+		else if (charToClean == ',') {
+			// logger("entrei no if da vírgula");
+			if (s.charAt(position - 1) == ' ' && position != lastCharPos && s.charAt(position + 1) == ' ') {
+				s = s.substring(0, position) + ' ' + s.substring(position + 1);
+			}
+		}
+		// limpar pontos de interrogação que tenham espaços em branco à esquerda e à
+		// direita
+		else if (charToClean == '?') {
+			// logger("entrei no if do ponto de interrogação");
+			if (position != 0) {
+				if (s.charAt(position - 1) == ' ' && position != lastCharPos && s.charAt(position + 1) == ' ') {
+					s = s.substring(0, position) + ' ' + s.substring(position + 1);
+				}
+			}
+		}
+		// substituir as ocorrências da letra 'q' com espaços à esquerda e à direita por
+		// "que"
+		else if (charToClean == 'q') {
+			// logger("entrei no if do \"q\"");
+			if (position != 0) {
+				if (s.charAt(position - 1) == ' ' && position != lastCharPos && s.charAt(position + 1) == ' ') {
+					s = s.substring(0, position) + "que" + s.substring(position + 1);
+				}
+			}
+		}
+		return s;
 	}
 
 	private String removeHttpFromTweetText(JSONObject obj) {
