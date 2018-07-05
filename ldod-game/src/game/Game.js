@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import {
-    withRouter
-} from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 
 import { Well } from 'react-bootstrap';
 import VirtualEdition from './VirtualEdition';
@@ -33,4 +31,4 @@ class Game extends Component {
   }
 }
 
-export default Game;
+export default withRouter(Game);

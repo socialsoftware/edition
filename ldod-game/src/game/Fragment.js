@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import {
-    withRouter
-} from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { Panel } from 'react-bootstrap';
 import { getVirtualEditionFragment } from '../utils/APIUtils';
 

@@ -1,11 +1,6 @@
 /* React imports */
 import React, { Component } from 'react';
-import {
-  Route,
-  withRouter,
-  Link,
-  Switch
-} from 'react-router-dom';
+import { Route, withRouter, Link, Switch } from 'react-router-dom';
 import { Layout, notification } from 'antd';
 
 
@@ -28,6 +23,7 @@ import LinkedinLogin from '../social/LinkedinLogin';
 import GoogleLogin from '../social/GoogleLogin';
 import TwitterLogin from '../social/TwitterLogin';
 import Tag from '../game/Tag';
+import Chat from '../game/Chat';
 import { Jumbotron, Button } from 'react-bootstrap';
 
 
@@ -172,6 +168,9 @@ class App extends Component {
                 <Route path="/tag"
                   render={(props) => <Tag />}>
                 </Route>
+                 <PrivateRoute path="/chat" authenticated={this.state.isAuthenticated}
+                  component={Chat} currentUser={this.state.currentUser} handleLogout={this.handleLogout}>
+                </PrivateRoute>
                 <Route component={NotFound}></Route>
               </Switch>
             </div>

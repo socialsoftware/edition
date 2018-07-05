@@ -17,7 +17,9 @@
     "react-fontawesome": "^1.6.1",
     "react-router-dom": "^4.2.2",
     "react-scripts": "1.1.4",
-    "react-tag-input": "^5.0.2"
+    "react-stomp": "^3.2.0",
+    "react-tag-input": "^5.0.2",
+    "react-talk": "^1.0.0"
   },
   "scripts": {
     "start": "react-app-rewired start",
