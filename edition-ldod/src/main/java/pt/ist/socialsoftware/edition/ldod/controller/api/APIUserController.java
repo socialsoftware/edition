@@ -26,7 +26,7 @@ public class APIUserController {
 			LdoDUserDTO userDTO = new LdoDUserDTO(currentUser.getUser());
 			return new ResponseEntity<LdoDUserDTO>(userDTO, HttpStatus.OK);
 		}
-		throw new LdoDException("No current user!");
+		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
 	}
 
@@ -39,6 +39,6 @@ public class APIUserController {
 			return new ResponseEntity<LdoDUserDTO>(userDTO, HttpStatus.OK);
 		}
 		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		
+
 	}
 }
