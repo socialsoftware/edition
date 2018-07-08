@@ -24,6 +24,7 @@ import GoogleLogin from '../social/GoogleLogin';
 import TwitterLogin from '../social/TwitterLogin';
 import Tag from '../game/Tag';
 import Chat from '../game/Chat';
+import PING from '../game/PING';
 import { Jumbotron, Button } from 'react-bootstrap';
 
 
@@ -150,9 +151,9 @@ class App extends Component {
                       <br/>
                     </div>}>
                  </Route>
-                <Route path="/user/:username" render={(props) => 
-                    <Profile isAuthenticated={this.state.isAuthenticated} currentUser={this.state.currentUser} {...props}  />}>
-                </Route>
+                <PrivateRoute path="/user/:username" authenticated={this.state.isAuthenticated} currentUser={this.state.currentUser}
+                    component={Profile}>
+                </PrivateRoute>
                 <Route path="/virtualedition" render={(props) => 
                     <VirtualEdition/>}>
                 </Route>
@@ -162,11 +163,14 @@ class App extends Component {
                 <Route path="/leaderboard"
                   render={(props) => <GameLeaderboard/>}>
                 </Route>
-                <Route path="/game"
-                  render={(props) => <Game/>}>
-                </Route>
+                <PrivateRoute path="/game" authenticated={this.state.isAuthenticated}
+                  component={Game}>
+                </PrivateRoute>
                 <Route path="/tag"
                   render={(props) => <Tag />}>
+                </Route>
+                <Route path="/ping"
+                  render={(props) => <PING />}>
                 </Route>
                  <PrivateRoute path="/chat" authenticated={this.state.isAuthenticated}
                   component={Chat} currentUser={this.state.currentUser} handleLogout={this.handleLogout}>

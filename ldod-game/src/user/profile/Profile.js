@@ -51,7 +51,6 @@ class Profile extends Component {
             this.setState({
                 publicVEs: response
             });
-            localStorage.setItem(username + "publicVEs", JSON.stringify(response));
         });
     }
 
@@ -103,7 +102,7 @@ class Profile extends Component {
                                     </div>
                                     <div className="user-joined">
                                         Virtual Editions: 
-                                        
+                                        {this.state.publicVEs.map((publicVE,index) => (<div key={index}>{publicVE.title}</div>))}
                                     </div>
                                 </div>
                             </div>

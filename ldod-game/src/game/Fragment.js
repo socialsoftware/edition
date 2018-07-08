@@ -15,8 +15,10 @@ class Fragment extends Component {
             number: 0,
             urlId: "",
             text: "",
+            splitText: [],
         };
         this.loadFragment = this.loadFragment.bind(this);
+        this.paragraphSplit = this.paragraphSplit.bind(this);
     }
 
     componentDidMount() {
@@ -36,22 +38,31 @@ class Fragment extends Component {
             this.setState({
                 text: response.text,
             })
+            this.paragraphSplit(response.text);
         });
+        
+    }
+
+    paragraphSplit(text){
+        /*for (var i = 0; i < this.state.fragments.length; i++) {
+            console.log(this.state.fragments[i].meta.title);
+            <Fragment key={this.state.fragments[i].meta.title} fragment={this.state.fragments[i]}/>    
+        }*/
+        var fragment = text;
+        var paragraph = fragment.split("</p>");
+        for (var i = 0; i < paragraph.length; i++) {
+            this.setState({
+                splitText: [...this.state.splitText, paragraph[i]]
+            });            
+        }
     }
 
     render() {
-        var fragment = this.state.text;
-        var paragraph = fragment.split("</p>");
-        for (var i = 0; i < paragraph.length; i++) {
-            console.log(paragraph[i]);
-            
-        }
-
         return (
             <div>
                 <Panel bsStyle="primary">
                     <Panel.Heading>
-                        <Panel.Title componentClass="h3" toggle>{this.state.title}</Panel.Title>
+                        <Panel.Title componentClass="h4" toggle>{this.state.title}</Panel.Title>
                     </Panel.Heading>
                     <Panel.Collapse>
                         <Panel.Body>

@@ -15,12 +15,6 @@ class Game extends Component {
 
 
   render() {
-    /*const fragmentViews = [];
-    this.state.fragments.forEach((f, fIndex) => {
-        fragmentViews.push(<Fragment
-            key={f.meta.title}
-            fragment={f}/>)
-    });*/
     return ( 
         <div>
             <Well>
