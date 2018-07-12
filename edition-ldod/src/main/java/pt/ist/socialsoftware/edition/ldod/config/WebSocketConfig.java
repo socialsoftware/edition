@@ -18,6 +18,8 @@ public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
     @Override
     public void configureMessageBroker(MessageBrokerRegistry brokerRegistry) {
         brokerRegistry.setApplicationDestinationPrefixes("/ldod-game");
+        brokerRegistry.enableSimpleBroker("/topic");
+
     }
 }
 
