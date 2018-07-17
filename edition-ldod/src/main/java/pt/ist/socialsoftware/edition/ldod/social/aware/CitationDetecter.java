@@ -128,12 +128,6 @@ public class CitationDetecter {
 					bw.write(" XML id: " + inter.getXmlId() + "\n");
 					bw.write(" Title: " + inter.getTitle() + "\n");
 					bw.write("\n");
-
-					// if (inter.getExternalId().equals("281487861614172") && citation.getId() ==
-					// 992561289712095233l) {
-					// String htmlTransc = getHtmlTransc(inter);
-					// bw.write("HTML transc específico: " + htmlTransc + "\n");
-					// }
 				}
 
 				int editionCount = 0;
@@ -168,7 +162,7 @@ public class CitationDetecter {
 				bw.write("GOING TO CREATE A INFO RANGE!!!");
 				bw.write("\n");
 
-				String infoText = "tweet meta information"; // meta information inside citation object
+				String infoText = createInfoText(citation, bw);
 
 				bw.write("htmlTransc: " + htmlTransc);
 				bw.write("\n");
@@ -197,6 +191,27 @@ public class CitationDetecter {
 						"/div[1]/div[1]/p[" + numOfPEnd + "]", htmlEnd, infoQuote, infoText);
 			}
 		}
+	}
+
+	private String createInfoText(Citation citation, BufferedWriter bw2) throws IOException {
+		// exemplo inicial
+		String infoText = "tweet meta information"; // meta information inside citation object
+
+		// TODO concatenate citation meta information into infoText
+		String sourceLink = citation.getSourceLink();
+		String date = citation.getDate();
+		String tweetID = Long.toString(citation.getId());
+		String location = ((TwitterCitation) citation).getLocation();
+		String country = ((TwitterCitation) citation).getCountry();
+		String username = ((TwitterCitation) citation).getUsername();
+		String userProfileURL = ((TwitterCitation) citation).getUserProfileURL();
+
+		infoText = "SOURCE LINK: " + sourceLink + "\n" + "DATE: " + date + "\n" + "TWEET ID: " + tweetID + "\n"
+				+ "COUNTRY: " + country + "\n" + "LOCATION: " + location + "\n" + "USERNAME: " + username + "\n"
+				+ "USER PROFILE: " + userProfileURL;
+		bw.write(infoText + "\n");
+
+		return infoText;
 	}
 
 	private String getHtmlTransc(FragInter inter) {

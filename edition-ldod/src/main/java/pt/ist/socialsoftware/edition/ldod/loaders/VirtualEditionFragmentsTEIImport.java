@@ -229,7 +229,7 @@ public class VirtualEditionFragmentsTEIImport {
 		// este if apenas funciona para o novo export
 		// não é retrocompatível para xml que não tenha
 		// o atributo "type"
-		if (note.getAttributeValue("type").equals("human") || note.getAttribute("type") == null) {
+		if (note.getAttribute("type") == null || note.getAttributeValue("type").equals("human")) {
 			String username = note.getAttributeValue("resp").substring(1);
 			List<String> tagList = new ArrayList<>();
 			for (Element catRef : note.getChildren("catRef", this.namespace)) {
