@@ -165,14 +165,14 @@ public class VirtualEditionFragmentsTEIImport {
 
 				// TODO suggestion: fazer aqui o import dos info ranges visto que são elementos
 				// criados dentro de cada citation element
-				exportInfoRanges(fragment, citation, twitterCitation);
+				importInfoRanges(fragment, citation, twitterCitation);
 			}
 
 		}
 
 	}
 
-	private void exportInfoRanges(Fragment fragment, Element citation, TwitterCitation twitterCitation) {
+	private void importInfoRanges(Fragment fragment, Element citation, TwitterCitation twitterCitation) {
 		for (Element infoRangeElement : citation.getChild("infoRangesList", this.namespace).getChildren()) {
 			String start = infoRangeElement.getAttributeValue("start");
 			int startOffset = Integer.parseInt(infoRangeElement.getAttributeValue("startOffset"));

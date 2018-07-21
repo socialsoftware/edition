@@ -1,5 +1,6 @@
 package pt.ist.socialsoftware.edition.ldod.domain;
 
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.doCallRealMethod;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -18,17 +19,6 @@ import pt.ist.socialsoftware.edition.ldod.RollbackCaseTest;
 @ExtendWith(MockitoExtension.class)
 public class CitationTests extends RollbackCaseTest {
 	@Mock
-	VirtualEdition virtualEdition;
-	@Mock
-	VirtualEditionInter inter;
-	@Mock
-	LdoDUser user;
-	@Mock
-	SimpleText startText, endText;
-	@Mock
-	HumanAnnotation annotation;
-
-	@Mock
 	TwitterCitation twitterCitation;
 	@Mock
 	Tweet tweet;
@@ -41,11 +31,11 @@ public class CitationTests extends RollbackCaseTest {
 	public void getIdTest() {
 		doCallRealMethod().when(this.twitterCitation).getId();
 
-		// whens ??
+		when(this.twitterCitation.getTweetID()).thenReturn(1111l);
 
+		this.twitterCitation.getId();
 		verify(this.twitterCitation, times(1)).getTweetID();
-
-		// asserts ??
+		assertEquals(1111l, this.twitterCitation.getId());
 	}
 
 	@Test
@@ -56,8 +46,8 @@ public class CitationTests extends RollbackCaseTest {
 		tweets.add(this.tweet);
 		when(this.twitterCitation.getTweetSet()).thenReturn(tweets);
 
+		this.twitterCitation.getNumberOfRetweets();
 		verify(this.twitterCitation, times(1)).getTweetSet();
-
-		// asserts ??
+		assertEquals(0, this.twitterCitation.getNumberOfRetweets());
 	}
 }
