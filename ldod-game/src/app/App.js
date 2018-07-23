@@ -24,7 +24,7 @@ import GoogleLogin from '../social/GoogleLogin';
 import TwitterLogin from '../social/TwitterLogin';
 import Tag from '../game/Tag';
 import Chat from '../game/Chat';
-import PING from '../game/PING';
+import WebSockets from '../game/WebSockets';
 import { Jumbotron, Button } from 'react-bootstrap';
 
 
@@ -169,9 +169,9 @@ class App extends Component {
                 <Route path="/tag"
                   render={(props) => <Tag />}>
                 </Route>
-                <Route path="/ping"
-                  render={(props) => <PING />}>
-                </Route>
+                <PrivateRoute path="/ping" authenticated={this.state.isAuthenticated}
+                  component={WebSockets} currentUser={this.state.currentUser} handleLogout={this.handleLogout}>
+                </PrivateRoute>
                  <PrivateRoute path="/chat" authenticated={this.state.isAuthenticated}
                   component={Chat} currentUser={this.state.currentUser} handleLogout={this.handleLogout}>
                 </PrivateRoute>
