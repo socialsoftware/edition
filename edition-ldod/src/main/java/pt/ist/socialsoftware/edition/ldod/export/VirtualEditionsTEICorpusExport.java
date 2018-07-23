@@ -66,7 +66,7 @@ public class VirtualEditionsTEICorpusExport {
 	}
 
 	// TODO: passar os element para attribute - done
-	private void exportTweet(Element tweetList, Tweet tweet) {
+	protected void exportTweet(Element tweetList, Tweet tweet) {
 		Element tweetElement = new Element("tweet", this.xmlns);
 		tweetList.addContent(tweetElement);
 
@@ -89,18 +89,22 @@ public class VirtualEditionsTEICorpusExport {
 
 		// TODO: discutir com o professor a utilidade deste atributo, útil apenas para
 		// debug
-		if (tweet.getCitation() != null) {
-			tweetElement.setAttribute("citationId", Long.toString(tweet.getCitation().getId()));
-		}
+		// Este atributo stressa com o teste original de export do corpus pq os tweets
+		// são exportados antes das citations, e no início os tweets têm todas as
+		// citations a null e por isso este atributo não era exportado
+		// if (tweet.getCitation() != null) {
+		// tweetElement.setAttribute("citationId",
+		// Long.toString(tweet.getCitation().getId()));
+		// }
 	}
 
-	private Element generateTweetList(Element teiHeader) {
+	protected Element generateTweetList(Element teiHeader) {
 		Element tweetList = new Element("tweetList", this.xmlns);
 		teiHeader.addContent(tweetList);
 		return tweetList;
 	}
 
-	private Element generateFileDesc(Element teiHeader) {
+	protected Element generateFileDesc(Element teiHeader) {
 		Element fileDesc = new Element("fileDesc", this.xmlns);
 		teiHeader.addContent(fileDesc);
 		Element sourceDesc = new Element("sourceDesc", this.xmlns);
@@ -112,7 +116,7 @@ public class VirtualEditionsTEICorpusExport {
 		return listBibl;
 	}
 
-	private void exportVirtualEditionBibl(Element element, VirtualEdition virtualEdition) {
+	protected void exportVirtualEditionBibl(Element element, VirtualEdition virtualEdition) {
 		Element bibl = new Element("bibl", this.xmlns);
 		Attribute id = new Attribute("id", virtualEdition.getAcronym(), Namespace.XML_NAMESPACE);
 		bibl.setAttribute(id);
@@ -158,7 +162,7 @@ public class VirtualEditionsTEICorpusExport {
 
 	}
 
-	private Element generateEncodingDesc(Element teiHeader) {
+	protected Element generateEncodingDesc(Element teiHeader) {
 		Element encodingDesc = new Element("encodingDesc", this.xmlns);
 		teiHeader.addContent(encodingDesc);
 		Element classDecl = new Element("classDecl", this.xmlns);
@@ -166,7 +170,7 @@ public class VirtualEditionsTEICorpusExport {
 		return classDecl;
 	}
 
-	private void exportVirtualEditionTaxonomy(Element element, VirtualEdition virtualEdition) {
+	protected void exportVirtualEditionTaxonomy(Element element, VirtualEdition virtualEdition) {
 		Taxonomy taxonomy = virtualEdition.getTaxonomy();
 
 		Element taxonomyElement = new Element("taxonomy", this.xmlns);
@@ -219,13 +223,13 @@ public class VirtualEditionsTEICorpusExport {
 		}
 	}
 
-	private Element generateSocialMediaCriteria(Element teiHeader) {
+	protected Element generateSocialMediaCriteria(Element teiHeader) {
 		Element socialMediaCriteria = new Element("socialMediaCriteria", this.xmlns);
 		teiHeader.addContent(socialMediaCriteria);
 		return socialMediaCriteria;
 	}
 
-	private Element exportVirtualEditionSocialMediaCriteria(Element socialMediaCriteria,
+	protected Element exportVirtualEditionSocialMediaCriteria(Element socialMediaCriteria,
 			VirtualEdition virtualEdition) {
 		Element virtualEditionSocialCriteria = new Element("editionCriteria", this.xmlns);
 		virtualEditionSocialCriteria.setAttribute("source", "#" + ED_VIRT + "." + virtualEdition.getAcronym());
@@ -251,7 +255,7 @@ public class VirtualEditionsTEICorpusExport {
 				frequency.setAttribute("frequency", Integer.toString(((Frequency) criteria).getFrequency()));
 				virtualEditionSocialCriteria.addContent(frequency);
 			} else {
-				assert true;
+				assert true; // TODO: qual é o objetivo disto?
 			}
 
 		}

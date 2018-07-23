@@ -74,9 +74,6 @@ public class VirtualEditionsTEICorpusImport {
 
 		importSocialMediaCriteria(doc, ldoD);
 
-		// TODO suggestion: ao importar os tweets tenho de saber primeiro qual a
-		// citation a passar ao construtor
-		// logo deveria importá-los a seguir a importar as citações
 		importTweets(doc, ldoD);
 	}
 

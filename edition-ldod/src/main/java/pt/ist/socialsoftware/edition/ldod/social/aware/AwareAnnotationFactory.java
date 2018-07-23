@@ -60,23 +60,20 @@ public class AwareAnnotationFactory {
 		// new GeographicLocation(duarteEdit, "Portugal", "Lisboa");
 		// new Frequency(duarteEdit, 10);
 
-		for (VirtualEdition ve : LdoD.getInstance().getVirtualEditionsSet()) {
-			logger("VirtualEdition XMLID: " + ve.getXmlId());
-			if (ve.isSAVE()) {
-				searchForAwareAnnotations(ve, bw);
-			}
-			logger("+++++++++++++++++++++ NEXT VIRTUAL EDITION +++++++++++++++++++++++");
-		}
+		// for (VirtualEdition ve : LdoD.getInstance().getVirtualEditionsSet()) {
+		// logger("VirtualEdition XMLID: " + ve.getXmlId());
+		// if (ve.isSAVE()) {
+		// searchForAwareAnnotations(ve, bw);
+		// }
+		// logger("+++++++++++++++++++++ NEXT VIRTUAL EDITION +++++++++++++++++++++++");
+		// }
+
 		bw.close();
 		fw.close();
 
 		// testing code
 		// populateWithAwareAnnotation(bw); bw.close(); fw.close();
 
-		// pattern finding code was here
-		// caso seja preciso fazer debug ao algoritmo, é só ir buscar ao backup e testar
-		// aqui
-		// com o ciclo for q percorre todas as twitter citations do sistema
 		logger.debug("END OF AWARE FACTORY");
 	}
 

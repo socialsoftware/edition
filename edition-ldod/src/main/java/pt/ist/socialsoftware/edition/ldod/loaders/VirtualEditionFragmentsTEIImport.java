@@ -133,7 +133,7 @@ public class VirtualEditionFragmentsTEIImport {
 		}
 	}
 
-	// TODO - done, falta só testar o setTwitterCitation e os Info Ranges
+	// TODO - done
 	private void importFragmentCitations(Document doc, Fragment fragment) {
 		XPathFactory xpfac = XPathFactory.instance();
 		XPathExpression<Element> xp = xpfac.compile("//def:citation", Filters.element(), null,
@@ -160,7 +160,7 @@ public class VirtualEditionFragmentsTEIImport {
 						tweetID, location, country, username, userProfileURL, userImageURL);
 
 				// TODO: ciclo for que percorre todos os tweets da nova tag criada na citation e
-				// faz tweet.setTwitterCitation() - falta testar
+				// faz tweet.setTwitterCitation()
 				setTwitterCitation(citation, twitterCitation);
 
 				// TODO suggestion: fazer aqui o import dos info ranges visto que são elementos

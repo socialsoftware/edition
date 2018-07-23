@@ -193,7 +193,7 @@ public class CitationDetecter {
 		}
 	}
 
-	private String createInfoText(Citation citation, BufferedWriter bw2) throws IOException {
+	private String createInfoText(Citation citation, BufferedWriter bw) throws IOException {
 		// exemplo inicial
 		String infoText = "tweet meta information"; // meta information inside citation object
 
