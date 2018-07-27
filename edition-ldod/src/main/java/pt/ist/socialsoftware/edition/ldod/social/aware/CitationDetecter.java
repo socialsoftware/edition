@@ -91,7 +91,7 @@ public class CitationDetecter {
 	public void detect() throws IOException {
 		logger("STARTING CITATION DETECTER!!");
 		// // serve só para testar melhor pq dá reset ao id na base de dados:
-		// //LdoD.getInstance().getLastTwitterID().resetTwitterIDS();
+		LdoD.getInstance().getLastTwitterID().resetTwitterIDS();
 		citationDetection();
 		logger("FINISHED DETECTING CITATIONS!!!");
 

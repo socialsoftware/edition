@@ -8,11 +8,6 @@ import java.util.stream.Collectors;
 import javax.transaction.NotSupportedException;
 import javax.transaction.SystemException;
 
-import org.jdom2.Document;
-import org.jdom2.Element;
-import org.jdom2.Namespace;
-import org.jdom2.output.Format;
-import org.jdom2.output.XMLOutputter;
 import org.joda.time.LocalDate;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -28,6 +23,7 @@ import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
 import pt.ist.socialsoftware.edition.ldod.domain.MediaSource;
 import pt.ist.socialsoftware.edition.ldod.domain.TimeWindow;
+import pt.ist.socialsoftware.edition.ldod.domain.Tweet;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.ldod.loaders.VirtualEditionsTEICorpusImport;
 
@@ -35,7 +31,6 @@ public class VirtualEditionsTEICorpusExportTest {
 
 	private VirtualEditionsTEICorpusExport export;
 	private VirtualEdition virtualEdition;
-	private Element rootElement;
 	private LdoD ldoD;
 
 	public static void logger(Object toPrint) {
@@ -73,59 +68,23 @@ public class VirtualEditionsTEICorpusExportTest {
 	}
 
 	// aux setup method
-	private Element setUpVirtualEditionAndElements() {
-		this.export = new VirtualEditionsTEICorpusExport();
-
-		// VE setup
-		this.ldoD = LdoD.getInstance();
+	private void setUpDomain() {
+		this.ldoD = new LdoD();
 		LdoDUser user = new LdoDUser(ldoD, "ars1", "ars", "Antonio", "Silva", "a@a.a");
 		LocalDate localDate = LocalDate.parse("20018-07-20");
 		ExpertEdition expertEdition = ldoD.getRZEdition();
 		this.virtualEdition = new VirtualEdition(ldoD, user, "acronym", "title", localDate, true, expertEdition);
-
-		// SocialMediaCriteria element setup
-		Namespace xmlns = Namespace.getNamespace("http://www.tei-c.org/ns/1.0");
-		Document jdomDoc = new Document();
-		this.rootElement = new Element("teiCorpus");
-		rootElement.setNamespace(xmlns);
-		jdomDoc.setRootElement(rootElement);
-		Element teiHeader = new Element("teiHeader", xmlns);
-		teiHeader.setAttribute("type", "corpus");
-		rootElement.addContent(teiHeader);
-
-		// tweetList exportado só para manter a estrutura, o esqueleto
-		Element tweetList = export.generateTweetList(teiHeader);
-
-		Element listBibl = export.generateFileDesc(teiHeader);
-		for (VirtualEdition virtualEdition : LdoD.getInstance().getVirtualEditionsSet()) {
-			export.exportVirtualEditionBibl(listBibl, virtualEdition);
-		}
-
-		Element classDecl = export.generateEncodingDesc(teiHeader);
-		for (VirtualEdition virtualEdition : LdoD.getInstance().getVirtualEditionsSet()) {
-			export.exportVirtualEditionTaxonomy(classDecl, virtualEdition);
-		}
-
-		return teiHeader;
 	}
 
 	// aux method
-	private String exportPrintCleanAndImport(Element teiHeader) {
-		// Exporting social media criteria
-		Element socialMediaCriteria = export.generateSocialMediaCriteria(teiHeader);
-		for (VirtualEdition ve : LdoD.getInstance().getVirtualEditionsSet()) {
-			export.exportVirtualEditionSocialMediaCriteria(socialMediaCriteria, ve);
-		}
-
-		// Printing
-		XMLOutputter xml = new XMLOutputter();
-		xml.setFormat(Format.getPrettyFormat());
-
-		String result = xml.outputString(rootElement);
+	private String exportPrintCleanAndImport() {
+		this.export = new VirtualEditionsTEICorpusExport();
+		String result = this.export.export();
 		System.out.println(result);
 
 		// Saving value for assert
 		int numOfCriteria = virtualEdition.getCriteriaSet().size();
+		int numOfTweets = ldoD.getTweetSet().size();
 
 		// Clean
 		this.ldoD.getVirtualEditionsSet().forEach(ve -> ve.remove());
@@ -138,17 +97,30 @@ public class VirtualEditionsTEICorpusExportTest {
 		System.out.println(export.export());
 
 		assertEquals(numOfCriteria, ldoD.getVirtualEdition("acronym").getCriteriaSet().size());
+		assertEquals(numOfTweets, ldoD.getTweetSet().size());
 
 		return result;
 	}
 
 	@Test
 	@Atomic
+	public void exportTweetsTest() {
+		setUpDomain();
+		new Tweet(ldoD, "sourceLink", "date", "tweetText", 1111l, "location", "country", "username", "profURL",
+				"profImgURL", 9999l, true, null);
+		new Tweet(ldoD, "sourceLink", "date", "tweetText", 1111l, "location", "country", "username", "profURL",
+				"profImgURL", -1l, false, null);
+		String result = exportPrintCleanAndImport();
+		// Check if it was well exported
+		assertEquals(Arrays.stream(result.split("\\r?\\n")).sorted().collect(Collectors.joining("\\n")),
+				Arrays.stream(export.export().split("\\r?\\n")).sorted().collect(Collectors.joining("\\n")));
+	}
+
+	@Test
+	@Atomic
 	public void exportEmptyCriteriaTest() {
-		Element teiHeader = setUpVirtualEditionAndElements();
-
-		String result = exportPrintCleanAndImport(teiHeader);
-
+		setUpDomain();
+		String result = exportPrintCleanAndImport();
 		// Check if it was well exported
 		assertEquals(Arrays.stream(result.split("\\r?\\n")).sorted().collect(Collectors.joining("\\n")),
 				Arrays.stream(export.export().split("\\r?\\n")).sorted().collect(Collectors.joining("\\n")));
@@ -157,11 +129,9 @@ public class VirtualEditionsTEICorpusExportTest {
 	@Test
 	@Atomic
 	public void exportMediaSourceTest() {
-		Element teiHeader = setUpVirtualEditionAndElements();
+		setUpDomain();
 		new MediaSource(virtualEdition, "Twitter");
-
-		String result = exportPrintCleanAndImport(teiHeader);
-
+		String result = exportPrintCleanAndImport();
 		// Check if it was well exported
 		assertEquals(Arrays.stream(result.split("\\r?\\n")).sorted().collect(Collectors.joining("\\n")),
 				Arrays.stream(export.export().split("\\r?\\n")).sorted().collect(Collectors.joining("\\n")));
@@ -170,10 +140,9 @@ public class VirtualEditionsTEICorpusExportTest {
 	@Test
 	@Atomic
 	public void exportTimeWindowTest() {
-		Element teiHeader = setUpVirtualEditionAndElements();
+		setUpDomain();
 		new TimeWindow(virtualEdition, new LocalDate("2018-03-06"), new LocalDate("2018-06-24"));
-		String result = exportPrintCleanAndImport(teiHeader);
-
+		String result = exportPrintCleanAndImport();
 		// Check if it was well exported
 		assertEquals(Arrays.stream(result.split("\\r?\\n")).sorted().collect(Collectors.joining("\\n")),
 				Arrays.stream(export.export().split("\\r?\\n")).sorted().collect(Collectors.joining("\\n")));
@@ -182,11 +151,9 @@ public class VirtualEditionsTEICorpusExportTest {
 	@Test
 	@Atomic
 	public void exportGeographicLocationTest() {
-		Element teiHeader = setUpVirtualEditionAndElements();
+		setUpDomain();
 		new GeographicLocation(virtualEdition, "Portugal", "Lisboa");
-
-		String result = exportPrintCleanAndImport(teiHeader);
-
+		String result = exportPrintCleanAndImport();
 		// Check if it was well exported
 		assertEquals(Arrays.stream(result.split("\\r?\\n")).sorted().collect(Collectors.joining("\\n")),
 				Arrays.stream(export.export().split("\\r?\\n")).sorted().collect(Collectors.joining("\\n")));
@@ -195,11 +162,9 @@ public class VirtualEditionsTEICorpusExportTest {
 	@Test
 	@Atomic
 	public void exportFrequencyTest() {
-		Element teiHeader = setUpVirtualEditionAndElements();
+		setUpDomain();
 		new Frequency(virtualEdition, 10);
-
-		String result = exportPrintCleanAndImport(teiHeader);
-
+		String result = exportPrintCleanAndImport();
 		// Check if it was well exported
 		assertEquals(Arrays.stream(result.split("\\r?\\n")).sorted().collect(Collectors.joining("\\n")),
 				Arrays.stream(export.export().split("\\r?\\n")).sorted().collect(Collectors.joining("\\n")));
@@ -208,12 +173,10 @@ public class VirtualEditionsTEICorpusExportTest {
 	@Test
 	@Atomic
 	public void exportSeveralCriteriaTest() {
-		Element teiHeader = setUpVirtualEditionAndElements();
+		setUpDomain();
 		new GeographicLocation(virtualEdition, "Portugal", "Lisboa");
 		new Frequency(virtualEdition, 10);
-
-		String result = exportPrintCleanAndImport(teiHeader);
-
+		String result = exportPrintCleanAndImport();
 		// Check if it was well exported
 		assertEquals(Arrays.stream(result.split("\\r?\\n")).sorted().collect(Collectors.joining("\\n")),
 				Arrays.stream(export.export().split("\\r?\\n")).sorted().collect(Collectors.joining("\\n")));
@@ -222,14 +185,12 @@ public class VirtualEditionsTEICorpusExportTest {
 	@Test
 	@Atomic
 	public void exportAllCriteriaTest() {
-		Element teiHeader = setUpVirtualEditionAndElements();
+		setUpDomain();
 		new MediaSource(virtualEdition, "Twitter");
 		new TimeWindow(virtualEdition, new LocalDate("2018-03-06"), new LocalDate("2018-06-24"));
 		new GeographicLocation(virtualEdition, "Portugal", "Lisboa");
 		new Frequency(virtualEdition, 10);
-
-		String result = exportPrintCleanAndImport(teiHeader);
-
+		String result = exportPrintCleanAndImport();
 		// Check if it was well exported
 		assertEquals(Arrays.stream(result.split("\\r?\\n")).sorted().collect(Collectors.joining("\\n")),
 				Arrays.stream(export.export().split("\\r?\\n")).sorted().collect(Collectors.joining("\\n")));

@@ -134,12 +134,11 @@ public class TweetFactory {
 
 								}
 								// o tweet não é um retweet
-								else { // TODO: CHECK IF THIS IS CORRECT!!
+								else {
 									twitterCitation = ldoD.getTwitterCitationByTweetID((long) obj.get("tweetID"));
 								}
 							}
-							// antigos ficheiros JSON ou simplesmente novos ficheiros em q o tweet é um
-							// tweet original
+							// antigos ficheiros JSON
 							else {
 								twitterCitation = ldoD.getTwitterCitationByTweetID((long) obj.get("tweetID"));
 							}

@@ -240,7 +240,6 @@ public class VirtualEditionFragmentsTEIImport {
 		}
 
 		else if (note.getAttributeValue("type").equals("aware")) {
-			System.err.println("ENTREI NO ELSE IF DO IMPORT AWARE ANNOTATIONS!!!");
 			long tweetID = Long.parseLong(note.getAttributeValue("citationId"));
 			Citation citation = inter.getFragment().getCitationById(tweetID);
 			inter.createAwareAnnotation(quote, text, citation, rangeList);

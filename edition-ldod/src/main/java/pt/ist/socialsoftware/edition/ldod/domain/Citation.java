@@ -14,6 +14,9 @@ public abstract class Citation extends Citation_Base {
 
 		getAwareAnnotationSet().stream().forEach(aa -> aa.remove());
 
+		// adicionado recentemente, testar
+		getInfoRangeSet().stream().forEach(infoRange -> infoRange.remove());
+
 		deleteDomainObject();
 	}
 

@@ -29,19 +29,19 @@ public class ScheduledTasks {
 		fetch.fetch();
 	}
 
-	@Scheduled(cron = "0 56 16 * * *")
+	@Scheduled(cron = "0 19 15 * * *")
 	public void detectCitations() throws IOException {
 		CitationDetecter detecter = new CitationDetecter();
 		detecter.detect();
 	}
 
-	@Scheduled(cron = "0 59 16 * * *")
+	@Scheduled(cron = "0 54 15 * * *")
 	public void createTweets() throws IOException {
 		TweetFactory tweetFactory = new TweetFactory();
 		tweetFactory.create();
 	}
 
-	@Scheduled(cron = "0 31 16 * * *")
+	@Scheduled(cron = "0 19 16 * * *")
 	public void createAwareAnnotations() throws IOException {
 		AwareAnnotationFactory awareFactory = new AwareAnnotationFactory();
 		awareFactory.generate();

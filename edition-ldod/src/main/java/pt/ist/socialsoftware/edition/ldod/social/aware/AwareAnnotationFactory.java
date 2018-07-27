@@ -54,19 +54,19 @@ public class AwareAnnotationFactory {
 
 		// SETUP DOS CRITÉRIOS
 		VirtualEdition duarteEdit = LdoD.getInstance().getVirtualEdition("LdoD-Duarte");
-		new MediaSource(duarteEdit, "Twitter");
+		// new MediaSource(duarteEdit, "Twitter");
 		// new TimeWindow(duarteEdit, new LocalDate("2018-03-06"), new
 		// LocalDate("2018-06-24"));
 		// new GeographicLocation(duarteEdit, "Portugal", "Lisboa");
 		// new Frequency(duarteEdit, 10);
 
-		// for (VirtualEdition ve : LdoD.getInstance().getVirtualEditionsSet()) {
-		// logger("VirtualEdition XMLID: " + ve.getXmlId());
-		// if (ve.isSAVE()) {
-		// searchForAwareAnnotations(ve, bw);
-		// }
-		// logger("+++++++++++++++++++++ NEXT VIRTUAL EDITION +++++++++++++++++++++++");
-		// }
+		for (VirtualEdition ve : LdoD.getInstance().getVirtualEditionsSet()) {
+			logger("VirtualEdition XMLID: " + ve.getXmlId());
+			if (ve.isSAVE()) {
+				searchForAwareAnnotations(ve, bw);
+			}
+			logger("+++++++++++++++++++++ NEXT VIRTUAL EDITION +++++++++++++++++++++++");
+		}
 
 		bw.close();
 		fw.close();
