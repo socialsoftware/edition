@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { getVirtualEditionFragment } from '../utils/APIUtils';
 import Paragraph from './Paragraph';
+require("react/package.json"); // react is a peer dependency. 
+var ReactCountdownClock = require("react-countdown-clock")
 
 class Fragment extends Component {
     constructor(props) {
@@ -16,13 +18,13 @@ class Fragment extends Component {
             text: "",
             splitText: [],
             index: 1,
-            view: false,
+            seconds: 5,
         };
         this.loadFragment = this.loadFragment.bind(this);
         this.paragraphSplit = this.paragraphSplit.bind(this);
         this.nextParagraph = this.nextParagraph.bind(this);
     }
-
+    
     componentDidMount() {
         this.setState({
             title: this.props.fragment.title,
@@ -55,15 +57,23 @@ class Fragment extends Component {
     }
 
     nextParagraph(){
-        this.setState((prevState, props) => ({
-            index: prevState.index + 1,
-            view:true,
-        })); 
+        if(this.state.index <= 5){
+            this.setState((prevState, props) => ({
+                index: prevState.index + 1,
+                seconds: prevState.seconds + 0.0000001,
+            }));
+            console.log("called" + this.state.index);
+        }
     }
 
     render() {
         return (
             <div>
+                <ReactCountdownClock seconds={this.state.seconds}
+                color="#c0392b"
+                size={100}
+                onComplete={this.nextParagraph}
+                />
                 <Paragraph text={this.state.splitText[this.state.index]} title={this.state.title} />  
             </div>
         );

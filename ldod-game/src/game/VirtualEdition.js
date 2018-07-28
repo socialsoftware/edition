@@ -42,7 +42,7 @@ class VirtualEdition extends Component {
             })
             notification.success({
                 message: LDOD_MESSAGE,
-                description: "Virtual Edition loaded",
+                description: "Virtual Edition: " + response.title + "loaded succesfully.",
             })
         })
         .catch(error => {
@@ -55,7 +55,7 @@ class VirtualEdition extends Component {
             } else {
                 notification.error({
                     message: LDOD_MESSAGE,
-                    description: "Virtual Edition not loaded, something went wrong",
+                    description: "Virtual Edition not loaded, something went wrong.",
                 });
             }
         });
