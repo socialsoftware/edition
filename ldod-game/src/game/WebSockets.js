@@ -27,15 +27,14 @@ class WebSockets extends Component {
     }
     
     onConnected(){
-        subscription = stompClient.subscribe('/ldod-game/ping', this.onMessageReceived, { id: this.state.userId});
-        //stompClient.send('/ldod-game/hello', {}, "Hello, STOMP");
-        
+        subscription = stompClient.subscribe('/topic/ping', this.onMessageReceived,{ id: this.state.userId});
+        stompClient.send('/ldod-game/hello', {}, "Hello, STOMP");
+    
     }
     
     onMessageReceived(payload) {
         var message = JSON.parse(payload.body).message;
         console.log("Server sent " + message);
-        
     }
     
     componentWillUnmount(){

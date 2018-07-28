@@ -8,12 +8,9 @@ import { Layout, notification } from 'antd';
 import './App.css';
 import { getCurrentUser } from '../utils/APIUtils';
 import { ACCESS_TOKEN, LDOD_MESSAGE } from '../utils/Constants';
-import VirtualEdition from '../game/VirtualEdition';
-import Fragment from '../game/Fragment';
 import Login from '../user/login/Login';
 import Profile from '../user/profile/Profile';
 import AppHeader from '../common/AppHeader';
-import GameLeaderboard from '../game/GameLeaderboard';
 import Game from '../game/Game';
 import NotFound from '../common/NotFound';
 import LoadingIndicator from '../common/LoadingIndicator';
@@ -22,7 +19,6 @@ import FacebookLogin from '../social/FacebookLogin';
 import LinkedinLogin from '../social/LinkedinLogin';
 import GoogleLogin from '../social/GoogleLogin';
 import TwitterLogin from '../social/TwitterLogin';
-import Tag from '../game/Tag';
 import Chat from '../game/Chat';
 import WebSockets from '../game/WebSockets';
 import { Jumbotron, Button } from 'react-bootstrap';
@@ -69,12 +65,6 @@ class App extends Component {
                 });
         });
     }
-    
-    componentWillMount() {
-        // Load current user if logged in
-        this.loadCurrentUser();
-    }
-    
     componentWillUnmount() {
         localStorage.clear();
     }
@@ -154,21 +144,9 @@ class App extends Component {
                 <PrivateRoute path="/user/:username" authenticated={this.state.isAuthenticated} currentUser={this.state.currentUser}
                     component={Profile}>
                 </PrivateRoute>
-                <Route path="/virtualedition" render={(props) => 
-                    <VirtualEdition/>}>
-                </Route>
-                <Route path="/fragment"render={(props) => 
-                    <Fragment/>}>
-                </Route>
-                <Route path="/leaderboard"
-                  render={(props) => <GameLeaderboard/>}>
-                </Route>
                 <PrivateRoute path="/game" authenticated={this.state.isAuthenticated}
                   component={Game}>
                 </PrivateRoute>
-                <Route path="/tag"
-                  render={(props) => <Tag />}>
-                </Route>
                 <PrivateRoute path="/ping" authenticated={this.state.isAuthenticated}
                   component={WebSockets} currentUser={this.state.currentUser} handleLogout={this.handleLogout}>
                 </PrivateRoute>

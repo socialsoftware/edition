@@ -35,7 +35,7 @@ class GameLeaderboard extends Component {
         this.setState({isToggled: isToggled});
     }
 
-    componentWillMount() {
+    componentDidMount() {
         // get recent data
         /*fetch(``)
         .then(data => data.json())

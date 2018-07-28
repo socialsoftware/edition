@@ -3,12 +3,12 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 
 /* Game imports */
-import Fragment  from './Fragment';
-import { FRAGMENT_LIST_SIZE, LDOD_MESSAGE } from '../utils/Constants';
-import { getVirtualEditionIndex, } from '../utils/APIUtils';
-import { Layout, notification } from 'antd';
+import { notification } from 'antd';
 import { Icon } from 'antd';
 import { Button, ProgressBar, Glyphicon } from 'react-bootstrap';
+import { LDOD_MESSAGE } from '../utils/Constants';
+import { getVirtualEditionIndex, } from '../utils/APIUtils';
+import Fragment  from './Fragment';
 
 
 
@@ -62,20 +62,15 @@ class VirtualEdition extends Component {
 
     }
 
-    componentWillMount() {
+    componentDidMount() {
         this.loadVirtualEdition();
     }
 
     nextFragment(){
-        /*for (var i = 0; i < this.state.fragments.length; i++) {
-            console.log(this.state.fragments[i].meta.title);
-            <Fragment key={this.state.fragments[i].meta.title} fragment={this.state.fragments[i]}/>    
-        }*/
-        var i = this.state.index;
-        this.setState({
-            index: (i+1),
-            view: true,
-        })
+        this.setState((prevState, props) => ({
+            index: prevState.index + 1,
+            view:true,
+        })); 
     }
 
     render() {

@@ -12,13 +12,11 @@ class Game extends Component {
         };
     }
 
-
-
   render() {
     return ( 
         <div>
             <Well>
-                <VirtualEdition/>
+                <VirtualEdition />
             </Well>    
       </div>
     );

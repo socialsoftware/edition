@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import { Panel } from 'react-bootstrap';
 import { getVirtualEditionFragment } from '../utils/APIUtils';
-
+import Paragraph from './Paragraph';
 
 class Fragment extends Component {
     constructor(props) {
@@ -16,9 +15,12 @@ class Fragment extends Component {
             urlId: "",
             text: "",
             splitText: [],
+            index: 1,
+            view: false,
         };
         this.loadFragment = this.loadFragment.bind(this);
         this.paragraphSplit = this.paragraphSplit.bind(this);
+        this.nextParagraph = this.nextParagraph.bind(this);
     }
 
     componentDidMount() {
@@ -44,32 +46,25 @@ class Fragment extends Component {
     }
 
     paragraphSplit(text){
-        /*for (var i = 0; i < this.state.fragments.length; i++) {
-            console.log(this.state.fragments[i].meta.title);
-            <Fragment key={this.state.fragments[i].meta.title} fragment={this.state.fragments[i]}/>    
-        }*/
-        var fragment = text;
-        var paragraph = fragment.split("</p>");
+        var paragraph = text.split("</p>");
         for (var i = 0; i < paragraph.length; i++) {
             this.setState({
                 splitText: [...this.state.splitText, paragraph[i]]
-            });            
+            });        
         }
+    }
+
+    nextParagraph(){
+        this.setState((prevState, props) => ({
+            index: prevState.index + 1,
+            view:true,
+        })); 
     }
 
     render() {
         return (
             <div>
-                <Panel bsStyle="primary">
-                    <Panel.Heading>
-                        <Panel.Title componentClass="h4" toggle>{this.state.title}</Panel.Title>
-                    </Panel.Heading>
-                    <Panel.Collapse>
-                        <Panel.Body>
-                            <div dangerouslySetInnerHTML={{__html: this.state.text}}></div>
-                        </Panel.Body>
-                    </Panel.Collapse>               
-                </Panel>
+                <Paragraph text={this.state.splitText[this.state.index]} title={this.state.title} />  
             </div>
         );
     }
