@@ -53,7 +53,8 @@ public class AwareAnnotationFactory {
 		// bw = new BufferedWriter(fw);
 
 		// SETUP DOS CRITÉRIOS
-		VirtualEdition duarteEdit = LdoD.getInstance().getVirtualEdition("LdoD-Duarte");
+		// VirtualEdition duarteEdit =
+		// LdoD.getInstance().getVirtualEdition("LdoD-Duarte");
 		// new MediaSource(duarteEdit, "Twitter");
 		// new TimeWindow(duarteEdit, new LocalDate("2018-03-06"), new
 		// LocalDate("2018-06-24"));
@@ -309,15 +310,15 @@ public class AwareAnnotationFactory {
 				LocalDate beginDate = ((TimeWindow) criterion).getBeginDate();
 				LocalDate endDate = ((TimeWindow) criterion).getEndDate();
 
-				if (!(((localDate.isAfter(beginDate) || localDate.isEqual(beginDate)))
+				if (!((localDate.isAfter(beginDate) || localDate.isEqual(beginDate))
 						&& (localDate.isBefore(endDate) || localDate.isEqual(endDate)))) {
 					// bw.write(" ENTREI NO IF DO TIME WINDOW \n");
 					isValid = false;
 				}
 			} else if (criterion instanceof GeographicLocation) {
 				// bw.write(" ENTREI NO GEOGRAPHIC LOCATION \n");
-				if (tc instanceof TwitterCitation && !(((TwitterCitation) tc).getCountry()
-						.equals(((GeographicLocation) criterion).getCountry()))) {
+				if (tc instanceof TwitterCitation
+						&& !((TwitterCitation) tc).getCountry().equals(((GeographicLocation) criterion).getCountry())) {
 					// bw.write(" ENTREI NO IF DO GEOGRAPHIC LOCATION \n");
 					isValid = false;
 				}

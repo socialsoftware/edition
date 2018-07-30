@@ -17,31 +17,31 @@ import pt.ist.socialsoftware.edition.ldod.social.aware.TweetFactory;
 public class ScheduledTasks {
 	private static Logger logger = LoggerFactory.getLogger(ScheduledTasks.class);
 
-	@Scheduled(cron = "0 0 2,3 * * *")
+	@Scheduled(cron = "0 0 10,18 * * *")
 	public void reportCurrentTime() throws IOException {
 		WriteVirtualEditonsToFile write = new WriteVirtualEditonsToFile();
 		write.export();
 	}
 
-	@Scheduled(cron = "0 27 13 * * *")
+	@Scheduled(cron = "0 0 1 * * *")
 	public void fetchFromTwitter() throws IOException {
 		FetchCitationsFromTwitter fetch = new FetchCitationsFromTwitter();
 		fetch.fetch();
 	}
 
-	@Scheduled(cron = "0 14 15 * * *")
+	@Scheduled(cron = "0 0 2 * * *")
 	public void detectCitations() throws IOException {
 		CitationDetecter detecter = new CitationDetecter();
 		detecter.detect();
 	}
 
-	@Scheduled(cron = "0 22 14 * * *")
+	@Scheduled(cron = "0 0 3 * * *")
 	public void createTweets() throws IOException {
 		TweetFactory tweetFactory = new TweetFactory();
 		tweetFactory.create();
 	}
 
-	@Scheduled(cron = "0 56 14 * * *")
+	@Scheduled(cron = "0 0 4 * * *")
 	public void createAwareAnnotations() throws IOException {
 		AwareAnnotationFactory awareFactory = new AwareAnnotationFactory();
 		awareFactory.generate();
