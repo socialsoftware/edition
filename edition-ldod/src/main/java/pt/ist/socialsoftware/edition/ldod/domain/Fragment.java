@@ -9,7 +9,6 @@ import java.util.stream.Collectors;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
-import pt.ist.socialsoftware.edition.ldod.domain.Fragment_Base;
 
 public class Fragment extends Fragment_Base implements Comparable<Fragment> {
 	public enum PrecisionType {
@@ -56,6 +55,8 @@ public class Fragment extends Fragment_Base implements Comparable<Fragment> {
 			ref.remove();
 		}
 
+		getCitationSet().stream().forEach(c -> c.remove());
+
 		deleteDomainObject();
 	}
 
@@ -71,7 +72,7 @@ public class Fragment extends Fragment_Base implements Comparable<Fragment> {
 		List<SourceInter> interps = new ArrayList<>();
 
 		for (FragInter inter : getFragmentInterSet()) {
-			if ((inter.getSourceType() == Edition.EditionType.AUTHORIAL)) {
+			if (inter.getSourceType() == Edition.EditionType.AUTHORIAL) {
 				interps.add((SourceInter) inter);
 			}
 		}
@@ -161,5 +162,9 @@ public class Fragment extends Fragment_Base implements Comparable<Fragment> {
 	@Override
 	public int compareTo(Fragment fragment) {
 		return this.getXmlId().compareTo(fragment.getXmlId());
+	}
+
+	public Citation getCitationById(long id) {
+		return getCitationSet().stream().filter(citation -> citation.getId() == id).findFirst().orElse(null);
 	}
 }

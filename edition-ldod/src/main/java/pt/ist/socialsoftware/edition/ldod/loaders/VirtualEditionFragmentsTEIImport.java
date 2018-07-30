@@ -21,8 +21,10 @@ import org.slf4j.LoggerFactory;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
+import pt.ist.socialsoftware.edition.ldod.domain.Citation;
 import pt.ist.socialsoftware.edition.ldod.domain.Fragment;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
+import pt.ist.socialsoftware.edition.ldod.domain.TwitterCitation;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDLoadException;
@@ -72,6 +74,9 @@ public class VirtualEditionFragmentsTEIImport {
 		this.namespace = doc.getRootElement().getNamespace();
 
 		Fragment fragment = getFragment(doc);
+
+		// TODO: importFragmentCitations - done
+		importFragmentCitations(doc, fragment);
 
 		importWitnesses(doc, fragment);
 
@@ -123,6 +128,37 @@ public class VirtualEditionFragmentsTEIImport {
 		}
 	}
 
+	// TODO - done
+	private void importFragmentCitations(Document doc, Fragment fragment) {
+		XPathFactory xpfac = XPathFactory.instance();
+		XPathExpression<Element> xp = xpfac.compile("//def:fragmentCitations", Filters.element(), null,
+				Namespace.getNamespace("def", this.namespace.getURI()));
+
+		for (Element citationElement : xp.evaluate(doc)) {
+			if (citationElement.getAttributeValue("type") == "twitter") {
+				String sourceLink = citationElement.getAttributeValue("sourceLink");
+				String date = citationElement.getAttributeValue("date");
+
+				Element fragTextElement = citationElement.getChild("fragText", this.namespace);
+				String fragText = fragTextElement.getAttributeValue("fragText");
+
+				Element tweetTextElement = citationElement.getChild("tweetText", this.namespace);
+				String tweetText = tweetTextElement.getAttributeValue("tweetText");
+
+				long tweetID = Long.parseLong(citationElement.getAttributeValue("tweetID"));
+				String location = citationElement.getAttributeValue("location");
+				String country = citationElement.getAttributeValue("country");
+				String username = citationElement.getAttributeValue("username");
+				String userProfileURL = citationElement.getAttributeValue("userProfileURL");
+				String userImageURL = citationElement.getAttributeValue("userImageURL");
+
+				new TwitterCitation(fragment, sourceLink, date, fragText, tweetText, tweetID, location, country,
+						username, userProfileURL, userImageURL);
+			}
+		}
+
+	}
+
 	private void importTag(Element catRef, VirtualEditionInter inter) {
 		String username = catRef.getAttributeValue("resp").substring(1);
 		String tag = catRef.getAttributeValue("target").substring(1);
@@ -130,8 +166,9 @@ public class VirtualEditionFragmentsTEIImport {
 		inter.getVirtualEdition().getTaxonomy().createTag(inter, tag, null, this.ldoD.getUser(username));
 	}
 
+	// TODO: else if aware - done
+	// novo import annotation
 	private void importAnnotation(Element note, VirtualEditionInter inter) {
-		String username = note.getAttributeValue("resp").substring(1);
 		String text = StringEscapeUtils.escapeHtml(note.getText().trim());
 		Element quoteElement = note.getChild("quote", this.namespace);
 		String from = quoteElement.getAttributeValue("from");
@@ -145,16 +182,53 @@ public class VirtualEditionFragmentsTEIImport {
 		range.setStartOffset(Integer.parseInt(fromOffset));
 		range.setEnd(to);
 		range.setEndOffset(Integer.parseInt(toOffset));
-
-		List<String> tagList = new ArrayList<>();
-		for (Element catRef : note.getChildren("catRef", this.namespace)) {
-			String tag = catRef.getAttributeValue("target").substring(1);
-			tagList.add(tag);
-		}
 		List<RangeJson> rangeList = new ArrayList<>();
 		rangeList.add(range);
-		inter.createAnnotation(quote, text, this.ldoD.getUser(username), rangeList, tagList);
+
+		if (note.getAttributeValue("type") == "human") {
+			String username = note.getAttributeValue("resp").substring(1);
+			List<String> tagList = new ArrayList<>();
+			for (Element catRef : note.getChildren("catRef", this.namespace)) {
+				String tag = catRef.getAttributeValue("target").substring(1);
+				tagList.add(tag);
+			}
+			inter.createHumanAnnotation(quote, text, this.ldoD.getUser(username), rangeList, tagList);
+		}
+
+		else if (note.getAttributeValue("type") == "aware") {
+			long tweetID = Long.parseLong(note.getAttributeValue("citationId"));
+			Citation citation = inter.getFragment().getCitationById(tweetID);
+			inter.createAwareAnnotation(quote, text, citation, rangeList);
+		}
 	}
+
+	// original code
+	// private void importAnnotation(Element note, VirtualEditionInter inter) {
+	// String username = note.getAttributeValue("resp").substring(1);
+	// String text = StringEscapeUtils.escapeHtml(note.getText().trim());
+	// Element quoteElement = note.getChild("quote", this.namespace);
+	// String from = quoteElement.getAttributeValue("from");
+	// String to = quoteElement.getAttributeValue("to");
+	// String fromOffset = quoteElement.getAttributeValue("fromOffset");
+	// String toOffset = quoteElement.getAttributeValue("toOffset");
+	// String quote = quoteElement.getText().trim();
+	//
+	// RangeJson range = new RangeJson();
+	// range.setStart(from);
+	// range.setStartOffset(Integer.parseInt(fromOffset));
+	// range.setEnd(to);
+	// range.setEndOffset(Integer.parseInt(toOffset));
+	//
+	// List<String> tagList = new ArrayList<>();
+	// for (Element catRef : note.getChildren("catRef", this.namespace)) {
+	// String tag = catRef.getAttributeValue("target").substring(1);
+	// tagList.add(tag);
+	// }
+	// List<RangeJson> rangeList = new ArrayList<>();
+	// rangeList.add(range);
+	// inter.createAnnotation(quote, text, this.ldoD.getUser(username), rangeList,
+	// tagList);
+	// }
 
 	private Fragment getFragment(Document doc) {
 		LdoD ldoD = LdoD.getInstance();
