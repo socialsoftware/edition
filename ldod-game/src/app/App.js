@@ -144,7 +144,7 @@ class App extends Component {
                 <PrivateRoute path="/user/:username" authenticated={this.state.isAuthenticated} currentUser={this.state.currentUser}
                     component={Profile}>
                 </PrivateRoute>
-                <PrivateRoute path="/game" authenticated={this.state.isAuthenticated}
+                <PrivateRoute path="/game" authenticated={this.state.isAuthenticated} currentUser={this.state.currentUser}
                   component={Game}>
                 </PrivateRoute>
                 <PrivateRoute path="/ping" authenticated={this.state.isAuthenticated}

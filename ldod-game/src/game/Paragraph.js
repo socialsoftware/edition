@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { Panel } from 'react-bootstrap';
+import './Paragraph.css';
 
 class Paragrah extends Component {
     constructor(props) {
@@ -23,8 +24,8 @@ class Paragrah extends Component {
 
     render() {
         return (
-            <div>
-                <Panel bsStyle="primary">
+            <div className="panel">
+                <Panel bsStyle="primary" defaultExpanded>
                     <Panel.Heading>
                         <Panel.Title componentClass="h4" toggle>{this.state.title}</Panel.Title>
                     </Panel.Heading>

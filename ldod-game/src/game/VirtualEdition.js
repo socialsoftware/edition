@@ -9,8 +9,7 @@ import { Button, ProgressBar, Glyphicon } from 'react-bootstrap';
 import { LDOD_MESSAGE } from '../utils/Constants';
 import { getVirtualEditionIndex, } from '../utils/APIUtils';
 import Fragment  from './Fragment';
-
-
+import './VirtualEdition.css';
 
 class VirtualEdition extends Component {
     constructor(props) {
@@ -23,7 +22,7 @@ class VirtualEdition extends Component {
             taxonomy: [],
             members: [],
             index: 0,
-            view: false
+            view: false,
         };
         this.loadVirtualEdition = this.loadVirtualEdition.bind(this);
         this.nextFragment = this.nextFragment.bind(this);
@@ -42,7 +41,7 @@ class VirtualEdition extends Component {
             })
             notification.success({
                 message: LDOD_MESSAGE,
-                description: "Virtual Edition: " + response.title + "loaded succesfully.",
+                description: "Virtual Edition: " + response.title + " loaded succesfully.",
             })
         })
         .catch(error => {
@@ -86,9 +85,11 @@ class VirtualEdition extends Component {
               <div>
                     <ProgressBar min={0} bsStyle="success"active now={this.state.index} />
                     <Fragment key={this.state.fragments[i].title} fragment={this.state.fragments[i]} acronym={this.state.acronym}/>
-                    <Button bsStyle="primary" onClick={this.nextFragment}>
-                        <Glyphicon glyph="arrow-right"/> 
-                    </Button>
+                    <div className="next">
+                        <Button bsStyle="primary" onClick={this.nextFragment}>
+                            <Glyphicon glyph="arrow-right"/> 
+                        </Button>
+                    </div>
               </div>
             );
         }

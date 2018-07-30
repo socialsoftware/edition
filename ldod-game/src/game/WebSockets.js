@@ -13,10 +13,12 @@ class WebSockets extends Component {
             userId: " ",
         };  
         this.onMessageReceived = this.onMessageReceived.bind(this);   
-        this.onConnected = this.onConnected.bind(this);   
+        this.onConnected = this.onConnected.bind(this);
+        this.sendMessage = this.sendMessage.bind(this);   
     }
     
     componentDidMount(){
+        this.props.onRef(this)
         this.setState({
             userId: this.props.currentUser.username,
         });
@@ -40,14 +42,19 @@ class WebSockets extends Component {
     componentWillUnmount(){
         subscription.unsubscribe();
         stompClient.disconnect();
+        this.props.onRef(null)
     }
-  
-  render() {
-      return (
-      <div>  
-      </div>
-    );
-  }
+
+    sendMessage(msg){
+        stompClient.send('/ldod-game/hello', {}, msg);
+    }
+    
+    render() {
+        return (
+            <div>  
+            </div>
+        );
+    }
 }
 
 export default withRouter(WebSockets);
