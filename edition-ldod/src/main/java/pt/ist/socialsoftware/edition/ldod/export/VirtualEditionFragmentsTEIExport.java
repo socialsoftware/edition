@@ -15,9 +15,11 @@ import pt.ist.socialsoftware.edition.ldod.domain.Category;
 import pt.ist.socialsoftware.edition.ldod.domain.Citation;
 import pt.ist.socialsoftware.edition.ldod.domain.Fragment;
 import pt.ist.socialsoftware.edition.ldod.domain.HumanAnnotation;
+import pt.ist.socialsoftware.edition.ldod.domain.InfoRange;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
 import pt.ist.socialsoftware.edition.ldod.domain.Range;
 import pt.ist.socialsoftware.edition.ldod.domain.Tag;
+import pt.ist.socialsoftware.edition.ldod.domain.Tweet;
 import pt.ist.socialsoftware.edition.ldod.domain.TwitterCitation;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
 
@@ -70,6 +72,7 @@ public class VirtualEditionFragmentsTEIExport {
 			exportVirtualEditionInterAnnotations(textClass, virtualEditionInter);
 		}
 
+		// TODO - done, inclui set de tweets e export de info ranges de cada citação
 		exportFragmentCitations(teiHeader, fragment);
 
 		XMLOutputter xml = new XMLOutputter();
@@ -107,8 +110,6 @@ public class VirtualEditionFragmentsTEIExport {
 		Element citationList = new Element("citationList", this.xmlns);
 		teiHeader.addContent(citationList);
 		for (Citation citation : fragment.getCitationSet()) {
-			// acho q afinal vai ser preciso a declaração de citationElement ficar aqui
-			// para passar depois ao método exportTwitterCitation
 			Element citationElement = new Element("citation", this.xmlns);
 			citationList.addContent(citationElement);
 
@@ -116,6 +117,35 @@ public class VirtualEditionFragmentsTEIExport {
 			if (citation instanceof TwitterCitation) {
 				exportTwitterCitation(citationElement, (TwitterCitation) citation);
 			}
+			exportInfoRanges(citationElement, citation);
+		}
+	}
+
+	private void exportInfoRanges(Element citationElement, Citation citation) {
+		Element infoRangesList = new Element("infoRangesList", this.xmlns);
+		citationElement.addContent(infoRangesList);
+
+		for (InfoRange infoRange : citation.getInfoRangeSet()) {
+			Element infoRangeElement = new Element("infoRange", this.xmlns);
+			infoRangesList.addContent(infoRangeElement);
+
+			infoRangeElement.setAttribute("start", infoRange.getStart());
+			infoRangeElement.setAttribute("startOffset", Integer.toString(infoRange.getStartOffset()));
+			infoRangeElement.setAttribute("end", infoRange.getEnd());
+			infoRangeElement.setAttribute("endOffset", Integer.toString(infoRange.getEndOffset()));
+
+			Element quoteElement = new Element("quote", this.xmlns);
+			quoteElement.addContent(infoRange.getQuote());
+			infoRangeElement.addContent(quoteElement);
+
+			Element textElement = new Element("text", this.xmlns);
+			textElement.addContent(infoRange.getText());
+			infoRangeElement.addContent(textElement);
+
+			// discutir também utilidade destes atributos
+			// fragInterXmlId seria necessário para descobrir o fragInter ao importar
+			infoRangeElement.setAttribute("fragInterXmlId", infoRange.getFragInter().getXmlId());
+			infoRangeElement.setAttribute("citationId", Long.toString((infoRange.getCitation().getId())));
 		}
 	}
 
@@ -124,9 +154,9 @@ public class VirtualEditionFragmentsTEIExport {
 		citationElement.setAttribute("date", citation.getDate());
 		// citationElement.setAttribute("fragText", citation.getFragText());
 
-		Element fragTex = new Element("fragTex", this.xmlns);
-		fragTex.addContent(citation.getFragText());
-		citationElement.addContent(fragTex);
+		Element fragText = new Element("fragText", this.xmlns);
+		fragText.addContent(citation.getFragText());
+		citationElement.addContent(fragText);
 
 		// old code
 		// Element citationElement = new Element("citation", this.xmlns);
@@ -146,6 +176,24 @@ public class VirtualEditionFragmentsTEIExport {
 		citationElement.setAttribute("username", citation.getUsername());
 		citationElement.setAttribute("userProfileURL", citation.getUserProfileURL());
 		citationElement.setAttribute("userImageURL", citation.getUserProfileURL());
+
+		Element tweets = new Element("tweets", this.xmlns);
+		citationElement.addContent(tweets);
+
+		for (Tweet tweet : citation.getTweetSet()) {
+			Element tweetElement = new Element("tweet", this.xmlns);
+			tweets.addContent(tweetElement);
+
+			// acho q o set é este em vez do q fiz inicialmente com o if e else
+			tweetElement.setAttribute("tweetId", Long.toString(tweet.getTweetID()));
+
+			// if (tweet.getIsRetweet()) {
+			// tweetElement.setAttribute("tweetId",
+			// Long.toString(tweet.getOriginalTweetID()));
+			// } else {
+			// tweetElement.setAttribute("tweetId", Long.toString(tweet.getTweetID()));
+			// }
+		}
 	}
 
 	private void exportVirtualEditionInterAnnotations(Element textClass, VirtualEditionInter virtualEditionInter) {

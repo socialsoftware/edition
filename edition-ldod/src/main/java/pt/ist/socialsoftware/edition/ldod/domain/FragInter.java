@@ -9,8 +9,6 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import pt.ist.socialsoftware.edition.ldod.domain.FragInter_Base;
-
 public abstract class FragInter extends FragInter_Base implements Comparable<FragInter> {
 	private static Logger logger = LoggerFactory.getLogger(FragInter.class);
 
@@ -50,6 +48,9 @@ public abstract class FragInter extends FragInter_Base implements Comparable<Fra
 			ref.setFragInter(null);
 		}
 
+		// adicionado recentemente, testar
+		getInfoRangeSet().forEach(infoRange -> infoRange.remove());
+
 		deleteDomainObject();
 	}
 
@@ -72,9 +73,11 @@ public abstract class FragInter extends FragInter_Base implements Comparable<Fra
 				return -1;
 			} else if (getSourceType() == Edition.EditionType.AUTHORIAL) {
 				return 1;
-			} else if ((getSourceType() == Edition.EditionType.VIRTUAL) && (other.getSourceType() == Edition.EditionType.EDITORIAL)) {
+			} else if ((getSourceType() == Edition.EditionType.VIRTUAL)
+					&& (other.getSourceType() == Edition.EditionType.EDITORIAL)) {
 				return 1;
-			} else if ((getSourceType() == Edition.EditionType.VIRTUAL) && (other.getSourceType() == Edition.EditionType.AUTHORIAL)) {
+			} else if ((getSourceType() == Edition.EditionType.VIRTUAL)
+					&& (other.getSourceType() == Edition.EditionType.AUTHORIAL)) {
 				return 1;
 			}
 		} else if (getSourceType() == other.getSourceType()) {
@@ -102,14 +105,13 @@ public abstract class FragInter extends FragInter_Base implements Comparable<Fra
 
 		return results;
 	}
-	
-	//solução a funcionar
+
+	// solução a funcionar
 	public abstract Set<HumanAnnotation> getAllDepthHumanAnnotations();
 
-	//tentativa de suporte de ambas as anotações
+	// tentativa de suporte de ambas as anotações
 	public abstract Set<Annotation> getAllDepthAnnotations();
 
-	
 	public abstract Set<Tag> getAllDepthTags();
 
 	public abstract Set<Category> getAllDepthCategories();

@@ -9,9 +9,9 @@ public abstract class SocialMediaCriteria extends SocialMediaCriteria_Base {
 		setVirtualEdition(edition);
 	}
 
-	private void checkUniqueCriteriaType(VirtualEdition edition, Class<?> clazz) {
+	protected void checkUniqueCriteriaType(VirtualEdition edition, Class<?> clazz) {
 		if (edition.getCriteriaSet().stream().filter(clazz::isInstance).findFirst().isPresent()) {
-			throw new LdoDException();
+			throw new LdoDException("THIS CRITERION ALREADY EXISTS!!");
 		}
 	}
 
