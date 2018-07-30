@@ -8,9 +8,14 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.messaging.simp.annotation.SubscribeMapping;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import pt.ist.socialsoftware.edition.ldod.dto.APIResponse;
+import pt.ist.socialsoftware.edition.ldod.security.LdoDUserDetails;
+
+import java.security.Principal;
+import java.util.Map;
 
 @RestController
 public class WebSocketController {
@@ -21,8 +26,8 @@ public class WebSocketController {
 
     @MessageMapping("/tags")
     @SendTo("/topic/tags")
-    public @ResponseBody void handleTags(@Payload String value) {
-        logger.debug("client sent: " + value);
+    public @ResponseBody void handleTags(@Payload Map<String,String> value) {
+        logger.debug("client sent:{}", value.values());
         broker.convertAndSend("/topic/tags", value);
     }
 
