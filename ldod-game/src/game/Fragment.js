@@ -5,7 +5,7 @@ import Paragraph from './Paragraph';
 import WebSockets from './WebSockets';
 import './Fragment.css';
 var ReactCountdownClock = require("react-countdown-clock")
-
+var tags = " "
 class Fragment extends Component {
     constructor(props) {
         super(props);
@@ -69,9 +69,11 @@ class Fragment extends Component {
 
     handleTag = (e) => {
         var a = document.forms["form"]["tag"].value;
-        var display=document.getElementById("display")
-        display.innerHTML="<p>" + a + "</p>";
+        tags += "<br>" + a;
+        var display = document.getElementById("display")
+        display.innerHTML="<p>" + tags + "</p>";
         this.child.sendMessage(a);
+        console.log(this.child.getTags());
         e.preventDefault();
     }
 
@@ -79,7 +81,7 @@ class Fragment extends Component {
     render() {
         return (
             <div>
-                <WebSockets currentUser={"gm"} onRef={ref => (this.child = ref)} />
+                <WebSockets onRef={ref => (this.child = ref)} />
                 
                 <div className="clock">
                     <ReactCountdownClock seconds={this.state.seconds}

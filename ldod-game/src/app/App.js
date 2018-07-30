@@ -54,6 +54,7 @@ class App extends Component {
             });
             getCurrentUser()
             .then(response => {
+                localStorage.setItem("currentUser", response.username);
                 this.setState({
                     currentUser: response,
                     isAuthenticated: true,

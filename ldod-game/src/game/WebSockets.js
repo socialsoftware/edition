@@ -11,16 +11,18 @@ class WebSockets extends Component {
         super(props);
         this.state = {
             userId: " ",
+            tags: []
         };  
         this.onMessageReceived = this.onMessageReceived.bind(this);   
         this.onConnected = this.onConnected.bind(this);
         this.sendMessage = this.sendMessage.bind(this);   
+        this.getTags = this.getTags.bind(this);   
     }
     
     componentDidMount(){
         this.props.onRef(this)
         this.setState({
-            userId: this.props.currentUser.username,
+            userId: localStorage.getItem("currentUser"),
         });
         var socket = new SockJS(WEB_SOCKETS_URL);
         stompClient = Stomp.over(socket);
@@ -29,14 +31,14 @@ class WebSockets extends Component {
     }
     
     onConnected(){
-        subscription = stompClient.subscribe('/topic/ping', this.onMessageReceived,{ id: this.state.userId});
-        stompClient.send('/ldod-game/hello', {}, "Hello, STOMP");
+        subscription = stompClient.subscribe('/topic/tags', this.onMessageReceived,{ id: this.state.userId});
     
     }
     
     onMessageReceived(payload) {
-        var message = JSON.parse(payload.body).message;
-        console.log("Server sent " + message);
+        this.setState(prevState => ({
+            tags: [...prevState.tags, payload.body]
+        }));
     }
     
     componentWillUnmount(){
@@ -46,9 +48,13 @@ class WebSockets extends Component {
     }
 
     sendMessage(msg){
-        stompClient.send('/ldod-game/hello', {}, msg);
+        stompClient.send('/ldod-game/tags', {}, msg);
     }
     
+    getTags(){
+        return this.state.tags;
+    }
+
     render() {
         return (
             <div>  
