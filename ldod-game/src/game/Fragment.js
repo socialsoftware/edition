@@ -73,7 +73,7 @@ class Fragment extends Component {
         var display = document.getElementById("display")
         display.innerHTML="<p>" + tags + "</p>";
         this.child.sendMessage(a);
-        console.log(this.child.getTags());
+        console.log(" " + this.child.getTags());
         e.preventDefault();
     }
 

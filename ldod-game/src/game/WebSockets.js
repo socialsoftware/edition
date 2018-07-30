@@ -48,7 +48,7 @@ class WebSockets extends Component {
     }
 
     sendMessage(msg){
-        stompClient.send('/ldod-game/tags', {}, msg);
+        stompClient.send('/ldod-game/tags', {}, JSON.stringify({ userId: this.state.userId, msg: msg}));
     }
     
     getTags(){
