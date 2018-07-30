@@ -28,15 +28,11 @@ import twitter4j.conf.ConfigurationBuilder;
 
 public class FetchCitationsFromTwitter {
 
-	private static Logger logger = LoggerFactory.getLogger(FetchCitationsFromTwitter.class);
-	private static final int TWEETS_PER_QUERY = 100;
-	private static final int MAX_QUERIES = 180; // Queries = pages obtained (máximo empírico até agora foi 100 páginas,
-												// máximo = 180)
-	private static final Map<String, String> TERMS_MAP = createTermsMap();
-
-	public static void logger(Object toPrint) {
-		System.out.println(toPrint);
-	}
+	private Logger logger = LoggerFactory.getLogger(FetchCitationsFromTwitter.class);
+	private final int TWEETS_PER_QUERY = 100;
+	private final int MAX_QUERIES = 180; // Queries = pages obtained (máximo empírico até agora foi 100 páginas, máximo
+											// = 180)
+	private final Map<String, String> TERMS_MAP = createTermsMap();
 
 	@Atomic
 	public void fetch() throws IOException {
@@ -44,7 +40,7 @@ public class FetchCitationsFromTwitter {
 
 		for (String term : TERMS_MAP.keySet()) {
 			String fileName = TERMS_MAP.get(term);
-			System.out.println(fileName);
+			logger.debug(fileName);
 
 			/******************************
 			 * Writing tweets to file
@@ -52,7 +48,7 @@ public class FetchCitationsFromTwitter {
 			int numTweets = 0;
 			long maxID = -1;
 
-			String toWrite = "";
+			// String toWrite = "";
 
 			BufferedWriter bw = null;
 			FileWriter fw = null;
@@ -102,7 +98,7 @@ public class FetchCitationsFromTwitter {
 						try {
 							Thread.sleep((searchTweetsRateLimit.getSecondsUntilReset() + 2) * 1000l);
 						} catch (InterruptedException e) {
-							System.out.println("Entrou na exception da Thread sleep");
+							logger.debug("Entrou na exception da Thread sleep");
 							e.printStackTrace();
 						}
 					}
@@ -134,7 +130,7 @@ public class FetchCitationsFromTwitter {
 					// worth of tweets, and uncommon search terms can run out of week before they
 					// run out of tweets
 					if (r.getTweets().size() == 0) {
-						System.out.println("fiz break!");
+						logger.debug("fiz break!");
 						break; // Nothing? We must be done
 					}
 
@@ -164,12 +160,10 @@ public class FetchCitationsFromTwitter {
 						}
 
 						// utilizado inicialmente para fazer debug das reticências
-						/*
-						 * //debug truncated - Elli if (text.contains("\u2026")) { numElli++;
-						 * System.err.println(queryNumber);
-						 * System.err.printf("--------------------At %s, @%-20s (id: %d) said:  %s\n",
-						 * s.getCreatedAt().toString(), s.getUser().getScreenName(), s.getId(), text); }
-						 */
+						// debug truncated - Elli if (text.contains("\u2026")) { numElli++;
+						// System.err.println(queryNumber);
+						// System.err.printf("--------------------At %s, @%-20s (id: %d) said: %s\n",
+						// s.getCreatedAt().toString(), s.getUser().getScreenName(), s.getId(), text); }
 
 						Place place = s.getPlace();
 
@@ -204,28 +198,19 @@ public class FetchCitationsFromTwitter {
 						}
 
 						// toWrite: used for writing in txt file
-						/*
-						 * toWrite = "\t At " + formatedDate + ", @" + username + " (id: " + + tweetID +
-						 * ")" + "\n" + "said: " + text + "\n" + "country: " + country + "\n" +
-						 * "location: " + location + "\n" + "tweet URL: " + tweetURL + "\n" +
-						 * "profile URL: " + profURL + "\n" + "profile Picture: " + profImg + "\n" +
-						 * "isRetweet: " + isRetweet + "\n" + "isRetweeted: " + isRetweeted + "\n" +
-						 * "retweetCount: " + retweetCount + "\n" + "originalTweetID: " +
-						 * originalTweetID + "\n" + "currentUserRetID: " + currentUserRetID + "\n" +
-						 * "############################" + "\n";
-						 * 
-						 * bw.write(toWrite);
-						 * 
-						 * //este if foi usado apenas para debugs e verificações, não correr mais visto
-						 * q excede o rate limit da API if(originalTweetID!=-1) { Status originalStatus
-						 * = getTweetById(originalTweetID, twitter); toWrite =
-						 * getTweetInfoInStringFormat(originalStatus);
-						 * bw.write("--------------- ORIGINAL --------------------\n");
-						 * bw.write(toWrite); }
-						 * 
-						 * 
-						 * bw.write("\n");
-						 */
+						// toWrite = "\t At " + formatedDate + ", @" + username + " (id: " + +tweetID +
+						// ")" + "\n"
+						// + "said: " + text + "\n" + "country: " + country + "\n" + "location: " +
+						// location + "\n"
+						// + "tweet URL: " + tweetURL + "\n" + "profile URL: " + profURL + "\n"
+						// + "profile Picture: " + profImg + "\n" + "isRetweet: " + isRetweet + "\n"
+						// + "isRetweeted: " + isRetweeted + "\n" + "retweetCount: " + retweetCount +
+						// "\n"
+						// + "originalTweetID: " + originalTweetID + "\n" + "currentUserRetID: " +
+						// currentUserRetID
+						// + "\n" + "############################" + "\n";
+						//
+						// bw.write(toWrite);
 
 						// Writing in json file - JSON version
 						JSONObject obj = new JSONObject();
@@ -248,7 +233,7 @@ public class FetchCitationsFromTwitter {
 						bw.write(obj.toString());
 						bw.write("\n");
 
-						System.out.println("####################################");
+						logger.debug("####################################");
 					}
 
 					// As part of what gets returned from Twitter when we make the search API call,
@@ -258,30 +243,30 @@ public class FetchCitationsFromTwitter {
 					// to sleep or not before making the next call.
 					searchTweetsRateLimit = r.getRateLimitStatus();
 				}
-				System.out.println("Number of tweets retrieved: " + numTweets);
-				System.out.println("Number of tweets elli: " + numElli);
+				logger.debug("Number of tweets retrieved: " + numTweets);
+				logger.debug("Number of tweets elli: " + numElli);
 				System.out.printf("You have %d calls remaining out of %d, Limit resets in %d seconds (= %f minutes)\n",
 						searchTweetsRateLimit.getRemaining(), searchTweetsRateLimit.getLimit(),
 						searchTweetsRateLimit.getSecondsUntilReset(),
 						searchTweetsRateLimit.getSecondsUntilReset() / 60.0);
-				System.out.println("++++++++++++++++++++++++++++++ OUTRO FICHEIRO ++++++++++++++++++++++++++++++");
+				logger.debug("++++++++++++++++++++++++++++++ OUTRO FICHEIRO ++++++++++++++++++++++++++++++");
 
 				bw.close();
 				fw.close();
 
 			} catch (IOException ioE) {
 				ioE.printStackTrace();
-				System.out.println("IOException at FetchCitationsFromTwitter!!: ");
+				logger.debug("IOException at FetchCitationsFromTwitter!!");
 			} catch (TwitterException te) {
 				te.printStackTrace();
-				System.out.println("Failed to search tweets!!: " + te.getMessage());
+				logger.debug("Failed to search tweets!!: " + te.getMessage());
 			}
 		}
 		logger.debug("End of Fetch Citations");
-
 	}
 
-	public static String getTweetInfoInStringFormat(Status s) {
+	// may be useful
+	public String getTweetInfoInStringFormat(Status s) {
 		String toWrite = "";
 
 		String text = null;
@@ -323,7 +308,7 @@ public class FetchCitationsFromTwitter {
 			currentUserRetID = s.getCurrentUserRetweetId();
 		}
 
-		toWrite = "\t At " + formatedDate + ", @" + username + " (id: " + +tweetID + ")" + "\n" + "said: " + text + "\n"
+		toWrite = "\t At " + formatedDate + ", @" + username + " (id: " + tweetID + ")" + "\n" + "said: " + text + "\n"
 				+ "country: " + country + "\n" + "location: " + location + "\n" + "tweet URL: " + tweetURL + "\n"
 				+ "profile URL: " + profURL + "\n" + "profile Picture: " + profImg + "\n" + "isRetweet: " + isRetweet
 				+ "\n" + "isRetweeted: " + isRetweeted + "\n" + "retweetCount: " + retweetCount + "\n"
@@ -333,7 +318,7 @@ public class FetchCitationsFromTwitter {
 		return toWrite;
 	}
 
-	private static Map<String, String> createTermsMap() {
+	public Map<String, String> createTermsMap() {
 		Map<String, String> termsMap = new HashMap<String, String>();
 		termsMap.put("Livro do Desassossego", "livro");
 		termsMap.put("Fernando Pessoa", "fp");
@@ -342,21 +327,21 @@ public class FetchCitationsFromTwitter {
 		return termsMap;
 	}
 
-	public static Status getTweetById(long id, Twitter t) {
+	public Status getTweetById(long id, Twitter t) {
 		Status s = null;
 		try {
 			s = t.showStatus(id);
 		} catch (NumberFormatException e) {
-			System.out.println("Number Format Exception while getting tweet by id!!!");
+			logger.debug("Number Format Exception while getting tweet by id!!!");
 			e.printStackTrace();
 		} catch (TwitterException e) {
-			System.out.println("Twitter Exception while getting tweet by id!!!");
+			logger.debug("Twitter Exception while getting tweet by id!!!");
 			e.printStackTrace();
 		}
 		return s;
 	}
 
-	public static Twitter getTwitterinstance() {
+	public Twitter getTwitterinstance() {
 		/**
 		 * if not using properties file, we can set access token by following way
 		 */

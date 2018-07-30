@@ -22,7 +22,8 @@ public abstract class Citation extends Citation_Base {
 
 	public abstract long getId();
 
-	// TODO: não deveria ser == inter.getLastUsed()
+	// atualmente está a ser utilizado o método da AwareFactory em vez deste
+	// TODO: não deveria ser == inter.getLastUsed() ??
 	public InfoRange getInfoRangeByInter(FragInter inter) {
 		return getInfoRangeSet().stream().filter(infoRange -> infoRange.getFragInter() == inter).findFirst()
 				.orElse(null);

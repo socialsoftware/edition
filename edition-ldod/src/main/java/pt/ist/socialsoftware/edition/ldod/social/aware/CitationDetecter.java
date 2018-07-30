@@ -55,23 +55,19 @@ import pt.ist.socialsoftware.edition.ldod.utils.PropertiesManager;
 
 public class CitationDetecter {
 
-	private static Logger logger = LoggerFactory.getLogger(CitationDetecter.class);
+	private Logger logger = LoggerFactory.getLogger(CitationDetecter.class);
 
-	private static final String ID = "id";
-	private static final String TEXT = "text";
+	private final String ID = "id";
+	private final String TEXT = "text";
 
-	private static Path docDir;
-	private static Analyzer analyzer;
-	private static QueryParserBase queryParser;
+	private Path docDir;
+	private Analyzer analyzer;
+	private QueryParserBase queryParser;
 
 	// just for checking score in cited fragments
-	private static BufferedWriter bw;
-	private static FileWriter fw;
-	private static File toWriteFile;
-
-	public static void logger(Object toPrint) {
-		System.out.println(toPrint);
-	}
+	private BufferedWriter bw;
+	private FileWriter fw;
+	private File toWriteFile;
 
 	public CitationDetecter() throws IOException {
 		String path = PropertiesManager.getProperties().getProperty("indexer.dir");
@@ -81,68 +77,71 @@ public class CitationDetecter {
 
 		// just for checking score in cited fragments
 		String timeStamp = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-		toWriteFile = new File("C:/Users/dnf_o/projetoTese/ldod/social/awareGeneric/" + "citations-" + "generic" + "-"
-				+ timeStamp + ".txt");
-		fw = new FileWriter(toWriteFile);
-		bw = new BufferedWriter(fw);
+		// toWriteFile = new File("C:/Users/dnf_o/projetoTese/ldod/social/awareGeneric/"
+		// + "citations-" + "generic" + "-"
+		// + timeStamp + ".txt");
+		// fw = new FileWriter(toWriteFile);
+		// bw = new BufferedWriter(fw);
 	}
 
 	@Atomic(mode = TxMode.WRITE)
 	public void detect() throws IOException {
-		logger("STARTING CITATION DETECTER!!");
+		logger.debug("STARTING CITATION DETECTER!!");
 		// // serve só para testar melhor pq dá reset ao id na base de dados:
-		LdoD.getInstance().getLastTwitterID().resetTwitterIDS();
+		// LdoD.getInstance().getLastTwitterID().resetTwitterIDS();
+		this.bw = null;
 		citationDetection();
-		logger("FINISHED DETECTING CITATIONS!!!");
+		logger.debug("FINISHED DETECTING CITATIONS!!!");
 
 		// indetify ranges here
-		logger("STARTED IDENTIFYING RANGES!!!");
+		logger.debug("STARTED IDENTIFYING RANGES!!!");
 		BufferedWriter bw = null;
 		FileWriter fw = null;
-		File file;
-		file = new File("C:/Users/dnf_o/projetoTese/ldod/social/infoRanges/infoRanges.txt");
-		fw = new FileWriter(file);
-		bw = new BufferedWriter(fw);
-
-		bw.write("teste de info ranges!!!\n");
+		File file = null;
+		// file = new
+		// File("C:/Users/dnf_o/projetoTese/ldod/social/infoRanges/infoRanges.txt");
+		// fw = new FileWriter(file);
+		// bw = new BufferedWriter(fw);
+		//
+		// bw.write("teste de info ranges!!!\n");
 
 		for (Citation citation : LdoD.getInstance().getCitationSet()) {
 			if (citation.getInfoRangeSet().isEmpty()) {
-				bw.write("----------------- CITATION---------------------\n");
-				bw.write("Tweet ID: " + citation.getId() + "\n");
+				// bw.write("----------------- CITATION---------------------\n");
+				// bw.write("Tweet ID: " + citation.getId() + "\n");
 				Fragment citationFragment = citation.getFragment();
 				Set<FragInter> inters = new HashSet<FragInter>(citationFragment.getFragmentInterSet());
-				bw.write("Todos os frag inters:\n");
+				// bw.write("Todos os frag inters:\n");
 				for (FragInter inter : inters) {
-					bw.write(" FragInter id: " + inter.getExternalId() + "\n");
-					bw.write(" XML id: " + inter.getXmlId() + "\n");
-					bw.write(" Title: " + inter.getTitle() + "\n");
-					bw.write("\n");
+					// bw.write(" FragInter id: " + inter.getExternalId() + "\n");
+					// bw.write(" XML id: " + inter.getXmlId() + "\n");
+					// bw.write(" Title: " + inter.getTitle() + "\n");
+					// bw.write("\n");
 
 				}
 				inters.removeAll(citationFragment.getVirtualEditionInters());
 
-				bw.write("Excepto os virtual:\n");
+				// bw.write("Excepto os virtual:\n");
 				for (FragInter inter : inters) {
-					bw.write(" FragInter id: " + inter.getExternalId() + "\n");
-					bw.write(" XML id: " + inter.getXmlId() + "\n");
-					bw.write(" Title: " + inter.getTitle() + "\n");
-					bw.write("\n");
+					// bw.write(" FragInter id: " + inter.getExternalId() + "\n");
+					// bw.write(" XML id: " + inter.getXmlId() + "\n");
+					// bw.write(" Title: " + inter.getTitle() + "\n");
+					// bw.write("\n");
 				}
 
-				int editionCount = 0;
+				// int editionCount = 0;
 				for (FragInter inter : inters) {
-					bw.write("------------ ENTREI NO INFO RANGE ------------------\n");
-					editionCount++;
+					// bw.write("------------ ENTREI NO INFO RANGE ------------------\n");
+					// editionCount++;
 					createInfoRange(inter, citation, bw);
 				}
-				bw.write("Potential edition count = " + editionCount + "\n");
+				// bw.write("Potential edition count = " + editionCount + "\n");
 			}
 		}
 
-		bw.close();
-		fw.close();
-		logger("FINISHED IDENTIFYING RANGES!!!");
+		// bw.close();
+		// fw.close();
+		logger.debug("FINISHED IDENTIFYING RANGES!!!");
 	}
 
 	private void createInfoRange(FragInter inter, Citation citation, BufferedWriter bw) throws IOException {
@@ -159,32 +158,33 @@ public class CitationDetecter {
 
 			if (htmlStart != -1 && htmlEnd != -1 && infoQuote != ""
 					&& !startBiggerThanEnd(htmlStart, htmlEnd, numOfPStart, numOfPEnd)) {
-				bw.write("GOING TO CREATE A INFO RANGE!!!");
-				bw.write("\n");
+				// bw.write("GOING TO CREATE A INFO RANGE!!!");
+				// bw.write("\n");
 
 				String infoText = createInfoText(citation, bw);
 
-				bw.write("htmlTransc: " + htmlTransc);
-				bw.write("\n");
-				bw.write("\n");
-
-				bw.write("------------Tweet Text: " + ((TwitterCitation) citation).getTweetText());
-				bw.write("\n");
-
-				bw.write("------------Info Range quote: " + infoQuote);
-				bw.write("\n");
-				bw.write("\n");
-
-				bw.write("Número de <p START: " + numOfPStart);
-				bw.write("\n");
-				bw.write("Número de <p END: " + numOfPEnd);
-				bw.write("\n");
-
-				bw.write("Índice do htmlStart: " + htmlStart);
-				bw.write("\n");
-				bw.write("Índice do htmlEnd: " + htmlEnd);
-				bw.write("\n");
-				bw.write("\n");
+				// bw.write("htmlTransc: " + htmlTransc);
+				// bw.write("\n");
+				// bw.write("\n");
+				//
+				// bw.write("------------Tweet Text: " + ((TwitterCitation)
+				// citation).getTweetText());
+				// bw.write("\n");
+				//
+				// bw.write("------------Info Range quote: " + infoQuote);
+				// bw.write("\n");
+				// bw.write("\n");
+				//
+				// bw.write("Número de <p START: " + numOfPStart);
+				// bw.write("\n");
+				// bw.write("Número de <p END: " + numOfPEnd);
+				// bw.write("\n");
+				//
+				// bw.write("Índice do htmlStart: " + htmlStart);
+				// bw.write("\n");
+				// bw.write("Índice do htmlEnd: " + htmlEnd);
+				// bw.write("\n");
+				// bw.write("\n");
 
 				// NEW INFO RANGE
 				new InfoRange(citation, inter, "/div[1]/div[1]/p[" + numOfPStart + "]", htmlStart,
@@ -197,7 +197,7 @@ public class CitationDetecter {
 		// exemplo inicial
 		String infoText = "tweet meta information"; // meta information inside citation object
 
-		// TODO concatenate citation meta information into infoText
+		// concatenation of meta information
 		String sourceLink = citation.getSourceLink();
 		String date = citation.getDate();
 		String tweetID = Long.toString(citation.getId());
@@ -209,7 +209,7 @@ public class CitationDetecter {
 		infoText = "SOURCE LINK: " + sourceLink + "\n" + "DATE: " + date + "\n" + "TWEET ID: " + tweetID + "\n"
 				+ "COUNTRY: " + country + "\n" + "LOCATION: " + location + "\n" + "USERNAME: " + username + "\n"
 				+ "USER PROFILE: " + userProfileURL;
-		bw.write(infoText + "\n");
+		// bw.write(infoText + "\n");
 
 		return infoText;
 	}
@@ -226,7 +226,7 @@ public class CitationDetecter {
 	}
 
 	private List<String> patternFinding(String text, String tweet, BufferedWriter bw) throws IOException {
-		logger("------------------------------ PATTERN FINDING ALGORITHM -------------------------");
+		logger.debug("------------------------------ PATTERN FINDING ALGORITHM -------------------------");
 
 		// é chato pôr o text é lowercase pq estamos a adulterar a informação original,
 		// experimentar outra distance em vez do Jaro
@@ -249,32 +249,32 @@ public class CitationDetecter {
 		int count = 0; // aux counter to check if we reach the minimum value set by "window" variable
 		outerloop: for (String initialWord : tweet.split("\\s+")) {
 			for (String word : initialWord.split(",")) {
-				logger("--------------------------------------------------");
+				logger.debug("--------------------------------------------------");
 				offset = Math.max(start, end);
 				if (offset == -1) {
 					offset = 0;
 				}
-				logger("offset: " + offset);
+				logger.debug("offset: " + offset);
 
 				List<String> info = maxJaroValue(text.substring(offset), word);
 				String wordFound = info.get(0);
 				double jaroValue = Double.parseDouble(info.get(1));
 
-				logger("tweet word: " + word);
-				logger("text word: " + wordFound);
+				logger.debug("tweet word: " + word);
+				logger.debug("text word: " + wordFound);
 
 				// a palavra tem de existir no texto e estar à frente do offset!
 				// primeira palavra encontrada
 				if (jaroValue > jaroThreshold && text.indexOf(wordFound, offset) != -1) {
-					logger("	text contains this word");
-					logger(text.indexOf(wordFound, offset));
-					logger(jaroValue);
+					logger.debug("	text contains this word");
+					logger.debug(Integer.toString(text.indexOf(wordFound, offset)));
+					logger.debug(Double.toString(jaroValue));
 					// é só updated uma vez e é quando o início começa bem
 					if (count == 0) {
 						// é só updated uma vez e é quando o início começa bem
 						start = text.indexOf(wordFound, offset);
-						logger("	dei update do start para: " + start);
-						logger("	a palavra encontrada no Texto foi: " + wordFound);
+						logger.debug("	dei update do start para: " + start);
+						logger.debug("	a palavra encontrada no Texto foi: " + wordFound);
 						patternFound += wordFound + " ";
 						count = 1;
 					}
@@ -291,41 +291,41 @@ public class CitationDetecter {
 						if (count == startCorrectParam) {
 							// este update ao start dá bug quando as palavras iniciais do padrão aparecem
 							// antes do padrão
-							logger("	padrão até agora: " + patternFound);
+							logger.debug("	padrão até agora: " + patternFound);
 
 							String[] splits = patternFound.split(" ");
 							String firstWordOfPatternFound = splits[0];
-							logger("	primeira palavra: " + firstWordOfPatternFound);
+							logger.debug("	primeira palavra: " + firstWordOfPatternFound);
 							String lastWordOfPatternFound = splits[splits.length - 1];
-							logger("	última palavra: " + lastWordOfPatternFound);
+							logger.debug("	última palavra: " + lastWordOfPatternFound);
 
 							start = text.lastIndexOf(firstWordOfPatternFound, offset - lastWordOfPatternFound.length());
-							logger("	dei update do start para: " + start);
+							logger.debug("	dei update do start para: " + start);
 						}
 						end = text.indexOf(wordFound, offset) + wordFound.length();
-						logger("	dei update do end para: " + end);
-						logger("	a palavra encontrada no Texto foi: " + wordFound);
+						logger.debug("	dei update do end para: " + end);
+						logger.debug("	a palavra encontrada no Texto foi: " + wordFound);
 						patternFound += wordFound + " ";
 						count++;
 					}
 				}
 				// caso em q a palavra não existe no texto
 				else {
-					logger("	text DOES NOT contains this word");
-					logger(jaroValue);
+					logger.debug("	text DOES NOT contains this word");
+					logger.debug(Double.toString(jaroValue));
 					if (count < window) { // significa que não fizémos o número mínimo de palavras seguidas, logo é dar
 											// reset!!
 						count = 0;
 						start = -1;
 						end = -1;
 						patternFound = "";
-						logger("	dei reset ao count, next word!");
+						logger.debug("	dei reset ao count, next word!");
 					} else {
-						logger("	vou dar break pq já garanti a window");
+						logger.debug("	vou dar break pq já garanti a window");
 						break outerloop;
 					}
 				}
-				logger("	count: " + count);
+				logger.debug("	count: " + count);
 			} // for interno
 		} // for externo
 
@@ -345,7 +345,7 @@ public class CitationDetecter {
 		}
 
 		if (count < window && start != -1) { // caso em que o padrão até existe mas não respeita a window
-			logger("	Pattern may exist but does not respect window size!");
+			logger.debug("	Pattern may exist but does not respect window size!");
 			start = -1;
 			end = -1;
 			patternFound = "";
@@ -364,10 +364,10 @@ public class CitationDetecter {
 			// HTML treatment
 			numOfPStart = 1 + countOccurencesOfSubstring(text, "<p", start); // +1 porque o getTranscription não traz o
 																				// primeiro <p
-			logger("Número de <p START: " + numOfPStart);
+			logger.debug("Número de <p START: " + numOfPStart);
 			numOfPEnd = 1 + countOccurencesOfSubstring(text, "<p", end); // +1 porque o getTranscription não traz o
 																			// primeiro <p
-			logger("Número de <p END: " + numOfPEnd);
+			logger.debug("Número de <p END: " + numOfPEnd);
 
 			// logger("Índice do último para o start '>': " + text.lastIndexOf("\">",
 			// start));
@@ -375,8 +375,8 @@ public class CitationDetecter {
 
 			htmlStart = start - text.lastIndexOf("\">", start) - 2; // -2, para compensar
 			htmlEnd = end - text.lastIndexOf("\">", end) - 2; // -2, para compensar
-			logger("Índice do htmlStart: " + htmlStart);
-			logger("Índice do htmlEnd: " + htmlEnd);
+			logger.debug("Índice do htmlStart: " + htmlStart);
+			logger.debug("Índice do htmlEnd: " + htmlEnd);
 
 			// *************** writing in file html stuff **************
 			/*
@@ -410,12 +410,13 @@ public class CitationDetecter {
 	private void citationDetection() throws IOException, FileNotFoundException {
 		File folder = new File(PropertiesManager.getProperties().getProperty("social.aware.dir"));
 		for (File fileEntry : folder.listFiles()) {
-			System.out.println("+++++++++++++++++++++++++++++++++++ JSON ++++++++++++++++++++++++++++++++++++");
-			System.out.println(fileEntry.getName());
-			bw.write("+++++++++++++++++++++++++++++++++++ JSON ++++++++++++++++++++++++++++++++++++");
-			bw.write("\n");
-			bw.write(fileEntry.getName());
-			bw.write("\n");
+			logger.debug("+++++++++++++++++++++++++++++++++++ JSON ++++++++++++++++++++++++++++++++++++");
+			logger.debug(fileEntry.getName());
+			// bw.write("+++++++++++++++++++++++++++++++++++ JSON
+			// ++++++++++++++++++++++++++++++++++++");
+			// bw.write("\n");
+			// bw.write(fileEntry.getName());
+			// bw.write("\n");
 
 			try {
 				JSONObject obj = new JSONObject();
@@ -435,21 +436,22 @@ public class CitationDetecter {
 
 					if (lineNum == 0) {
 						// prints e writes para debug
-						logger("----------- PRIMEIRA LINHA ---------------");
-						logger("LdoD last twitter ID: "
+						logger.debug("----------- PRIMEIRA LINHA ---------------");
+						logger.debug("LdoD last twitter ID: "
 								+ LdoD.getInstance().getLastTwitterID().getLastTwitterID(fileEntry.getName()));
-						logger("Date: " + (String) obj.get("date"));
-						logger("----------- RESTANTES LINHAS ---------------");
+						logger.debug("Date: " + (String) obj.get("date"));
+						logger.debug("----------- RESTANTES LINHAS ---------------");
 
-						bw.write("----------- PRIMEIRA LINHA ---------------");
-						bw.write("\n");
-						bw.write("LdoD last twitter ID: "
-								+ LdoD.getInstance().getLastTwitterID().getLastTwitterID(fileEntry.getName()));
-						bw.write("\n");
-						bw.write("Date: " + (String) obj.get("date"));
-						bw.write("\n");
-						bw.write("----------- RESTANTES LINHAS ---------------");
-						bw.write("\n");
+						// bw.write("----------- PRIMEIRA LINHA ---------------");
+						// bw.write("\n");
+						// bw.write("LdoD last twitter ID: "
+						// +
+						// LdoD.getInstance().getLastTwitterID().getLastTwitterID(fileEntry.getName()));
+						// bw.write("\n");
+						// bw.write("Date: " + (String) obj.get("date"));
+						// bw.write("\n");
+						// bw.write("----------- RESTANTES LINHAS ---------------");
+						// bw.write("\n");
 
 						if ((long) obj.get("tweetID") > LdoD.getInstance().getLastTwitterID()
 								.getLastTwitterID(fileEntry.getName())) {
@@ -458,7 +460,7 @@ public class CitationDetecter {
 						}
 					}
 					lineNum++;
-					logger("tempMaxID: " + tempMaxID);
+					logger.debug("tempMaxID: " + tempMaxID);
 
 					// por este if depois de dar update: updateLastTwitterID(fileEntry.getName()
 					if (obj.containsKey("isRetweet") && (boolean) obj.get("isRetweet")) {
@@ -466,22 +468,18 @@ public class CitationDetecter {
 					}
 
 					if ((long) obj.get("tweetID") > tempMaxID) {
-						System.out.println("Date: " + (String) obj.get("date"));
+						logger.debug("Date: " + (String) obj.get("date"));
 						String tweetTextWithoutHttp = removeHttpFromTweetText(obj);
 
-						// System.out.println("JSON Text: " + tweetTextWithoutHttp);
-						// System.out.println("++++++++++++++++++++++++++++++++++++++++");
-						bw.write("\n");
-						bw.write("Date: " + (String) obj.get("date"));
-						bw.write("\n");
-						bw.write("TweetID: " + (long) obj.get("tweetID"));
-						bw.write("\n");
-						bw.write("JSON Text: " + tweetTextWithoutHttp);
-						bw.write("\n");
-						bw.write("++++++++++++++++++++++++++++++++++++++++");
-						bw.write("\n");
-
-						// count++;
+						// bw.write("\n");
+						// bw.write("Date: " + (String) obj.get("date"));
+						// bw.write("\n");
+						// bw.write("TweetID: " + (long) obj.get("tweetID"));
+						// bw.write("\n");
+						// bw.write("JSON Text: " + tweetTextWithoutHttp);
+						// bw.write("\n");
+						// bw.write("++++++++++++++++++++++++++++++++++++++++");
+						// bw.write("\n");
 
 						if (!tweetTextWithoutHttp.equals("")) {
 							searchQueryParserJSON(tweetTextWithoutHttp, obj);
@@ -489,11 +487,12 @@ public class CitationDetecter {
 							// nao funciona no nosso caso
 						}
 
-						System.out.println(
+						logger.debug(
 								"-------------------------------- NEXT!!!!!!!!!!!!!!!!!! -----------------------------------------");
-						bw.write(
-								"-------------------------------- NEXT!!!!!!!!!!!!!!!!!! -----------------------------------------");
-						bw.write("\n");
+						// bw.write(
+						// "-------------------------------- NEXT!!!!!!!!!!!!!!!!!!
+						// -----------------------------------------");
+						// bw.write("\n");
 					} else {
 						break;
 					}
@@ -512,8 +511,8 @@ public class CitationDetecter {
 		logger.debug("LdoD VicenteLastTwitterID:{}", LdoD.getInstance().getLastTwitterID().getVicenteLastTwitterID());
 		logger.debug("LdoD PessoaLastTwitterID:{}", LdoD.getInstance().getLastTwitterID().getPessoaLastTwitterID());
 
-		bw.close();
-		fw.close();
+		// bw.close();
+		// fw.close();
 	}
 
 	public void searchQueryParserJSON(String query, JSONObject obj)
@@ -521,12 +520,12 @@ public class CitationDetecter {
 		Query parsedQuery = queryParser.parse(QueryParser.escape(query)); // escape foi a solução porque ele stressava
 																			// com o EOF
 
-		System.out.println("ParsedQuery: " + parsedQuery.toString());
-		System.out.println("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||");
-		bw.write("ParsedQuery: " + parsedQuery.toString());
-		bw.write("\n");
-		bw.write("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||");
-		bw.write("\n");
+		logger.debug("ParsedQuery: " + parsedQuery.toString());
+		logger.debug("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||");
+		// bw.write("ParsedQuery: " + parsedQuery.toString());
+		// bw.write("\n");
+		// bw.write("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||");
+		// bw.write("\n");
 
 		searchIndexAndDisplayResultsJSON(parsedQuery, obj);
 	}
@@ -544,17 +543,18 @@ public class CitationDetecter {
 				float score = hits[0].score;
 				if (score > 30) {
 					Document d = idxSearcher.doc(docId);
-					bw.write("SCORE IS HIGH ENOUGH: " + score);
-					bw.write("\n");
-					System.out.println("Text: " + d.get(TEXT) + "\n" + "DocID: " + docId + "\t" + "FragInter ID: "
-							+ d.get(ID) + "\t" + " Score: " + score);
-					System.out.println("--------------------------------------------------------\n");
-					bw.write("Text: " + d.get(TEXT) + "\n" + "DocID: " + docId + "\t" + "FragInter ID: " + d.get(ID)
-							+ "\t" + "Document Class: " + d.getClass() + "\t" + " Score: " + score);
-
-					bw.write("\n");
-					bw.write("--------------------------------------------------------\n");
-					bw.write("\n");
+					// bw.write("SCORE IS HIGH ENOUGH: " + score);
+					// bw.write("\n");
+					logger.debug("Text: " + d.get(TEXT) + "\n" + "DocID: " + docId + "\t" + "FragInter ID: " + d.get(ID)
+							+ "\t" + " Score: " + score);
+					logger.debug("--------------------------------------------------------\n");
+					// bw.write("Text: " + d.get(TEXT) + "\n" + "DocID: " + docId + "\t" +
+					// "FragInter ID: " + d.get(ID)
+					// + "\t" + "Document Class: " + d.getClass() + "\t" + " Score: " + score);
+					//
+					// bw.write("\n");
+					// bw.write("--------------------------------------------------------\n");
+					// bw.write("\n");
 
 					// ******************************** CREATE CITATIONS
 					// ***************************************/
@@ -578,21 +578,21 @@ public class CitationDetecter {
 						// obtain Fragment
 						// using external id
 						FragInter inter = FenixFramework.getDomainObject(d.get(ID));
-						bw.write("---------- USING EXTERNAL ID----------------\n");
+						// bw.write("---------- USING EXTERNAL ID----------------\n");
 						Fragment fragment = inter.getFragment();
-						bw.write("Fragment itself (using ExternalID): " + fragment);
-						bw.write("\n");
+						// bw.write("Fragment itself (using ExternalID): " + fragment);
+						// bw.write("\n");
 						if (fragment != null) {
-							bw.write("Fragment was not null!!");
-							bw.write("\n");
-							bw.write("Fragment External ID: " + fragment.getExternalId());
-							bw.write("\n");
+							// bw.write("Fragment was not null!!");
+							// bw.write("\n");
+							// bw.write("Fragment External ID: " + fragment.getExternalId());
+							// bw.write("\n");
 						}
 
 						String tweetTextWithoutHttp = removeHttpFromTweetText(obj);
 
-						bw.write("CREATED A NEW TWITTER CITATION!!");
-						bw.write("\n");
+						// bw.write("CREATED A NEW TWITTER CITATION!!");
+						// bw.write("\n");
 						new TwitterCitation(fragment, (String) obj.get("tweetURL"), (String) obj.get("date"),
 								d.get(TEXT), tweetTextWithoutHttp, (long) obj.get("tweetID"),
 								(String) obj.get("location"), (String) obj.get("country"), (String) obj.get("username"),
@@ -600,10 +600,10 @@ public class CitationDetecter {
 					}
 
 				} else {
-					bw.write("SCORE IS TOO LOW: " + score);
-					bw.write("\n");
-					bw.write("--------------------------------------------------------\n");
-					bw.write("\n");
+					// bw.write("SCORE IS TOO LOW: " + score);
+					// bw.write("\n");
+					// bw.write("--------------------------------------------------------\n");
+					// bw.write("\n");
 				}
 			}
 			directory.close();
@@ -731,12 +731,12 @@ public class CitationDetecter {
 		Query parsedQuery = queryParser.parse(QueryParser.escape(query)); // escape foi a solução porque ele stressava
 																			// com o EOF
 
-		System.out.println("ParsedQuery: " + parsedQuery.toString());
-		System.out.println("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||");
-		bw.write("ParsedQuery: " + parsedQuery.toString());
-		bw.write("\n");
-		bw.write("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||");
-		bw.write("\n");
+		logger.debug("ParsedQuery: " + parsedQuery.toString());
+		logger.debug("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||");
+		// bw.write("ParsedQuery: " + parsedQuery.toString());
+		// bw.write("\n");
+		// bw.write("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||");
+		// bw.write("\n");
 
 		searchIndexAndDisplayResults(parsedQuery);
 	}
@@ -754,19 +754,20 @@ public class CitationDetecter {
 				float score = hits[0].score;
 				if (score > 30) {
 					Document d = idxSearcher.doc(docId);
-					System.out.println("Text: " + d.get(TEXT) + "\n" + "DocID: " + docId + "\t" + "FragInter ID: "
-							+ d.get(ID) + "\t" + " Score: " + score);
-					System.out.println("--------------------------------------------------------\n");
-					bw.write("Text: " + d.get(TEXT) + "\n" + "DocID: " + docId + "\t" + "FragInter ID: " + d.get(ID)
+					logger.debug("Text: " + d.get(TEXT) + "\n" + "DocID: " + docId + "\t" + "FragInter ID: " + d.get(ID)
 							+ "\t" + " Score: " + score);
-					bw.write("\n");
-					bw.write("--------------------------------------------------------\n");
-					bw.write("\n");
+					logger.debug("--------------------------------------------------------\n");
+					// bw.write("Text: " + d.get(TEXT) + "\n" + "DocID: " + docId + "\t" +
+					// "FragInter ID: " + d.get(ID)
+					// + "\t" + " Score: " + score);
+					// bw.write("\n");
+					// bw.write("--------------------------------------------------------\n");
+					// bw.write("\n");
 				} else {
-					bw.write("SCORE IS TOO LOW: " + score);
-					bw.write("\n");
-					bw.write("--------------------------------------------------------\n");
-					bw.write("\n");
+					// bw.write("SCORE IS TOO LOW: " + score);
+					// bw.write("\n");
+					// bw.write("--------------------------------------------------------\n");
+					// bw.write("\n");
 				}
 			}
 			directory.close();
