@@ -19,11 +19,11 @@ public class WebSocketController {
     private SimpMessagingTemplate broker;
 
 
-    @MessageMapping("/hello")
-    @SendTo("/topic/ping")
-    public @ResponseBody APIResponse ping(@Payload String value) {
-        logger.debug("client send hello: " + value);
-        return new APIResponse(true,"Hello back from the server");
+    @MessageMapping("/tags")
+    @SendTo("/topic/tags")
+    public @ResponseBody void handleTags(@Payload String value) {
+        logger.debug("client sent: " + value);
+        broker.convertAndSend("/topic/tags", value);
     }
 
     @SubscribeMapping("/ping")
