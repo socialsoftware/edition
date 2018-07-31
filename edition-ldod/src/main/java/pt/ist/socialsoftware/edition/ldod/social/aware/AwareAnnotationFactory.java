@@ -309,15 +309,15 @@ public class AwareAnnotationFactory {
 				LocalDate beginDate = ((TimeWindow) criterion).getBeginDate();
 				LocalDate endDate = ((TimeWindow) criterion).getEndDate();
 
-				if (!(((localDate.isAfter(beginDate) || localDate.isEqual(beginDate)))
+				if (!((localDate.isAfter(beginDate) || localDate.isEqual(beginDate))
 						&& (localDate.isBefore(endDate) || localDate.isEqual(endDate)))) {
 					// bw.write(" ENTREI NO IF DO TIME WINDOW \n");
 					isValid = false;
 				}
 			} else if (criterion instanceof GeographicLocation) {
 				// bw.write(" ENTREI NO GEOGRAPHIC LOCATION \n");
-				if (tc instanceof TwitterCitation && !(((TwitterCitation) tc).getCountry()
-						.equals(((GeographicLocation) criterion).getCountry()))) {
+				if (tc instanceof TwitterCitation
+						&& !((TwitterCitation) tc).getCountry().equals(((GeographicLocation) criterion).getCountry())) {
 					// bw.write(" ENTREI NO IF DO GEOGRAPHIC LOCATION \n");
 					isValid = false;
 				}

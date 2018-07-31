@@ -69,6 +69,10 @@ public class CitationDetecter {
 	private FileWriter fw;
 	private File toWriteFile;
 
+	public static void logger(Object toPrint) {
+		System.out.println(toPrint);
+	}
+
 	public CitationDetecter() throws IOException {
 		String path = PropertiesManager.getProperties().getProperty("indexer.dir");
 		docDir = Paths.get(path);
@@ -221,7 +225,7 @@ public class CitationDetecter {
 		return htmlTransc;
 	}
 
-	private boolean startBiggerThanEnd(int htmlStart, int htmlEnd, int numOfPStart, int numOfPEnd) {
+	public boolean startBiggerThanEnd(int htmlStart, int htmlEnd, int numOfPStart, int numOfPEnd) {
 		return (htmlStart > htmlEnd && numOfPStart == numOfPEnd);
 	}
 
@@ -615,7 +619,7 @@ public class CitationDetecter {
 
 	// returns max jaro value between a word in the pattern and every word in the
 	// text
-	private List<String> maxJaroValue(String text, String wordToFind) {
+	public List<String> maxJaroValue(String text, String wordToFind) {
 		JaroWinklerDistance jaro = new JaroWinklerDistance();
 		double maxJaroValue = 0.0;
 		String wordFound = "";
@@ -630,22 +634,20 @@ public class CitationDetecter {
 			}
 		}
 
-		// JaroInfo info = new AwareAnnotationFactory().new JaroInfo(wordFound,
-		// maxJaroValue);
 		List<String> info = new ArrayList<String>();
 		info.add(wordFound);
 		info.add(String.valueOf(maxJaroValue));
 		return info;
 	}
 
-	private String cleanTweetText(String originalTweetText) {
+	public String cleanTweetText(String originalTweetText) {
 		// regex
 		String result = originalTweetText.toLowerCase().replaceAll("[\"*\\n;«»“”()]", "");
 
 		// apagar apenas os hífenes e pontos que não fizerem parte de palavras
 		int resultLen = result.length();
 		int lastCharPos = resultLen - 1;
-		String charSet = "-.,?q"; // 'q' porque muitas pessoas escrevem 'q' em vez de "que"
+		String charSet = "-.,?!q"; // 'q' porque muitas pessoas escrevem 'q' em vez de "que"
 		for (int i = 0; i < resultLen; i++) {
 			char c = result.charAt(i);
 			// logger(result.charAt(i));
@@ -657,55 +659,52 @@ public class CitationDetecter {
 		return result;
 	}
 
-	private String cleanCharFromString(char charToClean, String s, int position, int lastCharPos) {
+	public String cleanCharFromString(char charToClean, String s, int position, int lastCharPos) {
 		// !=lastCharPos serve para prevenior um IndexOutOfBound
-		// logger("string s : " + s);
-		// logger("position : " + position);
-		// logger("lastCharPos : " + lastCharPos);
+		// logger.debug("string s : " + s);
+		// logger.debug("position : " + position);
+		// logger.debug("lastCharPos : " + lastCharPos);
 
 		// limpar hífenes que tenham espaços em branco à esquerda ou à direita
 		if (charToClean == '-') {
-			// logger("entrei no if do hífen");
-			if (position != 0) {
-				if (s.charAt(position - 1) == ' ' || position != lastCharPos && s.charAt(position + 1) == ' ') {
-					s = s.substring(0, position) + ' ' + s.substring(position + 1);
-				}
-			}
+			// logger.debug("entrei no if do hífen");
+			s = replaceChar(s, position, lastCharPos);
 		}
 		// limpar pontos que tenham espaços em branco à esquerda e à direita
 		else if (charToClean == '.') {
-			// logger("entrei no if do ponto");
-			if (position != 0) {
-				if (s.charAt(position - 1) == ' ' && position != lastCharPos && s.charAt(position + 1) == ' ') {
-					s = s.substring(0, position) + ' ' + s.substring(position + 1);
-				}
-			}
+			s = replaceChar(s, position, lastCharPos);
 		}
 		// limpar vírgulas que tenham espaços em branco à esquerda e à direita
 		else if (charToClean == ',') {
-			// logger("entrei no if da vírgula");
-			if (s.charAt(position - 1) == ' ' && position != lastCharPos && s.charAt(position + 1) == ' ') {
-				s = s.substring(0, position) + ' ' + s.substring(position + 1);
-			}
+			s = replaceChar(s, position, lastCharPos);
 		}
 		// limpar pontos de interrogação que tenham espaços em branco à esquerda e à
 		// direita
 		else if (charToClean == '?') {
-			// logger("entrei no if do ponto de interrogação");
-			if (position != 0) {
-				if (s.charAt(position - 1) == ' ' && position != lastCharPos && s.charAt(position + 1) == ' ') {
-					s = s.substring(0, position) + ' ' + s.substring(position + 1);
-				}
-			}
+			s = replaceChar(s, position, lastCharPos);
+		}
+		// limpar pontos de exclamação que tenham espaços em branco à esquerda e à
+		// direita
+		else if (charToClean == '!') {
+			s = replaceChar(s, position, lastCharPos);
 		}
 		// substituir as ocorrências da letra 'q' com espaços à esquerda e à direita por
 		// "que"
 		else if (charToClean == 'q') {
-			// logger("entrei no if do \"q\"");
+			// logger.debug("entrei no if do \"q\"");
 			if (position != 0) {
 				if (s.charAt(position - 1) == ' ' && position != lastCharPos && s.charAt(position + 1) == ' ') {
 					s = s.substring(0, position) + "que" + s.substring(position + 1);
 				}
+			}
+		}
+		return s;
+	}
+
+	private String replaceChar(String s, int position, int lastCharPos) {
+		if (position != 0) {
+			if (s.charAt(position - 1) == ' ' && position != lastCharPos && s.charAt(position + 1) == ' ') {
+				s = s.substring(0, position) + ' ' + s.substring(position + 1);
 			}
 		}
 		return s;
@@ -825,7 +824,7 @@ public class CitationDetecter {
 		searchIndexAndDisplayResults(termQuery);
 	}
 
-	private int countOccurencesOfSubstring(final String string, final String substring, final int subsStartPos) {
+	public int countOccurencesOfSubstring(final String string, final String substring, final int subsStartPos) {
 		int count = 0;
 		int idx = 0;
 
