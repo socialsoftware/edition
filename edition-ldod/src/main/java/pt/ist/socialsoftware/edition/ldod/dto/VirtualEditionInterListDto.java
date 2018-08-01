@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
+import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
 
 public class VirtualEditionInterListDto {
 	private List<VirtualEditionInterDto> virtualEditionInterList = new ArrayList<>();
@@ -20,7 +21,7 @@ public class VirtualEditionInterListDto {
 	public VirtualEditionInterListDto(VirtualEdition virtualEdition) {
 		this.setVirtualEditionInterList(
 				virtualEdition.getIntersSet().stream().sorted((i1, i2) -> i2.getNumber() - i1.getNumber())
-						.map(i -> new VirtualEditionInterDto(i.getTitle(), i.getNumber(), i.getUrlId()))
+						.map(i -> new VirtualEditionInterDto((VirtualEditionInter) virtualEdition.getFragInterByUrlId(i.getUrlId())))
 						.collect(Collectors.toList()));
 		this.setTitle(virtualEdition.getTitle());
 		this.setAcronym(virtualEdition.getAcronym());
