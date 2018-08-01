@@ -20,7 +20,7 @@ public class VirtualEditionInterListDto {
 
 	public VirtualEditionInterListDto(VirtualEdition virtualEdition) {
 		this.setVirtualEditionInterList(
-				virtualEdition.getIntersSet().stream().sorted((i1, i2) -> i2.getNumber() - i1.getNumber())
+				virtualEdition.getIntersSet().stream().sorted()
 						.map(i -> new VirtualEditionInterDto((VirtualEditionInter) virtualEdition.getFragInterByUrlId(i.getUrlId())))
 						.collect(Collectors.toList()));
 		this.setTitle(virtualEdition.getTitle());
