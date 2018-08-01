@@ -18,10 +18,9 @@ class Fragment extends Component {
             urlId: "",
             text: "",
             splitText: [],
-            index: 1,
+            index: 0,
             seconds: 5,
         };
-        this.loadFragment = this.loadFragment.bind(this);
         this.paragraphSplit = this.paragraphSplit.bind(this);
         this.nextParagraph = this.nextParagraph.bind(this);
         this.handleTag= this.handleTag.bind(this);
@@ -32,34 +31,27 @@ class Fragment extends Component {
             title: this.props.fragment.title,
             number: this.props.fragment.number,
             urlId: this.props.fragment.urlId,
+            text: this.props.fragment.text,
+            splitText: this.paragraphSplit(this.props.fragment.text),
         });
 
-        this.loadFragment(this.props.acronym, this.props.fragment.urlId);
     }
-
-    loadFragment(acronym, urlId) {
-        let request = getVirtualEditionFragment(acronym, urlId);
-
-        request.then(response =>{
-            this.setState({
-                text: response.text,
-            })
-            this.paragraphSplit(response.text);
-        });
-        
-    }
-
     paragraphSplit(text){
-        var paragraph = text.split("</p>");
-        for (var i = 0; i < paragraph.length; i++) {
-            this.setState({
-                splitText: [...this.state.splitText, paragraph[i]]
-            });        
+        var res = [];
+        var paragraph = text.split("<br></p>");
+        if((paragraph[0].indexOf("<u>") > -1) ){
+            paragraph.splice(0,1);
         }
+        for (var i = 0; i < paragraph.length; i++) {
+            if (/\S/.test(paragraph[i])) {
+                res.push(paragraph[i]);
+            }
+        }
+        return res;
     }
 
     nextParagraph(){
-        if(this.state.index <= 5){
+        if(this.state.index < this.state.splitText.length - 1){
             this.setState((prevState, props) => ({
                 index: prevState.index + 1,
                 seconds: prevState.seconds + 0.0000001,
@@ -78,11 +70,11 @@ class Fragment extends Component {
     }
 
 
-    render() {
+    render() { 
         return (
             <div>
                 <WebSockets onRef={ref => (this.child = ref)} />
-                
+                   
                 <div className="clock">
                     <ReactCountdownClock seconds={this.state.seconds}
                     color="#c0392b"

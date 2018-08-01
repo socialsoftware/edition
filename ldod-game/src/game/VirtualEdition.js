@@ -7,7 +7,7 @@ import { notification } from 'antd';
 import { Icon } from 'antd';
 import { Button, ProgressBar, Glyphicon } from 'react-bootstrap';
 import { LDOD_MESSAGE } from '../utils/Constants';
-import { getVirtualEditionIndex, } from '../utils/APIUtils';
+import { getVirtualEditionIndex, getVirtualEditionFragment } from '../utils/APIUtils';
 import Fragment  from './Fragment';
 import './VirtualEdition.css';
 
@@ -21,7 +21,7 @@ class VirtualEdition extends Component {
             pub: false,
             taxonomy: [],
             members: [],
-            index: 0,
+            index: -1,
             view: false,
         };
         this.loadVirtualEdition = this.loadVirtualEdition.bind(this);
@@ -41,7 +41,7 @@ class VirtualEdition extends Component {
             })
             notification.success({
                 message: LDOD_MESSAGE,
-                description: "Virtual Edition: " + response.title + " loaded succesfully.",
+                description: "Virtual Edition: " + response.title + " loaded successfully.",
             })
         })
         .catch(error => {
@@ -68,7 +68,7 @@ class VirtualEdition extends Component {
     nextFragment(){
         this.setState((prevState, props) => ({
             index: prevState.index + 1,
-            view:true,
+            view: true,
         })); 
     }
 

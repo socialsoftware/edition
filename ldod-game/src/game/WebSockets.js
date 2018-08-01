@@ -32,6 +32,7 @@ class WebSockets extends Component {
     
     onConnected(){
         subscription = stompClient.subscribe('/topic/tags', this.onMessageReceived,{ id: this.state.userId});
+        stompClient.subscribe('/ldod-game/ping');
     
     }
     
