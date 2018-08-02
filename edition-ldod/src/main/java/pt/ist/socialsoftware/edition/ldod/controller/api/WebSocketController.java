@@ -28,7 +28,7 @@ public class WebSocketController {
     @SendTo("/topic/tags")
     public @ResponseBody void handleTags(@Payload Map<String,String> value) {
         logger.debug("client sent:{}", value.values());
-        broker.convertAndSend("/topic/tags", value);
+        broker.convertAndSend("/topic/tags", value.values());
     }
 
     @SubscribeMapping("/ping")
