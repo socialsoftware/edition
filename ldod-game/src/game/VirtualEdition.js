@@ -7,9 +7,10 @@ import { notification } from 'antd';
 import { Icon } from 'antd';
 import { Button, ProgressBar, Glyphicon } from 'react-bootstrap';
 import { LDOD_MESSAGE } from '../utils/Constants';
-import { getVirtualEditionIndex, getVirtualEditionFragment } from '../utils/APIUtils';
+import { getVirtualEditionIndex } from '../utils/APIUtils';
 import Fragment  from './Fragment';
 import './VirtualEdition.css';
+import LoadingIndicator  from '../common/LoadingIndicator';
 
 class VirtualEdition extends Component {
     constructor(props) {
@@ -23,12 +24,17 @@ class VirtualEdition extends Component {
             members: [],
             index: -1,
             view: false,
+            isLoading: false,
         };
         this.loadVirtualEdition = this.loadVirtualEdition.bind(this);
         this.nextFragment = this.nextFragment.bind(this);
     }
 
     loadVirtualEdition() {
+        this.setState({
+            isLoading: true,
+        })
+
         let request = getVirtualEditionIndex("LdoD-ok");
 
         request.then(response =>{
@@ -38,6 +44,7 @@ class VirtualEdition extends Component {
                 title: response.title,
                 acronym: response.acronym,
                 pub: response.pub,
+                isLoading: false
             })
             notification.success({
                 message: LDOD_MESSAGE,
@@ -79,6 +86,9 @@ class VirtualEdition extends Component {
                 key={f.title}
                 fragment={f}/>)
         });
+        if(this.state.isLoading) {
+            return <LoadingIndicator />;
+        }
         if(this.state.view) {
             var i = this.state.index;
             return (

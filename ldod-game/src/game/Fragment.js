@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import { getVirtualEditionFragment } from '../utils/APIUtils';
+import {Glyphicon} from 'react-bootstrap';
 import Paragraph from './Paragraph';
 import WebSockets from './WebSockets';
 import './Fragment.css';
@@ -60,12 +60,15 @@ class Fragment extends Component {
     }
 
     handleTag = (e) => {
-        var a = document.forms["form"]["tag"].value;
-        tags += "<br>" + a;
+        var input = document.forms["form"]["tag"].value;
+        this.child.sendMessage(input);
+        for(var x of this.child.getTags()){
+            alert("authorID: "+ x.authorId + " tag: " + x.tag + "\n");
+            tags+= x.tag;
+        }
+        tags += "<br>" + input;
         var display = document.getElementById("display")
         display.innerHTML="<p>" + tags + "</p>";
-        this.child.sendMessage(a);
-        console.log(" " + this.child.getTags());
         e.preventDefault();
     }
 
@@ -87,6 +90,7 @@ class Fragment extends Component {
                     <form id="form">
                         <input type="text" id="tag"/>
                         <input type="submit" onClick={(e) => {this.handleTag(e)}} value="Submit a tag for this paragraph"/>
+                        <Glyphicon glyph="tag" />
                     </form>
                 </div>
                 <div id="display"></div>

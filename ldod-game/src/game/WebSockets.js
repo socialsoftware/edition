@@ -31,15 +31,17 @@ class WebSockets extends Component {
     }
     
     onConnected(){
-        subscription = stompClient.subscribe('/topic/tags', this.onMessageReceived,{ id: this.state.userId});
+        subscription = stompClient.subscribe('/topic/tags', this.onMessageReceived, { id: this.state.userId});
         stompClient.subscribe('/ldod-game/ping');
     
     }
     
     onMessageReceived(payload) {
-        this.setState(prevState => ({
-            tags: [...prevState.tags, payload.body]
-        }));
+        var response = JSON.parse(payload.body);
+        var temp = {authorId: response[0], tag: response[1]};
+        this.setState({
+            tags: [...this.state.tags, temp]
+        })
     }
     
     componentWillUnmount(){
