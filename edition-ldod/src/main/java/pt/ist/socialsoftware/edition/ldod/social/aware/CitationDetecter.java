@@ -229,7 +229,7 @@ public class CitationDetecter {
 		return (htmlStart > htmlEnd && numOfPStart == numOfPEnd);
 	}
 
-	private List<String> patternFinding(String text, String tweet, BufferedWriter bw) throws IOException {
+	public List<String> patternFinding(String text, String tweet, BufferedWriter bw) throws IOException {
 		logger.debug("------------------------------ PATTERN FINDING ALGORITHM -------------------------");
 
 		// é chato pôr o text é lowercase pq estamos a adulterar a informação original,
