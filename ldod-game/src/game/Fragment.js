@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import {Glyphicon} from 'react-bootstrap';
 import Paragraph from './Paragraph';
 import WebSockets from './WebSockets';
+import Tag from './Tag';
 import './Fragment.css';
 var ReactCountdownClock = require("react-countdown-clock")
-var tags = " "
 class Fragment extends Component {
     constructor(props) {
         super(props);
@@ -23,7 +22,6 @@ class Fragment extends Component {
         };
         this.paragraphSplit = this.paragraphSplit.bind(this);
         this.nextParagraph = this.nextParagraph.bind(this);
-        this.handleTag= this.handleTag.bind(this);
     }
     
     componentDidMount() {
@@ -59,25 +57,10 @@ class Fragment extends Component {
         }
     }
 
-    handleTag = (e) => {
-        var input = document.forms["form"]["tag"].value;
-        this.child.sendMessage(input);
-        for(var x of this.child.getTags()){
-            alert("authorID: "+ x.authorId + " tag: " + x.tag + "\n");
-            tags+= x.tag;
-        }
-        tags += "<br>" + input;
-        var display = document.getElementById("display")
-        display.innerHTML="<p>" + tags + "</p>";
-        e.preventDefault();
-    }
-
-
     render() { 
         return (
             <div>
                 <WebSockets onRef={ref => (this.child = ref)} />
-                   
                 <div className="clock">
                     <ReactCountdownClock seconds={this.state.seconds}
                     color="#c0392b"
@@ -86,14 +69,7 @@ class Fragment extends Component {
                     />
                 </div>
                 <Paragraph text={this.state.splitText[this.state.index]} title={this.state.title} />
-                <div>
-                    <form id="form">
-                        <input type="text" id="tag"/>
-                        <input type="submit" onClick={(e) => {this.handleTag(e)}} value="Submit a tag for this paragraph"/>
-                        <Glyphicon glyph="tag" />
-                    </form>
-                </div>
-                <div id="display"></div>
+                <Tag ws={this.child} />
             </div>
         );
     }
