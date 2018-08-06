@@ -41,10 +41,7 @@ class Game extends Component {
         }
         return ( 
             <div>
-                
-                <Well>
-                    <VirtualEdition virtualEdition={this.state.virtualEdition}/>
-                </Well>
+                <VirtualEdition virtualEdition={this.state.virtualEdition}/>
             </div>
     );
   }

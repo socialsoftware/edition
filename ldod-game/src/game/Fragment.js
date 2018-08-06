@@ -64,11 +64,12 @@ class Fragment extends Component {
                 <div className="clock">
                     <ReactCountdownClock seconds={this.state.seconds}
                     color="#c0392b"
-                    size={100}
+                    size={90}
+                    showMilliseconds={false}
                     onComplete={this.nextParagraph}
                     />
                 </div>
-                <Paragraph text={this.state.splitText[this.state.index]} title={this.state.title} />
+                <Paragraph text={this.state.splitText[this.state.index]} title={this.state.title} />    
                 <Tag ws={this.child} />
             </div>
         );

@@ -24,18 +24,14 @@ class Paragrah extends Component {
 
     render() {
         return (
-            <div className="panel">
-                <Panel bsStyle="primary" defaultExpanded>
-                    <Panel.Heading>
-                        <Panel.Title componentClass="h4" toggle>{this.state.title}</Panel.Title>
-                    </Panel.Heading>
-                    <Panel.Collapse>
-                        <Panel.Body>
-                            <div dangerouslySetInnerHTML={{__html: this.state.text}}></div>
-                        </Panel.Body>
-                    </Panel.Collapse>
-                </Panel>
-            </div>
+        <Panel bsClass="panel" bsStyle="primary" defaultExpanded>
+            <Panel.Heading>
+                <Panel.Title componentClass="h4" toggle>{this.state.title}</Panel.Title>
+            </Panel.Heading>
+            <Panel.Body>
+                <div dangerouslySetInnerHTML={{__html: this.state.text}}></div>
+            </Panel.Body>
+        </Panel>
         );
     }
 }
