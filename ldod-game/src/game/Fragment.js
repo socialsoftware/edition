@@ -4,6 +4,7 @@ import Paragraph from './Paragraph';
 import WebSockets from './WebSockets';
 import Tag from './Tag';
 import './Fragment.css';
+import { Alert } from 'react-bootstrap';
 var ReactCountdownClock = require("react-countdown-clock")
 class Fragment extends Component {
     constructor(props) {
@@ -19,6 +20,7 @@ class Fragment extends Component {
             splitText: [],
             index: 0,
             seconds: 5,
+            round: 1,
         };
         this.paragraphSplit = this.paragraphSplit.bind(this);
         this.nextParagraph = this.nextParagraph.bind(this);
@@ -55,9 +57,26 @@ class Fragment extends Component {
                 seconds: prevState.seconds + 0.0000001,
             }));
         }
+        else if( this.state.index === this.state.splitText.length-1){
+            this.setState((prevState, props) => ({
+                index: 0,
+                seconds: prevState.seconds - 0.0000001,
+                round: prevState.round + 1,
+            }));
+        }
     }
 
     render() { 
+        if( this.state.round === 3){
+            setTimeout(()=>this.props.nextFragment(), 5000);
+            return(
+                <div>
+                    <Alert bsStyle="info">
+                        <strong>Next fragment will start in 5 seconds</strong>
+                    </Alert>
+                </div>
+            );
+        }
         return (
             <div>
                 <WebSockets onRef={ref => (this.child = ref)} />
@@ -65,7 +84,6 @@ class Fragment extends Component {
                     <ReactCountdownClock seconds={this.state.seconds}
                     color="#c0392b"
                     size={90}
-                    showMilliseconds={false}
                     onComplete={this.nextParagraph}
                     />
                 </div>

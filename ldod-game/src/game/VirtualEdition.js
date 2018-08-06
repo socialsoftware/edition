@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import { Button, ProgressBar, Glyphicon } from 'react-bootstrap';
+import { Alert, Button, ProgressBar, Glyphicon } from 'react-bootstrap';
 import Fragment  from './Fragment';
 import './VirtualEdition.css';
 var ReactCountdownClock = require("react-countdown-clock")
@@ -41,7 +41,7 @@ class VirtualEdition extends Component {
             var i = this.state.index;
             return (
               <div>
-                    <Fragment ws={this.child} key={this.state.fragments[i].title} fragment={this.state.fragments[i]} acronym={this.state.acronym}/>
+                    <Fragment ws={this.child} key={this.state.fragments[i].title} fragment={this.state.fragments[i]} acronym={this.state.acronym} nextFragment={this.nextFragment}/>
                     <ProgressBar min={0} bsStyle="success"active now={this.state.index} />
                     <div className="next">
                         <Button bsStyle="primary" onClick={this.nextFragment}>
@@ -53,12 +53,13 @@ class VirtualEdition extends Component {
         }
         return (
             <div>
-            <span className="start">The game will start in:</span>
+                <Alert bsStyle="info">
+                    <strong>The game is about to start in: </strong>
+                </Alert>
                 <div className="clock">    
-                    <ReactCountdownClock seconds={10}
+                    <ReactCountdownClock seconds={1}
                         color="#3498db"
                         size={200}
-                        showMilliseconds={false}
                         onComplete={this.nextFragment}
                     />
                 </div>
