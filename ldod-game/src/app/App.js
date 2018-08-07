@@ -47,10 +47,10 @@ class App extends Component {
     }
     
     loadCurrentUser() {
-            this.setState({
-                isLoading: true
-            });
-            getCurrentUser()
+        this.setState({
+            isLoading: true
+        });
+        getCurrentUser()
             .then(response => {
                 localStorage.setItem("currentUser", response.username);
                 this.setState({
@@ -62,7 +62,7 @@ class App extends Component {
                 this.setState({
                     isLoading: false
                 });
-        });
+            });
     }
 
     componentWillUnmount() {
@@ -94,6 +94,7 @@ class App extends Component {
         
         this.loadCurrentUser();
         this.props.history.push("/");
+        return 
     }
     
     render() {
@@ -101,61 +102,66 @@ class App extends Component {
             fontFamily : 'Ubuntu',
             backgroundColor: '#3498db'
         }
+        let ws;
         if(this.state.isLoading) {
             return <LoadingIndicator />
         }
-
+        if (this.state.isAuthenticated) {
+            ws = <WebSockets onRef={ref => (this.child = ref)} />;
+          } else {
+            ws = null;
+        }
     return (
         <Layout className="app-container">
-          <AppHeader isAuthenticated={this.state.isAuthenticated}
+            <AppHeader isAuthenticated={this.state.isAuthenticated}
             currentUser={this.state.currentUser}
             onLogout={this.handleLogout} />
-          <Content className="app-content">
-            <div className="container">
-            <WebSockets onRef={ref => (this.child = ref)} />
-              <Switch>
-                <Route exact path="/" render={() =>
-                <div>
-                  <Jumbotron style={styles}>
-                    <h2>Welcome to the LdoD Game powered by LdoD Archive</h2>
-                  </Jumbotron>
-                  <div className="col-md-offset-5 col-md-2">
-                      <Link to="/game">
-                        <Button bsStyle="primary">Start playing</Button>
-                      </Link>
-                  </div> 
-                </div>}>
-                </Route>
-                <Route path="/login" render={(props) =>
-                    <div>
-                      <Login onLogin={this.handleLogin} {...props} />
-                      SOCIAL NOT WORKING
-                      <TwitterLogin onLogin={this.handleLogin} {...props}/>
-                      <br/>
-                      <GoogleLogin onLogin={this.handleLogin} {...props}/>
-                      <br/>
-                      <FacebookLogin onLogin={this.handleLogin} {...props}/>
-                      <br/>
-                      <LinkedinLogin onLogin={this.handleLogin} {...props}/>
-                      <br/>
-                    </div>}>
-                 </Route>
-                <PrivateRoute path="/user/:username" authenticated={this.state.isAuthenticated} currentUser={this.state.currentUser}
-                    component={Profile}>
-                </PrivateRoute>
-                <PrivateRoute path="/game" ws={this.child} authenticated={this.state.isAuthenticated} currentUser={this.state.currentUser}
-                  component={Game}>
-                </PrivateRoute>
-                <PrivateRoute path="/ping" authenticated={this.state.isAuthenticated}
-                  component={WebSockets} currentUser={this.state.currentUser} handleLogout={this.handleLogout}>
-                </PrivateRoute>
-                 <PrivateRoute path="/chat" authenticated={this.state.isAuthenticated}
-                  component={Chat} currentUser={this.state.currentUser} handleLogout={this.handleLogout}>
-                </PrivateRoute>
-                <Route component={NotFound}></Route>
-              </Switch>
-            </div>
-          </Content>
+            <Content className="app-content">
+                <div className="container">
+                    {ws} {/* WebSocket is open if authenticated */}
+                    <Switch>
+                        <Route exact path="/" render={() =>
+                        <div>
+                            <Jumbotron style={styles}>
+                                <h2>Welcome to the LdoD Game powered by LdoD Archive</h2>
+                            </Jumbotron>
+                            <div className="col-md-offset-5 col-md-2">
+                                <Link to="/game">
+                                    <Button bsStyle="primary">Start playing</Button>
+                                </Link>
+                            </div> 
+                        </div>}>
+                        </Route>
+                        <Route path="/login" render={(props) =>
+                        <div>
+                            <Login onLogin={this.handleLogin} {...props} />
+                            SOCIAL NOT WORKING
+                            <TwitterLogin onLogin={this.handleLogin} {...props}/>
+                            <br/>
+                            <GoogleLogin onLogin={this.handleLogin} {...props}/>
+                            <br/>
+                            <FacebookLogin onLogin={this.handleLogin} {...props}/>
+                            <br/>
+                            <LinkedinLogin onLogin={this.handleLogin} {...props}/>
+                            <br/>
+                        </div>}>
+                        </Route>
+                        <PrivateRoute path="/user/:username" authenticated={this.state.isAuthenticated} currentUser={this.state.currentUser}
+                        component={Profile}>
+                        </PrivateRoute>
+                        <PrivateRoute path="/game" ws={this.child} authenticated={this.state.isAuthenticated} currentUser={this.state.currentUser}
+                        component={Game}>
+                        </PrivateRoute>
+                        <PrivateRoute path="/ping" authenticated={this.state.isAuthenticated}
+                        component={WebSockets} currentUser={this.state.currentUser} handleLogout={this.handleLogout}>
+                        </PrivateRoute>
+                        <PrivateRoute path="/chat" authenticated={this.state.isAuthenticated}
+                        component={Chat} currentUser={this.state.currentUser} handleLogout={this.handleLogout}>
+                        </PrivateRoute>
+                        <Route component={NotFound}></Route>
+                    </Switch>
+                </div>
+             </Content>
         </Layout>
     );
   }
