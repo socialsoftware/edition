@@ -27,6 +27,6 @@ public class GameUpdater{
     @Scheduled(fixedRate = 30000)
     public void run() {
         String time = LocalTime.now().format(TIME_FORMAT);
-        broker.convertAndSend("/topic/ping", new APIResponse(true,"Current time is " + time));
+        broker.convertAndSend("/topic/tags", new APIResponse(true,"Current time is " + time));
     }
 }
