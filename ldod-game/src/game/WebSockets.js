@@ -16,7 +16,7 @@ class WebSockets extends Component {
         this.onMessageReceived = this.onMessageReceived.bind(this);   
         this.onConnected = this.onConnected.bind(this);
         this.sendMessage = this.sendMessage.bind(this);   
-        this.getMessages = this.getMessages.bind(this);   
+        this.getMessages = this.getMessages.bind(this); 
     }
     
     componentDidMount(){
@@ -26,7 +26,7 @@ class WebSockets extends Component {
         });
         var socket = new SockJS(WEB_SOCKETS_URL);
         stompClient = Stomp.over(socket);
-        //stompClient.debug = null;
+        stompClient.debug = null;
         stompClient.connect({}, this.onConnected);
         
     }

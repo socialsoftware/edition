@@ -32,7 +32,8 @@ class App extends Component {
         this.state = {
             currentUser: null,
             isAuthenticated: false,
-            isLoading: false
+            isLoading: false,
+            data: "",
         }
         
         this.handleLogout = this.handleLogout.bind(this);
@@ -96,6 +97,12 @@ class App extends Component {
         this.props.history.push("/");
         return 
     }
+
+    handleWsData(value){
+        this.setState({
+            data: value,
+        });
+    }
     
     render() {
         var styles ={
@@ -105,9 +112,9 @@ class App extends Component {
         let ws;
         if(this.state.isLoading) {
             return <LoadingIndicator />
-        }
+        }  
         if (this.state.isAuthenticated) {
-            ws = <WebSockets onRef={ref => (this.child = ref)} />;
+            ws = <WebSockets onRef={ref => (this.child = ref)}/>;
           } else {
             ws = null;
         }

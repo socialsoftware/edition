@@ -1,5 +1,23 @@
 .clock{ 
     display: flex;
     align-items: center;
-    justify-content: center 
+    justify-content: center; 
+}
+
+.text-r1{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "Ubuntu";
+    color: #2ecc71;
+    font-size: 30px;
+}
+
+.text-r2{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "Ubuntu";
+    color: #8e44ad;
+    font-size: 30px;
 }

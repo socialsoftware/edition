@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import Paragraph from './Paragraph';
 import Tag from './Tag';
+import Vote from './Vote';
 import './Fragment.css';
 import { Alert } from 'react-bootstrap';
 var ReactCountdownClock = require("react-countdown-clock")
@@ -20,9 +21,13 @@ class Fragment extends Component {
             index: 0,
             seconds: 5,
             round: 1,
+            tags: [],
         };
         this.paragraphSplit = this.paragraphSplit.bind(this);
         this.nextParagraph = this.nextParagraph.bind(this);
+        this.setTag = this.setTag.bind(this);
+        this.showTags = this.showTags.bind(this);
+        
     }
     
     componentDidMount() {
@@ -65,7 +70,49 @@ class Fragment extends Component {
         }
     }
 
-    render() { 
+    setTag(tag){
+        console.log("called with: " + tag);
+        this.setState((prevState, props) => ({
+            tags: [...this.state.tags, tag]
+        }));
+    }
+
+    showTags(){
+        return this.state.tags;
+    }
+
+    render() {
+        let roundRender;
+        if (this.state.round === 2) {
+            roundRender = 
+            <div>
+                <span className="text-r2">Round 2:</span>
+                <div className="clock">
+                    <ReactCountdownClock seconds={this.state.seconds}
+                    color="#8e44ad"
+                    size={90}
+                    onComplete={this.nextParagraph}
+                    />
+                </div>
+                <Paragraph text={this.state.splitText[this.state.index]} title={this.state.title} style={"r2"}/>    
+                <Vote ws={this.props.ws} showTags={this.showTags}/>
+            </div>
+          } else {
+            roundRender =
+            <div>
+                <span className="text-r1">Round 1:</span>
+                <div className="clock">
+                    <ReactCountdownClock seconds={this.state.seconds}
+                    color="#2ecc71"
+                    size={90}
+                    onComplete={this.nextParagraph}
+                    />
+                </div>
+                <Paragraph text={this.state.splitText[this.state.index]} title={this.state.title} style={"r1"}/>    
+                <Tag ws={this.props.ws} setTag={this.setTag}/>
+            </div>
+        }
+
         if( this.state.round === 3){
             setTimeout(()=>this.props.nextFragment(), 5000);
             return(
@@ -78,15 +125,7 @@ class Fragment extends Component {
         }
         return (
             <div>
-                <div className="clock">
-                    <ReactCountdownClock seconds={this.state.seconds}
-                    color="#c0392b"
-                    size={90}
-                    onComplete={this.nextParagraph}
-                    />
-                </div>
-                <Paragraph text={this.state.splitText[this.state.index]} title={this.state.title} />    
-                <Tag ws={this.props.ws} />
+                {roundRender}
             </div>
         );
     }

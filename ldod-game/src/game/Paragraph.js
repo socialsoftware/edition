@@ -24,11 +24,11 @@ class Paragrah extends Component {
 
     render() {
         return (
-        <Panel bsClass="panel" bsStyle="primary" defaultExpanded>
+        <Panel className={"panel-" + this.props.style} bsStyle="primary" defaultExpanded>
             <Panel.Heading>
-                <Panel.Title componentClass="h4" toggle>{this.state.title}</Panel.Title>
+                <Panel.Title className={"panel-title-" + this.props.style} componentClass="h4" toggle>{this.state.title}</Panel.Title>
             </Panel.Heading>
-            <Panel.Body>
+            <Panel.Body >
                 <div dangerouslySetInnerHTML={{__html: this.state.text}}></div>
             </Panel.Body>
         </Panel>
