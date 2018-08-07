@@ -3,6 +3,7 @@ import { withRouter } from 'react-router-dom';
 import { Alert, Button, ProgressBar, Glyphicon } from 'react-bootstrap';
 import Fragment  from './Fragment';
 import './VirtualEdition.css';
+
 var ReactCountdownClock = require("react-countdown-clock")
 class VirtualEdition extends Component {
     constructor(props) {
@@ -41,7 +42,7 @@ class VirtualEdition extends Component {
             var i = this.state.index;
             return (
               <div>
-                    <Fragment ws={this.child} key={this.state.fragments[i].title} fragment={this.state.fragments[i]} acronym={this.state.acronym} nextFragment={this.nextFragment}/>
+                    <Fragment ws={this.props.ws} key={this.state.fragments[i].title} fragment={this.state.fragments[i]} acronym={this.state.acronym} nextFragment={this.nextFragment}/>
                     <ProgressBar min={0} bsStyle="success"active now={this.state.index} />
                     <div className="next">
                         <Button bsStyle="primary" onClick={this.nextFragment}>

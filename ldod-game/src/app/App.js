@@ -21,9 +21,7 @@ import GoogleLogin from '../social/GoogleLogin';
 import TwitterLogin from '../social/TwitterLogin';
 import Chat from '../game/Chat';
 import WebSockets from '../game/WebSockets';
-import { Jumbotron, Button } from 'react-bootstrap';
-
-
+import { Jumbotron, Button } from 'react-bootstrap'; 
 
 const { Content } = Layout;
 
@@ -66,18 +64,18 @@ class App extends Component {
                 });
         });
     }
+
     componentWillUnmount() {
         localStorage.clear();
     }
 
-  // Handle Logout, Set currentUser and isAuthenticated state which will be passed to other components
-  handleLogout(redirectTo="/", notificationType="success", description="You're successfully logged out.") {
-      localStorage.removeItem(ACCESS_TOKEN);
-      localStorage.clear();
-      
-      this.setState({
-          currentUser: null,
-          isAuthenticated: false
+    handleLogout(redirectTo="/", notificationType="success", description="You're successfully logged out.") {
+        localStorage.removeItem(ACCESS_TOKEN);
+        localStorage.clear();
+        
+        this.setState({
+            currentUser: null,
+            isAuthenticated: false
         });
         
         this.props.history.push(redirectTo);
@@ -102,11 +100,10 @@ class App extends Component {
         var styles ={
             fontFamily : 'Ubuntu',
             backgroundColor: '#3498db'
-    }
-    if(this.state.isLoading) {
-        return <LoadingIndicator />
-    }
-  
+        }
+        if(this.state.isLoading) {
+            return <LoadingIndicator />
+        }
 
     return (
         <Layout className="app-container">
@@ -115,6 +112,7 @@ class App extends Component {
             onLogout={this.handleLogout} />
           <Content className="app-content">
             <div className="container">
+            <WebSockets onRef={ref => (this.child = ref)} />
               <Switch>
                 <Route exact path="/" render={() =>
                 <div>
@@ -145,7 +143,7 @@ class App extends Component {
                 <PrivateRoute path="/user/:username" authenticated={this.state.isAuthenticated} currentUser={this.state.currentUser}
                     component={Profile}>
                 </PrivateRoute>
-                <PrivateRoute path="/game" authenticated={this.state.isAuthenticated} currentUser={this.state.currentUser}
+                <PrivateRoute path="/game" ws={this.child} authenticated={this.state.isAuthenticated} currentUser={this.state.currentUser}
                   component={Game}>
                 </PrivateRoute>
                 <PrivateRoute path="/ping" authenticated={this.state.isAuthenticated}

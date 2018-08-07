@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import { Well } from 'react-bootstrap';
 import VirtualEdition from './VirtualEdition';
-import WebSockets from './WebSockets';
-import { getVirtualEditionIndex } from '../utils/APIUtils';import { notification } from 'antd';
+import { getVirtualEditionIndex } from '../utils/APIUtils';
 import LoadingIndicator  from '../common/LoadingIndicator';
 
 class Game extends Component {
@@ -41,7 +39,7 @@ class Game extends Component {
         }
         return ( 
             <div>
-                <VirtualEdition virtualEdition={this.state.virtualEdition}/>
+                <VirtualEdition ws={this.props.ws} virtualEdition={this.state.virtualEdition}/>
             </div>
     );
   }

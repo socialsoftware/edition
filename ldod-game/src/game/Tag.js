@@ -18,7 +18,7 @@ class Tag extends Component {
     handleTag = (e) => {
         var input = document.forms["form"]["tag"].value;
         this.props.ws.sendMessage(input);
-      /*  for(var x of this.props.ws.getMessages()){
+        /*for(var x of this.props.ws.getMessages()){
             alert("authorID: "+ x.authorId + " tag: " + x.tag + "\n");
             tags+= x.tag;
         }*/

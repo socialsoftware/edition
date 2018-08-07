@@ -26,6 +26,7 @@ class WebSockets extends Component {
         });
         var socket = new SockJS(WEB_SOCKETS_URL);
         stompClient = Stomp.over(socket);
+        stompClient.debug = null;
         stompClient.connect({}, this.onConnected);
 
     }

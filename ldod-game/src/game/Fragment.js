@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import Paragraph from './Paragraph';
-import WebSockets from './WebSockets';
 import Tag from './Tag';
 import './Fragment.css';
 import { Alert } from 'react-bootstrap';
@@ -79,7 +78,6 @@ class Fragment extends Component {
         }
         return (
             <div>
-                <WebSockets onRef={ref => (this.child = ref)} />
                 <div className="clock">
                     <ReactCountdownClock seconds={this.state.seconds}
                     color="#c0392b"
@@ -88,7 +86,7 @@ class Fragment extends Component {
                     />
                 </div>
                 <Paragraph text={this.state.splitText[this.state.index]} title={this.state.title} />    
-                <Tag ws={this.child} />
+                <Tag ws={this.props.ws} />
             </div>
         );
     }
