@@ -22,6 +22,7 @@ class Fragment extends Component {
             seconds: 5,
             round: 1,
             tags: [],
+            votes: [],
         };
         this.paragraphSplit = this.paragraphSplit.bind(this);
         this.nextParagraph = this.nextParagraph.bind(this);
@@ -68,10 +69,17 @@ class Fragment extends Component {
         }
     }
     
-    handleMessage(message) {
+    handleMessageTag(message) {
         var temp = { authorId: message[0], tag: message[1]};
         this.setState(({
             tags: [...this.state.tags, temp]
+        }));
+    }
+
+    handleMessageVote(message) {
+        var temp = { authorId: message[0], tag: message[1].tag, vote: message[1].vote};
+        this.setState(({
+            votes: [...this.state.votes, temp]
         }));
     }
 
@@ -90,7 +98,7 @@ class Fragment extends Component {
                     />
                 </div>
                 <Paragraph text={this.state.splitText[this.state.index]} title={this.state.title} style={style}/>    
-                <Vote tags={this.state.tags}/>
+                <Vote tags={this.state.tags} handleMessageVote={this.handleMessageVote.bind(this)}/>
             </div>
           } else {
             let style = "r1";
@@ -106,7 +114,7 @@ class Fragment extends Component {
                 </div>
                 <Paragraph text={this.state.splitText[this.state.index]} title={this.state.title} style={style}/>
                   
-                <Tag handleMessage={this.handleMessage.bind(this)}/>
+                <Tag handleMessageTag={this.handleMessageTag.bind(this)}/>
             </div>
         }
 

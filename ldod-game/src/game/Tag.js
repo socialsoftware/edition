@@ -47,7 +47,7 @@ class Tag extends Component {
                     url={WEB_SOCKETS_URL}
                     topics={['/topic/tags']}
                     ref={ (client) => { this.clientRef = client }}
-                    onMessage={(message) => this.props.handleMessage(message)} />  
+                    onMessage={(message) => this.props.handleMessageTag(message)} />  
                 <div id="display"></div>
                 <form id="form" onSubmit={(e) => {this.handleTag(e)}}>
                     <FormGroup>
