@@ -3,7 +3,9 @@ import { withRouter } from 'react-router-dom';
 import {Glyphicon, Button, FormControl, FormGroup, InputGroup} from 'react-bootstrap';
 import './Tag.css';
 import { Tag as TagD } from 'antd';
-var tags = " "
+import { WEB_SOCKETS_URL} from '../utils/Constants';
+import SockJsClient from 'react-stomp'
+var tags = " ";
 class Tag extends Component {
     constructor(props) {
         super(props);
@@ -13,35 +15,39 @@ class Tag extends Component {
         this.handleTag = this.handleTag.bind(this);
     }
     
-    componentDidMount(){
-        tags = " ";
-    }
-
     handleTag = (e) => {
         var input = document.forms["form"]["tag"].value;
-        this.props.ws.sendMessage(input);
-        /*for(var x of this.props.ws.getMessages()){
-            alert("authorID: "+ x.authorId + " tag: " + x.tag + "\n");
-            tags+= x.tag;
-        }*/
-        // TODO: websocket needs to update tag which then cals the props.setTag in order to Fragment have info
-        this.props.setTag(input);
+        this.sendMessage(input);
         tags += "<br>" + input;
-        var display = document.getElementById("display")
-        display.innerHTML="<p>" + tags + "</p>";
         document.getElementById("form").reset();
+        this.setState({
+            tags: [...this.state.tags, input]
+        })
         e.preventDefault();
     }
 
+    sendMessage = (msg, selfMsg) => {
+        try {
+          this.clientRef.sendMessage('/ldod-game/tags', JSON.stringify({ userId: localStorage.getItem("currentUser"), msg: msg}));
+          return true;
+        } catch(e) {
+          return false;
+        }
+    }
 
     render() {
-        /*const tagViews = [];
-        let messages = this.props.ws.getMessages();
+        const tagViews = [];
+        let messages = this.state.tags;
         messages.forEach((m, mIndex) => {
-            tagViews.push(<TagD color="blue">{m.tag}</TagD>)
-        });*/
+            tagViews.push(<TagD color="blue" key={mIndex} >{m}</TagD>)
+        });
         return (
             <div> 
+            <SockJsClient
+                    url={WEB_SOCKETS_URL}
+                    topics={['/topic/tags']}
+                    ref={ (client) => { this.clientRef = client }}
+                    onMessage={(message) => this.props.handleMessage(message)} />  
                 <div id="display"></div>
                 <form id="form" onSubmit={(e) => {this.handleTag(e)}}>
                     <FormGroup>
@@ -52,7 +58,9 @@ class Tag extends Component {
                         <Button type="submit">Tag this paragraph</Button>
                     </FormGroup>
                 </form>
-                {/*tagViews*/}
+                <div className="tag-view">
+                    {tagViews}
+                </div>
             </div>
         );
     }

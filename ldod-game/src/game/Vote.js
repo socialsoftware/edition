@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import {Glyphicon, FormGroup, Checkbox, } from 'react-bootstrap';
-import './Tag.css';
-var  vote = " "
+import {FormGroup, Checkbox, } from 'react-bootstrap';
 class Vote extends Component {
     constructor(props) {
         super(props);
@@ -13,17 +11,24 @@ class Vote extends Component {
     }
     
     componentDidMount(){
-        vote = " ";
+        this.setState({
+            tags: this.props.tags,
+        })
     }
 
     
-    render() { 
+    render() {
+        const voteViews = [];   
+        let messages = this.state.tags;
+        messages.forEach((m, mIndex) => {
+            voteViews.push(<Checkbox key={m.authorId + mIndex} >{m.tag}</Checkbox>)
+        }); 
         return (
             <form>
                 <FormGroup>
-                    <Checkbox inline>1</Checkbox> 
-                    <Checkbox inline>2</Checkbox>{' '}
-                    <Checkbox inline>3</Checkbox>
+                    <div>
+                        {voteViews}
+                    </div>
                 </FormGroup>
             </form>
         );

@@ -13,7 +13,6 @@ import Profile from '../user/profile/Profile';
 import AppHeader from '../common/AppHeader';
 import Game from '../game/Game';
 import NotFound from '../common/NotFound';
-import LoadingIndicator from '../common/LoadingIndicator';
 import PrivateRoute from '../common/PrivateRoute';
 import FacebookLogin from '../social/FacebookLogin';
 import LinkedinLogin from '../social/LinkedinLogin';
@@ -109,15 +108,6 @@ class App extends Component {
             fontFamily : 'Ubuntu',
             backgroundColor: '#3498db'
         }
-        let ws;
-        if(this.state.isLoading) {
-            return <LoadingIndicator />
-        }  
-        if (this.state.isAuthenticated) {
-            ws = <WebSockets onRef={ref => (this.child = ref)}/>;
-          } else {
-            ws = null;
-        }
     return (
         <Layout className="app-container">
             <AppHeader isAuthenticated={this.state.isAuthenticated}
@@ -125,7 +115,6 @@ class App extends Component {
             onLogout={this.handleLogout} />
             <Content className="app-content">
                 <div className="container">
-                    {ws} {/* WebSocket is open if authenticated */}
                     <Switch>
                         <Route exact path="/" render={() =>
                         <div>

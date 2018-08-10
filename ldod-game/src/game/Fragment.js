@@ -25,8 +25,6 @@ class Fragment extends Component {
         };
         this.paragraphSplit = this.paragraphSplit.bind(this);
         this.nextParagraph = this.nextParagraph.bind(this);
-        this.setTag = this.setTag.bind(this);
-        this.showTags = this.showTags.bind(this);
         
     }
     
@@ -69,21 +67,18 @@ class Fragment extends Component {
             }));
         }
     }
-
-    setTag(tag){
-        console.log("called with: " + tag);
-        this.setState((prevState, props) => ({
-            tags: [...this.state.tags, tag]
+    
+    handleMessage(message) {
+        var temp = { authorId: message[0], tag: message[1]};
+        this.setState(({
+            tags: [...this.state.tags, temp]
         }));
-    }
-
-    showTags(){
-        return this.state.tags;
     }
 
     render() {
         let roundRender;
         if (this.state.round === 2) {
+            let style = "r2";
             roundRender = 
             <div>
                 <span className="text-r2">Round 2:</span>
@@ -94,10 +89,11 @@ class Fragment extends Component {
                     onComplete={this.nextParagraph}
                     />
                 </div>
-                <Paragraph text={this.state.splitText[this.state.index]} title={this.state.title} style={"r2"}/>    
-                <Vote ws={this.props.ws} showTags={this.showTags}/>
+                <Paragraph text={this.state.splitText[this.state.index]} title={this.state.title} style={style}/>    
+                <Vote tags={this.state.tags}/>
             </div>
           } else {
+            let style = "r1";
             roundRender =
             <div>
                 <span className="text-r1">Round 1:</span>
@@ -108,8 +104,9 @@ class Fragment extends Component {
                     onComplete={this.nextParagraph}
                     />
                 </div>
-                <Paragraph text={this.state.splitText[this.state.index]} title={this.state.title} style={"r1"}/>    
-                <Tag ws={this.props.ws} setTag={this.setTag}/>
+                <Paragraph text={this.state.splitText[this.state.index]} title={this.state.title} style={style}/>
+                  
+                <Tag handleMessage={this.handleMessage.bind(this)}/>
             </div>
         }
 

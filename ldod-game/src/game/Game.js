@@ -39,7 +39,7 @@ class Game extends Component {
         }
         return ( 
             <div>
-                <VirtualEdition ws={this.props.ws} virtualEdition={this.state.virtualEdition}/>
+                <VirtualEdition virtualEdition={this.state.virtualEdition}/>
             </div>
     );
   }

@@ -43,7 +43,9 @@ class VirtualEdition extends Component {
             return (
               <div>
                     <Fragment ws={this.props.ws} key={this.state.fragments[i].title} fragment={this.state.fragments[i]} acronym={this.state.acronym} nextFragment={this.nextFragment}/>
-                    <ProgressBar min={0} bsStyle="success"active now={this.state.index} />
+                    <div className="progress">
+                        <ProgressBar min={0} bsStyle="success"active now={this.state.index} />
+                    </div>
                     <div className="next">
                         <Button bsStyle="primary" onClick={this.nextFragment}>
                             <Glyphicon glyph="arrow-right"/> 
