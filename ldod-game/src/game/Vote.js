@@ -7,25 +7,26 @@ class Vote extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            tags: [],
-            count: 0,
+            votes: [],
         };
         this.handleVote = this.handleVote.bind(this);
+        this.handleMessageVote = this.handleMessageVote.bind(this);
     }
     
     componentDidMount(){
         this.setState({
-            tags: this.props.tags,
+            votes: this.props.initialTags,
         })
+       
     }
 
     handleVote = (param) => (e) =>{
         let msg;
         if (e.target.checked) {
             msg = {tag: param.tag, vote: 1};
-          } else {
+        } else {
             msg = {tag: param.tag, vote: -1};
-          }
+        }
         this.sendMessage(msg);
     }
 
@@ -38,14 +39,20 @@ class Vote extends Component {
         }
     }
 
-    
+    handleMessageVote(message) {
+        var temp = { authorId: message[0], tag: message[1].tag, vote: message[1].vote};
+        this.setState(({
+            votes: [...this.state.votes, temp]
+        }));
+    }
+
     render() {
         const voteViews = [];   
-        let messages = this.state.tags;
-        messages.forEach((m, mIndex) => {
+        let votes = this.state.votes;
+        votes.forEach((m, mIndex) => {
             voteViews.push(
             <div>
-                <Checkbox key={m.authorId + mIndex} onClick={this.handleVote(m)}>{m.tag} {this.state.count}
+                <Checkbox key={m.authorId + mIndex} onClick={this.handleVote(m)}>{m.tag} {m.vote}
                 </Checkbox>
             </div>)
             
@@ -56,11 +63,9 @@ class Vote extends Component {
                     url={WEB_SOCKETS_URL}
                     topics={['/topic/votes']}
                     ref={ (client) => { this.clientRef = client }}
-                    onMessage={(message) => this.props.handleMessageVote(message)} />
+                    onMessage={(message) => this.handleMessageVote(message)} />
                 <FormGroup>
-                    <div>
-                        {voteViews}
-                    </div>
+                    {voteViews}
                 </FormGroup>
             </form>
         );

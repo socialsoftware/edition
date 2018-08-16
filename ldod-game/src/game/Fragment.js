@@ -22,7 +22,6 @@ class Fragment extends Component {
             seconds: 5,
             round: 1,
             tags: [],
-            votes: [],
         };
         this.paragraphSplit = this.paragraphSplit.bind(this);
         this.nextParagraph = this.nextParagraph.bind(this);
@@ -70,18 +69,12 @@ class Fragment extends Component {
     }
     
     handleMessageTag(message) {
-        var temp = { authorId: message[0], tag: message[1]};
+        var temp = { authorId: message[0], tag: message[1], vote: 1};
         this.setState(({
             tags: [...this.state.tags, temp]
         }));
     }
 
-    handleMessageVote(message) {
-        var temp = { authorId: message[0], tag: message[1].tag, vote: message[1].vote};
-        this.setState(({
-            votes: [...this.state.votes, temp]
-        }));
-    }
 
     render() {
         let roundRender;
@@ -98,7 +91,7 @@ class Fragment extends Component {
                     />
                 </div>
                 <Paragraph text={this.state.splitText[this.state.index]} title={this.state.title} style={style}/>    
-                <Vote tags={this.state.tags} handleMessageVote={this.handleMessageVote.bind(this)}/>
+                <Vote initialTags={this.state.tags}/>
             </div>
           } else {
             let style = "r1";

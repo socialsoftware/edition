@@ -18,18 +18,16 @@ class Game extends Component {
        this.loadVirtualEdition();
     }
     
-    loadVirtualEdition(){
+    async loadVirtualEdition(){
         this.setState({
             isLoading: true,
         })
 
-        let request = getVirtualEditionIndex("LdoD-ok");
+        let request =   await getVirtualEditionIndex("LdoD-ok");
 
-        request.then(response =>{
-            this.setState({
-                virtualEdition: response,
-                isLoading: false
-            })
+        this.setState({
+            virtualEdition: request,
+            isLoading: false
         })
     }
 
@@ -37,6 +35,7 @@ class Game extends Component {
         if(this.state.isLoading) {
             return <LoadingIndicator />;
         }
+       
         return ( 
             <div>
                 <VirtualEdition virtualEdition={this.state.virtualEdition}/>
