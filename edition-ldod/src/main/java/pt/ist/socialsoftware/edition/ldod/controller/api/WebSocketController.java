@@ -53,11 +53,6 @@ public class WebSocketController {
             // if tag is submitted for the first we add it
             res.add(tag);
             submittedTags.put(urlId, res);
-            logger.debug("map {} has:", urlId);
-            for(TagDto d: res){
-                logger.debug("tag:{} author:{}  score:{}", d.getContent(), d.getAuthorId(), d.getScore());
-            }
-
         }
         else{
             // if tag already exists increment score and update
@@ -87,7 +82,6 @@ public class WebSocketController {
         Object vote = payload.get("vote");
         res.stream().filter(t -> t.getContent().equals(tagMsg)).
                 forEach(tagDto ->{
-                    logger.debug("handle Vote received {} with: {} ", payload.get("msg"), payload.get("vote"));
                     tagDto.setScore(tagDto.getScore() + (int) vote);
                     payload.put("vote", String.valueOf(tagDto.getScore()));
                 });
@@ -96,9 +90,4 @@ public class WebSocketController {
 
     }
 
-    @SubscribeMapping("/ping")
-    public void subscribeHandler(){
-        logger.debug("ldod-game handler");
-        //broker.convertAndSend("ldod-game/ping", "Registered");
-    }
 }
