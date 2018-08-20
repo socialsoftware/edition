@@ -1,7 +1,5 @@
 package pt.ist.socialsoftware.edition.ldod.controller.api;
 
-import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.Multimap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,8 +29,6 @@ public class WebSocketController {
     private static Logger logger = LoggerFactory.getLogger(WebSocketController.class);
     @Autowired
     private SimpMessagingTemplate broker;
-    private Multimap<Object, Object> tagMap = ArrayListMultimap.create();
-    private Map<String, Integer> votingMap = new HashMap<>();
     private Map<String, List<TagDto>> submittedTags = new HashMap<>();
 
     @GetMapping("/api/services/ldod-game/ready/{acronym}")
