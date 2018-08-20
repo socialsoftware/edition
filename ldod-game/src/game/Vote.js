@@ -21,18 +21,18 @@ class Vote extends Component {
     }
 
     handleVote = (param) => (e) =>{
-        let msg;
+        let vote;
         if (e.target.checked) {
-            msg = {tag: param.tag, vote: 1};
+            vote =  1;
         } else {
-            msg = {tag: param.tag, vote: -1};
+            vote = -1;
         }
-        this.sendMessage(msg);
+        this.sendMessage(param.tag, vote);
     }
 
-    sendMessage = (msg, selfMsg) => {
+    sendMessage = (msg, vote, selfMsg) => {
         try {
-          this.clientRef.sendMessage('/ldod-game/votes', JSON.stringify({ urlId: this.props.id, voterId: localStorage.getItem("currentUser"), msg: msg}));
+          this.clientRef.sendMessage('/ldod-game/votes', JSON.stringify({ urlId: this.props.id, voterId: localStorage.getItem("currentUser"), msg: msg, vote: vote}));
           return true;
         } catch(e) {
           return false;
@@ -40,7 +40,7 @@ class Vote extends Component {
     }
 
     handleMessageVote(message) {
-        var temp = { authorId: message[0], tag: message[1].tag, vote: message[1].vote};
+        var temp = { authorId: message[1], tag: message[2], vote: message[3]};
         this.setState(({
             votes: [...this.state.votes, temp]
         }));
