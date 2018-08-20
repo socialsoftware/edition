@@ -40,10 +40,17 @@ class Vote extends Component {
     }
 
     handleMessageVote(message) {
+        var dictionary = this.state.votes;
+        let copy = [...this.state.votes];
         var temp = { authorId: message[1], tag: message[2], vote: message[3]};
-        this.setState(({
-            votes: [...this.state.votes, temp]
-        }));
+        for(var i in dictionary){
+            if(dictionary[i].tag === temp.tag){
+                copy.splice(i, 1, temp);
+                this.setState(({
+                    votes: copy,
+                }));
+            }
+        }
     }
 
     render() {
