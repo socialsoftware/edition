@@ -69,17 +69,30 @@ class Fragment extends Component {
     }
     
     handleMessageTag(message) {
-        var temp = { authorId: message[0], tag: message[1], vote: 1};
-        this.setState(({
-            tags: [...this.state.tags, temp]
-        }));
+        var dictionary = this.state.tags;
+        let copy = [...this.state.tags];
+        var repeated = false;
+        var temp = { fragmentUrlId: message[0], authorId: message[1], tag: message[2], vote: message[3]};
+        for(var i in dictionary){
+            if(dictionary[i].tag === temp.tag){
+                copy.splice(i, 1, temp);
+                this.setState(({
+                    tags: copy,
+                }));
+                repeated = true;
+            }
+        }
+        if(!repeated){
+            this.setState(({
+                tags: [...this.state.tags, temp]
+            }));
+        }
     }
 
 
     render() {
         let roundRender;
         if (this.state.round === 2) {
-            let style = "r2";
             roundRender = 
             <div>
                 <span className="text-r2">Round 2:</span>
@@ -90,11 +103,10 @@ class Fragment extends Component {
                     onComplete={this.nextParagraph}
                     />
                 </div>
-                <Paragraph text={this.state.splitText[this.state.index]} title={this.state.title} style={style}/>    
-                <Vote initialTags={this.state.tags}/>
+                <Paragraph text={this.state.splitText[this.state.index]} title={this.state.title}/>    
+                <Vote id={this.state.urlId} initialTags={this.state.tags}/>
             </div>
           } else {
-            let style = "r1";
             roundRender =
             <div>
                 <span className="text-r1">Round 1:</span>
@@ -105,9 +117,8 @@ class Fragment extends Component {
                     onComplete={this.nextParagraph}
                     />
                 </div>
-                <Paragraph text={this.state.splitText[this.state.index]} title={this.state.title} style={style}/>
-                  
-                <Tag handleMessageTag={this.handleMessageTag.bind(this)}/>
+                <Paragraph text={this.state.splitText[this.state.index]} title={this.state.title}/>
+                <Tag id={this.state.urlId} handleMessageTag={this.handleMessageTag.bind(this)}/>
             </div>
         }
 

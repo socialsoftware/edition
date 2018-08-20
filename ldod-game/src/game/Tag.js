@@ -28,10 +28,10 @@ class Tag extends Component {
 
     sendMessage = (msg, selfMsg) => {
         try {
-          this.clientRef.sendMessage('/ldod-game/tags', JSON.stringify({ userId: localStorage.getItem("currentUser"), msg: msg}));
-          return true;
+            this.clientRef.sendMessage('/ldod-game/tags', JSON.stringify({ urlId: this.props.id, authorId: localStorage.getItem("currentUser"), msg: msg, vote: 1}));
+            return true;
         } catch(e) {
-          return false;
+            return false;
         }
     }
 

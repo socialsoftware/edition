@@ -24,9 +24,9 @@ class Paragrah extends Component {
 
     render() {
         return (
-        <Panel className={"panel-" + this.props.style} bsStyle="primary" defaultExpanded>
+        <Panel bsStyle="primary" defaultExpanded>
             <Panel.Heading>
-                <Panel.Title className={"panel-title-" + this.props.style} componentClass="h4" toggle>{this.state.title}</Panel.Title>
+                <Panel.Title className="panel-title" componentClass="h4" toggle>{this.state.title}</Panel.Title>
             </Panel.Heading>
             <Panel.Body >
                 <div dangerouslySetInnerHTML={{__html: this.state.text}}></div>

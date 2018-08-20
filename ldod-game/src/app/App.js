@@ -18,7 +18,6 @@ import FacebookLogin from '../social/FacebookLogin';
 import LinkedinLogin from '../social/LinkedinLogin';
 import GoogleLogin from '../social/GoogleLogin';
 import TwitterLogin from '../social/TwitterLogin';
-import Chat from '../game/Chat';
 import WebSockets from '../game/WebSockets';
 import { Jumbotron, Button } from 'react-bootstrap'; 
 
@@ -150,9 +149,6 @@ class App extends Component {
                         </PrivateRoute>
                         <PrivateRoute path="/ping" authenticated={this.state.isAuthenticated}
                         component={WebSockets} currentUser={this.state.currentUser} handleLogout={this.handleLogout}>
-                        </PrivateRoute>
-                        <PrivateRoute path="/chat" authenticated={this.state.isAuthenticated}
-                        component={Chat} currentUser={this.state.currentUser} handleLogout={this.handleLogout}>
                         </PrivateRoute>
                         <Route component={NotFound}></Route>
                     </Switch>

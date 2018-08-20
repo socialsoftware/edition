@@ -32,7 +32,7 @@ class Vote extends Component {
 
     sendMessage = (msg, selfMsg) => {
         try {
-          this.clientRef.sendMessage('/ldod-game/votes', JSON.stringify({ userId: localStorage.getItem("currentUser"), msg: msg}));
+          this.clientRef.sendMessage('/ldod-game/votes', JSON.stringify({ urlId: this.props.id, voterId: localStorage.getItem("currentUser"), msg: msg}));
           return true;
         } catch(e) {
           return false;
@@ -52,7 +52,7 @@ class Vote extends Component {
         votes.forEach((m, mIndex) => {
             voteViews.push(
             <div>
-                <Checkbox key={m.authorId + mIndex} onClick={this.handleVote(m)}>{m.tag} {m.vote}
+                <Checkbox key={m.fragmentUrlId} onClick={this.handleVote(m)}>{m.tag} {m.vote}
                 </Checkbox>
             </div>)
             

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import VirtualEdition from './VirtualEdition';
-import { getVirtualEditionIndex } from '../utils/APIUtils';
+import { getVirtualEditionIndex, readyToStart } from '../utils/APIUtils';
 import LoadingIndicator  from '../common/LoadingIndicator';
 
 class Game extends Component {
@@ -23,11 +23,15 @@ class Game extends Component {
             isLoading: true,
         })
 
-        let request =   await getVirtualEditionIndex("LdoD-ok");
+        let request = await getVirtualEditionIndex("LdoD-ok");
 
         this.setState({
             virtualEdition: request,
-            isLoading: false
+        })
+        
+        await readyToStart("LdoD-ok");
+        this.setState({
+            isLoading: false,
         })
     }
 
