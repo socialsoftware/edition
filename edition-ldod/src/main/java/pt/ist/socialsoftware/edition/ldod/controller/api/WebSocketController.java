@@ -19,10 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 import pt.ist.socialsoftware.edition.ldod.domain.FragInter;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
 import pt.ist.socialsoftware.edition.ldod.dto.APIResponse;
 import pt.ist.socialsoftware.edition.ldod.dto.TagDto;
-import pt.ist.socialsoftware.edition.ldod.dto.VirtualEditionInterDto;
 
 
 import java.util.*;
@@ -88,17 +86,18 @@ public class WebSocketController {
     public @ResponseBody void handleVotes(@Payload Map<String,String> payload) {
         String urlId = payload.get("urlId");
         String voterId = payload.get("voterId");
-        logger.debug("handle Vote received {}", payload.values());
+        List<TagDto> res = submittedTags.get(urlId);
+        String tagMsg = payload.get("msg");
+        Object vote = payload.get("vote");
+        res.stream().filter(t -> t.getContent().equals(tagMsg)).
+                forEach(tagDto ->{
+                    logger.debug("handle Vote received {} with: {} ", payload.get("msg"), payload.get("vote"));
+                    tagDto.setScore(tagDto.getScore() + (int) vote);
+                    payload.put("vote", String.valueOf(tagDto.getScore()));
+                });
 
-        /*
-        String authorId = (String) value.values().toArray()[0];
-        Object response = value.values().toArray()[1];
-        HashMap<String,Integer> votes = (HashMap<String, Integer>) response;
-        int res = votingMap.get(votes.get("tag")) + votes.get("vote");
-        logger.debug("teste {}", res);
-        votingMap.put(String.valueOf(votes.get("tag")), votingMap.get(votes.get("tag")) + votes.get("vote"));
-        logger.debug("votingMap keys: {} values {}", votingMap.keySet(), votingMap.values());
-        broker.convertAndSend("/topic/votes", value.values());*/
+        broker.convertAndSend("/topic/votes", payload.values());
+
     }
 
     @SubscribeMapping("/ping")
