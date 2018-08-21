@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import {FormGroup, Checkbox, } from 'react-bootstrap';
+import {FormGroup, Checkbox, Glyphicon, Button} from 'react-bootstrap';
 import { WEB_SOCKETS_URL} from '../utils/Constants';
 import SockJsClient from 'react-stomp'
 class Vote extends Component {

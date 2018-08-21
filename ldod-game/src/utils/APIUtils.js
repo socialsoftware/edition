@@ -5,7 +5,6 @@ import {
     API_USER_URL, 
     API_SERVICES_URL, 
     FRAGMENT_LIST_SIZE,
-    WEB_SOCKETS_URL
 } 
 from './Constants';
 

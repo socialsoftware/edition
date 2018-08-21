@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import {Glyphicon, Button, FormControl, FormGroup, InputGroup} from 'react-bootstrap';
+import {Glyphicon, Button, FormControl, FormGroup, InputGroup, HelpBlock} from 'react-bootstrap';
 import './Tag.css';
 import { Tag as TagD } from 'antd';
 import { WEB_SOCKETS_URL} from '../utils/Constants';
@@ -11,16 +11,31 @@ class Tag extends Component {
         super(props);
         this.state = {
             tags: [],
+            value: " " ,
+            validate: null,
         };
         this.handleTag = this.handleTag.bind(this);
+        this.getValidationState = this.getValidationState.bind(this);
     }
     
     handleTag = (e) => {
-        var input = document.forms["form"]["tag"].value;
+        const form = e.target;
+        var input = form["tag"].value;
+        var alphaExp = /^[a-zA-Z]+$/;
+
+        if(input.length <= 1 || this.state.tags.indexOf(input) !== -1 || !input.match(alphaExp)){
+            this.setState({
+                validate: "error",
+            })
+            e.preventDefault();
+            return;
+        }
+
         this.sendMessage(input);
         tags += "<br>" + input;
-        document.getElementById("form").reset();
+        form.reset();
         this.setState({
+            validate: "success",
             tags: [...this.state.tags, input]
         })
         e.preventDefault();
@@ -30,9 +45,26 @@ class Tag extends Component {
         try {
             this.clientRef.sendMessage('/ldod-game/tags', JSON.stringify({ urlId: this.props.id, authorId: localStorage.getItem("currentUser"), msg: msg, vote: 1}));
             return true;
+
         } catch(e) {
             return false;
         }
+    }
+    
+    getValidationState(){
+        const length = this.state.value.length;
+        if (length > 1){
+            return 'success';
+        }
+        return null;
+    }
+
+    handleChange(event) {
+        const value = event.target.value;
+        
+        this.setState({
+          value: value
+        });
     }
 
     render() {
@@ -49,13 +81,19 @@ class Tag extends Component {
                     ref={ (client) => { this.clientRef = client }}
                     onMessage={(message) => this.props.handleMessageTag(message)} />  
                 <div id="display"></div>
-                <form id="form" onSubmit={(e) => {this.handleTag(e)}}>
-                    <FormGroup>
+                <form id="form" autoComplete="off" onSubmit={(e) => {this.handleTag(e)}}>
+                    <FormGroup validationState={ this.state.validate === "error" ? this.state.validate : this.getValidationState()}>
                         <InputGroup>
                             <InputGroup.Addon><Glyphicon glyph="tag" /></InputGroup.Addon>
-                            <FormControl id="tag" type="text" autoFocus/>
-                        </InputGroup>
-                        <Button type="submit">Tag this paragraph</Button>
+                            <FormControl 
+                                placeholder="Tag this paragraph" 
+                                id="tag"
+                                type="text"
+                                onChange={this.handleChange.bind(this)} 
+                                autoFocus />
+                            </InputGroup>
+                            <FormControl.Feedback />
+                        <Button disabled={this.getValidationState() === 'success' ? false : true} type="submit">Submit</Button>
                     </FormGroup>
                 </form>
                 <div className="tag-view">
