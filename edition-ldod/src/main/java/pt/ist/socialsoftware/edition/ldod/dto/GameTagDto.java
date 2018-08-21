@@ -3,17 +3,17 @@ package pt.ist.socialsoftware.edition.ldod.dto;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TagDto {
+public class GameTagDto {
     private String authorId;
     private String fragmentUrlId;
     private String content;
     private int score = 0;
     private List<String> voters = new ArrayList<>();
 
-    public TagDto() {
+    public GameTagDto() {
     }
 
-    public TagDto(String authorId, String fragmentUrlId, String content, int score) {
+    public GameTagDto(String authorId, String fragmentUrlId, String content, int score) {
         this.authorId = authorId;
         this.fragmentUrlId = fragmentUrlId;
         this.content = content;
@@ -61,7 +61,9 @@ public class TagDto {
     }
 
     public void addVoter(String voter){
-        this.voters.add(voter);
+        if(!this.voters.contains(voter)){
+            this.voters.add(voter);
+        }
     }
 
     public void removeVoter(String voter){

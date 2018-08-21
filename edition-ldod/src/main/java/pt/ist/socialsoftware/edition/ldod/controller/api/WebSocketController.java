@@ -9,7 +9,6 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.messaging.simp.annotation.SubscribeMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -18,9 +17,7 @@ import pt.ist.socialsoftware.edition.ldod.domain.FragInter;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.ldod.dto.APIResponse;
-import pt.ist.socialsoftware.edition.ldod.dto.TagDto;
-
-
+import pt.ist.socialsoftware.edition.ldod.dto.GameTagDto;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -29,7 +26,7 @@ public class WebSocketController {
     private static Logger logger = LoggerFactory.getLogger(WebSocketController.class);
     @Autowired
     private SimpMessagingTemplate broker;
-    private Map<String, List<TagDto>> submittedTags = new HashMap<>();
+    private Map<String, List<GameTagDto>> submittedTags = new HashMap<>();
 
     @GetMapping("/api/services/ldod-game/ready/{acronym}")
     public @ResponseBody
@@ -47,8 +44,8 @@ public class WebSocketController {
     @SendTo("/topic/tags")
     public @ResponseBody void handleTags(@Payload Map<String, String> payload) {
         String urlId = payload.get("urlId");
-        TagDto tag = new TagDto(payload.get("authorId"), urlId, payload.get("msg"), 1);
-        List<TagDto> res = submittedTags.get(urlId);
+        GameTagDto tag = new GameTagDto(payload.get("authorId"), urlId, payload.get("msg"), 1);
+        List<GameTagDto> res = submittedTags.get(urlId);
         if(res.stream().noneMatch(t -> t.getContent().equals(tag.getContent()))){
             // if tag is submitted for the first we add it
             res.add(tag);
@@ -64,9 +61,6 @@ public class WebSocketController {
             });
 
             submittedTags.put(urlId, res);
-            for(TagDto d: res){
-                logger.debug("tag:{} author:{}  score:{} voters: {}", d.getContent(), d.getAuthorId(), d.getScore(), d.getVoters().toString());
-            }
         }
         broker.convertAndSend("/topic/tags", payload.values());
 
@@ -77,13 +71,15 @@ public class WebSocketController {
     public @ResponseBody void handleVotes(@Payload Map<String,String> payload) {
         String urlId = payload.get("urlId");
         String voterId = payload.get("voterId");
-        List<TagDto> res = submittedTags.get(urlId);
+        List<GameTagDto> res = submittedTags.get(urlId);
         String tagMsg = payload.get("msg");
         Object vote = payload.get("vote");
         res.stream().filter(t -> t.getContent().equals(tagMsg)).
                 forEach(tagDto ->{
                     tagDto.setScore(tagDto.getScore() + (int) vote);
+                    tagDto.addVoter(voterId);
                     payload.put("vote", String.valueOf(tagDto.getScore()));
+                    logger.debug("tag: {} voters: {}", tagDto.getContent(), tagDto.getVoters().toArray());
                 });
 
         broker.convertAndSend("/topic/votes", payload.values());
