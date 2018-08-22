@@ -4,7 +4,6 @@ import {
     API_LOGIN_URL,
     API_USER_URL, 
     API_SERVICES_URL, 
-    FRAGMENT_LIST_SIZE,
 } 
 from './Constants';
 
@@ -95,6 +94,13 @@ export function getPublicVirtualEditions4User(username) {
 export function readyToStart(acronym){
     return request({
         url: API_BASE_URL + API_SERVICES_URL + '/ldod-game/ready/' + acronym,
+        method: 'GET'
+    });
+}
+
+export function endOfGame(){
+    return request({
+        url: API_BASE_URL + API_SERVICES_URL + '/ldod-game/end/',
         method: 'GET'
     });
 }

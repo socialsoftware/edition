@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import { Alert, Button, ProgressBar, Glyphicon } from 'react-bootstrap';
+import { FRAGMENT_LIST_SIZE } from '../utils/Constants';
+import { Alert, Button, ProgressBar, Glyphicon, Jumbotron } from 'react-bootstrap';
 import Fragment  from './Fragment';
 import './VirtualEdition.css';
 
@@ -38,8 +39,9 @@ class VirtualEdition extends Component {
     }
 
     render() {
-        if(this.state.view) {
-            var i = this.state.index;
+        var i = this.state.index;
+        if(this.state.view && i < FRAGMENT_LIST_SIZE) {
+            console.log(i);
             return (
               <div>
                     <Fragment key={this.state.fragments[i].title} fragment={this.state.fragments[i]} acronym={this.state.acronym} nextFragment={this.nextFragment}/>
@@ -52,6 +54,17 @@ class VirtualEdition extends Component {
                         </Button>
                     </div>
               </div>
+            );
+        }
+        else if(i === FRAGMENT_LIST_SIZE) {
+            {this.props.end()}
+            return (
+                <Jumbotron>
+                    <h1>The game has ended!</h1>
+                    <p>
+                        Thank you for playing, hope you enjoyed it.
+                    </p>
+                </Jumbotron>
             );
         }
         return (
