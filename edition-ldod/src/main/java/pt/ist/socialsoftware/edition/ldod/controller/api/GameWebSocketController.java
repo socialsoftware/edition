@@ -22,21 +22,27 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
-public class WebSocketController {
-    private static Logger logger = LoggerFactory.getLogger(WebSocketController.class);
+public class GameWebSocketController {
+    private static Logger logger = LoggerFactory.getLogger(GameWebSocketController.class);
     @Autowired
     private SimpMessagingTemplate broker;
     private Map<String, List<GameTagDto>> submittedTags = new HashMap<>();
 
     @GetMapping("/api/services/ldod-game/ready/{acronym}")
-    public @ResponseBody
-    ResponseEntity<?> handleReady(@PathVariable(value = "acronym") String acronym) {
+    public @ResponseBody ResponseEntity<?> handleReady(@PathVariable(value = "acronym") String acronym) {
         VirtualEdition virtualEdition = LdoD.getInstance().getVirtualEdition(acronym);
         List<String> res = virtualEdition.getIntersSet().stream().sorted().map(FragInter::getUrlId).collect(Collectors.toList());
         for(String id: res){
             submittedTags.put(id, new ArrayList<>());
         }
-        return new ResponseEntity<>(new APIResponse(true, "starting"), HttpStatus.OK);
+        return new ResponseEntity<>(new APIResponse(true, "starting game"), HttpStatus.OK);
+
+    }
+
+    @GetMapping("/api/services/ldod-game/end")
+    public @ResponseBody ResponseEntity<?> handleEnd() {
+        logger.debug("end of game");
+        return new ResponseEntity<>(new APIResponse(true, "ending game"), HttpStatus.OK);
 
     }
 
