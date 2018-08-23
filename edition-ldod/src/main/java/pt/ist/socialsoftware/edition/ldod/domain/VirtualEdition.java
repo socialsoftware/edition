@@ -216,7 +216,7 @@ public class VirtualEdition extends VirtualEdition_Base {
 
 	@Atomic(mode = TxMode.WRITE)
 	public void edit(String acronym, String title, String synopsis, boolean pub, boolean openManagement,
-			boolean openVocabulary, boolean openAnnotation) {
+			boolean openVocabulary, boolean openAnnotation, String mediaSource) {
 		setPub(pub);
 		setTitle(title);
 		if (synopsis.length() > 1500) {
@@ -226,6 +226,16 @@ public class VirtualEdition extends VirtualEdition_Base {
 		}
 		setAcronym(acronym);
 		getTaxonomy().edit(openManagement, openVocabulary, openAnnotation);
+
+		if (!mediaSource.equals("")) {
+			MediaSource medSource = getMediaSource();
+			if (medSource != null) {
+				getMediaSource().edit(mediaSource);
+			} else {
+				new MediaSource(this, mediaSource);
+			}
+		}
+
 	}
 
 	@Atomic(mode = TxMode.WRITE)
@@ -582,6 +592,15 @@ public class VirtualEdition extends VirtualEdition_Base {
 			return true;
 		}
 		return false;
+	}
+
+	public MediaSource getMediaSource() {
+		for (SocialMediaCriteria criteria : this.getCriteriaSet()) {
+			if (criteria instanceof MediaSource) {
+				return (MediaSource) criteria;
+			}
+		}
+		return null;
 	}
 
 }

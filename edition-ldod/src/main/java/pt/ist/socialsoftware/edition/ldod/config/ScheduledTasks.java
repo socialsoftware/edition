@@ -23,19 +23,19 @@ public class ScheduledTasks {
 		write.export();
 	}
 
-	@Scheduled(cron = "0 27 13 * * *")
+	@Scheduled(cron = "0 9 14 * * *")
 	public void fetchFromTwitter() throws IOException {
 		FetchCitationsFromTwitter fetch = new FetchCitationsFromTwitter();
 		fetch.fetch();
 	}
 
-	@Scheduled(cron = "0 58 15 * * *")
+	@Scheduled(cron = "0 58 14 * * *")
 	public void detectCitations() throws IOException {
 		CitationDetecter detecter = new CitationDetecter();
 		detecter.detect();
 	}
 
-	@Scheduled(cron = "0 40 16 * * *")
+	@Scheduled(cron = "0 40 14 * * *")
 	public void createTweets() throws IOException {
 		TweetFactory tweetFactory = new TweetFactory();
 		tweetFactory.create();
