@@ -27,14 +27,16 @@ public class GameWebSocketController {
     @Autowired
     private SimpMessagingTemplate broker;
     private Map<String, List<GameTagDto>> submittedTags = new HashMap<>();
+    private Map<String, Integer> participants = new HashMap<>();
 
-    @GetMapping("/api/services/ldod-game/ready/{acronym}")
-    public @ResponseBody ResponseEntity<?> handleReady(@PathVariable(value = "acronym") String acronym) {
+    @GetMapping("/api/services/ldod-game/ready/{user}/{acronym}")
+    public @ResponseBody ResponseEntity<?> handleReady(@PathVariable(value = "user") String user, @PathVariable(value = "acronym") String acronym) {
         VirtualEdition virtualEdition = LdoD.getInstance().getVirtualEdition(acronym);
         List<String> res = virtualEdition.getIntersSet().stream().sorted().map(FragInter::getUrlId).collect(Collectors.toList());
         for(String id: res){
             submittedTags.put(id, new ArrayList<>());
         }
+        participants.put(user, 0);
         return new ResponseEntity<>(new APIResponse(true, "starting game"), HttpStatus.OK);
 
     }
@@ -42,28 +44,42 @@ public class GameWebSocketController {
     @GetMapping("/api/services/ldod-game/end")
     public @ResponseBody ResponseEntity<?> handleEnd() {
         logger.debug("end of game");
-        return new ResponseEntity<>(new APIResponse(true, "ending game"), HttpStatus.OK);
+        Map<String, List<GameTagDto>> result = new HashMap<>();
+        Set<String> fragmentsTagged = submittedTags.keySet();
+        for(String fragment: fragmentsTagged){
+            List<GameTagDto> top3Tags = submittedTags.get(fragment).stream().sorted(((g1, g2) -> g2.getScore())).limit(3).collect(Collectors.toList());
 
+            result.put(fragment, top3Tags);
+        }
+        //return new ResponseEntity<>(new APIResponse(true, "ending game"), HttpStatus.OK);
+        List<Object> response = new ArrayList<>();
+        response.add(result);
+        response.add(participants);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @MessageMapping("/tags")
     @SendTo("/topic/tags")
     public @ResponseBody void handleTags(@Payload Map<String, String> payload) {
         String urlId = payload.get("urlId");
-        GameTagDto tag = new GameTagDto(payload.get("authorId"), urlId, payload.get("msg"), 1);
+        String authorId = payload.get("authorId");
+        GameTagDto tag = new GameTagDto(authorId, urlId, payload.get("msg"), 1);
         List<GameTagDto> res = submittedTags.get(urlId);
         if(res.stream().noneMatch(t -> t.getContent().equals(tag.getContent()))){
             // if tag is submitted for the first we add it
             res.add(tag);
             submittedTags.put(urlId, res);
+            participants.put(authorId, participants.get(authorId) + 1);
         }
         else{
             // if tag already exists increment score and update
             res.stream().filter(t -> t.getContent().equals(tag.getContent())).forEach(t->{
                 t.setScore(tag.getScore()+t.getScore());
                 payload.put("vote", String.valueOf(t.getScore()));
-                // since the tag has been suggested, it now has already a voter because of the suggestion
-                t.addVoter(payload.get("authorId"));
+                // since the tag has been suggested, it now has a co-author / voter because of the suggestion
+                t.addCoAuthor(authorId);
+                t.addVoter(authorId);
+                participants.put(authorId, participants.get(authorId) + 1);
             });
 
             submittedTags.put(urlId, res);
@@ -84,6 +100,7 @@ public class GameWebSocketController {
                 forEach(tagDto ->{
                     tagDto.setScore(tagDto.getScore() + (int) vote);
                     tagDto.addVoter(voterId);
+                    participants.put(tagDto.getAuthorId(), participants.get(tagDto.getAuthorId()) + (int) vote);
                     payload.put("vote", String.valueOf(tagDto.getScore()));
                     logger.debug("tag: {} voters: {}", tagDto.getContent(), tagDto.getVoters().toArray());
                 });

@@ -3,11 +3,12 @@ package pt.ist.socialsoftware.edition.ldod.dto;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GameTagDto {
+public class GameTagDto implements  Comparable{
     private String authorId;
     private String fragmentUrlId;
     private String content;
     private int score = 0;
+    private List<String> coAuthors = new ArrayList<>();
     private List<String> voters = new ArrayList<>();
 
     public GameTagDto() {
@@ -52,6 +53,24 @@ public class GameTagDto {
         this.score = score;
     }
 
+    public List<String> getCoAuthors() {
+        return coAuthors;
+    }
+
+    public void setCoAuthors(List<String> coAuthors) {
+        this.coAuthors = coAuthors;
+    }
+
+    public void addCoAuthor(String coAuthor){
+        if(!this.coAuthors.contains(coAuthor) && !coAuthor.equals(authorId)){
+            this.coAuthors.add(coAuthor);
+        }
+    }
+
+    public void removeCoAuthor(String coAuthor){
+        this.voters.remove(this.coAuthors.indexOf(coAuthor));
+    }
+
     public List<String> getVoters() {
         return voters;
     }
@@ -61,12 +80,18 @@ public class GameTagDto {
     }
 
     public void addVoter(String voter){
-        if(!this.voters.contains(voter)){
+        if(!this.voters.contains(voter) && !voter.equals(authorId)){
             this.voters.add(voter);
         }
     }
 
     public void removeVoter(String voter){
         this.voters.remove(this.voters.indexOf(voter));
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        int score = ((GameTagDto) o).getScore();
+        return Integer.compare(this.getScore(), score);
     }
 }
