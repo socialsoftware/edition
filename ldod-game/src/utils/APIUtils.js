@@ -91,9 +91,9 @@ export function getPublicVirtualEditions4User(username) {
     });
 }
 
-export function readyToStart(acronym){
+export function readyToStart(user, acronym){
     return request({
-        url: API_BASE_URL + API_SERVICES_URL + '/ldod-game/ready/' + acronym,
+        url: API_BASE_URL + API_SERVICES_URL + '/ldod-game/ready/' + user + '/' + acronym,
         method: 'GET'
     });
 }

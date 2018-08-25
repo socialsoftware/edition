@@ -30,7 +30,7 @@ class Game extends Component {
             virtualEdition: request,
         })
         
-        await readyToStart("LdoD-ok");
+        await readyToStart(localStorage.getItem("currentUser"),"LdoD-ok");
         this.setState({
             isLoading: false,
         })

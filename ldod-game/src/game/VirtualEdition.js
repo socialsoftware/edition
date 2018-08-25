@@ -41,12 +41,11 @@ class VirtualEdition extends Component {
     render() {
         var i = this.state.index;
         if(this.state.view && i < FRAGMENT_LIST_SIZE) {
-            console.log(i);
             return (
               <div>
                     <Fragment key={this.state.fragments[i].title} fragment={this.state.fragments[i]} acronym={this.state.acronym} nextFragment={this.nextFragment}/>
                     <div className="progress">
-                        <ProgressBar min={0} bsStyle="success"active now={this.state.index} />
+                        <ProgressBar min={0} bsStyle="success"active now={this.state.index} max={FRAGMENT_LIST_SIZE}/>
                     </div>
                     <div className="next">
                         <Button bsStyle="primary" onClick={this.nextFragment}>
@@ -57,7 +56,7 @@ class VirtualEdition extends Component {
             );
         }
         else if(i === FRAGMENT_LIST_SIZE) {
-            {this.props.end()}
+            this.props.end()
             return (
                 <Jumbotron>
                     <h1>The game has ended!</h1>
