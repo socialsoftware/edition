@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import {FormGroup, Checkbox, Glyphicon, Button} from 'react-bootstrap';
+import {FormGroup, Checkbox, Glyphicon, Button, Label} from 'react-bootstrap';
 import { WEB_SOCKETS_URL} from '../utils/Constants';
 import SockJsClient from 'react-stomp'
+import './Vote.css';
 class Vote extends Component {
     constructor(props) {
         super(props);
@@ -27,7 +28,7 @@ class Vote extends Component {
         } else {
             vote = -1;
         }
-        this.sendMessage(param.tag, vote);
+        this.sendMessage(param.tag, vote); 
     }
 
     sendMessage = (msg, vote, selfMsg) => {
@@ -58,23 +59,38 @@ class Vote extends Component {
         let votes = this.state.votes;
         votes.forEach((m, mIndex) => {
             voteViews.push(
-            <div>
-                <Checkbox key={m.fragmentUrlId} onClick={this.handleVote(m)}>{m.tag} {m.vote}
-                </Checkbox>
+            <div className="div-votes" key={mIndex}>
+                <div>
+                    <label>
+                        <input type="checkbox" onClick={this.handleVote(m)}></input>
+                        <span className="title">{m.tag}</span>
+                        <span className="icon-up"><Glyphicon glyph="chevron-up" /></span>
+                        <span className="label label-primary">{m.vote}</span>
+                    </label>
+                </div>
+                {/*<span>{ m.tag }</span>
+                <Checkbox key={mIndex} onClick={this.handleVote(m)} inline>
+                    <Glyphicon glyph="ok" />{m.vote}
+                </Checkbox>*/}
             </div>)
             
         }); 
         return (
-            <form>
+            <div>
+            {/*<form>*/}
             <SockJsClient
                     url={WEB_SOCKETS_URL}
                     topics={['/topic/votes']}
                     ref={ (client) => { this.clientRef = client }}
                     onMessage={(message) => this.handleMessageVote(message)} />
-                <FormGroup>
+                <span className="icon-tags"><Glyphicon glyph="tags" /></span>
+                <br></br>
+                {voteViews}
+                {/*<FormGroup>
                     {voteViews}
-                </FormGroup>
-            </form>
+                </FormGroup>*/}
+            {/*</form>*/}
+            </div>
         );
     }
 }

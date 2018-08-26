@@ -1,3 +1,13 @@
-.tag-view{
-    display: inline-block;
+.tag-view {
+    position: absolute;
+    border-style: none;
+}
+
+.tag{
+    font-family: georgia;
+    font-size: medium;
+}
+
+.icon-tags {
+    font-size: 30px;
 }

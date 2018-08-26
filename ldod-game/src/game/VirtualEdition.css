@@ -16,9 +16,13 @@
 .clock{
     display: flex;
     align-items: center;
-    justify-content: center 
+    justify-content: center;
+    
 }
 
-.progress{
-    font-size: 21px;
+.div-progress {
+    position: relative;
+    left: 0px;
+    top: 50px;
+
 }

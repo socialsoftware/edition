@@ -71,7 +71,7 @@ class Tag extends Component {
         const tagViews = [];
         let messages = this.state.tags;
         messages.forEach((m, mIndex) => {
-            tagViews.push(<TagD color="blue" key={mIndex} >{m}</TagD>)
+            tagViews.push(<TagD className="tag" color="#747d8c" key={mIndex} >{m}</TagD>)
         });
         return (
             <div> 
@@ -80,11 +80,10 @@ class Tag extends Component {
                     topics={['/topic/tags']}
                     ref={ (client) => { this.clientRef = client }}
                     onMessage={(message) => this.props.handleMessageTag(message)} />  
-                <div id="display"></div>
                 <form id="form" autoComplete="off" onSubmit={(e) => {this.handleTag(e)}}>
                     <FormGroup validationState={ this.state.validate === "error" ? this.state.validate : this.getValidationState()}>
                         <InputGroup>
-                            <InputGroup.Addon><Glyphicon glyph="tag" /></InputGroup.Addon>
+                            <InputGroup.Addon><Glyphicon glyph="plus" /></InputGroup.Addon>
                             <FormControl 
                                 placeholder="Tag this paragraph" 
                                 id="tag"
@@ -96,6 +95,7 @@ class Tag extends Component {
                         <Button disabled={this.getValidationState() === 'success' ? false : true} type="submit">Submit</Button>
                     </FormGroup>
                 </form>
+                <span className="icon-tags"><Glyphicon glyph="tags" /></span>
                 <div className="tag-view">
                     {tagViews}
                 </div>

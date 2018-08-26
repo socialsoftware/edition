@@ -44,7 +44,7 @@ class VirtualEdition extends Component {
             return (
               <div>
                     <Fragment key={this.state.fragments[i].title} fragment={this.state.fragments[i]} acronym={this.state.acronym} nextFragment={this.nextFragment}/>
-                    <div className="progress">
+                    <div className="div-progress">
                         <ProgressBar min={0} bsStyle="success"active now={this.state.index} max={FRAGMENT_LIST_SIZE}/>
                     </div>
                     <div className="next">
