@@ -109,4 +109,20 @@ public class GameWebSocketController {
 
     }
 
+    @GetMapping("/api/services/ldod-game/leaderboard")
+    public @ResponseBody ResponseEntity<?> getLeaderboard() {
+        logger.debug("get leaderboard");
+        List<String> users = participants.entrySet().stream()
+                .sorted(Collections.reverseOrder(Map.Entry.comparingByValue()))
+                .map(Map.Entry::getKey)
+                .collect(Collectors.toList());
+        List<Integer> scores = participants.entrySet().stream()
+                .sorted(Collections.reverseOrder(Map.Entry.comparingByValue()))
+                .map(Map.Entry::getValue)
+                .collect(Collectors.toList());
+        List<Object> response = new ArrayList<>();
+        response.add(users);
+        response.add(scores);
+        return new ResponseEntity<>(response.toArray(), HttpStatus.OK);
+    }
 }
