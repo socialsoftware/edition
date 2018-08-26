@@ -1,84 +1,54 @@
 import React, { Component } from 'react';
-import { Table, Icon, Divider } from 'antd';
-import {Glyphicon} from 'react-bootstrap';
-const data = [{
-  key: '1',
-  username: 'John Brown',
-  age: 32,
-  address: 'New York No. 1 Lake Park',
-}, {
-  key: '2',
-  username: 'Jim Green',
-  age: 42,
-  address: 'London No. 1 Lake Park',
-}, {
-  key: '3',
-  username: 'Joe Black',
-  age: 32,
-  address: 'Sidney No. 1 Lake Park',
-}];
-const { Column, ColumnGroup } = Table;
+import { Table } from 'react-bootstrap';
+import { getLeaderboard } from '../utils/APIUtils';
 
 class GameLeaderboard extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            allTimesData: [],
-            recentData: [],
-            isToggled: false
+            users: [],
+            points: [],
         }
     }
 
-    // called when pressing the toggle button
-    handleToggle(e,isToggled){
-        this.setState({isToggled: isToggled});
-    }
 
-    componentDidMount() {
-        // get recent data
-        /*fetch(``)
-        .then(data => data.json())
-        .then(data => {this.setState({recentData:data})})
-        .catch(error => {console.log(error)});*/
-
-        // get all times data
-        /*fetch(``)
-        .then(data => data.json())
-        .then(data => {this.setState({allTimesData:data})})
-        .catch(error => {console.log(error)});*/
-
+    async componentDidMount() {
+        let request = await getLeaderboard();
+       
+        this.setState({
+            users: request[0],
+            points: request[1],
+        })
     }
 
 
     render() {
+        const tableView = [];   
+        let users = this.state.users;
+        let points = this.state.points;
+        users.forEach(function(item, index){
+            tableView.push(
+                <tr key={index}>
+                    <td>{index}</td>
+                    <td>{item}</td>
+                    <td>{points[index]}</td>
+                </tr>
+                )
+          });
+
         return (
             <div>
-                <Table dataSource={data}>
-                    <Column
-                        title="Username"
-                        dataIndex="username"
-                        key="username"
-                    />
-                    <Column
-                      title="Age"
-                      dataIndex="age"
-                      key="age"
-                    />
-                    <Column
-                      title="Action"
-                      key="action"
-                      render={(text, record) => (
-                        <span>
-                          <a href="javascript:;">Action 一 {record.name}</a>
-                          <Divider type="vertical" />
-                          <a href="javascript:;">Delete</a>
-                          <Divider type="vertical" />
-                          <a href="javascript:;" className="ant-dropdown-link">
-                            More actions <Icon type="down" />
-                          </a>
-                        </span>
-                      )}
-                    />
+                <Table responsive>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Username</th>
+                            <th>Points</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {tableView}
+                    </tbody>
                 </Table>
             </div>
         );

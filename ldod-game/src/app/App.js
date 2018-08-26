@@ -12,6 +12,7 @@ import Login from '../user/login/Login';
 import Profile from '../user/profile/Profile';
 import AppHeader from '../common/AppHeader';
 import Game from '../game/Game';
+import GameLeadeboard from '../game/GameLeaderboard';
 import NotFound from '../common/NotFound';
 import PrivateRoute from '../common/PrivateRoute';
 import FacebookLogin from '../social/FacebookLogin';
@@ -143,8 +144,11 @@ class App extends Component {
                         <PrivateRoute path="/user/:username" authenticated={this.state.isAuthenticated} currentUser={this.state.currentUser}
                         component={Profile}>
                         </PrivateRoute>
-                        <PrivateRoute path="/game" ws={this.child} authenticated={this.state.isAuthenticated} currentUser={this.state.currentUser}
+                        <PrivateRoute path="/game" authenticated={this.state.isAuthenticated} currentUser={this.state.currentUser}
                         component={Game}>
+                        </PrivateRoute>
+                        <PrivateRoute path="/leaderboard" authenticated={this.state.isAuthenticated} currentUser={this.state.currentUser}
+                        component={GameLeadeboard}>
                         </PrivateRoute>
                         <Route component={NotFound}></Route>
                     </Switch>

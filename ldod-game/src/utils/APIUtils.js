@@ -104,3 +104,10 @@ export function endOfGame(){
         method: 'GET'
     });
 }
+
+export function getLeaderboard(){
+    return request({
+        url: API_BASE_URL + API_SERVICES_URL + '/ldod-game/leaderboard/',
+        method: 'GET'
+    });
+}

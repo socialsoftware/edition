@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import {Glyphicon, Button, FormControl, FormGroup, InputGroup, HelpBlock} from 'react-bootstrap';
+import {Glyphicon, Button, FormControl, FormGroup, InputGroup} from 'react-bootstrap';
 import './Tag.css';
 import { Tag as TagD } from 'antd';
 import { WEB_SOCKETS_URL} from '../utils/Constants';
