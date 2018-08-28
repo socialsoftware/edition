@@ -3,6 +3,7 @@
 <html>
 <head>
 <%@ include file="/WEB-INF/jsp/common/meta-head.jsp"%>
+<link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet">
 </head>
 <body>
 	<%@ include file="/WEB-INF/jsp/common/fixed-top-ldod-header.jsp"%>
@@ -57,7 +58,7 @@
 						</div>
 					</div>
 					<br> <br>
-					<div class="well" style="height: 350px">
+					<div class="well" style="height: 500px">
 
 						<div class="row">
 							<div class="form-group col-md-4" style="padding-left: 0px">
@@ -195,35 +196,294 @@
 									title="<spring:message code="criteria.mediasource.manage" />">
 									<c:choose>
 										<c:when
-											test="${virtualEdition.getMediaSource().getName() == 'Twitter'}">
-											<option value="Twitter" selected><spring:message
+											test="${virtualEdition.getMediaSource().getName() == 'Facebook'}">
+											<option value="Twitter"><spring:message
 												code="criteira.mediasource.twitter" /></option>
-											<option value="Facebook"><spring:message
+											<option value="Facebook" selected><spring:message
 												code="criteira.mediasource.facebook" /></option>
 										</c:when>
 										<c:otherwise>
-											<option value="Twitter" ><spring:message
+											<option value="Twitter" selected><spring:message
 												code="criteira.mediasource.twitter" /></option>
-											<option value="Facebook" selected><spring:message
+											<option value="Facebook"><spring:message
 												code="criteira.mediasource.facebook" /></option>
 										</c:otherwise>
 									</c:choose>				
 								</select>
 							</div>
 							
-							<div class="form-group  col-md-3" style="padding-left: 0px">
+							<div class="form-group  col-md-4" style="padding-left: 0px">
 							<label class="control-label" for="begindate"><spring:message
 										code="criteira.timewindow.begindate" /></label>
-										<input type="date" value="2018-01-01" name="begindate" id="begindate" min="2018-01-01" 
+										<input type="date" value="${virtualEdition.getTimeWindow().getBeginDate()}" 
+										name="begindate" id="begindate" min="2018-01-01" 
 										title="<spring:message code="criteria.timewindow.begindate.manage"/>" />
 							</div>
 							
-							<div class="form-group  col-md-3" style="padding-left: 0px">
+							<div class="form-group  col-md-4" style="padding-left: 0px">
 							<label class="control-label" for="enddate"><spring:message
 										code="criteira.timewindow.enddate" /></label>
-										<input type="date" value="2018-08-20" name="enddate" id="enddate" max="2018-08-23" 
+										<input type="date" value="${virtualEdition.getTimeWindow().getEndDate()}" 
+										name="enddate" id="enddate" max="2018-08-21" 
 										title="<spring:message code="criteria.timewindow.enddate.manage"/>" />
 							</div>
+							
+						</div>
+						
+						<br>
+						<div class="row">
+							<div class="form-group col-md-4" style="padding-left: 0px">
+								<label class="control-label" for="geolocation"><spring:message
+										code="criteria.geolocation" /></label> 
+								<br>
+								<c:choose>
+										<c:when
+											test="${virtualEdition.getGeographicLocation().getCountry() == 'Brazil'}">
+											<input type="radio" value="Portugal" name="geolocation" id="geolocation"> 
+												<spring:message code="criteria.geolocation.Portugal" />
+												<i class="em em-flag-pt"></i>
+	  										<input type="radio" value="Brazil" checked name="geolocation" id="geolocation"> 
+	  											<spring:message code="criteria.geolocation.Brazil" />
+	  											<i class="em em-flag-br"></i>
+	  										<input type="radio" value="Spain" name="geolocation" id="geolocation"> 
+	  											<spring:message code="criteria.geolocation.Spain" />
+	  											<i class="em em-flag-es"></i>
+	  										<br>
+	  										<input type="radio" value="United Kingdom" name="geolocation" id="geolocation"> 
+	  											<spring:message code="criteria.geolocation.UnitedKingdom" />
+	  											<i class="em em-flag-england"></i>
+	  										<input type="radio" value="United States" name="geolocation" id="geolocation"> 
+	  											<spring:message code="criteria.geolocation.UnitedStates" />
+	  											<i class="em em-flag-um"></i>
+	  										<br>
+	  										<input type="radio" value="Lebanon" name="geolocation" id="geolocation"> 
+	  											<spring:message code="criteria.geolocation.Lebanon" />
+	  											<i class="em em-flag-lb"></i>
+	  										<input type="radio" value="Angola" name="geolocation" id="geolocation"> 
+	  											<spring:message code="criteria.geolocation.Angola" />
+	  											<i class="em em-flag-ao"></i>
+	  										<input type="radio" value="Mozambique" name="geolocation" id="geolocation"> 
+	  											<spring:message code="criteria.geolocation.Mozambique" />
+	  											<i class="em em-flag-mz"></i>
+										</c:when>
+										<c:when
+											test="${virtualEdition.getGeographicLocation().getCountry() == 'Spain'}">
+											<input type="radio" value="Portugal" name="geolocation" id="geolocation"> 
+												<spring:message code="criteria.geolocation.Portugal" />
+												<i class="em em-flag-pt"></i>
+	  										<input type="radio" value="Brazil" name="geolocation" id="geolocation"> 
+	  											<spring:message code="criteria.geolocation.Brazil" />
+	  											<i class="em em-flag-br"></i>
+	  										<input type="radio" value="Spain" checked name="geolocation" id="geolocation"> 
+	  											<spring:message code="criteria.geolocation.Spain" />
+	  											<i class="em em-flag-es"></i>
+	  										<br>
+	  										<input type="radio" value="United Kingdom" name="geolocation" id="geolocation"> 
+	  											<spring:message code="criteria.geolocation.UnitedKingdom" />
+	  											<i class="em em-flag-england"></i>
+	  										<input type="radio" value="United States" name="geolocation" id="geolocation"> 
+	  											<spring:message code="criteria.geolocation.UnitedStates" />
+	  											<i class="em em-flag-um"></i>
+	  										<br>
+	  										<input type="radio" value="Lebanon" name="geolocation" id="geolocation"> 
+	  											<spring:message code="criteria.geolocation.Lebanon" />
+	  											<i class="em em-flag-lb"></i>
+	  										<input type="radio" value="Angola" name="geolocation" id="geolocation"> 
+	  											<spring:message code="criteria.geolocation.Angola" />
+	  											<i class="em em-flag-ao"></i>
+	  										<input type="radio" value="Mozambique" name="geolocation" id="geolocation"> 
+	  											<spring:message code="criteria.geolocation.Mozambique" />
+	  											<i class="em em-flag-mz"></i>
+										</c:when>
+										<c:when
+											test="${virtualEdition.getGeographicLocation().getCountry() == 'United Kingdom'}">
+											<input type="radio" value="Portugal" name="geolocation" id="geolocation"> 
+												<spring:message code="criteria.geolocation.Portugal" />
+												<i class="em em-flag-pt"></i>
+	  										<input type="radio" value="Brazil" name="geolocation" id="geolocation"> 
+	  											<spring:message code="criteria.geolocation.Brazil" />
+	  											<i class="em em-flag-br"></i>
+	  										<input type="radio" value="Spain" name="geolocation" id="geolocation"> 
+	  											<spring:message code="criteria.geolocation.Spain" />
+	  											<i class="em em-flag-es"></i>
+	  										<br>
+	  										<input type="radio" value="United Kingdom" checked name="geolocation" id="geolocation"> 
+	  											<spring:message code="criteria.geolocation.UnitedKingdom" />
+	  											<i class="em em-flag-england"></i>
+	  										<input type="radio" value="United States" name="geolocation" id="geolocation"> 
+	  											<spring:message code="criteria.geolocation.UnitedStates" />
+	  											<i class="em em-flag-um"></i>
+	  										<br>
+	  										<input type="radio" value="Lebanon" name="geolocation" id="geolocation"> 
+	  											<spring:message code="criteria.geolocation.Lebanon" />
+	  											<i class="em em-flag-lb"></i>
+	  										<input type="radio" value="Angola" name="geolocation" id="geolocation"> 
+	  											<spring:message code="criteria.geolocation.Angola" />
+	  											<i class="em em-flag-ao"></i>
+	  										<input type="radio" value="Mozambique" name="geolocation" id="geolocation"> 
+	  											<spring:message code="criteria.geolocation.Mozambique" />
+	  											<i class="em em-flag-mz"></i>
+										</c:when>
+										<c:when
+											test="${virtualEdition.getGeographicLocation().getCountry() == 'United States'}">
+											<input type="radio" value="Portugal" name="geolocation" id="geolocation"> 
+												<spring:message code="criteria.geolocation.Portugal" />
+												<i class="em em-flag-pt"></i>
+	  										<input type="radio" value="Brazil" name="geolocation" id="geolocation"> 
+	  											<spring:message code="criteria.geolocation.Brazil" />
+	  											<i class="em em-flag-br"></i>
+	  										<input type="radio" value="Spain" name="geolocation" id="geolocation"> 
+	  											<spring:message code="criteria.geolocation.Spain" />
+	  											<i class="em em-flag-es"></i>
+	  										<br>
+	  										<input type="radio" value="United Kingdom" name="geolocation" id="geolocation"> 
+	  											<spring:message code="criteria.geolocation.UnitedKingdom" />
+	  											<i class="em em-flag-england"></i>
+	  										<input type="radio" value="United States" checked name="geolocation" id="geolocation"> 
+	  											<spring:message code="criteria.geolocation.UnitedStates" />
+	  											<i class="em em-flag-um"></i>
+	  										<br>
+	  										<input type="radio" value="Lebanon" name="geolocation" id="geolocation"> 
+	  											<spring:message code="criteria.geolocation.Lebanon" />
+	  											<i class="em em-flag-lb"></i>
+	  										<input type="radio" value="Angola" name="geolocation" id="geolocation"> 
+	  											<spring:message code="criteria.geolocation.Angola" />
+	  											<i class="em em-flag-ao"></i>
+	  										<input type="radio" value="Mozambique" name="geolocation" id="geolocation"> 
+	  											<spring:message code="criteria.geolocation.Mozambique" />
+	  											<i class="em em-flag-mz"></i>
+										</c:when>
+										<c:when
+											test="${virtualEdition.getGeographicLocation().getCountry() == 'Lebanon'}">
+											<input type="radio" value="Portugal" name="geolocation" id="geolocation"> 
+												<spring:message code="criteria.geolocation.Portugal" />
+												<i class="em em-flag-pt"></i>
+	  										<input type="radio" value="Brazil" name="geolocation" id="geolocation"> 
+	  											<spring:message code="criteria.geolocation.Brazil" />
+	  											<i class="em em-flag-br"></i>
+	  										<input type="radio" value="Spain" name="geolocation" id="geolocation"> 
+	  											<spring:message code="criteria.geolocation.Spain" />
+	  											<i class="em em-flag-es"></i>
+	  										<br>
+	  										<input type="radio" value="United Kingdom" name="geolocation" id="geolocation"> 
+	  											<spring:message code="criteria.geolocation.UnitedKingdom" />
+	  											<i class="em em-flag-england"></i>
+	  										<input type="radio" value="United States" name="geolocation" id="geolocation"> 
+	  											<spring:message code="criteria.geolocation.UnitedStates" />
+	  											<i class="em em-flag-um"></i>
+	  										<br>
+	  										<input type="radio" value="Lebanon" checked name="geolocation" id="geolocation"> 
+	  											<spring:message code="criteria.geolocation.Lebanon" />
+	  											<i class="em em-flag-lb"></i>
+	  										<input type="radio" value="Angola" name="geolocation" id="geolocation"> 
+	  											<spring:message code="criteria.geolocation.Angola" />
+	  											<i class="em em-flag-ao"></i>
+	  										<input type="radio" value="Mozambique" name="geolocation" id="geolocation"> 
+	  											<spring:message code="criteria.geolocation.Mozambique" />
+	  											<i class="em em-flag-mz"></i>
+										</c:when>
+										<c:when
+											test="${virtualEdition.getGeographicLocation().getCountry() == 'Angola'}">
+											<input type="radio" value="Portugal" name="geolocation" id="geolocation"> 
+												<spring:message code="criteria.geolocation.Portugal" />
+												<i class="em em-flag-pt"></i>
+	  										<input type="radio" value="Brazil" name="geolocation" id="geolocation"> 
+	  											<spring:message code="criteria.geolocation.Brazil" />
+	  											<i class="em em-flag-br"></i>
+	  										<input type="radio" value="Spain" name="geolocation" id="geolocation"> 
+	  											<spring:message code="criteria.geolocation.Spain" />
+	  											<i class="em em-flag-es"></i>
+	  										<br>
+	  										<input type="radio" value="United Kingdom" name="geolocation" id="geolocation"> 
+	  											<spring:message code="criteria.geolocation.UnitedKingdom" />
+	  											<i class="em em-flag-england"></i>
+	  										<input type="radio" value="United States" name="geolocation" id="geolocation"> 
+	  											<spring:message code="criteria.geolocation.UnitedStates" />
+	  											<i class="em em-flag-um"></i>
+	  										<br>
+	  										<input type="radio" value="Lebanon" name="geolocation" id="geolocation"> 
+	  											<spring:message code="criteria.geolocation.Lebanon" />
+	  											<i class="em em-flag-lb"></i>
+	  										<input type="radio" value="Angola" checked name="geolocation" id="geolocation"> 
+	  											<spring:message code="criteria.geolocation.Angola" />
+	  											<i class="em em-flag-ao"></i>
+	  										<input type="radio" value="Mozambique" name="geolocation" id="geolocation"> 
+	  											<spring:message code="criteria.geolocation.Mozambique" />
+	  											<i class="em em-flag-mz"></i>
+										</c:when>
+										<c:when
+											test="${virtualEdition.getGeographicLocation().getCountry() == 'Mozambique'}">
+											<input type="radio" value="Portugal" name="geolocation" id="geolocation"> 
+												<spring:message code="criteria.geolocation.Portugal" />
+												<i class="em em-flag-pt"></i>
+	  										<input type="radio" value="Brazil" name="geolocation" id="geolocation"> 
+	  											<spring:message code="criteria.geolocation.Brazil" />
+	  											<i class="em em-flag-br"></i>
+	  										<input type="radio" value="Spain" name="geolocation" id="geolocation"> 
+	  											<spring:message code="criteria.geolocation.Spain" />
+	  											<i class="em em-flag-es"></i>
+	  										<br>
+	  										<input type="radio" value="United Kingdom" name="geolocation" id="geolocation"> 
+	  											<spring:message code="criteria.geolocation.UnitedKingdom" />
+	  											<i class="em em-flag-england"></i>
+	  										<input type="radio" value="United States" name="geolocation" id="geolocation"> 
+	  											<spring:message code="criteria.geolocation.UnitedStates" />
+	  											<i class="em em-flag-um"></i>
+	  										<br>
+	  										<input type="radio" value="Lebanon" name="geolocation" id="geolocation"> 
+	  											<spring:message code="criteria.geolocation.Lebanon" />
+	  											<i class="em em-flag-lb"></i>
+	  										<input type="radio" value="Angola" name="geolocation" id="geolocation"> 
+	  											<spring:message code="criteria.geolocation.Angola" />
+	  											<i class="em em-flag-ao"></i>
+	  										<input type="radio" value="Mozambique" checked name="geolocation" id="geolocation"> 
+	  											<spring:message code="criteria.geolocation.Mozambique" />
+	  											<i class="em em-flag-mz"></i>
+										</c:when>
+										<c:otherwise>
+											<input type="radio" value="Portugal" checked name="geolocation" id="geolocation"> 
+												<spring:message code="criteria.geolocation.Portugal" />
+												<i class="em em-flag-pt"></i>
+	  										<input type="radio" value="Brazil" name="geolocation" id="geolocation"> 
+	  											<spring:message code="criteria.geolocation.Brazil" />
+	  											<i class="em em-flag-br"></i>
+	  										<input type="radio" value="Spain" name="geolocation" id="geolocation"> 
+	  											<spring:message code="criteria.geolocation.Spain" />
+	  											<i class="em em-flag-es"></i>
+	  										<br>
+	  										<input type="radio" value="United Kingdom" name="geolocation" id="geolocation"> 
+	  											<spring:message code="criteria.geolocation.UnitedKingdom" />
+	  											<i class="em em-flag-england"></i>
+	  										<input type="radio" value="United States" name="geolocation" id="geolocation"> 
+	  											<spring:message code="criteria.geolocation.UnitedStates" />
+	  											<i class="em em-flag-um"></i>
+	  										<br>
+	  										<input type="radio" value="Lebanon" name="geolocation" id="geolocation"> 
+	  											<spring:message code="criteria.geolocation.Lebanon" />
+	  											<i class="em em-flag-lb"></i>
+	  										<input type="radio" value="Angola" name="geolocation" id="geolocation"> 
+	  											<spring:message code="criteria.geolocation.Angola" />
+	  											<i class="em em-flag-ao"></i>
+	  										<input type="radio" value="Mozambique" name="geolocation" id="geolocation"> 
+	  											<spring:message code="criteria.geolocation.Mozambique" />
+	  											<i class="em em-flag-mz"></i>
+										</c:otherwise>
+								</c:choose>	
+								
+								
+							</div>
+							
+							
+							<!-- falta o value -->
+							<div class="form-group col-md-4" style="padding-left: 0px">
+								<label class="control-label" for="frequency"><spring:message
+										code="criteria.frequency" /></label> 
+								<input type="text"
+									class="form-control tip" name="frequency" id="frequency"
+									placeholder="0"
+									title="<spring:message code="criteria.frequency.manage" />" />
+							</div>
+							
 						</div>
 						
 						<br>
@@ -334,7 +594,7 @@
 						</div>
 						<div class="modal-footer">
 							<button type="button" data-dismiss="modal"
-								class="btn btn-primary" id="delete">
+							class="btn btn-primary" id="delete">
 								<spring:message code="general.delete" />
 							</button>
 							<button type="button" data-dismiss="modal" class="btn">

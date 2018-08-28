@@ -216,7 +216,8 @@ public class VirtualEdition extends VirtualEdition_Base {
 
 	@Atomic(mode = TxMode.WRITE)
 	public void edit(String acronym, String title, String synopsis, boolean pub, boolean openManagement,
-			boolean openVocabulary, boolean openAnnotation, String mediaSource) {
+			boolean openVocabulary, boolean openAnnotation, String mediaSource, String beginDate, String endDate,
+			String geoLocation) {
 		setPub(pub);
 		setTitle(title);
 		if (synopsis.length() > 1500) {
@@ -228,14 +229,36 @@ public class VirtualEdition extends VirtualEdition_Base {
 		getTaxonomy().edit(openManagement, openVocabulary, openAnnotation);
 
 		if (!mediaSource.equals("")) {
-			MediaSource medSource = getMediaSource();
+			MediaSource medSource = this.getMediaSource();
 			if (medSource != null) {
-				getMediaSource().edit(mediaSource);
+				medSource.edit(mediaSource);
 			} else {
 				new MediaSource(this, mediaSource);
 			}
 		}
 
+		LocalDate bDate = null;
+		LocalDate eDate = null;
+		if (!beginDate.equals("")) {
+			bDate = new LocalDate(beginDate);
+		}
+		if (!endDate.equals("")) {
+			eDate = new LocalDate(endDate);
+		}
+
+		TimeWindow timeWindow = this.getTimeWindow();
+		if (timeWindow != null) {
+			timeWindow.edit(bDate, eDate);
+		} else {
+			new TimeWindow(this, bDate, eDate);
+		}
+
+		GeographicLocation geographicLocation = this.getGeographicLocation();
+		if (geographicLocation != null) {
+			geographicLocation.edit(geoLocation);
+		} else {
+			new GeographicLocation(this, geoLocation);
+		}
 	}
 
 	@Atomic(mode = TxMode.WRITE)
@@ -598,6 +621,24 @@ public class VirtualEdition extends VirtualEdition_Base {
 		for (SocialMediaCriteria criteria : this.getCriteriaSet()) {
 			if (criteria instanceof MediaSource) {
 				return (MediaSource) criteria;
+			}
+		}
+		return null;
+	}
+
+	public TimeWindow getTimeWindow() {
+		for (SocialMediaCriteria criteria : this.getCriteriaSet()) {
+			if (criteria instanceof TimeWindow) {
+				return (TimeWindow) criteria;
+			}
+		}
+		return null;
+	}
+
+	public GeographicLocation getGeographicLocation() {
+		for (SocialMediaCriteria criteria : this.getCriteriaSet()) {
+			if (criteria instanceof GeographicLocation) {
+				return (GeographicLocation) criteria;
 			}
 		}
 		return null;

@@ -187,10 +187,13 @@ public class VirtualEditionController {
 			@RequestParam("title") String title, @RequestParam("synopsis") String synopsis,
 			@RequestParam("pub") boolean pub, @RequestParam("management") boolean management,
 			@RequestParam("vocabulary") boolean vocabulary, @RequestParam("annotation") boolean annotation,
-			@RequestParam("mediasource") String mediaSource, @RequestParam("begindate") String beginDate) {
+			@RequestParam("mediasource") String mediaSource, @RequestParam("begindate") String beginDate,
+			@RequestParam("enddate") String endDate, @RequestParam("geolocation") String geoLocation) {
 
 		logger.info("mediaSource:{}", mediaSource);
 		logger.info("beginDate:{}", beginDate);
+		logger.info("endDate:{}", endDate);
+		logger.info("geoLocation:{}", geoLocation);
 
 		logger.debug(
 				"editVirtualEdition externalId:{}, acronym:{}, title:{}, pub:{}, management:{}, vocabulary:{}, annotation:{}",
@@ -215,7 +218,7 @@ public class VirtualEditionController {
 
 		try {
 			virtualEdition.edit(VirtualEdition.ACRONYM_PREFIX + acronym, title, synopsis, pub, management, vocabulary,
-					annotation, mediaSource);
+					annotation, mediaSource, beginDate, endDate, geoLocation);
 		} catch (LdoDDuplicateAcronymException ex) {
 			errors.add("virtualedition.acronym.duplicate");
 			throw new LdoDEditVirtualEditionException(errors, virtualEdition, acronym, title, pub);

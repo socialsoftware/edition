@@ -309,11 +309,25 @@ public class AwareAnnotationFactory {
 				LocalDate beginDate = ((TimeWindow) criterion).getBeginDate();
 				LocalDate endDate = ((TimeWindow) criterion).getEndDate();
 
-				if (!((localDate.isAfter(beginDate) || localDate.isEqual(beginDate))
-						&& (localDate.isBefore(endDate) || localDate.isEqual(endDate)))) {
-					// bw.write(" ENTREI NO IF DO TIME WINDOW \n");
-					isValid = false;
+				// old code
+				// if (!((localDate.isAfter(beginDate) || localDate.isEqual(beginDate))
+				// && (localDate.isBefore(endDate) || localDate.isEqual(endDate)))) {
+				// // bw.write(" ENTREI NO IF DO TIME WINDOW \n");
+				// isValid = false;
+				// }
+
+				// new code that supports null format for date input by user
+				if (beginDate != null) {
+					if (!(localDate.isAfter(beginDate) || localDate.isEqual(beginDate))) {
+						isValid = false;
+					}
 				}
+				if (endDate != null) {
+					if (!(localDate.isBefore(endDate) || localDate.isEqual(endDate))) {
+						isValid = false;
+					}
+				}
+
 			} else if (criterion instanceof GeographicLocation) {
 				// bw.write(" ENTREI NO GEOGRAPHIC LOCATION \n");
 				if (tc instanceof TwitterCitation
