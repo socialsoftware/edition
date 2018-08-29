@@ -29,7 +29,7 @@ class GameLeaderboard extends Component {
         users.forEach(function(item, index){
             tableView.push(
                 <tr key={index}>
-                    <td>{index}</td>
+                    <td>{index+1}</td>
                     <td>{item}</td>
                     <td>{points[index]}</td>
                 </tr>

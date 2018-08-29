@@ -88,6 +88,7 @@ class Tag extends Component {
                                 placeholder="Tag this paragraph" 
                                 id="tag"
                                 type="text"
+                                spellCheck="true"
                                 onChange={this.handleChange.bind(this)} 
                                 autoFocus />
                             </InputGroup>
