@@ -31,7 +31,7 @@ class GameLeaderboard extends Component {
                 <tr key={index}>
                     <td>{index+1}</td>
                     <td>{item}</td>
-                    <td>{points[index]}</td>
+                    <td>{Math.round(points[index])}</td>
                 </tr>
                 )
           });

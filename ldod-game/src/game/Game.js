@@ -16,6 +16,8 @@ class Game extends Component {
         this.loadVirtualEdition = this.loadVirtualEdition.bind(this);
         this.endGame = this.endGame.bind(this);
         this.start = this.start.bind(this);
+        this.ready = this.ready.bind(this);
+        this.onMessageReceive = this.onMessageReceive.bind(this);
     }
 
     async componentDidMount(){
@@ -25,15 +27,15 @@ class Game extends Component {
                     url={WEB_SOCKETS_URL}
                     topics={['/topic/config']}
                     ref={ (client) => { this.clientRef = client }}
-                    onConnect={ () => { this.start() }}
-                    onMessage={this.onMessageReceive.bind(this)} /> 
+                    onConnect={ () => { this.start(); this.ready() }}
+                    onMessage={(message) => this.onMessageReceive(message)} /> 
         });
         
     }
 
     start(){
         try {
-            this.clientRef.sendMessage('/ldod-game/start', JSON.stringify({ userId: localStorage.getItem("currentUser"), virtualEdition: "LdoD-ok"}));
+            this.clientRef.sendMessage('/ldod-game/connect', JSON.stringify({ userId: localStorage.getItem("currentUser"), virtualEdition: "LdoD-ok"}));
             return true;
           } catch(e) {
             return false;
@@ -41,11 +43,28 @@ class Game extends Component {
         
     }
 
+    ready(){
+        try {
+            this.clientRef.sendMessage('/ldod-game/ready',JSON.stringify({ msg: "ready"}));
+            return true;
+          } catch(e) {
+            console.log(e)
+            return false;
+          }
+    }
+
     onMessageReceive(message){
-        if( message === this.state.users) return;
+        if( message[0] === this.state.users) return;
+        if( message[0] === "ready"){
+            this.setState({
+                isLoading: false,
+            })
+            return; 
+        }
         this.setState({
             users: message,
         })
+        return;
     }
     
     async loadVirtualEdition(){
@@ -60,9 +79,6 @@ class Game extends Component {
         })
         
         await readyToStart(localStorage.getItem("currentUser"),"LdoD-ok");
-        this.setState({
-            isLoading: false,
-        })
     }
 
     async endGame(){
@@ -76,8 +92,9 @@ class Game extends Component {
                 <div>
                     <Alert
                         message="Loading resources"
-                        description="Getting everything and waiting for users to join."
+                        description="Getting everything ready and waiting for users to join."
                         type="info"/>
+                        {this.state.component}
                     <LoadingIndicator />
                 </div>
             );
@@ -85,8 +102,6 @@ class Game extends Component {
         return ( 
             <div>
                 <Icon type="user" />: {this.state.users}
-                {this.state.component}
-                {this.start()}
                 <VirtualEdition virtualEdition={this.state.virtualEdition} end={this.endGame}/>
             </div>
     );

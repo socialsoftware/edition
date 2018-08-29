@@ -19,7 +19,7 @@ class Fragment extends Component {
             text: "",
             splitText: [],
             index: 0,
-            seconds: 5,
+            seconds: 120.0,
             round: 1,
             tags: [],
         };
@@ -100,11 +100,12 @@ class Fragment extends Component {
                     <ReactCountdownClock seconds={this.state.seconds}
                     color="#8e44ad"
                     size={90}
+                    showMilliseconds={false}
                     onComplete={this.nextParagraph}
                     />
                 </div>
                 <Paragraph text={this.state.splitText[this.state.index]} title={this.state.title}/>    
-                <Vote id={this.state.urlId} initialTags={this.state.tags}/>
+                <Vote seconds={this.state.seconds} id={this.state.urlId} initialTags={this.state.tags}/>
             </div>
           } else {
             roundRender =
@@ -114,6 +115,7 @@ class Fragment extends Component {
                     <ReactCountdownClock seconds={this.state.seconds}
                     color="#2ecc71"
                     size={90}
+                    showMilliseconds={false}
                     onComplete={this.nextParagraph}
                     />
                 </div>

@@ -72,9 +72,10 @@ class VirtualEdition extends Component {
                     <strong>The game is about to start in: </strong>
                 </Alert>
                 <div className="clock">    
-                    <ReactCountdownClock seconds={1}
+                    <ReactCountdownClock seconds={10}
                         color="#3498db"
                         size={200}
+                        showMilliseconds={false}
                         onComplete={this.nextFragment}
                     />
                 </div>

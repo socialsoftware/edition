@@ -9,6 +9,7 @@ class Vote extends Component {
         super(props);
         this.state = {
             votes: [],
+            seconds: 0.0,
         };
         this.handleVote = this.handleVote.bind(this);
         this.handleMessageVote = this.handleMessageVote.bind(this);
@@ -17,18 +18,38 @@ class Vote extends Component {
     componentDidMount(){
         this.setState({
             votes: this.props.initialTags,
+            seconds: this.props.seconds,
         })
-       
+        this.interval = setInterval(() => this.tick(), 1000);
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.interval);
+    }
+
+    componentDidUpdate(prevProps) {
+        if (this.props.seconds !== prevProps.seconds) {
+            this.setState({
+                seconds: this.props.seconds,
+            })
+        }
+    }
+  
+    tick() {
+        this.setState(prevState => ({
+          seconds: prevState.seconds - 1
+        }));
     }
 
     handleVote = (param) => (e) =>{
         let vote;
         if (e.target.checked) {
-            vote =  1;
+            vote =  1.0 + this.state.seconds/10;
         } else {
-            vote = -1;
+            vote = -1.0 - this.state.seconds/10;
         }
-        this.sendMessage(param.tag, vote); 
+        var res = vote.toFixed(2);
+        this.sendMessage(param.tag, res); 
     }
 
     sendMessage = (msg, vote, selfMsg) => {
@@ -43,7 +64,8 @@ class Vote extends Component {
     handleMessageVote(message) {
         var dictionary = this.state.votes;
         let copy = [...this.state.votes];
-        var temp = { authorId: message[1], tag: message[2], vote: message[3]};
+        var vote = parseInt(message[3], 10);
+        var temp = { authorId: message[1], tag: message[2], vote: vote};
         for(var i in dictionary){
             if(dictionary[i].tag === temp.tag){
                 copy.splice(i, 1, temp);
@@ -68,17 +90,12 @@ class Vote extends Component {
                         <span className="label label-primary">{m.vote}</span>
                     </label>
                 </div>
-                {/*<span>{ m.tag }</span>
-                <Checkbox key={mIndex} onClick={this.handleVote(m)} inline>
-                    <Glyphicon glyph="ok" />{m.vote}
-                </Checkbox>*/}
             </div>)
             
         }); 
         return (
             <div>
-            {/*<form>*/}
-            <SockJsClient
+                <SockJsClient
                     url={WEB_SOCKETS_URL}
                     topics={['/topic/votes']}
                     ref={ (client) => { this.clientRef = client }}
@@ -86,10 +103,6 @@ class Vote extends Component {
                 <span className="icon-tags"><Glyphicon glyph="tags" /></span>
                 <br></br>
                 {voteViews}
-                {/*<FormGroup>
-                    {voteViews}
-                </FormGroup>*/}
-            {/*</form>*/}
             </div>
         );
     }
