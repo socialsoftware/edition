@@ -18,8 +18,6 @@ import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.ldod.dto.APIResponse;
 import pt.ist.socialsoftware.edition.ldod.dto.GameTagDto;
-
-import javax.inject.Inject;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -29,7 +27,7 @@ public class GameWebSocketController {
     @Autowired
     private SimpMessagingTemplate broker;
     private Map<String, List<GameTagDto>> submittedTags = new HashMap<>();
-    private Map<String, Integer> participants = new HashMap<>();
+    private Map<String, Double> participants = new HashMap<>();
 
     @GetMapping("/api/services/ldod-game/ready/{user}/{acronym}")
     public @ResponseBody ResponseEntity<?> handleReady(@PathVariable(value = "user") String user, @PathVariable(value = "acronym") String acronym){
@@ -38,29 +36,51 @@ public class GameWebSocketController {
         for(String id: res){
             submittedTags.put(id, new ArrayList<>());
         }
-        participants.put(user, 0);
+        participants.put(user, 0.0);
         return new ResponseEntity<>(new APIResponse(true, "starting game"), HttpStatus.OK);
 
     }
 
-    @MessageMapping("/start")
+    @MessageMapping("/connect")
     @SendTo("/topic/config")
     public @ResponseBody void handleStart(@Payload Map<String,String> payload) {
         /* TODO: Queria chamar o método handleReady mas da erro se for um metodo da classe e nao um getMapping, coniderar portar
-            algum codigo para o dominio
-         */
-        /*String user = payload.get("userId");
-        String acronym = payload.get("virtualEdition");*/
-        broker.convertAndSend("/topic/config", participants.size());
+            algum codigo para o dominio*/
+
+        String user = payload.get("userId");
+        String acronym = payload.get("virtualEdition");
+        participants.put(user, 1.0);
+        payload.remove("userId");
+        payload.remove("virtualEdition");
+        payload.put("msg", String.valueOf(participants.size()));
+        broker.convertAndSend("/topic/config", payload.values());
+    }
+
+    @MessageMapping("/ready")
+    @SendTo("/topic/config")
+    public @ResponseBody void sendReady(@Payload Map<String,String> payload) {
+        payload.put("msg", "ready");
+        try {
+            /*Thread.sleep(1 *    // minutes to sleep
+                            60 *   // seconds to a minute
+                            1000); // milli to second*/
+            Thread.sleep(10000); // TODO: use the above time
+            broker.convertAndSend("/topic/config", payload.values());
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+
     }
 
     @GetMapping("/api/services/ldod-game/end")
     public @ResponseBody ResponseEntity<?> handleEnd() {
         logger.debug("end of game");
+        // TODO: make transaction,i.e, save to DB
         Map<String, List<GameTagDto>> result = new HashMap<>();
         Set<String> fragmentsTagged = submittedTags.keySet();
         for(String fragment: fragmentsTagged){
-            List<GameTagDto> top3Tags = submittedTags.get(fragment).stream().sorted(((g1, g2) -> g2.getScore())).limit(3).collect(Collectors.toList());
+            List<GameTagDto> top3Tags = submittedTags.get(fragment).stream().sorted(((g1, g2) -> (int) g2.getScore())).limit(3).collect(Collectors.toList());
 
             result.put(fragment, top3Tags);
         }
@@ -109,13 +129,14 @@ public class GameWebSocketController {
         List<GameTagDto> res = submittedTags.get(urlId);
         String tagMsg = payload.get("msg");
         Object vote = payload.get("vote");
+        double finalVote = Double.parseDouble((String) vote);
         res.stream().filter(t -> t.getContent().equals(tagMsg)).
                 forEach(tagDto ->{
-                    tagDto.setScore(tagDto.getScore() + (int) vote);
+                    tagDto.setScore(tagDto.getScore() + finalVote);
                     tagDto.addVoter(voterId);
-                    participants.put(tagDto.getAuthorId(), participants.get(tagDto.getAuthorId()) + (int) vote);
+                    participants.put(tagDto.getAuthorId(), participants.get(tagDto.getAuthorId()) + finalVote);
                     payload.put("vote", String.valueOf(tagDto.getScore()));
-                    logger.debug("tag: {} voters: {}", tagDto.getContent(), tagDto.getVoters().toArray());
+                    //logger.debug("tag: {} voters: {}", tagDto.getContent(), tagDto.getVoters().toArray());
                 });
 
         broker.convertAndSend("/topic/votes", payload.values());
@@ -129,7 +150,7 @@ public class GameWebSocketController {
                 .sorted(Collections.reverseOrder(Map.Entry.comparingByValue()))
                 .map(Map.Entry::getKey)
                 .collect(Collectors.toList());
-        List<Integer> scores = participants.entrySet().stream()
+        List<Double> scores = participants.entrySet().stream()
                 .sorted(Collections.reverseOrder(Map.Entry.comparingByValue()))
                 .map(Map.Entry::getValue)
                 .collect(Collectors.toList());

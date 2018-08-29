@@ -7,14 +7,14 @@ public class GameTagDto implements  Comparable{
     private String authorId;
     private String fragmentUrlId;
     private String content;
-    private int score = 0;
+    private double score = 0;
     private List<String> coAuthors = new ArrayList<>();
     private List<String> voters = new ArrayList<>();
 
     public GameTagDto() {
     }
 
-    public GameTagDto(String authorId, String fragmentUrlId, String content, int score) {
+    public GameTagDto(String authorId, String fragmentUrlId, String content, double score) {
         this.authorId = authorId;
         this.fragmentUrlId = fragmentUrlId;
         this.content = content;
@@ -45,11 +45,11 @@ public class GameTagDto implements  Comparable{
         this.content = content;
     }
 
-    public int getScore() {
+    public double getScore() {
         return score;
     }
 
-    public void setScore(int score) {
+    public void setScore(double score) {
         this.score = score;
     }
 
@@ -91,7 +91,7 @@ public class GameTagDto implements  Comparable{
 
     @Override
     public int compareTo(Object o) {
-        int score = ((GameTagDto) o).getScore();
-        return Integer.compare(this.getScore(), score);
+        double score = ((GameTagDto) o).getScore();
+        return Double.compare(this.getScore(), score);
     }
 }
