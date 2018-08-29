@@ -18,6 +18,8 @@ import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.ldod.dto.APIResponse;
 import pt.ist.socialsoftware.edition.ldod.dto.GameTagDto;
+
+import javax.inject.Inject;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -30,7 +32,7 @@ public class GameWebSocketController {
     private Map<String, Integer> participants = new HashMap<>();
 
     @GetMapping("/api/services/ldod-game/ready/{user}/{acronym}")
-    public @ResponseBody ResponseEntity<?> handleReady(@PathVariable(value = "user") String user, @PathVariable(value = "acronym") String acronym) {
+    public @ResponseBody ResponseEntity<?> handleReady(@PathVariable(value = "user") String user, @PathVariable(value = "acronym") String acronym){
         VirtualEdition virtualEdition = LdoD.getInstance().getVirtualEdition(acronym);
         List<String> res = virtualEdition.getIntersSet().stream().sorted().map(FragInter::getUrlId).collect(Collectors.toList());
         for(String id: res){
@@ -39,6 +41,17 @@ public class GameWebSocketController {
         participants.put(user, 0);
         return new ResponseEntity<>(new APIResponse(true, "starting game"), HttpStatus.OK);
 
+    }
+
+    @MessageMapping("/start")
+    @SendTo("/topic/config")
+    public @ResponseBody void handleStart(@Payload Map<String,String> payload) {
+        /* TODO: Queria chamar o método handleReady mas da erro se for um metodo da classe e nao um getMapping, coniderar portar
+            algum codigo para o dominio
+         */
+        /*String user = payload.get("userId");
+        String acronym = payload.get("virtualEdition");*/
+        broker.convertAndSend("/topic/config", participants.size());
     }
 
     @GetMapping("/api/services/ldod-game/end")
