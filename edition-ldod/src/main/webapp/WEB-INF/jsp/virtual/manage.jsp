@@ -238,7 +238,47 @@
 								<br>
 								<c:choose>
 										<c:when
+											test="${virtualEdition.getGeographicLocation().getCountry() == 'Portugal'}">
+											<input type="radio" value="noCountry" name="geolocation" id="geolocation"> 
+												<spring:message code="criteria.geolocation.nocountry" />
+											<br>
+											<input type="radio" value="Portugal" checked name="geolocation" id="geolocation"> 
+												<spring:message code="criteria.geolocation.Portugal" />
+												<i class="em em-flag-pt"></i>
+											<br>
+	  										<input type="radio" value="Brazil" name="geolocation" id="geolocation"> 
+	  											<spring:message code="criteria.geolocation.Brazil" />
+	  											<i class="em em-flag-br"></i>
+	  										<br>
+	  										<input type="radio" value="Spain" name="geolocation" id="geolocation"> 
+	  											<spring:message code="criteria.geolocation.Spain" />
+	  											<i class="em em-flag-es"></i>
+	  										<br>
+	  										<input type="radio" value="United Kingdom" name="geolocation" id="geolocation"> 
+	  											<spring:message code="criteria.geolocation.UnitedKingdom" />
+	  											<i class="em em-flag-england"></i>
+	  										<br>
+	  										<input type="radio" value="United States" name="geolocation" id="geolocation"> 
+	  											<spring:message code="criteria.geolocation.UnitedStates" />
+	  											<i class="em em-flag-um"></i>
+	  										<br>
+	  										<input type="radio" value="Lebanon" name="geolocation" id="geolocation"> 
+	  											<spring:message code="criteria.geolocation.Lebanon" />
+	  											<i class="em em-flag-lb"></i>
+	  										<br>
+	  										<input type="radio" value="Angola" name="geolocation" id="geolocation"> 
+	  											<spring:message code="criteria.geolocation.Angola" />
+	  											<i class="em em-flag-ao"></i>
+	  										<br>
+	  										<input type="radio" value="Mozambique" name="geolocation" id="geolocation"> 
+	  											<spring:message code="criteria.geolocation.Mozambique" />
+	  											<i class="em em-flag-mz"></i>
+										</c:when>
+										<c:when
 											test="${virtualEdition.getGeographicLocation().getCountry() == 'Brazil'}">
+											<input type="radio" value="noCountry" name="geolocation" id="geolocation"> 
+												<spring:message code="criteria.geolocation.nocountry" />
+											<br>
 											<input type="radio" value="Portugal" name="geolocation" id="geolocation"> 
 												<spring:message code="criteria.geolocation.Portugal" />
 												<i class="em em-flag-pt"></i>
@@ -273,6 +313,9 @@
 										</c:when>
 										<c:when
 											test="${virtualEdition.getGeographicLocation().getCountry() == 'Spain'}">
+											<input type="radio" value="noCountry" name="geolocation" id="geolocation"> 
+												<spring:message code="criteria.geolocation.nocountry" />
+											<br>
 											<input type="radio" value="Portugal" name="geolocation" id="geolocation"> 
 												<spring:message code="criteria.geolocation.Portugal" />
 												<i class="em em-flag-pt"></i>
@@ -307,6 +350,9 @@
 										</c:when>
 										<c:when
 											test="${virtualEdition.getGeographicLocation().getCountry() == 'United Kingdom'}">
+											<input type="radio" value="noCountry" name="geolocation" id="geolocation"> 
+												<spring:message code="criteria.geolocation.nocountry" />
+											<br>
 											<input type="radio" value="Portugal" name="geolocation" id="geolocation"> 
 												<spring:message code="criteria.geolocation.Portugal" />
 												<i class="em em-flag-pt"></i>
@@ -340,6 +386,9 @@
 										</c:when>
 										<c:when
 											test="${virtualEdition.getGeographicLocation().getCountry() == 'United States'}">
+											<input type="radio" value="noCountry" name="geolocation" id="geolocation"> 
+												<spring:message code="criteria.geolocation.nocountry" />
+											<br>
 											<input type="radio" value="Portugal" name="geolocation" id="geolocation"> 
 												<spring:message code="criteria.geolocation.Portugal" />
 												<i class="em em-flag-pt"></i>
@@ -374,6 +423,9 @@
 										</c:when>
 										<c:when
 											test="${virtualEdition.getGeographicLocation().getCountry() == 'Lebanon'}">
+											<input type="radio" value="noCountry" name="geolocation" id="geolocation"> 
+												<spring:message code="criteria.geolocation.nocountry" />
+											<br>
 											<input type="radio" value="Portugal" name="geolocation" id="geolocation"> 
 												<spring:message code="criteria.geolocation.Portugal" />
 												<i class="em em-flag-pt"></i>
@@ -408,6 +460,9 @@
 										</c:when>
 										<c:when
 											test="${virtualEdition.getGeographicLocation().getCountry() == 'Angola'}">
+											<input type="radio" value="noCountry" name="geolocation" id="geolocation"> 
+												<spring:message code="criteria.geolocation.nocountry" />
+											<br>
 											<input type="radio" value="Portugal" name="geolocation" id="geolocation"> 
 												<spring:message code="criteria.geolocation.Portugal" />
 												<i class="em em-flag-pt"></i>
@@ -442,6 +497,9 @@
 										</c:when>
 										<c:when
 											test="${virtualEdition.getGeographicLocation().getCountry() == 'Mozambique'}">
+											<input type="radio" value="noCountry" name="geolocation" id="geolocation"> 
+												<spring:message code="criteria.geolocation.nocountry" />
+											<br>
 											<input type="radio" value="Portugal" name="geolocation" id="geolocation"> 
 												<spring:message code="criteria.geolocation.Portugal" />
 												<i class="em em-flag-pt"></i>
@@ -475,7 +533,10 @@
 	  											<i class="em em-flag-mz"></i>
 										</c:when>
 										<c:otherwise>
-											<input type="radio" value="Portugal" checked name="geolocation" id="geolocation"> 
+											<input type="radio" value="noCountry" checked name="geolocation" id="geolocation"> 
+												<spring:message code="criteria.geolocation.nocountry" />
+											<br>
+											<input type="radio" value="Portugal" name="geolocation" id="geolocation"> 
 												<spring:message code="criteria.geolocation.Portugal" />
 												<i class="em em-flag-pt"></i>
 	  										<br>
@@ -524,7 +585,7 @@
 							<div class="form-group col-md-2" style="padding-left: 0px">
 								<label class="control-label" for="frequency"><spring:message
 										code="criteria.frequency" /></label> 
-								<input type="text" value="${virtualEdition.getFrequency().getFrequency()}"
+								<input type="number" value="${virtualEdition.getFrequency().getFrequency()}"
 									class="form-control tip" name="frequency" id="frequency"
 									placeholder="0"
 									title="<spring:message code="criteria.frequency.manage" />" />

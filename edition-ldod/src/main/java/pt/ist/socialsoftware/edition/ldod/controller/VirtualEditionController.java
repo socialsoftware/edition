@@ -133,7 +133,8 @@ public class VirtualEditionController {
 
 		try {
 			virtualEdition = LdoD.getInstance().createVirtualEdition(LdoDUser.getAuthenticatedUser(),
-					VirtualEdition.ACRONYM_PREFIX + acronym, title, date, pub, usedEdition);
+					VirtualEdition.ACRONYM_PREFIX + acronym, title, date, pub, usedEdition, mediaSource, beginDate,
+					endDate, geoLocation, frequency);
 
 		} catch (LdoDDuplicateAcronymException ex) {
 			errors.add("virtualedition.acronym.duplicate");
@@ -241,7 +242,7 @@ public class VirtualEditionController {
 
 		try {
 			virtualEdition.edit(VirtualEdition.ACRONYM_PREFIX + acronym, title, synopsis, pub, management, vocabulary,
-					annotation, mediaSource, beginDate, endDate, geoLocation, Integer.parseInt(frequency));
+					annotation, mediaSource, beginDate, endDate, geoLocation, frequency);
 		} catch (LdoDDuplicateAcronymException ex) {
 			errors.add("virtualedition.acronym.duplicate");
 			throw new LdoDEditVirtualEditionException(errors, virtualEdition, acronym, title, pub);

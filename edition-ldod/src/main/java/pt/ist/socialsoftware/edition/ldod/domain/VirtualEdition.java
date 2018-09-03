@@ -19,6 +19,7 @@ import org.slf4j.LoggerFactory;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.fenixframework.FenixFramework;
+import pt.ist.socialsoftware.edition.ldod.domain.Edition.EditionType;
 import pt.ist.socialsoftware.edition.ldod.recommendation.VSMVirtualEditionInterRecommender;
 import pt.ist.socialsoftware.edition.ldod.recommendation.properties.Property;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
@@ -72,6 +73,51 @@ public class VirtualEdition extends VirtualEdition_Base {
 				createVirtualEditionInter(inter, inter.getNumber());
 			}
 		}
+	}
+
+	// TODO fazer a verificação dos parâmetros vazios
+	public VirtualEdition(LdoD ldod, LdoDUser participant, String acronym, String title, LocalDate date, Boolean pub,
+			Edition usedEdition, String mediaSource, String beginDate, String endDate, String geoLocation,
+			String frequency) {
+		setLdoD4Virtual(ldod);
+		new Member(this, participant, Member.MemberRole.ADMIN, true);
+		setXmlId("ED.VIRT." + acronym);
+		setAcronym(acronym);
+		setTitle(title);
+		setDate(date);
+		setPub(pub);
+		setTaxonomy(new Taxonomy());
+		createSection(Section.DEFAULT, 0);
+		if (usedEdition != null) {
+			for (FragInter inter : usedEdition.getIntersSet()) {
+				createVirtualEditionInter(inter, inter.getNumber());
+			}
+		}
+
+		if (!mediaSource.equals("noMediaSource")) {
+			new MediaSource(this, mediaSource);
+		}
+
+		LocalDate bDate = null;
+		LocalDate eDate = null;
+		if (!beginDate.equals("") || !endDate.equals("")) {
+			if (!beginDate.equals("")) {
+				bDate = new LocalDate(beginDate);
+			}
+			if (!endDate.equals("")) {
+				eDate = new LocalDate(endDate);
+			}
+			new TimeWindow(this, bDate, eDate);
+		}
+
+		if (!geoLocation.equals("noCountry")) {
+			new GeographicLocation(this, geoLocation);
+		}
+
+		if (!frequency.equals("")) {
+			new Frequency(this, Integer.parseInt(frequency));
+		}
+
 	}
 
 	@Override
@@ -214,10 +260,11 @@ public class VirtualEdition extends VirtualEdition_Base {
 		return getAcronym().substring(ACRONYM_PREFIX.length());
 	}
 
+	// TODO fazer a verificação dos parâmetros vazios
 	@Atomic(mode = TxMode.WRITE)
 	public void edit(String acronym, String title, String synopsis, boolean pub, boolean openManagement,
 			boolean openVocabulary, boolean openAnnotation, String mediaSource, String beginDate, String endDate,
-			String geoLocation, int frequency) {
+			String geoLocation, String frequency) {
 		setPub(pub);
 		setTitle(title);
 		if (synopsis.length() > 1500) {
@@ -262,9 +309,9 @@ public class VirtualEdition extends VirtualEdition_Base {
 
 		Frequency freq = this.getFrequency();
 		if (freq != null) {
-			freq.edit(frequency);
+			freq.edit(Integer.parseInt(frequency));
 		} else {
-			new Frequency(this, frequency);
+			new Frequency(this, Integer.parseInt(frequency));
 		}
 	}
 

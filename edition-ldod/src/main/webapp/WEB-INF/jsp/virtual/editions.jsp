@@ -162,7 +162,7 @@
 								<label class="control-label" for="frequency"><spring:message
 										code="criteria.frequency" /></label> 
 								<br>
-								<input type="text"
+								<input type="number"
 									class="form-control tip" name="frequency" id="frequency"
 									placeholder="0"
 									title="<spring:message code="criteria.frequency.manage" />" />
