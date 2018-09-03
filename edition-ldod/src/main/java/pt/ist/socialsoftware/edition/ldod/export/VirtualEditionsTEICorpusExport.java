@@ -10,10 +10,16 @@ import org.jdom2.output.XMLOutputter;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.socialsoftware.edition.ldod.domain.Category;
+import pt.ist.socialsoftware.edition.ldod.domain.Frequency;
+import pt.ist.socialsoftware.edition.ldod.domain.GeographicLocation;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
+import pt.ist.socialsoftware.edition.ldod.domain.MediaSource;
 import pt.ist.socialsoftware.edition.ldod.domain.Member;
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
+import pt.ist.socialsoftware.edition.ldod.domain.SocialMediaCriteria;
 import pt.ist.socialsoftware.edition.ldod.domain.Taxonomy;
+import pt.ist.socialsoftware.edition.ldod.domain.TimeWindow;
+import pt.ist.socialsoftware.edition.ldod.domain.Tweet;
+import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
 
 public class VirtualEditionsTEICorpusExport {
 	private static final String ED_VIRT = "ED.VIRT";
@@ -32,6 +38,11 @@ public class VirtualEditionsTEICorpusExport {
 		teiHeader.setAttribute("type", "corpus");
 		rootElement.addContent(teiHeader);
 
+		Element tweetList = generateTweetList(teiHeader);
+		for (Tweet tweet : LdoD.getInstance().getTweetSet()) {
+			exportTweet(tweetList, tweet);
+		}
+
 		Element listBibl = generateFileDesc(teiHeader);
 		for (VirtualEdition virtualEdition : LdoD.getInstance().getVirtualEditionsSet()) {
 			exportVirtualEditionBibl(listBibl, virtualEdition);
@@ -42,6 +53,11 @@ public class VirtualEditionsTEICorpusExport {
 			exportVirtualEditionTaxonomy(classDecl, virtualEdition);
 		}
 
+		Element socialMediaCriteria = generateSocialMediaCriteria(teiHeader);
+		for (VirtualEdition virtualEdition : LdoD.getInstance().getVirtualEditionsSet()) {
+			exportVirtualEditionSocialMediaCriteria(socialMediaCriteria, virtualEdition);
+		}
+
 		XMLOutputter xml = new XMLOutputter();
 		xml.setFormat(Format.getPrettyFormat());
 		// System.out.println(xml.outputString(rootElement));
@@ -49,7 +65,46 @@ public class VirtualEditionsTEICorpusExport {
 		return xml.outputString(rootElement);
 	}
 
-	private Element generateFileDesc(Element teiHeader) {
+	// TODO: passar os element para attribute - done
+	protected void exportTweet(Element tweetList, Tweet tweet) {
+		Element tweetElement = new Element("tweet", this.xmlns);
+		tweetList.addContent(tweetElement);
+
+		tweetElement.setAttribute("sourceLink", tweet.getSourceLink());
+		tweetElement.setAttribute("date", tweet.getDate());
+
+		Element tweetText = new Element("tweetText", this.xmlns);
+		tweetText.addContent(tweet.getTweetText());
+		tweetElement.addContent(tweetText);
+
+		tweetElement.setAttribute("tweetId", Long.toString(tweet.getTweetID()));
+		tweetElement.setAttribute("location", tweet.getLocation());
+		tweetElement.setAttribute("country", tweet.getCountry());
+		tweetElement.setAttribute("username", tweet.getUsername());
+		tweetElement.setAttribute("userProfileURL", tweet.getUserProfileURL());
+		tweetElement.setAttribute("userImageURL", tweet.getUserProfileURL());
+
+		tweetElement.setAttribute("originalTweetId", Long.toString(tweet.getOriginalTweetID()));
+		tweetElement.setAttribute("isRetweet", String.valueOf(tweet.getIsRetweet()));
+
+		// TODO: discutir com o professor a utilidade deste atributo, útil apenas para
+		// debug
+		// Este atributo stressa com o teste original de export do corpus pq os tweets
+		// são exportados antes das citations, e no início os tweets têm todas as
+		// citations a null e por isso este atributo não era exportado
+		// if (tweet.getCitation() != null) {
+		// tweetElement.setAttribute("citationId",
+		// Long.toString(tweet.getCitation().getId()));
+		// }
+	}
+
+	protected Element generateTweetList(Element teiHeader) {
+		Element tweetList = new Element("tweetList", this.xmlns);
+		teiHeader.addContent(tweetList);
+		return tweetList;
+	}
+
+	protected Element generateFileDesc(Element teiHeader) {
 		Element fileDesc = new Element("fileDesc", this.xmlns);
 		teiHeader.addContent(fileDesc);
 		Element sourceDesc = new Element("sourceDesc", this.xmlns);
@@ -61,7 +116,7 @@ public class VirtualEditionsTEICorpusExport {
 		return listBibl;
 	}
 
-	private void exportVirtualEditionBibl(Element element, VirtualEdition virtualEdition) {
+	protected void exportVirtualEditionBibl(Element element, VirtualEdition virtualEdition) {
 		Element bibl = new Element("bibl", this.xmlns);
 		Attribute id = new Attribute("id", virtualEdition.getAcronym(), Namespace.XML_NAMESPACE);
 		bibl.setAttribute(id);
@@ -107,7 +162,7 @@ public class VirtualEditionsTEICorpusExport {
 
 	}
 
-	private Element generateEncodingDesc(Element teiHeader) {
+	protected Element generateEncodingDesc(Element teiHeader) {
 		Element encodingDesc = new Element("encodingDesc", this.xmlns);
 		teiHeader.addContent(encodingDesc);
 		Element classDecl = new Element("classDecl", this.xmlns);
@@ -115,7 +170,7 @@ public class VirtualEditionsTEICorpusExport {
 		return classDecl;
 	}
 
-	private void exportVirtualEditionTaxonomy(Element element, VirtualEdition virtualEdition) {
+	protected void exportVirtualEditionTaxonomy(Element element, VirtualEdition virtualEdition) {
 		Taxonomy taxonomy = virtualEdition.getTaxonomy();
 
 		Element taxonomyElement = new Element("taxonomy", this.xmlns);
@@ -166,6 +221,46 @@ public class VirtualEditionsTEICorpusExport {
 		} else {
 			return "false";
 		}
+	}
+
+	protected Element generateSocialMediaCriteria(Element teiHeader) {
+		Element socialMediaCriteria = new Element("socialMediaCriteria", this.xmlns);
+		teiHeader.addContent(socialMediaCriteria);
+		return socialMediaCriteria;
+	}
+
+	protected Element exportVirtualEditionSocialMediaCriteria(Element socialMediaCriteria,
+			VirtualEdition virtualEdition) {
+		Element virtualEditionSocialCriteria = new Element("editionCriteria", this.xmlns);
+		virtualEditionSocialCriteria.setAttribute("source", "#" + ED_VIRT + "." + virtualEdition.getAcronym());
+		socialMediaCriteria.addContent(virtualEditionSocialCriteria);
+
+		for (SocialMediaCriteria criteria : virtualEdition.getCriteriaSet()) {
+			if (criteria instanceof MediaSource) {
+				Element mediaSource = new Element("mediaSource", this.xmlns);
+				mediaSource.setAttribute("name", ((MediaSource) criteria).getName());
+				virtualEditionSocialCriteria.addContent(mediaSource);
+			} else if (criteria instanceof TimeWindow) {
+				Element timeWindow = new Element("timeWindow", this.xmlns);
+				timeWindow.setAttribute("beginDate", ((TimeWindow) criteria).getBeginDate().toString());
+				timeWindow.setAttribute("endDate", ((TimeWindow) criteria).getEndDate().toString());
+				virtualEditionSocialCriteria.addContent(timeWindow);
+			} else if (criteria instanceof GeographicLocation) {
+				Element geographicLocation = new Element("geographicLocation", this.xmlns);
+				geographicLocation.setAttribute("country", ((GeographicLocation) criteria).getCountry());
+				geographicLocation.setAttribute("location", ((GeographicLocation) criteria).getLocation());
+				virtualEditionSocialCriteria.addContent(geographicLocation);
+			} else if (criteria instanceof Frequency) {
+				Element frequency = new Element("frequency", this.xmlns);
+				frequency.setAttribute("frequency", Integer.toString(((Frequency) criteria).getFrequency()));
+				virtualEditionSocialCriteria.addContent(frequency);
+			} else {
+				assert true; // TODO: qual é o objetivo disto?
+			}
+
+		}
+
+		return virtualEditionSocialCriteria;
 	}
 
 }

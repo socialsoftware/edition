@@ -30,7 +30,7 @@ public class AnnotationTests extends RollbackCaseTest {
 	@Mock
 	SimpleText startText, endText;
 	@Mock
-	Annotation annotation;
+	HumanAnnotation annotation;
 
 	@Override
 	public void populate4Test() {
@@ -39,10 +39,10 @@ public class AnnotationTests extends RollbackCaseTest {
 	@Test
 	public void update() {
 		doCallRealMethod().when(this.annotation).update(any(), any());
+
 		when(this.annotation.getVirtualEditionInter()).thenReturn(this.inter);
 
 		this.annotation.update("text", new ArrayList<String>());
-
 		verify(this.annotation, times(1)).setText("text");
 		verify(this.annotation, times(1)).getVirtualEditionInter();
 	}

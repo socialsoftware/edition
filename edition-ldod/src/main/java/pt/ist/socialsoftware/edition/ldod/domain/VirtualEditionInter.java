@@ -14,11 +14,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
+import pt.ist.socialsoftware.edition.ldod.domain.Edition.EditionType;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
 import pt.ist.socialsoftware.edition.ldod.utils.CategoryDTO;
 import pt.ist.socialsoftware.edition.ldod.utils.RangeJson;
-import pt.ist.socialsoftware.edition.ldod.domain.Edition.EditionType;
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter_Base;
 
 public class VirtualEditionInter extends VirtualEditionInter_Base {
 	private static Logger logger = LoggerFactory.getLogger(VirtualEditionInter.class);
@@ -81,7 +80,7 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 	public int compareVirtualEditionInter(VirtualEditionInter other) {
 		if (this.getVirtualEdition() == other.getVirtualEdition()) {
 			int diff = getNumber() - other.getNumber();
-			int result = diff > 0 ? 1 : (diff < 0) ? -1 : 0;
+			int result = diff > 0 ? 1 : diff < 0 ? -1 : 0;
 			if (result != 0) {
 				return result;
 			} else {
@@ -122,10 +121,13 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 		return Integer.toString(getNumber());
 	}
 
-	public Set<LdoDUser> getAnnotationContributorSet() {
+	// Foi alterado por causa das human annotations
+	public Set<LdoDUser> getHumanAnnotationContributorSet() {
 		Set<LdoDUser> contributors = new HashSet<>();
 		for (Annotation annotation : getAnnotationSet()) {
-			contributors.add(annotation.getUser());
+			if (annotation instanceof HumanAnnotation) {
+				contributors.add(((HumanAnnotation) annotation).getUser());
+			}
 		}
 		return contributors;
 	}
@@ -135,10 +137,11 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 	}
 
 	@Atomic(mode = TxMode.WRITE)
-	public Annotation createAnnotation(String quote, String text, LdoDUser user, List<RangeJson> rangeList,
+	public HumanAnnotation createHumanAnnotation(String quote, String text, LdoDUser user, List<RangeJson> rangeList,
 			List<String> tagList) {
-		logger.debug("createAnnotation start:{}, startOffset:{}, end:{}, endOffset:{}", rangeList.get(0).getStart(),
-				rangeList.get(0).getStartOffset(), rangeList.get(0).getEnd(), rangeList.get(0).getEndOffset());
+		logger.debug("createHumanAnnotation start:{}, startOffset:{}, end:{}, endOffset:{}",
+				rangeList.get(0).getStart(), rangeList.get(0).getStartOffset(), rangeList.get(0).getEnd(),
+				rangeList.get(0).getEndOffset());
 
 		SimpleText startText = null;
 		// startText =
@@ -148,7 +151,7 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 		// endText = getFragment().getTextPortion().getSimpleText(getLastUsed(),
 		// 0, rangeList.get(0).getEndOffset());
 
-		Annotation annotation = new Annotation(this, startText, endText, quote, text, user);
+		HumanAnnotation annotation = new HumanAnnotation(this, startText, endText, quote, text, user);
 
 		for (RangeJson rangeJson : rangeList) {
 			new Range(annotation, rangeJson.getStart(), rangeJson.getStartOffset(), rangeJson.getEnd(),
@@ -159,6 +162,22 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 			createTag(annotation.getUser(), tag, annotation);
 		}
 
+		return annotation;
+	}
+
+	// TODO: createAwareAnnotation
+	@Atomic(mode = TxMode.WRITE)
+	public AwareAnnotation createAwareAnnotation(String quote, String text, Citation citation,
+			List<RangeJson> rangeList) {
+		logger.debug("createAwareAnnotation start:{}, startOffset:{}, end:{}, endOffset:{}",
+				rangeList.get(0).getStart(), rangeList.get(0).getStartOffset(), rangeList.get(0).getEnd(),
+				rangeList.get(0).getEndOffset());
+
+		AwareAnnotation annotation = new AwareAnnotation(this, quote, text, citation);
+		for (RangeJson rangeJson : rangeList) {
+			new Range(annotation, rangeJson.getStart(), rangeJson.getStartOffset(), rangeJson.getEnd(),
+					rangeJson.getEndOffset());
+		}
 		return annotation;
 	}
 
@@ -183,17 +202,19 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 
 	}
 
+	// Foi alterado por causa das HumanAnnotation
 	@Atomic(mode = TxMode.WRITE)
 	public void dissociate(LdoDUser user, Category category) {
-		Set<Tag> tags = getTagSet().stream().filter(t -> (t.getCategory() == category) && (t.getContributor() == user))
+		Set<Tag> tags = getTagSet().stream().filter(t -> t.getCategory() == category && t.getContributor() == user)
 				.collect(Collectors.toSet());
 		for (Tag tag : tags) {
 			tag.remove();
 		}
 
-		Set<Annotation> annotations = getAnnotationSet().stream()
-				.filter(a -> a.getTagSet().isEmpty() && a.getText() == null).collect(Collectors.toSet());
-		for (Annotation annotation : annotations) {
+		Set<HumanAnnotation> annotations = getAnnotationSet().stream().filter(HumanAnnotation.class::isInstance)
+				.map(HumanAnnotation.class::cast).filter(a -> a.getTagSet().isEmpty() && a.getText() == null)
+				.collect(Collectors.toSet());
+		for (HumanAnnotation annotation : annotations) {
 			annotation.remove();
 		}
 	}
@@ -252,6 +273,35 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 		return categories;
 	}
 
+	// Estava a dar erro
+	/*
+	 * @Override public Set<HumanAnnotation> getAllDepthAnnotations() {
+	 * Set<HumanAnnotation> annotations = null; if
+	 * (getVirtualEdition().checkAccess()) { annotations = new
+	 * HashSet<>(getAnnotationSet()); } else { annotations = new HashSet<>(); }
+	 * 
+	 * annotations.addAll(getUses().getAllDepthAnnotations());
+	 * 
+	 * return annotations; }
+	 */
+
+	// Solução - a funcionar
+	@Override
+	public Set<HumanAnnotation> getAllDepthHumanAnnotations() {
+		Set<HumanAnnotation> annotations = null;
+		if (getVirtualEdition().checkAccess()) {
+			annotations = new HashSet<>(getAnnotationSet().stream().filter(HumanAnnotation.class::isInstance)
+					.map(HumanAnnotation.class::cast).collect(Collectors.toSet()));
+		} else {
+			annotations = new HashSet<>();
+		}
+
+		annotations.addAll(getUses().getAllDepthHumanAnnotations());
+
+		return annotations;
+	}
+
+	// Solução para suportar os dois tipos de annotation
 	@Override
 	public Set<Annotation> getAllDepthAnnotations() {
 		Set<Annotation> annotations = null;
@@ -304,7 +354,7 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 		}
 	}
 
-	private void createTag(LdoDUser user, String categoryName, Annotation annotation) {
+	private void createTag(LdoDUser user, String categoryName, HumanAnnotation annotation) {
 		if (categoryName.contains(".")) {
 			String[] values = categoryName.split("\\.");
 			VirtualEdition edition = (VirtualEdition) LdoD.getInstance().getEdition(values[0]);
@@ -318,7 +368,7 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 		}
 	}
 
-	public void updateTags(Annotation annotation, List<String> tags) {
+	public void updateTags(HumanAnnotation annotation, List<String> tags) {
 		for (Tag tag : annotation.getTagSet()) {
 			if (!tags.contains(tag.getCategory().getNameInEditionContext(getVirtualEdition()))) {
 				tag.remove();
@@ -344,8 +394,8 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 
 	public Set<Tag> getTagsCompleteInter() {
 		Set<Tag> result = new HashSet<>(getAllDepthTags());
-		result.removeAll(
-				getAllDepthAnnotations().stream().flatMap(t -> t.getTagSet().stream()).collect(Collectors.toSet()));
+		result.removeAll(getAllDepthHumanAnnotations().stream().flatMap(t -> t.getTagSet().stream())
+				.collect(Collectors.toSet()));
 		return result;
 	}
 
@@ -364,4 +414,18 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 		return getUses().getUsesDepth() + 1;
 	}
 
+	// Is it this way? (this method doesn't take into account the retweets)
+	public int getNumberOfTimesCited() {
+		return this.getLastUsed().getInfoRangeSet().size();
+	}
+
+	// this methods takes into account the number of retweets
+	public int getNumberOfTimesCitedIncludingRetweets() {
+		Set<InfoRange> infoRanges = this.getLastUsed().getInfoRangeSet();
+		int count = infoRanges.size();
+		for (InfoRange infoRange : infoRanges) {
+			count += infoRange.getCitation().getNumberOfRetweets();
+		}
+		return count;
+	}
 }

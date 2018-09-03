@@ -18,10 +18,15 @@ import org.joda.time.LocalDate;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.socialsoftware.edition.ldod.domain.Category;
+import pt.ist.socialsoftware.edition.ldod.domain.Frequency;
+import pt.ist.socialsoftware.edition.ldod.domain.GeographicLocation;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
+import pt.ist.socialsoftware.edition.ldod.domain.MediaSource;
 import pt.ist.socialsoftware.edition.ldod.domain.Member;
 import pt.ist.socialsoftware.edition.ldod.domain.Taxonomy;
+import pt.ist.socialsoftware.edition.ldod.domain.TimeWindow;
+import pt.ist.socialsoftware.edition.ldod.domain.Tweet;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDLoadException;
 
@@ -66,6 +71,39 @@ public class VirtualEditionsTEICorpusImport {
 		importVirtualEditions(doc, ldoD);
 
 		importTaxonomies(doc, ldoD);
+
+		importSocialMediaCriteria(doc, ldoD);
+
+		importTweets(doc, ldoD);
+	}
+
+	// TODO: o construtor recebe a TwitterCitation a null pq ainda não sabe qual é
+	// só no import Twitter Citation da outra classe é q é feita esta ligação
+	private void importTweets(Document doc, LdoD ldoD) {
+		Namespace namespace = doc.getRootElement().getNamespace();
+		XPathFactory xpfac = XPathFactory.instance();
+		XPathExpression<Element> xp = xpfac.compile("//def:tweet", Filters.element(), null,
+				Namespace.getNamespace("def", namespace.getURI()));
+		for (Element tweet : xp.evaluate(doc)) {
+			String sourceLink = tweet.getAttributeValue("sourceLink");
+			String date = tweet.getAttributeValue("date");
+
+			Element tweetTextElement = tweet.getChild("tweetText", namespace);
+			String tweetText = tweetTextElement.getText(); // trim() ?
+
+			long tweetID = Long.parseLong(tweet.getAttributeValue("tweetId"));
+			String location = tweet.getAttributeValue("location");
+			String country = tweet.getAttributeValue("country");
+			String username = tweet.getAttributeValue("username");
+			String userProfileURL = tweet.getAttributeValue("userProfileURL");
+			String userImageURL = tweet.getAttributeValue("userImageURL");
+
+			long originalTweetID = Long.parseLong(tweet.getAttributeValue("originalTweetId"));
+			boolean isRetweet = Boolean.valueOf(tweet.getAttributeValue("isRetweet"));
+
+			new Tweet(ldoD, sourceLink, date, tweetText, tweetID, location, country, username, userProfileURL,
+					userImageURL, originalTweetID, isRetweet, null);
+		}
 	}
 
 	private void importVirtualEditions(Document doc, LdoD ldoD) {
@@ -148,6 +186,43 @@ public class VirtualEditionsTEICorpusImport {
 			for (Element cat : tax.getChildren("category", namespace)) {
 				new Category().init(taxonomy, cat.getChildText("catDesc", namespace));
 			}
+		}
+	}
+
+	private void importSocialMediaCriteria(Document doc, LdoD ldoD) {
+		Namespace namespace = doc.getRootElement().getNamespace();
+		XPathFactory xpfac = XPathFactory.instance();
+		XPathExpression<Element> xp = xpfac.compile("//def:editionCriteria", Filters.element(), null,
+				Namespace.getNamespace("def", namespace.getURI()));
+		for (Element editionCriteria : xp.evaluate(doc)) {
+			String xmlId = editionCriteria.getAttributeValue("source").substring(1);
+			System.out.println(xmlId);
+			System.out.println(LdoD.getInstance().getVirtualEditionByXmlId(xmlId));
+
+			VirtualEdition virtualEdition = LdoD.getInstance().getVirtualEditionByXmlId(xmlId);
+
+			Element mediaSource = editionCriteria.getChild("mediaSource", namespace);
+			if (mediaSource != null) {
+				new MediaSource(virtualEdition, mediaSource.getAttributeValue("name"));
+			}
+
+			Element timeWindow = editionCriteria.getChild("timeWindow", namespace);
+			if (timeWindow != null) {
+				new TimeWindow(virtualEdition, LocalDate.parse(timeWindow.getAttributeValue("beginDate")),
+						LocalDate.parse(timeWindow.getAttributeValue("endDate")));
+			}
+
+			Element geographicLocation = editionCriteria.getChild("geographicLocation", namespace);
+			if (geographicLocation != null) {
+				new GeographicLocation(virtualEdition, geographicLocation.getAttributeValue("country"),
+						geographicLocation.getAttributeValue("location"));
+			}
+
+			Element frequency = editionCriteria.getChild("frequency", namespace);
+			if (frequency != null) {
+				new Frequency(virtualEdition, Integer.parseInt(frequency.getAttributeValue("frequency")));
+			}
+
 		}
 	}
 

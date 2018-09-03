@@ -21,8 +21,13 @@ import org.slf4j.LoggerFactory;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
+import pt.ist.socialsoftware.edition.ldod.domain.Citation;
+import pt.ist.socialsoftware.edition.ldod.domain.FragInter;
 import pt.ist.socialsoftware.edition.ldod.domain.Fragment;
+import pt.ist.socialsoftware.edition.ldod.domain.InfoRange;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
+import pt.ist.socialsoftware.edition.ldod.domain.Tweet;
+import pt.ist.socialsoftware.edition.ldod.domain.TwitterCitation;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDLoadException;
@@ -72,6 +77,11 @@ public class VirtualEditionFragmentsTEIImport {
 		this.namespace = doc.getRootElement().getNamespace();
 
 		Fragment fragment = getFragment(doc);
+
+		// inclui a criação de citações, o setTwitterCitation para cada tweet
+		// e a criação dos info ranges
+		// TODO: importFragmentCitations - done
+		importFragmentCitations(doc, fragment);
 
 		importWitnesses(doc, fragment);
 
@@ -123,6 +133,72 @@ public class VirtualEditionFragmentsTEIImport {
 		}
 	}
 
+	// TODO - done
+	private void importFragmentCitations(Document doc, Fragment fragment) {
+		XPathFactory xpfac = XPathFactory.instance();
+		XPathExpression<Element> xp = xpfac.compile("//def:citation", Filters.element(), null,
+				Namespace.getNamespace("def", this.namespace.getURI()));
+		for (Element citation : xp.evaluate(doc)) {
+			if (citation.getAttributeValue("type").equals("twitter")) {
+				String sourceLink = citation.getAttributeValue("sourceLink");
+				String date = citation.getAttributeValue("date");
+
+				Element fragTextElement = citation.getChild("fragText", this.namespace);
+				String fragText = fragTextElement.getText(); // trim() ?
+
+				Element tweetTextElement = citation.getChild("tweetText", this.namespace);
+				String tweetText = tweetTextElement.getText(); // trim() ?
+
+				long tweetID = Long.parseLong(citation.getAttributeValue("tweetId"));
+				String location = citation.getAttributeValue("location");
+				String country = citation.getAttributeValue("country");
+				String username = citation.getAttributeValue("username");
+				String userProfileURL = citation.getAttributeValue("userProfileURL");
+				String userImageURL = citation.getAttributeValue("userImageURL");
+
+				TwitterCitation twitterCitation = new TwitterCitation(fragment, sourceLink, date, fragText, tweetText,
+						tweetID, location, country, username, userProfileURL, userImageURL);
+
+				// TODO: ciclo for que percorre todos os tweets da nova tag criada na citation e
+				// faz tweet.setTwitterCitation()
+				setTwitterCitation(citation, twitterCitation);
+
+				// TODO suggestion: fazer aqui o import dos info ranges visto que são elementos
+				// criados dentro de cada citation element
+				importInfoRanges(fragment, citation, twitterCitation);
+			}
+
+		}
+
+	}
+
+	private void importInfoRanges(Fragment fragment, Element citation, TwitterCitation twitterCitation) {
+		for (Element infoRangeElement : citation.getChild("infoRangesList", this.namespace).getChildren()) {
+			String start = infoRangeElement.getAttributeValue("start");
+			int startOffset = Integer.parseInt(infoRangeElement.getAttributeValue("startOffset"));
+			String end = infoRangeElement.getAttributeValue("end");
+			int endOffset = Integer.parseInt(infoRangeElement.getAttributeValue("endOffset"));
+
+			Element quoteElement = infoRangeElement.getChild("quote", this.namespace);
+			String quote = quoteElement.getText(); // trim() ?
+
+			Element textElement = infoRangeElement.getChild("text", this.namespace);
+			String text = textElement.getText(); // trim() ?
+
+			FragInter fragInter = fragment.getFragInterByXmlId(infoRangeElement.getAttributeValue("fragInterXmlId"));
+
+			new InfoRange(twitterCitation, fragInter, start, startOffset, end, endOffset, quote, text);
+		}
+	}
+
+	private void setTwitterCitation(Element citation, TwitterCitation twitterCitation) {
+		for (Element tweetElement : citation.getChild("tweets", this.namespace).getChildren()) {
+			Tweet tweet = LdoD.getInstance()
+					.getTweetByTweetID(Long.parseLong(tweetElement.getAttributeValue("tweetId")));
+			tweet.setCitation(twitterCitation);
+		}
+	}
+
 	private void importTag(Element catRef, VirtualEditionInter inter) {
 		String username = catRef.getAttributeValue("resp").substring(1);
 		String tag = catRef.getAttributeValue("target").substring(1);
@@ -130,8 +206,9 @@ public class VirtualEditionFragmentsTEIImport {
 		inter.getVirtualEdition().getTaxonomy().createTag(inter, tag, null, this.ldoD.getUser(username));
 	}
 
+	// TODO: else if aware - done
+	// novo import annotation
 	private void importAnnotation(Element note, VirtualEditionInter inter) {
-		String username = note.getAttributeValue("resp").substring(1);
 		String text = StringEscapeUtils.escapeHtml(note.getText().trim());
 		Element quoteElement = note.getChild("quote", this.namespace);
 		String from = quoteElement.getAttributeValue("from");
@@ -145,16 +222,57 @@ public class VirtualEditionFragmentsTEIImport {
 		range.setStartOffset(Integer.parseInt(fromOffset));
 		range.setEnd(to);
 		range.setEndOffset(Integer.parseInt(toOffset));
-
-		List<String> tagList = new ArrayList<>();
-		for (Element catRef : note.getChildren("catRef", this.namespace)) {
-			String tag = catRef.getAttributeValue("target").substring(1);
-			tagList.add(tag);
-		}
 		List<RangeJson> rangeList = new ArrayList<>();
 		rangeList.add(range);
-		inter.createAnnotation(quote, text, this.ldoD.getUser(username), rangeList, tagList);
+
+		// TODO
+		// este if apenas funciona para o novo export
+		// não é retrocompatível para xml que não tenha
+		// o atributo "type"
+		if (note.getAttribute("type") == null || note.getAttributeValue("type").equals("human")) {
+			String username = note.getAttributeValue("resp").substring(1);
+			List<String> tagList = new ArrayList<>();
+			for (Element catRef : note.getChildren("catRef", this.namespace)) {
+				String tag = catRef.getAttributeValue("target").substring(1);
+				tagList.add(tag);
+			}
+			inter.createHumanAnnotation(quote, text, this.ldoD.getUser(username), rangeList, tagList);
+		}
+
+		else if (note.getAttributeValue("type").equals("aware")) {
+			long tweetID = Long.parseLong(note.getAttributeValue("citationId"));
+			Citation citation = inter.getFragment().getCitationById(tweetID);
+			inter.createAwareAnnotation(quote, text, citation, rangeList);
+		}
 	}
+
+	// original code
+	// private void importAnnotation(Element note, VirtualEditionInter inter) {
+	// String username = note.getAttributeValue("resp").substring(1);
+	// String text = StringEscapeUtils.escapeHtml(note.getText().trim());
+	// Element quoteElement = note.getChild("quote", this.namespace);
+	// String from = quoteElement.getAttributeValue("from");
+	// String to = quoteElement.getAttributeValue("to");
+	// String fromOffset = quoteElement.getAttributeValue("fromOffset");
+	// String toOffset = quoteElement.getAttributeValue("toOffset");
+	// String quote = quoteElement.getText().trim();
+	//
+	// RangeJson range = new RangeJson();
+	// range.setStart(from);
+	// range.setStartOffset(Integer.parseInt(fromOffset));
+	// range.setEnd(to);
+	// range.setEndOffset(Integer.parseInt(toOffset));
+	//
+	// List<String> tagList = new ArrayList<>();
+	// for (Element catRef : note.getChildren("catRef", this.namespace)) {
+	// String tag = catRef.getAttributeValue("target").substring(1);
+	// tagList.add(tag);
+	// }
+	// List<RangeJson> rangeList = new ArrayList<>();
+	// rangeList.add(range);
+	// inter.createAnnotation(quote, text, this.ldoD.getUser(username), rangeList,
+	// tagList);
+	// }
 
 	private Fragment getFragment(Document doc) {
 		LdoD ldoD = LdoD.getInstance();

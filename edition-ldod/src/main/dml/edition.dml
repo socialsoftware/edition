@@ -32,6 +32,18 @@ class LdoD {
 	boolean admin;
 }
 
+class LastTwitterID {
+	long bookLastTwitterID;
+	long pessoaLastTwitterID;
+	long bernardoLastTwitterID;
+	long vicenteLastTwitterID;
+}
+
+relation LdoDHasLastTwitterID {
+	LdoD playsRole ldoD {multiplicity 1..1;}
+	LastTwitterID playsRole lastTwitterID {multiplicity 0..1;}
+}
+
 relation DomainRootHasLdoDApplication {
 	.pt.ist.fenixframework.DomainRoot playsRole root {
 		multiplicity 1..1;
@@ -564,13 +576,17 @@ class Annotation {
 	String text;
 }
 
-relation AnnotationHasBeginSimpleText {
-	Annotation playsRole startAnnotations {multiplicity 0..*;}
+class HumanAnnotation extends Annotation;
+
+class AwareAnnotation extends Annotation;
+
+relation HumanAnnotationHasBeginSimpleText {
+	HumanAnnotation playsRole startAnnotations {multiplicity 0..*;}
 	SimpleText playsRole startText {multiplicity 0..1;}
 }
 
-relation AnnotationHasEndSimpleText {
-	Annotation playsRole endAnnotations {multiplicity 0..*;}
+relation HumanAnnotationHasEndSimpleText {
+	HumanAnnotation playsRole endAnnotations {multiplicity 0..*;}
 	SimpleText playsRole endText {multiplicity 0..1;}
 }
 
@@ -579,9 +595,9 @@ relation VirtualEditionInterHasAnnotations {
   Annotation playsRole annotation {multiplicity 0..*;}
 }
 
-relation LdoDUserWritesAnnotations {
+relation LdoDUserWritesHumanAnnotations {
 	LdoDUser playsRole user {multiplicity 1..1;}
-	Annotation playsRole annotation {multiplicity 0..*;}
+	HumanAnnotation playsRole annotation {multiplicity 0..*;}
 }
 
 class Range {
@@ -596,8 +612,8 @@ relation AnnotationHasRanges {
   Range playsRole range {multiplicity 0..*;}
 }
 
-relation AnnotationHasTags {
-  Annotation playsRole annotation {multiplicity 0..1;}
+relation HumanAnnotationHasTags {
+  HumanAnnotation playsRole annotation {multiplicity 0..1;}
   Tag playsRole tag {multiplicity 0..*;}
 }
 
@@ -637,3 +653,98 @@ relation SectionHasVitualEditionInters{
 	Section playsRole section {multiplicity 1..1;}
 	VirtualEditionInter playsRole VirtualEditionInter {multiplicity 0..*;}
 }
+
+class Citation {
+	String sourceLink;
+	String date;
+	String fragText;	
+}
+
+class TwitterCitation extends Citation {
+	String tweetText;
+	long tweetID;
+	String location;
+	String country;
+	String username;
+	String userProfileURL;
+	String userImageURL;
+}
+
+relation CitationHasAwareAnnotations {
+	AwareAnnotation playsRole awareAnnotation {multiplicity 0..*;}
+	Citation playsRole citation {multiplicity 1..1;}
+}
+
+relation FragmentHasCitations {
+	Citation playsRole citation {multiplicity 0..*;}
+	Fragment playsRole fragment {multiplicity 1..1;}
+}
+
+class InfoRange {
+	String start;
+  	int startOffset;
+  	String end;
+  	int endOffset;
+  	String quote;
+	String text;
+}
+
+relation CitationHasInfoRanges {
+	Citation playsRole citation {multiplicity 1..1;}
+	InfoRange playsRole infoRange {multiplicity 0..*;}
+}
+
+relation InfoRangeHasFragInter {
+	InfoRange playsRole infoRange {multiplicity 0..*;}
+	FragInter playsRole fragInter {multiplicity 1..1;}
+}
+
+class SocialMediaCriteria;
+
+class MediaSource extends SocialMediaCriteria {
+	String name;
+}
+
+class TimeWindow extends SocialMediaCriteria {
+	LocalDate beginDate;
+	LocalDate endDate;
+}
+
+class GeographicLocation extends SocialMediaCriteria {
+	String location;
+	String country;
+}
+
+class Frequency extends SocialMediaCriteria {
+	int frequency;
+}
+
+relation VirtualEditionHasSocialMediaCriteria {
+	VirtualEdition playsRole virtualEdition {multiplicity 1..1;}
+	SocialMediaCriteria playsRole criteria {multiplicity 0..4;}
+}
+
+class Tweet {
+	String sourceLink;
+	String date;
+	String tweetText;
+	long tweetID;
+	String location;
+	String country;
+	String username;
+	String userProfileURL;
+	String userImageURL;
+	long originalTweetID;
+	boolean isRetweet;
+}
+
+relation TwitterCitationHasTweets {
+	TwitterCitation playsRole citation {multiplicity 0..1;}
+	Tweet playsRole tweet {multiplicity 0..*;}
+}
+
+relation LdoDHasTweets {
+	LdoD playsRole ldoD {multiplicity 1..1;}
+	Tweet playsRole tweet {multiplicity 0..*;}
+}
+

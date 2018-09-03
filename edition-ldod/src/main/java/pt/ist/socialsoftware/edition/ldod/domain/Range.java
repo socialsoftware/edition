@@ -15,9 +15,7 @@ public class Range extends Range_Base {
 
 	public void remove() {
 		setAnnotation(null);
-
 		deleteDomainObject();
-
 	}
 
 }

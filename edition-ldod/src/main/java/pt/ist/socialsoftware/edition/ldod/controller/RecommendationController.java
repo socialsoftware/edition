@@ -19,19 +19,19 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import pt.ist.fenixframework.FenixFramework;
+import pt.ist.socialsoftware.edition.ldod.domain.Edition.EditionType;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
+import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
 import pt.ist.socialsoftware.edition.ldod.domain.RecommendationWeights;
 import pt.ist.socialsoftware.edition.ldod.domain.Section;
+import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
+import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
 import pt.ist.socialsoftware.edition.ldod.recommendation.dto.RecommendVirtualEditionParam;
 import pt.ist.socialsoftware.edition.ldod.recommendation.dto.SectionVirtualEditionParam;
 import pt.ist.socialsoftware.edition.ldod.recommendation.dto.VirtualEditionWithSectionsDTO;
 import pt.ist.socialsoftware.edition.ldod.session.LdoDSession;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDCreateVirtualEditionException;
 import pt.ist.socialsoftware.edition.ldod.validator.VirtualEditionValidator;
-import pt.ist.socialsoftware.edition.ldod.domain.Edition.EditionType;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
 
 @Controller
 @RequestMapping("/recommendation")
@@ -147,7 +147,6 @@ public class RecommendationController {
 	public String createLinearVirtualEdition(Model model, @ModelAttribute("ldoDSession") LdoDSession ldoDSession,
 			@RequestParam("acronym") String acronym, @RequestParam("title") String title,
 			@RequestParam("pub") boolean pub, @RequestParam("inter[]") String[] inters) {
-		// logger.debug("createLinearVirtualEdition");
 
 		title = title == null ? "" : title.trim();
 		acronym = acronym == null ? "" : acronym.trim();
@@ -256,7 +255,6 @@ public class RecommendationController {
 	public String createSectionVirtualEdition(Model model, @RequestParam("acronym") String acronym,
 			@RequestParam("title") String title, @RequestParam("pub") boolean pub,
 			@RequestParam("inter[]") String[] inters, @RequestParam("depth[]") String[] depth) {
-		// logger.debug("createSectionVirtualEdition");
 
 		LdoDUser user = LdoDUser.getAuthenticatedUser();
 		VirtualEdition virtualEdition = LdoD.getInstance().createVirtualEdition(user, acronym, title, new LocalDate(),
