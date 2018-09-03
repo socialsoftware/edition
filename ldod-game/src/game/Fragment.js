@@ -5,6 +5,7 @@ import Tag from './Tag';
 import Vote from './Vote';
 import './Fragment.css';
 import { Alert } from 'react-bootstrap';
+import { Panel } from 'react-bootstrap';
 var ReactCountdownClock = require("react-countdown-clock")
 class Fragment extends Component {
     constructor(props) {
@@ -19,7 +20,7 @@ class Fragment extends Component {
             text: "",
             splitText: [],
             index: 0,
-            seconds: 120.0,
+            seconds: 5.0,
             round: 1,
             tags: [],
         };
@@ -125,13 +126,27 @@ class Fragment extends Component {
         }
 
         if( this.state.round === 3){
-            setTimeout(()=>this.props.nextFragment(), 5000);
+            //setTimeout(()=>this.props.nextFragment(), 5000);
             return(
                 <div>
-                    <Alert bsStyle="info">
-                        <strong>Next fragment will start in 5 seconds</strong>
-                    </Alert>
-                </div>
+                    <span className="text-r3">Round 3:</span>
+                    <div className="clock">
+                        <ReactCountdownClock seconds={this.state.seconds}
+                        color="#f9ca24"
+                        size={90}
+                        showMilliseconds={false}
+                        onComplete={this.props.endFragment}
+                        />
+                    </div>                
+                    <Panel bsStyle="primary" defaultExpanded>
+                        <Panel.Heading>
+                            <Panel.Title className="panel-title" componentClass="h4" toggle>{this.state.title}</Panel.Title>
+                        </Panel.Heading>
+                        <Panel.Body >
+                            <div dangerouslySetInnerHTML={{__html: this.state.text}}></div>
+                        </Panel.Body>
+                    </Panel>
+            </div>
             );
         }
         return (

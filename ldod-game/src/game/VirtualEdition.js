@@ -18,6 +18,7 @@ class VirtualEdition extends Component {
             members: [],
             index: 0, //check this 
             view: false,
+            count: 0,
         };
         this.nextFragment = this.nextFragment.bind(this);
     }
@@ -38,12 +39,19 @@ class VirtualEdition extends Component {
         })); 
     }
 
+    endFragment(){
+        this.setState((prevState, props) => ({
+            count: prevState.count + 1,
+        })); 
+    }
+
     render() {
         var i = this.state.index;
-        if(this.state.view && i < FRAGMENT_LIST_SIZE) {
+        var count = this.state.count;
+        if(this.state.view && count <= 0) {
             return (
               <div>
-                    <Fragment key={this.state.fragments[i].title} fragment={this.state.fragments[i]} acronym={this.state.acronym} nextFragment={this.nextFragment}/>
+                    <Fragment key={this.state.fragments[i].title} fragment={this.state.fragments[i]} acronym={this.state.acronym} nextFragment={this.nextFragment} endFragment={this.endFragment.bind(this)}/>
                     <div className="div-progress">
                         <ProgressBar min={0} bsStyle="success"active now={this.state.index} max={FRAGMENT_LIST_SIZE}/>
                     </div>
@@ -55,8 +63,8 @@ class VirtualEdition extends Component {
               </div>
             );
         }
-        else if(i === FRAGMENT_LIST_SIZE) {
-            this.props.end()
+        else if(count === 1) {
+            this.props.end;
             return (
                 <Jumbotron>
                     <h1>The game has ended!</h1>

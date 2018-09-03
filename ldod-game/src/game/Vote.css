@@ -6,15 +6,6 @@
     border-style: none;
 }
 
-
-input { 
-    display:none; 
-}
-
-:checked + span {
-    color: #5cb85c;
-}
-
 .title {
     padding-left: 5px;
 }

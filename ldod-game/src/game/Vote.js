@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import { Glyphicon} from 'react-bootstrap';
+import { FormGroup, Glyphicon} from 'react-bootstrap';
 import { WEB_SOCKETS_URL} from '../utils/Constants';
 import SockJsClient from 'react-stomp'
 import './Vote.css';
@@ -10,6 +10,8 @@ class Vote extends Component {
         this.state = {
             votes: [],
             seconds: 0.0,
+            currentVote: null,
+            currentScore: null,
         };
         this.handleVote = this.handleVote.bind(this);
         this.handleMessageVote = this.handleMessageVote.bind(this);
@@ -76,23 +78,30 @@ class Vote extends Component {
         }
     }
 
+    onChange = (param) => (e) => {
+        console.log('radio checked', param.tag);
+        let vote;
+        vote =  1.0 + this.state.seconds/10;
+        var res = vote.toFixed(2);
+        this.sendMessage(param.tag, res); 
+    }
+
     render() {
         const voteViews = [];   
         let votes = this.state.votes;
-        votes.forEach((m, mIndex) => {
-            voteViews.push(
-            <div className="div-votes" key={mIndex}>
-                <div>
-                    <label>
-                        <input type="checkbox" onClick={this.handleVote(m)}></input>
-                        <span className="title">{m.tag}</span>
-                        <span className="icon-up"><Glyphicon glyph="chevron-up" /></span>
-                        <span className="label label-primary">{m.vote}</span>
-                    </label>
-                </div>
-            </div>)
-            
+            votes.forEach((m, mIndex) => {
+                voteViews.push(
+                <div className="div-votes" key={mIndex}>
+                    <div>
+                        <label>
+                            <input name="voteGroup" type="radio" onClick={this.onChange(m)}></input>
+                            <span className="title">{m.tag}</span>
+                            <span className="label label-primary">{m.vote}</span>
+                        </label>
+                    </div>
+                </div>)
         }); 
+
         return (
             <div>
                 <SockJsClient
@@ -102,7 +111,11 @@ class Vote extends Component {
                     onMessage={(message) => this.handleMessageVote(message)} />
                 <span className="icon-tags"><Glyphicon glyph="tags" /></span>
                 <br></br>
-                {voteViews}
+                <div className="div-votes">
+                    <FormGroup>
+                        {voteViews}
+                    </FormGroup>
+                </div>
             </div>
         );
     }
