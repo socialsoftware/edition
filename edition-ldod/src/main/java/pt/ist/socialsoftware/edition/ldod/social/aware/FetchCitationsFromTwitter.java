@@ -249,6 +249,8 @@ public class FetchCitationsFromTwitter {
 						searchTweetsRateLimit.getRemaining(), searchTweetsRateLimit.getLimit(),
 						searchTweetsRateLimit.getSecondsUntilReset(),
 						searchTweetsRateLimit.getSecondsUntilReset() / 60.0);
+
+				logger.debug("Acabei de preencher o ficheiro" + "twitter-" + fileName + "-" + timeStamp + ".json");
 				logger.debug("++++++++++++++++++++++++++++++ OUTRO FICHEIRO ++++++++++++++++++++++++++++++");
 
 				bw.close();

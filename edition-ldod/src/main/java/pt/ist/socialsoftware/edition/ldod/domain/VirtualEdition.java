@@ -78,6 +78,51 @@ public class VirtualEdition extends VirtualEdition_Base {
 		}
 	}
 
+	// TODO fazer a verificação dos parâmetros vazios
+	public VirtualEdition(LdoD ldod, LdoDUser participant, String acronym, String title, LocalDate date, Boolean pub,
+			Edition usedEdition, String mediaSource, String beginDate, String endDate, String geoLocation,
+			String frequency) {
+		setLdoD4Virtual(ldod);
+		new Member(this, participant, Member.MemberRole.ADMIN, true);
+		setXmlId("ED.VIRT." + acronym);
+		setAcronym(acronym);
+		setTitle(title);
+		setDate(date);
+		setPub(pub);
+		setTaxonomy(new Taxonomy());
+		createSection(Section.DEFAULT, 0);
+		if (usedEdition != null) {
+			for (FragInter inter : usedEdition.getIntersSet()) {
+				createVirtualEditionInter(inter, inter.getNumber());
+			}
+		}
+
+		if (!mediaSource.equals("noMediaSource")) {
+			new MediaSource(this, mediaSource);
+		}
+
+		LocalDate bDate = null;
+		LocalDate eDate = null;
+		if (!beginDate.equals("") || !endDate.equals("")) {
+			if (!beginDate.equals("")) {
+				bDate = new LocalDate(beginDate);
+			}
+			if (!endDate.equals("")) {
+				eDate = new LocalDate(endDate);
+			}
+			new TimeWindow(this, bDate, eDate);
+		}
+
+		if (!geoLocation.equals("noCountry")) {
+			new GeographicLocation(this, geoLocation);
+		}
+
+		if (!frequency.equals("")) {
+			new Frequency(this, Integer.parseInt(frequency));
+		}
+
+	}
+
 	@Override
 	@Atomic(mode = TxMode.WRITE)
 	public void remove() {
@@ -218,9 +263,11 @@ public class VirtualEdition extends VirtualEdition_Base {
 		return getAcronym().substring(ACRONYM_PREFIX.length());
 	}
 
+	// TODO fazer a verificação dos parâmetros vazios
 	@Atomic(mode = TxMode.WRITE)
 	public void edit(String acronym, String title, String synopsis, boolean pub, boolean openManagement,
-			boolean openVocabulary, boolean openAnnotation) {
+			boolean openVocabulary, boolean openAnnotation, String mediaSource, String beginDate, String endDate,
+			String geoLocation, String frequency) {
 		setPub(pub);
 		setTitle(title);
 		if (synopsis.length() > 1500) {
@@ -230,6 +277,45 @@ public class VirtualEdition extends VirtualEdition_Base {
 		}
 		setAcronym(acronym);
 		getTaxonomy().edit(openManagement, openVocabulary, openAnnotation);
+
+		if (!mediaSource.equals("")) {
+			MediaSource medSource = this.getMediaSource();
+			if (medSource != null) {
+				medSource.edit(mediaSource);
+			} else {
+				new MediaSource(this, mediaSource);
+			}
+		}
+
+		LocalDate bDate = null;
+		LocalDate eDate = null;
+		if (!beginDate.equals("")) {
+			bDate = new LocalDate(beginDate);
+		}
+		if (!endDate.equals("")) {
+			eDate = new LocalDate(endDate);
+		}
+
+		TimeWindow timeWindow = this.getTimeWindow();
+		if (timeWindow != null) {
+			timeWindow.edit(bDate, eDate);
+		} else {
+			new TimeWindow(this, bDate, eDate);
+		}
+
+		GeographicLocation geographicLocation = this.getGeographicLocation();
+		if (geographicLocation != null) {
+			geographicLocation.edit(geoLocation);
+		} else {
+			new GeographicLocation(this, geoLocation);
+		}
+
+		Frequency freq = this.getFrequency();
+		if (freq != null) {
+			freq.edit(Integer.parseInt(frequency));
+		} else {
+			new Frequency(this, Integer.parseInt(frequency));
+		}
 	}
 
 	@Atomic(mode = TxMode.WRITE)
@@ -613,6 +699,42 @@ public class VirtualEdition extends VirtualEdition_Base {
 			return true;
 		}
 		return false;
+	}
+
+	public MediaSource getMediaSource() {
+		for (SocialMediaCriteria criteria : this.getCriteriaSet()) {
+			if (criteria instanceof MediaSource) {
+				return (MediaSource) criteria;
+			}
+		}
+		return null;
+	}
+
+	public TimeWindow getTimeWindow() {
+		for (SocialMediaCriteria criteria : this.getCriteriaSet()) {
+			if (criteria instanceof TimeWindow) {
+				return (TimeWindow) criteria;
+			}
+		}
+		return null;
+	}
+
+	public GeographicLocation getGeographicLocation() {
+		for (SocialMediaCriteria criteria : this.getCriteriaSet()) {
+			if (criteria instanceof GeographicLocation) {
+				return (GeographicLocation) criteria;
+			}
+		}
+		return null;
+	}
+
+	public Frequency getFrequency() {
+		for (SocialMediaCriteria criteria : this.getCriteriaSet()) {
+			if (criteria instanceof Frequency) {
+				return (Frequency) criteria;
+			}
+		}
+		return null;
 	}
 
 }

@@ -26,11 +26,13 @@ import twitter4j.TwitterException;
 @ExtendWith(MockitoExtension.class)
 public class FetchFromTwitterTests extends RollbackCaseTest {
 
-	// @Mock
 	FetchCitationsFromTwitter fetchFromTwitter;
-	// @Mock
 	Twitter twitter;
 
+	@Mock
+	FetchCitationsFromTwitter fetchMock;
+	@Mock
+	Twitter twitterMock;
 	// status tem de ser mocked pq não é possível
 	// invocar o construtor ou setters
 	@Mock
@@ -65,6 +67,16 @@ public class FetchFromTwitterTests extends RollbackCaseTest {
 		this.fetchFromTwitter.fetch();
 		verify(this.fetchFromTwitter, times(1)).getTwitterinstance();
 		verify(this.twitter, times(1)).getRateLimitStatus("search");
+	}
+
+	// TODO: invocaçõe sobre fetchMock dão null pointer exception ...
+	// @Test
+	@Atomic
+	public void getTweetByIdMockTest() throws TwitterException {
+		doCallRealMethod().when(this.fetchMock).getTweetById(any(), any());
+
+		this.fetchMock.getTweetById(1019702700102111233l, twitterMock);
+		verify(this.twitterMock, times(1)).showStatus(1019702700102111233l);
 	}
 
 	@Test
@@ -116,7 +128,7 @@ public class FetchFromTwitterTests extends RollbackCaseTest {
 		assertFalse(s.isRetweet());
 		assertNull(s.getRetweetedStatus());
 		assertEquals("", s.getUser().getLocation());
-		logger(s.getText());
+		// logger(s.getText());
 		assertEquals(
 				"\u201CSe um dia amasse, não seria amado. Basta eu querer uma coisa para ela morrer. O meu destino, porém, tem a força de ser mortal para qualquer coisa. Tem a fraqueza de ser mortal nas coisas para mim\u201D \n\nLivro do Desassossego",
 				s.getText());

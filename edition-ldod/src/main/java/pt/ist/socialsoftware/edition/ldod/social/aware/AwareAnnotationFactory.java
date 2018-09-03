@@ -314,40 +314,52 @@ public class AwareAnnotationFactory {
 						&& (localDate.isBefore(endDate) || localDate.isEqual(endDate)))) {
 					// bw.write(" ENTREI NO IF DO TIME WINDOW \n");
 					isValid = false;
-				}
-			} else if (criterion instanceof GeographicLocation) {
-				// bw.write(" ENTREI NO GEOGRAPHIC LOCATION \n");
-				if (tc instanceof TwitterCitation
-						&& !((TwitterCitation) tc).getCountry().equals(((GeographicLocation) criterion).getCountry())) {
-					// bw.write(" ENTREI NO IF DO GEOGRAPHIC LOCATION \n");
-					isValid = false;
-				}
 
-			} else if (criterion instanceof Frequency) {
-				// bw.write(" ENTREI NO FREQUENCY \n");
-				// do nothing ...
+					// new code that supports null format for date input by user
+					if (beginDate != null) {
+						if (!(localDate.isAfter(beginDate) || localDate.isEqual(beginDate))) {
+							isValid = false;
+						}
+					}
+					if (endDate != null) {
+						if (!(localDate.isBefore(endDate) || localDate.isEqual(endDate))) {
+							isValid = false;
+						}
+					}
+
+				} else if (criterion instanceof GeographicLocation) {
+					// bw.write(" ENTREI NO GEOGRAPHIC LOCATION \n");
+					if (tc instanceof TwitterCitation && !((TwitterCitation) tc).getCountry()
+							.equals(((GeographicLocation) criterion).getCountry())) {
+						// bw.write(" ENTREI NO IF DO GEOGRAPHIC LOCATION \n");
+						isValid = false;
+					}
+
+				} else if (criterion instanceof Frequency) {
+					// bw.write(" ENTREI NO FREQUENCY \n");
+					// do nothing ...
+				}
+			}
+
+			// just for debug
+			if (tc instanceof TwitterCitation) {
+				// bw.write(" ENTREI NO TIME WINDOW FORA DO FOR \n");
+				DateTimeFormatter formatter = DateTimeFormat.forPattern("d-MMM-yyyy");
+
+				// estilo: "16-Aug-2016"
+				String date = tc.getDate().split(" ")[0];
+				// bw.write(" Original date: " + date + "\n");
+
+				// converter para estilo universal localdate: "2016-08-16"
+				LocalDate localDate = LocalDate.parse(date, formatter);
+				// bw.write(" Universal localdate: " + localDate + "\n");
+
+				// bw.write(" ENTREI NO GEOGRAPHIC LOCATION FORA DO FOR \n");
+				// bw.write(" Country: " + ((TwitterCitation) tc).getCountry() + "\n");
+				// bw.write(" Location: " + ((TwitterCitation) tc).getLocation() + "\n");
+
 			}
 		}
-
-		// just for debug
-		if (tc instanceof TwitterCitation) {
-			// bw.write(" ENTREI NO TIME WINDOW FORA DO FOR \n");
-			DateTimeFormatter formatter = DateTimeFormat.forPattern("d-MMM-yyyy");
-
-			// estilo: "16-Aug-2016"
-			String date = tc.getDate().split(" ")[0];
-			// bw.write(" Original date: " + date + "\n");
-
-			// converter para estilo universal localdate: "2016-08-16"
-			LocalDate localDate = LocalDate.parse(date, formatter);
-			// bw.write(" Universal localdate: " + localDate + "\n");
-
-			// bw.write(" ENTREI NO GEOGRAPHIC LOCATION FORA DO FOR \n");
-			// bw.write(" Country: " + ((TwitterCitation) tc).getCountry() + "\n");
-			// bw.write(" Location: " + ((TwitterCitation) tc).getLocation() + "\n");
-
-		}
-
 		return isValid;
 	}
 
