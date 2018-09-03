@@ -103,10 +103,71 @@
 										</c:if>
 									</c:forEach></select>
 							</div>
+							
 							<button type="submit" class="btn btn-primary">
 								<span class="glyphicon glyphicon-edit"></span>
 								<spring:message code="general.create" />
 							</button>
+							
+							
+							<br>
+							<br>
+							
+							<div class="form-group" style="padding-left: 0px">
+								<label class="control-label" for="mediasource"><spring:message
+										code="criteria.mediasource" /></label>
+								<br>		
+								<select class="form-control tip" name="mediasource" id="mediasource"
+									title="<spring:message code="criteria.mediasource.manage" />">
+									<option value="noMediaSource"><spring:message
+												code="criteira.mediasource.nomediasource" /></option>
+									<option value="Twitter"><spring:message
+												code="criteira.mediasource.twitter" /></option>
+								</select>
+							</div>
+							
+							<div class="form-group" style="padding-left: 0px">
+							<label class="control-label" for="begindate"><spring:message
+										code="criteira.timewindow.begindate" /></label>
+										<br>
+										<input type="date" 
+										name="begindate" id="begindate" min="2018-01-01" 
+										title="<spring:message code="criteria.timewindow.begindate.manage"/>" />
+							</div>
+							
+							<div class="form-group" style="padding-left: 0px">
+							<label class="control-label" for="enddate"><spring:message
+										code="criteira.timewindow.enddate" /></label>
+										<br>
+										<input type="date" 
+										name="enddate" id="enddate" max="2018-08-30" 
+										title="<spring:message code="criteria.timewindow.enddate.manage"/>" />
+							</div>
+							
+							<div class="form-group" style="padding-left: 0px">
+								<label class="control-label" for="geolocation"><spring:message
+										code="criteria.geolocation" /></label> 
+								<br>											
+								<select class="form-control tip" name="geolocation"
+									title="<spring:message code="criteria.geolocation.manage" />">
+									<option value='noCountry'> <spring:message
+										code="criteria.geolocation.nocountry" /> </option>
+									<c:forEach var='country' items='${countriesList}'>
+										<option value='${country}'> ${country} </option>
+									</c:forEach>
+								</select>
+							</div>
+							
+							<div class="form-group" style="padding-left: 0px">
+								<label class="control-label" for="frequency"><spring:message
+										code="criteria.frequency" /></label> 
+								<br>
+								<input type="number"
+									class="form-control tip" name="frequency" id="frequency"
+									placeholder="0"
+									title="<spring:message code="criteria.frequency.manage" />" />
+							</div>
+							
 						</form>
 					</div>
 				</div>
