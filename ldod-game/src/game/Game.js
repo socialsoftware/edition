@@ -83,7 +83,6 @@ class Game extends Component {
 
     async endGame(){
         let request = await endOfGame("LdoD-ok");
-        console.log(request);
     }
 
     render() {

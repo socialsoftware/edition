@@ -10,8 +10,8 @@ class Vote extends Component {
         this.state = {
             votes: [],
             seconds: 0.0,
-            currentVote: null,
-            currentScore: null,
+            previousVote: null,
+            previousScore: null,
         };
         this.handleVote = this.handleVote.bind(this);
         this.handleMessageVote = this.handleMessageVote.bind(this);
@@ -79,11 +79,20 @@ class Vote extends Component {
     }
 
     onChange = (param) => (e) => {
-        console.log('radio checked', param.tag);
         let vote;
         vote =  1.0 + this.state.seconds/10;
         var res = vote.toFixed(2);
-        this.sendMessage(param.tag, res); 
+        this.setState({
+            previousVote: param.tag,
+            previousScore: -vote,
+        })
+        if ( this.state.previousVote !== null){
+            var value = this.state.previousScore.toFixed(2);
+            this.sendMessage(this.state.previousVote, value);     
+            this.sendMessage(param.tag, res);     
+        }else{
+            this.sendMessage(param.tag, res); 
+        }
     }
 
     render() {
@@ -94,7 +103,7 @@ class Vote extends Component {
                 <div className="div-votes" key={mIndex}>
                     <div>
                         <label>
-                            <input name="voteGroup" type="radio" onClick={this.onChange(m)}></input>
+                            <input name="voteGroup" type="radio" onChange={this.onChange(m)}></input>
                             <span className="title">{m.tag}</span>
                             <span className="label label-primary">{m.vote}</span>
                         </label>
