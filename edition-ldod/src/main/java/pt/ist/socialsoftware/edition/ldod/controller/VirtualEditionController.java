@@ -78,6 +78,18 @@ public class VirtualEditionController {
 		model.addAttribute("virtualEditions",
 				LdoD.getInstance().getVirtualEditions4User(LdoDUser.getAuthenticatedUser(), ldoDSession));
 		model.addAttribute("user", LdoDUser.getAuthenticatedUser());
+		// TODO
+		List<String> countriesList = new ArrayList<String>();
+		countriesList.add("Portugal");
+		countriesList.add("Brasil");
+		countriesList.add("Espanha");
+		countriesList.add("Inglaterra");
+		countriesList.add("Estados Unidos");
+		countriesList.add("Líbano");
+		countriesList.add("Angola");
+		countriesList.add("Moçambique");
+		model.addAttribute("countriesList", countriesList);
+
 		return "virtual/editions";
 
 	}
@@ -85,7 +97,16 @@ public class VirtualEditionController {
 	@RequestMapping(method = RequestMethod.POST, value = "/restricted/create")
 	public String createVirtualEdition(Model model, @ModelAttribute("ldoDSession") LdoDSession ldoDSession,
 			@RequestParam("acronym") String acronym, @RequestParam("title") String title,
-			@RequestParam("pub") boolean pub, @RequestParam("use") String editionID) {
+			@RequestParam("pub") boolean pub, @RequestParam("use") String editionID,
+			@RequestParam("mediasource") String mediaSource, @RequestParam("begindate") String beginDate,
+			@RequestParam("enddate") String endDate, @RequestParam("geolocation") String geoLocation,
+			@RequestParam("frequency") String frequency) {
+
+		logger.info("mediaSource:{}", mediaSource);
+		logger.info("beginDate:{}", beginDate);
+		logger.info("endDate:{}", endDate);
+		logger.info("geoLocation:{}", geoLocation);
+		logger.info("frequency:{}", frequency);
 
 		Edition usedEdition = null;
 		if (!editionID.equals("no")) {
@@ -188,12 +209,14 @@ public class VirtualEditionController {
 			@RequestParam("pub") boolean pub, @RequestParam("management") boolean management,
 			@RequestParam("vocabulary") boolean vocabulary, @RequestParam("annotation") boolean annotation,
 			@RequestParam("mediasource") String mediaSource, @RequestParam("begindate") String beginDate,
-			@RequestParam("enddate") String endDate, @RequestParam("geolocation") String geoLocation) {
+			@RequestParam("enddate") String endDate, @RequestParam("geolocation") String geoLocation,
+			@RequestParam("frequency") String frequency) {
 
 		logger.info("mediaSource:{}", mediaSource);
 		logger.info("beginDate:{}", beginDate);
 		logger.info("endDate:{}", endDate);
 		logger.info("geoLocation:{}", geoLocation);
+		logger.info("frequency:{}", frequency);
 
 		logger.debug(
 				"editVirtualEdition externalId:{}, acronym:{}, title:{}, pub:{}, management:{}, vocabulary:{}, annotation:{}",
@@ -218,7 +241,7 @@ public class VirtualEditionController {
 
 		try {
 			virtualEdition.edit(VirtualEdition.ACRONYM_PREFIX + acronym, title, synopsis, pub, management, vocabulary,
-					annotation, mediaSource, beginDate, endDate, geoLocation);
+					annotation, mediaSource, beginDate, endDate, geoLocation, Integer.parseInt(frequency));
 		} catch (LdoDDuplicateAcronymException ex) {
 			errors.add("virtualedition.acronym.duplicate");
 			throw new LdoDEditVirtualEditionException(errors, virtualEdition, acronym, title, pub);

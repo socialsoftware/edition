@@ -69,10 +69,6 @@ public class CitationDetecter {
 	private FileWriter fw;
 	private File toWriteFile;
 
-	public static void logger(Object toPrint) {
-		System.out.println(toPrint);
-	}
-
 	public CitationDetecter() throws IOException {
 		String path = PropertiesManager.getProperties().getProperty("indexer.dir");
 		docDir = Paths.get(path);
@@ -92,16 +88,13 @@ public class CitationDetecter {
 	public void detect() throws IOException {
 		logger.debug("STARTING CITATION DETECTER!!");
 		// // serve só para testar melhor pq dá reset ao id na base de dados:
-		// LdoD.getInstance().getLastTwitterID().resetTwitterIDS();
+		LdoD.getInstance().getLastTwitterID().resetTwitterIDS();
 		this.bw = null;
 		citationDetection();
 		logger.debug("FINISHED DETECTING CITATIONS!!!");
 
 		// indetify ranges here
 		logger.debug("STARTED IDENTIFYING RANGES!!!");
-		BufferedWriter bw = null;
-		FileWriter fw = null;
-		File file = null;
 		// file = new
 		// File("C:/Users/dnf_o/projetoTese/ldod/social/infoRanges/infoRanges.txt");
 		// fw = new FileWriter(file);
@@ -126,12 +119,12 @@ public class CitationDetecter {
 				inters.removeAll(citationFragment.getVirtualEditionInters());
 
 				// bw.write("Excepto os virtual:\n");
-				for (FragInter inter : inters) {
-					// bw.write(" FragInter id: " + inter.getExternalId() + "\n");
-					// bw.write(" XML id: " + inter.getXmlId() + "\n");
-					// bw.write(" Title: " + inter.getTitle() + "\n");
-					// bw.write("\n");
-				}
+				// for (FragInter inter : inters) {
+				// bw.write(" FragInter id: " + inter.getExternalId() + "\n");
+				// bw.write(" XML id: " + inter.getXmlId() + "\n");
+				// bw.write(" Title: " + inter.getTitle() + "\n");
+				// bw.write("\n");
+				// }
 
 				// int editionCount = 0;
 				for (FragInter inter : inters) {
@@ -191,6 +184,7 @@ public class CitationDetecter {
 				// bw.write("\n");
 
 				// NEW INFO RANGE
+				logger.debug("GOING TO CREATE AN INFO RANGE!!");
 				new InfoRange(citation, inter, "/div[1]/div[1]/p[" + numOfPStart + "]", htmlStart,
 						"/div[1]/div[1]/p[" + numOfPEnd + "]", htmlEnd, infoQuote, infoText);
 			}
@@ -253,32 +247,32 @@ public class CitationDetecter {
 		int count = 0; // aux counter to check if we reach the minimum value set by "window" variable
 		outerloop: for (String initialWord : tweet.split("\\s+")) {
 			for (String word : initialWord.split(",")) {
-				logger.debug("--------------------------------------------------");
+				// logger.debug("--------------------------------------------------");
 				offset = Math.max(start, end);
 				if (offset == -1) {
 					offset = 0;
 				}
-				logger.debug("offset: " + offset);
+				// logger.debug("offset: " + offset);
 
 				List<String> info = maxJaroValue(text.substring(offset), word);
 				String wordFound = info.get(0);
 				double jaroValue = Double.parseDouble(info.get(1));
 
-				logger.debug("tweet word: " + word);
-				logger.debug("text word: " + wordFound);
+				// logger.debug("tweet word: " + word);
+				// logger.debug("text word: " + wordFound);
 
 				// a palavra tem de existir no texto e estar à frente do offset!
 				// primeira palavra encontrada
 				if (jaroValue > jaroThreshold && text.indexOf(wordFound, offset) != -1) {
-					logger.debug("	text contains this word");
-					logger.debug(Integer.toString(text.indexOf(wordFound, offset)));
-					logger.debug(Double.toString(jaroValue));
+					// logger.debug(" text contains this word");
+					// logger.debug(Integer.toString(text.indexOf(wordFound, offset)));
+					// logger.debug(Double.toString(jaroValue));
 					// é só updated uma vez e é quando o início começa bem
 					if (count == 0) {
 						// é só updated uma vez e é quando o início começa bem
 						start = text.indexOf(wordFound, offset);
-						logger.debug("	dei update do start para: " + start);
-						logger.debug("	a palavra encontrada no Texto foi: " + wordFound);
+						// logger.debug(" dei update do start para: " + start);
+						// logger.debug(" a palavra encontrada no Texto foi: " + wordFound);
 						patternFound += wordFound + " ";
 						count = 1;
 					}
@@ -295,41 +289,41 @@ public class CitationDetecter {
 						if (count == startCorrectParam) {
 							// este update ao start dá bug quando as palavras iniciais do padrão aparecem
 							// antes do padrão
-							logger.debug("	padrão até agora: " + patternFound);
+							// logger.debug(" padrão até agora: " + patternFound);
 
 							String[] splits = patternFound.split(" ");
 							String firstWordOfPatternFound = splits[0];
-							logger.debug("	primeira palavra: " + firstWordOfPatternFound);
+							// logger.debug(" primeira palavra: " + firstWordOfPatternFound);
 							String lastWordOfPatternFound = splits[splits.length - 1];
-							logger.debug("	última palavra: " + lastWordOfPatternFound);
+							// logger.debug(" última palavra: " + lastWordOfPatternFound);
 
 							start = text.lastIndexOf(firstWordOfPatternFound, offset - lastWordOfPatternFound.length());
-							logger.debug("	dei update do start para: " + start);
+							// logger.debug(" dei update do start para: " + start);
 						}
 						end = text.indexOf(wordFound, offset) + wordFound.length();
-						logger.debug("	dei update do end para: " + end);
-						logger.debug("	a palavra encontrada no Texto foi: " + wordFound);
+						// logger.debug(" dei update do end para: " + end);
+						// logger.debug(" a palavra encontrada no Texto foi: " + wordFound);
 						patternFound += wordFound + " ";
 						count++;
 					}
 				}
 				// caso em q a palavra não existe no texto
 				else {
-					logger.debug("	text DOES NOT contains this word");
-					logger.debug(Double.toString(jaroValue));
+					// logger.debug(" text DOES NOT contains this word");
+					// logger.debug(Double.toString(jaroValue));
 					if (count < window) { // significa que não fizémos o número mínimo de palavras seguidas, logo é dar
 											// reset!!
 						count = 0;
 						start = -1;
 						end = -1;
 						patternFound = "";
-						logger.debug("	dei reset ao count, next word!");
+						// logger.debug(" dei reset ao count, next word!");
 					} else {
-						logger.debug("	vou dar break pq já garanti a window");
+						// logger.debug(" vou dar break pq já garanti a window");
 						break outerloop;
 					}
 				}
-				logger.debug("	count: " + count);
+				// logger.debug(" count: " + count);
 			} // for interno
 		} // for externo
 
@@ -368,10 +362,10 @@ public class CitationDetecter {
 			// HTML treatment
 			numOfPStart = 1 + countOccurencesOfSubstring(text, "<p", start); // +1 porque o getTranscription não traz o
 																				// primeiro <p
-			logger.debug("Número de <p START: " + numOfPStart);
+			// logger.debug("Número de <p START: " + numOfPStart);
 			numOfPEnd = 1 + countOccurencesOfSubstring(text, "<p", end); // +1 porque o getTranscription não traz o
 																			// primeiro <p
-			logger.debug("Número de <p END: " + numOfPEnd);
+			// logger.debug("Número de <p END: " + numOfPEnd);
 
 			// logger("Índice do último para o start '>': " + text.lastIndexOf("\">",
 			// start));
@@ -379,8 +373,8 @@ public class CitationDetecter {
 
 			htmlStart = start - text.lastIndexOf("\">", start) - 2; // -2, para compensar
 			htmlEnd = end - text.lastIndexOf("\">", end) - 2; // -2, para compensar
-			logger.debug("Índice do htmlStart: " + htmlStart);
-			logger.debug("Índice do htmlEnd: " + htmlEnd);
+			// logger.debug("Índice do htmlStart: " + htmlStart);
+			// logger.debug("Índice do htmlEnd: " + htmlEnd);
 
 			// *************** writing in file html stuff **************
 			/*
@@ -597,6 +591,9 @@ public class CitationDetecter {
 
 						// bw.write("CREATED A NEW TWITTER CITATION!!");
 						// bw.write("\n");
+
+						logger.debug("GOING TO CREATE A TWITTER CITATION!!");
+
 						new TwitterCitation(fragment, (String) obj.get("tweetURL"), (String) obj.get("date"),
 								d.get(TEXT), tweetTextWithoutHttp, (long) obj.get("tweetID"),
 								(String) obj.get("location"), (String) obj.get("country"), (String) obj.get("username"),
@@ -610,8 +607,8 @@ public class CitationDetecter {
 					// bw.write("\n");
 				}
 			}
+			idxReader.close();
 			directory.close();
-			// idxReader.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

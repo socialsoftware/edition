@@ -217,7 +217,7 @@ public class VirtualEdition extends VirtualEdition_Base {
 	@Atomic(mode = TxMode.WRITE)
 	public void edit(String acronym, String title, String synopsis, boolean pub, boolean openManagement,
 			boolean openVocabulary, boolean openAnnotation, String mediaSource, String beginDate, String endDate,
-			String geoLocation) {
+			String geoLocation, int frequency) {
 		setPub(pub);
 		setTitle(title);
 		if (synopsis.length() > 1500) {
@@ -258,6 +258,13 @@ public class VirtualEdition extends VirtualEdition_Base {
 			geographicLocation.edit(geoLocation);
 		} else {
 			new GeographicLocation(this, geoLocation);
+		}
+
+		Frequency freq = this.getFrequency();
+		if (freq != null) {
+			freq.edit(frequency);
+		} else {
+			new Frequency(this, frequency);
 		}
 	}
 
@@ -639,6 +646,15 @@ public class VirtualEdition extends VirtualEdition_Base {
 		for (SocialMediaCriteria criteria : this.getCriteriaSet()) {
 			if (criteria instanceof GeographicLocation) {
 				return (GeographicLocation) criteria;
+			}
+		}
+		return null;
+	}
+
+	public Frequency getFrequency() {
+		for (SocialMediaCriteria criteria : this.getCriteriaSet()) {
+			if (criteria instanceof Frequency) {
+				return (Frequency) criteria;
 			}
 		}
 		return null;
