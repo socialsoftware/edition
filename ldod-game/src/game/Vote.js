@@ -105,7 +105,7 @@ class Vote extends Component {
                         <label>
                             <input name="voteGroup" type="radio" onChange={this.onChange(m)}></input>
                             <span className="title">{m.tag}</span>
-                            <span className="label label-primary">{m.vote}</span>
+                            <span className="label label-primary">{Math.round(m.vote)}</span>
                         </label>
                     </div>
                 </div>)

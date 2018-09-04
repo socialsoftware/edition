@@ -101,7 +101,7 @@ class Game extends Component {
         return ( 
             <div>
                 <Icon type="user" />: {this.state.users}
-                <VirtualEdition virtualEdition={this.state.virtualEdition} end={this.endGame()}/>
+                <VirtualEdition virtualEdition={this.state.virtualEdition} end={this.endGame}/>
             </div>
     );
   }
