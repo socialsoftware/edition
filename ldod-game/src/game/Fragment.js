@@ -42,7 +42,13 @@ class Fragment extends Component {
     paragraphSplit(text){
         var res = [];
         var paragraph = text.split("<br></p>");
-        if((paragraph[0].indexOf("<u>") > -1) ){
+        var testInput = paragraph;
+        var regex = /(<([^>]+)>)/ig;
+        for(var i = 0; i < testInput.length; i++){
+            testInput[i] = testInput[i].replace(regex, "").trim();
+        }  
+        
+        if(testInput[0].includes("L. do D.") || testInput[0].length <= 13){
             paragraph.splice(0,1);
         }
         for (var i = 0; i < paragraph.length; i++) {
