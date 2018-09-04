@@ -6,3 +6,17 @@
 .panel-title{
     font-family: "Ubuntu";
 }
+
+.clock{ 
+    display: flex;
+    align-items: center;
+    justify-content: center; 
+}
+
+.text{
+    display: flex;
+    align-items: left;
+    justify-content: left;
+    font-family: "Ubuntu";
+    font-size: 30px;
+}

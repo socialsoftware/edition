@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import { FRAGMENT_LIST_SIZE } from '../utils/Constants';
-import { Alert, Button, ProgressBar, Glyphicon, Jumbotron } from 'react-bootstrap';
+import { Alert, Jumbotron } from 'react-bootstrap';
 import Fragment  from './Fragment';
 import './VirtualEdition.css';
 
@@ -10,17 +9,17 @@ class VirtualEdition extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            fragments: [],
             title: " ",
             acronym: " ",
             pub: false,
             taxonomy: [],
             members: [],
-            index: 0, //check this 
-            view: false,
-            count: 0,
+            fragments: [],
+            index: parseInt(localStorage.getItem("currentFragment"), 10), //check this 
+            isActive: false,
+            isEnding: false,
         };
-        this.nextFragment = this.nextFragment.bind(this);
+        this.invokeCommand = this.invokeCommand.bind(this);
     }
     
     componentDidMount() {
@@ -31,46 +30,48 @@ class VirtualEdition extends Component {
             pub: this.props.virtualEdition.pub,
         })
     }
-
-    nextFragment(){
-        this.setState((prevState, props) => ({
-            index: prevState.index + 1,
-            view: true,
-        })); 
-    }
-
-    endFragment(){
-        this.setState((prevState, props) => ({
-            count: prevState.count + 1,
-        })); 
+    
+    invokeCommand(command) {
+        switch(command) {
+            case "start":
+                this.setState(({
+                    isActive: true,
+                    isEnding: false,
+                }));
+                return;
+            
+            case "end":
+                var i = this.state.index+1;
+                localStorage.setItem("currentFragment", i);
+                this.setState({
+                    isActive: false,
+                    isEnding: true,
+                });
+                return;
+            
+            default:
+                console.log("error");
+                return;
+        }
     }
 
     render() {
         var i = this.state.index;
-        var count = this.state.count;
-        if(this.state.view && count <= 0) {
+        if(this.state.isActive) {
             return (
               <div>
-                    <Fragment key={this.state.fragments[i].title} fragment={this.state.fragments[i]} acronym={this.state.acronym} nextFragment={this.nextFragment} endFragment={this.endFragment.bind(this)}/>
-                    <div className="div-progress">
-                        <ProgressBar min={0} bsStyle="success"active now={this.state.index} max={FRAGMENT_LIST_SIZE}/>
-                    </div>
-                    <div className="next">
-                        <Button bsStyle="primary" onClick={this.nextFragment}>
-                            <Glyphicon glyph="arrow-right"/> 
-                        </Button>
-                    </div>
+                    <Fragment 
+                        fragment={this.state.fragments[i]} 
+                        endFragment={() => this.invokeCommand("end")}/>
               </div>
             );
         }
-        else if(count === 1) {
+        else if(this.state.isEnding){
             this.props.end;
             return (
                 <Jumbotron>
                     <h1>The game has ended!</h1>
-                    <p>
-                        Thank you for playing, hope you enjoyed it.
-                    </p>
+                    <p>Thank you for playing, hope you enjoyed it.</p>
                 </Jumbotron>
             );
         }
@@ -84,8 +85,7 @@ class VirtualEdition extends Component {
                         color="#3498db"
                         size={200}
                         showMilliseconds={false}
-                        onComplete={this.nextFragment}
-                    />
+                        onComplete={() => this.invokeCommand("start")}/>
                 </div>
             </div>
         );

@@ -21,22 +21,22 @@ class Tag extends Component {
     handleTag = (e) => {
         const form = e.target;
         var input = form["tag"].value;
-        var alphaExp = /^[a-zA-Z]+$/;
+        //var alphaExp = /^[a-zA-Z]+$/;
 
-        if(input.length <= 1 || this.state.tags.indexOf(input) !== -1 || !input.match(alphaExp)){
+       /* if(input.length <= 1 || this.state.tags.indexOf(input) !== -1 || !input.match(alphaExp)){
             this.setState({
                 validate: "error",
             })
             e.preventDefault();
             return;
-        }
+        }*/
 
         this.sendMessage(input);
         tags += "<br>" + input;
         form.reset();
         this.setState({
             validate: "success",
-            tags: [...this.state.tags, input]
+            tags: [...this.state.tags, input],
         })
         e.preventDefault();
     }
@@ -93,7 +93,7 @@ class Tag extends Component {
                                 autoFocus />
                             </InputGroup>
                             <FormControl.Feedback />
-                        <Button disabled={this.getValidationState() === 'success' ? false : true} type="submit">Submit</Button>
+                        <Button disabled={this.props.disabled} type="submit">Submit</Button>
                     </FormGroup>
                 </form>
                 <span className="icon-tags"><Glyphicon glyph="tags" /></span>

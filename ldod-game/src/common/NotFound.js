@@ -7,13 +7,14 @@ class NotFound extends Component {
         return (
              <div>
                 <Alert bsStyle="danger">
-                    <h1>404</h1>
-                    Page not found.
+                    <h2 class="text-center">Page not found.</h2>
                 </Alert>
                 <Link to="/">
-                    <Button bsStyle="primary">
-                    Go Back <Glyphicon glyph="home"/> 
-                    </Button>
+                    <div class="text-center"> 
+                        <Button bsStyle="primary">
+                        Go Back <Glyphicon glyph="home"/> 
+                        </Button>
+                    </div>
                 </Link>
             </div>  
         );

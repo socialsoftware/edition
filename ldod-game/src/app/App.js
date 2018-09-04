@@ -61,6 +61,7 @@ class App extends Component {
                     isLoading: false
                 });
             });
+            localStorage.setItem("currentFragment",0);
     }
 
     componentWillUnmount() {
@@ -110,15 +111,25 @@ class App extends Component {
                     <Switch>
                         <Route exact path="/" render={() =>
                         <div>
-                            <Jumbotron style={styles}>
-                                <h2>Welcome to the LdoD Game powered by LdoD Archive</h2>
-                            </Jumbotron>
-                            <div className="col-md-offset-5 col-md-2">
-                                <Link to="/game">
-                                    <Button bsStyle="primary">Start playing</Button>
-                                </Link>
-                            </div> 
-                        </div>}>
+                            <section class="intro">
+                                <Jumbotron style={styles}>
+                                    <h3 class="text-center">Welcome to the LdoD Game powered by LdoD Archive</h3>
+                                </Jumbotron>
+                                <row>
+                                    <div class="col-lg-6 col-sm-12 left">
+                                        <Link to="/game">
+                                            <Button bsStyle="primary">Classic mode</Button>
+                                        </Link>
+                                    </div>
+                                    <div class="col-lg-6 col-sm-12 right">
+                                        <Link to="/todo">
+                                            <Button bsStyle="primary">Personalized mode</Button>
+                                        </Link>
+                                    </div>
+                                </row>
+                            </section>
+                        </div>
+                        }>
                         </Route>
                         <Route path="/login" render={(props) =>
                         <div>
