@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import VirtualEdition from './VirtualEdition';
-import { getVirtualEditionIndex, readyToStart, endOfGame } from '../utils/APIUtils';
+import { getVirtualEditionIndex, endOfGame } from '../utils/APIUtils';
 import LoadingIndicator  from '../common/LoadingIndicator';
 import { Alert, Badge} from 'antd';
 import { WEB_SOCKETS_URL} from '../utils/Constants';
@@ -12,29 +12,29 @@ class Game extends Component {
         super(props,  context);
         this.state = {
             virtualEdition: [],
-            component: null,
+            socket: null,
+            currentUsers: 0,
         };
         this.loadVirtualEdition = this.loadVirtualEdition.bind(this);
         this.endGame = this.endGame.bind(this);
-        this.start = this.start.bind(this);
-        this.ready = this.ready.bind(this);
+        this.connect = this.connect.bind(this);
         this.onMessageReceive = this.onMessageReceive.bind(this);
     }
 
     async componentDidMount(){
        await this.loadVirtualEdition();
        this.setState({
-        component: <SockJsClient
+        socket: <SockJsClient
                     url={WEB_SOCKETS_URL}
                     topics={['/topic/config']}
                     ref={ (client) => { this.clientRef = client }}
-                    onConnect={ () => { this.start(); this.ready() }}
+                    onConnect={ () => { this.connect()}}
                     onMessage={(message) => this.onMessageReceive(message)} /> 
         });
         
     }
 
-    start(){
+    connect(){
         try {
             this.clientRef.sendMessage('/ldod-game/connect', JSON.stringify({ userId: localStorage.getItem("currentUser"), virtualEdition: "LdoD-ok"}));
             return true;
@@ -44,7 +44,7 @@ class Game extends Component {
         
     }
 
-    ready(){
+    /*ready(){
         try {
             this.clientRef.sendMessage('/ldod-game/ready',JSON.stringify({ msg: "ready"}));
             return true;
@@ -52,9 +52,9 @@ class Game extends Component {
             console.log(e)
             return false;
           }
-    }
+    }*/
 
-    onMessageReceive(message){
+    /*onMessageReceive(message){
         if( message[0] === this.state.users) return;
         if( message[0] === "ready"){
             this.setState({
@@ -66,7 +66,21 @@ class Game extends Component {
             users: message,
         })
         return;
+    }*/
+
+    onMessageReceive(message) {
+        var users = message[0]
+        var command = message[1];
+        if(command === "ready"){
+            this.setState({
+                currentUsers: users,
+                isLoading: false,
+            })
+            return; 
+        }
     }
+
+
     
     async loadVirtualEdition(){
         this.setState({
@@ -79,11 +93,11 @@ class Game extends Component {
             virtualEdition: request,
         })
         
-        await readyToStart(localStorage.getItem("currentUser"),"LdoD-ok");
     }
 
     async endGame(){
-        await endOfGame("LdoD-ok");
+        let request = await endOfGame("LdoD-ok");
+        console.log(request);
     }
 
     render() {
@@ -95,7 +109,7 @@ class Game extends Component {
                         message="Loading resources and waiting for users to join."
                         type="info"
                         banner />
-                        {this.state.component}
+                        {this.state.socket}
                     <LoadingIndicator />
                 </div>
             );
@@ -104,7 +118,7 @@ class Game extends Component {
             <div>
                 <div>
                     <div className="users">
-                        <Badge count={this.state.users} title="Current online users"  style={{ backgroundColor: '#2ecc71', fontSize: '15px' }}>  
+                        <Badge count={this.state.currentUsers} title="Current online users"  style={{ backgroundColor: '#2ecc71', fontSize: '15px' }}>  
                         <span className="glyphicon glyphicon-user"  style={{ fontSize: '25px', }}></span>
                     </Badge>
                     </div>

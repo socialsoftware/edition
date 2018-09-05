@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import './Paragraph.css';
+import { Steps } from 'antd';
 import Tag from './Tag';
 import Vote from './Vote';
-import { Steps } from 'antd';
+import Review  from './Review';
+import './Paragraph.css';
 var ReactCountdownClock = require("react-countdown-clock")
 const Step = Steps.Step;
 class Paragrah extends Component {
@@ -69,15 +70,6 @@ class Paragrah extends Component {
     }
 
     render() {
-        const tagViews = [];
-        let tags = this.state.tags;
-        tags.forEach((m, mIndex) => {
-            tagViews.push(
-            <div>
-                <p>{m.tag}<br></br></p>
-            </div>
-            )
-        });
         let stepsRender =  
             <Steps className="steps" direction="horizontal" current={this.props.round-1}>
                 <Step title="Tag"/>
@@ -126,32 +118,15 @@ class Paragrah extends Component {
         if(this.props.round === 3){
             return(
                 <div>
-                    <div className="clock">
-                        <ReactCountdownClock seconds={this.props.seconds}
-                            color="#2ecc71"
-                            size={80}
-                            showMilliseconds={false}
-                            onComplete={this.props.endFragment}/>
-                    </div>                
-                    {stepsRender}
-                    <section className="intro">
-                        <div className="col-lg-6 col-sm-12 left">
-                            <div className="content">
-                                <h4 className="text-center">{this.state.title}</h4>
-                                <div className="well" style={{ fontFamily: 'georgia', fontSize: 'small'}}>
-                                    <div dangerouslySetInnerHTML={{__html: this.state.fullText}}></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="col-lg-6 col-sm-12 right">
-                            <div>
-                                <h4 className="text-center">Tags submitted:</h4>
-                                <div className="well" style={{ fontFamily: 'georgia', fontSize: 'small'}}>
-                                    {tagViews} 
-                                </div>
-                            </div>
-                        </div>
-                    </section>
+                    <Review
+                        limit={this.props.limit}
+                        id={this.state.urlId} 
+                        steps={stepsRender} 
+                        endFragment={this.props.endFragment} 
+                        seconds={this.state.seconds} 
+                        initialTags={this.state.tags} 
+                        title={this.state.title} 
+                        fullText={this.state.fullText}/>
                 </div>
             );
         }

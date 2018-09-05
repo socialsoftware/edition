@@ -12,7 +12,6 @@ class Tag extends Component {
         this.state = {
             tags: [],
             value: " " ,
-            validate: null,
         };
         this.handleTag = this.handleTag.bind(this);
     }
@@ -25,7 +24,6 @@ class Tag extends Component {
         tags += "<br>" + input;
         form.reset();
         this.setState({
-            validate: "success",
             tags: [...this.state.tags, input],
         })
         e.preventDefault();

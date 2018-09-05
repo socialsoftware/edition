@@ -6,7 +6,7 @@ import { Layout, notification } from 'antd';
 
 /* Game imports */
 import './App.css';
-import { getCurrentUser } from '../utils/APIUtils';
+import { getCurrentUser, loadServerResources } from '../utils/APIUtils';
 import { ACCESS_TOKEN, LDOD_MESSAGE } from '../utils/Constants';
 import Login from '../user/login/Login';
 import Profile from '../user/profile/Profile';
@@ -85,12 +85,12 @@ class App extends Component {
         });
     }
     
-    handleLogin() {
+    async handleLogin() {
         notification.success({
             message: LDOD_MESSAGE,
             description: "You're successfully logged in.",
         });
-        
+        await loadServerResources(localStorage.getItem("currentUser"),"LdoD-ok");
         this.loadCurrentUser();
         this.props.history.push("/");
         return 
@@ -117,12 +117,12 @@ class App extends Component {
                                 </Jumbotron>
                                 <div className="col-lg-6 col-sm-12 left">
                                     <Link to="/game">
-                                        <Button bsStyle="primary">Classic mode</Button>
+                                        <Button bsStyle="primary">Classic game mode</Button>
                                     </Link>
                                 </div>
                                 <div className="col-lg-6 col-sm-12 right">
                                     <Link to="/todo">
-                                        <Button bsStyle="primary">Personalized mode</Button>
+                                        <Button bsStyle="primary">Custom game mode</Button>
                                     </Link>
                                 </div>
                             </section>

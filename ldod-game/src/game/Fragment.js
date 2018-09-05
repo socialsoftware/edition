@@ -75,6 +75,7 @@ class Fragment extends Component {
         return (
             <div> 
                 <Paragraph 
+                    limit={this.state.paragraphText.length}                
                     fragment={this.state.fragment}
                     nextParagraph={this.nextParagraph} 
                     paragraphText={this.state.paragraphText[this.state.index]}

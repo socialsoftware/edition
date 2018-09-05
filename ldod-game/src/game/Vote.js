@@ -7,6 +7,7 @@ class Vote extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            socket: null,
             votes: [],
             seconds: 0.0,
             previousVote: null,
@@ -18,6 +19,11 @@ class Vote extends Component {
     
     componentDidMount(){
         this.setState({
+            socket:  <SockJsClient
+                        url={WEB_SOCKETS_URL}
+                        topics={['/topic/votes']}
+                        ref={ (client) => { this.clientRef = client }}
+                        onMessage={(message) => this.handleMessageVote(message)} />,
             votes: this.props.initialTags,
             seconds: this.props.seconds,
         })
@@ -53,7 +59,7 @@ class Vote extends Component {
         this.sendMessage(param.tag, res); 
     }
 
-    sendMessage = (msg, vote, selfMsg) => {
+    sendMessage = (msg, vote) => {
         try {
           this.clientRef.sendMessage('/ldod-game/votes', JSON.stringify({ urlId: this.props.id, voterId: localStorage.getItem("currentUser"), msg: msg, vote: vote}));
           return true;
@@ -97,9 +103,9 @@ class Vote extends Component {
     render() {
         const voteViews = [];   
         let votes = this.state.votes;
-            votes.forEach((m, mIndex) => {
+            votes.forEach((m, index) => {
                 voteViews.push(
-                <div className="div-votes" key={mIndex}>
+                <div className="div-votes" key={index}>
                     <div>
                         <label>
                             <input name="voteGroup" type="radio" onChange={this.onChange(m)}></input>
@@ -112,11 +118,7 @@ class Vote extends Component {
 
         return (
             <div>
-                <SockJsClient
-                    url={WEB_SOCKETS_URL}
-                    topics={['/topic/votes']}
-                    ref={ (client) => { this.clientRef = client }}
-                    onMessage={(message) => this.handleMessageVote(message)} />
+                {this.state.socket}
                 <table className="table">
                     <thead>
                         <tr>
