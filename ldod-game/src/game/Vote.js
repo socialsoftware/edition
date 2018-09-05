@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import { FormGroup, Glyphicon} from 'react-bootstrap';
 import { WEB_SOCKETS_URL} from '../utils/Constants';
 import SockJsClient from 'react-stomp'
 import './Vote.css';
@@ -105,7 +104,7 @@ class Vote extends Component {
                         <label>
                             <input name="voteGroup" type="radio" onChange={this.onChange(m)}></input>
                             <span className="title">{m.tag}</span>
-                            <span className="label label-primary">{Math.round(m.vote)}</span>
+                            <span className="vote">{Math.round(m.vote)}</span>
                         </label>
                     </div>
                 </div>)
@@ -118,13 +117,22 @@ class Vote extends Component {
                     topics={['/topic/votes']}
                     ref={ (client) => { this.clientRef = client }}
                     onMessage={(message) => this.handleMessageVote(message)} />
-                <span className="icon-tags"><Glyphicon glyph="tags" /></span>
-                <br></br>
-                <div className="div-votes">
-                    <FormGroup>
-                        {voteViews}
-                    </FormGroup>
-                </div>
+                <table className="table">
+                    <thead>
+                        <tr>
+                            <th><span className="glyphicon glyphicon-tag"></span></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div className="div-votes">
+                                    {voteViews}
+                                </div>			
+                            </td>
+                        </tr>
+                    </tbody>
+            	</table>
             </div>
         );
     }

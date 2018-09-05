@@ -1,13 +1,16 @@
-.tag-view {
-    position: absolute;
+div-tags{
+    font-family: georgia;
+    font-size: medium;
+    display: inline-block;
     border-style: none;
 }
 
-.tag{
-    font-family: georgia;
-    font-size: medium;
+.table{
+    margin-left: -15px;
 }
 
-.icon-tags {
-    font-size: 30px;
+.submit{
+    margin-right: -25px;
+    align-items: center;
+    justify-content: center;
 }

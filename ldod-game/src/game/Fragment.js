@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import Paragraph from './Paragraph';
+import { ProgressBar } from 'react-bootstrap';
 import './Fragment.css';
 class Fragment extends Component {
     constructor(props) {
@@ -72,7 +73,7 @@ class Fragment extends Component {
 
     render() {
         return (
-            <div>
+            <div> 
                 <Paragraph 
                     fragment={this.state.fragment}
                     nextParagraph={this.nextParagraph} 
@@ -80,7 +81,10 @@ class Fragment extends Component {
                     seconds={this.state.seconds} 
                     round={this.state.round} 
                     endFragment={this.props.endFragment}/>
+                <div className="div-progress">
+                    <ProgressBar min={0} bsStyle="success"active now={this.state.index+1} max={this.state.paragraphText.length}/>
                 </div>
+            </div>
         );
     }
 }

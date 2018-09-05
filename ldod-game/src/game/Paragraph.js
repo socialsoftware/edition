@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import { Panel, ProgressBar } from 'react-bootstrap';
 import './Paragraph.css';
 import Tag from './Tag';
 import Vote from './Vote';
+import { Steps } from 'antd';
 var ReactCountdownClock = require("react-countdown-clock")
-
+const Step = Steps.Step;
 class Paragrah extends Component {
     constructor(props) {
         super(props);
@@ -69,31 +69,42 @@ class Paragrah extends Component {
     }
 
     render() {
-        let paragrahRender = 
+        const tagViews = [];
+        let tags = this.state.tags;
+        tags.forEach((m, mIndex) => {
+            tagViews.push(
             <div>
-                <Panel bsStyle="primary" defaultExpanded>
-                    <Panel.Heading>
-                        <Panel.Title className="panel-title" componentClass="h4" toggle>{this.state.title}</Panel.Title>
-                    </Panel.Heading>
-                    <Panel.Body >
-                        <div dangerouslySetInnerHTML={{__html: this.state.paragraphText}}></div>
-                    </Panel.Body>
-                </Panel>
+                <p>{m.tag}<br></br></p>
             </div>
-        
+            )
+        });
+        let stepsRender =  
+            <Steps className="steps" direction="horizontal" current={this.props.round-1}>
+                <Step title="Tag"/>
+                <Step title="Vote"/>
+                <Step title="Review"/>
+            </Steps>
+        let paragrahRender = 
+            <div className="content">
+                <h4 className="text-center">{this.state.title}</h4>
+                <div className="well" style={{ fontFamily: 'georgia', fontSize: 'medium'}}>
+                    <div dangerouslySetInnerHTML={{__html: this.state.paragraphText}}></div>
+                </div>
+            </div>
+        let clockRender = <div className="clock">
+                                <ReactCountdownClock 
+                                    seconds={this.props.seconds}
+                                    color="#2ecc71"
+                                    size={80}
+                                    showMilliseconds={false}
+                                    onComplete={this.props.nextParagraph}/>
+                            </div>;
         let roundRender;
         if (this.props.round === 1) {
             roundRender =
                 <div>
-                    <span className="text">Round 1:</span>
-                    <div className="clock">
-                        <ReactCountdownClock 
-                            seconds={this.props.seconds}
-                            color="#2ecc71"
-                            size={80}
-                            showMilliseconds={false}
-                            onComplete={this.props.nextParagraph}/>
-                    </div>
+                    {clockRender}
+                    {stepsRender}
                     {paragrahRender}
                     <Tag 
                         id={this.state.urlId} 
@@ -103,15 +114,8 @@ class Paragrah extends Component {
           } else {
             roundRender =
                 <div>
-                    <span className="text">Round 2:</span>
-                    <div className="clock">
-                        <ReactCountdownClock seconds={this.props.seconds}
-                            color="#8e44ad"
-                            size={80}
-                            showMilliseconds={false}
-                            onComplete={this.props.nextParagraph}
-                        />
-                    </div>
+                    {clockRender}
+                    {stepsRender}
                     {paragrahRender}    
                     <Vote 
                         seconds={this.props.seconds} 
@@ -122,32 +126,38 @@ class Paragrah extends Component {
         if(this.props.round === 3){
             return(
                 <div>
-                    <span className="text">Round 3:</span>
                     <div className="clock">
                         <ReactCountdownClock seconds={this.props.seconds}
-                            color="#f9ca24"
+                            color="#2ecc71"
                             size={80}
                             showMilliseconds={false}
-                            onComplete={this.props.endFragment}
-                        />
+                            onComplete={this.props.endFragment}/>
                     </div>                
-                    <Panel bsStyle="primary" defaultExpanded>
-                        <Panel.Heading>
-                            <Panel.Title className="panel-title" componentClass="h4" toggle>{this.state.title}</Panel.Title>
-                        </Panel.Heading>
-                        <Panel.Body >
-                            <div dangerouslySetInnerHTML={{__html: this.state.fullText}}></div>
-                        </Panel.Body>
-                    </Panel>
-            </div>
+                    {stepsRender}
+                    <section className="intro">
+                        <div className="col-lg-6 col-sm-12 left">
+                            <div className="content">
+                                <h4 className="text-center">{this.state.title}</h4>
+                                <div className="well" style={{ fontFamily: 'georgia', fontSize: 'small'}}>
+                                    <div dangerouslySetInnerHTML={{__html: this.state.fullText}}></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="col-lg-6 col-sm-12 right">
+                            <div>
+                                <h4 className="text-center">Tags submitted:</h4>
+                                <div className="well" style={{ fontFamily: 'georgia', fontSize: 'small'}}>
+                                    {tagViews} 
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
             );
         }
         return (
             <div>
                 {roundRender}
-                {/*<div className="div-progress">
-                    <ProgressBar min={0} bsStyle="success"active now={this.props.round} max={3}/>
-                </div> TODO */}
             </div>
         );
     }

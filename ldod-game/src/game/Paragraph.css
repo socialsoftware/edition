@@ -1,22 +1,56 @@
-.panel{
-    margin-top: 10px;
-    height: 75%; 
-}
-
-.panel-title{
-    font-family: "Ubuntu";
-}
-
 .clock{ 
+    margin-top: -45px;
     display: flex;
     align-items: center;
-    justify-content: center; 
+    justify-content: center;
+    padding-bottom: 25px;
 }
 
-.text{
+.steps{ 
     display: flex;
     align-items: left;
     justify-content: left;
-    font-family: "Ubuntu";
-    font-size: 30px;
+    margin-top: -15px;
+    padding-bottom: 20px;
+    margin-left: -15px;
+}
+
+.content{
+    margin-left: -15px;
+}
+
+
+html{
+    height:100%
+}
+
+body{
+    height:100%;
+}
+
+.intro{
+    height:100%
+}
+  
+.left{
+    display : flex;
+    justify-content : center;
+    align-items : center;
+    height : 100%;
+}
+
+.right{
+    display : flex;
+    justify-content : center;
+    align-items : center;
+    height : 100%;
+}
+
+@media (max-width: 1200px) { 
+    .left{
+        height:50%
+    }
+    .right{
+        height:50%
+    }
 }

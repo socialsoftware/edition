@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import {Glyphicon, Button, FormControl, FormGroup, InputGroup} from 'react-bootstrap';
+import { Button, FormControl, FormGroup, InputGroup} from 'react-bootstrap';
 import './Tag.css';
 import { Tag as TagD } from 'antd';
 import { WEB_SOCKETS_URL} from '../utils/Constants';
@@ -15,21 +15,11 @@ class Tag extends Component {
             validate: null,
         };
         this.handleTag = this.handleTag.bind(this);
-        this.getValidationState = this.getValidationState.bind(this);
     }
     
     handleTag = (e) => {
         const form = e.target;
         var input = form["tag"].value;
-        //var alphaExp = /^[a-zA-Z]+$/;
-
-       /* if(input.length <= 1 || this.state.tags.indexOf(input) !== -1 || !input.match(alphaExp)){
-            this.setState({
-                validate: "error",
-            })
-            e.preventDefault();
-            return;
-        }*/
 
         this.sendMessage(input);
         tags += "<br>" + input;
@@ -41,7 +31,7 @@ class Tag extends Component {
         e.preventDefault();
     }
 
-    sendMessage = (msg, selfMsg) => {
+    sendMessage = (msg) => {
         try {
             this.clientRef.sendMessage('/ldod-game/tags', JSON.stringify({ urlId: this.props.id, authorId: localStorage.getItem("currentUser"), msg: msg, vote: 1}));
             return true;
@@ -49,14 +39,6 @@ class Tag extends Component {
         } catch(e) {
             return false;
         }
-    }
-    
-    getValidationState(){
-        const length = this.state.value.length;
-        if (length > 1){
-            return 'success';
-        }
-        return null;
     }
 
     handleChange(event) {
@@ -71,35 +53,50 @@ class Tag extends Component {
         const tagViews = [];
         let messages = this.state.tags;
         messages.forEach((m, mIndex) => {
-            tagViews.push(<TagD className="tag" color="#747d8c" key={mIndex} >{m}</TagD>)
+            tagViews.push(<TagD color="#e1b12c" key={mIndex} >{m}</TagD>)
         });
         return (
             <div> 
-            <SockJsClient
+                <SockJsClient
                     url={WEB_SOCKETS_URL}
                     topics={['/topic/tags']}
                     ref={ (client) => { this.clientRef = client }}
-                    onMessage={(message) => this.props.handleMessageTag(message)} />  
-                <form id="form" autoComplete="off" onSubmit={(e) => {this.handleTag(e)}}>
-                    <FormGroup validationState={ this.state.validate === "error" ? this.state.validate : this.getValidationState()}>
-                        <InputGroup>
-                            <InputGroup.Addon><Glyphicon glyph="plus" /></InputGroup.Addon>
-                            <FormControl 
-                                placeholder="Tag this paragraph" 
-                                id="tag"
-                                type="text"
-                                spellCheck="true"
-                                onChange={this.handleChange.bind(this)} 
-                                autoFocus />
-                            </InputGroup>
-                            <FormControl.Feedback />
-                        <Button disabled={this.props.disabled} type="submit">Submit</Button>
-                    </FormGroup>
-                </form>
-                <span className="icon-tags"><Glyphicon glyph="tags" /></span>
-                <div className="tag-view">
-                    {tagViews}
-                </div>
+                    onMessage={(message) => this.props.handleMessageTag(message)} />
+                <div className="col-lg-4 col-lg-offset-4">    
+                    <form id="form" autoComplete="off" onSubmit={(e) => {this.handleTag(e)}}>
+                        <FormGroup validationState={ this.props.disabled === true ? "warning" : null}>
+                            <InputGroup>
+                                <FormControl 
+                                    placeholder="Tag this paragraph" 
+                                    id="tag"
+                                    type="text"
+                                    spellCheck="true"
+                                    onChange={this.handleChange.bind(this)} 
+                                    autoFocus />
+                                </InputGroup>
+                                <FormControl.Feedback />
+                                <Button className="btn btn-primary pull-right" disabled={this.props.disabled} type="submit">
+                                    <span className="glyphicon glyphicon-plus"></span>
+                                </Button>
+                        </FormGroup>
+                    </form>    
+                </div>  
+                <table className="table">
+                    <thead>
+                        <tr>
+                            <th><span className="glyphicon glyphicon-tag"></span></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div className="div-tags">
+                                    {tagViews}
+                                </div>			
+                            </td>
+                        </tr>
+                    </tbody>
+            	</table>
             </div>
         );
     }

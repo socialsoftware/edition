@@ -3,8 +3,9 @@ import { withRouter } from 'react-router-dom';
 import VirtualEdition from './VirtualEdition';
 import { getVirtualEditionIndex, readyToStart, endOfGame } from '../utils/APIUtils';
 import LoadingIndicator  from '../common/LoadingIndicator';
-import { Alert, Icon } from 'antd';
+import { Alert, Badge} from 'antd';
 import { WEB_SOCKETS_URL} from '../utils/Constants';
+import './Game.css';
 import SockJsClient from 'react-stomp'
 class Game extends Component {
     constructor(props, context) {   
@@ -82,7 +83,7 @@ class Game extends Component {
     }
 
     async endGame(){
-        let request = await endOfGame("LdoD-ok");
+        await endOfGame("LdoD-ok");
     }
 
     render() {
@@ -90,9 +91,10 @@ class Game extends Component {
             return (
                 <div>
                     <Alert
-                        message="Loading resources"
-                        description="Getting everything ready and waiting for users to join."
-                        type="info"/>
+                        style={{ fontSize: '20px', fontFamily: 'Ubuntu' }}
+                        message="Loading resources and waiting for users to join."
+                        type="info"
+                        banner />
                         {this.state.component}
                     <LoadingIndicator />
                 </div>
@@ -100,7 +102,13 @@ class Game extends Component {
         }
         return ( 
             <div>
-                <Icon type="user" />: {this.state.users}
+                <div>
+                    <div className="users">
+                        <Badge count={this.state.users} title="Current online users"  style={{ backgroundColor: '#2ecc71', fontSize: '15px' }}>  
+                        <span className="glyphicon glyphicon-user"  style={{ fontSize: '25px', }}></span>
+                    </Badge>
+                    </div>
+                </div>
                 <VirtualEdition virtualEdition={this.state.virtualEdition} end={this.endGame}/>
             </div>
     );

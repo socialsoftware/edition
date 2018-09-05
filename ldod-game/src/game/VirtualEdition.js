@@ -43,6 +43,7 @@ class VirtualEdition extends Component {
             case "end":
                 var i = this.state.index+1;
                 localStorage.setItem("currentFragment", i);
+                this.props.end;
                 this.setState({
                     isActive: false,
                     isEnding: true,
@@ -67,7 +68,6 @@ class VirtualEdition extends Component {
             );
         }
         else if(this.state.isEnding){
-            this.props.end;
             return (
                 <Jumbotron>
                     <h1>The game has ended!</h1>
@@ -80,7 +80,7 @@ class VirtualEdition extends Component {
                 <Alert bsStyle="info">
                     <strong>The game is about to start in: </strong>
                 </Alert>
-                <div className="clock">    
+                <div className="start-clock">    
                     <ReactCountdownClock seconds={10}
                         color="#3498db"
                         size={200}

@@ -111,22 +111,20 @@ class App extends Component {
                     <Switch>
                         <Route exact path="/" render={() =>
                         <div>
-                            <section class="intro">
+                            <section className="intro">
                                 <Jumbotron style={styles}>
-                                    <h3 class="text-center">Welcome to the LdoD Game powered by LdoD Archive</h3>
+                                    <h3 className="text-center">Welcome to the LdoD Game powered by LdoD Archive</h3>
                                 </Jumbotron>
-                                <row>
-                                    <div class="col-lg-6 col-sm-12 left">
-                                        <Link to="/game">
-                                            <Button bsStyle="primary">Classic mode</Button>
-                                        </Link>
-                                    </div>
-                                    <div class="col-lg-6 col-sm-12 right">
-                                        <Link to="/todo">
-                                            <Button bsStyle="primary">Personalized mode</Button>
-                                        </Link>
-                                    </div>
-                                </row>
+                                <div className="col-lg-6 col-sm-12 left">
+                                    <Link to="/game">
+                                        <Button bsStyle="primary">Classic mode</Button>
+                                    </Link>
+                                </div>
+                                <div className="col-lg-6 col-sm-12 right">
+                                    <Link to="/todo">
+                                        <Button bsStyle="primary">Personalized mode</Button>
+                                    </Link>
+                                </div>
                             </section>
                         </div>
                         }>

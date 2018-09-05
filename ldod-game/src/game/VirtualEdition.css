@@ -1,28 +1,5 @@
-.next{
-    position: relative;
-    display: inline-block;
-    left: 97%;
-}
-
-.start{
-    text-decoration: none;
-    line-height: 64px;
-    font-size: 21px;
-    display: inline-block;
-    font-family: "Ubuntu";
-       
-}
-
-.clock{
+.start-clock{ 
     display: flex;
     align-items: center;
     justify-content: center;
-    
-}
-
-.div-progress {
-    position: relative;
-    left: 0px;
-    top: 50px;
-
 }
