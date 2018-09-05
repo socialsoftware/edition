@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import VirtualEdition from './VirtualEdition';
-import { getVirtualEditionIndex, endOfGame } from '../utils/APIUtils';
+import { getVirtualEditionIndex } from '../utils/APIUtils';
 import LoadingIndicator  from '../common/LoadingIndicator';
 import { Alert, Badge} from 'antd';
 import { WEB_SOCKETS_URL} from '../utils/Constants';
@@ -14,9 +14,9 @@ class Game extends Component {
             virtualEdition: [],
             socket: null,
             currentUsers: 0,
+            gameId: null,
         };
         this.loadVirtualEdition = this.loadVirtualEdition.bind(this);
-        this.endGame = this.endGame.bind(this);
         this.connect = this.connect.bind(this);
         this.onMessageReceive = this.onMessageReceive.bind(this);
     }
@@ -44,36 +44,14 @@ class Game extends Component {
         
     }
 
-    /*ready(){
-        try {
-            this.clientRef.sendMessage('/ldod-game/ready',JSON.stringify({ msg: "ready"}));
-            return true;
-          } catch(e) {
-            console.log(e)
-            return false;
-          }
-    }*/
-
-    /*onMessageReceive(message){
-        if( message[0] === this.state.users) return;
-        if( message[0] === "ready"){
-            this.setState({
-                isLoading: false,
-            })
-            return; 
-        }
-        this.setState({
-            users: message,
-        })
-        return;
-    }*/
-
     onMessageReceive(message) {
         var users = message[0]
         var command = message[1];
+        var id = message[2];
         if(command === "ready"){
             this.setState({
                 currentUsers: users,
+                gameId: id,
                 isLoading: false,
             })
             return; 
@@ -95,10 +73,7 @@ class Game extends Component {
         
     }
 
-    async endGame(){
-        let request = await endOfGame("LdoD-ok");
-        console.log(request);
-    }
+
 
     render() {
         if(this.state.isLoading) {
@@ -106,7 +81,7 @@ class Game extends Component {
                 <div>
                     <Alert
                         style={{ fontSize: '20px', fontFamily: 'Ubuntu' }}
-                        message="Loading resources and waiting for users to join."
+                        message="Loading resources and waiting for at least one user to join."
                         type="info"
                         banner />
                         {this.state.socket}
@@ -123,7 +98,7 @@ class Game extends Component {
                     </Badge>
                     </div>
                 </div>
-                <VirtualEdition virtualEdition={this.state.virtualEdition} end={this.endGame}/>
+                <VirtualEdition virtualEdition={this.state.virtualEdition} gameId={this.state.gameId}/>
             </div>
     );
   }

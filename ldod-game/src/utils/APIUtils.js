@@ -98,9 +98,9 @@ export function loadServerResources(user, acronym){
     });
 }
 
-export function endOfGame(){
+export function endGame(gameId){
     return request({
-        url: API_BASE_URL + API_SERVICES_URL + '/ldod-game/end/',
+        url: API_BASE_URL + API_SERVICES_URL + '/ldod-game/end/' + gameId,
         method: 'GET'
     });
 }

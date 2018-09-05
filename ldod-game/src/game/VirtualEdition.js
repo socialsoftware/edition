@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { Alert, Jumbotron } from 'react-bootstrap';
 import Fragment  from './Fragment';
+import { endGame } from '../utils/APIUtils';
 import './VirtualEdition.css';
 
 var ReactCountdownClock = require("react-countdown-clock")
@@ -20,6 +21,7 @@ class VirtualEdition extends Component {
             isEnding: false,
         };
         this.invokeCommand = this.invokeCommand.bind(this);
+        this.endGame = this.endGame.bind(this);
     }
     
     componentDidMount() {
@@ -29,6 +31,10 @@ class VirtualEdition extends Component {
             acronym: this.props.virtualEdition.acronym,
             pub: this.props.virtualEdition.pub,
         })
+    }
+
+    async endGame(){
+        let request = await endGame(this.props.gameId);
     }
     
     invokeCommand(command) {
@@ -43,7 +49,7 @@ class VirtualEdition extends Component {
             case "end":
                 var i = this.state.index+1;
                 localStorage.setItem("currentFragment", i);
-                this.props.end;
+                this.endGame();
                 this.setState({
                     isActive: false,
                     isEnding: true,
@@ -71,6 +77,7 @@ class VirtualEdition extends Component {
             return (
                 <Jumbotron>
                     <h1>The game has ended!</h1>
+                    <h1>The winner tag is: </h1> 
                     <p>Thank you for playing, hope you enjoyed it.</p>
                 </Jumbotron>
             );

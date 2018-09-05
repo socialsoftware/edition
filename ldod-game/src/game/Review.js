@@ -65,12 +65,10 @@ class Review extends Component {
 
     handleMessageReview(message) {
         var topTags = message[3];
-        setTimeout(() => {
-            this.setState({
-                votes: topTags,
-                isLoading: false,
-            })
-        }, 30000);
+        this.setState({
+            votes: topTags,
+            isLoading: false,
+        })
     }
 
     render() {
@@ -79,7 +77,7 @@ class Review extends Component {
                 <div>
                     <Alert
                         style={{ fontSize: '20px', fontFamily: 'Ubuntu' }}
-                        message="Final step ahead, waiting for 30 seconds..."
+                        message="Quick break before the final step ..."
                         type="info"
                         banner />
                         {this.state.socket}
