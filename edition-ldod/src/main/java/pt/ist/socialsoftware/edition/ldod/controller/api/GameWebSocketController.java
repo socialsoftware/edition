@@ -27,73 +27,64 @@ public class GameWebSocketController {
     @Autowired
     private SimpMessagingTemplate broker;
     private Map<String, List<GameTagDto>> submittedTags = new HashMap<>();
-    private Map<String, Double> participants = new HashMap<>();
+    private Map<String, Double> participantScores = new HashMap<>();
 
-    @GetMapping("/api/services/ldod-game/ready/{user}/{acronym}")
-    public @ResponseBody ResponseEntity<?> handleReady(@PathVariable(value = "user") String user, @PathVariable(value = "acronym") String acronym){
+    @GetMapping("/api/services/ldod-game/load/{user}/{acronym}")
+    public @ResponseBody ResponseEntity<?> loadResources(@PathVariable(value = "user") String user, @PathVariable(value = "acronym") String acronym){
         VirtualEdition virtualEdition = LdoD.getInstance().getVirtualEdition(acronym);
         List<String> res = virtualEdition.getIntersSet().stream().sorted().map(FragInter::getUrlId).collect(Collectors.toList());
         for(String id: res){
             submittedTags.put(id, new ArrayList<>());
         }
-        participants.put(user, 0.0);
-        return new ResponseEntity<>(new APIResponse(true, "starting game"), HttpStatus.OK);
+        participantScores.put(user, 0.0);
+        return new ResponseEntity<>(new APIResponse(true, "Server loaded resources successfully."), HttpStatus.OK);
 
     }
 
     @MessageMapping("/connect")
     @SendTo("/topic/config")
-    public @ResponseBody void handleStart(@Payload Map<String,String> payload) {
+    public @ResponseBody void handleConnect(@Payload Map<String,String> payload) {
         /* TODO: Queria chamar o método handleReady mas da erro se for um metodo da classe e nao um getMapping, coniderar portar
             algum codigo para o dominio*/
 
         String user = payload.get("userId");
         String acronym = payload.get("virtualEdition");
-        participants.put(user, 1.0);
         payload.remove("userId");
         payload.remove("virtualEdition");
-        payload.put("msg", String.valueOf(participants.size()));
-        broker.convertAndSend("/topic/config", payload.values());
-    }
-
-    @MessageMapping("/ready")
-    @SendTo("/topic/config")
-    public @ResponseBody void sendReady(@Payload Map<String,String> payload) {
-        payload.put("msg", "ready");
+        participantScores.put(user, 1.0);
+        payload.put("currentUsers", String.valueOf(participantScores.size()));
+        payload.put("command", "ready");
         try {
-            /*Thread.sleep(1 *    // minutes to sleep
-                            60 *   // seconds to a minute
-                            1000); // milli to second*/
+            //Thread.sleep(1 * 60 *1000);
             Thread.sleep(10000); // TODO: use the above time
             broker.convertAndSend("/topic/config", payload.values());
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
-
     }
 
     @GetMapping("/api/services/ldod-game/end")
     public @ResponseBody ResponseEntity<?> handleEnd() {
-        logger.debug("end of game");
+        //logger.debug("end of game");
         // TODO: make transaction,i.e, save to DB
         Map<String, List<GameTagDto>> result = new HashMap<>();
         Set<String> fragmentsTagged = submittedTags.keySet();
         for(String fragment: fragmentsTagged){
-            List<GameTagDto> top3Tags = submittedTags.get(fragment).stream().sorted(((g1, g2) -> (int) g2.getScore())).limit(3).collect(Collectors.toList());
+            List<GameTagDto> topTags = submittedTags.get(fragment).stream().sorted(((g1, g2) -> (int) g2.getScore())).limit(1).collect(Collectors.toList());
 
-            result.put(fragment, top3Tags);
+            result.put(fragment, topTags);
         }
         //return new ResponseEntity<>(new APIResponse(true, "ending game"), HttpStatus.OK);
         List<Object> response = new ArrayList<>();
         response.add(result);
-        response.add(participants);
+        response.add(participantScores);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @MessageMapping("/tags")
     @SendTo("/topic/tags")
     public @ResponseBody void handleTags(@Payload Map<String, String> payload) {
+        //logger.debug("Tags received {}", payload.values());
         String urlId = payload.get("urlId");
         String authorId = payload.get("authorId");
         GameTagDto tag = new GameTagDto(authorId, urlId, payload.get("msg"), 1);
@@ -102,7 +93,7 @@ public class GameWebSocketController {
             // if tag is submitted for the first we add it
             res.add(tag);
             submittedTags.put(urlId, res);
-            participants.put(authorId, participants.get(authorId) + 1);
+            participantScores.put(authorId, participantScores.get(authorId) + 1);
         }
         else{
             // if tag already exists increment score and update
@@ -112,7 +103,7 @@ public class GameWebSocketController {
                 // since the tag has been suggested, it now has a co-author / voter because of the suggestion
                 t.addCoAuthor(authorId);
                 t.addVoter(authorId);
-                participants.put(authorId, participants.get(authorId) + 1);
+                participantScores.put(authorId, participantScores.get(authorId) + 1);
             });
 
             submittedTags.put(urlId, res);
@@ -124,6 +115,7 @@ public class GameWebSocketController {
     @MessageMapping("/votes")
     @SendTo("/topic/votes")
     public @ResponseBody void handleVotes(@Payload Map<String,String> payload) {
+        //logger.debug("Votes received {}", payload.values());
         String urlId = payload.get("urlId");
         String voterId = payload.get("voterId");
         List<GameTagDto> res = submittedTags.get(urlId);
@@ -134,7 +126,7 @@ public class GameWebSocketController {
                 forEach(tagDto ->{
                     tagDto.setScore(tagDto.getScore() + finalVote);
                     tagDto.addVoter(voterId);
-                    participants.put(tagDto.getAuthorId(), participants.get(tagDto.getAuthorId()) + finalVote);
+                    participantScores.put(tagDto.getAuthorId(), participantScores.get(tagDto.getAuthorId()) + finalVote);
                     payload.put("vote", String.valueOf(tagDto.getScore()));
                     //logger.debug("tag: {} voters: {}", tagDto.getContent(), tagDto.getVoters().toArray());
                 });
@@ -143,14 +135,29 @@ public class GameWebSocketController {
 
     }
 
+    @MessageMapping("/review")
+    @SendTo("/topic/review")
+    public @ResponseBody void handleReview(@Payload Map<String,String> payload) {
+        //logger.debug("Review received {}", payload.values());
+        String urlId = payload.get("urlId");
+        Object limit = payload.get("limit");
+        int finalLimit = (Integer) limit;
+        List<GameTagDto> res = submittedTags.get(urlId);
+        List<String> topTags = res.stream().sorted(((g1, g2) -> (int) g2.getScore())).limit(finalLimit).map(GameTagDto::getContent).collect(Collectors.toList());
+        payload.put("topTags", topTags.toString());
+
+        broker.convertAndSend("/topic/review", payload.values());
+
+    }
+
     @GetMapping("/api/services/ldod-game/leaderboard")
     public @ResponseBody ResponseEntity<?> getLeaderboard() {
-        logger.debug("get leaderboard");
-        List<String> users = participants.entrySet().stream()
+        //logger.debug("get leaderboard");
+        List<String> users = participantScores.entrySet().stream()
                 .sorted(Collections.reverseOrder(Map.Entry.comparingByValue()))
                 .map(Map.Entry::getKey)
                 .collect(Collectors.toList());
-        List<Double> scores = participants.entrySet().stream()
+        List<Double> scores = participantScores.entrySet().stream()
                 .sorted(Collections.reverseOrder(Map.Entry.comparingByValue()))
                 .map(Map.Entry::getValue)
                 .collect(Collectors.toList());
