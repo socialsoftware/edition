@@ -78,51 +78,6 @@ public class VirtualEdition extends VirtualEdition_Base {
 		}
 	}
 
-	// TODO fazer a verificação dos parâmetros vazios
-	public VirtualEdition(LdoD ldod, LdoDUser participant, String acronym, String title, LocalDate date, Boolean pub,
-			Edition usedEdition, String mediaSource, String beginDate, String endDate, String geoLocation,
-			String frequency) {
-		setLdoD4Virtual(ldod);
-		new Member(this, participant, Member.MemberRole.ADMIN, true);
-		setXmlId("ED.VIRT." + acronym);
-		setAcronym(acronym);
-		setTitle(title);
-		setDate(date);
-		setPub(pub);
-		setTaxonomy(new Taxonomy());
-		createSection(Section.DEFAULT, 0);
-		if (usedEdition != null) {
-			for (FragInter inter : usedEdition.getIntersSet()) {
-				createVirtualEditionInter(inter, inter.getNumber());
-			}
-		}
-
-		if (!mediaSource.equals("noMediaSource")) {
-			new MediaSource(this, mediaSource);
-		}
-
-		LocalDate bDate = null;
-		LocalDate eDate = null;
-		if (!beginDate.equals("") || !endDate.equals("")) {
-			if (!beginDate.equals("")) {
-				bDate = new LocalDate(beginDate);
-			}
-			if (!endDate.equals("")) {
-				eDate = new LocalDate(endDate);
-			}
-			new TimeWindow(this, bDate, eDate);
-		}
-
-		if (!geoLocation.equals("noCountry")) {
-			new GeographicLocation(this, geoLocation);
-		}
-
-		if (!frequency.equals("")) {
-			new Frequency(this, Integer.parseInt(frequency));
-		}
-
-	}
-
 	@Override
 	@Atomic(mode = TxMode.WRITE)
 	public void remove() {
@@ -263,7 +218,7 @@ public class VirtualEdition extends VirtualEdition_Base {
 		return getAcronym().substring(ACRONYM_PREFIX.length());
 	}
 
-	// TODO fazer a verificação dos parâmetros vazios
+	// TODO corrigir o caso dos parâmetros vazios e também o new e o remove
 	@Atomic(mode = TxMode.WRITE)
 	public void edit(String acronym, String title, String synopsis, boolean pub, boolean openManagement,
 			boolean openVocabulary, boolean openAnnotation, String mediaSource, String beginDate, String endDate,
@@ -303,18 +258,22 @@ public class VirtualEdition extends VirtualEdition_Base {
 			new TimeWindow(this, bDate, eDate);
 		}
 
-		GeographicLocation geographicLocation = this.getGeographicLocation();
-		if (geographicLocation != null) {
-			geographicLocation.edit(geoLocation);
-		} else {
-			new GeographicLocation(this, geoLocation);
+		if (!geoLocation.equals("noCountry")) {
+			GeographicLocation geographicLocation = this.getGeographicLocation();
+			if (geographicLocation != null) {
+				geographicLocation.edit(geoLocation);
+			} else {
+				new GeographicLocation(this, geoLocation);
+			}
 		}
 
-		Frequency freq = this.getFrequency();
-		if (freq != null) {
-			freq.edit(Integer.parseInt(frequency));
-		} else {
-			new Frequency(this, Integer.parseInt(frequency));
+		if (!frequency.equals("")) {
+			Frequency freq = this.getFrequency();
+			if (freq != null) {
+				freq.edit(Integer.parseInt(frequency));
+			} else {
+				new Frequency(this, Integer.parseInt(frequency));
+			}
 		}
 	}
 

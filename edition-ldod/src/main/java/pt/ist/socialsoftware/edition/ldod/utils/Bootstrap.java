@@ -17,23 +17,23 @@ import org.springframework.web.WebApplicationInitializer;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
+import pt.ist.socialsoftware.edition.ldod.domain.Edition;
+import pt.ist.socialsoftware.edition.ldod.domain.Fragment;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
+import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
 import pt.ist.socialsoftware.edition.ldod.domain.Member;
+import pt.ist.socialsoftware.edition.ldod.domain.Role;
+import pt.ist.socialsoftware.edition.ldod.domain.Role.RoleType;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
+import pt.ist.socialsoftware.edition.ldod.recommendation.VSMFragmentRecommender;
 import pt.ist.socialsoftware.edition.ldod.recommendation.properties.DateProperty;
+import pt.ist.socialsoftware.edition.ldod.recommendation.properties.HeteronymProperty;
 import pt.ist.socialsoftware.edition.ldod.recommendation.properties.Property;
+import pt.ist.socialsoftware.edition.ldod.recommendation.properties.TaxonomyProperty;
+import pt.ist.socialsoftware.edition.ldod.recommendation.properties.TextProperty;
 import pt.ist.socialsoftware.edition.ldod.search.Indexer;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
 import pt.ist.socialsoftware.edition.ldod.topicmodeling.TopicModeler;
-import pt.ist.socialsoftware.edition.ldod.domain.Edition;
-import pt.ist.socialsoftware.edition.ldod.domain.Fragment;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
-import pt.ist.socialsoftware.edition.ldod.domain.Role;
-import pt.ist.socialsoftware.edition.ldod.domain.Role.RoleType;
-import pt.ist.socialsoftware.edition.ldod.recommendation.VSMFragmentRecommender;
-import pt.ist.socialsoftware.edition.ldod.recommendation.properties.HeteronymProperty;
-import pt.ist.socialsoftware.edition.ldod.recommendation.properties.TaxonomyProperty;
-import pt.ist.socialsoftware.edition.ldod.recommendation.properties.TextProperty;
 
 /**
  * @author ars
@@ -117,6 +117,9 @@ public class Bootstrap implements WebApplicationInitializer {
 		// https://www.dailycred.com/blog/12/bcrypt-calculator
 		LdoDUser ars = new LdoDUser(ldod, "ars", "$2a$11$Y0PQlyE20CXaI9RGhtjZJeTM/0.RUyp2kO/YAJI2P2FeINDEUxd2m",
 				"António", "Rito Silva", "rito.silva@tecnico.ulisboa.pt");
+
+		LdoDUser twitter = new LdoDUser(ldod, "Twitter", null, "Twitter", "Social Media", "");
+
 		// LdoDUser diego = new LdoDUser(ldod, "diego",
 		// "$2a$11$b3rI6cl/GOzVqOKUOWSQQ.nTJFn.s8a/oALV.YOWoUZu6HZGvyCXu",
 		// "Diego", "Giménez", "dgimenezdm@gmail.com");
@@ -159,6 +162,8 @@ public class Bootstrap implements WebApplicationInitializer {
 		ars.addRoles(user);
 		ars.addRoles(admin);
 
+		twitter.setActive(false);
+		twitter.setEnabled(true);
 		// diego.setEnabled(true);
 		// diego.addRoles(user);
 		// diego.addRoles(admin);
@@ -305,8 +310,8 @@ public class Bootstrap implements WebApplicationInitializer {
 			properties.add(new TextProperty(1.0));
 			properties.add(new HeteronymProperty(1.0));
 			properties.add(new DateProperty(1.0));
-			properties.add(
-					new TaxonomyProperty(1.0, LdoD.getInstance().getArchiveEdition().getTaxonomy(), Property.PropertyCache.ON));
+			properties.add(new TaxonomyProperty(1.0, LdoD.getInstance().getArchiveEdition().getTaxonomy(),
+					Property.PropertyCache.ON));
 
 			VSMFragmentRecommender recommender = new VSMFragmentRecommender();
 			for (Fragment fragment : fragments) {

@@ -116,15 +116,6 @@ public class LdoD extends LdoD_Base {
 	}
 
 	@Atomic(mode = TxMode.WRITE)
-	public VirtualEdition createVirtualEdition(LdoDUser user, String acronym, String title, LocalDate date, boolean pub,
-			Edition usedEdition, String mediaSource, String beginDate, String endDate, String geoLocation,
-			String frequency) {
-		log.debug("createVirtualEdition user:{}, acronym:{}, title:{}", user.getUsername(), acronym, title);
-		return new VirtualEdition(this, user, acronym, title, date, pub, usedEdition, mediaSource, beginDate, endDate,
-				geoLocation, frequency);
-	}
-
-	@Atomic(mode = TxMode.WRITE)
 	public RecommendationWeights createRecommendationWeights(LdoDUser user, VirtualEdition virtualEdition) {
 		return new RecommendationWeights(user, virtualEdition);
 	}
