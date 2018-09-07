@@ -45,11 +45,9 @@ public class AwareAnnotationFactory {
 		// new Frequency(duarteEdit, 10);
 
 		for (VirtualEdition ve : LdoD.getInstance().getVirtualEditionsSet()) {
-			logger.debug("VirtualEdition XMLID: " + ve.getXmlId());
 			if (ve.isSAVE()) {
 				searchForAwareAnnotations(ve);
 			}
-			logger.debug("+++++++++++++++++++++ NEXT VIRTUAL EDITION +++++++++++++++++++++++");
 		}
 
 		logger.debug("END OF AWARE FACTORY");
@@ -57,9 +55,6 @@ public class AwareAnnotationFactory {
 
 	// método invocado também quando se cria uma nova SAVE
 	public void searchForAwareAnnotations(VirtualEdition ve) {
-		logger.debug(" ++++++++++++++++++++++++++ SAVE +++++++++++++++++++++++++++ ");
-		logger.debug(ve.getXmlId() + " is SAVE");
-
 		Set<SocialMediaCriteria> criteria = ve.getCriteriaSet();
 
 		for (VirtualEditionInter inter : ve.getAllDepthVirtualEditionInters()) {
