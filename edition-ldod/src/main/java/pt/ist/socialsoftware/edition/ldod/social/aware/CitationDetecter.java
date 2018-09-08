@@ -283,7 +283,6 @@ public class CitationDetecter {
 					}
 					lineNum++;
 
-					// por este if depois de dar update: updateLastTwitterID(fileEntry.getName()
 					if (obj.containsKey("isRetweet") && (boolean) obj.get("isRetweet")) {
 						continue;
 					}

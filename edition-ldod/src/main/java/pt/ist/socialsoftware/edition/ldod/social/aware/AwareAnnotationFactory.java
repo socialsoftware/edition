@@ -181,6 +181,10 @@ public class AwareAnnotationFactory {
 				// }
 
 				// TODO: new code that splits countries
+				if (!(tc instanceof TwitterCitation
+						&& ((GeographicLocation) criterion).containsCountry(((TwitterCitation) tc).getCountry()))) {
+					isValid = false;
+				}
 
 			} else if (criterion instanceof Frequency) {
 				// do nothing, already verfied ...

@@ -237,14 +237,22 @@
 									<spring:message code="criteria.geolocation" /></label> 
 								<input type="hidden" name='geolocation' value=''> ${country}
 								<br>
-								<!-- select all boxes -->
+								<!-- selects all boxes -->
 								<input type="checkbox" name="select-all" id="select-all" />
 									<spring:message code="criteria.geolocation.everycountry" />
 								<br>
+
 								<c:forEach var='country' items='${countriesList}'>
-									<input type="checkbox" name='geolocation' value='${country}'> ${country}
+									<c:choose>
+										<c:when test="${virtualEdition.getGeographicLocation().containsCountry(country)}">
+											<input type="checkbox" name='geolocation' value='${country}' checked> ${country}
+										</c:when>
+										<c:otherwise>
+											<input type="checkbox" name='geolocation' value='${country}'> ${country}
+										</c:otherwise>
+									</c:choose>	
 									<br>	
-								</c:forEach>
+								</c:forEach> 
 								
 							</div>
 
@@ -440,6 +448,12 @@ $('#select-all').click(function(event) {
         });
     }
 });
+</script>
+
+<script>
+function uncheckAll(){
+   $('input[type="checkbox"]:checked').prop('checked',false);
+}
 </script>
 
 </html>
