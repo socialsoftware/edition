@@ -160,34 +160,33 @@ public class AwareAnnotationFactory {
 				LocalDate beginDate = ((TimeWindow) criterion).getBeginDate();
 				LocalDate endDate = ((TimeWindow) criterion).getEndDate();
 
-				if (!((localDate.isAfter(beginDate) || localDate.isEqual(beginDate))
-						&& (localDate.isBefore(endDate) || localDate.isEqual(endDate)))) {
-					isValid = false;
-
-					// new code that supports null format for date input by user
-					if (beginDate != null) {
-						if (!(localDate.isAfter(beginDate) || localDate.isEqual(beginDate))) {
-							isValid = false;
-						}
-					}
-					if (endDate != null) {
-						if (!(localDate.isBefore(endDate) || localDate.isEqual(endDate))) {
-							isValid = false;
-						}
-					}
-
-				} else if (criterion instanceof GeographicLocation) {
-					if (tc instanceof TwitterCitation && !((TwitterCitation) tc).getCountry()
-							.equals(((GeographicLocation) criterion).getCountry())) {
+				// new code that supports null format for date input by user
+				if (beginDate != null) {
+					if (!(localDate.isAfter(beginDate) || localDate.isEqual(beginDate))) {
 						isValid = false;
 					}
-
-				} else if (criterion instanceof Frequency) {
-					// do nothing, already verfied ...
 				}
-			}
+				if (endDate != null) {
+					if (!(localDate.isBefore(endDate) || localDate.isEqual(endDate))) {
+						isValid = false;
+					}
+				}
 
+			} else if (criterion instanceof GeographicLocation) {
+				// old code
+				// if (tc instanceof TwitterCitation
+				// && !((TwitterCitation) tc).getCountry().equals(((GeographicLocation)
+				// criterion).getCountry())) {
+				// isValid = false;
+				// }
+
+				// TODO: new code that splits countries
+
+			} else if (criterion instanceof Frequency) {
+				// do nothing, already verfied ...
+			}
 		}
+
 		return isValid;
 	}
 

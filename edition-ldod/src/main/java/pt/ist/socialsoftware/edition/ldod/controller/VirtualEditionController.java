@@ -161,13 +161,13 @@ public class VirtualEditionController {
 
 			List<String> countriesList = new ArrayList<String>();
 			countriesList.add("Portugal");
-			countriesList.add("Brasil");
-			countriesList.add("Espanha");
-			countriesList.add("Inglaterra");
-			countriesList.add("Estados Unidos");
-			countriesList.add("Líbano");
+			countriesList.add("Brazil");
+			countriesList.add("Spain");
+			countriesList.add("United Kingdom");
+			countriesList.add("United States");
+			countriesList.add("Lebanon");
 			countriesList.add("Angola");
-			countriesList.add("Moçambique");
+			countriesList.add("Mozambique");
 			model.addAttribute("countriesList", countriesList);
 			return "virtual/manage";
 		}

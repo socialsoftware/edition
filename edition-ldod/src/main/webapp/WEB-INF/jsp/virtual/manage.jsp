@@ -233,17 +233,19 @@
 						<br>
 						<div class="row">
 							<div class="form-group col-md-2" style="padding-left: 0px">
-								<label class="control-label" for="geolocation"><spring:message
-										code="criteria.geolocation" /></label> 
+								<label class="control-label" for="geolocation">
+									<spring:message code="criteria.geolocation" /></label> 
+								<input type="hidden" name='geolocation' value=''> ${country}
 								<br>
-								<select class="form-control tip" name="geolocation"
-									title="<spring:message code="criteria.geolocation.manage" />">
-									<option value='noCountry'> <spring:message
-										code="criteria.geolocation.nocountry" /> </option>
-									<c:forEach var='country' items='${countriesList}'>
-										<option value='${country}'> ${country} </option>
-									</c:forEach>
-								</select>
+								<!-- select all boxes -->
+								<input type="checkbox" name="select-all" id="select-all" />
+									<spring:message code="criteria.geolocation.everycountry" />
+								<br>
+								<c:forEach var='country' items='${countriesList}'>
+									<input type="checkbox" name='geolocation' value='${country}'> ${country}
+									<br>	
+								</c:forEach>
+								
 							</div>
 
 							<div class="form-group" style="padding-left: 0px">
@@ -412,4 +414,32 @@
 		});
 	});
 </script>
+<script>
+$(function(){
+    var requiredCheckboxes = $('.options :checkbox[required]');
+    requiredCheckboxes.change(function(){
+        if(requiredCheckboxes.is(':checked')) {
+            requiredCheckboxes.removeAttr('required');
+        } else {
+            requiredCheckboxes.attr('required', 'required');
+        }
+    });
+});
+</script>
+<script>
+//Listen for click on toggle checkbox
+$('#select-all').click(function(event) {   
+    if(this.checked) {
+        // Iterate each checkbox
+        $(':checkbox').each(function() {
+            this.checked = true;                        
+        });
+    } else {
+        $(':checkbox').each(function() {
+            this.checked = false;                       
+        });
+    }
+});
+</script>
+
 </html>

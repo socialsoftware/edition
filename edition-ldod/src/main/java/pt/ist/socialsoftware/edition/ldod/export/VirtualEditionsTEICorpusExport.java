@@ -242,13 +242,41 @@ public class VirtualEditionsTEICorpusExport {
 				virtualEditionSocialCriteria.addContent(mediaSource);
 			} else if (criteria instanceof TimeWindow) {
 				Element timeWindow = new Element("timeWindow", this.xmlns);
-				timeWindow.setAttribute("beginDate", ((TimeWindow) criteria).getBeginDate().toString());
-				timeWindow.setAttribute("endDate", ((TimeWindow) criteria).getEndDate().toString());
+
+				// TODO: changed because begindate and enddate cannot be null
+				String beginDate = "";
+				String endDate = "";
+				if (((TimeWindow) criteria).getBeginDate() != null) {
+					beginDate = ((TimeWindow) criteria).getBeginDate().toString();
+				}
+				if (((TimeWindow) criteria).getEndDate() != null) {
+					endDate = ((TimeWindow) criteria).getEndDate().toString();
+				}
+				timeWindow.setAttribute("beginDate", beginDate);
+				timeWindow.setAttribute("endDate", endDate);
+
+				// old code
+				// timeWindow.setAttribute("beginDate", ((TimeWindow)
+				// criteria).getBeginDate().toString());
+				// timeWindow.setAttribute("endDate", ((TimeWindow)
+				// criteria).getEndDate().toString());
+
 				virtualEditionSocialCriteria.addContent(timeWindow);
 			} else if (criteria instanceof GeographicLocation) {
 				Element geographicLocation = new Element("geographicLocation", this.xmlns);
 				geographicLocation.setAttribute("country", ((GeographicLocation) criteria).getCountry());
-				geographicLocation.setAttribute("location", ((GeographicLocation) criteria).getLocation());
+
+				// TODO: changed because location cannot be null
+				String location = ((GeographicLocation) criteria).getLocation();
+				if (location == null) {
+					location = "";
+				}
+				geographicLocation.setAttribute("location", location);
+
+				// old code
+				// geographicLocation.setAttribute("location", ((GeographicLocation)
+				// criteria).getLocation());
+
 				virtualEditionSocialCriteria.addContent(geographicLocation);
 			} else if (criteria instanceof Frequency) {
 				Element frequency = new Element("frequency", this.xmlns);
