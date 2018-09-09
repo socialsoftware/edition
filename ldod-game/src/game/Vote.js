@@ -101,10 +101,11 @@ class Vote extends Component {
     }
 
     render() {
-        const voteViews = [];   
+        const voteViews = [];
         let votes = this.state.votes;
-            votes.forEach((m, index) => {
-                voteViews.push(
+        let top = [];
+        votes.forEach((m, index) => {
+            voteViews.push(
                 <div className="div-votes" key={index}>
                     <div>
                         <label>
@@ -114,11 +115,24 @@ class Vote extends Component {
                         </label>
                     </div>
                 </div>)
-        }); 
+            }); 
+        if(this.props.round === 3){
+            /*var test = Math.max(...votes.map(o => o.vote));
+            for(var i in votes){
+                if(votes[i].vote === test){ top.push(<h1>Current top: {votes[i].tag}</h1>);}
+                break;
+            }*/
+            var max = votes.reduce.call(votes, (prev, current) =>
+                { 
+                    return (prev.vote > current.vote) ? prev : current;
+                }, "array is empty")
+            top = <h1>Current top: {max.tag}</h1>;
+        }
 
         return (
             <div>
                 {this.state.socket}
+                {top}
                 <table className="table">
                     <thead>
                         <tr>

@@ -24,7 +24,6 @@ class Fragment extends Component {
     componentDidMount() {
         var text = this.splitIntoParagraph(this.props.fragment.text).text;
         var time = this.splitIntoParagraph(this.props.fragment.text).time;
-        console.log(time);
         this.setState({
             fragment: this.props.fragment,
             text: this.props.fragment.text,

@@ -30,7 +30,7 @@ public class GameWebSocketController {
     private Map<String, List<GameTagDto>> submittedTags = new HashMap<>();
     private Map<String, Double> participantScores = new HashMap<>();
     private Map<String, GameDTO> games = new HashMap<>();
-    private int currentFragmentIndex;
+    private static int currentFragmentIndex = 0;
 
     @GetMapping("/api/services/ldod-game/load/{user}/{acronym}")
     public @ResponseBody ResponseEntity<?> loadResources(@PathVariable(value = "user") String user, @PathVariable(value = "acronym") String acronym){
@@ -42,6 +42,7 @@ public class GameWebSocketController {
         participantScores.put(user, 0.0);
         String uniqueID = UUID.randomUUID().toString();
         GameDTO gameDTO = new GameDTO(uniqueID, user, acronym, true);
+       // gameDTO.setFragmentId(res.get(currentFragmentIndex));
         games.put(uniqueID, gameDTO);
         return new ResponseEntity<>(new APIResponse(true, "Server loaded resources successfully."), HttpStatus.OK);
 
@@ -89,9 +90,14 @@ public class GameWebSocketController {
         }
         //return new ResponseEntity<>(new APIResponse(true, "ending game"), HttpStatus.OK);
         games.get(gameId).setEnded(true);
+        /*
+        String fragmentId = games.get(gameId).getFragmentId();
+        submittedTags.get(fragmentId).stream().sorted(((g1, g2) -> (int) g2.getScore())).limit(1).collect(Collectors.toList());
+         */
         List<Object> response = new ArrayList<>();
         response.add(result);
         response.add(participantScores);
+
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
@@ -144,7 +150,7 @@ public class GameWebSocketController {
                     payload.put("vote", String.valueOf(tagDto.getScore()));
                     //logger.debug("tag: {} voters: {}", tagDto.getContent(), tagDto.getVoters().toArray());
                 });
-
+        //logger.debug("voting sending: {}", payload.values());
         broker.convertAndSend("/topic/votes", payload.values());
 
     }
@@ -157,12 +163,20 @@ public class GameWebSocketController {
         Object limit = payload.get("limit");
         int finalLimit = (Integer) limit;
         List<GameTagDto> res = submittedTags.get(urlId);
-        List<String> topTags = res.stream().sorted(((g1, g2) -> (int) g2.getScore())).limit(finalLimit).map(GameTagDto::getContent).collect(Collectors.toList());
-        payload.put("topTags", topTags.toString());
+        //List<String> topTags = res.stream().sorted(((g1, g2) -> (int) g2.getScore())).limit(finalLimit).map(GameTagDto::getContent).collect(Collectors.toList());
+        List<GameTagDto> topTags = res.stream().sorted(((g1, g2) -> (int) g2.getScore())).limit(finalLimit).collect(Collectors.toList());
+        //payload.put("topTags", topTags);
+        List<Map<String, String>> response = new ArrayList<>();
+        for(GameTagDto gameTagDto: topTags){
+            Map<String, String> map = new HashMap<>();
+            map.put("tag", gameTagDto.getContent());
+            response.add(map);
+        }
         try {
             //Thread.sleep(1 * 60 *1000);
             Thread.sleep(1000); // TODO: use the above time
-            broker.convertAndSend("/topic/review", payload.values());
+            //logger.debug("Review sending {} ", response);
+            broker.convertAndSend("/topic/review", response);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

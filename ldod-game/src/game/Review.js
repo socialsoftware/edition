@@ -55,7 +55,7 @@ class Review extends Component {
 
     getFinalTags(){
         try{
-            this.clientRef.sendMessage('/ldod-game/review', JSON.stringify({ urlId: this.props.id, limit: this.props.limit, virtualEdition: "LdoD-ok"}));
+            this.clientRef.sendMessage('/ldod-game/review', JSON.stringify({ urlId: this.props.id, voterId: localStorage.getItem("currentUser"), msg: "emptyMsg", vote: "emptyVote", limit: this.props.limit}));
             return true;
         } catch(e) {
             return false;
@@ -64,11 +64,16 @@ class Review extends Component {
     }
 
     handleMessageReview(message) {
-        var topTags = message[3];
+        var res = [];
+        for(var i = 0; i < message.length; i++){
+            var temp = { tag: message[i].tag, vote: 1}; 
+            res.push(temp)
+        }
         this.setState({
-            votes: topTags,
+            votes: res,
             isLoading: false,
         })
+        
     }
 
     render() {
@@ -109,7 +114,11 @@ class Review extends Component {
                         <div>
                             <h4 className="text-center">Tags submitted:</h4>
                             <div className="well" style={{ fontFamily: 'georgia', fontSize: 'small'}}>
-                                <Vote id={this.props.id} seconds={this.props.seconds} initialTags={this.props.initialTags} />
+                                <Vote 
+                                    id={this.props.id} 
+                                    seconds={this.props.seconds} 
+                                    round={3}
+                                    initialTags={this.state.votes}/>
                             </div>
                         </div>
                     </div>

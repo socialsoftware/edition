@@ -44,6 +44,10 @@ class App extends Component {
         });
     }
     
+    componentDidMount(){
+        localStorage.setItem("currentFragment", 0);
+    }
+
     loadCurrentUser() {
         this.setState({
             isLoading: true
@@ -61,7 +65,6 @@ class App extends Component {
                     isLoading: false
                 });
             });
-            localStorage.setItem("currentFragment",0);
     }
 
     componentWillUnmount() {
