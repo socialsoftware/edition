@@ -26,20 +26,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import pt.ist.fenixframework.FenixFramework;
-import pt.ist.socialsoftware.edition.ldod.domain.Annotation;
-import pt.ist.socialsoftware.edition.ldod.domain.AppText;
-import pt.ist.socialsoftware.edition.ldod.domain.Category;
-import pt.ist.socialsoftware.edition.ldod.domain.Edition;
-import pt.ist.socialsoftware.edition.ldod.domain.FragInter;
-import pt.ist.socialsoftware.edition.ldod.domain.Fragment;
-import pt.ist.socialsoftware.edition.ldod.domain.HumanAnnotation;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
-import pt.ist.socialsoftware.edition.ldod.domain.PbText;
-import pt.ist.socialsoftware.edition.ldod.domain.SourceInter;
-import pt.ist.socialsoftware.edition.ldod.domain.Surface;
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
+import pt.ist.socialsoftware.edition.ldod.domain.*;
+import pt.ist.socialsoftware.edition.ldod.domain.VirtualManager;
 import pt.ist.socialsoftware.edition.ldod.generators.HtmlWriter2CompInters;
 import pt.ist.socialsoftware.edition.ldod.generators.HtmlWriter4Variations;
 import pt.ist.socialsoftware.edition.ldod.generators.PlainHtmlWriter4OneInter;
@@ -62,24 +50,24 @@ public class FragmentController {
 	@RequestMapping(method = RequestMethod.GET)
 	public String getFragmentsList(Model model) {
 		logger.debug("getFragmentsList");
-		LdoD ldoD = LdoD.getInstance();
-		model.addAttribute("jpcEdition", ldoD.getJPCEdition());
-		model.addAttribute("tscEdition", ldoD.getTSCEdition());
-		model.addAttribute("rzEdition", ldoD.getRZEdition());
-		model.addAttribute("jpEdition", ldoD.getJPEdition());
-		model.addAttribute("fragments", ldoD.getFragmentsSet());
+		VirtualManager virtualManager = VirtualManager.getInstance();
+		model.addAttribute("jpcEdition", virtualManager.getJPCEdition());
+		model.addAttribute("tscEdition", virtualManager.getTSCEdition());
+		model.addAttribute("rzEdition", virtualManager.getRZEdition());
+		model.addAttribute("jpEdition", virtualManager.getJPEdition());
+		model.addAttribute("fragments", virtualManager.getFragmentsSet());
 
 		return "fragment/list";
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/fragment/{xmlId}")
 	public String getFragment(Model model, @PathVariable String xmlId) {
-		Fragment fragment = FenixFramework.getDomainRoot().getLdoD().getFragmentByXmlId(xmlId);
+		Fragment fragment = FenixFramework.getDomainRoot().getVirtualManager().getFragmentByXmlId(xmlId);
 
 		if (fragment == null) {
 			return "redirect:/error";
 		} else {
-			model.addAttribute("ldoD", LdoD.getInstance());
+			model.addAttribute("ldoD", VirtualManager.getInstance());
 			model.addAttribute("user", LdoDUser.getAuthenticatedUser());
 			model.addAttribute("fragment", fragment);
 			model.addAttribute("inters", new ArrayList<FragInter>());
@@ -92,7 +80,7 @@ public class FragmentController {
 	public String getFragmentWithInterForUrlId(Model model, @ModelAttribute("ldoDSession") LdoDSession ldoDSession,
 			@PathVariable String xmlId, @PathVariable String urlId) {
 
-		Fragment fragment = FenixFramework.getDomainRoot().getLdoD().getFragmentByXmlId(xmlId);
+		Fragment fragment = FenixFramework.getDomainRoot().getVirtualManager().getFragmentByXmlId(xmlId);
 
 		if (fragment == null) {
 			return "redirect:/error";
@@ -124,7 +112,7 @@ public class FragmentController {
 
 		List<FragInter> inters = new ArrayList<>();
 		inters.add(inter);
-		model.addAttribute("ldoD", LdoD.getInstance());
+		model.addAttribute("ldoD", VirtualManager.getInstance());
 		model.addAttribute("user", LdoDUser.getAuthenticatedUser());
 		model.addAttribute("fragment", inter.getFragment());
 		model.addAttribute("inters", inters);
@@ -182,7 +170,7 @@ public class FragmentController {
 
 		List<FragInter> inters = new ArrayList<>();
 		inters.add(inter);
-		model.addAttribute("ldoD", LdoD.getInstance());
+		model.addAttribute("ldoD", VirtualManager.getInstance());
 		model.addAttribute("user", LdoDUser.getAuthenticatedUser());
 		model.addAttribute("inters", inters);
 
@@ -192,7 +180,7 @@ public class FragmentController {
 	@RequestMapping(method = RequestMethod.GET, value = "/fragment/{xmlId}/inter/{urlId}/next")
 	@PreAuthorize("hasPermission(#xmlId, #urlId, 'fragInter.public')")
 	public String getNextFragmentWithInter(Model model, @PathVariable String xmlId, @PathVariable String urlId) {
-		Fragment fragment = FenixFramework.getDomainRoot().getLdoD().getFragmentByXmlId(xmlId);
+		Fragment fragment = FenixFramework.getDomainRoot().getVirtualManager().getFragmentByXmlId(xmlId);
 		if (fragment == null) {
 			return "redirect:/error";
 		}
@@ -211,7 +199,7 @@ public class FragmentController {
 	@RequestMapping(method = RequestMethod.GET, value = "/fragment/{xmlId}/inter/{urlId}/prev")
 	@PreAuthorize("hasPermission(#xmlId, #urlId, 'fragInter.public')")
 	public String getPrevFragmentWithInter(Model model, @PathVariable String xmlId, @PathVariable String urlId) {
-		Fragment fragment = FenixFramework.getDomainRoot().getLdoD().getFragmentByXmlId(xmlId);
+		Fragment fragment = FenixFramework.getDomainRoot().getVirtualManager().getFragmentByXmlId(xmlId);
 		if (fragment == null) {
 			return "redirect:/error";
 		}
@@ -243,7 +231,7 @@ public class FragmentController {
 			}
 		}
 
-		model.addAttribute("ldoD", LdoD.getInstance());
+		model.addAttribute("ldoD", VirtualManager.getInstance());
 		model.addAttribute("user", LdoDUser.getAuthenticatedUser());
 		model.addAttribute("fragment", fragment);
 		model.addAttribute("inters", inters);

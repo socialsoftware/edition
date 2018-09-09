@@ -22,7 +22,7 @@ enum AltText.AltMode as AltMode;
 enum NoteText.NoteType as NoteType;
 enum RefText.RefType as RefType;
 
-class LdoD {
+class VirtualManager {
 	String title;
 	String author;
 	String editor;
@@ -32,6 +32,50 @@ class LdoD {
 	boolean admin;
 }
 
+relation DomainRootHasVirtualManager {
+	.pt.ist.fenixframework.DomainRoot playsRole root {
+		multiplicity 1..1;
+	}
+	VirtualManager playsRole virtualManager {
+		multiplicity 0..1;
+	}
+}
+
+class CollectionManager;
+
+relation DomainRootHasCollectionManager {
+	.pt.ist.fenixframework.DomainRoot playsRole root {
+		multiplicity 1..1;
+	}
+	CollectionManager playsRole collectionManager {
+		multiplicity 0..1;
+	}
+}
+
+class UserManager;
+
+relation DomainRootHasUserManager {
+	.pt.ist.fenixframework.DomainRoot playsRole root {
+		multiplicity 1..1;
+	}
+	UserManager playsRole userManager {
+		multiplicity 0..1;
+	}
+}
+
+class LdoDUser {
+	boolean enabled;
+	boolean active;
+	String username;
+	String password;
+	String firstName;
+	String lastName;
+	String email;
+	LocalDate lastLogin;
+	SocialMediaService socialMediaService;
+	String socialMediaId;
+}
+
 class LastTwitterID {
 	long bookLastTwitterID;
 	long pessoaLastTwitterID;
@@ -39,18 +83,9 @@ class LastTwitterID {
 	long vicenteLastTwitterID;
 }
 
-relation LdoDHasLastTwitterID {
-	LdoD playsRole ldoD {multiplicity 1..1;}
+relation VirtualManagerHasLastTwitterID {
+	VirtualManager playsRole virtualManager {multiplicity 1..1;}
 	LastTwitterID playsRole lastTwitterID {multiplicity 0..1;}
-}
-
-relation DomainRootHasLdoDApplication {
-	.pt.ist.fenixframework.DomainRoot playsRole root {
-		multiplicity 1..1;
-	}
-	LdoD playsRole ldoD {
-		multiplicity 0..1;
-	}
 }
 
 class UserConnection {
@@ -67,26 +102,13 @@ class UserConnection {
 	Long expireTime;
 }
 
-relation LdoDHasUserConnections {
-	LdoD playsRole ldoD {multiplicity 1..1;}
+relation VirtualManagerHasUserConnections {
+	VirtualManager playsRole virtualManager {multiplicity 1..1;}
 	UserConnection playsRole userConnection {multiplicity 0..*;}
 }
 
-class LdoDUser {
-	boolean enabled;
-	boolean active;
-	String username;
-	String password;
-	String firstName;
-	String lastName;
-	String email;
-	LocalDate lastLogin;
-	SocialMediaService socialMediaService;
-	String socialMediaId;
-}
-
-relation LdoDHasLdoDUsers {
-	LdoD playsRole ldoD {multiplicity 1..1;}
+relation VirtualManagerHasLdoDUsers {
+	VirtualManager playsRole virtualManager {multiplicity 1..1;}
 	LdoDUser playsRole users {multiplicity 0..*;}
 }
 
@@ -96,8 +118,8 @@ class RegistrationToken {
 	boolean authorized;
 }
 
-relation LdoDHasRegistrationToken {
-	LdoD playsRole ldoD {multiplicity 1..1;}
+relation VirtualManagerHasRegistrationToken {
+	VirtualManager playsRole virtualManager {multiplicity 1..1;}
 	RegistrationToken playsRole token {multiplicity 0..*;}
 }
 
@@ -110,8 +132,8 @@ class Role {
 	RoleType type;
 }
 
-relation LdoDHasRoles {
-	LdoD playsRole ldoD {multiplicity 1..1;}
+relation VirtualManagerHasRoles {
+	VirtualManager playsRole virtualManager {multiplicity 1..1;}
 	Role playsRole roles {multiplicity 0..*;}
 }
 
@@ -150,18 +172,18 @@ relation VirtualEditionUsesEdition {
 	Edition playsRole uses {multiplicity 0..1;}
 }
 
-relation LdoDHasExpertEditions {
-	LdoD playsRole ldoD4Expert {multiplicity 1..1;}
+relation VirtualManagerHasExpertEditions {
+	VirtualManager playsRole virtualManager4Expert {multiplicity 1..1;}
 	ExpertEdition playsRole expertEditions {multiplicity 0..*;}
 }
 
-relation LdoDHasNullEdition {
-	LdoD playsRole ldoD4NullEdition {multiplicity 1..1;}
+relation VirtualManagerHasNullEdition {
+	VirtualManager playsRole virtualManager4NullEdition {multiplicity 1..1;}
 	NullEdition playsRole nullEdition {multiplicity 0..1;}
 }
 
-relation LdoDHasVirtualEditions {
-	LdoD playsRole ldoD4Virtual {multiplicity 1..1;}
+relation VirtualManagerHasVirtualEditions {
+	VirtualManager playsRole virtualManager4Virtual {multiplicity 1..1;}
 	VirtualEdition playsRole virtualEditions {multiplicity 0..*;}
 }
 
@@ -215,8 +237,8 @@ class Heteronym {
 
 class NullHeteronym extends Heteronym;
 
-relation LdoDHasHeteronyms {
-	LdoD playsRole ldoD {multiplicity 1..1;}
+relation VirtualManagerHasHeteronyms {
+	VirtualManager playsRole virtualManager {multiplicity 1..1;}
 	Heteronym playsRole heteronyms {multiplicity 0..*;}
 }
 
@@ -225,8 +247,8 @@ class Fragment {
 	String title;
 }
 
-relation LdoDHasFragments {
-	LdoD playsRole ldoD {multiplicity 1..1;}
+relation VirtualManagerHasFragments {
+	VirtualManager playsRole virtualManager {multiplicity 1..1;}
 	Fragment playsRole fragments {multiplicity 0..*;}
 }
 
@@ -743,8 +765,8 @@ relation TwitterCitationHasTweets {
 	Tweet playsRole tweet {multiplicity 0..*;}
 }
 
-relation LdoDHasTweets {
-	LdoD playsRole ldoD {multiplicity 1..1;}
+relation VirtualManagerHasTweets {
+	VirtualManager playsRole virtualManager {multiplicity 1..1;}
 	Tweet playsRole tweet {multiplicity 0..*;}
 }
 

@@ -9,16 +9,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
 import pt.ist.fenixframework.FenixFramework;
-import pt.ist.socialsoftware.edition.ldod.domain.Category;
-import pt.ist.socialsoftware.edition.ldod.domain.Edition;
-import pt.ist.socialsoftware.edition.ldod.domain.FragInter;
-import pt.ist.socialsoftware.edition.ldod.domain.Fragment;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
-import pt.ist.socialsoftware.edition.ldod.domain.Tag;
-import pt.ist.socialsoftware.edition.ldod.domain.Taxonomy;
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
+import pt.ist.socialsoftware.edition.ldod.domain.*;
+import pt.ist.socialsoftware.edition.ldod.domain.VirtualManager;
 
 @Component
 public class LdoDPermissionEvaluator implements PermissionEvaluator {
@@ -54,7 +46,7 @@ public class LdoDPermissionEvaluator implements PermissionEvaluator {
 				}
 				break;
 			case "editionacronym":
-				edition = LdoD.getInstance().getEdition((String) targetDomainObject);
+				edition = VirtualManager.getInstance().getEdition((String) targetDomainObject);
 				if (edition instanceof VirtualEdition) {
 					virtualEdition = (VirtualEdition) edition;
 				} else {
@@ -91,7 +83,7 @@ public class LdoDPermissionEvaluator implements PermissionEvaluator {
 				}
 				break;
 			case "user":
-				user = LdoD.getInstance().getUser((String) targetDomainObject);
+				user = VirtualManager.getInstance().getUser((String) targetDomainObject);
 				break;
 			default:
 				assert false;
@@ -127,7 +119,7 @@ public class LdoDPermissionEvaluator implements PermissionEvaluator {
 		// it is only implementing "hasPermission(#xmlId, #urlId,
 		// 'fragInter.public')"
 
-		Fragment fragment = FenixFramework.getDomainRoot().getLdoD().getFragmentByXmlId((String) targetId);
+		Fragment fragment = FenixFramework.getDomainRoot().getVirtualManager().getFragmentByXmlId((String) targetId);
 
 		if (fragment == null) {
 			return false;

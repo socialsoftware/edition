@@ -9,17 +9,8 @@ import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 
 import pt.ist.fenixframework.Atomic;
-import pt.ist.socialsoftware.edition.ldod.domain.Category;
-import pt.ist.socialsoftware.edition.ldod.domain.Frequency;
-import pt.ist.socialsoftware.edition.ldod.domain.GeographicLocation;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
-import pt.ist.socialsoftware.edition.ldod.domain.MediaSource;
-import pt.ist.socialsoftware.edition.ldod.domain.Member;
-import pt.ist.socialsoftware.edition.ldod.domain.SocialMediaCriteria;
-import pt.ist.socialsoftware.edition.ldod.domain.Taxonomy;
-import pt.ist.socialsoftware.edition.ldod.domain.TimeWindow;
-import pt.ist.socialsoftware.edition.ldod.domain.Tweet;
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
+import pt.ist.socialsoftware.edition.ldod.domain.*;
+import pt.ist.socialsoftware.edition.ldod.domain.VirtualManager;
 
 public class VirtualEditionsTEICorpusExport {
 	private static final String ED_VIRT = "ED.VIRT";
@@ -39,22 +30,22 @@ public class VirtualEditionsTEICorpusExport {
 		rootElement.addContent(teiHeader);
 
 		Element tweetList = generateTweetList(teiHeader);
-		for (Tweet tweet : LdoD.getInstance().getTweetSet()) {
+		for (Tweet tweet : VirtualManager.getInstance().getTweetSet()) {
 			exportTweet(tweetList, tweet);
 		}
 
 		Element listBibl = generateFileDesc(teiHeader);
-		for (VirtualEdition virtualEdition : LdoD.getInstance().getVirtualEditionsSet()) {
+		for (VirtualEdition virtualEdition : VirtualManager.getInstance().getVirtualEditionsSet()) {
 			exportVirtualEditionBibl(listBibl, virtualEdition);
 		}
 
 		Element classDecl = generateEncodingDesc(teiHeader);
-		for (VirtualEdition virtualEdition : LdoD.getInstance().getVirtualEditionsSet()) {
+		for (VirtualEdition virtualEdition : VirtualManager.getInstance().getVirtualEditionsSet()) {
 			exportVirtualEditionTaxonomy(classDecl, virtualEdition);
 		}
 
 		Element socialMediaCriteria = generateSocialMediaCriteria(teiHeader);
-		for (VirtualEdition virtualEdition : LdoD.getInstance().getVirtualEditionsSet()) {
+		for (VirtualEdition virtualEdition : VirtualManager.getInstance().getVirtualEditionsSet()) {
 			exportVirtualEditionSocialMediaCriteria(socialMediaCriteria, virtualEdition);
 		}
 

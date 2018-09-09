@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.request.WebRequest;
 
-import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
+import pt.ist.socialsoftware.edition.ldod.domain.VirtualManager;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
 import pt.ist.socialsoftware.edition.ldod.domain.RegistrationToken;
 import pt.ist.socialsoftware.edition.ldod.forms.SignupForm;
@@ -58,7 +58,7 @@ public class SignupController {
 					// new Message(MessageType.INFO,
 					// "Your " + StringUtils.capitalize(
 					// connection.getKey().getProviderId())
-					// + " account is not associated with a LdoD Archive
+					// + " account is not associated with a VirtualManager Archive
 					// account. If you're new, please sign up."),
 					WebRequest.SCOPE_REQUEST);
 			request.setAttribute("account", StringUtils.capitalize(connection.getKey().getProviderId()),
@@ -90,7 +90,7 @@ public class SignupController {
 			LdoDUser user = null;
 			RegistrationToken token = null;
 			try {
-				user = LdoD.getInstance().createUser(this.passwordEncoder, form.getUsername(), form.getPassword(),
+				user = VirtualManager.getInstance().createUser(this.passwordEncoder, form.getUsername(), form.getPassword(),
 						form.getFirstName(), form.getLastName(), form.getEmail(), socialMediaService,
 						form.getSocialMediaId());
 				token = user.createRegistrationToken(UUID.randomUUID().toString());
@@ -125,7 +125,7 @@ public class SignupController {
 			@RequestParam("token") String token) {
 		logger.debug("authorizeRegistration");
 
-		RegistrationToken registrationToken = LdoD.getInstance().getTokenSet(token);
+		RegistrationToken registrationToken = VirtualManager.getInstance().getTokenSet(token);
 
 		if (registrationToken == null) {
 			model.addAttribute("message", "signup.token.invalid");
@@ -155,7 +155,7 @@ public class SignupController {
 	public String confirmRegistration(WebRequest request, Model model, @RequestParam("token") String token) {
 		logger.debug("confirmRegistration");
 
-		RegistrationToken registrationToken = LdoD.getInstance().getTokenSet(token);
+		RegistrationToken registrationToken = VirtualManager.getInstance().getTokenSet(token);
 
 		if (registrationToken == null) {
 			model.addAttribute("message", "signup.token.invalid");

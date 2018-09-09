@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import pt.ist.socialsoftware.edition.ldod.domain.Fragment;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
+import pt.ist.socialsoftware.edition.ldod.domain.VirtualManager;
 import pt.ist.socialsoftware.edition.ldod.session.LdoDSession;
 import pt.ist.socialsoftware.edition.ldod.domain.Source;
 
@@ -31,10 +31,10 @@ public class SourceController {
 	public String getListOfSources(Model model) {
 		logger.debug("getListOfSources");
 
-		LdoD ldoD = LdoD.getInstance();
+		VirtualManager virtualManager = VirtualManager.getInstance();
 
 		List<Source> sources = new ArrayList<>();
-		for (Fragment frag : ldoD.getFragmentsSet()) {
+		for (Fragment frag : virtualManager.getFragmentsSet()) {
 			sources.addAll(frag.getSourcesSet());
 		}
 

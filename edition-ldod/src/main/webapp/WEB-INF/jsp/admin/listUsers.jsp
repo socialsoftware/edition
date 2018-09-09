@@ -99,8 +99,8 @@
 					value="${_csrf.token}" />
 				<button type="submit" class="btn btn-danger btn-sm pull-right">
 					<span class="glyphicon glyphicon-edit"></span>
-					<c:if test="${ldoD.getAdmin()}">Administration Mode</c:if>
-					<c:if test="${!ldoD.getAdmin()}">User Mode</c:if>
+					<c:if test="${virtualManager.getAdmin()}">Administration Mode</c:if>
+					<c:if test="${!virtualManager.getAdmin()}">User Mode</c:if>
 				</button>
 			</form>
 		</div>

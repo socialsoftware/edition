@@ -13,12 +13,12 @@ public abstract class Edition extends pt.ist.socialsoftware.edition.ldod.domain.
 	public static final String CUNHA_EDITION_ACRONYM = "TSC";
 	public static final String ZENITH_EDITION_ACRONYM = "RZ";
 	public static final String PIZARRO_EDITION_ACRONYM = "JP";
-	public static final String ARCHIVE_EDITION_ACRONYM = "LdoD-Arquivo";
+	public static final String ARCHIVE_EDITION_ACRONYM = "VirtualManager-Arquivo";
 	public static final String COELHO_EDITION_NAME = "Jacinto do Prado Coelho";
 	public static final String CUNHA_EDITION_NAME = "Teresa Sobral Cunha";
 	public static final String ZENITH_EDITION_NAME = "Richard Zenith";
 	public static final String PIZARRO_EDITION_NAME = "Jerónimo Pizarro";
-	public static final String ARCHIVE_EDITION_NAME = "Edição do Arquivo LdoD";;
+	public static final String ARCHIVE_EDITION_NAME = "Edição do Arquivo VirtualManager";
 
 	public enum EditionType {
 		AUTHORIAL("authorial"), EDITORIAL("editorial"), VIRTUAL("virtual");
@@ -42,13 +42,13 @@ public abstract class Edition extends pt.ist.socialsoftware.edition.ldod.domain.
 	public void setAcronym(String acronym) {
 		if ((getAcronym() != null && !getAcronym().toUpperCase().equals(acronym.toUpperCase()))
 				|| getAcronym() == null) {
-			for (ExpertEdition edition : LdoD.getInstance().getExpertEditionsSet()) {
+			for (ExpertEdition edition : VirtualManager.getInstance().getExpertEditionsSet()) {
 				if (acronym.toUpperCase().equals(edition.getAcronym().toUpperCase())) {
 					throw new LdoDDuplicateAcronymException();
 				}
 			}
 
-			for (VirtualEdition edition : LdoD.getInstance().getVirtualEditionsSet()) {
+			for (VirtualEdition edition : VirtualManager.getInstance().getVirtualEditionsSet()) {
 				if (edition.getAcronym() != null && acronym.toUpperCase().equals(edition.getAcronym().toUpperCase())) {
 					throw new LdoDDuplicateAcronymException();
 				}
@@ -85,7 +85,7 @@ public abstract class Edition extends pt.ist.socialsoftware.edition.ldod.domain.
 	}
 
 	private FragInter findNextElementByNumber(FragInter inter, int number, List<FragInter> interps) {
-		Boolean stopNext = false;
+		boolean stopNext = false;
 		for (FragInter tmpInter : interps) {
 			if (stopNext) {
 				return tmpInter;

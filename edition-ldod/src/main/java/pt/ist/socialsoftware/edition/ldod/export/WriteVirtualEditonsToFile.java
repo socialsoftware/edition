@@ -13,7 +13,7 @@ import java.util.zip.ZipOutputStream;
 import org.apache.commons.io.IOUtils;
 
 import pt.ist.fenixframework.Atomic;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
+import pt.ist.socialsoftware.edition.ldod.domain.VirtualManager;
 import pt.ist.socialsoftware.edition.ldod.domain.Fragment;
 import pt.ist.socialsoftware.edition.ldod.utils.PropertiesManager;
 
@@ -38,7 +38,7 @@ public class WriteVirtualEditonsToFile {
 		copyToZipStream(zos, in);
 		zos.closeEntry();
 
-		for (Fragment fragment : LdoD.getInstance().getFragmentsSet()) {
+		for (Fragment fragment : VirtualManager.getInstance().getFragmentsSet()) {
 			zos.putNextEntry(new ZipEntry(fragment.getXmlId() + ".xml"));
 			in = generateFragmentInputStream(fragment);
 			copyToZipStream(zos, in);

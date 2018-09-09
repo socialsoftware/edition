@@ -47,7 +47,7 @@ import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDLoadException;
 import pt.ist.socialsoftware.edition.ldod.validator.EditUserValidator;
 import pt.ist.socialsoftware.edition.ldod.domain.FragInter;
 import pt.ist.socialsoftware.edition.ldod.domain.Fragment;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
+import pt.ist.socialsoftware.edition.ldod.domain.VirtualManager;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
 import pt.ist.socialsoftware.edition.ldod.domain.Role;
 import pt.ist.socialsoftware.edition.ldod.domain.Role.RoleType;
@@ -184,7 +184,7 @@ public class AdminController {
 	@RequestMapping(method = RequestMethod.GET, value = "/fragment/list")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public String deleteFragmentsList(Model model) {
-		model.addAttribute("fragments", LdoD.getInstance().getFragmentsSet());
+		model.addAttribute("fragments", VirtualManager.getInstance().getFragmentsSet());
 		return "admin/deleteFragment";
 	}
 
@@ -194,7 +194,7 @@ public class AdminController {
 		Fragment fragment = FenixFramework.getDomainObject(externalId);
 		if (fragment == null) {
 			return "redirect:/error";
-		} else if (LdoD.getInstance().getFragmentsSet().size() >= 1) {
+		} else if (VirtualManager.getInstance().getFragmentsSet().size() >= 1) {
 			fragment.remove();
 		}
 		return "redirect:/admin/fragment/list";
@@ -203,7 +203,7 @@ public class AdminController {
 	@RequestMapping(method = RequestMethod.POST, value = "/fragment/deleteAll")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public String deleteAllFragments(Model model) {
-		for (Fragment fragment : LdoD.getInstance().getFragmentsSet()) {
+		for (Fragment fragment : VirtualManager.getInstance().getFragmentsSet()) {
 			fragment.remove();
 		}
 		return "redirect:/admin/fragment/list";
@@ -214,8 +214,8 @@ public class AdminController {
 	public String switchAdminMode() {
 		logger.debug("switchAdminMode");
 
-		LdoD ldoD = LdoD.getInstance();
-		ldoD.switchAdmin();
+		VirtualManager virtualManager = VirtualManager.getInstance();
+		virtualManager.switchAdmin();
 
 		return "redirect:/admin/user/list";
 	}
@@ -257,9 +257,9 @@ public class AdminController {
 		}
 		activeSessions.stream().sorted((s1, s2) -> s1.getLastRequest().compareTo(s2.getLastRequest()));
 
-		model.addAttribute("ldoD", LdoD.getInstance());
+		model.addAttribute("ldoD", VirtualManager.getInstance());
 		model.addAttribute("users",
-				LdoD.getInstance().getUsersSet().stream()
+				VirtualManager.getInstance().getUsersSet().stream()
 						.sorted((u1, u2) -> u1.getFirstName().toLowerCase().compareTo(u2.getFirstName().toLowerCase()))
 						.collect(Collectors.toList()));
 		model.addAttribute("sessions", activeSessions.stream()
@@ -300,7 +300,7 @@ public class AdminController {
 			return null;
 		}
 
-		LdoDUser user = LdoD.getInstance().getUser(form.getOldUsername());
+		LdoDUser user = VirtualManager.getInstance().getUser(form.getOldUsername());
 
 		user.update(this.passwordEncoder, form.getOldUsername(), form.getNewUsername(), form.getFirstName(),
 				form.getLastName(), form.getEmail(), form.getNewPassword(), form.isUser(), form.isAdmin(),
@@ -337,13 +337,13 @@ public class AdminController {
 	@RequestMapping(method = RequestMethod.POST, value = "/exportSearch")
 	public String exportSearch(Model model, @RequestParam("query") String query) {
 
-		LdoD ldoD = LdoD.getInstance();
+		VirtualManager virtualManager = VirtualManager.getInstance();
 
 		List<String> frags = new ArrayList<>();
 		int n = 0;
 
 		if (query.compareTo("") != 0) {
-			for (Fragment frag : ldoD.getFragmentsSet()) {
+			for (Fragment frag : virtualManager.getFragmentsSet()) {
 				if (frag.getTitle().contains(query)) {
 					frags.add("<a href=\"/fragments/fragment/" + frag.getExternalId() + "\">"
 							+ frag.getTitle().replace(query, "<b><u>" + query + "</u></b>") + "</a>");
@@ -362,11 +362,11 @@ public class AdminController {
 	@RequestMapping(method = RequestMethod.POST, value = "/exportSearchResult")
 	public void exportSearchResult(HttpServletResponse response, Model model, @RequestParam("query") String query) {
 
-		LdoD ldoD = LdoD.getInstance();
+		VirtualManager virtualManager = VirtualManager.getInstance();
 
 		Map<Fragment, Set<FragInter>> searchResult = new HashMap<>();
 
-		for (Fragment frag : ldoD.getFragmentsSet()) {
+		for (Fragment frag : virtualManager.getFragmentsSet()) {
 			if (frag.getTitle().contains(query)) {
 				Set<FragInter> inters = new HashSet<>();
 				for (FragInter inter : frag.getFragmentInterSet()) {
@@ -397,11 +397,11 @@ public class AdminController {
 	@RequestMapping(method = RequestMethod.GET, value = "/exportAll")
 	public void exportAll(HttpServletResponse response) {
 
-		LdoD ldoD = LdoD.getInstance();
+		VirtualManager virtualManager = VirtualManager.getInstance();
 
 		Map<Fragment, Set<FragInter>> searchResult = new HashMap<>();
 
-		for (Fragment frag : ldoD.getFragmentsSet()) {
+		for (Fragment frag : virtualManager.getFragmentsSet()) {
 			Set<FragInter> inters = new HashSet<>();
 
 			for (FragInter inter : frag.getFragmentInterSet()) {
@@ -432,11 +432,11 @@ public class AdminController {
 	@RequestMapping(method = RequestMethod.GET, value = "/exportRandom")
 	public void exportRandom(HttpServletResponse response) {
 
-		LdoD ldoD = LdoD.getInstance();
+		VirtualManager virtualManager = VirtualManager.getInstance();
 
 		Map<Fragment, Set<FragInter>> searchResult = new HashMap<>();
 
-		List<Fragment> fragments = new ArrayList<>(LdoD.getInstance().getFragmentsSet());
+		List<Fragment> fragments = new ArrayList<>(VirtualManager.getInstance().getFragmentsSet());
 
 		List<String> fragsRandom = new ArrayList<>();
 
@@ -596,7 +596,7 @@ public class AdminController {
 	@RequestMapping(method = RequestMethod.GET, value = "/virtual/list")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public String manageVirtualEditions(Model model) {
-		model.addAttribute("editions", LdoD.getInstance().getVirtualEditionsSet().stream()
+		model.addAttribute("editions", VirtualManager.getInstance().getVirtualEditionsSet().stream()
 				.sorted((v1, v2) -> v1.getAcronym().compareTo(v2.getAcronym())).collect(Collectors.toList()));
 
 		return "admin/listVirtualEditions";
@@ -618,7 +618,7 @@ public class AdminController {
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public String createTestUsers(Model model) {
 		logger.debug("createTestUsers");
-		LdoD.getInstance().createTestUsers(this.passwordEncoder);
+		VirtualManager.getInstance().createTestUsers(this.passwordEncoder);
 		return "redirect:/admin/user/list";
 	}
 

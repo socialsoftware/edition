@@ -11,14 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import pt.ist.fenixframework.FenixFramework;
-import pt.ist.socialsoftware.edition.ldod.domain.Category;
-import pt.ist.socialsoftware.edition.ldod.domain.Edition;
-import pt.ist.socialsoftware.edition.ldod.domain.ExpertEdition;
-import pt.ist.socialsoftware.edition.ldod.domain.Heteronym;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
-import pt.ist.socialsoftware.edition.ldod.domain.Taxonomy;
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
+import pt.ist.socialsoftware.edition.ldod.domain.*;
+import pt.ist.socialsoftware.edition.ldod.domain.VirtualManager;
 import pt.ist.socialsoftware.edition.ldod.session.LdoDSession;
 
 @Controller
@@ -40,7 +34,7 @@ public class EditionController {
 	@PreAuthorize("hasPermission(#acronym, 'editionacronym.public')")
 	public String getEditionTableOfContentsbyAcronym(Model model, @PathVariable String acronym) {
 
-		Edition edition = LdoD.getInstance().getEdition(acronym);
+		Edition edition = VirtualManager.getInstance().getEdition(acronym);
 
 		if (edition == null) {
 			return "redirect:/error";
@@ -88,7 +82,7 @@ public class EditionController {
 	@RequestMapping(method = RequestMethod.GET, value = "/user/{username}")
 	public String getUserContributions(Model model, @PathVariable String username) {
 
-		LdoDUser user = LdoD.getInstance().getUser(username);
+		LdoDUser user = VirtualManager.getInstance().getUser(username);
 
 		if (user != null) {
 			model.addAttribute("user", user);
@@ -101,7 +95,7 @@ public class EditionController {
 	@RequestMapping(method = RequestMethod.GET, value = "/acronym/{acronym}/taxonomy")
 	@PreAuthorize("hasPermission(#acronym, 'editionacronym.public')")
 	public String getTaxonomyTableOfContents(Model model, @PathVariable String acronym) {
-		Taxonomy taxonomy = LdoD.getInstance().getVirtualEdition(acronym).getTaxonomy();
+		Taxonomy taxonomy = VirtualManager.getInstance().getVirtualEdition(acronym).getTaxonomy();
 		if (taxonomy != null) {
 			model.addAttribute("taxonomy", taxonomy);
 			return "edition/taxonomyTableOfContents";
@@ -114,7 +108,7 @@ public class EditionController {
 	@PreAuthorize("hasPermission(#acronym, 'editionacronym.public')")
 	public String getCategoryTableOfContents(Model model, @PathVariable String acronym, @PathVariable String urlId) {
 
-		VirtualEdition virtualEdition = (VirtualEdition) LdoD.getInstance().getEdition(acronym);
+		VirtualEdition virtualEdition = (VirtualEdition) VirtualManager.getInstance().getEdition(acronym);
 		if (virtualEdition == null) {
 			return "redirect:/error";
 		}

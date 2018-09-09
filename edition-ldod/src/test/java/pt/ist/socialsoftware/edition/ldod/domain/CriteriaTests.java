@@ -34,12 +34,12 @@ public class CriteriaTests extends RollbackCaseTest {
 	// regra: não se pode passar mocks a construtores!
 	@Override
 	public void populate4Test() {
-		LdoD ldoD = LdoD.getInstance();
-		LdoDUser user = new LdoDUser(ldoD, "ars1", "ars", "Antonio", "Silva", "a@a.a");
+		VirtualManager virtualManager = VirtualManager.getInstance();
+		LdoDUser user = new LdoDUser(virtualManager, "ars1", "ars", "Antonio", "Silva", "a@a.a");
 		LocalDate localDate = LocalDate.parse("20018-07-20");
-		ExpertEdition expertEdition = ldoD.getRZEdition();
+		ExpertEdition expertEdition = virtualManager.getRZEdition();
 
-		this.virtualEdition = new VirtualEdition(ldoD, user, "acronym", "title", localDate, true, expertEdition);
+		this.virtualEdition = new VirtualEdition(virtualManager, user, "acronym", "title", localDate, true, expertEdition);
 		clazz = pt.ist.socialsoftware.edition.ldod.domain.MediaSource.class;
 	}
 

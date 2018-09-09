@@ -6,23 +6,20 @@ import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 
 import pt.ist.fenixframework.Atomic;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
-import pt.ist.socialsoftware.edition.ldod.domain.RegistrationToken;
-import pt.ist.socialsoftware.edition.ldod.domain.Role;
-import pt.ist.socialsoftware.edition.ldod.domain.UserConnection;
+import pt.ist.socialsoftware.edition.ldod.domain.*;
+import pt.ist.socialsoftware.edition.ldod.domain.VirtualManager;
 
 public class UsersXMLExport {
 
 	@Atomic
 	public String export() {
-		LdoD ldoD = LdoD.getInstance();
+		VirtualManager virtualManager = VirtualManager.getInstance();
 
 		Element element = createHeader();
 
-		exportUsers(element, ldoD);
-		exportUserConnections(element, ldoD);
-		exportRegistrationTokens(element, ldoD);
+		exportUsers(element, virtualManager);
+		exportUserConnections(element, virtualManager);
+		exportRegistrationTokens(element, virtualManager);
 
 		XMLOutputter xml = new XMLOutputter();
 		xml.setFormat(Format.getPrettyFormat());
@@ -39,10 +36,10 @@ public class UsersXMLExport {
 		return rootElement;
 	}
 
-	private void exportUsers(Element element, LdoD ldoD) {
+	private void exportUsers(Element element, VirtualManager virtualManager) {
 		Element usersElement = new Element("users");
 
-		for (LdoDUser user : ldoD.getUsersSet()) {
+		for (LdoDUser user : virtualManager.getUsersSet()) {
 			exportUser(usersElement, user);
 		}
 
@@ -101,10 +98,10 @@ public class UsersXMLExport {
 		}
 	}
 
-	private void exportUserConnections(Element element, LdoD ldoD) {
+	private void exportUserConnections(Element element, VirtualManager virtualManager) {
 		Element userConnectionsElement = new Element("user-connections");
 
-		for (UserConnection userConnection : ldoD.getUserConnectionSet()) {
+		for (UserConnection userConnection : virtualManager.getUserConnectionSet()) {
 			exportUserConnection(userConnectionsElement, userConnection);
 		}
 
@@ -137,10 +134,10 @@ public class UsersXMLExport {
 		element.addContent(userConnectionElement);
 	}
 
-	private void exportRegistrationTokens(Element element, LdoD ldoD) {
+	private void exportRegistrationTokens(Element element, VirtualManager virtualManager) {
 		Element registrationTokensElement = new Element("registration-tokens");
 
-		for (RegistrationToken registrationToken : ldoD.getTokenSet()) {
+		for (RegistrationToken registrationToken : virtualManager.getTokenSet()) {
 			exportRegistrationToken(registrationTokensElement, registrationToken);
 		}
 

@@ -13,7 +13,7 @@ import org.springframework.social.connect.ConnectionRepository;
 import org.springframework.social.connect.ConnectionSignUp;
 import org.springframework.social.connect.UsersConnectionRepository;
 
-import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
+import pt.ist.socialsoftware.edition.ldod.domain.VirtualManager;
 
 public class LdoDUsersConnectionRepository implements UsersConnectionRepository {
 
@@ -36,7 +36,7 @@ public class LdoDUsersConnectionRepository implements UsersConnectionRepository 
 	@Override
 	public List<String> findUserIdsWithConnection(Connection<?> connection) {
 		ConnectionKey key = connection.getKey();
-		List<String> localUserIds = LdoD.getInstance().getUserConnectionSet().stream()
+		List<String> localUserIds = VirtualManager.getInstance().getUserConnectionSet().stream()
 				.filter(uc -> uc.getProviderId().equals(key.getProviderId())
 						&& uc.getProviderUserId().equals(key.getProviderUserId()))
 				.map(uc -> uc.getUserId()).collect(Collectors.toList());
@@ -53,7 +53,7 @@ public class LdoDUsersConnectionRepository implements UsersConnectionRepository 
 
 	@Override
 	public Set<String> findUserIdsConnectedTo(String providerId, Set<String> providerUserIds) {
-		return LdoD.getInstance().getUserConnectionSet().stream()
+		return VirtualManager.getInstance().getUserConnectionSet().stream()
 				.filter(uc -> uc.getProviderId().equals(providerId) && providerUserIds.contains(uc.getProviderUserId()))
 				.map(uc -> uc.getUserId()).collect(Collectors.toSet());
 	}

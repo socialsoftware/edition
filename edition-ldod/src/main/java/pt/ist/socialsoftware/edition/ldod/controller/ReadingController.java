@@ -16,11 +16,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import pt.ist.fenixframework.FenixFramework;
-import pt.ist.socialsoftware.edition.ldod.domain.ExpertEdition;
-import pt.ist.socialsoftware.edition.ldod.domain.ExpertEditionInter;
-import pt.ist.socialsoftware.edition.ldod.domain.FragInter;
-import pt.ist.socialsoftware.edition.ldod.domain.Fragment;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
+import pt.ist.socialsoftware.edition.ldod.domain.*;
+import pt.ist.socialsoftware.edition.ldod.domain.VirtualManager;
 import pt.ist.socialsoftware.edition.ldod.generators.PlainHtmlWriter4OneInter;
 import pt.ist.socialsoftware.edition.ldod.session.LdoDSession;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
@@ -38,7 +35,7 @@ public class ReadingController {
 
 	@RequestMapping(method = RequestMethod.GET)
 	public String startReading(Model model, @ModelAttribute("ldoDSession") LdoDSession ldoDSession) {
-		model.addAttribute("ldoD", LdoD.getInstance());
+		model.addAttribute("ldoD", VirtualManager.getInstance());
 		model.addAttribute("inter", null);
 
 		return "reading/readingMain";
@@ -47,7 +44,7 @@ public class ReadingController {
 	@RequestMapping(method = RequestMethod.GET, value = "/fragment/{xmlId}/inter/{urlId}")
 	public String readInterpretation(Model model, @ModelAttribute("ldoDSession") LdoDSession ldoDSession,
 			@PathVariable String xmlId, @PathVariable String urlId) {
-		Fragment fragment = LdoD.getInstance().getFragmentByXmlId(xmlId);
+		Fragment fragment = VirtualManager.getInstance().getFragmentByXmlId(xmlId);
 		if (fragment == null) {
 			return "redirect:/error";
 		}
@@ -64,7 +61,7 @@ public class ReadingController {
 		PlainHtmlWriter4OneInter writer = new PlainHtmlWriter4OneInter(expertEditionInter);
 		writer.write(false);
 
-		model.addAttribute("ldoD", LdoD.getInstance());
+		model.addAttribute("ldoD", VirtualManager.getInstance());
 		model.addAttribute("inter", expertEditionInter);
 		model.addAttribute("recommendations", recommendations);
 		model.addAttribute("prevRecom", prevRecom);
@@ -76,7 +73,7 @@ public class ReadingController {
 	@RequestMapping(method = RequestMethod.GET, value = "/edition/{acronym}/start")
 	public String startReadingEdition(Model model, @ModelAttribute("ldoDSession") LdoDSession ldoDSession,
 			@PathVariable String acronym) {
-		ExpertEdition expertEdition = (ExpertEdition) LdoD.getInstance().getEdition(acronym);
+		ExpertEdition expertEdition = (ExpertEdition) VirtualManager.getInstance().getEdition(acronym);
 		ExpertEditionInter expertEditionInter = expertEdition.getFirstInterpretation();
 
 		ldoDSession.getRecommendation().clean();
@@ -89,7 +86,7 @@ public class ReadingController {
 	@RequestMapping(method = RequestMethod.GET, value = "/fragment/{xmlId}/inter/{urlId}/start")
 	public String startReadingFromInter(Model model, @ModelAttribute("ldoDSession") LdoDSession ldoDSession,
 			@PathVariable String xmlId, @PathVariable String urlId) {
-		Fragment fragment = LdoD.getInstance().getFragmentByXmlId(xmlId);
+		Fragment fragment = VirtualManager.getInstance().getFragmentByXmlId(xmlId);
 		if (fragment == null) {
 			return "redirect:/error";
 		}
@@ -109,7 +106,7 @@ public class ReadingController {
 	@RequestMapping(method = RequestMethod.GET, value = "/fragment/{xmlId}/inter/{urlId}/next")
 	public String readNextInterpretation(Model model, @ModelAttribute("ldoDSession") LdoDSession ldoDSession,
 			@PathVariable String xmlId, @PathVariable String urlId) {
-		Fragment fragment = LdoD.getInstance().getFragmentByXmlId(xmlId);
+		Fragment fragment = VirtualManager.getInstance().getFragmentByXmlId(xmlId);
 		if (fragment == null) {
 			return "redirect:/error";
 		}
@@ -129,7 +126,7 @@ public class ReadingController {
 	@RequestMapping(method = RequestMethod.GET, value = "/fragment/{xmlId}/inter/{urlId}/prev")
 	public String readPrevInterpretation(Model model, @ModelAttribute("ldoDSession") LdoDSession ldoDSession,
 			@PathVariable String xmlId, @PathVariable String urlId) {
-		Fragment fragment = LdoD.getInstance().getFragmentByXmlId(xmlId);
+		Fragment fragment = VirtualManager.getInstance().getFragmentByXmlId(xmlId);
 		if (fragment == null) {
 			return "redirect:/error";
 		}

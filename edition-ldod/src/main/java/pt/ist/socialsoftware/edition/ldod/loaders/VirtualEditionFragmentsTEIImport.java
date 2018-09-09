@@ -21,22 +21,15 @@ import org.slf4j.LoggerFactory;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
-import pt.ist.socialsoftware.edition.ldod.domain.Citation;
-import pt.ist.socialsoftware.edition.ldod.domain.FragInter;
-import pt.ist.socialsoftware.edition.ldod.domain.Fragment;
-import pt.ist.socialsoftware.edition.ldod.domain.InfoRange;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
-import pt.ist.socialsoftware.edition.ldod.domain.Tweet;
-import pt.ist.socialsoftware.edition.ldod.domain.TwitterCitation;
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
+import pt.ist.socialsoftware.edition.ldod.domain.*;
+import pt.ist.socialsoftware.edition.ldod.domain.VirtualManager;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDLoadException;
 import pt.ist.socialsoftware.edition.ldod.utils.RangeJson;
 
 public class VirtualEditionFragmentsTEIImport {
 	private static Logger logger = LoggerFactory.getLogger(VirtualEditionFragmentsTEIImport.class);
 
-	LdoD ldoD = null;
+	VirtualManager virtualManager = null;
 	Namespace namespace = null;
 
 	public String importFragmentFromTEI(InputStream inputStream) {
@@ -73,7 +66,7 @@ public class VirtualEditionFragmentsTEIImport {
 
 	@Atomic(mode = TxMode.WRITE)
 	public String processImport(Document doc) {
-		this.ldoD = LdoD.getInstance();
+		this.virtualManager = VirtualManager.getInstance();
 		this.namespace = doc.getRootElement().getNamespace();
 
 		Fragment fragment = getFragment(doc);
@@ -104,7 +97,7 @@ public class VirtualEditionFragmentsTEIImport {
 				String interXmlId = wit.getAttributeValue("id", Namespace.XML_NAMESPACE);
 				String editionAcronym = interXmlId.substring(interXmlId.lastIndexOf("VIRT.") + "VIRT.".length(),
 						interXmlId.lastIndexOf('.'));
-				VirtualEdition virtualEdition = this.ldoD.getVirtualEdition(editionAcronym);
+				VirtualEdition virtualEdition = this.virtualManager.getVirtualEdition(editionAcronym);
 
 				logger.debug("importWitnesses id: {}, source: {}", interXmlId, wit.getAttributeValue("source"));
 				virtualEdition.createVirtualEditionInter(
@@ -193,7 +186,7 @@ public class VirtualEditionFragmentsTEIImport {
 
 	private void setTwitterCitation(Element citation, TwitterCitation twitterCitation) {
 		for (Element tweetElement : citation.getChild("tweets", this.namespace).getChildren()) {
-			Tweet tweet = LdoD.getInstance()
+			Tweet tweet = VirtualManager.getInstance()
 					.getTweetByTweetID(Long.parseLong(tweetElement.getAttributeValue("tweetId")));
 			tweet.setCitation(twitterCitation);
 		}
@@ -203,7 +196,7 @@ public class VirtualEditionFragmentsTEIImport {
 		String username = catRef.getAttributeValue("resp").substring(1);
 		String tag = catRef.getAttributeValue("target").substring(1);
 
-		inter.getVirtualEdition().getTaxonomy().createTag(inter, tag, null, this.ldoD.getUser(username));
+		inter.getVirtualEdition().getTaxonomy().createTag(inter, tag, null, this.virtualManager.getUser(username));
 	}
 
 	// TODO: else if aware - done
@@ -236,7 +229,7 @@ public class VirtualEditionFragmentsTEIImport {
 				String tag = catRef.getAttributeValue("target").substring(1);
 				tagList.add(tag);
 			}
-			inter.createHumanAnnotation(quote, text, this.ldoD.getUser(username), rangeList, tagList);
+			inter.createHumanAnnotation(quote, text, this.virtualManager.getUser(username), rangeList, tagList);
 		}
 
 		else if (note.getAttributeValue("type").equals("aware")) {
@@ -270,12 +263,12 @@ public class VirtualEditionFragmentsTEIImport {
 	// }
 	// List<RangeJson> rangeList = new ArrayList<>();
 	// rangeList.add(range);
-	// inter.createAnnotation(quote, text, this.ldoD.getUser(username), rangeList,
+	// inter.createAnnotation(quote, text, this.virtualManager.getUser(username), rangeList,
 	// tagList);
 	// }
 
 	private Fragment getFragment(Document doc) {
-		LdoD ldoD = LdoD.getInstance();
+		VirtualManager virtualManager = VirtualManager.getInstance();
 
 		Namespace namespace = doc.getRootElement().getNamespace();
 		XPathFactory xpfac = XPathFactory.instance();
@@ -283,6 +276,6 @@ public class VirtualEditionFragmentsTEIImport {
 				Namespace.getNamespace("def", namespace.getURI()));
 		String fragXmlId = xp.evaluate(doc).get(0).getAttributeValue("id", Namespace.XML_NAMESPACE);
 
-		return ldoD.getFragmentByXmlId(fragXmlId);
+		return virtualManager.getFragmentByXmlId(fragXmlId);
 	}
 }

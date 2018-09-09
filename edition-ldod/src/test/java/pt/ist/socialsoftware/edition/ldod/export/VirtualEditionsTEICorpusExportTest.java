@@ -16,22 +16,15 @@ import org.junit.jupiter.api.Test;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.fenixframework.core.WriteOnReadError;
-import pt.ist.socialsoftware.edition.ldod.domain.ExpertEdition;
-import pt.ist.socialsoftware.edition.ldod.domain.Frequency;
-import pt.ist.socialsoftware.edition.ldod.domain.GeographicLocation;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
-import pt.ist.socialsoftware.edition.ldod.domain.MediaSource;
-import pt.ist.socialsoftware.edition.ldod.domain.TimeWindow;
-import pt.ist.socialsoftware.edition.ldod.domain.Tweet;
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
+import pt.ist.socialsoftware.edition.ldod.domain.*;
+import pt.ist.socialsoftware.edition.ldod.domain.VirtualManager;
 import pt.ist.socialsoftware.edition.ldod.loaders.VirtualEditionsTEICorpusImport;
 
 public class VirtualEditionsTEICorpusExportTest {
 
 	private VirtualEditionsTEICorpusExport export;
 	private VirtualEdition virtualEdition;
-	private LdoD ldoD;
+	private VirtualManager virtualManager;
 
 	public static void logger(Object toPrint) {
 		System.out.println(toPrint);
@@ -50,15 +43,15 @@ public class VirtualEditionsTEICorpusExportTest {
 		String virtualEditionsCorpus = export.export();
 		System.out.println(virtualEditionsCorpus);
 
-		int numOfVirtualEditions = LdoD.getInstance().getVirtualEditionsSet().size();
+		int numOfVirtualEditions = VirtualManager.getInstance().getVirtualEditionsSet().size();
 
-		LdoD.getInstance().getVirtualEditionsSet().forEach(ve -> ve.remove());
-		LdoD.getInstance().getTweetSet().forEach(tweet -> tweet.remove());
+		VirtualManager.getInstance().getVirtualEditionsSet().forEach(ve -> ve.remove());
+		VirtualManager.getInstance().getTweetSet().forEach(tweet -> tweet.remove());
 
 		VirtualEditionsTEICorpusImport im = new VirtualEditionsTEICorpusImport();
 		im.importVirtualEditionsCorpus(virtualEditionsCorpus);
 
-		assertEquals(numOfVirtualEditions, LdoD.getInstance().getVirtualEditionsSet().size());
+		assertEquals(numOfVirtualEditions, VirtualManager.getInstance().getVirtualEditionsSet().size());
 
 		System.out.println(export.export());
 
@@ -69,11 +62,11 @@ public class VirtualEditionsTEICorpusExportTest {
 
 	// aux setup method
 	private void setUpDomain() {
-		this.ldoD = new LdoD();
-		LdoDUser user = new LdoDUser(ldoD, "ars1", "ars", "Antonio", "Silva", "a@a.a");
+		this.virtualManager = new VirtualManager();
+		LdoDUser user = new LdoDUser(virtualManager, "ars1", "ars", "Antonio", "Silva", "a@a.a");
 		LocalDate localDate = LocalDate.parse("20018-07-20");
-		ExpertEdition expertEdition = ldoD.getRZEdition();
-		this.virtualEdition = new VirtualEdition(ldoD, user, "acronym", "title", localDate, true, expertEdition);
+		ExpertEdition expertEdition = virtualManager.getRZEdition();
+		this.virtualEdition = new VirtualEdition(virtualManager, user, "acronym", "title", localDate, true, expertEdition);
 	}
 
 	// aux method
@@ -84,11 +77,11 @@ public class VirtualEditionsTEICorpusExportTest {
 
 		// Saving value for assert
 		int numOfCriteria = virtualEdition.getCriteriaSet().size();
-		int numOfTweets = ldoD.getTweetSet().size();
+		int numOfTweets = virtualManager.getTweetSet().size();
 
 		// Clean
-		this.ldoD.getVirtualEditionsSet().forEach(ve -> ve.remove());
-		this.ldoD.getTweetSet().forEach(tweet -> tweet.remove());
+		this.virtualManager.getVirtualEditionsSet().forEach(ve -> ve.remove());
+		this.virtualManager.getTweetSet().forEach(tweet -> tweet.remove());
 
 		// Import
 		VirtualEditionsTEICorpusImport im = new VirtualEditionsTEICorpusImport();
@@ -96,8 +89,8 @@ public class VirtualEditionsTEICorpusExportTest {
 
 		System.out.println(export.export());
 
-		assertEquals(numOfCriteria, ldoD.getVirtualEdition("acronym").getCriteriaSet().size());
-		assertEquals(numOfTweets, ldoD.getTweetSet().size());
+		assertEquals(numOfCriteria, virtualManager.getVirtualEdition("acronym").getCriteriaSet().size());
+		assertEquals(numOfTweets, virtualManager.getTweetSet().size());
 
 		return result;
 	}
@@ -106,9 +99,9 @@ public class VirtualEditionsTEICorpusExportTest {
 	@Atomic
 	public void exportTweetsTest() {
 		setUpDomain();
-		new Tweet(ldoD, "sourceLink", "date", "tweetText", 1111l, "location", "country", "username", "profURL",
+		new Tweet(virtualManager, "sourceLink", "date", "tweetText", 1111l, "location", "country", "username", "profURL",
 				"profImgURL", 9999l, true, null);
-		new Tweet(ldoD, "sourceLink", "date", "tweetText", 1111l, "location", "country", "username", "profURL",
+		new Tweet(virtualManager, "sourceLink", "date", "tweetText", 1111l, "location", "country", "username", "profURL",
 				"profImgURL", -1l, false, null);
 		String result = exportPrintCleanAndImport();
 		// Check if it was well exported

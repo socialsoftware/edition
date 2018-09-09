@@ -14,7 +14,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import pt.ist.socialsoftware.edition.ldod.domain.FragInter;
 import pt.ist.socialsoftware.edition.ldod.domain.Fragment;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
+import pt.ist.socialsoftware.edition.ldod.domain.VirtualManager;
 import pt.ist.socialsoftware.edition.ldod.search.options.SearchOption.Mode;
 
 public class Search {
@@ -55,7 +55,7 @@ public class Search {
 	private Map<Fragment, Map<FragInter, List<SearchOption>>> searchOptionsORComposition(Set<SearchOption> options) {
 		Map<Fragment, Map<FragInter, List<SearchOption>>> resultSet = new LinkedHashMap<Fragment, Map<FragInter, List<SearchOption>>>();
 
-		Set<FragInter> inters = LdoD.getInstance().getFragmentsSet().stream()
+		Set<FragInter> inters = VirtualManager.getInstance().getFragmentsSet().stream()
 				.flatMap(f -> f.getFragmentInterSet().stream()).collect(Collectors.toSet());
 		List<SearchOption> searchOptions = orderTextSearchOptions(options);
 		for (SearchOption searchOption : searchOptions) {
@@ -70,7 +70,7 @@ public class Search {
 	private Map<Fragment, Map<FragInter, List<SearchOption>>> searchOptionsANDComposition(Set<SearchOption> options) {
 		Map<Fragment, Map<FragInter, List<SearchOption>>> resultSet = new LinkedHashMap<Fragment, Map<FragInter, List<SearchOption>>>();
 
-		Set<FragInter> inters = LdoD.getInstance().getFragmentsSet().stream()
+		Set<FragInter> inters = VirtualManager.getInstance().getFragmentsSet().stream()
 				.flatMap(f -> f.getFragmentInterSet().stream()).collect(Collectors.toSet());
 		List<SearchOption> searchOptions = orderTextSearchOptions(options);
 		for (SearchOption searchOption : searchOptions) {

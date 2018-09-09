@@ -17,17 +17,8 @@ import org.joda.time.LocalDate;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
-import pt.ist.socialsoftware.edition.ldod.domain.Category;
-import pt.ist.socialsoftware.edition.ldod.domain.Frequency;
-import pt.ist.socialsoftware.edition.ldod.domain.GeographicLocation;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
-import pt.ist.socialsoftware.edition.ldod.domain.MediaSource;
-import pt.ist.socialsoftware.edition.ldod.domain.Member;
-import pt.ist.socialsoftware.edition.ldod.domain.Taxonomy;
-import pt.ist.socialsoftware.edition.ldod.domain.TimeWindow;
-import pt.ist.socialsoftware.edition.ldod.domain.Tweet;
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
+import pt.ist.socialsoftware.edition.ldod.domain.*;
+import pt.ist.socialsoftware.edition.ldod.domain.VirtualManager;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDLoadException;
 
 public class VirtualEditionsTEICorpusImport {
@@ -66,20 +57,20 @@ public class VirtualEditionsTEICorpusImport {
 
 	@Atomic(mode = TxMode.WRITE)
 	public void processImport(Document doc) {
-		LdoD ldoD = LdoD.getInstance();
+		VirtualManager virtualManager = VirtualManager.getInstance();
 
-		importVirtualEditions(doc, ldoD);
+		importVirtualEditions(doc, virtualManager);
 
-		importTaxonomies(doc, ldoD);
+		importTaxonomies(doc, virtualManager);
 
-		importSocialMediaCriteria(doc, ldoD);
+		importSocialMediaCriteria(doc, virtualManager);
 
-		importTweets(doc, ldoD);
+		importTweets(doc, virtualManager);
 	}
 
 	// TODO: o construtor recebe a TwitterCitation a null pq ainda não sabe qual é
 	// só no import Twitter Citation da outra classe é q é feita esta ligação
-	private void importTweets(Document doc, LdoD ldoD) {
+	private void importTweets(Document doc, VirtualManager virtualManager) {
 		Namespace namespace = doc.getRootElement().getNamespace();
 		XPathFactory xpfac = XPathFactory.instance();
 		XPathExpression<Element> xp = xpfac.compile("//def:tweet", Filters.element(), null,
@@ -101,12 +92,12 @@ public class VirtualEditionsTEICorpusImport {
 			long originalTweetID = Long.parseLong(tweet.getAttributeValue("originalTweetId"));
 			boolean isRetweet = Boolean.valueOf(tweet.getAttributeValue("isRetweet"));
 
-			new Tweet(ldoD, sourceLink, date, tweetText, tweetID, location, country, username, userProfileURL,
+			new Tweet(virtualManager, sourceLink, date, tweetText, tweetID, location, country, username, userProfileURL,
 					userImageURL, originalTweetID, isRetweet, null);
 		}
 	}
 
-	private void importVirtualEditions(Document doc, LdoD ldoD) {
+	private void importVirtualEditions(Document doc, VirtualManager virtualManager) {
 		Namespace namespace = doc.getRootElement().getNamespace();
 		XPathFactory xpfac = XPathFactory.instance();
 		XPathExpression<Element> xp = xpfac.compile("//def:bibl", Filters.element(), null,
@@ -123,22 +114,22 @@ public class VirtualEditionsTEICorpusImport {
 			LdoDUser owner = null;
 			for (Element editor : bibl.getChildren("editor", namespace)) {
 				if (editor.getAttributeValue("role").equals("ADMIN")) {
-					owner = ldoD.getUser(editor.getAttributeValue("nymRef"));
+					owner = virtualManager.getUser(editor.getAttributeValue("nymRef"));
 					// if a virtual edition exists with the same name, it is
 					// deleted
-					virtualEdition = ldoD.getVirtualEdition(acronym);
+					virtualEdition = virtualManager.getVirtualEdition(acronym);
 					if (virtualEdition != null) {
 						virtualEdition.remove();
 						virtualEdition = null;
 					}
-					virtualEdition = ldoD.createVirtualEdition(owner, acronym, title, date, pub, null);
+					virtualEdition = virtualManager.createVirtualEdition(owner, acronym, title, date, pub, null);
 					virtualEdition.setSynopsis(synopsis);
 					break;
 				}
 			}
 
 			for (Element editor : bibl.getChildren("editor", namespace)) {
-				LdoDUser user = ldoD.getUser(editor.getAttributeValue("nymRef"));
+				LdoDUser user = virtualManager.getUser(editor.getAttributeValue("nymRef"));
 				Member.MemberRole role = Member.MemberRole.valueOf(editor.getAttributeValue("role"));
 				boolean active = editor.getAttributeValue("active").equals("true") ? true : false;
 
@@ -155,7 +146,7 @@ public class VirtualEditionsTEICorpusImport {
 		}
 	}
 
-	private void importTaxonomies(Document doc, LdoD ldoD) {
+	private void importTaxonomies(Document doc, VirtualManager virtualManager) {
 		Namespace namespace = doc.getRootElement().getNamespace();
 		XPathFactory xpfac = XPathFactory.instance();
 		XPathExpression<Element> xp = xpfac.compile("//def:taxonomy", Filters.element(), null,
@@ -163,8 +154,8 @@ public class VirtualEditionsTEICorpusImport {
 		for (Element tax : xp.evaluate(doc)) {
 			String xmlId = tax.getAttributeValue("source").substring(1);
 			System.out.println(xmlId);
-			System.out.println(LdoD.getInstance().getVirtualEditionByXmlId(xmlId));
-			Taxonomy taxonomy = LdoD.getInstance().getVirtualEditionByXmlId(xmlId).getTaxonomy();
+			System.out.println(VirtualManager.getInstance().getVirtualEditionByXmlId(xmlId));
+			Taxonomy taxonomy = VirtualManager.getInstance().getVirtualEditionByXmlId(xmlId).getTaxonomy();
 
 			for (Element item : tax.getChild("desc", namespace).getChild("list", namespace).getChildren("item",
 					namespace)) {
@@ -189,7 +180,7 @@ public class VirtualEditionsTEICorpusImport {
 		}
 	}
 
-	private void importSocialMediaCriteria(Document doc, LdoD ldoD) {
+	private void importSocialMediaCriteria(Document doc, VirtualManager virtualManager) {
 		Namespace namespace = doc.getRootElement().getNamespace();
 		XPathFactory xpfac = XPathFactory.instance();
 		XPathExpression<Element> xp = xpfac.compile("//def:editionCriteria", Filters.element(), null,
@@ -197,9 +188,9 @@ public class VirtualEditionsTEICorpusImport {
 		for (Element editionCriteria : xp.evaluate(doc)) {
 			String xmlId = editionCriteria.getAttributeValue("source").substring(1);
 			System.out.println(xmlId);
-			System.out.println(LdoD.getInstance().getVirtualEditionByXmlId(xmlId));
+			System.out.println(VirtualManager.getInstance().getVirtualEditionByXmlId(xmlId));
 
-			VirtualEdition virtualEdition = LdoD.getInstance().getVirtualEditionByXmlId(xmlId);
+			VirtualEdition virtualEdition = VirtualManager.getInstance().getVirtualEditionByXmlId(xmlId);
 
 			Element mediaSource = editionCriteria.getChild("mediaSource", namespace);
 			if (mediaSource != null) {

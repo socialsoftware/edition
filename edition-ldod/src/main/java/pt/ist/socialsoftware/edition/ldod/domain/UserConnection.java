@@ -2,16 +2,14 @@ package pt.ist.socialsoftware.edition.ldod.domain;
 
 import org.springframework.dao.DuplicateKeyException;
 
-import pt.ist.socialsoftware.edition.ldod.domain.UserConnection_Base;
-
 public class UserConnection extends UserConnection_Base {
 
-	public UserConnection(LdoD ldod, String userId, String providerId, String providerUserId, int rank,
-			String displayName, String profileUrl, String imageUrl, String accessToken, String secret,
-			String refreshToken, Long expireTime) {
+	public UserConnection(VirtualManager ldod, String userId, String providerId, String providerUserId, int rank,
+						  String displayName, String profileUrl, String imageUrl, String accessToken, String secret,
+						  String refreshToken, Long expireTime) {
 		checkUnique(ldod, userId, providerId, rank);
 
-		setLdoD(ldod);
+		setVirtualManager(ldod);
 		setUserId(userId);
 		setProviderId(providerId);
 		setProviderUserId(providerUserId);
@@ -25,7 +23,7 @@ public class UserConnection extends UserConnection_Base {
 		setExpireTime(expireTime);
 	}
 
-	private void checkUnique(LdoD ldod, String userId, String providerId, int rank) {
+	private void checkUnique(VirtualManager ldod, String userId, String providerId, int rank) {
 		if (ldod.getUserConnectionSet().stream().filter(
 				uc -> uc.getUserId().equals(userId) && uc.getProviderId().equals(providerId) && (uc.getRank() == rank))
 				.findFirst().isPresent())
@@ -33,7 +31,7 @@ public class UserConnection extends UserConnection_Base {
 	}
 
 	public void remove() {
-		setLdoD(null);
+		setVirtualManager(null);
 
 		deleteDomainObject();
 	}

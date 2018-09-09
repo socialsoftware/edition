@@ -17,20 +17,8 @@ import org.slf4j.LoggerFactory;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.fenixframework.FenixFramework;
-import pt.ist.socialsoftware.edition.ldod.domain.AwareAnnotation;
-import pt.ist.socialsoftware.edition.ldod.domain.Citation;
-import pt.ist.socialsoftware.edition.ldod.domain.FragInter;
-import pt.ist.socialsoftware.edition.ldod.domain.Frequency;
-import pt.ist.socialsoftware.edition.ldod.domain.GeographicLocation;
-import pt.ist.socialsoftware.edition.ldod.domain.InfoRange;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
-import pt.ist.socialsoftware.edition.ldod.domain.MediaSource;
-import pt.ist.socialsoftware.edition.ldod.domain.Range;
-import pt.ist.socialsoftware.edition.ldod.domain.SocialMediaCriteria;
-import pt.ist.socialsoftware.edition.ldod.domain.TimeWindow;
-import pt.ist.socialsoftware.edition.ldod.domain.TwitterCitation;
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
+import pt.ist.socialsoftware.edition.ldod.domain.*;
+import pt.ist.socialsoftware.edition.ldod.domain.VirtualManager;
 import pt.ist.socialsoftware.edition.ldod.generators.PlainHtmlWriter4OneInter;
 
 public class AwareAnnotationFactory {
@@ -54,14 +42,14 @@ public class AwareAnnotationFactory {
 
 		// SETUP DOS CRITÉRIOS
 		// VirtualEdition duarteEdit =
-		// LdoD.getInstance().getVirtualEdition("LdoD-Duarte");
+		// VirtualManager.getInstance().getVirtualEdition("VirtualManager-Duarte");
 		// new MediaSource(duarteEdit, "Twitter");
 		// new TimeWindow(duarteEdit, new LocalDate("2018-03-06"), new
 		// LocalDate("2018-06-24"));
 		// new GeographicLocation(duarteEdit, "Portugal", "Lisboa");
 		// new Frequency(duarteEdit, 10);
 
-		for (VirtualEdition ve : LdoD.getInstance().getVirtualEditionsSet()) {
+		for (VirtualEdition ve : VirtualManager.getInstance().getVirtualEditionsSet()) {
 			logger.debug("VirtualEdition XMLID: " + ve.getXmlId());
 			if (ve.isSAVE()) {
 				searchForAwareAnnotations(ve, bw);
@@ -88,7 +76,7 @@ public class AwareAnnotationFactory {
 		// debug info
 		// allTwitterCitations - all twitter citations in the archive - debugging
 		// Set<TwitterCitation> allTwitterCitations =
-		// LdoD.getInstance().getAllTwitterCitation();
+		// VirtualManager.getInstance().getAllTwitterCitation();
 		// bw.write("All Twitter Citations size: " + allTwitterCitations.size());
 		// bw.write("\n");
 
@@ -380,7 +368,7 @@ public class AwareAnnotationFactory {
 		// testing code
 		// ********************** POPULATE DB WITH AWARE ANNOTATION
 		// ********************************************
-		VirtualEdition duarteEdit = LdoD.getInstance().getVirtualEdition("LdoD-EditDuarte");
+		VirtualEdition duarteEdit = VirtualManager.getInstance().getVirtualEdition("VirtualManager-EditDuarte");
 		// duarteEdit.addCriteria(new TimeWindow());
 		logger.debug("IS SAVE: " + duarteEdit.isSAVE());
 		logger.debug("Size of criteria set: " + duarteEdit.getCriteriaSet().size());
@@ -405,7 +393,7 @@ public class AwareAnnotationFactory {
 
 		// setup example
 		long tweetID = 997186535761039360L;
-		TwitterCitation twitterCitation = LdoD.getInstance().getTwitterCitationByTweetID(tweetID);
+		TwitterCitation twitterCitation = VirtualManager.getInstance().getTwitterCitationByTweetID(tweetID);
 		logger.debug("Date: " + twitterCitation.getDate());
 		logger.debug("Fragment text: " + twitterCitation.getFragText());
 		createAwareAnnotation(vei, twitterCitation, bw); // descomentar
@@ -445,7 +433,7 @@ public class AwareAnnotationFactory {
 	 * fw = new FileWriter(file); bw = new BufferedWriter(fw);
 	 * 
 	 * Set<TwitterCitation> allTwitterCitations =
-	 * LdoD.getInstance().getCitationsSet()
+	 * VirtualManager.getInstance().getCitationsSet()
 	 * .stream().filter(TwitterCitation.class::isInstance).map(TwitterCitation.class
 	 * ::cast) .collect(Collectors.toSet());
 	 * 
@@ -460,7 +448,7 @@ public class AwareAnnotationFactory {
 	 * bw.write("Tweet ID: " + c.getTweetID()); bw.write("\n"); }
 	 * 
 	 * 
-	 * for (Fragment frag : LdoD.getInstance().getFragmentsSet()) {
+	 * for (Fragment frag : VirtualManager.getInstance().getFragmentsSet()) {
 	 * System.out.println("++++++++++++ FRAGMENTS +++++++++++++++");
 	 * System.out.println("Title: " + frag.getTitle());
 	 * System.out.println("External ID: " + frag.getExternalId());

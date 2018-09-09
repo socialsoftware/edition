@@ -24,14 +24,8 @@ import org.slf4j.LoggerFactory;
 
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.fenixframework.core.WriteOnReadError;
-import pt.ist.socialsoftware.edition.ldod.domain.Edition;
-import pt.ist.socialsoftware.edition.ldod.domain.ExpertEdition;
-import pt.ist.socialsoftware.edition.ldod.domain.FragInter;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
-import pt.ist.socialsoftware.edition.ldod.domain.NullHeteronym;
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
+import pt.ist.socialsoftware.edition.ldod.domain.*;
+import pt.ist.socialsoftware.edition.ldod.domain.VirtualManager;
 import pt.ist.socialsoftware.edition.ldod.recommendation.properties.DateProperty;
 import pt.ist.socialsoftware.edition.ldod.recommendation.properties.HeteronymProperty;
 import pt.ist.socialsoftware.edition.ldod.recommendation.properties.Property;
@@ -53,12 +47,12 @@ public class VSMVirtualEditionInterRecomenderTest {
 	public static void setUp() throws IOException, WriteOnReadError, NotSupportedException, SystemException {
 		FenixFramework.getTransactionManager().begin(false);
 
-		LdoD ldoD = LdoD.getInstance();
-		ExpertEdition pizarroEdition = (ExpertEdition) ldoD.getEdition(Edition.PIZARRO_EDITION_ACRONYM);
+		VirtualManager virtualManager = VirtualManager.getInstance();
+		ExpertEdition pizarroEdition = (ExpertEdition) virtualManager.getEdition(Edition.PIZARRO_EDITION_ACRONYM);
 
-		LdoDUser userArs = ldoD.getUser("ars");
+		LdoDUser userArs = virtualManager.getUser("ars");
 		// create virtual edition
-		virtualEdition = ldoD.createVirtualEdition(userArs, "TestRecommendations", "TestRecommendations",
+		virtualEdition = virtualManager.createVirtualEdition(userArs, "TestRecommendations", "TestRecommendations",
 				LocalDate.now(), true, pizarroEdition);
 		virtualEditionInters = virtualEdition.getIntersSet().stream().map(VirtualEditionInter.class::cast)
 				.collect(Collectors.toSet());

@@ -47,7 +47,7 @@ import pt.ist.socialsoftware.edition.ldod.domain.GapText.GapUnit;
 import pt.ist.socialsoftware.edition.ldod.domain.HandNote;
 import pt.ist.socialsoftware.edition.ldod.domain.Heteronym;
 import pt.ist.socialsoftware.edition.ldod.domain.LbText;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
+import pt.ist.socialsoftware.edition.ldod.domain.VirtualManager;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoDDate;
 import pt.ist.socialsoftware.edition.ldod.domain.ManuscriptSource;
 import pt.ist.socialsoftware.edition.ldod.domain.ManuscriptSource.Medium;
@@ -85,7 +85,7 @@ public class LoadTEIFragments {
 
 	private Element ldoDTEI = null;
 	private Namespace namespace = null;
-	private LdoD ldoD = null;
+	private VirtualManager virtualManager = null;
 
 	private Document doc = null;
 
@@ -160,11 +160,11 @@ public class LoadTEIFragments {
 	}
 
 	private void getCorpusXmlIds() {
-		for (ExpertEdition edition : this.ldoD.getExpertEditionsSet()) {
+		for (ExpertEdition edition : this.virtualManager.getExpertEditionsSet()) {
 			putObjectDirectIdMap(edition.getXmlId(), edition);
 		}
 
-		for (Heteronym heteronym : this.ldoD.getHeteronymsSet()) {
+		for (Heteronym heteronym : this.virtualManager.getHeteronymsSet()) {
 			putObjectDirectIdMap(heteronym.getXmlId(), heteronym);
 		}
 	}
@@ -200,7 +200,7 @@ public class LoadTEIFragments {
 
 		parseTEIFile(file);
 
-		this.ldoD = LdoD.getInstance();
+		this.virtualManager = VirtualManager.getInstance();
 
 		getCorpusXmlIds();
 
@@ -212,7 +212,7 @@ public class LoadTEIFragments {
 			String title = getFragmentTitle(element);
 
 			Fragment oldFragment = null;
-			for (Fragment frag : this.ldoD.getFragmentsSet()) {
+			for (Fragment frag : this.virtualManager.getFragmentsSet()) {
 				if (frag.getXmlId().equals(xmlId)) {
 					oldFragment = frag;
 					break;
@@ -248,7 +248,7 @@ public class LoadTEIFragments {
 				Namespace.getNamespace("def", this.namespace.getURI()));
 
 		for (Element element : xp.evaluate(this.doc)) {
-			this.ldoD = LdoD.getInstance();
+			this.virtualManager = VirtualManager.getInstance();
 
 			String xmlId = getFragmentXmlId(element);
 			String title = getFragmentTitle(element);
@@ -256,7 +256,7 @@ public class LoadTEIFragments {
 			result = "CARREGAR: [" + xmlId + "(" + title + ")] <br>";
 
 			Boolean exists = false;
-			for (Fragment frag : this.ldoD.getFragmentsSet()) {
+			for (Fragment frag : this.virtualManager.getFragmentsSet()) {
 				if (frag.getXmlId().equals(xmlId)) {
 					result = result + "------------> FRAG-ID JÁ EXISTE LOGO NÃO FOI CARREGADO <br>";
 					exists = true;
@@ -284,7 +284,7 @@ public class LoadTEIFragments {
 	}
 
 	private void loadFragment(String title, String xmlId) {
-		Fragment fragment = new Fragment(this.ldoD, title, xmlId);
+		Fragment fragment = new Fragment(this.virtualManager, title, xmlId);
 
 		putObjectDirectIdMap(xmlId, fragment);
 
@@ -325,7 +325,7 @@ public class LoadTEIFragments {
 			}
 		}
 
-		VirtualEdition archiveEdition = this.ldoD.getArchiveEdition();
+		VirtualEdition archiveEdition = this.virtualManager.getArchiveEdition();
 		// if the representative fragment interpretation is not in
 		// the archive edition we have to add it
 		if (archiveEdition != null
@@ -441,7 +441,7 @@ public class LoadTEIFragments {
 			}
 			break;
 		case FRAGMENT:
-			Fragment fragment = LdoD.getInstance().getFragmentByXmlId(target);
+			Fragment fragment = VirtualManager.getInstance().getFragmentByXmlId(target);
 			// if (fragment != null) {
 			// if fragment == null is deal in class RefText
 			refText.setRefFrag(fragment);
@@ -1089,7 +1089,7 @@ public class LoadTEIFragments {
 									putObjectInverseIdMap(target, refText);
 								}
 							} else if (refType == RefType.FRAGMENT) {
-								Fragment frag = LdoD.getInstance().getFragmentByXmlId(target);
+								Fragment frag = VirtualManager.getInstance().getFragmentByXmlId(target);
 								// if (frag != null) {
 								// it is not verified if frag == null but an
 								// exception will be raised when accessing the
@@ -1457,7 +1457,7 @@ public class LoadTEIFragments {
 		}
 
 		Element additions = physDesc.getChild("additions", this.namespace);
-		if (additions.getTextTrim().equals("LdoD")) {
+		if (additions.getTextTrim().equals("VirtualManager")) {
 			manuscript.setHasLdoDLabel(true);
 		}
 

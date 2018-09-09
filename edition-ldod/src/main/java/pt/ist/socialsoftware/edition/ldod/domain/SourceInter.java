@@ -15,7 +15,7 @@ public class SourceInter extends SourceInter_Base {
 	@Override
 	public Heteronym getHeteronym() {
 		return getSource().getHeteronym();
-	};
+	}
 
 	@Override
 	public String getShortName() {
@@ -108,7 +108,7 @@ public class SourceInter extends SourceInter_Base {
 
 	@Override
 	public Edition getEdition() {
-		return getFragment().getLdoD().getNullEdition();
+		return getFragment().getVirtualManager().getNullEdition();
 	}
 
 	@Override

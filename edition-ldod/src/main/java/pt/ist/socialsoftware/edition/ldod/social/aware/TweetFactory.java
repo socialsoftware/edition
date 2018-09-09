@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
+import pt.ist.socialsoftware.edition.ldod.domain.VirtualManager;
 import pt.ist.socialsoftware.edition.ldod.domain.Tweet;
 import pt.ist.socialsoftware.edition.ldod.domain.TwitterCitation;
 import pt.ist.socialsoftware.edition.ldod.utils.PropertiesManager;
@@ -40,7 +40,7 @@ public class TweetFactory {
 	@Atomic(mode = TxMode.WRITE)
 	public void create() throws IOException {
 		logger.debug("STARTED TWEET FACTORY!!!");
-		LdoD ldoD = LdoD.getInstance();
+		VirtualManager virtualManager = VirtualManager.getInstance();
 
 		File folder = new File(PropertiesManager.getProperties().getProperty("social.aware.dir"));
 		for (File fileEntry : folder.listFiles()) {
@@ -59,7 +59,7 @@ public class TweetFactory {
 
 				// arranjar outra maneira para não criar Tweets repetidos sem ter de usar o
 				// tempMaxID
-				// criar uma relação entre LdoD e Tweet de maneira a q o LdoD tenha um set
+				// criar uma relação entre VirtualManager e Tweet de maneira a q o VirtualManager tenha um set
 				// composto por todos os tweets
 				// como os ficheiros antigos são lidos antes
 				// ao percorrer um ficheiro .json, mal encontre um tweet id q já exista posso
@@ -88,7 +88,7 @@ public class TweetFactory {
 					obj = (JSONObject) new JSONParser().parse(line);
 
 					// if tweets set does not contain current tweet in json file
-					if (!ldoD.checkIfTweetExists((long) obj.get("tweetID"))) {
+					if (!virtualManager.checkIfTweetExists((long) obj.get("tweetID"))) {
 
 						String tweetText = (String) obj.get("text");
 						String tweetTextSubstring = tweetText; // caso não tenha o "http"
@@ -125,23 +125,23 @@ public class TweetFactory {
 								isRetweet = (boolean) obj.get("isRetweet");
 								// o tweet é um retweet
 								if (isRetweet) {
-									twitterCitation = ldoD
+									twitterCitation = virtualManager
 											.getTwitterCitationByTweetID((long) obj.get("originalTweetID"));
 
 								}
 								// o tweet não é um retweet
 								else {
-									twitterCitation = ldoD.getTwitterCitationByTweetID((long) obj.get("tweetID"));
+									twitterCitation = virtualManager.getTwitterCitationByTweetID((long) obj.get("tweetID"));
 								}
 							}
 							// antigos ficheiros JSON
 							else {
-								twitterCitation = ldoD.getTwitterCitationByTweetID((long) obj.get("tweetID"));
+								twitterCitation = virtualManager.getTwitterCitationByTweetID((long) obj.get("tweetID"));
 							}
 							// bw.write("CREATED A NEW TWEET!!");
 							// bw.write("\n");
 							// Create tweet
-							new Tweet(ldoD, (String) obj.get("tweetURL"), (String) obj.get("date"), tweetTextSubstring,
+							new Tweet(virtualManager, (String) obj.get("tweetURL"), (String) obj.get("date"), tweetTextSubstring,
 									(long) obj.get("tweetID"), (String) obj.get("location"),
 									(String) obj.get("country"), (String) obj.get("username"),
 									(String) obj.get("profURL"), (String) obj.get("profImg"), originalTweetID,

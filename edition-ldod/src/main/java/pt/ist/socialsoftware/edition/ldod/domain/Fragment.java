@@ -23,17 +23,17 @@ public class Fragment extends Fragment_Base implements Comparable<Fragment> {
 		public String getDesc() {
 			return this.desc;
 		}
-	};
+	}
 
-	public Fragment(LdoD ldoD, String title, String xmlId) {
-		setLdoD(ldoD);
+	public Fragment(VirtualManager virtualManager, String title, String xmlId) {
+		setVirtualManager(virtualManager);
 		setTitle(title);
 		setXmlId(xmlId);
 	}
 
 	@Atomic(mode = TxMode.WRITE)
 	public void remove() {
-		setLdoD(null);
+		setVirtualManager(null);
 
 		getTextPortion().remove();
 

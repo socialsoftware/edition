@@ -20,13 +20,8 @@ import org.junit.jupiter.api.Test;
 
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.fenixframework.core.WriteOnReadError;
-import pt.ist.socialsoftware.edition.ldod.domain.Edition;
-import pt.ist.socialsoftware.edition.ldod.domain.ExpertEdition;
-import pt.ist.socialsoftware.edition.ldod.domain.FragInter;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
+import pt.ist.socialsoftware.edition.ldod.domain.*;
+import pt.ist.socialsoftware.edition.ldod.domain.VirtualManager;
 import pt.ist.socialsoftware.edition.ldod.recommendation.properties.DateProperty;
 import pt.ist.socialsoftware.edition.ldod.recommendation.properties.HeteronymProperty;
 import pt.ist.socialsoftware.edition.ldod.recommendation.properties.Property;
@@ -50,14 +45,14 @@ public class VSMVirtualEditionInterRecomenderPerformanceTest {
 	public static void setUp() throws IOException, WriteOnReadError, NotSupportedException, SystemException {
 		FenixFramework.getTransactionManager().begin(false);
 
-		LdoD ldoD = LdoD.getInstance();
-		ExpertEdition pizarroEdition = (ExpertEdition) ldoD.getEdition(Edition.PIZARRO_EDITION_ACRONYM);
-		ExpertEdition zenithEdition = (ExpertEdition) ldoD.getEdition(Edition.ZENITH_EDITION_ACRONYM);
-		ExpertEdition cunhaEdition = (ExpertEdition) ldoD.getEdition(Edition.CUNHA_EDITION_ACRONYM);
+		VirtualManager virtualManager = VirtualManager.getInstance();
+		ExpertEdition pizarroEdition = (ExpertEdition) virtualManager.getEdition(Edition.PIZARRO_EDITION_ACRONYM);
+		ExpertEdition zenithEdition = (ExpertEdition) virtualManager.getEdition(Edition.ZENITH_EDITION_ACRONYM);
+		ExpertEdition cunhaEdition = (ExpertEdition) virtualManager.getEdition(Edition.CUNHA_EDITION_ACRONYM);
 
-		LdoDUser userArs = ldoD.getUser("ars");
+		LdoDUser userArs = virtualManager.getUser("ars");
 		// create pizarro virtual edition
-		pizarroVirtualEdition = ldoD.createVirtualEdition(userArs, "TestPizarroRecommendations",
+		pizarroVirtualEdition = virtualManager.createVirtualEdition(userArs, "TestPizarroRecommendations",
 				"TestPizarroRecommendations", LocalDate.now(), true, pizarroEdition);
 		pizarroVirtualEditionInters = pizarroVirtualEdition.getIntersSet().stream().map(VirtualEditionInter.class::cast)
 				.collect(Collectors.toSet());
@@ -68,13 +63,13 @@ public class VSMVirtualEditionInterRecomenderPerformanceTest {
 		pizarroVirtualEdition.getTaxonomy().createGeneratedCategories(topicListDTO);
 
 		// create zenith virtual edition
-		zenithVirtualEdition = ldoD.createVirtualEdition(userArs, "TestZenithRecommendations",
+		zenithVirtualEdition = virtualManager.createVirtualEdition(userArs, "TestZenithRecommendations",
 				"TestZenithRecommendations", LocalDate.now(), true, zenithEdition);
 		zenithVirtualEditionInters = zenithVirtualEdition.getIntersSet().stream().map(VirtualEditionInter.class::cast)
 				.collect(Collectors.toSet());
 
 		// create cunha virtual edition
-		cunhaVirtualEdition = ldoD.createVirtualEdition(userArs, "TestCunhaRecommendations", "TestCunhaRecommendations",
+		cunhaVirtualEdition = virtualManager.createVirtualEdition(userArs, "TestCunhaRecommendations", "TestCunhaRecommendations",
 				LocalDate.now(), true, cunhaEdition);
 		cunhaVirtualEditionInters = cunhaVirtualEdition.getIntersSet().stream().map(VirtualEditionInter.class::cast)
 				.collect(Collectors.toSet());

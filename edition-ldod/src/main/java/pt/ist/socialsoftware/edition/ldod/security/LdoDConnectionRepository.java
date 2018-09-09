@@ -24,7 +24,7 @@ import org.springframework.util.MultiValueMap;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
+import pt.ist.socialsoftware.edition.ldod.domain.VirtualManager;
 import pt.ist.socialsoftware.edition.ldod.domain.UserConnection;
 
 public class LdoDConnectionRepository implements ConnectionRepository {
@@ -44,7 +44,7 @@ public class LdoDConnectionRepository implements ConnectionRepository {
 
 	@Override
 	public MultiValueMap<String, Connection<?>> findAllConnections() {
-		List<Connection<?>> connections = LdoD.getInstance().getUserConnectionSet().stream()
+		List<Connection<?>> connections = VirtualManager.getInstance().getUserConnectionSet().stream()
 				.filter(uc -> uc.getUserId().equals(userId)).sorted((uc1, uc2) -> compareByProviderIdAndRank(uc1, uc2))
 				.map(uc -> mapUserConnection(uc)).collect(Collectors.toList());
 
@@ -65,7 +65,7 @@ public class LdoDConnectionRepository implements ConnectionRepository {
 
 	@Override
 	public List<Connection<?>> findConnections(String providerId) {
-		return LdoD.getInstance().getUserConnectionSet().stream()
+		return VirtualManager.getInstance().getUserConnectionSet().stream()
 				.filter(uc -> uc.getUserId().equals(userId) && uc.getProviderId().equals(providerId))
 				.sorted((uc1, uc2) -> Integer.compare(uc1.getRank(), uc2.getRank())).map(uc -> mapUserConnection(uc))
 				.collect(Collectors.toList());
@@ -86,7 +86,7 @@ public class LdoDConnectionRepository implements ConnectionRepository {
 
 		List<Connection<?>> allConnections = providerUsers.entrySet().stream()
 				.flatMap(entry -> entry.getValue().stream()
-						.map(u -> LdoD.getInstance().getUserConnection(userId, entry.getKey(), u)))
+						.map(u -> VirtualManager.getInstance().getUserConnection(userId, entry.getKey(), u)))
 				.sorted((uc1, uc2) -> compareByProviderIdAndRank(uc1, uc2)).map(uc -> mapUserConnection(uc))
 				.collect(Collectors.toList());
 
@@ -111,7 +111,7 @@ public class LdoDConnectionRepository implements ConnectionRepository {
 
 	@Override
 	public Connection<?> getConnection(ConnectionKey connectionKey) {
-		UserConnection userConnection = LdoD.getInstance().getUserConnectionSet().stream()
+		UserConnection userConnection = VirtualManager.getInstance().getUserConnectionSet().stream()
 				.filter(uc -> uc.getUserId().equals(userId) && uc.getProviderId().equals(connectionKey.getProviderId())
 						&& uc.getProviderUserId().equals(connectionKey.getProviderUserId()))
 				.findFirst().orElseThrow(() -> new NoSuchConnectionException(connectionKey));
@@ -150,12 +150,12 @@ public class LdoDConnectionRepository implements ConnectionRepository {
 		try {
 			ConnectionData data = connection.createData();
 
-			int nextRank = LdoD.getInstance().getUserConnectionSet().stream()
+			int nextRank = VirtualManager.getInstance().getUserConnectionSet().stream()
 					.filter(uc -> uc.getUserId().equals(userId) && uc.getProviderId().equals(data.getProviderId()))
 					.max((uc1, uc2) -> Integer.compare(uc1.getRank(), uc2.getRank())).map(uc -> uc.getRank() + 1)
 					.orElse(1);
 
-			LdoD.getInstance().createUserConnection(userId, data.getProviderId(), data.getProviderUserId(), nextRank,
+			VirtualManager.getInstance().createUserConnection(userId, data.getProviderId(), data.getProviderUserId(), nextRank,
 					data.getDisplayName(), data.getProfileUrl(), data.getImageUrl(), encrypt(data.getAccessToken()),
 					encrypt(data.getSecret()), encrypt(data.getRefreshToken()), data.getExpireTime());
 
@@ -169,7 +169,7 @@ public class LdoDConnectionRepository implements ConnectionRepository {
 	public void updateConnection(Connection<?> connection) {
 		ConnectionData data = connection.createData();
 
-		LdoD.getInstance().getUserConnectionSet().stream()
+		VirtualManager.getInstance().getUserConnectionSet().stream()
 				.filter(uc -> uc.getUserId().equals(userId) && uc.getProviderId().equals(data.getProviderId())
 						&& uc.getProviderUserId().equals(data.getProviderUserId()))
 				.forEach(uc -> {
@@ -186,7 +186,7 @@ public class LdoDConnectionRepository implements ConnectionRepository {
 	@Override
 	@Atomic(mode = TxMode.WRITE)
 	public void removeConnections(String providerId) {
-		Set<UserConnection> userConnections = LdoD.getInstance().getUserConnectionSet();
+		Set<UserConnection> userConnections = VirtualManager.getInstance().getUserConnectionSet();
 		Set<UserConnection> toRemoveUserConnections = userConnections.stream()
 				.filter(uc -> uc.getUserId().equals(userId) && uc.getProviderId().equals(providerId))
 				.collect(Collectors.toSet());
@@ -197,7 +197,7 @@ public class LdoDConnectionRepository implements ConnectionRepository {
 	@Override
 	@Atomic(mode = TxMode.WRITE)
 	public void removeConnection(ConnectionKey connectionKey) {
-		Set<UserConnection> userConnections = LdoD.getInstance().getUserConnectionSet();
+		Set<UserConnection> userConnections = VirtualManager.getInstance().getUserConnectionSet();
 		Set<UserConnection> toRemoveUserConnections = userConnections.stream()
 				.filter(uc -> uc.getUserId().equals(userId) && uc.getProviderId().equals(connectionKey.getProviderId())
 						&& uc.getProviderUserId().equals(connectionKey.getProviderUserId()))
@@ -209,7 +209,7 @@ public class LdoDConnectionRepository implements ConnectionRepository {
 	// internal helpers
 
 	private Connection<?> findPrimaryConnection(String providerId) {
-		Optional<UserConnection> optUserConnection = LdoD.getInstance().getUserConnectionSet().stream()
+		Optional<UserConnection> optUserConnection = VirtualManager.getInstance().getUserConnectionSet().stream()
 				.filter(uc -> uc.getUserId().equals(userId) && uc.getProviderId().equals(providerId))
 				.sorted((uc1, uc2) -> Integer.compare(uc1.getRank(), uc2.getRank())).findFirst();
 

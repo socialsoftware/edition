@@ -16,13 +16,10 @@ import org.joda.time.LocalDate;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
-import pt.ist.socialsoftware.edition.ldod.domain.UserConnection;
+import pt.ist.socialsoftware.edition.ldod.domain.*;
+import pt.ist.socialsoftware.edition.ldod.domain.VirtualManager;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDLoadException;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser.SocialMediaService;
-import pt.ist.socialsoftware.edition.ldod.domain.RegistrationToken;
-import pt.ist.socialsoftware.edition.ldod.domain.Role;
 import pt.ist.socialsoftware.edition.ldod.domain.Role.RoleType;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
 
@@ -62,25 +59,25 @@ public class UsersXMLImport {
 
 	@Atomic(mode = TxMode.WRITE)
 	public void processImport(Document doc) {
-		LdoD ldoD = LdoD.getInstance();
+		VirtualManager virtualManager = VirtualManager.getInstance();
 
-		importUsers(doc, ldoD);
-		importUserConnections(doc, ldoD);
-		importRegistrationTokens(doc, ldoD);
+		importUsers(doc, virtualManager);
+		importUserConnections(doc, virtualManager);
+		importRegistrationTokens(doc, virtualManager);
 	}
 
-	private void importUsers(Document doc, LdoD ldoD) {
+	private void importUsers(Document doc, VirtualManager virtualManager) {
 		XPathFactory xpfac = XPathFactory.instance();
 		XPathExpression<Element> xp = xpfac.compile("//users-management/users/user", Filters.element());
 		for (Element element : xp.evaluate(doc)) {
 			String username = element.getAttributeValue("username");
-			if (ldoD.getUser(username) == null) {
+			if (virtualManager.getUser(username) == null) {
 				String password = element.getAttributeValue("password");
 				String firstName = element.getAttributeValue("firstName");
 				String lastName = element.getAttributeValue("lastName");
 				String email = element.getAttributeValue("email");
 
-				LdoDUser user = new LdoDUser(ldoD, username, password, firstName, lastName, email);
+				LdoDUser user = new LdoDUser(virtualManager, username, password, firstName, lastName, email);
 
 				if (element.getAttributeValue("lastLogin") != null) {
 					user.setLastLogin(LocalDate.parse(element.getAttributeValue("lastLogin")));
@@ -111,7 +108,7 @@ public class UsersXMLImport {
 
 	}
 
-	private void importUserConnections(Document doc, LdoD ldoD) {
+	private void importUserConnections(Document doc, VirtualManager virtualManager) {
 		XPathFactory xpfac = XPathFactory.instance();
 		XPathExpression<Element> xp = xpfac.compile("//users-management/user-connections/user-connection",
 				Filters.element());
@@ -131,12 +128,12 @@ public class UsersXMLImport {
 				expireTime = Long.parseLong(element.getAttributeValue("expireTime"));
 			}
 
-			new UserConnection(ldoD, userId, providerId, providerUserId, rank, displayName, profileUrl, imageUrl,
+			new UserConnection(virtualManager, userId, providerId, providerUserId, rank, displayName, profileUrl, imageUrl,
 					accessToken, secret, refreshToken, expireTime);
 		}
 	}
 
-	private void importRegistrationTokens(Document doc, LdoD ldoD) {
+	private void importRegistrationTokens(Document doc, VirtualManager virtualManager) {
 		XPathFactory xpfac = XPathFactory.instance();
 		XPathExpression<Element> xp = xpfac.compile("//users-management/registration-tokens/token", Filters.element());
 
@@ -146,7 +143,7 @@ public class UsersXMLImport {
 			boolean authorized = convertToBool(element.getAttributeValue("authorized"));
 			String user = element.getAttributeValue("user");
 
-			RegistrationToken registrationToken = new RegistrationToken(token, LdoD.getInstance().getUser(user));
+			RegistrationToken registrationToken = new RegistrationToken(token, VirtualManager.getInstance().getUser(user));
 			registrationToken.setExpireTime(expireTime);
 			registrationToken.setAuthorized(authorized);
 		}

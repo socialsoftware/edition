@@ -4,13 +4,13 @@ import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
 
 public class Tweet extends Tweet_Base {
 
-	public Tweet(LdoD ldoD, String sourceLink, String date, String tweetText, long tweetID, String location,
-			String country, String username, String profURL, String profImgURL, long originalTweetID, boolean isRetweet,
-			TwitterCitation twitterCitation) {
+	public Tweet(VirtualManager virtualManager, String sourceLink, String date, String tweetText, long tweetID, String location,
+                 String country, String username, String profURL, String profImgURL, long originalTweetID, boolean isRetweet,
+                 TwitterCitation twitterCitation) {
 		if (!isRetweet && originalTweetID != -1l) {
 			throw new LdoDException("This tweet is not a retweet, therefore its original tweet id must be -1!");
 		}
-		setLdoD(ldoD);
+		setVirtualManager(virtualManager);
 		setSourceLink(sourceLink);
 		setDate(date);
 		setTweetText(tweetText);
@@ -28,7 +28,7 @@ public class Tweet extends Tweet_Base {
 	}
 
 	public void remove() {
-		setLdoD(null);
+		setVirtualManager(null);
 		setCitation(null);
 
 		deleteDomainObject();

@@ -17,18 +17,13 @@ import org.springframework.web.WebApplicationInitializer;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
-import pt.ist.socialsoftware.edition.ldod.domain.Member;
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
+import pt.ist.socialsoftware.edition.ldod.domain.*;
+import pt.ist.socialsoftware.edition.ldod.domain.VirtualManager;
 import pt.ist.socialsoftware.edition.ldod.recommendation.properties.DateProperty;
 import pt.ist.socialsoftware.edition.ldod.recommendation.properties.Property;
 import pt.ist.socialsoftware.edition.ldod.search.Indexer;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
 import pt.ist.socialsoftware.edition.ldod.topicmodeling.TopicModeler;
-import pt.ist.socialsoftware.edition.ldod.domain.Edition;
-import pt.ist.socialsoftware.edition.ldod.domain.Fragment;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
-import pt.ist.socialsoftware.edition.ldod.domain.Role;
 import pt.ist.socialsoftware.edition.ldod.domain.Role.RoleType;
 import pt.ist.socialsoftware.edition.ldod.recommendation.VSMFragmentRecommender;
 import pt.ist.socialsoftware.edition.ldod.recommendation.properties.HeteronymProperty;
@@ -54,9 +49,9 @@ public class Bootstrap implements WebApplicationInitializer {
 
 	@Atomic(mode = TxMode.WRITE)
 	public static void initializeSystem() {
-		if (LdoD.getInstance() == null) {
-			LdoD ldoD = new LdoD();
-			ldoD.setAdmin(true);
+		if (VirtualManager.getInstance() == null) {
+			VirtualManager virtualManager = new VirtualManager();
+			virtualManager.setAdmin(true);
 			cleanCorpusRepository();
 			cleanIntersRepository();
 			cleanTopicModeler();
@@ -108,7 +103,7 @@ public class Bootstrap implements WebApplicationInitializer {
 	}
 
 	private static void createUsersAndRoles() {
-		LdoD ldod = LdoD.getInstance();
+		VirtualManager ldod = VirtualManager.getInstance();
 
 		Role user = Role.getRole(RoleType.ROLE_USER);
 		Role admin = Role.getRole(RoleType.ROLE_ADMIN);
@@ -207,7 +202,7 @@ public class Bootstrap implements WebApplicationInitializer {
 	}
 
 	public static void createVirtualEditionsForTest() {
-		LdoD ldod = LdoD.getInstance();
+		VirtualManager ldod = VirtualManager.getInstance();
 
 		logger.debug("createVirtualEditionsForTest size{}", ldod.getUsersSet().size());
 
@@ -225,7 +220,7 @@ public class Bootstrap implements WebApplicationInitializer {
 		// LdoDUser osvaldo = ldod.getUser("osvaldo");
 		// LdoDUser jose = ldod.getUser("jose");
 		//
-		// VirtualEdition classX = new VirtualEdition(ldod, ars, "LdoD-ClassX", "LdoD
+		// VirtualEdition classX = new VirtualEdition(ldod, ars, "VirtualManager-ClassX", "VirtualManager
 		// Edition of Class X", new LocalDate(),
 		// false, null);
 		// classX.addMember(luis, MemberRole.ADMIN, true);
@@ -252,7 +247,7 @@ public class Bootstrap implements WebApplicationInitializer {
 		// osvaldo.addSelectedVirtualEditions(classX);
 		// jose.addSelectedVirtualEditions(classX);
 		//
-		// VirtualEdition classY = new VirtualEdition(ldod, ars, "LdoD-ClassY", "LdoD
+		// VirtualEdition classY = new VirtualEdition(ldod, ars, "VirtualManager-ClassY", "VirtualManager
 		// Edition of Class Y", new LocalDate(),
 		// false, null);
 		// classY.addMember(luis, MemberRole.ADMIN, true);
@@ -267,7 +262,7 @@ public class Bootstrap implements WebApplicationInitializer {
 		// tiago.addSelectedVirtualEditions(classY);
 		// nuno.addSelectedVirtualEditions(classY);
 		//
-		// VirtualEdition classW = new VirtualEdition(ldod, ars, "LdoD-ClassW", "LdoD
+		// VirtualEdition classW = new VirtualEdition(ldod, ars, "VirtualManager-ClassW", "VirtualManager
 		// Edition of Class W", new LocalDate(),
 		// false, null);
 		// classW.addMember(diego, MemberRole.ADMIN, true);
@@ -284,7 +279,7 @@ public class Bootstrap implements WebApplicationInitializer {
 	}
 
 	private static void createLdoDArchiveVirtualEdition() {
-		LdoD ldod = LdoD.getInstance();
+		VirtualManager ldod = VirtualManager.getInstance();
 
 		LdoDUser ars = ldod.getUser("ars");
 		// LdoDUser mp = ldod.getUser("mp");
@@ -298,7 +293,7 @@ public class Bootstrap implements WebApplicationInitializer {
 
 	@Atomic(mode = TxMode.WRITE)
 	public static void loadRecommendationCache() {
-		Set<Fragment> fragments = LdoD.getInstance().getFragmentsSet();
+		Set<Fragment> fragments = VirtualManager.getInstance().getFragmentsSet();
 
 		if (fragments.size() > 500) {
 			List<Property> properties = new ArrayList<>();
@@ -306,7 +301,7 @@ public class Bootstrap implements WebApplicationInitializer {
 			properties.add(new HeteronymProperty(1.0));
 			properties.add(new DateProperty(1.0));
 			properties.add(
-					new TaxonomyProperty(1.0, LdoD.getInstance().getArchiveEdition().getTaxonomy(), Property.PropertyCache.ON));
+					new TaxonomyProperty(1.0, VirtualManager.getInstance().getArchiveEdition().getTaxonomy(), Property.PropertyCache.ON));
 
 			VSMFragmentRecommender recommender = new VSMFragmentRecommender();
 			for (Fragment fragment : fragments) {

@@ -15,22 +15,14 @@ import org.junit.jupiter.api.Test;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.fenixframework.core.WriteOnReadError;
-import pt.ist.socialsoftware.edition.ldod.domain.AwareAnnotation;
-import pt.ist.socialsoftware.edition.ldod.domain.Citation;
-import pt.ist.socialsoftware.edition.ldod.domain.FragInter;
-import pt.ist.socialsoftware.edition.ldod.domain.Fragment;
-import pt.ist.socialsoftware.edition.ldod.domain.InfoRange;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
-import pt.ist.socialsoftware.edition.ldod.domain.Range;
-import pt.ist.socialsoftware.edition.ldod.domain.TwitterCitation;
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
+import pt.ist.socialsoftware.edition.ldod.domain.*;
+import pt.ist.socialsoftware.edition.ldod.domain.VirtualManager;
 import pt.ist.socialsoftware.edition.ldod.loaders.VirtualEditionFragmentsTEIImport;
 
 public class VirtualEditionFragmentsTEIExportTest {
 	private VirtualEditionFragmentsTEIExport export;
 	private VirtualEdition virtualEdition;
-	private LdoD ldoD;
+	private VirtualManager virtualManager;
 
 	public static void logger(Object toPrint) {
 		System.out.println(toPrint);
@@ -47,7 +39,7 @@ public class VirtualEditionFragmentsTEIExportTest {
 	public void test() throws WriteOnReadError, NotSupportedException, SystemException {
 		VirtualEditionFragmentsTEIExport export = new VirtualEditionFragmentsTEIExport();
 		int count = 0;
-		for (Fragment fragment : LdoD.getInstance().getFragmentsSet()) {
+		for (Fragment fragment : VirtualManager.getInstance().getFragmentsSet()) {
 			if (count < 15) {
 				String fragmentTEI = export.exportFragment(fragment);
 				logger(fragmentTEI);
@@ -73,7 +65,7 @@ public class VirtualEditionFragmentsTEIExportTest {
 			count++;
 		}
 		// debug
-		// logger("original test size: " + LdoD.getInstance().getFragmentsSet().size());
+		// logger("original test size: " + VirtualManager.getInstance().getFragmentsSet().size());
 	}
 
 	// aux method
@@ -141,7 +133,7 @@ public class VirtualEditionFragmentsTEIExportTest {
 	@Atomic
 	public void exportCitationsTest() {
 		int count = 0;
-		for (Fragment fragment : LdoD.getInstance().getFragmentsSet()) {
+		for (Fragment fragment : VirtualManager.getInstance().getFragmentsSet()) {
 			if (count < 20) {
 				new TwitterCitation(fragment, "sourceLink", "date", "fragText", "tweetText", 7777l, "location",
 						"country", "username", "profURL", "profImgURL");
@@ -160,7 +152,7 @@ public class VirtualEditionFragmentsTEIExportTest {
 	@Atomic
 	public void exportInfoRangesTest() {
 		int count = 0;
-		for (Fragment fragment : LdoD.getInstance().getFragmentsSet()) {
+		for (Fragment fragment : VirtualManager.getInstance().getFragmentsSet()) {
 			if (count < 15) {
 				TwitterCitation tc = new TwitterCitation(fragment, "sourceLink", "date", "fragText", "tweetText", 7777l,
 						"location", "country", "username", "profURL", "profImgURL");
@@ -185,7 +177,7 @@ public class VirtualEditionFragmentsTEIExportTest {
 	@Atomic
 	public void exportAwareAnnotationsTest() {
 		int count = 0;
-		for (Fragment fragment : LdoD.getInstance().getFragmentsSet()) {
+		for (Fragment fragment : VirtualManager.getInstance().getFragmentsSet()) {
 			if (count < 15) {
 				TwitterCitation tc = new TwitterCitation(fragment, "sourceLink", "date", "fragText", "tweetText", 7777l,
 						"location", "country", "username", "profURL", "profImgURL");
@@ -195,7 +187,7 @@ public class VirtualEditionFragmentsTEIExportTest {
 					new InfoRange(tc, fragment.getFragInterByXmlId(num + ".WIT.ED.CRIT.Z"), "/div[1]/div[1]/p[3]", 10,
 							"/div[1]/div[1]/p[3]", 20, "quoteExample", "textExample");
 				}
-				FragInter fragInter = fragment.getFragInterByXmlId("Fr023.WIT.ED.VIRT.LdoD-Duarte.1");
+				FragInter fragInter = fragment.getFragInterByXmlId("Fr023.WIT.ED.VIRT.VirtualManager-Duarte.1");
 				if (fragInter != null && fragInter instanceof VirtualEditionInter) {
 					VirtualEditionInter vei = (VirtualEditionInter) fragInter;
 					AwareAnnotation annot = new AwareAnnotation(vei, "quoteAnnotationExample", "textAnnotationExample",

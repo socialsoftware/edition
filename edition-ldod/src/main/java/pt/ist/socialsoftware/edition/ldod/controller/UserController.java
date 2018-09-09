@@ -11,7 +11,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
+import pt.ist.socialsoftware.edition.ldod.domain.VirtualManager;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
 import pt.ist.socialsoftware.edition.ldod.forms.ChangePasswordForm;
 import pt.ist.socialsoftware.edition.ldod.validator.ChangePasswordValidator;
@@ -40,7 +40,7 @@ public class UserController {
 			return null;
 		}
 
-		LdoDUser user = LdoD.getInstance().getUser(form.getUsername());
+		LdoDUser user = VirtualManager.getInstance().getUser(form.getUsername());
 
 		user.updatePassword(this.passwordEncoder, form.getCurrentPassword(), form.getNewPassword());
 

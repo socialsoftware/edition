@@ -1,11 +1,9 @@
 package pt.ist.socialsoftware.edition.ldod.domain;
 
-import pt.ist.socialsoftware.edition.ldod.domain.NullHeteronym_Base;
-
 public class NullHeteronym extends NullHeteronym_Base {
 
 	public static NullHeteronym getNullHeteronym() {
-		for (Heteronym heteronym : LdoD.getInstance().getHeteronymsSet()) {
+		for (Heteronym heteronym : VirtualManager.getInstance().getHeteronymsSet()) {
 			if (heteronym instanceof NullHeteronym)
 				return (NullHeteronym) heteronym;
 		}
@@ -13,7 +11,7 @@ public class NullHeteronym extends NullHeteronym_Base {
 	}
 
 	public NullHeteronym() {
-		setLdoD(LdoD.getInstance());
+		setVirtualManager(VirtualManager.getInstance());
 	}
 
 	@Override

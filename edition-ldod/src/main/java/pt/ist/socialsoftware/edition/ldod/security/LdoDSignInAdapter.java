@@ -14,7 +14,7 @@ import org.springframework.social.connect.Connection;
 import org.springframework.social.connect.web.SignInAdapter;
 import org.springframework.web.context.request.NativeWebRequest;
 
-import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
+import pt.ist.socialsoftware.edition.ldod.domain.VirtualManager;
 
 public class LdoDSignInAdapter implements SignInAdapter {
 	private static Logger log = LoggerFactory.getLogger(LdoDSignInAdapter.class);
@@ -32,7 +32,7 @@ public class LdoDSignInAdapter implements SignInAdapter {
 	public String signIn(String localUserId, Connection<?> connection, NativeWebRequest request) {
 		log.debug("signIn localUserId:{}", localUserId);
 
-		SigninUtils.signin(request, LdoD.getInstance().getUser(localUserId));
+		SigninUtils.signin(request, VirtualManager.getInstance().getUser(localUserId));
 
 		return extractOriginalUrl(request);
 	}

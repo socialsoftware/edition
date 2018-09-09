@@ -16,7 +16,7 @@ import pt.ist.fenixframework.FenixFramework;
 import pt.ist.fenixframework.core.WriteOnReadError;
 import pt.ist.socialsoftware.edition.ldod.domain.FragInter;
 import pt.ist.socialsoftware.edition.ldod.domain.Fragment;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
+import pt.ist.socialsoftware.edition.ldod.domain.VirtualManager;
 import pt.ist.socialsoftware.edition.ldod.loaders.LoadTEIFragments;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
 import pt.ist.socialsoftware.edition.ldod.utils.PropertiesManager;
@@ -53,9 +53,9 @@ public class PlainTransByInterTest {
 	public void test() {
 		String fragInterExternalID = null;
 
-		LdoD ldoD = LdoD.getInstance();
+		VirtualManager virtualManager = VirtualManager.getInstance();
 
-		for (Fragment frag : ldoD.getFragmentsSet()) {
+		for (Fragment frag : virtualManager.getFragmentsSet()) {
 			for (FragInter fragInter : frag.getFragmentInterSet()) {
 				if (fragInter.getShortName().equals("Cunha")) {
 					fragInterExternalID = fragInter.getExternalId();

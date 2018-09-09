@@ -19,13 +19,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import pt.ist.fenixframework.FenixFramework;
+import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.domain.Edition.EditionType;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
-import pt.ist.socialsoftware.edition.ldod.domain.RecommendationWeights;
-import pt.ist.socialsoftware.edition.ldod.domain.Section;
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
+import pt.ist.socialsoftware.edition.ldod.domain.VirtualManager;
 import pt.ist.socialsoftware.edition.ldod.recommendation.dto.RecommendVirtualEditionParam;
 import pt.ist.socialsoftware.edition.ldod.recommendation.dto.SectionVirtualEditionParam;
 import pt.ist.socialsoftware.edition.ldod.recommendation.dto.VirtualEditionWithSectionsDTO;
@@ -100,7 +96,7 @@ public class RecommendationController {
 		// + p.getWeight())
 		// .collect(Collectors.joining(";")));
 
-		VirtualEdition virtualEdition = (VirtualEdition) LdoD.getInstance().getEdition(params.getAcronym());
+		VirtualEdition virtualEdition = (VirtualEdition) VirtualManager.getInstance().getEdition(params.getAcronym());
 
 		LdoDUser user = LdoDUser.getAuthenticatedUser();
 		RecommendationWeights recommendationWeights = user.getRecommendationWeights(virtualEdition);
@@ -126,7 +122,7 @@ public class RecommendationController {
 			@RequestParam(value = "inter[]", required = false) String[] inters) {
 		// logger.debug("saveLinearVirtualEdition");
 
-		LdoD ldod = LdoD.getInstance();
+		VirtualManager ldod = VirtualManager.getInstance();
 		VirtualEdition virtualEdition = (VirtualEdition) ldod.getEdition(acronym);
 		if (inters != null && virtualEdition.getSourceType().equals(EditionType.VIRTUAL)) {
 			Section section = virtualEdition.createSection(Section.DEFAULT);
@@ -158,11 +154,11 @@ public class RecommendationController {
 
 		if (errors.size() > 0) {
 			throw new LdoDCreateVirtualEditionException(errors, acronym, title, pub,
-					LdoD.getInstance().getVirtualEditions4User(LdoDUser.getAuthenticatedUser(), ldoDSession),
+					VirtualManager.getInstance().getVirtualEditions4User(LdoDUser.getAuthenticatedUser(), ldoDSession),
 					LdoDUser.getAuthenticatedUser());
 		}
 
-		VirtualEdition virtualEdition = LdoD.getInstance().createVirtualEdition(LdoDUser.getAuthenticatedUser(),
+		VirtualEdition virtualEdition = VirtualManager.getInstance().createVirtualEdition(LdoDUser.getAuthenticatedUser(),
 				VirtualEdition.ACRONYM_PREFIX + acronym, title, new LocalDate(), pub, null);
 		VirtualEditionInter virtualInter;
 		for (int i = 0; i < inters.length; i++) {
@@ -184,7 +180,7 @@ public class RecommendationController {
 		// ")").collect(Collectors.joining()));
 
 		// VirtualEdition virtualEdition = (VirtualEdition)
-		// LdoD.getInstance().getEdition(params.getAcronym());
+		// VirtualManager.getInstance().getEdition(params.getAcronym());
 		// VirtualEditionInter inter = FenixFramework.getDomainObject(params.getId());
 		//
 		// List<VirtualEditionInter> inters =
@@ -223,7 +219,7 @@ public class RecommendationController {
 		// s.getSections().stream().collect(Collectors.joining(",")))
 		// .collect(Collectors.joining("\n")));
 
-		VirtualEdition virtualEdition = (VirtualEdition) LdoD.getInstance()
+		VirtualEdition virtualEdition = (VirtualEdition) VirtualManager.getInstance()
 				.getEdition(virtualEditionWithSectionsDTO.getAcronym());
 		if (virtualEdition == null) {
 			return "redirect:/error";
@@ -257,7 +253,7 @@ public class RecommendationController {
 			@RequestParam("inter[]") String[] inters, @RequestParam("depth[]") String[] depth) {
 
 		LdoDUser user = LdoDUser.getAuthenticatedUser();
-		VirtualEdition virtualEdition = LdoD.getInstance().createVirtualEdition(user, acronym, title, new LocalDate(),
+		VirtualEdition virtualEdition = VirtualManager.getInstance().createVirtualEdition(user, acronym, title, new LocalDate(),
 				pub, null);
 
 		RecommendationWeights recommendationWeights = user.getRecommendationWeights(virtualEdition);

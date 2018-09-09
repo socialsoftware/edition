@@ -31,16 +31,9 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import pt.ist.fenixframework.FenixFramework;
-import pt.ist.socialsoftware.edition.ldod.domain.Category;
-import pt.ist.socialsoftware.edition.ldod.domain.Edition;
-import pt.ist.socialsoftware.edition.ldod.domain.FragInter;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
+import pt.ist.socialsoftware.edition.ldod.domain.*;
+import pt.ist.socialsoftware.edition.ldod.domain.VirtualManager;
 import pt.ist.socialsoftware.edition.ldod.domain.Member.MemberRole;
-import pt.ist.socialsoftware.edition.ldod.domain.Tag;
-import pt.ist.socialsoftware.edition.ldod.domain.Taxonomy;
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
 import pt.ist.socialsoftware.edition.ldod.dto.EditionFragmentsDTO;
 import pt.ist.socialsoftware.edition.ldod.dto.EditionTranscriptionsDTO;
 import pt.ist.socialsoftware.edition.ldod.dto.FragmentDTO;
@@ -74,10 +67,10 @@ public class VirtualEditionController {
 	@RequestMapping(method = RequestMethod.GET)
 	public String listVirtualEdition(Model model, @ModelAttribute("ldoDSession") LdoDSession ldoDSession) {
 
-		model.addAttribute("ldod", LdoD.getInstance());
-		model.addAttribute("expertEditions", LdoD.getInstance().getSortedExpertEdition());
+		model.addAttribute("ldod", VirtualManager.getInstance());
+		model.addAttribute("expertEditions", VirtualManager.getInstance().getSortedExpertEdition());
 		model.addAttribute("virtualEditions",
-				LdoD.getInstance().getVirtualEditions4User(LdoDUser.getAuthenticatedUser(), ldoDSession));
+				VirtualManager.getInstance().getVirtualEditions4User(LdoDUser.getAuthenticatedUser(), ldoDSession));
 		model.addAttribute("user", LdoDUser.getAuthenticatedUser());
 
 		List<String> countriesList = new ArrayList<String>();
@@ -127,19 +120,19 @@ public class VirtualEditionController {
 
 		if (errors.size() > 0) {
 			throw new LdoDCreateVirtualEditionException(errors, acronym, title, pub,
-					LdoD.getInstance().getVirtualEditions4User(LdoDUser.getAuthenticatedUser(), ldoDSession),
+					VirtualManager.getInstance().getVirtualEditions4User(LdoDUser.getAuthenticatedUser(), ldoDSession),
 					LdoDUser.getAuthenticatedUser());
 		}
 
 		try {
-			virtualEdition = LdoD.getInstance().createVirtualEdition(LdoDUser.getAuthenticatedUser(),
+			virtualEdition = VirtualManager.getInstance().createVirtualEdition(LdoDUser.getAuthenticatedUser(),
 					VirtualEdition.ACRONYM_PREFIX + acronym, title, date, pub, usedEdition, mediaSource, beginDate,
 					endDate, geoLocation, frequency);
 
 		} catch (LdoDDuplicateAcronymException ex) {
 			errors.add("virtualedition.acronym.duplicate");
 			throw new LdoDCreateVirtualEditionException(errors, acronym, title, pub,
-					LdoD.getInstance().getVirtualEditions4User(LdoDUser.getAuthenticatedUser(), ldoDSession),
+					VirtualManager.getInstance().getVirtualEditions4User(LdoDUser.getAuthenticatedUser(), ldoDSession),
 					LdoDUser.getAuthenticatedUser());
 		}
 
@@ -289,7 +282,7 @@ public class VirtualEditionController {
 	public @ResponseBody ResponseEntity<EditionFragmentsDTO> getFragments(Model model, @PathVariable String acronym) {
 		logger.debug("getFragments acronym:{}", acronym);
 
-		VirtualEdition virtualEdition = LdoD.getInstance().getVirtualEdition(acronym);
+		VirtualEdition virtualEdition = VirtualManager.getInstance().getVirtualEdition(acronym);
 
 		if (virtualEdition == null) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -329,7 +322,7 @@ public class VirtualEditionController {
 			@PathVariable String acronym) {
 		logger.debug("getTranscriptions acronym:{}", acronym);
 
-		VirtualEdition virtualEdition = LdoD.getInstance().getVirtualEdition(acronym);
+		VirtualEdition virtualEdition = VirtualManager.getInstance().getVirtualEdition(acronym);
 
 		if (virtualEdition == null) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -361,7 +354,7 @@ public class VirtualEditionController {
 			@PathVariable String acronym, @PathVariable String category) {
 		logger.debug("getTranscriptionsTag acronym:{}, category:{}", acronym, category);
 
-		VirtualEdition virtualEdition = LdoD.getInstance().getVirtualEdition(acronym);
+		VirtualEdition virtualEdition = VirtualManager.getInstance().getVirtualEdition(acronym);
 
 		if (virtualEdition == null) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -441,8 +434,8 @@ public class VirtualEditionController {
 			return "redirect:/error";
 		}
 
-		LdoD ldoD = LdoD.getInstance();
-		LdoDUser user = ldoD.getUser(username);
+		VirtualManager virtualManager = VirtualManager.getInstance();
+		LdoDUser user = virtualManager.getUser(username);
 		if (user == null) {
 			List<String> errors = new ArrayList<>();
 			errors.add("user.unknown");
@@ -465,8 +458,8 @@ public class VirtualEditionController {
 			return "redirect:/error";
 		}
 
-		LdoD ldoD = LdoD.getInstance();
-		LdoDUser user = ldoD.getUser(username);
+		VirtualManager virtualManager = VirtualManager.getInstance();
+		LdoDUser user = virtualManager.getUser(username);
 		if (user == null) {
 			List<String> errors = new ArrayList<>();
 			errors.add("user.unknown");
@@ -489,8 +482,8 @@ public class VirtualEditionController {
 			return "redirect:/error";
 		}
 
-		LdoD ldoD = LdoD.getInstance();
-		LdoDUser user = ldoD.getUser(username);
+		VirtualManager virtualManager = VirtualManager.getInstance();
+		LdoDUser user = virtualManager.getUser(username);
 
 		if (!virtualEdition.canSwitchRole(LdoDUser.getAuthenticatedUser(), user)) {
 			throw new LdoDExceptionNonAuthorized();

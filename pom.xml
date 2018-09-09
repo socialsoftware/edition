@@ -345,6 +345,6 @@
 
 	<modules>
 		<module>edition-ldod</module>
-		<module>edition-reading</module>
-	</modules>
+        <module>edition-text</module>
+    </modules>
 </project>

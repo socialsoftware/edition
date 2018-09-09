@@ -71,21 +71,21 @@ public class LdoDUser extends LdoDUser_Base {
 		getAnnotationSet().stream().forEach(a -> a.remove());
 		getRecommendationWeightsSet().stream().forEach(rw -> rw.remove());
 
-		getLdoD().getUserConnectionSet().stream().filter(uc -> uc.getUserId().equals(getUsername()))
+		getVirtualManager().getUserConnectionSet().stream().filter(uc -> uc.getUserId().equals(getUsername()))
 				.forEach(uc -> uc.remove());
 		if (getToken() != null) {
 			getToken().remove();
 		}
 		getRolesSet().stream().forEach(r -> removeRoles(r));
-		setLdoD(null);
+		setVirtualManager(null);
 
 		deleteDomainObject();
 	}
 
-	public LdoDUser(LdoD ldoD, String username, String password, String firstName, String lastName, String email) {
+	public LdoDUser(VirtualManager virtualManager, String username, String password, String firstName, String lastName, String email) {
 		setEnabled(false);
 		setActive(true);
-		setLdoD(ldoD);
+		setVirtualManager(virtualManager);
 		setUsername(username);
 		setPassword(password);
 		setFirstName(firstName);
@@ -94,7 +94,7 @@ public class LdoDUser extends LdoDUser_Base {
 	}
 
 	private void checkUniqueUsername(String username) {
-		if (getLdoD().getUsersSet().stream().filter(u -> u.getUsername() != null && u.getUsername().equals(username))
+		if (getVirtualManager().getUsersSet().stream().filter(u -> u.getUsername() != null && u.getUsername().equals(username))
 				.findFirst().isPresent()) {
 			throw new LdoDDuplicateUsernameException(username);
 		}
@@ -130,7 +130,7 @@ public class LdoDUser extends LdoDUser_Base {
 				return recommendationWeights;
 			}
 		}
-		return LdoD.getInstance().createRecommendationWeights(this, virtualEdition);
+		return VirtualManager.getInstance().createRecommendationWeights(this, virtualEdition);
 	}
 
 	@Atomic(mode = TxMode.WRITE)
@@ -201,7 +201,7 @@ public class LdoDUser extends LdoDUser_Base {
 	private void changeUsername(String oldUsername, String newUsername) {
 		setUsername(newUsername);
 
-		UserConnection userConnection = getLdoD().getUserConnectionSet().stream()
+		UserConnection userConnection = getVirtualManager().getUserConnectionSet().stream()
 				.filter(uc -> uc.getUserId().equals(oldUsername)).findFirst().orElse(null);
 
 		if (userConnection != null) {

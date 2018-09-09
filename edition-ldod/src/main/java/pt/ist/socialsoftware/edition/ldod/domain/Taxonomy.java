@@ -15,7 +15,6 @@ import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.ldod.utils.TopicDTO;
 import pt.ist.socialsoftware.edition.ldod.utils.TopicListDTO;
-import pt.ist.socialsoftware.edition.ldod.domain.Taxonomy_Base;
 import pt.ist.socialsoftware.edition.ldod.utils.TopicInterPercentageDTO;
 
 public class Taxonomy extends Taxonomy_Base {
@@ -169,7 +168,7 @@ public class Taxonomy extends Taxonomy_Base {
 			return;
 		}
 
-		LdoDUser user = LdoD.getInstance().getUser(topicList.getUsername());
+		LdoDUser user = VirtualManager.getInstance().getUser(topicList.getUsername());
 
 		for (TopicDTO topic : topicList.getTopics()) {
 			Category category = new Category();

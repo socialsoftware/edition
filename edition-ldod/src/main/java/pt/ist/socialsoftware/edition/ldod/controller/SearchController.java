@@ -26,7 +26,7 @@ import pt.ist.socialsoftware.edition.ldod.domain.ExpertEdition;
 import pt.ist.socialsoftware.edition.ldod.domain.FragInter;
 import pt.ist.socialsoftware.edition.ldod.domain.Fragment;
 import pt.ist.socialsoftware.edition.ldod.domain.Heteronym;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
+import pt.ist.socialsoftware.edition.ldod.domain.VirtualManager;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
 import pt.ist.socialsoftware.edition.ldod.domain.ManuscriptSource;
 import pt.ist.socialsoftware.edition.ldod.domain.ManuscriptSource.Medium;
@@ -225,7 +225,7 @@ public class SearchController {
   public Map<String, String> getEditions() {
     // LinkedHashMap keeps insertion order.
     Map<String, String> editions = new LinkedHashMap<>();
-    for (ExpertEdition expertEdition : LdoD.getInstance().getSortedExpertEdition()) {
+    for (ExpertEdition expertEdition : VirtualManager.getInstance().getSortedExpertEdition()) {
 
       editions.put(expertEdition.getAcronym(), expertEdition.getEditor());
     }
@@ -235,7 +235,7 @@ public class SearchController {
   @RequestMapping(value = "/getEdition")
   @ResponseBody
   public EditionJson getEdition(@RequestParam(value = "edition", required = true) String acronym) {
-    Edition edition = LdoD.getInstance().getEdition(acronym);
+    Edition edition = VirtualManager.getInstance().getEdition(acronym);
     Map<String, String> heteronyms = new HashMap<>();
     LocalDate beginDate = null;
     LocalDate endDate = null;
@@ -265,7 +265,7 @@ public class SearchController {
     logger.debug("getPublicationsDates");
     LocalDate beginDate = null;
     LocalDate endDate = null;
-    for (Fragment fragment : LdoD.getInstance().getFragmentsSet()) {
+    for (Fragment fragment : VirtualManager.getInstance().getFragmentsSet()) {
       for (Source source : fragment.getSourcesSet()) {
         if (source.getType().equals(SourceType.PRINTED)) {
           if (source.getLdoDDate() != null) {
@@ -292,7 +292,7 @@ public class SearchController {
     for (int i = 0; i < values.length; i++) {
       array[i] = values[i].getDesc();
     }
-    for (Fragment frag : LdoD.getInstance().getFragmentsSet()) {
+    for (Fragment frag : VirtualManager.getInstance().getFragmentsSet()) {
       for (FragInter inter : frag.getFragmentInterSet()) {
         if (inter.getSourceType().equals(Edition.EditionType.AUTHORIAL)) {
           SourceType type = ((SourceInter) inter).getSource().getType();
@@ -339,7 +339,7 @@ public class SearchController {
   @ResponseBody
   public Map<String, String> getHeteronyms() {
     Map<String, String> heteronyms = new HashMap<>();
-    for (Heteronym heteronym : LdoD.getInstance().getHeteronymsSet()) {
+    for (Heteronym heteronym : VirtualManager.getInstance().getHeteronymsSet()) {
       heteronyms.put(heteronym.getName(), heteronym.getXmlId());
     }
     return heteronyms;
@@ -350,7 +350,7 @@ public class SearchController {
   public DatesJson getDates() {
     LocalDate beginDate = null;
     LocalDate endDate = null;
-    for (Fragment fragment : LdoD.getInstance().getFragmentsSet()) {
+    for (Fragment fragment : VirtualManager.getInstance().getFragmentsSet()) {
       for (FragInter fragInter : fragment.getFragmentInterSet()) {
         if (fragInter.getLdoDDate() != null) {
           beginDate = getIsBeforeDate(beginDate, fragInter.getLdoDDate().getDate());

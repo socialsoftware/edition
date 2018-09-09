@@ -31,7 +31,7 @@ import pt.ist.socialsoftware.edition.ldod.utils.PropertiesManager;
 public class VirtualEdition extends VirtualEdition_Base {
 	private static Logger logger = LoggerFactory.getLogger(VirtualEdition.class);
 
-	public static String ACRONYM_PREFIX = "LdoD-";
+	public static String ACRONYM_PREFIX = "VirtualManager-";
 
 	@Override
 	public String getTitle() {
@@ -60,9 +60,9 @@ public class VirtualEdition extends VirtualEdition_Base {
 		return "ED.VIRT." + getAcronym();
 	}
 
-	public VirtualEdition(LdoD ldod, LdoDUser participant, String acronym, String title, LocalDate date, Boolean pub,
-			Edition usedEdition) {
-		setLdoD4Virtual(ldod);
+	public VirtualEdition(VirtualManager ldod, LdoDUser participant, String acronym, String title, LocalDate date, Boolean pub,
+                          Edition usedEdition) {
+		setVirtualManager4Virtual(ldod);
 		new Member(this, participant, Member.MemberRole.ADMIN, true);
 		setXmlId("ED.VIRT." + acronym);
 		setAcronym(acronym);
@@ -79,10 +79,10 @@ public class VirtualEdition extends VirtualEdition_Base {
 	}
 
 	// TODO fazer a verificação dos parâmetros vazios
-	public VirtualEdition(LdoD ldod, LdoDUser participant, String acronym, String title, LocalDate date, Boolean pub,
-			Edition usedEdition, String mediaSource, String beginDate, String endDate, String geoLocation,
-			String frequency) {
-		setLdoD4Virtual(ldod);
+	public VirtualEdition(VirtualManager ldod, LdoDUser participant, String acronym, String title, LocalDate date, Boolean pub,
+                          Edition usedEdition, String mediaSource, String beginDate, String endDate, String geoLocation,
+                          String frequency) {
+		setVirtualManager4Virtual(ldod);
 		new Member(this, participant, Member.MemberRole.ADMIN, true);
 		setXmlId("ED.VIRT." + acronym);
 		setAcronym(acronym);
@@ -138,7 +138,7 @@ public class VirtualEdition extends VirtualEdition_Base {
 			}
 		}
 
-		setLdoD4Virtual(null);
+		setVirtualManager4Virtual(null);
 
 		getTaxonomy().remove();
 

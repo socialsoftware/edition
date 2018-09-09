@@ -19,12 +19,8 @@ import org.junit.jupiter.api.Test;
 
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.fenixframework.core.WriteOnReadError;
-import pt.ist.socialsoftware.edition.ldod.domain.Edition;
-import pt.ist.socialsoftware.edition.ldod.domain.ExpertEdition;
-import pt.ist.socialsoftware.edition.ldod.domain.ExpertEditionInter;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
+import pt.ist.socialsoftware.edition.ldod.domain.*;
+import pt.ist.socialsoftware.edition.ldod.domain.VirtualManager;
 import pt.ist.socialsoftware.edition.ldod.recommendation.properties.DateProperty;
 import pt.ist.socialsoftware.edition.ldod.recommendation.properties.HeteronymProperty;
 import pt.ist.socialsoftware.edition.ldod.recommendation.properties.Property;
@@ -40,9 +36,9 @@ public class ReadingRecommendationPerformanceTest {
 	public static void setUp() throws IOException, WriteOnReadError, NotSupportedException, SystemException {
 		FenixFramework.getTransactionManager().begin(false);
 
-		LdoD ldoD = LdoD.getInstance();
+		VirtualManager virtualManager = VirtualManager.getInstance();
 
-		VirtualEdition archiveEdition = ldoD.getArchiveEdition();
+		VirtualEdition archiveEdition = virtualManager.getArchiveEdition();
 		List<VirtualEditionInter> archiveVirtualEditionInters = archiveEdition.getIntersSet().stream()
 				.map(VirtualEditionInter.class::cast).collect(Collectors.toList());
 
@@ -74,8 +70,8 @@ public class ReadingRecommendationPerformanceTest {
 		recommender.setTextWeight(1.0);
 		recommender.setTaxonomyWeight(1.0);
 
-		LdoD ldoD = LdoD.getInstance();
-		ExpertEdition pizarroEdition = (ExpertEdition) ldoD.getEdition(Edition.PIZARRO_EDITION_ACRONYM);
+		VirtualManager virtualManager = VirtualManager.getInstance();
+		ExpertEdition pizarroEdition = (ExpertEdition) virtualManager.getEdition(Edition.PIZARRO_EDITION_ACRONYM);
 		ExpertEditionInter inter = pizarroEdition.getExpertEditionIntersSet().stream().collect(Collectors.toList())
 				.get(0);
 

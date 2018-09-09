@@ -2,7 +2,6 @@ package pt.ist.socialsoftware.edition.ldod.domain;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
-import pt.ist.socialsoftware.edition.ldod.domain.RefText_Base;
 import pt.ist.socialsoftware.edition.ldod.generators.TextPortionVisitor;
 
 public class RefText extends RefText_Base {
@@ -19,7 +18,7 @@ public class RefText extends RefText_Base {
 		public String getDesc() {
 			return desc;
 		}
-	};
+	}
 
 	public RefText(TextPortion parent, RefType type, String target) {
 		parent.addChildText(this);
@@ -34,7 +33,7 @@ public class RefText extends RefText_Base {
 	public Fragment getRefFrag() {
 		Fragment fragment = super.getRefFrag();
 		if (fragment == null) {
-			fragment = LdoD.getInstance().getFragmentByXmlId(getTarget());
+			fragment = VirtualManager.getInstance().getFragmentByXmlId(getTarget());
 			atomicWriteRefFrag(fragment);
 		}
 		return fragment;

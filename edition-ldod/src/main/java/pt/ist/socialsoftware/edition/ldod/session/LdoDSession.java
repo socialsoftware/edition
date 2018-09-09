@@ -14,7 +14,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.socialsoftware.edition.ldod.domain.Edition;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
+import pt.ist.socialsoftware.edition.ldod.domain.VirtualManager;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.ldod.recommendation.ReadingRecommendation;
@@ -33,11 +33,11 @@ public class LdoDSession implements Serializable {
 		LdoDSession ldoDSession = null;
 		if (request.getSession().getAttribute("ldoDSession") == null) {
 			ldoDSession = new LdoDSession();
-			VirtualEdition virtualEdition = LdoD.getInstance().getVirtualEdition("LdoD-JPC-anot");
+			VirtualEdition virtualEdition = VirtualManager.getInstance().getVirtualEdition("VirtualManager-JPC-anot");
 			if (virtualEdition != null) {
 				ldoDSession.addSelectedVE(virtualEdition);
 			}
-			virtualEdition = LdoD.getInstance().getVirtualEdition("LdoD-Mallet");
+			virtualEdition = VirtualManager.getInstance().getVirtualEdition("VirtualManager-Mallet");
 			if (virtualEdition != null) {
 				ldoDSession.addSelectedVE(virtualEdition);
 			}
@@ -76,7 +76,7 @@ public class LdoDSession implements Serializable {
 	}
 
 	public List<VirtualEdition> materializeVirtualEditions() {
-		LdoD ldod = LdoD.getInstance();
+		VirtualManager ldod = VirtualManager.getInstance();
 
 		return this.selectedVEAcr.stream().map(acr -> ldod.getEdition(acr)).filter(e -> e != null)
 				.map(VirtualEdition.class::cast).collect(Collectors.toList());

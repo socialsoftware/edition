@@ -9,19 +9,8 @@ import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 
 import pt.ist.fenixframework.Atomic;
-import pt.ist.socialsoftware.edition.ldod.domain.Annotation;
-import pt.ist.socialsoftware.edition.ldod.domain.AwareAnnotation;
-import pt.ist.socialsoftware.edition.ldod.domain.Category;
-import pt.ist.socialsoftware.edition.ldod.domain.Citation;
-import pt.ist.socialsoftware.edition.ldod.domain.Fragment;
-import pt.ist.socialsoftware.edition.ldod.domain.HumanAnnotation;
-import pt.ist.socialsoftware.edition.ldod.domain.InfoRange;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
-import pt.ist.socialsoftware.edition.ldod.domain.Range;
-import pt.ist.socialsoftware.edition.ldod.domain.Tag;
-import pt.ist.socialsoftware.edition.ldod.domain.Tweet;
-import pt.ist.socialsoftware.edition.ldod.domain.TwitterCitation;
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
+import pt.ist.socialsoftware.edition.ldod.domain.*;
+import pt.ist.socialsoftware.edition.ldod.domain.VirtualManager;
 
 public class VirtualEditionFragmentsTEIExport {
 	Namespace xmlns = Namespace.getNamespace("http://www.tei-c.org/ns/1.0");
@@ -30,7 +19,7 @@ public class VirtualEditionFragmentsTEIExport {
 
 	@Atomic
 	public void export() {
-		for (Fragment fragment : LdoD.getInstance().getFragmentsSet()) {
+		for (Fragment fragment : VirtualManager.getInstance().getFragmentsSet()) {
 			exportFragment(fragment);
 		}
 	}
