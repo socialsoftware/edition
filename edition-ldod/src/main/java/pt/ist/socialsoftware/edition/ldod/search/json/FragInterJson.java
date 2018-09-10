@@ -1,4 +1,4 @@
-package pt.ist.socialsoftware.edition.ldod.search.json;
+package pt.ist.socialsoftware.edition.text.search.json;
 
 import pt.ist.socialsoftware.edition.text.domain.ExpertEdition;
 import pt.ist.socialsoftware.edition.text.domain.ExpertEditionInter;

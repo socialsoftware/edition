@@ -18,7 +18,9 @@ import pt.ist.socialsoftware.edition.ldod.domain.Member.MemberRole;
 import pt.ist.socialsoftware.edition.ldod.dto.*;
 import pt.ist.socialsoftware.edition.ldod.security.LdoDUserDetails;
 import pt.ist.socialsoftware.edition.ldod.session.LdoDSession;
-import pt.ist.socialsoftware.edition.text.exception.*;
+import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDCreateVirtualEditionException;
+import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDEditVirtualEditionException;
+import pt.ist.socialsoftware.edition.text.shared.exception.*;
 import pt.ist.socialsoftware.edition.ldod.topicmodeling.TopicModeler;
 import pt.ist.socialsoftware.edition.ldod.utils.PropertiesManager;
 import pt.ist.socialsoftware.edition.ldod.utils.TopicListDTO;
@@ -54,33 +56,13 @@ public class VirtualEditionController {
 				VirtualManager.getInstance().getVirtualEditions4User(LdoDUser.getAuthenticatedUser(), ldoDSession));
 		model.addAttribute("user", LdoDUser.getAuthenticatedUser());
 
-		List<String> countriesList = new ArrayList<String>();
-		countriesList.add("Portugal");
-		countriesList.add("Brasil");
-		countriesList.add("Espanha");
-		countriesList.add("Inglaterra");
-		countriesList.add("Estados Unidos");
-		countriesList.add("Líbano");
-		countriesList.add("Angola");
-		countriesList.add("Moçambique");
-		model.addAttribute("countriesList", countriesList);
-
 		return "virtual/editions";
 	}
 
 	@RequestMapping(method = RequestMethod.POST, value = "/restricted/create")
 	public String createVirtualEdition(Model model, @ModelAttribute("ldoDSession") LdoDSession ldoDSession,
 			@RequestParam("acronym") String acronym, @RequestParam("title") String title,
-			@RequestParam("pub") boolean pub, @RequestParam("use") String editionID,
-			@RequestParam("mediasource") String mediaSource, @RequestParam("begindate") String beginDate,
-			@RequestParam("enddate") String endDate, @RequestParam("geolocation") String geoLocation,
-			@RequestParam("frequency") String frequency) {
-
-		logger.info("mediaSource:{}", mediaSource);
-		logger.info("beginDate:{}", beginDate);
-		logger.info("endDate:{}", endDate);
-		logger.info("geoLocation:{}", geoLocation);
-		logger.info("frequency:{}", frequency);
+			@RequestParam("pub") boolean pub, @RequestParam("use") String editionID) {
 
 		Edition usedEdition = null;
 		if (!editionID.equals("no")) {
@@ -107,8 +89,7 @@ public class VirtualEditionController {
 
 		try {
 			virtualEdition = VirtualManager.getInstance().createVirtualEdition(LdoDUser.getAuthenticatedUser(),
-					VirtualEdition.ACRONYM_PREFIX + acronym, title, date, pub, usedEdition, mediaSource, beginDate,
-					endDate, geoLocation, frequency);
+					VirtualEdition.ACRONYM_PREFIX + acronym, title, date, pub, usedEdition);
 
 		} catch (LdoDDuplicateAcronymException ex) {
 			errors.add("virtualedition.acronym.duplicate");
@@ -118,7 +99,6 @@ public class VirtualEditionController {
 		}
 
 		return "redirect:/virtualeditions";
-
 	}
 
 	@RequestMapping(method = RequestMethod.POST, value = "/restricted/delete")
@@ -143,6 +123,7 @@ public class VirtualEditionController {
 		}
 	}
 
+	// TODO: acrescentar os países
 	@RequestMapping(method = RequestMethod.GET, value = "/restricted/manage/{externalId}")
 	@PreAuthorize("hasPermission(#externalId, 'virtualedition.participant')")
 	public String manageVirtualEdition(Model model, @PathVariable String externalId) {
@@ -153,6 +134,17 @@ public class VirtualEditionController {
 		} else {
 			model.addAttribute("virtualEdition", virtualEdition);
 			model.addAttribute("user", LdoDUser.getAuthenticatedUser());
+
+			List<String> countriesList = new ArrayList<String>();
+			countriesList.add("Portugal");
+			countriesList.add("Brazil");
+			countriesList.add("Spain");
+			countriesList.add("United Kingdom");
+			countriesList.add("United States");
+			countriesList.add("Lebanon");
+			countriesList.add("Angola");
+			countriesList.add("Mozambique");
+			model.addAttribute("countriesList", countriesList);
 			return "virtual/manage";
 		}
 	}

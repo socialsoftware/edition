@@ -104,7 +104,7 @@ public class LdoDUser extends LdoDUser_Base {
 	public List<VirtualEditionInter> getFragInterSet() {
 		Set<VirtualEditionInter> inters = new HashSet<>();
 
-		for (HumanAnnotation annotation : getAnnotationSet()) {
+		for (Annotation annotation : getAnnotationSet()) {
 			if (annotation.getVirtualEditionInter().getVirtualEdition().checkAccess()) {
 				inters.add(annotation.getVirtualEditionInter());
 			}

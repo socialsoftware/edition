@@ -25,14 +25,14 @@ import pt.ist.socialsoftware.edition.ldod.dto.FragmentDTO;
 import pt.ist.socialsoftware.edition.ldod.dto.FragmentMetaInfoDTO;
 import pt.ist.socialsoftware.edition.ldod.recommendation.VSMVirtualEditionInterRecommender;
 import pt.ist.socialsoftware.edition.ldod.recommendation.properties.Property;
-import pt.ist.socialsoftware.edition.text.exception.LdoDException;
+import pt.ist.socialsoftware.edition.text.shared.exception.LdoDException;
 import pt.ist.socialsoftware.edition.ldod.utils.PropertiesManager;
 import pt.ist.socialsoftware.edition.text.domain.*;
 
 public class VirtualEdition extends VirtualEdition_Base {
 	private static Logger logger = LoggerFactory.getLogger(VirtualEdition.class);
 
-	public static String ACRONYM_PREFIX = "VirtualManager-";
+	public static String ACRONYM_PREFIX = "LdoD-";
 
 	@Override
 	public String getTitle() {
@@ -269,7 +269,7 @@ public class VirtualEdition extends VirtualEdition_Base {
 		return getAcronym().substring(ACRONYM_PREFIX.length());
 	}
 
-	// TODO fazer a verificação dos parâmetros vazios
+	// TODO corrigir o caso dos parâmetros vazios e também o new e o remove
 	@Atomic(mode = TxMode.WRITE)
 	public void edit(String acronym, String title, String synopsis, boolean pub, boolean openManagement,
 			boolean openVocabulary, boolean openAnnotation, String mediaSource, String beginDate, String endDate,
@@ -284,44 +284,101 @@ public class VirtualEdition extends VirtualEdition_Base {
 		setAcronym(acronym);
 		getTaxonomy().edit(openManagement, openVocabulary, openAnnotation);
 
-		if (!mediaSource.equals("")) {
-			MediaSource medSource = this.getMediaSource();
-			if (medSource != null) {
-				medSource.edit(mediaSource);
-			} else {
+		MediaSource medSource = this.getMediaSource();
+		// creates
+		if (medSource == null) {
+			if (mediaSource.equals("noMediaSource")) {
+				// do nothing
+			} else if (mediaSource.equals("Twitter")) {
 				new MediaSource(this, mediaSource);
 			}
 		}
-
-		LocalDate bDate = null;
-		LocalDate eDate = null;
-		if (!beginDate.equals("")) {
-			bDate = new LocalDate(beginDate);
-		}
-		if (!endDate.equals("")) {
-			eDate = new LocalDate(endDate);
+		// removes or edits
+		else {
+			if (mediaSource.equals("noMediaSource")) {
+				medSource.remove();
+			} else if (mediaSource.equals("Twitter")) {
+				medSource.edit(mediaSource);
+			}
 		}
 
 		TimeWindow timeWindow = this.getTimeWindow();
-		if (timeWindow != null) {
-			timeWindow.edit(bDate, eDate);
-		} else {
-			new TimeWindow(this, bDate, eDate);
+		LocalDate bDate = null;
+		LocalDate eDate = null;
+		// creates
+		if (timeWindow == null) {
+			if (!beginDate.equals("") || !endDate.equals("")) {
+				if (!beginDate.equals("")) {
+					bDate = new LocalDate(beginDate);
+				}
+				if (!endDate.equals("")) {
+					eDate = new LocalDate(endDate);
+				}
+				new TimeWindow(this, bDate, eDate);
+			}
+		}
+		// removes or edits
+		else {
+			if (beginDate.equals("") && endDate.equals("")) {
+				timeWindow.remove();
+			} else {
+				if (!beginDate.equals("")) {
+					bDate = new LocalDate(beginDate);
+				}
+				if (!endDate.equals("")) {
+					eDate = new LocalDate(endDate);
+				}
+				timeWindow.edit(bDate, eDate);
+			}
 		}
 
+		// remover o noCountry!! fazer a comparaçao com a String vazia
 		GeographicLocation geographicLocation = this.getGeographicLocation();
-		if (geographicLocation != null) {
-			geographicLocation.edit(geoLocation);
-		} else {
-			new GeographicLocation(this, geoLocation);
+		// creates
+		if (geographicLocation == null) {
+			if (geoLocation.equals("")) {
+				// do nothing
+			} else {
+				new GeographicLocation(this, geoLocation);
+			}
+		}
+		// removes or edits
+		else {
+			if (geoLocation.equals("")) {
+				geographicLocation.remove();
+			} else {
+				geographicLocation.edit(geoLocation);
+			}
 		}
 
 		Frequency freq = this.getFrequency();
-		if (freq != null) {
-			freq.edit(Integer.parseInt(frequency));
-		} else {
-			new Frequency(this, Integer.parseInt(frequency));
+		// creates
+		if (freq == null) {
+			if (frequency.equals("") || frequency.equals("0")) {
+				// do nothing
+			} else {
+				new Frequency(this, Integer.parseInt(frequency));
+			}
 		}
+		// removes or edits
+		else {
+			if (frequency.equals("") || frequency.equals("0")) {
+				freq.remove();
+			} else {
+				freq.edit(Integer.parseInt(frequency));
+			}
+		}
+
+		geographicLocation = this.getGeographicLocation();
+		if (geographicLocation != null) {
+			logger.debug(geographicLocation.getCountry());
+			String[] split = geographicLocation.getCountry().split(",");
+			logger.debug("size: " + split.length);
+			for (String s : split) {
+				logger.debug(s);
+			}
+		}
+
 	}
 
 	@Atomic(mode = TxMode.WRITE)

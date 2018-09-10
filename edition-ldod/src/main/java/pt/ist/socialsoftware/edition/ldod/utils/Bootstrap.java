@@ -22,11 +22,14 @@ import pt.ist.socialsoftware.edition.ldod.domain.VirtualManager;
 import pt.ist.socialsoftware.edition.ldod.recommendation.properties.DateProperty;
 import pt.ist.socialsoftware.edition.ldod.recommendation.properties.Property;
 import pt.ist.socialsoftware.edition.ldod.search.Indexer;
-import pt.ist.socialsoftware.edition.text.exception.LdoDException;
+import pt.ist.socialsoftware.edition.text.shared.exception.LdoDException;
 import pt.ist.socialsoftware.edition.ldod.topicmodeling.TopicModeler;
 import pt.ist.socialsoftware.edition.ldod.domain.Role.RoleType;
+import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.ldod.recommendation.VSMFragmentRecommender;
+import pt.ist.socialsoftware.edition.ldod.recommendation.properties.DateProperty;
 import pt.ist.socialsoftware.edition.ldod.recommendation.properties.HeteronymProperty;
+import pt.ist.socialsoftware.edition.ldod.recommendation.properties.Property;
 import pt.ist.socialsoftware.edition.ldod.recommendation.properties.TaxonomyProperty;
 import pt.ist.socialsoftware.edition.ldod.recommendation.properties.TextProperty;
 import pt.ist.socialsoftware.edition.text.domain.CollectionManager;
@@ -47,6 +50,7 @@ public class Bootstrap implements WebApplicationInitializer {
 	@Override
 	public void onStartup(ServletContext arg0) throws ServletException {
 		initializeSystem();
+		loadRecommendationCache();
 	}
 
 	@Atomic(mode = TxMode.WRITE)
@@ -61,19 +65,14 @@ public class Bootstrap implements WebApplicationInitializer {
 			new CollectionManager();
 			cleanCorpusRepository();
 			cleanIntersRepository();
-		}
-
-		if (VirtualManager.getInstance() == null) {
-			new VirtualManager();
 			cleanTopicModeler();
 			cleanLucene();
+			createUsersAndRoles();
 			createVirtualEditionsForTest();
 			createLdoDArchiveVirtualEdition();
+		} else {
+			loadRecommendationCache();
 		}
-
-
-		loadRecommendationCache();
-
 	}
 
 	public static void cleanCorpusRepository() {
@@ -124,6 +123,9 @@ public class Bootstrap implements WebApplicationInitializer {
 		// https://www.dailycred.com/blog/12/bcrypt-calculator
 		LdoDUser ars = new LdoDUser(userManager, "ars", "$2a$11$Y0PQlyE20CXaI9RGhtjZJeTM/0.RUyp2kO/YAJI2P2FeINDEUxd2m",
 				"António", "Rito Silva", "rito.silva@tecnico.ulisboa.pt");
+
+		LdoDUser twitter = new LdoDUser(userManager, "Twitter", null, "Twitter", "Social Media", "");
+
 		// LdoDUser diego = new LdoDUser(ldod, "diego",
 		// "$2a$11$b3rI6cl/GOzVqOKUOWSQQ.nTJFn.s8a/oALV.YOWoUZu6HZGvyCXu",
 		// "Diego", "Giménez", "dgimenezdm@gmail.com");
@@ -166,6 +168,8 @@ public class Bootstrap implements WebApplicationInitializer {
 		ars.addRoles(user);
 		ars.addRoles(admin);
 
+		twitter.setActive(false);
+		twitter.setEnabled(true);
 		// diego.setEnabled(true);
 		// diego.addRoles(user);
 		// diego.addRoles(admin);
@@ -233,7 +237,7 @@ public class Bootstrap implements WebApplicationInitializer {
 		// LdoDUser osvaldo = ldod.getUser("osvaldo");
 		// LdoDUser jose = ldod.getUser("jose");
 		//
-		// VirtualEdition classX = new VirtualEdition(ldod, ars, "VirtualManager-ClassX", "VirtualManager
+		// VirtualEdition classX = new VirtualEdition(ldod, ars, "LdoD-ClassX", "LdoD
 		// Edition of Class X", new LocalDate(),
 		// false, null);
 		// classX.addMember(luis, MemberRole.ADMIN, true);
@@ -260,7 +264,7 @@ public class Bootstrap implements WebApplicationInitializer {
 		// osvaldo.addSelectedVirtualEditions(classX);
 		// jose.addSelectedVirtualEditions(classX);
 		//
-		// VirtualEdition classY = new VirtualEdition(ldod, ars, "VirtualManager-ClassY", "VirtualManager
+		// VirtualEdition classY = new VirtualEdition(ldod, ars, "LdoD-ClassY", "LdoD
 		// Edition of Class Y", new LocalDate(),
 		// false, null);
 		// classY.addMember(luis, MemberRole.ADMIN, true);
@@ -275,7 +279,7 @@ public class Bootstrap implements WebApplicationInitializer {
 		// tiago.addSelectedVirtualEditions(classY);
 		// nuno.addSelectedVirtualEditions(classY);
 		//
-		// VirtualEdition classW = new VirtualEdition(ldod, ars, "VirtualManager-ClassW", "VirtualManager
+		// VirtualEdition classW = new VirtualEdition(ldod, ars, "LdoD-ClassW", "LdoD
 		// Edition of Class W", new LocalDate(),
 		// false, null);
 		// classW.addMember(diego, MemberRole.ADMIN, true);

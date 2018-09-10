@@ -1,4 +1,4 @@
-package pt.ist.socialsoftware.edition.ldod.search;
+package pt.ist.socialsoftware.edition.text.search;
 
 import java.io.File;
 import java.io.IOException;
@@ -40,12 +40,12 @@ import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import pt.ist.socialsoftware.edition.text.exception.LdoDException;
+import pt.ist.socialsoftware.edition.text.shared.exception.LdoDException;
 import pt.ist.socialsoftware.edition.text.domain.FragInter;
 import pt.ist.socialsoftware.edition.text.domain.Fragment;
 import pt.ist.socialsoftware.edition.text.domain.SourceInter;
-import pt.ist.socialsoftware.edition.ldod.generators.PlainTextFragmentWriter;
-import pt.ist.socialsoftware.edition.ldod.utils.PropertiesManager;
+import pt.ist.socialsoftware.edition.text.generators.PlainTextFragmentWriter;
+import pt.ist.socialsoftware.edition.text.utils.PropertiesManager;
 
 public class Indexer {
 	private static Logger logger = LoggerFactory.getLogger(Indexer.class);

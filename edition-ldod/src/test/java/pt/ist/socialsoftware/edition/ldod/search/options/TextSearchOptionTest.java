@@ -13,7 +13,7 @@ import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.fenixframework.core.WriteOnReadError;
 
-public class TextSearchOptionTest {
+public class 	TextSearchOptionTest {
 
 	@BeforeEach
 	public void setUp() throws WriteOnReadError, NotSupportedException, SystemException {

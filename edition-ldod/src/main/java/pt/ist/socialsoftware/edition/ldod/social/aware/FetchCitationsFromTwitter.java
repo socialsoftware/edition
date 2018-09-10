@@ -36,19 +36,16 @@ public class FetchCitationsFromTwitter {
 
 	@Atomic
 	public void fetch() throws IOException {
-		Twitter twitter = getTwitterinstance();
+		// Twitter twitter = getTwitterinstance(); //uses configuration builder
+		Twitter twitter = new TwitterFactory().getInstance(); // uses twitter4j.properties
+
+		logger.debug("Beginning of Fetch Citations");
 
 		for (String term : TERMS_MAP.keySet()) {
 			String fileName = TERMS_MAP.get(term);
-			logger.debug(fileName);
 
-			/******************************
-			 * Writing tweets to file
-			 *****************************/
 			int numTweets = 0;
 			long maxID = -1;
-
-			// String toWrite = "";
 
 			BufferedWriter bw = null;
 			FileWriter fw = null;
@@ -57,8 +54,6 @@ public class FetchCitationsFromTwitter {
 				String timeStamp = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
 				String exportDir = PropertiesManager.getProperties().getProperty("social.aware.dir");
 				file = new File(exportDir + "twitter-" + fileName + "-" + timeStamp + ".json");
-				// file = new File(exportDir + "fetchTxt/" + "twitter-" + fileName + "-" +
-				// timeStamp + ".txt");
 
 				fw = new FileWriter(file);
 				bw = new BufferedWriter(fw);
@@ -69,21 +64,21 @@ public class FetchCitationsFromTwitter {
 				// This finds the rate limit specifically for doing the search API call we use
 				// in this program
 				RateLimitStatus searchTweetsRateLimit = rateLimitStatus.get("/search/tweets");
-				System.out.printf("You have %d calls remaining out of %d, Limit resets in %d seconds (= %f minutes)\n",
-						searchTweetsRateLimit.getRemaining(), searchTweetsRateLimit.getLimit(),
-						searchTweetsRateLimit.getSecondsUntilReset(),
-						searchTweetsRateLimit.getSecondsUntilReset() / 60.0);
+				// System.out.printf("You have %d calls remaining out of %d, Limit resets in %d
+				// seconds (= %f minutes)\n",
+				// searchTweetsRateLimit.getRemaining(), searchTweetsRateLimit.getLimit(),
+				// searchTweetsRateLimit.getSecondsUntilReset(),
+				// searchTweetsRateLimit.getSecondsUntilReset() / 60.0);
 
-				int numElli = 0;
 				// This is the loop that retrieve multiple blocks of tweets from Twitter
 				for (int queryNumber = 0; queryNumber < MAX_QUERIES; queryNumber++) {
-					System.out.printf("\n\n!!! Starting loop %d\n\n", queryNumber);
+					// System.out.printf("\n\n!!! Starting loop %d\n\n", queryNumber);
 
 					// Do we need to delay because we've already hit our rate limits?
 					if (searchTweetsRateLimit.getRemaining() == 0) {
 						// Yes we do, unfortunately ...
-						System.out.printf("!!! Sleeping for %d seconds due to rate limits\n",
-								searchTweetsRateLimit.getSecondsUntilReset());
+						// System.out.printf("!!! Sleeping for %d seconds due to rate limits\n",
+						// searchTweetsRateLimit.getSecondsUntilReset());
 
 						// If you sleep exactly the number of seconds, you can make your query a bit too
 						// early
@@ -98,7 +93,6 @@ public class FetchCitationsFromTwitter {
 						try {
 							Thread.sleep((searchTweetsRateLimit.getSecondsUntilReset() + 2) * 1000l);
 						} catch (InterruptedException e) {
-							logger.debug("Entrou na exception da Thread sleep");
 							e.printStackTrace();
 						}
 					}
@@ -130,7 +124,6 @@ public class FetchCitationsFromTwitter {
 					// worth of tweets, and uncommon search terms can run out of week before they
 					// run out of tweets
 					if (r.getTweets().size() == 0) {
-						logger.debug("fiz break!");
 						break; // Nothing? We must be done
 					}
 
@@ -158,12 +151,6 @@ public class FetchCitationsFromTwitter {
 						} else {
 							text = s.getText();
 						}
-
-						// utilizado inicialmente para fazer debug das reticências
-						// debug truncated - Elli if (text.contains("\u2026")) { numElli++;
-						// System.err.println(queryNumber);
-						// System.err.printf("--------------------At %s, @%-20s (id: %d) said: %s\n",
-						// s.getCreatedAt().toString(), s.getUser().getScreenName(), s.getId(), text); }
 
 						Place place = s.getPlace();
 
@@ -197,21 +184,6 @@ public class FetchCitationsFromTwitter {
 							currentUserRetID = s.getCurrentUserRetweetId();
 						}
 
-						// toWrite: used for writing in txt file
-						// toWrite = "\t At " + formatedDate + ", @" + username + " (id: " + +tweetID +
-						// ")" + "\n"
-						// + "said: " + text + "\n" + "country: " + country + "\n" + "location: " +
-						// location + "\n"
-						// + "tweet URL: " + tweetURL + "\n" + "profile URL: " + profURL + "\n"
-						// + "profile Picture: " + profImg + "\n" + "isRetweet: " + isRetweet + "\n"
-						// + "isRetweeted: " + isRetweeted + "\n" + "retweetCount: " + retweetCount +
-						// "\n"
-						// + "originalTweetID: " + originalTweetID + "\n" + "currentUserRetID: " +
-						// currentUserRetID
-						// + "\n" + "############################" + "\n";
-						//
-						// bw.write(toWrite);
-
 						// Writing in json file - JSON version
 						JSONObject obj = new JSONObject();
 						obj.put("date", formatedDate);
@@ -232,8 +204,6 @@ public class FetchCitationsFromTwitter {
 
 						bw.write(obj.toString());
 						bw.write("\n");
-
-						logger.debug("####################################");
 					}
 
 					// As part of what gets returned from Twitter when we make the search API call,
@@ -244,24 +214,20 @@ public class FetchCitationsFromTwitter {
 					searchTweetsRateLimit = r.getRateLimitStatus();
 				}
 				logger.debug("Number of tweets retrieved: " + numTweets);
-				logger.debug("Number of tweets elli: " + numElli);
 				System.out.printf("You have %d calls remaining out of %d, Limit resets in %d seconds (= %f minutes)\n",
 						searchTweetsRateLimit.getRemaining(), searchTweetsRateLimit.getLimit(),
 						searchTweetsRateLimit.getSecondsUntilReset(),
 						searchTweetsRateLimit.getSecondsUntilReset() / 60.0);
 
-				logger.debug("Acabei de preencher o ficheiro" + "twitter-" + fileName + "-" + timeStamp + ".json");
-				logger.debug("++++++++++++++++++++++++++++++ OUTRO FICHEIRO ++++++++++++++++++++++++++++++");
+				logger.debug("Acabei de preencher o ficheiro: " + "twitter-" + fileName + "-" + timeStamp + ".json");
 
 				bw.close();
 				fw.close();
 
 			} catch (IOException ioE) {
 				ioE.printStackTrace();
-				logger.debug("IOException at FetchCitationsFromTwitter!!");
 			} catch (TwitterException te) {
 				te.printStackTrace();
-				logger.debug("Failed to search tweets!!: " + te.getMessage());
 			}
 		}
 		logger.debug("End of Fetch Citations");
@@ -334,10 +300,8 @@ public class FetchCitationsFromTwitter {
 		try {
 			s = t.showStatus(id);
 		} catch (NumberFormatException e) {
-			logger.debug("Number Format Exception while getting tweet by id!!!");
 			e.printStackTrace();
 		} catch (TwitterException e) {
-			logger.debug("Twitter Exception while getting tweet by id!!!");
 			e.printStackTrace();
 		}
 		return s;
@@ -348,10 +312,11 @@ public class FetchCitationsFromTwitter {
 		 * if not using properties file, we can set access token by following way
 		 */
 		ConfigurationBuilder cb = new ConfigurationBuilder();
-		cb.setDebugEnabled(true).setOAuthConsumerKey("ije0NGcyFrXfDScLeCbwz2GQt")
+		cb.setDebugEnabled(false).setOAuthConsumerKey("ije0NGcyFrXfDScLeCbwz2GQt")
 				.setOAuthConsumerSecret("AibLMO2mbyFeUjyyjDxH1aftDoJjOF1UZXU8OuM76dDuJ3stdC")
 				.setOAuthAccessToken("922101092938342400-IF3ButS0cnh76TsOiBhr8aZopVHQkTv")
-				.setOAuthAccessTokenSecret("7boYO5EISBvC2WfWBeuEIgqEOEvLWDGTUgGsG2btGL2cx").setTweetModeExtended(true);
+				.setOAuthAccessTokenSecret("7boYO5EISBvC2WfWBeuEIgqEOEvLWDGTUgGsG2btGL2cx").setTweetModeExtended(true)
+				.setPrettyDebugEnabled(false);
 
 		TwitterFactory tf = new TwitterFactory(cb.build());
 		Twitter twitter = tf.getInstance();

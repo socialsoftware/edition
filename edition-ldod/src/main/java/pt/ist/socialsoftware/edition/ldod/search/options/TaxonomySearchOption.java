@@ -1,4 +1,4 @@
-package pt.ist.socialsoftware.edition.ldod.search.options;
+package pt.ist.socialsoftware.edition.text.search.options;
 
 import java.util.Arrays;
 import java.util.Set;

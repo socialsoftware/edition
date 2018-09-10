@@ -1,4 +1,4 @@
-package pt.ist.socialsoftware.edition.ldod.search.options;
+package pt.ist.socialsoftware.edition.text.search.options;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -15,7 +15,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import pt.ist.socialsoftware.edition.text.domain.CollectionManager;
 import pt.ist.socialsoftware.edition.text.domain.FragInter;
 import pt.ist.socialsoftware.edition.text.domain.Fragment;
-import pt.ist.socialsoftware.edition.ldod.search.options.SearchOption.Mode;
+import pt.ist.socialsoftware.edition.text.search.options.SearchOption.Mode;
 
 public class Search {
 	private static final String OPTIONS = "options";
