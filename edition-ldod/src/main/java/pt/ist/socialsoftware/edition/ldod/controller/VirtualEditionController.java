@@ -1,15 +1,5 @@
 package pt.ist.socialsoftware.edition.ldod.controller;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
-
 import org.joda.time.LocalDate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,37 +10,28 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualManager;
 import pt.ist.socialsoftware.edition.ldod.domain.Member.MemberRole;
-import pt.ist.socialsoftware.edition.ldod.dto.EditionFragmentsDTO;
-import pt.ist.socialsoftware.edition.ldod.dto.EditionTranscriptionsDTO;
-import pt.ist.socialsoftware.edition.ldod.dto.FragmentDTO;
-import pt.ist.socialsoftware.edition.ldod.dto.FragmentMetaInfoDTO;
-import pt.ist.socialsoftware.edition.ldod.dto.TranscriptionDTO;
+import pt.ist.socialsoftware.edition.ldod.dto.*;
 import pt.ist.socialsoftware.edition.ldod.security.LdoDUserDetails;
 import pt.ist.socialsoftware.edition.ldod.session.LdoDSession;
-import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDCreateVirtualEditionException;
-import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDDuplicateAcronymException;
-import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDDuplicateNameException;
-import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDEditVirtualEditionException;
-import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
-import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDExceptionNonAuthorized;
+import pt.ist.socialsoftware.edition.text.exception.*;
 import pt.ist.socialsoftware.edition.ldod.topicmodeling.TopicModeler;
 import pt.ist.socialsoftware.edition.ldod.utils.PropertiesManager;
 import pt.ist.socialsoftware.edition.ldod.utils.TopicListDTO;
 import pt.ist.socialsoftware.edition.ldod.validator.VirtualEditionValidator;
+import pt.ist.socialsoftware.edition.text.domain.CollectionManager;
+import pt.ist.socialsoftware.edition.text.domain.Edition;
+import pt.ist.socialsoftware.edition.text.domain.FragInter;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 @SessionAttributes({ "ldoDSession" })
@@ -68,7 +49,7 @@ public class VirtualEditionController {
 	public String listVirtualEdition(Model model, @ModelAttribute("ldoDSession") LdoDSession ldoDSession) {
 
 		model.addAttribute("ldod", VirtualManager.getInstance());
-		model.addAttribute("expertEditions", VirtualManager.getInstance().getSortedExpertEdition());
+		model.addAttribute("expertEditions", CollectionManager.getInstance().getSortedExpertEdition());
 		model.addAttribute("virtualEditions",
 				VirtualManager.getInstance().getVirtualEditions4User(LdoDUser.getAuthenticatedUser(), ldoDSession));
 		model.addAttribute("user", LdoDUser.getAuthenticatedUser());
@@ -434,8 +415,8 @@ public class VirtualEditionController {
 			return "redirect:/error";
 		}
 
-		VirtualManager virtualManager = VirtualManager.getInstance();
-		LdoDUser user = virtualManager.getUser(username);
+		LdoDUser user = UserManager.getInstance().getUser(username);
+
 		if (user == null) {
 			List<String> errors = new ArrayList<>();
 			errors.add("user.unknown");
@@ -458,8 +439,8 @@ public class VirtualEditionController {
 			return "redirect:/error";
 		}
 
-		VirtualManager virtualManager = VirtualManager.getInstance();
-		LdoDUser user = virtualManager.getUser(username);
+		LdoDUser user = UserManager.getInstance().getUser(username);
+
 		if (user == null) {
 			List<String> errors = new ArrayList<>();
 			errors.add("user.unknown");
@@ -482,8 +463,7 @@ public class VirtualEditionController {
 			return "redirect:/error";
 		}
 
-		VirtualManager virtualManager = VirtualManager.getInstance();
-		LdoDUser user = virtualManager.getUser(username);
+		LdoDUser user = UserManager.getInstance().getUser(username);
 
 		if (!virtualEdition.canSwitchRole(LdoDUser.getAuthenticatedUser(), user)) {
 			throw new LdoDExceptionNonAuthorized();

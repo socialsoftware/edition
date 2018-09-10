@@ -32,9 +32,10 @@ import pt.ist.socialsoftware.edition.ldod.generators.HtmlWriter2CompInters;
 import pt.ist.socialsoftware.edition.ldod.generators.HtmlWriter4Variations;
 import pt.ist.socialsoftware.edition.ldod.generators.PlainHtmlWriter4OneInter;
 import pt.ist.socialsoftware.edition.ldod.session.LdoDSession;
-import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
+import pt.ist.socialsoftware.edition.text.exception.LdoDException;
 import pt.ist.socialsoftware.edition.ldod.utils.AnnotationDTO;
 import pt.ist.socialsoftware.edition.ldod.utils.AnnotationSearchJson;
+import pt.ist.socialsoftware.edition.text.domain.*;
 
 @Controller
 @SessionAttributes({ "ldoDSession" })
@@ -50,24 +51,25 @@ public class FragmentController {
 	@RequestMapping(method = RequestMethod.GET)
 	public String getFragmentsList(Model model) {
 		logger.debug("getFragmentsList");
-		VirtualManager virtualManager = VirtualManager.getInstance();
-		model.addAttribute("jpcEdition", virtualManager.getJPCEdition());
-		model.addAttribute("tscEdition", virtualManager.getTSCEdition());
-		model.addAttribute("rzEdition", virtualManager.getRZEdition());
-		model.addAttribute("jpEdition", virtualManager.getJPEdition());
-		model.addAttribute("fragments", virtualManager.getFragmentsSet());
+		CollectionManager collectionManager = CollectionManager.getInstance();
+		model.addAttribute("jpcEdition", collectionManager.getJPCEdition());
+		model.addAttribute("tscEdition", collectionManager.getTSCEdition());
+		model.addAttribute("rzEdition", collectionManager.getRZEdition());
+		model.addAttribute("jpEdition", collectionManager.getJPEdition());
+		model.addAttribute("fragments", collectionManager.getFragmentsSet());
 
 		return "fragment/list";
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/fragment/{xmlId}")
 	public String getFragment(Model model, @PathVariable String xmlId) {
-		Fragment fragment = FenixFramework.getDomainRoot().getVirtualManager().getFragmentByXmlId(xmlId);
+		Fragment fragment = FenixFramework.getDomainRoot().getCollectionManager().getFragmentByXmlId(xmlId);
 
 		if (fragment == null) {
 			return "redirect:/error";
 		} else {
-			model.addAttribute("ldoD", VirtualManager.getInstance());
+			model.addAttribute("virtualManager", VirtualManager.getInstance());
+			model.addAttribute("collectionManager", CollectionManager.getInstance());
 			model.addAttribute("user", LdoDUser.getAuthenticatedUser());
 			model.addAttribute("fragment", fragment);
 			model.addAttribute("inters", new ArrayList<FragInter>());
@@ -80,7 +82,7 @@ public class FragmentController {
 	public String getFragmentWithInterForUrlId(Model model, @ModelAttribute("ldoDSession") LdoDSession ldoDSession,
 			@PathVariable String xmlId, @PathVariable String urlId) {
 
-		Fragment fragment = FenixFramework.getDomainRoot().getVirtualManager().getFragmentByXmlId(xmlId);
+		Fragment fragment = FenixFramework.getDomainRoot().getCollectionManager().getFragmentByXmlId(xmlId);
 
 		if (fragment == null) {
 			return "redirect:/error";
@@ -112,7 +114,8 @@ public class FragmentController {
 
 		List<FragInter> inters = new ArrayList<>();
 		inters.add(inter);
-		model.addAttribute("ldoD", VirtualManager.getInstance());
+		model.addAttribute("virtualManager", VirtualManager.getInstance());
+		model.addAttribute("collectionManager", CollectionManager.getInstance());
 		model.addAttribute("user", LdoDUser.getAuthenticatedUser());
 		model.addAttribute("fragment", inter.getFragment());
 		model.addAttribute("inters", inters);
@@ -180,7 +183,7 @@ public class FragmentController {
 	@RequestMapping(method = RequestMethod.GET, value = "/fragment/{xmlId}/inter/{urlId}/next")
 	@PreAuthorize("hasPermission(#xmlId, #urlId, 'fragInter.public')")
 	public String getNextFragmentWithInter(Model model, @PathVariable String xmlId, @PathVariable String urlId) {
-		Fragment fragment = FenixFramework.getDomainRoot().getVirtualManager().getFragmentByXmlId(xmlId);
+		Fragment fragment = FenixFramework.getDomainRoot().getCollectionManager().getFragmentByXmlId(xmlId);
 		if (fragment == null) {
 			return "redirect:/error";
 		}
@@ -199,7 +202,7 @@ public class FragmentController {
 	@RequestMapping(method = RequestMethod.GET, value = "/fragment/{xmlId}/inter/{urlId}/prev")
 	@PreAuthorize("hasPermission(#xmlId, #urlId, 'fragInter.public')")
 	public String getPrevFragmentWithInter(Model model, @PathVariable String xmlId, @PathVariable String urlId) {
-		Fragment fragment = FenixFramework.getDomainRoot().getVirtualManager().getFragmentByXmlId(xmlId);
+		Fragment fragment = FenixFramework.getDomainRoot().getCollectionManager().getFragmentByXmlId(xmlId);
 		if (fragment == null) {
 			return "redirect:/error";
 		}

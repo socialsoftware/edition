@@ -23,8 +23,11 @@ import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualManager;
-import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDLoadException;
+import pt.ist.socialsoftware.edition.text.exception.LdoDLoadException;
 import pt.ist.socialsoftware.edition.ldod.utils.RangeJson;
+import pt.ist.socialsoftware.edition.text.domain.CollectionManager;
+import pt.ist.socialsoftware.edition.text.domain.FragInter;
+import pt.ist.socialsoftware.edition.text.domain.Fragment;
 
 public class VirtualEditionFragmentsTEIImport {
 	private static Logger logger = LoggerFactory.getLogger(VirtualEditionFragmentsTEIImport.class);
@@ -196,7 +199,7 @@ public class VirtualEditionFragmentsTEIImport {
 		String username = catRef.getAttributeValue("resp").substring(1);
 		String tag = catRef.getAttributeValue("target").substring(1);
 
-		inter.getVirtualEdition().getTaxonomy().createTag(inter, tag, null, this.virtualManager.getUser(username));
+		inter.getVirtualEdition().getTaxonomy().createTag(inter, tag, null, UserManager.getInstance().getUser(username));
 	}
 
 	// TODO: else if aware - done
@@ -229,7 +232,7 @@ public class VirtualEditionFragmentsTEIImport {
 				String tag = catRef.getAttributeValue("target").substring(1);
 				tagList.add(tag);
 			}
-			inter.createHumanAnnotation(quote, text, this.virtualManager.getUser(username), rangeList, tagList);
+			inter.createHumanAnnotation(quote, text, UserManager.getInstance().getUser(username), rangeList, tagList);
 		}
 
 		else if (note.getAttributeValue("type").equals("aware")) {
@@ -268,7 +271,7 @@ public class VirtualEditionFragmentsTEIImport {
 	// }
 
 	private Fragment getFragment(Document doc) {
-		VirtualManager virtualManager = VirtualManager.getInstance();
+		CollectionManager collectionManager = CollectionManager.getInstance();
 
 		Namespace namespace = doc.getRootElement().getNamespace();
 		XPathFactory xpfac = XPathFactory.instance();
@@ -276,6 +279,6 @@ public class VirtualEditionFragmentsTEIImport {
 				Namespace.getNamespace("def", namespace.getURI()));
 		String fragXmlId = xp.evaluate(doc).get(0).getAttributeValue("id", Namespace.XML_NAMESPACE);
 
-		return virtualManager.getFragmentByXmlId(fragXmlId);
+		return collectionManager.getFragmentByXmlId(fragXmlId);
 	}
 }

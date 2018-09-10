@@ -40,10 +40,10 @@ import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
-import pt.ist.socialsoftware.edition.ldod.domain.FragInter;
-import pt.ist.socialsoftware.edition.ldod.domain.Fragment;
-import pt.ist.socialsoftware.edition.ldod.domain.SourceInter;
+import pt.ist.socialsoftware.edition.text.exception.LdoDException;
+import pt.ist.socialsoftware.edition.text.domain.FragInter;
+import pt.ist.socialsoftware.edition.text.domain.Fragment;
+import pt.ist.socialsoftware.edition.text.domain.SourceInter;
 import pt.ist.socialsoftware.edition.ldod.generators.PlainTextFragmentWriter;
 import pt.ist.socialsoftware.edition.ldod.utils.PropertiesManager;
 

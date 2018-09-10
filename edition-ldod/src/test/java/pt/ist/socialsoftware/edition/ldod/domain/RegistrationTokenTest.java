@@ -9,39 +9,39 @@ import pt.ist.socialsoftware.edition.ldod.RollbackCaseTest;
 
 public class RegistrationTokenTest extends RollbackCaseTest {
 
-	VirtualManager virtualManager;
+	UserManager userManager;
 	LdoDUser user;
 
 	@Override
 	public void populate4Test() {
-		this.virtualManager = VirtualManager.getInstance();
+		this.userManager = UserManager.getInstance();
 
-		this.user = new LdoDUser(this.virtualManager, "ars1", "ars", "Antonio", "Silva", "a@a.a");
+		this.user = new LdoDUser(this.userManager, "ars1", "ars", "Antonio", "Silva", "a@a.a");
 		new RegistrationToken("token", this.user);
 	}
 
 	@Test
 	public void removeOutdatedTokensOne() {
-		int size = this.virtualManager.getUsersSet().size();
-		int tokens = this.virtualManager.getTokenSet().size();
+		int size = this.userManager.getUsersSet().size();
+		int tokens = this.userManager.getTokenSet().size();
 
-		this.virtualManager.removeOutdatedUnconfirmedUsers();
+		this.userManager.removeOutdatedUnconfirmedUsers();
 
-		assertEquals(tokens, this.virtualManager.getTokenSet().size());
-		assertEquals(size, this.virtualManager.getUsersSet().size());
+		assertEquals(tokens, this.userManager.getTokenSet().size());
+		assertEquals(size, this.userManager.getUsersSet().size());
 	}
 
 	@Test
 	public void removeOutdatedTokensTwo() {
 		this.user.getToken().setExpireTimeDateTime(new DateTime(2014, 1, 1, 0, 0, 0, 0));
 
-		int size = this.virtualManager.getUsersSet().size();
-		int tokens = this.virtualManager.getTokenSet().size();
+		int size = this.userManager.getUsersSet().size();
+		int tokens = this.userManager.getTokenSet().size();
 
-		this.virtualManager.removeOutdatedUnconfirmedUsers();
+		this.userManager.removeOutdatedUnconfirmedUsers();
 
-		assertEquals(tokens - 1, this.virtualManager.getTokenSet().size());
-		assertEquals(size - 1, this.virtualManager.getUsersSet().size());
+		assertEquals(tokens - 1, this.userManager.getTokenSet().size());
+		assertEquals(size - 1, this.userManager.getUsersSet().size());
 	}
 
 }

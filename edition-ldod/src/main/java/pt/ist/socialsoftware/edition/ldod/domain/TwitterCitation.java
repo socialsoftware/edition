@@ -1,9 +1,11 @@
 package pt.ist.socialsoftware.edition.ldod.domain;
 
+import pt.ist.socialsoftware.edition.text.domain.Fragment;
+
 public class TwitterCitation extends TwitterCitation_Base {
 
 	public TwitterCitation(Fragment fragment, String sourceLink, String date, String fragText, String tweetText,
-			long tweetID, String location, String country, String username, String profURL, String profImgURL) {
+                           long tweetID, String location, String country, String username, String profURL, String profImgURL) {
 
 		super.init(fragment, sourceLink, date, fragText);
 		setTweetText(tweetText);

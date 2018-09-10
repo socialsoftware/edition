@@ -1,9 +1,11 @@
 package pt.ist.socialsoftware.edition.ldod.domain;
 
+import pt.ist.socialsoftware.edition.text.domain.FragInter;
+
 public class InfoRange extends InfoRange_Base {
 
 	public InfoRange(Citation citation, FragInter fragInter, String start, int startOffset, String end, int endOffset,
-			String quote, String text) {
+                     String quote, String text) {
 		setCitation(citation);
 		setFragInter(fragInter);
 

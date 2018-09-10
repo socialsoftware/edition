@@ -14,11 +14,11 @@ import org.junit.jupiter.api.Test;
 
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.fenixframework.core.WriteOnReadError;
-import pt.ist.socialsoftware.edition.ldod.domain.FragInter;
-import pt.ist.socialsoftware.edition.ldod.domain.Fragment;
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualManager;
+import pt.ist.socialsoftware.edition.text.domain.CollectionManager;
+import pt.ist.socialsoftware.edition.text.domain.FragInter;
+import pt.ist.socialsoftware.edition.text.domain.Fragment;
 import pt.ist.socialsoftware.edition.ldod.loaders.LoadTEIFragments;
-import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
+import pt.ist.socialsoftware.edition.text.exception.LdoDException;
 import pt.ist.socialsoftware.edition.ldod.utils.PropertiesManager;
 
 public class PlainTransByInterTest {
@@ -53,9 +53,7 @@ public class PlainTransByInterTest {
 	public void test() {
 		String fragInterExternalID = null;
 
-		VirtualManager virtualManager = VirtualManager.getInstance();
-
-		for (Fragment frag : virtualManager.getFragmentsSet()) {
+		for (Fragment frag : CollectionManager.getInstance().getFragmentsSet()) {
 			for (FragInter fragInter : frag.getFragmentInterSet()) {
 				if (fragInter.getShortName().equals("Cunha")) {
 					fragInterExternalID = fragInter.getExternalId();

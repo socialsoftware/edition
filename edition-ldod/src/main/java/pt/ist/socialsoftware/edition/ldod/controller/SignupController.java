@@ -26,11 +26,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.request.WebRequest;
 
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualManager;
+import pt.ist.socialsoftware.edition.ldod.domain.UserManager;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
 import pt.ist.socialsoftware.edition.ldod.domain.RegistrationToken;
 import pt.ist.socialsoftware.edition.ldod.forms.SignupForm;
-import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
+import pt.ist.socialsoftware.edition.text.exception.LdoDException;
 import pt.ist.socialsoftware.edition.ldod.utils.PropertiesManager;
 
 @Controller
@@ -90,7 +90,7 @@ public class SignupController {
 			LdoDUser user = null;
 			RegistrationToken token = null;
 			try {
-				user = VirtualManager.getInstance().createUser(this.passwordEncoder, form.getUsername(), form.getPassword(),
+				user = UserManager.getInstance().createUser(this.passwordEncoder, form.getUsername(), form.getPassword(),
 						form.getFirstName(), form.getLastName(), form.getEmail(), socialMediaService,
 						form.getSocialMediaId());
 				token = user.createRegistrationToken(UUID.randomUUID().toString());
@@ -125,7 +125,7 @@ public class SignupController {
 			@RequestParam("token") String token) {
 		logger.debug("authorizeRegistration");
 
-		RegistrationToken registrationToken = VirtualManager.getInstance().getTokenSet(token);
+		RegistrationToken registrationToken = UserManager.getInstance().getTokenSet(token);
 
 		if (registrationToken == null) {
 			model.addAttribute("message", "signup.token.invalid");
@@ -155,7 +155,7 @@ public class SignupController {
 	public String confirmRegistration(WebRequest request, Model model, @RequestParam("token") String token) {
 		logger.debug("confirmRegistration");
 
-		RegistrationToken registrationToken = VirtualManager.getInstance().getTokenSet(token);
+		RegistrationToken registrationToken = UserManager.getInstance().getTokenSet(token);
 
 		if (registrationToken == null) {
 			model.addAttribute("message", "signup.token.invalid");

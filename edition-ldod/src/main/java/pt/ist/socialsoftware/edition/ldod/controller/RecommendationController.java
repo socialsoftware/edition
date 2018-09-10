@@ -20,13 +20,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
-import pt.ist.socialsoftware.edition.ldod.domain.Edition.EditionType;
+import pt.ist.socialsoftware.edition.text.domain.Edition.EditionType;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualManager;
 import pt.ist.socialsoftware.edition.ldod.recommendation.dto.RecommendVirtualEditionParam;
 import pt.ist.socialsoftware.edition.ldod.recommendation.dto.SectionVirtualEditionParam;
 import pt.ist.socialsoftware.edition.ldod.recommendation.dto.VirtualEditionWithSectionsDTO;
 import pt.ist.socialsoftware.edition.ldod.session.LdoDSession;
-import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDCreateVirtualEditionException;
+import pt.ist.socialsoftware.edition.text.exception.LdoDCreateVirtualEditionException;
 import pt.ist.socialsoftware.edition.ldod.validator.VirtualEditionValidator;
 
 @Controller
@@ -96,7 +96,7 @@ public class RecommendationController {
 		// + p.getWeight())
 		// .collect(Collectors.joining(";")));
 
-		VirtualEdition virtualEdition = (VirtualEdition) VirtualManager.getInstance().getEdition(params.getAcronym());
+		VirtualEdition virtualEdition = VirtualManager.getInstance().getVirtualEdition(params.getAcronym());
 
 		LdoDUser user = LdoDUser.getAuthenticatedUser();
 		RecommendationWeights recommendationWeights = user.getRecommendationWeights(virtualEdition);
@@ -123,7 +123,7 @@ public class RecommendationController {
 		// logger.debug("saveLinearVirtualEdition");
 
 		VirtualManager ldod = VirtualManager.getInstance();
-		VirtualEdition virtualEdition = (VirtualEdition) ldod.getEdition(acronym);
+		VirtualEdition virtualEdition = (VirtualEdition) ldod.getVirtualEdition(acronym);
 		if (inters != null && virtualEdition.getSourceType().equals(EditionType.VIRTUAL)) {
 			Section section = virtualEdition.createSection(Section.DEFAULT);
 			VirtualEditionInter VirtualEditionInter;
@@ -219,8 +219,8 @@ public class RecommendationController {
 		// s.getSections().stream().collect(Collectors.joining(",")))
 		// .collect(Collectors.joining("\n")));
 
-		VirtualEdition virtualEdition = (VirtualEdition) VirtualManager.getInstance()
-				.getEdition(virtualEditionWithSectionsDTO.getAcronym());
+		VirtualEdition virtualEdition = VirtualManager.getInstance()
+				.getVirtualEdition(virtualEditionWithSectionsDTO.getAcronym());
 		if (virtualEdition == null) {
 			return "redirect:/error";
 		} else {

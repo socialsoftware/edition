@@ -12,12 +12,12 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualManager;
+import pt.ist.socialsoftware.edition.text.domain.CollectionManager;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
-import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDCreateVirtualEditionException;
-import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
-import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDLoadException;
-import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDEditVirtualEditionException;
+import pt.ist.socialsoftware.edition.text.exception.LdoDCreateVirtualEditionException;
+import pt.ist.socialsoftware.edition.text.exception.LdoDException;
+import pt.ist.socialsoftware.edition.text.exception.LdoDLoadException;
+import pt.ist.socialsoftware.edition.text.exception.LdoDEditVirtualEditionException;
 
 @EnableWebMvc
 @ControllerAdvice
@@ -59,7 +59,7 @@ public class LdoDExceptionHandler {
 		modelAndView.addObject("title", ex.getTitle());
 		modelAndView.addObject("pub", ex.isPub());
 		modelAndView.addObject("virtualEditions", ex.getVirtualEditions());
-		modelAndView.addObject("expertEditions", VirtualManager.getInstance().getSortedExpertEdition());
+		modelAndView.addObject("expertEditions", CollectionManager.getInstance().getSortedExpertEdition());
 		modelAndView.addObject("user", ex.getUser());
 		modelAndView.setViewName("virtual/editions");
 

@@ -30,6 +30,10 @@ import pt.ist.socialsoftware.edition.ldod.recommendation.properties.TaxonomyProp
 import pt.ist.socialsoftware.edition.ldod.recommendation.properties.TextProperty;
 import pt.ist.socialsoftware.edition.ldod.topicmodeling.TopicModeler;
 import pt.ist.socialsoftware.edition.ldod.utils.TopicListDTO;
+import pt.ist.socialsoftware.edition.text.domain.CollectionManager;
+import pt.ist.socialsoftware.edition.text.domain.Edition;
+import pt.ist.socialsoftware.edition.text.domain.ExpertEdition;
+import pt.ist.socialsoftware.edition.text.domain.FragInter;
 
 public class VSMVirtualEditionInterRecomenderPerformanceTest {
 	private static VirtualEdition pizarroVirtualEdition = null;
@@ -46,11 +50,13 @@ public class VSMVirtualEditionInterRecomenderPerformanceTest {
 		FenixFramework.getTransactionManager().begin(false);
 
 		VirtualManager virtualManager = VirtualManager.getInstance();
-		ExpertEdition pizarroEdition = (ExpertEdition) virtualManager.getEdition(Edition.PIZARRO_EDITION_ACRONYM);
-		ExpertEdition zenithEdition = (ExpertEdition) virtualManager.getEdition(Edition.ZENITH_EDITION_ACRONYM);
-		ExpertEdition cunhaEdition = (ExpertEdition) virtualManager.getEdition(Edition.CUNHA_EDITION_ACRONYM);
+		UserManager userManager = UserManager.getInstance();
+		CollectionManager collectionManager = CollectionManager.getInstance();
+		ExpertEdition pizarroEdition = (ExpertEdition) collectionManager.getEdition(Edition.PIZARRO_EDITION_ACRONYM);
+		ExpertEdition zenithEdition = (ExpertEdition) collectionManager.getEdition(Edition.ZENITH_EDITION_ACRONYM);
+		ExpertEdition cunhaEdition = (ExpertEdition) collectionManager.getEdition(Edition.CUNHA_EDITION_ACRONYM);
 
-		LdoDUser userArs = virtualManager.getUser("ars");
+		LdoDUser userArs = userManager.getUser("ars");
 		// create pizarro virtual edition
 		pizarroVirtualEdition = virtualManager.createVirtualEdition(userArs, "TestPizarroRecommendations",
 				"TestPizarroRecommendations", LocalDate.now(), true, pizarroEdition);

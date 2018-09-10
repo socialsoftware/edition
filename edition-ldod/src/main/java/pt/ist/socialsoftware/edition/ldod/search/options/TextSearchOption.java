@@ -16,9 +16,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import pt.ist.fenixframework.DomainObject;
 import pt.ist.fenixframework.FenixFramework;
-import pt.ist.socialsoftware.edition.ldod.domain.FragInter;
+import pt.ist.socialsoftware.edition.text.domain.FragInter;
 import pt.ist.socialsoftware.edition.ldod.search.Indexer;
-import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
+import pt.ist.socialsoftware.edition.text.exception.LdoDException;
 
 public final class TextSearchOption extends SearchOption {
 	private static Logger logger = LoggerFactory.getLogger(TextSearchOption.class);

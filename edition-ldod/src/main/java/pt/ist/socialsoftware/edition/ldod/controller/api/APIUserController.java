@@ -8,11 +8,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualManager;
+import pt.ist.socialsoftware.edition.ldod.domain.UserManager;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
 import pt.ist.socialsoftware.edition.ldod.dto.LdoDUserDTO;
 import pt.ist.socialsoftware.edition.ldod.security.LdoDUserDetails;
-import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
+import pt.ist.socialsoftware.edition.text.exception.LdoDException;
 
 @RestController
 @RequestMapping("/api/user")
@@ -31,7 +31,7 @@ public class APIUserController {
 	@GetMapping(value = "/{username}")
 	public LdoDUserDTO getUserProfile(@PathVariable(value = "username") String username) {
 		logger.debug("getUserProfile");
-		LdoDUser user = VirtualManager.getInstance().getUser(username);
+		LdoDUser user = UserManager.getInstance().getUser(username);
 		if (user != null) {
 			return new LdoDUserDTO(user);
 		}

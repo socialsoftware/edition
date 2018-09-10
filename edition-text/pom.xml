@@ -12,4 +12,21 @@
     <artifactId>edition-text</artifactId>
 
 
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>pt.ist</groupId>
+                <artifactId>ff-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
 </project>

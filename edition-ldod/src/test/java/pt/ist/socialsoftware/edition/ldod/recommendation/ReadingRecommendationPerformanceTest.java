@@ -27,6 +27,10 @@ import pt.ist.socialsoftware.edition.ldod.recommendation.properties.Property;
 import pt.ist.socialsoftware.edition.ldod.recommendation.properties.Property.PropertyCache;
 import pt.ist.socialsoftware.edition.ldod.recommendation.properties.TaxonomyProperty;
 import pt.ist.socialsoftware.edition.ldod.recommendation.properties.TextProperty;
+import pt.ist.socialsoftware.edition.text.domain.CollectionManager;
+import pt.ist.socialsoftware.edition.text.domain.Edition;
+import pt.ist.socialsoftware.edition.text.domain.ExpertEdition;
+import pt.ist.socialsoftware.edition.text.domain.ExpertEditionInter;
 
 public class ReadingRecommendationPerformanceTest {
 
@@ -71,7 +75,7 @@ public class ReadingRecommendationPerformanceTest {
 		recommender.setTaxonomyWeight(1.0);
 
 		VirtualManager virtualManager = VirtualManager.getInstance();
-		ExpertEdition pizarroEdition = (ExpertEdition) virtualManager.getEdition(Edition.PIZARRO_EDITION_ACRONYM);
+		ExpertEdition pizarroEdition = (ExpertEdition) CollectionManager.getInstance().getEdition(Edition.PIZARRO_EDITION_ACRONYM);
 		ExpertEditionInter inter = pizarroEdition.getExpertEditionIntersSet().stream().collect(Collectors.toList())
 				.get(0);
 

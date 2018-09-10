@@ -7,6 +7,7 @@ import org.apache.commons.lang.StringEscapeUtils;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
+import pt.ist.socialsoftware.edition.text.domain.SimpleText;
 
 public class HumanAnnotation extends HumanAnnotation_Base {
 
@@ -22,7 +23,7 @@ public class HumanAnnotation extends HumanAnnotation_Base {
 	}
 
 	public HumanAnnotation(VirtualEditionInter inter, SimpleText startText, SimpleText endText, String quote,
-			String text, LdoDUser user) {
+                           String text, LdoDUser user) {
 		super.init(inter, quote, text);
 		// setVirtualEditionInter(inter);
 		setStartText(startText);

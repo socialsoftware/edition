@@ -22,13 +22,16 @@ import pt.ist.socialsoftware.edition.ldod.domain.VirtualManager;
 import pt.ist.socialsoftware.edition.ldod.recommendation.properties.DateProperty;
 import pt.ist.socialsoftware.edition.ldod.recommendation.properties.Property;
 import pt.ist.socialsoftware.edition.ldod.search.Indexer;
-import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
+import pt.ist.socialsoftware.edition.text.exception.LdoDException;
 import pt.ist.socialsoftware.edition.ldod.topicmodeling.TopicModeler;
 import pt.ist.socialsoftware.edition.ldod.domain.Role.RoleType;
 import pt.ist.socialsoftware.edition.ldod.recommendation.VSMFragmentRecommender;
 import pt.ist.socialsoftware.edition.ldod.recommendation.properties.HeteronymProperty;
 import pt.ist.socialsoftware.edition.ldod.recommendation.properties.TaxonomyProperty;
 import pt.ist.socialsoftware.edition.ldod.recommendation.properties.TextProperty;
+import pt.ist.socialsoftware.edition.text.domain.CollectionManager;
+import pt.ist.socialsoftware.edition.text.domain.Edition;
+import pt.ist.socialsoftware.edition.text.domain.Fragment;
 
 /**
  * @author ars
@@ -44,24 +47,33 @@ public class Bootstrap implements WebApplicationInitializer {
 	@Override
 	public void onStartup(ServletContext arg0) throws ServletException {
 		initializeSystem();
-		loadRecommendationCache();
 	}
 
 	@Atomic(mode = TxMode.WRITE)
 	public static void initializeSystem() {
-		if (VirtualManager.getInstance() == null) {
-			VirtualManager virtualManager = new VirtualManager();
-			virtualManager.setAdmin(true);
+		if (UserManager.getInstance() == null) {
+			UserManager userManager = new UserManager();
+			userManager.setAdmin(true);
+			createUsersAndRoles();
+		}
+
+		if (CollectionManager.getInstance() == null) {
+			new CollectionManager();
 			cleanCorpusRepository();
 			cleanIntersRepository();
+		}
+
+		if (VirtualManager.getInstance() == null) {
+			new VirtualManager();
 			cleanTopicModeler();
 			cleanLucene();
-			createUsersAndRoles();
 			createVirtualEditionsForTest();
 			createLdoDArchiveVirtualEdition();
-		} else {
-			loadRecommendationCache();
 		}
+
+
+		loadRecommendationCache();
+
 	}
 
 	public static void cleanCorpusRepository() {
@@ -103,14 +115,14 @@ public class Bootstrap implements WebApplicationInitializer {
 	}
 
 	private static void createUsersAndRoles() {
-		VirtualManager ldod = VirtualManager.getInstance();
+		UserManager userManager = UserManager.getInstance();
 
 		Role user = Role.getRole(RoleType.ROLE_USER);
 		Role admin = Role.getRole(RoleType.ROLE_ADMIN);
 
 		// the bcrypt generator
 		// https://www.dailycred.com/blog/12/bcrypt-calculator
-		LdoDUser ars = new LdoDUser(ldod, "ars", "$2a$11$Y0PQlyE20CXaI9RGhtjZJeTM/0.RUyp2kO/YAJI2P2FeINDEUxd2m",
+		LdoDUser ars = new LdoDUser(userManager, "ars", "$2a$11$Y0PQlyE20CXaI9RGhtjZJeTM/0.RUyp2kO/YAJI2P2FeINDEUxd2m",
 				"António", "Rito Silva", "rito.silva@tecnico.ulisboa.pt");
 		// LdoDUser diego = new LdoDUser(ldod, "diego",
 		// "$2a$11$b3rI6cl/GOzVqOKUOWSQQ.nTJFn.s8a/oALV.YOWoUZu6HZGvyCXu",
@@ -202,9 +214,10 @@ public class Bootstrap implements WebApplicationInitializer {
 	}
 
 	public static void createVirtualEditionsForTest() {
-		VirtualManager ldod = VirtualManager.getInstance();
+		UserManager userManager = UserManager.getInstance();
 
-		logger.debug("createVirtualEditionsForTest size{}", ldod.getUsersSet().size());
+
+		logger.debug("createVirtualEditionsForTest size{}", userManager.getUsersSet().size());
 
 		// LdoDUser ars = ldod.getUser("ars");
 		// LdoDUser diego = ldod.getUser("diego");
@@ -280,8 +293,10 @@ public class Bootstrap implements WebApplicationInitializer {
 
 	private static void createLdoDArchiveVirtualEdition() {
 		VirtualManager ldod = VirtualManager.getInstance();
+		UserManager userManager = UserManager.getInstance();
 
-		LdoDUser ars = ldod.getUser("ars");
+
+		LdoDUser ars = userManager.getUser("ars");
 		// LdoDUser mp = ldod.getUser("mp");
 
 		VirtualEdition ldoDArchiveEdition = new VirtualEdition(ldod, ars, Edition.ARCHIVE_EDITION_ACRONYM,
@@ -293,7 +308,7 @@ public class Bootstrap implements WebApplicationInitializer {
 
 	@Atomic(mode = TxMode.WRITE)
 	public static void loadRecommendationCache() {
-		Set<Fragment> fragments = VirtualManager.getInstance().getFragmentsSet();
+		Set<Fragment> fragments = CollectionManager.getInstance().getFragmentsSet();
 
 		if (fragments.size() > 500) {
 			List<Property> properties = new ArrayList<>();

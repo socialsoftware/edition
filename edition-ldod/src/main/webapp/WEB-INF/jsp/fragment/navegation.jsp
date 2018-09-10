@@ -89,7 +89,7 @@
 				data-content="<spring:message code="info.experts" />"> <span
 				class="glyphicon glyphicon-info-sign"></span></a>
 		</h5>
-		<c:forEach var="expertEdition" items='${virtualManager.sortedExpertEdition}'>
+		<c:forEach var="expertEdition" items='${collectionManager.sortedExpertEdition}'>
 			<c:if
 				test="${expertEdition.getSortedInter4Frag(fragment).size() != 0}">
 				<div class="text-center">
@@ -156,7 +156,7 @@
 			</a>
 		</h5>
 		<!-- ARCHIVE VIRTUAL EDITION -->
-		<c:set var="archiveEdition" value="${virtualManager.getArchiveEdition()}" />
+		<c:set var="archiveEdition" value="${collectionManager.getArchiveEdition()}" />
 		<div class="text-center">
 			<div class="text-center" style="padding: 8px">
 				<a

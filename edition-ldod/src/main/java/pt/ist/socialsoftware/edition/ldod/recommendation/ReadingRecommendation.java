@@ -12,12 +12,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import pt.ist.fenixframework.FenixFramework;
+import pt.ist.socialsoftware.edition.text.domain.CollectionManager;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualManager;
 import pt.ist.socialsoftware.edition.ldod.recommendation.properties.DateProperty;
 import pt.ist.socialsoftware.edition.ldod.recommendation.properties.HeteronymProperty;
 import pt.ist.socialsoftware.edition.ldod.recommendation.properties.Property;
-import pt.ist.socialsoftware.edition.ldod.domain.ExpertEditionInter;
-import pt.ist.socialsoftware.edition.ldod.domain.Fragment;
+import pt.ist.socialsoftware.edition.text.domain.ExpertEditionInter;
+import pt.ist.socialsoftware.edition.text.domain.Fragment;
 import pt.ist.socialsoftware.edition.ldod.recommendation.properties.TaxonomyProperty;
 import pt.ist.socialsoftware.edition.ldod.recommendation.properties.TextProperty;
 
@@ -83,12 +84,12 @@ public class ReadingRecommendation implements Serializable {
 
 		// if all fragments minus 50 were already suggested clear the first 50
 		// recommendations
-		if (readFragments.size() == VirtualManager.getInstance().getFragmentsSet().size() - 50) {
+		if (readFragments.size() == CollectionManager.getInstance().getFragmentsSet().size() - 50) {
 			readFragments.subList(0, 50).clear();
 			this.read.subList(0, 50).clear();
 		}
 
-		Set<Fragment> toBeRecommended = VirtualManager.getInstance().getFragmentsSet().stream()
+		Set<Fragment> toBeRecommended = CollectionManager.getInstance().getFragmentsSet().stream()
 				.filter(f -> !readFragments.contains(f)).collect(Collectors.toSet());
 
 		this.read.add(expertEditionInterId);

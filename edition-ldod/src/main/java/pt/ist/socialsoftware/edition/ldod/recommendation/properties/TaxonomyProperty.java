@@ -9,8 +9,8 @@ import org.slf4j.LoggerFactory;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import pt.ist.socialsoftware.edition.ldod.domain.Category;
-import pt.ist.socialsoftware.edition.ldod.domain.FragInter;
-import pt.ist.socialsoftware.edition.ldod.domain.Fragment;
+import pt.ist.socialsoftware.edition.text.domain.FragInter;
+import pt.ist.socialsoftware.edition.text.domain.Fragment;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualManager;
 import pt.ist.socialsoftware.edition.ldod.domain.RecommendationWeights;
 import pt.ist.socialsoftware.edition.ldod.domain.Taxonomy;
@@ -30,7 +30,7 @@ public class TaxonomyProperty extends Property {
 	}
 
 	public TaxonomyProperty(@JsonProperty("weight") String weight, @JsonProperty("acronym") String acronym) {
-		this(Double.parseDouble(weight), ((VirtualEdition) VirtualManager.getInstance().getEdition(acronym)).getTaxonomy(),
+		this(Double.parseDouble(weight), ((VirtualEdition) VirtualManager.getInstance().getVirtualEdition(acronym)).getTaxonomy(),
 				PropertyCache.OFF);
 	}
 

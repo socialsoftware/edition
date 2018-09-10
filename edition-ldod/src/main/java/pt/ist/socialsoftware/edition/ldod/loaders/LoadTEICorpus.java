@@ -1,5 +1,21 @@
 package pt.ist.socialsoftware.edition.ldod.loaders;
 
+import org.jdom2.Document;
+import org.jdom2.Element;
+import org.jdom2.JDOMException;
+import org.jdom2.Namespace;
+import org.jdom2.input.SAXBuilder;
+import org.jdom2.xpath.XPathFactory;
+import org.joda.time.LocalDate;
+import pt.ist.fenixframework.Atomic;
+import pt.ist.fenixframework.Atomic.TxMode;
+import pt.ist.socialsoftware.edition.text.domain.CollectionManager;
+import pt.ist.socialsoftware.edition.text.domain.ExpertEdition;
+import pt.ist.socialsoftware.edition.text.domain.Heteronym;
+import pt.ist.socialsoftware.edition.ldod.domain.VirtualManager;
+import pt.ist.socialsoftware.edition.text.exception.LdoDLoadException;
+import pt.ist.socialsoftware.edition.text.utils.DateUtils;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -8,27 +24,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.jdom2.Document;
-import org.jdom2.Element;
-import org.jdom2.JDOMException;
-import org.jdom2.Namespace;
-import org.jdom2.input.SAXBuilder;
-import org.jdom2.xpath.XPathFactory;
-import org.joda.time.LocalDate;
-
-import pt.ist.fenixframework.Atomic;
-import pt.ist.fenixframework.Atomic.TxMode;
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualManager;
-import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDLoadException;
-import pt.ist.socialsoftware.edition.ldod.domain.ExpertEdition;
-import pt.ist.socialsoftware.edition.ldod.domain.Heteronym;
-import pt.ist.socialsoftware.edition.ldod.utils.DateUtils;
-
 public class LoadTEICorpus {
 
 	private Element ldoDTEI = null;
 	private Namespace namespace = null;
 	private VirtualManager virtualManager = null;
+	private CollectionManager collectionManager = null;
 
 	private Document doc = null;
 
@@ -80,6 +81,7 @@ public class LoadTEICorpus {
 		parseTEIFile(file);
 
 		this.virtualManager = VirtualManager.getInstance();
+		this.collectionManager = CollectionManager.getInstance();
 
 		loadTitleStmt();
 
@@ -104,7 +106,7 @@ public class LoadTEICorpus {
 
 			String name = heteronymTEI.getChildText("persName", this.namespace);
 
-			Heteronym heteronym = new Heteronym(this.virtualManager, name);
+			Heteronym heteronym = new Heteronym(this.collectionManager, name);
 
 			putObjectByXmlID(heteronymXmlID, heteronym);
 
@@ -141,7 +143,7 @@ public class LoadTEICorpus {
 			String editor = bibl.getChild("editor", this.namespace).getChild("persName", this.namespace).getText();
 			LocalDate date = DateUtils.convertDate(bibl.getChild("date", this.namespace).getAttributeValue("when"));
 
-			ExpertEdition edition = new ExpertEdition(this.virtualManager, title, author, editor, date);
+			ExpertEdition edition = new ExpertEdition(this.collectionManager, title, author, editor, date);
 
 			edition.setXmlId(editionXmlID);
 
@@ -155,8 +157,8 @@ public class LoadTEICorpus {
 		Element corpusHeaderTitleStmt = this.ldoDTEI.getChild("teiHeader", this.namespace)
 				.getChild("fileDesc", this.namespace).getChild("titleStmt", this.namespace);
 
-		this.virtualManager.setTitle(corpusHeaderTitleStmt.getChild("title", this.namespace).getText());
-		this.virtualManager.setAuthor(corpusHeaderTitleStmt.getChild("author", this.namespace).getText());
+		this.collectionManager.setTitle(corpusHeaderTitleStmt.getChild("title", this.namespace).getText());
+		this.collectionManager.setAuthor(corpusHeaderTitleStmt.getChild("author", this.namespace).getText());
 		this.virtualManager.setEditor(corpusHeaderTitleStmt.getChild("editor", this.namespace).getText());
 		this.virtualManager.setSponsor(corpusHeaderTitleStmt.getChild("sponsor", this.namespace).getText());
 		this.virtualManager.setFunder(corpusHeaderTitleStmt.getChild("funder", this.namespace).getText());

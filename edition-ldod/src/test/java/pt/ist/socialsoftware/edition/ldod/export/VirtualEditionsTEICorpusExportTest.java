@@ -19,12 +19,15 @@ import pt.ist.fenixframework.core.WriteOnReadError;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualManager;
 import pt.ist.socialsoftware.edition.ldod.loaders.VirtualEditionsTEICorpusImport;
+import pt.ist.socialsoftware.edition.text.domain.CollectionManager;
+import pt.ist.socialsoftware.edition.text.domain.ExpertEdition;
 
 public class VirtualEditionsTEICorpusExportTest {
 
 	private VirtualEditionsTEICorpusExport export;
 	private VirtualEdition virtualEdition;
 	private VirtualManager virtualManager;
+	private UserManager userManager;
 
 	public static void logger(Object toPrint) {
 		System.out.println(toPrint);
@@ -62,10 +65,11 @@ public class VirtualEditionsTEICorpusExportTest {
 
 	// aux setup method
 	private void setUpDomain() {
-		this.virtualManager = new VirtualManager();
-		LdoDUser user = new LdoDUser(virtualManager, "ars1", "ars", "Antonio", "Silva", "a@a.a");
+		this.virtualManager = VirtualManager.getInstance();
+		this.userManager = UserManager.getInstance();
+		LdoDUser user = new LdoDUser(userManager, "ars1", "ars", "Antonio", "Silva", "a@a.a");
 		LocalDate localDate = LocalDate.parse("20018-07-20");
-		ExpertEdition expertEdition = virtualManager.getRZEdition();
+		ExpertEdition expertEdition = CollectionManager.getInstance().getRZEdition();
 		this.virtualEdition = new VirtualEdition(virtualManager, user, "acronym", "title", localDate, true, expertEdition);
 	}
 

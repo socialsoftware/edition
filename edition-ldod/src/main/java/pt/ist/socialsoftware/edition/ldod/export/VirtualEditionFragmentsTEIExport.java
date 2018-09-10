@@ -10,7 +10,8 @@ import org.jdom2.output.XMLOutputter;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualManager;
+import pt.ist.socialsoftware.edition.text.domain.CollectionManager;
+import pt.ist.socialsoftware.edition.text.domain.Fragment;
 
 public class VirtualEditionFragmentsTEIExport {
 	Namespace xmlns = Namespace.getNamespace("http://www.tei-c.org/ns/1.0");
@@ -19,7 +20,7 @@ public class VirtualEditionFragmentsTEIExport {
 
 	@Atomic
 	public void export() {
-		for (Fragment fragment : VirtualManager.getInstance().getFragmentsSet()) {
+		for (Fragment fragment : CollectionManager.getInstance().getFragmentsSet()) {
 			exportFragment(fragment);
 		}
 	}

@@ -15,8 +15,8 @@ import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.socialsoftware.edition.ldod.domain.Role.RoleType;
 import pt.ist.socialsoftware.edition.ldod.security.LdoDUserDetails;
-import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDDuplicateUsernameException;
-import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
+import pt.ist.socialsoftware.edition.text.exception.LdoDDuplicateUsernameException;
+import pt.ist.socialsoftware.edition.text.exception.LdoDException;
 
 public class LdoDUser extends LdoDUser_Base {
 	private static Logger logger = LoggerFactory.getLogger(LdoDUser.class);
@@ -71,21 +71,21 @@ public class LdoDUser extends LdoDUser_Base {
 		getAnnotationSet().stream().forEach(a -> a.remove());
 		getRecommendationWeightsSet().stream().forEach(rw -> rw.remove());
 
-		getVirtualManager().getUserConnectionSet().stream().filter(uc -> uc.getUserId().equals(getUsername()))
+		getUserManager().getUserConnectionSet().stream().filter(uc -> uc.getUserId().equals(getUsername()))
 				.forEach(uc -> uc.remove());
 		if (getToken() != null) {
 			getToken().remove();
 		}
 		getRolesSet().stream().forEach(r -> removeRoles(r));
-		setVirtualManager(null);
+		setUserManager(null);
 
 		deleteDomainObject();
 	}
 
-	public LdoDUser(VirtualManager virtualManager, String username, String password, String firstName, String lastName, String email) {
+	public LdoDUser(UserManager userManager, String username, String password, String firstName, String lastName, String email) {
 		setEnabled(false);
 		setActive(true);
-		setVirtualManager(virtualManager);
+		setUserManager(userManager);
 		setUsername(username);
 		setPassword(password);
 		setFirstName(firstName);
@@ -94,7 +94,7 @@ public class LdoDUser extends LdoDUser_Base {
 	}
 
 	private void checkUniqueUsername(String username) {
-		if (getVirtualManager().getUsersSet().stream().filter(u -> u.getUsername() != null && u.getUsername().equals(username))
+		if (getUserManager().getUsersSet().stream().filter(u -> u.getUsername() != null && u.getUsername().equals(username))
 				.findFirst().isPresent()) {
 			throw new LdoDDuplicateUsernameException(username);
 		}
@@ -201,7 +201,7 @@ public class LdoDUser extends LdoDUser_Base {
 	private void changeUsername(String oldUsername, String newUsername) {
 		setUsername(newUsername);
 
-		UserConnection userConnection = getVirtualManager().getUserConnectionSet().stream()
+		UserConnection userConnection = getUserManager().getUserConnectionSet().stream()
 				.filter(uc -> uc.getUserId().equals(oldUsername)).findFirst().orElse(null);
 
 		if (userConnection != null) {

@@ -10,7 +10,7 @@ import org.apache.commons.lang.StringUtils;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
-import pt.ist.socialsoftware.edition.ldod.domain.Section_Base;
+import pt.ist.socialsoftware.edition.text.domain.FragInter;
 
 public class Section extends Section_Base implements Comparable<Section> {
 	public static String DEFAULT = "default";

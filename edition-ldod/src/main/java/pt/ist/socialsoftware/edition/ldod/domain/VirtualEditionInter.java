@@ -14,10 +14,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
-import pt.ist.socialsoftware.edition.ldod.domain.Edition.EditionType;
-import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
+import pt.ist.socialsoftware.edition.text.domain.Edition;
+import pt.ist.socialsoftware.edition.text.domain.Edition.EditionType;
+import pt.ist.socialsoftware.edition.text.exception.LdoDException;
 import pt.ist.socialsoftware.edition.ldod.utils.CategoryDTO;
 import pt.ist.socialsoftware.edition.ldod.utils.RangeJson;
+import pt.ist.socialsoftware.edition.text.domain.FragInter;
+import pt.ist.socialsoftware.edition.text.domain.SimpleText;
 
 public class VirtualEditionInter extends VirtualEditionInter_Base {
 	private static Logger logger = LoggerFactory.getLogger(VirtualEditionInter.class);
@@ -357,7 +360,7 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 	private void createTag(LdoDUser user, String categoryName, HumanAnnotation annotation) {
 		if (categoryName.contains(".")) {
 			String[] values = categoryName.split("\\.");
-			VirtualEdition edition = (VirtualEdition) VirtualManager.getInstance().getEdition(values[0]);
+			VirtualEdition edition = VirtualManager.getInstance().getVirtualEdition(values[0]);
 			if (edition.getTaxonomy().getCategory(values[1]) != null) {
 				edition.getTaxonomy().createTag(this, values[1], annotation, user);
 			} else {

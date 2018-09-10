@@ -5,9 +5,9 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-import pt.ist.socialsoftware.edition.ldod.domain.FragInter;
-import pt.ist.socialsoftware.edition.ldod.domain.Fragment;
-import pt.ist.socialsoftware.edition.ldod.domain.SourceInter;
+import pt.ist.socialsoftware.edition.text.domain.FragInter;
+import pt.ist.socialsoftware.edition.text.domain.Fragment;
+import pt.ist.socialsoftware.edition.text.domain.SourceInter;
 import pt.ist.socialsoftware.edition.ldod.generators.PlainTextFragmentWriter;
 import pt.ist.socialsoftware.edition.ldod.utils.PropertiesManager;
 

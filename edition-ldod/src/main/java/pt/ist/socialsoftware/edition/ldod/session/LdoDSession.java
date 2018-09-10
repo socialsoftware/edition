@@ -13,7 +13,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
-import pt.ist.socialsoftware.edition.ldod.domain.Edition;
+import pt.ist.socialsoftware.edition.text.domain.Edition;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualManager;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
@@ -78,7 +78,8 @@ public class LdoDSession implements Serializable {
 	public List<VirtualEdition> materializeVirtualEditions() {
 		VirtualManager ldod = VirtualManager.getInstance();
 
-		return this.selectedVEAcr.stream().map(acr -> ldod.getEdition(acr)).filter(e -> e != null)
+
+		return this.selectedVEAcr.stream().map(acr -> ldod.getVirtualEdition(acr)).filter(e -> e != null)
 				.map(VirtualEdition.class::cast).collect(Collectors.toList());
 
 	}

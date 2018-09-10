@@ -3,7 +3,6 @@ package pt.ist.socialsoftware.edition.ldod.shared.exception;
 import java.util.ArrayList;
 import java.util.List;
 
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
 
 public class LdoDEditVirtualEditionException extends LdoDException {
 

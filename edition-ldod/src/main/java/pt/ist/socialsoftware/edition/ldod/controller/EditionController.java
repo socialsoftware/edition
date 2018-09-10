@@ -9,11 +9,13 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualManager;
 import pt.ist.socialsoftware.edition.ldod.session.LdoDSession;
+import pt.ist.socialsoftware.edition.text.domain.CollectionManager;
+import pt.ist.socialsoftware.edition.text.domain.Edition;
+import pt.ist.socialsoftware.edition.text.domain.ExpertEdition;
+import pt.ist.socialsoftware.edition.text.domain.Heteronym;
 
 @Controller
 @RequestMapping("/edition")
@@ -34,7 +36,7 @@ public class EditionController {
 	@PreAuthorize("hasPermission(#acronym, 'editionacronym.public')")
 	public String getEditionTableOfContentsbyAcronym(Model model, @PathVariable String acronym) {
 
-		Edition edition = VirtualManager.getInstance().getEdition(acronym);
+		Edition edition = CollectionManager.getInstance().getEdition(acronym);
 
 		if (edition == null) {
 			return "redirect:/error";
@@ -82,7 +84,7 @@ public class EditionController {
 	@RequestMapping(method = RequestMethod.GET, value = "/user/{username}")
 	public String getUserContributions(Model model, @PathVariable String username) {
 
-		LdoDUser user = VirtualManager.getInstance().getUser(username);
+		LdoDUser user = UserManager.getInstance().getUser(username);
 
 		if (user != null) {
 			model.addAttribute("user", user);
@@ -108,7 +110,7 @@ public class EditionController {
 	@PreAuthorize("hasPermission(#acronym, 'editionacronym.public')")
 	public String getCategoryTableOfContents(Model model, @PathVariable String acronym, @PathVariable String urlId) {
 
-		VirtualEdition virtualEdition = (VirtualEdition) VirtualManager.getInstance().getEdition(acronym);
+		VirtualEdition virtualEdition = (VirtualEdition) VirtualManager.getInstance().getVirtualEdition(acronym);
 		if (virtualEdition == null) {
 			return "redirect:/error";
 		}

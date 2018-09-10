@@ -1,5 +1,7 @@
 package pt.ist.socialsoftware.edition.ldod.domain;
 
+import java.util.Set;
+
 public class Role extends Role_Base {
 
 	public enum RoleType {
@@ -7,12 +9,14 @@ public class Role extends Role_Base {
 	}
 
 	public static Role getRole(RoleType type) {
-		return VirtualManager.getInstance().getRolesSet().stream().filter(r -> r.getType().equals(type)).findFirst()
+		UserManager userManager = UserManager.getInstance();
+		Set<Role> roles = userManager.getRolesSet();
+		return roles.stream().filter(r -> r.getType().equals(type)).findFirst()
 				.orElseGet(() -> new Role(type));
 	}
 
 	private Role(RoleType type) {
-		setVirtualManager(VirtualManager.getInstance());
+		setUserManager(UserManager.getInstance());
 		setType(type);
 	}
 

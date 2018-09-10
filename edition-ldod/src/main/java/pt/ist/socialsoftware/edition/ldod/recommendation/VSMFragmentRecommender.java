@@ -1,6 +1,6 @@
 package pt.ist.socialsoftware.edition.ldod.recommendation;
 
-import pt.ist.socialsoftware.edition.ldod.domain.Fragment;
+import pt.ist.socialsoftware.edition.text.domain.Fragment;
 import pt.ist.socialsoftware.edition.ldod.recommendation.properties.Property;
 
 public class VSMFragmentRecommender extends VSMRecommender<Fragment> {

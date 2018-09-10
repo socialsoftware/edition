@@ -4,12 +4,12 @@ import org.springframework.dao.DuplicateKeyException;
 
 public class UserConnection extends UserConnection_Base {
 
-	public UserConnection(VirtualManager ldod, String userId, String providerId, String providerUserId, int rank,
+	public UserConnection(UserManager userManager, String userId, String providerId, String providerUserId, int rank,
 						  String displayName, String profileUrl, String imageUrl, String accessToken, String secret,
 						  String refreshToken, Long expireTime) {
-		checkUnique(ldod, userId, providerId, rank);
+		checkUnique(userManager, userId, providerId, rank);
 
-		setVirtualManager(ldod);
+		setUserManager(userManager);
 		setUserId(userId);
 		setProviderId(providerId);
 		setProviderUserId(providerUserId);
@@ -23,15 +23,15 @@ public class UserConnection extends UserConnection_Base {
 		setExpireTime(expireTime);
 	}
 
-	private void checkUnique(VirtualManager ldod, String userId, String providerId, int rank) {
-		if (ldod.getUserConnectionSet().stream().filter(
+	private void checkUnique(UserManager userManager, String userId, String providerId, int rank) {
+		if (userManager.getUserConnectionSet().stream().filter(
 				uc -> uc.getUserId().equals(userId) && uc.getProviderId().equals(providerId) && (uc.getRank() == rank))
 				.findFirst().isPresent())
 			throw new DuplicateKeyException(providerId);
 	}
 
 	public void remove() {
-		setVirtualManager(null);
+		setUserManager(null);
 
 		deleteDomainObject();
 	}

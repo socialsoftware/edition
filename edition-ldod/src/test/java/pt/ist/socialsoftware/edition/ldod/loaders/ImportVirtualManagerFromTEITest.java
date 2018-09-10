@@ -15,10 +15,10 @@ import org.junit.jupiter.api.Test;
 
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.fenixframework.core.WriteOnReadError;
-import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualManager;
-import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
+import pt.ist.socialsoftware.edition.text.exception.LdoDException;
 import pt.ist.socialsoftware.edition.ldod.utils.PropertiesManager;
+import pt.ist.socialsoftware.edition.text.domain.*;
 
 public class ImportVirtualManagerFromTEITest {
 	private static final String TESTS_DIR = PropertiesManager.getProperties().getProperty("tests.dir");
@@ -36,8 +36,7 @@ public class ImportVirtualManagerFromTEITest {
 			throw new LdoDException();
 		}
 
-		VirtualManager virtualManager = VirtualManager.getInstance();
-		fragmentTest = virtualManager.getFragmentsSet().stream().filter(f -> f.getXmlId().equals("Fr1TEST")).findFirst().get();
+		fragmentTest = CollectionManager.getInstance().getFragmentsSet().stream().filter(f -> f.getXmlId().equals("Fr1TEST")).findFirst().get();
 	}
 
 	@AfterAll
@@ -49,10 +48,12 @@ public class ImportVirtualManagerFromTEITest {
 	public void testCorpusIdLoadead() {
 
 		VirtualManager virtualManager = VirtualManager.getInstance();
+		CollectionManager collectionManager = CollectionManager.getInstance();
+
 
 		checkTitleStmtLoad(virtualManager);
-		checkListBiblLoad(virtualManager);
-		checkHeteronymsLoad(virtualManager);
+		checkListBiblLoad(collectionManager);
+		checkHeteronymsLoad(collectionManager);
 
 	}
 
@@ -95,18 +96,18 @@ public class ImportVirtualManagerFromTEITest {
 		}
 	}
 
-	private void checkHeteronymsLoad(VirtualManager virtualManager) {
+	private void checkHeteronymsLoad(CollectionManager collectionManager) {
 		// includes the NullHeteronym instance
-		assertEquals(3, virtualManager.getHeteronymsSet().size());
-		for (Heteronym heteronym : virtualManager.getHeteronymsSet()) {
+		assertEquals(3, collectionManager.getHeteronymsSet().size());
+		for (Heteronym heteronym : collectionManager.getHeteronymsSet()) {
 			assertTrue(heteronym.getName().equals("Bernardo Soares") || heteronym.getName().equals("Vicente Guedes")
 					|| heteronym.getName().equals("não atribuído"));
 		}
 	}
 
-	private void checkListBiblLoad(VirtualManager virtualManager) {
-		assertEquals(4, virtualManager.getExpertEditionsSet().size());
-		for (ExpertEdition edition : virtualManager.getExpertEditionsSet()) {
+	private void checkListBiblLoad(CollectionManager collectionManager) {
+		assertEquals(4, collectionManager.getExpertEditionsSet().size());
+		for (ExpertEdition edition : collectionManager.getExpertEditionsSet()) {
 			assertEquals("Fernando Pessoa", edition.getAuthor());
 			assertEquals("O Livro do Desassossego", edition.getTitle());
 			assertTrue(edition.getEditor().equals("Jacinto do Prado Coelho")
@@ -116,8 +117,8 @@ public class ImportVirtualManagerFromTEITest {
 	}
 
 	private void checkTitleStmtLoad(VirtualManager virtualManager) {
-		assertEquals("O Livro do Desassossego", virtualManager.getTitle());
-		assertEquals("Fernando Pessoa", virtualManager.getAuthor());
+		assertEquals("O Livro do Desassossego", CollectionManager.getInstance().getTitle());
+		assertEquals("Fernando Pessoa", CollectionManager.getInstance().getAuthor());
 		assertEquals("Project: Nenhum Problema tem Solução", virtualManager.getEditor());
 		assertEquals("", virtualManager.getSponsor());
 		assertEquals("FCT", virtualManager.getFunder());

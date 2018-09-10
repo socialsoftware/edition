@@ -3,10 +3,11 @@ package pt.ist.socialsoftware.edition.ldod.dto;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import pt.ist.socialsoftware.edition.ldod.domain.*;
-import pt.ist.socialsoftware.edition.ldod.domain.FragInter;
-import pt.ist.socialsoftware.edition.ldod.domain.ManuscriptSource;
-import pt.ist.socialsoftware.edition.ldod.domain.SourceInter;
+import pt.ist.socialsoftware.edition.text.domain.FragInter;
+import pt.ist.socialsoftware.edition.text.domain.ManuscriptSource;
+import pt.ist.socialsoftware.edition.text.domain.Source;
+import pt.ist.socialsoftware.edition.text.domain.SourceInter;
+import pt.ist.socialsoftware.edition.text.domain.Edition;
 
 public class FragmentMetaInfoDTO {
 	private String title;

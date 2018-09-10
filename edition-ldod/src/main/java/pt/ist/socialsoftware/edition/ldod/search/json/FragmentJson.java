@@ -2,7 +2,7 @@ package pt.ist.socialsoftware.edition.ldod.search.json;
 
 import java.util.List;
 
-import pt.ist.socialsoftware.edition.ldod.domain.Fragment;
+import pt.ist.socialsoftware.edition.text.domain.Fragment;
 
 public class FragmentJson {
 

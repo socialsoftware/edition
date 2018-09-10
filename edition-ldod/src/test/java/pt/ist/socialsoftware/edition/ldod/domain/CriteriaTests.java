@@ -1,22 +1,21 @@
 package pt.ist.socialsoftware.edition.ldod.domain;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doCallRealMethod;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-
 import org.joda.time.LocalDate;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.function.Executable;
 import org.mockito.Mock;
-
 import pt.ist.socialsoftware.edition.ldod.MockitoExtension;
 import pt.ist.socialsoftware.edition.ldod.RollbackCaseTest;
-import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
+import pt.ist.socialsoftware.edition.text.exception.LdoDException;
+import pt.ist.socialsoftware.edition.text.domain.CollectionManager;
+import pt.ist.socialsoftware.edition.text.domain.ExpertEdition;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class CriteriaTests extends RollbackCaseTest {
@@ -35,9 +34,10 @@ public class CriteriaTests extends RollbackCaseTest {
 	@Override
 	public void populate4Test() {
 		VirtualManager virtualManager = VirtualManager.getInstance();
-		LdoDUser user = new LdoDUser(virtualManager, "ars1", "ars", "Antonio", "Silva", "a@a.a");
+		UserManager userManager = UserManager.getInstance();
+		LdoDUser user = new LdoDUser(userManager, "ars1", "ars", "Antonio", "Silva", "a@a.a");
 		LocalDate localDate = LocalDate.parse("20018-07-20");
-		ExpertEdition expertEdition = virtualManager.getRZEdition();
+		ExpertEdition expertEdition = CollectionManager.getInstance().getRZEdition();
 
 		this.virtualEdition = new VirtualEdition(virtualManager, user, "acronym", "title", localDate, true, expertEdition);
 		clazz = pt.ist.socialsoftware.edition.ldod.domain.MediaSource.class;

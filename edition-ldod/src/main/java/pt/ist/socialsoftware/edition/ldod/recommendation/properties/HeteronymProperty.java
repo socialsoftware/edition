@@ -8,10 +8,10 @@ import java.util.Set;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import pt.ist.socialsoftware.edition.ldod.domain.*;
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualManager;
+import pt.ist.socialsoftware.edition.text.domain.*;
 
 public class HeteronymProperty extends Property {
-	private static List<Heteronym> heteronymList = VirtualManager.getInstance().getSortedHeteronyms();
+	private static List<Heteronym> heteronymList = CollectionManager.getInstance().getSortedHeteronyms();
 
 	public HeteronymProperty(double weight) {
 		super(weight, PropertyCache.ON);

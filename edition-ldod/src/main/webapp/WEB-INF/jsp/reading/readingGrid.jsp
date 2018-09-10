@@ -91,7 +91,7 @@ ${inter.getEdition().getAcronym()}
 </c:choose>
 
 
-<c:forEach var="expertEdition" items='${virtualManager.sortedExpertEdition}'>
+<c:forEach var="expertEdition" items='${collectionManager.sortedExpertEdition}'>
 
 
 

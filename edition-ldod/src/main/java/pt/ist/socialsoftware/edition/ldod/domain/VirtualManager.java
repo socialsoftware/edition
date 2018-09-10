@@ -1,24 +1,19 @@
 package pt.ist.socialsoftware.edition.ldod.domain;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
-
-import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.crypto.password.PasswordEncoder;
-
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.fenixframework.FenixFramework;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser.SocialMediaService;
-import pt.ist.socialsoftware.edition.ldod.domain.Role.RoleType;
 import pt.ist.socialsoftware.edition.ldod.session.LdoDSession;
-import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDDuplicateUsernameException;
+import pt.ist.socialsoftware.edition.text.domain.CollectionManager;
+import pt.ist.socialsoftware.edition.text.domain.Edition;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class VirtualManager extends VirtualManager_Base {
 	private static Logger log = LoggerFactory.getLogger(VirtualManager.class);
@@ -29,27 +24,7 @@ public class VirtualManager extends VirtualManager_Base {
 
 	public VirtualManager() {
 		FenixFramework.getDomainRoot().setVirtualManager(this);
-		setNullEdition(new NullEdition());
 		setLastTwitterID(new LastTwitterID()); // check if this is supposed to be here
-	}
-
-	public List<Heteronym> getSortedHeteronyms() {
-		return getHeteronymsSet().stream().sorted(Comparator.comparing(Heteronym::getName))
-				.collect(Collectors.toList());
-	}
-
-	public List<ExpertEdition> getSortedExpertEdition() {
-		return getExpertEditionsSet().stream().sorted().collect(Collectors.toList());
-	}
-
-	public Edition getEdition(String acronym) {
-		for (Edition edition : getExpertEditionsSet()) {
-			if (edition.getAcronym().toUpperCase().equals(acronym.toUpperCase())) {
-				return edition;
-			}
-		}
-
-		return getVirtualEdition(acronym);
 	}
 
 	public VirtualEdition getVirtualEdition(String acronym) {
@@ -59,24 +34,6 @@ public class VirtualManager extends VirtualManager_Base {
 			}
 		}
 
-		return null;
-	}
-
-	public LdoDUser getUser(String username) {
-		for (LdoDUser user : getUsersSet()) {
-			if (user.getUsername().equals(username)) {
-				return user;
-			}
-		}
-		return null;
-	}
-
-	public Fragment getFragmentByXmlId(String target) {
-		for (Fragment fragment : getFragmentsSet()) {
-			if (fragment.getXmlId().equals(target)) {
-				return fragment;
-			}
-		}
 		return null;
 	}
 
@@ -118,8 +75,8 @@ public class VirtualManager extends VirtualManager_Base {
 
 	@Atomic(mode = TxMode.WRITE)
 	public VirtualEdition createVirtualEdition(LdoDUser user, String acronym, String title, LocalDate date, boolean pub,
-			Edition usedEdition, String mediaSource, String beginDate, String endDate, String geoLocation,
-			String frequency) {
+											   Edition usedEdition, String mediaSource, String beginDate, String endDate, String geoLocation,
+											   String frequency) {
 		log.debug("createVirtualEdition user:{}, acronym:{}, title:{}", user.getUsername(), acronym, title);
 		return new VirtualEdition(this, user, acronym, title, date, pub, usedEdition, mediaSource, beginDate, endDate,
 				geoLocation, frequency);
@@ -130,109 +87,17 @@ public class VirtualManager extends VirtualManager_Base {
 		return new RecommendationWeights(user, virtualEdition);
 	}
 
-	@Atomic(mode = TxMode.WRITE)
-	public void switchAdmin() {
-		setAdmin(!getAdmin());
-	}
 
-	@Atomic(mode = TxMode.WRITE)
-	public LdoDUser createUser(PasswordEncoder passwordEncoder, String username, String password, String firstName,
-			String lastName, String email, SocialMediaService socialMediaService, String socialMediaId) {
-
-		removeOutdatedUnconfirmedUsers();
-
-		if (getUser(username) == null) {
-			LdoDUser user = new LdoDUser(this, username, passwordEncoder.encode(password), firstName, lastName, email);
-			user.setSocialMediaService(socialMediaService);
-			user.setSocialMediaId(socialMediaId);
-
-			Role userRole = Role.getRole(RoleType.ROLE_USER);
-			user.addRoles(userRole);
-
-			return user;
-		} else {
-			throw new LdoDDuplicateUsernameException(username);
-		}
-	}
-
-	public UserConnection getUserConnection(String userId, String providerId, String providerUserId) {
-		return getUserConnectionSet().stream().filter(uc -> uc.getUserId().equals(userId)
-				&& uc.getProviderId().equals(providerId) && uc.getProviderUserId().equals(providerUserId)).findFirst()
-				.orElse(null);
-	}
-
-	@Atomic(mode = TxMode.WRITE)
-	public void createUserConnection(String userId, String providerId, String providerUserId, int rank,
-			String displayName, String profileUrl, String imageUrl, String accessToken, String secret,
-			String refreshToken, Long expireTime) {
-
-		new UserConnection(this, userId, providerId, providerUserId, rank, displayName, profileUrl, imageUrl,
-				accessToken, secret, refreshToken, expireTime);
-	}
-
-	public void removeOutdatedUnconfirmedUsers() {
-		DateTime now = DateTime.now();
-		getTokenSet().stream().filter(t -> t.getExpireTimeDateTime().isBefore(now)).map(t -> t.getUser())
-				.forEach(u -> u.remove());
-	}
-
-	public RegistrationToken getTokenSet(String token) {
-		return getTokenSet().stream().filter(t -> t.getToken().equals(token)).findFirst().orElse(null);
-	}
-
-	public Set<SourceInter> getFragmentRepresentatives() {
-		return getFragmentsSet().stream().map(f -> f.getRepresentativeSourceInter()).collect(Collectors.toSet());
-	}
 
 	public VirtualEdition getArchiveEdition() {
 		return getVirtualEditionsSet().stream().filter(ve -> ve.getAcronym().equals(Edition.ARCHIVE_EDITION_ACRONYM))
 				.findFirst().orElse(null);
 	}
 
-	public ExpertEdition getJPCEdition() {
-		return getExpertEditionsSet().stream().filter(ve -> ve.getAcronym().equals(Edition.COELHO_EDITION_ACRONYM))
-				.findFirst().orElse(null);
-	}
 
-	public ExpertEdition getTSCEdition() {
-		return getExpertEditionsSet().stream().filter(ve -> ve.getAcronym().equals(Edition.CUNHA_EDITION_ACRONYM))
-				.findFirst().orElse(null);
-	}
-
-	public ExpertEdition getRZEdition() {
-		return getExpertEditionsSet().stream().filter(ve -> ve.getAcronym().equals(Edition.ZENITH_EDITION_ACRONYM))
-				.findFirst().orElse(null);
-	}
-
-	public ExpertEdition getJPEdition() {
-		return getExpertEditionsSet().stream().filter(ve -> ve.getAcronym().equals(Edition.PIZARRO_EDITION_ACRONYM))
-				.findFirst().orElse(null);
-	}
 
 	public VirtualEdition getVirtualEditionByXmlId(String xmlId) {
 		return getVirtualEditionsSet().stream().filter(ve -> ve.getXmlId().equals(xmlId)).findFirst().orElse(null);
-	}
-
-	@Atomic(mode = TxMode.WRITE)
-	public void createTestUsers(PasswordEncoder passwordEncoder) {
-		VirtualManager ldod = VirtualManager.getInstance();
-
-		Role userRole = Role.getRole(RoleType.ROLE_USER);
-		Role admin = Role.getRole(RoleType.ROLE_ADMIN);
-
-		// the bcrypt generator
-		// https://www.dailycred.com/blog/12/bcrypt-calculator
-		for (int i = 0; i < 6; i++) {
-			String username = "zuser" + Integer.toString(i + 1);
-			if (VirtualManager.getInstance().getUser(username) == null) {
-				LdoDUser user = new LdoDUser(ldod, username, passwordEncoder.encode(username), "zuser", "zuser",
-						"zuser" + Integer.toString(i + 1) + "@teste.pt");
-
-				user.setEnabled(true);
-				user.addRoles(userRole);
-			}
-		}
-
 	}
 
 	public Set<TwitterCitation> getAllTwitterCitation() {
@@ -275,7 +140,7 @@ public class VirtualManager extends VirtualManager_Base {
 	}
 
 	public Set<Citation> getCitationSet() {
-		return getFragmentsSet().stream().flatMap(f -> f.getCitationSet().stream()).collect(Collectors.toSet());
+		return CollectionManager.getInstance().getFragmentsSet().stream().flatMap(f -> f.getCitationSet().stream()).collect(Collectors.toSet());
 	}
 
 	public Citation getCitationById(long id) {

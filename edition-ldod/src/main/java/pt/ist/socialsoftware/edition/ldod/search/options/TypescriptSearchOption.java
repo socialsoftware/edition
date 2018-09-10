@@ -2,7 +2,7 @@ package pt.ist.socialsoftware.edition.ldod.search.options;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import pt.ist.socialsoftware.edition.ldod.domain.ManuscriptSource;
+import pt.ist.socialsoftware.edition.text.domain.ManuscriptSource;
 
 public final class TypescriptSearchOption extends AuthoralSearchOption {
 	public static final String TYPESCRIPT = "datil";

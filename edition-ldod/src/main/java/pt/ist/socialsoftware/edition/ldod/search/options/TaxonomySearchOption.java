@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import pt.ist.socialsoftware.edition.ldod.domain.FragInter;
+import pt.ist.socialsoftware.edition.text.domain.FragInter;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
 
 public class TaxonomySearchOption extends SearchOption {

@@ -17,6 +17,7 @@ import org.mockito.Mock;
 
 import pt.ist.socialsoftware.edition.ldod.MockitoExtension;
 import pt.ist.socialsoftware.edition.ldod.RollbackCaseTest;
+import pt.ist.socialsoftware.edition.text.domain.SimpleText;
 
 @ExtendWith(MockitoExtension.class)
 // @RunWith(JUnitPlatform.class)
@@ -28,7 +29,7 @@ public class AnnotationTests extends RollbackCaseTest {
 	@Mock
 	LdoDUser user;
 	@Mock
-	SimpleText startText, endText;
+    SimpleText startText, endText;
 	@Mock
 	HumanAnnotation annotation;
 

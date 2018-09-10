@@ -27,58 +27,21 @@ import org.slf4j.LoggerFactory;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
-import pt.ist.socialsoftware.edition.ldod.domain.AddText;
-import pt.ist.socialsoftware.edition.ldod.domain.AddText.Place;
-import pt.ist.socialsoftware.edition.ldod.domain.AltText;
-import pt.ist.socialsoftware.edition.ldod.domain.AltText.AltMode;
-import pt.ist.socialsoftware.edition.ldod.domain.AnnexNote;
-import pt.ist.socialsoftware.edition.ldod.domain.AppText;
-import pt.ist.socialsoftware.edition.ldod.domain.DelText;
-import pt.ist.socialsoftware.edition.ldod.domain.Dimensions;
-import pt.ist.socialsoftware.edition.ldod.domain.ExpertEdition;
-import pt.ist.socialsoftware.edition.ldod.domain.ExpertEditionInter;
-import pt.ist.socialsoftware.edition.ldod.domain.Facsimile;
-import pt.ist.socialsoftware.edition.ldod.domain.FragInter;
-import pt.ist.socialsoftware.edition.ldod.domain.Fragment;
-import pt.ist.socialsoftware.edition.ldod.domain.Fragment.PrecisionType;
-import pt.ist.socialsoftware.edition.ldod.domain.GapText;
-import pt.ist.socialsoftware.edition.ldod.domain.GapText.GapReason;
-import pt.ist.socialsoftware.edition.ldod.domain.GapText.GapUnit;
-import pt.ist.socialsoftware.edition.ldod.domain.HandNote;
-import pt.ist.socialsoftware.edition.ldod.domain.Heteronym;
-import pt.ist.socialsoftware.edition.ldod.domain.LbText;
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualManager;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoDDate;
-import pt.ist.socialsoftware.edition.ldod.domain.ManuscriptSource;
-import pt.ist.socialsoftware.edition.ldod.domain.ManuscriptSource.Medium;
-import pt.ist.socialsoftware.edition.ldod.domain.NoteText;
-import pt.ist.socialsoftware.edition.ldod.domain.NullHeteronym;
-import pt.ist.socialsoftware.edition.ldod.domain.ParagraphText;
-import pt.ist.socialsoftware.edition.ldod.domain.PbText;
-import pt.ist.socialsoftware.edition.ldod.domain.PhysNote;
-import pt.ist.socialsoftware.edition.ldod.domain.PrintedSource;
-import pt.ist.socialsoftware.edition.ldod.domain.RdgGrpText;
-import pt.ist.socialsoftware.edition.ldod.domain.RdgText;
-import pt.ist.socialsoftware.edition.ldod.domain.RefText;
-import pt.ist.socialsoftware.edition.ldod.domain.RefText.RefType;
-import pt.ist.socialsoftware.edition.ldod.domain.Rend;
-import pt.ist.socialsoftware.edition.ldod.domain.SegText;
-import pt.ist.socialsoftware.edition.ldod.domain.SimpleText;
-import pt.ist.socialsoftware.edition.ldod.domain.Source;
-import pt.ist.socialsoftware.edition.ldod.domain.SourceInter;
-import pt.ist.socialsoftware.edition.ldod.domain.SpaceText;
-import pt.ist.socialsoftware.edition.ldod.domain.SpaceText.SpaceDim;
-import pt.ist.socialsoftware.edition.ldod.domain.SpaceText.SpaceUnit;
-import pt.ist.socialsoftware.edition.ldod.domain.SubstText;
-import pt.ist.socialsoftware.edition.ldod.domain.Surface;
-import pt.ist.socialsoftware.edition.ldod.domain.TextPortion;
-import pt.ist.socialsoftware.edition.ldod.domain.TypeNote;
-import pt.ist.socialsoftware.edition.ldod.domain.UnclearText;
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
+import pt.ist.socialsoftware.edition.ldod.domain.*;
+import pt.ist.socialsoftware.edition.text.domain.AddText.Place;
+import pt.ist.socialsoftware.edition.text.domain.AltText.AltMode;
+import pt.ist.socialsoftware.edition.text.domain.Fragment.PrecisionType;
+import pt.ist.socialsoftware.edition.text.domain.GapText.GapReason;
+import pt.ist.socialsoftware.edition.text.domain.GapText.GapUnit;
+import pt.ist.socialsoftware.edition.text.domain.ManuscriptSource.Medium;
+import pt.ist.socialsoftware.edition.text.domain.RefText.RefType;
+import pt.ist.socialsoftware.edition.text.domain.SpaceText.SpaceDim;
+import pt.ist.socialsoftware.edition.text.domain.SpaceText.SpaceUnit;
 import pt.ist.socialsoftware.edition.ldod.search.Indexer;
-import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
-import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDLoadException;
+import pt.ist.socialsoftware.edition.text.exception.LdoDException;
+import pt.ist.socialsoftware.edition.text.exception.LdoDLoadException;
 import pt.ist.socialsoftware.edition.ldod.topicmodeling.CorpusGenerator;
+import pt.ist.socialsoftware.edition.text.domain.*;
 
 public class LoadTEIFragments {
 	private static org.slf4j.Logger logger = LoggerFactory.getLogger(LoadTEIFragments.class);
@@ -86,6 +49,7 @@ public class LoadTEIFragments {
 	private Element ldoDTEI = null;
 	private Namespace namespace = null;
 	private VirtualManager virtualManager = null;
+	private CollectionManager collectionManager = null;
 
 	private Document doc = null;
 
@@ -160,11 +124,11 @@ public class LoadTEIFragments {
 	}
 
 	private void getCorpusXmlIds() {
-		for (ExpertEdition edition : this.virtualManager.getExpertEditionsSet()) {
+		for (ExpertEdition edition : this.collectionManager.getExpertEditionsSet()) {
 			putObjectDirectIdMap(edition.getXmlId(), edition);
 		}
 
-		for (Heteronym heteronym : this.virtualManager.getHeteronymsSet()) {
+		for (Heteronym heteronym : this.collectionManager.getHeteronymsSet()) {
 			putObjectDirectIdMap(heteronym.getXmlId(), heteronym);
 		}
 	}
@@ -201,6 +165,7 @@ public class LoadTEIFragments {
 		parseTEIFile(file);
 
 		this.virtualManager = VirtualManager.getInstance();
+		this.collectionManager = CollectionManager.getInstance();
 
 		getCorpusXmlIds();
 
@@ -212,7 +177,7 @@ public class LoadTEIFragments {
 			String title = getFragmentTitle(element);
 
 			Fragment oldFragment = null;
-			for (Fragment frag : this.virtualManager.getFragmentsSet()) {
+			for (Fragment frag : this.collectionManager.getFragmentsSet()) {
 				if (frag.getXmlId().equals(xmlId)) {
 					oldFragment = frag;
 					break;
@@ -240,6 +205,8 @@ public class LoadTEIFragments {
 	}
 
 	public String loadFragmentsStepByStep(InputStream file) throws LdoDLoadException {
+
+
 		String result = null;
 
 		parseTEIFile(file);
@@ -249,6 +216,7 @@ public class LoadTEIFragments {
 
 		for (Element element : xp.evaluate(this.doc)) {
 			this.virtualManager = VirtualManager.getInstance();
+			this.collectionManager = CollectionManager.getInstance();
 
 			String xmlId = getFragmentXmlId(element);
 			String title = getFragmentTitle(element);
@@ -256,7 +224,7 @@ public class LoadTEIFragments {
 			result = "CARREGAR: [" + xmlId + "(" + title + ")] <br>";
 
 			Boolean exists = false;
-			for (Fragment frag : this.virtualManager.getFragmentsSet()) {
+			for (Fragment frag : this.collectionManager.getFragmentsSet()) {
 				if (frag.getXmlId().equals(xmlId)) {
 					result = result + "------------> FRAG-ID JÁ EXISTE LOGO NÃO FOI CARREGADO <br>";
 					exists = true;
@@ -284,7 +252,7 @@ public class LoadTEIFragments {
 	}
 
 	private void loadFragment(String title, String xmlId) {
-		Fragment fragment = new Fragment(this.virtualManager, title, xmlId);
+		Fragment fragment = new Fragment(this.collectionManager, title, xmlId);
 
 		putObjectDirectIdMap(xmlId, fragment);
 
@@ -441,7 +409,7 @@ public class LoadTEIFragments {
 			}
 			break;
 		case FRAGMENT:
-			Fragment fragment = VirtualManager.getInstance().getFragmentByXmlId(target);
+			Fragment fragment = CollectionManager.getInstance().getFragmentByXmlId(target);
 			// if (fragment != null) {
 			// if fragment == null is deal in class RefText
 			refText.setRefFrag(fragment);
@@ -1089,7 +1057,7 @@ public class LoadTEIFragments {
 									putObjectInverseIdMap(target, refText);
 								}
 							} else if (refType == RefType.FRAGMENT) {
-								Fragment frag = VirtualManager.getInstance().getFragmentByXmlId(target);
+								Fragment frag = CollectionManager.getInstance().getFragmentByXmlId(target);
 								// if (frag != null) {
 								// it is not verified if frag == null but an
 								// exception will be raised when accessing the

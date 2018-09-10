@@ -10,7 +10,10 @@ import org.springframework.stereotype.Component;
 
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualManager;
+import pt.ist.socialsoftware.edition.text.domain.CollectionManager;
+import pt.ist.socialsoftware.edition.text.domain.Edition;
+import pt.ist.socialsoftware.edition.text.domain.FragInter;
+import pt.ist.socialsoftware.edition.text.domain.Fragment;
 
 @Component
 public class LdoDPermissionEvaluator implements PermissionEvaluator {
@@ -46,7 +49,7 @@ public class LdoDPermissionEvaluator implements PermissionEvaluator {
 				}
 				break;
 			case "editionacronym":
-				edition = VirtualManager.getInstance().getEdition((String) targetDomainObject);
+				edition = CollectionManager.getInstance().getEdition((String) targetDomainObject);
 				if (edition instanceof VirtualEdition) {
 					virtualEdition = (VirtualEdition) edition;
 				} else {
@@ -83,7 +86,7 @@ public class LdoDPermissionEvaluator implements PermissionEvaluator {
 				}
 				break;
 			case "user":
-				user = VirtualManager.getInstance().getUser((String) targetDomainObject);
+				user = UserManager.getInstance().getUser((String) targetDomainObject);
 				break;
 			default:
 				assert false;
@@ -119,7 +122,7 @@ public class LdoDPermissionEvaluator implements PermissionEvaluator {
 		// it is only implementing "hasPermission(#xmlId, #urlId,
 		// 'fragInter.public')"
 
-		Fragment fragment = FenixFramework.getDomainRoot().getVirtualManager().getFragmentByXmlId((String) targetId);
+		Fragment fragment = FenixFramework.getDomainRoot().getCollectionManager().getFragmentByXmlId((String) targetId);
 
 		if (fragment == null) {
 			return false;

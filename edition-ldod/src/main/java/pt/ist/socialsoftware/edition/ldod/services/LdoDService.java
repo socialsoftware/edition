@@ -1,7 +1,7 @@
 package pt.ist.socialsoftware.edition.ldod.services;
 
 import jvstm.Atomic;
-import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
+import pt.ist.socialsoftware.edition.text.exception.LdoDException;
 
 public abstract class LdoDService {
 	/**

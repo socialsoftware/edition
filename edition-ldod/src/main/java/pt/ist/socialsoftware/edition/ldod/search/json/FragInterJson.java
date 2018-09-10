@@ -1,11 +1,11 @@
 package pt.ist.socialsoftware.edition.ldod.search.json;
 
-import pt.ist.socialsoftware.edition.ldod.domain.ExpertEdition;
-import pt.ist.socialsoftware.edition.ldod.domain.ExpertEditionInter;
-import pt.ist.socialsoftware.edition.ldod.domain.FragInter;
-import pt.ist.socialsoftware.edition.ldod.domain.PrintedSource;
-import pt.ist.socialsoftware.edition.ldod.domain.SourceInter;
-import pt.ist.socialsoftware.edition.ldod.domain.Source.SourceType;
+import pt.ist.socialsoftware.edition.text.domain.ExpertEdition;
+import pt.ist.socialsoftware.edition.text.domain.ExpertEditionInter;
+import pt.ist.socialsoftware.edition.text.domain.FragInter;
+import pt.ist.socialsoftware.edition.text.domain.PrintedSource;
+import pt.ist.socialsoftware.edition.text.domain.SourceInter;
+import pt.ist.socialsoftware.edition.text.domain.Source.SourceType;
 
 public class FragInterJson {
 

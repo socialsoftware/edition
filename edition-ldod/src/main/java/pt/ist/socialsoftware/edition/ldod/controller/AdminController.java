@@ -42,11 +42,11 @@ import pt.ist.socialsoftware.edition.ldod.export.UsersXMLExport;
 import pt.ist.socialsoftware.edition.ldod.export.WriteVirtualEditonsToFile;
 import pt.ist.socialsoftware.edition.ldod.forms.EditUserForm;
 import pt.ist.socialsoftware.edition.ldod.security.LdoDUserDetails;
-import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
-import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDLoadException;
+import pt.ist.socialsoftware.edition.text.exception.LdoDException;
+import pt.ist.socialsoftware.edition.text.exception.LdoDLoadException;
 import pt.ist.socialsoftware.edition.ldod.validator.EditUserValidator;
-import pt.ist.socialsoftware.edition.ldod.domain.FragInter;
-import pt.ist.socialsoftware.edition.ldod.domain.Fragment;
+import pt.ist.socialsoftware.edition.text.domain.FragInter;
+import pt.ist.socialsoftware.edition.text.domain.Fragment;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualManager;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
 import pt.ist.socialsoftware.edition.ldod.domain.Role;
@@ -59,6 +59,8 @@ import pt.ist.socialsoftware.edition.ldod.loaders.UsersXMLImport;
 import pt.ist.socialsoftware.edition.ldod.loaders.VirtualEditionFragmentsTEIImport;
 import pt.ist.socialsoftware.edition.ldod.loaders.VirtualEditionsTEICorpusImport;
 import pt.ist.socialsoftware.edition.ldod.utils.PropertiesManager;
+import pt.ist.socialsoftware.edition.text.domain.CollectionManager;
+import pt.ist.socialsoftware.edition.text.domain.Edition;
 
 @Controller
 @RequestMapping("/admin")
@@ -184,7 +186,7 @@ public class AdminController {
 	@RequestMapping(method = RequestMethod.GET, value = "/fragment/list")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public String deleteFragmentsList(Model model) {
-		model.addAttribute("fragments", VirtualManager.getInstance().getFragmentsSet());
+		model.addAttribute("fragments", CollectionManager.getInstance().getFragmentsSet());
 		return "admin/deleteFragment";
 	}
 
@@ -194,7 +196,7 @@ public class AdminController {
 		Fragment fragment = FenixFramework.getDomainObject(externalId);
 		if (fragment == null) {
 			return "redirect:/error";
-		} else if (VirtualManager.getInstance().getFragmentsSet().size() >= 1) {
+		} else if (CollectionManager.getInstance().getFragmentsSet().size() >= 1) {
 			fragment.remove();
 		}
 		return "redirect:/admin/fragment/list";
@@ -203,7 +205,7 @@ public class AdminController {
 	@RequestMapping(method = RequestMethod.POST, value = "/fragment/deleteAll")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public String deleteAllFragments(Model model) {
-		for (Fragment fragment : VirtualManager.getInstance().getFragmentsSet()) {
+		for (Fragment fragment : CollectionManager.getInstance().getFragmentsSet()) {
 			fragment.remove();
 		}
 		return "redirect:/admin/fragment/list";
@@ -214,8 +216,7 @@ public class AdminController {
 	public String switchAdminMode() {
 		logger.debug("switchAdminMode");
 
-		VirtualManager virtualManager = VirtualManager.getInstance();
-		virtualManager.switchAdmin();
+		UserManager.getInstance().switchAdmin();
 
 		return "redirect:/admin/user/list";
 	}
@@ -259,7 +260,7 @@ public class AdminController {
 
 		model.addAttribute("ldoD", VirtualManager.getInstance());
 		model.addAttribute("users",
-				VirtualManager.getInstance().getUsersSet().stream()
+				UserManager.getInstance().getUsersSet().stream()
 						.sorted((u1, u2) -> u1.getFirstName().toLowerCase().compareTo(u2.getFirstName().toLowerCase()))
 						.collect(Collectors.toList()));
 		model.addAttribute("sessions", activeSessions.stream()
@@ -300,7 +301,7 @@ public class AdminController {
 			return null;
 		}
 
-		LdoDUser user = VirtualManager.getInstance().getUser(form.getOldUsername());
+		LdoDUser user = UserManager.getInstance().getUser(form.getOldUsername());
 
 		user.update(this.passwordEncoder, form.getOldUsername(), form.getNewUsername(), form.getFirstName(),
 				form.getLastName(), form.getEmail(), form.getNewPassword(), form.isUser(), form.isAdmin(),
@@ -337,13 +338,13 @@ public class AdminController {
 	@RequestMapping(method = RequestMethod.POST, value = "/exportSearch")
 	public String exportSearch(Model model, @RequestParam("query") String query) {
 
-		VirtualManager virtualManager = VirtualManager.getInstance();
+		CollectionManager collectionManager = CollectionManager.getInstance();
 
 		List<String> frags = new ArrayList<>();
 		int n = 0;
 
 		if (query.compareTo("") != 0) {
-			for (Fragment frag : virtualManager.getFragmentsSet()) {
+			for (Fragment frag : collectionManager.getFragmentsSet()) {
 				if (frag.getTitle().contains(query)) {
 					frags.add("<a href=\"/fragments/fragment/" + frag.getExternalId() + "\">"
 							+ frag.getTitle().replace(query, "<b><u>" + query + "</u></b>") + "</a>");
@@ -362,11 +363,12 @@ public class AdminController {
 	@RequestMapping(method = RequestMethod.POST, value = "/exportSearchResult")
 	public void exportSearchResult(HttpServletResponse response, Model model, @RequestParam("query") String query) {
 
-		VirtualManager virtualManager = VirtualManager.getInstance();
+        CollectionManager collectionManager = CollectionManager.getInstance();
 
-		Map<Fragment, Set<FragInter>> searchResult = new HashMap<>();
 
-		for (Fragment frag : virtualManager.getFragmentsSet()) {
+        Map<Fragment, Set<FragInter>> searchResult = new HashMap<>();
+
+		for (Fragment frag : collectionManager.getFragmentsSet()) {
 			if (frag.getTitle().contains(query)) {
 				Set<FragInter> inters = new HashSet<>();
 				for (FragInter inter : frag.getFragmentInterSet()) {
@@ -397,11 +399,12 @@ public class AdminController {
 	@RequestMapping(method = RequestMethod.GET, value = "/exportAll")
 	public void exportAll(HttpServletResponse response) {
 
-		VirtualManager virtualManager = VirtualManager.getInstance();
+        CollectionManager collectionManager = CollectionManager.getInstance();
 
-		Map<Fragment, Set<FragInter>> searchResult = new HashMap<>();
 
-		for (Fragment frag : virtualManager.getFragmentsSet()) {
+        Map<Fragment, Set<FragInter>> searchResult = new HashMap<>();
+
+		for (Fragment frag : collectionManager.getFragmentsSet()) {
 			Set<FragInter> inters = new HashSet<>();
 
 			for (FragInter inter : frag.getFragmentInterSet()) {
@@ -436,7 +439,7 @@ public class AdminController {
 
 		Map<Fragment, Set<FragInter>> searchResult = new HashMap<>();
 
-		List<Fragment> fragments = new ArrayList<>(VirtualManager.getInstance().getFragmentsSet());
+		List<Fragment> fragments = new ArrayList<>(CollectionManager.getInstance().getFragmentsSet());
 
 		List<String> fragsRandom = new ArrayList<>();
 
@@ -618,7 +621,7 @@ public class AdminController {
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public String createTestUsers(Model model) {
 		logger.debug("createTestUsers");
-		VirtualManager.getInstance().createTestUsers(this.passwordEncoder);
+		UserManager.getInstance().createTestUsers(this.passwordEncoder);
 		return "redirect:/admin/user/list";
 	}
 

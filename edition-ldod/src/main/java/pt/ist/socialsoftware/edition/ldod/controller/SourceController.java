@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import pt.ist.socialsoftware.edition.ldod.domain.Fragment;
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualManager;
+import pt.ist.socialsoftware.edition.text.domain.CollectionManager;
+import pt.ist.socialsoftware.edition.text.domain.Fragment;
 import pt.ist.socialsoftware.edition.ldod.session.LdoDSession;
-import pt.ist.socialsoftware.edition.ldod.domain.Source;
+import pt.ist.socialsoftware.edition.text.domain.Source;
 
 @Controller
 @RequestMapping("/source")
@@ -31,10 +31,11 @@ public class SourceController {
 	public String getListOfSources(Model model) {
 		logger.debug("getListOfSources");
 
-		VirtualManager virtualManager = VirtualManager.getInstance();
+		CollectionManager collectionManager = CollectionManager.getInstance();
+
 
 		List<Source> sources = new ArrayList<>();
-		for (Fragment frag : virtualManager.getFragmentsSet()) {
+		for (Fragment frag : collectionManager.getFragmentsSet()) {
 			sources.addAll(frag.getSourcesSet());
 		}
 

@@ -1,19 +1,5 @@
 package pt.ist.socialsoftware.edition.ldod.recommendation;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
-
-import javax.transaction.NotSupportedException;
-import javax.transaction.SystemException;
-
 import org.apache.lucene.queryparser.classic.ParseException;
 import org.joda.time.LocalDate;
 import org.junit.jupiter.api.AfterAll;
@@ -21,19 +7,25 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.fenixframework.core.WriteOnReadError;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualManager;
-import pt.ist.socialsoftware.edition.ldod.recommendation.properties.DateProperty;
-import pt.ist.socialsoftware.edition.ldod.recommendation.properties.HeteronymProperty;
-import pt.ist.socialsoftware.edition.ldod.recommendation.properties.Property;
-import pt.ist.socialsoftware.edition.ldod.recommendation.properties.TaxonomyProperty;
-import pt.ist.socialsoftware.edition.ldod.recommendation.properties.TextProperty;
+import pt.ist.socialsoftware.edition.ldod.recommendation.properties.*;
 import pt.ist.socialsoftware.edition.ldod.search.Indexer;
 import pt.ist.socialsoftware.edition.ldod.topicmodeling.TopicModeler;
 import pt.ist.socialsoftware.edition.ldod.utils.TopicListDTO;
+import pt.ist.socialsoftware.edition.text.domain.*;
+
+import javax.transaction.NotSupportedException;
+import javax.transaction.SystemException;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class VSMVirtualEditionInterRecomenderTest {
 	private static Logger logger = LoggerFactory.getLogger(VSMVirtualEditionInterRecomenderTest.class);
@@ -48,9 +40,10 @@ public class VSMVirtualEditionInterRecomenderTest {
 		FenixFramework.getTransactionManager().begin(false);
 
 		VirtualManager virtualManager = VirtualManager.getInstance();
-		ExpertEdition pizarroEdition = (ExpertEdition) virtualManager.getEdition(Edition.PIZARRO_EDITION_ACRONYM);
+		UserManager userManager = UserManager.getInstance();
+		ExpertEdition pizarroEdition = (ExpertEdition) CollectionManager.getInstance().getEdition(Edition.PIZARRO_EDITION_ACRONYM);
 
-		LdoDUser userArs = virtualManager.getUser("ars");
+		LdoDUser userArs = userManager.getUser("ars");
 		// create virtual edition
 		virtualEdition = virtualManager.createVirtualEdition(userArs, "TestRecommendations", "TestRecommendations",
 				LocalDate.now(), true, pizarroEdition);

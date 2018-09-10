@@ -1,5 +1,8 @@
 package pt.ist.socialsoftware.edition.ldod.domain;
 
+import pt.ist.socialsoftware.edition.text.domain.FragInter;
+import pt.ist.socialsoftware.edition.text.domain.Fragment;
+
 public abstract class Citation extends Citation_Base {
 
 	public void init(Fragment fragment, String sourceLink, String date, String fragText) {

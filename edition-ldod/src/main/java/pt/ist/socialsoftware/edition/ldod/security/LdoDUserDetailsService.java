@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
+import pt.ist.socialsoftware.edition.ldod.domain.UserManager;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualManager;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
 import pt.ist.socialsoftware.edition.ldod.domain.Role;
@@ -28,12 +29,12 @@ public class LdoDUserDetailsService implements UserDetailsService {
 
 		LdoDUserDetails matchingUser = null;
 
-		VirtualManager virtualManager = VirtualManager.getInstance();
+		UserManager userManager = UserManager.getInstance();
 
-		for (LdoDUser user : virtualManager.getUsersSet()) {
+		for (LdoDUser user : userManager.getUsersSet()) {
 
 			if (user.getEnabled() && user.getActive() && user.getUsername().equals(username)
-					&& (!virtualManager.getAdmin() || user.getRolesSet().contains(Role.getRole(RoleType.ROLE_ADMIN)))) {
+					&& (!userManager.getAdmin() || user.getRolesSet().contains(Role.getRole(RoleType.ROLE_ADMIN)))) {
 				Set<GrantedAuthority> authorities = new HashSet<>();
 				for (Role role : user.getRolesSet()) {
 					authorities.add(new GrantedAuthorityImpl(role.getType().name()));

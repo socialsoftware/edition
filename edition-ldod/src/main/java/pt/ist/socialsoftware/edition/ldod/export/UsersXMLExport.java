@@ -13,13 +13,13 @@ public class UsersXMLExport {
 
 	@Atomic
 	public String export() {
-		VirtualManager virtualManager = VirtualManager.getInstance();
+		UserManager userManager = UserManager.getInstance();
 
 		Element element = createHeader();
 
-		exportUsers(element, virtualManager);
-		exportUserConnections(element, virtualManager);
-		exportRegistrationTokens(element, virtualManager);
+		exportUsers(element, userManager);
+		exportUserConnections(element, userManager);
+		exportRegistrationTokens(element, userManager);
 
 		XMLOutputter xml = new XMLOutputter();
 		xml.setFormat(Format.getPrettyFormat());
@@ -36,10 +36,10 @@ public class UsersXMLExport {
 		return rootElement;
 	}
 
-	private void exportUsers(Element element, VirtualManager virtualManager) {
+	private void exportUsers(Element element, UserManager userManager) {
 		Element usersElement = new Element("users");
 
-		for (LdoDUser user : virtualManager.getUsersSet()) {
+		for (LdoDUser user : userManager.getUsersSet()) {
 			exportUser(usersElement, user);
 		}
 
@@ -98,10 +98,10 @@ public class UsersXMLExport {
 		}
 	}
 
-	private void exportUserConnections(Element element, VirtualManager virtualManager) {
+	private void exportUserConnections(Element element, UserManager userManager) {
 		Element userConnectionsElement = new Element("user-connections");
 
-		for (UserConnection userConnection : virtualManager.getUserConnectionSet()) {
+		for (UserConnection userConnection : userManager.getUserConnectionSet()) {
 			exportUserConnection(userConnectionsElement, userConnection);
 		}
 
@@ -134,10 +134,10 @@ public class UsersXMLExport {
 		element.addContent(userConnectionElement);
 	}
 
-	private void exportRegistrationTokens(Element element, VirtualManager virtualManager) {
+	private void exportRegistrationTokens(Element element, UserManager userManager) {
 		Element registrationTokensElement = new Element("registration-tokens");
 
-		for (RegistrationToken registrationToken : virtualManager.getTokenSet()) {
+		for (RegistrationToken registrationToken : userManager.getTokenSet()) {
 			exportRegistrationToken(registrationTokensElement, registrationToken);
 		}
 

@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.fenixframework.core.WriteOnReadError;
+import pt.ist.socialsoftware.edition.ldod.domain.UserManager;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualManager;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
 import pt.ist.socialsoftware.edition.ldod.domain.RegistrationToken;
@@ -31,30 +32,30 @@ public class UsersXMLExportTest {
 		UsersXMLExport export = new UsersXMLExport();
 		String usersXML = export.export();
 
-		int numOfUsers = VirtualManager.getInstance().getUsersSet().size();
-		int numOfUserConnections = VirtualManager.getInstance().getUserConnectionSet().size();
-		int numOfRegistrationTokens = VirtualManager.getInstance().getTokenSet().size();
+		int numOfUsers = UserManager.getInstance().getUsersSet().size();
+		int numOfUserConnections = UserManager.getInstance().getUserConnectionSet().size();
+		int numOfRegistrationTokens = UserManager.getInstance().getTokenSet().size();
 
-		VirtualManager.getInstance().getUsersSet().stream().forEach(u -> u.remove());
-		VirtualManager.getInstance().getUserConnectionSet().stream().forEach(u -> u.remove());
-		VirtualManager.getInstance().getTokenSet().stream().forEach(u -> u.remove());
+		UserManager.getInstance().getUsersSet().stream().forEach(u -> u.remove());
+		UserManager.getInstance().getUserConnectionSet().stream().forEach(u -> u.remove());
+		UserManager.getInstance().getTokenSet().stream().forEach(u -> u.remove());
 
-		assertTrue(VirtualManager.getInstance().getUsersSet().size() == 0);
-		assertTrue(VirtualManager.getInstance().getUserConnectionSet().size() == 0);
-		assertTrue(VirtualManager.getInstance().getTokenSet().size() == 0);
+		assertTrue(UserManager.getInstance().getUsersSet().size() == 0);
+		assertTrue(UserManager.getInstance().getUserConnectionSet().size() == 0);
+		assertTrue(UserManager.getInstance().getTokenSet().size() == 0);
 
 		UsersXMLImport load = new UsersXMLImport();
 		load.importUsers(usersXML);
 
-		assertEquals(numOfUsers, VirtualManager.getInstance().getUsersSet().size());
-		assertEquals(numOfUserConnections, VirtualManager.getInstance().getUserConnectionSet().size());
-		assertEquals(numOfRegistrationTokens, VirtualManager.getInstance().getTokenSet().size());
+		assertEquals(numOfUsers, UserManager.getInstance().getUsersSet().size());
+		assertEquals(numOfUserConnections, UserManager.getInstance().getUserConnectionSet().size());
+		assertEquals(numOfRegistrationTokens, UserManager.getInstance().getTokenSet().size());
 
-		for (LdoDUser user : VirtualManager.getInstance().getUsersSet()) {
+		for (LdoDUser user : UserManager.getInstance().getUsersSet()) {
 			assertTrue(user.getRolesSet().size() != 0);
 		}
 
-		for (RegistrationToken token : VirtualManager.getInstance().getTokenSet()) {
+		for (RegistrationToken token : UserManager.getInstance().getTokenSet()) {
 			assertNotNull(token.getUser());
 		}
 	}

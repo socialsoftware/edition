@@ -1,19 +1,13 @@
 package pt.ist.socialsoftware.edition.ldod.security;
 
+import org.springframework.security.crypto.encrypt.TextEncryptor;
+import org.springframework.social.connect.*;
+import pt.ist.socialsoftware.edition.ldod.domain.UserManager;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-
-import org.springframework.security.crypto.encrypt.TextEncryptor;
-import org.springframework.social.connect.Connection;
-import org.springframework.social.connect.ConnectionFactoryLocator;
-import org.springframework.social.connect.ConnectionKey;
-import org.springframework.social.connect.ConnectionRepository;
-import org.springframework.social.connect.ConnectionSignUp;
-import org.springframework.social.connect.UsersConnectionRepository;
-
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualManager;
 
 public class LdoDUsersConnectionRepository implements UsersConnectionRepository {
 
@@ -36,7 +30,7 @@ public class LdoDUsersConnectionRepository implements UsersConnectionRepository 
 	@Override
 	public List<String> findUserIdsWithConnection(Connection<?> connection) {
 		ConnectionKey key = connection.getKey();
-		List<String> localUserIds = VirtualManager.getInstance().getUserConnectionSet().stream()
+		List<String> localUserIds = UserManager.getInstance().getUserConnectionSet().stream()
 				.filter(uc -> uc.getProviderId().equals(key.getProviderId())
 						&& uc.getProviderUserId().equals(key.getProviderUserId()))
 				.map(uc -> uc.getUserId()).collect(Collectors.toList());
@@ -53,7 +47,7 @@ public class LdoDUsersConnectionRepository implements UsersConnectionRepository 
 
 	@Override
 	public Set<String> findUserIdsConnectedTo(String providerId, Set<String> providerUserIds) {
-		return VirtualManager.getInstance().getUserConnectionSet().stream()
+		return UserManager.getInstance().getUserConnectionSet().stream()
 				.filter(uc -> uc.getProviderId().equals(providerId) && providerUserIds.contains(uc.getProviderUserId()))
 				.map(uc -> uc.getUserId()).collect(Collectors.toSet());
 	}

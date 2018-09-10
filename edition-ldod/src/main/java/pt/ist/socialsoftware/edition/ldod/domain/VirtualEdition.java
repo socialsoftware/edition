@@ -25,8 +25,9 @@ import pt.ist.socialsoftware.edition.ldod.dto.FragmentDTO;
 import pt.ist.socialsoftware.edition.ldod.dto.FragmentMetaInfoDTO;
 import pt.ist.socialsoftware.edition.ldod.recommendation.VSMVirtualEditionInterRecommender;
 import pt.ist.socialsoftware.edition.ldod.recommendation.properties.Property;
-import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
+import pt.ist.socialsoftware.edition.text.exception.LdoDException;
 import pt.ist.socialsoftware.edition.ldod.utils.PropertiesManager;
+import pt.ist.socialsoftware.edition.text.domain.*;
 
 public class VirtualEdition extends VirtualEdition_Base {
 	private static Logger logger = LoggerFactory.getLogger(VirtualEdition.class);
@@ -204,7 +205,7 @@ public class VirtualEdition extends VirtualEdition_Base {
 	public Boolean canAddFragInter(FragInter addInter) {
 		Fragment fragment = addInter.getFragment();
 		FragInter usedAddInter = addInter.getLastUsed();
-		for (VirtualEditionInter inter : fragment.getVirtualEditionInters(this)) {
+		for (VirtualEditionInter inter : getVirtualEditionInters(fragment)) {
 			FragInter usedInter = inter.getLastUsed();
 			if (isSameInterpretation(usedAddInter, usedInter)) {
 				return false;
@@ -224,6 +225,11 @@ public class VirtualEdition extends VirtualEdition_Base {
 			return numberOfInter4Expert > numberOfInter4Virtual;
 		}
 		return true;
+	}
+
+	public List<VirtualEditionInter> getVirtualEditionInters(Fragment fragment) {
+		return fragment.getFragmentInterSet().stream().filter(inter -> inter.getEdition() == this)
+				.map(VirtualEditionInter.class::cast).sorted().collect(Collectors.toList());
 	}
 
 	private boolean belongToDifferentExpertEditions(FragInter usedAddInter, FragInter usedInter) {

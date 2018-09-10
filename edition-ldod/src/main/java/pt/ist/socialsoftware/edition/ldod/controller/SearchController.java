@@ -21,19 +21,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import pt.ist.socialsoftware.edition.ldod.domain.Edition;
-import pt.ist.socialsoftware.edition.ldod.domain.ExpertEdition;
-import pt.ist.socialsoftware.edition.ldod.domain.FragInter;
-import pt.ist.socialsoftware.edition.ldod.domain.Fragment;
-import pt.ist.socialsoftware.edition.ldod.domain.Heteronym;
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualManager;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
-import pt.ist.socialsoftware.edition.ldod.domain.ManuscriptSource;
-import pt.ist.socialsoftware.edition.ldod.domain.ManuscriptSource.Medium;
-import pt.ist.socialsoftware.edition.ldod.domain.Source;
-import pt.ist.socialsoftware.edition.ldod.domain.Source.SourceType;
-import pt.ist.socialsoftware.edition.ldod.domain.SourceInter;
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
+import pt.ist.socialsoftware.edition.ldod.domain.*;
+import pt.ist.socialsoftware.edition.text.domain.ManuscriptSource.Medium;
+import pt.ist.socialsoftware.edition.text.domain.Source.SourceType;
 import pt.ist.socialsoftware.edition.ldod.search.json.AuthoralJson;
 import pt.ist.socialsoftware.edition.ldod.search.json.DatesJson;
 import pt.ist.socialsoftware.edition.ldod.search.json.EditionJson;
@@ -50,6 +40,7 @@ import pt.ist.socialsoftware.edition.ldod.search.options.TextSearchOption;
 import pt.ist.socialsoftware.edition.ldod.search.options.TypescriptSearchOption;
 import pt.ist.socialsoftware.edition.ldod.search.options.VirtualEditionSearchOption;
 import pt.ist.socialsoftware.edition.ldod.session.LdoDSession;
+import pt.ist.socialsoftware.edition.text.domain.*;
 
 @Controller
 @RequestMapping("/search")
@@ -225,7 +216,7 @@ public class SearchController {
   public Map<String, String> getEditions() {
     // LinkedHashMap keeps insertion order.
     Map<String, String> editions = new LinkedHashMap<>();
-    for (ExpertEdition expertEdition : VirtualManager.getInstance().getSortedExpertEdition()) {
+    for (ExpertEdition expertEdition : CollectionManager.getInstance().getSortedExpertEdition()) {
 
       editions.put(expertEdition.getAcronym(), expertEdition.getEditor());
     }
@@ -235,7 +226,7 @@ public class SearchController {
   @RequestMapping(value = "/getEdition")
   @ResponseBody
   public EditionJson getEdition(@RequestParam(value = "edition", required = true) String acronym) {
-    Edition edition = VirtualManager.getInstance().getEdition(acronym);
+    Edition edition = CollectionManager.getInstance().getEdition(acronym);
     Map<String, String> heteronyms = new HashMap<>();
     LocalDate beginDate = null;
     LocalDate endDate = null;
@@ -265,7 +256,7 @@ public class SearchController {
     logger.debug("getPublicationsDates");
     LocalDate beginDate = null;
     LocalDate endDate = null;
-    for (Fragment fragment : VirtualManager.getInstance().getFragmentsSet()) {
+    for (Fragment fragment : CollectionManager.getInstance().getFragmentsSet()) {
       for (Source source : fragment.getSourcesSet()) {
         if (source.getType().equals(SourceType.PRINTED)) {
           if (source.getLdoDDate() != null) {
@@ -292,7 +283,7 @@ public class SearchController {
     for (int i = 0; i < values.length; i++) {
       array[i] = values[i].getDesc();
     }
-    for (Fragment frag : VirtualManager.getInstance().getFragmentsSet()) {
+    for (Fragment frag : CollectionManager.getInstance().getFragmentsSet()) {
       for (FragInter inter : frag.getFragmentInterSet()) {
         if (inter.getSourceType().equals(Edition.EditionType.AUTHORIAL)) {
           SourceType type = ((SourceInter) inter).getSource().getType();
@@ -339,7 +330,7 @@ public class SearchController {
   @ResponseBody
   public Map<String, String> getHeteronyms() {
     Map<String, String> heteronyms = new HashMap<>();
-    for (Heteronym heteronym : VirtualManager.getInstance().getHeteronymsSet()) {
+    for (Heteronym heteronym : CollectionManager.getInstance().getHeteronymsSet()) {
       heteronyms.put(heteronym.getName(), heteronym.getXmlId());
     }
     return heteronyms;
@@ -350,7 +341,7 @@ public class SearchController {
   public DatesJson getDates() {
     LocalDate beginDate = null;
     LocalDate endDate = null;
-    for (Fragment fragment : VirtualManager.getInstance().getFragmentsSet()) {
+    for (Fragment fragment : CollectionManager.getInstance().getFragmentsSet()) {
       for (FragInter fragInter : fragment.getFragmentInterSet()) {
         if (fragInter.getLdoDDate() != null) {
           beginDate = getIsBeforeDate(beginDate, fragInter.getLdoDDate().getDate());

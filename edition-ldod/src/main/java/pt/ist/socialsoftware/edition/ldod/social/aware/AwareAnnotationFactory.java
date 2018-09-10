@@ -20,6 +20,7 @@ import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualManager;
 import pt.ist.socialsoftware.edition.ldod.generators.PlainHtmlWriter4OneInter;
+import pt.ist.socialsoftware.edition.text.domain.FragInter;
 
 public class AwareAnnotationFactory {
 	private static Logger logger = LoggerFactory.getLogger(AwareAnnotationFactory.class);
