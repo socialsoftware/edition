@@ -208,8 +208,22 @@ public class VirtualEditionsTEICorpusImport {
 
 			Element timeWindow = editionCriteria.getChild("timeWindow", namespace);
 			if (timeWindow != null) {
-				new TimeWindow(virtualEdition, LocalDate.parse(timeWindow.getAttributeValue("beginDate")),
-						LocalDate.parse(timeWindow.getAttributeValue("endDate")));
+				// TODO: new code to support empty string exported dates
+				LocalDate beginDate = null;
+				LocalDate endDate = null;
+				if (!timeWindow.getAttributeValue("beginDate").equals("")) {
+					beginDate = LocalDate.parse(timeWindow.getAttributeValue("beginDate"));
+				}
+				if (!timeWindow.getAttributeValue("endDate").equals("")) {
+					endDate = LocalDate.parse(timeWindow.getAttributeValue("endDate"));
+				}
+
+				new TimeWindow(virtualEdition, beginDate, endDate);
+
+				// old code
+				// new TimeWindow(virtualEdition,
+				// LocalDate.parse(timeWindow.getAttributeValue("beginDate")),
+				// LocalDate.parse(timeWindow.getAttributeValue("endDate")));
 			}
 
 			Element geographicLocation = editionCriteria.getChild("geographicLocation", namespace);

@@ -54,7 +54,14 @@ public class UsersXMLExport {
 		userElement.setAttribute("username", user.getUsername());
 		userElement.setAttribute("enabled", exportBoolean(user.getEnabled()));
 		userElement.setAttribute("active", exportBoolean(user.getActive()));
-		userElement.setAttribute("password", user.getPassword());
+
+		// TODO: changed because of Social Media User, password cannot be null
+		String password = user.getPassword();
+		if (password == null) {
+			password = "";
+		}
+		userElement.setAttribute("password", password);
+
 		userElement.setAttribute("firstName", user.getFirstName());
 		userElement.setAttribute("lastName", user.getLastName());
 		userElement.setAttribute("email", user.getEmail());
