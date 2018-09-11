@@ -79,6 +79,11 @@ public class LdoDUser extends LdoDUser_Base {
 		getRolesSet().stream().forEach(r -> removeRoles(r));
 		setLdoD(null);
 
+		if (getPlayer() != null) {
+			getPlayer().remove();
+		}
+		getResponsibleForGamesSet().stream().forEach(g -> g.remove());
+
 		deleteDomainObject();
 	}
 

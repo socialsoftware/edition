@@ -15,7 +15,7 @@ import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
-import pt.ist.socialsoftware.edition.ldod.dto.LdoDUserDTO;
+import pt.ist.socialsoftware.edition.ldod.dto.LdoDUserDto;
 import pt.ist.socialsoftware.edition.ldod.dto.VirtualEditionInterDto;
 import pt.ist.socialsoftware.edition.ldod.dto.VirtualEditionInterListDto;
 import pt.ist.socialsoftware.edition.ldod.session.LdoDSession;

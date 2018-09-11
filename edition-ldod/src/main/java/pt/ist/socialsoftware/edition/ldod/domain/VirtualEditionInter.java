@@ -59,6 +59,8 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 			annotation.remove();
 		}
 
+		getClassificationGameSet().stream().forEach(g -> g.remove());
+
 		super.remove();
 	}
 

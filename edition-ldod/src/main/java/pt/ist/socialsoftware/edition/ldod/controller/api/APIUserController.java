@@ -10,7 +10,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
-import pt.ist.socialsoftware.edition.ldod.dto.LdoDUserDTO;
+import pt.ist.socialsoftware.edition.ldod.dto.LdoDUserDto;
 import pt.ist.socialsoftware.edition.ldod.security.LdoDUserDetails;
 
 
@@ -23,23 +23,23 @@ public class APIUserController {
 	private SimpMessagingTemplate messagingTemplate;
 
 	@GetMapping
-	public ResponseEntity<LdoDUserDTO> getCurrentUser(@AuthenticationPrincipal LdoDUserDetails currentUser) {
+	public ResponseEntity<LdoDUserDto> getCurrentUser(@AuthenticationPrincipal LdoDUserDetails currentUser) {
 		logger.debug("getCurrentUser {}", currentUser == null ? "null" : currentUser.getUsername());
 		if (currentUser != null) {
-			LdoDUserDTO userDTO = new LdoDUserDTO(currentUser.getUser());
-			return new ResponseEntity<LdoDUserDTO>(userDTO, HttpStatus.OK);
+			LdoDUserDto userDTO = new LdoDUserDto(currentUser.getUser());
+			return new ResponseEntity<LdoDUserDto>(userDTO, HttpStatus.OK);
 		}
 		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
 	}
 
 	@GetMapping(value = "/{username}")
-	public ResponseEntity<LdoDUserDTO> getUserProfile(@PathVariable(value = "username") String username) {
+	public ResponseEntity<LdoDUserDto> getUserProfile(@PathVariable(value = "username") String username) {
 		logger.debug("getUserProfile");
 		LdoDUser user = LdoD.getInstance().getUser(username);
 		if (user != null) {
-			LdoDUserDTO userDTO = new LdoDUserDTO(user);
-			return new ResponseEntity<LdoDUserDTO>(userDTO, HttpStatus.OK);
+			LdoDUserDto userDTO = new LdoDUserDto(user);
+			return new ResponseEntity<LdoDUserDto>(userDTO, HttpStatus.OK);
 		}
 		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 

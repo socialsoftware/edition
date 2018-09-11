@@ -10,7 +10,9 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
+import org.joda.time.format.DateTimeFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -32,6 +34,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.ldod.domain.Category;
+import pt.ist.socialsoftware.edition.ldod.domain.ClassificationGame;
 import pt.ist.socialsoftware.edition.ldod.domain.Edition;
 import pt.ist.socialsoftware.edition.ldod.domain.FragInter;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
@@ -502,7 +505,7 @@ public class VirtualEditionController {
 		VirtualEdition virtualEdition = FenixFramework.getDomainObject(externalId);
 		LdoDUser user = FenixFramework.getDomainObject(userId);
 
-		if ((virtualEdition == null) || (user == null)) {
+		if (virtualEdition == null || user == null) {
 			return "redirect:/error";
 		}
 
@@ -537,7 +540,7 @@ public class VirtualEditionController {
 	public String addInter(Model model, @PathVariable String veId, @PathVariable String interId) {
 		VirtualEdition virtualEdition = FenixFramework.getDomainObject(veId);
 		FragInter inter = FenixFramework.getDomainObject(interId);
-		if ((virtualEdition == null) || (inter == null)) {
+		if (virtualEdition == null || inter == null) {
 			return "redirect:/error";
 		}
 
@@ -548,6 +551,74 @@ public class VirtualEditionController {
 			return "redirect:/error";
 		} else {
 			return "redirect:/fragments/fragment/inter/" + interId;
+		}
+	}
+
+	@RequestMapping(method = RequestMethod.GET, value = "/restricted/{externalId}/classificationGame")
+	@PreAuthorize("hasPermission(#externalId, 'virtualedition.participant')")
+	public String classificationGame(Model model, @PathVariable String externalId) {
+		VirtualEdition virtualEdition = FenixFramework.getDomainObject(externalId);
+		if (virtualEdition == null) {
+			return "redirect:/error";
+		} else {
+			model.addAttribute("virtualEdition", virtualEdition);
+			model.addAttribute("games", virtualEdition.getClassificationGameSet().stream()
+					.sorted((g1, g2) -> -g1.getDateTime().compareTo(g2.getDateTime())).collect(Collectors.toList()));
+			return "virtual/classificationGame";
+		}
+	}
+
+	@RequestMapping(method = RequestMethod.GET, value = "/restricted/{externalId}/classificationGame/create")
+	@PreAuthorize("hasPermission(#externalId, 'virtualedition.admin')")
+	public String createClassificationGameForm(Model model, @PathVariable String externalId) {
+		VirtualEdition virtualEdition = FenixFramework.getDomainObject(externalId);
+		if (virtualEdition == null) {
+			return "redirect:/error";
+		} else {
+			model.addAttribute("virtualEdition", virtualEdition);
+			return "virtual/createClassificationGame";
+		}
+	}
+
+	@RequestMapping(method = RequestMethod.POST, value = "/restricted/{externalId}/classificationGame/create")
+	@PreAuthorize("hasPermission(#externalId, 'virtualedition.admin')")
+	public String createClassificationGame(Model model, @PathVariable String externalId,
+			@RequestParam("description") String description, @RequestParam("players") boolean players,
+			@RequestParam("date") String date, @RequestParam("interExternalId") String interExternalId) {
+		logger.debug("createClassificationGame description: {}, players: {}, date: {}, inter:{}", description, players,
+				date, interExternalId);
+		VirtualEdition virtualEdition = FenixFramework.getDomainObject(externalId);
+		VirtualEditionInter inter = FenixFramework.getDomainObject(interExternalId);
+		if (virtualEdition == null) {
+			return "redirect:/error";
+		} else {
+			// TODO: check parameters
+
+			virtualEdition.createClassificationGame(description, players,
+					DateTime.parse(date, DateTimeFormat.forPattern("dd/MM/yyyy HH:mm")), inter,
+					LdoDUser.getAuthenticatedUser());
+
+			return "redirect:/virtualeditions/restricted/" + externalId + "/classificationGame";
+		}
+	}
+
+	@RequestMapping(method = RequestMethod.POST, value = "/restricted/{externalId}/classificationGame/{gameExternalId}/remove")
+	@PreAuthorize("hasPermission(#externalId, 'virtualedition.admin')")
+	public String removeClassificationGame(Model model, @PathVariable String externalId,
+			@PathVariable String gameExternalId) {
+		logger.debug("removeClassificationGame externalId: {}, gameExternalId: {}", externalId, gameExternalId);
+		VirtualEdition virtualEdition = FenixFramework.getDomainObject(externalId);
+		ClassificationGame game = FenixFramework.getDomainObject(gameExternalId);
+		if (virtualEdition == null || game == null) {
+			return "redirect:/error";
+		} else {
+			if (game.canBeRemoved()) {
+				game.remove();
+			} else {
+				throw new LdoDException("Cannot remove finished game");
+			}
+
+			return "redirect:/virtualeditions/restricted/" + externalId + "/classificationGame";
 		}
 	}
 
@@ -784,7 +855,7 @@ public class VirtualEditionController {
 			return "redirect:/error";
 		}
 
-		if ((interIds == null) || (interIds.length == 0)) {
+		if (interIds == null || interIds.length == 0) {
 			return "redirect:/virtualeditions/restricted/category/" + category.getExternalId();
 		}
 
@@ -841,7 +912,7 @@ public class VirtualEditionController {
 			return "redirect:/error";
 		}
 
-		if ((categories != null) && (categories.length > 0)) {
+		if (categories != null && categories.length > 0) {
 			inter.associate(LdoDUser.getAuthenticatedUser(), Arrays.stream(categories).collect(Collectors.toSet()));
 		}
 

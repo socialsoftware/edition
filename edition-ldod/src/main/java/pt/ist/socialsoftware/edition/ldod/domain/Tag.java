@@ -1,6 +1,5 @@
 package pt.ist.socialsoftware.edition.ldod.domain;
 
-import pt.ist.socialsoftware.edition.ldod.domain.Tag_Base;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
 
 public class Tag extends Tag_Base implements Comparable<Tag> {
@@ -10,12 +9,13 @@ public class Tag extends Tag_Base implements Comparable<Tag> {
 		setInter(inter);
 		Taxonomy taxonomy = virtualEdition.getTaxonomy();
 		Category category = taxonomy.getCategory(categoryName);
-		if (category == null)
+		if (category == null) {
 			if (taxonomy.getOpenVocabulary()) {
 				category = taxonomy.createCategory(categoryName);
 			} else {
 				throw new LdoDException("Cannot create Category using Closed Vocabulary");
 			}
+		}
 		setCategory(category);
 		setAnnotation(annotation);
 		setContributor(user);
@@ -44,6 +44,10 @@ public class Tag extends Tag_Base implements Comparable<Tag> {
 		}
 		setContributor(null);
 		setAnnotation(null);
+
+		if (getClassificationGame() != null) {
+			getClassificationGame().remove();
+		}
 
 		deleteDomainObject();
 	}

@@ -301,6 +301,12 @@
 							<tr>
 								<td class="text-center"><c:if test="${isMember}">
 										<a
+											href="${contextPath}/virtualeditions/restricted/${virtualEdition.externalId}/classificationGame"><span
+											class="glyphicon glyphicon-play-circle"></span> <spring:message
+												code="general.classificationGame" /></a>
+									</c:if></td>
+								<td class="text-center"><c:if test="${isMember}">
+										<a
 											href="${contextPath}/virtualeditions/restricted/${virtualEdition.externalId}/taxonomy"><span
 											class="glyphicon glyphicon-tags"></span> <spring:message
 												code="general.taxonomy" /></a>

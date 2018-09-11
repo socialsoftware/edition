@@ -4,7 +4,7 @@ import org.hibernate.validator.constraints.NotBlank;
 
 import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
 
-public class LdoDUserDTO {
+public class LdoDUserDto {
 	@NotBlank
 	private String username;
 	private String password;
@@ -13,10 +13,10 @@ public class LdoDUserDTO {
 	private boolean enabled;
 	private boolean active;
 
-	public LdoDUserDTO() {
+	public LdoDUserDto() {
 	}
 
-	public LdoDUserDTO(LdoDUser user) {
+	public LdoDUserDto(LdoDUser user) {
 		this.username = user.getUsername();
 		this.enabled = user.getEnabled();
 		this.active = user.getActive();

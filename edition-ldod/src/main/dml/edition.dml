@@ -748,3 +748,42 @@ relation LdoDHasTweets {
 	Tweet playsRole tweet {multiplicity 0..*;}
 }
 
+class ClassificationGame {
+	String description;
+	boolean openAnnotation;
+	DateTime dateTime;
+}
+
+class Player {
+	double score;
+}
+
+relation VirtualEditionHasClassificationGames {
+	VirtualEdition playsRole virtualEdition {multiplicity 1..1;}
+	ClassificationGame playsRole classificationGame {multiplicity 0..*;}
+}
+
+relation ClassificationGameHasPlayers {
+	ClassificationGame playsRole classificationGame {multiplicity 0..*;}
+	Player playsRole player {multiplicity 0..*;} 
+}
+
+relation LdoDUserOwnsClassificationGame {
+	ClassificationGame playsRole responsibleForGames {multiplicity 0..*;}
+	LdoDUser playsRole responsible {multiplicity 1..1;} 
+}
+
+relation ClassificationGameForVirtualEditionInter {
+	ClassificationGame playsRole classificationGame {multiplicity 0..*;}
+	VirtualEditionInter playsRole virtualEditionInter {multiplicity 1..1;}
+}
+
+relation LdodUserIsPlayer {
+	LdoDUser playsRole user {multiplicity 1..1;}
+	Player playsRole player {multiplicity 0..1;}
+}
+
+relation ClassificationGameProducesTag {
+	ClassificationGame playsRole classificationGame {multiplicity 0..1;}
+	Tag playsRole tag {multiplicity 0..1;}
+}
