@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import { Alert, Jumbotron } from 'react-bootstrap';
-import Fragment  from './Fragment';
 import { endGame } from '../utils/APIUtils';
-import './VirtualEdition.css';
+import Fragment  from './Fragment';
+import { Alert, Jumbotron, Col, Grid, Row } from 'react-bootstrap';
 
 var ReactCountdownClock = require("react-countdown-clock")
 class VirtualEdition extends Component {
@@ -18,7 +17,7 @@ class VirtualEdition extends Component {
             fragments: [],
             index: parseInt(localStorage.getItem("currentFragment"), 10), //check this 
             isActive: false,
-            isEnding: false,
+            isStarting: true,
         };
         this.invokeCommand = this.invokeCommand.bind(this);
         this.endGame = this.endGame.bind(this);
@@ -42,7 +41,7 @@ class VirtualEdition extends Component {
             case "start":
                 this.setState(({
                     isActive: true,
-                    isEnding: false,
+                    isStarting: false,
                 }));
                 return;
             
@@ -51,8 +50,8 @@ class VirtualEdition extends Component {
                 localStorage.setItem("currentFragment", i);
                 this.endGame();
                 this.setState({
-                    isActive: false,
-                    isEnding: true,
+                    isActive: true,
+                    isStarting: false,
                 });
                 return;
             
@@ -66,36 +65,29 @@ class VirtualEdition extends Component {
         var i = this.state.index;
         if(this.state.isActive) {
             return (
-              <div>
-                    <Fragment 
+              <Grid fluid>
+                  <Fragment 
                         fragment={this.state.fragments[i]} 
                         endFragment={() => this.invokeCommand("end")}/>
-              </div>
+              </Grid>
             );
         }
-        else if(this.state.isEnding){
+        if(this.state.isStarting){
             return (
-                <Jumbotron>
-                    <h1>The game has ended!</h1>
-                    <h1>The winner tag is: </h1> 
-                    <p>Thank you for playing, hope you enjoyed it.</p>
-                </Jumbotron>
-            );
-        }
-        return (
-            <div>
+            <Grid fluid>
                 <Alert bsStyle="info">
                     <strong>The game is about to start in: </strong>
                 </Alert>
-                <div className="start-clock">    
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "center", }} >
                     <ReactCountdownClock seconds={10}
                         color="#3498db"
                         size={200}
                         showMilliseconds={false}
                         onComplete={() => this.invokeCommand("start")}/>
                 </div>
-            </div>
-        );
+            </Grid>
+            );
+        }
     }
     
 }

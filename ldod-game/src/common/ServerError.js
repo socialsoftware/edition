@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Alert, Button, Glyphicon } from 'react-bootstrap';
 
-class NotFound extends Component {
+class ServerError extends Component {
     
     render() {
         return (
@@ -21,4 +21,4 @@ class NotFound extends Component {
     }
 }
 
-export default NotFound;
+export default ServerError;

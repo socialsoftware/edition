@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import Paragraph from './Paragraph';
-import { ProgressBar } from 'react-bootstrap';
-import './Fragment.css';
+import { ProgressBar, Grid } from 'react-bootstrap';
 class Fragment extends Component {
     constructor(props) {
         super(props);
@@ -89,7 +88,7 @@ class Fragment extends Component {
 
     render() {
         return (
-            <div> 
+            <Grid fluid>
                 <Paragraph 
                     limit={this.state.paragraphText.length}                
                     fragment={this.state.fragment}
@@ -98,10 +97,10 @@ class Fragment extends Component {
                     seconds={this.state.secondAndText[this.state.index]} 
                     round={this.state.round} 
                     endFragment={this.props.endFragment}/>
-                <div className="div-progress">
-                    <ProgressBar min={0} bsStyle="success"active now={this.state.index+1} max={this.state.paragraphText.length}/>
-                </div>
-            </div>
+                {this.state.round === 3 ? (<div>{}</div>) : 
+                (
+                    <ProgressBar min={0} bsStyle="success"active now={this.state.index+1} max={this.state.paragraphText.length}/>)}
+            </Grid>
         );
     }
 }

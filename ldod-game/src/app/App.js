@@ -1,16 +1,10 @@
-/* React imports */
 import React, { Component } from 'react';
 import { Route, withRouter, Link, Switch } from 'react-router-dom';
-import { Layout, notification } from 'antd';
-
-
-/* Game imports */
-import './App.css';
 import { getCurrentUser, loadServerResources } from '../utils/APIUtils';
 import { ACCESS_TOKEN, LDOD_MESSAGE } from '../utils/Constants';
 import Login from '../user/login/Login';
 import Profile from '../user/profile/Profile';
-import AppHeader from '../common/AppHeader';
+import Header from '../common/Header';
 import Game from '../game/Game';
 import GameLeadeboard from '../game/GameLeaderboard';
 import NotFound from '../common/NotFound';
@@ -19,9 +13,8 @@ import FacebookLogin from '../social/FacebookLogin';
 import LinkedinLogin from '../social/LinkedinLogin';
 import GoogleLogin from '../social/GoogleLogin';
 import TwitterLogin from '../social/TwitterLogin';
-import { Jumbotron, Button } from 'react-bootstrap'; 
-
-const { Content } = Layout;
+import { notification } from 'antd';
+import { Jumbotron, Button, Col, Grid, Row} from 'react-bootstrap'; 
 
 class App extends Component {
     constructor(props) {
@@ -105,30 +98,30 @@ class App extends Component {
             backgroundColor: '#3498db'
         }
     return (
-        <Layout className="app-container">
-            <AppHeader isAuthenticated={this.state.isAuthenticated}
-            currentUser={this.state.currentUser}
-            onLogout={this.handleLogout} />
-            <Content className="app-content">
-                <div className="container">
+        <Grid fluid>
+           <Header
+                isAuthenticated={this.state.isAuthenticated}
+                currentUser={this.state.currentUser}
+                onLogout={this.handleLogout}/>
+                <div>
                     <Switch>
                         <Route exact path="/" render={() =>
                         <div>
-                            <section className="intro">
-                                <Jumbotron style={styles}>
-                                    <h3 className="text-center">Welcome to the LdoD Game powered by LdoD Archive</h3>
-                                </Jumbotron>
-                                <div className="col-lg-6 col-sm-12 left">
+                            <Jumbotron style={styles}>
+                                <h3 className="text-center">Welcome to the LdoD Game powered by LdoD Archive</h3>
+                            </Jumbotron>
+                            <Row>
+                                <Col md={4} mdOffset={2} xs={5}>
                                     <Link to="/game">
-                                        <Button bsStyle="primary">Classic game mode</Button>
+                                        <Button bsStyle="primary">Classic game</Button>
                                     </Link>
-                                </div>
-                                <div className="col-lg-6 col-sm-12 right">
+                                </Col>
+                                <Col md={4} mdOffset={2} xs={5}>
                                     <Link to="/todo">
-                                        <Button bsStyle="primary">Custom game mode</Button>
+                                        <Button bsStyle="primary">Custom game</Button>
                                     </Link>
-                                </div>
-                            </section>
+                                </Col>
+                            </Row>
                         </div>
                         }>
                         </Route>
@@ -158,8 +151,7 @@ class App extends Component {
                         <Route component={NotFound}></Route>
                     </Switch>
                 </div>
-             </Content>
-        </Layout>
+             </Grid>
     );
   }
 }

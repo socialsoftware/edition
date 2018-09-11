@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import { Steps } from 'antd';
 import Tag from './Tag';
 import Vote from './Vote';
 import Review  from './Review';
-import './Paragraph.css';
+import { Steps } from 'antd';
+import { Grid} from 'react-bootstrap';
 var ReactCountdownClock = require("react-countdown-clock")
 const Step = Steps.Step;
 class Paragrah extends Component {
@@ -70,20 +70,25 @@ class Paragrah extends Component {
     }
 
     render() {
+        let style = {   marginTop: "-45px",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        paddingBottom: "25px",};
         let stepsRender =  
-            <Steps className="steps" direction="horizontal" current={this.props.round-1}>
+            <Steps direction="horizontal" current={this.props.round-1}>
                 <Step title="Tag"/>
                 <Step title="Vote"/>
                 <Step title="Review"/>
             </Steps>
         let paragrahRender = 
-            <div className="content">
+            <div>
                 <h4 className="text-center">{this.state.title}</h4>
                 <div className="well" style={{ fontFamily: 'georgia', fontSize: 'medium'}}>
                     <div dangerouslySetInnerHTML={{__html: this.state.paragraphText}}></div>
                 </div>
             </div>
-        let clockRender = <div className="clock">
+        let clockRender = <div style={style}>
                                 <ReactCountdownClock 
                                     seconds={this.props.seconds}
                                     color="#2ecc71"
@@ -131,9 +136,9 @@ class Paragrah extends Component {
             );
         }
         return (
-            <div>
+            <Grid fluid>
                 {roundRender}
-            </div>
+            </Grid>
         );
     }
 }

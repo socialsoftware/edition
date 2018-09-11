@@ -3,8 +3,8 @@ import { withRouter } from 'react-router-dom';
 import { WEB_SOCKETS_URL} from '../utils/Constants';
 import Vote  from './Vote';
 import { Steps } from 'antd';
+import { Grid, Row, Col, Alert} from 'react-bootstrap';
 import LoadingIndicator  from '../common/LoadingIndicator';
-import { Alert} from 'antd';
 import SockJsClient from 'react-stomp'
 var ReactCountdownClock = require("react-countdown-clock")
 class Review extends Component {
@@ -77,23 +77,26 @@ class Review extends Component {
     }
 
     render() {
+        let style = {   marginTop: "-45px",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        paddingBottom: "25px",};
         if(this.state.isLoading) {
             return (
                 <div>
-                    <Alert
-                        style={{ fontSize: '20px', fontFamily: 'Ubuntu' }}
-                        message="Quick break before the final step ..."
-                        type="info"
-                        banner />
-                        {this.state.socket}
+                    <Alert bsStyle="info">
+                        <strong>Quick break before the final step ...</strong>
+                    </Alert>
+                    {this.state.socket}
                     <LoadingIndicator />
                 </div>
             );
         }
 
         return (
-            <div>
-                <div className="clock">
+            <div>                
+                <div style={style}>
                         <ReactCountdownClock seconds={this.props.seconds}
                             color="#2ecc71"
                             size={80}
@@ -101,17 +104,9 @@ class Review extends Component {
                             onComplete={this.props.endFragment}/>
                 </div>                
                 {this.props.steps}
-                <section className="intro">
-                    <div className="col-lg-9 col-sm-12 left">
-                        <div className="content">
-                            <h4 className="text-center">{this.props.title}</h4>
-                            <div className="well" style={{ fontFamily: 'georgia', fontSize: 'small'}}>
-                                <div dangerouslySetInnerHTML={{__html: this.props.fullText}}></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="col-lg-3 col-sm-12 right">
-                        <div>
+                <Grid fluid>
+                    <Row>
+                        <Col md={12}>
                             <h4 className="text-center">Tags submitted:</h4>
                             <div className="well" style={{ fontFamily: 'georgia', fontSize: 'small'}}>
                                 <Vote 
@@ -120,9 +115,17 @@ class Review extends Component {
                                     round={3}
                                     initialTags={this.state.votes}/>
                             </div>
+                        </Col>
+                        <Col md={12}>
+                        <div className="content">
+                            <h4 className="text-center">{this.props.title}</h4>
+                            <div className="well" style={{ fontFamily: 'georgia', fontSize: 'small'}}>
+                                <div dangerouslySetInnerHTML={{__html: this.props.fullText}}></div>
+                            </div>
                         </div>
-                    </div>
-                </section>
+                        </Col>
+                    </Row>
+                </Grid>
             </div>
         );
     }

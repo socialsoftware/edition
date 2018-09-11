@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import { Button, FormControl, FormGroup, InputGroup} from 'react-bootstrap';
-import './Tag.css';
-import { Tag as TagD } from 'antd';
 import { WEB_SOCKETS_URL} from '../utils/Constants';
+import { Tag as TagD } from 'antd';
+import { Button, FormControl, FormGroup, InputGroup, Table, Grid, Row, Col} from 'react-bootstrap';
 import SockJsClient from 'react-stomp'
 var tags = " ";
 class Tag extends Component {
@@ -60,8 +59,10 @@ class Tag extends Component {
                     topics={['/topic/tags']}
                     ref={ (client) => { this.clientRef = client }}
                     onMessage={(message) => this.props.handleMessageTag(message)} />
-                <div className="col-lg-4 col-lg-offset-4">    
-                    <form id="form" autoComplete="off" onSubmit={(e) => {this.handleTag(e)}}>
+                <Grid>
+                    <Row>
+                        <Col md={4} mdOffset={4} xs={5}>
+                        <form id="form" autoComplete="off" onSubmit={(e) => {this.handleTag(e)}}>
                         <FormGroup validationState={ this.props.disabled === true ? "warning" : null}>
                             <InputGroup>
                                 <FormControl 
@@ -73,13 +74,14 @@ class Tag extends Component {
                                     autoFocus />
                                 </InputGroup>
                                 <FormControl.Feedback />
-                                <Button className="btn btn-primary pull-right" disabled={this.props.disabled} type="submit">
+                                <Button className="btn btn-primary" disabled={this.props.disabled} type="submit">
                                     <span className="glyphicon glyphicon-plus"></span>
                                 </Button>
                         </FormGroup>
-                    </form>    
-                </div>  
-                <table className="table">
+                        </form>
+                        </Col>    
+                    </Row>
+                <Table>
                     <thead>
                         <tr>
                             <th><span className="glyphicon glyphicon-tag"></span></th>
@@ -88,13 +90,12 @@ class Tag extends Component {
                     <tbody>
                         <tr>
                             <td>
-                                <div className="div-tags">
-                                    {tagViews}
-                                </div>			
+                                <div>{tagViews}</div>			
                             </td>
                         </tr>
                     </tbody>
-            	</table>
+            	</Table>
+                </Grid>
             </div>
         );
     }

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { getLeaderboard } from '../utils/APIUtils';
+import {Table, Grid} from 'react-bootstrap';
 
 class GameLeaderboard extends Component {
     constructor(props) {
@@ -36,8 +37,8 @@ class GameLeaderboard extends Component {
           });
 
         return (
-            <div>
-                <table className="table">
+            <Grid>
+                <Table>
                     <thead>
                         <tr>
                             <th>#</th>
@@ -48,8 +49,8 @@ class GameLeaderboard extends Component {
                     <tbody>
                         {tableView}
                     </tbody>
-            	</table>
-            </div>
+            	</Table>
+            </Grid>
         );
     }
 

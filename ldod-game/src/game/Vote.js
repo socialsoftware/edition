@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { WEB_SOCKETS_URL} from '../utils/Constants';
-import SockJsClient from 'react-stomp'
 import './Vote.css';
+import { Table} from 'react-bootstrap';
+import SockJsClient from 'react-stomp'
 class Vote extends Component {
     constructor(props) {
         super(props);
@@ -109,8 +110,8 @@ class Vote extends Component {
                 <div className="div-votes" key={index}>
                     <div>
                         <label>
-                            <input name="voteGroup" type="radio" onChange={this.onChange(m)}></input>
                             <span className="title">{m.tag}</span>
+                            <input name="voteGroup" type="radio" onChange={this.onChange(m)}></input>
                             <span className="vote">{Math.round(m.vote)}</span>
                         </label>
                     </div>
@@ -126,14 +127,14 @@ class Vote extends Component {
                 { 
                     return (prev.vote > current.vote) ? prev : current;
                 }, "array is empty")
-            top = <h1>Current top: {max.tag}</h1>;
+            top = <h3>Top tag: {max.tag}</h3>;
         }
 
         return (
             <div>
                 {this.state.socket}
                 {top}
-                <table className="table">
+                <Table>
                     <thead>
                         <tr>
                             <th><span className="glyphicon glyphicon-tag"></span></th>
@@ -148,7 +149,7 @@ class Vote extends Component {
                             </td>
                         </tr>
                     </tbody>
-            	</table>
+            	</Table>
             </div>
         );
     }
