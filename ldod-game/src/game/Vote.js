@@ -118,16 +118,11 @@ class Vote extends Component {
                 </div>)
             }); 
         if(this.props.round === 3){
-            /*var test = Math.max(...votes.map(o => o.vote));
-            for(var i in votes){
-                if(votes[i].vote === test){ top.push(<h1>Current top: {votes[i].tag}</h1>);}
-                break;
-            }*/
             var max = votes.reduce.call(votes, (prev, current) =>
                 { 
                     return (prev.vote > current.vote) ? prev : current;
                 }, "array is empty")
-            top = <h3>Top tag: {max.tag}</h3>;
+            top = <h3 className="text-center">Top tag: {max.tag}</h3>;
         }
 
         return (

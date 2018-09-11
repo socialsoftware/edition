@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { WEB_SOCKETS_URL} from '../utils/Constants';
 import Vote  from './Vote';
-import { Steps } from 'antd';
-import { Grid, Row, Col, Alert} from 'react-bootstrap';
+import { Steps, Divider } from 'antd';
+import { Grid, Alert} from 'react-bootstrap';
 import LoadingIndicator  from '../common/LoadingIndicator';
 import SockJsClient from 'react-stomp'
 var ReactCountdownClock = require("react-countdown-clock")
@@ -86,7 +86,7 @@ class Review extends Component {
             return (
                 <div>
                     <Alert bsStyle="info">
-                        <strong>Quick break before the final step ...</strong>
+                        <strong>Quick break before the final step...</strong>
                     </Alert>
                     {this.state.socket}
                     <LoadingIndicator />
@@ -105,26 +105,18 @@ class Review extends Component {
                 </div>                
                 {this.props.steps}
                 <Grid fluid>
-                    <Row>
-                        <Col md={12}>
-                            <h4 className="text-center">Tags submitted:</h4>
-                            <div className="well" style={{ fontFamily: 'georgia', fontSize: 'small'}}>
-                                <Vote 
-                                    id={this.props.id} 
-                                    seconds={this.props.seconds} 
-                                    round={3}
-                                    initialTags={this.state.votes}/>
-                            </div>
-                        </Col>
-                        <Col md={12}>
-                        <div className="content">
+                    <h4 className="text-center">Tags submitted:</h4>
+                    <div className="well" style={{ fontFamily: 'georgia', fontSize: 'small'}}>
+                        <Vote 
+                            id={this.props.id} 
+                            seconds={this.props.seconds} 
+                            round={3}
+                            initialTags={this.state.votes}/>
+                        <Divider dashed />
                             <h4 className="text-center">{this.props.title}</h4>
-                            <div className="well" style={{ fontFamily: 'georgia', fontSize: 'small'}}>
-                                <div dangerouslySetInnerHTML={{__html: this.props.fullText}}></div>
-                            </div>
-                        </div>
-                        </Col>
-                    </Row>
+                            <div dangerouslySetInnerHTML={{__html: this.props.fullText}}></div>
+                            
+                    </div>
                 </Grid>
             </div>
         );

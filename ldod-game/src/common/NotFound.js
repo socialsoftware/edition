@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { Alert, Button, Glyphicon, Grid, Jumbotron} from 'react-bootstrap';
+import {  Button, Glyphicon, Grid, Jumbotron} from 'react-bootstrap';
 
 class NotFound extends Component {
     render() {

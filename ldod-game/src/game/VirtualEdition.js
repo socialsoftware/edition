@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { endGame } from '../utils/APIUtils';
 import Fragment  from './Fragment';
-import { Alert, Jumbotron, Col, Grid, Row } from 'react-bootstrap';
+import { Alert, Grid} from 'react-bootstrap';
 
 var ReactCountdownClock = require("react-countdown-clock")
 class VirtualEdition extends Component {
@@ -33,7 +33,7 @@ class VirtualEdition extends Component {
     }
 
     async endGame(){
-        let request = await endGame(this.props.gameId);
+        await endGame(this.props.gameId);
     }
     
     invokeCommand(command) {
