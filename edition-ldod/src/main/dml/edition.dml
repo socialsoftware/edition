@@ -595,9 +595,9 @@ relation VirtualEditionInterHasAnnotations {
   Annotation playsRole annotation {multiplicity 0..*;}
 }
 
-relation LdoDUserWritesHumanAnnotations {
+relation LdoDUserWritesAnnotations {
 	LdoDUser playsRole user {multiplicity 1..1;}
-	HumanAnnotation playsRole annotation {multiplicity 0..*;}
+	Annotation playsRole annotation {multiplicity 0..*;}
 }
 
 class Range {

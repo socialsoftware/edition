@@ -218,9 +218,11 @@ public class VirtualEdition extends VirtualEdition_Base {
 		return getAcronym().substring(ACRONYM_PREFIX.length());
 	}
 
+	// TODO corrigir o caso dos parâmetros vazios e também o new e o remove
 	@Atomic(mode = TxMode.WRITE)
 	public void edit(String acronym, String title, String synopsis, boolean pub, boolean openManagement,
-			boolean openVocabulary, boolean openAnnotation) {
+			boolean openVocabulary, boolean openAnnotation, String mediaSource, String beginDate, String endDate,
+			String geoLocation, String frequency) {
 		setPub(pub);
 		setTitle(title);
 		if (synopsis.length() > 1500) {
@@ -230,6 +232,102 @@ public class VirtualEdition extends VirtualEdition_Base {
 		}
 		setAcronym(acronym);
 		getTaxonomy().edit(openManagement, openVocabulary, openAnnotation);
+
+		MediaSource medSource = this.getMediaSource();
+		// creates
+		if (medSource == null) {
+			if (mediaSource.equals("noMediaSource")) {
+				// do nothing
+			} else if (mediaSource.equals("Twitter")) {
+				new MediaSource(this, mediaSource);
+			}
+		}
+		// removes or edits
+		else {
+			if (mediaSource.equals("noMediaSource")) {
+				medSource.remove();
+			} else if (mediaSource.equals("Twitter")) {
+				medSource.edit(mediaSource);
+			}
+		}
+
+		TimeWindow timeWindow = this.getTimeWindow();
+		LocalDate bDate = null;
+		LocalDate eDate = null;
+		// creates
+		if (timeWindow == null) {
+			if (!beginDate.equals("") || !endDate.equals("")) {
+				if (!beginDate.equals("")) {
+					bDate = new LocalDate(beginDate);
+				}
+				if (!endDate.equals("")) {
+					eDate = new LocalDate(endDate);
+				}
+				new TimeWindow(this, bDate, eDate);
+			}
+		}
+		// removes or edits
+		else {
+			if (beginDate.equals("") && endDate.equals("")) {
+				timeWindow.remove();
+			} else {
+				if (!beginDate.equals("")) {
+					bDate = new LocalDate(beginDate);
+				}
+				if (!endDate.equals("")) {
+					eDate = new LocalDate(endDate);
+				}
+				timeWindow.edit(bDate, eDate);
+			}
+		}
+
+		// remover o noCountry!! fazer a comparaçao com a String vazia
+		GeographicLocation geographicLocation = this.getGeographicLocation();
+		// creates
+		if (geographicLocation == null) {
+			if (geoLocation.equals("")) {
+				// do nothing
+			} else {
+				new GeographicLocation(this, geoLocation);
+			}
+		}
+		// removes or edits
+		else {
+			if (geoLocation.equals("")) {
+				geographicLocation.remove();
+			} else {
+				geographicLocation.edit(geoLocation);
+			}
+		}
+
+		Frequency freq = this.getFrequency();
+		// creates
+		if (freq == null) {
+			if (frequency.equals("") || frequency.equals("0")) {
+				// do nothing
+			} else {
+				new Frequency(this, Integer.parseInt(frequency));
+			}
+		}
+		// removes or edits
+		else {
+			if (frequency.equals("") || frequency.equals("0")) {
+				freq.remove();
+			} else {
+				freq.edit(Integer.parseInt(frequency));
+			}
+		}
+
+		geographicLocation = this.getGeographicLocation();
+		if (geographicLocation != null) {
+			logger.debug(geographicLocation.getCountry());
+			String[] split = geographicLocation.getCountry().split(",");
+			logger.debug("size: " + split.length);
+			for (String s : split) {
+				logger.debug(s);
+			}
+		}
+
 	}
 
 	@Atomic(mode = TxMode.WRITE)
@@ -613,6 +711,42 @@ public class VirtualEdition extends VirtualEdition_Base {
 			return true;
 		}
 		return false;
+	}
+
+	public MediaSource getMediaSource() {
+		for (SocialMediaCriteria criteria : this.getCriteriaSet()) {
+			if (criteria instanceof MediaSource) {
+				return (MediaSource) criteria;
+			}
+		}
+		return null;
+	}
+
+	public TimeWindow getTimeWindow() {
+		for (SocialMediaCriteria criteria : this.getCriteriaSet()) {
+			if (criteria instanceof TimeWindow) {
+				return (TimeWindow) criteria;
+			}
+		}
+		return null;
+	}
+
+	public GeographicLocation getGeographicLocation() {
+		for (SocialMediaCriteria criteria : this.getCriteriaSet()) {
+			if (criteria instanceof GeographicLocation) {
+				return (GeographicLocation) criteria;
+			}
+		}
+		return null;
+	}
+
+	public Frequency getFrequency() {
+		for (SocialMediaCriteria criteria : this.getCriteriaSet()) {
+			if (criteria instanceof Frequency) {
+				return (Frequency) criteria;
+			}
+		}
+		return null;
 	}
 
 }

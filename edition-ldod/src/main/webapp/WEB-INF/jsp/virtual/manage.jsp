@@ -3,6 +3,7 @@
 <html>
 <head>
 <%@ include file="/WEB-INF/jsp/common/meta-head.jsp"%>
+<link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet">
 </head>
 <body>
 	<%@ include file="/WEB-INF/jsp/common/fixed-top-ldod-header.jsp"%>
@@ -57,7 +58,7 @@
 						</div>
 					</div>
 					<br> <br>
-					<div class="well" style="height: 350px">
+					<div class="well" style="height: 500px">
 
 						<div class="row">
 							<div class="form-group col-md-4" style="padding-left: 0px">
@@ -74,7 +75,8 @@
 							</div>
 							<div class="form-group col-md-3" style="padding-left: 0px">
 								<label class="control-label" for="title"><spring:message
-										code="virtualeditionlist.name" /></label> <input type="text"
+										code="virtualeditionlist.name" /></label> 
+								<input type="text"
 									class="form-control tip" name="title" id="title"
 									placeholder="<spring:message code="virtualeditionlist.name" />"
 									value="${virtualEdition.title}"
@@ -82,14 +84,16 @@
 							</div>
 							<div class="form-group col-md-3" style="padding-left: 0px">
 								<label class="control-label" for="date"><spring:message
-										code="general.date" /></label> <input class="form-control tip"
+										code="general.date" /></label> 
+								<input class="form-control tip"
 									id="disabledInput" type="text" name="date" id="date"
 									value="${virtualEdition.date}" disabled
 									title="<spring:message code="virtualedition.tt.date" />" />
 							</div>
 							<div class="form-group col-md-2" style="padding-left: 0px">
 								<label class="control-label" for="pub"><spring:message
-										code="general.access" /></label> <select class="form-control tip"
+										code="general.access" /></label> 
+								<select class="form-control tip"
 									name="pub" id="pub"
 									title="<spring:message code="virtualedition.tt.access" />">
 									<c:choose>
@@ -183,13 +187,94 @@
 							</div>
 						</div>
 						<br>
+						
 						<div class="row">
+							<div class="form-group  col-md-4" style="padding-left: 0px">
+							<label class="control-label" for="mediasource"><spring:message
+										code="criteria.mediasource" /></label> <select
+									class="form-control tip" name="mediasource" id="mediasource"
+									title="<spring:message code="criteria.mediasource.manage" />">
+									<c:choose>
+										<c:when
+											test="${virtualEdition.getMediaSource().getName() == 'Twitter'}">
+											<option value="Twitter" selected><spring:message
+												code="criteira.mediasource.twitter" /></option>
+											<option value="noMediaSource"><spring:message
+												code="criteira.mediasource.nomediasource" /></option>
+										</c:when>
+										<c:otherwise>
+											<option value="Twitter"><spring:message
+												code="criteira.mediasource.twitter" /></option>
+											<option value="noMediaSource" selected><spring:message
+												code="criteira.mediasource.nomediasource" /></option>
+										</c:otherwise>
+									</c:choose>		
+								</select>
+							</div>
+							
+							<div class="form-group  col-md-4" style="padding-left: 0px">
+							<label class="control-label" for="begindate"><spring:message
+										code="criteira.timewindow.begindate" /></label>
+										<input type="date" value="${virtualEdition.getTimeWindow().getBeginDate()}" 
+										name="begindate" id="begindate" min="2018-01-01" 
+										title="<spring:message code="criteria.timewindow.begindate.manage"/>" />
+							</div>
+							
+							<div class="form-group  col-md-4" style="padding-left: 0px">
+							<label class="control-label" for="enddate"><spring:message
+										code="criteira.timewindow.enddate" /></label>
+										<input type="date" value="${virtualEdition.getTimeWindow().getEndDate()}" 
+										name="enddate" id="enddate" max="2018-08-30" 
+										title="<spring:message code="criteria.timewindow.enddate.manage"/>" />
+							</div>
+							
+						</div>
+						
+						<br>
+						<div class="row">
+							<div class="form-group col-md-2" style="padding-left: 0px">
+								<label class="control-label" for="geolocation">
+									<spring:message code="criteria.geolocation" /></label> 
+								<input type="hidden" name='geolocation' value=''> ${country}
+								<br>
+								<!-- selects all boxes -->
+								<input type="checkbox" name="select-all" id="select-all" />
+									<spring:message code="criteria.geolocation.everycountry" />
+								<br>
+
+								<c:forEach var='country' items='${countriesList}'>
+									<c:choose>
+										<c:when test="${virtualEdition.getGeographicLocation().containsCountry(country)}">
+											<input type="checkbox" name='geolocation' value='${country}' checked> ${country}
+										</c:when>
+										<c:otherwise>
+											<input type="checkbox" name='geolocation' value='${country}'> ${country}
+										</c:otherwise>
+									</c:choose>	
+									<br>	
+								</c:forEach> 
+								
+							</div>
+
 							<div class="form-group" style="padding-left: 0px">
 								<label class="control-label" for="synopsis"><spring:message
 										code="virtualedition.synopsis" /></label>
 								<textarea class="form-control" name="synopsis" id="synopsis"
-									rows="9" cols="140" maxlength="1500">${virtualEdition.synopsis}</textarea>
-								<div class="pull-right" id="synopsis_feedback"></div>
+									rows="9" cols="110" maxlength="1500">${virtualEdition.synopsis}</textarea>
+								<div id="synopsis_feedback"></div>
+							</div>
+						</div>
+						
+						<br>
+						<br>
+						<div class="row">
+							<div class="form-group col-md-2" style="padding-left: 0px">
+								<label class="control-label" for="frequency"><spring:message
+										code="criteria.frequency" /></label> 	
+								<input type="number" value="${virtualEdition.getFrequency().getFrequency()}"
+									class="form-control tip" name="frequency" id="frequency"
+									placeholder="0"
+									title="<spring:message code="criteria.frequency.manage" />" />
 							</div>
 						</div>
 					</div>
@@ -290,7 +375,7 @@
 						</div>
 						<div class="modal-footer">
 							<button type="button" data-dismiss="modal"
-								class="btn btn-primary" id="delete">
+							class="btn btn-primary" id="delete">
 								<spring:message code="general.delete" />
 							</button>
 							<button type="button" data-dismiss="modal" class="btn">
@@ -337,4 +422,38 @@
 		});
 	});
 </script>
+<script>
+$(function(){
+    var requiredCheckboxes = $('.options :checkbox[required]');
+    requiredCheckboxes.change(function(){
+        if(requiredCheckboxes.is(':checked')) {
+            requiredCheckboxes.removeAttr('required');
+        } else {
+            requiredCheckboxes.attr('required', 'required');
+        }
+    });
+});
+</script>
+<script>
+//Listen for click on toggle checkbox
+$('#select-all').click(function(event) {   
+    if(this.checked) {
+        // Iterate each checkbox
+        $(':checkbox').each(function() {
+            this.checked = true;                        
+        });
+    } else {
+        $(':checkbox').each(function() {
+            this.checked = false;                       
+        });
+    }
+});
+</script>
+
+<script>
+function uncheckAll(){
+   $('input[type="checkbox"]:checked').prop('checked',false);
+}
+</script>
+
 </html>

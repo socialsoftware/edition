@@ -103,10 +103,12 @@
 										</c:if>
 									</c:forEach></select>
 							</div>
+							
 							<button type="submit" class="btn btn-primary">
 								<span class="glyphicon glyphicon-edit"></span>
 								<spring:message code="general.create" />
 							</button>
+			
 						</form>
 					</div>
 				</div>
