@@ -5,6 +5,7 @@ import java.util.List;
 
 public class GameTagDto implements  Comparable{
     private String authorId;
+    private String gameId;
     private String fragmentUrlId;
     private String content;
     private double score = 0;
@@ -14,8 +15,9 @@ public class GameTagDto implements  Comparable{
     public GameTagDto() {
     }
 
-    public GameTagDto(String authorId, String fragmentUrlId, String content, double score) {
+    public GameTagDto(String authorId, String gameId, String fragmentUrlId, String content, double score) {
         this.authorId = authorId;
+        this.gameId = gameId;
         this.fragmentUrlId = fragmentUrlId;
         this.content = content;
         this.score = score;
@@ -27,6 +29,14 @@ public class GameTagDto implements  Comparable{
 
     public void setAuthorId(String authorId) {
         this.authorId = authorId;
+    }
+
+    public String getGameId() {
+        return gameId;
+    }
+
+    public void setGameId(String gameId) {
+        this.gameId = gameId;
     }
 
     public String getFragmentUrlId() {

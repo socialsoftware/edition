@@ -1,7 +1,6 @@
 package pt.ist.socialsoftware.edition.ldod.dto;
 
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import org.joda.time.DateTime;
@@ -17,13 +16,18 @@ public class ClassificationGameDto {
 	private DateTime dateTime;
 	private VirtualEditionInterDto virtualEditionInterDto;
 	private List<LdoDUserDto> members;
-
-	private String tag;
+	private Map<String, List<GameTagDto>> submittedTags = new LinkedHashMap<>();
+	private String winningTag;
 	private String winner;
-	private Set<String> players;
+	private Map<String, Double> players;
+
+	public ClassificationGameDto(){
+
+	}
 
 	public ClassificationGameDto(ClassificationGame game) {
 		setGameExternalId(game.getExternalId());
+
 		setVirtualEditionAcronym(game.getVirtualEdition().getAcronym());
 		setVirtualEditionTitle(game.getVirtualEdition().getTitle());
 		setDescription(game.getDescription());
@@ -33,6 +37,8 @@ public class ClassificationGameDto {
 
 		this.setMembers(game.getVirtualEdition().getActiveMemberSet().stream()
 				.map(member -> new LdoDUserDto(member.getUser())).collect(Collectors.toList()));
+
+		players = new LinkedHashMap<>();
 	}
 
 	public String getGameExternalId() {
@@ -99,12 +105,12 @@ public class ClassificationGameDto {
 		this.members = members;
 	}
 
-	public String getTag() {
-		return this.tag;
+	public String getWinningTag() {
+		return this.winningTag;
 	}
 
-	public void setTag(String tag) {
-		this.tag = tag;
+	public void setWinningTag(String winningTag) {
+		this.winningTag = winningTag;
 	}
 
 	public String getWinner() {
@@ -115,12 +121,48 @@ public class ClassificationGameDto {
 		this.winner = winner;
 	}
 
-	public Set<String> getPlayers() {
+	public Map<String, Double> getPlayersMap() {
 		return this.players;
 	}
 
-	public void setPlayers(Set<String> players) {
+	public void setPlayersMap(HashMap<String,Double> players) {
 		this.players = players;
 	}
+
+	public Set<String> getPlayers(){
+		return this.players.keySet();
+	}
+
+	public void addPlayer(String player, double score){
+		if (this.players.containsKey(player)) {
+			return;
+		}
+		Double scoreObj = new Double(score);
+		this.players.put(player, scoreObj);
+
+	}
+
+	public void editPlayerScore(String player, Double score){
+		this.players.put(player,this.players.get(player) + score);
+	}
+
+	public void removePlayer(String player){
+		this.players.remove(player);
+	}
+
+	public Map<String, List<GameTagDto>> getSubmittedTagsMap() {
+		return submittedTags;
+	}
+
+	public void setSubmittedTags(HashMap<String,List<GameTagDto>> submittedTags) {
+		this.submittedTags = submittedTags;
+	}
+
+	/*public void addTag(GameTagDto tag){
+		if (this.submittedTags.containsKey(tag)) {
+			return;
+		}
+		this.submittedTags.put(tag.getContent(), tag.getAuthorId());
+	}*/
 
 }
