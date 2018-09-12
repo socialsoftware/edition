@@ -91,13 +91,6 @@ export function getPublicVirtualEditions4User(username) {
     });
 }
 
-export function loadServerResources(user, acronym){
-    return request({
-        url: API_BASE_URL + API_SERVICES_URL + '/ldod-game/load/' + user + '/' + acronym,
-        method: 'GET'
-    });
-}
-
 export function endGame(gameId){
     return request({
         url: API_BASE_URL + API_SERVICES_URL + '/ldod-game/end/' + gameId,
@@ -109,5 +102,20 @@ export function getLeaderboard(){
     return request({
         url: API_BASE_URL + API_SERVICES_URL + '/ldod-game/leaderboard/',
         method: 'GET'
+    });
+}
+
+export function getActiveGames(){
+    return request({
+        url: API_BASE_URL + API_SERVICES_URL + '/ldod-game/active',
+        method: 'GET'
+    });
+}
+
+export function finishGame(gameRequest){
+    return request({
+        url: API_BASE_URL + API_SERVICES_URL + '/ldod-game/finish',
+        method: 'POST',
+        body: JSON.stringify(gameRequest)
     });
 }

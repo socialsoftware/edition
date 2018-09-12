@@ -15,6 +15,7 @@ class Review extends Component {
             socket: null,
             votes: [],
             seconds: 0.0,
+            hasEnded: false,
         };
         this.handleMessageReview = this.handleMessageReview.bind(this);
         this.getFinalTags = this.getFinalTags.bind(this);
@@ -55,7 +56,7 @@ class Review extends Component {
 
     getFinalTags(){
         try{
-            this.clientRef.sendMessage('/ldod-game/review', JSON.stringify({ urlId: this.props.id, voterId: localStorage.getItem("currentUser"), msg: "emptyMsg", vote: "emptyVote", limit: this.props.limit}));
+            this.clientRef.sendMessage('/ldod-game/review', JSON.stringify({ gameId: this.props.gameId, voterId: this.props.userId, msg: "emptyMsg", vote: "emptyVote", limit: this.props.limit}));
             return true;
         } catch(e) {
             return false;
@@ -65,15 +66,26 @@ class Review extends Component {
 
     handleMessageReview(message) {
         var res = [];
+        var winner = Object.keys(message[message.length-1]);
+        var tag = message[message.lenght-1];
         for(var i = 0; i < message.length; i++){
-            var temp = { tag: message[i].tag, vote: 1}; 
+            var temp = { tag: message[i].tag, vote: Math.round(parseFloat(message[i].vote))}; 
             res.push(temp)
         }
         this.setState({
             votes: res,
+            top: tag,
+            winner: winner,
             isLoading: false,
         })
         
+    }
+    
+    finishGame(){
+        this.setState({
+            hasEnded: true,
+        })
+        this.props.endFragment();
     }
 
     render() {
@@ -101,16 +113,19 @@ class Review extends Component {
                             color="#2ecc71"
                             size={80}
                             showMilliseconds={false}
-                            onComplete={this.props.endFragment}/>
+                            onComplete={this.finishGame.bind(this)}/>
                 </div>                
                 {this.props.steps}
                 <Grid fluid>
                     <h4 className="text-center">Tags submitted:</h4>
                     <div className="well" style={{ fontFamily: 'georgia', fontSize: 'small'}}>
                         <Vote 
-                            id={this.props.id} 
+                            gameId={this.props.gameId} 
+                            userId={this.props.userId} 
                             seconds={this.props.seconds} 
                             round={3}
+                            top={this.state.top}
+                            hasEnded={this.state.hasEnded}
                             initialTags={this.state.votes}/>
                         <Divider dashed />
                             <h4 className="text-center">{this.props.title}</h4>

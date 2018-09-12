@@ -45,7 +45,7 @@ class LoginForm extends Component {
                     } else {
                         notification.error({
                             message: LDOD_MESSAGE,
-                            description: error.status | 'Sorry! Something went wrong. Please try again!'
+                            description: 'Sorry! Something went wrong. Please try again later!'
                         });                                            
 }
                 });

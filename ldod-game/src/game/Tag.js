@@ -30,7 +30,7 @@ class Tag extends Component {
 
     sendMessage = (msg) => {
         try {
-            this.clientRef.sendMessage('/ldod-game/tags', JSON.stringify({ urlId: this.props.id, authorId: localStorage.getItem("currentUser"), msg: msg, vote: 1}));
+            this.clientRef.sendMessage('/ldod-game/tags', JSON.stringify({ gameId: this.props.gameId, authorId: this.props.userId, msg: msg, vote: 1}));
             return true;
 
         } catch(e) {
@@ -66,6 +66,7 @@ class Tag extends Component {
                         <FormGroup validationState={ this.props.disabled === true ? "warning" : null}>
                             <InputGroup>
                                 <FormControl 
+                                    disabled={this.props.disabled}
                                     placeholder="Tag this paragraph" 
                                     id="tag"
                                     type="text"

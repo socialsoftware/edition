@@ -1,39 +1,38 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import { endGame } from '../utils/APIUtils';
+import { endGame, getVirtualEditionFragment, finishGame } from '../utils/APIUtils';
 import Fragment  from './Fragment';
 import { Alert, Grid} from 'react-bootstrap';
-
 var ReactCountdownClock = require("react-countdown-clock")
 class VirtualEdition extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            title: " ",
-            acronym: " ",
-            pub: false,
-            taxonomy: [],
-            members: [],
-            fragments: [],
-            index: parseInt(localStorage.getItem("currentFragment"), 10), //check this 
             isActive: false,
             isStarting: true,
+            fragment: null,
+            game: null,
         };
         this.invokeCommand = this.invokeCommand.bind(this);
         this.endGame = this.endGame.bind(this);
     }
     
-    componentDidMount() {
+    async componentDidMount() {
+        let request = await getVirtualEditionFragment(this.props.game.virtualEditionAcronym, this.props.game.virtualEditionInterDto.urlId);
         this.setState({
-            fragments: this.props.virtualEdition.virtualEditionInterList,
-            title: this.props.virtualEdition.title,
-            acronym: this.props.virtualEdition.acronym,
-            pub: this.props.virtualEdition.pub,
+            fragment: request,
+            game: this.props.game,
         })
     }
 
     async endGame(){
-        await endGame(this.props.gameId);
+        let res = this.props.game;
+        let request = await endGame(this.props.gameId);
+        /*res.winner = request[0];
+        res.winningTag = request[1];
+        res.dateTime = null;
+        const gameRequest = Object.assign({}, res);
+        await finishGame(gameRequest);*/
     }
     
     invokeCommand(command) {
@@ -46,8 +45,6 @@ class VirtualEdition extends Component {
                 return;
             
             case "end":
-                var i = this.state.index+1;
-                localStorage.setItem("currentFragment", i);
                 this.endGame();
                 this.setState({
                     isActive: true,
@@ -62,12 +59,13 @@ class VirtualEdition extends Component {
     }
 
     render() {
-        var i = this.state.index;
         if(this.state.isActive) {
             return (
               <Grid fluid>
-                  <Fragment 
-                        fragment={this.state.fragments[i]} 
+                        <Fragment
+                        fragment={this.state.fragment} 
+                        userId={this.props.userId}
+                        gameId={this.props.gameId} 
                         endFragment={() => this.invokeCommand("end")}/>
               </Grid>
             );

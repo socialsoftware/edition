@@ -21,14 +21,25 @@ class Fragment extends Component {
     }
     
     componentDidMount() {
+        //console.log(this.props);
         var text = this.splitIntoParagraph(this.props.fragment.text).text;
+        var time = this.splitIntoParagraph(this.props.fragment.text).time;
+        this.setState({
+            text: this.props.fragment.text,
+            title: this.props.fragment.title,
+            paragraphText: text,
+            secondAndText: time,
+            urlId: this.props.fragment.urlId,
+         });
+
+        /*var text = this.splitIntoParagraph(this.props.fragment.text).text;
         var time = this.splitIntoParagraph(this.props.fragment.text).time;
         this.setState({
             fragment: this.props.fragment,
             text: this.props.fragment.text,
             paragraphText: text,
             secondAndText: time,
-         });
+         });*/
 
     }
 
@@ -89,9 +100,12 @@ class Fragment extends Component {
     render() {
         return (
             <Grid fluid>
-                <Paragraph 
+                    <Paragraph 
+                    title={this.state.title}
+                    text={this.state.text}
+                    userId={this.props.userId}
+                    gameId={this.props.gameId}
                     limit={this.state.paragraphText.length}                
-                    fragment={this.state.fragment}
                     nextParagraph={this.nextParagraph} 
                     paragraphText={this.state.paragraphText[this.state.index]}
                     seconds={this.state.secondAndText[this.state.index]} 

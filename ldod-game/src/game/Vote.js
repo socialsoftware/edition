@@ -3,7 +3,10 @@ import { withRouter } from 'react-router-dom';
 import { WEB_SOCKETS_URL} from '../utils/Constants';
 import './Vote.css';
 import { Table} from 'react-bootstrap';
-import SockJsClient from 'react-stomp'
+import SockJsClient from 'react-stomp';
+import AppContext from '../app/AppContext';
+import {Provider} from '../app/AppContext';
+
 class Vote extends Component {
     constructor(props) {
         super(props);
@@ -27,18 +30,26 @@ class Vote extends Component {
                         onMessage={(message) => this.handleMessageVote(message)} />,
             votes: this.props.initialTags,
             seconds: this.props.seconds,
+            top: this.props.top,
+            winner: this.props.winner,
         })
         this.interval = setInterval(() => this.tick(), 1000);
     }
 
     componentWillUnmount() {
         clearInterval(this.interval);
+        <AppContext>
+            <Provider value={{winner: this.state.winner, top: this.state.top}}>  
+                {this.props.children}
+            </Provider>
+        </AppContext>
     }
 
     componentDidUpdate(prevProps) {
         if (this.props.seconds !== prevProps.seconds) {
             this.setState({
                 seconds: this.props.seconds,
+                top: this.props.top,
             })
         }
     }
@@ -52,9 +63,9 @@ class Vote extends Component {
     handleVote = (param) => (e) =>{
         let vote;
         if (e.target.checked) {
-            vote =  1.0 + this.state.seconds/10;
+            vote =  Math.round(1.0 + this.state.seconds/10);
         } else {
-            vote = -1.0 - this.state.seconds/10;
+            vote = Math.round(-1.0 - this.state.seconds/10);
         }
         var res = vote.toFixed(2);
         this.sendMessage(param.tag, res); 
@@ -62,7 +73,7 @@ class Vote extends Component {
 
     sendMessage = (msg, vote) => {
         try {
-          this.clientRef.sendMessage('/ldod-game/votes', JSON.stringify({ urlId: this.props.id, voterId: localStorage.getItem("currentUser"), msg: msg, vote: vote}));
+          this.clientRef.sendMessage('/ldod-game/votes', JSON.stringify({ gameId: this.props.gameId, voterId: this.props.userId, msg: msg, vote: vote}));
           return true;
         } catch(e) {
           return false;
@@ -72,13 +83,15 @@ class Vote extends Component {
     handleMessageVote(message) {
         var dictionary = this.state.votes;
         let copy = [...this.state.votes];
-        var vote = parseInt(message[3], 10);
+        var vote = Math.round(parseFloat(message[3]));
         var temp = { authorId: message[1], tag: message[2], vote: vote};
         for(var i in dictionary){
             if(dictionary[i].tag === temp.tag){
                 copy.splice(i, 1, temp);
                 this.setState(({
                     votes: copy,
+                    top: message[4],
+                    winner: message[5],
                 }));
             }
         }
@@ -86,7 +99,7 @@ class Vote extends Component {
 
     onChange = (param) => (e) => {
         let vote;
-        vote =  1.0 + this.state.seconds/10;
+        vote =  Math.round(1.0 + this.state.seconds/10);
         var res = vote.toFixed(2);
         this.setState({
             previousVote: param.tag,
@@ -104,25 +117,27 @@ class Vote extends Component {
     render() {
         const voteViews = [];
         let votes = this.state.votes;
-        let top = [];
+        //let top = [];
+        // isNAN appearing in optionS??
+        let top;
         votes.forEach((m, index) => {
-            voteViews.push(
-                <div className="div-votes" key={index}>
-                    <div>
-                        <label>
-                            <span className="title">{m.tag}</span>
-                            <input name="voteGroup" type="radio" onChange={this.onChange(m)}></input>
-                            <span className="vote">{Math.round(m.vote)}</span>
-                        </label>
-                    </div>
-                </div>)
-            }); 
+            if(isNaN(m.tag || isNaN(m.vote))){
+                voteViews.push(
+                    <div className="div-votes" key={index}>
+                        <div>
+                            <label>
+                                <span className="title">{m.tag}</span>
+                                <input name="voteGroup" type="radio" onChange={this.onChange(m)} disabled={this.props.hasEnded}></input>
+                                <span className="vote">{m.vote}</span>
+                            </label>
+                        </div>
+                    </div>)
+            }
+        }); 
+    
         if(this.props.round === 3){
-            var max = votes.reduce.call(votes, (prev, current) =>
-                { 
-                    return (prev.vote > current.vote) ? prev : current;
-                }, "array is empty")
-            top = <h3 className="text-center">Top tag: {max.tag}</h3>;
+            top = <h3 className="text-center">Top tag: {this.state.top}</h3>;
+
         }
 
         return (

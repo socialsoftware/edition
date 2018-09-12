@@ -26,15 +26,17 @@ class Paragrah extends Component {
 
         if (prevProps.paragraphText !== this.props.paragraphText || prevProps.round !== this.props.round) {
             this.setState({
-                title: this.props.fragment.title,
-                urlId: this.props.fragment.urlId,
+                title: this.props.title,
+                urlId: this.props.urlId,
                 paragraphText: this.props.paragraphText,
-                fullText: this.props.fragment.text,
+                fullText: this.props.text,
                 seconds: this.props.seconds,
                 round: this.props.round,
                 disabled: false,
             });
         }
+
+        
     }
     
     handleMessageTag(message) {
@@ -104,7 +106,8 @@ class Paragrah extends Component {
                     {stepsRender}
                     {paragrahRender}
                     <Tag 
-                        id={this.state.urlId} 
+                        gameId={this.props.gameId}
+                        userId={this.props.userId}
                         handleMessageTag={this.handleMessageTag.bind(this)} 
                         disabled={this.state.disabled}/>
                 </div>
@@ -116,7 +119,8 @@ class Paragrah extends Component {
                     {paragrahRender}    
                     <Vote 
                         seconds={this.props.seconds} 
-                        id={this.state.urlId} 
+                        gameId={this.props.gameId}
+                        userId={this.props.userId}
                         initialTags={this.state.tags}/>
                 </div>
             }
@@ -124,8 +128,9 @@ class Paragrah extends Component {
             return(
                 <div>
                     <Review
+                        gameId={this.props.gameId}
+                        userId={this.props.userId} 
                         limit={this.props.limit}
-                        id={this.state.urlId} 
                         steps={stepsRender} 
                         endFragment={this.props.endFragment} 
                         seconds={this.state.seconds} 

@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { Route, withRouter, Link, Switch } from 'react-router-dom';
-import { getCurrentUser, loadServerResources } from '../utils/APIUtils';
+import { getCurrentUser,  getActiveGames } from '../utils/APIUtils';
 import { ACCESS_TOKEN, LDOD_MESSAGE } from '../utils/Constants';
+import AppContext from './AppContext';
+import {Provider} from './/AppContext';
 import Login from '../user/login/Login';
 import Profile from '../user/profile/Profile';
 import Header from '../common/Header';
@@ -24,11 +26,13 @@ class App extends Component {
             currentUser: null,
             isAuthenticated: false,
             isLoading: false,
+            activeGames: [],
         }
 
         this.handleLogout = this.handleLogout.bind(this);
         this.loadCurrentUser = this.loadCurrentUser.bind(this);
         this.handleLogin = this.handleLogin.bind(this);
+        this.getAndSetupGames = this.getAndSetupGames.bind(this);
 
         notification.config({
             placement: 'topRight',
@@ -39,6 +43,11 @@ class App extends Component {
     
     componentDidMount(){
         localStorage.setItem("currentFragment", 0);
+    }
+
+    // TODO: CHECK THIS DUE TO REFRESH and OLD TOKENS
+    componentWillUnmount() {
+        //localStorage.clear();
     }
 
     loadCurrentUser() {
@@ -60,9 +69,6 @@ class App extends Component {
             });
     }
 
-    componentWillUnmount() {
-        localStorage.clear();
-    }
 
     handleLogout(redirectTo="/", notificationType="success", description="You're successfully logged out.") {
         localStorage.removeItem(ACCESS_TOKEN);
@@ -86,10 +92,18 @@ class App extends Component {
             message: LDOD_MESSAGE,
             description: "You're successfully logged in.",
         });
-        await loadServerResources(localStorage.getItem("currentUser"),"LdoD-ok");
+        await this.getAndSetupGames();
         this.loadCurrentUser();
         this.props.history.push("/");
         return 
+    }
+
+    async getAndSetupGames(){
+        let request = await getActiveGames();
+        this.setState({
+            activeGame: request,
+            game: request[0],
+        })
     }
     
     render() {
@@ -99,7 +113,10 @@ class App extends Component {
         }
     return (
         <Grid fluid>
-           <Header
+            <AppContext>
+            <Provider value={{currentUser: this.state.currentUser, game: this.state.game}}>  
+                {this.props.children}
+            <Header
                 isAuthenticated={this.state.isAuthenticated}
                 currentUser={this.state.currentUser}
                 onLogout={this.handleLogout}/>
@@ -151,6 +168,8 @@ class App extends Component {
                         <Route component={NotFound}></Route>
                     </Switch>
                 </div>
+                </Provider>
+                </AppContext>
              </Grid>
     );
   }
