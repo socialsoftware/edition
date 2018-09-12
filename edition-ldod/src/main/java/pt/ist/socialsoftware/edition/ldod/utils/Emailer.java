@@ -12,6 +12,7 @@ import javax.mail.internet.MimeMessage;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import pt.ist.socialsoftware.edition.text.utils.PropertiesManager;
 
 public class Emailer {
 	private static Logger logger = LoggerFactory.getLogger(Emailer.class);

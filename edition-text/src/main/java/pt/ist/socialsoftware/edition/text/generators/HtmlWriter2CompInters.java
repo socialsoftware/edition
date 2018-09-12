@@ -7,29 +7,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import pt.ist.socialsoftware.edition.text.domain.AddText;
-import pt.ist.socialsoftware.edition.text.domain.AltText;
-import pt.ist.socialsoftware.edition.text.domain.AppText;
-import pt.ist.socialsoftware.edition.text.domain.DelText;
-import pt.ist.socialsoftware.edition.text.domain.FragInter;
-import pt.ist.socialsoftware.edition.text.domain.GapText;
-import pt.ist.socialsoftware.edition.text.domain.LbText;
-import pt.ist.socialsoftware.edition.text.domain.NoteText;
-import pt.ist.socialsoftware.edition.text.domain.ParagraphText;
-import pt.ist.socialsoftware.edition.text.domain.PbText;
-import pt.ist.socialsoftware.edition.text.domain.RdgGrpText;
-import pt.ist.socialsoftware.edition.text.domain.RdgText;
-import pt.ist.socialsoftware.edition.text.domain.RefText;
-import pt.ist.socialsoftware.edition.text.domain.SegText;
-import pt.ist.socialsoftware.edition.text.domain.SimpleText;
-import pt.ist.socialsoftware.edition.text.domain.SpaceText;
-import pt.ist.socialsoftware.edition.text.domain.SubstText;
-import pt.ist.socialsoftware.edition.text.domain.UnclearText;
+import pt.ist.socialsoftware.edition.text.domain.*;
 
 public class HtmlWriter2CompInters implements TextPortionVisitor {
 	private final Map<FragInter, String> transcriptionsMap = new HashMap<FragInter, String>();
 	private final Map<FragInter, Integer> transcriptionsLengthMap = new HashMap<FragInter, Integer>();
-	private List<FragInter> interps = null;
+	private List<ScholarInter> interps = null;
 
 	private Boolean lineByLine = false;
 	private Boolean showSpaces = false;
@@ -40,8 +23,8 @@ public class HtmlWriter2CompInters implements TextPortionVisitor {
 
 	private String lineByLineTranscription = "";
 
-	public HtmlWriter2CompInters(List<FragInter> interps) {
-		this.interps = new ArrayList<FragInter>(interps);
+	public HtmlWriter2CompInters(List<ScholarInter> interps) {
+		this.interps = new ArrayList<ScholarInter>(interps);
 	}
 
 	public void write(Boolean lineByLine, Boolean showSpaces) {

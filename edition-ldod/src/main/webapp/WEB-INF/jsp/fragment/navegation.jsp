@@ -156,7 +156,7 @@
 			</a>
 		</h5>
 		<!-- ARCHIVE VIRTUAL EDITION -->
-		<c:set var="archiveEdition" value="${collectionManager.getArchiveEdition()}" />
+		<c:set var="archiveEdition" value="${virtualManager.getArchiveEdition()}" />
 		<div class="text-center">
 			<div class="text-center" style="padding: 8px">
 				<a

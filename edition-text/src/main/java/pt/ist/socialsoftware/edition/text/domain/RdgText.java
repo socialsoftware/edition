@@ -73,14 +73,14 @@ public class RdgText extends RdgText_Base implements GraphElement {
 	}
 
 	@Override
-	public void putAppTextWithVariations(List<AppText> apps, List<FragInter> inters) {
-		List<FragInter> newInters = new ArrayList<>(inters);
+	public void putAppTextWithVariations(List<AppText> apps, List<ScholarInter> inters) {
+		List<ScholarInter> newInters = new ArrayList<>(inters);
 		newInters.retainAll(inters);
 		super.putAppTextWithVariations(apps, newInters);
 	}
 
 	@Override
-	public boolean hasVariations(List<FragInter> inters) {
+	public boolean hasVariations(List<ScholarInter> inters) {
 		Set<FragInter> intersection = new HashSet<>(inters);
 		intersection.retainAll(getInterps());
 		if (!intersection.isEmpty() && !getInterps().containsAll(inters)) {

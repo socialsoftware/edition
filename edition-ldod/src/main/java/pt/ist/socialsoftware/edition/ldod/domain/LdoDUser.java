@@ -15,8 +15,8 @@ import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.socialsoftware.edition.ldod.domain.Role.RoleType;
 import pt.ist.socialsoftware.edition.ldod.security.LdoDUserDetails;
-import pt.ist.socialsoftware.edition.text.exception.LdoDDuplicateUsernameException;
-import pt.ist.socialsoftware.edition.text.exception.LdoDException;
+import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDDuplicateUsernameException;
+import pt.ist.socialsoftware.edition.text.shared.exception.LdoDException;
 
 public class LdoDUser extends LdoDUser_Base {
 	private static Logger logger = LoggerFactory.getLogger(LdoDUser.class);

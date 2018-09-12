@@ -25,8 +25,9 @@ import pt.ist.socialsoftware.edition.ldod.dto.FragmentDTO;
 import pt.ist.socialsoftware.edition.ldod.dto.FragmentMetaInfoDTO;
 import pt.ist.socialsoftware.edition.ldod.recommendation.VSMVirtualEditionInterRecommender;
 import pt.ist.socialsoftware.edition.ldod.recommendation.properties.Property;
+import pt.ist.socialsoftware.edition.text.shared.exception.LdoDDuplicateAcronymException;
 import pt.ist.socialsoftware.edition.text.shared.exception.LdoDException;
-import pt.ist.socialsoftware.edition.ldod.utils.PropertiesManager;
+import pt.ist.socialsoftware.edition.text.utils.PropertiesManager;
 import pt.ist.socialsoftware.edition.text.domain.*;
 
 public class VirtualEdition extends VirtualEdition_Base {
@@ -52,6 +53,11 @@ public class VirtualEdition extends VirtualEdition_Base {
 
 		// cannot change acronym of the archive edition
 		if (getAcronym() == null || !getAcronym().equals(ARCHIVE_EDITION_ACRONYM)) {
+            for (VirtualEdition edition : VirtualManager.getInstance().getVirtualEditionsSet()) {
+                if (edition.getAcronym() != null && acronym.toUpperCase().equals(edition.getAcronym().toUpperCase())) {
+                    throw new LdoDDuplicateAcronymException();
+                }
+            }
 			super.setAcronym(acronym);
 		}
 	}
@@ -200,11 +206,14 @@ public class VirtualEdition extends VirtualEdition_Base {
 	}
 
 	// determines if the fragment can have more interpretations for this virtual
-	// edition, deals with the the case of a fragment having two interpretations
+	// edition, deals with the case of a fragment having two interpretations
 	// for the same expert edition
 	public Boolean canAddFragInter(FragInter addInter) {
 		Fragment fragment = addInter.getFragment();
-		FragInter usedAddInter = addInter.getLastUsed();
+		FragInter usedAddInter = addInter;
+		if (!(addInter instanceof ScholarInter)) {
+			usedAddInter = ((VirtualEditionInter) addInter).getLastUsed();
+		}
 		for (VirtualEditionInter inter : getVirtualEditionInters(fragment)) {
 			FragInter usedInter = inter.getLastUsed();
 			if (isSameInterpretation(usedAddInter, usedInter)) {
@@ -392,7 +401,7 @@ public class VirtualEdition extends VirtualEdition_Base {
 
 		// inicializa lista de frags
 		for (String temp : fragInterList) {
-			FragInter inter = FenixFramework.getDomainObject(temp);
+			VirtualEditionInter inter = FenixFramework.getDomainObject(temp);
 
 			// logger.debug("updateVirtualEditionInters temp:{} interLastUsed:{}
 			// interTitle:{} interSourceType:{}", temp,
@@ -728,33 +737,6 @@ public class VirtualEdition extends VirtualEdition_Base {
 	public List<String> getAnnotationTextList() {
 		return getAnnotationList().stream().filter(a -> a.getText() != null && !a.getText().isEmpty())
 				.map(a -> a.getText()).sorted().collect(Collectors.toList());
-	}
-
-	/**
-	 * Utility method that builds for this Virtual Edition it's corresponding List
-	 * of DTO fragments. Adapdted from VEController
-	 * 
-	 * @return List of FragmentDTO of the Virtual Edition
-	 */
-	public List<FragmentDTO> buildEditionDTO() {
-		List<FragmentDTO> fragments = new ArrayList<>();
-		String intersFilesPath = PropertiesManager.getProperties().getProperty("inters.dir");
-		for (FragInter inter : this.getIntersSet()) {
-			FragInter lastInter = inter.getLastUsed();
-			String text;
-			try {
-				text = new String(Files.readAllBytes(Paths.get(intersFilesPath + lastInter.getExternalId() + ".txt")));
-			} catch (IOException e) {
-				throw new LdoDException("VirtualEditionController::getTranscriptions IOException");
-			}
-
-			FragmentDTO fragment = new FragmentDTO();
-			fragment.setMeta(new FragmentMetaInfoDTO(lastInter));
-			fragment.setText(text);
-
-			fragments.add(fragment);
-		}
-		return fragments;
 	}
 
 	public boolean isSAVE() {

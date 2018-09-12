@@ -47,8 +47,8 @@ public class RdgGrpText extends RdgGrpText_Base {
 	}
 
 	@Override
-	public void putAppTextWithVariations(List<AppText> apps, List<FragInter> inters) {
-		List<FragInter> newInters = new ArrayList<>(inters);
+	public void putAppTextWithVariations(List<AppText> apps, List<ScholarInter> inters) {
+		List<ScholarInter> newInters = new ArrayList<>(inters);
 		newInters.retainAll(inters);
 		super.putAppTextWithVariations(apps, newInters);
 	}

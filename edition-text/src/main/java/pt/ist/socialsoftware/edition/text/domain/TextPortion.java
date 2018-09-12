@@ -231,13 +231,13 @@ public abstract class TextPortion extends TextPortion_Base implements GraphEleme
 		return null;
 	}
 
-	public void putAppTextWithVariations(List<AppText> apps, List<FragInter> inters) {
+	public void putAppTextWithVariations(List<AppText> apps, List<ScholarInter> inters) {
 		for (TextPortion text : getChildTextSet()) {
 			text.putAppTextWithVariations(apps, inters);
 		}
 	}
 
-	public boolean hasVariations(List<FragInter> inters) {
+	public boolean hasVariations(List<ScholarInter> inters) {
 		return false;
 	}
 

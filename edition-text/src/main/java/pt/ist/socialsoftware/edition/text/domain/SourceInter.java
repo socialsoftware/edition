@@ -5,7 +5,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import pt.ist.socialsoftware.edition.ldod.domain.*;
 
 public class SourceInter extends SourceInter_Base {
 	public SourceInter() {
@@ -81,11 +80,12 @@ public class SourceInter extends SourceInter_Base {
 	public void remove() {
 		setSource(null);
 
-		for (VirtualEditionInter inter : getIsUsedByDepthSet()) {
-			// it is necessary to remove all interpretations that use the expert
-			// interpretation
-			inter.remove();
-		}
+//		TODO REMOVE VIRTUAL RELATIONS
+//		for (VirtualEditionInter inter : getIsUsedByDepthSet()) {
+//			// it is necessary to remove all interpretations that use the expert
+//			// interpretation
+//			inter.remove();
+//		}
 
 		super.remove();
 	}
@@ -101,11 +101,6 @@ public class SourceInter extends SourceInter_Base {
 	}
 
 	@Override
-	public FragInter getLastUsed() {
-		return this;
-	}
-
-	@Override
 	public Edition getEdition() {
 		return getFragment().getCollectionManager().getNullEdition();
 	}
@@ -116,7 +111,6 @@ public class SourceInter extends SourceInter_Base {
 		return listUses;
 	}
 
-	@Override
 	public String getReference() {
 		return getShortName();
 	}
@@ -175,32 +169,6 @@ public class SourceInter extends SourceInter_Base {
 		} else {
 			return pbText.getNextPbText(this);
 		}
-	}
-
-	@Override
-	public Set<Category> getAllDepthCategories() {
-		return new HashSet<>();
-	}
-
-	@Override
-	public Set<HumanAnnotation> getAllDepthHumanAnnotations() {
-		return new HashSet<>();
-	}
-	
-	//solução para suportar os dois tipos de annotations
-	@Override
-	public Set<Annotation> getAllDepthAnnotations() {
-		return new HashSet<>();
-	}
-	
-	@Override
-	public Set<Tag> getAllDepthTags() {
-		return new HashSet<>();
-	}
-
-	@Override
-	public int getUsesDepth() {
-		return 0;
 	}
 
 }

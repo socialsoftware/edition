@@ -3,7 +3,6 @@ package pt.ist.socialsoftware.edition.text.domain;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import pt.ist.socialsoftware.edition.ldod.domain.HumanAnnotation;
 import pt.ist.socialsoftware.edition.text.generators.TextPortionVisitor;
 
 /**
@@ -22,13 +21,14 @@ public class SimpleText extends SimpleText_Base {
 
 	@Override
 	public void remove() {
-		for (HumanAnnotation annotation : getStartAnnotationsSet()) {
-			annotation.remove();
-		}
-
-		for (HumanAnnotation annotation : getEndAnnotationsSet()) {
-			annotation.remove();
-		}
+//		TODO REMOVE VIRTUAL RELATIONS
+//		for (HumanAnnotation annotation : getStartAnnotationsSet()) {
+//			annotation.remove();
+//		}
+//
+//		for (HumanAnnotation annotation : getEndAnnotationsSet()) {
+//			annotation.remove();
+//		}
 
 		super.remove();
 	}

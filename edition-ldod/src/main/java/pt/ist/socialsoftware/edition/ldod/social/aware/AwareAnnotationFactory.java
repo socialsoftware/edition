@@ -13,20 +13,8 @@ import org.slf4j.LoggerFactory;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
-import pt.ist.socialsoftware.edition.ldod.domain.AwareAnnotation;
-import pt.ist.socialsoftware.edition.ldod.domain.Citation;
-import pt.ist.socialsoftware.edition.ldod.domain.FragInter;
-import pt.ist.socialsoftware.edition.ldod.domain.Frequency;
-import pt.ist.socialsoftware.edition.ldod.domain.GeographicLocation;
-import pt.ist.socialsoftware.edition.ldod.domain.InfoRange;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
-import pt.ist.socialsoftware.edition.ldod.domain.MediaSource;
-import pt.ist.socialsoftware.edition.ldod.domain.Range;
-import pt.ist.socialsoftware.edition.ldod.domain.SocialMediaCriteria;
-import pt.ist.socialsoftware.edition.ldod.domain.TimeWindow;
-import pt.ist.socialsoftware.edition.ldod.domain.TwitterCitation;
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
+import pt.ist.socialsoftware.edition.ldod.domain.*;
+import pt.ist.socialsoftware.edition.text.domain.FragInter;
 
 public class AwareAnnotationFactory {
 	private static Logger logger = LoggerFactory.getLogger(AwareAnnotationFactory.class);
@@ -37,14 +25,14 @@ public class AwareAnnotationFactory {
 		logger.debug("BEGINNIG OF AWARE FACTORY");
 
 		// SETUP DOS CRITÉRIOS
-		VirtualEdition duarteEdit = LdoD.getInstance().getVirtualEdition("LdoD-Duarte");
+		VirtualEdition duarteEdit = VirtualManager.getInstance().getVirtualEdition("LdoD-Duarte");
 		// new MediaSource(duarteEdit, "Twitter");
 		// new TimeWindow(duarteEdit, new LocalDate("2018-03-06"), new
 		// LocalDate("2018-06-24"));
 		// new GeographicLocation(duarteEdit, "Portugal", "Lisboa");
 		// new Frequency(duarteEdit, 10);
 
-		for (VirtualEdition ve : LdoD.getInstance().getVirtualEditionsSet()) {
+		for (VirtualEdition ve : VirtualManager.getInstance().getVirtualEditionsSet()) {
 			if (ve.isSAVE()) {
 				searchForAwareAnnotations(ve);
 			}

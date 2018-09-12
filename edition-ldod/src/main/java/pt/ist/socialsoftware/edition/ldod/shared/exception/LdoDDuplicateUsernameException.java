@@ -1,4 +1,6 @@
-package pt.ist.socialsoftware.edition.text.shared.exception;
+package pt.ist.socialsoftware.edition.ldod.shared.exception;
+
+import pt.ist.socialsoftware.edition.text.shared.exception.LdoDException;
 
 public class LdoDDuplicateUsernameException extends LdoDException {
 

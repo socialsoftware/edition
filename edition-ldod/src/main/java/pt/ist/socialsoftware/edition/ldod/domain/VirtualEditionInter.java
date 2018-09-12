@@ -1,26 +1,25 @@
 package pt.ist.socialsoftware.edition.ldod.domain;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import pt.ist.fenixframework.Atomic;
+import pt.ist.fenixframework.Atomic.TxMode;
+import pt.ist.socialsoftware.edition.ldod.utils.CategoryDTO;
+import pt.ist.socialsoftware.edition.ldod.utils.RangeJson;
+import pt.ist.socialsoftware.edition.text.domain.Edition;
+import pt.ist.socialsoftware.edition.text.domain.Edition.EditionType;
+import pt.ist.socialsoftware.edition.text.domain.FragInter;
+import pt.ist.socialsoftware.edition.text.domain.ScholarInter;
+import pt.ist.socialsoftware.edition.text.domain.SimpleText;
+import pt.ist.socialsoftware.edition.text.shared.exception.LdoDException;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import pt.ist.fenixframework.Atomic;
-import pt.ist.fenixframework.Atomic.TxMode;
-import pt.ist.socialsoftware.edition.text.domain.Edition;
-import pt.ist.socialsoftware.edition.text.domain.Edition.EditionType;
-import pt.ist.socialsoftware.edition.text.exception.LdoDException;
-import pt.ist.socialsoftware.edition.ldod.utils.CategoryDTO;
-import pt.ist.socialsoftware.edition.ldod.utils.RangeJson;
-import pt.ist.socialsoftware.edition.text.domain.FragInter;
-import pt.ist.socialsoftware.edition.text.domain.SimpleText;
 
 public class VirtualEditionInter extends VirtualEditionInter_Base {
 	private static Logger logger = LoggerFactory.getLogger(VirtualEditionInter.class);
@@ -42,7 +41,17 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 		setXmlId(Integer.toString(getFragment().getNumberOfInter4Edition(getVirtualEdition())));
 	}
 
-	@Override
+
+	// TODO CHECK IF CORRECT
+    @Override
+    public int compareTo(FragInter other) {
+        if (getSourceType() == other.getSourceType()) {
+            return compareVirtualEditionInter((VirtualEditionInter) other);
+        }
+        return super.compareTo(other);
+    }
+
+    @Override
 	public void remove() {
 		for (VirtualEditionInter inter : getIsUsedBySet()) {
 			inter.setUses(getUses());
@@ -102,10 +111,6 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 		return getVirtualEdition() == edition;
 	}
 
-	@Override
-	public FragInter getLastUsed() {
-		return getUses().getLastUsed();
-	}
 
 	@Override
 	public Edition getEdition() {
@@ -262,8 +267,16 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 		return categories;
 	}
 
-	@Override
-	public Set<Category> getAllDepthCategories() {
+
+    public ScholarInter getLastUsed() {
+		if (getVirtualEditionInterUses() != null) {
+			return ((VirtualEditionInter) getUses()).getLastUsed();
+		}
+        return (ScholarInter) getUses();
+    }
+
+
+    public Set<Category> getAllDepthCategories() {
 		Set<Category> categories = null;
 		if (getVirtualEdition().checkAccess()) {
 			categories = new HashSet<>(getVirtualEdition().getTaxonomy().getCategoriesSet());
@@ -271,9 +284,18 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 			categories = new HashSet<>();
 		}
 
-		categories.addAll(getUses().getAllDepthCategories());
+		if (getVirtualEditionInterUses() != null) {
+			categories.addAll(getVirtualEditionInterUses().getAllDepthCategories());
+		}
 
 		return categories;
+	}
+
+	public VirtualEditionInter getVirtualEditionInterUses() {
+		if (getUses() instanceof VirtualEditionInter) {
+			return (VirtualEditionInter) getUses();
+		}
+		return null;
 	}
 
 	// Estava a dar erro
@@ -289,7 +311,6 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 	 */
 
 	// Solução - a funcionar
-	@Override
 	public Set<HumanAnnotation> getAllDepthHumanAnnotations() {
 		Set<HumanAnnotation> annotations = null;
 		if (getVirtualEdition().checkAccess()) {
@@ -299,13 +320,14 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 			annotations = new HashSet<>();
 		}
 
-		annotations.addAll(getUses().getAllDepthHumanAnnotations());
+		if (getVirtualEditionInterUses() != null) {
+			annotations.addAll(getVirtualEditionInterUses().getAllDepthHumanAnnotations());
+		}
 
 		return annotations;
 	}
 
 	// Solução para suportar os dois tipos de annotation
-	@Override
 	public Set<Annotation> getAllDepthAnnotations() {
 		Set<Annotation> annotations = null;
 		if (getVirtualEdition().checkAccess()) {
@@ -314,12 +336,13 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 			annotations = new HashSet<>();
 		}
 
-		annotations.addAll(getUses().getAllDepthAnnotations());
+		if (getVirtualEditionInterUses() != null) {
+			annotations.addAll(getVirtualEditionInterUses().getAllDepthAnnotations());
+		}
 
 		return annotations;
 	}
 
-	@Override
 	public Set<Tag> getAllDepthTags() {
 		Set<Tag> tags = null;
 
@@ -329,7 +352,9 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 			tags = new HashSet<>();
 		}
 
-		tags.addAll(getUses().getAllDepthTags());
+		if (getVirtualEditionInterUses() != null) {
+			tags.addAll(getVirtualEditionInterUses().getAllDepthTags());
+		}
 
 		return tags;
 	}
@@ -412,9 +437,11 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 		return result;
 	}
 
-	@Override
 	public int getUsesDepth() {
-		return getUses().getUsesDepth() + 1;
+	    if (getVirtualEditionInterUses() == null) {
+	        return 1;
+        }
+		return getVirtualEditionInterUses().getUsesDepth() + 1;
 	}
 
 	// Is it this way? (this method doesn't take into account the retweets)

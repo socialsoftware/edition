@@ -4,7 +4,7 @@ import org.joda.time.DateTime;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.FenixFramework;
-import pt.ist.socialsoftware.edition.text.exception.LdoDDuplicateUsernameException;
+import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDDuplicateUsernameException;
 
 public class UserManager extends UserManager_Base {
 

@@ -15,7 +15,7 @@ import org.jdom2.output.XMLOutputter;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 
-import pt.ist.socialsoftware.edition.ldod.generators.JDomTEITextPortionWriter;
+import pt.ist.socialsoftware.edition.text.generators.JDomTEITextPortionWriter;
 import pt.ist.socialsoftware.edition.text.domain.AppText;
 import pt.ist.socialsoftware.edition.text.domain.ExpertEditionInter;
 import pt.ist.socialsoftware.edition.text.domain.Facsimile;

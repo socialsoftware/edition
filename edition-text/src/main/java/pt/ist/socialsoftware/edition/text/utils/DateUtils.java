@@ -7,7 +7,7 @@ import java.util.Date;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 
-import pt.ist.socialsoftware.edition.text.exception.LdoDLoadException;
+import pt.ist.socialsoftware.edition.text.shared.exception.LdoDLoadException;
 
 public class DateUtils {
 	public static LocalDate convertDate(String dateString) {

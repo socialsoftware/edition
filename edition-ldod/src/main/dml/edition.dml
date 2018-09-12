@@ -20,7 +20,7 @@ relation DomainRootHasVirtualManager {
 	}
 }
 
-class VirtualEdition extends .pt.ist.socialsoftware.edition.text.Edition {
+class VirtualEdition extends .pt.ist.socialsoftware.edition.text.domain.Edition {
 	String synopsis;
 }
 
@@ -121,7 +121,7 @@ relation LdoDUsersAndRoles {
 
 relation VirtualEditionUsesEdition {
 	VirtualEdition playsRole isUsedBy {multiplicity 0..*;}
-	Edition playsRole uses {multiplicity 0..1;}
+	.pt.ist.socialsoftware.edition.text.domain.Edition playsRole uses {multiplicity 0..1;}
 }
 
 
@@ -173,13 +173,13 @@ relation TaxonomyHasCategories {
 	Category playsRole categories {multiplicity 0..*;}
 }
 
-class VirtualEditionInter extends FragInter {
+class VirtualEditionInter extends .pt.ist.socialsoftware.edition.text.domain.FragInter {
 	int number;
 }
 
 relation VirtualEditionInterUsesFragInter {
 	VirtualEditionInter playsRole isUsedBy {multiplicity 0..*;}
-	FragInter playsRole uses {multiplicity 1..1;}
+	.pt.ist.socialsoftware.edition.text.domain.FragInter playsRole uses {multiplicity 1..1;}
 }
 
 class Tag;
@@ -210,12 +210,12 @@ class AwareAnnotation extends Annotation;
 
 relation HumanAnnotationHasBeginSimpleText {
 	HumanAnnotation playsRole startAnnotations {multiplicity 0..*;}
-	SimpleText playsRole startText {multiplicity 0..1;}
+	.pt.ist.socialsoftware.edition.text.domain.SimpleText playsRole startText {multiplicity 0..1;}
 }
 
 relation HumanAnnotationHasEndSimpleText {
 	HumanAnnotation playsRole endAnnotations {multiplicity 0..*;}
-	SimpleText playsRole endText {multiplicity 0..1;}
+	.pt.ist.socialsoftware.edition.text.domain.SimpleText playsRole endText {multiplicity 0..1;}
 }
 
 relation VirtualEditionInterHasAnnotations {
@@ -305,7 +305,7 @@ relation CitationHasAwareAnnotations {
 
 relation FragmentHasCitations {
 	Citation playsRole citation {multiplicity 0..*;}
-	Fragment playsRole fragment {multiplicity 1..1;}
+	.pt.ist.socialsoftware.edition.text.domain.Fragment playsRole fragment {multiplicity 1..1;}
 }
 
 class InfoRange {
@@ -324,7 +324,7 @@ relation CitationHasInfoRanges {
 
 relation InfoRangeHasFragInter {
 	InfoRange playsRole infoRange {multiplicity 0..*;}
-	FragInter playsRole fragInter {multiplicity 1..1;}
+	.pt.ist.socialsoftware.edition.text.domain.FragInter playsRole fragInter {multiplicity 1..1;}
 }
 
 class SocialMediaCriteria;

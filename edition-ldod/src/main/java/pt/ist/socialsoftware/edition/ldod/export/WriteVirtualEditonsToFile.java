@@ -15,7 +15,7 @@ import org.apache.commons.io.IOUtils;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.socialsoftware.edition.text.domain.CollectionManager;
 import pt.ist.socialsoftware.edition.text.domain.Fragment;
-import pt.ist.socialsoftware.edition.ldod.utils.PropertiesManager;
+import pt.ist.socialsoftware.edition.text.utils.PropertiesManager;
 
 public class WriteVirtualEditonsToFile {
 	@Atomic

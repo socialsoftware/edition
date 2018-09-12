@@ -118,7 +118,9 @@ relation FragInterHasAnnexNote {
 	AnnexNote playsRole annexNote {multiplicity 0..*;}
 }
 
-class ExpertEditionInter extends FragInter {
+class ScholarInter extends FragInter;
+
+class ExpertEditionInter extends ScholarInter {
 	String title;
 	String volume;
 	int number;
@@ -126,9 +128,9 @@ class ExpertEditionInter extends FragInter {
 	int startPage;
 	int endPage;
 	String notes;
-}
+	}
 
-class SourceInter extends FragInter;
+class SourceInter extends ScholarInter;
 
 relation ExpertEditionHasExpertEditionInters {
 	ExpertEdition playsRole expertEdition {multiplicity 1..1;}

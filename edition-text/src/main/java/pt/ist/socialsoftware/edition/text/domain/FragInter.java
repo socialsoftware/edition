@@ -8,7 +8,6 @@ import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pt.ist.socialsoftware.edition.ldod.domain.*;
 
 public abstract class FragInter extends FragInter_Base implements Comparable<FragInter> {
 	private static Logger logger = LoggerFactory.getLogger(FragInter.class);
@@ -25,9 +24,10 @@ public abstract class FragInter extends FragInter_Base implements Comparable<Fra
 			getLdoDDate().remove();
 		}
 
-		for (VirtualEditionInter inter : getIsUsedBySet()) {
-			removeIsUsedBy(inter);
-		}
+		//		TODO REMOVE VIRTUAL RELATIONS
+//		for (VirtualEditionInter inter : getIsUsedBySet()) {
+//			removeIsUsedBy(inter);
+//		}
 
 		for (RdgText rdg : getRdgSet()) {
 			removeRdg(rdg);
@@ -49,8 +49,9 @@ public abstract class FragInter extends FragInter_Base implements Comparable<Fra
 			ref.setFragInter(null);
 		}
 
+		//		TODO REMOVE VIRTUAL RELATIONS
 		// adicionado recentemente, testar
-		getInfoRangeSet().forEach(infoRange -> infoRange.remove());
+//		getInfoRangeSet().forEach(infoRange -> infoRange.remove());
 
 		deleteDomainObject();
 	}
@@ -60,6 +61,8 @@ public abstract class FragInter extends FragInter_Base implements Comparable<Fra
 	public abstract int getNumber();
 
 	public abstract String getTitle();
+
+	public abstract String getReference();
 
 	public abstract Edition.EditionType getSourceType();
 
@@ -84,8 +87,6 @@ public abstract class FragInter extends FragInter_Base implements Comparable<Fra
 		} else if (getSourceType() == other.getSourceType()) {
 			if (getSourceType() == Edition.EditionType.EDITORIAL) {
 				return ((ExpertEditionInter) this).compareExpertEditionInter((ExpertEditionInter) other);
-			} else if (getSourceType() == Edition.EditionType.VIRTUAL) {
-				return ((VirtualEditionInter) this).compareVirtualEditionInter((VirtualEditionInter) other);
 			} else if (getSourceType() == Edition.EditionType.AUTHORIAL) {
 				return ((SourceInter) this).compareSourceInter((SourceInter) other);
 			}
@@ -95,36 +96,12 @@ public abstract class FragInter extends FragInter_Base implements Comparable<Fra
 
 	public abstract boolean belongs2Edition(Edition edition);
 
-	public abstract FragInter getLastUsed();
-
-	public abstract String getReference();
-
 	public List<AnnexNote> getSortedAnnexNote() {
 		List<AnnexNote> results = new ArrayList<>(getAnnexNoteSet());
 
 		Collections.sort(results);
 
 		return results;
-	}
-
-	// solução a funcionar
-	public abstract Set<HumanAnnotation> getAllDepthHumanAnnotations();
-
-	// tentativa de suporte de ambas as anotações
-	public abstract Set<Annotation> getAllDepthAnnotations();
-
-	public abstract Set<Tag> getAllDepthTags();
-
-	public abstract Set<Category> getAllDepthCategories();
-
-	public abstract int getUsesDepth();
-
-	public Set<VirtualEditionInter> getIsUsedByDepthSet() {
-		Set<VirtualEditionInter> isUsedBy = new HashSet<>(getIsUsedBySet());
-		for (VirtualEditionInter inter : getIsUsedBySet()) {
-			isUsedBy.addAll(inter.getIsUsedByDepthSet());
-		}
-		return isUsedBy;
 	}
 
 }

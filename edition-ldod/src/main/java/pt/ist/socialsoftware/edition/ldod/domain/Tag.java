@@ -1,6 +1,6 @@
 package pt.ist.socialsoftware.edition.ldod.domain;
 
-import pt.ist.socialsoftware.edition.text.exception.LdoDException;
+import pt.ist.socialsoftware.edition.text.shared.exception.LdoDException;
 
 public class Tag extends Tag_Base implements Comparable<Tag> {
 

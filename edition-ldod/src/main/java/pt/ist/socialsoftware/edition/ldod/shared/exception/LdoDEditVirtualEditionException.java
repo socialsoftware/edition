@@ -1,5 +1,8 @@
 package pt.ist.socialsoftware.edition.ldod.shared.exception;
 
+import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
+import pt.ist.socialsoftware.edition.text.shared.exception.LdoDException;
+
 import java.util.ArrayList;
 import java.util.List;
 

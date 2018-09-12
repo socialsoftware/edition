@@ -1,13 +1,7 @@
 package pt.ist.socialsoftware.edition.text.domain;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-
-import pt.ist.socialsoftware.edition.ldod.domain.*;
-import pt.ist.socialsoftware.edition.ldod.search.Indexer;
-import pt.ist.socialsoftware.edition.ldod.topicmodeling.TopicModeler;
 
 public class ExpertEditionInter extends ExpertEditionInter_Base {
 	public ExpertEditionInter() {
@@ -22,23 +16,25 @@ public class ExpertEditionInter extends ExpertEditionInter_Base {
 
 		String externalId = getExternalId();
 
-		for (VirtualEditionInter inter : getIsUsedByDepthSet()) {
-			// it is necessary to remove all interpretations that use the expert
-			// interpretation
-			inter.remove();
-		}
+		//		TODO REMOVE VIRTUAL RELATIONS
+//		for (VirtualEditionInter inter : getIsUsedByDepthSet()) {
+//			// it is necessary to remove all interpretations that use the expert
+//			// interpretation
+//			inter.remove();
+//		}
 
 		super.remove();
 
+		//		TODO Search not separated
 		// remove from Lucene
-		List<String> externalIds = new ArrayList<>();
-		externalIds.add(externalId);
-		Indexer indexer = Indexer.getIndexer();
-		indexer.cleanMissingHits(externalIds);
-
-		// remove from mallet directory
-		TopicModeler topicModeler = new TopicModeler();
-		topicModeler.deleteFile(externalId);
+//		List<String> externalIds = new ArrayList<>();
+//		externalIds.add(externalId);
+//		Indexer indexer = Indexer.getIndexer();
+//		indexer.cleanMissingHits(externalIds);
+//
+//		// remove from mallet directory
+//		TopicModeler topicModeler = new TopicModeler();
+//		topicModeler.deleteFile(externalId);
 	}
 
 	@Override
@@ -121,11 +117,6 @@ public class ExpertEditionInter extends ExpertEditionInter_Base {
 	}
 
 	@Override
-	public FragInter getLastUsed() {
-		return this;
-	}
-
-	@Override
 	public Edition getEdition() {
 		return getExpertEdition();
 	}
@@ -141,35 +132,8 @@ public class ExpertEditionInter extends ExpertEditionInter_Base {
 		return Integer.toString(getNumber());
 	}
 
-	@Override
-	public Set<Category> getAllDepthCategories() {
-		return new HashSet<>();
-	}
-
-	@Override
-	public Set<HumanAnnotation> getAllDepthHumanAnnotations() {
-		return new HashSet<>();
-	}
-	
-	//solução para suportar os dois tipos de annotations
-	@Override
-	public Set<Annotation> getAllDepthAnnotations() {
-		return new HashSet<>();
-	}
-	
-	
-	@Override
-	public Set<Tag> getAllDepthTags() {
-		return new HashSet<>();
-	}
-
 	public String getCompleteNumber() {
 		return Integer.toString(getNumber()) + (!getSubNumber().equals("") ? "-" + getSubNumber() : getSubNumber());
-	}
-
-	@Override
-	public int getUsesDepth() {
-		return 0;
 	}
 
 }

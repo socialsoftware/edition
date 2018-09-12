@@ -1,18 +1,11 @@
 package pt.ist.socialsoftware.edition.text.generators;
 
-import pt.ist.socialsoftware.edition.text.domain.AppText;
-import pt.ist.socialsoftware.edition.text.domain.TextPortion;
-import pt.ist.socialsoftware.edition.text.domain.FragInter;
-import pt.ist.socialsoftware.edition.text.domain.RdgGrpText;
+import pt.ist.socialsoftware.edition.text.domain.*;
 
 public class HtmlWriter4Variations extends PlainHtmlWriter4OneInter {
 
 	public String getAppTranscription(AppText appText) {
 		this.transcription = "";
-
-		if (this.fragInter.getLastUsed() != this.fragInter) {
-			this.fragInter = this.fragInter.getLastUsed();
-		}
 
 		if (!appText.getType().equals(TextPortion.VariationType.UNSPECIFIED)) {
 			this.transcription = this.transcription + "(" + generateType(appText.getType()) + ") ";
@@ -23,8 +16,8 @@ public class HtmlWriter4Variations extends PlainHtmlWriter4OneInter {
 		return this.transcription;
 	}
 
-	public HtmlWriter4Variations(FragInter fragInter) {
-		super(fragInter);
+	public HtmlWriter4Variations(ScholarInter scholarInter) {
+		super(scholarInter);
 		this.highlightDiff = false;
 		this.displayDel = true;
 		this.highlightIns = true;

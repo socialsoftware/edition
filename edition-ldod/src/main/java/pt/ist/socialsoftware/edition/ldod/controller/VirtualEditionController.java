@@ -19,10 +19,11 @@ import pt.ist.socialsoftware.edition.ldod.dto.*;
 import pt.ist.socialsoftware.edition.ldod.security.LdoDUserDetails;
 import pt.ist.socialsoftware.edition.ldod.session.LdoDSession;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDCreateVirtualEditionException;
+import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDDuplicateNameException;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDEditVirtualEditionException;
 import pt.ist.socialsoftware.edition.text.shared.exception.*;
 import pt.ist.socialsoftware.edition.ldod.topicmodeling.TopicModeler;
-import pt.ist.socialsoftware.edition.ldod.utils.PropertiesManager;
+import pt.ist.socialsoftware.edition.text.utils.PropertiesManager;
 import pt.ist.socialsoftware.edition.ldod.utils.TopicListDTO;
 import pt.ist.socialsoftware.edition.ldod.validator.VirtualEditionValidator;
 import pt.ist.socialsoftware.edition.text.domain.CollectionManager;
@@ -265,7 +266,8 @@ public class VirtualEditionController {
 			String intersFilesPath = PropertiesManager.getProperties().getProperty("inters.dir");
 			List<FragmentDTO> fragments = new ArrayList<>();
 
-			for (FragInter inter : virtualEdition.getIntersSet()) {
+			virtualEdition.getIntersSet().stream()
+					.map(VirtualEditionInter.class::cast).collect(Collectors.toList()).forEach(inter->{
 				FragInter lastInter = inter.getLastUsed();
 				String text;
 				try {
@@ -280,8 +282,7 @@ public class VirtualEditionController {
 				fragment.setText(text);
 
 				fragments.add(fragment);
-
-			}
+			});
 
 			editionFragments.setFragments(fragments);
 
@@ -303,7 +304,8 @@ public class VirtualEditionController {
 			String intersFilesPath = PropertiesManager.getProperties().getProperty("inters.dir");
 			List<TranscriptionDTO> transcriptions = new ArrayList<>();
 
-			for (FragInter inter : virtualEdition.getIntersSet()) {
+			virtualEdition.getIntersSet().stream()
+					.map(VirtualEditionInter.class::cast).collect(Collectors.toList()).forEach(inter -> {
 				FragInter lastInter = inter.getLastUsed();
 				String title = lastInter.getTitle();
 				String text;
@@ -315,7 +317,7 @@ public class VirtualEditionController {
 				}
 
 				transcriptions.add(new TranscriptionDTO(title, text));
-			}
+			});
 
 			return new ResponseEntity<>(new EditionTranscriptionsDTO(transcriptions), HttpStatus.OK);
 		}

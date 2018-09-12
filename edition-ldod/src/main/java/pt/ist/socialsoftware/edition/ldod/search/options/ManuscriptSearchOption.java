@@ -1,4 +1,4 @@
-package pt.ist.socialsoftware.edition.text.search.options;
+package pt.ist.socialsoftware.edition.ldod.search.options;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

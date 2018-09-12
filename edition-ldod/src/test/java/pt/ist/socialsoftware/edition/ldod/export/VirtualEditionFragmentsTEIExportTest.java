@@ -47,11 +47,16 @@ public class VirtualEditionFragmentsTEIExportTest {
 				String fragmentTEI = export.exportFragment(fragment);
 				logger(fragmentTEI);
 
-				int numberOfInters = fragment.getVirtualEditionInters().size();
+				long numberOfInters = fragment
+						.getFragmentInterSet()
+						.stream()
+						.filter(VirtualEditionInter.class::isInstance)
+						.count();
 
-				for (VirtualEditionInter inter : fragment.getVirtualEditionInters()) {
+				fragment.getFragmentInterSet().stream().filter(VirtualEditionInter.class::isInstance).forEach(inter -> {
 					inter.remove();
-				}
+				});
+
 				fragment.getCitationSet().forEach(citation -> citation.remove());
 
 				VirtualEditionFragmentsTEIImport im = new VirtualEditionFragmentsTEIImport();
@@ -59,7 +64,11 @@ public class VirtualEditionFragmentsTEIExportTest {
 
 				System.out.println(export.exportFragment(fragment));
 
-				assertEquals(numberOfInters, fragment.getVirtualEditionInters().size());
+				assertEquals(numberOfInters, fragment
+						.getFragmentInterSet()
+						.stream()
+						.filter(VirtualEditionInter.class::isInstance)
+						.count());
 
 				assertEquals(Arrays.stream(fragmentTEI.split("\\r?\\n")).sorted().collect(Collectors.joining("\\n")),
 						Arrays.stream(export.exportFragment(fragment).split("\\r?\\n")).sorted()
@@ -79,7 +88,11 @@ public class VirtualEditionFragmentsTEIExportTest {
 
 		// Saving value for assert
 		int numOfCitations = fragment.getCitationSet().size();
-		int numberOfInters = fragment.getVirtualEditionInters().size();
+		long numberOfInters = fragment
+				.getFragmentInterSet()
+				.stream()
+				.filter(VirtualEditionInter.class::isInstance)
+				.count();
 
 		int numOfInfoRanges = 0;
 		for (FragInter fragInter : fragment.getFragmentInterSet()) {
@@ -101,9 +114,10 @@ public class VirtualEditionFragmentsTEIExportTest {
 		assertEquals(numOfInfoRanges, altNumOfInfoRanges);
 
 		// Clean
-		for (VirtualEditionInter inter : fragment.getVirtualEditionInters()) {
+		fragment.getFragmentInterSet().stream().filter(VirtualEditionInter.class::isInstance).forEach(inter -> {
 			inter.remove();
-		}
+		});
+
 		fragment.getCitationSet().forEach(citation -> citation.remove());
 
 		// Import
@@ -113,7 +127,11 @@ public class VirtualEditionFragmentsTEIExportTest {
 		System.out.println(export.exportFragment(fragment));
 
 		assertEquals(numOfCitations, fragment.getCitationSet().size());
-		assertEquals(numberOfInters, fragment.getVirtualEditionInters().size());
+		assertEquals(numberOfInters, fragment
+				.getFragmentInterSet()
+				.stream()
+				.filter(VirtualEditionInter.class::isInstance)
+				.count());
 		int numOfInfoRangesAfterImport = 0;
 		for (FragInter fragInter : fragment.getFragmentInterSet()) {
 			numOfInfoRangesAfterImport += fragInter.getInfoRangeSet().size();

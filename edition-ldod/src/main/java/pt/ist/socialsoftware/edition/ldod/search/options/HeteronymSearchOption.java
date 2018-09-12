@@ -1,4 +1,4 @@
-package pt.ist.socialsoftware.edition.text.search.options;
+package pt.ist.socialsoftware.edition.ldod.search.options;
 
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -8,8 +8,8 @@ import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import pt.ist.socialsoftware.edition.text.domain.FragInter;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
+import pt.ist.socialsoftware.edition.text.domain.FragInter;
 
 public final class HeteronymSearchOption extends SearchOption {
 	private static Logger logger = LoggerFactory.getLogger(HeteronymSearchOption.class);

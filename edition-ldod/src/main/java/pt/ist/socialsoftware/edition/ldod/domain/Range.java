@@ -1,7 +1,5 @@
 package pt.ist.socialsoftware.edition.ldod.domain;
 
-import pt.ist.socialsoftware.edition.ldod.domain.Range_Base;
-
 public class Range extends Range_Base {
 
 	public Range(Annotation annotation, String start, int startOffset,

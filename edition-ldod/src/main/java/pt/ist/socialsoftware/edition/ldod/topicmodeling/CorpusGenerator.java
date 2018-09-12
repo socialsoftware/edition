@@ -7,9 +7,10 @@ import java.io.IOException;
 
 import pt.ist.socialsoftware.edition.text.domain.FragInter;
 import pt.ist.socialsoftware.edition.text.domain.Fragment;
+import pt.ist.socialsoftware.edition.text.domain.ScholarInter;
 import pt.ist.socialsoftware.edition.text.domain.SourceInter;
-import pt.ist.socialsoftware.edition.ldod.generators.PlainTextFragmentWriter;
-import pt.ist.socialsoftware.edition.ldod.utils.PropertiesManager;
+import pt.ist.socialsoftware.edition.text.generators.PlainTextFragmentWriter;
+import pt.ist.socialsoftware.edition.text.utils.PropertiesManager;
 
 public class CorpusGenerator {
 
@@ -54,7 +55,7 @@ public class CorpusGenerator {
 				file.delete();
 			}
 
-			PlainTextFragmentWriter writer = new PlainTextFragmentWriter(inter);
+			PlainTextFragmentWriter writer = new PlainTextFragmentWriter((ScholarInter) inter);
 			writer.write();
 
 			file = new File(intersDirectory, inter.getExternalId() + ".txt");

@@ -15,7 +15,9 @@
 	</h4>
 	<br>
 	<c:choose>
-		<c:when test="${inters.get(0).lastUsed.sourceType=='EDITORIAL'}">
+		<c:when test="${(inters.get(0).sourceType=='VIRTUAL' &&
+						inters.get(0).lastUsed.sourceType=='EDITORIAL') ||
+						inters.get(0).sourceType=='EDITORIAL' }">
 			<div class="well" style="font-family: georgia; font-size: medium;">
 				<p>${writer.getTranscription()}</p>
 			</div>

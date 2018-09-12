@@ -1,7 +1,5 @@
 package pt.ist.socialsoftware.edition.text.domain;
 
-import pt.ist.socialsoftware.edition.text.domain.VirtualEdition;
-import pt.ist.socialsoftware.edition.text.domain.VirtualManager;
 import pt.ist.socialsoftware.edition.text.shared.exception.LdoDDuplicateAcronymException;
 
 import java.util.ArrayList;
@@ -46,12 +44,6 @@ public abstract class Edition extends Edition_Base {
 				|| getAcronym() == null) {
 			for (ExpertEdition edition : CollectionManager.getInstance().getExpertEditionsSet()) {
 				if (acronym.toUpperCase().equals(edition.getAcronym().toUpperCase())) {
-					throw new LdoDDuplicateAcronymException();
-				}
-			}
-
-			for (VirtualEdition edition : VirtualManager.getInstance().getVirtualEditionsSet()) {
-				if (edition.getAcronym() != null && acronym.toUpperCase().equals(edition.getAcronym().toUpperCase())) {
 					throw new LdoDDuplicateAcronymException();
 				}
 			}

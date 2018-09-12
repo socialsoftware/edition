@@ -9,9 +9,8 @@ import org.joda.time.Period;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
-import pt.ist.socialsoftware.edition.ldod.domain.RegistrationToken_Base;
 import pt.ist.socialsoftware.edition.ldod.utils.Emailer;
-import pt.ist.socialsoftware.edition.ldod.utils.PropertiesManager;
+import pt.ist.socialsoftware.edition.text.utils.PropertiesManager;
 
 public class RegistrationToken extends RegistrationToken_Base {
 	private static final int EXPIRATION = 1440;

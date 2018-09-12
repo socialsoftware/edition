@@ -14,10 +14,10 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import pt.ist.socialsoftware.edition.text.domain.CollectionManager;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
-import pt.ist.socialsoftware.edition.text.exception.LdoDCreateVirtualEditionException;
-import pt.ist.socialsoftware.edition.text.exception.LdoDException;
-import pt.ist.socialsoftware.edition.text.exception.LdoDLoadException;
-import pt.ist.socialsoftware.edition.text.exception.LdoDEditVirtualEditionException;
+import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDCreateVirtualEditionException;
+import pt.ist.socialsoftware.edition.text.shared.exception.LdoDException;
+import pt.ist.socialsoftware.edition.text.shared.exception.LdoDLoadException;
+import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDEditVirtualEditionException;
 
 @EnableWebMvc
 @ControllerAdvice

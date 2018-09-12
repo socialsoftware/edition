@@ -1,4 +1,4 @@
-package pt.ist.socialsoftware.edition.ldod.utils;
+package pt.ist.socialsoftware.edition.text.utils;
 
 import java.io.IOException;
 import java.util.Properties;

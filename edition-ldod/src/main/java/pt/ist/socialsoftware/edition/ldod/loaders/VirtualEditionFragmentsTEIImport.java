@@ -23,7 +23,7 @@ import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualManager;
-import pt.ist.socialsoftware.edition.text.exception.LdoDLoadException;
+import pt.ist.socialsoftware.edition.text.shared.exception.LdoDLoadException;
 import pt.ist.socialsoftware.edition.ldod.utils.RangeJson;
 import pt.ist.socialsoftware.edition.text.domain.CollectionManager;
 import pt.ist.socialsoftware.edition.text.domain.FragInter;
@@ -237,7 +237,7 @@ public class VirtualEditionFragmentsTEIImport {
 
 		else if (note.getAttributeValue("type").equals("aware")) {
 			long tweetID = Long.parseLong(note.getAttributeValue("citationId"));
-			Citation citation = inter.getFragment().getCitationById(tweetID);
+			Citation citation = VirtualManager.getInstance().getTwitterCitationByTweetID(tweetID);
 			inter.createAwareAnnotation(quote, text, citation, rangeList);
 		}
 	}

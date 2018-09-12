@@ -40,14 +40,15 @@ import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.ldod.domain.Citation;
-import pt.ist.socialsoftware.edition.ldod.domain.FragInter;
-import pt.ist.socialsoftware.edition.ldod.domain.Fragment;
 import pt.ist.socialsoftware.edition.ldod.domain.InfoRange;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
 import pt.ist.socialsoftware.edition.ldod.domain.TwitterCitation;
-import pt.ist.socialsoftware.edition.ldod.generators.PlainHtmlWriter4OneInter;
+import pt.ist.socialsoftware.edition.ldod.domain.VirtualManager;
+import pt.ist.socialsoftware.edition.text.domain.FragInter;
+import pt.ist.socialsoftware.edition.text.domain.Fragment;
+import pt.ist.socialsoftware.edition.text.domain.ScholarInter;
+import pt.ist.socialsoftware.edition.text.generators.PlainHtmlWriter4OneInter;
 import pt.ist.socialsoftware.edition.ldod.search.IgnoreDiacriticsAnalyzer;
-import pt.ist.socialsoftware.edition.ldod.utils.PropertiesManager;
+import pt.ist.socialsoftware.edition.text.utils.PropertiesManager;
 
 public class CitationDetecter {
 
@@ -71,20 +72,20 @@ public class CitationDetecter {
 	public void detect() throws IOException {
 		logger.debug("STARTING CITATION DETECTER!!");
 		// resets last twitter IDs
-		LdoD.getInstance().getLastTwitterID().resetTwitterIDS();
+		VirtualManager.getInstance().getLastTwitterID().resetTwitterIDS();
 		citationDetection();
 		logger.debug("FINISHED DETECTING CITATIONS!!!");
 
 		// identify ranges
 		logger.debug("STARTED IDENTIFYING RANGES!!!");
 
-		for (Citation citation : LdoD.getInstance().getCitationSet()) {
+		for (Citation citation : VirtualManager.getInstance().getCitationSet()) {
 			if (citation.getInfoRangeSet().isEmpty()) {
 				Fragment citationFragment = citation.getFragment();
-				Set<FragInter> inters = new HashSet<FragInter>(citationFragment.getFragmentInterSet());
-				inters.removeAll(citationFragment.getVirtualEditionInters());
+				Set<ScholarInter> inters = new HashSet<>(citationFragment.getFragmentInterSet().stream()
+                .filter(ScholarInter.class::isInstance).map(ScholarInter.class::cast).collect(Collectors.toList()));
 
-				for (FragInter inter : inters) {
+				for (ScholarInter inter : inters) {
 					createInfoRange(inter, citation);
 				}
 			}
@@ -92,7 +93,7 @@ public class CitationDetecter {
 		logger.debug("FINISHED IDENTIFYING RANGES!!!");
 	}
 
-	private void createInfoRange(FragInter inter, Citation citation) {
+	private void createInfoRange(ScholarInter inter, Citation citation) {
 		String htmlTransc = getHtmlTransc(inter);
 
 		if (citation instanceof TwitterCitation) {
@@ -132,7 +133,7 @@ public class CitationDetecter {
 		return infoText;
 	}
 
-	private String getHtmlTransc(FragInter inter) {
+	private String getHtmlTransc(ScholarInter inter) {
 		PlainHtmlWriter4OneInter htmlWriter = new PlainHtmlWriter4OneInter(inter);
 		htmlWriter.write(false);
 		String htmlTransc = htmlWriter.getTranscription();
@@ -268,16 +269,16 @@ public class CitationDetecter {
 				// LdoD.getInstance().getLastTwitterID()
 				// pq é preciso darmos set na base de dados do valor antes do while, pq vem logo
 				// na primeira linha
-				long tempMaxID = LdoD.getInstance().getLastTwitterID().getLastTwitterID(fileEntry.getName());
+				long tempMaxID = VirtualManager.getInstance().getLastTwitterID().getLastTwitterID(fileEntry.getName());
 
 				int lineNum = 0;
 				while ((line = bufferedReader.readLine()) != null) {
 					obj = (JSONObject) new JSONParser().parse(line);
 
 					if (lineNum == 0) {
-						if ((long) obj.get("tweetID") > LdoD.getInstance().getLastTwitterID()
+						if ((long) obj.get("tweetID") > VirtualManager.getInstance().getLastTwitterID()
 								.getLastTwitterID(fileEntry.getName())) {
-							LdoD.getInstance().getLastTwitterID().updateLastTwitterID(fileEntry.getName(),
+							VirtualManager.getInstance().getLastTwitterID().updateLastTwitterID(fileEntry.getName(),
 									(long) obj.get("tweetID"));
 						}
 					}
@@ -309,10 +310,10 @@ public class CitationDetecter {
 				e.printStackTrace();
 			}
 		}
-		logger.debug("LdoD BookLastTwitterID:{}", LdoD.getInstance().getLastTwitterID().getBookLastTwitterID());
-		logger.debug("LdoD BernardoLastTwitterID:{}", LdoD.getInstance().getLastTwitterID().getBernardoLastTwitterID());
-		logger.debug("LdoD VicenteLastTwitterID:{}", LdoD.getInstance().getLastTwitterID().getVicenteLastTwitterID());
-		logger.debug("LdoD PessoaLastTwitterID:{}", LdoD.getInstance().getLastTwitterID().getPessoaLastTwitterID());
+		logger.debug("LdoD BookLastTwitterID:{}", VirtualManager.getInstance().getLastTwitterID().getBookLastTwitterID());
+		logger.debug("LdoD BernardoLastTwitterID:{}", VirtualManager.getInstance().getLastTwitterID().getBernardoLastTwitterID());
+		logger.debug("LdoD VicenteLastTwitterID:{}", VirtualManager.getInstance().getLastTwitterID().getVicenteLastTwitterID());
+		logger.debug("LdoD PessoaLastTwitterID:{}", VirtualManager.getInstance().getLastTwitterID().getPessoaLastTwitterID());
 
 	}
 
@@ -342,7 +343,7 @@ public class CitationDetecter {
 					// FetchCitationsFromTwitter class
 					// check if twitter ID already exists in the list of Citations
 					// if it does idExists=true, therefore we don't create a citation for it!
-					Set<TwitterCitation> allTwitterCitations = LdoD.getInstance().getCitationSet().stream()
+					Set<TwitterCitation> allTwitterCitations = VirtualManager.getInstance().getCitationSet().stream()
 							.filter(TwitterCitation.class::isInstance).map(TwitterCitation.class::cast)
 							.collect(Collectors.toSet());
 					boolean twitterIDExists = false;

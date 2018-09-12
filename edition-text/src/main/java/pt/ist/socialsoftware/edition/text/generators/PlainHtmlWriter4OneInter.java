@@ -5,31 +5,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import pt.ist.socialsoftware.edition.text.domain.AddText;
-import pt.ist.socialsoftware.edition.text.domain.AltText;
-import pt.ist.socialsoftware.edition.text.domain.AnnexNote;
-import pt.ist.socialsoftware.edition.text.domain.AppText;
-import pt.ist.socialsoftware.edition.text.domain.DelText;
-import pt.ist.socialsoftware.edition.text.domain.FragInter;
-import pt.ist.socialsoftware.edition.text.domain.GapText;
-import pt.ist.socialsoftware.edition.text.domain.LbText;
-import pt.ist.socialsoftware.edition.text.domain.NoteText;
-import pt.ist.socialsoftware.edition.text.domain.ParagraphText;
-import pt.ist.socialsoftware.edition.text.domain.PbText;
-import pt.ist.socialsoftware.edition.text.domain.RdgGrpText;
-import pt.ist.socialsoftware.edition.text.domain.RdgText;
-import pt.ist.socialsoftware.edition.text.domain.RefText;
-import pt.ist.socialsoftware.edition.text.domain.Rend;
-import pt.ist.socialsoftware.edition.text.domain.SegText;
-import pt.ist.socialsoftware.edition.text.domain.SimpleText;
-import pt.ist.socialsoftware.edition.text.domain.SourceInter;
-import pt.ist.socialsoftware.edition.text.domain.SpaceText;
-import pt.ist.socialsoftware.edition.text.domain.SubstText;
-import pt.ist.socialsoftware.edition.text.domain.UnclearText;
+import pt.ist.socialsoftware.edition.text.domain.*;
 import pt.ist.socialsoftware.edition.text.domain.SpaceText.SpaceDim;
 
 public class PlainHtmlWriter4OneInter implements TextPortionVisitor {
-	protected FragInter fragInter = null;
+	protected ScholarInter scholarInter = null;
 	protected String transcription = "";
 
 	private void append2Transcription(String generated) {
@@ -55,25 +35,22 @@ public class PlainHtmlWriter4OneInter implements TextPortionVisitor {
 		return transcription;
 	}
 
-	public Integer getInterPercentage(FragInter inter) {
+	public Integer getInterPercentage(ScholarInter inter) {
 		return (interpsChar.get(inter) * 100) / totalChar;
 	}
 
-	public PlainHtmlWriter4OneInter(FragInter fragInter) {
-		this.fragInter = fragInter;
+	public PlainHtmlWriter4OneInter(ScholarInter scholarInter) {
+		this.scholarInter = scholarInter;
 		transcription = "";
 
-		for (FragInter inter : fragInter.getFragment().getFragmentInterSet()) {
+		for (FragInter inter : scholarInter.getFragment().getFragmentInterSet()) {
 			interpsChar.put(inter, 0);
 		}
 	}
 
 	public void write(Boolean highlightDiff) {
 		this.highlightDiff = highlightDiff;
-		if (fragInter.getLastUsed() != fragInter) {
-			fragInter = fragInter.getLastUsed();
-		}
-		visit((AppText) fragInter.getFragment().getTextPortion());
+		visit((AppText) scholarInter.getFragment().getTextPortion());
 	}
 
 	public void write(Boolean highlightDiff, Boolean displayDel, Boolean highlightIns, Boolean highlightSubst,
@@ -83,9 +60,6 @@ public class PlainHtmlWriter4OneInter implements TextPortionVisitor {
 		this.highlightIns = highlightIns;
 		this.highlightSubst = highlightSubst;
 		this.showNotes = showNotes;
-		if (fragInter.getLastUsed() != fragInter) {
-			fragInter = fragInter.getLastUsed();
-		}
 
 		if (showFacs) {
 
@@ -94,11 +68,11 @@ public class PlainHtmlWriter4OneInter implements TextPortionVisitor {
 				generate = false;
 			}
 
-			stopPbText = ((SourceInter) fragInter).getNextPbText(startPbText);
+			stopPbText = ((SourceInter) scholarInter).getNextPbText(startPbText);
 
 		}
 
-		visit((AppText) fragInter.getFragment().getTextPortion());
+		visit((AppText) scholarInter.getFragment().getTextPortion());
 	}
 
 	@Override
@@ -110,7 +84,7 @@ public class PlainHtmlWriter4OneInter implements TextPortionVisitor {
 
 	@Override
 	public void visit(RdgGrpText rdgGrpText) {
-		if (rdgGrpText.getInterps().contains(this.fragInter)) {
+		if (rdgGrpText.getInterps().contains(this.scholarInter)) {
 			propagate2FirstChild(rdgGrpText);
 		}
 
@@ -119,22 +93,22 @@ public class PlainHtmlWriter4OneInter implements TextPortionVisitor {
 
 	@Override
 	public void visit(RdgText rdgText) {
-		if (rdgText.getInterps().contains(this.fragInter)) {
+		if (rdgText.getInterps().contains(this.scholarInter)) {
 
 			Boolean color = false;
 			if (highlightDiff) {
-				int size = fragInter.getFragment().getFragmentInterSet().size();
+				int size = scholarInter.getFragment().getFragmentInterSet().size();
 				if (rdgText.getInterps().size() < size) {
 					color = true;
 					int colorValue = 255 - (255 / size) * (size - rdgText.getInterps().size() - 1);
 					String colorCode = "<span style=\"background-color: rgb(0," + colorValue + ",255);\">";
 
-					append2Transcription(rdgText.writeSeparator(displayDel, highlightSubst, fragInter) + colorCode);
+					append2Transcription(rdgText.writeSeparator(displayDel, highlightSubst, scholarInter) + colorCode);
 				}
 			}
 
 			if (!color) {
-				append2Transcription(rdgText.writeSeparator(displayDel, highlightSubst, fragInter));
+				append2Transcription(rdgText.writeSeparator(displayDel, highlightSubst, scholarInter));
 			}
 
 			propagate2FirstChild(rdgText);
@@ -172,7 +146,7 @@ public class PlainHtmlWriter4OneInter implements TextPortionVisitor {
 					+ segText.getAltTextWeight().getWeight() + "\">";
 		}
 
-		append2Transcription(segText.writeSeparator(displayDel, highlightSubst, fragInter) + preRend + altRend);
+		append2Transcription(segText.writeSeparator(displayDel, highlightSubst, scholarInter) + preRend + altRend);
 
 		propagate2FirstChild(segText);
 
@@ -202,14 +176,14 @@ public class PlainHtmlWriter4OneInter implements TextPortionVisitor {
 			interpsChar.put(inter, number);
 		}
 
-		append2Transcription(simpleText.writeSeparator(displayDel, highlightSubst, fragInter) + value);
+		append2Transcription(simpleText.writeSeparator(displayDel, highlightSubst, scholarInter) + value);
 
 		propagate2NextSibling(simpleText);
 	}
 
 	@Override
 	public void visit(LbText lbText) {
-		if (lbText.getInterps().contains(fragInter)) {
+		if (lbText.getInterps().contains(scholarInter)) {
 			String hyphen = "";
 			if (lbText.getHyphenated()) {
 				hyphen = "-";
@@ -223,7 +197,7 @@ public class PlainHtmlWriter4OneInter implements TextPortionVisitor {
 
 	@Override
 	public void visit(PbText pbText) {
-		if (pbText.getInterps().contains(fragInter)) {
+		if (pbText.getInterps().contains(scholarInter)) {
 			if ((startPbText != pbText) && (stopPbText != pbText)) {
 				append2Transcription("<hr size=\"8\" color=\"black\">");
 			}
@@ -300,10 +274,10 @@ public class PlainHtmlWriter4OneInter implements TextPortionVisitor {
 				insertSymbol = "<abbr title=\"" + addText.getNote() + "\">" + insertSymbol + "</abbr>";
 			}
 
-			append2Transcription(addText.writeSeparator(displayDel, highlightSubst, fragInter) + preRendition
+			append2Transcription(addText.writeSeparator(displayDel, highlightSubst, scholarInter) + preRendition
 					+ prePlaceFormat + insertSymbol);
 		} else {
-			append2Transcription(addText.writeSeparator(displayDel, highlightSubst, fragInter));
+			append2Transcription(addText.writeSeparator(displayDel, highlightSubst, scholarInter));
 		}
 
 		propagate2FirstChild(addText);
@@ -318,7 +292,7 @@ public class PlainHtmlWriter4OneInter implements TextPortionVisitor {
 	@Override
 	public void visit(DelText delText) {
 		if (displayDel) {
-			append2Transcription(delText.writeSeparator(displayDel, highlightSubst, fragInter)
+			append2Transcription(delText.writeSeparator(displayDel, highlightSubst, scholarInter)
 					+ "<del><span style=\"color: rgb(128,128,128);\">");
 			if (showNotes) {
 				append2Transcription("<abbr title=\"" + delText.getNote() + "\">");
@@ -339,7 +313,7 @@ public class PlainHtmlWriter4OneInter implements TextPortionVisitor {
 	@Override
 	public void visit(SubstText substText) {
 		if (displayDel && highlightSubst) {
-			append2Transcription(substText.writeSeparator(displayDel, highlightSubst, fragInter)
+			append2Transcription(substText.writeSeparator(displayDel, highlightSubst, scholarInter)
 					+ "<span style=\"color: rgb(0,0,255);\">[</span>");
 		}
 
@@ -363,7 +337,7 @@ public class PlainHtmlWriter4OneInter implements TextPortionVisitor {
 			interpsChar.put(inter, number);
 		}
 
-		append2Transcription(gapText.writeSeparator(displayDel, highlightSubst, fragInter) + "<abbr title=\""
+		append2Transcription(gapText.writeSeparator(displayDel, highlightSubst, scholarInter) + "<abbr title=\""
 				+ gapText.getReason().getDesc() + ", " + gapText.getExtent() + " " + gapText.getUnit() + "\">"
 				+ gapValue + "</abbr>");
 
@@ -372,7 +346,7 @@ public class PlainHtmlWriter4OneInter implements TextPortionVisitor {
 
 	@Override
 	public void visit(UnclearText unclearText) {
-		append2Transcription(unclearText.writeSeparator(displayDel, highlightSubst, fragInter)
+		append2Transcription(unclearText.writeSeparator(displayDel, highlightSubst, scholarInter)
 				+ "<span style=\"text-shadow: black 0.0em 0.0em 0.1em; -webkit-filter: blur(0.005em);\">"
 				+ "<abbr title=\"" + unclearText.getReason().getDesc() + "\">");
 
@@ -391,7 +365,7 @@ public class PlainHtmlWriter4OneInter implements TextPortionVisitor {
 
 		int number = 0;
 		for (AnnexNote annexNote : noteText.getAnnexNoteSet()) {
-			if (annexNote.getFragInter() == fragInter) {
+			if (annexNote.getFragInter() == this.scholarInter) {
 				number = annexNote.getNumber();
 			}
 		}

@@ -1,4 +1,4 @@
-package pt.ist.socialsoftware.edition.text.search;
+package pt.ist.socialsoftware.edition.ldod.search;
 
 import java.io.File;
 import java.io.IOException;
@@ -40,6 +40,7 @@ import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import pt.ist.socialsoftware.edition.text.domain.ScholarInter;
 import pt.ist.socialsoftware.edition.text.shared.exception.LdoDException;
 import pt.ist.socialsoftware.edition.text.domain.FragInter;
 import pt.ist.socialsoftware.edition.text.domain.Fragment;
@@ -77,7 +78,7 @@ public class Indexer {
 		this.indexWriterConfig = new IndexWriterConfig(this.analyzer);
 	}
 
-	public void addDocument(FragInter inter) throws IOException {
+	public void addDocument(ScholarInter inter) throws IOException {
 		// IndexWriterConfig config = new IndexWriterConfig(Version.LATEST,
 		// analyzer);
 		Directory directory = new NIOFSDirectory(this.docDir);

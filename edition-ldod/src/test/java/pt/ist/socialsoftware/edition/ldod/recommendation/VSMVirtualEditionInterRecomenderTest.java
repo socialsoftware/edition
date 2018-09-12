@@ -69,7 +69,7 @@ public class VSMVirtualEditionInterRecomenderTest {
 	public void testGetMostSimilarItemForHeteronym() {
 		VirtualEditionInter virtualEditionInter = null;
 		for (FragInter inter : virtualEdition.getIntersSet()) {
-			if (inter.getLastUsed().getHeteronym() != null) {
+			if (((VirtualEditionInter) inter).getLastUsed().getHeteronym() != null) {
 				virtualEditionInter = (VirtualEditionInter) inter;
 				break;
 			}
@@ -89,7 +89,7 @@ public class VSMVirtualEditionInterRecomenderTest {
 	public void testGetMostSimilarItemForNoHeteronym() {
 		VirtualEditionInter virtualEditionInter = null;
 		for (FragInter inter : virtualEdition.getIntersSet()) {
-			if (inter.getLastUsed().getHeteronym() == NullHeteronym.getNullHeteronym()) {
+			if (((VirtualEditionInter) inter).getLastUsed().getHeteronym() == NullHeteronym.getNullHeteronym()) {
 				virtualEditionInter = (VirtualEditionInter) inter;
 				break;
 			}
@@ -109,8 +109,8 @@ public class VSMVirtualEditionInterRecomenderTest {
 	public void testGetMostSimilarItemForDate() {
 		VirtualEditionInter virtualEditionInter = null;
 		for (FragInter inter : virtualEdition.getIntersSet()) {
-			if (inter.getLastUsed().getLdoDDate() != null
-					&& inter.getLastUsed().getLdoDDate().getDate().getYear() == 1929) {
+			if (((VirtualEditionInter) inter).getLastUsed().getLdoDDate() != null
+					&& ((VirtualEditionInter) inter).getLastUsed().getLdoDDate().getDate().getYear() == 1929) {
 				virtualEditionInter = (VirtualEditionInter) inter;
 				break;
 			}
@@ -131,7 +131,7 @@ public class VSMVirtualEditionInterRecomenderTest {
 	public void testGetMostSimilarItemForNoDate() {
 		VirtualEditionInter virtualEditionInter = null;
 		for (FragInter inter : virtualEdition.getIntersSet()) {
-			if (inter.getLastUsed().getLdoDDate() == null) {
+			if (((VirtualEditionInter) inter).getLastUsed().getLdoDDate() == null) {
 				virtualEditionInter = (VirtualEditionInter) inter;
 				break;
 			}

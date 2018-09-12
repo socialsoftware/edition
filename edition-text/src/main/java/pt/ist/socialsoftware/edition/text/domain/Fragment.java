@@ -9,7 +9,6 @@ import java.util.stream.Collectors;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
-import pt.ist.socialsoftware.edition.ldod.domain.*;
 
 public class Fragment extends Fragment_Base implements Comparable<Fragment> {
 	public enum PrecisionType {
@@ -38,10 +37,11 @@ public class Fragment extends Fragment_Base implements Comparable<Fragment> {
 
 		getTextPortion().remove();
 
+		//		TODO REMOVE VIRTUAL RELATIONS
 		// remove virtual edition interpretations first
-		for (VirtualEditionInter inter : getVirtualEditionInters()) {
-			inter.remove();
-		}
+//		for (VirtualEditionInter inter : getVirtualEditionInters()) {
+//			inter.remove();
+//		}
 
 		for (FragInter inter : getFragmentInterSet()) {
 			inter.remove();
@@ -56,7 +56,8 @@ public class Fragment extends Fragment_Base implements Comparable<Fragment> {
 			ref.remove();
 		}
 
-		getCitationSet().stream().forEach(c -> c.remove());
+		//		TODO REMOVE VIRTUAL RELATIONS
+//		getCitationSet().stream().forEach(c -> c.remove());
 
 		deleteDomainObject();
 	}
@@ -92,16 +93,6 @@ public class Fragment extends Fragment_Base implements Comparable<Fragment> {
 		for (FragInter inter : getFragmentInterSet()) {
 			if (inter.getEdition() == expertEdition) {
 				result.add((ExpertEditionInter) inter);
-			}
-		}
-		return result;
-	}
-
-	public Set<VirtualEditionInter> getVirtualEditionInters() {
-		Set<VirtualEditionInter> result = new HashSet<>();
-		for (FragInter inter : getFragmentInterSet()) {
-			if (inter instanceof VirtualEditionInter) {
-				result.add((VirtualEditionInter) inter);
 			}
 		}
 		return result;
@@ -160,7 +151,4 @@ public class Fragment extends Fragment_Base implements Comparable<Fragment> {
 		return this.getXmlId().compareTo(fragment.getXmlId());
 	}
 
-	public Citation getCitationById(long id) {
-		return getCitationSet().stream().filter(citation -> citation.getId() == id).findFirst().orElse(null);
-	}
 }

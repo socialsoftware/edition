@@ -8,8 +8,8 @@ import java.util.stream.Collectors;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
-import pt.ist.socialsoftware.edition.text.exception.LdoDDuplicateNameException;
-import pt.ist.socialsoftware.edition.text.exception.LdoDException;
+import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDDuplicateNameException;
+import pt.ist.socialsoftware.edition.text.shared.exception.LdoDException;
 
 public class Category extends Category_Base implements Comparable<Category> {
 

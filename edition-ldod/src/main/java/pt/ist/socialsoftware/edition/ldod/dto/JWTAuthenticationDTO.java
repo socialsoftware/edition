@@ -1,7 +1,7 @@
 package pt.ist.socialsoftware.edition.ldod.dto;
 
 
-import pt.ist.socialsoftware.edition.ldod.utils.PropertiesManager;
+import pt.ist.socialsoftware.edition.text.utils.PropertiesManager;
 
 public class JWTAuthenticationDTO {
 	private String accessToken;

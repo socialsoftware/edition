@@ -27,14 +27,13 @@ import pt.ist.socialsoftware.edition.ldod.topicmodeling.TopicModeler;
 import pt.ist.socialsoftware.edition.ldod.domain.Role.RoleType;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.ldod.recommendation.VSMFragmentRecommender;
-import pt.ist.socialsoftware.edition.ldod.recommendation.properties.DateProperty;
 import pt.ist.socialsoftware.edition.ldod.recommendation.properties.HeteronymProperty;
-import pt.ist.socialsoftware.edition.ldod.recommendation.properties.Property;
 import pt.ist.socialsoftware.edition.ldod.recommendation.properties.TaxonomyProperty;
 import pt.ist.socialsoftware.edition.ldod.recommendation.properties.TextProperty;
 import pt.ist.socialsoftware.edition.text.domain.CollectionManager;
 import pt.ist.socialsoftware.edition.text.domain.Edition;
 import pt.ist.socialsoftware.edition.text.domain.Fragment;
+import pt.ist.socialsoftware.edition.text.utils.PropertiesManager;
 
 /**
  * @author ars
@@ -67,12 +66,15 @@ public class Bootstrap implements WebApplicationInitializer {
 			cleanIntersRepository();
 			cleanTopicModeler();
 			cleanLucene();
-			createUsersAndRoles();
-			createVirtualEditionsForTest();
+		}
+
+		if (VirtualManager.getInstance() == null) {
+			new VirtualManager();
 			createLdoDArchiveVirtualEdition();
-		} else {
+			createVirtualEditionsForTest();
 			loadRecommendationCache();
 		}
+
 	}
 
 	public static void cleanCorpusRepository() {

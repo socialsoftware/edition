@@ -13,6 +13,10 @@ import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.text.domain.CollectionManager;
 import pt.ist.socialsoftware.edition.text.domain.Fragment;
 
+import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+
 public class VirtualEditionFragmentsTEIExport {
 	Namespace xmlns = Namespace.getNamespace("http://www.tei-c.org/ns/1.0");
 
@@ -47,20 +51,22 @@ public class VirtualEditionFragmentsTEIExport {
 		id = new Attribute("id", fragment.getXmlId() + ".WIT.ED.VIRT", Namespace.XML_NAMESPACE);
 		witnesses.setAttribute(id);
 		sourceDesc.addContent(witnesses);
-		for (VirtualEditionInter virtualEditionInter : fragment.getVirtualEditionInters()) {
-			exportVirtualEditionInterWitness(witnesses, virtualEditionInter);
-		}
+
+		fragment.getFragmentInterSet().stream().filter(VirtualEditionInter.class::isInstance).forEach(virtualEditionInter -> {
+				exportVirtualEditionInterWitness(witnesses, (VirtualEditionInter) virtualEditionInter);
+		});
 
 		Element profileDesc = new Element("profileDesc", this.xmlns);
 		teiHeader.addContent(profileDesc);
-		for (VirtualEditionInter virtualEditionInter : fragment.getVirtualEditionInters()) {
-			Element textClass = new Element("textClass", this.xmlns);
+
+		fragment.getFragmentInterSet().stream().filter(VirtualEditionInter.class::isInstance).forEach(virtualEditionInter -> {
+					Element textClass = new Element("textClass", this.xmlns);
 			textClass.setAttribute("source", "#" + virtualEditionInter.getXmlId());
 			profileDesc.addContent(textClass);
 
-			exportVirtualEditionInterTags(textClass, virtualEditionInter);
-			exportVirtualEditionInterAnnotations(textClass, virtualEditionInter);
-		}
+			exportVirtualEditionInterTags(textClass, (VirtualEditionInter) virtualEditionInter);
+			exportVirtualEditionInterAnnotations(textClass, (VirtualEditionInter) virtualEditionInter);
+		});
 
 		// TODO - done, inclui set de tweets e export de info ranges de cada citação
 		exportFragmentCitations(teiHeader, fragment);

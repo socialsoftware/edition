@@ -1,27 +1,10 @@
 package pt.ist.socialsoftware.edition.text.generators;
 
-import pt.ist.socialsoftware.edition.text.domain.AddText;
-import pt.ist.socialsoftware.edition.text.domain.AltText;
-import pt.ist.socialsoftware.edition.text.domain.AppText;
-import pt.ist.socialsoftware.edition.text.domain.DelText;
-import pt.ist.socialsoftware.edition.text.domain.FragInter;
-import pt.ist.socialsoftware.edition.text.domain.GapText;
-import pt.ist.socialsoftware.edition.text.domain.LbText;
-import pt.ist.socialsoftware.edition.text.domain.NoteText;
-import pt.ist.socialsoftware.edition.text.domain.ParagraphText;
-import pt.ist.socialsoftware.edition.text.domain.PbText;
-import pt.ist.socialsoftware.edition.text.domain.RdgGrpText;
-import pt.ist.socialsoftware.edition.text.domain.RdgText;
-import pt.ist.socialsoftware.edition.text.domain.RefText;
-import pt.ist.socialsoftware.edition.text.domain.SegText;
-import pt.ist.socialsoftware.edition.text.domain.SimpleText;
-import pt.ist.socialsoftware.edition.text.domain.SpaceText;
-import pt.ist.socialsoftware.edition.text.domain.SubstText;
-import pt.ist.socialsoftware.edition.text.domain.UnclearText;
+import pt.ist.socialsoftware.edition.text.domain.*;
 
 public class PlainTextFragmentWriter implements TextPortionVisitor {
 
-	protected FragInter fragInter = null;
+	protected ScholarInter scholarInter = null;
 	protected String transcription = "";
 
 	private void append2Transcription(String generated) {
@@ -32,16 +15,13 @@ public class PlainTextFragmentWriter implements TextPortionVisitor {
 		return transcription;
 	}
 
-	public PlainTextFragmentWriter(FragInter fragInter) {
-		this.fragInter = fragInter;
+	public PlainTextFragmentWriter(ScholarInter scholarInter) {
+		this.scholarInter = scholarInter;
 		transcription = "";
 	}
 
 	public void write() {
-		if (fragInter.getLastUsed() != fragInter) {
-			fragInter = fragInter.getLastUsed();
-		}
-		visit((AppText) fragInter.getFragment().getTextPortion());
+		visit((AppText) scholarInter.getFragment().getTextPortion());
 	}
 
 	@Override
@@ -53,7 +33,7 @@ public class PlainTextFragmentWriter implements TextPortionVisitor {
 
 	@Override
 	public void visit(RdgGrpText rdgGrpText) {
-		if (rdgGrpText.getInterps().contains(this.fragInter)) {
+		if (rdgGrpText.getInterps().contains(this.scholarInter)) {
 			propagate2FirstChild(rdgGrpText);
 		}
 
@@ -62,8 +42,8 @@ public class PlainTextFragmentWriter implements TextPortionVisitor {
 
 	@Override
 	public void visit(RdgText rdgText) {
-		if (rdgText.getInterps().contains(this.fragInter)) {
-			append2Transcription(rdgText.writeSeparator(true, false, this.fragInter));
+		if (rdgText.getInterps().contains(this.scholarInter)) {
+			append2Transcription(rdgText.writeSeparator(true, false, this.scholarInter));
 
 			propagate2FirstChild(rdgText);
 		}
@@ -91,7 +71,7 @@ public class PlainTextFragmentWriter implements TextPortionVisitor {
 	@Override
 	public void visit(SimpleText simpleText) {
 		String value = simpleText.getValue();
-		append2Transcription(simpleText.writeSeparator(true, false, fragInter) + value);
+		append2Transcription(simpleText.writeSeparator(true, false, scholarInter) + value);
 
 		propagate2NextSibling(simpleText);
 	}
@@ -113,7 +93,7 @@ public class PlainTextFragmentWriter implements TextPortionVisitor {
 
 	@Override
 	public void visit(AddText addText) {
-		append2Transcription(addText.writeSeparator(true, false, fragInter));
+		append2Transcription(addText.writeSeparator(true, false, scholarInter));
 
 		propagate2FirstChild(addText);
 

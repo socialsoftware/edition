@@ -1,7 +1,6 @@
 package pt.ist.socialsoftware.edition.text.domain;
 
 import pt.ist.fenixframework.FenixFramework;
-import pt.ist.socialsoftware.edition.ldod.domain.*;
 
 import java.util.Comparator;
 import java.util.List;

@@ -38,8 +38,8 @@ import pt.ist.socialsoftware.edition.text.domain.RefText.RefType;
 import pt.ist.socialsoftware.edition.text.domain.SpaceText.SpaceDim;
 import pt.ist.socialsoftware.edition.text.domain.SpaceText.SpaceUnit;
 import pt.ist.socialsoftware.edition.ldod.search.Indexer;
-import pt.ist.socialsoftware.edition.text.exception.LdoDException;
-import pt.ist.socialsoftware.edition.text.exception.LdoDLoadException;
+import pt.ist.socialsoftware.edition.text.shared.exception.LdoDException;
+import pt.ist.socialsoftware.edition.text.shared.exception.LdoDLoadException;
 import pt.ist.socialsoftware.edition.ldod.topicmodeling.CorpusGenerator;
 import pt.ist.socialsoftware.edition.text.domain.*;
 
@@ -280,7 +280,7 @@ public class LoadTEIFragments {
 		for (FragInter inter : fragment.getFragmentInterSet()) {
 			try {
 				Indexer indexer = Indexer.getIndexer();
-				indexer.addDocument(inter);
+				indexer.addDocument((ScholarInter) inter);
 
 			} catch (FileNotFoundException e) {
 				throw new LdoDLoadException(

@@ -1,4 +1,4 @@
-package pt.ist.socialsoftware.edition.text.search.json;
+package pt.ist.socialsoftware.edition.ldod.search.json;
 
 public class DatesJson {
 	private String beginDate;

@@ -26,7 +26,7 @@ import pt.ist.socialsoftware.edition.ldod.recommendation.dto.RecommendVirtualEdi
 import pt.ist.socialsoftware.edition.ldod.recommendation.dto.SectionVirtualEditionParam;
 import pt.ist.socialsoftware.edition.ldod.recommendation.dto.VirtualEditionWithSectionsDTO;
 import pt.ist.socialsoftware.edition.ldod.session.LdoDSession;
-import pt.ist.socialsoftware.edition.text.exception.LdoDCreateVirtualEditionException;
+import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDCreateVirtualEditionException;
 import pt.ist.socialsoftware.edition.ldod.validator.VirtualEditionValidator;
 
 @Controller
