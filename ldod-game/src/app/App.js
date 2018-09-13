@@ -42,7 +42,7 @@ class App extends Component {
     }
     
     componentDidMount(){
-        localStorage.setItem("currentFragment", 0);
+     //   localStorage.setItem("currentFragment", 0);
     }
 
     // TODO: CHECK THIS DUE TO REFRESH and OLD TOKENS

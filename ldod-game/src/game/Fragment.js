@@ -12,11 +12,13 @@ class Fragment extends Component {
             paragraphText: [],
             index: 0,
             seconds: 5.0,
-            round: 1,
+            round: 0,
             tags: [],
+            totalTime: 0,
         };
         this.splitIntoParagraph = this.splitIntoParagraph.bind(this);
         this.nextParagraph = this.nextParagraph.bind(this);
+        this.chooseNextStep = this.chooseNextStep.bind(this);
         
     }
     
@@ -24,12 +26,17 @@ class Fragment extends Component {
         //console.log(this.props);
         var text = this.splitIntoParagraph(this.props.fragment.text).text;
         var time = this.splitIntoParagraph(this.props.fragment.text).time;
+        var totalTime = this.splitIntoParagraph(this.props.fragment.text).totalTime;
         this.setState({
             text: this.props.fragment.text,
             title: this.props.fragment.title,
             paragraphText: text,
             secondAndText: time,
             urlId: this.props.fragment.urlId,
+            voting: false,
+            tagging: true,
+            round: 1,
+            totalTime: totalTime,
          });
 
     }
@@ -41,6 +48,7 @@ class Fragment extends Component {
         var testInput = paragraph;
         var regex = /(<([^>]+)>)/ig;
         var largeInt = 100000000;
+        var totalTime = 0;
 
         // Remove tags and spaces on all text
         for(var i = 0; i < testInput.length; i++){
@@ -49,6 +57,7 @@ class Fragment extends Component {
             //var temp = size >= 200 ? size/6 : 30;
             var temp = size >= 200 ? 10 + i/largeInt : 5 + i/largeInt;
             secondAndTextTemp[i] = temp;
+            totalTime += temp;
         }  
         
         // Check first paragraph and remove it if matches criteria
@@ -63,7 +72,7 @@ class Fragment extends Component {
             }
         }
         
-        var res = { text: result, time: secondAndTextTemp};
+        var res = { text: result, time: secondAndTextTemp, totalTime};
         return res;
     }
 
@@ -88,6 +97,42 @@ class Fragment extends Component {
         }
     }
 
+    chooseNextStep(command){
+        //console.log("chooseNextStep " + command);
+        var currentIndex = this.state.index;
+        var nextIndex = currentIndex+1;
+        var totalTime = this.state.totalTime;
+
+        switch(command) {
+            case "voting":
+                this.setState((prevState) => ({
+                    round: 2,
+                    seconds: prevState.seconds,
+                }));
+                return;
+            
+            case "taggingNextParagraph":
+                if( this.state.index === this.state.paragraphText.length-1){
+                    this.setState((prevState) => ({
+                        round: 3,
+                        seconds: totalTime,
+                    }));
+                    return;
+                }
+                this.setState((prevState) => ({
+                    round: 1,
+                    index: prevState.index + 1,
+                    seconds: this.state.secondAndText[nextIndex]+0.1,
+                }));
+                return;
+            
+            default:
+                console.log("error");
+                return;
+        }   
+        
+    }
+
     render() {
         return (
             <Grid fluid>
@@ -101,6 +146,8 @@ class Fragment extends Component {
                     paragraphText={this.state.paragraphText[this.state.index]}
                     seconds={this.state.secondAndText[this.state.index]} 
                     round={this.state.round} 
+                    finalTIme={this.state.finalTIme}
+                    chooseNextStep={this.chooseNextStep}
                     endFragment={this.props.endFragment}/>
                 {this.state.round === 3 ? (<div>{}</div>) : 
                 (

@@ -20,11 +20,24 @@ class Paragrah extends Component {
             disabled: false,
             fullText: "",
         };
+       this.requestNextStep = this.requestNextStep.bind(this);
     }
 
     componentDidUpdate(prevProps, prevState) {
 
-        if (prevProps.paragraphText !== this.props.paragraphText || prevProps.round !== this.props.round) {
+       /* if (prevProps.paragraphText !== this.props.paragraphText || prevProps.round !== this.props.round) {
+            this.setState({
+                title: this.props.title,
+                urlId: this.props.urlId,
+                paragraphText: this.props.paragraphText,
+                fullText: this.props.text,
+                seconds: this.props.seconds,
+                round: this.props.round,
+                disabled: false,
+            });
+        }*/
+
+        if (prevProps.round !== this.props.round) {
             this.setState({
                 title: this.props.title,
                 urlId: this.props.urlId,
@@ -71,6 +84,12 @@ class Paragrah extends Component {
         }
     }
 
+    requestNextStep(param){
+        this.props.NextStep(param);
+    }
+
+    
+
     render() {
         let style = {   marginTop: "-45px",
                         display: "flex",
@@ -90,19 +109,27 @@ class Paragrah extends Component {
                     <div dangerouslySetInnerHTML={{__html: this.state.paragraphText}}></div>
                 </div>
             </div>
-        let clockRender = <div style={style}>
+       /*let clockRender = <div style={style}>
                                 <ReactCountdownClock 
                                     seconds={this.props.seconds}
                                     color="#2ecc71"
                                     size={80}
                                     showMilliseconds={false}
                                     onComplete={this.props.nextParagraph}/>
-                            </div>;
+                            </div>;*/
+
         let roundRender;
         if (this.props.round === 1) {
             roundRender =
                 <div>
-                    {clockRender}
+                <div style={style}>
+                        <ReactCountdownClock 
+                            seconds={this.props.seconds}
+                            color="#2ecc71"
+                            size={80}
+                            showMilliseconds={false}
+                            onComplete={()=>this.props.chooseNextStep("voting")}/>
+                    </div>
                     {stepsRender}
                     {paragrahRender}
                     <Tag 
@@ -114,7 +141,14 @@ class Paragrah extends Component {
           } else {
             roundRender =
                 <div>
-                    {clockRender}
+                <div style={style}>
+                <ReactCountdownClock 
+                            seconds={this.props.seconds+0.01}
+                            color="#2ecc71"
+                            size={80}
+                            showMilliseconds={false}
+                            onComplete={()=>this.props.chooseNextStep("taggingNextParagraph")}/>
+                </div>
                     {stepsRender}
                     {paragrahRender}    
                     <Vote 
@@ -123,7 +157,7 @@ class Paragrah extends Component {
                         userId={this.props.userId}
                         initialTags={this.state.tags}/>
                 </div>
-            }
+            } 
         if(this.props.round === 3){
             return(
                 <div>
@@ -133,7 +167,7 @@ class Paragrah extends Component {
                         limit={this.props.limit}
                         steps={stepsRender} 
                         endFragment={this.props.endFragment} 
-                        seconds={this.state.seconds} 
+                        seconds={this.props.finalTime} 
                         initialTags={this.state.tags} 
                         title={this.state.title} 
                         fullText={this.state.fullText}/>

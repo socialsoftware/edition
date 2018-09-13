@@ -13,9 +13,9 @@ class Vote extends Component {
         this.state = {
             socket: null,
             votes: [],
-            seconds: 0.0,
             previousVote: null,
             previousScore: null,
+            disabed: false,
         };
         this.handleVote = this.handleVote.bind(this);
         this.handleMessageVote = this.handleMessageVote.bind(this);
@@ -99,9 +99,10 @@ class Vote extends Component {
 
     onChange = (param) => (e) => {
         let vote;
-        vote =  Math.round(1.0 + this.state.seconds/10);
+        vote =  Math.round(1.0 + (this.state.seconds/10));
         var res = vote.toFixed(2);
         this.setState({
+            disabled: this.props.round !== 3 ? true : false,
             previousVote: param.tag,
             previousScore: -vote,
         })
@@ -117,26 +118,40 @@ class Vote extends Component {
     render() {
         const voteViews = [];
         let votes = this.state.votes;
-        //let top = [];
         // isNAN appearing in optionS??
         let top;
-        votes.forEach((m, index) => {
-            if(isNaN(m.tag || isNaN(m.vote))){
-                voteViews.push(
-                    <div className="div-votes" key={index}>
-                        <div>
-                            <label>
-                                <span className="title">{m.tag}</span>
-                                <input name="voteGroup" type="radio" onChange={this.onChange(m)} disabled={this.props.hasEnded}></input>
-                                <span className="vote">{m.vote}</span>
-                            </label>
-                        </div>
-                    </div>)
-            }
-        }); 
-    
-        if(this.props.round === 3){
+        if(this.props.round !== 3){
+            votes.forEach((m, index) => {
+                    voteViews.push(
+                        <div className="div-votes" key={index}>
+                            <div>
+                                <label>
+                                    <span className="title">{m.tag}</span>
+                                    <input name="voteGroup" type="radio" onChange={this.onChange(m)} disabled={this.state.disabled}></input>
+                                </label>
+                            </div>
+                        </div>)
+            });
+        }
+
+        else{
+            //CHECK NAN
             top = <h3 className="text-center">Top tag: {this.state.top}</h3>;
+            votes.forEach((m, index) => {
+                if(isNaN(m.tag || isNaN(m.vote))){
+                    console.log(m.vote);
+                    voteViews.push(
+                        <div className="div-votes" key={index}>
+                            <div>
+                                <label>
+                                    <span className="title">{m.tag}</span>
+                                    <input name="voteGroup" type="radio" onChange={this.onChange(m)} disabled={this.props.hasEnded}></input>
+                                    <span className="vote">{m.vote}</span>
+                                </label>
+                            </div>
+                        </div>)
+                }
+            }); 
 
         }
 
