@@ -1,6 +1,9 @@
 package pt.ist.socialsoftware.edition.ldod.controller.api;
 
 import java.util.*;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.TimeUnit;
 import java.util.function.ToIntFunction;
 import java.util.stream.Collectors;
 
@@ -100,6 +103,7 @@ public class ClassificationGameController {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+		this.broker.convertAndSend("/topic/config", payload.values());
 
 	}
 
@@ -121,7 +125,7 @@ public class ClassificationGameController {
 	@MessageMapping("/tags")
 	@SendTo("/topic/tags")
 	public @ResponseBody void handleTags(@Payload Map<String, String> payload) {
-		//logger.debug("Tags received {}", payload.values());
+		//logger.debug("Tags received {} {}", payload.keySet(), payload.values());
 		// authorId <=> userId
 		String gameId = payload.get("gameId");
 		String authorId = payload.get("authorId");
@@ -149,6 +153,7 @@ public class ClassificationGameController {
 			currentGame.editPlayerScore(authorId, 1.0);
 		}
 
+		//logger.debug("Tags sending {} {}", payload.keySet(), payload.values());
 		this.broker.convertAndSend("/topic/tags", payload.values());
 
 	}
@@ -156,7 +161,7 @@ public class ClassificationGameController {
 	@MessageMapping("/votes")
 	@SendTo("/topic/votes")
 	public @ResponseBody void handleVotes(@Payload Map<String, String> payload) {
-		// logger.debug("Votes received {}", payload.values());
+		//logger.debug("Votes received {} {}", payload.keySet(), payload.values());
 		String gameId = payload.get("gameId");
 		String voterId = payload.get("voterId");
 		String tagMsg = payload.get("msg");
@@ -194,8 +199,8 @@ public class ClassificationGameController {
 		ClassificationGameDto currentGame = gamesNEW.get(gameId);
 		List<GameTagDto> res = submittedTagsNEW.get(gameId);
 
-		List<GameTagDto> topTags = res.stream().sorted((g1, g2) -> (int) g2.getScore()).limit(finalLimit)
-				.collect(Collectors.toList());
+		//List<GameTagDto> topTags = res.stream().sorted((g1, g2) -> (int) g2.getScore()).limit(finalLimit).collect(Collectors.toList());
+		List<GameTagDto> topTags = res.stream().sorted((g1, g2) -> (int) g2.getScore()).collect(Collectors.toList());
 		//payload.put("topTags", topTags);
 		List<Map<String, String>> response = new ArrayList<>();
 		for (GameTagDto gameTagDto : topTags) {
@@ -223,7 +228,7 @@ public class ClassificationGameController {
 
 	@GetMapping("/api/services/ldod-game/leaderboard")
 	public @ResponseBody ResponseEntity<?> getLeaderboard() {
-		// logger.debug("get leaderboard");
+		//logger.debug("get leaderboard");
 		List<Object> response = new ArrayList<>();
 		for(ClassificationGameDto g: gamesNEW.values()){
 			List<String> users = g.getPlayersMap().entrySet().stream().sorted(Collections.reverseOrder(Map.Entry.comparingByValue())).map(Map.Entry::getKey).collect(Collectors.toList());
@@ -234,4 +239,39 @@ public class ClassificationGameController {
 		return new ResponseEntity<>(response.toArray(), HttpStatus.OK);
 
 	}
+
+	@MessageMapping("/sync")
+	@SendTo("/topic/sync")
+	public void handleSync(@Payload Map<String, String> payload) {
+		//logger.debug("handle received: {} {}", payload.keySet(), payload.values());
+
+			String gameId = payload.get("gameId"); // gameId
+			String userId = payload.get("userId"); // userId
+			Object temp = payload.get("seconds"); //seconds to wait
+			long seconds = Long.parseLong((String) temp);
+			ClassificationGameDto currentGame = gamesNEW.get(gameId);
+			currentGame.getPlayers().size(); // number of players to wait
+			/*try {
+				TODO: use the seconds received
+				while (currentGame.getPlayers().size() <= 1) {
+					Thread.sleep(1000); //
+				}
+				this.broker.convertAndSend("/topic/sync", "nextRound");
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}*/
+			/*BlockingQueue<Boolean> waitForUsers = new ArrayBlockingQueue<>(1);
+			try {
+				waitForUsers.poll(seconds, TimeUnit.SECONDS);
+				while(currentGame.getPlayers().size() <= ....
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}*/
+			//waitForUsers.poll(seconds,TimeUnit.SECONDS);
+
+			//And then in the code that changes your condition do this:
+
+			//waitForUsers.put(true)
+		}
+
 }
