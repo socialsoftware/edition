@@ -54,6 +54,7 @@ import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDDuplicateNameExce
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDEditVirtualEditionException;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDExceptionNonAuthorized;
+import pt.ist.socialsoftware.edition.ldod.social.aware.AwareAnnotationFactory;
 import pt.ist.socialsoftware.edition.ldod.topicmodeling.TopicModeler;
 import pt.ist.socialsoftware.edition.ldod.utils.PropertiesManager;
 import pt.ist.socialsoftware.edition.ldod.utils.TopicListDTO;
@@ -147,7 +148,6 @@ public class VirtualEditionController {
 		}
 	}
 
-	// TODO: acrescentar os países
 	@RequestMapping(method = RequestMethod.GET, value = "/restricted/manage/{externalId}")
 	@PreAuthorize("hasPermission(#externalId, 'virtualedition.participant')")
 	public String manageVirtualEdition(Model model, @PathVariable String externalId) {
@@ -233,6 +233,8 @@ public class VirtualEditionController {
 		try {
 			virtualEdition.edit(VirtualEdition.ACRONYM_PREFIX + acronym, title, synopsis, pub, management, vocabulary,
 					annotation, mediaSource, beginDate, endDate, geoLocation, frequency);
+			AwareAnnotationFactory awareFactory = new AwareAnnotationFactory();
+			awareFactory.searchForAwareAnnotations(virtualEdition);
 		} catch (LdoDDuplicateAcronymException ex) {
 			errors.add("virtualedition.acronym.duplicate");
 			throw new LdoDEditVirtualEditionException(errors, virtualEdition, acronym, title, pub);

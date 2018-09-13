@@ -38,6 +38,8 @@ public class AnnotationDTO implements Serializable {
 			this.ranges.add(new RangeJson(range));
 		}
 
+		setUser(annotation.getUser().getUsername());
+
 		// código alterado para o cast
 		if (annotation instanceof HumanAnnotation) {
 			this.tags = new ArrayList<>();
@@ -46,7 +48,7 @@ public class AnnotationDTO implements Serializable {
 						((HumanAnnotation) annotation).getVirtualEditionInter().getVirtualEdition()));
 			}
 
-			setUser(((HumanAnnotation) annotation).getUser().getUsername());
+			// setUser(((HumanAnnotation) annotation).getUser().getUsername());
 
 			setPermissions(
 					new PermissionDTO(((HumanAnnotation) annotation).getVirtualEditionInter().getVirtualEdition(),

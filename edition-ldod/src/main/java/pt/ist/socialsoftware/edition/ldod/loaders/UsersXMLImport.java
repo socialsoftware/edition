@@ -17,14 +17,14 @@ import org.joda.time.LocalDate;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
-import pt.ist.socialsoftware.edition.ldod.domain.UserConnection;
-import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDLoadException;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser.SocialMediaService;
 import pt.ist.socialsoftware.edition.ldod.domain.RegistrationToken;
 import pt.ist.socialsoftware.edition.ldod.domain.Role;
 import pt.ist.socialsoftware.edition.ldod.domain.Role.RoleType;
+import pt.ist.socialsoftware.edition.ldod.domain.UserConnection;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
+import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDLoadException;
 
 public class UsersXMLImport {
 
@@ -75,7 +75,15 @@ public class UsersXMLImport {
 		for (Element element : xp.evaluate(doc)) {
 			String username = element.getAttributeValue("username");
 			if (ldoD.getUser(username) == null) {
-				String password = element.getAttributeValue("password");
+				// New code to support null passwords
+				String password = null;
+				if (element.getAttributeValue("password") != null) {
+					password = element.getAttributeValue("password");
+				}
+
+				// Original code
+				// String password = element.getAttributeValue("password");
+
 				String firstName = element.getAttributeValue("firstName");
 				String lastName = element.getAttributeValue("lastName");
 				String email = element.getAttributeValue("email");

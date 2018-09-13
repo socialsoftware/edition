@@ -386,19 +386,6 @@ public class FragmentController {
 		}
 
 		return new AnnotationSearchJson(annotations);
-
-		// código original
-		/*
-		 * List<AnnotationDTO> annotations = new ArrayList<>();
-		 * 
-		 * VirtualEditionInter inter = FenixFramework.getDomainObject(uri);
-		 * 
-		 * for (HumanAnnotation annotation : inter.getAllDepthHumanAnnotations()) {
-		 * AnnotationDTO annotationJson = new AnnotationDTO(annotation);
-		 * annotations.add(annotationJson); }
-		 * 
-		 * return new AnnotationSearchJson(annotations);
-		 */
 	}
 
 	@RequestMapping(method = RequestMethod.POST, value = "/fragment/annotations")
