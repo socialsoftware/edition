@@ -39,6 +39,7 @@ class Paragrah extends Component {
 
         if (prevProps.round !== this.props.round) {
             this.setState({
+                tags: [],
                 title: this.props.title,
                 urlId: this.props.urlId,
                 paragraphText: this.props.paragraphText,

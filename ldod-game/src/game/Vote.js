@@ -15,7 +15,6 @@ class Vote extends Component {
             votes: [],
             previousVote: null,
             previousScore: null,
-            disabed: false,
         };
         this.handleVote = this.handleVote.bind(this);
         this.handleMessageVote = this.handleMessageVote.bind(this);
@@ -101,6 +100,9 @@ class Vote extends Component {
         let vote;
         vote =  Math.round(1.0 + (this.state.seconds/10));
         var res = vote.toFixed(2);
+        //console.log("vote " + vote);
+        //console.log("res " + res);
+        
         this.setState({
             disabled: this.props.round !== 3 ? true : false,
             previousVote: param.tag,
@@ -108,6 +110,7 @@ class Vote extends Component {
         })
         if ( this.state.previousVote !== null){
             var value = this.state.previousScore.toFixed(2);
+            //console.log("value " + value);
             this.sendMessage(this.state.previousVote, value);     
             this.sendMessage(param.tag, res);     
         }else{
@@ -135,18 +138,17 @@ class Vote extends Component {
         }
 
         else{
-            //CHECK NAN
+            //CHECK NAN ----THIS IS NOT WORKING
             top = <h3 className="text-center">Top tag: {this.state.top}</h3>;
             votes.forEach((m, index) => {
                 if(isNaN(m.tag || isNaN(m.vote))){
-                    console.log(m.vote);
                     voteViews.push(
                         <div className="div-votes" key={index}>
                             <div>
                                 <label>
                                     <span className="title">{m.tag}</span>
                                     <input name="voteGroup" type="radio" onChange={this.onChange(m)} disabled={this.props.hasEnded}></input>
-                                    <span className="vote">{m.vote}</span>
+                                    <span className="vote">(m.vote)</span>
                                 </label>
                             </div>
                         </div>)
