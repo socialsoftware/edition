@@ -32,21 +32,12 @@ class Fragment extends Component {
             urlId: this.props.fragment.urlId,
          });
 
-        /*var text = this.splitIntoParagraph(this.props.fragment.text).text;
-        var time = this.splitIntoParagraph(this.props.fragment.text).time;
-        this.setState({
-            fragment: this.props.fragment,
-            text: this.props.fragment.text,
-            paragraphText: text,
-            secondAndText: time,
-         });*/
-
     }
 
     splitIntoParagraph(text){
         var secondAndTextTemp = [];
         var result = [];
-        var paragraph = text.split("<br></p>");
+        var paragraph = text.split("</p>");
         var testInput = paragraph;
         var regex = /(<([^>]+)>)/ig;
         var largeInt = 100000000;

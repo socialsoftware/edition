@@ -11,13 +11,23 @@ class Tag extends Component {
         this.state = {
             tags: [],
             value: " " ,
+            validate:this.props.disabled,
         };
         this.handleTag = this.handleTag.bind(this);
+        this.getValidationState = this.getValidationState.bind(this);
     }
     
     handleTag = (e) => {
         const form = e.target;
         var input = form["tag"].value;
+
+        if(input.length <= 1){
+            this.setState({
+                validate: "error",
+            })
+            e.preventDefault();
+            return;
+        }
 
         this.sendMessage(input);
         tags += "<br>" + input;
@@ -36,6 +46,14 @@ class Tag extends Component {
         } catch(e) {
             return false;
         }
+    }
+    
+    getValidationState(){
+        const length = this.state.value.length;
+        if (length < 1){
+            return "warning";
+        }
+        return null;
     }
 
     handleChange(event) {
@@ -63,7 +81,8 @@ class Tag extends Component {
                     <Row>
                         <Col md={4} mdOffset={4} xs={5}>
                         <form id="form" autoComplete="off" onSubmit={(e) => {this.handleTag(e)}}>
-                        <FormGroup validationState={ this.props.disabled === true ? "warning" : null}>
+                        {/* <FormGroup validationState={ this.props.disabled === true ? "warning" : null}> */}
+                        <FormGroup validationState={ this.getValidationState()}>
                             <InputGroup>
                                 <FormControl 
                                     disabled={this.props.disabled}
