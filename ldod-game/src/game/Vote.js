@@ -163,7 +163,7 @@ class Vote extends Component {
                     <thead>
                         <tr>
                             <th><span className="glyphicon glyphicon-tag"></span>    {this.props.round !== 3 ? msg : null}</th>
-                        {this.props.round !== 3 ? <th> You suggested {this.props.userSuggestedTags} </th> : null}
+                        {this.props.round !== 3 ? <th> You suggested:  {this.props.userSuggestedTags} </th> : null}
                         </tr>
                     </thead>
                     <tbody>

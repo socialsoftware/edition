@@ -83,7 +83,6 @@ class Paragrah extends Component {
     
 
     render() {
-        console.log(this.state.userSuggestedTags);
         let style = {   marginTop: "-45px",
                         display: "flex",
                         alignItems: "center",
