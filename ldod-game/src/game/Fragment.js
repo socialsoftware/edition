@@ -101,8 +101,6 @@ class Fragment extends Component {
         //console.log("chooseNextStep " + command);
         var currentIndex = this.state.index;
         var nextIndex = currentIndex+1;
-        var totalTime = this.state.totalTime;
-
         switch(command) {
             case "voting":
                 this.setState((prevState) => ({
@@ -115,7 +113,6 @@ class Fragment extends Component {
                 if( this.state.index === this.state.paragraphText.length-1){
                     this.setState((prevState) => ({
                         round: 3,
-                        seconds: totalTime,
                     }));
                     return;
                 }
@@ -146,7 +143,7 @@ class Fragment extends Component {
                     paragraphText={this.state.paragraphText[this.state.index]}
                     seconds={this.state.secondAndText[this.state.index]} 
                     round={this.state.round} 
-                    finalTIme={this.state.finalTIme}
+                    totalTime={this.state.totalTime}
                     chooseNextStep={this.chooseNextStep}
                     endFragment={this.props.endFragment}/>
                 {this.state.round === 3 ? (<div>{}</div>) : 

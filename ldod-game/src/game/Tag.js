@@ -81,7 +81,6 @@ class Tag extends Component {
                     <Row>
                         <Col md={4} mdOffset={4} xs={5}>
                         <form id="form" autoComplete="off" onSubmit={(e) => {this.handleTag(e)}}>
-                        {/* <FormGroup validationState={ this.props.disabled === true ? "warning" : null}> */}
                         <FormGroup validationState={ this.getValidationState()}>
                             <InputGroup>
                                 <FormControl 

@@ -19,23 +19,12 @@ class Paragrah extends Component {
             seconds: 5,
             disabled: false,
             fullText: "",
+            userSuggestedTags: [],
         };
        this.requestNextStep = this.requestNextStep.bind(this);
     }
 
     componentDidUpdate(prevProps, prevState) {
-
-       /* if (prevProps.paragraphText !== this.props.paragraphText || prevProps.round !== this.props.round) {
-            this.setState({
-                title: this.props.title,
-                urlId: this.props.urlId,
-                paragraphText: this.props.paragraphText,
-                fullText: this.props.text,
-                seconds: this.props.seconds,
-                round: this.props.round,
-                disabled: false,
-            });
-        }*/
 
         if (prevProps.round !== this.props.round) {
             this.setState({
@@ -46,6 +35,7 @@ class Paragrah extends Component {
                 fullText: this.props.text,
                 seconds: this.props.seconds,
                 round: this.props.round,
+                totalTime: this.props.totalTime,
                 disabled: false,
             });
         }
@@ -74,6 +64,7 @@ class Paragrah extends Component {
         //Only allow one user submission per paragraph
         if(temp.authorId === localStorage.getItem("currentUser")){
             this.setState(({
+                userSuggestedTags: [...this.state.userSuggestedTags, temp.tag+ "   "],
                 disabled: true,
             }));
         }
@@ -92,6 +83,7 @@ class Paragrah extends Component {
     
 
     render() {
+        console.log(this.state.userSuggestedTags);
         let style = {   marginTop: "-45px",
                         display: "flex",
                         alignItems: "center",
@@ -110,14 +102,6 @@ class Paragrah extends Component {
                     <div dangerouslySetInnerHTML={{__html: this.state.paragraphText}}></div>
                 </div>
             </div>
-       /*let clockRender = <div style={style}>
-                                <ReactCountdownClock 
-                                    seconds={this.props.seconds}
-                                    color="#2ecc71"
-                                    size={80}
-                                    showMilliseconds={false}
-                                    onComplete={this.props.nextParagraph}/>
-                            </div>;*/
 
         let roundRender;
         if (this.props.round === 1) {
@@ -155,6 +139,7 @@ class Paragrah extends Component {
                     <Vote 
                         seconds={this.props.seconds} 
                         gameId={this.props.gameId}
+                        userSuggestedTags={this.state.userSuggestedTags}
                         userId={this.props.userId}
                         initialTags={this.state.tags}/>
                 </div>
@@ -168,7 +153,7 @@ class Paragrah extends Component {
                         limit={this.props.limit}
                         steps={stepsRender} 
                         endFragment={this.props.endFragment} 
-                        seconds={this.props.finalTime} 
+                        totalTime={this.state.totalTime} 
                         initialTags={this.state.tags} 
                         title={this.state.title} 
                         fullText={this.state.fullText}/>

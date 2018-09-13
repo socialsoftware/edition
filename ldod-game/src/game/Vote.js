@@ -29,7 +29,7 @@ class Vote extends Component {
                         onMessage={(message) => this.handleMessageVote(message)} />,
             votes: this.props.initialTags,
             seconds: this.props.seconds,
-            top: this.props.top,
+            topTag: this.props.topTag,
             winner: this.props.winner,
         })
         this.interval = setInterval(() => this.tick(), 1000);
@@ -38,7 +38,7 @@ class Vote extends Component {
     componentWillUnmount() {
         clearInterval(this.interval);
         <AppContext>
-            <Provider value={{winner: this.state.winner, top: this.state.top}}>  
+            <Provider value={{winner: this.state.winner, top: this.state.topTag}}>  
                 {this.props.children}
             </Provider>
         </AppContext>
@@ -48,7 +48,7 @@ class Vote extends Component {
         if (this.props.seconds !== prevProps.seconds) {
             this.setState({
                 seconds: this.props.seconds,
-                top: this.props.top,
+                topTag: this.props.topTag,
             })
         }
     }
@@ -89,7 +89,7 @@ class Vote extends Component {
                 copy.splice(i, 1, temp);
                 this.setState(({
                     votes: copy,
-                    top: message[4],
+                    topTag: message[4],
                     winner: message[5],
                 }));
             }
@@ -100,9 +100,6 @@ class Vote extends Component {
         let vote;
         vote =  Math.round(1.0 + (this.state.seconds/10));
         var res = vote.toFixed(2);
-        //console.log("vote " + vote);
-        //console.log("res " + res);
-        
         this.setState({
             disabled: this.props.round !== 3 ? true : false,
             previousVote: param.tag,
@@ -123,6 +120,7 @@ class Vote extends Component {
         let votes = this.state.votes;
         // isNAN appearing in optionS??
         let top;
+        let msg = "Choose which tag is better..."
         if(this.props.round !== 3){
             votes.forEach((m, index) => {
                     voteViews.push(
@@ -139,21 +137,21 @@ class Vote extends Component {
 
         else{
             //CHECK NAN ----THIS IS NOT WORKING
-            top = <h3 className="text-center">Top tag: {this.state.top}</h3>;
-            votes.forEach((m, index) => {
-                if(isNaN(m.tag || isNaN(m.vote))){
+           top = <h3 className="text-center">Top tag: {this.state.topTag}</h3>;
+           this.state.votes.forEach((m, index) => {
+                
                     voteViews.push(
                         <div className="div-votes" key={index}>
                             <div>
                                 <label>
                                     <span className="title">{m.tag}</span>
                                     <input name="voteGroup" type="radio" onChange={this.onChange(m)} disabled={this.props.hasEnded}></input>
-                                    <span className="vote">(m.vote)</span>
+                                    <span className="vote">{m.vote}</span>
                                 </label>
                             </div>
                         </div>)
-                }
-            }); 
+                
+            });
 
         }
 
@@ -164,7 +162,8 @@ class Vote extends Component {
                 <Table>
                     <thead>
                         <tr>
-                            <th><span className="glyphicon glyphicon-tag"></span></th>
+                            <th><span className="glyphicon glyphicon-tag"></span>    {this.props.round !== 3 ? msg : null}</th>
+                        {this.props.round !== 3 ? <th> You suggested {this.props.userSuggestedTags} </th> : null}
                         </tr>
                     </thead>
                     <tbody>

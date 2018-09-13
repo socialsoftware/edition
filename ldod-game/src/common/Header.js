@@ -58,7 +58,7 @@ class HeaderNavigation extends Component {
             <Navbar default collapseOnSelect>
                 <Navbar.Header>
                     <Navbar.Brand>
-                        <Link to="/">LdoD Game</Link>
+                        <Link to="/">The LdoD Classification Game</Link>
                     </Navbar.Brand>
                     <Navbar.Toggle />
                 </Navbar.Header>

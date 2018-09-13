@@ -66,16 +66,17 @@ class Review extends Component {
 
     handleMessageReview(message) {
         var res = [];
-        var winner = Object.keys(message[message.length-1]);
-        var tag = message[message.lenght-1];
+        var tagAndWinner = message.pop();
+        var winner = Object.keys(tagAndWinner);
+        var topTag = Object.values(tagAndWinner)
         for(var i = 0; i < message.length; i++){
             var temp = { tag: message[i].tag, vote: Math.round(parseFloat(message[i].vote))}; 
             res.push(temp)
         }
         this.setState({
             votes: res,
-            top: tag,
-            winner: winner,
+            topTag: topTag[0],
+            winner: winner[0],
             isLoading: false,
         })
         
@@ -122,9 +123,9 @@ class Review extends Component {
                         <Vote 
                             gameId={this.props.gameId} 
                             userId={this.props.userId} 
-                            seconds={this.props.seconds} 
+                            seconds={this.props.totalTime} 
                             round={3}
-                            top={this.state.top}
+                            topTag={this.state.topTag}
                             hasEnded={this.state.hasEnded}
                             initialTags={this.state.votes}/>
                         <Divider dashed />
