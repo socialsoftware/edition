@@ -19,7 +19,7 @@ public class ClassificationGameDto {
 	private Map<String, List<GameTagDto>> submittedTags = new LinkedHashMap<>();
 	private String winningTag;
 	private String winner;
-	private Map<String, Double> players;
+	private Map<String, Double> players = new LinkedHashMap<>();;
 
 	public ClassificationGameDto(){
 
@@ -38,7 +38,6 @@ public class ClassificationGameDto {
 		this.setMembers(game.getVirtualEdition().getActiveMemberSet().stream()
 				.map(member -> new LdoDUserDto(member.getUser())).collect(Collectors.toList()));
 
-		players = new LinkedHashMap<>();
 	}
 
 	public String getGameExternalId() {
@@ -134,9 +133,6 @@ public class ClassificationGameDto {
 	}
 
 	public void addPlayer(String player, double score){
-		if (this.players.containsKey(player)) {
-			return;
-		}
 		Double scoreObj = new Double(score);
 		this.players.put(player, scoreObj);
 

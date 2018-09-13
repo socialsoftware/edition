@@ -1,5 +1,6 @@
 package pt.ist.socialsoftware.edition.ldod.domain;
 
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -46,14 +47,15 @@ public class ClassificationGame extends ClassificationGame_Base {
 		return DateTime.now().isBefore(getDateTime());
 	}
 
-	public void finish(String winnerUsername, String tagName, Set<String> players) {
+	@Atomic(mode = TxMode.WRITE)
+	public void finish(String winnerUsername, String tagName, Map<String,Double> players) {
 		LdoDUser winner = LdoD.getInstance().getUser(winnerUsername);
 
 		Tag tag = getVirtualEdition().getTaxonomy().createTag(getVirtualEditionInter(), tagName, null, winner);
 
 		setTag(tag);
 
-		Set<LdoDUser> users = players.stream().map(p -> LdoD.getInstance().getUser(p)).collect(Collectors.toSet());
+		Set<LdoDUser> users = players.keySet().stream().map(p -> LdoD.getInstance().getUser(p)).collect(Collectors.toSet());
 
 		for (LdoDUser user : users) {
 			if (user.getPlayer() == null) {
@@ -61,6 +63,8 @@ public class ClassificationGame extends ClassificationGame_Base {
 			}
 
 			user.getPlayer().addClassificationGame(this);
+			// missing setting up the score
+			user.getPlayer().setScore(players.get(user.getUsername()));
 		}
 	}
 

@@ -24,10 +24,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import pt.ist.fenixframework.FenixFramework;
-import pt.ist.socialsoftware.edition.ldod.domain.ClassificationGame;
-import pt.ist.socialsoftware.edition.ldod.domain.FragInter;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
+import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.dto.APIResponse;
 import pt.ist.socialsoftware.edition.ldod.dto.ClassificationGameDto;
 import pt.ist.socialsoftware.edition.ldod.dto.GameDTO;
@@ -40,6 +37,7 @@ public class ClassificationGameController {
 	private SimpMessagingTemplate broker;
 	private final Map<String, ClassificationGameDto> gamesNEW = new LinkedHashMap<>();
 	private final Map<String, List<GameTagDto>> submittedTagsNEW = new LinkedHashMap<>();
+	private final BlockingQueue<Boolean> queue = new ArrayBlockingQueue<>(1);
 
 
 	@GetMapping("/api/services/ldod-game/active")
@@ -64,26 +62,26 @@ public class ClassificationGameController {
 
 	}
 
-	@PostMapping("/api/services/ldod-game/finish")
+	/*@PostMapping("/api/services/ldod-game/finish")
 	public @ResponseBody ResponseEntity<String> finishGame(@RequestBody ClassificationGameDto classificationGameDto) {
 		/*logger.debug("finishGame gameExternalId: {}, tag: {}, winner: {}, players: {}",
 				classificationGameDto.getGameExternalId(), classificationGameDto.getWinningTag(),
 				classificationGameDto.getWinner(),
 				classificationGameDto.getPlayers().stream().collect(Collectors.joining(",")));*/
 
-		ClassificationGame game = FenixFramework.getDomainObject(classificationGameDto.getGameExternalId());
+	/*	ClassificationGame game = FenixFramework.getDomainObject(classificationGameDto.getGameExternalId());
 
 		game.finish(classificationGameDto.getWinner(), classificationGameDto.getWinningTag(),
 				classificationGameDto.getPlayers());
 
 		return new ResponseEntity<String>(HttpStatus.OK);
 
-	}
+	}*/
 
 	@MessageMapping("/connect")
 	@SendTo("/topic/config")
 	public @ResponseBody void handleConnect(@Payload Map<String, String> payload) {
-		//logger.debug("connect received: {}", payload.values());
+		logger.debug("connect received: {}", payload.values());
 		String userId = payload.get("userId");
 		String gameId = payload.get("gameId");
 		ClassificationGameDto currentGame = gamesNEW.get(gameId);
@@ -91,10 +89,7 @@ public class ClassificationGameController {
 		currentGame.addPlayer(userId, 1.0);
 		payload.remove("userId");
 		payload.remove("gameId");
-		payload.put("currentUsers", String.valueOf(currentGame.getPlayers().size()));
-		payload.put("command", "ready");
-		logger.debug("connect sending {}", payload.values());
-		try {
+		/*try {
 			// Thread.sleep(1 * 60 *1000);
 			while (currentGame.getPlayers().size() <= 1) {
 				Thread.sleep(1000); // TODO: use the above time
@@ -102,8 +97,30 @@ public class ClassificationGameController {
 			this.broker.convertAndSend("/topic/config", payload.values());
 		} catch (InterruptedException e) {
 			e.printStackTrace();
+		}*/
+		if(currentGame.getPlayers().size() > 1){
+			logger.debug("second connect");
+			try {
+				queue.put(true);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 		}
-		this.broker.convertAndSend("/topic/config", payload.values());
+
+		try {
+			if(currentGame.getPlayers().size() <= 1){
+				logger.debug("wait");
+				queue.poll(30,TimeUnit.SECONDS);
+			}
+			payload.put("currentUsers", String.valueOf(currentGame.getPlayers().size()));
+			payload.put("command", "ready");
+			logger.debug("connect sending {}", payload.values());
+			this.broker.convertAndSend("/topic/config", payload.values());
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
+		//this.broker.convertAndSend("/topic/config", payload.values());
 
 	}
 
@@ -118,7 +135,23 @@ public class ClassificationGameController {
 		response.add(winner);
 		response.add(winningTag);
 		response.add(currentGame.getPlayersMap());
-		return new ResponseEntity<>(response, HttpStatus.OK);
+		if(finishGame(gameId, winner, winningTag,currentGame.getPlayersMap())){
+			logger.debug("saving to db");
+			return new ResponseEntity<>(response, HttpStatus.OK);
+		}
+		logger.debug("error: did not save in db");
+		return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+
+	}
+
+	private boolean finishGame(String gameId, String winner, String winningTag, Map<String,Double> players) {
+		/*logger.debug("finishGame gameExternalId: {}, tag: {}, winner: {}, players: {}",
+				classificationGameDto.getGameExternalId(), classificationGameDto.getWinningTag(),
+				classificationGameDto.getWinner(),
+				classificationGameDto.getPlayers().stream().collect(Collectors.joining(",")));*/
+		ClassificationGame game = FenixFramework.getDomainObject(gameId);
+		game.finish(winner, winningTag, players);
+		return true;
 
 	}
 
