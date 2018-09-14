@@ -27,6 +27,7 @@ class App extends Component {
             isAuthenticated: false,
             isLoading: false,
             activeGames: [],
+            enabled: false,
         }
 
         this.handleLogout = this.handleLogout.bind(this);
@@ -42,12 +43,15 @@ class App extends Component {
     }
     
     componentDidMount(){
-     //   localStorage.setItem("currentFragment", 0);
+        //if(sessionStorage.getItem(ACCESS_TOKEN)){
+            this.loadCurrentUser();
+        //}
     }
 
     // TODO: CHECK THIS DUE TO REFRESH and OLD TOKENS
     componentWillUnmount() {
         //localStorage.clear();
+        //caches.delete("JSESSIONID");
     }
 
     loadCurrentUser() {
@@ -57,6 +61,7 @@ class App extends Component {
         getCurrentUser()
             .then(response => {
                 localStorage.setItem("currentUser", response.username);
+                
                 this.setState({
                     currentUser: response,
                     isAuthenticated: true,
@@ -73,6 +78,7 @@ class App extends Component {
     handleLogout(redirectTo="/", notificationType="success", description="You're successfully logged out.") {
         localStorage.removeItem(ACCESS_TOKEN);
         localStorage.clear();
+        //localStorage.clear();
         
         this.setState({
             currentUser: null,
@@ -103,7 +109,18 @@ class App extends Component {
         this.setState({
             activeGame: request,
             game: request[0],
+            dateTime: new Date(request[0].dateTime),
         })
+        var dateItHappens = new Date(request[0].dateTime);
+        // ... set the dateItHappens variable up ...
+        var millisTillOccurence = dateItHappens.getTime() - new Date().getTime();
+        setTimeout(function () {
+            this.setState({enabled: true});
+            notification["info"]({
+                message: LDOD_MESSAGE,
+                description: "New game available!",
+            });
+        }.bind(this), millisTillOccurence)
     }
     
     render() {
@@ -130,7 +147,7 @@ class App extends Component {
                             <Row>
                                 <Col md={4} mdOffset={2} xs={5}>
                                     <Link to="/game">
-                                        <Button bsStyle="primary">Classic game</Button>
+                                        { this.state.enabled ? <Button bsStyle="primary">Classic game</Button> : null}
                                     </Link>
                                 </Col>
                                 <Col md={4} mdOffset={2} xs={5}>

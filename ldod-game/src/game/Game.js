@@ -22,6 +22,7 @@ class Game extends Component {
             gameId: null,
             userId: " ",
             isLoading: true,
+            dateTime: 0,
         };
         this.connect = this.connect.bind(this);
         this.onMessageReceive = this.onMessageReceive.bind(this);
@@ -32,6 +33,7 @@ class Game extends Component {
            game: this.props.context.game,
            gameId: this.props.context.game.gameExternalId,
            userId: this.props.context.currentUser.username,
+           dateTime: new Date(this.props.context.game.dateTime),
            socket: <SockJsClient
                     url={WEB_SOCKETS_URL}
                     topics={['/topic/config']}
@@ -82,6 +84,7 @@ class Game extends Component {
 
 
     render() {
+        console.log(this.state.dateTime);
         if(this.state.isLoading) {
             return (
                 <Grid fluid>
