@@ -38,6 +38,8 @@ public class ClassificationGameController {
 	private final Map<String, ClassificationGameDto> gamesNEW = new LinkedHashMap<>();
 	private final Map<String, List<GameTagDto>> submittedTagsNEW = new LinkedHashMap<>();
 	private final BlockingQueue<Boolean> queue = new ArrayBlockingQueue<>(1);
+	private final BlockingQueue<Boolean> sync = new ArrayBlockingQueue<>(1);
+	int users = 0;
 
 
 	@GetMapping("/api/services/ldod-game/active")
@@ -243,6 +245,8 @@ public class ClassificationGameController {
 		ClassificationGameDto currentGame = gamesNEW.get(gameId);
 		List<GameTagDto> res = submittedTagsNEW.get(gameId);
 
+		users += 1;
+
 		//List<GameTagDto> topTags = res.stream().sorted((g1, g2) -> (int) g2.getScore()).limit(finalLimit).collect(Collectors.toList());
 		// TODO: check me, removed limit
 		List<GameTagDto> topTags = res.stream().sorted((g1, g2) -> (int) g2.getScore()).collect(Collectors.toList());
@@ -260,12 +264,27 @@ public class ClassificationGameController {
 		Map<String, String> map = new LinkedHashMap<>();
 		map.put(currentWinner, currentTopTag);
 		response.add(map);
+
+		// number of players to wait
+		if(users  == currentGame.getPlayers().size()){
+			logger.debug("number of users is the expected");
+			try {
+				sync.put(true);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+
 		try {
-			// Thread.sleep(1 * 60 *1000);
-			Thread.sleep(1000); // TODO: use the above time
-			//logger.debug("Review sending {} ", response);
+			if (users <= currentGame.getPlayers().size()) {
+				logger.debug("wait for users to sync");
+				sync.poll(30, TimeUnit.SECONDS);
+			}
+			logger.debug("review is now sending");
+			//users = 0;
 			this.broker.convertAndSend("/topic/review", response);
-		} catch (InterruptedException e) {
+		}
+		catch (InterruptedException e) {
 			e.printStackTrace();
 		}
 
@@ -288,14 +307,34 @@ public class ClassificationGameController {
 	@MessageMapping("/sync")
 	@SendTo("/topic/sync")
 	public void handleSync(@Payload Map<String, String> payload) {
-		//logger.debug("handle received: {} {}", payload.keySet(), payload.values());
+	/*	logger.debug("handle received: {} {}", payload.keySet(), payload.values());
+		String gameId = payload.get("gameId"); // gameId
+		String userId = payload.get("userId"); // userId
+		ClassificationGameDto currentGame = gamesNEW.get(gameId);
+		users += 1;
+		 // number of players to wait
+		if(users  == currentGame.getPlayers().size()){
+			logger.debug("number of users is the expected");
+			try {
+				sync.put(true);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
 
-			String gameId = payload.get("gameId"); // gameId
-			String userId = payload.get("userId"); // userId
-			Object temp = payload.get("seconds"); //seconds to wait
-			long seconds = Long.parseLong((String) temp);
-			ClassificationGameDto currentGame = gamesNEW.get(gameId);
-			currentGame.getPlayers().size(); // number of players to wait
+		try {
+			if(users <= currentGame.getPlayers().size()){
+				logger.debug("wait for users to sync");
+				sync.poll(30,TimeUnit.SECONDS);
+			}
+			payload.remove("userId");
+			payload.remove("gameId");
+			payload.put("command", "continue");
+			logger.debug("sync sending {}", payload.values());
+			this.broker.convertAndSend("/topic/sync", payload);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 			/*try {
 				TODO: use the seconds received
 				while (currentGame.getPlayers().size() <= 1) {
@@ -316,7 +355,7 @@ public class ClassificationGameController {
 
 			//And then in the code that changes your condition do this:
 
-			//waitForUsers.put(true)
+			//waitForUsers.put(true)*/
 		}
 
 }
