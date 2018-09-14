@@ -48,9 +48,12 @@ public class ClassificationGameController {
 				.toArray(ClassificationGameDto[]::new);*/
 
 		// CHANGED TO LIST
+		/*List<ClassificationGameDto> result = LdoD.getInstance().getVirtualEditionsSet().stream()
+				.flatMap(ve -> ve.getClassificationGameSet().stream().filter(ClassificationGame::isActive))
+				.map(ClassificationGameDto::new).sorted((g1, g2) -> g1.getDateTime().compareTo(g2.getDateTime())).collect(Collectors.toList());*/
 		List<ClassificationGameDto> result = LdoD.getInstance().getVirtualEditionsSet().stream()
 				.flatMap(ve -> ve.getClassificationGameSet().stream().filter(ClassificationGame::isActive))
-				.map(ClassificationGameDto::new).sorted((g1, g2) -> g1.getDateTime().compareTo(g2.getDateTime())).collect(Collectors.toList());
+				.map(ClassificationGameDto::new).sorted(Comparator.comparingLong(ClassificationGameDto::getDateTime)).collect(Collectors.toList());
 
 		// INITIAL SETUP for GAMES
 		for(ClassificationGameDto gameDto : result){
@@ -171,7 +174,9 @@ public class ClassificationGameController {
 			// if tag is submitted for the first we add it havina a value of 2.0
 			res.add(tag);
 			submittedTagsNEW.put(gameId, res);
-			currentGame.editPlayerScore(authorId, 1.0);
+			// bug was occuring game only had 1 player
+			boolean op = currentGame.updatePlayerScore(authorId, 2.0);
+			logger.debug("handleTags -> updatePlayerScore occured: {} ", op );
 
 		} else {
 			// if tag already exists increment score and update +1
@@ -183,7 +188,8 @@ public class ClassificationGameController {
 				t.addCoAuthor(authorId);//suggested
 				t.addVoter(authorId); // suggested <=> voted
 			});
-			currentGame.editPlayerScore(authorId, 1.0);
+			boolean op = currentGame.updatePlayerScore(authorId, 1.0);
+			logger.debug("handleTags -> updatePlayerScore occured: {} ", op );
 		}
 
 		//logger.debug("Tags sending {} {}", payload.keySet(), payload.values());
@@ -202,10 +208,15 @@ public class ClassificationGameController {
 		double finalVote = Double.parseDouble((String) vote);
 		ClassificationGameDto currentGame = gamesNEW.get(gameId);
 		List<GameTagDto> res = submittedTagsNEW.get(gameId);
+
+		if(res == null){
+			logger.debug("No tags submitted");
+			return;
+		}
 		res.stream().filter(t -> t.getContent().equals(tagMsg)).forEach(tagDto -> {
 			tagDto.setScore(tagDto.getScore() + finalVote);
 			tagDto.addVoter(voterId);
-			currentGame.editPlayerScore(voterId, finalVote);
+			currentGame.updatePlayerScore(voterId, finalVote);
 			payload.put("vote", String.valueOf(tagDto.getScore()));
 		});
 
@@ -233,6 +244,7 @@ public class ClassificationGameController {
 		List<GameTagDto> res = submittedTagsNEW.get(gameId);
 
 		//List<GameTagDto> topTags = res.stream().sorted((g1, g2) -> (int) g2.getScore()).limit(finalLimit).collect(Collectors.toList());
+		// TODO: check me, removed limit
 		List<GameTagDto> topTags = res.stream().sorted((g1, g2) -> (int) g2.getScore()).collect(Collectors.toList());
 		//payload.put("topTags", topTags);
 		List<Map<String, String>> response = new ArrayList<>();

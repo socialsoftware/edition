@@ -13,7 +13,7 @@ public class ClassificationGameDto {
 	private String virtualEditionTitle;
 	private String description;
 	private boolean openAnnotation;
-	private DateTime dateTime;
+	private long dateTime;
 	private VirtualEditionInterDto virtualEditionInterDto;
 	private List<LdoDUserDto> members;
 	private Map<String, List<GameTagDto>> submittedTags = new LinkedHashMap<>();
@@ -32,7 +32,7 @@ public class ClassificationGameDto {
 		setVirtualEditionTitle(game.getVirtualEdition().getTitle());
 		setDescription(game.getDescription());
 		setOpenAnnotation(game.getOpenAnnotation());
-		setDateTime(game.getDateTime());
+		setDateTime(game.getDateTime().getMillis());
 		setVirtualEditionInterDto(new VirtualEditionInterDto(game.getVirtualEditionInter()));
 
 		this.setMembers(game.getVirtualEdition().getActiveMemberSet().stream()
@@ -80,11 +80,11 @@ public class ClassificationGameDto {
 		this.openAnnotation = openAnnotation;
 	}
 
-	public DateTime getDateTime() {
+	public long getDateTime() {
 		return this.dateTime;
 	}
 
-	public void setDateTime(DateTime dateTime) {
+	public void setDateTime(long dateTime) {
 		this.dateTime = dateTime;
 	}
 
@@ -138,8 +138,13 @@ public class ClassificationGameDto {
 
 	}
 
-	public void editPlayerScore(String player, Double score){
-		this.players.put(player,this.players.get(player) + score);
+	public boolean updatePlayerScore(String player, Double score){
+		if (this.players.containsKey(player)){
+			this.players.put(player,this.players.get(player) + score);
+			return true;
+		}
+		return false;
+
 	}
 
 	public void removePlayer(String player){
