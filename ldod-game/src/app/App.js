@@ -54,7 +54,7 @@ class App extends Component {
         //caches.delete("JSESSIONID");
     }
 
-    loadCurrentUser() {
+    async loadCurrentUser() {
         this.setState({
             isLoading: true
         });
@@ -65,13 +65,12 @@ class App extends Component {
                 this.setState({
                     currentUser: response,
                     isAuthenticated: true,
-                    isLoading: false
                 });
             }).catch(error => {
                 this.setState({
-                    isLoading: false
                 });
             });
+        await this.getAndSetupGames();
     }
 
 
@@ -98,8 +97,7 @@ class App extends Component {
             message: LDOD_MESSAGE,
             description: "You're successfully logged in.",
         });
-        await this.getAndSetupGames();
-        this.loadCurrentUser();
+        await this.loadCurrentUser();
         this.props.history.push("/");
         return 
     }
@@ -110,8 +108,10 @@ class App extends Component {
             activeGame: request,
             game: request[0],
             dateTime: new Date(request[0].dateTime),
+            enabled: true,//temp
+            isLoading: false,
         })
-        var dateItHappens = new Date(request[0].dateTime);
+        /* var dateItHappens = new Date(request[0].dateTime);
         // ... set the dateItHappens variable up ...
         var millisTillOccurence = dateItHappens.getTime() - new Date().getTime();
         setTimeout(function () {
@@ -120,7 +120,7 @@ class App extends Component {
                 message: LDOD_MESSAGE,
                 description: "New game available!",
             });
-        }.bind(this), millisTillOccurence)
+        }.bind(this), millisTillOccurence) */
     }
     
     render() {
@@ -147,7 +147,8 @@ class App extends Component {
                             <Row>
                                 <Col md={4} mdOffset={2} xs={5}>
                                     <Link to="/game">
-                                        { this.state.enabled ? <Button bsStyle="primary">Classic game</Button> : null}
+                                        {/* { this.state.enabled ? <Button bsStyle="primary">Classic game</Button> : null} */}
+                                        <Button bsStyle="primary">Classic game</Button>
                                     </Link>
                                 </Col>
                                 <Col md={4} mdOffset={2} xs={5}>

@@ -84,7 +84,6 @@ class Game extends Component {
 
 
     render() {
-        console.log(this.state.dateTime);
         if(this.state.isLoading) {
             return (
                 <Grid fluid>

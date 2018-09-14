@@ -28,7 +28,7 @@ class Review extends Component {
             isLoading: true,
             socket: <SockJsClient
                             url={WEB_SOCKETS_URL}
-                            topics={['/topic/review']}
+                            topics={['/topic/review','/topic/sync']}
                             ref={ (client) => { this.clientRef = client }}
                             onConnect={ () => { this.getFinalTags()}}
                             onMessage={(message) => this.handleMessageReview(message)} />
