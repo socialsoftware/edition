@@ -125,9 +125,14 @@ public class CitationDetecter {
 		String username = ((TwitterCitation) citation).getUsername();
 		String userProfileURL = ((TwitterCitation) citation).getUserProfileURL();
 
+		// old code
 		String infoText = "SOURCE LINK: " + sourceLink + "\n" + "DATE: " + date + "\n" + "TWEET ID: " + tweetID + "\n"
-				+ "COUNTRY: " + country + "\n" + "LOCATION: " + location + "\n" + "USERNAME: " + username + "\n"
+				+ "COUNTRY: " + country + "\n" + "LOCATION: " + location + "\n" + "USERNAME:" + username + "\n"
 				+ "USER PROFILE: " + userProfileURL;
+
+		// new code to support hyperlinks
+		// String infoText = "<a href=\"https://www.w3schools.com/html/\">Visit our HTML
+		// tutorial!</a>";
 
 		return infoText;
 	}
@@ -258,6 +263,8 @@ public class CitationDetecter {
 	private void citationDetection() throws IOException, FileNotFoundException {
 		File folder = new File(PropertiesManager.getProperties().getProperty("social.aware.dir"));
 		for (File fileEntry : folder.listFiles()) {
+			logger.debug("JSON file name: " + fileEntry.getName());
+
 			try {
 				JSONObject obj = new JSONObject();
 				String line = null;
@@ -359,6 +366,8 @@ public class CitationDetecter {
 						Fragment fragment = inter.getFragment();
 
 						String tweetTextWithoutHttp = removeHttpFromTweetText(obj);
+
+						logger.debug("GOING TO CREATE A TWITTER CITATION!!");
 
 						new TwitterCitation(fragment, (String) obj.get("tweetURL"), (String) obj.get("date"),
 								d.get(TEXT), tweetTextWithoutHttp, (long) obj.get("tweetID"),
