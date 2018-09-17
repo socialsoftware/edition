@@ -16,7 +16,7 @@ import LinkedinLogin from '../social/LinkedinLogin';
 import GoogleLogin from '../social/GoogleLogin';
 import TwitterLogin from '../social/TwitterLogin';
 import { notification } from 'antd';
-import { Jumbotron, Button, Col, Grid, Row} from 'react-bootstrap'; 
+import { Jumbotron, Button, Col, Grid, Row, ListGroup, ListGroupItem, Glyphicon} from 'react-bootstrap'; 
 
 class App extends Component {
     constructor(props) {
@@ -105,7 +105,7 @@ class App extends Component {
     async getAndSetupGames(){
         let request = await getActiveGames();
         this.setState({
-            activeGame: request,
+            activeGames: request,
             game: request[0],
             dateTime: new Date(request[0].dateTime),
             enabled: true,//temp
@@ -128,6 +128,23 @@ class App extends Component {
             fontFamily : 'Ubuntu',
             backgroundColor: '#3498db'
         }
+        let activeGames = this.state.activeGames;
+        const gamesView = [];
+        activeGames.forEach((g, index) => {
+            var id = g.gameExternalId;
+            var gameDate = new Date(g.dateTime);
+            var available =  gameDate === new Date();
+            gamesView.push(
+                <ListGroupItem key={index} bsStyle={available ? "success" : "danger"}>
+                    <Link to={`/game/${id}`}>
+                        {available ? 
+                        (<Button bsStyle="primary">{g.virtualEditionTitle}</Button>) 
+                        : 
+                        (<Glyphicon glyph="lock" />)}
+                    </Link>
+                        {g.virtualEditionTitle} - {gameDate.toLocaleDateString()} {gameDate.toLocaleTimeString()}
+                </ListGroupItem>)
+    });
     return (
         <Grid fluid>
             <AppContext>
@@ -151,10 +168,14 @@ class App extends Component {
                                         <Button bsStyle="primary">Classic game</Button>
                                     </Link>
                                 </Col>
-                                <Col md={4} mdOffset={2} xs={5}>
-                                    <Link to="/todo">
+                                <Col md={2} mdOffset={2} xs={5}>
+                                    {/* <Link to="/todo">
                                         <Button bsStyle="primary">Custom game</Button>
-                                    </Link>
+                                    </Link> */}
+                                    <h4>Custom games</h4>
+                                    <ListGroup>
+                                        {gamesView}
+                                    </ListGroup>
                                 </Col>
                             </Row>
                         </div>
