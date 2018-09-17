@@ -45,9 +45,7 @@ public class AnnotationDTO implements Serializable {
 			// tutorial&lt/a&gt"
 			// + "&lt/p&gt&lt/body&gt&lt/html&gt";
 
-			setText(text);
-
-			// setText(annotation.getText());
+			setText(StringEscapeUtils.unescapeHtml(annotation.getText()));
 		} else if (annotation instanceof HumanAnnotation) {
 			setText(StringEscapeUtils.unescapeHtml(annotation.getText()));
 		}

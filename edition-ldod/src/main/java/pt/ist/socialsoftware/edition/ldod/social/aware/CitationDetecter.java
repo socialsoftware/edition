@@ -125,14 +125,9 @@ public class CitationDetecter {
 		String username = ((TwitterCitation) citation).getUsername();
 		String userProfileURL = ((TwitterCitation) citation).getUserProfileURL();
 
-		// old code
 		String infoText = "SOURCE LINK: " + sourceLink + "\n" + "DATE: " + date + "\n" + "TWEET ID: " + tweetID + "\n"
 				+ "COUNTRY: " + country + "\n" + "LOCATION: " + location + "\n" + "USERNAME:" + username + "\n"
 				+ "USER PROFILE: " + userProfileURL;
-
-		// new code to support hyperlinks
-		// String infoText = "<a href=\"https://www.w3schools.com/html/\">Visit our HTML
-		// tutorial!</a>";
 
 		return infoText;
 	}
