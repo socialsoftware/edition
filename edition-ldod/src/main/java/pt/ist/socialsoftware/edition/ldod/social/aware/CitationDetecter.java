@@ -126,7 +126,7 @@ public class CitationDetecter {
 		String userProfileURL = ((TwitterCitation) citation).getUserProfileURL();
 
 		String infoText = "SOURCE LINK: " + sourceLink + "\n" + "DATE: " + date + "\n" + "TWEET ID: " + tweetID + "\n"
-				+ "COUNTRY: " + country + "\n" + "LOCATION: " + location + "\n" + "USERNAME: " + username + "\n"
+				+ "COUNTRY: " + country + "\n" + "LOCATION: " + location + "\n" + "USERNAME:" + username + "\n"
 				+ "USER PROFILE: " + userProfileURL;
 
 		return infoText;
@@ -258,6 +258,8 @@ public class CitationDetecter {
 	private void citationDetection() throws IOException, FileNotFoundException {
 		File folder = new File(PropertiesManager.getProperties().getProperty("social.aware.dir"));
 		for (File fileEntry : folder.listFiles()) {
+			logger.debug("JSON file name: " + fileEntry.getName());
+
 			try {
 				JSONObject obj = new JSONObject();
 				String line = null;
@@ -359,6 +361,8 @@ public class CitationDetecter {
 						Fragment fragment = inter.getFragment();
 
 						String tweetTextWithoutHttp = removeHttpFromTweetText(obj);
+
+						logger.debug("GOING TO CREATE A TWITTER CITATION!!");
 
 						new TwitterCitation(fragment, (String) obj.get("tweetURL"), (String) obj.get("date"),
 								d.get(TEXT), tweetTextWithoutHttp, (long) obj.get("tweetID"),

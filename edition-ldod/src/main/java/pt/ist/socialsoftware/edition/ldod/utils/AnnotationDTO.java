@@ -7,6 +7,7 @@ import java.util.List;
 import org.apache.commons.lang.StringEscapeUtils;
 
 import pt.ist.socialsoftware.edition.ldod.domain.Annotation;
+import pt.ist.socialsoftware.edition.ldod.domain.AwareAnnotation;
 import pt.ist.socialsoftware.edition.ldod.domain.HumanAnnotation;
 import pt.ist.socialsoftware.edition.ldod.domain.Range;
 import pt.ist.socialsoftware.edition.ldod.domain.Tag;
@@ -28,9 +29,29 @@ public class AnnotationDTO implements Serializable {
 	}
 
 	public AnnotationDTO(Annotation annotation) {
+		if (annotation instanceof AwareAnnotation) {
+			// String text = "<a href=\"https://www.w3schools.com/html/\">Visit our HTML
+			// tutorial!</a>";
+
+			// String text = "&lta href=\"https://www.w3schools.com/html/\"&gtVisit our HTML
+			// tutorial!&lt/a&gt";
+
+			// String text = "<html><body><p>" + "<a
+			// href=\"https://www.w3schools.com/html/\">Visit our HTML tutorial</a>"
+			// + "</p></body></html>";
+
+			// String text = "&lthtml&gt&ltbody&gt&ltp&gt"
+			// + "&lta href=&quothttps://www.w3schools.com/html/&quot&gtVisit our HTML
+			// tutorial&lt/a&gt"
+			// + "&lt/p&gt&lt/body&gt&lt/html&gt";
+
+			setText(StringEscapeUtils.unescapeHtml(annotation.getText()));
+		} else if (annotation instanceof HumanAnnotation) {
+			setText(StringEscapeUtils.unescapeHtml(annotation.getText()));
+		}
+
 		setId(annotation.getExternalId());
 		setQuote(StringEscapeUtils.unescapeHtml(annotation.getQuote()));
-		setText(StringEscapeUtils.unescapeHtml(annotation.getText()));
 		setUri(annotation.getVirtualEditionInter().getExternalId());
 
 		this.ranges = new ArrayList<>();
@@ -40,7 +61,7 @@ public class AnnotationDTO implements Serializable {
 
 		setUser(annotation.getUser().getUsername());
 
-		// código alterado para o cast
+		// code that supports treatment for Human Annotation
 		if (annotation instanceof HumanAnnotation) {
 			this.tags = new ArrayList<>();
 			for (Tag tag : ((HumanAnnotation) annotation).getTagSet()) {
@@ -48,28 +69,10 @@ public class AnnotationDTO implements Serializable {
 						((HumanAnnotation) annotation).getVirtualEditionInter().getVirtualEdition()));
 			}
 
-			// setUser(((HumanAnnotation) annotation).getUser().getUsername());
-
 			setPermissions(
 					new PermissionDTO(((HumanAnnotation) annotation).getVirtualEditionInter().getVirtualEdition(),
 							((HumanAnnotation) annotation).getUser()));
 		}
-
-		// código original
-		/*
-		 * this.tags = new ArrayList<>(); for (Tag tag : annotation.getTagSet()) {
-		 * this.tags.add(
-		 * tag.getCategory().getNameInEditionContext(annotation.getVirtualEditionInter()
-		 * .getVirtualEdition())); }
-		 * 
-		 * 
-		 * 
-		 * setUser(annotation.getUser().getUsername());
-		 * 
-		 * setPermissions( new
-		 * PermissionDTO(annotation.getVirtualEditionInter().getVirtualEdition(),
-		 * annotation.getUser()));
-		 */
 	}
 
 	public List<RangeJson> getRanges() {
