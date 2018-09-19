@@ -67,9 +67,9 @@ public class VirtualEdition extends VirtualEdition_Base {
 		return "ED.VIRT." + getAcronym();
 	}
 
-	public VirtualEdition(VirtualManager ldod, LdoDUser participant, String acronym, String title, LocalDate date, Boolean pub,
+	public VirtualEdition(VirtualManager virtualManager, LdoDUser participant, String acronym, String title, LocalDate date, Boolean pub,
                           Edition usedEdition) {
-		setVirtualManager4Virtual(ldod);
+		setVirtualManager4Virtual(virtualManager);
 		new Member(this, participant, Member.MemberRole.ADMIN, true);
 		setXmlId("ED.VIRT." + acronym);
 		setAcronym(acronym);
@@ -86,10 +86,10 @@ public class VirtualEdition extends VirtualEdition_Base {
 	}
 
 	// TODO fazer a verificação dos parâmetros vazios
-	public VirtualEdition(VirtualManager ldod, LdoDUser participant, String acronym, String title, LocalDate date, Boolean pub,
+	public VirtualEdition(VirtualManager virtualManager, LdoDUser participant, String acronym, String title, LocalDate date, Boolean pub,
                           Edition usedEdition, String mediaSource, String beginDate, String endDate, String geoLocation,
                           String frequency) {
-		setVirtualManager4Virtual(ldod);
+		setVirtualManager4Virtual(virtualManager);
 		new Member(this, participant, Member.MemberRole.ADMIN, true);
 		setXmlId("ED.VIRT." + acronym);
 		setAcronym(acronym);

@@ -39,6 +39,10 @@ public class EditionController {
 		Edition edition = CollectionManager.getInstance().getEdition(acronym);
 
 		if (edition == null) {
+			edition = VirtualManager.getInstance().getVirtualEdition(acronym);
+		}
+
+		if (edition == null) {
 			return "redirect:/error";
 		} else {
 			model.addAttribute("heteronym", null);

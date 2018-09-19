@@ -295,7 +295,7 @@ public class ExpertEditionTEIExport {
 			additionsElement = new Element("additions", this.xmlns);
 
 			if (manuscript.getHasLdoDLabel()) {
-				additionsElement.addContent("VirtualManager");
+				additionsElement.addContent("LdoD");
 			}
 			physDescElement.addContent(additionsElement);
 

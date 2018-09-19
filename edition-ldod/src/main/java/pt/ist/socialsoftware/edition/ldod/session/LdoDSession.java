@@ -33,11 +33,11 @@ public class LdoDSession implements Serializable {
 		LdoDSession ldoDSession = null;
 		if (request.getSession().getAttribute("ldoDSession") == null) {
 			ldoDSession = new LdoDSession();
-			VirtualEdition virtualEdition = VirtualManager.getInstance().getVirtualEdition("VirtualManager-JPC-anot");
+			VirtualEdition virtualEdition = VirtualManager.getInstance().getVirtualEdition("LdoD-JPC-anot");
 			if (virtualEdition != null) {
 				ldoDSession.addSelectedVE(virtualEdition);
 			}
-			virtualEdition = VirtualManager.getInstance().getVirtualEdition("VirtualManager-Mallet");
+			virtualEdition = VirtualManager.getInstance().getVirtualEdition("LdoD-Mallet");
 			if (virtualEdition != null) {
 				ldoDSession.addSelectedVE(virtualEdition);
 			}
@@ -76,11 +76,11 @@ public class LdoDSession implements Serializable {
 	}
 
 	public List<VirtualEdition> materializeVirtualEditions() {
-		VirtualManager ldod = VirtualManager.getInstance();
+		VirtualManager virtualManager = VirtualManager.getInstance();
 
 
-		return this.selectedVEAcr.stream().map(acr -> ldod.getVirtualEdition(acr)).filter(e -> e != null)
-				.map(VirtualEdition.class::cast).collect(Collectors.toList());
+		return this.selectedVEAcr.stream().map(acr -> virtualManager.getVirtualEdition(acr)).filter(e -> e != null)
+				.collect(Collectors.toList());
 
 	}
 

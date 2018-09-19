@@ -258,7 +258,6 @@ public class AdminController {
 		}
 		activeSessions.stream().sorted((s1, s2) -> s1.getLastRequest().compareTo(s2.getLastRequest()));
 
-		model.addAttribute("ldoD", VirtualManager.getInstance());
 		model.addAttribute("users",
 				UserManager.getInstance().getUsersSet().stream()
 						.sorted((u1, u2) -> u1.getFirstName().toLowerCase().compareTo(u2.getFirstName().toLowerCase()))

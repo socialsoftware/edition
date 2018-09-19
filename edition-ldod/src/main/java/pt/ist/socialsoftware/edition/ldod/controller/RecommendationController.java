@@ -122,8 +122,8 @@ public class RecommendationController {
 			@RequestParam(value = "inter[]", required = false) String[] inters) {
 		// logger.debug("saveLinearVirtualEdition");
 
-		VirtualManager ldod = VirtualManager.getInstance();
-		VirtualEdition virtualEdition = (VirtualEdition) ldod.getVirtualEdition(acronym);
+		VirtualManager virtualManager = VirtualManager.getInstance();
+		VirtualEdition virtualEdition = virtualManager.getVirtualEdition(acronym);
 		if (inters != null && virtualEdition.getSourceType().equals(EditionType.VIRTUAL)) {
 			Section section = virtualEdition.createSection(Section.DEFAULT);
 			VirtualEditionInter VirtualEditionInter;

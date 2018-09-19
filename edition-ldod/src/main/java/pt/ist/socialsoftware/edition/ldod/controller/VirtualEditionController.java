@@ -51,11 +51,15 @@ public class VirtualEditionController {
 	@RequestMapping(method = RequestMethod.GET)
 	public String listVirtualEdition(Model model, @ModelAttribute("ldoDSession") LdoDSession ldoDSession) {
 
+		List virtualEditions = VirtualManager.getInstance().getVirtualEditions4User(LdoDUser.getAuthenticatedUser(), ldoDSession);
+
+
+		logger.debug("\n\n\nSOMETHING:\n" + LdoDSession.getLdoDSession().materializeVirtualEditions() + "\n\n\n\n");
+
 		model.addAttribute("ldod", VirtualManager.getInstance());
 		model.addAttribute("expertEditions", CollectionManager.getInstance().getSortedExpertEdition());
-		model.addAttribute("virtualEditions",
-				VirtualManager.getInstance().getVirtualEditions4User(LdoDUser.getAuthenticatedUser(), ldoDSession));
 		model.addAttribute("user", LdoDUser.getAuthenticatedUser());
+		model.addAttribute("virtualEditions", virtualEditions);
 
 		return "virtual/editions";
 	}

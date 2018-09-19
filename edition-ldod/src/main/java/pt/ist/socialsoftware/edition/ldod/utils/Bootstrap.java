@@ -298,14 +298,15 @@ public class Bootstrap implements WebApplicationInitializer {
 	}
 
 	private static void createLdoDArchiveVirtualEdition() {
-		VirtualManager ldod = VirtualManager.getInstance();
+		VirtualManager virtualManager = VirtualManager.getInstance();
 		UserManager userManager = UserManager.getInstance();
 
 
 		LdoDUser ars = userManager.getUser("ars");
 		// LdoDUser mp = ldod.getUser("mp");
+		logger.debug("\n\n\n\n\n" + Edition.ARCHIVE_EDITION_NAME + "\n\n\n\n\n");
 
-		VirtualEdition ldoDArchiveEdition = new VirtualEdition(ldod, ars, Edition.ARCHIVE_EDITION_ACRONYM,
+		VirtualEdition ldoDArchiveEdition = new VirtualEdition(virtualManager, ars, Edition.ARCHIVE_EDITION_ACRONYM,
 				Edition.ARCHIVE_EDITION_NAME, new LocalDate(), true, null);
 
 		// ldoDArchiveEdition.addMember(mp, MemberRole.ADMIN, true);

@@ -1425,7 +1425,7 @@ public class LoadTEIFragments {
 		}
 
 		Element additions = physDesc.getChild("additions", this.namespace);
-		if (additions.getTextTrim().equals("VirtualManager")) {
+		if (additions.getTextTrim().equals("LdoD")) {
 			manuscript.setHasLdoDLabel(true);
 		}
 

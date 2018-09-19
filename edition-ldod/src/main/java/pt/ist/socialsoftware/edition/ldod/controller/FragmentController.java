@@ -233,7 +233,7 @@ public class FragmentController {
 		List<ScholarInter> inters = new ArrayList<>();
 		if (intersID != null) {
 			for (String interID : intersID) {
-				FragInter inter = (FragInter) FenixFramework.getDomainObject(interID);
+				FragInter inter = FenixFramework.getDomainObject(interID);
 				if (inter != null) {
 					if (inter.getSourceType() == Edition.EditionType.VIRTUAL) {
 						inters.add(((VirtualEditionInter) inter).getLastUsed());
@@ -244,14 +244,30 @@ public class FragmentController {
 			}
 		}
 
+//		List<FragInter> inters = new ArrayList<>();
+//		if (intersID != null) {
+//			for (String interID : intersID) {
+//				FragInter inter = FenixFramework.getDomainObject(interID);
+//				if (inter != null) {
+//						inters.add(inter);
+//				}
+//			}
+//		}
+
 		model.addAttribute("ldoD", VirtualManager.getInstance());
 		model.addAttribute("user", LdoDUser.getAuthenticatedUser());
 		model.addAttribute("fragment", fragment);
 		model.addAttribute("inters", inters);
 
 		if (inters.size() == 1) {
-			ScholarInter inter = inters.get(0);
-			PlainHtmlWriter4OneInter writer4One = new PlainHtmlWriter4OneInter(inter);
+			FragInter fragInter = inters.get(0);
+			ScholarInter scholarInter;
+			if (fragInter.getSourceType() == Edition.EditionType.VIRTUAL) {
+				scholarInter = ((VirtualEditionInter) fragInter).getLastUsed();
+			} else {
+				scholarInter = (ScholarInter) fragInter;
+			}
+			PlainHtmlWriter4OneInter writer4One = new PlainHtmlWriter4OneInter(scholarInter);
 			writer4One.write(false);
 			model.addAttribute("writer", writer4One);
 		} else if (inters.size() > 1) {
