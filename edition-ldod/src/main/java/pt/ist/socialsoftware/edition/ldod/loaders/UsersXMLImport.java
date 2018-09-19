@@ -71,7 +71,16 @@ public class UsersXMLImport {
 		for (Element element : xp.evaluate(doc)) {
 			String username = element.getAttributeValue("username");
 			if (userManager.getUser(username) == null) {
-				String password = element.getAttributeValue("password");
+			    if (userManager.getUser(username) == null) {
+				// New code to support null passwords
+				String password = null;
+				if (element.getAttributeValue("password") != null) {
+					password = element.getAttributeValue("password");
+				}
+
+				// Original code
+				// String password = element.getAttributeValue("password");
+
 				String firstName = element.getAttributeValue("firstName");
 				String lastName = element.getAttributeValue("lastName");
 				String email = element.getAttributeValue("email");
@@ -107,7 +116,7 @@ public class UsersXMLImport {
 
 	}
 
-	private void importUserConnections(Document doc, UserManager userManager) {
+	private void importUserConnections(Document doc, LdoD ldoD) {
 		XPathFactory xpfac = XPathFactory.instance();
 		XPathExpression<Element> xp = xpfac.compile("//users-management/user-connections/user-connection",
 				Filters.element());
