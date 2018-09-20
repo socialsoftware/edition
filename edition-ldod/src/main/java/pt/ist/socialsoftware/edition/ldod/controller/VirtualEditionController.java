@@ -21,14 +21,17 @@ import pt.ist.socialsoftware.edition.ldod.session.LdoDSession;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDCreateVirtualEditionException;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDDuplicateNameException;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDEditVirtualEditionException;
-import pt.ist.socialsoftware.edition.text.shared.exception.*;
+import pt.ist.socialsoftware.edition.ldod.social.aware.AwareAnnotationFactory;
 import pt.ist.socialsoftware.edition.ldod.topicmodeling.TopicModeler;
-import pt.ist.socialsoftware.edition.text.utils.PropertiesManager;
 import pt.ist.socialsoftware.edition.ldod.utils.TopicListDTO;
 import pt.ist.socialsoftware.edition.ldod.validator.VirtualEditionValidator;
 import pt.ist.socialsoftware.edition.text.domain.CollectionManager;
 import pt.ist.socialsoftware.edition.text.domain.Edition;
 import pt.ist.socialsoftware.edition.text.domain.FragInter;
+import pt.ist.socialsoftware.edition.text.shared.exception.LdoDDuplicateAcronymException;
+import pt.ist.socialsoftware.edition.text.shared.exception.LdoDException;
+import pt.ist.socialsoftware.edition.text.shared.exception.LdoDExceptionNonAuthorized;
+import pt.ist.socialsoftware.edition.text.utils.PropertiesManager;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -54,7 +57,6 @@ public class VirtualEditionController {
 		List virtualEditions = VirtualManager.getInstance().getVirtualEditions4User(LdoDUser.getAuthenticatedUser(), ldoDSession);
 
 
-		logger.debug("\n\n\nSOMETHING:\n" + LdoDSession.getLdoDSession().materializeVirtualEditions() + "\n\n\n\n");
 
 		model.addAttribute("ldod", VirtualManager.getInstance());
 		model.addAttribute("expertEditions", CollectionManager.getInstance().getSortedExpertEdition());

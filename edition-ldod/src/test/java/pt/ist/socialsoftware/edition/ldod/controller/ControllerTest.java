@@ -69,7 +69,6 @@ public class ControllerTest {
         LoadTEIFragments loader = new LoadTEIFragments();
         for (InputStream file: files){
 
-//            System.out.println("\n\n\n\n\n\n\n" + file + "\n\n\n\n\n\n");
             loader.loadFragmentsStepByStep(file);
         }
     }

@@ -71,7 +71,6 @@ public class UsersXMLImport {
 		for (Element element : xp.evaluate(doc)) {
 			String username = element.getAttributeValue("username");
 			if (userManager.getUser(username) == null) {
-			    if (userManager.getUser(username) == null) {
 				// New code to support null passwords
 				String password = null;
 				if (element.getAttributeValue("password") != null) {
@@ -116,7 +115,7 @@ public class UsersXMLImport {
 
 	}
 
-	private void importUserConnections(Document doc, LdoD ldoD) {
+	private void importUserConnections(Document doc, UserManager userManager) {
 		XPathFactory xpfac = XPathFactory.instance();
 		XPathExpression<Element> xp = xpfac.compile("//users-management/user-connections/user-connection",
 				Filters.element());
