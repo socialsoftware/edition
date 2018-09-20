@@ -46,4 +46,10 @@ public class ScheduledTasks {
 		AwareAnnotationFactory awareFactory = new AwareAnnotationFactory();
 		awareFactory.generate();
 	}
+
+	@Scheduled(cron = "0 0 5 * * *")
+	public void lucenePerformance() throws IOException {
+		// LucenePerformance lucenePerformance = new LucenePerformance();
+		// lucenePerformance.runLivro();
+	}
 }
