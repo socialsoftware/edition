@@ -67,17 +67,22 @@ public class CitationDetecter {
 		queryParser = new QueryParser(TEXT, analyzer);
 	}
 
-	@Atomic(mode = TxMode.WRITE)
 	public void detect() throws IOException {
 		logger.debug("STARTING CITATION DETECTER!!");
 		// resets last twitter IDs
-		LdoD.getInstance().getLastTwitterID().resetTwitterIDS();
+		resetLastTwitterIds();
+
 		citationDetection();
 		logger.debug("FINISHED DETECTING CITATIONS!!!");
 
 		// identify ranges
 		logger.debug("STARTED IDENTIFYING RANGES!!!");
+		createInfoRanges();
+		logger.debug("FINISHED IDENTIFYING RANGES!!!");
+	}
 
+	@Atomic(mode = TxMode.WRITE)
+	private void createInfoRanges() {
 		for (Citation citation : LdoD.getInstance().getCitationSet()) {
 			if (citation.getInfoRangeSet().isEmpty()) {
 				Fragment citationFragment = citation.getFragment();
@@ -89,7 +94,11 @@ public class CitationDetecter {
 				}
 			}
 		}
-		logger.debug("FINISHED IDENTIFYING RANGES!!!");
+	}
+
+	@Atomic(mode = TxMode.WRITE)
+	private void resetLastTwitterIds() {
+		LdoD.getInstance().getLastTwitterID().resetTwitterIDS();
 	}
 
 	private void createInfoRange(FragInter inter, Citation citation) {
@@ -258,64 +267,83 @@ public class CitationDetecter {
 	private void citationDetection() throws IOException, FileNotFoundException {
 		File folder = new File(PropertiesManager.getProperties().getProperty("social.aware.dir"));
 		for (File fileEntry : folder.listFiles()) {
-			logger.debug("JSON file name: " + fileEntry.getName());
-
-			try {
-				JSONObject obj = new JSONObject();
-				String line = null;
-
-				BufferedReader bufferedReader = new BufferedReader(new FileReader(fileEntry));
-
-				// criar um tempMaxID que guarda o valor de
-				// LdoD.getInstance().getLastTwitterID()
-				// pq é preciso darmos set na base de dados do valor antes do while, pq vem logo
-				// na primeira linha
-				long tempMaxID = LdoD.getInstance().getLastTwitterID().getLastTwitterID(fileEntry.getName());
-
-				int lineNum = 0;
-				while ((line = bufferedReader.readLine()) != null) {
-					obj = (JSONObject) new JSONParser().parse(line);
-
-					if (lineNum == 0) {
-						if ((long) obj.get("tweetID") > LdoD.getInstance().getLastTwitterID()
-								.getLastTwitterID(fileEntry.getName())) {
-							LdoD.getInstance().getLastTwitterID().updateLastTwitterID(fileEntry.getName(),
-									(long) obj.get("tweetID"));
-						}
-					}
-					lineNum++;
-
-					if (obj.containsKey("isRetweet") && (boolean) obj.get("isRetweet")) {
-						continue;
-					}
-
-					if ((long) obj.get("tweetID") > tempMaxID) {
-						String tweetTextWithoutHttp = removeHttpFromTweetText(obj);
-
-						if (!tweetTextWithoutHttp.equals("")) {
-							searchQueryParserJSON(tweetTextWithoutHttp, obj);
-							// searchQueryParser(absoluteSearch(tweetTextWithoutHttp)); //demasiado rígida,
-							// nao funciona no nosso caso
-						}
-
-					} else {
-						break;
-					}
-				}
-				bufferedReader.close();
-			} catch (ParseException e) {
-				e.printStackTrace();
-			} catch (org.apache.lucene.queryparser.classic.ParseException e) {
-				e.printStackTrace();
-			} catch (org.json.simple.parser.ParseException e) {
-				e.printStackTrace();
-			}
+			fileCitationDetection(fileEntry);
 		}
+		printLastTwitterIds();
+
+	}
+
+	@Atomic
+	private void printLastTwitterIds() {
 		logger.debug("LdoD BookLastTwitterID:{}", LdoD.getInstance().getLastTwitterID().getBookLastTwitterID());
 		logger.debug("LdoD BernardoLastTwitterID:{}", LdoD.getInstance().getLastTwitterID().getBernardoLastTwitterID());
 		logger.debug("LdoD VicenteLastTwitterID:{}", LdoD.getInstance().getLastTwitterID().getVicenteLastTwitterID());
 		logger.debug("LdoD PessoaLastTwitterID:{}", LdoD.getInstance().getLastTwitterID().getPessoaLastTwitterID());
+	}
 
+	private void fileCitationDetection(File fileEntry) throws FileNotFoundException, IOException {
+		logger.debug("JSON file name: " + fileEntry.getName());
+
+		try {
+			JSONObject obj = new JSONObject();
+			String line = null;
+
+			BufferedReader bufferedReader = new BufferedReader(new FileReader(fileEntry));
+
+			// criar um tempMaxID que guarda o valor de
+			// LdoD.getInstance().getLastTwitterID()
+			// pq é preciso darmos set na base de dados do valor antes do while, pq vem logo
+			// na primeira linha
+			long tempMaxID = getLastTwitterId(fileEntry);
+
+			int lineNum = 0;
+			while ((line = bufferedReader.readLine()) != null) {
+				logger.debug(line);
+				obj = (JSONObject) new JSONParser().parse(line);
+
+				if (lineNum == 0) {
+					updateLastTwitterId(fileEntry, obj);
+				}
+				lineNum++;
+
+				if (obj.containsKey("isRetweet") && (boolean) obj.get("isRetweet")) {
+					continue;
+				}
+
+				if ((long) obj.get("tweetID") > tempMaxID) {
+					String tweetTextWithoutHttp = removeHttpFromTweetText(obj);
+
+					if (!tweetTextWithoutHttp.equals("")) {
+						searchQueryParserJSON(tweetTextWithoutHttp, obj);
+						// searchQueryParser(absoluteSearch(tweetTextWithoutHttp)); //demasiado rígida,
+						// nao funciona no nosso caso
+					}
+
+				} else {
+					break;
+				}
+			}
+			bufferedReader.close();
+		} catch (ParseException e) {
+			e.printStackTrace();
+		} catch (org.apache.lucene.queryparser.classic.ParseException e) {
+			e.printStackTrace();
+		} catch (org.json.simple.parser.ParseException e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Atomic
+	private long getLastTwitterId(File fileEntry) {
+		long tempMaxID = LdoD.getInstance().getLastTwitterID().getLastTwitterID(fileEntry.getName());
+		return tempMaxID;
+	}
+
+	@Atomic(mode = TxMode.WRITE)
+	private void updateLastTwitterId(File fileEntry, JSONObject obj) {
+		if ((long) obj.get("tweetID") > LdoD.getInstance().getLastTwitterID().getLastTwitterID(fileEntry.getName())) {
+			LdoD.getInstance().getLastTwitterID().updateLastTwitterID(fileEntry.getName(), (long) obj.get("tweetID"));
+		}
 	}
 
 	public void searchQueryParserJSON(String query, JSONObject obj)
@@ -326,6 +354,7 @@ public class CitationDetecter {
 		searchIndexAndDisplayResultsJSON(parsedQuery, obj);
 	}
 
+	@Atomic(mode = TxMode.WRITE)
 	public void searchIndexAndDisplayResultsJSON(Query query, JSONObject obj) {
 		try {
 			int hitsPerPage = 5;
@@ -368,6 +397,7 @@ public class CitationDetecter {
 								d.get(TEXT), tweetTextWithoutHttp, (long) obj.get("tweetID"),
 								(String) obj.get("location"), (String) obj.get("country"), (String) obj.get("username"),
 								(String) obj.get("profURL"), (String) obj.get("profImg"));
+
 					}
 
 				}
