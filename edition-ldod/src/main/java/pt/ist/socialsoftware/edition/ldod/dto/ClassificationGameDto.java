@@ -1,10 +1,14 @@
 package pt.ist.socialsoftware.edition.ldod.dto;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 import org.joda.time.DateTime;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import pt.ist.socialsoftware.edition.ldod.controller.api.ClassificationGameController;
 import pt.ist.socialsoftware.edition.ldod.domain.ClassificationGame;
 
 public class ClassificationGameDto {
@@ -13,13 +17,14 @@ public class ClassificationGameDto {
 	private String virtualEditionTitle;
 	private String description;
 	private boolean openAnnotation;
+	private boolean ended;
 	private long dateTime;
 	private VirtualEditionInterDto virtualEditionInterDto;
 	private List<LdoDUserDto> members;
-	private Map<String, List<GameTagDto>> submittedTags = new LinkedHashMap<>();
+	private Map<String, List<GameTagDto>> submittedTags = new ConcurrentHashMap<>();
 	private String winningTag;
 	private String winner;
-	private Map<String, Double> players = new LinkedHashMap<>();;
+	private  Map<String, Double> players = new LinkedHashMap<>(100);
 
 	public ClassificationGameDto(){
 
@@ -134,8 +139,7 @@ public class ClassificationGameDto {
 
 	public void addPlayer(String player, double score){
 		Double scoreObj = new Double(score);
-		this.players.put(player, scoreObj);
-
+		Double put = this.players.put(player, scoreObj);
 	}
 
 	public boolean updatePlayerScore(String player, Double score){
@@ -157,6 +161,14 @@ public class ClassificationGameDto {
 
 	public void setSubmittedTags(HashMap<String,List<GameTagDto>> submittedTags) {
 		this.submittedTags = submittedTags;
+	}
+
+	public boolean hasEnded() {
+		return ended;
+	}
+
+	public void setEnded(boolean ended) {
+		this.ended = ended;
 	}
 
 	/*public void addTag(GameTagDto tag){

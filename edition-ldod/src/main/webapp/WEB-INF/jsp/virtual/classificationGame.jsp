@@ -68,8 +68,15 @@
 						items='${games}'>
 						<tr>
 							<td>${game.getDescription()}</td>
-							<td>${game.getVirtualEditionInter().getTitle()}</td>
-							<td>${game.getDateTime().toLocalDate()} ${game.getDateTime().toLocalTime()}</td>
+							<c:choose>
+								<c:when test="${game.isActive()}">
+									<td>${game.getVirtualEditionInter().getTitle()}</td>
+								</c:when>
+								<c:otherwise>
+									<td class="success"><span class="glyphicon glyphicon-asterisk"></span>${game.getVirtualEditionInter().getTitle()}</td>
+								</c:otherwise>
+							</c:choose>
+							<td>${game.getDateTime().toString("dd/MM/yyyy HH:mm")}</td>
 							<td><c:choose>
 									<c:when test="${game.getOpenAnnotation()}">
 										<spring:message code="taxonomy.annotation.all" />

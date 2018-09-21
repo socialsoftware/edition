@@ -45,8 +45,10 @@ public class Tag extends Tag_Base implements Comparable<Tag> {
 		setContributor(null);
 		setAnnotation(null);
 
-		if (getClassificationGame() != null) {
-			getClassificationGame().remove();
+		ClassificationGame game = getClassificationGame();
+		if (game != null) {
+			setClassificationGame(null);
+			game.remove();
 		}
 
 		deleteDomainObject();

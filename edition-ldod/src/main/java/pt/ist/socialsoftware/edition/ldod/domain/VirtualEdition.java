@@ -96,6 +96,8 @@ public class VirtualEdition extends VirtualEdition_Base {
 
 		setLdoD4Virtual(null);
 
+		getClassificationGameSet().stream().forEach(g -> g.remove());
+
 		getTaxonomy().remove();
 
 		getMemberSet().stream().forEach(m -> m.remove());
@@ -117,8 +119,6 @@ public class VirtualEdition extends VirtualEdition_Base {
 		for (RecommendationWeights weights : getRecommendationWeightsSet()) {
 			weights.remove();
 		}
-
-		getClassificationGameSet().stream().forEach(g -> g.remove());
 
 		super.remove();
 	}

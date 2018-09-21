@@ -60,6 +60,7 @@ import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDExceptionNonAutho
 import pt.ist.socialsoftware.edition.ldod.topicmodeling.TopicModeler;
 import pt.ist.socialsoftware.edition.ldod.utils.PropertiesManager;
 import pt.ist.socialsoftware.edition.ldod.utils.TopicListDTO;
+import pt.ist.socialsoftware.edition.ldod.validator.ClassificationGameValidator;
 import pt.ist.socialsoftware.edition.ldod.validator.VirtualEditionValidator;
 
 @Controller
@@ -563,7 +564,7 @@ public class VirtualEditionController {
 		} else {
 			model.addAttribute("virtualEdition", virtualEdition);
 			model.addAttribute("games", virtualEdition.getClassificationGameSet().stream()
-					.sorted((g1, g2) -> -g1.getDateTime().compareTo(g2.getDateTime())).collect(Collectors.toList()));
+					.sorted((g1, g2) -> g1.getDateTime().compareTo(g2.getDateTime())).collect(Collectors.toList()));
 			return "virtual/classificationGame";
 		}
 	}
@@ -593,7 +594,13 @@ public class VirtualEditionController {
 			return "redirect:/error";
 		} else {
 			// TODO: check parameters
+			ClassificationGameValidator validator = new ClassificationGameValidator(description, date, players, externalId);
+			validator.validate();
 
+			List<String> errors = validator.getErrors();
+			if (errors.size() > 0) {
+				throw new LdoDException("CHECK ERRORS");
+			}
 			virtualEdition.createClassificationGame(description, players,
 					DateTime.parse(date, DateTimeFormat.forPattern("dd/MM/yyyy HH:mm")), inter,
 					LdoDUser.getAuthenticatedUser());

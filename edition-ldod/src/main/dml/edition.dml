@@ -21,6 +21,7 @@ enum UnclearText.UnclearReason as UnclearReason;
 enum AltText.AltMode as AltMode;
 enum NoteText.NoteType as NoteType;
 enum RefText.RefType as RefType;
+enum ClassificationGame.ClassificationGameState as ClassificationGameState;
 
 class LdoD {
 	String title;
@@ -749,6 +750,7 @@ relation LdoDHasTweets {
 }
 
 class ClassificationGame {
+    ClassificationGameState state;
 	String description;
 	boolean openAnnotation;
 	DateTime dateTime;

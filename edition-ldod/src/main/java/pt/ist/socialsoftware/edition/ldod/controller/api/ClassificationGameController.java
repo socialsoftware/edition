@@ -1,10 +1,6 @@
 package pt.ist.socialsoftware.edition.ldod.controller.api;
 
 import java.util.*;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.TimeUnit;
-import java.util.function.ToIntFunction;
 import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
@@ -16,169 +12,124 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import pt.ist.fenixframework.Atomic;
+import pt.ist.fenixframework.Atomic.*;
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
-import pt.ist.socialsoftware.edition.ldod.dto.APIResponse;
 import pt.ist.socialsoftware.edition.ldod.dto.ClassificationGameDto;
-import pt.ist.socialsoftware.edition.ldod.dto.GameDTO;
 import pt.ist.socialsoftware.edition.ldod.dto.GameTagDto;
 
 @RestController
+@RequestMapping("/api/services/ldod-game")
 public class ClassificationGameController {
 	private static Logger logger = LoggerFactory.getLogger(ClassificationGameController.class);
+
 	@Autowired
 	private SimpMessagingTemplate broker;
-	private final Map<String, ClassificationGameDto> gamesNEW = new LinkedHashMap<>();
-	private final Map<String, List<GameTagDto>> submittedTagsNEW = new LinkedHashMap<>();
-	private final BlockingQueue<Boolean> queue = new ArrayBlockingQueue<>(1);
-	private final BlockingQueue<Boolean> sync = new ArrayBlockingQueue<>(1);
-	int users = 0;
+
+	private Map<String, ClassificationGameDto> gamesMapDto = new LinkedHashMap<>(100);
+	private Map<String, List<GameTagDto>> tagsMapDto = new LinkedHashMap<>(100);
 
 
-	@GetMapping("/api/services/ldod-game/active")
+	@GetMapping("/active")
 	public @ResponseBody ResponseEntity<List<ClassificationGameDto>> getActiveGames() {
-		/*ClassificationGameDto[] result = LdoD.getInstance().getVirtualEditionsSet().stream()
-				.flatMap(ve -> ve.getClassificationGameSet().stream().filter(ClassificationGame::isActive))
-				.map(ClassificationGameDto::new).sorted((g1, g2) -> g1.getDateTime().compareTo(g2.getDateTime()))
-				.toArray(ClassificationGameDto[]::new);*/
-
-		// CHANGED TO LIST
-		/*List<ClassificationGameDto> result = LdoD.getInstance().getVirtualEditionsSet().stream()
-				.flatMap(ve -> ve.getClassificationGameSet().stream().filter(ClassificationGame::isActive))
-				.map(ClassificationGameDto::new).sorted((g1, g2) -> g1.getDateTime().compareTo(g2.getDateTime())).collect(Collectors.toList());*/
 		List<ClassificationGameDto> result = LdoD.getInstance().getVirtualEditionsSet().stream()
 				.flatMap(ve -> ve.getClassificationGameSet().stream().filter(ClassificationGame::isActive))
 				.map(ClassificationGameDto::new).sorted(Comparator.comparingLong(ClassificationGameDto::getDateTime)).collect(Collectors.toList());
 
-		// INITIAL SETUP for GAMES
-		for(ClassificationGameDto gameDto : result){
-			gamesNEW.put(gameDto.getGameExternalId(), gameDto);
-			submittedTagsNEW.put(gameDto.getGameExternalId(),new ArrayList<>());
+		for (ClassificationGameDto gameDto : result) {
+			if (!gamesMapDto.containsKey(gameDto.getGameExternalId())) {
+				gamesMapDto.put(gameDto.getGameExternalId(), gameDto);
+				tagsMapDto.put(gameDto.getGameExternalId(), new ArrayList<>(100));
+			}
 		}
 
 		return new ResponseEntity<>(result, HttpStatus.OK);
 
 	}
 
-	/*@PostMapping("/api/services/ldod-game/finish")
-	public @ResponseBody ResponseEntity<String> finishGame(@RequestBody ClassificationGameDto classificationGameDto) {
-		/*logger.debug("finishGame gameExternalId: {}, tag: {}, winner: {}, players: {}",
-				classificationGameDto.getGameExternalId(), classificationGameDto.getWinningTag(),
-				classificationGameDto.getWinner(),
-				classificationGameDto.getPlayers().stream().collect(Collectors.joining(",")));*/
+	@GetMapping("/end/{gameId}")
+	public @ResponseBody ResponseEntity<?> end(@PathVariable(value = "gameId") String gameId) {
+		//logger.debug("end: {}", gameId);
 
-	/*	ClassificationGame game = FenixFramework.getDomainObject(classificationGameDto.getGameExternalId());
-
-		game.finish(classificationGameDto.getWinner(), classificationGameDto.getWinningTag(),
-				classificationGameDto.getPlayers());
-
-		return new ResponseEntity<String>(HttpStatus.OK);
-
-	}*/
-
-	@MessageMapping("/connect")
-	@SendTo("/topic/config")
-	public @ResponseBody void handleConnect(@Payload Map<String, String> payload) {
-		logger.debug("connect received: {}", payload.values());
-		String userId = payload.get("userId");
-		String gameId = payload.get("gameId");
-		ClassificationGameDto currentGame = gamesNEW.get(gameId);
-		// Inserir jogador, por participar recebe um ponto
-		currentGame.addPlayer(userId, 1.0);
-		payload.remove("userId");
-		payload.remove("gameId");
-		/*try {
-			// Thread.sleep(1 * 60 *1000);
-			while (currentGame.getPlayers().size() <= 1) {
-				Thread.sleep(1000); // TODO: use the above time
-			}
-			this.broker.convertAndSend("/topic/config", payload.values());
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}*/
-		if(currentGame.getPlayers().size() > 1){
-			logger.debug("second connect");
-			try {
-				queue.put(true);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
-
-		try {
-			if(currentGame.getPlayers().size() <= 1){
-				logger.debug("wait");
-				queue.poll(30,TimeUnit.SECONDS);
-			}
-			payload.put("currentUsers", String.valueOf(currentGame.getPlayers().size()));
-			payload.put("command", "ready");
-			logger.debug("connect sending {}", payload.values());
-			this.broker.convertAndSend("/topic/config", payload.values());
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-
-		//this.broker.convertAndSend("/topic/config", payload.values());
-
-	}
-
-	@GetMapping("/api/services/ldod-game/end/{gameId}")
-	public @ResponseBody ResponseEntity<?> handleEnd(@PathVariable(value = "gameId") String gameId) {
-		//logger.debug("end of game: {}", gameId);
-		// TODO: make transaction,i.e, save to DB
-		ClassificationGameDto currentGame = gamesNEW.get(gameId);
+		ClassificationGameDto currentGame = gamesMapDto.get(gameId);
 		String winner = currentGame.getWinner();
 		String winningTag = currentGame.getWinningTag();
 		List<Object> response = new ArrayList<>();
 		response.add(winner);
 		response.add(winningTag);
 		response.add(currentGame.getPlayersMap());
-		if(finishGame(gameId, winner, winningTag,currentGame.getPlayersMap())){
-			logger.debug("saving to db");
-			return new ResponseEntity<>(response, HttpStatus.OK);
-		}
-		logger.debug("error: did not save in db");
-		return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+		currentGame.setEnded(true);
+
+		ClassificationGame game = FenixFramework.getDomainObject(gameId);
+		game.finish(winner, winningTag, currentGame.getPlayersMap());
+		return new ResponseEntity<>(response, HttpStatus.OK);
 
 	}
 
-	private boolean finishGame(String gameId, String winner, String winningTag, Map<String,Double> players) {
-		/*logger.debug("finishGame gameExternalId: {}, tag: {}, winner: {}, players: {}",
-				classificationGameDto.getGameExternalId(), classificationGameDto.getWinningTag(),
-				classificationGameDto.getWinner(),
-				classificationGameDto.getPlayers().stream().collect(Collectors.joining(",")));*/
-		ClassificationGame game = FenixFramework.getDomainObject(gameId);
-		game.finish(winner, winningTag, players);
-		return true;
+	@GetMapping("/leaderboard")
+	public @ResponseBody ResponseEntity<?> getLeaderboard() {
+		List<Object> response = new ArrayList<>();
 
+		List<Player> players = LdoD.getInstance().getUsersSet().stream().map(LdoDUser::getPlayer).collect(Collectors.toList());
+
+		Map<String, Double> playersScores = new LinkedHashMap<>();
+		for (Player p: players) {
+			if (p != null) {
+				playersScores.put(p.getUser().getUsername(), p.getScore());
+			}
+		}
+
+		List<String> users = playersScores.entrySet().stream().sorted(Collections.reverseOrder(Map.Entry
+				.comparingByValue())).map(Map.Entry::getKey).collect(Collectors.toList());
+		List<Double> scores = playersScores.entrySet().stream().sorted(Collections.reverseOrder(Map.Entry
+				.comparingByValue())).map(Map.Entry::getValue).collect(Collectors.toList());
+
+		response.add(users);
+		response.add(scores);
+
+		return new ResponseEntity<>(response.toArray(), HttpStatus.OK);
+
+	}
+
+	@MessageMapping("/connect")
+	@SendTo("/topic/config")
+	public synchronized @ResponseBody void handleConnect(@Payload Map<String, String> payload) {
+		//logger.debug(" handleConnect keys: {}, value: {}", payload.keySet(), payload.values());
+
+		String userId = payload.get("userId");
+		String gameId = payload.get("gameId");
+
+		ClassificationGameDto currentGame = gamesMapDto.get(gameId);
+		currentGame.addPlayer(userId, 1.0);
+
+		ClassificationGame.getUserArray().add(userId);
+		ClassificationGame.getGameBlockingMap().put(gameId, ClassificationGame.getUserArray());
+		logger.debug("users {} {}", ClassificationGame.getUserArray(), ClassificationGame.getUserArray().size());
 	}
 
 	@MessageMapping("/tags")
 	@SendTo("/topic/tags")
 	public @ResponseBody void handleTags(@Payload Map<String, String> payload) {
-		//logger.debug("Tags received {} {}", payload.keySet(), payload.values());
+		//logger.debug("handleTags keys: {}, values: {}", payload.keySet(), payload.values());
+
 		// authorId <=> userId
 		String gameId = payload.get("gameId");
 		String authorId = payload.get("authorId");
-		ClassificationGameDto currentGame = gamesNEW.get(gameId);
+		ClassificationGameDto currentGame = gamesMapDto.get(gameId);
 		GameTagDto tag = new GameTagDto(authorId, gameId, currentGame.getVirtualEditionInterDto().getUrlId(), payload.get("msg"), 1.0);
-		List<GameTagDto> res = submittedTagsNEW.get(gameId);
+		List<GameTagDto> res = tagsMapDto.get(gameId);
 
 
 		if (res.stream().noneMatch(t -> t.getContent().equals(tag.getContent()))) {
 			// if tag is submitted for the first we add it havina a value of 2.0
 			res.add(tag);
-			submittedTagsNEW.put(gameId, res);
+			tagsMapDto.put(gameId, res);
 			// bug was occuring game only had 1 player
 			boolean op = currentGame.updatePlayerScore(authorId, 2.0);
-			logger.debug("handleTags -> updatePlayerScore occured: {} ", op );
+			//logger.debug("handleTags -> updatePlayerScore occured: {} ", op );
 
 		} else {
 			// if tag already exists increment score and update +1
@@ -191,28 +142,26 @@ public class ClassificationGameController {
 				t.addVoter(authorId); // suggested <=> voted
 			});
 			boolean op = currentGame.updatePlayerScore(authorId, 1.0);
-			logger.debug("handleTags -> updatePlayerScore occured: {} ", op );
+			//logger.debug("handleTags -> updatePlayerScore occured: {} ", op );
 		}
 
-		//logger.debug("Tags sending {} {}", payload.keySet(), payload.values());
 		this.broker.convertAndSend("/topic/tags", payload.values());
-
 	}
 
 	@MessageMapping("/votes")
 	@SendTo("/topic/votes")
 	public @ResponseBody void handleVotes(@Payload Map<String, String> payload) {
-		//logger.debug("Votes received {} {}", payload.keySet(), payload.values());
+		//logger.debug("handleVotes keys: {}, values: {}", payload.keySet(), payload.values());
+
 		String gameId = payload.get("gameId");
 		String voterId = payload.get("voterId");
 		String tagMsg = payload.get("msg");
 		Object vote = payload.get("vote");
 		double finalVote = Double.parseDouble((String) vote);
-		ClassificationGameDto currentGame = gamesNEW.get(gameId);
-		List<GameTagDto> res = submittedTagsNEW.get(gameId);
+		ClassificationGameDto currentGame = gamesMapDto.get(gameId);
+		List<GameTagDto> res = tagsMapDto.get(gameId);
 
-		if(res == null){
-			logger.debug("No tags submitted");
+		if (res == null) {
 			return;
 		}
 		res.stream().filter(t -> t.getContent().equals(tagMsg)).forEach(tagDto -> {
@@ -222,34 +171,48 @@ public class ClassificationGameController {
 			payload.put("vote", String.valueOf(tagDto.getScore()));
 		});
 
-		GameTagDto topGameTag = res.stream().sorted(Comparator.comparing(GameTagDto::getScore).reversed()).limit(1).collect(Collectors.toList()).get(0);
+		GameTagDto topGameTag;
+		if (!res.isEmpty()) {
+			topGameTag = res.stream().sorted(Comparator.comparing(GameTagDto::getScore).reversed()).limit(1).collect(Collectors.toList()).get(0);
+		}
+		else {
+			topGameTag = new GameTagDto("system", gameId, currentGame.getVirtualEditionInterDto().getUrlId(), "no tags submitted", 0);
+		}
+
 		String currentTopTag = topGameTag.getContent();
 		String currentWinner = topGameTag.getAuthorId();
 		currentGame.setWinner(currentWinner);
 		currentGame.setWinningTag(currentTopTag);
+
 		payload.put("top", currentTopTag);
 		payload.put("winner", currentWinner);
-		//logger.debug("vote sending: {} {}", payload.keySet(), payload.values());
-		this.broker.convertAndSend("/topic/votes", payload.values());
 
+		this.broker.convertAndSend("/topic/votes", payload.values());
 	}
 
 	@MessageMapping("/review")
 	@SendTo("/topic/review")
 	public @ResponseBody void handleReview(@Payload Map<String, String> payload) {
-		//logger.debug("Review received {}", payload.values());
+		//logger.debug("handleReview keys: {}, values: {}", payload.keySet(), payload.values());
+
 		String gameId = payload.get("gameId");
 		String voterId = payload.get("voterId");
 		Object limit = payload.get("limit");
 		int finalLimit = Integer.parseInt((String)limit);
-		ClassificationGameDto currentGame = gamesNEW.get(gameId);
-		List<GameTagDto> res = submittedTagsNEW.get(gameId);
+		ClassificationGameDto currentGame = gamesMapDto.get(gameId);
+		List<GameTagDto> res = tagsMapDto.get(gameId);
 
-		users += 1;
+		if (res == null) {
+			logger.debug("No tags submitted");
+			return;
+		}
+
 
 		//List<GameTagDto> topTags = res.stream().sorted((g1, g2) -> (int) g2.getScore()).limit(finalLimit).collect(Collectors.toList());
 		// TODO: check me, removed limit
-		List<GameTagDto> topTags = res.stream().sorted((g1, g2) -> (int) g2.getScore()).collect(Collectors.toList());
+
+		List<GameTagDto> topTags = res.stream().sorted(Comparator.comparing(GameTagDto::getScore).reversed()).collect(Collectors.toList());
+
 		//payload.put("topTags", topTags);
 		List<Map<String, String>> response = new ArrayList<>();
 		for (GameTagDto gameTagDto : topTags) {
@@ -258,104 +221,54 @@ public class ClassificationGameController {
 			map.put("vote", String.valueOf(gameTagDto.getScore()));
 			response.add(map);
 		}
-		GameTagDto topGameTag = res.stream().sorted(Comparator.comparing(GameTagDto::getScore).reversed()).limit(1).collect(Collectors.toList()).get(0);
+
+		GameTagDto topGameTag;
+		if (!res.isEmpty()) {
+			topGameTag = topTags.get(0);
+		}
+		else {
+
+			topGameTag = new GameTagDto("system", gameId, currentGame.getVirtualEditionInterDto().getUrlId(), "no tags submitted", 0);
+		}
+
 		String currentTopTag = topGameTag.getContent();
 		String currentWinner = topGameTag.getAuthorId();
+
 		Map<String, String> map = new LinkedHashMap<>();
 		map.put(currentWinner, currentTopTag);
 		response.add(map);
 
-		// number of players to wait
-		if(users  == currentGame.getPlayers().size()){
-			logger.debug("number of users is the expected");
-			try {
-				sync.put(true);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
-
-		try {
-			if (users <= currentGame.getPlayers().size()) {
-				logger.debug("wait for users to sync");
-				sync.poll(30, TimeUnit.SECONDS);
-			}
-			logger.debug("review is now sending");
-			//users = 0;
-			this.broker.convertAndSend("/topic/review", response);
-		}
-		catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-
+		this.broker.convertAndSend("/topic/review", response);
 	}
 
-	@GetMapping("/api/services/ldod-game/leaderboard")
-	public @ResponseBody ResponseEntity<?> getLeaderboard() {
-		//logger.debug("get leaderboard");
-		List<Object> response = new ArrayList<>();
-		for(ClassificationGameDto g: gamesNEW.values()){
-			List<String> users = g.getPlayersMap().entrySet().stream().sorted(Collections.reverseOrder(Map.Entry.comparingByValue())).map(Map.Entry::getKey).collect(Collectors.toList());
-			List<Double> scores = g.getPlayersMap().entrySet().stream().sorted(Collections.reverseOrder(Map.Entry.comparingByValue())).map(Map.Entry::getValue).collect(Collectors.toList());
-			response.add(users);
-			response.add(scores);
-		}
-		return new ResponseEntity<>(response.toArray(), HttpStatus.OK);
+	@MessageMapping("/register")
+	@SendTo("/topic/config")
+	@Atomic(mode = TxMode.READ)
+	public @ResponseBody void handleRegister(@Payload Map<String, String> payload) {
+		//logger.debug("handleRegister keys: {}, values: {}", payload.keySet(), payload.values());
 
-	}
+		String gameId = payload.get("gameId");
+		payload.remove("userId");
+		payload.remove("gameId");
 
-	@MessageMapping("/sync")
-	@SendTo("/topic/sync")
-	public void handleSync(@Payload Map<String, String> payload) {
-	/*	logger.debug("handle received: {} {}", payload.keySet(), payload.values());
-		String gameId = payload.get("gameId"); // gameId
-		String userId = payload.get("userId"); // userId
-		ClassificationGameDto currentGame = gamesNEW.get(gameId);
-		users += 1;
-		 // number of players to wait
-		if(users  == currentGame.getPlayers().size()){
-			logger.debug("number of users is the expected");
-			try {
-				sync.put(true);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
+		Thread t = new Thread(new Runnable() {
+			@Atomic(mode = TxMode.READ)
+			public void run() {
+				while (true) {
+					ClassificationGame game = FenixFramework.getDomainObject(gameId);
+					if (game != null && game.hasStarted()) {
 
-		try {
-			if(users <= currentGame.getPlayers().size()){
-				logger.debug("wait for users to sync");
-				sync.poll(30,TimeUnit.SECONDS);
-			}
-			payload.remove("userId");
-			payload.remove("gameId");
-			payload.put("command", "continue");
-			logger.debug("sync sending {}", payload.values());
-			this.broker.convertAndSend("/topic/sync", payload);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-			/*try {
-				TODO: use the seconds received
-				while (currentGame.getPlayers().size() <= 1) {
-					Thread.sleep(1000); //
+						payload.put("currentUsers", String.valueOf(ClassificationGame.getGameBlockingMap().get(gameId).size()));
+						payload.put("command", "ready");
+						broker.convertAndSend("/topic/config", payload.values());
+						ClassificationGame.getGameBlockingMap().get(gameId).clear();//check this
+						ClassificationGame.getUserArray().clear(); //check this
+						break;
+					}
 				}
-				this.broker.convertAndSend("/topic/sync", "nextRound");
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}*/
-			/*BlockingQueue<Boolean> waitForUsers = new ArrayBlockingQueue<>(1);
-			try {
-				waitForUsers.poll(seconds, TimeUnit.SECONDS);
-				while(currentGame.getPlayers().size() <= ....
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}*/
-			//waitForUsers.poll(seconds,TimeUnit.SECONDS);
-
-			//And then in the code that changes your condition do this:
-
-			//waitForUsers.put(true)*/
-		}
+			}
+		});
+   		t.start();
+	}
 
 }
