@@ -17,6 +17,7 @@ import GoogleLogin from '../social/GoogleLogin';
 import TwitterLogin from '../social/TwitterLogin';
 import { notification } from 'antd';
 import { Jumbotron, Button, Col, Grid, Row, ListGroup, ListGroupItem, Glyphicon} from 'react-bootstrap'; 
+import Feedback from '../common/Feedback';
 
 class App extends Component {
     constructor(props) {
@@ -45,11 +46,16 @@ class App extends Component {
     componentDidMount(){
         //if(sessionStorage.getItem(ACCESS_TOKEN)){
             this.loadCurrentUser();
+            this.getAndSetupGames()
+            setInterval(function () {
+                this.getAndSetupGames();
+            }.bind(this), 60000)
         //}
     }
 
     // TODO: CHECK THIS DUE TO REFRESH and OLD TOKENS
     componentWillUnmount() {
+        
         //localStorage.clear();
         //caches.delete("JSESSIONID");
     }
@@ -70,7 +76,7 @@ class App extends Component {
                 this.setState({
                 });
             });
-        await this.getAndSetupGames();
+        //await this.getAndSetupGames();
     }
 
 
@@ -81,7 +87,7 @@ class App extends Component {
         
         this.setState({
             currentUser: null,
-            isAuthenticated: false
+            isAuthenticated: false,
         });
         
         this.props.history.push(redirectTo);
@@ -97,30 +103,44 @@ class App extends Component {
             message: LDOD_MESSAGE,
             description: "You're successfully logged in.",
         });
-        await this.loadCurrentUser();
         this.props.history.push("/");
+        await this.loadCurrentUser();
+        await this.getAndSetupGames();
         return 
     }
 
     async getAndSetupGames(){
         let request = await getActiveGames();
+        var gameDate = request[0] != null ? new Date(request[0].dateTime) : null;
         this.setState({
             activeGames: request,
-            game: request[0],
-            dateTime: new Date(request[0].dateTime),
+            //game: request[0],
+            dateTime:  gameDate,
             enabled: true,//temp
             isLoading: false,
         })
-        /* var dateItHappens = new Date(request[0].dateTime);
-        // ... set the dateItHappens variable up ...
-        var millisTillOccurence = dateItHappens.getTime() - new Date().getTime();
-        setTimeout(function () {
+        
+        if(request[0] == null){ return; }
+    
+        var dateItHappens = new Date(request[0].dateTime);
+        var date = new Date();
+        var available = gameDate.getHours() === date.getHours() && gameDate.getMinutes() === date.getMinutes() && gameDate.getDate() === date.getDate();
+        //var millisTillOccurence = dateItHappens.getTime() - new Date().getTime();
+        console.log(available);
+        if(available){
             this.setState({enabled: true});
             notification["info"]({
                 message: LDOD_MESSAGE,
                 description: "New game available!",
             });
-        }.bind(this), millisTillOccurence) */
+        }
+/*        setTimeout(function () {
+            this.setState({enabled: true});
+            notification["info"]({
+                message: LDOD_MESSAGE,
+                description: "New game available!",
+            });
+        }.bind(this), millisTillOccurence)*/
     }
     
     render() {
@@ -130,25 +150,28 @@ class App extends Component {
         }
         let activeGames = this.state.activeGames;
         const gamesView = [];
-        activeGames.forEach((g, index) => {
-            var id = g.gameExternalId;
-            var gameDate = new Date(g.dateTime);
-            var available =  gameDate === new Date();
-            gamesView.push(
-                <ListGroupItem key={index} bsStyle={available ? "success" : "danger"}>
-                    <Link to={`/game/${id}`}>
-                        {available ? 
-                        (<Button bsStyle="primary">{g.virtualEditionTitle}</Button>) 
-                        : 
-                        (<Glyphicon glyph="lock" />)}
-                    </Link>
-                        {g.virtualEditionTitle} - {gameDate.toLocaleDateString()} {gameDate.toLocaleTimeString()}
-                </ListGroupItem>)
-    });
+        if(this.state.isAuthenticated){
+            activeGames.forEach((g, index) => {
+                var id = g.gameExternalId;
+                var gameDate = new Date(g.dateTime);
+                var date = new Date();
+                var available =  (gameDate.getHours() === date.getHours() && gameDate.getMinutes() === date.getMinutes() && gameDate.getDate() === date.getDate());
+                gamesView.push(
+                    <ListGroupItem key={index} bsStyle={available ? "success" : "danger"}>
+                        <Link to={`/game/${id}`}>
+                            {available ? 
+                            (<div><Glyphicon glyph="ok" /><Button bsStyle="primary">{g.virtualEditionTitle}</Button></div>) 
+                            : 
+                            (<Glyphicon glyph="lock" />)}
+                        </Link>
+                            {g.virtualEditionTitle} - {gameDate.toLocaleDateString()} {gameDate.toLocaleTimeString()}
+                    </ListGroupItem>)
+            });
+        }
     return (
         <Grid fluid>
             <AppContext>
-            <Provider value={{currentUser: this.state.currentUser, game: this.state.game}}>  
+            <Provider value={{currentUser: this.state.currentUser, games: this.state.activeGames}}>  
                 {this.props.children}
             <Header
                 isAuthenticated={this.state.isAuthenticated}
@@ -198,11 +221,14 @@ class App extends Component {
                         <PrivateRoute path="/user/:username" authenticated={this.state.isAuthenticated} currentUser={this.state.currentUser}
                         component={Profile}>
                         </PrivateRoute>
-                        <PrivateRoute path="/game" authenticated={this.state.isAuthenticated} currentUser={this.state.currentUser}
+                        <PrivateRoute path="/game/:id" authenticated={this.state.isAuthenticated} currentUser={this.state.currentUser}
                         component={Game}>
                         </PrivateRoute>
                         <PrivateRoute path="/leaderboard" authenticated={this.state.isAuthenticated} currentUser={this.state.currentUser}
                         component={GameLeadeboard}>
+                        </PrivateRoute>
+                        <PrivateRoute path="/feedback" authenticated={this.state.isAuthenticated} currentUser={this.state.currentUser}
+                        component={Feedback}>
                         </PrivateRoute>
                         <Route component={NotFound}></Route>
                     </Switch>

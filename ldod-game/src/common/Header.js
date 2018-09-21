@@ -27,6 +27,9 @@ class HeaderNavigation extends Component {
                         <NavItem eventKey={5} componentClass={Link} href="/leaderboard" to="/leaderboard">
                             Leaderboard
                         </NavItem>
+                        <NavItem eventKey={6} componentClass={Link} href="/feedback" to="/feedback">
+                            Feedback
+                        </NavItem>
                         <NavDropdown eventKey={5} title={name} id="nav-dropdown">                       
                             <MenuItem eventKey={5.1} componentClass={Link} href={`/user/${this.props.currentUser.username}`} to={`/user/${this.props.currentUser.username}`}>
                                 Profile

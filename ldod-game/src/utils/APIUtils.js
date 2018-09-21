@@ -111,11 +111,3 @@ export function getActiveGames(){
         method: 'GET'
     });
 }
-
-export function finishGame(gameRequest){
-    return request({
-        url: API_BASE_URL + API_SERVICES_URL + '/ldod-game/finish',
-        method: 'POST',
-        body: JSON.stringify(gameRequest)
-    });
-}

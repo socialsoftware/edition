@@ -26,13 +26,7 @@ class VirtualEdition extends Component {
     }
 
     async endGame(){
-        let res = this.props.game;
-        let request = await endGame(this.props.gameId);
-        /*res.winner = request[0];
-        res.winningTag = request[1];
-        res.dateTime = null;
-        const gameRequest = Object.assign({}, res);
-        await finishGame(gameRequest);*/
+        await endGame(this.props.gameId);
     }
     
     invokeCommand(command) {

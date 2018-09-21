@@ -25,28 +25,46 @@ class Game extends Component {
             dateTime: 0,
         };
         this.connect = this.connect.bind(this);
+        this.disconnect = this.disconnect.bind(this);
         this.onMessageReceive = this.onMessageReceive.bind(this);
     }
 
     async componentDidMount(){
-       this.setState({
-           game: this.props.context.game,
-           gameId: this.props.context.game.gameExternalId,
+        const gameId = this.props.match.params.id;
+        var game = this.props.context.games.find(function(element) {
+            return element.gameExternalId === gameId;
+        });
+        
+        this.setState({
+           game: game,
+           gameId: gameId,
            userId: this.props.context.currentUser.username,
-           dateTime: new Date(this.props.context.game.dateTime),
+           dateTime: new Date(game.dateTime),
            socket: <SockJsClient
                     url={WEB_SOCKETS_URL}
                     topics={['/topic/config']}
                     ref={ (client) => { this.clientRef = client }}
-                    onConnect={ () => { this.connect()}}
+                    onConnect={ () => { this.connect(gameId)}}
+                    onDisconnect={ () => {this.disconnect(gameId)}}
                     onMessage={(message) => this.onMessageReceive(message)} /> 
         });
         
     }
 
-    connect(){
+    connect(gameId){
         try {
-            this.clientRef.sendMessage('/ldod-game/connect', JSON.stringify({ userId: this.props.context.currentUser.username, gameId: this.props.context.game.gameExternalId}));
+            this.clientRef.sendMessage('/ldod-game/connect', JSON.stringify({ userId: this.props.context.currentUser.username, gameId: gameId}));
+            this.clientRef.sendMessage('/ldod-game/register', JSON.stringify({ userId: this.props.context.currentUser.username, gameId: gameId}));
+            return true;
+          } catch(e) {
+            return false;
+          }
+        
+    }
+
+    disconnect(gameId){
+        try {
+            this.clientRef.sendMessage('/ldod-game/connect', JSON.stringify({ userId: this.props.context.currentUser.username, gameId: gameId, disconnect: "disconnected"}));
             return true;
           } catch(e) {
             return false;
