@@ -3,8 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "ajv": "^6.5.1",
-    "ajv-keywords": "^3.2.0",
     "antd": "^3.6.4",
     "bootstrap": "^4.1.1",
     "bootstrap-social": "^5.1.1",
@@ -18,9 +16,7 @@
     "react-fontawesome": "^1.6.1",
     "react-router-dom": "^4.2.2",
     "react-scripts": "1.1.4",
-    "react-stomp": "^3.2.0",
-    "react-tag-input": "^5.0.2",
-    "react-talk": "^1.0.0"
+    "react-stomp": "^3.2.0"
   },
   "scripts": {
     "start": "react-app-rewired start",
