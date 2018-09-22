@@ -116,7 +116,7 @@ class App extends Component {
             activeGames: request,
             //game: request[0],
             dateTime:  gameDate,
-            enabled: true,//temp
+            enabled: false,//temp
             isLoading: false,
         })
         
@@ -125,22 +125,23 @@ class App extends Component {
         var dateItHappens = new Date(request[0].dateTime);
         var date = new Date();
         var available = gameDate.getHours() === date.getHours() && gameDate.getMinutes() === date.getMinutes() && gameDate.getDate() === date.getDate();
-        //var millisTillOccurence = dateItHappens.getTime() - new Date().getTime();
-        console.log(available);
+        var millisTillOccurence = dateItHappens.getTime() - new Date().getTime();
+       /* console.log(available);
         if(available){
             this.setState({enabled: true});
             notification["info"]({
                 message: LDOD_MESSAGE,
                 description: "New game available!",
             });
-        }
-/*        setTimeout(function () {
+        }*/
+        
+        setTimeout(function () {
             this.setState({enabled: true});
             notification["info"]({
                 message: LDOD_MESSAGE,
                 description: "New game available!",
             });
-        }.bind(this), millisTillOccurence)*/
+        }.bind(this), millisTillOccurence)
     }
     
     render() {
@@ -154,6 +155,7 @@ class App extends Component {
             activeGames.forEach((g, index) => {
                 var id = g.gameExternalId;
                 var gameDate = new Date(g.dateTime);
+                var options = { hour: 'numeric', minute: '2-digit' };
                 var date = new Date();
                 var available =  (gameDate.getHours() === date.getHours() && gameDate.getMinutes() === date.getMinutes() && gameDate.getDate() === date.getDate());
                 gamesView.push(
@@ -164,7 +166,7 @@ class App extends Component {
                             : 
                             (<Glyphicon glyph="lock" />)}
                         </Link>
-                            {g.virtualEditionTitle} - {gameDate.toLocaleDateString()} {gameDate.toLocaleTimeString()}
+                            {g.virtualEditionTitle} - {gameDate.toLocaleDateString()} {gameDate.toLocaleString(navigator.language, options)}
                     </ListGroupItem>)
             });
         }
