@@ -110,7 +110,7 @@ class App extends Component {
     }
 
     async getAndSetupGames(){
-        let request = await getActiveGames();
+        let request = await getActiveGames(localStorage.getItem("currentUser"));
         var gameDate = request[0] != null ? new Date(request[0].dateTime) : null;
         this.setState({
             activeGames: request,

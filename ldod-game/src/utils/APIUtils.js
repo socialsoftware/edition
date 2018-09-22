@@ -105,9 +105,9 @@ export function getLeaderboard(){
     });
 }
 
-export function getActiveGames(){
+export function getActiveGames(username){
     return request({
-        url: API_BASE_URL + API_SERVICES_URL + '/ldod-game/active',
+        url: API_BASE_URL + API_SERVICES_URL + '/ldod-game/' + username + '/active',
         method: 'GET'
     });
 }
