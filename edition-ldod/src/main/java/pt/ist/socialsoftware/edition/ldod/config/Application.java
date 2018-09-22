@@ -3,6 +3,7 @@ package pt.ist.socialsoftware.edition.ldod.config;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -76,6 +77,11 @@ public class Application extends SpringBootServletInitializer implements Initial
 		loggingFilter.setIncludeHeaders(false);
 		loggingFilter.setAfterMessagePrefix("LOGGING: ");
 		return loggingFilter;
+	}
+
+	@Bean
+	public static BeanFactoryPostProcessor beanFactoryPostProcessor() {
+		return new CustomScopeRegisteringBeanFactoryPostProcessor();
 	}
 
 }

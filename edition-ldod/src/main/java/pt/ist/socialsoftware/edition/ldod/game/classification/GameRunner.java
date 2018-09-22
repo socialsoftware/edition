@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -20,9 +21,10 @@ import java.util.stream.Collectors;
 
 @Component
 //@Scope(scopeName = BeanDefinition.SCOPE_PROTOTYPE, proxyMode = ScopedProxyMode.TARGET_CLASS)
+@Scope("thread")
 public class GameRunner implements Runnable{
     private static Logger logger = LoggerFactory.getLogger(GameRunner.class);
-    private volatile String gameId;
+    private String gameId;
     private DateTime startTime;
     private Set<String> playersInGame;
 
@@ -34,13 +36,13 @@ public class GameRunner implements Runnable{
         this.broker = broker;
     }
 
-    public synchronized void setGameId(String gameId) {
+    public void setGameId(String gameId) {
         logger.debug("setGameId: {}", gameId);
         this.gameId = gameId;
     }
 
     @Override
-    public synchronized void run() {
+    public void run() {
         logger.debug("here {}", gameId);
         if (canOpenGame()) {
             while (Instant.now().isBefore(startTime.plusMinutes(1))) {

@@ -45,9 +45,9 @@ public class ScheduledTasks {
 		for (String id: gameIds) {
 			logger.debug("scheduleGames id {}", id);
 			//GameRunner game = new GameRunner(id);
+			//new Thread(game).start();
 			gameRunner.setGameId(id);
 			new Thread(gameRunner).start();
-			//new Thread(game).start();
 		}
 	}
 
