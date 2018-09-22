@@ -87,11 +87,11 @@
 									</c:otherwise>
 								</c:choose></td>
 							<td>${game.getTag().getCategory().getName()}</td>
-							<td><c:forEach var="player" items='${game.getPlayerSet()}'
+							<td><c:forEach var="participant" items='${game.getClassificationGameParticipantSet()}'
 									varStatus="loop">
 									<a
-										href="${contextPath}/edition/user/${player.getUser().getUsername()}">${player.getUser().getFirstName()}
-										${player.getUser().getLastName()}</a>
+										href="${contextPath}/edition/user/${participant.getPlayer().getUser().getUsername()}">${participant.getPlayer().getUser().getFirstName()}
+										${participant.getPlayer().getUser().getLastName()}</a>
 									<c:if test="${!loop.last}">, </c:if>
 								</c:forEach>
 							<td>${game.getTag().getContributor().getFirstName()}

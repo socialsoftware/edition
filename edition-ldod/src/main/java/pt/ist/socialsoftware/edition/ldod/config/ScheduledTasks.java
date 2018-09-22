@@ -10,6 +10,9 @@ import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.stereotype.Component;
@@ -31,13 +34,20 @@ import pt.ist.socialsoftware.edition.ldod.social.aware.TweetFactory;
 public class ScheduledTasks {
 	private static Logger logger = LoggerFactory.getLogger(ScheduledTasks.class);
 
-	@Scheduled(cron="0/1 * * * * ?")
+	@Autowired
+	GameRunner gameRunner;
+
+	@Scheduled(cron="0 * * * * *")
 	//@Scheduled(cron="0 0/5 * * * ?")
 	public void scheduleGames() throws IOException {
+		logger.debug("scheduleGames starting");
 		List<String> gameIds = getGames();
 		for (String id: gameIds) {
-			GameRunner game = new GameRunner(id);
-			new Thread(game).start();
+			logger.debug("scheduleGames id {}", id);
+			//GameRunner game = new GameRunner(id);
+			gameRunner.setGameId(id);
+			new Thread(gameRunner).start();
+			//new Thread(game).start();
 		}
 	}
 
@@ -45,14 +55,10 @@ public class ScheduledTasks {
 	private List<String> getGames() {
 		DateTime now = DateTime.now();
 
-		/*return LdoD.getInstance().getVirtualEditionsSet().stream().flatMap(virtualEdition ->
-				virtualEdition.getClassificationGameSet().stream()).filter(g -> g.getState().equals(ClassificationGame
-				.ClassificationGameState.OPEN) && g.getDateTime().isAfter(now) && g
-				.getDateTime().isBefore(now.plusMinutes(5))).sorted(Comparator.comparing
-				(ClassificationGame::getDateTime)).map(g -> g.getExternalId()).collect(Collectors.toList());*/
 		return LdoD.getInstance().getVirtualEditionsSet().stream().flatMap(virtualEdition ->
 				virtualEdition.getClassificationGameSet().stream()).filter(g -> g.getState().equals(ClassificationGame
-				.ClassificationGameState.OPEN) && g.getDateTime().isAfter(now)).sorted(Comparator.comparing
+				.ClassificationGameState.CREATED) && g.getDateTime().isAfter(now) && g
+				.getDateTime().isBefore(now.plusMinutes(2))).sorted(Comparator.comparing
 				(ClassificationGame::getDateTime)).map(g -> g.getExternalId()).collect(Collectors.toList());
 	}
 

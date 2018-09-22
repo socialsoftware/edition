@@ -760,14 +760,20 @@ class Player {
 	double score;
 }
 
+class ClassificationGameRound {
+    int number;
+    String tag;
+    DateTime time;
+}
+
+class ClassificationGameParticipant {
+    boolean winner;
+    double score;
+}
+
 relation VirtualEditionHasClassificationGames {
 	VirtualEdition playsRole virtualEdition {multiplicity 1..1;}
 	ClassificationGame playsRole classificationGame {multiplicity 0..*;}
-}
-
-relation ClassificationGameHasPlayers {
-	ClassificationGame playsRole classificationGame {multiplicity 0..*;}
-	Player playsRole player {multiplicity 0..*;} 
 }
 
 relation LdoDUserOwnsClassificationGame {
@@ -788,4 +794,19 @@ relation LdodUserIsPlayer {
 relation ClassificationGameProducesTag {
 	ClassificationGame playsRole classificationGame {multiplicity 0..1;}
 	Tag playsRole tag {multiplicity 0..1;}
+}
+
+relation ClassificationGameParticipantIsPlayer {
+	ClassificationGameParticipant playsRole classificationGameParticipant {multiplicity 0..*;}
+	Player playsRole player {multiplicity 1..1;}
+}
+
+relation ClassificationGameParticipantInGame {
+	ClassificationGameParticipant playsRole classificationGameParticipant {multiplicity 0..*;}
+	ClassificationGame playsRole classificationGame {multiplicity 1..1;}
+}
+
+relation ClassificationGameParticipantInGameRounds {
+	ClassificationGameParticipant playsRole classificationGameParticipant {multiplicity 1..1;}
+	ClassificationGameRound playsRole classificationGameRound {multiplicity 0..*;}
 }

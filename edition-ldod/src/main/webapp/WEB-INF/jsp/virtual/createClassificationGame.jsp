@@ -99,7 +99,7 @@
 <script type="text/javascript">
     $(function() {
         $('#datetimepicker1').datetimepicker({
-            stepping: 5,
+            //stepping: 5,
             minDate: new Date().getDate(),
             format: 'DD/MM/YYYY HH:mm',
             locale: "${locale}",

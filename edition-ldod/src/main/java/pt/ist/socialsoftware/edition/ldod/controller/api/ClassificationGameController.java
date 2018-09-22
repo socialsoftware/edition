@@ -105,9 +105,17 @@ public class ClassificationGameController {
 		ClassificationGameDto currentGame = gamesMapDto.get(gameId);
 		currentGame.addPlayer(userId, 1.0);
 
-		ClassificationGame.getUserArray().add(userId);
-		ClassificationGame.getGameBlockingMap().put(gameId, ClassificationGame.getUserArray());
-		logger.debug("users {} {}", ClassificationGame.getUserArray(), ClassificationGame.getUserArray().size());
+		createGameParticipant(gameId, userId);
+
+		/*ClassificationGame.getUserArray().add(userId);
+		ClassificationGame.getGameBlockingMap().put(gameId, ClassificationGame.getUserArray());*/
+		//logger.debug("users {} {}", ClassificationGame.getUsers(gameId), ClassificationGame.getUsers(gameId).size());
+	}
+
+	@Atomic(mode = TxMode.WRITE)
+	private void createGameParticipant(String gameId, String userId) {
+		ClassificationGame game = FenixFramework.getDomainObject(gameId);
+		game.addParticipant(userId);
 	}
 
 	@MessageMapping("/tags")
@@ -241,7 +249,7 @@ public class ClassificationGameController {
 		this.broker.convertAndSend("/topic/review", response);
 	}
 
-	@MessageMapping("/register")
+	/*@MessageMapping("/register")
 	@SendTo("/topic/config")
 	@Atomic(mode = TxMode.READ)
 	public @ResponseBody void handleRegister(@Payload Map<String, String> payload) {
@@ -258,17 +266,15 @@ public class ClassificationGameController {
 					ClassificationGame game = FenixFramework.getDomainObject(gameId);
 					if (game != null && game.hasStarted()) {
 
-						payload.put("currentUsers", String.valueOf(ClassificationGame.getGameBlockingMap().get(gameId).size()));
+						payload.put("currentUsers", String.valueOf(ClassificationGame.getUsers(gameId).size()));
 						payload.put("command", "ready");
 						broker.convertAndSend("/topic/config", payload.values());
-						ClassificationGame.getGameBlockingMap().get(gameId).clear();//check this
-						ClassificationGame.getUserArray().clear(); //check this
 						break;
 					}
 				}
 			}
 		});
    		t.start();
-	}
+	}*/
 
 }

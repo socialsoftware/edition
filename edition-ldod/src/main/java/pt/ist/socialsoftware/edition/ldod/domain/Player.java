@@ -8,13 +8,14 @@ public class Player extends Player_Base {
 
 	public void remove() {
 		setUser(null);
-		getClassificationGameSet().stream().forEach(g -> g.removePlayer(this));
+		getClassificationGameParticipantSet().stream().forEach(p -> p.remove());
 
 		deleteDomainObject();
 	}
 
 	public long score() {
-		return getClassificationGameSet().stream().filter(g -> g.getTag().getContributor() == getUser()).count();
+		return 0;
+		//return getClassificationGameSet().stream().filter(g -> g.getTag().getContributor() == getUser()).count();
 	}
 
 }
