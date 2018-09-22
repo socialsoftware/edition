@@ -12,6 +12,7 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import pt.ist.fenixframework.Atomic;
@@ -33,11 +34,14 @@ public class ClassificationGameController {
 	private Map<String, List<GameTagDto>> tagsMapDto = new LinkedHashMap<>(100);
 
 
-	@GetMapping("/active")
-	public @ResponseBody ResponseEntity<List<ClassificationGameDto>> getActiveGames() {
-		List<ClassificationGameDto> result = LdoD.getInstance().getVirtualEditionsSet().stream()
+	@GetMapping("/{username}/active")
+	@PreAuthorize("hasPermission(#username, 'user.logged')")
+	public @ResponseBody ResponseEntity<List<ClassificationGameDto>> getActiveGames(@PathVariable(value = "username") String username) {
+		/*List<ClassificationGameDto> result = LdoD.getInstance().getVirtualEditionsSet().stream()
 				.flatMap(ve -> ve.getClassificationGameSet().stream().filter(ClassificationGame::isActive))
-				.map(ClassificationGameDto::new).sorted(Comparator.comparingLong(ClassificationGameDto::getDateTime)).collect(Collectors.toList());
+				.map(ClassificationGameDto::new).sorted(Comparator.comparingLong(ClassificationGameDto::getDateTime)).collect(Collectors.toList());*/
+
+		List<ClassificationGameDto> result = LdoD.getInstance().getActiveGames4User(username).stream().map(ClassificationGameDto::new).sorted(Comparator.comparingLong(ClassificationGameDto::getDateTime)).collect(Collectors.toList());
 
 		for (ClassificationGameDto gameDto : result) {
 			if (!gamesMapDto.containsKey(gameDto.getGameExternalId())) {

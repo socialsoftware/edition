@@ -10,6 +10,7 @@ import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
+import pt.ist.socialsoftware.edition.ldod.dto.ClassificationGameDto;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
 
 public class ClassificationGame extends ClassificationGame_Base {
@@ -109,15 +110,13 @@ public class ClassificationGame extends ClassificationGame_Base {
 		return getTag() == null;
 	}
 
-	public Map<String, Double> getLeaderboard(){
-		//getClassificationGameParticipantSet().stream().sorted(Comparator.comparing(ClassificationGameParticipant::getScore));
-		/*Map<String, Double> collect = getPlayerSet().stream().collect(Collectors.toMap(player -> player.getUser()
-				.getUsername(), Player::getScore));
-		return collect.entrySet().stream()
-				.sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
-				.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));*/
-		return  null;
+	public Map<String, Double> getLeaderboard() {
+		List<Player> players = getClassificationGameParticipantSet().stream().map
+				(ClassificationGameParticipant::getPlayer).sorted(Comparator.comparing(Player::score)).collect
+				(Collectors.toList());
 
+		return players.stream().collect(Collectors.toMap(p -> p.getUser().getUsername(),
+				Player::getScore));
 	}
 
 }

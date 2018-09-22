@@ -79,9 +79,4 @@ public class Application extends SpringBootServletInitializer implements Initial
 		return loggingFilter;
 	}
 
-	@Bean
-	public static BeanFactoryPostProcessor beanFactoryPostProcessor() {
-		return new CustomScopeRegisteringBeanFactoryPostProcessor();
-	}
-
 }

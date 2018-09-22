@@ -1,8 +1,6 @@
 package pt.ist.socialsoftware.edition.ldod.domain;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import org.joda.time.DateTime;
@@ -16,6 +14,7 @@ import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser.SocialMediaService;
 import pt.ist.socialsoftware.edition.ldod.domain.Role.RoleType;
+import pt.ist.socialsoftware.edition.ldod.dto.ClassificationGameDto;
 import pt.ist.socialsoftware.edition.ldod.session.LdoDSession;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDDuplicateUsernameException;
 
@@ -271,4 +270,28 @@ public class LdoD extends LdoD_Base {
 	public Citation getCitationById(long id) {
 		return getCitationSet().stream().filter(citation -> citation.getId() == id).findFirst().orElse(null);
 	}
+
+	public List<VirtualEdition> getVirtualEditions4User(String username) {
+		LdoDUser user = getUser(username);
+		return LdoD.getInstance().getVirtualEditionsSet().stream().filter(virtualEdition -> virtualEdition.getParticipantList().contains(user)).collect(Collectors.toList());
+
+	}
+	
+	public Set<ClassificationGame> getPublicClassificationGames() {
+		return getVirtualEditionsSet().stream().flatMap(virtualEdition ->
+				virtualEdition.getClassificationGameSet().stream().filter(c -> c.getOpenAnnotation() && c.isActive()))
+				.collect(Collectors.toSet());
+	}
+
+	public Set<ClassificationGame> getActiveGames4User(String username) {
+		Set<VirtualEdition> virtualEditions4User = new HashSet<VirtualEdition>(getVirtualEditions4User(username));
+		Set<ClassificationGame> classificationGamesOfUser = virtualEditions4User.stream().flatMap(virtualEdition -> virtualEdition
+				.getClassificationGameSet().stream().filter(ClassificationGame::isActive)).collect(Collectors.toSet());
+
+		Set<ClassificationGame> allClassificationGames4User = new HashSet<>(getPublicClassificationGames());
+		allClassificationGames4User.addAll(classificationGamesOfUser);
+		return allClassificationGames4User;
+
+	}
+
 }
