@@ -167,6 +167,7 @@ public class FetchCitationsFromTwitter {
 						String username = s.getUser().getScreenName();
 						String tweetURL = "https://twitter.com/" + username + "/status/" + s.getId();
 						String profURL = "https://twitter.com/" + username;
+
 						String profImg = s.getUser().getBiggerProfileImageURL();
 
 						String formatedDate = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss").format(s.getCreatedAt());

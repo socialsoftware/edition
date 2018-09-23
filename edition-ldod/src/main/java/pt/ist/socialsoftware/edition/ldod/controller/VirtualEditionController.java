@@ -57,6 +57,7 @@ import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDDuplicateNameExce
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDEditVirtualEditionException;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDExceptionNonAuthorized;
+import pt.ist.socialsoftware.edition.ldod.social.aware.AwareAnnotationFactory;
 import pt.ist.socialsoftware.edition.ldod.topicmodeling.TopicModeler;
 import pt.ist.socialsoftware.edition.ldod.utils.PropertiesManager;
 import pt.ist.socialsoftware.edition.ldod.utils.TopicListDTO;
@@ -151,7 +152,6 @@ public class VirtualEditionController {
 		}
 	}
 
-	// TODO: acrescentar os países
 	@RequestMapping(method = RequestMethod.GET, value = "/restricted/manage/{externalId}")
 	@PreAuthorize("hasPermission(#externalId, 'virtualedition.participant')")
 	public String manageVirtualEdition(Model model, @PathVariable String externalId) {
@@ -240,6 +240,18 @@ public class VirtualEditionController {
 		} catch (LdoDDuplicateAcronymException ex) {
 			errors.add("virtualedition.acronym.duplicate");
 			throw new LdoDEditVirtualEditionException(errors, virtualEdition, acronym, title, pub);
+		}
+
+		AwareAnnotationFactory awareFactory = new AwareAnnotationFactory();
+		if (virtualEdition.isSAVE()) {
+			awareFactory.searchForAwareAnnotations(virtualEdition);
+		}
+		// this virtual edition is not SAVE anymore, therefore we have to remove all the
+		// aware annotations
+		else {
+			for (VirtualEditionInter inter : virtualEdition.getAllDepthVirtualEditionInters()) {
+				awareFactory.removeAllAwareAnnotationsFromVEInter(inter);
+			}
 		}
 
 		return "redirect:/virtualeditions/restricted/manage/" + externalId;

@@ -36,14 +36,6 @@ public class AwareAnnotationFactory {
 	public void generate() throws IOException {
 		logger.debug("BEGINNIG OF AWARE FACTORY");
 
-		// SETUP DOS CRITÉRIOS
-		VirtualEdition duarteEdit = LdoD.getInstance().getVirtualEdition("LdoD-Duarte");
-		// new MediaSource(duarteEdit, "Twitter");
-		// new TimeWindow(duarteEdit, new LocalDate("2018-03-06"), new
-		// LocalDate("2018-06-24"));
-		// new GeographicLocation(duarteEdit, "Portugal", "Lisboa");
-		// new Frequency(duarteEdit, 10);
-
 		for (VirtualEdition ve : LdoD.getInstance().getVirtualEditionsSet()) {
 			if (ve.isSAVE()) {
 				searchForAwareAnnotations(ve);
@@ -53,7 +45,8 @@ public class AwareAnnotationFactory {
 		logger.debug("END OF AWARE FACTORY");
 	}
 
-	// método invocado também quando se cria uma nova SAVE
+	// método invocado também quando se edita uma nova SAVE
+	@Atomic(mode = TxMode.WRITE)
 	public void searchForAwareAnnotations(VirtualEdition ve) {
 		Set<SocialMediaCriteria> criteria = ve.getCriteriaSet();
 
@@ -107,7 +100,7 @@ public class AwareAnnotationFactory {
 		return infoRange;
 	}
 
-	private void removeAllAwareAnnotationsFromVEInter(VirtualEditionInter inter) {
+	public void removeAllAwareAnnotationsFromVEInter(VirtualEditionInter inter) {
 		Set<AwareAnnotation> awareAnnotations = inter.getAnnotationSet().stream()
 				.filter(AwareAnnotation.class::isInstance).map(AwareAnnotation.class::cast).collect(Collectors.toSet());
 		for (AwareAnnotation aa : awareAnnotations) {
