@@ -95,7 +95,7 @@ public class GameRunner implements Runnable{
         Map<String, String> payload = new LinkedHashMap<>();
         payload.put("currentUsers", String.valueOf(playersInGame.size()));
         payload.put("command", "ready");
-        broker.convertAndSend("/topic/config", payload.values());
+        broker.convertAndSend("/topic/ldod-game/" + id + "/config", payload.values());
 
     }
 

@@ -98,9 +98,8 @@ public class ClassificationGameController {
 
 	}
 
-	@MessageMapping("/connect")
-	@SendTo("/topic/config")
-	public synchronized @ResponseBody void handleConnect(@Payload Map<String, String> payload) {
+	@MessageMapping("/{gameId}/connect")
+	public @ResponseBody void handleConnect(@Payload Map<String, String> payload) {
 		//logger.debug(" handleConnect keys: {}, value: {}", payload.keySet(), payload.values());
 
 		String userId = payload.get("userId");
@@ -122,8 +121,8 @@ public class ClassificationGameController {
 		game.addParticipant(userId);
 	}
 
-	@MessageMapping("/tags")
-	@SendTo("/topic/tags")
+	@MessageMapping("/{gameId}/tags")
+	@SendTo("/topic/ldod-game/{gameId}/tags")
 	public @ResponseBody void handleTags(@Payload Map<String, String> payload) {
 		//logger.debug("handleTags keys: {}, values: {}", payload.keySet(), payload.values());
 
@@ -157,11 +156,12 @@ public class ClassificationGameController {
 			//logger.debug("handleTags -> updatePlayerScore occured: {} ", op );
 		}
 
-		this.broker.convertAndSend("/topic/tags", payload.values());
+
+		this.broker.convertAndSend("/topic/ldod-game/" + gameId + "/tags", payload.values());
 	}
 
-	@MessageMapping("/votes")
-	@SendTo("/topic/votes")
+	@MessageMapping("/{gameId}/votes")
+	@SendTo("/topic/ldod-game/{gameId}/votes")
 	public @ResponseBody void handleVotes(@Payload Map<String, String> payload) {
 		//logger.debug("handleVotes keys: {}, values: {}", payload.keySet(), payload.values());
 
@@ -199,11 +199,12 @@ public class ClassificationGameController {
 		payload.put("top", currentTopTag);
 		payload.put("winner", currentWinner);
 
-		this.broker.convertAndSend("/topic/votes", payload.values());
+
+		this.broker.convertAndSend("/topic/ldod-game/" + gameId + "/votes", payload.values());
 	}
 
-	@MessageMapping("/review")
-	@SendTo("/topic/review")
+	@MessageMapping("/{gameId}/review")
+	@SendTo("/topic/ldod-game/{gameId}/review")
 	public @ResponseBody void handleReview(@Payload Map<String, String> payload) {
 		//logger.debug("handleReview keys: {}, values: {}", payload.keySet(), payload.values());
 
@@ -250,7 +251,7 @@ public class ClassificationGameController {
 		map.put(currentWinner, currentTopTag);
 		response.add(map);
 
-		this.broker.convertAndSend("/topic/review", response);
+		this.broker.convertAndSend("/topic/ldod-game/" + gameId + "/review", response);
 	}
 
 	/*@MessageMapping("/register")
