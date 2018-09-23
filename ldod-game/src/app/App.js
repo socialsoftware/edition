@@ -76,26 +76,26 @@ class App extends Component {
                 this.setState({
                 });
             });
-        //await this.getAndSetupGames();
     }
 
 
-    handleLogout(redirectTo="/", notificationType="success", description="You're successfully logged out.") {
+    handleLogout(notificationType="success", description="You're successfully logged out.") {
         localStorage.removeItem(ACCESS_TOKEN);
         localStorage.clear();
-        //localStorage.clear();
         
         this.setState({
             currentUser: null,
             isAuthenticated: false,
         });
         
-        this.props.history.push(redirectTo);
-        
         notification[notificationType]({
             message: LDOD_MESSAGE,
             description: description,
         });
+
+        //this.props.history.push(redirectTo);
+        this.props.history.push("/");
+    
     }
     
     async handleLogin() {
@@ -123,17 +123,7 @@ class App extends Component {
         if(request[0] == null){ return; }
     
         var dateItHappens = new Date(request[0].dateTime);
-        var date = new Date();
-        var available = gameDate.getHours() === date.getHours() && gameDate.getMinutes() === date.getMinutes() && gameDate.getDate() === date.getDate();
         var millisTillOccurence = dateItHappens.getTime() - new Date().getTime();
-       /* console.log(available);
-        if(available){
-            this.setState({enabled: true});
-            notification["info"]({
-                message: LDOD_MESSAGE,
-                description: "New game available!",
-            });
-        }*/
         
         setTimeout(function () {
             this.setState({enabled: true});
