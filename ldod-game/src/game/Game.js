@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import VirtualEdition from './VirtualEdition';
 import { getVirtualEditionIndex } from '../utils/APIUtils';
-import { Badge} from 'antd';
+import { Badge, Icon} from 'antd';
 import { Grid, Jumbotron} from 'react-bootstrap';
 import { WEB_SOCKETS_URL, SUBSCRIBE_URL, APP_PREFIX} from '../utils/Constants';
 import SockJsClient from 'react-stomp'
@@ -82,6 +82,11 @@ class Game extends Component {
             })
             return; 
         }
+        else if(command === "aborted") {
+            this.setState({
+                isAborted: true,
+            })
+        }
     }
 
 
@@ -102,7 +107,22 @@ class Game extends Component {
 
 
     render() {
-        if(this.state.isLoading) {
+        if(this.state.isAborted) {
+            return (
+                <Grid fluid>
+                    <Jumbotron  style={{ backgroundColor: 'white' }} >
+                        <h2 className="text-center">
+                            Not enough players joined this game...
+                        </h2>
+                    </Jumbotron>
+                    <div className="text-center">
+                        <Icon type="frown" theme="outlined" style={{ fontSize: 50 }}/>
+                    </div>
+                </Grid>
+            );
+        }
+
+        if(this.state.isLoading){
             return (
                 <Grid fluid>
                     <Jumbotron  style={{ backgroundColor: 'white' }} >
@@ -117,6 +137,7 @@ class Game extends Component {
                 </Grid>
             );
         }
+        
         return ( 
             <Grid fluid>
                 <div>
