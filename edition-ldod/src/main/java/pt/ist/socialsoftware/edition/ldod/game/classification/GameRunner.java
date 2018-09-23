@@ -9,6 +9,7 @@ import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
+import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
 import pt.ist.fenixframework.Atomic;
@@ -58,18 +59,12 @@ public class GameRunner implements Runnable{
             }
             else {
                 abortGame(this.gameId);
-                Map<String, String> payload = new LinkedHashMap<>();
-                payload.put("currentUsers", String.valueOf(0));
-                payload.put("command", "aborted");
-                broker.convertAndSend("/topic/ldod-game/" + gameId + "/config", payload.values());
             }
         }
     }
 
     @Atomic(mode = TxMode.WRITE)
     private synchronized boolean canOpenGame() {
-        logger.debug("running game {}", this.gameId);
-
         ClassificationGame game  = FenixFramework.getDomainObject(this.gameId);
 
         logger.debug("running game {}", game);
@@ -105,39 +100,31 @@ public class GameRunner implements Runnable{
 
     }
 
+    /*@MessageMapping("/{gameId}/votes")
+    @Atomic(mode = TxMode.WRITE)
+    private void nextRound(String id) {
+        ClassificationGame game  = FenixFramework.getDomainObject(id);
+        game.setState(ClassificationGame.ClassificationGameState.REVIEWING);
+
+        try {
+            Thread.sleep(600);
+            Map<String, String> payload = new LinkedHashMap<>();
+            payload.put("command", "continue");
+            broker.convertAndSend("/topic/ldod-game/" + id + "/config", payload.values());
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+    }*/
+
     @Atomic(mode = TxMode.WRITE)
     private void abortGame(String gameId) {
         ClassificationGame game  = FenixFramework.getDomainObject(gameId);
         game.setState(ClassificationGame.ClassificationGameState.ABORTED);
+
+        Map<String, String> payload = new LinkedHashMap<>();
+        payload.put("currentUsers", String.valueOf(0));
+        payload.put("command", "aborted");
+        broker.convertAndSend("/topic/ldod-game/" + gameId + "/config", payload.values());
     }
-
-   /* @MessageMapping("/register")
-    @SendTo("/topic/config")
-    @Atomic(mode = TxMode.READ)
-    public @ResponseBody
-    void handleRegister(@Payload Map<String, String> payload) {
-        //logger.debug("handleRegister keys: {}, values: {}", payload.keySet(), payload.values());
-
-        String gameId = payload.get("gameId");
-        payload.remove("userId");
-        payload.remove("gameId");
-
-        Thread t = new Thread(new Runnable() {
-            @Atomic(mode = TxMode.READ)
-            public void run() {
-                while (true) {
-                    ClassificationGame game = FenixFramework.getDomainObject(gameId);
-                    if (game != null && game.getState().equals(ClassificationGame.ClassificationGameState.STARTED)) {
-
-                        payload.put("currentUsers", String.valueOf(ClassificationGame.getUsers(gameId).size()));
-                        payload.put("command", "ready");
-                        broker.convertAndSend("/topic/config", payload.values());
-                        break;
-                    }
-                }
-            }
-        });
-        t.start();
-    }*/
-
 }

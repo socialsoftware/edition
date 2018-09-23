@@ -254,32 +254,4 @@ public class ClassificationGameController {
 		this.broker.convertAndSend("/topic/ldod-game/" + gameId + "/review", response);
 	}
 
-	/*@MessageMapping("/register")
-	@SendTo("/topic/config")
-	@Atomic(mode = TxMode.READ)
-	public @ResponseBody void handleRegister(@Payload Map<String, String> payload) {
-		//logger.debug("handleRegister keys: {}, values: {}", payload.keySet(), payload.values());
-
-		String gameId = payload.get("gameId");
-		payload.remove("userId");
-		payload.remove("gameId");
-
-		Thread t = new Thread(new Runnable() {
-			@Atomic(mode = TxMode.READ)
-			public void run() {
-				while (true) {
-					ClassificationGame game = FenixFramework.getDomainObject(gameId);
-					if (game != null && game.hasStarted()) {
-
-						payload.put("currentUsers", String.valueOf(ClassificationGame.getUsers(gameId).size()));
-						payload.put("command", "ready");
-						broker.convertAndSend("/topic/config", payload.values());
-						break;
-					}
-				}
-			}
-		});
-   		t.start();
-	}*/
-
 }
