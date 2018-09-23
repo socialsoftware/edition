@@ -15,7 +15,7 @@ import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
 
 public class ClassificationGame extends ClassificationGame_Base {
 
-	public enum ClassificationGameState {CREATED, OPEN, STARTED, FINISHED};
+	public enum ClassificationGameState {CREATED, OPEN, STARTED, TAGGING, VOTING, REVIEWING, ABORTED, FINISHED};
 
 	public ClassificationGame(VirtualEdition virtualEdition, String description, boolean players, DateTime date,
 			VirtualEditionInter inter, LdoDUser user) {

@@ -56,6 +56,13 @@ public class GameRunner implements Runnable{
                 logger.debug("running game {}", this.gameId);
                 startGame(this.gameId);
             }
+            else {
+                abortGame(this.gameId);
+                Map<String, String> payload = new LinkedHashMap<>();
+                payload.put("currentUsers", String.valueOf(0));
+                payload.put("command", "aborted");
+                broker.convertAndSend("/topic/ldod-game/" + gameId + "/config", payload.values());
+            }
         }
     }
 
@@ -74,7 +81,6 @@ public class GameRunner implements Runnable{
         }
         return false;
     }
-
 
     @Atomic(mode = TxMode.READ)
     private boolean canGameStart(String id){
@@ -97,6 +103,12 @@ public class GameRunner implements Runnable{
         payload.put("command", "ready");
         broker.convertAndSend("/topic/ldod-game/" + id + "/config", payload.values());
 
+    }
+
+    @Atomic(mode = TxMode.WRITE)
+    private void abortGame(String gameId) {
+        ClassificationGame game  = FenixFramework.getDomainObject(gameId);
+        game.setState(ClassificationGame.ClassificationGameState.ABORTED);
     }
 
    /* @MessageMapping("/register")
