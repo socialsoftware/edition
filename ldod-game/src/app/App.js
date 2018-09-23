@@ -79,7 +79,7 @@ class App extends Component {
     }
 
 
-    handleLogout(notificationType="success", description="You're successfully logged out.") {
+    handleLogout() {
         localStorage.removeItem(ACCESS_TOKEN);
         localStorage.clear();
         
@@ -88,9 +88,9 @@ class App extends Component {
             isAuthenticated: false,
         });
         
-        notification[notificationType]({
+        notification.success({
             message: LDOD_MESSAGE,
-            description: description,
+            description: "You're successfully logged out.",
         });
 
         //this.props.history.push(redirectTo);

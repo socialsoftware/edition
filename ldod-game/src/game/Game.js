@@ -25,7 +25,6 @@ class Game extends Component {
             dateTime: 0,
         };
         this.connect = this.connect.bind(this);
-        this.disconnect = this.disconnect.bind(this);
         this.onMessageReceive = this.onMessageReceive.bind(this);
     }
 
@@ -42,10 +41,9 @@ class Game extends Component {
            dateTime: new Date(game.dateTime),
            socket: <SockJsClient
                     url={WEB_SOCKETS_URL}
-                    topics={[ SUBSCRIBE_URL + gameId + '/config']}
+                    topics={[ SUBSCRIBE_URL + gameId + '/register']}
                     ref={ (client) => { this.clientRef = client }}
                     onConnect={ () => { this.connect(gameId)}}
-                    onDisconnect={ () => {this.disconnect(gameId)}}
                     onMessage={(message) => this.onMessageReceive(message)} /> 
         });
         
@@ -55,16 +53,6 @@ class Game extends Component {
         try {
             this.clientRef.sendMessage(APP_PREFIX + gameId + '/connect', JSON.stringify({ userId: this.props.context.currentUser.username, gameId: gameId}));
             this.clientRef.sendMessage(APP_PREFIX + gameId + '/register', JSON.stringify({ userId: this.props.context.currentUser.username, gameId: gameId}));
-            return true;
-          } catch(e) {
-            return false;
-          }
-        
-    }
-
-    disconnect(gameId){
-        try {
-            this.clientRef.sendMessage('/ldod-game/connect', JSON.stringify({ userId: this.props.context.currentUser.username, gameId: gameId, disconnect: "disconnected"}));
             return true;
           } catch(e) {
             return false;

@@ -28,9 +28,9 @@ class Review extends Component {
             isLoading: true,
             socket: <SockJsClient
                             url={WEB_SOCKETS_URL}
-                            topics={[ SUBSCRIBE_URL + this.props.gameId +'/review']}
+                            topics={[ SUBSCRIBE_URL + this.props.gameId +'/review', SUBSCRIBE_URL + this.props.gameId +'/sync']}
                             ref={ (client) => { this.clientRef = client }}
-                            onConnect={ () => { this.getFinalTags()}}
+                            onConnect={ () => { this.getFinalTags() }}
                             onMessage={(message) => this.handleMessageReview(message)} />
         })
         this.interval = setInterval(() => this.tick(), 1000);
@@ -57,6 +57,7 @@ class Review extends Component {
     getFinalTags(){
         try{
             this.clientRef.sendMessage(APP_PREFIX + this.props.gameId + '/review', JSON.stringify({ gameId: this.props.gameId, voterId: this.props.userId, msg: "emptyMsg", vote: "emptyVote", limit: this.props.limit}));
+            this.clientRef.sendMessage(APP_PREFIX + this.props.gameId + '/sync', JSON.stringify({ gameId: this.props.gameId, voterId: this.props.userId, msg: "emptyMsg", vote: "emptyVote", limit: this.props.limit}));
             return true;
         } catch(e) {
             return false;
@@ -65,6 +66,12 @@ class Review extends Component {
     }
 
     handleMessageReview(message) {
+        if(message[0] === "continue") {
+            this.setState({
+                isLoading: false,
+            })
+            return;
+        }
         var res = [];
         var tagAndWinner = message.pop();
         var winner = Object.keys(tagAndWinner);
@@ -77,7 +84,6 @@ class Review extends Component {
             votes: res,
             topTag: topTag[0],
             winner: winner[0],
-            isLoading: false,
         })
         
     }
