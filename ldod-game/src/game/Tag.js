@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import { WEB_SOCKETS_URL} from '../utils/Constants';
+import { WEB_SOCKETS_URL, APP_PREFIX, SUBSCRIBE_URL} from '../utils/Constants';
 import { Tag as TagD } from 'antd';
 import { Button, FormControl, FormGroup, InputGroup, Table, Grid, Row, Col} from 'react-bootstrap';
 import SockJsClient from 'react-stomp'
@@ -40,7 +40,7 @@ class Tag extends Component {
 
     sendMessage = (msg) => {
         try {
-            this.clientRef.sendMessage('/ldod-game/tags', JSON.stringify({ gameId: this.props.gameId, authorId: this.props.userId, msg: msg, vote: 1}));
+            this.clientRef.sendMessage(APP_PREFIX + this.props.gameId + '/tags', JSON.stringify({ gameId: this.props.gameId, authorId: this.props.userId, msg: msg, vote: 1}));
             return true;
 
         } catch(e) {
@@ -74,7 +74,7 @@ class Tag extends Component {
             <div> 
                 <SockJsClient
                     url={WEB_SOCKETS_URL}
-                    topics={['/topic/tags']}
+                    topics={[ SUBSCRIBE_URL + this.props.gameId + '/tags']}
                     ref={ (client) => { this.clientRef = client }}
                     onMessage={(message) => this.props.handleMessageTag(message)} />
                 <Grid>

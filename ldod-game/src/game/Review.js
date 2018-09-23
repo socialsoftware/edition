@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import { WEB_SOCKETS_URL} from '../utils/Constants';
+import { WEB_SOCKETS_URL, SUBSCRIBE_URL, APP_PREFIX} from '../utils/Constants';
 import Vote  from './Vote';
 import { Steps, Divider } from 'antd';
 import { Grid, Alert} from 'react-bootstrap';
@@ -28,7 +28,7 @@ class Review extends Component {
             isLoading: true,
             socket: <SockJsClient
                             url={WEB_SOCKETS_URL}
-                            topics={['/topic/review']}
+                            topics={[ SUBSCRIBE_URL + this.props.gameId +'/review']}
                             ref={ (client) => { this.clientRef = client }}
                             onConnect={ () => { this.getFinalTags()}}
                             onMessage={(message) => this.handleMessageReview(message)} />
@@ -56,7 +56,7 @@ class Review extends Component {
 
     getFinalTags(){
         try{
-            this.clientRef.sendMessage('/ldod-game/review', JSON.stringify({ gameId: this.props.gameId, voterId: this.props.userId, msg: "emptyMsg", vote: "emptyVote", limit: this.props.limit}));
+            this.clientRef.sendMessage(APP_PREFIX + this.props.gameId + '/review', JSON.stringify({ gameId: this.props.gameId, voterId: this.props.userId, msg: "emptyMsg", vote: "emptyVote", limit: this.props.limit}));
             return true;
         } catch(e) {
             return false;

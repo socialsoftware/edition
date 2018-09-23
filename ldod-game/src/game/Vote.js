@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import { WEB_SOCKETS_URL} from '../utils/Constants';
+import { WEB_SOCKETS_URL, SUBSCRIBE_URL, APP_PREFIX} from '../utils/Constants';
 import './Vote.css';
 import { Table} from 'react-bootstrap';
 import SockJsClient from 'react-stomp';
@@ -24,7 +24,7 @@ class Vote extends Component {
         this.setState({
             socket:  <SockJsClient
                         url={WEB_SOCKETS_URL}
-                        topics={['/topic/votes']}
+                        topics={[SUBSCRIBE_URL + this.props.gameId +'/votes']}
                         ref={ (client) => { this.clientRef = client }}
                         onMessage={(message) => this.handleMessageVote(message)} />,
             votes: this.props.initialTags,
@@ -72,7 +72,7 @@ class Vote extends Component {
 
     sendMessage = (msg, vote) => {
         try {
-          this.clientRef.sendMessage('/ldod-game/votes', JSON.stringify({ gameId: this.props.gameId, voterId: this.props.userId, msg: msg, vote: vote}));
+          this.clientRef.sendMessage(APP_PREFIX + this.props.gameId + '/votes', JSON.stringify({ gameId: this.props.gameId, voterId: this.props.userId, msg: msg, vote: vote}));
           return true;
         } catch(e) {
           return false;

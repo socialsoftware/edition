@@ -4,7 +4,7 @@ import VirtualEdition from './VirtualEdition';
 import { getVirtualEditionIndex } from '../utils/APIUtils';
 import { Badge} from 'antd';
 import { Grid, Jumbotron} from 'react-bootstrap';
-import { WEB_SOCKETS_URL} from '../utils/Constants';
+import { WEB_SOCKETS_URL, SUBSCRIBE_URL, APP_PREFIX} from '../utils/Constants';
 import SockJsClient from 'react-stomp'
 import AppContext, {Consumer} from '../app/AppContext';
 export default props => (
@@ -42,7 +42,7 @@ class Game extends Component {
            dateTime: new Date(game.dateTime),
            socket: <SockJsClient
                     url={WEB_SOCKETS_URL}
-                    topics={['/topic/config']}
+                    topics={[ SUBSCRIBE_URL + gameId + '/config']}
                     ref={ (client) => { this.clientRef = client }}
                     onConnect={ () => { this.connect(gameId)}}
                     onDisconnect={ () => {this.disconnect(gameId)}}
@@ -53,8 +53,8 @@ class Game extends Component {
 
     connect(gameId){
         try {
-            this.clientRef.sendMessage('/ldod-game/connect', JSON.stringify({ userId: this.props.context.currentUser.username, gameId: gameId}));
-            this.clientRef.sendMessage('/ldod-game/register', JSON.stringify({ userId: this.props.context.currentUser.username, gameId: gameId}));
+            this.clientRef.sendMessage(APP_PREFIX + gameId + '/connect', JSON.stringify({ userId: this.props.context.currentUser.username, gameId: gameId}));
+            this.clientRef.sendMessage(APP_PREFIX + gameId + '/register', JSON.stringify({ userId: this.props.context.currentUser.username, gameId: gameId}));
             return true;
           } catch(e) {
             return false;
