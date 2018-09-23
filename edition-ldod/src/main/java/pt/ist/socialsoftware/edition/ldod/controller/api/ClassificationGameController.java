@@ -254,4 +254,26 @@ public class ClassificationGameController {
 		this.broker.convertAndSend("/topic/ldod-game/" + gameId + "/review", response);
 	}
 
+	@MessageMapping("/{gameId}/sync")
+	public void syncGame(@Payload Map<String, String> payload) {
+		logger.debug("syncGame: {}", payload.values());
+		String gameId = payload.get("gameId");
+		payload.clear();
+		payload.put("command", "continue");
+		broker.convertAndSend("/topic/ldod-game/" + gameId + "/sync", payload.values());
+		/*ClassificationGame game  = FenixFramework.getDomainObject(gameId);
+		game.setState(ClassificationGame.ClassificationGameState.REVIEWING);
+
+		try {
+			Thread.sleep(600);
+			logger.debug("sync game {} sending continue", gameId);
+			payload.put("command", "continue");
+			broker.convertAndSend("/topic/ldod-game/" + gameId + "/sync", payload.values());
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}*/
+
+	}
+
+
 }

@@ -5,11 +5,7 @@ import org.joda.time.Instant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.config.BeanDefinition;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Scope;
-import org.springframework.context.annotation.ScopedProxyMode;
-import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
 import pt.ist.fenixframework.Atomic;
@@ -21,7 +17,6 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Component
-//@Scope(scopeName = BeanDefinition.SCOPE_PROTOTYPE, proxyMode = ScopedProxyMode.TARGET_CLASS)
 @Scope("thread")
 public class GameRunner implements Runnable{
     private static Logger logger = LoggerFactory.getLogger(GameRunner.class);
@@ -96,26 +91,9 @@ public class GameRunner implements Runnable{
         Map<String, String> payload = new LinkedHashMap<>();
         payload.put("currentUsers", String.valueOf(playersInGame.size()));
         payload.put("command", "ready");
-        broker.convertAndSend("/topic/ldod-game/" + id + "/config", payload.values());
+        broker.convertAndSend("/topic/ldod-game/" + id + "/register", payload.values());
 
     }
-
-    /*@MessageMapping("/{gameId}/votes")
-    @Atomic(mode = TxMode.WRITE)
-    private void nextRound(String id) {
-        ClassificationGame game  = FenixFramework.getDomainObject(id);
-        game.setState(ClassificationGame.ClassificationGameState.REVIEWING);
-
-        try {
-            Thread.sleep(600);
-            Map<String, String> payload = new LinkedHashMap<>();
-            payload.put("command", "continue");
-            broker.convertAndSend("/topic/ldod-game/" + id + "/config", payload.values());
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-    }*/
 
     @Atomic(mode = TxMode.WRITE)
     private void abortGame(String gameId) {
@@ -125,6 +103,6 @@ public class GameRunner implements Runnable{
         Map<String, String> payload = new LinkedHashMap<>();
         payload.put("currentUsers", String.valueOf(0));
         payload.put("command", "aborted");
-        broker.convertAndSend("/topic/ldod-game/" + gameId + "/config", payload.values());
+        broker.convertAndSend("/topic/ldod-game/" + gameId + "/register", payload.values());
     }
 }
