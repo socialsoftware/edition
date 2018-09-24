@@ -4,9 +4,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import pt.ist.socialsoftware.edition.ldod.deleters.ExpertEditionInterDeleterVirtual;
+import pt.ist.socialsoftware.edition.ldod.deleters.FragInterDeleterVirtual;
 import pt.ist.socialsoftware.edition.ldod.deleters.FragmentDeleterVirtual;
 import pt.ist.socialsoftware.edition.ldod.deleters.SourceInterDeleterVirtual;
 import pt.ist.socialsoftware.edition.text.deleters.ExpertEditionInterDeleter;
+import pt.ist.socialsoftware.edition.text.deleters.FragInterDeleter;
 import pt.ist.socialsoftware.edition.text.deleters.FragmentDeleter;
 import pt.ist.socialsoftware.edition.text.deleters.SourceInterDeleter;
 
@@ -26,5 +28,10 @@ public class DeletersConfig {
     @Bean
     public SourceInterDeleter sourceInterDeleter() {
         return new SourceInterDeleterVirtual();
+    }
+
+    @Bean
+    public FragInterDeleter fragInterDeleter() {
+        return new FragInterDeleterVirtual();
     }
 }

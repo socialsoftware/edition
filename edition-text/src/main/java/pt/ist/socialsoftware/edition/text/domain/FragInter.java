@@ -6,8 +6,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.jasper.tagplugins.jstl.core.Remove;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import pt.ist.socialsoftware.edition.text.deleters.FragInterDeleter;
 
 public abstract class FragInter extends FragInter_Base implements Comparable<FragInter> {
 	private static Logger logger = LoggerFactory.getLogger(FragInter.class);
@@ -17,43 +21,57 @@ public abstract class FragInter extends FragInter_Base implements Comparable<Fra
 	}
 
 	public void remove() {
-		setFragment(null);
-		setHeteronym(null);
 
-		if (getLdoDDate() != null) {
-			getLdoDDate().remove();
-		}
-
-		//		TODO REMOVE VIRTUAL RELATIONS
-//		for (VirtualEditionInter inter : getIsUsedBySet()) {
-//			removeIsUsedBy(inter);
+		Remover.remove(this);
+//		setFragment(null);
+//		setHeteronym(null);
+//
+//		if (getLdoDDate() != null) {
+//			getLdoDDate().remove();
 //		}
-
-		for (RdgText rdg : getRdgSet()) {
-			removeRdg(rdg);
-		}
-
-		for (LbText lb : getLbTextSet()) {
-			removeLbText(lb);
-		}
-
-		for (PbText pb : getPbTextSet()) {
-			removePbText(pb);
-		}
-
-		for (AnnexNote annexNote : getAnnexNoteSet()) {
-			annexNote.remove();
-		}
-
-		for (RefText ref : getRefTextSet()) {
-			ref.setFragInter(null);
-		}
-
-		//		TODO REMOVE VIRTUAL RELATIONS
-		// adicionado recentemente, testar
-//		getInfoRangeSet().forEach(infoRange -> infoRange.remove());
+//
+//		//		TODO REMOVE VIRTUAL RELATIONS
+////		for (VirtualEditionInter inter : getIsUsedBySet()) {
+////			removeIsUsedBy(inter);
+////		}
+//
+//		for (RdgText rdg : getRdgSet()) {
+//			removeRdg(rdg);
+//		}
+//
+//		for (LbText lb : getLbTextSet()) {
+//			removeLbText(lb);
+//		}
+//
+//		for (PbText pb : getPbTextSet()) {
+//			removePbText(pb);
+//		}
+//
+//		for (AnnexNote annexNote : getAnnexNoteSet()) {
+//			annexNote.remove();
+//		}
+//
+//		for (RefText ref : getRefTextSet()) {
+//			ref.setFragInter(null);
+//		}
+//
+//		//		TODO REMOVE VIRTUAL RELATIONS
+//		// adicionado recentemente, testar
+////		getInfoRangeSet().forEach(infoRange -> infoRange.remove());
 
 		deleteDomainObject();
+	}
+
+	@Component
+	public static class Remover {
+		public static FragInterDeleter fragInterDeleter;
+
+		@Autowired
+		public Remover(FragInterDeleter fragInterDeleter) {
+			this.fragInterDeleter = fragInterDeleter;
+		}
+
+		public static void remove(FragInter fragInter) {fragInterDeleter.remove(fragInter);}
 	}
 
 	public abstract String getShortName();
