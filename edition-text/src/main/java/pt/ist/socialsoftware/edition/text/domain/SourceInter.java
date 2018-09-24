@@ -1,5 +1,9 @@
 package pt.ist.socialsoftware.edition.text.domain;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import pt.ist.socialsoftware.edition.text.deleters.SourceInterDeleter;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -78,7 +82,9 @@ public class SourceInter extends SourceInter_Base {
 
 	@Override
 	public void remove() {
-		setSource(null);
+//		setSource(null);
+
+		Remover.remove(this);
 
 //		TODO REMOVE VIRTUAL RELATIONS
 //		for (VirtualEditionInter inter : getIsUsedByDepthSet()) {
@@ -88,6 +94,20 @@ public class SourceInter extends SourceInter_Base {
 //		}
 
 		super.remove();
+	}
+
+	@Component
+	public static class Remover {
+		public static SourceInterDeleter sourceInterDeleter;
+
+		@Autowired
+		public Remover(SourceInterDeleter sourceInterDeleter) {
+			this.sourceInterDeleter = sourceInterDeleter;
+		}
+
+		public static void remove (SourceInter sourceInter) {
+			sourceInterDeleter.remove(sourceInter);
+		}
 	}
 
 	@Override

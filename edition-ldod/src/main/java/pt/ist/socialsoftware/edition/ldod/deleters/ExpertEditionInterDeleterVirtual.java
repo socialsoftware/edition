@@ -7,7 +7,6 @@ import pt.ist.socialsoftware.edition.text.deleters.ExpertEditionInterDeleter;
 import pt.ist.socialsoftware.edition.text.domain.ExpertEditionInter;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 public class ExpertEditionInterDeleterVirtual extends ExpertEditionInterDeleter {
@@ -18,7 +17,7 @@ public class ExpertEditionInterDeleterVirtual extends ExpertEditionInterDeleter 
         for (VirtualEditionInter inter: expertEditionInter.getIsUsedBySet()){
             // it is necessary to remove all interpretations that use the expert
             // interpretation
-            for (VirtualEditionInter inter1: allUses(inter)) {
+            for (VirtualEditionInter inter1: DeleterVirtual.allUsesVirtualEdition(inter)) {
                 inter1.remove();
             }
             inter.remove();
@@ -37,14 +36,5 @@ public class ExpertEditionInterDeleterVirtual extends ExpertEditionInterDeleter 
         topicModeler.deleteFile(externalId);
 
         super.remove(expertEditionInter);
-    }
-
-    public List<VirtualEditionInter> allUses(VirtualEditionInter virtualEditionInter) {
-        List<VirtualEditionInter> allUses = new LinkedList<>();
-        for (VirtualEditionInter inter: virtualEditionInter.getIsUsedBySet()) {
-            allUses.add(inter);
-            allUses.addAll(allUses(inter));
-        }
-        return allUses;
     }
 }
