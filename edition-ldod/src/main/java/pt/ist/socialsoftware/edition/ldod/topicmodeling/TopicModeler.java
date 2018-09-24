@@ -278,7 +278,7 @@ public class TopicModeler {
 
 		/**
 		 * Note that {@ref FileIterator} will only call this filter if the file
-		 * is not a directory, so we do not need to test that it is a file.
+		 * is not a directory, so we do not need to remove that it is a file.
 		 */
 		@Override
 		public boolean accept(File file) {

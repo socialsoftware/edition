@@ -237,7 +237,9 @@ public class VirtualEditionFragmentsTEIImport {
 
 		else if (note.getAttributeValue("type").equals("aware")) {
 			long tweetID = Long.parseLong(note.getAttributeValue("citationId"));
-			Citation citation = VirtualManager.getInstance().getTwitterCitationByTweetID(tweetID);
+			Citation citation = inter
+					.getFragment().getCitationSet()
+					.stream().filter(c -> c.getId() == tweetID).findFirst().get();
 			inter.createAwareAnnotation(quote, text, citation, rangeList);
 		}
 	}

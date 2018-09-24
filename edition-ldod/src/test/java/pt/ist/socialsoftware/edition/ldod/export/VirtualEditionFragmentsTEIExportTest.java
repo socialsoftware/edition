@@ -36,7 +36,7 @@ public class VirtualEditionFragmentsTEIExportTest {
 		FenixFramework.getTransactionManager().begin(false);
 	}
 
-	// TODO: test after running tweet factory
+	// TODO: remove after running tweet factory
 	@Test
 	@Atomic
 	public void test() throws WriteOnReadError, NotSupportedException, SystemException {
@@ -77,7 +77,7 @@ public class VirtualEditionFragmentsTEIExportTest {
 			count++;
 		}
 		// debug
-		// logger("original test size: " + VirtualManager.getInstance().getFragmentsSet().size());
+		// logger("original remove size: " + VirtualManager.getInstance().getFragmentsSet().size());
 	}
 
 	// aux method
@@ -149,7 +149,7 @@ public class VirtualEditionFragmentsTEIExportTest {
 		return result;
 	}
 
-	// TODO: test after running tweet factory
+	// TODO: remove after running tweet factory
 	@Test
 	@Atomic
 	public void exportCitationsTest() {
@@ -168,7 +168,7 @@ public class VirtualEditionFragmentsTEIExportTest {
 		}
 	}
 
-	// TODO: test after running tweet factory
+	// TODO: remove after running tweet factory
 	@Test
 	@Atomic
 	public void exportInfoRangesTest() {

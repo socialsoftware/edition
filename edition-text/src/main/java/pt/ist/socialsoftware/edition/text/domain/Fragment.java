@@ -5,12 +5,15 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
+import pt.ist.socialsoftware.edition.text.deleters.FragmentDeleter;
 
 public class Fragment extends Fragment_Base implements Comparable<Fragment> {
+
 	public enum PrecisionType {
 		HIGH("high"), MEDIUM("medium"), LOW("low"), UNKNOWN("unknown");
 
@@ -25,6 +28,8 @@ public class Fragment extends Fragment_Base implements Comparable<Fragment> {
 		}
 	}
 
+	public Fragment() {}
+
 	public Fragment(CollectionManager collectionManager, String title, String xmlId) {
 		setCollectionManager(collectionManager);
 		setTitle(title);
@@ -33,33 +38,23 @@ public class Fragment extends Fragment_Base implements Comparable<Fragment> {
 
 	@Atomic(mode = TxMode.WRITE)
 	public void remove() {
-		setCollectionManager(null);
-
-		getTextPortion().remove();
-
-		//		TODO REMOVE VIRTUAL RELATIONS
-		// remove virtual edition interpretations first
-//		for (VirtualEditionInter inter : getVirtualEditionInters()) {
-//			inter.remove();
-//		}
-
-		for (FragInter inter : getFragmentInterSet()) {
-			inter.remove();
-		}
-
-		for (Source source : getSourcesSet()) {
-			source.remove();
-		}
-
-		for (RefText ref : getRefTextSet()) {
-			// the reference is removed
-			ref.remove();
-		}
-
-		//		TODO REMOVE VIRTUAL RELATIONS
-//		getCitationSet().stream().forEach(c -> c.remove());
-
+		Remover.remove(this);
 		deleteDomainObject();
+	}
+
+	@Component
+	public static class Remover {
+
+		public static FragmentDeleter fragmentDeleter;
+
+		@Autowired
+		Remover(FragmentDeleter fragmentDeleter) {
+			this.fragmentDeleter = fragmentDeleter;
+		}
+
+		public static void remove(Fragment fragment) {
+			fragmentDeleter.remove(fragment);
+		}
 	}
 
 	public List<FragInter> getSortedInterps() {

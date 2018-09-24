@@ -69,7 +69,7 @@ public class LdoDSession implements Serializable {
 
 		// do not add the archive virtual edition because it is already
 		// hardcoded in the menu
-		if (!this.selectedVEAcr.contains(toAddAcr) && !toAddAcr.equals(Edition.ARCHIVE_EDITION_ACRONYM)) {
+		if (!this.selectedVEAcr.contains(toAddAcr) && !toAddAcr.equals(VirtualEdition.ARCHIVE_EDITION_ACRONYM)) {
 			this.selectedVEAcr.add(toAddAcr);
 			Collections.sort(this.selectedVEAcr);
 		}

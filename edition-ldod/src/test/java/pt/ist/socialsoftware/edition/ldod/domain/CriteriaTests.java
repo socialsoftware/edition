@@ -20,7 +20,7 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 public class CriteriaTests extends RollbackCaseTest {
 
-	// utilizado no mock test para testar se todos os métodos são chamados
+	// utilizado no mock remove para testar se todos os métodos são chamados
 	@Mock
 	SocialMediaCriteria criteria;
 	// utilizado nos restantes testes de sucesso e de exceção

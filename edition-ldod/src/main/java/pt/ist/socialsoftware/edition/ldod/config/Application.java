@@ -19,8 +19,10 @@ import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
 import org.springframework.social.connect.web.SignInAdapter;
 import org.springframework.web.filter.CommonsRequestLoggingFilter;
 
+import pt.ist.socialsoftware.edition.ldod.deleters.FragmentDeleterVirtual;
 import pt.ist.socialsoftware.edition.ldod.security.LdoDSignInAdapter;
 import pt.ist.socialsoftware.edition.ldod.utils.Bootstrap;
+import pt.ist.socialsoftware.edition.text.deleters.FragmentDeleter;
 
 @PropertySource({ "classpath:application.properties", "classpath:specific.properties", "classpath:secrete.properties" })
 @ComponentScan(basePackages = "pt.ist.socialsoftware.edition")
@@ -77,5 +79,4 @@ public class Application extends SpringBootServletInitializer implements Initial
 		loggingFilter.setAfterMessagePrefix("LOGGING: ");
 		return loggingFilter;
 	}
-
 }

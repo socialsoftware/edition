@@ -42,6 +42,7 @@ import pt.ist.socialsoftware.edition.ldod.export.UsersXMLExport;
 import pt.ist.socialsoftware.edition.ldod.export.WriteVirtualEditonsToFile;
 import pt.ist.socialsoftware.edition.ldod.forms.EditUserForm;
 import pt.ist.socialsoftware.edition.ldod.security.LdoDUserDetails;
+import pt.ist.socialsoftware.edition.text.deleters.FragmentDeleter;
 import pt.ist.socialsoftware.edition.text.shared.exception.LdoDException;
 import pt.ist.socialsoftware.edition.text.shared.exception.LdoDLoadException;
 import pt.ist.socialsoftware.edition.ldod.validator.EditUserValidator;

@@ -1,5 +1,9 @@
 package pt.ist.socialsoftware.edition.text.domain;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import pt.ist.socialsoftware.edition.text.deleters.ExpertEditionInterDeleter;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,9 +16,9 @@ public class ExpertEditionInter extends ExpertEditionInter_Base {
 
 	@Override
 	public void remove() {
-		setExpertEdition(null);
+		Remover.remove(this);
 
-		String externalId = getExternalId();
+//		String externalId = getExternalId();
 
 		//		TODO REMOVE VIRTUAL RELATIONS
 //		for (VirtualEditionInter inter : getIsUsedByDepthSet()) {
@@ -26,7 +30,7 @@ public class ExpertEditionInter extends ExpertEditionInter_Base {
 		super.remove();
 
 		//		TODO Search not separated
-		// remove from Lucene
+//		 remove from Lucene
 //		List<String> externalIds = new ArrayList<>();
 //		externalIds.add(externalId);
 //		Indexer indexer = Indexer.getIndexer();
@@ -37,7 +41,22 @@ public class ExpertEditionInter extends ExpertEditionInter_Base {
 //		topicModeler.deleteFile(externalId);
 	}
 
-	@Override
+	@Component
+	public static class Remover {
+		public static ExpertEditionInterDeleter expertEditionInterDeleter;
+
+		@Autowired
+		public Remover(ExpertEditionInterDeleter expertEditionInterDeleter) {
+			this.expertEditionInterDeleter = expertEditionInterDeleter;
+		}
+
+		public static void remove(ExpertEditionInter expertEditionInter) {
+			expertEditionInterDeleter.remove(expertEditionInter);
+		}
+
+	}
+
+		@Override
 	public String getShortName() {
 		return getExpertEdition().getEditorShortName();
 	}

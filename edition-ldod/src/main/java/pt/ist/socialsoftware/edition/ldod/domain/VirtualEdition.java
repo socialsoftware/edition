@@ -31,6 +31,9 @@ import pt.ist.socialsoftware.edition.text.utils.PropertiesManager;
 import pt.ist.socialsoftware.edition.text.domain.*;
 
 public class VirtualEdition extends VirtualEdition_Base {
+	public static final String ARCHIVE_EDITION_ACRONYM = "LdoD-Arquivo";
+	public static final String ARCHIVE_EDITION_NAME = "Edição do Arquivo LdoD";
+
 	private static Logger logger = LoggerFactory.getLogger(VirtualEdition.class);
 
 	public static String ACRONYM_PREFIX = "LdoD-";
@@ -780,6 +783,10 @@ public class VirtualEdition extends VirtualEdition_Base {
 			}
 		}
 		return null;
+	}
+
+	public boolean isLdoDEdition() {
+		return getAcronym().equals(ARCHIVE_EDITION_ACRONYM);
 	}
 
 }

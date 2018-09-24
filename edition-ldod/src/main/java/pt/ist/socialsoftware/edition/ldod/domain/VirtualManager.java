@@ -90,7 +90,7 @@ public class VirtualManager extends VirtualManager_Base {
 
 
 	public VirtualEdition getArchiveEdition() {
-		return getVirtualEditionsSet().stream().filter(ve -> ve.getAcronym().equals(Edition.ARCHIVE_EDITION_ACRONYM))
+		return getVirtualEditionsSet().stream().filter(ve -> ve.getAcronym().equals(VirtualEdition.ARCHIVE_EDITION_ACRONYM))
 				.findFirst().orElse(null);
 	}
 

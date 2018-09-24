@@ -38,7 +38,7 @@ public class VirtualEditionsTEICorpusExportTest {
 		FenixFramework.getTransactionManager().begin(false);
 	}
 
-	// Original test that exports and imports everything
+	// Original remove that exports and imports everything
 	@Test
 	@Atomic
 	public void test() throws WriteOnReadError, NotSupportedException, SystemException {

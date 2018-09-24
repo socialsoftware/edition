@@ -305,8 +305,8 @@ public class Bootstrap implements WebApplicationInitializer {
 		LdoDUser ars = userManager.getUser("ars");
 		// LdoDUser mp = ldod.getUser("mp");
 
-		VirtualEdition ldoDArchiveEdition = new VirtualEdition(virtualManager, ars, Edition.ARCHIVE_EDITION_ACRONYM,
-				Edition.ARCHIVE_EDITION_NAME, new LocalDate(), true, null);
+		VirtualEdition ldoDArchiveEdition = new VirtualEdition(virtualManager, ars, VirtualEdition.ARCHIVE_EDITION_ACRONYM,
+				VirtualEdition.ARCHIVE_EDITION_NAME, new LocalDate(), true, null);
 
 		// ldoDArchiveEdition.addMember(mp, MemberRole.ADMIN, true);
 		ldoDArchiveEdition.addMember(ars, Member.MemberRole.ADMIN, true);
