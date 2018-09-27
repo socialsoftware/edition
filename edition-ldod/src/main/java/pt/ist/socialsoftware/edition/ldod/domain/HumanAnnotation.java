@@ -72,4 +72,14 @@ public class HumanAnnotation extends HumanAnnotation_Base {
 				&& t.getCategory().getTaxonomy().getEdition() == virtualEdition);
 	}
 
+	@Override
+	public boolean isAwareAnnotation() {
+		return false;
+	}
+
+	@Override
+	public boolean isHumanAnnotation() {
+		return true;
+	}
+
 }

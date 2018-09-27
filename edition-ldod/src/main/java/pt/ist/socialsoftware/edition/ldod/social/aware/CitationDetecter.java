@@ -208,6 +208,8 @@ public class CitationDetecter {
 									(String) obj.get("location"), (String) obj.get("country"),
 									(String) obj.get("username"), (String) obj.get("profURL"),
 									(String) obj.get("profImg"));
+							logger.debug("CREATED A TWITTER CITATION!!!");
+
 						} catch (org.apache.ojb.broker.PersistenceBrokerSQLException sqlExcetion) {
 							logger.debug("CAUGHT SQL EXCEPTION!!");
 						}
