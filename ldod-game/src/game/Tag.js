@@ -17,6 +17,17 @@ class Tag extends Component {
         this.getValidationState = this.getValidationState.bind(this);
     }
     
+    componentDidMount(){
+        this.setState({
+            socket:   <SockJsClient
+                url={WEB_SOCKETS_URL}
+                topics={[ SUBSCRIBE_URL + this.props.gameId + '/tags']}
+                ref={ (client) => { this.clientRef = client }}
+                onMessage={(message) => this.props.handleMessageTag(message)} />
+        });
+        
+    }
+
     handleTag = (e) => {
         const form = e.target;
         var input = form["tag"].value;
@@ -72,11 +83,7 @@ class Tag extends Component {
         });
         return (
             <div> 
-                <SockJsClient
-                    url={WEB_SOCKETS_URL}
-                    topics={[ SUBSCRIBE_URL + this.props.gameId + '/tags']}
-                    ref={ (client) => { this.clientRef = client }}
-                    onMessage={(message) => this.props.handleMessageTag(message)} />
+                {this.state.socket}
                 <Grid>
                     <Row>
                         <Col md={4} mdOffset={4} xs={5}>

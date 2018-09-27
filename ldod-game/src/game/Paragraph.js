@@ -3,8 +3,11 @@ import { withRouter } from 'react-router-dom';
 import Tag from './Tag';
 import Vote from './Vote';
 import Review  from './Review';
+import { WEB_SOCKETS_URL, SUBSCRIBE_URL, APP_PREFIX} from '../utils/Constants';
 import { Steps } from 'antd';
-import { Grid} from 'react-bootstrap';
+import { Grid, Alert} from 'react-bootstrap';
+import LoadingIndicator  from '../common/LoadingIndicator';
+import SockJsClient from 'react-stomp'
 var ReactCountdownClock = require("react-countdown-clock")
 const Step = Steps.Step;
 class Paragrah extends Component {
@@ -21,12 +24,13 @@ class Paragrah extends Component {
             fullText: "",
             userSuggestedTags: [],
         };
-       this.requestNextStep = this.requestNextStep.bind(this);
+       this.connect = this.connect.bind(this);
+       this.handleMessage = this.handleMessage.bind(this);
     }
 
     componentDidUpdate(prevProps, prevState) {
 
-        if (prevProps.round !== this.props.round) {
+        if (prevProps.round !== this.props.round && prevProps.paragraphText !== this.props.paragraphText) {
             this.setState({
                 tags: [],
                 title: this.props.title,
@@ -37,10 +41,34 @@ class Paragrah extends Component {
                 round: this.props.round,
                 totalTime: this.props.totalTime,
                 disabled: false,
+                isLoading: true,
+                socket: <SockJsClient
+                url={WEB_SOCKETS_URL}
+                topics={[ SUBSCRIBE_URL + this.props.gameId +'/sync']}
+                ref={ (client) => { this.clientRef = client }}
+                onConnect={ () => { this.connect() }}
+                onMessage={(message) => this.handleMessage(message)} />
             });
         }
 
         
+    }
+    
+    connect() {
+        try{
+            this.clientRef.sendMessage(APP_PREFIX + this.props.gameId + '/sync', JSON.stringify({ gameId: this.props.gameId, userId: this.props.userId}));
+            return true;
+        } catch(e) {
+            return false;
+        }
+    }
+
+    handleMessage(message){
+        if(message[0] === "continue") {
+            this.setState({
+                isLoading: false,
+            })
+        }
     }
     
     handleMessageTag(message) {
@@ -75,13 +103,7 @@ class Paragrah extends Component {
             }));
         }
     }
-
-    requestNextStep(param){
-        this.props.NextStep(param);
-    }
-
     
-
     render() {
         let style = {   marginTop: "-45px",
                         display: "flex",
@@ -103,6 +125,17 @@ class Paragrah extends Component {
             </div>
 
         let roundRender;
+        if(this.state.isLoading) {
+            return (
+                <div>
+                    <Alert bsStyle="info">
+                        <strong>Syncing before next paragraph...</strong>
+                    </Alert>
+                    {this.state.socket}
+                    <LoadingIndicator />
+                </div>
+            );
+        }
         if (this.props.round === 1) {
             roundRender =
                 <div>
@@ -122,7 +155,8 @@ class Paragrah extends Component {
                         handleMessageTag={this.handleMessageTag.bind(this)} 
                         disabled={this.state.disabled}/>
                 </div>
-          } else {
+          } 
+          else if(this.props.round === 2) {
             roundRender =
                 <div>
                 <div style={style}>
@@ -143,7 +177,7 @@ class Paragrah extends Component {
                         initialTags={this.state.tags}/>
                 </div>
             } 
-        if(this.props.round === 3){
+        else if(this.props.round === 3){
             return(
                 <div>
                     <Review
