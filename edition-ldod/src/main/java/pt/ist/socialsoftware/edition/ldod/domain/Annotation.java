@@ -21,4 +21,9 @@ public abstract class Annotation extends Annotation_Base {
 
 		deleteDomainObject();
 	}
+
+	public abstract boolean isAwareAnnotation();
+
+	public abstract boolean isHumanAnnotation();
+
 }

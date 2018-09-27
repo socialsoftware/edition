@@ -20,4 +20,29 @@ public class AwareAnnotation extends AwareAnnotation_Base {
 		super.remove();
 	}
 
+	@Override
+	public boolean isAwareAnnotation() {
+		return true;
+	}
+
+	@Override
+	public boolean isHumanAnnotation() {
+		return false;
+	}
+
+	public String getSourceLink() {
+		return this.getCitation().getSourceLink();
+	}
+
+	public String getDate() {
+		return this.getCitation().getDate().split(" ")[0];
+	}
+
+	public String getCountry() {
+		return ((TwitterCitation) this.getCitation()).getCountry();
+	}
+
+	public String getProfileURL() {
+		return ((TwitterCitation) this.getCitation()).getUserProfileURL();
+	}
 }
