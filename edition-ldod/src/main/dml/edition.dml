@@ -754,6 +754,7 @@ class ClassificationGame {
 	String description;
 	boolean openAnnotation;
 	DateTime dateTime;
+	boolean sync;
 }
 
 class Player {

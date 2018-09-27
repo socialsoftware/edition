@@ -51,6 +51,16 @@ public class GameRunner implements Runnable{
             if (canGameStart(this.gameId)) {
                 logger.debug("running game {}", this.gameId);
                 startGame(this.gameId);
+                while (!hasGameEnded(this.gameId)) {
+                    if (canGameContinue(this.gameId)) {
+                        try {
+                            Thread.sleep(600);
+                            continueGame(this.gameId);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
             }
             else {
                 abortGame(this.gameId);
@@ -104,5 +114,27 @@ public class GameRunner implements Runnable{
         payload.put("currentUsers", String.valueOf(0));
         payload.put("command", "aborted");
         broker.convertAndSend("/topic/ldod-game/" + gameId + "/register", payload.values());
+    }
+
+   @Atomic(mode = TxMode.READ)
+    private boolean canGameContinue(String id) {
+        ClassificationGame game  = FenixFramework.getDomainObject(id);
+        return game.getSync();
+    }
+
+    @Atomic(mode = TxMode.WRITE)
+    private void continueGame(String id) {
+        Map<String, String> payload = new LinkedHashMap<>();
+        payload.put("command", "continue");
+        // since game is continue game we change to not syncing
+        ClassificationGame game  = FenixFramework.getDomainObject(id);
+        game.setSync(false);
+        broker.convertAndSend("/topic/ldod-game/" + id + "/sync", payload.values());
+    }
+
+    @Atomic(mode = TxMode.READ)
+    private boolean hasGameEnded(String id) {
+        ClassificationGame game  = FenixFramework.getDomainObject(id);
+        return game.getState().equals(ClassificationGame.ClassificationGameState.FINISHED);
     }
 }

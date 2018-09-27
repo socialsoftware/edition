@@ -129,6 +129,9 @@ public class ClassificationGameController {
 		// authorId <=> userId
 		String gameId = payload.get("gameId");
 		String authorId = payload.get("authorId");
+
+		changeGameState(gameId, ClassificationGame.ClassificationGameState.TAGGING);
+
 		ClassificationGameDto currentGame = gamesMapDto.get(gameId);
 		GameTagDto tag = new GameTagDto(authorId, gameId, currentGame.getVirtualEditionInterDto().getUrlId(), payload.get("msg"), 1.0);
 		List<GameTagDto> res = tagsMapDto.get(gameId);
@@ -170,6 +173,9 @@ public class ClassificationGameController {
 		String tagMsg = payload.get("msg");
 		Object vote = payload.get("vote");
 		double finalVote = Double.parseDouble((String) vote);
+
+		changeGameState(gameId, ClassificationGame.ClassificationGameState.VOTING);
+
 		ClassificationGameDto currentGame = gamesMapDto.get(gameId);
 		List<GameTagDto> res = tagsMapDto.get(gameId);
 
@@ -212,6 +218,9 @@ public class ClassificationGameController {
 		String voterId = payload.get("voterId");
 		Object limit = payload.get("limit");
 		int finalLimit = Integer.parseInt((String)limit);
+
+		changeGameState(gameId, ClassificationGame.ClassificationGameState.REVIEWING);
+
 		ClassificationGameDto currentGame = gamesMapDto.get(gameId);
 		List<GameTagDto> res = tagsMapDto.get(gameId);
 
@@ -221,8 +230,9 @@ public class ClassificationGameController {
 		}
 
 
-		//List<GameTagDto> topTags = res.stream().sorted((g1, g2) -> (int) g2.getScore()).limit(finalLimit).collect(Collectors.toList());
 		// TODO: check me, removed limit
+		/*finalLimit = finalLimit == 1 ? 2 : finalLimit;
+		List<GameTagDto> topTags = res.stream().sorted(Comparator.comparing(GameTagDto::getScore).reversed()).limit(finalLimit).collect(Collectors.toList());*/
 
 		List<GameTagDto> topTags = res.stream().sorted(Comparator.comparing(GameTagDto::getScore).reversed()).collect(Collectors.toList());
 
@@ -256,24 +266,28 @@ public class ClassificationGameController {
 
 	@MessageMapping("/{gameId}/sync")
 	public void syncGame(@Payload Map<String, String> payload) {
-		logger.debug("syncGame: {}", payload.values());
+		//logger.debug("syncGame: {}", payload.values());
 		String gameId = payload.get("gameId");
-		payload.clear();
-		payload.put("command", "continue");
-		broker.convertAndSend("/topic/ldod-game/" + gameId + "/sync", payload.values());
-		/*ClassificationGame game  = FenixFramework.getDomainObject(gameId);
-		game.setState(ClassificationGame.ClassificationGameState.REVIEWING);
+		String userId = payload.get("userId");
 
-		try {
-			Thread.sleep(600);
-			logger.debug("sync game {} sending continue", gameId);
-			payload.put("command", "continue");
-			broker.convertAndSend("/topic/ldod-game/" + gameId + "/sync", payload.values());
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}*/
-
+		changeToSync(gameId);
 	}
 
+	@Atomic(mode = TxMode.WRITE)
+	private void changeToSync(String gameId) {
+		ClassificationGame game = FenixFramework.getDomainObject(gameId);
+		game.setSync(true);
+	}
+
+	@Atomic(mode = TxMode.WRITE)
+	private void changeGameState(String gameId, ClassificationGame.ClassificationGameState state) {
+		ClassificationGame game = FenixFramework.getDomainObject(gameId);
+
+		// If we reached reviewing state it should not switch to voting again
+		if (game.getState().equals(ClassificationGame.ClassificationGameState.REVIEWING)) {
+			return;
+		}
+		game.setState(state);
+	}
 
 }
