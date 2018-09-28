@@ -18,10 +18,14 @@ class App extends Component {
 
   componentDidMount() {
     const service = new RepositoryService();
-    service.getFragments(this.state.acronym).then(response => {
-      this.setState({
-        fragments: response.data
-      })
+    service.getTranscriptions(this.state.acronym).then(response => {
+      const transcriptions =  response.data.transcriptions;
+      service.getFragments(this.state.acronym).then(response => {
+        this.setState({
+          transcriptions: transcriptions,
+          fragments: response.data.fragments
+        })
+      });
     });
   }
 
@@ -33,10 +37,10 @@ class App extends Component {
           <h1 className="App-title">Welcome to React</h1>
         </header>
         <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
+          To get started, edit <code>src/App.js</code> blablablabalbalba.
         </p>
-
-        {this.state.fragments.map(f => f.title)}
+        {this.state.transcriptions.map(f => <span> {f.title}<br /> </span>)}
+        {this.state.fragments.map(f => <span> {f.meta.dates}<br /> </span>)}
       </div>
     );
   }

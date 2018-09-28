@@ -13,11 +13,11 @@ export class RepositoryService {
 
     // Specifications
     getFragments(acronym) {
-        return this.axios.get("/virtualeditions/restricted/acronym/"+acronym+"/fragments");
+        return this.axios.get("/virtualeditions/acronym/"+acronym+"/fragments");
     }
 
     getTranscriptions(acronym) {
-        return this.axios.get("/virtualeditions/restricted/acronym/"+acronym+"/transcriptions");
+        return this.axios.get("/virtualeditions/acronym/"+acronym+"/transcriptions");
     }
 
 }
