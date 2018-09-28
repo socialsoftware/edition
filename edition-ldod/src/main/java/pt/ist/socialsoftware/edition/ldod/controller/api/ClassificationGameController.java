@@ -3,6 +3,7 @@ package pt.ist.socialsoftware.edition.ldod.controller.api;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,12 +35,12 @@ public class ClassificationGameController {
 	private Map<String, List<GameTagDto>> tagsMapDto = new LinkedHashMap<>(100);
 
 
+	// ------------- REST Methods ------------- //
+
 	@GetMapping("/{username}/active")
 	@PreAuthorize("hasPermission(#username, 'user.logged')")
 	public @ResponseBody ResponseEntity<List<ClassificationGameDto>> getActiveGames(@PathVariable(value = "username") String username) {
-		/*List<ClassificationGameDto> result = LdoD.getInstance().getVirtualEditionsSet().stream()
-				.flatMap(ve -> ve.getClassificationGameSet().stream().filter(ClassificationGame::isActive))
-				.map(ClassificationGameDto::new).sorted(Comparator.comparingLong(ClassificationGameDto::getDateTime)).collect(Collectors.toList());*/
+		//logger.debug("getActiveGames: {}", username);
 
 		List<ClassificationGameDto> result = LdoD.getInstance().getActiveGames4User(username).stream().map(ClassificationGameDto::new).sorted(Comparator.comparingLong(ClassificationGameDto::getDateTime)).collect(Collectors.toList());
 
@@ -51,30 +52,31 @@ public class ClassificationGameController {
 		}
 
 		return new ResponseEntity<>(result, HttpStatus.OK);
-
 	}
 
 	@GetMapping("/end/{gameId}")
 	public @ResponseBody ResponseEntity<?> end(@PathVariable(value = "gameId") String gameId) {
 		//logger.debug("end: {}", gameId);
 
-		ClassificationGameDto currentGame = gamesMapDto.get(gameId);
-		String winner = currentGame.getWinner();
-		String winningTag = currentGame.getWinningTag();
+		String winner = getCurrentParticipantWinner(gameId);
+		String winningTag = getCurrentTagWinner(gameId);
+
 		List<Object> response = new ArrayList<>();
 		response.add(winner);
 		response.add(winningTag);
-		response.add(currentGame.getPlayersMap());
-		currentGame.setEnded(true);
 
 		ClassificationGame game = FenixFramework.getDomainObject(gameId);
-		game.finish(winner, winningTag, currentGame.getPlayersMap());
-		return new ResponseEntity<>(response, HttpStatus.OK);
+		game.finish(winner, winningTag);
 
+		response.add(game.getClassificationGameParticipantSet());
+
+		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 
 	@GetMapping("/leaderboard")
 	public @ResponseBody ResponseEntity<?> getLeaderboard() {
+		//logger.debug("getLeaderboard: {}", gameId);
+
 		List<Object> response = new ArrayList<>();
 
 		List<Player> players = LdoD.getInstance().getUsersSet().stream().map(LdoDUser::getPlayer).collect(Collectors.toList());
@@ -95,8 +97,9 @@ public class ClassificationGameController {
 		response.add(scores);
 
 		return new ResponseEntity<>(response.toArray(), HttpStatus.OK);
-
 	}
+
+	// ------------- WebSocket Methods ------------- //
 
 	@MessageMapping("/{gameId}/connect")
 	public @ResponseBody void handleConnect(@Payload Map<String, String> payload) {
@@ -109,16 +112,6 @@ public class ClassificationGameController {
 		currentGame.addPlayer(userId, 1.0);
 
 		createGameParticipant(gameId, userId);
-
-		/*ClassificationGame.getUserArray().add(userId);
-		ClassificationGame.getGameBlockingMap().put(gameId, ClassificationGame.getUserArray());*/
-		//logger.debug("users {} {}", ClassificationGame.getUsers(gameId), ClassificationGame.getUsers(gameId).size());
-	}
-
-	@Atomic(mode = TxMode.WRITE)
-	private void createGameParticipant(String gameId, String userId) {
-		ClassificationGame game = FenixFramework.getDomainObject(gameId);
-		game.addParticipant(userId);
 	}
 
 	@MessageMapping("/{gameId}/tags")
@@ -126,43 +119,19 @@ public class ClassificationGameController {
 	public @ResponseBody void handleTags(@Payload Map<String, String> payload) {
 		//logger.debug("handleTags keys: {}, values: {}", payload.keySet(), payload.values());
 
-		// authorId <=> userId
 		String gameId = payload.get("gameId");
 		String authorId = payload.get("authorId");
+		String tag = payload.get("msg");
+		Object number = payload.get("paragraph");
+		int finalNumber  = Integer.parseInt((String) number);
 
 		changeGameState(gameId, ClassificationGame.ClassificationGameState.TAGGING);
-
-		ClassificationGameDto currentGame = gamesMapDto.get(gameId);
-		GameTagDto tag = new GameTagDto(authorId, gameId, currentGame.getVirtualEditionInterDto().getUrlId(), payload.get("msg"), 1.0);
-		List<GameTagDto> res = tagsMapDto.get(gameId);
-
-
-		if (res.stream().noneMatch(t -> t.getContent().equals(tag.getContent()))) {
-			// if tag is submitted for the first we add it havina a value of 2.0
-			res.add(tag);
-			tagsMapDto.put(gameId, res);
-			// bug was occuring game only had 1 player
-			boolean op = currentGame.updatePlayerScore(authorId, 2.0);
-			//logger.debug("handleTags -> updatePlayerScore occured: {} ", op );
-
-		} else {
-			// if tag already exists increment score and update +1
-			res.stream().filter(t -> t.getContent().equals(tag.getContent())).forEach(t -> {
-				t.setScore(tag.getScore() + t.getScore());
-				payload.put("vote", String.valueOf(t.getScore()));
-				// since the tag has been suggested, it now has a co-author / voter because of
-				// the suggestion
-				t.addCoAuthor(authorId);//suggested
-				t.addVoter(authorId); // suggested <=> voted
-			});
-			boolean op = currentGame.updatePlayerScore(authorId, 1.0);
-			//logger.debug("handleTags -> updatePlayerScore occured: {} ", op );
-		}
-
+		saveTag(gameId, authorId, tag, finalNumber);
 
 		this.broker.convertAndSend("/topic/ldod-game/" + gameId + "/tags", payload.values());
 	}
 
+	@Atomic(mode = TxMode.READ)
 	@MessageMapping("/{gameId}/votes")
 	@SendTo("/topic/ldod-game/{gameId}/votes")
 	public @ResponseBody void handleVotes(@Payload Map<String, String> payload) {
@@ -173,89 +142,52 @@ public class ClassificationGameController {
 		String tagMsg = payload.get("msg");
 		Object vote = payload.get("vote");
 		double finalVote = Double.parseDouble((String) vote);
+		Object number = payload.get("paragraph");
+		int finalNumber  = Integer.parseInt((String) number);
+		double v = 0;
 
 		changeGameState(gameId, ClassificationGame.ClassificationGameState.VOTING);
+		v = saveVote(gameId, voterId, tagMsg, finalVote, finalNumber);
 
-		ClassificationGameDto currentGame = gamesMapDto.get(gameId);
-		List<GameTagDto> res = tagsMapDto.get(gameId);
+		payload.remove("paragraph");
+		String currentTopTag = getCurrentTagWinner(gameId);
+		String currentWinner = getCurrentParticipantWinner(gameId);
 
-		if (res == null) {
-			return;
-		}
-		res.stream().filter(t -> t.getContent().equals(tagMsg)).forEach(tagDto -> {
-			tagDto.setScore(tagDto.getScore() + finalVote);
-			tagDto.addVoter(voterId);
-			currentGame.updatePlayerScore(voterId, finalVote);
-			payload.put("vote", String.valueOf(tagDto.getScore()));
-		});
-
-		GameTagDto topGameTag;
-		if (!res.isEmpty()) {
-			topGameTag = res.stream().sorted(Comparator.comparing(GameTagDto::getScore).reversed()).limit(1).collect(Collectors.toList()).get(0);
-		}
-		else {
-			topGameTag = new GameTagDto("system", gameId, currentGame.getVirtualEditionInterDto().getUrlId(), "no tags submitted", 0);
-		}
-
-		String currentTopTag = topGameTag.getContent();
-		String currentWinner = topGameTag.getAuthorId();
-		currentGame.setWinner(currentWinner);
-		currentGame.setWinningTag(currentTopTag);
-
+		payload.put("vote", String.valueOf(v));
 		payload.put("top", currentTopTag);
 		payload.put("winner", currentWinner);
-
 
 		this.broker.convertAndSend("/topic/ldod-game/" + gameId + "/votes", payload.values());
 	}
 
+	@Atomic(mode = TxMode.READ)
 	@MessageMapping("/{gameId}/review")
 	@SendTo("/topic/ldod-game/{gameId}/review")
 	public @ResponseBody void handleReview(@Payload Map<String, String> payload) {
 		//logger.debug("handleReview keys: {}, values: {}", payload.keySet(), payload.values());
 
 		String gameId = payload.get("gameId");
-		String voterId = payload.get("voterId");
 		Object limit = payload.get("limit");
 		int finalLimit = Integer.parseInt((String)limit);
+		finalLimit = finalLimit == 1 ? 2 : finalLimit;
 
 		changeGameState(gameId, ClassificationGame.ClassificationGameState.REVIEWING);
+		Map<String, Double> topRounds = getTopTags(gameId, finalLimit);
 
-		ClassificationGameDto currentGame = gamesMapDto.get(gameId);
-		List<GameTagDto> res = tagsMapDto.get(gameId);
-
-		if (res == null) {
-			logger.debug("No tags submitted");
-			return;
-		}
-
-
-		// TODO: check me, removed limit
-		/*finalLimit = finalLimit == 1 ? 2 : finalLimit;
-		List<GameTagDto> topTags = res.stream().sorted(Comparator.comparing(GameTagDto::getScore).reversed()).limit(finalLimit).collect(Collectors.toList());*/
-
-		List<GameTagDto> topTags = res.stream().sorted(Comparator.comparing(GameTagDto::getScore).reversed()).collect(Collectors.toList());
-
-		//payload.put("topTags", topTags);
 		List<Map<String, String>> response = new ArrayList<>();
-		for (GameTagDto gameTagDto : topTags) {
+
+		for (Map.Entry<String, Double > e : topRounds.entrySet()) {
 			Map<String, String> map = new LinkedHashMap<>();
-			map.put("tag", gameTagDto.getContent());
-			map.put("vote", String.valueOf(gameTagDto.getScore()));
+			map.put("tag", e.getKey());
+			map.put("vote", String.valueOf(e.getValue()));
 			response.add(map);
 		}
 
-		GameTagDto topGameTag;
-		if (!res.isEmpty()) {
-			topGameTag = topTags.get(0);
-		}
-		else {
+		String currentTopTag = getCurrentTagWinner(gameId);
+		String currentWinner = getCurrentParticipantWinner(gameId);
 
-			topGameTag = new GameTagDto("system", gameId, currentGame.getVirtualEditionInterDto().getUrlId(), "no tags submitted", 0);
-		}
-
-		String currentTopTag = topGameTag.getContent();
-		String currentWinner = topGameTag.getAuthorId();
+		payload.put("top", currentTopTag);
+		payload.put("winner", currentWinner);
 
 		Map<String, String> map = new LinkedHashMap<>();
 		map.put(currentWinner, currentTopTag);
@@ -268,9 +200,65 @@ public class ClassificationGameController {
 	public void syncGame(@Payload Map<String, String> payload) {
 		//logger.debug("syncGame: {}", payload.values());
 		String gameId = payload.get("gameId");
-		String userId = payload.get("userId");
-
 		changeToSync(gameId);
+	}
+
+	// ------------- DB Transactions ------------- //
+
+	@Atomic(mode = TxMode.WRITE)
+	private void createGameParticipant(String gameId, String userId) {
+		ClassificationGame game = FenixFramework.getDomainObject(gameId);
+		game.addParticipant(userId);
+	}
+
+	@Atomic(mode = TxMode.WRITE)
+	private void saveTag(String gameId, String userId, String tag, int number) {
+		ClassificationGame game = FenixFramework.getDomainObject(gameId);
+		ClassificationGameParticipant participant = game.getParticipant(userId);
+		ClassificationGameRound round = new ClassificationGameRound();
+
+		round.setNumber(number);
+		round.setRound(1);
+		round.setTag(tag);
+		round.setVote(1);
+		round.setClassificationGameParticipant(participant);
+		round.setTime(DateTime.now());
+		participant.setScore(participant.getScore() + ClassificationGame.SUBMIT);
+
+		if (game.getTags().containsKey(tag)) {
+			// if tag exists increment vote
+			game.addTag(tag, game.getTags().get(tag) + 1);
+		}
+		else {
+			// if tag does NOT exists only put vote
+			game.addTag(tag, round.getVote());
+		}
+	}
+
+	@Atomic(mode = TxMode.WRITE)
+	private double saveVote(String gameId, String userId, String tag, double vote, int number) {
+		ClassificationGame game = FenixFramework.getDomainObject(gameId);
+		ClassificationGameParticipant participant = game.getParticipant(userId);
+		ClassificationGameRound round = new ClassificationGameRound();
+
+		//find tag and vote
+		game.addTag(tag, game.getTags().get(tag) + vote);
+
+		round.setNumber(number);
+
+		if (getGameState(gameId).equals(ClassificationGame.ClassificationGameState.REVIEWING)) {
+			round.setRound(3);
+		}
+		else if (getGameState(gameId).equals(ClassificationGame.ClassificationGameState.VOTING)) {
+			round.setRound(2);
+		}
+
+		round.setTag(tag);
+		round.setVote(game.getTags().get(tag));
+		round.setClassificationGameParticipant(participant);
+		round.setTime(DateTime.now());
+
+		return round.getVote();
 	}
 
 	@Atomic(mode = TxMode.WRITE)
@@ -290,4 +278,27 @@ public class ClassificationGameController {
 		game.setState(state);
 	}
 
+	@Atomic(mode = TxMode.READ)
+	private Map<String, Double> getTopTags(String gameId, int limit) {
+		ClassificationGame game = FenixFramework.getDomainObject(gameId);
+		return game.getCurrentTopTags(limit);
+	}
+
+	@Atomic(mode = TxMode.READ)
+	private String getCurrentTagWinner(String gameId) {
+		ClassificationGame game = FenixFramework.getDomainObject(gameId);
+		return game.getCurrentTagWinner();
+	}
+
+	@Atomic(mode = TxMode.READ)
+	private String getCurrentParticipantWinner(String gameId) {
+		ClassificationGame game = FenixFramework.getDomainObject(gameId);
+		return game.getCurrentParticipantWinner().getPlayer().getUser().getUsername();
+	}
+
+	@Atomic(mode = TxMode.READ)
+	private ClassificationGame.ClassificationGameState getGameState(String gameId) {
+		ClassificationGame game = FenixFramework.getDomainObject(gameId);
+		return game.getState();
+	}
 }

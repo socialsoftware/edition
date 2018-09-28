@@ -1,21 +1,26 @@
 package pt.ist.socialsoftware.edition.ldod.domain;
 
 import java.util.*;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 import org.joda.time.DateTime;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
-import pt.ist.socialsoftware.edition.ldod.dto.ClassificationGameDto;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
 
 public class ClassificationGame extends ClassificationGame_Base {
+	private static Logger logger = LoggerFactory.getLogger(ClassificationGame.class);
 
 	public enum ClassificationGameState {CREATED, OPEN, STARTED, TAGGING, VOTING, REVIEWING, ABORTED, FINISHED};
+	public static final double SUBMIT = 1;
+	public static final double SUBMITTER_IS_ROUND_WINNER = 5;
+	public static final double SUBMITTER_IS_GAME_WINNER = 10;
+	public static final double VOTING_IN_ROUND_WINNER = 2;
+	public static final double VOTING_IN_GAME_WINNER = 5;
+	private Map<String, Double> tags = new LinkedHashMap<>();
 
 	public ClassificationGame(VirtualEdition virtualEdition, String description, boolean players, DateTime date,
 			VirtualEditionInter inter, LdoDUser user) {
@@ -82,7 +87,7 @@ public class ClassificationGame extends ClassificationGame_Base {
 	}
 
 	@Atomic(mode = TxMode.WRITE)
-	public void finish(String winnerUsername, String tagName, Map<String,Double> players) {
+	public void finish(String winnerUsername, String tagName) {
 		LdoDUser winner = LdoD.getInstance().getUser(winnerUsername);
 
 		getClassificationGameParticipantSet().stream().filter(p -> p.getPlayer().getUser() == winner).findFirst().get().setWinner(true);
@@ -118,5 +123,77 @@ public class ClassificationGame extends ClassificationGame_Base {
 		return players.stream().collect(Collectors.toMap(p -> p.getUser().getUsername(),
 				Player::getScore));
 	}
+
+	public ClassificationGameParticipant getParticipant(String username) {
+		return getClassificationGameParticipantSet().stream()
+				.filter(p -> p.getPlayer().getUser().getUsername().equals(username)).findFirst().orElse(null);
+	}
+
+	private Set<ClassificationGameRound> getAllRounds(){
+		return  getClassificationGameParticipantSet().stream().map
+				(ClassificationGameParticipant::getClassificationGameRoundSet).
+				flatMap(Set::stream).collect(Collectors.toSet());
+	}
+
+	public String getCurrentTagWinner() {
+		return tags.entrySet().stream().max(Map.Entry.comparingByValue()).map(Map.Entry::getKey).orElse(null);
+	}
+
+	public Map<String, Double> getCurrentTopTags(int limit) {
+		return tags.entrySet().stream()
+				.sorted(Map.Entry.<String, Double>comparingByValue().reversed())
+				.limit(limit).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+	}
+
+	public ClassificationGameParticipant getCurrentParticipantWinner() {
+		String currentTagWinner = getCurrentTagWinner();
+		Set<ClassificationGameRound> roundsByDate = getAllRounds().stream().sorted(Comparator.comparing
+				(ClassificationGameRound::getTime).reversed()).collect(Collectors.toSet());
+		ClassificationGameRound gameRound = roundsByDate.stream().filter(round -> round.getTag().equals
+				(currentTagWinner)).findFirst().orElse(null);
+
+		/*for (ClassificationGameRound r : roundsByDate) {
+			logger.debug("Ronda: {} date {}", r.getNumber(), r.getTime());
+		}*/
+		return gameRound.getClassificationGameParticipant();
+	}
+
+	/*public Map<String, Double> joinRoundsByTag() {
+		Map<String, Double> collect = getAllRounds().stream().collect(Collectors.groupingBy
+				(ClassificationGameRound::getTag,
+						Collectors.summingDouble(ClassificationGameRound::getVote)));
+		for (Map.Entry<String, Double> e : collect.entrySet()) {
+			logger.debug("Tag: {}  Votes: {}", e.getKey(), e.getValue());
+		}
+
+		return collect;
+	}*/
+
+	/*public double getScore4Tag (String tag) {
+		return joinRoundsByTag().entrySet().stream().filter(e -> e.getKey().equals(tag))
+				.map(Map.Entry::getValue)
+				.findFirst()
+				.orElse(null);
+	}*/
+
+	public ClassificationGameRound getRound4User(String username, int roundNumber) {
+		return getAllRounds().stream().filter(r -> r
+				.getClassificationGameParticipant().getPlayer().getUser().getUsername().equals(username) && r.getNumber() == roundNumber).findFirst().orElse(null);
+	}
+
+	public void addTag(String tag, double vote) {
+		tags.put(tag, vote);
+	}
+
+	public Map<String, Double> getTags() {
+		return tags;
+	}
+
+
+	/*private Map<Integer, Double> joinRoundsByNumber() {
+		return  getAllRounds().stream().collect(Collectors.groupingBy(ClassificationGameRound::getNumber,
+				Collectors.summingDouble(ClassificationGameRound::getVote)));
+	}*/
+
 
 }

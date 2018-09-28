@@ -37,15 +37,13 @@ public class ScheduledTasks {
 	@Autowired
 	GameRunner gameRunner;
 
-	@Scheduled(cron="0 * * * * *")
-	//@Scheduled(cron="0 0/5 * * * ?")
+	//@Scheduled(cron="0 * * * * *")
+	@Scheduled(cron="*/10 * * * * ?")
 	public void scheduleGames() throws IOException {
 		logger.debug("scheduleGames starting");
 		List<String> gameIds = getGames();
 		for (String id: gameIds) {
 			logger.debug("scheduleGames id {}", id);
-			//GameRunner game = new GameRunner(id);
-			//new Thread(game).start();
 			gameRunner.setGameId(id);
 			new Thread(gameRunner).start();
 		}

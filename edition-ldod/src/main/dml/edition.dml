@@ -763,7 +763,9 @@ class Player {
 
 class ClassificationGameRound {
     int number;
+    int round;
     String tag;
+    double vote;
     DateTime time;
 }
 
