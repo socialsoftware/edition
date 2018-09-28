@@ -119,7 +119,7 @@ public class CitationDetecter {
 
 			int lineNum = 0;
 			while ((line = bufferedReader.readLine()) != null) {
-				logger.debug(line);
+				// logger.debug(line);
 				obj = (JSONObject) new JSONParser().parse(line);
 
 				if (lineNum == 0) {
@@ -318,12 +318,68 @@ public class CitationDetecter {
 		return (htmlStart > htmlEnd && numOfPStart == numOfPEnd);
 	}
 
+	public String convertFirstCharToUpperCaseInSentence(String str) {
+		// Create a char array of given String
+		char ch[] = str.toCharArray();
+		for (int i = 0; i < str.length(); i++) {
+
+			// If first character of a word is found
+			if (i == 0 && ch[i] != ' ' || ch[i] != ' ' && ch[i - 1] == ' ') {
+
+				// If it is in lower-case
+				if (ch[i] >= 'a' && ch[i] <= 'z') {
+
+					// Convert into Upper-case
+					ch[i] = (char) (ch[i] - 'a' + 'A');
+				}
+			}
+
+			// If apart from first character
+			// Any one is in Upper-case
+			else if (ch[i] >= 'A' && ch[i] <= 'Z')
+
+				// Convert into Lower-Case
+				ch[i] = (char) (ch[i] + 'a' - 'A');
+		}
+
+		// Convert the char array to equivalent String
+		String st = new String(ch);
+		return st;
+	}
+
+	public String cleanTweetText(String originalTweetText) {
+		String result = originalTweetText.toLowerCase().replaceAll("[\"*«»“”()';]", "");
+		result = result.replace("\\n", " ");
+		result = result.replace("...", " ");
+
+		// apagar apenas os hífenes e pontos que não fizerem parte de palavras
+		int resultLen = result.length();
+		int lastCharPos = resultLen - 1;
+		String charSet = "-.,;?!q"; // 'q' porque muitas pessoas escrevem 'q' em vez de "que"
+		for (int i = 0; i < resultLen; i++) {
+			char c = result.charAt(i);
+			if (charSet.indexOf(c) != -1) {
+				result = cleanCharFromString(c, result, i, lastCharPos);
+			}
+		}
+		return result;
+	}
+
+	public String capitalizeFirstWord(String sentence) {
+		return sentence.substring(0, 1).toUpperCase() + sentence.substring(1);
+	}
+
 	public List<String> patternFinding(String text, String tweet) {
+		logger.debug("------------------------------ PATTERN FINDING ALGORITHM -------------------------");
+		logger.debug("ORIGINAL TWEET TEXT: " + tweet);
+
 		// é chato pôr o text é lowercase pq estamos a adulterar a informação original,
 		// experimentar outra distance em vez do Jaro
 		text = text.toLowerCase();
 		// o "clean" já mete o tweet em lowerCase
 		tweet = cleanTweetText(tweet);
+
+		logger.debug("CLEANED TWEET TEXT: " + tweet);
 
 		// variables updated over iteration
 		int start = -1; // -1 means that the pattern was not found, either for start and end
@@ -349,14 +405,20 @@ public class CitationDetecter {
 				String wordFound = info.get(0);
 				double jaroValue = Double.parseDouble(info.get(1));
 
+				logger.debug("tweet word: " + word);
+				logger.debug("text word: " + wordFound);
+
 				// a palavra tem de existir no texto e estar à frente do offset!
 				// primeira palavra encontrada
 				if (jaroValue > jaroThreshold && text.indexOf(wordFound, offset) != -1) {
+					logger.debug(" text contains this word");
+					logger.debug(Double.toString(jaroValue));
+
 					// é só updated uma vez e é quando o início começa bem
 					if (count == 0) {
 						// é só updated uma vez e é quando o início começa bem
 						start = text.indexOf(wordFound, offset);
-						patternFound += wordFound + " ";
+						patternFound += word + " ";
 						count = 1;
 					}
 					// restantes palavras encontradas
@@ -370,6 +432,8 @@ public class CitationDetecter {
 						// mas como o offset só é updated no início de cada ciclo temos de esperar uma
 						// iteração
 						if (count == startCorrectParam) {
+							logger.debug(" padrão até agora: " + patternFound);
+
 							// este update ao start dá bug quando as palavras iniciais do padrão aparecem
 							// antes do padrão
 							String[] splits = patternFound.split(" ");
@@ -379,23 +443,28 @@ public class CitationDetecter {
 							start = text.lastIndexOf(firstWordOfPatternFound, offset - lastWordOfPatternFound.length());
 						}
 						end = text.indexOf(wordFound, offset) + wordFound.length();
-						patternFound += wordFound + " ";
+						logger.debug(" a palavra encontrada no Texto foi: " + wordFound);
+						patternFound += word + " ";
 						count++;
 					}
 				}
 				// caso em q a palavra não existe no texto
 				else {
+					logger.debug(" text DOES NOT contains this word");
+					logger.debug(Double.toString(jaroValue));
 					if (count < window) { // significa que não fizémos o número mínimo de palavras seguidas, logo é dar
 											// reset!!
 						count = 0;
 						start = -1;
 						end = -1;
 						patternFound = "";
+						logger.debug(" dei reset ao count, next word!");
 					} else {
+						logger.debug(" vou dar break pq já garanti a window");
 						break outerloop;
 					}
 				}
-
+				logger.debug(" count: " + count);
 			}
 		}
 
@@ -423,7 +492,24 @@ public class CitationDetecter {
 		}
 
 		List<String> result = new ArrayList<String>();
-		result.add(patternFound);
+
+		logger.debug("PATTERN FOUND: " + patternFound);
+
+		String upperPattern = "";
+		if (patternFound != "") {
+			String[] patternSplit = patternFound.split("\\. ");
+			logger.debug("length do split: " + patternSplit.length);
+			for (String s : patternSplit) {
+				logger.debug("string s: " + s);
+				if (s.trim().length() > 0) {
+					upperPattern += this.capitalizeFirstWord(s) + ". ";
+				}
+			}
+
+			logger.debug("UPPER PATTERN: " + upperPattern);
+		}
+
+		result.add(upperPattern);
 		result.add(String.valueOf(htmlStart));
 		result.add(String.valueOf(htmlEnd));
 		result.add(String.valueOf(numOfPStart));
@@ -460,22 +546,6 @@ public class CitationDetecter {
 		return info;
 	}
 
-	public String cleanTweetText(String originalTweetText) {
-		String result = originalTweetText.toLowerCase().replaceAll("[\"*\\n;«»“”()]", "");
-
-		// apagar apenas os hífenes e pontos que não fizerem parte de palavras
-		int resultLen = result.length();
-		int lastCharPos = resultLen - 1;
-		String charSet = "-.,?!q"; // 'q' porque muitas pessoas escrevem 'q' em vez de "que"
-		for (int i = 0; i < resultLen; i++) {
-			char c = result.charAt(i);
-			if (charSet.indexOf(c) != -1) {
-				result = cleanCharFromString(c, result, i, lastCharPos);
-			}
-		}
-		return result;
-	}
-
 	public String cleanCharFromString(char charToClean, String s, int position, int lastCharPos) {
 		// limpar hífenes que tenham espaços em branco à esquerda ou à direita
 		if (charToClean == '-') {
@@ -483,6 +553,10 @@ public class CitationDetecter {
 		}
 		// limpar pontos que tenham espaços em branco à esquerda e à direita
 		else if (charToClean == '.') {
+			s = replaceChar(s, position, lastCharPos);
+		}
+		// limpar pontos que tenham ponto é vírgula em branco à esquerda e à direita
+		else if (charToClean == ';') {
 			s = replaceChar(s, position, lastCharPos);
 		}
 		// limpar vírgulas que tenham espaços em branco à esquerda e à direita
