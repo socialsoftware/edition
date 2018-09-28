@@ -131,6 +131,7 @@ class Review extends Component {
                             userId={this.props.userId} 
                             seconds={this.props.totalTime} 
                             round={3}
+                            limit={this.props.limit}
                             topTag={this.state.topTag}
                             hasEnded={this.state.hasEnded}
                             initialTags={this.state.votes}/>

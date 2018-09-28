@@ -51,7 +51,7 @@ class Tag extends Component {
 
     sendMessage = (msg) => {
         try {
-            this.clientRef.sendMessage(APP_PREFIX + this.props.gameId + '/tags', JSON.stringify({ gameId: this.props.gameId, authorId: this.props.userId, msg: msg, vote: 1}));
+            this.clientRef.sendMessage(APP_PREFIX + this.props.gameId + '/tags', JSON.stringify({ gameId: this.props.gameId, authorId: this.props.userId, msg: msg, vote: 1, paragraph: this.props.index}));
             return true;
 
         } catch(e) {

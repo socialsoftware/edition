@@ -13,10 +13,9 @@ class Vote extends Component {
         this.state = {
             socket: null,
             votes: [],
-            previousVote: null,
-            previousScore: null,
+            previousVotedTag: null,
         };
-        this.handleVote = this.handleVote.bind(this);
+        //this.handleVote = this.handleVote.bind(this);
         this.handleMessageVote = this.handleMessageVote.bind(this);
     }
     
@@ -59,7 +58,7 @@ class Vote extends Component {
         }));
     }
 
-    handleVote = (param) => (e) =>{
+   /* handleVote = (param) => (e) =>{
         let vote;
         if (e.target.checked) {
             vote =  Math.round(1.0 + this.state.seconds/10);
@@ -68,11 +67,12 @@ class Vote extends Component {
         }
         var res = vote.toFixed(2);
         this.sendMessage(param.tag, res); 
-    }
+    }*/
 
     sendMessage = (msg, vote) => {
         try {
-          this.clientRef.sendMessage(APP_PREFIX + this.props.gameId + '/votes', JSON.stringify({ gameId: this.props.gameId, voterId: this.props.userId, msg: msg, vote: vote}));
+          var number = this.props.round !== 3 ? this.props.index : this.props.limit;
+          this.clientRef.sendMessage(APP_PREFIX + this.props.gameId + '/votes', JSON.stringify({ gameId: this.props.gameId, voterId: this.props.userId, msg: msg, vote: vote, paragraph: number}));
           return true;
         } catch(e) {
           return false;
@@ -97,21 +97,25 @@ class Vote extends Component {
     }
 
     onChange = (param) => (e) => {
-        let vote;
-        vote =  Math.round(1.0 + (this.state.seconds/10));
-        var res = vote.toFixed(2);
-        this.setState({
-            disabled: this.props.round !== 3 ? true : false,
-            previousVote: param.tag,
-            previousScore: -vote,
-        })
-        if ( this.state.previousVote !== null){
-            var value = this.state.previousScore.toFixed(2);
-            //console.log("value " + value);
-            this.sendMessage(this.state.previousVote, value);     
-            this.sendMessage(param.tag, res);     
+        if (this.props.round !== 3){
+            this.setState({
+                disabled: true,
+            })    
+            this.sendMessage(param.tag, 1.0);
+            return 
+        }
+
+        if (this.state.previousVotedTag === null){
+            this.setState({
+                previousVotedTag: param.tag,
+            })
+            this.sendMessage(param.tag, 1.0); 
         }else{
-            this.sendMessage(param.tag, res); 
+            this.sendMessage(param.tag, 1.0); 
+            this.sendMessage(this.state.previousVotedTag, -1.0); 
+            this.setState({
+                previousVotedTag: param.tag,
+            })
         }
     }
 

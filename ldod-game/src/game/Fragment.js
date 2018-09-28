@@ -141,7 +141,8 @@ class Fragment extends Component {
                     limit={this.state.paragraphText.length}                
                     nextParagraph={this.nextParagraph} 
                     paragraphText={this.state.paragraphText[this.state.index]}
-                    seconds={this.state.secondAndText[this.state.index]} 
+                    seconds={this.state.secondAndText[this.state.index]}
+                    index={this.state.index} 
                     round={this.state.round} 
                     totalTime={this.state.totalTime}
                     chooseNextStep={this.chooseNextStep}

@@ -152,6 +152,7 @@ class Paragrah extends Component {
                     <Tag 
                         gameId={this.props.gameId}
                         userId={this.props.userId}
+                        index={this.props.index}
                         handleMessageTag={this.handleMessageTag.bind(this)} 
                         disabled={this.state.disabled}/>
                 </div>
@@ -174,6 +175,8 @@ class Paragrah extends Component {
                         gameId={this.props.gameId}
                         userSuggestedTags={this.state.userSuggestedTags}
                         userId={this.props.userId}
+                        limit={this.props.limit}
+                        index={this.props.index}
                         initialTags={this.state.tags}/>
                 </div>
             } 
