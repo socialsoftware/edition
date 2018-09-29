@@ -2,6 +2,7 @@ package pt.ist.socialsoftware.edition.ldod.domain;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
@@ -292,6 +293,41 @@ public class LdoD extends LdoD_Base {
 		allClassificationGames4User.addAll(classificationGamesOfUser);
 		return allClassificationGames4User;
 
+	}
+
+	public Map<String, Double> getOverallLeaderboard() {
+		/*Map<Set<String>, Collection<Double>> collect = getVirtualEditionsSet().stream().
+				flatMap(v -> v.getClassificationGameSet().stream().
+				map(ClassificationGame::getLeaderboard)).
+				collect(Collectors.toMap(Map::keySet, Map::values));
+		
+		getVirtualEditionsSet().stream().flatMap(v -> v.getClassificationGameSet().stream().
+				map(g -> g.getLeaderboard().entrySet().stream().map(Map.Entry::getKey)
+						.collect(Collectors.toList())));
+		collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+		Stream<Map<String, Double>> mapStream = getVirtualEditionsSet().stream().flatMap(v -> v
+				.getClassificationGameSet().stream().
+				map(g -> g.getLeaderboard().entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, Map
+						.Entry::getValue))));
+		getVirtualEditionsSet().stream().
+				flatMap(v -> v.getClassificationGameSet().stream().
+						map(g -> g.getLeaderboard().entrySet().stream().map(Map.Entry::getKey).
+		mapStream.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+
+		//HashMap result = new LinkedHashMap();
+
+		//result.forEach((k, v) -> collect.merge(k, v, (v1, v2) -> v1 + v2));*/
+		List<Map<String, Double>> collect = LdoD.getInstance().getVirtualEditionsSet().stream().flatMap(v -> v
+				.getClassificationGameSet().stream().map(g -> g.getLeaderboard())).collect(Collectors.toList());
+		Map<String, Double> result = new LinkedHashMap<>();
+		for (Map<String,Double> m : collect) {
+			for (Map.Entry<String, Double> e : m.entrySet()) {
+				String key = e.getKey();
+				Double value = result.get(key);
+				result.put(key, value == null ? e.getValue() : e.getValue() + value);
+			}
+		}
+		return result;
 	}
 
 }

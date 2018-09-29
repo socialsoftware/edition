@@ -79,7 +79,7 @@ public class ClassificationGameController {
 
 		List<Object> response = new ArrayList<>();
 
-		List<Player> players = LdoD.getInstance().getUsersSet().stream().map(LdoDUser::getPlayer).collect(Collectors.toList());
+		/*List<Player> players = LdoD.getInstance().getUsersSet().stream().map(LdoDUser::getPlayer).collect(Collectors.toList());
 
 		Map<String, Double> playersScores = new LinkedHashMap<>();
 		for (Player p: players) {
@@ -91,6 +91,12 @@ public class ClassificationGameController {
 		List<String> users = playersScores.entrySet().stream().sorted(Collections.reverseOrder(Map.Entry
 				.comparingByValue())).map(Map.Entry::getKey).collect(Collectors.toList());
 		List<Double> scores = playersScores.entrySet().stream().sorted(Collections.reverseOrder(Map.Entry
+				.comparingByValue())).map(Map.Entry::getValue).collect(Collectors.toList());*/
+
+		Map<String, Double> overallLeaderboard = LdoD.getInstance().getOverallLeaderboard();
+		List<String> users = overallLeaderboard.entrySet().stream().sorted(Collections.reverseOrder(Map.Entry
+				.comparingByValue())).map(Map.Entry::getKey).collect(Collectors.toList());
+		List<Double> scores = overallLeaderboard.entrySet().stream().sorted(Collections.reverseOrder(Map.Entry
 				.comparingByValue())).map(Map.Entry::getValue).collect(Collectors.toList());
 
 		response.add(users);
