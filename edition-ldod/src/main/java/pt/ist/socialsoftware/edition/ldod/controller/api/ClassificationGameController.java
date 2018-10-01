@@ -20,6 +20,7 @@ import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.*;
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
+import pt.ist.socialsoftware.edition.ldod.dto.APIResponse;
 import pt.ist.socialsoftware.edition.ldod.dto.ClassificationGameDto;
 import pt.ist.socialsoftware.edition.ldod.dto.GameTagDto;
 
@@ -58,40 +59,20 @@ public class ClassificationGameController {
 	public @ResponseBody ResponseEntity<?> end(@PathVariable(value = "gameId") String gameId) {
 		//logger.debug("end: {}", gameId);
 
-		String winner = getCurrentParticipantWinner(gameId);
-		String winningTag = getCurrentTagWinner(gameId);
-
-		List<Object> response = new ArrayList<>();
-		response.add(winner);
-		response.add(winningTag);
-
 		ClassificationGame game = FenixFramework.getDomainObject(gameId);
-		game.finish(winner, winningTag);
+		game.finish();
 
-		response.add(game.getClassificationGameParticipantSet());
-
-		return new ResponseEntity<>(response, HttpStatus.OK);
+		return new ResponseEntity<>(new APIResponse(true, "Ended game with success"), HttpStatus.OK);
 	}
 
 	@GetMapping("/leaderboard")
 	public @ResponseBody ResponseEntity<?> getLeaderboard() {
 		//logger.debug("getLeaderboard: {}", gameId);
+		ClassificationGame game = FenixFramework.getDomainObject("1407495142637569");
+		ClassificationGameRound roundWinnerTag4Paragraph = game.getRoundWinnerTag4Paragraph(0, 2);
+		logger.debug("round: Tag {}, Vote {}, Time {}", roundWinnerTag4Paragraph.getTag(), roundWinnerTag4Paragraph.getVote(), roundWinnerTag4Paragraph.getTime());
 
 		List<Object> response = new ArrayList<>();
-
-		/*List<Player> players = LdoD.getInstance().getUsersSet().stream().map(LdoDUser::getPlayer).collect(Collectors.toList());
-
-		Map<String, Double> playersScores = new LinkedHashMap<>();
-		for (Player p: players) {
-			if (p != null) {
-				playersScores.put(p.getUser().getUsername(), p.getScore());
-			}
-		}
-
-		List<String> users = playersScores.entrySet().stream().sorted(Collections.reverseOrder(Map.Entry
-				.comparingByValue())).map(Map.Entry::getKey).collect(Collectors.toList());
-		List<Double> scores = playersScores.entrySet().stream().sorted(Collections.reverseOrder(Map.Entry
-				.comparingByValue())).map(Map.Entry::getValue).collect(Collectors.toList());*/
 
 		Map<String, Double> overallLeaderboard = LdoD.getInstance().getOverallLeaderboard();
 		List<String> users = overallLeaderboard.entrySet().stream().sorted(Collections.reverseOrder(Map.Entry
@@ -229,7 +210,7 @@ public class ClassificationGameController {
 		round.setVote(1);
 		round.setClassificationGameParticipant(participant);
 		round.setTime(DateTime.now());
-		participant.setScore(participant.getScore() + ClassificationGame.SUBMIT);
+		participant.setScore(participant.getScore() + ClassificationGame.SUBMIT_TAG);
 
 		if (game.getTags().containsKey(tag)) {
 			// if tag exists increment vote
@@ -261,6 +242,12 @@ public class ClassificationGameController {
 
 		round.setTag(tag);
 		round.setVote(game.getTags().get(tag));
+
+		// Vote changed in review, makes participant receive a -1 penalty
+		if (vote < 0) {
+			participant.setScore(participant.getScore() + ClassificationGame.VOTE_CHANGE);
+		}
+
 		round.setClassificationGameParticipant(participant);
 		round.setTime(DateTime.now());
 

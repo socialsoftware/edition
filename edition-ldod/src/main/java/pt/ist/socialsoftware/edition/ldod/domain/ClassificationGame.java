@@ -15,7 +15,8 @@ public class ClassificationGame extends ClassificationGame_Base {
 	private static Logger logger = LoggerFactory.getLogger(ClassificationGame.class);
 
 	public enum ClassificationGameState {CREATED, OPEN, STARTED, TAGGING, VOTING, REVIEWING, ABORTED, FINISHED};
-	public static final double SUBMIT = 1;
+	public static final double SUBMIT_TAG = 1;
+	public static final double VOTE_CHANGE = -1;
 	public static final double SUBMITTER_IS_ROUND_WINNER = 5;
 	public static final double SUBMITTER_IS_GAME_WINNER = 10;
 	public static final double VOTED_IN_ROUND_WINNER = 2;
@@ -36,21 +37,6 @@ public class ClassificationGame extends ClassificationGame_Base {
 		setResponsible(user);
 
 		setVirtualEdition(virtualEdition);
-
-		// Not open to all user, only members
-		/*if(!players){
-			List<LdoDUser> members = this.getVirtualEdition().getActiveMemberSet().stream().map(Member::getUser).collect(Collectors.toList());
-			for (LdoDUser member : members) {
-				if (member.getPlayer() == null) {
-					member.setPlayer(new Player(member));
-				}
-
-				member.getPlayer().addClassificationGame(this);
-
-
-			}
-		}*/
-		//gameBlockingMap.put(this.getExternalId(), new ArrayBlockingQueue<String>(100));
 	}
 
 	@Atomic(mode = TxMode.WRITE)
@@ -87,8 +73,14 @@ public class ClassificationGame extends ClassificationGame_Base {
 	}
 
 	@Atomic(mode = TxMode.WRITE)
-	public void finish(String winnerUsername, String tagName) {
-		LdoDUser winner = LdoD.getInstance().getUser(winnerUsername);
+	public void finish() {
+		if (getState().equals(ClassificationGameState.FINISHED)) {
+			// CANT RECALCULATE OR FINISH A GAME AFTER GAME FINISHED
+			return;
+		}
+		ClassificationGameParticipant participant = calculateParticipantsScores();
+		LdoDUser winner = participant.getPlayer().getUser();
+		String tagName = getCurrentTagWinner();
 
 		getClassificationGameParticipantSet().stream().filter(p -> p.getPlayer().getUser() == winner).findFirst().get().setWinner(true);
 
@@ -107,7 +99,9 @@ public class ClassificationGame extends ClassificationGame_Base {
 			// missing setting up the score
 			user.getPlayer().setScore(players.get(user.getUsername()));
 		}*/
-		calculateParticipantsScores();
+
+		getClassificationGameParticipantSet().stream().forEach(p-> p.getPlayer().setScore(p.getScore()));
+
 		setState(ClassificationGameState.FINISHED);
 	}
 
@@ -138,46 +132,34 @@ public class ClassificationGame extends ClassificationGame_Base {
 		return tags.entrySet().stream().max(Map.Entry.comparingByValue()).map(Map.Entry::getKey).orElse(null);
 	}
 
+	private String getTagWinner() {
+		int limit = getAllRounds().stream().max(Comparator.comparing(ClassificationGameRound::getNumber)).get().getNumber();
+		return getRoundWinnerTag4Paragraph(limit , 3).getTag();
+	}
+
 	public Map<String, Double> getCurrentTopTags(int limit) {
 		return tags.entrySet().stream()
 				.sorted(Map.Entry.<String, Double>comparingByValue().reversed())
 				.limit(limit).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
 	}
 
+
 	public ClassificationGameParticipant getCurrentParticipantWinner() {
 		String currentTagWinner = getCurrentTagWinner();
-		Set<ClassificationGameRound> roundsByDate = getAllRounds().stream().sorted(Comparator.comparing
-				(ClassificationGameRound::getTime).reversed()).collect(Collectors.toSet());
+		Set<ClassificationGameRound> roundsByDate = getAllRounds().stream().
+				sorted(Comparator.comparing(o -> o.getTime().getMillis())).
+				collect(Collectors.toSet());
 		ClassificationGameRound gameRound = roundsByDate.stream().filter(round -> round.getTag().equals
 				(currentTagWinner)).findFirst().orElse(null);
 
-		/*for (ClassificationGameRound r : roundsByDate) {
-			logger.debug("Ronda: {} date {}", r.getNumber(), r.getTime());
-		}*/
 		return gameRound.getClassificationGameParticipant();
 	}
 
-	/*public Map<String, Double> joinRoundsByTag() {
-		Map<String, Double> collect = getAllRounds().stream().collect(Collectors.groupingBy
-				(ClassificationGameRound::getTag,
-						Collectors.summingDouble(ClassificationGameRound::getVote)));
-		for (Map.Entry<String, Double> e : collect.entrySet()) {
-			logger.debug("Tag: {}  Votes: {}", e.getKey(), e.getValue());
-		}
-
-		return collect;
-	}*/
-
-	/*public double getScore4Tag (String tag) {
-		return joinRoundsByTag().entrySet().stream().filter(e -> e.getKey().equals(tag))
-				.map(Map.Entry::getValue)
-				.findFirst()
-				.orElse(null);
-	}*/
-
 	public ClassificationGameRound getRound4User(String username, int roundNumber) {
-		return getAllRounds().stream().filter(r -> r
-				.getClassificationGameParticipant().getPlayer().getUser().getUsername().equals(username) && r.getNumber() == roundNumber).findFirst().orElse(null);
+		return getAllRounds().stream().
+				filter(r -> r.getClassificationGameParticipant().getPlayer().getUser().getUsername().
+						equals(username) && r.getNumber() == roundNumber).
+				findFirst().orElse(null);
 	}
 
 	public void addTag(String tag, double vote) {
@@ -188,47 +170,59 @@ public class ClassificationGame extends ClassificationGame_Base {
 		return tags;
 	}
 
-	private void calculateParticipantsScores() {
-		if (getState().equals(ClassificationGameState.FINISHED)) {
-			// CANT RECALCULATE SCORES AFTER GAME FINISHED
-			return;
-		}
-		String currentTagWinner = getCurrentTagWinner();
+	private ClassificationGameParticipant calculateParticipantsScores() {
+		//String currentTagWinner = getCurrentTagWinner();
+		String tagWinner =  getCurrentTagWinner();
 
-		Map<ClassificationGameParticipant, ClassificationGameRound> roundOneMap = getRoundMap(currentTagWinner, 1);
-
+		//Map<ClassificationGameParticipant, ClassificationGameRound> roundOneMap = getRoundMap(currentTagWinner, 1);
+		Map<ClassificationGameParticipant, ClassificationGameRound> roundOneMap = getRoundMap(tagWinner, 1);
 
 		// ------------- Round 1 ------------- //
+
 		// Participant that has submitted GAME winner tag FIRST than anyone receives + 10
 		ClassificationGameParticipant gameWinner = roundOneMap.entrySet().stream().
 				min(Comparator.comparing(e -> e.getValue().getTime().getMillis())).
 				orElse(null).getKey();
 		gameWinner.setScore(gameWinner.getScore() + SUBMITTER_IS_GAME_WINNER);
-		logger.debug("calculateParticipantScores: gameWinner: {} , score: {}", gameWinner.getPlayer().getUser().getUsername(), gameWinner.getScore());
 
 		// Participant that has submitted GAME winner tag but is NOT the first equals voter receives + 5
 		roundOneMap.forEach((p,r) -> p.setScore(p.getScore() + VOTED_IN_GAME_WINNER));
-		roundOneMap.forEach((p,r) -> logger.debug("R1 ----:calculateParticipantScores: voted1InWinner: {} , score: {}", p.getPlayer().getUser().getUsername(), p.getScore()));
+
 
 		// ------------- Round 2 ------------- //
-		//TODO: -----------
-		/*Map<ClassificationGameParticipant, ClassificationGameRound> roundTwoMap = getRoundMap(currentTagWinner, 2);
-		// Participant that has submitted ROUND winner tag FIRST than anyone receives + 5
-		ClassificationGameParticipant roundWinner = roundTwoMap.entrySet().stream().
-				min(Comparator.comparing(e -> e.getValue().getTime().getMillis())).
-				orElse(null).getKey();
-		roundWinner.setScore(SUBMITTER_IS_ROUND_WINNER);
+		// TODO: NOT WORKING - check get round winnertag4paragraph
+		int reviewNumber = getAllRounds().stream().max(Comparator.comparing(ClassificationGameRound::getNumber)).get().getNumber();
+		Map<String, ClassificationGameRound> topRounds = new HashMap<>();
+		for (int i = 0; i < reviewNumber; i++) {
+			ClassificationGameRound r = getRoundWinnerTag4Paragraph(i, 2);
+			topRounds.put(r.getTag(), r);
+		}
 
-		// Participant that has voted in ROUND winner tag receives + 2
-		roundTwoMap.forEach((p,r) -> p.setScore(VOTED_IN_ROUND_WINNER));*/
+		for (ClassificationGameRound r : topRounds.values()) {
+			// For each top tag im getting the participants that submitted them
+			Set<ClassificationGameParticipant> topTagsSubmitters = getRoundMap(r.getTag(), 1).keySet();
+
+			// Participant that has submitted ROUND winner tag FIRST than anyone receives + 5
+			topTagsSubmitters.forEach(p -> p.setScore(p.getScore() + SUBMITTER_IS_ROUND_WINNER));
+
+			// For each top tag im getting the participants that voted in them
+			Set<ClassificationGameParticipant> topTagsVoters = getRoundMap(r.getTag(), 2).keySet();
+
+			// Participant that has voted in ROUND winner tag receives + 2
+			topTagsVoters.forEach(p -> p.setScore(p.getScore() + VOTED_IN_ROUND_WINNER));
+		}
 
 		// ------------- Round 3 ------------- //
 		// Voted on game winner tag + 5
-		Map<ClassificationGameParticipant, ClassificationGameRound> roundThreeMap = getRoundMap(currentTagWinner, 3);
+		Map<ClassificationGameParticipant, ClassificationGameRound> roundThreeMap = getRoundMap(tagWinner, 3);
 		roundThreeMap.forEach((p,r) -> p.setScore(p.getScore() + VOTED_IN_GAME_WINNER));
 
-		roundThreeMap.forEach((p,r) -> logger.debug("R3 ----: calculateParticipantScores: votedInWinner: {} , score: {}", p.getPlayer().getUser().getUsername(), p.getScore()));
 
+		// Impossible to have bellow zero so every participant gets 1 point
+		getClassificationGameParticipantSet().stream().
+				forEach(p -> p.setScore(p.getScore() < 0 ? 1 : p.getScore()));
+
+		return gameWinner;
 	}
 
 	private Map<ClassificationGameParticipant, ClassificationGameRound> getRoundMap(String currentTagWinner, int i) {
@@ -238,17 +232,10 @@ public class ClassificationGame extends ClassificationGame_Base {
 				collect(Collectors.toMap(r -> r.getClassificationGameParticipant(), r -> r, (r1, r2) -> r1));
 	}
 
-	public Map<String, Double> getRoundWinnerTags4Paragraph(int number) {
-		return getAllRounds().stream().filter(r -> r.getNumber() == number).
-				sorted(Comparator.comparing(ClassificationGameRound::getVote).reversed()).
-				collect(Collectors.groupingBy(ClassificationGameRound::getTag,
-						Collectors.summingDouble(ClassificationGameRound::getVote)));
+	public ClassificationGameRound getRoundWinnerTag4Paragraph(int number, int round) {
+		return getAllRounds().stream().
+				filter(r -> r.getNumber() == number && r.getRound() == round)
+				.sorted(Comparator.comparing(o -> o.getTime().getMillis()))
+				.max(Comparator.comparing(ClassificationGameRound::getVote)).orElse(null);
 	}
-
-	/*private Map<Integer, Double> joinRoundsByNumber() {
-		return  getAllRounds().stream().collect(Collectors.groupingBy(ClassificationGameRound::getNumber,
-				Collectors.summingDouble(ClassificationGameRound::getVote)));
-	}*/
-
-
 }
