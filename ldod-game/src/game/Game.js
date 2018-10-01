@@ -115,7 +115,7 @@ class Game extends Component {
                 <Grid fluid>
                     <Jumbotron  style={{ backgroundColor: 'white' }} >
                         <h2 className="text-center">
-                            Loading resources and waiting for users to join...
+                            Loading resources and waiting for users to join...this may take up to 1 minute.
                         </h2>
                     </Jumbotron>
                     {this.state.socket}

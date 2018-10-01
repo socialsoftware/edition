@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import { getLeaderboard } from '../utils/APIUtils';
 import {Table, Grid} from 'react-bootstrap';
 
@@ -30,7 +31,7 @@ class GameLeaderboard extends Component {
             tableView.push(
                 <tr key={index}>
                     <td>{index+1}</td>
-                    <td>{item}</td>
+                    <td> <Link to={`/user/${item}`}>{item}</Link></td>
                     <td>{Math.round(points[index])}</td>
                 </tr>
                 )

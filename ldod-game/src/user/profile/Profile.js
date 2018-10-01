@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
 import { getUserProfile, getPublicVirtualEditions4User } from '../../utils/APIUtils';
-import { Avatar, Tabs } from 'antd';
+import { Grid, Row, Col, ListGroup, ListGroupItem} from 'react-bootstrap';
 import LoadingIndicator  from '../../common/LoadingIndicator';
 import './Profile.css';
 import NotFound from '../../common/NotFound';
 import ServerError from '../../common/ServerError';
-
-const TabPane = Tabs.TabPane;
 
 class Profile extends Component {
     constructor(props) {
@@ -78,49 +76,27 @@ class Profile extends Component {
         if(this.state.serverError) {
             return <ServerError />;
         }
-
-        const tabBarStyle = {
-            textAlign: 'center'
-        };
-
         return (
             <div className="profile">
-                {
-                    this.state.user ? (
-                        <div className="user-profile">
-                            <div className="user-details">
-                                <div className="user-avatar">
-                                    <Avatar size="large" style={{ backgroundColor: '#2ecc71' }} icon="user">
-                                        {this.state.user.username[0].toUpperCase()}
-                                        {this.state.user.username.slice(1,this.state.user.username.length)}
-                                    </Avatar>
-                                </div>
-                                <div className="user-summary">
-                                    <div className="username">{this.state.user.username}</div>
-                                    <div className="user-joined">
-                                        Joined 
-                                    </div>
-                                    <div className="user-joined">
-                                        Virtual Editions: 
-                                        {this.state.publicVEs.map((publicVE,index) => (<div key={index}>{publicVE.title}</div>))}
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="user-poll-details">
-                                <Tabs defaultActiveKey="1"
-                                    animated={false}
-                                    tabBarStyle={tabBarStyle}
-                                    size="large"
-                                    className="profile-tabs">
-                                    <TabPane tab={`${this.state.user.username} Ranking`} key="1">
-                                    </TabPane>
-                                    <TabPane tab={`${this.state.user.username} Votes`}  key="2">
-                                    </TabPane>
-                                </Tabs>
-                            </div>
-                        </div>
-                    ): null
-                }
+                <Grid fluid>
+                    { 
+                        this.state.user ? (
+                    <Row>
+                        <Col mdOffset={2} md={8} lgOffset={3} lg={6}>
+                            <h4 className="text-center">
+                                {this.state.user.firstName} {this.state.user.lastName}
+                            </h4>
+                            <ListGroup>
+                                    Virtual Editions: 
+                                    {this.state.publicVEs.map((publicVE,index) => (
+                                            <div key={index}>
+                                                <ListGroupItem bsStyle="info">{publicVE.title}</ListGroupItem>
+                                            </div>
+                                            ))}
+                            </ListGroup>
+                            </Col>
+                    </Row> ) : null }
+                </Grid>
             </div>
         );
     }
