@@ -16,6 +16,12 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import javax.transaction.HeuristicMixedException;
+import javax.transaction.HeuristicRollbackException;
+import javax.transaction.NotSupportedException;
+import javax.transaction.RollbackException;
+import javax.transaction.SystemException;
+
 import org.apache.commons.io.comparator.NameFileComparator;
 import org.apache.commons.io.filefilter.FileFileFilter;
 import org.apache.lucene.analysis.Analyzer;
@@ -51,37 +57,38 @@ import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
 import pt.ist.socialsoftware.edition.ldod.domain.TwitterCitation;
 import pt.ist.socialsoftware.edition.ldod.generators.PlainHtmlWriter4OneInter;
 import pt.ist.socialsoftware.edition.ldod.search.IgnoreDiacriticsAnalyzer;
+import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
 import pt.ist.socialsoftware.edition.ldod.utils.PropertiesManager;
 
 public class CitationDetecter {
 
-	private Logger logger = LoggerFactory.getLogger(CitationDetecter.class);
+	private final Logger logger = LoggerFactory.getLogger(CitationDetecter.class);
 
 	private final String ID = "id";
 	private final String TEXT = "text";
 
-	private Path docDir;
-	private Analyzer analyzer;
-	private QueryParserBase queryParser;
+	private final Path docDir;
+	private final Analyzer analyzer;
+	private final QueryParserBase queryParser;
 
 	public CitationDetecter() throws IOException {
 		String path = PropertiesManager.getProperties().getProperty("indexer.dir");
-		docDir = Paths.get(path);
-		analyzer = new IgnoreDiacriticsAnalyzer();
-		queryParser = new QueryParser(TEXT, analyzer);
+		this.docDir = Paths.get(path);
+		this.analyzer = new IgnoreDiacriticsAnalyzer();
+		this.queryParser = new QueryParser(this.TEXT, this.analyzer);
 	}
 
 	public void detect() throws IOException {
-		logger.debug("STARTING CITATION DETECTER!!");
+		this.logger.debug("STARTING CITATION DETECTER!!");
 		// resets last twitter IDs
 		resetLastTwitterIds();
 		citationDetection();
-		logger.debug("FINISHED DETECTING CITATIONS!!!");
+		this.logger.debug("FINISHED DETECTING CITATIONS!!!");
 
 		// identify ranges
-		logger.debug("STARTED IDENTIFYING RANGES!!!");
+		this.logger.debug("STARTED IDENTIFYING RANGES!!!");
 		createInfoRanges();
-		logger.debug("FINISHED IDENTIFYING RANGES!!!");
+		this.logger.debug("FINISHED IDENTIFYING RANGES!!!");
 	}
 
 	@Atomic(mode = TxMode.WRITE)
@@ -103,7 +110,7 @@ public class CitationDetecter {
 	}
 
 	private void fileCitationDetection(File fileEntry) throws FileNotFoundException, IOException {
-		logger.debug("JSON file name: " + fileEntry.getName());
+		this.logger.debug("JSON file name: " + fileEntry.getName());
 
 		try {
 			JSONObject obj = new JSONObject();
@@ -120,6 +127,7 @@ public class CitationDetecter {
 			int lineNum = 0;
 			while ((line = bufferedReader.readLine()) != null) {
 				// logger.debug(line);
+
 				obj = (JSONObject) new JSONParser().parse(line);
 
 				if (lineNum == 0) {
@@ -156,17 +164,32 @@ public class CitationDetecter {
 
 	public void searchQueryParserJSON(String query, JSONObject obj)
 			throws ParseException, org.apache.lucene.queryparser.classic.ParseException, IOException {
-		Query parsedQuery = queryParser.parse(QueryParser.escape(query)); // escape foi a solução porque ele stressava
-																			// com o EOF
+		Query parsedQuery = this.queryParser.parse(QueryParser.escape(query)); // escape foi a solução porque ele
+																				// stressava
+
+		try {
+			FenixFramework.getTransactionManager().begin();
+		} catch (NotSupportedException | SystemException e1) {
+			throw new LdoDException("Fail a transaction begin");
+		}
 
 		searchIndexAndDisplayResultsJSON(parsedQuery, obj);
+
+		try {
+			FenixFramework.getTransactionManager().commit();
+		} catch (SecurityException | IllegalStateException | RollbackException | HeuristicMixedException
+				| HeuristicRollbackException | SystemException e) {
+			this.logger.debug("Miss the creation of a citation due to the info it contains");
+
+		}
+
 	}
 
-	@Atomic(mode = TxMode.WRITE)
+	// @Atomic(mode = TxMode.WRITE)
 	public void searchIndexAndDisplayResultsJSON(Query query, JSONObject obj) {
 		try {
 			int hitsPerPage = 5;
-			Directory directory = new NIOFSDirectory(docDir);
+			Directory directory = new NIOFSDirectory(this.docDir);
 			IndexReader idxReader = DirectoryReader.open(directory);
 			IndexSearcher idxSearcher = new IndexSearcher(idxReader);
 
@@ -194,26 +217,18 @@ public class CitationDetecter {
 					if (!twitterIDExists) {
 						// obtain Fragment
 						// using external id
-						FragInter inter = FenixFramework.getDomainObject(d.get(ID));
+						FragInter inter = FenixFramework.getDomainObject(d.get(this.ID));
 						Fragment fragment = inter.getFragment();
 
 						String tweetTextWithoutHttp = removeHttpFromTweetText(obj);
 
-						logger.debug("GOING TO CREATE A TWITTER CITATION!!");
+						this.logger.debug("GOING TO CREATE A TWITTER CITATION!!");
 
-						// Tentativa de catch da exceção SQL
-						try {
-							new TwitterCitation(fragment, (String) obj.get("tweetURL"), (String) obj.get("date"),
-									d.get(TEXT), tweetTextWithoutHttp, (long) obj.get("tweetID"),
-									(String) obj.get("location"), (String) obj.get("country"),
-									(String) obj.get("username"), (String) obj.get("profURL"),
-									(String) obj.get("profImg"));
-							logger.debug("CREATED A TWITTER CITATION!!!");
-
-						} catch (org.apache.ojb.broker.PersistenceBrokerSQLException sqlExcetion) {
-							logger.debug("CAUGHT SQL EXCEPTION!!");
-						}
-
+						new TwitterCitation(fragment, (String) obj.get("tweetURL"), (String) obj.get("date"),
+								d.get(this.TEXT), tweetTextWithoutHttp, (long) obj.get("tweetID"),
+								(String) obj.get("location"), (String) obj.get("country"), (String) obj.get("username"),
+								(String) obj.get("profURL"), (String) obj.get("profImg"));
+						this.logger.debug("CREATED A TWITTER CITATION!!!");
 					}
 
 				}
@@ -246,10 +261,13 @@ public class CitationDetecter {
 
 	@Atomic
 	private void printLastTwitterIds() {
-		logger.debug("LdoD BookLastTwitterID:{}", LdoD.getInstance().getLastTwitterID().getBookLastTwitterID());
-		logger.debug("LdoD BernardoLastTwitterID:{}", LdoD.getInstance().getLastTwitterID().getBernardoLastTwitterID());
-		logger.debug("LdoD VicenteLastTwitterID:{}", LdoD.getInstance().getLastTwitterID().getVicenteLastTwitterID());
-		logger.debug("LdoD PessoaLastTwitterID:{}", LdoD.getInstance().getLastTwitterID().getPessoaLastTwitterID());
+		this.logger.debug("LdoD BookLastTwitterID:{}", LdoD.getInstance().getLastTwitterID().getBookLastTwitterID());
+		this.logger.debug("LdoD BernardoLastTwitterID:{}",
+				LdoD.getInstance().getLastTwitterID().getBernardoLastTwitterID());
+		this.logger.debug("LdoD VicenteLastTwitterID:{}",
+				LdoD.getInstance().getLastTwitterID().getVicenteLastTwitterID());
+		this.logger.debug("LdoD PessoaLastTwitterID:{}",
+				LdoD.getInstance().getLastTwitterID().getPessoaLastTwitterID());
 	}
 
 	@Atomic(mode = TxMode.WRITE)
@@ -315,7 +333,7 @@ public class CitationDetecter {
 	}
 
 	public boolean startBiggerThanEnd(int htmlStart, int htmlEnd, int numOfPStart, int numOfPEnd) {
-		return (htmlStart > htmlEnd && numOfPStart == numOfPEnd);
+		return htmlStart > htmlEnd && numOfPStart == numOfPEnd;
 	}
 
 	public String convertFirstCharToUpperCaseInSentence(String str) {
@@ -605,15 +623,16 @@ public class CitationDetecter {
 
 	public void searchQueryParser(String query)
 			throws ParseException, org.apache.lucene.queryparser.classic.ParseException, IOException {
-		Query parsedQuery = queryParser.parse(QueryParser.escape(query)); // escape foi a solução porque ele stressava
-																			// com o EOF
+		Query parsedQuery = this.queryParser.parse(QueryParser.escape(query)); // escape foi a solução porque ele
+																				// stressava
+																				// com o EOF
 		searchIndexAndDisplayResults(parsedQuery);
 	}
 
 	public void searchIndexAndDisplayResults(Query query) {
 		try {
 			int hitsPerPage = 5;
-			Directory directory = new NIOFSDirectory(docDir);
+			Directory directory = new NIOFSDirectory(this.docDir);
 			IndexReader idxReader = DirectoryReader.open(directory);
 			IndexSearcher idxSearcher = new IndexSearcher(idxReader);
 
@@ -639,7 +658,7 @@ public class CitationDetecter {
 		int len = split.length;
 		SpanQuery[] clauses = new SpanQuery[len];
 		for (int i = 0; i < len; i++) {
-			clauses[i] = new SpanMultiTermQueryWrapper(new FuzzyQuery(new Term(TEXT, split[i])));
+			clauses[i] = new SpanMultiTermQueryWrapper(new FuzzyQuery(new Term(this.TEXT, split[i])));
 		}
 		SpanNearQuery query = new SpanNearQuery(clauses, 0, true);
 

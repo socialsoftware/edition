@@ -8,6 +8,12 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Arrays;
 
+import javax.transaction.HeuristicMixedException;
+import javax.transaction.HeuristicRollbackException;
+import javax.transaction.NotSupportedException;
+import javax.transaction.RollbackException;
+import javax.transaction.SystemException;
+
 import org.apache.commons.io.comparator.NameFileComparator;
 import org.apache.commons.io.filefilter.FileFileFilter;
 import org.json.simple.JSONObject;
@@ -16,11 +22,11 @@ import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import pt.ist.fenixframework.Atomic;
-import pt.ist.fenixframework.Atomic.TxMode;
+import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
 import pt.ist.socialsoftware.edition.ldod.domain.Tweet;
 import pt.ist.socialsoftware.edition.ldod.domain.TwitterCitation;
+import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
 import pt.ist.socialsoftware.edition.ldod.utils.PropertiesManager;
 
 public class TweetFactory {
@@ -47,16 +53,30 @@ public class TweetFactory {
 
 		while ((line = bufferedReader.readLine()) != null) {
 			try {
-				createTweets(line);
-			} catch (ParseException e) {
-				e.printStackTrace();
+				FenixFramework.getTransactionManager().begin();
+			} catch (NotSupportedException | SystemException e1) {
+				throw new LdoDException("Fail a transaction begin");
+			}
+
+			try {
+				createTweet(line);
+			} catch (ParseException e1) {
+				logger.debug("Miss the creation of a tweet due to the parse of some of its data");
+			}
+
+			try {
+				FenixFramework.getTransactionManager().commit();
+			} catch (SecurityException | IllegalStateException | RollbackException | HeuristicMixedException
+					| HeuristicRollbackException | SystemException e) {
+				logger.debug("Miss the creation of a tweet due to the info it contains");
+
 			}
 		}
 		bufferedReader.close();
 	}
 
-	@Atomic(mode = TxMode.WRITE)
-	private void createTweets(String line) throws ParseException {
+//	@Atomic(mode = TxMode.WRITE)
+	private void createTweet(String line) throws ParseException {
 		LdoD ldoD = LdoD.getInstance();
 		JSONObject obj = (JSONObject) new JSONParser().parse(line);
 

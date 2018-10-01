@@ -286,7 +286,7 @@ public class VirtualEditionController {
 		return "redirect:/virtualeditions";
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "/restricted/acronym/{acronym}/fragments")
+	@RequestMapping(method = RequestMethod.GET, value = "/acronym/{acronym}/fragments")
 	@PreAuthorize("hasPermission(#acronym, 'editionacronym.public')")
 	public @ResponseBody ResponseEntity<EditionFragmentsDTO> getFragments(Model model, @PathVariable String acronym) {
 		logger.debug("getFragments acronym:{}", acronym);
@@ -325,7 +325,7 @@ public class VirtualEditionController {
 		}
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "/restricted/acronym/{acronym}/transcriptions")
+	@RequestMapping(method = RequestMethod.GET, value = "/acronym/{acronym}/transcriptions")
 	@PreAuthorize("hasPermission(#acronym, 'editionacronym.public')")
 	public @ResponseBody ResponseEntity<EditionTranscriptionsDTO> getTranscriptions(Model model,
 			@PathVariable String acronym) {
@@ -357,7 +357,7 @@ public class VirtualEditionController {
 		}
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "/restricted/acronym/{acronym}/{category}/transcriptions")
+	@RequestMapping(method = RequestMethod.GET, value = "/acronym/{acronym}/{category}/transcriptions")
 	@PreAuthorize("hasPermission(#acronym, 'editionacronym.public')")
 	public @ResponseBody ResponseEntity<EditionTranscriptionsDTO> getTranscriptionsTag(Model model,
 			@PathVariable String acronym, @PathVariable String category) {
@@ -514,7 +514,7 @@ public class VirtualEditionController {
 		VirtualEdition virtualEdition = FenixFramework.getDomainObject(externalId);
 		LdoDUser user = FenixFramework.getDomainObject(userId);
 
-		if ((virtualEdition == null) || (user == null)) {
+		if (virtualEdition == null || user == null) {
 			return "redirect:/error";
 		}
 
@@ -549,7 +549,7 @@ public class VirtualEditionController {
 	public String addInter(Model model, @PathVariable String veId, @PathVariable String interId) {
 		VirtualEdition virtualEdition = FenixFramework.getDomainObject(veId);
 		FragInter inter = FenixFramework.getDomainObject(interId);
-		if ((virtualEdition == null) || (inter == null)) {
+		if (virtualEdition == null || inter == null) {
 			return "redirect:/error";
 		}
 
@@ -796,7 +796,7 @@ public class VirtualEditionController {
 			return "redirect:/error";
 		}
 
-		if ((interIds == null) || (interIds.length == 0)) {
+		if (interIds == null || interIds.length == 0) {
 			return "redirect:/virtualeditions/restricted/category/" + category.getExternalId();
 		}
 
@@ -853,7 +853,7 @@ public class VirtualEditionController {
 			return "redirect:/error";
 		}
 
-		if ((categories != null) && (categories.length > 0)) {
+		if (categories != null && categories.length > 0) {
 			inter.associate(LdoDUser.getAuthenticatedUser(), Arrays.stream(categories).collect(Collectors.toSet()));
 		}
 
