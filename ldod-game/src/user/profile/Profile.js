@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { getUserProfile, getPublicVirtualEditions4User } from '../../utils/APIUtils';
 import { Grid, Row, Col, ListGroup, ListGroupItem} from 'react-bootstrap';
 import LoadingIndicator  from '../../common/LoadingIndicator';
-import './Profile.css';
 import NotFound from '../../common/NotFound';
 import ServerError from '../../common/ServerError';
 
