@@ -489,26 +489,35 @@ public class CitationDetecter {
 
 			htmlStart = start - text.lastIndexOf("\">", start) - 2; // -2, para compensar
 			htmlEnd = end - text.lastIndexOf("\">", end) - 2; // -2, para compensar
+
+			// para cobrir a frase até ao ponto final anterior é fazer
+			// int earlyStart = text.lastIndexOf("\\.", htmlStart);
+
+			// para cobrir a frase até ao ponto final seguinte é fazer
+			// int laterEnd = text.indexOf("\\.", htmlEnd);
+
 		}
 
-		List<String> result = new ArrayList<String>();
-
 		logger.debug("PATTERN FOUND: " + patternFound);
+		patternFound = patternFound.trim();
 
+		// converts the first letter of each sentence to upper case
 		String upperPattern = "";
 		if (patternFound != "") {
-			String[] patternSplit = patternFound.split("\\. ");
+			String[] patternSplit = patternFound.split("\\.\\s+");
 			logger.debug("length do split: " + patternSplit.length);
 			for (String s : patternSplit) {
 				logger.debug("string s: " + s);
-				if (s.trim().length() > 0) {
-					upperPattern += this.capitalizeFirstWord(s) + ". ";
-				}
+				upperPattern += this.capitalizeFirstWord(s) + ". ";
 			}
-
-			logger.debug("UPPER PATTERN: " + upperPattern);
 		}
 
+		if (upperPattern != "") {
+			upperPattern = upperPattern.substring(0, upperPattern.length() - 2);
+		}
+		logger.debug("UPPER PATTERN: " + upperPattern);
+
+		List<String> result = new ArrayList<String>();
 		result.add(upperPattern);
 		result.add(String.valueOf(htmlStart));
 		result.add(String.valueOf(htmlEnd));

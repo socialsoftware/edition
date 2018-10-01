@@ -31,6 +31,14 @@ public class LucenePerformance {
 		int FP = 0;
 		int TN = 0;
 		int FN = 0;
+
+		// só faz sentido alterar estas variáveis
+		// quando a tc != null, senão nem há info ranges
+		int jaroTP = 0;
+		int jaroFP = 0;
+		int jaroTN = 0;
+		int jaroFN = 0;
+
 		while ((line = bufferedReader.readLine()) != null) {
 			String[] split = line.split(";");
 			long id = Long.parseLong(split[0]);
@@ -42,12 +50,23 @@ public class LucenePerformance {
 
 			if (tc != null && isCitation) {
 				TP++;
+				if (!tc.getInfoRangeSet().isEmpty()) {
+					jaroTP++;
+				} else {
+					// logger.debug("Tweet ID: " + id + " is a Jaro FN!!");
+					jaroFN++;
+				}
 			} else if (tc != null && !isCitation) {
 				FP++;
-				logger.debug("Tweet ID: " + id + " is FP");
+				// logger.debug("Tweet ID: " + id + " is FP");
+				if (!tc.getInfoRangeSet().isEmpty()) {
+					jaroFP++;
+				} else {
+					jaroTN++;
+				}
 			} else if (tc == null && isCitation) {
 				FN++;
-				logger.debug("Tweet ID: " + id + " is FN");
+				// logger.debug("Tweet ID: " + id + " is FN");
 			} else if (tc == null && !isCitation) {
 				TN++;
 			}
@@ -61,13 +80,26 @@ public class LucenePerformance {
 		double recall = (double) TP / (TP + FN);
 
 		logger.debug("Precision = " + precision);
-		logger.debug("Recall = " + recall);
+		logger.debug("Recall = " + recall + "\n");
 
 		// for (TwitterCitation tc : LdoD.getInstance().getAllTwitterCitation()) {
 		// logger.debug("Date: " + tc.getDate() + " Tweet ID: " + tc.getTweetID() + "\n"
 		// + "Tweet text: "
 		// + tc.getTweetText() + "\n");
 		// }
+
+		logger.debug("==========================================================================");
+		logger.debug("==========================================================================\n");
+
+		logger.debug("\njaroTP: " + jaroTP + "\n" + "jaroFP: " + jaroFP + "\n" + "jaroTN: " + jaroTN + "\n" + "jaroFN: "
+				+ jaroFN);
+		logger.debug("+++++++++++++++++++++++++++++++++");
+
+		double jaroPrecision = (double) jaroTP / (jaroTP + jaroFP);
+		double jaroRecall = (double) jaroTP / (jaroTP + jaroFN);
+
+		logger.debug("JaroPrecision = " + jaroPrecision);
+		logger.debug("JaroRecall = " + jaroRecall);
 
 		logger.debug("FINISHED BOOK PERFORMANCE ANALYSIS");
 
