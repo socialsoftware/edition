@@ -26,14 +26,35 @@
 		<c:forEach var="annotation" items='${inter. getAllDepthAnnotations()}'>
 			<tr>
 				<td>${annotation.quote}</td>
-				<td>${annotation.text}</td>
+				
+				<c:choose>
+				    <c:when test="${annotation.isHumanAnnotation()}">
+				        <td>${annotation.text}</td>
+				    </c:when>    
+				    <c:otherwise>
+				        <td><a href="${annotation.getSourceLink()}">tweet</a>
+							<br>
+							<a href="${annotation.getProfileURL()}">profile</a>
+							<br>
+							Date: ${annotation.getDate()}
+							<br>
+							Country: ${annotation.getCountry()}
+						</td>
+				    </c:otherwise>
+				</c:choose>
+					
 				<td><span class="glyphicon glyphicon-user"></span> <a
 					href="${contextPath}/edition/user/${annotation.user.username}">${annotation.user.username}</a></td>
-				<td><c:forEach var="tag" items='${annotation.getTagSet()}'>
-						<span class="glyphicon glyphicon-tag"></span>
-						<a
-							href="${contextPath}/edition/acronym/${tag.getCategory().getTaxonomy().getEdition().getAcronym()}/category/${tag.getCategory().getUrlId()}">${tag.getCategory().getNameInEditionContext(inter.edition)}</a>
-					</c:forEach></td>
+				
+				<c:if test="${annotation.isHumanAnnotation()}">
+					<td><c:forEach var="tag" items='${annotation.getTagSet()}'>
+							<span class="glyphicon glyphicon-tag"></span>
+							<a
+								href="${contextPath}/edition/acronym/${tag.getCategory().getTaxonomy().getEdition().getAcronym()}/category/${tag.getCategory().getUrlId()}">${tag.getCategory().getNameInEditionContext(inter.edition)}</a>
+						</c:forEach></td>
+				</c:if>
+				
+				
 			</tr>
 		</c:forEach>
 	</tbody>

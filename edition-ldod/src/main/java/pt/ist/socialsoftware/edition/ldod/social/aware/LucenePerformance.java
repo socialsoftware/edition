@@ -19,6 +19,8 @@ public class LucenePerformance {
 
 	@Atomic(mode = TxMode.WRITE)
 	public void runLivro() throws IOException {
+		logger.debug("STARTED BOOK PERFORMANCE ANALYSIS");
+
 		String fileSuffix = "livroIDs.txt";
 		File file = new File("C:\\Users\\dnf_o\\projetoTese\\ldod\\social\\teste\\" + fileSuffix);
 
@@ -42,8 +44,10 @@ public class LucenePerformance {
 				TP++;
 			} else if (tc != null && !isCitation) {
 				FP++;
+				logger.debug("Tweet ID: " + id + " is FP");
 			} else if (tc == null && isCitation) {
 				FN++;
+				logger.debug("Tweet ID: " + id + " is FN");
 			} else if (tc == null && !isCitation) {
 				TN++;
 			}
@@ -53,13 +57,19 @@ public class LucenePerformance {
 		logger.debug("\nTP: " + TP + "\n" + "FP: " + FP + "\n" + "TN: " + TN + "\n" + "FN: " + FN);
 		logger.debug("+++++++++++++++++++++++++++++++++");
 
+		double precision = (double) TP / (TP + FP);
+		double recall = (double) TP / (TP + FN);
+
+		logger.debug("Precision = " + precision);
+		logger.debug("Recall = " + recall);
+
 		// for (TwitterCitation tc : LdoD.getInstance().getAllTwitterCitation()) {
 		// logger.debug("Date: " + tc.getDate() + " Tweet ID: " + tc.getTweetID() + "\n"
 		// + "Tweet text: "
 		// + tc.getTweetText() + "\n");
 		// }
 
-		logger.debug("FINISHED PERFORMANCE ANALYSIS");
+		logger.debug("FINISHED BOOK PERFORMANCE ANALYSIS");
 
 		bufferedReader.close();
 	}

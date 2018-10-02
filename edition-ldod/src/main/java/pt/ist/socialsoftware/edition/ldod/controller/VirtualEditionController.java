@@ -277,7 +277,7 @@ public class VirtualEditionController {
 		return "redirect:/virtualeditions";
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "/restricted/acronym/{acronym}/fragments")
+	@RequestMapping(method = RequestMethod.GET, value = "/acronym/{acronym}/fragments")
 	@PreAuthorize("hasPermission(#acronym, 'editionacronym.public')")
 	public @ResponseBody ResponseEntity<EditionFragmentsDTO> getFragments(Model model, @PathVariable String acronym) {
 		logger.debug("getFragments acronym:{}", acronym);
@@ -316,7 +316,7 @@ public class VirtualEditionController {
 		}
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "/restricted/acronym/{acronym}/transcriptions")
+	@RequestMapping(method = RequestMethod.GET, value = "/acronym/{acronym}/transcriptions")
 	@PreAuthorize("hasPermission(#acronym, 'editionacronym.public')")
 	public @ResponseBody ResponseEntity<EditionTranscriptionsDTO> getTranscriptions(Model model,
 			@PathVariable String acronym) {
@@ -348,7 +348,7 @@ public class VirtualEditionController {
 		}
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "/restricted/acronym/{acronym}/{category}/transcriptions")
+	@RequestMapping(method = RequestMethod.GET, value = "/acronym/{acronym}/{category}/transcriptions")
 	@PreAuthorize("hasPermission(#acronym, 'editionacronym.public')")
 	public @ResponseBody ResponseEntity<EditionTranscriptionsDTO> getTranscriptionsTag(Model model,
 			@PathVariable String acronym, @PathVariable String category) {
