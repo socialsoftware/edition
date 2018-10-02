@@ -122,7 +122,7 @@ public class ClassificationGame extends ClassificationGame_Base {
 				.filter(p -> p.getPlayer().getUser().getUsername().equals(username)).findFirst().orElse(null);
 	}
 
-	private Set<ClassificationGameRound> getAllRounds(){
+	public Set<ClassificationGameRound> getAllRounds(){
 		return  getClassificationGameParticipantSet().stream().map
 				(ClassificationGameParticipant::getClassificationGameRoundSet).
 				flatMap(Set::stream).collect(Collectors.toSet());
@@ -190,12 +190,13 @@ public class ClassificationGame extends ClassificationGame_Base {
 
 
 		// ------------- Round 2 ------------- //
-		// TODO: NOT WORKING - check get round winnertag4paragraph
 		int reviewNumber = getAllRounds().stream().max(Comparator.comparing(ClassificationGameRound::getNumber)).get().getNumber();
 		Map<String, ClassificationGameRound> topRounds = new HashMap<>();
 		for (int i = 0; i < reviewNumber; i++) {
 			ClassificationGameRound r = getRoundWinnerTag4Paragraph(i, 2);
-			topRounds.put(r.getTag(), r);
+			if (r != null) {
+				topRounds.put(r.getTag(), r);
+			}
 		}
 
 		for (ClassificationGameRound r : topRounds.values()) {

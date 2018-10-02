@@ -68,9 +68,6 @@ public class ClassificationGameController {
 	@GetMapping("/leaderboard")
 	public @ResponseBody ResponseEntity<?> getLeaderboard() {
 		//logger.debug("getLeaderboard: {}", gameId);
-		ClassificationGame game = FenixFramework.getDomainObject("1407495142637569");
-		ClassificationGameRound roundWinnerTag4Paragraph = game.getRoundWinnerTag4Paragraph(0, 2);
-		logger.debug("round: Tag {}, Vote {}, Time {}", roundWinnerTag4Paragraph.getTag(), roundWinnerTag4Paragraph.getVote(), roundWinnerTag4Paragraph.getTime());
 
 		List<Object> response = new ArrayList<>();
 
