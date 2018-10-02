@@ -16,20 +16,13 @@ import org.jdom2.filter.Filters;
 import org.jdom2.input.SAXBuilder;
 import org.jdom2.xpath.XPathExpression;
 import org.jdom2.xpath.XPathFactory;
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
-import pt.ist.socialsoftware.edition.ldod.domain.Citation;
-import pt.ist.socialsoftware.edition.ldod.domain.FragInter;
-import pt.ist.socialsoftware.edition.ldod.domain.Fragment;
-import pt.ist.socialsoftware.edition.ldod.domain.InfoRange;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
-import pt.ist.socialsoftware.edition.ldod.domain.Tweet;
-import pt.ist.socialsoftware.edition.ldod.domain.TwitterCitation;
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
+import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDLoadException;
 import pt.ist.socialsoftware.edition.ldod.utils.RangeJson;
 
@@ -130,6 +123,8 @@ public class VirtualEditionFragmentsTEIImport {
 			for (Element note : textClass.getChildren("note", this.namespace)) {
 				importAnnotation(note, inter);
 			}
+
+			importClassificationGames(textClass, inter);
 		}
 	}
 
@@ -284,5 +279,86 @@ public class VirtualEditionFragmentsTEIImport {
 		String fragXmlId = xp.evaluate(doc).get(0).getAttributeValue("id", Namespace.XML_NAMESPACE);
 
 		return ldoD.getFragmentByXmlId(fragXmlId);
+	}
+
+	private void importClassificationGames(Element textClass, VirtualEditionInter inter) {
+		List<Element> classificationGameList = textClass.getChildren("classificationGameList", this.namespace);
+		for (Element e : classificationGameList) {
+			Element classificationGameElement = e.getChild("classificationGame", this.namespace);
+
+				if (classificationGameElement != null) {
+					ClassificationGame.ClassificationGameState state = ClassificationGame.ClassificationGameState.valueOf(classificationGameElement.getAttributeValue("state"));
+					String description = classificationGameElement.getAttributeValue("description");
+					boolean openAnnotation = Boolean.parseBoolean(classificationGameElement.getAttributeValue("openAnnotation"));
+					DateTime dateTime =  new DateTime(DateTime.parse(classificationGameElement.getAttributeValue("dateTime")));
+					boolean sync =  Boolean.parseBoolean(classificationGameElement.getAttributeValue("sync"));
+					LdoDUser user = LdoD.getInstance().getUser(classificationGameElement.getAttributeValue("responsible"));
+					// TODO FIXME
+					//Tag tag = inter.getTagSet().stream().filter(t -> t.getCategory().getName().equals(classificationGameElement.getAttributeValue("tag")) && t.getContributor() == user).findFirst().get();
+					ClassificationGame game = new ClassificationGame(inter.getVirtualEdition(), description, openAnnotation, dateTime, inter, user);
+					game.setState(state);
+					game.setSync(sync);
+					//game.setTag(tag);
+
+					importClassificationGameParticipants(classificationGameElement, game);
+					importClassificationGameRounds(classificationGameElement, game);
+			}
+		}
+
+	}
+
+	private void importClassificationGameRounds(Element gameElement, ClassificationGame game) {
+		List<Element> classificationGameRoundList = gameElement.getChildren("classificationGameRoundList", this.namespace);
+		for (Element e : classificationGameRoundList) {
+			Element roundElement = e.getChild("classificationGameRound", this.namespace);
+
+			if (roundElement != null) {
+
+				String username = roundElement.getAttributeValue("username");
+
+				int paragraphNumber = Integer.parseInt(roundElement.getAttributeValue("paragraphNumber"));
+				int roundNumber = Integer.parseInt(roundElement.getAttributeValue("roundNumber"));
+				String tag = roundElement.getAttributeValue("tag");
+				double vote = Double.parseDouble(roundElement.getAttributeValue("vote"));
+				DateTime dateTime =  new DateTime(DateTime.parse(roundElement.getAttributeValue("dateTime")));
+
+				ClassificationGameRound gameRound = new ClassificationGameRound();
+				gameRound.setNumber(paragraphNumber);
+				gameRound.setRound(roundNumber);
+				gameRound.setTag(tag);
+				gameRound.setVote(vote);
+				gameRound.setTime(dateTime);
+
+				ClassificationGameParticipant p = new ClassificationGameParticipant(game, LdoD.getInstance().getUser(username));
+				gameRound.setClassificationGameParticipant(p);
+
+				// TODO FIXME
+				//ClassificationGameParticipant participant = game.getClassificationGameParticipantSet().stream().filter
+				//		(p -> p.getPlayer().getUser().getUsername().equals(username)).findFirst().get();
+				//gameRound.setClassificationGameParticipant(participant);
+
+
+			}
+		}
+
+	}
+
+	private void importClassificationGameParticipants(Element element, ClassificationGame game) {
+		List<Element> classificationGameParticipantList = element.getChildren("classificationGameParticipantList", this.namespace);
+		for (Element e : classificationGameParticipantList) {
+			Element classificationGameParticipantElement = e.getChild("classificationGameParticipant", this.namespace);
+
+			if (classificationGameParticipantElement != null) {
+
+				String username = classificationGameParticipantElement.getAttributeValue("username");
+				boolean winner = Boolean.parseBoolean(classificationGameParticipantElement.getAttributeValue("winner"));
+				double score = Double.parseDouble(classificationGameParticipantElement.getAttributeValue("score"));
+				LdoDUser user = LdoD.getInstance().getUser(username);
+
+				ClassificationGameParticipant participant = new ClassificationGameParticipant(game, user);
+				participant.setWinner(winner);
+				participant.setScore(score);
+			}
+		}
 	}
 }

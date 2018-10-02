@@ -16,13 +16,9 @@ import org.joda.time.LocalDate;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
+import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser.SocialMediaService;
-import pt.ist.socialsoftware.edition.ldod.domain.RegistrationToken;
-import pt.ist.socialsoftware.edition.ldod.domain.Role;
 import pt.ist.socialsoftware.edition.ldod.domain.Role.RoleType;
-import pt.ist.socialsoftware.edition.ldod.domain.UserConnection;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDLoadException;
 
@@ -108,6 +104,7 @@ public class UsersXMLImport {
 				}
 
 				importUserRoles(element, user);
+				importPlayers(element, user);
 			}
 		}
 	}
@@ -197,6 +194,16 @@ public class UsersXMLImport {
 		default:
 			throw new LdoDException("UsersXMLImport::convertToRoleType " + value);
 
+		}
+	}
+
+	private void importPlayers(Element element, LdoDUser user) {
+		// Check if the user exported had a Player and import
+		Element playerElement = element.getChild("player");
+		if (playerElement != null) {
+			double score = Double.parseDouble(playerElement.getAttributeValue("score"));
+			Player player = new Player(user);
+			player.setScore(score);
 		}
 	}
 

@@ -6,11 +6,7 @@ import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 
 import pt.ist.fenixframework.Atomic;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
-import pt.ist.socialsoftware.edition.ldod.domain.RegistrationToken;
-import pt.ist.socialsoftware.edition.ldod.domain.Role;
-import pt.ist.socialsoftware.edition.ldod.domain.UserConnection;
+import pt.ist.socialsoftware.edition.ldod.domain.*;
 
 public class UsersXMLExport {
 
@@ -75,6 +71,7 @@ public class UsersXMLExport {
 		}
 
 		exportUserRoles(userElement, user);
+		exportPlayer(userElement, user);
 
 		element.addContent(userElement);
 	}
@@ -164,4 +161,12 @@ public class UsersXMLExport {
 		element.addContent(tokenElement);
 	}
 
+	private void exportPlayer(Element userElement, LdoDUser user) {
+		if (user.getPlayer() != null) {
+			Player player = user.getPlayer();
+			Element playerElement = new Element("player");
+			playerElement.setAttribute("score", Double.toString(player.getScore()));
+			userElement.addContent(playerElement);
+		}
+	}
 }
