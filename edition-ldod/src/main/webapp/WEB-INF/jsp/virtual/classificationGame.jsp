@@ -70,10 +70,10 @@
 							<td>${game.getDescription()}</td>
 							<c:choose>
 								<c:when test="${game.isActive()}">
-									<td>${game.getVirtualEditionInter().getTitle()}</td>
+									<td><a href="/virtualeditions/${game.getVirtualEdition().getExternalId()}/classificationGame/${game.getExternalId()}">${game.getVirtualEditionInter().getTitle()}</a></td>
 								</c:when>
 								<c:otherwise>
-									<td class="success"><span class="glyphicon glyphicon-asterisk"></span>${game.getVirtualEditionInter().getTitle()}</td>
+									<td class="success"><span class="glyphicon glyphicon-asterisk"></span><a href="/virtualeditions/${game.getVirtualEdition().getExternalId()}/classificationGame/${game.getExternalId()}">${game.getVirtualEditionInter().getTitle()}</a></td>
 								</c:otherwise>
 							</c:choose>
 							<td>${game.getDateTime().toString("dd/MM/yyyy HH:mm")}</td>

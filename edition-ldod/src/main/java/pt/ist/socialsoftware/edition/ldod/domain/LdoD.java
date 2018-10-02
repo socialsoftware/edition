@@ -296,27 +296,6 @@ public class LdoD extends LdoD_Base {
 	}
 
 	public Map<String, Double> getOverallLeaderboard() {
-		/*Map<Set<String>, Collection<Double>> collect = getVirtualEditionsSet().stream().
-				flatMap(v -> v.getClassificationGameSet().stream().
-				map(ClassificationGame::getLeaderboard)).
-				collect(Collectors.toMap(Map::keySet, Map::values));
-		
-		getVirtualEditionsSet().stream().flatMap(v -> v.getClassificationGameSet().stream().
-				map(g -> g.getLeaderboard().entrySet().stream().map(Map.Entry::getKey)
-						.collect(Collectors.toList())));
-		collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
-		Stream<Map<String, Double>> mapStream = getVirtualEditionsSet().stream().flatMap(v -> v
-				.getClassificationGameSet().stream().
-				map(g -> g.getLeaderboard().entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, Map
-						.Entry::getValue))));
-		getVirtualEditionsSet().stream().
-				flatMap(v -> v.getClassificationGameSet().stream().
-						map(g -> g.getLeaderboard().entrySet().stream().map(Map.Entry::getKey).
-		mapStream.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
-
-		//HashMap result = new LinkedHashMap();
-
-		//result.forEach((k, v) -> collect.merge(k, v, (v1, v2) -> v1 + v2));*/
 		List<Map<String, Double>> collect = LdoD.getInstance().getVirtualEditionsSet().stream().flatMap(v -> v
 				.getClassificationGameSet().stream().map(g -> g.getLeaderboard())).collect(Collectors.toList());
 		Map<String, Double> result = new LinkedHashMap<>();
@@ -328,6 +307,18 @@ public class LdoD extends LdoD_Base {
 			}
 		}
 		return result;
+	}
+
+	public int getOverallUserPosition(String username) {
+		if(!getOverallLeaderboard().containsKey(username)) {
+			return -1;
+		}
+
+		Map<String, Double> temp = getOverallLeaderboard().entrySet().stream().
+				sorted(Collections.reverseOrder(Map.Entry.comparingByValue())).
+				collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e2, LinkedHashMap::new));
+
+		return (new ArrayList<String>(temp.keySet()).indexOf(username) + 1);
 	}
 
 }
