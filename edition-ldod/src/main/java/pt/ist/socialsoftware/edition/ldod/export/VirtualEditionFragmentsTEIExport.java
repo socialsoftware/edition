@@ -72,7 +72,6 @@ public class VirtualEditionFragmentsTEIExport {
 			exportVirtualEditionInterAnnotations(textClass, virtualEditionInter);
 		}
 
-		// TODO - done, inclui set de tweets e export de info ranges de cada citação
 		exportFragmentCitations(teiHeader, fragment);
 
 		XMLOutputter xml = new XMLOutputter();
@@ -145,7 +144,7 @@ public class VirtualEditionFragmentsTEIExport {
 			// discutir também utilidade destes atributos
 			// fragInterXmlId seria necessário para descobrir o fragInter ao importar
 			infoRangeElement.setAttribute("fragInterXmlId", infoRange.getFragInter().getXmlId());
-			infoRangeElement.setAttribute("citationId", Long.toString((infoRange.getCitation().getId())));
+			infoRangeElement.setAttribute("citationId", Long.toString(infoRange.getCitation().getId()));
 		}
 	}
 
