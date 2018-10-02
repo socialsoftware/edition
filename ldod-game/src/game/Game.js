@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
 import VirtualEdition from './VirtualEdition';
 import { getVirtualEditionIndex } from '../utils/APIUtils';
 import { Badge, Icon} from 'antd';
 import { Grid, Jumbotron} from 'react-bootstrap';
 import { WEB_SOCKETS_URL, SUBSCRIBE_URL, APP_PREFIX} from '../utils/Constants';
 import SockJsClient from 'react-stomp'
-import AppContext, {Consumer} from '../app/AppContext';
+import {Consumer} from '../app/AppContext';
 export default props => (
     <Consumer>
       {context => <Game {...props} context={context} />}
@@ -140,4 +139,3 @@ class Game extends Component {
     );
   }
 }
-//export default withRouter(Game);

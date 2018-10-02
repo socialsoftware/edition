@@ -15,7 +15,6 @@ class Vote extends Component {
             votes: [],
             previousVotedTag: null,
         };
-        //this.handleVote = this.handleVote.bind(this);
         this.handleMessageVote = this.handleMessageVote.bind(this);
     }
     
@@ -57,17 +56,6 @@ class Vote extends Component {
           seconds: prevState.seconds - 1
         }));
     }
-
-   /* handleVote = (param) => (e) =>{
-        let vote;
-        if (e.target.checked) {
-            vote =  Math.round(1.0 + this.state.seconds/10);
-        } else {
-            vote = Math.round(-1.0 - this.state.seconds/10);
-        }
-        var res = vote.toFixed(2);
-        this.sendMessage(param.tag, res); 
-    }*/
 
     sendMessage = (msg, vote) => {
         try {

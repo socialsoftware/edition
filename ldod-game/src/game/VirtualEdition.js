@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import { endGame, getVirtualEditionFragment, finishGame } from '../utils/APIUtils';
+import { endGame, getVirtualEditionFragment} from '../utils/APIUtils';
 import Fragment  from './Fragment';
 import { Alert, Grid} from 'react-bootstrap';
 var ReactCountdownClock = require("react-countdown-clock")
