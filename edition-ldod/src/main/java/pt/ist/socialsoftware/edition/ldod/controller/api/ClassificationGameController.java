@@ -1,6 +1,11 @@
 package pt.ist.socialsoftware.edition.ldod.controller.api;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.joda.time.DateTime;
@@ -14,12 +19,19 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import pt.ist.fenixframework.Atomic;
-import pt.ist.fenixframework.Atomic.*;
+import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.fenixframework.FenixFramework;
-import pt.ist.socialsoftware.edition.ldod.domain.*;
+import pt.ist.socialsoftware.edition.ldod.domain.ClassificationGame;
+import pt.ist.socialsoftware.edition.ldod.domain.ClassificationGameParticipant;
+import pt.ist.socialsoftware.edition.ldod.domain.ClassificationGameRound;
+import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
 import pt.ist.socialsoftware.edition.ldod.dto.APIResponse;
 import pt.ist.socialsoftware.edition.ldod.dto.ClassificationGameDto;
 import pt.ist.socialsoftware.edition.ldod.dto.GameTagDto;
@@ -32,23 +44,25 @@ public class ClassificationGameController {
 	@Autowired
 	private SimpMessagingTemplate broker;
 
-	private Map<String, ClassificationGameDto> gamesMapDto = new LinkedHashMap<>(100);
-	private Map<String, List<GameTagDto>> tagsMapDto = new LinkedHashMap<>(100);
-
+	private final Map<String, ClassificationGameDto> gamesMapDto = new LinkedHashMap<>(100);
+	private final Map<String, List<GameTagDto>> tagsMapDto = new LinkedHashMap<>(100);
 
 	// ------------- REST Methods ------------- //
 
 	@GetMapping("/{username}/active")
 	@PreAuthorize("hasPermission(#username, 'user.logged')")
-	public @ResponseBody ResponseEntity<List<ClassificationGameDto>> getActiveGames(@PathVariable(value = "username") String username) {
-		//logger.debug("getActiveGames: {}", username);
+	public @ResponseBody ResponseEntity<List<ClassificationGameDto>> getActiveGames(
+			@PathVariable(value = "username") String username) {
+		// logger.debug("getActiveGames: {}", username);
 
-		List<ClassificationGameDto> result = LdoD.getInstance().getActiveGames4User(username).stream().map(ClassificationGameDto::new).sorted(Comparator.comparingLong(ClassificationGameDto::getDateTime)).collect(Collectors.toList());
+		List<ClassificationGameDto> result = LdoD.getInstance().getActiveGames4User(username).stream()
+				.map(ClassificationGameDto::new).sorted(Comparator.comparingLong(ClassificationGameDto::getDateTime))
+				.collect(Collectors.toList());
 
 		for (ClassificationGameDto gameDto : result) {
-			if (!gamesMapDto.containsKey(gameDto.getGameExternalId())) {
-				gamesMapDto.put(gameDto.getGameExternalId(), gameDto);
-				tagsMapDto.put(gameDto.getGameExternalId(), new ArrayList<>(100));
+			if (!this.gamesMapDto.containsKey(gameDto.getGameExternalId())) {
+				this.gamesMapDto.put(gameDto.getGameExternalId(), gameDto);
+				this.tagsMapDto.put(gameDto.getGameExternalId(), new ArrayList<>(100));
 			}
 		}
 
@@ -57,7 +71,7 @@ public class ClassificationGameController {
 
 	@GetMapping("/end/{gameId}")
 	public @ResponseBody ResponseEntity<?> end(@PathVariable(value = "gameId") String gameId) {
-		//logger.debug("end: {}", gameId);
+		// logger.debug("end: {}", gameId);
 
 		ClassificationGame game = FenixFramework.getDomainObject(gameId);
 		game.finish();
@@ -67,15 +81,17 @@ public class ClassificationGameController {
 
 	@GetMapping("/leaderboard")
 	public @ResponseBody ResponseEntity<?> getLeaderboard() {
-		//logger.debug("getLeaderboard: {}", gameId);
+		// logger.debug("getLeaderboard: {}", gameId);
 
 		List<Object> response = new ArrayList<>();
 
 		Map<String, Double> overallLeaderboard = LdoD.getInstance().getOverallLeaderboard();
-		List<String> users = overallLeaderboard.entrySet().stream().sorted(Collections.reverseOrder(Map.Entry
-				.comparingByValue())).map(Map.Entry::getKey).collect(Collectors.toList());
-		List<Double> scores = overallLeaderboard.entrySet().stream().sorted(Collections.reverseOrder(Map.Entry
-				.comparingByValue())).map(Map.Entry::getValue).collect(Collectors.toList());
+		List<String> users = overallLeaderboard.entrySet().stream()
+				.sorted(Collections.reverseOrder(Map.Entry.comparingByValue())).map(Map.Entry::getKey)
+				.collect(Collectors.toList());
+		List<Double> scores = overallLeaderboard.entrySet().stream()
+				.sorted(Collections.reverseOrder(Map.Entry.comparingByValue())).map(Map.Entry::getValue)
+				.collect(Collectors.toList());
 
 		response.add(users);
 		response.add(scores);
@@ -87,13 +103,11 @@ public class ClassificationGameController {
 
 	@MessageMapping("/{gameId}/connect")
 	public @ResponseBody void handleConnect(@Payload Map<String, String> payload) {
-		//logger.debug(" handleConnect keys: {}, value: {}", payload.keySet(), payload.values());
+		// logger.debug(" handleConnect keys: {}, value: {}", payload.keySet(),
+		// payload.values());
 
 		String userId = payload.get("userId");
 		String gameId = payload.get("gameId");
-
-		ClassificationGameDto currentGame = gamesMapDto.get(gameId);
-		currentGame.addPlayer(userId, 1.0);
 
 		createGameParticipant(gameId, userId);
 	}
@@ -101,13 +115,14 @@ public class ClassificationGameController {
 	@MessageMapping("/{gameId}/tags")
 	@SendTo("/topic/ldod-game/{gameId}/tags")
 	public @ResponseBody void handleTags(@Payload Map<String, String> payload) {
-		//logger.debug("handleTags keys: {}, values: {}", payload.keySet(), payload.values());
+		// logger.debug("handleTags keys: {}, values: {}", payload.keySet(),
+		// payload.values());
 
 		String gameId = payload.get("gameId");
 		String authorId = payload.get("authorId");
 		String tag = payload.get("msg");
 		Object number = payload.get("paragraph");
-		int finalNumber  = Integer.parseInt((String) number);
+		int finalNumber = Integer.parseInt((String) number);
 
 		changeGameState(gameId, ClassificationGame.ClassificationGameState.TAGGING);
 		saveTag(gameId, authorId, tag, finalNumber);
@@ -119,7 +134,8 @@ public class ClassificationGameController {
 	@MessageMapping("/{gameId}/votes")
 	@SendTo("/topic/ldod-game/{gameId}/votes")
 	public @ResponseBody void handleVotes(@Payload Map<String, String> payload) {
-		//logger.debug("handleVotes keys: {}, values: {}", payload.keySet(), payload.values());
+		// logger.debug("handleVotes keys: {}, values: {}", payload.keySet(),
+		// payload.values());
 
 		String gameId = payload.get("gameId");
 		String voterId = payload.get("voterId");
@@ -127,7 +143,7 @@ public class ClassificationGameController {
 		Object vote = payload.get("vote");
 		double finalVote = Double.parseDouble((String) vote);
 		Object number = payload.get("paragraph");
-		int finalNumber  = Integer.parseInt((String) number);
+		int finalNumber = Integer.parseInt((String) number);
 		double v = 0;
 
 		changeGameState(gameId, ClassificationGame.ClassificationGameState.VOTING);
@@ -148,11 +164,12 @@ public class ClassificationGameController {
 	@MessageMapping("/{gameId}/review")
 	@SendTo("/topic/ldod-game/{gameId}/review")
 	public @ResponseBody void handleReview(@Payload Map<String, String> payload) {
-		//logger.debug("handleReview keys: {}, values: {}", payload.keySet(), payload.values());
+		// logger.debug("handleReview keys: {}, values: {}", payload.keySet(),
+		// payload.values());
 
 		String gameId = payload.get("gameId");
 		Object limit = payload.get("limit");
-		int finalLimit = Integer.parseInt((String)limit);
+		int finalLimit = Integer.parseInt((String) limit);
 		finalLimit = finalLimit == 1 ? 2 : finalLimit;
 
 		changeGameState(gameId, ClassificationGame.ClassificationGameState.REVIEWING);
@@ -160,7 +177,7 @@ public class ClassificationGameController {
 
 		List<Map<String, String>> response = new ArrayList<>();
 
-		for (Map.Entry<String, Double > e : topRounds.entrySet()) {
+		for (Map.Entry<String, Double> e : topRounds.entrySet()) {
 			Map<String, String> map = new LinkedHashMap<>();
 			map.put("tag", e.getKey());
 			map.put("vote", String.valueOf(e.getValue()));
@@ -182,7 +199,7 @@ public class ClassificationGameController {
 
 	@MessageMapping("/{gameId}/sync")
 	public void syncGame(@Payload Map<String, String> payload) {
-		//logger.debug("syncGame: {}", payload.values());
+		// logger.debug("syncGame: {}", payload.values());
 		String gameId = payload.get("gameId");
 		changeToSync(gameId);
 	}
@@ -212,8 +229,7 @@ public class ClassificationGameController {
 		if (game.getTags().containsKey(tag)) {
 			// if tag exists increment vote
 			game.addTag(tag, game.getTags().get(tag) + 1);
-		}
-		else {
+		} else {
 			// if tag does NOT exists only put vote
 			game.addTag(tag, round.getVote());
 		}
@@ -225,15 +241,14 @@ public class ClassificationGameController {
 		ClassificationGameParticipant participant = game.getParticipant(userId);
 		ClassificationGameRound round = new ClassificationGameRound();
 
-		//find tag and vote
+		// find tag and vote
 		game.addTag(tag, game.getTags().get(tag) + vote);
 
 		round.setNumber(number);
 
 		if (getGameState(gameId).equals(ClassificationGame.ClassificationGameState.REVIEWING)) {
 			round.setRound(3);
-		}
-		else if (getGameState(gameId).equals(ClassificationGame.ClassificationGameState.VOTING)) {
+		} else if (getGameState(gameId).equals(ClassificationGame.ClassificationGameState.VOTING)) {
 			round.setRound(2);
 		}
 

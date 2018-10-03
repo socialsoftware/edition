@@ -19,6 +19,8 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		
+		<io.jsonwebtoken.jjwt>0.9.0</io.jsonwebtoken.jjwt>
 
 		<version.org.webjars.bootstrap>3.3.7-1</version.org.webjars.bootstrap>
 		<version.org.webjars.jquery>1.11.3</version.org.webjars.jquery>
@@ -190,11 +192,10 @@
 		
 		<!-- security -->
 		<dependency>
-			<groupId>io.jsonwebtoken</groupId>
-			<artifactId>jjwt</artifactId>
-			<version>0.9.0</version>
+   			<groupId>io.jsonwebtoken</groupId>
+   			<artifactId>jjwt</artifactId>
+   			<version>${io.jsonwebtoken.jjwt}</version>
 		</dependency>
-
 		
 		<!-- Bootstrap -->
 		<dependency>
