@@ -11,10 +11,6 @@ import Game from '../game/Game';
 import GameLeadeboard from '../game/GameLeaderboard';
 import NotFound from '../common/NotFound';
 import PrivateRoute from '../common/PrivateRoute';
-import FacebookLogin from '../social/FacebookLogin';
-import LinkedinLogin from '../social/LinkedinLogin';
-import GoogleLogin from '../social/GoogleLogin';
-import TwitterLogin from '../social/TwitterLogin';
 import { notification } from 'antd';
 import { Jumbotron, Button, Col, Grid, Row, ListGroup, ListGroupItem, Glyphicon} from 'react-bootstrap'; 
 import Feedback from '../common/Feedback';
@@ -199,15 +195,6 @@ class App extends Component {
                         <Route path="/login" render={(props) =>
                         <div>
                             <Login onLogin={this.handleLogin} {...props} />
-                            SOCIAL NOT WORKING
-                            <TwitterLogin onLogin={this.handleLogin} {...props}/>
-                            <br/>
-                            <GoogleLogin onLogin={this.handleLogin} {...props}/>
-                            <br/>
-                            <FacebookLogin onLogin={this.handleLogin} {...props}/>
-                            <br/>
-                            <LinkedinLogin onLogin={this.handleLogin} {...props}/>
-                            <br/>
                         </div>}>
                         </Route>
                         <PrivateRoute path="/user/:username" authenticated={this.state.isAuthenticated} currentUser={this.state.currentUser}
