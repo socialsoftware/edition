@@ -100,7 +100,7 @@ public class ClassificationGame extends ClassificationGame_Base {
 			user.getPlayer().setScore(players.get(user.getUsername()));
 		}*/
 
-		getClassificationGameParticipantSet().stream().forEach(p-> p.getPlayer().setScore(p.getScore()));
+		getClassificationGameParticipantSet().stream().forEach(p-> p.getPlayer().setScore(p.getPlayer().getScore() + p.getScore()));
 
 		setState(ClassificationGameState.FINISHED);
 	}

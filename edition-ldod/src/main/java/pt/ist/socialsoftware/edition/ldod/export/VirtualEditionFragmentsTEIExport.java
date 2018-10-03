@@ -242,6 +242,9 @@ public class VirtualEditionFragmentsTEIExport {
 			gameElement.setAttribute("sync", Boolean.toString(game.getSync()));
 			gameElement.setAttribute("responsible", game.getResponsible().getUsername());
 			gameElement.setAttribute("tag", game.getTag().getCategory().getName());
+			ClassificationGameParticipant participant = game.getClassificationGameParticipantSet().stream().filter
+					(ClassificationGameParticipant::getWinner).findFirst().orElse(null);
+			gameElement.setAttribute("winningUser", participant != null ? participant.getPlayer().getUser().getUsername() : " ");
 
 			exportClassificationGameRounds(gameElement, game);
 			exportClassificationGameParticipants(gameElement, game);

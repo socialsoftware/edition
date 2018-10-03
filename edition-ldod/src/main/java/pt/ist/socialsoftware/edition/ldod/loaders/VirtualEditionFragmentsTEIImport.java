@@ -282,38 +282,32 @@ public class VirtualEditionFragmentsTEIImport {
 	}
 
 	private void importClassificationGames(Element textClass, VirtualEditionInter inter) {
-		List<Element> classificationGameList = textClass.getChildren("classificationGameList", this.namespace);
-		for (Element e : classificationGameList) {
-			Element classificationGameElement = e.getChild("classificationGame", this.namespace);
+		for (Element gameElement : textClass.getChild("classificationGameList", this.namespace).getChildren()) {
+					ClassificationGame.ClassificationGameState state = ClassificationGame.ClassificationGameState.valueOf(gameElement.getAttributeValue("state"));
+					String description = gameElement.getAttributeValue("description");
+					boolean openAnnotation = Boolean.parseBoolean(gameElement.getAttributeValue("openAnnotation"));
+					DateTime dateTime =  new DateTime(DateTime.parse(gameElement.getAttributeValue("dateTime")));
+					boolean sync =  Boolean.parseBoolean(gameElement.getAttributeValue("sync"));
+					LdoDUser responsible = LdoD.getInstance().getUser(gameElement.getAttributeValue("responsible"));
+					LdoDUser winner = LdoD.getInstance().getUser(gameElement.getAttributeValue("winningUser"));
 
-				if (classificationGameElement != null) {
-					ClassificationGame.ClassificationGameState state = ClassificationGame.ClassificationGameState.valueOf(classificationGameElement.getAttributeValue("state"));
-					String description = classificationGameElement.getAttributeValue("description");
-					boolean openAnnotation = Boolean.parseBoolean(classificationGameElement.getAttributeValue("openAnnotation"));
-					DateTime dateTime =  new DateTime(DateTime.parse(classificationGameElement.getAttributeValue("dateTime")));
-					boolean sync =  Boolean.parseBoolean(classificationGameElement.getAttributeValue("sync"));
-					LdoDUser user = LdoD.getInstance().getUser(classificationGameElement.getAttributeValue("responsible"));
-					// TODO FIXME
-					//Tag tag = inter.getTagSet().stream().filter(t -> t.getCategory().getName().equals(classificationGameElement.getAttributeValue("tag")) && t.getContributor() == user).findFirst().get();
-					ClassificationGame game = new ClassificationGame(inter.getVirtualEdition(), description, openAnnotation, dateTime, inter, user);
+					ClassificationGame game = new ClassificationGame(inter.getVirtualEdition(), description, openAnnotation, dateTime, inter, responsible);
 					game.setState(state);
 					game.setSync(sync);
-					//game.setTag(tag);
 
-					importClassificationGameParticipants(classificationGameElement, game);
-					importClassificationGameRounds(classificationGameElement, game);
-			}
+					if (winner != null) {
+						Tag tag = inter.getTagSet().stream().filter(t -> t.getCategory().getName().equals(gameElement.getAttributeValue("tag")) && t.getContributor() == winner).findFirst().get();
+						game.setTag(tag);
+
+					}
+					importClassificationGameParticipants(gameElement, game);
+					importClassificationGameRounds(gameElement, game);
 		}
 
 	}
 
 	private void importClassificationGameRounds(Element gameElement, ClassificationGame game) {
-		List<Element> classificationGameRoundList = gameElement.getChildren("classificationGameRoundList", this.namespace);
-		for (Element e : classificationGameRoundList) {
-			Element roundElement = e.getChild("classificationGameRound", this.namespace);
-
-			if (roundElement != null) {
-
+		for (Element roundElement : gameElement.getChild("classificationGameRoundList", this.namespace).getChildren()) {
 				String username = roundElement.getAttributeValue("username");
 
 				int paragraphNumber = Integer.parseInt(roundElement.getAttributeValue("paragraphNumber"));
@@ -336,29 +330,20 @@ public class VirtualEditionFragmentsTEIImport {
 				//ClassificationGameParticipant participant = game.getClassificationGameParticipantSet().stream().filter
 				//		(p -> p.getPlayer().getUser().getUsername().equals(username)).findFirst().get();
 				//gameRound.setClassificationGameParticipant(participant);
-
-
-			}
 		}
 
 	}
 
 	private void importClassificationGameParticipants(Element element, ClassificationGame game) {
-		List<Element> classificationGameParticipantList = element.getChildren("classificationGameParticipantList", this.namespace);
-		for (Element e : classificationGameParticipantList) {
-			Element classificationGameParticipantElement = e.getChild("classificationGameParticipant", this.namespace);
-
-			if (classificationGameParticipantElement != null) {
-
-				String username = classificationGameParticipantElement.getAttributeValue("username");
-				boolean winner = Boolean.parseBoolean(classificationGameParticipantElement.getAttributeValue("winner"));
-				double score = Double.parseDouble(classificationGameParticipantElement.getAttributeValue("score"));
+		for (Element participantElement : element.getChild("classificationGameParticipantList", this.namespace).getChildren()) {
+				String username = participantElement.getAttributeValue("username");
+				boolean winner = Boolean.parseBoolean(participantElement.getAttributeValue("winner"));
+				double score = Double.parseDouble(participantElement.getAttributeValue("score"));
 				LdoDUser user = LdoD.getInstance().getUser(username);
 
 				ClassificationGameParticipant participant = new ClassificationGameParticipant(game, user);
 				participant.setWinner(winner);
 				participant.setScore(score);
-			}
 		}
 	}
 }
