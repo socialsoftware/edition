@@ -1,0 +1,22 @@
+.nav.navbar, .navbar-default {
+    background-color: #f0f1f2;
+    background-image: none;
+    border: none;
+    border-radius: 0;
+    background: transparent;
+}
+  
+.navbar-default .navbar-brand {
+    color: #3498db;
+    font-family: "Ubuntu";
+    font-size: 21px;
+}
+  
+
+
+.navbar-default .navbar-nav > li > a:hover {
+    color: #3498db;
+    text-decoration: none;
+    border-bottom: 2px solid #3498db;
+}
+  
