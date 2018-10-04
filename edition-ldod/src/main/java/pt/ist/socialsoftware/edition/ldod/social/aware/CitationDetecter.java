@@ -126,7 +126,6 @@ public class CitationDetecter {
 
 			int lineNum = 0;
 			while ((line = bufferedReader.readLine()) != null) {
-				this.logger.debug(line);
 				obj = (JSONObject) new JSONParser().parse(line);
 
 				if (lineNum == 0) {
