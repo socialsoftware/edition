@@ -352,6 +352,7 @@
 
 	<modules>
 		<module>edition-ldod</module>
+        <module>classification-game</module>
 		<module>edition-reading</module>
 	</modules>
 </project>

@@ -10,6 +10,7 @@
 	<c:set var="isAuthenticated"
 		value="${pageContext.request.userPrincipal.authenticated}" />
 
+	<a href="../classification-game" target="_blank">Open game environment</a>
 	<div class="container">
 		<div class="row">
 			<h3 class="text-center">
