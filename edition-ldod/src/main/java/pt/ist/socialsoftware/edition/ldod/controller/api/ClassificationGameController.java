@@ -28,10 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.fenixframework.FenixFramework;
-import pt.ist.socialsoftware.edition.ldod.domain.ClassificationGame;
-import pt.ist.socialsoftware.edition.ldod.domain.ClassificationGameParticipant;
-import pt.ist.socialsoftware.edition.ldod.domain.ClassificationGameRound;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
+import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.dto.APIResponse;
 import pt.ist.socialsoftware.edition.ldod.dto.ClassificationGameDto;
 import pt.ist.socialsoftware.edition.ldod.dto.GameTagDto;
@@ -75,8 +72,12 @@ public class ClassificationGameController {
 
 		ClassificationGame game = FenixFramework.getDomainObject(gameId);
 		game.finish();
+		String usernameWinner = game.getClassificationGameParticipantSet().stream().filter
+				(ClassificationGameParticipant::getWinner).findFirst().get().getPlayer().getUser().getUsername();
 
-		return new ResponseEntity<>(new APIResponse(true, "Ended game with success"), HttpStatus.OK);
+		List<Object> response = new ArrayList<>();
+		response.add(usernameWinner);
+		return new ResponseEntity<>(response.toArray(), HttpStatus.OK);
 	}
 
 	@GetMapping("/leaderboard")
