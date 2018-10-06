@@ -89,9 +89,7 @@ class App extends Component {
             description: "You're successfully logged out.",
         });
 
-        //this.props.history.push(redirectTo);
         this.props.history.push("/");
-    
     }
     
     async handleLogin() {
@@ -106,6 +104,9 @@ class App extends Component {
     }
 
     async getAndSetupGames(){
+        if (localStorage.getItem("currentUser") === null){
+            return;
+        }
         let request = await getActiveGames(localStorage.getItem("currentUser"));
         var gameDate = request[0] != null ? new Date(request[0].dateTime) : null;
         this.setState({
@@ -135,7 +136,6 @@ class App extends Component {
             fontFamily : 'Ubuntu',
             backgroundColor: '#3498db'
         }
-        console.log(process.env.PUBLIC_URL);
         let activeGames = this.state.activeGames;
         const gamesView = [];
         if(this.state.isAuthenticated){

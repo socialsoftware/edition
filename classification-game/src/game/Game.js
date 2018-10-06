@@ -32,7 +32,9 @@ class Game extends Component {
         var game = this.props.context.games.find(function(element) {
             return element.gameExternalId === gameId;
         });
-        
+        if (this.props.context.currentUser === null) {
+            return;
+        }
         this.setState({
            game: game,
            gameId: gameId,
@@ -114,7 +116,7 @@ class Game extends Component {
                 <Grid fluid>
                     <Jumbotron  style={{ backgroundColor: 'white' }} >
                         <h2 className="text-center">
-                            Loading resources and waiting for users to join...this may take up to 1 minute.
+                           Waiting 1 minute for users to join...
                         </h2>
                     </Jumbotron>
                     {this.state.socket}

@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import { endGame, getVirtualEditionFragment} from '../utils/APIUtils';
 import Fragment  from './Fragment';
-import { Alert, Grid} from 'react-bootstrap';
+import { Alert, Grid, Jumbotron, Glyphicon, Button} from 'react-bootstrap';
 var ReactCountdownClock = require("react-countdown-clock")
 class VirtualEdition extends Component {
     constructor(props) {
@@ -26,7 +26,11 @@ class VirtualEdition extends Component {
     }
 
     async endGame(){
-        await endGame(this.props.gameId);
+        let response = await endGame(this.props.gameId);
+        this.setState({
+            ended: true,
+            winner: response[0],
+        })
     }
     
     invokeCommand(command) {
@@ -53,6 +57,21 @@ class VirtualEdition extends Component {
     }
 
     render() {
+        if(this.state.ended) {
+            return (
+                <Grid fluid>
+                <Jumbotron  style={{ backgroundColor: 'white' }} >
+                    <h1 className="text-center">The winner is: {this.state.winner}</h1>
+                </Jumbotron>
+                <div className="text-center"> 
+                <Button bsStyle="primary" componentClass={Link} to="/leaderboard">
+                    Check leaderboard for all scores <Glyphicon glyph="stats"/> 
+                </Button>   
+                </div>	
+                    
+              </Grid>
+            );
+        }
         if(this.state.isActive) {
             return (
               <Grid fluid>

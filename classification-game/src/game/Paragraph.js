@@ -30,7 +30,27 @@ class Paragrah extends Component {
 
     componentDidUpdate(prevProps, prevState) {
 
-        if (prevProps.round !== this.props.round && prevProps.paragraphText !== this.props.paragraphText) {
+        if (prevProps.round !== this.props.round && prevProps.paragraphText === this.props.paragraphText) {
+            this.setState({
+                title: this.props.title,
+                urlId: this.props.urlId,
+                paragraphText: this.props.paragraphText,
+                fullText: this.props.text,
+                seconds: this.props.seconds,
+                round: this.props.round,
+                totalTime: this.props.totalTime,
+                disabled: false,
+                isLoading: true,
+                socket: <SockJsClient
+                url={WEB_SOCKETS_URL}
+                topics={[ SUBSCRIBE_URL + this.props.gameId +'/sync']}
+                ref={ (client) => { this.clientRef = client }}
+                onConnect={ () => { this.connect() }}
+                onMessage={(message) => this.handleMessage(message)} />
+            });
+        }
+
+        else if (prevProps.round !== this.props.round && prevProps.paragraphText !== this.props.paragraphText) {
             this.setState({
                 tags: [],
                 title: this.props.title,
@@ -129,7 +149,7 @@ class Paragrah extends Component {
             return (
                 <div>
                     <Alert bsStyle="info">
-                        <strong>Syncing before next paragraph...</strong>
+                        <strong>Syncing before next step...</strong>
                     </Alert>
                     {this.state.socket}
                     <LoadingIndicator />
