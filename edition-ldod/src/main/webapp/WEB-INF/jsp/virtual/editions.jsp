@@ -10,7 +10,6 @@
 	<c:set var="isAuthenticated"
 		value="${pageContext.request.userPrincipal.authenticated}" />
 
-	<a href="../classification-game" target="_blank">Open game environment</a>
 	<div class="container">
 		<div class="row">
 			<h3 class="text-center">
@@ -113,6 +112,12 @@
 						</form>
 					</div>
 				</div>
+			</div>
+			<div class="row">
+				<a href="../classification-game" target="_blank"><spring:message code="general.classificationGame.visitWebsite" />
+					<span class="glyphicon glyphicon-open"></span>
+				</a>
+				<br/>
 			</div>
 			<div class="row"></div>
 			<br />
