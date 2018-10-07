@@ -11,6 +11,7 @@ import Game from '../game/Game';
 import GameLeadeboard from '../game/GameLeaderboard';
 import NotFound from '../common/NotFound';
 import PrivateRoute from '../common/PrivateRoute';
+import About from '../common/About';
 import { notification } from 'antd';
 import { Jumbotron, Button, Col, Grid, Row, ListGroup, ListGroupItem, Glyphicon} from 'react-bootstrap'; 
 import Feedback from '../common/Feedback';
@@ -198,6 +199,7 @@ class App extends Component {
                             <Login onLogin={this.handleLogin} {...props} />
                         </div>}>
                         </Route>
+                        <Route path="/about" component={About}></Route>
                         <PrivateRoute path="/user/:username" authenticated={this.state.isAuthenticated} currentUser={this.state.currentUser}
                         component={Profile}>
                         </PrivateRoute>
