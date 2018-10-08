@@ -93,6 +93,7 @@ class Profile extends Component {
                                             </div>
                                             ))}
                             </ListGroup>
+                            <a href={`https://ldod.uc.pt/edition/user/${this.state.user.username}`}><em>LdoD Archive</em> profile.</a>
                             </Col>
                     </Row> ) : null }
                 </Grid>
