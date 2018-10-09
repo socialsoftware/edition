@@ -14,10 +14,11 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
+import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDCreateClassificationGameException;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDCreateVirtualEditionException;
+import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDEditVirtualEditionException;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDLoadException;
-import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDEditVirtualEditionException;
 
 @EnableWebMvc
 @ControllerAdvice
@@ -62,6 +63,21 @@ public class LdoDExceptionHandler {
 		modelAndView.addObject("expertEditions", LdoD.getInstance().getSortedExpertEdition());
 		modelAndView.addObject("user", ex.getUser());
 		modelAndView.setViewName("virtual/editions");
+
+		return modelAndView;
+	}
+
+	@ExceptionHandler({ LdoDCreateClassificationGameException.class })
+	public ModelAndView handleLdoDCreateClassificationGameException(LdoDCreateClassificationGameException ex) {
+
+		logger.debug("LdoDCreateClassificationGameException: {}", ex.getErrors());
+
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.addObject("errors", ex.getErrors());
+		modelAndView.addObject("description", ex.getDescription());
+		modelAndView.addObject("interExternalId", ex.getInterExternalId());
+		modelAndView.addObject("date", ex.getDate());
+		modelAndView.setViewName("virtual/createClassificationGame");
 
 		return modelAndView;
 	}

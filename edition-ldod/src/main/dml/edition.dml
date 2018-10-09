@@ -752,7 +752,6 @@ relation LdoDHasTweets {
 class ClassificationGame {
     ClassificationGameState state;
 	String description;
-	boolean openAnnotation;
 	DateTime dateTime;
 	boolean sync;
 }

@@ -3,7 +3,12 @@ package pt.ist.socialsoftware.edition.ldod.controller;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.joda.time.DateTime;
@@ -29,8 +34,18 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import pt.ist.fenixframework.FenixFramework;
-import pt.ist.socialsoftware.edition.ldod.domain.*;
+import pt.ist.socialsoftware.edition.ldod.domain.Category;
+import pt.ist.socialsoftware.edition.ldod.domain.ClassificationGame;
+import pt.ist.socialsoftware.edition.ldod.domain.ClassificationGameParticipant;
+import pt.ist.socialsoftware.edition.ldod.domain.Edition;
+import pt.ist.socialsoftware.edition.ldod.domain.FragInter;
+import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
+import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
 import pt.ist.socialsoftware.edition.ldod.domain.Member.MemberRole;
+import pt.ist.socialsoftware.edition.ldod.domain.Tag;
+import pt.ist.socialsoftware.edition.ldod.domain.Taxonomy;
+import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
+import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
 import pt.ist.socialsoftware.edition.ldod.dto.EditionFragmentsDTO;
 import pt.ist.socialsoftware.edition.ldod.dto.EditionTranscriptionsDTO;
 import pt.ist.socialsoftware.edition.ldod.dto.FragmentDTO;
@@ -38,6 +53,7 @@ import pt.ist.socialsoftware.edition.ldod.dto.FragmentMetaInfoDTO;
 import pt.ist.socialsoftware.edition.ldod.dto.TranscriptionDTO;
 import pt.ist.socialsoftware.edition.ldod.security.LdoDUserDetails;
 import pt.ist.socialsoftware.edition.ldod.session.LdoDSession;
+import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDCreateClassificationGameException;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDCreateVirtualEditionException;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDDuplicateAcronymException;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDDuplicateNameException;
@@ -583,24 +599,23 @@ public class VirtualEditionController {
 	@RequestMapping(method = RequestMethod.POST, value = "/restricted/{externalId}/classificationGame/create")
 	@PreAuthorize("hasPermission(#externalId, 'virtualedition.admin')")
 	public String createClassificationGame(Model model, @PathVariable String externalId,
-			@RequestParam("description") String description, @RequestParam("players") boolean players,
-			@RequestParam("date") String date, @RequestParam("interExternalId") String interExternalId) {
-		logger.debug("createClassificationGame description: {}, players: {}, date: {}, inter:{}", description, players,
-				date, interExternalId);
+			@RequestParam("description") String description, @RequestParam("date") String date,
+			@RequestParam("interExternalId") String interExternalId) {
+		logger.debug("createClassificationGame description: {}, players: {}, date: {}, inter:{}", description, date,
+				interExternalId);
 		VirtualEdition virtualEdition = FenixFramework.getDomainObject(externalId);
 		VirtualEditionInter inter = FenixFramework.getDomainObject(interExternalId);
 		if (virtualEdition == null) {
 			return "redirect:/error";
 		} else {
-			// TODO: check parameters
-			ClassificationGameValidator validator = new ClassificationGameValidator(description, date, players, externalId);
+			ClassificationGameValidator validator = new ClassificationGameValidator(description, interExternalId);
 			validator.validate();
 
 			List<String> errors = validator.getErrors();
 			if (errors.size() > 0) {
-				throw new LdoDException("CHECK ERRORS");
+				throw new LdoDCreateClassificationGameException(errors, description, date, interExternalId);
 			}
-			virtualEdition.createClassificationGame(description, players,
+			virtualEdition.createClassificationGame(description,
 					DateTime.parse(date, DateTimeFormat.forPattern("dd/MM/yyyy HH:mm")), inter,
 					LdoDUser.getAuthenticatedUser());
 
@@ -629,7 +644,8 @@ public class VirtualEditionController {
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/{externalId}/classificationGame/{gameId}")
-	public String getClassificationGameContent(Model model, @PathVariable String externalId, @PathVariable String gameId) {
+	public String getClassificationGameContent(Model model, @PathVariable String externalId,
+			@PathVariable String gameId) {
 		VirtualEdition virtualEdition = FenixFramework.getDomainObject(externalId);
 		ClassificationGame game = FenixFramework.getDomainObject(gameId);
 		if (virtualEdition == null || game == null) {
@@ -637,11 +653,13 @@ public class VirtualEditionController {
 		} else {
 			model.addAttribute("virtualEdition", virtualEdition);
 			model.addAttribute("game", game);
-			model.addAttribute("participants", game.getClassificationGameParticipantSet().stream().sorted((Comparator.comparing(ClassificationGameParticipant::getScore).reversed())).collect(Collectors.toList()));
+			model.addAttribute("participants",
+					game.getClassificationGameParticipantSet().stream()
+							.sorted(Comparator.comparing(ClassificationGameParticipant::getScore).reversed())
+							.collect(Collectors.toList()));
 			return "virtual/classificationGameContent";
 		}
 	}
-
 
 	@RequestMapping(method = RequestMethod.GET, value = "/restricted/{externalId}/taxonomy")
 	@PreAuthorize("hasPermission(#externalId, 'virtualedition.participant')")

@@ -303,14 +303,13 @@ public class VirtualEditionFragmentsTEIImport {
 			ClassificationGame.ClassificationGameState state = ClassificationGame.ClassificationGameState
 					.valueOf(gameElement.getAttributeValue("state"));
 			String description = gameElement.getAttributeValue("description");
-			boolean openAnnotation = Boolean.parseBoolean(gameElement.getAttributeValue("openAnnotation"));
 			DateTime dateTime = new DateTime(DateTime.parse(gameElement.getAttributeValue("dateTime")));
 			boolean sync = Boolean.parseBoolean(gameElement.getAttributeValue("sync"));
 			LdoDUser responsible = LdoD.getInstance().getUser(gameElement.getAttributeValue("responsible"));
 			LdoDUser winner = LdoD.getInstance().getUser(gameElement.getAttributeValue("winningUser"));
 
-			ClassificationGame game = new ClassificationGame(inter.getVirtualEdition(), description, openAnnotation,
-					dateTime, inter, responsible);
+			ClassificationGame game = new ClassificationGame(inter.getVirtualEdition(), description, dateTime, inter,
+					responsible);
 
 			game.setState(state);
 			game.setSync(sync);

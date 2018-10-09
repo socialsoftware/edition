@@ -753,9 +753,8 @@ public class VirtualEdition extends VirtualEdition_Base {
 	}
 
 	@Atomic(mode = TxMode.WRITE)
-	public void createClassificationGame(String description, boolean players, DateTime date, VirtualEditionInter inter,
-			LdoDUser user) {
-		new ClassificationGame(this, description, players, date, inter, user);
+	public void createClassificationGame(String description, DateTime date, VirtualEditionInter inter, LdoDUser user) {
+		new ClassificationGame(this, description, date, inter, user);
 	}
 
 }
