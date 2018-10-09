@@ -110,7 +110,6 @@ class Vote extends Component {
     render() {
         const voteViews = [];
         let votes = this.state.votes;
-        // isNAN appearing in optionS??
         let top;
         let msg = "Choose which tag is better..."
         if(this.props.round !== 3){
@@ -128,7 +127,6 @@ class Vote extends Component {
         }
 
         else{
-            //CHECK NAN ----THIS IS NOT WORKING
            top = <h3 className="text-center">Top tag: {this.state.topTag}</h3>;
            this.state.votes.forEach((m, index) => {
                 

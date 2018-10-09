@@ -23,7 +23,6 @@ class Fragment extends Component {
     }
     
     componentDidMount() {
-        //console.log(this.props);
         var text = this.splitIntoParagraph(this.props.fragment.text).text;
         var time = this.splitIntoParagraph(this.props.fragment.text).time;
         var totalTime = this.splitIntoParagraph(this.props.fragment.text).totalTime;
@@ -55,7 +54,7 @@ class Fragment extends Component {
             testInput[i] = testInput[i].replace(regex, "").trim();
             var size = testInput[i].length
             //var temp = size >= 200 ? size/6 : 30;
-            var temp = size >= 200 ? 10 + i/largeInt : 5 + i/largeInt;
+            var temp = size >= 200 ? 45 + i/largeInt : 30 + i/largeInt;
             secondAndTextTemp[i] = temp;
             totalTime += temp;
         }  

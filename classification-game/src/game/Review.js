@@ -129,7 +129,8 @@ class Review extends Component {
                         <Vote 
                             gameId={this.props.gameId} 
                             userId={this.props.userId} 
-                            seconds={this.props.totalTime} 
+                           // seconds={this.props.totalTime} 
+                            seconds={30} 
                             round={3}
                             limit={this.props.limit}
                             topTag={this.state.topTag}
