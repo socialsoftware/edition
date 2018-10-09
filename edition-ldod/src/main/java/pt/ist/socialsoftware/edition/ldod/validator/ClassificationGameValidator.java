@@ -1,46 +1,31 @@
 package pt.ist.socialsoftware.edition.ldod.validator;
 
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
+import pt.ist.fenixframework.FenixFramework;
+import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
 
 public class ClassificationGameValidator extends AbstractLdoDValidator {
 
-    private String description = null;
-    private String date = null;
-    private boolean openAnnotation = false;
-    private String externalId = null;
+	private String description = null;
+	private String interExternalId = null;
 
+	public ClassificationGameValidator(String description, String interExternalId) {
+		this.description = description;
+		this.interExternalId = interExternalId;
+	}
 
+	public void validate() {
+		if (LdoDValidatorFunctions.emptyOrWhitespaceString(this.description)) {
+			this.errors.add("game.classification.description.empty");
+			this.values.put("description", this.description != null ? this.description : "");
+		}
 
-    public ClassificationGameValidator(String description, String date, boolean openAnnotation, String externalId) {
-        this.description = description;
-        this.date = date;
-        this.openAnnotation = openAnnotation;
-        this.externalId = externalId;
-    }
+		VirtualEditionInter inter = FenixFramework.getDomainObject(this.interExternalId);
 
-    public void validate() {
-        if (LdoDValidatorFunctions.emptyOrWhitespaceString(this.description)) {
-            this.errors.add("virtualedition.acronym.empty");
-            this.values.put("description", this.description != null ? this.description : "");
-        }
+		if (inter == null) {
+			this.errors.add("game.classification.inter.null");
+			this.values.put("interExternalId", this.interExternalId != null ? this.interExternalId : "");
+		}
 
-        if (LdoDValidatorFunctions.lengthLimit(this.description, 100)) {
-            this.errors.add("virtualedition.acronym.length");
-            this.values.put("description", this.description != null ? this.description : "");
-        }
-
-        if (this.externalId == null) {
-            this.errors.add("virtualedition.acronym.blanks");
-            this.values.put("acronym", this.externalId != null ? this.externalId : "");
-        }
-
-        if (this.date == null) {
-            this.errors.add("virtualedition.acronym.blanks");
-            this.values.put("acronym", this.date != null ? this.date : "");
-        }
-
-
-
-    }
+	}
 
 }

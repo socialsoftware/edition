@@ -57,14 +57,15 @@
 					</div>
 					<div class="form-group form-group-sm">
 						<label class="control-label"><spring:message
-								code="general.players" /></label> <select class="form-control"
-							name="players" id="players">
-							<option value="true" selected>
-								<spring:message code="taxonomy.annotation.all" />
-							</option>
-							<option value="false"><spring:message
-									code="taxonomy.annotation.members" /></option>
-						</select>
+								code="general.players" />: </label> 
+							<c:choose>
+        						<c:when test="${virtualEdition.getTaxonomy().getOpenAnnotation()}">
+        							<em><spring:message code="taxonomy.annotation.all" /></em>
+        						</c:when>
+        						<c:otherwise>
+        							<em><spring:message code="taxonomy.annotation.members" /></em>
+        						</c:otherwise>
+    						</c:choose>
 					</div>
 					<div class="form-group">
 						<label class="control-label"><spring:message

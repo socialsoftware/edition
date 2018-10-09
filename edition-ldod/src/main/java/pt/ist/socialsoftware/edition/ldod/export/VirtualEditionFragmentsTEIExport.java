@@ -9,7 +9,22 @@ import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 
 import pt.ist.fenixframework.Atomic;
-import pt.ist.socialsoftware.edition.ldod.domain.*;
+import pt.ist.socialsoftware.edition.ldod.domain.Annotation;
+import pt.ist.socialsoftware.edition.ldod.domain.AwareAnnotation;
+import pt.ist.socialsoftware.edition.ldod.domain.Category;
+import pt.ist.socialsoftware.edition.ldod.domain.Citation;
+import pt.ist.socialsoftware.edition.ldod.domain.ClassificationGame;
+import pt.ist.socialsoftware.edition.ldod.domain.ClassificationGameParticipant;
+import pt.ist.socialsoftware.edition.ldod.domain.ClassificationGameRound;
+import pt.ist.socialsoftware.edition.ldod.domain.Fragment;
+import pt.ist.socialsoftware.edition.ldod.domain.HumanAnnotation;
+import pt.ist.socialsoftware.edition.ldod.domain.InfoRange;
+import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
+import pt.ist.socialsoftware.edition.ldod.domain.Range;
+import pt.ist.socialsoftware.edition.ldod.domain.Tag;
+import pt.ist.socialsoftware.edition.ldod.domain.Tweet;
+import pt.ist.socialsoftware.edition.ldod.domain.TwitterCitation;
+import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
 
 public class VirtualEditionFragmentsTEIExport {
 	Namespace xmlns = Namespace.getNamespace("http://www.tei-c.org/ns/1.0");
@@ -236,14 +251,14 @@ public class VirtualEditionFragmentsTEIExport {
 			Element gameElement = new Element("classificationGame", this.xmlns);
 			gameElement.setAttribute("state", game.getState().toString());
 			gameElement.setAttribute("description", game.getDescription());
-			gameElement.setAttribute("openAnnotation", Boolean.toString(game.getOpenAnnotation()));
 			gameElement.setAttribute("dateTime", String.valueOf(game.getDateTime()));
 			gameElement.setAttribute("sync", Boolean.toString(game.getSync()));
 			gameElement.setAttribute("responsible", game.getResponsible().getUsername());
 			gameElement.setAttribute("tag", game.getTag().getCategory().getName());
-			ClassificationGameParticipant participant = game.getClassificationGameParticipantSet().stream().filter
-					(ClassificationGameParticipant::getWinner).findFirst().orElse(null);
-			gameElement.setAttribute("winningUser", participant != null ? participant.getPlayer().getUser().getUsername() : " ");
+			ClassificationGameParticipant participant = game.getClassificationGameParticipantSet().stream()
+					.filter(ClassificationGameParticipant::getWinner).findFirst().orElse(null);
+			gameElement.setAttribute("winningUser",
+					participant != null ? participant.getPlayer().getUser().getUsername() : " ");
 
 			exportClassificationGameRounds(gameElement, game);
 			exportClassificationGameParticipants(gameElement, game);
@@ -262,7 +277,8 @@ public class VirtualEditionFragmentsTEIExport {
 			roundElement.setAttribute("tag", round.getTag());
 			roundElement.setAttribute("vote", Double.toString(round.getVote()));
 			roundElement.setAttribute("dateTime", String.valueOf(round.getTime()));
-			roundElement.setAttribute("username", round.getClassificationGameParticipant().getPlayer().getUser().getUsername());
+			roundElement.setAttribute("username",
+					round.getClassificationGameParticipant().getPlayer().getUser().getUsername());
 			classificationRoundList.addContent(roundElement);
 		}
 		gameElement.addContent(classificationRoundList);
