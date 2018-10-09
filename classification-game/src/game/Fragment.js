@@ -46,7 +46,7 @@ class Fragment extends Component {
         var paragraph = text.split("</p>");
         var testInput = paragraph;
         var regex = /(<([^>]+)>)/ig;
-        var largeInt = 100000000;
+        //var largeInt = 100000000;
         var totalTime = 0;
 
         // Remove tags and spaces on all text

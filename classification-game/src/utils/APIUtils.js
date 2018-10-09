@@ -54,6 +54,7 @@ export function getCurrentUser() {
     date.setUTCSeconds(token.exp);
     var currentDate = new Date();
     if (currentDate > date) {
+        localStorage.removeItem(ACCESS_TOKEN)
         return Promise.reject("Token expired.");
     }
     return request({

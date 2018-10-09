@@ -182,7 +182,7 @@ class Paragrah extends Component {
                 <div>
                 <div style={style}>
                 <ReactCountdownClock 
-                            seconds={this.props.seconds+0.01}
+                            seconds={15+0.01}
                             color="#2ecc71"
                             size={80}
                             showMilliseconds={false}
