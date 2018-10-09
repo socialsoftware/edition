@@ -181,7 +181,7 @@ public class ClassificationGameController {
 		for (Map.Entry<String, Double> e : topRounds.entrySet()) {
 			Map<String, String> map = new LinkedHashMap<>();
 			map.put("tag", e.getKey());
-			map.put("vote", String.valueOf(e.getValue()));
+			map.put("vote", String.valueOf(0));
 			response.add(map);
 		}
 
