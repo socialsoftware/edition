@@ -49,7 +49,13 @@ export function getCurrentUser() {
     if(!localStorage.getItem(ACCESS_TOKEN)) {
         return Promise.reject("No access token set.");
     }
-
+    var token = JSON.parse(atob(localStorage.getItem(ACCESS_TOKEN).split('.')[1]));
+    var date = new Date(0);
+    date.setUTCSeconds(token.exp);
+    var currentDate = new Date();
+    if (currentDate > date) {
+        return Promise.reject("Token expired.");
+    }
     return request({
         url: API_BASE_URL + API_USER_URL,
         method: 'GET'

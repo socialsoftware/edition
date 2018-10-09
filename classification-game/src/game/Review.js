@@ -116,7 +116,7 @@ class Review extends Component {
         return (
             <div>                
                 <div style={style}>
-                        <ReactCountdownClock seconds={this.props.seconds}
+                        <ReactCountdownClock seconds={20}
                             color="#2ecc71"
                             size={80}
                             showMilliseconds={false}

@@ -147,12 +147,12 @@ class App extends Component {
                 var date = new Date();
                 var available =  (gameDate.getHours() === date.getHours() && gameDate.getMinutes() === date.getMinutes() && gameDate.getDate() === date.getDate());
                 gamesView.push(
-                    <ListGroupItem key={index} bsStyle={available ? "success" : "danger"}>
+                    <ListGroupItem key={index} bsStyle={available ? "success" : "warning"}>
                             {available ? 
-                            (<div><Link to={`/game/${id}`}><Glyphicon glyph="ok" /><Button bsStyle="primary">{g.virtualEditionTitle}</Button></Link></div>) 
+                            (<div><Link to={`/game/${id}`}><Glyphicon glyph="ok" />{'\u00A0'}<Button bsStyle="primary">{'\u00A0'}{g.virtualEditionTitle}</Button></Link></div>) 
                             : 
                             (<Glyphicon glyph="lock" />)}
-                            {g.virtualEditionTitle} - {gameDate.toLocaleDateString()} {gameDate.toLocaleString(navigator.language, options)}
+                            {'\u00A0'}{g.virtualEditionTitle} - {gameDate.toLocaleDateString()} {gameDate.toLocaleString(navigator.language, options)}
                     </ListGroupItem>)
             });
         }
