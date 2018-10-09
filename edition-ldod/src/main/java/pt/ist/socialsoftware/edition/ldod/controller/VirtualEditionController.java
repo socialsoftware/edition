@@ -601,7 +601,7 @@ public class VirtualEditionController {
 	public String createClassificationGame(Model model, @PathVariable String externalId,
 			@RequestParam("description") String description, @RequestParam("date") String date,
 			@RequestParam("interExternalId") String interExternalId) {
-		logger.debug("createClassificationGame description: {}, players: {}, date: {}, inter:{}", description, date,
+		logger.debug("createClassificationGame description: {}, date: {}, inter:{}", description, date,
 				interExternalId);
 		VirtualEdition virtualEdition = FenixFramework.getDomainObject(externalId);
 		VirtualEditionInter inter = FenixFramework.getDomainObject(interExternalId);
@@ -613,7 +613,8 @@ public class VirtualEditionController {
 
 			List<String> errors = validator.getErrors();
 			if (errors.size() > 0) {
-				throw new LdoDCreateClassificationGameException(errors, description, date, interExternalId);
+				throw new LdoDCreateClassificationGameException(errors, description, date, interExternalId,
+						virtualEdition);
 			}
 			virtualEdition.createClassificationGame(description,
 					DateTime.parse(date, DateTimeFormat.forPattern("dd/MM/yyyy HH:mm")), inter,

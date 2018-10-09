@@ -77,6 +77,7 @@ public class LdoDExceptionHandler {
 		modelAndView.addObject("description", ex.getDescription());
 		modelAndView.addObject("interExternalId", ex.getInterExternalId());
 		modelAndView.addObject("date", ex.getDate());
+		modelAndView.addObject("virtualEdition", ex.getVirtualEdition());
 		modelAndView.setViewName("virtual/createClassificationGame");
 
 		return modelAndView;

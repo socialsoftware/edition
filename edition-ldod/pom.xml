@@ -12,10 +12,7 @@
 
 
 	<artifactId>edition-ldod</artifactId>
-	<properties>
-		<p.type>jar</p.type>
-	</properties>
-    <packaging>${p.type}</packaging>
+	<packaging>war</packaging>
 
 	<build>
 		<plugins>
