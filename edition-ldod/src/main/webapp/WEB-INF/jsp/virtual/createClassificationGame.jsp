@@ -99,8 +99,7 @@
 <script type="text/javascript">
     $(function() {
         $('#datetimepicker1').datetimepicker({
-            //stepping: 5,
-            minDate: moment().add(1, 'm'),
+            minDate: moment().add(2, 'm'),
             format: 'DD/MM/YYYY HH:mm',
             locale: "${locale}",
         });
