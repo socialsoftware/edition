@@ -173,17 +173,8 @@ class App extends Component {
                                 <h3 className="text-center">Welcome to the LdoD Game powered by LdoD Archive</h3>
                             </Jumbotron>
                             <Row>
-                                <Col md={4} mdOffset={2} xs={5}>
-                                    <Link to="/game">
-                                        {/* { this.state.enabled ? <Button bsStyle="primary">Classic game</Button> : null} */}
-                                        <Button bsStyle="primary">Classic game</Button>
-                                    </Link>
-                                </Col>
-                                <Col md={2} mdOffset={2} xs={5}>
-                                    {/* <Link to="/todo">
-                                        <Button bsStyle="primary">Custom game</Button>
-                                    </Link> */}
-                                    <h4>Custom games</h4>
+                                <Col md={12} xs={4}>
+                                    <h4 className="text-center">Games:</h4>
                                     <ListGroup>
                                         {gamesView}
                                     </ListGroup>
