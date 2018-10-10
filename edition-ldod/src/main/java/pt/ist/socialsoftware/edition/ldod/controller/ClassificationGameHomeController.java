@@ -19,7 +19,7 @@ public class ClassificationGameHomeController {
         return LdoDSession.getLdoDSession();
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/classification-game")
+    @RequestMapping(method = RequestMethod.GET, value = {"/classification-game", "/classification-game/*"})
     public String showHome(Model model) {
         return "classificationGame";
     }
