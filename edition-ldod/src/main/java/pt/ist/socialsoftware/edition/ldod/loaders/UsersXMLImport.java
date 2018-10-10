@@ -16,9 +16,14 @@ import org.joda.time.LocalDate;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
-import pt.ist.socialsoftware.edition.ldod.domain.*;
+import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
+import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser.SocialMediaService;
+import pt.ist.socialsoftware.edition.ldod.domain.Player;
+import pt.ist.socialsoftware.edition.ldod.domain.RegistrationToken;
+import pt.ist.socialsoftware.edition.ldod.domain.Role;
 import pt.ist.socialsoftware.edition.ldod.domain.Role.RoleType;
+import pt.ist.socialsoftware.edition.ldod.domain.UserConnection;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDLoadException;
 
@@ -70,42 +75,40 @@ public class UsersXMLImport {
 		XPathExpression<Element> xp = xpfac.compile("//users-management/users/user", Filters.element());
 		for (Element element : xp.evaluate(doc)) {
 			String username = element.getAttributeValue("username");
-			if (ldoD.getUser(username) == null) {
-				// New code to support null passwords
-				String password = null;
-				if (element.getAttributeValue("password") != null) {
-					password = element.getAttributeValue("password");
-				}
-
-				// Original code
-				// String password = element.getAttributeValue("password");
-
+			LdoDUser user = ldoD.getUser(username);
+			if (user == null) {
 				String firstName = element.getAttributeValue("firstName");
 				String lastName = element.getAttributeValue("lastName");
 				String email = element.getAttributeValue("email");
 
-				LdoDUser user = new LdoDUser(ldoD, username, password, firstName, lastName, email);
-
-				if (element.getAttributeValue("lastLogin") != null) {
-					user.setLastLogin(LocalDate.parse(element.getAttributeValue("lastLogin")));
-				}
-
-				user.setActive(convertToBool(element.getAttributeValue("active")));
-				user.setEnabled(convertToBool(element.getAttributeValue("enabled")));
-
-				String socialMediaService = element.getAttributeValue("socialMediaService");
-				if (socialMediaService != null) {
-					user.setSocialMediaService(convertToSocialMediaService(socialMediaService));
-				}
-
-				String socialMediaId = element.getAttributeValue("socialMediaId");
-				if (socialMediaId != null) {
-					user.setSocialMediaId(socialMediaId);
-				}
-
-				importUserRoles(element, user);
-				importPlayers(element, user);
+				user = new LdoDUser(ldoD, username, null, firstName, lastName, email);
 			}
+
+			// Support null passwords
+			if (element.getAttributeValue("password") != null) {
+				String password = element.getAttributeValue("password");
+				user.setPassword(password);
+			}
+
+			if (element.getAttributeValue("lastLogin") != null) {
+				user.setLastLogin(LocalDate.parse(element.getAttributeValue("lastLogin")));
+			}
+
+			user.setActive(convertToBool(element.getAttributeValue("active")));
+			user.setEnabled(convertToBool(element.getAttributeValue("enabled")));
+
+			String socialMediaService = element.getAttributeValue("socialMediaService");
+			if (socialMediaService != null) {
+				user.setSocialMediaService(convertToSocialMediaService(socialMediaService));
+			}
+
+			String socialMediaId = element.getAttributeValue("socialMediaId");
+			if (socialMediaId != null) {
+				user.setSocialMediaId(socialMediaId);
+			}
+
+			importUserRoles(element, user);
+			importPlayers(element, user);
 		}
 	}
 
@@ -198,12 +201,14 @@ public class UsersXMLImport {
 	}
 
 	private void importPlayers(Element element, LdoDUser user) {
-		// Check if the user exported had a Player and import
-		Element playerElement = element.getChild("player");
-		if (playerElement != null) {
-			double score = Double.parseDouble(playerElement.getAttributeValue("score"));
-			Player player = new Player(user);
-			player.setScore(score);
+		if (user.getPlayer() == null) {
+			// Check if the user exported had a Player and import
+			Element playerElement = element.getChild("player");
+			if (playerElement != null) {
+				double score = Double.parseDouble(playerElement.getAttributeValue("score"));
+				Player player = new Player(user);
+				player.setScore(score);
+			}
 		}
 	}
 
