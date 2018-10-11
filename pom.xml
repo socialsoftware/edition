@@ -351,8 +351,7 @@
 	</pluginRepositories>
 
 	<modules>
-		<module>edition-ldod</module>
         <module>classification-game</module>
-		<module>edition-reading</module>
+		<module>edition-ldod</module>
 	</modules>
 </project>
