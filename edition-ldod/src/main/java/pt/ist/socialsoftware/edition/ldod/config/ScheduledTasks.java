@@ -11,6 +11,7 @@ import pt.ist.socialsoftware.edition.ldod.export.WriteVirtualEditonsToFile;
 import pt.ist.socialsoftware.edition.ldod.social.aware.AwareAnnotationFactory;
 import pt.ist.socialsoftware.edition.ldod.social.aware.CitationDetecter;
 import pt.ist.socialsoftware.edition.ldod.social.aware.FetchCitationsFromTwitter;
+import pt.ist.socialsoftware.edition.ldod.social.aware.LucenePerformance;
 import pt.ist.socialsoftware.edition.ldod.social.aware.TweetFactory;
 
 @Component
@@ -49,7 +50,10 @@ public class ScheduledTasks {
 
 	@Scheduled(cron = "0 0 5 * * *")
 	public void lucenePerformance() throws IOException {
-		// LucenePerformance lucenePerformance = new LucenePerformance();
-		// lucenePerformance.runLivro();
+		LucenePerformance lucenePerformance = new LucenePerformance();
+		lucenePerformance.runLivro();
+		lucenePerformance.runBernardo();
+		lucenePerformance.runFP();
+		lucenePerformance.runVicente();
 	}
 }

@@ -26,6 +26,62 @@ public class LucenePerformance {
 
 		BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
 
+		computePrecisionAndRecall(bufferedReader);
+
+		bufferedReader.close();
+
+		logger.debug("FINISHED BOOK PERFORMANCE ANALYSIS");
+	}
+
+	@Atomic(mode = TxMode.WRITE)
+	public void runBernardo() throws IOException {
+		logger.debug("STARTED BERNARDO PERFORMANCE ANALYSIS");
+
+		String fileSuffix = "bernardoIDs.txt";
+		File file = new File("C:\\Users\\dnf_o\\projetoTese\\ldod\\social\\teste\\" + fileSuffix);
+
+		BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
+
+		computePrecisionAndRecall(bufferedReader);
+
+		bufferedReader.close();
+
+		logger.debug("FINISHED BERNARDO PERFORMANCE ANALYSIS");
+	}
+
+	@Atomic(mode = TxMode.WRITE)
+	public void runFP() throws IOException {
+		logger.debug("STARTED FP PERFORMANCE ANALYSIS");
+
+		String fileSuffix = "fpIDs.txt";
+		File file = new File("C:\\Users\\dnf_o\\projetoTese\\ldod\\social\\teste\\" + fileSuffix);
+
+		BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
+
+		computePrecisionAndRecall(bufferedReader);
+
+		bufferedReader.close();
+
+		logger.debug("FINISHED FP PERFORMANCE ANALYSIS");
+	}
+
+	@Atomic(mode = TxMode.WRITE)
+	public void runVicente() throws IOException {
+		logger.debug("STARTED VICENTE PERFORMANCE ANALYSIS");
+
+		String fileSuffix = "vicenteIDs.txt";
+		File file = new File("C:\\Users\\dnf_o\\projetoTese\\ldod\\social\\teste\\" + fileSuffix);
+
+		BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
+
+		computePrecisionAndRecall(bufferedReader);
+
+		bufferedReader.close();
+
+		logger.debug("FINISHED VICENTE PERFORMANCE ANALYSIS");
+	}
+
+	private void computePrecisionAndRecall(BufferedReader bufferedReader) throws IOException {
 		String line = null;
 		int TP = 0;
 		int FP = 0;
@@ -53,7 +109,7 @@ public class LucenePerformance {
 				if (!tc.getInfoRangeSet().isEmpty()) {
 					jaroTP++;
 				} else {
-					// logger.debug("Tweet ID: " + id + " is a Jaro FN!!");
+					logger.debug("Tweet ID: " + id + " is a Jaro FN!!");
 					jaroFN++;
 				}
 			} else if (tc != null && !isCitation) {
@@ -61,6 +117,7 @@ public class LucenePerformance {
 				// logger.debug("Tweet ID: " + id + " is FP");
 				if (!tc.getInfoRangeSet().isEmpty()) {
 					jaroFP++;
+					logger.debug("Tweet ID: " + id + " is a Jaro FP!!");
 				} else {
 					jaroTN++;
 				}
@@ -100,10 +157,6 @@ public class LucenePerformance {
 
 		logger.debug("JaroPrecision = " + jaroPrecision);
 		logger.debug("JaroRecall = " + jaroRecall);
-
-		logger.debug("FINISHED BOOK PERFORMANCE ANALYSIS");
-
-		bufferedReader.close();
 	}
 
 }

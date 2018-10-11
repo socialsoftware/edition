@@ -48,6 +48,8 @@ public class AwareAnnotationFactory {
 	// método invocado também quando se edita uma nova SAVE
 	@Atomic(mode = TxMode.WRITE)
 	public void searchForAwareAnnotations(VirtualEdition ve) {
+		logger.debug("STARTED AWARE FACTORY");
+
 		Set<SocialMediaCriteria> criteria = ve.getCriteriaSet();
 
 		for (VirtualEditionInter inter : ve.getAllDepthVirtualEditionInters()) {
@@ -67,6 +69,8 @@ public class AwareAnnotationFactory {
 				createAwareAnnotation(inter, newCitation);
 			}
 		}
+
+		logger.debug("ENDED AWARE FACTORY");
 	}
 
 	// método responsável por criar aware annotation no vei com meta informação
