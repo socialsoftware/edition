@@ -37,14 +37,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import pt.ist.fenixframework.FenixFramework;
-import pt.ist.socialsoftware.edition.ldod.domain.*;
-import pt.ist.socialsoftware.edition.ldod.export.UsersXMLExport;
-import pt.ist.socialsoftware.edition.ldod.export.WriteVirtualEditonsToFile;
-import pt.ist.socialsoftware.edition.ldod.forms.EditUserForm;
-import pt.ist.socialsoftware.edition.ldod.security.LdoDUserDetails;
-import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
-import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDLoadException;
-import pt.ist.socialsoftware.edition.ldod.validator.EditUserValidator;
+import pt.ist.socialsoftware.edition.ldod.domain.Edition;
 import pt.ist.socialsoftware.edition.ldod.domain.FragInter;
 import pt.ist.socialsoftware.edition.ldod.domain.Fragment;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
@@ -53,12 +46,19 @@ import pt.ist.socialsoftware.edition.ldod.domain.Role;
 import pt.ist.socialsoftware.edition.ldod.domain.Role.RoleType;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.ldod.export.ExpertEditionTEIExport;
+import pt.ist.socialsoftware.edition.ldod.export.UsersXMLExport;
+import pt.ist.socialsoftware.edition.ldod.export.WriteVirtualEditonsToFile;
+import pt.ist.socialsoftware.edition.ldod.forms.EditUserForm;
 import pt.ist.socialsoftware.edition.ldod.loaders.LoadTEICorpus;
 import pt.ist.socialsoftware.edition.ldod.loaders.LoadTEIFragments;
 import pt.ist.socialsoftware.edition.ldod.loaders.UsersXMLImport;
 import pt.ist.socialsoftware.edition.ldod.loaders.VirtualEditionFragmentsTEIImport;
 import pt.ist.socialsoftware.edition.ldod.loaders.VirtualEditionsTEICorpusImport;
+import pt.ist.socialsoftware.edition.ldod.security.LdoDUserDetails;
+import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
+import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDLoadException;
 import pt.ist.socialsoftware.edition.ldod.utils.PropertiesManager;
+import pt.ist.socialsoftware.edition.ldod.validator.EditUserValidator;
 
 @Controller
 @RequestMapping("/admin")
@@ -620,6 +620,29 @@ public class AdminController {
 		logger.debug("createTestUsers");
 		LdoD.getInstance().createTestUsers(this.passwordEncoder);
 		return "redirect:/admin/user/list";
+	}
+
+	@RequestMapping(method = RequestMethod.GET, value = "/tweets")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	public String manageTweets(Model model) {
+		logger.debug("manageTweets");
+		return "admin/manageTweets";
+	}
+
+	@RequestMapping(method = RequestMethod.POST, value = "/tweets/removeTweets")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	public String removeTweets(Model model) {
+		logger.debug("removeTweets");
+		LdoD.getInstance().removeTweets();
+		return "redirect:/admin/tweets";
+	}
+
+	@RequestMapping(method = RequestMethod.POST, value = "/tweets/removeTweetsWithoutCitation")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	public String removeTweetsWithoutCitation(Model model) {
+		logger.debug("removeTweetsWithoutCitation");
+		LdoD.getInstance().removeTweetsWithoutCitations();
+		return "redirect:/admin/tweets";
 	}
 
 }

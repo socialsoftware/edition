@@ -1,8 +1,13 @@
 package pt.ist.socialsoftware.edition.ldod.domain;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
@@ -15,7 +20,6 @@ import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser.SocialMediaService;
 import pt.ist.socialsoftware.edition.ldod.domain.Role.RoleType;
-import pt.ist.socialsoftware.edition.ldod.dto.ClassificationGameDto;
 import pt.ist.socialsoftware.edition.ldod.session.LdoDSession;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDDuplicateUsernameException;
 
@@ -272,22 +276,41 @@ public class LdoD extends LdoD_Base {
 		return getCitationSet().stream().filter(citation -> citation.getId() == id).findFirst().orElse(null);
 	}
 
+	@Atomic(mode = TxMode.WRITE)
+	public void removeTweets() {
+		System.out.print("dkjlhfklsdhfklhdkjfhdskjhfkljadshfkjdshfkjldhfkjhdkjhdsjkf");
+
+		getTweetSet().forEach(t -> t.remove());
+	}
+
+	@Atomic(mode = TxMode.WRITE)
+	public void removeTweetsWithoutCitations() {
+		getTweetSet().forEach(t -> {
+			if (t.getCitation() == null) {
+				t.remove();
+			}
+		});
+	}
+
 	public List<VirtualEdition> getVirtualEditions4User(String username) {
 		LdoDUser user = getUser(username);
-		return LdoD.getInstance().getVirtualEditionsSet().stream().filter(virtualEdition -> virtualEdition.getParticipantList().contains(user)).collect(Collectors.toList());
+		return LdoD.getInstance().getVirtualEditionsSet().stream()
+				.filter(virtualEdition -> virtualEdition.getParticipantList().contains(user))
+				.collect(Collectors.toList());
 
 	}
-	
+
 	public Set<ClassificationGame> getPublicClassificationGames() {
-		return getVirtualEditionsSet().stream().flatMap(virtualEdition ->
-				virtualEdition.getClassificationGameSet().stream().filter(c -> c.getOpenAnnotation() && c.isActive()))
-				.collect(Collectors.toSet());
+		return getVirtualEditionsSet().stream().flatMap(virtualEdition -> virtualEdition.getClassificationGameSet()
+				.stream().filter(c -> c.getOpenAnnotation() && c.isActive())).collect(Collectors.toSet());
 	}
 
 	public Set<ClassificationGame> getActiveGames4User(String username) {
 		Set<VirtualEdition> virtualEditions4User = new HashSet<VirtualEdition>(getVirtualEditions4User(username));
-		Set<ClassificationGame> classificationGamesOfUser = virtualEditions4User.stream().flatMap(virtualEdition -> virtualEdition
-				.getClassificationGameSet().stream().filter(ClassificationGame::isActive)).collect(Collectors.toSet());
+		Set<ClassificationGame> classificationGamesOfUser = virtualEditions4User.stream()
+				.flatMap(virtualEdition -> virtualEdition.getClassificationGameSet().stream()
+						.filter(ClassificationGame::isActive))
+				.collect(Collectors.toSet());
 
 		Set<ClassificationGame> allClassificationGames4User = new HashSet<>(getPublicClassificationGames());
 		allClassificationGames4User.addAll(classificationGamesOfUser);
@@ -296,10 +319,11 @@ public class LdoD extends LdoD_Base {
 	}
 
 	public Map<String, Double> getOverallLeaderboard() {
-		List<Map<String, Double>> collect = LdoD.getInstance().getVirtualEditionsSet().stream().flatMap(v -> v
-				.getClassificationGameSet().stream().map(g -> g.getLeaderboard())).collect(Collectors.toList());
+		List<Map<String, Double>> collect = LdoD.getInstance().getVirtualEditionsSet().stream()
+				.flatMap(v -> v.getClassificationGameSet().stream().map(g -> g.getLeaderboard()))
+				.collect(Collectors.toList());
 		Map<String, Double> result = new LinkedHashMap<>();
-		for (Map<String,Double> m : collect) {
+		for (Map<String, Double> m : collect) {
 			for (Map.Entry<String, Double> e : m.entrySet()) {
 				String key = e.getKey();
 				Double value = result.get(key);
@@ -310,15 +334,15 @@ public class LdoD extends LdoD_Base {
 	}
 
 	public int getOverallUserPosition(String username) {
-		if(!getOverallLeaderboard().containsKey(username)) {
+		if (!getOverallLeaderboard().containsKey(username)) {
 			return -1;
 		}
 
-		Map<String, Double> temp = getOverallLeaderboard().entrySet().stream().
-				sorted(Collections.reverseOrder(Map.Entry.comparingByValue())).
-				collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e2, LinkedHashMap::new));
+		Map<String, Double> temp = getOverallLeaderboard().entrySet().stream()
+				.sorted(Collections.reverseOrder(Map.Entry.comparingByValue()))
+				.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e2, LinkedHashMap::new));
 
-		return (new ArrayList<String>(temp.keySet()).indexOf(username) + 1);
+		return new ArrayList<String>(temp.keySet()).indexOf(username) + 1;
 	}
 
 }
