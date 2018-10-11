@@ -7,64 +7,97 @@
 <body>
 	<%@ include file="/WEB-INF/jsp/common/fixed-top-ldod-header.jsp"%>
 
-	<c:set var="isAuthenticated"
-		value="${pageContext.request.userPrincipal.authenticated}" />
-
 	<div class="container">
-		<div class="row">
-			<h3 class="text-center">
-				<spring:message code="general.classificationGame" />
-			</h3>
-			<br>
-			
-			<div class="row">
-				<a href="../classification-game" target="_blank"><spring:message code="general.classificationGame.visitWebsite" />
-					<span class="glyphicon glyphicon-open"></span>
-				</a>
-				<br/>
-			</div>
-			<br>
+		<div class="col-md-8 col-md-offset-2 ldod-about">
 
-			<br class="row">
-				No Ã¢mbito de uma dissertaÃ§Ã£o de mestrado desenvolvida no Instituto Superior TÃ©cnico centrada em Crowdsourcing e Gamification no <em>Arquivo LdoD</em>, foi criado o jogo <em>LdoD Classification</em> ou Jogo de ClassifcaÃ§Ã£o do LdoD</em>.
-				O jogo faz uso das ediÃ§Ãµes virtuais do Arquivo LdoD, sendo entÃ£o necessÃ¡rio estar registado para poder jogar e criar jogos.
-				O objectivo Ã© classificar fragmentos de ediÃ§Ãµes virtuais atravÃ©s de vÃ¡rios jogos.
-				Cada jogo corresponde a classificar um fragmento de uma ediÃ§Ã£o virtual.
-				InformaÃ§Ãµes acerca de um jogo:
+			<div class="row">
+				<h3 class="text-center">
+					<spring:message code="general.classificationGame" />
+				</h3>
+				<br />
+				<p>
+					<a href="../classification-game" target="_blank"><spring:message
+							code="general.classificationGame.visitWebsite" /> <span
+						class="glyphicon glyphicon-open"></span> </a> <br />
+				</p>
+
+				<p>
+					No Âmbito de uma dissertação de mestrado desenvolvida no Instituto
+					Superior Técnico centrada em Crowdsourcing e Gamification no <em>Arquivo
+						LdoD</em>, foi criado o jogo <em>LdoD Classification</em> ou Jogo de
+					Classifcação do LdoD</em>. O jogo faz uso das edições virtuais do
+					Arquivo LdoD, sendo então necessário estar registado para poder
+					jogar e criar jogos. O objectivo é classificar fragmentos de
+					edições virtuais através de vários jogos. Cada jogo corresponde a
+					classificar um fragmento de uma edição virtual. Informações
+					necessárias para jogar:
+				</p>
 				<ul>
-					<li> mÃ­nimo de dois jogadores para um jogo ocorrer; </li>
-					<li> os jogos ocorrem a uma hora e tempo especifico definido na altura da criaÃ§Ã£o do mesmo;</li>
-					<li> a duraÃ§Ã£o de um jogo depende um pouco do tamanho de um fragmento (contudo um jogo nÃ£o deve demorar muito mais do que uns 5 minutos); </li>
-					<li> o jogo consiste em 3 rondas, sendo que as rondas 1 e 2 ocorrem mÃºltiplas vezes (uma para cada parÃ¡grafo do fragmento):
+					<li>Mí­nimo de dois jogadores para um jogo ocorrer;</li>
+					<li>Os jogos ocorrem a uma hora e tempo específico definido na
+						altura da criação do mesmo;</li>
+					<li>A duração de um jogo depende do tamanho de um fragmento
+						(contudo um jogo não deve demorar muito mais do que uns 5
+						minutos);</li>
+					<li>O jogo consiste em 3 rondas, sendo que as rondas 1 e 2
+						ocorrem múltiplas vezes (uma para cada parágrafo do fragmento):
 						<ul>
-							<li> Ronda 1 - Submeter: O jogador tÃªm no ecrÃ£ o primeiro parÃ¡grafo, lÃª e analisa o mesmo e depois submete 1 e apenas 1 categoria que considera adequada; (avanÃ§amos para a ronda 2 no fim do tempo);</li>
-							<li> Ronda 2 - Votar: O tempo Ã© agora fixo de 15 segundos, o utilizador tÃªm novamente o mesmo parÃ¡grafo que viu em 1 e vÃª tambÃ©m as categorias submetidas por todos os participantes e sÃ³ pode votar numa categoria que considera adequada (caso nÃ£o haja mais parÃ¡grafos para analisar avanÃ§amos para 3; caso contrÃ¡rio avanÃ§amos para a ronda final - 3);</li>
-							<li> Ronda 3 - Rever: Tempo de 30 segundos, o utilizador tÃªm no ecrÃ£ o fragmento completo na parte e baixo e em cima as categorias mais votadas atÃ© entÃ£o. O utilizador vota numa categoria, contudo pode trocar de voto enquanto o tempo estiver disponÃ­vel (sendo que trocas de voto penalizam os seus pontos) e simultaneamente vÃª os votos totais, ou seja, estÃ¡ em tempo real a verificar qual a tag mais votada e vÃª tags a subir ou descer consoante os votos dos outros. O objectivo Ã© determinar a categoria mais adequada.
-							</li>
-						<li> Acabando a ronda 3, o jogador que sugeriu a tag vencedora Ã© creditado como o autor da mesma na ediÃ§Ã£o virtual e fragmento correspondente.</li>
+							<li>Ronda 1 - Submeter: O jogador têm no ecrã o primeiro
+								parágrafo, lê e analisa o mesmo e depois submete 1 e apenas 1
+								categoria que considera adequada; (avançamos para a ronda 2 no
+								fim do tempo);</li>
+							<li>Ronda 2 - Votar: O tempo é agora fixo de 15 segundos, o
+								utilizador têm novamente o mesmo parágrafo que viu em 1 e vê
+								também as categorias submetidas por todos os participantes e só
+								pode votar numa categoria que considera adequada (caso não haja
+								mais parágrafos para analisar avançamos para 3; caso contrário
+								avançamos para a ronda 1, agora para o parágrafo seguinte);</li>
+							<li>Ronda 3 - Rever: Tempo de 30 segundos, o utilizador têm
+								no ecrã o fragmento completo e em cima as categorias mais
+								votadas até então. O utilizador vota numa categoria, contudo
+								pode trocar de voto enquanto o tempo estiver disponí­vel (sendo
+								que trocas de voto penalizam os seus pontos) e simultaneamente
+								vê os votos totais, ou seja, está em tempo real a verificar qual
+								a categoria mais votada, vendo os votos nas categorias a variar,
+								consoante os participantes vão votando. O objectivo é determinar
+								a categoria mais adequada para classificar o fragmento.</li>
+							<li>Acabando a ronda 3, o jogador que sugeriu a categoria
+								vencedora é creditado como o autor da mesma na edição virtual e
+								fragmento correspondente.</li>
 						</ul>
 					</li>
 				</ul>
-				<br/>
-				Passos para criar um jogo:
-					<ol>
-						<li> NecessÃ¡rio ser gestor de uma ediÃ§Ã£o virtual (caso nÃ£o seja crie uma ediÃ§Ã£o virtual), <strong>note que a ediÃ§Ã£o virtual terÃ¡ de ter um vocabulÃ¡rio aberto </strong> </li>
-						<li> As configuraÃ§Ãµes da ediÃ§Ã£o virtual condicionam as definiÃ§Ãµes de um jogo, ou seja:
-							o jogo poderÃ¡ ser para todos utilizadores registados ou apenas membros da ediÃ§Ã£o virtual, se a ediÃ§Ã£o for privada obrigatoriamente apenas membros da ediÃ§Ã£o virtual podem jogar.
-							Se a ediÃ§Ã£o for pÃºblica poderÃ¡ ser qualquer dos casos.</li>
-						<li> VÃ¡ entÃ£o a Virtual -> Gerir (escolhe qual a ediÃ§Ã£o que quer criar o jogo)  -> Jogo de ClassificaÃ§Ã£o -> Criar;
-						<li> Preencha os parÃ¢metros adequadamente e verifique a hora, fragmento escolhido e qual os jogadores que podem jogar (Membros da ediÃ§Ã£o ou Todos os utilizadores registados), clique em Criar</li>
-					</ol>
-				<br/>
-				Depois disto Ã© necessÃ¡rio entrar <a href="https://ldod.uc.pt/classification-game/">aqui.</a>, fazer o login (apenas logins para contas de e-mail de momento) e Ã  hora do jogo, carregar para comeÃ§ar o jogo.
-				<br/>
-
-				<strong> Por fim, no fim do seu jogo e de forma a melhorar o mesmo providenciando uma melhor experiÃªncia , responde ao inquÃ©rito sobre o mesmo. O seu feedback Ã© muito precioso para nÃ³s!</strong>
-				O inquÃ©rito estÃ¡ disponÃ­vel em <a href="https://ldod.uc.pt/classification-game/feedback">aqui.</a> ou aceda Ã  pÃ¡gina do jogo e clique no separador Feedback.
+				<p>Passos para criar um jogo:</p>
+				<ol>
+					<li>Necessário ser gestor de uma edição virtual (caso não seja
+						crie uma edição virtual), <strong>note que a edição
+							virtual terá de ter um vocabulário aberto </strong>
+					</li>
+					<li>As configurações da edição virtual condicionam as
+						definições de um jogo, ou seja: o jogo poderá ser para todos
+						utilizadores registados ou apenas membros da edição virtual, se a
+						edição for privada obrigatoriamente apenas membros da edição
+						virtual podem jogar. Se a edição for pública poderá ser qualquer
+						um dos casos.</li>
+					<li>Vá então a Virtual -> Gerir (escolhe qual a edição que
+						quer criar o jogo) -> Jogo de Classificação -> Criar;
+					<li>Preencha os parâmetros adequadamente e verifique a hora,
+						fragmento escolhido e qual os jogadores que podem jogar (Membros
+						da edição ou Todos os utilizadores registados), clique em Criar</li>
+				</ol>
+				<p>
+					Depois disto é necessário entrar <a
+						href="https://ldod.uc.pt/classification-game/">aqui.</a>, fazer o
+					login (apenas logins para contas de e-mail de momento) e à hora do
+					jogo, carregar para começar o jogo. <br /> <strong> Por
+						fim, no fim do seu jogo e de forma a melhorar o mesmo
+						providenciando uma melhor experiência, responde ao inquérito sobre
+						o mesmo. O seu feedback é muito precioso para nós!</strong> O inquérito
+					está disponí­vel em <a
+						href="https://ldod.uc.pt/classification-game/feedback">aqui.</a>
+					ou aceda à página do jogo e clique no separador Feedback.
+				</p>
 			</div>
-
-			<br>
-
 
 		</div>
 	</div>
