@@ -53,7 +53,7 @@ class Fragment extends Component {
         for(var i = 0; i < testInput.length; i++){
             testInput[i] = testInput[i].replace(regex, "").trim();
             var size = testInput[i].length
-            var temp = size >= 181 ? size/6 : 30;
+            var temp = size >= 181 ? size/5 : 45;
             //var temp = size >= 200 ? 45 + i/largeInt : 30 + i/largeInt;
             secondAndTextTemp[i] = temp;
             totalTime += temp;
