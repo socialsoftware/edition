@@ -37,7 +37,7 @@
 					<li>Os jogos ocorrem a uma hora e tempo específico definido na
 						altura da criação do mesmo;</li>
 					<li>A duração de um jogo depende do tamanho de um fragmento
-						(contudo um jogo não deve demorar muito mais do que uns 5
+						(contudo um jogo não demora mais do que 5 a 10
 						minutos);</li>
 					<li>O jogo consiste em 3 rondas, sendo que as rondas 1 e 2
 						ocorrem múltiplas vezes (uma para cada parágrafo do fragmento):
@@ -79,22 +79,22 @@
 						edição for privada obrigatoriamente apenas membros da edição
 						virtual podem jogar. Se a edição for pública poderá ser qualquer
 						um dos casos.</li>
-					<li>Vá então a Virtual -> Gerir (escolhe qual a edição que
+					<li>Vá então a Virtual -> Edições Virtuais -> Gerir (escolhe qual a edição que
 						quer criar o jogo) -> Jogo de Classificação -> Criar;
 					<li>Preencha os parâmetros adequadamente e verifique a hora,
 						fragmento escolhido e qual os jogadores que podem jogar (Membros
-						da edição ou Todos os utilizadores registados), clique em Criar</li>
+						da edição ou Qualquer utilizadores registados), clique em Criar</li>
 				</ol>
 				<p>
-					Depois disto é necessário entrar <a
-						href="https://ldod.uc.pt/classification-game/">aqui.</a>, fazer o
-					login (apenas logins para contas de e-mail de momento) e à hora do
+					Depois, para jogar, é necessário entrar <a
+						href="https://ldod.uc.pt/classification-game/" target="_blank">na aplicação jogo</a>, fazer
+					login (atualmente não se suportam utilizadores registados através de uma rede social, 
+					por exemplo, Google ou Facebook) e à hora do
 					jogo, carregar para começar o jogo. <br /> <strong> Por
-						fim, no fim do seu jogo e de forma a melhorar o mesmo
-						providenciando uma melhor experiência, responde ao inquérito sobre
-						o mesmo. O seu feedback é muito precioso para nós!</strong> O inquérito
-					está disponí­vel em <a
-						href="https://ldod.uc.pt/classification-game/feedback">aqui.</a>
+						fim, e de forma a melhorar o mesmo
+						providenciando uma melhor experiência, responda ao inquérito. O seu feedback é muito precioso para nós!</strong> O inquérito
+					está disponí­vel <a
+						href="https://ldod.uc.pt/classification-game/feedback" target="_blank">aqui.</a>
 					ou aceda à página do jogo e clique no separador Feedback.
 				</p>
 			</div>
