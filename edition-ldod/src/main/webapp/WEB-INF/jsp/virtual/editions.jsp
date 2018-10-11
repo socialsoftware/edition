@@ -113,12 +113,6 @@
 					</div>
 				</div>
 			</div>
-			<div class="row">
-				<a href="../classification-game" target="_blank"><spring:message code="general.classificationGame.visitWebsite" />
-					<span class="glyphicon glyphicon-open"></span>
-				</a>
-				<br/>
-			</div>
 			<div class="row"></div>
 			<br />
 			<div class="row">

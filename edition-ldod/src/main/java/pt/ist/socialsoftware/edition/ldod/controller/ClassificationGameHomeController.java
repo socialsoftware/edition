@@ -12,16 +12,21 @@ import pt.ist.socialsoftware.edition.ldod.session.LdoDSession;
 
 @Controller
 public class ClassificationGameHomeController {
-    private static Logger logger = LoggerFactory.getLogger(ClassificationGameHomeController.class);
+	private static Logger logger = LoggerFactory.getLogger(ClassificationGameHomeController.class);
 
-    @ModelAttribute("ldoDSession")
-    public LdoDSession getLdoDSession() {
-        return LdoDSession.getLdoDSession();
-    }
+	@ModelAttribute("ldoDSession")
+	public LdoDSession getLdoDSession() {
+		return LdoDSession.getLdoDSession();
+	}
 
-    @RequestMapping(method = RequestMethod.GET, value = {"/classification-game", "/classification-game/*"})
-    public String showHome(Model model) {
-        return "classificationGame";
-    }
+	@RequestMapping(method = RequestMethod.GET, value = { "/classification-game", "/classification-game/*" })
+	public String classificationGameClient(Model model) {
+		return "classificationGame";
+	}
+
+	@RequestMapping(method = RequestMethod.GET, value = { "/classificationGames" })
+	public String classicationGamePage(Model model) {
+		return "virtual/classificationGames";
+	}
 
 }

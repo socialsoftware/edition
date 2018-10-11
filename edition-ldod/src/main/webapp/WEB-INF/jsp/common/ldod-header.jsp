@@ -141,7 +141,21 @@
 			</li>
 		
 			<!-- Manage Virtual Editions -->
-			<li><a href="${contextPath}/virtualeditions"><spring:message code="virtual" /> </a></li>
+			<li class='dropdown'>
+				<a href="#"
+					class="dropdown-toggle"
+					data-toggle="dropdown">
+					
+					<spring:message code="virtual" />
+					<span class='caret'></span>
+				</a>
+			
+				<ul class="dropdown-menu">
+					<div class="dropdown-menu-bg"></div>
+					<li><a href="${contextPath}/virtualeditions"> <spring:message code="header.virtualeditions" /></a></li>
+					<li><a href="${contentPath}/classificationGames"> <spring:message code="general.classificationGame" /></a></li>
+				</ul>
+			</li>
 
 			<!-- Administration -->
 
