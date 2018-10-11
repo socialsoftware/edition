@@ -271,4 +271,27 @@ public class LdoD extends LdoD_Base {
 	public Citation getCitationById(long id) {
 		return getCitationSet().stream().filter(citation -> citation.getId() == id).findFirst().orElse(null);
 	}
+
+	public long getLastTwitterCitationId() {
+		long res = 0;
+		for (Citation c : this.getCitationSet()) {
+			if (c instanceof TwitterCitation) {
+				if (((TwitterCitation) c).getTweetID() > res) {
+					res = ((TwitterCitation) c).getTweetID();
+				}
+			}
+		}
+		return res;
+	}
+
+	public int getNumberOfCitationsWithInfoRanges() {
+		int res = 0;
+
+		for (Citation citation : LdoD.getInstance().getCitationSet()) {
+			if (!citation.getInfoRangeSet().isEmpty()) {
+				res++;
+			}
+		}
+		return res;
+	}
 }

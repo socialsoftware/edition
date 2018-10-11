@@ -81,14 +81,22 @@ public class CitationDetecter {
 	public void detect() throws IOException {
 		this.logger.debug("STARTING CITATION DETECTER!!");
 		// resets last twitter IDs
-		// resetLastTwitterIds();
-		// citationDetection();
+		resetLastTwitterIds();
+		citationDetection();
 		this.logger.debug("FINISHED DETECTING CITATIONS!!!");
 
 		// identify ranges
 		this.logger.debug("STARTED IDENTIFYING RANGES!!!");
 		createInfoRanges();
 		this.logger.debug("FINISHED IDENTIFYING RANGES!!!");
+
+		printNumberOfCitationsWithIndoRanges();
+	}
+
+	@Atomic
+	private void printNumberOfCitationsWithIndoRanges() {
+		logger.debug(
+				"Number of Citations with Info Ranges: " + LdoD.getInstance().getNumberOfCitationsWithInfoRanges());
 	}
 
 	@Atomic(mode = TxMode.WRITE)
@@ -332,7 +340,7 @@ public class CitationDetecter {
 
 		// short info text
 		infoText = "LINK: " + sourceLink + "\n" + "DATA: " + date + "\n";
-		if (country != "unknown") {
+		if (!country.equals("unknown")) {
 			infoText += "PAÍS: " + country;
 		}
 

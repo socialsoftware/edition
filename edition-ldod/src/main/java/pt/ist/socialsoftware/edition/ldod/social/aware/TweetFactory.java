@@ -60,6 +60,10 @@ public class TweetFactory {
 			}
 
 			try {
+
+				// verify here if the line tweet ID is bigger than the last twitter id in the
+				// archive
+
 				createTweet(line);
 			} catch (ParseException e1) {
 				logger.debug("Miss the creation of a tweet due to the parse of some of its data");
