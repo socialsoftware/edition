@@ -1,0 +1,20 @@
+.div-votes {
+    font-family: georgia;
+    font-size: medium;
+    display: inline-block;
+    border-style: none;
+}
+
+.title {
+    padding-left: 5px;
+    padding-right: 5px;
+    font-family: georgia;
+    font-size: medium;
+}
+
+.vote {
+    font-family: georgia;
+    font-size: medium;
+    padding-left: 5px;
+    padding-right: 15px;
+}

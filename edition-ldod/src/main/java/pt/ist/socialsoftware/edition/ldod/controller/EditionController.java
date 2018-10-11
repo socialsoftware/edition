@@ -11,15 +11,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import pt.ist.fenixframework.FenixFramework;
-import pt.ist.socialsoftware.edition.ldod.domain.Category;
-import pt.ist.socialsoftware.edition.ldod.domain.Edition;
-import pt.ist.socialsoftware.edition.ldod.domain.ExpertEdition;
-import pt.ist.socialsoftware.edition.ldod.domain.Heteronym;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
-import pt.ist.socialsoftware.edition.ldod.domain.Taxonomy;
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
+import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.session.LdoDSession;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/edition")
@@ -92,6 +88,12 @@ public class EditionController {
 
 		if (user != null) {
 			model.addAttribute("user", user);
+			if (user.getPlayer() != null) {
+				List<ClassificationGame> games = user.getPlayer().getClassificationGameParticipantSet().stream().map
+						(ClassificationGameParticipant::getClassificationGame).collect(Collectors.toList());
+				model.addAttribute("games", games);
+				model.addAttribute("position", LdoD.getInstance().getOverallUserPosition(user.getUsername()));
+			}
 			return "edition/userContributions";
 		} else {
 			return "redirect:/error";

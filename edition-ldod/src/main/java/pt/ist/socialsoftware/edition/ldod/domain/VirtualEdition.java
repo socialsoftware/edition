@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringEscapeUtils;
+import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -94,6 +95,8 @@ public class VirtualEdition extends VirtualEdition_Base {
 		}
 
 		setLdoD4Virtual(null);
+
+		getClassificationGameSet().stream().forEach(g -> g.remove());
 
 		getTaxonomy().remove();
 
@@ -747,6 +750,11 @@ public class VirtualEdition extends VirtualEdition_Base {
 			}
 		}
 		return null;
+	}
+
+	@Atomic(mode = TxMode.WRITE)
+	public void createClassificationGame(String description, DateTime date, VirtualEditionInter inter, LdoDUser user) {
+		new ClassificationGame(this, description, date, inter, user);
 	}
 
 }

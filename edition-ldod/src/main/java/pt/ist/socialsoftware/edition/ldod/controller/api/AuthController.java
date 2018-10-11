@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import pt.ist.socialsoftware.edition.ldod.dto.JWTAuthenticationDTO;
-import pt.ist.socialsoftware.edition.ldod.dto.LdoDUserDTO;
+import pt.ist.socialsoftware.edition.ldod.dto.LdoDUserDto;
 import pt.ist.socialsoftware.edition.ldod.security.jwt.JWTTokenProvider;
 
 @RestController
@@ -33,7 +33,7 @@ public class AuthController {
 	JWTTokenProvider tokenProvider;
 
 	@PostMapping("/signin")
-	public ResponseEntity<JWTAuthenticationDTO> authenticateUser(@Valid @RequestBody LdoDUserDTO loginRequest) {
+	public ResponseEntity<JWTAuthenticationDTO> authenticateUser(@Valid @RequestBody LdoDUserDto loginRequest) {
 		try {
 			Authentication authentication = this.authenticationManager.authenticate(
 					new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
@@ -42,8 +42,7 @@ public class AuthController {
 			String jwt = this.tokenProvider.generateToken(authentication);
 			return new ResponseEntity<JWTAuthenticationDTO>(new JWTAuthenticationDTO(jwt), HttpStatus.OK);
 		} catch (AuthenticationException e) {
-			logger.debug("Bad Credentials");
-			return new ResponseEntity<JWTAuthenticationDTO>(HttpStatus.UNAUTHORIZED);
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		}
 
 	}

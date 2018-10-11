@@ -22,6 +22,24 @@
 					${edition.getTitle()}</a><c:if test="${!loop.last}">, </c:if>
 			</c:forEach>
 		</p>
+		<c:if test="${not empty games}">
+			<p>
+				<strong><spring:message code="general.participant"/>: </strong>
+				<c:forEach var="game" items="${games}" varStatus="loop">
+					<a href="${contextPath}/virtualeditions/${game.getVirtualEdition().getExternalId()}/classificationGame/${game.getExternalId()}">
+							${game.getVirtualEdition().getTitle()} - ${game.getVirtualEditionInter().getTitle()}</a>
+					<c:if test="${!loop.last}">, </c:if>
+				</c:forEach>
+			</p>
+			<p>
+				<strong><spring:message code="general.points"/>: </strong> ${user.getPlayer().getScore()}
+			</p>
+			<c:if test="${position != -1}">
+			<p>
+				<strong><spring:message code="general.position"/>: </strong> ${position}
+			</p>
+			</c:if>
+		</c:if>
 		<p>
 			<strong>${user.getFragInterSet().size()} <spring:message
 					code="fragments" />:

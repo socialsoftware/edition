@@ -13,10 +13,10 @@ import org.slf4j.LoggerFactory;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.fenixframework.FenixFramework;
+import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
 import pt.ist.socialsoftware.edition.ldod.utils.TopicDTO;
-import pt.ist.socialsoftware.edition.ldod.utils.TopicListDTO;
-import pt.ist.socialsoftware.edition.ldod.domain.Taxonomy_Base;
 import pt.ist.socialsoftware.edition.ldod.utils.TopicInterPercentageDTO;
+import pt.ist.socialsoftware.edition.ldod.utils.TopicListDTO;
 
 public class Taxonomy extends Taxonomy_Base {
 	private static Logger logger = LoggerFactory.getLogger(Taxonomy.class);
@@ -150,12 +150,12 @@ public class Taxonomy extends Taxonomy_Base {
 		return newCategory;
 	}
 
-	public void createTag(VirtualEditionInter virtualEditionInter, String categoryName, HumanAnnotation annotation,
+	public Tag createTag(VirtualEditionInter virtualEditionInter, String categoryName, HumanAnnotation annotation,
 			LdoDUser ldoDUser) {
 		if (!getOpenVocabulary() && getCategory(categoryName) == null) {
-			return;
+			throw new LdoDException("Tag name does not exist in taxonomy with closed vocabulary");
 		}
-		new Tag().init(this.getEdition(), virtualEditionInter, categoryName, annotation, ldoDUser);
+		return new Tag().init(this.getEdition(), virtualEditionInter, categoryName, annotation, ldoDUser);
 	}
 
 	@Atomic(mode = TxMode.WRITE)

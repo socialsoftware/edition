@@ -1,0 +1,1 @@
+<%@include file="/classification-game/index.html"%>

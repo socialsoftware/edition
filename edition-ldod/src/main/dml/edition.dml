@@ -21,6 +21,7 @@ enum UnclearText.UnclearReason as UnclearReason;
 enum AltText.AltMode as AltMode;
 enum NoteText.NoteType as NoteType;
 enum RefText.RefType as RefType;
+enum ClassificationGame.ClassificationGameState as ClassificationGameState;
 
 class LdoD {
 	String title;
@@ -748,3 +749,66 @@ relation LdoDHasTweets {
 	Tweet playsRole tweet {multiplicity 0..*;}
 }
 
+class ClassificationGame {
+    ClassificationGameState state;
+	String description;
+	DateTime dateTime;
+	boolean sync;
+}
+
+class Player {
+	double score;
+}
+
+class ClassificationGameRound {
+    int number;
+    int round;
+    String tag;
+    double vote;
+    DateTime time;
+}
+
+class ClassificationGameParticipant {
+    boolean winner;
+    double score;
+}
+
+relation VirtualEditionHasClassificationGames {
+	VirtualEdition playsRole virtualEdition {multiplicity 1..1;}
+	ClassificationGame playsRole classificationGame {multiplicity 0..*;}
+}
+
+relation LdoDUserOwnsClassificationGame {
+	ClassificationGame playsRole responsibleForGames {multiplicity 0..*;}
+	LdoDUser playsRole responsible {multiplicity 1..1;} 
+}
+
+relation ClassificationGameForVirtualEditionInter {
+	ClassificationGame playsRole classificationGame {multiplicity 0..*;}
+	VirtualEditionInter playsRole virtualEditionInter {multiplicity 1..1;}
+}
+
+relation LdodUserIsPlayer {
+	LdoDUser playsRole user {multiplicity 1..1;}
+	Player playsRole player {multiplicity 0..1;}
+}
+
+relation ClassificationGameProducesTag {
+	ClassificationGame playsRole classificationGame {multiplicity 0..1;}
+	Tag playsRole tag {multiplicity 0..1;}
+}
+
+relation ClassificationGameParticipantIsPlayer {
+	ClassificationGameParticipant playsRole classificationGameParticipant {multiplicity 0..*;}
+	Player playsRole player {multiplicity 1..1;}
+}
+
+relation ClassificationGameParticipantInGame {
+	ClassificationGameParticipant playsRole classificationGameParticipant {multiplicity 0..*;}
+	ClassificationGame playsRole classificationGame {multiplicity 1..1;}
+}
+
+relation ClassificationGameParticipantInGameRounds {
+	ClassificationGameParticipant playsRole classificationGameParticipant {multiplicity 1..1;}
+	ClassificationGameRound playsRole classificationGameRound {multiplicity 0..*;}
+}

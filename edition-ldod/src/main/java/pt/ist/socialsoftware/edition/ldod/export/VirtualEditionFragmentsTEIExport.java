@@ -13,6 +13,9 @@ import pt.ist.socialsoftware.edition.ldod.domain.Annotation;
 import pt.ist.socialsoftware.edition.ldod.domain.AwareAnnotation;
 import pt.ist.socialsoftware.edition.ldod.domain.Category;
 import pt.ist.socialsoftware.edition.ldod.domain.Citation;
+import pt.ist.socialsoftware.edition.ldod.domain.ClassificationGame;
+import pt.ist.socialsoftware.edition.ldod.domain.ClassificationGameParticipant;
+import pt.ist.socialsoftware.edition.ldod.domain.ClassificationGameRound;
 import pt.ist.socialsoftware.edition.ldod.domain.Fragment;
 import pt.ist.socialsoftware.edition.ldod.domain.HumanAnnotation;
 import pt.ist.socialsoftware.edition.ldod.domain.InfoRange;
@@ -70,9 +73,9 @@ public class VirtualEditionFragmentsTEIExport {
 
 			exportVirtualEditionInterTags(textClass, virtualEditionInter);
 			exportVirtualEditionInterAnnotations(textClass, virtualEditionInter);
+			exportClassificationGames(textClass, virtualEditionInter);
 		}
 
-		// TODO - done, inclui set de tweets e export de info ranges de cada citação
 		exportFragmentCitations(teiHeader, fragment);
 
 		XMLOutputter xml = new XMLOutputter();
@@ -145,7 +148,7 @@ public class VirtualEditionFragmentsTEIExport {
 			// discutir também utilidade destes atributos
 			// fragInterXmlId seria necessário para descobrir o fragInter ao importar
 			infoRangeElement.setAttribute("fragInterXmlId", infoRange.getFragInter().getXmlId());
-			infoRangeElement.setAttribute("citationId", Long.toString((infoRange.getCitation().getId())));
+			infoRangeElement.setAttribute("citationId", Long.toString(infoRange.getCitation().getId()));
 		}
 	}
 
@@ -240,4 +243,60 @@ public class VirtualEditionFragmentsTEIExport {
 		}
 	}
 
+	private void exportClassificationGames(Element textClass, VirtualEditionInter virtualEditionInter) {
+		Element classificationGameList = new Element("classificationGameList", this.xmlns);
+		textClass.addContent(classificationGameList);
+
+		for (ClassificationGame game : virtualEditionInter.getClassificationGameSet()) {
+			Element gameElement = new Element("classificationGame", this.xmlns);
+			gameElement.setAttribute("state", game.getState().toString());
+			gameElement.setAttribute("description", game.getDescription());
+			gameElement.setAttribute("dateTime", String.valueOf(game.getDateTime()));
+			gameElement.setAttribute("sync", Boolean.toString(game.getSync()));
+			gameElement.setAttribute("responsible", game.getResponsible().getUsername());
+			if (game.getTag() != null) {
+				gameElement.setAttribute("tag", game.getTag().getCategory().getName());
+			}
+			ClassificationGameParticipant participant = game.getClassificationGameParticipantSet().stream()
+					.filter(ClassificationGameParticipant::getWinner).findFirst().orElse(null);
+			gameElement.setAttribute("winningUser",
+					participant != null ? participant.getPlayer().getUser().getUsername() : " ");
+
+			exportClassificationGameRounds(gameElement, game);
+			exportClassificationGameParticipants(gameElement, game);
+			classificationGameList.addContent(gameElement);
+		}
+
+	}
+
+	private void exportClassificationGameRounds(Element gameElement, ClassificationGame game) {
+		Element classificationRoundList = new Element("classificationGameRoundList", this.xmlns);
+
+		for (ClassificationGameRound round : game.getAllRounds()) {
+			Element roundElement = new Element("classificationGameRound", this.xmlns);
+			roundElement.setAttribute("paragraphNumber", Integer.toString(round.getNumber()));
+			roundElement.setAttribute("roundNumber", Integer.toString(round.getRound()));
+			roundElement.setAttribute("tag", round.getTag());
+			roundElement.setAttribute("vote", Double.toString(round.getVote()));
+			roundElement.setAttribute("dateTime", String.valueOf(round.getTime()));
+			roundElement.setAttribute("username",
+					round.getClassificationGameParticipant().getPlayer().getUser().getUsername());
+			classificationRoundList.addContent(roundElement);
+		}
+		gameElement.addContent(classificationRoundList);
+	}
+
+	private void exportClassificationGameParticipants(Element element, ClassificationGame game) {
+		Element classificationParticipantList = new Element("classificationGameParticipantList", this.xmlns);
+
+		for (ClassificationGameParticipant participant : game.getClassificationGameParticipantSet()) {
+			Element participantElement = new Element("classificationGameParticipant", this.xmlns);
+			participantElement.setAttribute("username", participant.getPlayer().getUser().getUsername());
+			participantElement.setAttribute("winner", Boolean.toString(participant.getWinner()));
+			participantElement.setAttribute("score", Double.toString(participant.getScore()));
+			classificationParticipantList.addContent(participantElement);
+		}
+
+		element.addContent(classificationParticipantList);
+	}
 }
