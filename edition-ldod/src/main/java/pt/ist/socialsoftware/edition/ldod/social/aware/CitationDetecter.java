@@ -331,9 +331,9 @@ public class CitationDetecter {
 		// + "USER PROFILE: " + userProfileURL;
 
 		// short info text
-		infoText = "SOURCE LINK: " + sourceLink + "\n" + "DATE: " + date + "\n";
+		infoText = "LINK: " + sourceLink + "\n" + "DATA: " + date + "\n";
 		if (country != "unknown") {
-			infoText += "COUNTRY: " + country;
+			infoText += "PAÍS: " + country;
 		}
 
 		return infoText;
