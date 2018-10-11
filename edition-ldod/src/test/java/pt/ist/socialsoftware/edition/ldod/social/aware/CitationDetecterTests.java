@@ -33,10 +33,22 @@ public class CitationDetecterTests extends RollbackCaseTest {
 	}
 
 	@Test
+	public void earlyStartTest() throws IOException {
+		String teste = "O João foi à escola. A Maria foi para casa";
+
+		int res = detecter.lastIndexOfCapitalLetter(teste, 21);
+		logger.debug("Posição da úlitma maíscula: " + res);
+
+		// int pos = teste.indexOf(".");
+		// logger.debug("pos:" + pos);
+
+	}
+
+	@Test
 	public void patternFindingSuccessTest() throws IOException {
 		String text = "The European languages are members of the same family. Their separate existence is a myth. For science, music, sport, etc, Europe uses the same vocabulary. The languages only differ in their grammar, their pronunciation and their most common words. Everyone realizes why a new common language would be desirable: one could refuse to pay expensive translators. "
 				+ "To achieve this, it would be necessary to have uniform grammar, pronunciation and more common words. If several languages coalesce, the grammar of the resulting language is more simple and regular than that of the individual languages. The new common language will be more";
-		String pattern = "the languages only differ in their grammar their pronunciation and their most common words. everyone realizes why a new common language would be desirable: ";
+		String pattern = "The languages only differ in their grammar their pronunciation and their most common words. Everyone realizes why a new common language would be desirable:";
 		List<String> result = detecter.patternFinding(text, pattern);
 		logger.debug("Pattern foound: " + result.get(0));
 		assertEquals(pattern, result.get(0));

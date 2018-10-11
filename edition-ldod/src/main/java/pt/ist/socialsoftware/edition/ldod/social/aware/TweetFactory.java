@@ -43,6 +43,7 @@ public class TweetFactory {
 		for (File fileEntry : files) {
 			logger.debug("JSON file name: " + fileEntry.getName());
 			fileTweetCreation(fileEntry);
+
 		}
 		logger.debug("FINISHED TWEET FACTORY!!!");
 	}
@@ -59,6 +60,10 @@ public class TweetFactory {
 			}
 
 			try {
+
+				// verify here if the line tweet ID is bigger than the last twitter id in the
+				// archive
+
 				createTweet(line);
 			} catch (ParseException e1) {
 				logger.debug("Miss the creation of a tweet due to the parse of some of its data");
@@ -75,7 +80,7 @@ public class TweetFactory {
 		bufferedReader.close();
 	}
 
-//	@Atomic(mode = TxMode.WRITE)
+	// @Atomic(mode = TxMode.WRITE)
 	private void createTweet(String line) throws ParseException {
 		LdoD ldoD = LdoD.getInstance();
 		JSONObject obj = (JSONObject) new JSONParser().parse(line);
