@@ -91,6 +91,15 @@ public class CitationDetecter {
 		this.logger.debug("FINISHED IDENTIFYING RANGES!!!");
 
 		printNumberOfCitationsWithIndoRanges();
+
+		this.logger.debug("STARTED REMOVING TWEETS WITHOUT CITATIONS!!!");
+		removeTweetsWithoutCitations();
+		this.logger.debug("FINISHED REMOVING TWEETS WITHOUT CITATIONS!!!");
+	}
+
+	@Atomic(mode = TxMode.WRITE)
+	private void removeTweetsWithoutCitations() {
+		LdoD.getInstance().removeTweetsWithoutCitations();
 	}
 
 	@Atomic

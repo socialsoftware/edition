@@ -120,12 +120,15 @@ public class TweetFactory {
 					twitterCitation = ldoD.getTwitterCitationByTweetID((long) obj.get("tweetID"));
 				}
 
-				// Create tweet
-				logger.debug("GOING TO CREATE A TWEET!!");
-				new Tweet(ldoD, (String) obj.get("tweetURL"), (String) obj.get("date"), tweetTextSubstring,
-						(long) obj.get("tweetID"), (String) obj.get("location"), (String) obj.get("country"),
-						(String) obj.get("username"), (String) obj.get("profURL"), (String) obj.get("profImg"),
-						originalTweetID, isRetweet, twitterCitation);
+				// we only create Tweets that have a Twitter Citation associated
+				if (twitterCitation != null) {
+					// Create tweet
+					logger.debug("GOING TO CREATE A TWEET!!");
+					new Tweet(ldoD, (String) obj.get("tweetURL"), (String) obj.get("date"), tweetTextSubstring,
+							(long) obj.get("tweetID"), (String) obj.get("location"), (String) obj.get("country"),
+							(String) obj.get("username"), (String) obj.get("profURL"), (String) obj.get("profImg"),
+							originalTweetID, isRetweet, twitterCitation);
+				}
 
 			}
 
