@@ -2,11 +2,12 @@ package pt.ist.socialsoftware.edition.ldod.domain;
 
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
@@ -26,10 +27,14 @@ public class ClassificationGame extends ClassificationGame_Base {
 	public static final double SUBMIT_TAG = 1;
 	public static final double VOTE_CHANGE = -1;
 	public static final double SUBMITTER_IS_ROUND_WINNER = 5;
+	public static final double SUBMITTED_LIKE_GAME_WINNER = 5;
 	public static final double SUBMITTER_IS_GAME_WINNER = 10;
 	public static final double VOTED_IN_ROUND_WINNER = 2;
 	public static final double VOTED_IN_GAME_WINNER = 5;
-	private final Map<String, Double> tags = new LinkedHashMap<>();
+
+	public static final int SUBMISSION_ROUND = 1;
+	public static final int VOTING_PARAGRAPH_ROUND = 2;
+	public static final int VOTING_FINAL_ROUND = 3;
 
 	public ClassificationGame(VirtualEdition virtualEdition, String description, DateTime date,
 			VirtualEditionInter inter, LdoDUser user) {
@@ -76,7 +81,8 @@ public class ClassificationGame extends ClassificationGame_Base {
 	public void addParticipant(String username) {
 		LdoDUser user = LdoD.getInstance().getUser(username);
 
-		if (!getOpenAnnotation() && !getVirtualEdition().getActiveMemberSet().contains(user)) {
+		if (!getOpenAnnotation()
+				&& !getVirtualEdition().getActiveMemberSet().stream().anyMatch(m -> m.getUser() == user)) {
 			new LdoDException("User not allowed to play this game.");
 		}
 
@@ -125,8 +131,14 @@ public class ClassificationGame extends ClassificationGame_Base {
 		List<ClassificationGameParticipant> participants = getClassificationGameParticipantSet().stream()
 				.sorted(Comparator.comparing(ClassificationGameParticipant::getScore)).collect(Collectors.toList());
 
-		return participants.stream().collect(
-				Collectors.toMap(p -> p.getPlayer().getUser().getUsername(), ClassificationGameParticipant::getScore));
+		Map<String, Double> result = new HashMap<>();
+		for (ClassificationGameParticipant participant : participants) {
+			if (participant.getPlayer() != null) {
+				result.put(participant.getPlayer().getUser().getUsername(), participant.getScore());
+			}
+		}
+
+		return result;
 	}
 
 	public ClassificationGameParticipant getParticipant(String username) {
@@ -134,102 +146,73 @@ public class ClassificationGame extends ClassificationGame_Base {
 				.filter(p -> p.getPlayer().getUser().getUsername().equals(username)).findFirst().orElse(null);
 	}
 
-	public Set<ClassificationGameRound> getAllRounds() {
-		return getClassificationGameParticipantSet().stream()
-				.map(ClassificationGameParticipant::getClassificationGameRoundSet).flatMap(Set::stream)
-				.collect(Collectors.toSet());
+	public Stream<ClassificationGameRound> getAllRounds() {
+		return getClassificationGameParticipantSet().stream().flatMap(p -> p.getClassificationGameRoundSet().stream());
 	}
 
 	public String getCurrentTagWinner() {
-		return this.tags.entrySet().stream().max(Map.Entry.comparingByValue()).map(Map.Entry::getKey).orElse(null);
+		return getAllRounds().max(Comparator.comparing(ClassificationGameRound::getVote)).orElse(null).getTag();
 	}
 
-	private String getTagWinner() {
-		int limit = getAllRounds().stream().max(Comparator.comparing(ClassificationGameRound::getNumber)).get()
-				.getNumber();
-		return getRoundWinnerTag4Paragraph(limit, 3).getTag();
-	}
-
-	public Map<String, Double> getCurrentTopTags(int limit) {
-		return this.tags.entrySet().stream().sorted(Map.Entry.<String, Double>comparingByValue().reversed())
-				.limit(limit).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+	public Set<String> getCurrentTopTags(int numberOfParagraphs) {
+		return IntStream.range(0, numberOfParagraphs).mapToObj(p -> getRoundWinnerTag4Paragraph(p).getTag()).distinct()
+				.collect(Collectors.toSet());
 	}
 
 	public ClassificationGameParticipant getCurrentParticipantWinner() {
 		String currentTagWinner = getCurrentTagWinner();
-		Set<ClassificationGameRound> roundsByDate = getAllRounds().stream()
-				.sorted(Comparator.comparing(o -> o.getTime().getMillis())).collect(Collectors.toSet());
-		ClassificationGameRound gameRound = roundsByDate.stream()
-				.filter(round -> round.getTag().equals(currentTagWinner)).findFirst().orElse(null);
 
-		return gameRound.getClassificationGameParticipant();
-	}
-
-	public ClassificationGameRound getRound4User(String username, int roundNumber) {
-		return getAllRounds().stream()
-				.filter(r -> r.getClassificationGameParticipant().getPlayer().getUser().getUsername().equals(username)
-						&& r.getNumber() == roundNumber)
-				.findFirst().orElse(null);
-	}
-
-	public void addTag(String tag, double vote) {
-		this.tags.put(tag, vote);
-	}
-
-	public Map<String, Double> getTags() {
-		return this.tags;
+		return getAllRounds().filter(round -> round.getTag().equals(currentTagWinner))
+				.sorted(Comparator.comparing(o -> o.getTime().getMillis())).findFirst().orElse(null)
+				.getClassificationGameParticipant();
 	}
 
 	private ClassificationGameParticipant calculateParticipantsScores() {
-		// String currentTagWinner = getCurrentTagWinner();
 		String tagWinner = getCurrentTagWinner();
 
-		// Map<ClassificationGameParticipant, ClassificationGameRound> roundOneMap =
-		// getRoundMap(currentTagWinner, 1);
-		Map<ClassificationGameParticipant, ClassificationGameRound> roundOneMap = getRoundMap(tagWinner, 1);
+		Set<ClassificationGameRound> roundWinners = getRoundWinners(tagWinner, SUBMISSION_ROUND)
+				.collect(Collectors.toSet());
 
-		// ------------- Round 1 ------------- //
+		// Submission round
 
 		// Participant that has submitted GAME winner tag FIRST than anyone receives +
 		// 10
-		ClassificationGameParticipant gameWinner = roundOneMap.entrySet().stream()
-				.min(Comparator.comparing(e -> e.getValue().getTime().getMillis())).orElse(null).getKey();
+		ClassificationGameParticipant gameWinner = roundWinners.stream()
+				.min(Comparator.comparing(r -> r.getTime().getMillis())).orElse(null)
+				.getClassificationGameParticipant();
 		gameWinner.setScore(gameWinner.getScore() + SUBMITTER_IS_GAME_WINNER);
 
 		// Participant that has submitted GAME winner tag but is NOT the first equals
 		// voter receives + 5
-		roundOneMap.forEach((p, r) -> p.setScore(p.getScore() + VOTED_IN_GAME_WINNER));
+		roundWinners.stream().map(r -> r.getClassificationGameParticipant())
+				.forEach(p -> p.setScore(p.getScore() + SUBMITTED_LIKE_GAME_WINNER));
 
-		// ------------- Round 2 ------------- //
-		int reviewNumber = getAllRounds().stream().max(Comparator.comparing(ClassificationGameRound::getNumber)).get()
-				.getNumber();
-		Map<String, ClassificationGameRound> topRounds = new HashMap<>();
-		for (int i = 0; i < reviewNumber; i++) {
-			ClassificationGameRound r = getRoundWinnerTag4Paragraph(i, 2);
-			if (r != null) {
-				topRounds.put(r.getTag(), r);
+		// Paragraph submission and voting
+		int numberOfParagraphs = getAllRounds()
+				.sorted(Comparator.comparing(ClassificationGameRound::getNumber).reversed()).map(r -> r.getNumber())
+				.findFirst().orElse(0);
+
+		for (int paragraph = 0; paragraph < numberOfParagraphs; paragraph++) {
+			ClassificationGameRound winnerRoundForParagraph = getRoundWinnerTag4Paragraph(paragraph);
+
+			if (winnerRoundForParagraph != null) {
+				// Participant that has submitted ROUND winner tag receives 5
+				getRoundWinnersSubmit4Paragraph(winnerRoundForParagraph.getTag(), paragraph)
+						.map(r -> r.getClassificationGameParticipant())
+						.forEach(p -> p.setScore(p.getScore() + SUBMITTER_IS_ROUND_WINNER));
+
+				// Participants that voted in paragraph winner tag receives + 2
+				getRoundWinnersVoting4Paragraph(winnerRoundForParagraph.getTag(), paragraph)
+						.map(r -> r.getClassificationGameParticipant())
+						.forEach(p -> p.setScore(p.getScore() + VOTED_IN_ROUND_WINNER));
+
 			}
-		}
-
-		for (ClassificationGameRound r : topRounds.values()) {
-			// For each top tag im getting the participants that submitted them
-			Set<ClassificationGameParticipant> topTagsSubmitters = getRoundMap(r.getTag(), 1).keySet();
-
-			// Participant that has submitted ROUND winner tag FIRST than anyone receives +
-			// 5
-			topTagsSubmitters.forEach(p -> p.setScore(p.getScore() + SUBMITTER_IS_ROUND_WINNER));
-
-			// For each top tag im getting the participants that voted in them
-			Set<ClassificationGameParticipant> topTagsVoters = getRoundMap(r.getTag(), 2).keySet();
-
-			// Participant that has voted in ROUND winner tag receives + 2
-			topTagsVoters.forEach(p -> p.setScore(p.getScore() + VOTED_IN_ROUND_WINNER));
 		}
 
 		// ------------- Round 3 ------------- //
 		// Voted on game winner tag + 5
-		Map<ClassificationGameParticipant, ClassificationGameRound> roundThreeMap = getRoundMap(tagWinner, 3);
-		roundThreeMap.forEach((p, r) -> p.setScore(p.getScore() + VOTED_IN_GAME_WINNER));
+		getRoundWinners(tagWinner, VOTING_FINAL_ROUND).map(r -> r.getClassificationGameParticipant())
+				.forEach(p -> p.setScore(p.getScore() + VOTED_IN_GAME_WINNER));
 
 		// Impossible to have bellow zero so every participant gets 1 point
 		getClassificationGameParticipantSet().stream().forEach(p -> p.setScore(p.getScore() < 0 ? 1 : p.getScore()));
@@ -237,15 +220,38 @@ public class ClassificationGame extends ClassificationGame_Base {
 		return gameWinner;
 	}
 
-	private Map<ClassificationGameParticipant, ClassificationGameRound> getRoundMap(String currentTagWinner, int i) {
-		return getAllRounds().stream().filter(round -> round.getTag().equals(currentTagWinner) && round.getRound() == i)
-				.collect(Collectors.toSet()).stream().sorted(Comparator.comparing(r -> r.getTime().getMillis()))
-				.collect(Collectors.toMap(r -> r.getClassificationGameParticipant(), r -> r, (r1, r2) -> r1));
+	private Stream<ClassificationGameRound> getRoundWinners(String tagWinner, int round) {
+		return getAllRounds().filter(r -> r.getTag().equals(tagWinner) && r.getRound() == round)
+				.sorted(Comparator.comparing(r -> r.getTime().getMillis()));
 	}
 
-	public ClassificationGameRound getRoundWinnerTag4Paragraph(int number, int round) {
-		return getAllRounds().stream().filter(r -> r.getNumber() == number && r.getRound() == round)
-				.sorted(Comparator.comparing(o -> o.getTime().getMillis()))
-				.max(Comparator.comparing(ClassificationGameRound::getVote)).orElse(null);
+	private Stream<ClassificationGameRound> getRoundWinnersSubmit4Paragraph(String tagWinner, int paragraph) {
+		return getAllRounds().filter(
+				r -> r.getTag().equals(tagWinner) && r.getNumber() == paragraph && r.getRound() == SUBMISSION_ROUND);
 	}
+
+	private Stream<ClassificationGameRound> getRoundWinnersVoting4Paragraph(String tagWinner, int paragraph) {
+		return getAllRounds().filter(r -> r.getTag().equals(tagWinner) && r.getNumber() == paragraph
+				&& r.getRound() == VOTING_PARAGRAPH_ROUND);
+	}
+
+	private ClassificationGameRound getRoundWinnerTag4Paragraph(int paragraph) {
+		return getAllRounds().filter(r -> r.getNumber() == paragraph && r.getRound() == VOTING_PARAGRAPH_ROUND)
+				.sorted(Comparator.comparing(ClassificationGameRound::getVote).reversed()
+						.thenComparing(Comparator.comparing(o -> o.getTime().getMillis())))
+				.findFirst().orElse(null);
+	}
+
+	public double getVotesForTagInFinalRound(String tag) {
+		return getAllRounds().filter(r -> r.getRound() == VOTING_FINAL_ROUND && r.getTag().equals(tag))
+				.sorted((r1, r2) -> r2.getTime().compareTo(r1.getTime())).map(r -> r.getVote()).findFirst().orElse(0.0);
+	}
+
+	public double getVotesForTagInParagraph(String tag, int paragraph) {
+		return getAllRounds()
+				.filter(r -> r.getNumber() == paragraph && r.getRound() == VOTING_PARAGRAPH_ROUND
+						&& r.getTag().equals(tag))
+				.sorted((r1, r2) -> r2.getTime().compareTo(r1.getTime())).map(r -> r.getVote()).findFirst().orElse(0.0);
+	}
+
 }

@@ -15,7 +15,6 @@ import pt.ist.socialsoftware.edition.ldod.domain.Category;
 import pt.ist.socialsoftware.edition.ldod.domain.Citation;
 import pt.ist.socialsoftware.edition.ldod.domain.ClassificationGame;
 import pt.ist.socialsoftware.edition.ldod.domain.ClassificationGameParticipant;
-import pt.ist.socialsoftware.edition.ldod.domain.ClassificationGameRound;
 import pt.ist.socialsoftware.edition.ldod.domain.Fragment;
 import pt.ist.socialsoftware.edition.ldod.domain.HumanAnnotation;
 import pt.ist.socialsoftware.edition.ldod.domain.InfoRange;
@@ -272,7 +271,7 @@ public class VirtualEditionFragmentsTEIExport {
 	private void exportClassificationGameRounds(Element gameElement, ClassificationGame game) {
 		Element classificationRoundList = new Element("classificationGameRoundList", this.xmlns);
 
-		for (ClassificationGameRound round : game.getAllRounds()) {
+		game.getAllRounds().forEach(round -> {
 			Element roundElement = new Element("classificationGameRound", this.xmlns);
 			roundElement.setAttribute("paragraphNumber", Integer.toString(round.getNumber()));
 			roundElement.setAttribute("roundNumber", Integer.toString(round.getRound()));
@@ -282,7 +281,7 @@ public class VirtualEditionFragmentsTEIExport {
 			roundElement.setAttribute("username",
 					round.getClassificationGameParticipant().getPlayer().getUser().getUsername());
 			classificationRoundList.addContent(roundElement);
-		}
+		});
 		gameElement.addContent(classificationRoundList);
 	}
 

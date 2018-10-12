@@ -6,6 +6,7 @@ import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.joda.time.DateTime;
@@ -28,10 +29,11 @@ import org.springframework.web.bind.annotation.RestController;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.fenixframework.FenixFramework;
-import pt.ist.socialsoftware.edition.ldod.domain.*;
-import pt.ist.socialsoftware.edition.ldod.dto.APIResponse;
+import pt.ist.socialsoftware.edition.ldod.domain.ClassificationGame;
+import pt.ist.socialsoftware.edition.ldod.domain.ClassificationGameParticipant;
+import pt.ist.socialsoftware.edition.ldod.domain.ClassificationGameRound;
+import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
 import pt.ist.socialsoftware.edition.ldod.dto.ClassificationGameDto;
-import pt.ist.socialsoftware.edition.ldod.dto.GameTagDto;
 
 @RestController
 @RequestMapping("/api/services/ldod-game")
@@ -42,7 +44,6 @@ public class ClassificationGameController {
 	private SimpMessagingTemplate broker;
 
 	private final Map<String, ClassificationGameDto> gamesMapDto = new LinkedHashMap<>(100);
-	private final Map<String, List<GameTagDto>> tagsMapDto = new LinkedHashMap<>(100);
 
 	// ------------- REST Methods ------------- //
 
@@ -59,7 +60,6 @@ public class ClassificationGameController {
 		for (ClassificationGameDto gameDto : result) {
 			if (!this.gamesMapDto.containsKey(gameDto.getGameExternalId())) {
 				this.gamesMapDto.put(gameDto.getGameExternalId(), gameDto);
-				this.tagsMapDto.put(gameDto.getGameExternalId(), new ArrayList<>(100));
 			}
 		}
 
@@ -72,8 +72,8 @@ public class ClassificationGameController {
 
 		ClassificationGame game = FenixFramework.getDomainObject(gameId);
 		game.finish();
-		String usernameWinner = game.getClassificationGameParticipantSet().stream().filter
-				(ClassificationGameParticipant::getWinner).findFirst().get().getPlayer().getUser().getUsername();
+		String usernameWinner = game.getClassificationGameParticipantSet().stream()
+				.filter(ClassificationGameParticipant::getWinner).findFirst().get().getPlayer().getUser().getUsername();
 
 		List<Object> response = new ArrayList<>();
 		response.add(usernameWinner);
@@ -170,17 +170,17 @@ public class ClassificationGameController {
 
 		String gameId = payload.get("gameId");
 		Object limit = payload.get("limit");
-		int finalLimit = Integer.parseInt((String) limit);
-		finalLimit = finalLimit == 1 ? 2 : finalLimit;
+		int numberOfParagraphs = Integer.parseInt((String) limit);
+		numberOfParagraphs = numberOfParagraphs == 1 ? 2 : numberOfParagraphs;
 
 		changeGameState(gameId, ClassificationGame.ClassificationGameState.REVIEWING);
-		Map<String, Double> topRounds = getTopTags(gameId, finalLimit);
+		Set<String> topTags = getTopTags(gameId, numberOfParagraphs);
 
 		List<Map<String, String>> response = new ArrayList<>();
 
-		for (Map.Entry<String, Double> e : topRounds.entrySet()) {
+		for (String topTag : topTags) {
 			Map<String, String> map = new LinkedHashMap<>();
-			map.put("tag", e.getKey());
+			map.put("tag", topTag);
 			map.put("vote", String.valueOf(0));
 			response.add(map);
 		}
@@ -226,35 +226,25 @@ public class ClassificationGameController {
 		round.setClassificationGameParticipant(participant);
 		round.setTime(DateTime.now());
 		participant.setScore(participant.getScore() + ClassificationGame.SUBMIT_TAG);
-
-		if (game.getTags().containsKey(tag)) {
-			// if tag exists increment vote
-			game.addTag(tag, game.getTags().get(tag) + 1);
-		} else {
-			// if tag does NOT exists only put vote
-			game.addTag(tag, round.getVote());
-		}
 	}
 
 	@Atomic(mode = TxMode.WRITE)
-	private double saveVote(String gameId, String userId, String tag, double vote, int number) {
+	private double saveVote(String gameId, String userId, String tag, double vote, int paragraph) {
 		ClassificationGame game = FenixFramework.getDomainObject(gameId);
 		ClassificationGameParticipant participant = game.getParticipant(userId);
 		ClassificationGameRound round = new ClassificationGameRound();
 
-		// find tag and vote
-		game.addTag(tag, game.getTags().get(tag) + vote);
-
-		round.setNumber(number);
+		round.setNumber(paragraph);
 
 		if (getGameState(gameId).equals(ClassificationGame.ClassificationGameState.REVIEWING)) {
-			round.setRound(3);
+			round.setRound(ClassificationGame.VOTING_FINAL_ROUND);
+			round.setVote(game.getVotesForTagInFinalRound(tag) + vote);
 		} else if (getGameState(gameId).equals(ClassificationGame.ClassificationGameState.VOTING)) {
-			round.setRound(2);
+			round.setRound(ClassificationGame.VOTING_PARAGRAPH_ROUND);
+			round.setVote(game.getVotesForTagInParagraph(tag, paragraph) + vote);
 		}
 
 		round.setTag(tag);
-		round.setVote(game.getTags().get(tag));
 
 		// Vote changed in review, makes participant receive a -1 penalty
 		if (vote < 0) {
@@ -285,9 +275,9 @@ public class ClassificationGameController {
 	}
 
 	@Atomic(mode = TxMode.READ)
-	private Map<String, Double> getTopTags(String gameId, int limit) {
+	private Set<String> getTopTags(String gameId, int numberOfParagraphs) {
 		ClassificationGame game = FenixFramework.getDomainObject(gameId);
-		return game.getCurrentTopTags(limit);
+		return game.getCurrentTopTags(numberOfParagraphs);
 	}
 
 	@Atomic(mode = TxMode.READ)
