@@ -151,7 +151,8 @@ public class ClassificationGame extends ClassificationGame_Base {
 	}
 
 	public String getCurrentTagWinner() {
-		return getAllRounds().max(Comparator.comparing(ClassificationGameRound::getVote)).orElse(null).getTag();
+		return getAllRounds().max(Comparator.comparing(ClassificationGameRound::getVote)).map(r -> r.getTag())
+				.orElse(null);
 	}
 
 	public Set<String> getCurrentTopTags(int numberOfParagraphs) {
@@ -163,8 +164,8 @@ public class ClassificationGame extends ClassificationGame_Base {
 		String currentTagWinner = getCurrentTagWinner();
 
 		return getAllRounds().filter(round -> round.getTag().equals(currentTagWinner))
-				.sorted(Comparator.comparing(o -> o.getTime().getMillis())).findFirst().orElse(null)
-				.getClassificationGameParticipant();
+				.sorted(Comparator.comparing(o -> o.getTime().getMillis())).findFirst()
+				.map(r -> r.getClassificationGameParticipant()).orElse(null);
 	}
 
 	private ClassificationGameParticipant calculateParticipantsScores() {
@@ -178,8 +179,8 @@ public class ClassificationGame extends ClassificationGame_Base {
 		// Participant that has submitted GAME winner tag FIRST than anyone receives +
 		// 10
 		ClassificationGameParticipant gameWinner = roundWinners.stream()
-				.min(Comparator.comparing(r -> r.getTime().getMillis())).orElse(null)
-				.getClassificationGameParticipant();
+				.min(Comparator.comparing(r -> r.getTime().getMillis())).map(r -> r.getClassificationGameParticipant())
+				.orElse(null);
 		gameWinner.setScore(gameWinner.getScore() + SUBMITTER_IS_GAME_WINNER);
 
 		// Participant that has submitted GAME winner tag but is NOT the first equals
