@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom';
 import Tag from './Tag';
 import Vote from './Vote';
 import Review  from './Review';
-import { WEB_SOCKETS_URL, SUBSCRIBE_URL, APP_PREFIX} from '../utils/Constants';
+import { WEB_SOCKETS_URL, SUBSCRIBE_URL, APP_PREFIX, VOTE_TIME} from '../utils/Constants';
 import { Steps } from 'antd';
 import { Grid, Alert} from 'react-bootstrap';
 import LoadingIndicator  from '../common/LoadingIndicator';
@@ -182,7 +182,7 @@ class Paragrah extends Component {
                 <div>
                 <div style={style}>
                 <ReactCountdownClock 
-                            seconds={15+0.01}
+                            seconds={VOTE_TIME+0.01}
                             color="#2ecc71"
                             size={80}
                             showMilliseconds={false}

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import Paragraph from './Paragraph';
 import { ProgressBar, Grid } from 'react-bootstrap';
+import { TIME_FACTOR } from '../utils/Constants';
 class Fragment extends Component {
     constructor(props) {
         super(props);
@@ -53,7 +54,7 @@ class Fragment extends Component {
         for(var i = 0; i < testInput.length; i++){
             testInput[i] = testInput[i].replace(regex, "").trim();
             var size = testInput[i].length
-            var temp = size >= 181 ? size/5 : 45;
+            var temp = size >= 181 ? size/TIME_FACTOR : 45;
             //var temp = size >= 200 ? 45 + i/largeInt : 30 + i/largeInt;
             secondAndTextTemp[i] = temp;
             totalTime += temp;
