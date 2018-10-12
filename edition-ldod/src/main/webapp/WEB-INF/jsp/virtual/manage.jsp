@@ -237,9 +237,20 @@
 									<spring:message code="criteria.geolocation" /></label> 
 								<input type="hidden" name='geolocation' value=''> ${country}
 								<br>
+								
+						
 								<!-- selects all boxes -->
-								<input type="checkbox" name="select-all" id="select-all" />
-									<spring:message code="criteria.geolocation.everycountry" />
+								<c:choose>
+										<c:when test="${virtualEdition.getGeographicLocation().containsEveryCountry()}">
+											<input type="checkbox" checked name="select-all" id="select-all" />
+												<spring:message code="criteria.geolocation.everycountry" />
+										</c:when>
+										<c:otherwise>
+											<input type="checkbox" name="select-all" id="select-all" />
+												<spring:message code="criteria.geolocation.everycountry" />
+										</c:otherwise>
+								</c:choose>	
+							
 								<br>
 
 								<c:forEach var='country' items='${countriesList}'>
@@ -271,7 +282,7 @@
 							<div class="form-group col-md-2" style="padding-left: 0px">
 								<label class="control-label" for="frequency"><spring:message
 										code="criteria.frequency" /></label> 	
-								<input type="number" value="${virtualEdition.getFrequency().getFrequency()}"
+								<input type="number" min="0" value="${virtualEdition.getFrequency().getFrequency()}"
 									class="form-control tip" name="frequency" id="frequency"
 									placeholder="0"
 									title="<spring:message code="criteria.frequency.manage" />" />

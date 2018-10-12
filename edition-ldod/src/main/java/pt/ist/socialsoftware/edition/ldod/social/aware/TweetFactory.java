@@ -66,14 +66,15 @@ public class TweetFactory {
 
 				createTweet(line);
 			} catch (ParseException e1) {
-				logger.debug("Miss the creation of a tweet due to the parse of some of its data");
+				// logger.debug("Miss the creation of a tweet due to the parse of some of its
+				// data");
 			}
 
 			try {
 				FenixFramework.getTransactionManager().commit();
 			} catch (SecurityException | IllegalStateException | RollbackException | HeuristicMixedException
 					| HeuristicRollbackException | SystemException e) {
-				logger.debug("Miss the creation of a tweet due to the info it contains");
+				// logger.debug("Miss the creation of a tweet due to the info it contains");
 
 			}
 		}
@@ -120,12 +121,15 @@ public class TweetFactory {
 					twitterCitation = ldoD.getTwitterCitationByTweetID((long) obj.get("tweetID"));
 				}
 
-				// Create tweet
-				logger.debug("GOING TO CREATE A TWEET!!");
-				new Tweet(ldoD, (String) obj.get("tweetURL"), (String) obj.get("date"), tweetTextSubstring,
-						(long) obj.get("tweetID"), (String) obj.get("location"), (String) obj.get("country"),
-						(String) obj.get("username"), (String) obj.get("profURL"), (String) obj.get("profImg"),
-						originalTweetID, isRetweet, twitterCitation);
+				// we only create Tweets that have a Twitter Citation associated
+				if (twitterCitation != null) {
+					// Create tweet
+					// logger.debug("GOING TO CREATE A TWEET!!");
+					new Tweet(ldoD, (String) obj.get("tweetURL"), (String) obj.get("date"), tweetTextSubstring,
+							(long) obj.get("tweetID"), (String) obj.get("location"), (String) obj.get("country"),
+							(String) obj.get("username"), (String) obj.get("profURL"), (String) obj.get("profImg"),
+							originalTweetID, isRetweet, twitterCitation);
+				}
 
 			}
 
