@@ -1,5 +1,6 @@
 package pt.ist.socialsoftware.edition.ldod.domain;
 
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -288,14 +289,17 @@ public class LdoD extends LdoD_Base {
 		return res;
 	}
 
+	public List<Citation> getCitationsWithInfoRanges() {
+		DateTimeFormatter formater = DateTimeFormatter.ofPattern("dd-MMM-yyyy HH:mm:ss");
+
+		return LdoD.getInstance().getCitationSet().stream().filter(c -> !c.getInfoRangeSet().isEmpty())
+				.sorted((c1, c2) -> java.time.LocalDateTime.parse(c2.getDate(), formater)
+						.compareTo(java.time.LocalDateTime.parse(c1.getDate(), formater)))
+				.collect(Collectors.toList());
+	}
+
 	public int getNumberOfCitationsWithInfoRanges() {
-		int res = 0;
-		for (Citation citation : LdoD.getInstance().getCitationSet()) {
-			if (!citation.getInfoRangeSet().isEmpty()) {
-				res++;
-			}
-		}
-		return res;
+		return getCitationsWithInfoRanges().size();
 	}
 
 	@Atomic(mode = TxMode.WRITE)
