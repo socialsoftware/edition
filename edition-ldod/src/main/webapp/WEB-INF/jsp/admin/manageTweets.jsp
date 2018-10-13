@@ -37,7 +37,6 @@
 					<td><strong>Date</strong></td>
 					<td><strong>Fragment</strong></td>
 					<td><strong>Source Link</strong></td>
-					<td><strong>Text</strong></td>
 					<td><strong>Info Ranges</strong></td>
 					<td><strong>Number of Annotations</strong></td>
 					<td><strong>Number of Retweets</strong></td>
@@ -47,9 +46,8 @@
 				<c:forEach var="citation" items='${citations}'>
 					<tr>
 						<td>${citation.getDate()}</td>
-						<td>${citation.getFragment().getTitle()}</td>
+						<td><a href="${contextPath}/fragments/fragment/${citation.getFragment().xmlId}">${citation.getFragment().getTitle()}</a></td>
 						<td><a href="${citation.getSourceLink()}" target="_blank">Tweet</a></td>
-						<td>${citation.getFragText()}</td>
 						<td>
 							<c:forEach var="range" items='${citation.getInfoRangeSet()}'>
 								<b>Text:</b> ${range.getText()}, <b>Quote:</b> ${range.getQuote()} <br />
