@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import { WEB_SOCKETS_URL, SUBSCRIBE_URL, APP_PREFIX} from '../utils/Constants';
+import { WEB_SOCKETS_URL, SUBSCRIBE_URL, APP_PREFIX, FINAL_TIME} from '../utils/Constants';
 import Vote  from './Vote';
 import { Steps, Divider } from 'antd';
 import { Grid, Alert} from 'react-bootstrap';
@@ -116,7 +116,7 @@ class Review extends Component {
         return (
             <div>                
                 <div style={style}>
-                        <ReactCountdownClock seconds={30}
+                        <ReactCountdownClock seconds={FINAL_TIME}
                             color="#2ecc71"
                             size={80}
                             showMilliseconds={false}
