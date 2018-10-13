@@ -10,26 +10,57 @@
 	<div class="container">
 		<h3 class="text-center">Manage Tweets</h3>
 		<br /> <br />
-		<form class="form-inline" 
-			method="POST"
+		<form class="form-inline" method="POST"
 			action="${contextPath}/admin/tweets/removeTweets">
-			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" /> 
+			<input type="hidden" name="${_csrf.parameterName}"
+				value="${_csrf.token}" />
 			<button type="submit" class="btn btn-danger btn-sm">
-				<span class="glyphicon glyphicon-remove"></span>
-				Delete Tweets
+				<span class="glyphicon glyphicon-remove"></span> Delete Tweets
+				(${tweets.size()})
 			</button>
 		</form>
-		<br />
-		<br />
-		<form class="form-inline" 
-			method="POST"
+		<br /> <br />
+		<form class="form-inline" method="POST"
 			action="${contextPath}/admin/tweets/removeTweetsWithoutCitation">
-			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" /> 
+			<input type="hidden" name="${_csrf.parameterName}"
+				value="${_csrf.token}" />
 			<button type="submit" class="btn btn-danger btn-sm">
-				<span class="glyphicon glyphicon-remove"></span>
-				Delete Tweets without Citation
+				<span class="glyphicon glyphicon-remove"></span> Delete Tweets
+				without Citation (${tweetsWithoutCitation.size()})
 			</button>
 		</form>
+		<br /> <br />
+		<p>Citations: ${citations.size()}, Citations with info range ${numberOfCitationsWithInfoRange}</p>
+		<table class="table table-striped table-bordered table-condensed">
+			<thead>
+				<tr>
+					<td><strong>Date</strong></td>
+					<td><strong>Fragment</strong></td>
+					<td><strong>Source Link</strong></td>
+					<td><strong>Text</strong></td>
+					<td><strong>Info Ranges</strong></td>
+					<td><strong>Number of Annotations</strong></td>
+					<td><strong>Number of Retweets</strong></td>
+				</tr>
+			</thead>
+			<tbody>
+				<c:forEach var="citation" items='${citations}'>
+					<tr>
+						<td>${citation.getDate()}</td>
+						<td>${citation.getFragment().getTitle()}</td>
+						<td><a href="${citation.getSourceLink()}" target="_blank">Tweet</a></td>
+						<td>${citation.getFragText()}</td>
+						<td>
+							<c:forEach var="range" items='${citation.getInfoRangeSet()}'>
+								<b>Text:</b> ${range.getText()}, <b>Quote:</b> ${range.getQuote()} <br />
+							</c:forEach>
+						</td>
+						<td>${citation.getAwareAnnotationSet().size()}</td>
+						<td>${citation.getNumberOfRetweets()}</td>
+					</tr>
+				</c:forEach>
+			</tbody>
+		</table>
 	</div>
 </body>
 </html>

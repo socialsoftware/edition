@@ -290,7 +290,6 @@ public class LdoD extends LdoD_Base {
 
 	public int getNumberOfCitationsWithInfoRanges() {
 		int res = 0;
-
 		for (Citation citation : LdoD.getInstance().getCitationSet()) {
 			if (!citation.getInfoRangeSet().isEmpty()) {
 				res++;

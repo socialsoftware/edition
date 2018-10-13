@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -626,6 +627,16 @@ public class AdminController {
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public String manageTweets(Model model) {
 		logger.debug("manageTweets");
+		DateTimeFormatter formater = DateTimeFormatter.ofPattern("dd-MMM-yyyy HH:mm:ss");
+		model.addAttribute("citations",
+				LdoD.getInstance().getAllTwitterCitation().stream()
+						.sorted((c1, c2) -> java.time.LocalDateTime.parse(c2.getDate(), formater)
+								.compareTo(java.time.LocalDateTime.parse(c1.getDate(), formater)))
+						.collect(Collectors.toList()));
+		model.addAttribute("tweets", LdoD.getInstance().getTweetSet());
+		model.addAttribute("tweetsWithoutCitation", LdoD.getInstance().getTweetSet().stream()
+				.filter(t -> t.getCitation() == null).collect(Collectors.toSet()));
+		model.addAttribute("numberOfCitationsWithInfoRange", LdoD.getInstance().getNumberOfCitationsWithInfoRanges());
 		return "admin/manageTweets";
 	}
 
