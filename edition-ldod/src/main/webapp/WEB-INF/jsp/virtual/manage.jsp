@@ -282,9 +282,9 @@
 							<div class="form-group col-md-2" style="padding-left: 0px">
 								<label class="control-label" for="frequency"><spring:message
 										code="criteria.frequency" /></label> 	
-								<input type="number" min="0" value="${virtualEdition.getFrequency().getFrequency()}"
+								<input type="number" min="1" value="${virtualEdition.getFrequency().getFrequency()}"
 									class="form-control tip" name="frequency" id="frequency"
-									placeholder="0"
+									placeholder="1"
 									title="<spring:message code="criteria.frequency.manage" />" />
 							</div>
 						</div>
