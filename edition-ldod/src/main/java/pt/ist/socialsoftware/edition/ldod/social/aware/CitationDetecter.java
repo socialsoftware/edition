@@ -552,45 +552,20 @@ public class CitationDetecter {
 			// logger.debug("htmlStart: " + htmlStart);
 			// logger.debug("htmlEnd: " + htmlEnd);
 
-			logger.debug("index of >: " + text.lastIndexOf("\">", start));
-			logger.debug("index of <: " + text.indexOf("<", end));
-
-			logger.debug("\n");
-
-			logger.debug("start: " + start);
-			logger.debug("end: " + end);
-
-			logger.debug("\n");
-
-			logger.debug("last dot: " + text.lastIndexOf(".", start));
-			logger.debug("next dot: " + text.indexOf(".", end));
-
-			logger.debug("\n");
-
-			// new code
-
-			// combination of capital letters + dots
-			// capital letters does not work, everything is lower cased ....
-
-			// String partialStartText = text.substring(0, start);
-			// int lastCapitalLetterPos = lastIndexOfCapitalLetter(text, start);
+			// logger.debug("index of >: " + text.lastIndexOf("\">", start));
+			// logger.debug("index of <: " + text.indexOf("<", end));
 			//
-			// logger.debug("htmlStart original: " + htmlStart);
-			// logger.debug("last index of capital letter: " + lastCapitalLetterPos);
+			// logger.debug("\n");
 			//
-			// if (lastCapitalLetterPos > text.lastIndexOf("\">", start) - 2) {
-			// // para cobrir a frase até à maíuscula
-			// earlyStart = lastCapitalLetterPos - text.lastIndexOf("\">", start) - 2;
-			// logger.debug("earlyStart: " + earlyStart);
-			// htmlStart = earlyStart;
-			// }
+			// logger.debug("start: " + start);
+			// logger.debug("end: " + end);
 			//
-			// if (text.indexOf(".", end) < text.indexOf("<", end)) {
-			// // para cobrir a frase até ao ponto final seguinte é fazer
-			// laterEnd = text.indexOf(".", end) - text.lastIndexOf("\">", start) - 2;
-			// logger.debug("laterEnd: " + laterEnd);
-			// htmlEnd = laterEnd;
-			// }
+			// logger.debug("\n");
+			//
+			// logger.debug("last dot: " + text.lastIndexOf(".", start));
+			// logger.debug("next dot: " + text.indexOf(".", end));
+			//
+			// logger.debug("\n");
 
 			// dots solution
 			earlyStart = htmlStart;
@@ -599,7 +574,7 @@ public class CitationDetecter {
 			if (text.lastIndexOf(".", start) > text.lastIndexOf("\">", start)) {
 				// para cobrir a frase até ao ponto final anterior é fazer
 				earlyStart = text.lastIndexOf(".", start) - text.lastIndexOf("\">", start) - 2;
-				logger.debug("earlyStart: " + earlyStart);
+				// logger.debug("earlyStart: " + earlyStart);
 				// prefix = text.substring(text.lastIndexOf(".", start) + 1, start);
 				// logger.debug("prefix: " + prefix);
 			}
@@ -607,17 +582,17 @@ public class CitationDetecter {
 			if (text.indexOf(".", end) < text.indexOf("<", end)) {
 				// para cobrir a frase até ao ponto final seguinte é fazer
 				laterEnd = text.indexOf(".", end) - text.lastIndexOf("\">", start) - 2;
-				logger.debug("laterEnd: " + laterEnd);
+				// logger.debug("laterEnd: " + laterEnd);
 				// suffix = text.substring(end, text.indexOf(".", end));
 				// logger.debug("suffix: " + suffix);
 			}
 
 		}
 
-		logger.debug("earlyStart: " + earlyStart);
-		logger.debug("laterEnd: " + laterEnd);
-
-		logger.debug("original pattern found: " + patternFound);
+		// logger.debug("earlyStart: " + earlyStart);
+		// logger.debug("laterEnd: " + laterEnd);
+		//
+		// logger.debug("original pattern found: " + patternFound);
 
 		// patternFound = prefix + patternFound + suffix;
 		//
@@ -629,9 +604,9 @@ public class CitationDetecter {
 		String upperPattern = "";
 		if (patternFound != "") {
 			String[] patternSplit = patternFound.split("\\.\\s+");
-			logger.debug("length do split: " + patternSplit.length);
+			// logger.debug("length do split: " + patternSplit.length);
 			for (String s : patternSplit) {
-				logger.debug("string s: " + s);
+				// logger.debug("string s: " + s);
 				upperPattern += this.capitalizeFirstWord(s) + ". ";
 			}
 
@@ -640,7 +615,7 @@ public class CitationDetecter {
 		if (upperPattern != "") {
 			upperPattern = upperPattern.substring(0, upperPattern.length() - 2);
 		}
-		logger.debug("UPPER PATTERN: " + upperPattern);
+		// logger.debug("UPPER PATTERN: " + upperPattern);
 
 		List<String> result = new ArrayList<String>();
 		result.add(upperPattern);

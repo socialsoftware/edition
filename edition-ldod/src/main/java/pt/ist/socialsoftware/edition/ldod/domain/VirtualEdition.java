@@ -710,7 +710,14 @@ public class VirtualEdition extends VirtualEdition_Base {
 	}
 
 	public boolean isSAVE() {
-		if (!this.getCriteriaSet().isEmpty()) {
+		// old version
+		// if (!this.getCriteriaSet().isEmpty()) {
+		// return true;
+		// }
+		// return false;
+
+		// new version
+		if (this.getMediaSource() != null && !this.getMediaSource().getName().equals("noMediaSource")) {
 			return true;
 		}
 		return false;

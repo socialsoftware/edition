@@ -119,9 +119,8 @@ public class AwareAnnotationFactory {
 			Set<SocialMediaCriteria> criteria) {
 		Set<TwitterCitation> totalTwitterCitations = new HashSet<TwitterCitation>();
 		for (Citation tc : inter.getFragment().getCitationSet()) {
-			if (tc instanceof TwitterCitation /* && !tc.getInfoRangeSet().isEmpty() */
-					&& getInfoRangeByVirtualEditionInter(inter, (TwitterCitation) tc) != null
-							& validateCriteria(tc, criteria)) {
+			if (tc instanceof TwitterCitation && getInfoRangeByVirtualEditionInter(inter, (TwitterCitation) tc) != null
+					& validateCriteria(tc, criteria)) {
 				totalTwitterCitations.add((TwitterCitation) tc);
 			}
 		}
@@ -172,21 +171,10 @@ public class AwareAnnotationFactory {
 				}
 
 			} else if (criterion instanceof GeographicLocation) {
-				// old code
-				// if (tc instanceof TwitterCitation
-				// && !((TwitterCitation) tc).getCountry().equals(((GeographicLocation)
-				// criterion).getCountry())) {
-				// isValid = false;
-				// }
-
-				// TODO: new code that splits countries
-				if (!(tc instanceof TwitterCitation
-						&& ((GeographicLocation) criterion).containsCountry(((TwitterCitation) tc).getCountry()))) {
+				if (tc instanceof TwitterCitation && !((GeographicLocation) criterion).containsEveryCountry()
+						&& !((GeographicLocation) criterion).containsCountry(((TwitterCitation) tc).getCountry())) {
 					isValid = false;
 				}
-
-			} else if (criterion instanceof Frequency) {
-				// do nothing, already verfied ...
 			}
 		}
 

@@ -31,6 +31,7 @@ public class LucenePerformance {
 		bufferedReader.close();
 
 		logger.debug("FINISHED BOOK PERFORMANCE ANALYSIS");
+
 	}
 
 	@Atomic(mode = TxMode.WRITE)
@@ -109,21 +110,21 @@ public class LucenePerformance {
 				if (!tc.getInfoRangeSet().isEmpty()) {
 					jaroTP++;
 				} else {
-					logger.debug("Tweet ID: " + id + " is a Jaro FN!!");
+					// logger.debug("Tweet ID: " + id + " is a Jaro FN!!");
 					jaroFN++;
 				}
 			} else if (tc != null && !isCitation) {
 				FP++;
-				// logger.debug("Tweet ID: " + id + " is FP");
+				logger.debug("Tweet ID: " + id + " is FP");
 				if (!tc.getInfoRangeSet().isEmpty()) {
 					jaroFP++;
-					logger.debug("Tweet ID: " + id + " is a Jaro FP!!");
+					// logger.debug("Tweet ID: " + id + " is a Jaro FP!!");
 				} else {
 					jaroTN++;
 				}
 			} else if (tc == null && isCitation) {
 				FN++;
-				// logger.debug("Tweet ID: " + id + " is FN");
+				logger.debug("Tweet ID: " + id + " is FN");
 			} else if (tc == null && !isCitation) {
 				TN++;
 			}
