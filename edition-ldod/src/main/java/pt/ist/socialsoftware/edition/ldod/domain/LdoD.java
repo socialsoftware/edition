@@ -371,4 +371,15 @@ public class LdoD extends LdoD_Base {
 		return new ArrayList<String>(temp.keySet()).indexOf(username) + 1;
 	}
 
+	@Atomic
+	public void manageDailyClassificationGames(DateTime date) {
+		VirtualEdition virtualEdition = LdoD.getInstance().getVirtualEdition("LdoD-JogoClass");
+//		virtuaEdition.g
+//		for (int i = 0; i < 48; i++) {
+//			virtuaEdition.
+//			virtualEdition.createClassificationGame("Jogo de Classificação " + date, date, inter, user);
+//		}
+
+	}
+
 }

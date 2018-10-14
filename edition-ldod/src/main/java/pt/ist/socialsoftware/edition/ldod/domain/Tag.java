@@ -8,7 +8,7 @@ public class Tag extends Tag_Base implements Comparable<Tag> {
 			HumanAnnotation annotation, LdoDUser user) {
 		setInter(inter);
 		Taxonomy taxonomy = virtualEdition.getTaxonomy();
-		Category category = taxonomy.getCategory(categoryName);
+		Category category = taxonomy.getCategory(Category.purgeName(categoryName));
 		if (category == null) {
 			if (taxonomy.getOpenVocabulary()) {
 				category = taxonomy.createCategory(categoryName);
