@@ -25,7 +25,7 @@
 					No Âmbito de uma dissertação de mestrado desenvolvida no Instituto
 					Superior Técnico centrada em Crowdsourcing e Gamification no <em>Arquivo
 						LdoD</em>, foi criado o jogo <em>LdoD Classification</em> ou Jogo de
-					Classifcação do LdoD</em>. O jogo faz uso das edições virtuais do
+					Classificação do LdoD</em>. O jogo faz uso das edições virtuais do
 					Arquivo LdoD, sendo então necessário estar registado para poder
 					jogar e criar jogos. O objectivo é classificar fragmentos de
 					edições virtuais através de vários jogos. Cada jogo corresponde a
@@ -94,7 +94,7 @@
 						fim, e de forma a melhorar o mesmo
 						providenciando uma melhor experiência, responda ao inquérito. O seu feedback é muito precioso para nós!</strong> O inquérito
 					está disponí­vel <a
-						href="https://ldod.uc.pt/classification-game/feedback" target="_blank">aqui.</a>
+						href="https://ldod.uc.pt/classification-game/feedback" target="_blank">aqui</a>,
 					ou aceda à página do jogo e clique no separador Feedback.
 				</p>
 			</div>
