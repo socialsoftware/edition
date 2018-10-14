@@ -29,7 +29,10 @@
 			<tbody>
 				<c:forEach var="citation" items='${citations}'>
 					<tr>
-						<td>${citation.getDate()}</td>
+						<td>
+							<fmt:parseDate value="${citation.getFormatedDate()}" pattern="yyyy-MM-dd'T'HH:mm" var="parsedDateTime" type="both" />
+							<fmt:formatDate pattern="dd-MM-yyyy HH:mm" value="${ parsedDateTime }" />
+						</td>
 						<td><a
 							href="${contextPath}/fragments/fragment/${citation.getFragment().xmlId}">${citation.getFragment().getTitle()}</a></td>
 						<td><a href="${citation.getSourceLink()}" target="_blank">Tweet</a></td>

@@ -1,5 +1,8 @@
 package pt.ist.socialsoftware.edition.ldod.domain;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 public abstract class Citation extends Citation_Base {
 
 	public void init(Fragment fragment, String sourceLink, String date, String fragText) {
@@ -29,4 +32,9 @@ public abstract class Citation extends Citation_Base {
 	}
 
 	public abstract int getNumberOfRetweets();
+
+	public LocalDateTime getFormatedDate() {
+		DateTimeFormatter formater = DateTimeFormatter.ofPattern("dd-MMM-yyyy HH:mm:ss");
+		return LocalDateTime.parse(getDate(), formater);
+	}
 }
