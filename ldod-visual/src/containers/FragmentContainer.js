@@ -1,44 +1,45 @@
 import React, { Component } from 'react';
 import { RepositoryService } from '../services/RepositoryService'
 import Fragment from '../components/Fragment';
+import { addFragment } from "../actions/index";
+import { connect } from "react-redux";
 
-class FragmentContainer extends React.Component {
+const mapStateToProps = state => {
+    return {
+        fragments: state.fragments
+    };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    addFragment: fragment => dispatch(addFragment(fragment))
+  };
+};
+
+class ConnectedFragmentContainer extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-        acronym: 'LdoD-test',
-        fragments: [],
-        transcriptions: [],
-        titleArray: [],
-        textArray: []
+        acronym: 'LdoD-test'
     }
-
-    //invocacao da api dos fragmentos
 
   }
 
   componentDidMount() {
+
     const service = new RepositoryService();
-    service.getTranscriptions(this.state.acronym).then(response => {
-      const transcriptions =  response.data.transcriptions;
-      service.getFragments(this.state.acronym).then(response => {
-        this.setState({
-          transcriptions: transcriptions,
-          fragments: response.data.fragments,
-          titlesArray: response.data.fragments.map(f => f.meta.title),
-          textArray: response.data.fragments.map(f => f.text)
-        })
-      });
+    service.getFragments(this.state.acronym).then(response => {
+        response.data.fragments.map(f => this.props.addFragment( f ) )
     });
+
   }
 
   render() {
       let fragmentToRender;
-      let bla;
 
-      if (this.state.fragments.length>0) {
-        fragmentToRender = <Fragment titleArray={this.state.titlesArray} textArray={this.state.textArray}/>
+      if (this.props.fragments.length>0) {
+        fragmentToRender = <Fragment/>
       } else {
         fragmentToRender = <div></div>
       }
@@ -48,5 +49,7 @@ class FragmentContainer extends React.Component {
     );
   }
 }
+
+const FragmentContainer = connect(mapStateToProps,mapDispatchToProps)(ConnectedFragmentContainer);
 
 export default FragmentContainer;

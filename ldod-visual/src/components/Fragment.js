@@ -3,18 +3,20 @@ import './Fragment.css';
 import { connect } from "react-redux";
 
 const mapStateToProps = state => {
-  return { fragmentIndex: state.fragmentIndex };
+  return {
+    fragmentIndex: state.fragmentIndex,
+    fragments: state.fragments
+  };
 };
 
 export class ConnectedFragment extends React.Component {
 
   render() {
-    const titleArray = this.props.titleArray;
-    const textArray = this.props.textArray;
+    const fragmentsArray = this.props.fragments
     return (
       <div className="box">
-        <h1>{titleArray[this.props.fragmentIndex]}</h1>
-        <p>{textArray[this.props.fragmentIndex]}</p>
+        <h1>{this.props.fragments[this.props.fragmentIndex].meta.title}</h1>
+        <p>{this.props.fragments[this.props.fragmentIndex].text}</p>
       </div>
     );
   }
