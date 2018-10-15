@@ -3,6 +3,7 @@ import axios from 'axios';
 export class RepositoryService {
     constructor() {
         this.axios = axios.create({
+            //baseURL: 'https://ldod.uc.pt',
             baseURL: 'http://localhost:8080',
             timeout: 1000,
             headers: {
