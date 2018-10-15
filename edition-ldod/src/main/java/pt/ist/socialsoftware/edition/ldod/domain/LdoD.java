@@ -372,13 +372,25 @@ public class LdoD extends LdoD_Base {
 	}
 
 	@Atomic
-	public void manageDailyClassificationGames(DateTime date) {
+	public static void manageDailyClassificationGames(DateTime initialDate) {
+		LdoDUser ars = LdoD.getInstance().getUser("ars");
 		VirtualEdition virtualEdition = LdoD.getInstance().getVirtualEdition("LdoD-JogoClass");
-//		virtuaEdition.g
-//		for (int i = 0; i < 48; i++) {
-//			virtuaEdition.
-//			virtualEdition.createClassificationGame("Jogo de Classificação " + date, date, inter, user);
-//		}
+
+		// generate daily games
+		for (int i = 0; i < 92; i++) {
+			int index = (int) Math.floor(Math.random() * virtualEdition.getAllDepthVirtualEditionInters().size());
+			VirtualEditionInter inter = virtualEdition.getAllDepthVirtualEditionInters().stream()
+					.sorted((i1, i2) -> i1.getTitle().compareTo(i2.getTitle())).collect(Collectors.toList()).get(index);
+			DateTime date = initialDate.plusMinutes(15 * i);
+			virtualEdition.createClassificationGame("Jogo de Classificação " + date, date, inter, ars);
+		}
+
+		// delete non-played games
+		for (ClassificationGame game : virtualEdition.getClassificationGameSet()) {
+			if (game.getDateTime().isBefore(initialDate) && game.canBeRemoved()) {
+				game.remove();
+			}
+		}
 
 	}
 

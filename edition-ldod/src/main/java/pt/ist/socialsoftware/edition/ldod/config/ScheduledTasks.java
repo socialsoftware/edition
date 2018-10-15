@@ -36,8 +36,8 @@ public class ScheduledTasks {
 		List<String> gameIds = getGames();
 		for (String id : gameIds) {
 			logger.debug("scheduleGames id {}", id);
-			gameRunner.setGameId(id);
-			new Thread(gameRunner).start();
+			this.gameRunner.setGameId(id);
+			new Thread(this.gameRunner).start();
 		}
 	}
 
@@ -91,4 +91,10 @@ public class ScheduledTasks {
 		// lucenePerformance.runFP();
 		// lucenePerformance.runVicente();
 	}
+
+	@Scheduled(cron = "0 0 6 * * *")
+	public void generateGames() throws IOException {
+		LdoD.manageDailyClassificationGames(DateTime.now());
+	}
+
 }
