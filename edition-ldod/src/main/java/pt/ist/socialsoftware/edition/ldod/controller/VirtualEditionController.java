@@ -308,7 +308,8 @@ public class VirtualEditionController {
 			String intersFilesPath = PropertiesManager.getProperties().getProperty("inters.dir");
 			List<FragmentDTO> fragments = new ArrayList<>();
 
-			for (FragInter inter : virtualEdition.getIntersSet()) {
+			for (FragInter inter : virtualEdition.getIntersSet().stream()
+					.sorted(Comparator.comparing(FragInter::getTitle)).collect(Collectors.toList())) {
 				FragInter lastInter = inter.getLastUsed();
 				String text;
 				try {
@@ -346,7 +347,8 @@ public class VirtualEditionController {
 			String intersFilesPath = PropertiesManager.getProperties().getProperty("inters.dir");
 			List<TranscriptionDTO> transcriptions = new ArrayList<>();
 
-			for (FragInter inter : virtualEdition.getIntersSet()) {
+			for (FragInter inter : virtualEdition.getIntersSet().stream()
+					.sorted(Comparator.comparing(FragInter::getTitle)).collect(Collectors.toList())) {
 				FragInter lastInter = inter.getLastUsed();
 				String title = lastInter.getTitle();
 				String text;
