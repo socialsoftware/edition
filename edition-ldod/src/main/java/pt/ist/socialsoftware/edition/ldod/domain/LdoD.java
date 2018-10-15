@@ -381,8 +381,14 @@ public class LdoD extends LdoD_Base {
 			int index = (int) Math.floor(Math.random() * virtualEdition.getAllDepthVirtualEditionInters().size());
 			VirtualEditionInter inter = virtualEdition.getAllDepthVirtualEditionInters().stream()
 					.sorted((i1, i2) -> i1.getTitle().compareTo(i2.getTitle())).collect(Collectors.toList()).get(index);
-			DateTime date = initialDate.plusMinutes(15 * i);
-			virtualEdition.createClassificationGame("Jogo de Classificação " + date, date, inter, ars);
+			DateTime date = initialDate.plusMinutes(15 * i + 1);
+
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+
+			String formatedDate = java.time.LocalDateTime.of(date.getYear(), date.getMonthOfYear(),
+					date.getDayOfMonth(), date.getHourOfDay(), date.getMinuteOfHour()).format(formatter);
+
+			virtualEdition.createClassificationGame("Jogo de Classificação " + formatedDate, date, inter, ars);
 		}
 
 		// delete non-played games
