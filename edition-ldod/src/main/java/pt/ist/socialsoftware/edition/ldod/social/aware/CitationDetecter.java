@@ -104,7 +104,7 @@ public class CitationDetecter {
 
 	@Atomic
 	private void printNumberOfCitationsWithIndoRanges() {
-		logger.debug(
+		this.logger.debug(
 				"Number of Citations with Info Ranges: " + LdoD.getInstance().getNumberOfCitationsWithInfoRanges());
 	}
 
@@ -240,7 +240,7 @@ public class CitationDetecter {
 
 						String tweetTextWithoutHttp = removeHttpFromTweetText(obj);
 
-						this.logger.debug("GOING TO CREATE A TWITTER CITATION!!");
+						// this.logger.debug("GOING TO CREATE A TWITTER CITATION!!");
 
 						new TwitterCitation(fragment, (String) obj.get("tweetURL"), (String) obj.get("date"),
 								d.get(this.TEXT), tweetTextWithoutHttp, (long) obj.get("tweetID"),
@@ -320,7 +320,7 @@ public class CitationDetecter {
 
 				String infoText = createInfoText(citation);
 
-				logger.debug("GOING TO CREATE AN INFO RANGE");
+				this.logger.debug("GOING TO CREATE AN INFO RANGE");
 
 				new InfoRange(citation, inter, "/div[1]/div[1]/p[" + numOfPStart + "]", htmlStart,
 						"/div[1]/div[1]/p[" + numOfPEnd + "]", htmlEnd, infoQuote, infoText);
@@ -385,10 +385,10 @@ public class CitationDetecter {
 
 			// If apart from first character
 			// Any one is in Upper-case
-			else if (ch[i] >= 'A' && ch[i] <= 'Z')
-
+			else if (ch[i] >= 'A' && ch[i] <= 'Z') {
 				// Convert into Lower-Case
 				ch[i] = (char) (ch[i] + 'a' - 'A');
+			}
 		}
 
 		// Convert the char array to equivalent String
@@ -422,8 +422,8 @@ public class CitationDetecter {
 	}
 
 	public List<String> patternFinding(String text, String tweet) {
-		logger.debug("------------------------------ PATTERN FINDING ALGORITHM-------------------------");
-		logger.debug("ORIGINAL TWEET TEXT: " + tweet);
+//		logger.debug("------------------------------ PATTERN FINDING ALGORITHM-------------------------");
+//		logger.debug("ORIGINAL TWEET TEXT: " + tweet);
 
 		// é chato pôr o text é lowercase pq estamos a adulterar a informação original,
 		// experimentar outra distance em vez do Jaro
@@ -431,7 +431,7 @@ public class CitationDetecter {
 		// o "clean" já mete o tweet em lowerCase
 		tweet = cleanTweetText(tweet);
 
-		logger.debug("CLEANED TWEET TEXT: " + tweet);
+//		this.logger.debug("CLEANED TWEET TEXT: " + tweet);
 
 		// variables updated over iteration
 		int start = -1; // -1 means that the pattern was not found, either for start and end
@@ -721,7 +721,7 @@ public class CitationDetecter {
 		}
 		// caso em q o . vem mesmo no início da frase
 		else if (position == 0) {
-			logger.debug("ENTREI NO IF EM QUE O . VEM NA POSITION 0");
+//			this.logger.debug("ENTREI NO IF EM QUE O . VEM NA POSITION 0");
 			if (s.charAt(position + 1) == ' ') {
 				s = s.substring(position + 1);
 			}

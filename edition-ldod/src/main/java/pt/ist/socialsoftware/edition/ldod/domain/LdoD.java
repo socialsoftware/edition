@@ -227,7 +227,6 @@ public class LdoD extends LdoD_Base {
 				user.addRoles(userRole);
 			}
 		}
-
 	}
 
 	public Set<TwitterCitation> getAllTwitterCitation() {
@@ -377,7 +376,7 @@ public class LdoD extends LdoD_Base {
 		VirtualEdition virtualEdition = LdoD.getInstance().getVirtualEdition("LdoD-JogoClass");
 
 		// generate daily games
-		for (int i = 0; i < 92; i++) {
+		for (int i = 0; i < 96; i++) {
 			int index = (int) Math.floor(Math.random() * virtualEdition.getAllDepthVirtualEditionInters().size());
 			VirtualEditionInter inter = virtualEdition.getAllDepthVirtualEditionInters().stream()
 					.sorted((i1, i2) -> i1.getTitle().compareTo(i2.getTitle())).collect(Collectors.toList()).get(index);
@@ -388,7 +387,7 @@ public class LdoD extends LdoD_Base {
 			String formatedDate = java.time.LocalDateTime.of(date.getYear(), date.getMonthOfYear(),
 					date.getDayOfMonth(), date.getHourOfDay(), date.getMinuteOfHour()).format(formatter);
 
-			virtualEdition.createClassificationGame("Jogo de Classificação " + formatedDate, date, inter, ars);
+			virtualEdition.createClassificationGame("Jogo às " + formatedDate, date, inter, ars);
 		}
 
 		// delete non-played games
