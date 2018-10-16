@@ -373,7 +373,7 @@ public class LdoD extends LdoD_Base {
 	@Atomic
 	public static void manageDailyClassificationGames(DateTime initialDate) {
 		LdoDUser ars = LdoD.getInstance().getUser("ars");
-		VirtualEdition virtualEdition = LdoD.getInstance().getVirtualEdition("LdoD-JogoClass");
+		VirtualEdition virtualEdition = LdoD.getInstance().getVirtualEdition("LdoD-JC");
 
 		// generate daily games
 		for (int i = 0; i < 96; i++) {
@@ -387,7 +387,7 @@ public class LdoD extends LdoD_Base {
 			String formatedDate = java.time.LocalDateTime.of(date.getYear(), date.getMonthOfYear(),
 					date.getDayOfMonth(), date.getHourOfDay(), date.getMinuteOfHour()).format(formatter);
 
-			virtualEdition.createClassificationGame("Jogo às " + formatedDate, date, inter, ars);
+			virtualEdition.createClassificationGame("Jogo " + formatedDate, date, inter, ars);
 		}
 
 		// delete non-played games
