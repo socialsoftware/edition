@@ -2,9 +2,8 @@
   display: flex;
   flex-direction: column;
   font-family: Consolas, monaco, monospace;
-  padding: 100px;
+  padding: 20px;
 }
-
 
 .buttonToolbar {
   display: inline-block;
@@ -18,9 +17,4 @@
 
 Button:not(:last-child){
   margin-right: 20px;
-}
-
-.custom-btn {
-  color: #59ccad;
-  border: 2px solid red;
 }

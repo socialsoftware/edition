@@ -21,7 +21,8 @@ class ConnectedFragmentContainer extends React.Component {
     super(props);
 
     this.state = {
-        acronym: 'LdoD-test'
+        acronym: 'LdoD-test',
+        fragmentsLoaded: false
     }
 
   }
@@ -31,7 +32,11 @@ class ConnectedFragmentContainer extends React.Component {
     const service = new RepositoryService();
     service.getFragments(this.state.acronym).then(response => {
         response.data.fragments.map(f => this.props.addFragment( f ) )
+        this.setState(prevState => ({
+          fragmentsLoaded: !prevState.check
+        }));
     });
+
 
   }
 
@@ -39,6 +44,7 @@ class ConnectedFragmentContainer extends React.Component {
       let fragmentToRender;
 
       if (this.props.fragments.length>0) {
+        //alert(this.props.fragments.length)
         fragmentToRender = <Fragment/>
       } else {
         fragmentToRender = <div></div>
