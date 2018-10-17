@@ -18,3 +18,9 @@
 Button:not(:last-child){
   margin-right: 20px;
 }
+
+.custom-modal-config{
+    width: 50%;
+    height: 50;
+    padding: 150px;
+}
