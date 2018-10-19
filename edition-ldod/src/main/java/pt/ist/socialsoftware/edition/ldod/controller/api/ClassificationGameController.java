@@ -14,6 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
@@ -47,7 +48,7 @@ public class ClassificationGameController {
 
 	// ------------- REST Methods ------------- //
 
-	@GetMapping("/{username}/active")
+	@GetMapping(value = "/{username}/active", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@PreAuthorize("hasPermission(#username, 'user.logged')")
 	public @ResponseBody ResponseEntity<List<ClassificationGameDto>> getActiveGames(
 			@PathVariable(value = "username") String username) {

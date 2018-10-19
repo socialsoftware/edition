@@ -380,7 +380,7 @@ public class LdoD extends LdoD_Base {
 			int index = (int) Math.floor(Math.random() * virtualEdition.getAllDepthVirtualEditionInters().size());
 			VirtualEditionInter inter = virtualEdition.getAllDepthVirtualEditionInters().stream()
 					.sorted((i1, i2) -> i1.getTitle().compareTo(i2.getTitle())).collect(Collectors.toList()).get(index);
-			DateTime date = initialDate.plusMinutes(15 * i + 1);
+			DateTime date = initialDate.plusMinutes(15 * (i + 48));
 
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
 

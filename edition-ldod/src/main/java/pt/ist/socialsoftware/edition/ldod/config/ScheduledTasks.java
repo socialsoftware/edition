@@ -92,7 +92,7 @@ public class ScheduledTasks {
 		// lucenePerformance.runVicente();
 	}
 
-	@Scheduled(cron = "0 45 5 * * *")
+	@Scheduled(cron = "0 0 12 * * *")
 	public void generateGames() throws IOException {
 		LdoD.manageDailyClassificationGames(DateTime.now());
 	}
