@@ -23,7 +23,6 @@ import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.ldod.dto.FragmentDto;
-import pt.ist.socialsoftware.edition.ldod.dto.FragmentMetaInfoDto;
 import pt.ist.socialsoftware.edition.ldod.dto.InterDistancePairDto;
 import pt.ist.socialsoftware.edition.ldod.dto.WeightsDto;
 import pt.ist.socialsoftware.edition.ldod.recommendation.VSMVirtualEditionInterRecommender;
@@ -716,9 +715,7 @@ public class VirtualEdition extends VirtualEdition_Base {
 				throw new LdoDException("VirtualEditionController::getTranscriptions IOException");
 			}
 
-			FragmentDto fragment = new FragmentDto();
-			fragment.setMeta(new FragmentMetaInfoDto(inter));
-			fragment.setText(text);
+			FragmentDto fragment = new FragmentDto(inter, text);
 
 			fragments.add(fragment);
 		}
