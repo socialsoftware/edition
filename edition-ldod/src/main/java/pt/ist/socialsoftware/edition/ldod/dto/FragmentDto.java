@@ -1,31 +1,17 @@
 package pt.ist.socialsoftware.edition.ldod.dto;
 
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
-
-public class FragmentDto {
-	private String interId;
-	private FragmentMetaInfoDto meta;
+public class FragmentDTO {
+	private FragmentMetaInfoDTO meta;
 	String text;
 
-	public FragmentDto(VirtualEditionInter inter, String text) {
-		this.interId = inter.getExternalId();
-		this.meta = new FragmentMetaInfoDto(inter);
-		this.text = text;
+	public FragmentDTO() {
 	}
 
-	public String getInterId() {
-		return this.interId;
-	}
-
-	public void setInterId(String interId) {
-		this.interId = interId;
-	}
-
-	public FragmentMetaInfoDto getMeta() {
+	public FragmentMetaInfoDTO getMeta() {
 		return this.meta;
 	}
 
-	public void setMeta(FragmentMetaInfoDto meta) {
+	public void setMeta(FragmentMetaInfoDTO meta) {
 		this.meta = meta;
 	}
 
