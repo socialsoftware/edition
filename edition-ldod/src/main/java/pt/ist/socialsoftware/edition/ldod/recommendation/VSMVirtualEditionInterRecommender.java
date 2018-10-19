@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
-import pt.ist.socialsoftware.edition.ldod.dto.InterDistancePairDto;
 import pt.ist.socialsoftware.edition.ldod.recommendation.properties.Property;
 
 public class VSMVirtualEditionInterRecommender extends VSMRecommender<VirtualEditionInter> {
@@ -27,38 +26,6 @@ public class VSMVirtualEditionInterRecommender extends VSMRecommender<VirtualEdi
 		cluster.buildCluster();
 		cluster.print();
 		return cluster;
-	}
-
-	public List<InterDistancePairDto> getMostSimilarItemsAsListOfPairs(VirtualEditionInter virtualEditionInter,
-			List<VirtualEditionInter> inters, List<Property> properties) {
-		List<InterDistancePairDto> result = new ArrayList<>();
-		VirtualEditionInter nextItem = virtualEditionInter;
-		while (!inters.isEmpty()) {
-			InterDistancePairDto pair = getMostSimilarInterPairDto(nextItem, inters, properties);
-			result.add(pair);
-			nextItem = pair.getInter();
-			inters.remove(nextItem);
-		}
-
-		return result;
-	}
-
-	private InterDistancePairDto getMostSimilarInterPairDto(VirtualEditionInter item, List<VirtualEditionInter> inters,
-			List<Property> properties) {
-		VirtualEditionInter nextInter = null;
-		double max = Double.NEGATIVE_INFINITY;
-		double similarity;
-		for (VirtualEditionInter otherItem : inters) {
-			if (otherItem != item) {
-				similarity = calculateSimilarity(item, otherItem, properties);
-				if (similarity > max) {
-					nextInter = otherItem;
-					max = similarity;
-				}
-			}
-		}
-
-		return new InterDistancePairDto(nextInter, max);
 	}
 
 }

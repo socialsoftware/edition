@@ -647,11 +647,17 @@ public class VirtualEdition extends VirtualEdition_Base {
 		inters.remove(virtualEditionInter);
 
 		List<InterDistancePairDto> recommendedEdition = new ArrayList<>();
-		recommendedEdition.add(new InterDistancePairDto(virtualEditionInter, 0.0d));
-		recommendedEdition.addAll(recommender.getMostSimilarItemsAsListOfPairs(virtualEditionInter, inters,
-				weights.getProperties(virtualEditionInter.getVirtualEdition())));
 
-		return recommendedEdition;
+		recommendedEdition.add(new InterDistancePairDto(virtualEditionInter, 0.0d));
+		List<Property> properties = weights.getProperties(virtualEditionInter.getVirtualEdition());
+		for (VirtualEditionInter inter : inters) {
+			recommendedEdition.add(new InterDistancePairDto(inter,
+					recommender.calculateSimilarity(virtualEditionInter, inter, properties)));
+
+		}
+
+		return recommendedEdition.stream().sorted((p1, p2) -> Double.compare(p1.getDistance(), p2.getDistance()))
+				.collect(Collectors.toList());
 	}
 
 	public List<VirtualEditionInter> generateRecommendation(VirtualEditionInter inter,
