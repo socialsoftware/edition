@@ -5,6 +5,7 @@ import FragmentContainer from './containers/FragmentContainer'
 import { setFragmentIndex } from "./actions/index";
 import { connect } from "react-redux";
 import { Button, ButtonToolbar, Modal } from 'react-bootstrap'
+import ActivityMenu from './components/ActivityMenu'
 
 
 const mapStateToProps = state => {
@@ -134,18 +135,15 @@ class ConnectedApp extends Component {
 
         </Modal>
 
+
         <Modal show={this.state.showConfig} onHide={this.handleCloseConfig} dialogClassName="custom-modal">
+
           <Modal.Header closeButton>
             <Modal.Title>Configuração</Modal.Title>
           </Modal.Header>
 
           <Modal.Body>
-            <p>
-              Configuração configuração configuração configuração configuração configuração configuração configuração configuração
-              configuração configuração configuração configuração configuração configuração configuração configuração configuração
-              configuração configuração configuração configuração configuração configuração configuração configuração configuração
-              configuração configuração configuração configuração configuração configuração configuração configuração.
-            </p>
+              <ActivityMenu/>
 
           </Modal.Body>
 

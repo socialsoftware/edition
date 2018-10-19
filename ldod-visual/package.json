@@ -9,7 +9,9 @@
     "react-dom": "^16.5.2",
     "react-jss": "^8.6.1",
     "react-modal": "^3.6.1",
-    "react-scripts": "1.1.5"
+    "react-scripts": "1.1.5",
+    "vis": "^4.21.0",
+    "vis-react": "^0.4.0"
   },
   "scripts": {
     "start": "react-scripts start",
