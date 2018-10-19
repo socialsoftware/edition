@@ -43,6 +43,7 @@ public class TweetFactory {
 		for (File fileEntry : files) {
 			logger.debug("JSON file name: " + fileEntry.getName());
 			fileTweetCreation(fileEntry);
+
 		}
 		logger.debug("FINISHED TWEET FACTORY!!!");
 	}
@@ -59,23 +60,28 @@ public class TweetFactory {
 			}
 
 			try {
+
+				// verify here if the line tweet ID is bigger than the last twitter id in the
+				// archive
+
 				createTweet(line);
 			} catch (ParseException e1) {
-				logger.debug("Miss the creation of a tweet due to the parse of some of its data");
+				// logger.debug("Miss the creation of a tweet due to the parse of some of its
+				// data");
 			}
 
 			try {
 				FenixFramework.getTransactionManager().commit();
 			} catch (SecurityException | IllegalStateException | RollbackException | HeuristicMixedException
 					| HeuristicRollbackException | SystemException e) {
-				logger.debug("Miss the creation of a tweet due to the info it contains");
+				// logger.debug("Miss the creation of a tweet due to the info it contains");
 
 			}
 		}
 		bufferedReader.close();
 	}
 
-//	@Atomic(mode = TxMode.WRITE)
+	// @Atomic(mode = TxMode.WRITE)
 	private void createTweet(String line) throws ParseException {
 		LdoD ldoD = LdoD.getInstance();
 		JSONObject obj = (JSONObject) new JSONParser().parse(line);
@@ -115,12 +121,15 @@ public class TweetFactory {
 					twitterCitation = ldoD.getTwitterCitationByTweetID((long) obj.get("tweetID"));
 				}
 
-				// Create tweet
-				logger.debug("GOING TO CREATE A TWEET!!");
-				new Tweet(ldoD, (String) obj.get("tweetURL"), (String) obj.get("date"), tweetTextSubstring,
-						(long) obj.get("tweetID"), (String) obj.get("location"), (String) obj.get("country"),
-						(String) obj.get("username"), (String) obj.get("profURL"), (String) obj.get("profImg"),
-						originalTweetID, isRetweet, twitterCitation);
+				// we only create Tweets that have a Twitter Citation associated
+				if (twitterCitation != null) {
+					// Create tweet
+					// logger.debug("GOING TO CREATE A TWEET!!");
+					new Tweet(ldoD, (String) obj.get("tweetURL"), (String) obj.get("date"), tweetTextSubstring,
+							(long) obj.get("tweetID"), (String) obj.get("location"), (String) obj.get("country"),
+							(String) obj.get("username"), (String) obj.get("profURL"), (String) obj.get("profImg"),
+							originalTweetID, isRetweet, twitterCitation);
+				}
 
 			}
 

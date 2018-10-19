@@ -15,7 +15,6 @@ public class AwareAnnotation extends AwareAnnotation_Base {
 	@Atomic(mode = TxMode.WRITE)
 	public void remove() {
 		setCitation(null);
-		setUser(null);
 
 		super.remove();
 	}

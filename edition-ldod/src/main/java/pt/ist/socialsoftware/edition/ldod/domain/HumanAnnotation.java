@@ -35,7 +35,6 @@ public class HumanAnnotation extends HumanAnnotation_Base {
 	@Override
 	@Atomic(mode = TxMode.WRITE)
 	public void remove() {
-		setUser(null);
 		setStartText(null);
 		setEndText(null);
 		for (Tag tag : getTagSet()) {

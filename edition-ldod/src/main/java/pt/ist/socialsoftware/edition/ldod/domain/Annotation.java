@@ -14,6 +14,8 @@ public abstract class Annotation extends Annotation_Base {
 
 	@Atomic(mode = TxMode.WRITE)
 	public void remove() {
+		setUser(null);
+
 		for (Range range : getRangeSet()) {
 			range.remove();
 		}

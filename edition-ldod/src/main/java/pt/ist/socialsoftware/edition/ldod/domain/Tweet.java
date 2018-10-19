@@ -29,7 +29,9 @@ public class Tweet extends Tweet_Base {
 
 	public void remove() {
 		setLdoD(null);
-		setCitation(null);
+		if (getCitation() != null) {
+			getCitation().remove();
+		}
 
 		deleteDomainObject();
 	}

@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringEscapeUtils;
+import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,8 +22,10 @@ import org.slf4j.LoggerFactory;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.fenixframework.FenixFramework;
-import pt.ist.socialsoftware.edition.ldod.dto.FragmentDTO;
-import pt.ist.socialsoftware.edition.ldod.dto.FragmentMetaInfoDTO;
+import pt.ist.socialsoftware.edition.ldod.dto.FragmentDto;
+import pt.ist.socialsoftware.edition.ldod.dto.FragmentMetaInfoDto;
+import pt.ist.socialsoftware.edition.ldod.dto.InterDistancePairDto;
+import pt.ist.socialsoftware.edition.ldod.dto.WeightsDto;
 import pt.ist.socialsoftware.edition.ldod.recommendation.VSMVirtualEditionInterRecommender;
 import pt.ist.socialsoftware.edition.ldod.recommendation.properties.Property;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
@@ -94,6 +97,8 @@ public class VirtualEdition extends VirtualEdition_Base {
 		}
 
 		setLdoD4Virtual(null);
+
+		getClassificationGameSet().stream().forEach(g -> g.remove());
 
 		getTaxonomy().remove();
 
@@ -636,6 +641,20 @@ public class VirtualEdition extends VirtualEdition_Base {
 		return false;
 	}
 
+	public List<InterDistancePairDto> getIntersByDistance(VirtualEditionInter virtualEditionInter, WeightsDto weights) {
+		List<VirtualEditionInter> inters = getAllDepthVirtualEditionInters();
+		VSMVirtualEditionInterRecommender recommender = new VSMVirtualEditionInterRecommender();
+
+		inters.remove(virtualEditionInter);
+
+		List<InterDistancePairDto> recommendedEdition = new ArrayList<>();
+		recommendedEdition.add(new InterDistancePairDto(virtualEditionInter, 0.0d));
+		recommendedEdition.addAll(recommender.getMostSimilarItemsAsListOfPairs(virtualEditionInter, inters,
+				weights.getProperties(virtualEditionInter.getVirtualEdition())));
+
+		return recommendedEdition;
+	}
+
 	public List<VirtualEditionInter> generateRecommendation(VirtualEditionInter inter,
 			RecommendationWeights recommendationWeights) {
 		List<VirtualEditionInter> inters = getAllDepthVirtualEditionInters();
@@ -685,10 +704,10 @@ public class VirtualEdition extends VirtualEdition_Base {
 	 * 
 	 * @return List of FragmentDTO of the Virtual Edition
 	 */
-	public List<FragmentDTO> buildEditionDTO() {
-		List<FragmentDTO> fragments = new ArrayList<>();
+	public List<FragmentDto> buildEditionDTO() {
+		List<FragmentDto> fragments = new ArrayList<>();
 		String intersFilesPath = PropertiesManager.getProperties().getProperty("inters.dir");
-		for (FragInter inter : this.getIntersSet()) {
+		for (VirtualEditionInter inter : this.getAllDepthVirtualEditionInters()) {
 			FragInter lastInter = inter.getLastUsed();
 			String text;
 			try {
@@ -697,8 +716,8 @@ public class VirtualEdition extends VirtualEdition_Base {
 				throw new LdoDException("VirtualEditionController::getTranscriptions IOException");
 			}
 
-			FragmentDTO fragment = new FragmentDTO();
-			fragment.setMeta(new FragmentMetaInfoDTO(lastInter));
+			FragmentDto fragment = new FragmentDto();
+			fragment.setMeta(new FragmentMetaInfoDto(inter));
 			fragment.setText(text);
 
 			fragments.add(fragment);
@@ -707,7 +726,14 @@ public class VirtualEdition extends VirtualEdition_Base {
 	}
 
 	public boolean isSAVE() {
-		if (!this.getCriteriaSet().isEmpty()) {
+		// old version
+		// if (!this.getCriteriaSet().isEmpty()) {
+		// return true;
+		// }
+		// return false;
+
+		// new version
+		if (this.getMediaSource() != null && !this.getMediaSource().getName().equals("noMediaSource")) {
 			return true;
 		}
 		return false;
@@ -747,6 +773,11 @@ public class VirtualEdition extends VirtualEdition_Base {
 			}
 		}
 		return null;
+	}
+
+	@Atomic(mode = TxMode.WRITE)
+	public void createClassificationGame(String description, DateTime date, VirtualEditionInter inter, LdoDUser user) {
+		new ClassificationGame(this, description, date, inter, user);
 	}
 
 }

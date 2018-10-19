@@ -36,9 +36,11 @@
 							<br>
 							<a href="${annotation.getProfileURL()}">profile</a>
 							<br>
-							Date: ${annotation.getDate()}
-							<br>
-							Country: ${annotation.getCountry()}
+							${annotation.getDate()}
+							<c:if test="${annotation.getCountry() != 'unknown'}">
+								<br>
+								Country: ${annotation.getCountry()}
+							</c:if>
 						</td>
 				    </c:otherwise>
 				</c:choose>

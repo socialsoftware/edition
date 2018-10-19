@@ -48,6 +48,8 @@ public class AwareAnnotationFactory {
 	// método invocado também quando se edita uma nova SAVE
 	@Atomic(mode = TxMode.WRITE)
 	public void searchForAwareAnnotations(VirtualEdition ve) {
+		logger.debug("STARTED AWARE FACTORY");
+
 		Set<SocialMediaCriteria> criteria = ve.getCriteriaSet();
 
 		for (VirtualEditionInter inter : ve.getAllDepthVirtualEditionInters()) {
@@ -67,6 +69,8 @@ public class AwareAnnotationFactory {
 				createAwareAnnotation(inter, newCitation);
 			}
 		}
+
+		logger.debug("ENDED AWARE FACTORY");
 	}
 
 	// método responsável por criar aware annotation no vei com meta informação
@@ -74,6 +78,8 @@ public class AwareAnnotationFactory {
 	public void createAwareAnnotation(VirtualEditionInter vei, TwitterCitation tc) {
 
 		InfoRange infoRange = getInfoRangeByVirtualEditionInter(vei, tc);
+
+		logger.debug("GOING TO CREATE AN AWARE ANNOTATION!!");
 
 		AwareAnnotation annotation = new AwareAnnotation(vei, infoRange.getQuote(), infoRange.getText(), tc);
 
@@ -113,9 +119,8 @@ public class AwareAnnotationFactory {
 			Set<SocialMediaCriteria> criteria) {
 		Set<TwitterCitation> totalTwitterCitations = new HashSet<TwitterCitation>();
 		for (Citation tc : inter.getFragment().getCitationSet()) {
-			if (tc instanceof TwitterCitation /* && !tc.getInfoRangeSet().isEmpty() */
-					&& getInfoRangeByVirtualEditionInter(inter, (TwitterCitation) tc) != null
-							& validateCriteria(tc, criteria)) {
+			if (tc instanceof TwitterCitation && getInfoRangeByVirtualEditionInter(inter, (TwitterCitation) tc) != null
+					& validateCriteria(tc, criteria)) {
 				totalTwitterCitations.add((TwitterCitation) tc);
 			}
 		}
@@ -166,21 +171,10 @@ public class AwareAnnotationFactory {
 				}
 
 			} else if (criterion instanceof GeographicLocation) {
-				// old code
-				// if (tc instanceof TwitterCitation
-				// && !((TwitterCitation) tc).getCountry().equals(((GeographicLocation)
-				// criterion).getCountry())) {
-				// isValid = false;
-				// }
-
-				// TODO: new code that splits countries
-				if (!(tc instanceof TwitterCitation
-						&& ((GeographicLocation) criterion).containsCountry(((TwitterCitation) tc).getCountry()))) {
+				if (tc instanceof TwitterCitation && !((GeographicLocation) criterion).containsEveryCountry()
+						&& !((GeographicLocation) criterion).containsCountry(((TwitterCitation) tc).getCountry())) {
 					isValid = false;
 				}
-
-			} else if (criterion instanceof Frequency) {
-				// do nothing, already verfied ...
 			}
 		}
 

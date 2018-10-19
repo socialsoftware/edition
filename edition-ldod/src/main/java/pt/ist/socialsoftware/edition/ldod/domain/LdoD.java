@@ -1,7 +1,12 @@
 package pt.ist.socialsoftware.edition.ldod.domain;
 
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -222,7 +227,6 @@ public class LdoD extends LdoD_Base {
 				user.addRoles(userRole);
 			}
 		}
-
 	}
 
 	public Set<TwitterCitation> getAllTwitterCitation() {
@@ -271,4 +275,128 @@ public class LdoD extends LdoD_Base {
 	public Citation getCitationById(long id) {
 		return getCitationSet().stream().filter(citation -> citation.getId() == id).findFirst().orElse(null);
 	}
+
+	public long getLastTwitterCitationId() {
+		long res = 0;
+		for (Citation c : this.getCitationSet()) {
+			if (c instanceof TwitterCitation) {
+				if (((TwitterCitation) c).getTweetID() > res) {
+					res = ((TwitterCitation) c).getTweetID();
+				}
+			}
+		}
+		return res;
+	}
+
+	public List<Citation> getCitationsWithInfoRanges() {
+		DateTimeFormatter formater = DateTimeFormatter.ofPattern("dd-MMM-yyyy HH:mm:ss");
+
+		return LdoD.getInstance().getCitationSet().stream().filter(c -> !c.getInfoRangeSet().isEmpty())
+				.sorted((c1, c2) -> java.time.LocalDateTime.parse(c2.getDate(), formater)
+						.compareTo(java.time.LocalDateTime.parse(c1.getDate(), formater)))
+				.collect(Collectors.toList());
+	}
+
+	public int getNumberOfCitationsWithInfoRanges() {
+		return getCitationsWithInfoRanges().size();
+	}
+
+	@Atomic(mode = TxMode.WRITE)
+	public void removeTweets() {
+		System.out.print("dkjlhfklsdhfklhdkjfhdskjhfkljadshfkjdshfkjldhfkjhdkjhdsjkf");
+
+		getTweetSet().forEach(t -> t.remove());
+	}
+
+	@Atomic(mode = TxMode.WRITE)
+	public void removeTweetsWithoutCitations() {
+		getTweetSet().forEach(t -> {
+			if (t.getCitation() == null) {
+				t.remove();
+			}
+		});
+	}
+
+	public List<VirtualEdition> getVirtualEditions4User(String username) {
+		LdoDUser user = getUser(username);
+		return LdoD.getInstance().getVirtualEditionsSet().stream()
+				.filter(virtualEdition -> virtualEdition.getParticipantList().contains(user))
+				.collect(Collectors.toList());
+
+	}
+
+	public Set<ClassificationGame> getPublicClassificationGames() {
+		return getVirtualEditionsSet().stream().flatMap(virtualEdition -> virtualEdition.getClassificationGameSet()
+				.stream().filter(c -> c.getOpenAnnotation() && c.isActive())).collect(Collectors.toSet());
+	}
+
+	public Set<ClassificationGame> getActiveGames4User(String username) {
+		Set<VirtualEdition> virtualEditions4User = new HashSet<VirtualEdition>(getVirtualEditions4User(username));
+		Set<ClassificationGame> classificationGamesOfUser = virtualEditions4User.stream()
+				.flatMap(virtualEdition -> virtualEdition.getClassificationGameSet().stream()
+						.filter(ClassificationGame::isActive))
+				.collect(Collectors.toSet());
+
+		Set<ClassificationGame> allClassificationGames4User = new HashSet<>(getPublicClassificationGames());
+		allClassificationGames4User.addAll(classificationGamesOfUser);
+		return allClassificationGames4User;
+
+	}
+
+	public Map<String, Double> getOverallLeaderboard() {
+		List<Map<String, Double>> collect = LdoD.getInstance().getVirtualEditionsSet().stream()
+				.flatMap(v -> v.getClassificationGameSet().stream().map(g -> g.getLeaderboard()))
+				.collect(Collectors.toList());
+		Map<String, Double> result = new LinkedHashMap<>();
+		for (Map<String, Double> m : collect) {
+			for (Map.Entry<String, Double> e : m.entrySet()) {
+				String key = e.getKey();
+				Double value = result.get(key);
+				result.put(key, value == null ? e.getValue() : e.getValue() + value);
+			}
+		}
+		return result;
+	}
+
+	public int getOverallUserPosition(String username) {
+		if (!getOverallLeaderboard().containsKey(username)) {
+			return -1;
+		}
+
+		Map<String, Double> temp = getOverallLeaderboard().entrySet().stream()
+				.sorted(Collections.reverseOrder(Map.Entry.comparingByValue()))
+				.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e2, LinkedHashMap::new));
+
+		return new ArrayList<String>(temp.keySet()).indexOf(username) + 1;
+	}
+
+	@Atomic
+	public static void manageDailyClassificationGames(DateTime initialDate) {
+		LdoDUser ars = LdoD.getInstance().getUser("ars");
+		VirtualEdition virtualEdition = LdoD.getInstance().getVirtualEdition("LdoD-JC");
+
+		// generate daily games
+		for (int i = 0; i < 96; i++) {
+			int index = (int) Math.floor(Math.random() * virtualEdition.getAllDepthVirtualEditionInters().size());
+			VirtualEditionInter inter = virtualEdition.getAllDepthVirtualEditionInters().stream()
+					.sorted((i1, i2) -> i1.getTitle().compareTo(i2.getTitle())).collect(Collectors.toList()).get(index);
+			DateTime date = initialDate.plusMinutes(15 * (i + 48));
+
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+
+			String formatedDate = java.time.LocalDateTime.of(date.getYear(), date.getMonthOfYear(),
+					date.getDayOfMonth(), date.getHourOfDay(), date.getMinuteOfHour()).format(formatter);
+
+			virtualEdition.createClassificationGame("Jogo " + formatedDate, date, inter, ars);
+		}
+
+		// delete non-played games
+		for (ClassificationGame game : virtualEdition.getClassificationGameSet()) {
+			if (game.getDateTime().isBefore(initialDate) && game.canBeRemoved()) {
+				game.remove();
+			}
+		}
+
+	}
+
 }
