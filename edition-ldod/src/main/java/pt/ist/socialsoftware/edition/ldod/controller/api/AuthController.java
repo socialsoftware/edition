@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import pt.ist.socialsoftware.edition.ldod.dto.JWTAuthenticationDTO;
+import pt.ist.socialsoftware.edition.ldod.dto.JWTAuthenticationDto;
 import pt.ist.socialsoftware.edition.ldod.dto.LdoDUserDto;
 import pt.ist.socialsoftware.edition.ldod.security.jwt.JWTTokenProvider;
 
@@ -33,14 +33,14 @@ public class AuthController {
 	JWTTokenProvider tokenProvider;
 
 	@PostMapping("/signin")
-	public ResponseEntity<JWTAuthenticationDTO> authenticateUser(@Valid @RequestBody LdoDUserDto loginRequest) {
+	public ResponseEntity<JWTAuthenticationDto> authenticateUser(@Valid @RequestBody LdoDUserDto loginRequest) {
 		try {
 			Authentication authentication = this.authenticationManager.authenticate(
 					new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
 			SecurityContextHolder.getContext().setAuthentication(authentication);
 
 			String jwt = this.tokenProvider.generateToken(authentication);
-			return new ResponseEntity<JWTAuthenticationDTO>(new JWTAuthenticationDTO(jwt), HttpStatus.OK);
+			return new ResponseEntity<JWTAuthenticationDto>(new JWTAuthenticationDto(jwt), HttpStatus.OK);
 		} catch (AuthenticationException e) {
 			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		}

@@ -46,11 +46,11 @@ import pt.ist.socialsoftware.edition.ldod.domain.Tag;
 import pt.ist.socialsoftware.edition.ldod.domain.Taxonomy;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
-import pt.ist.socialsoftware.edition.ldod.dto.EditionFragmentsDTO;
-import pt.ist.socialsoftware.edition.ldod.dto.EditionTranscriptionsDTO;
-import pt.ist.socialsoftware.edition.ldod.dto.FragmentDTO;
-import pt.ist.socialsoftware.edition.ldod.dto.FragmentMetaInfoDTO;
-import pt.ist.socialsoftware.edition.ldod.dto.TranscriptionDTO;
+import pt.ist.socialsoftware.edition.ldod.dto.EditionFragmentsDto;
+import pt.ist.socialsoftware.edition.ldod.dto.EditionTranscriptionsDto;
+import pt.ist.socialsoftware.edition.ldod.dto.FragmentDto;
+import pt.ist.socialsoftware.edition.ldod.dto.FragmentMetaInfoDto;
+import pt.ist.socialsoftware.edition.ldod.dto.TranscriptionDto;
 import pt.ist.socialsoftware.edition.ldod.security.LdoDUserDetails;
 import pt.ist.socialsoftware.edition.ldod.session.LdoDSession;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDCreateClassificationGameException;
@@ -295,7 +295,7 @@ public class VirtualEditionController {
 
 	@RequestMapping(method = RequestMethod.GET, value = "/acronym/{acronym}/fragments")
 	@PreAuthorize("hasPermission(#acronym, 'editionacronym.public')")
-	public @ResponseBody ResponseEntity<EditionFragmentsDTO> getFragments(Model model, @PathVariable String acronym) {
+	public @ResponseBody ResponseEntity<EditionFragmentsDto> getFragments(Model model, @PathVariable String acronym) {
 		logger.debug("getFragments acronym:{}", acronym);
 
 		VirtualEdition virtualEdition = LdoD.getInstance().getVirtualEdition(acronym);
@@ -303,27 +303,28 @@ public class VirtualEditionController {
 		if (virtualEdition == null) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		} else {
-			EditionFragmentsDTO editionFragments = new EditionFragmentsDTO();
+			EditionFragmentsDto editionFragments = new EditionFragmentsDto();
 
 			String intersFilesPath = PropertiesManager.getProperties().getProperty("inters.dir");
-			List<FragmentDTO> fragments = new ArrayList<>();
+			List<FragmentDto> fragments = new ArrayList<>();
 
-			virtualEdition.getIntersSet().stream().sorted(Comparator.comparing(FragInter::getTitle)).forEach(inter -> {
-				FragInter lastInter = inter.getLastUsed();
-				String text;
-				try {
-					text = new String(
-							Files.readAllBytes(Paths.get(intersFilesPath + lastInter.getExternalId() + ".txt")));
-				} catch (IOException e) {
-					throw new LdoDException("VirtualEditionController::getTranscriptions IOException");
-				}
+			virtualEdition.getAllDepthVirtualEditionInters().stream().sorted(Comparator.comparing(FragInter::getTitle))
+					.forEach(inter -> {
+						FragInter lastInter = inter.getLastUsed();
+						String text;
+						try {
+							text = new String(Files
+									.readAllBytes(Paths.get(intersFilesPath + lastInter.getExternalId() + ".txt")));
+						} catch (IOException e) {
+							throw new LdoDException("VirtualEditionController::getTranscriptions IOException");
+						}
 
-				FragmentDTO fragment = new FragmentDTO();
-				fragment.setMeta(new FragmentMetaInfoDTO(lastInter));
-				fragment.setText(text);
+						FragmentDto fragment = new FragmentDto();
+						fragment.setMeta(new FragmentMetaInfoDto(inter));
+						fragment.setText(text);
 
-				fragments.add(fragment);
-			});
+						fragments.add(fragment);
+					});
 
 			editionFragments.setFragments(fragments);
 
@@ -333,7 +334,7 @@ public class VirtualEditionController {
 
 	@RequestMapping(method = RequestMethod.GET, value = "/acronym/{acronym}/transcriptions")
 	@PreAuthorize("hasPermission(#acronym, 'editionacronym.public')")
-	public @ResponseBody ResponseEntity<EditionTranscriptionsDTO> getTranscriptions(Model model,
+	public @ResponseBody ResponseEntity<EditionTranscriptionsDto> getTranscriptions(Model model,
 			@PathVariable String acronym) {
 		logger.debug("getTranscriptions acronym:{}", acronym);
 
@@ -343,7 +344,7 @@ public class VirtualEditionController {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		} else {
 			String intersFilesPath = PropertiesManager.getProperties().getProperty("inters.dir");
-			List<TranscriptionDTO> transcriptions = new ArrayList<>();
+			List<TranscriptionDto> transcriptions = new ArrayList<>();
 
 			virtualEdition.getIntersSet().stream().sorted(Comparator.comparing(FragInter::getTitle)).forEach(inter -> {
 				FragInter lastInter = inter.getLastUsed();
@@ -356,16 +357,16 @@ public class VirtualEditionController {
 					throw new LdoDException("VirtualEditionController::getTranscriptions IOException");
 				}
 
-				transcriptions.add(new TranscriptionDTO(title, text));
+				transcriptions.add(new TranscriptionDto(title, text));
 			});
 
-			return new ResponseEntity<>(new EditionTranscriptionsDTO(transcriptions), HttpStatus.OK);
+			return new ResponseEntity<>(new EditionTranscriptionsDto(transcriptions), HttpStatus.OK);
 		}
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/acronym/{acronym}/{category}/transcriptions")
 	@PreAuthorize("hasPermission(#acronym, 'editionacronym.public')")
-	public @ResponseBody ResponseEntity<EditionTranscriptionsDTO> getTranscriptionsTag(Model model,
+	public @ResponseBody ResponseEntity<EditionTranscriptionsDto> getTranscriptionsTag(Model model,
 			@PathVariable String acronym, @PathVariable String category) {
 		logger.debug("getTranscriptionsTag acronym:{}, category:{}", acronym, category);
 
@@ -374,7 +375,7 @@ public class VirtualEditionController {
 		if (virtualEdition == null) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		} else {
-			List<TranscriptionDTO> transcriptions = new ArrayList<>();
+			List<TranscriptionDto> transcriptions = new ArrayList<>();
 
 			Category categoryObject = virtualEdition.getTaxonomy().getCategory(category);
 
@@ -387,11 +388,11 @@ public class VirtualEditionController {
 					String title = tag.getInter().getTitle();
 					String text = tag.getAnnotation().getQuote();
 
-					transcriptions.add(new TranscriptionDTO(title, text));
+					transcriptions.add(new TranscriptionDto(title, text));
 				}
 			}
 
-			return new ResponseEntity<>(new EditionTranscriptionsDTO(transcriptions), HttpStatus.OK);
+			return new ResponseEntity<>(new EditionTranscriptionsDto(transcriptions), HttpStatus.OK);
 		}
 	}
 

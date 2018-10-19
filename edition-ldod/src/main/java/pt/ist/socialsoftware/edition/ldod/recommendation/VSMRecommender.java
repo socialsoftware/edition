@@ -64,8 +64,9 @@ public abstract class VSMRecommender<T> implements Recommender<T, Property> {
 		for (T otherItem : items) {
 			if (otherItem != item) {
 				similarity = calculateSimilarity(item, otherItem, properties);
-				if (similarity >= Double.NEGATIVE_INFINITY)
+				if (similarity >= Double.NEGATIVE_INFINITY) {
 					map.put(otherItem, similarity);
+				}
 			}
 		}
 

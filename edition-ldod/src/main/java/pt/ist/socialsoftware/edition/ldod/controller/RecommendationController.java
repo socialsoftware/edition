@@ -6,6 +6,8 @@ import org.joda.time.LocalDate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.ldod.domain.Edition.EditionType;
@@ -26,6 +29,9 @@ import pt.ist.socialsoftware.edition.ldod.domain.RecommendationWeights;
 import pt.ist.socialsoftware.edition.ldod.domain.Section;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
+import pt.ist.socialsoftware.edition.ldod.dto.InterDistancePairDto;
+import pt.ist.socialsoftware.edition.ldod.dto.InterIdDistancePairDto;
+import pt.ist.socialsoftware.edition.ldod.dto.WeightsDto;
 import pt.ist.socialsoftware.edition.ldod.recommendation.dto.RecommendVirtualEditionParam;
 import pt.ist.socialsoftware.edition.ldod.recommendation.dto.SectionVirtualEditionParam;
 import pt.ist.socialsoftware.edition.ldod.recommendation.dto.VirtualEditionWithSectionsDTO;
@@ -86,6 +92,24 @@ public class RecommendationController {
 
 			return "recommendation/tableOfContents";
 		}
+	}
+
+	@RequestMapping(method = RequestMethod.GET, value = "/{externalId}/intersByDistance")
+	@PreAuthorize("hasPermission(#externalId, 'virtualedition.public')")
+	public @ResponseBody ResponseEntity<InterIdDistancePairDto[]> getIntersByDistance(Model model,
+			@PathVariable String externalId, @RequestBody WeightsDto weights) {
+
+		VirtualEditionInter virtualEditionInter = FenixFramework.getDomainObject(externalId);
+		if (virtualEditionInter == null) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+
+		List<InterDistancePairDto> intersByDistance = virtualEditionInter.getVirtualEdition()
+				.getIntersByDistance(virtualEditionInter, weights);
+
+		return new ResponseEntity<InterIdDistancePairDto[]>(intersByDistance.stream()
+				.map(p -> new InterIdDistancePairDto(p.getInter().getExternalId(), p.getDistance()))
+				.toArray(size -> new InterIdDistancePairDto[size]), HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/linear", method = RequestMethod.POST, headers = {

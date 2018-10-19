@@ -1,13 +1,13 @@
 package pt.ist.socialsoftware.edition.ldod.dto;
 
-public class TranscriptionDTO {
+public class TranscriptionDto {
 	String title;
 	String text;
 
-	public TranscriptionDTO() {
+	public TranscriptionDto() {
 	}
 
-	public TranscriptionDTO(String title, String text) {
+	public TranscriptionDto(String title, String text) {
 		this.title = title;
 		this.text = text;
 	}

@@ -3,21 +3,22 @@ package pt.ist.socialsoftware.edition.ldod.dto;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import pt.ist.socialsoftware.edition.ldod.domain.*;
+import pt.ist.socialsoftware.edition.ldod.domain.Edition;
 import pt.ist.socialsoftware.edition.ldod.domain.FragInter;
 import pt.ist.socialsoftware.edition.ldod.domain.ManuscriptSource;
+import pt.ist.socialsoftware.edition.ldod.domain.Source;
 import pt.ist.socialsoftware.edition.ldod.domain.SourceInter;
 
-public class FragmentMetaInfoDTO {
+public class FragmentMetaInfoDto {
 	private String title;
 	private Set<String> heteronyms;
 	private Set<String> dates;
 	private boolean hasLdoDLabel;
 
-	public FragmentMetaInfoDTO() {
+	public FragmentMetaInfoDto() {
 	}
 
-	public FragmentMetaInfoDTO(FragInter lastInter) {
+	public FragmentMetaInfoDto(FragInter lastInter) {
 		this.title = lastInter.getFragment().getTitle();
 
 		this.setDates(

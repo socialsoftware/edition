@@ -12,7 +12,7 @@ public class VirtualEditionInterListDto {
 	private String title;
 	private String acronym;
 	private boolean pub;
-	private TaxonomyDTO taxonomy;
+	private TaxonomyDto taxonomy;
 	private List<LdoDUserDto> members;
 
 	public VirtualEditionInterListDto() {
@@ -26,7 +26,7 @@ public class VirtualEditionInterListDto {
 		this.setTitle(virtualEdition.getTitle());
 		this.setAcronym(virtualEdition.getAcronym());
 		this.setPub(virtualEdition.getPub());
-		TaxonomyDTO taxonomyDTO = new TaxonomyDTO(virtualEdition.getTaxonomy());
+		TaxonomyDto taxonomyDTO = new TaxonomyDto(virtualEdition.getTaxonomy());
 		this.setTaxonomy(taxonomyDTO);
 		this.setMembers(virtualEdition.getActiveMemberSet().stream().map(member -> new LdoDUserDto(member.getUser())).collect(Collectors.toList()));
 
@@ -64,11 +64,11 @@ public class VirtualEditionInterListDto {
 		this.pub = pub;
 	}
 
-	public TaxonomyDTO getTaxonomy() {
+	public TaxonomyDto getTaxonomy() {
 		return taxonomy;
 	}
 
-	public void setTaxonomy(TaxonomyDTO taxonomy) {
+	public void setTaxonomy(TaxonomyDto taxonomy) {
 		this.taxonomy = taxonomy;
 	}
 

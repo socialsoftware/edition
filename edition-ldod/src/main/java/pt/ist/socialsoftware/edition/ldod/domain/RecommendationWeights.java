@@ -5,10 +5,9 @@ import java.util.List;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
-import pt.ist.socialsoftware.edition.ldod.recommendation.properties.Property;
-import pt.ist.socialsoftware.edition.ldod.domain.RecommendationWeights_Base;
 import pt.ist.socialsoftware.edition.ldod.recommendation.properties.DateProperty;
 import pt.ist.socialsoftware.edition.ldod.recommendation.properties.HeteronymProperty;
+import pt.ist.socialsoftware.edition.ldod.recommendation.properties.Property;
 import pt.ist.socialsoftware.edition.ldod.recommendation.properties.TaxonomyProperty;
 import pt.ist.socialsoftware.edition.ldod.recommendation.properties.TextProperty;
 
@@ -51,7 +50,8 @@ public class RecommendationWeights extends RecommendationWeights_Base {
 			result.add(new TextProperty(getTextWeight()));
 		}
 		if (getTaxonomyWeight() > 0.0) {
-			result.add(new TaxonomyProperty(getTaxonomyWeight(), getVirtualEdition().getTaxonomy(), Property.PropertyCache.OFF));
+			result.add(new TaxonomyProperty(getTaxonomyWeight(), getVirtualEdition().getTaxonomy(),
+					Property.PropertyCache.OFF));
 		}
 
 		return result;
