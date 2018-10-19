@@ -49,7 +49,6 @@ import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
 import pt.ist.socialsoftware.edition.ldod.dto.EditionFragmentsDto;
 import pt.ist.socialsoftware.edition.ldod.dto.EditionTranscriptionsDto;
 import pt.ist.socialsoftware.edition.ldod.dto.FragmentDto;
-import pt.ist.socialsoftware.edition.ldod.dto.FragmentMetaInfoDto;
 import pt.ist.socialsoftware.edition.ldod.dto.TranscriptionDto;
 import pt.ist.socialsoftware.edition.ldod.security.LdoDUserDetails;
 import pt.ist.socialsoftware.edition.ldod.session.LdoDSession;
@@ -319,9 +318,7 @@ public class VirtualEditionController {
 							throw new LdoDException("VirtualEditionController::getTranscriptions IOException");
 						}
 
-						FragmentDto fragment = new FragmentDto();
-						fragment.setMeta(new FragmentMetaInfoDto(inter));
-						fragment.setText(text);
+						FragmentDto fragment = new FragmentDto(inter, text);
 
 						fragments.add(fragment);
 					});
