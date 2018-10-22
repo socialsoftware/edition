@@ -8,7 +8,6 @@ import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.Tokenizer;
 import org.apache.lucene.analysis.miscellaneous.ASCIIFoldingFilter;
 import org.apache.lucene.analysis.pt.PortugueseAnalyzer;
-import org.apache.lucene.analysis.standard.StandardFilter;
 import org.apache.lucene.analysis.standard.StandardTokenizer;
 
 public class IgnoreDiacriticsAnalyzer extends Analyzer {
@@ -23,7 +22,6 @@ public class IgnoreDiacriticsAnalyzer extends Analyzer {
 	protected TokenStreamComponents createComponents(String fieldName) {
 		Tokenizer source = new StandardTokenizer();
 		TokenStream tokenStream = source;
-		tokenStream = new StandardFilter(tokenStream);
 		tokenStream = new LowerCaseFilter(tokenStream);
 		tokenStream = new StopFilter(tokenStream, getStopwordSet());
 		tokenStream = new ASCIIFoldingFilter(tokenStream);
@@ -31,7 +29,7 @@ public class IgnoreDiacriticsAnalyzer extends Analyzer {
 	}
 
 	private CharArraySet getStopwordSet() {
-		return stopWords;
+		return this.stopWords;
 	}
 
 }

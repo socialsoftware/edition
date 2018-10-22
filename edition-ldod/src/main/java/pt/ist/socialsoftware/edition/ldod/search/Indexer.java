@@ -40,11 +40,11 @@ import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
 import pt.ist.socialsoftware.edition.ldod.domain.FragInter;
 import pt.ist.socialsoftware.edition.ldod.domain.Fragment;
 import pt.ist.socialsoftware.edition.ldod.domain.SourceInter;
 import pt.ist.socialsoftware.edition.ldod.generators.PlainTextFragmentWriter;
+import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
 import pt.ist.socialsoftware.edition.ldod.utils.PropertiesManager;
 
 public class Indexer {
@@ -265,14 +265,14 @@ public class Indexer {
 		Query query = this.queryParser.parse(REP + ":true");
 		IndexSearcher searcher = new IndexSearcher(reader);
 		TopDocs results = searcher.search(query, reader.numDocs());
-		int numDocs = results.totalHits;
+		long numDocs = results.totalHits;
 
 		Map<String, Double> TFIDFMap = new ConcurrentHashMap<>();
 		for (Entry<String, Double> entry : tf.entrySet()) {
 			query = this.queryParser.parse(REP + ":true" + " AND " + entry.getKey());
 			searcher = new IndexSearcher(reader);
-			results = searcher.search(query, numDocs);
-			int df = results.totalHits;
+			results = searcher.search(query, (int) numDocs);
+			long df = results.totalHits;
 			double tfidf = entry.getValue() * calculateIDF(numDocs, 1 + df);
 			TFIDFMap.put(entry.getKey(), tfidf);
 		}
@@ -289,7 +289,7 @@ public class Indexer {
 		return TFIDFMap;
 	}
 
-	private double calculateIDF(int numDocs, int df) {
+	private double calculateIDF(long numDocs, long df) {
 		return Math.log(numDocs / (double) df);
 	}
 
@@ -297,7 +297,7 @@ public class Indexer {
 		Collections.sort(list, new Comparator<Map.Entry<String, Double>>() {
 			@Override
 			public int compare(Map.Entry<String, Double> o1, Map.Entry<String, Double> o2) {
-				return (o2.getValue()).compareTo(o1.getValue());
+				return o2.getValue().compareTo(o1.getValue());
 			}
 		});
 		List<String> terms = new ArrayList<>();

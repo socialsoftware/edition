@@ -95,9 +95,12 @@ public class RecommendationController {
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/{externalId}/intersByDistance")
-	@PreAuthorize("hasPermission(#externalId, 'virtualedition.public')")
+	@PreAuthorize("hasPermission(#externalId, 'fragInter.public')")
 	public @ResponseBody ResponseEntity<InterIdDistancePairDto[]> getIntersByDistance(Model model,
 			@PathVariable String externalId, @RequestBody WeightsDto weights) {
+		logger.debug("getIntersByDistance externalId: {}, weights: {}", externalId,
+				"(" + weights.getHeteronymWeight() + "," + weights.getTextWeight() + "," + weights.getDateWeight() + ","
+						+ weights.getTaxonomyWeight() + ")");
 
 		VirtualEditionInter virtualEditionInter = FenixFramework.getDomainObject(externalId);
 		if (virtualEditionInter == null) {
