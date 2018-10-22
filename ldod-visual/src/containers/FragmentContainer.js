@@ -31,7 +31,8 @@ class ConnectedFragmentContainer extends React.Component {
 
     const service = new RepositoryService();
     service.getFragments(this.state.acronym).then(response => {
-        response.data.fragments.map(f => this.props.addFragment( f ) )
+        response.data.fragments.map(f => this.props.addFragment( f ) );
+
         this.setState(prevState => ({
           fragmentsLoaded: !prevState.check
         }));

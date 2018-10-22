@@ -121,10 +121,7 @@ class ConnectedApp extends Component {
 
           <Modal.Body>
             <p>
-              Global View Global View Global View Global View Global View Global View Global View Global View
-              Global View Global View Global View Global View Global View Global View Global View Global View
-              Global View Global View Global View Global View Global View Global View Global View Global View
-              Global View Global View Global View Global View Global View Global View Global View Global View.
+              Global View.
             </p>
 
           </Modal.Body>

@@ -31,8 +31,6 @@ class NetworkGraphOriginal extends Component {
       this.network = {};
       this.appRef = createRef();
 
-      
-
     }
 
   handleSelectNode(event) {

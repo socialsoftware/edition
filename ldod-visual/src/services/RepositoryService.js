@@ -21,4 +21,15 @@ export class RepositoryService {
         return this.axios.get("/virtualeditions/acronym/"+acronym+"/transcriptions");
     }
 
+    getIntersByDistance(interId,heteronym,text,date,taxonomy){
+       return this.axios.get("/recommendation/"+interId+"/intersByDistance", {
+         params: {
+           heteronymWeight: heteronym,
+           textWeight: text,
+           dateWeight: date,
+           taxonomyWeight: taxonomy
+          }
+       });
+    }
+
 }
