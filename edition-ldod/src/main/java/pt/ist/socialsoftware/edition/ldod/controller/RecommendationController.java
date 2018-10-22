@@ -94,7 +94,7 @@ public class RecommendationController {
 		}
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "/{externalId}/intersByDistance")
+	@RequestMapping(method = RequestMethod.POST, value = "/{externalId}/intersByDistance")
 	@PreAuthorize("hasPermission(#externalId, 'fragInter.public')")
 	public @ResponseBody ResponseEntity<InterIdDistancePairDto[]> getIntersByDistance(Model model,
 			@PathVariable String externalId, @RequestBody WeightsDto weights) {
