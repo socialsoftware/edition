@@ -22,13 +22,11 @@ export class RepositoryService {
     }
 
     getIntersByDistance(interId,heteronym,text,date,taxonomy){
-       return this.axios.get("/recommendation/"+interId+"/intersByDistance", {
-         params: {
-           heteronymWeight: heteronym,
-           textWeight: text,
-           dateWeight: date,
-           taxonomyWeight: taxonomy
-          }
+       return this.axios.post('/recommendation/'+interId+'/intersByDistance', {
+           'heteronymWeight': heteronym,
+           'textWeight': text,
+           'dateWeight': date,
+           'taxonomyWeight': taxonomy
        });
     }
 

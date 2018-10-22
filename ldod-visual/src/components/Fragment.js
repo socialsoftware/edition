@@ -24,7 +24,7 @@ export class ConnectedFragment extends React.Component {
   componentDidMount() {
 
     const service = new RepositoryService();
-    service.getIntersByDistance("281844343898185", 0.0, 1.0, 0.0, 0.0).then(response => {
+    service.getIntersByDistance('281861523767369', '0.0', '1.0', '0.0', '0.0').then(response => {
         this.setState({list: response.data});
         this.setState(prevState => ({
           fragmentsDistanceLoaded: !prevState.check
@@ -42,7 +42,7 @@ export class ConnectedFragment extends React.Component {
 
     if (this.state.fragmentsDistanceLoaded) {
       //alert(this.props.fragments.length)
-      //this.state.list.map(i =>alert(i.interId+":"+i.distance));
+      this.state.list.map(i =>alert(i.interId+":"+i.distance));
       alert(this.state.list.length)
       alert(this.state.list);
 
