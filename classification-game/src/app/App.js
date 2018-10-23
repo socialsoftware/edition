@@ -149,10 +149,10 @@ class App extends Component {
                 gamesView.push(
                     <ListGroupItem key={index} bsStyle={available ? "success" : "warning"}>
                             {available ? 
-                            (<div><Link to={`/game/${id}`}><Glyphicon glyph="ok" />{'\u00A0'}<Button bsStyle="primary">{'\u00A0'}{g.virtualEditionTitle}</Button></Link></div>) 
+                            (<div><Link to={`/game/${id}`}><Glyphicon glyph="ok" />{'\u00A0'}<Button bsStyle="primary">{'\u00A0'}{g.virtualEditionTitle}:{g.virtualEditionInterDto.title}</Button></Link></div>) 
                             : 
                             (<Glyphicon glyph="lock" />)}
-                            {'\u00A0'}{g.virtualEditionTitle} - {gameDate.toLocaleDateString()} {gameDate.toLocaleString(navigator.language, options)}
+                            {'\u00A0'}{g.virtualEditionTitle}:{g.virtualEditionInterDto.title} - {gameDate.toLocaleDateString()} {gameDate.toLocaleString(navigator.language, options)}
                     </ListGroupItem>)
             });
         }
