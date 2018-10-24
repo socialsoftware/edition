@@ -19,6 +19,6 @@ Button:not(:last-child){
   margin-right: 20px;
 }
 
-.custom-modal-config{
-
+.custom-modal{
+  width: 50%;
 }

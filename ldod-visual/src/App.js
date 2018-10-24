@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import './App.css';
-import { RepositoryService } from './services/RepositoryService'
 import FragmentContainer from './containers/FragmentContainer'
 import { setFragmentIndex } from "./actions/index";
 import { connect } from "react-redux";
@@ -103,7 +102,7 @@ class ConnectedApp extends Component {
               Configuração
             </Button>
 
-            <Button bsStyle={this.state.nextFragmentButtonStyle} bsSize="large" bsSize="large" onClick={this.handleClickNext}>
+            <Button bsStyle={this.state.nextFragmentButtonStyle} bsSize="large" onClick={this.handleClickNext}>
               Próximo
             </Button>
 

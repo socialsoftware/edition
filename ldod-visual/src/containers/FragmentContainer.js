@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { RepositoryService } from '../services/RepositoryService'
 import Fragment from '../components/Fragment';
 import { addFragment } from "../actions/index";

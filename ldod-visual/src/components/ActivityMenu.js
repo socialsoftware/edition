@@ -2,10 +2,16 @@ import React, { Component } from 'react';
 import './ActivityMenu.css';
 import { connect } from "react-redux";
 import { DropdownButton, MenuItem, ButtonToolbar } from 'react-bootstrap'
-import NetworkGraph from '../components/NetworkGraph';
-import NetworkGraphOriginal from '../components/NetworkGraphOriginal';
+import NetworkGraphContainer from '../containers/NetworkGraphContainer';
 
-class ActivityMenu extends Component {
+const mapStateToProps = state => {
+    return {
+        fragments: state.fragments,
+        fragmentIndex: state.fragmentIndex
+    };
+};
+
+class ConnectedActivityMenu extends Component {
 
   constructor(props) {
 
@@ -35,14 +41,22 @@ if (this.state.show){
 
     componentToRender = (
     <ButtonToolbar>
-        <DropdownButton bsSize="large" bsStyle ="primary" title="Quero ler fragmentos semelhantes a este por...">
+        <DropdownButton id="1" bsSize="large" bsStyle ="primary" title="Quero ler fragmentos semelhantes a este por...">
           <MenuItem eventKey="1" onClick={this.toggleMenuVisualization}>Semelhança de texto</MenuItem>
         </DropdownButton>
     </ButtonToolbar>
   );
 
   } else {
-    componentToRender = <NetworkGraphOriginal/>
+    componentToRender = (
+                          <NetworkGraphContainer
+                            pFragmentId={this.props.fragments[this.props.fragmentIndex].interId}
+                            pHeteronymWeight="0.0"
+                            pTextWeight="1.0"
+                            pDateWeight="0.0"
+                            ptaxonomyWeight="0.0"
+                            />
+                          )
   }
 
     return (
@@ -53,5 +67,7 @@ if (this.state.show){
     );
   }
 }
+
+const ActivityMenu = connect(mapStateToProps)(ConnectedActivityMenu);
 
 export default ActivityMenu;
