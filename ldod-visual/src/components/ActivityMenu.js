@@ -55,6 +55,7 @@ if (this.state.show){
                             pTextWeight="1.0"
                             pDateWeight="0.0"
                             ptaxonomyWeight="0.0"
+                            onChange={this.props.onChange}
                             />
                           )
   }

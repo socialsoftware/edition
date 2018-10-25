@@ -1,6 +1,6 @@
 import React from 'react';
-import './Fragment.css';
 import { connect } from "react-redux";
+import './Fragment.css';
 
 const mapStateToProps = state => {
   return {
@@ -14,6 +14,10 @@ export class ConnectedFragment extends React.Component {
 
   render() {
 
+    //console.log(this.props.fragments[this.props.fragmentIndex]);
+    //alert(this.props.fragments[0].interId)
+    //<p>{this.props.fragments[this.props.fragmentIndex].interId}</p>
+
     return (
       <div className="box">
 
@@ -24,6 +28,8 @@ export class ConnectedFragment extends React.Component {
         <br/>
 
         <p>{this.props.fragments[this.props.fragmentIndex].text}</p>
+
+
 
       </div>
     );

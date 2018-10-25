@@ -42,7 +42,7 @@ class NetworkGraphContainer extends Component {
       //alert(this.state.list.length)
       //alert(this.state.list);
 
-      graphToRender = <NetworkGraph graphData={this.state.list}/>
+      graphToRender = <NetworkGraph graphData={this.state.list} onChange={this.props.onChange}/>
 
     } else {
       graphToRender = <div></div>

@@ -139,7 +139,7 @@ class ConnectedApp extends Component {
           </Modal.Header>
 
           <Modal.Body>
-              <ActivityMenu/>
+              <ActivityMenu onChange={this.handleCloseConfig}/>
 
           </Modal.Body>
 
