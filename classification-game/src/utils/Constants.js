@@ -7,6 +7,9 @@ export const API_SERVICES_URL = '/services';
 export const WEB_SOCKETS_URL = 'https://ldod.uc.pt/ws';
 export const APP_PREFIX = '/ldod-game/';
 export const SUBSCRIBE_URL = '/topic/ldod-game/';
+export const FRAGMENTS_BASE_URL = '/fragments/fragment/';
+export const INTER_BASE_URL = '/inter/';
+export const SITE_URL = 'https://ldod.uc.pt';
 
 export const VOTE_TIME = 30;
 export const FINAL_TIME = 45;

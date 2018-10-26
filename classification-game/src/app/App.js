@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Route, withRouter, Link, Switch } from 'react-router-dom';
 import { getCurrentUser,  getActiveGames } from '../utils/APIUtils';
-import { ACCESS_TOKEN, LDOD_MESSAGE } from '../utils/Constants';
+import { ACCESS_TOKEN, LDOD_MESSAGE, FRAGMENTS_BASE_URL, INTER_BASE_URL, SITE_URL } from '../utils/Constants';
 import AppContext from './AppContext';
 import {Provider} from './/AppContext';
 import Login from '../user/login/Login';
@@ -151,8 +151,8 @@ class App extends Component {
                             {available ? 
                             (<div><Link to={`/game/${id}`}><Glyphicon glyph="ok" />{'\u00A0'}<Button bsStyle="primary">{'\u00A0'}{g.virtualEditionTitle}:{g.virtualEditionInterDto.title}</Button></Link></div>) 
                             : 
-                            (<Glyphicon glyph="lock" />)}
-                            {'\u00A0'}{g.virtualEditionTitle}:{g.virtualEditionInterDto.title} - {gameDate.toLocaleDateString()} {gameDate.toLocaleString(navigator.language, options)}
+                            (<div><Glyphicon glyph="lock" /></div>)}
+                            {<div><a href={SITE_URL + FRAGMENTS_BASE_URL+`${g.virtualEditionInterDto.fragmentId}` + INTER_BASE_URL + `${g.virtualEditionInterDto.urlId}`}>{'\u00A0'}{g.virtualEditionTitle}:{g.virtualEditionInterDto.title}</a></div>}- {gameDate.toLocaleDateString()} {gameDate.toLocaleString(navigator.language, options)}
                     </ListGroupItem>)
             });
         }
