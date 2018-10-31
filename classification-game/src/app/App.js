@@ -152,7 +152,7 @@ class App extends Component {
                             (<div><Link to={`/game/${id}`}><Glyphicon glyph="ok" />{'\u00A0'}<Button bsStyle="primary">{'\u00A0'}{g.virtualEditionTitle}:{g.virtualEditionInterDto.title}</Button></Link></div>) 
                             : 
                             (<div><Glyphicon glyph="lock" /></div>)}
-                            {<div>{g.virtualEditionTitle}: <a href={SITE_URL + FRAGMENTS_BASE_URL+`${g.virtualEditionInterDto.fragmentId}` + INTER_BASE_URL + `${g.virtualEditionInterDto.urlId}`}>{'\u00A0'}{g.virtualEditionInterDto.title}</a></div>}- {gameDate.toLocaleDateString()} {gameDate.toLocaleString(navigator.language, options)}
+                            {<div>{g.virtualEditionTitle}: <a href={SITE_URL + FRAGMENTS_BASE_URL+`${g.virtualEditionInterDto.fragmentId}` + INTER_BASE_URL + `${g.virtualEditionInterDto.urlId}`} target="_blank">{'\u00A0'}{g.virtualEditionInterDto.title}</a></div>}- {gameDate.toLocaleDateString()} {gameDate.toLocaleString(navigator.language, options)}
                     </ListGroupItem>)
             });
         }

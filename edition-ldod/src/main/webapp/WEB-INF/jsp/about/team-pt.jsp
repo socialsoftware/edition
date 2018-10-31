@@ -21,7 +21,10 @@
 <h3>Programa&ccedil;&atilde;o</h3>
 <p>Andr&eacute; Santos, INESC-ID, Instituto Superior T&eacute;cnico (IST), Universidade de Lisboa</p>
 <p>Ant&oacute;nio Rito Silva, INESC-ID, Instituto Superior T&eacute;cnico (IST), Universidade de Lisboa</p>
+<p>Duarte Oliveira, INESC-ID, Instituto Superior Técnico (IST), Universidade de Lisboa</p>
+<p>Gonçalo Montalvão Marques, INESC-ID, Instituto Superior Técnico (IST), Universidade de Lisboa</p>
 <p>Lu&iacute;s Lucas Pereira, Centro de Literatura Portuguesa (CLP) | Departamento de Engenharia Inform&aacute;tica (DEI), Universidade de Coimbra</p>
+<p>Miguel Cruz, INESC-ID, Instituto Superior T&eacute;cnico (IST), Universidade de Lisboa</p>
 <p>&nbsp;</p>
 
 <h3>Desenho web</h3>

@@ -21,7 +21,10 @@
 <h3>Programaci&oacute;n de software</h3>
 <p>Andr&eacute; Santos, INESC-ID, <em>Instituto Superior T&eacute;cnico</em> (IST), Universidad de Lisboa</p>
 <p>Ant&oacute;nio Rito Silva, INESC-ID, <em>Instituto Superior T&eacute;cnico</em> (IST), Universidad de Lisboa</p>
+<p>Duarte Oliveira, INESC-ID, Instituto Superior Técnico (IST), Universidad de Lisboa</p>
+<p>Gonçalo Montalvão Marques, INESC-ID, Instituto Superior Técnico (IST), Universidad de Lisboa</p>
 <p>Lu&iacute;s Lucas Pereira, Centre for Portuguese Literature (CLP) | Departamento de Ingenier&iacute;a Inform&aacute;tica (DEI), Universidad de Coimbra</p>
+<p>Miguel Cruz, INESC-ID, Instituto Superior T&eacute;cnico (IST), Universidad de Lisboa</p>
 <p>&nbsp;</p>
 
 <h3>Dise&ntilde;o web</h3>
