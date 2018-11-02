@@ -269,11 +269,15 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 
 
     public ScholarInter getLastUsed() {
-		if (getVirtualEditionInterUses() != null) {
+		if (usesVirtualEditionInter()) {
 			return ((VirtualEditionInter) getUses()).getLastUsed();
 		}
         return (ScholarInter) getUses();
     }
+
+	public boolean usesVirtualEditionInter() {
+		return (getUses() instanceof VirtualEditionInter);
+	}
 
 
     public Set<Category> getAllDepthCategories() {
@@ -284,18 +288,11 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 			categories = new HashSet<>();
 		}
 
-		if (getVirtualEditionInterUses() != null) {
-			categories.addAll(getVirtualEditionInterUses().getAllDepthCategories());
+		if (usesVirtualEditionInter()) {
+			categories.addAll(((VirtualEditionInter) getUses()).getAllDepthCategories());
 		}
 
 		return categories;
-	}
-
-	public VirtualEditionInter getVirtualEditionInterUses() {
-		if (getUses() instanceof VirtualEditionInter) {
-			return (VirtualEditionInter) getUses();
-		}
-		return null;
 	}
 
 	// Estava a dar erro
@@ -320,8 +317,8 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 			annotations = new HashSet<>();
 		}
 
-		if (getVirtualEditionInterUses() != null) {
-			annotations.addAll(getVirtualEditionInterUses().getAllDepthHumanAnnotations());
+		if (usesVirtualEditionInter()) {
+			annotations.addAll(((VirtualEditionInter) getUses()).getAllDepthHumanAnnotations());
 		}
 
 		return annotations;
@@ -336,8 +333,8 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 			annotations = new HashSet<>();
 		}
 
-		if (getVirtualEditionInterUses() != null) {
-			annotations.addAll(getVirtualEditionInterUses().getAllDepthAnnotations());
+		if (usesVirtualEditionInter()) {
+			annotations.addAll(((VirtualEditionInter) getUses()).getAllDepthAnnotations());
 		}
 
 		return annotations;
@@ -352,8 +349,8 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 			tags = new HashSet<>();
 		}
 
-		if (getVirtualEditionInterUses() != null) {
-			tags.addAll(getVirtualEditionInterUses().getAllDepthTags());
+		if (usesVirtualEditionInter()) {
+			tags.addAll(((VirtualEditionInter) getUses()).getAllDepthTags());
 		}
 
 		return tags;
@@ -438,10 +435,10 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 	}
 
 	public int getUsesDepth() {
-	    if (getVirtualEditionInterUses() == null) {
+	    if (!usesVirtualEditionInter()) {
 	        return 1;
         }
-		return getVirtualEditionInterUses().getUsesDepth() + 1;
+		return ((VirtualEditionInter) getUses()).getUsesDepth() + 1;
 	}
 
 	// Is it this way? (this method doesn't take into account the retweets)

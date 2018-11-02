@@ -82,16 +82,7 @@ public class SourceInter extends SourceInter_Base {
 
 	@Override
 	public void remove() {
-//		setSource(null);
-
 		Remover.remove(this);
-
-//		TODO REMOVE VIRTUAL RELATIONS
-//		for (VirtualEditionInter inter : getIsUsedByDepthSet()) {
-//			// it is necessary to remove all interpretations that use the expert
-//			// interpretation
-//			inter.remove();
-//		}
 
 		super.remove();
 	}

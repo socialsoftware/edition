@@ -3,6 +3,9 @@ package pt.ist.socialsoftware.edition.text.domain;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import pt.ist.socialsoftware.edition.text.deleters.SimpleTextDeleter;
 import pt.ist.socialsoftware.edition.text.generators.TextPortionVisitor;
 
 /**
@@ -21,16 +24,22 @@ public class SimpleText extends SimpleText_Base {
 
 	@Override
 	public void remove() {
-//		TODO REMOVE VIRTUAL RELATIONS
-//		for (HumanAnnotation annotation : getStartAnnotationsSet()) {
-//			annotation.remove();
-//		}
-//
-//		for (HumanAnnotation annotation : getEndAnnotationsSet()) {
-//			annotation.remove();
-//		}
-
+		Remover.remove(this);
 		super.remove();
+	}
+
+	@Component
+	public static class Remover {
+		public static SimpleTextDeleter simpleTextDeleter;
+
+		@Autowired
+		public Remover(SimpleTextDeleter simpleTextDeleter) {
+			this.simpleTextDeleter = simpleTextDeleter;
+		}
+
+		public static void remove(SimpleText simpleText) {
+			simpleTextDeleter.remove(simpleText);
+		}
 	}
 
 	@Override

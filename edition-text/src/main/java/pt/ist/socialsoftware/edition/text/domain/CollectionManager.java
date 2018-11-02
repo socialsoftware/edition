@@ -34,8 +34,6 @@ public class CollectionManager extends CollectionManager_Base {
         }
 
         return null;
-//        FIXME Take this to Virtual
-//        return getVirtualEdition(acronym);
     }
 
     public Fragment getFragmentByXmlId(String target) {

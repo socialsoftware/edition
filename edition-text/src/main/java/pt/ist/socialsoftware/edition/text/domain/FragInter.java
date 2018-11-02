@@ -21,43 +21,7 @@ public abstract class FragInter extends FragInter_Base implements Comparable<Fra
 	}
 
 	public void remove() {
-
 		Remover.remove(this);
-//		setFragment(null);
-//		setHeteronym(null);
-//
-//		if (getLdoDDate() != null) {
-//			getLdoDDate().remove();
-//		}
-//
-//		//		TODO REMOVE VIRTUAL RELATIONS
-////		for (VirtualEditionInter inter : getIsUsedBySet()) {
-////			removeIsUsedBy(inter);
-////		}
-//
-//		for (RdgText rdg : getRdgSet()) {
-//			removeRdg(rdg);
-//		}
-//
-//		for (LbText lb : getLbTextSet()) {
-//			removeLbText(lb);
-//		}
-//
-//		for (PbText pb : getPbTextSet()) {
-//			removePbText(pb);
-//		}
-//
-//		for (AnnexNote annexNote : getAnnexNoteSet()) {
-//			annexNote.remove();
-//		}
-//
-//		for (RefText ref : getRefTextSet()) {
-//			ref.setFragInter(null);
-//		}
-//
-//		//		TODO REMOVE VIRTUAL RELATIONS
-//		// adicionado recentemente, testar
-////		getInfoRangeSet().forEach(infoRange -> infoRange.remove());
 
 		deleteDomainObject();
 	}

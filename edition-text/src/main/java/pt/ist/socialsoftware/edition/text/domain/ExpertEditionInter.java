@@ -17,28 +17,7 @@ public class ExpertEditionInter extends ExpertEditionInter_Base {
 	@Override
 	public void remove() {
 		Remover.remove(this);
-
-//		String externalId = getExternalId();
-
-		//		TODO REMOVE VIRTUAL RELATIONS
-//		for (VirtualEditionInter inter : getIsUsedByDepthSet()) {
-//			// it is necessary to remove all interpretations that use the expert
-//			// interpretation
-//			inter.remove();
-//		}
-
 		super.remove();
-
-		//		TODO Search not separated
-//		 remove from Lucene
-//		List<String> externalIds = new ArrayList<>();
-//		externalIds.add(externalId);
-//		Indexer indexer = Indexer.getIndexer();
-//		indexer.cleanMissingHits(externalIds);
-//
-//		// remove from mallet directory
-//		TopicModeler topicModeler = new TopicModeler();
-//		topicModeler.deleteFile(externalId);
 	}
 
 	@Component
