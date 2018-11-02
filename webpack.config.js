@@ -160,6 +160,10 @@ module.exports = function (env) {
                         JSON.stringify('development'),
                 },
             }),
+            new webpack.ProvidePlugin({
+                $: 'jquery',
+                jQuery: 'jquery',
+            }),
         ],
         /**
          * webpack 自带的开发 server，配合 webpack-dev-server 命令使用

@@ -1,19 +1,10 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import ReactHTMLParser, { convertNodeToElement } from 'react-html-parser';
 import { injectIntl } from 'react-intl';
+import Helmet from 'react-helmet';
+import customHTMLParser from './customHTMLParser';
 
 
-function transform(node) {
-    if (node.type === 'tag' && node.name === 'a' && node.attribs.href) {
-        return (<Link
-            to={node.attribs.href}>
-            {node.children.map((child, index) => convertNodeToElement(child, index, transform))}
-        </Link>);
-    }
-    return undefined;
-}
-class StaticPage extends React.Component {
+class LegacyPage extends React.Component {
 
     static baseURL = 'http://1.1.1.10:8080';
 
@@ -25,7 +16,7 @@ class StaticPage extends React.Component {
             isLoaded: false,
             html: '',
             lang: langConst,
-            url: StaticPage.baseURL + props.url,
+            url: LegacyPage.baseURL + props.url,
         };
     }
 
@@ -56,7 +47,7 @@ class StaticPage extends React.Component {
 
     componentWillReceiveProps(nextProps) {
         const state = this.state;
-        state.url = StaticPage.baseURL + nextProps.url;
+        state.url = LegacyPage.baseURL + nextProps.url;
         state.lang = `/?lang=${nextProps.intl.locale.split(/[_-]+/)[0]}`;
         this.htmlRequest(state.url + state.lang);
         this.setState(state);
@@ -64,16 +55,21 @@ class StaticPage extends React.Component {
     }
 
     render() {
-        const options = { transform };
         const { error, isLoaded, html } = this.state;
-        const parsedHTML = ReactHTMLParser(html, options)[0];
+        const parsedHTML = customHTMLParser(html);
         if (this.state.error) {
             return <div>Error: {error.message}</div>;
         } else if (!isLoaded) {
-            return <div>Loading...</div>;
+            return <div>Loading LdoD...</div>;
         }
         return (
             <div className={'container ldod-default'}>
+                <Helmet>
+                    <script src={'resources/js/jquery-3.3.1.min.js'} />
+                </Helmet>
+                <Helmet>
+                    <script src={'resources/js/bootstrap.min.js'} />
+                </Helmet>
                 {parsedHTML.props.children}
             </div>
         );
@@ -81,4 +77,4 @@ class StaticPage extends React.Component {
 }
 
 
-export default injectIntl(StaticPage);
+export default injectIntl(LegacyPage);

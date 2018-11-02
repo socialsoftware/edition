@@ -1,14 +1,14 @@
 {
-    "name": "my-ldod",
+    "name": "react-ldod",
     "dependencies": {
-        "bootstrap": "^3.3.7",
-        "catch-links": "^2.0.1",
-        "i18next": "^10.6.0",
+        "bootstrap": "^4.1.0",
         "jquery": "^3.3.1",
+        "popper.js": "^1.14.3",
         "prop-types": "^15.6.1",
         "react": "^15.5.4",
         "react-bootstrap": "^0.32.1",
         "react-dom": "^15.5.4",
+        "react-helmet": "^5.2.0",
         "react-html-parser": "^2.0.2",
         "react-intl": "^2.4.0",
         "react-router-bootstrap": "^0.24.4",
@@ -17,6 +17,7 @@
         "url-loader": "^1.0.1"
     },
     "version": "0.1.0",
+    "author": "Miguel Cruz",
     "devDependencies": {
         "autoprefixer": "^7.1.1",
         "babel-core": "^6.24.1",

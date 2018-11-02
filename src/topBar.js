@@ -26,11 +26,11 @@ function TopBarElement(props) {
     if (!props.subsections) {
         return (
             <li>
-                <Link key={props.baseLink} to={props.baseLink}>{props.title}</Link>
+                <Link key={props.baseLink} to={`/${props.baseLink}`}>{props.title}</Link>
             </li>
         );
     }
-    // This happens because of Documents menu
+
     let baseLink = '';
     if (props.baseLink) {
         baseLink = `/${props.baseLink}`;
@@ -40,13 +40,6 @@ function TopBarElement(props) {
             <MenuItem key={subsection.link}>{subsection.title}</MenuItem>
         </LinkContainer>),
     );
-        // (<Route render={({ history }) => (
-        //     <MenuItem
-        //         onClick={() => { history.push(`${baseLink}/${subsection.link}`); }}>
-        //         {subsection.title}
-        //     </MenuItem>
-        // )} />));
-
 
     if (props.division) {
         subsecs.splice(props.division, 0, <MenuItem key={0} divider />);
