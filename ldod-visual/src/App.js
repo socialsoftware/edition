@@ -6,11 +6,11 @@ import { connect } from "react-redux";
 import { Button, ButtonToolbar, Modal } from 'react-bootstrap'
 import ActivityMenu from './components/ActivityMenu'
 
-
 const mapStateToProps = state => {
     return {
         fragments: state.fragments,
-        fragmentIndex: state.fragmentIndex
+        fragmentIndex: state.fragmentIndex,
+        currentVisualization: state.currentVisualization
     };
 };
 
@@ -42,6 +42,8 @@ class ConnectedApp extends Component {
     this.handleShowConfig  = this.handleShowConfig.bind(this);
     this.handleCloseConfig  = this.handleCloseConfig.bind(this);
 
+    this.handleCloseModals  = this.handleCloseModals.bind(this);
+
 
   }
 
@@ -65,6 +67,10 @@ class ConnectedApp extends Component {
     }
   }
 
+  handleCloseModals() {
+    this.setState({ showConfig: false,  showGlobalView: false});
+  }
+
   handleCloseConfig() {
     this.setState({ showConfig: false });
   }
@@ -84,6 +90,8 @@ class ConnectedApp extends Component {
 
 
   render() {
+
+
     return (
       <div className="app">
 
@@ -94,12 +102,12 @@ class ConnectedApp extends Component {
               Anterior
             </Button>
 
-            <Button bsStyle="primary" bsSize="large" onClick={this.handleShowGlobalView}>
-              Global View
+            <Button bsStyle="primary" bsSize="large" onClick={this.handleShowConfig}>
+              Configuração de Actividade
             </Button>
 
-            <Button bsStyle="primary" bsSize="large" onClick={this.handleShowConfig}>
-              Configuração
+            <Button bsStyle="primary" bsSize="large" onClick={this.handleShowGlobalView}>
+             Vista Global
             </Button>
 
             <Button bsStyle={this.state.nextFragmentButtonStyle} bsSize="large" onClick={this.handleClickNext}>
@@ -113,15 +121,17 @@ class ConnectedApp extends Component {
           <FragmentContainer/>
         </div>
 
+
+
         <Modal show={this.state.showGlobalView} onHide={this.handleCloseGlobalView} dialogClassName="custom-modal">
           <Modal.Header closeButton>
-            <Modal.Title> Global View </Modal.Title>
+            <Modal.Title> Vista Global </Modal.Title>
           </Modal.Header>
 
           <Modal.Body>
-            <p>
-              Global View.
-            </p>
+
+              {this.props.currentVisualization}
+
 
           </Modal.Body>
 
@@ -135,12 +145,11 @@ class ConnectedApp extends Component {
         <Modal show={this.state.showConfig} onHide={this.handleCloseConfig} dialogClassName="custom-modal">
 
           <Modal.Header closeButton>
-            <Modal.Title>Configuração</Modal.Title>
+            <Modal.Title> Configuração de Actividade </Modal.Title>
           </Modal.Header>
 
           <Modal.Body>
-              <ActivityMenu onChange={this.handleCloseConfig}/>
-
+              <ActivityMenu onChange={this.handleCloseModals}/>
           </Modal.Body>
 
           <Modal.Footer>
