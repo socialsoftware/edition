@@ -303,13 +303,13 @@ public class LdoD extends LdoD_Base {
 
 	@Atomic(mode = TxMode.WRITE)
 	public void removeTweets() {
-		System.out.print("dkjlhfklsdhfklhdkjfhdskjhfkljadshfkjdshfkjldhfkjhdkjhdsjkf");
-
+		getLastTwitterID().resetTwitterIDS();
 		getTweetSet().forEach(t -> t.remove());
 	}
 
 	@Atomic(mode = TxMode.WRITE)
 	public void removeTweetsWithoutCitations() {
+		getLastTwitterID().resetTwitterIDS();
 		getTweetSet().forEach(t -> {
 			if (t.getCitation() == null) {
 				t.remove();

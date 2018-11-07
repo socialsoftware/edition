@@ -66,15 +66,14 @@ public class TweetFactory {
 
 				createTweet(line);
 			} catch (ParseException e1) {
-				// logger.debug("Miss the creation of a tweet due to the parse of some of its
-				// data");
+				logger.debug("Miss the creation of a tweet due to the parse of some of its data");
 			}
 
 			try {
 				FenixFramework.getTransactionManager().commit();
 			} catch (SecurityException | IllegalStateException | RollbackException | HeuristicMixedException
 					| HeuristicRollbackException | SystemException e) {
-				// logger.debug("Miss the creation of a tweet due to the info it contains");
+				logger.debug("Miss the creation of a tweet due to the info it contains");
 
 			}
 		}
