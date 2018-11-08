@@ -79,8 +79,6 @@ public class AwareAnnotationFactory {
 
 		InfoRange infoRange = getInfoRangeByVirtualEditionInter(vei, tc);
 
-		logger.debug("GOING TO CREATE AN AWARE ANNOTATION!!");
-
 		AwareAnnotation annotation = new AwareAnnotation(vei, infoRange.getQuote(), infoRange.getText(), tc);
 
 		new Range(annotation, infoRange.getStart(), infoRange.getStartOffset(), infoRange.getEnd(),

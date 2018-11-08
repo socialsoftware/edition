@@ -58,6 +58,9 @@ import pt.ist.socialsoftware.edition.ldod.loaders.VirtualEditionsTEICorpusImport
 import pt.ist.socialsoftware.edition.ldod.security.LdoDUserDetails;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDLoadException;
+import pt.ist.socialsoftware.edition.ldod.social.aware.AwareAnnotationFactory;
+import pt.ist.socialsoftware.edition.ldod.social.aware.CitationDetecter;
+import pt.ist.socialsoftware.edition.ldod.social.aware.TweetFactory;
 import pt.ist.socialsoftware.edition.ldod.utils.PropertiesManager;
 import pt.ist.socialsoftware.edition.ldod.validator.EditUserValidator;
 
@@ -648,11 +651,16 @@ public class AdminController {
 		return "redirect:/admin/tweets";
 	}
 
-	@RequestMapping(method = RequestMethod.POST, value = "/tweets/removeTweetsWithoutCitation")
+	@RequestMapping(method = RequestMethod.POST, value = "/tweets/generateCitations")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	public String removeTweetsWithoutCitation(Model model) {
-		logger.debug("removeTweetsWithoutCitation");
-		LdoD.getInstance().removeTweetsWithoutCitations();
+	public String generateCitations(Model model) throws IOException {
+		logger.debug("generateCitations");
+		CitationDetecter detecter = new CitationDetecter();
+		detecter.detect();
+		TweetFactory tweetFactory = new TweetFactory();
+		tweetFactory.create();
+		AwareAnnotationFactory awareFactory = new AwareAnnotationFactory();
+		awareFactory.generate();
 		return "redirect:/admin/tweets";
 	}
 

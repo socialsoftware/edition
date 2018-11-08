@@ -14,13 +14,9 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-
-import javax.transaction.HeuristicMixedException;
-import javax.transaction.HeuristicRollbackException;
-import javax.transaction.NotSupportedException;
-import javax.transaction.RollbackException;
-import javax.transaction.SystemException;
 
 import org.apache.commons.io.comparator.NameFileComparator;
 import org.apache.commons.io.filefilter.FileFileFilter;
@@ -57,7 +53,6 @@ import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
 import pt.ist.socialsoftware.edition.ldod.domain.TwitterCitation;
 import pt.ist.socialsoftware.edition.ldod.generators.PlainHtmlWriter4OneInter;
 import pt.ist.socialsoftware.edition.ldod.search.IgnoreDiacriticsAnalyzer;
-import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
 import pt.ist.socialsoftware.edition.ldod.utils.PropertiesManager;
 
 public class CitationDetecter {
@@ -90,20 +85,20 @@ public class CitationDetecter {
 		createInfoRanges();
 		this.logger.debug("FINISHED IDENTIFYING RANGES!!!");
 
-		printNumberOfCitationsWithIndoRanges();
+		printNumberOfCitationsWithInfoRanges();
 
 		this.logger.debug("STARTED REMOVING TWEETS WITHOUT CITATIONS!!!");
-		removeTweetsWithoutCitations();
+		removeTweetsWithoutCitationsWithInfoRange();
 		this.logger.debug("FINISHED REMOVING TWEETS WITHOUT CITATIONS!!!");
 	}
 
 	@Atomic(mode = TxMode.WRITE)
-	private void removeTweetsWithoutCitations() {
-		LdoD.getInstance().removeTweetsWithoutCitations();
+	private void removeTweetsWithoutCitationsWithInfoRange() {
+		LdoD.getInstance().removeTweetsWithoutCitationsWithInfoRange();
 	}
 
 	@Atomic
-	private void printNumberOfCitationsWithIndoRanges() {
+	private void printNumberOfCitationsWithInfoRanges() {
 		this.logger.debug(
 				"Number of Citations with Info Ranges: " + LdoD.getInstance().getNumberOfCitationsWithInfoRanges());
 	}
@@ -185,25 +180,25 @@ public class CitationDetecter {
 		Query parsedQuery = this.queryParser.parse(QueryParser.escape(query)); // escape foi a solução porque ele
 																				// stressava
 
-		try {
-			FenixFramework.getTransactionManager().begin();
-		} catch (NotSupportedException | SystemException e1) {
-			throw new LdoDException("Fail a transaction begin");
-		}
+//		try {
+//			FenixFramework.getTransactionManager().begin();
+//		} catch (NotSupportedException | SystemException e1) {
+//			throw new LdoDException("Fail a transaction begin");
+//		}
 
 		searchIndexAndDisplayResultsJSON(parsedQuery, obj);
 
-		try {
-			FenixFramework.getTransactionManager().commit();
-		} catch (SecurityException | IllegalStateException | RollbackException | HeuristicMixedException
-				| HeuristicRollbackException | SystemException e) {
-			this.logger.debug("Miss the creation of a citation due to the info it contains");
-
-		}
+//		try {
+//			FenixFramework.getTransactionManager().commit();
+//		} catch (SecurityException | IllegalStateException | RollbackException | HeuristicMixedException
+//				| HeuristicRollbackException | SystemException e) {
+//			this.logger.debug("Miss the creation of a citation due to the info it contains");
+//
+//		}
 
 	}
 
-	// @Atomic(mode = TxMode.WRITE)
+	@Atomic(mode = TxMode.WRITE)
 	public void searchIndexAndDisplayResultsJSON(Query query, JSONObject obj) {
 		try {
 			int hitsPerPage = 5;
@@ -240,13 +235,23 @@ public class CitationDetecter {
 
 						String tweetTextWithoutHttp = removeHttpFromTweetText(obj);
 
-						// this.logger.debug("GOING TO CREATE A TWITTER CITATION!!");
+						// remove emojis, etc
+						String regex = "[^\\p{L}\\p{N}\\p{P}\\p{Z}]";
+						Pattern pattern = Pattern.compile(regex, Pattern.UNICODE_CHARACTER_CLASS);
+
+						Matcher matcher = pattern.matcher(tweetTextWithoutHttp);
+						String cleanTweetText = matcher.replaceAll("");
+
+						matcher = pattern.matcher((String) obj.get("location"));
+						String cleanTeeetLocation = matcher.replaceAll("");
+
+						matcher = pattern.matcher((String) obj.get("country"));
+						String cleanTeeetCountry = matcher.replaceAll("");
 
 						new TwitterCitation(fragment, (String) obj.get("tweetURL"), (String) obj.get("date"),
-								d.get(this.TEXT), tweetTextWithoutHttp, (long) obj.get("tweetID"),
-								(String) obj.get("location"), (String) obj.get("country"), (String) obj.get("username"),
-								(String) obj.get("profURL"), (String) obj.get("profImg"));
-						// this.logger.debug("CREATED A TWITTER CITATION!!!");
+								d.get(this.TEXT), cleanTweetText, (long) obj.get("tweetID"), cleanTeeetLocation,
+								cleanTeeetCountry, (String) obj.get("username"), (String) obj.get("profURL"),
+								(String) obj.get("profImg"));
 					}
 
 				}
@@ -319,8 +324,6 @@ public class CitationDetecter {
 					&& !startBiggerThanEnd(htmlStart, htmlEnd, numOfPStart, numOfPEnd)) {
 
 				String infoText = createInfoText(citation);
-
-				this.logger.debug("GOING TO CREATE AN INFO RANGE");
 
 				new InfoRange(citation, inter, "/div[1]/div[1]/p[" + numOfPStart + "]", htmlStart,
 						"/div[1]/div[1]/p[" + numOfPEnd + "]", htmlEnd, infoQuote, infoText);

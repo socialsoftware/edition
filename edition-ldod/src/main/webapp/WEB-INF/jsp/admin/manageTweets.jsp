@@ -26,7 +26,16 @@
 				value="${_csrf.token}" />
 			<button type="submit" class="btn btn-danger btn-sm">
 				<span class="glyphicon glyphicon-remove"></span> Delete Tweets
-				without Citation (${tweetsWithoutCitation.size()})
+				without Citation with Info Range (${tweetsWithoutCitation.size()})
+			</button>
+		</form>
+		<br /> <br />
+		<form class="form-inline" method="POST"
+			action="${contextPath}/admin/tweets/generateCitations">
+			<input type="hidden" name="${_csrf.parameterName}"
+				value="${_csrf.token}" />
+			<button type="submit" class="btn btn-danger btn-sm">
+				<span class="glyphicon glyphicon-plus-sign"></span> Generate Citations
 			</button>
 		</form>
 		<br /> <br />
