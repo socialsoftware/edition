@@ -119,8 +119,8 @@ public class TweetFactory {
 					twitterCitation = ldoD.getTwitterCitationByTweetID((long) obj.get("tweetID"));
 				}
 
-				// we only create Tweets that have a Twitter Citation associated
-				if (twitterCitation != null) {
+				// we only create Tweets that have a Twitter Citation with InfoRange associated
+				if (twitterCitation != null && !twitterCitation.getInfoRangeSet().isEmpty()) {
 					// Create tweet
 					matcher = pattern.matcher((String) obj.get("location"));
 					String cleanTweetLocation = matcher.replaceAll("");
