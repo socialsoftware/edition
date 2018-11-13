@@ -346,5 +346,6 @@
 	<modules>
 		<module>edition-ldod</module>
         <module>edition-text</module>
+		<module>edition-user</module>
     </modules>
 </project>
