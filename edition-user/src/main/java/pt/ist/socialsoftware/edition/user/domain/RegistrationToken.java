@@ -4,8 +4,8 @@ import org.joda.time.DateTime;
 import org.joda.time.Period;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
+import pt.ist.socialsoftware.edition.text.utils.PropertiesManager;
 import pt.ist.socialsoftware.edition.user.utils.Emailer;
-import pt.ist.socialsoftware.edition.user.utils.PropertiesManager;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.AddressException;

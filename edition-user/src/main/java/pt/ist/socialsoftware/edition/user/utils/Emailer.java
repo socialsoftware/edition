@@ -2,7 +2,7 @@ package pt.ist.socialsoftware.edition.user.utils;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pt.ist.socialsoftware.edition.user.utils.PropertiesManager;
+import pt.ist.socialsoftware.edition.text.utils.PropertiesManager;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;

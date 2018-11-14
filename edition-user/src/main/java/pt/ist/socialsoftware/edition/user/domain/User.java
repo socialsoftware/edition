@@ -7,10 +7,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
+import pt.ist.socialsoftware.edition.text.shared.exception.LdoDException;
 import pt.ist.socialsoftware.edition.user.domain.Role.RoleType;
 import pt.ist.socialsoftware.edition.user.security.UserDetails;
 import pt.ist.socialsoftware.edition.user.shared.exception.LdoDDuplicateUsernameException;
-import pt.ist.socialsoftware.edition.user.shared.exception.LdoDException;
 
 import java.util.stream.Collectors;
 

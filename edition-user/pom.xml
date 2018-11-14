@@ -29,4 +29,12 @@
         </plugins>
     </build>
 
+    <dependencies>
+        <dependency>
+            <groupId>pt.ist.socialsoftware</groupId>
+            <artifactId>edition-text</artifactId>
+            <version>1.0</version>
+        </dependency>
+    </dependencies>
+
 </project>
