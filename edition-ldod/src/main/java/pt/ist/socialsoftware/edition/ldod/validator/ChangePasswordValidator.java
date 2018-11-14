@@ -6,7 +6,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
-import pt.ist.socialsoftware.edition.ldod.domain.UserManager;
+import pt.ist.socialsoftware.edition.ldod.domain.LdoDUserManager;
 import pt.ist.socialsoftware.edition.ldod.forms.ChangePasswordForm;
 
 public class ChangePasswordValidator implements Validator {
@@ -32,7 +32,7 @@ public class ChangePasswordValidator implements Validator {
 		}
 
 		logger.debug("validate username:{}, passwordEncoder:{}", changePasswordForm.getUsername(), passwordEncoder);
-		LdoDUser user = UserManager.getInstance().getUser(changePasswordForm.getUsername());
+		LdoDUser user = (LdoDUser) LdoDUserManager.getInstance().getUser(changePasswordForm.getUsername());
 
 		if (!passwordEncoder.matches(changePasswordForm.getCurrentPassword(), user.getPassword()))
 			errors.rejectValue("currentPassword", "DoNotMatch.changePasswordForm");

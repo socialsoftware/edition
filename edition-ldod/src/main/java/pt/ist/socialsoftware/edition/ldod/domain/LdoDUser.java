@@ -13,19 +13,23 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
-import pt.ist.socialsoftware.edition.ldod.domain.Role.RoleType;
+import pt.ist.socialsoftware.edition.user.domain.RegistrationToken;
+import pt.ist.socialsoftware.edition.user.domain.Role;
+import pt.ist.socialsoftware.edition.user.domain.Role.RoleType;
 import pt.ist.socialsoftware.edition.ldod.security.LdoDUserDetails;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDDuplicateUsernameException;
 import pt.ist.socialsoftware.edition.text.shared.exception.LdoDException;
+import pt.ist.socialsoftware.edition.user.domain.UserConnection;
+import pt.ist.socialsoftware.edition.user.domain.UserManager;
 
 public class LdoDUser extends LdoDUser_Base {
 	private static Logger logger = LoggerFactory.getLogger(LdoDUser.class);
 
-	public enum SocialMediaService {
+	/*public enum SocialMediaService {
 		TWITTER, FACEBOOK, LINKEDIN, GOOGLE
-	};
+	};*/
 
-	@Override
+	/*@Override
 	public void setFirstName(String firstName) {
 		if (!firstName.matches("^[\\p{L}\\s]+$")) {
 			throw new LdoDException(firstName);
@@ -48,7 +52,7 @@ public class LdoDUser extends LdoDUser_Base {
 		}
 		checkUniqueUsername(username);
 		super.setUsername(username);
-	}
+	}*/
 
 	public static LdoDUser getAuthenticatedUser() {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -93,13 +97,13 @@ public class LdoDUser extends LdoDUser_Base {
 		setEmail(email);
 	}
 
-	private void checkUniqueUsername(String username) {
+	/*private void checkUniqueUsername(String username) {
 		if (getUserManager().getUsersSet().stream().filter(u -> u.getUsername() != null && u.getUsername().equals(username))
 				.findFirst().isPresent()) {
 			throw new LdoDDuplicateUsernameException(username);
 		}
 
-	}
+	}*/
 
 	public List<VirtualEditionInter> getFragInterSet() {
 		Set<VirtualEditionInter> inters = new HashSet<>();
@@ -133,7 +137,7 @@ public class LdoDUser extends LdoDUser_Base {
 		return VirtualManager.getInstance().createRecommendationWeights(this, virtualEdition);
 	}
 
-	@Atomic(mode = TxMode.WRITE)
+	/*@Atomic(mode = TxMode.WRITE)
 	public RegistrationToken createRegistrationToken(String token) {
 		return new RegistrationToken(token, this);
 	}
@@ -208,6 +212,6 @@ public class LdoDUser extends LdoDUser_Base {
 			userConnection.setUserId(newUsername);
 		}
 
-	}
+	}*/
 
 }

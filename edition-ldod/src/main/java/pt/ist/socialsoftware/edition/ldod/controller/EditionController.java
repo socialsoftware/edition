@@ -88,7 +88,7 @@ public class EditionController {
 	@RequestMapping(method = RequestMethod.GET, value = "/user/{username}")
 	public String getUserContributions(Model model, @PathVariable String username) {
 
-		LdoDUser user = UserManager.getInstance().getUser(username);
+		LdoDUser user = (LdoDUser) LdoDUserManager.getInstance().getUser(username);
 
 		if (user != null) {
 			model.addAttribute("user", user);

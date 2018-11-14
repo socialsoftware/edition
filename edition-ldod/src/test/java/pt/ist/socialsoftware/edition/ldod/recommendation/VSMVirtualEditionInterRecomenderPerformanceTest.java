@@ -34,6 +34,7 @@ import pt.ist.socialsoftware.edition.text.domain.CollectionManager;
 import pt.ist.socialsoftware.edition.text.domain.Edition;
 import pt.ist.socialsoftware.edition.text.domain.ExpertEdition;
 import pt.ist.socialsoftware.edition.text.domain.FragInter;
+import pt.ist.socialsoftware.edition.user.domain.UserManager;
 
 public class VSMVirtualEditionInterRecomenderPerformanceTest {
 	private static VirtualEdition pizarroVirtualEdition = null;
@@ -56,7 +57,7 @@ public class VSMVirtualEditionInterRecomenderPerformanceTest {
 		ExpertEdition zenithEdition = (ExpertEdition) collectionManager.getEdition(Edition.ZENITH_EDITION_ACRONYM);
 		ExpertEdition cunhaEdition = (ExpertEdition) collectionManager.getEdition(Edition.CUNHA_EDITION_ACRONYM);
 
-		LdoDUser userArs = userManager.getUser("ars");
+		LdoDUser userArs = (LdoDUser) userManager.getUser("ars");
 		// create pizarro virtual edition
 		pizarroVirtualEdition = virtualManager.createVirtualEdition(userArs, "TestPizarroRecommendations",
 				"TestPizarroRecommendations", LocalDate.now(), true, pizarroEdition);

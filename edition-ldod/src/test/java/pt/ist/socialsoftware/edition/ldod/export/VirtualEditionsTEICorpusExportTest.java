@@ -21,6 +21,7 @@ import pt.ist.socialsoftware.edition.ldod.domain.VirtualManager;
 import pt.ist.socialsoftware.edition.ldod.loaders.VirtualEditionsTEICorpusImport;
 import pt.ist.socialsoftware.edition.text.domain.CollectionManager;
 import pt.ist.socialsoftware.edition.text.domain.ExpertEdition;
+import pt.ist.socialsoftware.edition.user.domain.UserManager;
 
 public class VirtualEditionsTEICorpusExportTest {
 

@@ -8,12 +8,13 @@ import org.jdom2.output.XMLOutputter;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualManager;
+import pt.ist.socialsoftware.edition.user.domain.*;
 
 public class UsersXMLExport {
 
 	@Atomic
 	public String export() {
-		UserManager userManager = UserManager.getInstance();
+		UserManager userManager = LdoDUserManager.getInstance();
 
 		Element element = createHeader();
 
@@ -39,8 +40,8 @@ public class UsersXMLExport {
 	private void exportUsers(Element element, UserManager userManager) {
 		Element usersElement = new Element("users");
 
-		for (LdoDUser user : userManager.getUsersSet()) {
-			exportUser(usersElement, user);
+		for (User user : userManager.getUsersSet()) {
+			exportUser(usersElement, (LdoDUser) user);
 		}
 
 		element.addContent(usersElement);

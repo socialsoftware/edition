@@ -86,7 +86,7 @@ public class LdoDPermissionEvaluator implements PermissionEvaluator {
 				}
 				break;
 			case "user":
-				user = UserManager.getInstance().getUser((String) targetDomainObject);
+				user = (LdoDUser) LdoDUserManager.getInstance().getUser((String) targetDomainObject);
 				break;
 			default:
 				assert false;

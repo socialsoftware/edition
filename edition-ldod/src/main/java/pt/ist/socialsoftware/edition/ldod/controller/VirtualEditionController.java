@@ -426,7 +426,7 @@ public class VirtualEditionController {
 			return "redirect:/error";
 		}
 
-		LdoDUser user = UserManager.getInstance().getUser(username);
+		LdoDUser user = (LdoDUser) LdoDUserManager.getInstance().getUser(username);
 
 		if (user == null) {
 			List<String> errors = new ArrayList<>();
@@ -450,7 +450,7 @@ public class VirtualEditionController {
 			return "redirect:/error";
 		}
 
-		LdoDUser user = UserManager.getInstance().getUser(username);
+		LdoDUser user = (LdoDUser) LdoDUserManager.getInstance().getUser(username);
 
 		if (user == null) {
 			List<String> errors = new ArrayList<>();
@@ -474,7 +474,7 @@ public class VirtualEditionController {
 			return "redirect:/error";
 		}
 
-		LdoDUser user = UserManager.getInstance().getUser(username);
+		LdoDUser user = (LdoDUser) LdoDUserManager.getInstance().getUser(username);
 
 		if (!virtualEdition.canSwitchRole(LdoDUser.getAuthenticatedUser(), user)) {
 			throw new LdoDExceptionNonAuthorized();

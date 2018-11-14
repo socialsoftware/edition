@@ -15,6 +15,7 @@ import pt.ist.socialsoftware.edition.ldod.search.Indexer;
 import pt.ist.socialsoftware.edition.ldod.topicmodeling.TopicModeler;
 import pt.ist.socialsoftware.edition.ldod.utils.TopicListDTO;
 import pt.ist.socialsoftware.edition.text.domain.*;
+import pt.ist.socialsoftware.edition.user.domain.UserManager;
 
 import javax.transaction.NotSupportedException;
 import javax.transaction.SystemException;
@@ -43,7 +44,7 @@ public class VSMVirtualEditionInterRecomenderTest {
 		UserManager userManager = UserManager.getInstance();
 		ExpertEdition pizarroEdition = (ExpertEdition) CollectionManager.getInstance().getEdition(Edition.PIZARRO_EDITION_ACRONYM);
 
-		LdoDUser userArs = userManager.getUser("ars");
+		LdoDUser userArs = (LdoDUser) userManager.getUser("ars");
 		// create virtual edition
 		virtualEdition = virtualManager.createVirtualEdition(userArs, "TestRecommendations", "TestRecommendations",
 				LocalDate.now(), true, pizarroEdition);

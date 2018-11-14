@@ -199,7 +199,7 @@ public class VirtualEditionFragmentsTEIImport {
 		String username = catRef.getAttributeValue("resp").substring(1);
 		String tag = catRef.getAttributeValue("target").substring(1);
 
-		inter.getVirtualEdition().getTaxonomy().createTag(inter, tag, null, UserManager.getInstance().getUser(username));
+		inter.getVirtualEdition().getTaxonomy().createTag(inter, tag, null, (LdoDUser) LdoDUserManager.getInstance().getUser(username));
 	}
 
 	// TODO: else if aware - done
@@ -232,7 +232,7 @@ public class VirtualEditionFragmentsTEIImport {
 				String tag = catRef.getAttributeValue("target").substring(1);
 				tagList.add(tag);
 			}
-			inter.createHumanAnnotation(quote, text, UserManager.getInstance().getUser(username), rangeList, tagList);
+			inter.createHumanAnnotation(quote, text, (LdoDUser) LdoDUserManager.getInstance().getUser(username), rangeList, tagList);
 		}
 
 		else if (note.getAttributeValue("type").equals("aware")) {

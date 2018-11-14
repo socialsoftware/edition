@@ -18,9 +18,12 @@ import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.text.shared.exception.LdoDLoadException;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser.SocialMediaService;
-import pt.ist.socialsoftware.edition.ldod.domain.Role.RoleType;
+import pt.ist.socialsoftware.edition.user.domain.Role;
+import pt.ist.socialsoftware.edition.user.domain.User.SocialMediaService;
+import pt.ist.socialsoftware.edition.user.domain.Role.RoleType;
 import pt.ist.socialsoftware.edition.text.shared.exception.LdoDException;
+import pt.ist.socialsoftware.edition.user.domain.RegistrationToken;
+import pt.ist.socialsoftware.edition.user.domain.UserConnection;
 
 public class UsersXMLImport {
 
@@ -58,14 +61,14 @@ public class UsersXMLImport {
 
 	@Atomic(mode = TxMode.WRITE)
 	public void processImport(Document doc) {
-		UserManager userManager = UserManager.getInstance();
+		LdoDUserManager userManager = (LdoDUserManager) LdoDUserManager.getInstance();
 
 		importUsers(doc, userManager);
 		importUserConnections(doc, userManager);
 		importRegistrationTokens(doc, userManager);
 	}
 
-	private void importUsers(Document doc, UserManager userManager) {
+	private void importUsers(Document doc, LdoDUserManager userManager) {
 		XPathFactory xpfac = XPathFactory.instance();
 		XPathExpression<Element> xp = xpfac.compile("//users-management/users/user", Filters.element());
 		for (Element element : xp.evaluate(doc)) {
@@ -115,7 +118,7 @@ public class UsersXMLImport {
 
 	}
 
-	private void importUserConnections(Document doc, UserManager userManager) {
+	private void importUserConnections(Document doc, LdoDUserManager userManager) {
 		XPathFactory xpfac = XPathFactory.instance();
 		XPathExpression<Element> xp = xpfac.compile("//users-management/user-connections/user-connection",
 				Filters.element());
@@ -140,7 +143,7 @@ public class UsersXMLImport {
 		}
 	}
 
-	private void importRegistrationTokens(Document doc, UserManager userManager) {
+	private void importRegistrationTokens(Document doc, LdoDUserManager userManager) {
 		XPathFactory xpfac = XPathFactory.instance();
 		XPathExpression<Element> xp = xpfac.compile("//users-management/registration-tokens/token", Filters.element());
 

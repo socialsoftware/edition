@@ -11,6 +11,7 @@ import pt.ist.socialsoftware.edition.ldod.RollbackCaseTest;
 import pt.ist.socialsoftware.edition.text.shared.exception.LdoDException;
 import pt.ist.socialsoftware.edition.text.domain.CollectionManager;
 import pt.ist.socialsoftware.edition.text.domain.ExpertEdition;
+import pt.ist.socialsoftware.edition.user.domain.UserManager;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;

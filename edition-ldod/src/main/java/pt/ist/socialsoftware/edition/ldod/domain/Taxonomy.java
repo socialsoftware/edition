@@ -168,7 +168,7 @@ public class Taxonomy extends Taxonomy_Base {
 			return;
 		}
 
-		LdoDUser user = UserManager.getInstance().getUser(topicList.getUsername());
+		LdoDUser user = (LdoDUser) LdoDUserManager.getInstance().getUser(topicList.getUsername());
 
 		for (TopicDTO topic : topicList.getTopics()) {
 			Category category = new Category();

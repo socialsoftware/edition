@@ -14,11 +14,12 @@ import org.junit.jupiter.api.Test;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.fenixframework.core.WriteOnReadError;
-import pt.ist.socialsoftware.edition.ldod.domain.UserManager;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualManager;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
-import pt.ist.socialsoftware.edition.ldod.domain.RegistrationToken;
 import pt.ist.socialsoftware.edition.ldod.loaders.UsersXMLImport;
+import pt.ist.socialsoftware.edition.user.domain.RegistrationToken;
+import pt.ist.socialsoftware.edition.user.domain.User;
+import pt.ist.socialsoftware.edition.user.domain.UserManager;
 
 public class UsersXMLExportTest {
 	@BeforeEach
@@ -51,7 +52,7 @@ public class UsersXMLExportTest {
 		assertEquals(numOfUserConnections, UserManager.getInstance().getUserConnectionSet().size());
 		assertEquals(numOfRegistrationTokens, UserManager.getInstance().getTokenSet().size());
 
-		for (LdoDUser user : UserManager.getInstance().getUsersSet()) {
+		for (User user : UserManager.getInstance().getUsersSet()) {
 			assertTrue(user.getRolesSet().size() != 0);
 		}
 

@@ -12,11 +12,12 @@ import org.springframework.stereotype.Service;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
-import pt.ist.socialsoftware.edition.ldod.domain.UserManager;
+import pt.ist.socialsoftware.edition.ldod.domain.LdoDUserManager;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualManager;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
-import pt.ist.socialsoftware.edition.ldod.domain.Role;
-import pt.ist.socialsoftware.edition.ldod.domain.Role.RoleType;
+import pt.ist.socialsoftware.edition.user.domain.Role;
+import pt.ist.socialsoftware.edition.user.domain.User;
+import pt.ist.socialsoftware.edition.user.domain.UserManager;
 
 @Service
 public class LdoDUserDetailsService implements UserDetailsService {
@@ -29,17 +30,17 @@ public class LdoDUserDetailsService implements UserDetailsService {
 
 		LdoDUserDetails matchingUser = null;
 
-		UserManager userManager = UserManager.getInstance();
+		UserManager userManager = LdoDUserManager.getInstance();
 
-		for (LdoDUser user : userManager.getUsersSet()) {
+		for (User user : userManager.getUsersSet()) {
 
 			if (user.getEnabled() && user.getActive() && user.getUsername().equals(username)
-					&& (!userManager.getAdmin() || user.getRolesSet().contains(Role.getRole(RoleType.ROLE_ADMIN)))) {
+					&& (!userManager.getAdmin() || user.getRolesSet().contains(Role.getRole(Role.RoleType.ROLE_ADMIN)))) {
 				Set<GrantedAuthority> authorities = new HashSet<>();
 				for (Role role : user.getRolesSet()) {
 					authorities.add(new GrantedAuthorityImpl(role.getType().name()));
 				}
-				matchingUser = new LdoDUserDetails(user, user.getUsername(), user.getPassword(), authorities);
+				matchingUser = new LdoDUserDetails((LdoDUser) user, user.getUsername(), user.getPassword(), authorities);
 
 				return matchingUser;
 			}

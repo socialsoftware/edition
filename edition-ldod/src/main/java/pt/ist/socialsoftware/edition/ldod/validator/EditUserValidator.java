@@ -4,7 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
-import pt.ist.socialsoftware.edition.ldod.domain.UserManager;
+import pt.ist.socialsoftware.edition.ldod.domain.LdoDUserManager;
 import pt.ist.socialsoftware.edition.ldod.forms.EditUserForm;
 
 public class EditUserValidator implements Validator {
@@ -23,7 +23,7 @@ public class EditUserValidator implements Validator {
 		logger.debug("validate oldUsername:{}, newUsername:{}", form.getOldUsername(), form.getNewUsername());
 
 		if (!form.getNewUsername().equals(form.getOldUsername())
-				&& UserManager.getInstance().getUser(form.getNewUsername()) != null) {
+				&& LdoDUserManager.getInstance().getUser(form.getNewUsername()) != null) {
 			errors.rejectValue("newUsername", "Exist.editUserForm");
 		}
 

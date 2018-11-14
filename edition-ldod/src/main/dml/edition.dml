@@ -1,7 +1,5 @@
 package pt.ist.socialsoftware.edition.ldod.domain;
 
-enum LdoDUser.SocialMediaService as SocialMediaService;
-enum Role.RoleType as RoleType;
 enum Member.MemberRole as MemberRole;
 
 class VirtualManager {
@@ -24,32 +22,9 @@ class VirtualEdition extends .pt.ist.socialsoftware.edition.text.domain.Edition 
 	String synopsis;
 }
 
+class LdoDUserManager extends .pt.ist.socialsoftware.edition.user.domain.UserManager;
 
-class UserManager {
-	boolean admin;
-}
-
-relation DomainRootHasUserManager {
-	.pt.ist.fenixframework.DomainRoot playsRole root {
-		multiplicity 1..1;
-	}
-	UserManager playsRole userManager {
-		multiplicity 0..1;
-	}
-}
-
-class LdoDUser {
-	boolean enabled;
-	boolean active;
-	String username;
-	String password;
-	String firstName;
-	String lastName;
-	String email;
-	LocalDate lastLogin;
-	SocialMediaService socialMediaService;
-	String socialMediaId;
-}
+class LdoDUser extends .pt.ist.socialsoftware.edition.user.domain.User;
 
 class LastTwitterID {
 	long bookLastTwitterID;
@@ -62,61 +37,6 @@ relation VirtualManagerHasLastTwitterID {
 	VirtualManager playsRole virtualManager {multiplicity 1..1;}
 	LastTwitterID playsRole lastTwitterID {multiplicity 0..1;}
 }
-
-class UserConnection {
-	String userId;
-	String providerId;
-	String providerUserId; 
-	int rank;
-	String displayName; 
-	String profileUrl;
-	String imageUrl;
-	String accessToken; 
-	String secret;
-	String refreshToken; 
-	Long expireTime;
-}
-
-relation UserManagerHasUserConnections {
-	UserManager playsRole userManager {multiplicity 1..1;}
-	UserConnection playsRole userConnection {multiplicity 0..*;}
-}
-
-relation UserManagerHasLdoDUsers {
-	UserManager playsRole userManager {multiplicity 1..1;}
-	LdoDUser playsRole users {multiplicity 0..*;}
-}
-
-class RegistrationToken {
-	String token;
-	Long expireTime;
-	boolean authorized;
-}
-
-relation UserManagerHasRegistrationToken {
-	UserManager playsRole userManager {multiplicity 1..1;}
-	RegistrationToken playsRole token {multiplicity 0..*;}
-}
-
-relation LdoDUserHasRegistrationToken {
-	LdoDUser playsRole user {multiplicity 1..1;}
-	RegistrationToken playsRole token {multiplicity 0..1;}
-}
-
-class Role {
-	RoleType type;
-}
-
-relation UserManagerHasRoles {
-	UserManager playsRole userManager {multiplicity 1..1;}
-	Role playsRole roles {multiplicity 0..*;}
-}
-
-relation LdoDUsersAndRoles {
-	LdoDUser playsRole users {multiplicity 0..*;}
-	Role playsRole roles {multiplicity 0..*;}
-}
-
 
 
 relation VirtualEditionUsesEdition {

@@ -39,6 +39,12 @@
 			<version>1.0</version>
 		</dependency>
 
+		<dependency>
+			<groupId>pt.ist.socialsoftware</groupId>
+			<artifactId>edition-user</artifactId>
+			<version>1.0</version>
+		</dependency>
+
 		<!-- https://mvnrepository.com/artifact/org.twitter4j/twitter4j-core -->
 		<dependency>
 		    <groupId>org.twitter4j</groupId>

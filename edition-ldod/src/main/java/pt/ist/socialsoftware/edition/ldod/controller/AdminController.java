@@ -50,8 +50,6 @@ import pt.ist.socialsoftware.edition.text.domain.FragInter;
 import pt.ist.socialsoftware.edition.text.domain.Fragment;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualManager;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
-import pt.ist.socialsoftware.edition.ldod.domain.Role;
-import pt.ist.socialsoftware.edition.ldod.domain.Role.RoleType;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.ldod.export.ExpertEditionTEIExport;
 import pt.ist.socialsoftware.edition.ldod.loaders.LoadTEICorpus;
@@ -62,6 +60,7 @@ import pt.ist.socialsoftware.edition.ldod.loaders.VirtualEditionsTEICorpusImport
 import pt.ist.socialsoftware.edition.text.utils.PropertiesManager;
 import pt.ist.socialsoftware.edition.text.domain.CollectionManager;
 import pt.ist.socialsoftware.edition.text.domain.Edition;
+import pt.ist.socialsoftware.edition.user.domain.Role;
 
 @Controller
 @RequestMapping("/admin")
@@ -217,7 +216,7 @@ public class AdminController {
 	public String switchAdminMode() {
 		logger.debug("switchAdminMode");
 
-		UserManager.getInstance().switchAdmin();
+		LdoDUserManager.getInstance().switchAdmin();
 
 		return "redirect:/admin/user/list";
 	}
@@ -260,7 +259,7 @@ public class AdminController {
 		activeSessions.stream().sorted((s1, s2) -> s1.getLastRequest().compareTo(s2.getLastRequest()));
 
 		model.addAttribute("users",
-				UserManager.getInstance().getUsersSet().stream()
+				LdoDUserManager.getInstance().getUsersSet().stream()
 						.sorted((u1, u2) -> u1.getFirstName().toLowerCase().compareTo(u2.getFirstName().toLowerCase()))
 						.collect(Collectors.toList()));
 		model.addAttribute("sessions", activeSessions.stream()
@@ -282,8 +281,8 @@ public class AdminController {
 		form.setFirstName(user.getFirstName());
 		form.setLastName(user.getLastName());
 		form.setEmail(user.getEmail());
-		form.setUser(user.getRolesSet().contains(Role.getRole(RoleType.ROLE_USER)));
-		form.setAdmin(user.getRolesSet().contains(Role.getRole(RoleType.ROLE_ADMIN)));
+		form.setUser(user.getRolesSet().contains(Role.getRole(Role.RoleType.ROLE_USER)));
+		form.setAdmin(user.getRolesSet().contains(Role.getRole(Role.RoleType.ROLE_ADMIN)));
 		form.setEnabled(user.getEnabled());
 
 		return form;
@@ -301,7 +300,7 @@ public class AdminController {
 			return null;
 		}
 
-		LdoDUser user = UserManager.getInstance().getUser(form.getOldUsername());
+		LdoDUser user = (LdoDUser) LdoDUserManager.getInstance().getUser(form.getOldUsername());
 
 		user.update(this.passwordEncoder, form.getOldUsername(), form.getNewUsername(), form.getFirstName(),
 				form.getLastName(), form.getEmail(), form.getNewPassword(), form.isUser(), form.isAdmin(),
@@ -621,7 +620,7 @@ public class AdminController {
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public String createTestUsers(Model model) {
 		logger.debug("createTestUsers");
-		UserManager.getInstance().createTestUsers(this.passwordEncoder);
+		LdoDUserManager.getInstance().createTestUsers(this.passwordEncoder);
 		return "redirect:/admin/user/list";
 	}
 

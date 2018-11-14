@@ -114,7 +114,7 @@ public class VirtualEditionsTEICorpusImport {
 			LdoDUser owner = null;
 			for (Element editor : bibl.getChildren("editor", namespace)) {
 				if (editor.getAttributeValue("role").equals("ADMIN")) {
-					owner = UserManager.getInstance().getUser(editor.getAttributeValue("nymRef"));
+					owner = (LdoDUser) LdoDUserManager.getInstance().getUser(editor.getAttributeValue("nymRef"));
 					// if a virtual edition exists with the same name, it is
 					// deleted
 					virtualEdition = virtualManager.getVirtualEdition(acronym);
@@ -129,7 +129,7 @@ public class VirtualEditionsTEICorpusImport {
 			}
 
 			for (Element editor : bibl.getChildren("editor", namespace)) {
-				LdoDUser user = UserManager.getInstance().getUser(editor.getAttributeValue("nymRef"));
+				LdoDUser user = (LdoDUser) LdoDUserManager.getInstance().getUser(editor.getAttributeValue("nymRef"));
 				Member.MemberRole role = Member.MemberRole.valueOf(editor.getAttributeValue("role"));
 				boolean active = editor.getAttributeValue("active").equals("true") ? true : false;
 

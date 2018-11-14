@@ -23,10 +23,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import pt.ist.socialsoftware.edition.ldod.domain.Role.RoleType;
 import pt.ist.socialsoftware.edition.ldod.filters.JWTAuthorizationFilter;
 import pt.ist.socialsoftware.edition.ldod.security.*;
 import pt.ist.socialsoftware.edition.ldod.security.jwt.JWTAuthenticationEntryPoint;
+import pt.ist.socialsoftware.edition.user.domain.Role;
 
 
 @Configuration
@@ -59,7 +59,7 @@ public class WebSecurityConfig extends  WebSecurityConfigurerAdapter{
 					.loginProcessingUrl("/signin/authenticate").failureUrl("/signin?param.error=bad_credentials").and()
 					.logout().logoutUrl("/signout").deleteCookies("JSESSIONID").invalidateHttpSession(true).and()
 					.authorizeRequests().antMatchers("/virtualeditions/restricted/**", "/user/**").authenticated()
-					.antMatchers("/admin/**").hasAuthority(RoleType.ROLE_ADMIN.name()).and()
+					.antMatchers("/admin/**").hasAuthority(Role.RoleType.ROLE_ADMIN.name()).and()
 					.sessionManagement()
 					.maximumSessions(2).sessionRegistry(sessionRegistry());
 

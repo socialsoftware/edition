@@ -10,6 +10,7 @@ import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.loaders.LoadTEICorpus;
 import pt.ist.socialsoftware.edition.ldod.loaders.LoadTEIFragments;
 import pt.ist.socialsoftware.edition.ldod.utils.Bootstrap;
+import pt.ist.socialsoftware.edition.user.domain.UserManager;
 
 import javax.transaction.NotSupportedException;
 import javax.transaction.SystemException;
@@ -79,7 +80,7 @@ public class ControllerTest {
         UserManager userManager = UserManager.getInstance();
 
 //        LdoDUser user = userManager.getUser("user");
-        LdoDUser ars = userManager.getUser("ars");
+        LdoDUser ars = (LdoDUser) userManager.getUser("ars");
 
         VirtualEdition virtualEdition = new VirtualEdition(virtualManager,
                 ars,

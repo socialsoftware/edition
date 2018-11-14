@@ -24,7 +24,6 @@ import pt.ist.socialsoftware.edition.ldod.recommendation.properties.Property;
 import pt.ist.socialsoftware.edition.ldod.search.Indexer;
 import pt.ist.socialsoftware.edition.text.shared.exception.LdoDException;
 import pt.ist.socialsoftware.edition.ldod.topicmodeling.TopicModeler;
-import pt.ist.socialsoftware.edition.ldod.domain.Role.RoleType;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.ldod.recommendation.VSMFragmentRecommender;
 import pt.ist.socialsoftware.edition.ldod.recommendation.properties.HeteronymProperty;
@@ -34,6 +33,8 @@ import pt.ist.socialsoftware.edition.text.domain.CollectionManager;
 import pt.ist.socialsoftware.edition.text.domain.Edition;
 import pt.ist.socialsoftware.edition.text.domain.Fragment;
 import pt.ist.socialsoftware.edition.text.utils.PropertiesManager;
+import pt.ist.socialsoftware.edition.user.domain.Role;
+import pt.ist.socialsoftware.edition.user.domain.UserManager;
 
 /**
  * @author ars
@@ -54,8 +55,8 @@ public class Bootstrap implements WebApplicationInitializer {
 
 	@Atomic(mode = TxMode.WRITE)
 	public static void initializeSystem() {
-		if (UserManager.getInstance() == null) {
-			UserManager userManager = new UserManager();
+		if (LdoDUserManager.getInstance() == null) {
+			LdoDUserManager userManager = new LdoDUserManager();
 			userManager.setAdmin(true);
 			createUsersAndRoles();
 		}
@@ -116,10 +117,10 @@ public class Bootstrap implements WebApplicationInitializer {
 	}
 
 	private static void createUsersAndRoles() {
-		UserManager userManager = UserManager.getInstance();
+		UserManager userManager = LdoDUserManager.getInstance();
 
-		Role user = Role.getRole(RoleType.ROLE_USER);
-		Role admin = Role.getRole(RoleType.ROLE_ADMIN);
+		Role user = Role.getRole(Role.RoleType.ROLE_USER);
+		Role admin = Role.getRole(Role.RoleType.ROLE_ADMIN);
 
 		// the bcrypt generator
 		// https://www.dailycred.com/blog/12/bcrypt-calculator
@@ -220,7 +221,7 @@ public class Bootstrap implements WebApplicationInitializer {
 	}
 
 	public static void createVirtualEditionsForTest() {
-		UserManager userManager = UserManager.getInstance();
+		UserManager userManager = LdoDUserManager.getInstance();
 
 
 		logger.debug("createVirtualEditionsForTest size{}", userManager.getUsersSet().size());
@@ -299,10 +300,10 @@ public class Bootstrap implements WebApplicationInitializer {
 
 	private static void createLdoDArchiveVirtualEdition() {
 		VirtualManager virtualManager = VirtualManager.getInstance();
-		UserManager userManager = UserManager.getInstance();
+		UserManager userManager = LdoDUserManager.getInstance();
 
 
-		LdoDUser ars = userManager.getUser("ars");
+		LdoDUser ars = (LdoDUser) userManager.getUser("ars");
 		// LdoDUser mp = ldod.getUser("mp");
 
 		VirtualEdition ldoDArchiveEdition = new VirtualEdition(virtualManager, ars, VirtualEdition.ARCHIVE_EDITION_ACRONYM,

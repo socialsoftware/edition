@@ -6,6 +6,8 @@ import org.joda.time.DateTime;
 import org.junit.jupiter.api.Test;
 
 import pt.ist.socialsoftware.edition.ldod.RollbackCaseTest;
+import pt.ist.socialsoftware.edition.user.domain.RegistrationToken;
+import pt.ist.socialsoftware.edition.user.domain.UserManager;
 
 public class RegistrationTokenTest extends RollbackCaseTest {
 

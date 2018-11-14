@@ -8,7 +8,7 @@ public class AwareAnnotation extends AwareAnnotation_Base {
 	public AwareAnnotation(VirtualEditionInter inter, String quote, String text, Citation citation) {
 		super.init(inter, quote, text);
 		this.setCitation(citation);
-		this.setUser(UserManager.getInstance().getUser("Twitter"));
+		this.setUser((LdoDUser) LdoDUserManager.getInstance().getUser("Twitter"));
 	}
 
 	@Override
