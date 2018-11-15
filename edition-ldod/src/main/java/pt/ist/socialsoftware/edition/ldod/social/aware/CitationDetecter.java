@@ -210,7 +210,7 @@ public class CitationDetecter {
 			if (hits.length > 0) {
 				int docId = hits[0].doc;
 				float score = hits[0].score;
-				if (score > 30) {
+				if (score > 20) {
 					Document d = idxSearcher.doc(docId);
 
 					// necessary because the same tweet was collected using different keywords in
