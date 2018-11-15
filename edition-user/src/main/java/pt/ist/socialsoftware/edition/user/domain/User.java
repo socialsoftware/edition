@@ -9,6 +9,7 @@ import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.socialsoftware.edition.text.shared.exception.LdoDException;
 import pt.ist.socialsoftware.edition.user.domain.Role.RoleType;
+import pt.ist.socialsoftware.edition.user.security.LdoDUserDetails;
 import pt.ist.socialsoftware.edition.user.security.UserDetails;
 import pt.ist.socialsoftware.edition.user.shared.exception.LdoDDuplicateUsernameException;
 
@@ -49,10 +50,10 @@ public class User extends User_Base {
 	public static User getAuthenticatedUser() {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		if (authentication != null) {
-			UserDetails userDetails = null;
+			LdoDUserDetails userDetails = null;
 			Object principal = authentication.getPrincipal();
-			if (principal instanceof UserDetails) {
-				userDetails = (UserDetails) principal;
+			if (principal instanceof LdoDUserDetails) {
+				userDetails = (LdoDUserDetails) principal;
 				return userDetails.getUser();
 			}
 		}

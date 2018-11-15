@@ -7,8 +7,8 @@ import org.springframework.stereotype.Component;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import pt.ist.socialsoftware.edition.ldod.security.LdoDUserDetails;
 import pt.ist.socialsoftware.edition.text.utils.PropertiesManager;
+import pt.ist.socialsoftware.edition.user.security.LdoDUserDetails;
 
 @Component
 public class JWTTokenProvider {

@@ -5,6 +5,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.social.security.SocialUserDetails;
 import org.springframework.social.security.SocialUserDetailsService;
 import org.springframework.stereotype.Service;
+import pt.ist.socialsoftware.edition.user.security.LdoDUserDetails;
 
 @Service
 public class LdoDSocialUserDetailsService implements SocialUserDetailsService {

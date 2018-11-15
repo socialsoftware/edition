@@ -18,6 +18,7 @@ import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
 import pt.ist.socialsoftware.edition.user.domain.Role;
 import pt.ist.socialsoftware.edition.user.domain.User;
 import pt.ist.socialsoftware.edition.user.domain.UserManager;
+import pt.ist.socialsoftware.edition.user.security.LdoDUserDetails;
 
 @Service
 public class LdoDUserDetailsService implements UserDetailsService {

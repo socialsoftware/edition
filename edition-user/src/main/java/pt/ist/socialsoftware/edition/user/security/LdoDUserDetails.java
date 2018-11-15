@@ -1,15 +1,14 @@
-package pt.ist.socialsoftware.edition.ldod.security;
-
-import java.util.Collection;
-import java.util.HashSet;
+package pt.ist.socialsoftware.edition.user.security;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.social.security.SocialUserDetails;
-
 import pt.ist.fenixframework.FenixFramework;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
+import pt.ist.socialsoftware.edition.user.domain.User;
+
+import java.util.Collection;
+import java.util.HashSet;
 
 public class LdoDUserDetails implements SocialUserDetails {
 	private static Logger log = LoggerFactory.getLogger(LdoDUserDetails.class);
@@ -21,7 +20,7 @@ public class LdoDUserDetails implements SocialUserDetails {
 	private final String username;
 	private final String userId;
 
-	public LdoDUserDetails(LdoDUser user, String username, String password, Collection<GrantedAuthority> authorities) {
+	public LdoDUserDetails(User user, String username, String password, Collection<GrantedAuthority> authorities) {
 		this.username = username;
 		this.password = password;
 		this.authorities = authorities;
@@ -43,9 +42,9 @@ public class LdoDUserDetails implements SocialUserDetails {
 		return this.username;
 	}
 
-	public LdoDUser getUser() {
+	public User getUser() {
 		// log.debug("getUser userId:{}", userId);
-		return (LdoDUser) FenixFramework.getDomainObject(userId);
+		return (User) FenixFramework.getDomainObject(userId);
 	}
 
 	@Override

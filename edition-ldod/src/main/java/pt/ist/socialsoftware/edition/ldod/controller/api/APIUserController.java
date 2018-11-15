@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoDUserManager;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
 import pt.ist.socialsoftware.edition.ldod.dto.LdoDUserDTO;
-import pt.ist.socialsoftware.edition.ldod.security.LdoDUserDetails;
 import pt.ist.socialsoftware.edition.text.shared.exception.LdoDException;
+import pt.ist.socialsoftware.edition.user.security.LdoDUserDetails;
 
 @RestController
 @RequestMapping("/api/user")
@@ -23,7 +23,7 @@ public class APIUserController {
 	public LdoDUserDTO getCurrentUser(@AuthenticationPrincipal LdoDUserDetails currentUser) {
 		logger.debug("getCurrentUser {}", currentUser == null ? "null" : currentUser.getUsername());
 		if (currentUser != null) {
-			return new LdoDUserDTO(currentUser.getUser());
+			return new LdoDUserDTO((LdoDUser) currentUser.getUser());
 		}
 		throw new LdoDException("No current user!");
 	}

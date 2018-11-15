@@ -16,7 +16,6 @@ import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.domain.Member.MemberRole;
 import pt.ist.socialsoftware.edition.ldod.dto.*;
-import pt.ist.socialsoftware.edition.ldod.security.LdoDUserDetails;
 import pt.ist.socialsoftware.edition.ldod.session.LdoDSession;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDCreateVirtualEditionException;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDDuplicateNameException;
@@ -32,6 +31,7 @@ import pt.ist.socialsoftware.edition.text.shared.exception.LdoDDuplicateAcronymE
 import pt.ist.socialsoftware.edition.text.shared.exception.LdoDException;
 import pt.ist.socialsoftware.edition.text.shared.exception.LdoDExceptionNonAuthorized;
 import pt.ist.socialsoftware.edition.text.utils.PropertiesManager;
+import pt.ist.socialsoftware.edition.user.security.LdoDUserDetails;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -597,7 +597,7 @@ public class VirtualEditionController {
 			TopicListDTO topicListDTO = null;
 			TopicModeler modeler = new TopicModeler();
 			try {
-				topicListDTO = modeler.generate(userDetails.getUser(), virtualEdition, numTopics, numWords,
+				topicListDTO = modeler.generate((LdoDUser) userDetails.getUser(), virtualEdition, numTopics, numWords,
 						thresholdCategories, numIterations);
 			} catch (LdoDException ex) {
 				topicErrors.add("Não existe nenhum fragmento associado a esta edição ou é necessário gerar o Corpus");

@@ -41,8 +41,6 @@ import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.export.UsersXMLExport;
 import pt.ist.socialsoftware.edition.ldod.export.WriteVirtualEditonsToFile;
 import pt.ist.socialsoftware.edition.ldod.forms.EditUserForm;
-import pt.ist.socialsoftware.edition.ldod.security.LdoDUserDetails;
-import pt.ist.socialsoftware.edition.text.deleters.FragmentDeleter;
 import pt.ist.socialsoftware.edition.text.shared.exception.LdoDException;
 import pt.ist.socialsoftware.edition.text.shared.exception.LdoDLoadException;
 import pt.ist.socialsoftware.edition.ldod.validator.EditUserValidator;
@@ -61,6 +59,7 @@ import pt.ist.socialsoftware.edition.text.utils.PropertiesManager;
 import pt.ist.socialsoftware.edition.text.domain.CollectionManager;
 import pt.ist.socialsoftware.edition.text.domain.Edition;
 import pt.ist.socialsoftware.edition.user.domain.Role;
+import pt.ist.socialsoftware.edition.user.security.LdoDUserDetails;
 
 @Controller
 @RequestMapping("/admin")
@@ -233,7 +232,7 @@ public class AdminController {
 
 		for (SessionInformation session : activeSessions) {
 			if (session.getPrincipal() instanceof LdoDUserDetails) {
-				LdoDUser ldoDUser = ((LdoDUserDetails) session.getPrincipal()).getUser();
+				LdoDUser ldoDUser = (LdoDUser) ((LdoDUserDetails) session.getPrincipal()).getUser();
 
 				if (ldoDUser != LdoDUser.getAuthenticatedUser()) {
 					session.expireNow();
