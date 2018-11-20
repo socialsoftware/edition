@@ -10,7 +10,6 @@ import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.socialsoftware.edition.text.shared.exception.LdoDException;
 import pt.ist.socialsoftware.edition.user.domain.Role.RoleType;
 import pt.ist.socialsoftware.edition.user.security.LdoDUserDetails;
-import pt.ist.socialsoftware.edition.user.security.UserDetails;
 import pt.ist.socialsoftware.edition.user.shared.exception.LdoDDuplicateUsernameException;
 
 import java.util.stream.Collectors;

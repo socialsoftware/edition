@@ -2,10 +2,10 @@ package pt.ist.socialsoftware.edition.ldod.domain;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import pt.ist.fenixframework.FenixFramework;
-import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDDuplicateUsernameException;
 import pt.ist.socialsoftware.edition.user.domain.Role;
 import pt.ist.socialsoftware.edition.user.domain.User;
 import pt.ist.socialsoftware.edition.user.domain.UserManager;
+import pt.ist.socialsoftware.edition.user.shared.exception.LdoDDuplicateUsernameException;
 
 public class LdoDUserManager extends LdoDUserManager_Base {
 
