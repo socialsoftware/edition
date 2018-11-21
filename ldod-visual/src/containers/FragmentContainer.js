@@ -15,25 +15,6 @@ const mapDispatchToProps = dispatch => {
 };
 
 class ConnectedFragmentContainer extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      acronym: "LdoD-test",
-      fragmentsLoaded: false
-    };
-  }
-
-  componentDidMount() {
-    const service = new RepositoryService();
-    service.getFragments(this.state.acronym).then(response => {
-      response.data.fragments.map(f => this.props.addFragment(f));
-
-      this.setState(prevState => ({
-        fragmentsLoaded: !prevState.check
-      }));
-    });
-  }
 
   render() {
     let fragmentToRender;

@@ -4,6 +4,7 @@ import {connect} from "react-redux";
 import {DropdownButton, MenuItem, ButtonToolbar} from "react-bootstrap";
 import NetworkGraphContainer from "../containers/NetworkGraphContainer";
 import {setCurrentVisualization} from "../actions/index";
+import SquareGrid from "../components/SquareGrid";
 
 const mapDispatchToProps = dispatch => {
   return {
@@ -48,6 +49,7 @@ class ConnectedActivityMenu extends Component {
     }
 
     return <div className="activityMenu">{visualizationToRender}</div>;
+
   }
 }
 

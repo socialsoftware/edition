@@ -1,15 +1,18 @@
 import React, {Component} from "react";
 import "./App.css";
-import FragmentContainer from "./containers/FragmentContainer";
+import Fragment from "./components/Fragment";
 import {setFragmentIndex, addHistoryEntry} from "./actions/index";
 import {connect} from "react-redux";
 import {Button, ButtonToolbar, Modal} from "react-bootstrap";
 import ActivityMenu from "./components/ActivityMenu";
 import HistoryMenu from "./components/HistoryMenu";
 import {VIS_NETWORK, BY_HISTORIC, BY_NEXTBUTTON, BY_PREVIOUSBUTTON} from "./constants/history-transitions";
+import NetworkGraph from "./components/NetworkGraph";
+import FragmentLoader from "./components/FragmentLoader";
+import SquareGrid from "./components/SquareGrid";
 
 const mapStateToProps = state => {
-  return {fragments: state.fragments, fragmentIndex: state.fragmentIndex, currentVisualization: state.currentVisualization, history: state.history};
+  return {fragments: state.fragments, fragmentIndex: state.fragmentIndex, currentVisualization: state.currentVisualization, history: state.history, allFragmentsLoaded: state.allFragmentsLoaded};
 };
 
 const mapDispatchToProps = dispatch => {
@@ -28,11 +31,9 @@ class ConnectedApp extends Component {
       nextFragmentButtonStyle: "primary",
       showConfig: false,
       showGlobalView: false,
-      showHistoric: false
+      showHistoric: false,
+      showLanding: true
     };
-
-    this.handleClickPrevious = this.handleClickPrevious.bind(this);
-    this.handleClickNext = this.handleClickNext.bind(this);
 
     this.handleShowGlobalView = this.handleShowGlobalView.bind(this);
     this.handleCloseGlobalView = this.handleCloseGlobalView.bind(this);
@@ -44,54 +45,11 @@ class ConnectedApp extends Component {
     this.handleCloseHistoric = this.handleCloseHistoric.bind(this);
 
     this.handleCloseModals = this.handleCloseModals.bind(this);
-  }
-
-  handleClickPrevious() {
-    if (this.props.fragmentIndex === 1) { //no more previous fragments
-      this.setState({previousFragmentButtonStyle: "default"});
-    }
-    if (this.props.fragmentIndex > 0) {
-      this.setState({nextFragmentButtonStyle: "primary"});
-
-      //add history entry
-      let obj;
-      obj = {
-        originalFragment: this.props.fragments[this.props.fragmentIndex],
-        nextFragment: this.props.fragments[this.props.fragmentIndex - 1],
-        via: BY_PREVIOUSBUTTON,
-        criteria: "NA",
-        visualization: this.props.fragmentIndex
-      };
-      this.props.addHistoryEntry(obj);
-      this.props.setFragmentIndex(this.props.fragmentIndex - 1);
-    }
-  }
-
-  handleClickNext() {
-    if (this.props.fragmentIndex === this.props.fragments.length - 2) {
-      this.setState({
-        nextFragmentButtonStyle: "default" //no more next fragments
-      });
-    }
-    if (this.props.fragmentIndex < this.props.fragments.length - 1) {
-
-      //add history entry
-      let obj;
-      obj = {
-        originalFragment: this.props.fragments[this.props.fragmentIndex],
-        nextFragment: this.props.fragments[this.props.fragmentIndex + 1],
-        via: BY_NEXTBUTTON,
-        criteria: "NA",
-        visualization: "NA"
-      };
-      this.props.addHistoryEntry(obj);
-      this.props.setFragmentIndex(this.props.fragmentIndex + 1);
-      this.setState({previousFragmentButtonStyle: "primary"});
-    }
+    this.handleCloseLanding = this.handleCloseLanding.bind(this);
   }
 
   handleCloseModals() {
-    this.setState({showConfig: false, showGlobalView: false});
+    this.setState({showConfig: false, showGlobalView: false, showLanding: false});
   }
 
   handleCloseConfig() {
@@ -118,44 +76,68 @@ class ConnectedApp extends Component {
     this.setState({showHistoric: true});
   }
 
+  handleCloseLanding() {
+    this.setState({showLanding: false});
+  }
+
   render() {
+    let landingVisToRender;
+
+    if (this.props.allFragmentsLoaded) {
+      //alert(this.props.fragments.length)
+      landingVisToRender = <SquareGrid onChange={this.handleCloseModals}/>;
+    } else {
+      landingVisToRender = <div/>;
+    }
     return (<div className="app">
+
+      <FragmentLoader/>
+
       <div className="buttonToolbar">
         <ButtonToolbar>
-          <Button bsStyle={this.state.previousFragmentButtonStyle} bsSize="large" onClick={this.handleClickPrevious}>
-            Anterior
+
+          <Button bsStyle="primary" bsSize="large" onClick={this.handleShowGlobalView}>
+            Actividade Actual
           </Button>
 
           <Button bsStyle="primary" bsSize="large" onClick={this.handleShowConfig}>
-            Configuração de Actividade
-          </Button>
-
-          <Button bsStyle="primary" bsSize="large" onClick={this.handleShowGlobalView}>
-            Vista Global
+            Nova Actividade
           </Button>
 
           <Button bsStyle="primary" bsSize="large" onClick={this.handleShowHistoric}>
-            Histórico
+            Histórico de leitura
           </Button>
 
-          <Button bsStyle={this.state.nextFragmentButtonStyle} bsSize="large" onClick={this.handleClickNext}>
-            Próximo
-          </Button>
         </ButtonToolbar>
       </div>
 
       <div>
-        <FragmentContainer/>
+        <Fragment/>
       </div>
+
+      <Modal show={this.state.showLanding} dialogClassName="custom-modal">
+        <Modal.Header>
+          <Modal.Title>
+            Bem-vindo
+          </Modal.Title>
+        </Modal.Header>
+
+        <Modal.Body>
+          Esta é a sua primeira actividade. {landingVisToRender}
+        </Modal.Body>
+
+      </Modal>
 
       <Modal show={this.state.showGlobalView} onHide={this.handleCloseGlobalView} dialogClassName="custom-modal">
         <Modal.Header closeButton="closeButton">
           <Modal.Title>
-            Vista Global
+            Actividade Actual
           </Modal.Title>
         </Modal.Header>
 
-        <Modal.Body>{this.props.currentVisualization}</Modal.Body>
+        <Modal.Body>
+          {this.props.currentVisualization}
+        </Modal.Body>
 
         <Modal.Footer>
           <Button bsStyle="primary" onClick={this.handleCloseGlobalView}>
@@ -167,7 +149,7 @@ class ConnectedApp extends Component {
       <Modal show={this.state.showConfig} onHide={this.handleCloseConfig} dialogClassName="custom-modal">
         <Modal.Header closeButton="closeButton">
           <Modal.Title>
-            Configuração de Actividade
+            Nova Actividade
           </Modal.Title>
         </Modal.Header>
 
@@ -190,7 +172,6 @@ class ConnectedApp extends Component {
         </Modal.Header>
 
         <Modal.Body>
-          {console.log(this.props.history)}
           <HistoryMenu/>
         </Modal.Body>
 

@@ -108,7 +108,7 @@ class ConnectedNetworkGraph extends Component {
         from: this.props.graphData[0].interId,
         to: this.props.graphData[i].interId,
         length: myLength,
-        hidden: false
+        hidden: true
       };
 
       this.edges.push(obj);
@@ -142,8 +142,6 @@ class ConnectedNetworkGraph extends Component {
       var i;
       for (i = 0; i < this.props.fragments.length; i++) {
         if (this.props.fragments[i].interId === nodeId) {
-          this.props.onChange();
-          this.props.setFragmentIndex(i);
           //add history entry
           let obj;
           obj = {
@@ -154,6 +152,8 @@ class ConnectedNetworkGraph extends Component {
             visualization: this.props.currentVisualization
           };
           this.props.addHistoryEntry(obj);
+          this.props.onChange();
+          this.props.setFragmentIndex(i);
         }
       }
     }
