@@ -56,8 +56,10 @@ import pt.ist.socialsoftware.edition.ldod.search.IgnoreDiacriticsAnalyzer;
 import pt.ist.socialsoftware.edition.ldod.utils.PropertiesManager;
 
 public class CitationDetecter {
-
 	private final Logger logger = LoggerFactory.getLogger(CitationDetecter.class);
+
+	private final int LUCENE_THRESHOLD = 20;
+	private final int WINDOW_THRESHOLD = 10;
 
 	private final String ID = "id";
 	private final String TEXT = "text";
@@ -210,7 +212,7 @@ public class CitationDetecter {
 			if (hits.length > 0) {
 				int docId = hits[0].doc;
 				float score = hits[0].score;
-				if (score > 20) {
+				if (score > this.LUCENE_THRESHOLD) {
 					Document d = idxSearcher.doc(docId);
 
 					// necessary because the same tweet was collected using different keywords in
@@ -443,7 +445,7 @@ public class CitationDetecter {
 		String patternFound = "";
 
 		// parameters that can be adjusted
-		int window = 10;
+		int window = this.WINDOW_THRESHOLD;
 		double jaroThreshold = 0.9;
 		int startCorrectParam = 3; // parâmetro utilizado na correção da start position
 

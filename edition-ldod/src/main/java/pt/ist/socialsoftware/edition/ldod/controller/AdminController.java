@@ -637,8 +637,6 @@ public class AdminController {
 								.compareTo(java.time.LocalDateTime.parse(c1.getDate(), formater)))
 						.collect(Collectors.toList()));
 		model.addAttribute("tweets", LdoD.getInstance().getTweetSet());
-		model.addAttribute("tweetsWithoutCitation", LdoD.getInstance().getTweetSet().stream()
-				.filter(t -> t.getCitation() == null).collect(Collectors.toSet()));
 		model.addAttribute("numberOfCitationsWithInfoRange", LdoD.getInstance().getNumberOfCitationsWithInfoRanges());
 		return "admin/manageTweets";
 	}

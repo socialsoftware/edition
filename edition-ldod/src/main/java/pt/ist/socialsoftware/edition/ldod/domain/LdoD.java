@@ -238,8 +238,8 @@ public class LdoD extends LdoD_Base {
 
 	public TwitterCitation getTwitterCitationByTweetID(long id) {
 		TwitterCitation result = null;
-		Set<TwitterCitation> allTwiiterCitations = getAllTwitterCitation();
-		for (TwitterCitation tc : allTwiiterCitations) {
+		Set<TwitterCitation> allTwitterCitations = getAllTwitterCitation();
+		for (TwitterCitation tc : allTwitterCitations) {
 			if (tc.getTweetID() == id) {
 				result = tc;
 			}

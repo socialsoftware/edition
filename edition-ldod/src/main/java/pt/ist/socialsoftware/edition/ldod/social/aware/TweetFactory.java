@@ -41,7 +41,12 @@ public class TweetFactory {
 			fileTweetCreation(fileEntry);
 
 		}
+
 		logger.debug("FINISHED TWEET FACTORY!!!");
+
+		logger.debug("DELETE CITATIONS WITHOUT INFO RANGE");
+		LdoD.getInstance().getCitationSet().stream().filter(c -> c.getInfoRangeSet().isEmpty())
+				.forEach(c -> c.remove());
 	}
 
 	private void fileTweetCreation(File fileEntry) throws FileNotFoundException, IOException {
