@@ -322,7 +322,7 @@ public class CitationDetecter {
 			int numOfPStart = Integer.parseInt(result.get(3));
 			int numOfPEnd = Integer.parseInt(result.get(4));
 
-			if (htmlStart != -1 && htmlEnd != -1 && infoQuote != ""
+			if (htmlStart != -1 && htmlEnd != -1 && infoQuote.trim() != ""
 					&& !startBiggerThanEnd(htmlStart, htmlEnd, numOfPStart, numOfPEnd)) {
 
 				String infoText = createInfoText(citation);
