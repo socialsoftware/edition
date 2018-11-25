@@ -244,7 +244,7 @@ public class LdoD extends LdoD_Base {
 
 	@Atomic(mode = TxMode.WRITE)
 	public void deleteTweetsWithoutCitation() {
-		getTweetSet().stream().filter(t -> t.getCitation() != null).forEach(t -> t.remove());
+		getTweetSet().stream().filter(t -> t.getCitation() == null).forEach(t -> t.remove());
 	}
 
 	public TwitterCitation getTwitterCitationByTweetID(long id) {
