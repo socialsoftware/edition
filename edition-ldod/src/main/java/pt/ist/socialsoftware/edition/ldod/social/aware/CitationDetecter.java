@@ -59,7 +59,7 @@ public class CitationDetecter {
 	private final Logger logger = LoggerFactory.getLogger(CitationDetecter.class);
 
 	private final int LUCENE_THRESHOLD = 20;
-	private final int WINDOW_THRESHOLD = 10;
+	private final int WINDOW_THRESHOLD = 15;
 
 	private final String ID = "id";
 	private final String TEXT = "text";

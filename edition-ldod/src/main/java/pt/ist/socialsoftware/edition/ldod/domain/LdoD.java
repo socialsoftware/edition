@@ -238,8 +238,9 @@ public class LdoD extends LdoD_Base {
 	}
 
 	@Atomic(mode = TxMode.WRITE)
-	public void deleteCitationsWithoutInfoRange() {
-		getCitationSet().stream().filter(c -> c.getInfoRangeSet().isEmpty()).forEach(c -> c.remove());
+	public void deleteTweetCitationsWithoutInfoRangeOrTweet() {
+		getAllTwitterCitation().stream().filter(c -> c.getInfoRangeSet().isEmpty() || c.getTweetSet().isEmpty())
+				.forEach(c -> c.remove());
 	}
 
 	@Atomic(mode = TxMode.WRITE)

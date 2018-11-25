@@ -37,6 +37,10 @@ public class LdoDSession implements Serializable {
 			if (virtualEdition != null) {
 				ldoDSession.addSelectedVE(virtualEdition);
 			}
+			virtualEdition = LdoD.getInstance().getVirtualEdition("LdoD-Twitter");
+			if (virtualEdition != null) {
+				ldoDSession.addSelectedVE(virtualEdition);
+			}
 			virtualEdition = LdoD.getInstance().getVirtualEdition("LdoD-Mallet");
 			if (virtualEdition != null) {
 				ldoDSession.addSelectedVE(virtualEdition);
