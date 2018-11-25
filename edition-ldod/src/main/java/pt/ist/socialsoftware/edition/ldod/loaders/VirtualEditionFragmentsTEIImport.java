@@ -138,7 +138,6 @@ public class VirtualEditionFragmentsTEIImport {
 		}
 	}
 
-	// TODO - done
 	private void importFragmentCitations(Document doc, Fragment fragment) {
 		XPathFactory xpfac = XPathFactory.instance();
 		XPathExpression<Element> xp = xpfac.compile("//def:citation", Filters.element(), null,

@@ -242,6 +242,11 @@ public class LdoD extends LdoD_Base {
 		getCitationSet().stream().filter(c -> c.getInfoRangeSet().isEmpty()).forEach(c -> c.remove());
 	}
 
+	@Atomic(mode = TxMode.WRITE)
+	public void deleteTweetsWithoutCitation() {
+		getTweetSet().stream().filter(t -> t.getCitation() != null).forEach(t -> t.remove());
+	}
+
 	public TwitterCitation getTwitterCitationByTweetID(long id) {
 		TwitterCitation result = null;
 		Set<TwitterCitation> allTwitterCitations = getAllTwitterCitation();
@@ -433,5 +438,4 @@ public class LdoD extends LdoD_Base {
 		}
 
 	}
-
 }

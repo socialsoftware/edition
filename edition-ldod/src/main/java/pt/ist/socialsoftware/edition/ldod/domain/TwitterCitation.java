@@ -5,11 +5,11 @@ public class TwitterCitation extends TwitterCitation_Base {
 	public TwitterCitation(Fragment fragment, String sourceLink, String date, String fragText, String tweetText,
 			long tweetID, String location, String country, String username, String profURL, String profImgURL) {
 
-		super.init(fragment, sourceLink, date, fragText);
-		setTweetText(tweetText);
+		super.init(fragment, sourceLink, date.trim(), fragText.trim());
+		setTweetText(tweetText.trim());
 		setTweetID(tweetID);
-		setLocation(location);
-		setCountry(country);
+		setLocation(location.trim());
+		setCountry(country.trim());
 		setUsername(username);
 		setUserProfileURL(profURL);
 		setUserImageURL(profImgURL);
