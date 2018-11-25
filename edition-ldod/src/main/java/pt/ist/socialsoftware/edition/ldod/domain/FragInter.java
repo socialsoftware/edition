@@ -1,5 +1,6 @@
 package pt.ist.socialsoftware.edition.ldod.domain;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -73,11 +74,11 @@ public abstract class FragInter extends FragInter_Base implements Comparable<Fra
 				return -1;
 			} else if (getSourceType() == Edition.EditionType.AUTHORIAL) {
 				return 1;
-			} else if ((getSourceType() == Edition.EditionType.VIRTUAL)
-					&& (other.getSourceType() == Edition.EditionType.EDITORIAL)) {
+			} else if (getSourceType() == Edition.EditionType.VIRTUAL
+					&& other.getSourceType() == Edition.EditionType.EDITORIAL) {
 				return 1;
-			} else if ((getSourceType() == Edition.EditionType.VIRTUAL)
-					&& (other.getSourceType() == Edition.EditionType.AUTHORIAL)) {
+			} else if (getSourceType() == Edition.EditionType.VIRTUAL
+					&& other.getSourceType() == Edition.EditionType.AUTHORIAL) {
 				return 1;
 			}
 		} else if (getSourceType() == other.getSourceType()) {
@@ -124,6 +125,12 @@ public abstract class FragInter extends FragInter_Base implements Comparable<Fra
 			isUsedBy.addAll(inter.getIsUsedByDepthSet());
 		}
 		return isUsedBy;
+	}
+
+	public long getNumberOfTwitterCitationsSince(LocalDateTime editionBeginDateTime) {
+		return getFragment().getCitationSet().stream().filter(TwitterCitation.class::isInstance)
+				.filter(cit -> !cit.getInfoRangeSet().isEmpty() && cit.getFormatedDate().isAfter(editionBeginDateTime))
+				.count();
 	}
 
 }

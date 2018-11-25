@@ -8,7 +8,6 @@ import java.util.stream.Collectors;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
-import pt.ist.socialsoftware.edition.ldod.domain.Category_Base;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDDuplicateNameException;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
 
@@ -49,7 +48,7 @@ public class Category extends Category_Base implements Comparable<Category> {
 	}
 
 	public static String purgeName(String name) {
-		return name.replaceAll("[^\\p{L}0-9\\-\\s]+", "");
+		return name.replaceAll("[^\\p{L}0-9\\-\\s]+", "").trim();
 	}
 
 	@Atomic(mode = TxMode.WRITE)
@@ -62,8 +61,8 @@ public class Category extends Category_Base implements Comparable<Category> {
 		}
 
 		for (Category category : getTaxonomy().getCategoriesSet()) {
-			if ((category != this) && (category.getName().equals(purgedName))) {
-				throw new LdoDDuplicateNameException();
+			if (category != this && category.getName().equals(purgedName)) {
+				throw new LdoDDuplicateNameException(purgedName);
 			}
 		}
 		super.setName(purgedName);

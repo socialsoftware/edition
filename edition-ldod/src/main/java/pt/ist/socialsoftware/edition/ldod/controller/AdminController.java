@@ -630,6 +630,7 @@ public class AdminController {
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public String manageTweets(Model model) {
 		logger.debug("manageTweets");
+
 		DateTimeFormatter formater = DateTimeFormatter.ofPattern("dd-MMM-yyyy HH:mm:ss");
 		model.addAttribute("citations",
 				LdoD.getInstance().getAllTwitterCitation().stream()
@@ -657,6 +658,7 @@ public class AdminController {
 		detecter.detect();
 		TweetFactory tweetFactory = new TweetFactory();
 		tweetFactory.create();
+		LdoD.dailyRegenerateTwitterCitationEdition();
 		AwareAnnotationFactory awareFactory = new AwareAnnotationFactory();
 		awareFactory.generate();
 		return "redirect:/admin/tweets";

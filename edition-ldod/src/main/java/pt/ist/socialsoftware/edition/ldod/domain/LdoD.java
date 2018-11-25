@@ -1,5 +1,6 @@
 package pt.ist.socialsoftware.edition.ldod.domain;
 
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -320,6 +321,35 @@ public class LdoD extends LdoD_Base {
 				t.remove();
 			}
 		});
+	}
+
+	public static String TWITTER_EDITION_ACRONYM = "LdoD-Twitter";
+	public static int TWITTER_EDITION_DAYS = 15;
+
+	@Atomic(mode = TxMode.WRITE)
+	public static void dailyRegenerateTwitterCitationEdition() {
+		VirtualEdition twitterEdition = LdoD.getInstance().getVirtualEdition(TWITTER_EDITION_ACRONYM);
+
+		twitterEdition.getAllDepthVirtualEditionInters().stream().forEach(inter -> inter.remove());
+
+		LocalDate editionBeginDateJoda = LocalDate.now().minusDays(TWITTER_EDITION_DAYS);
+		if (twitterEdition.getTimeWindow() == null) {
+			new TimeWindow(twitterEdition, editionBeginDateJoda, null);
+		} else {
+			twitterEdition.getTimeWindow().setBeginDate(editionBeginDateJoda);
+		}
+
+		LocalDateTime editionBeginDateTime = LocalDateTime.of(editionBeginDateJoda.getYear(),
+				editionBeginDateJoda.getMonthOfYear(), editionBeginDateJoda.getDayOfMonth(), 0, 0);
+		int number = 0;
+		for (ExpertEditionInter inter : LdoD.getInstance().getRZEdition().getExpertEditionIntersSet().stream()
+				.filter(inter -> inter.getNumberOfTwitterCitationsSince(editionBeginDateTime) > 0)
+				.sorted((inter1,
+						inter2) -> Math.toIntExact(inter2.getNumberOfTwitterCitationsSince(editionBeginDateTime)
+								- inter1.getNumberOfTwitterCitationsSince(editionBeginDateTime)))
+				.collect(Collectors.toList())) {
+			twitterEdition.createVirtualEditionInter(inter, ++number);
+		}
 	}
 
 	public List<VirtualEdition> getVirtualEditions4User(String username) {

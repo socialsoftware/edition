@@ -78,7 +78,7 @@ public class VirtualEditionsTEICorpusExport {
 		tweetElement.addContent(tweetText);
 
 		tweetElement.setAttribute("tweetId", Long.toString(tweet.getTweetID()));
-		tweetElement.setAttribute("location", tweet.getLocation());
+		tweetElement.setAttribute("location", tweet.getLocation().replace("?", ""));
 		tweetElement.setAttribute("country", tweet.getCountry());
 		tweetElement.setAttribute("username", tweet.getUsername());
 		tweetElement.setAttribute("userProfileURL", tweet.getUserProfileURL());

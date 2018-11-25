@@ -84,9 +84,6 @@ public class VirtualEditionFragmentsTEIImport {
 
 		Fragment fragment = getFragment(doc);
 
-		// inclui a criação de citações, o setTwitterCitation para cada tweet
-		// e a criação dos info ranges
-		// TODO: importFragmentCitations - done
 		importFragmentCitations(doc, fragment);
 
 		importWitnesses(doc, fragment);

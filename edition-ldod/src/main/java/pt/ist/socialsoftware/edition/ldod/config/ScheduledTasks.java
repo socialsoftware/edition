@@ -53,20 +53,19 @@ public class ScheduledTasks {
 				.collect(Collectors.toList());
 	}
 
-	@Scheduled(cron = "0 0 10,18 * * *")
-	public void reportCurrentTime() throws IOException {
-		WriteVirtualEditonsToFile write = new WriteVirtualEditonsToFile();
-		write.export();
-	}
-
-	@Scheduled(cron = "0 0 3 * * *")
+	@Scheduled(cron = "0 0 1 * * *")
 	public void generateTwitterCitations() throws IOException {
 		FetchCitationsFromTwitter fetch = new FetchCitationsFromTwitter();
 		fetch.fetch();
+
 		CitationDetecter detecter = new CitationDetecter();
 		detecter.detect();
+
 		TweetFactory tweetFactory = new TweetFactory();
 		tweetFactory.create();
+
+		LdoD.dailyRegenerateTwitterCitationEdition();
+
 		AwareAnnotationFactory awareFactory = new AwareAnnotationFactory();
 		awareFactory.generate();
 	}
@@ -78,6 +77,12 @@ public class ScheduledTasks {
 		// lucenePerformance.runBernardo();
 		// lucenePerformance.runFP();
 		// lucenePerformance.runVicente();
+	}
+
+	@Scheduled(cron = "0 0 10,18 * * *")
+	public void reportCurrentTime() throws IOException {
+		WriteVirtualEditonsToFile write = new WriteVirtualEditonsToFile();
+		write.export();
 	}
 
 	@Scheduled(cron = "0 0 12 * * *")
