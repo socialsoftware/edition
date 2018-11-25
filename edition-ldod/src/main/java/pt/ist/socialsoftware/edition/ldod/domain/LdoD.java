@@ -330,7 +330,7 @@ public class LdoD extends LdoD_Base {
 	}
 
 	public static String TWITTER_EDITION_ACRONYM = "LdoD-Twitter";
-	public static int TWITTER_EDITION_DAYS = 15;
+	public static int TWITTER_EDITION_DAYS = 30;
 
 	@Atomic(mode = TxMode.WRITE)
 	public static void dailyRegenerateTwitterCitationEdition() {

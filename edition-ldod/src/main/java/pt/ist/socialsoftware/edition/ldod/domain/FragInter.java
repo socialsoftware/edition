@@ -128,9 +128,8 @@ public abstract class FragInter extends FragInter_Base implements Comparable<Fra
 	}
 
 	public long getNumberOfTwitterCitationsSince(LocalDateTime editionBeginDateTime) {
-		return getFragment().getCitationSet().stream().filter(TwitterCitation.class::isInstance)
-				.filter(cit -> !cit.getInfoRangeSet().isEmpty() && cit.getFormatedDate().isAfter(editionBeginDateTime))
-				.count();
+		return getInfoRangeSet().stream().map(ir -> ir.getCitation())
+				.filter(cit -> cit.getFormatedDate().isAfter(editionBeginDateTime)).count();
 	}
 
 }
