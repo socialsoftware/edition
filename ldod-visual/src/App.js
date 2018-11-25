@@ -115,7 +115,7 @@ class ConnectedApp extends Component {
         <Fragment/>
       </div>
 
-      <Modal show={this.state.showLanding} dialogClassName="custom-modal">
+      <Modal show={this.state.showLanding} dialogClassName="custom-modal-landing">
         <Modal.Header>
           <Modal.Title>
             Bem-vindo

@@ -22,3 +22,7 @@ Button:not(:last-child){
 .custom-modal{
   width: 50%;
 }
+
+.custom-modal-landing{
+  width: 60%;
+}

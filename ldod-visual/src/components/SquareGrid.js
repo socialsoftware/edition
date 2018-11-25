@@ -78,7 +78,7 @@ class ConnectedSquareGrid extends Component {
           }
 
         },
-        title: myTitle + " || " + truncateText(myText, 60),
+        title: myTitle, //"<div><h1><b>" + myTitle + "</b></h1></div>",  + " || " + truncateText(myText, 60),
         x: xFactor,
         y: yFactor
       };
@@ -121,6 +121,7 @@ class ConnectedSquareGrid extends Component {
     this.options = {
       autoResize: true,
       height: "500",
+      width: "800",
       layout: {
         hierarchical: {
           enabled: false
@@ -175,7 +176,8 @@ class ConnectedSquareGrid extends Component {
         edges: this.edges
       };
 
-      this.network = new Network(this.appRef.current, data, this.options);
+      var container = document.getElementById('gridvis');
+      this.network = new Network(container, data, this.options);
       this.network.on("selectNode", this.handleSelectNode);
     }
   }
@@ -187,7 +189,7 @@ class ConnectedSquareGrid extends Component {
         Instruções do square grid.
       </p>
       <div className="graph">
-        <div ref={this.appRef}/>
+        <div id="gridvis"></div>
       </div>
     </div>);
   }

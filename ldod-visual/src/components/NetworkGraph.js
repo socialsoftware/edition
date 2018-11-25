@@ -5,6 +5,7 @@ import {connect} from "react-redux";
 import "./NetworkGraph.css";
 import {setCurrentVisualization, addHistoryEntry} from "../actions/index";
 import {VIS_NETWORK, BY_NETWORK_TEXTSIMILARITY, CRIT_TEXTSIMILARITY} from "../constants/history-transitions";
+import {Button, Popover, OverlayTrigger, Overlay} from "react-bootstrap";
 
 const mapStateToProps = state => {
   return {fragments: state.fragments, fragmentIndex: state.fragmentIndex, currentVisualization: state.currentVisualization, history: state.history};
@@ -36,6 +37,10 @@ class ConnectedNetworkGraph extends Component {
     this.options = [];
     this.minMaxList = [];
 
+    this.state = {
+      show: false
+    };
+
     console.log(this.props.graphData);
 
     const maxFragsAnalyzedPercentage = 1.0;
@@ -55,7 +60,7 @@ class ConnectedNetworkGraph extends Component {
         border: "#2B7CE9",
         background: "#D2E5FF"
       },
-      title: this.props.fragments[this.props.fragmentIndex].meta.title + " || " + truncateText(this.props.fragments[this.props.fragmentIndex].text, 60)
+      title: this.props.fragments[this.props.fragmentIndex].meta.title // + " || " + truncateText(this.props.fragments[this.props.fragmentIndex].text, 60)
     };
 
     this.nodes.push(obj);
@@ -83,7 +88,7 @@ class ConnectedNetworkGraph extends Component {
           border: "#DC143C",
           background: "#FF7F50"
         },
-        title: myTitle + " || " + truncateText(myText, 60)
+        title: myTitle // + " || " + truncateText(myText, 60)
       };
 
       this.nodes.push(obj);
@@ -127,12 +132,13 @@ class ConnectedNetworkGraph extends Component {
       interaction: {
         dragNodes: false,
         dragView: false,
-        zoomView: false
-        //, hover: true
+        zoomView: false,
+        hover: true
       }
     };
 
     this.handleSelectNode = this.handleSelectNode.bind(this);
+    this.handleHoverNode = this.handleHoverNode.bind(this);
   }
 
   handleSelectNode(event) {
@@ -159,6 +165,13 @@ class ConnectedNetworkGraph extends Component {
     }
   }
 
+  handleHoverNode(event) {
+    console.log("oi");
+    this.setState({
+      //show: !this.state.show
+    });
+  }
+
   componentDidMount() {
     const data = {
       nodes: this.nodes,
@@ -166,11 +179,21 @@ class ConnectedNetworkGraph extends Component {
     };
 
     this.network = new Network(this.appRef.current, data, this.options);
+    this.network.on("hoverNode", this.handleHoverNode);
     this.network.on("selectNode", this.handleSelectNode);
+
   }
 
   render() {
+
     return (<div>
+      <Overlay show={this.state.show} target={this.state.target} placement="bottom" container={this} containerPadding={20}>
+        <Popover id="popover-contained" title="Popover bottom">
+          <strong>Holy guacamole!</strong>
+          Check this info.
+        </Popover>
+      </Overlay>
+
       <p>
         Seleccione um fragmento novo ao clicar num dos círculos vermelhos. Quanto mais próximos estiverem do círculo azul (correspondente ao fragmento que está a ler actualmente), mais semelhantes serão.
       </p>
