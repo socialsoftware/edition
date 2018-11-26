@@ -43,10 +43,10 @@ public class TweetFactory {
 		}
 
 		logger.debug("DELETE CITATIONS WITHOUT INFO RANGE");
-		LdoD.getInstance().deleteTweetCitationsWithoutInfoRangeOrTweet();
+		LdoD.deleteTweetCitationsWithoutInfoRangeOrTweet();
 
 		logger.debug("DELETE TWEETS WITHOUT CITATION");
-		LdoD.getInstance().deleteTweetsWithoutCitation();
+		LdoD.deleteTweetsWithoutCitation();
 
 		logger.debug("FINISHED TWEET FACTORY!!!");
 	}

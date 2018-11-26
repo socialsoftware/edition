@@ -64,9 +64,12 @@ public class ScheduledTasks {
 		TweetFactory tweetFactory = new TweetFactory();
 		tweetFactory.create();
 
+		AwareAnnotationFactory awareFactory = new AwareAnnotationFactory();
+		awareFactory.generate();
+
 		LdoD.dailyRegenerateTwitterCitationEdition();
 
-		AwareAnnotationFactory awareFactory = new AwareAnnotationFactory();
+		// Repeat to update edition
 		awareFactory.generate();
 	}
 

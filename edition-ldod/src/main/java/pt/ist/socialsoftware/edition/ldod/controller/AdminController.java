@@ -656,11 +656,18 @@ public class AdminController {
 		logger.debug("generateCitations");
 		CitationDetecter detecter = new CitationDetecter();
 		detecter.detect();
+
 		TweetFactory tweetFactory = new TweetFactory();
 		tweetFactory.create();
-		LdoD.dailyRegenerateTwitterCitationEdition();
+
 		AwareAnnotationFactory awareFactory = new AwareAnnotationFactory();
 		awareFactory.generate();
+
+		LdoD.dailyRegenerateTwitterCitationEdition();
+
+		// Repeat to update edition
+		awareFactory.generate();
+
 		return "redirect:/admin/tweets";
 	}
 
