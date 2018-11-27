@@ -45,7 +45,6 @@ public class AwareAnnotationFactory {
 		logger.debug("END OF AWARE FACTORY");
 	}
 
-	// método invocado também quando se edita uma nova SAVE
 	@Atomic(mode = TxMode.WRITE)
 	public void searchForAwareAnnotations(VirtualEdition ve) {
 		logger.debug("STARTED AWARE FACTORY");
