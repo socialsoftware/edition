@@ -411,10 +411,10 @@ public class LdoD extends LdoD_Base {
 		return new ArrayList<String>(temp.keySet()).indexOf(username) + 1;
 	}
 
-	@Atomic
+	@Atomic(mode = TxMode.WRITE)
 	public static void manageDailyClassificationGames(DateTime initialDate) {
 		LdoDUser ars = LdoD.getInstance().getUser("ars");
-		VirtualEdition virtualEdition = LdoD.getInstance().getVirtualEdition("LdoD-JC");
+		VirtualEdition virtualEdition = LdoD.getInstance().getVirtualEdition("LdoD-Jogo-Class");
 
 		// generate daily games
 		for (int i = 0; i < 96; i++) {

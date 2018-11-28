@@ -90,6 +90,7 @@ public class ScheduledTasks {
 
 	@Scheduled(cron = "0 0 12 * * *")
 	public void generateGames() throws IOException {
+		logger.debug("generateGames");
 		LdoD.manageDailyClassificationGames(DateTime.now());
 	}
 
