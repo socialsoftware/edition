@@ -4,6 +4,7 @@ import {SET_CURRENT_VISUALIZATION} from "../constants/action-types";
 import {ADD_HISTORY_ENTRY} from "../constants/action-types";
 import {SET_ALL_FRAGMENTS_LOADED} from "../constants/action-types";
 import {SET_OUT_OF_LANDING_PAGE} from "../constants/action-types";
+import {SET_HISTORY_ENTRY_COUNTER} from "../constants/action-types";
 
 const initialState = {
   fragments: [],
@@ -11,7 +12,8 @@ const initialState = {
   currentVisualization: "Configure primeiro uma actividade para poder ter uma vista global!",
   history: [],
   allFragmentsLoaded: false,
-  outOfLandingPage: false
+  outOfLandingPage: false,
+  historyEntryCounter: 0
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -51,6 +53,11 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         outOfLandingPage: action.payload
+      };
+    case SET_HISTORY_ENTRY_COUNTER:
+      return {
+        ...state,
+        historyEntryCounter: action.payload
       };
     default:
       return state;

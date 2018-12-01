@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import "./App.css";
 import Fragment from "./components/Fragment";
-import {setFragmentIndex, addHistoryEntry} from "./actions/index";
+import {setFragmentIndex, addHistoryEntry, setCurrentVisualization} from "./actions/index";
 import {connect} from "react-redux";
 import {Button, ButtonToolbar, Modal} from "react-bootstrap";
 import ActivityMenu from "./components/ActivityMenu";
@@ -18,7 +18,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     setFragmentIndex: fragmentIndex => dispatch(setFragmentIndex(fragmentIndex)),
-    addHistoryEntry: historyEntry => dispatch(addHistoryEntry(historyEntry))
+    addHistoryEntry: historyEntry => dispatch(addHistoryEntry(historyEntry)),
+    setCurrentVisualization: currentVisualization => dispatch(setCurrentVisualization(currentVisualization))
   };
 };
 
@@ -49,7 +50,7 @@ class ConnectedApp extends Component {
   }
 
   handleCloseModals() {
-    this.setState({showConfig: false, showGlobalView: false, showLanding: false});
+    this.setState({showConfig: false, showGlobalView: false, showLanding: false, showHistoric: false});
   }
 
   handleCloseConfig() {
@@ -128,7 +129,7 @@ class ConnectedApp extends Component {
 
       </Modal>
 
-      <Modal show={this.state.showGlobalView} onHide={this.handleCloseGlobalView} dialogClassName="custom-modal">
+      <Modal show={this.state.showGlobalView} onHide={this.handleCloseGlobalView} dialogClassName="custom-modal-landing">
         <Modal.Header closeButton="closeButton">
           <Modal.Title>
             Actividade Actual
@@ -172,7 +173,7 @@ class ConnectedApp extends Component {
         </Modal.Header>
 
         <Modal.Body>
-          <HistoryMenu/>
+          <HistoryMenu onChange={this.handleCloseModals}/>
         </Modal.Body>
 
         <Modal.Footer>

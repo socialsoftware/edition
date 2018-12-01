@@ -1,6 +1,6 @@
-.graph {
+.graphGrid {
   width: 800px;
   height: 500px;
-  margin: 30px auto;
+  margin: auto;
   display: flex;
 }

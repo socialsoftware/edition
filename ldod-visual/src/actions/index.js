@@ -4,6 +4,7 @@ import {SET_CURRENT_VISUALIZATION} from "../constants/action-types";
 import {ADD_HISTORY_ENTRY} from "../constants/action-types";
 import {SET_ALL_FRAGMENTS_LOADED} from "../constants/action-types";
 import {SET_OUT_OF_LANDING_PAGE} from "../constants/action-types";
+import {SET_HISTORY_ENTRY_COUNTER} from "../constants/action-types"
 
 export const addFragment = fragment => ({type: ADD_FRAGMENT, payload: fragment});
 
@@ -16,3 +17,5 @@ export const addHistoryEntry = historyEntry => ({type: ADD_HISTORY_ENTRY, payloa
 export const setAllFragmentsLoaded = allFragmentsLoaded => ({type: SET_ALL_FRAGMENTS_LOADED, payload: allFragmentsLoaded});
 
 export const setOutOfLandingPage = outOfLandingPage => ({type: SET_OUT_OF_LANDING_PAGE, payload: outOfLandingPage});
+
+export const setHistoryEntryCounter = historyEntryCounter => ({type: SET_HISTORY_ENTRY_COUNTER, payload: historyEntryCounter});

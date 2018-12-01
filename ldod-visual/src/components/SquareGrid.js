@@ -2,12 +2,12 @@ import {Network} from "vis";
 import React, {Component, createRef} from "react";
 import {setFragmentIndex} from "../actions/index";
 import {connect} from "react-redux";
-import "./NetworkGraph.css";
-import {setCurrentVisualization, addHistoryEntry, setOutOfLandingPage} from "../actions/index";
-import {VIS_NETWORK, BY_NETWORK_TEXTSIMILARITY, CRIT_TEXTSIMILARITY} from "../constants/history-transitions";
+import "./SquareGrid.css";
+import {setCurrentVisualization, addHistoryEntry, setOutOfLandingPage, setHistoryEntryCounter} from "../actions/index";
+import {VIS_SQUAREGRID, BY_SQUAREGRID_EDITIONORDER, CRIT_EDITIONORDER} from "../constants/history-transitions";
 
 const mapStateToProps = state => {
-  return {fragments: state.fragments, fragmentIndex: state.fragmentIndex, currentVisualization: state.currentVisualization, history: state.history};
+  return {fragments: state.fragments, fragmentIndex: state.fragmentIndex, currentVisualization: state.currentVisualization, history: state.history, historyEntryCounter: state.historyEntryCounter};
 };
 
 const mapDispatchToProps = dispatch => {
@@ -15,7 +15,8 @@ const mapDispatchToProps = dispatch => {
     setFragmentIndex: fragmentIndex => dispatch(setFragmentIndex(fragmentIndex)),
     setCurrentVisualization: currentVisualization => dispatch(setCurrentVisualization(currentVisualization)),
     addHistoryEntry: historyEntry => dispatch(addHistoryEntry(historyEntry)),
-    setOutOfLandingPage: outOfLandingPage => dispatch(setOutOfLandingPage(outOfLandingPage))
+    setOutOfLandingPage: outOfLandingPage => dispatch(setOutOfLandingPage(outOfLandingPage)),
+    setHistoryEntryCounter: historyEntryCounter => dispatch(setHistoryEntryCounter(historyEntryCounter))
   };
 };
 
@@ -36,8 +37,6 @@ class ConnectedSquareGrid extends Component {
     this.edges = [];
     this.options = [];
     this.minMaxList = [];
-
-    console.log(this.props.graphData);
 
     const maxFragsAnalyzedPercentage = 1.0;
     const edgeLengthFactor = 10000;
@@ -149,16 +148,21 @@ class ConnectedSquareGrid extends Component {
       var i;
       for (i = 0; i < this.props.fragments.length; i++) {
         if (this.props.fragments[i].interId === nodeId) {
-          //add history entry
+          //HISTORY ENTRY HISTORY ENTRY HISTORY ENTRY HISTORY ENTRY
           let obj;
           obj = {
+            id: this.props.historyEntryCounter,
             originalFragment: this.props.fragments[this.props.fragmentIndex],
             nextFragment: this.props.fragments[i],
-            via: BY_NETWORK_TEXTSIMILARITY,
-            criteria: CRIT_TEXTSIMILARITY,
-            visualization: this.props.currentVisualization
+            vis: VIS_SQUAREGRID,
+            criteria: CRIT_EDITIONORDER,
+            visualization: this.props.currentVisualization,
+            recommendationArray: this.props.fragments, //mudar para quando o cirterio for difernete
+            start: new Date().getTime()
           };
           this.props.addHistoryEntry(obj);
+          this.props.setHistoryEntryCounter(this.props.historyEntryCounter + 1)
+          //HISTORY ENTRY HISTORY ENTRY HISTORY ENTRY HISTORY ENTRY
           this.props.onChange();
           this.props.setOutOfLandingPage(true);
           this.props.setFragmentIndex(i);
@@ -188,7 +192,7 @@ class ConnectedSquareGrid extends Component {
       <p>
         Instruções do square grid.
       </p>
-      <div className="graph">
+      <div className="graphGrid">
         <div id="gridvis"></div>
       </div>
     </div>);

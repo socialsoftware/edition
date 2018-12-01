@@ -3,19 +3,20 @@ import React, {Component, createRef} from "react";
 import {setFragmentIndex} from "../actions/index";
 import {connect} from "react-redux";
 import "./NetworkGraph.css";
-import {setCurrentVisualization, addHistoryEntry} from "../actions/index";
+import {setCurrentVisualization, addHistoryEntry, setHistoryEntryCounter, fragmentIndex} from "../actions/index";
 import {VIS_NETWORK, BY_NETWORK_TEXTSIMILARITY, CRIT_TEXTSIMILARITY} from "../constants/history-transitions";
 import {Button, Popover, OverlayTrigger, Overlay} from "react-bootstrap";
 
 const mapStateToProps = state => {
-  return {fragments: state.fragments, fragmentIndex: state.fragmentIndex, currentVisualization: state.currentVisualization, history: state.history};
+  return {fragments: state.fragments, fragmentIndex: state.fragmentIndex, currentVisualization: state.currentVisualization, history: state.history, historyEntryCounter: state.historyEntryCounter};
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     setFragmentIndex: fragmentIndex => dispatch(setFragmentIndex(fragmentIndex)),
     setCurrentVisualization: currentVisualization => dispatch(setCurrentVisualization(currentVisualization)),
-    addHistoryEntry: historyEntry => dispatch(addHistoryEntry(historyEntry))
+    addHistoryEntry: historyEntry => dispatch(addHistoryEntry(historyEntry)),
+    setHistoryEntryCounter: historyEntryCounter => dispatch(setHistoryEntryCounter(historyEntryCounter))
   };
 };
 
@@ -47,6 +48,7 @@ class ConnectedNetworkGraph extends Component {
     const edgeLengthFactor = 10000;
     const originalFragmentSize = 30;
     const mostDistantFragmentDistance = this.props.graphData[this.props.graphData.length - 1].distance;
+    const graphHeight = 500;
 
     //BUILD ACTUAL FRAGMENT NODE
     let obj;
@@ -60,7 +62,10 @@ class ConnectedNetworkGraph extends Component {
         border: "#2B7CE9",
         background: "#D2E5FF"
       },
-      title: this.props.fragments[this.props.fragmentIndex].meta.title // + " || " + truncateText(this.props.fragments[this.props.fragmentIndex].text, 60)
+      title: this.props.fragments[this.props.fragmentIndex].meta.title, // + " || " + truncateText(this.props.fragments[this.props.fragmentIndex].text, 60),
+      x: 0,
+      y: 0,
+      fixed: true
     };
 
     this.nodes.push(obj);
@@ -89,6 +94,7 @@ class ConnectedNetworkGraph extends Component {
           background: "#FF7F50"
         },
         title: myTitle // + " || " + truncateText(myText, 60)
+        //fixed: true
       };
 
       this.nodes.push(obj);
@@ -122,9 +128,10 @@ class ConnectedNetworkGraph extends Component {
     this.options = {
       autoResize: true,
       height: "500",
+      //width: "500", comment to center
       layout: {
         hierarchical: false,
-        randomSeed: 1
+        randomSeed: undefined
       },
       physics: {
         enabled: true
@@ -139,6 +146,12 @@ class ConnectedNetworkGraph extends Component {
 
     this.handleSelectNode = this.handleSelectNode.bind(this);
     this.handleHoverNode = this.handleHoverNode.bind(this);
+
+    this.handleYolo = this.handleYolo.bind(this);
+  }
+
+  handleYolo(event) {
+    console.log("handleYolo !!!!!!!!!!!!!!!!!!!!!!!!!!! GRAPH")
   }
 
   handleSelectNode(event) {
@@ -148,16 +161,21 @@ class ConnectedNetworkGraph extends Component {
       var i;
       for (i = 0; i < this.props.fragments.length; i++) {
         if (this.props.fragments[i].interId === nodeId) {
-          //add history entry
+          //HISTORY ENTRY HISTORY ENTRY HISTORY ENTRY HISTORY ENTRY
           let obj;
           obj = {
+            id: this.props.historyEntryCounter,
             originalFragment: this.props.fragments[this.props.fragmentIndex],
             nextFragment: this.props.fragments[i],
-            via: BY_NETWORK_TEXTSIMILARITY,
+            vis: VIS_NETWORK,
             criteria: CRIT_TEXTSIMILARITY,
-            visualization: this.props.currentVisualization
+            visualization: this.props.currentVisualization,
+            recommendationArray: this.props.graphData,
+            start: new Date().getTime()
           };
           this.props.addHistoryEntry(obj);
+          this.props.setHistoryEntryCounter(this.props.historyEntryCounter + 1)
+          //HISTORY ENTRY HISTORY ENTRY HISTORY ENTRY HISTORY ENTRY
           this.props.onChange();
           this.props.setFragmentIndex(i);
         }
@@ -181,6 +199,7 @@ class ConnectedNetworkGraph extends Component {
     this.network = new Network(this.appRef.current, data, this.options);
     this.network.on("hoverNode", this.handleHoverNode);
     this.network.on("selectNode", this.handleSelectNode);
+    console.log("randomSeed: " + this.network.getSeed());
 
   }
 
@@ -197,7 +216,7 @@ class ConnectedNetworkGraph extends Component {
       <p>
         Seleccione um fragmento novo ao clicar num dos círculos vermelhos. Quanto mais próximos estiverem do círculo azul (correspondente ao fragmento que está a ler actualmente), mais semelhantes serão.
       </p>
-      <div className="graph">
+      <div className="graphNetwork">
         <div ref={this.appRef}/>
       </div>
     </div>);
