@@ -5,6 +5,9 @@ import {ADD_HISTORY_ENTRY} from "../constants/action-types";
 import {SET_ALL_FRAGMENTS_LOADED} from "../constants/action-types";
 import {SET_OUT_OF_LANDING_PAGE} from "../constants/action-types";
 import {SET_HISTORY_ENTRY_COUNTER} from "../constants/action-types";
+import {SET_RECOMMENDATION_ARRAY} from "../constants/action-types";
+import {SET_RECOMMENDATION_INDEX} from "../constants/action-types";
+import {SET_FRAGMENTS_HASHMAP} from "../constants/action-types";
 
 const initialState = {
   fragments: [],
@@ -13,7 +16,10 @@ const initialState = {
   history: [],
   allFragmentsLoaded: false,
   outOfLandingPage: false,
-  historyEntryCounter: 0
+  historyEntryCounter: 0,
+  recommendationArray: [],
+  recommendationIndex: 0,
+  fragmentsHashMap: []
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -58,6 +64,21 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         historyEntryCounter: action.payload
+      };
+    case SET_RECOMMENDATION_ARRAY:
+      return {
+        ...state,
+        recommendationArray: action.payload
+      };
+    case SET_RECOMMENDATION_INDEX:
+      return {
+        ...state,
+        recommendationIndex: action.payload
+      };
+    case SET_FRAGMENTS_HASHMAP:
+      return {
+        ...state,
+        fragmentsHashMap: action.payload
       };
     default:
       return state;

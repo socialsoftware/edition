@@ -3,7 +3,14 @@ import {connect} from "react-redux";
 import './Fragment.css';
 
 const mapStateToProps = state => {
-  return {fragmentIndex: state.fragmentIndex, fragments: state.fragments, allFragmentsLoaded: state.allFragmentsLoaded, outOfLandingPage: state.outOfLandingPage};
+  return {
+    fragmentIndex: state.fragmentIndex,
+    fragments: state.fragments,
+    allFragmentsLoaded: state.allFragmentsLoaded,
+    outOfLandingPage: state.outOfLandingPage,
+    recommendationArray: state.recommendationArray,
+    recommendationIndex: state.recommendationIndex
+  };
 };
 
 export class ConnectedFragment extends React.Component {
@@ -17,13 +24,13 @@ export class ConnectedFragment extends React.Component {
 
         <h1 align="center">
           <b>
-            {this.props.fragments[this.props.fragmentIndex].meta.title}
+            {this.props.recommendationArray[this.props.recommendationIndex].meta.title}
           </b>
         </h1>
 
         <br/>
 
-        <p>{this.props.fragments[this.props.fragmentIndex].text}</p>
+        <p>{this.props.recommendationArray[this.props.recommendationIndex].text}</p>
 
       </div>);;
     } else {

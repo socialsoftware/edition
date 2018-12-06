@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import "./App.css";
 import Fragment from "./components/Fragment";
-import {setFragmentIndex, addHistoryEntry, setCurrentVisualization} from "./actions/index";
+import {setFragmentIndex, addHistoryEntry, setCurrentVisualization, setRecommendationArray, setRecommendationIndex} from "./actions/index";
 import {connect} from "react-redux";
 import {Button, ButtonToolbar, Modal} from "react-bootstrap";
 import ActivityMenu from "./components/ActivityMenu";
@@ -12,14 +12,25 @@ import FragmentLoader from "./components/FragmentLoader";
 import SquareGrid from "./components/SquareGrid";
 
 const mapStateToProps = state => {
-  return {fragments: state.fragments, fragmentIndex: state.fragmentIndex, currentVisualization: state.currentVisualization, history: state.history, allFragmentsLoaded: state.allFragmentsLoaded};
+  return {
+    fragments: state.fragments,
+    fragmentIndex: state.fragmentIndex,
+    currentVisualization: state.currentVisualization,
+    history: state.history,
+    allFragmentsLoaded: state.allFragmentsLoaded,
+    recommendationArray: state.recommendationArray,
+    recommendationIndex: state.recommendationIndex,
+    outOfLandingPage: state.outOfLandingPage
+  };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     setFragmentIndex: fragmentIndex => dispatch(setFragmentIndex(fragmentIndex)),
     addHistoryEntry: historyEntry => dispatch(addHistoryEntry(historyEntry)),
-    setCurrentVisualization: currentVisualization => dispatch(setCurrentVisualization(currentVisualization))
+    setCurrentVisualization: currentVisualization => dispatch(setCurrentVisualization(currentVisualization)),
+    setRecommendationArray: recommendationArray => dispatch(setRecommendationArray(recommendationArray)),
+    setRecommendationIndex: recommendationIndex => dispatch(setRecommendationIndex(recommendationIndex))
   };
 };
 
@@ -27,8 +38,11 @@ class ConnectedApp extends Component {
   constructor(props) {
     super(props);
 
+    this.previousFragmentButtonStyle = "primary";
+    this.nextFragmentButtonStyle = "primary";
+
     this.state = {
-      previousFragmentButtonStyle: "default",
+      previousFragmentButtonStyle: "primary",
       nextFragmentButtonStyle: "primary",
       showConfig: false,
       showGlobalView: false,
@@ -47,6 +61,30 @@ class ConnectedApp extends Component {
 
     this.handleCloseModals = this.handleCloseModals.bind(this);
     this.handleCloseLanding = this.handleCloseLanding.bind(this);
+
+    //recommendationArray
+    this.handleClickPrevious = this.handleClickPrevious.bind(this);
+    this.handleClickNext = this.handleClickNext.bind(this);
+  }
+
+  handleClickPrevious() {
+    if (this.props.recommendationIndex === 1) {
+      this.previousFragmentButtonStyle = "default";
+    }
+    if (this.props.recommendationIndex > 0) {
+      this.nextFragmentButtonStyle = "primary";
+      this.props.setRecommendationIndex(this.props.recommendationIndex - 1)
+    }
+  }
+
+  handleClickNext() {
+    if (this.props.recommendationIndex === (this.props.recommendationArray.length - 1)) {
+      this.nextFragmentButtonStyle = "default";
+    }
+    if (this.props.recommendationIndex < this.props.recommendationArray.length - 1) {
+      this.props.setRecommendationIndex(this.props.recommendationIndex + 1)
+      this.previousFragmentButtonStyle = "primary";
+    }
   }
 
   handleCloseModals() {
@@ -82,20 +120,39 @@ class ConnectedApp extends Component {
   }
 
   render() {
+    console.log("rendering app.js")
+
+    //BUTTON LOGIC
+    if (this.props.outOfLandingPage) {
+      console.log("out of landing page")
+      console.log("recommendationIndex: " + this.props.recommendationIndex)
+      if (this.props.recommendationIndex == 0) {
+        console.log("changing previous button style to default");
+        this.previousFragmentButtonStyle = "default";
+      } else if (this.props.recommendationIndex === (this.props.recommendationArray.length - 1)) {
+        console.log("changing next button style to default");
+        this.nextFragmentButtonStyle = "default";
+      } else {
+        this.previousFragmentButtonStyle = "primary";
+        this.nextFragmentButtonStyle = "primary";
+        console.log("changing both button styles to primary")
+      }
+    }
+
     let landingVisToRender;
 
+    let buttonToolBarToRender;
+
     if (this.props.allFragmentsLoaded) {
-      //alert(this.props.fragments.length)
+
       landingVisToRender = <SquareGrid onChange={this.handleCloseModals}/>;
-    } else {
-      landingVisToRender = <div/>;
-    }
-    return (<div className="app">
 
-      <FragmentLoader/>
-
-      <div className="buttonToolbar">
+      buttonToolBarToRender = (<div className="buttonToolbar">
         <ButtonToolbar>
+
+          <Button bsStyle={this.previousFragmentButtonStyle} bsSize="large" onClick={this.handleClickPrevious}>
+            Anterior
+          </Button>
 
           <Button bsStyle="primary" bsSize="large" onClick={this.handleShowGlobalView}>
             Actividade Actual
@@ -109,8 +166,20 @@ class ConnectedApp extends Component {
             Histórico de leitura
           </Button>
 
+          <Button bsStyle={this.nextFragmentButtonStyle} bsSize="large" onClick={this.handleClickNext}>
+            Próximo
+          </Button>
+
         </ButtonToolbar>
-      </div>
+      </div>)
+
+    } else {
+      landingVisToRender = <div/>;
+      buttonToolBarToRender = <div/>;
+    }
+    return (<div className="app">
+
+      <FragmentLoader/> {buttonToolBarToRender}
 
       <div>
         <Fragment/>

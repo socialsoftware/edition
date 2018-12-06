@@ -36,7 +36,12 @@ class ConnectedHistoryMenu extends Component {
     this.timeline = [];
 
     this.handleClick = this.handleClick.bind(this);
+    this.printMessage = this.printMessage.bind(this);
 
+  }
+
+  printMessage() {
+    console.log("hello")
   }
 
   handleClick(event) {
@@ -48,9 +53,9 @@ class ConnectedHistoryMenu extends Component {
     const properties = event;
 
     if (properties.item !== null && this.props.allFragmentsLoaded === true) {
-      console.log("HELLOOOOOOOOOOOOOOOOO")
+
       console.log("properties id: " + parseInt(properties.item));
-      console.log(this.props.history);
+      console.log("history array: " + this.props.history);
       console.log(this.props.history[properties.id]);
 
       var i;
@@ -103,6 +108,10 @@ class ConnectedHistoryMenu extends Component {
     console.log("history items: " + historyItems);
     this.timeline = new Timeline(container, historyItems, this.options);
     this.timeline.on('click', this.handleClick);
+    let x = this.printMessage;
+    x();
+
+    //this.printMessage();
   }
 
   render() {

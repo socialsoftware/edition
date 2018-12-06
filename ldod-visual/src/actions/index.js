@@ -5,6 +5,9 @@ import {ADD_HISTORY_ENTRY} from "../constants/action-types";
 import {SET_ALL_FRAGMENTS_LOADED} from "../constants/action-types";
 import {SET_OUT_OF_LANDING_PAGE} from "../constants/action-types";
 import {SET_HISTORY_ENTRY_COUNTER} from "../constants/action-types"
+import {SET_RECOMMENDATION_ARRAY} from "../constants/action-types";
+import {SET_RECOMMENDATION_INDEX} from "../constants/action-types";
+import {SET_FRAGMENTS_HASHMAP} from "../constants/action-types";
 
 export const addFragment = fragment => ({type: ADD_FRAGMENT, payload: fragment});
 
@@ -19,3 +22,9 @@ export const setAllFragmentsLoaded = allFragmentsLoaded => ({type: SET_ALL_FRAGM
 export const setOutOfLandingPage = outOfLandingPage => ({type: SET_OUT_OF_LANDING_PAGE, payload: outOfLandingPage});
 
 export const setHistoryEntryCounter = historyEntryCounter => ({type: SET_HISTORY_ENTRY_COUNTER, payload: historyEntryCounter});
+
+export const setRecommendationArray = recommendationArray => ({type: SET_RECOMMENDATION_ARRAY, payload: recommendationArray});
+
+export const setRecommendationIndex = recommendationIndex => ({type: SET_RECOMMENDATION_INDEX, payload: recommendationIndex});
+
+export const setfragmentsHashMap = fragmentsHashMap => ({type: SET_FRAGMENTS_HASHMAP, payload: fragmentsHashMap});

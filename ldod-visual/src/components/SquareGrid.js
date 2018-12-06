@@ -3,11 +3,27 @@ import React, {Component, createRef} from "react";
 import {setFragmentIndex} from "../actions/index";
 import {connect} from "react-redux";
 import "./SquareGrid.css";
-import {setCurrentVisualization, addHistoryEntry, setOutOfLandingPage, setHistoryEntryCounter} from "../actions/index";
+import {
+  setCurrentVisualization,
+  addHistoryEntry,
+  setOutOfLandingPage,
+  setHistoryEntryCounter,
+  setRecommendationArray,
+  setRecommendationIndex
+} from "../actions/index";
 import {VIS_SQUAREGRID, BY_SQUAREGRID_EDITIONORDER, CRIT_EDITIONORDER} from "../constants/history-transitions";
+import HashMap from "hashmap";
 
 const mapStateToProps = state => {
-  return {fragments: state.fragments, fragmentIndex: state.fragmentIndex, currentVisualization: state.currentVisualization, history: state.history, historyEntryCounter: state.historyEntryCounter};
+  return {
+    fragments: state.fragments,
+    fragmentIndex: state.fragmentIndex,
+    currentVisualization: state.currentVisualization,
+    history: state.history,
+    historyEntryCounter: state.historyEntryCounter,
+    recommendationArray: state.recommendationArray,
+    recommendationIndex: state.recommendationIndex
+  };
 };
 
 const mapDispatchToProps = dispatch => {
@@ -16,7 +32,9 @@ const mapDispatchToProps = dispatch => {
     setCurrentVisualization: currentVisualization => dispatch(setCurrentVisualization(currentVisualization)),
     addHistoryEntry: historyEntry => dispatch(addHistoryEntry(historyEntry)),
     setOutOfLandingPage: outOfLandingPage => dispatch(setOutOfLandingPage(outOfLandingPage)),
-    setHistoryEntryCounter: historyEntryCounter => dispatch(setHistoryEntryCounter(historyEntryCounter))
+    setHistoryEntryCounter: historyEntryCounter => dispatch(setHistoryEntryCounter(historyEntryCounter)),
+    setRecommendationArray: recommendationArray => dispatch(setRecommendationArray(recommendationArray)),
+    setRecommendationIndex: recommendationIndex => dispatch(setRecommendationIndex(recommendationIndex))
   };
 };
 
@@ -37,6 +55,7 @@ class ConnectedSquareGrid extends Component {
     this.edges = [];
     this.options = [];
     this.minMaxList = [];
+    this.myFragmentArray = [];
 
     const maxFragsAnalyzedPercentage = 1.0;
     const edgeLengthFactor = 10000;
@@ -52,13 +71,15 @@ class ConnectedSquareGrid extends Component {
     let xFactor = 0;
     let yFactor = 0;
 
-    for (i = 0; i < this.props.fragments.length; i++) {
+    this.myFragmentArray = this.props.fragments;
 
-      const myTitle = this.props.fragments[i].meta.title;
-      const myText = this.props.fragments[i].text;
+    for (i = 0; i < this.myFragmentArray.length; i++) {
+
+      const myTitle = this.myFragmentArray[i].meta.title;
+      const myText = this.myFragmentArray[i].text;
 
       obj = {
-        id: this.props.fragments[i].interId,
+        id: this.myFragmentArray[i].interId,
         //label: "",
         shape: "square",
         margin: 5, //só funciona com circle...
@@ -103,11 +124,11 @@ class ConnectedSquareGrid extends Component {
     }
 
     //BUILD EDGES
-    for (i = 0; i < this.props.fragments.length - 1; i++) {
+    for (i = 0; i < this.myFragmentArray.length - 1; i++) {
 
       obj = {
-        from: this.props.fragments[i].interId,
-        to: this.props.fragments[i + 1].interId,
+        from: this.myFragmentArray[i].interId,
+        to: this.myFragmentArray[i + 1].interId,
         length: 1,
         hidden: false,
         arrows: 'to',
@@ -138,6 +159,8 @@ class ConnectedSquareGrid extends Component {
       }
     };
 
+    this.props.setRecommendationArray(this.myFragmentArray);
+
     this.handleSelectNode = this.handleSelectNode.bind(this);
   }
 
@@ -146,44 +169,48 @@ class ConnectedSquareGrid extends Component {
     if (nodeId) {
       //alert(nodeId);
       var i;
-      for (i = 0; i < this.props.fragments.length; i++) {
-        if (this.props.fragments[i].interId === nodeId) {
+      for (i = 0; i < this.myFragmentArray.length; i++) {
+        if (this.myFragmentArray[i].interId === nodeId) {
           //HISTORY ENTRY HISTORY ENTRY HISTORY ENTRY HISTORY ENTRY
           let obj;
           obj = {
             id: this.props.historyEntryCounter,
-            originalFragment: this.props.fragments[this.props.fragmentIndex],
-            nextFragment: this.props.fragments[i],
+            originalFragment: this.myFragmentArray[this.props.fragmentIndex],
+            nextFragment: this.myFragmentArray[i],
             vis: VIS_SQUAREGRID,
             criteria: CRIT_EDITIONORDER,
             visualization: this.props.currentVisualization,
-            recommendationArray: this.props.fragments, //mudar para quando o cirterio for difernete
+            recommendationArray: this.myFragmentArray, //mudar para quando o cirterio for difernete
             start: new Date().getTime()
           };
           this.props.addHistoryEntry(obj);
           this.props.setHistoryEntryCounter(this.props.historyEntryCounter + 1)
           //HISTORY ENTRY HISTORY ENTRY HISTORY ENTRY HISTORY ENTRY
-          this.props.onChange();
-          this.props.setOutOfLandingPage(true);
+
           this.props.setFragmentIndex(i);
           const globalViewToRender = (<SquareGrid onChange={this.props.onChange}/>);
           this.props.setCurrentVisualization(globalViewToRender);
+          this.props.setRecommendationIndex(i);
+
+          this.props.setOutOfLandingPage(true);
+
+          this.props.onChange();
         }
       }
     }
   }
 
   componentDidMount() {
-    if (this.props.fragments.length > 0) {
-      const data = {
-        nodes: this.nodes,
-        edges: this.edges
-      };
+    //if (this.props.fragments.length > 0) {
+    const data = {
+      nodes: this.nodes,
+      edges: this.edges
+    };
 
-      var container = document.getElementById('gridvis');
-      this.network = new Network(container, data, this.options);
-      this.network.on("selectNode", this.handleSelectNode);
-    }
+    var container = document.getElementById('gridvis');
+    this.network = new Network(container, data, this.options);
+    this.network.on("selectNode", this.handleSelectNode);
+    //}
   }
 
   render() {
@@ -192,9 +219,9 @@ class ConnectedSquareGrid extends Component {
       <p>
         Instruções do square grid.
       </p>
-      <div className="graphGrid">
-        <div id="gridvis"></div>
-      </div>
+
+      <div className="graphGrid" id="gridvis"></div>
+
     </div>);
   }
 }
