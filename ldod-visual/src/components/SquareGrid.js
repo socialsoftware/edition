@@ -171,6 +171,8 @@ class ConnectedSquareGrid extends Component {
       var i;
       for (i = 0; i < this.myFragmentArray.length; i++) {
         if (this.myFragmentArray[i].interId === nodeId) {
+          const globalViewToRender = (<SquareGrid onChange={this.props.onChange}/>);
+          this.props.setCurrentVisualization(globalViewToRender);
           //HISTORY ENTRY HISTORY ENTRY HISTORY ENTRY HISTORY ENTRY
           let obj;
           obj = {
@@ -179,8 +181,9 @@ class ConnectedSquareGrid extends Component {
             nextFragment: this.myFragmentArray[i],
             vis: VIS_SQUAREGRID,
             criteria: CRIT_EDITIONORDER,
-            visualization: this.props.currentVisualization,
-            recommendationArray: this.myFragmentArray, //mudar para quando o cirterio for difernete
+            visualization: globalViewToRender,
+            recommendationArray: this.myFragmentArray, //mudar para quando o cirterio for difernete,
+            recommendationIndex: i,
             start: new Date().getTime()
           };
           this.props.addHistoryEntry(obj);
@@ -188,8 +191,9 @@ class ConnectedSquareGrid extends Component {
           //HISTORY ENTRY HISTORY ENTRY HISTORY ENTRY HISTORY ENTRY
 
           this.props.setFragmentIndex(i);
-          const globalViewToRender = (<SquareGrid onChange={this.props.onChange}/>);
-          this.props.setCurrentVisualization(globalViewToRender);
+
+          this.props.setRecommendationArray(this.myFragmentArray);
+
           this.props.setRecommendationIndex(i);
 
           this.props.setOutOfLandingPage(true);

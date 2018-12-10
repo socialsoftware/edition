@@ -34,9 +34,9 @@ class ConnectedNetworkGraphContainer extends Component {
 
       //meter aqui a logica dos pesos, se ptextweight=1, semanticcriteria=text, etc.
 
-      const globalViewToRender = (<NetworkGraphContainer pFragmentId={this.props.fragments[this.props.fragmentIndex].interId} pHeteronymWeight="0.0" pTextWeight="1.0" pDateWeight="0.0" ptaxonomyWeight="0.0" onChange={this.props.onChange}/>);
+      //const globalViewToRender = (<NetworkGraphContainer pFragmentId={this.props.fragments[this.props.fragmentIndex].interId} pHeteronymWeight="0.0" pTextWeight="1.0" pDateWeight="0.0" ptaxonomyWeight="0.0" onChange={this.props.onChange}/>);
 
-      this.props.setCurrentVisualization(globalViewToRender);
+      //this.props.setCurrentVisualization(globalViewToRender);
     });
   }
 

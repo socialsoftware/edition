@@ -13,6 +13,7 @@ import {
 } from "../actions/index";
 import {VIS_NETWORK, BY_NETWORK_TEXTSIMILARITY, CRIT_TEXTSIMILARITY} from "../constants/history-transitions";
 import {Button, Popover, OverlayTrigger, Overlay} from "react-bootstrap";
+import NetworkGraphContainer from "../containers/NetworkGraphContainer";
 
 const mapStateToProps = state => {
   return {
@@ -169,6 +170,8 @@ class ConnectedNetworkGraph extends Component {
       var i;
       for (i = 0; i < this.recommendationArray.length; i++) {
         if (this.recommendationArray[i].interId === nodeId) {
+          const globalViewToRender = (<NetworkGraphContainer pFragmentId={this.props.fragments[this.props.fragmentIndex].interId} pHeteronymWeight="0.0" pTextWeight="1.0" pDateWeight="0.0" ptaxonomyWeight="0.0" onChange={this.props.onChange}/>);
+          this.props.setCurrentVisualization(globalViewToRender);
           //HISTORY ENTRY HISTORY ENTRY HISTORY ENTRY HISTORY ENTRY
           let obj;
           obj = {
@@ -177,8 +180,9 @@ class ConnectedNetworkGraph extends Component {
             nextFragment: this.recommendationArray[i],
             vis: VIS_NETWORK,
             criteria: CRIT_TEXTSIMILARITY,
-            visualization: this.props.currentVisualization,
+            visualization: globalViewToRender,
             recommendationArray: this.recommendationArray,
+            recommendationIndex: i,
             start: new Date().getTime()
           };
           this.props.addHistoryEntry(obj);

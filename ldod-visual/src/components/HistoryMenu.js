@@ -2,7 +2,15 @@ import {Network, Timeline, DataSet} from "vis";
 import React, {Component} from "react";
 import {connect} from "react-redux";
 import {VIS_NETWORK, BY_HISTORIC, BY_NETWORK_TEXTSIMILARITY, CRIT_TEXTSIMILARITY} from "../constants/history-transitions";
-import {setFragmentIndex, setCurrentVisualization, addHistoryEntry, setOutOfLandingPage, setHistoryEntryCounter} from "../actions/index";
+import {
+  setFragmentIndex,
+  setCurrentVisualization,
+  addHistoryEntry,
+  setOutOfLandingPage,
+  setHistoryEntryCounter,
+  setRecommendationArray,
+  setRecommendationIndex
+} from "../actions/index";
 import "./HistoryMenu.css";
 
 const mapStateToProps = state => {
@@ -12,7 +20,9 @@ const mapStateToProps = state => {
     currentVisualization: state.currentVisualization,
     history: state.history,
     allFragmentsLoaded: state.allFragmentsLoaded,
-    historyEntryCounter: state.historyEntryCounter
+    historyEntryCounter: state.historyEntryCounter,
+    recommendationindex: state.recommendationIndex,
+    recommendationArray: state.recommendationArray
   };
 };
 
@@ -22,7 +32,9 @@ const mapDispatchToProps = dispatch => {
     setCurrentVisualization: currentVisualization => dispatch(setCurrentVisualization(currentVisualization)),
     addHistoryEntry: historyEntry => dispatch(addHistoryEntry(historyEntry)),
     setOutOfLandingPage: outOfLandingPage => dispatch(setOutOfLandingPage(outOfLandingPage)),
-    setHistoryEntryCounter: historyEntryCounter => dispatch(setHistoryEntryCounter(historyEntryCounter))
+    setHistoryEntryCounter: historyEntryCounter => dispatch(setHistoryEntryCounter(historyEntryCounter)),
+    setRecommendationArray: recommendationArray => dispatch(setRecommendationArray(recommendationArray)),
+    setRecommendationIndex: recommendationIndex => dispatch(setRecommendationIndex(recommendationIndex))
   };
 };
 
@@ -61,26 +73,29 @@ class ConnectedHistoryMenu extends Component {
       var i;
       for (i = 0; i < this.props.fragments.length; i++) {
         if (this.props.fragments[i].interId === this.props.history[parseInt(properties.item)].nextFragment.interId) {
+          const globalViewToRender = this.props.history[parseInt(properties.item)].visualization //(<SquareGrid onChange={this.props.onChange}/>);
+          this.props.setCurrentVisualization(globalViewToRender);
           //HISTORY ENTRY HISTORY ENTRY HISTORY ENTRY HISTORY ENTRY
           let obj;
           obj = {
             id: this.props.historyEntryCounter,
-            originalFragment: this.props.fragments[this.props.fragmentIndex],
+            originalFragment: this.props.history[parseInt(properties.item)].originalFragment,
             nextFragment: this.props.history[parseInt(properties.item)].nextFragment,
             vis: 0,
             criteria: 0,
-            visualization: this.props.history[parseInt(properties.item)].visualization,
-            recommendationArray: 0, //mudar para quando o cirterio for difernete
+            visualization: globalViewToRender,
+            recommendationArray: this.props.history[parseInt(properties.item)].recommendationArray,
+            recommendationIndex: this.props.history[parseInt(properties.item)].recommendationIndex,
             start: new Date().getTime()
           };
           this.props.addHistoryEntry(obj);
           this.props.setHistoryEntryCounter(this.props.historyEntryCounter + 1)
           //HISTORY ENTRY HISTORY ENTRY HISTORY ENTRY HISTORY ENTRY
           this.props.onChange();
-          this.props.setOutOfLandingPage(true);
-          this.props.setFragmentIndex(i);
-          const globalViewToRender = this.props.history[parseInt(properties.item)].visualization //(<SquareGrid onChange={this.props.onChange}/>);
-          this.props.setCurrentVisualization(globalViewToRender);
+          this.props.setFragmentIndex(i); //mudar a logica para isto ser o fragmento central.
+          this.props.setRecommendationArray(this.props.history[parseInt(properties.item)].recommendationArray);
+          this.props.setRecommendationIndex(this.props.history[parseInt(properties.item)].recommendationIndex);
+
           //  }
 
         }
