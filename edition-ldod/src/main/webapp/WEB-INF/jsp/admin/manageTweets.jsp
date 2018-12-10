@@ -25,11 +25,13 @@
 			<input type="hidden" name="${_csrf.parameterName}"
 				value="${_csrf.token}" />
 			<button type="submit" class="btn btn-danger btn-sm">
-				<span class="glyphicon glyphicon-plus-sign"></span> Generate Citations
+				<span class="glyphicon glyphicon-plus-sign"></span> Generate
+				Citations
 			</button>
 		</form>
 		<br /> <br />
-		<p>Citations: ${citations.size()}, Citations with info range ${numberOfCitationsWithInfoRange}</p>
+		<p>Citations: ${citations.size()}, Citations with info range
+			${numberOfCitationsWithInfoRange}</p>
 		<table class="table table-striped table-bordered table-condensed">
 			<thead>
 				<tr>
@@ -45,13 +47,13 @@
 				<c:forEach var="citation" items='${citations}'>
 					<tr>
 						<td>${citation.getDate()}</td>
-						<td><a href="${contextPath}/fragments/fragment/${citation.getFragment().xmlId}">${citation.getFragment().getTitle()}</a></td>
+						<td><a
+							href="${contextPath}/fragments/fragment/${citation.getFragment().xmlId}">${citation.getFragment().getTitle()}</a></td>
 						<td><a href="${citation.getSourceLink()}" target="_blank">Tweet</a></td>
-						<td>
-							<c:forEach var="range" items='${citation.getInfoRangeSet()}'>
-								<b>Text:</b> ${range.getText()}, <b>Quote:</b> ${range.getQuote()} <br />
-							</c:forEach>
-						</td>
+						<td><c:forEach var="range"
+								items='${citation.getInfoRangeSet()}'>
+								<b>Text:</b> ${range.getText()}, <b>Quote:</b> ${range.getQuote()}, <b>Inter:</b> ${range.getAnnotation().getVirtualEditionInter().getXmlId()} <br />
+							</c:forEach></td>
 						<td>${citation.getAwareAnnotationSet().size()}</td>
 						<td>${citation.getNumberOfRetweets()}</td>
 					</tr>
