@@ -9,11 +9,14 @@ import {
   setHistoryEntryCounter,
   fragmentIndex,
   setRecommendationArray,
-  setRecommendationIndex
+  setRecommendationIndex,
+  setCurrentFragmentMode
 } from "../actions/index";
 import {VIS_NETWORK, BY_NETWORK_TEXTSIMILARITY, CRIT_TEXTSIMILARITY} from "../constants/history-transitions";
 import {Button, Popover, OverlayTrigger, Overlay} from "react-bootstrap";
 import NetworkGraphContainer from "../containers/NetworkGraphContainer";
+import HashMap from "hashmap";
+import {RepositoryService} from "../services/RepositoryService";
 
 const mapStateToProps = state => {
   return {
@@ -24,7 +27,8 @@ const mapStateToProps = state => {
     historyEntryCounter: state.historyEntryCounter,
     fragmentsHashMap: state.fragmentsHashMap,
     recommendationArray: state.recommendationArray,
-    recommendationIndex: state.recommendationIndex
+    recommendationIndex: state.recommendationIndex,
+    currentFragmentMode: state.currentFragmentMode
   };
 };
 
@@ -35,7 +39,8 @@ const mapDispatchToProps = dispatch => {
     addHistoryEntry: historyEntry => dispatch(addHistoryEntry(historyEntry)),
     setHistoryEntryCounter: historyEntryCounter => dispatch(setHistoryEntryCounter(historyEntryCounter)),
     setRecommendationArray: recommendationArray => dispatch(setRecommendationArray(recommendationArray)),
-    setRecommendationIndex: recommendationIndex => dispatch(setRecommendationIndex(recommendationIndex))
+    setRecommendationIndex: recommendationIndex => dispatch(setRecommendationIndex(recommendationIndex)),
+    setCurrentFragmentMode: currentFragmentMode => dispatch(setCurrentFragmentMode(currentFragmentMode))
   };
 };
 
@@ -61,7 +66,9 @@ class ConnectedNetworkGraph extends Component {
       show: false
     };
 
-    console.log(this.props.graphData);
+    console.log(this.props.graphData)
+    console.log("my graph data length: " + this.props.graphData.length);
+    this.props.graphData.map(d => console.log("my graphData id: " + d.interId + " distance: " + d.distance + " title: " + this.props.fragmentsHashMap.get(d.interId).meta.title));
 
     const maxFragsAnalyzedPercentage = 1.0;
     const edgeLengthFactor = 10000;
@@ -81,7 +88,7 @@ class ConnectedNetworkGraph extends Component {
         border: "#2B7CE9",
         background: "#D2E5FF"
       },
-      title: this.props.recommendationArray[this.props.recommendationIndex].meta.title, // + " || " + truncateText(this.props.recommendationArray[this.props.recommendationIndex].text, 60),
+      title: this.props.fragments[this.props.fragmentIndex].meta.title, // + " || " + truncateText(this.props.recommendationArray[this.props.recommendationIndex].text, 60),
       x: 0,
       y: 0,
       fixed: true
@@ -98,6 +105,13 @@ class ConnectedNetworkGraph extends Component {
 
       this.recommendationArray.push(this.props.fragmentsHashMap.get(this.props.graphData[i].interId));
 
+      let nodeBorderColor = "#DC143C"
+      let nodeBackgroundColor = "#FF7F50"
+      if (!this.props.currentFragmentMode && this.props.graphData[i].interId === this.props.recommendationArray[this.props.recommendationIndex].interId) {
+        nodeBorderColor = "#800080";
+        nodeBackgroundColor = "#663399";
+      }
+
       obj = {
         id: this.props.graphData[i].interId,
         //label: "",
@@ -105,10 +119,10 @@ class ConnectedNetworkGraph extends Component {
         margin: 5, //só funciona com circle...
         size: originalFragmentSize * 0.8,
         color: {
-          border: "#DC143C",
-          background: "#FF7F50"
+          border: nodeBorderColor,
+          background: nodeBackgroundColor
         },
-        title: this.props.fragmentsHashMap.get(this.props.graphData[i].interId).meta.title // + " || " + truncateText(myText, 60)
+        title: this.props.fragmentsHashMap.get(this.props.graphData[i].interId).meta.title + " " + this.props.graphData[i].distance // + " || " + truncateText(myText, 60)
         //fixed: true
       };
 
@@ -124,17 +138,17 @@ class ConnectedNetworkGraph extends Component {
       }
 
       //truncate max value
-      if (myLength > edgeLengthFactor / 2) {
-        myLength = edgeLengthFactor / 2;
-      }
+      //if (myLength > edgeLengthFactor / 2) {
+      //  myLength = edgeLengthFactor / 2;
+      //}
 
-      console.log("myLength: " + myLength);
+      //console.log("myLength: " + myLength);
 
       obj = {
         from: this.props.graphData[0].interId,
         to: this.props.graphData[i].interId,
         length: myLength,
-        hidden: true
+        hidden: false
       };
 
       this.edges.push(obj);
@@ -183,15 +197,48 @@ class ConnectedNetworkGraph extends Component {
             visualization: globalViewToRender,
             recommendationArray: this.recommendationArray,
             recommendationIndex: i,
+            fragmentIndex: this.props.fragmentIndex,
             start: new Date().getTime()
           };
+
+          this.props.setRecommendationIndex(i);
+          this.props.setRecommendationArray(this.recommendationArray);
+
+          let myData;
+          if (false && this.props.currentFragmentMode) {
+            const service = new RepositoryService();
+
+            console.log("requesting distances")
+            service.getIntersByDistance(nodeId, "0.0", "1.0", "0.0", "0.0").then(response => {
+              console.log("ayyyyyyyyyyyyyyyyyyyyyyyy")
+              response.data.map(f => myNewRecommendationArray.push(this.props.fragmentsHashMap.get(f.interId)));
+              this.props.setRecommendationArray(myNewRecommendationArray)
+              console.log("distances received")
+            });
+
+            let myNewRecommendationArray = [];
+            console.log("using distances")
+            //myData.map(f => myNewRecommendationArray.push(this.props.fragmentsHashMap.get(f.interId)));
+
+            var j;
+            for (j = 0; j < this.props.fragments.length; j++) {
+              if (this.props.fragments[j].interId === nodeId) {
+                console.log("networkgraph: because of currentFragmentMode, setFragmentIndex is now: " + j)
+                this.props.setFragmentIndex(j);
+                this.props.setRecommendationIndex(0);
+                this.props.setRecommendationArray(myNewRecommendationArray);
+                obj.fragmentIndex = j;
+                obj.recommendationIndex = 0;
+                obj.recommendationArray = myNewRecommendationArray;
+              }
+            }
+          }
           this.props.addHistoryEntry(obj);
           this.props.setHistoryEntryCounter(this.props.historyEntryCounter + 1)
           //HISTORY ENTRY HISTORY ENTRY HISTORY ENTRY HISTORY ENTRY
-          this.props.setRecommendationArray(this.recommendationArray);
-          this.props.setRecommendationIndex(i);
+
           //this.props.setFragmentIndex(i);
-          console.log("recommendationindex actual a partir do network graph: " + this.props.setRecommendationIndex)
+          console.log("recommendation index actual a partir do network graph: " + this.props.recommendationIndex)
           this.props.onChange();
 
         }
@@ -206,7 +253,7 @@ class ConnectedNetworkGraph extends Component {
     };
 
     this.network = new Network(this.appRef.current, data, this.options);
-    this.network.on("hoverNode", this.handleHoverNode);
+    //this.network.on("hoverNode", this.handleHoverNode);
     this.network.on("selectNode", this.handleSelectNode);
     console.log("randomSeed: " + this.network.getSeed());
 

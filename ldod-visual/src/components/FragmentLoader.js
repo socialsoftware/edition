@@ -5,7 +5,7 @@ import {connect} from "react-redux";
 import HashMap from "hashmap";
 
 const mapStateToProps = state => {
-  return {fragments: state.fragments, allFragmentsLoaded: state.allFragmentsLoaded};
+  return {fragments: state.fragments, allFragmentsLoaded: state.allFragmentsLoaded, fragmentsHashMap: state.fragmentsHashMap, fragmentIndex: state.fragmentIndex};
 };
 
 const mapDispatchToProps = dispatch => {
@@ -23,8 +23,19 @@ class ConnectedFragmentLoader extends React.Component {
     this.map = new HashMap();
 
     this.state = {
-      acronym: "LdoD-test"
+      acronym: "LdoD-test",
+      localHistoryCount: 0
     };
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    console.log("===============================componentDIDUPDATE!======================")
+    // only update chart if the data has changed
+    if (prevProps !== this.props) {
+      console.log("===============================PROPS CHANGED!======================")
+      console.log("previous props fragmentIndex: " + prevProps.fragmentIndex)
+      console.log("updated props fragmentIndex: " + this.props.fragmentIndex)
+    }
   }
 
   componentDidMount() {
@@ -43,7 +54,7 @@ class ConnectedFragmentLoader extends React.Component {
 
     if (this.props.allFragmentsLoaded) {
       console.log("fragments loaded")
-      this.props.fragments.map(f => console.log("id " + f.interId + " on my hashmap: " + this.map.get(f.interId) + " with title: " + this.map.get(f.interId).meta.title))
+      //this.props.fragments.map(f => console.log("id " + f.interId + " on my hashmap: " + this.props.fragmentsHashMap.get(f.interId) + " with title: " + this.props.fragmentsHashMap.get(f.interId).meta.title))
     }
     return <div></div>;
   }

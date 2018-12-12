@@ -45,7 +45,7 @@ class ConnectedActivityMenu extends Component {
         </DropdownButton>
       </ButtonToolbar>);
     } else {
-      visualizationToRender = (<NetworkGraphContainer pFragmentId={this.props.recommendationArray[this.props.recommendationIndex].interId} pHeteronymWeight="0.0" pTextWeight="1.0" pDateWeight="0.0" ptaxonomyWeight="0.0" onChange={this.props.onChange}/>);
+      visualizationToRender = (<NetworkGraphContainer pFragmentId={this.props.fragments[this.props.fragmentIndex].interId} pHeteronymWeight="0.0" pTextWeight="1.0" pDateWeight="0.0" ptaxonomyWeight="0.0" onChange={this.props.onChange}/>);
     }
 
     return <div className="activityMenu">{visualizationToRender}</div>;

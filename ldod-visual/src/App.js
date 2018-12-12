@@ -1,7 +1,14 @@
 import React, {Component} from "react";
 import "./App.css";
 import Fragment from "./components/Fragment";
-import {setFragmentIndex, addHistoryEntry, setCurrentVisualization, setRecommendationArray, setRecommendationIndex} from "./actions/index";
+import {
+  setFragmentIndex,
+  addHistoryEntry,
+  setCurrentVisualization,
+  setRecommendationArray,
+  setRecommendationIndex,
+  setCurrentFragmentMode
+} from "./actions/index";
 import {connect} from "react-redux";
 import {Button, ButtonToolbar, Modal} from "react-bootstrap";
 import ActivityMenu from "./components/ActivityMenu";
@@ -20,7 +27,8 @@ const mapStateToProps = state => {
     allFragmentsLoaded: state.allFragmentsLoaded,
     recommendationArray: state.recommendationArray,
     recommendationIndex: state.recommendationIndex,
-    outOfLandingPage: state.outOfLandingPage
+    outOfLandingPage: state.outOfLandingPage,
+    currentFragmentMode: state.currentFragmentMode
   };
 };
 
@@ -30,7 +38,8 @@ const mapDispatchToProps = dispatch => {
     addHistoryEntry: historyEntry => dispatch(addHistoryEntry(historyEntry)),
     setCurrentVisualization: currentVisualization => dispatch(setCurrentVisualization(currentVisualization)),
     setRecommendationArray: recommendationArray => dispatch(setRecommendationArray(recommendationArray)),
-    setRecommendationIndex: recommendationIndex => dispatch(setRecommendationIndex(recommendationIndex))
+    setRecommendationIndex: recommendationIndex => dispatch(setRecommendationIndex(recommendationIndex)),
+    setCurrentFragmentMode: currentFragmentMode => dispatch(setCurrentFragmentMode(currentFragmentMode))
   };
 };
 
@@ -65,6 +74,7 @@ class ConnectedApp extends Component {
     //recommendationArray
     this.handleClickPrevious = this.handleClickPrevious.bind(this);
     this.handleClickNext = this.handleClickNext.bind(this);
+
   }
 
   handleClickPrevious() {
@@ -97,6 +107,9 @@ class ConnectedApp extends Component {
 
   handleShowConfig() {
     this.setState({showConfig: true});
+    this.props.setCurrentFragmentMode(true);
+    console.log("App.handleShowConfig: setting currentFragmentMode to true")
+
   }
 
   handleCloseGlobalView() {
@@ -105,6 +118,9 @@ class ConnectedApp extends Component {
 
   handleShowGlobalView() {
     this.setState({showGlobalView: true});
+    this.props.setCurrentFragmentMode(false);
+    console.log("App.handleShowGlobalView(): setting currentFragmentMode to false (PickedFragmentMode)")
+
   }
 
   handleCloseHistoric() {
@@ -117,7 +133,12 @@ class ConnectedApp extends Component {
 
   handleCloseLanding() {
     this.setState({showLanding: false});
+    console.log("calling handlecloselanding()")
   }
+
+  setCurrentFragmentMode() {}
+
+  setPickedFragmentMode() {}
 
   render() {
     console.log("rendering app.js")
@@ -126,6 +147,7 @@ class ConnectedApp extends Component {
     if (this.props.outOfLandingPage) {
       console.log("out of landing page")
       console.log("recommendationIndex: " + this.props.recommendationIndex)
+      console.log("fragmentIndex: " + this.props.fragmentIndex)
       if (this.props.recommendationIndex == 0) {
         console.log("changing previous button style to default");
         this.previousFragmentButtonStyle = "default";

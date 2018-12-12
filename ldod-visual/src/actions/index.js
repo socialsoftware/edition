@@ -8,7 +8,7 @@ import {SET_HISTORY_ENTRY_COUNTER} from "../constants/action-types"
 import {SET_RECOMMENDATION_ARRAY} from "../constants/action-types";
 import {SET_RECOMMENDATION_INDEX} from "../constants/action-types";
 import {SET_FRAGMENTS_HASHMAP} from "../constants/action-types";
-import {SET_POTENTIAL_VISUALIZATION} from "../constants/action-types";
+import {SET_CURRENT_FRAGMENT_MODE} from "../constants/action-types";
 
 export const addFragment = fragment => ({type: ADD_FRAGMENT, payload: fragment});
 
@@ -30,4 +30,4 @@ export const setRecommendationIndex = recommendationIndex => ({type: SET_RECOMME
 
 export const setfragmentsHashMap = fragmentsHashMap => ({type: SET_FRAGMENTS_HASHMAP, payload: fragmentsHashMap});
 
-export const setPotentialVisualization = potentialVisualization => ({type: SET_POTENTIAL_VISUALIZATION, payload: potentialVisualization});
+export const setCurrentFragmentMode = currentFragmentMode => ({type: SET_CURRENT_FRAGMENT_MODE, payload: currentFragmentMode});

@@ -1,9 +1,9 @@
 import {Network} from "vis";
 import React, {Component, createRef} from "react";
-import {setFragmentIndex} from "../actions/index";
 import {connect} from "react-redux";
 import "./SquareGrid.css";
 import {
+  setFragmentIndex,
   setCurrentVisualization,
   addHistoryEntry,
   setOutOfLandingPage,
@@ -22,7 +22,8 @@ const mapStateToProps = state => {
     history: state.history,
     historyEntryCounter: state.historyEntryCounter,
     recommendationArray: state.recommendationArray,
-    recommendationIndex: state.recommendationIndex
+    recommendationIndex: state.recommendationIndex,
+    currentFragmentMode: state.currentFragmentMode
   };
 };
 
@@ -184,8 +185,19 @@ class ConnectedSquareGrid extends Component {
             visualization: globalViewToRender,
             recommendationArray: this.myFragmentArray, //mudar para quando o cirterio for difernete,
             recommendationIndex: i,
+            fragmentIndex: this.props.fragmentIndex,
             start: new Date().getTime()
           };
+          if (this.props.currentFragmentMode) {
+            var j;
+            for (j = 0; j < this.props.fragments.length; j++) {
+              if (this.props.fragments[j].interId === nodeId) {
+                console.log("squareGrid: because of currentFragmentMode, setFragmentIndex is now: " + j)
+                this.props.setFragmentIndex(j);
+                obj.fragmentIndex = j;
+              }
+            }
+          }
           this.props.addHistoryEntry(obj);
           this.props.setHistoryEntryCounter(this.props.historyEntryCounter + 1)
           //HISTORY ENTRY HISTORY ENTRY HISTORY ENTRY HISTORY ENTRY

@@ -8,7 +8,7 @@ import {SET_HISTORY_ENTRY_COUNTER} from "../constants/action-types";
 import {SET_RECOMMENDATION_ARRAY} from "../constants/action-types";
 import {SET_RECOMMENDATION_INDEX} from "../constants/action-types";
 import {SET_FRAGMENTS_HASHMAP} from "../constants/action-types";
-import {SET_POTENTIAL_VISUALIZATION} from "../constants/action-types";
+import {SET_CURRENT_FRAGMENT_MODE} from "../constants/action-types";
 
 const initialState = {
   fragments: [],
@@ -21,7 +21,7 @@ const initialState = {
   recommendationArray: [],
   recommendationIndex: 0,
   fragmentsHashMap: [],
-  currentVisualization: []
+  currentFragmentMode: true
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -82,10 +82,10 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         fragmentsHashMap: action.payload
       };
-    case SET_POTENTIAL_VISUALIZATION:
+    case SET_CURRENT_FRAGMENT_MODE:
       return {
         ...state,
-        potentialVisualization: action.payload
+        currentFragmentMode: action.payload
       };
     default:
       return state;
