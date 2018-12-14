@@ -225,6 +225,12 @@ public class Indexer {
 		return getTermCount(query);
 	}
 
+	public Map<String, Double> getTermFrequency(FragInter inter) throws IOException, ParseException {
+		String queryString = ID + ":" + inter.getExternalId();
+		Query query = this.queryParser.parse(queryString);
+		return getTermCount(query);
+	}
+
 	private Map<String, Double> getTermCount(Query query) throws ParseException, IOException {
 		Directory directory = new NIOFSDirectory(this.docDir);
 		IndexReader reader = DirectoryReader.open(directory);

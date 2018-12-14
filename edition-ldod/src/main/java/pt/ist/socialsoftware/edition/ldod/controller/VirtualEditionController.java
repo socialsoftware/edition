@@ -8,9 +8,12 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.apache.lucene.queryparser.classic.ParseException;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
@@ -50,6 +53,7 @@ import pt.ist.socialsoftware.edition.ldod.dto.EditionFragmentsDto;
 import pt.ist.socialsoftware.edition.ldod.dto.EditionTranscriptionsDto;
 import pt.ist.socialsoftware.edition.ldod.dto.FragmentDto;
 import pt.ist.socialsoftware.edition.ldod.dto.TranscriptionDto;
+import pt.ist.socialsoftware.edition.ldod.search.Indexer;
 import pt.ist.socialsoftware.edition.ldod.security.LdoDUserDetails;
 import pt.ist.socialsoftware.edition.ldod.session.LdoDSession;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDCreateClassificationGameException;
@@ -326,6 +330,28 @@ public class VirtualEditionController {
 			editionFragments.setFragments(fragments);
 
 			return new ResponseEntity<>(editionFragments, HttpStatus.OK);
+		}
+	}
+
+	@RequestMapping(method = RequestMethod.GET, value = "/acronym/{acronym}/interId/{interId}/tfidf")
+	@PreAuthorize("hasPermission(#acronym, 'editionacronym.public')")
+	public @ResponseBody ResponseEntity<List<Entry<String, Double>>> getInterIdTFIDFTerms(Model model,
+			@PathVariable String acronym, @PathVariable String interId) throws IOException, ParseException {
+		logger.debug("getInterIdTFIDFTerms acronym:{}", acronym);
+
+		VirtualEdition virtualEdition = LdoD.getInstance().getVirtualEdition(acronym);
+
+		VirtualEditionInter virtualEditionInter = FenixFramework.getDomainObject(interId);
+
+		if (virtualEdition == null || virtualEditionInter == null
+				|| virtualEditionInter.getVirtualEdition() != virtualEdition) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		} else {
+			List<Entry<String, Double>> result = Indexer.getIndexer()
+					.getTermFrequency(virtualEditionInter.getLastUsed()).entrySet().stream()
+					.sorted(Comparator.comparing(Map.Entry::getValue)).collect(Collectors.toList());
+
+			return new ResponseEntity<>(result, HttpStatus.OK);
 		}
 	}
 
