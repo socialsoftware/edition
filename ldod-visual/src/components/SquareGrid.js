@@ -160,7 +160,7 @@ class ConnectedSquareGrid extends Component {
       }
     };
 
-    this.props.setRecommendationArray(this.myFragmentArray);
+    //this.props.setRecommendationArray(this.myFragmentArray);
 
     this.handleSelectNode = this.handleSelectNode.bind(this);
   }

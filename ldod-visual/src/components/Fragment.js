@@ -9,7 +9,8 @@ const mapStateToProps = state => {
     allFragmentsLoaded: state.allFragmentsLoaded,
     outOfLandingPage: state.outOfLandingPage,
     recommendationArray: state.recommendationArray,
-    recommendationIndex: state.recommendationIndex
+    recommendationIndex: state.recommendationIndex,
+    recommendationLoaded: state.recommendationLoaded
   };
 };
 
@@ -19,7 +20,7 @@ export class ConnectedFragment extends React.Component {
 
     let fragmentToRender;
 
-    if (this.props.allFragmentsLoaded && this.props.outOfLandingPage) {
+    if (this.props.allFragmentsLoaded && this.props.outOfLandingPage && this.props.recommendationLoaded) {
       fragmentToRender = (<div className="box">
 
         <h1 align="center">

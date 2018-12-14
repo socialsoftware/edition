@@ -9,6 +9,7 @@ import {SET_RECOMMENDATION_ARRAY} from "../constants/action-types";
 import {SET_RECOMMENDATION_INDEX} from "../constants/action-types";
 import {SET_FRAGMENTS_HASHMAP} from "../constants/action-types";
 import {SET_CURRENT_FRAGMENT_MODE} from "../constants/action-types";
+import {SET_RECOMMENDATION_LOADED} from "../constants/action-types";
 
 export const addFragment = fragment => ({type: ADD_FRAGMENT, payload: fragment});
 
@@ -31,3 +32,5 @@ export const setRecommendationIndex = recommendationIndex => ({type: SET_RECOMME
 export const setfragmentsHashMap = fragmentsHashMap => ({type: SET_FRAGMENTS_HASHMAP, payload: fragmentsHashMap});
 
 export const setCurrentFragmentMode = currentFragmentMode => ({type: SET_CURRENT_FRAGMENT_MODE, payload: currentFragmentMode});
+
+export const setRecommendationLoaded = recommendationLoaded => ({type: SET_RECOMMENDATION_LOADED, payload: recommendationLoaded});

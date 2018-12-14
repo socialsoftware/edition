@@ -1,14 +1,7 @@
 import React, {Component} from "react";
 import "./App.css";
 import Fragment from "./components/Fragment";
-import {
-  setFragmentIndex,
-  addHistoryEntry,
-  setCurrentVisualization,
-  setRecommendationArray,
-  setRecommendationIndex,
-  setCurrentFragmentMode
-} from "./actions/index";
+import {setFragmentIndex, addHistoryEntry, setRecommendationArray, setRecommendationIndex, setCurrentFragmentMode} from "./actions/index";
 import {connect} from "react-redux";
 import {Button, ButtonToolbar, Modal} from "react-bootstrap";
 import ActivityMenu from "./components/ActivityMenu";
@@ -23,7 +16,6 @@ const mapStateToProps = state => {
     fragments: state.fragments,
     fragmentIndex: state.fragmentIndex,
     currentVisualization: state.currentVisualization,
-    history: state.history,
     allFragmentsLoaded: state.allFragmentsLoaded,
     recommendationArray: state.recommendationArray,
     recommendationIndex: state.recommendationIndex,
@@ -36,7 +28,6 @@ const mapDispatchToProps = dispatch => {
   return {
     setFragmentIndex: fragmentIndex => dispatch(setFragmentIndex(fragmentIndex)),
     addHistoryEntry: historyEntry => dispatch(addHistoryEntry(historyEntry)),
-    setCurrentVisualization: currentVisualization => dispatch(setCurrentVisualization(currentVisualization)),
     setRecommendationArray: recommendationArray => dispatch(setRecommendationArray(recommendationArray)),
     setRecommendationIndex: recommendationIndex => dispatch(setRecommendationIndex(recommendationIndex)),
     setCurrentFragmentMode: currentFragmentMode => dispatch(setCurrentFragmentMode(currentFragmentMode))

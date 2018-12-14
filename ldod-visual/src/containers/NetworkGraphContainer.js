@@ -5,7 +5,14 @@ import {setCurrentVisualization} from "../actions/index";
 import {connect} from "react-redux";
 
 const mapStateToProps = state => {
-  return {fragments: state.fragments, fragmentIndex: state.fragmentIndex, currentVisualization: state.currentVisualization};
+  return {
+    fragments: state.fragments,
+    fragmentIndex: state.fragmentIndex,
+    currentVisualization: state.currentVisualization,
+    recommendationArray: state.recommendationArray,
+    recommendationIndex: state.recommendationIndex,
+    currentFragmentMode: state.currentFragmentMode
+  };
 };
 
 const mapDispatchToProps = dispatch => {
@@ -26,7 +33,16 @@ class ConnectedNetworkGraphContainer extends Component {
 
   componentDidMount() {
     const service = new RepositoryService();
-    service.getIntersByDistance(this.props.pFragmentId, this.props.pHeteronymWeight, this.props.pTextWeight, this.props.pDateWeight, this.props.ptaxonomyWeight).then(response => {
+    let targetId = this.props.fragments[this.props.fragmentIndex].interId;
+
+    if (this.props.currentFragmentMode) {
+      console.log("NETOWRKGRAPHCONTAINER: CALCULATING NETWORK GRAPH DISTANCES FOR CURRENT FRAGMENT AND NOT!! THE PICKED FRAGMENT %%%%%%%%%%%%%%%%%%%%%")
+      targetId = this.props.recommendationArray[this.props.recommendationIndex].interId;
+    }
+
+    console.log("NETWORKGRAPHCONTAINER: requesting distances")
+    service.getIntersByDistance(targetId, this.props.pHeteronymWeight, this.props.pTextWeight, this.props.pDateWeight, this.props.ptaxonomyWeight).then(response => {
+      console.log("NETWORKGRAPHCONTAINER: receiving distances at networkgraphcontainer")
       this.setState({networkGraphData: response.data});
       this.setState(prevState => ({
         fragmentsDistanceLoaded: !prevState.check
