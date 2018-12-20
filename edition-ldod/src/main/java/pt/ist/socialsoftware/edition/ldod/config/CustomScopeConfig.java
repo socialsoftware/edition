@@ -7,8 +7,8 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class CustomScopeConfig {
 
-    @Bean
-    public static BeanFactoryPostProcessor beanFactoryPostProcessor() {
-        return new CustomScopeRegisteringBeanFactoryPostProcessor();
-    }
+	@Bean
+	public static BeanFactoryPostProcessor beanFactoryPostProcessor() {
+		return new CustomScopeRegisteringBeanFactoryPostProcessor();
+	}
 }

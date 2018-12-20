@@ -3,14 +3,12 @@ package pt.ist.socialsoftware.edition.ldod.config;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
-import org.springframework.boot.autoconfigure.social.SocialWebAutoConfiguration;
 import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.springframework.boot.web.support.SpringBootServletInitializer;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.PropertySource;
@@ -27,7 +25,7 @@ import pt.ist.socialsoftware.edition.ldod.utils.Bootstrap;
 @ComponentScan(basePackages = "pt.ist.socialsoftware.edition")
 @SpringBootApplication
 @EnableScheduling
-@EnableAutoConfiguration(exclude = { SocialWebAutoConfiguration.class, DataSourceAutoConfiguration.class })
+@EnableAutoConfiguration(exclude = { DataSourceAutoConfiguration.class })
 public class Application extends SpringBootServletInitializer implements InitializingBean {
 
 	@Override

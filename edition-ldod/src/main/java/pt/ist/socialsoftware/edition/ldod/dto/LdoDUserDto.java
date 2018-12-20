@@ -1,6 +1,6 @@
 package pt.ist.socialsoftware.edition.ldod.dto;
 
-import org.hibernate.validator.constraints.NotBlank;
+import javax.validation.constraints.NotBlank;
 
 import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
 

@@ -1,8 +1,7 @@
 package pt.ist.socialsoftware.edition.ldod.forms;
 
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
-
-import org.hibernate.validator.constraints.NotEmpty;
 
 public class ChangePasswordForm {
 
@@ -19,7 +18,7 @@ public class ChangePasswordForm {
 	private String retypedPassword;
 
 	public String getUsername() {
-		return username;
+		return this.username;
 	}
 
 	public void setUsername(String username) {
@@ -27,7 +26,7 @@ public class ChangePasswordForm {
 	}
 
 	public String getCurrentPassword() {
-		return currentPassword;
+		return this.currentPassword;
 	}
 
 	public void setCurrentPassword(String currentPassword) {
@@ -35,7 +34,7 @@ public class ChangePasswordForm {
 	}
 
 	public String getNewPassword() {
-		return newPassword;
+		return this.newPassword;
 	}
 
 	public void setNewPassword(String newPassword) {
@@ -43,7 +42,7 @@ public class ChangePasswordForm {
 	}
 
 	public String getRetypedPassword() {
-		return retypedPassword;
+		return this.retypedPassword;
 	}
 
 	public void setRetypedPassword(String retypedPassword) {

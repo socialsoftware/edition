@@ -14,7 +14,7 @@ import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
 import org.springframework.social.UserIdSource;
 import org.springframework.social.config.annotation.ConnectionFactoryConfigurer;
 import org.springframework.social.config.annotation.EnableSocial;
-import org.springframework.social.config.annotation.SocialConfigurer;
+import org.springframework.social.config.annotation.SocialConfigurerAdapter;
 import org.springframework.social.connect.Connection;
 import org.springframework.social.connect.ConnectionFactoryLocator;
 import org.springframework.social.connect.ConnectionRepository;
@@ -22,18 +22,21 @@ import org.springframework.social.connect.UsersConnectionRepository;
 import org.springframework.social.connect.web.ConnectController;
 import org.springframework.social.connect.web.ProviderSignInController;
 import org.springframework.social.facebook.api.Facebook;
+import org.springframework.social.facebook.connect.FacebookConnectionFactory;
 import org.springframework.social.google.api.Google;
 import org.springframework.social.google.api.impl.GoogleTemplate;
 import org.springframework.social.google.connect.GoogleConnectionFactory;
 import org.springframework.social.linkedin.api.LinkedIn;
+import org.springframework.social.linkedin.connect.LinkedInConnectionFactory;
 import org.springframework.social.twitter.api.Twitter;
+import org.springframework.social.twitter.connect.TwitterConnectionFactory;
 
 import pt.ist.socialsoftware.edition.ldod.security.LdoDSignInAdapter;
 import pt.ist.socialsoftware.edition.ldod.security.LdoDUsersConnectionRepository;
 
 @Configuration
 @EnableSocial
-public class SocialConfig implements SocialConfigurer {
+public class SocialConfig extends SocialConfigurerAdapter {
 
 	@Inject
 	TextEncryptor textEncryptor;
@@ -44,6 +47,19 @@ public class SocialConfig implements SocialConfigurer {
 				env.getProperty("spring.social.google.appSecret"));
 		gcf.setScope("profile");
 		cfConfig.addConnectionFactory(gcf);
+
+		FacebookConnectionFactory fcf = new FacebookConnectionFactory(env.getProperty("spring.social.facebook.appId"),
+				env.getProperty("spring.social.facebook.appSecret"));
+		fcf.setScope("profile");
+		cfConfig.addConnectionFactory(fcf);
+
+		TwitterConnectionFactory tcf = new TwitterConnectionFactory(env.getProperty("spring.social.twitter.appId"),
+				env.getProperty("spring.social.twitter.appSecret"));
+		cfConfig.addConnectionFactory(tcf);
+
+		LinkedInConnectionFactory lcf = new LinkedInConnectionFactory(env.getProperty("spring.social.linkedin.appId"),
+				env.getProperty("spring.social.linkedin.appSecret"));
+		cfConfig.addConnectionFactory(lcf);
 	}
 
 	@Override
@@ -64,7 +80,7 @@ public class SocialConfig implements SocialConfigurer {
 	public UsersConnectionRepository getUsersConnectionRepository(ConnectionFactoryLocator connectionFactoryLocator) {
 		// return new
 		// InMemoryUsersConnectionRepository(connectionFactoryLocator);
-		return new LdoDUsersConnectionRepository(connectionFactoryLocator, textEncryptor);
+		return new LdoDUsersConnectionRepository(connectionFactoryLocator, this.textEncryptor);
 	}
 
 	@Bean

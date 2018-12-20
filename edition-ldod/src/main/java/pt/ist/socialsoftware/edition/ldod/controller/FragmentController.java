@@ -74,7 +74,7 @@ public class FragmentController {
 
 	@RequestMapping(method = RequestMethod.GET, value = "/fragment/{xmlId}")
 	public String getFragment(Model model, @PathVariable String xmlId) {
-		Fragment fragment = FenixFramework.getDomainRoot().getLdoD().getFragmentByXmlId(xmlId);
+		Fragment fragment = LdoD.getInstance().getFragmentByXmlId(xmlId);
 
 		if (fragment == null) {
 			return "redirect:/error";
@@ -92,7 +92,7 @@ public class FragmentController {
 	public String getFragmentWithInterForUrlId(Model model, @ModelAttribute("ldoDSession") LdoDSession ldoDSession,
 			@PathVariable String xmlId, @PathVariable String urlId) {
 
-		Fragment fragment = FenixFramework.getDomainRoot().getLdoD().getFragmentByXmlId(xmlId);
+		Fragment fragment = LdoD.getInstance().getFragmentByXmlId(xmlId);
 
 		if (fragment == null) {
 			return "redirect:/error";

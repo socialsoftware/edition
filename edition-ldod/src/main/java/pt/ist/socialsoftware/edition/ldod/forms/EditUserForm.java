@@ -1,9 +1,8 @@
 package pt.ist.socialsoftware.edition.ldod.forms;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
-
-import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.NotEmpty;
 
 public class EditUserForm {
 
