@@ -1,11 +1,17 @@
-export const BY_HISTORIC = "do seu histórico de leitura";
-export const BY_NEXTBUTTON = "do botão para navegar para o próximo fragmento.";
-export const BY_PREVIOUSBUTTON = "do botão para navegar para o fragmento anterior.";
+export const BY_HISTORIC = "BY_HISTORIC";
+export const BY_NEXTBUTTON = "BY_NEXTBUTTON";
+export const BY_PREVIOUSBUTTON = "BY_PREVIOUSBUTTON";
+export const BY_SQUAREGRID_EDITIONORDER = "BY_SQUAREGRID_EDITIONORDER";
+export const BY_NETWORK_TEXTSIMILARITY = "BY_NETWORK_TEXTSIMILARITY";
 
-export const BY_NETWORK_TEXTSIMILARITY = "da actividade ''Encontrar fragmentos mais semelhantes por texto''."
-export const VIS_NETWORK = "VIS_NETWORK";
-export const CRIT_TEXTSIMILARITY = "CRIT_TEXTSIMILARITY";
+export const CRIT_EDITION_ORDER = "CRIT_EDITIONORDER";
+export const CRIT_TEXT_SIMILARITY = "CRIT_TEXTSIMILARITY";
+export const CRIT_CHRONOLOGICAL_ORDER = "CRIT_CHRONOLOGICAL_ORDER";
+export const CRIT_HETERONYM = "CRIT_HETERONYM";
+export const CRIT_TAXONOMY = "CRIT_TAXONOMY";
+export const CRIT_WORD_RELEVANCE = "CRIT_WORD_RELEVANCE";
 
-export const BY_SQUAREGRID_EDITIONORDER = "da actividade ''Encontrar fragmentos mais semelhantes por texto''."
-export const VIS_SQUAREGRID = "VIS_SQUAREGRID";
-export const CRIT_EDITIONORDER = "CRIT_EDITIONORDER";
+export const VIS_NETWORK_GRAPH = "VIS_NETWORKGRAPH";
+export const VIS_SQUARE_GRID = "VIS_SQUAREGRID";
+export const VIS_WORD_CLOUD = "VIS_WORD_CLOUD";
+export const VIS_TEXT_SKIMMING = "VIS_TEXT_SKIMMING";

@@ -11,7 +11,7 @@ import {
   setRecommendationArray,
   setRecommendationIndex
 } from "../actions/index";
-import {VIS_SQUAREGRID, BY_SQUAREGRID_EDITIONORDER, CRIT_EDITIONORDER} from "../constants/history-transitions";
+import {VIS_SQUARE_GRID, BY_SQUAREGRID_EDITIONORDER, CRIT_EDITION_ORDER} from "../constants/history-transitions";
 import HashMap from "hashmap";
 
 const mapStateToProps = state => {
@@ -23,7 +23,8 @@ const mapStateToProps = state => {
     historyEntryCounter: state.historyEntryCounter,
     recommendationArray: state.recommendationArray,
     recommendationIndex: state.recommendationIndex,
-    currentFragmentMode: state.currentFragmentMode
+    currentFragmentMode: state.currentFragmentMode,
+    outOfLandingPage: state.outOfLandingPage
   };
 };
 
@@ -79,6 +80,18 @@ class ConnectedSquareGrid extends Component {
       const myTitle = this.myFragmentArray[i].meta.title;
       const myText = this.myFragmentArray[i].text;
 
+      let nodeBorderColor = "#DC143C"
+      let nodeBackgroundColor = "#FF7F50"
+      if (!this.props.currentFragmentMode && this.myFragmentArray[i].interId === this.props.recommendationArray[this.props.recommendationIndex].interId) {
+        nodeBorderColor = "#800080";
+        nodeBackgroundColor = "#663399";
+      }
+
+      if (this.props.outOfLandingPage && this.myFragmentArray[i].interId === this.props.fragments[this.props.fragmentIndex].interId) {
+        nodeBorderColor = "#2B7CE9";
+        nodeBackgroundColor = "#D2E5FF";
+      }
+
       obj = {
         id: this.myFragmentArray[i].interId,
         //label: "",
@@ -87,15 +100,15 @@ class ConnectedSquareGrid extends Component {
         size: originalFragmentSize * remainingNodeFactor,
         fixed: true,
         color: {
-          border: '#2B7CE9',
-          background: '#D2E5FF',
+          border: nodeBorderColor,
+          background: nodeBackgroundColor,
           highlight: {
             border: '#FFD700',
             background: '#DAA520'
           },
           hover: {
-            border: '#DC143C',
-            background: '#FF7F50'
+            border: "#2B7CE9",
+            background: "#D2E5FF"
           }
 
         },
@@ -180,14 +193,15 @@ class ConnectedSquareGrid extends Component {
             id: this.props.historyEntryCounter,
             originalFragment: this.myFragmentArray[this.props.fragmentIndex],
             nextFragment: this.myFragmentArray[i],
-            vis: VIS_SQUAREGRID,
-            criteria: CRIT_EDITIONORDER,
+            vis: VIS_SQUARE_GRID,
+            criteria: CRIT_EDITION_ORDER,
             visualization: globalViewToRender,
             recommendationArray: this.myFragmentArray, //mudar para quando o cirterio for difernete,
             recommendationIndex: i,
             fragmentIndex: this.props.fragmentIndex,
             start: new Date().getTime()
           };
+          //this.props.setFragmentIndex(i);
           if (this.props.currentFragmentMode) {
             var j;
             for (j = 0; j < this.props.fragments.length; j++) {
@@ -201,8 +215,6 @@ class ConnectedSquareGrid extends Component {
           this.props.addHistoryEntry(obj);
           this.props.setHistoryEntryCounter(this.props.historyEntryCounter + 1)
           //HISTORY ENTRY HISTORY ENTRY HISTORY ENTRY HISTORY ENTRY
-
-          this.props.setFragmentIndex(i);
 
           this.props.setRecommendationArray(this.myFragmentArray);
 

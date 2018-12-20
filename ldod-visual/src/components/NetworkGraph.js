@@ -13,7 +13,7 @@ import {
   setCurrentFragmentMode,
   setRecommendationLoaded
 } from "../actions/index";
-import {VIS_NETWORK, BY_NETWORK_TEXTSIMILARITY, CRIT_TEXTSIMILARITY} from "../constants/history-transitions";
+import {VIS_NETWORK_GRAPH, BY_NETWORK_TEXTSIMILARITY, CRIT_TEXT_SIMILARITY} from "../constants/history-transitions";
 import {Button, Popover, OverlayTrigger, Overlay} from "react-bootstrap";
 import NetworkGraphContainer from "../containers/NetworkGraphContainer";
 import HashMap from "hashmap";
@@ -151,7 +151,7 @@ class ConnectedNetworkGraph extends Component {
         from: this.props.graphData[0].interId,
         to: this.props.graphData[i].interId,
         length: myLength,
-        hidden: false
+        hidden: true
       };
 
       this.edges.push(obj);
@@ -202,8 +202,8 @@ class ConnectedNetworkGraph extends Component {
             id: this.props.historyEntryCounter,
             originalFragment: this.props.recommendationArray[this.props.recommendationIndex],
             nextFragment: this.recommendationArray[i],
-            vis: VIS_NETWORK,
-            criteria: CRIT_TEXTSIMILARITY,
+            vis: VIS_NETWORK_GRAPH,
+            criteria: CRIT_TEXT_SIMILARITY,
             visualization: globalViewToRender,
             recommendationArray: this.recommendationArray,
             recommendationIndex: i,
