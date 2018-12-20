@@ -8,7 +8,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Service;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
@@ -17,7 +16,7 @@ import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
 import pt.ist.socialsoftware.edition.ldod.domain.Role;
 import pt.ist.socialsoftware.edition.ldod.domain.Role.RoleType;
 
-@Service
+//@Service
 public class LdoDUserDetailsService implements UserDetailsService {
 	private static Logger log = LoggerFactory.getLogger(LdoDUserDetailsService.class);
 

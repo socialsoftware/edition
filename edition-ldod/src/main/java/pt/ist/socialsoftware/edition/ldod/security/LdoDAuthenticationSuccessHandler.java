@@ -11,14 +11,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
-import org.springframework.stereotype.Component;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
 import pt.ist.socialsoftware.edition.ldod.session.LdoDSession;
 
-@Component
+//@Component
 public class LdoDAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 	private static Logger log = LoggerFactory.getLogger(LdoDAuthenticationSuccessHandler.class);
 
