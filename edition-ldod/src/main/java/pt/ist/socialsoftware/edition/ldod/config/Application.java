@@ -23,7 +23,6 @@ import pt.ist.socialsoftware.edition.ldod.utils.Bootstrap;
 @ComponentScan(basePackages = "pt.ist.socialsoftware.edition")
 @SpringBootApplication
 @EnableScheduling
-//@EnableAutoConfiguration(exclude = { DataSourceAutoConfiguration.class })
 public class Application extends SpringBootServletInitializer implements InitializingBean {
 
 	@Override

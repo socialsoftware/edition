@@ -12,7 +12,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.0.7.RELEASE</version>
+		<version>2.1.1.RELEASE</version>
 	</parent>
 
 	<name>edition</name>
@@ -222,13 +222,11 @@
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter-engine</artifactId>
-			<version>5.2.0</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-core</artifactId>
-			<version>2.18.3</version>
 			<scope>test</scope>
 		</dependency>
 
@@ -294,6 +292,12 @@
 			<groupId>pt.ist</groupId>
 			<artifactId>fenix-framework-backend-${fenix.framework.backend}-runtime</artifactId>
 			<version>${version.fenixframework}</version>
+		</dependency>
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<!-- use this version to be compatible with fenix mysql lib  -->
+			<version>5.1.47</version>
 		</dependency>
 
 		<!-- Logging -->
