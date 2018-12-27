@@ -20,7 +20,7 @@
 
             <form:form class="form-horizontal" id="edit"
                 action="/admin/user/edit" method="post"
-                modelAttribute="editUserForm" commandName="editUserForm">
+                modelAttribute="editUserForm">
 
                 <input type="hidden" name="_csrf" value="${_csrf.token}" />
 
