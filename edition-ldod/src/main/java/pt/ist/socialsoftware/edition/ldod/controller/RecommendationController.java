@@ -1,6 +1,7 @@
 package pt.ist.socialsoftware.edition.ldod.controller;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.joda.time.LocalDate;
 import org.slf4j.Logger;
@@ -118,14 +119,11 @@ public class RecommendationController {
 	@RequestMapping(value = "/linear", method = RequestMethod.POST, headers = {
 			"Content-type=application/json;charset=UTF-8" })
 	public String setLinearVirtualEdition(Model model, @RequestBody RecommendVirtualEditionParam params) {
-		// logger.debug("setLinearVirtualEdition acronym:{}, id:{}, properties:{}",
-		// params.getAcronym(), params.getId(),
-		// params.getProperties().stream()
-		// .map(p ->
-		// p.getClass().getName().substring(p.getClass().getName().lastIndexOf(".") + 1)
-		// + " "
-		// + p.getWeight())
-		// .collect(Collectors.joining(";")));
+		logger.debug("setLinearVirtualEdition acronym:{}, id:{}, properties:{}", params.getAcronym(), params.getId(),
+				params.getProperties().stream()
+						.map(p -> p.getClass().getName().substring(p.getClass().getName().lastIndexOf(".") + 1) + " "
+								+ p.getWeight())
+						.collect(Collectors.joining(";")));
 
 		VirtualEdition virtualEdition = (VirtualEdition) LdoD.getInstance().getEdition(params.getAcronym());
 

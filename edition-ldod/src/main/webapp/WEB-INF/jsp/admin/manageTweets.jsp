@@ -52,7 +52,7 @@
 						<td><a href="${citation.getSourceLink()}" target="_blank">Tweet</a></td>
 						<td><c:forEach var="range"
 								items='${citation.getInfoRangeSet()}'>
-								<b>Text:</b> ${range.getText()}, <b>Quote:</b> ${range.getQuote()}, <b>Inter:</b> ${range.getAnnotation().getVirtualEditionInter().getXmlId()} <br />
+								<b>Text:</b> ${range.getText()}, <b>Quote:</b> ${range.getQuote()}, <b>Inter:</b> ${range.getFragInter().getXmlId()} <br />
 							</c:forEach></td>
 						<td>${citation.getAwareAnnotationSet().size()}</td>
 						<td>${citation.getNumberOfRetweets()}</td>
