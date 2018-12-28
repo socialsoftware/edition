@@ -159,3 +159,5 @@ fabric.properties
 =======
 .idea/
 *.iml
+
+package-lock.json

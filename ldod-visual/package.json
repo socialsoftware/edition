@@ -1,0 +1,28 @@
+{
+  "name": "ldod-visual",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "axios": "^0.18.0",
+    "hashmap": "^2.3.0",
+    "react": "^16.5.2",
+    "react-bootstrap": "^0.32.4",
+    "react-dom": "^16.5.2",
+    "react-jss": "^8.6.1",
+    "react-modal": "^3.6.1",
+    "react-scripts": "1.1.5",
+    "vis": "^4.21.0",
+    "vis-react": "^0.4.0"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  },
+  "devDependencies": {
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "react-redux": "^5.0.7",
+    "redux": "^4.0.0"
+  }
+}

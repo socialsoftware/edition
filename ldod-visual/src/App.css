@@ -1,0 +1,34 @@
+.app {
+  display: flex;
+  flex-direction: column;
+  font-family: Consolas, monaco, monospace;
+  padding: 20px;
+}
+
+.buttonToolbar {
+  display: inline-block;
+  flex-direction: row;
+  margin: 30px auto;
+}
+
+.buttoncont{
+    margin: 20px auto;
+}
+
+Button:not(:last-child){
+  margin-right: 20px;
+}
+
+.custom-modal{
+  width: 50%;
+}
+
+.custom-modal-landing{
+  width: 60%;
+}
+
+.buttonToolbarStart {
+  display: inline-block;
+  flex-direction: column;
+  margin: 30px auto;
+}

@@ -1,0 +1,6 @@
+.graphGrid {
+  width: 800px;
+  height: 500px;
+  margin: auto;
+  display: flex;
+}
