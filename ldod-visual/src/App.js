@@ -47,8 +47,11 @@ class ConnectedApp extends Component {
       showConfig: false,
       showGlobalView: false,
       showHistoric: false,
-      showLanding: true
+      showLanding: true,
+      showLandingActivity: false
     };
+
+    this.landingActivityToRender = <div/>;
 
     this.handleShowGlobalView = this.handleShowGlobalView.bind(this);
     this.handleCloseGlobalView = this.handleCloseGlobalView.bind(this);
@@ -66,6 +69,9 @@ class ConnectedApp extends Component {
     this.handleClickPrevious = this.handleClickPrevious.bind(this);
     this.handleClickNext = this.handleClickNext.bind(this);
 
+    //show landing activities
+    this.handleShowLandingActivitySquareEditionOrder = this.handleShowLandingActivitySquareEditionOrder.bind(this);
+    this.handleShowLandingActivitySquareDateOrder = this.handleShowLandingActivitySquareDateOrder.bind(this);
   }
 
   handleClickPrevious() {
@@ -127,6 +133,14 @@ class ConnectedApp extends Component {
     console.log("calling handlecloselanding()")
   }
 
+  handleShowLandingActivitySquareEditionOrder() {
+    this.setState({showLandingActivity: true});
+  }
+
+  handleShowLandingActivitySquareDateOrder() {
+    this.setState({showLandingActivity: true});
+  }
+
   setCurrentFragmentMode() {}
 
   setPickedFragmentMode() {}
@@ -152,13 +166,32 @@ class ConnectedApp extends Component {
       }
     }
 
-    let landingVisToRender;
+    if (this.state.showLandingActivity) {
+      this.landingActivityToRender = (<SquareGrid onChange={this.handleCloseModals}/>)
+    } else {
+      this.landingActivityToRender = (<div className="buttonToolbarStart">
+        <ButtonToolbar>
+
+          <Button bsStyle="primary" bsSize="large" onClick={this.handleShowLandingActivitySquareEditionOrder} block="block">
+            Explorar os fragmentos por ordem desta edição virtual
+          </Button>
+
+          <Button bsStyle="primary" bsSize="large" onClick={this.handleShowLandingActivitySquareDateOrder} block="block">
+            Explorar os fragmentos desta edição ordenados por data
+          </Button>
+
+        </ButtonToolbar>
+      </div>)
+    }
 
     let buttonToolBarToRender;
+    let landingVisToRender;
 
     if (this.props.allFragmentsLoaded) {
 
-      landingVisToRender = <SquareGrid onChange={this.handleCloseModals}/>;
+      landingVisToRender = this.landingActivityToRender
+
+      //<SquareGrid onChange={this.handleCloseModals}/>;
 
       buttonToolBarToRender = (<div className="buttonToolbar">
         <ButtonToolbar>
@@ -206,7 +239,10 @@ class ConnectedApp extends Component {
         </Modal.Header>
 
         <Modal.Body>
-          Esta é a sua primeira actividade. {landingVisToRender}
+          <p>
+            Esta é a sua primeira actividade. Escolha uma as seguintes opções.
+          </p>
+          {this.landingActivityToRender}
         </Modal.Body>
 
       </Modal>

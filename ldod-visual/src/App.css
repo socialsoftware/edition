@@ -26,3 +26,9 @@ Button:not(:last-child){
 .custom-modal-landing{
   width: 60%;
 }
+
+.buttonToolbarStart {
+  display: inline-block;
+  flex-direction: column;
+  margin: 30px auto;
+}

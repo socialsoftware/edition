@@ -10,6 +10,10 @@ import {SET_RECOMMENDATION_INDEX} from "../constants/action-types";
 import {SET_FRAGMENTS_HASHMAP} from "../constants/action-types";
 import {SET_CURRENT_FRAGMENT_MODE} from "../constants/action-types";
 import {SET_RECOMMENDATION_LOADED} from "../constants/action-types";
+import {SET_VISUALIZATION_TECHNIQUE} from "../constants/action-types";
+import {SET_SEMANTIC_CRITERIA} from "../constants/action-types";
+import {SET_SEMANTIC_CRITERIA_DATA} from "../constants/action-types";
+import {SET_SEMANTIC_CRITERIA_DATA_LOADED} from "../constants/action-types";
 
 export const addFragment = fragment => ({type: ADD_FRAGMENT, payload: fragment});
 
@@ -34,3 +38,11 @@ export const setfragmentsHashMap = fragmentsHashMap => ({type: SET_FRAGMENTS_HAS
 export const setCurrentFragmentMode = currentFragmentMode => ({type: SET_CURRENT_FRAGMENT_MODE, payload: currentFragmentMode});
 
 export const setRecommendationLoaded = recommendationLoaded => ({type: SET_RECOMMENDATION_LOADED, payload: recommendationLoaded});
+
+export const setVisualizationTechnique = visualizationTechnique => ({type: SET_VISUALIZATION_TECHNIQUE, payload: visualizationTechnique});
+
+export const setSemanticCriteria = semanticCriteria => ({type: SET_SEMANTIC_CRITERIA, payload: semanticCriteria});
+
+export const setSemanticCriteriaData = semanticCriteriaData => ({type: SET_SEMANTIC_CRITERIA_DATA, payload: semanticCriteriaData});
+
+export const setSemanticCriteriaDataLoaded = semanticCriteriaDataLoaded => ({type: SET_SEMANTIC_CRITERIA_DATA_LOADED, payload: semanticCriteriaDataLoaded});

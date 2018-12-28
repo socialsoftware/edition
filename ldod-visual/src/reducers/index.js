@@ -10,6 +10,10 @@ import {SET_RECOMMENDATION_INDEX} from "../constants/action-types";
 import {SET_FRAGMENTS_HASHMAP} from "../constants/action-types";
 import {SET_CURRENT_FRAGMENT_MODE} from "../constants/action-types";
 import {SET_RECOMMENDATION_LOADED} from "../constants/action-types";
+import {SET_VISUALIZATION_TECHNIQUE} from "../constants/action-types";
+import {SET_SEMANTIC_CRITERIA} from "../constants/action-types";
+import {SET_SEMANTIC_CRITERIA_DATA} from "../constants/action-types";
+import {SET_SEMANTIC_CRITERIA_DATA_LOADED} from "../constants/action-types";
 
 const initialState = {
   fragments: [],
@@ -23,7 +27,11 @@ const initialState = {
   recommendationIndex: 0,
   fragmentsHashMap: [],
   currentFragmentMode: true,
-  recommendationLoaded: true
+  recommendationLoaded: true,
+  visualizationTechnique: 0,
+  semanticCriteria: 0,
+  semanticCriteriaData: [],
+  semanticCriteriaDataLoaded: false
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -93,6 +101,26 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         recommendationLoaded: action.payload
+      };
+    case SET_VISUALIZATION_TECHNIQUE:
+      return {
+        ...state,
+        visualizationTechnique: action.payload
+      };
+    case SET_SEMANTIC_CRITERIA:
+      return {
+        ...state,
+        semanticCriteria: action.payload
+      };
+    case SET_SEMANTIC_CRITERIA_DATA:
+      return {
+        ...state,
+        semanticCriteriaData: action.payload
+      };
+    case SET_SEMANTIC_CRITERIA_DATA_LOADED:
+      return {
+        ...state,
+        semanticCriteriaDataLoaded: action.payload
       };
     default:
       return state;
