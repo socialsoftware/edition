@@ -9,8 +9,10 @@ public class FragInterDeleterVirtual extends FragInterDeleter {
     @Override
     public void remove(FragInter fragInter) {
         for (VirtualEditionInter inter : fragInter.getIsUsedBySet()) {
-            fragInter.removeIsUsedBy(inter);
+            inter.remove();
         }
+
+        ((VirtualEditionInter)fragInter).setUses(null);
 
         fragInter.getInfoRangeSet().forEach(infoRange -> infoRange.remove());
 
