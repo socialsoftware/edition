@@ -11,7 +11,7 @@ import {
   setRecommendationArray,
   setRecommendationIndex
 } from "../actions/index";
-import {VIS_SQUARE_GRID, BY_SQUAREGRID_EDITIONORDER, CRIT_EDITION_ORDER} from "../constants/history-transitions";
+import {VIS_SQUARE_GRID, BY_SQUAREGRID_EDITIONORDER, CRIT_EDITION_ORDER, CRIT_CHRONOLOGICAL_ORDER} from "../constants/history-transitions";
 import HashMap from "hashmap";
 
 const mapStateToProps = state => {
@@ -24,7 +24,10 @@ const mapStateToProps = state => {
     recommendationArray: state.recommendationArray,
     recommendationIndex: state.recommendationIndex,
     currentFragmentMode: state.currentFragmentMode,
-    outOfLandingPage: state.outOfLandingPage
+    outOfLandingPage: state.outOfLandingPage,
+    visualizationTechnique: state.visualizationTechnique,
+    semanticCriteria: state.semanticCriteria,
+    allFragmentsLoaded: state.allFragmentsLoaded
   };
 };
 
@@ -59,6 +62,32 @@ class ConnectedSquareGrid extends Component {
     this.minMaxList = [];
     this.myFragmentArray = [];
 
+    if (this.props.semanticCriteria == CRIT_EDITION_ORDER) {
+      this.myFragmentArray = this.props.fragments; //aqui se for por data, alterar...
+    } else if (this.props.semanticCriteria == CRIT_CHRONOLOGICAL_ORDER) {
+      //ALGUNS FRAGMENTOS VÊM SEM DATA! ESTE REORDENAR TAMBÉM TEM DE SER FEITO NO FRAGMENT LOADER.
+      this.sortedFragmentsByDate = this.props.fragments;
+
+      /*
+    this.sortedFragmentsByDate.map(f => console.log("BEFORE SORTING: " + f.meta.dates))
+
+    this.sortedFragmentsByDate.sort(function(a, b) {
+      console.log("date from fragment a: " + a.meta.dates);
+      a = new Date(a.meta.dates);
+      console.log("new Date object a: " + a);
+      console.log("«»");
+      console.log("date from fragment b: " + b.meta.dates);
+      b = new Date(b.meta.dates);
+      console.log("new Date object b: " + b);
+      console.log("============");
+      return a - b
+    });
+
+    this.sortedFragmentsByDate.map(f => console.log("TEST: " + f.meta.dates))
+    */
+
+    }
+
     const maxFragsAnalyzedPercentage = 1.0;
     const edgeLengthFactor = 10000;
     const originalFragmentSize = 30;
@@ -72,8 +101,6 @@ class ConnectedSquareGrid extends Component {
     var i;
     let xFactor = 0;
     let yFactor = 0;
-
-    this.myFragmentArray = this.props.fragments;
 
     for (i = 0; i < this.myFragmentArray.length; i++) {
 
@@ -124,7 +151,7 @@ class ConnectedSquareGrid extends Component {
       }
 
       if ((i + 1) % maxRows === 0 && i != 0) {
-        console.log(i)
+
         if (inversionToggle) {
           xFactor = 0
         } else {
@@ -176,6 +203,7 @@ class ConnectedSquareGrid extends Component {
     //this.props.setRecommendationArray(this.myFragmentArray);
 
     this.handleSelectNode = this.handleSelectNode.bind(this);
+
   }
 
   handleSelectNode(event) {
@@ -229,16 +257,16 @@ class ConnectedSquareGrid extends Component {
   }
 
   componentDidMount() {
-    //if (this.props.fragments.length > 0) {
-    const data = {
-      nodes: this.nodes,
-      edges: this.edges
-    };
+    if (this.props.allFragmentsLoaded) {
+      const data = {
+        nodes: this.nodes,
+        edges: this.edges
+      };
 
-    var container = document.getElementById('gridvis');
-    this.network = new Network(container, data, this.options);
-    this.network.on("selectNode", this.handleSelectNode);
-    //}
+      var container = document.getElementById('gridvis');
+      this.network = new Network(container, data, this.options);
+      this.network.on("selectNode", this.handleSelectNode);
+    }
   }
 
   render() {

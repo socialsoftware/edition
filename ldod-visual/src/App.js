@@ -1,12 +1,28 @@
 import React, {Component} from "react";
 import "./App.css";
 import Fragment from "./components/Fragment";
-import {setFragmentIndex, addHistoryEntry, setRecommendationArray, setRecommendationIndex, setCurrentFragmentMode} from "./actions/index";
+import {
+  setFragmentIndex,
+  addHistoryEntry,
+  setRecommendationArray,
+  setRecommendationIndex,
+  setCurrentFragmentMode,
+  setSemanticCriteria,
+  setVisualizationTechnique
+} from "./actions/index";
 import {connect} from "react-redux";
 import {Button, ButtonToolbar, Modal} from "react-bootstrap";
 import ActivityMenu from "./components/ActivityMenu";
 import HistoryMenu from "./components/HistoryMenu";
-import {VIS_NETWORK, BY_HISTORIC, BY_NEXTBUTTON, BY_PREVIOUSBUTTON} from "./constants/history-transitions";
+import {
+  VIS_NETWORK,
+  BY_HISTORIC,
+  BY_NEXTBUTTON,
+  BY_PREVIOUSBUTTON,
+  CRIT_EDITION_ORDER,
+  CRIT_CHRONOLOGICAL_ORDER,
+  VIS_SQUARE_GRID
+} from "./constants/history-transitions";
 import NetworkGraph from "./components/NetworkGraph";
 import FragmentLoader from "./components/FragmentLoader";
 import SquareGrid from "./components/SquareGrid";
@@ -30,7 +46,10 @@ const mapDispatchToProps = dispatch => {
     addHistoryEntry: historyEntry => dispatch(addHistoryEntry(historyEntry)),
     setRecommendationArray: recommendationArray => dispatch(setRecommendationArray(recommendationArray)),
     setRecommendationIndex: recommendationIndex => dispatch(setRecommendationIndex(recommendationIndex)),
-    setCurrentFragmentMode: currentFragmentMode => dispatch(setCurrentFragmentMode(currentFragmentMode))
+    setCurrentFragmentMode: currentFragmentMode => dispatch(setCurrentFragmentMode(currentFragmentMode)),
+    setSemanticCriteria: semanticCriteria => dispatch(setSemanticCriteria(semanticCriteria)),
+    setVisualizationTechnique: visualizationTechnique => dispatch(setVisualizationTechnique(visualizationTechnique)),
+    setSemanticCriteria: semanticCriteria => dispatch(setSemanticCriteria(semanticCriteria))
   };
 };
 
@@ -134,10 +153,14 @@ class ConnectedApp extends Component {
   }
 
   handleShowLandingActivitySquareEditionOrder() {
+    this.props.setSemanticCriteria(CRIT_EDITION_ORDER);
+    this.props.setVisualizationTechnique(VIS_SQUARE_GRID);
     this.setState({showLandingActivity: true});
   }
 
   handleShowLandingActivitySquareDateOrder() {
+    this.props.setSemanticCriteria(CRIT_CHRONOLOGICAL_ORDER);
+    this.props.setVisualizationTechnique(VIS_SQUARE_GRID);
     this.setState({showLandingActivity: true});
   }
 
@@ -166,7 +189,7 @@ class ConnectedApp extends Component {
       }
     }
 
-    if (this.state.showLandingActivity) {
+    if (this.state.showLandingActivity & this.props.allFragmentsLoaded) {
       this.landingActivityToRender = (<SquareGrid onChange={this.handleCloseModals}/>)
     } else {
       this.landingActivityToRender = (<div className="buttonToolbarStart">
@@ -185,11 +208,8 @@ class ConnectedApp extends Component {
     }
 
     let buttonToolBarToRender;
-    let landingVisToRender;
 
     if (this.props.allFragmentsLoaded) {
-
-      landingVisToRender = this.landingActivityToRender
 
       //<SquareGrid onChange={this.handleCloseModals}/>;
 
@@ -220,7 +240,7 @@ class ConnectedApp extends Component {
       </div>)
 
     } else {
-      landingVisToRender = <div/>;
+
       buttonToolBarToRender = <div/>;
     }
     return (<div className="app">

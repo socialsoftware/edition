@@ -33,7 +33,13 @@ export class ConnectedFragment extends React.Component {
 
         <p>{this.props.recommendationArray[this.props.recommendationIndex].text}</p>
 
+        <p>{this.props.recommendationArray[this.props.recommendationIndex].interId}</p>
+
+        <p>{this.props.recommendationArray[this.props.recommendationIndex].meta.dates}</p>
+
       </div>);;
+      //console.log(this.props.recommendationArray[this.props.recommendationIndex].meta.dates);
+
     } else {
       fragmentToRender = <div/>;
     }

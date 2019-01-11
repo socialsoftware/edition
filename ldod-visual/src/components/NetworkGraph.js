@@ -11,7 +11,8 @@ import {
   setRecommendationArray,
   setRecommendationIndex,
   setCurrentFragmentMode,
-  setRecommendationLoaded
+  setRecommendationLoaded,
+  setSemanticCriteriaDataLoaded
 } from "../actions/index";
 import {VIS_NETWORK_GRAPH, BY_NETWORK_TEXTSIMILARITY, CRIT_TEXT_SIMILARITY} from "../constants/history-transitions";
 import {Button, Popover, OverlayTrigger, Overlay} from "react-bootstrap";
@@ -30,7 +31,9 @@ const mapStateToProps = state => {
     recommendationArray: state.recommendationArray,
     recommendationIndex: state.recommendationIndex,
     currentFragmentMode: state.currentFragmentMode,
-    recommendationLoaded: state.recommendationLoaded
+    recommendationLoaded: state.recommendationLoaded,
+    semanticCriteriaDataLoaded: state.semanticCriteriaDataLoaded,
+    semanticCriteria: state.semanticCriteria
   };
 };
 
@@ -43,7 +46,8 @@ const mapDispatchToProps = dispatch => {
     setRecommendationArray: recommendationArray => dispatch(setRecommendationArray(recommendationArray)),
     setRecommendationIndex: recommendationIndex => dispatch(setRecommendationIndex(recommendationIndex)),
     setCurrentFragmentMode: currentFragmentMode => dispatch(setCurrentFragmentMode(currentFragmentMode)),
-    setRecommendationLoaded: recommendationLoaded => dispatch(setRecommendationLoaded(recommendationLoaded))
+    setRecommendationLoaded: recommendationLoaded => dispatch(setRecommendationLoaded(recommendationLoaded)),
+    setSemanticCriteriaDataLoaded: semanticCriteriaDataLoaded => dispatch(setSemanticCriteriaDataLoaded(semanticCriteriaDataLoaded))
   };
 };
 
@@ -170,8 +174,8 @@ class ConnectedNetworkGraph extends Component {
       },
       interaction: {
         dragNodes: false,
-        dragView: false,
-        zoomView: false,
+        dragView: true,
+        zoomView: true,
         hover: true
       }
     };

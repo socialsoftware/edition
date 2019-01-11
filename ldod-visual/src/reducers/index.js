@@ -14,6 +14,9 @@ import {SET_VISUALIZATION_TECHNIQUE} from "../constants/action-types";
 import {SET_SEMANTIC_CRITERIA} from "../constants/action-types";
 import {SET_SEMANTIC_CRITERIA_DATA} from "../constants/action-types";
 import {SET_SEMANTIC_CRITERIA_DATA_LOADED} from "../constants/action-types";
+import {SET_POTENTIAL_VISUALIZATION_TECHNIQUE} from "../constants/action-types";
+import {SET_POTENTIAL_SEMANTIC_CRITERIA} from "../constants/action-types";
+import {SET_POTENTIAL_SEMANTIC_CRITERIA_DATA} from "../constants/action-types";
 
 const initialState = {
   fragments: [],
@@ -31,7 +34,10 @@ const initialState = {
   visualizationTechnique: 0,
   semanticCriteria: 0,
   semanticCriteriaData: [],
-  semanticCriteriaDataLoaded: false
+  semanticCriteriaDataLoaded: true,
+  potentialVisualizationTechnique: 0,
+  potentialSemanticCriteria: 0,
+  potentialSemanticCriteriaData: []
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -121,6 +127,21 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         semanticCriteriaDataLoaded: action.payload
+      };
+    case SET_POTENTIAL_VISUALIZATION_TECHNIQUE:
+      return {
+        ...state,
+        potentialVisualizationTechnique: action.payload
+      };
+    case SET_POTENTIAL_SEMANTIC_CRITERIA:
+      return {
+        ...state,
+        potentialSemanticCriteria: action.payload
+      };
+    case SET_POTENTIAL_SEMANTIC_CRITERIA_DATA:
+      return {
+        ...state,
+        potentialSemanticCriteriaData: action.payload
       };
     default:
       return state;

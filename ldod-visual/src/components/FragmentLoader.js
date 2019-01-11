@@ -1,8 +1,28 @@
 import React from "react";
 import {RepositoryService} from "../services/RepositoryService";
-import {addFragment, setAllFragmentsLoaded, setfragmentsHashMap, setRecommendationArray, setRecommendationLoaded} from "../actions/index";
+import {
+  addFragment,
+  setAllFragmentsLoaded,
+  setfragmentsHashMap,
+  setRecommendationArray,
+  setRecommendationLoaded,
+  setSemanticCriteriaData,
+  setPotentialSemanticCriteriaData
+} from "../actions/index";
 import {connect} from "react-redux";
 import HashMap from "hashmap";
+import {
+  VIS_SQUARE_GRID,
+  VIS_NETWORK_GRAPH,
+  VIS_WORD_CLOUD,
+  BY_SQUAREGRID_EDITIONORDER,
+  CRIT_EDITION_ORDER,
+  CRIT_CHRONOLOGICAL_ORDER,
+  CRIT_TEXT_SIMILARITY,
+  CRIT_HETERONYM,
+  CRIT_TAXONOMY,
+  CRIT_WORD_RELEVANCE
+} from "../constants/history-transitions";
 
 const mapStateToProps = state => {
   return {
@@ -13,7 +33,12 @@ const mapStateToProps = state => {
     currentFragmentMode: state.currentFragmentMode,
     outOfLandingPage: state.outOfLandingPage,
     recommendationArray: state.recommendationArray,
-    recommendationLoaded: state.recommendationLoaded
+    recommendationLoaded: state.recommendationLoaded,
+    semanticCriteriaDataLoaded: state.semanticCriteriaDataLoaded,
+    visualizationTechnique: state.visualizationTechnique,
+    semanticCriteria: state.semanticCriteria,
+    potentialVisualizationTechnique: state.potentialVisualizationTechnique,
+    potentialSemanticCriteria: state.potentialSemanticCriteria
   };
 };
 
@@ -23,7 +48,9 @@ const mapDispatchToProps = dispatch => {
     setAllFragmentsLoaded: allFragmentsLoaded => dispatch(setAllFragmentsLoaded(allFragmentsLoaded)),
     setfragmentsHashMap: fragmentsHashMap => dispatch(setfragmentsHashMap(fragmentsHashMap)),
     setRecommendationArray: recommendationArray => dispatch(setRecommendationArray(recommendationArray)),
-    setRecommendationLoaded: recommendationLoaded => dispatch(setRecommendationLoaded(recommendationLoaded))
+    setRecommendationLoaded: recommendationLoaded => dispatch(setRecommendationLoaded(recommendationLoaded)),
+    setSemanticCriteriaData: semanticCriteriaData => dispatch(setSemanticCriteriaData(semanticCriteriaData)),
+    setPotentialSemanticCriteriaData: potentialSemanticCriteriaData => dispatch(setPotentialSemanticCriteriaData(potentialSemanticCriteriaData))
   };
 };
 
@@ -33,6 +60,8 @@ class ConnectedFragmentLoader extends React.Component {
 
     this.map = new HashMap();
 
+    this.sortedFragmentsByDate = [];
+
     this.state = {
       acronym: "LdoD-test",
       localHistoryCount: 0,
@@ -41,43 +70,54 @@ class ConnectedFragmentLoader extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    console.log("===============================componentDIDUPDATE!======================")
-    console.log("FRAGMENTLOADER: recommendationArray.length: " + this.props.recommendationArray.length);
-    console.log("FRAGMENTLOADER: fragments.length: " + this.props.fragments.length);
-    if (!(this.props.recommendationLoaded)) { //&& prevProps.fragmentIndex !== this.props.fragmentIndex && this.props.currentFragmentMode && this.props.outOfLandingPage) { && this.props.recommendationArray.length === this.props.fragments.length) { tirar a cond do outoflanding page no fragment loader
-      console.log("===============================PROPS CHANGED! REQUESTING NEW RECOMMENDATION ARRAY======================")
 
-      const service = new RepositoryService();
+    if (!(this.props.recommendationLoaded)) {
+      console.log("1111111111111111111111111111111111111111111111111111");
+      console.log(this.props.potentialVisualizationTechnique);
+      if (this.props.potentialVisualizationTechnique == VIS_NETWORK_GRAPH) {
+        console.log("22222222222222222222222222222222222222222222222");
+        let pHeteronymWeight = "0.0";
+        let pTextWeight = "0.0";
+        let pDateWeight = "0.0";
+        let ptaxonomyWeight = "0.0";
 
-      console.log("FRAGMENTLOADER: requesting distances")
-      let idsDistanceArray = [];
-      let myNewRecommendationArray = [];
-      service.getIntersByDistance(this.props.fragments[this.props.fragmentIndex].interId, "0.0", "1.0", "0.0", "0.0").then(response => {
-        console.log("FRAGMENTLOADER: then request");
-        idsDistanceArray = response.data;
-        console.log("FRAGMENTLOADER: then request 2");
-        myNewRecommendationArray;
-        console.log("FRAGMENTLOADER: then request 3");
-        let thisArray = idsDistanceArray;
-        console.log("FRAGMENTLOADER: then request 3.5");
-
-        console.log("FRAGMENTLOADER: idsDistanceArray length: " + idsDistanceArray.length);
-        var i;
-        for (i = 0; i < idsDistanceArray.length; i++) {
-          console.log("FRAGMENTLOADER: then request 3.6");
-          let frag = this.props.fragmentsHashMap.get(idsDistanceArray[i].interId);
-          console.log("FRAGMENTLOADER: then request 3.7");
-          myNewRecommendationArray.push(frag);
-          console.log("FRAGMENTLOADER: then request 3.8");
-
+        if (this.props.potentialSemanticCriteria == CRIT_HETERONYM) {
+          pHeteronymWeight = "1.0";
+        } else if (this.props.potentialSemanticCriteria == CRIT_TEXT_SIMILARITY) {
+          pTextWeight = "1.0";
+        } else if (this.props.potentialSemanticCriteria == CRIT_CHRONOLOGICAL_ORDER) {
+          pDateWeight = "1.0";
+        } else if (this.props.potentialSemanticCriteria == CRIT_TAXONOMY) {
+          ptaxonomyWeight = "1.0";
         }
-        this.props.setRecommendationArray(myNewRecommendationArray);
-        myNewRecommendationArray.map(f => console.log("FRAGMENTLOADER: interId from distance request: " + f.interId));
-        this.props.setRecommendationLoaded(true);
-        //thisArray.map(f => myNewRecommendationArray.push(this.props.fragmentsHashMap.get(f.interId)));
 
-        console.log("FRAGMENTLOADER: NEW RECOMMENDATION ARRAY CALCULATED!");
-      });
+        const service = new RepositoryService();
+        let idsDistanceArray = [];
+        let myNewRecommendationArray = [];
+        service.getIntersByDistance(this.props.fragments[this.props.fragmentIndex].interId, pHeteronymWeight, pTextWeight, pDateWeight, ptaxonomyWeight).then(response => {
+          console.log("33333333333333333333333333333333333");
+          idsDistanceArray = response.data;
+          this.props.setSemanticCriteriaData(idsDistanceArray);
+
+          var i;
+          for (i = 0; i < idsDistanceArray.length; i++) {
+            let frag = this.props.fragmentsHashMap.get(idsDistanceArray[i].interId);
+            myNewRecommendationArray.push(frag);
+          }
+          this.props.setRecommendationArray(myNewRecommendationArray);
+          this.props.setRecommendationLoaded(true);
+
+        });
+      }
+    }
+
+    if (!(this.props.semanticCriteriaDataLoaded)) {
+
+      //para o componentDidUpdate da vis da actividade actual começar a construir
+      //(a data já foi buscada antes ao procurar o recommendation array)
+      if (!(this.props.currentFragmentMode)) {
+        this.props.setSemanticCriteriaDataLoaded(true);
+      }
 
     }
   }
@@ -88,18 +128,14 @@ class ConnectedFragmentLoader extends React.Component {
       response.data.fragments.map(f => this.props.addFragment(f));
       this.props.fragments.map(f => this.map.set(f.interId, f));
       this.props.setfragmentsHashMap(this.map);
+
+      console.log("FragmentLoader.js: fragments loaded at componentdidmount")
+
       this.props.setAllFragmentsLoaded(true);
     });
   }
 
   render() {
-
-    let fragmentToRender;
-
-    if (this.props.allFragmentsLoaded) {
-      console.log("fragments loaded")
-      //this.props.fragments.map(f => console.log("id " + f.interId + " on my hashmap: " + this.props.fragmentsHashMap.get(f.interId) + " with title: " + this.props.fragmentsHashMap.get(f.interId).meta.title))
-    }
     return <div></div>;
   }
 

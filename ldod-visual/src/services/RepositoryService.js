@@ -30,4 +30,6 @@ export class RepositoryService {
     });
   }
 
+  //http://localhost:8080/virtualeditions/acronym/LdoD-test/interId/281861523767368/tfidf
+
 }

@@ -14,6 +14,9 @@ import {SET_VISUALIZATION_TECHNIQUE} from "../constants/action-types";
 import {SET_SEMANTIC_CRITERIA} from "../constants/action-types";
 import {SET_SEMANTIC_CRITERIA_DATA} from "../constants/action-types";
 import {SET_SEMANTIC_CRITERIA_DATA_LOADED} from "../constants/action-types";
+import {SET_POTENTIAL_VISUALIZATION_TECHNIQUE} from "../constants/action-types";
+import {SET_POTENTIAL_SEMANTIC_CRITERIA} from "../constants/action-types";
+import {SET_POTENTIAL_SEMANTIC_CRITERIA_DATA} from "../constants/action-types";
 
 export const addFragment = fragment => ({type: ADD_FRAGMENT, payload: fragment});
 
@@ -46,3 +49,9 @@ export const setSemanticCriteria = semanticCriteria => ({type: SET_SEMANTIC_CRIT
 export const setSemanticCriteriaData = semanticCriteriaData => ({type: SET_SEMANTIC_CRITERIA_DATA, payload: semanticCriteriaData});
 
 export const setSemanticCriteriaDataLoaded = semanticCriteriaDataLoaded => ({type: SET_SEMANTIC_CRITERIA_DATA_LOADED, payload: semanticCriteriaDataLoaded});
+
+export const setPotentialVisualizationTechnique = potentialVisualizationTechnique => ({type: SET_POTENTIAL_VISUALIZATION_TECHNIQUE, payload: potentialVisualizationTechnique});
+
+export const setPotentialSemanticCriteria = potentialSemanticCriteria => ({type: SET_POTENTIAL_SEMANTIC_CRITERIA, payload: potentialSemanticCriteria});
+
+export const setPotentialSemanticCriteriaData = potentialSemanticCriteriaData => ({type: SET_POTENTIAL_SEMANTIC_CRITERIA_DATA, payload: potentialSemanticCriteriaData});
