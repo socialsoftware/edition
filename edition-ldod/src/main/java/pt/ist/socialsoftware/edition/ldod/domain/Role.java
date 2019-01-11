@@ -1,7 +1,5 @@
 package pt.ist.socialsoftware.edition.ldod.domain;
 
-import pt.ist.socialsoftware.edition.ldod.domain.Role_Base;
-
 public class Role extends Role_Base {
 
 	public enum RoleType {
@@ -16,6 +14,13 @@ public class Role extends Role_Base {
 	private Role(RoleType type) {
 		setLdoD(LdoD.getInstance());
 		setType(type);
+	}
+
+	public void remove() {
+		setLdoD(null);
+		getUsersSet().forEach(u -> u.remove());
+
+		deleteDomainObject();
 	}
 
 }

@@ -38,4 +38,9 @@ public class LastTwitterID extends LastTwitterID_Base {
 		setVicenteLastTwitterID(0);
 	}
 
+	public void remove() {
+		setLdoD(null);
+		deleteDomainObject();
+	}
+
 }

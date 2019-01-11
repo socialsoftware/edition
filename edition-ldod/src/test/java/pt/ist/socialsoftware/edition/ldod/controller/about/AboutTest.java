@@ -5,39 +5,32 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
-import org.junit.Before;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import pt.ist.socialsoftware.edition.ldod.ControllersTestWithFragmentsLoading;
 import pt.ist.socialsoftware.edition.ldod.config.Application;
 import pt.ist.socialsoftware.edition.ldod.controller.AboutController;
-import pt.ist.socialsoftware.edition.ldod.controller.LdoDExceptionHandler;
-import pt.ist.socialsoftware.edition.ldod.filters.TransactionFilter;
 
-//@RunWith(SpringRunner.class)
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = Application.class)
 @AutoConfigureMockMvc
-public class AboutTest {
-
-	private MockMvc mockMvc;
-
+public class AboutTest extends ControllersTestWithFragmentsLoading {
 	@InjectMocks
 	private AboutController aboutController;
 
-	@BeforeEach
-	public void setUp() {
-		this.mockMvc = MockMvcBuilders.standaloneSetup(this.aboutController)
-				.setControllerAdvice(new LdoDExceptionHandler()).addFilters(new TransactionFilter()).build();
+	@Override
+	protected String[] fragmentsToLoad4Test() {
+		return new String[0];
+	}
+
+	@Override
+	protected Object getController() {
+		return this.aboutController;
 	}
 
 	@Test

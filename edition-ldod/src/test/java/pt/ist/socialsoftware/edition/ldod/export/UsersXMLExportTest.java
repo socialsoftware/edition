@@ -12,17 +12,23 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import pt.ist.fenixframework.Atomic;
-import pt.ist.fenixframework.FenixFramework;
 import pt.ist.fenixframework.core.WriteOnReadError;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
 import pt.ist.socialsoftware.edition.ldod.domain.RegistrationToken;
 import pt.ist.socialsoftware.edition.ldod.loaders.UsersXMLImport;
+import pt.ist.socialsoftware.edition.ldod.utils.Bootstrap;
 
 public class UsersXMLExportTest {
 	@BeforeEach
+	@Atomic
 	public void setUp() throws WriteOnReadError, NotSupportedException, SystemException {
-		FenixFramework.getTransactionManager().begin(false);
+		// clean everything
+		if (LdoD.getInstance() != null) {
+			LdoD.getInstance().remove();
+		}
+
+		Bootstrap.initializeSystem();
 	}
 
 	@Test
@@ -60,8 +66,12 @@ public class UsersXMLExportTest {
 	}
 
 	@AfterEach
+	@Atomic
 	public void tearDown() throws IllegalStateException, SecurityException, SystemException {
-		FenixFramework.getTransactionManager().rollback();
+		// clean everything
+		if (LdoD.getInstance() != null) {
+			LdoD.getInstance().remove();
+		}
 	}
 
 }

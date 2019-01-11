@@ -8,8 +8,6 @@ import java.util.Set;
 
 import org.joda.time.LocalDate;
 
-import pt.ist.socialsoftware.edition.ldod.domain.ExpertEdition_Base;
-
 public class ExpertEdition extends ExpertEdition_Base implements Comparable<ExpertEdition> {
 	public ExpertEdition(LdoD ldoD, String title, String author, String editor, LocalDate date) {
 		setTitle(title);
@@ -36,6 +34,13 @@ public class ExpertEdition extends ExpertEdition_Base implements Comparable<Expe
 		}
 
 		setLdoD4Expert(ldoD);
+	}
+
+	@Override
+	public void remove() {
+		setLdoD4Expert(null);
+		getExpertEditionIntersSet().forEach(i -> i.remove());
+		super.remove();
 	}
 
 	@Override
@@ -87,7 +92,7 @@ public class ExpertEdition extends ExpertEdition_Base implements Comparable<Expe
 		List<ExpertEditionInter> interps = new ArrayList<ExpertEditionInter>();
 
 		for (FragInter inter : fragment.getFragmentInterSet()) {
-			if ((inter.getSourceType() == Edition.EditionType.EDITORIAL)
+			if (inter.getSourceType() == Edition.EditionType.EDITORIAL
 					&& ((ExpertEditionInter) inter).getExpertEdition() == this) {
 				interps.add((ExpertEditionInter) inter);
 			}
@@ -122,7 +127,7 @@ public class ExpertEdition extends ExpertEdition_Base implements Comparable<Expe
 			if (stopNext) {
 				return tmpInter;
 			}
-			if ((tmpInter.getHeteronym() == heteronym) && tmpInter == inter) {
+			if (tmpInter.getHeteronym() == heteronym && tmpInter == inter) {
 				stopNext = true;
 			}
 		}
