@@ -20,7 +20,7 @@
 
             <form:form class="form-horizontal" id="password"
                 action="/user/changePassword" method="post"
-                modelAttribute="changePasswordForm" commandName="changePasswordForm">
+                modelAttribute="changePasswordForm">
 
                 <input type="hidden" name="_csrf" value="${_csrf.token}" />
                 <input type="hidden" name="username" value="${pageContext.request.userPrincipal.principal.getUsername()}" />
