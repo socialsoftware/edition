@@ -111,15 +111,6 @@ class ConnectedFragmentLoader extends React.Component {
       }
     }
 
-    if (!(this.props.semanticCriteriaDataLoaded)) {
-
-      //para o componentDidUpdate da vis da actividade actual começar a construir
-      //(a data já foi buscada antes ao procurar o recommendation array)
-      if (!(this.props.currentFragmentMode)) {
-        this.props.setSemanticCriteriaDataLoaded(true);
-      }
-
-    }
   }
 
   componentDidMount() {

@@ -3,6 +3,18 @@ import {RepositoryService} from "../services/RepositoryService";
 import NetworkGraph from "../components/NetworkGraph";
 import {setCurrentVisualization} from "../actions/index";
 import {connect} from "react-redux";
+import {
+  VIS_SQUARE_GRID,
+  VIS_NETWORK_GRAPH,
+  VIS_WORD_CLOUD,
+  BY_SQUAREGRID_EDITIONORDER,
+  CRIT_EDITION_ORDER,
+  CRIT_CHRONOLOGICAL_ORDER,
+  CRIT_TEXT_SIMILARITY,
+  CRIT_HETERONYM,
+  CRIT_TAXONOMY,
+  CRIT_WORD_RELEVANCE
+} from "../constants/history-transitions";
 
 const mapStateToProps = state => {
   return {
@@ -11,7 +23,9 @@ const mapStateToProps = state => {
     currentVisualization: state.currentVisualization,
     recommendationArray: state.recommendationArray,
     recommendationIndex: state.recommendationIndex,
-    currentFragmentMode: state.currentFragmentMode
+    currentFragmentMode: state.currentFragmentMode,
+    potentialSemanticCriteria: state.potentialSemanticCriteria,
+    semanticCriteriaData: state.semanticCriteriaData
   };
 };
 
@@ -32,28 +46,52 @@ class ConnectedNetworkGraphContainer extends Component {
   }
 
   componentDidMount() {
-    const service = new RepositoryService();
-    let targetId = this.props.fragments[this.props.fragmentIndex].interId;
-
     if (this.props.currentFragmentMode) {
-      console.log("NETOWRKGRAPHCONTAINER: CALCULATING NETWORK GRAPH DISTANCES FOR CURRENT FRAGMENT AND NOT!! THE PICKED FRAGMENT %%%%%%%%%%%%%%%%%%%%%")
-      targetId = this.props.recommendationArray[this.props.recommendationIndex].interId;
-    }
+      const service = new RepositoryService();
+      let targetId = this.props.fragments[this.props.fragmentIndex].interId;
 
-    console.log("NETWORKGRAPHCONTAINER: requesting distances")
-    service.getIntersByDistance(targetId, this.props.pHeteronymWeight, this.props.pTextWeight, this.props.pDateWeight, this.props.ptaxonomyWeight).then(response => {
-      console.log("NETWORKGRAPHCONTAINER: receiving distances at networkgraphcontainer")
-      this.setState({networkGraphData: response.data});
+      if (this.props.currentFragmentMode) {
+        console.log("NETWoRKGRAPHCONTAINER: CALCULATING NETWORK GRAPH DISTANCES FOR CURRENT FRAGMENT AND NOT!! THE PICKED FRAGMENT %%%%%%%%%%%%%%%%%%%%%")
+        targetId = this.props.recommendationArray[this.props.recommendationIndex].interId;
+      }
+
+      let pHeteronymWeight = "0.0";
+      let pTextWeight = "0.0";
+      let pDateWeight = "0.0";
+      let ptaxonomyWeight = "0.0";
+
+      if (this.props.potentialSemanticCriteria == CRIT_HETERONYM) {
+        pHeteronymWeight = "1.0";
+        console.log("NETWoRKGRAPHCONTAINER: pHeteronymWeight = 1.0");
+      } else if (this.props.potentialSemanticCriteria == CRIT_TEXT_SIMILARITY) {
+        pTextWeight = "1.0";
+        console.log("NETWoRKGRAPHCONTAINER: pTextWeight = 1.0");
+      } else if (this.props.potentialSemanticCriteria == CRIT_CHRONOLOGICAL_ORDER) {
+        pDateWeight = "1.0";
+        console.log("NETWoRKGRAPHCONTAINER: pDateWeight = 1.0");
+      } else if (this.props.potentialSemanticCriteria == CRIT_TAXONOMY) {
+        ptaxonomyWeight = "1.0";
+        console.log("NETWoRKGRAPHCONTAINER: ptaxonomyWeight = 1.0");
+      }
+
+      let idsDistanceArray = [];
+      let myNewRecommendationArray = [];
+      service.getIntersByDistance(targetId, pHeteronymWeight, pTextWeight, pDateWeight, ptaxonomyWeight).then(response => {
+        console.log("33333333333333333333333333333333333");
+        this.setState({networkGraphData: response.data});
+        this.setState(prevState => ({
+          fragmentsDistanceLoaded: !prevState.check
+        }));
+        this.props.setSemanticCriteriaData(idsDistanceArray);
+
+      });
+    } else {
+      console.log("NetworkGraphContainer: skipping service call since distances are already calculated");
+      this.setState({networkGraphData: this.props.semanticCriteriaData});
       this.setState(prevState => ({
         fragmentsDistanceLoaded: !prevState.check
       }));
-
-      //meter aqui a logica dos pesos, se ptextweight=1, semanticcriteria=text, etc.
-
-      //const globalViewToRender = (<NetworkGraphContainer pFragmentId={this.props.fragments[this.props.fragmentIndex].interId} pHeteronymWeight="0.0" pTextWeight="1.0" pDateWeight="0.0" ptaxonomyWeight="0.0" onChange={this.props.onChange}/>);
-
-      //this.props.setCurrentVisualization(globalViewToRender);
-    });
+    }
   }
 
   render() {

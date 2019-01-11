@@ -197,7 +197,7 @@ class ConnectedNetworkGraph extends Component {
             targetId = this.props.recommendationArray[this.props.recommendationIndex].interId;
           }
 
-          const globalViewToRender = (<NetworkGraphContainer pFragmentId={targetId} pHeteronymWeight="0.0" pTextWeight="1.0" pDateWeight="0.0" ptaxonomyWeight="0.0" onChange={this.props.onChange}/>);
+          const globalViewToRender = (<NetworkGraphContainer onChange={this.props.onChange}/>);
           this.props.setCurrentVisualization(globalViewToRender);
 
           //HISTORY ENTRY HISTORY ENTRY HISTORY ENTRY HISTORY ENTRY

@@ -49,28 +49,73 @@ class ConnectedActivityMenu extends Component {
     };
 
     this.toggleActivityNetworkGraphTextSimilarity = this.toggleActivityNetworkGraphTextSimilarity.bind(this);
+
+    this.toggleActivityNetworkGraphHeteronym = this.toggleActivityNetworkGraphHeteronym.bind(this);
+
+    this.toggleActivityNetworkGraphDate = this.toggleActivityNetworkGraphDate.bind(this);
+
+    this.toggleActivityNetworkGraphTaxonomy = this.toggleActivityNetworkGraphTaxonomy.bind(this);
   }
 
   toggleActivityNetworkGraphTextSimilarity() {
+    this.props.setPotentialVisualizationTechnique(VIS_NETWORK_GRAPH);
+    this.props.setPotentialSemanticCriteria(CRIT_TEXT_SIMILARITY);
+    this.activityToRender = (<NetworkGraphContainer onChange={this.props.onChange}/>);
     this.setState(prevState => ({
       show: !prevState.show
     }));
+  }
+
+  toggleActivityNetworkGraphHeteronym() {
+
     this.props.setPotentialVisualizationTechnique(VIS_NETWORK_GRAPH);
-    this.props.setPotentialSemanticCriteria(CRIT_TEXT_SIMILARITY);
-    this.activityToRender = (<NetworkGraphContainer pFragmentId={this.props.recommendationArray[this.props.recommendationIndex].interId} pHeteronymWeight="0.0" pTextWeight="1.0" pDateWeight="0.0" ptaxonomyWeight="0.0" onChange={this.props.onChange}/>);
-    this.props.setSemanticCriteriaDataLoaded(false);
-    //o currentFragmentMode já está toggled ON desde o app.js
+    this.props.setPotentialSemanticCriteria(CRIT_HETERONYM);
+    this.activityToRender = (<NetworkGraphContainer onChange={this.props.onChange}/>);
+    this.setState(prevState => ({
+      show: !prevState.show
+    }));
+  }
+
+  toggleActivityNetworkGraphDate() {
+
+    this.props.setPotentialVisualizationTechnique(VIS_NETWORK_GRAPH);
+    this.props.setPotentialSemanticCriteria(CRIT_CHRONOLOGICAL_ORDER);
+    this.activityToRender = (<NetworkGraphContainer onChange={this.props.onChange}/>);
+    this.setState(prevState => ({
+      show: !prevState.show
+    }));
+  }
+
+  toggleActivityNetworkGraphTaxonomy() {
+
+    this.props.setPotentialVisualizationTechnique(VIS_NETWORK_GRAPH);
+    this.props.setPotentialSemanticCriteria(CRIT_TAXONOMY);
+    this.activityToRender = (<NetworkGraphContainer onChange={this.props.onChange}/>);
+    this.setState(prevState => ({
+      show: !prevState.show
+    }));
   }
 
   render() {
 
     if (this.state.show) {
+
       this.activityToRender = (<ButtonToolbar>
         <DropdownButton id="1" bsSize="large" bsStyle="primary" title="Quero ler fragmentos semelhantes a este por...">
           <MenuItem eventKey="1" onClick={this.toggleActivityNetworkGraphTextSimilarity}>
             Semelhança de texto
           </MenuItem>
+          <MenuItem eventKey="1" onClick={this.toggleActivityNetworkGraphHeteronym}>
+            Heterónimo
+          </MenuItem>
+          <MenuItem eventKey="1" onClick={this.toggleActivityNetworkGraphDate}>
+            Data
+          </MenuItem>
+          <MenuItem eventKey="1" onClick={this.toggleActivityNetworkGraphTaxonomy}>
+            Taxonomia
+          </MenuItem>
         </DropdownButton>
+
       </ButtonToolbar>);
     } else {
       this.activityToRender = this.activityToRender; //(<NetworkGraphContainer pFragmentId={this.props.recommendationArray[this.props.recommendationIndex].interId} pHeteronymWeight="0.0" pTextWeight="1.0" pDateWeight="0.0" ptaxonomyWeight="0.0" onChange={this.props.onChange}/>);
