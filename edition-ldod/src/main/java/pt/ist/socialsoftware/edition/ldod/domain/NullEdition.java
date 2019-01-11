@@ -3,13 +3,17 @@ package pt.ist.socialsoftware.edition.ldod.domain;
 import java.util.HashSet;
 import java.util.Set;
 
-import pt.ist.socialsoftware.edition.ldod.domain.NullEdition_Base;
-
 public class NullEdition extends NullEdition_Base {
 
 	@Override
 	public Boolean getPub() {
 		return true;
+	}
+
+	@Override
+	public void remove() {
+		setLdoD4NullEdition(null);
+		super.remove();
 	}
 
 	@Override

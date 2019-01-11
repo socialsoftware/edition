@@ -38,6 +38,25 @@ public class LdoD extends LdoD_Base {
 		setLastTwitterID(new LastTwitterID()); // check if this is supposed to be here
 	}
 
+	public void remove() {
+		setRoot(null);
+		getExpertEditionsSet().forEach(e -> e.remove());
+		getRolesSet().forEach(r -> r.remove());
+		getUsersSet().forEach(u -> u.remove());
+		getCitationSet().forEach(c -> c.remove());
+		getFragmentsSet().forEach(f -> f.remove());
+		getHeteronymsSet().forEach(h -> h.remove());
+		getNullEdition().remove();
+		getPublicClassificationGames().forEach(g -> g.remove());
+		getTokenSet().forEach(t -> t.remove());
+		getUserConnectionSet().forEach(c -> c.remove());
+		getTweetSet().forEach(t -> t.remove());
+		getVirtualEditionsSet().forEach(v -> v.remove());
+		getLastTwitterID().remove();
+
+		deleteDomainObject();
+	}
+
 	public List<Heteronym> getSortedHeteronyms() {
 		return getHeteronymsSet().stream().sorted((h1, h2) -> h1.getName().compareTo(h2.getName()))
 				.collect(Collectors.toList());

@@ -10,7 +10,7 @@
 			<div class="col-md-10">
 				<form:form
 					action="/virtualeditions/restricted/${virtualEdition.getExternalId()}/taxonomy/createTopics"
-					method="POST" modelAttribute="topicList" commandName="topicList">
+					method="POST" modelAttribute="topicList">
 					<input type="hidden" name="_csrf" value="${_csrf.token}" />
 					<form:input type="hidden" name="username" path="username"
 						value="${topicList.getUsername()}" />
