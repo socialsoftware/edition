@@ -227,7 +227,7 @@ public class VSMVirtualEditionInterRecomenderTest extends TestWithFragmentsLoadi
 		Indexer indexer = Indexer.getIndexer();
 
 		for (FragInter inter : virtualEdition.getIntersSet()) {
-			if (indexer.getTFIDFTerms(inter.getFragment(), TextProperty.NUMBER_OF_TERMS).contains("sonho")) {
+			if (indexer.getTFIDFTerms(inter.getFragment(), TextProperty.NUMBER_OF_TERMS).contains("cadeira")) {
 				virtualEditionInter = (VirtualEditionInter) inter;
 				break;
 			}
@@ -248,7 +248,7 @@ public class VSMVirtualEditionInterRecomenderTest extends TestWithFragmentsLoadi
 				result.getLastUsed().getLdoDDate().getDate().getYear());
 		assertFalse(virtualEditionInter.getTagSet().stream().map(t -> t.getCategory())
 				.anyMatch(result.getTagSet().stream().map(t -> t.getCategory()).collect(Collectors.toSet())::contains));
-		assertTrue(indexer.getTFIDFTerms(virtualEditionInter.getFragment(), TextProperty.NUMBER_OF_TERMS).stream()
+		assertFalse(indexer.getTFIDFTerms(virtualEditionInter.getFragment(), TextProperty.NUMBER_OF_TERMS).stream()
 				.anyMatch(indexer.getTFIDFTerms(result.getFragment(), TextProperty.NUMBER_OF_TERMS)::contains));
 	}
 
