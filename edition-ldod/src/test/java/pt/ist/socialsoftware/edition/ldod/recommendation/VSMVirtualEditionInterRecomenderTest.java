@@ -1,5 +1,6 @@
 package pt.ist.socialsoftware.edition.ldod.recommendation;
 
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -46,7 +47,7 @@ public class VSMVirtualEditionInterRecomenderTest extends TestWithFragmentsLoadi
 
 	@Override
 	protected String[] fragmentsToLoad4Test() {
-		String[] fragments = { "001.xml", "002.xml", "003.xml" };
+		String[] fragments = { "001.xml", "181.xml", "593.xml" };
 
 		return fragments;
 	}
@@ -166,7 +167,8 @@ public class VSMVirtualEditionInterRecomenderTest extends TestWithFragmentsLoadi
 				.getIntersSet().stream().map(VirtualEditionInter.class::cast).collect(Collectors.toSet())), properties);
 
 		assertTrue(virtualEditionInter != result);
-		assertNull(result.getLastUsed().getLdoDDate());
+		assertNotNull(result.getLastUsed().getLdoDDate());
+		assertNull(virtualEditionInter.getLastUsed().getLdoDDate());
 	}
 
 	@Test
@@ -200,7 +202,7 @@ public class VSMVirtualEditionInterRecomenderTest extends TestWithFragmentsLoadi
 		Indexer indexer = Indexer.getIndexer();
 
 		for (FragInter inter : virtualEdition.getIntersSet()) {
-			if (indexer.getTFIDFTerms(inter.getFragment(), TextProperty.NUMBER_OF_TERMS).contains("attitude")) {
+			if (indexer.getTFIDFTerms(inter.getFragment(), TextProperty.NUMBER_OF_TERMS).contains("artista")) {
 				virtualEditionInter = (VirtualEditionInter) inter;
 				break;
 			}
@@ -225,7 +227,7 @@ public class VSMVirtualEditionInterRecomenderTest extends TestWithFragmentsLoadi
 		Indexer indexer = Indexer.getIndexer();
 
 		for (FragInter inter : virtualEdition.getIntersSet()) {
-			if (indexer.getTFIDFTerms(inter.getFragment(), TextProperty.NUMBER_OF_TERMS).contains("alma")) {
+			if (indexer.getTFIDFTerms(inter.getFragment(), TextProperty.NUMBER_OF_TERMS).contains("sonho")) {
 				virtualEditionInter = (VirtualEditionInter) inter;
 				break;
 			}
@@ -244,9 +246,9 @@ public class VSMVirtualEditionInterRecomenderTest extends TestWithFragmentsLoadi
 		assertEquals(virtualEditionInter.getLastUsed().getHeteronym(), result.getLastUsed().getHeteronym());
 		// assertEquals(virtualEditionInter.getLastUsed().getLdoDDate().getDate().getYear(),
 		// result.getLastUsed().getLdoDDate().getDate().getYear());
-		assertTrue(virtualEditionInter.getTagSet().stream().map(t -> t.getCategory())
+		assertFalse(virtualEditionInter.getTagSet().stream().map(t -> t.getCategory())
 				.anyMatch(result.getTagSet().stream().map(t -> t.getCategory()).collect(Collectors.toSet())::contains));
-		assertTrue(indexer.getTFIDFTerms(virtualEditionInter.getFragment(), TextProperty.NUMBER_OF_TERMS).stream()
+		assertFalse(indexer.getTFIDFTerms(virtualEditionInter.getFragment(), TextProperty.NUMBER_OF_TERMS).stream()
 				.anyMatch(indexer.getTFIDFTerms(result.getFragment(), TextProperty.NUMBER_OF_TERMS)::contains));
 	}
 
