@@ -244,11 +244,11 @@ public class VSMVirtualEditionInterRecomenderTest extends TestWithFragmentsLoadi
 
 		assertTrue(virtualEditionInter != result);
 		assertEquals(virtualEditionInter.getLastUsed().getHeteronym(), result.getLastUsed().getHeteronym());
-		// assertEquals(virtualEditionInter.getLastUsed().getLdoDDate().getDate().getYear(),
-		// result.getLastUsed().getLdoDDate().getDate().getYear());
+		assertEquals(virtualEditionInter.getLastUsed().getLdoDDate().getDate().getYear(),
+				result.getLastUsed().getLdoDDate().getDate().getYear());
 		assertFalse(virtualEditionInter.getTagSet().stream().map(t -> t.getCategory())
 				.anyMatch(result.getTagSet().stream().map(t -> t.getCategory()).collect(Collectors.toSet())::contains));
-		assertFalse(indexer.getTFIDFTerms(virtualEditionInter.getFragment(), TextProperty.NUMBER_OF_TERMS).stream()
+		assertTrue(indexer.getTFIDFTerms(virtualEditionInter.getFragment(), TextProperty.NUMBER_OF_TERMS).stream()
 				.anyMatch(indexer.getTFIDFTerms(result.getFragment(), TextProperty.NUMBER_OF_TERMS)::contains));
 	}
 
