@@ -2,28 +2,24 @@ package pt.ist.socialsoftware.edition.ldod.search.options;
 
 import static org.junit.Assert.assertEquals;
 
-import javax.transaction.NotSupportedException;
-import javax.transaction.SystemException;
-
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import pt.ist.fenixframework.Atomic;
-import pt.ist.fenixframework.FenixFramework;
-import pt.ist.fenixframework.core.WriteOnReadError;
+import pt.ist.socialsoftware.edition.ldod.TestWithFragmentsLoading;
 
-public class TextSearchOptionTest {
+public class TextSearchOptionTest extends TestWithFragmentsLoading {
 
-	@BeforeEach
-	public void setUp() throws WriteOnReadError, NotSupportedException, SystemException {
-		FenixFramework.getTransactionManager().begin(false);
+	@Override
+	protected String[] fragmentsToLoad4Test() {
+		String[] fragments = { "001.xml" };
+
+		return fragments;
 	}
 
 	@Test
 	@Atomic()
 	public void test() {
-		String[] words = { "arte", "vida", "terra", "alma", "traz" };
+		String[] words = { "artista", "arte", "sonho" };
 
 		for (int i = 0; i < words.length; i++) {
 			int size = 0;
@@ -37,11 +33,6 @@ public class TextSearchOptionTest {
 				oldSize = size;
 			}
 		}
-	}
-
-	@AfterEach
-	public void tearDown() throws IllegalStateException, SecurityException, SystemException {
-		FenixFramework.getTransactionManager().rollback();
 	}
 
 }

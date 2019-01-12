@@ -13,14 +13,21 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import pt.ist.socialsoftware.edition.ldod.MockitoExtension;
-import pt.ist.socialsoftware.edition.ldod.RollbackCaseTest;
+import pt.ist.socialsoftware.edition.ldod.TestWithFragmentsLoading;
 
 @ExtendWith(MockitoExtension.class)
-public class CitationDetecterTests extends RollbackCaseTest {
+public class CitationDetecterTests extends TestWithFragmentsLoading {
 
 	private final Logger logger = LoggerFactory.getLogger(CitationDetecterTests.class);
 
-	CitationDetecter detecter;
+	private CitationDetecter detecter;
+
+	@Override
+	protected String[] fragmentsToLoad4Test() {
+		String[] fragments = { "001.xml", "002.xml", "003.xml" };
+
+		return fragments;
+	}
 
 	@Override
 	public void populate4Test() {
@@ -59,7 +66,7 @@ public class CitationDetecterTests extends RollbackCaseTest {
 		String text = "The European languages are members of the same family. Their separate existence is a myth. For science, music, sport, etc, Europe uses the same vocabulary. The languages only differ in their grammar, their pronunciation and their most common words. Everyone realizes why a new common language would be desirable: one could refuse to pay expensive translators. "
 				+ "To achieve this, it would be necessary to have uniform grammar, pronunciation and more common words. If several languages coalesce, the grammar of the resulting language is more simple and regular than that of the individual languages. The new common language will be more";
 		String pattern = "aksjdnakfn jndkfnsjkjns The languages only differ skjsdfjfn in their grammar, their pronunciation and their most common words. Everyone realizes why a new common sdbakisdbaikd language would be desirable: ";
-		String substringToBeFound = "In their grammar their pronunciation and their most common words. Everyone realizes why a new common ";
+		String substringToBeFound = "In their grammar their pronunciation and their most common words. Everyone realizes why a new common";
 		List<String> result = this.detecter.patternFinding(text, pattern);
 		this.logger.debug("Pattern foound: " + result.get(0));
 		assertEquals(substringToBeFound, result.get(0));

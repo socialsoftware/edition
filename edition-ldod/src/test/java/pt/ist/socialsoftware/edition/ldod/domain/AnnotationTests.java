@@ -15,12 +15,14 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 
+import pt.ist.fenixframework.Atomic;
+import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.socialsoftware.edition.ldod.MockitoExtension;
-import pt.ist.socialsoftware.edition.ldod.RollbackCaseTest;
+import pt.ist.socialsoftware.edition.ldod.TestWithFragmentsLoading;
 
 @ExtendWith(MockitoExtension.class)
 // @RunWith(JUnitPlatform.class)
-public class AnnotationTests extends RollbackCaseTest {
+public class AnnotationTests extends TestWithFragmentsLoading {
 	@Mock
 	VirtualEdition virtualEdition;
 	@Mock
@@ -33,10 +35,14 @@ public class AnnotationTests extends RollbackCaseTest {
 	HumanAnnotation annotation;
 
 	@Override
-	public void populate4Test() {
+	protected String[] fragmentsToLoad4Test() {
+		String[] fragments = new String[0];
+
+		return fragments;
 	}
 
 	@Test
+	@Atomic(mode = TxMode.WRITE)
 	public void update() {
 		doCallRealMethod().when(this.annotation).update(any(), any());
 
@@ -48,6 +54,7 @@ public class AnnotationTests extends RollbackCaseTest {
 	}
 
 	@Test
+	@Atomic(mode = TxMode.WRITE)
 	public void canUpdateTest() {
 		doCallRealMethod().when(this.annotation).canUpdate(any());
 

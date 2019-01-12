@@ -1,29 +1,25 @@
 package pt.ist.socialsoftware.edition.ldod.recommendation;
 
+import static org.junit.Assert.assertNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
-
-import javax.transaction.NotSupportedException;
-import javax.transaction.SystemException;
 
 import org.apache.lucene.queryparser.classic.ParseException;
 import org.joda.time.LocalDate;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import pt.ist.fenixframework.FenixFramework;
-import pt.ist.fenixframework.core.WriteOnReadError;
+import pt.ist.fenixframework.Atomic;
+import pt.ist.fenixframework.Atomic.TxMode;
+import pt.ist.socialsoftware.edition.ldod.TestWithFragmentsLoading;
 import pt.ist.socialsoftware.edition.ldod.domain.Edition;
 import pt.ist.socialsoftware.edition.ldod.domain.ExpertEdition;
 import pt.ist.socialsoftware.edition.ldod.domain.FragInter;
@@ -41,45 +37,52 @@ import pt.ist.socialsoftware.edition.ldod.search.Indexer;
 import pt.ist.socialsoftware.edition.ldod.topicmodeling.TopicModeler;
 import pt.ist.socialsoftware.edition.ldod.utils.TopicListDTO;
 
-public class VSMVirtualEditionInterRecomenderTest {
+public class VSMVirtualEditionInterRecomenderTest extends TestWithFragmentsLoading {
+	private static final String ACRONYM = "TestRecommendations";
+
 	private static Logger logger = LoggerFactory.getLogger(VSMVirtualEditionInterRecomenderTest.class);
 
-	private static VirtualEdition virtualEdition = null;
-	private static Set<VirtualEditionInter> virtualEditionInters = null;
 	private static VSMRecommender<VirtualEditionInter> recommender;
 
+	@Override
+	protected String[] fragmentsToLoad4Test() {
+		String[] fragments = { "001.xml", "002.xml", "003.xml" };
+
+		return fragments;
+	}
+
 	// Assuming that the 4 expert editions and user ars are in the database
-	@BeforeAll
-	public static void setUp() throws IOException, WriteOnReadError, NotSupportedException, SystemException {
-		FenixFramework.getTransactionManager().begin(false);
+	@Override
+	@Atomic(mode = TxMode.WRITE)
+	protected void populate4Test() {
 
 		LdoD ldoD = LdoD.getInstance();
 		ExpertEdition pizarroEdition = (ExpertEdition) ldoD.getEdition(Edition.PIZARRO_EDITION_ACRONYM);
 
 		LdoDUser userArs = ldoD.getUser("ars");
 		// create virtual edition
-		virtualEdition = ldoD.createVirtualEdition(userArs, "TestRecommendations", "TestRecommendations",
-				LocalDate.now(), true, pizarroEdition);
-		virtualEditionInters = virtualEdition.getIntersSet().stream().map(VirtualEditionInter.class::cast)
-				.collect(Collectors.toSet());
+		VirtualEdition virtualEdition = ldoD.createVirtualEdition(userArs, ACRONYM, "Name", LocalDate.now(), true,
+				pizarroEdition);
 
 		// create taxonomy
 		TopicModeler modeler = new TopicModeler();
-		TopicListDTO topicListDTO = modeler.generate(userArs, virtualEdition, 50, 6, 11, 100);
+		TopicListDTO topicListDTO = null;
+		try {
+			topicListDTO = modeler.generate(userArs, virtualEdition, 50, 6, 11, 10);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		virtualEdition.getTaxonomy().createGeneratedCategories(topicListDTO);
 
 		// create recommender
 		recommender = new VSMVirtualEditionInterRecommender();
 	}
 
-	@AfterAll
-	public static void tearDown() throws IllegalStateException, SecurityException, SystemException {
-		// remove virtual edition
-		FenixFramework.getTransactionManager().rollback();
-	}
-
 	@Test
+	@Atomic
 	public void testGetMostSimilarItemForHeteronym() {
+		VirtualEdition virtualEdition = LdoD.getInstance().getVirtualEdition(ACRONYM);
 		VirtualEditionInter virtualEditionInter = null;
 		for (FragInter inter : virtualEdition.getIntersSet()) {
 			if (inter.getLastUsed().getHeteronym() != null) {
@@ -91,15 +94,17 @@ public class VSMVirtualEditionInterRecomenderTest {
 		List<Property> properties = new ArrayList<>();
 		properties.add(new HeteronymProperty(1.0));
 
-		VirtualEditionInter result = recommender.getMostSimilarItem(virtualEditionInter,
-				new HashSet<>(virtualEditionInters), properties);
+		VirtualEditionInter result = recommender.getMostSimilarItem(virtualEditionInter, new HashSet<>(virtualEdition
+				.getIntersSet().stream().map(VirtualEditionInter.class::cast).collect(Collectors.toSet())), properties);
 
 		assertTrue(virtualEditionInter != result);
 		assertEquals(virtualEditionInter.getLastUsed().getHeteronym(), result.getLastUsed().getHeteronym());
 	}
 
 	@Test
+	@Atomic
 	public void testGetMostSimilarItemForNoHeteronym() {
+		VirtualEdition virtualEdition = LdoD.getInstance().getVirtualEdition(ACRONYM);
 		VirtualEditionInter virtualEditionInter = null;
 		for (FragInter inter : virtualEdition.getIntersSet()) {
 			if (inter.getLastUsed().getHeteronym() == NullHeteronym.getNullHeteronym()) {
@@ -111,15 +116,17 @@ public class VSMVirtualEditionInterRecomenderTest {
 		List<Property> properties = new ArrayList<>();
 		properties.add(new HeteronymProperty(1.0));
 
-		VirtualEditionInter result = recommender.getMostSimilarItem(virtualEditionInter,
-				new HashSet<>(virtualEditionInters), properties);
+		VirtualEditionInter result = recommender.getMostSimilarItem(virtualEditionInter, new HashSet<>(virtualEdition
+				.getIntersSet().stream().map(VirtualEditionInter.class::cast).collect(Collectors.toSet())), properties);
 
 		assertTrue(virtualEditionInter != result);
 		assertEquals(NullHeteronym.getNullHeteronym(), result.getLastUsed().getHeteronym());
 	}
 
 	@Test
+	@Atomic
 	public void testGetMostSimilarItemForDate() {
+		VirtualEdition virtualEdition = LdoD.getInstance().getVirtualEdition(ACRONYM);
 		VirtualEditionInter virtualEditionInter = null;
 		for (FragInter inter : virtualEdition.getIntersSet()) {
 			if (inter.getLastUsed().getLdoDDate() != null
@@ -132,8 +139,8 @@ public class VSMVirtualEditionInterRecomenderTest {
 		List<Property> properties = new ArrayList<>();
 		properties.add(new DateProperty(1.0));
 
-		VirtualEditionInter result = recommender.getMostSimilarItem(virtualEditionInter,
-				new HashSet<>(virtualEditionInters), properties);
+		VirtualEditionInter result = recommender.getMostSimilarItem(virtualEditionInter, new HashSet<>(virtualEdition
+				.getIntersSet().stream().map(VirtualEditionInter.class::cast).collect(Collectors.toSet())), properties);
 
 		assertTrue(virtualEditionInter != result);
 		assertEquals(virtualEditionInter.getLastUsed().getLdoDDate().getDate().getYear(),
@@ -141,7 +148,9 @@ public class VSMVirtualEditionInterRecomenderTest {
 	}
 
 	@Test
+	@Atomic(mode = TxMode.WRITE)
 	public void testGetMostSimilarItemForNoDate() {
+		VirtualEdition virtualEdition = LdoD.getInstance().getVirtualEdition(ACRONYM);
 		VirtualEditionInter virtualEditionInter = null;
 		for (FragInter inter : virtualEdition.getIntersSet()) {
 			if (inter.getLastUsed().getLdoDDate() == null) {
@@ -153,15 +162,17 @@ public class VSMVirtualEditionInterRecomenderTest {
 		List<Property> properties = new ArrayList<>();
 		properties.add(new DateProperty(1.0));
 
-		VirtualEditionInter result = recommender.getMostSimilarItem(virtualEditionInter,
-				new HashSet<>(virtualEditionInters), properties);
+		VirtualEditionInter result = recommender.getMostSimilarItem(virtualEditionInter, new HashSet<>(virtualEdition
+				.getIntersSet().stream().map(VirtualEditionInter.class::cast).collect(Collectors.toSet())), properties);
 
 		assertTrue(virtualEditionInter != result);
 		assertNull(result.getLastUsed().getLdoDDate());
 	}
 
 	@Test
+	@Atomic
 	public void testGetMostSimilarItemForTaxonomy() {
+		VirtualEdition virtualEdition = LdoD.getInstance().getVirtualEdition(ACRONYM);
 		VirtualEditionInter virtualEditionInter = null;
 		for (FragInter inter : virtualEdition.getIntersSet()) {
 			if (!((VirtualEditionInter) inter).getTagSet().isEmpty()) {
@@ -173,16 +184,18 @@ public class VSMVirtualEditionInterRecomenderTest {
 		List<Property> properties = new ArrayList<>();
 		properties.add(new TaxonomyProperty(1.0, virtualEdition.getTaxonomy(), Property.PropertyCache.OFF));
 
-		VirtualEditionInter result = recommender.getMostSimilarItem(virtualEditionInter,
-				new HashSet<>(virtualEditionInters), properties);
+		VirtualEditionInter result = recommender.getMostSimilarItem(virtualEditionInter, new HashSet<>(virtualEdition
+				.getIntersSet().stream().map(VirtualEditionInter.class::cast).collect(Collectors.toSet())), properties);
 
 		assertTrue(virtualEditionInter != result);
-		assertTrue(virtualEditionInter.getTagSet().stream().map(t -> t.getCategory())
+		assertFalse(virtualEditionInter.getTagSet().stream().map(t -> t.getCategory())
 				.anyMatch(result.getTagSet().stream().map(t -> t.getCategory()).collect(Collectors.toSet())::contains));
 	}
 
 	@Test
+	@Atomic
 	public void testGetMostSimilarItemForText() throws IOException, ParseException {
+		VirtualEdition virtualEdition = LdoD.getInstance().getVirtualEdition(ACRONYM);
 		VirtualEditionInter virtualEditionInter = null;
 		Indexer indexer = Indexer.getIndexer();
 
@@ -196,8 +209,8 @@ public class VSMVirtualEditionInterRecomenderTest {
 		List<Property> properties = new ArrayList<>();
 		properties.add(new TextProperty(1.0));
 
-		VirtualEditionInter result = recommender.getMostSimilarItem(virtualEditionInter,
-				new HashSet<>(virtualEditionInters), properties);
+		VirtualEditionInter result = recommender.getMostSimilarItem(virtualEditionInter, new HashSet<>(virtualEdition
+				.getIntersSet().stream().map(VirtualEditionInter.class::cast).collect(Collectors.toSet())), properties);
 
 		assertTrue(virtualEditionInter != result);
 		assertTrue(indexer.getTFIDFTerms(virtualEditionInter.getFragment(), TextProperty.NUMBER_OF_TERMS).stream()
@@ -205,7 +218,9 @@ public class VSMVirtualEditionInterRecomenderTest {
 	}
 
 	@Test
+	@Atomic
 	public void testGetMostSimilarItemForAll() throws IOException, ParseException {
+		VirtualEdition virtualEdition = LdoD.getInstance().getVirtualEdition(ACRONYM);
 		VirtualEditionInter virtualEditionInter = null;
 		Indexer indexer = Indexer.getIndexer();
 
@@ -222,8 +237,8 @@ public class VSMVirtualEditionInterRecomenderTest {
 		properties.add(new TaxonomyProperty(1.0, virtualEdition.getTaxonomy(), Property.PropertyCache.OFF));
 		properties.add(new TextProperty(1.0));
 
-		VirtualEditionInter result = recommender.getMostSimilarItem(virtualEditionInter,
-				new HashSet<>(virtualEditionInters), properties);
+		VirtualEditionInter result = recommender.getMostSimilarItem(virtualEditionInter, new HashSet<>(virtualEdition
+				.getIntersSet().stream().map(VirtualEditionInter.class::cast).collect(Collectors.toSet())), properties);
 
 		assertTrue(virtualEditionInter != result);
 		assertEquals(virtualEditionInter.getLastUsed().getHeteronym(), result.getLastUsed().getHeteronym());

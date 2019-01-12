@@ -5,14 +5,24 @@ import static org.junit.Assert.assertEquals;
 import org.joda.time.DateTime;
 import org.junit.jupiter.api.Test;
 
-import pt.ist.socialsoftware.edition.ldod.RollbackCaseTest;
+import pt.ist.fenixframework.Atomic;
+import pt.ist.fenixframework.Atomic.TxMode;
+import pt.ist.socialsoftware.edition.ldod.TestWithFragmentsLoading;
 
-public class RegistrationTokenTest extends RollbackCaseTest {
+public class RegistrationTokenTest extends TestWithFragmentsLoading {
 
 	LdoD ldoD;
 	LdoDUser user;
 
 	@Override
+	protected String[] fragmentsToLoad4Test() {
+		String[] fragments = new String[0];
+
+		return fragments;
+	}
+
+	@Override
+	@Atomic(mode = TxMode.WRITE)
 	public void populate4Test() {
 		this.ldoD = LdoD.getInstance();
 
@@ -21,6 +31,7 @@ public class RegistrationTokenTest extends RollbackCaseTest {
 	}
 
 	@Test
+	@Atomic(mode = TxMode.WRITE)
 	public void removeOutdatedTokensOne() {
 		int size = this.ldoD.getUsersSet().size();
 		int tokens = this.ldoD.getTokenSet().size();
@@ -32,6 +43,7 @@ public class RegistrationTokenTest extends RollbackCaseTest {
 	}
 
 	@Test
+	@Atomic(mode = TxMode.WRITE)
 	public void removeOutdatedTokensTwo() {
 		this.user.getToken().setExpireTimeDateTime(new DateTime(2014, 1, 1, 0, 0, 0, 0));
 

@@ -19,6 +19,8 @@ public abstract class TestWithFragmentsLoading {
 	@BeforeEach
 	public void setUp() throws FileNotFoundException {
 		loadFiles();
+
+		populate4Test();
 	}
 
 	@Atomic(mode = TxMode.WRITE)
@@ -47,6 +49,9 @@ public abstract class TestWithFragmentsLoading {
 			LoadTEIFragments fragmentLoader = new LoadTEIFragments();
 			fragmentLoader.loadFragmentsAtOnce(new FileInputStream(file));
 		}
+	}
+
+	protected void populate4Test() {
 	}
 
 	protected abstract String[] fragmentsToLoad4Test();

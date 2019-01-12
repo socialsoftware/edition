@@ -13,21 +13,27 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 
+import pt.ist.fenixframework.Atomic;
+import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.socialsoftware.edition.ldod.MockitoExtension;
-import pt.ist.socialsoftware.edition.ldod.RollbackCaseTest;
+import pt.ist.socialsoftware.edition.ldod.TestWithFragmentsLoading;
 
 @ExtendWith(MockitoExtension.class)
-public class CitationTests extends RollbackCaseTest {
+public class CitationTests extends TestWithFragmentsLoading {
 	@Mock
 	TwitterCitation twitterCitation;
 	@Mock
 	Tweet tweet;
 
 	@Override
-	public void populate4Test() {
+	protected String[] fragmentsToLoad4Test() {
+		String[] fragments = new String[0];
+
+		return fragments;
 	}
 
 	@Test
+	@Atomic(mode = TxMode.WRITE)
 	public void getIdTest() {
 		doCallRealMethod().when(this.twitterCitation).getId();
 
@@ -39,6 +45,7 @@ public class CitationTests extends RollbackCaseTest {
 	}
 
 	@Test
+	@Atomic(mode = TxMode.WRITE)
 	public void getNumberOfRetweetsTest() {
 		doCallRealMethod().when(this.twitterCitation).getNumberOfRetweets();
 

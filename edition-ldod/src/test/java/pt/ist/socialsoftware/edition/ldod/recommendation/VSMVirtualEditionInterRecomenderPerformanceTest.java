@@ -9,17 +9,13 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import javax.transaction.NotSupportedException;
-import javax.transaction.SystemException;
-
 import org.apache.lucene.queryparser.classic.ParseException;
 import org.joda.time.LocalDate;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import pt.ist.fenixframework.FenixFramework;
-import pt.ist.fenixframework.core.WriteOnReadError;
+import pt.ist.fenixframework.Atomic;
+import pt.ist.fenixframework.Atomic.TxMode;
+import pt.ist.socialsoftware.edition.ldod.TestWithFragmentsLoading;
 import pt.ist.socialsoftware.edition.ldod.domain.Edition;
 import pt.ist.socialsoftware.edition.ldod.domain.ExpertEdition;
 import pt.ist.socialsoftware.edition.ldod.domain.FragInter;
@@ -36,7 +32,7 @@ import pt.ist.socialsoftware.edition.ldod.recommendation.properties.TextProperty
 import pt.ist.socialsoftware.edition.ldod.topicmodeling.TopicModeler;
 import pt.ist.socialsoftware.edition.ldod.utils.TopicListDTO;
 
-public class VSMVirtualEditionInterRecomenderPerformanceTest {
+public class VSMVirtualEditionInterRecomenderPerformanceTest extends TestWithFragmentsLoading {
 	private static VirtualEdition pizarroVirtualEdition = null;
 	private static Set<VirtualEditionInter> pizarroVirtualEditionInters = null;
 	private static VirtualEdition zenithVirtualEdition = null;
@@ -45,11 +41,17 @@ public class VSMVirtualEditionInterRecomenderPerformanceTest {
 	private static Set<VirtualEditionInter> cunhaVirtualEditionInters = null;
 	private static VSMRecommender<VirtualEditionInter> recommender;
 
-	// Assuming that the 4 expert editions and user ars are in the database
-	@BeforeAll
-	public static void setUp() throws IOException, WriteOnReadError, NotSupportedException, SystemException {
-		FenixFramework.getTransactionManager().begin(false);
+	@Override
+	protected String[] fragmentsToLoad4Test() {
+		String[] fragments = { "001.xml", "002.xml", "003.xml" };
 
+		return fragments;
+	}
+
+	// Assuming that the 4 expert editions and user ars are in the database
+	@Override
+	@Atomic(mode = TxMode.WRITE)
+	protected void populate4Test() {
 		LdoD ldoD = LdoD.getInstance();
 		ExpertEdition pizarroEdition = (ExpertEdition) ldoD.getEdition(Edition.PIZARRO_EDITION_ACRONYM);
 		ExpertEdition zenithEdition = (ExpertEdition) ldoD.getEdition(Edition.ZENITH_EDITION_ACRONYM);
@@ -64,7 +66,13 @@ public class VSMVirtualEditionInterRecomenderPerformanceTest {
 
 		// create pizarro taxonomy
 		TopicModeler modeler = new TopicModeler();
-		TopicListDTO topicListDTO = modeler.generate(userArs, pizarroVirtualEdition, 50, 6, 11, 100);
+		TopicListDTO topicListDTO = null;
+		try {
+			topicListDTO = modeler.generate(userArs, pizarroVirtualEdition, 50, 6, 11, 100);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		pizarroVirtualEdition.getTaxonomy().createGeneratedCategories(topicListDTO);
 
 		// create zenith virtual edition
@@ -83,13 +91,8 @@ public class VSMVirtualEditionInterRecomenderPerformanceTest {
 		recommender = new VSMVirtualEditionInterRecommender();
 	}
 
-	@AfterAll
-	public static void tearDown() throws IllegalStateException, SecurityException, SystemException {
-		// remove virtual edition
-		FenixFramework.getTransactionManager().rollback();
-	}
-
 	@Test
+	@Atomic(mode = TxMode.WRITE)
 	public void testGetMostSimilarItemForAllAsList() throws IOException, ParseException {
 		VirtualEditionInter virtualEditionInter = null;
 		for (FragInter inter : pizarroVirtualEdition.getIntersSet()) {
@@ -110,6 +113,7 @@ public class VSMVirtualEditionInterRecomenderPerformanceTest {
 	}
 
 	@Test
+	@Atomic(mode = TxMode.WRITE)
 	public void testGetMostSimilarItemForAllAsListTwo() throws IOException, ParseException {
 		VirtualEditionInter virtualEditionInter = null;
 		for (FragInter inter : pizarroVirtualEdition.getIntersSet()) {
@@ -130,6 +134,7 @@ public class VSMVirtualEditionInterRecomenderPerformanceTest {
 	}
 
 	@Test
+	@Atomic(mode = TxMode.WRITE)
 	public void testGetMostSimilarItemForDateAsList() throws IOException, ParseException {
 		VirtualEditionInter virtualEditionInter = null;
 		for (FragInter inter : pizarroVirtualEdition.getIntersSet()) {
@@ -147,6 +152,7 @@ public class VSMVirtualEditionInterRecomenderPerformanceTest {
 	}
 
 	@Test
+	@Atomic(mode = TxMode.WRITE)
 	public void testGetMostSimilarItemForDateAsListTwo() throws IOException, ParseException {
 		VirtualEditionInter virtualEditionInter = null;
 		for (FragInter inter : pizarroVirtualEdition.getIntersSet()) {
@@ -164,6 +170,7 @@ public class VSMVirtualEditionInterRecomenderPerformanceTest {
 	}
 
 	@Test
+	@Atomic(mode = TxMode.WRITE)
 	public void testGetMostSimilarItemForHeteronymAsList() throws IOException, ParseException {
 		VirtualEditionInter virtualEditionInter = null;
 		for (FragInter inter : cunhaVirtualEdition.getIntersSet()) {
@@ -181,6 +188,7 @@ public class VSMVirtualEditionInterRecomenderPerformanceTest {
 	}
 
 	@Test
+	@Atomic(mode = TxMode.WRITE)
 	public void testGetMostSimilarItemForHeteronymAsListTwo() throws IOException, ParseException {
 		VirtualEditionInter virtualEditionInter = null;
 		for (FragInter inter : cunhaVirtualEdition.getIntersSet()) {
@@ -198,6 +206,7 @@ public class VSMVirtualEditionInterRecomenderPerformanceTest {
 	}
 
 	@Test
+	@Atomic(mode = TxMode.WRITE)
 	public void testGetMostSimilarItemForNotCachedTaxonomyAsList() throws IOException, ParseException {
 		VirtualEditionInter virtualEditionInter = null;
 		for (FragInter inter : pizarroVirtualEdition.getIntersSet()) {
@@ -215,6 +224,7 @@ public class VSMVirtualEditionInterRecomenderPerformanceTest {
 	}
 
 	@Test
+	@Atomic(mode = TxMode.WRITE)
 	public void testGetMostSimilarItemForCachedTaxonomyAsList() throws IOException, ParseException {
 		VirtualEditionInter virtualEditionInter = null;
 		for (FragInter inter : pizarroVirtualEdition.getIntersSet()) {
@@ -232,6 +242,7 @@ public class VSMVirtualEditionInterRecomenderPerformanceTest {
 	}
 
 	@Test
+	@Atomic(mode = TxMode.WRITE)
 	public void testGetMostSimilarItemForTextAsListOneAgain() throws IOException, ParseException {
 		VirtualEditionInter virtualEditionInter = null;
 		for (FragInter inter : pizarroVirtualEdition.getIntersSet()) {
@@ -249,6 +260,7 @@ public class VSMVirtualEditionInterRecomenderPerformanceTest {
 	}
 
 	@Test
+	@Atomic(mode = TxMode.WRITE)
 	public void testGetMostSimilarItemForTextAsListOneCunha() throws IOException, ParseException {
 		VirtualEditionInter virtualEditionInter = null;
 		for (FragInter inter : cunhaVirtualEdition.getIntersSet()) {
@@ -266,6 +278,7 @@ public class VSMVirtualEditionInterRecomenderPerformanceTest {
 	}
 
 	@Test
+	@Atomic(mode = TxMode.WRITE)
 	public void testGetMostSimilarItemForTextAsListOneZenith() throws IOException, ParseException {
 		VirtualEditionInter virtualEditionInter = null;
 		for (FragInter inter : zenithVirtualEdition.getIntersSet()) {
@@ -283,6 +296,7 @@ public class VSMVirtualEditionInterRecomenderPerformanceTest {
 	}
 
 	@Test
+	@Atomic(mode = TxMode.WRITE)
 	public void testGetMostSimilarItemForTextAsListOnePizarro() throws IOException, ParseException {
 		VirtualEditionInter virtualEditionInter = null;
 		for (FragInter inter : pizarroVirtualEdition.getIntersSet()) {
@@ -300,6 +314,7 @@ public class VSMVirtualEditionInterRecomenderPerformanceTest {
 	}
 
 	@Test
+	@Atomic(mode = TxMode.WRITE)
 	public void testGetMostSimilarItemForTextAsListTwo() throws IOException, ParseException {
 		VirtualEditionInter virtualEditionInter = null;
 		for (FragInter inter : pizarroVirtualEdition.getIntersSet()) {

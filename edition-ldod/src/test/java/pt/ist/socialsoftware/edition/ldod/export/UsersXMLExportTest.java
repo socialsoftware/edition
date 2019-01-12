@@ -7,28 +7,23 @@ import static org.junit.Assert.assertTrue;
 import javax.transaction.NotSupportedException;
 import javax.transaction.SystemException;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.core.WriteOnReadError;
+import pt.ist.socialsoftware.edition.ldod.TestWithFragmentsLoading;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
 import pt.ist.socialsoftware.edition.ldod.domain.RegistrationToken;
 import pt.ist.socialsoftware.edition.ldod.loaders.UsersXMLImport;
-import pt.ist.socialsoftware.edition.ldod.utils.Bootstrap;
 
-public class UsersXMLExportTest {
-	@BeforeEach
-	@Atomic
-	public void setUp() throws WriteOnReadError, NotSupportedException, SystemException {
-		// clean everything
-		if (LdoD.getInstance() != null) {
-			LdoD.getInstance().remove();
-		}
+public class UsersXMLExportTest extends TestWithFragmentsLoading {
 
-		Bootstrap.initializeSystem();
+	@Override
+	protected String[] fragmentsToLoad4Test() {
+		String[] fragments = new String[0];
+
+		return fragments;
 	}
 
 	@Test
@@ -57,20 +52,13 @@ public class UsersXMLExportTest {
 		assertEquals(numOfRegistrationTokens, LdoD.getInstance().getTokenSet().size());
 
 		for (LdoDUser user : LdoD.getInstance().getUsersSet()) {
-			assertTrue(user.getRolesSet().size() != 0);
+			if (!user.getUsername().equals("Twitter")) {
+				assertTrue(user.getRolesSet().size() != 0);
+			}
 		}
 
 		for (RegistrationToken token : LdoD.getInstance().getTokenSet()) {
 			assertNotNull(token.getUser());
-		}
-	}
-
-	@AfterEach
-	@Atomic
-	public void tearDown() throws IllegalStateException, SecurityException, SystemException {
-		// clean everything
-		if (LdoD.getInstance() != null) {
-			LdoD.getInstance().remove();
 		}
 	}
 
