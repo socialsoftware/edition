@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
+import pt.ist.socialsoftware.edition.ldod.dto.EditionDto;
 import pt.ist.socialsoftware.edition.ldod.session.LdoDSession;
 
 import java.util.List;
@@ -43,6 +44,7 @@ public class EditionController {
 		} else {
 			model.addAttribute("heteronym", null);
 			model.addAttribute("edition", edition);
+			model.addAttribute("editionDto",new EditionDto(edition));
 
 			return "edition/tableOfContents";
 		}

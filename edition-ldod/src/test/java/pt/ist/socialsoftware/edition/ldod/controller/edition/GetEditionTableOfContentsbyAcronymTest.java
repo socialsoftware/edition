@@ -1,7 +1,6 @@
 package pt.ist.socialsoftware.edition.ldod.controller.edition;
 
-import static org.hamcrest.Matchers.hasProperty;
-import static org.hamcrest.Matchers.nullValue;
+import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
@@ -52,11 +51,8 @@ public class GetEditionTableOfContentsbyAcronymTest extends ControllersTestWithF
 		this.mockMvc.perform(get("/edition/acronym/{acronym}", Edition.PIZARRO_EDITION_ACRONYM)).andDo(print())
 				.andExpect(status().isOk()).andExpect(view().name("edition/tableOfContents"))
 				.andExpect(model().attribute("heteronym", nullValue()))
-				.andExpect(model().attribute("edition", hasProperty("acronym")));
+				.andExpect(model().attribute("editionDto", hasProperty("acronym",equalTo(Edition.PIZARRO_EDITION_ACRONYM))));
 
-//		String content = result.getResponse().getContentAsString();
-//		System.out.println("Result: " + content); // Will always be empty since we use JSP. Find alternative. Check HtmlUnit
-//		// http://spring.io/blog/2014/03/25/spring-mvc-test-with-htmlunit
 	}
 
 	@Test
