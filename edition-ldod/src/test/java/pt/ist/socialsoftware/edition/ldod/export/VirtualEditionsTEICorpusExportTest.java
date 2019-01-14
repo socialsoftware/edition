@@ -56,13 +56,14 @@ public class VirtualEditionsTEICorpusExportTest extends TestWithFragmentsLoading
 
 	@Override
 	protected void unpopulate4Test() {
+		LdoD.getInstance().getCitationSet().forEach(c -> c.remove());
 		LdoD.getInstance().getVirtualEditionsSet().forEach(ve -> ve.remove());
 		this.user.remove();
 	}
 
 	// Original test that exports and imports everything
 	@Test
-	@Atomic(mode = TxMode.READ)
+	@Atomic(mode = TxMode.WRITE)
 	public void test() throws WriteOnReadError, NotSupportedException, SystemException {
 		VirtualEditionsTEICorpusExport export = new VirtualEditionsTEICorpusExport();
 		String virtualEditionsCorpus = export.export();

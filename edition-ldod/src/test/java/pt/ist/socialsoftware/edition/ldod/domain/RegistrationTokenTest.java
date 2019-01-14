@@ -32,8 +32,7 @@ public class RegistrationTokenTest extends TestWithFragmentsLoading {
 
 	@Override
 	public void unpopulate4Test() {
-		this.registration.remove();
-		this.user.remove();
+		LdoD.getInstance().getUsersSet().forEach(u -> u.remove());
 	}
 
 	@Test

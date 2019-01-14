@@ -208,7 +208,7 @@ public class VSMVirtualEditionInterRecomenderTest extends TestWithFragmentsLoadi
 		Indexer indexer = Indexer.getIndexer();
 
 		for (FragInter inter : virtualEdition.getIntersSet()) {
-			if (indexer.getTFIDFTerms(inter.getFragment(), TextProperty.NUMBER_OF_TERMS).contains("artista")) {
+			if (indexer.getTFIDFTerms(inter.getFragment(), TextProperty.NUMBER_OF_TERMS).contains("cadeira")) {
 				virtualEditionInter = (VirtualEditionInter) inter;
 				break;
 			}

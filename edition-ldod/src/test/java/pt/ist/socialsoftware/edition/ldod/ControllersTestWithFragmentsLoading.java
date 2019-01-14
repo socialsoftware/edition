@@ -10,6 +10,7 @@ import pt.ist.socialsoftware.edition.ldod.filters.TransactionFilter;
 public abstract class ControllersTestWithFragmentsLoading extends TestWithFragmentsLoading {
 	protected MockMvc mockMvc;
 
+	@Override
 	@BeforeEach
 	public void setUp() {
 
