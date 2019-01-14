@@ -76,6 +76,7 @@ public class VSMVirtualEditionInterRecomenderPerformanceTest extends TestWithFra
 		pizarroVirtualEdition.getTaxonomy().createGeneratedCategories(topicListDTO);
 
 		// create zenith virtual edition
+
 		zenithVirtualEdition = ldoD.createVirtualEdition(userArs, "TestZenithRecommendations",
 				"TestZenithRecommendations", LocalDate.now(), true, zenithEdition);
 		zenithVirtualEditionInters = zenithVirtualEdition.getIntersSet().stream().map(VirtualEditionInter.class::cast)
@@ -89,6 +90,13 @@ public class VSMVirtualEditionInterRecomenderPerformanceTest extends TestWithFra
 
 		// create recommender
 		recommender = new VSMVirtualEditionInterRecommender();
+	}
+
+	@Override
+	protected void unpopulate4Test() {
+		pizarroVirtualEdition.remove();
+		zenithVirtualEdition.remove();
+		cunhaVirtualEdition.remove();
 	}
 
 	@Test

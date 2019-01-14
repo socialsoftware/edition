@@ -38,7 +38,14 @@ public class VirtualEditionFragmentsTEIExportTest extends TestWithFragmentsLoadi
 		return fragments;
 	}
 
-	// TODO: test after running tweet factory
+	@Override
+	protected void populate4Test() {
+	}
+
+	@Override
+	protected void unpopulate4Test() {
+	}
+
 	@Test
 	@Atomic
 	public void test() throws WriteOnReadError, NotSupportedException, SystemException {

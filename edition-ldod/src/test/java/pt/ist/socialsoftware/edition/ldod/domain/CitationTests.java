@@ -26,6 +26,14 @@ public class CitationTests extends TestWithFragmentsLoading {
 	Tweet tweet;
 
 	@Override
+	protected void populate4Test() {
+	}
+
+	@Override
+	protected void unpopulate4Test() {
+	}
+
+	@Override
 	protected String[] fragmentsToLoad4Test() {
 		String[] fragments = new String[0];
 

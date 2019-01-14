@@ -20,6 +20,14 @@ public class PlainTransByInterTest extends TestWithFragmentsLoading {
 		return fragments;
 	}
 
+	@Override
+	protected void populate4Test() {
+	}
+
+	@Override
+	protected void unpopulate4Test() {
+	}
+
 	@Test
 	@Atomic(mode = TxMode.WRITE)
 	public void test() {

@@ -63,6 +63,10 @@ public class ReadingRecommendationPerformanceTest extends TestWithFragmentsLoadi
 
 	}
 
+	@Override
+	protected void unpopulate4Test() {
+	}
+
 	@Test
 	@Atomic(mode = TxMode.WRITE)
 	public void testSeveralRecommendations() throws IOException, ParseException {

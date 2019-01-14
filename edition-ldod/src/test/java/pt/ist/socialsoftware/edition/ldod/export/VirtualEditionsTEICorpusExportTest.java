@@ -12,6 +12,7 @@ import org.joda.time.LocalDate;
 import org.junit.jupiter.api.Test;
 
 import pt.ist.fenixframework.Atomic;
+import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.fenixframework.core.WriteOnReadError;
 import pt.ist.socialsoftware.edition.ldod.TestWithFragmentsLoading;
 import pt.ist.socialsoftware.edition.ldod.domain.ExpertEdition;
@@ -30,6 +31,7 @@ public class VirtualEditionsTEICorpusExportTest extends TestWithFragmentsLoading
 	private VirtualEditionsTEICorpusExport export;
 	private VirtualEdition virtualEdition;
 	private LdoD ldoD;
+	private LdoDUser user;
 
 	public static void logger(Object toPrint) {
 		System.out.println(toPrint);
@@ -42,9 +44,25 @@ public class VirtualEditionsTEICorpusExportTest extends TestWithFragmentsLoading
 		return fragments;
 	}
 
+	@Override
+	protected void populate4Test() {
+		this.ldoD = LdoD.getInstance();
+		this.user = new LdoDUser(this.ldoD, "ars1", "ars", "Antonio", "Silva", "a@a.a");
+		LocalDate localDate = LocalDate.parse("20018-07-20");
+		ExpertEdition expertEdition = this.ldoD.getRZEdition();
+		this.virtualEdition = new VirtualEdition(this.ldoD, this.user, "acronym", "title", localDate, true,
+				expertEdition);
+	}
+
+	@Override
+	protected void unpopulate4Test() {
+		LdoD.getInstance().getVirtualEditionsSet().forEach(ve -> ve.remove());
+		this.user.remove();
+	}
+
 	// Original test that exports and imports everything
 	@Test
-	@Atomic
+	@Atomic(mode = TxMode.READ)
 	public void test() throws WriteOnReadError, NotSupportedException, SystemException {
 		VirtualEditionsTEICorpusExport export = new VirtualEditionsTEICorpusExport();
 		String virtualEditionsCorpus = export.export();
@@ -65,15 +83,6 @@ public class VirtualEditionsTEICorpusExportTest extends TestWithFragmentsLoading
 		// descomentar
 		assertEquals(Arrays.stream(virtualEditionsCorpus.split("\\r?\\n")).sorted().collect(Collectors.joining("\\n")),
 				Arrays.stream(export.export().split("\\r?\\n")).sorted().collect(Collectors.joining("\\n")));
-	}
-
-	// aux setup method
-	private void setUpDomain() {
-		this.ldoD = LdoD.getInstance();
-		LdoDUser user = new LdoDUser(this.ldoD, "ars1", "ars", "Antonio", "Silva", "a@a.a");
-		LocalDate localDate = LocalDate.parse("20018-07-20");
-		ExpertEdition expertEdition = this.ldoD.getRZEdition();
-		this.virtualEdition = new VirtualEdition(this.ldoD, user, "acronym", "title", localDate, true, expertEdition);
 	}
 
 	// aux method
@@ -105,7 +114,6 @@ public class VirtualEditionsTEICorpusExportTest extends TestWithFragmentsLoading
 	@Test
 	@Atomic
 	public void exportTweetsTest() {
-		setUpDomain();
 		new Tweet(this.ldoD, "sourceLink", "date", "tweetText", 1111l, "location", "country", "username", "profURL",
 				"profImgURL", 9999l, true, null);
 		new Tweet(this.ldoD, "sourceLink", "date", "tweetText", 1111l, "location", "country", "username", "profURL",
@@ -119,7 +127,6 @@ public class VirtualEditionsTEICorpusExportTest extends TestWithFragmentsLoading
 	@Test
 	@Atomic
 	public void exportEmptyCriteriaTest() {
-		setUpDomain();
 		String result = exportPrintCleanAndImport();
 		// Check if it was well exported
 		assertEquals(Arrays.stream(result.split("\\r?\\n")).sorted().collect(Collectors.joining("\\n")),
@@ -129,7 +136,6 @@ public class VirtualEditionsTEICorpusExportTest extends TestWithFragmentsLoading
 	@Test
 	@Atomic
 	public void exportMediaSourceTest() {
-		setUpDomain();
 		new MediaSource(this.virtualEdition, "Twitter");
 		String result = exportPrintCleanAndImport();
 		// Check if it was well exported
@@ -140,7 +146,6 @@ public class VirtualEditionsTEICorpusExportTest extends TestWithFragmentsLoading
 	@Test
 	@Atomic
 	public void exportTimeWindowTest() {
-		setUpDomain();
 		new TimeWindow(this.virtualEdition, new LocalDate("2018-03-06"), new LocalDate("2018-06-24"));
 		String result = exportPrintCleanAndImport();
 		// Check if it was well exported
@@ -151,7 +156,6 @@ public class VirtualEditionsTEICorpusExportTest extends TestWithFragmentsLoading
 	@Test
 	@Atomic
 	public void exportGeographicLocationTest() {
-		setUpDomain();
 		new GeographicLocation(this.virtualEdition, "Portugal", "Lisboa");
 		String result = exportPrintCleanAndImport();
 		// Check if it was well exported
@@ -162,7 +166,6 @@ public class VirtualEditionsTEICorpusExportTest extends TestWithFragmentsLoading
 	@Test
 	@Atomic
 	public void exportFrequencyTest() {
-		setUpDomain();
 		new Frequency(this.virtualEdition, 10);
 		String result = exportPrintCleanAndImport();
 		// Check if it was well exported
@@ -173,7 +176,6 @@ public class VirtualEditionsTEICorpusExportTest extends TestWithFragmentsLoading
 	@Test
 	@Atomic
 	public void exportSeveralCriteriaTest() {
-		setUpDomain();
 		new GeographicLocation(this.virtualEdition, "Portugal", "Lisboa");
 		new Frequency(this.virtualEdition, 10);
 		String result = exportPrintCleanAndImport();
@@ -185,7 +187,6 @@ public class VirtualEditionsTEICorpusExportTest extends TestWithFragmentsLoading
 	@Test
 	@Atomic
 	public void exportAllCriteriaTest() {
-		setUpDomain();
 		new MediaSource(this.virtualEdition, "Twitter");
 		new TimeWindow(this.virtualEdition, new LocalDate("2018-03-06"), new LocalDate("2018-06-24"));
 		new GeographicLocation(this.virtualEdition, "Portugal", "Lisboa");

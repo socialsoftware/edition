@@ -16,6 +16,14 @@ public class TextSearchOptionTest extends TestWithFragmentsLoading {
 		return fragments;
 	}
 
+	@Override
+	protected void populate4Test() {
+	}
+
+	@Override
+	protected void unpopulate4Test() {
+	}
+
 	@Test
 	@Atomic()
 	public void test() {

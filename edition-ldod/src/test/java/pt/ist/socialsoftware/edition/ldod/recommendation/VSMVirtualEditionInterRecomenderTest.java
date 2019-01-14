@@ -45,6 +45,8 @@ public class VSMVirtualEditionInterRecomenderTest extends TestWithFragmentsLoadi
 
 	private static VSMRecommender<VirtualEditionInter> recommender;
 
+	private VirtualEdition virtualEdition;
+
 	@Override
 	protected String[] fragmentsToLoad4Test() {
 		String[] fragments = { "001.xml", "181.xml", "593.xml" };
@@ -54,7 +56,6 @@ public class VSMVirtualEditionInterRecomenderTest extends TestWithFragmentsLoadi
 
 	// Assuming that the 4 expert editions and user ars are in the database
 	@Override
-	@Atomic(mode = TxMode.WRITE)
 	protected void populate4Test() {
 
 		LdoD ldoD = LdoD.getInstance();
@@ -62,22 +63,27 @@ public class VSMVirtualEditionInterRecomenderTest extends TestWithFragmentsLoadi
 
 		LdoDUser userArs = ldoD.getUser("ars");
 		// create virtual edition
-		VirtualEdition virtualEdition = ldoD.createVirtualEdition(userArs, ACRONYM, "Name", LocalDate.now(), true,
+		this.virtualEdition = ldoD.createVirtualEdition(userArs, ACRONYM, "Name", LocalDate.now(), true,
 				pizarroEdition);
 
 		// create taxonomy
 		TopicModeler modeler = new TopicModeler();
 		TopicListDTO topicListDTO = null;
 		try {
-			topicListDTO = modeler.generate(userArs, virtualEdition, 50, 6, 11, 10);
+			topicListDTO = modeler.generate(userArs, this.virtualEdition, 50, 6, 11, 10);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		virtualEdition.getTaxonomy().createGeneratedCategories(topicListDTO);
+		this.virtualEdition.getTaxonomy().createGeneratedCategories(topicListDTO);
 
 		// create recommender
 		recommender = new VSMVirtualEditionInterRecommender();
+	}
+
+	@Override
+	protected void unpopulate4Test() {
+		this.virtualEdition.remove();
 	}
 
 	@Test

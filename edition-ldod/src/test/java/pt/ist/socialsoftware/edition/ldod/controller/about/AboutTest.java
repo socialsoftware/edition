@@ -20,8 +20,17 @@ import pt.ist.socialsoftware.edition.ldod.controller.AboutController;
 @SpringBootTest(classes = Application.class)
 @AutoConfigureMockMvc
 public class AboutTest extends ControllersTestWithFragmentsLoading {
+
 	@InjectMocks
 	private AboutController aboutController;
+
+	@Override
+	protected void populate4Test() {
+	}
+
+	@Override
+	protected void unpopulate4Test() {
+	}
 
 	@Override
 	protected String[] fragmentsToLoad4Test() {

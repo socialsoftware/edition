@@ -33,7 +33,8 @@ public class CriteriaTests extends TestWithFragmentsLoading {
 	// rule: Class cannot be mocked
 	Class<?> clazz;
 
-	// regra: não se pode passar mocks a construtores!
+	private LdoDUser user;
+
 	@Override
 	protected String[] fragmentsToLoad4Test() {
 		String[] fragments = new String[0];
@@ -45,12 +46,18 @@ public class CriteriaTests extends TestWithFragmentsLoading {
 	@Atomic(mode = TxMode.WRITE)
 	public void populate4Test() {
 		LdoD ldoD = LdoD.getInstance();
-		LdoDUser user = new LdoDUser(ldoD, "ars1", "ars", "Antonio", "Silva", "a@a.a");
+		this.user = new LdoDUser(ldoD, "ars1", "ars", "Antonio", "Silva", "a@a.a");
 		LocalDate localDate = LocalDate.parse("20018-07-20");
 		ExpertEdition expertEdition = ldoD.getRZEdition();
 
-		this.virtualEdition = new VirtualEdition(ldoD, user, "acronym", "title", localDate, true, expertEdition);
+		this.virtualEdition = new VirtualEdition(ldoD, this.user, "acronym", "title", localDate, true, expertEdition);
 		this.clazz = pt.ist.socialsoftware.edition.ldod.domain.MediaSource.class;
+	}
+
+	@Override
+	protected void unpopulate4Test() {
+		this.virtualEdition.remove();
+		this.user.remove();
 	}
 
 	@Test

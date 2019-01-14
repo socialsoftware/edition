@@ -39,6 +39,10 @@ public class CitationDetecterTests extends TestWithFragmentsLoading {
 		}
 	}
 
+	@Override
+	protected void unpopulate4Test() {
+	}
+
 	@Test
 	public void earlyStartTest() throws IOException {
 		String teste = "O João foi à escola. A Maria foi para casa";

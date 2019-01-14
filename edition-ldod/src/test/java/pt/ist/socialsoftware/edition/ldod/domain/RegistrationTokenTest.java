@@ -13,6 +13,7 @@ public class RegistrationTokenTest extends TestWithFragmentsLoading {
 
 	LdoD ldoD;
 	LdoDUser user;
+	private RegistrationToken registration;
 
 	@Override
 	protected String[] fragmentsToLoad4Test() {
@@ -22,12 +23,17 @@ public class RegistrationTokenTest extends TestWithFragmentsLoading {
 	}
 
 	@Override
-	@Atomic(mode = TxMode.WRITE)
 	public void populate4Test() {
 		this.ldoD = LdoD.getInstance();
 
 		this.user = new LdoDUser(this.ldoD, "ars1", "ars", "Antonio", "Silva", "a@a.a");
-		new RegistrationToken("token", this.user);
+		this.registration = new RegistrationToken("token", this.user);
+	}
+
+	@Override
+	public void unpopulate4Test() {
+		this.registration.remove();
+		this.user.remove();
 	}
 
 	@Test

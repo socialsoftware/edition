@@ -29,9 +29,12 @@ public class ImportLdoDFromTEITest extends TestWithFragmentsLoading {
 	}
 
 	@Override
-	@Atomic
 	protected void populate4Test() {
 		this.fragmentTest = LdoD.getInstance().getFragmentsSet().stream().findFirst().get();
+	}
+
+	@Override
+	protected void unpopulate4Test() {
 	}
 
 	@Test

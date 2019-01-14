@@ -17,7 +17,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 
 import pt.ist.fenixframework.Atomic;
-import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.socialsoftware.edition.ldod.MockitoExtension;
 import pt.ist.socialsoftware.edition.ldod.TestWithFragmentsLoading;
 import twitter4j.Status;
@@ -51,10 +50,13 @@ public class FetchFromTwitterTests extends TestWithFragmentsLoading {
 	}
 
 	@Override
-	@Atomic(mode = TxMode.WRITE)
 	public void populate4Test() {
 		this.fetchFromTwitter = new FetchCitationsFromTwitter();
 		this.twitter = this.fetchFromTwitter.getTwitterinstance();
+	}
+
+	@Override
+	protected void unpopulate4Test() {
 	}
 
 	// invocações sobre o stauts dão null pointer exception

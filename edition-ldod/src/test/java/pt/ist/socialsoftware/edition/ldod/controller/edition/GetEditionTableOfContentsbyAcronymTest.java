@@ -1,9 +1,13 @@
 package pt.ist.socialsoftware.edition.ldod.controller.edition;
 
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.hasProperty;
+import static org.hamcrest.Matchers.nullValue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -26,10 +30,16 @@ public class GetEditionTableOfContentsbyAcronymTest extends ControllersTestWithF
 	private EditionController editionController;
 
 	@Override
-	protected String[] fragmentsToLoad4Test() {
-		String[] fragmentFiles = { "001.xml", "002.xml", "003.xml" };
+	protected void populate4Test() {
+	}
 
-		return fragmentFiles;
+	@Override
+	protected void unpopulate4Test() {
+	}
+
+	@Override
+	protected String[] fragmentsToLoad4Test() {
+		return new String[0];
 	}
 
 	@Override
