@@ -15,15 +15,17 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import pt.ist.fenixframework.Atomic;
 import pt.ist.socialsoftware.edition.ldod.ControllersTestWithFragmentsLoading;
 import pt.ist.socialsoftware.edition.ldod.config.Application;
 import pt.ist.socialsoftware.edition.ldod.controller.EditionController;
 import pt.ist.socialsoftware.edition.ldod.domain.Edition;
+import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = Application.class)
 @AutoConfigureMockMvc
-public class GetEditionTableOfContentsbyAcronymTest extends ControllersTestWithFragmentsLoading {
+public class GetEditionControllerTest extends ControllersTestWithFragmentsLoading {
 
 	@InjectMocks
 	private EditionController editionController;
@@ -53,6 +55,38 @@ public class GetEditionTableOfContentsbyAcronymTest extends ControllersTestWithF
 				.andExpect(model().attribute("heteronym", nullValue()))
 				.andExpect(model().attribute("editionDto", hasProperty("acronym",equalTo(Edition.PIZARRO_EDITION_ACRONYM))));
 
+	}
+
+	@Test
+	@Atomic(mode = Atomic.TxMode.WRITE)
+	public void getEditionByExternalId() throws Exception {
+		String id = LdoD.getInstance().getEdition(Edition.PIZARRO_EDITION_ACRONYM).getExternalId();
+
+		this.mockMvc.perform(get("/edition/internalid/{externalId}",id)).andDo(print())
+			.andExpect(status().is3xxRedirection())
+			.andExpect(redirectedUrl("/edition/acronym/" + Edition.PIZARRO_EDITION_ACRONYM));
+	}
+
+	@Test
+	@Atomic(mode = Atomic.TxMode.WRITE)
+	public void getEditionWithHeteronym() throws Exception {
+		String editionId = LdoD.getInstance().getEdition(Edition.PIZARRO_EDITION_ACRONYM).getExternalId();
+		String hetronymId = LdoD.getInstance().getSortedHeteronyms().get(0).getExternalId();
+
+		this.mockMvc.perform(get("/edition/internalid/heteronym/{id1}/{id2}",editionId,hetronymId)).andDo(print())
+				.andExpect(status().isOk()).andExpect(view().name("edition/tableOfContents"))
+				.andExpect(model().attribute("heteronym",notNullValue()))
+				.andExpect(model().attribute("edition",notNullValue()))
+				.andExpect(model().attribute("editionDto", hasProperty("acronym",equalTo(Edition.PIZARRO_EDITION_ACRONYM))));
+	}
+
+	@Test
+	public void getUserContributionsTest() throws Exception {
+		this.mockMvc.perform(get("/edition/user/{username}","ars")).andDo(print())
+				.andExpect(status().isOk()).andExpect(view().name("edition/userContributions"))
+				.andExpect(model().attribute("games",nullValue()))
+				.andExpect(model().attribute("position",nullValue()))
+				.andExpect(model().attribute("userDto",hasProperty("username", equalTo("ars"))));
 	}
 
 	@Test

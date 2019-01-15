@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.dto.EditionDto;
+import pt.ist.socialsoftware.edition.ldod.dto.LdoDUserDto;
 import pt.ist.socialsoftware.edition.ldod.session.LdoDSession;
 
 import java.util.List;
@@ -78,6 +79,7 @@ public class EditionController {
 		} else {
 			model.addAttribute("heteronym", heteronym);
 			model.addAttribute("edition", edition);
+			model.addAttribute("editionDto", new EditionDto(edition));
 
 			return "edition/tableOfContents";
 		}
@@ -90,6 +92,7 @@ public class EditionController {
 
 		if (user != null) {
 			model.addAttribute("user", user);
+			model.addAttribute("userDto", new LdoDUserDto(user));
 			if (user.getPlayer() != null) {
 				List<ClassificationGame> games = user.getPlayer().getClassificationGameParticipantSet().stream().map
 						(ClassificationGameParticipant::getClassificationGame).collect(Collectors.toList());
