@@ -1,7 +1,18 @@
 import {Network, Timeline, DataSet} from "vis";
 import React, {Component} from "react";
 import {connect} from "react-redux";
-import {VIS_NETWORK, BY_HISTORIC, BY_NETWORK_TEXTSIMILARITY, CRIT_TEXTSIMILARITY} from "../constants/history-transitions";
+import {
+  VIS_SQUARE_GRID,
+  VIS_NETWORK_GRAPH,
+  VIS_WORD_CLOUD,
+  BY_SQUAREGRID_EDITIONORDER,
+  CRIT_EDITION_ORDER,
+  CRIT_CHRONOLOGICAL_ORDER,
+  CRIT_TEXT_SIMILARITY,
+  CRIT_HETERONYM,
+  CRIT_TAXONOMY,
+  CRIT_WORD_RELEVANCE
+} from "../constants/history-transitions";
 import {
   setFragmentIndex,
   setCurrentVisualization,
@@ -9,7 +20,10 @@ import {
   setOutOfLandingPage,
   setHistoryEntryCounter,
   setRecommendationArray,
-  setRecommendationIndex
+  setRecommendationIndex,
+  setVisualizationTechnique,
+  setSemanticCriteria,
+  setSemanticCriteriaDataLoaded
 } from "../actions/index";
 import "./HistoryMenu.css";
 
@@ -34,7 +48,10 @@ const mapDispatchToProps = dispatch => {
     setOutOfLandingPage: outOfLandingPage => dispatch(setOutOfLandingPage(outOfLandingPage)),
     setHistoryEntryCounter: historyEntryCounter => dispatch(setHistoryEntryCounter(historyEntryCounter)),
     setRecommendationArray: recommendationArray => dispatch(setRecommendationArray(recommendationArray)),
-    setRecommendationIndex: recommendationIndex => dispatch(setRecommendationIndex(recommendationIndex))
+    setRecommendationIndex: recommendationIndex => dispatch(setRecommendationIndex(recommendationIndex)),
+    setVisualizationTechnique: visualizationTechnique => dispatch(setVisualizationTechnique(visualizationTechnique)),
+    setSemanticCriteria: semanticCriteria => dispatch(setSemanticCriteria(semanticCriteria)),
+    setSemanticCriteriaDataLoaded: semanticCriteriaDataLoaded => dispatch(setSemanticCriteriaDataLoaded(semanticCriteriaDataLoaded))
   };
 };
 
@@ -48,12 +65,7 @@ class ConnectedHistoryMenu extends Component {
     this.timeline = [];
 
     this.handleClick = this.handleClick.bind(this);
-    this.printMessage = this.printMessage.bind(this);
 
-  }
-
-  printMessage() {
-    console.log("hello")
   }
 
   handleClick(event) {
@@ -68,7 +80,6 @@ class ConnectedHistoryMenu extends Component {
 
       console.log("properties id: " + parseInt(properties.item));
       console.log("history array: " + this.props.history);
-      console.log(this.props.history[properties.id]);
 
       var i;
       for (i = 0; i < this.props.fragments.length; i++) {
@@ -81,8 +92,8 @@ class ConnectedHistoryMenu extends Component {
             id: this.props.historyEntryCounter,
             originalFragment: this.props.history[parseInt(properties.item)].originalFragment,
             nextFragment: this.props.history[parseInt(properties.item)].nextFragment,
-            vis: 0,
-            criteria: 0,
+            vis: this.props.history[parseInt(properties.item)].vis,
+            criteria: this.props.history[parseInt(properties.item)].criteria,
             visualization: globalViewToRender,
             recommendationArray: this.props.history[parseInt(properties.item)].recommendationArray,
             recommendationIndex: this.props.history[parseInt(properties.item)].recommendationIndex,
@@ -92,9 +103,18 @@ class ConnectedHistoryMenu extends Component {
           this.props.setHistoryEntryCounter(this.props.historyEntryCounter + 1)
           //HISTORY ENTRY HISTORY ENTRY HISTORY ENTRY HISTORY ENTRY
           this.props.onChange();
-          this.props.setFragmentIndex(i); //mudar a logica para isto ser o fragmento central.
-          this.props.setRecommendationArray(this.props.history[parseInt(properties.item)].recommendationArray);
-          this.props.setRecommendationIndex(this.props.history[parseInt(properties.item)].recommendationIndex);
+          this.props.setFragmentIndex(this.props.history[parseInt(properties.item)].fragmentIndex); //mudar a logica para isto ser o fragmento central.
+
+          if (this.props.history[parseInt(properties.item)].vis !== VIS_NETWORK_GRAPH) {
+            console.log("HistoryMenu.js: this.props.history[parseInt(properties.item)].vis !== VIS_NETWORK_GRAPH")
+            this.props.setRecommendationArray(this.props.history[parseInt(properties.item)].recommendationArray);
+            this.props.setRecommendationIndex(this.props.history[parseInt(properties.item)].recommendationIndex);
+          } else {
+            console.log("HistoryMenu.js: this.props.setSemanticCriteriaDataLoaded(false);")
+            this.props.setSemanticCriteriaDataLoaded(false);
+          }
+          this.props.setVisualizationTechnique(this.props.history[parseInt(properties.item)].vis);
+          this.props.setSemanticCriteria(this.props.history[parseInt(properties.item)].criteria)
 
           //  }
 
@@ -123,8 +143,6 @@ class ConnectedHistoryMenu extends Component {
     console.log("history items: " + historyItems);
     this.timeline = new Timeline(container, historyItems, this.options);
     this.timeline.on('click', this.handleClick);
-    let x = this.printMessage;
-    x();
 
     //this.printMessage();
   }
@@ -135,7 +153,6 @@ class ConnectedHistoryMenu extends Component {
 
     if (this.props.allFragmentsLoaded) {
       jsxToRender = <div id="visualization"></div>
-      console.log("na verdade, all fragments loaded.")
     }
 
     return (<div className="historyMenu">

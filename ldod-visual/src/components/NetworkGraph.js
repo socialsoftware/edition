@@ -12,7 +12,10 @@ import {
   setRecommendationIndex,
   setCurrentFragmentMode,
   setRecommendationLoaded,
-  setSemanticCriteriaDataLoaded
+  setSemanticCriteriaDataLoaded,
+  setVisualizationTechnique,
+  setSemanticCriteria,
+  setSemanticCriteriaData
 } from "../actions/index";
 import {VIS_NETWORK_GRAPH, BY_NETWORK_TEXTSIMILARITY, CRIT_TEXT_SIMILARITY} from "../constants/history-transitions";
 import {Button, Popover, OverlayTrigger, Overlay} from "react-bootstrap";
@@ -33,7 +36,10 @@ const mapStateToProps = state => {
     currentFragmentMode: state.currentFragmentMode,
     recommendationLoaded: state.recommendationLoaded,
     semanticCriteriaDataLoaded: state.semanticCriteriaDataLoaded,
-    semanticCriteria: state.semanticCriteria
+    visualizationTechnique: state.visualizationTechnique,
+    semanticCriteria: state.semanticCriteria,
+    potentialVisualizationTechnique: state.potentialVisualizationTechnique,
+    potentialSemanticCriteria: state.potentialSemanticCriteria
   };
 };
 
@@ -47,7 +53,10 @@ const mapDispatchToProps = dispatch => {
     setRecommendationIndex: recommendationIndex => dispatch(setRecommendationIndex(recommendationIndex)),
     setCurrentFragmentMode: currentFragmentMode => dispatch(setCurrentFragmentMode(currentFragmentMode)),
     setRecommendationLoaded: recommendationLoaded => dispatch(setRecommendationLoaded(recommendationLoaded)),
-    setSemanticCriteriaDataLoaded: semanticCriteriaDataLoaded => dispatch(setSemanticCriteriaDataLoaded(semanticCriteriaDataLoaded))
+    setSemanticCriteriaDataLoaded: semanticCriteriaDataLoaded => dispatch(setSemanticCriteriaDataLoaded(semanticCriteriaDataLoaded)),
+    setVisualizationTechnique: visualizationTechnique => dispatch(setVisualizationTechnique(visualizationTechnique)),
+    setSemanticCriteria: semanticCriteria => dispatch(setSemanticCriteria(semanticCriteria)),
+    setSemanticCriteriaData: semanticCriteriaData => dispatch(setSemanticCriteriaData(semanticCriteriaData))
   };
 };
 
@@ -202,12 +211,18 @@ class ConnectedNetworkGraph extends Component {
 
           //HISTORY ENTRY HISTORY ENTRY HISTORY ENTRY HISTORY ENTRY
           let obj;
+          let historyVis = this.props.visualizationTechnique;
+          let historyCriteria = this.props.semanticCriteria;
+          if (this.props.currentFragmentMode) {
+            historyVis = this.props.potentialVisualizationTechnique;
+            historyCriteria = this.props.potentialSemanticCriteria;
+          }
           obj = {
             id: this.props.historyEntryCounter,
             originalFragment: this.props.recommendationArray[this.props.recommendationIndex],
             nextFragment: this.recommendationArray[i],
-            vis: VIS_NETWORK_GRAPH,
-            criteria: CRIT_TEXT_SIMILARITY,
+            vis: historyVis,
+            criteria: historyCriteria,
             visualization: globalViewToRender,
             recommendationArray: this.recommendationArray,
             recommendationIndex: i,
@@ -224,7 +239,6 @@ class ConnectedNetworkGraph extends Component {
               if (this.props.fragments[j].interId === nodeId) {
                 console.log("networkgraph: because of currentFragmentMode, setFragmentIndex is now: " + j)
                 this.props.setFragmentIndex(j);
-                this.props.setRecommendationLoaded(false);
                 this.props.setRecommendationIndex(0);
                 obj.fragmentIndex = j;
                 obj.recommendationIndex = 0;
@@ -232,11 +246,17 @@ class ConnectedNetworkGraph extends Component {
                 temp.push(this.props.fragmentsHashMap.get(nodeId));
                 obj.recommendationArray = temp;
                 this.props.setRecommendationArray(temp);
+
               }
             }
           }
+          this.props.setVisualizationTechnique(this.props.potentialVisualizationTechnique);
+          this.props.setSemanticCriteria(this.props.potentialSemanticCriteria);
           this.props.addHistoryEntry(obj);
           this.props.setHistoryEntryCounter(this.props.historyEntryCounter + 1)
+
+          this.props.setRecommendationLoaded(false);
+
           //HISTORY ENTRY HISTORY ENTRY HISTORY ENTRY HISTORY ENTRY
         }
         //this.props.setFragmentIndex(i);

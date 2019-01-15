@@ -9,7 +9,9 @@ import {
   setOutOfLandingPage,
   setHistoryEntryCounter,
   setRecommendationArray,
-  setRecommendationIndex
+  setRecommendationIndex,
+  setVisualizationTechnique,
+  setSemanticCriteria
 } from "../actions/index";
 import {VIS_SQUARE_GRID, BY_SQUAREGRID_EDITIONORDER, CRIT_EDITION_ORDER, CRIT_CHRONOLOGICAL_ORDER} from "../constants/history-transitions";
 import HashMap from "hashmap";
@@ -27,7 +29,9 @@ const mapStateToProps = state => {
     outOfLandingPage: state.outOfLandingPage,
     visualizationTechnique: state.visualizationTechnique,
     semanticCriteria: state.semanticCriteria,
-    allFragmentsLoaded: state.allFragmentsLoaded
+    allFragmentsLoaded: state.allFragmentsLoaded,
+    potentialVisualizationTechnique: state.potentialVisualizationTechnique,
+    potentialSemanticCriteria: state.potentialSemanticCriteria
   };
 };
 
@@ -39,7 +43,9 @@ const mapDispatchToProps = dispatch => {
     setOutOfLandingPage: outOfLandingPage => dispatch(setOutOfLandingPage(outOfLandingPage)),
     setHistoryEntryCounter: historyEntryCounter => dispatch(setHistoryEntryCounter(historyEntryCounter)),
     setRecommendationArray: recommendationArray => dispatch(setRecommendationArray(recommendationArray)),
-    setRecommendationIndex: recommendationIndex => dispatch(setRecommendationIndex(recommendationIndex))
+    setRecommendationIndex: recommendationIndex => dispatch(setRecommendationIndex(recommendationIndex)),
+    setVisualizationTechnique: visualizationTechnique => dispatch(setVisualizationTechnique(visualizationTechnique)),
+    setSemanticCriteria: semanticCriteria => dispatch(setSemanticCriteria(semanticCriteria))
   };
 };
 
@@ -62,13 +68,17 @@ class ConnectedSquareGrid extends Component {
     this.minMaxList = [];
     this.myFragmentArray = [];
 
-    if (this.props.semanticCriteria == CRIT_EDITION_ORDER) {
-      this.myFragmentArray = this.props.fragments; //aqui se for por data, alterar...
-    } else if (this.props.semanticCriteria == CRIT_CHRONOLOGICAL_ORDER) {
-      //ALGUNS FRAGMENTOS VÊM SEM DATA! ESTE REORDENAR TAMBÉM TEM DE SER FEITO NO FRAGMENT LOADER.
-      this.sortedFragmentsByDate = this.props.fragments;
+    if (this.props.currentFragmentMode && this.props.potentialSemanticCriteria == CRIT_EDITION_ORDER) {
+      this.myFragmentArray = this.props.fragments;
+    } else if (this.props.currentFragmentMode && this.props.potentialSemanticCriteria == CRIT_CHRONOLOGICAL_ORDER) {
+      this.myFragmentArray = this.props.fragments; //TODO: CHANGE TO ORDERED BY DATE ARRAY
+    } else if (!this.props.currentFragmentMode && this.props.semanticCriteria == CRIT_EDITION_ORDER) {
+      this.myFragmentArray = this.props.fragments;
+    } else if (!this.props.currentFragmentMode && this.props.semanticCriteria == CRIT_CHRONOLOGICAL_ORDER) {
+      this.myFragmentArray = this.props.fragments; //TODO: CHANGE TO ORDERED BY DATE ARRAY
+    }
 
-      /*
+    /*
     this.sortedFragmentsByDate.map(f => console.log("BEFORE SORTING: " + f.meta.dates))
 
     this.sortedFragmentsByDate.sort(function(a, b) {
@@ -85,8 +95,6 @@ class ConnectedSquareGrid extends Component {
 
     this.sortedFragmentsByDate.map(f => console.log("TEST: " + f.meta.dates))
     */
-
-    }
 
     const maxFragsAnalyzedPercentage = 1.0;
     const edgeLengthFactor = 10000;
@@ -217,18 +225,25 @@ class ConnectedSquareGrid extends Component {
           this.props.setCurrentVisualization(globalViewToRender);
           //HISTORY ENTRY HISTORY ENTRY HISTORY ENTRY HISTORY ENTRY
           let obj;
+          let historyVis = this.props.visualizationTechnique;
+          let historyCriteria = this.props.semanticCriteria;
+          if (this.props.currentFragmentMode) {
+            historyVis = this.props.potentialVisualizationTechnique;
+            historyCriteria = this.props.potentialSemanticCriteria;
+          }
           obj = {
             id: this.props.historyEntryCounter,
             originalFragment: this.myFragmentArray[this.props.fragmentIndex],
             nextFragment: this.myFragmentArray[i],
-            vis: VIS_SQUARE_GRID,
-            criteria: CRIT_EDITION_ORDER,
+            vis: historyVis,
+            criteria: historyCriteria,
             visualization: globalViewToRender,
             recommendationArray: this.myFragmentArray, //mudar para quando o cirterio for difernete,
             recommendationIndex: i,
             fragmentIndex: this.props.fragmentIndex,
             start: new Date().getTime()
           };
+
           //this.props.setFragmentIndex(i);
           if (this.props.currentFragmentMode) {
             var j;
@@ -243,6 +258,9 @@ class ConnectedSquareGrid extends Component {
           this.props.addHistoryEntry(obj);
           this.props.setHistoryEntryCounter(this.props.historyEntryCounter + 1)
           //HISTORY ENTRY HISTORY ENTRY HISTORY ENTRY HISTORY ENTRY
+
+          this.props.setVisualizationTechnique(this.props.potentialVisualizationTechnique);
+          this.props.setSemanticCriteria(this.props.potentialSemanticCriteria);
 
           this.props.setRecommendationArray(this.myFragmentArray);
 

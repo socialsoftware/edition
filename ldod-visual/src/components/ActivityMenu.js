@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import "./ActivityMenu.css";
 import {connect} from "react-redux";
-import {DropdownButton, MenuItem, ButtonToolbar} from "react-bootstrap";
+import {Button, ButtonToolbar, Modal} from "react-bootstrap";
 import NetworkGraphContainer from "../containers/NetworkGraphContainer";
 import {setCurrentVisualization, setPotentialVisualizationTechnique, setPotentialSemanticCriteria, setSemanticCriteriaDataLoaded} from "../actions/index";
 import SquareGrid from "../components/SquareGrid";
@@ -55,6 +55,10 @@ class ConnectedActivityMenu extends Component {
     this.toggleActivityNetworkGraphDate = this.toggleActivityNetworkGraphDate.bind(this);
 
     this.toggleActivityNetworkGraphTaxonomy = this.toggleActivityNetworkGraphTaxonomy.bind(this);
+
+    this.toggleSquareGridEditionOrder = this.toggleSquareGridEditionOrder.bind(this);
+
+    this.toggleSquareGridDateOrder = this.toggleSquareGridDateOrder.bind(this);
   }
 
   toggleActivityNetworkGraphTextSimilarity() {
@@ -96,25 +100,55 @@ class ConnectedActivityMenu extends Component {
     }));
   }
 
+  toggleSquareGridEditionOrder() {
+
+    this.props.setPotentialVisualizationTechnique(VIS_SQUARE_GRID);
+    this.props.setPotentialSemanticCriteria(CRIT_EDITION_ORDER);
+    this.activityToRender = (<SquareGrid onChange={this.props.onChange}/>);
+    this.setState(prevState => ({
+      show: !prevState.show
+    }));
+  }
+
+  toggleSquareGridDateOrder() {
+
+    this.props.setPotentialVisualizationTechnique(VIS_SQUARE_GRID);
+    this.props.setPotentialSemanticCriteria(CRIT_CHRONOLOGICAL_ORDER);
+    this.activityToRender = (<SquareGrid onChange={this.props.onChange}/>);
+    this.setState(prevState => ({
+      show: !prevState.show
+    }));
+  }
+
   render() {
 
     if (this.state.show) {
 
       this.activityToRender = (<ButtonToolbar>
-        <DropdownButton id="1" bsSize="large" bsStyle="primary" title="Quero ler fragmentos semelhantes a este por...">
-          <MenuItem eventKey="1" onClick={this.toggleActivityNetworkGraphTextSimilarity}>
-            Semelhança de texto
-          </MenuItem>
-          <MenuItem eventKey="1" onClick={this.toggleActivityNetworkGraphHeteronym}>
-            Heterónimo
-          </MenuItem>
-          <MenuItem eventKey="1" onClick={this.toggleActivityNetworkGraphDate}>
-            Data
-          </MenuItem>
-          <MenuItem eventKey="1" onClick={this.toggleActivityNetworkGraphTaxonomy}>
-            Taxonomia
-          </MenuItem>
-        </DropdownButton>
+
+        <Button bsStyle="primary" bsSize="large" onClick={this.toggleActivityNetworkGraphTextSimilarity} block="block">
+          Quero ler fragmentos semelhantes a este por semelhança de texto
+        </Button>
+
+        <Button bsStyle="primary" bsSize="large" onClick={this.toggleActivityNetworkGraphHeteronym} block="block">
+          Quero ler fragmentos semelhantes a este por heterónimo
+        </Button>
+
+        <Button bsStyle="primary" bsSize="large" onClick={this.toggleActivityNetworkGraphDate} block="block">
+          Quero ler fragmentos semelhantes a este por data
+        </Button>
+
+        <Button bsStyle="primary" bsSize="large" onClick={this.toggleActivityNetworkGraphTaxonomy} block="block">
+          Quero ler fragmentos semelhantes a este por taxonomia
+        </Button>
+
+        <Button bsStyle="primary" bsSize="large" onClick={this.toggleSquareGridEditionOrder} block="block">
+          Explorar os fragmentos por ordem desta edição virtual
+        </Button>
+
+        <Button bsStyle="primary" bsSize="large" onClick={this.toggleSquareGridDateOrder} block="block">
+          Explorar os fragmentos desta edição ordenados por data
+        </Button>
 
       </ButtonToolbar>);
     } else {

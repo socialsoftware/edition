@@ -8,7 +8,9 @@ import {
   setRecommendationIndex,
   setCurrentFragmentMode,
   setSemanticCriteria,
-  setVisualizationTechnique
+  setVisualizationTechnique,
+  setPotentialVisualizationTechnique,
+  setPotentialSemanticCriteria
 } from "./actions/index";
 import {connect} from "react-redux";
 import {Button, ButtonToolbar, Modal} from "react-bootstrap";
@@ -36,7 +38,11 @@ const mapStateToProps = state => {
     recommendationArray: state.recommendationArray,
     recommendationIndex: state.recommendationIndex,
     outOfLandingPage: state.outOfLandingPage,
-    currentFragmentMode: state.currentFragmentMode
+    currentFragmentMode: state.currentFragmentMode,
+    visualizationTechnique: state.visualizationTechnique,
+    semanticCriteria: state.semanticCriteria,
+    potentialVisualizationTechnique: state.potentialVisualizationTechnique,
+    potentialSemanticCriteria: state.potentialSemanticCriteria
   };
 };
 
@@ -49,7 +55,9 @@ const mapDispatchToProps = dispatch => {
     setCurrentFragmentMode: currentFragmentMode => dispatch(setCurrentFragmentMode(currentFragmentMode)),
     setSemanticCriteria: semanticCriteria => dispatch(setSemanticCriteria(semanticCriteria)),
     setVisualizationTechnique: visualizationTechnique => dispatch(setVisualizationTechnique(visualizationTechnique)),
-    setSemanticCriteria: semanticCriteria => dispatch(setSemanticCriteria(semanticCriteria))
+    setSemanticCriteria: semanticCriteria => dispatch(setSemanticCriteria(semanticCriteria)),
+    setPotentialVisualizationTechnique: potentialVisualizationTechnique => dispatch(setPotentialVisualizationTechnique(potentialVisualizationTechnique)),
+    setPotentialSemanticCriteria: potentialSemanticCriteria => dispatch(setPotentialSemanticCriteria(potentialSemanticCriteria))
   };
 };
 
@@ -144,6 +152,7 @@ class ConnectedApp extends Component {
   }
 
   handleShowHistoric() {
+    this.props.setCurrentFragmentMode(true);
     this.setState({showHistoric: true});
   }
 
@@ -153,14 +162,16 @@ class ConnectedApp extends Component {
   }
 
   handleShowLandingActivitySquareEditionOrder() {
-    this.props.setSemanticCriteria(CRIT_EDITION_ORDER);
-    this.props.setVisualizationTechnique(VIS_SQUARE_GRID);
+    this.props.setCurrentFragmentMode(true);
+    this.props.setPotentialVisualizationTechnique(VIS_SQUARE_GRID);
+    this.props.setPotentialSemanticCriteria(CRIT_EDITION_ORDER);
     this.setState({showLandingActivity: true});
   }
 
   handleShowLandingActivitySquareDateOrder() {
-    this.props.setSemanticCriteria(CRIT_CHRONOLOGICAL_ORDER);
-    this.props.setVisualizationTechnique(VIS_SQUARE_GRID);
+    this.props.setCurrentFragmentMode(true);
+    this.props.setPotentialVisualizationTechnique(VIS_SQUARE_GRID);
+    this.props.setPotentialSemanticCriteria(CRIT_CHRONOLOGICAL_ORDER);
     this.setState({showLandingActivity: true});
   }
 
@@ -169,23 +180,23 @@ class ConnectedApp extends Component {
   setPickedFragmentMode() {}
 
   render() {
-    console.log("rendering app.js")
+    console.log("App.js: Rendering")
 
     //BUTTON LOGIC
     if (this.props.outOfLandingPage) {
-      console.log("out of landing page")
-      console.log("recommendationIndex: " + this.props.recommendationIndex)
-      console.log("fragmentIndex: " + this.props.fragmentIndex)
+      console.log("App.js: out of landing page")
+      console.log("App.js: recommendationIndex: " + this.props.recommendationIndex)
+      console.log("App.js: fragmentIndex: " + this.props.fragmentIndex)
       if (this.props.recommendationIndex == 0) {
-        console.log("changing previous button style to default");
+        console.log("App.js: changing previous button style to default");
         this.previousFragmentButtonStyle = "default";
       } else if (this.props.recommendationIndex === (this.props.recommendationArray.length - 1)) {
-        console.log("changing next button style to default");
+        console.log("App.js: changing next button style to default");
         this.nextFragmentButtonStyle = "default";
       } else {
         this.previousFragmentButtonStyle = "primary";
         this.nextFragmentButtonStyle = "primary";
-        console.log("changing both button styles to primary")
+        console.log("App.js: changing both button styles to primary")
       }
     }
 
@@ -211,7 +222,11 @@ class ConnectedApp extends Component {
 
     if (this.props.allFragmentsLoaded) {
 
-      //<SquareGrid onChange={this.handleCloseModals}/>;
+      console.log("App.js: this.props.visualizationTechnique: " + this.props.visualizationTechnique);
+      console.log("App.js: this.props.semanticCriteria: " + this.props.semanticCriteria);
+      console.log("App.js: this.props.potentialVisualizationTechnique: " + this.props.potentialVisualizationTechnique);
+      console.log("App.js: this.props.potentialSemanticCriteria: " + this.props.potentialSemanticCriteria);
+      console.log("App.js: this.props.currentFragmentMode: " + this.props.currentFragmentMode);
 
       buttonToolBarToRender = (<div className="buttonToolbar">
         <ButtonToolbar>

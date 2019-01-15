@@ -38,7 +38,9 @@ const mapStateToProps = state => {
     visualizationTechnique: state.visualizationTechnique,
     semanticCriteria: state.semanticCriteria,
     potentialVisualizationTechnique: state.potentialVisualizationTechnique,
-    potentialSemanticCriteria: state.potentialSemanticCriteria
+    potentialSemanticCriteria: state.potentialSemanticCriteria,
+    history: state.history,
+    historyEntryCounter: state.historyEntryCounter
   };
 };
 
@@ -63,6 +65,7 @@ class ConnectedFragmentLoader extends React.Component {
     this.sortedFragmentsByDate = [];
 
     this.state = {
+      //acronym: "LdoD-teresa",
       acronym: "LdoD-test",
       localHistoryCount: 0,
       idsDistanceArray: []
@@ -72,22 +75,22 @@ class ConnectedFragmentLoader extends React.Component {
   componentDidUpdate(prevProps, prevState) {
 
     if (!(this.props.recommendationLoaded)) {
-      console.log("1111111111111111111111111111111111111111111111111111");
-      console.log(this.props.potentialVisualizationTechnique);
-      if (this.props.potentialVisualizationTechnique == VIS_NETWORK_GRAPH) {
-        console.log("22222222222222222222222222222222222222222222222");
+      console.log("Loading recommendation array");
+
+      if (this.props.visualizationTechnique == VIS_NETWORK_GRAPH) {
+
         let pHeteronymWeight = "0.0";
         let pTextWeight = "0.0";
         let pDateWeight = "0.0";
         let ptaxonomyWeight = "0.0";
 
-        if (this.props.potentialSemanticCriteria == CRIT_HETERONYM) {
+        if (this.props.semanticCriteria == CRIT_HETERONYM) {
           pHeteronymWeight = "1.0";
-        } else if (this.props.potentialSemanticCriteria == CRIT_TEXT_SIMILARITY) {
+        } else if (this.props.semanticCriteria == CRIT_TEXT_SIMILARITY) {
           pTextWeight = "1.0";
-        } else if (this.props.potentialSemanticCriteria == CRIT_CHRONOLOGICAL_ORDER) {
+        } else if (this.props.semanticCriteria == CRIT_CHRONOLOGICAL_ORDER) {
           pDateWeight = "1.0";
-        } else if (this.props.potentialSemanticCriteria == CRIT_TAXONOMY) {
+        } else if (this.props.semanticCriteria == CRIT_TAXONOMY) {
           ptaxonomyWeight = "1.0";
         }
 
@@ -95,7 +98,7 @@ class ConnectedFragmentLoader extends React.Component {
         let idsDistanceArray = [];
         let myNewRecommendationArray = [];
         service.getIntersByDistance(this.props.fragments[this.props.fragmentIndex].interId, pHeteronymWeight, pTextWeight, pDateWeight, ptaxonomyWeight).then(response => {
-          console.log("33333333333333333333333333333333333");
+
           idsDistanceArray = response.data;
           this.props.setSemanticCriteriaData(idsDistanceArray);
 
@@ -105,6 +108,7 @@ class ConnectedFragmentLoader extends React.Component {
             myNewRecommendationArray.push(frag);
           }
           this.props.setRecommendationArray(myNewRecommendationArray);
+          console.log("FragmentLoader: new recommendation array calculated.")
           this.props.setRecommendationLoaded(true);
 
         });
@@ -115,6 +119,7 @@ class ConnectedFragmentLoader extends React.Component {
 
   componentDidMount() {
     const service = new RepositoryService();
+    console.log("FragmentLoader.js: componentDidMount -> requesting fragments")
     service.getFragments(this.state.acronym).then(response => {
       response.data.fragments.map(f => this.props.addFragment(f));
       this.props.fragments.map(f => this.map.set(f.interId, f));
@@ -123,6 +128,7 @@ class ConnectedFragmentLoader extends React.Component {
       console.log("FragmentLoader.js: fragments loaded at componentdidmount")
 
       this.props.setAllFragmentsLoaded(true);
+      //alert(this.props.fragments.length)
     });
   }
 

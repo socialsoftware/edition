@@ -82,7 +82,6 @@ class ConnectedNetworkGraphContainer extends Component {
         this.setState(prevState => ({
           fragmentsDistanceLoaded: !prevState.check
         }));
-        this.props.setSemanticCriteriaData(idsDistanceArray);
 
       });
     } else {
