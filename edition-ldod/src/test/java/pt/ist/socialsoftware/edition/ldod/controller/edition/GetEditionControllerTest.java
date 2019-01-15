@@ -58,6 +58,12 @@ public class GetEditionControllerTest extends ControllersTestWithFragmentsLoadin
 	}
 
 	@Test
+	public void errorEdition() throws Exception {
+		this.mockMvc.perform(get("/edition/acronym/{acronym}", "ERROR")).andDo(print())
+				.andExpect(status().is3xxRedirection()).andExpect(redirectedUrl("/error"));
+	}
+
+	@Test
 	@Atomic(mode = Atomic.TxMode.WRITE)
 	public void getEditionByExternalId() throws Exception {
 		String id = LdoD.getInstance().getEdition(Edition.PIZARRO_EDITION_ACRONYM).getExternalId();
@@ -81,6 +87,27 @@ public class GetEditionControllerTest extends ControllersTestWithFragmentsLoadin
 	}
 
 	@Test
+	@Atomic(mode = Atomic.TxMode.WRITE)
+	public void getEditionWithErrorAcronymId() throws Exception {
+		String hetronymId = LdoD.getInstance().getSortedHeteronyms().get(0).getExternalId();
+
+		this.mockMvc.perform(get("/edition/internalid/heteronym/{id1}/{id2}","ERROR",hetronymId))
+				.andDo(print())
+				.andExpect(status().is3xxRedirection()).andExpect(redirectedUrl("/error"));
+	}
+
+	@Test
+	@Atomic(mode = Atomic.TxMode.WRITE)
+	public void getEditionWithErrorHeteronym() throws Exception {
+		String editionId = LdoD.getInstance().getEdition(Edition.PIZARRO_EDITION_ACRONYM).getExternalId();
+
+		this.mockMvc.perform(get("/edition/internalid/heteronym/{id1}/{id2}",editionId,"ERROR"))
+				.andDo(print())
+				.andExpect(status().is3xxRedirection()).andExpect(redirectedUrl("/error"));
+	}
+
+
+	@Test
 	public void getUserContributionsTest() throws Exception {
 		this.mockMvc.perform(get("/edition/user/{username}","ars")).andDo(print())
 				.andExpect(status().isOk()).andExpect(view().name("edition/userContributions"))
@@ -90,8 +117,8 @@ public class GetEditionControllerTest extends ControllersTestWithFragmentsLoadin
 	}
 
 	@Test
-	public void errorEdition() throws Exception {
-		this.mockMvc.perform(get("/edition/acronym/{acronym}", "ERROR")).andDo(print())
+	public void getErrorUserContributionsTest() throws Exception {
+		this.mockMvc.perform(get("/edition/user/{username}","ERROR")).andDo(print())
 				.andExpect(status().is3xxRedirection()).andExpect(redirectedUrl("/error"));
 	}
 
