@@ -7,12 +7,17 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import pt.ist.socialsoftware.edition.ldod.controller.LdoDExceptionHandler;
 import pt.ist.socialsoftware.edition.ldod.filters.TransactionFilter;
 
+import java.io.FileNotFoundException;
+
 public abstract class ControllersTestWithFragmentsLoading extends TestWithFragmentsLoading {
 	protected MockMvc mockMvc;
 
 	@Override
 	@BeforeEach
-	public void setUp() {
+	public void setUp() throws FileNotFoundException {
+		TestLoadUtils.loadFragments(fragmentsToLoad4Test());
+
+		populate4Test();
 
 		generateMockMvc();
 	}
