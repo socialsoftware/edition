@@ -100,7 +100,7 @@ class ConnectedSquareGrid extends Component {
     const edgeLengthFactor = 10000;
     const originalFragmentSize = 30;
     const remainingNodeFactor = 1.0;
-    const maxRows = 10;
+    const maxRows = Math.floor(Math.sqrt(this.props.fragments.length * 2));
     const nodeTranslationSpacing = originalFragmentSize * 3;
     let inversionToggle = false;
 
@@ -189,8 +189,9 @@ class ConnectedSquareGrid extends Component {
 
     this.options = {
       autoResize: true,
-      height: "500",
-      width: "800",
+      //height: "500",
+      //width: "800",
+
       layout: {
         hierarchical: {
           enabled: false
@@ -283,6 +284,8 @@ class ConnectedSquareGrid extends Component {
 
       var container = document.getElementById('gridvis');
       this.network = new Network(container, data, this.options);
+      container.style.height = 800 + 'px';
+      this.network.redraw();
       this.network.on("selectNode", this.handleSelectNode);
     }
   }

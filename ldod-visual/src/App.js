@@ -78,7 +78,7 @@ class ConnectedApp extends Component {
       showLandingActivity: false
     };
 
-    this.landingActivityToRender = <div/>;
+    this.landingActivityToRender = <p>Loading fragments...</p>;
 
     this.handleShowGlobalView = this.handleShowGlobalView.bind(this);
     this.handleCloseGlobalView = this.handleCloseGlobalView.bind(this);
@@ -202,25 +202,23 @@ class ConnectedApp extends Component {
 
     if (this.state.showLandingActivity & this.props.allFragmentsLoaded) {
       this.landingActivityToRender = (<SquareGrid onChange={this.handleCloseModals}/>)
-    } else {
-      this.landingActivityToRender = (<div className="buttonToolbarStart">
-        <ButtonToolbar>
+    } else if (!this.state.showLandingActivity & this.props.allFragmentsLoaded) {
+      this.landingActivityToRender = (<ButtonToolbar>
 
-          <Button bsStyle="primary" bsSize="large" onClick={this.handleShowLandingActivitySquareEditionOrder} block="block">
-            Explorar os fragmentos por ordem desta edição virtual
-          </Button>
+        <Button bsStyle="primary" bsSize="large" onClick={this.handleShowLandingActivitySquareEditionOrder} block="block">
+          Explorar os fragmentos por ordem desta edição virtual
+        </Button>
 
-          <Button bsStyle="primary" bsSize="large" onClick={this.handleShowLandingActivitySquareDateOrder} block="block">
-            Explorar os fragmentos desta edição ordenados por data
-          </Button>
+        <Button bsStyle="primary" bsSize="large" onClick={this.handleShowLandingActivitySquareDateOrder} block="block">
+          Explorar os fragmentos desta edição ordenados por data
+        </Button>
 
-        </ButtonToolbar>
-      </div>)
+      </ButtonToolbar>)
     }
 
     let buttonToolBarToRender;
 
-    if (this.props.allFragmentsLoaded) {
+    if (this.props.allFragmentsLoaded & this.props.outOfLandingPage) {
 
       console.log("App.js: this.props.visualizationTechnique: " + this.props.visualizationTechnique);
       console.log("App.js: this.props.semanticCriteria: " + this.props.semanticCriteria);
@@ -266,7 +264,7 @@ class ConnectedApp extends Component {
         <Fragment/>
       </div>
 
-      <Modal show={this.state.showLanding} dialogClassName="custom-modal-landing">
+      <Modal show={this.state.showLanding} dialogClassName="custom-modal">
         <Modal.Header>
           <Modal.Title>
             Bem-vindo
@@ -277,12 +275,13 @@ class ConnectedApp extends Component {
           <p>
             Esta é a sua primeira actividade. Escolha uma as seguintes opções.
           </p>
-          {this.landingActivityToRender}
+          <div className="landing-activity-style">{this.landingActivityToRender}</div>
         </Modal.Body>
 
+        <Modal.Footer></Modal.Footer>
       </Modal>
 
-      <Modal show={this.state.showGlobalView} onHide={this.handleCloseGlobalView} dialogClassName="custom-modal-landing">
+      <Modal show={this.state.showGlobalView} onHide={this.handleCloseGlobalView} dialogClassName="custom-modal">
         <Modal.Header closeButton="closeButton">
           <Modal.Title>
             Actividade Actual

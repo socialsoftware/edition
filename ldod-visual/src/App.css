@@ -20,15 +20,22 @@ Button:not(:last-child){
 }
 
 .custom-modal{
-  width: 50%;
+  width: 80%;
 }
 
 .custom-modal-landing{
-  width: 60%;
+  width: 80%;
 }
 
 .buttonToolbarStart {
   display: inline-block;
   flex-direction: column;
   margin: 30px auto;
+}
+
+.landing-activity-style {
+  margin: 0 auto;
+  margin-top: 0 auto;
+  width: 100%;
+  height: 100%;
 }
