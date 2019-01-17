@@ -65,7 +65,8 @@ public class FragmentTest extends ControllersTestWithFragmentsLoading {
     public void getFragmentByXmlId() throws Exception {
         this.mockMvc.perform(get("/fragments/fragment/{xmlId}","Fr001")).andDo(print())
                 .andExpect(status().isOk()).andExpect(view().name("fragment/main"))
-                .andExpect(model().attribute("fragment",notNullValue()));
+                .andExpect(model().attribute("fragment",notNullValue()))
+                .andExpect(model().attribute("fragmentDto",hasProperty("xmlId",equalTo("Fr001"))));
     }
 
     @Test
