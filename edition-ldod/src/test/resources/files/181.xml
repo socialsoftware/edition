@@ -1,0 +1,781 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="Fr181">
+   <teiHeader type="text">
+      <fileDesc>
+         <titleStmt>
+            <title>Nos primeiros dias do automno</title>
+            <author>Fernando Pessoa</author>
+            <respStmt>
+               <resp>encoding</resp>
+               <name>Tiago Santos</name>
+            </respStmt>
+            <respStmt>
+               <name>Tiago Santos, Rita Marrone, Manuel Portela</name>
+               <resp>revision</resp>
+            </respStmt>
+         </titleStmt>
+         <publicationStmt>
+            <publisher>Centre for Portuguese Literature at the University of Coimbra</publisher>
+            <pubPlace>Coimbra</pubPlace>
+            <availability status="restricted">
+               <licence target="https://creativecommons.org/licenses/by-nc/4.0/">
+                  <p>All items in the LdoD Archive may be shared in accordance with the Creative Commons “Attribution-NonCommercial 4.0 International” license (CC BY-NC 4.0).</p>
+               </licence>
+            </availability>
+            <date when="2016" />
+         </publicationStmt>
+         <sourceDesc>
+            <listBibl xml:id="Fr181.SRC">
+               <listBibl xml:id="Fr181.SRC.MS">
+                  <msDesc xml:id="Fr181.SRC.MS.Fr181a">
+                     <msIdentifier>
+                        <settlement>Lisbon</settlement>
+                        <repository>BN</repository>
+                        <idno>bn-acpc-e-e3-3-1-88_0043_22_t24-C-R0150</idno>
+                        <altIdentifier type="SC">
+                           <idno>BNP/E3, 3-22r</idno>
+                        </altIdentifier>
+                     </msIdentifier>
+                     <physDesc>
+                        <objectDesc form="leaf">
+                           <supportDesc material="paper">
+                              <extent>
+                                 <dimensions unit="cm">
+                                    <height>27.4</height>
+                                    <width>21.3</width>
+                                 </dimensions>
+                              </extent>
+                           </supportDesc>
+                           <layoutDesc>
+                              <layout columns="1"/>
+                           </layoutDesc>
+                        </objectDesc>
+                        <handDesc>
+                           <handNote medium="pen">
+                           <p>Testemunho datiloscrito a tinta preta, com indicação "L. do D." a vermelho e com revisões manuscritas a lápis.</p>
+                           </handNote>
+                        </handDesc>
+                        <additions>LdoD</additions>
+                        <bindingDesc>
+                           <binding>
+                              <p>Texto escrito no recto de uma folha inteira.</p>
+                           </binding>
+                        </bindingDesc>
+                     </physDesc>
+                     <history>
+                        <origin>
+                           <origDate when="1929" precision="low">1929</origDate>
+                        </origin>
+                     </history>
+                  </msDesc>
+               </listBibl>
+            </listBibl>
+            <listWit xml:id="Fr181.WIT">
+               <listWit xml:id="Fr181.WIT.MS">
+                  <witness xml:id="Fr181.WIT.MS.Fr181a.204">
+                     <ref target="#Fr181.SRC.MS.Fr181a" />
+                  </witness>
+               </listWit>
+               <listWit xml:id="Fr181.WIT.ED">
+                  <head>O grupo de testemunhos impressos do fragmento</head>
+                  <listWit xml:id="Fr181.WIT.ED.CRIT">
+                     <witness xml:id="Fr181.WIT.ED.CRIT.C">
+                        <ref target="#ED.CRIT.C" />
+                        <bibl>
+                           <respStmt>
+                              <resp>heterónimo</resp>
+                              <persName corresp="#HT.BS">Bernardo Soares</persName>
+                           </respStmt>
+                           <title level="a">Nos primeiros dias do outomno</title>
+                           <biblScope unit="number">107</biblScope>
+                           <note type="physDesc">[3-22, dact.]</note>
+                           <date />
+                           <biblScope unit="vol">I</biblScope>
+                           <biblScope from="111" to="112" unit="pp" />
+                        </bibl>
+                     </witness>
+                     <witness xml:id="Fr181.WIT.ED.CRIT.SC">
+                        <ref target="#ED.CRIT.SC" />
+                        <bibl>
+                           <respStmt>
+                              <resp>heterónimo</resp>
+                              <persName corresp="#HT.BS">Bernardo Soares</persName>
+                           </respStmt>
+                           <title level="a">Nos primeiros dias do outono subitamente entrado</title>
+                           <biblScope unit="number">598</biblScope>
+                           <note type="physDesc">[3-22, dact.]</note>
+                           <date />
+                           <biblScope from="483" to="484" unit="pp" />
+                        </bibl>
+                     </witness>
+                     <witness xml:id="Fr181.WIT.ED.CRIT.Z">
+                        <ref target="#ED.CRIT.Z" />
+                        <bibl>
+                           <respStmt>
+                              <resp>heterónimo</resp>
+                              <persName corresp="#HT.BS">Bernardo Soares</persName>
+                           </respStmt>
+                           <title level="a">Nos primeiros dias do outono subitamente entrado</title>
+                           <biblScope unit="number">33</biblScope>
+                           <note type="physDesc">[3-22, dact.]</note>
+                           <date />
+                           <biblScope from="72" to="72" unit="pp" />
+                        </bibl>
+                     </witness>
+                     <witness xml:id="Fr181.WIT.ED.CRIT.P">
+                        <ref target="#ED.CRIT.P" />
+                        <bibl>
+                           <title level="a">Nos primeiros dias do outomno</title>
+                           <biblScope unit="number">224</biblScope>
+                           <note type="physDesc">[3-22r]</note>
+                           <date when="1929" precision="low">[1929?]</date>
+                           <biblScope from="221" to="222" unit="pp" />
+                        </bibl>
+                     </witness>
+                  </listWit>
+               </listWit>
+            </listWit>
+         </sourceDesc>
+      </fileDesc>
+   </teiHeader>
+   <facsimile corresp="#Fr181.SRC.MS.Fr181a" xml:id="Fr181a-fs">
+      <surface>
+         <graphic url="bn-acpc-e-e3-3-1-88_0043_22_t24-C-R0150.jpg" />
+      </surface>
+   </facsimile>
+   <text>
+      <body>
+         <div xml:id="Fr181.TEXT">
+            
+            <p>
+               <app>
+                      <rdg wit="#Fr181.WIT.MS.Fr181a.204">
+                         <seg rendition="#red #u">L. do D.</seg>     
+                         <space dim="vertical" quantity="1" unit="minims" />
+                      </rdg>
+                      <rdg wit="#Fr181.WIT.ED.CRIT.P #Fr181.WIT.ED.CRIT.C">
+                         <seg rendition="#i">  L. do D.</seg>
+                         <space dim="vertical" quantity="1" unit="minims" />
+                      </rdg>
+               </app>
+            </p>
+            <p>
+               Nos primeiros dias do
+               <app type="orthographic">
+                  <rdg wit="#Fr181.WIT.ED.CRIT.C #Fr181.WIT.ED.CRIT.P">outomno</rdg>
+                  <rdg wit="#Fr181.WIT.MS.Fr181a.204">automno</rdg>
+                  <rdg wit="#Fr181.WIT.ED.CRIT.Z #Fr181.WIT.ED.CRIT.SC">outono</rdg>
+               </app>
+               subitamente
+               <lb ed="#Fr181.WIT.MS.Fr181a.204" />
+               entrado, quando o escurecer toma uma
+               <app type="orthographic">
+                  <rdg wit="#Fr181.WIT.ED.CRIT.SC #Fr181.WIT.ED.CRIT.Z">evidência</rdg>
+                  <rdg wit="#Fr181.WIT.MS.Fr181a.204 #Fr181.WIT.ED.CRIT.C #Fr181.WIT.ED.CRIT.P">evidencia</rdg>
+               </app>
+               de qual
+               <lb break="no" ed="#Fr181.WIT.MS.Fr181a.204" type="hyphenated" />
+               quer
+               <app type="orthographic">
+                  <rdg wit="#Fr181.WIT.MS.Fr181a.204 #Fr181.WIT.ED.CRIT.P  #Fr181.WIT.ED.CRIT.C">cousa</rdg>
+                  <rdg wit="#Fr181.WIT.ED.CRIT.SC #Fr181.WIT.ED.CRIT.Z ">coisa</rdg>
+               </app>
+               prematura, e parece que tardámos muito no
+               <lb ed="#Fr181.WIT.MS.Fr181a.204" />
+               que fazemos de dia,
+               <app type="orthographic">
+                  <rdg wit="#Fr181.WIT.ED.CRIT.P #Fr181.WIT.ED.CRIT.C #Fr181.WIT.MS.Fr181a.204">góso</rdg>
+                  <rdg wit="#Fr181.WIT.ED.CRIT.Z #Fr181.WIT.ED.CRIT.SC">gozo</rdg>
+               </app>
+               , mesmo entre o trabalho quoti
+               <lb break="no" ed="#Fr181.WIT.MS.Fr181a.204" type="hyphenated" />
+               diano, esta
+               <app type="orthographic">
+                  <rdg wit="#Fr181.WIT.ED.CRIT.SC #Fr181.WIT.ED.CRIT.Z #Fr181.WIT.ED.CRIT.C #Fr181.WIT.ED.CRIT.P">antecipação</rdg>
+                  <rdg wit="#Fr181.WIT.MS.Fr181a.204">anticipação</rdg>
+               </app>
+               de não trabalhar que a
+               <app type="orthographic">
+                  <rdg wit="#Fr181.WIT.ED.CRIT.SC #Fr181.WIT.ED.CRIT.Z">própria</rdg>
+                  <rdg wit="#Fr181.WIT.ED.CRIT.C #Fr181.WIT.ED.CRIT.P #Fr181.WIT.MS.Fr181a.204">propria</rdg>
+               </app>
+               <lb ed="#Fr181.WIT.MS.Fr181a.204" />
+               sombra traz
+               <app type="orthographic">
+                  <rdg wit="#Fr181.WIT.ED.CRIT.P #Fr181.WIT.MS.Fr181a.204 #Fr181.WIT.ED.CRIT.C">comsigo</rdg>
+                  <rdg wit="#Fr181.WIT.ED.CRIT.SC #Fr181.WIT.ED.CRIT.Z">consigo</rdg>
+               </app>
+               ,
+               <app type="orthographic">
+                  <rdg wit="#Fr181.WIT.MS.Fr181a.204 #Fr181.WIT.ED.CRIT.P #Fr181.WIT.ED.CRIT.C">porisso</rdg>
+                  <rdg wit="#Fr181.WIT.ED.CRIT.Z #Fr181.WIT.ED.CRIT.SC">por isso</rdg>
+               </app>
+               que é noite e a noite é
+               <lb ed="#Fr181.WIT.MS.Fr181a.204" />
+               <app type="orthographic">
+                  <rdg wit="#Fr181.WIT.ED.CRIT.SC #Fr181.WIT.ED.CRIT.Z ">sono</rdg>
+                  <rdg wit="#Fr181.WIT.MS.Fr181a.204 #Fr181.WIT.ED.CRIT.C #Fr181.WIT.ED.CRIT.P">somno</rdg>
+               </app>
+               ,
+               <app>
+                  <rdg wit="#Fr181.WIT.ED.CRIT.SC #Fr181.WIT.ED.CRIT.Z #Fr181.WIT.ED.CRIT.C #Fr181.WIT.ED.CRIT.P">lares</rdg>
+                  <rdg wit="#Fr181.WIT.MS.Fr181a.204">
+                     <subst><del>lar</del>
+                       <add hand="#FP" place="inline">lares</add></subst> 
+                  </rdg>
+               </app>
+               , livramento. Quando as luzes se
+               <app type="orthographic">
+                  <rdg wit="#Fr181.WIT.MS.Fr181a.204 #Fr181.WIT.ED.CRIT.P">accendem</rdg>
+                  <rdg wit="#Fr181.WIT.ED.CRIT.Z #Fr181.WIT.ED.CRIT.C #Fr181.WIT.ED.CRIT.SC">acendem</rdg>
+               </app>
+               no
+               <lb ed="#Fr181.WIT.MS.Fr181a.204" />
+               <app type="orthographic">
+                  <rdg wit="#Fr181.WIT.ED.CRIT.P #Fr181.WIT.ED.CRIT.C #Fr181.WIT.MS.Fr181a.204">escriptorio</rdg>
+                  <rdg wit="#Fr181.WIT.ED.CRIT.Z #Fr181.WIT.ED.CRIT.SC">escritório</rdg>
+               </app>
+               amplo
+               <app type="orthographic">
+                  <rdg wit="#Fr181.WIT.MS.Fr181a.204">
+                     <subst>
+                        <del rend="overstrike">e</del>
+                        <add hand="#FP" place="top">que deixa de ser</add>
+                     </subst>
+                  </rdg>
+                  <rdg wit="#Fr181.WIT.ED.CRIT.P #Fr181.WIT.ED.CRIT.C #Fr181.WIT.ED.CRIT.Z #Fr181.WIT.ED.CRIT.SC">que deixa de ser</rdg>
+               </app>
+               escuro, e fazemos serão sem que
+               <app type="orthographic">
+                  <rdg wit="#Fr181.WIT.ED.CRIT.SC #Fr181.WIT.ED.CRIT.Z">cessássemos</rdg>
+                  <rdg wit="#Fr181.WIT.MS.Fr181a.204">
+                     ces
+                     <lb break="no" type="hyphenated" />
+                     sassemos
+                  </rdg>
+                  <rdg wit="#Fr181.WIT.ED.CRIT.C #Fr181.WIT.ED.CRIT.P">cessassemos</rdg>
+               </app>
+               de
+               <app>
+                  <rdg wit="#Fr181.WIT.MS.Fr181a.204">
+                     <seg xml:id="trabalhar">trabalhar</seg>
+                     <add place="margin" hand="#FP"><seg xml:id="trabalhando">continuar trabalhando</seg>
+                     </add>
+                     <alt mode="excl" target="#trabalhar #trabalhando" weights="0.5 0.5"/></rdg>
+                     <rdgGrp type="substantive">
+                  <rdg wit="#Fr181.WIT.ED.CRIT.SC #Fr181.WIT.ED.CRIT.P #Fr181.WIT.ED.CRIT.Z">continuar trabalhando</rdg>
+                  <rdg wit="#Fr181.WIT.ED.CRIT.C">trabalhar</rdg>
+                     </rdgGrp>
+               </app>de dia, sinto um
+               <app type="orthographic">
+                  <rdg wit="#Fr181.WIT.ED.CRIT.SC  #Fr181.WIT.ED.CRIT.Z">conforto</rdg>
+                  <rdg wit="#Fr181.WIT.MS.Fr181a.204 #Fr181.WIT.ED.CRIT.C  #Fr181.WIT.ED.CRIT.P">comforto</rdg>
+               </app>
+               absurdo
+               <lb ed="#Fr181.WIT.MS.Fr181a.204" />
+               como uma lembrança de 
+                            outrem, e estou
+               <app type="orthographic">
+                  <rdg wit="#Fr181.WIT.ED.CRIT.SC #Fr181.WIT.ED.CRIT.Z">sossegado</rdg>
+                  <rdg wit="#Fr181.WIT.MS.Fr181a.204 #Fr181.WIT.ED.CRIT.C #Fr181.WIT.ED.CRIT.P">socegado</rdg>
+               </app>
+               com o
+               <lb ed="#Fr181.WIT.MS.Fr181a.204" />
+               que escrevo como se estivesse lendo até sentir que irei
+               <lb ed="#Fr181.WIT.MS.Fr181a.204" />
+               dormir.
+               <app>
+                  <rdg wit="#Fr181.WIT.MS.Fr181a.204 #Fr181.WIT.ED.CRIT.C #Fr181.WIT.ED.CRIT.SC">
+                     <space dim="vertical" quantity="1" unit="minims" />
+                  </rdg>
+               </app>
+            </p>
+            <p>
+               Somos todos escravos de
+               <app type="orthographic">
+                  <rdg wit="#Fr181.WIT.ED.CRIT.SC #Fr181.WIT.ED.CRIT.Z">circunstâncias</rdg>
+                  <rdg wit="#Fr181.WIT.ED.CRIT.C #Fr181.WIT.MS.Fr181a.204 #Fr181.WIT.ED.CRIT.P">circumstancias</rdg>
+               </app>
+               ex
+               <lb break="no" ed="#Fr181.WIT.MS.Fr181a.204" type="hyphenated" />
+               ternas: um dia de sol abre-nos campos largos no meio de
+               <lb ed="#Fr181.WIT.MS.Fr181a.204" />
+               um café de
+               <app type="orthographic">
+                  <rdg wit=" #Fr181.WIT.ED.CRIT.P #Fr181.WIT.ED.CRIT.C #Fr181.WIT.MS.Fr181a.204">viella</rdg>
+                  <rdg wit="#Fr181.WIT.ED.CRIT.Z #Fr181.WIT.ED.CRIT.SC">viela</rdg>
+               </app>
+               ; uma sombra
+               <app>
+                  <rdg wit="#Fr181.WIT.MS.Fr181a.204">
+                     <del rend="overstrike">tira</del>
+                  </rdg>
+               </app>
+               no campo encolhe-nos
+               <lb ed="#Fr181.WIT.MS.Fr181a.204" />
+               para dentro, e
+               <app type="orthographic">
+                  <rdg wit="#Fr181.WIT.MS.Fr181a.204 #Fr181.WIT.ED.CRIT.C #Fr181.WIT.ED.CRIT.SC #Fr181.WIT.ED.CRIT.Z">abrigamo-nos</rdg>
+                  <rdg wit="#Fr181.WIT.ED.CRIT.P">abrigam-nos</rdg>
+               </app>
+               mal na casa sem portas de
+               <lb ed="#Fr181.WIT.MS.Fr181a.204" />
+               nós mesmos; um chegar da noite,
+               <app>
+                  <rdg wit="#Fr181.WIT.MS.Fr181a.204">
+                     <subst>
+                     <del rend="overstrike">mesmo</del>
+                        <add place="above">até</add></subst>
+                  </rdg>
+                  <rdg wit="#Fr181.WIT.ED.CRIT.SC #Fr181.WIT.ED.CRIT.Z #Fr181.WIT.ED.CRIT.C #Fr181.WIT.ED.CRIT.P">até</rdg>
+               </app>
+               entre coisas do
+               <lb ed="#Fr181.WIT.MS.Fr181a.204" />
+               dia, alarga, como um leque
+               <app>
+                  <rdg wit="#Fr181.WIT.MS.Fr181a.204 #Fr181.WIT.ED.CRIT.C #Fr181.WIT.ED.CRIT.P #Fr181.WIT.ED.CRIT.Z">[que]</rdg>
+                  <rdg wit="#Fr181.WIT.ED.CRIT.SC">que</rdg>
+               </app>
+               se abra lento, a
+               <app type="orthographic">
+                  <rdg wit="#Fr181.WIT.ED.CRIT.SC #Fr181.WIT.ED.CRIT.Z">consciência</rdg>
+                  <rdg wit="#Fr181.WIT.ED.CRIT.C #Fr181.WIT.ED.CRIT.P #Fr181.WIT.MS.Fr181a.204">consciencia</rdg>
+               </app>
+               <lb ed="#Fr181.WIT.MS.Fr181a.204" />
+               <app type="orthographic">
+                  <rdg wit="#Fr181.WIT.MS.Fr181a.204 #Fr181.WIT.ED.CRIT.C #Fr181.WIT.ED.CRIT.P">intima</rdg>
+                  <rdg wit="#Fr181.WIT.ED.CRIT.SC #Fr181.WIT.ED.CRIT.Z">íntima</rdg>
+               </app>
+               de dever-se repousar.
+               <app>
+                  <rdg wit="#Fr181.WIT.MS.Fr181a.204 #Fr181.WIT.ED.CRIT.C">
+                     <space dim="vertical" quantity="1" unit="minims" />
+                  </rdg>
+               </app>
+            </p>
+            <p>
+               Mas com isso o trabalho não se
+               <app type="orthographic">
+                  <rdg wit="#Fr181.WIT.ED.CRIT.P #Fr181.WIT.ED.CRIT.C #Fr181.WIT.MS.Fr181a.204">atraza</rdg>
+                  <rdg wit="#Fr181.WIT.ED.CRIT.SC #Fr181.WIT.ED.CRIT.Z">atrasa</rdg>
+               </app>
+               : 
+               <app>
+                  <rdg wit="#Fr181.WIT.MS.Fr181a.204">
+                     <add hand="#FP" place="above">antes se</add> ani
+                     <lb break="no" type="hyphenated" />
+                     ma
+                     <del rend="overstrike">-se</del>
+                  </rdg>
+                  <rdgGrp type="substantive">
+                  <rdg wit="#Fr181.WIT.ED.CRIT.P #Fr181.WIT.ED.CRIT.Z #Fr181.WIT.ED.CRIT.SC">antes se anima</rdg>
+                  <rdg wit="#Fr181.WIT.ED.CRIT.C ">anima-se</rdg>
+                  </rdgGrp>
+               </app>
+               . Já não trabalhamos; recreamo-nos com o
+               <app type="orthographic">
+                  <rdg wit="#Fr181.WIT.MS.Fr181a.204 #Fr181.WIT.ED.CRIT.P #Fr181.WIT.ED.CRIT.C">assumpto</rdg>
+                  <rdg wit="#Fr181.WIT.ED.CRIT.Z #Fr181.WIT.ED.CRIT.SC">assunto</rdg>
+               </app>
+               <lb ed="#Fr181.WIT.MS.Fr181a.204" />
+               a que estamos
+               <app type="orthographic">
+                  <rdg wit="#Fr181.WIT.ED.CRIT.SC #Fr181.WIT.ED.CRIT.Z">condenados</rdg>
+                  <rdg wit="#Fr181.WIT.ED.CRIT.P #Fr181.WIT.ED.CRIT.C #Fr181.WIT.MS.Fr181a.204">condemnados</rdg>
+               </app>
+               . E, de repente, pela folha vas
+               <lb break="no" ed="#Fr181.WIT.MS.Fr181a.204" type="hyphenated" />
+               ta e pautada do meu destino numerador, a casa velha das
+               <lb ed="#Fr181.WIT.MS.Fr181a.204" />
+               tias antigas alberga, fechada contra
+               <app>
+                  <rdg wit="#Fr181.WIT.MS.Fr181a.204">
+                     <del rend="overstrike">o mundo</del>
+                  </rdg>
+               </app>
+               o mundo, o
+               <lb ed="#Fr181.WIT.MS.Fr181a.204" />
+               chá das dez horas
+               <app type="orthographic">
+                  <rdg wit="#Fr181.WIT.ED.CRIT.C #Fr181.WIT.ED.CRIT.P #Fr181.WIT.MS.Fr181a.204">somnolentas</rdg>
+                  <rdg wit="#Fr181.WIT.ED.CRIT.SC #Fr181.WIT.ED.CRIT.Z">sonolentas</rdg>
+               </app>
+               , e o
+               <app type="orthographic">
+                  <rdg wit="#Fr181.WIT.ED.CRIT.Z #Fr181.WIT.ED.CRIT.SC">candeeiro</rdg>
+                  <rdg wit="#Fr181.WIT.ED.CRIT.C #Fr181.WIT.ED.CRIT.P #Fr181.WIT.MS.Fr181a.204">candieiro</rdg>
+               </app>
+               de
+               <app type="orthographic">
+                  <rdg wit="#Fr181.WIT.ED.CRIT.P #Fr181.WIT.ED.CRIT.C #Fr181.WIT.MS.Fr181a.204">petroleo</rdg>
+                  <rdg wit="#Fr181.WIT.ED.CRIT.Z #Fr181.WIT.ED.CRIT.SC">petróleo</rdg>
+               </app>
+               <lb ed="#Fr181.WIT.MS.Fr181a.204" />
+               da minha
+               <app type="orthographic">
+                  <rdg wit="#Fr181.WIT.ED.CRIT.SC #Fr181.WIT.ED.CRIT.Z">infância</rdg>
+                  <rdg wit="#Fr181.WIT.ED.CRIT.C #Fr181.WIT.ED.CRIT.P #Fr181.WIT.MS.Fr181a.204">infancia</rdg>
+               </app>
+               perdida
+               <app type="punctuation">
+                  <rdg wit="#Fr181.WIT.MS.Fr181a.204 #Fr181.WIT.ED.CRIT.P #Fr181.WIT.ED.CRIT.C"></rdg>
+                  <rdg wit="#Fr181.WIT.ED.CRIT.Z #Fr181.WIT.ED.CRIT.SC ">,</rdg>
+               </app>
+               <app>
+                  <rdg wit="#Fr181.WIT.MS.Fr181a.204">
+                     <add place="margin">brilhando</add>
+                  </rdg>
+                  <rdg wit="#Fr181.WIT.ED.CRIT.SC #Fr181.WIT.ED.CRIT.Z #Fr181.WIT.ED.CRIT.P #Fr181.WIT.ED.CRIT.Z #Fr181.WIT.ED.CRIT.C">
+                     brilhando
+                  </rdg>
+               </app>
+                     <app>
+                        <rdg wit="#Fr181.WIT.MS.Fr181a.204">
+                           <add place="margin">somente</add>
+                        </rdg>
+                        <rdg wit="#Fr181.WIT.ED.CRIT.Z #Fr181.WIT.ED.CRIT.SC">sómente,</rdg>
+                        <rdg wit="#Fr181.WIT.ED.CRIT.C ">somente</rdg>
+                        <rdg wit="#Fr181.WIT.ED.CRIT.P">sõmente</rdg>
+                        <rdg wit="#Fr181.WIT.MS.Fr181a.204">
+                           <del rend="overstrike">contra</del>
+                           <add place="margin">
+                              sobre a me
+                              <lb break="no" type="hyphenated" />
+                              sa de
+                           </add>
+                           <add place="margin"> <del rend="overstrike">lin</del>linho</add>
+                        </rdg>
+                        <rdg wit="#Fr181.WIT.ED.CRIT.Z #Fr181.WIT.ED.CRIT.C #Fr181.WIT.ED.CRIT.SC #Fr181.WIT.ED.CRIT.P">
+                           sobre a mesa
+                           <app>
+                              <rdg wit="#Fr181.WIT.ED.CRIT.P #Fr181.WIT.ED.CRIT.C">[de] linho</rdg>
+                              <rdg wit="#Fr181.WIT.ED.CRIT.Z  #Fr181.WIT.ED.CRIT.SC">de linho</rdg>
+                           </app>
+                        </rdg>
+                     </app>              
+               <app type="punctuation">
+                  <rdg wit="#Fr181.WIT.ED.CRIT.P "></rdg>
+                  <rdg wit="#Fr181.WIT.MS.Fr181a.204 #Fr181.WIT.ED.CRIT.Z #Fr181.WIT.ED.CRIT.SC #Fr181.WIT.ED.CRIT.C">,</rdg>
+               </app>
+               obscurece-me, com a luz, a vi
+               <lb break="no" ed="#Fr181.WIT.MS.Fr181a.204" type="hyphenated" />
+               são do Moreira,
+               <app type="orthographic">
+                  <rdg wit="#Fr181.WIT.MS.Fr181a.204 #Fr181.WIT.ED.CRIT.P #Fr181.WIT.ED.CRIT.C">illuminado</rdg>
+                  <rdg wit="#Fr181.WIT.ED.CRIT.Z #Fr181.WIT.ED.CRIT.SC">iluminado</rdg>
+               </app>
+               a uma electricidade negra in
+               <lb break="no" ed="#Fr181.WIT.MS.Fr181a.204" type="hyphenated" />
+               finitos para além de mim. Trazem o chá — é a
+               <app type="orthographic">
+                  <rdg wit="#Fr181.WIT.MS.Fr181a.204 #Fr181.WIT.ED.CRIT.P #Fr181.WIT.ED.CRIT.C">creada</rdg>
+                  <rdg wit="#Fr181.WIT.ED.CRIT.Z #Fr181.WIT.ED.CRIT.SC">criada</rdg>
+               </app>
+               mais
+               <lb ed="#Fr181.WIT.MS.Fr181a.204" />
+               velha que as tias que o traz com os restos do
+               <app type="orthographic">
+                  <rdg wit="#Fr181.WIT.ED.CRIT.SC #Fr181.WIT.ED.CRIT.Z">sono</rdg>
+                  <rdg wit="#Fr181.WIT.ED.CRIT.C #Fr181.WIT.ED.CRIT.P #Fr181.WIT.MS.Fr181a.204">somno</rdg>
+               </app>
+               e o
+               <lb ed="#Fr181.WIT.MS.Fr181a.204" />
+               mau humor paciente da ternura da velha vassalagem — e eu
+               <lb ed="#Fr181.WIT.MS.Fr181a.204" />
+               escrevo sem errar uma verba ou uma
+               <app type="orthographic">
+                  <rdg wit="#Fr181.WIT.MS.Fr181a.204 #Fr181.WIT.ED.CRIT.C #Fr181.WIT.ED.CRIT.P">somma</rdg>
+                  <rdg wit="#Fr181.WIT.ED.CRIT.SC #Fr181.WIT.ED.CRIT.Z">soma</rdg>
+               </app>
+               <app type="orthographic">
+                  <rdg wit="#Fr181.WIT.ED.CRIT.SC #Fr181.WIT.ED.CRIT.Z">através</rdg>
+                  <rdg wit="#Fr181.WIT.ED.CRIT.C #Fr181.WIT.ED.CRIT.P #Fr181.WIT.MS.Fr181a.204">atravez</rdg>
+               </app>
+               de to
+               <lb break="no" ed="#Fr181.WIT.MS.Fr181a.204" type="hyphenated" />
+               do o meu passado morto. Reabsorvo-me, perco-me em mim,
+               <lb ed="#Fr181.WIT.MS.Fr181a.204" />
+               esqueço-me a noites
+               <app type="orthographic">
+                  <rdg wit="#Fr181.WIT.MS.Fr181a.204 #Fr181.WIT.ED.CRIT.P #Fr181.WIT.ED.CRIT.C">longinquas</rdg>
+                  <rdg wit="#Fr181.WIT.ED.CRIT.Z #Fr181.WIT.ED.CRIT.SC">longínquas</rdg>
+               </app>
+               ,
+               <app type="orthographic">
+                  <rdg wit="#Fr181.WIT.ED.CRIT.P #Fr181.WIT.ED.CRIT.C #Fr181.WIT.MS.Fr181a.204">impollutas</rdg>
+                  <rdg wit="#Fr181.WIT.ED.CRIT.SC #Fr181.WIT.ED.CRIT.Z">impolutas</rdg>
+               </app>
+               de dever e de
+               <lb ed="#Fr181.WIT.MS.Fr181a.204" />
+               mundo, virgens de
+               <app type="orthographic">
+                  <rdg wit="#Fr181.WIT.ED.CRIT.P #Fr181.WIT.ED.CRIT.C #Fr181.WIT.MS.Fr181a.204">mysterio</rdg>
+                  <rdg wit="#Fr181.WIT.ED.CRIT.SC #Fr181.WIT.ED.CRIT.Z">mistério</rdg>
+               </app>
+               e de futuro.
+               <app>
+                  <rdg wit="#Fr181.WIT.MS.Fr181a.204 #Fr181.WIT.ED.CRIT.C">
+                     <space dim="vertical" quantity="1" unit="minims" />
+                  </rdg>
+               </app>
+            </p>
+            <p>
+               E
+               <app type="orthographic">
+                  <rdg wit="#Fr181.WIT.MS.Fr181a.204 #Fr181.WIT.ED.CRIT.P #Fr181.WIT.ED.CRIT.C">tam</rdg>
+                  <rdg wit="#Fr181.WIT.ED.CRIT.Z #Fr181.WIT.ED.CRIT.SC ">tão</rdg>
+               </app>
+               suave é a sensação que me alheia do
+               <lb ed="#Fr181.WIT.MS.Fr181a.204" />
+               <app type="orthographic">
+                  <rdg wit="#Fr181.WIT.ED.CRIT.Z #Fr181.WIT.ED.CRIT.SC">débito</rdg>
+                  <rdg wit="#Fr181.WIT.MS.Fr181a.204 #Fr181.WIT.ED.CRIT.C #Fr181.WIT.ED.CRIT.P">debito</rdg>
+               </app>
+               e do
+               <app type="orthographic">
+                  <rdg wit="#Fr181.WIT.ED.CRIT.SC  #Fr181.WIT.ED.CRIT.Z">crédito</rdg>
+                  <rdg wit="#Fr181.WIT.MS.Fr181a.204 #Fr181.WIT.ED.CRIT.P #Fr181.WIT.ED.CRIT.C ">credito</rdg>
+               </app>
+               que, se acaso uma pergunta me é fei
+               <lb break="no" ed="#Fr181.WIT.MS.Fr181a.204" type="hyphenated" />
+               ta, respondo suavemente, como se tivesse o meu ser
+               <app type="orthographic">
+                  <rdg wit="#Fr181.WIT.ED.CRIT.Z #Fr181.WIT.ED.CRIT.SC ">oco</rdg>
+                  <rdg wit="#Fr181.WIT.ED.CRIT.C #Fr181.WIT.MS.Fr181a.204 #Fr181.WIT.ED.CRIT.P">ôco</rdg>
+               </app>
+               ,
+               <lb ed="#Fr181.WIT.MS.Fr181a.204" />
+               como se não
+               <app type="orthographic">
+                  <rdg wit="#Fr181.WIT.MS.Fr181a.204 #Fr181.WIT.ED.CRIT.C #Fr181.WIT.ED.CRIT.P ">fôsse</rdg>
+                  <rdg wit="#Fr181.WIT.ED.CRIT.SC #Fr181.WIT.ED.CRIT.Z">fosse</rdg>
+               </app>
+               mais que a
+               <app type="orthographic">
+                  <rdg wit="#Fr181.WIT.ED.CRIT.P #Fr181.WIT.ED.CRIT.C #Fr181.WIT.MS.Fr181a.204">machina</rdg>
+                  <rdg wit="#Fr181.WIT.ED.CRIT.SC #Fr181.WIT.ED.CRIT.Z">máquina</rdg>
+               </app>
+               de escrever que
+               <lb ed="#Fr181.WIT.MS.Fr181a.204" />
+               trago
+               <app type="orthographic">
+                  <rdg wit="#Fr181.WIT.ED.CRIT.Z  #Fr181.WIT.ED.CRIT.SC ">comigo</rdg>
+                  <rdg wit=" #Fr181.WIT.MS.Fr181a.204 #Fr181.WIT.ED.CRIT.P #Fr181.WIT.ED.CRIT.C">commigo</rdg>
+               </app>
+               ,
+               <app type="orthographic">
+                  <rdg wit="#Fr181.WIT.ED.CRIT.Z #Fr181.WIT.ED.CRIT.SC">portátil</rdg>
+                  <rdg wit="#Fr181.WIT.MS.Fr181a.204 #Fr181.WIT.ED.CRIT.C #Fr181.WIT.ED.CRIT.P">portatil</rdg>
+               </app>
+               de mim mesmo aberto. Não me cho
+               <lb break="no" ed="#Fr181.WIT.MS.Fr181a.204" type="hyphenated" />
+               ca a interrupção dos meus sonhos: de
+               <app type="orthographic">
+                  <rdg wit="#Fr181.WIT.ED.CRIT.C #Fr181.WIT.MS.Fr181a.204 #Fr181.WIT.ED.CRIT.P">tam</rdg>
+                  <rdg wit="#Fr181.WIT.ED.CRIT.SC #Fr181.WIT.ED.CRIT.Z">tão</rdg>
+               </app>
+               suaves que são,
+               <lb ed="#Fr181.WIT.MS.Fr181a.204" />
+               continuo sonhando-os por 
+               <app type="orthographic">
+                  <rdg wit="#Fr181.WIT.ED.CRIT.P #Fr181.WIT.ED.CRIT.C #Fr181.WIT.MS.Fr181a.204">traz</rdg>
+                  <rdg wit="#Fr181.WIT.ED.CRIT.SC #Fr181.WIT.ED.CRIT.Z">trás</rdg>
+               </app>de
+               <app type="orthographic">
+                  <rdg wit="#Fr181.WIT.ED.CRIT.P #Fr181.WIT.ED.CRIT.C #Fr181.WIT.MS.Fr181a.204">fallar</rdg>
+                  <rdg wit="#Fr181.WIT.ED.CRIT.SC #Fr181.WIT.ED.CRIT.Z">falar</rdg>
+               </app>
+               , escrever, res
+               <lb break="no" ed="#Fr181.WIT.MS.Fr181a.204" type="hyphenated" />
+               ponder, conversar até. E
+               <app type="orthographic">
+                  <rdg wit="#Fr181.WIT.ED.CRIT.Z #Fr181.WIT.ED.CRIT.SC">através</rdg>
+                  <rdg wit="#Fr181.WIT.MS.Fr181a.204 #Fr181.WIT.ED.CRIT.C #Fr181.WIT.ED.CRIT.P">atravez</rdg>
+               </app>
+               de tudo o chá perdido
+               <lb ed="#Fr181.WIT.MS.Fr181a.204" />
+               finda, e o
+               <app type="orthographic">
+                  <rdg wit="#Fr181.WIT.ED.CRIT.P #Fr181.WIT.ED.CRIT.C #Fr181.WIT.MS.Fr181a.204">escriptorio</rdg>
+                  <rdg wit="#Fr181.WIT.ED.CRIT.SC #Fr181.WIT.ED.CRIT.Z">escritório</rdg>
+               </app>
+               <app type="orthographic">
+                  <rdg wit="#Fr181.WIT.ED.CRIT.SC #Fr181.WIT.ED.CRIT.Z ">vai</rdg>
+                  <rdg wit="#Fr181.WIT.MS.Fr181a.204 #Fr181.WIT.ED.CRIT.C #Fr181.WIT.ED.CRIT.P">vae</rdg>
+               </app>
+               fechar...
+               <app>
+                  <rdg wit="#Fr181.WIT.ED.CRIT.SC">
+                     <space dim="vertical" quantity="1" unit="minims" />
+                  </rdg>
+               </app>
+               
+               <app>
+                  <rdg wit="#Fr181.WIT.ED.CRIT.SC "></rdg>
+                  <rdg wit="#Fr181.WIT.ED.CRIT.Z #Fr181.WIT.MS.Fr181a.204 #Fr181.WIT.ED.CRIT.C #Fr181.WIT.ED.CRIT.P">
+               Ergo do livro, que
+               <lb ed="#Fr181.WIT.MS.Fr181a.204" />
+               cerro lentamente, olhos
+               <app type="orthographic">
+                  <rdg wit="#Fr181.WIT.MS.Fr181a.204 #Fr181.WIT.ED.CRIT.C #Fr181.WIT.ED.CRIT.P ">cançados</rdg>
+                  <rdg wit="#Fr181.WIT.ED.CRIT.SC #Fr181.WIT.ED.CRIT.Z ">cansados</rdg>
+               </app>
+               do choro que não tive
+               <lb break="no" ed="#Fr181.WIT.MS.Fr181a.204" type="hyphenated" />
+               ram, e, numa
+               <app type="orthographic">
+                  <rdg wit="#Fr181.WIT.ED.CRIT.Z #Fr181.WIT.ED.CRIT.SC ">mistura</rdg>
+                  <rdg wit="#Fr181.WIT.MS.Fr181a.204  #Fr181.WIT.ED.CRIT.C #Fr181.WIT.ED.CRIT.P">mixtura</rdg>
+               </app>
+               de sensações,
+               <app type="orthographic">
+                  <rdg wit="#Fr181.WIT.ED.CRIT.Z #Fr181.WIT.ED.CRIT.SC">sofro</rdg>
+                  <rdg wit="#Fr181.WIT.MS.Fr181a.204 #Fr181.WIT.ED.CRIT.C #Fr181.WIT.ED.CRIT.P">soffro</rdg>
+               </app>
+               que ao fechar
+               <lb ed="#Fr181.WIT.MS.Fr181a.204" />
+               o
+               <app type="orthographic">
+                  <rdg wit="#Fr181.WIT.MS.Fr181a.204 #Fr181.WIT.ED.CRIT.P #Fr181.WIT.ED.CRIT.C">escriptorio</rdg>
+                  <rdg wit="#Fr181.WIT.ED.CRIT.Z #Fr181.WIT.ED.CRIT.SC">escritório</rdg>
+               </app>
+               se me feche o sonho
+               <app type="orthographic">
+                  <rdg wit="#Fr181.WIT.MS.Fr181a.204 #Fr181.WIT.ED.CRIT.C #Fr181.WIT.ED.CRIT.P ">tambem</rdg>
+                  <rdg wit="#Fr181.WIT.ED.CRIT.SC #Fr181.WIT.ED.CRIT.Z ">também</rdg>
+               </app>
+               ; que no gesto da
+               <lb ed="#Fr181.WIT.MS.Fr181a.204" />
+               mão com que cerro o livro encubra o passado
+               <app type="orthographic">
+                  <rdg wit="#Fr181.WIT.ED.CRIT.SC #Fr181.WIT.ED.CRIT.Z">irreparável</rdg>
+                  <rdg wit="#Fr181.WIT.ED.CRIT.P #Fr181.WIT.ED.CRIT.C #Fr181.WIT.MS.Fr181a.204">irreparavel</rdg>
+               </app>
+               ;
+               <lb ed="#Fr181.WIT.MS.Fr181a.204" />
+               que vá para a cama da vida sem
+               <app type="orthographic">
+                  <rdg wit="#Fr181.WIT.ED.CRIT.P #Fr181.WIT.MS.Fr181a.204 #Fr181.WIT.ED.CRIT.C">somno</rdg>
+                  <rdg wit=" #Fr181.WIT.ED.CRIT.SC #Fr181.WIT.ED.CRIT.Z">sono</rdg>
+               </app>
+               , sem companhia nem
+               <lb ed="#Fr181.WIT.MS.Fr181a.204" />
+               <app type="orthographic">
+                  <rdg wit=" #Fr181.WIT.ED.CRIT.Z #Fr181.WIT.ED.CRIT.SC ">sossego</rdg>
+                  <rdg wit="#Fr181.WIT.MS.Fr181a.204 #Fr181.WIT.ED.CRIT.C #Fr181.WIT.ED.CRIT.P">socego</rdg>
+               </app>
+               , no fluxo e refluxo da minha
+               <app type="orthographic">
+                  <rdg wit="#Fr181.WIT.MS.Fr181a.204 #Fr181.WIT.ED.CRIT.C #Fr181.WIT.ED.CRIT.P">consciencia</rdg>
+                  <rdg wit="#Fr181.WIT.ED.CRIT.Z #Fr181.WIT.ED.CRIT.SC">consciência</rdg>
+               </app>
+               misturada,
+               <lb ed="#Fr181.WIT.MS.Fr181a.204" />
+               como duas
+               <app>
+                  <rdg wit="#Fr181.WIT.MS.Fr181a.204">
+                     <del rend="overstrike">marpes</del>
+                  </rdg>
+               </app>
+               marés na noite
+               <app>
+                  <rdg wit="#Fr181.WIT.MS.Fr181a.204">
+                     <space dim="vertical" quantity="2" unit="minims" /></rdg>
+               </app>
+               <app>
+                  <rdg wit="#Fr181.WIT.MS.Fr181a.204">
+                   <add place="top">negra, no fim dos destinos da saudade
+                              <lb />
+                              e da desolação.</add></rdg>
+                  <rdg wit="#Fr181.WIT.ED.CRIT.C #Fr181.WIT.ED.CRIT.P #Fr181.WIT.ED.CRIT.SC #Fr181.WIT.ED.CRIT.Z">negra, no fim dos destinos da saudade e da desolação.</rdg>
+               </app>
+               </rdg>
+              </app>
+            </p>
+            <p>
+               <app type="paragraph">
+                  <rdg wit="#Fr181.WIT.ED.CRIT.Z #Fr181.WIT.MS.Fr181a.204 #Fr181.WIT.ED.CRIT.C #Fr181.WIT.ED.CRIT.P"></rdg>
+                  <rdg wit="#Fr181.WIT.ED.CRIT.SC ">
+                     Ergo do livro, que
+                     
+                     cerro lentamente, olhos
+                     <app type="orthographic">
+                        <rdg wit="#Fr181.WIT.MS.Fr181a.204 #Fr181.WIT.ED.CRIT.C #Fr181.WIT.ED.CRIT.P ">cançados</rdg>
+                        <rdg wit="#Fr181.WIT.ED.CRIT.SC #Fr181.WIT.ED.CRIT.Z ">cansados</rdg>
+                     </app>
+                     do choro que não tiveram, e, numa
+                     
+                     <app type="orthographic">
+                        <rdg wit="#Fr181.WIT.ED.CRIT.Z #Fr181.WIT.ED.CRIT.SC ">mistura</rdg>
+                        <rdg wit="#Fr181.WIT.MS.Fr181a.204  #Fr181.WIT.ED.CRIT.C #Fr181.WIT.ED.CRIT.P">mixtura</rdg>
+                     </app>
+                     de sensações,
+                     <app type="orthographic">
+                        <rdg wit="#Fr181.WIT.ED.CRIT.Z #Fr181.WIT.ED.CRIT.SC">sofro</rdg>
+                        <rdg wit="#Fr181.WIT.MS.Fr181a.204 #Fr181.WIT.ED.CRIT.C #Fr181.WIT.ED.CRIT.P">soffro</rdg>
+                     </app>
+                     que ao fechar
+              
+                     o
+                     <app type="orthographic">
+                        <rdg wit="#Fr181.WIT.MS.Fr181a.204 #Fr181.WIT.ED.CRIT.P #Fr181.WIT.ED.CRIT.C">escriptorio</rdg>
+                        <rdg wit="#Fr181.WIT.ED.CRIT.Z #Fr181.WIT.ED.CRIT.SC">escritório</rdg>
+                     </app>
+                     se me feche o sonho
+                     <app type="orthographic">
+                        <rdg wit="#Fr181.WIT.MS.Fr181a.204 #Fr181.WIT.ED.CRIT.C #Fr181.WIT.ED.CRIT.P ">tambem</rdg>
+                        <rdg wit="#Fr181.WIT.ED.CRIT.SC #Fr181.WIT.ED.CRIT.Z ">também</rdg>
+                     </app>
+                     ; que no gesto da
+                     
+                     mão com que cerro o livro encubra o passado
+                     <app type="orthographic">
+                        <rdg wit="#Fr181.WIT.ED.CRIT.SC #Fr181.WIT.ED.CRIT.Z">irreparável</rdg>
+                        <rdg wit="#Fr181.WIT.ED.CRIT.P #Fr181.WIT.ED.CRIT.C #Fr181.WIT.MS.Fr181a.204">irreparavel</rdg>
+                     </app>
+                     ;
+                     
+                     que vá para a cama da vida sem
+                     <app type="orthographic">
+                        <rdg wit="#Fr181.WIT.ED.CRIT.P #Fr181.WIT.MS.Fr181a.204 #Fr181.WIT.ED.CRIT.C">somno</rdg>
+                        <rdg wit=" #Fr181.WIT.ED.CRIT.SC #Fr181.WIT.ED.CRIT.Z">sono</rdg>
+                     </app>
+                     , sem companhia nem
+                     
+                     <app type="orthographic">
+                        <rdg wit=" #Fr181.WIT.ED.CRIT.Z #Fr181.WIT.ED.CRIT.SC ">sossego</rdg>
+                        <rdg wit="#Fr181.WIT.MS.Fr181a.204 #Fr181.WIT.ED.CRIT.C #Fr181.WIT.ED.CRIT.P">socego</rdg>
+                     </app>
+                     , no fluxo e refluxo da minha
+                     <app type="orthographic">
+                        <rdg wit="#Fr181.WIT.MS.Fr181a.204 #Fr181.WIT.ED.CRIT.C #Fr181.WIT.ED.CRIT.P">consciencia</rdg>
+                        <rdg wit="#Fr181.WIT.ED.CRIT.Z #Fr181.WIT.ED.CRIT.SC">consciência</rdg>
+                     </app>
+                     misturada,
+                    
+                     como duas
+                     <app>
+                        <rdg wit="#Fr181.WIT.MS.Fr181a.204">
+                           <del rend="overstrike">marpes</del>
+                        </rdg>
+                     </app>
+                     marés na noite
+                     <app>
+                        <rdg wit="#Fr181.WIT.MS.Fr181a.204">
+                           <space dim="vertical" quantity="2" unit="minims" /></rdg>
+                     </app>
+                     <app>
+                        <rdg wit="#Fr181.WIT.MS.Fr181a.204">
+                           <add place="top">negra, no fim dos destinos da saudade
+                              <lb />
+                              e da desolação.</add></rdg>
+                        <rdg wit="#Fr181.WIT.ED.CRIT.C #Fr181.WIT.ED.CRIT.P #Fr181.WIT.ED.CRIT.SC #Fr181.WIT.ED.CRIT.Z">negra, no fim dos destinos da saudade e da desolação.</rdg>
+                     </app>
+                  </rdg>
+               </app>
+            </p>
+         </div>
+      </body>
+   </text>
+</TEI>

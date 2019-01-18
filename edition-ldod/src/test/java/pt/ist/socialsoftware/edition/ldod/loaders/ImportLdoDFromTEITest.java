@@ -3,18 +3,10 @@ package pt.ist.socialsoftware.edition.ldod.loaders;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-
-import javax.transaction.NotSupportedException;
-import javax.transaction.SystemException;
-
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import pt.ist.fenixframework.FenixFramework;
-import pt.ist.fenixframework.core.WriteOnReadError;
+import pt.ist.fenixframework.Atomic;
+import pt.ist.socialsoftware.edition.ldod.TestWithFragmentsLoading;
 import pt.ist.socialsoftware.edition.ldod.domain.ExpertEdition;
 import pt.ist.socialsoftware.edition.ldod.domain.ExpertEditionInter;
 import pt.ist.socialsoftware.edition.ldod.domain.FragInter;
@@ -25,35 +17,28 @@ import pt.ist.socialsoftware.edition.ldod.domain.ManuscriptSource;
 import pt.ist.socialsoftware.edition.ldod.domain.PrintedSource;
 import pt.ist.socialsoftware.edition.ldod.domain.Source;
 import pt.ist.socialsoftware.edition.ldod.domain.SourceInter;
-import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
-import pt.ist.socialsoftware.edition.ldod.utils.PropertiesManager;
 
-public class ImportLdoDFromTEITest {
-	private static final String TESTS_DIR = PropertiesManager.getProperties().getProperty("tests.dir");
+public class ImportLdoDFromTEITest extends TestWithFragmentsLoading {
+	private Fragment fragmentTest;
 
-	private static Fragment fragmentTest;
+	@Override
+	protected String[] fragmentsToLoad4Test() {
+		String[] fragments = { "001.xml" };
 
-	@BeforeAll
-	public static void setUp() throws WriteOnReadError, NotSupportedException, SystemException {
-		FenixFramework.getTransactionManager().begin(false);
-
-		LoadTEIFragments fragmentsLoader = new LoadTEIFragments();
-		try {
-			fragmentsLoader.loadFragmentsAtOnce(new FileInputStream(TESTS_DIR + "Frg.1_TEI-encoded_testing.xml"));
-		} catch (FileNotFoundException e) {
-			throw new LdoDException();
-		}
-
-		LdoD ldoD = LdoD.getInstance();
-		fragmentTest = ldoD.getFragmentsSet().stream().filter(f -> f.getXmlId().equals("Fr1TEST")).findFirst().get();
+		return fragments;
 	}
 
-	@AfterAll
-	public static void tearDown() throws IllegalStateException, SecurityException, SystemException {
-		FenixFramework.getTransactionManager().rollback();
+	@Override
+	protected void populate4Test() {
+		this.fragmentTest = LdoD.getInstance().getFragmentsSet().stream().findFirst().get();
+	}
+
+	@Override
+	protected void unpopulate4Test() {
 	}
 
 	@Test
+	@Atomic
 	public void testCorpusIdLoadead() {
 
 		LdoD ldoD = LdoD.getInstance();
@@ -61,18 +46,19 @@ public class ImportLdoDFromTEITest {
 		checkTitleStmtLoad(ldoD);
 		checkListBiblLoad(ldoD);
 		checkHeteronymsLoad(ldoD);
-
 	}
 
 	@Test
+	@Atomic
 	public void testFragmentIsLoaded() {
-		assertEquals("Prefiro a prosa ao verso...", fragmentTest.getTitle());
+		assertEquals("A arte é um esquivar-se a agir", this.fragmentTest.getTitle());
 	}
 
 	@Test
+	@Atomic
 	public void testLoadWitnesses() {
-		assertEquals(8, fragmentTest.getFragmentInterSet().size());
-		for (FragInter fragmentInter : fragmentTest.getFragmentInterSet()) {
+		assertEquals(6, this.fragmentTest.getFragmentInterSet().size());
+		for (FragInter fragmentInter : this.fragmentTest.getFragmentInterSet()) {
 			if (fragmentInter instanceof ExpertEditionInter) {
 				assertTrue(((ExpertEditionInter) fragmentInter).getExpertEdition() != null);
 			} else if (fragmentInter instanceof SourceInter) {
@@ -83,15 +69,15 @@ public class ImportLdoDFromTEITest {
 	}
 
 	@Test
+	@Atomic
 	public void testLoadSources() {
-		assertEquals(3, fragmentTest.getSourcesSet().size());
-		for (Source source : fragmentTest.getSourcesSet()) {
+		assertEquals(1, this.fragmentTest.getSourcesSet().size());
+		for (Source source : this.fragmentTest.getSourcesSet()) {
 			if (source instanceof ManuscriptSource) {
 				ManuscriptSource manuscript = (ManuscriptSource) source;
 				assertEquals("Lisbon", manuscript.getSettlement());
 				assertEquals("BN", manuscript.getRepository());
-				assertTrue(manuscript.getIdno().equals("bn-acpc-e-e3-4-1-87_0007_4_t24-C-R0150")
-						|| manuscript.getIdno().equals("bn-acpc-e-e3-4-1-87_0005_3_t24-C-R0150"));
+				assertTrue(manuscript.getIdno().equals("bn-acpc-e-e3-1-1-89_0001_1_t24-C-R0150"));
 			} else if (source instanceof PrintedSource) {
 				PrintedSource printedSource = (PrintedSource) source;
 				assertEquals("Revista Descobrimento", printedSource.getJournal());

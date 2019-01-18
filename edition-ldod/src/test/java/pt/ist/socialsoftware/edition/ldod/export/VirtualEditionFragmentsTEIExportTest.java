@@ -8,13 +8,11 @@ import java.util.stream.Collectors;
 import javax.transaction.NotSupportedException;
 import javax.transaction.SystemException;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import pt.ist.fenixframework.Atomic;
-import pt.ist.fenixframework.FenixFramework;
 import pt.ist.fenixframework.core.WriteOnReadError;
+import pt.ist.socialsoftware.edition.ldod.TestWithFragmentsLoading;
 import pt.ist.socialsoftware.edition.ldod.domain.AwareAnnotation;
 import pt.ist.socialsoftware.edition.ldod.domain.Citation;
 import pt.ist.socialsoftware.edition.ldod.domain.FragInter;
@@ -23,25 +21,31 @@ import pt.ist.socialsoftware.edition.ldod.domain.InfoRange;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
 import pt.ist.socialsoftware.edition.ldod.domain.Range;
 import pt.ist.socialsoftware.edition.ldod.domain.TwitterCitation;
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
 import pt.ist.socialsoftware.edition.ldod.loaders.VirtualEditionFragmentsTEIImport;
 
-public class VirtualEditionFragmentsTEIExportTest {
+public class VirtualEditionFragmentsTEIExportTest extends TestWithFragmentsLoading {
 	private VirtualEditionFragmentsTEIExport export;
-	private VirtualEdition virtualEdition;
-	private LdoD ldoD;
 
 	public static void logger(Object toPrint) {
 		System.out.println(toPrint);
 	}
 
-	@BeforeEach
-	public void setUp() throws WriteOnReadError, NotSupportedException, SystemException {
-		FenixFramework.getTransactionManager().begin(false);
+	@Override
+	protected String[] fragmentsToLoad4Test() {
+		String[] fragments = { "001.xml", "002.xml", "003.xml" };
+
+		return fragments;
 	}
 
-	// TODO: test after running tweet factory
+	@Override
+	protected void populate4Test() {
+	}
+
+	@Override
+	protected void unpopulate4Test() {
+	}
+
 	@Test
 	@Atomic
 	public void test() throws WriteOnReadError, NotSupportedException, SystemException {
@@ -115,7 +119,7 @@ public class VirtualEditionFragmentsTEIExportTest {
 		VirtualEditionFragmentsTEIImport im = new VirtualEditionFragmentsTEIImport();
 		im.importFragmentFromTEI(result);
 
-		System.out.println(export.exportFragment(fragment));
+		System.out.println(this.export.exportFragment(fragment));
 
 		assertEquals(numOfCitations, fragment.getCitationSet().size());
 		assertEquals(numberOfInters, fragment.getVirtualEditionInters().size());
@@ -148,7 +152,7 @@ public class VirtualEditionFragmentsTEIExportTest {
 				String result = exportPrintCleanAndImportFragment(fragment);
 				// Check if it was well exported
 				assertEquals(Arrays.stream(result.split("\\r?\\n")).sorted().collect(Collectors.joining("\\n")),
-						Arrays.stream(export.exportFragment(fragment).split("\\r?\\n")).sorted()
+						Arrays.stream(this.export.exportFragment(fragment).split("\\r?\\n")).sorted()
 								.collect(Collectors.joining("\\n")));
 			}
 			count++;
@@ -173,7 +177,7 @@ public class VirtualEditionFragmentsTEIExportTest {
 				String result = exportPrintCleanAndImportFragment(fragment);
 				// Check if it was well exported
 				assertEquals(Arrays.stream(result.split("\\r?\\n")).sorted().collect(Collectors.joining("\\n")),
-						Arrays.stream(export.exportFragment(fragment).split("\\r?\\n")).sorted()
+						Arrays.stream(this.export.exportFragment(fragment).split("\\r?\\n")).sorted()
 								.collect(Collectors.joining("\\n")));
 			}
 			count++;
@@ -206,15 +210,11 @@ public class VirtualEditionFragmentsTEIExportTest {
 				String result = exportPrintCleanAndImportFragment(fragment);
 				// Check if it was well exported
 				assertEquals(Arrays.stream(result.split("\\r?\\n")).sorted().collect(Collectors.joining("\\n")),
-						Arrays.stream(export.exportFragment(fragment).split("\\r?\\n")).sorted()
+						Arrays.stream(this.export.exportFragment(fragment).split("\\r?\\n")).sorted()
 								.collect(Collectors.joining("\\n")));
 			}
 			count++;
 		}
 	}
 
-	@AfterEach
-	public void tearDown() throws IllegalStateException, SecurityException, SystemException {
-		FenixFramework.getTransactionManager().rollback();
-	}
 }

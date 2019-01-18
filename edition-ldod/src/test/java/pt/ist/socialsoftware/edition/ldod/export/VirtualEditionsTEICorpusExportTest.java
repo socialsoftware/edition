@@ -9,13 +9,12 @@ import javax.transaction.NotSupportedException;
 import javax.transaction.SystemException;
 
 import org.joda.time.LocalDate;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import pt.ist.fenixframework.Atomic;
-import pt.ist.fenixframework.FenixFramework;
+import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.fenixframework.core.WriteOnReadError;
+import pt.ist.socialsoftware.edition.ldod.TestWithFragmentsLoading;
 import pt.ist.socialsoftware.edition.ldod.domain.ExpertEdition;
 import pt.ist.socialsoftware.edition.ldod.domain.Frequency;
 import pt.ist.socialsoftware.edition.ldod.domain.GeographicLocation;
@@ -27,24 +26,44 @@ import pt.ist.socialsoftware.edition.ldod.domain.Tweet;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.ldod.loaders.VirtualEditionsTEICorpusImport;
 
-public class VirtualEditionsTEICorpusExportTest {
+public class VirtualEditionsTEICorpusExportTest extends TestWithFragmentsLoading {
 
 	private VirtualEditionsTEICorpusExport export;
 	private VirtualEdition virtualEdition;
 	private LdoD ldoD;
+	private LdoDUser user;
 
 	public static void logger(Object toPrint) {
 		System.out.println(toPrint);
 	}
 
-	@BeforeEach
-	public void setUp() throws WriteOnReadError, NotSupportedException, SystemException {
-		FenixFramework.getTransactionManager().begin(false);
+	@Override
+	protected String[] fragmentsToLoad4Test() {
+		String[] fragments = new String[0];
+
+		return fragments;
+	}
+
+	@Override
+	protected void populate4Test() {
+		this.ldoD = LdoD.getInstance();
+		this.user = new LdoDUser(this.ldoD, "ars1", "ars", "Antonio", "Silva", "a@a.a");
+		LocalDate localDate = LocalDate.parse("20018-07-20");
+		ExpertEdition expertEdition = this.ldoD.getRZEdition();
+		this.virtualEdition = new VirtualEdition(this.ldoD, this.user, "acronym", "title", localDate, true,
+				expertEdition);
+	}
+
+	@Override
+	protected void unpopulate4Test() {
+		LdoD.getInstance().getCitationSet().forEach(c -> c.remove());
+		LdoD.getInstance().getVirtualEditionsSet().forEach(ve -> ve.remove());
+		this.user.remove();
 	}
 
 	// Original test that exports and imports everything
 	@Test
-	@Atomic
+	@Atomic(mode = TxMode.WRITE)
 	public void test() throws WriteOnReadError, NotSupportedException, SystemException {
 		VirtualEditionsTEICorpusExport export = new VirtualEditionsTEICorpusExport();
 		String virtualEditionsCorpus = export.export();
@@ -67,15 +86,6 @@ public class VirtualEditionsTEICorpusExportTest {
 				Arrays.stream(export.export().split("\\r?\\n")).sorted().collect(Collectors.joining("\\n")));
 	}
 
-	// aux setup method
-	private void setUpDomain() {
-		this.ldoD = new LdoD();
-		LdoDUser user = new LdoDUser(ldoD, "ars1", "ars", "Antonio", "Silva", "a@a.a");
-		LocalDate localDate = LocalDate.parse("20018-07-20");
-		ExpertEdition expertEdition = ldoD.getRZEdition();
-		this.virtualEdition = new VirtualEdition(ldoD, user, "acronym", "title", localDate, true, expertEdition);
-	}
-
 	// aux method
 	private String exportPrintCleanAndImport() {
 		this.export = new VirtualEditionsTEICorpusExport();
@@ -83,8 +93,8 @@ public class VirtualEditionsTEICorpusExportTest {
 		System.out.println(result);
 
 		// Saving value for assert
-		int numOfCriteria = virtualEdition.getCriteriaSet().size();
-		int numOfTweets = ldoD.getTweetSet().size();
+		int numOfCriteria = this.virtualEdition.getCriteriaSet().size();
+		int numOfTweets = this.ldoD.getTweetSet().size();
 
 		// Clean
 		this.ldoD.getVirtualEditionsSet().forEach(ve -> ve.remove());
@@ -94,10 +104,10 @@ public class VirtualEditionsTEICorpusExportTest {
 		VirtualEditionsTEICorpusImport im = new VirtualEditionsTEICorpusImport();
 		im.importVirtualEditionsCorpus(result);
 
-		System.out.println(export.export());
+		System.out.println(this.export.export());
 
-		assertEquals(numOfCriteria, ldoD.getVirtualEdition("acronym").getCriteriaSet().size());
-		assertEquals(numOfTweets, ldoD.getTweetSet().size());
+		assertEquals(numOfCriteria, this.ldoD.getVirtualEdition("acronym").getCriteriaSet().size());
+		assertEquals(numOfTweets, this.ldoD.getTweetSet().size());
 
 		return result;
 	}
@@ -105,99 +115,87 @@ public class VirtualEditionsTEICorpusExportTest {
 	@Test
 	@Atomic
 	public void exportTweetsTest() {
-		setUpDomain();
-		new Tweet(ldoD, "sourceLink", "date", "tweetText", 1111l, "location", "country", "username", "profURL",
+		new Tweet(this.ldoD, "sourceLink", "date", "tweetText", 1111l, "location", "country", "username", "profURL",
 				"profImgURL", 9999l, true, null);
-		new Tweet(ldoD, "sourceLink", "date", "tweetText", 1111l, "location", "country", "username", "profURL",
+		new Tweet(this.ldoD, "sourceLink", "date", "tweetText", 1111l, "location", "country", "username", "profURL",
 				"profImgURL", -1l, false, null);
 		String result = exportPrintCleanAndImport();
 		// Check if it was well exported
 		assertEquals(Arrays.stream(result.split("\\r?\\n")).sorted().collect(Collectors.joining("\\n")),
-				Arrays.stream(export.export().split("\\r?\\n")).sorted().collect(Collectors.joining("\\n")));
+				Arrays.stream(this.export.export().split("\\r?\\n")).sorted().collect(Collectors.joining("\\n")));
 	}
 
 	@Test
 	@Atomic
 	public void exportEmptyCriteriaTest() {
-		setUpDomain();
 		String result = exportPrintCleanAndImport();
 		// Check if it was well exported
 		assertEquals(Arrays.stream(result.split("\\r?\\n")).sorted().collect(Collectors.joining("\\n")),
-				Arrays.stream(export.export().split("\\r?\\n")).sorted().collect(Collectors.joining("\\n")));
+				Arrays.stream(this.export.export().split("\\r?\\n")).sorted().collect(Collectors.joining("\\n")));
 	}
 
 	@Test
 	@Atomic
 	public void exportMediaSourceTest() {
-		setUpDomain();
-		new MediaSource(virtualEdition, "Twitter");
+		new MediaSource(this.virtualEdition, "Twitter");
 		String result = exportPrintCleanAndImport();
 		// Check if it was well exported
 		assertEquals(Arrays.stream(result.split("\\r?\\n")).sorted().collect(Collectors.joining("\\n")),
-				Arrays.stream(export.export().split("\\r?\\n")).sorted().collect(Collectors.joining("\\n")));
+				Arrays.stream(this.export.export().split("\\r?\\n")).sorted().collect(Collectors.joining("\\n")));
 	}
 
 	@Test
 	@Atomic
 	public void exportTimeWindowTest() {
-		setUpDomain();
-		new TimeWindow(virtualEdition, new LocalDate("2018-03-06"), new LocalDate("2018-06-24"));
+		new TimeWindow(this.virtualEdition, new LocalDate("2018-03-06"), new LocalDate("2018-06-24"));
 		String result = exportPrintCleanAndImport();
 		// Check if it was well exported
 		assertEquals(Arrays.stream(result.split("\\r?\\n")).sorted().collect(Collectors.joining("\\n")),
-				Arrays.stream(export.export().split("\\r?\\n")).sorted().collect(Collectors.joining("\\n")));
+				Arrays.stream(this.export.export().split("\\r?\\n")).sorted().collect(Collectors.joining("\\n")));
 	}
 
 	@Test
 	@Atomic
 	public void exportGeographicLocationTest() {
-		setUpDomain();
-		new GeographicLocation(virtualEdition, "Portugal", "Lisboa");
+		new GeographicLocation(this.virtualEdition, "Portugal", "Lisboa");
 		String result = exportPrintCleanAndImport();
 		// Check if it was well exported
 		assertEquals(Arrays.stream(result.split("\\r?\\n")).sorted().collect(Collectors.joining("\\n")),
-				Arrays.stream(export.export().split("\\r?\\n")).sorted().collect(Collectors.joining("\\n")));
+				Arrays.stream(this.export.export().split("\\r?\\n")).sorted().collect(Collectors.joining("\\n")));
 	}
 
 	@Test
 	@Atomic
 	public void exportFrequencyTest() {
-		setUpDomain();
-		new Frequency(virtualEdition, 10);
+		new Frequency(this.virtualEdition, 10);
 		String result = exportPrintCleanAndImport();
 		// Check if it was well exported
 		assertEquals(Arrays.stream(result.split("\\r?\\n")).sorted().collect(Collectors.joining("\\n")),
-				Arrays.stream(export.export().split("\\r?\\n")).sorted().collect(Collectors.joining("\\n")));
+				Arrays.stream(this.export.export().split("\\r?\\n")).sorted().collect(Collectors.joining("\\n")));
 	}
 
 	@Test
 	@Atomic
 	public void exportSeveralCriteriaTest() {
-		setUpDomain();
-		new GeographicLocation(virtualEdition, "Portugal", "Lisboa");
-		new Frequency(virtualEdition, 10);
+		new GeographicLocation(this.virtualEdition, "Portugal", "Lisboa");
+		new Frequency(this.virtualEdition, 10);
 		String result = exportPrintCleanAndImport();
 		// Check if it was well exported
 		assertEquals(Arrays.stream(result.split("\\r?\\n")).sorted().collect(Collectors.joining("\\n")),
-				Arrays.stream(export.export().split("\\r?\\n")).sorted().collect(Collectors.joining("\\n")));
+				Arrays.stream(this.export.export().split("\\r?\\n")).sorted().collect(Collectors.joining("\\n")));
 	}
 
 	@Test
 	@Atomic
 	public void exportAllCriteriaTest() {
-		setUpDomain();
-		new MediaSource(virtualEdition, "Twitter");
-		new TimeWindow(virtualEdition, new LocalDate("2018-03-06"), new LocalDate("2018-06-24"));
-		new GeographicLocation(virtualEdition, "Portugal", "Lisboa");
-		new Frequency(virtualEdition, 10);
+		new MediaSource(this.virtualEdition, "Twitter");
+		new TimeWindow(this.virtualEdition, new LocalDate("2018-03-06"), new LocalDate("2018-06-24"));
+		new GeographicLocation(this.virtualEdition, "Portugal", "Lisboa");
+		new Frequency(this.virtualEdition, 10);
 		String result = exportPrintCleanAndImport();
 		// Check if it was well exported
 		assertEquals(Arrays.stream(result.split("\\r?\\n")).sorted().collect(Collectors.joining("\\n")),
-				Arrays.stream(export.export().split("\\r?\\n")).sorted().collect(Collectors.joining("\\n")));
+				Arrays.stream(this.export.export().split("\\r?\\n")).sorted().collect(Collectors.joining("\\n")));
 	}
 
-	@AfterEach
-	public void tearDown() throws IllegalStateException, SecurityException, SystemException {
-		FenixFramework.getTransactionManager().rollback();
-	}
 }

@@ -40,6 +40,7 @@ import pt.ist.socialsoftware.edition.ldod.domain.SourceInter;
 import pt.ist.socialsoftware.edition.ldod.domain.Surface;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
+import pt.ist.socialsoftware.edition.ldod.dto.MainFragmentDto;
 import pt.ist.socialsoftware.edition.ldod.generators.HtmlWriter2CompInters;
 import pt.ist.socialsoftware.edition.ldod.generators.HtmlWriter4Variations;
 import pt.ist.socialsoftware.edition.ldod.generators.PlainHtmlWriter4OneInter;
@@ -82,6 +83,7 @@ public class FragmentController {
 			model.addAttribute("ldoD", LdoD.getInstance());
 			model.addAttribute("user", LdoDUser.getAuthenticatedUser());
 			model.addAttribute("fragment", fragment);
+			model.addAttribute("fragmentDto",new MainFragmentDto(fragment));
 			model.addAttribute("inters", new ArrayList<FragInter>());
 			return "fragment/main";
 		}

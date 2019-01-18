@@ -308,6 +308,9 @@ public class VirtualEditionController {
 		} else {
 			EditionFragmentsDto editionFragments = new EditionFragmentsDto();
 
+			editionFragments.setCategories(virtualEdition.getTaxonomy().getSortedCategories().stream()
+					.map(c -> c.getName()).collect(Collectors.toList()));
+
 			String intersFilesPath = PropertiesManager.getProperties().getProperty("inters.dir");
 			List<FragmentDto> fragments = new ArrayList<>();
 

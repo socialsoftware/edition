@@ -9,16 +9,12 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import javax.transaction.NotSupportedException;
-import javax.transaction.SystemException;
-
 import org.apache.lucene.queryparser.classic.ParseException;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import pt.ist.fenixframework.FenixFramework;
-import pt.ist.fenixframework.core.WriteOnReadError;
+import pt.ist.fenixframework.Atomic;
+import pt.ist.fenixframework.Atomic.TxMode;
+import pt.ist.socialsoftware.edition.ldod.TestWithFragmentsLoading;
 import pt.ist.socialsoftware.edition.ldod.domain.Edition;
 import pt.ist.socialsoftware.edition.ldod.domain.ExpertEdition;
 import pt.ist.socialsoftware.edition.ldod.domain.ExpertEditionInter;
@@ -32,13 +28,20 @@ import pt.ist.socialsoftware.edition.ldod.recommendation.properties.Property.Pro
 import pt.ist.socialsoftware.edition.ldod.recommendation.properties.TaxonomyProperty;
 import pt.ist.socialsoftware.edition.ldod.recommendation.properties.TextProperty;
 
-public class ReadingRecommendationPerformanceTest {
+public class ReadingRecommendationPerformanceTest extends TestWithFragmentsLoading {
+
+	@Override
+	protected String[] fragmentsToLoad4Test() {
+		String[] fragments = { "001.xml", "002.xml", "003.xml" };
+
+		return fragments;
+	}
 
 	// Assuming that the 4 expert editions, the archive edition and user ars are
-	// in the database
-	@BeforeAll
-	public static void setUp() throws IOException, WriteOnReadError, NotSupportedException, SystemException {
-		FenixFramework.getTransactionManager().begin(false);
+	// in the database @BeforeAll
+	@Override
+	@Atomic(mode = TxMode.WRITE)
+	protected void populate4Test() {
 
 		LdoD ldoD = LdoD.getInstance();
 
@@ -55,17 +58,17 @@ public class ReadingRecommendationPerformanceTest {
 		properties.add(new TextProperty(1.0));
 
 		// warm the system in order to create all the caches
-		recommender.getMostSimilarItemsAsList(archiveVirtualEditionInters.get(42),
+		recommender.getMostSimilarItemsAsList(archiveVirtualEditionInters.get(2),
 				new HashSet<VirtualEditionInter>(archiveVirtualEditionInters), properties);
 
 	}
 
-	@AfterAll
-	public static void tearDown() throws IllegalStateException, SecurityException, SystemException {
-		FenixFramework.getTransactionManager().rollback();
+	@Override
+	protected void unpopulate4Test() {
 	}
 
 	@Test
+	@Atomic(mode = TxMode.WRITE)
 	public void testSeveralRecommendations() throws IOException, ParseException {
 		ReadingRecommendation recommender = new ReadingRecommendation();
 

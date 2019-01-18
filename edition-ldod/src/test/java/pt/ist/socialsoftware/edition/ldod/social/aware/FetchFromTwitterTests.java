@@ -18,13 +18,13 @@ import org.mockito.Mock;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.socialsoftware.edition.ldod.MockitoExtension;
-import pt.ist.socialsoftware.edition.ldod.RollbackCaseTest;
+import pt.ist.socialsoftware.edition.ldod.TestWithFragmentsLoading;
 import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 
 @ExtendWith(MockitoExtension.class)
-public class FetchFromTwitterTests extends RollbackCaseTest {
+public class FetchFromTwitterTests extends TestWithFragmentsLoading {
 
 	FetchCitationsFromTwitter fetchFromTwitter;
 	Twitter twitter;
@@ -43,9 +43,21 @@ public class FetchFromTwitterTests extends RollbackCaseTest {
 	}
 
 	@Override
+	protected String[] fragmentsToLoad4Test() {
+		String[] fragments = new String[0];
+
+		return fragments;
+	}
+
+	@Override
 	public void populate4Test() {
 		this.fetchFromTwitter = new FetchCitationsFromTwitter();
 		this.twitter = this.fetchFromTwitter.getTwitterinstance();
+	}
+
+	@Override
+	protected void unpopulate4Test() {
+		// LdoD.getInstance().getCitationSet().forEach(c -> c.remove());
 	}
 
 	// invocações sobre o stauts dão null pointer exception
@@ -75,7 +87,7 @@ public class FetchFromTwitterTests extends RollbackCaseTest {
 	public void getTweetByIdMockTest() throws TwitterException {
 		doCallRealMethod().when(this.fetchMock).getTweetById(any(), any());
 
-		this.fetchMock.getTweetById(1019702700102111233l, twitterMock);
+		this.fetchMock.getTweetById(1019702700102111233l, this.twitterMock);
 		verify(this.twitterMock, times(1)).showStatus(1019702700102111233l);
 	}
 
@@ -85,20 +97,22 @@ public class FetchFromTwitterTests extends RollbackCaseTest {
 	}
 
 	@Test
+	@Atomic
 	public void getTweetInfoInStringFormatTest() {
 		Status s = this.fetchFromTwitter.getTweetById(1019702700102111233l, this.twitter);
 		String toAssert = "\t At " + new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss").format(s.getCreatedAt()) + ", @"
 				+ s.getUser().getScreenName() + " (id: " + s.getId() + ")" + "\n" + "said: " + s.getText() + "\n"
-				+ "country: " + "unknown" + "\n" + "location: " + "unknown" + "\n" + "tweet URL: "
-				+ "https://twitter.com/" + s.getUser().getScreenName() + "/status/" + s.getId() + "\n" + "profile URL: "
-				+ "https://twitter.com/" + s.getUser().getScreenName() + "\n" + "profile Picture: "
-				+ s.getUser().getBiggerProfileImageURL() + "\n" + "isRetweet: " + s.isRetweet() + "\n" + "isRetweeted: "
-				+ s.isRetweeted() + "\n" + "retweetCount: " + s.getRetweetCount() + "\n" + "originalTweetID: " + -1L
-				+ "\n" + "currentUserRetID: " + -1L + "\n" + "############################" + "\n";
+				+ "country: " + "unknown" + "\n" + "location: " + "mg" + "\n" + "tweet URL: " + "https://twitter.com/"
+				+ s.getUser().getScreenName() + "/status/" + s.getId() + "\n" + "profile URL: " + "https://twitter.com/"
+				+ s.getUser().getScreenName() + "\n" + "profile Picture: " + s.getUser().getBiggerProfileImageURL()
+				+ "\n" + "isRetweet: " + s.isRetweet() + "\n" + "isRetweeted: " + s.isRetweeted() + "\n"
+				+ "retweetCount: " + s.getRetweetCount() + "\n" + "originalTweetID: " + -1L + "\n"
+				+ "currentUserRetID: " + -1L + "\n" + "############################" + "\n";
 		assertEquals(toAssert, this.fetchFromTwitter.getTweetInfoInStringFormat(s));
 	}
 
 	@Test
+	@Atomic
 	public void createTermsMapTest() {
 		Map<String, String> termsMap = this.fetchFromTwitter.createTermsMap();
 		assertEquals(4, termsMap.size());
@@ -127,7 +141,7 @@ public class FetchFromTwitterTests extends RollbackCaseTest {
 		assertEquals("https://twitter.com/efeiitowerther", "https://twitter.com/" + s.getUser().getScreenName());
 		assertFalse(s.isRetweet());
 		assertNull(s.getRetweetedStatus());
-		assertEquals("", s.getUser().getLocation());
+		assertEquals("mg", s.getUser().getLocation());
 		// logger(s.getText());
 		assertEquals(
 				"\u201CSe um dia amasse, não seria amado. Basta eu querer uma coisa para ela morrer. O meu destino, porém, tem a força de ser mortal para qualquer coisa. Tem a fraqueza de ser mortal nas coisas para mim\u201D \n\nLivro do Desassossego",
