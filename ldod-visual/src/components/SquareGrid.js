@@ -284,9 +284,13 @@ class ConnectedSquareGrid extends Component {
 
       var container = document.getElementById('gridvis');
       this.network = new Network(container, data, this.options);
-      container.style.height = 800 + 'px';
+      container.style.height = 750 + 'px';
       this.network.redraw();
+      this.network.fit();
       this.network.on("selectNode", this.handleSelectNode);
+      this.network.on("stabilizationIterationsDone", function() {
+        this.network.setOptions({physics: false});
+      });
     }
   }
 

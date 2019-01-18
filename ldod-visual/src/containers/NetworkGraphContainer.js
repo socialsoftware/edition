@@ -99,12 +99,10 @@ class ConnectedNetworkGraphContainer extends Component {
     if (this.state.fragmentsDistanceLoaded) {
       graphToRender = (<NetworkGraph graphData={this.state.networkGraphData} onChange={this.props.onChange}/>);
     } else {
-      graphToRender = <div/>;
+      graphToRender = <p>Loading distances...</p>;
     }
 
-    return <div>
-      {graphToRender}
-    </div>;
+    return <div>{graphToRender}</div>;
   }
 }
 

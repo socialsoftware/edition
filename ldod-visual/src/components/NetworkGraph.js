@@ -88,7 +88,7 @@ class ConnectedNetworkGraph extends Component {
 
     const maxFragsAnalyzedPercentage = 1.0;
     const edgeLengthFactor = 10000;
-    const originalFragmentSize = 30;
+    const originalFragmentSize = 5;
     const mostDistantFragmentDistance = this.props.graphData[this.props.graphData.length - 1].distance;
     const graphHeight = 500;
 
@@ -116,6 +116,8 @@ class ConnectedNetworkGraph extends Component {
     this.recommendationArray.push(this.props.fragmentsHashMap.get(this.props.graphData[0].interId));
 
     //BUILD REMAINING FRAGMENTS' NODES
+    let xFactor = 0;
+    let yFactor = 0;
     var i;
     for (i = 1; i < this.props.graphData.length * maxFragsAnalyzedPercentage; i++) {
 
@@ -138,9 +140,21 @@ class ConnectedNetworkGraph extends Component {
           border: nodeBorderColor,
           background: nodeBackgroundColor
         },
-        title: this.props.fragmentsHashMap.get(this.props.graphData[i].interId).meta.title + " " + this.props.graphData[i].distance // + " || " + truncateText(myText, 60)
-        //fixed: true
+        title: this.props.fragmentsHashMap.get(this.props.graphData[i].interId).meta.title + " " + this.props.graphData[i].distance, // + " || " + truncateText(myText, 60)
+        fixed: true,
+        x: xFactor,
+        y: yFactor
       };
+
+      let maxValue = this.props.graphData[this.props.graphData.length - 1].distance; //What is the value that the biggest circle will represent
+
+      let total = 20; //The number of different axes
+
+      let angleSlice = Math.PI * 2 / total; //The width in radians of each "slice"
+
+      xFactor = (this.props.graphData[i].distance / maxValue) * edgeLengthFactor * Math.cos(angleSlice * i - Math.PI / 2);
+
+      yFactor = (this.props.graphData[i].distance / maxValue) * edgeLengthFactor * Math.sin(angleSlice * i - Math.PI / 2);
 
       this.nodes.push(obj);
     }
@@ -150,7 +164,7 @@ class ConnectedNetworkGraph extends Component {
       let myLength = 0;
 
       if (this.props.graphData[i].distance > 0) {
-        myLength = (this.props.graphData[i].distance / mostDistantFragmentDistance) * edgeLengthFactor;
+        myLength = (this.props.graphData[i].distance / mostDistantFragmentDistance) * 10000; //* edgeLengthFactor;
       }
 
       //truncate max value
@@ -163,8 +177,8 @@ class ConnectedNetworkGraph extends Component {
       obj = {
         from: this.props.graphData[0].interId,
         to: this.props.graphData[i].interId,
-        length: myLength,
-        hidden: true
+        length: 1,
+        hidden: false
       };
 
       this.edges.push(obj);
@@ -172,20 +186,24 @@ class ConnectedNetworkGraph extends Component {
 
     this.options = {
       autoResize: true,
-      height: "500",
-      //width: "500", comment to center
+      //height: "500",
+      //width: "800",
+
       layout: {
-        hierarchical: false,
-        randomSeed: undefined
+        hierarchical: {
+          enabled: false
+        },
+        randomSeed: 1
       },
       physics: {
-        enabled: true
+        enabled: false
       },
       interaction: {
         dragNodes: false,
         dragView: true,
         zoomView: true,
-        hover: true
+        hover: true,
+        focus: true
       }
     };
 
@@ -274,29 +292,53 @@ class ConnectedNetworkGraph extends Component {
       edges: this.edges
     };
 
-    this.network = new Network(this.appRef.current, data, this.options);
+    var container = document.getElementById('networkvis');
+    this.network = new Network(container, data, this.options);
     //this.network.on("hoverNode", this.handleHoverNode);
+
+    //this.network.stabilize(1);
+    this.network.stabilize(30);
+    container.style.height = 750 + 'px';
+    this.network.redraw();
+    //this.network.fit();
+
+    var moveToOptions = {
+      position: {
+        x: 0,
+        y: 0
+      }, // position to animate to (Numbers)
+      scale: 0.5, // scale to animate to  (Number)
+      offset: {
+        x: 0,
+        y: 0
+      }, // offset from the center in DOM pixels (Numbers)
+      animation: { // animation object, can also be Boolean
+        duration: 1000, // animation duration in milliseconds (Number)
+        easingFunction: "easeInOutQuad" // Animation easing function, available are:
+      } // linear, easeInQuad, easeOutQuad, easeInOutQuad,
+    } // easeInCubic, easeOutCubic, easeInOutCubic,
+    // easeInQuart, easeOutQuart, easeInOutQuart,
+    // easeInQuint, easeOutQuint, easeInOutQuint
+
+    let targetId = this.props.fragments[this.props.fragmentIndex].interId;
+    if (this.props.currentFragmentMode) {
+      targetId = this.props.recommendationArray[this.props.recommendationIndex].interId;
+    }
+    this.network.focus(targetId, moveToOptions)
     this.network.on("selectNode", this.handleSelectNode);
-    console.log("randomSeed: " + this.network.getSeed());
+    //console.log("randomSeed: " + this.network.getSeed());
 
   }
 
   render() {
 
     return (<div>
-      <Overlay show={this.state.show} target={this.state.target} placement="bottom" container={this} containerPadding={20}>
-        <Popover id="popover-contained" title="Popover bottom">
-          <strong>Holy guacamole!</strong>
-          Check this info.
-        </Popover>
-      </Overlay>
-
       <p>
         Seleccione um fragmento novo ao clicar num dos círculos vermelhos. Quanto mais próximos estiverem do círculo azul (correspondente ao fragmento que está a ler actualmente), mais semelhantes serão.
       </p>
-      <div className="graphNetwork">
-        <div ref={this.appRef}/>
-      </div>
+
+      <div className="graphNetwork" id="networkvis"></div>
+
     </div>);
   }
 }

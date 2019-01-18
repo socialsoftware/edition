@@ -65,8 +65,8 @@ class ConnectedFragmentLoader extends React.Component {
     this.sortedFragmentsByDate = [];
 
     this.state = {
-      //acronym: "LdoD-Arquivo",
-      acronym: "LdoD-test",
+      acronym: "LdoD-Arquivo",
+      //acronym: "LdoD-test",
       localHistoryCount: 0,
       idsDistanceArray: []
     };
