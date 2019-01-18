@@ -51,7 +51,7 @@ public class SourceTest extends ControllersTestWithFragmentsLoading {
     public void getSourcesTest() throws Exception {
         this.mockMvc.perform(get("/source/list")).andDo(print())
             .andExpect(status().isOk()).andExpect(view().name("source/listSources"))
-            .andExpect(model().attribute("sources",hasSize(0)));
+            .andExpect(model().attribute("sources",hasSize(3)));
     }
 
 }
