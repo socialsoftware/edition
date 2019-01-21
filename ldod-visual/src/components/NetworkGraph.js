@@ -88,7 +88,7 @@ class ConnectedNetworkGraph extends Component {
 
     const maxFragsAnalyzedPercentage = 1.0;
     const edgeLengthFactor = 10000;
-    const originalFragmentSize = 5;
+    const originalFragmentSize = 5; //Math.max(5, Math.floor(this.props.graphData.length * 0.01));
     const mostDistantFragmentDistance = this.props.graphData[this.props.graphData.length - 1].distance;
     const graphHeight = 500;
 
@@ -115,13 +115,53 @@ class ConnectedNetworkGraph extends Component {
     this.recommendationArray = [];
     this.recommendationArray.push(this.props.fragmentsHashMap.get(this.props.graphData[0].interId));
 
+    this.props.graphData.map((f, index) => console.log("Distance: " + f.distance + " index:" + index));
+
     //BUILD REMAINING FRAGMENTS' NODES
+
+    let minNonNullDistance = 0;
+    let nrOfNullDistances = 0;
+    let j;
+    for (j = 1; j < this.props.graphData.length; j++) {
+      if (this.props.graphData[j].distance !== 0) {
+        minNonNullDistance = (this.props.graphData[j].distance * 0.2);
+        console.log("Approximation for when distance is zero: " + minNonNullDistance);
+        nrOfNullDistances = j;
+        console.log("Number of values with 0 distance: " + nrOfNullDistances);
+        j = this.props.graphData.length;
+      }
+    }
+
     let xFactor = 0;
     let yFactor = 0;
     var i;
-    for (i = 1; i < this.props.graphData.length * maxFragsAnalyzedPercentage; i++) {
+    for (i = 1; i < this.props.graphData.length; i++) {
 
       this.recommendationArray.push(this.props.fragmentsHashMap.get(this.props.graphData[i].interId));
+
+      let total = 8; //The number of different axes
+
+      let maxValue = this.props.graphData[this.props.graphData.length - 1].distance; //What is the value that the biggest circle will represent
+
+      let distance = this.props.graphData[i].distance;
+
+      if (distance != 0) {
+        console.log("Actual value %: " + distance / maxValue * 100);
+      }
+      //small interpolation for when the distance is zero
+      if (distance === 0) {
+        console.log("Actual value %: 0");
+        total = nrOfNullDistances;
+        distance = minNonNullDistance;
+      }
+
+      let angleSlice = Math.PI * 2 / total; //The width in radians of each "slice"
+
+      console.log("NetworkGraph.js: The number of different axes: " + total);
+
+      xFactor = (distance / maxValue) * edgeLengthFactor * Math.cos(angleSlice * i - Math.PI / 2);
+
+      yFactor = (distance / maxValue) * edgeLengthFactor * Math.sin(angleSlice * i - Math.PI / 2);
 
       let nodeBorderColor = "#DC143C"
       let nodeBackgroundColor = "#FF7F50"
@@ -146,39 +186,16 @@ class ConnectedNetworkGraph extends Component {
         y: yFactor
       };
 
-      let maxValue = this.props.graphData[this.props.graphData.length - 1].distance; //What is the value that the biggest circle will represent
-
-      let total = 20; //The number of different axes
-
-      let angleSlice = Math.PI * 2 / total; //The width in radians of each "slice"
-
-      xFactor = (this.props.graphData[i].distance / maxValue) * edgeLengthFactor * Math.cos(angleSlice * i - Math.PI / 2);
-
-      yFactor = (this.props.graphData[i].distance / maxValue) * edgeLengthFactor * Math.sin(angleSlice * i - Math.PI / 2);
-
       this.nodes.push(obj);
     }
 
     //BUILD EDGES
     for (i = 1; i < this.props.graphData.length * maxFragsAnalyzedPercentage; i++) {
-      let myLength = 0;
-
-      if (this.props.graphData[i].distance > 0) {
-        myLength = (this.props.graphData[i].distance / mostDistantFragmentDistance) * 10000; //* edgeLengthFactor;
-      }
-
-      //truncate max value
-      //if (myLength > edgeLengthFactor / 2) {
-      //  myLength = edgeLengthFactor / 2;
-      //}
-
-      //console.log("myLength: " + myLength);
 
       obj = {
         from: this.props.graphData[0].interId,
         to: this.props.graphData[i].interId,
-        length: 1,
-        hidden: false
+        hidden: true
       };
 
       this.edges.push(obj);
@@ -202,8 +219,7 @@ class ConnectedNetworkGraph extends Component {
         dragNodes: false,
         dragView: true,
         zoomView: true,
-        hover: true,
-        focus: true
+        hover: true
       }
     };
 
@@ -297,7 +313,7 @@ class ConnectedNetworkGraph extends Component {
     //this.network.on("hoverNode", this.handleHoverNode);
 
     //this.network.stabilize(1);
-    this.network.stabilize(30);
+    //this.network.stabilize(30);
     container.style.height = 750 + 'px';
     this.network.redraw();
     //this.network.fit();
@@ -307,14 +323,14 @@ class ConnectedNetworkGraph extends Component {
         x: 0,
         y: 0
       }, // position to animate to (Numbers)
-      scale: 0.5, // scale to animate to  (Number)
+      scale: 2, // scale to animate to  (Number)
       offset: {
         x: 0,
         y: 0
       }, // offset from the center in DOM pixels (Numbers)
       animation: { // animation object, can also be Boolean
         duration: 1000, // animation duration in milliseconds (Number)
-        easingFunction: "easeInOutQuad" // Animation easing function, available are:
+        easingFunction: "easeInCubic" // Animation easing function, available are:
       } // linear, easeInQuad, easeOutQuad, easeInOutQuad,
     } // easeInCubic, easeOutCubic, easeInOutCubic,
     // easeInQuart, easeOutQuart, easeInOutQuart,

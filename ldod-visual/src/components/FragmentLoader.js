@@ -118,18 +118,23 @@ class ConnectedFragmentLoader extends React.Component {
   }
 
   componentDidMount() {
-    const service = new RepositoryService();
-    console.log("FragmentLoader.js: componentDidMount -> requesting fragments")
-    service.getFragments(this.state.acronym).then(response => {
-      response.data.fragments.map(f => this.props.addFragment(f));
-      this.props.fragments.map(f => this.map.set(f.interId, f));
-      this.props.setfragmentsHashMap(this.map);
+    if (!this.props.allFragmentsLoaded) {
+      const service = new RepositoryService();
+      console.log("FragmentLoader.js: componentDidMount -> requesting fragments")
+      service.getFragments(this.state.acronym).then(response => {
 
-      console.log("FragmentLoader.js: fragments loaded at componentdidmount")
+        response.data.fragments.map(f => this.props.addFragment(f));
+        this.props.fragments.map(f => this.map.set(f.interId, f));
+        this.props.setfragmentsHashMap(this.map);
 
-      this.props.setAllFragmentsLoaded(true);
-      //alert(this.props.fragments.length)
-    });
+        console.log("Categories array length: " + response.data.categories.length);
+        response.data.categories.map(f => console.log("Categories: " + f));
+        console.log("FragmentLoader.js: fragments received");
+
+        this.props.setAllFragmentsLoaded(true);
+        //alert(this.props.fragments.length)
+      });
+    }
   }
 
   render() {
