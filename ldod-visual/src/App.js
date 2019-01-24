@@ -10,7 +10,8 @@ import {
   setSemanticCriteria,
   setVisualizationTechnique,
   setPotentialVisualizationTechnique,
-  setPotentialSemanticCriteria
+  setPotentialSemanticCriteria,
+  setDisplayTextSkimming
 } from "./actions/index";
 import {connect} from "react-redux";
 import {Button, ButtonToolbar, Modal} from "react-bootstrap";
@@ -42,7 +43,8 @@ const mapStateToProps = state => {
     visualizationTechnique: state.visualizationTechnique,
     semanticCriteria: state.semanticCriteria,
     potentialVisualizationTechnique: state.potentialVisualizationTechnique,
-    potentialSemanticCriteria: state.potentialSemanticCriteria
+    potentialSemanticCriteria: state.potentialSemanticCriteria,
+    displayTextSkimming: state.displayTextSkimming
   };
 };
 
@@ -57,7 +59,8 @@ const mapDispatchToProps = dispatch => {
     setVisualizationTechnique: visualizationTechnique => dispatch(setVisualizationTechnique(visualizationTechnique)),
     setSemanticCriteria: semanticCriteria => dispatch(setSemanticCriteria(semanticCriteria)),
     setPotentialVisualizationTechnique: potentialVisualizationTechnique => dispatch(setPotentialVisualizationTechnique(potentialVisualizationTechnique)),
-    setPotentialSemanticCriteria: potentialSemanticCriteria => dispatch(setPotentialSemanticCriteria(potentialSemanticCriteria))
+    setPotentialSemanticCriteria: potentialSemanticCriteria => dispatch(setPotentialSemanticCriteria(potentialSemanticCriteria)),
+    setDisplayTextSkimming: displayTextSkimming => dispatch(setDisplayTextSkimming(displayTextSkimming))
   };
 };
 
@@ -75,7 +78,8 @@ class ConnectedApp extends Component {
       showGlobalView: false,
       showHistoric: false,
       showLanding: true,
-      showLandingActivity: false
+      showLandingActivity: false,
+      toggleTextSkimming: false
     };
 
     this.landingActivityToRender = <p>Loading fragments...</p>;
@@ -99,6 +103,8 @@ class ConnectedApp extends Component {
     //show landing activities
     this.handleShowLandingActivitySquareEditionOrder = this.handleShowLandingActivitySquareEditionOrder.bind(this);
     this.handleShowLandingActivitySquareDateOrder = this.handleShowLandingActivitySquareDateOrder.bind(this);
+
+    this.handleToggleTextSkimming = this.handleToggleTextSkimming.bind(this);
   }
 
   handleClickPrevious() {
@@ -179,8 +185,14 @@ class ConnectedApp extends Component {
 
   setPickedFragmentMode() {}
 
+  handleToggleTextSkimming() {
+    this.setState({
+      toggleTextSkimming: !this.state.toggleTextSkimming
+    });
+  }
+
   render() {
-    console.log("App.js: Rendering")
+    console.log(new Date().getTime() + " App.js: Rendering")
 
     //BUTTON LOGIC
     if (this.props.outOfLandingPage) {
@@ -256,12 +268,26 @@ class ConnectedApp extends Component {
 
       buttonToolBarToRender = <div/>;
     }
+
+    let toggleTextSkimmingButtonMessage = "...";
+    if (this.state.toggleTextSkimming) {
+      toggleTextSkimmingButtonMessage = "Esconder as palavras mais relevantes deste fragmento"
+    } else {
+      toggleTextSkimmingButtonMessage = "Destacar as palavras mais relevantes deste fragmento"
+    }
+
     return (<div className="app">
 
       <FragmentLoader/> {buttonToolBarToRender}
 
       <div>
-        <Fragment/>
+        <Fragment toggleTextSkimming={this.state.toggleTextSkimming}/>
+      </div>
+
+      <div className="toggleTextSkimming">
+        <Button bsStyle="primary" bsSize="large" onClick={this.handleToggleTextSkimming}>
+          {toggleTextSkimmingButtonMessage}
+        </Button>
       </div>
 
       <Modal show={this.state.showLanding} dialogClassName="custom-modal">

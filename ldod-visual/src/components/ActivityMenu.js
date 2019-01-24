@@ -3,7 +3,7 @@ import "./ActivityMenu.css";
 import {connect} from "react-redux";
 import {Button, ButtonToolbar, Modal} from "react-bootstrap";
 import NetworkGraphContainer from "../containers/NetworkGraphContainer";
-import {setCurrentVisualization, setPotentialVisualizationTechnique, setPotentialSemanticCriteria, setSemanticCriteriaDataLoaded} from "../actions/index";
+import {setCurrentVisualization, setPotentialVisualizationTechnique, setPotentialSemanticCriteria, setSemanticCriteriaDataLoaded, setDisplayTextSkimming} from "../actions/index";
 import SquareGrid from "../components/SquareGrid";
 
 import {
@@ -24,7 +24,8 @@ const mapDispatchToProps = dispatch => {
     setCurrentVisualization: currentVisualization => dispatch(setCurrentVisualization(currentVisualization)),
     setPotentialVisualizationTechnique: potentialVisualizationTechnique => dispatch(setPotentialVisualizationTechnique(potentialVisualizationTechnique)),
     setPotentialSemanticCriteria: potentialSemanticCriteria => dispatch(setPotentialSemanticCriteria(potentialSemanticCriteria)),
-    setSemanticCriteriaDataLoaded: semanticCriteriaDataLoaded => dispatch(setSemanticCriteriaDataLoaded(semanticCriteriaDataLoaded))
+    setSemanticCriteriaDataLoaded: semanticCriteriaDataLoaded => dispatch(setSemanticCriteriaDataLoaded(semanticCriteriaDataLoaded)),
+    setDisplayTextSkimming: displayTextSkimming => dispatch(setDisplayTextSkimming(displayTextSkimming))
   };
 };
 
@@ -35,7 +36,8 @@ const mapStateToProps = state => {
     currentVisualization: state.currentVisualization,
     recommendationArray: state.recommendationArray,
     recommendationIndex: state.recommendationIndex,
-    recommendationLoaded: state.recommendationLoaded
+    recommendationLoaded: state.recommendationLoaded,
+    displayTextSkimming: state.displayTextSkimming
   };
 };
 

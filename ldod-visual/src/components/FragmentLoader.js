@@ -7,7 +7,8 @@ import {
   setRecommendationArray,
   setRecommendationLoaded,
   setSemanticCriteriaData,
-  setPotentialSemanticCriteriaData
+  setPotentialSemanticCriteriaData,
+  setFragmentsSortedByDate
 } from "../actions/index";
 import {connect} from "react-redux";
 import HashMap from "hashmap";
@@ -52,7 +53,8 @@ const mapDispatchToProps = dispatch => {
     setRecommendationArray: recommendationArray => dispatch(setRecommendationArray(recommendationArray)),
     setRecommendationLoaded: recommendationLoaded => dispatch(setRecommendationLoaded(recommendationLoaded)),
     setSemanticCriteriaData: semanticCriteriaData => dispatch(setSemanticCriteriaData(semanticCriteriaData)),
-    setPotentialSemanticCriteriaData: potentialSemanticCriteriaData => dispatch(setPotentialSemanticCriteriaData(potentialSemanticCriteriaData))
+    setPotentialSemanticCriteriaData: potentialSemanticCriteriaData => dispatch(setPotentialSemanticCriteriaData(potentialSemanticCriteriaData)),
+    setFragmentsSortedByDate: fragmentsSortedByDate => dispatch(setFragmentsSortedByDate(fragmentsSortedByDate))
   };
 };
 
@@ -64,12 +66,6 @@ class ConnectedFragmentLoader extends React.Component {
 
     this.sortedFragmentsByDate = [];
 
-    this.state = {
-      acronym: "LdoD-Arquivo",
-      //acronym: "LdoD-test",
-      localHistoryCount: 0,
-      idsDistanceArray: []
-    };
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -121,11 +117,49 @@ class ConnectedFragmentLoader extends React.Component {
     if (!this.props.allFragmentsLoaded) {
       const service = new RepositoryService();
       console.log("FragmentLoader.js: componentDidMount -> requesting fragments")
-      service.getFragments(this.state.acronym).then(response => {
+      service.getFragments().then(response => {
+        console.log("FragmentLoader.js: receiving fragments");
 
-        response.data.fragments.map(f => this.props.addFragment(f));
+        this.props.addFragment(response.data.fragments);
         this.props.fragments.map(f => this.map.set(f.interId, f));
         this.props.setfragmentsHashMap(this.map);
+
+        let unorderedFragments = [];
+        let noDateFragments = [];
+
+        this.props.fragments.map(f => {
+          if (f.meta.date !== null) 
+            return (unorderedFragments.push(f));
+          return (noDateFragments.push(f));
+        });
+
+        unorderedFragments.sort((frag1, frag2) => {
+          let date1 = frag1.meta.date.split('-');
+          let date2 = frag2.meta.date.split('-');
+          let year1 = parseInt(date1[0]);
+          let year2 = parseInt(date2[0]);
+          let month1 = parseInt(date1[1]);
+          let month2 = parseInt(date2[1]);
+          let day1 = parseInt(date1[2]);
+          let day2 = parseInt(date2[2]);
+          if (year1 !== year2) {
+            return year1 - year2;
+          } else if (month1 !== month2) {
+            return month1 - month2;
+          } else {
+            return day1 - day2;
+          }
+        });
+
+        console.log(unorderedFragments.length);
+
+        let myFragmentsSortedByDate = unorderedFragments.concat(noDateFragments);
+
+        console.log(myFragmentsSortedByDate.length);
+
+        myFragmentsSortedByDate.map(f => console.log(f.meta.date));
+
+        this.props.setFragmentsSortedByDate(myFragmentsSortedByDate);
 
         console.log("Categories array length: " + response.data.categories.length);
         response.data.categories.map(f => console.log("Categories: " + f));

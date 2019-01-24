@@ -39,3 +39,9 @@ Button:not(:last-child){
   width: 100%;
   height: 100%;
 }
+
+.toggleTextSkimming{
+  display: inline-block;
+  flex-direction: row;
+  margin: 30px auto;
+}

@@ -17,6 +17,8 @@ import {SET_SEMANTIC_CRITERIA_DATA_LOADED} from "../constants/action-types";
 import {SET_POTENTIAL_VISUALIZATION_TECHNIQUE} from "../constants/action-types";
 import {SET_POTENTIAL_SEMANTIC_CRITERIA} from "../constants/action-types";
 import {SET_POTENTIAL_SEMANTIC_CRITERIA_DATA} from "../constants/action-types";
+import {SET_FRAGMENTS_SORTED_BY_DATE} from "../constants/action-types";
+import {SET_DISPLAY_TEXT_SKIMMING} from "../constants/action-types";
 
 const initialState = {
   fragments: [],
@@ -37,7 +39,9 @@ const initialState = {
   semanticCriteriaDataLoaded: true,
   potentialVisualizationTechnique: 0,
   potentialSemanticCriteria: 0,
-  potentialSemanticCriteriaData: []
+  potentialSemanticCriteriaData: [],
+  fragmentsSortedByDate: [],
+  displayTextSkimming: false
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -45,10 +49,7 @@ const rootReducer = (state = initialState, action) => {
     case ADD_FRAGMENT:
       return {
         ...state,
-        fragments: [
-          ...state.fragments,
-          action.payload
-        ]
+        fragments: action.payload
       };
     case SET_FRAGMENT_INDEX:
       return {
@@ -142,6 +143,16 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         potentialSemanticCriteriaData: action.payload
+      };
+    case SET_FRAGMENTS_SORTED_BY_DATE:
+      return {
+        ...state,
+        fragmentsSortedByDate: action.payload
+      };
+    case SET_DISPLAY_TEXT_SKIMMING:
+      return {
+        ...state,
+        setDisplayTextSkimming: action.payload
       };
     default:
       return state;

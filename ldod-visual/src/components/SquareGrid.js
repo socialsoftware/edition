@@ -31,7 +31,8 @@ const mapStateToProps = state => {
     semanticCriteria: state.semanticCriteria,
     allFragmentsLoaded: state.allFragmentsLoaded,
     potentialVisualizationTechnique: state.potentialVisualizationTechnique,
-    potentialSemanticCriteria: state.potentialSemanticCriteria
+    potentialSemanticCriteria: state.potentialSemanticCriteria,
+    fragmentsSortedByDate: state.fragmentsSortedByDate
   };
 };
 
@@ -71,30 +72,12 @@ class ConnectedSquareGrid extends Component {
     if (this.props.currentFragmentMode && this.props.potentialSemanticCriteria == CRIT_EDITION_ORDER) {
       this.myFragmentArray = this.props.fragments;
     } else if (this.props.currentFragmentMode && this.props.potentialSemanticCriteria == CRIT_CHRONOLOGICAL_ORDER) {
-      this.myFragmentArray = this.props.fragments; //TODO: CHANGE TO ORDERED BY DATE ARRAY
+      this.myFragmentArray = this.props.fragmentsSortedByDate; //TODO: CHANGE TO ORDERED BY DATE ARRAY
     } else if (!this.props.currentFragmentMode && this.props.semanticCriteria == CRIT_EDITION_ORDER) {
       this.myFragmentArray = this.props.fragments;
     } else if (!this.props.currentFragmentMode && this.props.semanticCriteria == CRIT_CHRONOLOGICAL_ORDER) {
-      this.myFragmentArray = this.props.fragments; //TODO: CHANGE TO ORDERED BY DATE ARRAY
+      this.myFragmentArray = this.props.fragmentsSortedByDate; //TODO: CHANGE TO ORDERED BY DATE ARRAY
     }
-
-    /*
-    this.sortedFragmentsByDate.map(f => console.log("BEFORE SORTING: " + f.meta.dates))
-
-    this.sortedFragmentsByDate.sort(function(a, b) {
-      console.log("date from fragment a: " + a.meta.dates);
-      a = new Date(a.meta.dates);
-      console.log("new Date object a: " + a);
-      console.log("«»");
-      console.log("date from fragment b: " + b.meta.dates);
-      b = new Date(b.meta.dates);
-      console.log("new Date object b: " + b);
-      console.log("============");
-      return a - b
-    });
-
-    this.sortedFragmentsByDate.map(f => console.log("TEST: " + f.meta.dates))
-    */
 
     const maxFragsAnalyzedPercentage = 1.0;
     const edgeLengthFactor = 10000;
@@ -112,16 +95,36 @@ class ConnectedSquareGrid extends Component {
 
     for (i = 0; i < this.myFragmentArray.length; i++) {
 
-      const myTitle = this.myFragmentArray[i].meta.title;
+      let myTitle = this.myFragmentArray[i].meta.title;
       const myText = this.myFragmentArray[i].text;
 
+      //red
       let nodeBorderColor = "#DC143C"
       let nodeBackgroundColor = "#FF7F50"
+
+      //grey if date is a criteria and fragment has no date
+
+      let dateExistsAndChronologicalCriteria = true;
+      //grey
+      if ((this.props.currentFragmentMode && this.props.potentialSemanticCriteria == CRIT_CHRONOLOGICAL_ORDER && this.myFragmentArray[i].meta.date == null) || (!(this.props.currentFragmentMode) && this.props.semanticCriteria == CRIT_CHRONOLOGICAL_ORDER && this.myFragmentArray[i].meta.date == null)) {
+        dateExistsAndChronologicalCriteria = false;
+        nodeBorderColor = "#101010";
+        nodeBackgroundColor = "#505050";
+      }
+
+      if (dateExistsAndChronologicalCriteria) {
+        myTitle = this.myFragmentArray[i].meta.title + " | Data: " + this.myFragmentArray[i].meta.date;
+      }
+
+      console.log(3);
+
+      //purple
       if (!this.props.currentFragmentMode && this.myFragmentArray[i].interId === this.props.recommendationArray[this.props.recommendationIndex].interId) {
         nodeBorderColor = "#800080";
         nodeBackgroundColor = "#663399";
       }
 
+      //blue
       if (this.props.outOfLandingPage && this.myFragmentArray[i].interId === this.props.fragments[this.props.fragmentIndex].interId) {
         nodeBorderColor = "#2B7CE9";
         nodeBackgroundColor = "#D2E5FF";
@@ -175,11 +178,13 @@ class ConnectedSquareGrid extends Component {
     //BUILD EDGES
     for (i = 0; i < this.myFragmentArray.length - 1; i++) {
 
+      let showEdge = (this.props.currentFragmentMode && this.props.potentialSemanticCriteria == CRIT_CHRONOLOGICAL_ORDER && this.myFragmentArray[i + 1].meta.date == null) || (!(this.props.currentFragmentMode) && this.props.semanticCriteria == CRIT_CHRONOLOGICAL_ORDER && this.myFragmentArray[i + 1].meta.date == null)
+
       obj = {
         from: this.myFragmentArray[i].interId,
         to: this.myFragmentArray[i + 1].interId,
         length: 1,
-        hidden: false,
+        hidden: showEdge,
         arrows: 'to',
         hoverWidth: 0
       };

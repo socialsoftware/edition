@@ -88,7 +88,7 @@ class ConnectedNetworkGraph extends Component {
 
     const maxFragsAnalyzedPercentage = 1.0;
     const edgeLengthFactor = 10000;
-    const originalFragmentSize = 5; //Math.max(5, Math.floor(this.props.graphData.length * 0.01));
+    const originalFragmentSize = 15; //Math.max(5, Math.floor(this.props.graphData.length * 0.01));
     const mostDistantFragmentDistance = this.props.graphData[this.props.graphData.length - 1].distance;
     const graphHeight = 500;
 
@@ -139,7 +139,7 @@ class ConnectedNetworkGraph extends Component {
 
       this.recommendationArray.push(this.props.fragmentsHashMap.get(this.props.graphData[i].interId));
 
-      let total = 8; //The number of different axes
+      let total = 20; //The number of different axes
 
       let maxValue = this.props.graphData[this.props.graphData.length - 1].distance; //What is the value that the biggest circle will represent
 
@@ -148,6 +148,7 @@ class ConnectedNetworkGraph extends Component {
       if (distance != 0) {
         console.log("Actual value %: " + distance / maxValue * 100);
       }
+
       //small interpolation for when the distance is zero
       if (distance === 0) {
         console.log("Actual value %: 0");
@@ -175,7 +176,7 @@ class ConnectedNetworkGraph extends Component {
         //label: "",
         shape: "dot",
         margin: 5, //só funciona com circle...
-        size: originalFragmentSize * 0.8,
+        size: originalFragmentSize * 0.3,
         color: {
           border: nodeBorderColor,
           background: nodeBackgroundColor

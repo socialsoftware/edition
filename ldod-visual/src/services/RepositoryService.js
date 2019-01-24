@@ -10,15 +10,20 @@ export class RepositoryService {
         'X-Custom-Header': 'BlendedWorkflow'
       }
     });
+
+    this.state = {
+      //acronym: "LdoD-Arquivo",
+      acronym: "LdoD-test"
+    };
   }
 
   // Specifications
-  getFragments(acronym) {
-    return this.axios.get("/virtualeditions/acronym/" + acronym + "/fragments");
+  getFragments() {
+    return this.axios.get("/virtualeditions/acronym/" + this.state.acronym + "/fragments");
   }
 
-  getTranscriptions(acronym) {
-    return this.axios.get("/virtualeditions/acronym/" + acronym + "/transcriptions");
+  getTranscriptions() {
+    return this.axios.get("/virtualeditions/acronym/" + this.state.acronym + "/transcriptions");
   }
 
   getIntersByDistance(interId, heteronym, text, date, taxonomy) {
@@ -31,5 +36,8 @@ export class RepositoryService {
   }
 
   //http://localhost:8080/virtualeditions/acronym/LdoD-test/interId/281861523767368/tfidf
+  getFragmentTfIdf(interId) {
+    return this.axios.get("/virtualeditions/acronym/" + this.state.acronym + "/interId/" + interId + "/tfidf");
+  }
 
 }
