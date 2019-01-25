@@ -116,8 +116,6 @@ class ConnectedSquareGrid extends Component {
         myTitle = this.myFragmentArray[i].meta.title + " | Data: " + this.myFragmentArray[i].meta.date;
       }
 
-      console.log(3);
-
       //purple
       if (!this.props.currentFragmentMode && this.myFragmentArray[i].interId === this.props.recommendationArray[this.props.recommendationIndex].interId) {
         nodeBorderColor = "#800080";

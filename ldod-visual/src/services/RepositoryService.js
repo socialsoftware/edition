@@ -10,6 +10,7 @@ export class RepositoryService {
         'X-Custom-Header': 'BlendedWorkflow'
       }
     });
+    //this.axios.setHeader('accept-encoding', 'null');
 
     this.state = {
       //acronym: "LdoD-Arquivo",

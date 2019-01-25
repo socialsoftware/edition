@@ -1,7 +1,28 @@
+@font-face {
+   font-family: 'Gingham';
+   src: url('Gingham.woff2') format('woff2'),
+   url('Gingham.woff') format('woff'),
+   url('Gingham.ttf') format('truetype');
+   /*font-weight: normal;
+   font-style: normal;
+   format('truetype');*/
+ }
+
+ @font-face {
+    font-family: 'Amstelvar';
+    src: url('AmstelvarAlpha-VF.ttf') format('truetype');
+    /*font-weight: normal;
+    font-style: normal;
+    format('truetype');*/
+  }
+
+
 .app {
   display: flex;
   flex-direction: column;
-  font-family: Consolas, monaco, monospace;
+  font-family: 'Amstelvar';/*Gingham; Consolas; Amstelvar;*/
+  font-weight: 400;
+  font-size: 24px;
   padding: 20px;
 }
 
