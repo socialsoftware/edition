@@ -17,6 +17,7 @@ import org.mockito.Mock;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.socialsoftware.edition.ldod.MockitoExtension;
+import pt.ist.socialsoftware.edition.ldod.TestLoadUtils;
 import pt.ist.socialsoftware.edition.ldod.TestWithFragmentsLoading;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
 
@@ -56,8 +57,7 @@ public class CriteriaTests extends TestWithFragmentsLoading {
 
 	@Override
 	protected void unpopulate4Test() {
-		this.virtualEdition.remove();
-		this.user.remove();
+		TestLoadUtils.cleanDatabaseButCorpus();
 	}
 
 	@Test

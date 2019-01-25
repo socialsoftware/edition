@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.core.WriteOnReadError;
+import pt.ist.socialsoftware.edition.ldod.TestLoadUtils;
 import pt.ist.socialsoftware.edition.ldod.TestWithFragmentsLoading;
 import pt.ist.socialsoftware.edition.ldod.domain.AwareAnnotation;
 import pt.ist.socialsoftware.edition.ldod.domain.Citation;
@@ -44,6 +45,7 @@ public class VirtualEditionFragmentsTEIExportTest extends TestWithFragmentsLoadi
 
 	@Override
 	protected void unpopulate4Test() {
+		TestLoadUtils.cleanDatabaseButCorpus();
 	}
 
 	@Test

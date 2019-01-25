@@ -10,24 +10,19 @@ import org.junit.jupiter.api.BeforeEach;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
-import pt.ist.socialsoftware.edition.ldod.utils.Bootstrap;
 
 public abstract class TestWithFragmentsLoading {
 
 	@BeforeAll
 	@Atomic(mode = TxMode.WRITE)
 	public static void setUpAll() throws FileNotFoundException {
-		TestLoadUtils.cleanDatabase();
-
-		Bootstrap.initializeSystem();
-
-		TestLoadUtils.loadCorpus();
+		TestLoadUtils.setUpDatabaseWithCorpus();
 	}
 
 	@AfterAll
 	@Atomic(mode = TxMode.WRITE)
-	public static void tearDownAll() {
-		TestLoadUtils.cleanDatabase();
+	public static void tearDownAll() throws FileNotFoundException {
+		TestLoadUtils.cleanDatabaseButCorpus();
 	}
 
 	@BeforeEach

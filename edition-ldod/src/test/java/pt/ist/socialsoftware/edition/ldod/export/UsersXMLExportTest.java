@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.core.WriteOnReadError;
+import pt.ist.socialsoftware.edition.ldod.TestLoadUtils;
 import pt.ist.socialsoftware.edition.ldod.TestWithFragmentsLoading;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
@@ -32,6 +33,7 @@ public class UsersXMLExportTest extends TestWithFragmentsLoading {
 
 	@Override
 	protected void unpopulate4Test() {
+		TestLoadUtils.cleanDatabaseButCorpus();
 	}
 
 	@Test

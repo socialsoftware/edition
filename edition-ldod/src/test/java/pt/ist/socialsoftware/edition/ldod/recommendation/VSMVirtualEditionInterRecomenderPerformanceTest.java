@@ -2,6 +2,7 @@ package pt.ist.socialsoftware.edition.ldod.recommendation;
 
 import static org.junit.Assert.assertTrue;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -11,11 +12,15 @@ import java.util.stream.Collectors;
 
 import org.apache.lucene.queryparser.classic.ParseException;
 import org.joda.time.LocalDate;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
-import pt.ist.socialsoftware.edition.ldod.TestWithFragmentsLoading;
+import pt.ist.socialsoftware.edition.ldod.TestLoadUtils;
 import pt.ist.socialsoftware.edition.ldod.domain.Edition;
 import pt.ist.socialsoftware.edition.ldod.domain.ExpertEdition;
 import pt.ist.socialsoftware.edition.ldod.domain.FragInter;
@@ -32,7 +37,7 @@ import pt.ist.socialsoftware.edition.ldod.recommendation.properties.TextProperty
 import pt.ist.socialsoftware.edition.ldod.topicmodeling.TopicModeler;
 import pt.ist.socialsoftware.edition.ldod.utils.TopicListDTO;
 
-public class VSMVirtualEditionInterRecomenderPerformanceTest extends TestWithFragmentsLoading {
+public class VSMVirtualEditionInterRecomenderPerformanceTest {
 	private static VirtualEdition pizarroVirtualEdition = null;
 	private static Set<VirtualEditionInter> pizarroVirtualEditionInters = null;
 	private static VirtualEdition zenithVirtualEdition = null;
@@ -41,17 +46,26 @@ public class VSMVirtualEditionInterRecomenderPerformanceTest extends TestWithFra
 	private static Set<VirtualEditionInter> cunhaVirtualEditionInters = null;
 	private static VSMRecommender<VirtualEditionInter> recommender;
 
-	@Override
-	protected String[] fragmentsToLoad4Test() {
-		String[] fragments = { "001.xml", "002.xml", "003.xml" };
+	@BeforeAll
+	@Atomic(mode = TxMode.WRITE)
+	public static void setUpAll() throws FileNotFoundException {
+		TestLoadUtils.setUpDatabaseWithCorpus();
 
-		return fragments;
+		String[] fragments = { "001.xml", "002.xml", "003.xml" };
+		TestLoadUtils.loadFragments(fragments);
 	}
 
-	// Assuming that the 4 expert editions and user ars are in the database
-	@Override
+	@AfterAll
 	@Atomic(mode = TxMode.WRITE)
-	protected void populate4Test() {
+	public static void tearDownAll() throws FileNotFoundException {
+		TestLoadUtils.cleanDatabaseButCorpus();
+	}
+
+	// Assuming that the 4 expert editions, the archive edition and user ars are
+	// in the database @BeforeAll
+	@BeforeEach
+	@Atomic(mode = TxMode.WRITE)
+	protected void setUp() {
 		LdoD ldoD = LdoD.getInstance();
 		ExpertEdition pizarroEdition = (ExpertEdition) ldoD.getEdition(Edition.PIZARRO_EDITION_ACRONYM);
 		ExpertEdition zenithEdition = (ExpertEdition) ldoD.getEdition(Edition.ZENITH_EDITION_ACRONYM);
@@ -92,7 +106,8 @@ public class VSMVirtualEditionInterRecomenderPerformanceTest extends TestWithFra
 		recommender = new VSMVirtualEditionInterRecommender();
 	}
 
-	@Override
+	@AfterEach
+	@Atomic(mode = TxMode.WRITE)
 	protected void unpopulate4Test() {
 		pizarroVirtualEdition.remove();
 		zenithVirtualEdition.remove();

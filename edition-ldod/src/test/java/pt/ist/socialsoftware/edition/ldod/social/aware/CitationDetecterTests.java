@@ -4,32 +4,46 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import pt.ist.fenixframework.Atomic;
+import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.socialsoftware.edition.ldod.MockitoExtension;
-import pt.ist.socialsoftware.edition.ldod.TestWithFragmentsLoading;
+import pt.ist.socialsoftware.edition.ldod.TestLoadUtils;
 
 @ExtendWith(MockitoExtension.class)
-public class CitationDetecterTests extends TestWithFragmentsLoading {
+public class CitationDetecterTests {
 
 	private final Logger logger = LoggerFactory.getLogger(CitationDetecterTests.class);
 
 	private CitationDetecter detecter;
 
-	@Override
-	protected String[] fragmentsToLoad4Test() {
-		String[] fragments = { "001.xml", "002.xml", "003.xml" };
+	@BeforeAll
+	@Atomic(mode = TxMode.WRITE)
+	public static void setUpAll() throws FileNotFoundException {
+		TestLoadUtils.setUpDatabaseWithCorpus();
 
-		return fragments;
+		String[] fragments = { "001.xml", "002.xml", "003.xml" };
+		TestLoadUtils.loadFragments(fragments);
 	}
 
-	@Override
+	@AfterAll
+	@Atomic(mode = TxMode.WRITE)
+	public static void tearDownAll() throws FileNotFoundException {
+		TestLoadUtils.cleanDatabaseButCorpus();
+	}
+
+	@BeforeEach
 	public void populate4Test() {
 		try {
 			this.detecter = new CitationDetecter();
@@ -37,10 +51,6 @@ public class CitationDetecterTests extends TestWithFragmentsLoading {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	}
-
-	@Override
-	protected void unpopulate4Test() {
 	}
 
 	@Test

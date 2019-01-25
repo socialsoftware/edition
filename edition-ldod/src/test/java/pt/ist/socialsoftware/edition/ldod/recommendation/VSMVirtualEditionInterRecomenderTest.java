@@ -20,6 +20,7 @@ import org.slf4j.LoggerFactory;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
+import pt.ist.socialsoftware.edition.ldod.TestLoadUtils;
 import pt.ist.socialsoftware.edition.ldod.TestWithFragmentsLoading;
 import pt.ist.socialsoftware.edition.ldod.domain.Edition;
 import pt.ist.socialsoftware.edition.ldod.domain.ExpertEdition;
@@ -83,7 +84,7 @@ public class VSMVirtualEditionInterRecomenderTest extends TestWithFragmentsLoadi
 
 	@Override
 	protected void unpopulate4Test() {
-		this.virtualEdition.remove();
+		TestLoadUtils.cleanDatabaseButCorpus();
 	}
 
 	@Test
