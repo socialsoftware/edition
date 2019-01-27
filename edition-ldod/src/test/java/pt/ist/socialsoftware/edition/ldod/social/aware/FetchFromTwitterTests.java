@@ -10,6 +10,7 @@ import static org.mockito.Mockito.verify;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Locale;
 import java.util.Map;
 
 import org.junit.jupiter.api.Test;
@@ -128,7 +129,7 @@ public class FetchFromTwitterTests extends TestWithFragmentsLoading {
 	public void getTweetByIdTest() {
 		Status s = this.fetchFromTwitter.getTweetById(1019702700102111233l, this.twitter);
 
-		assertEquals("18-Jul-2018 22:57:23", new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss").format(s.getCreatedAt()));
+		assertEquals("18-Jul-2018 22:57:23", new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss", Locale.US).format(s.getCreatedAt()));
 		assertNull(s.getPlace());
 
 		// TODO: o URL da imagem parece que mudou ...
