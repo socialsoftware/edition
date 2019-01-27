@@ -98,4 +98,63 @@ public class ReadingTest {
 				.andExpect(status().is3xxRedirection())
 				.andExpect(redirectedUrl("/reading/fragment/Fr001/inter/Fr001_WIT_ED_CRIT_P"));
 	}
+
+	@Test
+	@Atomic(mode = Atomic.TxMode.WRITE)
+	public void readFromInterTest() throws Exception {
+		this.mockMvc.perform(get("/reading/fragment/{xmlId}/inter/{urlId}/start","Fr001","Fr001_WIT_ED_CRIT_P"))
+				.andDo(print())
+				.andExpect(status().is3xxRedirection())
+				.andExpect(redirectedUrl("/reading/fragment/Fr001/inter/Fr001_WIT_ED_CRIT_P"));
+	}
+
+	@Test
+	@Atomic(mode = Atomic.TxMode.WRITE)
+	public void readFromInterXmlErrorTest() throws Exception {
+		this.mockMvc.perform(get("/reading/fragment/{xmlId}/inter/{urlId}/start","ERROR","Fr001_WIT_ED_CRIT_P"))
+				.andDo(print())
+				.andExpect(status().is3xxRedirection()).andExpect(redirectedUrl("/error"));
+	}
+
+	@Test
+	@Atomic(mode = Atomic.TxMode.WRITE)
+	public void readFromInterUrlErrorTest() throws Exception {
+		this.mockMvc.perform(get("/reading/fragment/{xmlId}/inter/{urlId}/start","Fr001","ERROR"))
+				.andDo(print())
+				.andExpect(status().is3xxRedirection()).andExpect(redirectedUrl("/error"));
+	}
+
+	@Test
+	@Atomic(mode = Atomic.TxMode.WRITE)
+	public void readNextInterXmlErrorTest() throws Exception {
+		this.mockMvc.perform(get("/reading/fragment/{xmlId}/inter/{urlId}/next","ERROR","Fr001_WIT_ED_CRIT_P"))
+				.andDo(print())
+				.andExpect(status().is3xxRedirection()).andExpect(redirectedUrl("/error"));
+	}
+
+	@Test
+	@Atomic(mode = Atomic.TxMode.WRITE)
+	public void readNextInterUrlErrorTest() throws Exception {
+		this.mockMvc.perform(get("/reading/fragment/{xmlId}/inter/{urlId}/next", "Fr001", "ERROR"))
+				.andDo(print())
+				.andExpect(status().is3xxRedirection()).andExpect(redirectedUrl("/error"));
+	}
+
+	@Test
+	@Atomic(mode = Atomic.TxMode.WRITE)
+	public void readPrevInterXmlErrorTest() throws Exception {
+		this.mockMvc.perform(get("/reading/fragment/{xmlId}/inter/{urlId}/prev","ERROR","Fr001_WIT_ED_CRIT_P"))
+				.andDo(print())
+				.andExpect(status().is3xxRedirection()).andExpect(redirectedUrl("/error"));
+	}
+
+	@Test
+	@Atomic(mode = Atomic.TxMode.WRITE)
+	public void readPrevInterUrlErrorTest() throws Exception {
+		this.mockMvc.perform(get("/reading/fragment/{xmlId}/inter/{urlId}/prev", "Fr001", "ERROR"))
+				.andDo(print())
+				.andExpect(status().is3xxRedirection()).andExpect(redirectedUrl("/error"));
+	}
+
+
 }
