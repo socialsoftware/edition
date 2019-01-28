@@ -21,9 +21,13 @@
   display: flex;
   flex-direction: column;
   font-family: 'Amstelvar';/*Gingham; Consolas; Amstelvar;*/
-  font-weight: 400;
+  font-weight: 300;
   font-size: 24px;
   padding: 20px;
+  font-weight: 300 900;
+  font-stretch: 35% 100%;
+  font-style: normal;
+  font-display: swap;
 }
 
 .buttonToolbar {

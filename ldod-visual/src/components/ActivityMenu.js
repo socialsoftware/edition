@@ -5,6 +5,7 @@ import {Button, ButtonToolbar, Modal} from "react-bootstrap";
 import NetworkGraphContainer from "../containers/NetworkGraphContainer";
 import {setCurrentVisualization, setPotentialVisualizationTechnique, setPotentialSemanticCriteria, setSemanticCriteriaDataLoaded, setDisplayTextSkimming} from "../actions/index";
 import SquareGrid from "../components/SquareGrid";
+import MyWordCloud from "../components/MyWordCloud";
 
 import {
   VIS_SQUARE_GRID,
@@ -61,6 +62,9 @@ class ConnectedActivityMenu extends Component {
     this.toggleSquareGridEditionOrder = this.toggleSquareGridEditionOrder.bind(this);
 
     this.toggleSquareGridDateOrder = this.toggleSquareGridDateOrder.bind(this);
+
+    this.toggleWordCloudTaxonomy = this.toggleWordCloudTaxonomy.bind(this);
+
   }
 
   toggleActivityNetworkGraphTextSimilarity() {
@@ -122,6 +126,16 @@ class ConnectedActivityMenu extends Component {
     }));
   }
 
+  toggleWordCloudTaxonomy() {
+
+    this.props.setPotentialVisualizationTechnique(VIS_WORD_CLOUD);
+    this.props.setPotentialSemanticCriteria(CRIT_TAXONOMY);
+    this.activityToRender = (<MyWordCloud onChange={this.props.onChange}/>);
+    this.setState(prevState => ({
+      show: !prevState.show
+    }));
+  }
+
   render() {
 
     if (this.state.show) {
@@ -150,6 +164,10 @@ class ConnectedActivityMenu extends Component {
 
         <Button bsStyle="primary" bsSize="large" onClick={this.toggleSquareGridDateOrder} block="block">
           Explorar os fragmentos desta edição ordenados por data
+        </Button>
+
+        <Button bsStyle="primary" bsSize="large" onClick={this.toggleWordCloudTaxonomy} block="block">
+          Explorar os fragmentos das categorias da taxonomia desta edição virtual
         </Button>
 
       </ButtonToolbar>);

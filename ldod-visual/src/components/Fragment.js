@@ -28,6 +28,11 @@ export class ConnectedFragment extends React.Component {
 
     this.oldTfIdfDataMap = new HashMap();
     this.currentFragmentTfIdfMap = new HashMap();
+
+    this.min = 1000;
+    this.max = 0.000001;
+    this.truncateCounter = 0;
+    this.TfIdfRequestCounter = 0;
   }
 
   render() {
@@ -55,15 +60,13 @@ export class ConnectedFragment extends React.Component {
             console.log("TF-IDF received for fragId " + currentlyDisplayedFragmentId);
             console.log(response.data);
 
-            console.log("<<<<<>>>>>");
-
             let myMap = new HashMap();
             response.data.map(d => console.log(Object.keys(d)[0] + " " + Object.values(d)[0]));
             response.data.map(d => myMap.set(Object.keys(d)[0], Object.values(d)[0]));
 
             this.oldTfIdfDataMap.set(currentlyDisplayedFragmentId, myMap);
 
-            console.log(this.oldTfIdfDataMap.get(currentlyDisplayedFragmentId));
+            this.TfIdfRequestCounter = this.TfIdfRequestCounter + 1;
 
             this.setState({
               toggleTextSkimmingUpdate: !this.state.toggleTextSkimmingUpdate
@@ -73,6 +76,8 @@ export class ConnectedFragment extends React.Component {
 
         } else {
           console.log("Fragment.js: => TF-IDF info already loaded. Using TF-IDF info in hashmap.");
+          console.log(this.oldTfIdfDataMap.get(currentlyDisplayedFragmentId));
+
           let dataMap;
           let wordsTfIdfMap = this.oldTfIdfDataMap.get(currentlyDisplayedFragmentId);
 
@@ -87,13 +92,21 @@ export class ConnectedFragment extends React.Component {
             if (wordsTfIdfMap.has(stringArray[w])) {
 
               let tfIdf = parseFloat(wordsTfIdfMap.get(stringArray[w]));
+              if (tfIdf < this.min) {
+                this.min = tfIdf
+              }
+              if (tfIdf > this.max) {
+                this.max = tfIdf
+              }
 
-              boldWeight = 400 + (tfIdf * 10000);
+              boldWeight = 300 + (tfIdf * 10000);
 
               console.log("TfIdf for word " + stringArray[w] + ": " + tfIdf + " | boldWeight: " + boldWeight);
 
               if (boldWeight > 999) {
                 boldWeight = 999;
+                console.log("truncating to 999")
+                this.truncateCounter = this.truncateCounter + 1;
               }
 
               stringArray[w] = (<span style={{
@@ -107,6 +120,10 @@ export class ConnectedFragment extends React.Component {
           }
 
           textToDisplay = stringArray;
+          console.log("min tf-idf: " + this.min);
+          console.log("max tf-idf: " + this.max);
+          console.log("truncateCounter: " + this.truncateCounter);
+          console.log("TfIdfRequestCounter: " + this.TfIdfRequestCounter);
 
         }
 

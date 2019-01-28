@@ -8,7 +8,8 @@ import {
   setRecommendationLoaded,
   setSemanticCriteriaData,
   setPotentialSemanticCriteriaData,
-  setFragmentsSortedByDate
+  setFragmentsSortedByDate,
+  setCategories
 } from "../actions/index";
 import {connect} from "react-redux";
 import HashMap from "hashmap";
@@ -54,7 +55,8 @@ const mapDispatchToProps = dispatch => {
     setRecommendationLoaded: recommendationLoaded => dispatch(setRecommendationLoaded(recommendationLoaded)),
     setSemanticCriteriaData: semanticCriteriaData => dispatch(setSemanticCriteriaData(semanticCriteriaData)),
     setPotentialSemanticCriteriaData: potentialSemanticCriteriaData => dispatch(setPotentialSemanticCriteriaData(potentialSemanticCriteriaData)),
-    setFragmentsSortedByDate: fragmentsSortedByDate => dispatch(setFragmentsSortedByDate(fragmentsSortedByDate))
+    setFragmentsSortedByDate: fragmentsSortedByDate => dispatch(setFragmentsSortedByDate(fragmentsSortedByDate)),
+    setCategories: categories => dispatch(setCategories(categories))
   };
 };
 
@@ -123,6 +125,8 @@ class ConnectedFragmentLoader extends React.Component {
         this.props.addFragment(response.data.fragments);
         this.props.fragments.map(f => this.map.set(f.interId, f));
         this.props.setfragmentsHashMap(this.map);
+
+        this.props.setCategories(response.data.categories);
 
         let unorderedFragments = [];
         let noDateFragments = [];

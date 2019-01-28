@@ -7,6 +7,7 @@
     "hashmap": "^2.3.0",
     "react": "^16.5.2",
     "react-bootstrap": "^0.32.4",
+    "react-d3-cloud": "^0.7.0",
     "react-dom": "^16.5.2",
     "react-jss": "^8.6.1",
     "react-modal": "^3.6.1",
