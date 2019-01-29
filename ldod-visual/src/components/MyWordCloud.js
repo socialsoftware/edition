@@ -62,7 +62,8 @@ class ConnectedMyWordCloud extends Component {
     super(props);
 
     this.state = {
-      renderSquareMap: false
+      renderSquareMap: false,
+      containerHeight: 0
     };
 
     this.handleClickedWord = this.handleClickedWord.bind(this);
@@ -81,36 +82,26 @@ class ConnectedMyWordCloud extends Component {
 
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    //const height = document.getElementById('container').clientHeight;
+    //this.setState({containerHeight: height});
+  }
 
   render() {
 
-    let data = [
-      {
-        text: 'Desassossego',
-        value: 1000
-      }, {
-        text: 'Droga',
-        value: 200
-      }, {
-        text: 'vida',
-        value: 800
-      }, {
-        text: 'fascínio',
-        value: 1000000
-      }, {
-        text: 'Eu',
-        value: 10
-      }
-    ];
+    let message = "Esta edição virtual não tem categorias para fazer esta actividade.";
+    let data = [];
 
     console.log("MyWordCloud.js:")
     console.log(this.props.categories);
     console.log(this.props.categories.length);
     if (this.props.categories.length > 0) {
-      data = [];
 
+      message = "Instruções da word cloud."
+
+      const sizeFactor = 100;
       let obj;
+
       let i;
       for (i = 0; i < this.props.categories.length; i++) {
         obj = {
@@ -122,19 +113,23 @@ class ConnectedMyWordCloud extends Component {
 
     }
 
-    const fontSizeMapper = word => Math.log2(word.value) * 5;
+    const fontSizeMapper = word => ((word.value / this.props.categories.length)) * 90; //Math.log2(word.value) * 5;
     const rotate = 1; //word => word.value % 360;
+    const height = 700;
+    const width = 900;
+    const padding = 6;
+    const font = 'Impact';
 
     return (<div>
       <p>
-        Instruções da word cloud.
+        {message}
       </p>
 
       <div style={{
           display: 'flex',
           justifyContent: 'center'
         }}>
-        <WordCloud data={data} fontSizeMapper={fontSizeMapper} rotate={rotate} onWordClick={this.handleClickedWord}/>
+        <WordCloud data={data} fontSizeMapper={fontSizeMapper} rotate={rotate} onWordClick={this.handleClickedWord} height={height} width={width} padding={padding} font={font}/>
       </div>
 
     </div>);
