@@ -143,7 +143,7 @@ class ConnectedNetworkGraph extends Component {
 
       let maxValue = this.props.graphData[this.props.graphData.length - 1].distance; //What is the value that the biggest circle will represent
 
-      let distance = this.props.graphData[i].distance;
+      let distance = this.props.graphData[i].distance / maxValue;
 
       if (distance != 0) {
         console.log("Actual value %: " + distance / maxValue * 100);

@@ -143,20 +143,22 @@ class ConnectedActivityMenu extends Component {
       this.activityToRender = (<ButtonToolbar>
 
         <Button bsStyle="primary" bsSize="large" onClick={this.toggleActivityNetworkGraphTextSimilarity} block="block">
-          Quero ler fragmentos semelhantes a este por semelhança de texto
+          Ler fragmentos semelhantes a este por semelhança de texto
         </Button>
 
         <Button bsStyle="primary" bsSize="large" onClick={this.toggleActivityNetworkGraphHeteronym} block="block">
-          Quero ler fragmentos semelhantes a este por heterónimo
+          Ler fragmentos semelhantes a este por heterónimo
         </Button>
 
         <Button bsStyle="primary" bsSize="large" onClick={this.toggleActivityNetworkGraphDate} block="block">
-          Quero ler fragmentos semelhantes a este por data
+          Ler fragmentos semelhantes a este por data
         </Button>
 
         <Button bsStyle="primary" bsSize="large" onClick={this.toggleActivityNetworkGraphTaxonomy} block="block">
-          Quero ler fragmentos semelhantes a este por taxonomia
+          Ler fragmentos semelhantes a este por taxonomia
         </Button>
+
+        <Modal.Footer></Modal.Footer>
 
         <Button bsStyle="primary" bsSize="large" onClick={this.toggleSquareGridEditionOrder} block="block">
           Explorar os fragmentos por ordem desta edição virtual
@@ -166,8 +168,10 @@ class ConnectedActivityMenu extends Component {
           Explorar os fragmentos desta edição ordenados por data
         </Button>
 
+        <Modal.Footer></Modal.Footer>
+
         <Button bsStyle="primary" bsSize="large" onClick={this.toggleWordCloudTaxonomy} block="block">
-          Explorar os fragmentos das categorias da taxonomia desta edição virtual
+          Explorar os fragmentos desta edição pelas categorias a que pertencem (taxonomia)
         </Button>
 
       </ButtonToolbar>);

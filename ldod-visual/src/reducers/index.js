@@ -20,6 +20,8 @@ import {SET_POTENTIAL_SEMANTIC_CRITERIA_DATA} from "../constants/action-types";
 import {SET_FRAGMENTS_SORTED_BY_DATE} from "../constants/action-types";
 import {SET_DISPLAY_TEXT_SKIMMING} from "../constants/action-types";
 import {SET_CATEGORIES} from "../constants/action-types";
+import {SET_CURRENT_CATEGORY} from "../constants/action-types";
+import {SET_POTENTIAL_CATEGORY} from "../constants/action-types";
 
 const initialState = {
   fragments: [],
@@ -43,7 +45,9 @@ const initialState = {
   potentialSemanticCriteriaData: [],
   fragmentsSortedByDate: [],
   displayTextSkimming: false,
-  categories: []
+  categories: [],
+  currentCategory: [],
+  potentialCategory: []
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -160,6 +164,16 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         categories: action.payload
+      };
+    case SET_CURRENT_CATEGORY:
+      return {
+        ...state,
+        currentCategory: action.payload
+      };
+    case SET_POTENTIAL_CATEGORY:
+      return {
+        ...state,
+        potentialCategory: action.payload
       };
     default:
       return state;

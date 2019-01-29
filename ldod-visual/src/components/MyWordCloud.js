@@ -11,7 +11,9 @@ import {
   setRecommendationArray,
   setRecommendationIndex,
   setVisualizationTechnique,
-  setSemanticCriteria
+  setSemanticCriteria,
+  setCurrentCategory,
+  setPotentialCategory
 } from "../actions/index";
 import {VIS_SQUARE_GRID, BY_SQUAREGRID_EDITIONORDER, CRIT_EDITION_ORDER, CRIT_CHRONOLOGICAL_ORDER} from "../constants/history-transitions";
 import HashMap from "hashmap";
@@ -33,7 +35,9 @@ const mapStateToProps = state => {
     potentialVisualizationTechnique: state.potentialVisualizationTechnique,
     potentialSemanticCriteria: state.potentialSemanticCriteria,
     fragmentsSortedByDate: state.fragmentsSortedByDate,
-    categories: state.categories
+    categories: state.categories,
+    currentCategory: state.currentCategory,
+    potentialCategory: state.potentialCategory
   };
 };
 
@@ -47,7 +51,9 @@ const mapDispatchToProps = dispatch => {
     setRecommendationArray: recommendationArray => dispatch(setRecommendationArray(recommendationArray)),
     setRecommendationIndex: recommendationIndex => dispatch(setRecommendationIndex(recommendationIndex)),
     setVisualizationTechnique: visualizationTechnique => dispatch(setVisualizationTechnique(visualizationTechnique)),
-    setSemanticCriteria: semanticCriteria => dispatch(setSemanticCriteria(semanticCriteria))
+    setSemanticCriteria: semanticCriteria => dispatch(setSemanticCriteria(semanticCriteria)),
+    setCurrentCategory: currentCategory => dispatch(setCurrentCategory(currentCategory)),
+    setPotentialCategory: potentialCategory => dispatch(setPotentialCategory(potentialCategory))
   };
 };
 
@@ -106,10 +112,10 @@ class ConnectedMyWordCloud extends Component {
 
       let obj;
       let i;
-      for (i = 0; i < this.props.fragments.length; i++) {
+      for (i = 0; i < this.props.categories.length; i++) {
         obj = {
-          text: this.props.categories[i],
-          value: 500
+          text: this.props.categories[i].category,
+          value: this.props.categories[i].categoryCount
         };
         data.push(obj);
       }

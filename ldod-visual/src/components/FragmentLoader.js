@@ -126,8 +126,6 @@ class ConnectedFragmentLoader extends React.Component {
         this.props.fragments.map(f => this.map.set(f.interId, f));
         this.props.setfragmentsHashMap(this.map);
 
-        this.props.setCategories(response.data.categories);
-
         let unorderedFragments = [];
         let noDateFragments = [];
 
@@ -168,6 +166,36 @@ class ConnectedFragmentLoader extends React.Component {
         console.log("Categories array length: " + response.data.categories.length);
         response.data.categories.map(f => console.log("Categories: " + f));
         console.log("FragmentLoader.js: fragments received");
+
+        if (response.data.categories.length > 0) {
+
+          let myCategories = response.data.categories;
+          let tempCounter = 0;
+
+          let i;
+          let j;
+          for (i = 0; i < myCategories.length; i++) {
+            console.log("aaaaaaaaaaaaaaaaaaaa")
+            for (j = 0; j < response.data.fragments.length; j++) {
+              console.log("bbbbbbbbbbbbbbbbbb")
+              if (response.data.fragments[j].meta.categories.includes(myCategories[i])) {
+                console.log("cccccccccccccccccccc")
+                tempCounter++;
+              }
+            }
+            console.log("ddddddddddddddddd")
+            let obj = {
+              category: myCategories[i],
+              categoryCount: tempCounter
+            };
+            console.log("counting category: number " + 1 + " out of " + myCategories.length + " (" + myCategories[i] + ")");
+            myCategories[i] = obj;
+            tempCounter = 0;
+
+          }
+
+          this.props.setCategories(myCategories);
+        }
 
         this.props.setAllFragmentsLoaded(true);
         //alert(this.props.fragments.length)

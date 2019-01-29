@@ -20,6 +20,8 @@ import {SET_POTENTIAL_SEMANTIC_CRITERIA_DATA} from "../constants/action-types";
 import {SET_FRAGMENTS_SORTED_BY_DATE} from "../constants/action-types";
 import {SET_DISPLAY_TEXT_SKIMMING} from "../constants/action-types";
 import {SET_CATEGORIES} from "../constants/action-types";
+import {SET_CURRENT_CATEGORY} from "../constants/action-types";
+import {SET_POTENTIAL_CATEGORY} from "../constants/action-types";
 
 export const addFragment = fragment => ({type: ADD_FRAGMENT, payload: fragment});
 
@@ -64,3 +66,7 @@ export const setFragmentsSortedByDate = fragmentsSortedByDate => ({type: SET_FRA
 export const setDisplayTextSkimming = displayTextSkimming => ({type: SET_DISPLAY_TEXT_SKIMMING, payload: displayTextSkimming});
 
 export const setCategories = categories => ({type: SET_CATEGORIES, payload: categories});
+
+export const setCurrentCategory = currentCategory => ({type: SET_CURRENT_CATEGORY, payload: currentCategory});
+
+export const setPotentialCategory = potentialCategory => ({type: SET_POTENTIAL_CATEGORY, payload: potentialCategory});
