@@ -15,8 +15,9 @@ import {
   setCurrentCategory,
   setPotentialCategory
 } from "../actions/index";
-import {VIS_SQUARE_GRID, BY_SQUAREGRID_EDITIONORDER, CRIT_EDITION_ORDER, CRIT_CHRONOLOGICAL_ORDER} from "../constants/history-transitions";
+import {VIS_SQUARE_GRID, BY_SQUAREGRID_EDITIONORDER, CRIT_EDITION_ORDER, CRIT_CHRONOLOGICAL_ORDER, CRIT_CATEGORY} from "../constants/history-transitions";
 import HashMap from "hashmap";
+import SquareGrid from "../components/SquareGrid";
 
 const mapStateToProps = state => {
   return {
@@ -74,9 +75,13 @@ class ConnectedMyWordCloud extends Component {
 
     if (word.hasText) {
 
-      console.log(word);
-      alert(word.text);
-      this.props.onChange();
+      this.props.setPotentialCategory(word.text);
+
+      //console.log(word);
+      //alert(word.text);
+      console.log("MyWordCloud.js | clicked word properties: " + word);
+      this.setState({renderSquareMap: true});
+      //this.props.onChange();
 
     }
 
@@ -114,25 +119,32 @@ class ConnectedMyWordCloud extends Component {
     }
 
     const fontSizeMapper = word => ((word.value / this.props.categories.length)) * 90; //Math.log2(word.value) * 5;
-    const rotate = 1; //word => word.value % 360;
+    const rotate = 0; //word => word.value % 360;
     const height = 700;
     const width = 900;
     const padding = 6;
     const font = 'Impact';
 
-    return (<div>
-      <p>
-        {message}
-      </p>
+    let componentToRender;
+    if (this.state.renderSquareMap && !(this.outOfLandingPage)) {
+      componentToRender = (<SquareGrid onChange={this.props.onChange}/>)
+    } else {
+      componentToRender = (<div>
+        <p>
+          {message}
+        </p>
 
-      <div style={{
-          display: 'flex',
-          justifyContent: 'center'
-        }}>
-        <WordCloud data={data} fontSizeMapper={fontSizeMapper} rotate={rotate} onWordClick={this.handleClickedWord} height={height} width={width} padding={padding} font={font}/>
-      </div>
+        <div style={{
+            display: 'flex',
+            justifyContent: 'center'
+          }}>
+          <WordCloud data={data} fontSizeMapper={fontSizeMapper} rotate={rotate} onWordClick={this.handleClickedWord} height={height} width={width} padding={padding} font={font}/>
+        </div>
 
-    </div>);
+      </div>)
+    }
+
+    return (<div className="cloud-activity">{componentToRender}</div>);
   }
 }
 

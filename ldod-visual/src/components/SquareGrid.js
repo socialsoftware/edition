@@ -11,9 +11,10 @@ import {
   setRecommendationArray,
   setRecommendationIndex,
   setVisualizationTechnique,
-  setSemanticCriteria
+  setSemanticCriteria,
+  setCurrentCategory
 } from "../actions/index";
-import {VIS_SQUARE_GRID, BY_SQUAREGRID_EDITIONORDER, CRIT_EDITION_ORDER, CRIT_CHRONOLOGICAL_ORDER} from "../constants/history-transitions";
+import {VIS_SQUARE_GRID, BY_SQUAREGRID_EDITIONORDER, CRIT_EDITION_ORDER, CRIT_CHRONOLOGICAL_ORDER, CRIT_CATEGORY} from "../constants/history-transitions";
 import HashMap from "hashmap";
 
 const mapStateToProps = state => {
@@ -32,7 +33,9 @@ const mapStateToProps = state => {
     allFragmentsLoaded: state.allFragmentsLoaded,
     potentialVisualizationTechnique: state.potentialVisualizationTechnique,
     potentialSemanticCriteria: state.potentialSemanticCriteria,
-    fragmentsSortedByDate: state.fragmentsSortedByDate
+    fragmentsSortedByDate: state.fragmentsSortedByDate,
+    currentCategory: state.currentCategory,
+    potentialCategory: state.potentialCategory
   };
 };
 
@@ -46,7 +49,8 @@ const mapDispatchToProps = dispatch => {
     setRecommendationArray: recommendationArray => dispatch(setRecommendationArray(recommendationArray)),
     setRecommendationIndex: recommendationIndex => dispatch(setRecommendationIndex(recommendationIndex)),
     setVisualizationTechnique: visualizationTechnique => dispatch(setVisualizationTechnique(visualizationTechnique)),
-    setSemanticCriteria: semanticCriteria => dispatch(setSemanticCriteria(semanticCriteria))
+    setSemanticCriteria: semanticCriteria => dispatch(setSemanticCriteria(semanticCriteria)),
+    setCurrentCategory: currentCategory => dispatch(setCurrentCategory(currentCategory))
   };
 };
 
@@ -67,16 +71,20 @@ class ConnectedSquareGrid extends Component {
     this.edges = [];
     this.options = [];
     this.minMaxList = [];
-    this.myFragmentArray = [];
 
-    if (this.props.currentFragmentMode && this.props.potentialSemanticCriteria == CRIT_EDITION_ORDER) {
-      this.myFragmentArray = this.props.fragments;
-    } else if (this.props.currentFragmentMode && this.props.potentialSemanticCriteria == CRIT_CHRONOLOGICAL_ORDER) {
-      this.myFragmentArray = this.props.fragmentsSortedByDate; //TODO: CHANGE TO ORDERED BY DATE ARRAY
-    } else if (!this.props.currentFragmentMode && this.props.semanticCriteria == CRIT_EDITION_ORDER) {
-      this.myFragmentArray = this.props.fragments;
+    this.myCategory = "";
+
+    this.myFragmentArray = this.props.fragments;
+    if (this.props.currentFragmentMode && this.props.potentialSemanticCriteria == CRIT_CHRONOLOGICAL_ORDER) {
+      this.myFragmentArray = this.props.fragmentsSortedByDate;
     } else if (!this.props.currentFragmentMode && this.props.semanticCriteria == CRIT_CHRONOLOGICAL_ORDER) {
-      this.myFragmentArray = this.props.fragmentsSortedByDate; //TODO: CHANGE TO ORDERED BY DATE ARRAY
+      this.myFragmentArray = this.props.fragmentsSortedByDate;
+    }
+
+    if (this.props.currentFragmentMode && this.props.potentialSemanticCriteria == CRIT_CATEGORY) {
+      this.myCategory = this.props.potentialCategory;
+    } else if (!(this.props.currentFragmentMode) && this.props.semanticCriteria == CRIT_CATEGORY) {
+      this.myCategory = this.props.currentCategory;
     }
 
     const maxFragsAnalyzedPercentage = 1.0;
@@ -106,7 +114,11 @@ class ConnectedSquareGrid extends Component {
 
       let dateExistsAndChronologicalCriteria = true;
       //grey
-      if ((this.props.currentFragmentMode && this.props.potentialSemanticCriteria == CRIT_CHRONOLOGICAL_ORDER && this.myFragmentArray[i].meta.date == null) || (!(this.props.currentFragmentMode) && this.props.semanticCriteria == CRIT_CHRONOLOGICAL_ORDER && this.myFragmentArray[i].meta.date == null)) {
+      if (this.props.currentFragmentMode && this.props.potentialSemanticCriteria == CRIT_CHRONOLOGICAL_ORDER && this.myFragmentArray[i].meta.date == null) {
+        dateExistsAndChronologicalCriteria = false;
+        nodeBorderColor = "#101010";
+        nodeBackgroundColor = "#505050";
+      } else if ((!(this.props.currentFragmentMode) && this.props.semanticCriteria == CRIT_CHRONOLOGICAL_ORDER && this.myFragmentArray[i].meta.date == null)) {
         dateExistsAndChronologicalCriteria = false;
         nodeBorderColor = "#101010";
         nodeBackgroundColor = "#505050";
@@ -114,6 +126,22 @@ class ConnectedSquareGrid extends Component {
 
       if (dateExistsAndChronologicalCriteria) {
         myTitle = this.myFragmentArray[i].meta.title + " | Data: " + this.myFragmentArray[i].meta.date;
+      }
+
+      if (this.props.currentFragmentMode && this.props.potentialSemanticCriteria == CRIT_CATEGORY) {
+        myTitle = this.myFragmentArray[i].meta.title + " | Categorias: " + this.myFragmentArray[i].meta.categories;
+      } else if (!(this.props.currentFragmentMode) && this.props.semanticCriteria == CRIT_CATEGORY) {
+        myTitle = this.myFragmentArray[i].meta.title + " | Categorias: " + this.myFragmentArray[i].meta.categories;
+      }
+
+      //  #DAA520 goldenrod escuro
+      // #FFD700 gold
+      if (this.props.currentFragmentMode && this.props.potentialSemanticCriteria == CRIT_CATEGORY && this.myFragmentArray[i].meta.categories.includes(this.props.potentialCategory)) {
+        nodeBorderColor = "#DAA520";
+        nodeBackgroundColor = "#FFD700";
+      } else if (!(this.props.currentFragmentMode) && this.props.semanticCriteria == CRIT_CATEGORY && this.myFragmentArray[i].meta.categories.includes(this.props.currentCategory)) {
+        nodeBorderColor = "#DAA520";
+        nodeBackgroundColor = "#FFD700";
       }
 
       //purple
@@ -245,8 +273,13 @@ class ConnectedSquareGrid extends Component {
             recommendationArray: this.myFragmentArray, //mudar para quando o cirterio for difernete,
             recommendationIndex: i,
             fragmentIndex: this.props.fragmentIndex,
-            start: new Date().getTime()
+            start: new Date().getTime(),
+            category: this.myCategory
           };
+
+          if (this.props.potentialSemanticCriteria == CRIT_CATEGORY) {
+            this.props.setCurrentCategory(this.myCategory);
+          }
 
           //this.props.setFragmentIndex(i);
           if (this.props.currentFragmentMode) {

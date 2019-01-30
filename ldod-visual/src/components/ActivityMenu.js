@@ -16,6 +16,7 @@ import {
   CRIT_CHRONOLOGICAL_ORDER,
   CRIT_TEXT_SIMILARITY,
   CRIT_HETERONYM,
+  CRIT_CATEGORY,
   CRIT_TAXONOMY,
   CRIT_WORD_RELEVANCE
 } from "../constants/history-transitions";
@@ -128,8 +129,8 @@ class ConnectedActivityMenu extends Component {
 
   toggleWordCloudTaxonomy() {
 
-    this.props.setPotentialVisualizationTechnique(VIS_WORD_CLOUD);
-    this.props.setPotentialSemanticCriteria(CRIT_TAXONOMY);
+    this.props.setPotentialVisualizationTechnique(VIS_SQUARE_GRID);
+    this.props.setPotentialSemanticCriteria(CRIT_CATEGORY);
     this.activityToRender = (<MyWordCloud onChange={this.props.onChange}/>);
     this.setState(prevState => ({
       show: !prevState.show

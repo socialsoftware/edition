@@ -11,7 +11,8 @@ import {
   CRIT_TEXT_SIMILARITY,
   CRIT_HETERONYM,
   CRIT_TAXONOMY,
-  CRIT_WORD_RELEVANCE
+  CRIT_WORD_RELEVANCE,
+  CRIT_CATEGORY
 } from "../constants/history-transitions";
 import {
   setFragmentIndex,
@@ -23,7 +24,8 @@ import {
   setRecommendationIndex,
   setVisualizationTechnique,
   setSemanticCriteria,
-  setSemanticCriteriaDataLoaded
+  setSemanticCriteriaDataLoaded,
+  setCurrentCategory
 } from "../actions/index";
 import "./HistoryMenu.css";
 
@@ -51,7 +53,8 @@ const mapDispatchToProps = dispatch => {
     setRecommendationIndex: recommendationIndex => dispatch(setRecommendationIndex(recommendationIndex)),
     setVisualizationTechnique: visualizationTechnique => dispatch(setVisualizationTechnique(visualizationTechnique)),
     setSemanticCriteria: semanticCriteria => dispatch(setSemanticCriteria(semanticCriteria)),
-    setSemanticCriteriaDataLoaded: semanticCriteriaDataLoaded => dispatch(setSemanticCriteriaDataLoaded(semanticCriteriaDataLoaded))
+    setSemanticCriteriaDataLoaded: semanticCriteriaDataLoaded => dispatch(setSemanticCriteriaDataLoaded(semanticCriteriaDataLoaded)),
+    setCurrentCategory: currentCategory => dispatch(setCurrentCategory(currentCategory))
   };
 };
 
@@ -87,6 +90,11 @@ class ConnectedHistoryMenu extends Component {
           const globalViewToRender = this.props.history[parseInt(properties.item)].visualization //(<SquareGrid onChange={this.props.onChange}/>);
           this.props.setCurrentVisualization(globalViewToRender);
           //HISTORY ENTRY HISTORY ENTRY HISTORY ENTRY HISTORY ENTRY
+          let historyCategory = "";
+          if (this.props.history[parseInt(properties.item)].criteria == CRIT_TAXONOMY) {
+            historyCategory = this.props.history[parseInt(properties.item)].category
+            this.props.setCurrentCategory(historyCategory);
+          }
           let obj;
           obj = {
             id: this.props.historyEntryCounter,
@@ -97,7 +105,8 @@ class ConnectedHistoryMenu extends Component {
             visualization: globalViewToRender,
             recommendationArray: this.props.history[parseInt(properties.item)].recommendationArray,
             recommendationIndex: this.props.history[parseInt(properties.item)].recommendationIndex,
-            start: new Date().getTime()
+            start: new Date().getTime(),
+            category: historyCategory
           };
           this.props.addHistoryEntry(obj);
           this.props.setHistoryEntryCounter(this.props.historyEntryCounter + 1)

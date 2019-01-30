@@ -24,11 +24,13 @@ import {
   BY_PREVIOUSBUTTON,
   CRIT_EDITION_ORDER,
   CRIT_CHRONOLOGICAL_ORDER,
-  VIS_SQUARE_GRID
+  VIS_SQUARE_GRID,
+  CRIT_CATEGORY
 } from "./constants/history-transitions";
 import NetworkGraph from "./components/NetworkGraph";
 import FragmentLoader from "./components/FragmentLoader";
 import SquareGrid from "./components/SquareGrid";
+import MyWordCloud from "./components/MyWordCloud";
 
 const mapStateToProps = state => {
   return {
@@ -105,6 +107,9 @@ class ConnectedApp extends Component {
     this.handleShowLandingActivitySquareDateOrder = this.handleShowLandingActivitySquareDateOrder.bind(this);
 
     this.handleToggleTextSkimming = this.handleToggleTextSkimming.bind(this);
+
+    this.handleShowLandingActivityWordCloudCategory = this.handleShowLandingActivityWordCloudCategory.bind(this);
+
   }
 
   handleClickPrevious() {
@@ -181,6 +186,13 @@ class ConnectedApp extends Component {
     this.setState({showLandingActivity: true});
   }
 
+  handleShowLandingActivityWordCloudCategory() {
+    this.props.setCurrentFragmentMode(true);
+    this.props.setPotentialVisualizationTechnique(VIS_SQUARE_GRID);
+    this.props.setPotentialSemanticCriteria(CRIT_CATEGORY);
+    this.setState({showLandingActivity: true});
+  }
+
   setCurrentFragmentMode() {}
 
   setPickedFragmentMode() {}
@@ -212,7 +224,9 @@ class ConnectedApp extends Component {
       }
     }
 
-    if (this.state.showLandingActivity & this.props.allFragmentsLoaded) {
+    if (this.state.showLandingActivity & (this.props.potentialSemanticCriteria == CRIT_CATEGORY) & this.props.allFragmentsLoaded) {
+      this.landingActivityToRender = (<MyWordCloud onChange={this.handleCloseModals}/>)
+    } else if (this.state.showLandingActivity & this.props.allFragmentsLoaded) {
       this.landingActivityToRender = (<SquareGrid onChange={this.handleCloseModals}/>)
     } else if (!this.state.showLandingActivity & this.props.allFragmentsLoaded) {
       this.landingActivityToRender = (<ButtonToolbar>
@@ -223,6 +237,12 @@ class ConnectedApp extends Component {
 
         <Button bsStyle="primary" bsSize="large" onClick={this.handleShowLandingActivitySquareDateOrder} block="block">
           Explorar os fragmentos desta edição ordenados por data
+        </Button>
+
+        <Modal.Footer></Modal.Footer>
+
+        <Button bsStyle="primary" bsSize="large" onClick={this.handleShowLandingActivityWordCloudCategory} block="block">
+          Explorar os fragmentos desta edição pelas categorias a que pertencem (taxonomia)
         </Button>
 
       </ButtonToolbar>)
