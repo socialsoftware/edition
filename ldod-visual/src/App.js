@@ -298,10 +298,10 @@ class ConnectedApp extends Component {
 
     return (<div className="app">
 
-      <FragmentLoader/> {buttonToolBarToRender}
+      {buttonToolBarToRender}
 
       <div>
-        <Fragment toggleTextSkimming={this.state.toggleTextSkimming}/>
+        <FragmentLoader toggleTextSkimming={this.state.toggleTextSkimming}/>
       </div>
 
       <div className="toggleTextSkimming">

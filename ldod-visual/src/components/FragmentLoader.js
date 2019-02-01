@@ -1,5 +1,6 @@
 import React from "react";
 import {RepositoryService} from "../services/RepositoryService";
+import Fragment from "./Fragment";
 import {
   addFragment,
   setAllFragmentsLoaded,
@@ -68,6 +69,10 @@ class ConnectedFragmentLoader extends React.Component {
 
     this.sortedFragmentsByDate = [];
 
+    this.state = {
+      toggleFragmentUpdate: false
+    };
+
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -108,6 +113,10 @@ class ConnectedFragmentLoader extends React.Component {
           this.props.setRecommendationArray(myNewRecommendationArray);
           console.log("FragmentLoader: new recommendation array calculated.")
           this.props.setRecommendationLoaded(true);
+
+          this.setState({
+            toggleFragmentUpdate: !this.state.toggleFragmentUpdate
+          });
 
         });
       }
@@ -198,13 +207,17 @@ class ConnectedFragmentLoader extends React.Component {
         }
 
         this.props.setAllFragmentsLoaded(true);
-        //alert(this.props.fragments.length)
+
+        this.setState({
+          toggleFragmentUpdate: !this.state.toggleFragmentUpdate
+        });
+
       });
     }
   }
 
   render() {
-    return <div></div>;
+    return <Fragment toggleTextSkimming={this.props.toggleTextSkimming}/>;
   }
 
 }
