@@ -78,6 +78,7 @@ class ConnectedNetworkGraph extends Component {
     this.options = [];
     this.minMaxList = [];
     this.recommendationArray = [];
+
     this.state = {
       show: false
     };
@@ -87,11 +88,12 @@ class ConnectedNetworkGraph extends Component {
     //this.props.graphData.map(d => console.log("my graphData id: " + d.interId + " distance: " + d.distance + " title: " + this.props.fragmentsHashMap.get(d.interId).meta.title));
 
     const maxFragsAnalyzedPercentage = 1.0;
-    const edgeLengthFactor = 10000;
-    const originalFragmentSize = 15; //Math.max(5, Math.floor(this.props.graphData.length * 0.01));
     const mostDistantFragmentDistance = this.props.graphData[this.props.graphData.length - 1].distance;
     const graphHeight = 500;
 
+    this.props.graphData.map(d => console.log("my graphData id: " + d.interId + " distance: " + d.distance + " title: " + this.props.fragmentsHashMap.get(d.interId).meta.title + "distance percentage: " + d.distance / mostDistantFragmentDistance * 100));
+
+    let originalFragmentSize = 5; //Math.floor(this.props.graphData.length * 0.05); 60; Math.max(5, Math.floor(this.props.graphData.length * 0.01));
     //BUILD ACTUAL FRAGMENT NODE
     let obj;
     obj = {
@@ -111,26 +113,62 @@ class ConnectedNetworkGraph extends Component {
     };
 
     this.nodes.push(obj);
-
-    this.recommendationArray = [];
     this.recommendationArray.push(this.props.fragmentsHashMap.get(this.props.graphData[0].interId));
-
-    this.props.graphData.map((f, index) => console.log("Distance: " + f.distance + " index:" + index));
+    //this.props.graphData.map((f, index) => console.log("Distance: " + f.distance + " index:" + index));
 
     //BUILD REMAINING FRAGMENTS' NODES
 
-    let minNonNullDistance = 0;
-    let nrOfNullDistances = 0;
+    let nrOfNonNullDistances = 0;
+    let mask1 = 0.5;
+    let mask2 = 0.7;
+    let mask3 = 3;
+    let mask4 = 10;
+    let mask5 = 20;
+    let mask6 = 30;
+    let mask7 = 40;
+    let mask8 = 50;
+    let nrValuesSubMask1 = 0;
+    let nrValuesSubMask2 = 0;
+    let nrValuesSubMask3 = 0;
+    let nrValuesSubMask4 = 0;
+    let nrValuesSubMask5 = 0;
+    let nrValuesSubMask6 = 0;
+    let nrValuesSubMask7 = 0;
+    let nrValuesSubMask8 = 0;
+
     let j;
     for (j = 1; j < this.props.graphData.length; j++) {
+      let tempPercentage = this.props.graphData[j].distance / mostDistantFragmentDistance * 100;
+
       if (this.props.graphData[j].distance !== 0) {
-        minNonNullDistance = (this.props.graphData[j].distance * 0.2);
-        console.log("Approximation for when distance is zero: " + minNonNullDistance);
-        nrOfNullDistances = j;
-        console.log("Number of values with 0 distance: " + nrOfNullDistances);
-        j = this.props.graphData.length;
+        nrOfNonNullDistances++;
       }
+
+      if (tempPercentage < mask1 && this.props.graphData[j].distance !== 0) {
+        nrValuesSubMask1++;
+      } else if (tempPercentage < mask2) {
+        nrValuesSubMask2++;
+      } else if (tempPercentage < mask3) {
+        nrValuesSubMask3++;
+      } else if (tempPercentage < mask4) {
+        nrValuesSubMask4++;
+      } else if (tempPercentage < mask4) {
+        nrValuesSubMask4++;
+      } else if (tempPercentage < mask5) {
+        nrValuesSubMask5++;
+      } else if (tempPercentage < mask6) {
+        nrValuesSubMask6++;
+      } else if (tempPercentage < mask7) {
+        nrValuesSubMask7++;
+      } else if (tempPercentage < mask8) {
+        nrValuesSubMask8++;
+      }
+
     }
+
+    let nrOfNullDistances = this.props.graphData.length - nrOfNonNullDistances;
+    console.log("Number of values with 0 distance: " + nrOfNullDistances);
+    console.log("Number of values bellow mask2 " + nrValuesSubMask2);
 
     let xFactor = 0;
     let yFactor = 0;
@@ -139,33 +177,38 @@ class ConnectedNetworkGraph extends Component {
 
       this.recommendationArray.push(this.props.fragmentsHashMap.get(this.props.graphData[i].interId));
 
-      let total = 20; //The number of different axes
+      let nodeBorderColor = "#DC143C";
+      let nodeBackgroundColor = "#FF7F50";
+      let totalAxes = this.props.graphData.length; //The number of different axes
 
-      let maxValue = this.props.graphData[this.props.graphData.length - 1].distance; //What is the value that the biggest circle will represent
-
-      let distance = this.props.graphData[i].distance / maxValue;
-
-      if (distance != 0) {
-        console.log("Actual value %: " + distance / maxValue * 100);
-      }
+      let absoluteDistance = this.props.graphData[i].distance;
+      let distancePercentage = this.props.graphData[i].distance / mostDistantFragmentDistance * 100;
 
       //small interpolation for when the distance is zero
-      if (distance === 0) {
-        console.log("Actual value %: 0");
-        total = nrOfNullDistances;
-        distance = minNonNullDistance;
+
+      let edgeLengthFactor = 5000; //10000;
+
+      if (distancePercentage === 0) {
+        nodeBorderColor = "#101010";
+        nodeBackgroundColor = "#505050";
+        totalAxes = nrOfNullDistances;
+        absoluteDistance = mask1 / 100 * mostDistantFragmentDistance
+      } else if (distancePercentage < mask2) {
+        nodeBorderColor = "#7FFFD4";
+        nodeBackgroundColor = "#00FFFF";
+        totalAxes = nrValuesSubMask1;
+        absoluteDistance = mask2 / 100 * mostDistantFragmentDistance
       }
 
-      let angleSlice = Math.PI * 2 / total; //The width in radians of each "slice"
+      let angleSlice = Math.PI * 2 / totalAxes; //The width in radians of each "slice"
 
-      console.log("NetworkGraph.js: The number of different axes: " + total);
+      console.log("NetworkGraph.js: The number of different axes: " + totalAxes);
 
-      xFactor = (distance / maxValue) * edgeLengthFactor * Math.cos(angleSlice * i - Math.PI / 2);
+      xFactor = (absoluteDistance / mostDistantFragmentDistance) * edgeLengthFactor * Math.cos(angleSlice * i - Math.PI / 2);
 
-      yFactor = (distance / maxValue) * edgeLengthFactor * Math.sin(angleSlice * i - Math.PI / 2);
+      yFactor = (absoluteDistance / mostDistantFragmentDistance) * edgeLengthFactor * Math.sin(angleSlice * i - Math.PI / 2);
 
-      let nodeBorderColor = "#DC143C"
-      let nodeBackgroundColor = "#FF7F50"
+      //purple
       if (!this.props.currentFragmentMode && this.props.graphData[i].interId === this.props.recommendationArray[this.props.recommendationIndex].interId) {
         nodeBorderColor = "#800080";
         nodeBackgroundColor = "#663399";
@@ -176,7 +219,7 @@ class ConnectedNetworkGraph extends Component {
         //label: "",
         shape: "dot",
         margin: 5, //só funciona com circle...
-        size: originalFragmentSize * 0.3,
+        size: originalFragmentSize * 0.7,
         color: {
           border: nodeBorderColor,
           background: nodeBackgroundColor
