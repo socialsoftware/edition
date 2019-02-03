@@ -4,11 +4,8 @@ import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -18,6 +15,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -99,7 +97,7 @@ public class VirtualEditionTest{
 
     @Test
     @Atomic(mode = Atomic.TxMode.WRITE)
-    public void editVirtualEditionTest() throws Exception {
+    public void editFormVirtualEditionTest() throws Exception {
 
         VirtualEdition ve = LdoD.getInstance().getVirtualEdition(Edition.ARCHIVE_EDITION_ACRONYM);
 
@@ -114,30 +112,8 @@ public class VirtualEditionTest{
 
     @Test
     @Atomic(mode = Atomic.TxMode.WRITE)
-    public void showParticipantsTest() throws Exception {
-
-        VirtualEdition ve = LdoD.getInstance().getVirtualEdition(Edition.ARCHIVE_EDITION_ACRONYM);
-
-        this.mockMvc.perform(get("/virtualeditions/restricted/{externalId}/participants",ve.getExternalId()))
-                .andDo(print())
-                .andExpect(status().isOk()).andExpect(view().name("virtual/participants"))
-                .andExpect(model().attribute("virtualEdition",notNullValue()))
-                .andExpect(model().attribute("username",nullValue()));
-    }
-
-    @Test
-    @Atomic(mode = Atomic.TxMode.WRITE)
-    public void editVirtualEditionErrorTest() throws Exception {
+    public void editFormVirtualEditionErrorTest() throws Exception {
         this.mockMvc.perform(get("/virtualeditions/restricted/editForm/{externalId}","ERROR"))
-                .andDo(print())
-                .andExpect(status().is3xxRedirection()).andExpect(redirectedUrl("/error"));
-    }
-
-
-    @Test
-    @Atomic(mode = Atomic.TxMode.WRITE)
-    public void showParticipantsErrorTest() throws Exception {
-        this.mockMvc.perform(get("/virtualeditions/restricted/{externalId}/participants","ERROR"))
                 .andDo(print())
                 .andExpect(status().is3xxRedirection()).andExpect(redirectedUrl("/error"));
     }
@@ -183,15 +159,17 @@ public class VirtualEditionTest{
                 .andExpect(status().is3xxRedirection()).andExpect(redirectedUrl("/error"));
     }
 
-    /*@Test
+    @Test
     @Atomic(mode = Atomic.TxMode.WRITE)
+    @WithUserDetails("ars")
     public void createVirtualEditionTest() throws Exception {
 
         this.mockMvc.perform(post("/virtualeditions/restricted/create")
                 .param("acronym", "Test")
                 .param("title", "Test")
                 .param("pub","true")
-                .param("use","no")).andDo(print())
+                .param("use","no"))
+                .andDo(print())
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/virtualeditions"));
 
@@ -199,7 +177,231 @@ public class VirtualEditionTest{
 
         assertEquals("Test", testEdition.getShortAcronym());
         assertEquals("Test", testEdition.getTitle());
-    }*/
+    }
 
+    @Test
+    @Atomic(mode = Atomic.TxMode.WRITE)
+    @WithUserDetails("ars")
+    public void deleteVirtualEditionTest() throws Exception {
+        this.mockMvc.perform(post("/virtualeditions/restricted/create")
+                .param("acronym", "Test")
+                .param("title", "Test")
+                .param("pub","true")
+                .param("use","no"))
+                .andDo(print())
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/virtualeditions"));
 
+        VirtualEdition testEdition = LdoD.getInstance().getVirtualEdition(VirtualEdition.ACRONYM_PREFIX + "Test");
+
+        String id = testEdition.getExternalId();
+
+        this.mockMvc.perform(post("/virtualeditions/restricted/delete")
+                    .param("externalId", id)
+        ).andDo(print())
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/virtualeditions"));
+
+        assertNull(LdoD.getInstance().getVirtualEdition(VirtualEdition.ACRONYM_PREFIX + "Test"));
+    }
+
+    @Test
+    @Atomic(mode = Atomic.TxMode.WRITE)
+    @WithUserDetails("ars")
+    public void deleteVirtualEditionErrorTest() throws Exception {
+        this.mockMvc.perform(post("/virtualeditions/restricted/delete")
+                .param("externalId", "ERROR")
+        ).andDo(print())
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/error"));
+    }
+
+    @Test
+    @Atomic(mode = Atomic.TxMode.WRITE)
+    @WithUserDetails("ars")
+    public void toggleVirtualEditionTest() throws Exception {
+
+        String id = LdoD.getInstance().getVirtualEdition(Edition.ARCHIVE_EDITION_ACRONYM).getExternalId();
+
+        this.mockMvc.perform(post("/virtualeditions/toggleselection")
+                    .param("externalId", id)
+        ).andDo(print()).andExpect(status().is3xxRedirection()).andExpect(redirectedUrl("/virtualeditions"));
+    }
+
+    @Test
+    @Atomic(mode = Atomic.TxMode.WRITE)
+    @WithUserDetails("ars")
+    public void toggleVirtualEditionErrorTest() throws Exception {
+
+        this.mockMvc.perform(post("/virtualeditions/toggleselection")
+                .param("externalId", "ERROR")
+        ).andDo(print()).andExpect(status().is3xxRedirection()).andExpect(redirectedUrl("/error"));
+    }
+
+    @Test
+    @Atomic(mode = Atomic.TxMode.WRITE)
+    @WithUserDetails("ars")
+    public void reorderVirtualEditionTest() throws Exception {
+
+        String id = LdoD.getInstance().getVirtualEdition(Edition.ARCHIVE_EDITION_ACRONYM).getExternalId();
+
+        this.mockMvc.perform(post("/virtualeditions/restricted/reorder/{externalId}",id)
+                .param("fraginters", ""))
+                .andDo(print())
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/virtualeditions"));
+    }
+
+    @Test
+    @Atomic(mode = Atomic.TxMode.WRITE)
+    @WithUserDetails("ars")
+    public void reorderErrorVirtualEditionTest() throws Exception {
+
+        this.mockMvc.perform(post("/virtualeditions/restricted/reorder/{externalId}","ERROR")
+                .param("fraginters", ""))
+                .andDo(print())
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/error"));
+    }
+
+    @Test
+    @Atomic(mode = Atomic.TxMode.WRITE)
+    @WithUserDetails("ars")
+    public void getFragmentsTest() throws Exception {
+
+        this.mockMvc.perform(get("/virtualeditions/acronym/{acronym}/fragments",Edition.ARCHIVE_EDITION_ACRONYM))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().string(notNullValue()));
+    }
+
+    @Test
+    @Atomic(mode = Atomic.TxMode.WRITE)
+    @WithUserDetails("ars")
+    public void getFragmentsErrorTest() throws Exception {
+
+        this.mockMvc.perform(get("/virtualeditions/acronym/{acronym}/fragments","ERROR"))
+                .andDo(print())
+                .andExpect(status().is4xxClientError())
+                .andExpect(content().string(""));
+    }
+
+    @Test
+    @Atomic(mode = Atomic.TxMode.WRITE)
+    @WithUserDetails("ars")
+    public void getTranscriptionsTest() throws Exception {
+
+        this.mockMvc.perform(get("/virtualeditions/acronym/{acronym}/transcriptions",Edition.ARCHIVE_EDITION_ACRONYM))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().string(notNullValue()));
+    }
+
+    @Test
+    @Atomic(mode = Atomic.TxMode.WRITE)
+    @WithUserDetails("ars")
+    public void getTranscriptionsErrorTest() throws Exception {
+
+        this.mockMvc.perform(get("/virtualeditions/acronym/{acronym}/transcriptions","ERROR"))
+                .andDo(print())
+                .andExpect(status().is4xxClientError())
+                .andExpect(content().string(""));
+    }
+
+    @Test
+    @Atomic(mode = Atomic.TxMode.WRITE)
+    @WithUserDetails("ars")
+    public void showParticipantsTest() throws Exception {
+
+        VirtualEdition ve = LdoD.getInstance().getVirtualEdition(Edition.ARCHIVE_EDITION_ACRONYM);
+
+        this.mockMvc.perform(get("/virtualeditions/restricted/{externalId}/participants",ve.getExternalId()))
+                .andDo(print())
+                .andExpect(status().isOk()).andExpect(view().name("virtual/participants"))
+                .andExpect(model().attribute("virtualEdition",notNullValue()))
+                .andExpect(model().attribute("username",nullValue()));
+    }
+
+    @Test
+    @Atomic(mode = Atomic.TxMode.WRITE)
+    @WithUserDetails("ars")
+    public void showParticipantsErrorTest() throws Exception {
+        this.mockMvc.perform(get("/virtualeditions/restricted/{externalId}/participants","ERROR"))
+                .andDo(print())
+                .andExpect(status().is3xxRedirection()).andExpect(redirectedUrl("/error"));
+    }
+
+    @Test
+    @Atomic(mode = Atomic.TxMode.WRITE)
+    @WithUserDetails("ars")
+    public void submitParticipantTest() throws Exception {
+
+        String id = LdoD.getInstance().getVirtualEdition(Edition.ARCHIVE_EDITION_ACRONYM).getExternalId();
+
+        this.mockMvc.perform(post("/virtualeditions/restricted/{externalId}/participants/submit",id))
+                    .andDo(print())
+                    .andExpect(status().is3xxRedirection())
+                    .andExpect(redirectedUrl("/virtualeditions"));
+    }
+
+    @Test
+    @Atomic(mode = Atomic.TxMode.WRITE)
+    @WithUserDetails("ars")
+    public void submitParticipantErrorTest() throws Exception {
+
+        this.mockMvc.perform(post("/virtualeditions/restricted/{externalId}/participants/submit","ERROR"))
+                .andDo(print())
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/error"));
+    }
+
+    @Test
+    @Atomic(mode = Atomic.TxMode.WRITE)
+    @WithUserDetails("ars")
+    public void cancelParticipantTest() throws Exception {
+
+        String id = LdoD.getInstance().getVirtualEdition(Edition.ARCHIVE_EDITION_ACRONYM).getExternalId();
+
+        this.mockMvc.perform(post("/virtualeditions/restricted/{externalId}/participants/cancel",id))
+                .andDo(print())
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/virtualeditions"));
+    }
+
+    @Test
+    @Atomic(mode = Atomic.TxMode.WRITE)
+    @WithUserDetails("ars")
+    public void cancelParticipantErrorTest() throws Exception {
+
+        this.mockMvc.perform(post("/virtualeditions/restricted/{externalId}/participants/cancel","ERROR"))
+                .andDo(print())
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/error"));
+    }
+
+    @Test
+    @Atomic(mode = Atomic.TxMode.WRITE)
+    @WithUserDetails("ars")
+    public void getTaxonomyTest() throws Exception {
+
+        String id = LdoD.getInstance().getVirtualEdition(Edition.ARCHIVE_EDITION_ACRONYM).getExternalId();
+
+        this.mockMvc.perform(get("/virtualeditions/restricted/{externalId}/taxonomy",id)).andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(view().name("virtual/taxonomy"))
+                .andExpect(model().attribute("virtualEdition",notNullValue()));
+
+    }
+
+    @Test
+    @Atomic(mode = Atomic.TxMode.WRITE)
+    @WithUserDetails("ars")
+    public void getTaxonomyErrorTest() throws Exception {
+
+        this.mockMvc.perform(get("/virtualeditions/restricted/{externalId}/taxonomy","ERROR"))
+                .andDo(print())
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/error"));
+
+    }
 }
