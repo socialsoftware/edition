@@ -119,8 +119,8 @@ class ConnectedNetworkGraph extends Component {
     //BUILD REMAINING FRAGMENTS' NODES
 
     let nrOfNonNullDistances = 0;
-    let mask1 = 0.5;
-    let mask2 = 0.7;
+    let mask1 = 0.2;
+    let mask2 = 0.5;
     let mask3 = 3;
     let mask4 = 10;
     let mask5 = 20;
@@ -179,34 +179,48 @@ class ConnectedNetworkGraph extends Component {
 
       let nodeBorderColor = "#DC143C";
       let nodeBackgroundColor = "#FF7F50";
-      let totalAxes = this.props.graphData.length; //The number of different axes
+      let totalAxes = 200; //The number of different axes
 
       let absoluteDistance = this.props.graphData[i].distance;
       let distancePercentage = this.props.graphData[i].distance / mostDistantFragmentDistance * 100;
 
       //small interpolation for when the distance is zero
 
-      let edgeLengthFactor = 5000; //10000;
+      //unique values
+      let tempArray = [];
+      this.props.graphData.map(g => tempArray.push(g.distance));
+      var uniqueItemCount = Array.from(new Set(tempArray))
+      console.log("uniqueItemCount: " + uniqueItemCount.length);
+
+      let edgeLengthFactor = uniqueItemCount.length * 200; //8000; 10000;
 
       if (distancePercentage === 0) {
-        nodeBorderColor = "#101010";
-        nodeBackgroundColor = "#505050";
+        //nodeBorderColor = "#101010";
+        //nodeBackgroundColor = "#505050";
         totalAxes = nrOfNullDistances;
         absoluteDistance = mask1 / 100 * mostDistantFragmentDistance
       } else if (distancePercentage < mask2) {
         nodeBorderColor = "#7FFFD4";
         nodeBackgroundColor = "#00FFFF";
-        totalAxes = nrValuesSubMask1;
+        totalAxes = nrValuesSubMask2;
         absoluteDistance = mask2 / 100 * mostDistantFragmentDistance
-      }
+      }/*else if (distancePercentage > mask8) {
+        nodeBorderColor = "#7FFFD4";
+        nodeBackgroundColor = "#00FFFF";
+        totalAxes = nrValuesSubMask8;
+        absoluteDistance = mask8 / 100 * mostDistantFragmentDistance
+        edgeLengthFactor = 10;
+      }*/
 
       let angleSlice = Math.PI * 2 / totalAxes; //The width in radians of each "slice"
 
       console.log("NetworkGraph.js: The number of different axes: " + totalAxes);
 
-      xFactor = (absoluteDistance / mostDistantFragmentDistance) * edgeLengthFactor * Math.cos(angleSlice * i - Math.PI / 2);
+      let rand = Math.random() * (360 - 1) + 1;
 
-      yFactor = (absoluteDistance / mostDistantFragmentDistance) * edgeLengthFactor * Math.sin(angleSlice * i - Math.PI / 2);
+      xFactor = (absoluteDistance / mostDistantFragmentDistance) * edgeLengthFactor * Math.cos(angleSlice * rand - Math.PI / 2);
+
+      yFactor = (absoluteDistance / mostDistantFragmentDistance) * edgeLengthFactor * Math.sin(angleSlice * rand - Math.PI / 2);
 
       //purple
       if (!this.props.currentFragmentMode && this.props.graphData[i].interId === this.props.recommendationArray[this.props.recommendationIndex].interId) {
