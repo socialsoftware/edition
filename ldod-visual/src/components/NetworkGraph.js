@@ -186,17 +186,11 @@ class ConnectedNetworkGraph extends Component {
 
       //small interpolation for when the distance is zero
 
-      //unique values
-      let tempArray = [];
-      this.props.graphData.map(g => tempArray.push(g.distance));
-      var uniqueItemCount = Array.from(new Set(tempArray))
-      console.log("uniqueItemCount: " + uniqueItemCount.length);
-
-      let edgeLengthFactor = uniqueItemCount.length * 200; //8000; 10000;
+      let edgeLengthFactor = 10000; //10000;
 
       if (distancePercentage === 0) {
-        //nodeBorderColor = "#101010";
-        //nodeBackgroundColor = "#505050";
+        nodeBorderColor = "#101010";
+        nodeBackgroundColor = "#505050";
         totalAxes = nrOfNullDistances;
         absoluteDistance = mask1 / 100 * mostDistantFragmentDistance
       } else if (distancePercentage < mask2) {
@@ -204,12 +198,12 @@ class ConnectedNetworkGraph extends Component {
         nodeBackgroundColor = "#00FFFF";
         totalAxes = nrValuesSubMask2;
         absoluteDistance = mask2 / 100 * mostDistantFragmentDistance
-      }/*else if (distancePercentage > mask8) {
+      }/* else if (distancePercentage > mask8) {
         nodeBorderColor = "#7FFFD4";
         nodeBackgroundColor = "#00FFFF";
         totalAxes = nrValuesSubMask8;
         absoluteDistance = mask8 / 100 * mostDistantFragmentDistance
-        edgeLengthFactor = 10;
+        edgeLengthFactor = 4000;
       }*/
 
       let angleSlice = Math.PI * 2 / totalAxes; //The width in radians of each "slice"

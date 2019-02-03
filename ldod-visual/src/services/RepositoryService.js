@@ -13,8 +13,8 @@ export class RepositoryService {
     //this.axios.setHeader('accept-encoding', 'null');
 
     this.state = {
-      //acronym: "LdoD-Arquivo",
-      acronym: "LdoD-test"
+      acronym: "LdoD-Arquivo",
+      //acronym: "LdoD-test"
     };
   }
 
