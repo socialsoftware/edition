@@ -18,6 +18,7 @@ import org.mockito.Mock;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.socialsoftware.edition.ldod.MockitoExtension;
+import pt.ist.socialsoftware.edition.ldod.TestLoadUtils;
 import pt.ist.socialsoftware.edition.ldod.TestWithFragmentsLoading;
 
 @ExtendWith(MockitoExtension.class)
@@ -40,6 +41,7 @@ public class AnnotationTests extends TestWithFragmentsLoading {
 
 	@Override
 	protected void unpopulate4Test() {
+		TestLoadUtils.cleanDatabaseButCorpus();
 	}
 
 	@Override

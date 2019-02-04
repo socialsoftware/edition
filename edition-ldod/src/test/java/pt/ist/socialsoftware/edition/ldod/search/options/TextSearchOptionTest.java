@@ -2,26 +2,31 @@ package pt.ist.socialsoftware.edition.ldod.search.options;
 
 import static org.junit.Assert.assertEquals;
 
+import java.io.FileNotFoundException;
+
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import pt.ist.fenixframework.Atomic;
-import pt.ist.socialsoftware.edition.ldod.TestWithFragmentsLoading;
+import pt.ist.fenixframework.Atomic.TxMode;
+import pt.ist.socialsoftware.edition.ldod.TestLoadUtils;
 
-public class TextSearchOptionTest extends TestWithFragmentsLoading {
+public class TextSearchOptionTest {
 
-	@Override
-	protected String[] fragmentsToLoad4Test() {
+	@BeforeAll
+	@Atomic(mode = TxMode.WRITE)
+	public static void setUpAll() throws FileNotFoundException {
+		TestLoadUtils.setUpDatabaseWithCorpus();
+
 		String[] fragments = { "001.xml" };
-
-		return fragments;
+		TestLoadUtils.loadFragments(fragments);
 	}
 
-	@Override
-	protected void populate4Test() {
-	}
-
-	@Override
-	protected void unpopulate4Test() {
+	@AfterAll
+	@Atomic(mode = TxMode.WRITE)
+	public static void tearDownAll() throws FileNotFoundException {
+		TestLoadUtils.cleanDatabaseButCorpus();
 	}
 
 	@Test

@@ -1,9 +1,7 @@
 package pt.ist.socialsoftware.edition.ldod.loaders;
 
-import java.io.ByteArrayInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
+import java.nio.charset.Charset;
 
 import org.jdom2.Document;
 import org.jdom2.Element;
@@ -38,7 +36,9 @@ public class VirtualEditionsTEICorpusImport {
 
 		Document doc;
 		try {
-			doc = builder.build(inputStream);
+			Reader reader = new InputStreamReader(inputStream, Charset.defaultCharset());
+			doc = builder.build(reader);
+			//doc = builder.build(inputStream);
 		} catch (FileNotFoundException e) {
 			throw new LdoDLoadException("Ficheiro não encontrado");
 		} catch (JDOMException e) {

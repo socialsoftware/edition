@@ -2,6 +2,7 @@ package pt.ist.socialsoftware.edition.ldod.recommendation;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -10,11 +11,14 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.apache.lucene.queryparser.classic.ParseException;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
-import pt.ist.socialsoftware.edition.ldod.TestWithFragmentsLoading;
+import pt.ist.socialsoftware.edition.ldod.TestLoadUtils;
 import pt.ist.socialsoftware.edition.ldod.domain.Edition;
 import pt.ist.socialsoftware.edition.ldod.domain.ExpertEdition;
 import pt.ist.socialsoftware.edition.ldod.domain.ExpertEditionInter;
@@ -28,20 +32,28 @@ import pt.ist.socialsoftware.edition.ldod.recommendation.properties.Property.Pro
 import pt.ist.socialsoftware.edition.ldod.recommendation.properties.TaxonomyProperty;
 import pt.ist.socialsoftware.edition.ldod.recommendation.properties.TextProperty;
 
-public class ReadingRecommendationPerformanceTest extends TestWithFragmentsLoading {
+public class ReadingRecommendationPerformanceTest {
 
-	@Override
-	protected String[] fragmentsToLoad4Test() {
+	@BeforeAll
+	@Atomic(mode = TxMode.WRITE)
+	public static void setUpAll() throws FileNotFoundException {
+		TestLoadUtils.setUpDatabaseWithCorpus();
+
 		String[] fragments = { "001.xml", "002.xml", "003.xml" };
+		TestLoadUtils.loadFragments(fragments);
+	}
 
-		return fragments;
+	@AfterAll
+	@Atomic(mode = TxMode.WRITE)
+	public static void tearDownAll() throws FileNotFoundException {
+		TestLoadUtils.cleanDatabaseButCorpus();
 	}
 
 	// Assuming that the 4 expert editions, the archive edition and user ars are
 	// in the database @BeforeAll
-	@Override
+	@BeforeEach
 	@Atomic(mode = TxMode.WRITE)
-	protected void populate4Test() {
+	protected void setUp() {
 
 		LdoD ldoD = LdoD.getInstance();
 
@@ -61,10 +73,6 @@ public class ReadingRecommendationPerformanceTest extends TestWithFragmentsLoadi
 		recommender.getMostSimilarItemsAsList(archiveVirtualEditionInters.get(2),
 				new HashSet<VirtualEditionInter>(archiveVirtualEditionInters), properties);
 
-	}
-
-	@Override
-	protected void unpopulate4Test() {
 	}
 
 	@Test

@@ -6,6 +6,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.jupiter.api.Test;
 
 import pt.ist.fenixframework.Atomic;
+import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.socialsoftware.edition.ldod.TestWithFragmentsLoading;
 import pt.ist.socialsoftware.edition.ldod.domain.ExpertEdition;
 import pt.ist.socialsoftware.edition.ldod.domain.ExpertEditionInter;
@@ -38,7 +39,7 @@ public class ImportLdoDFromTEITest extends TestWithFragmentsLoading {
 	}
 
 	@Test
-	@Atomic
+	@Atomic(mode = TxMode.READ)
 	public void testCorpusIdLoadead() {
 
 		LdoD ldoD = LdoD.getInstance();
@@ -49,13 +50,13 @@ public class ImportLdoDFromTEITest extends TestWithFragmentsLoading {
 	}
 
 	@Test
-	@Atomic
+	@Atomic(mode = TxMode.READ)
 	public void testFragmentIsLoaded() {
 		assertEquals("A arte é um esquivar-se a agir", this.fragmentTest.getTitle());
 	}
 
 	@Test
-	@Atomic
+	@Atomic(mode = TxMode.READ)
 	public void testLoadWitnesses() {
 		assertEquals(6, this.fragmentTest.getFragmentInterSet().size());
 		for (FragInter fragmentInter : this.fragmentTest.getFragmentInterSet()) {
@@ -69,7 +70,7 @@ public class ImportLdoDFromTEITest extends TestWithFragmentsLoading {
 	}
 
 	@Test
-	@Atomic
+	@Atomic(mode = TxMode.READ)
 	public void testLoadSources() {
 		assertEquals(1, this.fragmentTest.getSourcesSet().size());
 		for (Source source : this.fragmentTest.getSourcesSet()) {

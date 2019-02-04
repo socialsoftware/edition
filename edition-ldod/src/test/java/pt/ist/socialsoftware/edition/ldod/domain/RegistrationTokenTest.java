@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
+import pt.ist.socialsoftware.edition.ldod.TestLoadUtils;
 import pt.ist.socialsoftware.edition.ldod.TestWithFragmentsLoading;
 
 public class RegistrationTokenTest extends TestWithFragmentsLoading {
@@ -32,7 +33,7 @@ public class RegistrationTokenTest extends TestWithFragmentsLoading {
 
 	@Override
 	public void unpopulate4Test() {
-		LdoD.getInstance().getUsersSet().forEach(u -> u.remove());
+		TestLoadUtils.cleanDatabaseButCorpus();
 	}
 
 	@Test
