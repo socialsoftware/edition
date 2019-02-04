@@ -106,27 +106,27 @@ class ConnectedSquareGrid extends Component {
       let myTitle = this.myFragmentArray[i].meta.title;
       const myText = this.myFragmentArray[i].text;
 
-      //red
-      let nodeBorderColor = "#DC143C"
-      let nodeBackgroundColor = "#FF7F50"
+      //blue
+      let nodeBorderColor = "#2B7CE9";
+      let nodeBackgroundColor = "#D2E5FF";
 
       //grey if date is a criteria and fragment has no date
 
       let dateExistsAndChronologicalCriteria = false;
       //grey
-      if (this.props.currentFragmentMode && this.props.potentialSemanticCriteria == CRIT_CHRONOLOGICAL_ORDER && this.myFragmentArray[i].meta.dates[0] == null) {
+      if (this.props.currentFragmentMode && this.props.potentialSemanticCriteria == CRIT_CHRONOLOGICAL_ORDER && this.myFragmentArray[i].meta.date == null) {
         dateExistsAndChronologicalCriteria = true;
         nodeBorderColor = "#101010";
         nodeBackgroundColor = "#505050";
-      } else if ((!(this.props.currentFragmentMode) && this.props.semanticCriteria == CRIT_CHRONOLOGICAL_ORDER && this.myFragmentArray[i].meta.dates[0] == null)) {
+      } else if ((!(this.props.currentFragmentMode) && this.props.semanticCriteria == CRIT_CHRONOLOGICAL_ORDER && this.myFragmentArray[i].meta.date == null)) {
         dateExistsAndChronologicalCriteria = true;
         nodeBorderColor = "#101010";
         nodeBackgroundColor = "#505050";
       }
 
-      if (this.props.currentFragmentMode && this.props.potentialSemanticCriteria == CRIT_CHRONOLOGICAL_ORDER && this.myFragmentArray[i].meta.dates.length !== 0) {
-        myTitle = this.myFragmentArray[i].meta.title + " | Data: " + this.myFragmentArray[i].meta.dates[0];
-      } else if (this.props.currentFragmentMode && this.props.potentialSemanticCriteria == CRIT_CHRONOLOGICAL_ORDER && !this.myFragmentArray[i].meta.dates[0]) {
+      if (this.props.currentFragmentMode && this.props.potentialSemanticCriteria == CRIT_CHRONOLOGICAL_ORDER && this.myFragmentArray[i].meta.date !== null) {
+        myTitle = this.myFragmentArray[i].meta.title + " | Data: " + this.myFragmentArray[i].meta.date;
+      } else if (this.props.currentFragmentMode && this.props.potentialSemanticCriteria == CRIT_CHRONOLOGICAL_ORDER && !this.myFragmentArray[i].meta.date) {
         myTitle = this.myFragmentArray[i].meta.title + " | Data: Sem data";
       }
 
@@ -148,14 +148,14 @@ class ConnectedSquareGrid extends Component {
 
       //purple
       if (!this.props.currentFragmentMode && this.myFragmentArray[i].interId === this.props.recommendationArray[this.props.recommendationIndex].interId) {
-        nodeBorderColor = "#800080";
-        nodeBackgroundColor = "#663399";
+        nodeBorderColor = "#4B0082";
+        nodeBackgroundColor = "#8A2BE2";
       }
 
-      //blue
+      //red
       if (this.props.outOfLandingPage && this.myFragmentArray[i].interId === this.props.fragments[this.props.fragmentIndex].interId) {
-        nodeBorderColor = "#2B7CE9";
-        nodeBackgroundColor = "#D2E5FF";
+        nodeBorderColor = "#DC143C"
+        nodeBackgroundColor = "#FF7F50"
       }
 
       obj = {
@@ -206,7 +206,7 @@ class ConnectedSquareGrid extends Component {
     //BUILD EDGES
     for (i = 0; i < this.myFragmentArray.length - 1; i++) {
 
-      let showEdge = (this.props.currentFragmentMode && this.props.potentialSemanticCriteria == CRIT_CHRONOLOGICAL_ORDER && this.myFragmentArray[i + 1].meta.dates[0] == null) || (!(this.props.currentFragmentMode) && this.props.semanticCriteria == CRIT_CHRONOLOGICAL_ORDER && this.myFragmentArray[i + 1].meta.dates[0] == null)
+      let showEdge = (this.props.currentFragmentMode && this.props.potentialSemanticCriteria == CRIT_CHRONOLOGICAL_ORDER && this.myFragmentArray[i + 1].meta.date == null) || (!(this.props.currentFragmentMode) && this.props.semanticCriteria == CRIT_CHRONOLOGICAL_ORDER && this.myFragmentArray[i + 1].meta.date == null)
 
       obj = {
         from: this.myFragmentArray[i].interId,

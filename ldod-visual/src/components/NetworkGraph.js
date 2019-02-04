@@ -103,8 +103,8 @@ class ConnectedNetworkGraph extends Component {
       margin: 5, //só funciona com circle...
       size: originalFragmentSize,
       color: {
-        border: "#2B7CE9",
-        background: "#D2E5FF"
+        border: "#DC143C",
+        background: "#FF7F50"
       },
       title: this.props.fragmentsHashMap.get(this.props.graphData[0].interId).meta.title, // + " || " + truncateText(this.props.recommendationArray[this.props.recommendationIndex].text, 60),
       x: 0,
@@ -177,8 +177,9 @@ class ConnectedNetworkGraph extends Component {
 
       this.recommendationArray.push(this.props.fragmentsHashMap.get(this.props.graphData[i].interId));
 
-      let nodeBorderColor = "#DC143C";
-      let nodeBackgroundColor = "#FF7F50";
+      //blue
+      let nodeBorderColor = "#2B7CE9";
+      let nodeBackgroundColor = "#D2E5FF";
       let totalAxes = 200; //The number of different axes
 
       let absoluteDistance = this.props.graphData[i].distance;
@@ -220,8 +221,8 @@ class ConnectedNetworkGraph extends Component {
 
       //purple
       if (!this.props.currentFragmentMode && this.props.graphData[i].interId === this.props.recommendationArray[this.props.recommendationIndex].interId) {
-        nodeBorderColor = "#800080";
-        nodeBackgroundColor = "#663399";
+        nodeBorderColor = "#DC143C"
+        nodeBackgroundColor = "#FF7F50"
       }
 
       obj = {

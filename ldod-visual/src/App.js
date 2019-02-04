@@ -310,15 +310,15 @@ class ConnectedApp extends Component {
 
       {buttonToolBarToRender}
 
-      <div>
-        <FragmentLoader toggleTextSkimming={this.state.toggleTextSkimming} onChange={this.handleToggleFragmentsReceived
-}/>
-      </div>
-
       <div className="toggleTextSkimming">
         <Button bsStyle="primary" bsSize="large" onClick={this.handleToggleTextSkimming}>
           {toggleTextSkimmingButtonMessage}
         </Button>
+      </div>
+
+      <div>
+        <FragmentLoader toggleTextSkimming={this.state.toggleTextSkimming} onChange={this.handleToggleFragmentsReceived
+}/>
       </div>
 
       <Modal show={this.state.showLanding} dialogClassName="custom-modal">

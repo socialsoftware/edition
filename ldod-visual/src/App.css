@@ -68,5 +68,6 @@ Button:not(:last-child){
 .toggleTextSkimming{
   display: inline-block;
   flex-direction: row;
-  margin: 30px auto;
+  margin:  auto;
+  margin-bottom: 30px ;
 }

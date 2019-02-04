@@ -141,7 +141,7 @@ class ConnectedFragmentLoader extends React.Component {
 
         this.props.fragments.map(f => {
 
-          if (f.meta.dates.length !== 0) 
+          if (f.meta.date !== null) 
             return (unorderedFragments.push(f));
           return (noDateFragments.push(f));
         });
@@ -149,8 +149,8 @@ class ConnectedFragmentLoader extends React.Component {
         if (unorderedFragments.length > 0) {
 
           unorderedFragments.sort((frag1, frag2) => {
-            let date1 = frag1.meta.dates[0].split('-');
-            let date2 = frag2.meta.dates[0].split('-');
+            let date1 = frag1.meta.date.split('-');
+            let date2 = frag2.meta.date.split('-');
             let year1 = parseInt(date1[0]);
             let year2 = parseInt(date2[0]);
             let month1 = parseInt(date1[1]);
@@ -166,13 +166,13 @@ class ConnectedFragmentLoader extends React.Component {
             }
           });
 
-          console.log(unorderedFragments.length);
+          // console.log(unorderedFragments.length);
 
           let myFragmentsSortedByDate = unorderedFragments.concat(noDateFragments);
 
-          console.log(myFragmentsSortedByDate.length);
+          // console.log(myFragmentsSortedByDate.length);
 
-          myFragmentsSortedByDate.map(f => console.log(f.meta.dates[0]));
+          // myFragmentsSortedByDate.map(f => console.log(f.meta.date));
 
           this.props.setFragmentsSortedByDate(myFragmentsSortedByDate);
 
@@ -199,7 +199,7 @@ class ConnectedFragmentLoader extends React.Component {
               category: myCategories[i],
               categoryCount: tempCounter
             };
-            console.log("counting category: number " + 1 + " out of " + myCategories.length + " (" + myCategories[i] + ")");
+            // console.log("counting category: number " + 1 + " out of " + myCategories.length + " (" + myCategories[i] + ")");
             myCategories[i] = obj;
             tempCounter = 0;
 
