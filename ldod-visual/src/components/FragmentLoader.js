@@ -130,6 +130,7 @@ class ConnectedFragmentLoader extends React.Component {
       console.log("FragmentLoader.js: componentDidMount -> requesting fragments")
       service.getFragments().then(response => {
         console.log("FragmentLoader.js: receiving fragments");
+        console.log(response);
 
         this.props.addFragment(response.data.fragments);
         this.props.fragments.map(f => this.map.set(f.interId, f));
@@ -139,44 +140,45 @@ class ConnectedFragmentLoader extends React.Component {
         let noDateFragments = [];
 
         this.props.fragments.map(f => {
-          if (f.meta.date !== null) 
+
+          if (f.meta.dates.length !== 0) 
             return (unorderedFragments.push(f));
           return (noDateFragments.push(f));
         });
 
-        unorderedFragments.sort((frag1, frag2) => {
-          let date1 = frag1.meta.date.split('-');
-          let date2 = frag2.meta.date.split('-');
-          let year1 = parseInt(date1[0]);
-          let year2 = parseInt(date2[0]);
-          let month1 = parseInt(date1[1]);
-          let month2 = parseInt(date2[1]);
-          let day1 = parseInt(date1[2]);
-          let day2 = parseInt(date2[2]);
-          if (year1 !== year2) {
-            return year1 - year2;
-          } else if (month1 !== month2) {
-            return month1 - month2;
-          } else {
-            return day1 - day2;
-          }
-        });
+        if (unorderedFragments.length > 0) {
 
-        console.log(unorderedFragments.length);
+          unorderedFragments.sort((frag1, frag2) => {
+            let date1 = frag1.meta.dates[0].split('-');
+            let date2 = frag2.meta.dates[0].split('-');
+            let year1 = parseInt(date1[0]);
+            let year2 = parseInt(date2[0]);
+            let month1 = parseInt(date1[1]);
+            let month2 = parseInt(date2[1]);
+            let day1 = parseInt(date1[2]);
+            let day2 = parseInt(date2[2]);
+            if (year1 !== year2) {
+              return year1 - year2;
+            } else if (month1 !== month2) {
+              return month1 - month2;
+            } else {
+              return day1 - day2;
+            }
+          });
 
-        let myFragmentsSortedByDate = unorderedFragments.concat(noDateFragments);
+          console.log(unorderedFragments.length);
 
-        console.log(myFragmentsSortedByDate.length);
+          let myFragmentsSortedByDate = unorderedFragments.concat(noDateFragments);
 
-        myFragmentsSortedByDate.map(f => console.log(f.meta.date));
+          console.log(myFragmentsSortedByDate.length);
 
-        this.props.setFragmentsSortedByDate(myFragmentsSortedByDate);
+          myFragmentsSortedByDate.map(f => console.log(f.meta.dates[0]));
 
-        console.log("Categories array length: " + response.data.categories.length);
-        response.data.categories.map(f => console.log("Categories: " + f));
-        console.log("FragmentLoader.js: fragments received");
+          this.props.setFragmentsSortedByDate(myFragmentsSortedByDate);
 
-        if (response.data.categories.length > 0) {
+        }
+
+        if (response.data.categories) {
 
           let myCategories = response.data.categories;
           let tempCounter = 0;
@@ -184,15 +186,15 @@ class ConnectedFragmentLoader extends React.Component {
           let i;
           let j;
           for (i = 0; i < myCategories.length; i++) {
-            console.log("aaaaaaaaaaaaaaaaaaaa")
+
             for (j = 0; j < response.data.fragments.length; j++) {
-              console.log("bbbbbbbbbbbbbbbbbb")
+
               if (response.data.fragments[j].meta.categories.includes(myCategories[i])) {
-                console.log("cccccccccccccccccccc")
+
                 tempCounter++;
               }
             }
-            console.log("ddddddddddddddddd")
+
             let obj = {
               category: myCategories[i],
               categoryCount: tempCounter

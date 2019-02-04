@@ -112,20 +112,22 @@ class ConnectedSquareGrid extends Component {
 
       //grey if date is a criteria and fragment has no date
 
-      let dateExistsAndChronologicalCriteria = true;
+      let dateExistsAndChronologicalCriteria = false;
       //grey
-      if (this.props.currentFragmentMode && this.props.potentialSemanticCriteria == CRIT_CHRONOLOGICAL_ORDER && this.myFragmentArray[i].meta.date == null) {
-        dateExistsAndChronologicalCriteria = false;
+      if (this.props.currentFragmentMode && this.props.potentialSemanticCriteria == CRIT_CHRONOLOGICAL_ORDER && this.myFragmentArray[i].meta.dates[0] == null) {
+        dateExistsAndChronologicalCriteria = true;
         nodeBorderColor = "#101010";
         nodeBackgroundColor = "#505050";
-      } else if ((!(this.props.currentFragmentMode) && this.props.semanticCriteria == CRIT_CHRONOLOGICAL_ORDER && this.myFragmentArray[i].meta.date == null)) {
-        dateExistsAndChronologicalCriteria = false;
+      } else if ((!(this.props.currentFragmentMode) && this.props.semanticCriteria == CRIT_CHRONOLOGICAL_ORDER && this.myFragmentArray[i].meta.dates[0] == null)) {
+        dateExistsAndChronologicalCriteria = true;
         nodeBorderColor = "#101010";
         nodeBackgroundColor = "#505050";
       }
 
-      if (dateExistsAndChronologicalCriteria) {
-        myTitle = this.myFragmentArray[i].meta.title + " | Data: " + this.myFragmentArray[i].meta.date;
+      if (this.props.currentFragmentMode && this.props.potentialSemanticCriteria == CRIT_CHRONOLOGICAL_ORDER && this.myFragmentArray[i].meta.dates.length !== 0) {
+        myTitle = this.myFragmentArray[i].meta.title + " | Data: " + this.myFragmentArray[i].meta.dates[0];
+      } else if (this.props.currentFragmentMode && this.props.potentialSemanticCriteria == CRIT_CHRONOLOGICAL_ORDER && !this.myFragmentArray[i].meta.dates[0]) {
+        myTitle = this.myFragmentArray[i].meta.title + " | Data: Sem data";
       }
 
       if (this.props.currentFragmentMode && this.props.potentialSemanticCriteria == CRIT_CATEGORY) {
@@ -204,7 +206,7 @@ class ConnectedSquareGrid extends Component {
     //BUILD EDGES
     for (i = 0; i < this.myFragmentArray.length - 1; i++) {
 
-      let showEdge = (this.props.currentFragmentMode && this.props.potentialSemanticCriteria == CRIT_CHRONOLOGICAL_ORDER && this.myFragmentArray[i + 1].meta.date == null) || (!(this.props.currentFragmentMode) && this.props.semanticCriteria == CRIT_CHRONOLOGICAL_ORDER && this.myFragmentArray[i + 1].meta.date == null)
+      let showEdge = (this.props.currentFragmentMode && this.props.potentialSemanticCriteria == CRIT_CHRONOLOGICAL_ORDER && this.myFragmentArray[i + 1].meta.dates[0] == null) || (!(this.props.currentFragmentMode) && this.props.semanticCriteria == CRIT_CHRONOLOGICAL_ORDER && this.myFragmentArray[i + 1].meta.dates[0] == null)
 
       obj = {
         from: this.myFragmentArray[i].interId,

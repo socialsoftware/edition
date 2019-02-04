@@ -2,19 +2,33 @@ import axios from 'axios';
 
 export class RepositoryService {
   constructor() {
-    this.axios = axios.create({
-      //baseURL: 'https://ldod.uc.pt',
-      baseURL: 'http://localhost:8080',
-      timeout: 1000,
-      headers: {
-        'X-Custom-Header': 'BlendedWorkflow'
-      }
-    });
+
     //this.axios.setHeader('accept-encoding', 'null');
 
+    this.config = {
+      headers: {
+        'Authorization': "bearer" + localStorage.getItem('accessToken')
+      }
+    };
+
+    this.bodyParameters = {
+      key: "value"
+    }
+
+    this.axios = axios.create({
+      baseURL: 'https://ldod.uc.pt',
+      //baseURL: 'http://localhost:8080',
+      timeout: 1000,
+      headers: {
+        'X-Custom-Header': 'BlendedWorkflow',
+        'Authorization': 'Bearer' + localStorage.getItem('accessToken')
+      }
+    });
+
     this.state = {
-      acronym: "LdoD-Arquivo",
+      //acronym: "LdoD-Arquivo"
       //acronym: "LdoD-test"
+      acronym: "LdoD-Twitter"
     };
   }
 

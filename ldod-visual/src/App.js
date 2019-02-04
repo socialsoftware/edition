@@ -81,7 +81,8 @@ class ConnectedApp extends Component {
       showHistoric: false,
       showLanding: true,
       showLandingActivity: false,
-      toggleTextSkimming: false
+      toggleTextSkimming: false,
+      toggleUpdateFragmentsReceived: false
     };
 
     this.landingActivityToRender = <p>Loading fragments...</p>;
@@ -109,6 +110,8 @@ class ConnectedApp extends Component {
     this.handleToggleTextSkimming = this.handleToggleTextSkimming.bind(this);
 
     this.handleShowLandingActivityWordCloudCategory = this.handleShowLandingActivityWordCloudCategory.bind(this);
+
+    this.handleToggleFragmentsReceived = this.handleToggleFragmentsReceived.bind(this);
 
   }
 
@@ -201,6 +204,13 @@ class ConnectedApp extends Component {
     this.setState({
       toggleTextSkimming: !this.state.toggleTextSkimming
     });
+  }
+
+  handleToggleFragmentsReceived() {
+    this.setState({
+      toggleUpdateFragmentsReceived: !this.state.toggleUpdateFragmentsReceived
+    });
+    console.log("App.js: handleToggleFragmentsReceived");
   }
 
   render() {
@@ -301,7 +311,8 @@ class ConnectedApp extends Component {
       {buttonToolBarToRender}
 
       <div>
-        <FragmentLoader toggleTextSkimming={this.state.toggleTextSkimming}/>
+        <FragmentLoader toggleTextSkimming={this.state.toggleTextSkimming} onChange={this.handleToggleFragmentsReceived
+}/>
       </div>
 
       <div className="toggleTextSkimming">

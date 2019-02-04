@@ -187,6 +187,7 @@ class ConnectedNetworkGraph extends Component {
       //small interpolation for when the distance is zero
 
       let edgeLengthFactor = 10000; //10000;
+      let mySize = originalFragmentSize * 0.7;
 
       if (distancePercentage === 0) {
         nodeBorderColor = "#101010";
@@ -198,13 +199,14 @@ class ConnectedNetworkGraph extends Component {
         nodeBackgroundColor = "#00FFFF";
         totalAxes = nrValuesSubMask2;
         absoluteDistance = mask2 / 100 * mostDistantFragmentDistance
-      }/* else if (distancePercentage > mask8) {
-        nodeBorderColor = "#7FFFD4";
-        nodeBackgroundColor = "#00FFFF";
-        totalAxes = nrValuesSubMask8;
-        absoluteDistance = mask8 / 100 * mostDistantFragmentDistance
-        edgeLengthFactor = 4000;
-      }*/
+      } else if (distancePercentage > mask4) {
+        mySize = mySize * 6;
+        //nodeBorderColor = "#7FFFD4";
+        //nodeBackgroundColor = "#00FFFF";
+        //totalAxes = nrValuesSubMask8;
+        //absoluteDistance = mask8 / 100 * mostDistantFragmentDistance
+        //edgeLengthFactor = 4000;
+      }
 
       let angleSlice = Math.PI * 2 / totalAxes; //The width in radians of each "slice"
 
@@ -227,7 +229,7 @@ class ConnectedNetworkGraph extends Component {
         //label: "",
         shape: "dot",
         margin: 5, //só funciona com circle...
-        size: originalFragmentSize * 0.7,
+        size: mySize,
         color: {
           border: nodeBorderColor,
           background: nodeBackgroundColor
