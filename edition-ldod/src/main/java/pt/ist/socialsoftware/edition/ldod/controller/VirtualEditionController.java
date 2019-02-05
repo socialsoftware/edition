@@ -26,6 +26,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -53,6 +54,7 @@ import pt.ist.socialsoftware.edition.ldod.dto.EditionFragmentsDto;
 import pt.ist.socialsoftware.edition.ldod.dto.EditionTranscriptionsDto;
 import pt.ist.socialsoftware.edition.ldod.dto.FragmentDto;
 import pt.ist.socialsoftware.edition.ldod.dto.TranscriptionDto;
+import pt.ist.socialsoftware.edition.ldod.dto.VirtualEditionInterListDto;
 import pt.ist.socialsoftware.edition.ldod.search.Indexer;
 import pt.ist.socialsoftware.edition.ldod.security.LdoDUserDetails;
 import pt.ist.socialsoftware.edition.ldod.session.LdoDSession;
@@ -294,6 +296,15 @@ public class VirtualEditionController {
 		ldoDSession.toggleSelectedVirtualEdition(user, virtualEdition);
 
 		return "redirect:/virtualeditions";
+	}
+
+	@GetMapping("/public")
+	public @ResponseBody ResponseEntity<List<VirtualEditionInterListDto>> getPublicVirtualEditions() {
+		List<VirtualEditionInterListDto> result = LdoD.getInstance().getVirtualEditionsSet().stream()
+				.filter(virtualEdition -> virtualEdition.getPub()).map(VirtualEditionInterListDto::new)
+				.collect(Collectors.toList());
+
+		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/acronym/{acronym}/fragments")

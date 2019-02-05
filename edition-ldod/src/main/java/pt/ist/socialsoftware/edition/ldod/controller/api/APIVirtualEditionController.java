@@ -94,13 +94,4 @@ public class APIVirtualEditionController {
 		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}
 
-	@GetMapping("/public/virtualeditions")
-	public @ResponseBody ResponseEntity<List<VirtualEditionInterListDto>> getPublicVirtualEditions() {
-		List<VirtualEditionInterListDto> result = LdoD.getInstance().getVirtualEditionsSet().stream()
-				.filter(virtualEdition -> virtualEdition.getPub()).map(VirtualEditionInterListDto::new)
-				.collect(Collectors.toList());
-
-		return new ResponseEntity<>(result, HttpStatus.OK);
-	}
-
 }
