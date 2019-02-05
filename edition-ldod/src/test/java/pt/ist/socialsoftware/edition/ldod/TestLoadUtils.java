@@ -3,7 +3,10 @@ package pt.ist.socialsoftware.edition.ldod;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import pt.ist.socialsoftware.edition.ldod.domain.Edition;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
 import pt.ist.socialsoftware.edition.ldod.loaders.LoadTEICorpus;
@@ -59,5 +62,11 @@ public class TestLoadUtils {
 			ldoD.getTweetSet().forEach(t -> t.remove());
 		}
 
+	}
+
+	public static byte[] jsonBytes(Object object) throws IOException {
+		ObjectMapper mapper = new ObjectMapper();
+		mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+		return mapper.writeValueAsBytes(object);
 	}
 }

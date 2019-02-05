@@ -9,6 +9,8 @@ public class InterIdDistancePairDto {
 		this.distance = distance;
 	}
 
+	public InterIdDistancePairDto(){}
+
 	public String getInterId() {
 		return this.interId;
 	}
