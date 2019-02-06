@@ -55,7 +55,7 @@
   display: inline-block;
   flex-direction: row;
   position: sticky;
-  top: 35%;
+  top: 30%;
   left: 7%;
   width: 10%;
 }
@@ -64,7 +64,7 @@
   display: inline-block;
   flex-direction: row;
   position: sticky;
-  top: 35%;
+  top: 30%;
   left: 83%;
   width: 10%;
 }

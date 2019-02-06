@@ -1,5 +1,4 @@
 .box {
-
   width: 60%;
   background-color: #fff;
   margin: 0 auto;
@@ -8,5 +7,5 @@
   border-radius: 20px;
   box-shadow: 0 10px 70px rgba(0,0,0,0.4);
   margin-bottom: 30px;
-  margin-top: 40px;
+  margin-top: -120px;
 }
