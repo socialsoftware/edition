@@ -96,6 +96,7 @@ class ConnectedMyWordCloud extends Component {
 
     let message = "Esta edição virtual não tem categorias para fazer esta actividade.";
     let data = [];
+    let componentToRender;
 
     console.log("MyWordCloud.js:")
     console.log(this.props.categories);
@@ -104,7 +105,7 @@ class ConnectedMyWordCloud extends Component {
 
       message = "Instruções da word cloud."
 
-      const sizeFactor = 100;
+      const sizeFactor = 50;
       let obj;
 
       let i;
@@ -116,16 +117,18 @@ class ConnectedMyWordCloud extends Component {
         data.push(obj);
       }
 
-    }
 
-    const fontSizeMapper = word => ((word.value / this.props.categories.length)) * 90; //Math.log2(word.value) * 5;
+
+    console.log("this.props.categories.length: "+this.props.categories.length);
+
+    const fontSizeMapper = word => (word.value * sizeFactor); //Math.log2(word.value) * 5;
     const rotate = 0; //word => word.value % 360;
     const height = 700;
-    const width = 900;
+    const width = 700;
     const padding = 6;
     const font = 'Impact';
 
-    let componentToRender;
+
     if (this.state.renderSquareMap && !(this.outOfLandingPage)) {
       componentToRender = (<SquareGrid onChange={this.props.onChange}/>)
     } else {
@@ -136,12 +139,18 @@ class ConnectedMyWordCloud extends Component {
 
         <div style={{
             display: 'flex',
-            justifyContent: 'center'
+            justifyContent: 'center',
+            height: {height},
+            width: {width},
+            marginBottom: "35px"
+            //background: 'black'
           }}>
-          <WordCloud data={data} fontSizeMapper={fontSizeMapper} rotate={rotate} onWordClick={this.handleClickedWord} height={height} width={width} padding={padding} font={font}/>
+          <WordCloud data={data} fontSizeMapper={fontSizeMapper} rotate={rotate} onWordClick={this.handleClickedWord}  font={font}/>
         </div>
 
       </div>)
+    }
+
     }
 
     return (<div className="cloud-activity">{componentToRender}</div>);

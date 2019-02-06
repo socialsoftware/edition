@@ -33,7 +33,40 @@
 .buttonToolbar {
   display: inline-block;
   flex-direction: row;
-  margin: 30px auto;
+  margin: 25px auto;
+}
+
+.navigationText{
+  display: inline-block;
+  flex-direction: row;
+  width: 90%;
+}
+
+.navPrevious {
+  display: inline-block;
+  flex-direction: row;
+  position: sticky;
+  top: 35%;
+  left: 7%;
+  width: 10%;
+}
+
+.navPrevious {
+  display: inline-block;
+  flex-direction: row;
+  position: sticky;
+  top: 35%;
+  left: 7%;
+  width: 10%;
+}
+
+.navNext {
+  display: inline-block;
+  flex-direction: row;
+  position: sticky;
+  top: 35%;
+  left: 83%;
+  width: 10%;
 }
 
 .buttoncont{
@@ -43,6 +76,17 @@
 Button:not(:last-child){
   margin-right: 20px;
 }
+
+
+.toggleTextSkimming{
+  display: inline-block;
+  flex-direction: row;
+  margin: auto;
+
+}
+
+
+
 
 .custom-modal{
   width: 80%;
@@ -63,11 +107,4 @@ Button:not(:last-child){
   margin-top: 0 auto;
   width: 100%;
   height: 100%;
-}
-
-.toggleTextSkimming{
-  display: inline-block;
-  flex-direction: row;
-  margin:  auto;
-  margin-bottom: 30px ;
 }

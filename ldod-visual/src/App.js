@@ -17,6 +17,7 @@ import {connect} from "react-redux";
 import {Button, ButtonToolbar, Modal} from "react-bootstrap";
 import ActivityMenu from "./components/ActivityMenu";
 import HistoryMenu from "./components/HistoryMenu";
+import NavigationButton from "./components/NavigationButton";
 import {
   VIS_NETWORK,
   BY_HISTORIC,
@@ -258,6 +259,10 @@ class ConnectedApp extends Component {
       </ButtonToolbar>)
     }
 
+    let previousNavButton = <div/>;
+
+    let nextNavButton = <div/>;
+
     let buttonToolBarToRender;
 
     if (this.props.allFragmentsLoaded & this.props.outOfLandingPage) {
@@ -268,12 +273,13 @@ class ConnectedApp extends Component {
       console.log("App.js: this.props.potentialSemanticCriteria: " + this.props.potentialSemanticCriteria);
       console.log("App.js: this.props.currentFragmentMode: " + this.props.currentFragmentMode);
 
-      buttonToolBarToRender = (<div className="buttonToolbar">
-        <ButtonToolbar>
+      previousNavButton = <NavigationButton nextButton={false}/>;
 
-          <Button bsStyle={this.previousFragmentButtonStyle} bsSize="large" onClick={this.handleClickPrevious}>
-            Anterior
-          </Button>
+      nextNavButton = <NavigationButton nextButton={true}/>;
+
+      buttonToolBarToRender = (<div className="buttonToolbar">
+
+        <ButtonToolbar>
 
           <Button bsStyle="primary" bsSize="large" onClick={this.handleShowGlobalView}>
             Actividade Actual
@@ -287,11 +293,8 @@ class ConnectedApp extends Component {
             Histórico de leitura
           </Button>
 
-          <Button bsStyle={this.nextFragmentButtonStyle} bsSize="large" onClick={this.handleClickNext}>
-            Próximo
-          </Button>
-
         </ButtonToolbar>
+
       </div>)
 
     } else {
@@ -299,11 +302,15 @@ class ConnectedApp extends Component {
       buttonToolBarToRender = <div/>;
     }
 
-    let toggleTextSkimmingButtonMessage = "...";
-    if (this.state.toggleTextSkimming) {
-      toggleTextSkimmingButtonMessage = "Esconder as palavras mais relevantes deste fragmento"
-    } else {
-      toggleTextSkimmingButtonMessage = "Destacar as palavras mais relevantes deste fragmento"
+    let toggleTextSkimmingButtonMessage;
+    if (this.state.toggleTextSkimming && this.props.outOfLandingPage) {
+      toggleTextSkimmingButtonMessage = (<Button bsStyle="primary" bsSize="large" onClick={this.handleToggleTextSkimming}>
+        Esconder as palavras mais relevantes deste fragmento
+      </Button>)
+    } else if (this.props.outOfLandingPage) {
+      toggleTextSkimmingButtonMessage = (<Button bsStyle="primary" bsSize="large" onClick={this.handleToggleTextSkimming}>
+        Destacar as palavras mais relevantes deste fragmento
+      </Button>)
     }
 
     return (<div className="app">
@@ -311,14 +318,24 @@ class ConnectedApp extends Component {
       {buttonToolBarToRender}
 
       <div className="toggleTextSkimming">
-        <Button bsStyle="primary" bsSize="large" onClick={this.handleToggleTextSkimming}>
-          {toggleTextSkimmingButtonMessage}
-        </Button>
+        {toggleTextSkimmingButtonMessage}
       </div>
 
-      <div>
-        <FragmentLoader toggleTextSkimming={this.state.toggleTextSkimming} onChange={this.handleToggleFragmentsReceived
+      <div >
+
+        <div className="navPrevious">
+          {previousNavButton}
+        </div>
+
+        <div className="navNext">
+          {nextNavButton}
+        </div>
+
+        <div >
+          <FragmentLoader toggleTextSkimming={this.state.toggleTextSkimming} onChange={this.handleToggleFragmentsReceived
 }/>
+        </div>
+
       </div>
 
       <Modal show={this.state.showLanding} dialogClassName="custom-modal">

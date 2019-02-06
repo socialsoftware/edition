@@ -214,7 +214,8 @@ class ConnectedSquareGrid extends Component {
         length: 1,
         hidden: showEdge,
         arrows: 'to',
-        hoverWidth: 0
+        hoverWidth: 0,
+        chosen: false
       };
 
       this.edges.push(obj);

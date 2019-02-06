@@ -28,7 +28,8 @@ export class RepositoryService {
     this.state = {
       //acronym: "LdoD-Arquivo"
       //acronym: "LdoD-test"
-      acronym: "LdoD-Twitter"
+      //acronym: "LdoD-Twitter"
+      acronym: "LdoD-sas"
     };
   }
 
