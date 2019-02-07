@@ -100,6 +100,7 @@ class ConnectedNetworkGraph extends Component {
       id: this.props.graphData[0].interId,
       //label: "",//this.props.fragments[this.props.fragmentIndex].meta.title,
       shape: "dot",
+      chosen: false,
       margin: 5, //só funciona com circle...
       size: originalFragmentSize,
       color: {
@@ -284,7 +285,7 @@ class ConnectedNetworkGraph extends Component {
 
   handleSelectNode(event) {
     const nodeId = event.nodes[0];
-    if (nodeId) {
+    if (nodeId && nodeId !== this.props.fragments[this.props.fragmentIndex].interId) {
       //alert(nodeId);
       var i;
       for (i = 0; i < this.props.recommendationArray.length; i++) {
