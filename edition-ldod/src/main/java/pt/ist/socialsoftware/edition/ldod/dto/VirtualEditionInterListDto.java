@@ -18,18 +18,22 @@ public class VirtualEditionInterListDto {
 	public VirtualEditionInterListDto() {
 	}
 
-	public VirtualEditionInterListDto(VirtualEdition virtualEdition) {
-		this.setVirtualEditionInterList(virtualEdition.getIntersSet().stream().sorted().map(
-				i -> new VirtualEditionInterDto((VirtualEditionInter) virtualEdition.getFragInterByUrlId(i.getUrlId())))
-				.collect(Collectors.toList()));
+	public VirtualEditionInterListDto(VirtualEdition virtualEdition, boolean deep) {
+		if (deep) {
+			this.setVirtualEditionInterList(virtualEdition.getIntersSet().stream().sorted()
+					.map(i -> new VirtualEditionInterDto(
+							(VirtualEditionInter) virtualEdition.getFragInterByUrlId(i.getUrlId())))
+					.collect(Collectors.toList()));
+		}
 		this.setTitle(virtualEdition.getTitle());
 		this.setAcronym(virtualEdition.getAcronym());
 		this.setPub(virtualEdition.getPub());
 		TaxonomyDto taxonomyDTO = new TaxonomyDto(virtualEdition.getTaxonomy());
 		this.setTaxonomy(taxonomyDTO);
-		this.setMembers(virtualEdition.getActiveMemberSet().stream().map(member -> new LdoDUserDto(member.getUser()))
-				.collect(Collectors.toList()));
-
+		if (deep) {
+			this.setMembers(virtualEdition.getActiveMemberSet().stream()
+					.map(member -> new LdoDUserDto(member.getUser())).collect(Collectors.toList()));
+		}
 	}
 
 	public List<VirtualEditionInterDto> getVirtualEditionInterList() {

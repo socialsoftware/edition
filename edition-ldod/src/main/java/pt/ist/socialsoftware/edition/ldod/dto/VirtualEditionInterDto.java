@@ -1,8 +1,5 @@
 package pt.ist.socialsoftware.edition.ldod.dto;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
 import pt.ist.socialsoftware.edition.ldod.generators.PlainHtmlWriter4OneInter;
 
@@ -12,7 +9,6 @@ public class VirtualEditionInterDto {
 	private int number;
 	private String urlId;
 	private String text;
-	private List<String> categories;
 
 	public VirtualEditionInterDto() {
 	}
@@ -22,7 +18,6 @@ public class VirtualEditionInterDto {
 		this.title = inter.getTitle();
 		this.number = inter.getNumber();
 		this.urlId = inter.getUrlId();
-		this.categories = inter.getCategories().stream().map(c -> c.getName()).sorted().collect(Collectors.toList());
 
 		PlainHtmlWriter4OneInter writer = new PlainHtmlWriter4OneInter(inter.getLastUsed());
 		writer.write(false);
@@ -68,14 +63,6 @@ public class VirtualEditionInterDto {
 
 	public void setText(String text) {
 		this.text = text;
-	}
-
-	public List<String> getCategories() {
-		return this.categories;
-	}
-
-	public void setCategories(List<String> categories) {
-		this.categories = categories;
 	}
 
 }

@@ -37,7 +37,7 @@ public class APIVirtualEditionController {
 		if (virtualEdition == null) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		} else {
-			VirtualEditionInterListDto result = new VirtualEditionInterListDto(virtualEdition);
+			VirtualEditionInterListDto result = new VirtualEditionInterListDto(virtualEdition, true);
 			return new ResponseEntity<>(result, HttpStatus.OK);
 		}
 
@@ -73,7 +73,7 @@ public class APIVirtualEditionController {
 					LdoDSession.getLdoDSession());
 			List<VirtualEditionInterListDto> result = virtualEditionList.stream()
 					.filter(virtualEdition -> virtualEdition.getParticipantSet().contains(user))
-					.map(VirtualEditionInterListDto::new).collect(Collectors.toList());
+					.map(ve -> new VirtualEditionInterListDto(ve, true)).collect(Collectors.toList());
 
 			return new ResponseEntity<>(result, HttpStatus.OK);
 		}
@@ -87,7 +87,7 @@ public class APIVirtualEditionController {
 		if (user != null) {
 			List<VirtualEditionInterListDto> result = LdoD.getInstance().getVirtualEditionsSet().stream().filter(
 					virtualEdition -> virtualEdition.getParticipantList().contains(user) && virtualEdition.getPub())
-					.map(VirtualEditionInterListDto::new).collect(Collectors.toList());
+					.map(ve -> new VirtualEditionInterListDto(ve, true)).collect(Collectors.toList());
 
 			return new ResponseEntity<>(result, HttpStatus.OK);
 		}

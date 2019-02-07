@@ -301,7 +301,7 @@ public class VirtualEditionController {
 	@GetMapping("/public")
 	public @ResponseBody ResponseEntity<List<VirtualEditionInterListDto>> getPublicVirtualEditions() {
 		List<VirtualEditionInterListDto> result = LdoD.getInstance().getVirtualEditionsSet().stream()
-				.filter(virtualEdition -> virtualEdition.getPub()).map(VirtualEditionInterListDto::new)
+				.filter(virtualEdition -> virtualEdition.getPub()).map(ve -> new VirtualEditionInterListDto(ve, false))
 				.collect(Collectors.toList());
 
 		return new ResponseEntity<>(result, HttpStatus.OK);
