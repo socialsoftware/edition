@@ -9,6 +9,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -75,6 +77,31 @@ public class UserTest extends ControllersTestWithFragmentsLoading {
         when(passwordEncoder.matches(anyString(),anyString())).thenReturn(true);
     }
 
+    @BeforeAll
+    @Atomic(mode = Atomic.TxMode.WRITE)
+    public static void setUpAll() {
+
+        // Temp user for use in changePasswordTest
+        // Must be created in static beforeAll context due to requirements of the WithUserDetails annotation
+
+        Role user = Role.getRole(Role.RoleType.ROLE_USER);
+        Role admin = Role.getRole(Role.RoleType.ROLE_ADMIN);
+
+        LdoDUser temp = new LdoDUser(LdoD.getInstance(), "temp", "$2a$11$FqP6hxx1OzHeP/MHm8Ccier/ZQjEY5opPTih37DR6nQE1XFc0lzqW",
+                "Temp", "Temp", "temp@temp.temp");
+
+        temp.setEnabled(true);
+        temp.addRoles(user);
+        temp.addRoles(admin);
+
+    }
+
+    @AfterAll
+    @Atomic(mode = Atomic.TxMode.WRITE)
+    public static void tearDownAll() {
+        LdoD.getInstance().getUser("temp").remove();
+    }
+
     @Test
     public void getPasswordFormTest() throws Exception {
 
@@ -87,21 +114,18 @@ public class UserTest extends ControllersTestWithFragmentsLoading {
 
     @Test
     @Atomic(mode = Atomic.TxMode.WRITE)
-    @WithUserDetails(value = "ars")
+    @WithUserDetails(value = "temp")
     public void changePasswordTest() throws Exception {
 
-
-        // Test currently not working due to framework behavior, solution being searched
-        /*this.mockMvc.perform(post("/user/changePassword")
-                .param("username","ars")
-                .param("currentPassword", "mar39")
+        this.mockMvc.perform(post("/user/changePassword")
+                .param("username","temp")
+                .param("currentPassword", "temp")
                 .param("newPassword", "123456")
                 .param("retypedPassword", "123456")
                 .sessionAttr("userForm",new ChangePasswordForm()))
                 .andDo(print())
                 .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/"));*/
+                .andExpect(redirectedUrl("/"));
 
-        assertEquals(1,1);
     }
 }
