@@ -24,6 +24,7 @@ import pt.ist.socialsoftware.edition.ldod.TestLoadUtils;
 import pt.ist.socialsoftware.edition.ldod.config.Application;
 import pt.ist.socialsoftware.edition.ldod.controller.LdoDExceptionHandler;
 import pt.ist.socialsoftware.edition.ldod.controller.VirtualEditionController;
+import pt.ist.socialsoftware.edition.ldod.domain.Category;
 import pt.ist.socialsoftware.edition.ldod.domain.Edition;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
@@ -403,5 +404,66 @@ public class VirtualEditionTest{
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/error"));
 
+    }
+
+
+    @Test
+    @Atomic(mode = Atomic.TxMode.WRITE)
+    @WithUserDetails("ars")
+    public void deleteTaxonomyTest() throws Exception {
+
+        VirtualEdition ve = LdoD.getInstance().getVirtualEdition(Edition.ARCHIVE_EDITION_ACRONYM);
+
+        this.mockMvc.perform(post("/virtualeditions/restricted/{externalId}/taxonomy/clean",ve.getExternalId())
+                .param("taxonomyExternalId",ve.getTaxonomy().getExternalId())
+                )
+                .andDo(print())
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/virtualeditions/restricted/" + ve.getExternalId() + "/taxonomy"));
+    }
+
+    @Test
+    @Atomic(mode = Atomic.TxMode.WRITE)
+    @WithUserDetails("ars")
+    public void deleteErrorTaxonomyTest() throws Exception {
+
+        VirtualEdition ve = LdoD.getInstance().getVirtualEdition(Edition.ARCHIVE_EDITION_ACRONYM);
+
+        this.mockMvc.perform(post("/virtualeditions/restricted/{externalId}/taxonomy/clean",ve.getExternalId())
+                .param("taxonomyExternalId","ERROR")
+        )
+                .andDo(print())
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/error"));
+    }
+
+    @Test
+    @Atomic(mode = Atomic.TxMode.WRITE)
+    @WithUserDetails("ars")
+    public void createCategoryTest() throws Exception {
+
+        VirtualEdition ve = LdoD.getInstance().getVirtualEdition(Edition.ARCHIVE_EDITION_ACRONYM);
+
+        this.mockMvc.perform(post("/virtualeditions/restricted/category/create")
+                .param("externalId",ve.getExternalId())
+                .param("name", "test"))
+                .andDo(print())
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/virtualeditions/restricted/" + ve.getExternalId() + "/taxonomy"));
+    }
+
+    @Test
+    @Atomic(mode = Atomic.TxMode.WRITE)
+    @WithUserDetails("ars")
+    public void createCategoryErrorTest() throws Exception {
+
+        VirtualEdition ve = LdoD.getInstance().getVirtualEdition(Edition.ARCHIVE_EDITION_ACRONYM);
+
+        this.mockMvc.perform(post("/virtualeditions/restricted/category/create")
+                .param("externalId","ERROR")
+                .param("name", "test"))
+                .andDo(print())
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/error"));
     }
 }

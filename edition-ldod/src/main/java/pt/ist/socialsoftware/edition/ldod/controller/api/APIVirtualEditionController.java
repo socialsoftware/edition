@@ -1,5 +1,8 @@
 package pt.ist.socialsoftware.edition.ldod.controller.api;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -15,14 +18,9 @@ import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
-import pt.ist.socialsoftware.edition.ldod.dto.LdoDUserDto;
 import pt.ist.socialsoftware.edition.ldod.dto.VirtualEditionInterDto;
 import pt.ist.socialsoftware.edition.ldod.dto.VirtualEditionInterListDto;
 import pt.ist.socialsoftware.edition.ldod.session.LdoDSession;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/services")
@@ -67,11 +65,15 @@ public class APIVirtualEditionController {
 
 	@GetMapping("/{username}/restricted/virtualeditions")
 	@PreAuthorize("hasPermission(#username, 'user.logged')")
-	public @ResponseBody ResponseEntity<List<VirtualEditionInterListDto>> getVirtualEditions4User(@PathVariable(value = "username") String username){
+	public @ResponseBody ResponseEntity<List<VirtualEditionInterListDto>> getVirtualEditions4User(
+			@PathVariable(value = "username") String username) {
 		LdoDUser user = LdoD.getInstance().getUser(username);
-		if( user != null) {
-			List<VirtualEdition> virtualEditionList =  LdoD.getInstance().getVirtualEditions4User(user, LdoDSession.getLdoDSession());
-			List<VirtualEditionInterListDto> result = virtualEditionList.stream().filter(virtualEdition -> virtualEdition.getParticipantSet().contains(user)).map(VirtualEditionInterListDto::new).collect(Collectors.toList());
+		if (user != null) {
+			List<VirtualEdition> virtualEditionList = LdoD.getInstance().getVirtualEditions4User(user,
+					LdoDSession.getLdoDSession());
+			List<VirtualEditionInterListDto> result = virtualEditionList.stream()
+					.filter(virtualEdition -> virtualEdition.getParticipantSet().contains(user))
+					.map(VirtualEditionInterListDto::new).collect(Collectors.toList());
 
 			return new ResponseEntity<>(result, HttpStatus.OK);
 		}
@@ -79,10 +81,13 @@ public class APIVirtualEditionController {
 	}
 
 	@GetMapping("/{username}/public/virtualeditions")
-	public @ResponseBody ResponseEntity<List<VirtualEditionInterListDto>> getPublicVirtualEditions4User(@PathVariable(value = "username") String username){
+	public @ResponseBody ResponseEntity<List<VirtualEditionInterListDto>> getPublicVirtualEditions4User(
+			@PathVariable(value = "username") String username) {
 		LdoDUser user = LdoD.getInstance().getUser(username);
-		if( user != null){
-			List<VirtualEditionInterListDto> result = LdoD.getInstance().getVirtualEditionsSet().stream().filter(virtualEdition -> virtualEdition.getParticipantList().contains(user) && virtualEdition.getPub()).map(VirtualEditionInterListDto::new).collect(Collectors.toList());
+		if (user != null) {
+			List<VirtualEditionInterListDto> result = LdoD.getInstance().getVirtualEditionsSet().stream().filter(
+					virtualEdition -> virtualEdition.getParticipantList().contains(user) && virtualEdition.getPub())
+					.map(VirtualEditionInterListDto::new).collect(Collectors.toList());
 
 			return new ResponseEntity<>(result, HttpStatus.OK);
 		}
