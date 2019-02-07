@@ -1,11 +1,15 @@
 package pt.ist.socialsoftware.edition.ldod.dto;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import pt.ist.socialsoftware.edition.ldod.domain.Taxonomy;
 
 public class TaxonomyDto {
 	private boolean openManagement;
 	private boolean openVocabulary;
 	private boolean openAnnotation;
+	private List<String> categories;
 
 	public TaxonomyDto() {
 	}
@@ -14,6 +18,8 @@ public class TaxonomyDto {
 		this.setOpenManagement(taxonomy.getOpenManagement());
 		this.setOpenVocabulary(taxonomy.getOpenVocabulary());
 		this.setOpenAnnotation(taxonomy.getOpenAnnotation());
+		this.categories = taxonomy.getCategoriesSet().stream().map(c -> c.getName()).sorted()
+				.collect(Collectors.toList());
 	}
 
 	public boolean isOpenManagement() {
@@ -38,6 +44,14 @@ public class TaxonomyDto {
 
 	public void setOpenAnnotation(boolean openAnnotation) {
 		this.openAnnotation = openAnnotation;
+	}
+
+	public List<String> getCategories() {
+		return this.categories;
+	}
+
+	public void setCategories(List<String> categories) {
+		this.categories = categories;
 	}
 
 }

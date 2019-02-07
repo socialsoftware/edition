@@ -19,16 +19,16 @@ public class VirtualEditionInterListDto {
 	}
 
 	public VirtualEditionInterListDto(VirtualEdition virtualEdition) {
-		this.setVirtualEditionInterList(
-				virtualEdition.getIntersSet().stream().sorted()
-						.map(i -> new VirtualEditionInterDto((VirtualEditionInter) virtualEdition.getFragInterByUrlId(i.getUrlId())))
-						.collect(Collectors.toList()));
+		this.setVirtualEditionInterList(virtualEdition.getIntersSet().stream().sorted().map(
+				i -> new VirtualEditionInterDto((VirtualEditionInter) virtualEdition.getFragInterByUrlId(i.getUrlId())))
+				.collect(Collectors.toList()));
 		this.setTitle(virtualEdition.getTitle());
 		this.setAcronym(virtualEdition.getAcronym());
 		this.setPub(virtualEdition.getPub());
 		TaxonomyDto taxonomyDTO = new TaxonomyDto(virtualEdition.getTaxonomy());
 		this.setTaxonomy(taxonomyDTO);
-		this.setMembers(virtualEdition.getActiveMemberSet().stream().map(member -> new LdoDUserDto(member.getUser())).collect(Collectors.toList()));
+		this.setMembers(virtualEdition.getActiveMemberSet().stream().map(member -> new LdoDUserDto(member.getUser()))
+				.collect(Collectors.toList()));
 
 	}
 
@@ -41,7 +41,7 @@ public class VirtualEditionInterListDto {
 	}
 
 	public String getTitle() {
-		return title;
+		return this.title;
 	}
 
 	public void setTitle(String title) {
@@ -49,7 +49,7 @@ public class VirtualEditionInterListDto {
 	}
 
 	public String getAcronym() {
-		return acronym;
+		return this.acronym;
 	}
 
 	public void setAcronym(String acronym) {
@@ -57,7 +57,7 @@ public class VirtualEditionInterListDto {
 	}
 
 	public boolean isPub() {
-		return pub;
+		return this.pub;
 	}
 
 	public void setPub(boolean pub) {
@@ -65,7 +65,7 @@ public class VirtualEditionInterListDto {
 	}
 
 	public TaxonomyDto getTaxonomy() {
-		return taxonomy;
+		return this.taxonomy;
 	}
 
 	public void setTaxonomy(TaxonomyDto taxonomy) {
@@ -73,7 +73,7 @@ public class VirtualEditionInterListDto {
 	}
 
 	public List<LdoDUserDto> getMembers() {
-		return members;
+		return this.members;
 	}
 
 	public void setMembers(List<LdoDUserDto> members) {
