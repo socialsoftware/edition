@@ -40,7 +40,6 @@ import java.io.FileNotFoundException;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = Application.class)
 @AutoConfigureMockMvc
-@ContextConfiguration(classes = WebSecurityConfig.class)
 public class UserTest extends ControllersTestWithFragmentsLoading {
 
     @Mock
