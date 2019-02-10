@@ -29,7 +29,8 @@ export class RepositoryService {
       //acronym: "LdoD-Arquivo"
       //acronym: "LdoD-test"
       //acronym: "LdoD-Twitter"
-      acronym: "LdoD-sas"
+      acronym: "LdoD-ReCritica" //p testar word cloud com menos items
+      //acronym: "LdoD-Mallet"
     };
   }
 
