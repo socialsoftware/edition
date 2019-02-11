@@ -105,7 +105,8 @@ class ConnectedMyWordCloud extends Component {
 
       message = "Instruções da word cloud."
 
-      const sizeFactor = 50;
+      const minFontSize = 5;
+      const maxFontSize = 30;
       let obj;
 
       let i;
@@ -117,39 +118,57 @@ class ConnectedMyWordCloud extends Component {
         data.push(obj);
       }
 
+      data.sort(function(a, b) {
+        return b.value - a.value
+      });
+      console.log(data)
 
+      console.log("this.props.categories.length: " + this.props.categories.length);
 
-    console.log("this.props.categories.length: "+this.props.categories.length);
+      const fontSizeMapper = function(word) {
+        let fontSize = (word.value / this.props.categories.length) * maxFontSize;
+        if (fontSize > maxFontSize) {
+          console.log("WORDCLOUD: TRUNCATING TO maxFontSize: " + word.text)
+          return maxFontSize
+        } else if (fontSize < minFontSize) {
+          console.log("WORDCLOUD: TRUNCATING TO minFontSize: " + word.text)
+          return minFontSize
+        }
+        console.log("WORDCLOUD: returning fontsize " + fontSize + " for word : " + word.text)
+        return fontSize;
+      }.bind(this); //Math.log2(word.value) * 5;
 
-    const fontSizeMapper = word => (word.value * sizeFactor); //Math.log2(word.value) * 5;
-    const rotate = 0; //word => word.value % 360;
-    const height = 700;
-    const width = 700;
-    const padding = 6;
-    const font = 'Impact';
+      const rotate = 0; //word => word.value % 360;
+      const height = 700;
+      const width = 700;
+      const padding = 2;
+      const font = 'Impact';
 
+      if (this.state.renderSquareMap && !(this.outOfLandingPage)) {
+        componentToRender = (<SquareGrid onChange={this.props.onChange}/>)
+      } else {
+        componentToRender = (<div>
+          <p>
+            {message}
+          </p>
 
-    if (this.state.renderSquareMap && !(this.outOfLandingPage)) {
-      componentToRender = (<SquareGrid onChange={this.props.onChange}/>)
-    } else {
-      componentToRender = (<div>
-        <p>
-          {message}
-        </p>
+          <div style={{
+              display: 'flex',
+              justifyContent: 'center',
+              height: {
+                height
+              },
+              width: {
+                width
+              },
+              marginBottom: "35px"
+              //background: 'black'
+            }}>
+            <WordCloud data={data} fontSizeMapper={fontSizeMapper} rotate={rotate} onWordClick={this.handleClickedWord} font={font}/>
+          </div>
 
-        <div style={{
-            display: 'flex',
-            justifyContent: 'center',
-            height: {height},
-            width: {width},
-            marginBottom: "35px"
-            //background: 'black'
-          }}>
-          <WordCloud data={data} fontSizeMapper={fontSizeMapper} rotate={rotate} onWordClick={this.handleClickedWord}  font={font}/>
-        </div>
-
-      </div>)
-    }
+        </div>)
+      }
 
     }
 

@@ -91,7 +91,16 @@ class ConnectedNetworkGraph extends Component {
     const mostDistantFragmentDistance = this.props.graphData[this.props.graphData.length - 1].distance;
     const graphHeight = 500;
 
-    this.props.graphData.map(d => console.log("my graphData id: " + d.interId + " distance: " + d.distance + " title: " + this.props.fragmentsHashMap.get(d.interId).meta.title + "distance percentage: " + d.distance / mostDistantFragmentDistance * 100));
+    let truncateCheckBuffer = [];
+    let truncateFloor = 20;
+
+    this.props.graphData.map(function(d) {
+
+      if ((d.distance / mostDistantFragmentDistance * 100) < truncateFloor && d.distance !== 0) {
+        console.log("my graphData id: " + d.interId + " |distance: " + d.distance + " |title: " + this.props.fragmentsHashMap.get(d.interId).meta.title + " |distance percentage: " + d.distance / mostDistantFragmentDistance * 100)
+        truncateCheckBuffer.push(d)
+      }
+    }.bind(this));
 
     let originalFragmentSize = 5; //Math.floor(this.props.graphData.length * 0.05); 60; Math.max(5, Math.floor(this.props.graphData.length * 0.01));
     //BUILD ACTUAL FRAGMENT NODE
@@ -121,8 +130,8 @@ class ConnectedNetworkGraph extends Component {
 
     let nrOfNonNullDistances = 0;
     let mask1 = 0.2;
-    let mask2 = 0.5;
-    let mask3 = 3;
+    let mask2 = 0.3;
+    let mask3 = 0.5;
     let mask4 = 10;
     let mask5 = 20;
     let mask6 = 30;
@@ -136,6 +145,12 @@ class ConnectedNetworkGraph extends Component {
     let nrValuesSubMask6 = 0;
     let nrValuesSubMask7 = 0;
     let nrValuesSubMask8 = 0;
+    const sizeMultiplier1 = 0.3;
+    const sizeMultiplier2 = 0.5;
+    const sizeMultiplier3 = 0.7;
+    const sizeMultiplier4 = 5;
+    const sizeMultiplier5 = 8;
+    let multiplier;
 
     let j;
     for (j = 1; j < this.props.graphData.length; j++) {
@@ -186,28 +201,48 @@ class ConnectedNetworkGraph extends Component {
       let absoluteDistance = this.props.graphData[i].distance;
       let distancePercentage = this.props.graphData[i].distance / mostDistantFragmentDistance * 100;
 
-      //small interpolation for when the distance is zero
-
       let edgeLengthFactor = 10000; //10000;
       let mySize = originalFragmentSize * 0.7;
 
-      if (distancePercentage === 0) {
-        nodeBorderColor = "#101010";
-        nodeBackgroundColor = "#505050";
-        totalAxes = nrOfNullDistances;
-        absoluteDistance = mask1 / 100 * mostDistantFragmentDistance
-      } else if (distancePercentage < mask2) {
-        nodeBorderColor = "#7FFFD4";
-        nodeBackgroundColor = "#00FFFF";
+      //small interpolation for when the distance is zero
+
+      if (truncateCheckBuffer.length < 2) {
+        console.log("NetworkGraph.js: no values after " + truncateFloor + "%, will to truncate edgeLengthFactor");
+        console.log(truncateCheckBuffer.length);
+        edgeLengthFactor = edgeLengthFactor / 10;
+      } else {
+        console.log("NetworkGraph.js: values after " + truncateFloor + "%, not going to truncate edgeLengthFactor");
+        console.log(truncateCheckBuffer.length);
+      }
+
+      if (distancePercentage < mask2) {
+        // nodeBorderColor = "#7FFFD4";
+        // nodeBackgroundColor = "#00FFFF";
         totalAxes = nrValuesSubMask2;
+        mySize = mySize * sizeMultiplier2;
         absoluteDistance = mask2 / 100 * mostDistantFragmentDistance
+
+      } else if (distancePercentage < mask3) {
+        totalAxes = nrValuesSubMask3;
+        mySize = mySize * sizeMultiplier3;
+        absoluteDistance = mask3 / 100 * mostDistantFragmentDistance
+
       } else if (distancePercentage > mask4) {
-        mySize = mySize * 6;
+        mySize = mySize * sizeMultiplier4;
         //nodeBorderColor = "#7FFFD4";
         //nodeBackgroundColor = "#00FFFF";
         //totalAxes = nrValuesSubMask8;
         //absoluteDistance = mask8 / 100 * mostDistantFragmentDistance
         //edgeLengthFactor = 4000;
+      }
+
+      if (distancePercentage === 0) {
+        // nodeBorderColor = "#101010";
+        // nodeBackgroundColor = "#505050";
+        totalAxes = nrOfNullDistances;
+        mySize = mySize * sizeMultiplier1;
+        absoluteDistance = mask1 / 100 * mostDistantFragmentDistance
+        edgeLengthFactor = 10000;
       }
 
       let angleSlice = Math.PI * 2 / totalAxes; //The width in radians of each "slice"
@@ -379,7 +414,7 @@ class ConnectedNetworkGraph extends Component {
         x: 0,
         y: 0
       }, // position to animate to (Numbers)
-      scale: 2, // scale to animate to  (Number)
+      scale: 10, // scale to animate to  (Number)
       offset: {
         x: 0,
         y: 0

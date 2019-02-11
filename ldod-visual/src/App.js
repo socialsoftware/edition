@@ -83,7 +83,8 @@ class ConnectedApp extends Component {
       showLanding: true,
       showLandingActivity: false,
       toggleTextSkimming: false,
-      toggleUpdateFragmentsReceived: false
+      toggleUpdateFragmentsReceived: false,
+      showEditionSelection: true
     };
 
     this.landingActivityToRender = <p>Loading fragments...</p>;

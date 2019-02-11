@@ -219,6 +219,11 @@ class ConnectedFragmentLoader extends React.Component {
   }
 
   render() {
+    const service = new RepositoryService("bla");
+    service.getPublicEditions().then(response => {
+      console.log("ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ |" + response.data.map(e => console.log("|Title: " + e.title + " |Acronym:" + e.acronym + " |hasCategories: " + e.taxonomy.hasCategories)));
+    });
+
     return <Fragment toggleTextSkimming={this.props.toggleTextSkimming}/>;
   }
 
