@@ -5,6 +5,7 @@
   "dependencies": {
     "axios": "^0.18.0",
     "hashmap": "^2.3.0",
+    "qs": "^6.6.0",
     "react": "^16.5.2",
     "react-bootstrap": "^0.32.4",
     "react-d3-cloud": "^0.7.0",

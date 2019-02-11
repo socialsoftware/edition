@@ -1,9 +1,11 @@
 import axios from 'axios';
 
 export class RepositoryService {
-  constructor() {
+  constructor(editionAcronym) {
 
     //this.axios.setHeader('accept-encoding', 'null');
+
+    this.setAcronym = editionAcronym;
 
     this.config = {
       headers: {
@@ -21,7 +23,9 @@ export class RepositoryService {
       timeout: 1000,
       headers: {
         'X-Custom-Header': 'BlendedWorkflow',
-        'Authorization': 'Bearer' + localStorage.getItem('accessToken')
+        'Authorization': 'Bearer' + localStorage.getItem('accessToken'),
+        'Content-type': 'application/json;charset=utf-8',
+        'responseEncoding': 'utf8'
       }
     });
 
@@ -55,6 +59,13 @@ export class RepositoryService {
   //http://localhost:8080/virtualeditions/acronym/LdoD-test/interId/281861523767368/tfidf
   getFragmentTfIdf(interId) {
     return this.axios.get("/virtualeditions/acronym/" + this.state.acronym + "/interId/" + interId + "/tfidf");
+  }
+
+  //http://localhost:8080/virtualeditions/public
+  //https://ldod.uc.pt/virtualeditions/public/
+  getPublicEditions() {
+    console.log("YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY " + this.setAcronym);
+    return this.axios.get("/virtualeditions/public/");
   }
 
 }
