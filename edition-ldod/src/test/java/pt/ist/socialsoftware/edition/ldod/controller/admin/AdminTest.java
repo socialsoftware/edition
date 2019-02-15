@@ -29,15 +29,16 @@ import pt.ist.socialsoftware.edition.ldod.controller.LdoDExceptionHandler;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
 import pt.ist.socialsoftware.edition.ldod.domain.Role;
+import pt.ist.socialsoftware.edition.ldod.export.UsersXMLExport;
 import pt.ist.socialsoftware.edition.ldod.filters.TransactionFilter;
 import pt.ist.socialsoftware.edition.ldod.forms.EditUserForm;
 import pt.ist.socialsoftware.edition.ldod.utils.Bootstrap;
 import pt.ist.socialsoftware.edition.ldod.utils.PropertiesManager;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @ExtendWith(SpringExtension.class)
@@ -386,25 +387,126 @@ public class AdminTest {
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void exportSearchFragTest() throws Exception {
 
+        TestLoadUtils.loadCorpus();
+        String[] fragments = {"001.xml"};
+        TestLoadUtils.loadFragments(fragments);
+
         this.mockMvc.perform(post("/admin/exportSearch")
-                .param("query", "query"))
+                .param("query", "arte"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(view().name("admin/exportForm"))
-                .andExpect(model().attribute("query",is("query")))
-                .andExpect(model().attribute("nResults",is(0)))
-                .andExpect(model().attribute("frags",hasSize(0)));
+                .andExpect(model().attribute("query",is("arte")))
+                .andExpect(model().attribute("nResults",is(1)))
+                .andExpect(model().attribute("frags",hasSize(1)));
 
     }
 
-   /* @Test
+    @Test
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void exportSpecificFragsTest() throws Exception {
 
         TestLoadUtils.loadCorpus();
-        String[] fragments = {"001.xml","002.xml","003.xml"};
+        String[] fragments = {"001.xml"};
         TestLoadUtils.loadFragments(fragments);
 
+       this.mockMvc.perform(post("/admin/exportSearchResult")
+                .param("query", "arte"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().contentType("application/tei+xml"))
+                .andExpect(content().string(containsString("arte")))
+                .andExpect(content().string(containsString("Fr001"))).andReturn().getResponse();
+    }
 
-    }*/
+    @Test
+    @Atomic(mode = Atomic.TxMode.WRITE)
+    public void exportAllFragsTest() throws Exception {
+
+        TestLoadUtils.loadCorpus();
+        String[] fragments = {"001.xml","002.xml"};
+        TestLoadUtils.loadFragments(fragments);
+
+        this.mockMvc.perform(get("/admin/exportAll"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().contentType("application/tei+xml"))
+                .andExpect(content().string(containsString("Fr001")))
+                .andExpect(content().string(containsString("Fr002")));
+    }
+
+    @Test
+    @Atomic(mode = Atomic.TxMode.WRITE)
+    public void exportRandomFragsTest() throws Exception {
+
+        TestLoadUtils.loadCorpus();
+        String[] fragments = {"001.xml","002.xml","003.xml","181.xml","593.xml"};
+        TestLoadUtils.loadFragments(fragments);
+
+        String response = this.mockMvc.perform(get("/admin/exportRandom"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().contentType("application/tei+xml"))
+                .andReturn().getResponse().getContentAsString();
+
+
+        List<String> xmlIds = Arrays.asList("Fr001","Fr002","Fr003","Fr181","Fr593");
+        int count = 0;
+
+        for (String id : xmlIds){
+            if (response.contains(id))
+                count++;
+        }
+
+        assertEquals(3,count);
+    }
+
+    @Test
+    @Atomic(mode = Atomic.TxMode.WRITE)
+    public void exportUsersTest() throws Exception {
+
+        this.mockMvc.perform(get("/admin/export/users"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().contentType("application/xml"))
+                .andExpect(content().string(containsString("username=\"ars\"")))
+                .andExpect(content().string(containsString("username=\"Twitter\"")));
+    }
+
+    @Test
+    @Atomic(mode = Atomic.TxMode.WRITE)
+    public void importUsersTest() throws Exception {
+
+        UsersXMLExport exporter = new UsersXMLExport();
+
+        String usersXml = exporter.export();
+
+       /* LdoD.getInstance().getUser("ars").remove();
+        LdoD.getInstance().getUser("Twitter").remove();*/
+
+        InputStream stream = new ByteArrayInputStream(usersXml.getBytes(StandardCharsets.UTF_8));
+
+        MockMultipartFile mockFile = new MockMultipartFile("import", stream);
+
+        this.mockMvc.perform(multipart("/admin/load/users")
+                .file("file",mockFile.getBytes())
+                .characterEncoding("UTF-8"))
+                .andDo(print())
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/admin/loadForm"));
+
+        assertNotNull(LdoD.getInstance().getUser("ars"));
+        assertNotNull(LdoD.getInstance().getUser("Twitter"));
+    }
+
+    @Test
+    @Atomic(mode = Atomic.TxMode.WRITE)
+    public void exportVirtualEditionsTest() throws Exception {
+
+        this.mockMvc.perform(get("/admin/export/virtualeditions"))
+                    .andDo(print())
+                    .andExpect(status().isOk())
+                    .andExpect(content().contentType("application/zip"));
+    }
+
 }
