@@ -126,8 +126,8 @@ class ConnectedFragmentLoader extends React.Component {
 
   componentDidMount() {
     if (!this.props.allFragmentsLoaded) {
-      const service = new RepositoryService();
-      console.log("FragmentLoader.js: componentDidMount -> requesting fragments")
+      const service = new RepositoryService(this.props.currentEdition.acronym);
+      console.log("FragmentLoader.js: componentDidMount -> requesting fragments for edition acronym: " + this.props.currentEdition.acronym + " with edition title: " + this.props.currentEdition.title)
       service.getFragments().then(response => {
         console.log("FragmentLoader.js: receiving fragments");
         console.log(response);
@@ -219,10 +219,10 @@ class ConnectedFragmentLoader extends React.Component {
   }
 
   render() {
-    const service = new RepositoryService("bla");
-    service.getPublicEditions().then(response => {
-      console.log("ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ |" + response.data.map(e => console.log("|Title: " + e.title + " |Acronym:" + e.acronym + " |hasCategories: " + e.taxonomy.hasCategories)));
-    });
+    // const service = new RepositoryService("bla");
+    // service.getPublicEditions().then(response => {
+    //   console.log("ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ |" + response.data.map(e => console.log("|Title: " + e.title + " |Acronym:" + e.acronym + " |hasCategories: " + e.taxonomy.hasCategories)));
+    // });
 
     return <Fragment toggleTextSkimming={this.props.toggleTextSkimming}/>;
   }

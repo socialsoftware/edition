@@ -102,7 +102,7 @@ class ConnectedNetworkGraph extends Component {
       }
     }.bind(this));
 
-    let originalFragmentSize = 5; //Math.floor(this.props.graphData.length * 0.05); 60; Math.max(5, Math.floor(this.props.graphData.length * 0.01));
+    let originalFragmentSize = 6; //Math.floor(this.props.graphData.length * 0.05); 60; Math.max(5, Math.floor(this.props.graphData.length * 0.01));
     //BUILD ACTUAL FRAGMENT NODE
     let obj;
     obj = {
@@ -145,9 +145,12 @@ class ConnectedNetworkGraph extends Component {
     let nrValuesSubMask6 = 0;
     let nrValuesSubMask7 = 0;
     let nrValuesSubMask8 = 0;
-    const sizeMultiplier1 = 0.3;
-    const sizeMultiplier2 = 0.5;
-    const sizeMultiplier3 = 0.7;
+    const sizeMultiplier1 = 0.7;
+    const sizeMultiplier2 = 0.8;
+    const sizeMultiplier3 = 0.9;
+    // const sizeMultiplier1 = 0.4;
+    // const sizeMultiplier2 = 0.5;
+    // const sizeMultiplier3 = 0.7;
     const sizeMultiplier4 = 5;
     const sizeMultiplier5 = 8;
     let multiplier;
@@ -321,7 +324,7 @@ class ConnectedNetworkGraph extends Component {
   handleSelectNode(event) {
     const nodeId = event.nodes[0];
     if (nodeId && nodeId !== this.props.fragments[this.props.fragmentIndex].interId) {
-      //alert(nodeId);
+
       var i;
       for (i = 0; i < this.props.recommendationArray.length; i++) {
 

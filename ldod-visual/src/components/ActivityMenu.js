@@ -39,7 +39,8 @@ const mapStateToProps = state => {
     recommendationArray: state.recommendationArray,
     recommendationIndex: state.recommendationIndex,
     recommendationLoaded: state.recommendationLoaded,
-    displayTextSkimming: state.displayTextSkimming
+    displayTextSkimming: state.displayTextSkimming,
+    categories: state.categories
   };
 };
 
@@ -99,12 +100,15 @@ class ConnectedActivityMenu extends Component {
 
   toggleActivityNetworkGraphTaxonomy() {
 
-    this.props.setPotentialVisualizationTechnique(VIS_NETWORK_GRAPH);
-    this.props.setPotentialSemanticCriteria(CRIT_TAXONOMY);
-    this.activityToRender = (<NetworkGraphContainer onChange={this.props.onChange}/>);
-    this.setState(prevState => ({
-      show: !prevState.show
-    }));
+    if (this.props.categories.length !== 0) {
+
+      this.props.setPotentialVisualizationTechnique(VIS_NETWORK_GRAPH);
+      this.props.setPotentialSemanticCriteria(CRIT_TAXONOMY);
+      this.activityToRender = (<NetworkGraphContainer onChange={this.props.onChange}/>);
+      this.setState(prevState => ({
+        show: !prevState.show
+      }));
+    }
   }
 
   toggleSquareGridEditionOrder() {
@@ -129,53 +133,65 @@ class ConnectedActivityMenu extends Component {
 
   toggleWordCloudTaxonomy() {
 
-    this.props.setPotentialVisualizationTechnique(VIS_SQUARE_GRID);
-    this.props.setPotentialSemanticCriteria(CRIT_CATEGORY);
-    this.activityToRender = (<MyWordCloud onChange={this.props.onChange}/>);
-    this.setState(prevState => ({
-      show: !prevState.show
-    }));
+    if (this.props.categories.length !== 0) {
+
+      this.props.setPotentialVisualizationTechnique(VIS_SQUARE_GRID);
+      this.props.setPotentialSemanticCriteria(CRIT_CATEGORY);
+      this.activityToRender = (<MyWordCloud onChange={this.props.onChange}/>);
+      this.setState(prevState => ({
+        show: !prevState.show
+      }));
+    }
   }
 
   render() {
 
     if (this.state.show) {
+      let categoryButtonStyle = "primary"
+      if (this.props.categories.length === 0) {
+        categoryButtonStyle = "secondary";
+      }
 
-      this.activityToRender = (<ButtonToolbar>
+      this.activityToRender = (<div>
+        <p>Caso tenha seleccionado uma edição virtual sem taxonomia, ou categorias, não será possível realizar actividades que dependem das mesmas, que estarão devidamente assinaladas a cinzento.
+        </p>
 
-        <Button bsStyle="primary" bsSize="large" onClick={this.toggleActivityNetworkGraphTextSimilarity} block="block">
-          Ler fragmentos semelhantes a este por semelhança de texto
-        </Button>
+        <ButtonToolbar>
 
-        <Button bsStyle="primary" bsSize="large" onClick={this.toggleActivityNetworkGraphHeteronym} block="block">
-          Ler fragmentos semelhantes a este por heterónimo
-        </Button>
+          <Button bsStyle="primary" bsSize="large" onClick={this.toggleActivityNetworkGraphTextSimilarity} block="block">
+            Ler fragmentos semelhantes a este por semelhança de texto
+          </Button>
 
-        <Button bsStyle="primary" bsSize="large" onClick={this.toggleActivityNetworkGraphDate} block="block">
-          Ler fragmentos semelhantes a este por data
-        </Button>
+          <Button bsStyle="primary" bsSize="large" onClick={this.toggleActivityNetworkGraphHeteronym} block="block">
+            Ler fragmentos semelhantes a este por heterónimo
+          </Button>
 
-        <Button bsStyle="primary" bsSize="large" onClick={this.toggleActivityNetworkGraphTaxonomy} block="block">
-          Ler fragmentos semelhantes a este por taxonomia
-        </Button>
+          <Button bsStyle="primary" bsSize="large" onClick={this.toggleActivityNetworkGraphDate} block="block">
+            Ler fragmentos semelhantes a este por data
+          </Button>
 
-        <Modal.Footer></Modal.Footer>
+          <Button bsStyle={categoryButtonStyle} bsSize="large" onClick={this.toggleActivityNetworkGraphTaxonomy} block="block">
+            Ler fragmentos semelhantes a este por taxonomia
+          </Button>
 
-        <Button bsStyle="primary" bsSize="large" onClick={this.toggleSquareGridEditionOrder} block="block">
-          Explorar os fragmentos por ordem desta edição virtual
-        </Button>
+          <Modal.Footer></Modal.Footer>
 
-        <Button bsStyle="primary" bsSize="large" onClick={this.toggleSquareGridDateOrder} block="block">
-          Explorar os fragmentos desta edição ordenados por data
-        </Button>
+          <Button bsStyle="primary" bsSize="large" onClick={this.toggleSquareGridEditionOrder} block="block">
+            Explorar os fragmentos por ordem desta edição virtual
+          </Button>
 
-        <Modal.Footer></Modal.Footer>
+          <Button bsStyle="primary" bsSize="large" onClick={this.toggleSquareGridDateOrder} block="block">
+            Explorar os fragmentos desta edição ordenados por data
+          </Button>
 
-        <Button bsStyle="primary" bsSize="large" onClick={this.toggleWordCloudTaxonomy} block="block">
-          Explorar os fragmentos desta edição pelas categorias a que pertencem (taxonomia)
-        </Button>
+          <Modal.Footer></Modal.Footer>
 
-      </ButtonToolbar>);
+          <Button bsStyle={categoryButtonStyle} bsSize="large" onClick={this.toggleWordCloudTaxonomy} block="block">
+            Explorar os fragmentos desta edição pelas categorias a que pertencem (taxonomia)
+          </Button>
+
+        </ButtonToolbar>
+      </div>);
     } else {
       this.activityToRender = this.activityToRender; //(<NetworkGraphContainer pFragmentId={this.props.recommendationArray[this.props.recommendationIndex].interId} pHeteronymWeight="0.0" pTextWeight="1.0" pDateWeight="0.0" ptaxonomyWeight="0.0" onChange={this.props.onChange}/>);
     }

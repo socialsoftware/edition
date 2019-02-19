@@ -32,6 +32,7 @@ import NetworkGraph from "./components/NetworkGraph";
 import FragmentLoader from "./components/FragmentLoader";
 import SquareGrid from "./components/SquareGrid";
 import MyWordCloud from "./components/MyWordCloud";
+import PublicEditionContainer from "./containers/PublicEditionContainer";
 
 const mapStateToProps = state => {
   return {
@@ -47,7 +48,8 @@ const mapStateToProps = state => {
     semanticCriteria: state.semanticCriteria,
     potentialVisualizationTechnique: state.potentialVisualizationTechnique,
     potentialSemanticCriteria: state.potentialSemanticCriteria,
-    displayTextSkimming: state.displayTextSkimming
+    displayTextSkimming: state.displayTextSkimming,
+    categories: state.categories
   };
 };
 
@@ -84,10 +86,13 @@ class ConnectedApp extends Component {
       showLandingActivity: false,
       toggleTextSkimming: false,
       toggleUpdateFragmentsReceived: false,
-      showEditionSelection: true
+      showEditionSelection: true,
+      editionsReceived: false,
+      editionSelected: false,
+      currentEdition: ""
     };
 
-    this.landingActivityToRender = <p>Loading fragments...</p>;
+    this.landingActivityToRender = <p>A carregar edições virtuais...</p>;
 
     this.handleShowGlobalView = this.handleShowGlobalView.bind(this);
     this.handleCloseGlobalView = this.handleCloseGlobalView.bind(this);
@@ -114,6 +119,10 @@ class ConnectedApp extends Component {
     this.handleShowLandingActivityWordCloudCategory = this.handleShowLandingActivityWordCloudCategory.bind(this);
 
     this.handleToggleFragmentsReceived = this.handleToggleFragmentsReceived.bind(this);
+
+    this.handleEditionsReceived = this.handleEditionsReceived.bind(this);
+
+    this.handleEditionSelected = this.handleEditionSelected.bind(this);
 
   }
 
@@ -215,6 +224,16 @@ class ConnectedApp extends Component {
     console.log("App.js: handleToggleFragmentsReceived");
   }
 
+  handleEditionsReceived() {
+    this.setState({editionsReceived: true});
+    console.log("handleEditionsReceived()");
+  }
+
+  handleEditionSelected(value) {
+    console.log(value);
+    this.setState({editionSelected: true, currentEdition: value});
+  }
+
   render() {
     console.log(new Date().getTime() + " App.js: Rendering")
 
@@ -236,28 +255,44 @@ class ConnectedApp extends Component {
       }
     }
 
-    if (this.state.showLandingActivity & (this.props.potentialSemanticCriteria == CRIT_CATEGORY) & this.props.allFragmentsLoaded) {
-      this.landingActivityToRender = (<MyWordCloud onChange={this.handleCloseModals}/>)
-    } else if (this.state.showLandingActivity & this.props.allFragmentsLoaded) {
-      this.landingActivityToRender = (<SquareGrid onChange={this.handleCloseModals}/>)
-    } else if (!this.state.showLandingActivity & this.props.allFragmentsLoaded) {
-      this.landingActivityToRender = (<ButtonToolbar>
+    this.landingActivityToRender = (<PublicEditionContainer onChange={this.handleEditionsReceived} sendSelectedEdition={this.handleEditionSelected}/>)
+    if (this.state.editionsReceived && this.state.editionSelected) {
 
-        <Button bsStyle="primary" bsSize="large" onClick={this.handleShowLandingActivitySquareEditionOrder} block="block">
-          Explorar os fragmentos por ordem desta edição virtual
-        </Button>
+      if (this.state.showLandingActivity & (this.props.potentialSemanticCriteria == CRIT_CATEGORY) & this.props.allFragmentsLoaded) {
+        this.landingActivityToRender = (<MyWordCloud onChange={this.handleCloseModals}/>)
+      } else if (this.state.showLandingActivity & this.props.allFragmentsLoaded) {
+        this.landingActivityToRender = (<SquareGrid onChange={this.handleCloseModals}/>)
+      } else if (!this.state.showLandingActivity & this.props.allFragmentsLoaded) {
+        let categoryButtonStyle = "primary"
+        let categoryButtonFunction = this.handleShowLandingActivityWordCloudCategory;
+        if (this.props.categories.length === 0) {
+          categoryButtonStyle = "secondary";
+          categoryButtonFunction = function() {}
+        }
+        this.landingActivityToRender = (<div>
+          <p>
+            Esta é a sua primeira actividade. Escolha uma as seguintes opções.
+          </p>
 
-        <Button bsStyle="primary" bsSize="large" onClick={this.handleShowLandingActivitySquareDateOrder} block="block">
-          Explorar os fragmentos desta edição ordenados por data
-        </Button>
+          <ButtonToolbar>
 
-        <Modal.Footer></Modal.Footer>
+            <Button bsStyle="primary" bsSize="large" onClick={this.handleShowLandingActivitySquareEditionOrder} block="block">
+              Explorar os fragmentos por ordem desta edição virtual
+            </Button>
 
-        <Button bsStyle="primary" bsSize="large" onClick={this.handleShowLandingActivityWordCloudCategory} block="block">
-          Explorar os fragmentos desta edição pelas categorias a que pertencem (taxonomia)
-        </Button>
+            <Button bsStyle="primary" bsSize="large" onClick={this.handleShowLandingActivitySquareDateOrder} block="block">
+              Explorar os fragmentos desta edição ordenados por data
+            </Button>
 
-      </ButtonToolbar>)
+            <Modal.Footer></Modal.Footer>
+
+            <Button bsStyle={categoryButtonStyle} bsSize="large" onClick={categoryButtonFunction} block="block">
+              Explorar os fragmentos desta edição pelas categorias a que pertencem (taxonomia)
+            </Button>
+
+          </ButtonToolbar>
+        </div>)
+      }
     }
 
     let previousNavButton = <div/>;
@@ -314,6 +349,12 @@ class ConnectedApp extends Component {
       </Button>)
     }
 
+    let fragLoader;
+    if (this.state.editionSelected) {
+      fragLoader = <FragmentLoader currentEdition={this.state.currentEdition} toggleTextSkimming={this.state.toggleTextSkimming} onChange={this.handleToggleFragmentsReceived
+}/>
+    }
+
     return (<div className="app">
 
       {buttonToolBarToRender}
@@ -333,8 +374,7 @@ class ConnectedApp extends Component {
         </div>
 
         <div >
-          <FragmentLoader toggleTextSkimming={this.state.toggleTextSkimming} onChange={this.handleToggleFragmentsReceived
-}/>
+          {fragLoader}
         </div>
 
       </div>
@@ -347,9 +387,7 @@ class ConnectedApp extends Component {
         </Modal.Header>
 
         <Modal.Body>
-          <p>
-            Esta é a sua primeira actividade. Escolha uma as seguintes opções.
-          </p>
+
           <div className="landing-activity-style">{this.landingActivityToRender}</div>
         </Modal.Body>
 
