@@ -33,6 +33,7 @@ import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
 import pt.ist.socialsoftware.edition.ldod.domain.Role;
 import pt.ist.socialsoftware.edition.ldod.forms.ChangePasswordForm;
+import pt.ist.socialsoftware.edition.ldod.utils.Bootstrap;
 import pt.ist.socialsoftware.edition.ldod.validator.ChangePasswordValidator;
 
 import java.io.FileNotFoundException;
@@ -82,6 +83,9 @@ public class UserTest extends ControllersTestWithFragmentsLoading {
 
         // Temp user for use in changePasswordTest
         // Must be created in static beforeAll context due to requirements of the WithUserDetails annotation
+
+        if (LdoD.getInstance() == null)
+            Bootstrap.initializeSystem();
 
         Role user = Role.getRole(Role.RoleType.ROLE_USER);
         Role admin = Role.getRole(Role.RoleType.ROLE_ADMIN);
