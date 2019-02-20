@@ -10,7 +10,8 @@ import {
   setSemanticCriteriaData,
   setPotentialSemanticCriteriaData,
   setFragmentsSortedByDate,
-  setCategories
+  setCategories,
+  setHistory
 } from "../actions/index";
 import {connect} from "react-redux";
 import HashMap from "hashmap";
@@ -57,7 +58,8 @@ const mapDispatchToProps = dispatch => {
     setSemanticCriteriaData: semanticCriteriaData => dispatch(setSemanticCriteriaData(semanticCriteriaData)),
     setPotentialSemanticCriteriaData: potentialSemanticCriteriaData => dispatch(setPotentialSemanticCriteriaData(potentialSemanticCriteriaData)),
     setFragmentsSortedByDate: fragmentsSortedByDate => dispatch(setFragmentsSortedByDate(fragmentsSortedByDate)),
-    setCategories: categories => dispatch(setCategories(categories))
+    setCategories: categories => dispatch(setCategories(categories)),
+    setHistory: history => dispatch(setHistory(history))
   };
 };
 
@@ -97,7 +99,7 @@ class ConnectedFragmentLoader extends React.Component {
           ptaxonomyWeight = "1.0";
         }
 
-        const service = new RepositoryService();
+        const service = new RepositoryService(this.props.currentEdition.acronym);
         let idsDistanceArray = [];
         let myNewRecommendationArray = [];
         service.getIntersByDistance(this.props.fragments[this.props.fragmentIndex].interId, pHeteronymWeight, pTextWeight, pDateWeight, ptaxonomyWeight).then(response => {
@@ -111,7 +113,22 @@ class ConnectedFragmentLoader extends React.Component {
             myNewRecommendationArray.push(frag);
           }
           this.props.setRecommendationArray(myNewRecommendationArray);
-          console.log("FragmentLoader: new recommendation array calculated.")
+          console.log("FragmentLoader: new recommendation array calculated. Adding to history")
+
+          let myTempObj = this.props.history[this.props.historyEntryCounter - 1];
+          let myTempHist = this.props.history;
+          //my temp set aqui: pegar no historico, mudar a ultima casa, fazer set ao historico completo com a casa actualizada com o novo recommendationArray.
+
+          myTempObj.recommendationArray = myNewRecommendationArray;
+          myTempObj.recommendationIndex = 0;
+
+          myTempHist[this.props.historyEntryCounter - 1] = myTempObj;
+
+          this.props.setHistory(myTempHist);
+
+          console.log("VVVVVVVVVVVVVVVVVVVVVVVVVVVVVV " + this.props.history[this.props.historyEntryCounter - 1].recommendationIndex)
+          console.log("VVVVVVVVVVVVVVVVVVVVVVVVVVVVVV " + this.props.history[this.props.historyEntryCounter - 1].recommendationArray)
+
           this.props.setRecommendationLoaded(true);
 
           this.setState({

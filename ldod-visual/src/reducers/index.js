@@ -22,6 +22,7 @@ import {SET_DISPLAY_TEXT_SKIMMING} from "../constants/action-types";
 import {SET_CATEGORIES} from "../constants/action-types";
 import {SET_CURRENT_CATEGORY} from "../constants/action-types";
 import {SET_POTENTIAL_CATEGORY} from "../constants/action-types";
+import {SET_HISTORY} from "../constants/action-types";
 
 const initialState = {
   fragments: [],
@@ -174,6 +175,11 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         potentialCategory: action.payload
+      };
+    case SET_HISTORY:
+      return {
+        ...state,
+        history: action.payload
       };
     default:
       return state;
