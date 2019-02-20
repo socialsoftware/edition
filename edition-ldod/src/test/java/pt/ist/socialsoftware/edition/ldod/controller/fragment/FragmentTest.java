@@ -120,9 +120,5 @@ public class FragmentTest {
 		this.mockMvc.perform(get("/fragments/fragment/{xmlId}", "ERROR")).andDo(print())
 				.andExpect(status().is3xxRedirection()).andExpect(redirectedUrl("/error"));
 	}
-
-
-	@Test
-	@Atomic(mode = Atomic.TxMode.WRITE)
-	public void getFragInterTa
+	
 }
