@@ -143,6 +143,7 @@ class ConnectedHistoryMenu extends Component {
         content: this.props.history[i].nextFragment.meta.title,
         start: this.props.history[i].start
       };
+      console.log("item id: " + item.id);
       historyItems.push(item);
     }
 

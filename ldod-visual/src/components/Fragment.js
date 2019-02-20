@@ -53,7 +53,7 @@ export class ConnectedFragment extends React.Component {
         if (!this.oldTfIdfDataMap.has(currentlyDisplayedFragmentId)) {
           console.log("Fragment.js: !this.oldTfIdfDataMap.has(currentlyDisplayedFragmentId) => New TFIDF info needed, requesting TF-IDF for fragId " + currentlyDisplayedFragmentId);
 
-          const service = new RepositoryService();
+          const service = new RepositoryService(this.props.currentEdition.acronym);
 
           service.getFragmentTfIdf(currentlyDisplayedFragmentId).then(response => {
 

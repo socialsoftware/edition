@@ -11,7 +11,8 @@ import {
   setVisualizationTechnique,
   setPotentialVisualizationTechnique,
   setPotentialSemanticCriteria,
-  setDisplayTextSkimming
+  setDisplayTextSkimming,
+  setHistoryEntryCounter
 } from "./actions/index";
 import {connect} from "react-redux";
 import {Button, ButtonToolbar, Modal} from "react-bootstrap";
@@ -49,7 +50,8 @@ const mapStateToProps = state => {
     potentialVisualizationTechnique: state.potentialVisualizationTechnique,
     potentialSemanticCriteria: state.potentialSemanticCriteria,
     displayTextSkimming: state.displayTextSkimming,
-    categories: state.categories
+    categories: state.categories,
+    history: state.history
   };
 };
 
@@ -65,7 +67,8 @@ const mapDispatchToProps = dispatch => {
     setSemanticCriteria: semanticCriteria => dispatch(setSemanticCriteria(semanticCriteria)),
     setPotentialVisualizationTechnique: potentialVisualizationTechnique => dispatch(setPotentialVisualizationTechnique(potentialVisualizationTechnique)),
     setPotentialSemanticCriteria: potentialSemanticCriteria => dispatch(setPotentialSemanticCriteria(potentialSemanticCriteria)),
-    setDisplayTextSkimming: displayTextSkimming => dispatch(setDisplayTextSkimming(displayTextSkimming))
+    setDisplayTextSkimming: displayTextSkimming => dispatch(setDisplayTextSkimming(displayTextSkimming)),
+    setHistoryEntryCounter: historyEntryCounter => dispatch(setHistoryEntryCounter(historyEntryCounter))
   };
 };
 
@@ -106,10 +109,6 @@ class ConnectedApp extends Component {
     this.handleCloseModals = this.handleCloseModals.bind(this);
     this.handleCloseLanding = this.handleCloseLanding.bind(this);
 
-    //recommendationArray
-    this.handleClickPrevious = this.handleClickPrevious.bind(this);
-    this.handleClickNext = this.handleClickNext.bind(this);
-
     //show landing activities
     this.handleShowLandingActivitySquareEditionOrder = this.handleShowLandingActivitySquareEditionOrder.bind(this);
     this.handleShowLandingActivitySquareDateOrder = this.handleShowLandingActivitySquareDateOrder.bind(this);
@@ -124,26 +123,8 @@ class ConnectedApp extends Component {
 
     this.handleEditionSelected = this.handleEditionSelected.bind(this);
 
-  }
+    this.addNewHistoryEntry = this.addNewHistoryEntry.bind(this);
 
-  handleClickPrevious() {
-    if (this.props.recommendationIndex === 1) {
-      this.previousFragmentButtonStyle = "default";
-    }
-    if (this.props.recommendationIndex > 0) {
-      this.nextFragmentButtonStyle = "primary";
-      this.props.setRecommendationIndex(this.props.recommendationIndex - 1)
-    }
-  }
-
-  handleClickNext() {
-    if (this.props.recommendationIndex === (this.props.recommendationArray.length - 1)) {
-      this.nextFragmentButtonStyle = "default";
-    }
-    if (this.props.recommendationIndex < this.props.recommendationArray.length - 1) {
-      this.props.setRecommendationIndex(this.props.recommendationIndex + 1)
-      this.previousFragmentButtonStyle = "primary";
-    }
   }
 
   handleCloseModals() {
@@ -232,6 +213,11 @@ class ConnectedApp extends Component {
   handleEditionSelected(value) {
     console.log(value);
     this.setState({editionSelected: true, currentEdition: value});
+  }
+
+  addNewHistoryEntry() {
+    console.log("Adding new history entry from next/previous button");
+
   }
 
   render() {

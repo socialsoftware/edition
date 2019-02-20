@@ -111,7 +111,6 @@ class ConnectedNavigationButton extends Component {
     //         myTitle = this.myFragmentArray[i].meta.title + " | Categorias: " + this.myFragmentArray[i].meta.categories;
     //       }
 
-    console.log("YOOOOOOOOOOOOOOOOOOO");
     if (this.props.nextButton) {
 
       if (this.props.recommendationIndex === this.props.recommendationArray.length - 1) {
@@ -243,6 +242,27 @@ class ConnectedNavigationButton extends Component {
           color: '#101010'
         }
         this.nodes.update(clickedNode);
+        //HISTORY ENTRY HISTORY ENTRY HISTORY ENTRY HISTORY ENTRY
+        let obj;
+        let historyVis = this.props.visualizationTechnique;
+        let historyCriteria = this.props.semanticCriteria;
+        obj = {
+          id: this.props.historyEntryCounter,
+          originalFragment: this.props.recommendationArray[this.props.recommendationIndex],
+          nextFragment: this.props.recommendationArray[this.props.recommendationIndex + 1],
+          vis: historyVis,
+          criteria: historyCriteria,
+          visualization: this.props.currentVisualization,
+          recommendationArray: this.props.recommendationArray,
+          recommendationIndex: this.props.recommendationIndex + 1,
+          fragmentIndex: this.props.fragmentIndex,
+          start: new Date().getTime(),
+          category: this.props.currentCategory
+        };
+
+        this.props.addHistoryEntry(obj);
+        this.props.setHistoryEntryCounter(this.props.historyEntryCounter + 1)
+        //HISTORY ENTRY HISTORY ENTRY HISTORY ENTRY HISTORY ENTRY
         this.props.setRecommendationIndex(this.props.recommendationIndex + 1)
       } else if (this.props.recommendationIndex < this.props.recommendationArray.length - 1) {
 
@@ -254,6 +274,27 @@ class ConnectedNavigationButton extends Component {
           color: '#2B7CE9'
         }
         this.nodes.update(clickedNode);
+        //HISTORY ENTRY HISTORY ENTRY HISTORY ENTRY HISTORY ENTRY
+        let obj;
+        let historyVis = this.props.visualizationTechnique;
+        let historyCriteria = this.props.semanticCriteria;
+        obj = {
+          id: this.props.historyEntryCounter,
+          originalFragment: this.props.recommendationArray[this.props.recommendationIndex],
+          nextFragment: this.props.recommendationArray[this.props.recommendationIndex + 1],
+          vis: historyVis,
+          criteria: historyCriteria,
+          visualization: this.props.currentVisualization,
+          recommendationArray: this.props.recommendationArray,
+          recommendationIndex: this.props.recommendationIndex + 1,
+          fragmentIndex: this.props.fragmentIndex,
+          start: new Date().getTime(),
+          category: this.props.currentCategory
+        };
+
+        this.props.addHistoryEntry(obj);
+        this.props.setHistoryEntryCounter(this.props.historyEntryCounter + 1)
+        //HISTORY ENTRY HISTORY ENTRY HISTORY ENTRY HISTORY ENTRY
         this.props.setRecommendationIndex(this.props.recommendationIndex + 1)
       }
 
@@ -268,7 +309,30 @@ class ConnectedNavigationButton extends Component {
           color: '#101010'
         }
         this.nodes.update(clickedNode);
+
+        //HISTORY ENTRY HISTORY ENTRY HISTORY ENTRY HISTORY ENTRY
+        let obj;
+        let historyVis = this.props.visualizationTechnique;
+        let historyCriteria = this.props.semanticCriteria;
+        obj = {
+          id: this.props.historyEntryCounter,
+          originalFragment: this.props.recommendationArray[this.props.recommendationIndex],
+          nextFragment: this.props.recommendationArray[this.props.recommendationIndex - 1],
+          vis: historyVis,
+          criteria: historyCriteria,
+          visualization: this.props.currentVisualization,
+          recommendationArray: this.props.recommendationArray,
+          recommendationIndex: this.props.recommendationIndex - 1,
+          fragmentIndex: this.props.fragmentIndex,
+          start: new Date().getTime(),
+          category: this.props.currentCategory
+        };
+
+        this.props.addHistoryEntry(obj);
+        this.props.setHistoryEntryCounter(this.props.historyEntryCounter + 1)
+        //HISTORY ENTRY HISTORY ENTRY HISTORY ENTRY HISTORY ENTRY
         this.props.setRecommendationIndex(this.props.recommendationIndex - 1)
+
       } else if (this.props.recommendationIndex > 0) {
         clickedNode.color = {
           border: "#2B7CE9",
@@ -278,7 +342,29 @@ class ConnectedNavigationButton extends Component {
           color: '#2B7CE9'
         }
         this.nodes.update(clickedNode);
+        //HISTORY ENTRY HISTORY ENTRY HISTORY ENTRY HISTORY ENTRY
+        let obj;
+        let historyVis = this.props.visualizationTechnique;
+        let historyCriteria = this.props.semanticCriteria;
+        obj = {
+          id: this.props.historyEntryCounter,
+          originalFragment: this.props.recommendationArray[this.props.recommendationIndex],
+          nextFragment: this.props.recommendationArray[this.props.recommendationIndex - 1],
+          vis: historyVis,
+          criteria: historyCriteria,
+          visualization: this.props.currentVisualization,
+          recommendationArray: this.props.recommendationArray,
+          recommendationIndex: this.props.recommendationIndex - 1,
+          fragmentIndex: this.props.fragmentIndex,
+          start: new Date().getTime(),
+          category: this.props.currentCategory
+        };
+
+        this.props.addHistoryEntry(obj);
+        this.props.setHistoryEntryCounter(this.props.historyEntryCounter + 1)
+        //HISTORY ENTRY HISTORY ENTRY HISTORY ENTRY HISTORY ENTRY
         this.props.setRecommendationIndex(this.props.recommendationIndex - 1)
+
       }
 
     }
