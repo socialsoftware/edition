@@ -102,7 +102,7 @@ public class FragmentTest {
 		FragInter fragInter = LdoD.getInstance().getFragmentByXmlId("Fr001")
 				.getFragInterByUrlId("Fr001_WIT_MS_Fr001a_1");
 
-		this.mockMvc.perform(get("/fragments/fragment//inter/{externalId}", fragInter.getExternalId())).andDo(print())
+		this.mockMvc.perform(get("/fragments/fragment/inter/{externalId}", fragInter.getExternalId())).andDo(print())
 				.andExpect(status().is3xxRedirection()).andExpect(redirectedUrl("/fragments/fragment/"
 						+ fragInter.getFragment().getXmlId() + "/inter/" + fragInter.getUrlId()));
 	}
@@ -110,7 +110,7 @@ public class FragmentTest {
 	@Test
 	@Atomic(mode = Atomic.TxMode.WRITE)
 	public void getFragInterByExternalIdError() throws Exception {
-		this.mockMvc.perform(get("/fragments/fragment//inter/{externalId}", "ERROR")).andDo(print())
+		this.mockMvc.perform(get("/fragments/fragment/inter/{externalId}", "ERROR")).andDo(print())
 				.andExpect(status().is3xxRedirection()).andExpect(redirectedUrl("/error"));
 	}
 
@@ -121,4 +121,8 @@ public class FragmentTest {
 				.andExpect(status().is3xxRedirection()).andExpect(redirectedUrl("/error"));
 	}
 
+
+	@Test
+	@Atomic(mode = Atomic.TxMode.WRITE)
+	public void getFragInterTa
 }
