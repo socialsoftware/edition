@@ -55,6 +55,7 @@ import pt.ist.socialsoftware.edition.ldod.dto.EditionTranscriptionsDto;
 import pt.ist.socialsoftware.edition.ldod.dto.FragmentDto;
 import pt.ist.socialsoftware.edition.ldod.dto.TranscriptionDto;
 import pt.ist.socialsoftware.edition.ldod.dto.VirtualEditionInterListDto;
+import pt.ist.socialsoftware.edition.ldod.generators.PlainHtmlWriter4OneInter;
 import pt.ist.socialsoftware.edition.ldod.search.Indexer;
 import pt.ist.socialsoftware.edition.ldod.security.LdoDUserDetails;
 import pt.ist.socialsoftware.edition.ldod.session.LdoDSession;
@@ -322,21 +323,13 @@ public class VirtualEditionController {
 			editionFragments.setCategories(virtualEdition.getTaxonomy().getSortedCategories().stream()
 					.map(c -> c.getName()).collect(Collectors.toList()));
 
-			String intersFilesPath = PropertiesManager.getProperties().getProperty("inters.dir");
 			List<FragmentDto> fragments = new ArrayList<>();
 
 			virtualEdition.getAllDepthVirtualEditionInters().stream().sorted(Comparator.comparing(FragInter::getTitle))
 					.forEach(inter -> {
-						FragInter lastInter = inter.getLastUsed();
-						String text;
-						try {
-							text = new String(Files
-									.readAllBytes(Paths.get(intersFilesPath + lastInter.getExternalId() + ".txt")));
-						} catch (IOException e) {
-							throw new LdoDException("VirtualEditionController::getTranscriptions IOException");
-						}
-
-						FragmentDto fragment = new FragmentDto(inter, text);
+						PlainHtmlWriter4OneInter writer = new PlainHtmlWriter4OneInter(inter.getLastUsed());
+						writer.write(false);
+						FragmentDto fragment = new FragmentDto(inter, writer.getTranscription());
 
 						fragments.add(fragment);
 					});
