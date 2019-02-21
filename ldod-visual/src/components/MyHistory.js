@@ -37,8 +37,10 @@ const mapStateToProps = state => {
     history: state.history,
     allFragmentsLoaded: state.allFragmentsLoaded,
     historyEntryCounter: state.historyEntryCounter,
-    recommendationindex: state.recommendationIndex,
-    recommendationArray: state.recommendationArray
+    recommendationIndex: state.recommendationIndex,
+    recommendationArray: state.recommendationArray,
+    fragmentsSortedByDate: state.fragmentsSortedByDate,
+    currentFragmentMode: state.currentFragmentMode
   };
 };
 
@@ -138,16 +140,26 @@ class ConnectedMyHistory extends Component {
   componentDidMount() {
     var historyItems = [];
 
-    var i;
-    for (i = 0; i < this.props.historyEntryCounter; i++) {
-      let item = {
-        id: this.props.history[i].id,
-        content: this.props.history[i].nextFragment.meta.title,
-        start: this.props.history[i].start
-      };
-      console.log("item id: " + item.id);
-      historyItems.push(item);
-    }
+    this.props.fragmentsSortedByDate.map(f => {
+
+      if (f.meta.date !== null) {
+        let date1 = f.meta.date.split('-');
+        let year1 = parseInt(date1[0]);
+        let month1 = parseInt(date1[1]);
+        let day1 = parseInt(date1[2]);
+
+        let myDate = new Date(year1, month1, day1);
+        console.log("MyHistory: Added date " + myDate)
+
+        let item = {
+          id: f.interId,
+          content: f.meta.title,
+          start: myDate
+        };
+        console.log("item id: " + item.id);
+        historyItems.push(item);
+      }
+    });
 
     var container = document.getElementById('visualization');
     console.log("history counter: " + this.props.historyEntryCounter);
@@ -155,6 +167,21 @@ class ConnectedMyHistory extends Component {
     console.log("history items: " + historyItems);
     this.timeline = new Timeline(container, historyItems, this.options);
     this.timeline.on('click', this.handleClick);
+
+    var moveToOptions = {
+      animation: { // animation object, can also be Boolean
+        duration: 1000, // animation duration in milliseconds (Number)
+        easingFunction: "easeInCubic" // Animation easing function, available are:
+      } // linear, easeInQuad, easeOutQuad, easeInOutQuad,
+    } // easeInCubic, easeOutCubic, easeInOutCubic,
+    // easeInQuart, easeOutQuart, easeInOutQuart,
+    // easeInQuint, easeOutQuint, easeInOutQuint
+
+    //this.timeline.focus(this.props.recommendationArray[this.props.recommendationIndex].interId);
+
+    //this.timeline.moveTo(this.props.recommendationArray[this.props.recommendationIndex].meta.date);
+
+    this.timeline.setWindow(this.props.recommendationArray[this.props.recommendationIndex].meta.date, this.props.recommendationArray[this.props.recommendationIndex].meta.date);
 
     //this.printMessage();
   }

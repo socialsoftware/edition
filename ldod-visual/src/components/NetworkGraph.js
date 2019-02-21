@@ -17,7 +17,7 @@ import {
   setSemanticCriteria,
   setSemanticCriteriaData
 } from "../actions/index";
-import {VIS_NETWORK_GRAPH, BY_NETWORK_TEXTSIMILARITY, CRIT_TEXT_SIMILARITY} from "../constants/history-transitions";
+import {VIS_NETWORK_GRAPH, BY_NETWORK_TEXTSIMILARITY, CRIT_TEXT_SIMILARITY, CRIT_CHRONOLOGICAL_ORDER} from "../constants/history-transitions";
 import {Button, Popover, OverlayTrigger, Overlay} from "react-bootstrap";
 import NetworkGraphContainer from "../containers/NetworkGraphContainer";
 import HashMap from "hashmap";
@@ -102,6 +102,17 @@ class ConnectedNetworkGraph extends Component {
       }
     }.bind(this));
 
+    let myTitle;
+    if (this.props.currentFragmentMode && this.props.potentialSemanticCriteria == CRIT_CHRONOLOGICAL_ORDER && this.props.fragmentsHashMap.get(this.props.graphData[0].interId).meta.date !== null) {
+      myTitle = this.props.fragmentsHashMap.get(this.props.graphData[0].interId).meta.title + " | Data: " + this.props.fragmentsHashMap.get(this.props.graphData[0].interId).meta.date;
+    } else if (this.props.currentFragmentMode && this.props.potentialSemanticCriteria == CRIT_CHRONOLOGICAL_ORDER && !this.props.fragmentsHashMap.get(this.props.graphData[0].interId).meta.date) {
+      myTitle = this.props.fragmentsHashMap.get(this.props.graphData[0].interId).meta.title + " | Data: Sem data";
+    } else if (!this.props.currentFragmentMode && this.props.semanticCriteria == CRIT_CHRONOLOGICAL_ORDER && this.props.fragmentsHashMap.get(this.props.graphData[0].interId).meta.date !== null) {
+      myTitle = this.props.fragmentsHashMap.get(this.props.graphData[0].interId).meta.title + " | Data: " + this.props.fragmentsHashMap.get(this.props.graphData[0].interId).meta.date;
+    } else if (!this.props.currentFragmentMode && this.props.semanticCriteria == CRIT_CHRONOLOGICAL_ORDER && !this.props.fragmentsHashMap.get(this.props.graphData[0].interId).meta.date) {
+      myTitle = this.props.fragmentsHashMap.get(this.props.graphData[0].interId).meta.title + " | Data: Sem data";
+    }
+
     let originalFragmentSize = 6; //Math.floor(this.props.graphData.length * 0.05); 60; Math.max(5, Math.floor(this.props.graphData.length * 0.01));
     //BUILD ACTUAL FRAGMENT NODE
     let obj;
@@ -116,7 +127,7 @@ class ConnectedNetworkGraph extends Component {
         border: "#DC143C",
         background: "#FF7F50"
       },
-      title: this.props.fragmentsHashMap.get(this.props.graphData[0].interId).meta.title, // + " || " + truncateText(this.props.recommendationArray[this.props.recommendationIndex].text, 60),
+      title: myTitle, //this.props.fragmentsHashMap.get(this.props.graphData[0].interId).meta.title,  + " || " + truncateText(this.props.recommendationArray[this.props.recommendationIndex].text, 60),
       x: 0,
       y: 0,
       fixed: true
@@ -276,6 +287,18 @@ class ConnectedNetworkGraph extends Component {
         nodeBackgroundColor = "#8A2BE2";
       }
 
+      //BUG: SUGERE SEM DATA.
+      let myTitle;
+      if (this.props.currentFragmentMode && this.props.potentialSemanticCriteria == CRIT_CHRONOLOGICAL_ORDER && this.props.fragmentsHashMap.get(this.props.graphData[i].interId).meta.date !== null) {
+        myTitle = this.props.fragmentsHashMap.get(this.props.graphData[i].interId).meta.title + " | Data: " + this.props.fragmentsHashMap.get(this.props.graphData[i].interId).meta.date;
+      } else if (this.props.currentFragmentMode && this.props.potentialSemanticCriteria == CRIT_CHRONOLOGICAL_ORDER && !this.props.fragmentsHashMap.get(this.props.graphData[i].interId).meta.date) {
+        myTitle = this.props.fragmentsHashMap.get(this.props.graphData[i].interId).meta.title + " | Data: Sem data";
+      } else if (!this.props.currentFragmentMode && this.props.semanticCriteria == CRIT_CHRONOLOGICAL_ORDER && this.props.fragmentsHashMap.get(this.props.graphData[i].interId).meta.date !== null) {
+        myTitle = this.props.fragmentsHashMap.get(this.props.graphData[i].interId).meta.title + " | Data: " + this.props.fragmentsHashMap.get(this.props.graphData[i].interId).meta.date;
+      } else if (!this.props.currentFragmentMode && this.props.semanticCriteria == CRIT_CHRONOLOGICAL_ORDER && !this.props.fragmentsHashMap.get(this.props.graphData[i].interId).meta.date) {
+        myTitle = this.props.fragmentsHashMap.get(this.props.graphData[i].interId).meta.title + " | Data: Sem data";
+      }
+
       obj = {
         id: this.props.graphData[i].interId,
         //label: "",
@@ -286,7 +309,7 @@ class ConnectedNetworkGraph extends Component {
           border: nodeBorderColor,
           background: nodeBackgroundColor
         },
-        title: this.props.fragmentsHashMap.get(this.props.graphData[i].interId).meta.title, //+ " " + this.props.graphData[i].distance,  + " || " + truncateText(myText, 60)
+        title: myTitle, //this.props.fragmentsHashMap.get(this.props.graphData[i].interId).meta.title, + " " + this.props.graphData[i].distance,  + " || " + truncateText(myText, 60)
         fixed: true,
         x: xFactor,
         y: yFactor

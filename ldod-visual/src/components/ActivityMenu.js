@@ -6,6 +6,7 @@ import NetworkGraphContainer from "../containers/NetworkGraphContainer";
 import {setCurrentVisualization, setPotentialVisualizationTechnique, setPotentialSemanticCriteria, setSemanticCriteriaDataLoaded, setDisplayTextSkimming} from "../actions/index";
 import SquareGrid from "../components/SquareGrid";
 import MyWordCloud from "../components/MyWordCloud";
+import MyHistory from "../components/MyHistory";
 
 import {
   VIS_SQUARE_GRID,
@@ -41,7 +42,8 @@ const mapStateToProps = state => {
     recommendationLoaded: state.recommendationLoaded,
     displayTextSkimming: state.displayTextSkimming,
     categories: state.categories,
-    datesExist: state.datesExist
+    datesExist: state.datesExist,
+    fragmentsSortedByDate: state.fragmentsSortedByDate
   };
 };
 
@@ -187,6 +189,9 @@ class ConnectedActivityMenu extends Component {
       let datesButtonMessage = "Explorar os fragmentos desta edição ordenados por data";
 
       let datesSimilarButtonMessage = "Ler fragmentos semelhantes a este por data"
+      if (this.props.recommendationArray[this.props.recommendationIndex].meta.date !== null) {
+        datesSimilarButtonMessage = "Ler fragmentos semelhantes a este por data (" + this.props.recommendationArray[this.props.recommendationIndex].meta.date + ")"
+      }
       let datesSimilarButtonStyle = "primary"
 
       if (!this.props.datesExist) {
