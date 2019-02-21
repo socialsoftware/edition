@@ -17,7 +17,7 @@ import {
   setSemanticCriteria,
   setSemanticCriteriaData
 } from "../actions/index";
-import {VIS_NETWORK_GRAPH, BY_NETWORK_TEXTSIMILARITY, CRIT_TEXT_SIMILARITY} from "../constants/history-transitions";
+import {VIS_NETWORK_GRAPH, BY_NETWORK_TEXTSIMILARITY, CRIT_TEXT_SIMILARITY, CRIT_CHRONOLOGICAL_ORDER} from "../constants/history-transitions";
 import {Button, Popover, OverlayTrigger, Overlay} from "react-bootstrap";
 import NetworkGraphContainer from "../containers/NetworkGraphContainer";
 import HashMap from "hashmap";
@@ -85,10 +85,10 @@ class ConnectedNetworkGraph extends Component {
 
     //console.log(this.props.graphData)
     //console.log("my graph data length: " + this.props.graphData.length);
-    //this.props.graphData.map(d => console.log("my graphData id: " + d.interId + " distance: " + d.distance + " title: " + this.props.fragmentsHashMap.get(d.interId).meta.title));
+    this.props.graphData.map(d => console.log("my graphData id: " + d.interId + " distance: " + d.distance + " title: " + this.props.fragmentsHashMap.get(d.interId).meta.title));
 
     const maxFragsAnalyzedPercentage = 1.0;
-    const mostDistantFragmentDistance = this.props.graphData[this.props.graphData.length - 1].distance;
+    let mostDistantFragmentDistance = this.props.graphData[this.props.graphData.length - 1].distance;
     const graphHeight = 500;
 
     let truncateCheckBuffer = [];
@@ -102,7 +102,18 @@ class ConnectedNetworkGraph extends Component {
       }
     }.bind(this));
 
-    let originalFragmentSize = 5; //Math.floor(this.props.graphData.length * 0.05); 60; Math.max(5, Math.floor(this.props.graphData.length * 0.01));
+    let myTitle;
+    if (this.props.currentFragmentMode && this.props.potentialSemanticCriteria == CRIT_CHRONOLOGICAL_ORDER && this.props.fragmentsHashMap.get(this.props.graphData[0].interId).meta.date !== null) {
+      myTitle = this.props.fragmentsHashMap.get(this.props.graphData[0].interId).meta.title + " | Data: " + this.props.fragmentsHashMap.get(this.props.graphData[0].interId).meta.date;
+    } else if (this.props.currentFragmentMode && this.props.potentialSemanticCriteria == CRIT_CHRONOLOGICAL_ORDER && !this.props.fragmentsHashMap.get(this.props.graphData[0].interId).meta.date) {
+      myTitle = this.props.fragmentsHashMap.get(this.props.graphData[0].interId).meta.title + " | Data: Sem data";
+    } else if (!this.props.currentFragmentMode && this.props.semanticCriteria == CRIT_CHRONOLOGICAL_ORDER && this.props.fragmentsHashMap.get(this.props.graphData[0].interId).meta.date !== null) {
+      myTitle = this.props.fragmentsHashMap.get(this.props.graphData[0].interId).meta.title + " | Data: " + this.props.fragmentsHashMap.get(this.props.graphData[0].interId).meta.date;
+    } else if (!this.props.currentFragmentMode && this.props.semanticCriteria == CRIT_CHRONOLOGICAL_ORDER && !this.props.fragmentsHashMap.get(this.props.graphData[0].interId).meta.date) {
+      myTitle = this.props.fragmentsHashMap.get(this.props.graphData[0].interId).meta.title + " | Data: Sem data";
+    }
+
+    let originalFragmentSize = 6; //Math.floor(this.props.graphData.length * 0.05); 60; Math.max(5, Math.floor(this.props.graphData.length * 0.01));
     //BUILD ACTUAL FRAGMENT NODE
     let obj;
     obj = {
@@ -116,7 +127,7 @@ class ConnectedNetworkGraph extends Component {
         border: "#DC143C",
         background: "#FF7F50"
       },
-      title: this.props.fragmentsHashMap.get(this.props.graphData[0].interId).meta.title, // + " || " + truncateText(this.props.recommendationArray[this.props.recommendationIndex].text, 60),
+      title: myTitle, //this.props.fragmentsHashMap.get(this.props.graphData[0].interId).meta.title,  + " || " + truncateText(this.props.recommendationArray[this.props.recommendationIndex].text, 60),
       x: 0,
       y: 0,
       fixed: true
@@ -145,9 +156,12 @@ class ConnectedNetworkGraph extends Component {
     let nrValuesSubMask6 = 0;
     let nrValuesSubMask7 = 0;
     let nrValuesSubMask8 = 0;
-    const sizeMultiplier1 = 0.3;
-    const sizeMultiplier2 = 0.5;
-    const sizeMultiplier3 = 0.7;
+    const sizeMultiplier1 = 0.7;
+    const sizeMultiplier2 = 0.8;
+    const sizeMultiplier3 = 0.9;
+    // const sizeMultiplier1 = 0.4;
+    // const sizeMultiplier2 = 0.5;
+    // const sizeMultiplier3 = 0.7;
     const sizeMultiplier4 = 5;
     const sizeMultiplier5 = 8;
     let multiplier;
@@ -207,9 +221,9 @@ class ConnectedNetworkGraph extends Component {
       //small interpolation for when the distance is zero
 
       if (truncateCheckBuffer.length < 2) {
-        console.log("NetworkGraph.js: no values after " + truncateFloor + "%, will to truncate edgeLengthFactor");
+        console.log("NetworkGraph.js: no values after " + truncateFloor + "%, will truncate edgeLengthFactor");
         console.log(truncateCheckBuffer.length);
-        edgeLengthFactor = edgeLengthFactor / 10;
+        edgeLengthFactor = edgeLengthFactor / 5;
       } else {
         console.log("NetworkGraph.js: values after " + truncateFloor + "%, not going to truncate edgeLengthFactor");
         console.log(truncateCheckBuffer.length);
@@ -239,8 +253,20 @@ class ConnectedNetworkGraph extends Component {
       if (distancePercentage === 0) {
         // nodeBorderColor = "#101010";
         // nodeBackgroundColor = "#505050";
+        console.log("NetworkGraph.js: distance is zero!")
         totalAxes = nrOfNullDistances;
         mySize = mySize * sizeMultiplier1;
+        absoluteDistance = mask1 / 100 * mostDistantFragmentDistance
+        edgeLengthFactor = 10000;
+      }
+
+      if (mostDistantFragmentDistance === 0) {
+        // nodeBorderColor = "#101010";
+        // nodeBackgroundColor = "#505050";
+        console.log("NetworkGraph.js: mostDistantFragmentDistance is zero!")
+        totalAxes = nrOfNullDistances;
+        mySize = mySize * sizeMultiplier1;
+        mostDistantFragmentDistance = 10;
         absoluteDistance = mask1 / 100 * mostDistantFragmentDistance
         edgeLengthFactor = 10000;
       }
@@ -257,8 +283,20 @@ class ConnectedNetworkGraph extends Component {
 
       //purple
       if (!this.props.currentFragmentMode && this.props.graphData[i].interId === this.props.recommendationArray[this.props.recommendationIndex].interId) {
-        nodeBorderColor = "#DC143C"
-        nodeBackgroundColor = "#FF7F50"
+        nodeBorderColor = "#4B0082";
+        nodeBackgroundColor = "#8A2BE2";
+      }
+
+      //BUG: SUGERE SEM DATA.
+      let myTitle;
+      if (this.props.currentFragmentMode && this.props.potentialSemanticCriteria == CRIT_CHRONOLOGICAL_ORDER && this.props.fragmentsHashMap.get(this.props.graphData[i].interId).meta.date !== null) {
+        myTitle = this.props.fragmentsHashMap.get(this.props.graphData[i].interId).meta.title + " | Data: " + this.props.fragmentsHashMap.get(this.props.graphData[i].interId).meta.date;
+      } else if (this.props.currentFragmentMode && this.props.potentialSemanticCriteria == CRIT_CHRONOLOGICAL_ORDER && !this.props.fragmentsHashMap.get(this.props.graphData[i].interId).meta.date) {
+        myTitle = this.props.fragmentsHashMap.get(this.props.graphData[i].interId).meta.title + " | Data: Sem data";
+      } else if (!this.props.currentFragmentMode && this.props.semanticCriteria == CRIT_CHRONOLOGICAL_ORDER && this.props.fragmentsHashMap.get(this.props.graphData[i].interId).meta.date !== null) {
+        myTitle = this.props.fragmentsHashMap.get(this.props.graphData[i].interId).meta.title + " | Data: " + this.props.fragmentsHashMap.get(this.props.graphData[i].interId).meta.date;
+      } else if (!this.props.currentFragmentMode && this.props.semanticCriteria == CRIT_CHRONOLOGICAL_ORDER && !this.props.fragmentsHashMap.get(this.props.graphData[i].interId).meta.date) {
+        myTitle = this.props.fragmentsHashMap.get(this.props.graphData[i].interId).meta.title + " | Data: Sem data";
       }
 
       obj = {
@@ -271,7 +309,7 @@ class ConnectedNetworkGraph extends Component {
           border: nodeBorderColor,
           background: nodeBackgroundColor
         },
-        title: this.props.fragmentsHashMap.get(this.props.graphData[i].interId).meta.title + " " + this.props.graphData[i].distance, // + " || " + truncateText(myText, 60)
+        title: myTitle, //this.props.fragmentsHashMap.get(this.props.graphData[i].interId).meta.title, + " " + this.props.graphData[i].distance,  + " || " + truncateText(myText, 60)
         fixed: true,
         x: xFactor,
         y: yFactor
@@ -321,7 +359,7 @@ class ConnectedNetworkGraph extends Component {
   handleSelectNode(event) {
     const nodeId = event.nodes[0];
     if (nodeId && nodeId !== this.props.fragments[this.props.fragmentIndex].interId) {
-      //alert(nodeId);
+
       var i;
       for (i = 0; i < this.props.recommendationArray.length; i++) {
 

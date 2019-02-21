@@ -14,7 +14,14 @@ import {
   setSemanticCriteria,
   setCurrentCategory
 } from "../actions/index";
-import {VIS_SQUARE_GRID, BY_SQUAREGRID_EDITIONORDER, CRIT_EDITION_ORDER, CRIT_CHRONOLOGICAL_ORDER, CRIT_CATEGORY} from "../constants/history-transitions";
+import {
+  VIS_SQUARE_GRID,
+  BY_SQUAREGRID_EDITIONORDER,
+  CRIT_EDITION_ORDER,
+  CRIT_CHRONOLOGICAL_ORDER,
+  CRIT_CATEGORY,
+  CRIT_HETERONYM
+} from "../constants/history-transitions";
 import HashMap from "hashmap";
 
 const mapStateToProps = state => {
@@ -100,6 +107,8 @@ class ConnectedSquareGrid extends Component {
     var i;
     let xFactor = 0;
     let yFactor = 0;
+    this.highlightText = "";
+    this.supportMessage = "";
 
     for (i = 0; i < this.myFragmentArray.length; i++) {
 
@@ -128,12 +137,20 @@ class ConnectedSquareGrid extends Component {
         myTitle = this.myFragmentArray[i].meta.title + " | Data: " + this.myFragmentArray[i].meta.date;
       } else if (this.props.currentFragmentMode && this.props.potentialSemanticCriteria == CRIT_CHRONOLOGICAL_ORDER && !this.myFragmentArray[i].meta.date) {
         myTitle = this.myFragmentArray[i].meta.title + " | Data: Sem data";
+      } else if (!this.props.currentFragmentMode && this.props.semanticCriteria == CRIT_CHRONOLOGICAL_ORDER && this.myFragmentArray[i].meta.date !== null) {
+        myTitle = this.myFragmentArray[i].meta.title + " | Data: " + this.myFragmentArray[i].meta.date;
+      } else if (!this.props.currentFragmentMode && this.props.semanticCriteria == CRIT_CHRONOLOGICAL_ORDER && !this.myFragmentArray[i].meta.date) {
+        myTitle = this.myFragmentArray[i].meta.title + " | Data: Sem data";
       }
 
-      if (this.props.currentFragmentMode && this.props.potentialSemanticCriteria == CRIT_CATEGORY) {
+      if (this.props.currentFragmentMode && this.props.potentialSemanticCriteria == CRIT_CATEGORY && this.myFragmentArray[i].meta.categories.length !== 0) {
         myTitle = this.myFragmentArray[i].meta.title + " | Categorias: " + this.myFragmentArray[i].meta.categories;
-      } else if (!(this.props.currentFragmentMode) && this.props.semanticCriteria == CRIT_CATEGORY) {
+      } else if (!(this.props.currentFragmentMode) && this.props.semanticCriteria == CRIT_CATEGORY && this.myFragmentArray[i].meta.categories.length !== 0) {
         myTitle = this.myFragmentArray[i].meta.title + " | Categorias: " + this.myFragmentArray[i].meta.categories;
+      } else if (this.props.currentFragmentMode && this.props.potentialSemanticCriteria == CRIT_CATEGORY && this.myFragmentArray[i].meta.categories.length == 0) {
+        myTitle = this.myFragmentArray[i].meta.title + " | Categorias: Sem categorias."
+      } else if (!(this.props.currentFragmentMode) && this.props.semanticCriteria == CRIT_CATEGORY && this.myFragmentArray[i].meta.categories.length == 0) {
+        myTitle = this.myFragmentArray[i].meta.title + " | Categorias: Sem categorias."
       }
 
       //  #DAA520 goldenrod escuro
@@ -141,9 +158,55 @@ class ConnectedSquareGrid extends Component {
       if (this.props.currentFragmentMode && this.props.potentialSemanticCriteria == CRIT_CATEGORY && this.myFragmentArray[i].meta.categories.includes(this.props.potentialCategory)) {
         nodeBorderColor = "#DAA520";
         nodeBackgroundColor = "#FFD700";
+        this.supportMessage = "Neste mapa, estão assinalados os quadrados dos fragmentos que pertencem à categoria ";
+        this.highlightText = (<span style={{
+            background: "#DAA520",
+            paddingLeft: '3px',
+            paddingRight: '3px',
+            border: "#DAA520",
+            color: "white"
+          }}>
+          <b>{this.props.potentialCategory}</b>
+        </span >);
       } else if (!(this.props.currentFragmentMode) && this.props.semanticCriteria == CRIT_CATEGORY && this.myFragmentArray[i].meta.categories.includes(this.props.currentCategory)) {
         nodeBorderColor = "#DAA520";
         nodeBackgroundColor = "#FFD700";
+        this.supportMessage = "Neste mapa, estão assinalados os quadrados dos fragmentos que pertencem à categoria ";
+        this.highlightText = (<span style={{
+            background: "#DAA520",
+            paddingLeft: '3px',
+            paddingRight: '3px',
+            border: "#DAA520",
+            color: "white"
+          }}>
+          <b>{this.props.currentCategory}</b>
+        </span >);
+      } else if (this.props.currentFragmentMode && this.props.potentialSemanticCriteria == CRIT_HETERONYM && this.myFragmentArray[i].meta.heteronym == this.props.recommendationArray[this.props.recommendationIndex].meta.heteronym) {
+        nodeBorderColor = "#DAA520";
+        nodeBackgroundColor = "#FFD700";
+        this.supportMessage = "Neste mapa, estão assinalados os quadrados dos fragmentos assinados pelo heterónimo ";
+        this.highlightText = (<span style={{
+            background: "#DAA520",
+            paddingLeft: '3px',
+            paddingRight: '3px',
+            border: "#DAA520",
+            color: "white"
+          }}>
+          <b>{this.myFragmentArray[i].meta.heteronym}</b>
+        </span >);
+      } else if (!(this.props.currentFragmentMode) && this.props.semanticCriteria == CRIT_HETERONYM && this.myFragmentArray[i].meta.heteronym == this.props.fragments[this.props.fragmentIndex].meta.heteronym) {
+        nodeBorderColor = "#DAA520";
+        nodeBackgroundColor = "#FFD700";
+        this.supportMessage = "Neste mapa, estão assinalados os quadrados dos fragmentos assinados pelo heterónimo ";
+        this.highlightText = (<span style={{
+            background: "#DAA520",
+            paddingLeft: '3px',
+            paddingRight: '3px',
+            border: "#DAA520",
+            color: "white"
+          }}>
+          <b>{this.myFragmentArray[i].meta.heteronym}</b>
+        </span >);
       }
 
       //purple
@@ -335,10 +398,73 @@ class ConnectedSquareGrid extends Component {
 
   render() {
 
+    let redSquareText = (<span style={{
+        background: "#FF7F50",
+        paddingLeft: '3px',
+        paddingRight: '3px',
+        border: "#FF7F50",
+        color: 'white'
+      }}>
+      <b>quadrado laranja</b>
+    </span >);
+
+    let purpleSquareText = (<span style={{
+        background: "#8A2BE2",
+        paddingLeft: '3px',
+        paddingRight: '3px',
+        border: "#8A2BE2",
+        color: 'white'
+      }}>
+      <b>quadrado roxo</b>
+    </span >);
+
+    let greySquareText = (<span style={{
+        background: "#505050",
+        paddingLeft: '3px',
+        paddingRight: '3px',
+        border: "#101010",
+        color: 'white'
+      }}>
+      <b>quadrados cinzentos</b>
+    </span >);
+
+    let goldenSquareText = (<span style={{
+        background: "#DAA520",
+        paddingLeft: '3px',
+        paddingRight: '3px',
+        border: "#DAA520",
+        color: 'white'
+      }}>
+      <b>quadrados amarelos</b>
+    </span >);
+
     return (<div>
       <p>
-        Instruções do square grid.
+        Neste mapa, cada quadrado representa um fragmento da edição virtual do livro do desassossego que seleccionou.
       </p>
+
+      <p>
+        Um {redSquareText}
+        representará o fragmento sob o qual realizou ou está a realizar uma nova actividade.
+      </p>
+
+      <p>
+        Um {purpleSquareText}
+        representará o fragmento que está a ler actualmente caso navegue para um fragmento diferente do fragmento inicial (o {redSquareText}).
+      </p>
+
+      <p>
+        Caso esteja a realizar uma actividade que envolva datas, os {greySquareText}
+        representarão fragmentos sem data.
+      </p>
+
+      <p>
+        Por fim, caso esteja a realizar uma actividade que envolva categorias ou heterónimos, os {goldenSquareText}
+        representarão os fragmentos correspondentes à categoria ou heterónimo.
+      </p>
+
+      {this.supportMessage}
+      {this.highlightText}.
 
       <div className="graphGrid" id="gridvis"></div>
 

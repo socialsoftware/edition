@@ -1,6 +1,5 @@
 import React from "react";
 import {RepositoryService} from "../services/RepositoryService";
-import FragmentLoader from "..components/FragmentLoader";
 import {
   addFragment,
   setAllFragmentsLoaded,
@@ -26,6 +25,7 @@ import {
   CRIT_TAXONOMY,
   CRIT_WORD_RELEVANCE
 } from "../constants/history-transitions";
+import {Button, ButtonToolbar, Modal} from "react-bootstrap";
 
 const mapStateToProps = state => {
   return {
@@ -61,174 +61,66 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-class ConnectedFragmentLoader extends React.Component {
+class ConnectedPublicEditionContainer extends React.Component {
   constructor(props) {
     super(props);
 
-    this.map = new HashMap();
-
-    this.sortedFragmentsByDate = [];
-
     this.state = {
-      toggleFragmentUpdate: false
+      editionsReceived: false,
+      editions: []
     };
 
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-
-    if (!(this.props.recommendationLoaded)) {
-      console.log("Loading recommendation array");
-
-      if (this.props.visualizationTechnique == VIS_NETWORK_GRAPH) {
-
-        let pHeteronymWeight = "0.0";
-        let pTextWeight = "0.0";
-        let pDateWeight = "0.0";
-        let ptaxonomyWeight = "0.0";
-
-        if (this.props.semanticCriteria == CRIT_HETERONYM) {
-          pHeteronymWeight = "1.0";
-        } else if (this.props.semanticCriteria == CRIT_TEXT_SIMILARITY) {
-          pTextWeight = "1.0";
-        } else if (this.props.semanticCriteria == CRIT_CHRONOLOGICAL_ORDER) {
-          pDateWeight = "1.0";
-        } else if (this.props.semanticCriteria == CRIT_TAXONOMY) {
-          ptaxonomyWeight = "1.0";
-        }
-
-        const service = new RepositoryService();
-        let idsDistanceArray = [];
-        let myNewRecommendationArray = [];
-        service.getIntersByDistance(this.props.fragments[this.props.fragmentIndex].interId, pHeteronymWeight, pTextWeight, pDateWeight, ptaxonomyWeight).then(response => {
-
-          idsDistanceArray = response.data;
-          this.props.setSemanticCriteriaData(idsDistanceArray);
-
-          var i;
-          for (i = 0; i < idsDistanceArray.length; i++) {
-            let frag = this.props.fragmentsHashMap.get(idsDistanceArray[i].interId);
-            myNewRecommendationArray.push(frag);
-          }
-          this.props.setRecommendationArray(myNewRecommendationArray);
-          console.log("FragmentLoader: new recommendation array calculated.")
-          this.props.setRecommendationLoaded(true);
-
-          this.setState({
-            toggleFragmentUpdate: !this.state.toggleFragmentUpdate
-          });
-
-        });
-      }
-    }
+    this.handleButtonClick = this.handleButtonClick.bind(this);
 
   }
 
   componentDidMount() {
-    if (!this.props.allFragmentsLoaded) {
-      const service = new RepositoryService();
-      console.log("FragmentLoader.js: componentDidMount -> requesting fragments")
-      service.getFragments().then(response => {
-        console.log("FragmentLoader.js: receiving fragments");
-        console.log(response);
 
-        this.props.addFragment(response.data.fragments);
-        this.props.fragments.map(f => this.map.set(f.interId, f));
-        this.props.setfragmentsHashMap(this.map);
+    const service = new RepositoryService("bla");
 
-        let unorderedFragments = [];
-        let noDateFragments = [];
+    service.getPublicEditions().then(response => {
+      console.log("ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ |" + response.data.map(e => console.log("|Title: " + e.title + " |Acronym:" + e.acronym + " |hasCategories: " + e.taxonomy.hasCategories)));
+      this.setState({editions: response.data, editionsReceived: true});
+      this.props.onChange();
 
-        this.props.fragments.map(f => {
+    });
+  }
 
-          if (f.meta.date !== null) 
-            return (unorderedFragments.push(f));
-          return (noDateFragments.push(f));
-        });
-
-        if (unorderedFragments.length > 0) {
-
-          unorderedFragments.sort((frag1, frag2) => {
-            let date1 = frag1.meta.date.split('-');
-            let date2 = frag2.meta.date.split('-');
-            let year1 = parseInt(date1[0]);
-            let year2 = parseInt(date2[0]);
-            let month1 = parseInt(date1[1]);
-            let month2 = parseInt(date2[1]);
-            let day1 = parseInt(date1[2]);
-            let day2 = parseInt(date2[2]);
-            if (year1 !== year2) {
-              return year1 - year2;
-            } else if (month1 !== month2) {
-              return month1 - month2;
-            } else {
-              return day1 - day2;
-            }
-          });
-
-          // console.log(unorderedFragments.length);
-
-          let myFragmentsSortedByDate = unorderedFragments.concat(noDateFragments);
-
-          // console.log(myFragmentsSortedByDate.length);
-
-          // myFragmentsSortedByDate.map(f => console.log(f.meta.date));
-
-          this.props.setFragmentsSortedByDate(myFragmentsSortedByDate);
-
-        }
-
-        if (response.data.categories) {
-
-          let myCategories = response.data.categories;
-          let tempCounter = 0;
-
-          let i;
-          let j;
-          for (i = 0; i < myCategories.length; i++) {
-
-            for (j = 0; j < response.data.fragments.length; j++) {
-
-              if (response.data.fragments[j].meta.categories.includes(myCategories[i])) {
-
-                tempCounter++;
-              }
-            }
-
-            let obj = {
-              category: myCategories[i],
-              categoryCount: tempCounter
-            };
-            // console.log("counting category: number " + 1 + " out of " + myCategories.length + " (" + myCategories[i] + ")");
-            myCategories[i] = obj;
-            tempCounter = 0;
-
-          }
-
-          this.props.setCategories(myCategories);
-        }
-
-        this.props.setAllFragmentsLoaded(true);
-
-        this.setState({
-          toggleFragmentUpdate: !this.state.toggleFragmentUpdate
-        });
-
-      });
-    }
+  handleButtonClick(item) {
+    this.props.sendSelectedEdition(item);
   }
 
   render() {
-    const service = new RepositoryService("bla");
-    service.getPublicEditions().then(response => {
-      console.log("ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ |" + response.data.map(e => console.log("|Title: " + e.title + " |Acronym:" + e.acronym + " |hasCategories: " + e.taxonomy.hasCategories)));
-    });
 
-    return <Fragment toggleTextSkimming={this.props.toggleTextSkimming}/>;
+    let editionButtonList = [];
+
+    if (this.state.editionsReceived) {
+      console.log("editionsReceived");
+
+      editionButtonList = this.state.editions.map(item => {
+        let buttonStyle = "secondary";
+        if (item.taxonomy.hasCategories) {
+          buttonStyle = "primary"
+        }
+
+        return <Button bsStyle={buttonStyle} bsSize="large" block="block" onClick={() => this.handleButtonClick(item)}>
+          {item.title}
+        </Button>;
+
+      })
+    }
+
+    return <div>
+      <p>Escolha uma das edições virtuais públicas disponíveis.
+      </p>
+      <p>
+        As edições virtuais que não possuem taxonomia (categorias) estão assinaladas a cinzento. Apenas se escolher uma das edições virtuais com taxonomia (assinaladas a azul) poderá realizar actividades à volta das mesmas.</p>
+      {editionButtonList}
+    </div>;
   }
 
 }
 
-const FragmentLoader = connect(mapStateToProps, mapDispatchToProps)(ConnectedFragmentLoader);
+const PublicEditionContainer = connect(mapStateToProps, mapDispatchToProps)(ConnectedPublicEditionContainer);
 
-export default FragmentLoader;
+export default PublicEditionContainer;

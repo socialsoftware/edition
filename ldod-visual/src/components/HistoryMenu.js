@@ -114,14 +114,16 @@ class ConnectedHistoryMenu extends Component {
           this.props.onChange();
           this.props.setFragmentIndex(this.props.history[parseInt(properties.item)].fragmentIndex); //mudar a logica para isto ser o fragmento central.
 
-          if (this.props.history[parseInt(properties.item)].vis !== VIS_NETWORK_GRAPH) {
-            console.log("HistoryMenu.js: this.props.history[parseInt(properties.item)].vis !== VIS_NETWORK_GRAPH")
-            this.props.setRecommendationArray(this.props.history[parseInt(properties.item)].recommendationArray);
-            this.props.setRecommendationIndex(this.props.history[parseInt(properties.item)].recommendationIndex);
-          } else {
-            console.log("HistoryMenu.js: this.props.setSemanticCriteriaDataLoaded(false);")
-            this.props.setSemanticCriteriaDataLoaded(false);
-          }
+          //parte que foi feita para não saltar para o fragmento clicado no historico via netgraph pois era preciso ir alterar o historico no fragmentloader depois de carregar um novo recommendation index que era preciso fazer set do mesmo na ultima entrada do historico.
+
+          //if (this.props.history[parseInt(properties.item)].vis !== VIS_NETWORK_GRAPH) {
+          console.log("HistoryMenu.js: this.props.history[parseInt(properties.item)].vis !== VIS_NETWORK_GRAPH")
+          this.props.setRecommendationArray(this.props.history[parseInt(properties.item)].recommendationArray);
+          this.props.setRecommendationIndex(this.props.history[parseInt(properties.item)].recommendationIndex);
+          //} else {
+          //  console.log("HistoryMenu.js: this.props.setSemanticCriteriaDataLoaded(false);")
+          //  this.props.setSemanticCriteriaDataLoaded(false);
+          //}
           this.props.setVisualizationTechnique(this.props.history[parseInt(properties.item)].vis);
           this.props.setSemanticCriteria(this.props.history[parseInt(properties.item)].criteria)
 
@@ -143,6 +145,7 @@ class ConnectedHistoryMenu extends Component {
         content: this.props.history[i].nextFragment.meta.title,
         start: this.props.history[i].start
       };
+      console.log("item id: " + item.id);
       historyItems.push(item);
     }
 
@@ -166,7 +169,7 @@ class ConnectedHistoryMenu extends Component {
 
     return (<div className="historyMenu">
       <p>
-        Timeline.
+        Nesta cronologia, poderá consultar o seu caminho na leitura da edição virtual do Livro do Desassossego que seleccionou. Basta clicar num dos títulos do fragmentos para retornar ao mesmo bem como a actividade pela qual chegou a esse fragmento.
       </p>
       {jsxToRender}
     </div>);

@@ -40,11 +40,11 @@ export class RepositoryService {
 
   // Specifications
   getFragments() {
-    return this.axios.get("/virtualeditions/acronym/" + this.state.acronym + "/fragments");
+    return this.axios.get("/virtualeditions/acronym/" + this.setAcronym + "/fragments");
   }
 
   getTranscriptions() {
-    return this.axios.get("/virtualeditions/acronym/" + this.state.acronym + "/transcriptions");
+    return this.axios.get("/virtualeditions/acronym/" + this.setAcronym + "/transcriptions");
   }
 
   getIntersByDistance(interId, heteronym, text, date, taxonomy) {
@@ -58,13 +58,12 @@ export class RepositoryService {
 
   //http://localhost:8080/virtualeditions/acronym/LdoD-test/interId/281861523767368/tfidf
   getFragmentTfIdf(interId) {
-    return this.axios.get("/virtualeditions/acronym/" + this.state.acronym + "/interId/" + interId + "/tfidf");
+    return this.axios.get("/virtualeditions/acronym/" + this.setAcronym + "/interId/" + interId + "/tfidf");
   }
 
   //http://localhost:8080/virtualeditions/public
   //https://ldod.uc.pt/virtualeditions/public/
   getPublicEditions() {
-    console.log("YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY " + this.setAcronym);
     return this.axios.get("/virtualeditions/public/");
   }
 

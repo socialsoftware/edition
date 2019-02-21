@@ -105,8 +105,13 @@ class ConnectedMyWordCloud extends Component {
 
       message = "Instruções da word cloud."
 
-      const minFontSize = 5;
-      const maxFontSize = 30;
+      let minFontSize = 5;
+      let maxFontSize = 30;
+
+      if (this.props.categories.length < 10) {
+        minFontSize = maxFontSize
+      }
+
       let obj;
 
       let i;

@@ -51,7 +51,7 @@ class ConnectedNetworkGraphContainer extends Component {
       let targetId = this.props.fragments[this.props.fragmentIndex].interId;
 
       if (this.props.currentFragmentMode) {
-        console.log("NETWoRKGRAPHCONTAINER: CALCULATING NETWORK GRAPH DISTANCES FOR CURRENT FRAGMENT AND NOT!! THE PICKED FRAGMENT %%%%%%%%%%%%%%%%%%%%%")
+        console.log("NETWORKGRAPHCONTAINER: CALCULATING NETWORK GRAPH DISTANCES FOR CURRENT FRAGMENT AND NOT!! THE PICKED FRAGMENT %%%%%%%%%%%%%%%%%%%%%")
         targetId = this.props.recommendationArray[this.props.recommendationIndex].interId;
       }
 

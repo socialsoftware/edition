@@ -11,7 +11,8 @@ import {
   setVisualizationTechnique,
   setPotentialVisualizationTechnique,
   setPotentialSemanticCriteria,
-  setDisplayTextSkimming
+  setDisplayTextSkimming,
+  setHistoryEntryCounter
 } from "./actions/index";
 import {connect} from "react-redux";
 import {Button, ButtonToolbar, Modal} from "react-bootstrap";
@@ -32,6 +33,7 @@ import NetworkGraph from "./components/NetworkGraph";
 import FragmentLoader from "./components/FragmentLoader";
 import SquareGrid from "./components/SquareGrid";
 import MyWordCloud from "./components/MyWordCloud";
+import PublicEditionContainer from "./containers/PublicEditionContainer";
 
 const mapStateToProps = state => {
   return {
@@ -47,7 +49,10 @@ const mapStateToProps = state => {
     semanticCriteria: state.semanticCriteria,
     potentialVisualizationTechnique: state.potentialVisualizationTechnique,
     potentialSemanticCriteria: state.potentialSemanticCriteria,
-    displayTextSkimming: state.displayTextSkimming
+    displayTextSkimming: state.displayTextSkimming,
+    categories: state.categories,
+    history: state.history,
+    datesExist: state.datesExist
   };
 };
 
@@ -63,7 +68,8 @@ const mapDispatchToProps = dispatch => {
     setSemanticCriteria: semanticCriteria => dispatch(setSemanticCriteria(semanticCriteria)),
     setPotentialVisualizationTechnique: potentialVisualizationTechnique => dispatch(setPotentialVisualizationTechnique(potentialVisualizationTechnique)),
     setPotentialSemanticCriteria: potentialSemanticCriteria => dispatch(setPotentialSemanticCriteria(potentialSemanticCriteria)),
-    setDisplayTextSkimming: displayTextSkimming => dispatch(setDisplayTextSkimming(displayTextSkimming))
+    setDisplayTextSkimming: displayTextSkimming => dispatch(setDisplayTextSkimming(displayTextSkimming)),
+    setHistoryEntryCounter: historyEntryCounter => dispatch(setHistoryEntryCounter(historyEntryCounter))
   };
 };
 
@@ -84,10 +90,13 @@ class ConnectedApp extends Component {
       showLandingActivity: false,
       toggleTextSkimming: false,
       toggleUpdateFragmentsReceived: false,
-      showEditionSelection: true
+      showEditionSelection: true,
+      editionsReceived: false,
+      editionSelected: false,
+      currentEdition: ""
     };
 
-    this.landingActivityToRender = <p>Loading fragments...</p>;
+    this.landingActivityToRender = <p>A carregar edições virtuais...</p>;
 
     this.handleShowGlobalView = this.handleShowGlobalView.bind(this);
     this.handleCloseGlobalView = this.handleCloseGlobalView.bind(this);
@@ -101,10 +110,6 @@ class ConnectedApp extends Component {
     this.handleCloseModals = this.handleCloseModals.bind(this);
     this.handleCloseLanding = this.handleCloseLanding.bind(this);
 
-    //recommendationArray
-    this.handleClickPrevious = this.handleClickPrevious.bind(this);
-    this.handleClickNext = this.handleClickNext.bind(this);
-
     //show landing activities
     this.handleShowLandingActivitySquareEditionOrder = this.handleShowLandingActivitySquareEditionOrder.bind(this);
     this.handleShowLandingActivitySquareDateOrder = this.handleShowLandingActivitySquareDateOrder.bind(this);
@@ -115,26 +120,12 @@ class ConnectedApp extends Component {
 
     this.handleToggleFragmentsReceived = this.handleToggleFragmentsReceived.bind(this);
 
-  }
+    this.handleEditionsReceived = this.handleEditionsReceived.bind(this);
 
-  handleClickPrevious() {
-    if (this.props.recommendationIndex === 1) {
-      this.previousFragmentButtonStyle = "default";
-    }
-    if (this.props.recommendationIndex > 0) {
-      this.nextFragmentButtonStyle = "primary";
-      this.props.setRecommendationIndex(this.props.recommendationIndex - 1)
-    }
-  }
+    this.handleEditionSelected = this.handleEditionSelected.bind(this);
 
-  handleClickNext() {
-    if (this.props.recommendationIndex === (this.props.recommendationArray.length - 1)) {
-      this.nextFragmentButtonStyle = "default";
-    }
-    if (this.props.recommendationIndex < this.props.recommendationArray.length - 1) {
-      this.props.setRecommendationIndex(this.props.recommendationIndex + 1)
-      this.previousFragmentButtonStyle = "primary";
-    }
+    this.addNewHistoryEntry = this.addNewHistoryEntry.bind(this);
+
   }
 
   handleCloseModals() {
@@ -215,6 +206,21 @@ class ConnectedApp extends Component {
     console.log("App.js: handleToggleFragmentsReceived");
   }
 
+  handleEditionsReceived() {
+    this.setState({editionsReceived: true});
+    console.log("handleEditionsReceived()");
+  }
+
+  handleEditionSelected(value) {
+    console.log(value);
+    this.setState({editionSelected: true, currentEdition: value});
+  }
+
+  addNewHistoryEntry() {
+    console.log("Adding new history entry from next/previous button");
+
+  }
+
   render() {
     console.log(new Date().getTime() + " App.js: Rendering")
 
@@ -236,28 +242,50 @@ class ConnectedApp extends Component {
       }
     }
 
-    if (this.state.showLandingActivity & (this.props.potentialSemanticCriteria == CRIT_CATEGORY) & this.props.allFragmentsLoaded) {
-      this.landingActivityToRender = (<MyWordCloud onChange={this.handleCloseModals}/>)
-    } else if (this.state.showLandingActivity & this.props.allFragmentsLoaded) {
-      this.landingActivityToRender = (<SquareGrid onChange={this.handleCloseModals}/>)
-    } else if (!this.state.showLandingActivity & this.props.allFragmentsLoaded) {
-      this.landingActivityToRender = (<ButtonToolbar>
+    this.landingActivityToRender = (<PublicEditionContainer onChange={this.handleEditionsReceived} sendSelectedEdition={this.handleEditionSelected}/>)
+    if (this.state.editionsReceived && this.state.editionSelected) {
 
-        <Button bsStyle="primary" bsSize="large" onClick={this.handleShowLandingActivitySquareEditionOrder} block="block">
-          Explorar os fragmentos por ordem desta edição virtual
-        </Button>
+      if (this.state.showLandingActivity & (this.props.potentialSemanticCriteria == CRIT_CATEGORY) & this.props.allFragmentsLoaded) {
+        this.landingActivityToRender = (<MyWordCloud onChange={this.handleCloseModals}/>)
+      } else if (this.state.showLandingActivity & this.props.allFragmentsLoaded) {
+        this.landingActivityToRender = (<SquareGrid onChange={this.handleCloseModals}/>)
+      } else if (!this.state.showLandingActivity & this.props.allFragmentsLoaded) {
+        let categoryButtonStyle = "primary"
+        let categoryButtonFunction = this.handleShowLandingActivityWordCloudCategory;
+        if (this.props.categories.length === 0) {
+          categoryButtonStyle = "secondary";
+          categoryButtonFunction = function() {}
+        }
+        let datesButtonStyle = "primary"
+        let datesButtonFunction = this.handleShowLandingActivitySquareDateOrder;
+        let datesButtonMessage = "Explorar os fragmentos desta edição ordenados por data";
+        if (!this.props.datesExist) {
+          datesButtonStyle = "secondary";
+          datesButtonFunction = function() {}
+          datesButtonMessage = "Explorar os fragmentos desta edição ordenados por data (edição virtual sem datas)"
+        }
+        this.landingActivityToRender = (<div>
+          <p>
+            Esta é a sua primeira actividade. Escolha uma as seguintes opções.
+          </p>
 
-        <Button bsStyle="primary" bsSize="large" onClick={this.handleShowLandingActivitySquareDateOrder} block="block">
-          Explorar os fragmentos desta edição ordenados por data
-        </Button>
+          <ButtonToolbar>
 
-        <Modal.Footer></Modal.Footer>
+            <Button bsStyle="primary" bsSize="large" onClick={this.handleShowLandingActivitySquareEditionOrder} block="block">
+              Explorar os fragmentos por ordem desta edição virtual
+            </Button>
 
-        <Button bsStyle="primary" bsSize="large" onClick={this.handleShowLandingActivityWordCloudCategory} block="block">
-          Explorar os fragmentos desta edição pelas categorias a que pertencem (taxonomia)
-        </Button>
+            <Button bsStyle={datesButtonStyle} bsSize="large" onClick={datesButtonFunction} block="block">
+              {datesButtonMessage}
+            </Button>
 
-      </ButtonToolbar>)
+            <Button bsStyle={categoryButtonStyle} bsSize="large" onClick={categoryButtonFunction} block="block">
+              Explorar os fragmentos desta edição pelas categorias a que pertencem (taxonomia)
+            </Button>
+
+          </ButtonToolbar>
+        </div>)
+      }
     }
 
     let previousNavButton = <div/>;
@@ -314,6 +342,12 @@ class ConnectedApp extends Component {
       </Button>)
     }
 
+    let fragLoader;
+    if (this.state.editionSelected) {
+      fragLoader = <FragmentLoader currentEdition={this.state.currentEdition} toggleTextSkimming={this.state.toggleTextSkimming} onChange={this.handleToggleFragmentsReceived
+}/>
+    }
+
     return (<div className="app">
 
       {buttonToolBarToRender}
@@ -333,9 +367,20 @@ class ConnectedApp extends Component {
         </div>
 
         <div >
-          <FragmentLoader toggleTextSkimming={this.state.toggleTextSkimming} onChange={this.handleToggleFragmentsReceived
-}/>
+          {fragLoader}
         </div>
+
+        <p/>
+
+        <p align="center" style={{
+            color: 'white',
+            fontSize: 12
+          }}>Título da edição virtual seleccionada: {this.state.currentEdition.title}</p>
+
+        <p align="center" style={{
+            color: 'white',
+            fontSize: 12
+          }}>Acrónimo: {this.state.currentEdition.acronym}</p>
 
       </div>
 
@@ -347,9 +392,7 @@ class ConnectedApp extends Component {
         </Modal.Header>
 
         <Modal.Body>
-          <p>
-            Esta é a sua primeira actividade. Escolha uma as seguintes opções.
-          </p>
+
           <div className="landing-activity-style">{this.landingActivityToRender}</div>
         </Modal.Body>
 
