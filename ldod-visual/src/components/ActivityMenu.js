@@ -63,6 +63,8 @@ class ConnectedActivityMenu extends Component {
 
     this.toggleSquareGridEditionOrder = this.toggleSquareGridEditionOrder.bind(this);
 
+    this.toggleSquareGridHeteronym = this.toggleSquareGridHeteronym.bind(this);
+
     this.toggleSquareGridDateOrder = this.toggleSquareGridDateOrder.bind(this);
 
     this.toggleWordCloudTaxonomy = this.toggleWordCloudTaxonomy.bind(this);
@@ -144,12 +146,27 @@ class ConnectedActivityMenu extends Component {
     }
   }
 
+  toggleSquareGridHeteronym() {
+
+    this.props.setPotentialVisualizationTechnique(VIS_SQUARE_GRID);
+    this.props.setPotentialSemanticCriteria(CRIT_HETERONYM);
+    this.activityToRender = (<SquareGrid onChange={this.props.onChange}/>);
+    this.setState(prevState => ({
+      show: !prevState.show
+    }));
+  }
+
   render() {
 
     if (this.state.show) {
       let categoryButtonStyle = "primary"
       if (this.props.categories.length === 0) {
         categoryButtonStyle = "secondary";
+      }
+
+      let heteronymButtonStyle = "primary"
+      if (this.props.recommendationArray[this.props.recommendationIndex].meta.heteronym.length == 0) {
+        heteronymButtonStyle = "secondary";
       }
 
       this.activityToRender = (<div>
@@ -182,6 +199,10 @@ class ConnectedActivityMenu extends Component {
 
           <Button bsStyle="primary" bsSize="large" onClick={this.toggleSquareGridDateOrder} block="block">
             Explorar os fragmentos desta edição ordenados por data
+          </Button>
+
+          <Button bsStyle={heteronymButtonStyle} bsSize="large" onClick={this.toggleSquareGridHeteronym} block="block">
+            Explorar mais fragmentos assinados pelo mesmo heterónimo ({this.props.recommendationArray[this.props.recommendationIndex].meta.heteronym})
           </Button>
 
           <Modal.Footer></Modal.Footer>

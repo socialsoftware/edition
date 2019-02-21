@@ -363,6 +363,18 @@ class ConnectedApp extends Component {
           {fragLoader}
         </div>
 
+        <p/>
+
+        <p align="center" style={{
+            color: 'white',
+            fontSize: 12
+          }}>Título da edição virtual seleccionada: {this.state.currentEdition.title}</p>
+
+        <p align="center" style={{
+            color: 'white',
+            fontSize: 12
+          }}>Acrónimo: {this.state.currentEdition.acronym}</p>
+
       </div>
 
       <Modal show={this.state.showLanding} dialogClassName="custom-modal">
