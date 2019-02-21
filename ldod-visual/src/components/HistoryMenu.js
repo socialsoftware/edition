@@ -169,7 +169,7 @@ class ConnectedHistoryMenu extends Component {
 
     return (<div className="historyMenu">
       <p>
-        Timeline.
+        Nesta cronologia, poderá consultar o seu caminho na leitura da edição virtual do Livro do Desassossego que seleccionou. Basta clicar num dos títulos do fragmentos para retornar ao mesmo bem como a actividade pela qual chegou a esse fragmento.
       </p>
       {jsxToRender}
     </div>);

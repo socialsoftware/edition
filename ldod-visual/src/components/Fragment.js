@@ -13,7 +13,8 @@ const mapStateToProps = state => {
     recommendationArray: state.recommendationArray,
     recommendationIndex: state.recommendationIndex,
     recommendationLoaded: state.recommendationLoaded,
-    displayTextSkimming: state.displayTextSkimming
+    displayTextSkimming: state.displayTextSkimming,
+    datesExist: state.datesExist
   };
 };
 
@@ -44,6 +45,9 @@ export class ConnectedFragment extends React.Component {
     let stringArray;
 
     if (this.props.allFragmentsLoaded && this.props.outOfLandingPage && this.props.recommendationLoaded) {
+
+      console.log("XPTZ DATE: " + this.props.recommendationArray[this.props.recommendationIndex].meta.date);
+      console.log("XPTZ DATE EXISTS: " + this.props.datesExist)
 
       if (this.props.toggleTextSkimming) {
         console.log("Fragment.js: => app.js wants toggleTextSkimming active!");

@@ -168,6 +168,7 @@ class ConnectedFragmentLoader extends React.Component {
         if (unorderedFragments.length > 0) {
 
           this.props.setDatesExist(true);
+
           unorderedFragments.sort((frag1, frag2) => {
             let date1 = frag1.meta.date.split('-');
             let date2 = frag2.meta.date.split('-');

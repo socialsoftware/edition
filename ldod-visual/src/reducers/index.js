@@ -183,6 +183,11 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         history: action.payload
       };
+    case SET_DATES_EXIST:
+      return {
+        ...state,
+        datesExist: action.payload
+      };
     default:
       return state;
   }
