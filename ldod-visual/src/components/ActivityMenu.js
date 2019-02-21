@@ -95,12 +95,15 @@ class ConnectedActivityMenu extends Component {
 
     if (this.props.datesExist) {
 
-      this.props.setPotentialVisualizationTechnique(VIS_NETWORK_GRAPH);
-      this.props.setPotentialSemanticCriteria(CRIT_CHRONOLOGICAL_ORDER);
-      this.activityToRender = (<NetworkGraphContainer onChange={this.props.onChange}/>);
-      this.setState(prevState => ({
-        show: !prevState.show
-      }));
+      if (this.props.recommendationArray[this.props.recommendationIndex].meta.date !== null) {
+
+        this.props.setPotentialVisualizationTechnique(VIS_NETWORK_GRAPH);
+        this.props.setPotentialSemanticCriteria(CRIT_CHRONOLOGICAL_ORDER);
+        this.activityToRender = (<NetworkGraphContainer onChange={this.props.onChange}/>);
+        this.setState(prevState => ({
+          show: !prevState.show
+        }));
+      }
     }
   }
 
@@ -182,12 +185,20 @@ class ConnectedActivityMenu extends Component {
       let datesButtonStyle = "primary"
       let datesButtonFunction = this.toggleSquareGridDateOrder;
       let datesButtonMessage = "Explorar os fragmentos desta edição ordenados por data";
+
       let datesSimilarButtonMessage = "Ler fragmentos semelhantes a este por data"
+      let datesSimilarButtonStyle = "primary"
+
       if (!this.props.datesExist) {
         datesButtonStyle = "secondary";
+        datesSimilarButtonStyle = "secondary";
         datesButtonFunction = function() {}
         datesButtonMessage = "Explorar os fragmentos desta edição ordenados por data (edição virtual sem datas)"
         datesSimilarButtonMessage = "Ler fragmentos semelhantes a este por data (edição virtual sem datas)"
+      }
+      if (this.props.recommendationArray[this.props.recommendationIndex].meta.date == null) {
+        datesSimilarButtonMessage = "Ler fragmentos semelhantes a este por data (fragmento actual sem datas)"
+        datesSimilarButtonStyle = "secondary";
       }
 
       this.activityToRender = (<div>
@@ -200,7 +211,7 @@ class ConnectedActivityMenu extends Component {
             Ler fragmentos semelhantes a este por semelhança de texto
           </Button>
 
-          <Button bsStyle={datesButtonStyle} bsSize="large" onClick={this.toggleActivityNetworkGraphDate} block="block">
+          <Button bsStyle={datesSimilarButtonStyle} bsSize="large" onClick={this.toggleActivityNetworkGraphDate} block="block">
             {datesSimilarButtonMessage}
           </Button>
 
