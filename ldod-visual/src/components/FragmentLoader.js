@@ -11,7 +11,8 @@ import {
   setPotentialSemanticCriteriaData,
   setFragmentsSortedByDate,
   setCategories,
-  setHistory
+  setHistory,
+  setDatesExist
 } from "../actions/index";
 import {connect} from "react-redux";
 import HashMap from "hashmap";
@@ -59,7 +60,8 @@ const mapDispatchToProps = dispatch => {
     setPotentialSemanticCriteriaData: potentialSemanticCriteriaData => dispatch(setPotentialSemanticCriteriaData(potentialSemanticCriteriaData)),
     setFragmentsSortedByDate: fragmentsSortedByDate => dispatch(setFragmentsSortedByDate(fragmentsSortedByDate)),
     setCategories: categories => dispatch(setCategories(categories)),
-    setHistory: history => dispatch(setHistory(history))
+    setHistory: history => dispatch(setHistory(history)),
+    setDatesExist: datesExist => dispatch(setDatesExist(datesExist))
   };
 };
 
@@ -165,6 +167,7 @@ class ConnectedFragmentLoader extends React.Component {
 
         if (unorderedFragments.length > 0) {
 
+          this.props.setDatesExist(true);
           unorderedFragments.sort((frag1, frag2) => {
             let date1 = frag1.meta.date.split('-');
             let date2 = frag2.meta.date.split('-');

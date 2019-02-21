@@ -23,6 +23,7 @@ import {SET_CATEGORIES} from "../constants/action-types";
 import {SET_CURRENT_CATEGORY} from "../constants/action-types";
 import {SET_POTENTIAL_CATEGORY} from "../constants/action-types";
 import {SET_HISTORY} from "../constants/action-types";
+import {SET_DATES_EXIST} from "../constants/action-types";
 
 const initialState = {
   fragments: [],
@@ -48,7 +49,8 @@ const initialState = {
   displayTextSkimming: false,
   categories: [],
   currentCategory: [],
-  potentialCategory: []
+  potentialCategory: [],
+  datesExist: false
 };
 
 const rootReducer = (state = initialState, action) => {

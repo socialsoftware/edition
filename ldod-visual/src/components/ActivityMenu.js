@@ -40,7 +40,8 @@ const mapStateToProps = state => {
     recommendationIndex: state.recommendationIndex,
     recommendationLoaded: state.recommendationLoaded,
     displayTextSkimming: state.displayTextSkimming,
-    categories: state.categories
+    categories: state.categories,
+    datesExist: state.datesExist
   };
 };
 
@@ -92,12 +93,15 @@ class ConnectedActivityMenu extends Component {
 
   toggleActivityNetworkGraphDate() {
 
-    this.props.setPotentialVisualizationTechnique(VIS_NETWORK_GRAPH);
-    this.props.setPotentialSemanticCriteria(CRIT_CHRONOLOGICAL_ORDER);
-    this.activityToRender = (<NetworkGraphContainer onChange={this.props.onChange}/>);
-    this.setState(prevState => ({
-      show: !prevState.show
-    }));
+    if (this.props.datesExist) {
+
+      this.props.setPotentialVisualizationTechnique(VIS_NETWORK_GRAPH);
+      this.props.setPotentialSemanticCriteria(CRIT_CHRONOLOGICAL_ORDER);
+      this.activityToRender = (<NetworkGraphContainer onChange={this.props.onChange}/>);
+      this.setState(prevState => ({
+        show: !prevState.show
+      }));
+    }
   }
 
   toggleActivityNetworkGraphTaxonomy() {
@@ -148,29 +152,46 @@ class ConnectedActivityMenu extends Component {
 
   toggleSquareGridHeteronym() {
 
-    this.props.setPotentialVisualizationTechnique(VIS_SQUARE_GRID);
-    this.props.setPotentialSemanticCriteria(CRIT_HETERONYM);
-    this.activityToRender = (<SquareGrid onChange={this.props.onChange}/>);
-    this.setState(prevState => ({
-      show: !prevState.show
-    }));
+    if (this.props.recommendationArray[this.props.recommendationIndex].meta.heteronym) {
+
+      this.props.setPotentialVisualizationTechnique(VIS_SQUARE_GRID);
+      this.props.setPotentialSemanticCriteria(CRIT_HETERONYM);
+      this.activityToRender = (<SquareGrid onChange={this.props.onChange}/>);
+      this.setState(prevState => ({
+        show: !prevState.show
+      }));
+    }
   }
 
   render() {
 
     if (this.state.show) {
+
       let categoryButtonStyle = "primary"
       if (this.props.categories.length === 0) {
         categoryButtonStyle = "secondary";
       }
 
-      let heteronymButtonStyle = "primary"
-      if (this.props.recommendationArray[this.props.recommendationIndex].meta.heteronym.length == 0) {
-        heteronymButtonStyle = "secondary";
+      let heteronymButtonStyle = "secondary";
+      let myHeteronym = "heterónimo não disponível para este fragmento";
+      if (this.props.recommendationArray[this.props.recommendationIndex].meta.heteronym) {
+        heteronymButtonStyle = "primary";
+        myHeteronym = this.props.recommendationArray[this.props.recommendationIndex].meta.heteronym;
+      }
+
+      let datesButtonStyle = "primary"
+      let datesButtonFunction = this.toggleSquareGridDateOrder;
+      let datesButtonMessage = "Explorar os fragmentos desta edição ordenados por data";
+      let datesSimilarButtonMessage = "Ler fragmentos semelhantes a este por data"
+      if (!this.props.datesExist) {
+        datesButtonStyle = "secondary";
+        datesButtonFunction = function() {}
+        datesButtonMessage = "Explorar os fragmentos desta edição ordenados por data (edição virtual sem datas)"
+        datesSimilarButtonMessage = "Ler fragmentos semelhantes a este por data (edição virtual sem datas)"
       }
 
       this.activityToRender = (<div>
-        <p>Caso tenha seleccionado uma edição virtual sem taxonomia, ou categorias, não será possível realizar actividades que dependem das mesmas, que estarão devidamente assinaladas a cinzento.
+        <p>Caso tenha seleccionado uma edição virtual sem taxonomia, ou categorias, não será possível realizar actividades que dependem das mesmas, que estarão devidamente assinaladas a cinzento. O mesmo se aplicará para a ausência de datas ou se o fragmento que está a ler actualmente não for assinado por qualquer heterónimo - as actividades em torno dessa informação estarão indisponíveis.
         </p>
 
         <ButtonToolbar>
@@ -179,33 +200,25 @@ class ConnectedActivityMenu extends Component {
             Ler fragmentos semelhantes a este por semelhança de texto
           </Button>
 
-          <Button bsStyle="primary" bsSize="large" onClick={this.toggleActivityNetworkGraphHeteronym} block="block">
-            Ler fragmentos semelhantes a este por heterónimo
-          </Button>
-
-          <Button bsStyle="primary" bsSize="large" onClick={this.toggleActivityNetworkGraphDate} block="block">
-            Ler fragmentos semelhantes a este por data
+          <Button bsStyle={datesButtonStyle} bsSize="large" onClick={this.toggleActivityNetworkGraphDate} block="block">
+            {datesSimilarButtonMessage}
           </Button>
 
           <Button bsStyle={categoryButtonStyle} bsSize="large" onClick={this.toggleActivityNetworkGraphTaxonomy} block="block">
             Ler fragmentos semelhantes a este por taxonomia
           </Button>
 
-          <Modal.Footer></Modal.Footer>
-
           <Button bsStyle="primary" bsSize="large" onClick={this.toggleSquareGridEditionOrder} block="block">
             Explorar os fragmentos por ordem desta edição virtual
           </Button>
 
-          <Button bsStyle="primary" bsSize="large" onClick={this.toggleSquareGridDateOrder} block="block">
-            Explorar os fragmentos desta edição ordenados por data
+          <Button bsStyle={datesButtonStyle} bsSize="large" onClick={datesButtonFunction} block="block">
+            {datesButtonMessage}
           </Button>
 
           <Button bsStyle={heteronymButtonStyle} bsSize="large" onClick={this.toggleSquareGridHeteronym} block="block">
-            Explorar mais fragmentos assinados pelo mesmo heterónimo ({this.props.recommendationArray[this.props.recommendationIndex].meta.heteronym})
+            Explorar mais fragmentos assinados pelo mesmo heterónimo ({myHeteronym})
           </Button>
-
-          <Modal.Footer></Modal.Footer>
 
           <Button bsStyle={categoryButtonStyle} bsSize="large" onClick={this.toggleWordCloudTaxonomy} block="block">
             Explorar os fragmentos desta edição pelas categorias a que pertencem (taxonomia)
@@ -221,6 +234,11 @@ class ConnectedActivityMenu extends Component {
 
   }
 }
+
+//<Modal.Footer></Modal.Footer>
+// <Button bsStyle="primary" bsSize="large" onClick={this.toggleActivityNetworkGraphHeteronym} block="block">
+//   Ler fragmentos semelhantes a este por heterónimo
+// </Button>
 
 const ActivityMenu = connect(mapStateToProps, mapDispatchToProps)(ConnectedActivityMenu);
 

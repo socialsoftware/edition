@@ -23,6 +23,7 @@ import {SET_CATEGORIES} from "../constants/action-types";
 import {SET_CURRENT_CATEGORY} from "../constants/action-types";
 import {SET_POTENTIAL_CATEGORY} from "../constants/action-types";
 import {SET_HISTORY} from "../constants/action-types";
+import {SET_DATES_EXIST} from "../constants/action-types";
 
 export const addFragment = fragment => ({type: ADD_FRAGMENT, payload: fragment});
 
@@ -73,3 +74,5 @@ export const setCurrentCategory = currentCategory => ({type: SET_CURRENT_CATEGOR
 export const setPotentialCategory = potentialCategory => ({type: SET_POTENTIAL_CATEGORY, payload: potentialCategory});
 
 export const setHistory = history => ({type: SET_HISTORY, payload: history});
+
+export const setDatesExist = datesExist => ({type: SET_DATES_EXIST, payload: datesExist});

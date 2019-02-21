@@ -51,7 +51,8 @@ const mapStateToProps = state => {
     potentialSemanticCriteria: state.potentialSemanticCriteria,
     displayTextSkimming: state.displayTextSkimming,
     categories: state.categories,
-    history: state.history
+    history: state.history,
+    datesExist: state.datesExist
   };
 };
 
@@ -255,6 +256,14 @@ class ConnectedApp extends Component {
           categoryButtonStyle = "secondary";
           categoryButtonFunction = function() {}
         }
+        let datesButtonStyle = "primary"
+        let datesButtonFunction = this.handleShowLandingActivitySquareDateOrder;
+        let datesButtonMessage = "Explorar os fragmentos desta edição ordenados por data";
+        if (!this.props.datesExist) {
+          datesButtonStyle = "secondary";
+          datesButtonFunction = function() {}
+          datesButtonMessage = "Explorar os fragmentos desta edição ordenados por data (edição virtual sem datas)"
+        }
         this.landingActivityToRender = (<div>
           <p>
             Esta é a sua primeira actividade. Escolha uma as seguintes opções.
@@ -266,11 +275,9 @@ class ConnectedApp extends Component {
               Explorar os fragmentos por ordem desta edição virtual
             </Button>
 
-            <Button bsStyle="primary" bsSize="large" onClick={this.handleShowLandingActivitySquareDateOrder} block="block">
-              Explorar os fragmentos desta edição ordenados por data
+            <Button bsStyle={datesButtonStyle} bsSize="large" onClick={datesButtonFunction} block="block">
+              {datesButtonMessage}
             </Button>
-
-            <Modal.Footer></Modal.Footer>
 
             <Button bsStyle={categoryButtonStyle} bsSize="large" onClick={categoryButtonFunction} block="block">
               Explorar os fragmentos desta edição pelas categorias a que pertencem (taxonomia)

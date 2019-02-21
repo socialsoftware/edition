@@ -260,8 +260,8 @@ class ConnectedNetworkGraph extends Component {
 
       //purple
       if (!this.props.currentFragmentMode && this.props.graphData[i].interId === this.props.recommendationArray[this.props.recommendationIndex].interId) {
-        nodeBorderColor = "#DC143C"
-        nodeBackgroundColor = "#FF7F50"
+        nodeBorderColor = "#4B0082";
+        nodeBackgroundColor = "#8A2BE2";
       }
 
       obj = {
