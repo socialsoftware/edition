@@ -653,7 +653,6 @@ public class VirtualEdition extends VirtualEdition_Base {
 		for (VirtualEditionInter inter : inters) {
 			recommendedEdition.add(new InterDistancePairDto(inter,
 					recommender.calculateSimilarity(virtualEditionInter, inter, properties)));
-
 		}
 
 		return recommendedEdition.stream().sorted((p1, p2) -> Double.compare(p1.getDistance(), p2.getDistance()))
