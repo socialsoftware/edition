@@ -28,13 +28,11 @@ import pt.ist.socialsoftware.edition.ldod.TestLoadUtils;
 import pt.ist.socialsoftware.edition.ldod.config.Application;
 import pt.ist.socialsoftware.edition.ldod.controller.AdminController;
 import pt.ist.socialsoftware.edition.ldod.controller.LdoDExceptionHandler;
-import pt.ist.socialsoftware.edition.ldod.domain.Edition;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
-import pt.ist.socialsoftware.edition.ldod.domain.Role;
+import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.export.UsersXMLExport;
 import pt.ist.socialsoftware.edition.ldod.filters.TransactionFilter;
 import pt.ist.socialsoftware.edition.ldod.forms.EditUserForm;
+import pt.ist.socialsoftware.edition.ldod.loaders.VirtualEditionsTEICorpusImport;
 import pt.ist.socialsoftware.edition.ldod.utils.Bootstrap;
 import pt.ist.socialsoftware.edition.ldod.utils.PropertiesManager;
 
@@ -515,6 +513,62 @@ public class AdminTest {
                     .andExpect(content().contentType("application/zip"));
     }
 
+
+    @Test
+    @Atomic(mode = Atomic.TxMode.WRITE)
+    public void loadVirtualEditionCorpusTest() throws Exception {
+
+        File directory = new File(PropertiesManager.getProperties().getProperty("test.files.dir"));
+
+        File corpus = new File(directory,"virtual-corpus.xml");
+        FileInputStream fis1 = new FileInputStream(corpus);
+        MockMultipartFile mockFile1 = new MockMultipartFile("mockFile1",fis1);
+
+        this.mockMvc.perform(multipart("/admin/load/virtual-corpus")
+                .file("file",mockFile1.getBytes())
+                .characterEncoding("UTF-8"))
+                .andDo(print())
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/admin/loadForm"));
+
+        assertNotNull(LdoD.getInstance().getVirtualEdition("LdoD-Teste"));
+
+    }
+
+    @Test
+    @Atomic(mode = Atomic.TxMode.WRITE)
+    public void loadVirtualEditionFragmentsTest() throws Exception {
+
+
+        // load original frags and corpus
+        TestLoadUtils.loadCorpus();
+        String[] fragments = {"001.xml"};
+        TestLoadUtils.loadFragments(fragments);
+
+        File directory = new File(PropertiesManager.getProperties().getProperty("test.files.dir"));
+
+        // load corpus file and import
+        File corpus = new File(directory,"virtual-corpus.xml");
+        FileInputStream fis1 = new FileInputStream(corpus);
+
+        VirtualEditionsTEICorpusImport loader = new VirtualEditionsTEICorpusImport();
+
+        loader.importVirtualEditionsCorpus(fis1);
+
+        // load virtual fragment for mocking
+        File frag1 = new File(directory, "virtual-Fr001.xml");
+        FileInputStream fisfrag = new FileInputStream(frag1);
+        MockMultipartFile mockFrag1 = new MockMultipartFile("frag1",fisfrag);
+
+        this.mockMvc.perform(multipart("/admin/load/virtual-fragments")
+                .file("files", mockFrag1.getBytes())
+                .characterEncoding("UTF-8"))
+                .andDo(print())
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/admin/loadForm"));
+
+        assertNotEquals(0, LdoD.getInstance().getVirtualEdition("LdoD-Teste").getIntersSet().size());
+    }
 
     @Test
     @Atomic(mode = Atomic.TxMode.WRITE)

@@ -1,17 +1,21 @@
 package pt.ist.socialsoftware.edition.ldod.controller.fragment;
 
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.hasProperty;
-import static org.hamcrest.Matchers.notNullValue;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.hamcrest.Matchers.*;
+import static org.mockito.ArgumentMatchers.anyList;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.*;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -20,6 +24,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -30,9 +36,14 @@ import pt.ist.socialsoftware.edition.ldod.TestLoadUtils;
 import pt.ist.socialsoftware.edition.ldod.config.Application;
 import pt.ist.socialsoftware.edition.ldod.controller.FragmentController;
 import pt.ist.socialsoftware.edition.ldod.controller.LdoDExceptionHandler;
-import pt.ist.socialsoftware.edition.ldod.domain.FragInter;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
+import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.filters.TransactionFilter;
+import pt.ist.socialsoftware.edition.ldod.loaders.VirtualEditionFragmentsTEIImport;
+import pt.ist.socialsoftware.edition.ldod.loaders.VirtualEditionsTEICorpusImport;
+import pt.ist.socialsoftware.edition.ldod.utils.AnnotationDTO;
+import pt.ist.socialsoftware.edition.ldod.utils.PermissionDTO;
+import pt.ist.socialsoftware.edition.ldod.utils.PropertiesManager;
+import pt.ist.socialsoftware.edition.ldod.utils.RangeJson;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = Application.class)
@@ -50,6 +61,8 @@ public class FragmentTest {
 
 		String[] fragments = { "001.xml", "002.xml", "003.xml" };
 		TestLoadUtils.loadFragments(fragments);
+
+		TestLoadUtils.loadTestVirtualEdition();
 	}
 
 	@AfterAll
@@ -102,7 +115,7 @@ public class FragmentTest {
 		FragInter fragInter = LdoD.getInstance().getFragmentByXmlId("Fr001")
 				.getFragInterByUrlId("Fr001_WIT_MS_Fr001a_1");
 
-		this.mockMvc.perform(get("/fragments/fragment//inter/{externalId}", fragInter.getExternalId())).andDo(print())
+		this.mockMvc.perform(get("/fragments/fragment/inter/{externalId}", fragInter.getExternalId())).andDo(print())
 				.andExpect(status().is3xxRedirection()).andExpect(redirectedUrl("/fragments/fragment/"
 						+ fragInter.getFragment().getXmlId() + "/inter/" + fragInter.getUrlId()));
 	}
@@ -110,7 +123,7 @@ public class FragmentTest {
 	@Test
 	@Atomic(mode = Atomic.TxMode.WRITE)
 	public void getFragInterByExternalIdError() throws Exception {
-		this.mockMvc.perform(get("/fragments/fragment//inter/{externalId}", "ERROR")).andDo(print())
+		this.mockMvc.perform(get("/fragments/fragment/inter/{externalId}", "ERROR")).andDo(print())
 				.andExpect(status().is3xxRedirection()).andExpect(redirectedUrl("/error"));
 	}
 
@@ -119,6 +132,259 @@ public class FragmentTest {
 	public void getFragmentErrorId() throws Exception {
 		this.mockMvc.perform(get("/fragments/fragment/{xmlId}", "ERROR")).andDo(print())
 				.andExpect(status().is3xxRedirection()).andExpect(redirectedUrl("/error"));
+	}
+
+
+	@Test
+	@Atomic(mode = Atomic.TxMode.WRITE)
+	@WithUserDetails("ars")
+	public void getFragInterTaxonomyTest() throws Exception {
+
+		Set<FragInter> fragInterSet = LdoD.getInstance().getVirtualEdition("LdoD-Teste").getIntersSet();
+
+		List<FragInter> frags = new ArrayList<>(fragInterSet);
+
+		FragInter fragInter = frags.get(0);
+
+		this.mockMvc.perform(get("/fragments/fragment/inter/{externalId}/taxonomy",fragInter.getExternalId()))
+				.andDo(print())
+				.andExpect(status().isOk())
+				.andExpect(view().name("fragment/taxonomy"))
+				.andExpect(model().attribute("ldoD", notNullValue()))
+				.andExpect(model().attribute("user", notNullValue()))
+				.andExpect(model().attribute("inters", notNullValue()));
+
+	}
+
+	@Test
+	@Atomic(mode = TxMode.WRITE)
+	@WithUserDetails("ars")
+	public void getInterTest() throws Exception {
+
+		Fragment frag = LdoD.getInstance().getFragmentByXmlId("Fr001");
+
+		this.mockMvc.perform(get("/fragments/fragment/inter")
+				.param("fragment", frag.getExternalId()))
+				.andDo(print())
+				.andExpect(status().isOk())
+				.andExpect(view().name("fragment/main"))
+				.andExpect(model().attribute("ldoD",notNullValue()))
+				.andExpect(model().attribute("fragment",notNullValue()))
+				.andExpect(model().attribute("user",notNullValue()))
+				.andExpect(model().attribute("inters",notNullValue()));
+
+	}
+
+	@Test
+	@Atomic(mode = TxMode.WRITE)
+	public void getInterEditorialTest() throws Exception {
+
+		FragInter fragInter = LdoD.getInstance().getFragmentByXmlId("Fr001")
+				.getFragInterByUrlId("Fr001_WIT_MS_Fr001a_1");
+
+		this.mockMvc.perform(get("/fragments/fragment/inter/editorial")
+				.param("interp[]", fragInter.getExternalId())
+				.param("diff", "true"))
+				.andDo(print())
+				.andExpect(status().isOk())
+				.andExpect(view().name("fragment/transcription"))
+				.andExpect(model().attribute("inters",hasSize(1)))
+				.andExpect(model().attribute("writer",notNullValue()));
+
+	}
+
+	@Test
+	@Atomic(mode = TxMode.WRITE)
+	public void getInterAuthorialTest() throws Exception {
+
+		FragInter fragInter = LdoD.getInstance().getFragmentByXmlId("Fr001")
+				.getFragInterByUrlId("Fr001_WIT_MS_Fr001a_1");
+
+		this.mockMvc.perform(get("/fragments/fragment/inter/authorial")
+				.param("interp[]", fragInter.getExternalId())
+				.param("diff", "true")
+				.param("del", "true")
+				.param("ins", "true")
+				.param("subst", "true")
+				.param("notes", "true")
+				.param("facs", "true"))
+				.andDo(print())
+				.andExpect(status().isOk())
+				.andExpect(view().name("fragment/facsimile"))
+				.andExpect(model().attribute("inters",hasSize(1)))
+				.andExpect(model().attribute("surface",notNullValue()))
+				.andExpect(model().attribute("prevsurface",nullValue()))
+				.andExpect(model().attribute("nextsurface",nullValue()))
+				.andExpect(model().attribute("prevpb",nullValue()))
+				.andExpect(model().attribute("nextpb",nullValue()))
+				.andExpect(model().attribute("writer",notNullValue()));
+
+	}
+
+	@Test
+	@Atomic(mode = TxMode.WRITE)
+	public void getInterAuthorialNoFacsTest() throws Exception {
+
+		FragInter fragInter = LdoD.getInstance().getFragmentByXmlId("Fr001")
+				.getFragInterByUrlId("Fr001_WIT_MS_Fr001a_1");
+
+		this.mockMvc.perform(get("/fragments/fragment/inter/authorial")
+				.param("interp[]", fragInter.getExternalId())
+				.param("diff", "true")
+				.param("del", "true")
+				.param("ins", "true")
+				.param("subst", "true")
+				.param("notes", "true")
+				.param("facs", "false"))
+				.andDo(print())
+				.andExpect(status().isOk())
+				.andExpect(view().name("fragment/transcription"))
+				.andExpect(model().attribute("inters",hasSize(1)))
+				.andExpect(model().attribute("surface",nullValue()))
+				.andExpect(model().attribute("prevsurface",nullValue()))
+				.andExpect(model().attribute("nextsurface",nullValue()))
+				.andExpect(model().attribute("prevpb",nullValue()))
+				.andExpect(model().attribute("nextpb",nullValue()))
+				.andExpect(model().attribute("writer",notNullValue()));
+
+	}
+
+	@Test
+	@Atomic(mode = TxMode.WRITE)
+	public void getInterCompareTest() throws Exception {
+
+		FragInter fragInter = LdoD.getInstance().getFragmentByXmlId("Fr001")
+				.getFragInterByUrlId("Fr001_WIT_MS_Fr001a_1");
+
+		this.mockMvc.perform(get("/fragments/fragment/inter/compare")
+				.param("inters[]", fragInter.getExternalId())
+				.param("spaces", "true")
+				.param("line", "false"))
+				.andDo(print())
+				.andExpect(status().isOk())
+				.andExpect(view().name("fragment/inter2CompareSideBySide"))
+				.andExpect(model().attribute("fragment", notNullValue()))
+				.andExpect(model().attribute("lineByLine", is(false)))
+				.andExpect(model().attribute("inters", hasSize(1)))
+				.andExpect(model().attribute("writer", notNullValue()));
+
+	}
+
+	@Test
+	@Atomic(mode = TxMode.WRITE)
+	public void searchAnnotationsTest() throws Exception {
+
+		Set<FragInter> fragInterSet = LdoD.getInstance().getVirtualEdition("LdoD-Teste").getIntersSet();
+
+		List<FragInter> frags = new ArrayList<>(fragInterSet);
+
+		FragInter fragInter = frags.get(0);
+
+		String response = this.mockMvc.perform(get("/fragments/fragment/search")
+					.param("limit", "2")
+					.param("uri", fragInter.getExternalId()))
+					.andDo(print())
+					.andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
+
+		ObjectMapper mapper = new ObjectMapper();
+
+		Map<String,Object> map = new HashMap<>();
+
+		map = mapper.readValue(response, new TypeReference<Map<String, Object>>(){});
+
+		assertEquals(0, map.get("total"));
+	}
+
+
+	@Test
+	@Atomic(mode = TxMode.WRITE)
+	@WithUserDetails("ars")
+	public void createAnnotationTest() throws Exception {
+
+        Set<FragInter> fragInterSet = LdoD.getInstance().getVirtualEdition("LdoD-Teste").getIntersSet();
+
+        List<FragInter> frags = new ArrayList<>(fragInterSet);
+
+        FragInter fragInter = frags.get(0);
+
+	    LdoD ldod = LdoD.getInstance();
+
+		// create permissionDTO
+        VirtualEdition ve = ldod.getArchiveEdition();
+        LdoDUser user = ldod.getUser("ars");
+
+        PermissionDTO permissionDTO = new PermissionDTO(ve,user);
+
+		// create annotationDTO
+
+        AnnotationDTO annotationDTO = new AnnotationDTO();
+        annotationDTO.setPermissions(permissionDTO);
+        annotationDTO.setUri(fragInter.getExternalId());
+        annotationDTO.setQuote("A arte é um esquivar-se a agir");
+        annotationDTO.setText("Interesting");
+        annotationDTO.setUser("ars");
+
+		RangeJson rj = new RangeJson();
+		rj.setStart("/div[1]/div[1]/p[3]");
+		rj.setStartOffset(3);
+		rj.setEnd("/div[1]/div[1]/p[3]");
+		rj.setEndOffset(7);
+
+		List<RangeJson> list = new ArrayList<>();
+		list.add(rj);
+
+        annotationDTO.setRanges(list);
+        annotationDTO.setTags(Arrays.asList("tag1","tag2"));
+
+		// send request to mock
+		this.mockMvc.perform(post("/fragments/fragment/annotations")
+				.contentType(MediaType.APPLICATION_JSON_UTF8)
+				.content(TestLoadUtils.jsonBytes(annotationDTO)))
+				.andDo(print())
+				.andExpect(status().isCreated());
+	}
+
+	@Test
+	@Atomic(mode = TxMode.WRITE)
+	@WithUserDetails("ars")
+	public void getAnnotationTest() throws Exception {
+
+		Set<FragInter> fragInterSet = LdoD.getInstance().getVirtualEdition("LdoD-Teste").getIntersSet();
+
+		List<FragInter> frags = new ArrayList<>(fragInterSet);
+
+		VirtualEditionInter fragInter = (VirtualEditionInter) frags.get(0);
+
+		LdoDUser user = LdoD.getInstance().getUser("ars");
+
+		RangeJson rj = new RangeJson();
+		rj.setStart("/div[1]/div[1]/p[3]");
+		rj.setStartOffset(3);
+		rj.setEnd("/div[1]/div[1]/p[3]");
+		rj.setEndOffset(7);
+
+		List<RangeJson> list = new ArrayList<>();
+		list.add(rj);
+
+		fragInter.createHumanAnnotation("A arte é um esquivar-se a agir","Interesting",user,
+				list,Arrays.asList("tag1","tag2"));
+
+		Annotation a = new ArrayList<>(fragInter.getAllDepthHumanAnnotations()).get(0);
+
+		this.mockMvc.perform(get("/fragments/fragment/annotations/{id}", a.getExternalId()))
+					.andDo(print())
+					.andExpect(status().isOk());
+	}
+
+	@Test
+	@Atomic(mode = TxMode.WRITE)
+	@WithUserDetails("ars")
+	public void getAnnotationNotFoundTest() throws Exception{
+
+		this.mockMvc.perform(get("/fragments/fragment/annotations/{id}", "ERROR"))
+				.andDo(print())
+				.andExpect(status().isNotFound());
+
 	}
 
 }
