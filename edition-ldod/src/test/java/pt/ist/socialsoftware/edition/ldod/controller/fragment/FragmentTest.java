@@ -16,10 +16,7 @@ import java.util.*;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -61,8 +58,6 @@ public class FragmentTest {
 
 		String[] fragments = { "001.xml", "002.xml", "003.xml" };
 		TestLoadUtils.loadFragments(fragments);
-
-		TestLoadUtils.loadTestVirtualEdition();
 	}
 
 	@AfterAll
@@ -72,9 +67,20 @@ public class FragmentTest {
 	}
 
 	@BeforeEach
+	@Atomic(mode = TxMode.WRITE)
 	public void setUp() throws FileNotFoundException {
 		this.mockMvc = MockMvcBuilders.standaloneSetup(this.fragmentController)
 				.setControllerAdvice(new LdoDExceptionHandler()).addFilters(new TransactionFilter()).build();
+
+		TestLoadUtils.loadTestVirtualEdition();
+	}
+
+	@AfterEach
+	@Atomic(mode = TxMode.WRITE)
+	public void tearDown() {
+
+		LdoD.getInstance().getVirtualEdition("LdoD-Teste").remove();
+
 	}
 
 	@Test
@@ -355,21 +361,14 @@ public class FragmentTest {
 
 		VirtualEditionInter fragInter = (VirtualEditionInter) frags.get(0);
 
-		LdoDUser user = LdoD.getInstance().getUser("ars");
+		createTestAnnotation();
 
-		RangeJson rj = new RangeJson();
-		rj.setStart("/div[1]/div[1]/p[3]");
-		rj.setStartOffset(3);
-		rj.setEnd("/div[1]/div[1]/p[3]");
-		rj.setEndOffset(7);
+		HumanAnnotation a = new ArrayList<>(fragInter.getAllDepthHumanAnnotations()).get(0);
 
-		List<RangeJson> list = new ArrayList<>();
-		list.add(rj);
+		AnnotationDTO dto = new AnnotationDTO();
 
-		fragInter.createHumanAnnotation("A arte é um esquivar-se a agir","Interesting",user,
-				list,Arrays.asList("tag1","tag2"));
-
-		Annotation a = new ArrayList<>(fragInter.getAllDepthHumanAnnotations()).get(0);
+		dto.setText("Even more interesting");
+		dto.setTags(Arrays.asList("tag3","tag4"));
 
 		this.mockMvc.perform(get("/fragments/fragment/annotations/{id}", a.getExternalId()))
 					.andDo(print())
@@ -387,4 +386,130 @@ public class FragmentTest {
 
 	}
 
+	@Test
+	@Atomic(mode = TxMode.WRITE)
+	@WithUserDetails("ars")
+	public void updateAnnotationTest() throws Exception {
+
+		Set<FragInter> fragInterSet = LdoD.getInstance().getVirtualEdition("LdoD-Teste").getIntersSet();
+
+		List<FragInter> frags = new ArrayList<>(fragInterSet);
+
+		VirtualEditionInter fragInter = (VirtualEditionInter) frags.get(0);
+
+		createTestAnnotation();
+
+		HumanAnnotation a = new ArrayList<>(fragInter.getAllDepthHumanAnnotations()).get(0);
+
+		AnnotationDTO dto = new AnnotationDTO();
+
+		dto.setText("Even more interesting");
+		dto.setTags(Arrays.asList("tag3","tag4"));
+
+		this.mockMvc.perform(put("/fragments/fragment/annotations/{id}", a.getExternalId())
+				.contentType(MediaType.APPLICATION_JSON_UTF8)
+				.content(TestLoadUtils.jsonBytes(dto)))
+				.andDo(print())
+				.andExpect(status().isOk());
+
+
+		assertEquals("Even more interesting", a.getText());
+	}
+
+	@Test
+	@Atomic(mode = TxMode.WRITE)
+	@WithUserDetails("ars")
+	public void updateAnnotationNotFoundTest() throws Exception{
+
+		AnnotationDTO dto = new AnnotationDTO();
+
+		this.mockMvc.perform(put("/fragments/fragment/annotations/{id}", "ERROR")
+				.contentType(MediaType.APPLICATION_JSON_UTF8)
+				.content(TestLoadUtils.jsonBytes(dto)))
+				.andDo(print())
+				.andExpect(status().isNotFound());
+
+	}
+
+	@Test
+	@Atomic(mode = TxMode.WRITE)
+	@WithUserDetails("ars")
+	public void deleteAnnotationTest() throws Exception {
+
+		Set<FragInter> fragInterSet = LdoD.getInstance().getVirtualEdition("LdoD-Teste").getIntersSet();
+
+		List<FragInter> frags = new ArrayList<>(fragInterSet);
+
+		VirtualEditionInter fragInter = (VirtualEditionInter) frags.get(0);
+
+		createTestAnnotation();
+
+		HumanAnnotation a = new ArrayList<>(fragInter.getAllDepthHumanAnnotations()).get(0);
+
+		this.mockMvc.perform(delete("/fragments/fragment/annotations/{id}", a.getExternalId())
+				.content(TestLoadUtils.jsonBytes(new AnnotationDTO()))
+				.contentType(MediaType.APPLICATION_JSON_UTF8))
+				.andDo(print())
+				.andExpect(status().isNoContent());
+
+		assertTrue(fragInter.getAllDepthHumanAnnotations().isEmpty());
+	}
+
+	@Test
+	@Atomic(mode = TxMode.WRITE)
+	@WithUserDetails("ars")
+	public void deleteAnnotationNotFoundTest() throws Exception {
+
+		this.mockMvc.perform(delete("/fragments/fragment/annotations/{id}", "ERROR")
+				.content(TestLoadUtils.jsonBytes(new AnnotationDTO()))
+				.contentType(MediaType.APPLICATION_JSON_UTF8))
+				.andDo(print())
+				.andExpect(status().isNotFound());
+	}
+
+	@Test
+	@Atomic(mode = TxMode.WRITE)
+	@WithUserDetails("ars")
+	public void getAnnotationInterTest() throws Exception {
+		Set<FragInter> fragInterSet = LdoD.getInstance().getVirtualEdition("LdoD-Teste").getIntersSet();
+
+		List<FragInter> frags = new ArrayList<>(fragInterSet);
+
+		VirtualEditionInter fragInter = (VirtualEditionInter) frags.get(0);
+
+		createTestAnnotation();
+
+		HumanAnnotation a = new ArrayList<>(fragInter.getAllDepthHumanAnnotations()).get(0);
+
+		this.mockMvc.perform(get("/fragments/fragment/annotation/{annotationId}/categories",a.getExternalId()))
+				.andDo(print())
+				.andExpect(status().isOk())
+				.andExpect(content().contentType("application/json;charset=UTF-8"))
+				.andExpect(content().string(containsString("tag1")))
+				.andExpect(content().string(containsString("tag2")));
+	}
+
+	private void createTestAnnotation() {
+
+		Set<FragInter> fragInterSet = LdoD.getInstance().getVirtualEdition("LdoD-Teste").getIntersSet();
+
+		List<FragInter> frags = new ArrayList<>(fragInterSet);
+
+		VirtualEditionInter fragInter = (VirtualEditionInter) frags.get(0);
+
+		LdoDUser user = LdoD.getInstance().getUser("ars");
+
+		RangeJson rj = new RangeJson();
+		rj.setStart("/div[1]/div[1]/p[3]");
+		rj.setStartOffset(3);
+		rj.setEnd("/div[1]/div[1]/p[3]");
+		rj.setEndOffset(7);
+
+		List<RangeJson> list = new ArrayList<>();
+		list.add(rj);
+
+		fragInter.createHumanAnnotation("A arte é um esquivar-se a agir","Interesting",user,
+				list,Arrays.asList("tag1","tag2"));
+
+	}
 }
