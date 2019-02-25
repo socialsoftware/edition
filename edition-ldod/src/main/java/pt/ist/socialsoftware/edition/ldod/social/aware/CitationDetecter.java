@@ -121,9 +121,7 @@ public class CitationDetecter {
 		String[] sources = { "fp", "livro", "bernardo", "vicente" };
 
 		for (String source : sources) {
-			String lastFileName = LdoD.getInstance().getLastTwitterID().getLastParsedFile(source) != null
-					? LdoD.getInstance().getLastTwitterID().getLastParsedFile(source)
-					: "";
+			String lastFileName = getLastFilenameForSource(source);
 
 			List<File> sourceFiles = Arrays.stream(files)
 					.filter(f -> f.getName().contains(source) && f.getName().compareTo(lastFileName) >= 0)
@@ -137,6 +135,14 @@ public class CitationDetecter {
 
 		printLastTwitterIdsAndFiles();
 
+	}
+
+	@Atomic
+	private String getLastFilenameForSource(String source) {
+		String lastFileName = LdoD.getInstance().getLastTwitterID().getLastParsedFile(source) != null
+				? LdoD.getInstance().getLastTwitterID().getLastParsedFile(source)
+				: "";
+		return lastFileName;
 	}
 
 	private void fileCitationDetection(File fileEntry) throws FileNotFoundException, IOException {
