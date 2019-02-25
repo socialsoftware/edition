@@ -58,6 +58,8 @@ public class FragmentTest {
 
 		String[] fragments = { "001.xml", "002.xml", "003.xml" };
 		TestLoadUtils.loadFragments(fragments);
+
+		TestLoadUtils.loadTestVirtualEdition();
 	}
 
 	@AfterAll
@@ -71,15 +73,24 @@ public class FragmentTest {
 	public void setUp() throws FileNotFoundException {
 		this.mockMvc = MockMvcBuilders.standaloneSetup(this.fragmentController)
 				.setControllerAdvice(new LdoDExceptionHandler()).addFilters(new TransactionFilter()).build();
-
-		TestLoadUtils.loadTestVirtualEdition();
 	}
 
 	@AfterEach
 	@Atomic(mode = TxMode.WRITE)
 	public void tearDown() {
 
-		LdoD.getInstance().getVirtualEdition("LdoD-Teste").remove();
+		Set<FragInter> fragInterSet = LdoD.getInstance().getVirtualEdition("LdoD-Teste").getIntersSet();
+
+		List<FragInter> frags = new ArrayList<>(fragInterSet);
+
+		VirtualEditionInter fragInter = (VirtualEditionInter) frags.get(0);
+
+		List<HumanAnnotation> list = new ArrayList<>(fragInter.getAllDepthHumanAnnotations());
+
+		if(!list.isEmpty()) {
+			HumanAnnotation a = new ArrayList<>(fragInter.getAllDepthHumanAnnotations()).get(0);
+			a.remove();
+		}
 
 	}
 
