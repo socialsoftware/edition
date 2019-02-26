@@ -10,7 +10,8 @@ class RemoveMethodSpockTest extends SpockRollbackTestAbstractClass  {
 	def ldoD
 	def user
 	def expertEdition
-	def virtualEdition
+	def virtualEditionOne
+	def virtualEditionTwo
 	def fragment
 	def expertInter
 	def virtualInter
@@ -31,15 +32,19 @@ class RemoveMethodSpockTest extends SpockRollbackTestAbstractClass  {
 		expertInter.setFragment(fragment)
 		expertInter.setExpertEdition(expertEdition)
 		and: 'a virtual edition containing another interpretation'
-		virtualEdition = new VirtualEdition(ldoD, user, "test1", "test1", null, true, expertEdition)
+		virtualEditionOne = new VirtualEdition(ldoD, user, "test1", "test1", null, true, expertEdition)
 		and: 'another virtual edition using the previous virtual edition'
-		new VirtualEdition(ldoD, user, "test2", "test2", null, true, virtualEdition)
+		virtualEditionTwo = new VirtualEdition(ldoD, user, "test2", "test2", null, true, virtualEditionOne)
 		
 		when: 'the expert edition interpretation is removed'
 		expertInter.remove()
 
 		then: 'the three interpretations are removed from the fragment'
 		fragment.getFragmentInterSet().size() == 0
+		and: 'from each of the editions'
+		expertEdition.getIntersSet().size() == 0
+		virtualEditionOne.getAllDepthVirtualEditionInters().size() == 0
+		virtualEditionTwo.getAllDepthVirtualEditionInters().size() == 0
 	}
 
 }
