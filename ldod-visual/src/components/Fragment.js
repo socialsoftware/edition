@@ -3,6 +3,9 @@ import {connect} from "react-redux";
 import './Fragment.css';
 import {RepositoryService} from "../services/RepositoryService";
 import HashMap from "hashmap";
+import ReactHtmlParser, {processNodes, convertNodeToElement, htmlparser2} from 'react-html-parser';
+import Parser from 'html-react-parser';
+import ReactDOMServer from 'react-dom/server';
 
 const mapStateToProps = state => {
   return {
@@ -86,14 +89,34 @@ export class ConnectedFragment extends React.Component {
           let wordsTfIdfMap = this.oldTfIdfDataMap.get(currentlyDisplayedFragmentId);
 
           var str = this.props.recommendationArray[this.props.recommendationIndex].text;
-          stringArray = str.split(/(\s+)/);
-          //stringArray = str.split(" ");
 
+          //stringArray = str.split(" ");
+          stringArray = str.split("<");
+          stringArray = str.split(">");
+          stringArray = str.split(/(\s+)/);
+          //console.log(str);
+          //stringArray = str.split(/ (?=[^>]*(?:<|$))/);
+
+          //stringArray = str.match(/<\s*(\w+\b)(?:(?!<\s*\/\s*\1\b)[\s\S])*<\s*\/\s*\1\s*>|\S+/g);
+
+          //console.log("ZZZZZZZZZZZZZZZZZZZZ ")
+          //console.log(stringArray);
+
+          let outOfTag = true;
           let boldWeight = 1;
           let w;
           for (w = 0; w < stringArray.length; w++) {
 
-            if (wordsTfIdfMap.has(stringArray[w])) {
+            if (stringArray[w] === "<") {
+              outOfTag = false;
+            } else if (stringArray[w] === ">") {
+              outOfTag = true;
+            }
+
+            if (wordsTfIdfMap.has(stringArray[w]) && outOfTag) {
+
+              console.log("AYYYYYYYYYYYYYY")
+              console.log(stringArray[w]);
 
               let tfIdf = parseFloat(wordsTfIdfMap.get(stringArray[w]));
               if (tfIdf < this.min) {
@@ -113,17 +136,26 @@ export class ConnectedFragment extends React.Component {
                 this.truncateCounter = this.truncateCounter + 1;
               }
 
-              stringArray[w] = (<span style={{
+              stringArray[w] = ReactDOMServer.renderToStaticMarkup((<span style={{
                   fontWeight: boldWeight,
                   color: "SteelBlue"
                 }}>
                 {stringArray[w]}
-              </span>)
+              </span>));
 
+              stringArray[w] = stringArray[w].toString();
+
+            } else if (!outOfTag) {
+              stringArray[w] = ReactHtmlParser(stringArray[w]);
             }
           }
 
-          textToDisplay = stringArray;
+          textToDisplay = Parser(stringArray.join(''));
+          console.log("ZZZZZZZZZZZ PROCESSED: ZZZZZZZZZZZZ");
+          console.log(textToDisplay);
+          console.log("ZZZZZZZZZZZ ORIGINAL: ZZZZZZZZZZZZ");
+          console.log(this.props.recommendationArray[this.props.recommendationIndex].text)
+
           console.log("min tf-idf: " + this.min);
           console.log("max tf-idf: " + this.max);
           console.log("truncateCounter: " + this.truncateCounter);
@@ -133,7 +165,7 @@ export class ConnectedFragment extends React.Component {
 
       } else {
         console.log("Fragment.js: text skimming is disabled. should reset to normal font.")
-        textToDisplay = this.props.recommendationArray[this.props.recommendationIndex].text
+        textToDisplay = ReactHtmlParser(this.props.recommendationArray[this.props.recommendationIndex].text)
       }
 
       fragmentToRender = (<div className="box">

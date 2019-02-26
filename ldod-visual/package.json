@@ -5,11 +5,13 @@
   "dependencies": {
     "axios": "^0.18.0",
     "hashmap": "^2.3.0",
+    "html-react-parser": "^0.6.1",
     "qs": "^6.6.0",
     "react": "^16.5.2",
     "react-bootstrap": "^0.32.4",
     "react-d3-cloud": "^0.7.0",
     "react-dom": "^16.5.2",
+    "react-html-parser": "^2.0.2",
     "react-jss": "^8.6.1",
     "react-modal": "^3.6.1",
     "react-scripts": "^2.1.3",
