@@ -150,7 +150,7 @@ export class ConnectedFragment extends React.Component {
             }
           }
 
-          textToDisplay = Parser(stringArray.join(''));
+          textToDisplay = ReactHtmlParser(stringArray.join(''));
           console.log("ZZZZZZZZZZZ PROCESSED: ZZZZZZZZZZZZ");
           console.log(textToDisplay);
           console.log("ZZZZZZZZZZZ ORIGINAL: ZZZZZZZZZZZZ");
