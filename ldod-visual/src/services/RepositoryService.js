@@ -20,7 +20,7 @@ export class RepositoryService {
     this.axios = axios.create({
       baseURL: 'https://ldod.uc.pt',
       //baseURL: 'http://localhost:8080',
-      timeout: 1000,
+      timeout: 100000,
       headers: {
         'X-Custom-Header': 'BlendedWorkflow',
         'Authorization': 'Bearer' + localStorage.getItem('accessToken'),
