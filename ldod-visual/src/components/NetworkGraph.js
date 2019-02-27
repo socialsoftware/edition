@@ -287,8 +287,7 @@ class ConnectedNetworkGraph extends Component {
         nodeBackgroundColor = "#8A2BE2";
       }
 
-      //BUG: SUGERE SEM DATA.
-      let myTitle;
+      let myTitle = this.props.fragmentsHashMap.get(this.props.graphData[i].interId).meta.title
       let hasDateWhileCritDate = true;
       if (this.props.currentFragmentMode && this.props.potentialSemanticCriteria == CRIT_CHRONOLOGICAL_ORDER && this.props.fragmentsHashMap.get(this.props.graphData[i].interId).meta.date !== null) {
         myTitle = this.props.fragmentsHashMap.get(this.props.graphData[i].interId).meta.title + " | Data: " + this.props.fragmentsHashMap.get(this.props.graphData[i].interId).meta.date;

@@ -245,19 +245,14 @@ class ConnectedApp extends Component {
     }
 
     if (!this.state.editionsReceived) {
-      this.landingActivityToRender = (<div>
-        <PublicEditionContainer onChange={this.handleEditionsReceived} sendSelectedEdition={this.handleEditionSelected}/>
-        <img src={loadingGif} alt="loading..." className="loadingGifCentered"/>
-      </div>);
+      this.landingActivityToRender = <PublicEditionContainer onChange={this.handleEditionsReceived} sendSelectedEdition={this.handleEditionSelected}/>
+
     } else if (this.state.editionsReceived && this.state.editionSelected) {
 
       if (!this.props.allFragmentsLoaded) {
         this.landingActivityToRender = (<div>
-          <p>Escolha uma das edições virtuais públicas disponíveis.
-          </p>
-          <p>
-            As edições virtuais que não possuem taxonomia (categorias) estão assinaladas a cinzento. Apenas se escolher uma das edições virtuais com taxonomia (assinaladas a azul) poderá realizar actividades à volta das mesmas.</p>
           <img src={loadingGif} alt="loading..." className="loadingGifCentered"/>
+          <p align="center">A carregar a edição virtual escolhida...</p>
         </div>);
       } else if (this.state.showLandingActivity & (this.props.potentialSemanticCriteria == CRIT_CATEGORY) & this.props.allFragmentsLoaded) {
         this.landingActivityToRender = (<MyWordCloud onChange={this.handleCloseModals}/>)

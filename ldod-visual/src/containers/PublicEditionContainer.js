@@ -27,6 +27,7 @@ import {
 } from "../constants/history-transitions";
 import {Button, ButtonToolbar, Modal} from "react-bootstrap";
 import ReactHtmlParser, {processNodes, convertNodeToElement, htmlparser2} from 'react-html-parser';
+import loadingGif from '../assets/loading.gif'
 
 const mapStateToProps = state => {
   return {
@@ -115,6 +116,10 @@ class ConnectedPublicEditionContainer extends React.Component {
         </Button>;
 
       })
+    } else {
+      editionButtonList = (<div><img src={loadingGif} alt="loading..." className="loadingGifCentered"/>
+        <p align="center">A carregar a lista de edições virtuais públicas disponíveis...</p>
+      </div>);
     }
 
     return <div>
