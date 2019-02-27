@@ -275,6 +275,7 @@ class ExpertEditionInter extends FragInter {
 }
 
 class VirtualEditionInter extends FragInter {
+    String usesFragInter;
 	int number;
 }
 

@@ -9,6 +9,8 @@ import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import pt.ist.socialsoftware.edition.ldod.api.event.Event;
+import pt.ist.socialsoftware.edition.ldod.api.event.EventInterface;
 
 public abstract class FragInter extends FragInter_Base implements Comparable<FragInter> {
 	private static Logger logger = LoggerFactory.getLogger(FragInter.class);
@@ -25,8 +27,17 @@ public abstract class FragInter extends FragInter_Base implements Comparable<Fra
 			getLdoDDate().remove();
 		}
 
-		for (VirtualEditionInter inter : getIsUsedBySet()) {
-			removeIsUsedBy(inter);
+		System.out.println("Must send event!");
+
+		EventInterface eventInterface = new EventInterface();
+		if(!((this instanceof VirtualEditionInter) || (this instanceof ExpertEditionInter))) {
+            eventInterface.publish(new Event(Event.EventType.FRAG_INTER_REMOVE, this.getXmlId()));
+        }
+
+		System.out.println("Event has been sent!");
+
+        for (VirtualEditionInter inter : getIsUsedBySet()) {
+			//removeIsUsedBy(inter);
 		}
 
 		for (RdgText rdg : getRdgSet()) {
@@ -118,14 +129,6 @@ public abstract class FragInter extends FragInter_Base implements Comparable<Fra
 	public abstract Set<Category> getAllDepthCategories();
 
 	public abstract int getUsesDepth();
-
-	public Set<VirtualEditionInter> getIsUsedByDepthSet() {
-		Set<VirtualEditionInter> isUsedBy = new HashSet<>(getIsUsedBySet());
-		for (VirtualEditionInter inter : getIsUsedBySet()) {
-			isUsedBy.addAll(inter.getIsUsedByDepthSet());
-		}
-		return isUsedBy;
-	}
 
 	public long getNumberOfTwitterCitationsSince(LocalDateTime editionBeginDateTime) {
 		return getInfoRangeSet().stream().map(ir -> ir.getCitation())

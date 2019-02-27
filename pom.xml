@@ -36,6 +36,7 @@
 		<version.fenixframework>2.6.2</version.fenixframework>
 		<fenix.framework.codeGeneratorClassName>pt.ist.fenixframework.backend.jvstmojb.codeGenerator.FenixCodeGeneratorOneBoxPerObject</fenix.framework.codeGeneratorClassName>
 		<fenix.framework.backend>jvstm-ojb</fenix.framework.backend>
+
 	</properties>
 
 	<profiles>
@@ -47,6 +48,8 @@
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-surefire-plugin</artifactId>
 						<configuration>
+							<testSourceDirectory>src/test/groovy</testSourceDirectory>
+							<testSourceDirectory>src/test/java</testSourceDirectory>
 							<skipTests>true</skipTests>
 						</configuration>
 					</plugin>
@@ -79,7 +82,16 @@
 						<dependency>
 							<groupId>org.junit.platform</groupId>
 							<artifactId>junit-platform-surefire-provider</artifactId>
+<<<<<<< Updated upstream
 							<version>1.2.0</version>
+=======
+							<version>${junit-platform.version}</version>
+						</dependency>
+						<dependency>
+							<groupId>org.junit.jupiter</groupId>
+							<artifactId>junit-jupiter-engine</artifactId>
+							<version>${jupiter.version}</version>
+>>>>>>> Stashed changes
 						</dependency>
 					</dependencies>
 				</plugin>
@@ -117,6 +129,23 @@
 				</plugin>
 			</plugins>
 		</pluginManagement>
+		<plugins>
+			<plugin>
+			<!-- The gmavenplus plugin is used to compile Groovy code. To learn more about this plugin,
+            visit https://github.com/groovy/GMavenPlus/wiki -->
+			<groupId>org.codehaus.gmavenplus</groupId>
+			<artifactId>gmavenplus-plugin</artifactId>
+			<version>1.6</version>
+			<executions>
+				<execution>
+					<goals>
+						<goal>compile</goal>
+						<goal>compileTests</goal>
+					</goals>
+				</execution>
+			</executions>
+			</plugin>
+		</plugins>
 	</build>
 
 	<dependencies>

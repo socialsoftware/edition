@@ -18,15 +18,12 @@ public class ExpertEditionInter extends ExpertEditionInter_Base {
 
 	@Override
 	public void remove() {
+
+		System.out.println("expert inter remove " + this.getXmlId());
+
 		setExpertEdition(null);
 
 		String externalId = getExternalId();
-
-		for (VirtualEditionInter inter : getIsUsedByDepthSet()) {
-			// it is necessary to remove all interpretations that use the expert
-			// interpretation
-			inter.remove();
-		}
 
 		super.remove();
 

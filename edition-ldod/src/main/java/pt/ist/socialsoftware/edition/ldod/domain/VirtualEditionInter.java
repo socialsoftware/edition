@@ -14,6 +14,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
+import pt.ist.socialsoftware.edition.ldod.api.text.TextInterface;
 import pt.ist.socialsoftware.edition.ldod.domain.Edition.EditionType;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
 import pt.ist.socialsoftware.edition.ldod.utils.CategoryDTO;
@@ -34,6 +35,7 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 		setSection(section);
 		setNumber(number);
 		setUses(inter);
+		setUsesFragInter(inter.getXmlId());
 		// needs to store the number of interpretations in this fragment for this
 		// edition
 		setXmlId(Integer.toString(getFragment().getNumberOfInter4Edition(getVirtualEdition())));
@@ -41,6 +43,9 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 
 	@Override
 	public void remove() {
+
+		System.out.println("Removing virtual inter with id " + this.getXmlId());
+
 		for (VirtualEditionInter inter : getIsUsedBySet()) {
 			inter.setUses(getUses());
 		}
@@ -430,4 +435,12 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 		}
 		return count;
 	}
+
+    public Set<VirtualEditionInter> getIsUsedByDepthSet() {
+        Set<VirtualEditionInter> isUsedBy = new HashSet<>(getIsUsedBySet());
+        for (VirtualEditionInter inter : getIsUsedBySet()) {
+            isUsedBy.addAll(inter.getIsUsedByDepthSet());
+        }
+        return isUsedBy;
+    }
 }
