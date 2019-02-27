@@ -35,6 +35,7 @@ import SquareGrid from "./components/SquareGrid";
 import MyWordCloud from "./components/MyWordCloud";
 import PublicEditionContainer from "./containers/PublicEditionContainer";
 import ReactHtmlParser, {processNodes, convertNodeToElement, htmlparser2} from 'react-html-parser';
+import loadingGif from './assets/loading.gif'
 
 const mapStateToProps = state => {
   return {
@@ -246,7 +247,15 @@ class ConnectedApp extends Component {
     this.landingActivityToRender = (<PublicEditionContainer onChange={this.handleEditionsReceived} sendSelectedEdition={this.handleEditionSelected}/>)
     if (this.state.editionsReceived && this.state.editionSelected) {
 
-      if (this.state.showLandingActivity & (this.props.potentialSemanticCriteria == CRIT_CATEGORY) & this.props.allFragmentsLoaded) {
+      if (!this.props.allFragmentsLoaded) {
+        this.landingActivityToRender = (<div>
+          <p>Escolha uma das edições virtuais públicas disponíveis.
+          </p>
+          <p>
+            As edições virtuais que não possuem taxonomia (categorias) estão assinaladas a cinzento. Apenas se escolher uma das edições virtuais com taxonomia (assinaladas a azul) poderá realizar actividades à volta das mesmas.</p>
+          <img src={loadingGif} alt="loading..." className="loadingGifCentered"/>
+        </div>);
+      } else if (this.state.showLandingActivity & (this.props.potentialSemanticCriteria == CRIT_CATEGORY) & this.props.allFragmentsLoaded) {
         this.landingActivityToRender = (<MyWordCloud onChange={this.handleCloseModals}/>)
       } else if (this.state.showLandingActivity & this.props.allFragmentsLoaded) {
         this.landingActivityToRender = (<SquareGrid onChange={this.handleCloseModals}/>)

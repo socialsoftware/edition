@@ -289,14 +289,19 @@ class ConnectedNetworkGraph extends Component {
 
       //BUG: SUGERE SEM DATA.
       let myTitle;
+      let hasDateWhileCritDate = true;
       if (this.props.currentFragmentMode && this.props.potentialSemanticCriteria == CRIT_CHRONOLOGICAL_ORDER && this.props.fragmentsHashMap.get(this.props.graphData[i].interId).meta.date !== null) {
         myTitle = this.props.fragmentsHashMap.get(this.props.graphData[i].interId).meta.title + " | Data: " + this.props.fragmentsHashMap.get(this.props.graphData[i].interId).meta.date;
+
       } else if (this.props.currentFragmentMode && this.props.potentialSemanticCriteria == CRIT_CHRONOLOGICAL_ORDER && !this.props.fragmentsHashMap.get(this.props.graphData[i].interId).meta.date) {
         myTitle = this.props.fragmentsHashMap.get(this.props.graphData[i].interId).meta.title + " | Data: Sem data";
+        hasDateWhileCritDate = false;
       } else if (!this.props.currentFragmentMode && this.props.semanticCriteria == CRIT_CHRONOLOGICAL_ORDER && this.props.fragmentsHashMap.get(this.props.graphData[i].interId).meta.date !== null) {
         myTitle = this.props.fragmentsHashMap.get(this.props.graphData[i].interId).meta.title + " | Data: " + this.props.fragmentsHashMap.get(this.props.graphData[i].interId).meta.date;
+
       } else if (!this.props.currentFragmentMode && this.props.semanticCriteria == CRIT_CHRONOLOGICAL_ORDER && !this.props.fragmentsHashMap.get(this.props.graphData[i].interId).meta.date) {
         myTitle = this.props.fragmentsHashMap.get(this.props.graphData[i].interId).meta.title + " | Data: Sem data";
+        hasDateWhileCritDate = false;
       }
 
       obj = {
@@ -315,7 +320,9 @@ class ConnectedNetworkGraph extends Component {
         y: yFactor
       };
 
-      this.nodes.push(obj);
+      if (hasDateWhileCritDate) {
+        this.nodes.push(obj);
+      }
     }
 
     //BUILD EDGES
