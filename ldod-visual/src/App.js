@@ -244,8 +244,12 @@ class ConnectedApp extends Component {
       }
     }
 
-    this.landingActivityToRender = (<PublicEditionContainer onChange={this.handleEditionsReceived} sendSelectedEdition={this.handleEditionSelected}/>)
-    if (this.state.editionsReceived && this.state.editionSelected) {
+    if (!this.state.editionsReceived) {
+      this.landingActivityToRender = (<div>
+        <PublicEditionContainer onChange={this.handleEditionsReceived} sendSelectedEdition={this.handleEditionSelected}/>
+        <img src={loadingGif} alt="loading..." className="loadingGifCentered"/>
+      </div>);
+    } else if (this.state.editionsReceived && this.state.editionSelected) {
 
       if (!this.props.allFragmentsLoaded) {
         this.landingActivityToRender = (<div>
