@@ -34,6 +34,7 @@ import FragmentLoader from "./components/FragmentLoader";
 import SquareGrid from "./components/SquareGrid";
 import MyWordCloud from "./components/MyWordCloud";
 import PublicEditionContainer from "./containers/PublicEditionContainer";
+import ReactHtmlParser, {processNodes, convertNodeToElement, htmlparser2} from 'react-html-parser';
 
 const mapStateToProps = state => {
   return {
@@ -343,9 +344,17 @@ class ConnectedApp extends Component {
     }
 
     let fragLoader;
+    const options = {
+      decodeEntities: true
+    }
+
+    let myTitle;
     if (this.state.editionSelected) {
       fragLoader = <FragmentLoader currentEdition={this.state.currentEdition} toggleTextSkimming={this.state.toggleTextSkimming} onChange={this.handleToggleFragmentsReceived
 }/>
+
+      myTitle = ReactHtmlParser(this.state.currentEdition.title, options);
+
     }
 
     return (<div className="app">
@@ -375,7 +384,7 @@ class ConnectedApp extends Component {
         <p align="center" style={{
             color: 'white',
             fontSize: 12
-          }}>Título da edição virtual seleccionada: {this.state.currentEdition.title}</p>
+          }}>Título da edição virtual seleccionada: {myTitle}</p>
 
         <p align="center" style={{
             color: 'white',

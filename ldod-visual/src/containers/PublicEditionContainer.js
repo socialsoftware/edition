@@ -26,6 +26,7 @@ import {
   CRIT_WORD_RELEVANCE
 } from "../constants/history-transitions";
 import {Button, ButtonToolbar, Modal} from "react-bootstrap";
+import ReactHtmlParser, {processNodes, convertNodeToElement, htmlparser2} from 'react-html-parser';
 
 const mapStateToProps = state => {
   return {
@@ -103,8 +104,14 @@ class ConnectedPublicEditionContainer extends React.Component {
           buttonStyle = "primary"
         }
 
+        const options = {
+          decodeEntities: true
+        }
+
+        let myTitle = ReactHtmlParser(item.title, options);
+
         return <Button bsStyle={buttonStyle} bsSize="large" block="block" onClick={() => this.handleButtonClick(item)}>
-          {item.title}
+          {myTitle}
         </Button>;
 
       })
