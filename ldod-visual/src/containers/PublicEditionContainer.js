@@ -28,6 +28,7 @@ import {
 import {Button, ButtonToolbar, Modal} from "react-bootstrap";
 import ReactHtmlParser, {processNodes, convertNodeToElement, htmlparser2} from 'react-html-parser';
 import loadingGif from '../assets/loading.gif'
+import loadingFragmentsGif from '../assets/fragmentload.gif'
 
 const mapStateToProps = state => {
   return {

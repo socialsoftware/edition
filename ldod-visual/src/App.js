@@ -36,6 +36,7 @@ import MyWordCloud from "./components/MyWordCloud";
 import PublicEditionContainer from "./containers/PublicEditionContainer";
 import ReactHtmlParser, {processNodes, convertNodeToElement, htmlparser2} from 'react-html-parser';
 import loadingGif from './assets/loading.gif'
+import loadingFragmentsGif from './assets/fragmentload.gif'
 
 const mapStateToProps = state => {
   return {
@@ -252,7 +253,7 @@ class ConnectedApp extends Component {
       if (!this.props.allFragmentsLoaded) {
         this.landingActivityToRender = (<div>
           <img src={loadingGif} alt="loading..." className="loadingGifCentered"/>
-          <p align="center">A carregar a edição virtual escolhida...</p>
+          <p align="center">A carregar todos os fragmentos da edição virtual escolhida...</p>
         </div>);
       } else if (this.state.showLandingActivity & (this.props.potentialSemanticCriteria == CRIT_CATEGORY) & this.props.allFragmentsLoaded) {
         this.landingActivityToRender = (<MyWordCloud onChange={this.handleCloseModals}/>)
