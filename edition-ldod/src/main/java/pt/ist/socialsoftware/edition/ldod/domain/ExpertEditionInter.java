@@ -19,13 +19,9 @@ public class ExpertEditionInter extends ExpertEditionInter_Base {
 	@Override
 	public void remove() {
 
-		System.out.println("expert inter remove " + this.getXmlId());
-
 		setExpertEdition(null);
 
 		String externalId = getExternalId();
-
-		super.remove();
 
 		// remove from Lucene
 		List<String> externalIds = new ArrayList<>();
@@ -36,6 +32,8 @@ public class ExpertEditionInter extends ExpertEditionInter_Base {
 		// remove from mallet directory
 		TopicModeler topicModeler = new TopicModeler();
 		topicModeler.deleteFile(externalId);
+
+		super.remove();
 	}
 
 	@Override

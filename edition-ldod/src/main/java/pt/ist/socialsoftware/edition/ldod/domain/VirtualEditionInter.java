@@ -14,6 +14,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
+import pt.ist.socialsoftware.edition.ldod.api.event.Event;
+import pt.ist.socialsoftware.edition.ldod.api.event.EventInterface;
 import pt.ist.socialsoftware.edition.ldod.api.text.TextInterface;
 import pt.ist.socialsoftware.edition.ldod.domain.Edition.EditionType;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
@@ -28,14 +30,20 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 		return getFragment().getXmlId() + ".WIT.ED.VIRT." + getVirtualEdition().getAcronym() + "." + super.getXmlId();
 	}
 
-	public VirtualEditionInter(Section section, FragInter inter, int number) {
+	public VirtualEditionInter(Section section, FragInter inter, int number){
+		if(inter instanceof VirtualEditionInter) {
+			setUses((VirtualEditionInter) inter);
+			setUsesFragInter(null);
+		}
+		else {
+			setUses(null);
+			setUsesFragInter(inter.getXmlId());
+		}
 		setFragment(inter.getFragment());
 		setHeteronym(null);
 		setLdoDDate(null);
 		setSection(section);
 		setNumber(number);
-		setUses(inter);
-		setUsesFragInter(inter.getXmlId());
 		// needs to store the number of interpretations in this fragment for this
 		// edition
 		setXmlId(Integer.toString(getFragment().getNumberOfInter4Edition(getVirtualEdition())));
@@ -44,10 +52,11 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 	@Override
 	public void remove() {
 
-		System.out.println("Removing virtual inter with id " + this.getXmlId());
-
 		for (VirtualEditionInter inter : getIsUsedBySet()) {
+			logger.debug("Setting uses and id in " + inter.getXmlId() +  " from " + this.getXmlId());
 			inter.setUses(getUses());
+			inter.setUsesFragInter(getUsesFragInter()); // set usesfraginter so that first level vei can now the fraginter they point too
+			removeIsUsedBy(inter);
 		}
 
 		setFragment(null);
@@ -64,9 +73,33 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 			annotation.remove();
 		}
 
-		getClassificationGameSet().stream().forEach(g -> g.remove());
+		setHeteronym(null);
 
-		super.remove();
+		if (getLdoDDate() != null) {
+			getLdoDDate().remove();
+		}
+
+		for (RdgText rdg : getRdgSet()) {
+			removeRdg(rdg);
+		}
+
+		for (LbText lb : getLbTextSet()) {
+			removeLbText(lb);
+		}
+
+		for (PbText pb : getPbTextSet()) {
+			removePbText(pb);
+		}
+
+		for (AnnexNote annexNote : getAnnexNoteSet()) {
+			annexNote.remove();
+		}
+
+		for (RefText ref : getRefTextSet()) {
+			ref.setFragInter(null);
+		}
+
+		deleteDomainObject();
 	}
 
 	@Override
@@ -108,7 +141,8 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 
 	@Override
 	public FragInter getLastUsed() {
-		return getUses().getLastUsed();
+		return getUses() != null ? getUses().getLastUsed() : this;
+		//return getUses().getLastUsed();
 	}
 
 	@Override

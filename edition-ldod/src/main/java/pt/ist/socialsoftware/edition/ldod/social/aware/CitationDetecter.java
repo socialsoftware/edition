@@ -47,13 +47,7 @@ import org.slf4j.LoggerFactory;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.fenixframework.FenixFramework;
-import pt.ist.socialsoftware.edition.ldod.domain.Citation;
-import pt.ist.socialsoftware.edition.ldod.domain.FragInter;
-import pt.ist.socialsoftware.edition.ldod.domain.Fragment;
-import pt.ist.socialsoftware.edition.ldod.domain.InfoRange;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
-import pt.ist.socialsoftware.edition.ldod.domain.Tweet;
-import pt.ist.socialsoftware.edition.ldod.domain.TwitterCitation;
+import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.generators.PlainHtmlWriter4OneInter;
 import pt.ist.socialsoftware.edition.ldod.search.IgnoreDiacriticsAnalyzer;
 import pt.ist.socialsoftware.edition.ldod.utils.PropertiesManager;
@@ -326,13 +320,13 @@ public class CitationDetecter {
 				inters.removeAll(citationFragment.getVirtualEditionInters());
 
 				for (FragInter inter : inters) {
-					createInfoRange(inter, citation);
+					createInfoRange(((ScholarInter)inter), citation);
 				}
 			}
 		}
 	}
 
-	private void createInfoRange(FragInter inter, Citation citation) {
+	private void createInfoRange(ScholarInter inter, Citation citation) {
 		String htmlTransc = getHtmlTransc(inter);
 
 		if (citation instanceof TwitterCitation) {

@@ -1,26 +1,31 @@
 package pt.ist.socialsoftware.edition.ldod.api.ldod;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.socialsoftware.edition.ldod.api.event.Event;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
+import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
 
 public class LdoDInterface {
-
+    private static Logger logger = LoggerFactory.getLogger(LdoDInterface.class);
 
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void notifyEvent(Event event) {
 
         if (event.getType().equals(Event.EventType.FRAG_INTER_REMOVE)){
 
-            System.out.println("Sending event for removal of frag inter " + event.getIdentifier());
+            //TODO: think about when VirtualEditionInter uses a VirtualEditionInter -> see FragInter remove
+
 
             LdoD.getInstance().getVirtualEditionsSet().stream()
                     .flatMap(virtualEdition -> virtualEdition.getAllDepthVirtualEditionInters().stream())
-                    .filter(virtualEditionInter -> virtualEditionInter.getXmlId().equals(event.getIdentifier()))
-                    .forEach(VirtualEditionInter::remove);
-
-            System.out.println("Event sent!");
+                    .filter(virtualEditionInter -> virtualEditionInter.getUsesFragInter() != null && virtualEditionInter.getUsesFragInter().equals(event.getIdentifier()))
+                    .forEach(virtualEditionInter1 -> {
+                        logger.debug("Calling remove on id " + virtualEditionInter1.getXmlId());
+                        virtualEditionInter1.remove();
+                    });
         }
     }
 }

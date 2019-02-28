@@ -240,6 +240,8 @@ class FragInter {
 	int numAnnexNotes;
 }
 
+class ScholarInter extends FragInter;
+
 relation FragmentHasFragInters {
 	Fragment playsRole fragment {multiplicity 1..1;}
 	FragInter playsRole fragmentInter {multiplicity 0..*;}
@@ -264,7 +266,7 @@ relation FragInterHasAnnexNote {
 	AnnexNote playsRole annexNote {multiplicity 0..*;}
 }
 
-class ExpertEditionInter extends FragInter {
+class ExpertEditionInter extends ScholarInter {
 	String title;
 	String volume;
 	int number;
@@ -279,12 +281,12 @@ class VirtualEditionInter extends FragInter {
 	int number;
 }
 
-relation VirtualEditionInterUsesFragInter {
+relation VirtualEditionInterUsesVirtualEditionInter {
 	VirtualEditionInter playsRole isUsedBy {multiplicity 0..*;}
-	FragInter playsRole uses {multiplicity 1..1;}
+	VirtualEditionInter playsRole uses {multiplicity 1..1;}
 }
 
-class SourceInter extends FragInter;
+class SourceInter extends ScholarInter;
 
 relation ExpertEditionHasExpertEditionInters {
 	ExpertEdition playsRole expertEdition {multiplicity 1..1;}

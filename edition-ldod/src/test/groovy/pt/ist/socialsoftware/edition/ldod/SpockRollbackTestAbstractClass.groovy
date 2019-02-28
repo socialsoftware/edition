@@ -2,6 +2,7 @@ package pt.ist.socialsoftware.edition.ldod;
 
 import pt.ist.fenixframework.FenixFramework
 import pt.ist.fenixframework.core.WriteOnReadError
+import pt.ist.socialsoftware.edition.ldod.utils.PropertiesManager
 import spock.lang.Specification
 
 import pt.ist.socialsoftware.edition.ldod.domain.*

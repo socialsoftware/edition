@@ -19,52 +19,7 @@ public abstract class FragInter extends FragInter_Base implements Comparable<Fra
 		return getXmlId().replace(".", "_");
 	}
 
-	public void remove() {
-		setFragment(null);
-		setHeteronym(null);
-
-		if (getLdoDDate() != null) {
-			getLdoDDate().remove();
-		}
-
-		System.out.println("Must send event!");
-
-		EventInterface eventInterface = new EventInterface();
-		if(!((this instanceof VirtualEditionInter) || (this instanceof ExpertEditionInter))) {
-            eventInterface.publish(new Event(Event.EventType.FRAG_INTER_REMOVE, this.getXmlId()));
-        }
-
-		System.out.println("Event has been sent!");
-
-        for (VirtualEditionInter inter : getIsUsedBySet()) {
-			//removeIsUsedBy(inter);
-		}
-
-		for (RdgText rdg : getRdgSet()) {
-			removeRdg(rdg);
-		}
-
-		for (LbText lb : getLbTextSet()) {
-			removeLbText(lb);
-		}
-
-		for (PbText pb : getPbTextSet()) {
-			removePbText(pb);
-		}
-
-		for (AnnexNote annexNote : getAnnexNoteSet()) {
-			annexNote.remove();
-		}
-
-		for (RefText ref : getRefTextSet()) {
-			ref.setFragInter(null);
-		}
-
-		// adicionado recentemente, testar
-		getInfoRangeSet().forEach(infoRange -> infoRange.remove());
-
-		deleteDomainObject();
-	}
+	abstract public void remove();
 
 	public abstract String getShortName();
 

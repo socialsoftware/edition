@@ -39,8 +39,6 @@ public class ExpertEdition extends ExpertEdition_Base implements Comparable<Expe
 	@Override
 	public void remove() {
 
-		System.out.println("Deleting expert edition " + this.getAcronym());
-
 		setLdoD4Expert(null);
 		getExpertEditionIntersSet().forEach(i -> i.remove());
 		super.remove();
