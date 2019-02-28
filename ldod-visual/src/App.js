@@ -402,7 +402,7 @@ class ConnectedApp extends Component {
       <div>
         <IdleTimer ref={ref => {
             this.idleTimer = ref
-          }} element={document} onActive={this.onActive} onIdle={this.onIdle} onAction={this.onAction} debounce={250} timeout={1000 * 5}/> {/* your app here */}
+          }} element={document} onActive={this.onActive} onIdle={this.onIdle} onAction={this.onAction} debounce={250} timeout={1000 * 3}/> {/* your app here */}
       </div>
 
       {this.buttonToolBarToRender}
@@ -441,11 +441,15 @@ class ConnectedApp extends Component {
         <p/>
 
         <p align="center" style={{
+            ...styles,
+            opacity: this.state.opacity,
             color: 'white',
             fontSize: 12
           }}>Título da edição virtual seleccionada: {myTitle}</p>
 
         <p align="center" style={{
+            ...styles,
+            opacity: this.state.opacity,
             color: 'white',
             fontSize: 12
           }}>Acrónimo: {this.state.currentEdition.acronym}</p>
