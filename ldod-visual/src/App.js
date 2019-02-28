@@ -35,8 +35,9 @@ import SquareGrid from "./components/SquareGrid";
 import MyWordCloud from "./components/MyWordCloud";
 import PublicEditionContainer from "./containers/PublicEditionContainer";
 import ReactHtmlParser, {processNodes, convertNodeToElement, htmlparser2} from 'react-html-parser';
-import loadingGif from './assets/loading.gif'
-import loadingFragmentsGif from './assets/fragmentload.gif'
+import loadingGif from './assets/loading.gif';
+import loadingFragmentsGif from './assets/fragmentload.gif';
+import IdleTimer from 'react-idle-timer';
 
 const mapStateToProps = state => {
   return {
@@ -76,9 +77,20 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
+const styles = {
+  transition: 'all 1s ease-out'
+};
+
 class ConnectedApp extends Component {
   constructor(props) {
     super(props);
+
+    this.buttonToolBarToRender = <div/>
+
+    this.idleTimer = null
+    this.onAction = this._onAction.bind(this)
+    this.onActive = this._onActive.bind(this)
+    this.onIdle = this._onIdle.bind(this)
 
     this.previousFragmentButtonStyle = "primary";
     this.nextFragmentButtonStyle = "primary";
@@ -96,7 +108,11 @@ class ConnectedApp extends Component {
       showEditionSelection: true,
       editionsReceived: false,
       editionSelected: false,
-      currentEdition: ""
+      currentEdition: "",
+      fadeIn: true,
+      fadeInterval: 20,
+      fadeDelay: 200,
+      opacity: 1
     };
 
     this.landingActivityToRender = <p>A carregar edições virtuais...</p>;
@@ -224,6 +240,24 @@ class ConnectedApp extends Component {
 
   }
 
+  _onAction(e) {
+    console.log('user did something', e)
+  }
+
+  _onActive(e) {
+    console.log('user is active', e)
+    console.log('time remaining', this.idleTimer.getRemainingTime())
+    this.setState({opacity: 1});
+
+  }
+
+  _onIdle(e) {
+    console.log('user is idle', e)
+    console.log('last active', this.idleTimer.getLastActiveTime())
+    this.setState({opacity: 0});
+
+  }
+
   render() {
     console.log(new Date().getTime() + " App.js: Rendering")
 
@@ -302,8 +336,6 @@ class ConnectedApp extends Component {
 
     let nextNavButton = <div/>;
 
-    let buttonToolBarToRender;
-
     if (this.props.allFragmentsLoaded & this.props.outOfLandingPage) {
 
       console.log("App.js: this.props.visualizationTechnique: " + this.props.visualizationTechnique);
@@ -316,7 +348,10 @@ class ConnectedApp extends Component {
 
       nextNavButton = <NavigationButton nextButton={true}/>;
 
-      buttonToolBarToRender = (<div className="buttonToolbar">
+      this.buttonToolBarToRender = (<div className="buttonToolbar" style={{
+          ...styles,
+          opacity: this.state.opacity
+        }}>
 
         <ButtonToolbar>
 
@@ -338,18 +373,14 @@ class ConnectedApp extends Component {
 
     } else {
 
-      buttonToolBarToRender = <div/>;
+      this.buttonToolBarToRender = <div/>;
     }
 
     let toggleTextSkimmingButtonMessage;
     if (this.state.toggleTextSkimming && this.props.outOfLandingPage) {
-      toggleTextSkimmingButtonMessage = (<Button bsStyle="primary" bsSize="large" onClick={this.handleToggleTextSkimming}>
-        Esconder as palavras mais relevantes deste fragmento
-      </Button>)
+      toggleTextSkimmingButtonMessage = "Esconder as palavras mais relevantes deste fragmento";
     } else if (this.props.outOfLandingPage) {
-      toggleTextSkimmingButtonMessage = (<Button bsStyle="primary" bsSize="large" onClick={this.handleToggleTextSkimming}>
-        Destacar as palavras mais relevantes deste fragmento
-      </Button>)
+      toggleTextSkimmingButtonMessage = "Destacar as palavras mais relevantes deste fragmento";
     }
 
     let fragLoader;
@@ -368,19 +399,38 @@ class ConnectedApp extends Component {
 
     return (<div className="app">
 
-      {buttonToolBarToRender}
+      <div>
+        <IdleTimer ref={ref => {
+            this.idleTimer = ref
+          }} element={document} onActive={this.onActive} onIdle={this.onIdle} onAction={this.onAction} debounce={250} timeout={1000 * 5}/> {/* your app here */}
+      </div>
 
-      <div className="toggleTextSkimming">
-        {toggleTextSkimmingButtonMessage}
+      {this.buttonToolBarToRender}
+
+      <div className="toggleTextSkimming" style={{
+          ...styles,
+          opacity: this.state.opacity
+        }}>
+
+        <Button bsStyle="primary" bsSize="large" onClick={this.handleToggleTextSkimming}>
+          {toggleTextSkimmingButtonMessage}
+        </Button>
+
       </div>
 
       <div >
 
-        <div className="navPrevious">
+        <div className="navPrevious" style={{
+            ...styles,
+            opacity: this.state.opacity
+          }}>
           {previousNavButton}
         </div>
 
-        <div className="navNext">
+        <div className="navNext" style={{
+            ...styles,
+            opacity: this.state.opacity
+          }}>
           {nextNavButton}
         </div>
 
