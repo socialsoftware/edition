@@ -4,7 +4,6 @@ import './Fragment.css';
 import {RepositoryService} from "../services/RepositoryService";
 import HashMap from "hashmap";
 import ReactHtmlParser, {processNodes, convertNodeToElement, htmlparser2} from 'react-html-parser';
-import Parser from 'html-react-parser';
 import ReactDOMServer from 'react-dom/server';
 
 const mapStateToProps = state => {
