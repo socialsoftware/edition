@@ -524,7 +524,7 @@ class ConnectedNetworkGraph extends Component {
         </p>
 
         <p>
-          Para navegar pelo grafo, pode usar os botões de navegação na parte do inferior do grafo, ou simplesmente arrastar o grafo com o botão direito do rato ou fazer zoom-in ou zoom-out com a roda do rato.
+          Para navegar pelo grafo, pode usar os botões de navegação na parte do inferior do grafo, ou simplesmente arrastar o grafo com o botão esquerdo do rato ou fazer zoom-in ou zoom-out com a roda do rato.
         </p>
 
       <div className="graphNetwork" id="networkvis"></div>

@@ -103,7 +103,7 @@ class ConnectedMyWordCloud extends Component {
     console.log(this.props.categories.length);
     if (this.props.categories.length > 0) {
 
-      message = "Instruções da word cloud."
+      message = "Esta é uma nuvem de palavras das categorias desta edição virtual. Para explorar fragmentos que pertençam a uma destas categorias, clique com o botão esquerdo do rato numa delas para ser remetido para outro mapa."
 
       let minFontSize = 5;
       let maxFontSize = 30;
