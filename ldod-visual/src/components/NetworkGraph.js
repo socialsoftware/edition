@@ -354,7 +354,8 @@ class ConnectedNetworkGraph extends Component {
         dragNodes: false,
         dragView: true,
         zoomView: true,
-        hover: true
+        hover: true,
+        navigationButtons: true
       }
     };
 
@@ -449,7 +450,7 @@ class ConnectedNetworkGraph extends Component {
 
     //this.network.stabilize(1);
     //this.network.stabilize(30);
-    container.style.height = 750 + 'px';
+    container.style.height = 500 + 'px';
     this.network.redraw();
     //this.network.fit();
 
@@ -483,10 +484,48 @@ class ConnectedNetworkGraph extends Component {
 
   render() {
 
+
+    let orangeCircleText = (<span style={{
+        background: "#FF7F50",
+        paddingLeft: '3px',
+        paddingRight: '3px',
+        border: "#FF7F50",
+        color: 'white'
+      }}>
+      <b>círculo laranja</b>
+    </span >);
+
+    let purpleCircleText = (<span style={{
+        background: "#8A2BE2",
+        paddingLeft: '3px',
+        paddingRight: '3px',
+        border: "#8A2BE2",
+        color: 'white'
+      }}>
+      <b>círculo roxo</b>
+    </span >);
+
+
+
+
     return (<div>
+
       <p>
-        Seleccione um fragmento novo ao clicar num dos círculos vermelhos. Quanto mais próximos estiverem do círculo azul (correspondente ao fragmento que está a ler actualmente), mais semelhantes serão.
+        Neste grafo de rede, cada círculo representa um fragmento da edição virtual do livro do desassossego que seleccionou.
       </p>
+
+      <p>
+        Seleccione um fragmento novo ao clicar num dos círculos em torno do {orangeCircleText}. Quanto mais próximos estiverem do {orangeCircleText} (correspondente ao fragmento sob o qual realizou ou está a realizar uma nova actividade), mais semelhantes serão segundo o critério desta actividade.
+      </p>
+
+      <p>
+        Um {purpleCircleText}
+        representará o fragmento que está a ler actualmente caso navegue para um fragmento diferente do fragmento inicial (o {orangeCircleText}).
+        </p>
+
+        <p>
+          Para navegar pelo grafo, pode usar os botões de navegação na parte do inferior do grafo, ou simplesmente arrastar o frago com o botão direito do rato ou fazer zoom-in ou zoom-out com a roda do rato.
+        </p>
 
       <div className="graphNetwork" id="networkvis"></div>
 
