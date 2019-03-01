@@ -103,6 +103,7 @@ class ConnectedNetworkGraphContainer extends Component {
       graphToRender = (<div>
         <img src={loadingGif} alt="loading..." className="loadingGifCentered"/>
         <p align="center">A carregar fragmentos semelhantes...</p>
+        <p align="center">Se demorar demasiado tempo, actualize a página e volte a tentar.</p>
       </div>);
     }
 

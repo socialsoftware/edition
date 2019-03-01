@@ -28,6 +28,7 @@ import {
   setCurrentCategory
 } from "../actions/index";
 import "./MyHistory.css";
+import loadingGif from '../assets/loading.gif';
 
 const mapStateToProps = state => {
   return {
@@ -68,6 +69,7 @@ class ConnectedMyHistory extends Component {
 
     this.options = {};
     this.timeline = [];
+    this.jsxToRender = [];
 
     this.handleClick = this.handleClick.bind(this);
 
@@ -183,22 +185,21 @@ class ConnectedMyHistory extends Component {
 
     this.timeline.setWindow(this.props.recommendationArray[this.props.recommendationIndex].meta.date, this.props.recommendationArray[this.props.recommendationIndex].meta.date);
 
+    //this.onInitialDrawComplete(funtion() {})
     //this.printMessage();
   }
 
   render() {
 
-    let jsxToRender;
-
     if (this.props.allFragmentsLoaded) {
-      jsxToRender = <div id="visualization"></div>
+      this.jsxToRender = <div id="visualization"></div>
     }
 
     return (<div className="myHistory">
       <p>
         Nesta cronologia, poderá situar o fragmento actual e a sua data em comparação ao resto dos fragmentos da edição virtual que tenham também data disponível.
       </p>
-      {jsxToRender}
+      {this.jsxToRender}
     </div>);
   }
 }

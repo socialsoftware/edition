@@ -23,7 +23,6 @@
   font-family: 'Amstelvar';/*Gingham; Consolas; Amstelvar;*/
   font-weight: 300;
   font-size: 24px;
-  padding: 20px;
   font-weight: 300 900;
   font-stretch: 35% 100%;
   font-style: normal;
@@ -33,13 +32,33 @@
 .buttonToolbar {
   display: inline-block;
   flex-direction: row;
-  margin: 25px auto;
+  position: sticky;
+  top: 2%;
+  right: 30%;
+  margin: auto;
+
 }
 
-.navigationText{
+.toggleTextSkimming{
   display: inline-block;
   flex-direction: row;
-  width: 90%;
+  position: sticky;
+  top: 10%;
+  right: 30%;
+  margin: auto;
+
+}
+
+.buttoncont{
+    margin: 20px auto;
+}
+
+Button:not(:last-child){
+  margin-right: 20px;
+}
+
+.appfrag {
+
 }
 
 .navPrevious {
@@ -47,15 +66,6 @@
   flex-direction: row;
   position: sticky;
   top: 35%;
-  left: 7%;
-  width: 10%;
-}
-
-.navPrevious {
-  display: inline-block;
-  flex-direction: row;
-  position: sticky;
-  top: 30%;
   left: 7%;
   width: 10%;
 }
@@ -69,21 +79,17 @@
   width: 10%;
 }
 
-.buttoncont{
-    margin: 20px auto;
-}
-
-Button:not(:last-child){
-  margin-right: 20px;
-}
-
-
-.toggleTextSkimming{
+.navigationText{
   display: inline-block;
   flex-direction: row;
-  margin: auto;
-
+  width: 90%;
 }
+
+
+
+
+
+
 
 
 

@@ -288,6 +288,7 @@ class ConnectedApp extends Component {
         this.landingActivityToRender = (<div>
           <img src={loadingGif} alt="loading..." className="loadingGifCentered"/>
           <p align="center">A carregar todos os fragmentos da edição virtual escolhida...</p>
+          <p align="center">Se demorar demasiado tempo, actualize a página e volte a tentar.</p>
         </div>);
       } else if (this.state.showLandingActivity & (this.props.potentialSemanticCriteria == CRIT_CATEGORY) & this.props.allFragmentsLoaded) {
         this.landingActivityToRender = (<MyWordCloud onChange={this.handleCloseModals}/>)
@@ -402,7 +403,7 @@ class ConnectedApp extends Component {
       <div>
         <IdleTimer ref={ref => {
             this.idleTimer = ref
-          }} element={document} onActive={this.onActive} onIdle={this.onIdle} onAction={this.onAction} debounce={250} timeout={1000 * 3}/> {/* your app here */}
+          }} element={document} onActive={this.onActive} onIdle={this.onIdle} onAction={this.onAction} debounce={250} timeout={1000 * 2}/> {/* your app here */}
       </div>
 
       {this.buttonToolBarToRender}
@@ -434,7 +435,7 @@ class ConnectedApp extends Component {
           {nextNavButton}
         </div>
 
-        <div >
+        <div className="appfrag">
           {fragLoader}
         </div>
 
