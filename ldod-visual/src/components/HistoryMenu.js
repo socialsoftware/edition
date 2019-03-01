@@ -29,6 +29,7 @@ import {
 } from "../actions/index";
 import "./HistoryMenu.css";
 
+
 const mapStateToProps = state => {
   return {
     fragments: state.fragments,
@@ -64,7 +65,18 @@ class ConnectedHistoryMenu extends Component {
 
     this.properties = [];
 
-    this.options = {};
+
+    this.options = {
+      locales: {
+        // create a new locale (text strings should be replaced with localized strings)
+        pt: {
+
+        }
+      },
+
+      // use the new locale
+      locale: 'pt'
+    };
     this.timeline = [];
 
     this.handleClick = this.handleClick.bind(this);
