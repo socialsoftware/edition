@@ -71,7 +71,14 @@ class ConnectedMyHistory extends Component {
     this.timeline = [];
     this.jsxToRender = [];
 
+    this.loadingGif = (<div>
+      <img src={loadingGif} alt="loading..." className="loadingGifCentered"/>
+      <p align="center">A carregar histórico...</p>
+    </div>);
+
     this.handleClick = this.handleClick.bind(this);
+
+    this.clearLoadingGif = this.clearLoadingGif.bind(this);
 
   }
 
@@ -142,6 +149,8 @@ class ConnectedMyHistory extends Component {
   componentDidMount() {
     var historyItems = [];
 
+    this.timeline = [];
+
     this.props.fragmentsSortedByDate.map(f => {
 
       if (f.meta.date !== null) {
@@ -185,8 +194,12 @@ class ConnectedMyHistory extends Component {
 
     this.timeline.setWindow(this.props.recommendationArray[this.props.recommendationIndex].meta.date, this.props.recommendationArray[this.props.recommendationIndex].meta.date);
 
-    //this.onInitialDrawComplete(funtion() {})
+    this.onInitialDrawComplete(this.clearLoadingGif);
     //this.printMessage();
+  }
+
+  clearLoadingGif() {
+    this.loadingGif = (<div/>);
   }
 
   render() {
@@ -199,6 +212,7 @@ class ConnectedMyHistory extends Component {
       <p>
         Nesta cronologia, poderá situar o fragmento actual e a sua data em comparação ao resto dos fragmentos da edição virtual que tenham também data disponível.
       </p>
+      {this.loadingGif}
       {this.jsxToRender}
     </div>);
   }

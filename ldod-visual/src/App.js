@@ -78,7 +78,7 @@ const mapDispatchToProps = dispatch => {
 };
 
 const styles = {
-  transition: 'all 1s ease-out'
+  transition: 'all 0.3s ease-out'
 };
 
 class ConnectedApp extends Component {
@@ -112,7 +112,8 @@ class ConnectedApp extends Component {
       fadeIn: true,
       fadeInterval: 20,
       fadeDelay: 200,
-      opacity: 1
+      opacity: 1,
+      mouseOverMenuButtons: false
     };
 
     this.landingActivityToRender = <p>A carregar edições virtuais...</p>;
@@ -128,6 +129,9 @@ class ConnectedApp extends Component {
 
     this.handleCloseModals = this.handleCloseModals.bind(this);
     this.handleCloseLanding = this.handleCloseLanding.bind(this);
+
+    this.setMouseOverMenuButtons = this.setMouseOverMenuButtons.bind(this);
+    this.setMouseOutMenuButtons = this.setMouseOutMenuButtons.bind(this);
 
     //show landing activities
     this.handleShowLandingActivitySquareEditionOrder = this.handleShowLandingActivitySquareEditionOrder.bind(this);
@@ -145,6 +149,16 @@ class ConnectedApp extends Component {
 
     this.addNewHistoryEntry = this.addNewHistoryEntry.bind(this);
 
+  }
+
+  setMouseOverMenuButtons() {
+    this.setState({mouseOverMenuButtons: true});
+    console.log("setMouseOverMenuButtons");
+  }
+
+  setMouseOutMenuButtons() {
+    this.setState({mouseOverMenuButtons: false});
+    console.log("setMouseOutMenuButtons")
   }
 
   handleCloseModals() {
@@ -242,20 +256,42 @@ class ConnectedApp extends Component {
 
   _onAction(e) {
     console.log('user did something', e)
+    if (window.scrollY == 0 && !this.state.mouseOverMenuButtons) {
+      this.setState({opacity: 1})
+    } else if (window.scrollY > 0 && !this.state.mouseOverMenuButtons) {
+      this.setState({opacity: 0.7})
+    }
+
   }
 
   _onActive(e) {
     console.log('user is active', e)
     console.log('time remaining', this.idleTimer.getRemainingTime())
-    this.setState({opacity: 1});
 
   }
 
   _onIdle(e) {
     console.log('user is idle', e)
     console.log('last active', this.idleTimer.getLastActiveTime())
-    this.setState({opacity: 0});
+    if (this.state.mouseOverMenuButtons) {
+      this.setState({opacity: 1})
+    } else {
+      this.setState({opacity: 0});
+    }
 
+  }
+
+  // listenScrollEvent = e => {
+  //
+  //   if (window.scrollY > 0 && !this.state.mouseOverMenuButtons) {
+  //     this.setState({opacity: 0.7})
+  //   } else {
+  //     this.setState({opacity: 1})
+  //   }
+  // }
+
+  componentDidMount() {
+    //window.addEventListener('scroll', this.listenScrollEvent)
   }
 
   render() {
@@ -314,7 +350,7 @@ class ConnectedApp extends Component {
             Esta é a sua primeira actividade. Escolha uma as seguintes opções.
           </p>
 
-          <ButtonToolbar>
+          <ButtonToolbar >
 
             <Button bsStyle="primary" bsSize="large" onClick={this.handleShowLandingActivitySquareEditionOrder} block="block">
               Explorar os fragmentos por ordem desta edição virtual
@@ -354,7 +390,7 @@ class ConnectedApp extends Component {
           opacity: this.state.opacity
         }}>
 
-        <ButtonToolbar>
+        <ButtonToolbar onMouseOver={this.setMouseOverMenuButtons} onMouseLeave={this.setMouseOutMenuButtons}>
 
           <Button bsStyle="primary" bsSize="large" onClick={this.handleShowGlobalView}>
             Actividade Actual
@@ -413,7 +449,7 @@ class ConnectedApp extends Component {
           opacity: this.state.opacity
         }}>
 
-        <Button bsStyle="primary" bsSize="large" onClick={this.handleToggleTextSkimming}>
+        <Button bsStyle="primary" bsSize="large" onClick={this.handleToggleTextSkimming} onMouseOver={this.setMouseOverMenuButtons} onMouseLeave={this.setMouseOutMenuButtons}>
           {toggleTextSkimmingButtonMessage}
         </Button>
 
@@ -421,14 +457,14 @@ class ConnectedApp extends Component {
 
       <div >
 
-        <div className="navPrevious" style={{
+        <div onMouseOver={this.setMouseOverMenuButtons} onMouseLeave={this.setMouseOutMenuButtons} className="navPrevious" style={{
             ...styles,
             opacity: this.state.opacity
           }}>
           {previousNavButton}
         </div>
 
-        <div className="navNext" style={{
+        <div onMouseOver={this.setMouseOverMenuButtons} onMouseLeave={this.setMouseOutMenuButtons} className="navNext" style={{
             ...styles,
             opacity: this.state.opacity
           }}>
