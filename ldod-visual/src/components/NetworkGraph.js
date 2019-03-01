@@ -102,7 +102,7 @@ class ConnectedNetworkGraph extends Component {
       }
     }.bind(this));
 
-    let myTitle;
+    let myTitle = this.props.fragmentsHashMap.get(this.props.graphData[0].interId).meta.title;
     if (this.props.currentFragmentMode && this.props.potentialSemanticCriteria == CRIT_CHRONOLOGICAL_ORDER && this.props.fragmentsHashMap.get(this.props.graphData[0].interId).meta.date !== null) {
       myTitle = this.props.fragmentsHashMap.get(this.props.graphData[0].interId).meta.title + " | Data: " + this.props.fragmentsHashMap.get(this.props.graphData[0].interId).meta.date;
     } else if (this.props.currentFragmentMode && this.props.potentialSemanticCriteria == CRIT_CHRONOLOGICAL_ORDER && !this.props.fragmentsHashMap.get(this.props.graphData[0].interId).meta.date) {

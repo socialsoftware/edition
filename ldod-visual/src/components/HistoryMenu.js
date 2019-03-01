@@ -28,7 +28,8 @@ import {
   setCurrentCategory
 } from "../actions/index";
 import "./HistoryMenu.css";
-
+import picNetGraph from '../assets/picnetgraph.png';
+import picSquareGrid from '../assets/picsquaregrid.png';
 
 const mapStateToProps = state => {
   return {
@@ -150,11 +151,29 @@ class ConnectedHistoryMenu extends Component {
   componentDidMount() {
     var historyItems = [];
 
+
+
+
+
     var i;
     for (i = 0; i < this.props.historyEntryCounter; i++) {
+      var historyPic = document.createElement('div');
+      historyPic.appendChild(document.createTextNode(this.props.history[i].nextFragment.meta.title));
+      historyPic.appendChild(document.createElement('br'));
+      var img = document.createElement('img');
+
+      img.style.width = '48px';
+      img.style.height = '48px';
+
+      if (this.props.history[i].vis == VIS_NETWORK_GRAPH){
+          img.src = picNetGraph;
+      } else if (this.props.history[i].vis == VIS_SQUARE_GRID){
+          img.src = picSquareGrid;
+      }
+      historyPic.appendChild(img);
       let item = {
         id: this.props.history[i].id,
-        content: this.props.history[i].nextFragment.meta.title,
+        content: historyPic,
         start: this.props.history[i].start
       };
       console.log("item id: " + item.id);
