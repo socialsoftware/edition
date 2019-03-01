@@ -15,6 +15,7 @@ import {
   CRIT_TAXONOMY,
   CRIT_WORD_RELEVANCE
 } from "../constants/history-transitions";
+import loadingGif from '../assets/loading.gif';
 
 const mapStateToProps = state => {
   return {
@@ -99,7 +100,10 @@ class ConnectedNetworkGraphContainer extends Component {
     if (this.state.fragmentsDistanceLoaded) {
       graphToRender = (<NetworkGraph graphData={this.state.networkGraphData} onChange={this.props.onChange}/>);
     } else {
-      graphToRender = <p>Loading distances...</p>;
+      graphToRender = (<div>
+        <img src={loadingGif} alt="loading..." className="loadingGifCentered"/>
+        <p align="center">A carregar fragmentos semelhantes...</p>
+      </div>);
     }
 
     return <div>{graphToRender}</div>;
