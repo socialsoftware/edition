@@ -78,7 +78,7 @@ const mapDispatchToProps = dispatch => {
 };
 
 const styles = {
-  transition: 'all 0.3s ease-out'
+  transition: 'all 0.2s ease-out'
 };
 
 class ConnectedApp extends Component {
@@ -113,8 +113,14 @@ class ConnectedApp extends Component {
       fadeInterval: 20,
       fadeDelay: 200,
       opacity: 1,
-      mouseOverMenuButtons: false
+      mouseOverMenuButtons: true,
+      hiddenFromIdle: false
     };
+
+    this.opacityHide = 0;
+    this.opacityShow = 1;
+    this.opacityOnText = 0.6;
+    this.opacityBarelyVisible = 0.1;
 
     this.landingActivityToRender = <p>A carregar edições virtuais...</p>;
 
@@ -256,17 +262,21 @@ class ConnectedApp extends Component {
 
   _onAction(e) {
     console.log('user did something', e)
-    if (window.scrollY == 0 && !this.state.mouseOverMenuButtons) {
-      this.setState({opacity: 1})
-    } else if (window.scrollY > 0 && !this.state.mouseOverMenuButtons) {
-      this.setState({opacity: 0.7})
+    console.log('mouseOverMenuButtons: ' + this.state.mouseOverMenuButtons);
+
+    if (window.scrollY == 0 & !this.state.mouseOverMenuButtons & !this.state.hiddenFromIdle) {
+      console.log("menubuttons 2");
+      this.setState({opacity: this.opacityShow})
+      this.setState({hiddenFromIdle: false});
+    } else if (window.scrollY > 0 & !this.state.mouseOverMenuButtons & !this.state.hiddenFromIdle) {
+      console.log("menubuttons 3");
+      this.setState({opacity: this.opacityOnText})
+      this.setState({hiddenFromIdle: false});
+    } else if (this.state.mouseOverMenuButtons) {
+      console.log("menubuttons 1");
+      this.setState({opacity: this.opacityShow})
+      this.setState({hiddenFromIdle: false});
     }
-
-  }
-
-  _onActive(e) {
-    console.log('user is active', e)
-    console.log('time remaining', this.idleTimer.getRemainingTime())
 
   }
 
@@ -274,10 +284,18 @@ class ConnectedApp extends Component {
     console.log('user is idle', e)
     console.log('last active', this.idleTimer.getLastActiveTime())
     if (this.state.mouseOverMenuButtons) {
-      this.setState({opacity: 1})
+      this.setState({opacity: this.opacityShow})
+      this.setState({hiddenFromIdle: false});
     } else {
-      this.setState({opacity: 0});
+      this.setState({opacity: this.opacityBarelyVisible});
+      this.setState({hiddenFromIdle: true});
     }
+
+  }
+
+  _onActive(e) {
+    console.log('user is active', e)
+    console.log('time remaining', this.idleTimer.getRemainingTime())
 
   }
 
@@ -439,7 +457,7 @@ class ConnectedApp extends Component {
       <div>
         <IdleTimer ref={ref => {
             this.idleTimer = ref
-          }} element={document} onActive={this.onActive} onIdle={this.onIdle} onAction={this.onAction} debounce={250} timeout={1000 * 2}/> {/* your app here */}
+          }} element={document} onActive={this.onActive} onIdle={this.onIdle} onAction={this.onAction} debounce={250} timeout={1000 * 1.5}/> {/* your app here */}
       </div>
 
       {this.buttonToolBarToRender}
@@ -471,22 +489,22 @@ class ConnectedApp extends Component {
           {nextNavButton}
         </div>
 
-        <div className="appfrag">
+        <div className="appfrag" onMouseOver={this.setMouseOutMenuButtons} onMouseLeave={this.setMouseOverMenuButtons}>
           {fragLoader}
         </div>
 
         <p/>
 
         <p align="center" style={{
-            ...styles,
-            opacity: this.state.opacity,
+            // ...styles,
+            // opacity: this.state.opacity,
             color: 'white',
             fontSize: 12
           }}>Título da edição virtual seleccionada: {myTitle}</p>
 
         <p align="center" style={{
-            ...styles,
-            opacity: this.state.opacity,
+            // ...styles,
+            // opacity: this.state.opacity,
             color: 'white',
             fontSize: 12
           }}>Acrónimo: {this.state.currentEdition.acronym}</p>
