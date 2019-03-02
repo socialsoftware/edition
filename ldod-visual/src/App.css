@@ -30,6 +30,7 @@
 }
 
 .buttonToolbar {
+
   display: inline-block;
   flex-direction: row;
   position: sticky;
@@ -40,13 +41,13 @@
 }
 
 .toggleTextSkimming{
+
   display: inline-block;
   flex-direction: row;
   position: sticky;
-  top: 10%;
+  top: 9%;
   right: 30%;
   margin: auto;
-
 }
 
 .buttoncont{

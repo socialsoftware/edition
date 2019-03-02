@@ -457,7 +457,7 @@ class ConnectedApp extends Component {
       <div>
         <IdleTimer ref={ref => {
             this.idleTimer = ref
-          }} element={document} onActive={this.onActive} onIdle={this.onIdle} onAction={this.onAction} debounce={250} timeout={1000 * 1.5}/> {/* your app here */}
+          }} element={document} onActive={this.onActive} onIdle={this.onIdle} onAction={this.onAction} debounce={250} timeout={1000 * 3}/> {/* your app here */}
       </div>
 
       {this.buttonToolBarToRender}
