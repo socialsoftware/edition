@@ -169,10 +169,14 @@ class ConnectedApp extends Component {
 
   handleCloseModals() {
     this.setState({showConfig: false, showGlobalView: false, showLanding: false, showHistoric: false});
+    this.setState({opacity: this.opacityShow})
+    this.setState({hiddenFromIdle: false});
   }
 
   handleCloseConfig() {
     this.setState({showConfig: false});
+    this.setState({opacity: this.opacityShow})
+    this.setState({hiddenFromIdle: false});
   }
 
   handleShowConfig() {
@@ -184,6 +188,8 @@ class ConnectedApp extends Component {
 
   handleCloseGlobalView() {
     this.setState({showGlobalView: false});
+    this.setState({opacity: this.opacityShow})
+    this.setState({hiddenFromIdle: false});
   }
 
   handleShowGlobalView() {
@@ -195,6 +201,8 @@ class ConnectedApp extends Component {
 
   handleCloseHistoric() {
     this.setState({showHistoric: false});
+    this.setState({opacity: this.opacityShow})
+    this.setState({hiddenFromIdle: false});
   }
 
   handleShowHistoric() {
@@ -204,7 +212,9 @@ class ConnectedApp extends Component {
 
   handleCloseLanding() {
     this.setState({showLanding: false});
-    console.log("calling handlecloselanding()")
+    console.log("calling handlecloselanding()");
+    this.setState({opacity: this.opacityShow})
+    this.setState({hiddenFromIdle: false});
   }
 
   handleShowLandingActivitySquareEditionOrder() {
