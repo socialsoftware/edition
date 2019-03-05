@@ -13,7 +13,6 @@
     "react-bootstrap": "^0.32.4",
     "react-d3-cloud": "^0.7.0",
     "react-dom": "^16.5.2",
-    "react-fade-opacity": "^2.0.0",
     "react-html-parser": "^2.0.2",
     "react-idle-timer": "^4.2.3",
     "react-jss": "^8.6.1",
