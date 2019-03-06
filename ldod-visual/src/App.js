@@ -456,7 +456,7 @@ class ConnectedApp extends Component {
     } else if (this.state.editionsReceived && this.state.editionSelected) {
 
       retreatButton = (<Button bsStyle="primary" onClick={this.handleEditionSelectRetreat}>
-        Seleccionar outra edição virtual
+        🠜 Seleccionar outra edição virtual
       </Button>);
 
       if (!this.props.allFragmentsLoaded) {
@@ -468,12 +468,12 @@ class ConnectedApp extends Component {
       } else if (this.state.showLandingActivity & (this.props.potentialSemanticCriteria == CRIT_CATEGORY) & this.props.allFragmentsLoaded) {
         this.landingActivityToRender = (<MyWordCloud onChange={this.handleCloseModals}/>)
         retreatButton = (<Button bsStyle="primary" onClick={this.handleFirstActivitySelectRetreat}>
-          Seleccionar outra actividade
+          🠜 Seleccionar outra actividade
         </Button>);
       } else if (this.state.showLandingActivity & this.props.allFragmentsLoaded) {
         this.landingActivityToRender = (<SquareGrid onChange={this.handleCloseModals}/>)
         retreatButton = (<Button bsStyle="primary" onClick={this.handleFirstActivitySelectRetreat}>
-          Seleccionar outra actividade
+          🠜 Seleccionar outra actividade
         </Button>);
       } else if (!this.state.showLandingActivity & this.props.allFragmentsLoaded) {
         let categoryButtonStyle = "primary"

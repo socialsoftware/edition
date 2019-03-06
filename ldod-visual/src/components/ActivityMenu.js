@@ -56,6 +56,8 @@ class ConnectedActivityMenu extends Component {
       show: true
     };
 
+    this.retreatButton = (<div/>);
+
     this.toggleActivityNetworkGraphTextSimilarity = this.toggleActivityNetworkGraphTextSimilarity.bind(this);
 
     this.toggleActivityNetworkGraphHeteronym = this.toggleActivityNetworkGraphHeteronym.bind(this);
@@ -71,6 +73,8 @@ class ConnectedActivityMenu extends Component {
     this.toggleSquareGridDateOrder = this.toggleSquareGridDateOrder.bind(this);
 
     this.toggleWordCloudTaxonomy = this.toggleWordCloudTaxonomy.bind(this);
+
+    this.handleActivitySelectRetreat = this.handleActivitySelectRetreat.bind(this);
 
   }
 
@@ -168,6 +172,12 @@ class ConnectedActivityMenu extends Component {
     }
   }
 
+  handleActivitySelectRetreat() {
+    this.setState(prevState => ({
+      show: !prevState.show
+    }));
+  }
+
   render() {
 
     if (this.state.show) {
@@ -205,6 +215,8 @@ class ConnectedActivityMenu extends Component {
         datesSimilarButtonMessage = "Ler fragmentos semelhantes a este por data (fragmento actual sem datas)"
         datesSimilarButtonStyle = "secondary";
       }
+
+      this.retreatButton = (<div/>);
 
       this.activityToRender = (<div>
         <p>Caso tenha seleccionado uma edição virtual sem taxonomia, ou categorias, não será possível realizar actividades que dependem das mesmas, que estarão devidamente assinaladas a cinzento. O mesmo se aplicará para a ausência de datas ou se o fragmento que está a ler actualmente não for assinado por qualquer heterónimo - as actividades em torno dessa informação estarão indisponíveis.
@@ -244,9 +256,13 @@ class ConnectedActivityMenu extends Component {
       </div>);
     } else {
       this.activityToRender = this.activityToRender; //(<NetworkGraphContainer pFragmentId={this.props.recommendationArray[this.props.recommendationIndex].interId} pHeteronymWeight="0.0" pTextWeight="1.0" pDateWeight="0.0" ptaxonomyWeight="0.0" onChange={this.props.onChange}/>);
+      this.retreatButton = (<Button bsStyle="primary" bsSize="large" onClick={this.handleActivitySelectRetreat} block="block">
+        🠜 Seleccionar outra actividade
+      </Button>);
+
     }
 
-    return <div className="activityMenu">{this.activityToRender}</div>;
+    return <div className="activityMenu">{this.activityToRender}{this.retreatButton}</div>;
 
   }
 }
