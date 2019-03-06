@@ -38,6 +38,15 @@ import ReactHtmlParser, {processNodes, convertNodeToElement, htmlparser2} from '
 import loadingGif from './assets/loading.gif';
 import loadingFragmentsGif from './assets/fragmentload.gif';
 import IdleTimer from 'react-idle-timer';
+import {
+  Link,
+  DirectLink,
+  Element,
+  Events,
+  animateScroll as scroll,
+  scrollSpy,
+  scroller
+} from 'react-scroll';
 
 const mapStateToProps = state => {
   return {
@@ -154,6 +163,9 @@ class ConnectedApp extends Component {
     this.handleEditionSelected = this.handleEditionSelected.bind(this);
 
     this.addNewHistoryEntry = this.addNewHistoryEntry.bind(this);
+
+    this.nextButtonAction = this.nextButtonAction.bind(this);
+    this.previousButtonAction = this.previousButtonAction.bind(this);
 
   }
 
@@ -303,6 +315,67 @@ class ConnectedApp extends Component {
 
   }
 
+  previousButtonAction() {
+
+    if (this.props.recommendationIndex > 0) {
+      scroll.scrollToTop({duration: 500, delay: 0, smooth: 'easeInOutQuart'});
+      //HISTORY ENTRY HISTORY ENTRY HISTORY ENTRY HISTORY ENTRY
+      let obj;
+      let historyVis = this.props.visualizationTechnique;
+      let historyCriteria = this.props.semanticCriteria;
+      obj = {
+        id: this.props.historyEntryCounter,
+        originalFragment: this.props.recommendationArray[this.props.recommendationIndex],
+        nextFragment: this.props.recommendationArray[this.props.recommendationIndex - 1],
+        vis: historyVis,
+        criteria: historyCriteria,
+        visualization: this.props.currentVisualization,
+        recommendationArray: this.props.recommendationArray,
+        recommendationIndex: this.props.recommendationIndex - 1,
+        fragmentIndex: this.props.fragmentIndex,
+        start: new Date().getTime(),
+        category: this.props.currentCategory
+      };
+
+      this.props.addHistoryEntry(obj);
+      this.props.setHistoryEntryCounter(this.props.historyEntryCounter + 1)
+      //HISTORY ENTRY HISTORY ENTRY HISTORY ENTRY HISTORY ENTRY
+      this.props.setRecommendationIndex(this.props.recommendationIndex - 1)
+
+    }
+
+  }
+
+  nextButtonAction() {
+    if (this.props.recommendationIndex < this.props.recommendationArray.length - 1) {
+      scroll.scrollToTop({duration: 500, delay: 0, smooth: 'easeInOutQuart'});
+
+      //HISTORY ENTRY HISTORY ENTRY HISTORY ENTRY HISTORY ENTRY
+      let obj;
+      let historyVis = this.props.visualizationTechnique;
+      let historyCriteria = this.props.semanticCriteria;
+      obj = {
+        id: this.props.historyEntryCounter,
+        originalFragment: this.props.recommendationArray[this.props.recommendationIndex],
+        nextFragment: this.props.recommendationArray[this.props.recommendationIndex + 1],
+        vis: historyVis,
+        criteria: historyCriteria,
+        visualization: this.props.currentVisualization,
+        recommendationArray: this.props.recommendationArray,
+        recommendationIndex: this.props.recommendationIndex + 1,
+        fragmentIndex: this.props.fragmentIndex,
+        start: new Date().getTime(),
+        category: this.props.currentCategory
+      };
+
+      this.props.addHistoryEntry(obj);
+      this.props.setHistoryEntryCounter(this.props.historyEntryCounter + 1)
+      //HISTORY ENTRY HISTORY ENTRY HISTORY ENTRY HISTORY ENTRY
+      this.props.setRecommendationIndex(this.props.recommendationIndex + 1)
+
+    }
+  }
+
   _onActive(e) {
     console.log('user is active', e)
     console.log('time remaining', this.idleTimer.getRemainingTime())
@@ -318,8 +391,25 @@ class ConnectedApp extends Component {
   //   }
   // }
 
+  _handleKeyDown = (event) => {
+
+    var ESCAPE_KEY = 27;
+
+    switch (event.keyCode) {
+      case 39: //right key
+        this.nextButtonAction();
+        break;
+      case 37: //left key
+        this.previousButtonAction();
+        break;
+      default:
+        break;
+    }
+  }
+
   componentDidMount() {
     //window.addEventListener('scroll', this.listenScrollEvent)
+    document.addEventListener("keydown", this._handleKeyDown);
   }
 
   render() {
@@ -409,9 +499,19 @@ class ConnectedApp extends Component {
       console.log("App.js: this.props.potentialSemanticCriteria: " + this.props.potentialSemanticCriteria);
       console.log("App.js: this.props.currentFragmentMode: " + this.props.currentFragmentMode);
 
-      previousNavButton = <NavigationButton nextButton={false}/>;
+      //http://xahlee.info/comp/unicode_arrows.html
+      //← ⟵ ⇦ ⬅ 🡐 🡄 🠘 🠜 🠐 🠨 🠬 🠰 🡠 🢀
+      //→ ⟶ ⇨ ⮕ 🡒 🡆 🠚 🠞 🠒 🠪 🠮 🠲 🡢 🢂
 
-      nextNavButton = <NavigationButton nextButton={true}/>;
+      //previousNavButton = <NavigationButton nextButton={false}/>;
+      previousNavButton = (<Button bsStyle={this.previousFragmentButtonStyle} bsSize="large" onClick={this.previousButtonAction}>
+        🠜
+      </Button>);
+
+      //nextNavButton = <NavigationButton nextButton={true}/>;
+      nextNavButton = (<Button bsStyle={this.nextFragmentButtonStyle} bsSize="large" onClick={this.nextButtonAction}>
+        🠞
+      </Button>);
 
       this.buttonToolBarToRender = (<div className="buttonToolbar" style={{
           ...styles,
@@ -421,11 +521,11 @@ class ConnectedApp extends Component {
         <ButtonToolbar onMouseOver={this.setMouseOverMenuButtons} onMouseLeave={this.setMouseOutMenuButtons}>
 
           <Button bsStyle="primary" bsSize="large" onClick={this.handleShowGlobalView}>
-            Actividade Actual
+            Actividade actual
           </Button>
 
           <Button bsStyle="primary" bsSize="large" onClick={this.handleShowConfig}>
-            Nova Actividade
+            Nova actividade
           </Button>
 
           <Button bsStyle="primary" bsSize="large" onClick={this.handleShowHistoric}>
@@ -509,14 +609,14 @@ class ConnectedApp extends Component {
             // ...styles,
             // opacity: this.state.opacity,
             color: 'white',
-            fontSize: 12
+            fontSize: 13
           }}>Título da edição virtual seleccionada: {myTitle}</p>
 
         <p align="center" style={{
             // ...styles,
             // opacity: this.state.opacity,
             color: 'white',
-            fontSize: 12
+            fontSize: 13
           }}>Acrónimo: {this.state.currentEdition.acronym}</p>
 
       </div>

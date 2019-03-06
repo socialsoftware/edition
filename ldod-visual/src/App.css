@@ -35,27 +35,25 @@
   flex-direction: row;
   position: sticky;
   top: 2%;
-  right: 30%;
+  left: 15%;
+  right: 15%;
   margin: auto;
-
 }
 
 .toggleTextSkimming{
 
-  display: inline-block;
-  flex-direction: row;
   position: sticky;
   top: 9%;
-  right: 30%;
-  margin: auto;
+  left: 15%;
+  right: 15%;
+  margin: 5px auto;
+
 }
 
-.buttoncont{
-    margin: 20px auto;
-}
+
 
 Button:not(:last-child){
-  margin-right: 20px;
+  margin-right: 15px;
 }
 
 .appfrag {
@@ -67,17 +65,15 @@ Button:not(:last-child){
   flex-direction: row;
   position: sticky;
   top: 35%;
-  left: 7%;
-  width: 10%;
+  left: 8%;
 }
 
 .navNext {
   display: inline-block;
   flex-direction: row;
   position: sticky;
-  top: 30%;
-  left: 83%;
-  width: 10%;
+  top: 35%;
+  left: 88%;
 }
 
 .navigationText{

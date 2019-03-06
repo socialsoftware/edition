@@ -127,6 +127,10 @@ class ConnectedPublicEditionContainer extends React.Component {
     return <div>
       <p>Escolha uma das edições virtuais públicas disponíveis.
       </p>
+      <p>Poderá criar a sua edição virtual e consultar detalhes de outras edições virtuais públicas no{' '}
+        <a href="https://ldod.uc.pt/virtualeditions">
+          Arquivo LdoD</a>.
+      </p>
       <p>
         As edições virtuais que não possuem taxonomia (categorias) estão assinaladas a cinzento. Apenas se escolher uma das edições virtuais com taxonomia (assinaladas a azul) poderá realizar actividades à volta das mesmas.</p>
       {editionButtonList}

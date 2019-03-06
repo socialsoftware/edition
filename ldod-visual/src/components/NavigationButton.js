@@ -64,12 +64,14 @@ class ConnectedNavigationButton extends Component {
     this.options = [];
     this.myId = 'previousButton';
     //this.xOffset = -300;
-    this.label = "⬅";
+    //⟶ ⮕ 🡆 🠚 🠞 🠒 🠪 🠮 🠲 🠊 🢂
+    //http://xahlee.info/comp/unicode_arrows.html
+    this.label = "🢀";
     this.shape = "box";
     if (this.props.nextButton) {
       this.myId = 'nextButton'
       //this.xOffset *= -1;
-      this.label = "➡";
+      this.label = "🢂";
     }
 
     this.state = {
