@@ -104,6 +104,7 @@ class ConnectedApp extends Component {
     this.onIdle = this._onIdle.bind(this)
 
     this.handleEditionSelectRetreat = this.handleEditionSelectRetreat.bind(this)
+    this.handleFirstActivitySelectRetreat = this.handleFirstActivitySelectRetreat.bind(this)
 
     this.previousFragmentButtonStyle = "primary";
     this.nextFragmentButtonStyle = "primary";
@@ -396,10 +397,14 @@ class ConnectedApp extends Component {
   // }
 
   handleEditionSelectRetreat() {
-
-    this.setState({editionSelected: false});
     this.props.setAllFragmentsLoaded(false);
+    this.setState({editionSelected: false});
     this.landingActivityToRender = <PublicEditionContainer onChange={this.handleEditionsReceived} sendSelectedEdition={this.handleEditionSelected}/>
+  }
+
+  handleFirstActivitySelectRetreat() {
+
+    this.setState({showLandingActivity: false});
   }
 
   _handleKeyDown = (event) => {
@@ -425,6 +430,7 @@ class ConnectedApp extends Component {
 
   render() {
     console.log(new Date().getTime() + " App.js: Rendering")
+    let retreatButton;
 
     //BUTTON LOGIC
     if (this.props.outOfLandingPage) {
@@ -449,6 +455,10 @@ class ConnectedApp extends Component {
 
     } else if (this.state.editionsReceived && this.state.editionSelected) {
 
+      retreatButton = (<Button bsStyle="primary" onClick={this.handleEditionSelectRetreat}>
+        Seleccionar outra edição virtual
+      </Button>);
+
       if (!this.props.allFragmentsLoaded) {
         this.landingActivityToRender = (<div>
           <img src={loadingGif} alt="loading..." className="loadingGifCentered"/>
@@ -457,8 +467,14 @@ class ConnectedApp extends Component {
         </div>);
       } else if (this.state.showLandingActivity & (this.props.potentialSemanticCriteria == CRIT_CATEGORY) & this.props.allFragmentsLoaded) {
         this.landingActivityToRender = (<MyWordCloud onChange={this.handleCloseModals}/>)
+        retreatButton = (<Button bsStyle="primary" onClick={this.handleFirstActivitySelectRetreat}>
+          Seleccionar outra actividade
+        </Button>);
       } else if (this.state.showLandingActivity & this.props.allFragmentsLoaded) {
         this.landingActivityToRender = (<SquareGrid onChange={this.handleCloseModals}/>)
+        retreatButton = (<Button bsStyle="primary" onClick={this.handleFirstActivitySelectRetreat}>
+          Seleccionar outra actividade
+        </Button>);
       } else if (!this.state.showLandingActivity & this.props.allFragmentsLoaded) {
         let categoryButtonStyle = "primary"
         let categoryButtonFunction = this.handleShowLandingActivityWordCloudCategory;
@@ -500,6 +516,7 @@ class ConnectedApp extends Component {
 
           </ButtonToolbar>
         </div>)
+
       }
     }
 
@@ -650,9 +667,7 @@ class ConnectedApp extends Component {
         </Modal.Body>
 
         <Modal.Footer>
-          <Button bsStyle="primary" onClick={this.handleEditionSelectRetreat}>
-            Seleccionar outra edição virtual
-          </Button>
+          {retreatButton}
         </Modal.Footer>
       </Modal>
 
