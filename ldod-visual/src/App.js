@@ -189,12 +189,14 @@ class ConnectedApp extends Component {
     this.setState({showConfig: false, showGlobalView: false, showLanding: false, showHistoric: false});
     this.setState({opacity: this.opacityShow})
     this.setState({hiddenFromIdle: false});
+    scroll.scrollToTop({duration: 500, delay: 0, smooth: 'easeInOutQuart'});
   }
 
   handleCloseConfig() {
     this.setState({showConfig: false});
     this.setState({opacity: this.opacityShow})
     this.setState({hiddenFromIdle: false});
+    scroll.scrollToTop({duration: 500, delay: 0, smooth: 'easeInOutQuart'});
   }
 
   handleShowConfig() {
@@ -208,6 +210,7 @@ class ConnectedApp extends Component {
     this.setState({showGlobalView: false});
     this.setState({opacity: this.opacityShow})
     this.setState({hiddenFromIdle: false});
+    scroll.scrollToTop({duration: 500, delay: 0, smooth: 'easeInOutQuart'});
   }
 
   handleShowGlobalView() {
@@ -221,6 +224,7 @@ class ConnectedApp extends Component {
     this.setState({showHistoric: false});
     this.setState({opacity: this.opacityShow})
     this.setState({hiddenFromIdle: false});
+    scroll.scrollToTop({duration: 500, delay: 0, smooth: 'easeInOutQuart'});
   }
 
   handleShowHistoric() {
@@ -233,6 +237,7 @@ class ConnectedApp extends Component {
     console.log("calling handlecloselanding()");
     this.setState({opacity: this.opacityShow})
     this.setState({hiddenFromIdle: false});
+    scroll.scrollToTop({duration: 500, delay: 0, smooth: 'easeInOutQuart'});
   }
 
   handleShowLandingActivitySquareEditionOrder() {
