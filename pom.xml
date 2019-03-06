@@ -464,6 +464,7 @@
 
 	<modules>
 		<module>classification-game</module>
+		<module>ldod-visual</module>
 		<module>edition-ldod</module>
 	</modules>
 </project>
