@@ -10,6 +10,7 @@
     "npm": "^6.8.0",
     "qs": "^6.6.0",
     "react": "^16.5.2",
+    "react-animate-on-change": "^2.1.1",
     "react-bootstrap": "^0.32.4",
     "react-d3-cloud": "^0.7.0",
     "react-dom": "^16.5.2",

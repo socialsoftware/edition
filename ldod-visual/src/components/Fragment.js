@@ -6,6 +6,10 @@ import HashMap from "hashmap";
 import ReactHtmlParser, {processNodes, convertNodeToElement, htmlparser2} from 'react-html-parser';
 import ReactDOMServer from 'react-dom/server';
 
+const styles = {
+  transition: 'all 0.12s ease-out'
+};
+
 const mapStateToProps = state => {
   return {
     fragmentIndex: state.fragmentIndex,
@@ -26,7 +30,8 @@ export class ConnectedFragment extends React.Component {
     super(props);
 
     this.state = {
-      toggleTextSkimmingUpdate: false
+      toggleTextSkimmingUpdate: false,
+      opacity: 1
     };
 
     this.oldTfIdfDataMap = new HashMap();
@@ -36,6 +41,19 @@ export class ConnectedFragment extends React.Component {
     this.max = 0.000001;
     this.truncateCounter = 0;
     this.TfIdfRequestCounter = 0;
+  }
+
+  componentDidUpdate(prevProps) {
+    console.log("fragment.js: componentDidUpdate 1");
+    if (this.props.recommendationIndex !== prevProps.recommendationIndex) {
+      console.log("fragment.js: componentDidUpdate 2");
+      this.setState({opacity: 0});
+
+      setTimeout(function() {
+        this.setState({opacity: 1});
+      }.bind(this), 150);
+
+    }
   }
 
   render() {
@@ -167,18 +185,22 @@ export class ConnectedFragment extends React.Component {
         textToDisplay = ReactHtmlParser(this.props.recommendationArray[this.props.recommendationIndex].text)
       }
 
-      fragmentToRender = (<div className="box">
+      fragmentToRender = (<div className="box" style={styles}>
 
-        <h1 align="center">
-          <b>
-            {this.props.recommendationArray[this.props.recommendationIndex].meta.title}
-          </b>
-        </h1>
+        <div style={{
+            ...styles,
+            opacity: this.state.opacity
+          }}>
 
-        <br/> {textToDisplay}
+          <h1 align="center">
+            <b>
+              {this.props.recommendationArray[this.props.recommendationIndex].meta.title}
+            </b>
+          </h1>
 
+          <br/> {textToDisplay}
+        </div>
       </div>);;
-
     } else {
       fragmentToRender = <div/>;
     }
@@ -186,203 +208,199 @@ export class ConnectedFragment extends React.Component {
     return (<div>{fragmentToRender}</div>);
   }
 }
-
 const Fragment = connect(mapStateToProps)(ConnectedFragment);
+export default Fragment;/*
 
-export default Fragment;
+      <br/>
 
-/*
+      <p></p>
 
-<br/>
+      <span style={{
+          fontWeight: 0
+        }}>
+        Isto leva bold com valor a 0
+      </span>
 
-<p></p>
+      <br/>
 
-<span style={{
-    fontWeight: 0
-  }}>
-  Isto leva bold com valor a 0
-</span>
+      <span style={{
+          fontWeight: 1
+        }}>
+        Isto leva bold com valor a 1
+      </span>
 
-<br/>
+      <br/>
 
-<span style={{
-    fontWeight: 1
-  }}>
-  Isto leva bold com valor a 1
-</span>
+      <span style={{
+          fontWeight: 5
+        }}>
+        Isto leva bold com valor a 5
+      </span>
 
-<br/>
+      <br/>
 
-<span style={{
-    fontWeight: 5
-  }}>
-  Isto leva bold com valor a 5
-</span>
+      <span style={{
+          fontWeight: 100
+        }}>
+        Isto leva bold com valor a 100
+      </span>
 
-<br/>
+      <br/>
 
-<span style={{
-    fontWeight: 100
-  }}>
-  Isto leva bold com valor a 100
-</span>
+      <span style={{
+          fontWeight: 150
+        }}>
+        Isto leva bold com valor a 150
+      </span>
 
-<br/>
+      <br/>
 
-<span style={{
-    fontWeight: 150
-  }}>
-  Isto leva bold com valor a 150
-</span>
+      <span style={{
+          fontWeight: 200
+        }}>
+        Isto leva bold com valor a 200
+      </span>
 
-<br/>
+      <br/>
 
-<span style={{
-    fontWeight: 200
-  }}>
-  Isto leva bold com valor a 200
-</span>
+      <span style={{
+          fontWeight: 250
+        }}>
+        Isto leva bold com valor a 250
+      </span>
 
-<br/>
+      <br/>
 
-<span style={{
-    fontWeight: 250
-  }}>
-  Isto leva bold com valor a 250
-</span>
+      <span style={{
+          fontWeight: 300
+        }}>
+        Isto leva bold com valor a 300
+      </span>
 
-<br/>
+      <br/>
 
-<span style={{
-    fontWeight: 300
-  }}>
-  Isto leva bold com valor a 300
-</span>
+      <span style={{
+          fontWeight: 350
+        }}>
+        Isto leva bold com valor a 350
+      </span>
 
-<br/>
+      <br/>
 
-<span style={{
-    fontWeight: 350
-  }}>
-  Isto leva bold com valor a 350
-</span>
+      <span style={{
+          fontWeight: 400
+        }}>
+        Isto leva bold com valor a 400
+      </span>
 
-<br/>
+      <br/>
 
-<span style={{
-    fontWeight: 400
-  }}>
-  Isto leva bold com valor a 400
-</span>
+      <span style={{
+          fontWeight: 450
+        }}>
+        Isto leva bold com valor a 450
+      </span>
 
-<br/>
+      <br/>
 
-<span style={{
-    fontWeight: 450
-  }}>
-  Isto leva bold com valor a 450
-</span>
+      <span style={{
+          fontWeight: 500
+        }}>
+        Isto leva bold com valor a 500
+      </span>
 
-<br/>
+      <br/>
 
-<span style={{
-    fontWeight: 500
-  }}>
-  Isto leva bold com valor a 500
-</span>
+      <span style={{
+          fontWeight: 550
+        }}>
+        Isto leva bold com valor a 550
+      </span>
 
-<br/>
+      <br/>
 
-<span style={{
-    fontWeight: 550
-  }}>
-  Isto leva bold com valor a 550
-</span>
+      <span style={{
+          fontWeight: 600
+        }}>
+        Isto leva bold com valor a 600
+      </span>
 
-<br/>
+      <br/>
 
-<span style={{
-    fontWeight: 600
-  }}>
-  Isto leva bold com valor a 600
-</span>
+      <span style={{
+          fontWeight: 650
+        }}>
+        Isto leva bold com valor a 650
+      </span>
 
-<br/>
+      <br/>
 
-<span style={{
-    fontWeight: 650
-  }}>
-  Isto leva bold com valor a 650
-</span>
+      <span style={{
+          fontWeight: 700
+        }}>
+        Isto leva bold com valor a 700
+      </span>
 
-<br/>
+      <br/>
 
-<span style={{
-    fontWeight: 700
-  }}>
-  Isto leva bold com valor a 700
-</span>
+      <span style={{
+          fontWeight: 750
+        }}>
+        Isto leva bold com valor a 750
+      </span>
 
-<br/>
+      <br/>
 
-<span style={{
-    fontWeight: 750
-  }}>
-  Isto leva bold com valor a 750
-</span>
+      <span style={{
+          fontWeight: 800
+        }}>
+        Isto leva bold com valor a 800
+      </span>
 
-<br/>
+      <br/>
 
-<span style={{
-    fontWeight: 800
-  }}>
-  Isto leva bold com valor a 800
-</span>
+      <span style={{
+          fontWeight: 850
+        }}>
+        Isto leva bold com valor a 850
+      </span>
 
-<br/>
+      <br/>
 
-<span style={{
-    fontWeight: 850
-  }}>
-  Isto leva bold com valor a 850
-</span>
+      <span style={{
+          fontWeight: 900
+        }}>
+        Isto leva bold com valor a 900
+      </span>
 
-<br/>
+      <br/>
 
-<span style={{
-    fontWeight: 900
-  }}>
-  Isto leva bold com valor a 900
-</span>
+      <span style={{
+          fontWeight: 950
+        }}>
+        Isto leva bold com valor a 950
+      </span>
 
-<br/>
+      <br/>
 
-<span style={{
-    fontWeight: 950
-  }}>
-  Isto leva bold com valor a 950
-</span>
+      <span style={{
+          fontWeight: 999
+        }}>
+        Isto leva bold com valor a 999
+      </span>
 
-<br/>
+      <br/>
 
-<span style={{
-    fontWeight: 999
-  }}>
-  Isto leva bold com valor a 999
-</span>
+      <span style={{
+          fontWeight: 1000
+        }}>
+        Isto leva bold com valor a 1000
+      </span>
 
-<br/>
+      <p></p>
 
-<span style={{
-    fontWeight: 1000
-  }}>
-  Isto leva bold com valor a 1000
-</span>
+      <p>{this.props.recommendationArray[this.props.recommendationIndex].interId}</p>
 
-<p></p>
+      <p>{this.props.recommendationArray[this.props.recommendationIndex].meta.date}</p>
 
-<p>{this.props.recommendationArray[this.props.recommendationIndex].interId}</p>
-
-<p>{this.props.recommendationArray[this.props.recommendationIndex].meta.date}</p>
-
-*/
+      */
