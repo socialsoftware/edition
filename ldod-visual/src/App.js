@@ -66,7 +66,8 @@ const mapStateToProps = state => {
     displayTextSkimming: state.displayTextSkimming,
     categories: state.categories,
     history: state.history,
-    datesExist: state.datesExist
+    datesExist: state.datesExist,
+    historyEntryCounter: state.historyEntryCounter
   };
 };
 
