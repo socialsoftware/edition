@@ -85,8 +85,8 @@ export class ConnectedFragment extends React.Component {
             console.log(response.data);
 
             let myMap = new HashMap();
-            response.data.map(d => console.log(Object.keys(d)[0] + " " + Object.values(d)[0]));
-            response.data.map(d => myMap.set(Object.keys(d)[0], Object.values(d)[0]));
+            response.data.map(d => console.log(Object.keys(d)[0].toLowerCase() + " " + Object.values(d)[0]));
+            response.data.map(d => myMap.set(Object.keys(d)[0].toLowerCase(), Object.values(d)[0]));
 
             this.oldTfIdfDataMap.set(currentlyDisplayedFragmentId, myMap);
 
@@ -130,12 +130,12 @@ export class ConnectedFragment extends React.Component {
               outOfTag = true;
             }
 
-            if (wordsTfIdfMap.has(stringArray[w]) && outOfTag) {
+            if (wordsTfIdfMap.has(stringArray[w].toLowerCase()) && outOfTag) {
 
               console.log("AYYYYYYYYYYYYYY")
-              console.log(stringArray[w]);
+              console.log("TF-IDF FOUND WORD: " + stringArray[w]);
 
-              let tfIdf = parseFloat(wordsTfIdfMap.get(stringArray[w]));
+              let tfIdf = parseFloat(wordsTfIdfMap.get(stringArray[w].toLowerCase()));
               if (tfIdf < this.min) {
                 this.min = tfIdf
               }

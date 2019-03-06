@@ -151,6 +151,8 @@ class ConnectedFragmentLoader extends React.Component {
         console.log("FragmentLoader.js: receiving fragments");
         console.log(response);
 
+        //response.data.fragments.map(f => f.text = f.text.concat(" base Base toda Toda"));
+
         this.props.addFragment(response.data.fragments);
         this.props.fragments.map(f => this.map.set(f.interId, f));
         this.props.setfragmentsHashMap(this.map);
