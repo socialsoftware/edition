@@ -76,6 +76,8 @@ class ConnectedActivityMenu extends Component {
 
     this.handleActivitySelectRetreat = this.handleActivitySelectRetreat.bind(this);
 
+    this.toggleWordCloudTaxonomySingleFragment = this.toggleWordCloudTaxonomySingleFragment.bind(this);
+
   }
 
   toggleActivityNetworkGraphTextSimilarity() {
@@ -159,6 +161,19 @@ class ConnectedActivityMenu extends Component {
     }
   }
 
+  toggleWordCloudTaxonomySingleFragment() {
+
+    if (this.props.categories.length !== 0 && this.props.recommendationArray[this.props.recommendationIndex].meta.categories.length !== 0) {
+
+      this.props.setPotentialVisualizationTechnique(VIS_SQUARE_GRID);
+      this.props.setPotentialSemanticCriteria(CRIT_CATEGORY);
+      this.activityToRender = (<MyWordCloud onChange={this.props.onChange} singleFragmentCategory={true}/>);
+      this.setState(prevState => ({
+        show: !prevState.show
+      }));
+    }
+  }
+
   toggleSquareGridHeteronym() {
 
     if (this.props.recommendationArray[this.props.recommendationIndex].meta.heteronym) {
@@ -216,6 +231,14 @@ class ConnectedActivityMenu extends Component {
         datesSimilarButtonStyle = "secondary";
       }
 
+      let wordCloudSingleFragmentMessage = "Explorar mais fragmentos desta edição da(s) mesma(s) categoria(s) deste fragmento";
+      let wordCloudSingleFragmentButtonStyle = "primary";
+
+      if (this.props.recommendationArray[this.props.recommendationIndex].meta.categories.length == 0) {
+        wordCloudSingleFragmentMessage = "Explorar mais fragmentos desta edição da(s) mesma(s) categoria(s) deste fragmento (sem categorias)";
+        wordCloudSingleFragmentButtonStyle = "secondary";
+      }
+
       this.retreatButton = (<div/>);
 
       this.activityToRender = (<div>
@@ -246,6 +269,10 @@ class ConnectedActivityMenu extends Component {
 
           <Button bsStyle={heteronymButtonStyle} bsSize="large" onClick={this.toggleSquareGridHeteronym} block="block">
             Explorar mais fragmentos assinados pelo mesmo heterónimo ({myHeteronym})
+          </Button>
+
+          <Button bsStyle={wordCloudSingleFragmentButtonStyle} bsSize="large" onClick={this.toggleWordCloudTaxonomySingleFragment} block="block">
+            {wordCloudSingleFragmentMessage}
           </Button>
 
           <Button bsStyle={categoryButtonStyle} bsSize="large" onClick={this.toggleWordCloudTaxonomy} block="block">
