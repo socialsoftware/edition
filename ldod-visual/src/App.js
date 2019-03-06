@@ -638,7 +638,9 @@ class ConnectedApp extends Component {
           {nextNavButton}
         </div>
 
-        <div className="appfrag" onMouseOver={this.setMouseOutMenuButtons} onMouseLeave={this.setMouseOverMenuButtons}>
+        <div className="appfrag" onMouseOver={this.setMouseOutMenuButtons} /*onMouseLeave={this.setMouseOverMenuButtons}*/
+
+        >
           {fragLoader}
         </div>
 
