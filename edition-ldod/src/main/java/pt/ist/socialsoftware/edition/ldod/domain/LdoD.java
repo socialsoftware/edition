@@ -340,7 +340,6 @@ public class LdoD extends LdoD_Base {
 
 	@Atomic(mode = TxMode.WRITE)
 	public void removeTweetsWithoutCitationsWithInfoRange() {
-		getLastTwitterID().resetTwitterIDS();
 		getTweetSet().forEach(t -> {
 			if (t.getCitation() == null || t.getCitation().getInfoRangeSet().isEmpty()) {
 				t.remove();

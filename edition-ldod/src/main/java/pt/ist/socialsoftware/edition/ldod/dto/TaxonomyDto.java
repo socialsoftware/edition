@@ -6,6 +6,7 @@ public class TaxonomyDto {
 	private boolean openManagement;
 	private boolean openVocabulary;
 	private boolean openAnnotation;
+	private boolean hasCategories;
 
 	public TaxonomyDto() {
 	}
@@ -14,6 +15,7 @@ public class TaxonomyDto {
 		this.setOpenManagement(taxonomy.getOpenManagement());
 		this.setOpenVocabulary(taxonomy.getOpenVocabulary());
 		this.setOpenAnnotation(taxonomy.getOpenAnnotation());
+		this.setHasCategories(!taxonomy.getCategoriesSet().isEmpty());
 	}
 
 	public boolean isOpenManagement() {
@@ -38,6 +40,14 @@ public class TaxonomyDto {
 
 	public void setOpenAnnotation(boolean openAnnotation) {
 		this.openAnnotation = openAnnotation;
+	}
+
+	public boolean getHasCategories() {
+		return this.hasCategories;
+	}
+
+	public void setHasCategories(boolean hasCategories) {
+		this.hasCategories = hasCategories;
 	}
 
 }

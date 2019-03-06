@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.ParseException;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -37,6 +38,7 @@ import org.apache.lucene.search.spans.SpanNearQuery;
 import org.apache.lucene.search.spans.SpanQuery;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.NIOFSDirectory;
+import org.joda.time.LocalDate;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.slf4j.Logger;
@@ -50,6 +52,7 @@ import pt.ist.socialsoftware.edition.ldod.domain.FragInter;
 import pt.ist.socialsoftware.edition.ldod.domain.Fragment;
 import pt.ist.socialsoftware.edition.ldod.domain.InfoRange;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
+import pt.ist.socialsoftware.edition.ldod.domain.Tweet;
 import pt.ist.socialsoftware.edition.ldod.domain.TwitterCitation;
 import pt.ist.socialsoftware.edition.ldod.generators.PlainHtmlWriter4OneInter;
 import pt.ist.socialsoftware.edition.ldod.search.IgnoreDiacriticsAnalyzer;
@@ -78,7 +81,6 @@ public class CitationDetecter {
 	public void detect() throws IOException {
 		this.logger.debug("STARTING CITATION DETECTER!!");
 		// resets last twitter IDs
-		resetLastTwitterIds();
 		citationDetection();
 		this.logger.debug("FINISHED DETECTING CITATIONS!!!");
 
@@ -116,12 +118,31 @@ public class CitationDetecter {
 		File[] files = folder.listFiles((FileFilter) FileFileFilter.FILE);
 		Arrays.sort(files, NameFileComparator.NAME_COMPARATOR);
 
-		for (File fileEntry : files) {
-			fileCitationDetection(fileEntry);
+		String[] sources = { "fp", "livro", "bernardo", "vicente" };
 
+		for (String source : sources) {
+			String lastFileName = getLastFilenameForSource(source);
+
+			List<File> sourceFiles = Arrays.stream(files)
+					.filter(f -> f.getName().contains(source) && f.getName().compareTo(lastFileName) >= 0)
+					.collect(Collectors.toList());
+
+			for (File fileEntry : sourceFiles) {
+				fileCitationDetection(fileEntry);
+
+			}
 		}
-		printLastTwitterIds();
 
+		printLastTwitterIdsAndFiles();
+
+	}
+
+	@Atomic
+	private String getLastFilenameForSource(String source) {
+		String lastFileName = LdoD.getInstance().getLastTwitterID().getLastParsedFile(source) != null
+				? LdoD.getInstance().getLastTwitterID().getLastParsedFile(source)
+				: "";
+		return lastFileName;
 	}
 
 	private void fileCitationDetection(File fileEntry) throws FileNotFoundException, IOException {
@@ -285,13 +306,14 @@ public class CitationDetecter {
 	}
 
 	@Atomic
-	private void printLastTwitterIds() {
-		this.logger.debug("LdoD BookLastTwitterID:{}", LdoD.getInstance().getLastTwitterID().getBookLastTwitterID());
-		this.logger.debug("LdoD BernardoLastTwitterID:{}",
+	private void printLastTwitterIdsAndFiles() {
+		this.logger.debug("LdoD Book:{}, {}", LdoD.getInstance().getLastTwitterID().getLastBookParsedFile(),
+				LdoD.getInstance().getLastTwitterID().getBookLastTwitterID());
+		this.logger.debug("LdoD Bernardo:{}, {}", LdoD.getInstance().getLastTwitterID().getLastBernardoParsedFile(),
 				LdoD.getInstance().getLastTwitterID().getBernardoLastTwitterID());
-		this.logger.debug("LdoD VicenteLastTwitterID:{}",
+		this.logger.debug("LdoD Vicente:{}, {}", LdoD.getInstance().getLastTwitterID().getLastVicenteParsedFile(),
 				LdoD.getInstance().getLastTwitterID().getVicenteLastTwitterID());
-		this.logger.debug("LdoD PessoaLastTwitterID:{}",
+		this.logger.debug("LdoD Pessoa:{}, {}", LdoD.getInstance().getLastTwitterID().getLastPessoaParsedFile(),
 				LdoD.getInstance().getLastTwitterID().getPessoaLastTwitterID());
 	}
 

@@ -7,8 +7,10 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import org.apache.commons.io.comparator.NameFileComparator;
 import org.apache.commons.io.filefilter.FileFileFilter;
@@ -36,10 +38,21 @@ public class TweetFactory {
 		File[] files = folder.listFiles((FileFilter) FileFileFilter.FILE);
 		Arrays.sort(files, NameFileComparator.NAME_COMPARATOR);
 
-		for (File fileEntry : files) {
-			logger.debug("JSON file name: " + fileEntry.getName());
-			fileTweetCreation(fileEntry);
+		String[] sources = { "fp", "livro", "bernardo", "vicente" };
 
+		for (String source : sources) {
+			String lastFileName = LdoD.getInstance().getLastTwitterID().getLastParsedFile(source) != null
+					? LdoD.getInstance().getLastTwitterID().getLastParsedFile(source)
+					: "";
+
+			List<File> sourceFiles = Arrays.stream(files)
+					.filter(f -> f.getName().contains(source) && f.getName().compareTo(lastFileName) >= 0)
+					.collect(Collectors.toList());
+
+			for (File fileEntry : sourceFiles) {
+				logger.debug("JSON file name: " + fileEntry.getName());
+				fileTweetCreation(fileEntry);
+			}
 		}
 
 		logger.debug("DELETE CITATIONS WITHOUT INFO RANGE");

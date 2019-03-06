@@ -35,11 +35,11 @@ class Vote extends Component {
 
     componentWillUnmount() {
         clearInterval(this.interval);
-        <AppContext>
-            <Provider value={{winner: this.state.winner, top: this.state.topTag}}>  
-                {this.props.children}
-            </Provider>
-        </AppContext>
+        // <AppContext>
+        //     <Provider value={{winner: this.state.winner, top: this.state.topTag}}>  
+        //         {this.props.children}
+        //     </Provider>
+        // </AppContext>
     }
 
     componentDidUpdate(prevProps) {

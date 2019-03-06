@@ -11,6 +11,8 @@ import pt.ist.socialsoftware.edition.ldod.domain.Edition;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
 import pt.ist.socialsoftware.edition.ldod.loaders.LoadTEICorpus;
 import pt.ist.socialsoftware.edition.ldod.loaders.LoadTEIFragments;
+import pt.ist.socialsoftware.edition.ldod.loaders.VirtualEditionFragmentsTEIImport;
+import pt.ist.socialsoftware.edition.ldod.loaders.VirtualEditionsTEICorpusImport;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDLoadException;
 import pt.ist.socialsoftware.edition.ldod.utils.Bootstrap;
 import pt.ist.socialsoftware.edition.ldod.utils.PropertiesManager;
@@ -68,5 +70,24 @@ public class TestLoadUtils {
 		ObjectMapper mapper = new ObjectMapper();
 		mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
 		return mapper.writeValueAsBytes(object);
+	}
+
+	public static void loadTestVirtualEdition() throws FileNotFoundException {
+
+		File directory = new File(PropertiesManager.getProperties().getProperty("test.files.dir"));
+		File corpus = new File(directory,"virtual-corpus.xml");
+		FileInputStream fis1 = new FileInputStream(corpus);
+
+		VirtualEditionsTEICorpusImport loader = new VirtualEditionsTEICorpusImport();
+
+		loader.importVirtualEditionsCorpus(fis1);
+
+		File frag1 = new File(directory, "virtual-Fr001.xml");
+		FileInputStream fisfrag = new FileInputStream(frag1);
+
+		VirtualEditionFragmentsTEIImport fragloader = new VirtualEditionFragmentsTEIImport();
+
+		fragloader.importFragmentFromTEI(fisfrag);
+
 	}
 }
