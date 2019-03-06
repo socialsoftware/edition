@@ -79,7 +79,7 @@ class ConnectedPublicEditionContainer extends React.Component {
 
   componentDidMount() {
 
-    const service = new RepositoryService("bla");
+    const service = new RepositoryService();
 
     service.getPublicEditions().then(response => {
       console.log("ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ |" + response.data.map(e => console.log("|Title: " + e.title + " |Acronym:" + e.acronym + " |hasCategories: " + e.taxonomy.hasCategories)));

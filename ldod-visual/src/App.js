@@ -12,7 +12,8 @@ import {
   setPotentialVisualizationTechnique,
   setPotentialSemanticCriteria,
   setDisplayTextSkimming,
-  setHistoryEntryCounter
+  setHistoryEntryCounter,
+  setAllFragmentsLoaded
 } from "./actions/index";
 import {connect} from "react-redux";
 import {Button, ButtonToolbar, Modal} from "react-bootstrap";
@@ -82,7 +83,8 @@ const mapDispatchToProps = dispatch => {
     setPotentialVisualizationTechnique: potentialVisualizationTechnique => dispatch(setPotentialVisualizationTechnique(potentialVisualizationTechnique)),
     setPotentialSemanticCriteria: potentialSemanticCriteria => dispatch(setPotentialSemanticCriteria(potentialSemanticCriteria)),
     setDisplayTextSkimming: displayTextSkimming => dispatch(setDisplayTextSkimming(displayTextSkimming)),
-    setHistoryEntryCounter: historyEntryCounter => dispatch(setHistoryEntryCounter(historyEntryCounter))
+    setHistoryEntryCounter: historyEntryCounter => dispatch(setHistoryEntryCounter(historyEntryCounter)),
+    setAllFragmentsLoaded: allFragmentsLoaded => dispatch(setAllFragmentsLoaded(allFragmentsLoaded))
   };
 };
 
@@ -100,6 +102,8 @@ class ConnectedApp extends Component {
     this.onAction = this._onAction.bind(this)
     this.onActive = this._onActive.bind(this)
     this.onIdle = this._onIdle.bind(this)
+
+    this.handleEditionSelectRetreat = this.handleEditionSelectRetreat.bind(this)
 
     this.previousFragmentButtonStyle = "primary";
     this.nextFragmentButtonStyle = "primary";
@@ -391,6 +395,13 @@ class ConnectedApp extends Component {
   //   }
   // }
 
+  handleEditionSelectRetreat() {
+
+    this.setState({editionSelected: false});
+    this.props.setAllFragmentsLoaded(false);
+    this.landingActivityToRender = <PublicEditionContainer onChange={this.handleEditionsReceived} sendSelectedEdition={this.handleEditionSelected}/>
+  }
+
   _handleKeyDown = (event) => {
 
     var ESCAPE_KEY = 27;
@@ -463,9 +474,14 @@ class ConnectedApp extends Component {
           datesButtonFunction = function() {}
           datesButtonMessage = "Explorar os fragmentos desta edição ordenados por data (edição virtual sem datas)"
         }
+        const options = {
+          decodeEntities: true
+        }
+
+        let myTitle = ReactHtmlParser(this.state.currentEdition.title, options);
         this.landingActivityToRender = (<div>
           <p>
-            Esta é a sua primeira actividade. Escolha uma as seguintes opções.
+            Esta é a sua primeira actividade em torno da edição virtual que seleccionou - "{myTitle}". Escolha uma as seguintes opções.
           </p>
 
           <ButtonToolbar >
@@ -633,7 +649,11 @@ class ConnectedApp extends Component {
           <div className="landing-activity-style">{this.landingActivityToRender}</div>
         </Modal.Body>
 
-        <Modal.Footer></Modal.Footer>
+        <Modal.Footer>
+          <Button bsStyle="primary" onClick={this.handleEditionSelectRetreat}>
+            Seleccionar outra edição virtual
+          </Button>
+        </Modal.Footer>
       </Modal>
 
       <Modal show={this.state.showGlobalView} onHide={this.handleCloseGlobalView} dialogClassName="custom-modal">
