@@ -197,9 +197,11 @@ class ConnectedActivityMenu extends Component {
 
     if (this.state.show) {
 
+      let categoryButtonMessage = "Explorar os fragmentos desta edição pelas categorias a que pertencem (taxonomia)"
       let categoryButtonStyle = "primary"
       if (this.props.categories.length === 0) {
         categoryButtonStyle = "secondary";
+        categoryButtonMessage = "Explorar os fragmentos desta edição pelas categorias a que pertencem (taxonomia) (edição sem taxonomia)"
       }
 
       let heteronymButtonStyle = "secondary";
@@ -227,15 +229,18 @@ class ConnectedActivityMenu extends Component {
         datesSimilarButtonMessage = "Ler fragmentos semelhantes a este por data (edição virtual sem datas)"
       }
       if (this.props.recommendationArray[this.props.recommendationIndex].meta.date == null) {
-        datesSimilarButtonMessage = "Ler fragmentos semelhantes a este por data (fragmento actual sem datas)"
+        datesSimilarButtonMessage = "Ler fragmentos semelhantes a este por data (fragmento actual sem data disponível)"
         datesSimilarButtonStyle = "secondary";
       }
 
-      let wordCloudSingleFragmentMessage = "Explorar mais fragmentos desta edição da(s) mesma(s) categoria(s) deste fragmento";
+      let wordCloudSingleFragmentMessage = "Explorar mais fragmentos da(s) mesma(s) categoria(s) deste fragmento";
       let wordCloudSingleFragmentButtonStyle = "primary";
 
+      console.log("blebleblebleble")
+      console.log(this.props.recommendationArray[this.props.recommendationIndex].meta.categories.length)
+
       if (this.props.recommendationArray[this.props.recommendationIndex].meta.categories.length == 0) {
-        wordCloudSingleFragmentMessage = "Explorar mais fragmentos desta edição da(s) mesma(s) categoria(s) deste fragmento (sem categorias)";
+        wordCloudSingleFragmentMessage = "Explorar mais fragmentos desta edição da(s) mesma(s) categoria(s) deste fragmento (fragmento actual sem categorias)";
         wordCloudSingleFragmentButtonStyle = "secondary";
       }
 
@@ -247,6 +252,26 @@ class ConnectedActivityMenu extends Component {
 
         <ButtonToolbar>
 
+          <Button bsStyle="primary" bsSize="large" onClick={this.toggleSquareGridEditionOrder} block="block">
+            Explorar os fragmentos por ordem desta edição virtual
+          </Button>
+
+          <Button bsStyle={datesButtonStyle} bsSize="large" onClick={datesButtonFunction} block="block">
+            {datesButtonMessage}
+          </Button>
+
+          <Button bsStyle={heteronymButtonStyle} bsSize="large" onClick={this.toggleSquareGridHeteronym} block="block">
+            Explorar mais fragmentos assinados pelo mesmo heterónimo deste fragmento ({myHeteronym})
+          </Button>
+
+          <Button bsStyle={categoryButtonStyle} bsSize="large" onClick={this.toggleWordCloudTaxonomy} block="block">
+            {categoryButtonMessage}
+          </Button>
+
+          <Button bsStyle={wordCloudSingleFragmentButtonStyle} bsSize="large" onClick={this.toggleWordCloudTaxonomySingleFragment} block="block">
+            {wordCloudSingleFragmentMessage}
+          </Button>
+
           <Button bsStyle="primary" bsSize="large" onClick={this.toggleActivityNetworkGraphTextSimilarity} block="block">
             Ler fragmentos semelhantes a este por semelhança de texto
           </Button>
@@ -257,26 +282,6 @@ class ConnectedActivityMenu extends Component {
 
           <Button bsStyle={categoryButtonStyle} bsSize="large" onClick={this.toggleActivityNetworkGraphTaxonomy} block="block">
             Ler fragmentos semelhantes a este por taxonomia
-          </Button>
-
-          <Button bsStyle="primary" bsSize="large" onClick={this.toggleSquareGridEditionOrder} block="block">
-            Explorar os fragmentos por ordem desta edição virtual
-          </Button>
-
-          <Button bsStyle={datesButtonStyle} bsSize="large" onClick={datesButtonFunction} block="block">
-            {datesButtonMessage}
-          </Button>
-
-          <Button bsStyle={heteronymButtonStyle} bsSize="large" onClick={this.toggleSquareGridHeteronym} block="block">
-            Explorar mais fragmentos assinados pelo mesmo heterónimo ({myHeteronym})
-          </Button>
-
-          <Button bsStyle={wordCloudSingleFragmentButtonStyle} bsSize="large" onClick={this.toggleWordCloudTaxonomySingleFragment} block="block">
-            {wordCloudSingleFragmentMessage}
-          </Button>
-
-          <Button bsStyle={categoryButtonStyle} bsSize="large" onClick={this.toggleWordCloudTaxonomy} block="block">
-            Explorar os fragmentos desta edição pelas categorias a que pertencem (taxonomia)
           </Button>
 
         </ButtonToolbar>

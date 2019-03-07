@@ -482,9 +482,11 @@ class ConnectedApp extends Component {
         </Button>);
       } else if (!this.state.showLandingActivity & this.props.allFragmentsLoaded) {
         let categoryButtonStyle = "primary"
+        let categoryButtonMessage = "Explorar os fragmentos desta edição pelas categorias a que pertencem (taxonomia)"
         let categoryButtonFunction = this.handleShowLandingActivityWordCloudCategory;
         if (this.props.categories.length === 0) {
           categoryButtonStyle = "secondary";
+          categoryButtonMessage = "Explorar os fragmentos desta edição pelas categorias a que pertencem (taxonomia) (edição sem taxonomia)"
           categoryButtonFunction = function() {}
         }
         let datesButtonStyle = "primary"
@@ -516,7 +518,7 @@ class ConnectedApp extends Component {
             </Button>
 
             <Button bsStyle={categoryButtonStyle} bsSize="large" onClick={categoryButtonFunction} block="block">
-              Explorar os fragmentos desta edição pelas categorias a que pertencem (taxonomia)
+              {categoryButtonMessage}
             </Button>
 
           </ButtonToolbar>
