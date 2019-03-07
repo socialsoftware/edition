@@ -5,6 +5,7 @@ import {RepositoryService} from "../services/RepositoryService";
 import HashMap from "hashmap";
 import ReactHtmlParser, {processNodes, convertNodeToElement, htmlparser2} from 'react-html-parser';
 import ReactDOMServer from 'react-dom/server';
+import loadingGif from '../assets/loading.gif';
 
 const styles = {
   transition: 'all 0.12s ease-out'
@@ -61,7 +62,8 @@ export class ConnectedFragment extends React.Component {
     ("Fragment.js: render()")
 
     let fragmentToRender;
-    let textToDisplay;
+    let textToDisplay = (<div><img src={loadingGif} alt="loading..." className="loadingGifCentered"/>
+    </div>);
     let stringArray;
 
     if (this.props.allFragmentsLoaded && this.props.outOfLandingPage && this.props.recommendationLoaded) {
@@ -202,7 +204,8 @@ export class ConnectedFragment extends React.Component {
         </div>
       </div>);;
     } else {
-      fragmentToRender = <div/>;
+      fragmentToRender = (<div><img src={loadingGif} alt="loading..." className="loadingGifCentered"/>
+      </div>);
     }
 
     return (<div>{fragmentToRender}</div>);

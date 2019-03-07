@@ -82,7 +82,7 @@ class ConnectedPublicEditionContainer extends React.Component {
     const service = new RepositoryService();
 
     service.getPublicEditions().then(response => {
-      console.log("ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ |" + response.data.map(e => console.log("|Title: " + e.title + " |Acronym:" + e.acronym + " |hasCategories: " + e.taxonomy.hasCategories)));
+      console.log("ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ |" + response.data.map(e => console.log("|Title: " + e.title + " |Acronym:" + e.acronym + " |hasCategories: " + e.taxonomy.hasCategories + " |numberOfInters: " + e.numberOfInters)));
       this.setState({editions: response.data, editionsReceived: true});
       this.props.onChange();
 
@@ -101,21 +101,23 @@ class ConnectedPublicEditionContainer extends React.Component {
       console.log("editionsReceived");
 
       editionButtonList = this.state.editions.map(item => {
-        let buttonStyle = "secondary";
-        if (item.taxonomy.hasCategories) {
-          buttonStyle = "primary"
+
+        if (item.numberOfInters > 0) {
+          let buttonStyle = "secondary";
+          if (item.taxonomy.hasCategories) {
+            buttonStyle = "primary"
+          }
+
+          const options = {
+            decodeEntities: true
+          }
+
+          let myTitle = ReactHtmlParser(item.title + " (" + item.numberOfInters + " fragmentos)", options);
+
+          return <Button bsStyle={buttonStyle} bsSize="large" block="block" onClick={() => this.handleButtonClick(item)}>
+            {myTitle}
+          </Button>;
         }
-
-        const options = {
-          decodeEntities: true
-        }
-
-        let myTitle = ReactHtmlParser(item.title, options);
-
-        return <Button bsStyle={buttonStyle} bsSize="large" block="block" onClick={() => this.handleButtonClick(item)}>
-          {myTitle}
-        </Button>;
-
       })
     } else {
       editionButtonList = (<div><img src={loadingGif} alt="loading..." className="loadingGifCentered"/>

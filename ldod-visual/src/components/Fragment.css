@@ -9,3 +9,12 @@
   margin-bottom: 2%;
   margin-top: 2%;
 }
+
+.loadingGifCentered{
+  display: flex;
+  flex-direction: row;
+  margin: 25px auto;
+  width: 10%;
+  height: 10%;
+
+}
