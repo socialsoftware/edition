@@ -33,20 +33,17 @@
 
   display: inline-block;
   flex-direction: row;
-  position: sticky;
-  top: 2%;
-  left: 15%;
-  right: 15%;
-  margin: auto;
+  position: fixed;
+  align-self: center;
+  margin-top: 30px;
+
 }
 
 .toggleTextSkimming{
 
-  position: sticky;
-  top: 9%;
-  left: 15%;
-  right: 15%;
-  margin: 5px auto;
+  position: fixed;
+  align-self: center;
+  margin-top: 90px;
 
 }
 
