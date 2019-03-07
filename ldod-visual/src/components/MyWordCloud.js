@@ -157,7 +157,7 @@ class ConnectedMyWordCloud extends Component {
           return minFontSize
         }
         if (this.props.singleFragmentCategory) {
-          return 50;
+          return maxFontSize;
         }
         //console.log("WORDCLOUD: returning fontsize " + fontSize + " for word : " + word.text)
         return fontSize;
