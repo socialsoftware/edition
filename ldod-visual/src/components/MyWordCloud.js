@@ -115,8 +115,8 @@ class ConnectedMyWordCloud extends Component {
         message = "Esta é uma nuvem de palavras das categorias do fragmento actual. Para explorar fragmentos que pertençam a esta(s) categoria(s), clique com o botão esquerdo do rato numa delas para ser remetido para outro mapa."
       }
 
-      let minFontSize = 5;
-      let maxFontSize = 30;
+      let minFontSize = 20;
+      let maxFontSize = 40;
 
       if (myCategories.length < 10) {
         minFontSize = maxFontSize
