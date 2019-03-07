@@ -461,7 +461,7 @@ class ConnectedApp extends Component {
     } else if (this.state.editionsReceived && this.state.editionSelected) {
 
       retreatButton = (<Button bsStyle="primary" onClick={this.handleEditionSelectRetreat}>
-        🠜 Seleccionar outra edição virtual
+        ← Seleccionar outra edição virtual
       </Button>);
 
       if (!this.props.allFragmentsLoaded) {
@@ -473,12 +473,12 @@ class ConnectedApp extends Component {
       } else if (this.state.showLandingActivity & (this.props.potentialSemanticCriteria == CRIT_CATEGORY) & this.props.allFragmentsLoaded) {
         this.landingActivityToRender = (<MyWordCloud onChange={this.handleCloseModals}/>)
         retreatButton = (<Button bsStyle="primary" onClick={this.handleFirstActivitySelectRetreat}>
-          🠜 Seleccionar outra actividade
+          ← Seleccionar outra actividade
         </Button>);
       } else if (this.state.showLandingActivity & this.props.allFragmentsLoaded) {
         this.landingActivityToRender = (<SquareGrid onChange={this.handleCloseModals}/>)
         retreatButton = (<Button bsStyle="primary" onClick={this.handleFirstActivitySelectRetreat}>
-          🠜 Seleccionar outra actividade
+          ← Seleccionar outra actividade
         </Button>);
       } else if (!this.state.showLandingActivity & this.props.allFragmentsLoaded) {
         let categoryButtonStyle = "primary"
@@ -538,17 +538,17 @@ class ConnectedApp extends Component {
       console.log("App.js: this.props.currentFragmentMode: " + this.props.currentFragmentMode);
 
       //http://xahlee.info/comp/unicode_arrows.html
-      //← ⟵ ⇦ ⬅ 🡐 🡄 🠘 🠜 🠐 🠨 🠬 🠰 🡠 🢀
-      //→ ⟶ ⇨ ⮕ 🡒 🡆 🠚 🠞 🠒 🠪 🠮 🠲 🡢 🢂
+      //← ⟵ ⇦ ⬅ 🡐 🡄 🠘 ← 🠐 🠨 🠬 🠰 🡠 🢀
+      //→ ⟶ ⇨ ⮕ 🡒 🡆 🠚 → 🠒 🠪 🠮 🠲 🡢 🢂
 
       //previousNavButton = <NavigationButton nextButton={false}/>;
       previousNavButton = (<Button bsStyle={this.previousFragmentButtonStyle} bsSize="large" onClick={this.previousButtonAction}>
-        🠜
+        ←
       </Button>);
 
       //nextNavButton = <NavigationButton nextButton={true}/>;
       nextNavButton = (<Button bsStyle={this.nextFragmentButtonStyle} bsSize="large" onClick={this.nextButtonAction}>
-        🠞
+        →
       </Button>);
 
       this.buttonToolBarToRender = (<div className="buttonToolbar" style={{
