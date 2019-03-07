@@ -29,6 +29,7 @@ import {Button, ButtonToolbar, Modal} from "react-bootstrap";
 import ReactHtmlParser, {processNodes, convertNodeToElement, htmlparser2} from 'react-html-parser';
 import loadingGif from '../assets/loading.gif'
 import loadingFragmentsGif from '../assets/fragmentload.gif'
+import "./PublicEditionContainer.css";
 
 const mapStateToProps = state => {
   return {
@@ -103,20 +104,53 @@ class ConnectedPublicEditionContainer extends React.Component {
       editionButtonList = this.state.editions.map(item => {
 
         if (item.numberOfInters > 0) {
-          let buttonStyle = "secondary";
+          let buttonStyle = "primary";
+          let categoryMessage = "Não"
+
           if (item.taxonomy.hasCategories) {
-            buttonStyle = "primary"
+            categoryMessage = (<b>Sim</b>)
           }
 
           const options = {
             decodeEntities: true
           }
 
-          let myTitle = ReactHtmlParser(item.title + " (" + item.numberOfInters + " fragmentos)", options);
+          //let myTitle = ReactHtmlParser(item.title + " (" + item.numberOfInters + " fragmentos)", options);
 
-          return <Button bsStyle={buttonStyle} bsSize="large" block="block" onClick={() => this.handleButtonClick(item)}>
-            {myTitle}
-          </Button>;
+          let myTitle = ReactHtmlParser(item.title, options);
+
+          // return (<Button bsStyle={buttonStyle} bsSize="large" block="block" onClick={() => this.handleButtonClick(item)}>
+          //   {myTitle}
+          // </Button>);
+
+          const styles = {
+            width: '100%'
+          };
+
+          //<img src="img_avatar.png" alt="Avatar" style={styles}/>
+
+          return (<div className="card">
+
+            <div className="container">
+
+              <p>
+                <b>{myTitle}</b>
+              </p>
+              <p>{"Acrónimo: " + item.acronym}</p>
+              <p>{"Número de fragmentos: " + item.numberOfInters}</p>
+              <p>Categorias disponíveis: {categoryMessage}</p>
+
+              <div className="welcomeButton">
+
+                <Button bsStyle={buttonStyle} bsSize="small" onClick={() => this.handleButtonClick(item)}>
+                  Seleccionar edição
+                </Button>
+
+              </div>
+
+            </div>
+
+          </div>)
         }
       })
     } else {
@@ -134,8 +168,13 @@ class ConnectedPublicEditionContainer extends React.Component {
           Arquivo LdoD</a>.
       </p>
       <p>
-        As edições virtuais que não possuem taxonomia (categorias) estão assinaladas a cinzento. Apenas se escolher uma das edições virtuais com taxonomia (assinaladas a azul) poderá realizar actividades à volta das mesmas.</p>
-      {editionButtonList}
+        Apenas se escolher uma edição virtual com categorias disponíveis (taxonomia), poderá realizar actividades à volta das mesmas.</p>
+
+      <br></br>
+
+      <div className="cardsContainer">
+        {editionButtonList}
+      </div>
     </div>;
   }
 
