@@ -245,10 +245,10 @@ var editionData = new Array();
 	</c:choose>
  	 	 
 	 var listused = new Array();
-	 <c:forEach var="used" items="${inter.getListUsed()}">
+	 <c:forEach var="used" items="${uiInterface.getFragInterUsed(inter)}">
 	 	used = new Object();
-	 	used.externalId = ${used.externalId};
-	 	used.shortName = "${used.shortName}";
+	 	used.externalId = ${used.getExternalId()};
+	 	used.shortName = "${used.getShortName()}";
 	 	listused.push(used);
 	 </c:forEach>
 	 editionDataItem.listused = listused;
@@ -379,7 +379,7 @@ console.log(editionData);
                     <span class="glyphicon glyphicon-arrow-right" aria-hidden="up"></span><span class="caret"></span>
                   </button>
                   <div class="dropdown-menu" role="menu" style="padding:15px">
-                  	Posição:
+                  	Posiï¿½ï¿½o:
                     <input id="movetopos" type="number" value="0" min="0" class="form-control">
                 	<br>
                     <button type="button" id="moveok" class="btn btn-default pull-right">OK</button>
@@ -406,17 +406,17 @@ console.log(editionData);
                 
                  <div class="btn-group" role="group" aria-label="...">
                   <button type="button" class="btn btn-default" data-toggle="modal" data-target=".bs-example-modal-addsection2">
-                <span class="glyphicon glyphicon-text-height" aria-hidden="Adicionar secção"></span>
+                <span class="glyphicon glyphicon-text-height" aria-hidden="Adicionar secï¿½ï¿½o"></span>
                 </button>
               </div>
                 
                 <button type="button" class="btn btn-default" data-toggle="modal" data-target=".bs-example-modal-addsection2">
-                Secção
+                Secï¿½ï¿½o
                 </button>
                
                  <div class="btn-group" role="group" aria-label="...">
                   <button type="button"  id="preview" class="btn btn-default" data-toggle="modal" data-target="#myModal">
-                <span class="glyphicon glyphicon-th-list" aria-hidden="Previsualizar Índice"></span>
+                <span class="glyphicon glyphicon-th-list" aria-hidden="Previsualizar ï¿½ndice"></span>
                 </button>
               </div>
  					-->
@@ -481,7 +481,7 @@ console.log(editionData);
 								<select class="selectpicker" data-width="100%" id="searchType"
 									title="teste x">
 									<option value="">Pesquisa completa</option>
-									<option value="title">Pesquisa por título</option>
+									<option value="title">Pesquisa por tï¿½tulo</option>
 								</select>
 							</div>
 						</div>
@@ -491,7 +491,7 @@ console.log(editionData);
 								<option value="Coelho">Jacinto do Prado Coelho</option>
 								<option value="Cunha">Teresa Sobral Cunha</option>
 								<option value="Zenith">Richard Zenith</option>
-								<option value="Pizarro">Jerónimo Pizarro</option>
+								<option value="Pizarro">Jerï¿½nimo Pizarro</option>
 								<option value="BNP">Fontes Autorais</option>
 
 							</select>
@@ -554,7 +554,7 @@ console.log(editionData);
 						aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
-					<h4 class="modal-title">Adicionar Secção</h4>
+					<h4 class="modal-title">Adicionar Secï¿½ï¿½o</h4>
 				</div>
 				<div class="modal-body">
 					<input id="sectionname" type="text" class="btn btn-default"
@@ -586,7 +586,7 @@ console.log(editionData);
 						aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
-					<h4 class="modal-title" id="myModalLabel">Edição Virtual</h4>
+					<h4 class="modal-title" id="myModalLabel">Ediï¿½ï¿½o Virtual</h4>
 				</div>
 				<div class="modal-body" id="modalpreview">...</div>
 
@@ -694,7 +694,7 @@ var columns = [
   },
   {
     id: "name",
-    name: "Título",
+    name: "Tï¿½tulo",
     field: "name",
     behavior: "selectAndMove",
     cssClass: "cell-title",
@@ -703,7 +703,7 @@ var columns = [
   },
   {
     id: "edition",
-    name: "Edição",
+    name: "Ediï¿½ï¿½o",
     field: "edition",
     behavior: "selectAndMove",
     sortable: true 

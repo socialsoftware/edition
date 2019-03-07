@@ -39,7 +39,6 @@ public class LdoD extends LdoD_Base {
 	}
 
 	public void remove() {
-		setRoot(null);
 		getExpertEditionsSet().forEach(e -> e.remove());
 		getRolesSet().forEach(r -> r.remove());
 		getUsersSet().forEach(u -> u.remove());
@@ -53,6 +52,7 @@ public class LdoD extends LdoD_Base {
 		getTweetSet().forEach(t -> t.remove());
 		getVirtualEditionsSet().forEach(v -> v.remove());
 		getLastTwitterID().remove();
+		setRoot(null);
 
 		deleteDomainObject();
 	}

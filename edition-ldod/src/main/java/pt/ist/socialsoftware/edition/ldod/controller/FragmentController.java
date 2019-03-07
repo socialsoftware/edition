@@ -378,6 +378,7 @@ public class FragmentController {
 	public @ResponseBody AnnotationSearchJson searchAnnotations(Model model, @RequestParam int limit,
 			@RequestParam String uri) {
 		// código alterado para funcionar com os dois tipos de anotações
+		logger.debug("searchAnnotations uri: " + uri);
 		List<AnnotationDTO> annotations = new ArrayList<>();
 
 		VirtualEditionInter inter = FenixFramework.getDomainObject(uri);

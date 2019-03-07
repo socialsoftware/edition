@@ -38,6 +38,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import pt.ist.fenixframework.FenixFramework;
+import pt.ist.socialsoftware.edition.ldod.api.ui.UiInterface;
 import pt.ist.socialsoftware.edition.ldod.domain.Category;
 import pt.ist.socialsoftware.edition.ldod.domain.ClassificationGame;
 import pt.ist.socialsoftware.edition.ldod.domain.ClassificationGameParticipant;
@@ -202,6 +203,7 @@ public class VirtualEditionController {
 		model.addAttribute("title", virtualEdition.getTitle());
 		model.addAttribute("date", virtualEdition.getDate().toString("dd-MM-yyyy"));
 		model.addAttribute("pub", virtualEdition.getPub());
+		model.addAttribute("uiInterface",new UiInterface());
 		return "virtual/edition";
 	}
 

@@ -90,4 +90,8 @@ public class TestLoadUtils {
 		fragloader.importFragmentFromTEI(fisfrag);
 
 	}
+
+	public static void deleteTestVirtualEdition() {
+		LdoD.getInstance().getVirtualEdition("LdoD-Teste").remove();
+	}
 }

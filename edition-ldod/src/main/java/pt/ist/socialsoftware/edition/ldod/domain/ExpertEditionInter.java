@@ -126,12 +126,6 @@ public class ExpertEditionInter extends ExpertEditionInter_Base {
 	}
 
 	@Override
-	public List<FragInter> getListUsed() {
-		List<FragInter> listUses = new ArrayList<>();
-		return listUses;
-	}
-
-	@Override
 	public String getReference() {
 		return Integer.toString(getNumber());
 	}

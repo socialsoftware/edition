@@ -31,8 +31,6 @@ public abstract class FragInter extends FragInter_Base implements Comparable<Fra
 
 	public abstract Edition getEdition();
 
-	public abstract List<FragInter> getListUsed();
-
 	@Override
 	public int compareTo(FragInter other) {
 		if (getSourceType() != other.getSourceType()) {

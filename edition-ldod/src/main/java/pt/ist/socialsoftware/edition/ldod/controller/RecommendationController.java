@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import pt.ist.fenixframework.FenixFramework;
+import pt.ist.socialsoftware.edition.ldod.api.ui.UiInterface;
 import pt.ist.socialsoftware.edition.ldod.domain.Edition.EditionType;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
@@ -141,6 +142,7 @@ public class RecommendationController {
 			model.addAttribute("selected", params.getId());
 		}
 		model.addAttribute("edition", virtualEdition);
+		model.addAttribute("uiInterface", new UiInterface());
 
 		return "recommendation/virtualTable";
 	}

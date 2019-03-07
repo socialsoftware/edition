@@ -283,7 +283,7 @@ class VirtualEditionInter extends FragInter {
 
 relation VirtualEditionInterUsesVirtualEditionInter {
 	VirtualEditionInter playsRole isUsedBy {multiplicity 0..*;}
-	VirtualEditionInter playsRole uses {multiplicity 1..1;}
+	VirtualEditionInter playsRole uses {multiplicity 0..1;}
 }
 
 class SourceInter extends ScholarInter;

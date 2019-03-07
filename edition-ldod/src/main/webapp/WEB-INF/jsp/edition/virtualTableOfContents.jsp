@@ -59,8 +59,8 @@
 							${category.getNameInEditionContext(edition)}</a>
 						<br>
 					</c:forEach></td>
-				<td><c:forEach var="used" items="${inter.getListUsed()}">-><a
-							href="${contextPath}/fragments/fragment/${used.getFragment().getXmlId()}/inter/${used.getUrlId()}">${used.shortName}</a>
+				<td><c:forEach var="used" items="${uiInterface.getFragInterUsed(inter)}">-><a
+							href="${contextPath}/fragments/fragment/${used.getFragmentXmlId()}/inter/${used.getUrlId()}">${used.getShortName()}</a>
 						<br>
 					</c:forEach></td>
 			</tr>

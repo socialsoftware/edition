@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import pt.ist.fenixframework.FenixFramework;
+import pt.ist.socialsoftware.edition.ldod.api.ui.UiInterface;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.dto.EditionDto;
 import pt.ist.socialsoftware.edition.ldod.dto.LdoDUserDto;
@@ -46,7 +47,7 @@ public class EditionController {
 			model.addAttribute("heteronym", null);
 			model.addAttribute("edition", edition);
 			model.addAttribute("editionDto",new EditionDto(edition));
-
+			model.addAttribute("uiInterface", new UiInterface());
 			return "edition/tableOfContents";
 		}
 
@@ -80,6 +81,7 @@ public class EditionController {
 			model.addAttribute("heteronym", heteronym);
 			model.addAttribute("edition", edition);
 			model.addAttribute("editionDto", new EditionDto(edition));
+			model.addAttribute("uiInterface", new UiInterface());
 
 			return "edition/tableOfContents";
 		}
@@ -99,6 +101,7 @@ public class EditionController {
 				model.addAttribute("games", games);
 				model.addAttribute("position", LdoD.getInstance().getOverallUserPosition(user.getUsername()));
 			}
+			model.addAttribute("uiInterface", new UiInterface());
 			return "edition/userContributions";
 		} else {
 			return "redirect:/error";
@@ -132,6 +135,8 @@ public class EditionController {
 		}
 
 		model.addAttribute("category", category);
+		model.addAttribute("uiInterface", new UiInterface());
+
 		return "edition/categoryTableOfContents";
 	}
 

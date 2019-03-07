@@ -1,12 +1,17 @@
 package pt.ist.socialsoftware.edition.ldod.domain;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import pt.ist.socialsoftware.edition.ldod.api.event.Event;
 import pt.ist.socialsoftware.edition.ldod.api.event.EventInterface;
+import pt.ist.socialsoftware.edition.ldod.api.ldod.LdoDInterface;
 
 public abstract class ScholarInter extends ScholarInter_Base {
+    private static Logger logger = LoggerFactory.getLogger(ScholarInter.class);
 
     @Override
     public void remove() {
+
         setFragment(null);
         setHeteronym(null);
 
@@ -39,6 +44,8 @@ public abstract class ScholarInter extends ScholarInter_Base {
 
         // adicionado recentemente, testar
         getInfoRangeSet().forEach(infoRange -> infoRange.remove());
+
+        logger.debug("Finished removal of " + this.getXmlId());
 
         deleteDomainObject();
     }

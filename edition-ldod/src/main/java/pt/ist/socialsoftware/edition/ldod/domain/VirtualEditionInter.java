@@ -39,6 +39,7 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 			setUses(null);
 			setUsesFragInter(inter.getXmlId());
 		}
+
 		setFragment(inter.getFragment());
 		setHeteronym(null);
 		setLdoDDate(null);
@@ -53,10 +54,8 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 	public void remove() {
 
 		for (VirtualEditionInter inter : getIsUsedBySet()) {
-			logger.debug("Setting uses and id in " + inter.getXmlId() +  " from " + this.getXmlId());
 			inter.setUses(getUses());
 			inter.setUsesFragInter(getUsesFragInter()); // set usesfraginter so that first level vei can now the fraginter they point too
-			removeIsUsedBy(inter);
 		}
 
 		setFragment(null);
@@ -109,7 +108,7 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 
 	@Override
 	public String getTitle() {
-		return getUses().getTitle();
+		return getUses() != null ? getUses().getTitle() : (new TextInterface()).getScholarInterTitle(getUsesFragInter());
 	}
 
 	@Override
@@ -148,13 +147,6 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 	@Override
 	public Edition getEdition() {
 		return getVirtualEdition();
-	}
-
-	@Override
-	public List<FragInter> getListUsed() {
-		List<FragInter> listUses = getUses().getListUsed();
-		listUses.add(0, getUses());
-		return listUses;
 	}
 
 	@Override
@@ -309,7 +301,8 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 			categories = new HashSet<>();
 		}
 
-		categories.addAll(getUses().getAllDepthCategories());
+		if(getUses() != null)
+			categories.addAll(getUses().getAllDepthCategories());
 
 		return categories;
 	}
@@ -337,7 +330,8 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 			annotations = new HashSet<>();
 		}
 
-		annotations.addAll(getUses().getAllDepthHumanAnnotations());
+		if (getUses() != null)
+			annotations.addAll(getUses().getAllDepthHumanAnnotations());
 
 		return annotations;
 	}
@@ -352,7 +346,8 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 			annotations = new HashSet<>();
 		}
 
-		annotations.addAll(getUses().getAllDepthAnnotations());
+		if(getUses() != null)
+			annotations.addAll(getUses().getAllDepthAnnotations());
 
 		return annotations;
 	}
@@ -367,7 +362,9 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 			tags = new HashSet<>();
 		}
 
-		tags.addAll(getUses().getAllDepthTags());
+
+		if(getUses() != null)
+			tags.addAll(getUses().getAllDepthTags());
 
 		return tags;
 	}
@@ -452,7 +449,7 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 
 	@Override
 	public int getUsesDepth() {
-		return getUses().getUsesDepth() + 1;
+		return getUses() != null ? getUses().getUsesDepth() + 1 : 1;
 	}
 
 	// Is it this way? (this method doesn't take into account the retweets)

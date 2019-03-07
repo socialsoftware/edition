@@ -106,12 +106,6 @@ public class SourceInter extends SourceInter_Base {
 	}
 
 	@Override
-	public List<FragInter> getListUsed() {
-		List<FragInter> listUses = new ArrayList<>();
-		return listUses;
-	}
-
-	@Override
 	public String getReference() {
 		return getShortName();
 	}
