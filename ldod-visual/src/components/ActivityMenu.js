@@ -163,7 +163,7 @@ class ConnectedActivityMenu extends Component {
 
   toggleWordCloudTaxonomySingleFragment() {
 
-    if (this.props.categories.length !== 0 && this.props.recommendationArray[this.props.recommendationIndex].meta.categories.length !== 0) {
+    if (this.props.categories.length !== 0 & this.props.recommendationArray[this.props.recommendationIndex].meta.categories.length !== 0) {
 
       this.props.setPotentialVisualizationTechnique(VIS_SQUARE_GRID);
       this.props.setPotentialSemanticCriteria(CRIT_CATEGORY);
@@ -236,8 +236,8 @@ class ConnectedActivityMenu extends Component {
       let wordCloudSingleFragmentMessage = "Explorar mais fragmentos da(s) mesma(s) categoria(s) deste fragmento";
       let wordCloudSingleFragmentButtonStyle = "primary";
 
-      console.log("blebleblebleble")
-      console.log(this.props.recommendationArray[this.props.recommendationIndex].meta.categories.length)
+      // console.log("blebleblebleble")
+      // console.log(this.props.recommendationArray[this.props.recommendationIndex].meta.categories.length)
 
       if (this.props.recommendationArray[this.props.recommendationIndex].meta.categories.length == 0) {
         wordCloudSingleFragmentMessage = "Explorar mais fragmentos desta edição da(s) mesma(s) categoria(s) deste fragmento (fragmento actual sem categorias)";

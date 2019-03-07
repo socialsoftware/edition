@@ -101,6 +101,7 @@ class ConnectedMyWordCloud extends Component {
     let myCategories = this.props.categories;
 
     if (this.props.singleFragmentCategory) {
+      console.log("ZZZZZZZZZZZZZZZZZZZZZCATEGORY")
       myCategories = this.props.recommendationArray[this.props.recommendationIndex].meta.categories
     }
 
@@ -110,6 +111,9 @@ class ConnectedMyWordCloud extends Component {
     if (this.props.categories.length > 0) {
 
       message = "Esta é uma nuvem de palavras das categorias desta edição virtual. Para explorar fragmentos que pertençam a uma destas categorias, clique com o botão esquerdo do rato numa delas para ser remetido para outro mapa."
+      if (this.props.singleFragmentCategory) {
+        message = "Esta é uma nuvem de palavras das categorias do fragmento actual. Para explorar fragmentos que pertençam a esta(s) categoria(s), clique com o botão esquerdo do rato numa delas para ser remetido para outro mapa."
+      }
 
       let minFontSize = 5;
       let maxFontSize = 30;
@@ -122,10 +126,17 @@ class ConnectedMyWordCloud extends Component {
 
       let i;
       for (i = 0; i < myCategories.length; i++) {
-        obj = {
-          text: myCategories[i].category,
-          value: myCategories[i].categoryCount
-        };
+        if (this.props.singleFragmentCategory) {
+          obj = {
+            text: myCategories[i],
+            value: 1
+          };
+        } else {
+          obj = {
+            text: myCategories[i].category,
+            value: myCategories[i].categoryCount
+          };
+        }
         data.push(obj);
       }
 
@@ -144,6 +155,9 @@ class ConnectedMyWordCloud extends Component {
         } else if (fontSize < minFontSize) {
           //console.log("WORDCLOUD: TRUNCATING TO minFontSize: " + word.text)
           return minFontSize
+        }
+        if (this.props.singleFragmentCategory) {
+          return 50;
         }
         //console.log("WORDCLOUD: returning fontsize " + fontSize + " for word : " + word.text)
         return fontSize;

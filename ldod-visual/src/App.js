@@ -293,19 +293,19 @@ class ConnectedApp extends Component {
   }
 
   _onAction(e) {
-    console.log('user did something', e)
-    console.log('mouseOverMenuButtons: ' + this.state.mouseOverMenuButtons);
+    // console.log('user did something', e)
+    // console.log('mouseOverMenuButtons: ' + this.state.mouseOverMenuButtons);
 
     if (window.scrollY == 0 & !this.state.mouseOverMenuButtons & !this.state.hiddenFromIdle) {
-      console.log("menubuttons 2");
+
       this.setState({opacity: this.opacityShow})
       this.setState({hiddenFromIdle: false});
     } else if (window.scrollY > 0 & !this.state.mouseOverMenuButtons & !this.state.hiddenFromIdle) {
-      console.log("menubuttons 3");
+
       this.setState({opacity: this.opacityOnText})
       this.setState({hiddenFromIdle: false});
     } else if (this.state.mouseOverMenuButtons) {
-      console.log("menubuttons 1");
+
       this.setState({opacity: this.opacityShow})
       this.setState({hiddenFromIdle: false});
     }
@@ -313,8 +313,8 @@ class ConnectedApp extends Component {
   }
 
   _onIdle(e) {
-    console.log('user is idle', e)
-    console.log('last active', this.idleTimer.getLastActiveTime())
+    // console.log('user is idle', e)
+    // console.log('last active', this.idleTimer.getLastActiveTime())
     if (this.state.mouseOverMenuButtons) {
       this.setState({opacity: this.opacityShow})
       this.setState({hiddenFromIdle: false});
@@ -387,8 +387,8 @@ class ConnectedApp extends Component {
   }
 
   _onActive(e) {
-    console.log('user is active', e)
-    console.log('time remaining', this.idleTimer.getRemainingTime())
+    // console.log('user is active', e)
+    // console.log('time remaining', this.idleTimer.getRemainingTime())
 
   }
 
@@ -439,19 +439,19 @@ class ConnectedApp extends Component {
 
     //BUTTON LOGIC
     if (this.props.outOfLandingPage) {
-      console.log("App.js: out of landing page")
-      console.log("App.js: recommendationIndex: " + this.props.recommendationIndex)
-      console.log("App.js: fragmentIndex: " + this.props.fragmentIndex)
+      // console.log("App.js: out of landing page")
+      // console.log("App.js: recommendationIndex: " + this.props.recommendationIndex)
+      // console.log("App.js: fragmentIndex: " + this.props.fragmentIndex)
       if (this.props.recommendationIndex == 0) {
-        console.log("App.js: changing previous button style to default");
+        // console.log("App.js: changing previous button style to default");
         this.previousFragmentButtonStyle = "default";
       } else if (this.props.recommendationIndex === (this.props.recommendationArray.length - 1)) {
-        console.log("App.js: changing next button style to default");
+        // console.log("App.js: changing next button style to default");
         this.nextFragmentButtonStyle = "default";
       } else {
         this.previousFragmentButtonStyle = "primary";
         this.nextFragmentButtonStyle = "primary";
-        console.log("App.js: changing both button styles to primary")
+        // console.log("App.js: changing both button styles to primary")
       }
     }
 
@@ -533,11 +533,11 @@ class ConnectedApp extends Component {
 
     if (this.props.allFragmentsLoaded & this.props.outOfLandingPage) {
 
-      console.log("App.js: this.props.visualizationTechnique: " + this.props.visualizationTechnique);
-      console.log("App.js: this.props.semanticCriteria: " + this.props.semanticCriteria);
-      console.log("App.js: this.props.potentialVisualizationTechnique: " + this.props.potentialVisualizationTechnique);
-      console.log("App.js: this.props.potentialSemanticCriteria: " + this.props.potentialSemanticCriteria);
-      console.log("App.js: this.props.currentFragmentMode: " + this.props.currentFragmentMode);
+      // console.log("App.js: this.props.visualizationTechnique: " + this.props.visualizationTechnique);
+      // console.log("App.js: this.props.semanticCriteria: " + this.props.semanticCriteria);
+      // console.log("App.js: this.props.potentialVisualizationTechnique: " + this.props.potentialVisualizationTechnique);
+      // console.log("App.js: this.props.potentialSemanticCriteria: " + this.props.potentialSemanticCriteria);
+      // console.log("App.js: this.props.currentFragmentMode: " + this.props.currentFragmentMode);
 
       //http://xahlee.info/comp/unicode_arrows.html
       //← ⟵ ⇦ ⬅ 🡐 🡄 🠘 ← 🠐 🠨 🠬 🠰 🡠 🢀
