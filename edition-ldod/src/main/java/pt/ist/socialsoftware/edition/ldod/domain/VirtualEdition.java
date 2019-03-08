@@ -677,7 +677,7 @@ public class VirtualEdition extends VirtualEdition_Base {
 		Set<Category> result = new HashSet<>(getTaxonomy().getCategoriesSet());
 
 		Edition usedEdition = getUses();
-		while (usedEdition instanceof VirtualEdition) {
+		while (usedEdition != null) {
 			result.addAll(((VirtualEdition) usedEdition).getTaxonomy().getCategoriesSet());
 			usedEdition = ((VirtualEdition) usedEdition).getUses();
 		}

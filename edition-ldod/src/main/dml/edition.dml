@@ -150,9 +150,9 @@ class VirtualEdition extends Edition {
 
 class NullEdition extends Edition;
 
-relation VirtualEditionUsesEdition {
+relation VirtualEditionUsesVirtualEdition {
 	VirtualEdition playsRole isUsedBy {multiplicity 0..*;}
-	Edition playsRole uses {multiplicity 0..1;}
+	VirtualEdition playsRole uses {multiplicity 0..1;}
 }
 
 relation LdoDHasExpertEditions {

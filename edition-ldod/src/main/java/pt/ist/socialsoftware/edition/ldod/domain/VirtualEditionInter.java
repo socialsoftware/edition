@@ -14,8 +14,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
-import pt.ist.socialsoftware.edition.ldod.api.event.Event;
-import pt.ist.socialsoftware.edition.ldod.api.event.EventInterface;
 import pt.ist.socialsoftware.edition.ldod.api.text.TextInterface;
 import pt.ist.socialsoftware.edition.ldod.domain.Edition.EditionType;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
@@ -28,6 +26,32 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 	@Override
 	public String getXmlId() {
 		return getFragment().getXmlId() + ".WIT.ED.VIRT." + getVirtualEdition().getAcronym() + "." + super.getXmlId();
+	}
+
+	@Override
+	public Heteronym getHeteronym() {
+		//return super.getHeteronym();
+
+		if(getUses() != null)
+			return getUses().getHeteronym();
+
+		TextInterface textInterface = new TextInterface();
+
+		return textInterface.getScholarInterHeteronym(this.getUsesFragInter());
+	}
+
+	@Override
+	public LdoDDate getLdoDDate() {
+		//return super.getLdoDDate();
+
+		if (getUses() != null)
+			return getUses().getLdoDDate();
+
+		TextInterface textInterface = new TextInterface();
+
+		LdoDDate date = textInterface.getScholarInterDate(this.getUsesFragInter());
+
+		return date;
 	}
 
 	public VirtualEditionInter(Section section, FragInter inter, int number){
@@ -74,8 +98,8 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 
 		setHeteronym(null);
 
-		if (getLdoDDate() != null) {
-			getLdoDDate().remove();
+		if (super.getLdoDDate() != null) {
+			super.getLdoDDate().remove();
 		}
 
 		for (RdgText rdg : getRdgSet()) {
@@ -140,7 +164,7 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 
 	@Override
 	public FragInter getLastUsed() {
-		return getUses() != null ? getUses().getLastUsed() : this;
+		return getUses() != null ? getUses().getLastUsed() : (new TextInterface()).getScholarInterUsed(this.getUsesFragInter());
 		//return getUses().getLastUsed();
 	}
 

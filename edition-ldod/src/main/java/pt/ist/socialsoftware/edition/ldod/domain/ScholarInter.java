@@ -45,8 +45,6 @@ public abstract class ScholarInter extends ScholarInter_Base {
         // adicionado recentemente, testar
         getInfoRangeSet().forEach(infoRange -> infoRange.remove());
 
-        logger.debug("Finished removal of " + this.getXmlId());
-
         deleteDomainObject();
     }
 }
