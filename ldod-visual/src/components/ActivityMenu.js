@@ -263,7 +263,7 @@ class ConnectedActivityMenu extends Component {
       // console.log(this.props.recommendationArray[this.props.recommendationIndex].meta.categories.length)
 
       if (this.props.recommendationArray[this.props.recommendationIndex].meta.categories.length == 0) {
-        wordCloudSingleFragmentMessage = "Explorar mais fragmentos desta edição da(s) mesma(s) categoria(s) deste fragmento (fragmento actual sem categorias)";
+        wordCloudSingleFragmentMessage = "Explorar mais fragmentos da(s) mesma(s) categoria(s) deste fragmento (fragmento actual sem categorias)";
         wordCloudSingleFragmentButtonStyle = "secondary";
         wordCloudSingleFragmentImage = picWordCloudGray;
       }
