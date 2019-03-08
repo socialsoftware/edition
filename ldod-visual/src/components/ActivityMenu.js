@@ -22,6 +22,18 @@ import {
   CRIT_WORD_RELEVANCE
 } from "../constants/history-transitions";
 
+import picNetgraph from '../assets/card-pics-regular/netgraph.png';
+import picSquare from '../assets/card-pics-regular/square.png';
+import picSquareGolden from '../assets/card-pics-regular/square-golden.png';
+import picSquareTime from '../assets/card-pics-regular/square-time.png';
+import picWordCloud from '../assets/card-pics-regular/word-cloud.png';
+
+import picNetgraphGray from '../assets/card-pics-gray/netgraph-gray.png';
+import picSquareGray from '../assets/card-pics-gray/square-gray.png';
+import picSquareGoldenGray from '../assets/card-pics-gray/square-golden-gray.png';
+import picSquareTimeGray from '../assets/card-pics-gray/square-time-gray.png';
+import picWordCloudGray from '../assets/card-pics-gray/word-cloud-gray.png';
+
 const mapDispatchToProps = dispatch => {
   return {
     setCurrentVisualization: currentVisualization => dispatch(setCurrentVisualization(currentVisualization)),
@@ -101,7 +113,7 @@ class ConnectedActivityMenu extends Component {
 
   toggleActivityNetworkGraphDate() {
 
-    if (this.props.datesExist) {
+    if (this.props.datesExist & this.props.recommendationArray[this.props.recommendationIndex].meta.date !== null) {
 
       if (this.props.recommendationArray[this.props.recommendationIndex].meta.date !== null) {
 
@@ -198,43 +210,54 @@ class ConnectedActivityMenu extends Component {
     if (this.state.show) {
 
       let categoryButtonMessage = "Explorar os fragmentos desta edição pelas categorias a que pertencem (taxonomia)"
+      let networkGraphTaxonomyMessage = "Ler fragmentos semelhantes a este por taxonomia"
       let categoryButtonStyle = "primary"
+      let categoryImage = picWordCloud;
+      let networkGraphTaxonomyImage = picNetgraph;
       if (this.props.categories.length === 0) {
         categoryButtonStyle = "secondary";
         categoryButtonMessage = "Explorar os fragmentos desta edição pelas categorias a que pertencem (taxonomia) (edição sem taxonomia)"
+        networkGraphTaxonomyMessage = "Ler fragmentos semelhantes a este por taxonomia (edição sem taxonomia)"
+        networkGraphTaxonomyImage = picNetgraphGray;
+        categoryImage = picWordCloudGray;
       }
 
+      //toggleSquareGridHeteronym
       let heteronymButtonStyle = "secondary";
       let myHeteronym = "heterónimo não disponível para este fragmento";
+      let heteronymImage = picSquareGoldenGray;
       if (this.props.recommendationArray[this.props.recommendationIndex].meta.heteronym) {
         heteronymButtonStyle = "primary";
         myHeteronym = this.props.recommendationArray[this.props.recommendationIndex].meta.heteronym;
+        heteronymImage = picSquareGolden;
       }
 
       let datesButtonStyle = "primary"
+      let datesImage = picSquareTime;
       let datesButtonFunction = this.toggleSquareGridDateOrder;
       let datesButtonMessage = "Explorar os fragmentos desta edição ordenados por data";
 
-      let datesSimilarButtonMessage = "Ler fragmentos semelhantes a este por data"
+      let datesSimilarButtonMessage = "Ler fragmentos semelhantes a este por data (fragmento actual sem data disponível)"
+      let datesSimilarButtonStyle = "secondary"
+      let datesSimilarImage = picNetgraphGray;
       if (this.props.recommendationArray[this.props.recommendationIndex].meta.date !== null) {
         datesSimilarButtonMessage = "Ler fragmentos semelhantes a este por data (" + this.props.recommendationArray[this.props.recommendationIndex].meta.date + ")"
+        datesSimilarButtonStyle = "primary";
+        datesSimilarImage = picNetgraph;
       }
-      let datesSimilarButtonStyle = "primary"
 
       if (!this.props.datesExist) {
         datesButtonStyle = "secondary";
+        datesImage = picSquareTimeGray;
         datesSimilarButtonStyle = "secondary";
         datesButtonFunction = function() {}
         datesButtonMessage = "Explorar os fragmentos desta edição ordenados por data (edição virtual sem datas)"
         datesSimilarButtonMessage = "Ler fragmentos semelhantes a este por data (edição virtual sem datas)"
       }
-      if (this.props.recommendationArray[this.props.recommendationIndex].meta.date == null) {
-        datesSimilarButtonMessage = "Ler fragmentos semelhantes a este por data (fragmento actual sem data disponível)"
-        datesSimilarButtonStyle = "secondary";
-      }
 
       let wordCloudSingleFragmentMessage = "Explorar mais fragmentos da(s) mesma(s) categoria(s) deste fragmento";
       let wordCloudSingleFragmentButtonStyle = "primary";
+      let wordCloudSingleFragmentImage = picWordCloud;
 
       // console.log("blebleblebleble")
       // console.log(this.props.recommendationArray[this.props.recommendationIndex].meta.categories.length)
@@ -242,49 +265,148 @@ class ConnectedActivityMenu extends Component {
       if (this.props.recommendationArray[this.props.recommendationIndex].meta.categories.length == 0) {
         wordCloudSingleFragmentMessage = "Explorar mais fragmentos desta edição da(s) mesma(s) categoria(s) deste fragmento (fragmento actual sem categorias)";
         wordCloudSingleFragmentButtonStyle = "secondary";
+        wordCloudSingleFragmentImage = picWordCloudGray;
       }
 
       this.retreatButton = (<div/>);
 
       this.activityToRender = (<div>
+
         <p>Caso tenha seleccionado uma edição virtual sem taxonomia, ou categorias, não será possível realizar actividades que dependem das mesmas, que estarão devidamente assinaladas a cinzento. O mesmo se aplicará para a ausência de datas ou se o fragmento que está a ler actualmente não for assinado por qualquer heterónimo - as actividades em torno dessa informação estarão indisponíveis.
         </p>
 
-        <ButtonToolbar>
+        <div className="cardsContainerActivity">
 
-          <Button bsStyle="primary" bsSize="large" onClick={this.toggleSquareGridEditionOrder} block="block">
-            Explorar os fragmentos por ordem desta edição virtual
-          </Button>
+          <div className="cardActivity">
+            <div className="containerActivity">
+              <img src={picSquare} className="cardsContainerActivity" alt="Avatar" style={{
+                  width: "100%"
+                }}/>
+              <p align="center">
+                <b>Explorar os fragmentos por ordem desta edição virtual</b>
+              </p>
+              <div className="welcomeButtonActivity">
+                <Button bsStyle="primary" bsSize="small" onClick={this.toggleSquareGridEditionOrder}>
+                  Escolher actividade
+                </Button>
+              </div>
+            </div>
+          </div>
 
-          <Button bsStyle={datesButtonStyle} bsSize="large" onClick={datesButtonFunction} block="block">
-            {datesButtonMessage}
-          </Button>
+          <div className="cardActivity">
+            <div className="containerActivity">
+              <img src={datesImage} className="cardsContainerActivity" alt="Avatar" style={{
+                  width: "100%"
+                }}/>
+              <p align="center">
+                <b>{datesButtonMessage}</b>
+              </p>
+              <div className="welcomeButtonActivity">
+                <Button bsStyle={datesButtonStyle} bsSize="small" onClick={datesButtonFunction}>
+                  Escolher actividade
+                </Button>
+              </div>
+            </div>
+          </div>
 
-          <Button bsStyle={heteronymButtonStyle} bsSize="large" onClick={this.toggleSquareGridHeteronym} block="block">
-            Explorar mais fragmentos assinados pelo mesmo heterónimo deste fragmento ({myHeteronym})
-          </Button>
+          <div className="cardActivity">
+            <div className="containerActivity">
+              <img src={heteronymImage} className="cardsContainerActivity" alt="Avatar" style={{
+                  width: "100%"
+                }}/>
+              <p align="center">
+                <b>Explorar mais fragmentos assinados pelo mesmo heterónimo deste fragmento ({myHeteronym})</b>
+              </p>
+              <div className="welcomeButtonActivity">
+                <Button bsStyle={heteronymButtonStyle} bsSize="small" onClick={this.toggleSquareGridHeteronym}>
+                  Escolher actividade
+                </Button>
+              </div>
+            </div>
+          </div>
 
-          <Button bsStyle={categoryButtonStyle} bsSize="large" onClick={this.toggleWordCloudTaxonomy} block="block">
-            {categoryButtonMessage}
-          </Button>
+          <div className="cardActivity">
+            <div className="containerActivity">
+              <img src={categoryImage} className="cardsContainerActivity" alt="Avatar" style={{
+                  width: "100%"
+                }}/>
+              <p align="center">
+                <b>{categoryButtonMessage}</b>
+              </p>
+              <div className="welcomeButtonActivity">
+                <Button bsStyle={categoryButtonStyle} bsSize="small" onClick={this.toggleWordCloudTaxonomy}>
+                  Escolher actividade
+                </Button>
+              </div>
+            </div>
+          </div>
 
-          <Button bsStyle={wordCloudSingleFragmentButtonStyle} bsSize="large" onClick={this.toggleWordCloudTaxonomySingleFragment} block="block">
-            {wordCloudSingleFragmentMessage}
-          </Button>
+          <div className="cardActivity">
+            <div className="containerActivity">
+              <img src={wordCloudSingleFragmentImage} className="cardsContainerActivity" alt="Avatar" style={{
+                  width: "100%"
+                }}/>
+              <p align="center">
+                <b>{wordCloudSingleFragmentMessage}</b>
+              </p>
+              <div className="welcomeButtonActivity">
+                <Button bsStyle={wordCloudSingleFragmentButtonStyle} bsSize="small" onClick={this.toggleWordCloudTaxonomySingleFragment}>
+                  Escolher actividade
+                </Button>
+              </div>
+            </div>
+          </div>
 
-          <Button bsStyle="primary" bsSize="large" onClick={this.toggleActivityNetworkGraphTextSimilarity} block="block">
-            Ler fragmentos semelhantes a este por semelhança de texto
-          </Button>
+          <div className="cardActivity">
+            <div className="containerActivity">
+              <img src={picNetgraph} className="cardsContainerActivity" alt="Avatar" style={{
+                  width: "100%"
+                }}/>
+              <p align="center">
+                <b>Ler fragmentos semelhantes a este por semelhança de texto</b>
+              </p>
+              <div className="welcomeButtonActivity">
+                <Button bsStyle="primary" bsSize="small" onClick={this.toggleActivityNetworkGraphTextSimilarity}>
+                  Escolher actividade
+                </Button>
+              </div>
+            </div>
+          </div>
 
-          <Button bsStyle={datesSimilarButtonStyle} bsSize="large" onClick={this.toggleActivityNetworkGraphDate} block="block">
-            {datesSimilarButtonMessage}
-          </Button>
+          <div className="cardActivity">
+            <div className="containerActivity">
+              <img src={datesSimilarImage} className="cardsContainerActivity" alt="Avatar" style={{
+                  width: "100%"
+                }}/>
+              <p align="center">
+                <b>{datesSimilarButtonMessage}</b>
+              </p>
+              <div className="welcomeButtonActivity">
+                <Button bsStyle={datesSimilarButtonStyle} bsSize="small" onClick={this.toggleActivityNetworkGraphDate}>
+                  Escolher actividade
+                </Button>
+              </div>
+            </div>
+          </div>
 
-          <Button bsStyle={categoryButtonStyle} bsSize="large" onClick={this.toggleActivityNetworkGraphTaxonomy} block="block">
-            Ler fragmentos semelhantes a este por taxonomia
-          </Button>
+          <div className="cardActivity">
+            <div className="containerActivity">
+              <img src={networkGraphTaxonomyImage} className="cardsContainerActivity" alt="Avatar" style={{
+                  width: "100%"
+                }}/>
+              <p align="center">
+                <b>{networkGraphTaxonomyMessage}</b>
+              </p>
+              <div className="welcomeButtonActivity">
+                <Button bsStyle={categoryButtonStyle} bsSize="small" onClick={this.toggleActivityNetworkGraphTaxonomy}>
+                  Escolher actividade
+                </Button>
+              </div>
+            </div>
+          </div>
 
-        </ButtonToolbar>
+        </div>
+
       </div>);
     } else {
       this.activityToRender = this.activityToRender; //(<NetworkGraphContainer pFragmentId={this.props.recommendationArray[this.props.recommendationIndex].interId} pHeteronymWeight="0.0" pTextWeight="1.0" pDateWeight="0.0" ptaxonomyWeight="0.0" onChange={this.props.onChange}/>);
@@ -295,14 +417,8 @@ class ConnectedActivityMenu extends Component {
     }
 
     return <div className="activityMenu">{this.activityToRender}{this.retreatButton}</div>;
-
   }
 }
-
-//<Modal.Footer></Modal.Footer>
-// <Button bsStyle="primary" bsSize="large" onClick={this.toggleActivityNetworkGraphHeteronym} block="block">
-//   Ler fragmentos semelhantes a este por heterónimo
-// </Button>
 
 const ActivityMenu = connect(mapStateToProps, mapDispatchToProps)(ConnectedActivityMenu);
 

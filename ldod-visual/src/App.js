@@ -48,6 +48,17 @@ import {
   scrollSpy,
   scroller
 } from 'react-scroll';
+import picNetgraph from './assets/card-pics-regular/netgraph.png';
+import picSquare from './assets/card-pics-regular/square.png';
+import picSquareGolden from './assets/card-pics-regular/square-golden.png';
+import picSquareTime from './assets/card-pics-regular/square-time.png';
+import picWordCloud from './assets/card-pics-regular/word-cloud.png';
+
+import picNetgraphGray from './assets/card-pics-gray/netgraph-gray.png';
+import picSquareGray from './assets/card-pics-gray/square-gray.png';
+import picSquareGoldenGray from './assets/card-pics-gray/square-golden-gray.png';
+import picSquareTimeGray from './assets/card-pics-gray/square-time-gray.png';
+import picWordCloudGray from './assets/card-pics-gray/word-cloud-gray.png';
 
 const mapStateToProps = state => {
   return {
@@ -490,18 +501,22 @@ class ConnectedApp extends Component {
         let categoryButtonStyle = "primary"
         let categoryButtonMessage = "Explorar os fragmentos desta edição pelas categorias a que pertencem (taxonomia)"
         let categoryButtonFunction = this.handleShowLandingActivityWordCloudCategory;
+        let categoryImage = picWordCloud;
         if (this.props.categories.length === 0) {
           categoryButtonStyle = "secondary";
           categoryButtonMessage = "Explorar os fragmentos desta edição pelas categorias a que pertencem (taxonomia) (edição sem taxonomia)"
           categoryButtonFunction = function() {}
+          categoryImage = picWordCloudGray;
         }
         let datesButtonStyle = "primary"
         let datesButtonFunction = this.handleShowLandingActivitySquareDateOrder;
         let datesButtonMessage = "Explorar os fragmentos desta edição ordenados por data";
+        let datesImage = picSquareTime;
         if (!this.props.datesExist) {
           datesButtonStyle = "secondary";
           datesButtonFunction = function() {}
           datesButtonMessage = "Explorar os fragmentos desta edição ordenados por data (edição virtual sem datas)"
+          datesImage = picSquareTimeGray;
         }
         const options = {
           decodeEntities: true
@@ -513,21 +528,57 @@ class ConnectedApp extends Component {
             Esta é a sua primeira actividade em torno da edição virtual que seleccionou - "{myTitle}". Escolha uma das seguintes opções.
           </p>
 
-          <ButtonToolbar >
+          <div className="cardsContainerActivity">
 
-            <Button bsStyle="primary" bsSize="large" onClick={this.handleShowLandingActivitySquareEditionOrder} block="block">
-              Explorar os fragmentos por ordem desta edição virtual
-            </Button>
+            <div className="cardActivity">
+              <div className="containerActivity">
+                <img src={picSquare} className="cardsContainerActivity" alt="Avatar" style={{
+                    width: "100%"
+                  }}/>
+                <p align="center">
+                  <b>Explorar os fragmentos por ordem desta edição virtual</b>
+                </p>
+                <div className="welcomeButtonActivity">
+                  <Button bsStyle="primary" bsSize="small" onClick={this.handleShowLandingActivitySquareEditionOrder}>
+                    Escolher actividade
+                  </Button>
+                </div>
+              </div>
+            </div>
 
-            <Button bsStyle={datesButtonStyle} bsSize="large" onClick={datesButtonFunction} block="block">
-              {datesButtonMessage}
-            </Button>
+            <div className="cardActivity">
+              <div className="containerActivity">
+                <img src={datesImage} className="cardsContainerActivity" alt="Avatar" style={{
+                    width: "100%"
+                  }}/>
+                <p align="center">
+                  <b>{datesButtonMessage}</b>
+                </p>
+                <div className="welcomeButtonActivity">
+                  <Button bsStyle={datesButtonStyle} bsSize="small" onClick={datesButtonFunction}>
+                    Escolher actividade
+                  </Button>
+                </div>
+              </div>
+            </div>
 
-            <Button bsStyle={categoryButtonStyle} bsSize="large" onClick={categoryButtonFunction} block="block">
-              {categoryButtonMessage}
-            </Button>
+            <div className="cardActivity">
+              <div className="containerActivity">
+                <img src={categoryImage} className="cardsContainerActivity" alt="Avatar" style={{
+                    width: "100%"
+                  }}/>
+                <p align="center">
+                  <b>{categoryButtonMessage}</b>
+                </p>
+                <div className="welcomeButtonActivity">
+                  <Button bsStyle={categoryButtonStyle} bsSize="small" onClick={categoryButtonFunction}>
+                    Escolher actividade
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </div>
 
-          </ButtonToolbar>
         </div>)
 
       }
