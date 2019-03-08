@@ -716,7 +716,7 @@ class ConnectedApp extends Component {
         </Modal.Body>
 
         <Modal.Footer>
-          <Button onClick={this.forcePageReload}>
+          <Button bsStyle="primary" onClick={this.forcePageReload}>
             Escolher outra edição virtual
           </Button>
           <Button bsStyle="primary" onClick={this.handleCloseConfig}>
