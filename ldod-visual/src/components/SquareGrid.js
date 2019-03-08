@@ -440,7 +440,11 @@ class ConnectedSquareGrid extends Component {
 
     return (<div>
       <p>
-        Neste mapa, cada quadrado representa um fragmento da edição virtual do livro do desassossego que seleccionou.
+        Neste mapa, cada quadrado representa um fragmento da edição virtual do Livro do Desassossego que seleccionou.
+      </p>
+
+      <p>
+        Seleccione um fragmento novo ao clicar num dos quadrados do mapa.
       </p>
 
       <p>
