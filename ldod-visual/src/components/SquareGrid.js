@@ -444,7 +444,7 @@ class ConnectedSquareGrid extends Component {
       </p>
 
       <p>
-        Seleccione um fragmento novo ao clicar num dos quadrados do mapa.
+        Seleccione um fragmento para leitura ao clicar num dos quadrados do mapa.
       </p>
 
       <p>
