@@ -161,9 +161,9 @@ class ConnectedPublicEditionContainer extends React.Component {
     }
 
     return <div>
-      <p>Escolha uma das edições virtuais públicas disponíveis.
+      <p>Bem-vindo ao LdoD Visual. Escolha uma das edições virtuais públicas disponíveis do Livro do Desassossego.
       </p>
-      <p>Poderá criar a sua edição virtual e consultar detalhes de outras edições virtuais públicas no{' '}
+      <p>Pode criar a sua própria edição virtual e consultar detalhes de outras edições virtuais públicas no{' '}
         <a href="https://ldod.uc.pt/virtualeditions">
           Arquivo LdoD</a>.
       </p>

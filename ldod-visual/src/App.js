@@ -510,7 +510,7 @@ class ConnectedApp extends Component {
         let myTitle = ReactHtmlParser(this.state.currentEdition.title, options);
         this.landingActivityToRender = (<div>
           <p>
-            Esta é a sua primeira actividade em torno da edição virtual que seleccionou - "{myTitle}". Escolha uma as seguintes opções.
+            Esta é a sua primeira actividade em torno da edição virtual que seleccionou - "{myTitle}". Escolha uma das seguintes opções.
           </p>
 
           <ButtonToolbar >
@@ -672,7 +672,7 @@ class ConnectedApp extends Component {
       <Modal show={this.state.showLanding} dialogClassName="custom-modal">
         <Modal.Header>
           <Modal.Title>
-            Bem-vindo
+            LdoD Visual
           </Modal.Title>
         </Modal.Header>
 
