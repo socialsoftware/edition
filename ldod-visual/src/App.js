@@ -532,7 +532,7 @@ class ConnectedApp extends Component {
 
             <div className="cardActivity">
               <div className="containerActivity">
-                <img src={picSquare} className="cardsContainerActivity" alt="Avatar" style={{
+                <img src={picSquare} onClick={this.handleShowLandingActivitySquareEditionOrder} className="cardsActivityImage" alt="Avatar" style={{
                     width: "100%"
                   }}/>
                 <p align="center">
@@ -548,7 +548,7 @@ class ConnectedApp extends Component {
 
             <div className="cardActivity">
               <div className="containerActivity">
-                <img src={datesImage} className="cardsContainerActivity" alt="Avatar" style={{
+                <img src={datesImage} onClick={datesButtonFunction} className="cardsActivityImage" alt="Avatar" style={{
                     width: "100%"
                   }}/>
                 <p align="center">
@@ -564,7 +564,7 @@ class ConnectedApp extends Component {
 
             <div className="cardActivity">
               <div className="containerActivity">
-                <img src={categoryImage} className="cardsContainerActivity" alt="Avatar" style={{
+                <img src={categoryImage} onClick={categoryButtonFunction} className="cardsActivityImage" alt="Avatar" style={{
                     width: "100%"
                   }}/>
                 <p align="center">
@@ -580,14 +580,10 @@ class ConnectedApp extends Component {
           </div>
 
         </div>)
-
       }
     }
-
     let previousNavButton = <div/>;
-
     let nextNavButton = <div/>;
-
     if (this.props.allFragmentsLoaded & this.props.outOfLandingPage) {
 
       // console.log("App.js: this.props.visualizationTechnique: " + this.props.visualizationTechnique);

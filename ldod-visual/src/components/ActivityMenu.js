@@ -279,7 +279,7 @@ class ConnectedActivityMenu extends Component {
 
           <div className="cardActivity">
             <div className="containerActivity">
-              <img src={picSquare} className="cardsContainerActivity" alt="Avatar" style={{
+              <img src={picSquare} onClick={this.toggleSquareGridEditionOrder} className="cardsActivityImage" alt="Avatar" style={{
                   width: "100%"
                 }}/>
               <p align="center">
@@ -295,7 +295,7 @@ class ConnectedActivityMenu extends Component {
 
           <div className="cardActivity">
             <div className="containerActivity">
-              <img src={datesImage} className="cardsContainerActivity" alt="Avatar" style={{
+              <img src={datesImage} onClick={datesButtonFunction} className="cardsActivityImage" alt="Avatar" style={{
                   width: "100%"
                 }}/>
               <p align="center">
@@ -311,7 +311,7 @@ class ConnectedActivityMenu extends Component {
 
           <div className="cardActivity">
             <div className="containerActivity">
-              <img src={heteronymImage} className="cardsContainerActivity" alt="Avatar" style={{
+              <img src={heteronymImage} onClick={this.toggleSquareGridHeteronym} className="cardsActivityImage" alt="Avatar" style={{
                   width: "100%"
                 }}/>
               <p align="center">
@@ -327,7 +327,7 @@ class ConnectedActivityMenu extends Component {
 
           <div className="cardActivity">
             <div className="containerActivity">
-              <img src={categoryImage} className="cardsContainerActivity" alt="Avatar" style={{
+              <img src={categoryImage} onClick={this.toggleWordCloudTaxonomy} className="cardsActivityImage" alt="Avatar" style={{
                   width: "100%"
                 }}/>
               <p align="center">
@@ -343,7 +343,7 @@ class ConnectedActivityMenu extends Component {
 
           <div className="cardActivity">
             <div className="containerActivity">
-              <img src={wordCloudSingleFragmentImage} className="cardsContainerActivity" alt="Avatar" style={{
+              <img src={wordCloudSingleFragmentImage} onClick={this.toggleWordCloudTaxonomySingleFragment} className="cardsActivityImage" alt="Avatar" style={{
                   width: "100%"
                 }}/>
               <p align="center">
@@ -359,7 +359,7 @@ class ConnectedActivityMenu extends Component {
 
           <div className="cardActivity">
             <div className="containerActivity">
-              <img src={picNetgraph} className="cardsContainerActivity" alt="Avatar" style={{
+              <img src={picNetgraph} onClick={this.toggleActivityNetworkGraphTextSimilarity} className="cardsActivityImage" alt="Avatar" style={{
                   width: "100%"
                 }}/>
               <p align="center">
@@ -375,7 +375,7 @@ class ConnectedActivityMenu extends Component {
 
           <div className="cardActivity">
             <div className="containerActivity">
-              <img src={datesSimilarImage} className="cardsContainerActivity" alt="Avatar" style={{
+              <img src={datesSimilarImage} onClick={this.toggleActivityNetworkGraphDate} className="cardsActivityImage" alt="Avatar" style={{
                   width: "100%"
                 }}/>
               <p align="center">
@@ -391,7 +391,7 @@ class ConnectedActivityMenu extends Component {
 
           <div className="cardActivity">
             <div className="containerActivity">
-              <img src={networkGraphTaxonomyImage} className="cardsContainerActivity" alt="Avatar" style={{
+              <img src={networkGraphTaxonomyImage} onClick={this.toggleActivityNetworkGraphTaxonomy} className="cardsActivityImage" alt="Avatar" style={{
                   width: "100%"
                 }}/>
               <p align="center">
