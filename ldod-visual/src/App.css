@@ -43,10 +43,9 @@
 
   position: fixed;
   align-self: center;
-  margin-top: 90px;
+  margin-top: 95px;
 
 }
-
 
 
 Button:not(:last-child){

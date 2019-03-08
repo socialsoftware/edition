@@ -104,6 +104,8 @@ class ConnectedApp extends Component {
     this.onActive = this._onActive.bind(this)
     this.onIdle = this._onIdle.bind(this)
 
+    this.forcePageReload = this.forcePageReload.bind(this)
+
     this.handleEditionSelectRetreat = this.handleEditionSelectRetreat.bind(this)
     this.handleFirstActivitySelectRetreat = this.handleFirstActivitySelectRetreat.bind(this)
 
@@ -428,6 +430,10 @@ class ConnectedApp extends Component {
     }
   }
 
+  forcePageReload() {
+    window.location.reload();
+  }
+
   componentDidMount() {
     //window.addEventListener('scroll', this.listenScrollEvent)
     document.addEventListener("keydown", this._handleKeyDown);
@@ -710,6 +716,9 @@ class ConnectedApp extends Component {
         </Modal.Body>
 
         <Modal.Footer>
+          <Button onClick={this.forcePageReload}>
+            Escolher outra edição virtual
+          </Button>
           <Button bsStyle="primary" onClick={this.handleCloseConfig}>
             Fechar
           </Button>
