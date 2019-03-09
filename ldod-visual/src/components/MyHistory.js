@@ -27,9 +27,8 @@ import {
   setSemanticCriteriaDataLoaded,
   setCurrentCategory
 } from "../actions/index";
-import "./HistoryMenu.css";
-import picNetGraph from '../assets/picnetgraph.png';
-import picSquareGrid from '../assets/picsquaregrid.png';
+import "./MyHistory.css";
+import loadingGif from '../assets/loading.gif';
 
 const mapStateToProps = state => {
   return {
@@ -39,8 +38,10 @@ const mapStateToProps = state => {
     history: state.history,
     allFragmentsLoaded: state.allFragmentsLoaded,
     historyEntryCounter: state.historyEntryCounter,
-    recommendationindex: state.recommendationIndex,
-    recommendationArray: state.recommendationArray
+    recommendationIndex: state.recommendationIndex,
+    recommendationArray: state.recommendationArray,
+    fragmentsSortedByDate: state.fragmentsSortedByDate,
+    currentFragmentMode: state.currentFragmentMode
   };
 };
 
@@ -60,27 +61,24 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-class ConnectedHistoryMenu extends Component {
+class ConnectedMyHistory extends Component {
   constructor(props) {
     super(props);
 
     this.properties = [];
 
-
-    this.options = {
-      locales: {
-        // create a new locale (text strings should be replaced with localized strings)
-        pt: {
-
-        }
-      },
-
-      // use the new locale
-      locale: 'pt'
-    };
+    this.options = {};
     this.timeline = [];
+    this.jsxToRender = [];
+
+    this.loadingGif = (<div>
+      <img src={loadingGif} alt="loading..." className="loadingGifCentered"/>
+      <p align="center">A carregar histórico...</p>
+    </div>);
 
     this.handleClick = this.handleClick.bind(this);
+
+    this.clearLoadingGif = this.clearLoadingGif.bind(this);
 
   }
 
@@ -130,11 +128,11 @@ class ConnectedHistoryMenu extends Component {
           //parte que foi feita para não saltar para o fragmento clicado no historico via netgraph pois era preciso ir alterar o historico no fragmentloader depois de carregar um novo recommendation index que era preciso fazer set do mesmo na ultima entrada do historico.
 
           //if (this.props.history[parseInt(properties.item)].vis !== VIS_NETWORK_GRAPH) {
-          console.log("HistoryMenu.js: this.props.history[parseInt(properties.item)].vis !== VIS_NETWORK_GRAPH")
+          console.log("MyHistory.js: this.props.history[parseInt(properties.item)].vis !== VIS_NETWORK_GRAPH")
           this.props.setRecommendationArray(this.props.history[parseInt(properties.item)].recommendationArray);
           this.props.setRecommendationIndex(this.props.history[parseInt(properties.item)].recommendationIndex);
           //} else {
-          //  console.log("HistoryMenu.js: this.props.setSemanticCriteriaDataLoaded(false);")
+          //  console.log("MyHistory.js: this.props.setSemanticCriteriaDataLoaded(false);")
           //  this.props.setSemanticCriteriaDataLoaded(false);
           //}
           this.props.setVisualizationTechnique(this.props.history[parseInt(properties.item)].vis);
@@ -151,34 +149,28 @@ class ConnectedHistoryMenu extends Component {
   componentDidMount() {
     var historyItems = [];
 
+    this.timeline = [];
 
+    this.props.fragmentsSortedByDate.map(f => {
 
+      if (f.meta.date !== null) {
+        let date1 = f.meta.date.split('-');
+        let year1 = parseInt(date1[0]);
+        let month1 = parseInt(date1[1]);
+        let day1 = parseInt(date1[2]);
 
+        let myDate = new Date(year1, month1, day1);
+        console.log("MyHistory: Added date " + myDate)
 
-    var i;
-    for (i = 0; i < this.props.historyEntryCounter; i++) {
-      var historyPic = document.createElement('div');
-      historyPic.appendChild(document.createTextNode(this.props.history[i].nextFragment.meta.title));
-      historyPic.appendChild(document.createElement('br'));
-      var img = document.createElement('img');
-
-      img.style.width = '48px';
-      img.style.height = '48px';
-
-      if (this.props.history[i].vis == VIS_NETWORK_GRAPH){
-          img.src = picNetGraph;
-      } else if (this.props.history[i].vis == VIS_SQUARE_GRID){
-          img.src = picSquareGrid;
+        let item = {
+          id: f.interId,
+          content: f.meta.title,
+          start: myDate
+        };
+        console.log("item id: " + item.id);
+        historyItems.push(item);
       }
-      historyPic.appendChild(img);
-      let item = {
-        id: this.props.history[i].id,
-        content: historyPic,
-        start: this.props.history[i].start
-      };
-      console.log("item id: " + item.id);
-      historyItems.push(item);
-    }
+    });
 
     var container = document.getElementById('visualization');
     console.log("history counter: " + this.props.historyEntryCounter);
@@ -187,26 +179,45 @@ class ConnectedHistoryMenu extends Component {
     this.timeline = new Timeline(container, historyItems, this.options);
     this.timeline.on('click', this.handleClick);
 
+    var moveToOptions = {
+      animation: { // animation object, can also be Boolean
+        duration: 1000, // animation duration in milliseconds (Number)
+        easingFunction: "easeInCubic" // Animation easing function, available are:
+      } // linear, easeInQuad, easeOutQuad, easeInOutQuad,
+    } // easeInCubic, easeOutCubic, easeInOutCubic,
+    // easeInQuart, easeOutQuart, easeInOutQuart,
+    // easeInQuint, easeOutQuint, easeInOutQuint
+
+    //this.timeline.focus(this.props.recommendationArray[this.props.recommendationIndex].interId);
+
+    //this.timeline.moveTo(this.props.recommendationArray[this.props.recommendationIndex].meta.date);
+
+    this.timeline.setWindow(this.props.recommendationArray[this.props.recommendationIndex].meta.date, this.props.recommendationArray[this.props.recommendationIndex].meta.date);
+
+    this.onInitialDrawComplete(this.clearLoadingGif);
     //this.printMessage();
+  }
+
+  clearLoadingGif() {
+    this.loadingGif = (<div/>);
   }
 
   render() {
 
-    let jsxToRender;
-
     if (this.props.allFragmentsLoaded) {
-      jsxToRender = <div id="visualization"></div>
+      this.jsxToRender = <div id="visualization"></div>
     }
 
-    return (<div className="historyMenu">
+    return (<div className="myHistory">
       <p>
-        Nesta cronologia, poderá consultar o seu caminho na leitura da edição virtual do Livro do Desassossego que seleccionou. Basta clicar num dos títulos do fragmentos para retornar ao mesmo bem como a actividade pela qual chegou a esse fragmento.
+        Nesta cronologia, poderá situar o fragmento actual e a sua data em comparação ao resto dos fragmentos da edição virtual que tenham também data disponível.
       </p>
-      {jsxToRender}
+      {this.loadingGif}
+      {this.jsxToRender}
     </div>);
   }
 }
 
-const HistoryMenu = connect(mapStateToProps, mapDispatchToProps)(ConnectedHistoryMenu);
+const MyHistory = connect(mapStateToProps, mapDispatchToProps)(ConnectedMyHistory);
 
-export default HistoryMenu;
+export default MyHistory;

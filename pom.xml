@@ -20,6 +20,24 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
+		<spring-social>1.1.6.RELEASE</spring-social>
+		<spring-social-facebook>2.0.3.RELEASE</spring-social-facebook>
+		<spring-social-twitter>1.1.2.RELEASE</spring-social-twitter>
+		<spring-social-linkedin>1.0.2.RELEASE</spring-social-linkedin>
+		<spring-social-google>1.0.0.RELEASE</spring-social-google>
+
+		<gmaven-plugin.version>1.6</gmaven-plugin.version>
+		<maven-surefire-plugin.version>2.20.1</maven-surefire-plugin.version>
+		<maven-failsafe-plugin.version>2.22.0</maven-failsafe-plugin.version>
+
+		<junit-platform.version>1.2.0</junit-platform.version>
+		<jupiter.version>5.2.0</jupiter.version>
+		<version.spock>1.2-groovy-2.4</version.spock>
+		<version.groovy>2.4.15</version.groovy>
+		<org.jgroups.version>4.0.17.Final</org.jgroups.version>
+		<org.objenesis.version>2.6</org.objenesis.version>
+		<net.bytebuddy.version>1.8.21</net.bytebuddy.version>
+
 		<io.jsonwebtoken.jjwt>0.9.0</io.jsonwebtoken.jjwt>
 
 		<junit-platform.version>1.2.0</junit-platform.version>
@@ -100,7 +118,7 @@
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-surefire-plugin</artifactId>
-					<version>2.20.1</version>
+					<version>${maven-surefire-plugin.version}</version>
 					<configuration>
 						<useFile>false</useFile>
 						<includes>
@@ -129,7 +147,7 @@
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-failsafe-plugin</artifactId>
-					<version>2.22.0</version>
+					<version>${maven-failsafe-plugin.version}</version>
 				</plugin>
 				<plugin>
 					<groupId>pt.ist</groupId>
@@ -214,37 +232,37 @@
 		<dependency>
 			<groupId>org.springframework.social</groupId>
 			<artifactId>spring-social-core</artifactId>
-			<version>1.1.6.RELEASE</version>
+			<version>${spring-social}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.social</groupId>
 			<artifactId>spring-social-security</artifactId>
-			<version>1.1.6.RELEASE</version>
+			<version>${spring-social}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.social</groupId>
 			<artifactId>spring-social-config</artifactId>
-			<version>1.1.6.RELEASE</version>
+			<version>${spring-social}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.social</groupId>
 			<artifactId>spring-social-facebook</artifactId>
-			<version>2.0.3.RELEASE</version>
+			<version>${spring-social-facebook}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.social</groupId>
 			<artifactId>spring-social-twitter</artifactId>
-			<version>1.1.2.RELEASE</version>
+			<version>${spring-social-twitter}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.social</groupId>
 			<artifactId>spring-social-linkedin</artifactId>
-			<version>1.0.2.RELEASE</version>
+			<version>${spring-social-linkedin}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.social</groupId>
 			<artifactId>spring-social-google</artifactId>
-			<version>1.0.0.RELEASE</version>
+			<version>${spring-social-google}</version>
 		</dependency>
 
 		<!-- security -->
@@ -456,6 +474,7 @@
 
 	<modules>
 		<module>classification-game</module>
+		<module>ldod-visual</module>
 		<module>edition-ldod</module>
 	</modules>
 </project>

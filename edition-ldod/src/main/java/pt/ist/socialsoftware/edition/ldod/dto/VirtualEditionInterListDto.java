@@ -12,6 +12,7 @@ public class VirtualEditionInterListDto {
 	private String title;
 	private String acronym;
 	private boolean pub;
+	private int numberOfInters;
 	private TaxonomyDto taxonomy;
 	private List<LdoDUserDto> members;
 
@@ -28,6 +29,7 @@ public class VirtualEditionInterListDto {
 		this.setTitle(virtualEdition.getTitle());
 		this.setAcronym(virtualEdition.getAcronym());
 		this.setPub(virtualEdition.getPub());
+		setNumberOfInters(virtualEdition.getIntersSet().size());
 		TaxonomyDto taxonomyDTO = new TaxonomyDto(virtualEdition.getTaxonomy());
 		this.setTaxonomy(taxonomyDTO);
 		if (deep) {
@@ -67,6 +69,15 @@ public class VirtualEditionInterListDto {
 	public void setPub(boolean pub) {
 		this.pub = pub;
 	}
+
+	public int getNumberOfInters() {
+		return numberOfInters;
+	}
+
+	public void setNumberOfInters(int numberOfInters) {
+		this.numberOfInters = numberOfInters;
+	}
+
 
 	public TaxonomyDto getTaxonomy() {
 		return this.taxonomy;

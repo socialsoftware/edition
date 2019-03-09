@@ -1,34 +1,118 @@
+@font-face {
+   font-family: 'Gingham';
+   src: url('Gingham.woff2') format('woff2'),
+   url('Gingham.woff') format('woff'),
+   url('Gingham.ttf') format('truetype');
+   /*font-weight: normal;
+   font-style: normal;
+   format('truetype');*/
+ }
+
+ @font-face {
+    font-family: 'Amstelvar';
+    src: url('AmstelvarAlpha-VF.ttf') format('truetype');
+    /*font-weight: normal;
+    font-style: normal;
+    format('truetype');*/
+  }
+
+
 .app {
   display: flex;
   flex-direction: column;
-  font-family: Consolas, monaco, monospace;
-  padding: 20px;
+  font-family: 'Amstelvar';/*Gingham; Consolas; Amstelvar;*/
+  font-weight: 300;
+  font-size: 24px;
+  font-weight: 300 900;
+  font-stretch: 35% 100%;
+  font-style: normal;
+  font-display: swap;
 }
 
 .buttonToolbar {
+
   display: inline-block;
   flex-direction: row;
-  margin: 30px auto;
+  position: fixed;
+  align-self: center;
+  margin-top: 30px;
+
 }
 
-.buttoncont{
-    margin: 20px auto;
+.toggleTextSkimming{
+
+  position: fixed;
+  align-self: center;
+  margin-top: 95px;
+
 }
+
 
 Button:not(:last-child){
-  margin-right: 20px;
+  margin-right: 15px;
 }
 
+.appfrag {
+
+}
+
+.navPrevious {
+  display: inline-block;
+  flex-direction: row;
+  position: sticky;
+  top: 35%;
+  left: 8%;
+}
+
+.navNext {
+  display: inline-block;
+  flex-direction: row;
+  position: sticky;
+  top: 35%;
+  left: 88%;
+}
+
+.navigationText{
+  display: inline-block;
+  flex-direction: row;
+  width: 90%;
+}
+
+
+
+
+
+
+
+
+
+
 .custom-modal{
-  width: 50%;
+  width: 80%;
 }
 
 .custom-modal-landing{
-  width: 60%;
+  width: 80%;
 }
 
 .buttonToolbarStart {
   display: inline-block;
   flex-direction: column;
   margin: 30px auto;
+}
+
+.landing-activity-style {
+  margin: 0 auto;
+  margin-top: 0 auto;
+  width: 100%;
+  height: 100%;
+}
+
+.loadingGifCentered{
+  display: flex;
+  flex-direction: row;
+  margin: 25px auto;
+  width: 10%;
+  height: 10%;
+
 }

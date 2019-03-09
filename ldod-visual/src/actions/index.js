@@ -14,6 +14,16 @@ import {SET_VISUALIZATION_TECHNIQUE} from "../constants/action-types";
 import {SET_SEMANTIC_CRITERIA} from "../constants/action-types";
 import {SET_SEMANTIC_CRITERIA_DATA} from "../constants/action-types";
 import {SET_SEMANTIC_CRITERIA_DATA_LOADED} from "../constants/action-types";
+import {SET_POTENTIAL_VISUALIZATION_TECHNIQUE} from "../constants/action-types";
+import {SET_POTENTIAL_SEMANTIC_CRITERIA} from "../constants/action-types";
+import {SET_POTENTIAL_SEMANTIC_CRITERIA_DATA} from "../constants/action-types";
+import {SET_FRAGMENTS_SORTED_BY_DATE} from "../constants/action-types";
+import {SET_DISPLAY_TEXT_SKIMMING} from "../constants/action-types";
+import {SET_CATEGORIES} from "../constants/action-types";
+import {SET_CURRENT_CATEGORY} from "../constants/action-types";
+import {SET_POTENTIAL_CATEGORY} from "../constants/action-types";
+import {SET_HISTORY} from "../constants/action-types";
+import {SET_DATES_EXIST} from "../constants/action-types";
 
 export const addFragment = fragment => ({type: ADD_FRAGMENT, payload: fragment});
 
@@ -46,3 +56,23 @@ export const setSemanticCriteria = semanticCriteria => ({type: SET_SEMANTIC_CRIT
 export const setSemanticCriteriaData = semanticCriteriaData => ({type: SET_SEMANTIC_CRITERIA_DATA, payload: semanticCriteriaData});
 
 export const setSemanticCriteriaDataLoaded = semanticCriteriaDataLoaded => ({type: SET_SEMANTIC_CRITERIA_DATA_LOADED, payload: semanticCriteriaDataLoaded});
+
+export const setPotentialVisualizationTechnique = potentialVisualizationTechnique => ({type: SET_POTENTIAL_VISUALIZATION_TECHNIQUE, payload: potentialVisualizationTechnique});
+
+export const setPotentialSemanticCriteria = potentialSemanticCriteria => ({type: SET_POTENTIAL_SEMANTIC_CRITERIA, payload: potentialSemanticCriteria});
+
+export const setPotentialSemanticCriteriaData = potentialSemanticCriteriaData => ({type: SET_POTENTIAL_SEMANTIC_CRITERIA_DATA, payload: potentialSemanticCriteriaData});
+
+export const setFragmentsSortedByDate = fragmentsSortedByDate => ({type: SET_FRAGMENTS_SORTED_BY_DATE, payload: fragmentsSortedByDate});
+
+export const setDisplayTextSkimming = displayTextSkimming => ({type: SET_DISPLAY_TEXT_SKIMMING, payload: displayTextSkimming});
+
+export const setCategories = categories => ({type: SET_CATEGORIES, payload: categories});
+
+export const setCurrentCategory = currentCategory => ({type: SET_CURRENT_CATEGORY, payload: currentCategory});
+
+export const setPotentialCategory = potentialCategory => ({type: SET_POTENTIAL_CATEGORY, payload: potentialCategory});
+
+export const setHistory = history => ({type: SET_HISTORY, payload: history});
+
+export const setDatesExist = datesExist => ({type: SET_DATES_EXIST, payload: datesExist});

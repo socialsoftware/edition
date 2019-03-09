@@ -14,6 +14,16 @@ import {SET_VISUALIZATION_TECHNIQUE} from "../constants/action-types";
 import {SET_SEMANTIC_CRITERIA} from "../constants/action-types";
 import {SET_SEMANTIC_CRITERIA_DATA} from "../constants/action-types";
 import {SET_SEMANTIC_CRITERIA_DATA_LOADED} from "../constants/action-types";
+import {SET_POTENTIAL_VISUALIZATION_TECHNIQUE} from "../constants/action-types";
+import {SET_POTENTIAL_SEMANTIC_CRITERIA} from "../constants/action-types";
+import {SET_POTENTIAL_SEMANTIC_CRITERIA_DATA} from "../constants/action-types";
+import {SET_FRAGMENTS_SORTED_BY_DATE} from "../constants/action-types";
+import {SET_DISPLAY_TEXT_SKIMMING} from "../constants/action-types";
+import {SET_CATEGORIES} from "../constants/action-types";
+import {SET_CURRENT_CATEGORY} from "../constants/action-types";
+import {SET_POTENTIAL_CATEGORY} from "../constants/action-types";
+import {SET_HISTORY} from "../constants/action-types";
+import {SET_DATES_EXIST} from "../constants/action-types";
 
 const initialState = {
   fragments: [],
@@ -31,7 +41,16 @@ const initialState = {
   visualizationTechnique: 0,
   semanticCriteria: 0,
   semanticCriteriaData: [],
-  semanticCriteriaDataLoaded: false
+  semanticCriteriaDataLoaded: true,
+  potentialVisualizationTechnique: 0,
+  potentialSemanticCriteria: 0,
+  potentialSemanticCriteriaData: [],
+  fragmentsSortedByDate: [],
+  displayTextSkimming: false,
+  categories: [],
+  currentCategory: [],
+  potentialCategory: [],
+  datesExist: false
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -39,10 +58,7 @@ const rootReducer = (state = initialState, action) => {
     case ADD_FRAGMENT:
       return {
         ...state,
-        fragments: [
-          ...state.fragments,
-          action.payload
-        ]
+        fragments: action.payload
       };
     case SET_FRAGMENT_INDEX:
       return {
@@ -121,6 +137,56 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         semanticCriteriaDataLoaded: action.payload
+      };
+    case SET_POTENTIAL_VISUALIZATION_TECHNIQUE:
+      return {
+        ...state,
+        potentialVisualizationTechnique: action.payload
+      };
+    case SET_POTENTIAL_SEMANTIC_CRITERIA:
+      return {
+        ...state,
+        potentialSemanticCriteria: action.payload
+      };
+    case SET_POTENTIAL_SEMANTIC_CRITERIA_DATA:
+      return {
+        ...state,
+        potentialSemanticCriteriaData: action.payload
+      };
+    case SET_FRAGMENTS_SORTED_BY_DATE:
+      return {
+        ...state,
+        fragmentsSortedByDate: action.payload
+      };
+    case SET_DISPLAY_TEXT_SKIMMING:
+      return {
+        ...state,
+        setDisplayTextSkimming: action.payload
+      };
+    case SET_CATEGORIES:
+      return {
+        ...state,
+        categories: action.payload
+      };
+    case SET_CURRENT_CATEGORY:
+      return {
+        ...state,
+        currentCategory: action.payload
+      };
+    case SET_POTENTIAL_CATEGORY:
+      return {
+        ...state,
+        potentialCategory: action.payload
+      };
+    case SET_HISTORY:
+      return {
+        ...state,
+        history: action.payload
+      };
+    case SET_DATES_EXIST:
+      return {
+        ...state,
+        datesExist: action.payload
       };
     default:
       return state;

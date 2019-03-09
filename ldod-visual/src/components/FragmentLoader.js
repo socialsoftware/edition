@@ -1,8 +1,33 @@
 import React from "react";
 import {RepositoryService} from "../services/RepositoryService";
-import {addFragment, setAllFragmentsLoaded, setfragmentsHashMap, setRecommendationArray, setRecommendationLoaded} from "../actions/index";
+import Fragment from "./Fragment";
+import {
+  addFragment,
+  setAllFragmentsLoaded,
+  setfragmentsHashMap,
+  setRecommendationArray,
+  setRecommendationLoaded,
+  setSemanticCriteriaData,
+  setPotentialSemanticCriteriaData,
+  setFragmentsSortedByDate,
+  setCategories,
+  setHistory,
+  setDatesExist
+} from "../actions/index";
 import {connect} from "react-redux";
 import HashMap from "hashmap";
+import {
+  VIS_SQUARE_GRID,
+  VIS_NETWORK_GRAPH,
+  VIS_WORD_CLOUD,
+  BY_SQUAREGRID_EDITIONORDER,
+  CRIT_EDITION_ORDER,
+  CRIT_CHRONOLOGICAL_ORDER,
+  CRIT_TEXT_SIMILARITY,
+  CRIT_HETERONYM,
+  CRIT_TAXONOMY,
+  CRIT_WORD_RELEVANCE
+} from "../constants/history-transitions";
 
 const mapStateToProps = state => {
   return {
@@ -13,7 +38,14 @@ const mapStateToProps = state => {
     currentFragmentMode: state.currentFragmentMode,
     outOfLandingPage: state.outOfLandingPage,
     recommendationArray: state.recommendationArray,
-    recommendationLoaded: state.recommendationLoaded
+    recommendationLoaded: state.recommendationLoaded,
+    semanticCriteriaDataLoaded: state.semanticCriteriaDataLoaded,
+    visualizationTechnique: state.visualizationTechnique,
+    semanticCriteria: state.semanticCriteria,
+    potentialVisualizationTechnique: state.potentialVisualizationTechnique,
+    potentialSemanticCriteria: state.potentialSemanticCriteria,
+    history: state.history,
+    historyEntryCounter: state.historyEntryCounter
   };
 };
 
@@ -23,7 +55,13 @@ const mapDispatchToProps = dispatch => {
     setAllFragmentsLoaded: allFragmentsLoaded => dispatch(setAllFragmentsLoaded(allFragmentsLoaded)),
     setfragmentsHashMap: fragmentsHashMap => dispatch(setfragmentsHashMap(fragmentsHashMap)),
     setRecommendationArray: recommendationArray => dispatch(setRecommendationArray(recommendationArray)),
-    setRecommendationLoaded: recommendationLoaded => dispatch(setRecommendationLoaded(recommendationLoaded))
+    setRecommendationLoaded: recommendationLoaded => dispatch(setRecommendationLoaded(recommendationLoaded)),
+    setSemanticCriteriaData: semanticCriteriaData => dispatch(setSemanticCriteriaData(semanticCriteriaData)),
+    setPotentialSemanticCriteriaData: potentialSemanticCriteriaData => dispatch(setPotentialSemanticCriteriaData(potentialSemanticCriteriaData)),
+    setFragmentsSortedByDate: fragmentsSortedByDate => dispatch(setFragmentsSortedByDate(fragmentsSortedByDate)),
+    setCategories: categories => dispatch(setCategories(categories)),
+    setHistory: history => dispatch(setHistory(history)),
+    setDatesExist: datesExist => dispatch(setDatesExist(datesExist))
   };
 };
 
@@ -33,74 +71,183 @@ class ConnectedFragmentLoader extends React.Component {
 
     this.map = new HashMap();
 
+    this.sortedFragmentsByDate = [];
+
     this.state = {
-      acronym: "LdoD-test",
-      localHistoryCount: 0,
-      idsDistanceArray: []
+      toggleFragmentUpdate: false
     };
+
   }
 
   componentDidUpdate(prevProps, prevState) {
-    console.log("===============================componentDIDUPDATE!======================")
-    console.log("FRAGMENTLOADER: recommendationArray.length: " + this.props.recommendationArray.length);
-    console.log("FRAGMENTLOADER: fragments.length: " + this.props.fragments.length);
-    if (!(this.props.recommendationLoaded)) { //&& prevProps.fragmentIndex !== this.props.fragmentIndex && this.props.currentFragmentMode && this.props.outOfLandingPage) { && this.props.recommendationArray.length === this.props.fragments.length) { tirar a cond do outoflanding page no fragment loader
-      console.log("===============================PROPS CHANGED! REQUESTING NEW RECOMMENDATION ARRAY======================")
 
-      const service = new RepositoryService();
+    if (!(this.props.recommendationLoaded)) {
+      console.log("Loading recommendation array");
 
-      console.log("FRAGMENTLOADER: requesting distances")
-      let idsDistanceArray = [];
-      let myNewRecommendationArray = [];
-      service.getIntersByDistance(this.props.fragments[this.props.fragmentIndex].interId, "0.0", "1.0", "0.0", "0.0").then(response => {
-        console.log("FRAGMENTLOADER: then request");
-        idsDistanceArray = response.data;
-        console.log("FRAGMENTLOADER: then request 2");
-        myNewRecommendationArray;
-        console.log("FRAGMENTLOADER: then request 3");
-        let thisArray = idsDistanceArray;
-        console.log("FRAGMENTLOADER: then request 3.5");
+      if (this.props.visualizationTechnique == VIS_NETWORK_GRAPH) {
 
-        console.log("FRAGMENTLOADER: idsDistanceArray length: " + idsDistanceArray.length);
-        var i;
-        for (i = 0; i < idsDistanceArray.length; i++) {
-          console.log("FRAGMENTLOADER: then request 3.6");
-          let frag = this.props.fragmentsHashMap.get(idsDistanceArray[i].interId);
-          console.log("FRAGMENTLOADER: then request 3.7");
-          myNewRecommendationArray.push(frag);
-          console.log("FRAGMENTLOADER: then request 3.8");
+        let pHeteronymWeight = "0.0";
+        let pTextWeight = "0.0";
+        let pDateWeight = "0.0";
+        let ptaxonomyWeight = "0.0";
 
+        if (this.props.semanticCriteria == CRIT_HETERONYM) {
+          pHeteronymWeight = "1.0";
+        } else if (this.props.semanticCriteria == CRIT_TEXT_SIMILARITY) {
+          pTextWeight = "1.0";
+        } else if (this.props.semanticCriteria == CRIT_CHRONOLOGICAL_ORDER) {
+          pDateWeight = "1.0";
+        } else if (this.props.semanticCriteria == CRIT_TAXONOMY) {
+          ptaxonomyWeight = "1.0";
         }
-        this.props.setRecommendationArray(myNewRecommendationArray);
-        myNewRecommendationArray.map(f => console.log("FRAGMENTLOADER: interId from distance request: " + f.interId));
-        this.props.setRecommendationLoaded(true);
-        //thisArray.map(f => myNewRecommendationArray.push(this.props.fragmentsHashMap.get(f.interId)));
 
-        console.log("FRAGMENTLOADER: NEW RECOMMENDATION ARRAY CALCULATED!");
-      });
+        const service = new RepositoryService(this.props.currentEdition.acronym);
+        let idsDistanceArray = [];
+        let myNewRecommendationArray = [];
+        service.getIntersByDistance(this.props.fragments[this.props.fragmentIndex].interId, pHeteronymWeight, pTextWeight, pDateWeight, ptaxonomyWeight).then(response => {
 
+          idsDistanceArray = response.data;
+          this.props.setSemanticCriteriaData(idsDistanceArray);
+
+          var i;
+          for (i = 0; i < idsDistanceArray.length; i++) {
+            let frag = this.props.fragmentsHashMap.get(idsDistanceArray[i].interId);
+            myNewRecommendationArray.push(frag);
+          }
+          this.props.setRecommendationArray(myNewRecommendationArray);
+          console.log("FragmentLoader: new recommendation array calculated. Adding to history")
+
+          let myTempObj = this.props.history[this.props.historyEntryCounter - 1];
+          let myTempHist = this.props.history;
+          //my temp set aqui: pegar no historico, mudar a ultima casa, fazer set ao historico completo com a casa actualizada com o novo recommendationArray.
+
+          myTempObj.recommendationArray = myNewRecommendationArray;
+          myTempObj.recommendationIndex = 0;
+
+          myTempHist[this.props.historyEntryCounter - 1] = myTempObj;
+
+          this.props.setHistory(myTempHist);
+
+          console.log("VVVVVVVVVVVVVVVVVVVVVVVVVVVVVV " + this.props.history[this.props.historyEntryCounter - 1].recommendationIndex)
+          console.log("VVVVVVVVVVVVVVVVVVVVVVVVVVVVVV " + this.props.history[this.props.historyEntryCounter - 1].recommendationArray)
+
+          this.props.setRecommendationLoaded(true);
+
+          this.setState({
+            toggleFragmentUpdate: !this.state.toggleFragmentUpdate
+          });
+
+        });
+      }
     }
+
   }
 
   componentDidMount() {
-    const service = new RepositoryService();
-    service.getFragments(this.state.acronym).then(response => {
-      response.data.fragments.map(f => this.props.addFragment(f));
-      this.props.fragments.map(f => this.map.set(f.interId, f));
-      this.props.setfragmentsHashMap(this.map);
-      this.props.setAllFragmentsLoaded(true);
-    });
+    if (!this.props.allFragmentsLoaded) {
+      const service = new RepositoryService(this.props.currentEdition.acronym);
+      console.log("FragmentLoader.js: componentDidMount -> requesting fragments for edition acronym: " + this.props.currentEdition.acronym + " with edition title: " + this.props.currentEdition.title)
+      service.getFragments().then(response => {
+        console.log("FragmentLoader.js: receiving fragments");
+        console.log(response);
+
+        //response.data.fragments.map(f => f.text = f.text.concat(" base Base toda Toda"));
+
+        this.props.addFragment(response.data.fragments);
+        this.props.fragments.map(f => this.map.set(f.interId, f));
+        this.props.setfragmentsHashMap(this.map);
+
+        let unorderedFragments = [];
+        let noDateFragments = [];
+
+        this.props.fragments.map(f => {
+
+          if (f.meta.date !== null) 
+            return (unorderedFragments.push(f));
+          return (noDateFragments.push(f));
+        });
+
+        if (unorderedFragments.length > 0) {
+
+          this.props.setDatesExist(true);
+
+          unorderedFragments.sort((frag1, frag2) => {
+            let date1 = frag1.meta.date.split('-');
+            let date2 = frag2.meta.date.split('-');
+            let year1 = parseInt(date1[0]);
+            let year2 = parseInt(date2[0]);
+            let month1 = parseInt(date1[1]);
+            let month2 = parseInt(date2[1]);
+            let day1 = parseInt(date1[2]);
+            let day2 = parseInt(date2[2]);
+            if (year1 !== year2) {
+              return year1 - year2;
+            } else if (month1 !== month2) {
+              return month1 - month2;
+            } else {
+              return day1 - day2;
+            }
+          });
+
+          // console.log(unorderedFragments.length);
+
+          let myFragmentsSortedByDate = unorderedFragments.concat(noDateFragments);
+
+          // console.log(myFragmentsSortedByDate.length);
+
+          // myFragmentsSortedByDate.map(f => console.log(f.meta.date));
+
+          this.props.setFragmentsSortedByDate(myFragmentsSortedByDate);
+
+        }
+
+        if (response.data.categories) {
+
+          let myCategories = response.data.categories;
+          let tempCounter = 0;
+
+          let i;
+          let j;
+          for (i = 0; i < myCategories.length; i++) {
+
+            for (j = 0; j < response.data.fragments.length; j++) {
+
+              if (response.data.fragments[j].meta.categories.includes(myCategories[i])) {
+
+                tempCounter++;
+              }
+            }
+
+            let obj = {
+              category: myCategories[i],
+              categoryCount: tempCounter
+            };
+            // console.log("counting category: number " + 1 + " out of " + myCategories.length + " (" + myCategories[i] + ")");
+            myCategories[i] = obj;
+            tempCounter = 0;
+
+          }
+
+          this.props.setCategories(myCategories);
+        }
+
+        this.props.setAllFragmentsLoaded(true);
+
+        this.setState({
+          toggleFragmentUpdate: !this.state.toggleFragmentUpdate
+        });
+
+      });
+    }
   }
 
   render() {
+    // const service = new RepositoryService("bla");
+    // service.getPublicEditions().then(response => {
+    //   console.log("ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ |" + response.data.map(e => console.log("|Title: " + e.title + " |Acronym:" + e.acronym + " |hasCategories: " + e.taxonomy.hasCategories)));
+    // });
 
-    let fragmentToRender;
-
-    if (this.props.allFragmentsLoaded) {
-      console.log("fragments loaded")
-      //this.props.fragments.map(f => console.log("id " + f.interId + " on my hashmap: " + this.props.fragmentsHashMap.get(f.interId) + " with title: " + this.props.fragmentsHashMap.get(f.interId).meta.title))
-    }
-    return <div></div>;
+    return <Fragment currentEdition={this.props.currentEdition} toggleTextSkimming={this.props.toggleTextSkimming}/>;
   }
 
 }
