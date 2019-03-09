@@ -173,8 +173,8 @@ relation LdoDHasExpertEditions {
 	ExpertEdition playsRole expertEditions {multiplicity 0..*;}
 }
 
-relation LdoDHasNullEdition {
-	LdoD playsRole ldoD4NullEdition {multiplicity 1..1;}
+relation TextHasNullEdition {
+	Text playsRole text4NullEdition {multiplicity 1..1;}
 	NullEdition playsRole nullEdition {multiplicity 0..1;}
 }
 

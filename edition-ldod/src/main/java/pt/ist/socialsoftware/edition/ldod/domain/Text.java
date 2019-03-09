@@ -13,9 +13,11 @@ public class Text extends Text_Base {
     
     public Text() {
         FenixFramework.getDomainRoot().setText(this);
+        setNullEdition(new NullEdition());
     }
 
     public void remove(){
+        getNullEdition().remove();
 
         deleteDomainObject();
 

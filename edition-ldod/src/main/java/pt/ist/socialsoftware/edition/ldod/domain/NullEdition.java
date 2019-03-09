@@ -12,7 +12,7 @@ public class NullEdition extends NullEdition_Base {
 
 	@Override
 	public void remove() {
-		setLdoD4NullEdition(null);
+		setText4NullEdition(null);
 		super.remove();
 	}
 

@@ -34,7 +34,6 @@ public class LdoD extends LdoD_Base {
 
 	public LdoD() {
 		FenixFramework.getDomainRoot().setLdoD(this);
-		setNullEdition(new NullEdition());
 		setLastTwitterID(new LastTwitterID()); // check if this is supposed to be here
 	}
 
@@ -45,7 +44,6 @@ public class LdoD extends LdoD_Base {
 		getCitationSet().forEach(c -> c.remove());
 		getFragmentsSet().forEach(f -> f.remove());
 		getHeteronymsSet().forEach(h -> h.remove());
-		getNullEdition().remove();
 		getPublicClassificationGames().forEach(g -> g.remove());
 		getTokenSet().forEach(t -> t.remove());
 		getUserConnectionSet().forEach(c -> c.remove());

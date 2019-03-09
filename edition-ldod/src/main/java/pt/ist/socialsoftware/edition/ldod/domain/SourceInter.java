@@ -102,7 +102,7 @@ public class SourceInter extends SourceInter_Base {
 
 	@Override
 	public Edition getEdition() {
-		return getFragment().getLdoD().getNullEdition();
+		return Text.getInstance().getNullEdition();
 	}
 
 	@Override
