@@ -113,7 +113,7 @@ class ConnectedSquareGrid extends Component {
     for (i = 0; i < this.myFragmentArray.length; i++) {
 
       let myTitle = this.myFragmentArray[i].meta.title;
-      const myText = this.myFragmentArray[i].text;
+      //const myText = this.myFragmentArray[i].text;
 
       //blue
       let nodeBorderColor = "#2B7CE9";
