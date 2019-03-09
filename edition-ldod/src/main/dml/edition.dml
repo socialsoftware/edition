@@ -33,6 +33,19 @@ class LdoD {
 	boolean admin;
 }
 
+class Text {
+
+}
+
+relation DomainRootHasTextApplication  {
+    .pt.ist.fenixframework.DomainRoot playsRole root {
+    		multiplicity 1..1;
+    }
+    Text playsRole text {
+        multiplicity 0..1;
+    }
+}
+
 class LastTwitterID {
 	String lastBookParsedFile;
 	long bookLastTwitterID;

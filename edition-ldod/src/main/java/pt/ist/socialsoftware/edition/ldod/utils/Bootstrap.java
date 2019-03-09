@@ -17,14 +17,8 @@ import org.springframework.web.WebApplicationInitializer;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
-import pt.ist.socialsoftware.edition.ldod.domain.Edition;
-import pt.ist.socialsoftware.edition.ldod.domain.Fragment;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
-import pt.ist.socialsoftware.edition.ldod.domain.Member;
-import pt.ist.socialsoftware.edition.ldod.domain.Role;
+import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.domain.Role.RoleType;
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.ldod.recommendation.VSMFragmentRecommender;
 import pt.ist.socialsoftware.edition.ldod.recommendation.properties.DateProperty;
 import pt.ist.socialsoftware.edition.ldod.recommendation.properties.HeteronymProperty;
@@ -66,6 +60,9 @@ public class Bootstrap implements WebApplicationInitializer {
 			createLdoDArchiveVirtualEdition();
 		} else {
 			loadRecommendationCache();
+		}
+		if (Text.getInstance() == null) {
+			Text text = new Text();
 		}
 	}
 
