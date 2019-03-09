@@ -30,6 +30,7 @@ class RemoveMethodSpockTest extends SpockRollbackTestAbstractClass  {
 		expertInter = new ExpertEditionInter()
 		expertInter.setFragment(fragment)
 		expertInter.setExpertEdition(expertEdition)
+		expertInter.setXmlId("xmlId")
 		and: 'a virtual edition containing another interpretation'
 		virtualEditionOne = new VirtualEdition(ldoD, user, "test1", "test1", null, true, expertEdition)
 		and: 'another virtual edition using the previous virtual edition'
@@ -49,7 +50,7 @@ class RemoveMethodSpockTest extends SpockRollbackTestAbstractClass  {
     def 'delete source inter'() {
         given: 'an source interpretation'
         sourceInter = new SourceInter()
-        sourceInter.setFragment(fragmentOne)
+        sourceInter.setFragment(fragment)
         sourceInter.setXmlId("sssId")
         and: 'a virtual edition containing another interpretation'
         virtualEditionOne = new VirtualEdition(ldoD, user, "test1", "test1", null, true, null)
