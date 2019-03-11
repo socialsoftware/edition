@@ -171,7 +171,7 @@ class ConnectedPublicEditionContainer extends React.Component {
       <br/>
       <br/>
 
-      <p align="center">Aqui poderá escolher e explorar uma das edições virtuais públicas disponíveis do "Livro do Desassossego" no {' '}
+      <p align="center">Aqui poderá escolher e explorar uma das edições virtuais públicas do "Livro do Desassossego" disponíveis no {' '}
         <a href="https://ldod.uc.pt">
           Arquivo LdoD</a>.
       </p>
@@ -180,9 +180,7 @@ class ConnectedPublicEditionContainer extends React.Component {
           nesta secção do Arquivo LdoD</a>.
       </p>
       <p align="center">
-        Apenas se escolher uma edição virtual com categorias disponíveis (taxonomia), poderá realizar actividades à volta das mesmas.</p>
-
-      <br></br>
+        Apenas se seleccionar uma edição virtual com categorias disponíveis (taxonomia), poderá realizar actividades à volta das mesmas.</p>
 
       <div className="cardsContainer">
         {editionButtonList}

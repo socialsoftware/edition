@@ -252,7 +252,7 @@ class ConnectedPublicEditionContainerTable extends React.Component {
       <br/>
       <br/>
 
-      <p align="center">Aqui poderá escolher e explorar uma das edições virtuais públicas disponíveis do "Livro do Desassossego" no {' '}
+      <p align="center">Aqui poderá escolher e explorar uma das edições virtuais públicas do "Livro do Desassossego" disponíveis no {' '}
         <a href="https://ldod.uc.pt">
           Arquivo LdoD</a>.
       </p>
