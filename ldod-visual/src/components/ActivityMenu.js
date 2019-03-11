@@ -207,11 +207,15 @@ class ConnectedActivityMenu extends Component {
 
   render() {
 
+    const activitySelectable = "Escolher actividade";
+    const activityUnselectable = "Actividade indisponível";
+
     if (this.state.show) {
 
       let categoryButtonMessage = "Explorar os fragmentos desta edição pelas categorias a que pertencem (taxonomia)"
       let networkGraphTaxonomyMessage = "Ler fragmentos semelhantes a este por taxonomia"
       let categoryButtonStyle = "primary"
+      let categoryButtonBotMessage = activitySelectable;
       let categoryImage = picWordCloud;
       let networkGraphTaxonomyImage = picNetgraph;
       if (this.props.categories.length === 0) {
@@ -220,34 +224,41 @@ class ConnectedActivityMenu extends Component {
         networkGraphTaxonomyMessage = "Ler fragmentos semelhantes a este por taxonomia (edição sem taxonomia)"
         networkGraphTaxonomyImage = picNetgraphGray;
         categoryImage = picWordCloudGray;
+        categoryButtonBotMessage = activityUnselectable;
       }
 
       //toggleSquareGridHeteronym
       let heteronymButtonStyle = "secondary";
+      let heteronymButtonBotMessage = activityUnselectable;
       let myHeteronym = "heterónimo não disponível para este fragmento";
       let heteronymImage = picSquareGoldenGray;
       if (this.props.recommendationArray[this.props.recommendationIndex].meta.heteronym) {
         heteronymButtonStyle = "primary";
         myHeteronym = this.props.recommendationArray[this.props.recommendationIndex].meta.heteronym;
         heteronymImage = picSquareGolden;
+        heteronymButtonBotMessage = activitySelectable;
       }
 
       let datesButtonStyle = "primary"
       let datesImage = picSquareTime;
       let datesButtonFunction = this.toggleSquareGridDateOrder;
       let datesButtonMessage = "Explorar os fragmentos desta edição ordenados por data";
+      let datesButtonBotMessage = activitySelectable;
 
       let datesSimilarButtonMessage = "Ler fragmentos semelhantes a este por data (fragmento actual sem data disponível)"
       let datesSimilarButtonStyle = "secondary"
       let datesSimilarImage = picNetgraphGray;
+      let datesSimilarButtonBotMessage = activityUnselectable;
       if (this.props.recommendationArray[this.props.recommendationIndex].meta.date !== null) {
         datesSimilarButtonMessage = "Ler fragmentos semelhantes a este por data (" + this.props.recommendationArray[this.props.recommendationIndex].meta.date + ")"
         datesSimilarButtonStyle = "primary";
         datesSimilarImage = picNetgraph;
+        datesSimilarButtonBotMessage = activitySelectable;
       }
 
       if (!this.props.datesExist) {
         datesButtonStyle = "secondary";
+        datesButtonBotMessage = activityUnselectable;
         datesImage = picSquareTimeGray;
         datesSimilarButtonStyle = "secondary";
         datesButtonFunction = function() {}
@@ -258,6 +269,7 @@ class ConnectedActivityMenu extends Component {
       let wordCloudSingleFragmentMessage = "Explorar mais fragmentos da(s) mesma(s) categoria(s) deste fragmento";
       let wordCloudSingleFragmentButtonStyle = "primary";
       let wordCloudSingleFragmentImage = picWordCloud;
+      let wordCloudSingleBotMessage = activitySelectable;
 
       // console.log("blebleblebleble")
       // console.log(this.props.recommendationArray[this.props.recommendationIndex].meta.categories.length)
@@ -266,6 +278,7 @@ class ConnectedActivityMenu extends Component {
         wordCloudSingleFragmentMessage = "Explorar mais fragmentos da(s) mesma(s) categoria(s) deste fragmento (fragmento actual sem categorias)";
         wordCloudSingleFragmentButtonStyle = "secondary";
         wordCloudSingleFragmentImage = picWordCloudGray;
+        wordCloudSingleBotMessage = activityUnselectable;
       }
 
       this.retreatButton = (<div/>);
@@ -287,7 +300,7 @@ class ConnectedActivityMenu extends Component {
               </p>
               <div className="welcomeButtonActivity">
                 <Button bsStyle="primary" bsSize="small" onClick={this.toggleSquareGridEditionOrder}>
-                  Escolher actividade
+                  {activitySelectable}
                 </Button>
               </div>
             </div>
@@ -303,7 +316,7 @@ class ConnectedActivityMenu extends Component {
               </p>
               <div className="welcomeButtonActivity">
                 <Button bsStyle={datesButtonStyle} bsSize="small" onClick={datesButtonFunction}>
-                  Escolher actividade
+                  {datesButtonBotMessage}
                 </Button>
               </div>
             </div>
@@ -319,7 +332,7 @@ class ConnectedActivityMenu extends Component {
               </p>
               <div className="welcomeButtonActivity">
                 <Button bsStyle={heteronymButtonStyle} bsSize="small" onClick={this.toggleSquareGridHeteronym}>
-                  Escolher actividade
+                  {heteronymButtonBotMessage}
                 </Button>
               </div>
             </div>
@@ -335,7 +348,7 @@ class ConnectedActivityMenu extends Component {
               </p>
               <div className="welcomeButtonActivity">
                 <Button bsStyle={categoryButtonStyle} bsSize="small" onClick={this.toggleWordCloudTaxonomy}>
-                  Escolher actividade
+                  {categoryButtonBotMessage}
                 </Button>
               </div>
             </div>
@@ -351,7 +364,7 @@ class ConnectedActivityMenu extends Component {
               </p>
               <div className="welcomeButtonActivity">
                 <Button bsStyle={wordCloudSingleFragmentButtonStyle} bsSize="small" onClick={this.toggleWordCloudTaxonomySingleFragment}>
-                  Escolher actividade
+                  {wordCloudSingleBotMessage}
                 </Button>
               </div>
             </div>
@@ -383,7 +396,7 @@ class ConnectedActivityMenu extends Component {
               </p>
               <div className="welcomeButtonActivity">
                 <Button bsStyle={datesSimilarButtonStyle} bsSize="small" onClick={this.toggleActivityNetworkGraphDate}>
-                  Escolher actividade
+                  {datesSimilarButtonBotMessage}
                 </Button>
               </div>
             </div>
@@ -399,7 +412,7 @@ class ConnectedActivityMenu extends Component {
               </p>
               <div className="welcomeButtonActivity">
                 <Button bsStyle={categoryButtonStyle} bsSize="small" onClick={this.toggleActivityNetworkGraphTaxonomy}>
-                  Escolher actividade
+                  {categoryButtonBotMessage}
                 </Button>
               </div>
             </div>

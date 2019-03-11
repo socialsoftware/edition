@@ -183,3 +183,9 @@ class ConnectedPublicEditionContainer extends React.Component {
 const PublicEditionContainer = connect(mapStateToProps, mapDispatchToProps)(ConnectedPublicEditionContainer);
 
 export default PublicEditionContainer;
+
+/*
+<button className="landingButton" bsStyle={buttonStyle} bsSize="small" onClick={() => this.handleButtonClick(item)}>
+  Seleccionar edição
+</button>
+*/

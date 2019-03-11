@@ -453,6 +453,8 @@ class ConnectedApp extends Component {
   render() {
     console.log(new Date().getTime() + " App.js: Rendering")
     let retreatButton;
+    const activitySelectable = "Escolher actividade";
+    const activityUnselectable = "Actividade indisponível";
 
     //BUTTON LOGIC
     if (this.props.outOfLandingPage) {
@@ -499,6 +501,7 @@ class ConnectedApp extends Component {
         </Button>);
       } else if (!this.state.showLandingActivity & this.props.allFragmentsLoaded) {
         let categoryButtonStyle = "primary"
+        let categoryButtonBotMessage = activitySelectable;
         let categoryButtonMessage = "Explorar os fragmentos desta edição pelas categorias a que pertencem (taxonomia)"
         let categoryButtonFunction = this.handleShowLandingActivityWordCloudCategory;
         let categoryImage = picWordCloud;
@@ -507,13 +510,16 @@ class ConnectedApp extends Component {
           categoryButtonMessage = "Explorar os fragmentos desta edição pelas categorias a que pertencem (taxonomia) (edição sem taxonomia)"
           categoryButtonFunction = function() {}
           categoryImage = picWordCloudGray;
+          categoryButtonBotMessage = activityUnselectable;
         }
         let datesButtonStyle = "primary"
+        let datesButtonBotMessage = activitySelectable;
         let datesButtonFunction = this.handleShowLandingActivitySquareDateOrder;
         let datesButtonMessage = "Explorar os fragmentos desta edição ordenados por data";
         let datesImage = picSquareTime;
         if (!this.props.datesExist) {
           datesButtonStyle = "secondary";
+          datesButtonBotMessage = activityUnselectable;
           datesButtonFunction = function() {}
           datesButtonMessage = "Explorar os fragmentos desta edição ordenados por data (edição virtual sem datas)"
           datesImage = picSquareTimeGray;
@@ -556,7 +562,7 @@ class ConnectedApp extends Component {
                 </p>
                 <div className="welcomeButtonActivity">
                   <Button bsStyle={datesButtonStyle} bsSize="small" onClick={datesButtonFunction}>
-                    Escolher actividade
+                    {datesButtonBotMessage}
                   </Button>
                 </div>
               </div>
@@ -572,7 +578,7 @@ class ConnectedApp extends Component {
                 </p>
                 <div className="welcomeButtonActivity">
                   <Button bsStyle={categoryButtonStyle} bsSize="small" onClick={categoryButtonFunction}>
-                    Escolher actividade
+                    {categoryButtonBotMessage}
                   </Button>
                 </div>
               </div>
