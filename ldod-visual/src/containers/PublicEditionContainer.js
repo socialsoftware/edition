@@ -30,6 +30,7 @@ import ReactHtmlParser, {processNodes, convertNodeToElement, htmlparser2} from '
 import loadingGif from '../assets/loading.gif'
 import loadingFragmentsGif from '../assets/fragmentload.gif'
 import "./PublicEditionContainer.css";
+import ldodIcon from '../assets/ldod-icon.png';
 
 const mapStateToProps = state => {
   return {
@@ -161,13 +162,24 @@ class ConnectedPublicEditionContainer extends React.Component {
     }
 
     return <div>
-      <p>Bem-vindo ao LdoD Visual. Escolha uma das edições virtuais públicas disponíveis do Livro do Desassossego.
-      </p>
-      <p>Pode criar a sua própria edição virtual e consultar detalhes de outras edições virtuais públicas no{' '}
-        <a href="https://ldod.uc.pt/virtualeditions">
+      <img src={ldodIcon} alt="loading..." className="loadingGifCentered"/>
+
+      <h4 align="center">
+        <b>Bem-vindo ao LdoD Visual!</b>
+      </h4>
+
+      <br/>
+      <br/>
+
+      <p align="center">Aqui poderá escolher e explorar uma das edições virtuais públicas disponíveis do "Livro do Desassossego" no {' '}
+        <a href="https://ldod.uc.pt">
           Arquivo LdoD</a>.
       </p>
-      <p>
+      <p align="center">Poderá criar a sua própria edição virtual e consultar detalhes de outras edições virtuais públicas {' '}
+        <a href="https://ldod.uc.pt/virtualeditions">
+          nesta secção do Arquivo LdoD</a>.
+      </p>
+      <p align="center">
         Apenas se escolher uma edição virtual com categorias disponíveis (taxonomia), poderá realizar actividades à volta das mesmas.</p>
 
       <br></br>

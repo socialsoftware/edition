@@ -34,7 +34,7 @@ import NetworkGraph from "./components/NetworkGraph";
 import FragmentLoader from "./components/FragmentLoader";
 import SquareGrid from "./components/SquareGrid";
 import MyWordCloud from "./components/MyWordCloud";
-import PublicEditionContainer from "./containers/PublicEditionContainer";
+import PublicEditionContainer from "./containers/PublicEditionContainerTable";
 import ReactHtmlParser, {processNodes, convertNodeToElement, htmlparser2} from 'react-html-parser';
 import loadingGif from './assets/loading.gif';
 import loadingFragmentsGif from './assets/fragmentload.gif';
@@ -530,7 +530,9 @@ class ConnectedApp extends Component {
 
         let myTitle = ReactHtmlParser(this.state.currentEdition.title, options);
         this.landingActivityToRender = (<div>
-          <p>
+          <br/>
+          <br/>
+          <p align="center">
             Esta é a sua primeira actividade em torno da edição virtual que seleccionou - "{myTitle}". Escolha uma das seguintes opções.
           </p>
 
@@ -724,9 +726,7 @@ class ConnectedApp extends Component {
 
       <Modal show={this.state.showLanding} dialogClassName="custom-modal">
         <Modal.Header>
-          <Modal.Title>
-            LdoD Visual
-          </Modal.Title>
+          <Modal.Title></Modal.Title>
         </Modal.Header>
 
         <Modal.Body>
