@@ -218,6 +218,14 @@ class ConnectedPublicEditionContainerTable extends React.Component {
 
       ]
 
+      function filterCaseInsensitive(filter, row) {
+        const id = filter.pivotId || filter.id;
+        return (
+          row[id] !== undefined
+          ? String(row[id].toLowerCase()).startsWith(filter.value.toLowerCase())
+          : true);
+      }
+
       Object.assign(ReactTableDefaults, {
         data: data,
         columns: columns,
@@ -230,6 +238,29 @@ class ConnectedPublicEditionContainerTable extends React.Component {
             desc: false
           }
         ],
+        defaultSortMethod: (a, b, desc) => {
+          // force null and undefined to the bottom
+          a = a === null || a === undefined
+            ? ''
+            : a
+          b = b === null || b === undefined
+            ? ''
+            : b
+          // force any string values to lowercase
+          a = typeof a === 'string'
+            ? a.toLowerCase()
+            : a.toString().toLowerCase()
+          b = typeof b === 'string'
+            ? b.toLowerCase()
+            : b.toString().toLowerCase()
+          // Return either 1 or -1 to indicate a sort priority
+          if (a > b) {
+            return 1
+          }
+          if (a < b) {
+            return -1
+          }
+        }
 
         // etc...
       });
