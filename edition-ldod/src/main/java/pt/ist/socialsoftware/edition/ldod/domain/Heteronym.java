@@ -12,7 +12,6 @@ public class Heteronym extends Heteronym_Base implements Comparable<Heteronym> {
 	}
 
 	public Heteronym(Text text, String name) {
-		logger.debug("Creating heteronym " + name);
 		setText(text);
 		setName(name);
 	}

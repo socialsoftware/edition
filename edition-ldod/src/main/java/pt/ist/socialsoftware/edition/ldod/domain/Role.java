@@ -7,17 +7,17 @@ public class Role extends Role_Base {
 	};
 
 	public static Role getRole(RoleType type) {
-		return LdoD.getInstance().getRolesSet().stream().filter(r -> r.getType().equals(type)).findFirst()
+		return Text.getInstance().getRolesSet().stream().filter(r -> r.getType().equals(type)).findFirst()
 				.orElseGet(() -> new Role(type));
 	}
 
 	private Role(RoleType type) {
-		setLdoD(LdoD.getInstance());
+		setText(Text.getInstance());
 		setType(type);
 	}
 
 	public void remove() {
-		setLdoD(null);
+		setText(null);
 		getUsersSet().forEach(u -> u.remove());
 
 		deleteDomainObject();

@@ -128,8 +128,8 @@ class Role {
 	RoleType type;
 }
 
-relation LdoDHasRoles {
-	LdoD playsRole ldoD {multiplicity 1..1;}
+relation TextHasRoles {
+	Text playsRole text {multiplicity 1..1;}
 	Role playsRole roles {multiplicity 0..*;}
 }
 

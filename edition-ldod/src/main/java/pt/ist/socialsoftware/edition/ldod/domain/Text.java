@@ -21,6 +21,7 @@ public class Text extends Text_Base {
 
     public void remove(){
         getNullEdition().remove();
+        getRolesSet().forEach(r -> r.remove());
         getHeteronymsSet().forEach(h -> h.remove());
 
         deleteDomainObject();

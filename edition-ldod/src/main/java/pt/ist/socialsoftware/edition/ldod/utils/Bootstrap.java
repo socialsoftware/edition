@@ -48,6 +48,9 @@ public class Bootstrap implements WebApplicationInitializer {
 
 	@Atomic(mode = TxMode.WRITE)
 	public static void initializeSystem() {
+		if (Text.getInstance() == null) {
+			Text text = new Text();
+		}
 		if (LdoD.getInstance() == null) {
 			LdoD ldoD = new LdoD();
 			ldoD.setAdmin(true);
@@ -60,9 +63,6 @@ public class Bootstrap implements WebApplicationInitializer {
 			createLdoDArchiveVirtualEdition();
 		} else {
 			loadRecommendationCache();
-		}
-		if (Text.getInstance() == null) {
-			Text text = new Text();
 		}
 	}
 

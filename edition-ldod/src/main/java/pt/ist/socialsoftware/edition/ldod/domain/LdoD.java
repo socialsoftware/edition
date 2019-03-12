@@ -39,7 +39,6 @@ public class LdoD extends LdoD_Base {
 
 	public void remove() {
 		getExpertEditionsSet().forEach(e -> e.remove());
-		getRolesSet().forEach(r -> r.remove());
 		getUsersSet().forEach(u -> u.remove());
 		getCitationSet().forEach(c -> c.remove());
 		getFragmentsSet().forEach(f -> f.remove());
