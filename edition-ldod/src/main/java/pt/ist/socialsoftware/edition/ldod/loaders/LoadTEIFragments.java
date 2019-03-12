@@ -86,6 +86,7 @@ public class LoadTEIFragments {
 	private Element ldoDTEI = null;
 	private Namespace namespace = null;
 	private LdoD ldoD = null;
+	private pt.ist.socialsoftware.edition.ldod.domain.Text text = null;
 
 	private Document doc = null;
 
@@ -164,7 +165,7 @@ public class LoadTEIFragments {
 			putObjectDirectIdMap(edition.getXmlId(), edition);
 		}
 
-		for (Heteronym heteronym : this.ldoD.getHeteronymsSet()) {
+		for (Heteronym heteronym : this.text.getHeteronymsSet()) {
 			putObjectDirectIdMap(heteronym.getXmlId(), heteronym);
 		}
 	}
@@ -201,6 +202,7 @@ public class LoadTEIFragments {
 		parseTEIFile(file);
 
 		this.ldoD = LdoD.getInstance();
+		this.text = pt.ist.socialsoftware.edition.ldod.domain.Text.getInstance();
 
 		getCorpusXmlIds();
 
@@ -249,6 +251,7 @@ public class LoadTEIFragments {
 
 		for (Element element : xp.evaluate(this.doc)) {
 			this.ldoD = LdoD.getInstance();
+			this.text = pt.ist.socialsoftware.edition.ldod.domain.Text.getInstance();
 
 			String xmlId = getFragmentXmlId(element);
 			String title = getFragmentTitle(element);

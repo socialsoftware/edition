@@ -233,8 +233,8 @@ class Heteronym {
 
 class NullHeteronym extends Heteronym;
 
-relation LdoDHasHeteronyms {
-	LdoD playsRole ldoD {multiplicity 1..1;}
+relation TextHasHeteronyms {
+	Text playsRole text {multiplicity 1..1;}
 	Heteronym playsRole heteronyms {multiplicity 0..*;}
 }
 

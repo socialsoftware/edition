@@ -1,20 +1,24 @@
 package pt.ist.socialsoftware.edition.ldod.domain;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import pt.ist.socialsoftware.edition.ldod.domain.Heteronym_Base;
 
 public class Heteronym extends Heteronym_Base implements Comparable<Heteronym> {
+	public static Logger logger = LoggerFactory.getLogger(Heteronym.class);
 
 	public Heteronym() {
 		super();
 	}
 
-	public Heteronym(LdoD ldoD, String name) {
-		setLdoD(ldoD);
+	public Heteronym(Text text, String name) {
+		logger.debug("Creating heteronym " + name);
+		setText(text);
 		setName(name);
 	}
 
 	public void remove() {
-		setLdoD(null);
+		setText(null);
 
 		getSourceSet().stream().forEach(s -> removeSource(s));
 		getFragInterSet().stream().forEach(i -> removeFragInter(i));

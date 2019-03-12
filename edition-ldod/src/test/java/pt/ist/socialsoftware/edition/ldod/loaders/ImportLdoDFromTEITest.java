@@ -8,16 +8,7 @@ import org.junit.jupiter.api.Test;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.socialsoftware.edition.ldod.TestWithFragmentsLoading;
-import pt.ist.socialsoftware.edition.ldod.domain.ExpertEdition;
-import pt.ist.socialsoftware.edition.ldod.domain.ExpertEditionInter;
-import pt.ist.socialsoftware.edition.ldod.domain.FragInter;
-import pt.ist.socialsoftware.edition.ldod.domain.Fragment;
-import pt.ist.socialsoftware.edition.ldod.domain.Heteronym;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
-import pt.ist.socialsoftware.edition.ldod.domain.ManuscriptSource;
-import pt.ist.socialsoftware.edition.ldod.domain.PrintedSource;
-import pt.ist.socialsoftware.edition.ldod.domain.Source;
-import pt.ist.socialsoftware.edition.ldod.domain.SourceInter;
+import pt.ist.socialsoftware.edition.ldod.domain.*;
 
 public class ImportLdoDFromTEITest extends TestWithFragmentsLoading {
 	private Fragment fragmentTest;
@@ -43,10 +34,11 @@ public class ImportLdoDFromTEITest extends TestWithFragmentsLoading {
 	public void testCorpusIdLoadead() {
 
 		LdoD ldoD = LdoD.getInstance();
+		Text text = Text.getInstance();
 
 		checkTitleStmtLoad(ldoD);
 		checkListBiblLoad(ldoD);
-		checkHeteronymsLoad(ldoD);
+		checkHeteronymsLoad(text);
 	}
 
 	@Test
@@ -90,10 +82,10 @@ public class ImportLdoDFromTEITest extends TestWithFragmentsLoading {
 		}
 	}
 
-	private void checkHeteronymsLoad(LdoD ldoD) {
+	private void checkHeteronymsLoad(Text text) {
 		// includes the NullHeteronym instance
-		assertEquals(3, ldoD.getHeteronymsSet().size());
-		for (Heteronym heteronym : ldoD.getHeteronymsSet()) {
+		assertEquals(3, text.getHeteronymsSet().size());
+		for (Heteronym heteronym : text.getHeteronymsSet()) {
 			assertTrue(heteronym.getName().equals("Bernardo Soares") || heteronym.getName().equals("Vicente Guedes")
 					|| heteronym.getName().equals("não atribuído"));
 		}

@@ -25,6 +25,7 @@ import pt.ist.socialsoftware.edition.ldod.config.Application;
 import pt.ist.socialsoftware.edition.ldod.controller.EditionController;
 import pt.ist.socialsoftware.edition.ldod.domain.Edition;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
+import pt.ist.socialsoftware.edition.ldod.domain.Text;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = Application.class)
@@ -81,7 +82,7 @@ public class GetEditionControllerTest extends ControllersTestWithFragmentsLoadin
 	@Atomic(mode = TxMode.READ)
 	public void getEditionWithHeteronym() throws Exception {
 		String editionId = LdoD.getInstance().getEdition(Edition.PIZARRO_EDITION_ACRONYM).getExternalId();
-		String hetronymId = LdoD.getInstance().getSortedHeteronyms().get(0).getExternalId();
+		String hetronymId = Text.getInstance().getSortedHeteronyms().get(0).getExternalId();
 
 		this.mockMvc.perform(get("/edition/internalid/heteronym/{id1}/{id2}", editionId, hetronymId)).andDo(print())
 				.andExpect(status().isOk()).andExpect(view().name("edition/tableOfContents"))
@@ -93,7 +94,7 @@ public class GetEditionControllerTest extends ControllersTestWithFragmentsLoadin
 	@Test
 	@Atomic(mode = TxMode.READ)
 	public void getEditionWithErrorAcronymId() throws Exception {
-		String hetronymId = LdoD.getInstance().getSortedHeteronyms().get(0).getExternalId();
+		String hetronymId = Text.getInstance().getSortedHeteronyms().get(0).getExternalId();
 
 		this.mockMvc.perform(get("/edition/internalid/heteronym/{id1}/{id2}", "ERROR", hetronymId)).andDo(print())
 				.andExpect(status().is3xxRedirection()).andExpect(redirectedUrl("/error"));

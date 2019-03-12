@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.jdom2.Document;
 import org.jdom2.Element;
@@ -19,6 +20,7 @@ import org.joda.time.LocalDate;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
+import pt.ist.socialsoftware.edition.ldod.domain.Text;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDLoadException;
 import pt.ist.socialsoftware.edition.ldod.domain.ExpertEdition;
 import pt.ist.socialsoftware.edition.ldod.domain.Heteronym;
@@ -29,6 +31,7 @@ public class LoadTEICorpus {
 	private Element ldoDTEI = null;
 	private Namespace namespace = null;
 	private LdoD ldoD = null;
+	private Text text = null;
 
 	private Document doc = null;
 
@@ -80,6 +83,7 @@ public class LoadTEICorpus {
 		parseTEIFile(file);
 
 		this.ldoD = LdoD.getInstance();
+		this.text = Text.getInstance();
 
 		loadTitleStmt();
 
@@ -104,11 +108,16 @@ public class LoadTEICorpus {
 
 			String name = heteronymTEI.getChildText("persName", this.namespace);
 
-			Heteronym heteronym = new Heteronym(this.ldoD, name);
+			List<Heteronym> heteronymList = this.text.getHeteronymsSet().stream().filter(heteronym -> heteronym.getName().equals(name))
+											.collect(Collectors.toList());
 
-			putObjectByXmlID(heteronymXmlID, heteronym);
+			if(heteronymList.isEmpty()) {
+				Heteronym heteronym = new Heteronym(this.text, name);
 
-			heteronym.setXmlId(heteronymXmlID);
+				putObjectByXmlID(heteronymXmlID, heteronym);
+
+				heteronym.setXmlId(heteronymXmlID);
+			}
 
 		}
 	}

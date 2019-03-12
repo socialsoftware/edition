@@ -21,19 +21,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import pt.ist.socialsoftware.edition.ldod.domain.Edition;
-import pt.ist.socialsoftware.edition.ldod.domain.ExpertEdition;
-import pt.ist.socialsoftware.edition.ldod.domain.FragInter;
-import pt.ist.socialsoftware.edition.ldod.domain.Fragment;
-import pt.ist.socialsoftware.edition.ldod.domain.Heteronym;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
-import pt.ist.socialsoftware.edition.ldod.domain.ManuscriptSource;
+import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.domain.ManuscriptSource.Medium;
-import pt.ist.socialsoftware.edition.ldod.domain.Source;
 import pt.ist.socialsoftware.edition.ldod.domain.Source.SourceType;
-import pt.ist.socialsoftware.edition.ldod.domain.SourceInter;
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.ldod.search.json.AuthoralJson;
 import pt.ist.socialsoftware.edition.ldod.search.json.DatesJson;
 import pt.ist.socialsoftware.edition.ldod.search.json.EditionJson;
@@ -339,7 +329,7 @@ public class SearchController {
   @ResponseBody
   public Map<String, String> getHeteronyms() {
     Map<String, String> heteronyms = new HashMap<>();
-    for (Heteronym heteronym : LdoD.getInstance().getHeteronymsSet()) {
+    for (Heteronym heteronym : Text.getInstance().getHeteronymsSet()) {
       heteronyms.put(heteronym.getName(), heteronym.getXmlId());
     }
     return heteronyms;

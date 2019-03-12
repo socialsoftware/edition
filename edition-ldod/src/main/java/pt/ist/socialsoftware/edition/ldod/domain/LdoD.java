@@ -43,7 +43,6 @@ public class LdoD extends LdoD_Base {
 		getUsersSet().forEach(u -> u.remove());
 		getCitationSet().forEach(c -> c.remove());
 		getFragmentsSet().forEach(f -> f.remove());
-		getHeteronymsSet().forEach(h -> h.remove());
 		getPublicClassificationGames().forEach(g -> g.remove());
 		getTokenSet().forEach(t -> t.remove());
 		getUserConnectionSet().forEach(c -> c.remove());
@@ -53,11 +52,6 @@ public class LdoD extends LdoD_Base {
 		setRoot(null);
 
 		deleteDomainObject();
-	}
-
-	public List<Heteronym> getSortedHeteronyms() {
-		return getHeteronymsSet().stream().sorted((h1, h2) -> h1.getName().compareTo(h2.getName()))
-				.collect(Collectors.toList());
 	}
 
 	public List<ExpertEdition> getSortedExpertEdition() {
