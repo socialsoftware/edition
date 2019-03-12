@@ -34,7 +34,7 @@ import NetworkGraph from "./components/NetworkGraph";
 import FragmentLoader from "./components/FragmentLoader";
 import SquareGrid from "./components/SquareGrid";
 import MyWordCloud from "./components/MyWordCloud";
-import PublicEditionContainer from "./containers/PublicEditionContainer";
+import PublicEditionContainer from "./containers/PublicEditionContainerTable";
 import ReactHtmlParser, {processNodes, convertNodeToElement, htmlparser2} from 'react-html-parser';
 import loadingGif from './assets/loading.gif';
 import loadingFragmentsGif from './assets/fragmentload.gif';
@@ -453,6 +453,8 @@ class ConnectedApp extends Component {
   render() {
     console.log(new Date().getTime() + " App.js: Rendering")
     let retreatButton;
+    const activitySelectable = "Escolher actividade";
+    const activityUnselectable = "Actividade indisponível";
 
     //BUTTON LOGIC
     if (this.props.outOfLandingPage) {
@@ -499,6 +501,7 @@ class ConnectedApp extends Component {
         </Button>);
       } else if (!this.state.showLandingActivity & this.props.allFragmentsLoaded) {
         let categoryButtonStyle = "primary"
+        let categoryButtonBotMessage = activitySelectable;
         let categoryButtonMessage = "Explorar os fragmentos desta edição pelas categorias a que pertencem (taxonomia)"
         let categoryButtonFunction = this.handleShowLandingActivityWordCloudCategory;
         let categoryImage = picWordCloud;
@@ -507,13 +510,16 @@ class ConnectedApp extends Component {
           categoryButtonMessage = "Explorar os fragmentos desta edição pelas categorias a que pertencem (taxonomia) (edição sem taxonomia)"
           categoryButtonFunction = function() {}
           categoryImage = picWordCloudGray;
+          categoryButtonBotMessage = activityUnselectable;
         }
         let datesButtonStyle = "primary"
+        let datesButtonBotMessage = activitySelectable;
         let datesButtonFunction = this.handleShowLandingActivitySquareDateOrder;
         let datesButtonMessage = "Explorar os fragmentos desta edição ordenados por data";
         let datesImage = picSquareTime;
         if (!this.props.datesExist) {
           datesButtonStyle = "secondary";
+          datesButtonBotMessage = activityUnselectable;
           datesButtonFunction = function() {}
           datesButtonMessage = "Explorar os fragmentos desta edição ordenados por data (edição virtual sem datas)"
           datesImage = picSquareTimeGray;
@@ -524,7 +530,9 @@ class ConnectedApp extends Component {
 
         let myTitle = ReactHtmlParser(this.state.currentEdition.title, options);
         this.landingActivityToRender = (<div>
-          <p>
+          <br/>
+          <br/>
+          <p align="center">
             Esta é a sua primeira actividade em torno da edição virtual que seleccionou - "{myTitle}". Escolha uma das seguintes opções.
           </p>
 
@@ -532,7 +540,7 @@ class ConnectedApp extends Component {
 
             <div className="cardActivity">
               <div className="containerActivity">
-                <img src={picSquare} className="cardsContainerActivity" alt="Avatar" style={{
+                <img src={picSquare} onClick={this.handleShowLandingActivitySquareEditionOrder} className="cardsActivityImage" alt="Avatar" style={{
                     width: "100%"
                   }}/>
                 <p align="center">
@@ -548,7 +556,7 @@ class ConnectedApp extends Component {
 
             <div className="cardActivity">
               <div className="containerActivity">
-                <img src={datesImage} className="cardsContainerActivity" alt="Avatar" style={{
+                <img src={datesImage} onClick={datesButtonFunction} className="cardsActivityImage" alt="Avatar" style={{
                     width: "100%"
                   }}/>
                 <p align="center">
@@ -556,7 +564,7 @@ class ConnectedApp extends Component {
                 </p>
                 <div className="welcomeButtonActivity">
                   <Button bsStyle={datesButtonStyle} bsSize="small" onClick={datesButtonFunction}>
-                    Escolher actividade
+                    {datesButtonBotMessage}
                   </Button>
                 </div>
               </div>
@@ -564,7 +572,7 @@ class ConnectedApp extends Component {
 
             <div className="cardActivity">
               <div className="containerActivity">
-                <img src={categoryImage} className="cardsContainerActivity" alt="Avatar" style={{
+                <img src={categoryImage} onClick={categoryButtonFunction} className="cardsActivityImage" alt="Avatar" style={{
                     width: "100%"
                   }}/>
                 <p align="center">
@@ -572,7 +580,7 @@ class ConnectedApp extends Component {
                 </p>
                 <div className="welcomeButtonActivity">
                   <Button bsStyle={categoryButtonStyle} bsSize="small" onClick={categoryButtonFunction}>
-                    Escolher actividade
+                    {categoryButtonBotMessage}
                   </Button>
                 </div>
               </div>
@@ -580,14 +588,10 @@ class ConnectedApp extends Component {
           </div>
 
         </div>)
-
       }
     }
-
     let previousNavButton = <div/>;
-
     let nextNavButton = <div/>;
-
     if (this.props.allFragmentsLoaded & this.props.outOfLandingPage) {
 
       // console.log("App.js: this.props.visualizationTechnique: " + this.props.visualizationTechnique);
@@ -664,7 +668,7 @@ class ConnectedApp extends Component {
       <div>
         <IdleTimer ref={ref => {
             this.idleTimer = ref
-          }} element={document} onActive={this.onActive} onIdle={this.onIdle} onAction={this.onAction} debounce={250} timeout={1000 * 3}/> {/* your app here */}
+          }} element={document} onActive={this.onActive} onIdle={this.onIdle} onAction={this.onAction} debounce={10} timeout={1000 * 3}/> {/* your app here */}
       </div>
 
       {this.buttonToolBarToRender}
@@ -722,9 +726,7 @@ class ConnectedApp extends Component {
 
       <Modal show={this.state.showLanding} dialogClassName="custom-modal">
         <Modal.Header>
-          <Modal.Title>
-            LdoD Visual
-          </Modal.Title>
+          <Modal.Title></Modal.Title>
         </Modal.Header>
 
         <Modal.Body>

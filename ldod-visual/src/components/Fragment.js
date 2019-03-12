@@ -35,6 +35,8 @@ export class ConnectedFragment extends React.Component {
       opacity: 1
     };
 
+    this.fragTextMap = new HashMap();
+
     this.oldTfIdfDataMap = new HashMap();
     this.currentFragmentTfIdfMap = new HashMap();
 

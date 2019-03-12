@@ -113,7 +113,7 @@ class ConnectedSquareGrid extends Component {
     for (i = 0; i < this.myFragmentArray.length; i++) {
 
       let myTitle = this.myFragmentArray[i].meta.title;
-      const myText = this.myFragmentArray[i].text;
+      //const myText = this.myFragmentArray[i].text;
 
       //blue
       let nodeBorderColor = "#2B7CE9";
@@ -440,7 +440,11 @@ class ConnectedSquareGrid extends Component {
 
     return (<div>
       <p>
-        Neste mapa, cada quadrado representa um fragmento da edição virtual do livro do desassossego que seleccionou.
+        Neste mapa, cada quadrado representa um fragmento da edição virtual do Livro do Desassossego que seleccionou.
+      </p>
+
+      <p>
+        Seleccione um fragmento para leitura ao clicar num dos quadrados do mapa.
       </p>
 
       <p>
