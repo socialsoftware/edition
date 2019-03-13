@@ -514,7 +514,7 @@ class ConnectedApp extends Component {
         let categoryButtonFunction = this.handleShowLandingActivityWordCloudCategory;
         let categoryImage = picWordCloud;
         if (this.props.categories.length === 0) {
-          categoryButtonStyle = "secondary";
+          categoryButtonStyle = "default";
           categoryButtonMessage = "Explorar os fragmentos desta edição pelas categorias a que pertencem (taxonomia) (edição sem taxonomia)"
           categoryButtonFunction = function() {}
           categoryImage = picWordCloudGray;
@@ -526,7 +526,7 @@ class ConnectedApp extends Component {
         let datesButtonMessage = "Explorar os fragmentos desta edição ordenados por data";
         let datesImage = picSquareTime;
         if (!this.props.datesExist) {
-          datesButtonStyle = "secondary";
+          datesButtonStyle = "default";
           datesButtonBotMessage = activityUnselectable;
           datesButtonFunction = function() {}
           datesButtonMessage = "Explorar os fragmentos desta edição ordenados por data (edição virtual sem datas)"

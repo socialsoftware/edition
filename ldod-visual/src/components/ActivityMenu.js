@@ -219,7 +219,7 @@ class ConnectedActivityMenu extends Component {
       let categoryImage = picWordCloud;
       let networkGraphTaxonomyImage = picNetgraph;
       if (this.props.categories.length === 0) {
-        categoryButtonStyle = "secondary";
+        categoryButtonStyle = "default";
         categoryButtonMessage = "Explorar os fragmentos desta edição pelas categorias a que pertencem (taxonomia) (edição sem taxonomia)"
         networkGraphTaxonomyMessage = "Ler fragmentos semelhantes a este por taxonomia (edição sem taxonomia)"
         networkGraphTaxonomyImage = picNetgraphGray;
@@ -228,7 +228,7 @@ class ConnectedActivityMenu extends Component {
       }
 
       //toggleSquareGridHeteronym
-      let heteronymButtonStyle = "secondary";
+      let heteronymButtonStyle = "default";
       let heteronymButtonBotMessage = activityUnselectable;
       let myHeteronym = "heterónimo não disponível para este fragmento";
       let heteronymImage = picSquareGoldenGray;
@@ -246,7 +246,7 @@ class ConnectedActivityMenu extends Component {
       let datesButtonBotMessage = activitySelectable;
 
       let datesSimilarButtonMessage = "Ler fragmentos semelhantes a este por data (fragmento actual sem data disponível)"
-      let datesSimilarButtonStyle = "secondary"
+      let datesSimilarButtonStyle = "default"
       let datesSimilarImage = picNetgraphGray;
       let datesSimilarButtonBotMessage = activityUnselectable;
       if (this.props.recommendationArray[this.props.recommendationIndex].meta.date !== null) {
@@ -257,10 +257,10 @@ class ConnectedActivityMenu extends Component {
       }
 
       if (!this.props.datesExist) {
-        datesButtonStyle = "secondary";
+        datesButtonStyle = "default";
         datesButtonBotMessage = activityUnselectable;
         datesImage = picSquareTimeGray;
-        datesSimilarButtonStyle = "secondary";
+        datesSimilarButtonStyle = "default";
         datesButtonFunction = function() {}
         datesButtonMessage = "Explorar os fragmentos desta edição ordenados por data (edição virtual sem datas)"
         datesSimilarButtonMessage = "Ler fragmentos semelhantes a este por data (edição virtual sem datas)"
@@ -276,7 +276,7 @@ class ConnectedActivityMenu extends Component {
 
       if (this.props.recommendationArray[this.props.recommendationIndex].meta.categories.length == 0) {
         wordCloudSingleFragmentMessage = "Explorar mais fragmentos da(s) mesma(s) categoria(s) deste fragmento (fragmento actual sem categorias)";
-        wordCloudSingleFragmentButtonStyle = "secondary";
+        wordCloudSingleFragmentButtonStyle = "default";
         wordCloudSingleFragmentImage = picWordCloudGray;
         wordCloudSingleBotMessage = activityUnselectable;
       }
