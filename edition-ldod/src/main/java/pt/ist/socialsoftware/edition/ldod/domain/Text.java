@@ -1,5 +1,6 @@
 package pt.ist.socialsoftware.edition.ldod.domain;
 
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pt.ist.fenixframework.FenixFramework;
@@ -23,6 +24,7 @@ public class Text extends Text_Base {
         getNullEdition().remove();
         getExpertEditionsSet().forEach(e -> e.remove());
         getRolesSet().forEach(r -> r.remove());
+        getTokenSet().forEach(t -> t.remove());
         getHeteronymsSet().forEach(h -> h.remove());
 
         setRoot(null);
@@ -68,6 +70,16 @@ public class Text extends Text_Base {
     public ExpertEdition getJPEdition() {
         return getExpertEditionsSet().stream().filter(ve -> ve.getAcronym().equals(Edition.PIZARRO_EDITION_ACRONYM))
                 .findFirst().orElse(null);
+    }
+
+    public void removeOutdatedUnconfirmedUsers() {
+        DateTime now = DateTime.now();
+        getTokenSet().stream().filter(t -> t.getExpireTimeDateTime().isBefore(now)).map(t -> t.getUser())
+                .forEach(u -> u.remove());
+    }
+
+    public RegistrationToken getTokenSet(String token) {
+        return getTokenSet().stream().filter(t -> t.getToken().equals(token)).findFirst().orElse(null);
     }
     
 }

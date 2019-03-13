@@ -42,7 +42,6 @@ public class LdoD extends LdoD_Base {
 		getCitationSet().forEach(c -> c.remove());
 		getFragmentsSet().forEach(f -> f.remove());
 		getPublicClassificationGames().forEach(g -> g.remove());
-		getTokenSet().forEach(t -> t.remove());
 		getUserConnectionSet().forEach(c -> c.remove());
 		getTweetSet().forEach(t -> t.remove());
 		getVirtualEditionsSet().forEach(v -> v.remove());
@@ -130,7 +129,7 @@ public class LdoD extends LdoD_Base {
 	public LdoDUser createUser(PasswordEncoder passwordEncoder, String username, String password, String firstName,
 			String lastName, String email, SocialMediaService socialMediaService, String socialMediaId) {
 
-		removeOutdatedUnconfirmedUsers();
+		Text.getInstance().removeOutdatedUnconfirmedUsers();
 
 		if (getUser(username) == null) {
 			LdoDUser user = new LdoDUser(this, username, passwordEncoder.encode(password), firstName, lastName, email);
@@ -159,16 +158,6 @@ public class LdoD extends LdoD_Base {
 
 		new UserConnection(this, userId, providerId, providerUserId, rank, displayName, profileUrl, imageUrl,
 				accessToken, secret, refreshToken, expireTime);
-	}
-
-	public void removeOutdatedUnconfirmedUsers() {
-		DateTime now = DateTime.now();
-		getTokenSet().stream().filter(t -> t.getExpireTimeDateTime().isBefore(now)).map(t -> t.getUser())
-				.forEach(u -> u.remove());
-	}
-
-	public RegistrationToken getTokenSet(String token) {
-		return getTokenSet().stream().filter(t -> t.getToken().equals(token)).findFirst().orElse(null);
 	}
 
 	public Set<SourceInter> getFragmentRepresentatives() {

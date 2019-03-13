@@ -29,6 +29,7 @@ import org.springframework.web.context.request.WebRequest;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
 import pt.ist.socialsoftware.edition.ldod.domain.RegistrationToken;
+import pt.ist.socialsoftware.edition.ldod.domain.Text;
 import pt.ist.socialsoftware.edition.ldod.forms.SignupForm;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
 import pt.ist.socialsoftware.edition.ldod.utils.PropertiesManager;
@@ -125,7 +126,7 @@ public class SignupController {
 			@RequestParam("token") String token) {
 		logger.debug("authorizeRegistration");
 
-		RegistrationToken registrationToken = LdoD.getInstance().getTokenSet(token);
+		RegistrationToken registrationToken = Text.getInstance().getTokenSet(token);
 
 		if (registrationToken == null) {
 			model.addAttribute("message", "signup.token.invalid");
@@ -155,7 +156,7 @@ public class SignupController {
 	public String confirmRegistration(WebRequest request, Model model, @RequestParam("token") String token) {
 		logger.debug("confirmRegistration");
 
-		RegistrationToken registrationToken = LdoD.getInstance().getTokenSet(token);
+		RegistrationToken registrationToken = Text.getInstance().getTokenSet(token);
 
 		if (registrationToken == null) {
 			model.addAttribute("message", "signup.token.invalid");

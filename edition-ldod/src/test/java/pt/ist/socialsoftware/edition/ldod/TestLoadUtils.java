@@ -52,6 +52,7 @@ public class TestLoadUtils {
 
 	public static void cleanDatabaseButCorpus() {
 		LdoD ldoD = LdoD.getInstance();
+		Text text = Text.getInstance();
 		if (ldoD != null) {
 			ldoD.getUsersSet().stream()
 					.filter(u -> !(u.getUsername().equals("ars") || u.getUsername().equals("Twitter")))
@@ -59,12 +60,13 @@ public class TestLoadUtils {
 			ldoD.getFragmentsSet().forEach(f -> f.remove());
 			ldoD.getCitationSet().forEach(c -> c.remove());
 			ldoD.getUserConnectionSet().forEach(uc -> uc.remove());
-			ldoD.getTokenSet().forEach(t -> t.remove());
 			ldoD.getVirtualEditionsSet().stream().filter(ve -> !ve.getAcronym().equals(Edition.ARCHIVE_EDITION_ACRONYM))
 					.forEach(ve -> ve.remove());
 			ldoD.getTweetSet().forEach(t -> t.remove());
 		}
-
+		if(text != null){
+			text.getTokenSet().forEach(t -> t.remove());
+		}
 	}
 
 	public static byte[] jsonBytes(Object object) throws IOException {

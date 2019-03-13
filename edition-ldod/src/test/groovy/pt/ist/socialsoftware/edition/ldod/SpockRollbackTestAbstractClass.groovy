@@ -54,6 +54,7 @@ abstract class SpockRollbackTestAbstractClass extends Specification {
 
 	def cleanDatabaseButCorpus() {
 		LdoD ldoD = LdoD.getInstance();
+		Text text = Text.getInstance()
 		if (ldoD != null) {
 			for (def user: ldoD.getUsersSet()) {
 				if (!(user.getUsername().equals("ars") || user.getUsername().equals("Twitter"))) {
@@ -70,7 +71,7 @@ abstract class SpockRollbackTestAbstractClass extends Specification {
 			ldoD.getUserConnectionSet() ) {
 				uc.remove()
 			}
-			for (def t: ldoD.getTokenSet()) {
+			for (def t: text.getTokenSet()) {
 				t.remove();
 			}
 			for (def ve: ldoD.getVirtualEditionsSet()) {

@@ -13,12 +13,13 @@ public class UsersXMLExport {
 	@Atomic
 	public String export() {
 		LdoD ldoD = LdoD.getInstance();
+		Text text = Text.getInstance();
 
 		Element element = createHeader();
 
 		exportUsers(element, ldoD);
 		exportUserConnections(element, ldoD);
-		exportRegistrationTokens(element, ldoD);
+		exportRegistrationTokens(element, text);
 
 		XMLOutputter xml = new XMLOutputter();
 		xml.setFormat(Format.getPrettyFormat());
@@ -140,10 +141,10 @@ public class UsersXMLExport {
 		element.addContent(userConnectionElement);
 	}
 
-	private void exportRegistrationTokens(Element element, LdoD ldoD) {
+	private void exportRegistrationTokens(Element element, Text text) {
 		Element registrationTokensElement = new Element("registration-tokens");
 
-		for (RegistrationToken registrationToken : ldoD.getTokenSet()) {
+		for (RegistrationToken registrationToken : text.getTokenSet()) {
 			exportRegistrationToken(registrationTokensElement, registrationToken);
 		}
 
