@@ -216,7 +216,12 @@ class ConnectedSquareGrid extends Component {
       }
 
       //red
-      if (this.props.outOfLandingPage && this.myFragmentArray[i].interId === this.props.fragments[this.props.fragmentIndex].interId) {
+      if (this.props.outOfLandingPage && !this.props.currentFragmentMode && this.myFragmentArray[i].interId === this.props.fragments[this.props.fragmentIndex].interId) {
+        nodeBorderColor = "#DC143C"
+        nodeBackgroundColor = "#FF7F50"
+      }
+
+      if (this.props.outOfLandingPage && this.props.currentFragmentMode && this.myFragmentArray[i].interId === this.props.recommendationArray[this.props.recommendationIndex].interId) {
         nodeBorderColor = "#DC143C"
         nodeBackgroundColor = "#FF7F50"
       }
