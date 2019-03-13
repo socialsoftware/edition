@@ -48,6 +48,7 @@ import {
   scrollSpy,
   scroller
 } from 'react-scroll';
+
 import picNetgraph from './assets/card-pics-regular/netgraph.png';
 import picSquare from './assets/card-pics-regular/square.png';
 import picSquareGolden from './assets/card-pics-regular/square-golden.png';
@@ -306,14 +307,14 @@ class ConnectedApp extends Component {
   }
 
   _onAction(e) {
-    // console.log('user did something', e)
+    //console.log('_onAction', e)
     // console.log('mouseOverMenuButtons: ' + this.state.mouseOverMenuButtons);
 
-    if (window.scrollY == 0 & !this.state.mouseOverMenuButtons & !this.state.hiddenFromIdle) {
+    if (window.scrollY < 36 & !this.state.mouseOverMenuButtons & !this.state.hiddenFromIdle) {
 
       this.setState({opacity: this.opacityShow})
       this.setState({hiddenFromIdle: false});
-    } else if (window.scrollY > 0 & !this.state.mouseOverMenuButtons & !this.state.hiddenFromIdle) {
+    } else if (window.scrollY > 36 & !this.state.mouseOverMenuButtons & !this.state.hiddenFromIdle) {
 
       this.setState({opacity: this.opacityOnText})
       this.setState({hiddenFromIdle: false});
@@ -448,10 +449,17 @@ class ConnectedApp extends Component {
   componentDidMount() {
     //window.addEventListener('scroll', this.listenScrollEvent)
     document.addEventListener("keydown", this._handleKeyDown);
+    try {
+      setInterval(async () => {
+        this.onAction()
+      }, 250);
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   render() {
-    console.log(new Date().getTime() + " App.js: Rendering")
+    //console.log(new Date().getTime() + " App.js: Rendering")
     let retreatButton;
     const activitySelectable = "Escolher actividade";
     const activityUnselectable = "Actividade indisponível";
@@ -663,7 +671,7 @@ class ConnectedApp extends Component {
 
     }
 
-    return (<div className="app">
+    return (<div className="app" onWheel={this.onAction}>
 
       <div>
         <IdleTimer ref={ref => {

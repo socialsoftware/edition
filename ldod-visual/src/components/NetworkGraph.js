@@ -303,6 +303,11 @@ class ConnectedNetworkGraph extends Component {
         hasDateWhileCritDate = false;
       }
 
+      let hoverBorderColor = "#DC143C" // red
+      if (!this.props.currentFragmentMode) {
+        hoverBorderColor = "#4B0082" //purple
+      }
+
       obj = {
         id: this.props.graphData[i].interId,
         //label: "",
@@ -311,7 +316,11 @@ class ConnectedNetworkGraph extends Component {
         size: mySize,
         color: {
           border: nodeBorderColor,
-          background: nodeBackgroundColor
+          background: nodeBackgroundColor,
+          hover: {
+            border: hoverBorderColor,
+            background: nodeBackgroundColor
+          }
         },
         title: myTitle, //this.props.fragmentsHashMap.get(this.props.graphData[i].interId).meta.title, + " " + this.props.graphData[i].distance,  + " || " + truncateText(myText, 60)
         fixed: true,
@@ -355,7 +364,8 @@ class ConnectedNetworkGraph extends Component {
         dragView: true,
         zoomView: true,
         hover: true,
-        navigationButtons: true
+        navigationButtons: true,
+        hoverConnectedEdges: false
       }
     };
 

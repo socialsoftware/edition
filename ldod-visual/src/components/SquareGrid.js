@@ -216,9 +216,19 @@ class ConnectedSquareGrid extends Component {
       }
 
       //red
-      if (this.props.outOfLandingPage && this.myFragmentArray[i].interId === this.props.fragments[this.props.fragmentIndex].interId) {
+      if (this.props.outOfLandingPage && !this.props.currentFragmentMode && this.myFragmentArray[i].interId === this.props.fragments[this.props.fragmentIndex].interId) {
         nodeBorderColor = "#DC143C"
         nodeBackgroundColor = "#FF7F50"
+      }
+
+      if (this.props.outOfLandingPage && this.props.currentFragmentMode && this.myFragmentArray[i].interId === this.props.recommendationArray[this.props.recommendationIndex].interId) {
+        nodeBorderColor = "#DC143C"
+        nodeBackgroundColor = "#FF7F50"
+      }
+
+      let hoverBorderColor = "#DC143C" // red
+      if (!this.props.currentFragmentMode) {
+        hoverBorderColor = "#4B0082" //purple
       }
 
       obj = {
@@ -228,6 +238,8 @@ class ConnectedSquareGrid extends Component {
         margin: 5, //só funciona com circle...
         size: originalFragmentSize * remainingNodeFactor,
         fixed: true,
+        chosen: true,
+        borderWidth: 1,
         color: {
           border: nodeBorderColor,
           background: nodeBackgroundColor,
@@ -236,8 +248,8 @@ class ConnectedSquareGrid extends Component {
             background: '#DAA520'
           },
           hover: {
-            border: "#2B7CE9",
-            background: "#D2E5FF"
+            border: hoverBorderColor,
+            background: nodeBackgroundColor
           }
 
         },
@@ -302,7 +314,8 @@ class ConnectedSquareGrid extends Component {
         dragNodes: false,
         dragView: false,
         zoomView: false,
-        hover: true
+        hover: true,
+        hoverConnectedEdges: false
       }
     };
 
