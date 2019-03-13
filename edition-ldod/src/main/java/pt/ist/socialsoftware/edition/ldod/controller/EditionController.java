@@ -39,7 +39,7 @@ public class EditionController {
 	@PreAuthorize("hasPermission(#acronym, 'editionacronym.public')")
 	public String getEditionTableOfContentsbyAcronym(Model model, @PathVariable String acronym) {
 
-		Edition edition = LdoD.getInstance().getEdition(acronym);
+		Edition edition = Text.getInstance().getEdition(acronym);
 
 		if (edition == null) {
 			return "redirect:/error";
@@ -124,7 +124,7 @@ public class EditionController {
 	@PreAuthorize("hasPermission(#acronym, 'editionacronym.public')")
 	public String getCategoryTableOfContents(Model model, @PathVariable String acronym, @PathVariable String urlId) {
 
-		VirtualEdition virtualEdition = (VirtualEdition) LdoD.getInstance().getEdition(acronym);
+		VirtualEdition virtualEdition = (VirtualEdition) Text.getInstance().getEdition(acronym);
 		if (virtualEdition == null) {
 			return "redirect:/error";
 		}

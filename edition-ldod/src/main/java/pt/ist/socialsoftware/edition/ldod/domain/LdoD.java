@@ -38,7 +38,6 @@ public class LdoD extends LdoD_Base {
 	}
 
 	public void remove() {
-		getExpertEditionsSet().forEach(e -> e.remove());
 		getUsersSet().forEach(u -> u.remove());
 		getCitationSet().forEach(c -> c.remove());
 		getFragmentsSet().forEach(f -> f.remove());
@@ -51,20 +50,6 @@ public class LdoD extends LdoD_Base {
 		setRoot(null);
 
 		deleteDomainObject();
-	}
-
-	public List<ExpertEdition> getSortedExpertEdition() {
-		return getExpertEditionsSet().stream().sorted().collect(Collectors.toList());
-	}
-
-	public Edition getEdition(String acronym) {
-		for (Edition edition : getExpertEditionsSet()) {
-			if (edition.getAcronym().toUpperCase().equals(acronym.toUpperCase())) {
-				return edition;
-			}
-		}
-
-		return getVirtualEdition(acronym);
 	}
 
 	public VirtualEdition getVirtualEdition(String acronym) {
@@ -192,26 +177,6 @@ public class LdoD extends LdoD_Base {
 
 	public VirtualEdition getArchiveEdition() {
 		return getVirtualEditionsSet().stream().filter(ve -> ve.getAcronym().equals(Edition.ARCHIVE_EDITION_ACRONYM))
-				.findFirst().orElse(null);
-	}
-
-	public ExpertEdition getJPCEdition() {
-		return getExpertEditionsSet().stream().filter(ve -> ve.getAcronym().equals(Edition.COELHO_EDITION_ACRONYM))
-				.findFirst().orElse(null);
-	}
-
-	public ExpertEdition getTSCEdition() {
-		return getExpertEditionsSet().stream().filter(ve -> ve.getAcronym().equals(Edition.CUNHA_EDITION_ACRONYM))
-				.findFirst().orElse(null);
-	}
-
-	public ExpertEdition getRZEdition() {
-		return getExpertEditionsSet().stream().filter(ve -> ve.getAcronym().equals(Edition.ZENITH_EDITION_ACRONYM))
-				.findFirst().orElse(null);
-	}
-
-	public ExpertEdition getJPEdition() {
-		return getExpertEditionsSet().stream().filter(ve -> ve.getAcronym().equals(Edition.PIZARRO_EDITION_ACRONYM))
 				.findFirst().orElse(null);
 	}
 
@@ -357,7 +322,7 @@ public class LdoD extends LdoD_Base {
 		LocalDateTime editionBeginDateTime = LocalDateTime.of(editionBeginDateJoda.getYear(),
 				editionBeginDateJoda.getMonthOfYear(), editionBeginDateJoda.getDayOfMonth(), 0, 0);
 		int number = 0;
-		for (ExpertEditionInter inter : LdoD.getInstance().getRZEdition().getExpertEditionIntersSet().stream()
+		for (ExpertEditionInter inter : Text.getInstance().getRZEdition().getExpertEditionIntersSet().stream()
 				.filter(inter -> inter.getNumberOfTwitterCitationsSince(editionBeginDateTime) > 0)
 				.sorted((inter1,
 						inter2) -> Math.toIntExact(inter2.getNumberOfTwitterCitationsSince(editionBeginDateTime)

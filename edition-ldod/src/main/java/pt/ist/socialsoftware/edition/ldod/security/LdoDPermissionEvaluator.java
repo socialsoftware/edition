@@ -9,16 +9,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
 import pt.ist.fenixframework.FenixFramework;
-import pt.ist.socialsoftware.edition.ldod.domain.Category;
-import pt.ist.socialsoftware.edition.ldod.domain.Edition;
-import pt.ist.socialsoftware.edition.ldod.domain.FragInter;
-import pt.ist.socialsoftware.edition.ldod.domain.Fragment;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
-import pt.ist.socialsoftware.edition.ldod.domain.Tag;
-import pt.ist.socialsoftware.edition.ldod.domain.Taxonomy;
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
+import pt.ist.socialsoftware.edition.ldod.domain.*;
 
 @Component
 public class LdoDPermissionEvaluator implements PermissionEvaluator {
@@ -54,7 +45,7 @@ public class LdoDPermissionEvaluator implements PermissionEvaluator {
 				}
 				break;
 			case "editionacronym":
-				edition = LdoD.getInstance().getEdition((String) targetDomainObject);
+				edition = Text.getInstance().getEdition((String) targetDomainObject);
 				if (edition instanceof VirtualEdition) {
 					virtualEdition = (VirtualEdition) edition;
 				} else {

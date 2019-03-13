@@ -9,7 +9,7 @@ import java.util.Set;
 import org.joda.time.LocalDate;
 
 public class ExpertEdition extends ExpertEdition_Base implements Comparable<ExpertEdition> {
-	public ExpertEdition(LdoD ldoD, String title, String author, String editor, LocalDate date) {
+	public ExpertEdition(Text text, String title, String author, String editor, LocalDate date) {
 		setTitle(title);
 		setAuthor(author);
 		setEditor(editor);
@@ -33,13 +33,13 @@ public class ExpertEdition extends ExpertEdition_Base implements Comparable<Expe
 			assert false : "Nome de editor com erros: " + editor;
 		}
 
-		setLdoD4Expert(ldoD);
+		setText4Expert(text);
 	}
 
 	@Override
 	public void remove() {
 
-		setLdoD4Expert(null);
+		setText4Expert(null);
 		getExpertEditionIntersSet().forEach(i -> i.remove());
 		super.remove();
 	}

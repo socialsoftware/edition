@@ -77,6 +77,8 @@ public class AdminTest {
 
         if(LdoD.getInstance() != null)
             LdoD.getInstance().remove();
+        if (Text.getInstance() != null)
+            Text.getInstance().remove();
 
         Bootstrap.initializeSystem();
     }
@@ -86,6 +88,8 @@ public class AdminTest {
     public void tearDown() throws FileNotFoundException {
         if(LdoD.getInstance() != null)
             LdoD.getInstance().remove();
+        if (Text.getInstance() != null)
+            Text.getInstance().remove();
     }
 
     @Test

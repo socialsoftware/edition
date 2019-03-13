@@ -14,6 +14,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
+import pt.ist.socialsoftware.edition.ldod.domain.Text;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDCreateClassificationGameException;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDCreateVirtualEditionException;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDEditVirtualEditionException;
@@ -60,7 +61,7 @@ public class LdoDExceptionHandler {
 		modelAndView.addObject("title", ex.getTitle());
 		modelAndView.addObject("pub", ex.isPub());
 		modelAndView.addObject("virtualEditions", ex.getVirtualEditions());
-		modelAndView.addObject("expertEditions", LdoD.getInstance().getSortedExpertEdition());
+		modelAndView.addObject("expertEditions", Text.getInstance().getSortedExpertEdition());
 		modelAndView.addObject("user", ex.getUser());
 		modelAndView.setViewName("virtual/editions");
 

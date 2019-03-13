@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import pt.ist.socialsoftware.edition.ldod.domain.Edition;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
+import pt.ist.socialsoftware.edition.ldod.domain.Text;
 import pt.ist.socialsoftware.edition.ldod.loaders.LoadTEICorpus;
 import pt.ist.socialsoftware.edition.ldod.loaders.LoadTEIFragments;
 import pt.ist.socialsoftware.edition.ldod.loaders.VirtualEditionFragmentsTEIImport;
@@ -19,7 +20,7 @@ import pt.ist.socialsoftware.edition.ldod.utils.PropertiesManager;
 
 public class TestLoadUtils {
 	public static void loadCorpus() throws FileNotFoundException {
-		if (LdoD.getInstance().getExpertEditionsSet().isEmpty()) {
+		if (Text.getInstance().getExpertEditionsSet().isEmpty()) {
 			String testFilesDirectory = PropertiesManager.getProperties().getProperty("test.files.dir");
 			File directory = new File(testFilesDirectory);
 			String filename = "corpus.xml";

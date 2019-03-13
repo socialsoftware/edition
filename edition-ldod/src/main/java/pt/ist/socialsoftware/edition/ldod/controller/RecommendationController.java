@@ -24,13 +24,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.ldod.api.ui.UiInterface;
+import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.domain.Edition.EditionType;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
-import pt.ist.socialsoftware.edition.ldod.domain.RecommendationWeights;
-import pt.ist.socialsoftware.edition.ldod.domain.Section;
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
 import pt.ist.socialsoftware.edition.ldod.dto.InterDistancePairDto;
 import pt.ist.socialsoftware.edition.ldod.dto.InterIdDistancePairDto;
 import pt.ist.socialsoftware.edition.ldod.dto.WeightsDto;
@@ -126,7 +121,7 @@ public class RecommendationController {
 								+ p.getWeight())
 						.collect(Collectors.joining(";")));
 
-		VirtualEdition virtualEdition = (VirtualEdition) LdoD.getInstance().getEdition(params.getAcronym());
+		VirtualEdition virtualEdition = (VirtualEdition) Text.getInstance().getEdition(params.getAcronym());
 
 		LdoDUser user = LdoDUser.getAuthenticatedUser();
 		RecommendationWeights recommendationWeights = user.getRecommendationWeights(virtualEdition);
@@ -153,8 +148,9 @@ public class RecommendationController {
 			@RequestParam(value = "inter[]", required = false) String[] inters) {
 		// logger.debug("saveLinearVirtualEdition");
 
-		LdoD ldod = LdoD.getInstance();
-		VirtualEdition virtualEdition = (VirtualEdition) ldod.getEdition(acronym);
+		Text text = Text.getInstance();
+
+		VirtualEdition virtualEdition = (VirtualEdition) text.getEdition(acronym);
 		if (inters != null && virtualEdition.getSourceType().equals(EditionType.VIRTUAL)) {
 			Section section = virtualEdition.createSection(Section.DEFAULT);
 			VirtualEditionInter VirtualEditionInter;
@@ -250,7 +246,7 @@ public class RecommendationController {
 		// s.getSections().stream().collect(Collectors.joining(",")))
 		// .collect(Collectors.joining("\n")));
 
-		VirtualEdition virtualEdition = (VirtualEdition) LdoD.getInstance()
+		VirtualEdition virtualEdition = (VirtualEdition) Text.getInstance()
 				.getEdition(virtualEditionWithSectionsDTO.getAcronym());
 		if (virtualEdition == null) {
 			return "redirect:/error";

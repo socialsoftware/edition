@@ -215,7 +215,7 @@ public class SearchController {
   public Map<String, String> getEditions() {
     // LinkedHashMap keeps insertion order.
     Map<String, String> editions = new LinkedHashMap<>();
-    for (ExpertEdition expertEdition : LdoD.getInstance().getSortedExpertEdition()) {
+    for (ExpertEdition expertEdition : Text.getInstance().getSortedExpertEdition()) {
 
       editions.put(expertEdition.getAcronym(), expertEdition.getEditor());
     }
@@ -225,7 +225,7 @@ public class SearchController {
   @RequestMapping(value = "/getEdition")
   @ResponseBody
   public EditionJson getEdition(@RequestParam(value = "edition", required = true) String acronym) {
-    Edition edition = LdoD.getInstance().getEdition(acronym);
+    Edition edition = Text.getInstance().getEdition(acronym);
     Map<String, String> heteronyms = new HashMap<>();
     LocalDate beginDate = null;
     LocalDate endDate = null;

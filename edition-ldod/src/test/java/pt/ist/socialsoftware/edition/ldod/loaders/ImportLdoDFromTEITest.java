@@ -37,7 +37,7 @@ public class ImportLdoDFromTEITest extends TestWithFragmentsLoading {
 		Text text = Text.getInstance();
 
 		checkTitleStmtLoad(ldoD);
-		checkListBiblLoad(ldoD);
+		checkListBiblLoad(text);
 		checkHeteronymsLoad(text);
 	}
 
@@ -91,9 +91,9 @@ public class ImportLdoDFromTEITest extends TestWithFragmentsLoading {
 		}
 	}
 
-	private void checkListBiblLoad(LdoD ldoD) {
-		assertEquals(4, ldoD.getExpertEditionsSet().size());
-		for (ExpertEdition edition : ldoD.getExpertEditionsSet()) {
+	private void checkListBiblLoad(Text text) {
+		assertEquals(4, text.getExpertEditionsSet().size());
+		for (ExpertEdition edition : text.getExpertEditionsSet()) {
 			assertEquals("Fernando Pessoa", edition.getAuthor());
 			assertEquals("O Livro do Desassossego", edition.getTitle());
 			assertTrue(edition.getEditor().equals("Jacinto do Prado Coelho")

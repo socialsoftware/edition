@@ -30,7 +30,7 @@ $(window).on("load resize",function(e){
 
 
 
-  /* Página Leitura */
+  /* Pï¿½gina Leitura */
   // set the height of columns depending on screen size
   $(".reading__text").css("height", "auto");
   
@@ -91,7 +91,7 @@ ${inter.getEdition().getAcronym()}
 </c:choose>
 
 
-<c:forEach var="expertEdition" items='${ldoD.sortedExpertEdition}'>
+<c:forEach var="expertEdition" items='${text.sortedExpertEdition}'>
 
 
 

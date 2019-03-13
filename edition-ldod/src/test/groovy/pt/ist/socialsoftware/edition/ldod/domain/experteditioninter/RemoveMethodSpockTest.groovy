@@ -6,6 +6,7 @@ import pt.ist.socialsoftware.edition.ldod.SpockRollbackTestAbstractClass
 
 class RemoveMethodSpockTest extends SpockRollbackTestAbstractClass  {
 	def ldoD
+	def text
 	def user
 	def expertEdition
 	def virtualEditionOne
@@ -17,10 +18,11 @@ class RemoveMethodSpockTest extends SpockRollbackTestAbstractClass  {
 	
 	def populate4Test() {
 		ldoD = LdoD.getInstance();
+		text = Text.getInstance()
 		
 		fragment = new Fragment(ldoD, "Title", "xmlId")
 
-		expertEdition = ldoD.getJPCEdition()
+		expertEdition = text.getJPCEdition()
 		
 		user = new LdoDUser(ldoD, "username", "password", "firstName", "lastName", "email")
 	}

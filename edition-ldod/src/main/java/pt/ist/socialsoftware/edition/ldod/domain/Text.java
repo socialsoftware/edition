@@ -21,8 +21,11 @@ public class Text extends Text_Base {
 
     public void remove(){
         getNullEdition().remove();
+        getExpertEditionsSet().forEach(e -> e.remove());
         getRolesSet().forEach(r -> r.remove());
         getHeteronymsSet().forEach(h -> h.remove());
+
+        setRoot(null);
 
         deleteDomainObject();
 
@@ -31,6 +34,40 @@ public class Text extends Text_Base {
     public List<Heteronym> getSortedHeteronyms() {
         return getHeteronymsSet().stream().sorted((h1, h2) -> h1.getName().compareTo(h2.getName()))
                 .collect(Collectors.toList());
+    }
+
+    public List<ExpertEdition> getSortedExpertEdition() {
+        return getExpertEditionsSet().stream().sorted().collect(Collectors.toList());
+    }
+
+    public Edition getEdition(String acronym) {
+        for (Edition edition : getExpertEditionsSet()) {
+            if (edition.getAcronym().toUpperCase().equals(acronym.toUpperCase())) {
+                return edition;
+            }
+        }
+
+        return LdoD.getInstance().getVirtualEdition(acronym);
+    }
+
+    public ExpertEdition getJPCEdition() {
+        return getExpertEditionsSet().stream().filter(ve -> ve.getAcronym().equals(Edition.COELHO_EDITION_ACRONYM))
+                .findFirst().orElse(null);
+    }
+
+    public ExpertEdition getTSCEdition() {
+        return getExpertEditionsSet().stream().filter(ve -> ve.getAcronym().equals(Edition.CUNHA_EDITION_ACRONYM))
+                .findFirst().orElse(null);
+    }
+
+    public ExpertEdition getRZEdition() {
+        return getExpertEditionsSet().stream().filter(ve -> ve.getAcronym().equals(Edition.ZENITH_EDITION_ACRONYM))
+                .findFirst().orElse(null);
+    }
+
+    public ExpertEdition getJPEdition() {
+        return getExpertEditionsSet().stream().filter(ve -> ve.getAcronym().equals(Edition.PIZARRO_EDITION_ACRONYM))
+                .findFirst().orElse(null);
     }
     
 }

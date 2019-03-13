@@ -161,7 +161,7 @@ public class LoadTEIFragments {
 	}
 
 	private void getCorpusXmlIds() {
-		for (ExpertEdition edition : this.ldoD.getExpertEditionsSet()) {
+		for (ExpertEdition edition : this.text.getExpertEditionsSet()) {
 			putObjectDirectIdMap(edition.getXmlId(), edition);
 		}
 

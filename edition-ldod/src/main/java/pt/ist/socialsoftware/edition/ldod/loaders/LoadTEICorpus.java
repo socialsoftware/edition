@@ -150,7 +150,7 @@ public class LoadTEICorpus {
 			String editor = bibl.getChild("editor", this.namespace).getChild("persName", this.namespace).getText();
 			LocalDate date = DateUtils.convertDate(bibl.getChild("date", this.namespace).getAttributeValue("when"));
 
-			ExpertEdition edition = new ExpertEdition(this.ldoD, title, author, editor, date);
+			ExpertEdition edition = new ExpertEdition(this.text, title, author, editor, date);
 
 			edition.setXmlId(editionXmlID);
 

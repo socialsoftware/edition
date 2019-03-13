@@ -39,18 +39,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.ldod.api.ui.UiInterface;
-import pt.ist.socialsoftware.edition.ldod.domain.Category;
-import pt.ist.socialsoftware.edition.ldod.domain.ClassificationGame;
-import pt.ist.socialsoftware.edition.ldod.domain.ClassificationGameParticipant;
-import pt.ist.socialsoftware.edition.ldod.domain.Edition;
-import pt.ist.socialsoftware.edition.ldod.domain.FragInter;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
+import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.domain.Member.MemberRole;
-import pt.ist.socialsoftware.edition.ldod.domain.Tag;
-import pt.ist.socialsoftware.edition.ldod.domain.Taxonomy;
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
 import pt.ist.socialsoftware.edition.ldod.dto.EditionFragmentsDto;
 import pt.ist.socialsoftware.edition.ldod.dto.EditionTranscriptionsDto;
 import pt.ist.socialsoftware.edition.ldod.dto.FragmentDto;
@@ -90,7 +80,7 @@ public class VirtualEditionController {
 	public String listVirtualEdition(Model model, @ModelAttribute("ldoDSession") LdoDSession ldoDSession) {
 
 		model.addAttribute("ldod", LdoD.getInstance());
-		model.addAttribute("expertEditions", LdoD.getInstance().getSortedExpertEdition());
+		model.addAttribute("expertEditions", Text.getInstance().getSortedExpertEdition());
 		model.addAttribute("virtualEditions",
 				LdoD.getInstance().getVirtualEditions4User(LdoDUser.getAuthenticatedUser(), ldoDSession));
 		model.addAttribute("user", LdoDUser.getAuthenticatedUser());

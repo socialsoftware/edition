@@ -168,8 +168,8 @@ relation VirtualEditionUsesVirtualEdition {
 	VirtualEdition playsRole uses {multiplicity 0..1;}
 }
 
-relation LdoDHasExpertEditions {
-	LdoD playsRole ldoD4Expert {multiplicity 1..1;}
+relation TextHasExpertEditions {
+	Text playsRole text4Expert {multiplicity 1..1;}
 	ExpertEdition playsRole expertEditions {multiplicity 0..*;}
 }
 

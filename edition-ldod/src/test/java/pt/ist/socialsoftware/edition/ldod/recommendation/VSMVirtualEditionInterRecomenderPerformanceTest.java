@@ -21,13 +21,7 @@ import org.junit.jupiter.api.Test;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.socialsoftware.edition.ldod.TestLoadUtils;
-import pt.ist.socialsoftware.edition.ldod.domain.Edition;
-import pt.ist.socialsoftware.edition.ldod.domain.ExpertEdition;
-import pt.ist.socialsoftware.edition.ldod.domain.FragInter;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
+import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.recommendation.properties.DateProperty;
 import pt.ist.socialsoftware.edition.ldod.recommendation.properties.HeteronymProperty;
 import pt.ist.socialsoftware.edition.ldod.recommendation.properties.Property;
@@ -67,9 +61,10 @@ public class VSMVirtualEditionInterRecomenderPerformanceTest {
 	@Atomic(mode = TxMode.WRITE)
 	protected void setUp() {
 		LdoD ldoD = LdoD.getInstance();
-		ExpertEdition pizarroEdition = (ExpertEdition) ldoD.getEdition(Edition.PIZARRO_EDITION_ACRONYM);
-		ExpertEdition zenithEdition = (ExpertEdition) ldoD.getEdition(Edition.ZENITH_EDITION_ACRONYM);
-		ExpertEdition cunhaEdition = (ExpertEdition) ldoD.getEdition(Edition.CUNHA_EDITION_ACRONYM);
+		Text text = Text.getInstance();
+		ExpertEdition pizarroEdition = (ExpertEdition) text.getEdition(Edition.PIZARRO_EDITION_ACRONYM);
+		ExpertEdition zenithEdition = (ExpertEdition) text.getEdition(Edition.ZENITH_EDITION_ACRONYM);
+		ExpertEdition cunhaEdition = (ExpertEdition) text.getEdition(Edition.CUNHA_EDITION_ACRONYM);
 
 		LdoDUser userArs = ldoD.getUser("ars");
 		// create pizarro virtual edition

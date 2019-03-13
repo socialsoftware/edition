@@ -49,7 +49,7 @@ public class CriteriaTests extends TestWithFragmentsLoading {
 		LdoD ldoD = LdoD.getInstance();
 		this.user = new LdoDUser(ldoD, "ars1", "ars", "Antonio", "Silva", "a@a.a");
 		LocalDate localDate = LocalDate.parse("20018-07-20");
-		ExpertEdition expertEdition = ldoD.getRZEdition();
+		ExpertEdition expertEdition = Text.getInstance().getRZEdition();
 
 		this.virtualEdition = new VirtualEdition(ldoD, this.user, "acronym", "title", localDate, true, expertEdition);
 		this.clazz = pt.ist.socialsoftware.edition.ldod.domain.MediaSource.class;

@@ -26,20 +26,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import pt.ist.fenixframework.FenixFramework;
-import pt.ist.socialsoftware.edition.ldod.domain.Annotation;
-import pt.ist.socialsoftware.edition.ldod.domain.AppText;
-import pt.ist.socialsoftware.edition.ldod.domain.Category;
-import pt.ist.socialsoftware.edition.ldod.domain.Edition;
-import pt.ist.socialsoftware.edition.ldod.domain.FragInter;
-import pt.ist.socialsoftware.edition.ldod.domain.Fragment;
-import pt.ist.socialsoftware.edition.ldod.domain.HumanAnnotation;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
-import pt.ist.socialsoftware.edition.ldod.domain.PbText;
-import pt.ist.socialsoftware.edition.ldod.domain.SourceInter;
-import pt.ist.socialsoftware.edition.ldod.domain.Surface;
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
+import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.dto.MainFragmentDto;
 import pt.ist.socialsoftware.edition.ldod.generators.HtmlWriter2CompInters;
 import pt.ist.socialsoftware.edition.ldod.generators.HtmlWriter4Variations;
@@ -64,10 +51,11 @@ public class FragmentController {
 	public String getFragmentsList(Model model) {
 		logger.debug("getFragmentsList");
 		LdoD ldoD = LdoD.getInstance();
-		model.addAttribute("jpcEdition", ldoD.getJPCEdition());
-		model.addAttribute("tscEdition", ldoD.getTSCEdition());
-		model.addAttribute("rzEdition", ldoD.getRZEdition());
-		model.addAttribute("jpEdition", ldoD.getJPEdition());
+		Text text = Text.getInstance();
+		model.addAttribute("jpcEdition", text.getJPCEdition());
+		model.addAttribute("tscEdition", text.getTSCEdition());
+		model.addAttribute("rzEdition", text.getRZEdition());
+		model.addAttribute("jpEdition", text.getJPEdition());
 		model.addAttribute("fragments", ldoD.getFragmentsSet());
 
 		return "fragment/list";

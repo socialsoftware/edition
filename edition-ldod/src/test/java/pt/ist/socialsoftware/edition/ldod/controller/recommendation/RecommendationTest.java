@@ -28,6 +28,7 @@ import pt.ist.socialsoftware.edition.ldod.controller.LdoDExceptionHandler;
 import pt.ist.socialsoftware.edition.ldod.controller.RecommendationController;
 import pt.ist.socialsoftware.edition.ldod.domain.Edition;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
+import pt.ist.socialsoftware.edition.ldod.domain.Text;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
 import pt.ist.socialsoftware.edition.ldod.dto.InterIdDistancePairDto;
 import pt.ist.socialsoftware.edition.ldod.dto.WeightsDto;
@@ -172,7 +173,7 @@ public class RecommendationTest {
                     .andDo(print())
                     .andExpect(status().is3xxRedirection())
                     .andExpect(redirectedUrl("/recommendation/restricted/" +
-                            LdoD.getInstance().getEdition(Edition.ARCHIVE_EDITION_ACRONYM).getExternalId()));
+                            Text.getInstance().getEdition(Edition.ARCHIVE_EDITION_ACRONYM).getExternalId()));
     }
 
     @Test

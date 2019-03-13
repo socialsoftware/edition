@@ -42,7 +42,7 @@ abstract class SpockRollbackTestAbstractClass extends Specification {
 	}
 	
 	def loadCorpus() {
-		if (LdoD.getInstance().getExpertEditionsSet().isEmpty()) {
+		if (Text.getInstance().getExpertEditionsSet().isEmpty()) {
 			String testFilesDirectory = PropertiesManager.getProperties().getProperty("test.files.dir");
 			File directory = new File(testFilesDirectory);
 			String filename = "corpus.xml";

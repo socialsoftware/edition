@@ -18,14 +18,7 @@ import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.fenixframework.core.WriteOnReadError;
 import pt.ist.socialsoftware.edition.ldod.TestLoadUtils;
 import pt.ist.socialsoftware.edition.ldod.TestWithFragmentsLoading;
-import pt.ist.socialsoftware.edition.ldod.domain.Frequency;
-import pt.ist.socialsoftware.edition.ldod.domain.GeographicLocation;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
-import pt.ist.socialsoftware.edition.ldod.domain.MediaSource;
-import pt.ist.socialsoftware.edition.ldod.domain.TimeWindow;
-import pt.ist.socialsoftware.edition.ldod.domain.Tweet;
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
+import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.loaders.VirtualEditionsTEICorpusImport;
 
 public class VirtualEditionsTEICorpusExportTest extends TestWithFragmentsLoading {
@@ -34,6 +27,7 @@ public class VirtualEditionsTEICorpusExportTest extends TestWithFragmentsLoading
 	private VirtualEditionsTEICorpusExport export;
 	private VirtualEdition virtualEdition;
 	private LdoD ldoD;
+	private Text text;
 	private LdoDUser user;
 
 	public static void logger(Object toPrint) {
@@ -48,10 +42,11 @@ public class VirtualEditionsTEICorpusExportTest extends TestWithFragmentsLoading
 	@Override
 	protected void populate4Test() {
 		this.ldoD = LdoD.getInstance();
+		this.text = Text.getInstance();
 		this.user = new LdoDUser(this.ldoD, "ars1", "ars", "Antonio", "Silva", "a@a.a");
 		LocalDate localDate = LocalDate.parse("20018-07-20");
 		this.virtualEdition = new VirtualEdition(this.ldoD, this.user, "acronym", "title", localDate, true,
-				this.ldoD.getRZEdition());
+				this.text.getRZEdition());
 	}
 
 	@Override
@@ -76,7 +71,7 @@ public class VirtualEditionsTEICorpusExportTest extends TestWithFragmentsLoading
 		this.user = new LdoDUser(this.ldoD, "ars1", "ars", "Antonio", "Silva", "a@a.a");
 		LocalDate localDate = LocalDate.parse("20018-07-20");
 		this.virtualEdition = new VirtualEdition(this.ldoD, this.user, "acronym", "title", localDate, true,
-				this.ldoD.getRZEdition());
+				this.text.getRZEdition());
 
 		VirtualEditionsTEICorpusImport im = new VirtualEditionsTEICorpusImport();
 		im.importVirtualEditionsCorpus(virtualEditionsCorpus);
@@ -107,7 +102,7 @@ public class VirtualEditionsTEICorpusExportTest extends TestWithFragmentsLoading
 		this.user = new LdoDUser(this.ldoD, "ars1", "ars", "Antonio", "Silva", "a@a.a");
 		LocalDate localDate = LocalDate.parse("20018-07-20");
 		this.virtualEdition = new VirtualEdition(this.ldoD, this.user, "acronym", "title", localDate, true,
-				this.ldoD.getRZEdition());
+				this.text.getRZEdition());
 
 		// Import
 		VirtualEditionsTEICorpusImport imp = new VirtualEditionsTEICorpusImport();

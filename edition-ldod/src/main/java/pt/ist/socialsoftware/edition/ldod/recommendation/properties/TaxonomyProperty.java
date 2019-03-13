@@ -8,14 +8,7 @@ import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import pt.ist.socialsoftware.edition.ldod.domain.Category;
-import pt.ist.socialsoftware.edition.ldod.domain.FragInter;
-import pt.ist.socialsoftware.edition.ldod.domain.Fragment;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
-import pt.ist.socialsoftware.edition.ldod.domain.RecommendationWeights;
-import pt.ist.socialsoftware.edition.ldod.domain.Taxonomy;
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
+import pt.ist.socialsoftware.edition.ldod.domain.*;
 
 public class TaxonomyProperty extends Property {
 	private static Logger logger = LoggerFactory.getLogger(TaxonomyProperty.class);
@@ -30,7 +23,7 @@ public class TaxonomyProperty extends Property {
 	}
 
 	public TaxonomyProperty(@JsonProperty("weight") String weight, @JsonProperty("acronym") String acronym) {
-		this(Double.parseDouble(weight), ((VirtualEdition) LdoD.getInstance().getEdition(acronym)).getTaxonomy(),
+		this(Double.parseDouble(weight), ((VirtualEdition) Text.getInstance().getEdition(acronym)).getTaxonomy(),
 				PropertyCache.OFF);
 	}
 
