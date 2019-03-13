@@ -34,6 +34,40 @@ import "./PublicEditionContainerTable.css";
 import ReactTable from 'react-table';
 import {ReactTableDefaults} from "react-table";
 
+function replaceSpecialChars(word) {
+  let tempWord = word.toString()
+  if (tempWord !== null) {
+
+    tempWord = tempWord.replace(/ç/gi, 'c')
+
+    tempWord = tempWord.replace(/á/gi, 'a')
+    tempWord = tempWord.replace(/à/gi, 'a')
+    tempWord = tempWord.replace(/ã/gi, 'a')
+    tempWord = tempWord.replace(/â/gi, 'a')
+
+    tempWord = tempWord.replace(/é/gi, 'e')
+    tempWord = tempWord.replace(/è/gi, 'e')
+    tempWord = tempWord.replace(/ê/gi, 'e')
+
+    tempWord = tempWord.replace(/í/gi, 'i')
+    tempWord = tempWord.replace(/ì/gi, 'i')
+    tempWord = tempWord.replace(/î/gi, 'i')
+
+    tempWord = tempWord.replace(/ò/gi, 'o')
+    tempWord = tempWord.replace(/ó/gi, 'o')
+    tempWord = tempWord.replace(/õ/gi, 'o')
+    tempWord = tempWord.replace(/ô/gi, 'o')
+
+    tempWord = tempWord.replace(/ù/gi, 'u')
+    tempWord = tempWord.replace(/ú/gi, 'u')
+    tempWord = tempWord.replace(/û/gi, 'u')
+
+    console.log("replaceSpecialChars " + tempWord)
+  }
+
+  return tempWord;
+}
+
 const mapStateToProps = state => {
   return {
     fragments: state.fragments,
@@ -114,6 +148,8 @@ class ConnectedPublicEditionContainerTable extends React.Component {
 
     let availableEditionsCounter = 0;
 
+    let titleMaxChars = 0;
+
     if (this.state.editionsReceived) {
       console.log("editionsReceived");
 
@@ -134,7 +170,14 @@ class ConnectedPublicEditionContainerTable extends React.Component {
             decodeEntities: true
           }
 
-          let myTitle = ReactHtmlParser(item.title, options);
+          let myTitle = ReactHtmlParser(item.title, options).toString();
+
+          console.log(myTitle.length + "| mytitle |" + myTitle)
+          if (myTitle.length > titleMaxChars) {
+            titleMaxChars = myTitle.length;
+          }
+
+          console.log("MytitleMaxChars: " + titleMaxChars)
 
           let obj = {
             title: myTitle,
@@ -151,6 +194,8 @@ class ConnectedPublicEditionContainerTable extends React.Component {
         }
       });
 
+      let myMinWidth = Math.min(titleMaxChars * 4, 250)
+
       const columns = [
         {
           Header: 'Título',
@@ -159,10 +204,15 @@ class ConnectedPublicEditionContainerTable extends React.Component {
           filterMethod: (filter, row, column) => {
             const id = filter.pivotId || filter.id
             console.log(String(row[id]));
+
+            let auxWord = replaceSpecialChars(row[id]);
+            let auxFilter = replaceSpecialChars(filter.value);
+
             return row[id] !== undefined
-              ? String(row[id]).toUpperCase().includes(filter.value.toUpperCase())
+              ? String(auxWord).toUpperCase().includes(auxFilter.toUpperCase())
               : true
-          }
+          },
+          minWidth: myMinWidth
         }, {
           Header: 'Acrónimo',
           accessor: 'acronym',
