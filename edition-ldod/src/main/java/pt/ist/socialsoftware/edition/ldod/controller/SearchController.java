@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import pt.ist.socialsoftware.edition.ldod.api.text.TextInterface;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.domain.ManuscriptSource.Medium;
 import pt.ist.socialsoftware.edition.ldod.domain.Source.SourceType;
@@ -225,7 +226,10 @@ public class SearchController {
   @RequestMapping(value = "/getEdition")
   @ResponseBody
   public EditionJson getEdition(@RequestParam(value = "edition", required = true) String acronym) {
-    Edition edition = Text.getInstance().getEdition(acronym);
+
+    TextInterface textInterface = new TextInterface();
+
+    Edition edition = textInterface.getExpertEdition(acronym);
 
     if(edition == null)
         edition = LdoD.getInstance().getVirtualEdition(acronym);

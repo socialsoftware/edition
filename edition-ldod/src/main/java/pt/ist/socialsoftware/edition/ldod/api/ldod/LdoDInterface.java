@@ -15,8 +15,6 @@ public class LdoDInterface {
 
         if (event.getType().equals(Event.EventType.FRAG_INTER_REMOVE)){
 
-            //TODO: think about when VirtualEditionInter uses a VirtualEditionInter -> see FragInter remove
-
             LdoD.getInstance().getVirtualEditionsSet().stream()
                     .flatMap(virtualEdition -> virtualEdition.getAllDepthVirtualEditionInters().stream())
                     .filter(virtualEditionInter -> virtualEditionInter.getUsesFragInter() != null && virtualEditionInter.getUsesFragInter().equals(event.getIdentifier()))

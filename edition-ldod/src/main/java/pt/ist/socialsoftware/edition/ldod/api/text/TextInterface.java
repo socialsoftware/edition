@@ -37,4 +37,13 @@ public class TextInterface {
                 .filter(fragment -> fragment.getFragInterByXmlId(id) != null)
                 .map(fragment -> fragment.getFragInterByXmlId(id)).findFirst().orElseThrow(LdoDException::new);
     }
+
+    public Edition getExpertEdition(String acronym) {
+        return Text.getInstance().getEdition(acronym);
+    }
+
+    public LdoDUser getUser(String username){
+        return LdoD.getInstance().getUser(username);
+    }
+
 }

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import pt.ist.fenixframework.FenixFramework;
+import pt.ist.socialsoftware.edition.ldod.api.text.TextInterface;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.generators.PlainHtmlWriter4OneInter;
 import pt.ist.socialsoftware.edition.ldod.session.LdoDSession;
@@ -74,7 +75,9 @@ public class ReadingController {
 	@RequestMapping(method = RequestMethod.GET, value = "/edition/{acronym}/start")
 	public String startReadingEdition(Model model, @ModelAttribute("ldoDSession") LdoDSession ldoDSession,
 			@PathVariable String acronym) {
-		ExpertEdition expertEdition = (ExpertEdition) Text.getInstance().getEdition(acronym);
+		TextInterface textInterface = new TextInterface();
+
+		ExpertEdition expertEdition = (ExpertEdition) textInterface.getExpertEdition(acronym);
 		ExpertEditionInter expertEditionInter = expertEdition.getFirstInterpretation();
 
 		ldoDSession.getRecommendation().clean();
