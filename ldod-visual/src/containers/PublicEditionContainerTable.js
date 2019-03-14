@@ -299,10 +299,10 @@ class ConnectedPublicEditionContainerTable extends React.Component {
           // force any string values to lowercase
           a = typeof a === 'string'
             ? a.toLowerCase()
-            : a.toString().toLowerCase()
+            : a
           b = typeof b === 'string'
             ? b.toLowerCase()
-            : b.toString().toLowerCase()
+            : b
           // Return either 1 or -1 to indicate a sort priority
           if (a > b) {
             return 1

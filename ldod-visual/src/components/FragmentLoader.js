@@ -146,6 +146,9 @@ class ConnectedFragmentLoader extends React.Component {
   componentDidMount() {
     if (!this.props.allFragmentsLoaded) {
       const service = new RepositoryService(this.props.currentEdition.acronym);
+      this.props.setAllFragmentsLoaded(false);
+      this.props.setFragmentsSortedByDate([]);
+      this.props.setDatesExist(false);
       console.log("FragmentLoader.js: componentDidMount -> requesting fragments for edition acronym: " + this.props.currentEdition.acronym + " with edition title: " + this.props.currentEdition.title)
       service.getFragments().then(response => {
         console.log("FragmentLoader.js: receiving fragments");
@@ -159,12 +162,15 @@ class ConnectedFragmentLoader extends React.Component {
 
         let unorderedFragments = [];
         let noDateFragments = [];
+        let myFragmentsSortedByDate = [];
 
         this.props.fragments.map(f => {
 
-          if (f.meta.date !== null) 
+          if (f.meta.date !== null) {
             return (unorderedFragments.push(f));
-          return (noDateFragments.push(f));
+          } else {
+            return (noDateFragments.push(f));
+          }
         });
 
         if (unorderedFragments.length > 0) {
@@ -191,7 +197,7 @@ class ConnectedFragmentLoader extends React.Component {
 
           // console.log(unorderedFragments.length);
 
-          let myFragmentsSortedByDate = unorderedFragments.concat(noDateFragments);
+          myFragmentsSortedByDate = unorderedFragments.concat(noDateFragments);
 
           // console.log(myFragmentsSortedByDate.length);
 

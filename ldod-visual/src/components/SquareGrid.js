@@ -467,7 +467,7 @@ class ConnectedSquareGrid extends Component {
 
       <p>
         Um {purpleSquareText}
-        representará o fragmento que está a ler actualmente caso navegue para um fragmento diferente do fragmento inicial (o {redSquareText}).
+        representará o fragmento que está a ler durante a actividade actual caso navegue para um fragmento diferente do fragmento inicial que escolheu ao seleccionar uma nova actividade (o {redSquareText}).
       </p>
 
       <p>
