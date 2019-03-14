@@ -23,7 +23,7 @@ public class TaxonomyProperty extends Property {
 	}
 
 	public TaxonomyProperty(@JsonProperty("weight") String weight, @JsonProperty("acronym") String acronym) {
-		this(Double.parseDouble(weight), ((VirtualEdition) Text.getInstance().getEdition(acronym)).getTaxonomy(),
+		this(Double.parseDouble(weight), (LdoD.getInstance().getVirtualEdition(acronym)).getTaxonomy(),
 				PropertyCache.OFF);
 	}
 

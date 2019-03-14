@@ -121,7 +121,7 @@ public class RecommendationController {
 								+ p.getWeight())
 						.collect(Collectors.joining(";")));
 
-		VirtualEdition virtualEdition = (VirtualEdition) Text.getInstance().getEdition(params.getAcronym());
+		VirtualEdition virtualEdition = LdoD.getInstance().getVirtualEdition(params.getAcronym());
 
 		LdoDUser user = LdoDUser.getAuthenticatedUser();
 		RecommendationWeights recommendationWeights = user.getRecommendationWeights(virtualEdition);
@@ -148,9 +148,9 @@ public class RecommendationController {
 			@RequestParam(value = "inter[]", required = false) String[] inters) {
 		// logger.debug("saveLinearVirtualEdition");
 
-		Text text = Text.getInstance();
+		LdoD ldod = LdoD.getInstance();
 
-		VirtualEdition virtualEdition = (VirtualEdition) text.getEdition(acronym);
+		VirtualEdition virtualEdition = ldod.getVirtualEdition(acronym);
 		if (inters != null && virtualEdition.getSourceType().equals(EditionType.VIRTUAL)) {
 			Section section = virtualEdition.createSection(Section.DEFAULT);
 			VirtualEditionInter VirtualEditionInter;
@@ -246,8 +246,8 @@ public class RecommendationController {
 		// s.getSections().stream().collect(Collectors.joining(",")))
 		// .collect(Collectors.joining("\n")));
 
-		VirtualEdition virtualEdition = (VirtualEdition) Text.getInstance()
-				.getEdition(virtualEditionWithSectionsDTO.getAcronym());
+		VirtualEdition virtualEdition = LdoD.getInstance()
+				.getVirtualEdition(virtualEditionWithSectionsDTO.getAcronym());
 		if (virtualEdition == null) {
 			return "redirect:/error";
 		} else {

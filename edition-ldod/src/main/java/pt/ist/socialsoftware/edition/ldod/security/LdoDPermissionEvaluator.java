@@ -45,7 +45,7 @@ public class LdoDPermissionEvaluator implements PermissionEvaluator {
 				}
 				break;
 			case "editionacronym":
-				edition = Text.getInstance().getEdition((String) targetDomainObject);
+				edition = LdoD.getInstance().getVirtualEdition((String) targetDomainObject);
 				if (edition instanceof VirtualEdition) {
 					virtualEdition = (VirtualEdition) edition;
 				} else {

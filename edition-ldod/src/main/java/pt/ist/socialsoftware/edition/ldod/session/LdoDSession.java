@@ -81,10 +81,9 @@ public class LdoDSession implements Serializable {
 	}
 
 	public List<VirtualEdition> materializeVirtualEditions() {
-		Text text = Text.getInstance();
+		LdoD ldoD = LdoD.getInstance();
 
-
-		return this.selectedVEAcr.stream().map(acr -> text.getEdition(acr)).filter(e -> e != null)
+		return this.selectedVEAcr.stream().map(acr -> ldoD.getVirtualEdition(acr)).filter(e -> e != null)
 				.map(VirtualEdition.class::cast).collect(Collectors.toList());
 
 	}

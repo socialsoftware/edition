@@ -226,6 +226,10 @@ public class SearchController {
   @ResponseBody
   public EditionJson getEdition(@RequestParam(value = "edition", required = true) String acronym) {
     Edition edition = Text.getInstance().getEdition(acronym);
+
+    if(edition == null)
+        edition = LdoD.getInstance().getVirtualEdition(acronym);
+
     Map<String, String> heteronyms = new HashMap<>();
     LocalDate beginDate = null;
     LocalDate endDate = null;

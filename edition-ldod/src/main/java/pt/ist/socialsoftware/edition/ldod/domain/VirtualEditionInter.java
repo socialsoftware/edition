@@ -419,7 +419,7 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 	private void createTag(LdoDUser user, String categoryName, HumanAnnotation annotation) {
 		if (categoryName.contains(".")) {
 			String[] values = categoryName.split("\\.");
-			VirtualEdition edition = (VirtualEdition) Text.getInstance().getEdition(values[0]);
+			VirtualEdition edition = LdoD.getInstance().getVirtualEdition(values[0]);
 			if (edition.getTaxonomy().getCategory(values[1]) != null) {
 				edition.getTaxonomy().createTag(this, values[1], annotation, user);
 			} else {

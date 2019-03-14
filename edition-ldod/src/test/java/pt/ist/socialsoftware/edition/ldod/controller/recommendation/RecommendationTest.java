@@ -173,7 +173,7 @@ public class RecommendationTest {
                     .andDo(print())
                     .andExpect(status().is3xxRedirection())
                     .andExpect(redirectedUrl("/recommendation/restricted/" +
-                            Text.getInstance().getEdition(Edition.ARCHIVE_EDITION_ACRONYM).getExternalId()));
+                            LdoD.getInstance().getArchiveEdition().getExternalId()));
     }
 
     @Test

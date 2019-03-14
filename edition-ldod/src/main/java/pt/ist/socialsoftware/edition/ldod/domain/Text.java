@@ -49,7 +49,7 @@ public class Text extends Text_Base {
             }
         }
 
-        return LdoD.getInstance().getVirtualEdition(acronym);
+        return null;
     }
 
     public ExpertEdition getJPCEdition() {

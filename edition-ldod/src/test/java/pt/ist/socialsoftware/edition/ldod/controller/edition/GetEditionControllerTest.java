@@ -71,7 +71,7 @@ public class GetEditionControllerTest extends ControllersTestWithFragmentsLoadin
 	@Test
 	@Atomic(mode = TxMode.READ)
 	public void getEditionByExternalId() throws Exception {
-		String id = Text.getInstance().getEdition(Edition.PIZARRO_EDITION_ACRONYM).getExternalId();
+		String id = Text.getInstance().getJPEdition().getExternalId();
 
 		this.mockMvc.perform(get("/edition/internalid/{externalId}", id)).andDo(print())
 				.andExpect(status().is3xxRedirection())
@@ -81,7 +81,7 @@ public class GetEditionControllerTest extends ControllersTestWithFragmentsLoadin
 	@Test
 	@Atomic(mode = TxMode.READ)
 	public void getEditionWithHeteronym() throws Exception {
-		String editionId = Text.getInstance().getEdition(Edition.PIZARRO_EDITION_ACRONYM).getExternalId();
+		String editionId = Text.getInstance().getJPEdition().getExternalId();
 		String hetronymId = Text.getInstance().getSortedHeteronyms().get(0).getExternalId();
 
 		this.mockMvc.perform(get("/edition/internalid/heteronym/{id1}/{id2}", editionId, hetronymId)).andDo(print())
@@ -103,7 +103,7 @@ public class GetEditionControllerTest extends ControllersTestWithFragmentsLoadin
 	@Test
 	@Atomic(mode = TxMode.READ)
 	public void getEditionWithErrorHeteronym() throws Exception {
-		String editionId = Text.getInstance().getEdition(Edition.PIZARRO_EDITION_ACRONYM).getExternalId();
+		String editionId = Text.getInstance().getJPEdition().getExternalId();
 
 		this.mockMvc.perform(get("/edition/internalid/heteronym/{id1}/{id2}", editionId, "ERROR")).andDo(print())
 				.andExpect(status().is3xxRedirection()).andExpect(redirectedUrl("/error"));
