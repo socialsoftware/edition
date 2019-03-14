@@ -48,6 +48,7 @@ import {
   scrollSpy,
   scroller
 } from 'react-scroll';
+import Favicon from 'react-favicon';
 
 import picNetgraph from './assets/card-pics-regular/netgraph.png';
 import picSquare from './assets/card-pics-regular/square.png';
@@ -599,7 +600,9 @@ class ConnectedApp extends Component {
       }
     }
     let previousNavButton = <div/>;
+    let previousNavButtonGold = <div/>;
     let nextNavButton = <div/>;
+    let nextNavButtonGold = <div/>;
     if (this.props.allFragmentsLoaded & this.props.outOfLandingPage) {
 
       // console.log("App.js: this.props.visualizationTechnique: " + this.props.visualizationTechnique);
@@ -677,6 +680,7 @@ class ConnectedApp extends Component {
         <IdleTimer ref={ref => {
             this.idleTimer = ref
           }} element={document} onActive={this.onActive} onIdle={this.onIdle} onAction={this.onAction} debounce={10} timeout={1000 * 3}/> {/* your app here */}
+        <Favicon url="https://raw.githubusercontent.com/socialsoftware/edition/ldod-visual/ldod-visual/public/favicon.ico"/>
       </div>
 
       {this.buttonToolBarToRender}
