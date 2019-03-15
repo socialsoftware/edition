@@ -72,7 +72,7 @@ class ConnectedMyHistory extends Component {
     this.jsxToRender = [];
 
     this.loadingGif = (<div>
-      <img src={loadingGif} alt="loading..." className="loadingGifCentered"/>
+      <img src={loadingGif} alt="loading...myhistory" className="loadingGifCentered"/>
       <p align="center">A carregar histórico...</p>
     </div>);
 

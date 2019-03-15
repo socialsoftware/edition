@@ -57,18 +57,14 @@ Button:not(:last-child){
 }
 
 .navPrevious {
-  display: inline-block;
-  flex-direction: row;
-  position: sticky;
-  top: 35%;
+  position: fixed;
+  margin-top: 250px;
   left: 8%;
 }
 
 .navNext {
-  display: inline-block;
-  flex-direction: row;
-  position: sticky;
-  top: 35%;
+  position: fixed;
+  margin-top: 250px;
   left: 88%;
 }
 
@@ -115,4 +111,48 @@ Button:not(:last-child){
   width: 10%;
   height: 10%;
 
+}
+
+.goldenButton {
+  background: linear-gradient(to bottom,  #ECC129 0%, #FFD700 90%);
+  color: #000000;
+  border: 3px solid #ECC129;
+  padding: 5px 10px;
+  border-radius: 2px;
+  font-size: 20px;
+  margin-bottom: 5px;
+}
+
+.goldenButton:hover {
+  background: #FAD004;
+}
+
+.goldenButton:active {
+  background: #F4E5C0;
+}
+
+
+.goldenButtonInactive {
+  background: linear-gradient(to bottom,  #ADADAD 0%, #F3F3F3 90%);
+  color: #000000;
+  border: 3px solid #ADADAD;
+  padding: 5px 10px;
+  border-radius: 2px;
+  font-size: 20px;
+  margin-bottom: 5px;
+}
+
+
+
+.navPreviousGolden {
+
+  left: 8.2%;
+  position: fixed;
+  margin-top: 320px;
+}
+
+.navNextGolden {
+  position: fixed;
+  margin-top: 320px;
+  left: 88.2%;
 }

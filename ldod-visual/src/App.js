@@ -16,7 +16,7 @@ import {
   setAllFragmentsLoaded
 } from "./actions/index";
 import {connect} from "react-redux";
-import {Button, ButtonToolbar, Modal} from "react-bootstrap";
+import {Button, ButtonToolbar, Modal, OverlayTrigger, Tooltip} from "react-bootstrap";
 import ActivityMenu from "./components/ActivityMenu";
 import HistoryMenu from "./components/HistoryMenu";
 import NavigationButton from "./components/NavigationButton";
@@ -28,13 +28,14 @@ import {
   CRIT_EDITION_ORDER,
   CRIT_CHRONOLOGICAL_ORDER,
   VIS_SQUARE_GRID,
-  CRIT_CATEGORY
+  CRIT_CATEGORY,
+  CRIT_HETERONYM
 } from "./constants/history-transitions";
 import NetworkGraph from "./components/NetworkGraph";
 import FragmentLoader from "./components/FragmentLoader";
 import SquareGrid from "./components/SquareGrid";
 import MyWordCloud from "./components/MyWordCloud";
-import PublicEditionContainer from "./containers/PublicEditionContainerTable";
+import PublicEditionContainerTable from "./containers/PublicEditionContainerTable";
 import ReactHtmlParser, {processNodes, convertNodeToElement, htmlparser2} from 'react-html-parser';
 import loadingGif from './assets/loading.gif';
 import loadingFragmentsGif from './assets/fragmentload.gif';
@@ -62,6 +63,8 @@ import picSquareGoldenGray from './assets/card-pics-gray/square-golden-gray.png'
 import picSquareTimeGray from './assets/card-pics-gray/square-time-gray.png';
 import picWordCloudGray from './assets/card-pics-gray/word-cloud-gray.png';
 
+import HashMap from "hashmap";
+
 const mapStateToProps = state => {
   return {
     fragments: state.fragments,
@@ -80,7 +83,8 @@ const mapStateToProps = state => {
     categories: state.categories,
     history: state.history,
     datesExist: state.datesExist,
-    historyEntryCounter: state.historyEntryCounter
+    historyEntryCounter: state.historyEntryCounter,
+    currentCategory: state.currentCategory
   };
 };
 
@@ -112,10 +116,24 @@ class ConnectedApp extends Component {
 
     this.buttonToolBarToRender = <div/>
 
+    this.goldenSquareArray = [];
+    let obj = {
+      goldenIndex: " ",
+      currentCategory: " ",
+      goldenId: " "
+    }
+    this.goldenSquareArray.push(obj);
+
+    this.nextGoldenSquareIndex = null;
+    this.previousGoldenSquareIndex = null;
+
     this.idleTimer = null
     this.onAction = this._onAction.bind(this)
     this.onActive = this._onActive.bind(this)
     this.onIdle = this._onIdle.bind(this)
+
+    this.handlePreviousGoldenButton = this.handlePreviousGoldenButton.bind(this)
+    this.handleNextGoldenButton = this.handleNextGoldenButton.bind(this)
 
     this.forcePageReload = this.forcePageReload.bind(this)
 
@@ -144,7 +162,9 @@ class ConnectedApp extends Component {
       fadeDelay: 200,
       opacity: 1,
       mouseOverMenuButtons: true,
-      hiddenFromIdle: false
+      hiddenFromIdle: false,
+      previousGoldenButtonClass: "goldenButtonPrevious",
+      nextGoldenButtonClass: "goldenButtonNext"
     };
 
     this.opacityHide = 0;
@@ -419,7 +439,7 @@ class ConnectedApp extends Component {
   handleEditionSelectRetreat() {
     this.props.setAllFragmentsLoaded(false);
     this.setState({editionSelected: false});
-    this.landingActivityToRender = <PublicEditionContainer onChange={this.handleEditionsReceived} sendSelectedEdition={this.handleEditionSelected}/>
+    this.landingActivityToRender = <PublicEditionContainerTable onChange={this.handleEditionsReceived} sendSelectedEdition={this.handleEditionSelected}/>
   }
 
   handleFirstActivitySelectRetreat() {
@@ -445,6 +465,109 @@ class ConnectedApp extends Component {
 
   forcePageReload() {
     window.location.reload();
+  }
+
+  handlePreviousGoldenButton() {
+
+    scroll.scrollToTop({duration: 500, delay: 0, smooth: 'easeInOutQuart'});
+    //HISTORY ENTRY HISTORY ENTRY HISTORY ENTRY HISTORY ENTRY
+    let obj;
+    let historyVis = this.props.visualizationTechnique;
+    let historyCriteria = this.props.semanticCriteria;
+    obj = {
+      id: this.props.historyEntryCounter,
+      originalFragment: this.props.recommendationArray[this.props.recommendationIndex],
+      nextFragment: this.props.recommendationArray[this.previousGoldenSquareIndex],
+      vis: historyVis,
+      criteria: historyCriteria,
+      visualization: this.props.currentVisualization,
+      recommendationArray: this.props.recommendationArray,
+      recommendationIndex: this.previousGoldenSquareIndex,
+      fragmentIndex: this.props.fragmentIndex,
+      start: new Date().getTime(),
+      category: this.props.currentCategory
+    };
+
+    this.props.addHistoryEntry(obj);
+    this.props.setHistoryEntryCounter(this.props.historyEntryCounter + 1)
+    //HISTORY ENTRY HISTORY ENTRY HISTORY ENTRY HISTORY ENTRY
+    this.props.setRecommendationIndex(this.previousGoldenSquareIndex);
+
+    // if (this.state.previousGoldenButtonClass !== "goldenButtonInactive") {
+    //
+    //   let goldenIndex = -1;
+    //   let willBePrevious = false;
+    //
+    //   let i = this.props.recommendationIndex;
+    //   for (i; i !== 0; i--) {
+    //     console.log("bla1");
+    //     if (this.props.recommendationArray[i].meta.categories.includes(this.props.currentCategory) && goldenIndex == -1) {
+    //       goldenIndex = i;
+    //       console.log("bla2");
+    //     } else if (this.props.recommendationArray[i].meta.categories.includes(this.props.currentCategory) && goldenIndex !== -1) {
+    //       willBePrevious = true;
+    //       i = 0;
+    //       console.log("bla3");
+    //     }
+    //   }
+    //
+    //   if (goldenIndex !== -1) {
+    //     scroll.scrollToTop({duration: 500, delay: 0, smooth: 'easeInOutQuart'});
+    //     HISTORY ENTRY HISTORY ENTRY HISTORY ENTRY HISTORY ENTRY
+    //     let obj;
+    //     let historyVis = this.props.visualizationTechnique;
+    //     let historyCriteria = this.props.semanticCriteria;
+    //     obj = {
+    //       id: this.props.historyEntryCounter,
+    //       originalFragment: this.props.recommendationArray[this.props.recommendationIndex],
+    //       nextFragment: this.props.recommendationArray[goldenIndex],
+    //       vis: historyVis,
+    //       criteria: historyCriteria,
+    //       visualization: this.props.currentVisualization,
+    //       recommendationArray: this.props.recommendationArray,
+    //       recommendationIndex: goldenIndex,
+    //       fragmentIndex: this.props.fragmentIndex,
+    //       start: new Date().getTime(),
+    //       category: this.props.currentCategory
+    //     };
+    //
+    //     this.props.addHistoryEntry(obj);
+    //     this.props.setHistoryEntryCounter(this.props.historyEntryCounter + 1)
+    //     HISTORY ENTRY HISTORY ENTRY HISTORY ENTRY HISTORY ENTRY
+    //     this.props.setRecommendationIndex(goldenIndex)
+    //
+    //   }
+    //
+    //   if (!willBePrevious) {
+    //     this.setState({previousGoldenButtonClass: "goldenButtonInactive"})
+    //   }
+    // }
+  }
+
+  handleNextGoldenButton() {
+    scroll.scrollToTop({duration: 500, delay: 0, smooth: 'easeInOutQuart'});
+    //HISTORY ENTRY HISTORY ENTRY HISTORY ENTRY HISTORY ENTRY
+    let obj;
+    let historyVis = this.props.visualizationTechnique;
+    let historyCriteria = this.props.semanticCriteria;
+    obj = {
+      id: this.props.historyEntryCounter,
+      originalFragment: this.props.recommendationArray[this.props.recommendationIndex],
+      nextFragment: this.props.recommendationArray[this.nextGoldenSquareIndex],
+      vis: historyVis,
+      criteria: historyCriteria,
+      visualization: this.props.currentVisualization,
+      recommendationArray: this.props.recommendationArray,
+      recommendationIndex: this.nextGoldenSquareIndex,
+      fragmentIndex: this.props.fragmentIndex,
+      start: new Date().getTime(),
+      category: this.props.currentCategory
+    };
+
+    this.props.addHistoryEntry(obj);
+    this.props.setHistoryEntryCounter(this.props.historyEntryCounter + 1)
+    //HISTORY ENTRY HISTORY ENTRY HISTORY ENTRY HISTORY ENTRY
+    this.props.setRecommendationIndex(this.nextGoldenSquareIndex);
   }
 
   componentDidMount() {
@@ -473,8 +596,10 @@ class ConnectedApp extends Component {
       if (this.props.recommendationIndex == 0) {
         // console.log("App.js: changing previous button style to default");
         this.previousFragmentButtonStyle = "default";
+        this.nextFragmentButtonStyle = "primary";
       } else if (this.props.recommendationIndex === (this.props.recommendationArray.length - 1)) {
         // console.log("App.js: changing next button style to default");
+        this.previousFragmentButtonStyle = "primary";
         this.nextFragmentButtonStyle = "default";
       } else {
         this.previousFragmentButtonStyle = "primary";
@@ -484,7 +609,7 @@ class ConnectedApp extends Component {
     }
 
     if (!this.state.editionsReceived) {
-      this.landingActivityToRender = <PublicEditionContainer onChange={this.handleEditionsReceived} sendSelectedEdition={this.handleEditionSelected}/>
+      this.landingActivityToRender = <PublicEditionContainerTable onChange={this.handleEditionsReceived} sendSelectedEdition={this.handleEditionSelected}/>
 
     } else if (this.state.editionsReceived && this.state.editionSelected) {
 
@@ -494,7 +619,7 @@ class ConnectedApp extends Component {
 
       if (!this.props.allFragmentsLoaded) {
         this.landingActivityToRender = (<div>
-          <img src={loadingGif} alt="loading..." className="loadingGifCentered"/>
+          <img src={loadingGif} alt="loading...app.js" className="loadingGifCentered"/>
           <p align="center">A carregar todos os fragmentos da edição virtual escolhida...</p>
           <p align="center">Se demorar demasiado tempo, actualize a página e volte a tentar.</p>
         </div>);
@@ -603,7 +728,12 @@ class ConnectedApp extends Component {
     let previousNavButtonGold = <div/>;
     let nextNavButton = <div/>;
     let nextNavButtonGold = <div/>;
+    let editionTitleToDisplay = <div/>;
+    let editionAcronymToDisplay = <div/>;
     if (this.props.allFragmentsLoaded & this.props.outOfLandingPage) {
+
+      editionTitleToDisplay = ("Título da edição virtual seleccionada: " + ReactHtmlParser(this.state.currentEdition.title));
+      editionAcronymToDisplay = ("Acrónimo: " + this.state.currentEdition.acronym);
 
       // console.log("App.js: this.props.visualizationTechnique: " + this.props.visualizationTechnique);
       // console.log("App.js: this.props.semanticCriteria: " + this.props.semanticCriteria);
@@ -625,6 +755,126 @@ class ConnectedApp extends Component {
         →
       </Button>);
 
+      if (this.props.visualizationTechnique == VIS_SQUARE_GRID) {
+
+        if (this.props.semanticCriteria == CRIT_CATEGORY || this.props.semanticCriteria == CRIT_HETERONYM) {
+
+          // guardar vector com obj = {id: , recommendationIndexGolden: , currentCategory: }
+          if (!this.goldenSquareArray[0] && this.goldenSquareArray[0].currentCategory !== this.props.currentCategory) {
+            this.goldenSquareArray = [];
+            let i;
+            for (i = 0; i < this.props.recommendationArray.length; i++) {
+
+              let goldenSelectionCritCondition;
+              if (this.props.semanticCriteria == CRIT_HETERONYM) {
+                goldenSelectionCritCondition = (this.props.recommendationArray[i].meta.heteronym == this.props.currentCategory);
+              } else if (this.props.semanticCriteria == CRIT_CATEGORY) {
+                goldenSelectionCritCondition = (this.props.recommendationArray[i].meta.categories.includes(this.props.currentCategory));
+              }
+
+              if (goldenSelectionCritCondition) {
+
+                let tempObj = {
+                  goldenIndex: i,
+                  currentCategory: this.props.currentCategory,
+                  goldenId: this.props.recommendationArray[i].interId
+                }
+
+                this.goldenSquareArray.push(tempObj);
+              }
+            }
+          }
+
+          let goldenPreviousLabel = "Fragmento anterior do heterónimo seleccionado (" + this.props.currentCategory + ")"
+          let goldenNextLabel = "Próximo fragmento do heterónimo seleccionado (" + this.props.currentCategory + ")"
+
+          if (this.props.semanticCriteria == CRIT_CATEGORY) {
+            goldenPreviousLabel = "Fragmento anterior da categoria seleccionada (" + this.props.currentCategory + ")"
+            goldenNextLabel = "Próximo fragmento da categoria seleccionada (" + this.props.currentCategory + ")"
+          }
+
+          let goldenPreviousButtonClass = "goldenButtonInactive"
+          let goldenNextButtonClass = "goldenButtonInactive"
+
+          let goldenPreviousButtonFun = function() {}; //this.handlePreviousGoldenButton
+          let goldenNextButtonFun = function() {}; //this.handleNextGoldenButton
+
+          //nextGoldenButtonStyle & availabilty verification
+
+          let j;
+          for (j = (this.props.recommendationIndex); j < this.props.recommendationArray.length; j++) {
+            if (this.props.recommendationArray[j].interId !== this.props.recommendationArray[this.props.recommendationIndex].interId && j <= this.props.recommendationArray.length) {
+
+              let goldenSelectionCritCondition;
+              if (this.props.semanticCriteria == CRIT_HETERONYM) {
+                goldenSelectionCritCondition = (this.props.recommendationArray[j].meta.heteronym == this.props.currentCategory);
+              } else if (this.props.semanticCriteria == CRIT_CATEGORY) {
+                goldenSelectionCritCondition = (this.props.recommendationArray[j].meta.categories.includes(this.props.currentCategory));
+              }
+              if (goldenSelectionCritCondition) {
+                goldenNextButtonClass = "goldenButton";
+                goldenNextButtonFun = this.handleNextGoldenButton;
+                this.nextGoldenSquareIndex = j;
+                break;
+              }
+            }
+          }
+
+          //previousGoldenButtonStyle & availabilty verification
+
+          let n;
+          for (n = (this.props.recommendationIndex); n !== -1; n--) {
+            if (this.props.recommendationArray[n].interId !== this.props.recommendationArray[this.props.recommendationIndex].interId && n >= 0) {
+
+              let goldenSelectionCritCondition;
+              if (this.props.semanticCriteria == CRIT_HETERONYM) {
+                goldenSelectionCritCondition = (this.props.recommendationArray[n].meta.heteronym == this.props.currentCategory);
+              } else if (this.props.semanticCriteria == CRIT_CATEGORY) {
+                goldenSelectionCritCondition = (this.props.recommendationArray[n].meta.categories.includes(this.props.currentCategory));
+              }
+              if (goldenSelectionCritCondition) {
+                goldenPreviousButtonClass = "goldenButton";
+                goldenPreviousButtonFun = this.handlePreviousGoldenButton;
+                this.previousGoldenSquareIndex = n;
+                break;
+              }
+            }
+          }
+
+          // end of golden buttons availability verification
+
+          previousNavButtonGold = (<div onMouseOver={this.setMouseOverMenuButtons} onMouseLeave={this.setMouseOutMenuButtons} className="navPreviousGolden" style={{
+              ...styles,
+              opacity: this.state.opacity
+            }}>
+            <OverlayTrigger key='bottom' placement='bottom' overlay={<Tooltip id = {
+                `tooltip-$'bottom'`
+              } > {
+                goldenPreviousLabel
+              } < /Tooltip>}>
+              <button className={goldenPreviousButtonClass} onClick={goldenPreviousButtonFun}>
+                ←
+              </button>
+            </OverlayTrigger>
+          </div>)
+
+          nextNavButtonGold = (<div onMouseOver={this.setMouseOverMenuButtons} onMouseLeave={this.setMouseOutMenuButtons} className="navNextGolden" style={{
+              ...styles,
+              opacity: this.state.opacity
+            }}>
+            <OverlayTrigger key='bottom' placement='bottom' overlay={<Tooltip id = {
+                `tooltip-$'bottom'`
+              } > {
+                goldenNextLabel
+              } < /Tooltip>}>
+              <button className={goldenNextButtonClass} onClick={goldenNextButtonFun}>
+                →
+              </button>
+            </OverlayTrigger>
+          </div>)
+
+        }
+      }
       this.buttonToolBarToRender = (<div className="buttonToolbar" style={{
           ...styles,
           opacity: this.state.opacity
@@ -647,7 +897,6 @@ class ConnectedApp extends Component {
         </ButtonToolbar>
 
       </div>)
-
     } else {
 
       this.buttonToolBarToRender = <div/>;
@@ -712,6 +961,10 @@ class ConnectedApp extends Component {
           {nextNavButton}
         </div>
 
+        {previousNavButtonGold}
+
+        {nextNavButtonGold}
+
         <div className="appfrag" onMouseOver={this.setMouseOutMenuButtons} /*onMouseLeave={this.setMouseOverMenuButtons}*/
 
         >
@@ -725,14 +978,14 @@ class ConnectedApp extends Component {
             // opacity: this.state.opacity,
             color: 'white',
             fontSize: 13
-          }}>Título da edição virtual seleccionada: {myTitle}</p>
+          }}>{editionTitleToDisplay}</p>
 
         <p align="center" style={{
             // ...styles,
             // opacity: this.state.opacity,
             color: 'white',
             fontSize: 13
-          }}>Acrónimo: {this.state.currentEdition.acronym}</p>
+          }}>{editionAcronymToDisplay}</p>
 
       </div>
 

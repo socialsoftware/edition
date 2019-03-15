@@ -103,8 +103,11 @@ export class ConnectedFragment extends React.Component {
     ("Fragment.js: render()")
 
     let fragmentToRender;
-    let textToDisplay = (<div><img src={loadingGif} alt="loading..." className="loadingGifCentered"/>
-    </div>);
+    let textToDisplay = (<div/>);
+    if (this.props.outOfLandingPage) {
+      textToDisplay = (<div><img src={loadingGif} alt="loading...Fragment.js" className="loadingGifCentered"/>
+      </div>);
+    }
     let stringArray;
 
     if (this.props.allFragmentsLoaded && this.props.outOfLandingPage && this.props.recommendationLoaded) {
@@ -279,8 +282,8 @@ export class ConnectedFragment extends React.Component {
           <br/> {textToDisplay}
         </div>
       </div>);;
-    } else {
-      fragmentToRender = (<div><img src={loadingGif} alt="loading..." className="loadingGifCentered"/>
+    } else if (this.props.outOfLandingPage) {
+      fragmentToRender = (<div><img src={loadingGif} alt="loading...fragment.js" className="loadingGifCentered"/>
       </div>);
     }
 

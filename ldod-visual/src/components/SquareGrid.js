@@ -12,7 +12,8 @@ import {
   setRecommendationIndex,
   setVisualizationTechnique,
   setSemanticCriteria,
-  setCurrentCategory
+  setCurrentCategory,
+  setGoldenArray
 } from "../actions/index";
 import {
   VIS_SQUARE_GRID,
@@ -57,7 +58,8 @@ const mapDispatchToProps = dispatch => {
     setRecommendationIndex: recommendationIndex => dispatch(setRecommendationIndex(recommendationIndex)),
     setVisualizationTechnique: visualizationTechnique => dispatch(setVisualizationTechnique(visualizationTechnique)),
     setSemanticCriteria: semanticCriteria => dispatch(setSemanticCriteria(semanticCriteria)),
-    setCurrentCategory: currentCategory => dispatch(setCurrentCategory(currentCategory))
+    setCurrentCategory: currentCategory => dispatch(setCurrentCategory(currentCategory)),
+    setGoldenArray: goldenArray => dispatch(setGoldenArray(goldenArray))
   };
 };
 
@@ -93,6 +95,8 @@ class ConnectedSquareGrid extends Component {
     } else if (!(this.props.currentFragmentMode) && this.props.semanticCriteria == CRIT_CATEGORY) {
       this.myCategory = this.props.currentCategory;
     }
+
+    console.log("1 MAGNIFICENT DEBUG MY CATEGORY BEGGINING OF SQ: " + this.myCategory)
 
     const maxFragsAnalyzedPercentage = 1.0;
     const edgeLengthFactor = 10000;
@@ -211,19 +215,33 @@ class ConnectedSquareGrid extends Component {
 
       //purple
       if (!this.props.currentFragmentMode && this.myFragmentArray[i].interId === this.props.recommendationArray[this.props.recommendationIndex].interId) {
-        nodeBorderColor = "#4B0082";
-        nodeBackgroundColor = "#8A2BE2";
+
+        if (nodeBorderColor == "#DAA520") { //golden
+          nodeBackgroundColor = "#8A2BE2";; //only purple background
+        } else {
+          nodeBorderColor = "#4B0082";
+          nodeBackgroundColor = "#8A2BE2";
+        }
       }
 
       //red
       if (this.props.outOfLandingPage && !this.props.currentFragmentMode && this.myFragmentArray[i].interId === this.props.fragments[this.props.fragmentIndex].interId) {
-        nodeBorderColor = "#DC143C"
-        nodeBackgroundColor = "#FF7F50"
+
+        if (nodeBorderColor == "#DAA520") { //golden
+          nodeBackgroundColor = "#FF7F50"; //only red background
+        } else {
+          nodeBorderColor = "#DC143C"
+          nodeBackgroundColor = "#FF7F50"
+        }
       }
 
       if (this.props.outOfLandingPage && this.props.currentFragmentMode && this.myFragmentArray[i].interId === this.props.recommendationArray[this.props.recommendationIndex].interId) {
-        nodeBorderColor = "#DC143C"
-        nodeBackgroundColor = "#FF7F50"
+        if (nodeBorderColor == "#DAA520") { //golden
+          nodeBackgroundColor = "#FF7F50"; //only red background
+        } else {
+          nodeBorderColor = "#DC143C"
+          nodeBackgroundColor = "#FF7F50"
+        }
       }
 
       let hoverBorderColor = "#DC143C" // red
@@ -329,9 +347,29 @@ class ConnectedSquareGrid extends Component {
     const nodeId = event.nodes[0];
     if (nodeId) {
       //alert(nodeId);
+      // this.props.setSemanticCriteria(this.props.potentialSemanticCriteria);
       var i;
       for (i = 0; i < this.myFragmentArray.length; i++) {
         if (this.myFragmentArray[i].interId === nodeId) {
+
+          console.log("MAGNIFICENT DEBUG0: " + this.myCategory)
+          console.log("MAGNIFICENT DEBUG0.1: " + this.props.currentCategory)
+
+          if (this.props.currentFragmentMode && this.props.potentialSemanticCriteria == CRIT_HETERONYM) {
+            this.myCategory = this.props.recommendationArray[this.props.recommendationIndex].meta.heteronym;
+            this.props.setCurrentCategory(this.myCategory);
+          } else if (!this.props.currentFragmentMode && this.props.semanticCriteria == CRIT_HETERONYM) {
+            this.myCategory = this.props.fragments[this.props.fragmentIndex].meta.heteronym;
+            this.props.setCurrentCategory(this.myCategory);
+          } else if (this.props.currentFragmentMode && this.props.potentialSemanticCriteria == CRIT_CATEGORY) {
+            this.props.setCurrentCategory(this.myCategory);
+          } else if (!this.props.currentFragmentMode && this.props.semanticCriteria == CRIT_CATEGORY) {
+            this.props.setCurrentCategory(this.myCategory);
+          }
+
+          console.log("MAGNIFICENT DEBUG1: " + this.myCategory)
+          console.log("MAGNIFICENT DEBUG1.1: " + this.props.currentCategory)
+
           const globalViewToRender = (<SquareGrid onChange={this.props.onChange}/>);
           this.props.setCurrentVisualization(globalViewToRender);
           //HISTORY ENTRY HISTORY ENTRY HISTORY ENTRY HISTORY ENTRY
@@ -356,9 +394,14 @@ class ConnectedSquareGrid extends Component {
             category: this.myCategory
           };
 
-          if (this.props.potentialSemanticCriteria == CRIT_CATEGORY) {
+          if (this.props.potentialSemanticCriteria == CRIT_CATEGORY && !this.props.currentFragmentMode) {
+            this.props.setCurrentCategory(this.myCategory);
+          } else if (this.props.potentialSemanticCriteria == CRIT_HETERONYM && !this.props.currentFragmentMode) {
             this.props.setCurrentCategory(this.myCategory);
           }
+
+          console.log("MAGNIFICENT DEBUG2: " + this.myCategory)
+          console.log("MAGNIFICENT DEBUG2.1: " + this.props.currentCategory)
 
           //this.props.setFragmentIndex(i);
           if (this.props.currentFragmentMode) {
@@ -383,6 +426,9 @@ class ConnectedSquareGrid extends Component {
           this.props.setRecommendationIndex(i);
 
           this.props.setOutOfLandingPage(true);
+
+          console.log("MAGNIFICENT DEBUG3: " + this.myCategory)
+          console.log("MAGNIFICENT DEBUG3.1: " + this.props.currentCategory)
 
           this.props.onChange();
         }
