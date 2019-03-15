@@ -66,17 +66,17 @@ class ConnectedHistoryMenu extends Component {
 
     this.properties = [];
 
+    var height = Math.round(window.innerHeight * 0.7) + 'px';
 
     this.options = {
       locales: {
         // create a new locale (text strings should be replaced with localized strings)
-        pt: {
-
-        }
+        pt: {}
       },
 
       // use the new locale
-      locale: 'pt'
+      locale: 'pt',
+      height: height
     };
     this.timeline = [];
 
@@ -151,10 +151,6 @@ class ConnectedHistoryMenu extends Component {
   componentDidMount() {
     var historyItems = [];
 
-
-
-
-
     var i;
     for (i = 0; i < this.props.historyEntryCounter; i++) {
       var historyPic = document.createElement('div');
@@ -165,10 +161,10 @@ class ConnectedHistoryMenu extends Component {
       img.style.width = '48px';
       img.style.height = '48px';
 
-      if (this.props.history[i].vis == VIS_NETWORK_GRAPH){
-          img.src = picNetGraph;
-      } else if (this.props.history[i].vis == VIS_SQUARE_GRID){
-          img.src = picSquareGrid;
+      if (this.props.history[i].vis == VIS_NETWORK_GRAPH) {
+        img.src = picNetGraph;
+      } else if (this.props.history[i].vis == VIS_SQUARE_GRID) {
+        img.src = picSquareGrid;
       }
       historyPic.appendChild(img);
       let item = {
