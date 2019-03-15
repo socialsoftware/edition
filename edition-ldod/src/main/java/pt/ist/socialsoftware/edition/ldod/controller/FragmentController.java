@@ -69,6 +69,7 @@ public class FragmentController {
 			return "redirect:/error";
 		} else {
 			model.addAttribute("ldoD", LdoD.getInstance());
+			model.addAttribute("text", Text.getInstance());
 			model.addAttribute("user", LdoDUser.getAuthenticatedUser());
 			model.addAttribute("fragment", fragment);
 			model.addAttribute("fragmentDto",new MainFragmentDto(fragment));
@@ -115,6 +116,7 @@ public class FragmentController {
 		List<FragInter> inters = new ArrayList<>();
 		inters.add(inter);
 		model.addAttribute("ldoD", LdoD.getInstance());
+		model.addAttribute("text", Text.getInstance());
 		model.addAttribute("user", LdoDUser.getAuthenticatedUser());
 		model.addAttribute("fragment", inter.getFragment());
 		model.addAttribute("inters", inters);

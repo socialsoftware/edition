@@ -89,7 +89,7 @@
 				data-content="<spring:message code="info.experts" />"> <span
 				class="glyphicon glyphicon-info-sign"></span></a>
 		</h5>
-		<c:forEach var="expertEdition" items='${ldoD.sortedExpertEdition}'>
+		<c:forEach var="expertEdition" items='${text.sortedExpertEdition}'>
 			<c:if
 				test="${expertEdition.getSortedInter4Frag(fragment).size() != 0}">
 				<div class="text-center">
