@@ -105,6 +105,7 @@ class ConnectedSquareGrid extends Component {
     const maxRows = Math.floor(Math.sqrt(this.props.fragments.length * 2));
     const nodeTranslationSpacing = originalFragmentSize * 3;
     let inversionToggle = false;
+    this.nrOfLines = 1;
 
     //BUILD FRAGMENTS' NODES for SQUAREMAP
     let obj;
@@ -291,6 +292,7 @@ class ConnectedSquareGrid extends Component {
         }
         yFactor = yFactor + nodeTranslationSpacing;
         inversionToggle = !inversionToggle;
+        this.nrOfLines = this.nrOfLines + 1;
       }
 
       this.nodes.push(obj);
@@ -315,7 +317,7 @@ class ConnectedSquareGrid extends Component {
     }
 
     this.options = {
-      autoResize: true,
+      //autoResize: true,
       //height: "500",
       //width: "800",
 
@@ -445,7 +447,13 @@ class ConnectedSquareGrid extends Component {
 
       var container = document.getElementById('gridvis');
       this.network = new Network(container, data, this.options);
-      container.style.height = 750 + 'px';
+      var height = Math.round(window.innerHeight * 1.0) + 'px'; // The DOM way
+      if (this.props.fragments.length < 100) {
+        height = Math.round(window.innerHeight * 0.6) + 'px'; // The DOM way
+      }
+      container.style.height = height
+
+      // container.style.height = this.nrOfLines * 50 + 'px'
       this.network.redraw();
       this.network.fit();
       this.network.on("selectNode", this.handleSelectNode);
