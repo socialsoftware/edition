@@ -23,7 +23,6 @@ public class Text extends Text_Base {
     public void remove(){
         getNullEdition().remove();
         getExpertEditionsSet().forEach(e -> e.remove());
-        getRolesSet().forEach(r -> r.remove());
         getTokenSet().forEach(t -> t.remove());
         getHeteronymsSet().forEach(h -> h.remove());
 
