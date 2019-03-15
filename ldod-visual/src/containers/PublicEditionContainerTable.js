@@ -212,7 +212,8 @@ class ConnectedPublicEditionContainerTable extends React.Component {
               ? String(auxWord).toUpperCase().includes(auxFilter.toUpperCase())
               : true
           },
-          minWidth: myMinWidth
+          minWidth: myMinWidth,
+          resizable: false
         }, {
           Header: 'Acrónimo',
           accessor: 'acronym',
@@ -227,6 +228,7 @@ class ConnectedPublicEditionContainerTable extends React.Component {
         }, {
           Header: 'Categorias disponíveis',
           accessor: 'availableCategories',
+          resizable: false,
           style: {
             textAlign: "center"
           },

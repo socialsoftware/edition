@@ -192,10 +192,10 @@ class ConnectedMyHistory extends Component {
 
     //this.timeline.moveTo(this.props.recommendationArray[this.props.recommendationIndex].meta.date);
 
-    this.timeline.setWindow(this.props.recommendationArray[this.props.recommendationIndex].meta.date, this.props.recommendationArray[this.props.recommendationIndex].meta.date);
+    this.timeline.setWindow(this.props.recommendationArray[this.props.recommendationIndex].meta.date, this.props.recommendationArray[this.props.recommendationIndex + 1].meta.date);
 
-    this.onInitialDrawComplete(this.clearLoadingGif);
-    //this.printMessage();
+    //this.onInitialDrawComplete(this.clearLoadingGif);
+    this.loadingGif = (<div/>)
   }
 
   clearLoadingGif() {
@@ -212,8 +212,8 @@ class ConnectedMyHistory extends Component {
       <p>
         Nesta cronologia, poderá situar o fragmento actual e a sua data em comparação ao resto dos fragmentos da edição virtual que tenham também data disponível.
       </p>
-      {this.loadingGif}
-      {this.jsxToRender}
+
+      <div id="visualization"></div>
     </div>);
   }
 }
