@@ -50,6 +50,7 @@ import {
   scroller
 } from 'react-scroll';
 import Favicon from 'react-favicon';
+import {Helmet} from "react-helmet";
 
 import picNetgraph from './assets/card-pics-regular/netgraph.png';
 import picSquare from './assets/card-pics-regular/square.png';
@@ -930,6 +931,16 @@ class ConnectedApp extends Component {
             this.idleTimer = ref
           }} element={document} onActive={this.onActive} onIdle={this.onIdle} onAction={this.onAction} debounce={10} timeout={1000 * 3}/> {/* your app here */}
         <Favicon url="https://raw.githubusercontent.com/socialsoftware/edition/ldod-visual/ldod-visual/public/favicon.ico"/>
+        <Helmet>
+          <link rel="canonical" href="https://ldod.uc.pt/ldod-visual"/>
+          <meta property="og:image:width" content="279"/>
+          <meta property="og:image:height" content="279"/>
+          <meta property="og:description" content="Explore uma das edi&ccedil;&otilde;es virtuais p&uacute;blicas do &quot;Livro do Desassossego&quot; dispon&iacute;veis no Arquivo LdoD"/>
+          <meta property="og:title" content="LdoD Visual"/>
+          <meta property="og:url" content="https://ldod.uc.pt/ldod-visual"/>
+          <meta property="og:image" content="https://raw.githubusercontent.com/socialsoftware/edition/ldod-visual/ldod-visual/public/og-image.jpg"/>
+          <meta property="og:site_name" content="https://ldod.uc.pt/ldod-visual"/>
+        </Helmet>
       </div>
 
       {this.buttonToolBarToRender}
