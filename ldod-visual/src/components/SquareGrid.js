@@ -158,58 +158,48 @@ class ConnectedSquareGrid extends Component {
         myTitle = this.myFragmentArray[i].meta.title + " | Categorias: Sem categorias."
       }
 
+
+      let myBorderWidth = 1;
+      const newBorderW = 3;
+      let goldHighlightStyle = {
+          background: "#FFD700",
+          padding: 2,
+          color: "black",
+          borderWidth: 10,
+          borderColor: "#DAA520"
+        }
       //  #DAA520 goldenrod escuro
       // #FFD700 gold
       if (this.props.currentFragmentMode && this.props.potentialSemanticCriteria == CRIT_CATEGORY && this.myFragmentArray[i].meta.categories.includes(this.props.potentialCategory)) {
         nodeBorderColor = "#DAA520";
         nodeBackgroundColor = "#FFD700";
-        this.supportMessage = "Neste mapa, estão assinalados os quadrados dos fragmentos que pertencem à categoria ";
-        this.highlightText = (<span style={{
-            background: "#DAA520",
-            paddingLeft: '3px',
-            paddingRight: '3px',
-            border: "#DAA520",
-            color: "white"
-          }}>
+        myBorderWidth = newBorderW;;
+        this.supportMessage = (<span><b>Categoria seleccionada: </b></span >);
+        this.highlightText = (<span style={goldHighlightStyle}>
           <b>{this.props.potentialCategory}</b>
         </span >);
       } else if (!(this.props.currentFragmentMode) && this.props.semanticCriteria == CRIT_CATEGORY && this.myFragmentArray[i].meta.categories.includes(this.props.currentCategory)) {
         nodeBorderColor = "#DAA520";
         nodeBackgroundColor = "#FFD700";
-        this.supportMessage = "Neste mapa, estão assinalados os quadrados dos fragmentos que pertencem à categoria ";
-        this.highlightText = (<span style={{
-            background: "#DAA520",
-            paddingLeft: '3px',
-            paddingRight: '3px',
-            border: "#DAA520",
-            color: "white"
-          }}>
+        myBorderWidth = newBorderW;;
+        this.supportMessage = (<span><b>Categoria seleccionada: </b></span >);
+        this.highlightText = (<span style={goldHighlightStyle}>
           <b>{this.props.currentCategory}</b>
         </span >);
       } else if (this.props.currentFragmentMode && this.props.potentialSemanticCriteria == CRIT_HETERONYM && this.myFragmentArray[i].meta.heteronym == this.props.recommendationArray[this.props.recommendationIndex].meta.heteronym) {
         nodeBorderColor = "#DAA520";
         nodeBackgroundColor = "#FFD700";
-        this.supportMessage = "Neste mapa, estão assinalados os quadrados dos fragmentos assinados pelo heterónimo ";
-        this.highlightText = (<span style={{
-            background: "#DAA520",
-            paddingLeft: '3px',
-            paddingRight: '3px',
-            border: "#DAA520",
-            color: "white"
-          }}>
+        myBorderWidth = newBorderW;;
+        this.supportMessage = (<span><b>Heterónimo seleccionado: </b></span >);
+        this.highlightText = (<span style={goldHighlightStyle}>
           <b>{this.myFragmentArray[i].meta.heteronym}</b>
         </span >);
       } else if (!(this.props.currentFragmentMode) && this.props.semanticCriteria == CRIT_HETERONYM && this.myFragmentArray[i].meta.heteronym == this.props.fragments[this.props.fragmentIndex].meta.heteronym) {
         nodeBorderColor = "#DAA520";
         nodeBackgroundColor = "#FFD700";
-        this.supportMessage = "Neste mapa, estão assinalados os quadrados dos fragmentos assinados pelo heterónimo ";
-        this.highlightText = (<span style={{
-            background: "#DAA520",
-            paddingLeft: '3px',
-            paddingRight: '3px',
-            border: "#DAA520",
-            color: "white"
-          }}>
+        myBorderWidth = newBorderW;;
+        this.supportMessage = (<span><b>Heterónimo seleccionado: </b></span >);
+        this.highlightText = (<span style={goldHighlightStyle}>
           <b>{this.myFragmentArray[i].meta.heteronym}</b>
         </span >);
       }
@@ -218,10 +208,12 @@ class ConnectedSquareGrid extends Component {
       if (!this.props.currentFragmentMode && this.myFragmentArray[i].interId === this.props.recommendationArray[this.props.recommendationIndex].interId) {
 
         if (nodeBorderColor == "#DAA520") { //golden
-          nodeBackgroundColor = "#8A2BE2";; //only purple background
+          nodeBackgroundColor = "#8A2BE2"; //only purple background
+          myBorderWidth = newBorderW;;
         } else {
           nodeBorderColor = "#4B0082";
           nodeBackgroundColor = "#8A2BE2";
+          myBorderWidth = newBorderW;;
         }
       }
 
@@ -230,18 +222,22 @@ class ConnectedSquareGrid extends Component {
 
         if (nodeBorderColor == "#DAA520") { //golden
           nodeBackgroundColor = "#FF7F50"; //only red background
+          myBorderWidth = newBorderW;;
         } else {
           nodeBorderColor = "#DC143C"
           nodeBackgroundColor = "#FF7F50"
+          myBorderWidth = newBorderW;;
         }
       }
 
       if (this.props.outOfLandingPage && this.props.currentFragmentMode && this.myFragmentArray[i].interId === this.props.recommendationArray[this.props.recommendationIndex].interId) {
         if (nodeBorderColor == "#DAA520") { //golden
           nodeBackgroundColor = "#FF7F50"; //only red background
+          myBorderWidth = newBorderW;;
         } else {
           nodeBorderColor = "#DC143C"
           nodeBackgroundColor = "#FF7F50"
+          myBorderWidth = newBorderW;;
         }
       }
 
@@ -258,7 +254,7 @@ class ConnectedSquareGrid extends Component {
         size: originalFragmentSize * remainingNodeFactor,
         fixed: true,
         chosen: true,
-        borderWidth: 1,
+        borderWidth: myBorderWidth,
         color: {
           border: nodeBorderColor,
           background: nodeBackgroundColor,
@@ -534,8 +530,9 @@ class ConnectedSquareGrid extends Component {
         representarão os fragmentos correspondentes à categoria ou heterónimo.
       </p>
 
-      {this.supportMessage}
-      {this.highlightText}.
+      <br/>
+
+      <h4 align="center">{this.supportMessage}{this.highlightText}.</h4>
 
       <div className="graphGrid" id="gridvis"></div>
 

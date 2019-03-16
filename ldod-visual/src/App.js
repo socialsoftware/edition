@@ -171,7 +171,7 @@ class ConnectedApp extends Component {
     this.opacityHide = 0;
     this.opacityShow = 1;
     this.opacityOnText = 0.6;
-    this.opacityBarelyVisible = 0.1;
+    this.opacityBarelyVisible = 0.3;
 
     this.landingActivityToRender = <p>A carregar edições virtuais...</p>;
 
