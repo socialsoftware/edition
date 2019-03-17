@@ -6,6 +6,8 @@ import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
 
 import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class TextInterface {
     private static Logger logger = LoggerFactory.getLogger(TextInterface.class);
@@ -44,6 +46,14 @@ public class TextInterface {
 
     public LdoDUser getUser(String username){
         return LdoD.getInstance().getUser(username);
+    }
+
+    public Set<VirtualEditionInter> getVirtualEditionIntersForFragment(String id) {
+        Fragment frag = LdoD.getInstance().getFragmentsSet().stream().filter(fragment -> fragment.getXmlId().equals(id))
+                .findFirst().orElseThrow(LdoDException::new);
+
+        return frag.getFragmentInterSet().stream().filter(VirtualEditionInter.class::isInstance)
+                .map(VirtualEditionInter.class::cast).collect(Collectors.toSet());
     }
 
 }

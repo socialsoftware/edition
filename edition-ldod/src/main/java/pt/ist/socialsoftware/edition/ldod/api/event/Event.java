@@ -3,7 +3,8 @@ package pt.ist.socialsoftware.edition.ldod.api.event;
 public class Event {
 
     public enum EventType {
-        FRAG_INTER_REMOVE
+        FRAG_INTER_REMOVE,
+        FRAGMENT_REMOVE
     }
 
     EventType type;

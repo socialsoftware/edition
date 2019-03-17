@@ -19,7 +19,7 @@ public class UsersXMLExport {
 
 		exportUsers(element, ldoD);
 		exportUserConnections(element, ldoD);
-		exportRegistrationTokens(element, text);
+		exportRegistrationTokens(element, ldoD);
 
 		XMLOutputter xml = new XMLOutputter();
 		xml.setFormat(Format.getPrettyFormat());
@@ -141,10 +141,10 @@ public class UsersXMLExport {
 		element.addContent(userConnectionElement);
 	}
 
-	private void exportRegistrationTokens(Element element, Text text) {
+	private void exportRegistrationTokens(Element element, LdoD ldoD) {
 		Element registrationTokensElement = new Element("registration-tokens");
 
-		for (RegistrationToken registrationToken : text.getTokenSet()) {
+		for (RegistrationToken registrationToken : ldoD.getTokenSet()) {
 			exportRegistrationToken(registrationTokensElement, registrationToken);
 		}
 

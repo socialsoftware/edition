@@ -18,8 +18,7 @@ public class RegistrationToken extends RegistrationToken_Base {
 
 	public RegistrationToken(String token, LdoDUser user) {
 		setUser(user);
-		//setText(user.getLdoD());
-		setText(Text.getInstance());
+		setLdoD(user.getLdoD());
 		setToken(token);
 		setExpireTimeDateTime(DateTime.now().plus(new Period().withMinutes(EXPIRATION)));
 	}
@@ -40,7 +39,7 @@ public class RegistrationToken extends RegistrationToken_Base {
 
 	public void remove() {
 		setUser(null);
-		setText(null);
+		setLdoD(null);
 
 		deleteDomainObject();
 	}

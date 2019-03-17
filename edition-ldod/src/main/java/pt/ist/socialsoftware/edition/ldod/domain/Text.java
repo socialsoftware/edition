@@ -23,7 +23,6 @@ public class Text extends Text_Base {
     public void remove(){
         getNullEdition().remove();
         getExpertEditionsSet().forEach(e -> e.remove());
-        getTokenSet().forEach(t -> t.remove());
         getHeteronymsSet().forEach(h -> h.remove());
 
         setRoot(null);
@@ -69,16 +68,6 @@ public class Text extends Text_Base {
     public ExpertEdition getJPEdition() {
         return getExpertEditionsSet().stream().filter(ve -> ve.getAcronym().equals(Edition.PIZARRO_EDITION_ACRONYM))
                 .findFirst().orElse(null);
-    }
-
-    public void removeOutdatedUnconfirmedUsers() {
-        DateTime now = DateTime.now();
-        getTokenSet().stream().filter(t -> t.getExpireTimeDateTime().isBefore(now)).map(t -> t.getUser())
-                .forEach(u -> u.remove());
-    }
-
-    public RegistrationToken getTokenSet(String token) {
-        return getTokenSet().stream().filter(t -> t.getToken().equals(token)).findFirst().orElse(null);
     }
     
 }

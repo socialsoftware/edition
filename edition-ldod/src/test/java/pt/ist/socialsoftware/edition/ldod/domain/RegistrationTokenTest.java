@@ -13,7 +13,6 @@ import pt.ist.socialsoftware.edition.ldod.TestWithFragmentsLoading;
 public class RegistrationTokenTest extends TestWithFragmentsLoading {
 
 	LdoD ldoD;
-	Text text;
 	LdoDUser user;
 	private RegistrationToken registration;
 
@@ -27,7 +26,6 @@ public class RegistrationTokenTest extends TestWithFragmentsLoading {
 	@Override
 	public void populate4Test() {
 		this.ldoD = LdoD.getInstance();
-		this.text = Text.getInstance();
 
 		this.user = new LdoDUser(this.ldoD, "ars1", "ars", "Antonio", "Silva", "a@a.a");
 		this.registration = new RegistrationToken("token", this.user);
@@ -42,11 +40,11 @@ public class RegistrationTokenTest extends TestWithFragmentsLoading {
 	@Atomic(mode = TxMode.WRITE)
 	public void removeOutdatedTokensOne() {
 		int size = this.ldoD.getUsersSet().size();
-		int tokens = this.text.getTokenSet().size();
+		int tokens = this.ldoD.getTokenSet().size();
 
-		this.text.removeOutdatedUnconfirmedUsers();
+		this.ldoD.removeOutdatedUnconfirmedUsers();
 
-		assertEquals(tokens, this.text.getTokenSet().size());
+		assertEquals(tokens, this.ldoD.getTokenSet().size());
 		assertEquals(size, this.ldoD.getUsersSet().size());
 	}
 
@@ -56,11 +54,11 @@ public class RegistrationTokenTest extends TestWithFragmentsLoading {
 		this.user.getToken().setExpireTimeDateTime(new DateTime(2014, 1, 1, 0, 0, 0, 0));
 
 		int size = this.ldoD.getUsersSet().size();
-		int tokens = this.text.getTokenSet().size();
+		int tokens = this.ldoD.getTokenSet().size();
 
-		this.text.removeOutdatedUnconfirmedUsers();
+		this.ldoD.removeOutdatedUnconfirmedUsers();
 
-		assertEquals(tokens - 1, this.text.getTokenSet().size());
+		assertEquals(tokens - 1, this.ldoD.getTokenSet().size());
 		assertEquals(size - 1, this.ldoD.getUsersSet().size());
 	}
 

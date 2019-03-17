@@ -126,7 +126,7 @@ public class SignupController {
 			@RequestParam("token") String token) {
 		logger.debug("authorizeRegistration");
 
-		RegistrationToken registrationToken = Text.getInstance().getTokenSet(token);
+		RegistrationToken registrationToken = LdoD.getInstance().getTokenSet(token);
 
 		if (registrationToken == null) {
 			model.addAttribute("message", "signup.token.invalid");
@@ -156,7 +156,7 @@ public class SignupController {
 	public String confirmRegistration(WebRequest request, Model model, @RequestParam("token") String token) {
 		logger.debug("confirmRegistration");
 
-		RegistrationToken registrationToken = Text.getInstance().getTokenSet(token);
+		RegistrationToken registrationToken = LdoD.getInstance().getTokenSet(token);
 
 		if (registrationToken == null) {
 			model.addAttribute("message", "signup.token.invalid");
