@@ -158,23 +158,25 @@ class ConnectedSquareGrid extends Component {
         myTitle = this.myFragmentArray[i].meta.title + " | Categorias: Sem categorias."
       }
 
-
       let myBorderWidth = 1;
       const newBorderW = 3;
       let goldHighlightStyle = {
-          background: "#FFD700",
-          padding: 2,
-          color: "black",
-          borderWidth: 10,
-          borderColor: "#DAA520"
-        }
+        background: "#FFD700",
+        padding: 2,
+        color: "black",
+        borderWidth: 10,
+        borderColor: "#DAA520"
+      }
       //  #DAA520 goldenrod escuro
       // #FFD700 gold
       if (this.props.currentFragmentMode && this.props.potentialSemanticCriteria == CRIT_CATEGORY && this.myFragmentArray[i].meta.categories.includes(this.props.potentialCategory)) {
         nodeBorderColor = "#DAA520";
         nodeBackgroundColor = "#FFD700";
         myBorderWidth = newBorderW;;
-        this.supportMessage = (<span><b>Categoria seleccionada: </b></span >);
+        this.supportMessage = (<span>
+          <b>Categoria seleccionada:
+          </b>
+        </span >);
         this.highlightText = (<span style={goldHighlightStyle}>
           <b>{this.props.potentialCategory}</b>
         </span >);
@@ -182,7 +184,10 @@ class ConnectedSquareGrid extends Component {
         nodeBorderColor = "#DAA520";
         nodeBackgroundColor = "#FFD700";
         myBorderWidth = newBorderW;;
-        this.supportMessage = (<span><b>Categoria seleccionada: </b></span >);
+        this.supportMessage = (<span>
+          <b>Categoria seleccionada:
+          </b>
+        </span >);
         this.highlightText = (<span style={goldHighlightStyle}>
           <b>{this.props.currentCategory}</b>
         </span >);
@@ -190,7 +195,10 @@ class ConnectedSquareGrid extends Component {
         nodeBorderColor = "#DAA520";
         nodeBackgroundColor = "#FFD700";
         myBorderWidth = newBorderW;;
-        this.supportMessage = (<span><b>Heterónimo seleccionado: </b></span >);
+        this.supportMessage = (<span>
+          <b>Heterónimo seleccionado:
+          </b>
+        </span >);
         this.highlightText = (<span style={goldHighlightStyle}>
           <b>{this.myFragmentArray[i].meta.heteronym}</b>
         </span >);
@@ -198,7 +206,10 @@ class ConnectedSquareGrid extends Component {
         nodeBorderColor = "#DAA520";
         nodeBackgroundColor = "#FFD700";
         myBorderWidth = newBorderW;;
-        this.supportMessage = (<span><b>Heterónimo seleccionado: </b></span >);
+        this.supportMessage = (<span>
+          <b>Heterónimo seleccionado:
+          </b>
+        </span >);
         this.highlightText = (<span style={goldHighlightStyle}>
           <b>{this.myFragmentArray[i].meta.heteronym}</b>
         </span >);
@@ -532,7 +543,7 @@ class ConnectedSquareGrid extends Component {
 
       <br/>
 
-      <h4 align="center">{this.supportMessage}{this.highlightText}.</h4>
+      <h4 align="center">{this.supportMessage}{this.highlightText}</h4>
 
       <div className="graphGrid" id="gridvis"></div>
 
