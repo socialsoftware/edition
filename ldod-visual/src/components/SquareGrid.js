@@ -114,6 +114,7 @@ class ConnectedSquareGrid extends Component {
     let yFactor = 0;
     this.highlightText = "";
     this.supportMessage = "";
+    this.conditionalSpace = "";
 
     for (i = 0; i < this.myFragmentArray.length; i++) {
 
@@ -167,9 +168,11 @@ class ConnectedSquareGrid extends Component {
         borderWidth: 10,
         borderColor: "#DAA520"
       }
+
       //  #DAA520 goldenrod escuro
       // #FFD700 gold
       if (this.props.currentFragmentMode && this.props.potentialSemanticCriteria == CRIT_CATEGORY && this.myFragmentArray[i].meta.categories.includes(this.props.potentialCategory)) {
+        this.conditionalSpace = " ";
         nodeBorderColor = "#DAA520";
         nodeBackgroundColor = "#FFD700";
         myBorderWidth = newBorderW;;
@@ -181,6 +184,7 @@ class ConnectedSquareGrid extends Component {
           <b>{this.props.potentialCategory}</b>
         </span >);
       } else if (!(this.props.currentFragmentMode) && this.props.semanticCriteria == CRIT_CATEGORY && this.myFragmentArray[i].meta.categories.includes(this.props.currentCategory)) {
+        this.conditionalSpace = " ";
         nodeBorderColor = "#DAA520";
         nodeBackgroundColor = "#FFD700";
         myBorderWidth = newBorderW;;
@@ -192,6 +196,7 @@ class ConnectedSquareGrid extends Component {
           <b>{this.props.currentCategory}</b>
         </span >);
       } else if (this.props.currentFragmentMode && this.props.potentialSemanticCriteria == CRIT_HETERONYM && this.myFragmentArray[i].meta.heteronym == this.props.recommendationArray[this.props.recommendationIndex].meta.heteronym) {
+        this.conditionalSpace = " ";
         nodeBorderColor = "#DAA520";
         nodeBackgroundColor = "#FFD700";
         myBorderWidth = newBorderW;;
@@ -203,6 +208,7 @@ class ConnectedSquareGrid extends Component {
           <b>{this.myFragmentArray[i].meta.heteronym}</b>
         </span >);
       } else if (!(this.props.currentFragmentMode) && this.props.semanticCriteria == CRIT_HETERONYM && this.myFragmentArray[i].meta.heteronym == this.props.fragments[this.props.fragmentIndex].meta.heteronym) {
+        this.conditionalSpace = " ";
         nodeBorderColor = "#DAA520";
         nodeBackgroundColor = "#FFD700";
         myBorderWidth = newBorderW;;
@@ -543,7 +549,7 @@ class ConnectedSquareGrid extends Component {
 
       <br/>
 
-      <h4 align="center">{this.supportMessage}{this.highlightText}</h4>
+      <h4 align="center">{this.supportMessage}{this.conditionalSpace}{this.highlightText}</h4>
 
       <div className="graphGrid" id="gridvis"></div>
 
