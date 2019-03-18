@@ -37,11 +37,11 @@ public class DateProperty extends Property {
 		// double degree = 1.0 / vector.size();
 		double degree = 0.1;
 		double j = 1.0;
-		for (int i = start; i >= 0 && j > 0 && i < vector.length && j >= vector[i]; i--, j -= degree) {
+		for (int i = start; i >= 0 && j > 0 && i < vector.length-1 && j >= vector[i]; i--, j -= degree) {
 			vector[i] = j;
 		}
 		j = 1.0;
-		for (int i = start; i < vector.length && j > 0 && j >= vector[i]; i++, j -= degree) {
+		for (int i = start; i < vector.length-1 && j > 0 && j >= vector[i]; i++, j -= degree) {
 			vector[i] = j;
 		}
 		return vector;
@@ -49,6 +49,13 @@ public class DateProperty extends Property {
 
 	private double[] buildVector(Set<Integer> dates) {
 		double vector[] = getDefaultVector();
+
+		if (dates.isEmpty()) {
+				vector[vector.length-1] = 1.0;
+
+			return vector;
+		}
+
 		for (int date : dates) {
 			addDateToVector(date, vector);
 		}
@@ -57,13 +64,18 @@ public class DateProperty extends Property {
 
 	@Override
 	double[] extractVector(VirtualEditionInter virtualEditionInter) {
-		return extractVector(virtualEditionInter.getFragment());
+		Set<Integer> dates = new HashSet<>();
+		FragInter fragInter = virtualEditionInter.getLastUsed();
+		if (fragInter.getLdoDDate() != null) {
+			dates.add(fragInter.getLdoDDate().getDate().getYear());
+		}
+		return buildVector(dates);
 	}
 
 	@Override
 	double[] extractVector(Fragment fragment) {
 		Set<Integer> dates = new HashSet<>();
-		for (FragInter inter : fragment.getFragmentInterSet()) {
+		for (FragInter inter : fragment.getExpertEditionInterSet()) {
 			if (inter.getLdoDDate() != null) {
 				dates.add(inter.getLdoDDate().getDate().getYear());
 			}
@@ -78,7 +90,7 @@ public class DateProperty extends Property {
 
 	@Override
 	protected double[] getDefaultVector() {
-		return new double[getNumberOfYears()];
+		return new double[getNumberOfYears()+1];
 	}
 
 	@Override

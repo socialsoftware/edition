@@ -43,7 +43,11 @@ public class HeteronymProperty extends Property {
 
 	@Override
 	public double[] extractVector(VirtualEditionInter virtualEditionInter) {
-		return extractVector(virtualEditionInter.getFragment());
+		List<Heteronym> foundHeteronyms = new ArrayList<>();
+
+		foundHeteronyms.add(virtualEditionInter.getLastUsed().getHeteronym());
+
+		return buildVector(foundHeteronyms);
 	}
 
 	@Override

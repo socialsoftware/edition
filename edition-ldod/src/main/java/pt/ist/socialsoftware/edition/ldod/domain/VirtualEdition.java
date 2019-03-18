@@ -4,12 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import org.apache.commons.io.FileUtils;
@@ -648,15 +643,14 @@ public class VirtualEdition extends VirtualEdition_Base {
 
 		List<InterDistancePairDto> recommendedEdition = new ArrayList<>();
 
-		recommendedEdition.add(new InterDistancePairDto(virtualEditionInter, 0.0d));
+		recommendedEdition.add(new InterDistancePairDto(virtualEditionInter, 1.0d));
 		List<Property> properties = weights.getProperties(virtualEditionInter.getVirtualEdition());
 		for (VirtualEditionInter inter : inters) {
 			recommendedEdition.add(new InterDistancePairDto(inter,
 					recommender.calculateSimilarity(virtualEditionInter, inter, properties)));
 		}
 
-		return recommendedEdition.stream().sorted((p1, p2) -> Double.compare(p1.getDistance(), p2.getDistance()))
-				.collect(Collectors.toList());
+		return recommendedEdition.stream().sorted(Comparator.comparing(InterDistancePairDto::getDistance).reversed()).collect(Collectors.toList());
 	}
 
 	public List<VirtualEditionInter> generateRecommendation(VirtualEditionInter inter,

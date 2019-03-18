@@ -2,6 +2,8 @@ package pt.ist.socialsoftware.edition.ldod;
 
 import pt.ist.fenixframework.FenixFramework
 import pt.ist.fenixframework.core.WriteOnReadError
+import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDLoadException
+import pt.ist.socialsoftware.edition.ldod.utils.PropertiesManager
 import spock.lang.Specification
 
 import pt.ist.socialsoftware.edition.ldod.domain.*
@@ -83,5 +85,18 @@ abstract class SpockRollbackTestAbstractClass extends Specification {
 
 	}
 
+	def loadFragments(def fragmentsToLoad) throws LdoDLoadException, FileNotFoundException {
+		def testFilesDirectory = PropertiesManager.getProperties().getProperty("test.files.dir");
+		def directory = new File(testFilesDirectory);
+
+		def fragmentFiles = fragmentsToLoad;
+
+		def file;
+		for (def i = 0; i < fragmentFiles.length; i++) {
+			file = new File(directory, fragmentFiles[i]);
+			def fragmentLoader = new LoadTEIFragments();
+			fragmentLoader.loadFragmentsAtOnce(new FileInputStream(file));
+		}
+	}
 
 }
