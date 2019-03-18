@@ -155,7 +155,7 @@ class ConnectedPublicEditionContainer extends React.Component {
         }
       })
     } else {
-      editionButtonList = (<div><img src={loadingGif} alt="loading..." className="loadingGifCentered"/>
+      editionButtonList = (<div><img src={loadingGif} alt="loading...publicEd" className="loadingGifCentered"/>
         <p align="center">A carregar a lista de edições virtuais públicas disponíveis...</p>
         <p align="center">Se demorar demasiado tempo, actualize a página e volte a tentar.</p>
       </div>);

@@ -101,7 +101,7 @@ class ConnectedNetworkGraphContainer extends Component {
       graphToRender = (<NetworkGraph graphData={this.state.networkGraphData} onChange={this.props.onChange}/>);
     } else {
       graphToRender = (<div>
-        <img src={loadingGif} alt="loading..." className="loadingGifCentered"/>
+        <img src={loadingGif} alt="loading...netgraph" className="loadingGifCentered"/>
         <p align="center">A carregar fragmentos semelhantes...</p>
         <p align="center">Se demorar demasiado tempo, actualize a página e volte a tentar.</p>
       </div>);

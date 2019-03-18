@@ -168,6 +168,9 @@ class ConnectedNetworkGraph extends Component {
 
     let j;
     for (j = 1; j < this.props.graphData.length; j++) {
+
+      this.props.graphData[j].distance = (1 - this.props.graphData[j].distance)
+
       let tempPercentage = this.props.graphData[j].distance / mostDistantFragmentDistance * 100;
 
       if (this.props.graphData[j].distance !== 0) {
