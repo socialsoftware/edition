@@ -169,8 +169,6 @@ class ConnectedNetworkGraph extends Component {
     let j;
     for (j = 1; j < this.props.graphData.length; j++) {
 
-      this.props.graphData[j].distance = (1 - this.props.graphData[j].distance)
-
       let tempPercentage = this.props.graphData[j].distance / mostDistantFragmentDistance * 100;
 
       if (this.props.graphData[j].distance !== 0) {
@@ -226,7 +224,7 @@ class ConnectedNetworkGraph extends Component {
       if (truncateCheckBuffer.length < 2) {
         console.log("NetworkGraph.js: no values after " + truncateFloor + "%, will truncate edgeLengthFactor");
         console.log(truncateCheckBuffer.length);
-        edgeLengthFactor = edgeLengthFactor / 5;
+        //edgeLengthFactor = edgeLengthFactor / 5;
       } else {
         console.log("NetworkGraph.js: values after " + truncateFloor + "%, not going to truncate edgeLengthFactor");
         console.log(truncateCheckBuffer.length);
@@ -325,7 +323,7 @@ class ConnectedNetworkGraph extends Component {
             background: nodeBackgroundColor
           }
         },
-        title: myTitle, //this.props.fragmentsHashMap.get(this.props.graphData[i].interId).meta.title, + " " + this.props.graphData[i].distance,  + " || " + truncateText(myText, 60)
+        title: myTitle + " " + this.props.graphData[i].distance, //this.props.fragmentsHashMap.get(this.props.graphData[i].interId).meta.title, + " " + this.props.graphData[i].distance,  + " || " + truncateText(myText, 60)
         fixed: true,
         x: xFactor,
         y: yFactor

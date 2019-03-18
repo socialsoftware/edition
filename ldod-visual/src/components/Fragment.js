@@ -135,18 +135,22 @@ export class ConnectedFragment extends React.Component {
 
             let stopWords = ["e", "a", "to", "of", "the"];
 
+            console.log("===========================");
+
             let myMap = new HashMap();
             response.data.map(function(d) {
               if (!stopWords.includes(Object.keys(d)[0].toString())) {
-                console.log("response tf-idf data: " + Object.keys(d)[0].toLowerCase() + " " + Object.values(d)[0]);
+
                 myMap.set(Object.keys(d)[0].toLowerCase(), Object.values(d)[0]);
 
-                Object.values(d)[0] = (1 - Object.values(d)[0]);
+                Object.values(d)[0] = (Object.values(d)[0]);
 
                 if (temp !== Object.values(d)[0]) {
                   temp = Object.values(d)[0];
                   distinctTfIdfValues++;
                 }
+
+                console.log("response tf-idf data: " + Object.keys(d)[0].toLowerCase() + " " + Object.values(d)[0]);
               } else {
                 console.log("ignoring TF-IDF stopword: " + Object.keys(d)[0]);
               }
