@@ -305,6 +305,7 @@ class ConnectedPublicEditionContainerTable extends React.Component {
         columns: columns,
         showPagination: false,
         defaultPageSize: availableEditionsCounter,
+        pageSize: availableEditionsCounter,
         filterable: false,
         defaultSorted: [
           {
