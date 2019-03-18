@@ -42,7 +42,6 @@ public class LdoD extends LdoD_Base {
 		getUsersSet().forEach(u -> u.remove());
 		getTokenSet().forEach(t -> t.remove());
 		getCitationSet().forEach(c -> c.remove());
-		getFragmentsSet().forEach(f -> f.remove());
 		getPublicClassificationGames().forEach(g -> g.remove());
 		getUserConnectionSet().forEach(c -> c.remove());
 		getTweetSet().forEach(t -> t.remove());
@@ -67,15 +66,6 @@ public class LdoD extends LdoD_Base {
 		for (LdoDUser user : getUsersSet()) {
 			if (user.getUsername().equals(username)) {
 				return user;
-			}
-		}
-		return null;
-	}
-
-	public Fragment getFragmentByXmlId(String target) {
-		for (Fragment fragment : getFragmentsSet()) {
-			if (fragment.getXmlId().equals(target)) {
-				return fragment;
 			}
 		}
 		return null;
@@ -172,10 +162,6 @@ public class LdoD extends LdoD_Base {
 		return getTokenSet().stream().filter(t -> t.getToken().equals(token)).findFirst().orElse(null);
 	}
 
-	public Set<SourceInter> getFragmentRepresentatives() {
-		return getFragmentsSet().stream().map(f -> f.getRepresentativeSourceInter()).collect(Collectors.toSet());
-	}
-
 	public VirtualEdition getArchiveEdition() {
 		return getVirtualEditionsSet().stream().filter(ve -> ve.getAcronym().equals(Edition.ARCHIVE_EDITION_ACRONYM))
 				.findFirst().orElse(null);
@@ -257,7 +243,7 @@ public class LdoD extends LdoD_Base {
 	}
 
 	public Set<Citation> getCitationSet() {
-		return getFragmentsSet().stream().flatMap(f -> f.getCitationSet().stream()).collect(Collectors.toSet());
+		return Text.getInstance().getFragmentsSet().stream().flatMap(f -> f.getCitationSet().stream()).collect(Collectors.toSet());
 	}
 
 	public Citation getCitationById(long id) {

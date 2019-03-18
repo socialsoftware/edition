@@ -30,6 +30,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.socialsoftware.edition.ldod.TestLoadUtils;
+import pt.ist.socialsoftware.edition.ldod.api.text.TextInterface;
 import pt.ist.socialsoftware.edition.ldod.config.Application;
 import pt.ist.socialsoftware.edition.ldod.controller.FragmentController;
 import pt.ist.socialsoftware.edition.ldod.controller.LdoDExceptionHandler;
@@ -118,7 +119,8 @@ public class FragmentTest {
 	@Test
 	@Atomic(mode = Atomic.TxMode.WRITE)
 	public void getFragInterByExternalId() throws Exception {
-		FragInter fragInter = LdoD.getInstance().getFragmentByXmlId("Fr001")
+		TextInterface textInterface = new TextInterface();
+		FragInter fragInter = textInterface.getFragmentByXmlId("Fr001")
 				.getFragInterByUrlId("Fr001_WIT_MS_Fr001a_1");
 
 		this.mockMvc.perform(get("/fragments/fragment/inter/{externalId}", fragInter.getExternalId())).andDo(print())
@@ -167,7 +169,8 @@ public class FragmentTest {
 	@WithUserDetails("ars")
 	public void getInterTest() throws Exception {
 
-		Fragment frag = LdoD.getInstance().getFragmentByXmlId("Fr001");
+		TextInterface textInterface = new TextInterface();
+		Fragment frag = textInterface.getFragmentByXmlId("Fr001");
 
 		this.mockMvc.perform(get("/fragments/fragment/inter")
 				.param("fragment", frag.getExternalId()))
@@ -185,7 +188,8 @@ public class FragmentTest {
 	@Atomic(mode = TxMode.WRITE)
 	public void getInterEditorialTest() throws Exception {
 
-		FragInter fragInter = LdoD.getInstance().getFragmentByXmlId("Fr001")
+		TextInterface textInterface = new TextInterface();
+		FragInter fragInter = textInterface.getFragmentByXmlId("Fr001")
 				.getFragInterByUrlId("Fr001_WIT_MS_Fr001a_1");
 
 		this.mockMvc.perform(get("/fragments/fragment/inter/editorial")
@@ -203,7 +207,8 @@ public class FragmentTest {
 	@Atomic(mode = TxMode.WRITE)
 	public void getInterAuthorialTest() throws Exception {
 
-		FragInter fragInter = LdoD.getInstance().getFragmentByXmlId("Fr001")
+		TextInterface textInterface = new TextInterface();
+		FragInter fragInter = textInterface.getFragmentByXmlId("Fr001")
 				.getFragInterByUrlId("Fr001_WIT_MS_Fr001a_1");
 
 		this.mockMvc.perform(get("/fragments/fragment/inter/authorial")
@@ -231,7 +236,8 @@ public class FragmentTest {
 	@Atomic(mode = TxMode.WRITE)
 	public void getInterAuthorialNoFacsTest() throws Exception {
 
-		FragInter fragInter = LdoD.getInstance().getFragmentByXmlId("Fr001")
+		TextInterface textInterface = new TextInterface();
+		FragInter fragInter = textInterface.getFragmentByXmlId("Fr001")
 				.getFragInterByUrlId("Fr001_WIT_MS_Fr001a_1");
 
 		this.mockMvc.perform(get("/fragments/fragment/inter/authorial")
@@ -259,7 +265,8 @@ public class FragmentTest {
 	@Atomic(mode = TxMode.WRITE)
 	public void getInterCompareTest() throws Exception {
 
-		FragInter fragInter = LdoD.getInstance().getFragmentByXmlId("Fr001")
+		TextInterface textInterface = new TextInterface();
+		FragInter fragInter = textInterface.getFragmentByXmlId("Fr001")
 				.getFragInterByUrlId("Fr001_WIT_MS_Fr001a_1");
 
 		this.mockMvc.perform(get("/fragments/fragment/inter/compare")

@@ -14,6 +14,7 @@ import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.core.WriteOnReadError;
 import pt.ist.socialsoftware.edition.ldod.TestLoadUtils;
 import pt.ist.socialsoftware.edition.ldod.TestWithFragmentsLoading;
+import pt.ist.socialsoftware.edition.ldod.api.text.TextInterface;
 import pt.ist.socialsoftware.edition.ldod.domain.AwareAnnotation;
 import pt.ist.socialsoftware.edition.ldod.domain.Citation;
 import pt.ist.socialsoftware.edition.ldod.domain.FragInter;
@@ -53,7 +54,8 @@ public class VirtualEditionFragmentsTEIExportTest extends TestWithFragmentsLoadi
 	public void test() throws WriteOnReadError, NotSupportedException, SystemException {
 		VirtualEditionFragmentsTEIExport export = new VirtualEditionFragmentsTEIExport();
 		int count = 0;
-		for (Fragment fragment : LdoD.getInstance().getFragmentsSet()) {
+		TextInterface textInterface = new TextInterface();
+		for (Fragment fragment : textInterface.getFragmentsSet()) {
 			if (count < 15) {
 				String fragmentTEI = export.exportFragment(fragment);
 				logger(fragmentTEI);
@@ -147,7 +149,8 @@ public class VirtualEditionFragmentsTEIExportTest extends TestWithFragmentsLoadi
 	@Atomic
 	public void exportCitationsTest() {
 		int count = 0;
-		for (Fragment fragment : LdoD.getInstance().getFragmentsSet()) {
+		TextInterface textInterface = new TextInterface();
+		for (Fragment fragment : textInterface.getFragmentsSet()) {
 			if (count < 20) {
 				new TwitterCitation(fragment, "sourceLink", "date", "fragText", "tweetText", 7777l, "location",
 						"country", "username", "profURL", "profImgURL");
@@ -166,7 +169,8 @@ public class VirtualEditionFragmentsTEIExportTest extends TestWithFragmentsLoadi
 	@Atomic
 	public void exportInfoRangesTest() {
 		int count = 0;
-		for (Fragment fragment : LdoD.getInstance().getFragmentsSet()) {
+		TextInterface textInterface = new TextInterface();
+		for (Fragment fragment : textInterface.getFragmentsSet()) {
 			if (count < 15) {
 				TwitterCitation tc = new TwitterCitation(fragment, "sourceLink", "date", "fragText", "tweetText", 7777l,
 						"location", "country", "username", "profURL", "profImgURL");
@@ -191,7 +195,8 @@ public class VirtualEditionFragmentsTEIExportTest extends TestWithFragmentsLoadi
 	@Atomic
 	public void exportAwareAnnotationsTest() {
 		int count = 0;
-		for (Fragment fragment : LdoD.getInstance().getFragmentsSet()) {
+		TextInterface textInterface = new TextInterface();
+		for (Fragment fragment : textInterface.getFragmentsSet()) {
 			if (count < 15) {
 				TwitterCitation tc = new TwitterCitation(fragment, "sourceLink", "date", "fragText", "tweetText", 7777l,
 						"location", "country", "username", "profURL", "profImgURL");

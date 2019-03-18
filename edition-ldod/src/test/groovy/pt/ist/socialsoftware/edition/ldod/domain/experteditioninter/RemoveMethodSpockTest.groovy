@@ -20,7 +20,7 @@ class RemoveMethodSpockTest extends SpockRollbackTestAbstractClass  {
 		ldoD = LdoD.getInstance();
 		text = Text.getInstance()
 		
-		fragment = new Fragment(ldoD, "Title", "xmlId")
+		fragment = new Fragment(text, "Title", "xmlId")
 
 		expertEdition = text.getJPCEdition()
 		

@@ -243,8 +243,8 @@ class Fragment {
 	String title;
 }
 
-relation LdoDHasFragments {
-	LdoD playsRole ldoD {multiplicity 1..1;}
+relation TextHasFragments {
+	Text playsRole text {multiplicity 1..1;}
 	Fragment playsRole fragments {multiplicity 0..*;}
 }
 

@@ -15,20 +15,8 @@ import org.jdom2.output.XMLOutputter;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 
+import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.generators.JDomTEITextPortionWriter;
-import pt.ist.socialsoftware.edition.ldod.domain.AppText;
-import pt.ist.socialsoftware.edition.ldod.domain.ExpertEditionInter;
-import pt.ist.socialsoftware.edition.ldod.domain.Facsimile;
-import pt.ist.socialsoftware.edition.ldod.domain.FragInter;
-import pt.ist.socialsoftware.edition.ldod.domain.Fragment;
-import pt.ist.socialsoftware.edition.ldod.domain.ManuscriptSource;
-import pt.ist.socialsoftware.edition.ldod.domain.NullHeteronym;
-import pt.ist.socialsoftware.edition.ldod.domain.ParagraphText;
-import pt.ist.socialsoftware.edition.ldod.domain.PbText;
-import pt.ist.socialsoftware.edition.ldod.domain.RdgText;
-import pt.ist.socialsoftware.edition.ldod.domain.Source;
-import pt.ist.socialsoftware.edition.ldod.domain.SourceInter;
-import pt.ist.socialsoftware.edition.ldod.domain.Surface;
 
 public class ExpertEditionTEIExport {
 
@@ -139,7 +127,7 @@ public class ExpertEditionTEIExport {
 
 		Element authorElement = new Element("author", this.xmlns);
 		titleStmtElement.addContent(authorElement);
-		authorElement.addContent(fragment.getLdoD().getAuthor());
+		authorElement.addContent(LdoD.getInstance().getAuthor());
 
 		Element respStmtElement = new Element("respStmt", this.xmlns);
 		titleStmtElement.addContent(respStmtElement);

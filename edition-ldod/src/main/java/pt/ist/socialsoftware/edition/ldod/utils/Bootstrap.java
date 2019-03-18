@@ -300,7 +300,7 @@ public class Bootstrap implements WebApplicationInitializer {
 
 	@Atomic(mode = TxMode.WRITE)
 	public static void loadRecommendationCache() {
-		Set<Fragment> fragments = LdoD.getInstance().getFragmentsSet();
+		Set<Fragment> fragments = Text.getInstance().getFragmentsSet(); //TODO: should this use the interface?
 
 		if (fragments.size() > 500) {
 			List<Property> properties = new ArrayList<>();

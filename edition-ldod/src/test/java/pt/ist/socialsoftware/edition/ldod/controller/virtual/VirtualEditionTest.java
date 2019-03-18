@@ -21,11 +21,13 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.socialsoftware.edition.ldod.TestLoadUtils;
+import pt.ist.socialsoftware.edition.ldod.api.text.TextInterface;
 import pt.ist.socialsoftware.edition.ldod.config.Application;
 import pt.ist.socialsoftware.edition.ldod.controller.LdoDExceptionHandler;
 import pt.ist.socialsoftware.edition.ldod.controller.VirtualEditionController;
 import pt.ist.socialsoftware.edition.ldod.domain.Edition;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
+import pt.ist.socialsoftware.edition.ldod.domain.Text;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.ldod.filters.TransactionFilter;
 
@@ -135,8 +137,9 @@ public class VirtualEditionTest {
 	@Test
 	@Atomic(mode = Atomic.TxMode.WRITE)
 	public void showFragInterTest() throws Exception {
+		TextInterface textInterface = new TextInterface();
 
-		String id = LdoD.getInstance().getFragmentByXmlId("Fr001").getFragInterByUrlId("Fr001_WIT_MS_Fr001a_1")
+		String id = textInterface.getFragmentByXmlId("Fr001").getFragInterByUrlId("Fr001_WIT_MS_Fr001a_1")
 				.getExternalId();
 
 		this.mockMvc.perform(get("/virtualeditions/restricted/fraginter/{fragInterId}", id)).andDo(print())

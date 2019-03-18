@@ -22,6 +22,7 @@ import org.slf4j.LoggerFactory;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
+import pt.ist.socialsoftware.edition.ldod.api.text.TextInterface;
 import pt.ist.socialsoftware.edition.ldod.domain.Citation;
 import pt.ist.socialsoftware.edition.ldod.domain.ClassificationGame;
 import pt.ist.socialsoftware.edition.ldod.domain.ClassificationGameParticipant;
@@ -280,6 +281,7 @@ public class VirtualEditionFragmentsTEIImport {
 
 	private Fragment getFragment(Document doc) {
 		LdoD ldoD = LdoD.getInstance();
+		TextInterface textInterface = new TextInterface();
 
 		Namespace namespace = doc.getRootElement().getNamespace();
 		XPathFactory xpfac = XPathFactory.instance();
@@ -287,7 +289,7 @@ public class VirtualEditionFragmentsTEIImport {
 				Namespace.getNamespace("def", namespace.getURI()));
 		String fragXmlId = xp.evaluate(doc).get(0).getAttributeValue("id", Namespace.XML_NAMESPACE);
 
-		return ldoD.getFragmentByXmlId(fragXmlId);
+		return textInterface.getFragmentByXmlId(fragXmlId);
 	}
 
 	private void importClassificationGames(Element textClass, VirtualEditionInter inter) {

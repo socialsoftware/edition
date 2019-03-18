@@ -10,6 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
+import pt.ist.socialsoftware.edition.ldod.domain.Text;
 
 public abstract class TestWithFragmentsLoading {
 
@@ -38,7 +39,7 @@ public abstract class TestWithFragmentsLoading {
 	public void tearDown() {
 		unpopulate4Test();
 
-		LdoD.getInstance().getFragmentsSet().forEach(f -> f.remove());
+		Text.getInstance().getFragmentsSet().forEach(f -> f.remove());
 	}
 
 	protected abstract void populate4Test();

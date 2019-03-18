@@ -14,28 +14,28 @@ public class TextInterface {
 
 
     public String getScholarInterTitle(String id){
-        return LdoD.getInstance().getFragmentsSet().stream()
+        return Text.getInstance().getFragmentsSet().stream()
                 .filter(fragment -> fragment.getFragInterByXmlId(id) != null)
                 .map(fragment -> fragment.getFragInterByXmlId(id).getTitle())
                 .filter(Objects::nonNull).findFirst().orElse(null);
     }
 
     public Heteronym getScholarInterHeteronym(String id){
-        return LdoD.getInstance().getFragmentsSet().stream()
+        return Text.getInstance().getFragmentsSet().stream()
                 .filter(fragment -> fragment.getFragInterByXmlId(id) != null)
                 .map(fragment -> fragment.getFragInterByXmlId(id).getHeteronym())
                 .filter(Objects::nonNull).findFirst().orElse(null);
     }
 
     public LdoDDate getScholarInterDate(String id) {
-        return LdoD.getInstance().getFragmentsSet().stream()
+        return Text.getInstance().getFragmentsSet().stream()
                 .filter(fragment -> fragment.getFragInterByXmlId(id) != null)
                 .map(fragment -> fragment.getFragInterByXmlId(id).getLdoDDate())
                 .filter(Objects::nonNull).findFirst().orElse(null);
     }
 
     public ScholarInter getScholarInterUsed(String id) {
-        return (ScholarInter) LdoD.getInstance().getFragmentsSet().stream()
+        return (ScholarInter) Text.getInstance().getFragmentsSet().stream()
                 .filter(fragment -> fragment.getFragInterByXmlId(id) != null)
                 .map(fragment -> fragment.getFragInterByXmlId(id)).findFirst().orElseThrow(LdoDException::new);
     }
@@ -49,11 +49,18 @@ public class TextInterface {
     }
 
     public Set<VirtualEditionInter> getVirtualEditionIntersForFragment(String id) {
-        Fragment frag = LdoD.getInstance().getFragmentsSet().stream().filter(fragment -> fragment.getXmlId().equals(id))
+        Fragment frag = Text.getInstance().getFragmentsSet().stream().filter(fragment -> fragment.getXmlId().equals(id))
                 .findFirst().orElseThrow(LdoDException::new);
 
         return frag.getFragmentInterSet().stream().filter(VirtualEditionInter.class::isInstance)
                 .map(VirtualEditionInter.class::cast).collect(Collectors.toSet());
     }
 
+    public Set<Fragment> getFragmentsSet(){
+        return Text.getInstance().getFragmentsSet();
+    }
+
+    public Fragment getFragmentByXmlId(String id){
+        return Text.getInstance().getFragmentByXmlId(id);
+    }
 }

@@ -25,15 +25,15 @@ public class Fragment extends Fragment_Base implements Comparable<Fragment> {
 		}
 	};
 
-	public Fragment(LdoD ldoD, String title, String xmlId) {
-		setLdoD(ldoD);
+	public Fragment(Text text, String title, String xmlId) {
+		setText(text);
 		setTitle(title);
 		setXmlId(xmlId);
 	}
 
 	@Atomic(mode = TxMode.WRITE)
 	public void remove() {
-		setLdoD(null);
+		setText(null);
 
 		getTextPortion().remove();
 

@@ -22,7 +22,7 @@ public class ImportLdoDFromTEITest extends TestWithFragmentsLoading {
 
 	@Override
 	protected void populate4Test() {
-		this.fragmentTest = LdoD.getInstance().getFragmentsSet().stream().findFirst().get();
+		this.fragmentTest = Text.getInstance().getFragmentsSet().stream().findFirst().get();
 	}
 
 	@Override

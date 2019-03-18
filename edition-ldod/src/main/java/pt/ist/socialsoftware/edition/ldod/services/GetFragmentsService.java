@@ -1,5 +1,6 @@
 package pt.ist.socialsoftware.edition.ldod.services;
 
+import pt.ist.socialsoftware.edition.ldod.api.text.TextInterface;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
 import pt.ist.socialsoftware.edition.ldod.domain.Fragment;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
@@ -12,7 +13,9 @@ public class GetFragmentsService extends LdoDService {
 	void execution() throws LdoDException {
 		ldoD = LdoD.getInstance();
 
-		for (Fragment fragment : ldoD.getFragmentsSet()) {
+		TextInterface textInterface = new TextInterface();
+
+		for (Fragment fragment : textInterface.getFragmentsSet()) {
 			fragment.getTitle();
 			fragment.getExternalId();
 		}

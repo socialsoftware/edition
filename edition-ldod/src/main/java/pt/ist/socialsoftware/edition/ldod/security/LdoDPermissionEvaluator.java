@@ -9,6 +9,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
 import pt.ist.fenixframework.FenixFramework;
+import pt.ist.socialsoftware.edition.ldod.api.text.TextInterface;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
 
 @Component
@@ -118,7 +119,8 @@ public class LdoDPermissionEvaluator implements PermissionEvaluator {
 		// it is only implementing "hasPermission(#xmlId, #urlId,
 		// 'fragInter.public')"
 
-		Fragment fragment = FenixFramework.getDomainRoot().getLdoD().getFragmentByXmlId((String) targetId);
+		TextInterface textInterface = new TextInterface();
+		Fragment fragment = textInterface.getFragmentByXmlId((String) targetId);
 
 		if (fragment == null) {
 			return false;

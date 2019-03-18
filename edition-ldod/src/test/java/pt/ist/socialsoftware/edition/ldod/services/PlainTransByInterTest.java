@@ -10,6 +10,7 @@ import pt.ist.socialsoftware.edition.ldod.TestWithFragmentsLoading;
 import pt.ist.socialsoftware.edition.ldod.domain.FragInter;
 import pt.ist.socialsoftware.edition.ldod.domain.Fragment;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
+import pt.ist.socialsoftware.edition.ldod.domain.Text;
 
 public class PlainTransByInterTest extends TestWithFragmentsLoading {
 
@@ -35,7 +36,7 @@ public class PlainTransByInterTest extends TestWithFragmentsLoading {
 
 		LdoD ldoD = LdoD.getInstance();
 
-		for (Fragment frag : ldoD.getFragmentsSet()) {
+		for (Fragment frag : Text.getInstance().getFragmentsSet()) {
 			for (FragInter fragInter : frag.getFragmentInterSet()) {
 				if (fragInter.getShortName().equals("Cunha")) {
 					fragInterExternalID = fragInter.getExternalId();

@@ -12,7 +12,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import pt.ist.fenixframework.FenixFramework;
+import pt.ist.socialsoftware.edition.ldod.api.text.TextInterface;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
+import pt.ist.socialsoftware.edition.ldod.domain.Text;
 import pt.ist.socialsoftware.edition.ldod.recommendation.properties.DateProperty;
 import pt.ist.socialsoftware.edition.ldod.recommendation.properties.HeteronymProperty;
 import pt.ist.socialsoftware.edition.ldod.recommendation.properties.Property;
@@ -81,14 +83,16 @@ public class ReadingRecommendation implements Serializable {
 			this.read.subList(index, this.read.size()).clear();
 		}
 
+		TextInterface textInterface = new TextInterface();
+
 		// if all fragments minus 50 were already suggested clear the first 50
 		// recommendations
-		if (readFragments.size() == LdoD.getInstance().getFragmentsSet().size() - 50) {
+		if (readFragments.size() == textInterface.getFragmentsSet().size() - 50) {
 			readFragments.subList(0, 50).clear();
 			this.read.subList(0, 50).clear();
 		}
 
-		Set<Fragment> toBeRecommended = LdoD.getInstance().getFragmentsSet().stream()
+		Set<Fragment> toBeRecommended = textInterface.getFragmentsSet().stream()
 				.filter(f -> !readFragments.contains(f)).collect(Collectors.toSet());
 
 		this.read.add(expertEditionInterId);

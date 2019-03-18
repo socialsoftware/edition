@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import pt.ist.socialsoftware.edition.ldod.api.text.TextInterface;
 import pt.ist.socialsoftware.edition.ldod.domain.Fragment;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
 import pt.ist.socialsoftware.edition.ldod.session.LdoDSession;
@@ -32,9 +33,10 @@ public class SourceController {
 		logger.debug("getListOfSources");
 
 		LdoD ldoD = LdoD.getInstance();
+		TextInterface textInterface = new TextInterface();
 
 		List<Source> sources = new ArrayList<>();
-		for (Fragment frag : ldoD.getFragmentsSet()) {
+		for (Fragment frag : textInterface.getFragmentsSet()) {
 			sources.addAll(frag.getSourcesSet());
 		}
 

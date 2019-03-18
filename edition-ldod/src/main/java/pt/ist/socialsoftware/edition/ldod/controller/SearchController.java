@@ -263,7 +263,8 @@ public class SearchController {
     logger.debug("getPublicationsDates");
     LocalDate beginDate = null;
     LocalDate endDate = null;
-    for (Fragment fragment : LdoD.getInstance().getFragmentsSet()) {
+    TextInterface textInterface = new TextInterface();
+    for (Fragment fragment : textInterface.getFragmentsSet()) {
       for (Source source : fragment.getSourcesSet()) {
         if (source.getType().equals(SourceType.PRINTED)) {
           if (source.getLdoDDate() != null) {
@@ -290,7 +291,8 @@ public class SearchController {
     for (int i = 0; i < values.length; i++) {
       array[i] = values[i].getDesc();
     }
-    for (Fragment frag : LdoD.getInstance().getFragmentsSet()) {
+    TextInterface textInterface = new TextInterface();
+    for (Fragment frag : textInterface.getFragmentsSet()) {
       for (FragInter inter : frag.getFragmentInterSet()) {
         if (inter.getSourceType().equals(Edition.EditionType.AUTHORIAL)) {
           SourceType type = ((SourceInter) inter).getSource().getType();
@@ -348,7 +350,8 @@ public class SearchController {
   public DatesJson getDates() {
     LocalDate beginDate = null;
     LocalDate endDate = null;
-    for (Fragment fragment : LdoD.getInstance().getFragmentsSet()) {
+    TextInterface textInterface = new TextInterface();
+    for (Fragment fragment : textInterface.getFragmentsSet()) {
       for (FragInter fragInter : fragment.getFragmentInterSet()) {
         if (fragInter.getLdoDDate() != null) {
           beginDate = getIsBeforeDate(beginDate, fragInter.getLdoDDate().getDate());

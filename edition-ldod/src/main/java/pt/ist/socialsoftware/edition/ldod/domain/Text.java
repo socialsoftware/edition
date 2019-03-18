@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import pt.ist.fenixframework.FenixFramework;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class Text extends Text_Base {
@@ -23,6 +24,7 @@ public class Text extends Text_Base {
     public void remove(){
         getNullEdition().remove();
         getExpertEditionsSet().forEach(e -> e.remove());
+        getFragmentsSet().forEach(f -> f.remove());
         getHeteronymsSet().forEach(h -> h.remove());
 
         setRoot(null);
@@ -68,6 +70,19 @@ public class Text extends Text_Base {
     public ExpertEdition getJPEdition() {
         return getExpertEditionsSet().stream().filter(ve -> ve.getAcronym().equals(Edition.PIZARRO_EDITION_ACRONYM))
                 .findFirst().orElse(null);
+    }
+
+    public Fragment getFragmentByXmlId(String target) {
+        for (Fragment fragment : getFragmentsSet()) {
+            if (fragment.getXmlId().equals(target)) {
+                return fragment;
+            }
+        }
+        return null;
+    }
+
+    public Set<SourceInter> getFragmentRepresentatives() {
+        return getFragmentsSet().stream().map(f -> f.getRepresentativeSourceInter()).collect(Collectors.toSet());
     }
     
 }

@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import pt.ist.fenixframework.FenixFramework;
+import pt.ist.socialsoftware.edition.ldod.api.text.TextInterface;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.dto.MainFragmentDto;
 import pt.ist.socialsoftware.edition.ldod.generators.HtmlWriter2CompInters;
@@ -52,18 +53,24 @@ public class FragmentController {
 		logger.debug("getFragmentsList");
 		LdoD ldoD = LdoD.getInstance();
 		Text text = Text.getInstance();
-		model.addAttribute("jpcEdition", text.getJPCEdition());
+		TextInterface textInterface = new TextInterface();
+		/*model.addAttribute("jpcEdition", text.getJPCEdition());
 		model.addAttribute("tscEdition", text.getTSCEdition());
 		model.addAttribute("rzEdition", text.getRZEdition());
-		model.addAttribute("jpEdition", text.getJPEdition());
-		model.addAttribute("fragments", ldoD.getFragmentsSet());
+		model.addAttribute("jpEdition", text.getJPEdition());*/
+		model.addAttribute("jpcEdition", textInterface.getExpertEdition(Edition.COELHO_EDITION_ACRONYM));
+		model.addAttribute("tscEdition", textInterface.getExpertEdition(Edition.CUNHA_EDITION_ACRONYM));
+		model.addAttribute("rzEdition",textInterface.getExpertEdition(Edition.ZENITH_EDITION_ACRONYM));
+		model.addAttribute("jpEdition",textInterface.getExpertEdition(Edition.PIZARRO_EDITION_ACRONYM));
+		model.addAttribute("fragments", textInterface.getFragmentsSet());
 
 		return "fragment/list";
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/fragment/{xmlId}")
 	public String getFragment(Model model, @PathVariable String xmlId) {
-		Fragment fragment = LdoD.getInstance().getFragmentByXmlId(xmlId);
+		TextInterface textInterface = new TextInterface();
+		Fragment fragment = textInterface.getFragmentByXmlId(xmlId);
 
 		if (fragment == null) {
 			return "redirect:/error";
@@ -83,7 +90,8 @@ public class FragmentController {
 	public String getFragmentWithInterForUrlId(Model model, @ModelAttribute("ldoDSession") LdoDSession ldoDSession,
 			@PathVariable String xmlId, @PathVariable String urlId) {
 
-		Fragment fragment = LdoD.getInstance().getFragmentByXmlId(xmlId);
+		TextInterface textInterface = new TextInterface();
+		Fragment fragment = textInterface.getFragmentByXmlId(xmlId);
 
 		if (fragment == null) {
 			return "redirect:/error";
@@ -184,7 +192,8 @@ public class FragmentController {
 	@RequestMapping(method = RequestMethod.GET, value = "/fragment/{xmlId}/inter/{urlId}/next")
 	@PreAuthorize("hasPermission(#xmlId, #urlId, 'fragInter.public')")
 	public String getNextFragmentWithInter(Model model, @PathVariable String xmlId, @PathVariable String urlId) {
-		Fragment fragment = FenixFramework.getDomainRoot().getLdoD().getFragmentByXmlId(xmlId);
+		TextInterface textInterface = new TextInterface();
+		Fragment fragment = textInterface.getFragmentByXmlId(xmlId);
 		if (fragment == null) {
 			return "redirect:/error";
 		}
@@ -203,7 +212,8 @@ public class FragmentController {
 	@RequestMapping(method = RequestMethod.GET, value = "/fragment/{xmlId}/inter/{urlId}/prev")
 	@PreAuthorize("hasPermission(#xmlId, #urlId, 'fragInter.public')")
 	public String getPrevFragmentWithInter(Model model, @PathVariable String xmlId, @PathVariable String urlId) {
-		Fragment fragment = FenixFramework.getDomainRoot().getLdoD().getFragmentByXmlId(xmlId);
+		TextInterface textInterface = new TextInterface();
+		Fragment fragment = textInterface.getFragmentByXmlId(xmlId);
 		if (fragment == null) {
 			return "redirect:/error";
 		}

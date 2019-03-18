@@ -27,6 +27,7 @@ import org.slf4j.LoggerFactory;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
+import pt.ist.socialsoftware.edition.ldod.api.text.TextInterface;
 import pt.ist.socialsoftware.edition.ldod.domain.AddText;
 import pt.ist.socialsoftware.edition.ldod.domain.AddText.Place;
 import pt.ist.socialsoftware.edition.ldod.domain.AltText;
@@ -214,7 +215,7 @@ public class LoadTEIFragments {
 			String title = getFragmentTitle(element);
 
 			Fragment oldFragment = null;
-			for (Fragment frag : this.ldoD.getFragmentsSet()) {
+			for (Fragment frag : this.text.getFragmentsSet()) {
 				if (frag.getXmlId().equals(xmlId)) {
 					oldFragment = frag;
 					break;
@@ -259,7 +260,7 @@ public class LoadTEIFragments {
 			result = "CARREGAR: [" + xmlId + "(" + title + ")] <br>";
 
 			Boolean exists = false;
-			for (Fragment frag : this.ldoD.getFragmentsSet()) {
+			for (Fragment frag : this.text.getFragmentsSet()) {
 				if (frag.getXmlId().equals(xmlId)) {
 					result = result + "------------> FRAG-ID JÁ EXISTE LOGO NÃO FOI CARREGADO <br>";
 					exists = true;
@@ -287,7 +288,7 @@ public class LoadTEIFragments {
 	}
 
 	private void loadFragment(String title, String xmlId) {
-		Fragment fragment = new Fragment(this.ldoD, title, xmlId);
+		Fragment fragment = new Fragment(this.text, title, xmlId);
 
 		putObjectDirectIdMap(xmlId, fragment);
 
@@ -444,7 +445,8 @@ public class LoadTEIFragments {
 			}
 			break;
 		case FRAGMENT:
-			Fragment fragment = LdoD.getInstance().getFragmentByXmlId(target);
+            TextInterface textInterface = new TextInterface();
+			Fragment fragment = textInterface.getFragmentByXmlId(target);
 			// if (fragment != null) {
 			// if fragment == null is deal in class RefText
 			refText.setRefFrag(fragment);
@@ -1092,7 +1094,8 @@ public class LoadTEIFragments {
 									putObjectInverseIdMap(target, refText);
 								}
 							} else if (refType == RefType.FRAGMENT) {
-								Fragment frag = LdoD.getInstance().getFragmentByXmlId(target);
+                                TextInterface textInterface = new TextInterface();
+								Fragment frag = textInterface.getFragmentByXmlId(target);
 								// if (frag != null) {
 								// it is not verified if frag == null but an
 								// exception will be raised when accessing the

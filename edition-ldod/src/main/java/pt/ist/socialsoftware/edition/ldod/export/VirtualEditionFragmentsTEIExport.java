@@ -9,6 +9,7 @@ import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 
 import pt.ist.fenixframework.Atomic;
+import pt.ist.socialsoftware.edition.ldod.api.text.TextInterface;
 import pt.ist.socialsoftware.edition.ldod.domain.Annotation;
 import pt.ist.socialsoftware.edition.ldod.domain.AwareAnnotation;
 import pt.ist.socialsoftware.edition.ldod.domain.Category;
@@ -32,7 +33,11 @@ public class VirtualEditionFragmentsTEIExport {
 
 	@Atomic
 	public void export() {
-		for (Fragment fragment : LdoD.getInstance().getFragmentsSet()) {
+
+		TextInterface textInterface = new TextInterface();
+
+
+		for (Fragment fragment : textInterface.getFragmentsSet()) {
 			exportFragment(fragment);
 		}
 	}

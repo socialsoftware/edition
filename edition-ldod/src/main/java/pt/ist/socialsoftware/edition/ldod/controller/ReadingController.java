@@ -45,7 +45,8 @@ public class ReadingController {
 	@RequestMapping(method = RequestMethod.GET, value = "/fragment/{xmlId}/inter/{urlId}")
 	public String readInterpretation(Model model, @ModelAttribute("ldoDSession") LdoDSession ldoDSession,
 			@PathVariable String xmlId, @PathVariable String urlId) {
-		Fragment fragment = LdoD.getInstance().getFragmentByXmlId(xmlId);
+		TextInterface textInterface = new TextInterface();
+		Fragment fragment = textInterface.getFragmentByXmlId(xmlId);
 		if (fragment == null) {
 			return "redirect:/error";
 		}
@@ -90,7 +91,8 @@ public class ReadingController {
 	@RequestMapping(method = RequestMethod.GET, value = "/fragment/{xmlId}/inter/{urlId}/start")
 	public String startReadingFromInter(Model model, @ModelAttribute("ldoDSession") LdoDSession ldoDSession,
 			@PathVariable String xmlId, @PathVariable String urlId) {
-		Fragment fragment = LdoD.getInstance().getFragmentByXmlId(xmlId);
+		TextInterface textInterface = new TextInterface();
+		Fragment fragment = textInterface.getFragmentByXmlId(xmlId);
 		if (fragment == null) {
 			return "redirect:/error";
 		}
@@ -110,7 +112,8 @@ public class ReadingController {
 	@RequestMapping(method = RequestMethod.GET, value = "/fragment/{xmlId}/inter/{urlId}/next")
 	public String readNextInterpretation(Model model, @ModelAttribute("ldoDSession") LdoDSession ldoDSession,
 			@PathVariable String xmlId, @PathVariable String urlId) {
-		Fragment fragment = LdoD.getInstance().getFragmentByXmlId(xmlId);
+		TextInterface textInterface = new TextInterface();
+		Fragment fragment = textInterface.getFragmentByXmlId(xmlId);
 		if (fragment == null) {
 			return "redirect:/error";
 		}
@@ -130,7 +133,8 @@ public class ReadingController {
 	@RequestMapping(method = RequestMethod.GET, value = "/fragment/{xmlId}/inter/{urlId}/prev")
 	public String readPrevInterpretation(Model model, @ModelAttribute("ldoDSession") LdoDSession ldoDSession,
 			@PathVariable String xmlId, @PathVariable String urlId) {
-		Fragment fragment = LdoD.getInstance().getFragmentByXmlId(xmlId);
+		TextInterface textInterface = new TextInterface();
+		Fragment fragment = textInterface.getFragmentByXmlId(xmlId);
 		if (fragment == null) {
 			return "redirect:/error";
 		}

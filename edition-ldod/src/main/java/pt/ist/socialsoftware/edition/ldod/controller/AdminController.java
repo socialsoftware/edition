@@ -38,6 +38,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import pt.ist.fenixframework.FenixFramework;
+import pt.ist.socialsoftware.edition.ldod.api.text.TextInterface;
 import pt.ist.socialsoftware.edition.ldod.domain.Edition;
 import pt.ist.socialsoftware.edition.ldod.domain.FragInter;
 import pt.ist.socialsoftware.edition.ldod.domain.Fragment;
@@ -188,7 +189,9 @@ public class AdminController {
 	@RequestMapping(method = RequestMethod.GET, value = "/fragment/list")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public String deleteFragmentsList(Model model) {
-		model.addAttribute("fragments", LdoD.getInstance().getFragmentsSet());
+		TextInterface textInterface = new TextInterface();
+
+		model.addAttribute("fragments", textInterface.getFragmentsSet());
 		return "admin/deleteFragment";
 	}
 
@@ -196,9 +199,10 @@ public class AdminController {
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public String deleteFragment(Model model, @RequestParam("externalId") String externalId) {
 		Fragment fragment = FenixFramework.getDomainObject(externalId);
+		TextInterface textInterface = new TextInterface();
 		if (fragment == null) {
 			return "redirect:/error";
-		} else if (LdoD.getInstance().getFragmentsSet().size() >= 1) {
+		} else if (textInterface.getFragmentsSet().size() >= 1) {
 			fragment.remove();
 		}
 		return "redirect:/admin/fragment/list";
@@ -207,7 +211,8 @@ public class AdminController {
 	@RequestMapping(method = RequestMethod.POST, value = "/fragment/deleteAll")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public String deleteAllFragments(Model model) {
-		for (Fragment fragment : LdoD.getInstance().getFragmentsSet()) {
+		TextInterface textInterface = new TextInterface();
+		for (Fragment fragment : textInterface.getFragmentsSet()) {
 			fragment.remove();
 		}
 		return "redirect:/admin/fragment/list";
@@ -347,7 +352,8 @@ public class AdminController {
 		int n = 0;
 
 		if (query.compareTo("") != 0) {
-			for (Fragment frag : ldoD.getFragmentsSet()) {
+			TextInterface textInterface = new TextInterface();
+			for (Fragment frag : textInterface.getFragmentsSet()) {
 				if (frag.getTitle().contains(query)) {
 					frags.add("<a href=\"/fragments/fragment/" + frag.getExternalId() + "\">"
 							+ frag.getTitle().replace(query, "<b><u>" + query + "</u></b>") + "</a>");
@@ -369,8 +375,9 @@ public class AdminController {
 		LdoD ldoD = LdoD.getInstance();
 
 		Map<Fragment, Set<FragInter>> searchResult = new HashMap<>();
+		TextInterface textInterface = new TextInterface();
 
-		for (Fragment frag : ldoD.getFragmentsSet()) {
+		for (Fragment frag : textInterface.getFragmentsSet()) {
 			if (frag.getTitle().contains(query)) {
 				Set<FragInter> inters = new HashSet<>();
 				for (FragInter inter : frag.getFragmentInterSet()) {
@@ -404,8 +411,9 @@ public class AdminController {
 		LdoD ldoD = LdoD.getInstance();
 
 		Map<Fragment, Set<FragInter>> searchResult = new HashMap<>();
+		TextInterface textInterface = new TextInterface();
 
-		for (Fragment frag : ldoD.getFragmentsSet()) {
+		for (Fragment frag : textInterface.getFragmentsSet()) {
 			Set<FragInter> inters = new HashSet<>();
 
 			for (FragInter inter : frag.getFragmentInterSet()) {
@@ -439,8 +447,9 @@ public class AdminController {
 		LdoD ldoD = LdoD.getInstance();
 
 		Map<Fragment, Set<FragInter>> searchResult = new HashMap<>();
+		TextInterface textInterface = new TextInterface();
 
-		List<Fragment> fragments = new ArrayList<>(LdoD.getInstance().getFragmentsSet());
+		List<Fragment> fragments = new ArrayList<>(textInterface.getFragmentsSet());
 
 		List<String> fragsRandom = new ArrayList<>();
 

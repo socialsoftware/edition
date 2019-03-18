@@ -18,10 +18,7 @@ public class LdoDInterface {
             LdoD.getInstance().getVirtualEditionsSet().stream()
                     .flatMap(virtualEdition -> virtualEdition.getAllDepthVirtualEditionInters().stream())
                     .filter(virtualEditionInter -> virtualEditionInter.getUsesFragInter() != null && virtualEditionInter.getUsesFragInter().equals(event.getIdentifier()))
-                    .forEach(virtualEditionInter1 -> {
-                        logger.debug("Calling remove on id " + virtualEditionInter1.getXmlId());
-                        removeAll(virtualEditionInter1);
-                    });
+                    .forEach(this::removeAll);
         }
     }
 
