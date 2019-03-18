@@ -141,6 +141,8 @@ export class ConnectedFragment extends React.Component {
                 console.log("response tf-idf data: " + Object.keys(d)[0].toLowerCase() + " " + Object.values(d)[0]);
                 myMap.set(Object.keys(d)[0].toLowerCase(), Object.values(d)[0]);
 
+                Object.values(d)[0] = (1 - Object.values(d)[0]);
+
                 if (temp !== Object.values(d)[0]) {
                   temp = Object.values(d)[0];
                   distinctTfIdfValues++;
@@ -211,7 +213,9 @@ export class ConnectedFragment extends React.Component {
 
             if (wordsTfIdfMap.has(wordToCompare) && outOfTag && wordToCompare !== "e" && wordToCompare !== "a") {
 
-              if (parseFloat(wordsTfIdfMap.get(wordToCompare)) !== lowestTfIdfValue || tfIdfLen == 1) {
+              // if (parseFloat(wordsTfIdfMap.get(wordToCompare)) !== lowestTfIdfValue || tfIdfLen == 1) {
+
+              if (outOfTag) {
 
                 console.log("TF-IDF FOUND WORD: " + stringArray[w]);
 
