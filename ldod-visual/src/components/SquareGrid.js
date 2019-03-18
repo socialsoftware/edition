@@ -165,8 +165,9 @@ class ConnectedSquareGrid extends Component {
         background: "#FFD700",
         padding: 2,
         color: "black",
-        borderWidth: 10,
-        borderColor: "#DAA520"
+        borderWidth: 3,
+        borderColor: "#DAA520",
+        borderStyle: 'solid'
       }
 
       //  #DAA520 goldenrod escuro
