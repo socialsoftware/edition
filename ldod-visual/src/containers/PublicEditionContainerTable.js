@@ -33,6 +33,11 @@ import loadingFragmentsGif from '../assets/fragmentload.gif'
 import "./PublicEditionContainerTable.css";
 import ReactTable from 'react-table';
 import {ReactTableDefaults} from "react-table";
+import 'rc-slider/assets/index.css';
+import 'rc-tooltip/assets/bootstrap.css';
+
+import Slider from 'react-rangeslider'
+// import 'react-rangeslider/lib/index.css'
 
 function replaceSpecialChars(word) {
   let tempWord = word.toString()
@@ -108,7 +113,8 @@ class ConnectedPublicEditionContainerTable extends React.Component {
 
     this.state = {
       editionsReceived: false,
-      editions: []
+      editions: [],
+      sliderNumberOfInters: 50
     };
 
     this.handleButtonClick = this.handleButtonClick.bind(this);
@@ -121,6 +127,10 @@ class ConnectedPublicEditionContainerTable extends React.Component {
       console.log("ayy: " + filter)
       filter.placeholder = "Filtrar...";
     }
+  }
+
+  handleOnChange = (value) => {
+    this.setState({sliderNumberOfInters: value})
   }
 
   componentDidMount() {
@@ -150,12 +160,17 @@ class ConnectedPublicEditionContainerTable extends React.Component {
 
     let titleMaxChars = 0;
 
+    let numberOfIntersList = [];
+
+    let minNumberOfInters = 0;
+    let maxNumberOfInters = 0;
+
     if (this.state.editionsReceived) {
       console.log("editionsReceived");
 
       this.state.editions.map(item => {
 
-        if (item.numberOfInters > 0) {
+        if (item.numberOfInters >= this.state.sliderNumberOfInters) {
 
           availableEditionsCounter++;
 
@@ -190,9 +205,16 @@ class ConnectedPublicEditionContainerTable extends React.Component {
           };
 
           data.push(obj);
+          numberOfIntersList.push(Number(obj.nrFragments));
 
         }
+
       });
+
+      minNumberOfInters = Math.min.apply(Math, numberOfIntersList);
+      maxNumberOfInters = Math.max.apply(Math, numberOfIntersList);
+      console.log("minNumberOfInters: " + minNumberOfInters)
+      console.log("maxNumberOfInters: " + maxNumberOfInters)
 
       let myMinWidth = Math.min(titleMaxChars * 4, 250)
 
@@ -325,6 +347,19 @@ class ConnectedPublicEditionContainerTable extends React.Component {
       </div>);
     }
 
+    const wrapperStyle = {
+      width: 400
+    };
+
+    let sliderNum = this.state.sliderNumberOfInters
+
+    let labelsObj = {
+      '0': 0
+    }
+
+    labelsObj[maxNumberOfInters.toString()] = maxNumberOfInters;
+    labelsObj[sliderNum.toString()] = sliderNum;
+
     return <div>
       <img src={ldodIcon} className="loadingGifCentered"/>
 
@@ -343,8 +378,17 @@ class ConnectedPublicEditionContainerTable extends React.Component {
         <a href="https://ldod.uc.pt/virtualeditions">
           nesta secção do Arquivo LdoD</a>.
       </p>
+
       <p align="center">
         Apenas se seleccionar uma edição virtual com categorias disponíveis (taxonomia), poderá realizar actividades à volta das mesmas.</p>
+
+      <br/>
+      <p align="center">Apenas apresentar edições virtuais com um número mínimo de fragmentos de...</p>
+      <div className="mySlider">
+
+        <Slider min={0} max={maxNumberOfInters} value={sliderNum} tooltip={false} orientation="horizontal" onChange={this.handleOnChange} labels={labelsObj}/>
+
+      </div>
 
       <div className="myTable">
         {editionButtonList}
