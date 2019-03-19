@@ -119,7 +119,10 @@ public class RecommendationTest {
         ObjectMapper mapper = new ObjectMapper();
         for (int i = 0; i < 3; i++) {
             InterIdDistancePairDto pair = mapper.readValue(frags[i], InterIdDistancePairDto.class);
-            assertEquals(0.0, pair.getDistance());
+            if(pair.getInterId().equals(vi.getExternalId()))
+                assertEquals(1.0, pair.getDistance());
+            else
+                assertEquals(0.0, pair.getDistance());
         }
     }
 
