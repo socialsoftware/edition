@@ -9,6 +9,7 @@ import pt.ist.socialsoftware.edition.ldod.domain.Heteronym
 import pt.ist.socialsoftware.edition.ldod.domain.LdoD
 import pt.ist.socialsoftware.edition.ldod.domain.LdoDDate
 import pt.ist.socialsoftware.edition.ldod.domain.NullHeteronym
+import pt.ist.socialsoftware.edition.ldod.domain.Text
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition
 import pt.ist.socialsoftware.edition.ldod.dto.WeightsDto
 
@@ -208,7 +209,7 @@ class GetIntersByDistanceMethodTest extends SpockRollbackTestAbstractClass  {
         given: 'a heteronym property'
         weights.setHeteronymWeight(1.0)
         and:
-        virtualEditionInter.getLastUsed().getSource().setHeteronym(new Heteronym(LdoD.getInstance(), 'Bernardo Soares'))
+        virtualEditionInter.getLastUsed().getSource().setHeteronym(new Heteronym(Text.getInstance(), 'Bernardo Soares'))
 
         when:
         def results = virtualEdition.getIntersByDistance(virtualEditionInter, weights)
