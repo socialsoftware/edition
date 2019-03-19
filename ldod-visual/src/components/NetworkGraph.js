@@ -168,6 +168,9 @@ class ConnectedNetworkGraph extends Component {
 
     let j;
     for (j = 1; j < this.props.graphData.length; j++) {
+
+      this.props.graphData[j].distance = (1 - this.props.graphData[j].distance)
+
       let tempPercentage = this.props.graphData[j].distance / mostDistantFragmentDistance * 100;
 
       if (this.props.graphData[j].distance !== 0) {
@@ -303,6 +306,11 @@ class ConnectedNetworkGraph extends Component {
         hasDateWhileCritDate = false;
       }
 
+      let hoverBorderColor = "#DC143C" // red
+      if (!this.props.currentFragmentMode) {
+        hoverBorderColor = "#4B0082" //purple
+      }
+
       obj = {
         id: this.props.graphData[i].interId,
         //label: "",
@@ -311,7 +319,11 @@ class ConnectedNetworkGraph extends Component {
         size: mySize,
         color: {
           border: nodeBorderColor,
-          background: nodeBackgroundColor
+          background: nodeBackgroundColor,
+          hover: {
+            border: hoverBorderColor,
+            background: nodeBackgroundColor
+          }
         },
         title: myTitle, //this.props.fragmentsHashMap.get(this.props.graphData[i].interId).meta.title, + " " + this.props.graphData[i].distance,  + " || " + truncateText(myText, 60)
         fixed: true,
@@ -355,7 +367,8 @@ class ConnectedNetworkGraph extends Component {
         dragView: true,
         zoomView: true,
         hover: true,
-        navigationButtons: true
+        navigationButtons: true,
+        hoverConnectedEdges: false
       }
     };
 
@@ -484,7 +497,6 @@ class ConnectedNetworkGraph extends Component {
 
   render() {
 
-
     let orangeCircleText = (<span style={{
         background: "#FF7F50",
         paddingLeft: '3px',
@@ -505,9 +517,6 @@ class ConnectedNetworkGraph extends Component {
       <b>círculo roxo</b>
     </span >);
 
-
-
-
     return (<div>
 
       <p>
@@ -515,17 +524,18 @@ class ConnectedNetworkGraph extends Component {
       </p>
 
       <p>
-        Seleccione um fragmento novo ao clicar num dos círculos em torno do {orangeCircleText}. Quanto mais próximos estiverem do {orangeCircleText} (correspondente ao fragmento sob o qual realizou ou está a realizar uma nova actividade), mais semelhantes serão segundo o critério desta actividade.
+        Seleccione um fragmento novo ao clicar num dos círculos em torno do {orangeCircleText}. Quanto mais próximos estiverem do {orangeCircleText}
+        (correspondente ao fragmento sob o qual realizou ou está a realizar uma nova actividade), mais semelhantes serão segundo o critério desta actividade.
       </p>
 
       <p>
         Um {purpleCircleText}
         representará o fragmento que está a ler actualmente caso navegue para um fragmento diferente do fragmento inicial (o {orangeCircleText}).
-        </p>
+      </p>
 
-        <p>
-          Para navegar pelo grafo, pode usar os botões de navegação na parte do inferior do grafo, ou simplesmente arrastar o grafo com o botão esquerdo do rato ou fazer zoom-in ou zoom-out com a roda do rato.
-        </p>
+      <p>
+        Para navegar pelo grafo, pode usar os botões de navegação na parte do inferior do grafo, ou simplesmente arrastar o grafo com o botão esquerdo do rato ou fazer zoom-in ou zoom-out com a roda do rato.
+      </p>
 
       <div className="graphNetwork" id="networkvis"></div>
 

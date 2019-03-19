@@ -24,6 +24,7 @@ import {SET_CURRENT_CATEGORY} from "../constants/action-types";
 import {SET_POTENTIAL_CATEGORY} from "../constants/action-types";
 import {SET_HISTORY} from "../constants/action-types";
 import {SET_DATES_EXIST} from "../constants/action-types";
+import {SET_GOLDEN_ARRAY} from "../constants/action-types";
 
 const initialState = {
   fragments: [],
@@ -50,7 +51,8 @@ const initialState = {
   categories: [],
   currentCategory: [],
   potentialCategory: [],
-  datesExist: false
+  datesExist: false,
+  goldenArray: []
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -187,6 +189,11 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         datesExist: action.payload
+      };
+    case SET_GOLDEN_ARRAY:
+      return {
+        ...state,
+        goldenArray: action.payload
       };
     default:
       return state;

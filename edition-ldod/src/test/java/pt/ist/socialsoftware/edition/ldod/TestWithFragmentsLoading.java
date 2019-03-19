@@ -22,7 +22,7 @@ public abstract class TestWithFragmentsLoading {
 
 	@AfterAll
 	@Atomic(mode = TxMode.WRITE)
-	public static void tearDownAll() throws FileNotFoundException {
+	public static void tearDownAll() {
 		TestLoadUtils.cleanDatabaseButCorpus();
 	}
 

@@ -3,6 +3,7 @@
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
+  margin-top: 30px;
 }
 
 .card {
@@ -23,4 +24,27 @@
 .container {
   padding: 2px 16px;
   justify-content: center;
+}
+
+.landingButton {
+  background: linear-gradient(to bottom,  #3379B5 0%, #265B89 90%);
+  color: white;
+  border: 1px solid #245580;
+  padding: 6px 10px;
+  border-radius: 3px;
+  font-size: 12px;
+  margin-bottom: 5px;
+  /*
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+
+  */
+}
+
+.landingButton:hover {
+  background: #265A88;
+}
+.landingButton:active {
+  background: #204D74;
 }

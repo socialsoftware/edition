@@ -25,6 +25,44 @@ const mapStateToProps = state => {
   };
 };
 
+function replaceSpecialChars(word) {
+  let tempWord = word.toString().toLowerCase();
+  if (tempWord !== null) {
+
+    tempWord = tempWord.replace(/ç/gi, 'c')
+
+    tempWord = tempWord.replace(/á/gi, 'a')
+    tempWord = tempWord.replace(/à/gi, 'a')
+    tempWord = tempWord.replace(/ã/gi, 'a')
+    tempWord = tempWord.replace(/â/gi, 'a')
+
+    tempWord = tempWord.replace(/é/gi, 'e')
+    tempWord = tempWord.replace(/è/gi, 'e')
+    tempWord = tempWord.replace(/ê/gi, 'e')
+
+    tempWord = tempWord.replace(/í/gi, 'i')
+    tempWord = tempWord.replace(/ì/gi, 'i')
+    tempWord = tempWord.replace(/î/gi, 'i')
+
+    tempWord = tempWord.replace(/ò/gi, 'o')
+    tempWord = tempWord.replace(/ó/gi, 'o')
+    tempWord = tempWord.replace(/õ/gi, 'o')
+    tempWord = tempWord.replace(/ô/gi, 'o')
+
+    tempWord = tempWord.replace(/ù/gi, 'u')
+    tempWord = tempWord.replace(/ú/gi, 'u')
+    tempWord = tempWord.replace(/û/gi, 'u')
+
+    tempWord = tempWord.replace(/\!/gi, '')
+    tempWord = tempWord.replace(/\?/gi, '')
+    tempWord = tempWord.replace(/\,/gi, '')
+    tempWord = tempWord.replace(/\./gi, '')
+
+    //console.log("replaceSpecialChars " + tempWord)
+  }
+  return tempWord;
+}
+
 export class ConnectedFragment extends React.Component {
 
   constructor(props) {
@@ -35,8 +73,11 @@ export class ConnectedFragment extends React.Component {
       opacity: 1
     };
 
+    this.fragTextMap = new HashMap();
+
     this.oldTfIdfDataMap = new HashMap();
     this.currentFragmentTfIdfMap = new HashMap();
+    this.lowestTfIdfValueMap = new HashMap();
 
     this.min = 1000;
     this.max = 0.000001;
@@ -62,8 +103,11 @@ export class ConnectedFragment extends React.Component {
     ("Fragment.js: render()")
 
     let fragmentToRender;
-    let textToDisplay = (<div><img src={loadingGif} alt="loading..." className="loadingGifCentered"/>
-    </div>);
+    let textToDisplay = (<div/>);
+    if (this.props.outOfLandingPage) {
+      textToDisplay = (<div><img src={loadingGif} alt="loading...Fragment.js" className="loadingGifCentered"/>
+      </div>);
+    }
     let stringArray;
 
     if (this.props.allFragmentsLoaded && this.props.outOfLandingPage && this.props.recommendationLoaded) {
@@ -86,9 +130,34 @@ export class ConnectedFragment extends React.Component {
             console.log("TF-IDF received for fragId " + currentlyDisplayedFragmentId);
             console.log(response.data);
 
+            let distinctTfIdfValues = 0;
+            let temp;
+
+            let stopWords = ["e", "a", "to", "of", "the"];
+
             let myMap = new HashMap();
-            response.data.map(d => console.log(Object.keys(d)[0].toLowerCase() + " " + Object.values(d)[0]));
-            response.data.map(d => myMap.set(Object.keys(d)[0].toLowerCase(), Object.values(d)[0]));
+            response.data.map(function(d) {
+              if (!stopWords.includes(Object.keys(d)[0].toString())) {
+                console.log("response tf-idf data: " + Object.keys(d)[0].toLowerCase() + " " + Object.values(d)[0]);
+                myMap.set(Object.keys(d)[0].toLowerCase(), Object.values(d)[0]);
+
+                Object.values(d)[0] = (1 - Object.values(d)[0]);
+
+                if (temp !== Object.values(d)[0]) {
+                  temp = Object.values(d)[0];
+                  distinctTfIdfValues++;
+                }
+              } else {
+                console.log("ignoring TF-IDF stopword: " + Object.keys(d)[0]);
+              }
+            }.bind(this));
+
+            let obj = {
+              low: Object.values(response.data[0])[0],
+              len: distinctTfIdfValues
+            }
+
+            this.lowestTfIdfValueMap.set(currentlyDisplayedFragmentId, obj);
 
             this.oldTfIdfDataMap.set(currentlyDisplayedFragmentId, myMap);
 
@@ -107,11 +176,19 @@ export class ConnectedFragment extends React.Component {
           let dataMap;
           let wordsTfIdfMap = this.oldTfIdfDataMap.get(currentlyDisplayedFragmentId);
 
+          let lowestTfIdfValue = this.lowestTfIdfValueMap.get(currentlyDisplayedFragmentId).low;
+          let tfIdfLen = this.lowestTfIdfValueMap.get(currentlyDisplayedFragmentId).len;
+
+          console.log("TF-IDF xxx LOWEST VALUE: " + lowestTfIdfValue);
+          console.log("TF-IDF Xxx LEN: " + tfIdfLen);
+
           var str = this.props.recommendationArray[this.props.recommendationIndex].text;
 
           //stringArray = str.split(" ");
           stringArray = str.split("<");
           stringArray = str.split(">");
+          stringArray = str.split(",");
+          stringArray = str.split(".");
           stringArray = str.split(/(\s+)/);
           //console.log(str);
           //stringArray = str.split(/ (?=[^>]*(?:<|$))/);
@@ -132,53 +209,59 @@ export class ConnectedFragment extends React.Component {
               outOfTag = true;
             }
 
-            if (wordsTfIdfMap.has(stringArray[w].toLowerCase()) && outOfTag) {
+            let wordToCompare = replaceSpecialChars(stringArray[w].toLowerCase());
 
-              console.log("AYYYYYYYYYYYYYY")
-              console.log("TF-IDF FOUND WORD: " + stringArray[w]);
+            if (wordsTfIdfMap.has(wordToCompare) && outOfTag && wordToCompare !== "e" && wordToCompare !== "a") {
 
-              let tfIdf = parseFloat(wordsTfIdfMap.get(stringArray[w].toLowerCase()));
-              if (tfIdf < this.min) {
-                this.min = tfIdf
+              // if (parseFloat(wordsTfIdfMap.get(wordToCompare)) !== lowestTfIdfValue || tfIdfLen == 1) {
+
+              if (outOfTag) {
+
+                console.log("TF-IDF FOUND WORD: " + stringArray[w]);
+
+                let tfIdf = parseFloat(wordsTfIdfMap.get(replaceSpecialChars(stringArray[w].toLowerCase())));
+                if (tfIdf < this.min) {
+                  this.min = tfIdf
+                }
+                if (tfIdf > this.max) {
+                  this.max = tfIdf
+                }
+
+                boldWeight = 300 + (tfIdf * 10000);
+
+                console.log("TfIdf for word " + stringArray[w] + ": " + tfIdf + " | boldWeight: " + boldWeight);
+
+                if (boldWeight > 999) {
+                  boldWeight = 999;
+                  console.log("truncating to 999")
+                  this.truncateCounter = this.truncateCounter + 1;
+                }
+
+                stringArray[w] = ReactDOMServer.renderToStaticMarkup((<span style={{
+                    fontWeight: boldWeight,
+                    color: "SteelBlue"
+                  }}>
+                  {stringArray[w]}
+                </span>));
+
+                stringArray[w] = stringArray[w].toString();
+
+              } else if (!outOfTag) {
+                stringArray[w] = ReactHtmlParser(stringArray[w]);
               }
-              if (tfIdf > this.max) {
-                this.max = tfIdf
-              }
-
-              boldWeight = 300 + (tfIdf * 10000);
-
-              console.log("TfIdf for word " + stringArray[w] + ": " + tfIdf + " | boldWeight: " + boldWeight);
-
-              if (boldWeight > 999) {
-                boldWeight = 999;
-                console.log("truncating to 999")
-                this.truncateCounter = this.truncateCounter + 1;
-              }
-
-              stringArray[w] = ReactDOMServer.renderToStaticMarkup((<span style={{
-                  fontWeight: boldWeight,
-                  color: "SteelBlue"
-                }}>
-                {stringArray[w]}
-              </span>));
-
-              stringArray[w] = stringArray[w].toString();
-
-            } else if (!outOfTag) {
-              stringArray[w] = ReactHtmlParser(stringArray[w]);
             }
           }
 
           textToDisplay = ReactHtmlParser(stringArray.join(''));
-          console.log("ZZZZZZZZZZZ PROCESSED: ZZZZZZZZZZZZ");
-          console.log(textToDisplay);
-          console.log("ZZZZZZZZZZZ ORIGINAL: ZZZZZZZZZZZZ");
-          console.log(this.props.recommendationArray[this.props.recommendationIndex].text)
-
-          console.log("min tf-idf: " + this.min);
-          console.log("max tf-idf: " + this.max);
-          console.log("truncateCounter: " + this.truncateCounter);
-          console.log("TfIdfRequestCounter: " + this.TfIdfRequestCounter);
+          // console.log("ZZZZZZZZZZZ PROCESSED: ZZZZZZZZZZZZ");
+          // console.log(textToDisplay);
+          // console.log("ZZZZZZZZZZZ ORIGINAL: ZZZZZZZZZZZZ");
+          // console.log(this.props.recommendationArray[this.props.recommendationIndex].text)
+          //
+          // console.log("min tf-idf: " + this.min);
+          // console.log("max tf-idf: " + this.max);
+          // console.log("truncateCounter: " + this.truncateCounter);
+          // console.log("TfIdfRequestCounter: " + this.TfIdfRequestCounter);
 
         }
 
@@ -203,8 +286,8 @@ export class ConnectedFragment extends React.Component {
           <br/> {textToDisplay}
         </div>
       </div>);;
-    } else {
-      fragmentToRender = (<div><img src={loadingGif} alt="loading..." className="loadingGifCentered"/>
+    } else if (this.props.outOfLandingPage) {
+      fragmentToRender = (<div><img src={loadingGif} alt="loading...fragment.js" className="loadingGifCentered"/>
       </div>);
     }
 

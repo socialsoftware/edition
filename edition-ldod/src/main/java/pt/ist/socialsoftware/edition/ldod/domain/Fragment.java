@@ -82,6 +82,16 @@ public class Fragment extends Fragment_Base implements Comparable<Fragment> {
 		return interps;
 	}
 
+	public Set<ExpertEditionInter> getExpertEditionInterSet() {
+		Set<ExpertEditionInter> result = new HashSet<>();
+		for (FragInter inter : getFragmentInterSet()) {
+			if (inter.getSourceType() == Edition.EditionType.EDITORIAL) {
+				result.add((ExpertEditionInter) inter);
+			}
+		}
+		return result;
+	}
+
 	public Set<ExpertEditionInter> getExpertEditionInters(ExpertEdition expertEdition) {
 		// return getFragmentInterSet().stream().filter(inter ->
 		// inter.getEdition() == expertEdition)

@@ -207,49 +207,60 @@ class ConnectedActivityMenu extends Component {
 
   render() {
 
+    const activitySelectable = "Escolher actividade";
+    const activityUnselectable = "Actividade indisponível";
+
     if (this.state.show) {
 
       let categoryButtonMessage = "Explorar os fragmentos desta edição pelas categorias a que pertencem (taxonomia)"
       let networkGraphTaxonomyMessage = "Ler fragmentos semelhantes a este por taxonomia"
       let categoryButtonStyle = "primary"
+      let categoryButtonBotMessage = activitySelectable;
       let categoryImage = picWordCloud;
       let networkGraphTaxonomyImage = picNetgraph;
       if (this.props.categories.length === 0) {
-        categoryButtonStyle = "secondary";
+        categoryButtonStyle = "default";
         categoryButtonMessage = "Explorar os fragmentos desta edição pelas categorias a que pertencem (taxonomia) (edição sem taxonomia)"
         networkGraphTaxonomyMessage = "Ler fragmentos semelhantes a este por taxonomia (edição sem taxonomia)"
         networkGraphTaxonomyImage = picNetgraphGray;
         categoryImage = picWordCloudGray;
+        categoryButtonBotMessage = activityUnselectable;
       }
 
       //toggleSquareGridHeteronym
-      let heteronymButtonStyle = "secondary";
+      let heteronymButtonStyle = "default";
+      let heteronymButtonBotMessage = activityUnselectable;
       let myHeteronym = "heterónimo não disponível para este fragmento";
       let heteronymImage = picSquareGoldenGray;
       if (this.props.recommendationArray[this.props.recommendationIndex].meta.heteronym) {
         heteronymButtonStyle = "primary";
         myHeteronym = this.props.recommendationArray[this.props.recommendationIndex].meta.heteronym;
         heteronymImage = picSquareGolden;
+        heteronymButtonBotMessage = activitySelectable;
       }
 
       let datesButtonStyle = "primary"
       let datesImage = picSquareTime;
       let datesButtonFunction = this.toggleSquareGridDateOrder;
       let datesButtonMessage = "Explorar os fragmentos desta edição ordenados por data";
+      let datesButtonBotMessage = activitySelectable;
 
       let datesSimilarButtonMessage = "Ler fragmentos semelhantes a este por data (fragmento actual sem data disponível)"
-      let datesSimilarButtonStyle = "secondary"
+      let datesSimilarButtonStyle = "default"
       let datesSimilarImage = picNetgraphGray;
+      let datesSimilarButtonBotMessage = activityUnselectable;
       if (this.props.recommendationArray[this.props.recommendationIndex].meta.date !== null) {
         datesSimilarButtonMessage = "Ler fragmentos semelhantes a este por data (" + this.props.recommendationArray[this.props.recommendationIndex].meta.date + ")"
         datesSimilarButtonStyle = "primary";
         datesSimilarImage = picNetgraph;
+        datesSimilarButtonBotMessage = activitySelectable;
       }
 
       if (!this.props.datesExist) {
-        datesButtonStyle = "secondary";
+        datesButtonStyle = "default";
+        datesButtonBotMessage = activityUnselectable;
         datesImage = picSquareTimeGray;
-        datesSimilarButtonStyle = "secondary";
+        datesSimilarButtonStyle = "default";
         datesButtonFunction = function() {}
         datesButtonMessage = "Explorar os fragmentos desta edição ordenados por data (edição virtual sem datas)"
         datesSimilarButtonMessage = "Ler fragmentos semelhantes a este por data (edição virtual sem datas)"
@@ -258,14 +269,16 @@ class ConnectedActivityMenu extends Component {
       let wordCloudSingleFragmentMessage = "Explorar mais fragmentos da(s) mesma(s) categoria(s) deste fragmento";
       let wordCloudSingleFragmentButtonStyle = "primary";
       let wordCloudSingleFragmentImage = picWordCloud;
+      let wordCloudSingleBotMessage = activitySelectable;
 
       // console.log("blebleblebleble")
       // console.log(this.props.recommendationArray[this.props.recommendationIndex].meta.categories.length)
 
       if (this.props.recommendationArray[this.props.recommendationIndex].meta.categories.length == 0) {
         wordCloudSingleFragmentMessage = "Explorar mais fragmentos da(s) mesma(s) categoria(s) deste fragmento (fragmento actual sem categorias)";
-        wordCloudSingleFragmentButtonStyle = "secondary";
+        wordCloudSingleFragmentButtonStyle = "default";
         wordCloudSingleFragmentImage = picWordCloudGray;
+        wordCloudSingleBotMessage = activityUnselectable;
       }
 
       this.retreatButton = (<div/>);
@@ -279,7 +292,7 @@ class ConnectedActivityMenu extends Component {
 
           <div className="cardActivity">
             <div className="containerActivity">
-              <img src={picSquare} className="cardsContainerActivity" alt="Avatar" style={{
+              <img src={picSquare} onClick={this.toggleSquareGridEditionOrder} className="cardsActivityImage" alt="Avatar" style={{
                   width: "100%"
                 }}/>
               <p align="center">
@@ -287,7 +300,7 @@ class ConnectedActivityMenu extends Component {
               </p>
               <div className="welcomeButtonActivity">
                 <Button bsStyle="primary" bsSize="small" onClick={this.toggleSquareGridEditionOrder}>
-                  Escolher actividade
+                  {activitySelectable}
                 </Button>
               </div>
             </div>
@@ -295,7 +308,7 @@ class ConnectedActivityMenu extends Component {
 
           <div className="cardActivity">
             <div className="containerActivity">
-              <img src={datesImage} className="cardsContainerActivity" alt="Avatar" style={{
+              <img src={datesImage} onClick={datesButtonFunction} className="cardsActivityImage" alt="Avatar" style={{
                   width: "100%"
                 }}/>
               <p align="center">
@@ -303,7 +316,7 @@ class ConnectedActivityMenu extends Component {
               </p>
               <div className="welcomeButtonActivity">
                 <Button bsStyle={datesButtonStyle} bsSize="small" onClick={datesButtonFunction}>
-                  Escolher actividade
+                  {datesButtonBotMessage}
                 </Button>
               </div>
             </div>
@@ -311,7 +324,7 @@ class ConnectedActivityMenu extends Component {
 
           <div className="cardActivity">
             <div className="containerActivity">
-              <img src={heteronymImage} className="cardsContainerActivity" alt="Avatar" style={{
+              <img src={heteronymImage} onClick={this.toggleSquareGridHeteronym} className="cardsActivityImage" alt="Avatar" style={{
                   width: "100%"
                 }}/>
               <p align="center">
@@ -319,7 +332,7 @@ class ConnectedActivityMenu extends Component {
               </p>
               <div className="welcomeButtonActivity">
                 <Button bsStyle={heteronymButtonStyle} bsSize="small" onClick={this.toggleSquareGridHeteronym}>
-                  Escolher actividade
+                  {heteronymButtonBotMessage}
                 </Button>
               </div>
             </div>
@@ -327,7 +340,7 @@ class ConnectedActivityMenu extends Component {
 
           <div className="cardActivity">
             <div className="containerActivity">
-              <img src={categoryImage} className="cardsContainerActivity" alt="Avatar" style={{
+              <img src={categoryImage} onClick={this.toggleWordCloudTaxonomy} className="cardsActivityImage" alt="Avatar" style={{
                   width: "100%"
                 }}/>
               <p align="center">
@@ -335,7 +348,7 @@ class ConnectedActivityMenu extends Component {
               </p>
               <div className="welcomeButtonActivity">
                 <Button bsStyle={categoryButtonStyle} bsSize="small" onClick={this.toggleWordCloudTaxonomy}>
-                  Escolher actividade
+                  {categoryButtonBotMessage}
                 </Button>
               </div>
             </div>
@@ -343,7 +356,7 @@ class ConnectedActivityMenu extends Component {
 
           <div className="cardActivity">
             <div className="containerActivity">
-              <img src={wordCloudSingleFragmentImage} className="cardsContainerActivity" alt="Avatar" style={{
+              <img src={wordCloudSingleFragmentImage} onClick={this.toggleWordCloudTaxonomySingleFragment} className="cardsActivityImage" alt="Avatar" style={{
                   width: "100%"
                 }}/>
               <p align="center">
@@ -351,7 +364,7 @@ class ConnectedActivityMenu extends Component {
               </p>
               <div className="welcomeButtonActivity">
                 <Button bsStyle={wordCloudSingleFragmentButtonStyle} bsSize="small" onClick={this.toggleWordCloudTaxonomySingleFragment}>
-                  Escolher actividade
+                  {wordCloudSingleBotMessage}
                 </Button>
               </div>
             </div>
@@ -359,7 +372,7 @@ class ConnectedActivityMenu extends Component {
 
           <div className="cardActivity">
             <div className="containerActivity">
-              <img src={picNetgraph} className="cardsContainerActivity" alt="Avatar" style={{
+              <img src={picNetgraph} onClick={this.toggleActivityNetworkGraphTextSimilarity} className="cardsActivityImage" alt="Avatar" style={{
                   width: "100%"
                 }}/>
               <p align="center">
@@ -375,7 +388,7 @@ class ConnectedActivityMenu extends Component {
 
           <div className="cardActivity">
             <div className="containerActivity">
-              <img src={datesSimilarImage} className="cardsContainerActivity" alt="Avatar" style={{
+              <img src={datesSimilarImage} onClick={this.toggleActivityNetworkGraphDate} className="cardsActivityImage" alt="Avatar" style={{
                   width: "100%"
                 }}/>
               <p align="center">
@@ -383,7 +396,7 @@ class ConnectedActivityMenu extends Component {
               </p>
               <div className="welcomeButtonActivity">
                 <Button bsStyle={datesSimilarButtonStyle} bsSize="small" onClick={this.toggleActivityNetworkGraphDate}>
-                  Escolher actividade
+                  {datesSimilarButtonBotMessage}
                 </Button>
               </div>
             </div>
@@ -391,7 +404,7 @@ class ConnectedActivityMenu extends Component {
 
           <div className="cardActivity">
             <div className="containerActivity">
-              <img src={networkGraphTaxonomyImage} className="cardsContainerActivity" alt="Avatar" style={{
+              <img src={networkGraphTaxonomyImage} onClick={this.toggleActivityNetworkGraphTaxonomy} className="cardsActivityImage" alt="Avatar" style={{
                   width: "100%"
                 }}/>
               <p align="center">
@@ -399,7 +412,7 @@ class ConnectedActivityMenu extends Component {
               </p>
               <div className="welcomeButtonActivity">
                 <Button bsStyle={categoryButtonStyle} bsSize="small" onClick={this.toggleActivityNetworkGraphTaxonomy}>
-                  Escolher actividade
+                  {categoryButtonBotMessage}
                 </Button>
               </div>
             </div>
