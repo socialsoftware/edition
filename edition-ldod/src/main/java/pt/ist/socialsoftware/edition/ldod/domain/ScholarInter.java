@@ -9,6 +9,10 @@ import pt.ist.socialsoftware.edition.ldod.api.ldod.LdoDInterface;
 public abstract class ScholarInter extends ScholarInter_Base {
     private static Logger logger = LoggerFactory.getLogger(ScholarInter.class);
 
+    public String getUrlId() {
+        return getXmlId().replace(".", "_");
+    }
+
     @Override
     public void remove() {
 

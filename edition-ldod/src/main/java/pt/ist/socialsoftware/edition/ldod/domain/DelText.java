@@ -30,7 +30,7 @@ public class DelText extends DelText_Base {
 	}
 
 	@Override
-	public Boolean isFormat(Boolean displayDel, Boolean highlightSubst, FragInter fragInter) {
+	public Boolean isFormat(Boolean displayDel, Boolean highlightSubst, ScholarInter fragInter) {
 		if (getInterps().contains(fragInter) && displayDel) {
 			return true;
 		} else {

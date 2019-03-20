@@ -23,6 +23,10 @@ import pt.ist.socialsoftware.edition.ldod.utils.RangeJson;
 public class VirtualEditionInter extends VirtualEditionInter_Base {
 	private static Logger logger = LoggerFactory.getLogger(VirtualEditionInter.class);
 
+	public String getUrlId() {
+		return getXmlId().replace(".", "_");
+	}
+
 	@Override
 	public String getXmlId() {
 		return getFragment().getXmlId() + ".WIT.ED.VIRT." + getVirtualEdition().getAcronym() + "." + super.getXmlId();
@@ -102,22 +106,6 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 			super.getLdoDDate().remove();
 		}
 
-		for (RdgText rdg : getRdgSet()) {
-			removeRdg(rdg);
-		}
-
-		for (LbText lb : getLbTextSet()) {
-			removeLbText(lb);
-		}
-
-		for (PbText pb : getPbTextSet()) {
-			removePbText(pb);
-		}
-
-		for (AnnexNote annexNote : getAnnexNoteSet()) {
-			annexNote.remove();
-		}
-
 		for (RefText ref : getRefTextSet()) {
 			ref.setFragInter(null);
 		}
@@ -163,9 +151,8 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 	}
 
 	@Override
-	public FragInter getLastUsed() {
+	public ScholarInter getLastUsed() {
 		return getUses() != null ? getUses().getLastUsed() : (new TextInterface()).getScholarInterUsed(this.getUsesFragInter());
-		//return getUses().getLastUsed();
 	}
 
 	@Override

@@ -377,7 +377,7 @@ public class CitationDetecter {
 		return infoText;
 	}
 
-	private String getHtmlTransc(FragInter inter) {
+	private String getHtmlTransc(ScholarInter inter) {
 		PlainHtmlWriter4OneInter htmlWriter = new PlainHtmlWriter4OneInter(inter);
 		htmlWriter.write(false);
 		String htmlTransc = htmlWriter.getTranscription();

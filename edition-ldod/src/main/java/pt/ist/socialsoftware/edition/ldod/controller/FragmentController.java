@@ -103,7 +103,7 @@ public class FragmentController {
 			return "redirect:/error";
 		}
 
-		PlainHtmlWriter4OneInter writer = new PlainHtmlWriter4OneInter(inter.getLastUsed());
+		PlainHtmlWriter4OneInter writer = new PlainHtmlWriter4OneInter((ScholarInter) inter.getLastUsed());
 		writer.write(false);
 
 		// if it is a virtual interpretation check access and set session
@@ -235,10 +235,10 @@ public class FragmentController {
 
 		Fragment fragment = FenixFramework.getDomainObject(externalId);
 
-		List<FragInter> inters = new ArrayList<>();
+		List<ScholarInter> inters = new ArrayList<>();
 		if (intersID != null) {
 			for (String interID : intersID) {
-				FragInter inter = (FragInter) FenixFramework.getDomainObject(interID);
+				ScholarInter inter = FenixFramework.getDomainObject(interID);
 				if (inter != null) {
 					inters.add(inter);
 				}
@@ -252,7 +252,7 @@ public class FragmentController {
 
 		if (inters.size() == 1) {
 			FragInter inter = inters.get(0);
-			PlainHtmlWriter4OneInter writer4One = new PlainHtmlWriter4OneInter(inter);
+			PlainHtmlWriter4OneInter writer4One = new PlainHtmlWriter4OneInter((ScholarInter) inter.getLastUsed());
 			writer4One.write(false);
 			model.addAttribute("writer", writer4One);
 		} else if (inters.size() > 1) {
@@ -262,8 +262,8 @@ public class FragmentController {
 				lineByLine = true;
 			}
 
-			Map<FragInter, HtmlWriter4Variations> variations = new HashMap<>();
-			for (FragInter inter : inters) {
+			Map<ScholarInter, HtmlWriter4Variations> variations = new HashMap<>();
+			for (ScholarInter inter : inters) {
 				variations.put(inter, new HtmlWriter4Variations(inter));
 			}
 
@@ -285,7 +285,7 @@ public class FragmentController {
 	@RequestMapping(method = RequestMethod.GET, value = "/fragment/inter/editorial")
 	public String getInterEditorial(@RequestParam(value = "interp[]", required = true) String[] interID,
 			@RequestParam(value = "diff", required = true) boolean displayDiff, Model model) {
-		FragInter inter = FenixFramework.getDomainObject(interID[0]);
+		ScholarInter inter = FenixFramework.getDomainObject(interID[0]);
 
 		PlainHtmlWriter4OneInter writer = new PlainHtmlWriter4OneInter(inter);
 		writer.write(displayDiff);
@@ -349,9 +349,9 @@ public class FragmentController {
 	public String getInterCompare(@RequestParam(value = "inters[]", required = true) String[] intersID,
 			@RequestParam(value = "line") boolean lineByLine,
 			@RequestParam(value = "spaces", required = true) boolean showSpaces, Model model) {
-		List<FragInter> inters = new ArrayList<>();
+		List<ScholarInter> inters = new ArrayList<>();
 		for (String interID : intersID) {
-			inters.add((FragInter) FenixFramework.getDomainObject(interID));
+			inters.add(FenixFramework.getDomainObject(interID));
 		}
 
 		HtmlWriter2CompInters writer = new HtmlWriter2CompInters(inters);

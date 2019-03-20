@@ -10,6 +10,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.jdom2.Attribute;
 import org.jdom2.Content;
@@ -28,54 +29,16 @@ import org.slf4j.LoggerFactory;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.socialsoftware.edition.ldod.api.text.TextInterface;
-import pt.ist.socialsoftware.edition.ldod.domain.AddText;
+import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.domain.AddText.Place;
-import pt.ist.socialsoftware.edition.ldod.domain.AltText;
 import pt.ist.socialsoftware.edition.ldod.domain.AltText.AltMode;
-import pt.ist.socialsoftware.edition.ldod.domain.AnnexNote;
-import pt.ist.socialsoftware.edition.ldod.domain.AppText;
-import pt.ist.socialsoftware.edition.ldod.domain.DelText;
-import pt.ist.socialsoftware.edition.ldod.domain.Dimensions;
-import pt.ist.socialsoftware.edition.ldod.domain.ExpertEdition;
-import pt.ist.socialsoftware.edition.ldod.domain.ExpertEditionInter;
-import pt.ist.socialsoftware.edition.ldod.domain.Facsimile;
-import pt.ist.socialsoftware.edition.ldod.domain.FragInter;
-import pt.ist.socialsoftware.edition.ldod.domain.Fragment;
 import pt.ist.socialsoftware.edition.ldod.domain.Fragment.PrecisionType;
-import pt.ist.socialsoftware.edition.ldod.domain.GapText;
 import pt.ist.socialsoftware.edition.ldod.domain.GapText.GapReason;
 import pt.ist.socialsoftware.edition.ldod.domain.GapText.GapUnit;
-import pt.ist.socialsoftware.edition.ldod.domain.HandNote;
-import pt.ist.socialsoftware.edition.ldod.domain.Heteronym;
-import pt.ist.socialsoftware.edition.ldod.domain.LbText;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoDDate;
-import pt.ist.socialsoftware.edition.ldod.domain.ManuscriptSource;
 import pt.ist.socialsoftware.edition.ldod.domain.ManuscriptSource.Medium;
-import pt.ist.socialsoftware.edition.ldod.domain.NoteText;
-import pt.ist.socialsoftware.edition.ldod.domain.NullHeteronym;
-import pt.ist.socialsoftware.edition.ldod.domain.ParagraphText;
-import pt.ist.socialsoftware.edition.ldod.domain.PbText;
-import pt.ist.socialsoftware.edition.ldod.domain.PhysNote;
-import pt.ist.socialsoftware.edition.ldod.domain.PrintedSource;
-import pt.ist.socialsoftware.edition.ldod.domain.RdgGrpText;
-import pt.ist.socialsoftware.edition.ldod.domain.RdgText;
-import pt.ist.socialsoftware.edition.ldod.domain.RefText;
 import pt.ist.socialsoftware.edition.ldod.domain.RefText.RefType;
-import pt.ist.socialsoftware.edition.ldod.domain.Rend;
-import pt.ist.socialsoftware.edition.ldod.domain.SegText;
-import pt.ist.socialsoftware.edition.ldod.domain.SimpleText;
-import pt.ist.socialsoftware.edition.ldod.domain.Source;
-import pt.ist.socialsoftware.edition.ldod.domain.SourceInter;
-import pt.ist.socialsoftware.edition.ldod.domain.SpaceText;
 import pt.ist.socialsoftware.edition.ldod.domain.SpaceText.SpaceDim;
 import pt.ist.socialsoftware.edition.ldod.domain.SpaceText.SpaceUnit;
-import pt.ist.socialsoftware.edition.ldod.domain.SubstText;
-import pt.ist.socialsoftware.edition.ldod.domain.Surface;
-import pt.ist.socialsoftware.edition.ldod.domain.TextPortion;
-import pt.ist.socialsoftware.edition.ldod.domain.TypeNote;
-import pt.ist.socialsoftware.edition.ldod.domain.UnclearText;
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.ldod.search.Indexer;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDLoadException;
@@ -124,12 +87,12 @@ public class LoadTEIFragments {
 		return objects;
 	}
 
-	private Set<FragInter> getFragItersByListXmlID(String[] listInterXmlId) {
+	private Set<ScholarInter> getFragItersByListXmlID(String[] listInterXmlId) {
 		List<Object> objects = getObjectDirectIdsMap(listInterXmlId);
-		Set<FragInter> fragIters = new HashSet<>();
+		Set<ScholarInter> fragIters = new HashSet<>();
 		for (Object object : objects) {
 			try {
-				fragIters.add((FragInter) object);
+				fragIters.add((ScholarInter) object);
 			} catch (ClassCastException ex) {
 				throw new LdoDLoadException(
 						"um dos identificadores desta lista não é um identificador válido de witness: "
@@ -313,7 +276,7 @@ public class LoadTEIFragments {
 		}
 
 		// generate index in indexer.dir
-		for (FragInter inter : fragment.getFragmentInterSet()) {
+		for (ScholarInter inter : fragment.getFragmentInterSet().stream().map(ScholarInter.class::cast).collect(Collectors.toSet())) {
 			try {
 				Indexer indexer = Indexer.getIndexer();
 				indexer.addDocument(inter);
@@ -359,7 +322,7 @@ public class LoadTEIFragments {
 		XPathExpression<Element> xp = this.xpfac.compile(queryExpression, Filters.element(), null,
 				Namespace.getNamespace("def", this.namespace.getURI()));
 
-		Set<FragInter> fragInters = fragment.getFragmentInterSet();
+		Set<ScholarInter> fragInters = fragment.getFragmentInterSet().stream().map(ScholarInter.class::cast).collect(Collectors.toSet());
 
 		AppText app = new AppText(TextPortion.VariationType.UNSPECIFIED);
 		app.setFragment(fragment);
@@ -436,7 +399,7 @@ public class LoadTEIFragments {
 		case WITNESS:
 			// considers that it only refers to interpretations in the same
 			// fragment
-			FragInter inter = parent.getFragment().getFragInterByXmlId(target);
+			ScholarInter inter = (ScholarInter) parent.getFragment().getFragInterByXmlId(target);
 			if (inter != null) {
 				refText.setFragInter(inter);
 			} else {
@@ -732,7 +695,7 @@ public class LoadTEIFragments {
 		String witValue = rdgElement.getAttribute("wit").getValue().trim();
 
 		String[] listInterXmlId = witValue.split("\\s+");
-		Set<FragInter> fragInters = getFragItersByListXmlID(listInterXmlId);
+		Set<ScholarInter> fragInters = getFragItersByListXmlID(listInterXmlId);
 
 		RdgText rdgText = new RdgText(parent, type, fragInters);
 
@@ -760,7 +723,7 @@ public class LoadTEIFragments {
 	}
 
 	private void loadPb(Element element, TextPortion parent) {
-		Set<FragInter> toFragInters = null;
+		Set<ScholarInter> toFragInters = null;
 
 		Attribute edAttribute = element.getAttribute("ed");
 		if (edAttribute == null) {
@@ -769,7 +732,7 @@ public class LoadTEIFragments {
 			String[] listInterXmlId = element.getAttribute("ed").getValue().split("\\s+");
 			toFragInters = getFragItersByListXmlID(listInterXmlId);
 
-			for (FragInter inter : toFragInters) {
+			for (ScholarInter inter : toFragInters) {
 				if (!parent.getInterps().contains(inter)) {
 					throw new LdoDLoadException("testemunho com identificador:" + inter.getXmlId()
 							+ " é associado a pb mas não está declarado no contexto do seu rdg");
@@ -804,7 +767,7 @@ public class LoadTEIFragments {
 	}
 
 	private void loadLb(Element element, TextPortion parent) {
-		Set<FragInter> toFragInters = null;
+		Set<ScholarInter> toFragInters = null;
 
 		Attribute edAttribute = element.getAttribute("ed");
 		if (edAttribute == null) {
@@ -815,7 +778,7 @@ public class LoadTEIFragments {
 
 			toFragInters = getFragItersByListXmlID(listInterXmlId);
 
-			for (FragInter inter : toFragInters) {
+			for (ScholarInter inter : toFragInters) {
 				if (!parent.getInterps().contains(inter)) {
 					throw new LdoDLoadException("testemunho com identificador:" + inter.getXmlId()
 							+ " é associado a lb mas não está declarado no contexto do seu rdg");
@@ -978,7 +941,7 @@ public class LoadTEIFragments {
 
 			Object object = objects.get(0);
 
-			FragInter fragInter = null;
+			ScholarInter fragInter = null;
 
 			if (object instanceof ManuscriptSource) {
 				fragInter = new SourceInter();
@@ -1044,7 +1007,7 @@ public class LoadTEIFragments {
 
 	}
 
-	private void setNotes(FragInter fragInter, Element bibl) {
+	private void setNotes(ScholarInter fragInter, Element bibl) {
 		String notes = "";
 		List<Element> notesList = bibl.getChildren("note", this.namespace);
 		for (Element noteElement : notesList) {
@@ -1087,7 +1050,7 @@ public class LoadTEIFragments {
 									putObjectInverseIdMap(target, refText);
 								}
 							} else if (refType == RefType.WITNESS) {
-								FragInter inter = fragInter.getFragment().getFragInterByXmlId(target);
+								ScholarInter inter = (ScholarInter) fragInter.getFragment().getFragInterByXmlId(target);
 								if (inter != null) {
 									refText.setFragInter(inter);
 								} else {
@@ -1138,7 +1101,7 @@ public class LoadTEIFragments {
 		}
 	}
 
-	private void setBiblScopes(FragInter fragInter, Element bibl) {
+	private void setBiblScopes(ScholarInter fragInter, Element bibl) {
 		for (Element biblScope : bibl.getChildren("biblScope", this.namespace)) {
 			Attribute unitAtt = biblScope.getAttribute("unit");
 			if (unitAtt == null) {

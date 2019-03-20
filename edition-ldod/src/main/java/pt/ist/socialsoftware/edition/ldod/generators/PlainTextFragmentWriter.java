@@ -1,27 +1,10 @@
 package pt.ist.socialsoftware.edition.ldod.generators;
 
-import pt.ist.socialsoftware.edition.ldod.domain.AddText;
-import pt.ist.socialsoftware.edition.ldod.domain.AltText;
-import pt.ist.socialsoftware.edition.ldod.domain.AppText;
-import pt.ist.socialsoftware.edition.ldod.domain.DelText;
-import pt.ist.socialsoftware.edition.ldod.domain.FragInter;
-import pt.ist.socialsoftware.edition.ldod.domain.GapText;
-import pt.ist.socialsoftware.edition.ldod.domain.LbText;
-import pt.ist.socialsoftware.edition.ldod.domain.NoteText;
-import pt.ist.socialsoftware.edition.ldod.domain.ParagraphText;
-import pt.ist.socialsoftware.edition.ldod.domain.PbText;
-import pt.ist.socialsoftware.edition.ldod.domain.RdgGrpText;
-import pt.ist.socialsoftware.edition.ldod.domain.RdgText;
-import pt.ist.socialsoftware.edition.ldod.domain.RefText;
-import pt.ist.socialsoftware.edition.ldod.domain.SegText;
-import pt.ist.socialsoftware.edition.ldod.domain.SimpleText;
-import pt.ist.socialsoftware.edition.ldod.domain.SpaceText;
-import pt.ist.socialsoftware.edition.ldod.domain.SubstText;
-import pt.ist.socialsoftware.edition.ldod.domain.UnclearText;
+import pt.ist.socialsoftware.edition.ldod.domain.*;
 
 public class PlainTextFragmentWriter implements TextPortionVisitor {
 
-	protected FragInter fragInter = null;
+	protected ScholarInter fragInter = null;
 	protected String transcription = "";
 
 	private void append2Transcription(String generated) {
@@ -32,15 +15,12 @@ public class PlainTextFragmentWriter implements TextPortionVisitor {
 		return transcription;
 	}
 
-	public PlainTextFragmentWriter(FragInter fragInter) {
+	public PlainTextFragmentWriter(ScholarInter fragInter) {
 		this.fragInter = fragInter;
 		transcription = "";
 	}
 
 	public void write() {
-		if (fragInter.getLastUsed() != fragInter) {
-			fragInter = fragInter.getLastUsed();
-		}
 		visit((AppText) fragInter.getFragment().getTextPortion());
 	}
 

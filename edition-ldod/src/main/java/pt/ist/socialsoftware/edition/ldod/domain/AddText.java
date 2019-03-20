@@ -31,7 +31,7 @@ public class AddText extends pt.ist.socialsoftware.edition.ldod.domain.AddText_B
 	}
 
 	@Override
-	public Boolean isFormat(Boolean displayDel, Boolean highlightSubst, FragInter fragInter) {
+	public Boolean isFormat(Boolean displayDel, Boolean highlightSubst, ScholarInter fragInter) {
 		if (getInterps().contains(fragInter)) {
 			return true;
 		} else {

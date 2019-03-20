@@ -42,6 +42,7 @@ import org.slf4j.LoggerFactory;
 
 import pt.ist.socialsoftware.edition.ldod.domain.FragInter;
 import pt.ist.socialsoftware.edition.ldod.domain.Fragment;
+import pt.ist.socialsoftware.edition.ldod.domain.ScholarInter;
 import pt.ist.socialsoftware.edition.ldod.domain.SourceInter;
 import pt.ist.socialsoftware.edition.ldod.generators.PlainTextFragmentWriter;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
@@ -77,7 +78,7 @@ public class Indexer {
 		this.indexWriterConfig = new IndexWriterConfig(this.analyzer);
 	}
 
-	public void addDocument(FragInter inter) throws IOException {
+	public void addDocument(ScholarInter inter) throws IOException {
 		// IndexWriterConfig config = new IndexWriterConfig(Version.LATEST,
 		// analyzer);
 		Directory directory = new NIOFSDirectory(this.docDir);

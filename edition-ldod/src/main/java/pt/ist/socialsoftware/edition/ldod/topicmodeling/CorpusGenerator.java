@@ -4,9 +4,11 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.stream.Collectors;
 
 import pt.ist.socialsoftware.edition.ldod.domain.FragInter;
 import pt.ist.socialsoftware.edition.ldod.domain.Fragment;
+import pt.ist.socialsoftware.edition.ldod.domain.ScholarInter;
 import pt.ist.socialsoftware.edition.ldod.domain.SourceInter;
 import pt.ist.socialsoftware.edition.ldod.generators.PlainTextFragmentWriter;
 import pt.ist.socialsoftware.edition.ldod.utils.PropertiesManager;
@@ -45,7 +47,7 @@ public class CorpusGenerator {
 		String intersFilesPath = PropertiesManager.getProperties().getProperty("inters.dir");
 		File intersDirectory = new File(intersFilesPath);
 
-		for (FragInter inter : fragment.getFragmentInterSet()) {
+		for (ScholarInter inter : fragment.getFragmentInterSet().stream().map(ScholarInter.class::cast).collect(Collectors.toSet())) {
 
 			File file = new File(intersDirectory, inter.getExternalId() + ".txt");
 

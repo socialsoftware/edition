@@ -2,6 +2,7 @@ package pt.ist.socialsoftware.edition.ldod.domain;
 
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,7 +52,7 @@ public abstract class TextPortion extends TextPortion_Base implements GraphEleme
 
 	// it is a template method that is redefined in AppText, RdgGrpText, and
 	// RdgText
-	public TextPortion getNextDepthFirstText(FragInter inter) {
+	public TextPortion getNextDepthFirstText(ScholarInter inter) {
 		TextPortion nextDepthFirstText = null;
 
 		// check children
@@ -71,7 +72,7 @@ public abstract class TextPortion extends TextPortion_Base implements GraphEleme
 	}
 
 	// it is redefined in AppText and RdgGrpText
-	protected TextPortion getNextChildText(FragInter inter) {
+	protected TextPortion getNextChildText(ScholarInter inter) {
 		if (this.getInterps().contains(inter)) {
 			TextPortion childText = getFirstChildText();
 			if (childText != null) {
@@ -89,7 +90,7 @@ public abstract class TextPortion extends TextPortion_Base implements GraphEleme
 	}
 
 	// it is redefined in RdgGrpText and RdgText
-	protected TextPortion getNextSibilingText(FragInter inter) {
+	protected TextPortion getNextSibilingText(ScholarInter inter) {
 		TextPortion nextText = getNextText();
 		if (nextText != null) {
 			if (nextText.getInterps().contains(inter)) {
@@ -103,7 +104,7 @@ public abstract class TextPortion extends TextPortion_Base implements GraphEleme
 	}
 
 	// it is redefined in RdgGrpText and RdgText
-	protected TextPortion getNextParentText(FragInter inter) {
+	protected TextPortion getNextParentText(ScholarInter inter) {
 		TextPortion parentText = getParentText();
 		if (parentText != null) {
 			TextPortion nextText = getNextSibilingText(inter);
@@ -117,7 +118,7 @@ public abstract class TextPortion extends TextPortion_Base implements GraphEleme
 	}
 
 	// it is redefined in RdgGrpText and RdgText
-	protected TextPortion getBacktrackingNextOfParentText(FragInter inter) {
+	protected TextPortion getBacktrackingNextOfParentText(ScholarInter inter) {
 		// check next
 		TextPortion nextText = getNextSibilingText(inter);
 		if (nextText != null) {
@@ -141,9 +142,9 @@ public abstract class TextPortion extends TextPortion_Base implements GraphEleme
 	@Override
 	public abstract void accept(TextPortionVisitor visitor);
 
-	public Set<FragInter> getInterps() {
+	public Set<ScholarInter> getInterps() {
 		if (getParentText() == null) {
-			return getFragment().getFragmentInterSet();
+			return getFragment().getFragmentInterSet().stream().map(ScholarInter.class::cast).collect(Collectors.toSet());
 		} else {
 			return getParentText().getInterps();
 		}
@@ -151,13 +152,13 @@ public abstract class TextPortion extends TextPortion_Base implements GraphEleme
 
 	// check if the object is responsible for formating, AddText, DelText, and
 	// SegText
-	public Boolean isFormat(Boolean displayDel, Boolean highlightSubst, FragInter fragInter) {
+	public Boolean isFormat(Boolean displayDel, Boolean highlightSubst, ScholarInter fragInter) {
 		return false;
 	}
 
 	// write the separator if this object is the first responsible for formating
 	// a SimpleText
-	public String writeSeparator(Boolean displayDel, Boolean highlightSubst, FragInter fragInter) {
+	public String writeSeparator(Boolean displayDel, Boolean highlightSubst, ScholarInter fragInter) {
 		if ((getParentOfFirstText() != null)
 				&& (getParentOfFirstText().isFormat(displayDel, highlightSubst, fragInter))) {
 			return "";
@@ -166,7 +167,7 @@ public abstract class TextPortion extends TextPortion_Base implements GraphEleme
 		}
 	}
 
-	public SimpleText getNextSimpleText(FragInter inter) {
+	public SimpleText getNextSimpleText(ScholarInter inter) {
 		TextPortion nextText = getNextDepthFirstText(inter);
 		if (nextText != null) {
 			return nextText.getNextSimpleText(inter);
@@ -191,7 +192,7 @@ public abstract class TextPortion extends TextPortion_Base implements GraphEleme
 
 	// goes through the tree of text to find the next instance of SimpleText and
 	// requests the separator
-	public String getSeparator(FragInter inter) {
+	public String getSeparator(ScholarInter inter) {
 		SimpleText simpleText = getNextSimpleText(inter);
 
 		if (simpleText != null) {
@@ -232,13 +233,13 @@ public abstract class TextPortion extends TextPortion_Base implements GraphEleme
 		return null;
 	}
 
-	public void putAppTextWithVariations(List<AppText> apps, List<FragInter> inters) {
+	public void putAppTextWithVariations(List<AppText> apps, List<ScholarInter> inters) {
 		for (TextPortion text : getChildTextSet()) {
 			text.putAppTextWithVariations(apps, inters);
 		}
 	}
 
-	public boolean hasVariations(List<FragInter> inters) {
+	public boolean hasVariations(List<ScholarInter> inters) {
 		return false;
 	}
 
@@ -250,7 +251,7 @@ public abstract class TextPortion extends TextPortion_Base implements GraphEleme
 		}
 	}
 
-	public SimpleText getSimpleText(FragInter inter, int currentOffset, int offset) {
+	public SimpleText getSimpleText(ScholarInter inter, int currentOffset, int offset) {
 		logger.debug("getSimpleText currentOffset:{}, offset:{}", currentOffset, offset);
 
 		if (getNextSimpleText(inter) != null) {

@@ -40,7 +40,7 @@ public class SimpleText extends SimpleText_Base {
 	}
 
 	@Override
-	public SimpleText getNextSimpleText(FragInter inter) {
+	public SimpleText getNextSimpleText(ScholarInter inter) {
 		return this;
 	}
 
@@ -50,7 +50,7 @@ public class SimpleText extends SimpleText_Base {
 	}
 
 	@Override
-	public String getSeparator(FragInter inter) {
+	public String getSeparator(ScholarInter inter) {
 		if (getInterps().contains(inter)) {
 			String separators = ".,?!:;";
 			String separator = null;
@@ -69,7 +69,7 @@ public class SimpleText extends SimpleText_Base {
 	}
 
 	@Override
-	public SimpleText getSimpleText(FragInter inter, int currentOffset, int offset) {
+	public SimpleText getSimpleText(ScholarInter inter, int currentOffset, int offset) {
 		int nextCurrentOffset = currentOffset + getSeparator(inter).length() + getValue().length();
 
 		logger.debug("getSimpleText value:{}, separator:{}, currentOffset:{}, offset:{}, nextCurrentOffset:{}",

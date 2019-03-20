@@ -4,25 +4,25 @@ import pt.ist.socialsoftware.edition.ldod.domain.AnnexNote_Base;
 
 public class AnnexNote extends AnnexNote_Base implements Comparable<AnnexNote> {
 
-	public AnnexNote(FragInter inter, NoteText noteText) {
-		setFragInter(inter);
+	public AnnexNote(ScholarInter inter, NoteText noteText) {
+		setScholarInter(inter);
 		setNoteText(noteText);
 
-		int number = getFragInter().getNumAnnexNotes() + 1;
+		int number = getScholarInter().getNumAnnexNotes() + 1;
 		setNumber(number);
-		getFragInter().setNumAnnexNotes(number);
+		getScholarInter().setNumAnnexNotes(number);
 	}
 
-	public AnnexNote(FragInter inter) {
-		setFragInter(inter);
+	public AnnexNote(ScholarInter inter) {
+		setScholarInter(inter);
 
-		int number = getFragInter().getNumAnnexNotes() + 1;
+		int number = getScholarInter().getNumAnnexNotes() + 1;
 		setNumber(number);
-		getFragInter().setNumAnnexNotes(number);
+		getScholarInter().setNumAnnexNotes(number);
 	}
 
 	public void remove() {
-		setFragInter(null);
+		setScholarInter(null);
 		setNoteText(null);
 
 		deleteDomainObject();

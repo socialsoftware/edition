@@ -29,7 +29,7 @@ public class AppText extends AppText_Base {
 	}
 
 	@Override
-	protected TextPortion getNextChildText(FragInter inter) {
+	protected TextPortion getNextChildText(ScholarInter inter) {
 		if (this.getInterps().contains(inter)) {
 			for (TextPortion childText : getChildTextSet()) {
 				if (childText.getInterps().contains(inter)) {
@@ -41,7 +41,7 @@ public class AppText extends AppText_Base {
 	}
 
 	@Override
-	public void putAppTextWithVariations(List<AppText> apps, List<FragInter> inters) {
+	public void putAppTextWithVariations(List<AppText> apps, List<ScholarInter> inters) {
 		if (hasVariations(inters) && hasNotTransitiveParent(apps)) {
 			apps.add(this);
 		}
@@ -59,7 +59,7 @@ public class AppText extends AppText_Base {
 	}
 
 	@Override
-	public boolean hasVariations(List<FragInter> inters) {
+	public boolean hasVariations(List<ScholarInter> inters) {
 		Set<RdgText> rdgChildSet = getChildRdgTextSet();
 
 		for (RdgText rdg : rdgChildSet) {

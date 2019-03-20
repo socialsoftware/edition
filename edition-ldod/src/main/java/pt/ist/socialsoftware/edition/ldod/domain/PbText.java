@@ -7,19 +7,19 @@ import pt.ist.socialsoftware.edition.ldod.domain.PbText_Base;
 
 public class PbText extends PbText_Base {
 
-	public PbText(TextPortion parent, Set<FragInter> interps, int pbOrder) {
+	public PbText(TextPortion parent, Set<ScholarInter> interps, int pbOrder) {
 		parent.addChildText(this);
 		setSurface(null);
 		setOrder(pbOrder);
 
-		for (FragInter inter : interps) {
-			addFragInter(inter);
+		for (ScholarInter inter : interps) {
+			addScholarInter(inter);
 		}
 	}
 
 	@Override
-	public Set<FragInter> getInterps() {
-		return getFragInterSet();
+	public Set<ScholarInter> getInterps() {
+		return getScholarInterSet();
 	}
 
 	@Override
@@ -31,14 +31,14 @@ public class PbText extends PbText_Base {
 	public void remove() {
 		setSurface(null);
 
-		for (FragInter inter : getFragInterSet()) {
-			removeFragInter(inter);
+		for (ScholarInter inter : getScholarInterSet()) {
+			removeScholarInter(inter);
 		}
 
 		super.remove();
 	}
 
-	public PbText getPrevPbText(FragInter inter) {
+	public PbText getPrevPbText(ScholarInter inter) {
 		PbText prevPbText = null;
 		for (PbText pbText : inter.getPbTextSet()) {
 			if ((pbText.getOrder() < this.getOrder())
@@ -50,7 +50,7 @@ public class PbText extends PbText_Base {
 		return prevPbText;
 	}
 
-	public PbText getNextPbText(FragInter inter) {
+	public PbText getNextPbText(ScholarInter inter) {
 		PbText nextPbText = null;
 		for (PbText pbText : inter.getPbTextSet()) {
 			if ((pbText.getOrder() > this.getOrder())

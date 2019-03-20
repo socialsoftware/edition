@@ -7,29 +7,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import pt.ist.socialsoftware.edition.ldod.domain.AddText;
-import pt.ist.socialsoftware.edition.ldod.domain.AltText;
-import pt.ist.socialsoftware.edition.ldod.domain.AppText;
-import pt.ist.socialsoftware.edition.ldod.domain.DelText;
-import pt.ist.socialsoftware.edition.ldod.domain.FragInter;
-import pt.ist.socialsoftware.edition.ldod.domain.GapText;
-import pt.ist.socialsoftware.edition.ldod.domain.LbText;
-import pt.ist.socialsoftware.edition.ldod.domain.NoteText;
-import pt.ist.socialsoftware.edition.ldod.domain.ParagraphText;
-import pt.ist.socialsoftware.edition.ldod.domain.PbText;
-import pt.ist.socialsoftware.edition.ldod.domain.RdgGrpText;
-import pt.ist.socialsoftware.edition.ldod.domain.RdgText;
-import pt.ist.socialsoftware.edition.ldod.domain.RefText;
-import pt.ist.socialsoftware.edition.ldod.domain.SegText;
-import pt.ist.socialsoftware.edition.ldod.domain.SimpleText;
-import pt.ist.socialsoftware.edition.ldod.domain.SpaceText;
-import pt.ist.socialsoftware.edition.ldod.domain.SubstText;
-import pt.ist.socialsoftware.edition.ldod.domain.UnclearText;
+import pt.ist.socialsoftware.edition.ldod.domain.*;
 
 public class HtmlWriter2CompInters implements TextPortionVisitor {
 	private final Map<FragInter, String> transcriptionsMap = new HashMap<FragInter, String>();
 	private final Map<FragInter, Integer> transcriptionsLengthMap = new HashMap<FragInter, Integer>();
-	private List<FragInter> interps = null;
+	private List<ScholarInter> interps = null;
 
 	private Boolean lineByLine = false;
 	private Boolean showSpaces = false;
@@ -40,8 +23,8 @@ public class HtmlWriter2CompInters implements TextPortionVisitor {
 
 	private String lineByLineTranscription = "";
 
-	public HtmlWriter2CompInters(List<FragInter> interps) {
-		this.interps = new ArrayList<FragInter>(interps);
+	public HtmlWriter2CompInters(List<ScholarInter> interps) {
+		this.interps = new ArrayList<ScholarInter>(interps);
 	}
 
 	public void write(Boolean lineByLine, Boolean showSpaces) {
@@ -56,7 +39,7 @@ public class HtmlWriter2CompInters implements TextPortionVisitor {
 		visit((AppText) interps.iterator().next().getFragment().getTextPortion());
 	}
 
-	public String getTranscription(FragInter inter) {
+	public String getTranscription(ScholarInter inter) {
 		return transcriptionsMap.get(inter);
 	}
 
@@ -136,7 +119,7 @@ public class HtmlWriter2CompInters implements TextPortionVisitor {
 
 	@Override
 	public void visit(RdgText rdgText) {
-		Set<FragInter> intersection = new HashSet<FragInter>(interps);
+		Set<ScholarInter> intersection = new HashSet<ScholarInter>(interps);
 		intersection.retainAll(rdgText.getInterps());
 
 		if (!intersection.isEmpty()) {
@@ -151,7 +134,7 @@ public class HtmlWriter2CompInters implements TextPortionVisitor {
 				colorCode = "<span style=\"background-color: rgb(0," + colorValue + ",255);\">";
 			}
 
-			for (FragInter inter : intersection) {
+			for (ScholarInter inter : intersection) {
 				String separator = rdgText.writeSeparator(true, false, inter);
 
 				String newTranscription = transcriptionsMap.get(inter) + separator;
@@ -187,10 +170,10 @@ public class HtmlWriter2CompInters implements TextPortionVisitor {
 
 	@Override
 	public void visit(SegText segText) {
-		Set<FragInter> intersection = new HashSet<FragInter>(interps);
+		Set<ScholarInter> intersection = new HashSet<ScholarInter>(interps);
 		intersection.retainAll(segText.getInterps());
 
-		for (FragInter inter : intersection) {
+		for (ScholarInter inter : intersection) {
 			String separator = segText.writeSeparator(true, false, inter);
 			String newTranscription = transcriptionsMap.get(inter) + separator;
 			transcriptionsMap.put(inter, newTranscription);
@@ -204,12 +187,12 @@ public class HtmlWriter2CompInters implements TextPortionVisitor {
 
 	@Override
 	public void visit(SimpleText simpleText) {
-		Set<FragInter> intersection = new HashSet<FragInter>(interps);
+		Set<ScholarInter> intersection = new HashSet<ScholarInter>(interps);
 		intersection.retainAll(simpleText.getInterps());
 
 		String value = simpleText.getValue();
 
-		for (FragInter inter : intersection) {
+		for (ScholarInter inter : intersection) {
 			String separator = simpleText.writeSeparator(true, false, inter);
 			String newTranscription = transcriptionsMap.get(inter) + separator + value;
 			transcriptionsMap.put(inter, newTranscription);
@@ -237,10 +220,10 @@ public class HtmlWriter2CompInters implements TextPortionVisitor {
 
 	@Override
 	public void visit(AddText addText) {
-		Set<FragInter> intersection = new HashSet<FragInter>(interps);
+		Set<ScholarInter> intersection = new HashSet<>(interps);
 		intersection.retainAll(addText.getInterps());
 
-		for (FragInter inter : intersection) {
+		for (ScholarInter inter : intersection) {
 			String separator = addText.writeSeparator(true, false, inter);
 			String newTranscription = transcriptionsMap.get(inter) + separator + "<ins>";
 			transcriptionsMap.put(inter, newTranscription);
@@ -259,10 +242,10 @@ public class HtmlWriter2CompInters implements TextPortionVisitor {
 
 	@Override
 	public void visit(DelText delText) {
-		Set<FragInter> intersection = new HashSet<FragInter>(interps);
+		Set<ScholarInter> intersection = new HashSet<>(interps);
 		intersection.retainAll(delText.getInterps());
 
-		for (FragInter inter : intersection) {
+		for (ScholarInter inter : intersection) {
 			String separator = delText.writeSeparator(true, false, inter);
 			String newTranscription = transcriptionsMap.get(inter) + separator + "<del>";
 			transcriptionsMap.put(inter, newTranscription);
@@ -288,12 +271,12 @@ public class HtmlWriter2CompInters implements TextPortionVisitor {
 
 	@Override
 	public void visit(GapText gapText) {
-		Set<FragInter> intersection = new HashSet<FragInter>(interps);
+		Set<ScholarInter> intersection = new HashSet<>(interps);
 		intersection.retainAll(gapText.getInterps());
 
 		String value = gapText.getGapValue();
 
-		for (FragInter inter : intersection) {
+		for (ScholarInter inter : intersection) {
 			String separator = gapText.writeSeparator(true, false, inter);
 			String newTranscription = transcriptionsMap.get(inter) + separator + value;
 			transcriptionsMap.put(inter, newTranscription);
@@ -307,10 +290,10 @@ public class HtmlWriter2CompInters implements TextPortionVisitor {
 	@Override
 	public void visit(UnclearText unclearText) {
 
-		Set<FragInter> intersection = new HashSet<FragInter>(interps);
+		Set<ScholarInter> intersection = new HashSet<>(interps);
 		intersection.retainAll(unclearText.getInterps());
 
-		for (FragInter inter : intersection) {
+		for (ScholarInter inter : intersection) {
 			String separator = unclearText.writeSeparator(true, false, inter);
 			String newTranscription = transcriptionsMap.get(inter) + separator
 					+ "<span style=\"text-shadow: black 0.0em 0.0em 0.1em; -webkit-filter: blur(0.005em);\">";

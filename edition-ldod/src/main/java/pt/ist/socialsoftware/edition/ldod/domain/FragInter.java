@@ -11,13 +11,22 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pt.ist.socialsoftware.edition.ldod.api.event.Event;
 import pt.ist.socialsoftware.edition.ldod.api.event.EventInterface;
+import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
 
 public abstract class FragInter extends FragInter_Base implements Comparable<FragInter> {
 	private static Logger logger = LoggerFactory.getLogger(FragInter.class);
 
-	public String getUrlId() {
-		return getXmlId().replace(".", "_");
+	public int getNumAnnexNotes() {
+		throw new LdoDException();
 	}
+
+	public void setNumAnnexNotes(int numAnnexNotes){
+		throw new LdoDException();
+	}
+
+	public abstract String getUrlId();
+
+	public abstract String getXmlId();
 
 	abstract public void remove();
 
@@ -63,13 +72,13 @@ public abstract class FragInter extends FragInter_Base implements Comparable<Fra
 
 	public abstract String getReference();
 
-	public List<AnnexNote> getSortedAnnexNote() {
+	/*public List<AnnexNote> getSortedAnnexNote() {
 		List<AnnexNote> results = new ArrayList<>(getAnnexNoteSet());
 
 		Collections.sort(results);
 
 		return results;
-	}
+	}*/
 
 	// solução a funcionar
 	public abstract Set<HumanAnnotation> getAllDepthHumanAnnotations();

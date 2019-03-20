@@ -11,7 +11,7 @@ public class SegText extends SegText_Base {
 
 	@Override
 	public Boolean isFormat(Boolean displayDel, Boolean highlightSubst,
-			FragInter fragInter) {
+							ScholarInter fragInter) {
 		if (getInterps().contains(fragInter)) {
 			return true;
 		} else {

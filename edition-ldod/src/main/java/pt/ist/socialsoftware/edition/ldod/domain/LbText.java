@@ -8,20 +8,20 @@ import pt.ist.socialsoftware.edition.ldod.generators.TextPortionVisitor;
 public class LbText extends LbText_Base {
 
 	public LbText(TextPortion parent, Boolean isBreak, Boolean isHyphenated,
-			Set<FragInter> interps) {
+			Set<ScholarInter> interps) {
 		parent.addChildText(this);
 
 		setBreakWord(isBreak);
 		setHyphenated(isHyphenated);
 
-		for (FragInter inter : interps) {
-			addFragInter(inter);
+		for (ScholarInter inter : interps) {
+			addScholarInter(inter);
 		}
 	}
 
 	@Override
-	public Set<FragInter> getInterps() {
-		return getFragInterSet();
+	public Set<ScholarInter> getInterps() {
+		return getScholarInterSet();
 	}
 
 	@Override
@@ -32,8 +32,8 @@ public class LbText extends LbText_Base {
 
 	@Override
 	public void remove() {
-		for (FragInter inter : getFragInterSet()) {
-			removeFragInter(inter);
+		for (ScholarInter inter : getScholarInterSet()) {
+			removeScholarInter(inter);
 		}
 
 		super.remove();

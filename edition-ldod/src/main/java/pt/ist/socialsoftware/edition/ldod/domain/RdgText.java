@@ -10,28 +10,28 @@ import pt.ist.socialsoftware.edition.ldod.generators.TextPortionVisitor;
 
 public class RdgText extends RdgText_Base implements GraphElement {
 
-	public RdgText(TextPortion parent, TextPortion.VariationType type, Set<FragInter> fragInters) {
+	public RdgText(TextPortion parent, TextPortion.VariationType type, Set<ScholarInter> fragInters) {
 		parent.addChildText(this);
 		setType(type);
 
-		for (FragInter inter : fragInters) {
-			addFragInters(inter);
+		for (ScholarInter inter : fragInters) {
+			addScholarInter(inter);
 		}
 
 	}
 
 	@Override
-	public Set<FragInter> getInterps() {
-		return getFragIntersSet();
+	public Set<ScholarInter> getInterps() {
+		return getScholarInterSet();
 	}
 
 	@Override
-	protected TextPortion getNextSibilingText(FragInter inter) {
+	protected TextPortion getNextSibilingText(ScholarInter inter) {
 		return null;
 	}
 
 	@Override
-	protected TextPortion getNextParentText(FragInter inter) {
+	protected TextPortion getNextParentText(ScholarInter inter) {
 		TextPortion parentText = getParentText();
 		if (parentText != null) {
 			return parentText.getNextParentText(inter);
@@ -46,7 +46,7 @@ public class RdgText extends RdgText_Base implements GraphElement {
 	}
 
 	@Override
-	public Boolean isFormat(Boolean displayDel, Boolean highlightSubst, FragInter fragInter) {
+	public Boolean isFormat(Boolean displayDel, Boolean highlightSubst, ScholarInter fragInter) {
 		return true;
 	}
 
@@ -57,8 +57,8 @@ public class RdgText extends RdgText_Base implements GraphElement {
 
 	public void removeOnlyThis() {
 
-		for (FragInter fragInter : getFragIntersSet()) {
-			removeFragInters(fragInter);
+		for (ScholarInter fragInter : getScholarInterSet()) {
+			removeScholarInter(fragInter);
 		}
 
 		deleteDomainObject();
@@ -66,23 +66,23 @@ public class RdgText extends RdgText_Base implements GraphElement {
 
 	@Override
 	public void remove() {
-		for (FragInter inter : getFragIntersSet()) {
-			removeFragInters(inter);
+		for (ScholarInter inter : getScholarInterSet()) {
+			removeScholarInter(inter);
 		}
 
 		super.remove();
 	}
 
 	@Override
-	public void putAppTextWithVariations(List<AppText> apps, List<FragInter> inters) {
-		List<FragInter> newInters = new ArrayList<>(inters);
+	public void putAppTextWithVariations(List<AppText> apps, List<ScholarInter> inters) {
+		List<ScholarInter> newInters = new ArrayList<>(inters);
 		newInters.retainAll(inters);
 		super.putAppTextWithVariations(apps, newInters);
 	}
 
 	@Override
-	public boolean hasVariations(List<FragInter> inters) {
-		Set<FragInter> intersection = new HashSet<>(inters);
+	public boolean hasVariations(List<ScholarInter> inters) {
+		Set<ScholarInter> intersection = new HashSet<>(inters);
 		intersection.retainAll(getInterps());
 		if (!intersection.isEmpty() && !getInterps().containsAll(inters)) {
 			return true;

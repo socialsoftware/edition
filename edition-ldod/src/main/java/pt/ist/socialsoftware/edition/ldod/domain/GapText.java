@@ -49,7 +49,7 @@ public class GapText extends GapText_Base {
 	}
 
 	@Override
-	public String getSeparator(FragInter inter) {
+	public String getSeparator(ScholarInter inter) {
 		if (getInterps().contains(inter)) {
 			String separator = null;
 

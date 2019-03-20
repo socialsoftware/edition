@@ -16,7 +16,7 @@ public class SubstText extends SubstText_Base {
 
 	@Override
 	public Boolean isFormat(Boolean displayDel, Boolean highlightSubst,
-			FragInter fragInter) {
+							ScholarInter fragInter) {
 		if (getInterps().contains(fragInter) && highlightSubst) {
 			return true;
 		} else {

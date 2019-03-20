@@ -4,32 +4,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
-import pt.ist.socialsoftware.edition.ldod.domain.AddText;
-import pt.ist.socialsoftware.edition.ldod.domain.AltText;
-import pt.ist.socialsoftware.edition.ldod.domain.AnnexNote;
-import pt.ist.socialsoftware.edition.ldod.domain.AppText;
-import pt.ist.socialsoftware.edition.ldod.domain.DelText;
-import pt.ist.socialsoftware.edition.ldod.domain.FragInter;
-import pt.ist.socialsoftware.edition.ldod.domain.GapText;
-import pt.ist.socialsoftware.edition.ldod.domain.LbText;
-import pt.ist.socialsoftware.edition.ldod.domain.NoteText;
-import pt.ist.socialsoftware.edition.ldod.domain.ParagraphText;
-import pt.ist.socialsoftware.edition.ldod.domain.PbText;
-import pt.ist.socialsoftware.edition.ldod.domain.RdgGrpText;
-import pt.ist.socialsoftware.edition.ldod.domain.RdgText;
-import pt.ist.socialsoftware.edition.ldod.domain.RefText;
-import pt.ist.socialsoftware.edition.ldod.domain.Rend;
-import pt.ist.socialsoftware.edition.ldod.domain.SegText;
-import pt.ist.socialsoftware.edition.ldod.domain.SimpleText;
-import pt.ist.socialsoftware.edition.ldod.domain.SourceInter;
-import pt.ist.socialsoftware.edition.ldod.domain.SpaceText;
-import pt.ist.socialsoftware.edition.ldod.domain.SubstText;
-import pt.ist.socialsoftware.edition.ldod.domain.UnclearText;
+import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.domain.SpaceText.SpaceDim;
 
 public class PlainHtmlWriter4OneInter implements TextPortionVisitor {
-	protected FragInter fragInter = null;
+	protected ScholarInter fragInter = null;
 	protected String transcription = "";
 
 	private void append2Transcription(String generated) {
@@ -48,31 +29,28 @@ public class PlainHtmlWriter4OneInter implements TextPortionVisitor {
 	private PbText startPbText = null;
 	private PbText stopPbText = null;
 
-	private final Map<FragInter, Integer> interpsChar = new HashMap<>();
+	private final Map<ScholarInter, Integer> interpsChar = new HashMap<>();
 	private int totalChar = 0;
 
 	public String getTranscription() {
 		return transcription;
 	}
 
-	public Integer getInterPercentage(FragInter inter) {
+	public Integer getInterPercentage(ScholarInter inter) {
 		return (interpsChar.get(inter) * 100) / totalChar;
 	}
 
-	public PlainHtmlWriter4OneInter(FragInter fragInter) {
+	public PlainHtmlWriter4OneInter(ScholarInter fragInter) {
 		this.fragInter = fragInter;
 		transcription = "";
 
-		for (FragInter inter : fragInter.getFragment().getFragmentInterSet()) {
+		for (ScholarInter inter : fragInter.getFragment().getFragmentInterSet().stream().map(i -> i.getLastUsed()).map(ScholarInter.class::cast).collect(Collectors.toSet())) {
 			interpsChar.put(inter, 0);
 		}
 	}
 
 	public void write(Boolean highlightDiff) {
 		this.highlightDiff = highlightDiff;
-		if (fragInter.getLastUsed() != fragInter) {
-			fragInter = fragInter.getLastUsed();
-		}
 		visit((AppText) fragInter.getFragment().getTextPortion());
 	}
 
@@ -83,9 +61,6 @@ public class PlainHtmlWriter4OneInter implements TextPortionVisitor {
 		this.highlightIns = highlightIns;
 		this.highlightSubst = highlightSubst;
 		this.showNotes = showNotes;
-		if (fragInter.getLastUsed() != fragInter) {
-			fragInter = fragInter.getLastUsed();
-		}
 
 		if (showFacs) {
 
@@ -196,7 +171,7 @@ public class PlainHtmlWriter4OneInter implements TextPortionVisitor {
 		String value = simpleText.getValue();
 
 		totalChar = totalChar + value.length();
-		for (FragInter inter : simpleText.getInterps()) {
+		for (ScholarInter inter : simpleText.getInterps()) {
 			Integer number = interpsChar.get(inter);
 			number = number + value.length();
 			interpsChar.put(inter, number);
@@ -357,7 +332,7 @@ public class PlainHtmlWriter4OneInter implements TextPortionVisitor {
 		String gapValue = gapText.getGapValue();
 
 		totalChar = totalChar + gapValue.length();
-		for (FragInter inter : gapText.getInterps()) {
+		for (ScholarInter inter : gapText.getInterps()) {
 			Integer number = interpsChar.get(inter);
 			number = number + gapValue.length();
 			interpsChar.put(inter, number);
@@ -391,7 +366,7 @@ public class PlainHtmlWriter4OneInter implements TextPortionVisitor {
 
 		int number = 0;
 		for (AnnexNote annexNote : noteText.getAnnexNoteSet()) {
-			if (annexNote.getFragInter() == fragInter) {
+			if (annexNote.getScholarInter() == fragInter) {
 				number = annexNote.getNumber();
 			}
 		}

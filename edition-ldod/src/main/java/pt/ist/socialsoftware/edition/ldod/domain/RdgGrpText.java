@@ -16,7 +16,7 @@ public class RdgGrpText extends RdgGrpText_Base {
 	}
 
 	@Override
-	protected TextPortion getNextChildText(FragInter inter) {
+	protected TextPortion getNextChildText(ScholarInter inter) {
 		if (this.getInterps().contains(inter)) {
 			for (TextPortion childText : getChildTextSet()) {
 				if (childText.getInterps().contains(inter)) {
@@ -28,12 +28,12 @@ public class RdgGrpText extends RdgGrpText_Base {
 	}
 
 	@Override
-	protected TextPortion getNextSibilingText(FragInter inter) {
+	protected TextPortion getNextSibilingText(ScholarInter inter) {
 		return null;
 	}
 
 	@Override
-	protected TextPortion getNextParentText(FragInter inter) {
+	protected TextPortion getNextParentText(ScholarInter inter) {
 		TextPortion parentText = getParentText();
 		if (parentText != null) {
 			return parentText.getNextParentText(inter);
@@ -48,8 +48,8 @@ public class RdgGrpText extends RdgGrpText_Base {
 	}
 
 	@Override
-	public void putAppTextWithVariations(List<AppText> apps, List<FragInter> inters) {
-		List<FragInter> newInters = new ArrayList<>(inters);
+	public void putAppTextWithVariations(List<AppText> apps, List<ScholarInter> inters) {
+		List<ScholarInter> newInters = new ArrayList<>(inters);
 		newInters.retainAll(inters);
 		super.putAppTextWithVariations(apps, newInters);
 	}

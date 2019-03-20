@@ -25,7 +25,7 @@ public class NoteText extends NoteText_Base {
 		setType(type);
 
 		if (type == NoteType.ANNEX) {
-			for (FragInter inter : getInterps()) {
+			for (ScholarInter inter : getInterps()) {
 				new AnnexNote(inter, this);
 			}
 		}
