@@ -232,9 +232,13 @@ class ConnectedNetworkGraph extends Component {
       let absoluteDistance = this.props.graphData[i].distance;
       let distancePercentage = this.props.graphData[i].distance / mostDistantFragmentDistance * 100;
 
-      var color1 = '194163';
-      var color2 = '50ffff';
-      var ratio = absoluteDistance / mostDistantFragmentDistance
+      let titleDistPerc = Math.round((100 - distancePercentage) * 100) / 100;
+
+      //gradient
+      var color1 = '061019'; // 194163 <- azul escuro #061019 -> azul ainda mais escuro
+      var color2 = 'bcffff'; //"#DC143C"<-vermelho border 50ffff<-azul claro FF7F50<-laranja bcffff<-azul ainda + claro
+      var ratio = ((distancePercentage) / 100)
+      console.log("ratio: " + ratio)
       var hex = function(x) {
         x = x.toString(16);
         return (x.length == 1)
@@ -252,7 +256,7 @@ class ConnectedNetworkGraph extends Component {
 
       let mySize = originalFragmentSize * 0.5;
 
-      let edgeLengthFactor = 1; //10000;
+      let edgeLengthFactor = 2; //10000;
 
       if (this.props.currentFragmentMode && this.props.potentialSemanticCriteria == CRIT_CHRONOLOGICAL_ORDER) {
         edgeLengthFactor = 100;
@@ -321,9 +325,9 @@ class ConnectedNetworkGraph extends Component {
 
       let rand = Math.random() * (360 - 1) + 1;
 
-      xFactor = distancePercentage * edgeLengthFactor * Math.cos(angleSlice * rand - Math.PI / 2);
+      xFactor = (distancePercentage) * edgeLengthFactor * Math.cos(angleSlice * rand - Math.PI / 2);
 
-      yFactor = distancePercentage * edgeLengthFactor * Math.sin(angleSlice * rand - Math.PI / 2);
+      yFactor = (distancePercentage) * edgeLengthFactor * Math.sin(angleSlice * rand - Math.PI / 2);
 
       //purple
       if (!this.props.currentFragmentMode && this.props.graphData[i].interId === this.props.recommendationArray[this.props.recommendationIndex].interId) {
@@ -332,7 +336,6 @@ class ConnectedNetworkGraph extends Component {
       }
 
       // let titleDistPerc = parseFloat(distancePercentage).toFixed(2);
-      let titleDistPerc = Math.round((100 - distancePercentage) * 100) / 100;
 
       let myTitle = this.props.fragmentsHashMap.get(this.props.graphData[i].interId).meta.title + " | Semelhança: " + (
       titleDistPerc) + "%"
@@ -508,7 +511,9 @@ class ConnectedNetworkGraph extends Component {
 
     //this.network.stabilize(1);
     //this.network.stabilize(30);
-    container.style.height = 500 + 'px';
+    var height = Math.round(window.innerHeight * 0.65) + 'px'; // The DOM way
+
+    container.style.height = height
     this.network.redraw();
     //this.network.fit();
 
@@ -517,7 +522,7 @@ class ConnectedNetworkGraph extends Component {
         x: 0,
         y: 0
       }, // position to animate to (Numbers)
-      scale: 2, // scale to animate to  (Number)
+      scale: 1.5, // scale to animate to  (Number)
       offset: {
         x: 0,
         y: 0

@@ -67,7 +67,18 @@ class ConnectedMyHistory extends Component {
 
     this.properties = [];
 
-    this.options = {};
+    var height = Math.round(window.innerHeight * 0.7) + 'px';
+
+    this.options = {
+      locales: {
+        // create a new locale (text strings should be replaced with localized strings)
+        pt: {}
+      },
+
+      // use the new locale
+      locale: 'pt',
+      height: height
+    };
     this.timeline = [];
     this.jsxToRender = [];
 
@@ -192,7 +203,7 @@ class ConnectedMyHistory extends Component {
 
     //this.timeline.moveTo(this.props.recommendationArray[this.props.recommendationIndex].meta.date);
 
-    this.timeline.setWindow(this.props.recommendationArray[this.props.recommendationIndex].meta.date, this.props.recommendationArray[this.props.recommendationIndex + 1].meta.date);
+    this.timeline.setWindow(this.props.recommendationArray[this.props.recommendationIndex - 50].meta.date, this.props.recommendationArray[this.props.recommendationIndex].meta.date);
 
     //this.onInitialDrawComplete(this.clearLoadingGif);
     this.loadingGif = (<div/>)
