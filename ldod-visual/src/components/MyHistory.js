@@ -91,6 +91,8 @@ class ConnectedMyHistory extends Component {
 
     this.clearLoadingGif = this.clearLoadingGif.bind(this);
 
+    this.myHistoryArray = [];
+
   }
 
   handleClick(event) {
@@ -165,21 +167,22 @@ class ConnectedMyHistory extends Component {
     this.props.fragmentsSortedByDate.map(f => {
 
       if (f.meta.date !== null) {
-        let date1 = f.meta.date.split('-');
-        let year1 = parseInt(date1[0]);
-        let month1 = parseInt(date1[1]);
-        let day1 = parseInt(date1[2]);
+        let date = f.meta.date.split('-');
+        let year = parseInt(date[0]);
+        let month = parseInt(date[1]);
+        let day = parseInt(date[2]);
 
-        let myDate = new Date(year1, month1, day1);
-        console.log("MyHistory: Added date " + myDate)
+        let myDate = new Date(year, month - 1, day);
+        console.log("MyHistory: Added date " + myDate + " |title: " + f.meta.title)
 
         let item = {
           id: f.interId,
-          content: f.meta.title,
+          content: "<p>" + f.meta.title + "</p><p>" + " (" + f.meta.date + ")" + "</p>",
           start: myDate
         };
         console.log("item id: " + item.id);
         historyItems.push(item);
+        this.myHistoryArray.push(f);
       }
     });
 
@@ -203,7 +206,53 @@ class ConnectedMyHistory extends Component {
 
     //this.timeline.moveTo(this.props.recommendationArray[this.props.recommendationIndex].meta.date);
 
-    this.timeline.setWindow(this.props.recommendationArray[this.props.recommendationIndex - 50].meta.date, this.props.recommendationArray[this.props.recommendationIndex].meta.date);
+    let imedPrevIndex;
+    let imedNextIndex;
+    let actualIndex;
+
+    let z;
+    for (z = 0; z < this.myHistoryArray.length; z++) {
+      if (this.myHistoryArray[z].interId == this.props.recommendationArray[this.props.recommendationIndex].interId) {
+        actualIndex = z;
+        break;
+      }
+    }
+
+    let j;
+    for (j = (actualIndex); j < this.myHistoryArray.length; j++) {
+      if (this.myHistoryArray[j].meta.date !== this.myHistoryArray[actualIndex].meta.date) {
+        imedNextIndex = j;
+        break
+      }
+    }
+
+    let n;
+    for (n = (actualIndex); n !== -1; n--) {
+      if (this.myHistoryArray[n].meta.date !== this.myHistoryArray[actualIndex].meta.date && n >= 0) {
+        imedPrevIndex = n;
+        break
+      }
+    }
+
+    let date1 = this.myHistoryArray[imedPrevIndex].meta.date.split('-');
+    let year1 = parseInt(date1[0]);
+    let month1 = parseInt(date1[1]);
+    let day1 = parseInt(date1[2]);
+
+    let myDate1 = new Date(year1, Math.max(1, (month1 - 2)), 15);
+
+    let date2 = this.myHistoryArray[imedNextIndex].meta.date.split('-');
+    let year2 = parseInt(date2[0]);
+    let month2 = parseInt(date2[1]);
+    let day2 = parseInt(date2[2]);
+
+    let myDate2 = new Date(year2, Math.min(12, (month2 + 2)), 15);
+
+    console.log("myhistory debug: imedPrevIndex date " + this.myHistoryArray[imedPrevIndex].meta.date + " | " + imedPrevIndex + " " + this.myHistoryArray[imedPrevIndex].meta.title)
+    console.log("myhistory debug: actualIndex date " + this.myHistoryArray[actualIndex].meta.date + " | " + actualIndex + " " + this.myHistoryArray[actualIndex].meta.title)
+    console.log("myhistory debug: imedNextIndex date " + this.myHistoryArray[imedNextIndex].meta.date + " | " + imedNextIndex + " " + this.myHistoryArray[imedNextIndex].meta.title)
+
+    this.timeline.setWindow(myDate1, myDate2);
 
     //this.onInitialDrawComplete(this.clearLoadingGif);
     this.loadingGif = (<div/>)

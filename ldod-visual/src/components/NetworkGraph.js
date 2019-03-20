@@ -234,6 +234,10 @@ class ConnectedNetworkGraph extends Component {
 
       let titleDistPerc = Math.round((100 - distancePercentage) * 100) / 100;
 
+      // test for closer values
+      // if (distancePercentage < 90)
+      //   distancePercentage = 20
+
       //gradient
       var color1 = '061019'; // 194163 <- azul escuro #061019 -> azul ainda mais escuro
       var color2 = 'bcffff'; //"#DC143C"<-vermelho border 50ffff<-azul claro FF7F50<-laranja bcffff<-azul ainda + claro
@@ -324,6 +328,10 @@ class ConnectedNetworkGraph extends Component {
       console.log("NetworkGraph.js: The number of different axes: " + totalAxes);
 
       let rand = Math.random() * (360 - 1) + 1;
+
+      // test for closer values
+      // if (distancePercentage < 90)
+      //   distancePercentage = 20
 
       xFactor = (distancePercentage) * edgeLengthFactor * Math.cos(angleSlice * rand - Math.PI / 2);
 
