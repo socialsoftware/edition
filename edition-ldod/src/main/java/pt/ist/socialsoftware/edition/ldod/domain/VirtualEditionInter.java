@@ -68,7 +68,6 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 			setUsesFragInter(inter.getXmlId());
 		}
 
-		setFragment(inter.getFragment());
 		setHeteronym(null);
 		setLdoDDate(null);
 		setSection(section);
@@ -85,8 +84,6 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 			inter.setUses(getUses());
 			inter.setUsesFragInter(getUsesFragInter()); // set usesfraginter so that first level vei can now the fraginter they point too
 		}
-
-		setFragment(null);
 
 		setSection(null);
 
@@ -488,6 +485,6 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 
 	public Fragment getFragment() {
 		TextInterface textInterface = new TextInterface();
-		return textInterface.getFragmentByXmlId(getXmlId());
+		return textInterface.getFragmentByInterXmlId(getLastUsed().getXmlId());
 	}
 }

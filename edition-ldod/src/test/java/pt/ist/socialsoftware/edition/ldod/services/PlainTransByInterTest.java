@@ -37,7 +37,7 @@ public class PlainTransByInterTest extends TestWithFragmentsLoading {
 		LdoD ldoD = LdoD.getInstance();
 
 		for (Fragment frag : Text.getInstance().getFragmentsSet()) {
-			for (FragInter fragInter : frag.getFragmentInterSet()) {
+			for (FragInter fragInter : frag.getScholarInterSet()) {
 				if (fragInter.getShortName().equals("Cunha")) {
 					fragInterExternalID = fragInter.getExternalId();
 				}

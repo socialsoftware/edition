@@ -95,7 +95,7 @@ public class VirtualEditionFragmentsTEIExportTest extends TestWithFragmentsLoadi
 		int numberOfInters = fragment.getVirtualEditionInters().size();
 
 		int numOfInfoRanges = 0;
-		for (FragInter fragInter : fragment.getFragmentInterSet()) {
+		for (FragInter fragInter : fragment.getScholarInterSet()) {
 			numOfInfoRanges += fragInter.getInfoRangeSet().size();
 			// logger("FragInter Title: " + fragInter.getTitle());
 			// logger("FragInter xmlid: " + fragInter.getXmlId());
@@ -128,7 +128,7 @@ public class VirtualEditionFragmentsTEIExportTest extends TestWithFragmentsLoadi
 		assertEquals(numOfCitations, fragment.getCitationSet().size());
 		assertEquals(numberOfInters, fragment.getVirtualEditionInters().size());
 		int numOfInfoRangesAfterImport = 0;
-		for (FragInter fragInter : fragment.getFragmentInterSet()) {
+		for (FragInter fragInter : fragment.getScholarInterSet()) {
 			numOfInfoRangesAfterImport += fragInter.getInfoRangeSet().size();
 		}
 		assertEquals(numOfInfoRanges, numOfInfoRangesAfterImport);

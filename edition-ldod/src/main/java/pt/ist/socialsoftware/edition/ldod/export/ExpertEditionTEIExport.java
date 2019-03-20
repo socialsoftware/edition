@@ -415,7 +415,7 @@ public class ExpertEditionTEIExport {
 
 		ExpertEditionInter expertEditionInter = null;
 
-		for (FragInter fragInter : fragment.getFragmentInterSet()) {
+		for (ScholarInter fragInter : fragment.getScholarInterSet()) {
 
 			// TODO: confirm: type EDITORIAL && selected
 			if (fragInter.getSourceType() == fragInter.getSourceType().EDITORIAL

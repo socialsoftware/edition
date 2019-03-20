@@ -50,8 +50,8 @@ public class ImportLdoDFromTEITest extends TestWithFragmentsLoading {
 	@Test
 	@Atomic(mode = TxMode.READ)
 	public void testLoadWitnesses() {
-		assertEquals(6, this.fragmentTest.getFragmentInterSet().size());
-		for (FragInter fragmentInter : this.fragmentTest.getFragmentInterSet()) {
+		assertEquals(5, this.fragmentTest.getScholarInterSet().size());
+		for (FragInter fragmentInter : this.fragmentTest.getScholarInterSet()) {
 			if (fragmentInter instanceof ExpertEditionInter) {
 				assertTrue(((ExpertEditionInter) fragmentInter).getExpertEdition() != null);
 			} else if (fragmentInter instanceof SourceInter) {

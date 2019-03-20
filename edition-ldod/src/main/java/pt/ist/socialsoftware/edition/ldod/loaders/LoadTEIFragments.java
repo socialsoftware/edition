@@ -276,7 +276,7 @@ public class LoadTEIFragments {
 		}
 
 		// generate index in indexer.dir
-		for (ScholarInter inter : fragment.getFragmentInterSet().stream().map(ScholarInter.class::cast).collect(Collectors.toSet())) {
+		for (ScholarInter inter : fragment.getScholarInterSet().stream().map(ScholarInter.class::cast).collect(Collectors.toSet())) {
 			try {
 				Indexer indexer = Indexer.getIndexer();
 				indexer.addDocument(inter);
@@ -322,7 +322,7 @@ public class LoadTEIFragments {
 		XPathExpression<Element> xp = this.xpfac.compile(queryExpression, Filters.element(), null,
 				Namespace.getNamespace("def", this.namespace.getURI()));
 
-		Set<ScholarInter> fragInters = fragment.getFragmentInterSet().stream().map(ScholarInter.class::cast).collect(Collectors.toSet());
+		Set<ScholarInter> fragInters = fragment.getScholarInterSet().stream().map(ScholarInter.class::cast).collect(Collectors.toSet());
 
 		AppText app = new AppText(TextPortion.VariationType.UNSPECIFIED);
 		app.setFragment(fragment);

@@ -39,10 +39,9 @@ public class TaxonomyProperty extends Property {
 	@Override
 	public double[] extractVector(Fragment fragment) {
 		double[] vector = getDefaultVector();
-		for (FragInter inter : fragment.getFragmentInterSet()) {
-			if (inter instanceof VirtualEditionInter
-					&& ((VirtualEditionInter) inter).getVirtualEdition().getTaxonomy() == taxonomy) {
-				for (Category category : ((VirtualEditionInter) inter).getCategories()) {
+		for (VirtualEditionInter inter : taxonomy.getEdition().getAllDepthVirtualEditionInters()) {
+			if (inter.getFragment() == fragment) {
+				for (Category category : inter.getCategories()) {
 					if (sortedCategories.contains(category)) {
 						vector[sortedCategories.indexOf(category)] = 1.0;
 					}

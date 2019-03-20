@@ -293,7 +293,7 @@ public class SearchController {
     }
     TextInterface textInterface = new TextInterface();
     for (Fragment frag : textInterface.getFragmentsSet()) {
-      for (FragInter inter : frag.getFragmentInterSet()) {
+      for (FragInter inter : frag.getScholarInterSet()) {
         if (inter.getSourceType().equals(Edition.EditionType.AUTHORIAL)) {
           SourceType type = ((SourceInter) inter).getSource().getType();
           if (type.equals(SourceType.MANUSCRIPT)) {
@@ -352,7 +352,7 @@ public class SearchController {
     LocalDate endDate = null;
     TextInterface textInterface = new TextInterface();
     for (Fragment fragment : textInterface.getFragmentsSet()) {
-      for (FragInter fragInter : fragment.getFragmentInterSet()) {
+      for (FragInter fragInter : fragment.getScholarInterSet()) {
         if (fragInter.getLdoDDate() != null) {
           beginDate = getIsBeforeDate(beginDate, fragInter.getLdoDDate().getDate());
           endDate = getIsAfterDate(endDate, fragInter.getLdoDDate().getDate());

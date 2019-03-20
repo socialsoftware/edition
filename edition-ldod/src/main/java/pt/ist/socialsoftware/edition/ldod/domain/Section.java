@@ -54,7 +54,7 @@ public class Section extends Section_Base implements Comparable<Section> {
 	public VirtualEditionInter createVirtualEditionInter(FragInter inter, int number) {
 		VirtualEdition virtualEdition = getVirtualEdition();
 		VirtualEditionInter virtualInter = null;
-		if (virtualEdition.canAddFragInter(inter)) {
+		if (virtualEdition.canAddFragInter((ScholarInter) inter.getLastUsed())) {
 			virtualInter = new VirtualEditionInter(this, inter, number);
 		}
 		return virtualInter;

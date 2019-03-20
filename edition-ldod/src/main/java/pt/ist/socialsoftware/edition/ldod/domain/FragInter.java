@@ -72,14 +72,6 @@ public abstract class FragInter extends FragInter_Base implements Comparable<Fra
 
 	public abstract String getReference();
 
-	/*public List<AnnexNote> getSortedAnnexNote() {
-		List<AnnexNote> results = new ArrayList<>(getAnnexNoteSet());
-
-		Collections.sort(results);
-
-		return results;
-	}*/
-
 	// solução a funcionar
 	public abstract Set<HumanAnnotation> getAllDepthHumanAnnotations();
 
@@ -96,5 +88,7 @@ public abstract class FragInter extends FragInter_Base implements Comparable<Fra
 		return getInfoRangeSet().stream().map(ir -> ir.getCitation())
 				.filter(cit -> cit.getFormatedDate().isAfter(editionBeginDateTime)).count();
 	}
+
+	public abstract Fragment getFragment();
 
 }

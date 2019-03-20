@@ -380,7 +380,7 @@ public class AdminController {
 		for (Fragment frag : textInterface.getFragmentsSet()) {
 			if (frag.getTitle().contains(query)) {
 				Set<FragInter> inters = new HashSet<>();
-				for (FragInter inter : frag.getFragmentInterSet()) {
+				for (FragInter inter : frag.getScholarInterSet()) {
 					if (inter.getSourceType() != Edition.EditionType.VIRTUAL) {
 						inters.add(inter);
 					}
@@ -416,7 +416,7 @@ public class AdminController {
 		for (Fragment frag : textInterface.getFragmentsSet()) {
 			Set<FragInter> inters = new HashSet<>();
 
-			for (FragInter inter : frag.getFragmentInterSet()) {
+			for (FragInter inter : frag.getScholarInterSet()) {
 				if (inter.getSourceType() != Edition.EditionType.VIRTUAL) {
 
 					inters.add(inter);
@@ -465,7 +465,7 @@ public class AdminController {
 			fragsRandom.add("<a href=\"/fragments/fragment/" + frag.getExternalId() + "\">" + frag.getTitle() + "</a>");
 
 			Set<FragInter> inters = new HashSet<>();
-			for (FragInter inter : frag.getFragmentInterSet()) {
+			for (FragInter inter : frag.getScholarInterSet()) {
 				if (inter.getSourceType() != Edition.EditionType.VIRTUAL) {
 
 					inters.add(inter);

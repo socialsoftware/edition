@@ -60,7 +60,7 @@ public class Search {
 		TextInterface textInterface = new TextInterface();
 
 		Set<FragInter> inters = textInterface.getFragmentsSet().stream()
-				.flatMap(f -> f.getFragmentInterSet().stream()).collect(Collectors.toSet());
+				.flatMap(f -> f.getScholarInterSet().stream()).collect(Collectors.toSet());
 		List<SearchOption> searchOptions = orderTextSearchOptions(options);
 		for (SearchOption searchOption : searchOptions) {
 			for (FragInter inter : searchOption.search(inters)) {
@@ -77,7 +77,7 @@ public class Search {
 		TextInterface textInterface = new TextInterface();
 
 		Set<FragInter> inters = textInterface.getFragmentsSet().stream()
-				.flatMap(f -> f.getFragmentInterSet().stream()).collect(Collectors.toSet());
+				.flatMap(f -> f.getScholarInterSet().stream()).collect(Collectors.toSet());
 		List<SearchOption> searchOptions = orderTextSearchOptions(options);
 		for (SearchOption searchOption : searchOptions) {
 			inters = searchOption.search(inters);
@@ -86,7 +86,7 @@ public class Search {
 				addToMatchSet(resultSet, inter, searchOption);
 			}
 
-			inters = inters.stream().flatMap(i -> i.getFragment().getFragmentInterSet().stream())
+			inters = inters.stream().flatMap(i -> i.getFragment().getScholarInterSet().stream())
 					.collect(Collectors.toSet());
 		}
 

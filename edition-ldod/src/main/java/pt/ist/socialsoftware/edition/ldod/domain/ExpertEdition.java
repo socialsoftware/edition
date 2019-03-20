@@ -92,7 +92,7 @@ public class ExpertEdition extends ExpertEdition_Base implements Comparable<Expe
 	public List<ExpertEditionInter> getSortedInter4Frag(Fragment fragment) {
 		List<ExpertEditionInter> interps = new ArrayList<ExpertEditionInter>();
 
-		for (FragInter inter : fragment.getFragmentInterSet()) {
+		for (FragInter inter : fragment.getScholarInterSet()) {
 			if (inter.getSourceType() == Edition.EditionType.EDITORIAL
 					&& ((ExpertEditionInter) inter).getExpertEdition() == this) {
 				interps.add((ExpertEditionInter) inter);

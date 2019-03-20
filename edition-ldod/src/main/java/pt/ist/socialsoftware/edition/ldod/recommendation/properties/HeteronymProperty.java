@@ -45,7 +45,7 @@ public class HeteronymProperty extends Property {
 	@Override
 	public double[] extractVector(Fragment fragment) {
 		List<Heteronym> foundHeteronyms = new ArrayList<>();
-		for (FragInter inter : fragment.getFragmentInterSet()) {
+		for (ScholarInter inter : fragment.getScholarInterSet()) {
 			foundHeteronyms.add(inter.getHeteronym());
 		}
 		for (Source source : fragment.getSourcesSet()) {
@@ -75,7 +75,7 @@ public class HeteronymProperty extends Property {
 	protected String getConcreteTitle(FragInter inter) {
 		String title = "";
 		Set<Heteronym> heteronyms = new HashSet<>();
-		for (FragInter intr : inter.getFragment().getFragmentInterSet()) {
+		for (FragInter intr : inter.getFragment().getScholarInterSet()) {
 			heteronyms.add(intr.getHeteronym());
 		}
 		for (Source source : inter.getFragment().getSourcesSet()) {

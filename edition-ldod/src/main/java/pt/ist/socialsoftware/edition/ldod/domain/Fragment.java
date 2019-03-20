@@ -42,7 +42,7 @@ public class Fragment extends Fragment_Base implements Comparable<Fragment> {
 			inter.remove();
 		}
 
-		for (FragInter inter : getFragmentInterSet()) {
+		for (FragInter inter : getScholarInterSet()) {
 			inter.remove();
 		}
 
@@ -61,7 +61,7 @@ public class Fragment extends Fragment_Base implements Comparable<Fragment> {
 	}
 
 	public List<FragInter> getSortedInterps() {
-		List<FragInter> interps = new ArrayList<>(getFragmentInterSet());
+		List<FragInter> interps = new ArrayList<>(getScholarInterSet());
 
 		Collections.sort(interps);
 
@@ -71,7 +71,7 @@ public class Fragment extends Fragment_Base implements Comparable<Fragment> {
 	public List<SourceInter> getSortedSourceInter() {
 		List<SourceInter> interps = new ArrayList<>();
 
-		for (FragInter inter : getFragmentInterSet()) {
+		for (FragInter inter : getScholarInterSet()) {
 			if (inter.getSourceType() == Edition.EditionType.AUTHORIAL) {
 				interps.add((SourceInter) inter);
 			}
@@ -84,7 +84,7 @@ public class Fragment extends Fragment_Base implements Comparable<Fragment> {
 
 	public Set<ExpertEditionInter> getExpertEditionInterSet() {
 		Set<ExpertEditionInter> result = new HashSet<>();
-		for (FragInter inter : getFragmentInterSet()) {
+		for (FragInter inter : getScholarInterSet()) {
 			if (inter.getSourceType() == Edition.EditionType.EDITORIAL) {
 				result.add((ExpertEditionInter) inter);
 			}
@@ -93,12 +93,12 @@ public class Fragment extends Fragment_Base implements Comparable<Fragment> {
 	}
 
 	public Set<ExpertEditionInter> getExpertEditionInters(ExpertEdition expertEdition) {
-		// return getFragmentInterSet().stream().filter(inter ->
+		// return getScholarInterSet().stream().filter(inter ->
 		// inter.getEdition() == expertEdition)
 		// .map(ExpertEditionInter.class::cast).collect(Collectors.toSet());
 
 		Set<ExpertEditionInter> result = new HashSet<>();
-		for (FragInter inter : getFragmentInterSet()) {
+		for (FragInter inter : getScholarInterSet()) {
 			if (inter.getEdition() == expertEdition) {
 				result.add((ExpertEditionInter) inter);
 			}
@@ -108,7 +108,7 @@ public class Fragment extends Fragment_Base implements Comparable<Fragment> {
 
 	public Set<VirtualEditionInter> getVirtualEditionInters() {
 		Set<VirtualEditionInter> result = new HashSet<>();
-		for (FragInter inter : getFragmentInterSet()) {
+		for (FragInter inter : getScholarInterSet()) {
 			if (inter instanceof VirtualEditionInter) {
 				result.add((VirtualEditionInter) inter);
 			}
@@ -117,13 +117,13 @@ public class Fragment extends Fragment_Base implements Comparable<Fragment> {
 	}
 
 	public List<VirtualEditionInter> getVirtualEditionInters(VirtualEdition virtualEdition) {
-		return getFragmentInterSet().stream().filter(inter -> inter.getEdition() == virtualEdition)
+		return getScholarInterSet().stream().filter(inter -> inter.getEdition() == virtualEdition)
 				.map(VirtualEditionInter.class::cast).sorted().collect(Collectors.toList());
 	}
 
 	public int getNumberOfInter4Edition(Edition edition) {
 		int number = 0;
-		for (FragInter inter : getFragmentInterSet()) {
+		for (FragInter inter : getScholarInterSet()) {
 			if (inter.belongs2Edition(edition)) {
 				number = number + 1;
 			}
@@ -145,7 +145,7 @@ public class Fragment extends Fragment_Base implements Comparable<Fragment> {
 	}
 
 	public FragInter getFragInterByXmlId(String xmlId) {
-		for (FragInter inter : getFragmentInterSet()) {
+		for (FragInter inter : getScholarInterSet()) {
 			if (xmlId.equals(inter.getXmlId())) {
 				return inter;
 			}
@@ -154,7 +154,7 @@ public class Fragment extends Fragment_Base implements Comparable<Fragment> {
 	}
 
 	public FragInter getFragInterByUrlId(String urlId) {
-		for (FragInter inter : getFragmentInterSet()) {
+		for (FragInter inter : getScholarInterSet()) {
 			if (urlId.equals(inter.getUrlId())) {
 				return inter;
 			}

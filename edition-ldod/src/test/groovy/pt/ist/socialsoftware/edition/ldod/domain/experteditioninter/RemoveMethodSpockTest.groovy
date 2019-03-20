@@ -42,7 +42,7 @@ class RemoveMethodSpockTest extends SpockRollbackTestAbstractClass  {
 		expertInter.remove()
 
 		then: 'the three interpretations are removed from the fragment'
-		fragment.getFragmentInterSet().size() == 0
+		fragment.getScholarInterSet().size() == 0
 		and: 'from each of the editions'
 		expertEdition.getIntersSet().size() == 0
 		virtualEditionOne.getAllDepthVirtualEditionInters().size() == 0
@@ -64,7 +64,7 @@ class RemoveMethodSpockTest extends SpockRollbackTestAbstractClass  {
         sourceInter.remove()
 
         then: 'the three interpretations are removed from the fragment'
-        fragment.getFragmentInterSet().size() == 0
+        fragment.getScholarInterSet().size() == 0
         and: 'from each of the editions'
         virtualEditionOne.getAllDepthVirtualEditionInters().size() == 0
         virtualEditionTwo.getAllDepthVirtualEditionInters().size() == 0

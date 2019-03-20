@@ -6,6 +6,10 @@ import pt.ist.socialsoftware.edition.ldod.api.event.Event;
 import pt.ist.socialsoftware.edition.ldod.api.event.EventInterface;
 import pt.ist.socialsoftware.edition.ldod.api.ldod.LdoDInterface;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 public abstract class ScholarInter extends ScholarInter_Base {
     private static Logger logger = LoggerFactory.getLogger(ScholarInter.class);
 
@@ -42,13 +46,18 @@ public abstract class ScholarInter extends ScholarInter_Base {
             annexNote.remove();
         }
 
-        for (RefText ref : getRefTextSet()) {
-            ref.setFragInter(null);
-        }
-
         // adicionado recentemente, testar
         getInfoRangeSet().forEach(infoRange -> infoRange.remove());
 
         deleteDomainObject();
     }
+
+    public List<AnnexNote> getSortedAnnexNote() {
+        List<AnnexNote> results = new ArrayList<>(getAnnexNoteSet());
+
+        Collections.sort(results);
+
+        return results;
+    }
+    
 }

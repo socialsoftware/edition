@@ -106,7 +106,7 @@ public class DateProperty extends Property {
 	@Override
 	public String getConcreteTitle(FragInter fragInter) {
 		Set<Integer> dates = new HashSet<>();
-		for (FragInter inter : fragInter.getFragment().getFragmentInterSet()) {
+		for (FragInter inter : fragInter.getFragment().getScholarInterSet()) {
 			if (inter.getLdoDDate() != null) {
 				dates.add(inter.getLdoDDate().getDate().getYear());
 			}

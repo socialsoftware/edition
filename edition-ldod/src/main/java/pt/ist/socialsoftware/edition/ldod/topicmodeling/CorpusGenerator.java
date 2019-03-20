@@ -47,7 +47,7 @@ public class CorpusGenerator {
 		String intersFilesPath = PropertiesManager.getProperties().getProperty("inters.dir");
 		File intersDirectory = new File(intersFilesPath);
 
-		for (ScholarInter inter : fragment.getFragmentInterSet().stream().map(ScholarInter.class::cast).collect(Collectors.toSet())) {
+		for (ScholarInter inter : fragment.getScholarInterSet().stream().map(ScholarInter.class::cast).collect(Collectors.toSet())) {
 
 			File file = new File(intersDirectory, inter.getExternalId() + ".txt");
 

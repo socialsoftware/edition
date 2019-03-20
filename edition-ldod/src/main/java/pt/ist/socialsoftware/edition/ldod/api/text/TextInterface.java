@@ -34,10 +34,10 @@ public class TextInterface {
                 .filter(Objects::nonNull).findFirst().orElse(null);
     }
 
-    public ScholarInter getScholarInterUsed(String id) {
+    public ScholarInter getScholarInterUsed(String xmlId) {
         return (ScholarInter) Text.getInstance().getFragmentsSet().stream()
-                .filter(fragment -> fragment.getFragInterByXmlId(id) != null)
-                .map(fragment -> fragment.getFragInterByXmlId(id)).findFirst().orElseThrow(LdoDException::new);
+                .filter(fragment -> fragment.getFragInterByXmlId(xmlId) != null)
+                .map(fragment -> fragment.getFragInterByXmlId(xmlId)).findFirst().orElseThrow(LdoDException::new);
     }
 
     public Edition getExpertEdition(String acronym) {
@@ -48,19 +48,15 @@ public class TextInterface {
         return LdoD.getInstance().getUser(username);
     }
 
-    public Set<VirtualEditionInter> getVirtualEditionIntersForFragment(String id) {
-        Fragment frag = Text.getInstance().getFragmentsSet().stream().filter(fragment -> fragment.getXmlId().equals(id))
-                .findFirst().orElseThrow(LdoDException::new);
-
-        return frag.getFragmentInterSet().stream().filter(VirtualEditionInter.class::isInstance)
-                .map(VirtualEditionInter.class::cast).collect(Collectors.toSet());
-    }
-
     public Set<Fragment> getFragmentsSet(){
         return Text.getInstance().getFragmentsSet();
     }
 
     public Fragment getFragmentByXmlId(String id){
         return Text.getInstance().getFragmentByXmlId(id);
+    }
+
+    public Fragment getFragmentByInterXmlId(String xmlId) {
+        return Text.getInstance().getFragmentsSet().stream().filter(f->f.getFragInterByXmlId(xmlId) != null).findAny().orElse(null);
     }
 }

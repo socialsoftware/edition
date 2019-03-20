@@ -316,11 +316,11 @@ public class CitationDetecter {
 		for (Citation citation : LdoD.getInstance().getCitationSet()) {
 			if (citation.getInfoRangeSet().isEmpty()) {
 				Fragment citationFragment = citation.getFragment();
-				Set<FragInter> inters = new HashSet<FragInter>(citationFragment.getFragmentInterSet());
+				Set<ScholarInter> inters = new HashSet<>(citationFragment.getScholarInterSet());
 				inters.removeAll(citationFragment.getVirtualEditionInters());
 
-				for (FragInter inter : inters) {
-					createInfoRange(((ScholarInter)inter), citation);
+				for (ScholarInter inter : inters) {
+					createInfoRange(inter, citation);
 				}
 			}
 		}

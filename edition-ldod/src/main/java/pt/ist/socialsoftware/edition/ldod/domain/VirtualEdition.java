@@ -17,6 +17,7 @@ import org.slf4j.LoggerFactory;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.fenixframework.FenixFramework;
+import pt.ist.socialsoftware.edition.ldod.api.text.TextInterface;
 import pt.ist.socialsoftware.edition.ldod.dto.FragmentDto;
 import pt.ist.socialsoftware.edition.ldod.dto.InterDistancePairDto;
 import pt.ist.socialsoftware.edition.ldod.dto.WeightsDto;
@@ -144,20 +145,20 @@ public class VirtualEdition extends VirtualEdition_Base {
 	// determines if the fragment can have more interpretations for this virtual
 	// edition, deals with the the case of a fragment having two interpretations
 	// for the same expert edition
-	public Boolean canAddFragInter(VirtualEditionInter addInter) {
+	public boolean canAddFragInter(ScholarInter addInter) {
 		Fragment fragment = addInter.getFragment();
-		FragInter usedAddInter = addInter.getLastUsed();
-		for (VirtualEditionInter inter : fragment.getVirtualEditionInters(this)) {
-			FragInter usedInter = inter.getLastUsed();
-			if (isSameInterpretation(usedAddInter, usedInter)) {
+
+		for (VirtualEditionInter inter : fragment.getVirtualEditionInters()) {
+			ScholarInter usedInter = inter.getLastUsed();
+			if (isSameInterpretation(addInter, usedInter)) {
 				return false;
 			}
 
-			if (atLeastOneIsSourceInterpretation(usedAddInter, usedInter)) {
+			if (atLeastOneIsSourceInterpretation(addInter, usedInter)) {
 				return false;
 			}
 
-			if (belongToDifferentExpertEditions(usedAddInter, usedInter)) {
+			if (belongToDifferentExpertEditions(addInter, usedInter)) {
 				return false;
 			}
 
@@ -169,17 +170,17 @@ public class VirtualEdition extends VirtualEdition_Base {
 		return true;
 	}
 
-	private boolean belongToDifferentExpertEditions(FragInter usedAddInter, FragInter usedInter) {
+	private boolean belongToDifferentExpertEditions(ScholarInter usedAddInter, ScholarInter usedInter) {
 		ExpertEdition addExpertEdition = ((ExpertEditionInter) usedAddInter).getExpertEdition();
 		ExpertEdition expertEdition = ((ExpertEditionInter) usedInter).getExpertEdition();
 		return addExpertEdition != expertEdition;
 	}
 
-	public boolean atLeastOneIsSourceInterpretation(FragInter usedAddInter, FragInter usedInter) {
+	public boolean atLeastOneIsSourceInterpretation(ScholarInter usedAddInter, ScholarInter usedInter) {
 		return usedInter instanceof SourceInter || usedAddInter instanceof SourceInter;
 	}
 
-	public boolean isSameInterpretation(FragInter usedAddInter, FragInter usedInter) {
+	public boolean isSameInterpretation(ScholarInter usedAddInter, ScholarInter usedInter) {
 		return usedAddInter == usedInter;
 	}
 
@@ -419,7 +420,7 @@ public class VirtualEdition extends VirtualEdition_Base {
 		// logger.debug("createVirtualEditionInter inter:{}, number:{}", inter, number);
 		VirtualEditionInter virtualInter = null;
 
-		if (canAddFragInter(inter)) {
+		if (canAddFragInter((ScholarInter) inter.getLastUsed())) {
 			if (getSectionsSet().isEmpty()) {
 				Section section = new Section(this, Section.DEFAULT, 0);
 				virtualInter = new VirtualEditionInter(section, inter, number);
@@ -437,7 +438,7 @@ public class VirtualEdition extends VirtualEdition_Base {
 	@Atomic(mode = TxMode.WRITE)
 	public VirtualEditionInter createVirtualEditionInter(Section section, FragInter inter, int number) {
 		VirtualEditionInter virtualInter = null;
-		if (canAddFragInter(inter)) {
+		if (canAddFragInter((ScholarInter) inter.getLastUsed())) {
 			virtualInter = new VirtualEditionInter(section, inter, number);
 			section.addVirtualEditionInter(virtualInter);
 			addSections(section);

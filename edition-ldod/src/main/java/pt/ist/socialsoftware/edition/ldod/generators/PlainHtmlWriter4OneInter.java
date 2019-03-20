@@ -44,7 +44,7 @@ public class PlainHtmlWriter4OneInter implements TextPortionVisitor {
 		this.fragInter = fragInter;
 		transcription = "";
 
-		for (ScholarInter inter : fragInter.getFragment().getFragmentInterSet().stream().map(i -> i.getLastUsed()).map(ScholarInter.class::cast).collect(Collectors.toSet())) {
+		for (ScholarInter inter : fragInter.getFragment().getScholarInterSet()) {
 			interpsChar.put(inter, 0);
 		}
 	}
@@ -98,7 +98,7 @@ public class PlainHtmlWriter4OneInter implements TextPortionVisitor {
 
 			Boolean color = false;
 			if (highlightDiff) {
-				int size = fragInter.getFragment().getFragmentInterSet().size();
+				int size = fragInter.getFragment().getScholarInterSet().size();
 				if (rdgText.getInterps().size() < size) {
 					color = true;
 					int colorValue = 255 - (255 / size) * (size - rdgText.getInterps().size() - 1);
