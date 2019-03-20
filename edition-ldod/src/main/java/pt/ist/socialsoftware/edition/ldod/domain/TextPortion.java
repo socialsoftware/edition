@@ -144,7 +144,7 @@ public abstract class TextPortion extends TextPortion_Base implements GraphEleme
 
 	public Set<ScholarInter> getInterps() {
 		if (getParentText() == null) {
-			return getFragment().getFragmentInterSet().stream().map(ScholarInter.class::cast).collect(Collectors.toSet());
+			return getFragment().getFragmentInterSet().stream().map(i-> i.getLastUsed()).map(ScholarInter.class::cast).collect(Collectors.toSet());
 		} else {
 			return getParentText().getInterps();
 		}

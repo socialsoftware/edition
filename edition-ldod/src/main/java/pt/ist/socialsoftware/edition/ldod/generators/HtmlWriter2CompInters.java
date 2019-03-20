@@ -10,8 +10,8 @@ import java.util.Set;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
 
 public class HtmlWriter2CompInters implements TextPortionVisitor {
-	private final Map<FragInter, String> transcriptionsMap = new HashMap<FragInter, String>();
-	private final Map<FragInter, Integer> transcriptionsLengthMap = new HashMap<FragInter, Integer>();
+	private final Map<ScholarInter, String> transcriptionsMap = new HashMap<ScholarInter, String>();
+	private final Map<ScholarInter, Integer> transcriptionsLengthMap = new HashMap<ScholarInter, Integer>();
 	private List<ScholarInter> interps = null;
 
 	private Boolean lineByLine = false;
@@ -31,7 +31,7 @@ public class HtmlWriter2CompInters implements TextPortionVisitor {
 		this.lineByLine = lineByLine;
 		this.showSpaces = showSpaces;
 
-		for (FragInter inter : interps) {
+		for (ScholarInter inter : interps) {
 			transcriptionsMap.put(inter, "");
 			transcriptionsLengthMap.put(inter, 0);
 		}
@@ -45,7 +45,7 @@ public class HtmlWriter2CompInters implements TextPortionVisitor {
 
 	public String getTranscriptionLineByLine() {
 		// add the last line
-		for (FragInter inter : interps) {
+		for (ScholarInter inter : interps) {
 			lineByLineTranscription = lineByLineTranscription + transcriptionsMap.get(inter) + "<br>";
 			transcriptionsMap.put(inter, "");
 			transcriptionsLengthMap.put(inter, 0);
@@ -72,12 +72,12 @@ public class HtmlWriter2CompInters implements TextPortionVisitor {
 			int lineLength = 66;
 
 			int longestLength = 0;
-			for (FragInter inter : interps) {
+			for (ScholarInter inter : interps) {
 				longestLength = Math.max(longestLength, transcriptionsLengthMap.get(inter));
 			}
 
 			if (longestLength >= lineLength) {
-				for (FragInter inter : interps) {
+				for (ScholarInter inter : interps) {
 					lineByLineTranscription = lineByLineTranscription + transcriptionsMap.get(inter) + "<br>";
 					transcriptionsMap.put(inter, "");
 					transcriptionsLengthMap.put(inter, 0);
@@ -88,15 +88,15 @@ public class HtmlWriter2CompInters implements TextPortionVisitor {
 
 	private void alignSpaces(AppText appText) {
 		if (showSpaces) {
-			Set<FragInter> appInterps = new HashSet<FragInter>(interps);
+			Set<ScholarInter> appInterps = new HashSet<ScholarInter>(interps);
 			appInterps.retainAll(appText.getInterps());
 
 			int longestLength = 0;
-			for (FragInter inter : appInterps) {
+			for (ScholarInter inter : appInterps) {
 				longestLength = Math.max(longestLength, transcriptionsLengthMap.get(inter));
 			}
 
-			for (FragInter inter : appInterps) {
+			for (ScholarInter inter : appInterps) {
 				String addSpace = "";
 				int diff = longestLength - transcriptionsLengthMap.get(inter);
 				for (int i = 0; i < diff; i++) {
@@ -150,7 +150,7 @@ public class HtmlWriter2CompInters implements TextPortionVisitor {
 			propagate2FirstChild(rdgText);
 
 			if (color) {
-				for (FragInter inter : intersection) {
+				for (ScholarInter inter : intersection) {
 					String newTranscription = transcriptionsMap.get(inter) + "</span>";
 					transcriptionsMap.put(inter, newTranscription);
 				}
@@ -232,7 +232,7 @@ public class HtmlWriter2CompInters implements TextPortionVisitor {
 
 		propagate2FirstChild(addText);
 
-		for (FragInter inter : intersection) {
+		for (ScholarInter inter : intersection) {
 			String newTranscription = transcriptionsMap.get(inter) + "</ins>";
 			transcriptionsMap.put(inter, newTranscription);
 		}
@@ -254,7 +254,7 @@ public class HtmlWriter2CompInters implements TextPortionVisitor {
 
 		propagate2FirstChild(delText);
 
-		for (FragInter inter : intersection) {
+		for (ScholarInter inter : intersection) {
 			String newTranscription = transcriptionsMap.get(inter) + "</del>";
 			transcriptionsMap.put(inter, newTranscription);
 		}
@@ -303,7 +303,7 @@ public class HtmlWriter2CompInters implements TextPortionVisitor {
 
 		propagate2FirstChild(unclearText);
 
-		for (FragInter inter : intersection) {
+		for (ScholarInter inter : intersection) {
 			String newTranscription = transcriptionsMap.get(inter) + "</span>";
 			transcriptionsMap.put(inter, newTranscription);
 		}

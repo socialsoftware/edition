@@ -266,11 +266,16 @@ public class FragmentTest {
 	public void getInterCompareTest() throws Exception {
 
 		TextInterface textInterface = new TextInterface();
-		FragInter fragInter = textInterface.getFragmentByXmlId("Fr001")
-				.getFragInterByUrlId("Fr001_WIT_MS_Fr001a_1");
+		ScholarInter fragInterOne = (ScholarInter) textInterface.getFragmentByXmlId("Fr001")
+				.getFragInterByUrlId("Fr001_WIT_ED_CRIT_SC");
+
+		ScholarInter fragInterTwo = (ScholarInter) textInterface.getFragmentByXmlId("Fr001")
+				.getFragInterByUrlId("Fr001_WIT_ED_CRIT_Z");
+
+		String[] inters = {fragInterOne.getExternalId(), fragInterTwo.getExternalId()};
 
 		this.mockMvc.perform(get("/fragments/fragment/inter/compare")
-				.param("inters[]", fragInter.getExternalId())
+				.param("inters[]", inters)
 				.param("spaces", "true")
 				.param("line", "false"))
 				.andDo(print())
@@ -278,7 +283,7 @@ public class FragmentTest {
 				.andExpect(view().name("fragment/inter2CompareSideBySide"))
 				.andExpect(model().attribute("fragment", notNullValue()))
 				.andExpect(model().attribute("lineByLine", is(false)))
-				.andExpect(model().attribute("inters", hasSize(1)))
+				.andExpect(model().attribute("inters", hasSize(2)))
 				.andExpect(model().attribute("writer", notNullValue()));
 
 	}

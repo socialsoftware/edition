@@ -257,7 +257,7 @@ class ScholarInter extends FragInter {
 
 relation FragmentHasFragInters {
 	Fragment playsRole fragment {multiplicity 1..1;}
-	FragInter playsRole fragmentInter {multiplicity 0..*;}
+	ScholarInter playsRole scholarInter {multiplicity 0..*;}
 }
 
 relation FragInterAttributesHeteronym {

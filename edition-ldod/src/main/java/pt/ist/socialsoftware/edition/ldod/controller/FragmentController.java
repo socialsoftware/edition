@@ -351,7 +351,8 @@ public class FragmentController {
 			@RequestParam(value = "spaces", required = true) boolean showSpaces, Model model) {
 		List<ScholarInter> inters = new ArrayList<>();
 		for (String interID : intersID) {
-			inters.add(FenixFramework.getDomainObject(interID));
+			FragInter inter = FenixFramework.getDomainObject(interID);
+			inters.add((ScholarInter) inter.getLastUsed());
 		}
 
 		HtmlWriter2CompInters writer = new HtmlWriter2CompInters(inters);

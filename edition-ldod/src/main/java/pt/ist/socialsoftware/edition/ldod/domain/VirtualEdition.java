@@ -138,24 +138,13 @@ public class VirtualEdition extends VirtualEdition_Base {
 	}
 
 	public List<VirtualEditionInter> getSortedInter4Frag(Fragment fragment) {
-		List<VirtualEditionInter> interps = new ArrayList<>();
-
-		for (FragInter inter : fragment.getFragmentInterSet()) {
-			if (inter.getSourceType() == EditionType.VIRTUAL
-					&& ((VirtualEditionInter) inter).getVirtualEdition() == this) {
-				interps.add((VirtualEditionInter) inter);
-			}
-		}
-
-		Collections.sort(interps);
-
-		return interps;
+		return getAllDepthVirtualEditionInters().stream().filter( i -> i.getFragment() == fragment).sorted().collect(Collectors.toList());
 	}
 
 	// determines if the fragment can have more interpretations for this virtual
 	// edition, deals with the the case of a fragment having two interpretations
 	// for the same expert edition
-	public Boolean canAddFragInter(FragInter addInter) {
+	public Boolean canAddFragInter(VirtualEditionInter addInter) {
 		Fragment fragment = addInter.getFragment();
 		FragInter usedAddInter = addInter.getLastUsed();
 		for (VirtualEditionInter inter : fragment.getVirtualEditionInters(this)) {
