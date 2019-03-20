@@ -71,6 +71,13 @@ function truncateText(text, length) {
   return text.substr(0, length) + "\u2026";
 }
 
+function truncateDate(date) {
+  date = date.split('-');
+  let year = parseInt(date[0]);
+
+  return date.toString().substr(2, 2);
+}
+
 class ConnectedSquareGrid extends Component {
   constructor(props) {
     super(props);
@@ -128,11 +135,14 @@ class ConnectedSquareGrid extends Component {
       //grey if date is a criteria and fragment has no date
 
       let dateExistsAndChronologicalCriteria = false;
+      let dateLabel = "";
+      let usedShape = "square"
       //grey
       if (this.props.currentFragmentMode && this.props.potentialSemanticCriteria == CRIT_CHRONOLOGICAL_ORDER && this.myFragmentArray[i].meta.date == null) {
         dateExistsAndChronologicalCriteria = true;
         nodeBorderColor = "#101010";
         nodeBackgroundColor = "#505050";
+
       } else if ((!(this.props.currentFragmentMode) && this.props.semanticCriteria == CRIT_CHRONOLOGICAL_ORDER && this.myFragmentArray[i].meta.date == null)) {
         dateExistsAndChronologicalCriteria = true;
         nodeBorderColor = "#101010";
@@ -141,10 +151,14 @@ class ConnectedSquareGrid extends Component {
 
       if (this.props.currentFragmentMode && this.props.potentialSemanticCriteria == CRIT_CHRONOLOGICAL_ORDER && this.myFragmentArray[i].meta.date !== null) {
         myTitle = this.myFragmentArray[i].meta.title + " | Data: " + this.myFragmentArray[i].meta.date;
+        dateLabel = truncateDate(this.myFragmentArray[i].meta.date);
+        usedShape = "box"
       } else if (this.props.currentFragmentMode && this.props.potentialSemanticCriteria == CRIT_CHRONOLOGICAL_ORDER && !this.myFragmentArray[i].meta.date) {
         myTitle = this.myFragmentArray[i].meta.title + " | Data: Sem data";
       } else if (!this.props.currentFragmentMode && this.props.semanticCriteria == CRIT_CHRONOLOGICAL_ORDER && this.myFragmentArray[i].meta.date !== null) {
         myTitle = this.myFragmentArray[i].meta.title + " | Data: " + this.myFragmentArray[i].meta.date;
+        dateLabel = truncateDate(this.myFragmentArray[i].meta.date);
+        usedShape = "box"
       } else if (!this.props.currentFragmentMode && this.props.semanticCriteria == CRIT_CHRONOLOGICAL_ORDER && !this.myFragmentArray[i].meta.date) {
         myTitle = this.myFragmentArray[i].meta.title + " | Data: Sem data";
       }
@@ -266,10 +280,21 @@ class ConnectedSquareGrid extends Component {
 
       obj = {
         id: this.myFragmentArray[i].interId,
-        //label: "",
-        shape: "square",
-        margin: 5, //só funciona com circle...
+        label: dateLabel,
+        shape: usedShape,
+        margin: 5, //só funciona com circle,box...
         size: originalFragmentSize * remainingNodeFactor,
+        scaling: {
+          // min: 20,
+          label: {
+            enabled: true,
+            // min: 20,
+            // max: 70
+          }
+        },
+        font: {
+          size: 45
+        },
         fixed: true,
         chosen: true,
         borderWidth: myBorderWidth,

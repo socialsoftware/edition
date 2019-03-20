@@ -11,6 +11,7 @@ import MyHistory from "../components/MyHistory";
 import {
   VIS_SQUARE_GRID,
   VIS_NETWORK_GRAPH,
+  VIS_TIMELINE,
   VIS_WORD_CLOUD,
   BY_SQUAREGRID_EDITIONORDER,
   CRIT_EDITION_ORDER,
@@ -74,7 +75,7 @@ class ConnectedActivityMenu extends Component {
 
     this.toggleActivityNetworkGraphHeteronym = this.toggleActivityNetworkGraphHeteronym.bind(this);
 
-    this.toggleActivityNetworkGraphDate = this.toggleActivityNetworkGraphDate.bind(this);
+    this.toggleActivityMyHistoryDate = this.toggleActivityMyHistoryDate.bind(this);
 
     this.toggleActivityNetworkGraphTaxonomy = this.toggleActivityNetworkGraphTaxonomy.bind(this);
 
@@ -111,15 +112,15 @@ class ConnectedActivityMenu extends Component {
     }));
   }
 
-  toggleActivityNetworkGraphDate() {
+  toggleActivityMyHistoryDate() {
 
     if (this.props.datesExist & this.props.recommendationArray[this.props.recommendationIndex].meta.date !== null) {
 
       if (this.props.recommendationArray[this.props.recommendationIndex].meta.date !== null) {
 
-        this.props.setPotentialVisualizationTechnique(VIS_NETWORK_GRAPH);
+        this.props.setPotentialVisualizationTechnique(VIS_TIMELINE);
         this.props.setPotentialSemanticCriteria(CRIT_CHRONOLOGICAL_ORDER);
-        this.activityToRender = (<NetworkGraphContainer onChange={this.props.onChange}/>);
+        this.activityToRender = (<MyHistory onChange={this.props.onChange}/>);
         this.setState(prevState => ({
           show: !prevState.show
         }));
@@ -388,14 +389,14 @@ class ConnectedActivityMenu extends Component {
 
           <div className="cardActivity">
             <div className="containerActivity">
-              <img src={datesSimilarImage} onClick={this.toggleActivityNetworkGraphDate} className="cardsActivityImage" alt="Avatar" style={{
+              <img src={datesSimilarImage} onClick={this.toggleActivityMyHistoryDate} className="cardsActivityImage" alt="Avatar" style={{
                   width: "100%"
                 }}/>
               <p align="center">
                 <b>{datesSimilarButtonMessage}</b>
               </p>
               <div className="welcomeButtonActivity">
-                <Button bsStyle={datesSimilarButtonStyle} bsSize="small" onClick={this.toggleActivityNetworkGraphDate}>
+                <Button bsStyle={datesSimilarButtonStyle} bsSize="small" onClick={this.toggleActivityMyHistoryDate}>
                   {datesSimilarButtonBotMessage}
                 </Button>
               </div>
