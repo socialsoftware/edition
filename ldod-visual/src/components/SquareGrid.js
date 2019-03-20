@@ -282,7 +282,7 @@ class ConnectedSquareGrid extends Component {
         id: this.myFragmentArray[i].interId,
         label: dateLabel,
         shape: usedShape,
-        margin: 5, //só funciona com circle,box...
+        margin: 13, //só funciona com circle,box...
         size: originalFragmentSize * remainingNodeFactor,
         scaling: {
           // min: 20,
@@ -293,7 +293,7 @@ class ConnectedSquareGrid extends Component {
           }
         },
         font: {
-          size: 45
+          size: 35
         },
         fixed: true,
         chosen: true,
