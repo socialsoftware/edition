@@ -13,7 +13,8 @@ import {
   setPotentialSemanticCriteria,
   setDisplayTextSkimming,
   setHistoryEntryCounter,
-  setAllFragmentsLoaded
+  setAllFragmentsLoaded,
+  setOutOfLandingPage
 } from "./actions/index";
 import {connect} from "react-redux";
 import {Button, ButtonToolbar, Modal, OverlayTrigger, Tooltip} from "react-bootstrap";
@@ -103,7 +104,8 @@ const mapDispatchToProps = dispatch => {
     setPotentialSemanticCriteria: potentialSemanticCriteria => dispatch(setPotentialSemanticCriteria(potentialSemanticCriteria)),
     setDisplayTextSkimming: displayTextSkimming => dispatch(setDisplayTextSkimming(displayTextSkimming)),
     setHistoryEntryCounter: historyEntryCounter => dispatch(setHistoryEntryCounter(historyEntryCounter)),
-    setAllFragmentsLoaded: allFragmentsLoaded => dispatch(setAllFragmentsLoaded(allFragmentsLoaded))
+    setAllFragmentsLoaded: allFragmentsLoaded => dispatch(setAllFragmentsLoaded(allFragmentsLoaded)),
+    setOutOfLandingPage: outOfLandingPage => dispatch(setOutOfLandingPage(outOfLandingPage))
   };
 };
 
@@ -439,6 +441,7 @@ class ConnectedApp extends Component {
 
   handleEditionSelectRetreat() {
     this.props.setAllFragmentsLoaded(false);
+    this.props.setOutOfLandingPage(false);
     this.setState({editionSelected: false});
     this.landingActivityToRender = <PublicEditionContainerTable onChange={this.handleEditionsReceived} sendSelectedEdition={this.handleEditionSelected}/>
   }
@@ -731,10 +734,13 @@ class ConnectedApp extends Component {
     let nextNavButtonGold = <div/>;
     let editionTitleToDisplay = <div/>;
     let editionAcronymToDisplay = <div/>;
-    if (this.props.allFragmentsLoaded & this.props.outOfLandingPage) {
+    if (this.props.allFragmentsLoaded && this.props.outOfLandingPage) {
 
       editionTitleToDisplay = ("Título da edição virtual seleccionada: " + ReactHtmlParser(this.state.currentEdition.title));
       editionAcronymToDisplay = ("Acrónimo: " + this.state.currentEdition.acronym);
+    }
+
+    if (this.props.allFragmentsLoaded & this.props.outOfLandingPage) {
 
       // console.log("App.js: this.props.visualizationTechnique: " + this.props.visualizationTechnique);
       // console.log("App.js: this.props.semanticCriteria: " + this.props.semanticCriteria);
