@@ -16,31 +16,39 @@
     format('truetype');*/
   }
 
+  @font-face {
+     font-family: 'AdobeVFPrototype';
+     src: url('AdobeVFPrototype.otf') format('otf'),
+     url('AdobeVFPrototype.ttf') format('ttf')
+     /*font-weight: normal;
+     font-style: normal;
+     format('truetype');*/
+   }
+
 
 .app {
   display: flex;
   flex-direction: column;
-  font-family: 'Amstelvar';/*Gingham; Consolas; Amstelvar;*/
-  font-weight: 300;
-  font-size: 24px;
-  font-weight: 300 900;
+  font-family: 'AdobeVFPrototype';/*Gingham; Consolas; Amstelvar;*/
+  font-weight: 200;
+  font-size: 26px;
+  font-weight: 200 900;
   font-stretch: 35% 100%;
   font-style: normal;
   font-display: swap;
 }
 
 .buttonToolbar {
-
   display: inline-block;
   flex-direction: row;
   position: fixed;
   align-self: center;
   margin-top: 30px;
-
+  font-family: 'Helvetica Neue';/*Gingham; Consolas; Amstelvar;*/
 }
 
 .toggleTextSkimming{
-
+font-family: 'Helvetica Neue';/*Gingham; Consolas; Amstelvar;*/
   position: fixed;
   align-self: center;
   margin-top: 95px;

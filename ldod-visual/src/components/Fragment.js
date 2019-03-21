@@ -86,7 +86,7 @@ export class ConnectedFragment extends React.Component {
     this.truncateCounter = 0;
     this.TfIdfRequestCounter = 0;
 
-    this.tfidfWordLimit = 8;
+    this.tfidfWordLimit = 5;
     this.tfIdfWordLimitValues = [];
     this.lastTfFragId = "";
   }
@@ -252,12 +252,12 @@ export class ConnectedFragment extends React.Component {
 
               let tfIdf = parseFloat(wordsTfIdfMap.get(replaceSpecialChars(stringArray[w].toLowerCase())));
 
-              console.log("tf idf debug: wordToCompare: " + wordToCompare)
+              // console.log("tf idf debug: wordToCompare: " + wordToCompare)
 
-              console.log("tf idf debug: tfIdfWordLimitValues: " + this.tfIdfWordLimitValues)
+              // console.log("tf idf debug: tfIdfWordLimitValues: " + this.tfIdfWordLimitValues)
 
-              console.log("tf idf debug: (tfIdfWordLimitValues.indexOf(wordToCompare) !== -1): " + (
-              this.tfIdfWordLimitValues.indexOf(wordToCompare) !== -1))
+              // console.log("tf idf debug: (tfIdfWordLimitValues.indexOf(wordToCompare) !== -1): " + (
+              // this.tfIdfWordLimitValues.indexOf(wordToCompare) !== -1))
 
               if (outOfTag && this.eliteWordsMap.get(currentlyDisplayedFragmentId).indexOf(wordToCompare) !== -1) {
 
@@ -270,13 +270,17 @@ export class ConnectedFragment extends React.Component {
                   this.max = tfIdf
                 }
 
+                // boldWeight = 300 + (parseFloat((tfIdf * 10000)) * 599) / parseFloat((this.eliteWordsMap.get(currentlyDisplayedFragmentId)[0] * 10000))
+                //
+                // boldWeight = parseFloat(boldWeight);
+
                 boldWeight = 300 + (tfIdf * 10000);
 
-                console.log("TfIdf for word " + stringArray[w] + ": " + tfIdf + " | boldWeight: " + boldWeight);
+                console.log("TfIdf for word " + stringArray[w] + ": " + tfIdf + " | boldWeight: " + boldWeight + " " + this.eliteWordsMap.get(currentlyDisplayedFragmentId)[0]);
 
-                if (boldWeight > 999) {
-                  boldWeight = 999;
-                  console.log("truncating to 999")
+                if (boldWeight > 899) {
+                  boldWeight = 899;
+                  console.log("truncating to 899")
                   this.truncateCounter = this.truncateCounter + 1;
                 }
 
