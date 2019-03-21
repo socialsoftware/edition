@@ -286,9 +286,6 @@ class ConnectedActivityMenu extends Component {
 
       this.activityToRender = (<div>
 
-        <p>Caso tenha seleccionado uma edição virtual sem taxonomia, ou categorias, não será possível realizar actividades que dependem das mesmas, que estarão devidamente assinaladas a cinzento. O mesmo se aplicará para a ausência de datas ou se o fragmento que está a ler actualmente não for assinado por qualquer heterónimo - as actividades em torno dessa informação estarão indisponíveis.
-        </p>
-
         <div className="cardsContainerActivity">
 
           <div className="cardActivity">
@@ -437,3 +434,6 @@ class ConnectedActivityMenu extends Component {
 const ActivityMenu = connect(mapStateToProps, mapDispatchToProps)(ConnectedActivityMenu);
 
 export default ActivityMenu;
+
+//         <p>Caso tenha seleccionado uma edição virtual sem taxonomia, ou categorias, não será possível realizar actividades que dependem das mesmas, que estarão devidamente assinaladas a cinzento. O mesmo se aplicará para a ausência de datas ou se o fragmento que está a ler actualmente não for assinado por qualquer heterónimo - as actividades em torno dessa informação estarão indisponíveis.
+//         </p>

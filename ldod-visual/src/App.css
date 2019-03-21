@@ -73,6 +73,16 @@
   text-justify: inter-word;
 }
 
+
+
+.instructionsTextHistory{
+  margin-left: 200px;
+  margin-right: 200px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  text-align: center
+}
+
 .catTitle{
   margin-top: 30px;
 }

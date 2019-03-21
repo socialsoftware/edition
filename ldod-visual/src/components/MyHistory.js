@@ -302,6 +302,26 @@ class ConnectedMyHistory extends Component {
 
   render() {
 
+    let redSquareText = (<span style={{
+        background: "#FF7F50",
+        paddingLeft: '3px',
+        paddingRight: '3px',
+        border: "#FF7F50",
+        color: 'white'
+      }}>
+      <b>rectângulo laranja</b>
+    </span >);
+
+    let purpleSquareText = (<span style={{
+        background: "#8A2BE2",
+        paddingLeft: '3px',
+        paddingRight: '3px',
+        border: "#8A2BE2",
+        color: 'white'
+      }}>
+      <b>rectângulo roxo</b>
+    </span >);
+
     let instructions = (<div className="instructionsButton">
       <Button bsStyle="primary" bsSize="small" onClick={this.toggleInstructions}>
         Mostrar instrucções
@@ -315,6 +335,20 @@ class ConnectedMyHistory extends Component {
           <p>
             Nesta cronologia, poderá situar o fragmento actual e a sua data em comparação ao resto dos fragmentos da edição virtual que tenham também data disponível.
           </p>
+
+          <ul>
+            <li>
+              Pode rastejar a cronologia com o botão esquerdo do rato e controlar o zoom da cronologia com a roda do rato.
+            </li>
+            <li>
+              Um {redSquareText}
+              representará o fragmento sob o qual realizou ou está a realizar uma nova actividade.
+            </li>
+            <li>
+              Um {purpleSquareText}
+              representará o fragmento que está a ler durante a actividade actual caso navegue para um fragmento diferente do fragmento inicial que escolheu ao seleccionar uma nova actividade (o {redSquareText}).
+            </li>
+          </ul>
 
         </div>
 
