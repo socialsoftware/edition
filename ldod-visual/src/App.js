@@ -743,10 +743,14 @@ class ConnectedApp extends Component {
     let nextNavButtonGold = <div/>;
     let editionTitleToDisplay = <div/>;
     let editionAcronymToDisplay = <div/>;
+    let changeEdButton = <div/>;
     if (this.props.allFragmentsLoaded && this.props.outOfLandingPage) {
 
       editionTitleToDisplay = ("Título da edição virtual seleccionada: " + ReactHtmlParser(this.state.currentEdition.title));
       editionAcronymToDisplay = ("Acrónimo: " + this.state.currentEdition.acronym);
+      changeEdButton = <Button bsStyle="primary" bsSize="small" onClick={this.forcePageReload}>
+        Escolher outra edição virtual
+      </Button>
     }
 
     if (this.props.allFragmentsLoaded & this.props.outOfLandingPage) {
@@ -1003,15 +1007,22 @@ class ConnectedApp extends Component {
             // ...styles,
             // opacity: this.state.opacity,
             color: 'white',
-            fontSize: 13
+            fontSize: 14
           }}>{editionTitleToDisplay}</p>
 
         <p align="center" style={{
             // ...styles,
             // opacity: this.state.opacity,
             color: 'white',
-            fontSize: 13
+            fontSize: 14
           }}>{editionAcronymToDisplay}</p>
+
+        <p align="center" style={{
+            // ...styles,
+            // opacity: this.state.opacity,
+            color: 'white',
+            fontSize: 14
+          }}>{changeEdButton}</p>
 
       </div>
 
