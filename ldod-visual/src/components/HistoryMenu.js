@@ -30,6 +30,7 @@ import {
 import "./HistoryMenu.css";
 import picNetGraph from '../assets/picnetgraph.png';
 import picSquareGrid from '../assets/picsquaregrid.png';
+import loadingGif from '../assets/loading.gif';
 
 const mapStateToProps = state => {
   return {
@@ -66,7 +67,16 @@ class ConnectedHistoryMenu extends Component {
 
     this.properties = [];
 
+    this.state = {
+      loadingGif: (<div>
+        <img src={loadingGif} alt="loading...myhistory" className="loadingGifCentered"/>
+        <p align="center">A carregar histórico...</p>
+      </div>)
+    };
+
     var height = Math.round(window.innerHeight * 0.7) + 'px';
+
+    this.clearLoadingGif = this.clearLoadingGif.bind(this);
 
     this.options = {
       locales: {
@@ -76,12 +86,17 @@ class ConnectedHistoryMenu extends Component {
 
       // use the new locale
       locale: 'pt',
-      height: height
+      height: height,
+      onInitialDrawComplete: this.clearLoadingGif
     };
     this.timeline = [];
 
     this.handleClick = this.handleClick.bind(this);
 
+  }
+
+  clearLoadingGif() {
+    this.setState({loadingGif: (<div/>)});
   }
 
   handleClick(event) {
@@ -198,6 +213,7 @@ class ConnectedHistoryMenu extends Component {
       <p>
         Nesta cronologia, poderá consultar o seu caminho na leitura da edição virtual do Livro do Desassossego que seleccionou. Basta clicar num dos títulos do fragmentos para retornar ao mesmo bem como a actividade pela qual chegou a esse fragmento.
       </p>
+      {this.state.loadingGif}
       {jsxToRender}
     </div>);
   }

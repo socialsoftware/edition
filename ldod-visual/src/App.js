@@ -167,7 +167,8 @@ class ConnectedApp extends Component {
       mouseOverMenuButtons: true,
       hiddenFromIdle: false,
       previousGoldenButtonClass: "goldenButtonPrevious",
-      nextGoldenButtonClass: "goldenButtonNext"
+      nextGoldenButtonClass: "goldenButtonNext",
+      showInstructions: false
     };
 
     this.opacityHide = 0;
@@ -211,6 +212,14 @@ class ConnectedApp extends Component {
     this.nextButtonAction = this.nextButtonAction.bind(this);
     this.previousButtonAction = this.previousButtonAction.bind(this);
 
+    this.toggleInstructions = this.toggleInstructions.bind(this);
+
+  }
+
+  toggleInstructions() {
+    this.setState({
+      showInstructions: !this.state.showInstructions
+    });
   }
 
   setMouseOverMenuButtons() {

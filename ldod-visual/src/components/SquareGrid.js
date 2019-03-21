@@ -24,6 +24,7 @@ import {
   CRIT_HETERONYM
 } from "../constants/history-transitions";
 import HashMap from "hashmap";
+import {Button} from "react-bootstrap";
 
 const mapStateToProps = state => {
   return {
@@ -90,6 +91,10 @@ class ConnectedSquareGrid extends Component {
 
     this.myCategory = "";
 
+    this.state = {
+      showInstructions: false
+    };
+
     this.myFragmentArray = this.props.fragments;
     if (this.props.currentFragmentMode && this.props.potentialSemanticCriteria == CRIT_CHRONOLOGICAL_ORDER) {
       this.myFragmentArray = this.props.fragmentsSortedByDate;
@@ -125,7 +130,9 @@ class ConnectedSquareGrid extends Component {
 
     for (i = 0; i < this.myFragmentArray.length; i++) {
 
-      let myTitle = this.myFragmentArray[i].meta.title;
+      let indexInc = i + 1;
+
+      let myTitle = this.myFragmentArray[i].meta.title + " (" + indexInc + "/" + this.myFragmentArray.length + ")";
       //const myText = this.myFragmentArray[i].text;
 
       //blue
@@ -383,6 +390,14 @@ class ConnectedSquareGrid extends Component {
 
     this.handleSelectNode = this.handleSelectNode.bind(this);
 
+    this.toggleInstructions = this.toggleInstructions.bind(this);
+
+  }
+
+  toggleInstructions() {
+    this.setState({
+      showInstructions: !this.state.showInstructions
+    });
   }
 
   handleSelectNode(event) {
@@ -487,7 +502,7 @@ class ConnectedSquareGrid extends Component {
 
       var container = document.getElementById('gridvis');
       this.network = new Network(container, data, this.options);
-      var height = Math.round(window.innerHeight * 1.0) + 'px'; // The DOM way
+      var height = Math.round(window.innerHeight * 0.80) + 'px'; // The DOM way
       if (this.props.fragments.length < 100) {
         height = Math.round(window.innerHeight * 0.6) + 'px'; // The DOM way
       }
@@ -545,43 +560,67 @@ class ConnectedSquareGrid extends Component {
       <b>quadrados amarelos</b>
     </span >);
 
+    let instructions = (<div className="instructionsButton">
+      <Button bsStyle="primary" bsSize="small" onClick={this.toggleInstructions}>
+        Mostrar instrucções
+      </Button>
+    </div>)
+
+    if (this.state.showInstructions) {
+      instructions = (<div>
+        <div className="instructionsText">
+          <p>
+            Neste mapa, cada quadrado representa um fragmento da edição virtual do Livro do Desassossego que seleccionou.
+          </p>
+
+          <p>
+            Seleccione um fragmento para leitura ao clicar num dos quadrados do mapa.
+          </p>
+
+          <ul>
+            <li>
+              Um {redSquareText}
+              representará o fragmento sob o qual realizou ou está a realizar uma nova actividade.
+            </li>
+            <li>
+              Um {purpleSquareText}
+              representará o fragmento que está a ler durante a actividade actual caso navegue para um fragmento diferente do fragmento inicial que escolheu ao seleccionar uma nova actividade (o {redSquareText}).
+            </li>
+            <li>
+              Caso esteja a realizar uma actividade que envolva datas, os {greySquareText}
+              representarão fragmentos sem data.
+            </li>
+            <li>
+              Por fim, caso esteja a realizar uma actividade que envolva categorias ou heterónimos, os {goldenSquareText}
+              representarão os fragmentos correspondentes à categoria ou heterónimo.
+            </li>
+          </ul>
+
+        </div>
+
+        <div className="instructionsButton">
+          <Button bsStyle="primary" bsSize="small" onClick={this.toggleInstructions}>
+            Esconder instrucções
+          </Button>
+        </div>
+
+        <br/>
+
+      </div>)
+    }
+
     return (<div>
-      <p>
-        Neste mapa, cada quadrado representa um fragmento da edição virtual do Livro do Desassossego que seleccionou.
-      </p>
+      {instructions}
 
-      <p>
-        Seleccione um fragmento para leitura ao clicar num dos quadrados do mapa.
-      </p>
-
-      <p>
-        Um {redSquareText}
-        representará o fragmento sob o qual realizou ou está a realizar uma nova actividade.
-      </p>
-
-      <p>
-        Um {purpleSquareText}
-        representará o fragmento que está a ler durante a actividade actual caso navegue para um fragmento diferente do fragmento inicial que escolheu ao seleccionar uma nova actividade (o {redSquareText}).
-      </p>
-
-      <p>
-        Caso esteja a realizar uma actividade que envolva datas, os {greySquareText}
-        representarão fragmentos sem data.
-      </p>
-
-      <p>
-        Por fim, caso esteja a realizar uma actividade que envolva categorias ou heterónimos, os {goldenSquareText}
-        representarão os fragmentos correspondentes à categoria ou heterónimo.
-      </p>
-
-      <br/>
-
-      <h4 align="center">{this.supportMessage}{this.conditionalSpace}{this.highlightText}</h4>
+      <div>
+        <h4 align="center">{this.supportMessage}{this.conditionalSpace}{this.highlightText}</h4>
+      </div>
 
       <div className="graphGrid" id="gridvis"></div>
 
     </div>);
   }
+
 }
 
 const SquareGrid = connect(mapStateToProps, mapDispatchToProps)(ConnectedSquareGrid);

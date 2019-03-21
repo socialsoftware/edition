@@ -29,6 +29,7 @@ import {
 } from "../actions/index";
 import "./MyHistory.css";
 import loadingGif from '../assets/loading.gif';
+import {Button} from "react-bootstrap";
 
 const mapStateToProps = state => {
   return {
@@ -80,6 +81,11 @@ class ConnectedMyHistory extends Component {
 
     var height = Math.round(window.innerHeight * 0.7) + 'px';
 
+    this.state = {
+      refresh: false,
+      showInstructions: false
+    };
+
     this.options = {
       locales: {
         // create a new locale (text strings should be replaced with localized strings)
@@ -95,7 +101,7 @@ class ConnectedMyHistory extends Component {
 
     this.loadingGif = (<div>
       <img src={loadingGif} alt="loading...myhistory" className="loadingGifCentered"/>
-      <p align="center">A carregar histórico...</p>
+      <p align="center">A carregar actividade...</p>
     </div>);
 
     this.handleClick = this.handleClick.bind(this);
@@ -104,6 +110,14 @@ class ConnectedMyHistory extends Component {
 
     this.myHistoryArray = [];
 
+    this.toggleInstructions = this.toggleInstructions.bind(this);
+
+  }
+
+  toggleInstructions() {
+    this.setState({
+      showInstructions: !this.state.showInstructions
+    });
   }
 
   handleClick(event) {
@@ -212,6 +226,7 @@ class ConnectedMyHistory extends Component {
     console.log("historico: " + this.props.history);
     console.log("history items: " + historyItems);
     this.timeline = new Timeline(container, historyItems, this.options);
+
     this.timeline.on('click', this.handleClick);
 
     var moveToOptions = {
@@ -272,27 +287,56 @@ class ConnectedMyHistory extends Component {
     console.log("myhistory debug: this.actualIndex date " + this.myHistoryArray[this.actualIndex].meta.date + " | " + this.actualIndex + " " + this.myHistoryArray[this.actualIndex].meta.title)
     console.log("myhistory debug: imedNextIndex date " + this.myHistoryArray[imedNextIndex].meta.date + " | " + imedNextIndex + " " + this.myHistoryArray[imedNextIndex].meta.title)
 
-    this.timeline.setWindow(myDate1, myDate2);
+    this.timeline.setWindow(myDate1, myDate2, this.clearLoadingGif);
 
-    //this.onInitialDrawComplete(this.clearLoadingGif);
-    this.loadingGif = (<div/>)
+    // setInterval(() => {
+    //   this.clearLoadingGif();
+    // }, 500);
+
   }
 
   clearLoadingGif() {
     this.loadingGif = (<div/>);
+    this.setState({});
   }
 
   render() {
+
+    let instructions = (<div className="instructionsButton">
+      <Button bsStyle="primary" bsSize="small" onClick={this.toggleInstructions}>
+        Mostrar instrucções
+      </Button>
+    </div>)
+
+    if (this.state.showInstructions) {
+      instructions = (<div>
+        <div className="instructionsText">
+
+          <p>
+            Nesta cronologia, poderá situar o fragmento actual e a sua data em comparação ao resto dos fragmentos da edição virtual que tenham também data disponível.
+          </p>
+
+        </div>
+
+        <div className="instructionsButton">
+          <Button bsStyle="primary" bsSize="small" onClick={this.toggleInstructions}>
+            Esconder instrucções
+          </Button>
+        </div>
+
+        <br/>
+
+      </div>)
+
+    }
 
     if (this.props.allFragmentsLoaded) {
       this.jsxToRender = <div id="visualization"></div>
     }
 
     return (<div className="myHistory">
-      <p>
-        Nesta cronologia, poderá situar o fragmento actual e a sua data em comparação ao resto dos fragmentos da edição virtual que tenham também data disponível.
-      </p>
-
+      {instructions}
+      {this.loadingGif}
       <div id="visualization"></div>
     </div>);
   }

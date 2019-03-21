@@ -80,7 +80,8 @@ class ConnectedNetworkGraph extends Component {
     this.recommendationArray = [];
 
     this.state = {
-      show: false
+      show: false,
+      showInstructions: false
     };
 
     //console.log(this.props.graphData)
@@ -260,7 +261,7 @@ class ConnectedNetworkGraph extends Component {
 
       let mySize = originalFragmentSize * 0.5;
 
-      let edgeLengthFactor = 2; //10000;
+      let edgeLengthFactor = 1; //10000;
 
       if (this.props.currentFragmentMode && this.props.potentialSemanticCriteria == CRIT_CHRONOLOGICAL_ORDER) {
         edgeLengthFactor = 100;
@@ -430,6 +431,14 @@ class ConnectedNetworkGraph extends Component {
 
     this.handleSelectNode = this.handleSelectNode.bind(this);
 
+    this.toggleInstructions = this.toggleInstructions.bind(this);
+
+  }
+
+  toggleInstructions() {
+    this.setState({
+      showInstructions: !this.state.showInstructions
+    });
   }
 
   handleSelectNode(event) {
@@ -530,7 +539,7 @@ class ConnectedNetworkGraph extends Component {
         x: 0,
         y: 0
       }, // position to animate to (Numbers)
-      scale: 1.5, // scale to animate to  (Number)
+      scale: 2.5, // scale to animate to  (Number)
       offset: {
         x: 0,
         y: 0
@@ -575,25 +584,51 @@ class ConnectedNetworkGraph extends Component {
       <b>círculo roxo</b>
     </span >);
 
+    let instructions = (<div className="instructionsButton">
+      <Button bsStyle="primary" bsSize="small" onClick={this.toggleInstructions}>
+        Mostrar instrucções
+      </Button>
+    </div>)
+
+    if (this.state.showInstructions) {
+      instructions = (<div>
+        <div className="instructionsText">
+          <p>
+            Neste grafo de rede, cada círculo representa um fragmento da edição virtual do livro do desassossego que seleccionou.
+          </p>
+
+          <lu>
+            <li>
+              Seleccione um fragmento novo ao clicar num dos círculos em torno do {orangeCircleText}. Quanto mais próximos estiverem do {orangeCircleText}
+              (correspondente ao fragmento sob o qual realizou ou está a realizar uma nova actividade), mais semelhantes serão segundo o critério desta actividade.
+            </li>
+
+            <li>
+              Um {purpleCircleText}
+              representará o fragmento que está a ler actualmente caso navegue para um fragmento diferente do fragmento inicial (o {orangeCircleText}).
+            </li>
+
+            <li>
+              Para navegar pelo grafo, pode usar os botões de navegação na parte do inferior do grafo, ou simplesmente arrastar o grafo com o botão esquerdo do rato ou fazer zoom-in ou zoom-out com a roda do rato.
+            </li>
+          </lu>
+
+        </div>
+
+        <div className="instructionsButton">
+          <Button bsStyle="primary" bsSize="small" onClick={this.toggleInstructions}>
+            Esconder instrucções
+          </Button>
+        </div>
+
+        <br/>
+
+      </div>)
+    }
+
     return (<div>
 
-      <p>
-        Neste grafo de rede, cada círculo representa um fragmento da edição virtual do livro do desassossego que seleccionou.
-      </p>
-
-      <p>
-        Seleccione um fragmento novo ao clicar num dos círculos em torno do {orangeCircleText}. Quanto mais próximos estiverem do {orangeCircleText}
-        (correspondente ao fragmento sob o qual realizou ou está a realizar uma nova actividade), mais semelhantes serão segundo o critério desta actividade.
-      </p>
-
-      <p>
-        Um {purpleCircleText}
-        representará o fragmento que está a ler actualmente caso navegue para um fragmento diferente do fragmento inicial (o {orangeCircleText}).
-      </p>
-
-      <p>
-        Para navegar pelo grafo, pode usar os botões de navegação na parte do inferior do grafo, ou simplesmente arrastar o grafo com o botão esquerdo do rato ou fazer zoom-in ou zoom-out com a roda do rato.
-      </p>
+      {instructions}
 
       <div className="graphNetwork" id="networkvis"></div>
 
