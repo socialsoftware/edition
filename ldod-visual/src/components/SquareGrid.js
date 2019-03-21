@@ -262,6 +262,7 @@ class ConnectedSquareGrid extends Component {
         }
       }
 
+      //red para tornar vermelho o que será vermelho em nova actividade em vez de considerar o da antiga
       if (this.props.outOfLandingPage && this.props.currentFragmentMode && this.myFragmentArray[i].interId === this.props.recommendationArray[this.props.recommendationIndex].interId) {
         if (nodeBorderColor == "#DAA520") { //golden
           nodeBackgroundColor = "#FF7F50"; //only red background

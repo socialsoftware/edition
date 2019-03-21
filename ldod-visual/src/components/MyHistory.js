@@ -35,13 +35,22 @@ const mapStateToProps = state => {
     fragments: state.fragments,
     fragmentIndex: state.fragmentIndex,
     currentVisualization: state.currentVisualization,
-    history: state.history,
     allFragmentsLoaded: state.allFragmentsLoaded,
-    historyEntryCounter: state.historyEntryCounter,
-    recommendationIndex: state.recommendationIndex,
     recommendationArray: state.recommendationArray,
-    fragmentsSortedByDate: state.fragmentsSortedByDate,
-    currentFragmentMode: state.currentFragmentMode
+    recommendationIndex: state.recommendationIndex,
+    outOfLandingPage: state.outOfLandingPage,
+    currentFragmentMode: state.currentFragmentMode,
+    visualizationTechnique: state.visualizationTechnique,
+    semanticCriteria: state.semanticCriteria,
+    potentialVisualizationTechnique: state.potentialVisualizationTechnique,
+    potentialSemanticCriteria: state.potentialSemanticCriteria,
+    displayTextSkimming: state.displayTextSkimming,
+    categories: state.categories,
+    history: state.history,
+    datesExist: state.datesExist,
+    historyEntryCounter: state.historyEntryCounter,
+    currentCategory: state.currentCategory,
+    fragmentsSortedByDate: state.fragmentsSortedByDate
   };
 };
 
@@ -66,6 +75,8 @@ class ConnectedMyHistory extends Component {
     super(props);
 
     this.properties = [];
+
+    this.actualIndex = 0;
 
     var height = Math.round(window.innerHeight * 0.7) + 'px';
 
@@ -96,65 +107,59 @@ class ConnectedMyHistory extends Component {
   }
 
   handleClick(event) {
-
-    //const properties = this.timeline.getEventProperties(event);
-
     console.log(event)
-
-    const properties = event;
-
-    if (properties.item !== null && this.props.allFragmentsLoaded === true) {
-
-      console.log("properties id: " + parseInt(properties.item));
-      console.log("history array: " + this.props.history);
-
+    const nodeId = event.item;
+    if (nodeId) {
+      //alert(nodeId);
+      // this.props.setSemanticCriteria(this.props.potentialSemanticCriteria);
       var i;
-      for (i = 0; i < this.props.fragments.length; i++) {
-        if (this.props.fragments[i].interId === this.props.history[parseInt(properties.item)].nextFragment.interId) {
-          const globalViewToRender = this.props.history[parseInt(properties.item)].visualization //(<SquareGrid onChange={this.props.onChange}/>);
+      for (i = 0; i < this.myHistoryArray.length; i++) {
+        if (this.myHistoryArray[i].interId === nodeId) {
+
+          const globalViewToRender = (<MyHistory onChange={this.props.onChange}/>);
           this.props.setCurrentVisualization(globalViewToRender);
           //HISTORY ENTRY HISTORY ENTRY HISTORY ENTRY HISTORY ENTRY
-          let historyCategory = "";
-          if (this.props.history[parseInt(properties.item)].criteria == CRIT_TAXONOMY) {
-            historyCategory = this.props.history[parseInt(properties.item)].category
-            this.props.setCurrentCategory(historyCategory);
-          }
           let obj;
+          let historyVis = this.props.visualizationTechnique;
+          let historyCriteria = this.props.semanticCriteria;
+          if (this.props.currentFragmentMode) {
+            historyVis = this.props.potentialVisualizationTechnique;
+            historyCriteria = this.props.potentialSemanticCriteria;
+          }
           obj = {
             id: this.props.historyEntryCounter,
-            originalFragment: this.props.history[parseInt(properties.item)].originalFragment,
-            nextFragment: this.props.history[parseInt(properties.item)].nextFragment,
-            vis: this.props.history[parseInt(properties.item)].vis,
-            criteria: this.props.history[parseInt(properties.item)].criteria,
+            originalFragment: this.props.recommendationArray[this.props.fragmentIndex],
+            nextFragment: this.myHistoryArray[i],
+            vis: historyVis,
+            criteria: historyCriteria,
             visualization: globalViewToRender,
-            recommendationArray: this.props.history[parseInt(properties.item)].recommendationArray,
-            recommendationIndex: this.props.history[parseInt(properties.item)].recommendationIndex,
+            recommendationArray: this.myHistoryArray, //mudar para quando o cirterio for difernete,
+            recommendationIndex: i,
+            fragmentIndex: this.props.fragmentIndex,
             start: new Date().getTime(),
-            category: historyCategory
+            category: ""
           };
+
+          //aqui é para fazer set do fragindex caso seja uma nova actividade. caso contrario fica igual.
+          if (this.props.currentFragmentMode) {
+            var j;
+            for (j = 0; j < this.props.fragments.length; j++) {
+              if (this.props.fragments[j].interId === nodeId) {
+                console.log("squareGrid: because of currentFragmentMode, setFragmentIndex is now: " + j)
+                this.props.setFragmentIndex(j);
+                obj.fragmentIndex = j;
+              }
+            }
+          }
           this.props.addHistoryEntry(obj);
           this.props.setHistoryEntryCounter(this.props.historyEntryCounter + 1)
           //HISTORY ENTRY HISTORY ENTRY HISTORY ENTRY HISTORY ENTRY
+          this.props.setVisualizationTechnique(this.props.potentialVisualizationTechnique);
+          this.props.setSemanticCriteria(this.props.potentialSemanticCriteria);
+          this.props.setRecommendationArray(this.myHistoryArray);
+          this.props.setRecommendationIndex(i);
           this.props.onChange();
-          this.props.setFragmentIndex(this.props.history[parseInt(properties.item)].fragmentIndex); //mudar a logica para isto ser o fragmento central.
-
-          //parte que foi feita para não saltar para o fragmento clicado no historico via netgraph pois era preciso ir alterar o historico no fragmentloader depois de carregar um novo recommendation index que era preciso fazer set do mesmo na ultima entrada do historico.
-
-          //if (this.props.history[parseInt(properties.item)].vis !== VIS_NETWORK_GRAPH) {
-          console.log("MyHistory.js: this.props.history[parseInt(properties.item)].vis !== VIS_NETWORK_GRAPH")
-          this.props.setRecommendationArray(this.props.history[parseInt(properties.item)].recommendationArray);
-          this.props.setRecommendationIndex(this.props.history[parseInt(properties.item)].recommendationIndex);
-          //} else {
-          //  console.log("MyHistory.js: this.props.setSemanticCriteriaDataLoaded(false);")
-          //  this.props.setSemanticCriteriaDataLoaded(false);
-          //}
-          this.props.setVisualizationTechnique(this.props.history[parseInt(properties.item)].vis);
-          this.props.setSemanticCriteria(this.props.history[parseInt(properties.item)].criteria)
-
-          //  }
-
         }
-
       }
     }
   }
@@ -172,13 +177,29 @@ class ConnectedMyHistory extends Component {
         let month = parseInt(date[1]);
         let day = parseInt(date[2]);
 
+        let entryStyle = "" //default
+
+        //purple
+        if (!this.props.currentFragmentMode && f.interId === this.props.recommendationArray[this.props.recommendationIndex].interId) {
+          entryStyle = "color: white; background-color: #8A2BE2; border-color: #4B0082;"
+        }
+        //red
+        if (!this.props.currentFragmentMode && f.interId === this.props.fragments[this.props.fragmentIndex].interId) {
+          entryStyle = "color: white; background-color: #FF7F50; border-color: #DC143C;"
+        }
+        //red para tornar vermelho o que será vermelho em nova actividade em vez de considerar o da antiga
+        if (this.props.currentFragmentMode && f.interId === this.props.recommendationArray[this.props.recommendationIndex].interId) {
+          entryStyle = "color: white; background-color: #FF7F50; border-color: #DC143C;"
+        }
+
         let myDate = new Date(year, month - 1, day);
         console.log("MyHistory: Added date " + myDate + " |title: " + f.meta.title)
 
         let item = {
           id: f.interId,
           content: "<p>" + f.meta.title + "</p><p>" + " (" + f.meta.date + ")" + "</p>",
-          start: myDate
+          start: myDate,
+          style: entryStyle
         };
         console.log("item id: " + item.id);
         historyItems.push(item);
@@ -206,29 +227,28 @@ class ConnectedMyHistory extends Component {
 
     //this.timeline.moveTo(this.props.recommendationArray[this.props.recommendationIndex].meta.date);
 
-    let imedPrevIndex;
-    let imedNextIndex;
-    let actualIndex;
-
     let z;
     for (z = 0; z < this.myHistoryArray.length; z++) {
       if (this.myHistoryArray[z].interId == this.props.recommendationArray[this.props.recommendationIndex].interId) {
-        actualIndex = z;
+        this.actualIndex = z;
         break;
       }
     }
 
+    let imedPrevIndex = this.actualIndex;
+    let imedNextIndex = this.actualIndex;
+
     let j;
-    for (j = (actualIndex); j < this.myHistoryArray.length; j++) {
-      if (this.myHistoryArray[j].meta.date !== this.myHistoryArray[actualIndex].meta.date) {
+    for (j = (this.actualIndex); j < this.myHistoryArray.length; j++) {
+      if (this.myHistoryArray[j].meta.date !== this.myHistoryArray[this.actualIndex].meta.date) {
         imedNextIndex = j;
         break
       }
     }
 
     let n;
-    for (n = (actualIndex); n !== -1; n--) {
-      if (this.myHistoryArray[n].meta.date !== this.myHistoryArray[actualIndex].meta.date && n >= 0) {
+    for (n = (this.actualIndex); n !== -1; n--) {
+      if (this.myHistoryArray[n].meta.date !== this.myHistoryArray[this.actualIndex].meta.date && n >= 0) {
         imedPrevIndex = n;
         break
       }
@@ -249,7 +269,7 @@ class ConnectedMyHistory extends Component {
     let myDate2 = new Date(year2, Math.min(12, (month2 + 2)), 15);
 
     console.log("myhistory debug: imedPrevIndex date " + this.myHistoryArray[imedPrevIndex].meta.date + " | " + imedPrevIndex + " " + this.myHistoryArray[imedPrevIndex].meta.title)
-    console.log("myhistory debug: actualIndex date " + this.myHistoryArray[actualIndex].meta.date + " | " + actualIndex + " " + this.myHistoryArray[actualIndex].meta.title)
+    console.log("myhistory debug: this.actualIndex date " + this.myHistoryArray[this.actualIndex].meta.date + " | " + this.actualIndex + " " + this.myHistoryArray[this.actualIndex].meta.title)
     console.log("myhistory debug: imedNextIndex date " + this.myHistoryArray[imedNextIndex].meta.date + " | " + imedNextIndex + " " + this.myHistoryArray[imedNextIndex].meta.title)
 
     this.timeline.setWindow(myDate1, myDate2);

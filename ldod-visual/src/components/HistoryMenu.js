@@ -98,7 +98,7 @@ class ConnectedHistoryMenu extends Component {
       console.log("history array: " + this.props.history);
 
       var i;
-      for (i = 0; i < this.props.fragments.length; i++) {
+      for (i = this.props.fragments.length - 1; i !== 0; i--) {
         if (this.props.fragments[i].interId === this.props.history[parseInt(properties.item)].nextFragment.interId) {
           const globalViewToRender = this.props.history[parseInt(properties.item)].visualization //(<SquareGrid onChange={this.props.onChange}/>);
           this.props.setCurrentVisualization(globalViewToRender);
