@@ -274,7 +274,7 @@ class ConnectedMyHistory extends Component {
     let month1 = parseInt(date1[1]);
     let day1 = parseInt(date1[2]);
 
-    let myDate1 = new Date(year1, Math.max(1, (month1 - 2)), 15);
+    let myDate1 = new Date(year1, Math.max(1, (month1 - 4)), 15);
 
     let date2 = this.myHistoryArray[imedNextIndex].meta.date.split('-');
     let year2 = parseInt(date2[0]);

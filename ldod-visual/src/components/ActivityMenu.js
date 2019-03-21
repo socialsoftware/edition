@@ -28,12 +28,14 @@ import picSquare from '../assets/card-pics-regular/square.png';
 import picSquareGolden from '../assets/card-pics-regular/square-golden.png';
 import picSquareTime from '../assets/card-pics-regular/square-time.png';
 import picWordCloud from '../assets/card-pics-regular/word-cloud.png';
+import picTimeline from '../assets/card-pics-regular/timeline.png';
 
 import picNetgraphGray from '../assets/card-pics-gray/netgraph-gray.png';
 import picSquareGray from '../assets/card-pics-gray/square-gray.png';
 import picSquareGoldenGray from '../assets/card-pics-gray/square-golden-gray.png';
 import picSquareTimeGray from '../assets/card-pics-gray/square-time-gray.png';
 import picWordCloudGray from '../assets/card-pics-gray/word-cloud-gray.png';
+import picTimelineGray from '../assets/card-pics-gray/timeline-gray.png';
 
 const mapDispatchToProps = dispatch => {
   return {
@@ -248,12 +250,12 @@ class ConnectedActivityMenu extends Component {
 
       let datesSimilarButtonMessage = "Explorar fragmentos à volta da data deste fragmento (fragmento actual sem data disponível)"
       let datesSimilarButtonStyle = "default"
-      let datesSimilarImage = picNetgraphGray;
+      let datesSimilarImage = picTimelineGray;
       let datesSimilarButtonBotMessage = activityUnselectable;
       if (this.props.recommendationArray[this.props.recommendationIndex].meta.date !== null) {
         datesSimilarButtonMessage = "Explorar fragmentos à volta da data deste fragmento (" + this.props.recommendationArray[this.props.recommendationIndex].meta.date + ")"
         datesSimilarButtonStyle = "primary";
-        datesSimilarImage = picNetgraph;
+        datesSimilarImage = picTimeline;
         datesSimilarButtonBotMessage = activitySelectable;
       }
 

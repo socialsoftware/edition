@@ -12,7 +12,8 @@ import {
   CRIT_HETERONYM,
   CRIT_TAXONOMY,
   CRIT_WORD_RELEVANCE,
-  CRIT_CATEGORY
+  CRIT_CATEGORY,
+  VIS_TIMELINE
 } from "../constants/history-transitions";
 import {
   setFragmentIndex,
@@ -30,6 +31,7 @@ import {
 import "./HistoryMenu.css";
 import picNetGraph from '../assets/picnetgraph.png';
 import picSquareGrid from '../assets/picsquaregrid.png';
+import picTimeline from '../assets/pictimeline.png';
 import loadingGif from '../assets/loading.gif';
 import {Button} from "react-bootstrap";
 
@@ -190,6 +192,8 @@ class ConnectedHistoryMenu extends Component {
         img.src = picNetGraph;
       } else if (this.props.history[i].vis == VIS_SQUARE_GRID) {
         img.src = picSquareGrid;
+      } else if (this.props.history[i].vis == VIS_TIMELINE) {
+        img.src = picTimeline;
       }
       historyPic.appendChild(img);
       let item = {
