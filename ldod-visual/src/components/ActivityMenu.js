@@ -246,12 +246,12 @@ class ConnectedActivityMenu extends Component {
       let datesButtonMessage = "Explorar os fragmentos desta edição ordenados por data";
       let datesButtonBotMessage = activitySelectable;
 
-      let datesSimilarButtonMessage = "Ler fragmentos semelhantes a este por data (fragmento actual sem data disponível)"
+      let datesSimilarButtonMessage = "Explorar fragmentos à volta da data deste fragmento (fragmento actual sem data disponível)"
       let datesSimilarButtonStyle = "default"
       let datesSimilarImage = picNetgraphGray;
       let datesSimilarButtonBotMessage = activityUnselectable;
       if (this.props.recommendationArray[this.props.recommendationIndex].meta.date !== null) {
-        datesSimilarButtonMessage = "Ler fragmentos semelhantes a este por data (" + this.props.recommendationArray[this.props.recommendationIndex].meta.date + ")"
+        datesSimilarButtonMessage = "Explorar fragmentos à volta da data deste fragmento (" + this.props.recommendationArray[this.props.recommendationIndex].meta.date + ")"
         datesSimilarButtonStyle = "primary";
         datesSimilarImage = picNetgraph;
         datesSimilarButtonBotMessage = activitySelectable;
@@ -373,22 +373,6 @@ class ConnectedActivityMenu extends Component {
 
           <div className="cardActivity">
             <div className="containerActivity">
-              <img src={picNetgraph} onClick={this.toggleActivityNetworkGraphTextSimilarity} className="cardsActivityImage" alt="Avatar" style={{
-                  width: "100%"
-                }}/>
-              <p align="center">
-                <b>Ler fragmentos semelhantes a este por semelhança de texto</b>
-              </p>
-              <div className="welcomeButtonActivity">
-                <Button bsStyle="primary" bsSize="small" onClick={this.toggleActivityNetworkGraphTextSimilarity}>
-                  Escolher actividade
-                </Button>
-              </div>
-            </div>
-          </div>
-
-          <div className="cardActivity">
-            <div className="containerActivity">
               <img src={datesSimilarImage} onClick={this.toggleActivityMyHistoryDate} className="cardsActivityImage" alt="Avatar" style={{
                   width: "100%"
                 }}/>
@@ -398,6 +382,22 @@ class ConnectedActivityMenu extends Component {
               <div className="welcomeButtonActivity">
                 <Button bsStyle={datesSimilarButtonStyle} bsSize="small" onClick={this.toggleActivityMyHistoryDate}>
                   {datesSimilarButtonBotMessage}
+                </Button>
+              </div>
+            </div>
+          </div>
+
+          <div className="cardActivity">
+            <div className="containerActivity">
+              <img src={picNetgraph} onClick={this.toggleActivityNetworkGraphTextSimilarity} className="cardsActivityImage" alt="Avatar" style={{
+                  width: "100%"
+                }}/>
+              <p align="center">
+                <b>Ler fragmentos semelhantes a este por semelhança de texto</b>
+              </p>
+              <div className="welcomeButtonActivity">
+                <Button bsStyle="primary" bsSize="small" onClick={this.toggleActivityNetworkGraphTextSimilarity}>
+                  Escolher actividade
                 </Button>
               </div>
             </div>

@@ -268,12 +268,12 @@ class ConnectedNetworkGraph extends Component {
         edgeLengthFactor = 100;
       }
 
-      if (distancePercentage === 0) {
+      if (distancePercentage < 6) {
         // nodeBorderColor = "#101010";
         // nodeBackgroundColor = "#505050";
         console.log("NetworkGraph.js: distance is zero!")
         totalAxes = nrOfNullDistances;
-        distancePercentage = 1
+        distancePercentage = 6
       }
 
       /*
