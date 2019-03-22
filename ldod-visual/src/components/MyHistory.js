@@ -142,7 +142,7 @@ class ConnectedMyHistory extends Component {
           }
           obj = {
             id: this.props.historyEntryCounter,
-            originalFragment: this.props.recommendationArray[this.props.fragmentIndex],
+            originalFragment: this.myHistoryArray[i], //this.props.recommendationArray[this.props.fragmentIndex],
             nextFragment: this.myHistoryArray[i],
             vis: historyVis,
             criteria: historyCriteria,
@@ -341,7 +341,10 @@ class ConnectedMyHistory extends Component {
               Cada rectângulo representa um fragmento com o título apresentado.
             </li>
             <li>
-              Pode rastejar a cronologia com o botão esquerdo do rato e controlar o zoom da cronologia com a roda do rato.
+              Pode controlar o zoom da cronologia com a roda do rato.
+            </li>
+            <li>
+              Pode rastejar a cronologia com o botão esquerdo do rato (caso haja muitos fragmentos com data semelhante, é possível que empilhem para cima da altura da janela da cronologia).
             </li>
             <li>
               Um {redSquareText}

@@ -570,7 +570,9 @@ class ConnectedSquareGrid extends Component {
       instructions = (<div>
         <div className="instructionsText">
           <p>
-            Neste mapa, cada quadrado representa um fragmento da edição virtual do Livro do Desassossego que seleccionou.
+            Neste mapa, cada quadrado representa um fragmento da edição virtual do {" "}
+            <i>"Livro do Desassossego"</i>{" "}
+            que seleccionou.
           </p>
 
           <p>
@@ -588,7 +590,7 @@ class ConnectedSquareGrid extends Component {
             </li>
             <li>
               Caso esteja a realizar uma actividade que envolva datas, os {greySquareText}
-              representarão fragmentos sem data.
+              representarão fragmentos sem data, enquanto os quadrados com um número representam os últimos dois dígitos do ano em que o fragmento foi escrito ou publicado - um fragmento de 1930 terá o respectivo quadrado com o número 30.
             </li>
             <li>
               Por fim, caso esteja a realizar uma actividade que envolva categorias ou heterónimos, os {goldenSquareText}

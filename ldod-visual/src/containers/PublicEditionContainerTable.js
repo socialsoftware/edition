@@ -410,7 +410,8 @@ class ConnectedPublicEditionContainerTable extends React.Component {
         <i>"Livro do Desassossego"</i>{" "}
         disponíveis no {' '}
         <a href="https://ldod.uc.pt">
-          Arquivo LdoD</a>.
+          Arquivo LdoD</a>{' '}
+        recorrendo a técnicas de visualização de informação.
       </p>
 
       <p align="center">Poderá criar a sua própria edição virtual e consultar detalhes de outras edições virtuais públicas {' '}
@@ -431,7 +432,6 @@ class ConnectedPublicEditionContainerTable extends React.Component {
 
       <br/> {instructions}
 
-      <br/>
       <br/>
       <br/>
 
