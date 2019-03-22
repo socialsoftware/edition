@@ -169,7 +169,8 @@ class ConnectedApp extends Component {
       previousGoldenButtonClass: "goldenButtonPrevious",
       nextGoldenButtonClass: "goldenButtonNext",
       showInstructions: false,
-      showReadingMenuIntructions: false
+      showReadingMenuIntructions: false,
+      inReadingMenu: true
     };
 
     this.opacityHide = 0;
@@ -242,57 +243,52 @@ class ConnectedApp extends Component {
   }
 
   handleCloseModals() {
-    this.setState({showConfig: false, showGlobalView: false, showLanding: false, showHistoric: false});
-    this.setState({opacity: this.opacityShow})
-    this.setState({hiddenFromIdle: false});
+    this.setState({
+      showConfig: false,
+      showGlobalView: false,
+      showLanding: false,
+      showHistoric: false,
+      inReadingMenu: true,
+      hiddenFromIdle: false,
+      opacity: this.opacityShow
+    });
     scroll.scrollToTop({duration: 500, delay: 0, smooth: 'easeInOutQuart'});
   }
 
   handleCloseConfig() {
-    this.setState({showConfig: false});
-    this.setState({opacity: this.opacityShow})
-    this.setState({hiddenFromIdle: false});
-
+    this.setState({showConfig: false, opacity: this.opacityShow, hiddenFromIdle: false, inReadingMenu: true});
   }
 
   handleShowConfig() {
-    this.setState({showConfig: true});
+    this.setState({showConfig: true, inReadingMenu: false});
     this.props.setCurrentFragmentMode(true);
     console.log("App.handleShowConfig: setting currentFragmentMode to true")
-
   }
 
   handleCloseGlobalView() {
-    this.setState({showGlobalView: false});
-    this.setState({opacity: this.opacityShow})
-    this.setState({hiddenFromIdle: false});
+    this.setState({showGlobalView: false, hiddenFromIdle: false, inReadingMenu: true, opacity: this.opacityShow});
 
   }
 
   handleShowGlobalView() {
-    this.setState({showGlobalView: true});
+    this.setState({showGlobalView: true, inReadingMenu: false});
     this.props.setCurrentFragmentMode(false);
     console.log("App.handleShowGlobalView(): setting currentFragmentMode to false (PickedFragmentMode)")
-
   }
 
   handleCloseHistoric() {
-    this.setState({showHistoric: false});
-    this.setState({opacity: this.opacityShow})
-    this.setState({hiddenFromIdle: false});
-
+    this.setState({showHistoric: false, opacity: this.opacityShow, hiddenFromIdle: false, inReadingMenu: true});
   }
 
   handleShowHistoric() {
     this.props.setCurrentFragmentMode(true);
-    this.setState({showHistoric: true});
+    this.setState({showHistoric: true, inReadingMenu: false});
   }
 
   handleCloseLanding() {
-    this.setState({showLanding: false});
+    this.setState({showLanding: false, hiddenFromIdle: false, inReadingMenu: true, opacity: this.opacityShow});
     console.log("calling handlecloselanding()");
-    this.setState({opacity: this.opacityShow})
-    this.setState({hiddenFromIdle: false});
+
   }
 
   handleShowLandingActivitySquareEditionOrder() {
@@ -303,10 +299,12 @@ class ConnectedApp extends Component {
   }
 
   handleShowLandingActivitySquareDateOrder() {
-    this.props.setCurrentFragmentMode(true);
-    this.props.setPotentialVisualizationTechnique(VIS_SQUARE_GRID);
-    this.props.setPotentialSemanticCriteria(CRIT_CHRONOLOGICAL_ORDER);
-    this.setState({showLandingActivity: true});
+    if (this.props.datesExist) {
+      this.props.setCurrentFragmentMode(true);
+      this.props.setPotentialVisualizationTechnique(VIS_SQUARE_GRID);
+      this.props.setPotentialSemanticCriteria(CRIT_CHRONOLOGICAL_ORDER);
+      this.setState({showLandingActivity: true});
+    }
   }
 
   handleShowLandingActivityWordCloudCategory() {
@@ -354,16 +352,13 @@ class ConnectedApp extends Component {
 
     if (window.scrollY < 36 & !this.state.mouseOverMenuButtons & !this.state.hiddenFromIdle) {
 
-      this.setState({opacity: this.opacityShow})
-      this.setState({hiddenFromIdle: false});
+      this.setState({opacity: this.opacityShow, hiddenFromIdle: false})
     } else if (window.scrollY > 36 & !this.state.mouseOverMenuButtons & !this.state.hiddenFromIdle) {
 
-      this.setState({opacity: this.opacityOnText})
-      this.setState({hiddenFromIdle: false});
+      this.setState({opacity: this.opacityOnText, hiddenFromIdle: false})
     } else if (this.state.mouseOverMenuButtons) {
 
-      this.setState({opacity: this.opacityShow})
-      this.setState({hiddenFromIdle: false});
+      this.setState({opacity: this.opacityShow, hiddenFromIdle: false})
     }
 
   }
@@ -372,11 +367,9 @@ class ConnectedApp extends Component {
     // console.log('user is idle', e)
     // console.log('last active', this.idleTimer.getLastActiveTime())
     if (this.state.mouseOverMenuButtons) {
-      this.setState({opacity: this.opacityShow})
-      this.setState({hiddenFromIdle: false});
+      this.setState({opacity: this.opacityShow, hiddenFromIdle: false})
     } else {
-      this.setState({opacity: this.opacityBarelyVisible});
-      this.setState({hiddenFromIdle: true});
+      this.setState({opacity: this.opacityBarelyVisible, hiddenFromIdle: true});
     }
 
   }
@@ -471,18 +464,45 @@ class ConnectedApp extends Component {
 
   _handleKeyDown = (event) => {
 
-    var ESCAPE_KEY = 27;
+    if (this.props.outOfLandingPage && this.state.inReadingMenu) {
+      var ESCAPE_KEY = 27;
+      var RIGHT_ARROW = 39;
+      var LEFT_ARROW = 37;
+      var A_KEY = 65;
+      var N_KEY = 78;
+      var H_KEY = 72;
+      var E_KEY = 69;
+      var D_KEY = 68;
+      var T_KEY = 84;
+      var C_KEY = 67;
+      var X_KEY = 88;
+      var O_KEY = 79;
+      var R_KEY = 82;
 
-    switch (event.keyCode) {
-      case 39: //right key
-        this.nextButtonAction();
-        break;
-      case 37: //left key
-        this.previousButtonAction();
-        break;
-      default:
-        break;
+      switch (event.keyCode) {
+        case RIGHT_ARROW:
+          this.nextButtonAction();
+          break;
+        case LEFT_ARROW:
+          this.previousButtonAction();
+          break;
+        case A_KEY:
+          this.handleShowGlobalView();
+          break;
+        case N_KEY:
+          this.handleShowConfig();
+          break;
+        case H_KEY:
+          this.handleShowHistoric();
+          break;
+        case R_KEY:
+          this.handleToggleTextSkimming();
+          break;
+        default:
+          break;
+      }
     }
+
   }
 
   forcePageReload() {
@@ -916,15 +936,15 @@ class ConnectedApp extends Component {
         <ButtonToolbar onMouseOver={this.setMouseOverMenuButtons} onMouseLeave={this.setMouseOutMenuButtons}>
 
           <Button bsStyle="primary" bsSize="large" onClick={this.handleShowGlobalView}>
-            Actividade actual
+            Actividade actual [A]
           </Button>
 
           <Button bsStyle="primary" bsSize="large" onClick={this.handleShowConfig}>
-            Nova actividade
+            Nova actividade [N]
           </Button>
 
           <Button bsStyle="primary" bsSize="large" onClick={this.handleShowHistoric}>
-            Histórico de leitura
+            Histórico de leitura [H]
           </Button>
 
         </ButtonToolbar>
@@ -937,9 +957,9 @@ class ConnectedApp extends Component {
 
     let toggleTextSkimmingButtonMessage;
     if (this.state.toggleTextSkimming && this.props.outOfLandingPage) {
-      toggleTextSkimmingButtonMessage = "Esconder as palavras mais relevantes deste fragmento";
+      toggleTextSkimmingButtonMessage = "Esconder as palavras mais relevantes deste fragmento [R]";
     } else if (this.props.outOfLandingPage) {
-      toggleTextSkimmingButtonMessage = "Destacar as palavras mais relevantes deste fragmento";
+      toggleTextSkimmingButtonMessage = "Destacar as palavras mais relevantes deste fragmento [R]";
     }
 
     let fragLoader;
