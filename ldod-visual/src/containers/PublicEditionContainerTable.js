@@ -402,7 +402,7 @@ class ConnectedPublicEditionContainerTable extends React.Component {
             Ler um livro é uma tarefa em que o leitor constantemente troca entre dois estados de concentração: ou está completamente concentrado na leitura em si ou interrompe brevemente a mesma por várias razões.
           </p>
           <p>
-            Estes momentos de afastamento da leitura podem ser devido a cenários como tentar relembrar o que aconteceu em capítulos anteriores, tentar imaginar uma certa descrição de uma paisagem ou personagem, lembrar uma experiência pessoal semelhante em comparação ao que foi lido ou até ligar um novo evento ao que aconteceu no passado ou até mesmo à sua influência no futuro, entre outras possibilidades.
+            Estes momentos de afastamento da leitura podem ser devido a cenários como tentar relembrar o que aconteceu em capítulos anteriores, tentar imaginar uma certa descrição de uma paisagem ou personagem, lembrar uma experiência pessoal semelhante em comparação ao que foi lido, ligar um novo evento ao que aconteceu no passado ou até mesmo à sua influência no futuro, entre outras possibilidades.
           </p>
           <p>
             Ler um livro é uma tarefa em que o leitor constantemente troca entre dois estados de concentração: ou está completamente concentrado na leitura em si ou interrompe brevemente a mesma por várias razões.
