@@ -444,7 +444,7 @@ class ConnectedPublicEditionContainerTable extends React.Component {
             de Fernando Pessoa tem uma natureza modular - tratando-se de uma obra inacabada cujos fragmentos não têm uma ordem imposta pelo autor, a leitura desta pode também ser fragmentária.
           </p>
           <p>
-            Podendo os fragmentos desta obra serem lidos em qualquer ordem, o objectivo do LdoD Visual é ajudar o leitor a dirigir e a criar o seu próprio caminho de leitura do{" "}
+            Podendo os fragmentos desta obra ser lidos em qualquer ordem, o objectivo do LdoD Visual é ajudar o leitor a dirigir e a criar o seu próprio caminho de leitura do{" "}
             <i>"Livro do Desassossego"</i>,{" "}recorrendo a um conjunto de actividades. Estas vão permitir aos leitores - peritos ou não - ler, explorar e/ou analisar a obra de forma interactiva.
           </p>
           <p>
