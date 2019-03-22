@@ -114,11 +114,20 @@ class ConnectedPublicEditionContainerTable extends React.Component {
     this.state = {
       editionsReceived: false,
       editions: [],
-      sliderNumberOfInters: 50
+      sliderNumberOfInters: 50,
+      showInstructions: false
     };
 
     this.handleButtonClick = this.handleButtonClick.bind(this);
 
+    this.toggleInstructions = this.toggleInstructions.bind(this);
+
+  }
+
+  toggleInstructions() {
+    this.setState({
+      showInstructions: !this.state.showInstructions
+    });
   }
 
   addFilterPlaceholder = () => {
@@ -361,30 +370,88 @@ class ConnectedPublicEditionContainerTable extends React.Component {
     labelsObj[maxNumberOfInters.toString()] = maxNumberOfInters;
     labelsObj[sliderNum.toString()] = sliderNum;
 
+    let instructions = (<div className="instructionsButton">
+      <Button bsStyle="primary" bsSize="small" onClick={this.toggleInstructions}>
+        Saber mais
+      </Button>
+    </div>)
+
+    if (this.state.showInstructions) {
+      instructions = (<div>
+        <div className="">
+
+          <p align="center">
+            [Informação extra sobre a metáfora aqui]</p>
+
+          <div className="instructionsButton">
+            <Button bsStyle="primary" bsSize="small" onClick={this.toggleInstructions}>
+              Saber menos
+            </Button>
+          </div>
+
+          <br/>
+
+        </div>
+      </div>)
+
+    }
+
     return <div>
       <img src={ldodIcon} className="loadingGifCentered"/>
 
-      <h4 align="center">
+      <h3 align="center">
         <b>Bem-vindo ao LdoD Visual!</b>
-      </h4>
+      </h3>
 
       <br/>
       <br/>
 
-      <p align="center">Aqui poderá escolher e explorar uma das edições virtuais públicas do "Livro do Desassossego" disponíveis no {' '}
+      <p align="center">Aqui poderá escolher e explorar uma das edições virtuais públicas do{" "}
+        <i>"Livro do Desassossego"</i>{" "}
+        disponíveis no {' '}
         <a href="https://ldod.uc.pt">
           Arquivo LdoD</a>.
       </p>
+
       <p align="center">Poderá criar a sua própria edição virtual e consultar detalhes de outras edições virtuais públicas {' '}
         <a href="https://ldod.uc.pt/virtualeditions">
           nesta secção do Arquivo LdoD</a>.
       </p>
 
-      <p align="center">
-        Apenas se seleccionar uma edição virtual com categorias disponíveis (taxonomia), poderá realizar actividades à volta das mesmas.</p>
+      <p align="center">Recomendamos que visite este{' '}
+        <i>website</i>{' '}
+        num{' '}
+        <i>browser desktop</i>{' '}
+        como{' '}
+        <i>Firefox</i>{' '}
+        ou{' '}
+        <i>Google Chrome</i>,{' '}
+        pois não está disponível uma versão mobile.
+      </p>
+
+      <br/> {instructions}
 
       <br/>
-      <p align="center">Apenas apresentar edições virtuais com um número mínimo de fragmentos de...</p>
+      <br/>
+      <br/>
+
+      <Modal.Footer></Modal.Footer>
+
+      <h4 align="center">
+        <b>Comece por escolher uma edição virtual.</b>
+      </h4>
+
+      <br/>
+      <p align="center">
+        Apenas se seleccionar uma edição virtual com categorias disponíveis (taxonomia), poderá realizar actividades à volta das mesmas.
+      </p>
+
+      <br/>
+      <br/>
+
+      <p align="center">
+        <i>Apresentar edições virtuais com um número mínimo de fragmentos de...</i>
+      </p>
       <div className="mySlider">
 
         <Slider min={0} max={maxNumberOfInters} value={sliderNum} tooltip={false} orientation="horizontal" onChange={this.handleOnChange} labels={labelsObj}/>
@@ -399,7 +466,7 @@ class ConnectedPublicEditionContainerTable extends React.Component {
 }
 const PublicEditionContainerTable = connect(mapStateToProps, mapDispatchToProps)(ConnectedPublicEditionContainerTable);
 export default PublicEditionContainerTable;/*
-      <button className="landingButton" bsStyle={buttonStyle} bsSize="small" onClick={() => this.handleButtonClick(item)}>
-        Seleccionar edição
-      </button>
-      */
+        <button className="landingButton" bsStyle={buttonStyle} bsSize="small" onClick={() => this.handleButtonClick(item)}>
+          Seleccionar edição
+        </button>
+        */

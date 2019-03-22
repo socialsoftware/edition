@@ -233,10 +233,13 @@ class ConnectedHistoryMenu extends Component {
 
           <ul>
             <li>
-              Clique num dos rectângulos do fragmentos para retornar ao mesmo bem como a actividade pela qual chegou a esse fragmento.
+              Cada rectângulo representa um fragmento com o título apresentado.
             </li>
             <li>
               Pode rastejar a cronologia com o botão esquerdo do rato e controlar o zoom da cronologia com a roda do rato.
+            </li>
+            <li>
+              Clique num dos rectângulos dos fragmentos para retornar ao mesmo, bem como à actividade pela qual chegou a esse fragmento.
             </li>
           </ul>
 

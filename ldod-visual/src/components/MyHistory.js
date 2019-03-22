@@ -338,6 +338,9 @@ class ConnectedMyHistory extends Component {
 
           <ul>
             <li>
+              Cada rectângulo representa um fragmento com o título apresentado.
+            </li>
+            <li>
               Pode rastejar a cronologia com o botão esquerdo do rato e controlar o zoom da cronologia com a roda do rato.
             </li>
             <li>
@@ -348,6 +351,10 @@ class ConnectedMyHistory extends Component {
               Um {purpleSquareText}
               representará o fragmento que está a ler durante a actividade actual caso navegue para um fragmento diferente do fragmento inicial que escolheu ao seleccionar uma nova actividade (o {redSquareText}).
             </li>
+            <li>
+              Clique num dos rectângulos dos fragmentos para ler o mesmo.
+            </li>
+
           </ul>
 
         </div>
