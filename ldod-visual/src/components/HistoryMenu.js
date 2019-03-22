@@ -225,9 +225,9 @@ class ConnectedHistoryMenu extends Component {
 
     if (this.state.showInstructions) {
       instructions = (<div>
-        <div className="instructionsTextHistory">
+        <div className="readingMoreInfo">
 
-          <p>
+          <p align="center">
             Nesta cronologia, poderá consultar o seu caminho na leitura da edição virtual do Livro do Desassossego que seleccionou.
           </p>
 

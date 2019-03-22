@@ -168,7 +168,8 @@ class ConnectedApp extends Component {
       hiddenFromIdle: false,
       previousGoldenButtonClass: "goldenButtonPrevious",
       nextGoldenButtonClass: "goldenButtonNext",
-      showInstructions: false
+      showInstructions: false,
+      showReadingMenuIntructions: false
     };
 
     this.opacityHide = 0;
@@ -214,6 +215,14 @@ class ConnectedApp extends Component {
 
     this.toggleInstructions = this.toggleInstructions.bind(this);
 
+    this.toggleShowReadingMenuInstructions = this.toggleShowReadingMenuInstructions.bind(this);
+
+  }
+
+  toggleShowReadingMenuInstructions() {
+    this.setState({
+      showReadingMenuIntructions: !this.state.showReadingMenuIntructions
+    });
   }
 
   toggleInstructions() {
@@ -744,12 +753,16 @@ class ConnectedApp extends Component {
     let editionTitleToDisplay = <div/>;
     let editionAcronymToDisplay = <div/>;
     let changeEdButton = <div/>;
+    let readingMenuIntructions = <div/>;
     if (this.props.allFragmentsLoaded && this.props.outOfLandingPage) {
 
       editionTitleToDisplay = ("Título da edição virtual seleccionada: " + ReactHtmlParser(this.state.currentEdition.title));
       editionAcronymToDisplay = ("Acrónimo: " + this.state.currentEdition.acronym);
       changeEdButton = <Button bsStyle="primary" bsSize="small" onClick={this.forcePageReload}>
         Escolher outra edição virtual
+      </Button>
+      readingMenuIntructions = <Button bsStyle="primary" bsSize="small" onClick={this.toggleShowReadingMenuInstructions}>
+        Instruções
       </Button>
     }
 
@@ -1003,26 +1016,37 @@ class ConnectedApp extends Component {
 
         <p/>
 
-        <p align="center" style={{
-            // ...styles,
-            // opacity: this.state.opacity,
-            color: 'white',
-            fontSize: 14
-          }}>{editionTitleToDisplay}</p>
+        <div className="metaInfo">
 
-        <p align="center" style={{
-            // ...styles,
-            // opacity: this.state.opacity,
-            color: 'white',
-            fontSize: 14
-          }}>{editionAcronymToDisplay}</p>
+          <p align="center" style={{
+              // ...styles,
+              // opacity: this.state.opacity,
+              color: 'white',
+              fontSize: 14
+            }}>{editionTitleToDisplay}</p>
 
-        <p align="center" style={{
-            // ...styles,
-            // opacity: this.state.opacity,
-            color: 'white',
-            fontSize: 14
-          }}>{changeEdButton}</p>
+          <p align="center" style={{
+              // ...styles,
+              // opacity: this.state.opacity,
+              color: 'white',
+              fontSize: 15
+            }}>{editionAcronymToDisplay}</p>
+          <br/>
+          <p align="center" style={{
+              // ...styles,
+              // opacity: this.state.opacity,
+              color: 'white',
+              fontSize: 15
+            }}>{readingMenuIntructions}</p>
+
+          <p align="center" style={{
+              // ...styles,
+              // opacity: this.state.opacity,
+              color: 'white',
+              fontSize: 15
+            }}>{changeEdButton}</p>
+
+        </div>
 
       </div>
 
@@ -1093,6 +1117,43 @@ class ConnectedApp extends Component {
 
         <Modal.Footer>
           <Button bsStyle="primary" onClick={this.handleCloseHistoric}>
+            Fechar
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+      <Modal show={this.state.showReadingMenuIntructions} onHide={this.toggleShowReadingMenuInstructions} dialogClassName="custom-modal-instructions">
+        <Modal.Header closeButton="closeButton">
+          <Modal.Title>
+            Instruções do menu de leitura
+          </Modal.Title>
+        </Modal.Header>
+
+        <Modal.Body>
+          <div className="readingMoreInfo">
+            <p align="center">Este é o menu de leitura. Aqui poderá:</p>
+            <lu>
+              <li>
+                Ir para o menu da actividade actual e interagir com a mesma.
+              </li>
+              <li>
+                Ir para o menu de nova actividade.
+              </li>
+              <li>
+                Ir para o menu de histórico de leitura.
+              </li>
+              <li>
+                Utilizar os botões azuis com as setas da esquerda ou da direita para ir para o fragmento anterior ou seguinte no contexto da actividade actual. Também pode usar as teclas esquerda e direita do seu teclado para o mesmo efeito.
+              </li>
+              <li>
+                Ao fazer uma actividade que envolva a selecção de uma certa categoria ou heterónimo, irão surgir novos botões amarelos semelhantes aos botões azuis das setas. Poderá utilizar estes botões amarelos para navegar exclusivamente entre os fragmentos dessa categoria ou heterónimo seleccionados.
+              </li>
+            </lu>
+          </div>
+        </Modal.Body>
+
+        <Modal.Footer>
+          <Button bsStyle="primary" onClick={this.toggleShowReadingMenuInstructions}>
             Fechar
           </Button>
         </Modal.Footer>

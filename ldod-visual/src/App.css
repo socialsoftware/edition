@@ -114,11 +114,23 @@ Button:not(:last-child){
   width: 90%;
 }
 
+.readingMoreInfo{
+  margin-left: 12%;
+  margin-right: 10%;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  text-align: justify;
+}
+
+.metaInfo{
+font-size: 10px;
+}
 
 
 
-
-
+.custom-modal-instructions{
+  width: 50%;
+}
 
 
 
