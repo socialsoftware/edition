@@ -79,7 +79,16 @@ class ConnectedNetworkGraphContainer extends Component {
       let myNewRecommendationArray = [];
       service.getIntersByDistance(targetId, pHeteronymWeight, pTextWeight, pDateWeight, ptaxonomyWeight).then(response => {
         console.log("NetworkGraphContainer.js: Distances received.");
-        this.setState({networkGraphData: response.data});
+
+        let receivedArray = response.data;
+
+        receivedArray.map(f => {
+          f.distance = (1 - f.distance)
+        });
+
+        receivedArray.map(f => console.log("receivedArray: " + f.distance));
+
+        this.setState({networkGraphData: receivedArray});
         this.setState(prevState => ({
           fragmentsDistanceLoaded: !prevState.check
         }));

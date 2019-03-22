@@ -12,7 +12,8 @@ import {
   CRIT_HETERONYM,
   CRIT_TAXONOMY,
   CRIT_WORD_RELEVANCE,
-  CRIT_CATEGORY
+  CRIT_CATEGORY,
+  VIS_TIMELINE
 } from "../constants/history-transitions";
 import {
   setFragmentIndex,
@@ -30,6 +31,9 @@ import {
 import "./HistoryMenu.css";
 import picNetGraph from '../assets/picnetgraph.png';
 import picSquareGrid from '../assets/picsquaregrid.png';
+import picTimeline from '../assets/pictimeline.png';
+import loadingGif from '../assets/loading.gif';
+import {Button} from "react-bootstrap";
 
 const mapStateToProps = state => {
   return {
@@ -66,7 +70,17 @@ class ConnectedHistoryMenu extends Component {
 
     this.properties = [];
 
+    this.state = {
+      loadingGif: (<div>
+        <img src={loadingGif} alt="loading...myhistory" className="loadingGifCentered"/>
+        <p align="center">A carregar histórico...</p>
+      </div>),
+      showInstructions: false
+    };
+
     var height = Math.round(window.innerHeight * 0.7) + 'px';
+
+    this.clearLoadingGif = this.clearLoadingGif.bind(this);
 
     this.options = {
       locales: {
@@ -76,12 +90,25 @@ class ConnectedHistoryMenu extends Component {
 
       // use the new locale
       locale: 'pt',
-      height: height
+      height: height,
+      onInitialDrawComplete: this.clearLoadingGif
     };
     this.timeline = [];
 
     this.handleClick = this.handleClick.bind(this);
 
+    this.toggleInstructions = this.toggleInstructions.bind(this);
+
+  }
+
+  toggleInstructions() {
+    this.setState({
+      showInstructions: !this.state.showInstructions
+    });
+  }
+
+  clearLoadingGif() {
+    this.setState({loadingGif: (<div/>)});
   }
 
   handleClick(event) {
@@ -98,7 +125,7 @@ class ConnectedHistoryMenu extends Component {
       console.log("history array: " + this.props.history);
 
       var i;
-      for (i = 0; i < this.props.fragments.length; i++) {
+      for (i = this.props.fragments.length - 1; i !== 0; i--) {
         if (this.props.fragments[i].interId === this.props.history[parseInt(properties.item)].nextFragment.interId) {
           const globalViewToRender = this.props.history[parseInt(properties.item)].visualization //(<SquareGrid onChange={this.props.onChange}/>);
           this.props.setCurrentVisualization(globalViewToRender);
@@ -165,6 +192,8 @@ class ConnectedHistoryMenu extends Component {
         img.src = picNetGraph;
       } else if (this.props.history[i].vis == VIS_SQUARE_GRID) {
         img.src = picSquareGrid;
+      } else if (this.props.history[i].vis == VIS_TIMELINE) {
+        img.src = picTimeline;
       }
       historyPic.appendChild(img);
       let item = {
@@ -188,6 +217,45 @@ class ConnectedHistoryMenu extends Component {
 
   render() {
 
+    let instructions = (<div className="instructionsButton">
+      <Button bsStyle="primary" bsSize="small" onClick={this.toggleInstructions}>
+        Mostrar instrucções
+      </Button>
+    </div>)
+
+    if (this.state.showInstructions) {
+      instructions = (<div>
+        <div className="readingMoreInfo">
+
+          <p align="center">
+            Nesta cronologia, poderá consultar o seu caminho na leitura da edição virtual do Livro do Desassossego que seleccionou.
+          </p>
+
+          <ul>
+            <li>
+              Cada rectângulo representa um fragmento com o título apresentado.
+            </li>
+            <li>
+              Pode rastejar a cronologia com o botão esquerdo do rato e controlar o zoom da cronologia com a roda do rato.
+            </li>
+            <li>
+              Clique num dos rectângulos dos fragmentos para retornar ao mesmo, bem como à actividade pela qual chegou a esse fragmento.
+            </li>
+          </ul>
+
+        </div>
+
+        <div className="instructionsButton">
+          <Button bsStyle="primary" bsSize="small" onClick={this.toggleInstructions}>
+            Esconder instrucções
+          </Button>
+        </div>
+
+        <br/>
+
+      </div>)
+    }
+
     let jsxToRender;
 
     if (this.props.allFragmentsLoaded) {
@@ -195,9 +263,8 @@ class ConnectedHistoryMenu extends Component {
     }
 
     return (<div className="historyMenu">
-      <p>
-        Nesta cronologia, poderá consultar o seu caminho na leitura da edição virtual do Livro do Desassossego que seleccionou. Basta clicar num dos títulos do fragmentos para retornar ao mesmo bem como a actividade pela qual chegou a esse fragmento.
-      </p>
+      {instructions}
+      {this.state.loadingGif}
       {jsxToRender}
     </div>);
   }

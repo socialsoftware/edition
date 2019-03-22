@@ -106,7 +106,14 @@ class ConnectedFragmentLoader extends React.Component {
         let myNewRecommendationArray = [];
         service.getIntersByDistance(this.props.fragments[this.props.fragmentIndex].interId, pHeteronymWeight, pTextWeight, pDateWeight, ptaxonomyWeight).then(response => {
 
-          idsDistanceArray = response.data;
+          let receivedArray = response.data;
+
+          receivedArray.map(f => {
+            f.distance = (1 - f.distance)
+          });
+
+          idsDistanceArray = receivedArray;
+
           this.props.setSemanticCriteriaData(idsDistanceArray);
 
           var i;

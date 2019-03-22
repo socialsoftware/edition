@@ -16,35 +16,75 @@
     format('truetype');*/
   }
 
+  @font-face {
+     font-family: 'AdobeVFPrototype';
+     src: url('AdobeVFPrototype.otf') format('otf'),
+     url('AdobeVFPrototype.ttf') format('ttf')
+     /*font-weight: normal;
+     font-style: normal;
+     format('truetype');*/
+   }
+
 
 .app {
   display: flex;
   flex-direction: column;
-  font-family: 'Amstelvar';/*Gingham; Consolas; Amstelvar;*/
-  font-weight: 300;
-  font-size: 24px;
-  font-weight: 300 900;
+  font-family: 'AdobeVFPrototype';/*Gingham; Consolas; Amstelvar;*/
+  font-weight: 200;
+  font-size: 26px;
+  font-weight: 200 900;
   font-stretch: 35% 100%;
   font-style: normal;
   font-display: swap;
 }
 
 .buttonToolbar {
-
   display: inline-block;
   flex-direction: row;
   position: fixed;
   align-self: center;
   margin-top: 30px;
-
+  font-family: 'Arial';/*Gingham; Consolas; Amstelvar;*/
 }
 
 .toggleTextSkimming{
-
+  font-family: 'Arial';/*Gingham; Consolas; Amstelvar;*/
   position: fixed;
   align-self: center;
   margin-top: 95px;
 
+}
+
+.instructionsButton{
+  font-family: 'Arial';
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
+  margin-bottom: 40px;
+}
+
+.instructionsText{
+  margin-left: 200px;
+  margin-right: 200px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  text-align: justify;
+  text-justify: inter-word;
+}
+
+
+
+.instructionsTextHistory{
+  margin-left: 200px;
+  margin-right: 200px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  text-align: center
+}
+
+.catTitle{
+  margin-top: 30px;
 }
 
 
@@ -74,12 +114,23 @@ Button:not(:last-child){
   width: 90%;
 }
 
+.readingMoreInfo{
+  margin-left: 12%;
+  margin-right: 10%;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  text-align: justify;
+}
+
+.metaInfo{
+font-size: 10px;
+}
 
 
 
-
-
-
+.custom-modal-instructions{
+  width: 50%;
+}
 
 
 

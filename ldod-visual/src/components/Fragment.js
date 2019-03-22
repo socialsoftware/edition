@@ -79,10 +79,16 @@ export class ConnectedFragment extends React.Component {
     this.currentFragmentTfIdfMap = new HashMap();
     this.lowestTfIdfValueMap = new HashMap();
 
+    this.eliteWordsMap = new HashMap();
+
     this.min = 1000;
     this.max = 0.000001;
     this.truncateCounter = 0;
     this.TfIdfRequestCounter = 0;
+
+    this.tfidfWordLimit = 5;
+    this.tfIdfWordLimitValues = [];
+    this.lastTfFragId = "";
   }
 
   componentDidUpdate(prevProps) {
@@ -133,27 +139,56 @@ export class ConnectedFragment extends React.Component {
             let distinctTfIdfValues = 0;
             let temp;
 
-            let stopWords = ["e", "a", "to", "of", "the"];
+            let stopWords = [
+              "e",
+              "a",
+              "to",
+              "of",
+              "the",
+              "is",
+              "or"
+            ];
+
+            console.log("===========================");
 
             let myMap = new HashMap();
-            response.data.map(function(d) {
+
+            let tempArray = response.data;
+            tempArray = tempArray.reverse();
+
+            // console.log("ble: " + tempArray[0].word)
+            // console.log("ble: " + tempArray[0].distance)
+            //
+            // for (var property in tempArray[0]) {
+            //   console.log("ble property: " + property + " | " + Object.getOwnPropertyNames(tempArray[0]))  Outputs: foo, fiz or fiz, foo
+            // }
+
+            tempArray.map(function(d, index) {
               if (!stopWords.includes(Object.keys(d)[0].toString())) {
-                console.log("response tf-idf data: " + Object.keys(d)[0].toLowerCase() + " " + Object.values(d)[0]);
+
                 myMap.set(Object.keys(d)[0].toLowerCase(), Object.values(d)[0]);
 
-                Object.values(d)[0] = (1 - Object.values(d)[0]);
+                if (index <= this.tfidfWordLimit) {
+                  this.tfIdfWordLimitValues.push(Object.keys(d)[0].toLowerCase())
+                }
+
+                Object.values(d)[0] = (Object.values(d)[0]);
 
                 if (temp !== Object.values(d)[0]) {
                   temp = Object.values(d)[0];
                   distinctTfIdfValues++;
                 }
+
+                console.log("response tf-idf data: " + Object.keys(d)[0].toLowerCase() + " " + Object.values(d)[0]);
               } else {
                 console.log("ignoring TF-IDF stopword: " + Object.keys(d)[0]);
               }
             }.bind(this));
 
+            this.eliteWordsMap.set(currentlyDisplayedFragmentId, this.tfIdfWordLimitValues);
+
             let obj = {
-              low: Object.values(response.data[0])[0],
+              low: Object.values(tempArray[0])[0],
               len: distinctTfIdfValues
             }
 
@@ -215,11 +250,19 @@ export class ConnectedFragment extends React.Component {
 
               // if (parseFloat(wordsTfIdfMap.get(wordToCompare)) !== lowestTfIdfValue || tfIdfLen == 1) {
 
-              if (outOfTag) {
+              let tfIdf = parseFloat(wordsTfIdfMap.get(replaceSpecialChars(stringArray[w].toLowerCase())));
+
+              // console.log("tf idf debug: wordToCompare: " + wordToCompare)
+
+              // console.log("tf idf debug: tfIdfWordLimitValues: " + this.tfIdfWordLimitValues)
+
+              // console.log("tf idf debug: (tfIdfWordLimitValues.indexOf(wordToCompare) !== -1): " + (
+              // this.tfIdfWordLimitValues.indexOf(wordToCompare) !== -1))
+
+              if (outOfTag && this.eliteWordsMap.get(currentlyDisplayedFragmentId).indexOf(wordToCompare) !== -1) {
 
                 console.log("TF-IDF FOUND WORD: " + stringArray[w]);
 
-                let tfIdf = parseFloat(wordsTfIdfMap.get(replaceSpecialChars(stringArray[w].toLowerCase())));
                 if (tfIdf < this.min) {
                   this.min = tfIdf
                 }
@@ -227,13 +270,17 @@ export class ConnectedFragment extends React.Component {
                   this.max = tfIdf
                 }
 
+                // boldWeight = 300 + (parseFloat((tfIdf * 10000)) * 599) / parseFloat((this.eliteWordsMap.get(currentlyDisplayedFragmentId)[0] * 10000))
+                //
+                // boldWeight = parseFloat(boldWeight);
+
                 boldWeight = 300 + (tfIdf * 10000);
 
-                console.log("TfIdf for word " + stringArray[w] + ": " + tfIdf + " | boldWeight: " + boldWeight);
+                console.log("TfIdf for word " + stringArray[w] + ": " + tfIdf + " | boldWeight: " + boldWeight + " " + this.eliteWordsMap.get(currentlyDisplayedFragmentId)[0]);
 
-                if (boldWeight > 999) {
-                  boldWeight = 999;
-                  console.log("truncating to 999")
+                if (boldWeight > 899) {
+                  boldWeight = 899;
+                  console.log("truncating to 899")
                   this.truncateCounter = this.truncateCounter + 1;
                 }
 

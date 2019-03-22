@@ -11,6 +11,7 @@ import MyHistory from "../components/MyHistory";
 import {
   VIS_SQUARE_GRID,
   VIS_NETWORK_GRAPH,
+  VIS_TIMELINE,
   VIS_WORD_CLOUD,
   BY_SQUAREGRID_EDITIONORDER,
   CRIT_EDITION_ORDER,
@@ -27,12 +28,14 @@ import picSquare from '../assets/card-pics-regular/square.png';
 import picSquareGolden from '../assets/card-pics-regular/square-golden.png';
 import picSquareTime from '../assets/card-pics-regular/square-time.png';
 import picWordCloud from '../assets/card-pics-regular/word-cloud.png';
+import picTimeline from '../assets/card-pics-regular/timeline.png';
 
 import picNetgraphGray from '../assets/card-pics-gray/netgraph-gray.png';
 import picSquareGray from '../assets/card-pics-gray/square-gray.png';
 import picSquareGoldenGray from '../assets/card-pics-gray/square-golden-gray.png';
 import picSquareTimeGray from '../assets/card-pics-gray/square-time-gray.png';
 import picWordCloudGray from '../assets/card-pics-gray/word-cloud-gray.png';
+import picTimelineGray from '../assets/card-pics-gray/timeline-gray.png';
 
 const mapDispatchToProps = dispatch => {
   return {
@@ -74,7 +77,7 @@ class ConnectedActivityMenu extends Component {
 
     this.toggleActivityNetworkGraphHeteronym = this.toggleActivityNetworkGraphHeteronym.bind(this);
 
-    this.toggleActivityNetworkGraphDate = this.toggleActivityNetworkGraphDate.bind(this);
+    this.toggleActivityMyHistoryDate = this.toggleActivityMyHistoryDate.bind(this);
 
     this.toggleActivityNetworkGraphTaxonomy = this.toggleActivityNetworkGraphTaxonomy.bind(this);
 
@@ -111,15 +114,15 @@ class ConnectedActivityMenu extends Component {
     }));
   }
 
-  toggleActivityNetworkGraphDate() {
+  toggleActivityMyHistoryDate() {
 
     if (this.props.datesExist & this.props.recommendationArray[this.props.recommendationIndex].meta.date !== null) {
 
       if (this.props.recommendationArray[this.props.recommendationIndex].meta.date !== null) {
 
-        this.props.setPotentialVisualizationTechnique(VIS_NETWORK_GRAPH);
+        this.props.setPotentialVisualizationTechnique(VIS_TIMELINE);
         this.props.setPotentialSemanticCriteria(CRIT_CHRONOLOGICAL_ORDER);
-        this.activityToRender = (<NetworkGraphContainer onChange={this.props.onChange}/>);
+        this.activityToRender = (<MyHistory onChange={this.props.onChange}/>);
         this.setState(prevState => ({
           show: !prevState.show
         }));
@@ -245,14 +248,14 @@ class ConnectedActivityMenu extends Component {
       let datesButtonMessage = "Explorar os fragmentos desta edição ordenados por data";
       let datesButtonBotMessage = activitySelectable;
 
-      let datesSimilarButtonMessage = "Ler fragmentos semelhantes a este por data (fragmento actual sem data disponível)"
+      let datesSimilarButtonMessage = "Explorar fragmentos à volta da data deste fragmento (fragmento actual sem data disponível)"
       let datesSimilarButtonStyle = "default"
-      let datesSimilarImage = picNetgraphGray;
+      let datesSimilarImage = picTimelineGray;
       let datesSimilarButtonBotMessage = activityUnselectable;
       if (this.props.recommendationArray[this.props.recommendationIndex].meta.date !== null) {
-        datesSimilarButtonMessage = "Ler fragmentos semelhantes a este por data (" + this.props.recommendationArray[this.props.recommendationIndex].meta.date + ")"
+        datesSimilarButtonMessage = "Explorar fragmentos à volta da data deste fragmento (" + this.props.recommendationArray[this.props.recommendationIndex].meta.date + ")"
         datesSimilarButtonStyle = "primary";
-        datesSimilarImage = picNetgraph;
+        datesSimilarImage = picTimeline;
         datesSimilarButtonBotMessage = activitySelectable;
       }
 
@@ -284,9 +287,6 @@ class ConnectedActivityMenu extends Component {
       this.retreatButton = (<div/>);
 
       this.activityToRender = (<div>
-
-        <p>Caso tenha seleccionado uma edição virtual sem taxonomia, ou categorias, não será possível realizar actividades que dependem das mesmas, que estarão devidamente assinaladas a cinzento. O mesmo se aplicará para a ausência de datas ou se o fragmento que está a ler actualmente não for assinado por qualquer heterónimo - as actividades em torno dessa informação estarão indisponíveis.
-        </p>
 
         <div className="cardsContainerActivity">
 
@@ -372,6 +372,22 @@ class ConnectedActivityMenu extends Component {
 
           <div className="cardActivity">
             <div className="containerActivity">
+              <img src={datesSimilarImage} onClick={this.toggleActivityMyHistoryDate} className="cardsActivityImage" alt="Avatar" style={{
+                  width: "100%"
+                }}/>
+              <p align="center">
+                <b>{datesSimilarButtonMessage}</b>
+              </p>
+              <div className="welcomeButtonActivity">
+                <Button bsStyle={datesSimilarButtonStyle} bsSize="small" onClick={this.toggleActivityMyHistoryDate}>
+                  {datesSimilarButtonBotMessage}
+                </Button>
+              </div>
+            </div>
+          </div>
+
+          <div className="cardActivity">
+            <div className="containerActivity">
               <img src={picNetgraph} onClick={this.toggleActivityNetworkGraphTextSimilarity} className="cardsActivityImage" alt="Avatar" style={{
                   width: "100%"
                 }}/>
@@ -381,22 +397,6 @@ class ConnectedActivityMenu extends Component {
               <div className="welcomeButtonActivity">
                 <Button bsStyle="primary" bsSize="small" onClick={this.toggleActivityNetworkGraphTextSimilarity}>
                   Escolher actividade
-                </Button>
-              </div>
-            </div>
-          </div>
-
-          <div className="cardActivity">
-            <div className="containerActivity">
-              <img src={datesSimilarImage} onClick={this.toggleActivityNetworkGraphDate} className="cardsActivityImage" alt="Avatar" style={{
-                  width: "100%"
-                }}/>
-              <p align="center">
-                <b>{datesSimilarButtonMessage}</b>
-              </p>
-              <div className="welcomeButtonActivity">
-                <Button bsStyle={datesSimilarButtonStyle} bsSize="small" onClick={this.toggleActivityNetworkGraphDate}>
-                  {datesSimilarButtonBotMessage}
                 </Button>
               </div>
             </div>
@@ -436,3 +436,6 @@ class ConnectedActivityMenu extends Component {
 const ActivityMenu = connect(mapStateToProps, mapDispatchToProps)(ConnectedActivityMenu);
 
 export default ActivityMenu;
+
+//         <p>Caso tenha seleccionado uma edição virtual sem taxonomia, ou categorias, não será possível realizar actividades que dependem das mesmas, que estarão devidamente assinaladas a cinzento. O mesmo se aplicará para a ausência de datas ou se o fragmento que está a ler actualmente não for assinado por qualquer heterónimo - as actividades em torno dessa informação estarão indisponíveis.
+//         </p>
