@@ -1143,6 +1143,10 @@ class ConnectedApp extends Component {
                 Ir para o menu de histórico de leitura.
               </li>
               <li>
+                Realçar as palavras mais relevantes do fragmento. O critério do realce é dado pelo TF-IDF ou{" "}
+                <i>term frequency–inverse document frequency.</i>
+              </li>
+              <li>
                 Utilizar os botões azuis com as setas da esquerda ou da direita para ir para o fragmento anterior ou seguinte no contexto da actividade actual. Também pode usar as teclas esquerda e direita do seu teclado para o mesmo efeito.
               </li>
               <li>
