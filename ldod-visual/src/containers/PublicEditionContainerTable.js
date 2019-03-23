@@ -200,7 +200,7 @@ class ConnectedPublicEditionContainerTable extends React.Component {
 
           let myTitle = ReactHtmlParser(item.title, options).toString();
 
-          console.log(myTitle.length + "| mytitle |" + myTitle)
+          console.log("nrº de caracteres: " + myTitle.length + "| título: |" + myTitle)
           if (myTitle.length > titleMaxChars) {
             titleMaxChars = myTitle.length;
           }

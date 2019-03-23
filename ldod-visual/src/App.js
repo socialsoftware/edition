@@ -178,6 +178,9 @@ class ConnectedApp extends Component {
     this.opacityOnText = 0.6;
     this.opacityBarelyVisible = 0.3;
 
+    this.categoryButtonFunction = function() {};
+    this.datesButtonFunction = function() {};
+
     this.landingActivityToRender = <p>A carregar edições virtuais...</p>;
 
     this.handleShowGlobalView = this.handleShowGlobalView.bind(this);
@@ -292,6 +295,7 @@ class ConnectedApp extends Component {
   }
 
   handleShowLandingActivitySquareEditionOrder() {
+    console.log("app.js: handleShowLandingActivitySquareEditionOrder()");
     this.props.setCurrentFragmentMode(true);
     this.props.setPotentialVisualizationTechnique(VIS_SQUARE_GRID);
     this.props.setPotentialSemanticCriteria(CRIT_EDITION_ORDER);
@@ -299,6 +303,7 @@ class ConnectedApp extends Component {
   }
 
   handleShowLandingActivitySquareDateOrder() {
+    console.log("app.js: handleShowLandingActivitySquareDateOrder()");
     if (this.props.datesExist) {
       this.props.setCurrentFragmentMode(true);
       this.props.setPotentialVisualizationTechnique(VIS_SQUARE_GRID);
@@ -308,6 +313,7 @@ class ConnectedApp extends Component {
   }
 
   handleShowLandingActivityWordCloudCategory() {
+    console.log("app.js: handleShowLandingActivityWordCloudCategory()");
     this.props.setCurrentFragmentMode(true);
     this.props.setPotentialVisualizationTechnique(VIS_SQUARE_GRID);
     this.props.setPotentialSemanticCriteria(CRIT_CATEGORY);
@@ -464,20 +470,21 @@ class ConnectedApp extends Component {
 
   _handleKeyDown = (event) => {
 
+    var ESCAPE_KEY = 27;
+    var RIGHT_ARROW = 39;
+    var LEFT_ARROW = 37;
+    var A_KEY = 65;
+    var N_KEY = 78;
+    var H_KEY = 72;
+    var E_KEY = 69;
+    var D_KEY = 68;
+    var T_KEY = 84;
+    var C_KEY = 67;
+    var X_KEY = 88;
+    var O_KEY = 79;
+    var R_KEY = 82;
+
     if (this.props.outOfLandingPage && this.state.inReadingMenu) {
-      var ESCAPE_KEY = 27;
-      var RIGHT_ARROW = 39;
-      var LEFT_ARROW = 37;
-      var A_KEY = 65;
-      var N_KEY = 78;
-      var H_KEY = 72;
-      var E_KEY = 69;
-      var D_KEY = 68;
-      var T_KEY = 84;
-      var C_KEY = 67;
-      var X_KEY = 88;
-      var O_KEY = 79;
-      var R_KEY = 82;
 
       switch (event.keyCode) {
         case RIGHT_ARROW:
@@ -502,6 +509,25 @@ class ConnectedApp extends Component {
           break;
       }
     }
+    // else if (!this.props.outOfLandingPage && this.props.allFragmentsLoaded && this.state.editionSelected) {
+    //   console.log("app.js | event.KeyCode: " + event.keyCode)
+    //   switch (event.keyCode) {
+    //     case E_KEY:
+    //       console.log("app.js | event.KeyCode: E")
+    //       this.handleShowLandingActivitySquareEditionOrder();
+    //       break;
+    //     case D_KEY:
+    //       console.log("app.js | event.KeyCode: D")
+    //       this.datesButtonFunction();
+    //       break;
+    //     case T_KEY:
+    //       console.log("app.js | event.KeyCode: T")
+    //       this.categoryButtonFunction();
+    //       break;
+    //     default:
+    //       break;
+    //   }
+    // }
 
   }
 
@@ -679,24 +705,24 @@ class ConnectedApp extends Component {
         let categoryButtonStyle = "primary"
         let categoryButtonBotMessage = activitySelectable;
         let categoryButtonMessage = "Explorar os fragmentos desta edição pelas categorias a que pertencem (taxonomia)"
-        let categoryButtonFunction = this.handleShowLandingActivityWordCloudCategory;
+        this.categoryButtonFunction = this.handleShowLandingActivityWordCloudCategory;
         let categoryImage = picWordCloud;
         if (this.props.categories.length === 0) {
           categoryButtonStyle = "default";
           categoryButtonMessage = "Explorar os fragmentos desta edição pelas categorias a que pertencem (taxonomia) (edição sem taxonomia)"
-          categoryButtonFunction = function() {}
+          this.categoryButtonFunction = function() {}
           categoryImage = picWordCloudGray;
           categoryButtonBotMessage = activityUnselectable;
         }
         let datesButtonStyle = "primary"
         let datesButtonBotMessage = activitySelectable;
-        let datesButtonFunction = this.handleShowLandingActivitySquareDateOrder;
+        this.datesButtonFunction = this.handleShowLandingActivitySquareDateOrder;
         let datesButtonMessage = "Explorar os fragmentos desta edição ordenados por data";
         let datesImage = picSquareTime;
         if (!this.props.datesExist) {
           datesButtonStyle = "default";
           datesButtonBotMessage = activityUnselectable;
-          datesButtonFunction = function() {}
+          this.datesButtonFunction = function() {}
           datesButtonMessage = "Explorar os fragmentos desta edição ordenados por data (edição virtual sem datas)"
           datesImage = picSquareTimeGray;
         }
@@ -732,14 +758,14 @@ class ConnectedApp extends Component {
 
             <div className="cardActivity">
               <div className="containerActivity">
-                <img src={datesImage} onClick={datesButtonFunction} className="cardsActivityImage" alt="Avatar" style={{
+                <img src={datesImage} onClick={this.datesButtonFunction} className="cardsActivityImage" alt="Avatar" style={{
                     width: "100%"
                   }}/>
                 <p align="center">
                   <b>{datesButtonMessage}</b>
                 </p>
                 <div className="welcomeButtonActivity">
-                  <Button bsStyle={datesButtonStyle} bsSize="small" onClick={datesButtonFunction}>
+                  <Button bsStyle={datesButtonStyle} bsSize="small" onClick={this.datesButtonFunction}>
                     {datesButtonBotMessage}
                   </Button>
                 </div>
@@ -748,14 +774,14 @@ class ConnectedApp extends Component {
 
             <div className="cardActivity">
               <div className="containerActivity">
-                <img src={categoryImage} onClick={categoryButtonFunction} className="cardsActivityImage" alt="Avatar" style={{
+                <img src={categoryImage} onClick={this.categoryButtonFunction} className="cardsActivityImage" alt="Avatar" style={{
                     width: "100%"
                   }}/>
                 <p align="center">
                   <b>{categoryButtonMessage}</b>
                 </p>
                 <div className="welcomeButtonActivity">
-                  <Button bsStyle={categoryButtonStyle} bsSize="small" onClick={categoryButtonFunction}>
+                  <Button bsStyle={categoryButtonStyle} bsSize="small" onClick={this.categoryButtonFunction}>
                     {categoryButtonBotMessage}
                   </Button>
                 </div>
@@ -1036,32 +1062,35 @@ class ConnectedApp extends Component {
 
         <p/>
 
-        <div className="metaInfo">
+        <div className="metaInfo" onMouseOver={this.setMouseOverMenuButtons} onMouseLeave={this.setMouseOutMenuButtons} tyle={{
+            ...styles,
+            opacity: this.state.opacity
+          }}>
 
           <p align="center" style={{
-              // ...styles,
-              // opacity: this.state.opacity,
+              ...styles,
+              opacity: this.state.opacity,
               color: 'white',
-              fontSize: 14
+              fontSize: 15
             }}>{editionTitleToDisplay}</p>
 
           <p align="center" style={{
-              // ...styles,
-              // opacity: this.state.opacity,
+              ...styles,
+              opacity: this.state.opacity,
               color: 'white',
               fontSize: 15
             }}>{editionAcronymToDisplay}</p>
           <br/>
           <p align="center" style={{
-              // ...styles,
-              // opacity: this.state.opacity,
+              ...styles,
+              opacity: this.state.opacity,
               color: 'white',
               fontSize: 15
             }}>{readingMenuIntructions}</p>
 
           <p align="center" style={{
-              // ...styles,
-              // opacity: this.state.opacity,
+              ...styles,
+              opacity: this.state.opacity,
               color: 'white',
               fontSize: 15
             }}>{changeEdButton}</p>
