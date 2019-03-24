@@ -90,6 +90,7 @@ class ConnectedNetworkGraph extends Component {
 
     const maxFragsAnalyzedPercentage = 1.0;
     let mostDistantFragmentDistance = 1 //this.props.graphData[this.props.graphData.length - 1].distance;
+    let lessDistantFragmentDistance = 1
     const graphHeight = 500;
 
     let truncateCheckBuffer = [];
@@ -191,6 +192,10 @@ class ConnectedNetworkGraph extends Component {
           nrOfNonNullDistances++;
         }
 
+        if (this.props.graphData[j].distance < lessDistantFragmentDistance) {
+          lessDistantFragmentDistance = this.props.graphData[j].distance;
+        }
+
         if (tempPercentage < mask1 && this.props.graphData[j].distance !== 0) {
           nrValuesSubMask1++;
         } else if (tempPercentage < mask2) {
@@ -261,69 +266,6 @@ class ConnectedNetworkGraph extends Component {
 
       let mySize = originalFragmentSize * 0.5;
 
-      let edgeLengthFactor = 1; //10000;
-
-      if (this.props.currentFragmentMode && this.props.potentialSemanticCriteria == CRIT_CHRONOLOGICAL_ORDER) {
-        edgeLengthFactor = 100;
-      } else if (!this.props.currentFragmentMode && this.props.semanticCriteria == CRIT_CHRONOLOGICAL_ORDER) {
-        edgeLengthFactor = 100;
-      }
-
-      if (distancePercentage < 6) {
-        // nodeBorderColor = "#101010";
-        // nodeBackgroundColor = "#505050";
-        console.log("NetworkGraph.js: distance is zero!")
-        totalAxes = nrOfNullDistances;
-        distancePercentage = 6
-      }
-
-      /*
-
-      //small interpolation for when the distance is zero
-
-      if (truncateCheckBuffer.length < 2) {
-        console.log("NetworkGraph.js: no values after " + truncateFloor + "%, will truncate edgeLengthFactor");
-        console.log(truncateCheckBuffer.length);
-        //edgeLengthFactor = edgeLengthFactor / 5;
-      } else {
-        console.log("NetworkGraph.js: values after " + truncateFloor + "%, not going to truncate edgeLengthFactor");
-        console.log(truncateCheckBuffer.length);
-      }
-
-      if (distancePercentage < mask2) {
-        // nodeBorderColor = "#7FFFD4";
-        // nodeBackgroundColor = "#00FFFF";
-        totalAxes = nrValuesSubMask2;
-        mySize = mySize * sizeMultiplier2;
-        absoluteDistance = mask2 / 100 * mostDistantFragmentDistance
-
-      } else if (distancePercentage < mask3) {
-        totalAxes = nrValuesSubMask3;
-        mySize = mySize * sizeMultiplier3;
-        absoluteDistance = mask3 / 100 * mostDistantFragmentDistance
-
-      } else if (distancePercentage > mask4) {
-        mySize = mySize * sizeMultiplier4;
-        //nodeBorderColor = "#7FFFD4";
-        //nodeBackgroundColor = "#00FFFF";
-        //totalAxes = nrValuesSubMask8;
-        //absoluteDistance = mask8 / 100 * mostDistantFragmentDistance
-        //edgeLengthFactor = 4000;
-      }
-
-
-
-      if (mostDistantFragmentDistance === 0) {
-        // nodeBorderColor = "#101010";
-        // nodeBackgroundColor = "#505050";
-        console.log("NetworkGraph.js: mostDistantFragmentDistance is zero!")
-        totalAxes = nrOfNullDistances;
-        mySize = mySize * sizeMultiplier1;
-        mostDistantFragmentDistance = 10;
-        absoluteDistance = mask1 / 100 * mostDistantFragmentDistance
-        edgeLengthFactor = 10000;
-      }
-*/
       let angleSlice = Math.PI * 2 / totalAxes; //The width in radians of each "slice"
 
       console.log("NetworkGraph.js: The number of different axes: " + totalAxes);
@@ -334,9 +276,15 @@ class ConnectedNetworkGraph extends Component {
       // if (distancePercentage < 90)
       //   distancePercentage = 20
 
-      xFactor = (distancePercentage) * edgeLengthFactor * Math.cos(angleSlice * rand - Math.PI / 2);
+      console.log("lessDistantFragmentDistance * 100: " + lessDistantFragmentDistance * 100)
 
-      yFactor = (distancePercentage) * edgeLengthFactor * Math.sin(angleSlice * rand - Math.PI / 2);
+      let valueToDec = 4 - (lessDistantFragmentDistance * 100);
+
+      let edgeLengthFactor = (5 * lessDistantFragmentDistance) + 3; //10000;
+
+      xFactor = (distancePercentage + valueToDec) * edgeLengthFactor * Math.cos(angleSlice * rand - Math.PI / 2);
+
+      yFactor = (distancePercentage + valueToDec) * edgeLengthFactor * Math.sin(angleSlice * rand - Math.PI / 2);
 
       //purple
       if (!this.props.currentFragmentMode && this.props.graphData[i].interId === this.props.recommendationArray[this.props.recommendationIndex].interId) {
