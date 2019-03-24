@@ -86,7 +86,7 @@ export class ConnectedFragment extends React.Component {
     this.truncateCounter = 0;
     this.TfIdfRequestCounter = 0;
 
-    this.tfidfWordLimit = 5;
+    this.tfidfWordLimit = 4;
     this.tfIdfWordLimitValues = [];
     this.lastTfFragId = "";
   }
@@ -259,9 +259,10 @@ export class ConnectedFragment extends React.Component {
               // console.log("tf idf debug: (tfIdfWordLimitValues.indexOf(wordToCompare) !== -1): " + (
               // this.tfIdfWordLimitValues.indexOf(wordToCompare) !== -1))
 
-              if (outOfTag && this.eliteWordsMap.get(currentlyDisplayedFragmentId).indexOf(wordToCompare) !== -1) {
+              if (outOfTag && this.eliteWordsMap.get(currentlyDisplayedFragmentId).includes(wordToCompare)) {
 
                 console.log("TF-IDF FOUND WORD: " + stringArray[w]);
+                console.log("(othis.eliteWordsMap.get(currentlyDisplayedFragmentId)" + this.eliteWordsMap.get(currentlyDisplayedFragmentId) + "| word2compare: " + wordToCompare)
 
                 if (tfIdf < this.min) {
                   this.min = tfIdf
@@ -274,15 +275,28 @@ export class ConnectedFragment extends React.Component {
                 //
                 // boldWeight = parseFloat(boldWeight);
 
-                boldWeight = 300 + (tfIdf * 10000);
+                let weights = [300, 400, 500, 600];
+
+                let top4words = this.eliteWordsMap.get(currentlyDisplayedFragmentId);
+
+                // let t;
+                // for (t = 0; t < this.tfidfWordLimit; t++) {
+                //   if (tfIdf == wordsTfIdfMap.get(top4words[t])) {
+                //     boldWeight = 300 + weights[t];
+                //   }
+                // }
+
+                boldWeight = 800; //boldweight deixou de responder granularmente com a variable font
+
+                //boldWeight = 300 + (tfIdf * 10000);
 
                 console.log("TfIdf for word " + stringArray[w] + ": " + tfIdf + " | boldWeight: " + boldWeight + " " + this.eliteWordsMap.get(currentlyDisplayedFragmentId)[0]);
 
-                if (boldWeight > 899) {
-                  boldWeight = 899;
-                  console.log("truncating to 899")
-                  this.truncateCounter = this.truncateCounter + 1;
-                }
+                // if (boldWeight > 899) {
+                //   boldWeight = 899;
+                //   console.log("truncating to 899")
+                //   this.truncateCounter = this.truncateCounter + 1;
+                // }
 
                 stringArray[w] = ReactDOMServer.renderToStaticMarkup((<span style={{
                     fontWeight: boldWeight,
@@ -300,15 +314,6 @@ export class ConnectedFragment extends React.Component {
           }
 
           textToDisplay = ReactHtmlParser(stringArray.join(''));
-          // console.log("ZZZZZZZZZZZ PROCESSED: ZZZZZZZZZZZZ");
-          // console.log(textToDisplay);
-          // console.log("ZZZZZZZZZZZ ORIGINAL: ZZZZZZZZZZZZ");
-          // console.log(this.props.recommendationArray[this.props.recommendationIndex].text)
-          //
-          // console.log("min tf-idf: " + this.min);
-          // console.log("max tf-idf: " + this.max);
-          // console.log("truncateCounter: " + this.truncateCounter);
-          // console.log("TfIdfRequestCounter: " + this.TfIdfRequestCounter);
 
         }
 
