@@ -68,7 +68,8 @@ class ConnectedActivityMenu extends Component {
 
     this.activityToRender = (<div></div>);
     this.state = {
-      show: true
+      show: true,
+      showInstructions: false
     };
 
     this.retreatButton = (<div/>);
@@ -93,6 +94,14 @@ class ConnectedActivityMenu extends Component {
 
     this.toggleWordCloudTaxonomySingleFragment = this.toggleWordCloudTaxonomySingleFragment.bind(this);
 
+    this.toggleInstructions = this.toggleInstructions.bind(this);
+
+  }
+
+  toggleInstructions() {
+    this.setState({
+      showInstructions: !this.state.showInstructions
+    });
   }
 
   toggleActivityNetworkGraphTextSimilarity() {
@@ -271,6 +280,27 @@ class ConnectedActivityMenu extends Component {
     const activitySelectable = "Escolher actividade";
     const activityUnselectable = "Actividade indisponível";
 
+    let instructions = (<div className="instructionsButton">
+      <Button bsStyle="primary" bsSize="small" onClick={this.toggleInstructions}>
+        Mostrar instrucções
+      </Button>
+    </div>)
+
+    if (this.state.showInstructions) {
+      instructions = (<div className="readingMoreInfo">
+        <p align="center">Este é o menu de nova actividade.</p>
+        <lu>
+          <li>
+            Aqui poderá realizar uma de várias actividades clicando na respectiva imagem, botão ou tecla do seu teclado assinalada na etiqueta do botão (ex: tecla "E" para a primeira actividade)).
+          </li>
+          <li>
+            Note que todas as actividades que envolvam quadrados, círculos ou cronologia irão envolver um elemento cor-de-laranja que representa o fragmento que está a ler actualmente e à volta do qual deseja fazer a nova actividade.
+          </li>
+        </lu>
+      </div>)
+
+    }
+
     if (this.state.show) {
 
       let categoryButtonMessage = "Explorar os fragmentos desta edição pelas categorias a que pertencem (taxonomia)"
@@ -345,6 +375,8 @@ class ConnectedActivityMenu extends Component {
       this.retreatButton = (<div/>);
 
       this.activityToRender = (<div>
+
+        {instructions}
 
         <div className="cardsContainerActivity">
 

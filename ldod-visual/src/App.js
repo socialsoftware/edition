@@ -1183,13 +1183,13 @@ class ConnectedApp extends Component {
             <p align="center">Este é o menu de leitura. Aqui poderá:</p>
             <lu>
               <li>
-                Ir para o menu da actividade actual e interagir com a mesma.
+                Ir para o menu da actividade actual e interagir com a mesma clicando no botão ou na tecla "A" do seu teclado.
               </li>
               <li>
-                Ir para o menu de nova actividade.
+                Ir para o menu de nova actividade clicando no botão ou na tecla "N" do seu teclado.
               </li>
               <li>
-                Ir para o menu de histórico de leitura.
+                Ir para o menu de histórico de leitura clicando no botão ou na tecla "H" do seu teclado.
               </li>
               <li>
                 Realçar as palavras mais relevantes do fragmento. O critério do realce é dado pelo TF-IDF ou{" "}

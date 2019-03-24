@@ -549,10 +549,18 @@ class ConnectedNetworkGraph extends Component {
 
           <lu>
             <li>
-              Seleccione um fragmento novo ao clicar num dos círculos em torno do {orangeCircleText}. Quanto mais próximos estiverem do {orangeCircleText}
+              Seleccione um fragmento novo ao clicar num dos círculos em torno do {orangeCircleText}.
+            </li>
+            <li>
+              Quanto mais próximos estiverem do {orangeCircleText}
               (correspondente ao fragmento sob o qual realizou ou está a realizar uma nova actividade), mais semelhantes serão segundo o critério desta actividade.
             </li>
-
+            <li>
+              O círculo mais próximo será sempre do fragmento que, dentro do conjunto de todos os fragmentos da edição, é o que é relativamente mais semelhante, seja 5% ou 100% semelhante.
+            </li>
+            <li>
+              Quanto mais alta a semelhança em percentagem, mais claro será o azul do círculo.
+            </li>
             <li>
               Um {purpleCircleText}
               representará o fragmento que está a ler actualmente caso navegue para um fragmento diferente do fragmento inicial (o {orangeCircleText}).
