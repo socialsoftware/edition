@@ -89,6 +89,7 @@ export class ConnectedFragment extends React.Component {
     this.tfidfWordLimit = 4;
     this.tfIdfWordLimitValues = [];
     this.lastTfFragId = "";
+    this.currentlyDisplayedFragmentId = "";
   }
 
   componentDidUpdate(prevProps) {
@@ -118,22 +119,22 @@ export class ConnectedFragment extends React.Component {
 
     if (this.props.allFragmentsLoaded && this.props.outOfLandingPage && this.props.recommendationLoaded) {
 
-      console.log("XPTZ DATE: " + this.props.recommendationArray[this.props.recommendationIndex].meta.date);
-      console.log("XPTZ DATE EXISTS: " + this.props.datesExist)
+      // console.log("XPTZ DATE: " + this.props.recommendationArray[this.props.recommendationIndex].meta.date);
+      // console.log("XPTZ DATE EXISTS: " + this.props.datesExist)
 
       if (this.props.toggleTextSkimming) {
         console.log("Fragment.js: => app.js wants toggleTextSkimming active!");
 
-        let currentlyDisplayedFragmentId = this.props.recommendationArray[this.props.recommendationIndex].interId;
+        this.currentlyDisplayedFragmentId = this.props.recommendationArray[this.props.recommendationIndex].interId;
 
-        if (!this.oldTfIdfDataMap.has(currentlyDisplayedFragmentId)) {
-          console.log("Fragment.js: !this.oldTfIdfDataMap.has(currentlyDisplayedFragmentId) => New TFIDF info needed, requesting TF-IDF for fragId " + currentlyDisplayedFragmentId);
+        if (!this.oldTfIdfDataMap.has(this.currentlyDisplayedFragmentId)) {
+          console.log("Fragment.js: !this.oldTfIdfDataMap.has(this.currentlyDisplayedFragmentId) => New TFIDF info needed, requesting TF-IDF for fragId " + this.currentlyDisplayedFragmentId);
 
           const service = new RepositoryService(this.props.currentEdition.acronym);
 
-          service.getFragmentTfIdf(currentlyDisplayedFragmentId).then(response => {
+          service.getFragmentTfIdf(this.currentlyDisplayedFragmentId).then(response => {
 
-            console.log("TF-IDF received for fragId " + currentlyDisplayedFragmentId);
+            console.log("TF-IDF received for fragId " + this.currentlyDisplayedFragmentId);
             console.log(response.data);
 
             let distinctTfIdfValues = 0;
@@ -163,13 +164,16 @@ export class ConnectedFragment extends React.Component {
             //   console.log("ble property: " + property + " | " + Object.getOwnPropertyNames(tempArray[0]))  Outputs: foo, fiz or fiz, foo
             // }
 
+            let tempCounter = 0;
+
             tempArray.map(function(d, index) {
               if (!stopWords.includes(Object.keys(d)[0].toString())) {
 
                 myMap.set(Object.keys(d)[0].toLowerCase(), Object.values(d)[0]);
 
-                if (index <= this.tfidfWordLimit) {
+                if (tempCounter < this.tfidfWordLimit) {
                   this.tfIdfWordLimitValues.push(Object.keys(d)[0].toLowerCase())
+                  tempCounter++;
                 }
 
                 Object.values(d)[0] = (Object.values(d)[0]);
@@ -185,16 +189,18 @@ export class ConnectedFragment extends React.Component {
               }
             }.bind(this));
 
-            this.eliteWordsMap.set(currentlyDisplayedFragmentId, this.tfIdfWordLimitValues);
+            this.eliteWordsMap.set(this.currentlyDisplayedFragmentId, this.tfIdfWordLimitValues);
+            this.tfIdfWordLimitValues = [];
+            this.tfIdfWordLimitValues = [];
 
             let obj = {
               low: Object.values(tempArray[0])[0],
               len: distinctTfIdfValues
             }
 
-            this.lowestTfIdfValueMap.set(currentlyDisplayedFragmentId, obj);
+            this.lowestTfIdfValueMap.set(this.currentlyDisplayedFragmentId, obj);
 
-            this.oldTfIdfDataMap.set(currentlyDisplayedFragmentId, myMap);
+            this.oldTfIdfDataMap.set(this.currentlyDisplayedFragmentId, myMap);
 
             this.TfIdfRequestCounter = this.TfIdfRequestCounter + 1;
 
@@ -206,13 +212,13 @@ export class ConnectedFragment extends React.Component {
 
         } else {
           console.log("Fragment.js: => TF-IDF info already loaded. Using TF-IDF info in hashmap.");
-          console.log(this.oldTfIdfDataMap.get(currentlyDisplayedFragmentId));
+          console.log(this.oldTfIdfDataMap.get(this.currentlyDisplayedFragmentId));
 
           let dataMap;
-          let wordsTfIdfMap = this.oldTfIdfDataMap.get(currentlyDisplayedFragmentId);
+          let wordsTfIdfMap = this.oldTfIdfDataMap.get(this.currentlyDisplayedFragmentId);
 
-          let lowestTfIdfValue = this.lowestTfIdfValueMap.get(currentlyDisplayedFragmentId).low;
-          let tfIdfLen = this.lowestTfIdfValueMap.get(currentlyDisplayedFragmentId).len;
+          let lowestTfIdfValue = this.lowestTfIdfValueMap.get(this.currentlyDisplayedFragmentId).low;
+          let tfIdfLen = this.lowestTfIdfValueMap.get(this.currentlyDisplayedFragmentId).len;
 
           console.log("TF-IDF xxx LOWEST VALUE: " + lowestTfIdfValue);
           console.log("TF-IDF Xxx LEN: " + tfIdfLen);
@@ -259,10 +265,10 @@ export class ConnectedFragment extends React.Component {
               // console.log("tf idf debug: (tfIdfWordLimitValues.indexOf(wordToCompare) !== -1): " + (
               // this.tfIdfWordLimitValues.indexOf(wordToCompare) !== -1))
 
-              if (outOfTag && this.eliteWordsMap.get(currentlyDisplayedFragmentId).includes(wordToCompare)) {
+              if (outOfTag && this.eliteWordsMap.get(this.currentlyDisplayedFragmentId).includes(wordToCompare)) {
 
                 console.log("TF-IDF FOUND WORD: " + stringArray[w]);
-                console.log("(othis.eliteWordsMap.get(currentlyDisplayedFragmentId)" + this.eliteWordsMap.get(currentlyDisplayedFragmentId) + "| word2compare: " + wordToCompare)
+                console.log("(this.eliteWordsMap.get(this.currentlyDisplayedFragmentId) " + this.eliteWordsMap.get(this.currentlyDisplayedFragmentId) + "| word2compare: " + wordToCompare)
 
                 if (tfIdf < this.min) {
                   this.min = tfIdf
@@ -271,13 +277,13 @@ export class ConnectedFragment extends React.Component {
                   this.max = tfIdf
                 }
 
-                // boldWeight = 300 + (parseFloat((tfIdf * 10000)) * 599) / parseFloat((this.eliteWordsMap.get(currentlyDisplayedFragmentId)[0] * 10000))
+                // boldWeight = 300 + (parseFloat((tfIdf * 10000)) * 599) / parseFloat((this.eliteWordsMap.get(this.currentlyDisplayedFragmentId)[0] * 10000))
                 //
                 // boldWeight = parseFloat(boldWeight);
 
                 let weights = [300, 400, 500, 600];
 
-                let top4words = this.eliteWordsMap.get(currentlyDisplayedFragmentId);
+                let top4words = this.eliteWordsMap.get(this.currentlyDisplayedFragmentId);
 
                 // let t;
                 // for (t = 0; t < this.tfidfWordLimit; t++) {
@@ -290,7 +296,7 @@ export class ConnectedFragment extends React.Component {
 
                 //boldWeight = 300 + (tfIdf * 10000);
 
-                console.log("TfIdf for word " + stringArray[w] + ": " + tfIdf + " | boldWeight: " + boldWeight + " " + this.eliteWordsMap.get(currentlyDisplayedFragmentId)[0]);
+                console.log("TfIdf for word " + stringArray[w] + ": " + tfIdf + " | boldWeight: " + boldWeight + " " + this.eliteWordsMap.get(this.currentlyDisplayedFragmentId)[0]);
 
                 // if (boldWeight > 899) {
                 //   boldWeight = 899;
