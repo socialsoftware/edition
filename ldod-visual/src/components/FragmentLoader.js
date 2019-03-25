@@ -135,8 +135,8 @@ class ConnectedFragmentLoader extends React.Component {
 
           this.props.setHistory(myTempHist);
 
-          console.log("VVVVVVVVVVVVVVVVVVVVVVVVVVVVVV " + this.props.history[this.props.historyEntryCounter - 1].recommendationIndex)
-          console.log("VVVVVVVVVVVVVVVVVVVVVVVVVVVVVV " + this.props.history[this.props.historyEntryCounter - 1].recommendationArray)
+          // console.log("VVVVVVVVVVVVVVVVVVVVVVVVVVVVVV " + this.props.history[this.props.historyEntryCounter - 1].recommendationIndex)
+          // console.log("VVVVVVVVVVVVVVVVVVVVVVVVVVVVVV " + this.props.history[this.props.historyEntryCounter - 1].recommendationArray)
 
           this.props.setRecommendationLoaded(true);
 

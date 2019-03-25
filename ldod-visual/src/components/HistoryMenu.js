@@ -125,8 +125,9 @@ class ConnectedHistoryMenu extends Component {
       console.log("history array: " + this.props.history);
 
       var i;
-      for (i = this.props.fragments.length - 1; i !== 0; i--) {
+      for (i = 0; i < this.props.fragments.length; i++) {
         if (this.props.fragments[i].interId === this.props.history[parseInt(properties.item)].nextFragment.interId) {
+          console.log("clicking on nodeId " + this.props.fragments[i].interId + " of title " + this.props.fragments[i].meta.title)
           const globalViewToRender = this.props.history[parseInt(properties.item)].visualization //(<SquareGrid onChange={this.props.onChange}/>);
           this.props.setCurrentVisualization(globalViewToRender);
           //HISTORY ENTRY HISTORY ENTRY HISTORY ENTRY HISTORY ENTRY
@@ -146,13 +147,15 @@ class ConnectedHistoryMenu extends Component {
             recommendationArray: this.props.history[parseInt(properties.item)].recommendationArray,
             recommendationIndex: this.props.history[parseInt(properties.item)].recommendationIndex,
             start: new Date().getTime(),
-            category: historyCategory
+            category: historyCategory,
+            fragmentIndex: this.props.history[parseInt(properties.item)].fragmentIndex
           };
           this.props.addHistoryEntry(obj);
           this.props.setHistoryEntryCounter(this.props.historyEntryCounter + 1)
           //HISTORY ENTRY HISTORY ENTRY HISTORY ENTRY HISTORY ENTRY
           this.props.onChange();
           this.props.setFragmentIndex(this.props.history[parseInt(properties.item)].fragmentIndex); //mudar a logica para isto ser o fragmento central.
+          // /\ bug
 
           //parte que foi feita para não saltar para o fragmento clicado no historico via netgraph pois era preciso ir alterar o historico no fragmentloader depois de carregar um novo recommendation index que era preciso fazer set do mesmo na ultima entrada do historico.
 

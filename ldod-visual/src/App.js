@@ -169,13 +169,17 @@ class ConnectedApp extends Component {
       previousGoldenButtonClass: "goldenButtonPrevious",
       nextGoldenButtonClass: "goldenButtonNext",
       showInstructions: false,
-      showReadingMenuIntructions: false
+      showReadingMenuIntructions: false,
+      inReadingMenu: true
     };
 
     this.opacityHide = 0;
     this.opacityShow = 1;
     this.opacityOnText = 0.6;
     this.opacityBarelyVisible = 0.3;
+
+    this.categoryButtonFunction = function() {};
+    this.datesButtonFunction = function() {};
 
     this.landingActivityToRender = <p>A carregar edições virtuais...</p>;
 
@@ -242,60 +246,56 @@ class ConnectedApp extends Component {
   }
 
   handleCloseModals() {
-    this.setState({showConfig: false, showGlobalView: false, showLanding: false, showHistoric: false});
-    this.setState({opacity: this.opacityShow})
-    this.setState({hiddenFromIdle: false});
+    this.setState({
+      showConfig: false,
+      showGlobalView: false,
+      showLanding: false,
+      showHistoric: false,
+      inReadingMenu: true,
+      hiddenFromIdle: false,
+      opacity: this.opacityShow
+    });
     scroll.scrollToTop({duration: 500, delay: 0, smooth: 'easeInOutQuart'});
   }
 
   handleCloseConfig() {
-    this.setState({showConfig: false});
-    this.setState({opacity: this.opacityShow})
-    this.setState({hiddenFromIdle: false});
-
+    this.setState({showConfig: false, opacity: this.opacityShow, hiddenFromIdle: false, inReadingMenu: true});
   }
 
   handleShowConfig() {
-    this.setState({showConfig: true});
+    this.setState({showConfig: true, inReadingMenu: false});
     this.props.setCurrentFragmentMode(true);
     console.log("App.handleShowConfig: setting currentFragmentMode to true")
-
   }
 
   handleCloseGlobalView() {
-    this.setState({showGlobalView: false});
-    this.setState({opacity: this.opacityShow})
-    this.setState({hiddenFromIdle: false});
+    this.setState({showGlobalView: false, hiddenFromIdle: false, inReadingMenu: true, opacity: this.opacityShow});
 
   }
 
   handleShowGlobalView() {
-    this.setState({showGlobalView: true});
+    this.setState({showGlobalView: true, inReadingMenu: false});
     this.props.setCurrentFragmentMode(false);
     console.log("App.handleShowGlobalView(): setting currentFragmentMode to false (PickedFragmentMode)")
-
   }
 
   handleCloseHistoric() {
-    this.setState({showHistoric: false});
-    this.setState({opacity: this.opacityShow})
-    this.setState({hiddenFromIdle: false});
-
+    this.setState({showHistoric: false, opacity: this.opacityShow, hiddenFromIdle: false, inReadingMenu: true});
   }
 
   handleShowHistoric() {
     this.props.setCurrentFragmentMode(true);
-    this.setState({showHistoric: true});
+    this.setState({showHistoric: true, inReadingMenu: false});
   }
 
   handleCloseLanding() {
-    this.setState({showLanding: false});
+    this.setState({showLanding: false, hiddenFromIdle: false, inReadingMenu: true, opacity: this.opacityShow});
     console.log("calling handlecloselanding()");
-    this.setState({opacity: this.opacityShow})
-    this.setState({hiddenFromIdle: false});
+
   }
 
   handleShowLandingActivitySquareEditionOrder() {
+    console.log("app.js: handleShowLandingActivitySquareEditionOrder()");
     this.props.setCurrentFragmentMode(true);
     this.props.setPotentialVisualizationTechnique(VIS_SQUARE_GRID);
     this.props.setPotentialSemanticCriteria(CRIT_EDITION_ORDER);
@@ -303,13 +303,17 @@ class ConnectedApp extends Component {
   }
 
   handleShowLandingActivitySquareDateOrder() {
-    this.props.setCurrentFragmentMode(true);
-    this.props.setPotentialVisualizationTechnique(VIS_SQUARE_GRID);
-    this.props.setPotentialSemanticCriteria(CRIT_CHRONOLOGICAL_ORDER);
-    this.setState({showLandingActivity: true});
+    console.log("app.js: handleShowLandingActivitySquareDateOrder()");
+    if (this.props.datesExist) {
+      this.props.setCurrentFragmentMode(true);
+      this.props.setPotentialVisualizationTechnique(VIS_SQUARE_GRID);
+      this.props.setPotentialSemanticCriteria(CRIT_CHRONOLOGICAL_ORDER);
+      this.setState({showLandingActivity: true});
+    }
   }
 
   handleShowLandingActivityWordCloudCategory() {
+    console.log("app.js: handleShowLandingActivityWordCloudCategory()");
     this.props.setCurrentFragmentMode(true);
     this.props.setPotentialVisualizationTechnique(VIS_SQUARE_GRID);
     this.props.setPotentialSemanticCriteria(CRIT_CATEGORY);
@@ -354,16 +358,13 @@ class ConnectedApp extends Component {
 
     if (window.scrollY < 36 & !this.state.mouseOverMenuButtons & !this.state.hiddenFromIdle) {
 
-      this.setState({opacity: this.opacityShow})
-      this.setState({hiddenFromIdle: false});
+      this.setState({opacity: this.opacityShow, hiddenFromIdle: false})
     } else if (window.scrollY > 36 & !this.state.mouseOverMenuButtons & !this.state.hiddenFromIdle) {
 
-      this.setState({opacity: this.opacityOnText})
-      this.setState({hiddenFromIdle: false});
+      this.setState({opacity: this.opacityOnText, hiddenFromIdle: false})
     } else if (this.state.mouseOverMenuButtons) {
 
-      this.setState({opacity: this.opacityShow})
-      this.setState({hiddenFromIdle: false});
+      this.setState({opacity: this.opacityShow, hiddenFromIdle: false})
     }
 
   }
@@ -372,11 +373,9 @@ class ConnectedApp extends Component {
     // console.log('user is idle', e)
     // console.log('last active', this.idleTimer.getLastActiveTime())
     if (this.state.mouseOverMenuButtons) {
-      this.setState({opacity: this.opacityShow})
-      this.setState({hiddenFromIdle: false});
+      this.setState({opacity: this.opacityShow, hiddenFromIdle: false})
     } else {
-      this.setState({opacity: this.opacityBarelyVisible});
-      this.setState({hiddenFromIdle: true});
+      this.setState({opacity: this.opacityBarelyVisible, hiddenFromIdle: true});
     }
 
   }
@@ -472,17 +471,64 @@ class ConnectedApp extends Component {
   _handleKeyDown = (event) => {
 
     var ESCAPE_KEY = 27;
+    var RIGHT_ARROW = 39;
+    var LEFT_ARROW = 37;
+    var A_KEY = 65;
+    var N_KEY = 78;
+    var H_KEY = 72;
+    var E_KEY = 69;
+    var D_KEY = 68;
+    var T_KEY = 84;
+    var C_KEY = 67;
+    var X_KEY = 88;
+    var O_KEY = 79;
+    var R_KEY = 82;
 
-    switch (event.keyCode) {
-      case 39: //right key
-        this.nextButtonAction();
-        break;
-      case 37: //left key
-        this.previousButtonAction();
-        break;
-      default:
-        break;
+    if (this.props.outOfLandingPage && this.state.inReadingMenu) {
+
+      switch (event.keyCode) {
+        case RIGHT_ARROW:
+          this.nextButtonAction();
+          break;
+        case LEFT_ARROW:
+          this.previousButtonAction();
+          break;
+        case A_KEY:
+          this.handleShowGlobalView();
+          break;
+        case N_KEY:
+          this.handleShowConfig();
+          break;
+        case H_KEY:
+          this.handleShowHistoric();
+          break;
+        case R_KEY:
+          this.handleToggleTextSkimming();
+          break;
+        default:
+          break;
+      }
     }
+    // else if (!this.props.outOfLandingPage && this.props.allFragmentsLoaded && this.state.editionSelected) {
+    //   console.log("app.js | event.KeyCode: " + event.keyCode)
+    //   switch (event.keyCode) {
+    //     case E_KEY:
+    //       console.log("app.js | event.KeyCode: E")
+    //       this.handleShowLandingActivitySquareEditionOrder();
+    //       break;
+    //     case D_KEY:
+    //       console.log("app.js | event.KeyCode: D")
+    //       this.datesButtonFunction();
+    //       break;
+    //     case T_KEY:
+    //       console.log("app.js | event.KeyCode: T")
+    //       this.categoryButtonFunction();
+    //       break;
+    //     default:
+    //       break;
+    //   }
+    // }
+
   }
 
   forcePageReload() {
@@ -659,24 +705,24 @@ class ConnectedApp extends Component {
         let categoryButtonStyle = "primary"
         let categoryButtonBotMessage = activitySelectable;
         let categoryButtonMessage = "Explorar os fragmentos desta edição pelas categorias a que pertencem (taxonomia)"
-        let categoryButtonFunction = this.handleShowLandingActivityWordCloudCategory;
+        this.categoryButtonFunction = this.handleShowLandingActivityWordCloudCategory;
         let categoryImage = picWordCloud;
         if (this.props.categories.length === 0) {
           categoryButtonStyle = "default";
           categoryButtonMessage = "Explorar os fragmentos desta edição pelas categorias a que pertencem (taxonomia) (edição sem taxonomia)"
-          categoryButtonFunction = function() {}
+          this.categoryButtonFunction = function() {}
           categoryImage = picWordCloudGray;
           categoryButtonBotMessage = activityUnselectable;
         }
         let datesButtonStyle = "primary"
         let datesButtonBotMessage = activitySelectable;
-        let datesButtonFunction = this.handleShowLandingActivitySquareDateOrder;
+        this.datesButtonFunction = this.handleShowLandingActivitySquareDateOrder;
         let datesButtonMessage = "Explorar os fragmentos desta edição ordenados por data";
         let datesImage = picSquareTime;
         if (!this.props.datesExist) {
           datesButtonStyle = "default";
           datesButtonBotMessage = activityUnselectable;
-          datesButtonFunction = function() {}
+          this.datesButtonFunction = function() {}
           datesButtonMessage = "Explorar os fragmentos desta edição ordenados por data (edição virtual sem datas)"
           datesImage = picSquareTimeGray;
         }
@@ -712,14 +758,14 @@ class ConnectedApp extends Component {
 
             <div className="cardActivity">
               <div className="containerActivity">
-                <img src={datesImage} onClick={datesButtonFunction} className="cardsActivityImage" alt="Avatar" style={{
+                <img src={datesImage} onClick={this.datesButtonFunction} className="cardsActivityImage" alt="Avatar" style={{
                     width: "100%"
                   }}/>
                 <p align="center">
                   <b>{datesButtonMessage}</b>
                 </p>
                 <div className="welcomeButtonActivity">
-                  <Button bsStyle={datesButtonStyle} bsSize="small" onClick={datesButtonFunction}>
+                  <Button bsStyle={datesButtonStyle} bsSize="small" onClick={this.datesButtonFunction}>
                     {datesButtonBotMessage}
                   </Button>
                 </div>
@@ -728,14 +774,14 @@ class ConnectedApp extends Component {
 
             <div className="cardActivity">
               <div className="containerActivity">
-                <img src={categoryImage} onClick={categoryButtonFunction} className="cardsActivityImage" alt="Avatar" style={{
+                <img src={categoryImage} onClick={this.categoryButtonFunction} className="cardsActivityImage" alt="Avatar" style={{
                     width: "100%"
                   }}/>
                 <p align="center">
                   <b>{categoryButtonMessage}</b>
                 </p>
                 <div className="welcomeButtonActivity">
-                  <Button bsStyle={categoryButtonStyle} bsSize="small" onClick={categoryButtonFunction}>
+                  <Button bsStyle={categoryButtonStyle} bsSize="small" onClick={this.categoryButtonFunction}>
                     {categoryButtonBotMessage}
                   </Button>
                 </div>
@@ -916,15 +962,15 @@ class ConnectedApp extends Component {
         <ButtonToolbar onMouseOver={this.setMouseOverMenuButtons} onMouseLeave={this.setMouseOutMenuButtons}>
 
           <Button bsStyle="primary" bsSize="large" onClick={this.handleShowGlobalView}>
-            Actividade actual
+            Actividade actual [A]
           </Button>
 
           <Button bsStyle="primary" bsSize="large" onClick={this.handleShowConfig}>
-            Nova actividade
+            Nova actividade [N]
           </Button>
 
           <Button bsStyle="primary" bsSize="large" onClick={this.handleShowHistoric}>
-            Histórico de leitura
+            Histórico de leitura [H]
           </Button>
 
         </ButtonToolbar>
@@ -937,9 +983,9 @@ class ConnectedApp extends Component {
 
     let toggleTextSkimmingButtonMessage;
     if (this.state.toggleTextSkimming && this.props.outOfLandingPage) {
-      toggleTextSkimmingButtonMessage = "Esconder as palavras mais relevantes deste fragmento";
+      toggleTextSkimmingButtonMessage = "Esconder as palavras mais relevantes deste fragmento [R]";
     } else if (this.props.outOfLandingPage) {
-      toggleTextSkimmingButtonMessage = "Destacar as palavras mais relevantes deste fragmento";
+      toggleTextSkimmingButtonMessage = "Destacar as palavras mais relevantes deste fragmento [R]";
     }
 
     let fragLoader;
@@ -1016,32 +1062,35 @@ class ConnectedApp extends Component {
 
         <p/>
 
-        <div className="metaInfo">
+        <div className="metaInfo" onMouseOver={this.setMouseOverMenuButtons} onMouseLeave={this.setMouseOutMenuButtons} tyle={{
+            ...styles,
+            opacity: this.state.opacity
+          }}>
 
           <p align="center" style={{
-              // ...styles,
-              // opacity: this.state.opacity,
+              ...styles,
+              opacity: this.state.opacity,
               color: 'white',
-              fontSize: 14
+              fontSize: 15
             }}>{editionTitleToDisplay}</p>
 
           <p align="center" style={{
-              // ...styles,
-              // opacity: this.state.opacity,
+              ...styles,
+              opacity: this.state.opacity,
               color: 'white',
               fontSize: 15
             }}>{editionAcronymToDisplay}</p>
           <br/>
           <p align="center" style={{
-              // ...styles,
-              // opacity: this.state.opacity,
+              ...styles,
+              opacity: this.state.opacity,
               color: 'white',
               fontSize: 15
             }}>{readingMenuIntructions}</p>
 
           <p align="center" style={{
-              // ...styles,
-              // opacity: this.state.opacity,
+              ...styles,
+              opacity: this.state.opacity,
               color: 'white',
               fontSize: 15
             }}>{changeEdButton}</p>
@@ -1134,16 +1183,16 @@ class ConnectedApp extends Component {
             <p align="center">Este é o menu de leitura. Aqui poderá:</p>
             <lu>
               <li>
-                Ir para o menu da actividade actual e interagir com a mesma.
+                Ir para o menu da actividade actual e interagir com a mesma clicando no botão ou na tecla "A" do seu teclado.
               </li>
               <li>
-                Ir para o menu de nova actividade.
+                Ir para o menu de nova actividade clicando no botão ou na tecla "N" do seu teclado.
               </li>
               <li>
-                Ir para o menu de histórico de leitura.
+                Ir para o menu de histórico de leitura clicando no botão ou na tecla "H" do seu teclado.
               </li>
               <li>
-                Realçar as palavras mais relevantes do fragmento. O critério do realce é dado pelo TF-IDF ou{" "}
+                Realçar as palavras mais relevantes do fragmento clicando no botão ou na tecla "R" do seu teclado. O critério do realce é dado pelo TF-IDF ou{" "}
                 <i>term frequency–inverse document frequency.</i>
               </li>
               <li>

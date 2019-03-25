@@ -68,7 +68,8 @@ class ConnectedActivityMenu extends Component {
 
     this.activityToRender = (<div></div>);
     this.state = {
-      show: true
+      show: true,
+      showInstructions: false
     };
 
     this.retreatButton = (<div/>);
@@ -93,6 +94,14 @@ class ConnectedActivityMenu extends Component {
 
     this.toggleWordCloudTaxonomySingleFragment = this.toggleWordCloudTaxonomySingleFragment.bind(this);
 
+    this.toggleInstructions = this.toggleInstructions.bind(this);
+
+  }
+
+  toggleInstructions() {
+    this.setState({
+      showInstructions: !this.state.showInstructions
+    });
   }
 
   toggleActivityNetworkGraphTextSimilarity() {
@@ -155,12 +164,15 @@ class ConnectedActivityMenu extends Component {
 
   toggleSquareGridDateOrder() {
 
-    this.props.setPotentialVisualizationTechnique(VIS_SQUARE_GRID);
-    this.props.setPotentialSemanticCriteria(CRIT_CHRONOLOGICAL_ORDER);
-    this.activityToRender = (<SquareGrid onChange={this.props.onChange}/>);
-    this.setState(prevState => ({
-      show: !prevState.show
-    }));
+    if (this.props.datesExist) {
+
+      this.props.setPotentialVisualizationTechnique(VIS_SQUARE_GRID);
+      this.props.setPotentialSemanticCriteria(CRIT_CHRONOLOGICAL_ORDER);
+      this.activityToRender = (<SquareGrid onChange={this.props.onChange}/>);
+      this.setState(prevState => ({
+        show: !prevState.show
+      }));
+    }
   }
 
   toggleWordCloudTaxonomy() {
@@ -203,15 +215,91 @@ class ConnectedActivityMenu extends Component {
   }
 
   handleActivitySelectRetreat() {
-    this.setState(prevState => ({
-      show: !prevState.show
-    }));
+    if (!this.state.show) {
+      this.setState({show: true})
+    }
+  }
+
+  _handleKeyDownActivity = (event) => {
+
+    var ESCAPE_KEY = 27;
+    var RIGHT_ARROW = 39;
+    var LEFT_ARROW = 37;
+    var A_KEY = 65;
+    var N_KEY = 78;
+    var H_KEY = 72;
+    var E_KEY = 69;
+    var D_KEY = 68;
+    var T_KEY = 84;
+    var C_KEY = 67;
+    var X_KEY = 88;
+    var O_KEY = 79;
+    var R_KEY = 82;
+    var V_KEY = 86;
+
+    switch (event.keyCode) {
+      case E_KEY:
+        this.toggleSquareGridEditionOrder();
+        break;
+      case D_KEY:
+        this.toggleSquareGridDateOrder();
+        break;
+      case H_KEY:
+        this.toggleSquareGridHeteronym();
+        break;
+      case T_KEY:
+        this.toggleWordCloudTaxonomy();
+        break;
+      case C_KEY:
+        this.toggleWordCloudTaxonomySingleFragment();
+        break;
+      case V_KEY:
+        this.toggleActivityMyHistoryDate();
+        break;
+      case X_KEY:
+        this.toggleActivityNetworkGraphTextSimilarity();
+        break;
+      case O_KEY:
+        this.toggleActivityNetworkGraphTaxonomy();
+        break;
+      case R_KEY:
+        this.handleActivitySelectRetreat();
+      default:
+        break;
+    }
+
+  }
+
+  componentDidMount() {
+    //window.addEventListener('scroll', this.listenScrollEvent)
+    document.addEventListener("keydown", this._handleKeyDownActivity);
   }
 
   render() {
 
     const activitySelectable = "Escolher actividade";
     const activityUnselectable = "Actividade indisponível";
+
+    let instructions = (<div className="instructionsButton">
+      <Button bsStyle="primary" bsSize="small" onClick={this.toggleInstructions}>
+        Mostrar instrucções
+      </Button>
+    </div>)
+
+    if (this.state.showInstructions) {
+      instructions = (<div className="readingMoreInfo">
+        <p align="center">Este é o menu de nova actividade.</p>
+        <lu>
+          <li>
+            Aqui poderá realizar uma de várias actividades clicando na respectiva imagem, botão ou tecla do seu teclado assinalada na etiqueta do botão (ex: tecla "E" para a primeira actividade)).
+          </li>
+          <li>
+            Note que todas as actividades que envolvam quadrados, círculos ou cronologia irão envolver um elemento cor-de-laranja que representa o fragmento que está a ler actualmente e à volta do qual deseja fazer a nova actividade.
+          </li>
+        </lu>
+      </div>)
+
+    }
 
     if (this.state.show) {
 
@@ -288,6 +376,8 @@ class ConnectedActivityMenu extends Component {
 
       this.activityToRender = (<div>
 
+        {instructions}
+
         <div className="cardsContainerActivity">
 
           <div className="cardActivity">
@@ -300,7 +390,7 @@ class ConnectedActivityMenu extends Component {
               </p>
               <div className="welcomeButtonActivity">
                 <Button bsStyle="primary" bsSize="small" onClick={this.toggleSquareGridEditionOrder}>
-                  {activitySelectable}
+                  {activitySelectable + " [E]"}
                 </Button>
               </div>
             </div>
@@ -316,7 +406,7 @@ class ConnectedActivityMenu extends Component {
               </p>
               <div className="welcomeButtonActivity">
                 <Button bsStyle={datesButtonStyle} bsSize="small" onClick={datesButtonFunction}>
-                  {datesButtonBotMessage}
+                  {datesButtonBotMessage + " [D]"}
                 </Button>
               </div>
             </div>
@@ -332,7 +422,7 @@ class ConnectedActivityMenu extends Component {
               </p>
               <div className="welcomeButtonActivity">
                 <Button bsStyle={heteronymButtonStyle} bsSize="small" onClick={this.toggleSquareGridHeteronym}>
-                  {heteronymButtonBotMessage}
+                  {heteronymButtonBotMessage + " [H]"}
                 </Button>
               </div>
             </div>
@@ -348,7 +438,7 @@ class ConnectedActivityMenu extends Component {
               </p>
               <div className="welcomeButtonActivity">
                 <Button bsStyle={categoryButtonStyle} bsSize="small" onClick={this.toggleWordCloudTaxonomy}>
-                  {categoryButtonBotMessage}
+                  {categoryButtonBotMessage + " [T]"}
                 </Button>
               </div>
             </div>
@@ -364,7 +454,7 @@ class ConnectedActivityMenu extends Component {
               </p>
               <div className="welcomeButtonActivity">
                 <Button bsStyle={wordCloudSingleFragmentButtonStyle} bsSize="small" onClick={this.toggleWordCloudTaxonomySingleFragment}>
-                  {wordCloudSingleBotMessage}
+                  {wordCloudSingleBotMessage + " [C]"}
                 </Button>
               </div>
             </div>
@@ -380,7 +470,7 @@ class ConnectedActivityMenu extends Component {
               </p>
               <div className="welcomeButtonActivity">
                 <Button bsStyle={datesSimilarButtonStyle} bsSize="small" onClick={this.toggleActivityMyHistoryDate}>
-                  {datesSimilarButtonBotMessage}
+                  {datesSimilarButtonBotMessage + " [V]"}
                 </Button>
               </div>
             </div>
@@ -396,7 +486,7 @@ class ConnectedActivityMenu extends Component {
               </p>
               <div className="welcomeButtonActivity">
                 <Button bsStyle="primary" bsSize="small" onClick={this.toggleActivityNetworkGraphTextSimilarity}>
-                  Escolher actividade
+                  Escolher actividade [X]
                 </Button>
               </div>
             </div>
@@ -412,7 +502,7 @@ class ConnectedActivityMenu extends Component {
               </p>
               <div className="welcomeButtonActivity">
                 <Button bsStyle={categoryButtonStyle} bsSize="small" onClick={this.toggleActivityNetworkGraphTaxonomy}>
-                  {categoryButtonBotMessage}
+                  {categoryButtonBotMessage + " [O]"}
                 </Button>
               </div>
             </div>
@@ -424,7 +514,7 @@ class ConnectedActivityMenu extends Component {
     } else {
       this.activityToRender = this.activityToRender; //(<NetworkGraphContainer pFragmentId={this.props.recommendationArray[this.props.recommendationIndex].interId} pHeteronymWeight="0.0" pTextWeight="1.0" pDateWeight="0.0" ptaxonomyWeight="0.0" onChange={this.props.onChange}/>);
       this.retreatButton = (<Button bsStyle="primary" bsSize="large" onClick={this.handleActivitySelectRetreat} block="block">
-        ← Seleccionar outra actividade
+        ← Retroceder para outra actividade [R]
       </Button>);
 
     }

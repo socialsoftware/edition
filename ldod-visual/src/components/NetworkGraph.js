@@ -86,10 +86,11 @@ class ConnectedNetworkGraph extends Component {
 
     //console.log(this.props.graphData)
     //console.log("my graph data length: " + this.props.graphData.length);
-    this.props.graphData.map(d => console.log("my graphData id: " + d.interId + " distance: " + d.distance + " title: " + this.props.fragmentsHashMap.get(d.interId).meta.title));
+    //this.props.graphData.map(d => console.log("my graphData id: " + d.interId + " distance: " + d.distance + " title: " + this.props.fragmentsHashMap.get(d.interId).meta.title));
 
     const maxFragsAnalyzedPercentage = 1.0;
     let mostDistantFragmentDistance = 1 //this.props.graphData[this.props.graphData.length - 1].distance;
+    let lessDistantFragmentDistance = 1
     const graphHeight = 500;
 
     let truncateCheckBuffer = [];
@@ -98,7 +99,7 @@ class ConnectedNetworkGraph extends Component {
     this.props.graphData.map(function(d) {
 
       if ((d.distance / mostDistantFragmentDistance * 100) < truncateFloor && d.distance !== 0) {
-        console.log("my graphData id: " + d.interId + " |distance: " + d.distance + " |title: " + this.props.fragmentsHashMap.get(d.interId).meta.title + " |distance percentage: " + d.distance / mostDistantFragmentDistance * 100)
+        //console.log("my graphData id: " + d.interId + " |distance: " + d.distance + " |title: " + this.props.fragmentsHashMap.get(d.interId).meta.title + " |distance percentage: " + d.distance / mostDistantFragmentDistance * 100)
         truncateCheckBuffer.push(d)
       }
     }.bind(this));
@@ -111,18 +112,10 @@ class ConnectedNetworkGraph extends Component {
       }
     }.bind(this));
 
-    let myTitle = this.props.fragmentsHashMap.get(this.props.graphData[this.targetIndex].interId).meta.title;
-    if (this.props.currentFragmentMode && this.props.potentialSemanticCriteria == CRIT_CHRONOLOGICAL_ORDER && this.props.fragmentsHashMap.get(this.props.graphData[0].interId).meta.date !== null) {
-      myTitle = this.props.fragmentsHashMap.get(this.props.graphData[this.targetIndex].interId).meta.title + " | Data: " + this.props.fragmentsHashMap.get(this.props.graphData[0].interId).meta.date;
-    } else if (this.props.currentFragmentMode && this.props.potentialSemanticCriteria == CRIT_CHRONOLOGICAL_ORDER && !this.props.fragmentsHashMap.get(this.props.graphData[0].interId).meta.date) {
-      myTitle = this.props.fragmentsHashMap.get(this.props.graphData[this.targetIndex].interId).meta.title + " | Data: Sem data";
-    } else if (!this.props.currentFragmentMode && this.props.semanticCriteria == CRIT_CHRONOLOGICAL_ORDER && this.props.fragmentsHashMap.get(this.props.graphData[0].interId).meta.date !== null) {
-      myTitle = this.props.fragmentsHashMap.get(this.props.graphData[this.targetIndex].interId).meta.title + " | Data: " + this.props.fragmentsHashMap.get(this.props.graphData[0].interId).meta.date;
-    } else if (!this.props.currentFragmentMode && this.props.semanticCriteria == CRIT_CHRONOLOGICAL_ORDER && !this.props.fragmentsHashMap.get(this.props.graphData[0].interId).meta.date) {
-      myTitle = this.props.fragmentsHashMap.get(this.props.graphData[this.targetIndex].interId).meta.title + " | Data: Sem data";
+    let targetIdActual
+    if (this.props.fragments[this.props.fragmentIndex].interId) {
+      targetIdActual = this.props.fragments[this.props.fragmentIndex].interId;
     }
-
-    let targetIdActual = this.props.fragments[this.props.fragmentIndex].interId;
     if (this.props.currentFragmentMode) {
       targetIdActual = this.props.recommendationArray[this.props.recommendationIndex].interId;
     }
@@ -141,7 +134,7 @@ class ConnectedNetworkGraph extends Component {
         border: "#DC143C",
         background: "#FF7F50"
       },
-      title: myTitle, //this.props.fragmentsHashMap.get(this.props.graphData[0].interId).meta.title,  + " || " + truncateText(this.props.recommendationArray[this.props.recommendationIndex].text, 60),
+      title: this.props.fragmentsHashMap.get(targetIdActual).meta.title,
       x: 0,
       y: 0,
       fixed: true
@@ -154,31 +147,6 @@ class ConnectedNetworkGraph extends Component {
     //BUILD REMAINING FRAGMENTS' NODES
 
     let nrOfNonNullDistances = 0;
-    let mask1 = 0.2;
-    let mask2 = 0.3;
-    let mask3 = 0.5;
-    let mask4 = 10;
-    let mask5 = 20;
-    let mask6 = 30;
-    let mask7 = 40;
-    let mask8 = 50;
-    let nrValuesSubMask1 = 0;
-    let nrValuesSubMask2 = 0;
-    let nrValuesSubMask3 = 0;
-    let nrValuesSubMask4 = 0;
-    let nrValuesSubMask5 = 0;
-    let nrValuesSubMask6 = 0;
-    let nrValuesSubMask7 = 0;
-    let nrValuesSubMask8 = 0;
-    const sizeMultiplier1 = 0.7;
-    const sizeMultiplier2 = 0.8;
-    const sizeMultiplier3 = 0.9;
-    // const sizeMultiplier1 = 0.4;
-    // const sizeMultiplier2 = 0.5;
-    // const sizeMultiplier3 = 0.7;
-    const sizeMultiplier4 = 5;
-    const sizeMultiplier5 = 8;
-    let multiplier;
 
     let j;
     for (j = 0; j < this.props.graphData.length; j++) {
@@ -191,32 +159,16 @@ class ConnectedNetworkGraph extends Component {
           nrOfNonNullDistances++;
         }
 
-        if (tempPercentage < mask1 && this.props.graphData[j].distance !== 0) {
-          nrValuesSubMask1++;
-        } else if (tempPercentage < mask2) {
-          nrValuesSubMask2++;
-        } else if (tempPercentage < mask3) {
-          nrValuesSubMask3++;
-        } else if (tempPercentage < mask4) {
-          nrValuesSubMask4++;
-        } else if (tempPercentage < mask4) {
-          nrValuesSubMask4++;
-        } else if (tempPercentage < mask5) {
-          nrValuesSubMask5++;
-        } else if (tempPercentage < mask6) {
-          nrValuesSubMask6++;
-        } else if (tempPercentage < mask7) {
-          nrValuesSubMask7++;
-        } else if (tempPercentage < mask8) {
-          nrValuesSubMask8++;
+        if (this.props.graphData[j].distance < lessDistantFragmentDistance) {
+          lessDistantFragmentDistance = this.props.graphData[j].distance;
         }
 
       }
     }
 
     let nrOfNullDistances = this.props.graphData.length - nrOfNonNullDistances;
-    console.log("Number of values with 0 distance: " + nrOfNullDistances);
-    console.log("Number of values bellow mask2 " + nrValuesSubMask2);
+    //console.log("Number of values with 0 distance: " + nrOfNullDistances);
+    //console.log("Number of values bellow mask2 " + nrValuesSubMask2);
 
     let xFactor = 0;
     let yFactor = 0;
@@ -243,7 +195,7 @@ class ConnectedNetworkGraph extends Component {
       var color1 = '061019'; // 194163 <- azul escuro #061019 -> azul ainda mais escuro
       var color2 = 'bcffff'; //"#DC143C"<-vermelho border 50ffff<-azul claro FF7F50<-laranja bcffff<-azul ainda + claro
       var ratio = ((distancePercentage) / 100)
-      console.log("ratio: " + ratio)
+      //  console.log("ratio: " + ratio)
       var hex = function(x) {
         x = x.toString(16);
         return (x.length == 1)
@@ -261,72 +213,9 @@ class ConnectedNetworkGraph extends Component {
 
       let mySize = originalFragmentSize * 0.5;
 
-      let edgeLengthFactor = 1; //10000;
-
-      if (this.props.currentFragmentMode && this.props.potentialSemanticCriteria == CRIT_CHRONOLOGICAL_ORDER) {
-        edgeLengthFactor = 100;
-      } else if (!this.props.currentFragmentMode && this.props.semanticCriteria == CRIT_CHRONOLOGICAL_ORDER) {
-        edgeLengthFactor = 100;
-      }
-
-      if (distancePercentage < 6) {
-        // nodeBorderColor = "#101010";
-        // nodeBackgroundColor = "#505050";
-        console.log("NetworkGraph.js: distance is zero!")
-        totalAxes = nrOfNullDistances;
-        distancePercentage = 6
-      }
-
-      /*
-
-      //small interpolation for when the distance is zero
-
-      if (truncateCheckBuffer.length < 2) {
-        console.log("NetworkGraph.js: no values after " + truncateFloor + "%, will truncate edgeLengthFactor");
-        console.log(truncateCheckBuffer.length);
-        //edgeLengthFactor = edgeLengthFactor / 5;
-      } else {
-        console.log("NetworkGraph.js: values after " + truncateFloor + "%, not going to truncate edgeLengthFactor");
-        console.log(truncateCheckBuffer.length);
-      }
-
-      if (distancePercentage < mask2) {
-        // nodeBorderColor = "#7FFFD4";
-        // nodeBackgroundColor = "#00FFFF";
-        totalAxes = nrValuesSubMask2;
-        mySize = mySize * sizeMultiplier2;
-        absoluteDistance = mask2 / 100 * mostDistantFragmentDistance
-
-      } else if (distancePercentage < mask3) {
-        totalAxes = nrValuesSubMask3;
-        mySize = mySize * sizeMultiplier3;
-        absoluteDistance = mask3 / 100 * mostDistantFragmentDistance
-
-      } else if (distancePercentage > mask4) {
-        mySize = mySize * sizeMultiplier4;
-        //nodeBorderColor = "#7FFFD4";
-        //nodeBackgroundColor = "#00FFFF";
-        //totalAxes = nrValuesSubMask8;
-        //absoluteDistance = mask8 / 100 * mostDistantFragmentDistance
-        //edgeLengthFactor = 4000;
-      }
-
-
-
-      if (mostDistantFragmentDistance === 0) {
-        // nodeBorderColor = "#101010";
-        // nodeBackgroundColor = "#505050";
-        console.log("NetworkGraph.js: mostDistantFragmentDistance is zero!")
-        totalAxes = nrOfNullDistances;
-        mySize = mySize * sizeMultiplier1;
-        mostDistantFragmentDistance = 10;
-        absoluteDistance = mask1 / 100 * mostDistantFragmentDistance
-        edgeLengthFactor = 10000;
-      }
-*/
       let angleSlice = Math.PI * 2 / totalAxes; //The width in radians of each "slice"
 
-      console.log("NetworkGraph.js: The number of different axes: " + totalAxes);
+      //console.log("NetworkGraph.js: The number of different axes: " + totalAxes);
 
       let rand = Math.random() * (360 - 1) + 1;
 
@@ -334,9 +223,15 @@ class ConnectedNetworkGraph extends Component {
       // if (distancePercentage < 90)
       //   distancePercentage = 20
 
-      xFactor = (distancePercentage) * edgeLengthFactor * Math.cos(angleSlice * rand - Math.PI / 2);
+      //console.log("lessDistantFragmentDistance * 100: " + lessDistantFragmentDistance * 100)
 
-      yFactor = (distancePercentage) * edgeLengthFactor * Math.sin(angleSlice * rand - Math.PI / 2);
+      let valueToDec = 4 - (lessDistantFragmentDistance * 100);
+
+      let edgeLengthFactor = (5 * lessDistantFragmentDistance) + 4; //10000;
+
+      xFactor = (distancePercentage + valueToDec) * edgeLengthFactor * Math.cos(angleSlice * rand - Math.PI / 2);
+
+      yFactor = (distancePercentage + valueToDec) * edgeLengthFactor * Math.sin(angleSlice * rand - Math.PI / 2);
 
       //purple
       if (!this.props.currentFragmentMode && this.props.graphData[i].interId === this.props.recommendationArray[this.props.recommendationIndex].interId) {
@@ -448,7 +343,8 @@ class ConnectedNetworkGraph extends Component {
       var i;
       for (i = 0; i < this.props.recommendationArray.length; i++) {
 
-        if (this.recommendationArray[i].interId === nodeId) {
+        if (this.props.recommendationArray[i].interId === nodeId) {
+          //console.log("clicking on nodeId " + this.recommendationArray[i].interId + " of title " + this.recommendationArray[i].meta.title)
           let targetId = this.props.fragments[this.props.fragmentIndex].interId;
           if (this.props.currentFragmentMode) {
             targetId = this.props.recommendationArray[this.props.recommendationIndex].interId;
@@ -468,24 +364,24 @@ class ConnectedNetworkGraph extends Component {
           obj = {
             id: this.props.historyEntryCounter,
             originalFragment: this.props.recommendationArray[this.props.recommendationIndex],
-            nextFragment: this.recommendationArray[i],
+            nextFragment: this.props.recommendationArray[i],
             vis: historyVis,
             criteria: historyCriteria,
             visualization: globalViewToRender,
-            recommendationArray: this.recommendationArray,
+            recommendationArray: this.props.recommendationArray,
             recommendationIndex: i,
-            fragmentIndex: this.props.fragmentIndex,
+            fragmentIndex: this.props.fragmentIndex, //bug... o fragindex do proximo vai mudar ou nao consoante current ou not current. ou nao. se not current mode fica igual.
             start: new Date().getTime()
           };
 
           this.props.setRecommendationIndex(i);
-          this.props.setRecommendationArray(this.recommendationArray);
+          this.props.setRecommendationArray(this.props.recommendationArray);
 
           if (this.props.currentFragmentMode) {
             var j;
             for (j = 0; j < this.props.fragments.length; j++) {
               if (this.props.fragments[j].interId === nodeId) {
-                console.log("networkgraph: because of currentFragmentMode, setFragmentIndex is now: " + j)
+                //console.log("networkgraph: because of currentFragmentMode, setFragmentIndex is now: " + j)
                 this.props.setFragmentIndex(j);
                 this.props.setRecommendationIndex(0);
                 obj.fragmentIndex = j;
@@ -503,15 +399,20 @@ class ConnectedNetworkGraph extends Component {
           this.props.addHistoryEntry(obj);
           this.props.setHistoryEntryCounter(this.props.historyEntryCounter + 1)
 
-          this.props.setRecommendationLoaded(false);
+          //bug - apenas calcular array de recomendações caso estejamos em nova actividade
+          if (this.props.currentFragmentMode) {
+            this.props.setRecommendationLoaded(false);
+          }
 
           //HISTORY ENTRY HISTORY ENTRY HISTORY ENTRY HISTORY ENTRY
         }
         //this.props.setFragmentIndex(i);
 
       }
-      console.log("NETWORKGRAPH: recommendation index actual: " + this.props.recommendationIndex)
+      //console.log("NETWORKGRAPH: recommendation index actual: " + this.props.recommendationIndex)
+
       this.props.onChange();
+
     }
 
   }
@@ -601,10 +502,18 @@ class ConnectedNetworkGraph extends Component {
 
           <lu>
             <li>
-              Seleccione um fragmento novo ao clicar num dos círculos em torno do {orangeCircleText}. Quanto mais próximos estiverem do {orangeCircleText}
+              Seleccione um fragmento novo ao clicar num dos círculos em torno do {orangeCircleText}.
+            </li>
+            <li>
+              Quanto mais próximos estiverem do {orangeCircleText}
               (correspondente ao fragmento sob o qual realizou ou está a realizar uma nova actividade), mais semelhantes serão segundo o critério desta actividade.
             </li>
-
+            <li>
+              O círculo mais próximo será sempre do fragmento que, dentro do conjunto de todos os fragmentos da edição, é o que é relativamente mais semelhante, seja 5% ou 100% semelhante.
+            </li>
+            <li>
+              Quanto mais alta a semelhança em percentagem, mais claro será o azul do círculo.
+            </li>
             <li>
               Um {purpleCircleText}
               representará o fragmento que está a ler actualmente caso navegue para um fragmento diferente do fragmento inicial (o {orangeCircleText}).

@@ -475,8 +475,11 @@ class ConnectedSquareGrid extends Component {
           this.props.setHistoryEntryCounter(this.props.historyEntryCounter + 1)
           //HISTORY ENTRY HISTORY ENTRY HISTORY ENTRY HISTORY ENTRY
 
-          this.props.setVisualizationTechnique(this.props.potentialVisualizationTechnique);
-          this.props.setSemanticCriteria(this.props.potentialSemanticCriteria);
+          //maybe fixed by if condition
+          if (this.props.currentFragmentMode) {
+            this.props.setVisualizationTechnique(this.props.potentialVisualizationTechnique);
+            this.props.setSemanticCriteria(this.props.potentialSemanticCriteria);
+          }
 
           this.props.setRecommendationArray(this.myFragmentArray);
 

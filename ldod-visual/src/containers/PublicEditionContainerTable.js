@@ -200,7 +200,7 @@ class ConnectedPublicEditionContainerTable extends React.Component {
 
           let myTitle = ReactHtmlParser(item.title, options).toString();
 
-          console.log(myTitle.length + "| mytitle |" + myTitle)
+          console.log("nrº de caracteres: " + myTitle.length + "| título: |" + myTitle)
           if (myTitle.length > titleMaxChars) {
             titleMaxChars = myTitle.length;
           }
@@ -403,9 +403,6 @@ class ConnectedPublicEditionContainerTable extends React.Component {
           </p>
           <p>
             Estes momentos de afastamento da leitura podem ser devido a cenários como tentar relembrar o que aconteceu em capítulos anteriores, tentar imaginar uma certa descrição de uma paisagem ou personagem, lembrar uma experiência pessoal semelhante em comparação ao que foi lido, ligar um novo evento ao que aconteceu no passado ou até mesmo à sua influência no futuro, entre outras possibilidades.
-          </p>
-          <p>
-            Ler um livro é uma tarefa em que o leitor constantemente troca entre dois estados de concentração: ou está completamente concentrado na leitura em si ou interrompe brevemente a mesma por várias razões.
           </p>
           <p>
             A proposta do LdoD Visual está ligada a este fenómeno. O objectivo é materializar e dirigir este constante{" "}

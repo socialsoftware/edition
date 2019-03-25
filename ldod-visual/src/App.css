@@ -1,35 +1,35 @@
 @font-face {
-   font-family: 'Gingham';
-   src: url('Gingham.woff2') format('woff2'),
-   url('Gingham.woff') format('woff'),
-   url('Gingham.ttf') format('truetype');
-   /*font-weight: normal;
+  font-family: 'Gingham';
+  src: url('Gingham.woff2') format('woff2'),
+    url('Gingham.woff') format('woff'),
+    url('Gingham.ttf') format('truetype');
+  /*font-weight: normal;
    font-style: normal;
    format('truetype');*/
- }
+}
 
- @font-face {
-    font-family: 'Amstelvar';
-    src: url('AmstelvarAlpha-VF.ttf') format('truetype');
-    /*font-weight: normal;
+@font-face {
+  font-family: 'Amstelvar';
+  src: url('AmstelvarAlpha-VF.ttf') format('truetype');
+  /*font-weight: normal;
     font-style: normal;
     format('truetype');*/
-  }
+}
 
-  @font-face {
-     font-family: 'AdobeVFPrototype';
-     src: url('AdobeVFPrototype.otf') format('otf'),
-     url('AdobeVFPrototype.ttf') format('ttf')
-     /*font-weight: normal;
+@font-face {
+  font-family: 'AdobeVFPrototype';
+  src: url('AdobeVFPrototype.otf') format('otf'),
+    url('AdobeVFPrototype.ttf') format('ttf')
+    /*font-weight: normal;
      font-style: normal;
      format('truetype');*/
-   }
-
+}
 
 .app {
   display: flex;
   flex-direction: column;
-  font-family: 'AdobeVFPrototype';/*Gingham; Consolas; Amstelvar;*/
+  font-family: 'AdobeVFPrototype';
+  /*Gingham; Consolas; Amstelvar;*/
   font-weight: 200;
   font-size: 26px;
   font-weight: 200 900;
@@ -44,18 +44,19 @@
   position: fixed;
   align-self: center;
   margin-top: 30px;
-  font-family: 'Arial';/*Gingham; Consolas; Amstelvar;*/
+  font-family: 'Arial';
+  /*Gingham; Consolas; Amstelvar;*/
 }
 
-.toggleTextSkimming{
-  font-family: 'Arial';/*Gingham; Consolas; Amstelvar;*/
+.toggleTextSkimming {
+  font-family: 'Arial';
+  /*Gingham; Consolas; Amstelvar;*/
   position: fixed;
   align-self: center;
   margin-top: 95px;
-
 }
 
-.instructionsButton{
+.instructionsButton {
   font-family: 'Arial';
   display: flex;
   align-items: center;
@@ -64,7 +65,7 @@
   margin-bottom: 40px;
 }
 
-.instructionsText{
+.instructionsText {
   margin-left: 200px;
   margin-right: 200px;
   margin-top: 10px;
@@ -73,9 +74,7 @@
   text-justify: inter-word;
 }
 
-
-
-.instructionsTextHistory{
+.instructionsTextHistory {
   margin-left: 200px;
   margin-right: 200px;
   margin-top: 10px;
@@ -83,18 +82,15 @@
   text-align: center
 }
 
-.catTitle{
+.catTitle {
   margin-top: 30px;
 }
 
-
-Button:not(:last-child){
+Button:not(:last-child) {
   margin-right: 15px;
 }
 
-.appfrag {
-
-}
+.appfrag {}
 
 .navPrevious {
   position: fixed;
@@ -108,13 +104,13 @@ Button:not(:last-child){
   left: 88%;
 }
 
-.navigationText{
+.navigationText {
   display: inline-block;
   flex-direction: row;
   width: 90%;
 }
 
-.readingMoreInfo{
+.readingMoreInfo {
   margin-left: 12%;
   margin-right: 10%;
   margin-top: 10px;
@@ -122,23 +118,21 @@ Button:not(:last-child){
   text-align: justify;
 }
 
-.metaInfo{
-font-size: 10px;
+.metaInfo {
+  font-size: 10px;
+  margin-left: 30%;
+  margin-right: 30%;
 }
 
-
-
-.custom-modal-instructions{
+.custom-modal-instructions {
   width: 50%;
 }
 
-
-
-.custom-modal{
+.custom-modal {
   width: 90%;
 }
 
-.custom-modal-landing{
+.custom-modal-landing {
   width: 80%;
 }
 
@@ -155,17 +149,16 @@ font-size: 10px;
   height: 100%;
 }
 
-.loadingGifCentered{
+.loadingGifCentered {
   display: flex;
   flex-direction: row;
   margin: 25px auto;
   width: 10%;
   height: 10%;
-
 }
 
 .goldenButton {
-  background: linear-gradient(to bottom,  #ECC129 0%, #FFD700 90%);
+  background: linear-gradient(to bottom, #ECC129 0%, #FFD700 90%);
   color: #000000;
   border: 3px solid #ECC129;
   padding: 5px 10px;
@@ -182,9 +175,8 @@ font-size: 10px;
   background: #F4E5C0;
 }
 
-
 .goldenButtonInactive {
-  background: linear-gradient(to bottom,  #ADADAD 0%, #F3F3F3 90%);
+  background: linear-gradient(to bottom, #ADADAD 0%, #F3F3F3 90%);
   color: #000000;
   border: 3px solid #ADADAD;
   padding: 5px 10px;
@@ -193,10 +185,7 @@ font-size: 10px;
   margin-bottom: 5px;
 }
 
-
-
 .navPreviousGolden {
-
   left: 8.2%;
   position: fixed;
   margin-top: 320px;
