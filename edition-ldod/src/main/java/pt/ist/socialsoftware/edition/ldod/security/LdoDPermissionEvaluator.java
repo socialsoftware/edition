@@ -118,6 +118,8 @@ public class LdoDPermissionEvaluator implements PermissionEvaluator {
 			Object permission) {
 		// it is only implementing "hasPermission(#xmlId, #urlId,
 		// 'fragInter.public')"
+		log.debug("hasPermission {}, {}", targetId, targetType);
+
 
 		TextInterface textInterface = new TextInterface();
 		Fragment fragment = textInterface.getFragmentByXmlId((String) targetId);
@@ -129,7 +131,10 @@ public class LdoDPermissionEvaluator implements PermissionEvaluator {
 		FragInter inter = fragment.getFragInterByUrlId(targetType);
 
 		if (inter == null) {
-			return false;
+			inter = LdoD.getInstance().getVirtualEditionInterByUrlId(targetType);
+			if (inter == null){
+				return false;
+			}
 		}
 
 		if (inter instanceof VirtualEditionInter) {

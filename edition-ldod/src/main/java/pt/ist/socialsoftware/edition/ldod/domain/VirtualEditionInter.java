@@ -484,7 +484,11 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
     }
 
 	public Fragment getFragment() {
+
+		if(getUses() != null )
+			return getUses().getFragment();
+
 		TextInterface textInterface = new TextInterface();
-		return textInterface.getFragmentByInterXmlId(getLastUsed().getXmlId());
+		return textInterface.getFragmentByInterXmlId(this.getUsesFragInter());
 	}
 }

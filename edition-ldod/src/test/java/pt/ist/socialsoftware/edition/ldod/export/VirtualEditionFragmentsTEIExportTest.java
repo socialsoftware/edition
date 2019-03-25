@@ -60,9 +60,9 @@ public class VirtualEditionFragmentsTEIExportTest extends TestWithFragmentsLoadi
 				String fragmentTEI = export.exportFragment(fragment);
 				logger(fragmentTEI);
 
-				int numberOfInters = fragment.getVirtualEditionInters().size();
+				int numberOfInters = LdoD.getInstance().getVirtualEditionInterSet(fragment).size();
 
-				for (VirtualEditionInter inter : fragment.getVirtualEditionInters()) {
+				for (VirtualEditionInter inter : LdoD.getInstance().getVirtualEditionInterSet(fragment)) {
 					inter.remove();
 				}
 				fragment.getCitationSet().forEach(citation -> citation.remove());
@@ -72,7 +72,7 @@ public class VirtualEditionFragmentsTEIExportTest extends TestWithFragmentsLoadi
 
 				System.out.println(export.exportFragment(fragment));
 
-				assertEquals(numberOfInters, fragment.getVirtualEditionInters().size());
+				assertEquals(numberOfInters, LdoD.getInstance().getVirtualEditionInterSet(fragment).size());
 
 				assertEquals(Arrays.stream(fragmentTEI.split("\\r?\\n")).sorted().collect(Collectors.joining("\\n")),
 						Arrays.stream(export.exportFragment(fragment).split("\\r?\\n")).sorted()
@@ -92,7 +92,7 @@ public class VirtualEditionFragmentsTEIExportTest extends TestWithFragmentsLoadi
 
 		// Saving value for assert
 		int numOfCitations = fragment.getCitationSet().size();
-		int numberOfInters = fragment.getVirtualEditionInters().size();
+		int numberOfInters = LdoD.getInstance().getVirtualEditionInterSet(fragment).size();
 
 		int numOfInfoRanges = 0;
 		for (FragInter fragInter : fragment.getScholarInterSet()) {
@@ -114,7 +114,7 @@ public class VirtualEditionFragmentsTEIExportTest extends TestWithFragmentsLoadi
 		assertEquals(numOfInfoRanges, altNumOfInfoRanges);
 
 		// Clean
-		for (VirtualEditionInter inter : fragment.getVirtualEditionInters()) {
+		for (VirtualEditionInter inter : LdoD.getInstance().getVirtualEditionInterSet(fragment)) {
 			inter.remove();
 		}
 		fragment.getCitationSet().forEach(citation -> citation.remove());
@@ -126,7 +126,7 @@ public class VirtualEditionFragmentsTEIExportTest extends TestWithFragmentsLoadi
 		System.out.println(this.export.exportFragment(fragment));
 
 		assertEquals(numOfCitations, fragment.getCitationSet().size());
-		assertEquals(numberOfInters, fragment.getVirtualEditionInters().size());
+		assertEquals(numberOfInters, LdoD.getInstance().getVirtualEditionInterSet(fragment).size());
 		int numOfInfoRangesAfterImport = 0;
 		for (FragInter fragInter : fragment.getScholarInterSet()) {
 			numOfInfoRangesAfterImport += fragInter.getInfoRangeSet().size();

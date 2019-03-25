@@ -2,13 +2,7 @@ package pt.ist.socialsoftware.edition.ldod.domain;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import org.joda.time.DateTime;
@@ -169,6 +163,24 @@ public class LdoD extends LdoD_Base {
 
 	public VirtualEdition getVirtualEditionByXmlId(String xmlId) {
 		return getVirtualEditionsSet().stream().filter(ve -> ve.getXmlId().equals(xmlId)).findFirst().orElse(null);
+	}
+
+	public VirtualEditionInter getVirtualEditionInterByUrlId(String urlId){
+		return getVirtualEditionsSet().stream().map(virtualEdition -> virtualEdition.getFragInterByUrlId(urlId))
+				.filter(Objects::nonNull).map(VirtualEditionInter.class::cast).findAny().orElse(null);
+	}
+
+	public Set<VirtualEditionInter> getVirtualEditionInterSet(){
+		return getVirtualEditionsSet().stream().flatMap(virtualEdition -> virtualEdition.getAllDepthVirtualEditionInters().stream()).collect(Collectors.toSet());
+	}
+
+	public Set<VirtualEditionInter> getVirtualEditionInterSet(Fragment fragment) {
+		return getVirtualEditionInterSet().stream().filter(virtualEditionInter -> virtualEditionInter.getFragment() == fragment).collect(Collectors.toSet());
+	}
+
+	public Set<VirtualEditionInter> getVirtualEditionInterSetForEdition(Fragment fragment, VirtualEdition virtualEdition) {
+		return getVirtualEditionInterSet().stream().filter(virtualEditionInter -> virtualEditionInter.getFragment() == fragment
+				&& virtualEditionInter.getVirtualEdition() == virtualEdition).collect(Collectors.toSet());
 	}
 
 	@Atomic(mode = TxMode.WRITE)

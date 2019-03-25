@@ -317,7 +317,6 @@ public class CitationDetecter {
 			if (citation.getInfoRangeSet().isEmpty()) {
 				Fragment citationFragment = citation.getFragment();
 				Set<ScholarInter> inters = new HashSet<>(citationFragment.getScholarInterSet());
-				inters.removeAll(citationFragment.getVirtualEditionInters());
 
 				for (ScholarInter inter : inters) {
 					createInfoRange(inter, citation);

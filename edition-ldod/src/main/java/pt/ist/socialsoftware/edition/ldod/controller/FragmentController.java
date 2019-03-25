@@ -90,6 +90,9 @@ public class FragmentController {
 	public String getFragmentWithInterForUrlId(Model model, @ModelAttribute("ldoDSession") LdoDSession ldoDSession,
 			@PathVariable String xmlId, @PathVariable String urlId) {
 
+
+		logger.debug("log");
+
 		TextInterface textInterface = new TextInterface();
 		Fragment fragment = textInterface.getFragmentByXmlId(xmlId);
 
@@ -100,7 +103,10 @@ public class FragmentController {
 		FragInter inter = fragment.getFragInterByUrlId(urlId);
 
 		if (inter == null) {
-			return "redirect:/error";
+			inter = LdoD.getInstance().getVirtualEditionInterByUrlId(urlId);
+			if (inter == null){
+				return "redirect:/error";
+			}
 		}
 
 		PlainHtmlWriter4OneInter writer = new PlainHtmlWriter4OneInter((ScholarInter) inter.getLastUsed());
@@ -183,6 +189,7 @@ public class FragmentController {
 		List<FragInter> inters = new ArrayList<>();
 		inters.add(inter);
 		model.addAttribute("ldoD", LdoD.getInstance());
+		model.addAttribute("text", Text.getInstance());
 		model.addAttribute("user", LdoDUser.getAuthenticatedUser());
 		model.addAttribute("inters", inters);
 
@@ -200,7 +207,10 @@ public class FragmentController {
 
 		FragInter inter = fragment.getFragInterByUrlId(urlId);
 		if (inter == null) {
-			return "redirect:/error";
+			inter = LdoD.getInstance().getVirtualEditionInterByUrlId(urlId);
+			if (inter == null){
+				return "redirect:/error";
+			}
 		}
 
 		Edition edition = inter.getEdition();
@@ -220,7 +230,10 @@ public class FragmentController {
 
 		FragInter inter = fragment.getFragInterByUrlId(urlId);
 		if (inter == null) {
-			return "redirect:/error";
+			inter = LdoD.getInstance().getVirtualEditionInterByUrlId(urlId);
+			if (inter == null){
+				return "redirect:/error";
+			}
 		}
 
 		Edition edition = inter.getEdition();
@@ -246,6 +259,7 @@ public class FragmentController {
 		}
 
 		model.addAttribute("ldoD", LdoD.getInstance());
+		model.addAttribute("text", Text.getInstance());
 		model.addAttribute("user", LdoDUser.getAuthenticatedUser());
 		model.addAttribute("fragment", fragment);
 		model.addAttribute("inters", inters);
@@ -292,6 +306,8 @@ public class FragmentController {
 
 		List<FragInter> inters = new ArrayList<>();
 		inters.add(inter);
+		model.addAttribute("ldoD", LdoD.getInstance());
+		model.addAttribute("text", Text.getInstance());
 		model.addAttribute("inters", inters);
 		model.addAttribute("writer", writer);
 
@@ -319,6 +335,8 @@ public class FragmentController {
 		List<FragInter> inters = new ArrayList<>();
 		inters.add(inter);
 		model.addAttribute("inters", inters);
+		model.addAttribute("ldoD", LdoD.getInstance());
+		model.addAttribute("text", Text.getInstance());
 
 		if (showFacs) {
 			Surface surface = null;
@@ -362,6 +380,8 @@ public class FragmentController {
 		}
 		writer.write(lineByLine, showSpaces);
 
+		model.addAttribute("ldoD", LdoD.getInstance());
+		model.addAttribute("text", Text.getInstance());
 		model.addAttribute("fragment", inters.get(0).getFragment());
 		model.addAttribute("lineByLine", lineByLine);
 		model.addAttribute("inters", inters);

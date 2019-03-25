@@ -17,7 +17,6 @@ import org.slf4j.LoggerFactory;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.fenixframework.FenixFramework;
-import pt.ist.socialsoftware.edition.ldod.api.text.TextInterface;
 import pt.ist.socialsoftware.edition.ldod.dto.FragmentDto;
 import pt.ist.socialsoftware.edition.ldod.dto.InterDistancePairDto;
 import pt.ist.socialsoftware.edition.ldod.dto.WeightsDto;
@@ -145,20 +144,20 @@ public class VirtualEdition extends VirtualEdition_Base {
 	// determines if the fragment can have more interpretations for this virtual
 	// edition, deals with the the case of a fragment having two interpretations
 	// for the same expert edition
-	public boolean canAddFragInter(ScholarInter addInter) {
+	public boolean canAddFragInter(FragInter addInter) {
 		Fragment fragment = addInter.getFragment();
 
-		for (VirtualEditionInter inter : fragment.getVirtualEditionInters()) {
+		for (VirtualEditionInter inter : LdoD.getInstance().getVirtualEditionInterSetForEdition(fragment,this)) {
 			ScholarInter usedInter = inter.getLastUsed();
-			if (isSameInterpretation(addInter, usedInter)) {
+			if (isSameInterpretation((ScholarInter) addInter.getLastUsed(), usedInter)) {
 				return false;
 			}
 
-			if (atLeastOneIsSourceInterpretation(addInter, usedInter)) {
+			if (atLeastOneIsSourceInterpretation((ScholarInter) addInter.getLastUsed(), usedInter)) {
 				return false;
 			}
 
-			if (belongToDifferentExpertEditions(addInter, usedInter)) {
+			if (belongToDifferentExpertEditions((ScholarInter) addInter.getLastUsed(), usedInter)) {
 				return false;
 			}
 

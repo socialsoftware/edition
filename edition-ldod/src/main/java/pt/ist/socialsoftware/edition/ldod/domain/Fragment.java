@@ -7,10 +7,14 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
+import pt.ist.socialsoftware.edition.ldod.api.ldod.LdoDInterface;
 
 public class Fragment extends Fragment_Base implements Comparable<Fragment> {
+	private static Logger logger = LoggerFactory.getLogger(Fragment.class);
 	public enum PrecisionType {
 		HIGH("high"), MEDIUM("medium"), LOW("low"), UNKNOWN("unknown");
 
@@ -38,7 +42,7 @@ public class Fragment extends Fragment_Base implements Comparable<Fragment> {
 		getTextPortion().remove();
 
 		// remove virtual edition interpretations first
-		for (VirtualEditionInter inter : getVirtualEditionInters()) {
+		for (VirtualEditionInter inter : LdoD.getInstance().getVirtualEditionInterSet(this)) {
 			inter.remove();
 		}
 
@@ -106,20 +110,6 @@ public class Fragment extends Fragment_Base implements Comparable<Fragment> {
 		return result;
 	}
 
-	public Set<VirtualEditionInter> getVirtualEditionInters() {
-		Set<VirtualEditionInter> result = new HashSet<>();
-		for (FragInter inter : getScholarInterSet()) {
-			if (inter instanceof VirtualEditionInter) {
-				result.add((VirtualEditionInter) inter);
-			}
-		}
-		return result;
-	}
-
-	public List<VirtualEditionInter> getVirtualEditionInters(VirtualEdition virtualEdition) {
-		return getScholarInterSet().stream().filter(inter -> inter.getEdition() == virtualEdition)
-				.map(VirtualEditionInter.class::cast).sorted().collect(Collectors.toList());
-	}
 
 	public int getNumberOfInter4Edition(Edition edition) {
 		int number = 0;

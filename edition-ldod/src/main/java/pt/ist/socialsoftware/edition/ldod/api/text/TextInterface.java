@@ -52,10 +52,12 @@ public class TextInterface {
         return Text.getInstance().getFragmentsSet();
     }
 
+    //Get fragment knowing its xml id
     public Fragment getFragmentByXmlId(String id){
         return Text.getInstance().getFragmentByXmlId(id);
     }
 
+    //Get Fragment knowing the xml id of one of it's scholar interpretations
     public Fragment getFragmentByInterXmlId(String xmlId) {
         return Text.getInstance().getFragmentsSet().stream().filter(f->f.getFragInterByXmlId(xmlId) != null).findAny().orElse(null);
     }
