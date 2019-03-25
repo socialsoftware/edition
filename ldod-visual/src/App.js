@@ -1192,7 +1192,7 @@ class ConnectedApp extends Component {
                 Ir para o menu de histórico de leitura clicando no botão ou na tecla "H" do seu teclado.
               </li>
               <li>
-                Realçar as palavras mais relevantes do fragmento. O critério do realce é dado pelo TF-IDF ou{" "}
+                Realçar as palavras mais relevantes do fragmento clicando no botão ou na tecla "R" do seu teclado. O critério do realce é dado pelo TF-IDF ou{" "}
                 <i>term frequency–inverse document frequency.</i>
               </li>
               <li>

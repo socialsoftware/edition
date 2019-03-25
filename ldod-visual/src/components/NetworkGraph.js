@@ -112,17 +112,6 @@ class ConnectedNetworkGraph extends Component {
       }
     }.bind(this));
 
-    let myTitle = this.props.fragmentsHashMap.get(this.props.graphData[this.targetIndex].interId).meta.title;
-    if (this.props.currentFragmentMode && this.props.potentialSemanticCriteria == CRIT_CHRONOLOGICAL_ORDER && this.props.fragmentsHashMap.get(this.props.graphData[0].interId).meta.date !== null) {
-      myTitle = this.props.fragmentsHashMap.get(this.props.graphData[this.targetIndex].interId).meta.title + " | Data: " + this.props.fragmentsHashMap.get(this.props.graphData[0].interId).meta.date;
-    } else if (this.props.currentFragmentMode && this.props.potentialSemanticCriteria == CRIT_CHRONOLOGICAL_ORDER && !this.props.fragmentsHashMap.get(this.props.graphData[0].interId).meta.date) {
-      myTitle = this.props.fragmentsHashMap.get(this.props.graphData[this.targetIndex].interId).meta.title + " | Data: Sem data";
-    } else if (!this.props.currentFragmentMode && this.props.semanticCriteria == CRIT_CHRONOLOGICAL_ORDER && this.props.fragmentsHashMap.get(this.props.graphData[0].interId).meta.date !== null) {
-      myTitle = this.props.fragmentsHashMap.get(this.props.graphData[this.targetIndex].interId).meta.title + " | Data: " + this.props.fragmentsHashMap.get(this.props.graphData[0].interId).meta.date;
-    } else if (!this.props.currentFragmentMode && this.props.semanticCriteria == CRIT_CHRONOLOGICAL_ORDER && !this.props.fragmentsHashMap.get(this.props.graphData[0].interId).meta.date) {
-      myTitle = this.props.fragmentsHashMap.get(this.props.graphData[this.targetIndex].interId).meta.title + " | Data: Sem data";
-    }
-
     let targetIdActual
     if (this.props.fragments[this.props.fragmentIndex].interId) {
       targetIdActual = this.props.fragments[this.props.fragmentIndex].interId;
@@ -145,7 +134,7 @@ class ConnectedNetworkGraph extends Component {
         border: "#DC143C",
         background: "#FF7F50"
       },
-      title: myTitle, //this.props.fragmentsHashMap.get(this.props.graphData[0].interId).meta.title,  + " || " + truncateText(this.props.recommendationArray[this.props.recommendationIndex].text, 60),
+      title: this.props.fragmentsHashMap.get(targetIdActual).meta.title,
       x: 0,
       y: 0,
       fixed: true
@@ -158,31 +147,6 @@ class ConnectedNetworkGraph extends Component {
     //BUILD REMAINING FRAGMENTS' NODES
 
     let nrOfNonNullDistances = 0;
-    let mask1 = 0.2;
-    let mask2 = 0.3;
-    let mask3 = 0.5;
-    let mask4 = 10;
-    let mask5 = 20;
-    let mask6 = 30;
-    let mask7 = 40;
-    let mask8 = 50;
-    let nrValuesSubMask1 = 0;
-    let nrValuesSubMask2 = 0;
-    let nrValuesSubMask3 = 0;
-    let nrValuesSubMask4 = 0;
-    let nrValuesSubMask5 = 0;
-    let nrValuesSubMask6 = 0;
-    let nrValuesSubMask7 = 0;
-    let nrValuesSubMask8 = 0;
-    const sizeMultiplier1 = 0.7;
-    const sizeMultiplier2 = 0.8;
-    const sizeMultiplier3 = 0.9;
-    // const sizeMultiplier1 = 0.4;
-    // const sizeMultiplier2 = 0.5;
-    // const sizeMultiplier3 = 0.7;
-    const sizeMultiplier4 = 5;
-    const sizeMultiplier5 = 8;
-    let multiplier;
 
     let j;
     for (j = 0; j < this.props.graphData.length; j++) {
@@ -197,26 +161,6 @@ class ConnectedNetworkGraph extends Component {
 
         if (this.props.graphData[j].distance < lessDistantFragmentDistance) {
           lessDistantFragmentDistance = this.props.graphData[j].distance;
-        }
-
-        if (tempPercentage < mask1 && this.props.graphData[j].distance !== 0) {
-          nrValuesSubMask1++;
-        } else if (tempPercentage < mask2) {
-          nrValuesSubMask2++;
-        } else if (tempPercentage < mask3) {
-          nrValuesSubMask3++;
-        } else if (tempPercentage < mask4) {
-          nrValuesSubMask4++;
-        } else if (tempPercentage < mask4) {
-          nrValuesSubMask4++;
-        } else if (tempPercentage < mask5) {
-          nrValuesSubMask5++;
-        } else if (tempPercentage < mask6) {
-          nrValuesSubMask6++;
-        } else if (tempPercentage < mask7) {
-          nrValuesSubMask7++;
-        } else if (tempPercentage < mask8) {
-          nrValuesSubMask8++;
         }
 
       }
@@ -399,7 +343,7 @@ class ConnectedNetworkGraph extends Component {
       var i;
       for (i = 0; i < this.props.recommendationArray.length; i++) {
 
-        if (this.recommendationArray[i].interId === nodeId) {
+        if (this.props.recommendationArray[i].interId === nodeId) {
           //console.log("clicking on nodeId " + this.recommendationArray[i].interId + " of title " + this.recommendationArray[i].meta.title)
           let targetId = this.props.fragments[this.props.fragmentIndex].interId;
           if (this.props.currentFragmentMode) {
@@ -420,18 +364,18 @@ class ConnectedNetworkGraph extends Component {
           obj = {
             id: this.props.historyEntryCounter,
             originalFragment: this.props.recommendationArray[this.props.recommendationIndex],
-            nextFragment: this.recommendationArray[i],
+            nextFragment: this.props.recommendationArray[i],
             vis: historyVis,
             criteria: historyCriteria,
             visualization: globalViewToRender,
-            recommendationArray: this.recommendationArray,
+            recommendationArray: this.props.recommendationArray,
             recommendationIndex: i,
-            fragmentIndex: this.props.fragmentIndex,
+            fragmentIndex: this.props.fragmentIndex, //bug... o fragindex do proximo vai mudar ou nao consoante current ou not current. ou nao. se not current mode fica igual.
             start: new Date().getTime()
           };
 
           this.props.setRecommendationIndex(i);
-          this.props.setRecommendationArray(this.recommendationArray);
+          this.props.setRecommendationArray(this.props.recommendationArray);
 
           if (this.props.currentFragmentMode) {
             var j;
@@ -455,7 +399,10 @@ class ConnectedNetworkGraph extends Component {
           this.props.addHistoryEntry(obj);
           this.props.setHistoryEntryCounter(this.props.historyEntryCounter + 1)
 
-          this.props.setRecommendationLoaded(false);
+          //bug - apenas calcular array de recomendações caso estejamos em nova actividade
+          if (this.props.currentFragmentMode) {
+            this.props.setRecommendationLoaded(false);
+          }
 
           //HISTORY ENTRY HISTORY ENTRY HISTORY ENTRY HISTORY ENTRY
         }
