@@ -130,8 +130,8 @@ public class VSMVirtualEditionInterRecomenderTest extends TestWithFragmentsLoadi
 		VirtualEdition virtualEdition = LdoD.getInstance().getVirtualEdition(ACRONYM);
 		VirtualEditionInter virtualEditionInter = null;
 		for (FragInter inter : virtualEdition.getIntersSet()) {
-			if (inter.getLastUsed().getLdoDDate() != null
-					&& inter.getLastUsed().getLdoDDate().getDate().getYear() == 1929) {
+			if (((ScholarInter) inter.getLastUsed()).getLdoDDate() != null
+					&& ((ScholarInter) inter.getLastUsed()).getLdoDDate().getDate().getYear() == 1929) {
 				virtualEditionInter = (VirtualEditionInter) inter;
 				break;
 			}
@@ -154,7 +154,7 @@ public class VSMVirtualEditionInterRecomenderTest extends TestWithFragmentsLoadi
 		VirtualEdition virtualEdition = LdoD.getInstance().getVirtualEdition(ACRONYM);
 		VirtualEditionInter virtualEditionInter = null;
 		for (FragInter inter : virtualEdition.getIntersSet()) {
-			if (inter.getLastUsed().getLdoDDate() == null) {
+			if (((ScholarInter) inter.getLastUsed()).getLdoDDate() == null) {
 				virtualEditionInter = (VirtualEditionInter) inter;
 				break;
 			}

@@ -42,8 +42,8 @@ public class Text extends Text_Base {
         return getExpertEditionsSet().stream().sorted().collect(Collectors.toList());
     }
 
-    public Edition getEdition(String acronym) {
-        for (Edition edition : getExpertEditionsSet()) {
+    public ExpertEdition getEdition(String acronym) {
+        for (ExpertEdition edition : getExpertEditionsSet()) {
             if (edition.getAcronym().toUpperCase().equals(acronym.toUpperCase())) {
                 return edition;
             }

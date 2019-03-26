@@ -241,9 +241,10 @@ public class SearchController {
       if (!heteronyms.containsKey(fragInter.getHeteronym().getName())) {
         heteronyms.put(fragInter.getHeteronym().getName(), fragInter.getHeteronym().getXmlId());
       }
-      if (fragInter.getLdoDDate() != null) {
-        beginDate = getIsBeforeDate(beginDate, fragInter.getLdoDDate().getDate());
-        endDate = getIsAfterDate(endDate, fragInter.getLdoDDate().getDate());
+      ScholarInter scholarInter = (ScholarInter) fragInter;
+      if (scholarInter.getLdoDDate() != null) {
+        beginDate = getIsBeforeDate(beginDate, scholarInter.getLdoDDate().getDate());
+        endDate = getIsAfterDate(endDate, scholarInter.getLdoDDate().getDate());
       }
     }
     EditionJson editionJson = new EditionJson(acronym);
@@ -352,10 +353,10 @@ public class SearchController {
     LocalDate endDate = null;
     TextInterface textInterface = new TextInterface();
     for (Fragment fragment : textInterface.getFragmentsSet()) {
-      for (FragInter fragInter : fragment.getScholarInterSet()) {
-        if (fragInter.getLdoDDate() != null) {
-          beginDate = getIsBeforeDate(beginDate, fragInter.getLdoDDate().getDate());
-          endDate = getIsAfterDate(endDate, fragInter.getLdoDDate().getDate());
+      for (ScholarInter scholarInter : fragment.getScholarInterSet()) {
+        if (scholarInter.getLdoDDate() != null) {
+          beginDate = getIsBeforeDate(beginDate, scholarInter.getLdoDDate().getDate());
+          endDate = getIsAfterDate(endDate, scholarInter.getLdoDDate().getDate());
         }
       }
       for (Source source : fragment.getSourcesSet()) {

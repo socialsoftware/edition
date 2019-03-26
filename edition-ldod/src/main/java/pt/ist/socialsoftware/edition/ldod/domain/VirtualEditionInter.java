@@ -43,7 +43,6 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 		return textInterface.getScholarInterHeteronym(this.getUsesFragInter());
 	}
 
-	@Override
 	public LdoDDate getLdoDDate() {
 		//return super.getLdoDDate();
 
@@ -67,7 +66,6 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 			setUsesFragInter(inter.getXmlId());
 		}
 
-		setLdoDDate(null);
 		setSection(section);
 		setNumber(number);
 		// needs to store the number of interpretations in this fragment for this
@@ -93,10 +91,6 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 
 		for (Annotation annotation : getAnnotationSet()) {
 			annotation.remove();
-		}
-
-		if (super.getLdoDDate() != null) {
-			super.getLdoDDate().remove();
 		}
 
 		for (RefText ref : getRefTextSet()) {

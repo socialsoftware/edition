@@ -39,7 +39,7 @@ public class TextInterface {
                 .map(fragment -> fragment.getScholarInterByXmlId(xmlId)).findFirst().orElseThrow(LdoDException::new);
     }
 
-    public Edition getExpertEdition(String acronym) {
+    public ExpertEdition getExpertEdition(String acronym) {
         return Text.getInstance().getEdition(acronym);
     }
 

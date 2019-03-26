@@ -24,7 +24,7 @@ public class LdoDDate extends LdoDDate_Base {
 	}
 
 	public void remove() {
-		setFragInter(null);
+		setScholarInter(null);
 		setSource(null);
 	}
 

@@ -8,11 +8,7 @@ import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import pt.ist.socialsoftware.edition.ldod.domain.RecommendationWeights;
-import pt.ist.socialsoftware.edition.ldod.domain.FragInter;
-import pt.ist.socialsoftware.edition.ldod.domain.Fragment;
-import pt.ist.socialsoftware.edition.ldod.domain.Source;
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
+import pt.ist.socialsoftware.edition.ldod.domain.*;
 
 public class DateProperty extends Property {
 	private static Logger logger = LoggerFactory.getLogger(DateProperty.class);
@@ -65,9 +61,9 @@ public class DateProperty extends Property {
 	@Override
 	double[] extractVector(VirtualEditionInter virtualEditionInter) {
 		Set<Integer> dates = new HashSet<>();
-		FragInter fragInter = virtualEditionInter.getLastUsed();
-		if (fragInter.getLdoDDate() != null) {
-			dates.add(fragInter.getLdoDDate().getDate().getYear());
+		ScholarInter scholarInter = virtualEditionInter.getLastUsed();
+		if (scholarInter.getLdoDDate() != null) {
+			dates.add(scholarInter.getLdoDDate().getDate().getYear());
 		}
 		return buildVector(dates);
 	}
@@ -75,7 +71,7 @@ public class DateProperty extends Property {
 	@Override
 	double[] extractVector(Fragment fragment) {
 		Set<Integer> dates = new HashSet<>();
-		for (FragInter inter : fragment.getExpertEditionInterSet()) {
+		for (ExpertEditionInter inter : fragment.getExpertEditionInterSet()) {
 			if (inter.getLdoDDate() != null) {
 				dates.add(inter.getLdoDDate().getDate().getYear());
 			}
@@ -106,7 +102,7 @@ public class DateProperty extends Property {
 	@Override
 	public String getConcreteTitle(FragInter fragInter) {
 		Set<Integer> dates = new HashSet<>();
-		for (FragInter inter : fragInter.getFragment().getScholarInterSet()) {
+		for (ScholarInter inter : fragInter.getFragment().getScholarInterSet()) {
 			if (inter.getLdoDDate() != null) {
 				dates.add(inter.getLdoDDate().getDate().getYear());
 			}

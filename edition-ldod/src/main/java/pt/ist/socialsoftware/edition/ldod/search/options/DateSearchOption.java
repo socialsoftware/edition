@@ -8,12 +8,7 @@ import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import pt.ist.socialsoftware.edition.ldod.domain.Edition;
-import pt.ist.socialsoftware.edition.ldod.domain.ExpertEditionInter;
-import pt.ist.socialsoftware.edition.ldod.domain.FragInter;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoDDate;
-import pt.ist.socialsoftware.edition.ldod.domain.Source;
-import pt.ist.socialsoftware.edition.ldod.domain.SourceInter;
+import pt.ist.socialsoftware.edition.ldod.domain.*;
 
 public final class DateSearchOption extends SearchOption {
 	private static Logger logger = LoggerFactory.getLogger(DateSearchOption.class);
@@ -72,7 +67,7 @@ public final class DateSearchOption extends SearchOption {
 				source = ((SourceInter) inter).getSource();
 				return isInDate(source.getLdoDDate());
 			} else {
-				return isInDate(inter.getLdoDDate());
+				return isInDate(((ScholarInter) inter).getLdoDDate());
 			}
 		}
 		return true;

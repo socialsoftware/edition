@@ -265,8 +265,8 @@ relation ScholarInterAttributesHeteronym {
 	Heteronym playsRole heteronym {multiplicity 0..1;}
 }
 
-relation FragInterHasDate {
-	FragInter playsRole fragInter {multiplicity 0..1;}
+relation ScholarInterHasDate {
+	ScholarInter playsRole scholarInter {multiplicity 0..1;}
 	LdoDDate playsRole ldoDDate {multiplicity 0..1;}
 }
 
