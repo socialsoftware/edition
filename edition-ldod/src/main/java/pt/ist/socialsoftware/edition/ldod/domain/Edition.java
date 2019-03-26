@@ -104,4 +104,8 @@ public abstract class Edition extends pt.ist.socialsoftware.edition.ldod.domain.
 		return getIntersSet().stream().filter(i -> i.getUrlId().equals(urlId)).findFirst().orElse(null);
 	}
 
+	public FragInter getFragInterByXmlId(String xmlId) {
+		return getIntersSet().stream().filter(i -> i.getXmlId().equals(xmlId)).findFirst().orElse(null);
+	}
+
 }

@@ -32,7 +32,6 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 		return getFragment().getXmlId() + ".WIT.ED.VIRT." + getVirtualEdition().getAcronym() + "." + super.getXmlId();
 	}
 
-	@Override
 	public Heteronym getHeteronym() {
 		//return super.getHeteronym();
 
@@ -68,7 +67,6 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 			setUsesFragInter(inter.getXmlId());
 		}
 
-		setHeteronym(null);
 		setLdoDDate(null);
 		setSection(section);
 		setNumber(number);
@@ -96,8 +94,6 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 		for (Annotation annotation : getAnnotationSet()) {
 			annotation.remove();
 		}
-
-		setHeteronym(null);
 
 		if (super.getLdoDDate() != null) {
 			super.getLdoDDate().remove();

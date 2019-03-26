@@ -134,8 +134,8 @@ public class Fragment extends Fragment_Base implements Comparable<Fragment> {
 		return null;
 	}
 
-	public FragInter getFragInterByXmlId(String xmlId) {
-		for (FragInter inter : getScholarInterSet()) {
+	public ScholarInter getScholarInterByXmlId(String xmlId) {
+		for (ScholarInter inter : getScholarInterSet()) {
 			if (xmlId.equals(inter.getXmlId())) {
 				return inter;
 			}

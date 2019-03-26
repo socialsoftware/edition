@@ -260,8 +260,8 @@ relation FragmentHasScholarInters {
 	ScholarInter playsRole scholarInter {multiplicity 0..*;}
 }
 
-relation FragInterAttributesHeteronym {
-	FragInter playsRole fragInter {multiplicity 0..*;}
+relation ScholarInterAttributesHeteronym {
+	ScholarInter playsRole scholarInter {multiplicity 0..*;}
 	Heteronym playsRole heteronym {multiplicity 0..1;}
 }
 

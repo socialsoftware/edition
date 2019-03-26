@@ -102,7 +102,7 @@ public class VirtualEditionFragmentsTEIImport {
 
 		while (!wits.isEmpty()) {
 			Element wit = wits.remove(0);
-			if (fragment.getFragInterByXmlId(wit.getAttributeValue("source").substring(1)) == null) {
+			if (fragment.getScholarInterByXmlId(wit.getAttributeValue("source").substring(1)) == null) {
 				wits.add(wit);
 			} else {
 				String interXmlId = wit.getAttributeValue("id", Namespace.XML_NAMESPACE);
@@ -112,7 +112,7 @@ public class VirtualEditionFragmentsTEIImport {
 
 				logger.debug("importWitnesses id: {}, source: {}", interXmlId, wit.getAttributeValue("source"));
 				virtualEdition.createVirtualEditionInter(
-						fragment.getFragInterByXmlId(wit.getAttributeValue("source").substring(1)),
+						fragment.getScholarInterByXmlId(wit.getAttributeValue("source").substring(1)),
 						Integer.parseInt(wit.getChild("num", this.namespace).getAttributeValue("value")));
 			}
 		}
@@ -124,8 +124,7 @@ public class VirtualEditionFragmentsTEIImport {
 				Namespace.getNamespace("def", this.namespace.getURI()));
 
 		for (Element textClass : xp.evaluate(doc)) {
-			VirtualEditionInter inter = (VirtualEditionInter) fragment
-					.getFragInterByXmlId(textClass.getAttributeValue("source").substring(1));
+			VirtualEditionInter inter = LdoD.getInstance().getVirtualEditionInterByXmlId(textClass.getAttributeValue("source").substring(1));
 
 			for (Element catRef : textClass.getChildren("catRef", this.namespace)) {
 				importTag(catRef, inter);
@@ -190,7 +189,7 @@ public class VirtualEditionFragmentsTEIImport {
 			Element textElement = infoRangeElement.getChild("text", this.namespace);
 			String text = textElement.getText(); // trim() ?
 
-			FragInter fragInter = fragment.getFragInterByXmlId(infoRangeElement.getAttributeValue("fragInterXmlId"));
+			FragInter fragInter = fragment.getScholarInterByXmlId(infoRangeElement.getAttributeValue("fragInterXmlId"));
 
 			new InfoRange(twitterCitation, fragInter, start, startOffset, end, endOffset, quote, text);
 		}

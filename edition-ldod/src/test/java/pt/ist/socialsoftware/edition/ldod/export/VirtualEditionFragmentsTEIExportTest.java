@@ -176,8 +176,8 @@ public class VirtualEditionFragmentsTEIExportTest extends TestWithFragmentsLoadi
 						"location", "country", "username", "profURL", "profImgURL");
 				String num = fragment.getXmlId();
 				// logger("num: " + num);
-				if (fragment.getFragInterByXmlId(num + ".WIT.ED.CRIT.Z") != null) {
-					new InfoRange(tc, fragment.getFragInterByXmlId(num + ".WIT.ED.CRIT.Z"), "/div[1]/div[1]/p[3]", 10,
+				if (fragment.getScholarInterByXmlId(num + ".WIT.ED.CRIT.Z") != null) {
+					new InfoRange(tc, fragment.getScholarInterByXmlId(num + ".WIT.ED.CRIT.Z"), "/div[1]/div[1]/p[3]", 10,
 							"/div[1]/div[1]/p[3]", 20, "quoteExample", "textExample");
 				}
 				String result = exportPrintCleanAndImportFragment(fragment);
@@ -202,11 +202,11 @@ public class VirtualEditionFragmentsTEIExportTest extends TestWithFragmentsLoadi
 						"location", "country", "username", "profURL", "profImgURL");
 				String num = fragment.getXmlId();
 				// logger("num: " + num);
-				if (fragment.getFragInterByXmlId(num + ".WIT.ED.CRIT.Z") != null) {
-					new InfoRange(tc, fragment.getFragInterByXmlId(num + ".WIT.ED.CRIT.Z"), "/div[1]/div[1]/p[3]", 10,
+				if (fragment.getScholarInterByXmlId(num + ".WIT.ED.CRIT.Z") != null) {
+					new InfoRange(tc, fragment.getScholarInterByXmlId(num + ".WIT.ED.CRIT.Z"), "/div[1]/div[1]/p[3]", 10,
 							"/div[1]/div[1]/p[3]", 20, "quoteExample", "textExample");
 				}
-				FragInter fragInter = fragment.getFragInterByXmlId("Fr023.WIT.ED.VIRT.LdoD-Duarte.1");
+				FragInter fragInter = fragment.getScholarInterByXmlId("Fr023.WIT.ED.VIRT.LdoD-Duarte.1");
 				if (fragInter != null && fragInter instanceof VirtualEditionInter) {
 					VirtualEditionInter vei = (VirtualEditionInter) fragInter;
 					AwareAnnotation annot = new AwareAnnotation(vei, "quoteAnnotationExample", "textAnnotationExample",

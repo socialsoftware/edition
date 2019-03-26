@@ -24,6 +24,10 @@ public abstract class FragInter extends FragInter_Base implements Comparable<Fra
 		throw new LdoDException();
 	}
 
+	public Heteronym getHeteronym() {
+		throw new LdoDException();
+	}
+
 	public abstract String getUrlId();
 
 	public abstract String getXmlId();

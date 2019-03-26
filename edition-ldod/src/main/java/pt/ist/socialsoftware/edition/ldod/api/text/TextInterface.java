@@ -7,7 +7,6 @@ import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
 
 import java.util.Objects;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 public class TextInterface {
     private static Logger logger = LoggerFactory.getLogger(TextInterface.class);
@@ -15,29 +14,29 @@ public class TextInterface {
 
     public String getScholarInterTitle(String id){
         return Text.getInstance().getFragmentsSet().stream()
-                .filter(fragment -> fragment.getFragInterByXmlId(id) != null)
-                .map(fragment -> fragment.getFragInterByXmlId(id).getTitle())
+                .filter(fragment -> fragment.getScholarInterByXmlId(id) != null)
+                .map(fragment -> fragment.getScholarInterByXmlId(id).getTitle())
                 .filter(Objects::nonNull).findFirst().orElse(null);
     }
 
     public Heteronym getScholarInterHeteronym(String id){
         return Text.getInstance().getFragmentsSet().stream()
-                .filter(fragment -> fragment.getFragInterByXmlId(id) != null)
-                .map(fragment -> fragment.getFragInterByXmlId(id).getHeteronym())
+                .filter(fragment -> fragment.getScholarInterByXmlId(id) != null)
+                .map(fragment -> fragment.getScholarInterByXmlId(id).getHeteronym())
                 .filter(Objects::nonNull).findFirst().orElse(null);
     }
 
     public LdoDDate getScholarInterDate(String id) {
         return Text.getInstance().getFragmentsSet().stream()
-                .filter(fragment -> fragment.getFragInterByXmlId(id) != null)
-                .map(fragment -> fragment.getFragInterByXmlId(id).getLdoDDate())
+                .filter(fragment -> fragment.getScholarInterByXmlId(id) != null)
+                .map(fragment -> fragment.getScholarInterByXmlId(id).getLdoDDate())
                 .filter(Objects::nonNull).findFirst().orElse(null);
     }
 
     public ScholarInter getScholarInterUsed(String xmlId) {
         return (ScholarInter) Text.getInstance().getFragmentsSet().stream()
-                .filter(fragment -> fragment.getFragInterByXmlId(xmlId) != null)
-                .map(fragment -> fragment.getFragInterByXmlId(xmlId)).findFirst().orElseThrow(LdoDException::new);
+                .filter(fragment -> fragment.getScholarInterByXmlId(xmlId) != null)
+                .map(fragment -> fragment.getScholarInterByXmlId(xmlId)).findFirst().orElseThrow(LdoDException::new);
     }
 
     public Edition getExpertEdition(String acronym) {
@@ -59,6 +58,6 @@ public class TextInterface {
 
     //Get Fragment knowing the xml id of one of it's scholar interpretations
     public Fragment getFragmentByInterXmlId(String xmlId) {
-        return Text.getInstance().getFragmentsSet().stream().filter(f->f.getFragInterByXmlId(xmlId) != null).findAny().orElse(null);
+        return Text.getInstance().getFragmentsSet().stream().filter(f->f.getScholarInterByXmlId(xmlId) != null).findAny().orElse(null);
     }
 }

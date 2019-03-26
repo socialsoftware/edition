@@ -170,6 +170,11 @@ public class LdoD extends LdoD_Base {
 				.filter(Objects::nonNull).map(VirtualEditionInter.class::cast).findAny().orElse(null);
 	}
 
+	public VirtualEditionInter getVirtualEditionInterByXmlId(String xmlId){
+		return getVirtualEditionsSet().stream().map(virtualEdition -> virtualEdition.getFragInterByXmlId(xmlId))
+				.filter(Objects::nonNull).map(VirtualEditionInter.class::cast).findAny().orElse(null);
+	}
+
 	public Set<VirtualEditionInter> getVirtualEditionInterSet(){
 		return getVirtualEditionsSet().stream().flatMap(virtualEdition -> virtualEdition.getAllDepthVirtualEditionInters().stream()).collect(Collectors.toSet());
 	}

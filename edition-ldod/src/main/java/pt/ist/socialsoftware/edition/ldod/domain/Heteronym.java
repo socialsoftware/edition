@@ -20,7 +20,7 @@ public class Heteronym extends Heteronym_Base implements Comparable<Heteronym> {
 		setText(null);
 
 		getSourceSet().stream().forEach(s -> removeSource(s));
-		getFragInterSet().stream().forEach(i -> removeFragInter(i));
+		getScholarInterSet().stream().forEach(i -> removeScholarInter(i));
 
 		deleteDomainObject();
 	}
