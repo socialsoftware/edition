@@ -236,6 +236,7 @@ class ConnectedActivityMenu extends Component {
     var O_KEY = 79;
     var R_KEY = 82;
     var V_KEY = 86;
+    var I_KEY = 73;
 
     switch (event.keyCode) {
       case E_KEY:
@@ -264,6 +265,10 @@ class ConnectedActivityMenu extends Component {
         break;
       case R_KEY:
         this.handleActivitySelectRetreat();
+        break;
+      case I_KEY:
+        this.toggleInstructions();
+        break;
       default:
         break;
     }
@@ -282,7 +287,7 @@ class ConnectedActivityMenu extends Component {
 
     let instructions = (<div className="instructionsButton">
       <Button bsStyle="primary" bsSize="small" onClick={this.toggleInstructions}>
-        Mostrar instrucções
+        Mostrar instrucções [i]
       </Button>
     </div>)
 
@@ -297,6 +302,14 @@ class ConnectedActivityMenu extends Component {
             Note que todas as actividades que envolvam quadrados, círculos ou cronologia irão envolver um elemento cor-de-laranja que representa o fragmento que está a ler actualmente e à volta do qual deseja fazer a nova actividade.
           </li>
         </lu>
+
+        <div className="instructionsButton">
+
+          <Button bsStyle="primary" bsSize="small" onClick={this.toggleInstructions}>
+            Esconder instrucções [i]
+          </Button>
+
+        </div>
       </div>)
 
     }
@@ -513,9 +526,11 @@ class ConnectedActivityMenu extends Component {
       </div>);
     } else {
       this.activityToRender = this.activityToRender; //(<NetworkGraphContainer pFragmentId={this.props.recommendationArray[this.props.recommendationIndex].interId} pHeteronymWeight="0.0" pTextWeight="1.0" pDateWeight="0.0" ptaxonomyWeight="0.0" onChange={this.props.onChange}/>);
-      this.retreatButton = (<Button bsStyle="primary" bsSize="large" onClick={this.handleActivitySelectRetreat} block="block">
-        ← Retroceder para outra actividade [R]
-      </Button>);
+      this.retreatButton = (<div className="instructionsButton">
+        <Button bsStyle="primary" bsSize="small" onClick={this.handleActivitySelectRetreat}>
+          ← Retroceder para outra actividade [R]
+        </Button>
+      </div>);
 
     }
 

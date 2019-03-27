@@ -377,7 +377,7 @@ class ConnectedPublicEditionContainerTable extends React.Component {
     labelsObj[sliderNum.toString()] = sliderNum;
 
     let instructions = (<div className="instructionsButton">
-      <Button bsStyle="primary" bsSize="small" onClick={this.toggleInstructions}>
+      <Button bsStyle="primary" bsSize="large" onClick={this.toggleInstructions}>
         Mostrar vídeo
       </Button>
     </div>)
@@ -387,12 +387,12 @@ class ConnectedPublicEditionContainerTable extends React.Component {
       instructions = (<div>
 
         <div className="instructionsButton">
-          <Button bsStyle="primary" bsSize="small" onClick={this.toggleInstructions}>
+          <Button bsStyle="primary" bsSize="large" onClick={this.toggleInstructions}>
             Esconder vídeo
           </Button>
         </div>
 
-        <video className="myVideo" controls="controls">
+        <video className="myVideo" controls="controls" autoplay="autoplay">
           <source src={ldodVideo} type="video/mp4"/>
         </video>
 

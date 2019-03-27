@@ -496,7 +496,24 @@ class ConnectedSquareGrid extends Component {
     }
   }
 
+  _handleKeyDownActivity = (event) => {
+
+    var I_KEY = 73;
+
+    switch (event.keyCode) {
+      case I_KEY:
+        this.toggleInstructions();
+        break;
+      default:
+        break;
+
+    }
+
+  }
+
   componentDidMount() {
+    document.addEventListener("keydown", this._handleKeyDownActivity);
+
     if (this.props.allFragmentsLoaded) {
       const data = {
         nodes: this.nodes,
@@ -565,7 +582,7 @@ class ConnectedSquareGrid extends Component {
 
     let instructions = (<div className="instructionsButton">
       <Button bsStyle="primary" bsSize="small" onClick={this.toggleInstructions}>
-        Mostrar instrucções
+        Mostrar instrucções [i]
       </Button>
     </div>)
 
@@ -605,7 +622,7 @@ class ConnectedSquareGrid extends Component {
 
         <div className="instructionsButton">
           <Button bsStyle="primary" bsSize="small" onClick={this.toggleInstructions}>
-            Esconder instrucções
+            Esconder instrucções [i]
           </Button>
         </div>
 

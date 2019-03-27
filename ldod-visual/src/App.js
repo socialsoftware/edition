@@ -483,6 +483,7 @@ class ConnectedApp extends Component {
     var X_KEY = 88;
     var O_KEY = 79;
     var R_KEY = 82;
+    var I_KEY = 73;
 
     if (this.props.outOfLandingPage && this.state.inReadingMenu) {
 
@@ -504,6 +505,9 @@ class ConnectedApp extends Component {
           break;
         case R_KEY:
           this.handleToggleTextSkimming();
+          break;
+        case I_KEY:
+          this.toggleShowReadingMenuInstructions();
           break;
         default:
           break;
@@ -808,7 +812,7 @@ class ConnectedApp extends Component {
         Escolher outra edição virtual
       </Button>
       readingMenuIntructions = <Button bsStyle="primary" bsSize="small" onClick={this.toggleShowReadingMenuInstructions}>
-        Instruções
+        Instruções [i]
       </Button>
     }
 
@@ -1100,12 +1104,8 @@ class ConnectedApp extends Component {
       </div>
 
       <Modal show={this.state.showLanding} dialogClassName="custom-modal">
-        <Modal.Header>
-          <Modal.Title></Modal.Title>
-        </Modal.Header>
 
         <Modal.Body>
-
           <div className="landing-activity-style">{this.landingActivityToRender}</div>
         </Modal.Body>
 
@@ -1115,11 +1115,6 @@ class ConnectedApp extends Component {
       </Modal>
 
       <Modal show={this.state.showGlobalView} onHide={this.handleCloseGlobalView} dialogClassName="custom-modal">
-        <Modal.Header closeButton="closeButton">
-          <Modal.Title>
-            Actividade Actual
-          </Modal.Title>
-        </Modal.Header>
 
         <Modal.Body>
           {this.props.currentVisualization}
@@ -1133,11 +1128,6 @@ class ConnectedApp extends Component {
       </Modal>
 
       <Modal show={this.state.showConfig} onHide={this.handleCloseConfig} dialogClassName="custom-modal">
-        <Modal.Header closeButton="closeButton">
-          <Modal.Title>
-            Nova Actividade
-          </Modal.Title>
-        </Modal.Header>
 
         <Modal.Body>
           <ActivityMenu onChange={this.handleCloseModals}/>
@@ -1154,11 +1144,6 @@ class ConnectedApp extends Component {
       </Modal>
 
       <Modal show={this.state.showHistoric} onHide={this.handleCloseHistoric} dialogClassName="custom-modal">
-        <Modal.Header closeButton="closeButton">
-          <Modal.Title>
-            Histórico de leitura
-          </Modal.Title>
-        </Modal.Header>
 
         <Modal.Body>
           <HistoryMenu onChange={this.handleCloseModals}/>
@@ -1173,7 +1158,7 @@ class ConnectedApp extends Component {
 
       <Modal show={this.state.showReadingMenuIntructions} onHide={this.toggleShowReadingMenuInstructions} dialogClassName="custom-modal-instructions">
         <Modal.Header closeButton="closeButton">
-          <Modal.Title>
+          <Modal.Title align="center">
             Instruções do menu de leitura
           </Modal.Title>
         </Modal.Header>
