@@ -35,6 +35,8 @@ import ReactTable from 'react-table';
 import {ReactTableDefaults} from "react-table";
 import 'rc-slider/assets/index.css';
 import 'rc-tooltip/assets/bootstrap.css';
+import ReactPlayer from 'react-player'
+import ldodVideo from '../assets/video-ldod-visual-1.mp4'
 
 import Slider from 'react-rangeslider'
 // import 'react-rangeslider/lib/index.css'
@@ -376,7 +378,7 @@ class ConnectedPublicEditionContainerTable extends React.Component {
 
     let instructions = (<div className="instructionsButton">
       <Button bsStyle="primary" bsSize="small" onClick={this.toggleInstructions}>
-        Mais informação
+        Mostrar vídeo
       </Button>
     </div>)
 
@@ -386,69 +388,15 @@ class ConnectedPublicEditionContainerTable extends React.Component {
 
         <div className="instructionsButton">
           <Button bsStyle="primary" bsSize="small" onClick={this.toggleInstructions}>
-            Menos informação
+            Esconder vídeo
           </Button>
         </div>
 
-        <h4 align="center">
-          <b>A proposta do LdoD Visual</b>
-        </h4>
+        <div className="myVideo">
 
-        <br/>
-
-        <div className="landingMoreInfo">
-
-          <p>
-            Ler um livro é uma tarefa em que o leitor constantemente troca entre dois estados de concentração: ou está completamente concentrado na leitura em si ou interrompe brevemente a mesma por várias razões.
-          </p>
-          <p>
-            Estes momentos de afastamento da leitura podem ser devido a cenários como tentar relembrar o que aconteceu em capítulos anteriores, tentar imaginar uma certa descrição de uma paisagem ou personagem, lembrar uma experiência pessoal semelhante em comparação ao que foi lido, ligar um novo evento ao que aconteceu no passado ou até mesmo à sua influência no futuro, entre outras possibilidades.
-          </p>
-          <p>
-            A proposta do LdoD Visual está ligada a este fenómeno. O objectivo é materializar e dirigir este constante{" "}
-            <b>
-              <i>in</i>
-            </b>{" "}
-            e{" "}
-            <b>
-              <i>out</i>
-            </b>{" "}
-            que acontece enquanto o leitor emerge e submerge da leitura do texto.
-          </p>
-
-          <p>
-            O{" "}
-            <i>"Livro do Desassossego"</i>,{" "}
-            em comparação a um livro típico onde temos uma sequência rígida definida pelo autor, trata-se de uma obra fragmentária que pode ser lida em qualquer ordem. Isto significa que estes momentos de afastamento da leitura podem tornar-se numa oportunidade para o leitor se reposicionar noutra parte do livro. Esta nuance leva a um caminho de leitura e a uma imagem global do livro que podem variar dramaticamente de leitor para leitor, abrindo espaço para oferecer ao utilizador do LdoD Visual uma experiência onde há uma possibilidade de escolha e um papel activo na leitura do
-            <i>"Livro do Desassossego"</i>.
-          </p>
-
-        </div>
-
-        <br/>
-
-        <h4 align="center">
-          <b>A leitura fragmentária e as actividades disponíveis no LdoD Visual</b>
-        </h4>
-
-        <br/>
-
-        <div className="landingMoreInfo">
-
-          <p>
-            O{" "}
-            <i>"Livro do Desassossego"</i>{" "}
-            de Fernando Pessoa tem uma natureza modular - tratando-se de uma obra inacabada cujos fragmentos não têm uma ordem imposta pelo autor, a leitura desta pode também ser fragmentária.
-          </p>
-          <p>
-            Podendo os fragmentos desta obra ser lidos em qualquer ordem, o objectivo do LdoD Visual é ajudar o leitor a dirigir e a criar o seu próprio caminho de leitura do{" "}
-            <i>"Livro do Desassossego"</i>,{" "}recorrendo a um conjunto de actividades. Estas vão permitir aos leitores - peritos ou não - ler, explorar e/ou analisar a obra de forma interactiva.
-          </p>
-          <p>
-            Estas actividades envolvem técnicas de visualização de informação como nuvens de palavras, grafos de rede, cronologias, mapas personalizados e{" "}
-            <i>text skimming</i>{" "}
-            que codificam critérios como semelhança textual, ordem cronológica, taxonomia, heterónimos, relevância de palavras ou a própria ordem da edição virtual seleccionada.
-          </p>
+          <video controls="controls">
+            <source src={ldodVideo} type="video/mp4"/>
+          </video>
 
         </div>
 
@@ -528,3 +476,65 @@ export default PublicEditionContainerTable;/*
         Seleccionar edição
       </button>
       */
+
+// <h4 align="center">
+//   <b>A proposta do LdoD Visual</b>
+// </h4>
+//
+// <br/>
+//
+// <div className="landingMoreInfo">
+//
+//   <p>
+//     Ler um livro é uma tarefa em que o leitor constantemente troca entre dois estados de concentração: ou está completamente concentrado na leitura em si ou interrompe brevemente a mesma por várias razões.
+//   </p>
+//   <p>
+//     Estes momentos de afastamento da leitura podem ser devido a cenários como tentar relembrar o que aconteceu em capítulos anteriores, tentar imaginar uma certa descrição de uma paisagem ou personagem, lembrar uma experiência pessoal semelhante em comparação ao que foi lido, ligar um novo evento ao que aconteceu no passado ou até mesmo à sua influência no futuro, entre outras possibilidades.
+//   </p>
+//   <p>
+//     A proposta do LdoD Visual está ligada a este fenómeno. O objectivo é materializar e dirigir este constante{" "}
+//     <b>
+//       <i>in</i>
+//     </b>{" "}
+//     e{" "}
+//     <b>
+//       <i>out</i>
+//     </b>{" "}
+//     que acontece enquanto o leitor emerge e submerge da leitura do texto.
+//   </p>
+//
+//   <p>
+//     O{" "}
+//     <i>"Livro do Desassossego"</i>,{" "}
+//     em comparação a um livro típico onde temos uma sequência rígida definida pelo autor, trata-se de uma obra fragmentária que pode ser lida em qualquer ordem. Isto significa que estes momentos de afastamento da leitura podem tornar-se numa oportunidade para o leitor se reposicionar noutra parte do livro. Esta nuance leva a um caminho de leitura e a uma imagem global do livro que podem variar dramaticamente de leitor para leitor, abrindo espaço para oferecer ao utilizador do LdoD Visual uma experiência onde há uma possibilidade de escolha e um papel activo na leitura do
+//     <i>"Livro do Desassossego"</i>.
+//   </p>
+//
+// </div>
+//
+// <br/>
+//
+// <h4 align="center">
+//   <b>A leitura fragmentária e as actividades disponíveis no LdoD Visual</b>
+// </h4>
+//
+// <br/>
+//
+// <div className="landingMoreInfo">
+//
+//   <p>
+//     O{" "}
+//     <i>"Livro do Desassossego"</i>{" "}
+//     de Fernando Pessoa tem uma natureza modular - tratando-se de uma obra inacabada cujos fragmentos não têm uma ordem imposta pelo autor, a leitura desta pode também ser fragmentária.
+//   </p>
+//   <p>
+//     Podendo os fragmentos desta obra ser lidos em qualquer ordem, o objectivo do LdoD Visual é ajudar o leitor a dirigir e a criar o seu próprio caminho de leitura do{" "}
+//     <i>"Livro do Desassossego"</i>,{" "}recorrendo a um conjunto de actividades. Estas vão permitir aos leitores - peritos ou não - ler, explorar e/ou analisar a obra de forma interactiva.
+//   </p>
+//   <p>
+//     Estas actividades envolvem técnicas de visualização de informação como nuvens de palavras, grafos de rede, cronologias, mapas personalizados e{" "}
+//     <i>text skimming</i>{" "}
+//     que codificam critérios como semelhança textual, ordem cronológica, taxonomia, heterónimos, relevância de palavras ou a própria ordem da edição virtual seleccionada.
+//   </p>
+//
+// </div>
