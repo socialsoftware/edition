@@ -47,6 +47,10 @@ public abstract class ScholarInter extends ScholarInter_Base {
             annexNote.remove();
         }
 
+        for (RefText ref : getRefTextSet()) {
+            ref.setScholarInter(null);
+        }
+
         // adicionado recentemente, testar
         getInfoRangeSet().forEach(infoRange -> infoRange.remove());
 

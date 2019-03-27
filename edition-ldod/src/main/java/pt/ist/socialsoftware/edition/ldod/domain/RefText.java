@@ -3,7 +3,6 @@ package pt.ist.socialsoftware.edition.ldod.domain;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.socialsoftware.edition.ldod.api.text.TextInterface;
-import pt.ist.socialsoftware.edition.ldod.domain.RefText_Base;
 import pt.ist.socialsoftware.edition.ldod.generators.TextPortionVisitor;
 
 public class RefText extends RefText_Base {
@@ -27,7 +26,7 @@ public class RefText extends RefText_Base {
 		setType(type);
 		setTarget(target);
 		setSurface(null);
-		setFragInter(null);
+		setScholarInter(null);
 		setRefFrag(null);
 	}
 
@@ -50,7 +49,7 @@ public class RefText extends RefText_Base {
 	@Override
 	public void remove() {
 		setSurface(null);
-		setFragInter(null);
+		setScholarInter(null);
 		// it is necessary to avoid lazy reload of refFrag
 		setTarget("");
 		setRefFrag(null);

@@ -401,7 +401,7 @@ public class LoadTEIFragments {
 			// fragment
 			ScholarInter inter = (ScholarInter) parent.getFragment().getScholarInterByXmlId(target);
 			if (inter != null) {
-				refText.setFragInter(inter);
+				refText.setScholarInter(inter);
 			} else {
 				throw new LdoDLoadException("o valor " + target
 						+ " do atributo xml:id do elemento ref não corresponde ao id the nenhum elemento witness");
@@ -962,7 +962,7 @@ public class LoadTEIFragments {
 			// when loading ref in annex notes in witnesses the witness may
 			// not be created yet
 			for (Object refText : getObjectInverseIdMap(witnessXmlID)) {
-				((RefText) refText).setFragInter(fragInter);
+				((RefText) refText).setScholarInter(fragInter);
 			}
 
 			Element bibl = witness.getChild("bibl", this.namespace);
@@ -1052,7 +1052,7 @@ public class LoadTEIFragments {
 							} else if (refType == RefType.WITNESS) {
 								ScholarInter inter = (ScholarInter) fragInter.getFragment().getScholarInterByXmlId(target);
 								if (inter != null) {
-									refText.setFragInter(inter);
+									refText.setScholarInter(inter);
 								} else {
 									putObjectInverseIdMap(target, refText);
 								}

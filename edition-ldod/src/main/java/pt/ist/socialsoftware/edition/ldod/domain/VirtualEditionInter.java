@@ -93,10 +93,6 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 			annotation.remove();
 		}
 
-		for (RefText ref : getRefTextSet()) {
-			ref.setFragInter(null);
-		}
-
 		deleteDomainObject();
 	}
 

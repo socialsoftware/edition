@@ -67,8 +67,8 @@ public class NoteText extends NoteText_Base {
 				if (refText.getType() == RefType.GRAPHIC) {
 					link = "/facs/" + refText.getSurface().getGraphic();
 				} else if (refText.getType() == RefType.WITNESS) {
-					link = "/fragments/fragment/" + refText.getFragInter().getFragment().getXmlId() + "/inter/"
-							+ refText.getFragInter().getUrlId();
+					link = "/fragments/fragment/" + refText.getScholarInter().getFragment().getXmlId() + "/inter/"
+							+ refText.getScholarInter().getUrlId();
 				} else if (refText.getType() == RefType.FRAGMENT) {
 					if (refText.getRefFrag() != null) {
 						link = "/fragments/fragment/" + refText.getRefFrag().getXmlId();

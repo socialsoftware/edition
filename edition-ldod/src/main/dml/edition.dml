@@ -584,8 +584,8 @@ relation RefText2Surface {
 	RefText playsRole refText {multiplicity 0..*;}
 }
 
-relation RefText2FragInter {
-	FragInter playsRole fragInter {multiplicity 0..1;}
+relation RefText2ScholarInter {
+	ScholarInter playsRole scholarInter {multiplicity 0..1;}
 	RefText playsRole refText {multiplicity 0..*;}
 }
 
