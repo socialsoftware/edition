@@ -6,6 +6,7 @@ import pt.ist.socialsoftware.edition.ldod.api.event.Event;
 import pt.ist.socialsoftware.edition.ldod.api.event.EventInterface;
 import pt.ist.socialsoftware.edition.ldod.api.ldod.LdoDInterface;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -59,5 +60,10 @@ public abstract class ScholarInter extends ScholarInter_Base {
 
         return results;
     }
-    
+
+    public long getNumberOfTwitterCitationsSince(LocalDateTime editionBeginDateTime) {
+        return getInfoRangeSet().stream().map(ir -> ir.getCitation())
+                .filter(cit -> cit.getFormatedDate().isAfter(editionBeginDateTime)).count();
+    }
+
 }

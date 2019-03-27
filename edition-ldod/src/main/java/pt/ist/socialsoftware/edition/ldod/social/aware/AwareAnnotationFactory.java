@@ -13,20 +13,7 @@ import org.slf4j.LoggerFactory;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
-import pt.ist.socialsoftware.edition.ldod.domain.AwareAnnotation;
-import pt.ist.socialsoftware.edition.ldod.domain.Citation;
-import pt.ist.socialsoftware.edition.ldod.domain.FragInter;
-import pt.ist.socialsoftware.edition.ldod.domain.Frequency;
-import pt.ist.socialsoftware.edition.ldod.domain.GeographicLocation;
-import pt.ist.socialsoftware.edition.ldod.domain.InfoRange;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
-import pt.ist.socialsoftware.edition.ldod.domain.MediaSource;
-import pt.ist.socialsoftware.edition.ldod.domain.Range;
-import pt.ist.socialsoftware.edition.ldod.domain.SocialMediaCriteria;
-import pt.ist.socialsoftware.edition.ldod.domain.TimeWindow;
-import pt.ist.socialsoftware.edition.ldod.domain.TwitterCitation;
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
+import pt.ist.socialsoftware.edition.ldod.domain.*;
 
 public class AwareAnnotationFactory {
 	private static Logger logger = LoggerFactory.getLogger(AwareAnnotationFactory.class);
@@ -89,13 +76,13 @@ public class AwareAnnotationFactory {
 	// this method finds out the appropriate info range for the specific vei
 	private InfoRange getInfoRangeByVirtualEditionInter(VirtualEditionInter vei, TwitterCitation tc) {
 
-		// used fraginter
-		FragInter lastUsed = vei.getLastUsed();
+		// used scholarinter
+		ScholarInter lastUsed = vei.getLastUsed();
 
 		InfoRange infoRange = null;
 		for (InfoRange ir : tc.getInfoRangeSet()) {
 
-			if (lastUsed == ir.getFragInter()) {
+			if (lastUsed == ir.getScholarInter()) {
 				infoRange = ir;
 				break;
 			}

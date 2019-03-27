@@ -15,15 +15,7 @@ import pt.ist.fenixframework.core.WriteOnReadError;
 import pt.ist.socialsoftware.edition.ldod.TestLoadUtils;
 import pt.ist.socialsoftware.edition.ldod.TestWithFragmentsLoading;
 import pt.ist.socialsoftware.edition.ldod.api.text.TextInterface;
-import pt.ist.socialsoftware.edition.ldod.domain.AwareAnnotation;
-import pt.ist.socialsoftware.edition.ldod.domain.Citation;
-import pt.ist.socialsoftware.edition.ldod.domain.FragInter;
-import pt.ist.socialsoftware.edition.ldod.domain.Fragment;
-import pt.ist.socialsoftware.edition.ldod.domain.InfoRange;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
-import pt.ist.socialsoftware.edition.ldod.domain.Range;
-import pt.ist.socialsoftware.edition.ldod.domain.TwitterCitation;
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
+import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.loaders.VirtualEditionFragmentsTEIImport;
 
 public class VirtualEditionFragmentsTEIExportTest extends TestWithFragmentsLoading {
@@ -95,10 +87,10 @@ public class VirtualEditionFragmentsTEIExportTest extends TestWithFragmentsLoadi
 		int numberOfInters = LdoD.getInstance().getVirtualEditionInterSet(fragment).size();
 
 		int numOfInfoRanges = 0;
-		for (FragInter fragInter : fragment.getScholarInterSet()) {
-			numOfInfoRanges += fragInter.getInfoRangeSet().size();
-			// logger("FragInter Title: " + fragInter.getTitle());
-			// logger("FragInter xmlid: " + fragInter.getXmlId());
+		for (ScholarInter scholarInter : fragment.getScholarInterSet()) {
+			numOfInfoRanges += scholarInter.getInfoRangeSet().size();
+			// logger("FragInter Title: " + scholarInter.getTitle());
+			// logger("FragInter xmlid: " + scholarInter.getXmlId());
 		}
 		// logger("numOfInfoRanges: " + numOfInfoRanges);
 
@@ -128,8 +120,8 @@ public class VirtualEditionFragmentsTEIExportTest extends TestWithFragmentsLoadi
 		assertEquals(numOfCitations, fragment.getCitationSet().size());
 		assertEquals(numberOfInters, LdoD.getInstance().getVirtualEditionInterSet(fragment).size());
 		int numOfInfoRangesAfterImport = 0;
-		for (FragInter fragInter : fragment.getScholarInterSet()) {
-			numOfInfoRangesAfterImport += fragInter.getInfoRangeSet().size();
+		for (ScholarInter scholarInter : fragment.getScholarInterSet()) {
+			numOfInfoRangesAfterImport += scholarInter.getInfoRangeSet().size();
 		}
 		assertEquals(numOfInfoRanges, numOfInfoRangesAfterImport);
 		int altNumOfInfoRangesAfterImport = 0;

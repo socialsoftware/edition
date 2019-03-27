@@ -88,11 +88,6 @@ public abstract class FragInter extends FragInter_Base implements Comparable<Fra
 
 	public abstract int getUsesDepth();
 
-	public long getNumberOfTwitterCitationsSince(LocalDateTime editionBeginDateTime) {
-		return getInfoRangeSet().stream().map(ir -> ir.getCitation())
-				.filter(cit -> cit.getFormatedDate().isAfter(editionBeginDateTime)).count();
-	}
-
 	public abstract Fragment getFragment();
 
 }

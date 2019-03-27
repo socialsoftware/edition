@@ -717,9 +717,9 @@ relation CitationHasInfoRanges {
 	InfoRange playsRole infoRange {multiplicity 0..*;}
 }
 
-relation InfoRangeHasFragInter {
+relation InfoRangeHasScholarInter {
 	InfoRange playsRole infoRange {multiplicity 0..*;}
-	FragInter playsRole fragInter {multiplicity 1..1;}
+	ScholarInter playsRole scholarInter {multiplicity 1..1;}
 }
 
 class SocialMediaCriteria;

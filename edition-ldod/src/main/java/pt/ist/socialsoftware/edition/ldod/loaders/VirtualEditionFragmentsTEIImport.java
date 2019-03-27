@@ -23,20 +23,7 @@ import org.slf4j.LoggerFactory;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.socialsoftware.edition.ldod.api.text.TextInterface;
-import pt.ist.socialsoftware.edition.ldod.domain.Citation;
-import pt.ist.socialsoftware.edition.ldod.domain.ClassificationGame;
-import pt.ist.socialsoftware.edition.ldod.domain.ClassificationGameParticipant;
-import pt.ist.socialsoftware.edition.ldod.domain.ClassificationGameRound;
-import pt.ist.socialsoftware.edition.ldod.domain.FragInter;
-import pt.ist.socialsoftware.edition.ldod.domain.Fragment;
-import pt.ist.socialsoftware.edition.ldod.domain.InfoRange;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
-import pt.ist.socialsoftware.edition.ldod.domain.Tag;
-import pt.ist.socialsoftware.edition.ldod.domain.Tweet;
-import pt.ist.socialsoftware.edition.ldod.domain.TwitterCitation;
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
+import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDLoadException;
 import pt.ist.socialsoftware.edition.ldod.utils.RangeJson;
 
@@ -189,9 +176,9 @@ public class VirtualEditionFragmentsTEIImport {
 			Element textElement = infoRangeElement.getChild("text", this.namespace);
 			String text = textElement.getText(); // trim() ?
 
-			FragInter fragInter = fragment.getScholarInterByXmlId(infoRangeElement.getAttributeValue("fragInterXmlId"));
+			ScholarInter scholarInter = fragment.getScholarInterByXmlId(infoRangeElement.getAttributeValue("fragInterXmlId"));
 
-			new InfoRange(twitterCitation, fragInter, start, startOffset, end, endOffset, quote, text);
+			new InfoRange(twitterCitation, scholarInter, start, startOffset, end, endOffset, quote, text);
 		}
 	}
 

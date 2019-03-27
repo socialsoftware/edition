@@ -2,10 +2,10 @@ package pt.ist.socialsoftware.edition.ldod.domain;
 
 public class InfoRange extends InfoRange_Base {
 
-	public InfoRange(Citation citation, FragInter fragInter, String start, int startOffset, String end, int endOffset,
-			String quote, String text) {
+	public InfoRange(Citation citation, ScholarInter scholarInter, String start, int startOffset, String end, int endOffset,
+					 String quote, String text) {
 		setCitation(citation);
-		setFragInter(fragInter);
+		setScholarInter(scholarInter);
 
 		setStart(start);
 		setStartOffset(startOffset);
@@ -18,7 +18,7 @@ public class InfoRange extends InfoRange_Base {
 
 	// adicionado recentemente, testar
 	public void remove() {
-		setFragInter(null);
+		setScholarInter(null);
 		setCitation(null);
 		deleteDomainObject();
 	}
