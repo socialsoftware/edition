@@ -392,13 +392,9 @@ class ConnectedPublicEditionContainerTable extends React.Component {
           </Button>
         </div>
 
-        <div className="myVideo">
-
-          <video controls="controls">
-            <source src={ldodVideo} type="video/mp4"/>
-          </video>
-
-        </div>
+        <video className="myVideo" controls="controls">
+          <source src={ldodVideo} type="video/mp4"/>
+        </video>
 
       </div>)
     }
