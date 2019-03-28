@@ -176,7 +176,7 @@ class ConnectedApp extends Component {
     this.opacityHide = 0;
     this.opacityShow = 1;
     this.opacityOnText = 0.6;
-    this.opacityBarelyVisible = 0.3;
+    this.opacityBarelyVisible = 0; //antes estava 0.3. ou 0.1
 
     this.categoryButtonFunction = function() {};
     this.datesButtonFunction = function() {};
@@ -218,6 +218,8 @@ class ConnectedApp extends Component {
     this.previousButtonAction = this.previousButtonAction.bind(this);
 
     this.toggleInstructions = this.toggleInstructions.bind(this);
+
+    this.goBackToTop = this.goBackToTop.bind(this);
 
     this.toggleShowReadingMenuInstructions = this.toggleShowReadingMenuInstructions.bind(this);
 
@@ -380,6 +382,10 @@ class ConnectedApp extends Component {
 
   }
 
+  goBackToTop() {
+    scroll.scrollToTop({duration: 500, delay: 0, smooth: 'easeInOutQuart'});
+  }
+
   previousButtonAction() {
 
     if (this.props.recommendationIndex > 0) {
@@ -509,6 +515,8 @@ class ConnectedApp extends Component {
         case I_KEY:
           this.toggleShowReadingMenuInstructions();
           break;
+        case T_KEY:
+          this.goBackToTop();
         default:
           break;
       }
@@ -804,15 +812,25 @@ class ConnectedApp extends Component {
     let editionAcronymToDisplay = <div/>;
     let changeEdButton = <div/>;
     let readingMenuIntructions = <div/>;
+    let progressBar = <div/>;
+    let goBackToTopButton = <div/>;
     if (this.props.allFragmentsLoaded && this.props.outOfLandingPage) {
 
       editionTitleToDisplay = ("Título da edição virtual seleccionada: " + ReactHtmlParser(this.state.currentEdition.title));
       editionAcronymToDisplay = ("Acrónimo: " + this.state.currentEdition.acronym);
-      changeEdButton = <Button bsStyle="primary" bsSize="small" onClick={this.forcePageReload}>
+      changeEdButton = (<Button bsStyle="primary" bsSize="small" onClick={this.forcePageReload}>
         Escolher outra edição virtual
-      </Button>
-      readingMenuIntructions = <Button bsStyle="primary" bsSize="small" onClick={this.toggleShowReadingMenuInstructions}>
-        Instruções [i]
+      </Button>)
+      readingMenuIntructions = (<Button bsStyle="primary" bsSize="small" onClick={this.toggleShowReadingMenuInstructions}>
+        Instrucções [i]
+      </Button>)
+      progressBar = ((<div className="progress-bar">
+        <div className="filler" style={{
+            width: `${ ((this.props.recommendationIndex + 1) / this.props.recommendationArray.length) * 100}%`
+          }}/>
+      </div>))
+      goBackToTopButton = <Button bsStyle="primary" bsSize="small" onClick={this.goBackToTop}>
+        Voltar ao topo [T]
       </Button>
     }
 
@@ -1089,17 +1107,14 @@ class ConnectedApp extends Component {
               ...styles,
               opacity: this.state.opacity,
               color: 'white',
-              fontSize: 15
-            }}>{readingMenuIntructions}</p>
-
-          <p align="center" style={{
-              ...styles,
-              opacity: this.state.opacity,
-              color: 'white',
-              fontSize: 15
-            }}>{changeEdButton}</p>
+              fontSize: 15,
+              fontFamily: 'Arial'
+            }}>{readingMenuIntructions}
+            {goBackToTopButton}{changeEdButton}</p>
 
         </div>
+
+        {progressBar}
 
       </div>
 

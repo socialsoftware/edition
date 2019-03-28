@@ -122,6 +122,7 @@ Button:not(:last-child) {
   font-size: 10px;
   margin-left: 30%;
   margin-right: 30%;
+  margin-bottom: 30px;
 }
 
 .custom-modal-instructions {
@@ -195,4 +196,21 @@ Button:not(:last-child) {
   position: fixed;
   margin-top: 320px;
   left: 88.2%;
+}
+
+.progress-bar {
+  position: fixed;
+  top: 99%;
+  height: 15px;
+  width: 100%;
+  border-radius: 0px;
+  border: 1px solid #265A88;
+  /*test*/
+}
+
+.filler {
+  background: #46a8fc;
+  height: 100%;
+  border-radius: inherit;
+  transition: width .2s ease-in;
 }
