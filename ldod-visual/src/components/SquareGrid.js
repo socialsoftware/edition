@@ -535,6 +535,15 @@ class ConnectedSquareGrid extends Component {
       this.network.on("stabilizationIterationsDone", function() {
         this.network.setOptions({physics: false});
       });
+
+      this.network.on("hoverNode", function(params) {
+        //this.network.canvas.body.container.style.cursor = 'pointer'
+        document.getElementById('gridvis').getElementsByTagName("canvas")[0].style.cursor = 'pointer'
+      });
+      this.network.on("blurNode", function(params) {
+        document.getElementById('gridvis').getElementsByTagName("canvas")[0].style.cursor = 'default'
+      });
+
     }
   }
 

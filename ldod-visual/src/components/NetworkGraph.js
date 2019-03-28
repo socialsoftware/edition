@@ -477,6 +477,14 @@ class ConnectedNetworkGraph extends Component {
     this.network.on("selectNode", this.handleSelectNode);
     //console.log("randomSeed: " + this.network.getSeed());
 
+    this.network.on("hoverNode", function(params) {
+      //this.network.canvas.body.container.style.cursor = 'pointer'
+      document.getElementById('networkvis').getElementsByTagName("canvas")[0].style.cursor = 'pointer'
+    });
+    this.network.on("blurNode", function(params) {
+      document.getElementById('networkvis').getElementsByTagName("canvas")[0].style.cursor = 'default'
+    });
+
   }
 
   render() {

@@ -1,11 +1,11 @@
-.activityMenu{
+.activityMenu {
   margin: 0 auto;
   margin-top: 0 auto;
   width: 100%;
   height: 100%;
 }
 
-.cardsContainerActivity{
+.cardsContainerActivity {
   display: flex;
   flex-wrap: wrap;
   align-items: stretch;
@@ -13,18 +13,17 @@
 }
 
 .cardActivity {
-  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   transition: 0.3s;
   padding: 10px;
   margin: 15px;
-
   display: flex;
   flex: 0 1 300px;
   min-width: 0px;
 }
 
 .cardActivity:hover {
-  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
 }
 
 .containerActivity {
@@ -34,14 +33,24 @@
   flex-direction: column;
 }
 
-.welcomeButtonActivity{
+.welcomeButtonActivity {
   display: flex;
   flex-wrap: wrap;
   align-items: flex-end;
   justify-content: center;
-   margin-top: auto;
+  margin-top: auto;
 }
 
-.cardsActivityImage{
+.cardsActivityImage {
   cursor: pointer;
+}
+
+.vis-item-content:hover {
+  cursor: pointer;
+}
+
+.newActRetreatButton {
+  font-family: 'Arial';
+  margin-top: 5px;
+  text-align: right;
 }

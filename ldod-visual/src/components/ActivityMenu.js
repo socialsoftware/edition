@@ -526,8 +526,8 @@ class ConnectedActivityMenu extends Component {
       </div>);
     } else {
       this.activityToRender = this.activityToRender; //(<NetworkGraphContainer pFragmentId={this.props.recommendationArray[this.props.recommendationIndex].interId} pHeteronymWeight="0.0" pTextWeight="1.0" pDateWeight="0.0" ptaxonomyWeight="0.0" onChange={this.props.onChange}/>);
-      this.retreatButton = (<div className="instructionsButton">
-        <Button bsStyle="primary" bsSize="small" onClick={this.handleActivitySelectRetreat}>
+      this.retreatButton = (<div className="newActRetreatButton">
+        <Button bsStyle="primary" onClick={this.handleActivitySelectRetreat}>
           ← Retroceder para outra actividade [R]
         </Button>
       </div>);

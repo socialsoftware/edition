@@ -232,6 +232,13 @@ class ConnectedHistoryMenu extends Component {
     this.timeline = new Timeline(container, historyItems, this.options);
     this.timeline.on('click', this.handleClick);
 
+    this.timeline.on("itemover", function(params) {
+      document.getElementById('visualization').style.cursor = 'pointer'
+    });
+    this.timeline.on("itemout", function(params) {
+      document.getElementById('visualization').style.cursor = 'default'
+    });
+
     //this.printMessage();
   }
 

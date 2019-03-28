@@ -310,6 +310,13 @@ class ConnectedMyHistory extends Component {
     //   this.clearLoadingGif();
     // }, 500);
 
+    this.timeline.on("itemover", function(params) {
+      document.getElementById('visualization').style.cursor = 'pointer'
+    });
+    this.timeline.on("itemout", function(params) {
+      document.getElementById('visualization').style.cursor = 'default'
+    });
+
   }
 
   clearLoadingGif() {
