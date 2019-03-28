@@ -100,13 +100,25 @@
   .navPrevious {
     position: fixed;
     margin-top: 250px;
-    left: 8%;
+    left: 6%;
   }
 
   .navNext {
     position: fixed;
-    margin-top: 250px;
-    left: 88%;
+    margin-top: 248px;
+    left: 90%;
+  }
+
+  .navPreviousGolden {
+    position: fixed;
+    margin-top: 400px;
+    left: 8%;
+  }
+
+  .navNextGolden {
+    position: fixed;
+    margin-top: 398px;
+    left: 91%;
   }
 
   .navigationText {
@@ -128,6 +140,7 @@
     margin-left: 30%;
     margin-right: 30%;
     margin-bottom: 30px;
+    margin-top: 100px;
   }
 
   .custom-modal-instructions {
@@ -191,17 +204,7 @@
     margin-bottom: 5px;
   }
 
-  .navPreviousGolden {
-    left: 8.2%;
-    position: fixed;
-    margin-top: 320px;
-  }
 
-  .navNextGolden {
-    position: fixed;
-    margin-top: 320px;
-    left: 88.2%;
-  }
 
   .progress-bar {
     position: fixed;
@@ -209,12 +212,14 @@
     height: 15px;
     width: 100%;
     border-radius: 0px;
-    border: 1px solid #265A88;
+    border: 1px solid black;
+    background: #808080;
     /*test*/
   }
 
   .filler {
-    background: #46a8fc;
+    background: #3379B5;
+    /* #46a8fc; #3379B5 #265A88*/
     height: 100%;
     border-radius: inherit;
     transition: width .2s ease-in;

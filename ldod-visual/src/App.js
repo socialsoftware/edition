@@ -67,6 +67,16 @@ import picWordCloudGray from './assets/card-pics-gray/word-cloud-gray.png';
 
 import HashMap from "hashmap";
 
+import availablePreviousArrow from './assets/available-previous.png'
+import availableNextArrow from './assets/available-next.png'
+import unavailablePreviousArrow from './assets/unavailable-previous.png'
+import unavailableNextArrow from './assets/unavailable-next.png'
+
+import availableNextArrowGolden from './assets/goldnav/available-next-golden.png'
+import availablePreviousArrowGolden from './assets/goldnav/available-previous-golden.png'
+import unavailablePreviousArrowGolden from './assets/goldnav/unavailable-previous-golden.png'
+import unavailableNextArrowGolden from './assets/goldnav/unavailable-next-golden.png'
+
 const mapStateToProps = state => {
   return {
     fragments: state.fragments,
@@ -142,9 +152,6 @@ class ConnectedApp extends Component {
 
     this.handleEditionSelectRetreat = this.handleEditionSelectRetreat.bind(this)
     this.handleFirstActivitySelectRetreat = this.handleFirstActivitySelectRetreat.bind(this)
-
-    this.previousFragmentButtonStyle = "primary";
-    this.nextFragmentButtonStyle = "primary";
 
     this.state = {
       previousFragmentButtonStyle: "primary",
@@ -222,6 +229,30 @@ class ConnectedApp extends Component {
     this.goBackToTop = this.goBackToTop.bind(this);
 
     this.toggleShowReadingMenuInstructions = this.toggleShowReadingMenuInstructions.bind(this);
+
+    this.navArrowWidth = "100px";
+
+    this.availablePreviousArrowButton = <img src={availablePreviousArrow} onClick={this.nextButtonAction} style={{
+        width: this.navArrowWidth,
+        cursor: "pointer"
+      }}/>
+    this.unavailablePreviousArrowButton = <img src={unavailablePreviousArrow} style={{
+        width: this.navArrowWidth
+      }}/>
+
+    this.availableNextArrowButton = <img src={availableNextArrow} onClick={this.nextButtonAction} style={{
+        width: this.navArrowWidth,
+        cursor: "pointer"
+      }}/>
+    this.unavailableNextArrowButton = <img src={unavailableNextArrow} style={{
+        width: this.navArrowWidth
+      }}/>
+
+    this.previousFragmentButtonStyle = this.availablePreviousArrowButton
+    this.nextFragmentButtonStyle = this.availableNextArrowButton
+
+    this.previousFragmentButtonStyle = this.availablePreviousArrowButton
+    this.nextFragmentButtonStyle = this.availableNextArrowButton
 
   }
 
@@ -675,15 +706,15 @@ class ConnectedApp extends Component {
       // console.log("App.js: fragmentIndex: " + this.props.fragmentIndex)
       if (this.props.recommendationIndex == 0) {
         // console.log("App.js: changing previous button style to default");
-        this.previousFragmentButtonStyle = "default";
-        this.nextFragmentButtonStyle = "primary";
+        this.previousFragmentButtonStyle = this.unavailablePreviousArrowButton;
+        this.nextFragmentButtonStyle = this.availableNextArrowButton;
       } else if (this.props.recommendationIndex === (this.props.recommendationArray.length - 1)) {
         // console.log("App.js: changing next button style to default");
-        this.previousFragmentButtonStyle = "primary";
-        this.nextFragmentButtonStyle = "default";
+        this.previousFragmentButtonStyle = this.availablePreviousArrowButton;
+        this.nextFragmentButtonStyle = this.unavailableNextArrowButton;
       } else {
-        this.previousFragmentButtonStyle = "primary";
-        this.nextFragmentButtonStyle = "primary";
+        this.previousFragmentButtonStyle = this.availablePreviousArrowButton;
+        this.nextFragmentButtonStyle = this.availableNextArrowButton;
         // console.log("App.js: changing both button styles to primary")
       }
     }
@@ -814,14 +845,26 @@ class ConnectedApp extends Component {
     let readingMenuIntructions = <div/>;
     let progressBar = <div/>;
     let goBackToTopButton = <div/>;
+    let textSkimmingButtonJsx = <div/>;
     if (this.props.allFragmentsLoaded && this.props.outOfLandingPage) {
+
+      let toggleTextSkimmingButtonMessage;
+      if (this.state.toggleTextSkimming && this.props.outOfLandingPage) {
+        toggleTextSkimmingButtonMessage = "Esconder palavras mais relevantes [R]";
+      } else if (this.props.outOfLandingPage) {
+        toggleTextSkimmingButtonMessage = "Destacar palavras mais relevantes [R]";
+      }
+
+      textSkimmingButtonJsx = (<Button bsStyle="default" bsSize="small" onClick={this.handleToggleTextSkimming} onMouseOver={this.setMouseOverMenuButtons} onMouseLeave={this.setMouseOutMenuButtons}>
+        {toggleTextSkimmingButtonMessage}
+      </Button>)
 
       editionTitleToDisplay = ("Título da edição virtual seleccionada: " + ReactHtmlParser(this.state.currentEdition.title));
       editionAcronymToDisplay = ("Acrónimo: " + this.state.currentEdition.acronym);
-      changeEdButton = (<Button bsStyle="primary" bsSize="small" onClick={this.forcePageReload}>
+      changeEdButton = (<Button bsStyle="default" bsSize="small" onClick={this.forcePageReload}>
         Escolher outra edição virtual
       </Button>)
-      readingMenuIntructions = (<Button bsStyle="primary" bsSize="small" onClick={this.toggleShowReadingMenuInstructions}>
+      readingMenuIntructions = (<Button bsStyle="default" bsSize="small" onClick={this.toggleShowReadingMenuInstructions}>
         Instrucções [i]
       </Button>)
       progressBar = ((<div className="progress-bar">
@@ -829,7 +872,7 @@ class ConnectedApp extends Component {
             width: `${ ((this.props.recommendationIndex + 1) / this.props.recommendationArray.length) * 100}%`
           }}/>
       </div>))
-      goBackToTopButton = <Button bsStyle="primary" bsSize="small" onClick={this.goBackToTop}>
+      goBackToTopButton = <Button bsStyle="default" bsSize="small" onClick={this.goBackToTop}>
         Voltar ao topo [T]
       </Button>
     }
@@ -847,14 +890,10 @@ class ConnectedApp extends Component {
       //→ ⟶ ⇨ ⮕ 🡒 🡆 🠚 → 🠒 🠪 🠮 🠲 🡢 🢂
 
       //previousNavButton = <NavigationButton nextButton={false}/>;
-      previousNavButton = (<Button bsStyle={this.previousFragmentButtonStyle} bsSize="large" onClick={this.previousButtonAction}>
-        ←
-      </Button>);
+      previousNavButton = this.previousFragmentButtonStyle;
 
       //nextNavButton = <NavigationButton nextButton={true}/>;
-      nextNavButton = (<Button bsStyle={this.nextFragmentButtonStyle} bsSize="large" onClick={this.nextButtonAction}>
-        →
-      </Button>);
+      nextNavButton = this.nextFragmentButtonStyle;
 
       if (this.props.visualizationTechnique == VIS_SQUARE_GRID) {
 
@@ -944,6 +983,24 @@ class ConnectedApp extends Component {
 
           // end of golden buttons availability verification
 
+          this.navArrowWidthGolden = "5px";
+
+          this.availablePreviousArrowButtonGolden = <img src={availablePreviousArrowGolden} onClick={goldenPreviousButtonFun} style={{
+              width: this.navArrowWidthGolden,
+              cursor: "pointer"
+            }}/>
+          this.unavailablePreviousArrowButtonGolden = <img src={unavailablePreviousArrowGolden} style={{
+              width: this.navArrowWidthGolden
+            }}/>
+
+          this.availableNextArrowButtonGolden = <img src={availableNextArrowGolden} onClick={goldenPreviousButtonFun} style={{
+              width: this.navArrowWidthGolden,
+              cursor: "pointer"
+            }}/>
+          this.unavailableNextArrowButtonGolden = <img src={unavailableNextArrowGolden} style={{
+              width: this.navArrowWidthGolden
+            }}/>
+
           previousNavButtonGold = (<div onMouseOver={this.setMouseOverMenuButtons} onMouseLeave={this.setMouseOutMenuButtons} className="navPreviousGolden" style={{
               ...styles,
               opacity: this.state.opacity
@@ -983,17 +1040,19 @@ class ConnectedApp extends Component {
 
         <ButtonToolbar onMouseOver={this.setMouseOverMenuButtons} onMouseLeave={this.setMouseOutMenuButtons}>
 
-          <Button bsStyle="primary" bsSize="large" onClick={this.handleShowGlobalView}>
+          <Button bsStyle="default" bsSize="small" onClick={this.handleShowGlobalView}>
             Actividade actual [A]
           </Button>
 
-          <Button bsStyle="primary" bsSize="large" onClick={this.handleShowConfig}>
+          <Button bsStyle="default" bsSize="small" onClick={this.handleShowConfig}>
             Nova actividade [N]
           </Button>
 
-          <Button bsStyle="primary" bsSize="large" onClick={this.handleShowHistoric}>
+          <Button bsStyle="default" bsSize="small" onClick={this.handleShowHistoric}>
             Histórico de leitura [H]
           </Button>
+
+          {textSkimmingButtonJsx}
 
         </ButtonToolbar>
 
@@ -1001,13 +1060,6 @@ class ConnectedApp extends Component {
     } else {
 
       this.buttonToolBarToRender = <div/>;
-    }
-
-    let toggleTextSkimmingButtonMessage;
-    if (this.state.toggleTextSkimming && this.props.outOfLandingPage) {
-      toggleTextSkimmingButtonMessage = "Esconder as palavras mais relevantes deste fragmento [R]";
-    } else if (this.props.outOfLandingPage) {
-      toggleTextSkimmingButtonMessage = "Destacar as palavras mais relevantes deste fragmento [R]";
     }
 
     let fragLoader;
@@ -1045,17 +1097,6 @@ class ConnectedApp extends Component {
 
       {this.buttonToolBarToRender}
 
-      <div className="toggleTextSkimming" style={{
-          ...styles,
-          opacity: this.state.opacity
-        }}>
-
-        <Button bsStyle="primary" bsSize="large" onClick={this.handleToggleTextSkimming} onMouseOver={this.setMouseOverMenuButtons} onMouseLeave={this.setMouseOutMenuButtons}>
-          {toggleTextSkimmingButtonMessage}
-        </Button>
-
-      </div>
-
       <div >
 
         <div onMouseOver={this.setMouseOverMenuButtons} onMouseLeave={this.setMouseOutMenuButtons} className="navPrevious" style={{
@@ -1092,21 +1133,21 @@ class ConnectedApp extends Component {
           <p align="center" style={{
               ...styles,
               opacity: this.state.opacity,
-              color: 'white',
+              color: 'black',
               fontSize: 15
             }}>{editionTitleToDisplay}</p>
 
           <p align="center" style={{
               ...styles,
               opacity: this.state.opacity,
-              color: 'white',
+              color: 'black',
               fontSize: 15
             }}>{editionAcronymToDisplay}</p>
           <br/>
           <p align="center" style={{
               ...styles,
               opacity: this.state.opacity,
-              color: 'white',
+              color: 'black',
               fontSize: 15,
               fontFamily: 'Arial'
             }}>{readingMenuIntructions}
@@ -1206,7 +1247,7 @@ class ConnectedApp extends Component {
         </Modal.Body>
 
         <Modal.Footer>
-          <Button bsStyle="primary" onClick={this.toggleShowReadingMenuInstructions}>
+          <Button bsStyle="default" bsSize="small" onClick={this.toggleShowReadingMenuInstructions}>
             Fechar
           </Button>
         </Modal.Footer>
