@@ -71,7 +71,22 @@
   align-items: center;
   justify-content: center;
   margin: 0px auto;
-  width: 70%;
+  width: 50%;
+}
+
+.myVideoThumbnail {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  margin: 0px auto;
+  width: 50%;
+  cursor: pointer;
+}
+
+.ldodIcon {
+  padding: 10px;
+  width: 5%;
 }
 
 /**

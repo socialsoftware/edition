@@ -37,6 +37,7 @@ import 'rc-slider/assets/index.css';
 import 'rc-tooltip/assets/bootstrap.css';
 import ReactPlayer from 'react-player'
 import ldodVideo from '../assets/video-ldod-visual-1.mp4'
+import ldodThumbnail from '../assets/video-thumbnail.png'
 
 import Slider from 'react-rangeslider'
 // import 'react-rangeslider/lib/index.css'
@@ -376,21 +377,11 @@ class ConnectedPublicEditionContainerTable extends React.Component {
     labelsObj[maxNumberOfInters.toString()] = maxNumberOfInters;
     labelsObj[sliderNum.toString()] = sliderNum;
 
-    let instructions = (<div className="instructionsButton">
-      <Button bsStyle="primary" bsSize="large" onClick={this.toggleInstructions}>
-        Mostrar vídeo
-      </Button>
-    </div>)
+    let instructions = (<img src={ldodThumbnail} className="myVideoThumbnail" onClick={this.toggleInstructions}/>)
 
     if (this.state.showInstructions) {
 
       instructions = (<div>
-
-        <div className="instructionsButton">
-          <Button bsStyle="primary" bsSize="large" onClick={this.toggleInstructions}>
-            Esconder vídeo
-          </Button>
-        </div>
 
         <video className="myVideo" controls="controls" autoplay="autoplay">
           <source src={ldodVideo} type="video/mp4"/>
@@ -399,41 +390,20 @@ class ConnectedPublicEditionContainerTable extends React.Component {
       </div>)
     }
     return <div>
-      <img src={ldodIcon} className="loadingGifCentered"/>
 
-      <h3 align="center">
-        <b>Bem-vindo ao LdoD Visual!</b>
-      </h3>
+      <h1 align="center">
+        <b>LdoD</b>
+        <img src={ldodIcon} className="ldodIcon"/>
+        <b>Visual</b>
+      </h1>
 
-      <br/>
-      <br/>
-
-      <p align="center">Aqui poderá escolher e explorar uma das edições virtuais públicas do{" "}
-        <i>"Livro do Desassossego"</i>{" "}
-        disponíveis no {' '}
-        <a href="https://ldod.uc.pt">
-          Arquivo LdoD</a>{' '}
-        recorrendo a técnicas de visualização de informação.
-      </p>
-
-      <p align="center">Poderá criar a sua própria edição virtual e consultar detalhes de outras edições virtuais públicas {' '}
-        <a href="https://ldod.uc.pt/virtualeditions">
-          nesta secção do Arquivo LdoD</a>.
-      </p>
-
-      <p align="center">Recomendamos que visite este{' '}
-        <i>website</i>{' '}
-        num{' '}
-        <i>browser desktop</i>{' '}
-        como{' '}
-        <i>Firefox</i>{' '}
-        ou{' '}
-        <i>Google Chrome</i>,{' '}
-        pois não está disponível uma versão{' '}
-        <i>mobile</i>.
-      </p>
+      <h4 align="center">
+        <b>Bem-vindo ao LdoD Visual! Confira o nosso vídeo de apresentação:</b>
+      </h4>
 
       <br/> {instructions}
+
+      <br/>
 
       <br/>
 
@@ -446,6 +416,18 @@ class ConnectedPublicEditionContainerTable extends React.Component {
       <br/>
       <p align="center">
         Apenas se seleccionar uma edição virtual com categorias disponíveis (taxonomia), poderá realizar actividades à volta das mesmas.
+      </p>
+
+      <p align="center">Recomendamos que visite este{' '}
+        <i>website</i>{' '}
+        num{' '}
+        <i>browser desktop</i>{' '}
+        como{' '}
+        <i>Firefox</i>{' '}
+        ou{' '}
+        <i>Google Chrome</i>,{' '}
+        pois não está disponível uma versão{' '}
+        <i>mobile</i>.
       </p>
 
       <br/>
