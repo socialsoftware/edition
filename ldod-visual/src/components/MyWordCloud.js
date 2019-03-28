@@ -97,16 +97,32 @@ class ConnectedMyWordCloud extends Component {
 
   }
 
+  _handleKeyDownActivity = (event) => {
+
+    var I_KEY = 73;
+
+    switch (event.keyCode) {
+      case I_KEY:
+        this.toggleInstructions();
+        break;
+      default:
+        break;
+
+    }
+
+  }
+
   componentDidMount() {
     //const height = document.getElementById('container').clientHeight;
     //this.setState({containerHeight: height});
+    document.addEventListener("keydown", this._handleKeyDownActivity);
   }
 
   render() {
 
     let instructions = (<div className="instructionsButton">
       <Button bsStyle="primary" bsSize="small" onClick={this.toggleInstructions}>
-        Mostrar instrucções
+        Mostrar instrucções [i]
       </Button>
     </div>)
 
@@ -197,7 +213,7 @@ class ConnectedMyWordCloud extends Component {
 
           <div className="instructionsButton">
             <Button bsStyle="primary" bsSize="small" onClick={this.toggleInstructions}>
-              Esconder instrucções
+              Esconder instrucções [i]
             </Button>
           </div>
 

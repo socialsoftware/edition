@@ -178,7 +178,24 @@ class ConnectedMyHistory extends Component {
     }
   }
 
+  _handleKeyDownActivity = (event) => {
+
+    var I_KEY = 73;
+
+    switch (event.keyCode) {
+      case I_KEY:
+        this.toggleInstructions();
+        break;
+      default:
+        break;
+
+    }
+
+  }
+
   componentDidMount() {
+    document.addEventListener("keydown", this._handleKeyDownActivity);
+
     var historyItems = [];
 
     this.timeline = [];
@@ -293,6 +310,13 @@ class ConnectedMyHistory extends Component {
     //   this.clearLoadingGif();
     // }, 500);
 
+    this.timeline.on("itemover", function(params) {
+      document.getElementById('visualization').style.cursor = 'pointer'
+    });
+    this.timeline.on("itemout", function(params) {
+      document.getElementById('visualization').style.cursor = 'default'
+    });
+
   }
 
   clearLoadingGif() {
@@ -324,7 +348,7 @@ class ConnectedMyHistory extends Component {
 
     let instructions = (<div className="instructionsButton">
       <Button bsStyle="primary" bsSize="small" onClick={this.toggleInstructions}>
-        Mostrar instrucções
+        Mostrar instrucções [i]
       </Button>
     </div>)
 
@@ -364,7 +388,7 @@ class ConnectedMyHistory extends Component {
 
         <div className="instructionsButton">
           <Button bsStyle="primary" bsSize="small" onClick={this.toggleInstructions}>
-            Esconder instrucções
+            Esconder instrucções [i]
           </Button>
         </div>
 

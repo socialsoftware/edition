@@ -496,7 +496,24 @@ class ConnectedSquareGrid extends Component {
     }
   }
 
+  _handleKeyDownActivity = (event) => {
+
+    var I_KEY = 73;
+
+    switch (event.keyCode) {
+      case I_KEY:
+        this.toggleInstructions();
+        break;
+      default:
+        break;
+
+    }
+
+  }
+
   componentDidMount() {
+    document.addEventListener("keydown", this._handleKeyDownActivity);
+
     if (this.props.allFragmentsLoaded) {
       const data = {
         nodes: this.nodes,
@@ -518,6 +535,15 @@ class ConnectedSquareGrid extends Component {
       this.network.on("stabilizationIterationsDone", function() {
         this.network.setOptions({physics: false});
       });
+
+      this.network.on("hoverNode", function(params) {
+        //this.network.canvas.body.container.style.cursor = 'pointer'
+        document.getElementById('gridvis').getElementsByTagName("canvas")[0].style.cursor = 'pointer'
+      });
+      this.network.on("blurNode", function(params) {
+        document.getElementById('gridvis').getElementsByTagName("canvas")[0].style.cursor = 'default'
+      });
+
     }
   }
 
@@ -565,7 +591,7 @@ class ConnectedSquareGrid extends Component {
 
     let instructions = (<div className="instructionsButton">
       <Button bsStyle="primary" bsSize="small" onClick={this.toggleInstructions}>
-        Mostrar instrucções
+        Mostrar instrucções [i]
       </Button>
     </div>)
 
@@ -605,7 +631,7 @@ class ConnectedSquareGrid extends Component {
 
         <div className="instructionsButton">
           <Button bsStyle="primary" bsSize="small" onClick={this.toggleInstructions}>
-            Esconder instrucções
+            Esconder instrucções [i]
           </Button>
         </div>
 

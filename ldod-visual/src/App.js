@@ -176,7 +176,7 @@ class ConnectedApp extends Component {
     this.opacityHide = 0;
     this.opacityShow = 1;
     this.opacityOnText = 0.6;
-    this.opacityBarelyVisible = 0.3;
+    this.opacityBarelyVisible = 0; //antes estava 0.3. ou 0.1
 
     this.categoryButtonFunction = function() {};
     this.datesButtonFunction = function() {};
@@ -218,6 +218,8 @@ class ConnectedApp extends Component {
     this.previousButtonAction = this.previousButtonAction.bind(this);
 
     this.toggleInstructions = this.toggleInstructions.bind(this);
+
+    this.goBackToTop = this.goBackToTop.bind(this);
 
     this.toggleShowReadingMenuInstructions = this.toggleShowReadingMenuInstructions.bind(this);
 
@@ -380,6 +382,10 @@ class ConnectedApp extends Component {
 
   }
 
+  goBackToTop() {
+    scroll.scrollToTop({duration: 500, delay: 0, smooth: 'easeInOutQuart'});
+  }
+
   previousButtonAction() {
 
     if (this.props.recommendationIndex > 0) {
@@ -483,6 +489,7 @@ class ConnectedApp extends Component {
     var X_KEY = 88;
     var O_KEY = 79;
     var R_KEY = 82;
+    var I_KEY = 73;
 
     if (this.props.outOfLandingPage && this.state.inReadingMenu) {
 
@@ -505,6 +512,11 @@ class ConnectedApp extends Component {
         case R_KEY:
           this.handleToggleTextSkimming();
           break;
+        case I_KEY:
+          this.toggleShowReadingMenuInstructions();
+          break;
+        case T_KEY:
+          this.goBackToTop();
         default:
           break;
       }
@@ -800,15 +812,25 @@ class ConnectedApp extends Component {
     let editionAcronymToDisplay = <div/>;
     let changeEdButton = <div/>;
     let readingMenuIntructions = <div/>;
+    let progressBar = <div/>;
+    let goBackToTopButton = <div/>;
     if (this.props.allFragmentsLoaded && this.props.outOfLandingPage) {
 
       editionTitleToDisplay = ("Título da edição virtual seleccionada: " + ReactHtmlParser(this.state.currentEdition.title));
       editionAcronymToDisplay = ("Acrónimo: " + this.state.currentEdition.acronym);
-      changeEdButton = <Button bsStyle="primary" bsSize="small" onClick={this.forcePageReload}>
+      changeEdButton = (<Button bsStyle="primary" bsSize="small" onClick={this.forcePageReload}>
         Escolher outra edição virtual
-      </Button>
-      readingMenuIntructions = <Button bsStyle="primary" bsSize="small" onClick={this.toggleShowReadingMenuInstructions}>
-        Instruções
+      </Button>)
+      readingMenuIntructions = (<Button bsStyle="primary" bsSize="small" onClick={this.toggleShowReadingMenuInstructions}>
+        Instrucções [i]
+      </Button>)
+      progressBar = ((<div className="progress-bar">
+        <div className="filler" style={{
+            width: `${ ((this.props.recommendationIndex + 1) / this.props.recommendationArray.length) * 100}%`
+          }}/>
+      </div>))
+      goBackToTopButton = <Button bsStyle="primary" bsSize="small" onClick={this.goBackToTop}>
+        Voltar ao topo [T]
       </Button>
     }
 
@@ -1085,27 +1107,20 @@ class ConnectedApp extends Component {
               ...styles,
               opacity: this.state.opacity,
               color: 'white',
-              fontSize: 15
-            }}>{readingMenuIntructions}</p>
-
-          <p align="center" style={{
-              ...styles,
-              opacity: this.state.opacity,
-              color: 'white',
-              fontSize: 15
-            }}>{changeEdButton}</p>
+              fontSize: 15,
+              fontFamily: 'Arial'
+            }}>{readingMenuIntructions}
+            {goBackToTopButton}{changeEdButton}</p>
 
         </div>
+
+        {progressBar}
 
       </div>
 
       <Modal show={this.state.showLanding} dialogClassName="custom-modal">
-        <Modal.Header>
-          <Modal.Title></Modal.Title>
-        </Modal.Header>
 
         <Modal.Body>
-
           <div className="landing-activity-style">{this.landingActivityToRender}</div>
         </Modal.Body>
 
@@ -1115,11 +1130,6 @@ class ConnectedApp extends Component {
       </Modal>
 
       <Modal show={this.state.showGlobalView} onHide={this.handleCloseGlobalView} dialogClassName="custom-modal">
-        <Modal.Header closeButton="closeButton">
-          <Modal.Title>
-            Actividade Actual
-          </Modal.Title>
-        </Modal.Header>
 
         <Modal.Body>
           {this.props.currentVisualization}
@@ -1133,11 +1143,6 @@ class ConnectedApp extends Component {
       </Modal>
 
       <Modal show={this.state.showConfig} onHide={this.handleCloseConfig} dialogClassName="custom-modal">
-        <Modal.Header closeButton="closeButton">
-          <Modal.Title>
-            Nova Actividade
-          </Modal.Title>
-        </Modal.Header>
 
         <Modal.Body>
           <ActivityMenu onChange={this.handleCloseModals}/>
@@ -1154,11 +1159,6 @@ class ConnectedApp extends Component {
       </Modal>
 
       <Modal show={this.state.showHistoric} onHide={this.handleCloseHistoric} dialogClassName="custom-modal">
-        <Modal.Header closeButton="closeButton">
-          <Modal.Title>
-            Histórico de leitura
-          </Modal.Title>
-        </Modal.Header>
 
         <Modal.Body>
           <HistoryMenu onChange={this.handleCloseModals}/>
@@ -1173,7 +1173,7 @@ class ConnectedApp extends Component {
 
       <Modal show={this.state.showReadingMenuIntructions} onHide={this.toggleShowReadingMenuInstructions} dialogClassName="custom-modal-instructions">
         <Modal.Header closeButton="closeButton">
-          <Modal.Title>
+          <Modal.Title align="center">
             Instruções do menu de leitura
           </Modal.Title>
         </Modal.Header>

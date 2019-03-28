@@ -417,7 +417,23 @@ class ConnectedNetworkGraph extends Component {
 
   }
 
+  _handleKeyDownActivity = (event) => {
+
+    var I_KEY = 73;
+
+    switch (event.keyCode) {
+      case I_KEY:
+        this.toggleInstructions();
+        break;
+      default:
+        break;
+
+    }
+
+  }
+
   componentDidMount() {
+    document.addEventListener("keydown", this._handleKeyDownActivity);
     const data = {
       nodes: this.nodes,
       edges: this.edges
@@ -461,6 +477,14 @@ class ConnectedNetworkGraph extends Component {
     this.network.on("selectNode", this.handleSelectNode);
     //console.log("randomSeed: " + this.network.getSeed());
 
+    this.network.on("hoverNode", function(params) {
+      //this.network.canvas.body.container.style.cursor = 'pointer'
+      document.getElementById('networkvis').getElementsByTagName("canvas")[0].style.cursor = 'pointer'
+    });
+    this.network.on("blurNode", function(params) {
+      document.getElementById('networkvis').getElementsByTagName("canvas")[0].style.cursor = 'default'
+    });
+
   }
 
   render() {
@@ -487,7 +511,7 @@ class ConnectedNetworkGraph extends Component {
 
     let instructions = (<div className="instructionsButton">
       <Button bsStyle="primary" bsSize="small" onClick={this.toggleInstructions}>
-        Mostrar instrucções
+        Mostrar instrucções [i]
       </Button>
     </div>)
 
@@ -528,7 +552,7 @@ class ConnectedNetworkGraph extends Component {
 
         <div className="instructionsButton">
           <Button bsStyle="primary" bsSize="small" onClick={this.toggleInstructions}>
-            Esconder instrucções
+            Esconder instrucções [i]
           </Button>
         </div>
 
