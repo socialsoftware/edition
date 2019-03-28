@@ -1,216 +1,221 @@
-@font-face {
-  font-family: 'Gingham';
-  src: url('Gingham.woff2') format('woff2'),
-    url('Gingham.woff') format('woff'),
-    url('Gingham.ttf') format('truetype');
-  /*font-weight: normal;
+  /*vertical scrollbar persists so there is no width change bouncing around when changing to larger fragments;*/
+  html {
+    overflow-y: scroll;
+  }
+
+  @font-face {
+    font-family: 'Gingham';
+    src: url('Gingham.woff2') format('woff2'),
+      url('Gingham.woff') format('woff'),
+      url('Gingham.ttf') format('truetype');
+    /*font-weight: normal;
    font-style: normal;
    format('truetype');*/
-}
+  }
 
-@font-face {
-  font-family: 'Amstelvar';
-  src: url('AmstelvarAlpha-VF.ttf') format('truetype');
-  /*font-weight: normal;
+  @font-face {
+    font-family: 'Amstelvar';
+    src: url('AmstelvarAlpha-VF.ttf') format('truetype');
+    /*font-weight: normal;
     font-style: normal;
     format('truetype');*/
-}
+  }
 
-@font-face {
-  font-family: 'AdobeVFPrototype';
-  src: url('AdobeVFPrototype.otf') format('otf'),
-    url('AdobeVFPrototype.ttf') format('ttf')
-    /*font-weight: normal;
+  @font-face {
+    font-family: 'AdobeVFPrototype';
+    src: url('AdobeVFPrototype.otf') format('otf'),
+      url('AdobeVFPrototype.ttf') format('ttf')
+      /*font-weight: normal;
      font-style: normal;
      format('truetype');*/
-}
+  }
 
-.app {
-  display: flex;
-  flex-direction: column;
-  font-family: 'AdobeVFPrototype';
-  /*Gingham; Consolas; Amstelvar;*/
-  font-weight: 200;
-  font-size: 26px;
-  font-weight: 200 900;
-  font-stretch: 35% 100%;
-  font-style: normal;
-  font-display: swap;
-}
+  .app {
+    display: flex;
+    flex-direction: column;
+    font-family: 'AdobeVFPrototype';
+    /*Gingham; Consolas; Amstelvar;*/
+    font-weight: 200;
+    font-size: 26px;
+    font-weight: 200 900;
+    font-stretch: 35% 100%;
+    font-style: normal;
+    font-display: swap;
+  }
 
-.buttonToolbar {
-  display: inline-block;
-  flex-direction: row;
-  position: fixed;
-  align-self: center;
-  margin-top: 30px;
-  font-family: 'Arial';
-  /*Gingham; Consolas; Amstelvar;*/
-}
+  .buttonToolbar {
+    display: inline-block;
+    flex-direction: row;
+    position: fixed;
+    align-self: center;
+    margin-top: 30px;
+    font-family: 'Arial';
+    /*Gingham; Consolas; Amstelvar;*/
+  }
 
-.toggleTextSkimming {
-  font-family: 'Arial';
-  /*Gingham; Consolas; Amstelvar;*/
-  position: fixed;
-  align-self: center;
-  margin-top: 95px;
-}
+  .toggleTextSkimming {
+    font-family: 'Arial';
+    /*Gingham; Consolas; Amstelvar;*/
+    position: fixed;
+    align-self: center;
+    margin-top: 95px;
+  }
 
-.instructionsButton {
-  font-family: 'Arial';
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 20px;
-  margin-bottom: 40px;
-}
+  .instructionsButton {
+    font-family: 'Arial';
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+    margin-bottom: 40px;
+  }
 
-.instructionsText {
-  margin-left: 200px;
-  margin-right: 200px;
-  margin-top: 20px;
-  margin-bottom: 20px;
-  text-align: justify;
-  text-justify: inter-word;
-}
+  .instructionsText {
+    margin-left: 200px;
+    margin-right: 200px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    text-align: justify;
+    text-justify: inter-word;
+  }
 
-.instructionsTextHistory {
-  margin-left: 200px;
-  margin-right: 200px;
-  margin-top: 20px;
-  margin-bottom: 20px;
-  text-align: center
-}
+  .instructionsTextHistory {
+    margin-left: 200px;
+    margin-right: 200px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    text-align: center
+  }
 
-.catTitle {
-  margin-top: 30px;
-}
+  .catTitle {
+    margin-top: 30px;
+  }
 
-Button:not(:last-child) {
-  margin-right: 15px;
-}
+  Button:not(:last-child) {
+    margin-right: 15px;
+  }
 
-.appfrag {}
+  .appfrag {}
 
-.navPrevious {
-  position: fixed;
-  margin-top: 250px;
-  left: 8%;
-}
+  .navPrevious {
+    position: fixed;
+    margin-top: 250px;
+    left: 8%;
+  }
 
-.navNext {
-  position: fixed;
-  margin-top: 250px;
-  left: 88%;
-}
+  .navNext {
+    position: fixed;
+    margin-top: 250px;
+    left: 88%;
+  }
 
-.navigationText {
-  display: inline-block;
-  flex-direction: row;
-  width: 90%;
-}
+  .navigationText {
+    display: inline-block;
+    flex-direction: row;
+    width: 90%;
+  }
 
-.readingMoreInfo {
-  margin-left: 12%;
-  margin-right: 10%;
-  margin-top: 20px;
-  margin-bottom: 20px;
-  text-align: justify;
-}
+  .readingMoreInfo {
+    margin-left: 12%;
+    margin-right: 10%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    text-align: justify;
+  }
 
-.metaInfo {
-  font-size: 10px;
-  margin-left: 30%;
-  margin-right: 30%;
-  margin-bottom: 30px;
-}
+  .metaInfo {
+    font-size: 10px;
+    margin-left: 30%;
+    margin-right: 30%;
+    margin-bottom: 30px;
+  }
 
-.custom-modal-instructions {
-  width: 50%;
-}
+  .custom-modal-instructions {
+    width: 50%;
+  }
 
-.custom-modal {
-  width: 90%;
-}
+  .custom-modal {
+    width: 90%;
+  }
 
-.custom-modal-landing {
-  width: 80%;
-}
+  .custom-modal-landing {
+    width: 80%;
+  }
 
-.buttonToolbarStart {
-  display: inline-block;
-  flex-direction: column;
-  margin: 30px auto;
-}
+  .buttonToolbarStart {
+    display: inline-block;
+    flex-direction: column;
+    margin: 30px auto;
+  }
 
-.landing-activity-style {
-  margin: 0 auto;
-  margin-top: 0 auto;
-  width: 100%;
-  height: 100%;
-}
+  .landing-activity-style {
+    margin: 0 auto;
+    margin-top: 0 auto;
+    width: 100%;
+    height: 100%;
+  }
 
-.loadingGifCentered {
-  display: flex;
-  flex-direction: row;
-  margin: 25px auto;
-  width: 10%;
-  height: 10%;
-}
+  .loadingGifCentered {
+    display: flex;
+    flex-direction: row;
+    margin: 25px auto;
+    width: 10%;
+    height: 10%;
+  }
 
-.goldenButton {
-  background: linear-gradient(to bottom, #ECC129 0%, #FFD700 90%);
-  color: #000000;
-  border: 3px solid #ECC129;
-  padding: 5px 10px;
-  border-radius: 2px;
-  font-size: 20px;
-  margin-bottom: 5px;
-}
+  .goldenButton {
+    background: linear-gradient(to bottom, #ECC129 0%, #FFD700 90%);
+    color: #000000;
+    border: 3px solid #ECC129;
+    padding: 5px 10px;
+    border-radius: 2px;
+    font-size: 20px;
+    margin-bottom: 5px;
+  }
 
-.goldenButton:hover {
-  background: #FAD004;
-}
+  .goldenButton:hover {
+    background: #FAD004;
+  }
 
-.goldenButton:active {
-  background: #F4E5C0;
-}
+  .goldenButton:active {
+    background: #F4E5C0;
+  }
 
-.goldenButtonInactive {
-  background: linear-gradient(to bottom, #ADADAD 0%, #F3F3F3 90%);
-  color: #000000;
-  border: 3px solid #ADADAD;
-  padding: 5px 10px;
-  border-radius: 2px;
-  font-size: 20px;
-  margin-bottom: 5px;
-}
+  .goldenButtonInactive {
+    background: linear-gradient(to bottom, #ADADAD 0%, #F3F3F3 90%);
+    color: #000000;
+    border: 3px solid #ADADAD;
+    padding: 5px 10px;
+    border-radius: 2px;
+    font-size: 20px;
+    margin-bottom: 5px;
+  }
 
-.navPreviousGolden {
-  left: 8.2%;
-  position: fixed;
-  margin-top: 320px;
-}
+  .navPreviousGolden {
+    left: 8.2%;
+    position: fixed;
+    margin-top: 320px;
+  }
 
-.navNextGolden {
-  position: fixed;
-  margin-top: 320px;
-  left: 88.2%;
-}
+  .navNextGolden {
+    position: fixed;
+    margin-top: 320px;
+    left: 88.2%;
+  }
 
-.progress-bar {
-  position: fixed;
-  top: 99%;
-  height: 15px;
-  width: 100%;
-  border-radius: 0px;
-  border: 1px solid #265A88;
-  /*test*/
-}
+  .progress-bar {
+    position: fixed;
+    top: 99%;
+    height: 15px;
+    width: 100%;
+    border-radius: 0px;
+    border: 1px solid #265A88;
+    /*test*/
+  }
 
-.filler {
-  background: #46a8fc;
-  height: 100%;
-  border-radius: inherit;
-  transition: width .2s ease-in;
-}
+  .filler {
+    background: #46a8fc;
+    height: 100%;
+    border-radius: inherit;
+    transition: width .2s ease-in;
+  }
