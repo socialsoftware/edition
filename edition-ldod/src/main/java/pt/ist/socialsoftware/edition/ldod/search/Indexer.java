@@ -110,7 +110,7 @@ public class Indexer {
 		return getResults(query);
 	}
 
-	public List<String> search(String words, FragInter inter) throws IOException, ParseException {
+	public List<String> search(String words, ScholarInter inter) throws IOException, ParseException {
 		String query = absoluteSearch(words);
 		query = ID + ":" + inter.getExternalId() + " AND " + query;
 		return getResults(query);
@@ -226,7 +226,7 @@ public class Indexer {
 		return getTermCount(query);
 	}
 
-	public Map<String, Double> getTermFrequency(FragInter inter) throws IOException, ParseException {
+	public Map<String, Double> getTermFrequency(ScholarInter inter) throws IOException, ParseException {
 		String queryString = ID + ":" + inter.getExternalId();
 		Query query = this.queryParser.parse(queryString);
 		return getTermCount(query);
