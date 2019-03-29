@@ -254,6 +254,26 @@ class ConnectedApp extends Component {
     this.previousFragmentButtonStyle = this.availablePreviousArrowButton
     this.nextFragmentButtonStyle = this.availableNextArrowButton
 
+    //botões dourados
+    this.navArrowWidthGolden = "50px";
+
+    this.availablePreviousArrowButtonGolden = <img src={availablePreviousArrowGolden} onClick={this.handlePreviousGoldenButton} style={{
+        width: this.navArrowWidthGolden,
+        cursor: "pointer"
+      }}/>
+    this.unavailablePreviousArrowButtonGolden = <img src={unavailablePreviousArrowGolden} style={{
+        width: this.navArrowWidthGolden
+      }}/>
+
+    this.availableNextArrowButtonGolden = <img src={availableNextArrowGolden} onClick={this.handleNextGoldenButton} style={{
+        width: this.navArrowWidthGolden,
+        cursor: "pointer"
+      }}/>
+    this.unavailableNextArrowButtonGolden = <img src={unavailableNextArrowGolden} style={{
+        width: this.navArrowWidthGolden
+      }}/>
+    //fim botões dourados
+
   }
 
   toggleShowReadingMenuInstructions() {
@@ -835,10 +855,11 @@ class ConnectedApp extends Component {
         </div>)
       }
     }
+
     let previousNavButton = <div/>;
     let previousNavButtonGold = <div/>;
     let nextNavButton = <div/>;
-    let nextNavButtonGold = <div/>;
+    let nextNavButtonGold = <div/>
     let editionTitleToDisplay = <div/>;
     let editionAcronymToDisplay = <div/>;
     let changeEdButton = <div/>;
@@ -936,8 +957,8 @@ class ConnectedApp extends Component {
             goldenNextLabel = "Próximo fragmento da categoria seleccionada (" + this.props.currentCategory + ")"
           }
 
-          let goldenPreviousButtonClass = "goldenButtonInactive"
-          let goldenNextButtonClass = "goldenButtonInactive"
+          let goldenPreviousButtonArrow = this.unavailablePreviousArrowButtonGolden;
+          let goldenNextButtonArrow = this.unavailableNextArrowButtonGolden;
 
           let goldenPreviousButtonFun = function() {}; //this.handlePreviousGoldenButton
           let goldenNextButtonFun = function() {}; //this.handleNextGoldenButton
@@ -955,7 +976,7 @@ class ConnectedApp extends Component {
                 goldenSelectionCritCondition = (this.props.recommendationArray[j].meta.categories.includes(this.props.currentCategory));
               }
               if (goldenSelectionCritCondition) {
-                goldenNextButtonClass = "goldenButton";
+                goldenNextButtonArrow = this.availableNextArrowButtonGolden;
                 goldenNextButtonFun = this.handleNextGoldenButton;
                 this.nextGoldenSquareIndex = j;
                 break;
@@ -976,7 +997,7 @@ class ConnectedApp extends Component {
                 goldenSelectionCritCondition = (this.props.recommendationArray[n].meta.categories.includes(this.props.currentCategory));
               }
               if (goldenSelectionCritCondition) {
-                goldenPreviousButtonClass = "goldenButton";
+                goldenPreviousButtonArrow = this.availablePreviousArrowButtonGolden;
                 goldenPreviousButtonFun = this.handlePreviousGoldenButton;
                 this.previousGoldenSquareIndex = n;
                 break;
@@ -985,24 +1006,6 @@ class ConnectedApp extends Component {
           }
 
           // end of golden buttons availability verification
-
-          this.navArrowWidthGolden = "5px";
-
-          this.availablePreviousArrowButtonGolden = <img src={availablePreviousArrowGolden} onClick={goldenPreviousButtonFun} style={{
-              width: this.navArrowWidthGolden,
-              cursor: "pointer"
-            }}/>
-          this.unavailablePreviousArrowButtonGolden = <img src={unavailablePreviousArrowGolden} style={{
-              width: this.navArrowWidthGolden
-            }}/>
-
-          this.availableNextArrowButtonGolden = <img src={availableNextArrowGolden} onClick={goldenPreviousButtonFun} style={{
-              width: this.navArrowWidthGolden,
-              cursor: "pointer"
-            }}/>
-          this.unavailableNextArrowButtonGolden = <img src={unavailableNextArrowGolden} style={{
-              width: this.navArrowWidthGolden
-            }}/>
 
           previousNavButtonGold = (<div onMouseOver={this.setMouseOverMenuButtons} onMouseLeave={this.setMouseOutMenuButtons} className="navPreviousGolden" style={{
               ...styles,
@@ -1013,9 +1016,7 @@ class ConnectedApp extends Component {
               } > {
                 goldenPreviousLabel
               } < /Tooltip>}>
-              <button className={goldenPreviousButtonClass} onClick={goldenPreviousButtonFun}>
-                ←
-              </button>
+              {goldenPreviousButtonArrow}
             </OverlayTrigger>
           </div>)
 
@@ -1028,9 +1029,7 @@ class ConnectedApp extends Component {
               } > {
                 goldenNextLabel
               } < /Tooltip>}>
-              <button className={goldenNextButtonClass} onClick={goldenNextButtonFun}>
-                →
-              </button>
+              {goldenNextButtonArrow}
             </OverlayTrigger>
           </div>)
 
