@@ -29,6 +29,7 @@ import picSquareGolden from '../assets/card-pics-regular/square-golden.png';
 import picSquareTime from '../assets/card-pics-regular/square-time.png';
 import picWordCloud from '../assets/card-pics-regular/word-cloud.png';
 import picTimeline from '../assets/card-pics-regular/timeline.png';
+import picWordCloudSingular from '../assets/card-pics-regular/word-cloud-singular.png';
 
 import picNetgraphGray from '../assets/card-pics-gray/netgraph-gray.png';
 import picSquareGray from '../assets/card-pics-gray/square-gray.png';
@@ -36,6 +37,7 @@ import picSquareGoldenGray from '../assets/card-pics-gray/square-golden-gray.png
 import picSquareTimeGray from '../assets/card-pics-gray/square-time-gray.png';
 import picWordCloudGray from '../assets/card-pics-gray/word-cloud-gray.png';
 import picTimelineGray from '../assets/card-pics-gray/timeline-gray.png';
+import picWordCloudSingularGray from '../assets/card-pics-gray/word-cloud-singular-gray.png';
 
 const mapDispatchToProps = dispatch => {
   return {
@@ -372,7 +374,7 @@ class ConnectedActivityMenu extends Component {
 
       let wordCloudSingleFragmentMessage = "Explorar mais fragmentos da(s) mesma(s) categoria(s) deste fragmento";
       let wordCloudSingleFragmentButtonStyle = "primary";
-      let wordCloudSingleFragmentImage = picWordCloud;
+      let wordCloudSingleFragmentImage = picWordCloudSingular;
       let wordCloudSingleBotMessage = activitySelectable;
 
       // console.log("blebleblebleble")
@@ -381,7 +383,7 @@ class ConnectedActivityMenu extends Component {
       if (this.props.recommendationArray[this.props.recommendationIndex].meta.categories.length == 0) {
         wordCloudSingleFragmentMessage = "Explorar mais fragmentos da(s) mesma(s) categoria(s) deste fragmento (fragmento actual sem categorias)";
         wordCloudSingleFragmentButtonStyle = "default";
-        wordCloudSingleFragmentImage = picWordCloudGray;
+        wordCloudSingleFragmentImage = picWordCloudSingularGray;
         wordCloudSingleBotMessage = activityUnselectable;
       }
 
@@ -427,22 +429,6 @@ class ConnectedActivityMenu extends Component {
 
           <div className="cardActivity">
             <div className="containerActivity">
-              <img src={heteronymImage} onClick={this.toggleSquareGridHeteronym} className="cardsActivityImage" alt="Avatar" style={{
-                  width: "100%"
-                }}/>
-              <p align="center">
-                <b>Explorar mais fragmentos assinados pelo mesmo heterónimo deste fragmento ({myHeteronym})</b>
-              </p>
-              <div className="welcomeButtonActivity">
-                <Button bsStyle={heteronymButtonStyle} bsSize="small" onClick={this.toggleSquareGridHeteronym}>
-                  {heteronymButtonBotMessage + " [H]"}
-                </Button>
-              </div>
-            </div>
-          </div>
-
-          <div className="cardActivity">
-            <div className="containerActivity">
               <img src={categoryImage} onClick={this.toggleWordCloudTaxonomy} className="cardsActivityImage" alt="Avatar" style={{
                   width: "100%"
                 }}/>
@@ -459,22 +445,6 @@ class ConnectedActivityMenu extends Component {
 
           <div className="cardActivity">
             <div className="containerActivity">
-              <img src={wordCloudSingleFragmentImage} onClick={this.toggleWordCloudTaxonomySingleFragment} className="cardsActivityImage" alt="Avatar" style={{
-                  width: "100%"
-                }}/>
-              <p align="center">
-                <b>{wordCloudSingleFragmentMessage}</b>
-              </p>
-              <div className="welcomeButtonActivity">
-                <Button bsStyle={wordCloudSingleFragmentButtonStyle} bsSize="small" onClick={this.toggleWordCloudTaxonomySingleFragment}>
-                  {wordCloudSingleBotMessage + " [C]"}
-                </Button>
-              </div>
-            </div>
-          </div>
-
-          <div className="cardActivity">
-            <div className="containerActivity">
               <img src={datesSimilarImage} onClick={this.toggleActivityMyHistoryDate} className="cardsActivityImage" alt="Avatar" style={{
                   width: "100%"
                 }}/>
@@ -484,6 +454,38 @@ class ConnectedActivityMenu extends Component {
               <div className="welcomeButtonActivity">
                 <Button bsStyle={datesSimilarButtonStyle} bsSize="small" onClick={this.toggleActivityMyHistoryDate}>
                   {datesSimilarButtonBotMessage + " [V]"}
+                </Button>
+              </div>
+            </div>
+          </div>
+
+          <div className="cardActivity">
+            <div className="containerActivity">
+              <img src={heteronymImage} onClick={this.toggleSquareGridHeteronym} className="cardsActivityImage" alt="Avatar" style={{
+                  width: "100%"
+                }}/>
+              <p align="center">
+                <b>Explorar mais fragmentos assinados pelo mesmo heterónimo deste fragmento ({myHeteronym})</b>
+              </p>
+              <div className="welcomeButtonActivity">
+                <Button bsStyle={heteronymButtonStyle} bsSize="small" onClick={this.toggleSquareGridHeteronym}>
+                  {heteronymButtonBotMessage + " [H]"}
+                </Button>
+              </div>
+            </div>
+          </div>
+
+          <div className="cardActivity">
+            <div className="containerActivity">
+              <img src={wordCloudSingleFragmentImage} onClick={this.toggleWordCloudTaxonomySingleFragment} className="cardsActivityImage" alt="Avatar" style={{
+                  width: "100%"
+                }}/>
+              <p align="center">
+                <b>{wordCloudSingleFragmentMessage}</b>
+              </p>
+              <div className="welcomeButtonActivity">
+                <Button bsStyle={wordCloudSingleFragmentButtonStyle} bsSize="small" onClick={this.toggleWordCloudTaxonomySingleFragment}>
+                  {wordCloudSingleBotMessage + " [C]"}
                 </Button>
               </div>
             </div>

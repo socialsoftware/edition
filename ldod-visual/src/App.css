@@ -3,6 +3,22 @@
     overflow-y: scroll;
   }
 
+  /*necessario para evitar que uma modal box, quando aberta, altere a width da pagina. tradeoff: double scrollbar*/
+  body {
+    padding-right: 0px !important;
+    background-color: floralwhite;
+  }
+
+  .custom-modal-instructions {
+    width: 50%;
+    /* overflow-y: auto; nao parece necessario para evitar que a modal box aberta altere a width da pagina */
+  }
+
+  .custom-modal {
+    width: 90%;
+    /* overflow-y: auto; nao parece necessario para evitar que a modal box aberta altere a width da pagina */
+  }
+
   @font-face {
     font-family: 'Gingham';
     src: url('Gingham.woff2') format('woff2'),
@@ -31,6 +47,8 @@
   }
 
   .app {
+    background-color: inherit;
+    /*#fff #fffbf7 floralwhite white*/
     display: flex;
     flex-direction: column;
     font-family: 'AdobeVFPrototype';
@@ -43,14 +61,36 @@
     font-display: swap;
   }
 
-  .buttonToolbar {
-    display: inline-block;
-    flex-direction: row;
+  .buttonToolbarBanner {
     position: fixed;
-    align-self: center;
-    margin-top: 30px;
+    top: 0;
+    width: 100%;
+    background-color: #4C4C4C;
+    height: 50px;
+  }
+
+  .firstLessFocusButtons {
+    margin-right: auto;
+    margin-left: 10px;
+  }
+
+  .buttonToolbar {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
     font-family: 'Arial';
     /*Gingham; Consolas; Amstelvar;*/
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+
+  .lessFocusButtons {
+    margin-left: auto;
+    margin-right: 10px;
+  }
+
+  Button:not(:last-child) {
+    margin-right: 5px;
   }
 
   .toggleTextSkimming {
@@ -66,8 +106,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-top: 20px;
-    margin-bottom: 40px;
+    margin-top: 5px;
+    margin-bottom: 5px;
   }
 
   .instructionsText {
@@ -91,22 +131,34 @@
     margin-top: 30px;
   }
 
-  Button:not(:last-child) {
-    margin-right: 15px;
+  .navReadSection {
+    display: inline-block;
+    flex-direction: row;
+    align-self: center;
   }
-
-  .appfrag {}
 
   .navPrevious {
     position: fixed;
     margin-top: 250px;
-    left: 8%;
+    right: 90%;
   }
 
   .navNext {
     position: fixed;
     margin-top: 250px;
-    left: 88%;
+    left: 90%;
+  }
+
+  .navPreviousGolden {
+    position: fixed;
+    margin-top: 400px;
+    right: 91%;
+  }
+
+  .navNextGolden {
+    position: fixed;
+    margin-top: 400px;
+    left: 91%;
   }
 
   .navigationText {
@@ -128,18 +180,7 @@
     margin-left: 30%;
     margin-right: 30%;
     margin-bottom: 30px;
-  }
-
-  .custom-modal-instructions {
-    width: 50%;
-  }
-
-  .custom-modal {
-    width: 90%;
-  }
-
-  .custom-modal-landing {
-    width: 80%;
+    margin-top: 100px;
   }
 
   .buttonToolbarStart {
@@ -191,30 +232,20 @@
     margin-bottom: 5px;
   }
 
-  .navPreviousGolden {
-    left: 8.2%;
-    position: fixed;
-    margin-top: 320px;
-  }
-
-  .navNextGolden {
-    position: fixed;
-    margin-top: 320px;
-    left: 88.2%;
-  }
-
   .progress-bar {
     position: fixed;
     top: 99%;
     height: 15px;
     width: 100%;
     border-radius: 0px;
-    border: 1px solid #265A88;
+    border: 1px solid black;
+    background: #808080;
     /*test*/
   }
 
   .filler {
-    background: #46a8fc;
+    background: #3379B5;
+    /* #46a8fc; #3379B5 #265A88*/
     height: 100%;
     border-radius: inherit;
     transition: width .2s ease-in;

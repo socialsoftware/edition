@@ -1,20 +1,19 @@
 .box {
-  width: 60%;
-  background-color: #fff;
+  width: 70%;
+  background-color: inherit;
   margin: 0 auto;
   padding: 40px;
   text-align: justify;
   border-radius: 20px;
-  box-shadow: 0 10px 70px rgba(0,0,0,0.4);
+  /* box-shadow: 0 10px 70px rgba(0,0,0,0.4); */
   margin-bottom: 2%;
-  margin-top: 180px;
+  margin-top: 30px;
 }
 
-.loadingGifCentered{
+.loadingGifCentered {
   display: flex;
   flex-direction: row;
   margin: 25px auto;
   width: 10%;
   height: 10%;
-
 }

@@ -67,6 +67,16 @@ import picWordCloudGray from './assets/card-pics-gray/word-cloud-gray.png';
 
 import HashMap from "hashmap";
 
+import availablePreviousArrow from './assets/available-previous.png'
+import availableNextArrow from './assets/available-next.png'
+import unavailablePreviousArrow from './assets/unavailable-previous.png'
+import unavailableNextArrow from './assets/unavailable-next.png'
+
+import availableNextArrowGolden from './assets/goldnav/available-next-golden.png'
+import availablePreviousArrowGolden from './assets/goldnav/available-previous-golden.png'
+import unavailablePreviousArrowGolden from './assets/goldnav/unavailable-previous-golden.png'
+import unavailableNextArrowGolden from './assets/goldnav/unavailable-next-golden.png'
+
 const mapStateToProps = state => {
   return {
     fragments: state.fragments,
@@ -143,9 +153,6 @@ class ConnectedApp extends Component {
     this.handleEditionSelectRetreat = this.handleEditionSelectRetreat.bind(this)
     this.handleFirstActivitySelectRetreat = this.handleFirstActivitySelectRetreat.bind(this)
 
-    this.previousFragmentButtonStyle = "primary";
-    this.nextFragmentButtonStyle = "primary";
-
     this.state = {
       previousFragmentButtonStyle: "primary",
       nextFragmentButtonStyle: "primary",
@@ -175,7 +182,7 @@ class ConnectedApp extends Component {
 
     this.opacityHide = 0;
     this.opacityShow = 1;
-    this.opacityOnText = 0.6;
+    this.opacityOnText = 0.8;
     this.opacityBarelyVisible = 0; //antes estava 0.3. ou 0.1
 
     this.categoryButtonFunction = function() {};
@@ -222,6 +229,50 @@ class ConnectedApp extends Component {
     this.goBackToTop = this.goBackToTop.bind(this);
 
     this.toggleShowReadingMenuInstructions = this.toggleShowReadingMenuInstructions.bind(this);
+
+    this.navArrowWidth = "100px";
+
+    this.availablePreviousArrowButton = <img src={availablePreviousArrow} onClick={this.previousButtonAction} style={{
+        width: this.navArrowWidth,
+        cursor: "pointer"
+      }}/>
+    this.unavailablePreviousArrowButton = <img src={unavailablePreviousArrow} style={{
+        width: this.navArrowWidth
+      }}/>
+
+    this.availableNextArrowButton = <img src={availableNextArrow} onClick={this.nextButtonAction} style={{
+        width: this.navArrowWidth,
+        cursor: "pointer"
+      }}/>
+    this.unavailableNextArrowButton = <img src={unavailableNextArrow} style={{
+        width: this.navArrowWidth
+      }}/>
+
+    this.previousFragmentButtonStyle = this.availablePreviousArrowButton
+    this.nextFragmentButtonStyle = this.availableNextArrowButton
+
+    this.previousFragmentButtonStyle = this.availablePreviousArrowButton
+    this.nextFragmentButtonStyle = this.availableNextArrowButton
+
+    //botões dourados
+    this.navArrowWidthGolden = "50px";
+
+    this.availablePreviousArrowButtonGolden = <img src={availablePreviousArrowGolden} onClick={this.handlePreviousGoldenButton} style={{
+        width: this.navArrowWidthGolden,
+        cursor: "pointer"
+      }}/>
+    this.unavailablePreviousArrowButtonGolden = <img src={unavailablePreviousArrowGolden} style={{
+        width: this.navArrowWidthGolden
+      }}/>
+
+    this.availableNextArrowButtonGolden = <img src={availableNextArrowGolden} onClick={this.handleNextGoldenButton} style={{
+        width: this.navArrowWidthGolden,
+        cursor: "pointer"
+      }}/>
+    this.unavailableNextArrowButtonGolden = <img src={unavailableNextArrowGolden} style={{
+        width: this.navArrowWidthGolden
+      }}/>
+    //fim botões dourados
 
   }
 
@@ -358,10 +409,10 @@ class ConnectedApp extends Component {
     //console.log('_onAction', e)
     // console.log('mouseOverMenuButtons: ' + this.state.mouseOverMenuButtons);
 
-    if (window.scrollY < 36 & !this.state.mouseOverMenuButtons & !this.state.hiddenFromIdle) {
+    if (window.scrollY < 48 & !this.state.mouseOverMenuButtons & !this.state.hiddenFromIdle) {
 
       this.setState({opacity: this.opacityShow, hiddenFromIdle: false})
-    } else if (window.scrollY > 36 & !this.state.mouseOverMenuButtons & !this.state.hiddenFromIdle) {
+    } else if (window.scrollY > 48 & !this.state.mouseOverMenuButtons & !this.state.hiddenFromIdle) {
 
       this.setState({opacity: this.opacityOnText, hiddenFromIdle: false})
     } else if (this.state.mouseOverMenuButtons) {
@@ -675,15 +726,15 @@ class ConnectedApp extends Component {
       // console.log("App.js: fragmentIndex: " + this.props.fragmentIndex)
       if (this.props.recommendationIndex == 0) {
         // console.log("App.js: changing previous button style to default");
-        this.previousFragmentButtonStyle = "default";
-        this.nextFragmentButtonStyle = "primary";
+        this.previousFragmentButtonStyle = this.unavailablePreviousArrowButton;
+        this.nextFragmentButtonStyle = this.availableNextArrowButton;
       } else if (this.props.recommendationIndex === (this.props.recommendationArray.length - 1)) {
         // console.log("App.js: changing next button style to default");
-        this.previousFragmentButtonStyle = "primary";
-        this.nextFragmentButtonStyle = "default";
+        this.previousFragmentButtonStyle = this.availablePreviousArrowButton;
+        this.nextFragmentButtonStyle = this.unavailableNextArrowButton;
       } else {
-        this.previousFragmentButtonStyle = "primary";
-        this.nextFragmentButtonStyle = "primary";
+        this.previousFragmentButtonStyle = this.availablePreviousArrowButton;
+        this.nextFragmentButtonStyle = this.availableNextArrowButton;
         // console.log("App.js: changing both button styles to primary")
       }
     }
@@ -804,32 +855,48 @@ class ConnectedApp extends Component {
         </div>)
       }
     }
+
     let previousNavButton = <div/>;
     let previousNavButtonGold = <div/>;
     let nextNavButton = <div/>;
-    let nextNavButtonGold = <div/>;
+    let nextNavButtonGold = <div/>
     let editionTitleToDisplay = <div/>;
     let editionAcronymToDisplay = <div/>;
     let changeEdButton = <div/>;
     let readingMenuIntructions = <div/>;
     let progressBar = <div/>;
     let goBackToTopButton = <div/>;
+    let textSkimmingButtonJsx = <div/>;
+    let bannerClassName = "";
     if (this.props.allFragmentsLoaded && this.props.outOfLandingPage) {
+
+      bannerClassName = "buttonToolbarBanner";
+
+      let toggleTextSkimmingButtonMessage;
+      if (this.state.toggleTextSkimming && this.props.outOfLandingPage) {
+        toggleTextSkimmingButtonMessage = "Esconder palavras mais relevantes [R]";
+      } else if (this.props.outOfLandingPage) {
+        toggleTextSkimmingButtonMessage = "Destacar palavras mais relevantes [R]";
+      }
+
+      textSkimmingButtonJsx = (<Button bsStyle="default" bsSize="small" onClick={this.handleToggleTextSkimming} onMouseOver={this.setMouseOverMenuButtons} onMouseLeave={this.setMouseOutMenuButtons}>
+        {toggleTextSkimmingButtonMessage}
+      </Button>)
 
       editionTitleToDisplay = ("Título da edição virtual seleccionada: " + ReactHtmlParser(this.state.currentEdition.title));
       editionAcronymToDisplay = ("Acrónimo: " + this.state.currentEdition.acronym);
-      changeEdButton = (<Button bsStyle="primary" bsSize="small" onClick={this.forcePageReload}>
+      changeEdButton = (<Button bsStyle="default" bsSize="small" onClick={this.forcePageReload}>
         Escolher outra edição virtual
       </Button>)
-      readingMenuIntructions = (<Button bsStyle="primary" bsSize="small" onClick={this.toggleShowReadingMenuInstructions}>
+      readingMenuIntructions = (<Button bsStyle="default" bsSize="small" onClick={this.toggleShowReadingMenuInstructions}>
         Instrucções [i]
       </Button>)
-      progressBar = ((<div className="progress-bar">
+      progressBar = ((<div className="progress-bar" onMouseOver={this.setMouseOverMenuButtons} onMouseLeave={this.setMouseOutMenuButtons}>
         <div className="filler" style={{
             width: `${ ((this.props.recommendationIndex + 1) / this.props.recommendationArray.length) * 100}%`
           }}/>
       </div>))
-      goBackToTopButton = <Button bsStyle="primary" bsSize="small" onClick={this.goBackToTop}>
+      goBackToTopButton = <Button bsStyle="default" bsSize="small" onClick={this.goBackToTop}>
         Voltar ao topo [T]
       </Button>
     }
@@ -847,14 +914,10 @@ class ConnectedApp extends Component {
       //→ ⟶ ⇨ ⮕ 🡒 🡆 🠚 → 🠒 🠪 🠮 🠲 🡢 🢂
 
       //previousNavButton = <NavigationButton nextButton={false}/>;
-      previousNavButton = (<Button bsStyle={this.previousFragmentButtonStyle} bsSize="large" onClick={this.previousButtonAction}>
-        ←
-      </Button>);
+      previousNavButton = this.previousFragmentButtonStyle;
 
       //nextNavButton = <NavigationButton nextButton={true}/>;
-      nextNavButton = (<Button bsStyle={this.nextFragmentButtonStyle} bsSize="large" onClick={this.nextButtonAction}>
-        →
-      </Button>);
+      nextNavButton = this.nextFragmentButtonStyle;
 
       if (this.props.visualizationTechnique == VIS_SQUARE_GRID) {
 
@@ -894,8 +957,8 @@ class ConnectedApp extends Component {
             goldenNextLabel = "Próximo fragmento da categoria seleccionada (" + this.props.currentCategory + ")"
           }
 
-          let goldenPreviousButtonClass = "goldenButtonInactive"
-          let goldenNextButtonClass = "goldenButtonInactive"
+          let goldenPreviousButtonArrow = this.unavailablePreviousArrowButtonGolden;
+          let goldenNextButtonArrow = this.unavailableNextArrowButtonGolden;
 
           let goldenPreviousButtonFun = function() {}; //this.handlePreviousGoldenButton
           let goldenNextButtonFun = function() {}; //this.handleNextGoldenButton
@@ -913,7 +976,7 @@ class ConnectedApp extends Component {
                 goldenSelectionCritCondition = (this.props.recommendationArray[j].meta.categories.includes(this.props.currentCategory));
               }
               if (goldenSelectionCritCondition) {
-                goldenNextButtonClass = "goldenButton";
+                goldenNextButtonArrow = this.availableNextArrowButtonGolden;
                 goldenNextButtonFun = this.handleNextGoldenButton;
                 this.nextGoldenSquareIndex = j;
                 break;
@@ -934,7 +997,7 @@ class ConnectedApp extends Component {
                 goldenSelectionCritCondition = (this.props.recommendationArray[n].meta.categories.includes(this.props.currentCategory));
               }
               if (goldenSelectionCritCondition) {
-                goldenPreviousButtonClass = "goldenButton";
+                goldenPreviousButtonArrow = this.availablePreviousArrowButtonGolden;
                 goldenPreviousButtonFun = this.handlePreviousGoldenButton;
                 this.previousGoldenSquareIndex = n;
                 break;
@@ -953,9 +1016,7 @@ class ConnectedApp extends Component {
               } > {
                 goldenPreviousLabel
               } < /Tooltip>}>
-              <button className={goldenPreviousButtonClass} onClick={goldenPreviousButtonFun}>
-                ←
-              </button>
+              {goldenPreviousButtonArrow}
             </OverlayTrigger>
           </div>)
 
@@ -968,46 +1029,48 @@ class ConnectedApp extends Component {
               } > {
                 goldenNextLabel
               } < /Tooltip>}>
-              <button className={goldenNextButtonClass} onClick={goldenNextButtonFun}>
-                →
-              </button>
+              {goldenNextButtonArrow}
             </OverlayTrigger>
           </div>)
 
         }
       }
-      this.buttonToolBarToRender = (<div className="buttonToolbar" style={{
-          ...styles,
-          opacity: this.state.opacity
-        }}>
+      // this.buttonToolBarToRender = (<div className="buttonToolbar" style={{
+      //     ...styles,
+      //     opacity: this.state.opacity
+      //   }}>
+
+      this.buttonToolBarToRender = (<div className="buttonToolbar">
+
+        <ButtonToolbar onMouseOver={this.setMouseOverMenuButtons} onMouseLeave={this.setMouseOutMenuButtons}>
+          {textSkimmingButtonJsx}
+        </ButtonToolbar>
 
         <ButtonToolbar onMouseOver={this.setMouseOverMenuButtons} onMouseLeave={this.setMouseOutMenuButtons}>
 
-          <Button bsStyle="primary" bsSize="large" onClick={this.handleShowGlobalView}>
+          <Button bsStyle="default" bsSize="small" onClick={this.handleShowGlobalView}>
             Actividade actual [A]
           </Button>
 
-          <Button bsStyle="primary" bsSize="large" onClick={this.handleShowConfig}>
+          <Button bsStyle="default" bsSize="small" onClick={this.handleShowConfig}>
             Nova actividade [N]
           </Button>
 
-          <Button bsStyle="primary" bsSize="large" onClick={this.handleShowHistoric}>
+          <Button bsStyle="default" bsSize="small" onClick={this.handleShowHistoric}>
             Histórico de leitura [H]
           </Button>
 
+        </ButtonToolbar>
+
+        <ButtonToolbar onMouseOver={this.setMouseOverMenuButtons} onMouseLeave={this.setMouseOutMenuButtons}>
+          {readingMenuIntructions}
+          {changeEdButton}
         </ButtonToolbar>
 
       </div>)
     } else {
 
       this.buttonToolBarToRender = <div/>;
-    }
-
-    let toggleTextSkimmingButtonMessage;
-    if (this.state.toggleTextSkimming && this.props.outOfLandingPage) {
-      toggleTextSkimmingButtonMessage = "Esconder as palavras mais relevantes deste fragmento [R]";
-    } else if (this.props.outOfLandingPage) {
-      toggleTextSkimmingButtonMessage = "Destacar as palavras mais relevantes deste fragmento [R]";
     }
 
     let fragLoader;
@@ -1043,16 +1106,12 @@ class ConnectedApp extends Component {
         </Helmet>
       </div>
 
-      {this.buttonToolBarToRender}
-
-      <div className="toggleTextSkimming" style={{
+      <div className={bannerClassName} onMouseOver={this.setMouseOverMenuButtons} onMouseLeave={this.setMouseOutMenuButtons} style={{
           ...styles,
           opacity: this.state.opacity
         }}>
 
-        <Button bsStyle="primary" bsSize="large" onClick={this.handleToggleTextSkimming} onMouseOver={this.setMouseOverMenuButtons} onMouseLeave={this.setMouseOutMenuButtons}>
-          {toggleTextSkimmingButtonMessage}
-        </Button>
+        {this.buttonToolBarToRender}
 
       </div>
 
@@ -1065,6 +1124,8 @@ class ConnectedApp extends Component {
           {previousNavButton}
         </div>
 
+        {previousNavButtonGold}
+
         <div onMouseOver={this.setMouseOverMenuButtons} onMouseLeave={this.setMouseOutMenuButtons} className="navNext" style={{
             ...styles,
             opacity: this.state.opacity
@@ -1072,17 +1133,11 @@ class ConnectedApp extends Component {
           {nextNavButton}
         </div>
 
-        {previousNavButtonGold}
-
         {nextNavButtonGold}
 
-        <div className="appfrag" onMouseOver={this.setMouseOutMenuButtons} /*onMouseLeave={this.setMouseOverMenuButtons}*/
-
-        >
+        <div onMouseOver={this.setMouseOutMenuButtons}>
           {fragLoader}
         </div>
-
-        <p/>
 
         <div className="metaInfo" onMouseOver={this.setMouseOverMenuButtons} onMouseLeave={this.setMouseOutMenuButtons} tyle={{
             ...styles,
@@ -1092,25 +1147,25 @@ class ConnectedApp extends Component {
           <p align="center" style={{
               ...styles,
               opacity: this.state.opacity,
-              color: 'white',
+              color: 'black',
               fontSize: 15
             }}>{editionTitleToDisplay}</p>
 
           <p align="center" style={{
               ...styles,
               opacity: this.state.opacity,
-              color: 'white',
+              color: 'black',
               fontSize: 15
             }}>{editionAcronymToDisplay}</p>
           <br/>
           <p align="center" style={{
               ...styles,
               opacity: this.state.opacity,
-              color: 'white',
+              color: 'black',
               fontSize: 15,
               fontFamily: 'Arial'
-            }}>{readingMenuIntructions}
-            {goBackToTopButton}{changeEdButton}</p>
+            }}>
+            {goBackToTopButton}</p>
 
         </div>
 
@@ -1196,17 +1251,23 @@ class ConnectedApp extends Component {
                 <i>term frequency–inverse document frequency.</i>
               </li>
               <li>
-                Utilizar os botões azuis com as setas da esquerda ou da direita para ir para o fragmento anterior ou seguinte no contexto da actividade actual. Também pode usar as teclas esquerda e direita do seu teclado para o mesmo efeito.
+                Clicar nas setas pretas da esquerda e direita para ir para o fragmento anterior ou seguinte no contexto da actividade actual. Também pode usar as teclas esquerda e direita do seu teclado para o mesmo efeito.
               </li>
               <li>
-                Ao fazer uma actividade que envolva a selecção de uma certa categoria ou heterónimo, irão surgir novos botões amarelos semelhantes aos botões azuis das setas. Poderá utilizar estes botões amarelos para navegar exclusivamente entre os fragmentos dessa categoria ou heterónimo seleccionados.
+                Ao fazer uma actividade que envolva a selecção de uma certa categoria ou heterónimo, irão surgir novas setas amarelas por baixo das pretas. Poderá clicar nelas para navegar exclusivamente entre os fragmentos dessa categoria ou heterónimo seleccionados.
+              </li>
+              <li>
+                Conferir o progresso da leitura a olhar para a barra no fundo da página. Se estiver no fragmento número 30 de uma edição virtual com 90 fragmentos, a barra está 1/3 azul e 2/3 cinzenta.
+              </li>
+              <li>
+                Ao ficar inactivo durante 3 segundos com o cursor do rato fora dos botões do topo ou do fim da página, botões de navegação ou barra de progresso, todo o menu de leitura desaparecerá excepto o texto do fragmento. Para recuperar a visão dos mesmos, terá que passar o cursor do rato por cima da posição de um destes elementos.
               </li>
             </lu>
           </div>
         </Modal.Body>
 
         <Modal.Footer>
-          <Button bsStyle="primary" onClick={this.toggleShowReadingMenuInstructions}>
+          <Button bsStyle="default" bsSize="small" onClick={this.toggleShowReadingMenuInstructions}>
             Fechar
           </Button>
         </Modal.Footer>
