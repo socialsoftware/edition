@@ -25,6 +25,7 @@ import pt.ist.socialsoftware.edition.ldod.api.text.TextInterface;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.domain.ManuscriptSource.Medium;
 import pt.ist.socialsoftware.edition.ldod.domain.Source.SourceType;
+import pt.ist.socialsoftware.edition.ldod.search.SearchableElement;
 import pt.ist.socialsoftware.edition.ldod.search.json.AuthoralJson;
 import pt.ist.socialsoftware.edition.ldod.search.json.DatesJson;
 import pt.ist.socialsoftware.edition.ldod.search.json.EditionJson;
@@ -124,7 +125,7 @@ public class SearchController {
   @RequestMapping(value = "/advanced/result", method = RequestMethod.POST, headers = {
       "Content-type=application/json" })
   public String advancedSearchResultNew(Model model, @RequestBody Search search) {
-    Map<Fragment, Map<FragInter, List<SearchOption>>> results = search.search();
+    Map<Fragment, Map<SearchableElement, List<SearchOption>>> results = search.search();
 
     int fragCount = 0;
     int fragCountNotAdded = 0;
@@ -138,9 +139,9 @@ public class SearchController {
     boolean showLdoD = false;
     boolean fragAdd = false;
     boolean showTaxonomy = false;
-    for (Map.Entry<Fragment, Map<FragInter, List<SearchOption>>> entry : results.entrySet()) {
+    for (Map.Entry<Fragment, Map<SearchableElement, List<SearchOption>>> entry : results.entrySet()) {
       fragAdd = false;
-      for (Map.Entry<FragInter, List<SearchOption>> entry2 : entry.getValue().entrySet()) {
+      for (Map.Entry<SearchableElement, List<SearchOption>> entry2 : entry.getValue().entrySet()) {
         if (entry2.getValue().size() >= 1) {
           interCount++;
           fragAdd = true;
@@ -340,7 +341,7 @@ public class SearchController {
   @ResponseBody
   public Map<String, String> getHeteronyms() {
     Map<String, String> heteronyms = new HashMap<>();
-    for (Heteronym heteronym : Text.getInstance().getHeteronymsSet()) {
+    for (Heteronym heteronym : Text.getInstance().getHeteronymsSet()) { //TODO: change this so it gets heteronym info from the interface
       heteronyms.put(heteronym.getName(), heteronym.getXmlId());
     }
     return heteronyms;

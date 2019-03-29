@@ -1,6 +1,7 @@
 package pt.ist.socialsoftware.edition.ldod.search.options;
 
 import java.util.Set;
+import java.util.stream.Stream;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
@@ -8,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
 import pt.ist.socialsoftware.edition.ldod.domain.FragInter;
 
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import pt.ist.socialsoftware.edition.ldod.search.SearchableElement;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
 @JsonSubTypes({ @Type(value = EditionSearchOption.class, name = SearchOption.EDITION),
@@ -49,7 +51,7 @@ public abstract class SearchOption {
 		}
 	}
 
-	public abstract Set<FragInter> search(Set<FragInter> inters);
+	public abstract Stream<SearchableElement> search(Stream<SearchableElement> inters);
 
 	@Override
 	public abstract String toString();

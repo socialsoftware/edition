@@ -2,12 +2,15 @@ package pt.ist.socialsoftware.edition.ldod.search.options;
 
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import pt.ist.socialsoftware.edition.ldod.api.text.TextInterface;
 import pt.ist.socialsoftware.edition.ldod.domain.FragInter;
 import pt.ist.socialsoftware.edition.ldod.domain.ExpertEditionInter;
+import pt.ist.socialsoftware.edition.ldod.search.SearchableElement;
 
 public final class EditionSearchOption extends SearchOption {
 
@@ -36,14 +39,16 @@ public final class EditionSearchOption extends SearchOption {
 	}
 
 	@Override
-	public Set<FragInter> search(Set<FragInter> inters) {
-		return inters.stream().filter(ExpertEditionInter.class::isInstance).map(ExpertEditionInter.class::cast)
-				.filter(i -> verifiesSearchOption(i)).collect(Collectors.toSet());
+	public Stream<SearchableElement> search(Stream<SearchableElement> inters) {
+		return inters.filter(searchableElement -> searchableElement.getType() == SearchableElement.Type.SCHOLAR_INTER)
+				.filter(i -> verifiesSearchOption(i));
 	}
 
-	private boolean verifiesSearchOption(ExpertEditionInter inter) {
-		if (inclusion) {
-			if (!(edition.equals(inter.getEdition().getAcronym()) || edition.equals(ALL))) {
+	private boolean verifiesSearchOption(SearchableElement inter) {
+		TextInterface textInterface = new TextInterface();
+
+		if (textInterface.isExpertInter(inter.getXmlId()) && inclusion) {
+			if (!(edition.equals(textInterface.getEditionAcronymOfInter(inter.getXmlId())) || edition.equals(ALL))) {
 				return false;
 			}
 			if (heteronymSearchOption != null && !heteronymSearchOption.verifiesSearchOption(inter)) {
@@ -52,7 +57,7 @@ public final class EditionSearchOption extends SearchOption {
 			if (dateSearchOption != null && !dateSearchOption.verifiesSearchOption(inter)) {
 				return false;
 			}
-		} else if ((edition.equals(inter.getEdition().getAcronym()) || edition.equals(ALL)) && heteronymSearchOption != null
+		} else if ((edition.equals(textInterface.getEditionAcronymOfInter(inter.getXmlId())) || edition.equals(ALL)) && heteronymSearchOption != null
 				&& heteronymSearchOption.verifiesSearchOption(inter) && dateSearchOption != null && dateSearchOption.verifiesSearchOption(inter))
 			return false;
 

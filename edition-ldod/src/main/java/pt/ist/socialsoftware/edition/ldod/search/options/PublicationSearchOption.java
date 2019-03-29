@@ -2,12 +2,15 @@ package pt.ist.socialsoftware.edition.ldod.search.options;
 
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import pt.ist.socialsoftware.edition.ldod.api.text.TextInterface;
 import pt.ist.socialsoftware.edition.ldod.domain.FragInter;
 import pt.ist.socialsoftware.edition.ldod.domain.Source;
 import pt.ist.socialsoftware.edition.ldod.domain.SourceInter;
+import pt.ist.socialsoftware.edition.ldod.search.SearchableElement;
 
 public final class PublicationSearchOption extends SearchOption {
 
@@ -23,13 +26,14 @@ public final class PublicationSearchOption extends SearchOption {
 	}
 
 	@Override
-	public Set<FragInter> search(Set<FragInter> inters) {
-		return inters.stream().filter(SourceInter.class::isInstance).map(SourceInter.class::cast)
-				.filter(i -> verifiesSearchOption(i)).collect(Collectors.toSet());
+	public Stream<SearchableElement> search(Stream<SearchableElement> inters) {
+		return inters.filter(i -> verifiesSearchOption(i));
 	}
 
-	private boolean verifiesSearchOption(SourceInter inter) {
-		return inter.getSource().getType().equals(Source.SourceType.PRINTED)
+	private boolean verifiesSearchOption(SearchableElement inter) {
+		TextInterface textInterface = new TextInterface();
+
+		return textInterface.isSourceInter(inter.getXmlId()) && textInterface.usesSourceType(inter.getXmlId(),Source.SourceType.PRINTED)
 				&& dateSearchOption.verifiesSearchOption(inter);
 	}
 

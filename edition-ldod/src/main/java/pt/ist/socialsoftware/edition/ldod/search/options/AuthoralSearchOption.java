@@ -2,13 +2,16 @@ package pt.ist.socialsoftware.edition.ldod.search.options;
 
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import pt.ist.socialsoftware.edition.ldod.api.text.TextInterface;
 import pt.ist.socialsoftware.edition.ldod.domain.FragInter;
 import pt.ist.socialsoftware.edition.ldod.domain.ManuscriptSource;
 import pt.ist.socialsoftware.edition.ldod.domain.SourceInter;
 import pt.ist.socialsoftware.edition.ldod.domain.Source.SourceType;
+import pt.ist.socialsoftware.edition.ldod.search.SearchableElement;
 
 public abstract class AuthoralSearchOption extends SearchOption {
 
@@ -22,14 +25,16 @@ public abstract class AuthoralSearchOption extends SearchOption {
 	}
 
 	@Override
-	public Set<FragInter> search(Set<FragInter> inters) {
-		return inters.stream().filter(SourceInter.class::isInstance).map(SourceInter.class::cast)
-				.filter(i -> verifiesSearchOption(i)).collect(Collectors.toSet());
+	public Stream<SearchableElement> search(Stream<SearchableElement> inters) {
+		return inters.filter(searchableElement -> searchableElement.getType() == SearchableElement.Type.SCHOLAR_INTER)
+				.filter(i -> verifiesSearchOption(i));
 	}
 
-	private boolean verifiesSearchOption(SourceInter inter) {
-		if (inter.getSource().getType().equals(SourceType.MANUSCRIPT)) {
-			ManuscriptSource source = (ManuscriptSource) inter.getSource();
+	private boolean verifiesSearchOption(SearchableElement inter) {
+		TextInterface textInterface = new TextInterface();
+
+		if (textInterface.isSourceInter(inter.getXmlId()) && textInterface.usesSourceType(inter.getXmlId(),SourceType.MANUSCRIPT)) {
+			ManuscriptSource source = (ManuscriptSource) textInterface.getSourceOfInter(inter.getXmlId());
 			if (isOfDocumentType(source) && dateSearchOption.verifiesSearchOption(inter)) {
 				if (hasLdoD.equals(ALL) || (hasLdoD.equals("true") && source.getHasLdoDLabel()))
 					return true;

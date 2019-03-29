@@ -2,14 +2,18 @@ package pt.ist.socialsoftware.edition.ldod.search.options;
 
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import pt.ist.socialsoftware.edition.ldod.api.text.TextInterface;
 import pt.ist.socialsoftware.edition.ldod.domain.FragInter;
+import pt.ist.socialsoftware.edition.ldod.domain.ScholarInter;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
+import pt.ist.socialsoftware.edition.ldod.search.SearchableElement;
 
 public final class HeteronymSearchOption extends SearchOption {
 	private static Logger logger = LoggerFactory.getLogger(HeteronymSearchOption.class);
@@ -27,27 +31,28 @@ public final class HeteronymSearchOption extends SearchOption {
 	}
 
 	@Override
-	public Set<FragInter> search(Set<FragInter> inters) {
-		return inters.stream().filter(i -> !(i instanceof VirtualEditionInter) && verifiesSearchOption(i))
-				.collect(Collectors.toSet());
+	public Stream<SearchableElement> search(Stream<SearchableElement> inters) {
+		return inters.filter(i ->  verifiesSearchOption(i));
 	}
 
-	public boolean verifiesSearchOption(FragInter inter) {
+	public boolean verifiesSearchOption(SearchableElement inter) {
+		TextInterface textInterface = new TextInterface();
+
 		if (ALL.equals(xmlId4Heteronym)) {
 			// all are selected
 			return true;
-		} else if (xmlId4Heteronym == null && inter.getHeteronym().getXmlId() == null) {
+		} else if (xmlId4Heteronym == null && textInterface.getHeteronymId(inter.getXmlId()) == null) {
 			// Searching for fragments with no authors and fragment has no
 			// author
 			return true;
-		} else if ((xmlId4Heteronym != null && inter.getHeteronym().getXmlId() == null)
-				|| (xmlId4Heteronym == null && inter.getHeteronym().getXmlId() != null)) {
+		} else if ((xmlId4Heteronym != null && textInterface.getHeteronymId(inter.getXmlId()) == null)
+				|| (xmlId4Heteronym == null && textInterface.getHeteronymId(inter.getXmlId()) != null)) {
 			// Searching for fragment with author and fragment has no author or
 			// searching for fragment with no author and fragment has author and
 			return false;
 		} else {
 			// the interpretation has the expected correct heteronym assignment
-			return xmlId4Heteronym.equals(inter.getHeteronym().getXmlId());
+			return xmlId4Heteronym.equals(textInterface.getHeteronymId(inter.getXmlId()));
 		}
 	}
 

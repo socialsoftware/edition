@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.apache.lucene.queryparser.classic.ParseException;
 import org.apache.lucene.queryparser.classic.QueryParser;
@@ -18,6 +19,7 @@ import pt.ist.fenixframework.DomainObject;
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.ldod.domain.FragInter;
 import pt.ist.socialsoftware.edition.ldod.search.Indexer;
+import pt.ist.socialsoftware.edition.ldod.search.SearchableElement;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
 
 public final class TextSearchOption extends SearchOption {
@@ -42,9 +44,10 @@ public final class TextSearchOption extends SearchOption {
 	}
 
 	@Override
-	public Set<FragInter> search(Set<FragInter> inters) {
+	public Stream<SearchableElement> search(Stream<SearchableElement> inters) {
 		Set<FragInter> searchResult = new HashSet<>(search());
-		return inters.stream().filter(i -> searchResult.contains(i)).collect(Collectors.toSet());
+		Set<String> resultIds = searchResult.stream().map(fragInter -> fragInter.getXmlId()).collect(Collectors.toSet());
+		return inters.filter(i -> resultIds.contains(i.getXmlId()));
 	}
 
 	public List<FragInter> search() {

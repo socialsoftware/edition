@@ -3,11 +3,14 @@ package pt.ist.socialsoftware.edition.ldod.search.options;
 import java.util.Arrays;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import pt.ist.socialsoftware.edition.ldod.api.ldod.LdoDInterface;
 import pt.ist.socialsoftware.edition.ldod.domain.FragInter;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
+import pt.ist.socialsoftware.edition.ldod.search.SearchableElement;
 
 public class TaxonomySearchOption extends SearchOption {
 	private String[] tags;
@@ -17,13 +20,15 @@ public class TaxonomySearchOption extends SearchOption {
 	}
 
 	@Override
-	public Set<FragInter> search(Set<FragInter> inters) {
-		return inters.stream().filter(VirtualEditionInter.class::isInstance).map(VirtualEditionInter.class::cast)
-				.filter(i -> verifiesSearchOption(i)).collect(Collectors.toSet());
+	public Stream<SearchableElement> search(Stream<SearchableElement> inters) {
+		return inters.filter(searchableElement -> searchableElement.getType() == SearchableElement.Type.VIRTUAL_INTER)
+				.filter(i -> verifiesSearchOption(i));
 	}
 
-	public boolean verifiesSearchOption(VirtualEditionInter inter) {
-		return Arrays.stream(tags).allMatch(tt -> inter.getTagSet().stream()
+	public boolean verifiesSearchOption(SearchableElement inter) {
+		LdoDInterface ldoDInterface = new LdoDInterface();
+
+		return Arrays.stream(tags).allMatch(tt -> ldoDInterface.getTagsForVei(inter.getXmlId()).stream()
 				.filter(t -> t.getCategory().getName().equals(tt)).findAny().isPresent());
 	}
 

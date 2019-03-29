@@ -1,14 +1,15 @@
 package pt.ist.socialsoftware.edition.ldod.search.options;
 
-import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import pt.ist.socialsoftware.edition.ldod.api.text.TextInterface;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
+import pt.ist.socialsoftware.edition.ldod.search.SearchableElement;
 
 public final class DateSearchOption extends SearchOption {
 	private static Logger logger = LoggerFactory.getLogger(DateSearchOption.class);
@@ -55,19 +56,21 @@ public final class DateSearchOption extends SearchOption {
 	}
 
 	@Override
-	public Set<FragInter> search(Set<FragInter> inters) {
-		return inters.stream().filter(ExpertEditionInter.class::isInstance).map(ExpertEditionInter.class::cast)
-				.filter(i -> verifiesSearchOption(i)).collect(Collectors.toSet());
+	public Stream<SearchableElement> search(Stream<SearchableElement> inters) {
+		return inters.filter(inter -> inter.getType() == SearchableElement.Type.SCHOLAR_INTER)
+				.filter(i -> verifiesSearchOption(i));
 	}
 
-	public boolean verifiesSearchOption(FragInter inter) {
+	public boolean verifiesSearchOption(SearchableElement inter) {
+		TextInterface textInterface = new TextInterface();
+
 		if (dated != Dated.ALL) {
 			Source source;
-			if (inter.getSourceType().equals(Edition.EditionType.AUTHORIAL)) {
-				source = ((SourceInter) inter).getSource();
-				return isInDate(source.getLdoDDate());
+			if (textInterface.isSourceInter(inter.getXmlId())) {
+				//source = ((SourceInter) inter).getSource();
+				return isInDate(textInterface.getSourceOfInter(inter.getXmlId()).getLdoDDate());
 			} else {
-				return isInDate(((ScholarInter) inter).getLdoDDate());
+				return isInDate(textInterface.getScholarInterDate(inter.getXmlId()));
 			}
 		}
 		return true;
