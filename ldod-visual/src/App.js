@@ -409,10 +409,10 @@ class ConnectedApp extends Component {
     //console.log('_onAction', e)
     // console.log('mouseOverMenuButtons: ' + this.state.mouseOverMenuButtons);
 
-    if (window.scrollY < 65 & !this.state.mouseOverMenuButtons & !this.state.hiddenFromIdle) {
+    if (window.scrollY < 48 & !this.state.mouseOverMenuButtons & !this.state.hiddenFromIdle) {
 
       this.setState({opacity: this.opacityShow, hiddenFromIdle: false})
-    } else if (window.scrollY > 65 & !this.state.mouseOverMenuButtons & !this.state.hiddenFromIdle) {
+    } else if (window.scrollY > 48 & !this.state.mouseOverMenuButtons & !this.state.hiddenFromIdle) {
 
       this.setState({opacity: this.opacityOnText, hiddenFromIdle: false})
     } else if (this.state.mouseOverMenuButtons) {
@@ -1244,10 +1244,13 @@ class ConnectedApp extends Component {
                 <i>term frequency–inverse document frequency.</i>
               </li>
               <li>
-                Utilizar os botões azuis com as setas da esquerda ou da direita para ir para o fragmento anterior ou seguinte no contexto da actividade actual. Também pode usar as teclas esquerda e direita do seu teclado para o mesmo efeito.
+                Clicar nas setas pretas da esquerda e direita para ir para o fragmento anterior ou seguinte no contexto da actividade actual. Também pode usar as teclas esquerda e direita do seu teclado para o mesmo efeito.
               </li>
               <li>
-                Ao fazer uma actividade que envolva a selecção de uma certa categoria ou heterónimo, irão surgir novos botões amarelos semelhantes aos botões azuis das setas. Poderá utilizar estes botões amarelos para navegar exclusivamente entre os fragmentos dessa categoria ou heterónimo seleccionados.
+                Ao fazer uma actividade que envolva a selecção de uma certa categoria ou heterónimo, irão surgir novas setas amarelas por baixo das pretas. Poderá clicar nelas para navegar exclusivamente entre os fragmentos dessa categoria ou heterónimo seleccionados.
+              </li>
+              <li>
+                Conferir o progresso da leitura a olhar para a barra no fundo da página. Se estiver no fragmento número 30 de uma edição virtual com 90 fragmentos, a barra está 1/3 azul e 2/3 cinzenta.
               </li>
             </lu>
           </div>
