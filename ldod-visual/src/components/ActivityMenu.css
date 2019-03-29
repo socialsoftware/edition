@@ -18,8 +18,12 @@
   padding: 10px;
   margin: 15px;
   display: flex;
-  flex: 0 1 300px;
   min-width: 0px;
+  /* flex: 0 1 220px; */
+  /**/
+  flex-grow: 0;
+  flex-shrink: 1;
+  flex-basis: 260px;
 }
 
 .cardActivity:hover {

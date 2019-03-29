@@ -1,6 +1,6 @@
 .box {
   width: 70%;
-  background-color: #fff;
+  background-color: inherit;
   margin: 0 auto;
   padding: 40px;
   text-align: justify;
@@ -8,13 +8,13 @@
   /* box-shadow: 0 10px 70px rgba(0,0,0,0.4); */
   margin-bottom: 2%;
   margin-top: 30px;
+  display: fixed;
 }
 
-.loadingGifCentered{
+.loadingGifCentered {
   display: flex;
   flex-direction: row;
   margin: 25px auto;
   width: 10%;
   height: 10%;
-
 }

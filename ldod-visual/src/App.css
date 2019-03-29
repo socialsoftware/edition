@@ -31,6 +31,8 @@
   }
 
   .app {
+    background-color: white;
+    /*#fff #fffbf7*/
     display: flex;
     flex-direction: column;
     font-family: 'AdobeVFPrototype';
@@ -43,14 +45,25 @@
     font-display: swap;
   }
 
+  .buttonToolbarBanner {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background-color: #4C4C4C;
+    height: 50px;
+    text-align: center;
+  }
+
   .buttonToolbar {
     display: inline-block;
-    flex-direction: row;
-    position: fixed;
     align-self: center;
-    margin-top: 30px;
+    margin-top: 10px;
     font-family: 'Arial';
     /*Gingham; Consolas; Amstelvar;*/
+  }
+
+  Button:not(:last-child) {
+    margin-right: 5px;
   }
 
   .toggleTextSkimming {
@@ -66,8 +79,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-top: 20px;
-    margin-bottom: 40px;
+    margin-top: 5px;
+    margin-bottom: 5px;
   }
 
   .instructionsText {
@@ -91,33 +104,33 @@
     margin-top: 30px;
   }
 
-  Button:not(:last-child) {
-    margin-right: 15px;
+  .navReadSection {
+    display: inline-block;
+    flex-direction: row;
+    align-self: center;
   }
-
-  .appfrag {}
 
   .navPrevious {
     position: fixed;
     margin-top: 250px;
-    left: 6%;
+    right: 90%;
   }
 
   .navNext {
     position: fixed;
-    margin-top: 248px;
+    margin-top: 250px;
     left: 90%;
   }
 
   .navPreviousGolden {
     position: fixed;
     margin-top: 400px;
-    left: 8%;
+    right: 91%;
   }
 
   .navNextGolden {
     position: fixed;
-    margin-top: 398px;
+    margin-top: 400px;
     left: 91%;
   }
 
@@ -203,8 +216,6 @@
     font-size: 20px;
     margin-bottom: 5px;
   }
-
-
 
   .progress-bar {
     position: fixed;

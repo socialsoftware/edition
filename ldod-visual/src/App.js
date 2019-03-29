@@ -182,7 +182,7 @@ class ConnectedApp extends Component {
 
     this.opacityHide = 0;
     this.opacityShow = 1;
-    this.opacityOnText = 0.6;
+    this.opacityOnText = 0.8;
     this.opacityBarelyVisible = 0; //antes estava 0.3. ou 0.1
 
     this.categoryButtonFunction = function() {};
@@ -232,7 +232,7 @@ class ConnectedApp extends Component {
 
     this.navArrowWidth = "100px";
 
-    this.availablePreviousArrowButton = <img src={availablePreviousArrow} onClick={this.nextButtonAction} style={{
+    this.availablePreviousArrowButton = <img src={availablePreviousArrow} onClick={this.previousButtonAction} style={{
         width: this.navArrowWidth,
         cursor: "pointer"
       }}/>
@@ -389,10 +389,10 @@ class ConnectedApp extends Component {
     //console.log('_onAction', e)
     // console.log('mouseOverMenuButtons: ' + this.state.mouseOverMenuButtons);
 
-    if (window.scrollY < 36 & !this.state.mouseOverMenuButtons & !this.state.hiddenFromIdle) {
+    if (window.scrollY < 65 & !this.state.mouseOverMenuButtons & !this.state.hiddenFromIdle) {
 
       this.setState({opacity: this.opacityShow, hiddenFromIdle: false})
-    } else if (window.scrollY > 36 & !this.state.mouseOverMenuButtons & !this.state.hiddenFromIdle) {
+    } else if (window.scrollY > 65 & !this.state.mouseOverMenuButtons & !this.state.hiddenFromIdle) {
 
       this.setState({opacity: this.opacityOnText, hiddenFromIdle: false})
     } else if (this.state.mouseOverMenuButtons) {
@@ -846,7 +846,10 @@ class ConnectedApp extends Component {
     let progressBar = <div/>;
     let goBackToTopButton = <div/>;
     let textSkimmingButtonJsx = <div/>;
+    let bannerClassName = "";
     if (this.props.allFragmentsLoaded && this.props.outOfLandingPage) {
+
+      bannerClassName = "buttonToolbarBanner";
 
       let toggleTextSkimmingButtonMessage;
       if (this.state.toggleTextSkimming && this.props.outOfLandingPage) {
@@ -867,7 +870,7 @@ class ConnectedApp extends Component {
       readingMenuIntructions = (<Button bsStyle="default" bsSize="small" onClick={this.toggleShowReadingMenuInstructions}>
         Instrucções [i]
       </Button>)
-      progressBar = ((<div className="progress-bar">
+      progressBar = ((<div className="progress-bar" onMouseOver={this.setMouseOverMenuButtons} onMouseLeave={this.setMouseOutMenuButtons}>
         <div className="filler" style={{
             width: `${ ((this.props.recommendationIndex + 1) / this.props.recommendationArray.length) * 100}%`
           }}/>
@@ -1033,10 +1036,12 @@ class ConnectedApp extends Component {
 
         }
       }
-      this.buttonToolBarToRender = (<div className="buttonToolbar" style={{
-          ...styles,
-          opacity: this.state.opacity
-        }}>
+      // this.buttonToolBarToRender = (<div className="buttonToolbar" style={{
+      //     ...styles,
+      //     opacity: this.state.opacity
+      //   }}>
+
+      this.buttonToolBarToRender = (<div className="buttonToolbar">
 
         <ButtonToolbar onMouseOver={this.setMouseOverMenuButtons} onMouseLeave={this.setMouseOutMenuButtons}>
 
@@ -1095,7 +1100,14 @@ class ConnectedApp extends Component {
         </Helmet>
       </div>
 
-      {this.buttonToolBarToRender}
+      <div className={bannerClassName} onMouseOver={this.setMouseOverMenuButtons} onMouseLeave={this.setMouseOutMenuButtons} style={{
+          ...styles,
+          opacity: this.state.opacity
+        }}>
+
+        {this.buttonToolBarToRender}
+
+      </div>
 
       <div >
 
@@ -1106,6 +1118,8 @@ class ConnectedApp extends Component {
           {previousNavButton}
         </div>
 
+        {previousNavButtonGold}
+
         <div onMouseOver={this.setMouseOverMenuButtons} onMouseLeave={this.setMouseOutMenuButtons} className="navNext" style={{
             ...styles,
             opacity: this.state.opacity
@@ -1113,17 +1127,11 @@ class ConnectedApp extends Component {
           {nextNavButton}
         </div>
 
-        {previousNavButtonGold}
-
         {nextNavButtonGold}
 
-        <div className="appfrag" onMouseOver={this.setMouseOutMenuButtons} /*onMouseLeave={this.setMouseOverMenuButtons}*/
-
-        >
+        <div onMouseOver={this.setMouseOutMenuButtons}>
           {fragLoader}
         </div>
-
-        <p/>
 
         <div className="metaInfo" onMouseOver={this.setMouseOverMenuButtons} onMouseLeave={this.setMouseOutMenuButtons} tyle={{
             ...styles,
