@@ -66,15 +66,25 @@
     width: 100%;
     background-color: #4C4C4C;
     height: 50px;
-    text-align: center;
+  }
+
+  .firstLessFocusButtons {
+    margin-right: auto;
+    margin-left: 10px;
   }
 
   .buttonToolbar {
-    display: inline-block;
-    align-self: center;
+    display: flex;
+    justify-content: space-around;
     margin-top: 10px;
     font-family: 'Arial';
     /*Gingham; Consolas; Amstelvar;*/
+    margin-left: 10px;
+  }
+
+  .lessFocusButtons {
+    margin-left: auto;
+    margin-right: 10px;
   }
 
   Button:not(:last-child) {

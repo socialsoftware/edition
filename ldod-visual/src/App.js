@@ -1043,6 +1043,10 @@ class ConnectedApp extends Component {
       this.buttonToolBarToRender = (<div className="buttonToolbar">
 
         <ButtonToolbar onMouseOver={this.setMouseOverMenuButtons} onMouseLeave={this.setMouseOutMenuButtons}>
+          {textSkimmingButtonJsx}
+        </ButtonToolbar>
+
+        <ButtonToolbar onMouseOver={this.setMouseOverMenuButtons} onMouseLeave={this.setMouseOutMenuButtons}>
 
           <Button bsStyle="default" bsSize="small" onClick={this.handleShowGlobalView}>
             Actividade actual [A]
@@ -1056,8 +1060,11 @@ class ConnectedApp extends Component {
             Histórico de leitura [H]
           </Button>
 
-          {textSkimmingButtonJsx}
+        </ButtonToolbar>
 
+        <ButtonToolbar onMouseOver={this.setMouseOverMenuButtons} onMouseLeave={this.setMouseOutMenuButtons}>
+          {readingMenuIntructions}
+          {changeEdButton}
         </ButtonToolbar>
 
       </div>)
@@ -1157,8 +1164,8 @@ class ConnectedApp extends Component {
               color: 'black',
               fontSize: 15,
               fontFamily: 'Arial'
-            }}>{readingMenuIntructions}
-            {goBackToTopButton}{changeEdButton}</p>
+            }}>
+            {goBackToTopButton}</p>
 
         </div>
 
@@ -1251,6 +1258,9 @@ class ConnectedApp extends Component {
               </li>
               <li>
                 Conferir o progresso da leitura a olhar para a barra no fundo da página. Se estiver no fragmento número 30 de uma edição virtual com 90 fragmentos, a barra está 1/3 azul e 2/3 cinzenta.
+              </li>
+              <li>
+                Ao ficar inactivo durante 3 segundos com o cursor do rato fora dos botões do topo ou do fim da página, botões de navegação ou barra de progresso, todo o menu de leitura desaparecerá excepto o texto do fragmento. Para recuperar a visão dos mesmos, terá que passar o cursor do rato por cima da posição de um destes elementos.
               </li>
             </lu>
           </div>
