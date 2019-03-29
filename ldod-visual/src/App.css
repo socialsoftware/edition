@@ -3,6 +3,21 @@
     overflow-y: scroll;
   }
 
+  /*necessario para evitar que uma modal box, quando aberta, altere a width da pagina. tradeoff: double scrollbar*/
+  body {
+    padding-right: 0px !important
+  }
+
+  .custom-modal-instructions {
+    width: 50%;
+    /* overflow-y: auto; nao parece necessario para evitar que a modal box aberta altere a width da pagina */
+  }
+
+  .custom-modal {
+    width: 90%;
+    /* overflow-y: auto; nao parece necessario para evitar que a modal box aberta altere a width da pagina */
+  }
+
   @font-face {
     font-family: 'Gingham';
     src: url('Gingham.woff2') format('woff2'),
@@ -154,18 +169,6 @@
     margin-right: 30%;
     margin-bottom: 30px;
     margin-top: 100px;
-  }
-
-  .custom-modal-instructions {
-    width: 50%;
-  }
-
-  .custom-modal {
-    width: 90%;
-  }
-
-  .custom-modal-landing {
-    width: 80%;
   }
 
   .buttonToolbarStart {
