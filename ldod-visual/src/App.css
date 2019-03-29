@@ -5,7 +5,8 @@
 
   /*necessario para evitar que uma modal box, quando aberta, altere a width da pagina. tradeoff: double scrollbar*/
   body {
-    padding-right: 0px !important
+    padding-right: 0px !important;
+    background-color: floralwhite;
   }
 
   .custom-modal-instructions {
@@ -46,8 +47,8 @@
   }
 
   .app {
-    background-color: white;
-    /*#fff #fffbf7*/
+    background-color: inherit;
+    /*#fff #fffbf7 floralwhite white*/
     display: flex;
     flex-direction: column;
     font-family: 'AdobeVFPrototype';
