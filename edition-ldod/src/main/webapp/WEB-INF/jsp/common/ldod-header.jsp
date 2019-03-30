@@ -129,7 +129,7 @@
 							Sobral Cunha</a></li>
 					<li><a href="${contextPath}/edition/acronym/RZ">Richard
 							Zenith</a></li>
-					<li><a href="${contextPath}/edition/acronym/JP">Jer�nimo
+					<li><a href="${contextPath}/edition/acronym/JP">Jerónimo
 							Pizarro</a></li>
 					<li class="divider"></li>
 					<li><a href="${contextPath}/edition/acronym/LdoD-Arquivo">Arquivo
