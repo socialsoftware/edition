@@ -22,9 +22,9 @@ public class VirtualEditionInterListDto {
 	}
 
 	public VirtualEditionInterListDto(ExpertEdition expertEdition) {
-		this.setTitle(expertEdition.getTitle());
+		this.setTitle(expertEdition.getTitle() + ", Edição de " + expertEdition.getEditor());
 		this.setAcronym(expertEdition.getAcronym());
-		this.type = "Expert";
+		this.type = "Perito";
 		this.setPub(true);
 		this.numberOfInters = expertEdition.getIntersSet().size();
 		TaxonomyDto taxonomyDto = new TaxonomyDto();
@@ -41,6 +41,7 @@ public class VirtualEditionInterListDto {
 		}
 		this.setTitle(virtualEdition.getTitle());
 		this.setAcronym(virtualEdition.getAcronym());
+		this.type = "Virtual";
 		this.setPub(virtualEdition.getPub());
 		this.numberOfInters = virtualEdition.getIntersSet().size();
 		TaxonomyDto taxonomyDto = new TaxonomyDto(virtualEdition.getTaxonomy());
