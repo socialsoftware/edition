@@ -76,6 +76,16 @@ public class LdoD extends LdoD_Base {
 		return getVirtualEdition(acronym);
 	}
 
+	public ExpertEdition getExpertEdition(String acronym) {
+		for (ExpertEdition edition : getExpertEditionsSet()) {
+			if (edition.getAcronym().toUpperCase().equals(acronym.toUpperCase())) {
+				return edition;
+			}
+		}
+
+		return null;
+	}
+
 	public VirtualEdition getVirtualEdition(String acronym) {
 		for (VirtualEdition edition : getVirtualEditionsSet()) {
 			if (edition.getAcronym().toUpperCase().equals(acronym.toUpperCase())) {
