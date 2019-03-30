@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.apache.lucene.queryparser.classic.ParseException;
 import org.joda.time.DateTime;
@@ -38,18 +39,8 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import pt.ist.fenixframework.FenixFramework;
-import pt.ist.socialsoftware.edition.ldod.domain.Category;
-import pt.ist.socialsoftware.edition.ldod.domain.ClassificationGame;
-import pt.ist.socialsoftware.edition.ldod.domain.ClassificationGameParticipant;
-import pt.ist.socialsoftware.edition.ldod.domain.Edition;
-import pt.ist.socialsoftware.edition.ldod.domain.FragInter;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
+import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.domain.Member.MemberRole;
-import pt.ist.socialsoftware.edition.ldod.domain.Tag;
-import pt.ist.socialsoftware.edition.ldod.domain.Taxonomy;
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
 import pt.ist.socialsoftware.edition.ldod.dto.EditionFragmentsDto;
 import pt.ist.socialsoftware.edition.ldod.dto.EditionTranscriptionsDto;
 import pt.ist.socialsoftware.edition.ldod.dto.FragmentDto;
@@ -300,9 +291,13 @@ public class VirtualEditionController {
 	}
 
 	@GetMapping("/public")
-	public @ResponseBody ResponseEntity<List<VirtualEditionInterListDto>> getPublicVirtualEditions() {
-		List<VirtualEditionInterListDto> result = LdoD.getInstance().getVirtualEditionsSet().stream()
-				.filter(virtualEdition -> virtualEdition.getPub()).map(ve -> new VirtualEditionInterListDto(ve, false))
+	public @ResponseBody ResponseEntity<List<VirtualEditionInterListDto>> getEditions() {
+		logger.debug("getEditions");
+		
+		List<VirtualEditionInterListDto> result =
+				Stream.concat(LdoD.getInstance().getExpertEditionsSet().stream().map(expertEdition -> new VirtualEditionInterListDto(expertEdition)),
+						LdoD.getInstance().getVirtualEditionsSet().stream().filter(virtualEdition -> virtualEdition.getPub())
+								.map(virtualEdition -> new VirtualEditionInterListDto(virtualEdition, false)))
 				.collect(Collectors.toList());
 
 		return new ResponseEntity<>(result, HttpStatus.OK);
@@ -310,24 +305,20 @@ public class VirtualEditionController {
 
 	@RequestMapping(method = RequestMethod.GET, value = "/acronym/{acronym}/fragments")
 	@PreAuthorize("hasPermission(#acronym, 'editionacronym.public')")
-	public @ResponseBody ResponseEntity<EditionFragmentsDto> getFragments(Model model, @PathVariable String acronym) {
+	public @ResponseBody ResponseEntity<EditionFragmentsDto> getFragments(@PathVariable String acronym) {
 		logger.debug("getFragments acronym:{}", acronym);
 
-		VirtualEdition virtualEdition = LdoD.getInstance().getVirtualEdition(acronym);
-
-		if (virtualEdition == null) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		} else {
-			EditionFragmentsDto editionFragments = new EditionFragmentsDto();
-
-			editionFragments.setCategories(virtualEdition.getTaxonomy().getSortedCategories().stream()
-					.map(c -> c.getName()).collect(Collectors.toList()));
+		Stream<FragInter> inters;
+		EditionFragmentsDto editionFragments = new EditionFragmentsDto();
+		ExpertEdition expertEdition = LdoD.getInstance().getExpertEdition(acronym);
+		if (expertEdition != null) {
+			editionFragments.setCategories(new ArrayList<>());
 
 			List<FragmentDto> fragments = new ArrayList<>();
 
-			virtualEdition.getAllDepthVirtualEditionInters().stream().sorted(Comparator.comparing(FragInter::getTitle))
+			expertEdition.getExpertEditionIntersSet().stream().sorted(Comparator.comparing(FragInter::getTitle))
 					.forEach(inter -> {
-						PlainHtmlWriter4OneInter writer = new PlainHtmlWriter4OneInter(inter.getLastUsed());
+						PlainHtmlWriter4OneInter writer = new PlainHtmlWriter4OneInter(inter);
 						writer.write(false);
 						FragmentDto fragment = new FragmentDto(inter, writer.getTranscription());
 
@@ -337,29 +328,50 @@ public class VirtualEditionController {
 			editionFragments.setFragments(fragments);
 
 			return new ResponseEntity<>(editionFragments, HttpStatus.OK);
+		} else {
+			VirtualEdition virtualEdition = LdoD.getInstance().getVirtualEdition(acronym);
+			if (virtualEdition != null) {
+				editionFragments.setCategories(virtualEdition.getTaxonomy().getSortedCategories().stream()
+						.map(c -> c.getName()).collect(Collectors.toList()));
+
+				List<FragmentDto> fragments = new ArrayList<>();
+
+				virtualEdition.getAllDepthVirtualEditionInters().stream().sorted(Comparator.comparing(FragInter::getTitle))
+						.forEach(inter -> {
+							PlainHtmlWriter4OneInter writer = new PlainHtmlWriter4OneInter(inter.getLastUsed());
+							writer.write(false);
+							FragmentDto fragment = new FragmentDto(inter, writer.getTranscription());
+
+							fragments.add(fragment);
+						});
+
+				editionFragments.setFragments(fragments);
+
+				return new ResponseEntity<>(editionFragments, HttpStatus.OK);
+			}
+
+				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
+
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/acronym/{acronym}/interId/{interId}/tfidf")
 	@PreAuthorize("hasPermission(#acronym, 'editionacronym.public')")
-	public @ResponseBody ResponseEntity<List<Entry<String, Double>>> getInterIdTFIDFTerms(Model model,
+	public @ResponseBody ResponseEntity<List<Entry<String, Double>>> getInterIdTFIDFTerms(
 			@PathVariable String acronym, @PathVariable String interId) throws IOException, ParseException {
 		logger.debug("getInterIdTFIDFTerms acronym:{}", acronym);
 
-		VirtualEdition virtualEdition = LdoD.getInstance().getVirtualEdition(acronym);
+		FragInter fragInter = FenixFramework.getDomainObject(interId);
 
-		VirtualEditionInter virtualEditionInter = FenixFramework.getDomainObject(interId);
-
-		if (virtualEdition == null || virtualEditionInter == null
-				|| virtualEditionInter.getVirtualEdition() != virtualEdition) {
+		if (fragInter == null) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		} else {
-			List<Entry<String, Double>> result = Indexer.getIndexer()
-					.getTermFrequency(virtualEditionInter.getLastUsed()).entrySet().stream()
-					.sorted(Comparator.comparing(Map.Entry::getValue)).collect(Collectors.toList());
-
-			return new ResponseEntity<>(result, HttpStatus.OK);
 		}
+
+		List<Entry<String, Double>> result = Indexer.getIndexer()
+				.getTermFrequency(fragInter.getLastUsed()).entrySet().stream()
+				.sorted(Comparator.comparing(Map.Entry::getValue)).collect(Collectors.toList());
+
+		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/acronym/{acronym}/transcriptions")
