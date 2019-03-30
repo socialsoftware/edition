@@ -16,7 +16,7 @@ public class LdodVisualController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = { "/ldod-visual", "/ldod-visual/*" })
-    public String classificationGameClient(Model model) {
+    public String bookVisual() {
         return "ldodVisual";
     }
 

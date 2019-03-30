@@ -94,9 +94,11 @@
 				<ul class="dropdown-menu">
 					<div class="dropdown-menu-bg"></div>
 					<li><a href="${contextPath}/reading"><spring:message
-								code="general.reading" /></a></li>
+							code="general.reading.sequences" /></a></li>
+					<li><a href="${contextPath}/ldod-visual"><spring:message
+						code="general.reading.visual" /></a></li>
 					<li><a href="${contentPath}/citations"><spring:message
-								code="general.citations" /></a></li>
+								code="general.citations.twitter" /></a></li>
 
 				</ul></li>
 
@@ -127,7 +129,7 @@
 							Sobral Cunha</a></li>
 					<li><a href="${contextPath}/edition/acronym/RZ">Richard
 							Zenith</a></li>
-					<li><a href="${contextPath}/edition/acronym/JP">Jerónimo
+					<li><a href="${contextPath}/edition/acronym/JP">Jerï¿½nimo
 							Pizarro</a></li>
 					<li class="divider"></li>
 					<li><a href="${contextPath}/edition/acronym/LdoD-Arquivo">Arquivo
