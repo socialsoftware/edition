@@ -63,8 +63,10 @@ public class Search {
 		List<SearchOption> searchOptions = orderTextSearchOptions(options);
 
 		Stream<SearchableElement> searchableElements = Stream.concat(textInterface.getFragmentsSet().stream()
-				.flatMap(f -> f.getScholarInterSet().stream()).map(scholarInter -> new SearchableElement(SearchableElement.Type.SCHOLAR_INTER, scholarInter.getXmlId(), scholarInter.getTitle(),scholarInter.getFragment().getXmlId()))
-				,LdoD.getInstance().getVirtualEditionInterSet().stream().map(virtualEditionInter -> new SearchableElement(SearchableElement.Type.VIRTUAL_INTER, virtualEditionInter.getXmlId(), virtualEditionInter.getTitle(),virtualEditionInter.getFragment().getXmlId()))
+				.flatMap(f -> f.getScholarInterSet().stream()).map(scholarInter ->
+								new SearchableElement(SearchableElement.Type.SCHOLAR_INTER, scholarInter.getXmlId(), scholarInter.getTitle(),scholarInter.getFragment().getXmlId(),scholarInter.getUrlId(),scholarInter.getShortName(),scholarInter.getXmlId()))
+				,LdoD.getInstance().getVirtualEditionInterSet().stream().map(virtualEditionInter ->
+						new SearchableElement(SearchableElement.Type.VIRTUAL_INTER, virtualEditionInter.getXmlId(), virtualEditionInter.getTitle(),virtualEditionInter.getFragment().getXmlId(),virtualEditionInter.getUrlId(),virtualEditionInter.getShortName(),virtualEditionInter.getUsesFragInter()))
 		);
 		for (SearchOption searchOption : searchOptions) {
 			for (SearchableElement inter : searchOption.search(searchableElements).collect(Collectors.toList())) {
@@ -82,8 +84,10 @@ public class Search {
 		List<SearchOption> searchOptions = orderTextSearchOptions(options);
 
 		List<SearchableElement> searchableElements = Stream.concat(textInterface.getFragmentsSet().stream()
-						.flatMap(f -> f.getScholarInterSet().stream()).map(scholarInter -> new SearchableElement(SearchableElement.Type.SCHOLAR_INTER, scholarInter.getXmlId(), scholarInter.getTitle(),scholarInter.getFragment().getXmlId()))
-				,LdoD.getInstance().getVirtualEditionInterSet().stream().map(virtualEditionInter -> new SearchableElement(SearchableElement.Type.VIRTUAL_INTER, virtualEditionInter.getXmlId(), virtualEditionInter.getTitle(),virtualEditionInter.getFragment().getXmlId())))
+						.flatMap(f -> f.getScholarInterSet().stream()).map(scholarInter ->
+								new SearchableElement(SearchableElement.Type.SCHOLAR_INTER, scholarInter.getXmlId(), scholarInter.getTitle(),scholarInter.getFragment().getXmlId(),scholarInter.getUrlId(),scholarInter.getShortName(),scholarInter.getXmlId()))
+				,LdoD.getInstance().getVirtualEditionInterSet().stream().map(virtualEditionInter ->
+						new SearchableElement(SearchableElement.Type.VIRTUAL_INTER, virtualEditionInter.getXmlId(), virtualEditionInter.getTitle(),virtualEditionInter.getFragment().getXmlId(),virtualEditionInter.getUrlId(),virtualEditionInter.getShortName(),virtualEditionInter.getUsesFragInter())))
 				.collect(Collectors.toList());
 
 		Stream<SearchableElement> selectedElements = searchableElements.stream();

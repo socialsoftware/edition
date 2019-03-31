@@ -34,7 +34,7 @@ public class TextInterface {
     }
 
     public ScholarInter getScholarInterUsed(String xmlId) {
-        return (ScholarInter) Text.getInstance().getFragmentsSet().stream()
+        return Text.getInstance().getFragmentsSet().stream()
                 .filter(fragment -> fragment.getScholarInterByXmlId(xmlId) != null)
                 .map(fragment -> fragment.getScholarInterByXmlId(xmlId)).findFirst().orElseThrow(LdoDException::new);
     }
@@ -61,10 +61,11 @@ public class TextInterface {
         return Text.getInstance().getFragmentsSet().stream().filter(f->f.getScholarInterByXmlId(xmlId) != null).findAny().orElse(null);
     }
 
-    public boolean isSourceInter(String xmlId){
-        return Text.getInstance().getFragmentsSet().stream()
+    public boolean isSourceInter(String xmlId) {
+        ScholarInter inter = Text.getInstance().getFragmentsSet().stream()
                 .filter(fragment -> fragment.getScholarInterByXmlId(xmlId) != null).map(fragment -> fragment.getScholarInterByXmlId(xmlId))
-                .map(FragInter::getSourceType).findFirst().orElseThrow(LdoDException::new).equals(Edition.EditionType.AUTHORIAL);
+                .findFirst().orElse(null);
+        return inter != null && inter.getSourceType().equals(Edition.EditionType.AUTHORIAL);
     }
 
     public Source getSourceOfInter(String xmlId) {
@@ -95,5 +96,11 @@ public class TextInterface {
         return Text.getInstance().getFragmentsSet().stream()
                 .filter(fragment -> fragment.getScholarInterByXmlId(xmlId) != null).map(fragment -> fragment.getScholarInterByXmlId(xmlId).getHeteronym().getXmlId())
                 .filter(Objects::nonNull).findFirst().orElse(null);
+    }
+
+    public String getInterSourceType(String xmlId) {
+        return  Text.getInstance().getFragmentsSet().stream()
+                .filter(fragment -> fragment.getScholarInterByXmlId(xmlId) != null).map(fragment -> fragment.getScholarInterByXmlId(xmlId))
+                .map(SourceInter.class::cast).map(sourceInter -> sourceInter.getSource().getType().toString()).findFirst().orElseThrow(LdoDException::new);
     }
 }

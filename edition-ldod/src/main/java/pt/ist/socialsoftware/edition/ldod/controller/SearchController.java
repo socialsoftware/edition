@@ -209,6 +209,7 @@ public class SearchController {
     SearchOption[] searchOptions = search.getSearchOptions();
     model.addAttribute("search", searchOptions);
     model.addAttribute("searchLenght", searchOptions.length);
+    model.addAttribute("textInterface", new TextInterface());
     return "search/resultTable";
   }
 
@@ -380,6 +381,8 @@ public class SearchController {
   public Map<String, String> getVirtualEditions(Model model) {
     Map<String, String> virtualEditionMap = new HashMap<>();
     LdoDUser user = LdoDUser.getAuthenticatedUser();
+
+    // TODO: what if the user isn't logged in??????
     for (VirtualEdition virtualEdition : user.getSelectedVirtualEditionsSet()) {
       if (!virtualEditionMap.containsKey(virtualEdition.getAcronym())) {
         virtualEditionMap.put(virtualEdition.getAcronym(), virtualEdition.getTitle());

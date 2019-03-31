@@ -13,11 +13,20 @@ public class SearchableElement {
 
     private String fragmentXmlId;
 
-    public SearchableElement(Type type, String xmlId, String title, String fragmentXmlId) {
+    private String urlId;
+
+    private String shortName;
+
+    private String lastUsedId;
+
+    public SearchableElement(Type type, String xmlId, String title, String fragmentXmlId, String urlId, String shortName, String lastUsedId) {
         this.type = type;
         this.xmlId = xmlId;
         this.title = title;
         this.fragmentXmlId = fragmentXmlId;
+        this.urlId = urlId;
+        this.shortName = shortName;
+        this.lastUsedId = lastUsedId;
     }
 
     public Type getType() {
@@ -52,4 +61,27 @@ public class SearchableElement {
         this.fragmentXmlId = fragmentXmlId;
     }
 
+    public String getUrlId() {
+        return urlId;
+    }
+
+    public void setUrlId(String urlId) {
+        this.urlId = urlId;
+    }
+
+    public String getShortName() {
+        return shortName;
+    }
+
+    public void setShortName(String shortName) {
+        this.shortName = shortName;
+    }
+
+    public String getLastUsedId() {
+        return lastUsedId;
+    }
+
+    public void setLastUsedId(String lastUsedId) {
+        this.lastUsedId = lastUsedId;
+    }
 }

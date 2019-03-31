@@ -52,14 +52,14 @@
 
 								<c:choose>
 									<c:when
-										test="${ fragInterEntry.key.getClass().getSimpleName().equals('SourceInter') && 
-										fragInterEntry.key.getSource().getType() == 'MANUSCRIPT'}">
+										test="${ textInterface.isSourceInter(fragInterEntry.key.getXmlId()) &&
+										textInterface.isSourceInter(fragInterEntry.key.getXmlId()) == 'MANUSCRIPT'}">
 										<td><a
-											href="/fragments/fragment/${fragInterEntry.key.getFragment().getXmlId()}/inter/${fragInterEntry.key.getUrlId()}">${fragInterEntry.key.getShortName()}</a></td>
+											href="/fragments/fragment/${fragInterEntry.key.getFragmentXmlId()}/inter/${fragInterEntry.key.getUrlId()}">${fragInterEntry.key.getShortName()}</a></td>
 									</c:when>
 									<c:otherwise>
 										<td><a
-											href="/fragments/fragment/${fragInterEntry.key.getFragment().getXmlId()}/inter/${fragInterEntry.key.getUrlId()}">${fragInterEntry.key.getTitle()}</a></td>
+											href="/fragments/fragment/${fragInterEntry.key.getFragmentXmlId()}/inter/${fragInterEntry.key.getUrlId()}">${fragInterEntry.key.getTitle()}</a></td>
 									</c:otherwise>
 								</c:choose>
 
@@ -82,31 +82,31 @@
 
 								<c:choose>
 									<c:when test="${showSource}">
-										<td>${fragInterEntry.key.getSourceType()}</td>
+										<td>${textInterface.getScholarInterUsed(fragInterEntry.key.getLastUsedId()).getSourceType()}</td>
 									</c:when>
 								</c:choose>
 
 								<c:if test="${showSourceType}">
 									<td><c:if
-											test="${ fragInterEntry.key.getClass().getSimpleName().equals('SourceInter') &&
-												fragInterEntry.key.getSource().getType() == 'MANUSCRIPT' &&
-												!fragInterEntry.key.getSource().getTypeNoteSet().isEmpty() }">
+											test="${textInterface.isSourceInter(fragInterEntry.key.getXmlId()) &&
+												textInterface.getInterSourceType(fragInterEntry.key.getXmlId()) == 'MANUSCRIPT' &&
+												!textInterface.getSourceOfInter(fragInterEntry.key.getXmlId()).getTypeNoteSet().isEmpty() }">
 											<spring:message code="general.typescript" />
 										</c:if> <c:if
-											test="${ fragInterEntry.key.getClass().getSimpleName().equals('SourceInter') &&
-												fragInterEntry.key.getSource().getType() == 'MANUSCRIPT' &&
-												!fragInterEntry.key.getSource().getHandNoteSet().isEmpty() }">
+											test="${textInterface.isSourceInter(fragInterEntry.key.getXmlId()) &&
+												textInterface.getInterSourceType(fragInterEntry.key.getXmlId())== 'MANUSCRIPT' &&
+												!textInterface.getSourceOfInter(fragInterEntry.key.getXmlId()).getHandNoteSet().isEmpty() }">
 											<spring:message code="general.manuscript" />
 										</c:if></td>
 								</c:if>
 
 								<c:if test="${showLdoD}">
 									<td><c:if
-											test="${fragInterEntry.key.getClass().getSimpleName().equals('SourceInter') &&
-												fragInterEntry.key.getSource().getType() == 'MANUSCRIPT' }">
+											test="${textInterface.isSourceInter(fragInterEntry.key.getXmlId()) &&
+												textInterface.getInterSourceType(fragInterEntry.key.getXmlId()) == 'MANUSCRIPT' }">
 											<c:choose>
 												<c:when
-													test="${fragInterEntry.key.getSource().getHasLdoDLabel()}">
+													test="${textInterface.getSourceOfInter(fragInterEntry.key.getXmlId()).getHasLdoDLabel()}">
 													<spring:message code="general.yes" />
 												</c:when>
 												<c:otherwise>
@@ -119,9 +119,9 @@
 								<c:if test="${showPubPlace}">
 									<c:choose>
 										<c:when
-											test="${ fragInterEntry.key.getClass().getSimpleName().equals('SourceInter') &&
-												fragInterEntry.key.getSource().getType() == 'PRINTED' }">
-											<td>${fragInterEntry.key.getSource().getTitle()}</td>
+											test="${ textInterface.isSourceInter(fragInterEntry.key.getXmlId()) &&
+												textInterface.getInterSourceType(fragInterEntry.key.getXmlId()) == 'PRINTED' }">
+											<td>${textInterface.getSourceOfInter(fragInterEntry.key.getXmlId()).getTitle()}</td>
 										</c:when>
 										<c:otherwise>
 											<td></td>
@@ -132,7 +132,7 @@
 								<c:if test="${showEdition}">
 									<c:choose>
 										<c:when
-											test="${ fragInterEntry.key.getClass().getSimpleName().equals('ExpertEditionInter')}">
+											test="${textInterface.isExpertInter(fragInterEntry.key.getXmlId())}">
 											<td>${fragInterEntry.key.getEdition().getEditor()}</td>
 										</c:when>
 										<c:otherwise>
@@ -144,7 +144,7 @@
 
 								<c:choose>
 									<c:when test="${showHeteronym}">
-										<td>${fragInterEntry.key.getHeteronym().getName()}</td>
+										<td>${textInterface.getScholarInterHeteronym(fragInterEntry.key.getXmlId()).getName()}</td>
 									</c:when>
 									<c:otherwise>
 									</c:otherwise>
@@ -154,13 +154,13 @@
 								<c:if test="${showDate}">
 									<c:choose>
 										<c:when
-											test="${ fragInterEntry.key.getClass().getSimpleName().equals('SourceInter') &&
-										 fragInterEntry.key.getSource().getType() == 'MANUSCRIPT' }">
-											<td>${fragInterEntry.key.getSource().getLdoDDate().print()}</td>
+											test="${textInterface.isSourceInter(fragInterEntry.key.getXmlId()) &&
+										 textInterface.getInterSourceType(fragInterEntry.key.getXmlId()) == 'MANUSCRIPT' }">
+											<td>${textInterface.getSourceOfInter(fragInterEntry.key.getXmlId()).getLdoDDate().print()}</td>
 										</c:when>
 										<c:when
-											test="${showDate && fragInterEntry.key.getClass().getSimpleName().equals('ExpertEditionInter')}">
-											<td>${fragInterEntry.key.getLdoDDate().print()}</td>
+											test="${showDate && textInterface.isExpertInter(fragInterEntry.key.getXmlId())}">
+											<td>${textInterface.getScholarInterDate(fragInterEntry.key.getXmlId()).print()}</td>
 										</c:when>
 										<c:otherwise>
 											<td></td>
