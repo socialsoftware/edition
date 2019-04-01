@@ -106,7 +106,14 @@ class ConnectedFragmentLoader extends React.Component {
         let myNewRecommendationArray = [];
         service.getIntersByDistance(this.props.fragments[this.props.fragmentIndex].interId, pHeteronymWeight, pTextWeight, pDateWeight, ptaxonomyWeight).then(response => {
 
-          idsDistanceArray = response.data;
+          let receivedArray = response.data;
+
+          receivedArray.map(f => {
+            f.distance = (1 - f.distance)
+          });
+
+          idsDistanceArray = receivedArray;
+
           this.props.setSemanticCriteriaData(idsDistanceArray);
 
           var i;
@@ -128,8 +135,8 @@ class ConnectedFragmentLoader extends React.Component {
 
           this.props.setHistory(myTempHist);
 
-          console.log("VVVVVVVVVVVVVVVVVVVVVVVVVVVVVV " + this.props.history[this.props.historyEntryCounter - 1].recommendationIndex)
-          console.log("VVVVVVVVVVVVVVVVVVVVVVVVVVVVVV " + this.props.history[this.props.historyEntryCounter - 1].recommendationArray)
+          // console.log("VVVVVVVVVVVVVVVVVVVVVVVVVVVVVV " + this.props.history[this.props.historyEntryCounter - 1].recommendationIndex)
+          // console.log("VVVVVVVVVVVVVVVVVVVVVVVVVVVVVV " + this.props.history[this.props.historyEntryCounter - 1].recommendationArray)
 
           this.props.setRecommendationLoaded(true);
 

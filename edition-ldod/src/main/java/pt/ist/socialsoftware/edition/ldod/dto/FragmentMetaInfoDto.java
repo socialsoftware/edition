@@ -1,5 +1,6 @@
 package pt.ist.socialsoftware.edition.ldod.dto;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -10,33 +11,33 @@ public class FragmentMetaInfoDto {
 	private String heteronym;
 	private String date;
 	private boolean hasLdoDLabel;
-	private List<String> categories;
+	private List<String> categories = new ArrayList<>();
 
-	public FragmentMetaInfoDto() {
-	}
-
-	public FragmentMetaInfoDto(VirtualEditionInter inter) {
+	public FragmentMetaInfoDto(FragInter inter) {
 		this.title = inter.getFragment().getTitle();
 
-		ScholarInter lastUsed = inter.getLastUsed();
+		ScholarInter lastUsed = (ScholarInter) inter.getLastUsed();
 
 		if (lastUsed.getLdoDDate() != null) {
 			this.date = lastUsed.getLdoDDate().getDate().toString();
-		}
 
-		if (lastUsed.getHeteronym() != null && !lastUsed.getHeteronym().isNullHeteronym()) {
-			this.heteronym = lastUsed.getHeteronym().getName();
-		}
+			if (inter.getHeteronym() != null && !inter.getHeteronym().isNullHeteronym()) {
+				this.heteronym = inter.getHeteronym().getName();
+			}
 
-		if (lastUsed.getSourceType() == Edition.EditionType.AUTHORIAL) {
-			SourceInter sourceInter = (SourceInter) lastUsed;
-			if (sourceInter.getSource().getType() == Source.SourceType.MANUSCRIPT) {
-				this.hasLdoDLabel = ((ManuscriptSource) sourceInter.getSource()).getHasLdoDLabel();
+			if (inter.getSourceType() == Edition.EditionType.AUTHORIAL) {
+				SourceInter sourceInter = (SourceInter) inter;
+				if (sourceInter.getSource().getType() == Source.SourceType.MANUSCRIPT) {
+					this.hasLdoDLabel = ((ManuscriptSource) sourceInter.getSource()).getHasLdoDLabel();
+				}
 			}
 		}
+	}
+
+	public FragmentMetaInfoDto(VirtualEditionInter inter) {
+		this(inter.getLastUsed());
 
 		this.categories = inter.getCategories().stream().map(c -> c.getName()).sorted().collect(Collectors.toList());
-
 	}
 
 	public String getTitle() {

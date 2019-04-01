@@ -53,7 +53,7 @@ public class VSMVirtualEditionInterRecomenderTest extends TestWithFragmentsLoadi
 	protected void populate4Test() {
 
 		LdoD ldoD = LdoD.getInstance();
-		ExpertEdition pizarroEdition = (ExpertEdition) Text.getInstance().getEdition(Edition.PIZARRO_EDITION_ACRONYM);
+		ExpertEdition pizarroEdition = (ExpertEdition) Text.getInstance().getExpertEdition(Edition.PIZARRO_EDITION_ACRONYM);
 
 		LdoDUser userArs = ldoD.getUser("ars");
 		// create virtual edition

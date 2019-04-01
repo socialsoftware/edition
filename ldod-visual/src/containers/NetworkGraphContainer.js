@@ -52,7 +52,7 @@ class ConnectedNetworkGraphContainer extends Component {
       let targetId = this.props.fragments[this.props.fragmentIndex].interId;
 
       if (this.props.currentFragmentMode) {
-        console.log("NETWORKGRAPHCONTAINER: CALCULATING NETWORK GRAPH DISTANCES FOR CURRENT FRAGMENT AND NOT!! THE PICKED FRAGMENT %%%%%%%%%%%%%%%%%%%%%")
+        //console.log("NETWORKGRAPHCONTAINER: CALCULATING NETWORK GRAPH DISTANCES FOR CURRENT FRAGMENT AND NOT!! THE PICKED FRAGMENT %%%%%%%%%%%%%%%%%%%%%")
         targetId = this.props.recommendationArray[this.props.recommendationIndex].interId;
       }
 
@@ -63,23 +63,32 @@ class ConnectedNetworkGraphContainer extends Component {
 
       if (this.props.potentialSemanticCriteria == CRIT_HETERONYM) {
         pHeteronymWeight = "1.0";
-        console.log("NETWoRKGRAPHCONTAINER: pHeteronymWeight = 1.0");
+        //console.log("NETWoRKGRAPHCONTAINER: pHeteronymWeight = 1.0");
       } else if (this.props.potentialSemanticCriteria == CRIT_TEXT_SIMILARITY) {
         pTextWeight = "1.0";
-        console.log("NETWoRKGRAPHCONTAINER: pTextWeight = 1.0");
+        //console.log("NETWoRKGRAPHCONTAINER: pTextWeight = 1.0");
       } else if (this.props.potentialSemanticCriteria == CRIT_CHRONOLOGICAL_ORDER) {
         pDateWeight = "1.0";
-        console.log("NETWoRKGRAPHCONTAINER: pDateWeight = 1.0");
+        //console.log("NETWoRKGRAPHCONTAINER: pDateWeight = 1.0");
       } else if (this.props.potentialSemanticCriteria == CRIT_TAXONOMY) {
         ptaxonomyWeight = "1.0";
-        console.log("NETWoRKGRAPHCONTAINER: ptaxonomyWeight = 1.0");
+        //console.log("NETWoRKGRAPHCONTAINER: ptaxonomyWeight = 1.0");
       }
 
       let idsDistanceArray = [];
       let myNewRecommendationArray = [];
       service.getIntersByDistance(targetId, pHeteronymWeight, pTextWeight, pDateWeight, ptaxonomyWeight).then(response => {
         console.log("NetworkGraphContainer.js: Distances received.");
-        this.setState({networkGraphData: response.data});
+
+        let receivedArray = response.data;
+
+        receivedArray.map(f => {
+          f.distance = (1 - f.distance)
+        });
+
+        //receivedArray.map(f => console.log("receivedArray: " + f.distance));
+
+        this.setState({networkGraphData: receivedArray});
         this.setState(prevState => ({
           fragmentsDistanceLoaded: !prevState.check
         }));

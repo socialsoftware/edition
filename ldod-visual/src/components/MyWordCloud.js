@@ -18,6 +18,7 @@ import {
 import {VIS_SQUARE_GRID, BY_SQUAREGRID_EDITIONORDER, CRIT_EDITION_ORDER, CRIT_CHRONOLOGICAL_ORDER, CRIT_CATEGORY} from "../constants/history-transitions";
 import HashMap from "hashmap";
 import SquareGrid from "../components/SquareGrid";
+import {Button} from "react-bootstrap";
 
 const mapStateToProps = state => {
   return {
@@ -64,11 +65,20 @@ class ConnectedMyWordCloud extends Component {
 
     this.state = {
       renderSquareMap: false,
-      containerHeight: 0
+      containerHeight: 0,
+      showInstructions: false
     };
 
     this.handleClickedWord = this.handleClickedWord.bind(this);
 
+    this.toggleInstructions = this.toggleInstructions.bind(this);
+
+  }
+
+  toggleInstructions() {
+    this.setState({
+      showInstructions: !this.state.showInstructions
+    });
   }
 
   handleClickedWord(word) {
@@ -87,12 +97,34 @@ class ConnectedMyWordCloud extends Component {
 
   }
 
+  _handleKeyDownActivity = (event) => {
+
+    var I_KEY = 73;
+
+    switch (event.keyCode) {
+      case I_KEY:
+        this.toggleInstructions();
+        break;
+      default:
+        break;
+
+    }
+
+  }
+
   componentDidMount() {
     //const height = document.getElementById('container').clientHeight;
     //this.setState({containerHeight: height});
+    document.addEventListener("keydown", this._handleKeyDownActivity);
   }
 
   render() {
+
+    let instructions = (<div className="instructionsButton">
+      <Button bsStyle="primary" bsSize="small" onClick={this.toggleInstructions}>
+        Mostrar instrucções [i]
+      </Button>
+    </div>)
 
     let message = "Esta edição virtual não tem categorias para fazer esta actividade.";
     let data = [];
@@ -169,13 +201,34 @@ class ConnectedMyWordCloud extends Component {
       const padding = 2;
       const font = 'Impact';
 
+      if (this.state.showInstructions) {
+        instructions = (<div>
+          <div className="instructionsText">
+
+            <p>
+              {message}
+            </p>
+
+          </div>
+
+          <div className="instructionsButton">
+            <Button bsStyle="primary" bsSize="small" onClick={this.toggleInstructions}>
+              Esconder instrucções [i]
+            </Button>
+          </div>
+
+          <br/>
+
+        </div>)
+
+      }
+
       if (this.state.renderSquareMap && !(this.outOfLandingPage)) {
         componentToRender = (<SquareGrid onChange={this.props.onChange}/>)
       } else {
         componentToRender = (<div>
-          <p>
-            {message}
-          </p>
+
+          {instructions}
 
           <div style={{
               display: 'flex',

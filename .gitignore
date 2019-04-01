@@ -23,6 +23,9 @@ fenix-framework.properties
 jmeter.log
 userpasswords.txt
 
+ldod-visual/package-lock.json
+package-lock.json
+
 *.DS_Store
 /infer-out/
 /pom.xml.infer-orig
@@ -160,4 +163,3 @@ fabric.properties
 .idea/
 *.iml
 
-package-lock.json

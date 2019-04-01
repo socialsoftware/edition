@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import pt.ist.socialsoftware.edition.ldod.domain.ExpertEdition;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
 
@@ -11,12 +12,24 @@ public class VirtualEditionInterListDto {
 	private List<VirtualEditionInterDto> virtualEditionInterList = new ArrayList<>();
 	private String title;
 	private String acronym;
+	private String type;
 	private boolean pub;
 	private int numberOfInters;
 	private TaxonomyDto taxonomy;
 	private List<LdoDUserDto> members;
 
 	public VirtualEditionInterListDto() {
+	}
+
+	public VirtualEditionInterListDto(ExpertEdition expertEdition) {
+		this.setTitle(expertEdition.getTitle() + ", Edição de " + expertEdition.getEditor());
+		this.setAcronym(expertEdition.getAcronym());
+		this.type = "Perito";
+		this.setPub(true);
+		this.numberOfInters = expertEdition.getIntersSet().size();
+		TaxonomyDto taxonomyDto = new TaxonomyDto();
+		taxonomyDto.setHasCategories(false);
+		this.taxonomy = taxonomyDto;
 	}
 
 	public VirtualEditionInterListDto(VirtualEdition virtualEdition, boolean deep) {
@@ -28,10 +41,11 @@ public class VirtualEditionInterListDto {
 		}
 		this.setTitle(virtualEdition.getTitle());
 		this.setAcronym(virtualEdition.getAcronym());
+		this.type = "Virtual";
 		this.setPub(virtualEdition.getPub());
-		setNumberOfInters(virtualEdition.getIntersSet().size());
-		TaxonomyDto taxonomyDTO = new TaxonomyDto(virtualEdition.getTaxonomy());
-		this.setTaxonomy(taxonomyDTO);
+		this.numberOfInters = virtualEdition.getIntersSet().size();
+		TaxonomyDto taxonomyDto = new TaxonomyDto(virtualEdition.getTaxonomy());
+		this.setTaxonomy(taxonomyDto);
 		if (deep) {
 			this.setMembers(virtualEdition.getActiveMemberSet().stream()
 					.map(member -> new LdoDUserDto(member.getUser())).collect(Collectors.toList()));

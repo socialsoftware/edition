@@ -94,9 +94,11 @@
 				<ul class="dropdown-menu">
 					<div class="dropdown-menu-bg"></div>
 					<li><a href="${contextPath}/reading"><spring:message
-								code="general.reading" /></a></li>
+							code="general.reading.sequences" /></a></li>
+					<li><a href="${contextPath}/ldod-visual"><spring:message
+						code="general.reading.visual" /></a></li>
 					<li><a href="${contentPath}/citations"><spring:message
-								code="general.citations" /></a></li>
+								code="general.citations.twitter" /></a></li>
 
 				</ul></li>
 
@@ -121,14 +123,14 @@
 			</a>
 				<ul class="dropdown-menu">
 					<div class="dropdown-menu-bg"></div>
-					<li><a href="${contextPath}/edition/acronym/JPC">Jacinto
-							do Prado Coelho</a></li>
-					<li><a href="${contextPath}/edition/acronym/TSC">Teresa
-							Sobral Cunha</a></li>
-					<li><a href="${contextPath}/edition/acronym/RZ">Richard
-							Zenith</a></li>
-					<li><a href="${contextPath}/edition/acronym/JP">Jerónimo
-							Pizarro</a></li>
+					<li><a href="${contextPath}/edition/acronym/JPC"><spring:message
+							code="general.editor.prado" /></a></li>
+					<li><a href="${contextPath}/edition/acronym/TSC">T<spring:message
+							code="general.editor.cunha" /></a></li>
+					<li><a href="${contextPath}/edition/acronym/RZ"><spring:message
+							code="general.editor.zenith" /></a></li>
+					<li><a href="${contextPath}/edition/acronym/JP"><spring:message
+							code="general.editor.pizarro" /></a></li>
 					<li class="divider"></li>
 					<li><a href="${contextPath}/edition/acronym/LdoD-Arquivo">Arquivo
 							LdoD</a></li>
