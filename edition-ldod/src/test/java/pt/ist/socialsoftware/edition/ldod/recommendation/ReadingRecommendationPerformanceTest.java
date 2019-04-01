@@ -80,7 +80,7 @@ public class ReadingRecommendationPerformanceTest {
 		recommender.setTextWeight(1.0);
 		recommender.setTaxonomyWeight(1.0);
 
-		ExpertEdition pizarroEdition = (ExpertEdition) Text.getInstance().getEdition(Edition.PIZARRO_EDITION_ACRONYM);
+		ExpertEdition pizarroEdition = (ExpertEdition) Text.getInstance().getExpertEdition(Edition.PIZARRO_EDITION_ACRONYM);
 		ExpertEditionInter inter = pizarroEdition.getExpertEditionIntersSet().stream().collect(Collectors.toList())
 				.get(0);
 

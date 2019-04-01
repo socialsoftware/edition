@@ -40,7 +40,7 @@ public class TextInterface {
     }
 
     public ExpertEdition getExpertEdition(String acronym) {
-        return Text.getInstance().getEdition(acronym);
+        return Text.getInstance().getExpertEdition(acronym);
     }
 
     public LdoDUser getUser(String username){
