@@ -5,11 +5,9 @@ import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import pt.ist.socialsoftware.edition.ldod.domain.FragInter;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
+import pt.ist.socialsoftware.edition.ldod.domain.*;
 
-public final class VirtualEditionSearchOption extends SearchOption {
+public final class   VirtualEditionSearchOption extends SearchOption {
 
 	private final String virtualEdition;
 	private final boolean inclusion;
@@ -30,21 +28,28 @@ public final class VirtualEditionSearchOption extends SearchOption {
 	}
 
 	public boolean verifiesSearchOption(VirtualEditionInter inter) {
+		Set<VirtualEdition> virtualEditions = LdoD.getInstance().getVirtualEditionsSet().stream().filter(virtualEdition -> virtualEdition.getPub()).collect(Collectors.toSet());
+		if (LdoDUser.getAuthenticatedUser() != null) {
+			virtualEditions.addAll(LdoDUser.getAuthenticatedUser().getSelectedVirtualEditionsSet());
+		}
 		if (this.inclusion) {
-			if (!virtualEdition.equals(ALL) && !(inter.getVirtualEdition().getAcronym().equals(virtualEdition)
-					&& LdoDUser.getAuthenticatedUser().getSelectedVirtualEditionsSet()
-							.contains(inter.getVirtualEdition()))) {
-				return false;
-			} else {
+			if (virtualEdition.equals(ALL) && virtualEditions.contains(inter.getVirtualEdition())) {
+				return true;
+			}
+			if (inter.getVirtualEdition().getAcronym().equals(virtualEdition)
+					&& virtualEditions.contains(inter.getVirtualEdition())) {
+				return true;
 			}
 		} else {
-			if (!(!virtualEdition.equals(ALL) && !(inter.getVirtualEdition().getAcronym().equals(virtualEdition)
-					&& LdoDUser.getAuthenticatedUser().getSelectedVirtualEditionsSet()
-							.contains(inter.getVirtualEdition())))) {
+			if (virtualEdition.equals(ALL)) {
 				return false;
 			}
+			if (!inter.getVirtualEdition().getAcronym().equals(virtualEdition)
+					&& virtualEditions.contains(inter.getVirtualEdition())) {
+				return true;
+			}
 		}
-		return true;
+		return false;
 	}
 
 	@Override

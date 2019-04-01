@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.joda.time.LocalDate;
 import org.slf4j.Logger;
@@ -375,14 +377,13 @@ public class SearchController {
   @RequestMapping(value = "/getVirtualEditions")
   @ResponseBody
   public Map<String, String> getVirtualEditions(Model model) {
-    Map<String, String> virtualEditionMap = new HashMap<>();
+    Stream<VirtualEdition> virtualEditionStream = LdoD.getInstance().getVirtualEditionsSet().stream().filter(virtualEdition -> virtualEdition.getPub());
+
     LdoDUser user = LdoDUser.getAuthenticatedUser();
-    for (VirtualEdition virtualEdition : user.getSelectedVirtualEditionsSet()) {
-      if (!virtualEditionMap.containsKey(virtualEdition.getAcronym())) {
-        virtualEditionMap.put(virtualEdition.getAcronym(), virtualEdition.getTitle());
-      }
+    if (user != null) {
+      virtualEditionStream =  Stream.concat(virtualEditionStream, user.getSelectedVirtualEditionsSet().stream()).distinct();
     }
-    return virtualEditionMap;
+    return virtualEditionStream.collect(Collectors.toMap(VirtualEdition::getAcronym, VirtualEdition::getTitle));
   }
 
   private LocalDate getIsBeforeDate(LocalDate date1, LocalDate date2) {

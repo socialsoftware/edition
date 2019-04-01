@@ -43,7 +43,10 @@ public final class EditionSearchOption extends SearchOption {
 
 	private boolean verifiesSearchOption(ExpertEditionInter inter) {
 		if (inclusion) {
-			if (!(edition.equals(inter.getEdition().getAcronym()) || edition.equals(ALL))) {
+			if (edition.equals(ALL)) {
+				return true;
+			}
+			if (!(edition.equals(inter.getEdition().getAcronym()))) {
 				return false;
 			}
 			if (heteronymSearchOption != null && !heteronymSearchOption.verifiesSearchOption(inter)) {
@@ -52,8 +55,8 @@ public final class EditionSearchOption extends SearchOption {
 			if (dateSearchOption != null && !dateSearchOption.verifiesSearchOption(inter)) {
 				return false;
 			}
-		} else if ((edition.equals(inter.getEdition().getAcronym()) || edition.equals(ALL)) && heteronymSearchOption != null
-				&& heteronymSearchOption.verifiesSearchOption(inter) && dateSearchOption != null && dateSearchOption.verifiesSearchOption(inter))
+		} else if ((edition.equals(inter.getEdition().getAcronym()) || edition.equals(ALL)) || (heteronymSearchOption != null
+				&& heteronymSearchOption.verifiesSearchOption(inter)) || (dateSearchOption != null && dateSearchOption.verifiesSearchOption(inter)))
 			return false;
 
 		return true;
