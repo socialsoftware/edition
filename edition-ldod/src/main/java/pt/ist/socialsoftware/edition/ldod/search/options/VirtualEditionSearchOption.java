@@ -6,13 +6,17 @@ import java.util.stream.Stream;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+<<<<<<< HEAD
 import pt.ist.socialsoftware.edition.ldod.api.ldod.LdoDInterface;
 import pt.ist.socialsoftware.edition.ldod.domain.FragInter;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
 import pt.ist.socialsoftware.edition.ldod.search.SearchableElement;
+=======
+import pt.ist.socialsoftware.edition.ldod.domain.*;
+>>>>>>> master
 
-public final class VirtualEditionSearchOption extends SearchOption {
+public final class   VirtualEditionSearchOption extends SearchOption {
 
 	private final String virtualEdition;
 	private final boolean inclusion;
@@ -34,20 +38,30 @@ public final class VirtualEditionSearchOption extends SearchOption {
 
 	public boolean verifiesSearchOption(SearchableElement inter) {
 		LdoDInterface ldoDInterface = new LdoDInterface();
-
+		Set<String> virtualEditions = LdoD.getInstance().getVirtualEditionsSet().stream().filter(virtualEdition -> virtualEdition.getPub())
+				.map(VirtualEdition::getAcronym).collect(Collectors.toSet());
+		if (LdoDUser.getAuthenticatedUser() != null) {
+			virtualEditions.addAll(LdoDUser.getAuthenticatedUser().getSelectedVirtualEditionsSet().stream()
+					.map(VirtualEdition::getAcronym).collect(Collectors.toSet()));
+		}
 		if (this.inclusion) {
-			if (!virtualEdition.equals(ALL) && !(ldoDInterface.isInterInVirtualEdition(inter.getXmlId(),this.virtualEdition)
-					&& ldoDInterface.isVirtualEditionInUserSelectionSet(inter.getXmlId()))) {
-				return false;
-			} else {
+			if (virtualEdition.equals(ALL) && virtualEditions.stream().anyMatch(virtualEdition -> ldoDInterface.isInterInVirtualEdition(inter.getXmlId(),virtualEdition))) {
+				return true;
+			}
+			if (ldoDInterface.getAcronymWithVeiId(inter.getXmlId()).equals(virtualEdition)
+					&& virtualEditions.stream().anyMatch(virtualEdition -> ldoDInterface.isInterInVirtualEdition(inter.getXmlId(),virtualEdition))) {
+				return true;
 			}
 		} else {
-			if (!(!virtualEdition.equals(ALL) && !(ldoDInterface.isInterInVirtualEdition(inter.getXmlId(),this.virtualEdition)
-					&& ldoDInterface.isVirtualEditionInUserSelectionSet(inter.getXmlId())))) {
+			if (virtualEdition.equals(ALL)) {
 				return false;
 			}
+			if (!ldoDInterface.getAcronymWithVeiId(inter.getXmlId()).equals(virtualEdition)
+					&& virtualEditions.stream().anyMatch(virtualEdition -> ldoDInterface.isInterInVirtualEdition(inter.getXmlId(),virtualEdition))) {
+				return true;
+			}
 		}
-		return true;
+		return false;
 	}
 
 	@Override
