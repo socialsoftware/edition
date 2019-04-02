@@ -143,10 +143,26 @@
     right: 90%;
   }
 
+  .navPrevious:hover {
+    filter: drop-shadow(-2px 2px 2px gray);
+  }
+
+  .navPrevious:active {
+    filter: drop-shadow(-8px 4px 4px black);
+  }
+
   .navNext {
     position: fixed;
     margin-top: 250px;
     left: 90%;
+  }
+
+  .navNext:hover {
+    filter: drop-shadow(2px 2px 2px gray);
+  }
+
+  .navNext:active {
+    filter: drop-shadow(8px 4px 4px black);
   }
 
   .navPreviousGolden {
@@ -155,10 +171,26 @@
     right: 91%;
   }
 
+  .navPreviousGolden:hover {
+    filter: drop-shadow(-1px 1px 1px gray);
+  }
+
+  .navPreviousGolden:active {
+    filter: drop-shadow(-2px 2px 2px black);
+  }
+
   .navNextGolden {
     position: fixed;
     margin-top: 400px;
     left: 91%;
+  }
+
+  .navNextGolden:hover {
+    filter: drop-shadow(1px 1px 1px gray);
+  }
+
+  .navNextGolden:active {
+    filter: drop-shadow(4px 2px 2px black);
   }
 
   .navigationText {
