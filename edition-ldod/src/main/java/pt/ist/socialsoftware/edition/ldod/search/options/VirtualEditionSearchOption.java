@@ -6,15 +6,9 @@ import java.util.stream.Stream;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-<<<<<<< HEAD
 import pt.ist.socialsoftware.edition.ldod.api.ldod.LdoDInterface;
-import pt.ist.socialsoftware.edition.ldod.domain.FragInter;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
-import pt.ist.socialsoftware.edition.ldod.search.SearchableElement;
-=======
 import pt.ist.socialsoftware.edition.ldod.domain.*;
->>>>>>> master
+import pt.ist.socialsoftware.edition.ldod.search.SearchableElement;
 
 public final class   VirtualEditionSearchOption extends SearchOption {
 
