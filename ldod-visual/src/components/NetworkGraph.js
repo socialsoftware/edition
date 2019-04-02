@@ -132,7 +132,15 @@ class ConnectedNetworkGraph extends Component {
       size: originalFragmentSize,
       color: {
         border: "#DC143C",
-        background: "#FF7F50"
+        background: "#FF7F50",
+        highlight: {
+          color: "#DC143C",
+          background: "#FF7F50"
+        },
+        hover: {
+          border: "#DC143C",
+          background: "#FF7F50"
+        }
       },
       title: this.props.fragmentsHashMap.get(targetIdActual).meta.title,
       x: 0,
@@ -275,6 +283,10 @@ class ConnectedNetworkGraph extends Component {
           hover: {
             border: hoverBorderColor,
             background: nodeBackgroundColor
+          },
+          highlight: {
+            color: nodeBorderColor,
+            background: nodeBackgroundColor
           }
         },
         title: myTitle, //this.props.fragmentsHashMap.get(this.props.graphData[i].interId).meta.title, + " " + this.props.graphData[i].distance,  + " || " + truncateText(myText, 60)
@@ -338,7 +350,7 @@ class ConnectedNetworkGraph extends Component {
 
   handleSelectNode(event) {
     const nodeId = event.nodes[0];
-    if (nodeId && nodeId !== this.props.fragments[this.props.fragmentIndex].interId) {
+    if (nodeId && (this.props.currentFragmentMode && nodeId !== this.props.fragments[this.props.fragmentIndex].interId) || (!this.props.currentFragmentMode && nodeId !== this.props.recommendationArray[this.props.recommendationIndex].interId)) {
 
       var i;
       for (i = 0; i < this.props.recommendationArray.length; i++) {
