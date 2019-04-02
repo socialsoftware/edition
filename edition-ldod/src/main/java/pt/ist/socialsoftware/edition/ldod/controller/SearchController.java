@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import pt.ist.socialsoftware.edition.ldod.api.text.TextInterface;
+import pt.ist.socialsoftware.edition.ldod.api.ui.UiInterface;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.domain.ManuscriptSource.Medium;
 import pt.ist.socialsoftware.edition.ldod.domain.Source.SourceType;
@@ -212,6 +213,7 @@ public class SearchController {
     model.addAttribute("search", searchOptions);
     model.addAttribute("searchLenght", searchOptions.length);
     model.addAttribute("textInterface", new TextInterface());
+    model.addAttribute("uiInterface", new UiInterface());
     return "search/resultTable";
   }
 

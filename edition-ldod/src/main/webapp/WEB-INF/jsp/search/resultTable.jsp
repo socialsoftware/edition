@@ -82,7 +82,7 @@
 
 								<c:choose>
 									<c:when test="${showSource}">
-										<td>${textInterface.getScholarInterUsed(fragInterEntry.key.getLastUsedId()).getSourceType()}</td>
+										<td>${uiInterface.getSourceTypeOfInter(fragInterEntry.key.getXmlId())}</td>
 									</c:when>
 								</c:choose>
 
@@ -144,7 +144,7 @@
 
 								<c:choose>
 									<c:when test="${showHeteronym}">
-										<td>${textInterface.getScholarInterHeteronym(fragInterEntry.key.getXmlId()).getName()}</td>
+										<td>${uiInterface.getHetetronymName(fragInterEntry.key.getXmlId())}</td>
 									</c:when>
 									<c:otherwise>
 									</c:otherwise>

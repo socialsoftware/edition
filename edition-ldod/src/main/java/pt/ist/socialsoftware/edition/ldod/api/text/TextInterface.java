@@ -36,7 +36,7 @@ public class TextInterface {
     public ScholarInter getScholarInterUsed(String xmlId) {
         return Text.getInstance().getFragmentsSet().stream()
                 .filter(fragment -> fragment.getScholarInterByXmlId(xmlId) != null)
-                .map(fragment -> fragment.getScholarInterByXmlId(xmlId)).findFirst().orElseThrow(LdoDException::new);
+                .map(fragment -> fragment.getScholarInterByXmlId(xmlId)).findFirst().orElse(null);
     }
 
     public ExpertEdition getExpertEdition(String acronym) {
