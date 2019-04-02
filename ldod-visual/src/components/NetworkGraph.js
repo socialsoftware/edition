@@ -350,7 +350,8 @@ class ConnectedNetworkGraph extends Component {
 
   handleSelectNode(event) {
     const nodeId = event.nodes[0];
-    if (nodeId && (this.props.currentFragmentMode && nodeId !== this.props.fragments[this.props.fragmentIndex].interId) || (!this.props.currentFragmentMode && nodeId !== this.props.recommendationArray[this.props.recommendationIndex].interId)) {
+
+    if (nodeId && nodeId !== this.props.recommendationArray[this.props.recommendationIndex].interId) {
 
       var i;
       for (i = 0; i < this.props.recommendationArray.length; i++) {
@@ -426,7 +427,6 @@ class ConnectedNetworkGraph extends Component {
       this.props.onChange();
 
     }
-
   }
 
   _handleKeyDownActivity = (event) => {
