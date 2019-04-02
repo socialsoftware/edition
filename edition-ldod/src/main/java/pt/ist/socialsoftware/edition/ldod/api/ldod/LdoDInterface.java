@@ -32,16 +32,13 @@ public class LdoDInterface {
         return LdoD.getInstance().getVirtualEditionInterByXmlId(xmlID).getTagSet();
     }
 
-    public boolean isVirtualEditionInUserSelectionSet(String xmlId){
-        String acronym = LdoD.getInstance().getVirtualEditionsSet().stream()
-                .filter(virtualEdition -> virtualEdition.getFragInterByXmlId(xmlId) != null)
-                .map(virtualEdition -> virtualEdition.getAcronym()).findFirst().orElseThrow(LdoDException::new);
-        return LdoDUser.getAuthenticatedUser().getSelectedVirtualEditionsSet().stream()
-                .map(virtualEdition -> virtualEdition.getAcronym()).anyMatch(s -> s.equals(acronym));
-    }
-
     public boolean isInterInVirtualEdition(String xmlId, String acronym) {
         return LdoD.getInstance().getVirtualEdition(acronym).getAllDepthVirtualEditionInters().stream()
                 .anyMatch(virtualEditionInter -> virtualEditionInter.getXmlId().equals(xmlId));
+    }
+
+    public String getAcronymWithVeiId(String xmlId){
+        return LdoD.getInstance().getVirtualEditionsSet().stream().filter(virtualEdition -> virtualEdition.getFragInterByXmlId(xmlId) != null)
+                .map(VirtualEdition::getAcronym).findFirst().orElseThrow(LdoDException::new);
     }
 }
