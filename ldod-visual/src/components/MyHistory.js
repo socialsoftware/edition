@@ -357,7 +357,7 @@ class ConnectedMyHistory extends Component {
         <div className="instructionsText">
 
           <p>
-            Nesta cronologia, poderá situar o fragmento atual e a sua data em comparação ao resto dos fragmentos da edição virtual que tenham também data disponível.
+            Nesta cronologia, poderá situar o fragmento atual e a sua data em comparação ao resto dos fragmentos da edição que tenham também data disponível.
           </p>
 
           <ul>

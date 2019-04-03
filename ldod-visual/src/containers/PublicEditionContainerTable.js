@@ -378,7 +378,7 @@ class ConnectedPublicEditionContainerTable extends React.Component {
       editionButtonList = (<ReactTable/>)
     } else {
       editionButtonList = (<div><img src={loadingGif} alt="loading...publiceditiontable" className="loadingGifCentered"/>
-        <p align="center">A carregar a lista de edições virtuais públicas disponíveis...</p>
+        <p align="center">A carregar a lista de edições públicas disponíveis...</p>
         <p align="center">Se demorar demasiado tempo, actualize a página e volte a tentar.</p>
       </div>);
     }
