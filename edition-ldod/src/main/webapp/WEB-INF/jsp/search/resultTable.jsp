@@ -133,7 +133,7 @@
 									<c:choose>
 										<c:when
 											test="${textInterface.isExpertInter(fragInterEntry.key.getXmlId())}">
-											<td>${fragInterEntry.key.getEdition().getEditor()}</td>
+											<td>${textInterface.getExpertEditionEditor(fragInterEntry.key.getXmlId())}</td>
 										</c:when>
 										<c:otherwise>
 											<td></td>

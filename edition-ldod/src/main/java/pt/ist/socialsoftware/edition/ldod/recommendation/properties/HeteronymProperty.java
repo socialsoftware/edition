@@ -75,7 +75,7 @@ public class HeteronymProperty extends Property {
 	protected String getConcreteTitle(FragInter inter) {
 		String title = "";
 		Set<Heteronym> heteronyms = new HashSet<>();
-		for (FragInter intr : inter.getFragment().getScholarInterSet()) {
+		for (ScholarInter intr : inter.getFragment().getScholarInterSet()) {
 			heteronyms.add(intr.getHeteronym());
 		}
 		for (Source source : inter.getFragment().getSourcesSet()) {

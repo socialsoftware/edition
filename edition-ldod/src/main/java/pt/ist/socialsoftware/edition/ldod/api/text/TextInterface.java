@@ -103,4 +103,9 @@ public class TextInterface {
                 .filter(fragment -> fragment.getScholarInterByXmlId(xmlId) != null).map(fragment -> fragment.getScholarInterByXmlId(xmlId))
                 .map(SourceInter.class::cast).map(sourceInter -> sourceInter.getSource().getType().toString()).findFirst().orElseThrow(LdoDException::new);
     }
+
+    public String getExpertEditionEditor(String xmlId){
+        return Text.getInstance().getExpertEditionsSet().stream().filter(expertEdition -> expertEdition.getFragInterByXmlId(xmlId) != null)
+                .findFirst().orElseThrow(LdoDException::new).getEditor();
+    }
 }

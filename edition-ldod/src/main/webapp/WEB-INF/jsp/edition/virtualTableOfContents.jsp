@@ -26,7 +26,7 @@
 	</p>
 </c:if>
 <p>
-	<strong>${edition.getSortedInterps().size()} <spring:message code="fragments" />: </strong>
+	<strong>${edition.getIntersSet().size()} <spring:message code="fragments" />: </strong>
 </p>
 <table id="tablevirtual" data-pagination="false" style="display: none;">
 	<!-- <table class="table table-hover table-condensed"> -->

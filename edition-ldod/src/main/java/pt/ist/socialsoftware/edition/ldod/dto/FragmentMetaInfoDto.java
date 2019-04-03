@@ -13,26 +13,27 @@ public class FragmentMetaInfoDto {
 	private boolean hasLdoDLabel;
 	private List<String> categories = new ArrayList<>();
 
-	public FragmentMetaInfoDto(FragInter inter) {
+	public FragmentMetaInfoDto(ScholarInter inter) {
 		this.title = inter.getFragment().getTitle();
 
 		ScholarInter lastUsed = (ScholarInter) inter.getLastUsed();
 
 		if (lastUsed.getLdoDDate() != null) {
 			this.date = lastUsed.getLdoDDate().getDate().toString();
+		}
 
-			if (inter.getHeteronym() != null && !inter.getHeteronym().isNullHeteronym()) {
-				this.heteronym = inter.getHeteronym().getName();
-			}
+		if (inter.getHeteronym() != null && !inter.getHeteronym().isNullHeteronym()) {
+			this.heteronym = inter.getHeteronym().getName();
+		}
 
-			if (inter.getSourceType() == Edition.EditionType.AUTHORIAL) {
-				SourceInter sourceInter = (SourceInter) inter;
-				if (sourceInter.getSource().getType() == Source.SourceType.MANUSCRIPT) {
-					this.hasLdoDLabel = ((ManuscriptSource) sourceInter.getSource()).getHasLdoDLabel();
-				}
+		if (inter.getSourceType() == Edition.EditionType.AUTHORIAL) {
+			SourceInter sourceInter = (SourceInter) inter;
+			if (sourceInter.getSource().getType() == Source.SourceType.MANUSCRIPT) {
+				this.hasLdoDLabel = ((ManuscriptSource) sourceInter.getSource()).getHasLdoDLabel();
 			}
 		}
 	}
+
 
 	public FragmentMetaInfoDto(VirtualEditionInter inter) {
 		this(inter.getLastUsed());

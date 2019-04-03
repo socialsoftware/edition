@@ -197,6 +197,10 @@ public class VirtualEdition extends VirtualEdition_Base {
 		return new HashSet<>(getAllDepthVirtualEditionInters());
 	}
 
+	public List<VirtualEditionInter> getSortedInterps() {
+		return getIntersSet().stream().map(VirtualEditionInter.class::cast).sorted().collect(Collectors.toList());
+	}
+
 	@Override
 	public String getReference() {
 		return getAcronym();

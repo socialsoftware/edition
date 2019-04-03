@@ -235,19 +235,16 @@ public class SearchController {
 
     TextInterface textInterface = new TextInterface();
 
-    Edition edition = textInterface.getExpertEdition(acronym);
-
-    if(edition == null)
-        edition = LdoD.getInstance().getVirtualEdition(acronym);
+    ExpertEdition edition = textInterface.getExpertEdition(acronym);
 
     Map<String, String> heteronyms = new HashMap<>();
     LocalDate beginDate = null;
     LocalDate endDate = null;
     for (FragInter fragInter : edition.getIntersSet()) {
-      if (!heteronyms.containsKey(fragInter.getHeteronym().getName())) {
-        heteronyms.put(fragInter.getHeteronym().getName(), fragInter.getHeteronym().getXmlId());
-      }
       ScholarInter scholarInter = (ScholarInter) fragInter;
+      if (!heteronyms.containsKey(scholarInter.getHeteronym().getName())) {
+        heteronyms.put(scholarInter.getHeteronym().getName(), scholarInter.getHeteronym().getXmlId());
+      }
       if (scholarInter.getLdoDDate() != null) {
         beginDate = getIsBeforeDate(beginDate, scholarInter.getLdoDDate().getDate());
         endDate = getIsAfterDate(endDate, scholarInter.getLdoDDate().getDate());

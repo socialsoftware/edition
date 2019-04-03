@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.joda.time.LocalDate;
 
@@ -135,9 +136,13 @@ public class ExpertEdition extends ExpertEdition_Base implements Comparable<Expe
 		return interps.get(0);
 	}
 
-	@Override
+
 	public Set<FragInter> getIntersSet() {
 		return new HashSet<FragInter>(getExpertEditionIntersSet());
+	}
+
+	public List<ExpertEditionInter> getSortedInterps() {
+		return getIntersSet().stream().map(ExpertEditionInter.class::cast).sorted().collect(Collectors.toList());
 	}
 
 	@Override

@@ -63,10 +63,6 @@ public abstract class Edition extends pt.ist.socialsoftware.edition.ldod.domain.
 
 	public abstract String getReference();
 
-	public List<FragInter> getSortedInterps() {
-		return getIntersSet().stream().sorted((i1, i2) -> i1.compareTo(i2)).collect(Collectors.toList());
-	}
-
 	public FragInter getNextNumberInter(FragInter inter, int number) {
 		List<FragInter> interps = new ArrayList<>(inter.getEdition().getIntersSet());
 
