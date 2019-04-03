@@ -84,6 +84,11 @@
   cursor: pointer;
 }
 
+.myVideoThumbnail:hover {
+  box-shadow: 0 5px 40px 0 #303030;
+  transition: 0.2s;
+}
+
 .ldodIcon {
   padding: 10px;
   width: 5%;

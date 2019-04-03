@@ -122,11 +122,11 @@ class ConnectedMyWordCloud extends Component {
 
     let instructions = (<div className="instructionsButton">
       <Button bsStyle="primary" bsSize="small" onClick={this.toggleInstructions}>
-        Mostrar instrucções [i]
+        Mostrar instruções [i]
       </Button>
     </div>)
 
-    let message = "Esta edição virtual não tem categorias para fazer esta actividade.";
+    let message = "Esta edição virtual não tem categorias para fazer esta atividade.";
     let data = [];
     let componentToRender;
 
@@ -144,7 +144,7 @@ class ConnectedMyWordCloud extends Component {
 
       message = "Esta é uma nuvem de palavras das categorias desta edição virtual. Para explorar fragmentos que pertençam a uma destas categorias, clique com o botão esquerdo do rato numa delas para ser remetido para outro mapa."
       if (this.props.singleFragmentCategory) {
-        message = "Esta é uma nuvem de palavras das categorias do fragmento actual. Para explorar fragmentos que pertençam a esta(s) categoria(s), clique com o botão esquerdo do rato numa delas para ser remetido para outro mapa."
+        message = "Esta é uma nuvem de palavras das categorias do fragmento atual. Para explorar fragmentos que pertençam a esta(s) categoria(s), clique com o botão esquerdo do rato numa delas para ser remetido para outro mapa."
       }
 
       let minFontSize = 20;
@@ -213,7 +213,7 @@ class ConnectedMyWordCloud extends Component {
 
           <div className="instructionsButton">
             <Button bsStyle="primary" bsSize="small" onClick={this.toggleInstructions}>
-              Esconder instrucções [i]
+              Esconder instruções [i]
             </Button>
           </div>
 
