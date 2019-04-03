@@ -716,8 +716,8 @@ class ConnectedApp extends Component {
   render() {
     //console.log(new Date().getTime() + " App.js: Rendering")
     let retreatButton;
-    const activitySelectable = "Escolher actividade";
-    const activityUnselectable = "Actividade indisponível";
+    const activitySelectable = "Escolher atividade";
+    const activityUnselectable = "Atividade indisponível";
 
     //BUTTON LOGIC
     if (this.props.outOfLandingPage) {
@@ -745,7 +745,7 @@ class ConnectedApp extends Component {
     } else if (this.state.editionsReceived && this.state.editionSelected) {
 
       retreatButton = (<Button bsStyle="primary" onClick={this.handleEditionSelectRetreat}>
-        ← Seleccionar outra edição virtual
+        ← Selecionar outra edição virtual
       </Button>);
 
       if (!this.props.allFragmentsLoaded) {
@@ -757,12 +757,12 @@ class ConnectedApp extends Component {
       } else if (this.state.showLandingActivity & (this.props.potentialSemanticCriteria == CRIT_CATEGORY) & this.props.allFragmentsLoaded) {
         this.landingActivityToRender = (<MyWordCloud onChange={this.handleCloseModals}/>)
         retreatButton = (<Button bsStyle="primary" onClick={this.handleFirstActivitySelectRetreat}>
-          ← Seleccionar outra actividade
+          ← Selecionar outra atividade
         </Button>);
       } else if (this.state.showLandingActivity & this.props.allFragmentsLoaded) {
         this.landingActivityToRender = (<SquareGrid onChange={this.handleCloseModals}/>)
         retreatButton = (<Button bsStyle="primary" onClick={this.handleFirstActivitySelectRetreat}>
-          ← Seleccionar outra actividade
+          ← Selecionar outra atividade
         </Button>);
       } else if (!this.state.showLandingActivity & this.props.allFragmentsLoaded) {
         let categoryButtonStyle = "primary"
@@ -798,7 +798,7 @@ class ConnectedApp extends Component {
           <br/>
           <br/>
           <p align="center">
-            Esta é a sua primeira actividade em torno da edição virtual que seleccionou - "{myTitle}". Escolha uma das seguintes opções.
+            Esta é a sua primeira atividade em torno da edição virtual que selecionou - "{myTitle}". Escolha uma das seguintes opções.
           </p>
 
           <div className="cardsContainerActivity">
@@ -813,7 +813,7 @@ class ConnectedApp extends Component {
                 </p>
                 <div className="welcomeButtonActivity">
                   <Button bsStyle="primary" bsSize="small" onClick={this.handleShowLandingActivitySquareEditionOrder}>
-                    Escolher actividade
+                    Escolher atividade
                   </Button>
                 </div>
               </div>
@@ -883,13 +883,13 @@ class ConnectedApp extends Component {
         {toggleTextSkimmingButtonMessage}
       </Button>)
 
-      editionTitleToDisplay = ("Título da edição virtual seleccionada: " + ReactHtmlParser(this.state.currentEdition.title));
+      editionTitleToDisplay = ("Título da edição virtual selecionada: " + ReactHtmlParser(this.state.currentEdition.title));
       editionAcronymToDisplay = ("Acrónimo: " + this.state.currentEdition.acronym);
       changeEdButton = (<Button bsStyle="default" bsSize="small" onClick={this.forcePageReload}>
         Escolher outra edição virtual
       </Button>)
       readingMenuIntructions = (<Button bsStyle="default" bsSize="small" onClick={this.toggleShowReadingMenuInstructions}>
-        Instrucções [i]
+        Instruções [i]
       </Button>)
       progressBar = ((<div className="progress-bar" onMouseOver={this.setMouseOverMenuButtons} onMouseLeave={this.setMouseOutMenuButtons}>
         <div className="filler" style={{
@@ -949,12 +949,12 @@ class ConnectedApp extends Component {
             }
           }
 
-          let goldenPreviousLabel = "Fragmento anterior do heterónimo seleccionado (" + this.props.currentCategory + ")"
-          let goldenNextLabel = "Próximo fragmento do heterónimo seleccionado (" + this.props.currentCategory + ")"
+          let goldenPreviousLabel = "Fragmento anterior do heterónimo selecionado (" + this.props.currentCategory + ")"
+          let goldenNextLabel = "Próximo fragmento do heterónimo selecionado (" + this.props.currentCategory + ")"
 
           if (this.props.semanticCriteria == CRIT_CATEGORY) {
-            goldenPreviousLabel = "Fragmento anterior da categoria seleccionada (" + this.props.currentCategory + ")"
-            goldenNextLabel = "Próximo fragmento da categoria seleccionada (" + this.props.currentCategory + ")"
+            goldenPreviousLabel = "Fragmento anterior da categoria selecionada (" + this.props.currentCategory + ")"
+            goldenNextLabel = "Próximo fragmento da categoria selecionada (" + this.props.currentCategory + ")"
           }
 
           let goldenPreviousButtonArrow = this.unavailablePreviousArrowButtonGolden;
@@ -1049,11 +1049,11 @@ class ConnectedApp extends Component {
         <ButtonToolbar onMouseOver={this.setMouseOverMenuButtons} onMouseLeave={this.setMouseOutMenuButtons}>
 
           <Button bsStyle="default" bsSize="small" onClick={this.handleShowGlobalView}>
-            Actividade actual [A]
+            Atividade atual [A]
           </Button>
 
           <Button bsStyle="default" bsSize="small" onClick={this.handleShowConfig}>
-            Nova actividade [N]
+            Nova atividade [N]
           </Button>
 
           <Button bsStyle="default" bsSize="small" onClick={this.handleShowHistoric}>
@@ -1192,7 +1192,7 @@ class ConnectedApp extends Component {
 
         <Modal.Footer>
           <Button bsStyle="primary" onClick={this.handleCloseGlobalView}>
-            Fechar
+            Fechar [ESC]
           </Button>
         </Modal.Footer>
       </Modal>
@@ -1208,7 +1208,7 @@ class ConnectedApp extends Component {
             Escolher outra edição virtual
           </Button>
           <Button bsStyle="primary" onClick={this.handleCloseConfig}>
-            Fechar
+            Fechar [ESC]
           </Button>
         </Modal.Footer>
       </Modal>
@@ -1221,7 +1221,7 @@ class ConnectedApp extends Component {
 
         <Modal.Footer>
           <Button bsStyle="primary" onClick={this.handleCloseHistoric}>
-            Fechar
+            Fechar [ESC]
           </Button>
         </Modal.Footer>
       </Modal>
@@ -1238,10 +1238,10 @@ class ConnectedApp extends Component {
             <p align="center">Este é o menu de leitura. Aqui poderá:</p>
             <lu>
               <li>
-                Ir para o menu da actividade actual e interagir com a mesma clicando no botão ou na tecla "A" do seu teclado.
+                Ir para o menu da atividade atual e interagir com a mesma clicando no botão ou na tecla "A" do seu teclado.
               </li>
               <li>
-                Ir para o menu de nova actividade clicando no botão ou na tecla "N" do seu teclado.
+                Ir para o menu de nova atividade clicando no botão ou na tecla "N" do seu teclado.
               </li>
               <li>
                 Ir para o menu de histórico de leitura clicando no botão ou na tecla "H" do seu teclado.
@@ -1251,10 +1251,10 @@ class ConnectedApp extends Component {
                 <i>term frequency–inverse document frequency.</i>
               </li>
               <li>
-                Clicar nas setas pretas da esquerda e direita para ir para o fragmento anterior ou seguinte no contexto da actividade actual. Também pode usar as teclas esquerda e direita do seu teclado para o mesmo efeito.
+                Clicar nas setas pretas da esquerda e direita para ir para o fragmento anterior ou seguinte no contexto da atividade atual. Também pode usar as teclas esquerda e direita do seu teclado para o mesmo efeito.
               </li>
               <li>
-                Ao fazer uma actividade que envolva a selecção de uma certa categoria ou heterónimo, irão surgir novas setas amarelas por baixo das pretas. Poderá clicar nelas para navegar exclusivamente entre os fragmentos dessa categoria ou heterónimo seleccionados.
+                Ao fazer uma atividade que envolva a seleção de uma certa categoria ou heterónimo, irão surgir novas setas amarelas por baixo das pretas. Poderá clicar nelas para navegar exclusivamente entre os fragmentos dessa categoria ou heterónimo selecionados.
               </li>
               <li>
                 Conferir o progresso da leitura a olhar para a barra no fundo da página. Se estiver no fragmento número 30 de uma edição virtual com 90 fragmentos, a barra está 1/3 azul e 2/3 cinzenta.
@@ -1268,7 +1268,7 @@ class ConnectedApp extends Component {
 
         <Modal.Footer>
           <Button bsStyle="default" bsSize="small" onClick={this.toggleShowReadingMenuInstructions}>
-            Fechar
+            Fechar [ESC]
           </Button>
         </Modal.Footer>
       </Modal>

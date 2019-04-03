@@ -121,7 +121,7 @@ class ConnectedNetworkGraph extends Component {
     }
 
     let originalFragmentSize = 6; //Math.floor(this.props.graphData.length * 0.05); 60; Math.max(5, Math.floor(this.props.graphData.length * 0.01));
-    //BUILD ACTUAL FRAGMENT NODE
+    //BUILD atual FRAGMENT NODE
     let obj;
     obj = {
       id: this.props.graphData[this.targetIndex].interId,
@@ -412,7 +412,7 @@ class ConnectedNetworkGraph extends Component {
           this.props.addHistoryEntry(obj);
           this.props.setHistoryEntryCounter(this.props.historyEntryCounter + 1)
 
-          //bug - apenas calcular array de recomendações caso estejamos em nova actividade
+          //bug - apenas calcular array de recomendações caso estejamos em nova atividade
           if (this.props.currentFragmentMode) {
             this.props.setRecommendationLoaded(false);
           }
@@ -523,7 +523,7 @@ class ConnectedNetworkGraph extends Component {
 
     let instructions = (<div className="instructionsButton">
       <Button bsStyle="primary" bsSize="small" onClick={this.toggleInstructions}>
-        Mostrar instrucções [i]
+        Mostrar instruções [i]
       </Button>
     </div>)
 
@@ -532,17 +532,17 @@ class ConnectedNetworkGraph extends Component {
         <div className="instructionsText">
           <p>
             Neste grafo de rede, cada círculo representa um fragmento da edição virtual do{" "}
-            <i>"Livro do Desassossego"</i>{" "}
-            que seleccionou.
+            <i>Livro do Desassossego</i>{" "}
+            que selecionou.
           </p>
 
           <lu>
             <li>
-              Seleccione um fragmento novo ao clicar num dos círculos em torno do {orangeCircleText}.
+              Selecione um fragmento novo ao clicar num dos círculos em torno do {orangeCircleText}.
             </li>
             <li>
               Quanto mais próximos estiverem do {orangeCircleText}
-              (correspondente ao fragmento sob o qual realizou ou está a realizar uma nova actividade), mais semelhantes serão segundo o critério desta actividade.
+              (correspondente ao fragmento sob o qual realizou ou está a realizar uma nova atividade), mais semelhantes serão segundo o critério desta atividade.
             </li>
             <li>
               O círculo mais próximo será sempre do fragmento que, dentro do conjunto de todos os fragmentos da edição, é o que é relativamente mais semelhante, seja 5% ou 100% semelhante.
@@ -552,7 +552,7 @@ class ConnectedNetworkGraph extends Component {
             </li>
             <li>
               Um {purpleCircleText}
-              representará o fragmento que está a ler actualmente caso navegue para um fragmento diferente do fragmento inicial (o {orangeCircleText}).
+              representará o fragmento que está a ler atualmente caso navegue para um fragmento diferente do fragmento inicial (o {orangeCircleText}).
             </li>
 
             <li>
@@ -564,7 +564,7 @@ class ConnectedNetworkGraph extends Component {
 
         <div className="instructionsButton">
           <Button bsStyle="primary" bsSize="small" onClick={this.toggleInstructions}>
-            Esconder instrucções [i]
+            Esconder instruções [i]
           </Button>
         </div>
 

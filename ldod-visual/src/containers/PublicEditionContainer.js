@@ -144,7 +144,7 @@ class ConnectedPublicEditionContainer extends React.Component {
               <div className="welcomeButton">
 
                 <Button bsStyle={buttonStyle} bsSize="small" onClick={() => this.handleButtonClick(item)}>
-                  Seleccionar edição
+                  Selecionar edição
                 </Button>
 
               </div>
@@ -171,7 +171,9 @@ class ConnectedPublicEditionContainer extends React.Component {
       <br/>
       <br/>
 
-      <p align="center">Aqui poderá escolher e explorar uma das edições virtuais públicas do "Livro do Desassossego" disponíveis no {' '}
+      <p align="center">Aqui poderá escolher e explorar uma das edições virtuais públicas do {" "}
+        <i>Livro do Desassossego</i>{" "}
+        disponíveis no {' '}
         <a href="https://ldod.uc.pt">
           Arquivo LdoD</a>.
       </p>
@@ -180,7 +182,7 @@ class ConnectedPublicEditionContainer extends React.Component {
           nesta secção do Arquivo LdoD</a>.
       </p>
       <p align="center">
-        Apenas se seleccionar uma edição virtual com categorias disponíveis (taxonomia), poderá realizar actividades à volta das mesmas.</p>
+        Apenas se selecionar uma edição virtual com categorias disponíveis (taxonomia), poderá realizar atividades à volta das mesmas.</p>
 
       <div className="cardsContainer">
         {editionButtonList}
@@ -196,6 +198,6 @@ export default PublicEditionContainer;
 
 /*
 <button className="landingButton" bsStyle={buttonStyle} bsSize="small" onClick={() => this.handleButtonClick(item)}>
-  Seleccionar edição
+  Selecionar edição
 </button>
 */

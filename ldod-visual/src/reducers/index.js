@@ -29,7 +29,7 @@ import {SET_GOLDEN_ARRAY} from "../constants/action-types";
 const initialState = {
   fragments: [],
   fragmentIndex: 0,
-  currentVisualization: "Configure primeiro uma actividade para poder ter uma vista global!",
+  currentVisualization: "Configure primeiro uma atividade para poder ter uma vista global!",
   history: [],
   allFragmentsLoaded: false,
   outOfLandingPage: false,
