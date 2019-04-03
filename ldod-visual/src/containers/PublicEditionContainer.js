@@ -156,7 +156,7 @@ class ConnectedPublicEditionContainer extends React.Component {
       })
     } else {
       editionButtonList = (<div><img src={loadingGif} alt="loading...publicEd" className="loadingGifCentered"/>
-        <p align="center">A carregar a lista de edições virtuais públicas disponíveis...</p>
+        <p align="center">A carregar a lista de edições públicas disponíveis...</p>
         <p align="center">Se demorar demasiado tempo, actualize a página e volte a tentar.</p>
       </div>);
     }
@@ -171,7 +171,7 @@ class ConnectedPublicEditionContainer extends React.Component {
       <br/>
       <br/>
 
-      <p align="center">Aqui poderá escolher e explorar uma das edições virtuais públicas do {" "}
+      <p align="center">Aqui poderá escolher, ler e explorar uma das edições dos peritos ou edições virtuais públicas do {" "}
         <i>Livro do Desassossego</i>{" "}
         disponíveis no {' '}
         <a href="https://ldod.uc.pt">
@@ -182,7 +182,7 @@ class ConnectedPublicEditionContainer extends React.Component {
           nesta secção do Arquivo LdoD</a>.
       </p>
       <p align="center">
-        Apenas se selecionar uma edição virtual com categorias disponíveis (taxonomia), poderá realizar atividades à volta das mesmas.</p>
+        Apenas se selecionar uma edição com categorias disponíveis (taxonomia), poderá realizar atividades à volta das mesmas.</p>
 
       <div className="cardsContainer">
         {editionButtonList}

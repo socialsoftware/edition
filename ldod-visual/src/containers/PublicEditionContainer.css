@@ -1,4 +1,4 @@
-.cardsContainer{
+/* .cardsContainer{
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -42,9 +42,9 @@
   */
 }
 
-.landingButton:hover {
+/* .landingButton:hover {
   background: #265A88;
 }
 .landingButton:active {
   background: #204D74;
-}
+} */ 

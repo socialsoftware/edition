@@ -531,7 +531,7 @@ class ConnectedNetworkGraph extends Component {
       instructions = (<div>
         <div className="instructionsText">
           <p>
-            Neste grafo de rede, cada círculo representa um fragmento da edição virtual do{" "}
+            Neste grafo de rede, cada círculo representa um fragmento da edição do{" "}
             <i>Livro do Desassossego</i>{" "}
             que selecionou.
           </p>

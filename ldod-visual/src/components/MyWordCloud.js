@@ -126,7 +126,7 @@ class ConnectedMyWordCloud extends Component {
       </Button>
     </div>)
 
-    let message = "Esta edição virtual não tem categorias para fazer esta atividade.";
+    let message = "Esta edição não tem categorias para fazer esta atividade.";
     let data = [];
     let componentToRender;
 
@@ -142,7 +142,7 @@ class ConnectedMyWordCloud extends Component {
     //console.log(this.props.categories.length);
     if (this.props.categories.length > 0) {
 
-      message = "Esta é uma nuvem de palavras das categorias desta edição virtual. Para explorar fragmentos que pertençam a uma destas categorias, clique com o botão esquerdo do rato numa delas para ser remetido para outro mapa."
+      message = "Esta é uma nuvem de palavras das categorias desta edição. Para explorar fragmentos que pertençam a uma destas categorias, clique com o botão esquerdo do rato numa delas para ser remetido para outro mapa."
       if (this.props.singleFragmentCategory) {
         message = "Esta é uma nuvem de palavras das categorias do fragmento atual. Para explorar fragmentos que pertençam a esta(s) categoria(s), clique com o botão esquerdo do rato numa delas para ser remetido para outro mapa."
       }

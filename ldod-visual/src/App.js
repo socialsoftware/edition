@@ -188,7 +188,7 @@ class ConnectedApp extends Component {
     this.categoryButtonFunction = function() {};
     this.datesButtonFunction = function() {};
 
-    this.landingActivityToRender = <p>A carregar edições virtuais...</p>;
+    this.landingActivityToRender = <p>A carregar edições...</p>;
 
     this.handleShowGlobalView = this.handleShowGlobalView.bind(this);
     this.handleCloseGlobalView = this.handleCloseGlobalView.bind(this);
@@ -745,13 +745,13 @@ class ConnectedApp extends Component {
     } else if (this.state.editionsReceived && this.state.editionSelected) {
 
       retreatButton = (<Button bsStyle="primary" onClick={this.handleEditionSelectRetreat}>
-        ← Selecionar outra edição virtual
+        ← Selecionar outra edição
       </Button>);
 
       if (!this.props.allFragmentsLoaded) {
         this.landingActivityToRender = (<div>
           <img src={loadingGif} alt="loading...app.js" className="loadingGifCentered"/>
-          <p align="center">A carregar todos os fragmentos da edição virtual escolhida...</p>
+          <p align="center">A carregar todos os fragmentos da edição escolhida...</p>
           <p align="center">Se demorar demasiado tempo, actualize a página e volte a tentar.</p>
         </div>);
       } else if (this.state.showLandingActivity & (this.props.potentialSemanticCriteria == CRIT_CATEGORY) & this.props.allFragmentsLoaded) {
@@ -786,7 +786,7 @@ class ConnectedApp extends Component {
           datesButtonStyle = "default";
           datesButtonBotMessage = activityUnselectable;
           this.datesButtonFunction = function() {}
-          datesButtonMessage = "Explorar os fragmentos desta edição ordenados por data (edição virtual sem datas)"
+          datesButtonMessage = "Explorar os fragmentos desta edição ordenados por data (edição sem datas)"
           datesImage = picSquareTimeGray;
         }
         const options = {
@@ -798,7 +798,7 @@ class ConnectedApp extends Component {
           <br/>
           <br/>
           <p align="center">
-            Esta é a sua primeira atividade em torno da edição virtual que selecionou - "{myTitle}". Escolha uma das seguintes opções.
+            Esta é a sua primeira atividade em torno da edição que selecionou - "{myTitle}". Escolha uma das seguintes opções.
           </p>
 
           <div className="cardsContainerActivity">
@@ -809,7 +809,7 @@ class ConnectedApp extends Component {
                     width: "100%"
                   }}/>
                 <p align="center">
-                  <b>Explorar os fragmentos por ordem desta edição virtual</b>
+                  <b>Explorar os fragmentos por ordem desta edição</b>
                 </p>
                 <div className="welcomeButtonActivity">
                   <Button bsStyle="primary" bsSize="small" onClick={this.handleShowLandingActivitySquareEditionOrder}>
@@ -883,10 +883,10 @@ class ConnectedApp extends Component {
         {toggleTextSkimmingButtonMessage}
       </Button>)
 
-      editionTitleToDisplay = ("Título da edição virtual selecionada: " + ReactHtmlParser(this.state.currentEdition.title));
+      editionTitleToDisplay = ("Título da edição selecionada: " + ReactHtmlParser(this.state.currentEdition.title));
       editionAcronymToDisplay = ("Acrónimo: " + this.state.currentEdition.acronym);
       changeEdButton = (<Button bsStyle="default" bsSize="small" onClick={this.forcePageReload}>
-        Escolher outra edição virtual
+        Escolher outra edição
       </Button>)
       readingMenuIntructions = (<Button bsStyle="default" bsSize="small" onClick={this.toggleShowReadingMenuInstructions}>
         Instruções [i]
@@ -1205,7 +1205,7 @@ class ConnectedApp extends Component {
 
         <Modal.Footer>
           <Button bsStyle="primary" onClick={this.forcePageReload}>
-            Escolher outra edição virtual
+            Escolher outra edição
           </Button>
           <Button bsStyle="primary" onClick={this.handleCloseConfig}>
             Fechar [ESC]
@@ -1257,7 +1257,7 @@ class ConnectedApp extends Component {
                 Ao fazer uma atividade que envolva a seleção de uma certa categoria ou heterónimo, irão surgir novas setas amarelas por baixo das pretas. Poderá clicar nelas para navegar exclusivamente entre os fragmentos dessa categoria ou heterónimo selecionados.
               </li>
               <li>
-                Conferir o progresso da leitura a olhar para a barra no fundo da página. Se estiver no fragmento número 30 de uma edição virtual com 90 fragmentos, a barra está 1/3 azul e 2/3 cinzenta.
+                Conferir o progresso da leitura a olhar para a barra no fundo da página. Se estiver no fragmento número 30 de uma edição com 90 fragmentos, a barra está 1/3 azul e 2/3 cinzenta.
               </li>
               <li>
                 Ao ficar inactivo durante 3 segundos com o cursor do rato fora dos botões do topo ou do fim da página, botões de navegação ou barra de progresso, todo o menu de leitura desaparecerá excepto o texto do fragmento. Para recuperar a visão dos mesmos, terá que passar o cursor do rato por cima da posição de um destes elementos.

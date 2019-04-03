@@ -125,6 +125,8 @@ class ConnectedPublicEditionContainerTable extends React.Component {
       showInstructions: false
     };
 
+    this.expertEditionArray = [];
+
     this.handleButtonClick = this.handleButtonClick.bind(this);
 
     this.toggleInstructions = this.toggleInstructions.bind(this);
@@ -186,7 +188,24 @@ class ConnectedPublicEditionContainerTable extends React.Component {
 
       this.state.editions.map(item => {
 
-        if (item.numberOfInters >= this.state.sliderNumberOfInters) {
+        if (item.type == "perito" && this.expertEditionArray.length < 4) {
+
+          const options = {
+            decodeEntities: true
+          }
+
+          let myTitle = ReactHtmlParser(item.title, options).toString();
+          let expertObj = {
+            title: myTitle,
+            acronym: item.acronym,
+            nrFragments: item.numberOfInters,
+            navButton: (<Button bsStyle="primary" bsSize="small" onClick={() => this.handleButtonClick(item)}>
+              Selecionar edição
+            </Button>)
+          };
+          this.expertEditionArray.push(expertObj);
+
+        } else if (item.numberOfInters >= this.state.sliderNumberOfInters) {
 
           availableEditionsCounter++;
 
@@ -359,7 +378,7 @@ class ConnectedPublicEditionContainerTable extends React.Component {
       editionButtonList = (<ReactTable/>)
     } else {
       editionButtonList = (<div><img src={loadingGif} alt="loading...publiceditiontable" className="loadingGifCentered"/>
-        <p align="center">A carregar a lista de edições virtuais públicas disponíveis...</p>
+        <p align="center">A carregar a lista de edições públicas disponíveis...</p>
         <p align="center">Se demorar demasiado tempo, actualize a página e volte a tentar.</p>
       </div>);
     }
@@ -389,6 +408,30 @@ class ConnectedPublicEditionContainerTable extends React.Component {
 
       </div>)
     }
+
+    let expertEditionsCards = [];
+
+    expertEditionsCards = this.expertEditionArray.map(obj => {
+
+      return (<div className="card">
+
+        <div className="containerActivity">
+
+          <p align="center">
+            <b>{obj.title}</b>
+          </p>
+
+          <div className="welcomeButtonActivity">
+
+            {obj.navButton}
+
+          </div>
+
+        </div>
+
+      </div>)
+    });
+
     return <div>
 
       <h1 align="center">
@@ -409,26 +452,56 @@ class ConnectedPublicEditionContainerTable extends React.Component {
 
       <Modal.Footer></Modal.Footer>
 
+      <h3 align="center">
+        <b>Comece por escolher uma edição!</b>
+      </h3>
+
+      <br/>
+
+      <b>
+        <p align="center">Recomendamos que visite este{' '}
+          <i>website</i>{' '}
+          num{' '}
+          <i>browser desktop</i>{' '}
+          como{' '}
+          <i>Firefox</i>{' '}
+          ou{' '}
+          <i>Google Chrome</i>,{' '}
+          pois não está ainda disponível uma versão{' '}
+          <i>mobile</i>.
+        </p>
+      </b>
+
+      <br/>
+
+      <p align="center">
+        Alternativamente a uma edição virtual, pode ler uma das edições dos peritos, cuja leitura e interacção no LdoD Visual será semelhante à de uma edição virtual.
+      </p>
+      <p align="center">
+        Relembramos que as edições dos peritos não têm categorias disponíveis (taxonomia).
+      </p>
+      <p align="center">
+        Apenas se selecionar uma edição com categorias disponíveis, poderá realizar atividades à volta das mesmas.
+      </p>
+
+      <br/>
+
       <h4 align="center">
-        <b>Comece por escolher uma edição virtual.</b>
+        <b>Edições dos peritos:</b>
       </h4>
 
       <br/>
-      <p align="center">
-        Apenas se selecionar uma edição virtual com categorias disponíveis (taxonomia), poderá realizar atividades à volta das mesmas.
-      </p>
 
-      <p align="center">Recomendamos que visite este{' '}
-        <i>website</i>{' '}
-        num{' '}
-        <i>browser desktop</i>{' '}
-        como{' '}
-        <i>Firefox</i>{' '}
-        ou{' '}
-        <i>Google Chrome</i>,{' '}
-        pois não está ainda disponível uma versão{' '}
-        <i>mobile</i>.
-      </p>
+      <div className="cardsContainer">
+        {expertEditionsCards}
+      </div>
+
+      <br/>
+      <br/>
+
+      <h4 align="center">
+        <b>Edições virtuais:</b>
+      </h4>
 
       <br/>
       <br/>

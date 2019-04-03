@@ -368,8 +368,8 @@ class ConnectedActivityMenu extends Component {
         datesImage = picSquareTimeGray;
         datesSimilarButtonStyle = "default";
         datesButtonFunction = function() {}
-        datesButtonMessage = "Explorar os fragmentos desta edição ordenados por data (edição virtual sem datas)"
-        datesSimilarButtonMessage = "Ler fragmentos semelhantes a este por data (edição virtual sem datas)"
+        datesButtonMessage = "Explorar os fragmentos desta edição ordenados por data (edição sem datas)"
+        datesSimilarButtonMessage = "Ler fragmentos semelhantes a este por data (edição sem datas)"
       }
 
       let wordCloudSingleFragmentMessage = "Explorar mais fragmentos da(s) mesma(s) categoria(s) deste fragmento";
@@ -401,7 +401,7 @@ class ConnectedActivityMenu extends Component {
                   width: "100%"
                 }}/>
               <p align="center">
-                <b>Explorar os fragmentos por ordem desta edição virtual</b>
+                <b>Explorar os fragmentos por ordem desta edição</b>
               </p>
               <div className="welcomeButtonActivity">
                 <Button bsStyle="primary" bsSize="small" onClick={this.toggleSquareGridEditionOrder}>
@@ -544,5 +544,5 @@ const ActivityMenu = connect(mapStateToProps, mapDispatchToProps)(ConnectedActiv
 
 export default ActivityMenu;
 
-//         <p>Caso tenha selecionado uma edição virtual sem taxonomia, ou categorias, não será possível realizar atividades que dependem das mesmas, que estarão devidamente assinaladas a cinzento. O mesmo se aplicará para a ausência de datas ou se o fragmento que está a ler atualmente não for assinado por qualquer heterónimo - as atividades em torno dessa informação estarão indisponíveis.
+//         <p>Caso tenha selecionado uma edição sem taxonomia, ou categorias, não será possível realizar atividades que dependem das mesmas, que estarão devidamente assinaladas a cinzento. O mesmo se aplicará para a ausência de datas ou se o fragmento que está a ler atualmente não for assinado por qualquer heterónimo - as atividades em torno dessa informação estarão indisponíveis.
 //         </p>

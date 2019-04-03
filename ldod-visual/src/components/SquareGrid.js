@@ -599,7 +599,7 @@ class ConnectedSquareGrid extends Component {
       instructions = (<div>
         <div className="instructionsText">
           <p>
-            Neste mapa, cada quadrado representa um fragmento da edição virtual do {" "}
+            Neste mapa, cada quadrado representa um fragmento da edição do {" "}
             <i>Livro do Desassossego</i>{" "}
             que selecionou.
           </p>

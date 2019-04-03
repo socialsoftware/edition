@@ -255,7 +255,7 @@ class ConnectedHistoryMenu extends Component {
         <div className="readingMoreInfo">
 
           <p align="center">
-            Nesta cronologia, poderá consultar o seu caminho na leitura da edição virtual do{" "}
+            Nesta cronologia, poderá consultar o seu caminho na leitura da edição do{" "}
             <i>Livro do Desassossego</i>{" "}
             que selecionou.
           </p>
