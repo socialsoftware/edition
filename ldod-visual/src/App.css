@@ -6,7 +6,7 @@
   /*necessario para evitar que uma modal box, quando aberta, altere a width da pagina. tradeoff: double scrollbar*/
   body {
     padding-right: 0px !important;
-    background-color: floralwhite;
+    background-color: white; /*antes era floral white*/
   }
 
   .custom-modal-instructions {
