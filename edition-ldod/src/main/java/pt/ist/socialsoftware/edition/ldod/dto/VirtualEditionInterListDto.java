@@ -24,7 +24,7 @@ public class VirtualEditionInterListDto {
 	public VirtualEditionInterListDto(ExpertEdition expertEdition) {
 		this.setTitle(expertEdition.getTitle() + ", Edição de " + expertEdition.getEditor());
 		this.setAcronym(expertEdition.getAcronym());
-		this.type = "Perito";
+		this.type = "perito";
 		this.setPub(true);
 		this.numberOfInters = expertEdition.getIntersSet().size();
 		TaxonomyDto taxonomyDto = new TaxonomyDto();
@@ -41,7 +41,7 @@ public class VirtualEditionInterListDto {
 		}
 		this.setTitle(virtualEdition.getTitle());
 		this.setAcronym(virtualEdition.getAcronym());
-		this.type = "Virtual";
+		this.type = "virtual";
 		this.setPub(virtualEdition.getPub());
 		this.numberOfInters = virtualEdition.getIntersSet().size();
 		TaxonomyDto taxonomyDto = new TaxonomyDto(virtualEdition.getTaxonomy());
@@ -107,5 +107,13 @@ public class VirtualEditionInterListDto {
 
 	public void setMembers(List<LdoDUserDto> members) {
 		this.members = members;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 }
