@@ -125,7 +125,7 @@
 					<div class="dropdown-menu-bg"></div>
 					<li><a href="${contextPath}/edition/acronym/JPC"><spring:message
 							code="general.editor.prado" /></a></li>
-					<li><a href="${contextPath}/edition/acronym/TSC">T<spring:message
+					<li><a href="${contextPath}/edition/acronym/TSC"><spring:message
 							code="general.editor.cunha" /></a></li>
 					<li><a href="${contextPath}/edition/acronym/RZ"><spring:message
 							code="general.editor.zenith" /></a></li>
