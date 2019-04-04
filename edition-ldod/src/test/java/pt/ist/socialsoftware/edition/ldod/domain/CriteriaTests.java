@@ -51,7 +51,7 @@ public class CriteriaTests extends TestWithFragmentsLoading {
 		LocalDate localDate = LocalDate.parse("20018-07-20");
 		ExpertEdition expertEdition = Text.getInstance().getRZEdition();
 
-		this.virtualEdition = new VirtualEdition(ldoD, this.user, "acronym", "title", localDate, true, expertEdition);
+		this.virtualEdition = new VirtualEdition(ldoD, this.user, "acronym", "title", localDate, true, expertEdition.getAcronym());
 		this.clazz = pt.ist.socialsoftware.edition.ldod.domain.MediaSource.class;
 	}
 

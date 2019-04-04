@@ -1,9 +1,6 @@
 package pt.ist.socialsoftware.edition.ldod.domain;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
@@ -476,5 +473,36 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 
 		TextInterface textInterface = new TextInterface();
 		return textInterface.getFragmentByInterXmlId(this.getUsesFragInter());
+	}
+
+
+	public VirtualEditionInter getNextNumberInter() {
+		List<VirtualEditionInter> interps = new ArrayList<>(this.getVirtualEdition().getIntersSet());
+
+		Collections.sort(interps);
+
+		return findNextElementByNumber(interps);
+	}
+
+	public VirtualEditionInter getPrevNumberInter() {
+		List<VirtualEditionInter> interps = new ArrayList<>(this.getVirtualEdition().getIntersSet());
+
+		Collections.sort(interps, Collections.reverseOrder());
+
+		return findNextElementByNumber(interps);
+	}
+
+
+	private VirtualEditionInter findNextElementByNumber(List<VirtualEditionInter> interps) {
+		Boolean stopNext = false;
+		for (VirtualEditionInter tmpInter : interps) {
+			if (stopNext) {
+				return tmpInter;
+			}
+			if (tmpInter.getNumber() == getNumber() && tmpInter == this) {
+				stopNext = true;
+			}
+		}
+		return interps.get(0);
 	}
 }

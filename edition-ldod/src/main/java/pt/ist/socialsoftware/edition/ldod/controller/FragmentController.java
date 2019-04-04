@@ -205,18 +205,21 @@ public class FragmentController {
 			return "redirect:/error";
 		}
 
-		FragInter inter = fragment.getFragInterByUrlId(urlId);
-		if (inter == null) {
-			inter = LdoD.getInstance().getVirtualEditionInterByUrlId(urlId);
-			if (inter == null){
-				return "redirect:/error";
-			}
+		ExpertEditionInter inter = (ExpertEditionInter) fragment.getFragInterByUrlId(urlId);
+		if(inter != null) {
+			inter = inter.getNextNumberInter();
+
+			return "redirect:/fragments/fragment/" + inter.getFragment().getXmlId() + "/inter/" + inter.getUrlId();
 		}
 
-		Edition edition = inter.getEdition();
-		inter = edition.getNextNumberInter(inter, inter.getNumber());
+		VirtualEditionInter virtualEditionInter = LdoD.getInstance().getVirtualEditionInterByUrlId(urlId);
+		if (virtualEditionInter != null) {
+			virtualEditionInter = virtualEditionInter.getNextNumberInter();
 
-		return "redirect:/fragments/fragment/" + inter.getFragment().getXmlId() + "/inter/" + inter.getUrlId();
+			return "redirect:/fragments/fragment/" + inter.getFragment().getXmlId() + "/inter/" + inter.getUrlId();
+		}
+		return "redirect:/error";
+
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/fragment/{xmlId}/inter/{urlId}/prev")
@@ -228,18 +231,20 @@ public class FragmentController {
 			return "redirect:/error";
 		}
 
-		FragInter inter = fragment.getFragInterByUrlId(urlId);
-		if (inter == null) {
-			inter = LdoD.getInstance().getVirtualEditionInterByUrlId(urlId);
-			if (inter == null){
-				return "redirect:/error";
-			}
+		ExpertEditionInter inter = (ExpertEditionInter) fragment.getFragInterByUrlId(urlId);
+		if(inter != null) {
+			inter = inter.getPrevNumberInter();
+
+			return "redirect:/fragments/fragment/" + inter.getFragment().getXmlId() + "/inter/" + inter.getUrlId();
 		}
 
-		Edition edition = inter.getEdition();
-		inter = edition.getPrevNumberInter(inter, inter.getNumber());
+		VirtualEditionInter virtualEditionInter = LdoD.getInstance().getVirtualEditionInterByUrlId(urlId);
+		if (virtualEditionInter != null) {
+			virtualEditionInter = virtualEditionInter.getPrevNumberInter();
 
-		return "redirect:/fragments/fragment/" + inter.getFragment().getXmlId() + "/inter/" + inter.getUrlId();
+			return "redirect:/fragments/fragment/" + inter.getFragment().getXmlId() + "/inter/" + inter.getUrlId();
+		}
+		return "redirect:/error";
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/fragment/inter")

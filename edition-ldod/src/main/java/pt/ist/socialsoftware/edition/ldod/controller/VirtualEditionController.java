@@ -119,7 +119,7 @@ public class VirtualEditionController {
 
 		try {
 			virtualEdition = LdoD.getInstance().createVirtualEdition(LdoDUser.getAuthenticatedUser(),
-					VirtualEdition.ACRONYM_PREFIX + acronym, title, date, pub, usedEdition);
+					VirtualEdition.ACRONYM_PREFIX + acronym, title, date, pub, usedEdition == null ? null : usedEdition.getAcronym());
 
 		} catch (LdoDDuplicateAcronymException ex) {
 			errors.add("virtualedition.acronym.duplicate");
@@ -599,7 +599,7 @@ public class VirtualEditionController {
 	@PreAuthorize("hasPermission(#veId, 'virtualedition.participant')")
 	public String addInter(Model model, @PathVariable String veId, @PathVariable String interId) {
 		VirtualEdition virtualEdition = FenixFramework.getDomainObject(veId);
-		FragInter inter = FenixFramework.getDomainObject(interId);
+		ScholarInter inter = FenixFramework.getDomainObject(interId);
 		if (virtualEdition == null || inter == null) {
 			return "redirect:/error";
 		}

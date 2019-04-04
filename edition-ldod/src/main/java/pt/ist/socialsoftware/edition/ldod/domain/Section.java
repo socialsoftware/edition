@@ -51,16 +51,6 @@ public class Section extends Section_Base implements Comparable<Section> {
 	}
 
 	@Atomic(mode = TxMode.WRITE)
-	public VirtualEditionInter createVirtualEditionInter(FragInter inter, int number) {
-		VirtualEdition virtualEdition = getVirtualEdition();
-		VirtualEditionInter virtualInter = null;
-		if (virtualEdition.canAddFragInter((ScholarInter) inter.getLastUsed())) {
-			virtualInter = new VirtualEditionInter(this, inter, number);
-		}
-		return virtualInter;
-	}
-
-	@Atomic(mode = TxMode.WRITE)
 	public Section createSection(String title, int number) {
 		Section subSection = new Section(this, title, number);
 		return subSection;

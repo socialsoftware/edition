@@ -64,8 +64,8 @@ public class Fragment extends Fragment_Base implements Comparable<Fragment> {
 		deleteDomainObject();
 	}
 
-	public List<FragInter> getSortedInterps() {
-		List<FragInter> interps = new ArrayList<>(getScholarInterSet());
+	public List<ScholarInter> getSortedInterps() {
+		List<ScholarInter> interps = new ArrayList<>(getScholarInterSet());
 
 		Collections.sort(interps);
 
@@ -75,7 +75,7 @@ public class Fragment extends Fragment_Base implements Comparable<Fragment> {
 	public List<SourceInter> getSortedSourceInter() {
 		List<SourceInter> interps = new ArrayList<>();
 
-		for (FragInter inter : getScholarInterSet()) {
+		for (ScholarInter inter : getScholarInterSet()) {
 			if (inter.getSourceType() == Edition.EditionType.AUTHORIAL) {
 				interps.add((SourceInter) inter);
 			}
@@ -143,8 +143,8 @@ public class Fragment extends Fragment_Base implements Comparable<Fragment> {
 		return null;
 	}
 
-	public FragInter getFragInterByUrlId(String urlId) {
-		for (FragInter inter : getScholarInterSet()) {
+	public ScholarInter getFragInterByUrlId(String urlId) {
+		for (ScholarInter inter : getScholarInterSet()) {
 			if (urlId.equals(inter.getUrlId())) {
 				return inter;
 			}

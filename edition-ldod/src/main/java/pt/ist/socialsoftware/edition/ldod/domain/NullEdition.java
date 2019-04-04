@@ -16,9 +16,8 @@ public class NullEdition extends NullEdition_Base {
 		super.remove();
 	}
 
-	@Override
-	public Set<FragInter> getIntersSet() {
-		return new HashSet<FragInter>();
+	public Set<ScholarInter> getIntersSet() {
+		return new HashSet<>();
 	}
 
 	@Override

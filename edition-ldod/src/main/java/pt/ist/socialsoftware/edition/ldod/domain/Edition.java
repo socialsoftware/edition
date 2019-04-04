@@ -59,49 +59,10 @@ public abstract class Edition extends pt.ist.socialsoftware.edition.ldod.domain.
 
 	public abstract EditionType getSourceType();
 
-	public abstract Set<FragInter> getIntersSet();
-
 	public abstract String getReference();
-
-	public FragInter getNextNumberInter(FragInter inter, int number) {
-		List<FragInter> interps = new ArrayList<>(inter.getEdition().getIntersSet());
-
-		Collections.sort(interps);
-
-		return findNextElementByNumber(inter, number, interps);
-	}
-
-	public FragInter getPrevNumberInter(FragInter inter, int number) {
-		List<FragInter> interps = new ArrayList<>(inter.getEdition().getIntersSet());
-
-		Collections.sort(interps, Collections.reverseOrder());
-
-		return findNextElementByNumber(inter, number, interps);
-	}
-
-	private FragInter findNextElementByNumber(FragInter inter, int number, List<FragInter> interps) {
-		Boolean stopNext = false;
-		for (FragInter tmpInter : interps) {
-			if (stopNext) {
-				return tmpInter;
-			}
-			if (tmpInter.getNumber() == number && tmpInter == inter) {
-				stopNext = true;
-			}
-		}
-		return interps.get(0);
-	}
 
 	public boolean isLdoDEdition() {
 		return getAcronym().equals(Edition.ARCHIVE_EDITION_ACRONYM);
-	}
-
-	public FragInter getFragInterByUrlId(String urlId) {
-		return getIntersSet().stream().filter(i -> i.getUrlId().equals(urlId)).findFirst().orElse(null);
-	}
-
-	public FragInter getFragInterByXmlId(String xmlId) {
-		return getIntersSet().stream().filter(i -> i.getXmlId().equals(xmlId)).findFirst().orElse(null);
 	}
 
 }

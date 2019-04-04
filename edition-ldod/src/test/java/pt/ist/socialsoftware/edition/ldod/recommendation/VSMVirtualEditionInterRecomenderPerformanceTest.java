@@ -69,7 +69,7 @@ public class VSMVirtualEditionInterRecomenderPerformanceTest {
 		LdoDUser userArs = ldoD.getUser("ars");
 		// create pizarro virtual edition
 		pizarroVirtualEdition = ldoD.createVirtualEdition(userArs, "TestPizarroRecommendations",
-				"TestPizarroRecommendations", LocalDate.now(), true, pizarroEdition);
+				"TestPizarroRecommendations", LocalDate.now(), true, pizarroEdition.getAcronym());
 		pizarroVirtualEditionInters = pizarroVirtualEdition.getIntersSet().stream().map(VirtualEditionInter.class::cast)
 				.collect(Collectors.toSet());
 
@@ -87,13 +87,13 @@ public class VSMVirtualEditionInterRecomenderPerformanceTest {
 		// create zenith virtual edition
 
 		zenithVirtualEdition = ldoD.createVirtualEdition(userArs, "TestZenithRecommendations",
-				"TestZenithRecommendations", LocalDate.now(), true, zenithEdition);
+				"TestZenithRecommendations", LocalDate.now(), true, zenithEdition.getAcronym());
 		zenithVirtualEditionInters = zenithVirtualEdition.getIntersSet().stream().map(VirtualEditionInter.class::cast)
 				.collect(Collectors.toSet());
 
 		// create cunha virtual edition
 		cunhaVirtualEdition = ldoD.createVirtualEdition(userArs, "TestCunhaRecommendations", "TestCunhaRecommendations",
-				LocalDate.now(), true, cunhaEdition);
+				LocalDate.now(), true, cunhaEdition.getAcronym());
 		cunhaVirtualEditionInters = cunhaVirtualEdition.getIntersSet().stream().map(VirtualEditionInter.class::cast)
 				.collect(Collectors.toSet());
 

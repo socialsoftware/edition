@@ -123,8 +123,7 @@ public class ReadingController {
 			return "redirect:/error";
 		}
 
-		FragInter nextExpertEditionInter = expertEditionInter.getEdition().getNextNumberInter(expertEditionInter,
-				expertEditionInter.getNumber());
+		ExpertEditionInter nextExpertEditionInter = expertEditionInter.getNextNumberInter();
 
 		return "redirect:/reading/fragment/" + nextExpertEditionInter.getFragment().getXmlId() + "/inter/"
 				+ nextExpertEditionInter.getUrlId();
@@ -144,8 +143,7 @@ public class ReadingController {
 			return "redirect:/error";
 		}
 
-		FragInter prevExpertEditionInter = expertEditionInter.getEdition().getPrevNumberInter(expertEditionInter,
-				expertEditionInter.getNumber());
+		ExpertEditionInter prevExpertEditionInter = expertEditionInter.getPrevNumberInter();
 
 		return "redirect:/reading/fragment/" + prevExpertEditionInter.getFragment().getXmlId() + "/inter/"
 				+ prevExpertEditionInter.getUrlId();

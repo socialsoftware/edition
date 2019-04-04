@@ -17,6 +17,7 @@ import org.slf4j.LoggerFactory;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.fenixframework.FenixFramework;
+import pt.ist.socialsoftware.edition.ldod.api.text.TextInterface;
 import pt.ist.socialsoftware.edition.ldod.dto.FragmentDto;
 import pt.ist.socialsoftware.edition.ldod.dto.InterDistancePairDto;
 import pt.ist.socialsoftware.edition.ldod.dto.WeightsDto;
@@ -58,7 +59,7 @@ public class VirtualEdition extends VirtualEdition_Base {
 	}
 
 	public VirtualEdition(LdoD ldod, LdoDUser participant, String acronym, String title, LocalDate date, Boolean pub,
-			Edition usedEdition) {
+			String acronymOfUsed) {
 		setLdoD4Virtual(ldod);
 		new Member(this, participant, Member.MemberRole.ADMIN, true);
 		setXmlId("ED.VIRT." + acronym);
@@ -68,9 +69,19 @@ public class VirtualEdition extends VirtualEdition_Base {
 		setPub(pub);
 		setTaxonomy(new Taxonomy());
 		createSection(Section.DEFAULT, 0);
-		if (usedEdition != null) {
-			for (FragInter inter : usedEdition.getIntersSet()) {
-				createVirtualEditionInter(inter, inter.getNumber());
+		if (acronymOfUsed != null) {
+			VirtualEdition virtualEdition = LdoD.getInstance().getVirtualEdition(acronymOfUsed);
+			if (virtualEdition != null){
+				for (VirtualEditionInter inter : virtualEdition.getIntersSet()) {
+					createVirtualEditionInter(inter, inter.getNumber());
+				}
+			}
+			else {
+				TextInterface textInterface = new TextInterface();
+				ExpertEdition expertEdition = textInterface.getExpertEdition(acronymOfUsed);
+				for (ScholarInter inter : expertEdition.getIntersSet()) {
+					createVirtualEditionInter(inter, inter.getNumber());
+				}
 			}
 		}
 	}
@@ -144,10 +155,10 @@ public class VirtualEdition extends VirtualEdition_Base {
 	// determines if the fragment can have more interpretations for this virtual
 	// edition, deals with the the case of a fragment having two interpretations
 	// for the same expert edition
-	public boolean canAddFragInter(FragInter addInter) {
+	public boolean canAddFragInter(ScholarInter addInter) {
 		Fragment fragment = addInter.getFragment();
 
-		for (VirtualEditionInter inter : LdoD.getInstance().getVirtualEditionInterSetForEdition(fragment,this)) {
+		for (VirtualEditionInter inter : getVirtualEditionInterSetForFragment(fragment)) {
 			ScholarInter usedInter = inter.getLastUsed();
 			if (isSameInterpretation((ScholarInter) addInter.getLastUsed(), usedInter)) {
 				return false;
@@ -160,11 +171,6 @@ public class VirtualEdition extends VirtualEdition_Base {
 			if (belongToDifferentExpertEditions((ScholarInter) addInter.getLastUsed(), usedInter)) {
 				return false;
 			}
-
-			ExpertEdition expertEdition = ((ExpertEditionInter) usedInter).getExpertEdition();
-			int numberOfInter4Expert = fragment.getNumberOfInter4Edition(expertEdition);
-			int numberOfInter4Virtual = fragment.getNumberOfInter4Edition(this);
-			return numberOfInter4Expert > numberOfInter4Virtual;
 		}
 		return true;
 	}
@@ -175,12 +181,12 @@ public class VirtualEdition extends VirtualEdition_Base {
 		return addExpertEdition != expertEdition;
 	}
 
-	public boolean atLeastOneIsSourceInterpretation(ScholarInter usedAddInter, ScholarInter usedInter) {
+	private boolean atLeastOneIsSourceInterpretation(ScholarInter usedAddInter, ScholarInter usedInter) {
 		return usedInter instanceof SourceInter || usedAddInter instanceof SourceInter;
 	}
 
-	public boolean isSameInterpretation(ScholarInter usedAddInter, ScholarInter usedInter) {
-		return usedAddInter == usedInter;
+	private boolean isSameInterpretation(ScholarInter usedAddInter, ScholarInter usedInter) {
+		return usedAddInter.getXmlId().equals(usedInter.getXmlId());
 	}
 
 	public int getMaxFragNumber() {
@@ -192,14 +198,26 @@ public class VirtualEdition extends VirtualEdition_Base {
 		return max;
 	}
 
-	@Override
-	public Set<FragInter> getIntersSet() {
+	public Set<VirtualEditionInter> getIntersSet() {
 		return new HashSet<>(getAllDepthVirtualEditionInters());
 	}
+
+    public Set<VirtualEditionInter> getVirtualEditionInterSetForFragment(Fragment fragment) {
+        return getAllDepthVirtualEditionInters().stream().filter(virtualEditionInter -> virtualEditionInter.getFragment() == fragment)
+                .collect(Collectors.toSet());
+    }
 
 	public List<VirtualEditionInter> getSortedInterps() {
 		return getIntersSet().stream().map(VirtualEditionInter.class::cast).sorted().collect(Collectors.toList());
 	}
+
+    public VirtualEditionInter getFragInterByUrlId(String urlId) {
+        return getIntersSet().stream().filter(i -> i.getUrlId().equals(urlId)).findFirst().orElse(null);
+    }
+
+    public VirtualEditionInter getFragInterByXmlId(String xmlId) {
+        return getIntersSet().stream().filter(i -> i.getXmlId().equals(xmlId)).findFirst().orElse(null);
+    }
 
 	@Override
 	public String getReference() {
@@ -377,7 +395,7 @@ public class VirtualEdition extends VirtualEdition_Base {
 			System.out.println("V4 " + fragInter);
 			if (!actualFragList.contains(fragInter)) {
 				System.out.println("V5 " + fragInter);
-				FragInter inter = FenixFramework.getDomainObject(fragInter);
+				ScholarInter inter = FenixFramework.getDomainObject(fragInter);
 				createVirtualEditionInter(inter, i + 1);
 				System.out.println("V6 " + fragInter);
 			}
@@ -419,11 +437,11 @@ public class VirtualEdition extends VirtualEdition_Base {
 
 	// Default section
 	@Atomic(mode = TxMode.WRITE)
-	public VirtualEditionInter createVirtualEditionInter(FragInter inter, int number) {
+	public VirtualEditionInter createVirtualEditionInter(VirtualEditionInter inter, int number) {
 		// logger.debug("createVirtualEditionInter inter:{}, number:{}", inter, number);
 		VirtualEditionInter virtualInter = null;
 
-		if (canAddFragInter((ScholarInter) inter.getLastUsed())) {
+		if (canAddFragInter(inter.getLastUsed())) {
 			if (getSectionsSet().isEmpty()) {
 				Section section = new Section(this, Section.DEFAULT, 0);
 				virtualInter = new VirtualEditionInter(section, inter, number);
@@ -438,16 +456,26 @@ public class VirtualEdition extends VirtualEdition_Base {
 		return virtualInter;
 	}
 
-	@Atomic(mode = TxMode.WRITE)
-	public VirtualEditionInter createVirtualEditionInter(Section section, FragInter inter, int number) {
-		VirtualEditionInter virtualInter = null;
-		if (canAddFragInter((ScholarInter) inter.getLastUsed())) {
-			virtualInter = new VirtualEditionInter(section, inter, number);
-			section.addVirtualEditionInter(virtualInter);
-			addSections(section);
-		}
-		return virtualInter;
-	}
+    // Default section
+    @Atomic(mode = TxMode.WRITE)
+    public VirtualEditionInter createVirtualEditionInter(ScholarInter inter, int number) {
+        // logger.debug("createVirtualEditionInter inter:{}, number:{}", inter, number);
+        VirtualEditionInter virtualInter = null;
+
+        if (canAddFragInter((ScholarInter) inter.getLastUsed())) {
+            if (getSectionsSet().isEmpty()) {
+                Section section = new Section(this, Section.DEFAULT, 0);
+                virtualInter = new VirtualEditionInter(section, inter, number);
+                section.addVirtualEditionInter(virtualInter);
+                addSections(section);
+            } else {
+                Section section = getSectionsSet().iterator().next();
+                virtualInter = new VirtualEditionInter(section, inter, number);
+            }
+        }
+
+        return virtualInter;
+    }
 
 	public boolean checkAccess() {
 		return getPub() || getParticipantSet().contains(LdoDUser.getAuthenticatedUser());

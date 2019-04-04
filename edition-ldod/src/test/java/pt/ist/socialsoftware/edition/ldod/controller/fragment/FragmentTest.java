@@ -148,11 +148,11 @@ public class FragmentTest {
 	@WithUserDetails("ars")
 	public void getFragInterTaxonomyTest() throws Exception {
 
-		Set<FragInter> fragInterSet = LdoD.getInstance().getVirtualEdition("LdoD-Teste").getIntersSet();
+		Set<VirtualEditionInter> fragInterSet = LdoD.getInstance().getVirtualEdition("LdoD-Teste").getIntersSet();
 
-		List<FragInter> frags = new ArrayList<>(fragInterSet);
+		List<VirtualEditionInter> frags = new ArrayList<>(fragInterSet);
 
-		FragInter fragInter = frags.get(0);
+		VirtualEditionInter fragInter = frags.get(0);
 
 		this.mockMvc.perform(get("/fragments/fragment/inter/{externalId}/taxonomy",fragInter.getExternalId()))
 				.andDo(print())
@@ -292,11 +292,11 @@ public class FragmentTest {
 	@Atomic(mode = TxMode.WRITE)
 	public void searchAnnotationsTest() throws Exception {
 
-		Set<FragInter> fragInterSet = LdoD.getInstance().getVirtualEdition("LdoD-Teste").getIntersSet();
+		Set<VirtualEditionInter> fragInterSet = LdoD.getInstance().getVirtualEdition("LdoD-Teste").getIntersSet();
 
-		List<FragInter> frags = new ArrayList<>(fragInterSet);
+		List<VirtualEditionInter> frags = new ArrayList<>(fragInterSet);
 
-		FragInter fragInter = frags.get(0);
+		VirtualEditionInter fragInter = frags.get(0);
 
 		String response = this.mockMvc.perform(get("/fragments/fragment/search")
 					.param("limit", "2")
@@ -319,11 +319,11 @@ public class FragmentTest {
 	@WithUserDetails("ars")
 	public void createAnnotationTest() throws Exception {
 
-        Set<FragInter> fragInterSet = LdoD.getInstance().getVirtualEdition("LdoD-Teste").getIntersSet();
+        Set<VirtualEditionInter> fragInterSet = LdoD.getInstance().getVirtualEdition("LdoD-Teste").getIntersSet();
 
-        List<FragInter> frags = new ArrayList<>(fragInterSet);
+        List<VirtualEditionInter> frags = new ArrayList<>(fragInterSet);
 
-        FragInter fragInter = frags.get(0);
+		VirtualEditionInter fragInter = frags.get(0);
 
 	    LdoD ldod = LdoD.getInstance();
 
@@ -367,11 +367,11 @@ public class FragmentTest {
 	@WithUserDetails("ars")
 	public void getAnnotationTest() throws Exception {
 
-		Set<FragInter> fragInterSet = LdoD.getInstance().getVirtualEdition("LdoD-Teste").getIntersSet();
+		Set<VirtualEditionInter> fragInterSet = LdoD.getInstance().getVirtualEdition("LdoD-Teste").getIntersSet();
 
-		List<FragInter> frags = new ArrayList<>(fragInterSet);
+		List<VirtualEditionInter> frags = new ArrayList<>(fragInterSet);
 
-		VirtualEditionInter fragInter = (VirtualEditionInter) frags.get(0);
+		VirtualEditionInter fragInter = frags.get(0);
 
 		createTestAnnotation();
 
@@ -403,11 +403,11 @@ public class FragmentTest {
 	@WithUserDetails("ars")
 	public void updateAnnotationTest() throws Exception {
 
-		Set<FragInter> fragInterSet = LdoD.getInstance().getVirtualEdition("LdoD-Teste").getIntersSet();
+		Set<VirtualEditionInter> fragInterSet = LdoD.getInstance().getVirtualEdition("LdoD-Teste").getIntersSet();
 
-		List<FragInter> frags = new ArrayList<>(fragInterSet);
+		List<VirtualEditionInter> frags = new ArrayList<>(fragInterSet);
 
-		VirtualEditionInter fragInter = (VirtualEditionInter) frags.get(0);
+		VirtualEditionInter fragInter = frags.get(0);
 
 		createTestAnnotation();
 
@@ -448,11 +448,11 @@ public class FragmentTest {
 	@WithUserDetails("ars")
 	public void deleteAnnotationTest() throws Exception {
 
-		Set<FragInter> fragInterSet = LdoD.getInstance().getVirtualEdition("LdoD-Teste").getIntersSet();
+		Set<VirtualEditionInter> fragInterSet = LdoD.getInstance().getVirtualEdition("LdoD-Teste").getIntersSet();
 
-		List<FragInter> frags = new ArrayList<>(fragInterSet);
+		List<VirtualEditionInter> frags = new ArrayList<>(fragInterSet);
 
-		VirtualEditionInter fragInter = (VirtualEditionInter) frags.get(0);
+		VirtualEditionInter fragInter = frags.get(0);
 
 		createTestAnnotation();
 
@@ -483,11 +483,12 @@ public class FragmentTest {
 	@Atomic(mode = TxMode.WRITE)
 	@WithUserDetails("ars")
 	public void getAnnotationInterTest() throws Exception {
-		Set<FragInter> fragInterSet = LdoD.getInstance().getVirtualEdition("LdoD-Teste").getIntersSet();
 
-		List<FragInter> frags = new ArrayList<>(fragInterSet);
+		Set<VirtualEditionInter> fragInterSet = LdoD.getInstance().getVirtualEdition("LdoD-Teste").getIntersSet();
 
-		VirtualEditionInter fragInter = (VirtualEditionInter) frags.get(0);
+		List<VirtualEditionInter> frags = new ArrayList<>(fragInterSet);
+
+		VirtualEditionInter fragInter = frags.get(0);
 
 		createTestAnnotation();
 
@@ -503,11 +504,11 @@ public class FragmentTest {
 
 	private void createTestAnnotation() {
 
-		Set<FragInter> fragInterSet = LdoD.getInstance().getVirtualEdition("LdoD-Teste").getIntersSet();
+		Set<VirtualEditionInter> fragInterSet = LdoD.getInstance().getVirtualEdition("LdoD-Teste").getIntersSet();
 
-		List<FragInter> frags = new ArrayList<>(fragInterSet);
+		List<VirtualEditionInter> frags = new ArrayList<>(fragInterSet);
 
-		VirtualEditionInter fragInter = (VirtualEditionInter) frags.get(0);
+		VirtualEditionInter fragInter = frags.get(0);
 
 		LdoDUser user = LdoD.getInstance().getUser("ars");
 

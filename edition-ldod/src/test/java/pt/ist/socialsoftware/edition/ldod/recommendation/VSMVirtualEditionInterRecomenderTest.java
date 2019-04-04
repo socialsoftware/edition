@@ -58,7 +58,7 @@ public class VSMVirtualEditionInterRecomenderTest extends TestWithFragmentsLoadi
 		LdoDUser userArs = ldoD.getUser("ars");
 		// create virtual edition
 		this.virtualEdition = ldoD.createVirtualEdition(userArs, ACRONYM, "Name", LocalDate.now(), true,
-				pizarroEdition);
+				pizarroEdition.getAcronym());
 
 		// create taxonomy
 		TopicModeler modeler = new TopicModeler();

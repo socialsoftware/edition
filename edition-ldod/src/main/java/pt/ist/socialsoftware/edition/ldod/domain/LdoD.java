@@ -96,9 +96,9 @@ public class LdoD extends LdoD_Base {
 
 	@Atomic(mode = TxMode.WRITE)
 	public VirtualEdition createVirtualEdition(LdoDUser user, String acronym, String title, LocalDate date, boolean pub,
-			Edition usedEdition) {
+			String acronymOfUsed) {
 		log.debug("createVirtualEdition user:{}, acronym:{}, title:{}", user.getUsername(), acronym, title);
-		return new VirtualEdition(this, user, acronym, title, date, pub, usedEdition);
+		return new VirtualEdition(this, user, acronym, title, date, pub, acronymOfUsed);
 	}
 
 	@Atomic(mode = TxMode.WRITE)
@@ -181,11 +181,6 @@ public class LdoD extends LdoD_Base {
 
 	public Set<VirtualEditionInter> getVirtualEditionInterSet(Fragment fragment) {
 		return getVirtualEditionInterSet().stream().filter(virtualEditionInter -> virtualEditionInter.getFragment() == fragment).collect(Collectors.toSet());
-	}
-
-	public Set<VirtualEditionInter> getVirtualEditionInterSetForEdition(Fragment fragment, VirtualEdition virtualEdition) {
-		return getVirtualEditionInterSet().stream().filter(virtualEditionInter -> virtualEditionInter.getFragment() == fragment
-				&& virtualEditionInter.getVirtualEdition() == virtualEdition).collect(Collectors.toSet());
 	}
 
 	@Atomic(mode = TxMode.WRITE)

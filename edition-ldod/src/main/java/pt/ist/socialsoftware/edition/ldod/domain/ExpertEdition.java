@@ -93,7 +93,7 @@ public class ExpertEdition extends ExpertEdition_Base implements Comparable<Expe
 	public List<ExpertEditionInter> getSortedInter4Frag(Fragment fragment) {
 		List<ExpertEditionInter> interps = new ArrayList<ExpertEditionInter>();
 
-		for (FragInter inter : fragment.getScholarInterSet()) {
+		for (ScholarInter inter : fragment.getScholarInterSet()) {
 			if (inter.getSourceType() == Edition.EditionType.EDITORIAL
 					&& ((ExpertEditionInter) inter).getExpertEdition() == this) {
 				interps.add((ExpertEditionInter) inter);
@@ -137,12 +137,20 @@ public class ExpertEdition extends ExpertEdition_Base implements Comparable<Expe
 	}
 
 
-	public Set<FragInter> getIntersSet() {
-		return new HashSet<FragInter>(getExpertEditionIntersSet());
+	public Set<ExpertEditionInter> getIntersSet() {
+		return new HashSet<>(getExpertEditionIntersSet());
 	}
 
 	public List<ExpertEditionInter> getSortedInterps() {
 		return getIntersSet().stream().map(ExpertEditionInter.class::cast).sorted().collect(Collectors.toList());
+	}
+
+	public ExpertEditionInter getFragInterByUrlId(String urlId) {
+		return getIntersSet().stream().filter(i -> i.getUrlId().equals(urlId)).findFirst().orElse(null);
+	}
+
+	public ExpertEditionInter getFragInterByXmlId(String xmlId) {
+		return getIntersSet().stream().filter(i -> i.getXmlId().equals(xmlId)).findFirst().orElse(null);
 	}
 
 	@Override

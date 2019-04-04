@@ -1,9 +1,6 @@
 package pt.ist.socialsoftware.edition.ldod.domain;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import pt.ist.socialsoftware.edition.ldod.search.Indexer;
 import pt.ist.socialsoftware.edition.ldod.topicmodeling.TopicModeler;
@@ -161,4 +158,33 @@ public class ExpertEditionInter extends ExpertEditionInter_Base {
 		return 0;
 	}
 
+	public ExpertEditionInter getNextNumberInter() {
+		List<ExpertEditionInter> interps = new ArrayList<>(this.getExpertEdition().getIntersSet());
+
+		Collections.sort(interps);
+
+		return findNextElementByNumber(interps);
+	}
+
+	public ExpertEditionInter getPrevNumberInter() {
+		List<ExpertEditionInter> interps = new ArrayList<>(this.getExpertEdition().getIntersSet());
+
+		Collections.sort(interps, Collections.reverseOrder());
+
+		return findNextElementByNumber(interps);
+	}
+
+
+	private ExpertEditionInter findNextElementByNumber(List<ExpertEditionInter> interps) {
+		Boolean stopNext = false;
+		for (ExpertEditionInter tmpInter : interps) {
+			if (stopNext) {
+				return tmpInter;
+			}
+			if (tmpInter.getNumber() == getNumber() && tmpInter == this) {
+				stopNext = true;
+			}
+		}
+		return interps.get(0);
+	}
 }
