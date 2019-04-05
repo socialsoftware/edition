@@ -121,7 +121,7 @@ class ConnectedMyWordCloud extends Component {
   render() {
 
     let instructions = (<div className="instructionsButton">
-      <Button bsStyle="primary" bsSize="small" onClick={this.toggleInstructions}>
+      <Button bsStyle="default" bsSize="small" onClick={this.toggleInstructions}>
         Mostrar instruções [i]
       </Button>
     </div>)
@@ -212,7 +212,7 @@ class ConnectedMyWordCloud extends Component {
           </div>
 
           <div className="instructionsButton">
-            <Button bsStyle="primary" bsSize="small" onClick={this.toggleInstructions}>
+            <Button bsStyle="default" bsSize="small" onClick={this.toggleInstructions}>
               Esconder instruções [i]
             </Button>
           </div>

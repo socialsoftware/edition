@@ -154,8 +154,8 @@ class ConnectedApp extends Component {
     this.handleFirstActivitySelectRetreat = this.handleFirstActivitySelectRetreat.bind(this)
 
     this.state = {
-      previousFragmentButtonStyle: "primary",
-      nextFragmentButtonStyle: "primary",
+      previousFragmentButtonStyle: "default",
+      nextFragmentButtonStyle: "default",
       showConfig: false,
       showGlobalView: false,
       showHistoric: false,
@@ -514,10 +514,12 @@ class ConnectedApp extends Component {
   // }
 
   handleEditionSelectRetreat() {
+    // this.landingActivityToRender = <PublicEditionContainerTable onChange={this.handleEditionsReceived} sendSelectedEdition={this.handleEditionSelected}/>
+    this.props.addFragment([]);
+    this.props.setRecommendationArray([]);
     this.props.setAllFragmentsLoaded(false);
     this.props.setOutOfLandingPage(false);
-    this.setState({editionSelected: false});
-    this.landingActivityToRender = <PublicEditionContainerTable onChange={this.handleEditionsReceived} sendSelectedEdition={this.handleEditionSelected}/>
+    this.setState({editionsReceived: false, editionSelected: false});
   }
 
   handleFirstActivitySelectRetreat() {
@@ -744,7 +746,7 @@ class ConnectedApp extends Component {
 
     } else if (this.state.editionsReceived && this.state.editionSelected) {
 
-      retreatButton = (<Button bsStyle="primary" onClick={this.handleEditionSelectRetreat}>
+      retreatButton = (<Button bsStyle="default" onClick={this.forcePageReload}>
         ← Selecionar outra edição
       </Button>);
 
@@ -756,34 +758,34 @@ class ConnectedApp extends Component {
         </div>);
       } else if (this.state.showLandingActivity & (this.props.potentialSemanticCriteria == CRIT_CATEGORY) & this.props.allFragmentsLoaded) {
         this.landingActivityToRender = (<MyWordCloud onChange={this.handleCloseModals}/>)
-        retreatButton = (<Button bsStyle="primary" onClick={this.handleFirstActivitySelectRetreat}>
+        retreatButton = (<Button bsStyle="default" onClick={this.handleFirstActivitySelectRetreat}>
           ← Selecionar outra atividade
         </Button>);
       } else if (this.state.showLandingActivity & this.props.allFragmentsLoaded) {
         this.landingActivityToRender = (<SquareGrid onChange={this.handleCloseModals}/>)
-        retreatButton = (<Button bsStyle="primary" onClick={this.handleFirstActivitySelectRetreat}>
+        retreatButton = (<Button bsStyle="default" onClick={this.handleFirstActivitySelectRetreat}>
           ← Selecionar outra atividade
         </Button>);
       } else if (!this.state.showLandingActivity & this.props.allFragmentsLoaded) {
-        let categoryButtonStyle = "primary"
+        let categoryButtonStyle = "default"
         let categoryButtonBotMessage = activitySelectable;
         let categoryButtonMessage = "Explorar os fragmentos desta edição pelas categorias a que pertencem (taxonomia)"
         this.categoryButtonFunction = this.handleShowLandingActivityWordCloudCategory;
         let categoryImage = picWordCloud;
         if (this.props.categories.length === 0) {
-          categoryButtonStyle = "default";
+          categoryButtonStyle = "default disabled";
           categoryButtonMessage = "Explorar os fragmentos desta edição pelas categorias a que pertencem (taxonomia) (edição sem taxonomia)"
           this.categoryButtonFunction = function() {}
           categoryImage = picWordCloudGray;
           categoryButtonBotMessage = activityUnselectable;
         }
-        let datesButtonStyle = "primary"
+        let datesButtonStyle = "default"
         let datesButtonBotMessage = activitySelectable;
         this.datesButtonFunction = this.handleShowLandingActivitySquareDateOrder;
         let datesButtonMessage = "Explorar os fragmentos desta edição ordenados por data";
         let datesImage = picSquareTime;
         if (!this.props.datesExist) {
-          datesButtonStyle = "default";
+          datesButtonStyle = "default disabled";
           datesButtonBotMessage = activityUnselectable;
           this.datesButtonFunction = function() {}
           datesButtonMessage = "Explorar os fragmentos desta edição ordenados por data (edição sem datas)"
@@ -812,7 +814,7 @@ class ConnectedApp extends Component {
                   <b>Explorar os fragmentos por ordem desta edição</b>
                 </p>
                 <div className="welcomeButtonActivity">
-                  <Button bsStyle="primary" bsSize="small" onClick={this.handleShowLandingActivitySquareEditionOrder} disabled="true">
+                  <Button bsStyle="default" bsSize="small" onClick={this.handleShowLandingActivitySquareEditionOrder}>
                     Escolher atividade
                   </Button>
                 </div>
@@ -896,7 +898,7 @@ class ConnectedApp extends Component {
             width: `${ ((this.props.recommendationIndex + 1) / this.props.recommendationArray.length) * 100}%`
           }}/>
       </div>))
-      goBackToTopButton = <Button bsStyle="default" bsSize="small" onClick={this.goBackToTop}>
+      goBackToTopButton = <Button bsStyle="default " bsSize="small" onClick={this.goBackToTop}>
         Voltar ao topo [T]
       </Button>
     }
@@ -1191,7 +1193,7 @@ class ConnectedApp extends Component {
         </Modal.Body>
 
         <Modal.Footer>
-          <Button bsStyle="primary" onClick={this.handleCloseGlobalView}>
+          <Button bsStyle="default" onClick={this.handleCloseGlobalView}>
             Fechar [ESC]
           </Button>
         </Modal.Footer>
@@ -1204,10 +1206,10 @@ class ConnectedApp extends Component {
         </Modal.Body>
 
         <Modal.Footer>
-          <Button bsStyle="primary" onClick={this.forcePageReload}>
+          <Button bsStyle="default" onClick={this.forcePageReload}>
             Escolher outra edição
           </Button>
-          <Button bsStyle="primary" onClick={this.handleCloseConfig}>
+          <Button bsStyle="default" onClick={this.handleCloseConfig}>
             Fechar [ESC]
           </Button>
         </Modal.Footer>
@@ -1220,7 +1222,7 @@ class ConnectedApp extends Component {
         </Modal.Body>
 
         <Modal.Footer>
-          <Button bsStyle="primary" onClick={this.handleCloseHistoric}>
+          <Button bsStyle="default" onClick={this.handleCloseHistoric}>
             Fechar [ESC]
           </Button>
         </Modal.Footer>

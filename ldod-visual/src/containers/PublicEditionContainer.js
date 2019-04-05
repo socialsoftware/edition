@@ -105,7 +105,7 @@ class ConnectedPublicEditionContainer extends React.Component {
       editionButtonList = this.state.editions.map(item => {
 
         if (item.numberOfInters > 0) {
-          let buttonStyle = "primary";
+          let buttonStyle = "default";
           let categoryMessage = "Não"
 
           if (item.taxonomy.hasCategories) {

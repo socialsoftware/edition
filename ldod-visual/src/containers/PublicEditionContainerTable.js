@@ -199,7 +199,7 @@ class ConnectedPublicEditionContainerTable extends React.Component {
             title: myTitle,
             acronym: item.acronym,
             nrFragments: item.numberOfInters,
-            navButton: (<Button bsStyle="primary" bsSize="small" onClick={() => this.handleButtonClick(item)}>
+            navButton: (<Button bsStyle="default" bsSize="small" onClick={() => this.handleButtonClick(item)}>
               Selecionar edição
             </Button>)
           };
@@ -239,7 +239,7 @@ class ConnectedPublicEditionContainerTable extends React.Component {
 
           availableEditionsCounter++;
 
-          let buttonStyle = "primary";
+          let buttonStyle = "default";
           let categoryMessage = "Não"
 
           if (item.taxonomy.hasCategories) {
