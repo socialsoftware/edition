@@ -522,7 +522,7 @@ class ConnectedNetworkGraph extends Component {
     </span >);
 
     let instructions = (<div className="instructionsButton">
-      <Button bsStyle="primary" bsSize="small" onClick={this.toggleInstructions}>
+      <Button bsStyle="default" bsSize="small" onClick={this.toggleInstructions}>
         Mostrar instruções [i]
       </Button>
     </div>)
@@ -563,7 +563,7 @@ class ConnectedNetworkGraph extends Component {
         </div>
 
         <div className="instructionsButton">
-          <Button bsStyle="primary" bsSize="small" onClick={this.toggleInstructions}>
+          <Button bsStyle="default" bsSize="small" onClick={this.toggleInstructions}>
             Esconder instruções [i]
           </Button>
         </div>
