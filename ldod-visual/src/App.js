@@ -812,7 +812,7 @@ class ConnectedApp extends Component {
                   <b>Explorar os fragmentos por ordem desta edição</b>
                 </p>
                 <div className="welcomeButtonActivity">
-                  <Button bsStyle="primary" bsSize="small" onClick={this.handleShowLandingActivitySquareEditionOrder}>
+                  <Button bsStyle="primary" bsSize="small" onClick={this.handleShowLandingActivitySquareEditionOrder} disabled="true">
                     Escolher atividade
                   </Button>
                 </div>
