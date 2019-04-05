@@ -7,15 +7,7 @@ import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
-import pt.ist.socialsoftware.edition.ldod.domain.NullHeteronym;
-import pt.ist.socialsoftware.edition.ldod.domain.RecommendationWeights;
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
-import pt.ist.socialsoftware.edition.ldod.domain.FragInter;
-import pt.ist.socialsoftware.edition.ldod.domain.Fragment;
-import pt.ist.socialsoftware.edition.ldod.domain.Heteronym;
-import pt.ist.socialsoftware.edition.ldod.domain.Source;
-import pt.ist.socialsoftware.edition.ldod.domain.SourceInter;
+import pt.ist.socialsoftware.edition.ldod.domain.*;
 
 public class HeteronymProperty extends Property {
 	private static List<Heteronym> heteronymList = LdoD.getInstance().getSortedHeteronyms();
@@ -39,6 +31,15 @@ public class HeteronymProperty extends Property {
 			i++;
 		}
 		return vector;
+	}
+
+	@Override
+	double[] extractVector(ExpertEditionInter expertEditionInter) {
+		List<Heteronym> foundHeteronyms = new ArrayList<>();
+
+		foundHeteronyms.add(expertEditionInter.getHeteronym());
+
+		return buildVector(foundHeteronyms);
 	}
 
 	@Override

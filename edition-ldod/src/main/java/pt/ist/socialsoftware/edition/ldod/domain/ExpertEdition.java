@@ -1,12 +1,15 @@
 package pt.ist.socialsoftware.edition.ldod.domain;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import org.joda.time.LocalDate;
+import pt.ist.socialsoftware.edition.ldod.dto.InterDistancePairDto;
+import pt.ist.socialsoftware.edition.ldod.dto.InterIdDistancePairDto;
+import pt.ist.socialsoftware.edition.ldod.dto.WeightsDto;
+import pt.ist.socialsoftware.edition.ldod.recommendation.VSMExpertEditionInterRecommender;
+import pt.ist.socialsoftware.edition.ldod.recommendation.VSMVirtualEditionInterRecommender;
+import pt.ist.socialsoftware.edition.ldod.recommendation.properties.Property;
 
 public class ExpertEdition extends ExpertEdition_Base implements Comparable<ExpertEdition> {
 	public ExpertEdition(LdoD ldoD, String title, String author, String editor, LocalDate date) {
@@ -151,4 +154,24 @@ public class ExpertEdition extends ExpertEdition_Base implements Comparable<Expe
 
 		return interps.get(0);
 	}
+
+    public List<InterIdDistancePairDto> getIntersByDistance(ExpertEditionInter expertEditionInter, WeightsDto weights) {
+		Set<ExpertEditionInter> inters = getExpertEditionIntersSet();
+		VSMExpertEditionInterRecommender recommender = new VSMExpertEditionInterRecommender();
+
+		inters.remove(expertEditionInter);
+
+		List<InterIdDistancePairDto> recommendedEdition = new ArrayList<>();
+
+		recommendedEdition.add(new InterIdDistancePairDto(expertEditionInter.getExternalId(), 1.0d));
+		List<Property> properties = weights.getProperties();
+		for (ExpertEditionInter inter : inters) {
+			recommendedEdition.add(new InterIdDistancePairDto(inter.getExternalId(),
+					recommender.calculateSimilarity(expertEditionInter, inter, properties)));
+		}
+
+		return recommendedEdition.stream().sorted(Comparator.comparing(InterIdDistancePairDto::getDistance).reversed()).collect(Collectors.toList());
+    }
+
+
 }

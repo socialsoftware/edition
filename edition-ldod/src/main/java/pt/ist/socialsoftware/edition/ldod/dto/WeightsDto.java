@@ -3,6 +3,8 @@ package pt.ist.socialsoftware.edition.ldod.dto;
 import java.util.ArrayList;
 import java.util.List;
 
+import pt.ist.socialsoftware.edition.ldod.domain.Edition;
+import pt.ist.socialsoftware.edition.ldod.domain.ExpertEdition;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.ldod.recommendation.properties.DateProperty;
 import pt.ist.socialsoftware.edition.ldod.recommendation.properties.HeteronymProperty;
@@ -16,7 +18,7 @@ public class WeightsDto {
 	private float textWeight;
 	private float taxonomyWeight;
 
-	public List<Property> getProperties(VirtualEdition virtualEdition) {
+	public List<Property> getProperties() {
 		List<Property> result = new ArrayList<>();
 		if (getHeteronymWeight() > 0.0) {
 			result.add(new HeteronymProperty(getHeteronymWeight()));
@@ -27,6 +29,13 @@ public class WeightsDto {
 		if (getTextWeight() > 0.0) {
 			result.add(new TextProperty(getTextWeight()));
 		}
+
+		return result;
+	}
+
+	public List<Property> getProperties(VirtualEdition virtualEdition) {
+		List<Property> result = getProperties();
+
 		if (getTaxonomyWeight() > 0.0) {
 			result.add(new TaxonomyProperty(getTaxonomyWeight(), virtualEdition.getTaxonomy(),
 					Property.PropertyCache.OFF));
@@ -34,6 +43,8 @@ public class WeightsDto {
 
 		return result;
 	}
+
+
 
 	public float getHeteronymWeight() {
 		return this.heteronymWeight;

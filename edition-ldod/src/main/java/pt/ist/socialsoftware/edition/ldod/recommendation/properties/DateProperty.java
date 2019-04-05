@@ -8,11 +8,7 @@ import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import pt.ist.socialsoftware.edition.ldod.domain.RecommendationWeights;
-import pt.ist.socialsoftware.edition.ldod.domain.FragInter;
-import pt.ist.socialsoftware.edition.ldod.domain.Fragment;
-import pt.ist.socialsoftware.edition.ldod.domain.Source;
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
+import pt.ist.socialsoftware.edition.ldod.domain.*;
 
 public class DateProperty extends Property {
 	private static Logger logger = LoggerFactory.getLogger(DateProperty.class);
@@ -63,11 +59,20 @@ public class DateProperty extends Property {
 	}
 
 	@Override
+	double[] extractVector(ExpertEditionInter expertEditionInter) {
+		Set<Integer> dates = new HashSet<>();
+		if (expertEditionInter.getLdoDDate() != null) {
+			dates.add(expertEditionInter.getLdoDDate().getDate().getYear());
+		}
+		return buildVector(dates);
+	}
+
+	@Override
 	double[] extractVector(VirtualEditionInter virtualEditionInter) {
 		Set<Integer> dates = new HashSet<>();
-		FragInter fragInter = virtualEditionInter.getLastUsed();
-		if (fragInter.getLdoDDate() != null) {
-			dates.add(fragInter.getLdoDDate().getDate().getYear());
+		FragInter inter = virtualEditionInter.getLastUsed();
+		if (inter.getLdoDDate() != null) {
+			dates.add(inter.getLdoDDate().getDate().getYear());
 		}
 		return buildVector(dates);
 	}

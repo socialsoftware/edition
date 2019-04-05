@@ -22,14 +22,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import pt.ist.fenixframework.DomainObject;
 import pt.ist.fenixframework.FenixFramework;
+import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.domain.Edition.EditionType;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
-import pt.ist.socialsoftware.edition.ldod.domain.RecommendationWeights;
-import pt.ist.socialsoftware.edition.ldod.domain.Section;
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
 import pt.ist.socialsoftware.edition.ldod.dto.InterDistancePairDto;
 import pt.ist.socialsoftware.edition.ldod.dto.InterIdDistancePairDto;
 import pt.ist.socialsoftware.edition.ldod.dto.WeightsDto;
@@ -103,16 +99,26 @@ public class RecommendationController {
 				"(" + weights.getHeteronymWeight() + "," + weights.getTextWeight() + "," + weights.getDateWeight() + ","
 						+ weights.getTaxonomyWeight() + ")");
 
-		VirtualEditionInter virtualEditionInter = FenixFramework.getDomainObject(externalId);
-		if (virtualEditionInter == null) {
+		DomainObject object = FenixFramework.getDomainObject(externalId);
+		if (object == null) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 
-		List<InterDistancePairDto> intersByDistance = virtualEditionInter.getVirtualEdition()
-				.getIntersByDistance(virtualEditionInter, weights);
+		List<InterIdDistancePairDto> intersByDistance;
 
-		return new ResponseEntity<InterIdDistancePairDto[]>(intersByDistance.stream()
-				.map(p -> new InterIdDistancePairDto(p.getInter().getExternalId(), p.getDistance()))
+		if (object instanceof VirtualEditionInter) {
+			VirtualEditionInter virtualEditionInter = (VirtualEditionInter) object;
+			intersByDistance = virtualEditionInter.getVirtualEdition()
+					.getIntersByDistance(virtualEditionInter, weights);
+		} else if (object instanceof ExpertEditionInter) {
+			ExpertEditionInter expertEditionInter = (ExpertEditionInter) object;
+			intersByDistance = expertEditionInter.getExpertEdition()
+					.getIntersByDistance(expertEditionInter, weights);
+		} else {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+
+		return new ResponseEntity<>(intersByDistance.stream()
 				.toArray(size -> new InterIdDistancePairDto[size]), HttpStatus.OK);
 	}
 

@@ -3,10 +3,7 @@ package pt.ist.socialsoftware.edition.ldod.recommendation.properties;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
-import pt.ist.socialsoftware.edition.ldod.domain.FragInter;
-import pt.ist.socialsoftware.edition.ldod.domain.Fragment;
-import pt.ist.socialsoftware.edition.ldod.domain.RecommendationWeights;
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
+import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.recommendation.StoredVectors;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
@@ -36,9 +33,14 @@ public abstract class Property {
 
 	public abstract void userWeight(RecommendationWeights recommendationWeights);
 
+	abstract double[] extractVector(ExpertEditionInter expertEditionInter);
+
 	abstract double[] extractVector(VirtualEditionInter virtualEditionInter);
 
-	abstract double[] extractVector(Fragment fragmnet);
+	abstract double[] extractVector(Fragment fragment);
+
+	public void prepareToLoadProperty(ExpertEditionInter t1, ExpertEditionInter t2) {
+	}
 
 	public void prepareToLoadProperty(VirtualEditionInter virtualEditionInter1,
 			VirtualEditionInter virtualEditionInter2) {
@@ -61,13 +63,27 @@ public abstract class Property {
 		}
 	}
 
+	public final double[] loadProperty(ExpertEditionInter expertEditionInter) {
+		if (cached.equals(PropertyCache.ON)) {
+			String interExternalId = expertEditionInter.getExternalId();
+			double[] vector = StoredVectors.getInstance().get(this, interExternalId);
+			if (vector == null) {
+				vector = extractVector(expertEditionInter);
+				StoredVectors.getInstance().put(this, interExternalId, vector);
+			}
+			return applyWeights(vector, getWeight());
+		} else {
+			return applyWeights(extractVector(expertEditionInter), getWeight());
+		}
+	}
+
 	public final double[] loadProperty(VirtualEditionInter virtualEditionInter) {
 		if (cached.equals(PropertyCache.ON)) {
-			String externalId = virtualEditionInter.getFragment().getExternalId();
-			double[] vector = StoredVectors.getInstance().get(this, externalId);
+			String interExternalId = virtualEditionInter.getLastUsed().getExternalId();
+			double[] vector = StoredVectors.getInstance().get(this, interExternalId);
 			if (vector == null) {
 				vector = extractVector(virtualEditionInter);
-				StoredVectors.getInstance().put(this, externalId, vector);
+				StoredVectors.getInstance().put(this, interExternalId, vector);
 			}
 			return applyWeights(vector, getWeight());
 		} else {

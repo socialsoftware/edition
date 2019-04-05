@@ -61,7 +61,7 @@ class GetIntersByDistanceMethodTest extends SpockRollbackTestAbstractClass  {
         results.size() == 5
         results.stream().map({r -> r.getDistance()}).collect(Collectors.toSet()).size() == 5
 
-        results.stream().forEach({r -> logger.debug('{}: {}', r.getInter().getXmlId(), r.getDistance())})
+        results.stream().forEach({r -> logger.debug('{}: {}', r.getInterId(), r.getDistance())})
     }
 
     def 'test all inters have non consecutive year dates'() {
@@ -82,7 +82,7 @@ class GetIntersByDistanceMethodTest extends SpockRollbackTestAbstractClass  {
         results.size() == 5
         results.stream().map({r -> r.getDistance()}).collect(Collectors.toSet()).size() == 5
 
-        results.stream().forEach({r -> logger.debug('{}: {}', r.getInter().getXmlId(), r.getDistance())})
+        results.stream().forEach({r -> logger.debug('{}: {}', r.getInterId(), r.getDistance())})
     }
 
     def 'test 3 inters have same year date'() {
@@ -103,7 +103,7 @@ class GetIntersByDistanceMethodTest extends SpockRollbackTestAbstractClass  {
         results.size() == 5
         results.stream().map({r -> r.getDistance()}).collect(Collectors.toSet()).size() == 3
 
-        results.stream().forEach({r -> logger.debug('{}: {}', r.getInter().getXmlId(), r.getDistance())})
+        results.stream().forEach({r -> logger.debug('{}: {}', r.getInterId(), r.getDistance())})
     }
 
     def 'test all inters have same date'() {
@@ -122,7 +122,7 @@ class GetIntersByDistanceMethodTest extends SpockRollbackTestAbstractClass  {
         results.size() == 5
         results.stream().map({r -> r.getDistance()}).collect(Collectors.toSet()).size() == 1
 
-        results.stream().forEach({r -> logger.debug('{}: {}', r.getInter().getXmlId(), r.getDistance())})
+        results.stream().forEach({r -> logger.debug('{}: {}', r.getInterId(), r.getDistance())})
     }
 
     def 'test only virtualEditionInter has date'() {
@@ -138,7 +138,7 @@ class GetIntersByDistanceMethodTest extends SpockRollbackTestAbstractClass  {
         results.size() == 5
         results.stream().map({r -> r.getDistance()}).collect(Collectors.toSet()).size() == 2
 
-        results.stream().forEach({r -> logger.debug('{}: {}', r.getInter().getXmlId(), r.getDistance())})
+        results.stream().forEach({r -> logger.debug('{}: {}', r.getInterId(), r.getDistance())})
     }
 
     def 'test only virtualEditionInter has no date'() {
@@ -162,7 +162,7 @@ class GetIntersByDistanceMethodTest extends SpockRollbackTestAbstractClass  {
         results.size() == 5
         results.stream().map({r -> r.getDistance()}).collect(Collectors.toSet()).size() == 2
 
-        results.stream().forEach({r -> logger.debug('{}: {}', r.getInter().getXmlId(), r.getDistance())})
+        results.stream().forEach({r -> logger.debug('{}: {}', r.getInterId(), r.getDistance())})
     }
 
     def 'test two have no date'() {
@@ -187,7 +187,7 @@ class GetIntersByDistanceMethodTest extends SpockRollbackTestAbstractClass  {
         results.size() == 5
         results.stream().map({r -> r.getDistance()}).collect(Collectors.toSet()).size() == 4
 
-        results.stream().forEach({r -> logger.debug('{}: {}', r.getInter().getXmlId(), r.getDistance())})
+        results.stream().forEach({r -> logger.debug('{}: {}', r.getInterId(), r.getDistance())})
     }
 
     def 'test none has date'() {
@@ -201,7 +201,7 @@ class GetIntersByDistanceMethodTest extends SpockRollbackTestAbstractClass  {
         results.size() == 5
         results.stream().map({r -> r.getDistance()}).collect(Collectors.toSet()).size() == 1
 
-        results.stream().forEach({r -> logger.debug('{}: {}', r.getInter().getXmlId(), r.getDistance())})
+        results.stream().forEach({r -> logger.debug('{}: {}', r.getInterId(), r.getDistance())})
     }
 
     def 'test only virtualEditionInter has heteronym'() {
@@ -217,7 +217,7 @@ class GetIntersByDistanceMethodTest extends SpockRollbackTestAbstractClass  {
         results.size() == 5
         results.stream().map({r -> r.getDistance()}).collect(Collectors.toSet()).size() == 2
 
-        results.stream().forEach({r -> logger.debug('{}: {}', r.getInter().getXmlId(), r.getDistance())})
+        results.stream().forEach({r -> logger.debug('{}: {}', r.getInterId(), r.getDistance())})
     }
 
     def 'test none has heteronym'() {
@@ -231,7 +231,7 @@ class GetIntersByDistanceMethodTest extends SpockRollbackTestAbstractClass  {
         results.size() == 5
         results.stream().map({r -> r.getDistance()}).collect(Collectors.toSet()).size() == 1
 
-        results.stream().forEach({r -> logger.debug('{}: {}', r.getInter().getXmlId(), r.getDistance())})
+        results.stream().forEach({r -> logger.debug('{}: {}', r.getInterId(), r.getDistance())})
     }
 
 

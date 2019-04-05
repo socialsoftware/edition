@@ -13,10 +13,7 @@ import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import pt.ist.socialsoftware.edition.ldod.domain.FragInter;
-import pt.ist.socialsoftware.edition.ldod.domain.Fragment;
-import pt.ist.socialsoftware.edition.ldod.domain.RecommendationWeights;
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
+import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.search.Indexer;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
 
@@ -39,6 +36,11 @@ public class TextProperty extends Property {
 
 	public TextProperty(@JsonProperty("weight") String weight) {
 		this(Double.parseDouble(weight));
+	}
+
+	@Override
+	public void prepareToLoadProperty(ExpertEditionInter inter1, ExpertEditionInter inter2) {
+		prepareToLoadProperty(inter1.getFragment(), inter2.getFragment());
 	}
 
 	@Override
@@ -74,8 +76,14 @@ public class TextProperty extends Property {
 	}
 
 	@Override
+	protected double[] extractVector(ExpertEditionInter expertEditionInter) {
+		return extractVector(expertEditionInter.getFragment());
+	}
+
+
+	@Override
 	protected double[] extractVector(VirtualEditionInter virtualEditionInter) {
-		return getFromVectorsCache(virtualEditionInter.getFragment());
+		return extractVector(virtualEditionInter.getFragment());
 	}
 
 	@Override
