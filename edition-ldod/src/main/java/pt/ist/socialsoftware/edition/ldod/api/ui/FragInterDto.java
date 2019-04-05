@@ -13,7 +13,14 @@ public class FragInterDto {
     private String externalId;
 
 
-    public FragInterDto(FragInter uses) {
+    public FragInterDto(VirtualEditionInter uses) {
+        setFragmentXmlId(uses.getFragment().getXmlId());
+        setUrlId(uses.getUrlId());
+        setShortName(uses.getShortName());
+        setExternalId(uses.getExternalId());
+    }
+
+    public FragInterDto(ScholarInter uses) {
         setFragmentXmlId(uses.getFragment().getXmlId());
         setUrlId(uses.getUrlId());
         setShortName(uses.getShortName());

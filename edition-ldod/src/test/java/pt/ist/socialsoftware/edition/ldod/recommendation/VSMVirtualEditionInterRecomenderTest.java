@@ -85,9 +85,9 @@ public class VSMVirtualEditionInterRecomenderTest extends TestWithFragmentsLoadi
 	public void testGetMostSimilarItemForHeteronym() {
 		VirtualEdition virtualEdition = LdoD.getInstance().getVirtualEdition(ACRONYM);
 		VirtualEditionInter virtualEditionInter = null;
-		for (FragInter inter : virtualEdition.getIntersSet()) {
+		for (VirtualEditionInter inter : virtualEdition.getIntersSet()) {
 			if (inter.getLastUsed().getHeteronym() != null) {
-				virtualEditionInter = (VirtualEditionInter) inter;
+				virtualEditionInter = inter;
 				break;
 			}
 		}
@@ -107,9 +107,9 @@ public class VSMVirtualEditionInterRecomenderTest extends TestWithFragmentsLoadi
 	public void testGetMostSimilarItemForNoHeteronym() {
 		VirtualEdition virtualEdition = LdoD.getInstance().getVirtualEdition(ACRONYM);
 		VirtualEditionInter virtualEditionInter = null;
-		for (FragInter inter : virtualEdition.getIntersSet()) {
+		for (VirtualEditionInter inter : virtualEdition.getIntersSet()) {
 			if (inter.getLastUsed().getHeteronym() == NullHeteronym.getNullHeteronym()) {
-				virtualEditionInter = (VirtualEditionInter) inter;
+				virtualEditionInter = inter;
 				break;
 			}
 		}

@@ -4,7 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pt.ist.socialsoftware.edition.ldod.api.event.Event;
 import pt.ist.socialsoftware.edition.ldod.api.event.EventInterface;
-import pt.ist.socialsoftware.edition.ldod.api.ldod.LdoDInterface;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -12,13 +11,22 @@ import java.util.Collections;
 import java.util.List;
 
 public abstract class ScholarInter extends ScholarInter_Base {
-    private static Logger logger = LoggerFactory.getLogger(ScholarInter.class);
+    private static final Logger logger = LoggerFactory.getLogger(ScholarInter.class);
 
     public String getUrlId() {
         return getXmlId().replace(".", "_");
     }
 
-    @Override
+    public abstract String getShortName();
+
+    public abstract int getNumber();
+
+    public abstract String getTitle();
+
+    public abstract Edition getEdition();
+
+    public abstract Edition.EditionType getSourceType();
+
     public void remove() {
 
         setFragment(null);

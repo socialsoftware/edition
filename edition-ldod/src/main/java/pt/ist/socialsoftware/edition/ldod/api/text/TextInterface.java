@@ -9,17 +9,17 @@ import java.util.Objects;
 import java.util.Set;
 
 public class TextInterface {
-    private static Logger logger = LoggerFactory.getLogger(TextInterface.class);
+    private static final Logger logger = LoggerFactory.getLogger(TextInterface.class);
 
 
-    public String getScholarInterTitle(String id){
+    public String getScholarInterTitle(String id) {
         return Text.getInstance().getFragmentsSet().stream()
                 .filter(fragment -> fragment.getScholarInterByXmlId(id) != null)
                 .map(fragment -> fragment.getScholarInterByXmlId(id).getTitle())
                 .filter(Objects::nonNull).findFirst().orElse(null);
     }
 
-    public Heteronym getScholarInterHeteronym(String id){
+    public Heteronym getScholarInterHeteronym(String id) {
         return Text.getInstance().getFragmentsSet().stream()
                 .filter(fragment -> fragment.getScholarInterByXmlId(id) != null)
                 .map(fragment -> fragment.getScholarInterByXmlId(id).getHeteronym())
@@ -43,22 +43,22 @@ public class TextInterface {
         return Text.getInstance().getExpertEdition(acronym);
     }
 
-    public LdoDUser getUser(String username){
+    public LdoDUser getUser(String username) {
         return LdoD.getInstance().getUser(username);
     }
 
-    public Set<Fragment> getFragmentsSet(){
+    public Set<Fragment> getFragmentsSet() {
         return Text.getInstance().getFragmentsSet();
     }
 
     //Get fragment knowing its xml id
-    public Fragment getFragmentByXmlId(String id){
+    public Fragment getFragmentByXmlId(String id) {
         return Text.getInstance().getFragmentByXmlId(id);
     }
 
     //Get Fragment knowing the xml id of one of it's scholar interpretations
     public Fragment getFragmentByInterXmlId(String xmlId) {
-        return Text.getInstance().getFragmentsSet().stream().filter(f->f.getScholarInterByXmlId(xmlId) != null).findAny().orElse(null);
+        return Text.getInstance().getFragmentsSet().stream().filter(f -> f.getScholarInterByXmlId(xmlId) != null).findAny().orElse(null);
     }
 
     public boolean isSourceInter(String xmlId) {
@@ -69,7 +69,7 @@ public class TextInterface {
     }
 
     public Source getSourceOfInter(String xmlId) {
-        return  Text.getInstance().getFragmentsSet().stream()
+        return Text.getInstance().getFragmentsSet().stream()
                 .filter(fragment -> fragment.getScholarInterByXmlId(xmlId) != null).map(fragment -> fragment.getScholarInterByXmlId(xmlId))
                 .map(SourceInter.class::cast).map(sourceInter -> sourceInter.getSource()).findFirst().orElseThrow(LdoDException::new);
     }
@@ -86,25 +86,25 @@ public class TextInterface {
                 .map(scholarInter -> scholarInter.getEdition().getAcronym()).filter(Objects::nonNull).findFirst().orElse(null);
     }
 
-    public boolean isExpertInter(String xmlId){
+    public boolean isExpertInter(String xmlId) {
         return Text.getInstance().getFragmentsSet().stream()
                 .filter(fragment -> fragment.getScholarInterByXmlId(xmlId) != null).map(fragment -> fragment.getScholarInterByXmlId(xmlId))
-                .map(FragInter::getSourceType).findFirst().orElseThrow(LdoDException::new).equals(Edition.EditionType.EDITORIAL);
+                .map(ScholarInter::getSourceType).findFirst().orElseThrow(LdoDException::new).equals(Edition.EditionType.EDITORIAL);
     }
 
-    public String getHeteronymId(String xmlId){
+    public String getHeteronymId(String xmlId) {
         return Text.getInstance().getFragmentsSet().stream()
                 .filter(fragment -> fragment.getScholarInterByXmlId(xmlId) != null).map(fragment -> fragment.getScholarInterByXmlId(xmlId).getHeteronym().getXmlId())
                 .filter(Objects::nonNull).findFirst().orElse(null);
     }
 
     public String getInterSourceType(String xmlId) {
-        return  Text.getInstance().getFragmentsSet().stream()
+        return Text.getInstance().getFragmentsSet().stream()
                 .filter(fragment -> fragment.getScholarInterByXmlId(xmlId) != null).map(fragment -> fragment.getScholarInterByXmlId(xmlId))
                 .map(SourceInter.class::cast).map(sourceInter -> sourceInter.getSource().getType().toString()).findFirst().orElseThrow(LdoDException::new);
     }
 
-    public String getExpertEditionEditor(String xmlId){
+    public String getExpertEditionEditor(String xmlId) {
         return Text.getInstance().getExpertEditionsSet().stream().filter(expertEdition -> expertEdition.getFragInterByXmlId(xmlId) != null)
                 .findFirst().orElseThrow(LdoDException::new).getEditor();
     }

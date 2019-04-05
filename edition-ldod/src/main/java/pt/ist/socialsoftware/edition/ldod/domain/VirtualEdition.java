@@ -191,7 +191,7 @@ public class VirtualEdition extends VirtualEdition_Base {
 
 	public int getMaxFragNumber() {
 		int max = 0;
-		for (FragInter inter : getAllDepthVirtualEditionInters()) {
+		for (VirtualEditionInter inter : getAllDepthVirtualEditionInters()) {
 			max = inter.getNumber() > max ? inter.getNumber() : max;
 		}
 
@@ -727,7 +727,7 @@ public class VirtualEdition extends VirtualEdition_Base {
 		List<FragmentDto> fragments = new ArrayList<>();
 		String intersFilesPath = PropertiesManager.getProperties().getProperty("inters.dir");
 		for (VirtualEditionInter inter : this.getAllDepthVirtualEditionInters()) {
-			FragInter lastInter = inter.getLastUsed();
+			ScholarInter lastInter = inter.getLastUsed();
 			String text;
 			try {
 				text = new String(Files.readAllBytes(Paths.get(intersFilesPath + lastInter.getExternalId() + ".txt")));
