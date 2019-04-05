@@ -335,13 +335,16 @@ export class ConnectedFragment extends React.Component {
             opacity: this.state.opacity
           }}>
 
-          <h1 align="center">
-            <b>
-              {this.props.recommendationArray[this.props.recommendationIndex].meta.title}
-            </b>
-          </h1>
+          <div className="fragmentTitle">
+            <h1 align="center">
+              <b>
+                {this.props.recommendationArray[this.props.recommendationIndex].meta.title}
+              </b>
+            </h1>
+          </div>
 
-          <br/> {textToDisplay}
+          <br/>
+          <div className="fragmentText">{textToDisplay}</div>
         </div>
       </div>);;
     } else if (this.props.outOfLandingPage) {
