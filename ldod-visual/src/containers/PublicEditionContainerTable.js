@@ -207,8 +207,6 @@ class ConnectedPublicEditionContainerTable extends React.Component {
 
           if (this.expertEditionArray.length == 4) {
 
-            console.log("ordering experts")
-
             let tempOrderedExpertEdition = [];
             let orderedCounter = 0;
 
@@ -217,15 +215,12 @@ class ConnectedPublicEditionContainerTable extends React.Component {
               if (this.expertEditionArray[e].acronym == "JPC") {
                 tempOrderedExpertEdition[0] = this.expertEditionArray[e];
                 orderedCounter++;
-                console.log("ordering experts1")
               } else if (this.expertEditionArray[e].acronym == "TSC") {
                 tempOrderedExpertEdition[1] = this.expertEditionArray[e];
                 orderedCounter++;
-                console.log("ordering experts2")
               } else if (this.expertEditionArray[e].acronym == "RZ") {
                 tempOrderedExpertEdition[2] = this.expertEditionArray[e];
                 orderedCounter++;
-                console.log("ordering experts2")
               } else if (this.expertEditionArray[e].acronym == "JP") {
                 tempOrderedExpertEdition[3] = this.expertEditionArray[e];
                 orderedCounter++;
