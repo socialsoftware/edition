@@ -156,7 +156,7 @@ public class ExpertEdition extends ExpertEdition_Base implements Comparable<Expe
 	}
 
     public List<InterIdDistancePairDto> getIntersByDistance(ExpertEditionInter expertEditionInter, WeightsDto weights) {
-		Set<ExpertEditionInter> inters = getExpertEditionIntersSet();
+		List<ExpertEditionInter> inters = new ArrayList<>(getExpertEditionIntersSet());
 		VSMExpertEditionInterRecommender recommender = new VSMExpertEditionInterRecommender();
 
 		inters.remove(expertEditionInter);
