@@ -305,7 +305,7 @@ export class ConnectedFragment extends React.Component {
                 // }
 
                 stringArray[w] = ReactDOMServer.renderToStaticMarkup((<span style={{
-                    fontWeight: boldWeight,
+                    fontWeight: "bold",
                     color: "SteelBlue"
                   }}>
                   {stringArray[w]}
