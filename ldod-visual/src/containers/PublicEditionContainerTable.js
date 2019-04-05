@@ -205,6 +205,41 @@ class ConnectedPublicEditionContainerTable extends React.Component {
           };
           this.expertEditionArray.push(expertObj);
 
+          if (this.expertEditionArray.length == 4) {
+
+            console.log("ordering experts")
+
+            let tempOrderedExpertEdition = [];
+            let orderedCounter = 0;
+
+            let e;
+            for (e = 0; orderedCounter !== 4; e++) {
+              if (this.expertEditionArray[e].acronym == "JPC") {
+                tempOrderedExpertEdition[0] = this.expertEditionArray[e];
+                orderedCounter++;
+                console.log("ordering experts1")
+              } else if (this.expertEditionArray[e].acronym == "TSC") {
+                tempOrderedExpertEdition[1] = this.expertEditionArray[e];
+                orderedCounter++;
+                console.log("ordering experts2")
+              } else if (this.expertEditionArray[e].acronym == "RZ") {
+                tempOrderedExpertEdition[2] = this.expertEditionArray[e];
+                orderedCounter++;
+                console.log("ordering experts2")
+              } else if (this.expertEditionArray[e].acronym == "JP") {
+                tempOrderedExpertEdition[3] = this.expertEditionArray[e];
+                orderedCounter++;
+              }
+            }
+
+            this.expertEditionArray.map(f => console.log("ordering experts this.expertEditionArray;" + f.acronym));
+
+            tempOrderedExpertEdition.map(f => console.log("ordering experts this.tempOrderedExpertEdition;" + f.acronym));
+
+            this.expertEditionArray = tempOrderedExpertEdition;
+
+          }
+
         } else if (item.numberOfInters >= this.state.sliderNumberOfInters) {
 
           availableEditionsCounter++;
@@ -379,7 +414,7 @@ class ConnectedPublicEditionContainerTable extends React.Component {
     } else {
       editionButtonList = (<div><img src={loadingGif} alt="loading...publiceditiontable" className="loadingGifCentered"/>
         <p align="center">A carregar a lista de edições públicas disponíveis...</p>
-        <p align="center">Se demorar demasiado tempo, actualize a página e volte a tentar.</p>
+        <p align="center">Se demorar demasiado tempo, atualize a página e volte a tentar.</p>
       </div>);
     }
 

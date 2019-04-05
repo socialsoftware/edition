@@ -752,7 +752,7 @@ class ConnectedApp extends Component {
         this.landingActivityToRender = (<div>
           <img src={loadingGif} alt="loading...app.js" className="loadingGifCentered"/>
           <p align="center">A carregar todos os fragmentos da edição escolhida...</p>
-          <p align="center">Se demorar demasiado tempo, actualize a página e volte a tentar.</p>
+          <p align="center">Se demorar demasiado tempo, atualize a página e volte a tentar.</p>
         </div>);
       } else if (this.state.showLandingActivity & (this.props.potentialSemanticCriteria == CRIT_CATEGORY) & this.props.allFragmentsLoaded) {
         this.landingActivityToRender = (<MyWordCloud onChange={this.handleCloseModals}/>)
