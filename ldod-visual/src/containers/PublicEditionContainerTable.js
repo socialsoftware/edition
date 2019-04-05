@@ -505,7 +505,7 @@ class ConnectedPublicEditionContainerTable extends React.Component {
       <br/>
 
       <p align="center">
-        Alternativamente a uma edição virtual, pode escolher uma das edições dos peritos, cuja leitura e interação no LdoD Visual será semelhante à de uma edição virtual.
+        Alternativamente a uma edição virtual, pode escolher uma das edições dos peritos, cuja leitura e interação no LdoD Visual serão semelhantes às de uma edição virtual.
       </p>
       <p align="center">
         Relembramos que as edições dos peritos não têm categorias disponíveis (taxonomia).
