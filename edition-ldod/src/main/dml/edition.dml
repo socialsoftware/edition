@@ -248,9 +248,7 @@ relation TextHasFragments {
 	Fragment playsRole fragments {multiplicity 0..*;}
 }
 
-class FragInter {}
-
-class ScholarInter extends FragInter {
+class ScholarInter {
     String xmlId;
     int numAnnexNotes;
 }
@@ -274,7 +272,7 @@ class AnnexNote {
 	int number;
 }
 
-relation FragInterHasAnnexNote {
+relation ScholarInterHasAnnexNote {
 	ScholarInter playsRole scholarInter {multiplicity 1..1;}
 	AnnexNote playsRole annexNote {multiplicity 0..*;}
 }
@@ -289,7 +287,7 @@ class ExpertEditionInter extends ScholarInter {
 	String notes;
 }
 
-class VirtualEditionInter extends FragInter {
+class VirtualEditionInter {
 	String xmlId;
     String usesFragInter;
 	int number;
@@ -481,7 +479,7 @@ class AppText extends TextPortion {
   VariationType type;
 }
 
-relation FragInterHasRdgTexts {
+relation ScholarInterHasRdgTexts {
 	ScholarInter playsRole scholarInter {multiplicity 0..*;}
 	RdgText playsRole rdg {multiplicity 0..*;}
 }
@@ -525,7 +523,7 @@ class PbText extends TextPortion {
 	int order;
 }
 
-relation PbTextHasFragInters {
+relation PbTextHasScholarInters {
 	PbText playsRole pbText {multiplicity 0..*;}
 	ScholarInter playsRole scholarInter {multiplicity 0..*;}
 }

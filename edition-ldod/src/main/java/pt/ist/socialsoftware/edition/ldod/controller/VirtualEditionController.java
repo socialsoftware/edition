@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import pt.ist.fenixframework.DomainObject;
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.ldod.api.ui.UiInterface;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
@@ -287,7 +288,6 @@ public class VirtualEditionController {
     ResponseEntity<EditionFragmentsDto> getFragments(@PathVariable String acronym) {
         logger.debug("getFragments acronym:{}", acronym);
 
-        Stream<FragInter> inters;
         EditionFragmentsDto editionFragments = new EditionFragmentsDto();
         ExpertEdition expertEdition = Text.getInstance().getExpertEdition(acronym);
         if (expertEdition != null) {
@@ -341,14 +341,22 @@ public class VirtualEditionController {
             @PathVariable String acronym, @PathVariable String interId) throws IOException, ParseException {
         logger.debug("getInterIdTFIDFTerms acronym:{}", acronym);
 
-        FragInter fragInter = FenixFramework.getDomainObject(interId);
+        DomainObject domainObject = FenixFramework.getDomainObject(interId);
+        ScholarInter scholarInter;
 
-        if (fragInter == null) {
+
+        if (domainObject == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } else if (domainObject instanceof VirtualEditionInter) {
+            scholarInter = ((VirtualEditionInter) domainObject).getLastUsed();
+        } else if (domainObject instanceof ScholarInter) {
+            scholarInter = (ScholarInter) domainObject;
+        } else {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
         List<Entry<String, Double>> result = Indexer.getIndexer()
-                .getTermFrequency((ScholarInter) fragInter.getLastUsed()).entrySet().stream()
+                .getTermFrequency(scholarInter).entrySet().stream()
                 .sorted(Comparator.comparing(Map.Entry::getValue)).collect(Collectors.toList());
 
         return new ResponseEntity<>(result, HttpStatus.OK);
@@ -937,11 +945,11 @@ public class VirtualEditionController {
     @RequestMapping(method = RequestMethod.GET, value = "/restricted/fraginter/{fragInterId}")
     @PreAuthorize("hasPermission(#fragInterId, 'fragInter.participant')")
     public String showFragmentInterpretation(Model model, @PathVariable String fragInterId) {
-        FragInter fragInter = FenixFramework.getDomainObject(fragInterId);
-        if (fragInter == null) {
+        VirtualEditionInter virtualEditionInter = FenixFramework.getDomainObject(fragInterId);
+        if (virtualEditionInter == null) {
             return "redirect:/error";
         } else {
-            model.addAttribute("fragInter", fragInter);
+            model.addAttribute("fragInter", virtualEditionInter);
             return "virtual/fragInter";
         }
     }

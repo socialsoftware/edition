@@ -1,44 +1,39 @@
 package pt.ist.socialsoftware.edition.ldod.search.options;
 
-import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import pt.ist.socialsoftware.edition.ldod.api.text.TextInterface;
-import pt.ist.socialsoftware.edition.ldod.domain.FragInter;
 import pt.ist.socialsoftware.edition.ldod.domain.Source;
-import pt.ist.socialsoftware.edition.ldod.domain.SourceInter;
 import pt.ist.socialsoftware.edition.ldod.search.SearchableElement;
+
+import java.util.stream.Stream;
 
 public final class PublicationSearchOption extends SearchOption {
 
-	private final DateSearchOption dateSearchOption;
+    private final DateSearchOption dateSearchOption;
 
-	public PublicationSearchOption(@JsonProperty("date") DateSearchOption date) {
-		this.dateSearchOption = date;
-	}
+    public PublicationSearchOption(@JsonProperty("date") DateSearchOption date) {
+        this.dateSearchOption = date;
+    }
 
-	@Override
-	public String toString() {
-		return "publication:" + dateSearchOption;
-	}
+    @Override
+    public String toString() {
+        return "publication:" + this.dateSearchOption;
+    }
 
-	@Override
-	public Stream<SearchableElement> search(Stream<SearchableElement> inters) {
-		return inters.filter(i -> verifiesSearchOption(i));
-	}
+    @Override
+    public Stream<SearchableElement> search(Stream<SearchableElement> inters) {
+        return inters.filter(i -> verifiesSearchOption(i));
+    }
 
-	private boolean verifiesSearchOption(SearchableElement inter) {
-		TextInterface textInterface = new TextInterface();
+    private boolean verifiesSearchOption(SearchableElement inter) {
+        TextInterface textInterface = new TextInterface();
 
-		return textInterface.isSourceInter(inter.getXmlId()) && textInterface.usesSourceType(inter.getXmlId(),Source.SourceType.PRINTED)
-				&& dateSearchOption.verifiesSearchOption(inter);
-	}
+        return textInterface.isSourceInter(inter.getXmlId()) && textInterface.usesSourceType(inter.getXmlId(), Source.SourceType.PRINTED)
+                && this.dateSearchOption.verifiesSearchOption(inter);
+    }
 
-	public boolean hasDate() {
-		return dateSearchOption == null ? false : dateSearchOption.hasDate();
-	}
+    public boolean hasDate() {
+        return this.dateSearchOption == null ? false : this.dateSearchOption.hasDate();
+    }
 
 }

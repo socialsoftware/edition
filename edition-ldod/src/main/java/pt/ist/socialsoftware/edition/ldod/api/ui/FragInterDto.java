@@ -1,7 +1,5 @@
 package pt.ist.socialsoftware.edition.ldod.api.ui;
 
-import pt.ist.socialsoftware.edition.ldod.domain.FragInter;
-import pt.ist.socialsoftware.edition.ldod.domain.Fragment;
 import pt.ist.socialsoftware.edition.ldod.domain.ScholarInter;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
 
@@ -28,7 +26,7 @@ public class FragInterDto {
     }
 
     public String getFragmentXmlId() {
-        return fragmentXmlId;
+        return this.fragmentXmlId;
     }
 
     public void setFragmentXmlId(String fragmentXmlId) {
@@ -36,7 +34,7 @@ public class FragInterDto {
     }
 
     public String getUrlId() {
-        return urlId;
+        return this.urlId;
     }
 
     public void setUrlId(String urlId) {
@@ -44,7 +42,7 @@ public class FragInterDto {
     }
 
     public String getShortName() {
-        return shortName;
+        return this.shortName;
     }
 
     public void setShortName(String shortName) {
@@ -52,7 +50,7 @@ public class FragInterDto {
     }
 
     public String getExternalId() {
-        return externalId;
+        return this.externalId;
     }
 
     public void setExternalId(String externalId) {

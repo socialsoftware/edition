@@ -1,62 +1,55 @@
 package pt.ist.socialsoftware.edition.ldod.search.options;
 
-import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import pt.ist.socialsoftware.edition.ldod.api.text.TextInterface;
-import pt.ist.socialsoftware.edition.ldod.domain.FragInter;
-import pt.ist.socialsoftware.edition.ldod.domain.ScholarInter;
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
 import pt.ist.socialsoftware.edition.ldod.search.SearchableElement;
 
+import java.util.stream.Stream;
+
 public final class HeteronymSearchOption extends SearchOption {
-	private static Logger logger = LoggerFactory.getLogger(HeteronymSearchOption.class);
+    private static final Logger logger = LoggerFactory.getLogger(HeteronymSearchOption.class);
 
-	private final String xmlId4Heteronym;
+    private final String xmlId4Heteronym;
 
-	public HeteronymSearchOption(@JsonProperty("heteronym") String xmlId) {
-		logger.debug("HeteronymSearchOption xmlId: {}", xmlId);
-		this.xmlId4Heteronym = xmlId.equals("null") ? null : xmlId;
-	}
+    public HeteronymSearchOption(@JsonProperty("heteronym") String xmlId) {
+        logger.debug("HeteronymSearchOption xmlId: {}", xmlId);
+        this.xmlId4Heteronym = xmlId.equals("null") ? null : xmlId;
+    }
 
-	@Override
-	public String toString() {
-		return "heteronym:" + xmlId4Heteronym;
-	}
+    @Override
+    public String toString() {
+        return "heteronym:" + this.xmlId4Heteronym;
+    }
 
-	@Override
-	public Stream<SearchableElement> search(Stream<SearchableElement> inters) {
-		return inters.filter(i ->  verifiesSearchOption(i));
-	}
+    @Override
+    public Stream<SearchableElement> search(Stream<SearchableElement> inters) {
+        return inters.filter(i -> verifiesSearchOption(i));
+    }
 
-	public boolean verifiesSearchOption(SearchableElement inter) {
-		TextInterface textInterface = new TextInterface();
+    public boolean verifiesSearchOption(SearchableElement inter) {
+        TextInterface textInterface = new TextInterface();
 
-		if (ALL.equals(xmlId4Heteronym)) {
-			// all are selected
-			return true;
-		} else if (xmlId4Heteronym == null && textInterface.getHeteronymId(inter.getXmlId()) == null) {
-			// Searching for fragments with no authors and fragment has no
-			// author
-			return true;
-		} else if ((xmlId4Heteronym != null && textInterface.getHeteronymId(inter.getXmlId()) == null)
-				|| (xmlId4Heteronym == null && textInterface.getHeteronymId(inter.getXmlId()) != null)) {
-			// Searching for fragment with author and fragment has no author or
-			// searching for fragment with no author and fragment has author and
-			return false;
-		} else {
-			// the interpretation has the expected correct heteronym assignment
-			return xmlId4Heteronym.equals(textInterface.getHeteronymId(inter.getXmlId()));
-		}
-	}
+        if (ALL.equals(this.xmlId4Heteronym)) {
+            // all are selected
+            return true;
+        } else if (this.xmlId4Heteronym == null && textInterface.getHeteronymId(inter.getXmlId()) == null) {
+            // Searching for fragments with no authors and fragment has no
+            // author
+            return true;
+        } else if ((this.xmlId4Heteronym != null && textInterface.getHeteronymId(inter.getXmlId()) == null)
+                || (this.xmlId4Heteronym == null && textInterface.getHeteronymId(inter.getXmlId()) != null)) {
+            // Searching for fragment with author and fragment has no author or
+            // searching for fragment with no author and fragment has author and
+            return false;
+        } else {
+            // the interpretation has the expected correct heteronym assignment
+            return this.xmlId4Heteronym.equals(textInterface.getHeteronymId(inter.getXmlId()));
+        }
+    }
 
-	public boolean hasHeteronym() {
-		return xmlId4Heteronym != null && !xmlId4Heteronym.equals(ALL);
-	}
+    public boolean hasHeteronym() {
+        return this.xmlId4Heteronym != null && !this.xmlId4Heteronym.equals(ALL);
+    }
 }

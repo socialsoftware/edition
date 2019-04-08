@@ -1,10 +1,9 @@
 /**
- * 
+ *
  */
 package pt.ist.socialsoftware.edition.ldod.services;
 
 import pt.ist.fenixframework.FenixFramework;
-import pt.ist.socialsoftware.edition.ldod.domain.FragInter;
 import pt.ist.socialsoftware.edition.ldod.domain.ScholarInter;
 import pt.ist.socialsoftware.edition.ldod.generators.PlainHtmlWriter4OneInter;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
@@ -12,34 +11,34 @@ import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
 /**
  * Given an interpretation and a fragment provides a plain transcription for the
  * fragment according to the interpretation
- * 
+ *
  * @author ars
- * 
+ *
  */
 public class PlainTransByInter extends LdoDService {
 
-	private String fragInterExternalID = null;
+    private String fragInterExternalID = null;
 
-	public void setFragInterExternalID(String fragInterExternalID) {
-		this.fragInterExternalID = fragInterExternalID;
-	}
+    public void setFragInterExternalID(String fragInterExternalID) {
+        this.fragInterExternalID = fragInterExternalID;
+    }
 
-	String transcription = null;
+    String transcription = null;
 
-	public String getTranscription() {
-		return transcription;
-	}
+    public String getTranscription() {
+        return this.transcription;
+    }
 
-	private ScholarInter fragInter = null;
+    private ScholarInter fragInter = null;
 
-	@Override
-	void execution() throws LdoDException {
-		this.fragInter = FenixFramework
-				.getDomainObject(this.fragInterExternalID);
+    @Override
+    void execution() throws LdoDException {
+        this.fragInter = FenixFramework
+                .getDomainObject(this.fragInterExternalID);
 
-		PlainHtmlWriter4OneInter writer = new PlainHtmlWriter4OneInter(this.fragInter);
+        PlainHtmlWriter4OneInter writer = new PlainHtmlWriter4OneInter(this.fragInter);
 
-		this.fragInter.getFragment().getTextPortion().accept(writer);
-		transcription = writer.getTranscription();
-	}
+        this.fragInter.getFragment().getTextPortion().accept(writer);
+        this.transcription = writer.getTranscription();
+    }
 }

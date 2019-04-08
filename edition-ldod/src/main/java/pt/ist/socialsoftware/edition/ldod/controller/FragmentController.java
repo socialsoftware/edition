@@ -8,6 +8,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import pt.ist.fenixframework.DomainObject;
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.ldod.api.text.TextInterface;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
@@ -66,7 +67,7 @@ public class FragmentController {
             model.addAttribute("user", LdoDUser.getAuthenticatedUser());
             model.addAttribute("fragment", fragment);
             model.addAttribute("fragmentDto", new MainFragmentDto(fragment));
-            model.addAttribute("inters", new ArrayList<FragInter>());
+            model.addAttribute("inters", new ArrayList<ScholarInter>());
             return "fragment/main";
         }
     }
@@ -109,7 +110,7 @@ public class FragmentController {
 
         writer.write(false);
 
-        List<FragInter> inters = new ArrayList<>();
+        List<ScholarInter> inters = new ArrayList<>();
         inters.add(scholarInter);
         model.addAttribute("ldoD", LdoD.getInstance());
         model.addAttribute("text", Text.getInstance());
@@ -154,7 +155,7 @@ public class FragmentController {
             throw new LdoDException("Não tem acesso a esta edição virtual");
         }
 
-        List<FragInter> inters = new ArrayList<>();
+        List<VirtualEditionInter> inters = new ArrayList<>();
         inters.add(inter);
         model.addAttribute("ldoD", LdoD.getInstance());
         model.addAttribute("text", Text.getInstance());
@@ -238,8 +239,8 @@ public class FragmentController {
         model.addAttribute("inters", inters);
 
         if (inters.size() == 1) {
-            FragInter inter = inters.get(0);
-            PlainHtmlWriter4OneInter writer4One = new PlainHtmlWriter4OneInter((ScholarInter) inter.getLastUsed());
+            ScholarInter inter = inters.get(0);
+            PlainHtmlWriter4OneInter writer4One = new PlainHtmlWriter4OneInter(inter.getLastUsed());
             writer4One.write(false);
             model.addAttribute("writer", writer4One);
         } else if (inters.size() > 1) {
@@ -277,7 +278,7 @@ public class FragmentController {
         PlainHtmlWriter4OneInter writer = new PlainHtmlWriter4OneInter(inter);
         writer.write(displayDiff);
 
-        List<FragInter> inters = new ArrayList<>();
+        List<ScholarInter> inters = new ArrayList<>();
         inters.add(inter);
         model.addAttribute("ldoD", LdoD.getInstance());
         model.addAttribute("text", Text.getInstance());
@@ -305,7 +306,7 @@ public class FragmentController {
 
         PlainHtmlWriter4OneInter writer = new PlainHtmlWriter4OneInter(inter);
 
-        List<FragInter> inters = new ArrayList<>();
+        List<ScholarInter> inters = new ArrayList<>();
         inters.add(inter);
         model.addAttribute("inters", inters);
         model.addAttribute("ldoD", LdoD.getInstance());
@@ -342,8 +343,12 @@ public class FragmentController {
                                   @RequestParam(value = "spaces", required = true) boolean showSpaces, Model model) {
         List<ScholarInter> inters = new ArrayList<>();
         for (String interID : intersID) {
-            FragInter inter = FenixFramework.getDomainObject(interID);
-            inters.add((ScholarInter) inter.getLastUsed());
+            DomainObject inter = FenixFramework.getDomainObject(interID);
+            if (inter instanceof ScholarInter) {
+                inters.add((ScholarInter) inter);
+            } else {
+                inters.add(((VirtualEditionInter) inter).getLastUsed());
+            }
         }
 
         HtmlWriter2CompInters writer = new HtmlWriter2CompInters(inters);

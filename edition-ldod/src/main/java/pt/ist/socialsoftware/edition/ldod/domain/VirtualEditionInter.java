@@ -128,12 +128,10 @@ public class VirtualEditionInter extends VirtualEditionInter_Base implements Com
 
     }
 
-    @Override
     public boolean belongs2Edition(Edition edition) {
         return getVirtualEdition() == edition;
     }
 
-    @Override
     public ScholarInter getLastUsed() {
         return getUses() != null ? getUses().getLastUsed() : (new TextInterface()).getScholarInterUsed(this.getUsesFragInter());
     }
@@ -142,7 +140,6 @@ public class VirtualEditionInter extends VirtualEditionInter_Base implements Com
         return getVirtualEdition();
     }
 
-    @Override
     public String getReference() {
         return Integer.toString(getNumber());
     }
@@ -285,7 +282,6 @@ public class VirtualEditionInter extends VirtualEditionInter_Base implements Com
         return categories;
     }
 
-    @Override
     public Set<Category> getAllDepthCategories() {
         Set<Category> categories = null;
         if (getVirtualEdition().checkAccess()) {
@@ -314,7 +310,6 @@ public class VirtualEditionInter extends VirtualEditionInter_Base implements Com
      */
 
     // Solução - a funcionar
-    @Override
     public Set<HumanAnnotation> getAllDepthHumanAnnotations() {
         Set<HumanAnnotation> annotations = null;
         if (getVirtualEdition().checkAccess()) {
@@ -332,7 +327,6 @@ public class VirtualEditionInter extends VirtualEditionInter_Base implements Com
     }
 
     // Solução para suportar os dois tipos de annotation
-    @Override
     public Set<Annotation> getAllDepthAnnotations() {
         Set<Annotation> annotations = null;
         if (getVirtualEdition().checkAccess()) {
@@ -348,7 +342,6 @@ public class VirtualEditionInter extends VirtualEditionInter_Base implements Com
         return annotations;
     }
 
-    @Override
     public Set<Tag> getAllDepthTags() {
         Set<Tag> tags = null;
 
@@ -444,7 +437,6 @@ public class VirtualEditionInter extends VirtualEditionInter_Base implements Com
         return result;
     }
 
-    @Override
     public int getUsesDepth() {
         return getUses() != null ? getUses().getUsesDepth() + 1 : 1;
     }
@@ -472,7 +464,6 @@ public class VirtualEditionInter extends VirtualEditionInter_Base implements Com
         return isUsedBy;
     }
 
-    @Override
     public Fragment getFragment() {
 
         if (getUses() != null) {

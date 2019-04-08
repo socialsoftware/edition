@@ -218,14 +218,13 @@ public class SearchController {
         Map<String, String> heteronyms = new HashMap<>();
         LocalDate beginDate = null;
         LocalDate endDate = null;
-        for (FragInter fragInter : edition.getIntersSet()) {
-            ScholarInter scholarInter = (ScholarInter) fragInter;
-            if (!heteronyms.containsKey(scholarInter.getHeteronym().getName())) {
-                heteronyms.put(scholarInter.getHeteronym().getName(), scholarInter.getHeteronym().getXmlId());
+        for (ExpertEditionInter expertEditionInter : edition.getIntersSet()) {
+            if (!heteronyms.containsKey(expertEditionInter.getHeteronym().getName())) {
+                heteronyms.put(expertEditionInter.getHeteronym().getName(), expertEditionInter.getHeteronym().getXmlId());
             }
-            if (scholarInter.getLdoDDate() != null) {
-                beginDate = getIsBeforeDate(beginDate, scholarInter.getLdoDDate().getDate());
-                endDate = getIsAfterDate(endDate, scholarInter.getLdoDDate().getDate());
+            if (expertEditionInter.getLdoDDate() != null) {
+                beginDate = getIsBeforeDate(beginDate, expertEditionInter.getLdoDDate().getDate());
+                endDate = getIsAfterDate(endDate, expertEditionInter.getLdoDDate().getDate());
             }
         }
         EditionJson editionJson = new EditionJson(acronym);

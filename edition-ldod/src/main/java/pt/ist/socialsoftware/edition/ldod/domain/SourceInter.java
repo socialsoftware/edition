@@ -19,6 +19,7 @@ public class SourceInter extends SourceInter_Base implements Comparable<SourceIn
         return getSource().getName();
     }
 
+    @Override
     public String getTitle() {
         return getFragment().getTitle();
     }
@@ -102,7 +103,6 @@ public class SourceInter extends SourceInter_Base implements Comparable<SourceIn
         return Text.getInstance().getNullEdition();
     }
 
-    @Override
     public String getReference() {
         return getShortName();
     }
@@ -163,28 +163,23 @@ public class SourceInter extends SourceInter_Base implements Comparable<SourceIn
         }
     }
 
-    @Override
     public Set<Category> getAllDepthCategories() {
         return new HashSet<>();
     }
 
-    @Override
     public Set<HumanAnnotation> getAllDepthHumanAnnotations() {
         return new HashSet<>();
     }
 
     //solução para suportar os dois tipos de annotations
-    @Override
     public Set<Annotation> getAllDepthAnnotations() {
         return new HashSet<>();
     }
 
-    @Override
     public Set<Tag> getAllDepthTags() {
         return new HashSet<>();
     }
 
-    @Override
     public int getUsesDepth() {
         return 0;
     }

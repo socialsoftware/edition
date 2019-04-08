@@ -27,6 +27,10 @@ public abstract class ScholarInter extends ScholarInter_Base {
 
     public abstract Edition.EditionType getSourceType();
 
+    public abstract boolean belongs2Edition(Edition edition);
+
+    public abstract ScholarInter getLastUsed();
+
     public void remove() {
 
         setFragment(null);

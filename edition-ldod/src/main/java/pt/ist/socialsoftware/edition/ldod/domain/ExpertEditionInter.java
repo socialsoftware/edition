@@ -32,6 +32,7 @@ public class ExpertEditionInter extends ExpertEditionInter_Base implements Compa
         super.remove();
     }
 
+    @Override
     public String getShortName() {
         return getExpertEdition().getEditorShortName();
     }
@@ -121,29 +122,24 @@ public class ExpertEditionInter extends ExpertEditionInter_Base implements Compa
         return getExpertEdition();
     }
 
-    @Override
     public String getReference() {
         return Integer.toString(getNumber());
     }
 
-    @Override
     public Set<Category> getAllDepthCategories() {
         return new HashSet<>();
     }
 
-    @Override
     public Set<HumanAnnotation> getAllDepthHumanAnnotations() {
         return new HashSet<>();
     }
 
     //solução para suportar os dois tipos de annotations
-    @Override
     public Set<Annotation> getAllDepthAnnotations() {
         return new HashSet<>();
     }
 
 
-    @Override
     public Set<Tag> getAllDepthTags() {
         return new HashSet<>();
     }
@@ -152,7 +148,6 @@ public class ExpertEditionInter extends ExpertEditionInter_Base implements Compa
         return Integer.toString(getNumber()) + (!getSubNumber().equals("") ? "-" + getSubNumber() : getSubNumber());
     }
 
-    @Override
     public int getUsesDepth() {
         return 0;
     }
