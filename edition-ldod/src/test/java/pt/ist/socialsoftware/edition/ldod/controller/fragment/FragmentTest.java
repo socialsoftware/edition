@@ -110,25 +110,6 @@ public class FragmentTest {
 
     @Test
     @Atomic(mode = Atomic.TxMode.WRITE)
-    public void getFragInterByExternalId() throws Exception {
-        TextInterface textInterface = new TextInterface();
-        ScholarInter scholarInter = textInterface.getFragmentByXmlId("Fr001")
-                .getFragInterByUrlId("Fr001_WIT_MS_Fr001a_1");
-
-        this.mockMvc.perform(get("/fragments/fragment/inter/{externalId}", scholarInter.getExternalId())).andDo(print())
-                .andExpect(status().is3xxRedirection()).andExpect(redirectedUrl("/fragments/fragment/"
-                + scholarInter.getFragment().getXmlId() + "/inter/" + scholarInter.getUrlId()));
-    }
-
-    @Test
-    @Atomic(mode = Atomic.TxMode.WRITE)
-    public void getFragInterByExternalIdError() throws Exception {
-        this.mockMvc.perform(get("/fragments/fragment/inter/{externalId}", "ERROR")).andDo(print())
-                .andExpect(status().is3xxRedirection()).andExpect(redirectedUrl("/error"));
-    }
-
-    @Test
-    @Atomic(mode = Atomic.TxMode.WRITE)
     public void getFragmentErrorId() throws Exception {
         this.mockMvc.perform(get("/fragments/fragment/{xmlId}", "ERROR")).andDo(print())
                 .andExpect(status().is3xxRedirection()).andExpect(redirectedUrl("/error"));
