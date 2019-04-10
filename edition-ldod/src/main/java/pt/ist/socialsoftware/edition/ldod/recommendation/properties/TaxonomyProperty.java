@@ -13,7 +13,7 @@ import pt.ist.socialsoftware.edition.ldod.domain.*;
 public class TaxonomyProperty extends Property {
 	private static Logger logger = LoggerFactory.getLogger(TaxonomyProperty.class);
 
-	private final Taxonomy taxonomy;
+	private Taxonomy taxonomy;
 	private List<Category> sortedCategories = null;
 
 	public TaxonomyProperty(double weight, Taxonomy taxonomy, PropertyCache cached) {
@@ -65,10 +65,6 @@ public class TaxonomyProperty extends Property {
 	@Override
 	public void userWeight(RecommendationWeights recommendationWeights) {
 		recommendationWeights.setTaxonomyWeight(getWeight());
-	}
-
-	public Taxonomy getTaxonomy() {
-		return taxonomy;
 	}
 
 	@Override
