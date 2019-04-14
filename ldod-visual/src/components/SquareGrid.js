@@ -199,7 +199,7 @@ class ConnectedSquareGrid extends Component {
         nodeBackgroundColor = "#FFD700";
         myBorderWidth = newBorderW;;
         this.supportMessage = (<span>
-          <b>Categoria seleccionada:
+          <b>Categoria selecionada:
           </b>
         </span >);
         this.highlightText = (<span style={goldHighlightStyle}>
@@ -211,7 +211,7 @@ class ConnectedSquareGrid extends Component {
         nodeBackgroundColor = "#FFD700";
         myBorderWidth = newBorderW;;
         this.supportMessage = (<span>
-          <b>Categoria seleccionada:
+          <b>Categoria selecionada:
           </b>
         </span >);
         this.highlightText = (<span style={goldHighlightStyle}>
@@ -223,7 +223,7 @@ class ConnectedSquareGrid extends Component {
         nodeBackgroundColor = "#FFD700";
         myBorderWidth = newBorderW;;
         this.supportMessage = (<span>
-          <b>Heterónimo seleccionado:
+          <b>Heterónimo selecionado:
           </b>
         </span >);
         this.highlightText = (<span style={goldHighlightStyle}>
@@ -235,7 +235,7 @@ class ConnectedSquareGrid extends Component {
         nodeBackgroundColor = "#FFD700";
         myBorderWidth = newBorderW;;
         this.supportMessage = (<span>
-          <b>Heterónimo seleccionado:
+          <b>Heterónimo selecionado:
           </b>
         </span >);
         this.highlightText = (<span style={goldHighlightStyle}>
@@ -269,7 +269,7 @@ class ConnectedSquareGrid extends Component {
         }
       }
 
-      //red para tornar vermelho o que será vermelho em nova actividade em vez de considerar o da antiga
+      //red para tornar vermelho o que será vermelho em nova atividade em vez de considerar o da antiga
       if (this.props.outOfLandingPage && this.props.currentFragmentMode && this.myFragmentArray[i].interId === this.props.recommendationArray[this.props.recommendationIndex].interId) {
         if (nodeBorderColor == "#DAA520") { //golden
           nodeBackgroundColor = "#FF7F50"; //only red background
@@ -590,8 +590,8 @@ class ConnectedSquareGrid extends Component {
     </span >);
 
     let instructions = (<div className="instructionsButton">
-      <Button bsStyle="primary" bsSize="small" onClick={this.toggleInstructions}>
-        Mostrar instrucções [i]
+      <Button bsStyle="default" bsSize="small" onClick={this.toggleInstructions}>
+        Mostrar instruções [i]
       </Button>
     </div>)
 
@@ -599,30 +599,30 @@ class ConnectedSquareGrid extends Component {
       instructions = (<div>
         <div className="instructionsText">
           <p>
-            Neste mapa, cada quadrado representa um fragmento da edição virtual do {" "}
-            <i>"Livro do Desassossego"</i>{" "}
-            que seleccionou.
+            Neste mapa, cada quadrado representa um fragmento da edição do {" "}
+            <i>Livro do Desassossego</i>{" "}
+            que selecionou.
           </p>
 
           <p>
-            Seleccione um fragmento para leitura ao clicar num dos quadrados do mapa.
+            Selecione um fragmento para leitura ao clicar num dos quadrados do mapa.
           </p>
 
           <ul>
             <li>
               Um {redSquareText}
-              representará o fragmento sob o qual realizou ou está a realizar uma nova actividade.
+              representará o fragmento sob o qual realizou ou está a realizar uma nova atividade.
             </li>
             <li>
               Um {purpleSquareText}
-              representará o fragmento que está a ler durante a actividade actual caso navegue para um fragmento diferente do fragmento inicial que escolheu ao seleccionar uma nova actividade (o {redSquareText}).
+              representará o fragmento que está a ler durante a atividade atual caso navegue para um fragmento diferente do fragmento inicial que escolheu ao selecionar uma nova atividade (o {redSquareText}).
             </li>
             <li>
-              Caso esteja a realizar uma actividade que envolva datas, os {greySquareText}
-              representarão fragmentos sem data, enquanto os quadrados com um número representam os últimos dois dígitos do ano em que o fragmento foi escrito ou publicado - um fragmento de 1930 terá o respectivo quadrado com o número 30.
+              Caso esteja a realizar uma atividade que envolva datas, os {greySquareText}
+              representarão fragmentos sem data, enquanto os quadrados com um número representam os últimos dois dígitos do ano em que o fragmento foi escrito ou publicado - um fragmento de 1930 terá o respetivo quadrado com o número 30.
             </li>
             <li>
-              Por fim, caso esteja a realizar uma actividade que envolva categorias ou heterónimos, os {goldenSquareText}
+              Por fim, caso esteja a realizar uma atividade que envolva categorias ou heterónimos, os {goldenSquareText}
               representarão os fragmentos correspondentes à categoria ou heterónimo.
             </li>
           </ul>
@@ -630,8 +630,8 @@ class ConnectedSquareGrid extends Component {
         </div>
 
         <div className="instructionsButton">
-          <Button bsStyle="primary" bsSize="small" onClick={this.toggleInstructions}>
-            Esconder instrucções [i]
+          <Button bsStyle="default" bsSize="small" onClick={this.toggleInstructions}>
+            Esconder instruções [i]
           </Button>
         </div>
 

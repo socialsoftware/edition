@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.apache.lucene.queryparser.classic.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import pt.ist.socialsoftware.edition.ldod.domain.ExpertEditionInter;
 import pt.ist.socialsoftware.edition.ldod.domain.Fragment;
 import pt.ist.socialsoftware.edition.ldod.domain.RecommendationWeights;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
@@ -38,6 +39,11 @@ public class TextProperty extends Property {
     }
 
     @Override
+    public void prepareToLoadProperty(ExpertEditionInter inter1, ExpertEditionInter inter2) {
+        prepareToLoadProperty(inter1.getFragment(), inter2.getFragment());
+    }
+
+    @Override
     public void prepareToLoadProperty(VirtualEditionInter inter1, VirtualEditionInter inter2) {
         prepareToLoadProperty(inter1.getFragment(), inter2.getFragment());
     }
@@ -67,6 +73,11 @@ public class TextProperty extends Property {
             }
         }
         return vector;
+    }
+
+    @Override
+    protected double[] extractVector(ExpertEditionInter expertEditionInter) {
+        return extractVector(expertEditionInter.getFragment());
     }
 
     @Override
@@ -133,5 +144,4 @@ public class TextProperty extends Property {
     public void userWeight(RecommendationWeights recommendationWeights) {
         recommendationWeights.setTextWeight(getWeight());
     }
-
 }

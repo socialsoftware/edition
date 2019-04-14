@@ -2,12 +2,13 @@ package pt.ist.socialsoftware.edition.ldod.recommendation.properties;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import pt.ist.socialsoftware.edition.ldod.domain.ExpertEditionInter;
 import pt.ist.socialsoftware.edition.ldod.domain.Fragment;
 import pt.ist.socialsoftware.edition.ldod.domain.RecommendationWeights;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
 import pt.ist.socialsoftware.edition.ldod.recommendation.StoredVectors;
 
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.EXISTING_PROPERTY, property = "type")
 @JsonSubTypes({@JsonSubTypes.Type(value = HeteronymProperty.class, name = Property.HETERONYM),
         @JsonSubTypes.Type(value = DateProperty.class, name = Property.DATE),
         @JsonSubTypes.Type(value = TextProperty.class, name = Property.TEXT),
@@ -34,9 +35,14 @@ public abstract class Property {
 
     public abstract void userWeight(RecommendationWeights recommendationWeights);
 
+    abstract double[] extractVector(ExpertEditionInter expertEditionInter);
+
     abstract double[] extractVector(VirtualEditionInter virtualEditionInter);
 
     abstract double[] extractVector(Fragment fragmnet);
+
+    public void prepareToLoadProperty(ExpertEditionInter t1, ExpertEditionInter t2) {
+    }
 
     public void prepareToLoadProperty(VirtualEditionInter virtualEditionInter1,
                                       VirtualEditionInter virtualEditionInter2) {
@@ -56,6 +62,20 @@ public abstract class Property {
                 result[i] = vector[i] * weight;
             }
             return result;
+        }
+    }
+
+    public final double[] loadProperty(ExpertEditionInter expertEditionInter) {
+        if (this.cached.equals(PropertyCache.ON)) {
+            String interExternalId = expertEditionInter.getExternalId();
+            double[] vector = StoredVectors.getInstance().get(this, interExternalId);
+            if (vector == null) {
+                vector = extractVector(expertEditionInter);
+                StoredVectors.getInstance().put(this, interExternalId, vector);
+            }
+            return applyWeights(vector, getWeight());
+        } else {
+            return applyWeights(extractVector(expertEditionInter), getWeight());
         }
     }
 
@@ -89,5 +109,4 @@ public abstract class Property {
     public double getWeight() {
         return this.weight;
     }
-
 }

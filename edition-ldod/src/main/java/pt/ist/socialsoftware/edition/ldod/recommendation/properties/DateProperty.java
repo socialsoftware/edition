@@ -57,6 +57,15 @@ public class DateProperty extends Property {
     }
 
     @Override
+    double[] extractVector(ExpertEditionInter expertEditionInter) {
+        Set<Integer> dates = new HashSet<>();
+        if (expertEditionInter.getLdoDDate() != null) {
+            dates.add(expertEditionInter.getLdoDDate().getDate().getYear());
+        }
+        return buildVector(dates);
+    }
+
+    @Override
     double[] extractVector(VirtualEditionInter virtualEditionInter) {
         Set<Integer> dates = new HashSet<>();
         ScholarInter scholarInter = virtualEditionInter.getLastUsed();

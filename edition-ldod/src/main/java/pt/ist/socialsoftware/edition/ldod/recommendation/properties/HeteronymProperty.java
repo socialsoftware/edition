@@ -32,6 +32,15 @@ public class HeteronymProperty extends Property {
     }
 
     @Override
+    double[] extractVector(ExpertEditionInter expertEditionInter) {
+        List<Heteronym> foundHeteronyms = new ArrayList<>();
+
+        foundHeteronyms.add(expertEditionInter.getHeteronym());
+
+        return buildVector(foundHeteronyms);
+    }
+
+    @Override
     public double[] extractVector(VirtualEditionInter virtualEditionInter) {
         List<Heteronym> foundHeteronyms = new ArrayList<>();
 

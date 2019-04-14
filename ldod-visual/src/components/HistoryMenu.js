@@ -245,8 +245,8 @@ class ConnectedHistoryMenu extends Component {
   render() {
 
     let instructions = (<div className="instructionsButton">
-      <Button bsStyle="primary" bsSize="small" onClick={this.toggleInstructions}>
-        Mostrar instrucções [i]
+      <Button bsStyle="default" bsSize="small" onClick={this.toggleInstructions}>
+        Mostrar instruções [i]
       </Button>
     </div>)
 
@@ -255,26 +255,28 @@ class ConnectedHistoryMenu extends Component {
         <div className="readingMoreInfo">
 
           <p align="center">
-            Nesta cronologia, poderá consultar o seu caminho na leitura da edição virtual do Livro do Desassossego que seleccionou.
+            Nesta cronologia, poderá consultar o seu caminho na leitura da edição do{" "}
+            <i>Livro do Desassossego</i>{" "}
+            que selecionou.
           </p>
 
           <ul>
             <li>
-              Cada rectângulo representa um fragmento com o título apresentado.
+              Cada retângulo representa um fragmento com o título apresentado.
             </li>
             <li>
-              Pode rastejar a cronologia com o botão esquerdo do rato e controlar o zoom da cronologia com a roda do rato.
+              Pode arrastar a cronologia com o botão esquerdo do rato e controlar o zoom da cronologia com a roda do rato.
             </li>
             <li>
-              Clique num dos rectângulos dos fragmentos para retornar ao mesmo, bem como à actividade pela qual chegou a esse fragmento.
+              Clique num dos retângulos dos fragmentos para retornar ao mesmo, bem como à atividade pela qual chegou a esse fragmento.
             </li>
           </ul>
 
         </div>
 
         <div className="instructionsButton">
-          <Button bsStyle="primary" bsSize="small" onClick={this.toggleInstructions}>
-            Esconder instrucções [i]
+          <Button bsStyle="default" bsSize="small" onClick={this.toggleInstructions}>
+            Esconder instruções [i]
           </Button>
         </div>
 

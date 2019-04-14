@@ -105,7 +105,7 @@ class ConnectedPublicEditionContainer extends React.Component {
       editionButtonList = this.state.editions.map(item => {
 
         if (item.numberOfInters > 0) {
-          let buttonStyle = "primary";
+          let buttonStyle = "default";
           let categoryMessage = "Não"
 
           if (item.taxonomy.hasCategories) {
@@ -144,7 +144,7 @@ class ConnectedPublicEditionContainer extends React.Component {
               <div className="welcomeButton">
 
                 <Button bsStyle={buttonStyle} bsSize="small" onClick={() => this.handleButtonClick(item)}>
-                  Seleccionar edição
+                  Selecionar edição
                 </Button>
 
               </div>
@@ -156,8 +156,8 @@ class ConnectedPublicEditionContainer extends React.Component {
       })
     } else {
       editionButtonList = (<div><img src={loadingGif} alt="loading...publicEd" className="loadingGifCentered"/>
-        <p align="center">A carregar a lista de edições virtuais públicas disponíveis...</p>
-        <p align="center">Se demorar demasiado tempo, actualize a página e volte a tentar.</p>
+        <p align="center">A carregar a lista de edições públicas disponíveis...</p>
+        <p align="center">Se demorar demasiado tempo, atualize a página e volte a tentar.</p>
       </div>);
     }
 
@@ -171,7 +171,9 @@ class ConnectedPublicEditionContainer extends React.Component {
       <br/>
       <br/>
 
-      <p align="center">Aqui poderá escolher e explorar uma das edições virtuais públicas do "Livro do Desassossego" disponíveis no {' '}
+      <p align="center">Aqui poderá escolher, ler e explorar uma das edições dos peritos ou edições virtuais públicas do {" "}
+        <i>Livro do Desassossego</i>{" "}
+        disponíveis no {' '}
         <a href="https://ldod.uc.pt">
           Arquivo LdoD</a>.
       </p>
@@ -180,7 +182,7 @@ class ConnectedPublicEditionContainer extends React.Component {
           nesta secção do Arquivo LdoD</a>.
       </p>
       <p align="center">
-        Apenas se seleccionar uma edição virtual com categorias disponíveis (taxonomia), poderá realizar actividades à volta das mesmas.</p>
+        Apenas se selecionar uma edição com categorias disponíveis (taxonomia), poderá realizar atividades à volta das mesmas.</p>
 
       <div className="cardsContainer">
         {editionButtonList}
@@ -196,6 +198,6 @@ export default PublicEditionContainer;
 
 /*
 <button className="landingButton" bsStyle={buttonStyle} bsSize="small" onClick={() => this.handleButtonClick(item)}>
-  Seleccionar edição
+  Selecionar edição
 </button>
 */

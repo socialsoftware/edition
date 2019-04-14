@@ -11,7 +11,7 @@ import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.ldod.api.text.TextInterface;
 import pt.ist.socialsoftware.edition.ldod.dto.FragmentDto;
-import pt.ist.socialsoftware.edition.ldod.dto.InterDistancePairDto;
+import pt.ist.socialsoftware.edition.ldod.dto.InterIdDistancePairDto;
 import pt.ist.socialsoftware.edition.ldod.dto.WeightsDto;
 import pt.ist.socialsoftware.edition.ldod.recommendation.VSMVirtualEditionInterRecommender;
 import pt.ist.socialsoftware.edition.ldod.recommendation.properties.Property;
@@ -654,22 +654,22 @@ public class VirtualEdition extends VirtualEdition_Base {
         return false;
     }
 
-    public List<InterDistancePairDto> getIntersByDistance(VirtualEditionInter virtualEditionInter, WeightsDto weights) {
+    public List<InterIdDistancePairDto> getIntersByDistance(VirtualEditionInter virtualEditionInter, WeightsDto weights) {
         List<VirtualEditionInter> inters = getAllDepthVirtualEditionInters();
         VSMVirtualEditionInterRecommender recommender = new VSMVirtualEditionInterRecommender();
 
         inters.remove(virtualEditionInter);
 
-        List<InterDistancePairDto> recommendedEdition = new ArrayList<>();
+        List<InterIdDistancePairDto> recommendedEdition = new ArrayList<>();
 
-        recommendedEdition.add(new InterDistancePairDto(virtualEditionInter, 1.0d));
+        recommendedEdition.add(new InterIdDistancePairDto(virtualEditionInter.getExternalId(), 1.0d));
         List<Property> properties = weights.getProperties(virtualEditionInter.getVirtualEdition());
         for (VirtualEditionInter inter : inters) {
-            recommendedEdition.add(new InterDistancePairDto(inter,
+            recommendedEdition.add(new InterIdDistancePairDto(inter.getExternalId(),
                     recommender.calculateSimilarity(virtualEditionInter, inter, properties)));
         }
 
-        return recommendedEdition.stream().sorted(Comparator.comparing(InterDistancePairDto::getDistance).reversed()).collect(Collectors.toList());
+        return recommendedEdition.stream().sorted(Comparator.comparing(InterIdDistancePairDto::getDistance).reversed()).collect(Collectors.toList());
     }
 
     public List<VirtualEditionInter> generateRecommendation(VirtualEditionInter inter,

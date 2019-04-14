@@ -245,4 +245,5 @@ public class VSMVirtualEditionInterRecomenderTest extends TestWithFragmentsLoadi
                 .anyMatch(indexer.getTFIDFTerms(result.getFragment(), TextProperty.NUMBER_OF_TERMS)::contains));
     }
 
+
 }

@@ -25,6 +25,11 @@ public class TaxonomyProperty extends Property {
     }
 
     @Override
+    double[] extractVector(ExpertEditionInter expertEditionInter) {
+        return new double[0];
+    }
+
+    @Override
     protected double[] extractVector(VirtualEditionInter inter) {
         double[] vector = getDefaultVector();
         for (Category category : inter.getCategories()) {
@@ -56,10 +61,6 @@ public class TaxonomyProperty extends Property {
     @Override
     public void userWeight(RecommendationWeights recommendationWeights) {
         recommendationWeights.setTaxonomyWeight(getWeight());
-    }
-
-    public Taxonomy getTaxonomy() {
-        return this.taxonomy;
     }
 
 }

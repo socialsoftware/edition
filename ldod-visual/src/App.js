@@ -154,8 +154,8 @@ class ConnectedApp extends Component {
     this.handleFirstActivitySelectRetreat = this.handleFirstActivitySelectRetreat.bind(this)
 
     this.state = {
-      previousFragmentButtonStyle: "primary",
-      nextFragmentButtonStyle: "primary",
+      previousFragmentButtonStyle: "default",
+      nextFragmentButtonStyle: "default",
       showConfig: false,
       showGlobalView: false,
       showHistoric: false,
@@ -188,7 +188,7 @@ class ConnectedApp extends Component {
     this.categoryButtonFunction = function() {};
     this.datesButtonFunction = function() {};
 
-    this.landingActivityToRender = <p>A carregar edições virtuais...</p>;
+    this.landingActivityToRender = <p>A carregar edições...</p>;
 
     this.handleShowGlobalView = this.handleShowGlobalView.bind(this);
     this.handleCloseGlobalView = this.handleCloseGlobalView.bind(this);
@@ -514,10 +514,12 @@ class ConnectedApp extends Component {
   // }
 
   handleEditionSelectRetreat() {
+    // this.landingActivityToRender = <PublicEditionContainerTable onChange={this.handleEditionsReceived} sendSelectedEdition={this.handleEditionSelected}/>
+    this.props.addFragment([]);
+    this.props.setRecommendationArray([]);
     this.props.setAllFragmentsLoaded(false);
     this.props.setOutOfLandingPage(false);
-    this.setState({editionSelected: false});
-    this.landingActivityToRender = <PublicEditionContainerTable onChange={this.handleEditionsReceived} sendSelectedEdition={this.handleEditionSelected}/>
+    this.setState({editionsReceived: false, editionSelected: false});
   }
 
   handleFirstActivitySelectRetreat() {
@@ -716,8 +718,8 @@ class ConnectedApp extends Component {
   render() {
     //console.log(new Date().getTime() + " App.js: Rendering")
     let retreatButton;
-    const activitySelectable = "Escolher actividade";
-    const activityUnselectable = "Actividade indisponível";
+    const activitySelectable = "Escolher atividade";
+    const activityUnselectable = "Atividade indisponível";
 
     //BUTTON LOGIC
     if (this.props.outOfLandingPage) {
@@ -744,49 +746,49 @@ class ConnectedApp extends Component {
 
     } else if (this.state.editionsReceived && this.state.editionSelected) {
 
-      retreatButton = (<Button bsStyle="primary" onClick={this.handleEditionSelectRetreat}>
-        ← Seleccionar outra edição virtual
+      retreatButton = (<Button bsStyle="default" onClick={this.forcePageReload}>
+        ← Selecionar outra edição
       </Button>);
 
       if (!this.props.allFragmentsLoaded) {
         this.landingActivityToRender = (<div>
           <img src={loadingGif} alt="loading...app.js" className="loadingGifCentered"/>
-          <p align="center">A carregar todos os fragmentos da edição virtual escolhida...</p>
-          <p align="center">Se demorar demasiado tempo, actualize a página e volte a tentar.</p>
+          <p align="center">A carregar todos os fragmentos da edição escolhida...</p>
+          <p align="center">Se demorar demasiado tempo, atualize a página e volte a tentar.</p>
         </div>);
       } else if (this.state.showLandingActivity & (this.props.potentialSemanticCriteria == CRIT_CATEGORY) & this.props.allFragmentsLoaded) {
         this.landingActivityToRender = (<MyWordCloud onChange={this.handleCloseModals}/>)
-        retreatButton = (<Button bsStyle="primary" onClick={this.handleFirstActivitySelectRetreat}>
-          ← Seleccionar outra actividade
+        retreatButton = (<Button bsStyle="default" onClick={this.handleFirstActivitySelectRetreat}>
+          ← Selecionar outra atividade
         </Button>);
       } else if (this.state.showLandingActivity & this.props.allFragmentsLoaded) {
         this.landingActivityToRender = (<SquareGrid onChange={this.handleCloseModals}/>)
-        retreatButton = (<Button bsStyle="primary" onClick={this.handleFirstActivitySelectRetreat}>
-          ← Seleccionar outra actividade
+        retreatButton = (<Button bsStyle="default" onClick={this.handleFirstActivitySelectRetreat}>
+          ← Selecionar outra atividade
         </Button>);
       } else if (!this.state.showLandingActivity & this.props.allFragmentsLoaded) {
-        let categoryButtonStyle = "primary"
+        let categoryButtonStyle = "default"
         let categoryButtonBotMessage = activitySelectable;
         let categoryButtonMessage = "Explorar os fragmentos desta edição pelas categorias a que pertencem (taxonomia)"
         this.categoryButtonFunction = this.handleShowLandingActivityWordCloudCategory;
         let categoryImage = picWordCloud;
         if (this.props.categories.length === 0) {
-          categoryButtonStyle = "default";
+          categoryButtonStyle = "default disabled";
           categoryButtonMessage = "Explorar os fragmentos desta edição pelas categorias a que pertencem (taxonomia) (edição sem taxonomia)"
           this.categoryButtonFunction = function() {}
           categoryImage = picWordCloudGray;
           categoryButtonBotMessage = activityUnselectable;
         }
-        let datesButtonStyle = "primary"
+        let datesButtonStyle = "default"
         let datesButtonBotMessage = activitySelectable;
         this.datesButtonFunction = this.handleShowLandingActivitySquareDateOrder;
         let datesButtonMessage = "Explorar os fragmentos desta edição ordenados por data";
         let datesImage = picSquareTime;
         if (!this.props.datesExist) {
-          datesButtonStyle = "default";
+          datesButtonStyle = "default disabled";
           datesButtonBotMessage = activityUnselectable;
           this.datesButtonFunction = function() {}
-          datesButtonMessage = "Explorar os fragmentos desta edição ordenados por data (edição virtual sem datas)"
+          datesButtonMessage = "Explorar os fragmentos desta edição ordenados por data (edição sem datas)"
           datesImage = picSquareTimeGray;
         }
         const options = {
@@ -798,7 +800,7 @@ class ConnectedApp extends Component {
           <br/>
           <br/>
           <p align="center">
-            Esta é a sua primeira actividade em torno da edição virtual que seleccionou - "{myTitle}". Escolha uma das seguintes opções.
+            Esta é a sua primeira atividade em torno da edição que selecionou - "{myTitle}". Escolha uma das seguintes opções.
           </p>
 
           <div className="cardsContainerActivity">
@@ -809,11 +811,11 @@ class ConnectedApp extends Component {
                     width: "100%"
                   }}/>
                 <p align="center">
-                  <b>Explorar os fragmentos por ordem desta edição virtual</b>
+                  <b>Explorar os fragmentos por ordem desta edição</b>
                 </p>
                 <div className="welcomeButtonActivity">
-                  <Button bsStyle="primary" bsSize="small" onClick={this.handleShowLandingActivitySquareEditionOrder}>
-                    Escolher actividade
+                  <Button bsStyle="default" bsSize="small" onClick={this.handleShowLandingActivitySquareEditionOrder}>
+                    Escolher atividade
                   </Button>
                 </div>
               </div>
@@ -883,20 +885,20 @@ class ConnectedApp extends Component {
         {toggleTextSkimmingButtonMessage}
       </Button>)
 
-      editionTitleToDisplay = ("Título da edição virtual seleccionada: " + ReactHtmlParser(this.state.currentEdition.title));
+      editionTitleToDisplay = ("Título da edição selecionada: " + ReactHtmlParser(this.state.currentEdition.title));
       editionAcronymToDisplay = ("Acrónimo: " + this.state.currentEdition.acronym);
       changeEdButton = (<Button bsStyle="default" bsSize="small" onClick={this.forcePageReload}>
-        Escolher outra edição virtual
+        Escolher outra edição
       </Button>)
       readingMenuIntructions = (<Button bsStyle="default" bsSize="small" onClick={this.toggleShowReadingMenuInstructions}>
-        Instrucções [i]
+        Instruções [i]
       </Button>)
       progressBar = ((<div className="progress-bar" onMouseOver={this.setMouseOverMenuButtons} onMouseLeave={this.setMouseOutMenuButtons}>
         <div className="filler" style={{
             width: `${ ((this.props.recommendationIndex + 1) / this.props.recommendationArray.length) * 100}%`
           }}/>
       </div>))
-      goBackToTopButton = <Button bsStyle="default" bsSize="small" onClick={this.goBackToTop}>
+      goBackToTopButton = <Button bsStyle="default " bsSize="small" onClick={this.goBackToTop}>
         Voltar ao topo [T]
       </Button>
     }
@@ -949,12 +951,12 @@ class ConnectedApp extends Component {
             }
           }
 
-          let goldenPreviousLabel = "Fragmento anterior do heterónimo seleccionado (" + this.props.currentCategory + ")"
-          let goldenNextLabel = "Próximo fragmento do heterónimo seleccionado (" + this.props.currentCategory + ")"
+          let goldenPreviousLabel = "Fragmento anterior do heterónimo selecionado (" + this.props.currentCategory + ")"
+          let goldenNextLabel = "Próximo fragmento do heterónimo selecionado (" + this.props.currentCategory + ")"
 
           if (this.props.semanticCriteria == CRIT_CATEGORY) {
-            goldenPreviousLabel = "Fragmento anterior da categoria seleccionada (" + this.props.currentCategory + ")"
-            goldenNextLabel = "Próximo fragmento da categoria seleccionada (" + this.props.currentCategory + ")"
+            goldenPreviousLabel = "Fragmento anterior da categoria selecionada (" + this.props.currentCategory + ")"
+            goldenNextLabel = "Próximo fragmento da categoria selecionada (" + this.props.currentCategory + ")"
           }
 
           let goldenPreviousButtonArrow = this.unavailablePreviousArrowButtonGolden;
@@ -1049,11 +1051,11 @@ class ConnectedApp extends Component {
         <ButtonToolbar onMouseOver={this.setMouseOverMenuButtons} onMouseLeave={this.setMouseOutMenuButtons}>
 
           <Button bsStyle="default" bsSize="small" onClick={this.handleShowGlobalView}>
-            Actividade actual [A]
+            Atividade atual [A]
           </Button>
 
           <Button bsStyle="default" bsSize="small" onClick={this.handleShowConfig}>
-            Nova actividade [N]
+            Nova atividade [N]
           </Button>
 
           <Button bsStyle="default" bsSize="small" onClick={this.handleShowHistoric}>
@@ -1191,8 +1193,8 @@ class ConnectedApp extends Component {
         </Modal.Body>
 
         <Modal.Footer>
-          <Button bsStyle="primary" onClick={this.handleCloseGlobalView}>
-            Fechar
+          <Button bsStyle="default" onClick={this.handleCloseGlobalView}>
+            Fechar [ESC]
           </Button>
         </Modal.Footer>
       </Modal>
@@ -1204,11 +1206,11 @@ class ConnectedApp extends Component {
         </Modal.Body>
 
         <Modal.Footer>
-          <Button bsStyle="primary" onClick={this.forcePageReload}>
-            Escolher outra edição virtual
+          <Button bsStyle="default" onClick={this.forcePageReload}>
+            Escolher outra edição
           </Button>
-          <Button bsStyle="primary" onClick={this.handleCloseConfig}>
-            Fechar
+          <Button bsStyle="default" onClick={this.handleCloseConfig}>
+            Fechar [ESC]
           </Button>
         </Modal.Footer>
       </Modal>
@@ -1220,8 +1222,8 @@ class ConnectedApp extends Component {
         </Modal.Body>
 
         <Modal.Footer>
-          <Button bsStyle="primary" onClick={this.handleCloseHistoric}>
-            Fechar
+          <Button bsStyle="default" onClick={this.handleCloseHistoric}>
+            Fechar [ESC]
           </Button>
         </Modal.Footer>
       </Modal>
@@ -1238,10 +1240,10 @@ class ConnectedApp extends Component {
             <p align="center">Este é o menu de leitura. Aqui poderá:</p>
             <lu>
               <li>
-                Ir para o menu da actividade actual e interagir com a mesma clicando no botão ou na tecla "A" do seu teclado.
+                Ir para o menu da atividade atual e interagir com a mesma clicando no botão ou na tecla "A" do seu teclado.
               </li>
               <li>
-                Ir para o menu de nova actividade clicando no botão ou na tecla "N" do seu teclado.
+                Ir para o menu de nova atividade clicando no botão ou na tecla "N" do seu teclado.
               </li>
               <li>
                 Ir para o menu de histórico de leitura clicando no botão ou na tecla "H" do seu teclado.
@@ -1251,13 +1253,13 @@ class ConnectedApp extends Component {
                 <i>term frequency–inverse document frequency.</i>
               </li>
               <li>
-                Clicar nas setas pretas da esquerda e direita para ir para o fragmento anterior ou seguinte no contexto da actividade actual. Também pode usar as teclas esquerda e direita do seu teclado para o mesmo efeito.
+                Clicar nas setas pretas da esquerda e direita para ir para o fragmento anterior ou seguinte no contexto da atividade atual. Também pode usar as teclas esquerda e direita do seu teclado para o mesmo efeito.
               </li>
               <li>
-                Ao fazer uma actividade que envolva a selecção de uma certa categoria ou heterónimo, irão surgir novas setas amarelas por baixo das pretas. Poderá clicar nelas para navegar exclusivamente entre os fragmentos dessa categoria ou heterónimo seleccionados.
+                Ao fazer uma atividade que envolva a seleção de uma certa categoria ou heterónimo, irão surgir novas setas amarelas por baixo das pretas. Poderá clicar nelas para navegar exclusivamente entre os fragmentos dessa categoria ou heterónimo selecionados.
               </li>
               <li>
-                Conferir o progresso da leitura a olhar para a barra no fundo da página. Se estiver no fragmento número 30 de uma edição virtual com 90 fragmentos, a barra está 1/3 azul e 2/3 cinzenta.
+                Conferir o progresso da leitura a olhar para a barra no fundo da página. Se estiver no fragmento número 30 de uma edição com 90 fragmentos, a barra está 1/3 azul e 2/3 cinzenta.
               </li>
               <li>
                 Ao ficar inactivo durante 3 segundos com o cursor do rato fora dos botões do topo ou do fim da página, botões de navegação ou barra de progresso, todo o menu de leitura desaparecerá excepto o texto do fragmento. Para recuperar a visão dos mesmos, terá que passar o cursor do rato por cima da posição de um destes elementos.
@@ -1268,7 +1270,7 @@ class ConnectedApp extends Component {
 
         <Modal.Footer>
           <Button bsStyle="default" bsSize="small" onClick={this.toggleShowReadingMenuInstructions}>
-            Fechar
+            Fechar [ESC]
           </Button>
         </Modal.Footer>
       </Modal>

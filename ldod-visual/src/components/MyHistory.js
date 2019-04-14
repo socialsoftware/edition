@@ -101,7 +101,7 @@ class ConnectedMyHistory extends Component {
 
     this.loadingGif = (<div>
       <img src={loadingGif} alt="loading...myhistory" className="loadingGifCentered"/>
-      <p align="center">A carregar actividade...</p>
+      <p align="center">A carregar atividade...</p>
     </div>);
 
     this.handleClick = this.handleClick.bind(this);
@@ -154,7 +154,7 @@ class ConnectedMyHistory extends Component {
             category: ""
           };
 
-          //aqui é para fazer set do fragindex caso seja uma nova actividade. caso contrario fica igual.
+          //aqui é para fazer set do fragindex caso seja uma nova atividade. caso contrario fica igual.
           if (this.props.currentFragmentMode) {
             var j;
             for (j = 0; j < this.props.fragments.length; j++) {
@@ -218,7 +218,7 @@ class ConnectedMyHistory extends Component {
         if (!this.props.currentFragmentMode && f.interId === this.props.fragments[this.props.fragmentIndex].interId) {
           entryStyle = "color: white; background-color: #FF7F50; border-color: #DC143C;"
         }
-        //red para tornar vermelho o que será vermelho em nova actividade em vez de considerar o da antiga
+        //red para tornar vermelho o que será vermelho em nova atividade em vez de considerar o da antiga
         if (this.props.currentFragmentMode && f.interId === this.props.recommendationArray[this.props.recommendationIndex].interId) {
           entryStyle = "color: white; background-color: #FF7F50; border-color: #DC143C;"
         }
@@ -333,7 +333,7 @@ class ConnectedMyHistory extends Component {
         border: "#FF7F50",
         color: 'white'
       }}>
-      <b>rectângulo laranja</b>
+      <b>retângulo laranja</b>
     </span >);
 
     let purpleSquareText = (<span style={{
@@ -343,12 +343,12 @@ class ConnectedMyHistory extends Component {
         border: "#8A2BE2",
         color: 'white'
       }}>
-      <b>rectângulo roxo</b>
+      <b>retângulo roxo</b>
     </span >);
 
     let instructions = (<div className="instructionsButton">
-      <Button bsStyle="primary" bsSize="small" onClick={this.toggleInstructions}>
-        Mostrar instrucções [i]
+      <Button bsStyle="default" bsSize="small" onClick={this.toggleInstructions}>
+        Mostrar instruções [i]
       </Button>
     </div>)
 
@@ -357,29 +357,29 @@ class ConnectedMyHistory extends Component {
         <div className="instructionsText">
 
           <p>
-            Nesta cronologia, poderá situar o fragmento actual e a sua data em comparação ao resto dos fragmentos da edição virtual que tenham também data disponível.
+            Nesta cronologia, poderá situar o fragmento atual e a sua data em comparação ao resto dos fragmentos da edição que tenham também data disponível.
           </p>
 
           <ul>
             <li>
-              Cada rectângulo representa um fragmento com o título apresentado.
+              Cada retângulo representa um fragmento com o título apresentado.
             </li>
             <li>
               Pode controlar o zoom da cronologia com a roda do rato.
             </li>
             <li>
-              Pode rastejar a cronologia com o botão esquerdo do rato (caso haja muitos fragmentos com data semelhante, é possível que empilhem para cima da altura da janela da cronologia).
+              Pode arrastar a cronologia com o botão esquerdo do rato (caso haja muitos fragmentos com data semelhante, é possível que empilhem para cima da altura da janela da cronologia).
             </li>
             <li>
               Um {redSquareText}
-              representará o fragmento sob o qual realizou ou está a realizar uma nova actividade.
+              representará o fragmento sob o qual realizou ou está a realizar uma nova atividade.
             </li>
             <li>
               Um {purpleSquareText}
-              representará o fragmento que está a ler durante a actividade actual caso navegue para um fragmento diferente do fragmento inicial que escolheu ao seleccionar uma nova actividade (o {redSquareText}).
+              representará o fragmento que está a ler durante a atividade atual caso navegue para um fragmento diferente do fragmento inicial que escolheu ao selecionar uma nova atividade (o {redSquareText}).
             </li>
             <li>
-              Clique num dos rectângulos dos fragmentos para ler o mesmo.
+              Clique num dos retângulos dos fragmentos para ler o mesmo.
             </li>
 
           </ul>
@@ -387,8 +387,8 @@ class ConnectedMyHistory extends Component {
         </div>
 
         <div className="instructionsButton">
-          <Button bsStyle="primary" bsSize="small" onClick={this.toggleInstructions}>
-            Esconder instrucções [i]
+          <Button bsStyle="default" bsSize="small" onClick={this.toggleInstructions}>
+            Esconder instruções [i]
           </Button>
         </div>
 

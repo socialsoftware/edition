@@ -284,31 +284,31 @@ class ConnectedActivityMenu extends Component {
 
   render() {
 
-    const activitySelectable = "Escolher actividade";
-    const activityUnselectable = "Actividade indisponível";
+    const activitySelectable = "Escolher atividade";
+    const activityUnselectable = "Atividade indisponível";
 
     let instructions = (<div className="instructionsButton">
-      <Button bsStyle="primary" bsSize="small" onClick={this.toggleInstructions}>
-        Mostrar instrucções [i]
+      <Button bsStyle="default" bsSize="small" onClick={this.toggleInstructions}>
+        Mostrar instruções [i]
       </Button>
     </div>)
 
     if (this.state.showInstructions) {
       instructions = (<div className="readingMoreInfo">
-        <p align="center">Este é o menu de nova actividade.</p>
+        <p align="center">Este é o menu de nova atividade.</p>
         <lu>
           <li>
-            Aqui poderá realizar uma de várias actividades clicando na respectiva imagem, botão ou tecla do seu teclado assinalada na etiqueta do botão (ex: tecla "E" para a primeira actividade)).
+            Aqui poderá realizar uma de várias atividades clicando na respectiva imagem, botão ou tecla do seu teclado assinalada na etiqueta do botão (ex: tecla "E" para a primeira atividade).
           </li>
           <li>
-            Note que todas as actividades que envolvam quadrados, círculos ou cronologia irão envolver um elemento cor-de-laranja que representa o fragmento que está a ler actualmente e à volta do qual deseja fazer a nova actividade.
+            Note que todas as atividades que envolvam quadrados, círculos ou cronologia irão envolver um elemento cor-de-laranja que representa o fragmento que está a ler atualmente e à volta do qual deseja fazer a nova atividade.
           </li>
         </lu>
 
         <div className="instructionsButton">
 
-          <Button bsStyle="primary" bsSize="small" onClick={this.toggleInstructions}>
-            Esconder instrucções [i]
+          <Button bsStyle="default" bsSize="small" onClick={this.toggleInstructions}>
+            Esconder instruções [i]
           </Button>
 
         </div>
@@ -320,12 +320,12 @@ class ConnectedActivityMenu extends Component {
 
       let categoryButtonMessage = "Explorar os fragmentos desta edição pelas categorias a que pertencem (taxonomia)"
       let networkGraphTaxonomyMessage = "Ler fragmentos semelhantes a este por taxonomia"
-      let categoryButtonStyle = "primary"
+      let categoryButtonStyle = "default"
       let categoryButtonBotMessage = activitySelectable;
       let categoryImage = picWordCloud;
       let networkGraphTaxonomyImage = picNetgraph;
       if (this.props.categories.length === 0) {
-        categoryButtonStyle = "default";
+        categoryButtonStyle = "default disabled";
         categoryButtonMessage = "Explorar os fragmentos desta edição pelas categorias a que pertencem (taxonomia) (edição sem taxonomia)"
         networkGraphTaxonomyMessage = "Ler fragmentos semelhantes a este por taxonomia (edição sem taxonomia)"
         networkGraphTaxonomyImage = picNetgraphGray;
@@ -334,46 +334,46 @@ class ConnectedActivityMenu extends Component {
       }
 
       //toggleSquareGridHeteronym
-      let heteronymButtonStyle = "default";
+      let heteronymButtonStyle = "default disabled";
       let heteronymButtonBotMessage = activityUnselectable;
       let myHeteronym = "heterónimo não disponível para este fragmento";
       let heteronymImage = picSquareGoldenGray;
       if (this.props.recommendationArray[this.props.recommendationIndex].meta.heteronym) {
-        heteronymButtonStyle = "primary";
+        heteronymButtonStyle = "default";
         myHeteronym = this.props.recommendationArray[this.props.recommendationIndex].meta.heteronym;
         heteronymImage = picSquareGolden;
         heteronymButtonBotMessage = activitySelectable;
       }
 
-      let datesButtonStyle = "primary"
+      let datesButtonStyle = "default"
       let datesImage = picSquareTime;
       let datesButtonFunction = this.toggleSquareGridDateOrder;
       let datesButtonMessage = "Explorar os fragmentos desta edição ordenados por data";
       let datesButtonBotMessage = activitySelectable;
 
-      let datesSimilarButtonMessage = "Explorar fragmentos à volta da data deste fragmento (fragmento actual sem data disponível)"
-      let datesSimilarButtonStyle = "default"
+      let datesSimilarButtonMessage = "Explorar fragmentos à volta da data deste fragmento (fragmento atual sem data disponível)"
+      let datesSimilarButtonStyle = "default disabled"
       let datesSimilarImage = picTimelineGray;
       let datesSimilarButtonBotMessage = activityUnselectable;
       if (this.props.recommendationArray[this.props.recommendationIndex].meta.date !== null) {
         datesSimilarButtonMessage = "Explorar fragmentos à volta da data deste fragmento (" + this.props.recommendationArray[this.props.recommendationIndex].meta.date + ")"
-        datesSimilarButtonStyle = "primary";
+        datesSimilarButtonStyle = "default";
         datesSimilarImage = picTimeline;
         datesSimilarButtonBotMessage = activitySelectable;
       }
 
       if (!this.props.datesExist) {
-        datesButtonStyle = "default";
+        datesButtonStyle = "default disabled";
         datesButtonBotMessage = activityUnselectable;
         datesImage = picSquareTimeGray;
-        datesSimilarButtonStyle = "default";
+        datesSimilarButtonStyle = "default disabled";
         datesButtonFunction = function() {}
-        datesButtonMessage = "Explorar os fragmentos desta edição ordenados por data (edição virtual sem datas)"
-        datesSimilarButtonMessage = "Ler fragmentos semelhantes a este por data (edição virtual sem datas)"
+        datesButtonMessage = "Explorar os fragmentos desta edição ordenados por data (edição sem datas)"
+        datesSimilarButtonMessage = "Ler fragmentos semelhantes a este por data (edição sem datas)"
       }
 
       let wordCloudSingleFragmentMessage = "Explorar mais fragmentos da(s) mesma(s) categoria(s) deste fragmento";
-      let wordCloudSingleFragmentButtonStyle = "primary";
+      let wordCloudSingleFragmentButtonStyle = "default";
       let wordCloudSingleFragmentImage = picWordCloudSingular;
       let wordCloudSingleBotMessage = activitySelectable;
 
@@ -381,8 +381,8 @@ class ConnectedActivityMenu extends Component {
       // console.log(this.props.recommendationArray[this.props.recommendationIndex].meta.categories.length)
 
       if (this.props.recommendationArray[this.props.recommendationIndex].meta.categories.length == 0) {
-        wordCloudSingleFragmentMessage = "Explorar mais fragmentos da(s) mesma(s) categoria(s) deste fragmento (fragmento actual sem categorias)";
-        wordCloudSingleFragmentButtonStyle = "default";
+        wordCloudSingleFragmentMessage = "Explorar mais fragmentos da(s) mesma(s) categoria(s) deste fragmento (fragmento atual sem categorias)";
+        wordCloudSingleFragmentButtonStyle = "default disabled";
         wordCloudSingleFragmentImage = picWordCloudSingularGray;
         wordCloudSingleBotMessage = activityUnselectable;
       }
@@ -401,10 +401,10 @@ class ConnectedActivityMenu extends Component {
                   width: "100%"
                 }}/>
               <p align="center">
-                <b>Explorar os fragmentos por ordem desta edição virtual</b>
+                <b>Explorar os fragmentos por ordem desta edição</b>
               </p>
               <div className="welcomeButtonActivity">
-                <Button bsStyle="primary" bsSize="small" onClick={this.toggleSquareGridEditionOrder}>
+                <Button bsStyle="default" bsSize="small" onClick={this.toggleSquareGridEditionOrder}>
                   {activitySelectable + " [E]"}
                 </Button>
               </div>
@@ -429,22 +429,6 @@ class ConnectedActivityMenu extends Component {
 
           <div className="cardActivity">
             <div className="containerActivity">
-              <img src={categoryImage} onClick={this.toggleWordCloudTaxonomy} className="cardsActivityImage" alt="Avatar" style={{
-                  width: "100%"
-                }}/>
-              <p align="center">
-                <b>{categoryButtonMessage}</b>
-              </p>
-              <div className="welcomeButtonActivity">
-                <Button bsStyle={categoryButtonStyle} bsSize="small" onClick={this.toggleWordCloudTaxonomy}>
-                  {categoryButtonBotMessage + " [T]"}
-                </Button>
-              </div>
-            </div>
-          </div>
-
-          <div className="cardActivity">
-            <div className="containerActivity">
               <img src={datesSimilarImage} onClick={this.toggleActivityMyHistoryDate} className="cardsActivityImage" alt="Avatar" style={{
                   width: "100%"
                 }}/>
@@ -461,15 +445,15 @@ class ConnectedActivityMenu extends Component {
 
           <div className="cardActivity">
             <div className="containerActivity">
-              <img src={heteronymImage} onClick={this.toggleSquareGridHeteronym} className="cardsActivityImage" alt="Avatar" style={{
+              <img src={categoryImage} onClick={this.toggleWordCloudTaxonomy} className="cardsActivityImage" alt="Avatar" style={{
                   width: "100%"
                 }}/>
               <p align="center">
-                <b>Explorar mais fragmentos assinados pelo mesmo heterónimo deste fragmento ({myHeteronym})</b>
+                <b>{categoryButtonMessage}</b>
               </p>
               <div className="welcomeButtonActivity">
-                <Button bsStyle={heteronymButtonStyle} bsSize="small" onClick={this.toggleSquareGridHeteronym}>
-                  {heteronymButtonBotMessage + " [H]"}
+                <Button bsStyle={categoryButtonStyle} bsSize="small" onClick={this.toggleWordCloudTaxonomy}>
+                  {categoryButtonBotMessage + " [T]"}
                 </Button>
               </div>
             </div>
@@ -493,22 +477,6 @@ class ConnectedActivityMenu extends Component {
 
           <div className="cardActivity">
             <div className="containerActivity">
-              <img src={picNetgraph} onClick={this.toggleActivityNetworkGraphTextSimilarity} className="cardsActivityImage" alt="Avatar" style={{
-                  width: "100%"
-                }}/>
-              <p align="center">
-                <b>Ler fragmentos semelhantes a este por semelhança de texto</b>
-              </p>
-              <div className="welcomeButtonActivity">
-                <Button bsStyle="primary" bsSize="small" onClick={this.toggleActivityNetworkGraphTextSimilarity}>
-                  Escolher actividade [X]
-                </Button>
-              </div>
-            </div>
-          </div>
-
-          <div className="cardActivity">
-            <div className="containerActivity">
               <img src={networkGraphTaxonomyImage} onClick={this.toggleActivityNetworkGraphTaxonomy} className="cardsActivityImage" alt="Avatar" style={{
                   width: "100%"
                 }}/>
@@ -523,14 +491,46 @@ class ConnectedActivityMenu extends Component {
             </div>
           </div>
 
+          <div className="cardActivity">
+            <div className="containerActivity">
+              <img src={picNetgraph} onClick={this.toggleActivityNetworkGraphTextSimilarity} className="cardsActivityImage" alt="Avatar" style={{
+                  width: "100%"
+                }}/>
+              <p align="center">
+                <b>Ler fragmentos semelhantes a este por semelhança de texto</b>
+              </p>
+              <div className="welcomeButtonActivity">
+                <Button bsStyle="default" bsSize="small" onClick={this.toggleActivityNetworkGraphTextSimilarity}>
+                  Escolher atividade [X]
+                </Button>
+              </div>
+            </div>
+          </div>
+
+          <div className="cardActivity">
+            <div className="containerActivity">
+              <img src={heteronymImage} onClick={this.toggleSquareGridHeteronym} className="cardsActivityImage" alt="Avatar" style={{
+                  width: "100%"
+                }}/>
+              <p align="center">
+                <b>Explorar mais fragmentos assinados pelo mesmo heterónimo deste fragmento ({myHeteronym})</b>
+              </p>
+              <div className="welcomeButtonActivity">
+                <Button bsStyle={heteronymButtonStyle} bsSize="small" onClick={this.toggleSquareGridHeteronym}>
+                  {heteronymButtonBotMessage + " [H]"}
+                </Button>
+              </div>
+            </div>
+          </div>
+
         </div>
 
       </div>);
     } else {
       this.activityToRender = this.activityToRender; //(<NetworkGraphContainer pFragmentId={this.props.recommendationArray[this.props.recommendationIndex].interId} pHeteronymWeight="0.0" pTextWeight="1.0" pDateWeight="0.0" ptaxonomyWeight="0.0" onChange={this.props.onChange}/>);
       this.retreatButton = (<div className="newActRetreatButton">
-        <Button bsStyle="primary" onClick={this.handleActivitySelectRetreat}>
-          ← Retroceder para outra actividade [R]
+        <Button bsStyle="default" onClick={this.handleActivitySelectRetreat}>
+          ← Retroceder para outra atividade [R]
         </Button>
       </div>);
 
@@ -544,5 +544,5 @@ const ActivityMenu = connect(mapStateToProps, mapDispatchToProps)(ConnectedActiv
 
 export default ActivityMenu;
 
-//         <p>Caso tenha seleccionado uma edição virtual sem taxonomia, ou categorias, não será possível realizar actividades que dependem das mesmas, que estarão devidamente assinaladas a cinzento. O mesmo se aplicará para a ausência de datas ou se o fragmento que está a ler actualmente não for assinado por qualquer heterónimo - as actividades em torno dessa informação estarão indisponíveis.
+//         <p>Caso tenha selecionado uma edição sem taxonomia, ou categorias, não será possível realizar atividades que dependem das mesmas, que estarão devidamente assinaladas a cinzento. O mesmo se aplicará para a ausência de datas ou se o fragmento que está a ler atualmente não for assinado por qualquer heterónimo - as atividades em torno dessa informação estarão indisponíveis.
 //         </p>

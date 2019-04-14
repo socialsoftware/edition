@@ -17,3 +17,13 @@
   width: 10%;
   height: 10%;
 }
+
+.fragmentTitle h1{
+  font-family: 'leaguegothic-regular-webfont';
+  font-size: 40px;
+}
+
+.fragmentText{
+  font-family: 'WorkSans-Regular' ;
+  font-size: 20px;
+}
