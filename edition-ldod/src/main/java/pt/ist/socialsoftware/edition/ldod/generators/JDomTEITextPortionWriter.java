@@ -22,7 +22,7 @@ public class JDomTEITextPortionWriter implements TextPortionVisitor {
     // List<String> fragInterSelectedSet = new ArrayList<String>();
 
     private Element rootElement = null;
-    private Set<ExpertEditionInter> fragInterSelectedList = null;
+    private Set<ScholarInter> fragInterSelectedList = null;
 
     // jdomDoc.setRootElement(rootElement);
 
@@ -31,7 +31,7 @@ public class JDomTEITextPortionWriter implements TextPortionVisitor {
         this.xmlns = Namespace.getNamespace("http://www.tei-c.org/ns/1.0");
     }
 
-    public JDomTEITextPortionWriter(Element rootElement, Set<ExpertEditionInter> expertEditionInterSelectedList) {
+    public JDomTEITextPortionWriter(Element rootElement, Set<ScholarInter> expertEditionInterSelectedList) {
         // TODO Auto-generated constructor stub
         this.rootElement = rootElement;
         this.fragInterSelectedList = expertEditionInterSelectedList;

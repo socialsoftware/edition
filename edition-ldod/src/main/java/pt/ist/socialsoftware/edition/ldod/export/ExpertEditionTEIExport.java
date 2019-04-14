@@ -24,17 +24,17 @@ public class ExpertEditionTEIExport {
     // Element rootElement = null;
 
     JDomTEITextPortionWriter writer = null;
-    Set<ExpertEditionInter> fragInterSelectedSet;
+    Set<ScholarInter> scholarInterSelectedSet;
 
     Namespace xmlns;
 
-    // List<String> fragInterSelectedSet = new ArrayList<String>();
+    // List<String> scholarInterSelectedSet = new ArrayList<String>();
 
     public ExpertEditionTEIExport() {
         this.xmlns = Namespace.getNamespace("http://www.tei-c.org/ns/1.0");
     }
 
-    public void generate(Map<Fragment, Set<ExpertEditionInter>> fragmentMap) {
+    public void generate(Map<Fragment, Set<ScholarInter>> fragmentMap) {
         // TODO Auto-generated method stub
 
         Element rootElement = generateCorpus();
@@ -42,12 +42,12 @@ public class ExpertEditionTEIExport {
 
         Fragment fragment;
 
-        for (Map.Entry<Fragment, Set<ExpertEditionInter>> entry : fragmentMap.entrySet()) {
+        for (Map.Entry<Fragment, Set<ScholarInter>> entry : fragmentMap.entrySet()) {
 
             fragment = entry.getKey();
-            this.fragInterSelectedSet = entry.getValue();
+            this.scholarInterSelectedSet = entry.getValue();
 
-            generateFragment(rootElement, fragment, this.fragInterSelectedSet);
+            generateFragment(rootElement, fragment, this.scholarInterSelectedSet);
         }
     }
 
@@ -72,7 +72,7 @@ public class ExpertEditionTEIExport {
         rootElement.addContent(newElement);
     }
 
-    private void generateFragment(Element rootElement, Fragment fragment, Set<ExpertEditionInter> expertEditionInterSelectedSet) {
+    private void generateFragment(Element rootElement, Fragment fragment, Set<ScholarInter> expertEditionInterSelectedSet) {
 
         // Namespace xmlns = Namespace.XML_NAMESPACE;
         // .getNamespace("http://www.tei-c.org/ns/1.0");
@@ -368,7 +368,7 @@ public class ExpertEditionTEIExport {
         for (SourceInter sourceInter : fragment.getSortedSourceInter()) {
 
             // TODO selecionar as edicoes autorais ?
-            if (this.fragInterSelectedSet.contains(sourceInter)) {
+            if (this.scholarInterSelectedSet.contains(sourceInter)) {
 
                 witnessElement = new Element("witness", this.xmlns);
                 // witnessElement.addNamespaceDeclaration(Namespace.getNamespace(
@@ -418,7 +418,7 @@ public class ExpertEditionTEIExport {
 
             // TODO: confirm: type EDITORIAL && selected
             if (scholarInter.getSourceType() == scholarInter.getSourceType().EDITORIAL
-                    && this.fragInterSelectedSet.contains(scholarInter)) {
+                    && this.scholarInterSelectedSet.contains(scholarInter)) {
 
                 expertEditionInter = (ExpertEditionInter) scholarInter;
 
@@ -551,7 +551,7 @@ public class ExpertEditionTEIExport {
         fragElement.addContent(facElement);
     }
 
-    private void generateTranscription(Element parentElement, Fragment fragment, Set<ExpertEditionInter> expertEditionInterSelectedSet) {
+    private void generateTranscription(Element parentElement, Fragment fragment, Set<ScholarInter> scholarInterSelectedSet) {
 
         Element textElement = new Element("text", this.xmlns);
         parentElement.addContent(textElement);
@@ -565,7 +565,7 @@ public class ExpertEditionTEIExport {
         Attribute iddiv = new Attribute("id", fragment.getXmlId() + ".TEXT", Namespace.XML_NAMESPACE);
         divElement.setAttribute(iddiv);
 
-        this.writer = new JDomTEITextPortionWriter(divElement, this.fragInterSelectedSet);
+        this.writer = new JDomTEITextPortionWriter(divElement, this.scholarInterSelectedSet);
         // writer.visit((AppText) fragment.getTextPortion());
         AppText app = (AppText) fragment.getTextPortion();
         RdgText rdg = (RdgText) app.getFirstChildText();

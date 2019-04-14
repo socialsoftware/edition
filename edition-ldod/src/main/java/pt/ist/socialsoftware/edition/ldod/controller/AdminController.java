@@ -356,14 +356,14 @@ public class AdminController {
 
         LdoD ldoD = LdoD.getInstance();
 
-        Map<Fragment, Set<ExpertEditionInter>> searchResult = new HashMap<>();
+        Map<Fragment, Set<ScholarInter>> searchResult = new HashMap<>();
         TextInterface textInterface = new TextInterface();
 
         for (Fragment frag : textInterface.getFragmentsSet()) {
             if (frag.getTitle().contains(query)) {
-                Set<ExpertEditionInter> inters = new HashSet<>();
+                Set<ScholarInter> inters = new HashSet<>();
                 for (ScholarInter inter : frag.getScholarInterSet()) {
-                    inters.add((ExpertEditionInter) inter);
+                    inters.add(inter);
                 }
                 searchResult.put(frag, inters);
             }
@@ -388,16 +388,14 @@ public class AdminController {
     @RequestMapping(method = RequestMethod.GET, value = "/exportAll")
     public void exportAll(HttpServletResponse response) {
 
-        LdoD ldoD = LdoD.getInstance();
-
-        Map<Fragment, Set<ExpertEditionInter>> searchResult = new HashMap<>();
+        Map<Fragment, Set<ScholarInter>> searchResult = new HashMap<>();
         TextInterface textInterface = new TextInterface();
 
         for (Fragment frag : textInterface.getFragmentsSet()) {
-            Set<ExpertEditionInter> inters = new HashSet<>();
+            Set<ScholarInter> inters = new HashSet<>();
 
             for (ScholarInter inter : frag.getScholarInterSet()) {
-                inters.add((ExpertEditionInter) inter);
+                inters.add(inter);
             }
             searchResult.put(frag, inters);
         }
@@ -421,9 +419,7 @@ public class AdminController {
     @RequestMapping(method = RequestMethod.GET, value = "/exportRandom")
     public void exportRandom(HttpServletResponse response) {
 
-        LdoD ldoD = LdoD.getInstance();
-
-        Map<Fragment, Set<ExpertEditionInter>> searchResult = new HashMap<>();
+        Map<Fragment, Set<ScholarInter>> searchResult = new HashMap<>();
         TextInterface textInterface = new TextInterface();
 
         List<Fragment> fragments = new ArrayList<>(textInterface.getFragmentsSet());
@@ -441,9 +437,10 @@ public class AdminController {
 
             fragsRandom.add("<a href=\"/fragments/fragment/" + frag.getExternalId() + "\">" + frag.getTitle() + "</a>");
 
-            Set<ExpertEditionInter> inters = new HashSet<>();
+            Set<ScholarInter> inters = new HashSet<>();
             for (ScholarInter inter : frag.getScholarInterSet()) {
-                inters.add((ExpertEditionInter) inter);
+                //TODO: fragments have source inters. Should they be ingnored or should the code be rewritten for shcolar inters?
+                inters.add(inter);
             }
             searchResult.put(frag, inters);
         }
