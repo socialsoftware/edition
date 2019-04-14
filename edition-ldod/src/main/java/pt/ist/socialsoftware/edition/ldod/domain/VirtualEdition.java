@@ -84,7 +84,6 @@ public class VirtualEdition extends VirtualEdition_Base {
         }
     }
 
-    @Override
     @Atomic(mode = TxMode.WRITE)
     public void remove() {
         // delete directory and all its files if it exists
@@ -125,7 +124,7 @@ public class VirtualEdition extends VirtualEdition_Base {
             weights.remove();
         }
 
-        super.remove();
+        deleteDomainObject();
     }
 
     @Override

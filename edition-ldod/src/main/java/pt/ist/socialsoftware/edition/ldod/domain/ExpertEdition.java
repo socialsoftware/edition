@@ -37,12 +37,11 @@ public class ExpertEdition extends ExpertEdition_Base implements Comparable<Expe
         setText4Expert(text);
     }
 
-    @Override
     public void remove() {
 
         setText4Expert(null);
         getExpertEditionIntersSet().forEach(i -> i.remove());
-        super.remove();
+        deleteDomainObject();
     }
 
     @Override

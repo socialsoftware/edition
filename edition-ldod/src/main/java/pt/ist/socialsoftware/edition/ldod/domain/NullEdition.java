@@ -5,29 +5,28 @@ import java.util.Set;
 
 public class NullEdition extends NullEdition_Base {
 
-	@Override
-	public Boolean getPub() {
-		return true;
-	}
+    @Override
+    public Boolean getPub() {
+        return true;
+    }
 
-	@Override
-	public void remove() {
-		setText4NullEdition(null);
-		super.remove();
-	}
+    public void remove() {
+        setText4NullEdition(null);
+        deleteDomainObject();
+    }
 
-	public Set<ScholarInter> getIntersSet() {
-		return new HashSet<>();
-	}
+    public Set<ScholarInter> getIntersSet() {
+        return new HashSet<>();
+    }
 
-	@Override
-	public Edition.EditionType getSourceType() {
-		return Edition.EditionType.AUTHORIAL;
-	}
+    @Override
+    public Edition.EditionType getSourceType() {
+        return Edition.EditionType.AUTHORIAL;
+    }
 
-	@Override
-	public String getReference() {
-		return "";
-	}
+    @Override
+    public String getReference() {
+        return "";
+    }
 
 }
