@@ -51,8 +51,4 @@ public abstract class Edition extends pt.ist.socialsoftware.edition.ldod.domain.
 
     public abstract String getReference();
 
-    public boolean isLdoDEdition() {
-        return getAcronym().equals(Edition.ARCHIVE_EDITION_ACRONYM);
-    }
-
 }

@@ -794,4 +794,8 @@ public class VirtualEdition extends VirtualEdition_Base {
         new ClassificationGame(this, description, date, inter, user);
     }
 
+    public boolean isLdoDEdition() {
+        return getAcronym().equals(Edition.ARCHIVE_EDITION_ACRONYM);
+    }
+
 }
