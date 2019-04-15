@@ -1,7 +1,5 @@
 package pt.ist.socialsoftware.edition.ldod.domain;
 
-import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDDuplicateAcronymException;
-
 public abstract class Edition extends pt.ist.socialsoftware.edition.ldod.domain.Edition_Base {
     public static final String COELHO_EDITION_ACRONYM = "JPC";
     public static final String CUNHA_EDITION_ACRONYM = "TSC";
@@ -26,25 +24,6 @@ public abstract class Edition extends pt.ist.socialsoftware.edition.ldod.domain.
         public String getDesc() {
             return this.desc;
         }
-    }
-
-    @Override
-    public void setAcronym(String acronym) {
-        if (getAcronym() != null && !getAcronym().toUpperCase().equals(acronym.toUpperCase()) || getAcronym() == null) {
-            for (ExpertEdition edition : Text.getInstance().getExpertEditionsSet()) {
-                if (acronym.toUpperCase().equals(edition.getAcronym().toUpperCase())) {
-                    throw new LdoDDuplicateAcronymException();
-                }
-            }
-
-            for (VirtualEdition edition : LdoD.getInstance().getVirtualEditionsSet()) {
-                if (edition.getAcronym() != null && acronym.toUpperCase().equals(edition.getAcronym().toUpperCase())) {
-                    throw new LdoDDuplicateAcronymException();
-                }
-            }
-        }
-
-        super.setAcronym(acronym);
     }
 
     public abstract EditionType getSourceType();

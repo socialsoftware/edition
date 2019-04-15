@@ -15,6 +15,7 @@ import pt.ist.socialsoftware.edition.ldod.dto.InterIdDistancePairDto;
 import pt.ist.socialsoftware.edition.ldod.dto.WeightsDto;
 import pt.ist.socialsoftware.edition.ldod.recommendation.VSMVirtualEditionInterRecommender;
 import pt.ist.socialsoftware.edition.ldod.recommendation.properties.Property;
+import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDDuplicateAcronymException;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
 import pt.ist.socialsoftware.edition.ldod.utils.PropertiesManager;
 
@@ -42,13 +43,30 @@ public class VirtualEdition extends VirtualEdition_Base {
 
     @Override
     public void setAcronym(String acronym) {
-        if (!acronym.matches("^[A-Za-z0-9\\-]+$")) {
-            throw new LdoDException("acronym");
-        }
 
-        // cannot change acronym of the archive edition
-        if (getAcronym() == null || !getAcronym().equals(ARCHIVE_EDITION_ACRONYM)) {
-            super.setAcronym(acronym);
+        if (getAcronym() != null && !getAcronym().toUpperCase().equals(acronym.toUpperCase()) || getAcronym() == null) {
+
+            if (!acronym.matches("^[A-Za-z0-9\\-]+$")) {
+                throw new LdoDException("acronym");
+            }
+
+            // cannot change acronym of the archive edition
+            if (getAcronym() == null || !getAcronym().equals(ARCHIVE_EDITION_ACRONYM)) {
+
+                TextInterface textInterface = new TextInterface();
+
+                if (textInterface.acronymExists(acronym)) {
+                    throw new LdoDDuplicateAcronymException();
+                }
+
+                for (VirtualEdition edition : LdoD.getInstance().getVirtualEditionsSet()) {
+                    if (edition.getAcronym() != null && acronym.toUpperCase().equals(edition.getAcronym().toUpperCase())) {
+                        throw new LdoDDuplicateAcronymException();
+                    }
+                }
+
+                super.setAcronym(acronym);
+            }
         }
     }
 

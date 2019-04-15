@@ -108,4 +108,9 @@ public class TextInterface {
         return Text.getInstance().getExpertEditionsSet().stream().filter(expertEdition -> expertEdition.getFragInterByXmlId(xmlId) != null)
                 .findFirst().orElseThrow(LdoDException::new).getEditor();
     }
+
+    public boolean acronymExists(String acronym) {
+        return Text.getInstance().getExpertEditionsSet().stream().map(ExpertEdition::getAcronym)
+                .anyMatch(s -> s.equals(acronym));
+    }
 }
