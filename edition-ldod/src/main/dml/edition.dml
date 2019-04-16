@@ -144,24 +144,31 @@ class LdoDDate {
 	PrecisionType precision;
 }
 
-class Edition {
-	String xmlId;
+class Edition;
+
+class ScholarEdition extends Edition{
+    String xmlId;
 	String title;
 	LocalDate date;
 	String acronym;
 	Boolean pub;
 }
 
-class ExpertEdition extends Edition {
+class ExpertEdition extends ScholarEdition {
 	String author;
 	String editor;
 }
 
 class VirtualEdition extends Edition {
+    String xmlId;
+   	String title;
+   	LocalDate date;
+   	String acronym;
+   	Boolean pub;
 	String synopsis;
 }
 
-class NullEdition extends Edition;
+class NullEdition extends ScholarEdition;
 
 relation VirtualEditionUsesVirtualEdition {
 	VirtualEdition playsRole isUsedBy {multiplicity 0..*;}

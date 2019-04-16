@@ -23,7 +23,7 @@ public abstract class ScholarInter extends ScholarInter_Base {
 
     public abstract String getTitle();
 
-    public abstract Edition getEdition();
+    public abstract ScholarEdition getEdition();
 
     public abstract Edition.EditionType getSourceType();
 

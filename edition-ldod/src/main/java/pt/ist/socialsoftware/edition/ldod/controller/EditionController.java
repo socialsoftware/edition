@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
+import pt.ist.fenixframework.DomainObject;
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.ldod.api.text.TextInterface;
 import pt.ist.socialsoftware.edition.ldod.api.ui.UiInterface;
@@ -24,126 +24,135 @@ import java.util.stream.Collectors;
 @Controller
 @RequestMapping("/edition")
 public class EditionController {
-	private static Logger logger = LoggerFactory.getLogger(EditionController.class);
+    private static final Logger logger = LoggerFactory.getLogger(EditionController.class);
 
-	@ModelAttribute("ldoDSession")
-	public LdoDSession getLdoDSession() {
-		return LdoDSession.getLdoDSession();
-	}
+    @ModelAttribute("ldoDSession")
+    public LdoDSession getLdoDSession() {
+        return LdoDSession.getLdoDSession();
+    }
 
-	@RequestMapping(method = RequestMethod.GET)
-	public String editionIntro(Model model) {
-		return "edition/introduction-main";
-	}
+    @RequestMapping(method = RequestMethod.GET)
+    public String editionIntro(Model model) {
+        return "edition/introduction-main";
+    }
 
-	@RequestMapping(method = RequestMethod.GET, value = "/acronym/{acronym}")
-	@PreAuthorize("hasPermission(#acronym, 'editionacronym.public')")
-	public String getEditionTableOfContentsbyAcronym(Model model, @PathVariable String acronym) {
+    @RequestMapping(method = RequestMethod.GET, value = "/acronym/{acronym}")
+    @PreAuthorize("hasPermission(#acronym, 'editionacronym.public')")
+    public String getEditionTableOfContentsbyAcronym(Model model, @PathVariable String acronym) {
 
-		TextInterface textInterface = new TextInterface();
+        TextInterface textInterface = new TextInterface();
 
-		Edition edition = textInterface.getExpertEdition(acronym);
+        ExpertEdition edition = textInterface.getExpertEdition(acronym);
 
-		if(edition == null)
-			edition = LdoD.getInstance().getVirtualEdition(acronym);
+        if (edition != null) {
+            model.addAttribute("heteronym", null);
+            model.addAttribute("edition", edition);
+            model.addAttribute("editionDto", new EditionDto(edition));
+            model.addAttribute("uiInterface", new UiInterface());
+            return "edition/tableOfContents";
+        }
 
-		if (edition == null) {
-			return "redirect:/error";
-		} else {
-			model.addAttribute("heteronym", null);
-			model.addAttribute("edition", edition);
-			model.addAttribute("editionDto",new EditionDto(edition));
-			model.addAttribute("uiInterface", new UiInterface());
-			return "edition/tableOfContents";
-		}
+        VirtualEdition virtualEdition = LdoD.getInstance().getVirtualEdition(acronym);
 
-	}
+        if (virtualEdition == null) {
+            return "redirect:/error";
+        } else {
+            model.addAttribute("heteronym", null);
+            model.addAttribute("edition", edition);
+            model.addAttribute("editionDto", new EditionDto(virtualEdition));
+            model.addAttribute("uiInterface", new UiInterface());
+            return "edition/tableOfContents";
+        }
 
-	@RequestMapping(method = RequestMethod.GET, value = "/internalid/{externalId}")
-	@PreAuthorize("hasPermission(#externalId, 'edition.public')")
-	public String getEditionTableOfContentsbyId(Model model, @PathVariable String externalId) {
+    }
 
-		Edition edition = FenixFramework.getDomainObject(externalId);
+    @RequestMapping(method = RequestMethod.GET, value = "/internalid/{externalId}")
+    @PreAuthorize("hasPermission(#externalId, 'edition.public')")
+    public String getEditionTableOfContentsbyId(Model model, @PathVariable String externalId) {
 
-		if (edition == null) {
-			return "redirect:/error";
-		} else {
-			return "redirect:/edition/acronym/" + edition.getAcronym();
-		}
+        DomainObject edition = FenixFramework.getDomainObject(externalId);
 
-	}
+        if (edition == null) {
+            return "redirect:/error";
+        } else {
+            String acronym = (edition instanceof ScholarEdition) ? ((ScholarEdition) edition).getAcronym()
+                    : ((VirtualEdition) edition).getAcronym();
+            return "redirect:/edition/acronym/" + acronym;
+        }
 
-	@RequestMapping(method = RequestMethod.GET, value = "/internalid/heteronym/{id1}/{id2}")
-	public String getEditionTableOfContents4Heteronym(Model model, @PathVariable String id1, @PathVariable String id2) {
+    }
 
-		ExpertEdition edition = FenixFramework.getDomainObject(id1);
-		Heteronym heteronym = FenixFramework.getDomainObject(id2);
+    @RequestMapping(method = RequestMethod.GET, value = "/internalid/heteronym/{id1}/{id2}")
+    public String getEditionTableOfContents4Heteronym(Model model, @PathVariable String id1, @PathVariable String id2) {
 
-		if (edition == null) {
-			return "redirect:/error";
-		} else if (heteronym == null) {
-			return "redirect:/error";
-		} else {
-			model.addAttribute("heteronym", heteronym);
-			model.addAttribute("edition", edition);
-			model.addAttribute("editionDto", new EditionDto(edition));
-			model.addAttribute("uiInterface", new UiInterface());
+        ExpertEdition edition = FenixFramework.getDomainObject(id1);
+        Heteronym heteronym = FenixFramework.getDomainObject(id2);
 
-			return "edition/tableOfContents";
-		}
-	}
+        if (edition == null) {
+            return "redirect:/error";
+        } else if (heteronym == null) {
+            return "redirect:/error";
+        } else {
+            model.addAttribute("heteronym", heteronym);
+            model.addAttribute("edition", edition);
+            model.addAttribute("editionDto", new EditionDto(edition));
+            model.addAttribute("uiInterface", new UiInterface());
 
-	@RequestMapping(method = RequestMethod.GET, value = "/user/{username}")
-	public String getUserContributions(Model model, @PathVariable String username) {
+            return "edition/tableOfContents";
+        }
+    }
 
-		LdoDUser user = LdoD.getInstance().getUser(username);
+    @RequestMapping(method = RequestMethod.GET, value = "/user/{username}")
+    public String getUserContributions(Model model, @PathVariable String username) {
 
-		if (user != null) {
-			model.addAttribute("user", user);
-			model.addAttribute("userDto", new LdoDUserDto(user));
-			if (user.getPlayer() != null) {
-				List<ClassificationGame> games = user.getPlayer().getClassificationGameParticipantSet().stream().map
-						(ClassificationGameParticipant::getClassificationGame).collect(Collectors.toList());
-				model.addAttribute("games", games);
-				model.addAttribute("position", LdoD.getInstance().getOverallUserPosition(user.getUsername()));
-			}
-			model.addAttribute("uiInterface", new UiInterface());
-			return "edition/userContributions";
-		} else {
-			return "redirect:/error";
-		}
-	}
+        LdoDUser user = LdoD.getInstance().getUser(username);
 
-	@RequestMapping(method = RequestMethod.GET, value = "/acronym/{acronym}/taxonomy")
-	@PreAuthorize("hasPermission(#acronym, 'editionacronym.public')")
-	public String getTaxonomyTableOfContents(Model model, @PathVariable String acronym) {
-		Taxonomy taxonomy = LdoD.getInstance().getVirtualEdition(acronym).getTaxonomy();
-		if (taxonomy != null) {
-			model.addAttribute("taxonomy", taxonomy);
-			return "edition/taxonomyTableOfContents";
-		} else {
-			return "redirect:/error";
-		}
-	}
+        if (user != null) {
+            model.addAttribute("user", user);
+            model.addAttribute("userDto", new LdoDUserDto(user));
+            if (user.getPlayer() != null) {
+                List<ClassificationGame> games = user.getPlayer().getClassificationGameParticipantSet().stream().map
+                        (ClassificationGameParticipant::getClassificationGame).collect(Collectors.toList());
+                model.addAttribute("games", games);
+                model.addAttribute("position", LdoD.getInstance().getOverallUserPosition(user.getUsername()));
+            }
+            model.addAttribute("uiInterface", new UiInterface());
+            return "edition/userContributions";
+        } else {
+            return "redirect:/error";
+        }
+    }
 
-	@RequestMapping(method = RequestMethod.GET, value = "/acronym/{acronym}/category/{urlId}")
-	@PreAuthorize("hasPermission(#acronym, 'editionacronym.public')")
-	public String getCategoryTableOfContents(Model model, @PathVariable String acronym, @PathVariable String urlId) {
+    @RequestMapping(method = RequestMethod.GET, value = "/acronym/{acronym}/taxonomy")
+    @PreAuthorize("hasPermission(#acronym, 'editionacronym.public')")
+    public String getTaxonomyTableOfContents(Model model, @PathVariable String acronym) {
+        Taxonomy taxonomy = LdoD.getInstance().getVirtualEdition(acronym).getTaxonomy();
+        if (taxonomy != null) {
+            model.addAttribute("taxonomy", taxonomy);
+            return "edition/taxonomyTableOfContents";
+        } else {
+            return "redirect:/error";
+        }
+    }
 
-		VirtualEdition virtualEdition = LdoD.getInstance().getVirtualEdition(acronym);
-		if (virtualEdition == null) {
-			return "redirect:/error";
-		}
+    @RequestMapping(method = RequestMethod.GET, value = "/acronym/{acronym}/category/{urlId}")
+    @PreAuthorize("hasPermission(#acronym, 'editionacronym.public')")
+    public String getCategoryTableOfContents(Model model, @PathVariable String acronym, @PathVariable String urlId) {
 
-		Category category = virtualEdition.getTaxonomy().getCategoryByUrlId(urlId);
-		if (category == null) {
-			return "redirect:/error";
-		}
+        VirtualEdition virtualEdition = LdoD.getInstance().getVirtualEdition(acronym);
+        if (virtualEdition == null) {
+            return "redirect:/error";
+        }
 
-		model.addAttribute("category", category);
-		model.addAttribute("uiInterface", new UiInterface());
+        Category category = virtualEdition.getTaxonomy().getCategoryByUrlId(urlId);
+        if (category == null) {
+            return "redirect:/error";
+        }
 
-		return "edition/categoryTableOfContents";
-	}
+        model.addAttribute("category", category);
+        model.addAttribute("uiInterface", new UiInterface());
+
+        return "edition/categoryTableOfContents";
+    }
 
 }

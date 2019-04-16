@@ -70,7 +70,7 @@ public class VirtualEditionController {
                                        @RequestParam("acronym") String acronym, @RequestParam("title") String title,
                                        @RequestParam("pub") boolean pub, @RequestParam("use") String editionID) {
 
-        Edition usedEdition = null;
+        DomainObject usedEdition = null;
         if (!editionID.equals("no")) {
             usedEdition = FenixFramework.getDomainObject(editionID);
         }
@@ -94,8 +94,10 @@ public class VirtualEditionController {
         }
 
         try {
+            String usedAcronym = usedEdition == null ? null : ((usedEdition instanceof ScholarEdition) ? ((ScholarEdition) usedEdition).getAcronym()
+                    : ((VirtualEdition) usedEdition).getAcronym());
             virtualEdition = LdoD.getInstance().createVirtualEdition(LdoDUser.getAuthenticatedUser(),
-                    VirtualEdition.ACRONYM_PREFIX + acronym, title, date, pub, usedEdition == null ? null : usedEdition.getAcronym());
+                    VirtualEdition.ACRONYM_PREFIX + acronym, title, date, pub, usedAcronym);
 
         } catch (LdoDDuplicateAcronymException ex) {
             errors.add("virtualedition.acronym.duplicate");

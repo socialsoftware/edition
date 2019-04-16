@@ -118,7 +118,7 @@ public class ExpertEditionInter extends ExpertEditionInter_Base implements Compa
     }
 
     @Override
-    public Edition getEdition() {
+    public ExpertEdition getEdition() {
         return getExpertEdition();
     }
 

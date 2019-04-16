@@ -99,7 +99,7 @@ public class SourceInter extends SourceInter_Base implements Comparable<SourceIn
     }
 
     @Override
-    public Edition getEdition() {
+    public ScholarEdition getEdition() {
         return Text.getInstance().getNullEdition();
     }
 
