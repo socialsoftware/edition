@@ -24,7 +24,6 @@ public class NullEdition extends NullEdition_Base {
         return Edition.EditionType.AUTHORIAL;
     }
 
-    @Override
     public String getReference() {
         return "";
     }

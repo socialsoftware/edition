@@ -234,7 +234,6 @@ public class VirtualEdition extends VirtualEdition_Base {
         return getIntersSet().stream().filter(i -> i.getXmlId().equals(xmlId)).findFirst().orElse(null);
     }
 
-    @Override
     public String getReference() {
         return getAcronym();
     }
