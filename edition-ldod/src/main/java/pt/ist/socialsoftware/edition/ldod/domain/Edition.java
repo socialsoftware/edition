@@ -26,6 +26,4 @@ public abstract class Edition extends pt.ist.socialsoftware.edition.ldod.domain.
         }
     }
 
-    public abstract EditionType getSourceType();
-
 }

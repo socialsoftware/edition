@@ -19,7 +19,6 @@ public class NullEdition extends NullEdition_Base {
         return new HashSet<>();
     }
 
-    @Override
     public Edition.EditionType getSourceType() {
         return Edition.EditionType.AUTHORIAL;
     }

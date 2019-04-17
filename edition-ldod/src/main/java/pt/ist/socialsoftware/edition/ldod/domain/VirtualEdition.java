@@ -158,7 +158,6 @@ public class VirtualEdition extends VirtualEdition_Base {
         super.setPub(pub);
     }
 
-    @Override
     public EditionType getSourceType() {
         return EditionType.VIRTUAL;
     }
