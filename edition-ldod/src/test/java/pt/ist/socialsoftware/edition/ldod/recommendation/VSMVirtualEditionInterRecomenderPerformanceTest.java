@@ -53,9 +53,9 @@ public class VSMVirtualEditionInterRecomenderPerformanceTest {
     protected void setUp() {
         LdoD ldoD = LdoD.getInstance();
         Text text = Text.getInstance();
-        ExpertEdition pizarroEdition = (ExpertEdition) text.getExpertEdition(Edition.PIZARRO_EDITION_ACRONYM);
-        ExpertEdition zenithEdition = (ExpertEdition) text.getExpertEdition(Edition.ZENITH_EDITION_ACRONYM);
-        ExpertEdition cunhaEdition = (ExpertEdition) text.getExpertEdition(Edition.CUNHA_EDITION_ACRONYM);
+        ExpertEdition pizarroEdition = text.getJPEdition();
+        ExpertEdition zenithEdition = text.getRZEdition();
+        ExpertEdition cunhaEdition = text.getTSCEdition();
 
         LdoDUser userArs = ldoD.getUser("ars");
         // create pizarro virtual edition

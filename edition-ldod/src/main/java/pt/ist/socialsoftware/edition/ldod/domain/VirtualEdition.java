@@ -704,10 +704,10 @@ public class VirtualEdition extends VirtualEdition_Base {
     public Set<Category> getAllDepthCategories() {
         Set<Category> result = new HashSet<>(getTaxonomy().getCategoriesSet());
 
-        Edition usedEdition = getUses();
+        VirtualEdition usedEdition = getUses();
         while (usedEdition != null) {
-            result.addAll(((VirtualEdition) usedEdition).getTaxonomy().getCategoriesSet());
-            usedEdition = ((VirtualEdition) usedEdition).getUses();
+            result.addAll(usedEdition.getTaxonomy().getCategoriesSet());
+            usedEdition = usedEdition.getUses();
         }
 
         return result;

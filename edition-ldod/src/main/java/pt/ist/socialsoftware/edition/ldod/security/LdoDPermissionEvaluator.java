@@ -38,7 +38,7 @@ public class LdoDPermissionEvaluator implements PermissionEvaluator {
         if (targetDomainObject instanceof String) {
             switch (permissions[0]) {
                 case "edition":
-                    Edition edition = FenixFramework.getDomainObject((String) targetDomainObject);
+                    DomainObject edition = FenixFramework.getDomainObject((String) targetDomainObject);
                     if (edition instanceof VirtualEdition) {
                         virtualEdition = (VirtualEdition) edition;
                     } else {
