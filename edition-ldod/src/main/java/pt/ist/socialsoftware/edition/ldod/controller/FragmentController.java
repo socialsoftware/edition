@@ -38,13 +38,7 @@ public class FragmentController {
     @RequestMapping(method = RequestMethod.GET)
     public String getFragmentsList(Model model) {
         logger.debug("getFragmentsList");
-        LdoD ldoD = LdoD.getInstance();
-        Text text = Text.getInstance();
         TextInterface textInterface = new TextInterface();
-		/*model.addAttribute("jpcEdition", text.getJPCEdition());
-		model.addAttribute("tscEdition", text.getTSCEdition());
-		model.addAttribute("rzEdition", text.getRZEdition());
-		model.addAttribute("jpEdition", text.getJPEdition());*/
         model.addAttribute("jpcEdition", textInterface.getExpertEdition(Edition.COELHO_EDITION_ACRONYM));
         model.addAttribute("tscEdition", textInterface.getExpertEdition(Edition.CUNHA_EDITION_ACRONYM));
         model.addAttribute("rzEdition", textInterface.getExpertEdition(Edition.ZENITH_EDITION_ACRONYM));
@@ -85,15 +79,18 @@ public class FragmentController {
         }
 
         PlainHtmlWriter4OneInter writer;
+        List<ScholarInter> inters = new ArrayList<>();
         ScholarInter scholarInter = fragment.getFragInterByUrlId(urlId);
         if (scholarInter != null) {
             writer = new PlainHtmlWriter4OneInter(scholarInter);
+            inters.add(scholarInter);
         } else {
             VirtualEditionInter virtualEditionInter = LdoD.getInstance().getVirtualEditionInterByUrlId(urlId);
             if (virtualEditionInter == null) {
                 return "redirect:/error";
             }
             writer = new PlainHtmlWriter4OneInter(virtualEditionInter.getLastUsed());
+            inters.add(virtualEditionInter.getLastUsed());
 
             // if it is a virtual interpretation check access and set session
             VirtualEdition virtualEdition = virtualEditionInter.getEdition();
@@ -110,8 +107,7 @@ public class FragmentController {
 
         writer.write(false);
 
-        List<ScholarInter> inters = new ArrayList<>();
-        inters.add(scholarInter);
+
         model.addAttribute("ldoD", LdoD.getInstance());
         model.addAttribute("text", Text.getInstance());
         model.addAttribute("user", LdoDUser.getAuthenticatedUser());
@@ -185,7 +181,7 @@ public class FragmentController {
         if (virtualEditionInter != null) {
             virtualEditionInter = virtualEditionInter.getNextNumberInter();
 
-            return "redirect:/fragments/fragment/" + inter.getFragment().getXmlId() + "/inter/" + inter.getUrlId();
+            return "redirect:/fragments/fragment/" + virtualEditionInter.getFragment().getXmlId() + "/inter/" + virtualEditionInter.getUrlId();
         }
         return "redirect:/error";
 
@@ -211,7 +207,7 @@ public class FragmentController {
         if (virtualEditionInter != null) {
             virtualEditionInter = virtualEditionInter.getPrevNumberInter();
 
-            return "redirect:/fragments/fragment/" + inter.getFragment().getXmlId() + "/inter/" + inter.getUrlId();
+            return "redirect:/fragments/fragment/" + virtualEditionInter.getFragment().getXmlId() + "/inter/" + virtualEditionInter.getUrlId();
         }
         return "redirect:/error";
     }

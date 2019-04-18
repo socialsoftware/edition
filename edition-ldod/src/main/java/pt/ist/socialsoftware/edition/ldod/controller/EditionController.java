@@ -58,7 +58,7 @@ public class EditionController {
             return "redirect:/error";
         } else {
             model.addAttribute("heteronym", null);
-            model.addAttribute("edition", edition);
+            model.addAttribute("edition", virtualEdition);
             model.addAttribute("editionDto", new EditionDto(virtualEdition));
             model.addAttribute("uiInterface", new UiInterface());
             return "edition/tableOfContents";
