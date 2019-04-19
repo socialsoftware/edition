@@ -124,6 +124,24 @@ public class FragmentController {
         return "redirect:/error";
     }
 
+    @RequestMapping(method = RequestMethod.GET, value = "/fragment/inter/{externalId}")
+    @PreAuthorize("hasPermission(#externalId, 'fragInter.public')")
+    public String getFragmentWithInter(Model model, @PathVariable String externalId) {
+        logger.debug("getFragmentWithInter externalId:{}", externalId);
+
+        DomainObject inter = FenixFramework.getDomainObject(externalId);
+
+        if (inter == null) {
+            return "redirect:/error";
+        } else if (inter instanceof ScholarInter) {
+            ScholarInter scholarInter = (ScholarInter) inter;
+            return "redirect:/fragments/fragment/" + scholarInter.getFragment().getXmlId() + "/inter/" + scholarInter.getUrlId();
+        } else {
+            VirtualEditionInter virtualEditionInter = (VirtualEditionInter) inter;
+            return "redirect:/fragments/fragment/" + virtualEditionInter.getFragment().getXmlId() + "/inter/" + virtualEditionInter.getUrlId();
+        }
+    }
+
     @RequestMapping(method = RequestMethod.GET, value = "/fragment/inter/{externalId}/taxonomy")
     @PreAuthorize("hasPermission(#externalId, 'fragInter.public')")
     public String getTaxonomy(Model model, @ModelAttribute("ldoDSession") LdoDSession ldoDSession,
