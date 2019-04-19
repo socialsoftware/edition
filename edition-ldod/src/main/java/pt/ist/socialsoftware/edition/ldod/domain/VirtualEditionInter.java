@@ -61,8 +61,7 @@ public class VirtualEditionInter extends VirtualEditionInter_Base implements Com
         setNumber(number);
         // needs to store the number of interpretations in this fragment for this
         // edition
-        // TODO: check if the count is correct when generating an xmlId
-        setXmlId(Integer.toString(getFragment().getNumberOfInter4Edition(getVirtualEdition())));
+        setXmlId(Integer.toString(getVirtualEdition().getVirtualEditionInterSetForFragment(getFragment()).size()));
     }
 
     public VirtualEditionInter(Section section, ScholarInter inter, int number) {
@@ -74,8 +73,7 @@ public class VirtualEditionInter extends VirtualEditionInter_Base implements Com
         setNumber(number);
         // needs to store the number of interpretations in this fragment for this
         // edition
-        // TODO: check if the count is correct when generating an xmlId
-        setXmlId(Integer.toString(getFragment().getNumberOfInter4Edition(getVirtualEdition())));
+        setXmlId(Integer.toString(getVirtualEdition().getVirtualEditionInterSetForFragment(getFragment()).size()));
     }
 
     public void remove() {
