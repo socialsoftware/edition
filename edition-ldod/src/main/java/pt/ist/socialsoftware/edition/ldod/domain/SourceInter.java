@@ -88,10 +88,6 @@ public class SourceInter extends SourceInter_Base implements Comparable<SourceIn
         return 0;
     }
 
-    @Override
-    public boolean belongs2Edition(Edition edition) {
-        return false;
-    }
 
     @Override
     public ScholarInter getLastUsed() {

@@ -108,11 +108,6 @@ public class ExpertEditionInter extends ExpertEditionInter_Base implements Compa
     }
 
     @Override
-    public boolean belongs2Edition(Edition edition) {
-        return this.getExpertEdition() == edition;
-    }
-
-    @Override
     public ScholarInter getLastUsed() {
         return this;
     }

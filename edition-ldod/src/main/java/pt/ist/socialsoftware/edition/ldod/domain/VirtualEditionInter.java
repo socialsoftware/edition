@@ -48,9 +48,7 @@ public class VirtualEditionInter extends VirtualEditionInter_Base implements Com
 
         TextInterface textInterface = new TextInterface();
 
-        LdoDDate date = textInterface.getScholarInterDate(this.getUsesFragInter());
-
-        return date;
+        return textInterface.getScholarInterDate(this.getUsesFragInter());
     }
 
     public VirtualEditionInter(Section section, VirtualEditionInter inter, int number) {
@@ -126,10 +124,6 @@ public class VirtualEditionInter extends VirtualEditionInter_Base implements Com
             return this.getVirtualEdition().getTitle().compareTo(other.getVirtualEdition().getTitle());
         }
 
-    }
-
-    public boolean belongs2Edition(Edition edition) {
-        return getVirtualEdition() == edition;
     }
 
     public ScholarInter getLastUsed() {
