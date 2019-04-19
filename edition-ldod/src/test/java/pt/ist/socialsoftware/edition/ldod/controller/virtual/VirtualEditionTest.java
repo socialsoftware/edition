@@ -140,7 +140,7 @@ public class VirtualEditionTest {
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void showFragInterTest() throws Exception {
 
-        String id = LdoD.getInstance().getVirtualEditionInterByXmlId("Fr001.WIT.ED.VIRT.LdoD-Arquivo.0")
+        String id = LdoD.getInstance().getVirtualEditionInterByXmlId("Fr001.WIT.ED.VIRT.LdoD-Arquivo.1")
                 .getExternalId();
 
         this.mockMvc.perform(get("/virtualeditions/restricted/fraginter/{fragInterId}", id)).andDo(print())
