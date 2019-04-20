@@ -1,22 +1,15 @@
 package pt.ist.socialsoftware.edition.ldod.domain.virtualedition
 
-import org.slf4j.Logger
+
 import org.slf4j.LoggerFactory
 import pt.ist.socialsoftware.edition.ldod.SpockRollbackTestAbstractClass
-import pt.ist.socialsoftware.edition.ldod.controller.CitationController
-import pt.ist.socialsoftware.edition.ldod.domain.Fragment
-import pt.ist.socialsoftware.edition.ldod.domain.Heteronym
-import pt.ist.socialsoftware.edition.ldod.domain.LdoD
-import pt.ist.socialsoftware.edition.ldod.domain.LdoDDate
-import pt.ist.socialsoftware.edition.ldod.domain.NullHeteronym
-import pt.ist.socialsoftware.edition.ldod.domain.Text
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition
+import pt.ist.socialsoftware.edition.ldod.domain.*
 import pt.ist.socialsoftware.edition.ldod.dto.WeightsDto
 
 import java.util.concurrent.atomic.AtomicInteger
 import java.util.stream.Collectors
 
-class GetIntersByDistanceMethodTest extends SpockRollbackTestAbstractClass  {
+class GetIntersByDistanceMethodTest extends SpockRollbackTestAbstractClass {
     def logger = LoggerFactory.getLogger(GetIntersByDistanceMethodTest.class);
 
     def virtualEdition
@@ -31,12 +24,12 @@ class GetIntersByDistanceMethodTest extends SpockRollbackTestAbstractClass  {
         String[] fragments = ['001.xml', '002.xml', '003.xml', '181.xml', '593.xml']
         loadFragments(fragments)
 
-        virtualEdition = LdoD.getInstance().getVirtualEdition(VirtualEdition.ARCHIVE_EDITION_ACRONYM)
+        virtualEdition = LdoD.getInstance().getVirtualEdition(Edition.ARCHIVE_EDITION_ACRONYM)
 
         virtualEditionInter = virtualEdition.getAllDepthVirtualEditionInters().stream().findFirst().get()
 
         // set all null
-        for (def virtualInter: virtualEdition.getAllDepthVirtualEditionInters()) {
+        for (def virtualInter : virtualEdition.getAllDepthVirtualEditionInters()) {
             virtualInter.getLastUsed().getSource().setLdoDDate(null)
             virtualInter.getLastUsed().getSource().setHeteronym(NullHeteronym.getNullHeteronym())
         }
@@ -50,8 +43,8 @@ class GetIntersByDistanceMethodTest extends SpockRollbackTestAbstractClass  {
         and: 'set different dates'
         String[] dates = ["1913-12-12", "1914-12-12", "1915-12-12", "1916-12-12", "1917-12-12"]
         and: 'set dates to source inters'
-        for (def virtualInter: virtualEdition.getAllDepthVirtualEditionInters()) {
-            def date_pos = count.incrementAndGet()%dates.length
+        for (def virtualInter : virtualEdition.getAllDepthVirtualEditionInters()) {
+            def date_pos = count.incrementAndGet() % dates.length
             virtualInter.getLastUsed().getSource().setLdoDDate(new LdoDDate(dates[date_pos], Fragment.PrecisionType.HIGH))
         }
 
@@ -60,9 +53,9 @@ class GetIntersByDistanceMethodTest extends SpockRollbackTestAbstractClass  {
 
         then: 'all different'
         results.size() == 5
-        results.stream().map({r -> r.getDistance()}).collect(Collectors.toSet()).size() == 5
+        results.stream().map({ r -> r.getDistance() }).collect(Collectors.toSet()).size() == 5
 
-        results.stream().forEach({r -> logger.debug('{}: {}', r.getInterId(), r.getDistance())})
+        results.stream().forEach({ r -> logger.debug('{}: {}', r.getInterId(), r.getDistance()) })
     }
 
     def 'test all inters have non consecutive year dates'() {
@@ -71,8 +64,8 @@ class GetIntersByDistanceMethodTest extends SpockRollbackTestAbstractClass  {
         and: 'set different dates'
         String[] dates = ["1913-12-12", "1918-12-12", "1923-12-12", "1928-12-12", "1933-12-12"]
         and: 'set dates to source inters'
-        for (def virtualInter: virtualEdition.getAllDepthVirtualEditionInters()) {
-            def date_pos = count.incrementAndGet()%dates.length
+        for (def virtualInter : virtualEdition.getAllDepthVirtualEditionInters()) {
+            def date_pos = count.incrementAndGet() % dates.length
             virtualInter.getLastUsed().getSource().setLdoDDate(new LdoDDate(dates[date_pos], Fragment.PrecisionType.HIGH))
         }
 
@@ -81,9 +74,9 @@ class GetIntersByDistanceMethodTest extends SpockRollbackTestAbstractClass  {
 
         then: 'all different'
         results.size() == 5
-        results.stream().map({r -> r.getDistance()}).collect(Collectors.toSet()).size() == 5
+        results.stream().map({ r -> r.getDistance() }).collect(Collectors.toSet()).size() == 5
 
-        results.stream().forEach({r -> logger.debug('{}: {}', r.getInterId(), r.getDistance())})
+        results.stream().forEach({ r -> logger.debug('{}: {}', r.getInterId(), r.getDistance()) })
     }
 
     def 'test 3 inters have same year date'() {
@@ -92,8 +85,8 @@ class GetIntersByDistanceMethodTest extends SpockRollbackTestAbstractClass  {
         and: 'set different dates'
         String[] dates = ["1913-12-12", "1918-12-12", "1933-12-12", "1933-12-12", "1933-12-12"]
         and: 'set dates to source inters'
-        for (def virtualInter: virtualEdition.getAllDepthVirtualEditionInters()) {
-            def date_pos = count.incrementAndGet()%dates.length
+        for (def virtualInter : virtualEdition.getAllDepthVirtualEditionInters()) {
+            def date_pos = count.incrementAndGet() % dates.length
             virtualInter.getLastUsed().getSource().setLdoDDate(new LdoDDate(dates[date_pos], Fragment.PrecisionType.HIGH))
         }
 
@@ -102,9 +95,9 @@ class GetIntersByDistanceMethodTest extends SpockRollbackTestAbstractClass  {
 
         then:
         results.size() == 5
-        results.stream().map({r -> r.getDistance()}).collect(Collectors.toSet()).size() == 3
+        results.stream().map({ r -> r.getDistance() }).collect(Collectors.toSet()).size() == 3
 
-        results.stream().forEach({r -> logger.debug('{}: {}', r.getInterId(), r.getDistance())})
+        results.stream().forEach({ r -> logger.debug('{}: {}', r.getInterId(), r.getDistance()) })
     }
 
     def 'test all inters have same date'() {
@@ -112,7 +105,7 @@ class GetIntersByDistanceMethodTest extends SpockRollbackTestAbstractClass  {
         weights.setDateWeight(1.0)
         and: 'set different dates'
         and: 'set dates to source inters'
-        for (def virtualInter: virtualEdition.getAllDepthVirtualEditionInters()) {
+        for (def virtualInter : virtualEdition.getAllDepthVirtualEditionInters()) {
             virtualInter.getLastUsed().getSource().setLdoDDate(new LdoDDate("1913-12-12", Fragment.PrecisionType.HIGH))
         }
 
@@ -121,9 +114,9 @@ class GetIntersByDistanceMethodTest extends SpockRollbackTestAbstractClass  {
 
         then:
         results.size() == 5
-        results.stream().map({r -> r.getDistance()}).collect(Collectors.toSet()).size() == 1
+        results.stream().map({ r -> r.getDistance() }).collect(Collectors.toSet()).size() == 1
 
-        results.stream().forEach({r -> logger.debug('{}: {}', r.getInterId(), r.getDistance())})
+        results.stream().forEach({ r -> logger.debug('{}: {}', r.getInterId(), r.getDistance()) })
     }
 
     def 'test only virtualEditionInter has date'() {
@@ -137,9 +130,9 @@ class GetIntersByDistanceMethodTest extends SpockRollbackTestAbstractClass  {
 
         then:
         results.size() == 5
-        results.stream().map({r -> r.getDistance()}).collect(Collectors.toSet()).size() == 2
+        results.stream().map({ r -> r.getDistance() }).collect(Collectors.toSet()).size() == 2
 
-        results.stream().forEach({r -> logger.debug('{}: {}', r.getInterId(), r.getDistance())})
+        results.stream().forEach({ r -> logger.debug('{}: {}', r.getInterId(), r.getDistance()) })
     }
 
     def 'test only virtualEditionInter has no date'() {
@@ -148,8 +141,8 @@ class GetIntersByDistanceMethodTest extends SpockRollbackTestAbstractClass  {
         and: 'set different dates'
         String[] dates = ["1913-12-12", "1918-12-12", "1923-12-12", "1928-12-12", "1933-12-12"]
         and: 'set dates to source inters'
-        for (def virtualInter: virtualEdition.getAllDepthVirtualEditionInters()) {
-            def date_pos = count.incrementAndGet()%dates.length
+        for (def virtualInter : virtualEdition.getAllDepthVirtualEditionInters()) {
+            def date_pos = count.incrementAndGet() % dates.length
             virtualInter.getLastUsed().getSource().setLdoDDate(new LdoDDate(dates[date_pos], Fragment.PrecisionType.HIGH))
         }
         and: 'virtualEditionInter has no date'
@@ -161,9 +154,9 @@ class GetIntersByDistanceMethodTest extends SpockRollbackTestAbstractClass  {
 
         then: 'all different'
         results.size() == 5
-        results.stream().map({r -> r.getDistance()}).collect(Collectors.toSet()).size() == 2
+        results.stream().map({ r -> r.getDistance() }).collect(Collectors.toSet()).size() == 2
 
-        results.stream().forEach({r -> logger.debug('{}: {}', r.getInterId(), r.getDistance())})
+        results.stream().forEach({ r -> logger.debug('{}: {}', r.getInterId(), r.getDistance()) })
     }
 
     def 'test two have no date'() {
@@ -173,9 +166,9 @@ class GetIntersByDistanceMethodTest extends SpockRollbackTestAbstractClass  {
         String[] dates = ["1913-12-12", "1918-12-12", "1923-12-12", "1928-12-12", "1933-12-12"]
         and: 'set dates to source inters'
         def date_pos = 0
-        for (def virtualInter: virtualEdition.getAllDepthVirtualEditionInters()) {
+        for (def virtualInter : virtualEdition.getAllDepthVirtualEditionInters()) {
             if (virtualInter != virtualEditionInter && date_pos < 2)
-            virtualInter.getLastUsed().getSource().setLdoDDate(new LdoDDate(dates[date_pos++], Fragment.PrecisionType.HIGH))
+                virtualInter.getLastUsed().getSource().setLdoDDate(new LdoDDate(dates[date_pos++], Fragment.PrecisionType.HIGH))
         }
         and: 'virtualEditionInter has no date'
         virtualEditionInter.getLastUsed().getSource().setLdoDDate(new LdoDDate("1923-12-12", Fragment.PrecisionType.HIGH))
@@ -186,9 +179,9 @@ class GetIntersByDistanceMethodTest extends SpockRollbackTestAbstractClass  {
 
         then: 'all different'
         results.size() == 5
-        results.stream().map({r -> r.getDistance()}).collect(Collectors.toSet()).size() == 4
+        results.stream().map({ r -> r.getDistance() }).collect(Collectors.toSet()).size() == 4
 
-        results.stream().forEach({r -> logger.debug('{}: {}', r.getInterId(), r.getDistance())})
+        results.stream().forEach({ r -> logger.debug('{}: {}', r.getInterId(), r.getDistance()) })
     }
 
     def 'test none has date'() {
@@ -200,9 +193,9 @@ class GetIntersByDistanceMethodTest extends SpockRollbackTestAbstractClass  {
 
         then:
         results.size() == 5
-        results.stream().map({r -> r.getDistance()}).collect(Collectors.toSet()).size() == 1
+        results.stream().map({ r -> r.getDistance() }).collect(Collectors.toSet()).size() == 1
 
-        results.stream().forEach({r -> logger.debug('{}: {}', r.getInterId(), r.getDistance())})
+        results.stream().forEach({ r -> logger.debug('{}: {}', r.getInterId(), r.getDistance()) })
     }
 
     def 'test only virtualEditionInter has heteronym'() {
@@ -216,9 +209,9 @@ class GetIntersByDistanceMethodTest extends SpockRollbackTestAbstractClass  {
 
         then:
         results.size() == 5
-        results.stream().map({r -> r.getDistance()}).collect(Collectors.toSet()).size() == 2
+        results.stream().map({ r -> r.getDistance() }).collect(Collectors.toSet()).size() == 2
 
-        results.stream().forEach({r -> logger.debug('{}: {}', r.getInterId(), r.getDistance())})
+        results.stream().forEach({ r -> logger.debug('{}: {}', r.getInterId(), r.getDistance()) })
     }
 
     def 'test none has heteronym'() {
@@ -230,11 +223,10 @@ class GetIntersByDistanceMethodTest extends SpockRollbackTestAbstractClass  {
 
         then:
         results.size() == 5
-        results.stream().map({r -> r.getDistance()}).collect(Collectors.toSet()).size() == 1
+        results.stream().map({ r -> r.getDistance() }).collect(Collectors.toSet()).size() == 1
 
-        results.stream().forEach({r -> logger.debug('{}: {}', r.getInterId(), r.getDistance())})
+        results.stream().forEach({ r -> logger.debug('{}: {}', r.getInterId(), r.getDistance()) })
     }
-
 
 
 }

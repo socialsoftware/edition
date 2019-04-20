@@ -1,6 +1,6 @@
 package pt.ist.socialsoftware.edition.ldod.domain;
 
-public abstract class Edition extends pt.ist.socialsoftware.edition.ldod.domain.Edition_Base {
+public abstract class Edition {
     public static final String COELHO_EDITION_ACRONYM = "JPC";
     public static final String CUNHA_EDITION_ACRONYM = "TSC";
     public static final String ZENITH_EDITION_ACRONYM = "RZ";

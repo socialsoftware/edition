@@ -144,9 +144,7 @@ class LdoDDate {
 	PrecisionType precision;
 }
 
-class Edition;
-
-class ScholarEdition extends Edition{
+class ScholarEdition {
     String xmlId;
 	String title;
 	LocalDate date;
@@ -159,7 +157,7 @@ class ExpertEdition extends ScholarEdition {
 	String editor;
 }
 
-class VirtualEdition extends Edition {
+class VirtualEdition {
     String xmlId;
    	String title;
    	LocalDate date;

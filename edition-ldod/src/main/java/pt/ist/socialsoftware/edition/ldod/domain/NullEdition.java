@@ -27,4 +27,8 @@ public class NullEdition extends NullEdition_Base {
         return "";
     }
 
+    @Override
+    public String getAcronym() {
+        return "";
+    }
 }

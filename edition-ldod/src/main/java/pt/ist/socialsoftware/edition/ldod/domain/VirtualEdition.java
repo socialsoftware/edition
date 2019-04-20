@@ -51,7 +51,7 @@ public class VirtualEdition extends VirtualEdition_Base {
             }
 
             // cannot change acronym of the archive edition
-            if (getAcronym() == null || !getAcronym().equals(ARCHIVE_EDITION_ACRONYM)) {
+            if (getAcronym() == null || !getAcronym().equals(Edition.ARCHIVE_EDITION_ACRONYM)) {
 
                 TextInterface textInterface = new TextInterface();
 
@@ -158,8 +158,8 @@ public class VirtualEdition extends VirtualEdition_Base {
         super.setPub(pub);
     }
 
-    public EditionType getSourceType() {
-        return EditionType.VIRTUAL;
+    public Edition.EditionType getSourceType() {
+        return Edition.EditionType.VIRTUAL;
     }
 
     public List<VirtualEditionInter> getSortedInter4Frag(Fragment fragment) {
