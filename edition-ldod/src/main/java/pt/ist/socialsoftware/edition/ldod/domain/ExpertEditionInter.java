@@ -59,17 +59,17 @@ public class ExpertEditionInter extends ExpertEditionInter_Base implements Compa
 
         if (myEditor.equals(otherEditor)) {
             return compareSameEditor(other);
-        } else if (myEditor.equals(Edition.COELHO_EDITION_NAME)) {
+        } else if (myEditor.equals(ExpertEdition.COELHO_EDITION_NAME)) {
             return -1;
-        } else if (otherEditor.equals(Edition.COELHO_EDITION_NAME)) {
+        } else if (otherEditor.equals(ExpertEdition.COELHO_EDITION_NAME)) {
             return 1;
-        } else if (myEditor.equals(Edition.CUNHA_EDITION_NAME)) {
+        } else if (myEditor.equals(ExpertEdition.CUNHA_EDITION_NAME)) {
             return -1;
-        } else if (otherEditor.equals(Edition.CUNHA_EDITION_NAME)) {
+        } else if (otherEditor.equals(ExpertEdition.CUNHA_EDITION_NAME)) {
             return 1;
-        } else if (myEditor.equals(Edition.ZENITH_EDITION_NAME)) {
+        } else if (myEditor.equals(ExpertEdition.ZENITH_EDITION_NAME)) {
             return -1;
-        } else if (otherEditor.equals(Edition.ZENITH_EDITION_NAME)) {
+        } else if (otherEditor.equals(ExpertEdition.ZENITH_EDITION_NAME)) {
             return 1;
         } else {
             assert false : "To extend when new expert editions are include";

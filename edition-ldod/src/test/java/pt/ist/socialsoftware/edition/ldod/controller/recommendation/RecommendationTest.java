@@ -19,7 +19,7 @@ import pt.ist.socialsoftware.edition.ldod.TestLoadUtils;
 import pt.ist.socialsoftware.edition.ldod.config.Application;
 import pt.ist.socialsoftware.edition.ldod.controller.LdoDExceptionHandler;
 import pt.ist.socialsoftware.edition.ldod.controller.RecommendationController;
-import pt.ist.socialsoftware.edition.ldod.domain.Edition;
+import pt.ist.socialsoftware.edition.ldod.domain.ExpertEdition;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
 import pt.ist.socialsoftware.edition.ldod.dto.InterIdDistancePairDto;
@@ -151,7 +151,7 @@ public class RecommendationTest {
         VirtualEditionInter vi = LdoD.getInstance().getArchiveEdition()
                 .getAllDepthVirtualEditionInters().get(1);
 
-        RecommendVirtualEditionParam paramn = new RecommendVirtualEditionParam(Edition.ARCHIVE_EDITION_ACRONYM,
+        RecommendVirtualEditionParam paramn = new RecommendVirtualEditionParam(ExpertEdition.ARCHIVE_EDITION_ACRONYM,
                 vi.getExternalId(), new ArrayList<>());
 
         this.mockMvc.perform(post("/recommendation/linear")
@@ -170,7 +170,7 @@ public class RecommendationTest {
     public void saveLinearTest() throws Exception {
 
         this.mockMvc.perform(post("/recommendation/linear/save")
-                .param("acronym", Edition.ARCHIVE_EDITION_ACRONYM))
+                .param("acronym", ExpertEdition.ARCHIVE_EDITION_ACRONYM))
                 .andDo(print())
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/recommendation/restricted/" +

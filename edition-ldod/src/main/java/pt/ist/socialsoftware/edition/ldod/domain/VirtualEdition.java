@@ -29,6 +29,7 @@ import java.util.stream.Collectors;
 public class VirtualEdition extends VirtualEdition_Base {
     private static final Logger logger = LoggerFactory.getLogger(VirtualEdition.class);
 
+    public static final String ARCHIVE_EDITION_NAME = "Edição do Arquivo LdoD";
     public static String ACRONYM_PREFIX = "LdoD-";
 
     @Override
@@ -51,7 +52,7 @@ public class VirtualEdition extends VirtualEdition_Base {
             }
 
             // cannot change acronym of the archive edition
-            if (getAcronym() == null || !getAcronym().equals(Edition.ARCHIVE_EDITION_ACRONYM)) {
+            if (getAcronym() == null || !getAcronym().equals(ExpertEdition.ARCHIVE_EDITION_ACRONYM)) {
 
                 TextInterface textInterface = new TextInterface();
 
@@ -811,7 +812,7 @@ public class VirtualEdition extends VirtualEdition_Base {
     }
 
     public boolean isLdoDEdition() {
-        return getAcronym().equals(Edition.ARCHIVE_EDITION_ACRONYM);
+        return getAcronym().equals(ExpertEdition.ARCHIVE_EDITION_ACRONYM);
     }
 
 }

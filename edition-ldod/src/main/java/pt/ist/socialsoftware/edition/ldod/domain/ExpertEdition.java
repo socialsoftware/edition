@@ -10,6 +10,16 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class ExpertEdition extends ExpertEdition_Base implements Comparable<ExpertEdition> {
+    public static final String COELHO_EDITION_ACRONYM = "JPC";
+    public static final String CUNHA_EDITION_ACRONYM = "TSC";
+    public static final String ZENITH_EDITION_ACRONYM = "RZ";
+    public static final String PIZARRO_EDITION_ACRONYM = "JP";
+    public static final String ARCHIVE_EDITION_ACRONYM = "LdoD-Arquivo";
+    public static final String COELHO_EDITION_NAME = "Jacinto do Prado Coelho";
+    public static final String CUNHA_EDITION_NAME = "Teresa Sobral Cunha";
+    public static final String ZENITH_EDITION_NAME = "Richard Zenith";
+    public static final String PIZARRO_EDITION_NAME = "Jerónimo Pizarro";
+
     public ExpertEdition(Text text, String title, String author, String editor, LocalDate date) {
         setTitle(title);
         setAuthor(author);
@@ -18,17 +28,17 @@ public class ExpertEdition extends ExpertEdition_Base implements Comparable<Expe
         setPub(true);
 
         switch (editor) {
-            case Edition.COELHO_EDITION_NAME:
-                setAcronym(Edition.COELHO_EDITION_ACRONYM);
+            case COELHO_EDITION_NAME:
+                setAcronym(COELHO_EDITION_ACRONYM);
                 break;
-            case Edition.CUNHA_EDITION_NAME:
-                setAcronym(Edition.CUNHA_EDITION_ACRONYM);
+            case CUNHA_EDITION_NAME:
+                setAcronym(CUNHA_EDITION_ACRONYM);
                 break;
-            case Edition.ZENITH_EDITION_NAME:
-                setAcronym(Edition.ZENITH_EDITION_ACRONYM);
+            case ZENITH_EDITION_NAME:
+                setAcronym(ZENITH_EDITION_ACRONYM);
                 break;
-            case Edition.PIZARRO_EDITION_NAME:
-                setAcronym(Edition.PIZARRO_EDITION_ACRONYM);
+            case PIZARRO_EDITION_NAME:
+                setAcronym(PIZARRO_EDITION_ACRONYM);
                 break;
             default:
                 assert false : "Nome de editor com erros: " + editor;
@@ -55,17 +65,17 @@ public class ExpertEdition extends ExpertEdition_Base implements Comparable<Expe
 
         if (myEditor.equals(otherEditor)) {
             return 0;
-        } else if (myEditor.equals(Edition.COELHO_EDITION_NAME)) {
+        } else if (myEditor.equals(COELHO_EDITION_NAME)) {
             return -1;
-        } else if (otherEditor.equals(Edition.COELHO_EDITION_NAME)) {
+        } else if (otherEditor.equals(COELHO_EDITION_NAME)) {
             return 1;
-        } else if (myEditor.equals(Edition.CUNHA_EDITION_NAME)) {
+        } else if (myEditor.equals(CUNHA_EDITION_NAME)) {
             return -1;
-        } else if (otherEditor.equals(Edition.CUNHA_EDITION_NAME)) {
+        } else if (otherEditor.equals(CUNHA_EDITION_NAME)) {
             return 1;
-        } else if (myEditor.equals(Edition.ZENITH_EDITION_NAME)) {
+        } else if (myEditor.equals(ZENITH_EDITION_NAME)) {
             return -1;
-        } else if (otherEditor.equals(Edition.ZENITH_EDITION_NAME)) {
+        } else if (otherEditor.equals(ZENITH_EDITION_NAME)) {
             return 1;
         } else {
             assert false : "To extend when new expert editions are include";
@@ -74,13 +84,13 @@ public class ExpertEdition extends ExpertEdition_Base implements Comparable<Expe
     }
 
     public String getEditorShortName() {
-        if (getEditor().equals(Edition.COELHO_EDITION_NAME)) {
+        if (getEditor().equals(COELHO_EDITION_NAME)) {
             return "Coelho";
-        } else if (getEditor().equals(Edition.CUNHA_EDITION_NAME)) {
+        } else if (getEditor().equals(CUNHA_EDITION_NAME)) {
             return "Cunha";
-        } else if (getEditor().equals(Edition.ZENITH_EDITION_NAME)) {
+        } else if (getEditor().equals(ZENITH_EDITION_NAME)) {
             return "Zenith";
-        } else if (getEditor().equals(Edition.PIZARRO_EDITION_NAME)) {
+        } else if (getEditor().equals(PIZARRO_EDITION_NAME)) {
             return "Pizarro";
         } else {
             assert false;

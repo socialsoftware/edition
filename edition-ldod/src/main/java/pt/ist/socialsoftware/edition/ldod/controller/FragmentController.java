@@ -39,10 +39,10 @@ public class FragmentController {
     public String getFragmentsList(Model model) {
         logger.debug("getFragmentsList");
         TextInterface textInterface = new TextInterface();
-        model.addAttribute("jpcEdition", textInterface.getExpertEdition(Edition.COELHO_EDITION_ACRONYM));
-        model.addAttribute("tscEdition", textInterface.getExpertEdition(Edition.CUNHA_EDITION_ACRONYM));
-        model.addAttribute("rzEdition", textInterface.getExpertEdition(Edition.ZENITH_EDITION_ACRONYM));
-        model.addAttribute("jpEdition", textInterface.getExpertEdition(Edition.PIZARRO_EDITION_ACRONYM));
+        model.addAttribute("jpcEdition", textInterface.getExpertEdition(ExpertEdition.COELHO_EDITION_ACRONYM));
+        model.addAttribute("tscEdition", textInterface.getExpertEdition(ExpertEdition.CUNHA_EDITION_ACRONYM));
+        model.addAttribute("rzEdition", textInterface.getExpertEdition(ExpertEdition.ZENITH_EDITION_ACRONYM));
+        model.addAttribute("jpEdition", textInterface.getExpertEdition(ExpertEdition.PIZARRO_EDITION_ACRONYM));
         model.addAttribute("fragments", textInterface.getFragmentsSet());
 
         return "fragment/list";

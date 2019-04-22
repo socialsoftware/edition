@@ -1,6 +1,5 @@
 package pt.ist.socialsoftware.edition.ldod.domain;
 
-import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pt.ist.fenixframework.FenixFramework;
@@ -15,13 +14,13 @@ public class Text extends Text_Base {
     public static Text getInstance() {
         return FenixFramework.getDomainRoot().getText();
     }
-    
+
     public Text() {
         FenixFramework.getDomainRoot().setText(this);
         setNullEdition(new NullEdition());
     }
 
-    public void remove(){
+    public void remove() {
         getNullEdition().remove();
         getExpertEditionsSet().forEach(e -> e.remove());
         getFragmentsSet().forEach(f -> f.remove());
@@ -53,22 +52,22 @@ public class Text extends Text_Base {
     }
 
     public ExpertEdition getJPCEdition() {
-        return getExpertEditionsSet().stream().filter(ve -> ve.getAcronym().equals(Edition.COELHO_EDITION_ACRONYM))
+        return getExpertEditionsSet().stream().filter(ve -> ve.getAcronym().equals(ExpertEdition.COELHO_EDITION_ACRONYM))
                 .findFirst().orElse(null);
     }
 
     public ExpertEdition getTSCEdition() {
-        return getExpertEditionsSet().stream().filter(ve -> ve.getAcronym().equals(Edition.CUNHA_EDITION_ACRONYM))
+        return getExpertEditionsSet().stream().filter(ve -> ve.getAcronym().equals(ExpertEdition.CUNHA_EDITION_ACRONYM))
                 .findFirst().orElse(null);
     }
 
     public ExpertEdition getRZEdition() {
-        return getExpertEditionsSet().stream().filter(ve -> ve.getAcronym().equals(Edition.ZENITH_EDITION_ACRONYM))
+        return getExpertEditionsSet().stream().filter(ve -> ve.getAcronym().equals(ExpertEdition.ZENITH_EDITION_ACRONYM))
                 .findFirst().orElse(null);
     }
 
     public ExpertEdition getJPEdition() {
-        return getExpertEditionsSet().stream().filter(ve -> ve.getAcronym().equals(Edition.PIZARRO_EDITION_ACRONYM))
+        return getExpertEditionsSet().stream().filter(ve -> ve.getAcronym().equals(ExpertEdition.PIZARRO_EDITION_ACRONYM))
                 .findFirst().orElse(null);
     }
 
@@ -84,5 +83,5 @@ public class Text extends Text_Base {
     public Set<SourceInter> getFragmentRepresentatives() {
         return getFragmentsSet().stream().map(f -> f.getRepresentativeSourceInter()).collect(Collectors.toSet());
     }
-    
+
 }

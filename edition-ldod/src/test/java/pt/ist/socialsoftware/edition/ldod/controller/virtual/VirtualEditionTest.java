@@ -19,7 +19,7 @@ import pt.ist.socialsoftware.edition.ldod.TestLoadUtils;
 import pt.ist.socialsoftware.edition.ldod.config.Application;
 import pt.ist.socialsoftware.edition.ldod.controller.LdoDExceptionHandler;
 import pt.ist.socialsoftware.edition.ldod.controller.VirtualEditionController;
-import pt.ist.socialsoftware.edition.ldod.domain.Edition;
+import pt.ist.socialsoftware.edition.ldod.domain.ExpertEdition;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.ldod.filters.TransactionFilter;
@@ -243,7 +243,7 @@ public class VirtualEditionTest {
     @WithUserDetails("ars")
     public void getFragmentsTest() throws Exception {
 
-        this.mockMvc.perform(get("/virtualeditions/acronym/{acronym}/fragments", Edition.ARCHIVE_EDITION_ACRONYM))
+        this.mockMvc.perform(get("/virtualeditions/acronym/{acronym}/fragments", ExpertEdition.ARCHIVE_EDITION_ACRONYM))
                 .andDo(print()).andExpect(status().isOk()).andExpect(content().string(notNullValue()));
     }
 
@@ -261,7 +261,7 @@ public class VirtualEditionTest {
     @WithUserDetails("ars")
     public void getTranscriptionsTest() throws Exception {
 
-        this.mockMvc.perform(get("/virtualeditions/acronym/{acronym}/transcriptions", Edition.ARCHIVE_EDITION_ACRONYM))
+        this.mockMvc.perform(get("/virtualeditions/acronym/{acronym}/transcriptions", ExpertEdition.ARCHIVE_EDITION_ACRONYM))
                 .andDo(print()).andExpect(status().isOk()).andExpect(content().string(notNullValue()));
     }
 

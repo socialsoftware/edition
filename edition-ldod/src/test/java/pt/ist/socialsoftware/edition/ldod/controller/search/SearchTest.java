@@ -1,12 +1,5 @@
 package pt.ist.socialsoftware.edition.ldod.controller.search;
 
-import static org.hamcrest.Matchers.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
 import org.json.JSONObject;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -26,10 +19,19 @@ import pt.ist.socialsoftware.edition.ldod.TestLoadUtils;
 import pt.ist.socialsoftware.edition.ldod.config.Application;
 import pt.ist.socialsoftware.edition.ldod.controller.LdoDExceptionHandler;
 import pt.ist.socialsoftware.edition.ldod.controller.SearchController;
-import pt.ist.socialsoftware.edition.ldod.domain.Edition;
+import pt.ist.socialsoftware.edition.ldod.domain.ExpertEdition;
 import pt.ist.socialsoftware.edition.ldod.filters.TransactionFilter;
 
 import java.io.FileNotFoundException;
+
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.notNullValue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
 @ExtendWith(SpringExtension.class)
@@ -47,7 +49,7 @@ public class SearchTest {
     public static void setUpAll() throws FileNotFoundException {
         TestLoadUtils.setUpDatabaseWithCorpus();
 
-        String[] fragments = { "001.xml", "002.xml", "003.xml" };
+        String[] fragments = {"001.xml", "002.xml", "003.xml"};
         TestLoadUtils.loadFragments(fragments);
     }
 
@@ -80,9 +82,9 @@ public class SearchTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(view().name("search/simpleResultTable"))
-                .andExpect(model().attribute("fragCount",is(1)))
-                .andExpect(model().attribute("interCount",is(5)))
-                .andExpect(model().attribute("results",notNullValue()));
+                .andExpect(model().attribute("fragCount", is(1)))
+                .andExpect(model().attribute("interCount", is(5)))
+                .andExpect(model().attribute("results", notNullValue()));
     }
 
 
@@ -99,17 +101,17 @@ public class SearchTest {
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void searchAdvancedTest() throws Exception {
 
-    /*{"mode":"and","options":[{"type":"edition","inclusion":"in","edition":"all","heteronym":null,"date":null},{"type":"date","option":"all","begin":null,"end":null},{"type":"text","text":"arte"}]}*/
+        /*{"mode":"and","options":[{"type":"edition","inclusion":"in","edition":"all","heteronym":null,"date":null},{"type":"date","option":"all","begin":null,"end":null},{"type":"text","text":"arte"}]}*/
 
         this.mockMvc.perform(post("/search/advanced/result")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content("{\"mode\":\"and\"," +
                         "\"options\":[{\"type\":\"edition\",\"inclusion\":\"in\",\"edition\":\"all\",\"heteronym\":null,\"date\":null},{\"type\":\"date\",\"option\":\"all\",\"begin\":null,\"end\":null},{\"type\":\"text\",\"text\":\"arte\"}]}")
-                ).andDo(print())
+        ).andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(view().name("search/resultTable"))
                 .andExpect(model().attribute("interCount", is(5)))
-                .andExpect(model().attribute("fragCount",is(1)));
+                .andExpect(model().attribute("fragCount", is(1)));
     }
 
     @Test
@@ -117,13 +119,13 @@ public class SearchTest {
     public void getEditionsTest() throws Exception {
 
         String body = this.mockMvc.perform(get("/search/getEditions")).andDo(print())
-                    .andExpect(status().isOk())
-                    .andReturn().getResponse().getContentAsString();
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
 
         JSONObject response = new JSONObject(body);
 
         assertNotNull(response);
-        assertEquals(4,response.length());
+        assertEquals(4, response.length());
     }
 
     @Test
@@ -131,7 +133,7 @@ public class SearchTest {
     public void getEditionTest() throws Exception {
 
         String body = this.mockMvc.perform(get("/search/getEdition")
-                .param("edition", Edition.PIZARRO_EDITION_ACRONYM))
+                .param("edition", ExpertEdition.PIZARRO_EDITION_ACRONYM))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
@@ -139,8 +141,9 @@ public class SearchTest {
         JSONObject response = new JSONObject(body);
 
         assertNotNull(response);
-        assertEquals(Edition.PIZARRO_EDITION_ACRONYM,response.getString("acronym"));
+        assertEquals(ExpertEdition.PIZARRO_EDITION_ACRONYM, response.getString("acronym"));
     }
+
     @Test
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void getPublicationDatesTest() throws Exception {
@@ -153,7 +156,7 @@ public class SearchTest {
         JSONObject response = new JSONObject(body);
 
         assertNotNull(response);
-        assertEquals(2,response.length());
+        assertEquals(2, response.length());
     }
 
     @Test

@@ -23,8 +23,7 @@ import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.socialsoftware.edition.ldod.ControllersTestWithFragmentsLoading;
 import pt.ist.socialsoftware.edition.ldod.config.Application;
 import pt.ist.socialsoftware.edition.ldod.controller.EditionController;
-import pt.ist.socialsoftware.edition.ldod.domain.Edition;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
+import pt.ist.socialsoftware.edition.ldod.domain.ExpertEdition;
 import pt.ist.socialsoftware.edition.ldod.domain.Text;
 
 @ExtendWith(SpringExtension.class)
@@ -55,10 +54,10 @@ public class GetEditionControllerTest extends ControllersTestWithFragmentsLoadin
 
 	@Test
 	public void getEditionPizzarroTest() throws Exception {
-		this.mockMvc.perform(get("/edition/acronym/{acronym}", Edition.PIZARRO_EDITION_ACRONYM)).andDo(print())
+		this.mockMvc.perform(get("/edition/acronym/{acronym}", ExpertEdition.PIZARRO_EDITION_ACRONYM)).andDo(print())
 				.andExpect(status().isOk()).andExpect(view().name("edition/tableOfContents"))
 				.andExpect(model().attribute("heteronym", nullValue())).andExpect(model().attribute("editionDto",
-						hasProperty("acronym", equalTo(Edition.PIZARRO_EDITION_ACRONYM))));
+						hasProperty("acronym", equalTo(ExpertEdition.PIZARRO_EDITION_ACRONYM))));
 
 	}
 
@@ -75,7 +74,7 @@ public class GetEditionControllerTest extends ControllersTestWithFragmentsLoadin
 
 		this.mockMvc.perform(get("/edition/internalid/{externalId}", id)).andDo(print())
 				.andExpect(status().is3xxRedirection())
-				.andExpect(redirectedUrl("/edition/acronym/" + Edition.PIZARRO_EDITION_ACRONYM));
+				.andExpect(redirectedUrl("/edition/acronym/" + ExpertEdition.PIZARRO_EDITION_ACRONYM));
 	}
 
 	@Test
@@ -88,7 +87,7 @@ public class GetEditionControllerTest extends ControllersTestWithFragmentsLoadin
 				.andExpect(status().isOk()).andExpect(view().name("edition/tableOfContents"))
 				.andExpect(model().attribute("heteronym", notNullValue()))
 				.andExpect(model().attribute("edition", notNullValue())).andExpect(model().attribute("editionDto",
-						hasProperty("acronym", equalTo(Edition.PIZARRO_EDITION_ACRONYM))));
+						hasProperty("acronym", equalTo(ExpertEdition.PIZARRO_EDITION_ACRONYM))));
 	}
 
 	@Test
