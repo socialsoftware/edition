@@ -48,11 +48,6 @@ public class ExpertEditionInter extends ExpertEditionInter_Base implements Compa
     }
 
     @Override
-    public Edition.EditionType getSourceType() {
-        return Edition.EditionType.EDITORIAL;
-    }
-
-    @Override
     public boolean isExpertInter() {
         return true;
     }

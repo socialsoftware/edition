@@ -159,10 +159,6 @@ public class VirtualEdition extends VirtualEdition_Base {
         super.setPub(pub);
     }
 
-    public Edition.EditionType getSourceType() {
-        return Edition.EditionType.VIRTUAL;
-    }
-
     public boolean isVirtualEdition() {
         return true;
     }

@@ -19,10 +19,6 @@ public class NullEdition extends NullEdition_Base {
         return new HashSet<>();
     }
 
-    public Edition.EditionType getSourceType() {
-        return Edition.EditionType.AUTHORIAL;
-    }
-
     public String getReference() {
         return "";
     }

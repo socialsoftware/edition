@@ -33,11 +33,6 @@ public class SourceInter extends SourceInter_Base implements Comparable<SourceIn
     }
 
     @Override
-    public Edition.EditionType getSourceType() {
-        return Edition.EditionType.AUTHORIAL;
-    }
-
-    @Override
     public boolean isExpertInter() {
         return false;
     }

@@ -54,10 +54,6 @@ public class ExpertEdition extends ExpertEdition_Base implements Comparable<Expe
         deleteDomainObject();
     }
 
-    public Edition.EditionType getSourceType() {
-        return Edition.EditionType.EDITORIAL;
-    }
-
     public boolean isExpertEdition() {
         return true;
     }

@@ -7,7 +7,6 @@ import org.slf4j.LoggerFactory;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.socialsoftware.edition.ldod.api.text.TextInterface;
-import pt.ist.socialsoftware.edition.ldod.domain.Edition.EditionType;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
 import pt.ist.socialsoftware.edition.ldod.utils.CategoryDTO;
 import pt.ist.socialsoftware.edition.ldod.utils.RangeJson;
@@ -102,10 +101,6 @@ public class VirtualEditionInter extends VirtualEditionInter_Base implements Com
 
     public String getTitle() {
         return getUses() != null ? getUses().getTitle() : (new TextInterface()).getScholarInterTitle(getUsesFragInter());
-    }
-
-    public EditionType getSourceType() {
-        return EditionType.VIRTUAL;
     }
 
     @Override

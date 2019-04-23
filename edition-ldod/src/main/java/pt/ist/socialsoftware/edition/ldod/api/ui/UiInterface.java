@@ -4,13 +4,30 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pt.ist.socialsoftware.edition.ldod.api.ldod.LdoDInterface;
 import pt.ist.socialsoftware.edition.ldod.api.text.TextInterface;
-import pt.ist.socialsoftware.edition.ldod.domain.*;
+import pt.ist.socialsoftware.edition.ldod.domain.Heteronym;
+import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
+import pt.ist.socialsoftware.edition.ldod.domain.ScholarInter;
+import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class UiInterface {
     private static final Logger logger = LoggerFactory.getLogger(UiInterface.class);
+
+    public enum InterType {
+        AUTHORIAL("authorial"), EDITORIAL("editorial"), VIRTUAL("virtual");
+
+        private final String desc;
+
+        InterType(String desc) {
+            this.desc = desc;
+        }
+
+        public String getDesc() {
+            return this.desc;
+        }
+    }
 
     public List<FragInterDto> getFragInterUsed(VirtualEditionInter inter) {
         List<FragInterDto> fragInterList = new ArrayList<>();
@@ -26,14 +43,19 @@ public class UiInterface {
         return fragInterList;
     }
 
-    public Edition.EditionType getSourceTypeOfInter(String xmlId) {
+    public InterType getSourceTypeOfInter(String xmlId) {
         TextInterface textInterface = new TextInterface();
         ScholarInter inter = textInterface.getScholarInterUsed(xmlId);
-        if (inter != null) {
-            return inter.getSourceType();
+        if (inter != null && inter.isExpertInter()) {
+            logger.debug("Found expert for id " + xmlId);
+            return InterType.EDITORIAL;
+        } else if (inter != null) {
+            logger.debug("Found authorial for id " + xmlId);
+            return InterType.AUTHORIAL;
+        } else {
+            logger.debug("Found virtual for id " + xmlId);
+            return InterType.VIRTUAL;
         }
-        VirtualEditionInter vei = LdoD.getInstance().getVirtualEditionInterByXmlId(xmlId);
-        return vei.getSourceType();
     }
 
     public String getHetetronymName(String xmlId) {

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import pt.ist.fenixframework.DomainObject;
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.ldod.api.text.TextInterface;
+import pt.ist.socialsoftware.edition.ldod.api.ui.UiInterface;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.dto.MainFragmentDto;
 import pt.ist.socialsoftware.edition.ldod.generators.HtmlWriter2CompInters;
@@ -62,6 +63,7 @@ public class FragmentController {
             model.addAttribute("fragment", fragment);
             model.addAttribute("fragmentDto", new MainFragmentDto(fragment));
             model.addAttribute("inters", new ArrayList<ScholarInter>());
+            model.addAttribute("uiInterface", new UiInterface());
             return "fragment/main";
         }
     }
@@ -114,6 +116,7 @@ public class FragmentController {
         model.addAttribute("fragment", fragment);
         model.addAttribute("inters", inters);
         model.addAttribute("writer", writer);
+        model.addAttribute("uiInterface", new UiInterface());
 
         return "fragment/main";
     }
@@ -247,6 +250,7 @@ public class FragmentController {
         model.addAttribute("user", LdoDUser.getAuthenticatedUser());
         model.addAttribute("fragment", fragment);
         model.addAttribute("inters", inters);
+        model.addAttribute("uiInterface", new UiInterface());
 
         if (inters.size() == 1) {
             ScholarInter inter = inters.get(0);
