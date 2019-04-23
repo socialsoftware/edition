@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 import pt.ist.fenixframework.DomainObject;
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.ldod.api.ui.UiInterface;
-import pt.ist.socialsoftware.edition.ldod.domain.Edition.EditionType;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.dto.InterIdDistancePairDto;
 import pt.ist.socialsoftware.edition.ldod.dto.WeightsDto;
@@ -152,7 +151,7 @@ public class RecommendationController {
         LdoD ldod = LdoD.getInstance();
 
         VirtualEdition virtualEdition = ldod.getVirtualEdition(acronym);
-        if (inters != null && virtualEdition.getSourceType().equals(EditionType.VIRTUAL)) {
+        if (inters != null) {
             Section section = virtualEdition.createSection(Section.DEFAULT);
             VirtualEditionInter VirtualEditionInter;
             int i = 0;

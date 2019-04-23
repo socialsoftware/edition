@@ -65,7 +65,7 @@ public class TextInterface {
         ScholarInter inter = Text.getInstance().getFragmentsSet().stream()
                 .filter(fragment -> fragment.getScholarInterByXmlId(xmlId) != null).map(fragment -> fragment.getScholarInterByXmlId(xmlId))
                 .findFirst().orElse(null);
-        return inter != null && inter.getSourceType().equals(Edition.EditionType.AUTHORIAL);
+        return inter != null && !inter.isExpertInter();
     }
 
     public Source getSourceOfInter(String xmlId) {
@@ -89,7 +89,7 @@ public class TextInterface {
     public boolean isExpertInter(String xmlId) {
         return Text.getInstance().getFragmentsSet().stream()
                 .filter(fragment -> fragment.getScholarInterByXmlId(xmlId) != null).map(fragment -> fragment.getScholarInterByXmlId(xmlId))
-                .map(ScholarInter::getSourceType).findFirst().orElseThrow(LdoDException::new).equals(Edition.EditionType.EDITORIAL);
+                .findFirst().orElseThrow(LdoDException::new).isExpertInter();
     }
 
     public String getHeteronymId(String xmlId) {

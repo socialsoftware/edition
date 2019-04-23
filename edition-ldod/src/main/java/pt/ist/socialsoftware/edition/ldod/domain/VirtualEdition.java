@@ -163,6 +163,10 @@ public class VirtualEdition extends VirtualEdition_Base {
         return Edition.EditionType.VIRTUAL;
     }
 
+    public boolean isVirtualEdition() {
+        return true;
+    }
+
     public List<VirtualEditionInter> getSortedInter4Frag(Fragment fragment) {
         return getAllDepthVirtualEditionInters().stream().filter(i -> i.getFragment() == fragment).sorted().collect(Collectors.toList());
     }

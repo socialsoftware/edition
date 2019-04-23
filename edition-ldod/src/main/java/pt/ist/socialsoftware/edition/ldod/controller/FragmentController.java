@@ -153,11 +153,7 @@ public class FragmentController {
             return "redirect:/error";
         }
 
-        if (inter.getSourceType() != Edition.EditionType.VIRTUAL) {
-            return "redirect:/error";
-        }
-
-        VirtualEdition virtualEdition = (VirtualEdition) inter.getEdition();
+        VirtualEdition virtualEdition = inter.getEdition();
 
         LdoDUser user = LdoDUser.getAuthenticatedUser();
         if (virtualEdition.checkAccess()) {

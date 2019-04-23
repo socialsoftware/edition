@@ -275,7 +275,7 @@ public class SearchController {
         TextInterface textInterface = new TextInterface();
         for (Fragment frag : textInterface.getFragmentsSet()) {
             for (ScholarInter scholarInter : frag.getScholarInterSet()) {
-                if (scholarInter.getSourceType().equals(Edition.EditionType.AUTHORIAL)) {
+                if (!scholarInter.isExpertInter()) {
                     SourceType type = ((SourceInter) scholarInter).getSource().getType();
                     if (type.equals(SourceType.MANUSCRIPT)) {
                         ManuscriptSource source = (ManuscriptSource) ((SourceInter) scholarInter).getSource();

@@ -27,6 +27,8 @@ public abstract class ScholarInter extends ScholarInter_Base {
 
     public abstract Edition.EditionType getSourceType();
 
+    public abstract boolean isExpertInter();
+
     public abstract ScholarInter getLastUsed();
 
     public void remove() {

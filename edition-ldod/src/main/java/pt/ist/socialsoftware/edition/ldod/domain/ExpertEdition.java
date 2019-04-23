@@ -58,6 +58,10 @@ public class ExpertEdition extends ExpertEdition_Base implements Comparable<Expe
         return Edition.EditionType.EDITORIAL;
     }
 
+    public boolean isExpertEdition() {
+        return true;
+    }
+
     @Override
     public int compareTo(ExpertEdition other) {
         String myEditor = getEditor();
@@ -102,7 +106,7 @@ public class ExpertEdition extends ExpertEdition_Base implements Comparable<Expe
         List<ExpertEditionInter> interps = new ArrayList<>();
 
         for (ScholarInter inter : fragment.getScholarInterSet()) {
-            if (inter.getSourceType() == Edition.EditionType.EDITORIAL
+            if (inter.isExpertInter()
                     && ((ExpertEditionInter) inter).getExpertEdition() == this) {
                 interps.add((ExpertEditionInter) inter);
             }

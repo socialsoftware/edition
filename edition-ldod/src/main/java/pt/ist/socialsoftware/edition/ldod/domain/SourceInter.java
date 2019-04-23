@@ -38,6 +38,11 @@ public class SourceInter extends SourceInter_Base implements Comparable<SourceIn
     }
 
     @Override
+    public boolean isExpertInter() {
+        return false;
+    }
+
+    @Override
     public int compareTo(SourceInter other) {
         SourceType thisType = getSource().getType();
         SourceType otherType = other.getSource().getType();

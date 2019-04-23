@@ -53,6 +53,11 @@ public class ExpertEditionInter extends ExpertEditionInter_Base implements Compa
     }
 
     @Override
+    public boolean isExpertInter() {
+        return true;
+    }
+
+    @Override
     public int compareTo(ExpertEditionInter other) {
         String myEditor = getExpertEdition().getEditor();
         String otherEditor = other.getExpertEdition().getEditor();

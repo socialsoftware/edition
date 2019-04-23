@@ -71,7 +71,7 @@ public class Fragment extends Fragment_Base implements Comparable<Fragment> {
         List<SourceInter> interps = new ArrayList<>();
 
         for (ScholarInter inter : getScholarInterSet()) {
-            if (inter.getSourceType() == Edition.EditionType.AUTHORIAL) {
+            if (!inter.isExpertInter()) {
                 interps.add((SourceInter) inter);
             }
         }
@@ -84,7 +84,7 @@ public class Fragment extends Fragment_Base implements Comparable<Fragment> {
     public Set<ExpertEditionInter> getExpertEditionInterSet() {
         Set<ExpertEditionInter> result = new HashSet<>();
         for (ScholarInter inter : getScholarInterSet()) {
-            if (inter.getSourceType() == Edition.EditionType.EDITORIAL) {
+            if (inter.isExpertInter()) {
                 result.add((ExpertEditionInter) inter);
             }
         }

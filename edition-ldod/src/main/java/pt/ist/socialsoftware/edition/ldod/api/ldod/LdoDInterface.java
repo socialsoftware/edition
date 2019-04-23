@@ -3,17 +3,20 @@ package pt.ist.socialsoftware.edition.ldod.api.ldod;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pt.ist.socialsoftware.edition.ldod.api.event.Event;
-import pt.ist.socialsoftware.edition.ldod.domain.*;
+import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
+import pt.ist.socialsoftware.edition.ldod.domain.Tag;
+import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
+import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
 
 import java.util.Set;
 
 public class LdoDInterface {
-    private static Logger logger = LoggerFactory.getLogger(LdoDInterface.class);
+    private static final Logger logger = LoggerFactory.getLogger(LdoDInterface.class);
 
     public void notifyEvent(Event event) {
 
-        if (event.getType().equals(Event.EventType.FRAG_INTER_REMOVE)){
+        if (event.getType().equals(Event.EventType.FRAG_INTER_REMOVE)) {
 
             LdoD.getInstance().getVirtualEditionsSet().stream()
                     .flatMap(virtualEdition -> virtualEdition.getAllDepthVirtualEditionInters().stream())
@@ -23,8 +26,9 @@ public class LdoDInterface {
     }
 
     private void removeAll(VirtualEditionInter vei) {
-        for (VirtualEditionInter vi : vei.getIsUsedBySet())
+        for (VirtualEditionInter vi : vei.getIsUsedBySet()) {
             removeAll(vi); // ask if this approach is the best for this relation
+        }
         vei.remove();
     }
 
@@ -37,8 +41,12 @@ public class LdoDInterface {
                 .anyMatch(virtualEditionInter -> virtualEditionInter.getXmlId().equals(xmlId));
     }
 
-    public String getAcronymWithVeiId(String xmlId){
+    public String getAcronymWithVeiId(String xmlId) {
         return LdoD.getInstance().getVirtualEditionsSet().stream().filter(virtualEdition -> virtualEdition.getFragInterByXmlId(xmlId) != null)
                 .map(VirtualEdition::getAcronym).findFirst().orElseThrow(LdoDException::new);
+    }
+
+    public VirtualEdition getVirtualEdition(String acronym) {
+        return LdoD.getInstance().getVirtualEdition(acronym);
     }
 }
