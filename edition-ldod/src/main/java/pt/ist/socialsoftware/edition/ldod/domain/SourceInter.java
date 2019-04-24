@@ -1,11 +1,15 @@
 package pt.ist.socialsoftware.edition.ldod.domain;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import pt.ist.socialsoftware.edition.ldod.domain.Source.SourceType;
 
 import java.util.HashSet;
 import java.util.Set;
 
 public class SourceInter extends SourceInter_Base implements Comparable<SourceInter> {
+    private static final Logger logger = LoggerFactory.getLogger(SourceInter.class);
+
     public SourceInter() {
     }
 
@@ -100,6 +104,7 @@ public class SourceInter extends SourceInter_Base implements Comparable<SourceIn
     }
 
     public String getReference() {
+        logger.debug("Got name " + getShortName());
         return getShortName();
     }
 

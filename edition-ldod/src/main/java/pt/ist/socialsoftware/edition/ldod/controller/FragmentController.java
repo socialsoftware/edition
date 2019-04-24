@@ -81,18 +81,21 @@ public class FragmentController {
         }
 
         PlainHtmlWriter4OneInter writer;
-        List<ScholarInter> inters = new ArrayList<>();
         ScholarInter scholarInter = fragment.getFragInterByUrlId(urlId);
         if (scholarInter != null) {
+            List<ScholarInter> inters = new ArrayList<>();
             writer = new PlainHtmlWriter4OneInter(scholarInter);
             inters.add(scholarInter);
+            model.addAttribute("inters", inters);
         } else {
+            List<VirtualEditionInter> inters = new ArrayList<>();
             VirtualEditionInter virtualEditionInter = LdoD.getInstance().getVirtualEditionInterByUrlId(urlId);
             if (virtualEditionInter == null) {
                 return "redirect:/error";
             }
             writer = new PlainHtmlWriter4OneInter(virtualEditionInter.getLastUsed());
-            inters.add(virtualEditionInter.getLastUsed());
+            inters.add(virtualEditionInter);
+            model.addAttribute("inters", inters);
 
             // if it is a virtual interpretation check access and set session
             VirtualEdition virtualEdition = virtualEditionInter.getEdition();
@@ -114,7 +117,6 @@ public class FragmentController {
         model.addAttribute("text", Text.getInstance());
         model.addAttribute("user", LdoDUser.getAuthenticatedUser());
         model.addAttribute("fragment", fragment);
-        model.addAttribute("inters", inters);
         model.addAttribute("writer", writer);
         model.addAttribute("uiInterface", new UiInterface());
 

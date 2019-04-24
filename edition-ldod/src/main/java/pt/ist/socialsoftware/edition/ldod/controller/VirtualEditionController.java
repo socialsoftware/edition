@@ -589,13 +589,20 @@ public class VirtualEditionController {
     @PreAuthorize("hasPermission(#veId, 'virtualedition.participant')")
     public String addInter(Model model, @PathVariable String veId, @PathVariable String interId) {
         VirtualEdition virtualEdition = FenixFramework.getDomainObject(veId);
-        ScholarInter inter = FenixFramework.getDomainObject(interId);
+        DomainObject inter = FenixFramework.getDomainObject(interId);
         if (virtualEdition == null || inter == null) {
             return "redirect:/error";
         }
 
-        VirtualEditionInter addInter = virtualEdition.createVirtualEditionInter(inter,
-                virtualEdition.getMaxFragNumber() + 1);
+        VirtualEditionInter addInter;
+
+        if (inter instanceof ScholarInter) {
+            addInter = virtualEdition.createVirtualEditionInter((ScholarInter) inter,
+                    virtualEdition.getMaxFragNumber() + 1);
+        } else {
+            addInter = virtualEdition.createVirtualEditionInter((VirtualEditionInter) inter,
+                    virtualEdition.getMaxFragNumber() + 1);
+        }
 
         if (addInter == null) {
             return "redirect:/error";

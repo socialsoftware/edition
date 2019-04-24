@@ -167,6 +167,10 @@ public class VirtualEdition extends VirtualEdition_Base {
         return getAllDepthVirtualEditionInters().stream().filter(i -> i.getFragment() == fragment).sorted().collect(Collectors.toList());
     }
 
+    public boolean canAddFragInter(VirtualEditionInter virtualEditionInter) {
+        return canAddFragInter(virtualEditionInter.getLastUsed());
+    }
+
     // determines if the fragment can have more interpretations for this virtual
     // edition, deals with the the case of a fragment having two interpretations
     // for the same expert edition
@@ -175,15 +179,15 @@ public class VirtualEdition extends VirtualEdition_Base {
 
         for (VirtualEditionInter inter : getVirtualEditionInterSetForFragment(fragment)) {
             ScholarInter usedInter = inter.getLastUsed();
-            if (isSameInterpretation((ScholarInter) addInter.getLastUsed(), usedInter)) {
+            if (isSameInterpretation(addInter.getLastUsed(), usedInter)) {
                 return false;
             }
 
-            if (atLeastOneIsSourceInterpretation((ScholarInter) addInter.getLastUsed(), usedInter)) {
+            if (atLeastOneIsSourceInterpretation(addInter.getLastUsed(), usedInter)) {
                 return false;
             }
 
-            if (belongToDifferentExpertEditions((ScholarInter) addInter.getLastUsed(), usedInter)) {
+            if (belongToDifferentExpertEditions(addInter.getLastUsed(), usedInter)) {
                 return false;
             }
         }
