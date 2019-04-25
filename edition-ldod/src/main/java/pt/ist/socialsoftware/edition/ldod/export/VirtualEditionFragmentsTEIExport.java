@@ -1,10 +1,7 @@
 package pt.ist.socialsoftware.edition.ldod.export;
 
 import org.apache.commons.lang.StringEscapeUtils;
-import org.jdom2.Attribute;
-import org.jdom2.Document;
-import org.jdom2.Element;
-import org.jdom2.Namespace;
+import org.jdom2.*;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 
@@ -75,7 +72,8 @@ public class VirtualEditionFragmentsTEIExport {
 			exportClassificationGames(textClass, virtualEditionInter);
 		}
 
-		exportFragmentCitations(teiHeader, fragment);
+		// NOT NECESSARY THEY CAN BE LOADED FROM THE FILES
+		//exportFragmentCitations(teiHeader, fragment);
 
 		XMLOutputter xml = new XMLOutputter();
 		xml.setFormat(Format.getPrettyFormat());
@@ -108,95 +106,95 @@ public class VirtualEditionFragmentsTEIExport {
 		}
 	}
 
-	private void exportFragmentCitations(Element teiHeader, Fragment fragment) {
-		Element citationList = new Element("citationList", this.xmlns);
-		teiHeader.addContent(citationList);
-		for (Citation citation : fragment.getCitationSet()) {
-			Element citationElement = new Element("citation", this.xmlns);
-			citationList.addContent(citationElement);
+//	private void exportFragmentCitations(Element teiHeader, Fragment fragment) {
+//		Element citationList = new Element("citationList", this.xmlns);
+//		teiHeader.addContent(citationList);
+//		for (Citation citation : fragment.getCitationSet()) {
+//			Element citationElement = new Element("citation", this.xmlns);
+//			citationList.addContent(citationElement);
+//
+//			exportCitation(citationElement, citation);
+//			if (citation instanceof TwitterCitation) {
+//				exportTwitterCitation(citationElement, (TwitterCitation) citation);
+//			}
+//			exportInfoRanges(citationElement, citation);
+//		}
+//	}
 
-			exportCitation(citationElement, citation);
-			if (citation instanceof TwitterCitation) {
-				exportTwitterCitation(citationElement, (TwitterCitation) citation);
-			}
-			exportInfoRanges(citationElement, citation);
-		}
-	}
+//	private void exportInfoRanges(Element citationElement, Citation citation) {
+//		Element infoRangesList = new Element("infoRangesList", this.xmlns);
+//		citationElement.addContent(infoRangesList);
+//
+//		for (InfoRange infoRange : citation.getInfoRangeSet()) {
+//			Element infoRangeElement = new Element("infoRange", this.xmlns);
+//			infoRangesList.addContent(infoRangeElement);
+//
+//			infoRangeElement.setAttribute("start", infoRange.getStart());
+//			infoRangeElement.setAttribute("startOffset", Integer.toString(infoRange.getStartOffset()));
+//			infoRangeElement.setAttribute("end", infoRange.getEnd());
+//			infoRangeElement.setAttribute("endOffset", Integer.toString(infoRange.getEndOffset()));
+//
+//			Element quoteElement = new Element("quote", this.xmlns);
+//			quoteElement.addContent(infoRange.getQuote());
+//			infoRangeElement.addContent(quoteElement);
+//
+//			Element textElement = new Element("text", this.xmlns);
+//			textElement.addContent(infoRange.getText());
+//			infoRangeElement.addContent(textElement);
+//
+//			// discutir também utilidade destes atributos
+//			// fragInterXmlId seria necessário para descobrir o fragInter ao importar
+//			infoRangeElement.setAttribute("fragInterXmlId", infoRange.getFragInter().getXmlId());
+//			infoRangeElement.setAttribute("citationId", Long.toString(infoRange.getCitation().getId()));
+//		}
+//	}
 
-	private void exportInfoRanges(Element citationElement, Citation citation) {
-		Element infoRangesList = new Element("infoRangesList", this.xmlns);
-		citationElement.addContent(infoRangesList);
-
-		for (InfoRange infoRange : citation.getInfoRangeSet()) {
-			Element infoRangeElement = new Element("infoRange", this.xmlns);
-			infoRangesList.addContent(infoRangeElement);
-
-			infoRangeElement.setAttribute("start", infoRange.getStart());
-			infoRangeElement.setAttribute("startOffset", Integer.toString(infoRange.getStartOffset()));
-			infoRangeElement.setAttribute("end", infoRange.getEnd());
-			infoRangeElement.setAttribute("endOffset", Integer.toString(infoRange.getEndOffset()));
-
-			Element quoteElement = new Element("quote", this.xmlns);
-			quoteElement.addContent(infoRange.getQuote());
-			infoRangeElement.addContent(quoteElement);
-
-			Element textElement = new Element("text", this.xmlns);
-			textElement.addContent(infoRange.getText());
-			infoRangeElement.addContent(textElement);
-
-			// discutir também utilidade destes atributos
-			// fragInterXmlId seria necessário para descobrir o fragInter ao importar
-			infoRangeElement.setAttribute("fragInterXmlId", infoRange.getFragInter().getXmlId());
-			infoRangeElement.setAttribute("citationId", Long.toString(infoRange.getCitation().getId()));
-		}
-	}
-
-	protected void exportCitation(Element citationElement, Citation citation) {
-		citationElement.setAttribute("sourceLink", citation.getSourceLink());
-		citationElement.setAttribute("date", citation.getDate());
-		// citationElement.setAttribute("fragText", citation.getFragText());
-
-		Element fragText = new Element("fragText", this.xmlns);
-		fragText.addContent(citation.getFragText());
-		citationElement.addContent(fragText);
-
-		// old code
-		// Element citationElement = new Element("citation", this.xmlns);
-		// citationList.addContent(citationElement);
-	}
-
-	protected void exportTwitterCitation(Element citationElement, TwitterCitation citation) {
-		citationElement.setAttribute("type", "twitter");
-
-		Element tweetText = new Element("tweetText", this.xmlns);
-		tweetText.addContent(citation.getTweetText());
-		citationElement.addContent(tweetText);
-
-		citationElement.setAttribute("tweetId", Long.toString(citation.getTweetID()));
-		citationElement.setAttribute("location", citation.getLocation());
-		citationElement.setAttribute("country", citation.getCountry());
-		citationElement.setAttribute("username", citation.getUsername());
-		citationElement.setAttribute("userProfileURL", citation.getUserProfileURL());
-		citationElement.setAttribute("userImageURL", citation.getUserProfileURL());
-
-		Element tweets = new Element("tweets", this.xmlns);
-		citationElement.addContent(tweets);
-
-		for (Tweet tweet : citation.getTweetSet()) {
-			Element tweetElement = new Element("tweet", this.xmlns);
-			tweets.addContent(tweetElement);
-
-			// acho q o set é este em vez do q fiz inicialmente com o if e else
-			tweetElement.setAttribute("tweetId", Long.toString(tweet.getTweetID()));
-
-			// if (tweet.getIsRetweet()) {
-			// tweetElement.setAttribute("tweetId",
-			// Long.toString(tweet.getOriginalTweetID()));
-			// } else {
-			// tweetElement.setAttribute("tweetId", Long.toString(tweet.getTweetID()));
-			// }
-		}
-	}
+//	protected void exportCitation(Element citationElement, Citation citation) {
+//		citationElement.setAttribute("sourceLink", citation.getSourceLink());
+//		citationElement.setAttribute("date", citation.getDate());
+//		// citationElement.setAttribute("fragText", citation.getFragText());
+//
+//		Element fragText = new Element("fragText", this.xmlns);
+//		fragText.addContent(citation.getFragText());
+//		citationElement.addContent(fragText);
+//
+//		// old code
+//		// Element citationElement = new Element("citation", this.xmlns);
+//		// citationList.addContent(citationElement);
+//	}
+//
+//	protected void exportTwitterCitation(Element citationElement, TwitterCitation citation) {
+//		citationElement.setAttribute("type", "twitter");
+//
+//		Element tweetText = new Element("tweetText", this.xmlns);
+//		tweetText.addContent(new CDATA(citation.getTweetText()));
+//		citationElement.addContent(tweetText);
+//
+//		citationElement.setAttribute("tweetId", Long.toString(citation.getTweetID()));
+//		citationElement.setAttribute("location", citation.getLocation());
+//		citationElement.setAttribute("country", citation.getCountry());
+//		citationElement.setAttribute("username", citation.getUsername());
+//		citationElement.setAttribute("userProfileURL", citation.getUserProfileURL());
+//		citationElement.setAttribute("userImageURL", citation.getUserProfileURL());
+//
+//		Element tweets = new Element("tweets", this.xmlns);
+//		citationElement.addContent(tweets);
+//
+//		for (Tweet tweet : citation.getTweetSet()) {
+//			Element tweetElement = new Element("tweet", this.xmlns);
+//			tweets.addContent(tweetElement);
+//
+//			// acho q o set é este em vez do q fiz inicialmente com o if e else
+//			tweetElement.setAttribute("tweetId", Long.toString(tweet.getTweetID()));
+//
+//			// if (tweet.getIsRetweet()) {
+//			// tweetElement.setAttribute("tweetId",
+//			// Long.toString(tweet.getOriginalTweetID()));
+//			// } else {
+//			// tweetElement.setAttribute("tweetId", Long.toString(tweet.getTweetID()));
+//			// }
+//		}
+//	}
 
 	private void exportVirtualEditionInterAnnotations(Element textClass, VirtualEditionInter virtualEditionInter) {
 		for (Annotation annotation : virtualEditionInter.getAnnotationSet()) {

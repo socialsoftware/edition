@@ -38,10 +38,12 @@ public class VirtualEditionsTEICorpusExport {
 		teiHeader.setAttribute("type", "corpus");
 		rootElement.addContent(teiHeader);
 
-		Element tweetList = generateTweetList(teiHeader);
-		for (Tweet tweet : LdoD.getInstance().getTweetSet()) {
-			exportTweet(tweetList, tweet);
-		}
+
+		// NOT NECESSARY THEY CAN BE LOADED FROM THE FILES
+//		Element tweetList = generateTweetList(teiHeader);
+//		for (Tweet tweet : LdoD.getInstance().getTweetSet()) {
+//			exportTweet(tweetList, tweet);
+//		}
 
 		Element listBibl = generateFileDesc(teiHeader);
 		for (VirtualEdition virtualEdition : LdoD.getInstance().getVirtualEditionsSet()) {
@@ -66,47 +68,47 @@ public class VirtualEditionsTEICorpusExport {
 	}
 
 	// TODO: passar os element para attribute - done
-	protected void exportTweet(Element tweetList, Tweet tweet) {
-		Element tweetElement = new Element("tweet", this.xmlns);
-		tweetList.addContent(tweetElement);
+//	protected void exportTweet(Element tweetList, Tweet tweet) {
+//		Element tweetElement = new Element("tweet", this.xmlns);
+//		tweetList.addContent(tweetElement);
+//
+//		tweetElement.setAttribute("sourceLink", tweet.getSourceLink());
+//		tweetElement.setAttribute("date", tweet.getDate());
+//
+//		Element tweetText = new Element("tweetText", this.xmlns);
+//		tweetText.addContent(tweet.getTweetText());
+//		tweetElement.addContent(tweetText);
+//
+//		tweetElement.setAttribute("tweetId", Long.toString(tweet.getTweetID()));
+//		try {
+//			tweetElement.setAttribute("location", tweet.getLocation().replace("?", ""));
+//		} catch (org.jdom2.IllegalDataException e) {
+//			tweetElement.setAttribute("location", "");
+//		}
+//		tweetElement.setAttribute("country", tweet.getCountry());
+//		tweetElement.setAttribute("username", tweet.getUsername());
+//		tweetElement.setAttribute("userProfileURL", tweet.getUserProfileURL());
+//		tweetElement.setAttribute("userImageURL", tweet.getUserProfileURL());
+//
+//		tweetElement.setAttribute("originalTweetId", Long.toString(tweet.getOriginalTweetID()));
+//		tweetElement.setAttribute("isRetweet", String.valueOf(tweet.getIsRetweet()));
+//
+//		// TODO: discutir com o professor a utilidade deste atributo, útil apenas para
+//		// debug
+//		// Este atributo stressa com o teste original de export do corpus pq os tweets
+//		// são exportados antes das citations, e no início os tweets têm todas as
+//		// citations a null e por isso este atributo não era exportado
+//		// if (tweet.getCitation() != null) {
+//		// tweetElement.setAttribute("citationId",
+//		// Long.toString(tweet.getCitation().getId()));
+//		// }
+//	}
 
-		tweetElement.setAttribute("sourceLink", tweet.getSourceLink());
-		tweetElement.setAttribute("date", tweet.getDate());
-
-		Element tweetText = new Element("tweetText", this.xmlns);
-		tweetText.addContent(tweet.getTweetText());
-		tweetElement.addContent(tweetText);
-
-		tweetElement.setAttribute("tweetId", Long.toString(tweet.getTweetID()));
-		try {
-			tweetElement.setAttribute("location", tweet.getLocation().replace("?", ""));
-		} catch (org.jdom2.IllegalDataException e) {
-			tweetElement.setAttribute("location", "");
-		}
-		tweetElement.setAttribute("country", tweet.getCountry());
-		tweetElement.setAttribute("username", tweet.getUsername());
-		tweetElement.setAttribute("userProfileURL", tweet.getUserProfileURL());
-		tweetElement.setAttribute("userImageURL", tweet.getUserProfileURL());
-
-		tweetElement.setAttribute("originalTweetId", Long.toString(tweet.getOriginalTweetID()));
-		tweetElement.setAttribute("isRetweet", String.valueOf(tweet.getIsRetweet()));
-
-		// TODO: discutir com o professor a utilidade deste atributo, útil apenas para
-		// debug
-		// Este atributo stressa com o teste original de export do corpus pq os tweets
-		// são exportados antes das citations, e no início os tweets têm todas as
-		// citations a null e por isso este atributo não era exportado
-		// if (tweet.getCitation() != null) {
-		// tweetElement.setAttribute("citationId",
-		// Long.toString(tweet.getCitation().getId()));
-		// }
-	}
-
-	protected Element generateTweetList(Element teiHeader) {
-		Element tweetList = new Element("tweetList", this.xmlns);
-		teiHeader.addContent(tweetList);
-		return tweetList;
-	}
+//	protected Element generateTweetList(Element teiHeader) {
+//		Element tweetList = new Element("tweetList", this.xmlns);
+//		teiHeader.addContent(tweetList);
+//		return tweetList;
+//	}
 
 	protected Element generateFileDesc(Element teiHeader) {
 		Element fileDesc = new Element("fileDesc", this.xmlns);
