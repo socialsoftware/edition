@@ -47,13 +47,10 @@ public class UiInterface {
         TextInterface textInterface = new TextInterface();
         ScholarInter inter = textInterface.getScholarInterUsed(xmlId);
         if (inter != null && inter.isExpertInter()) {
-            logger.debug("Found expert for id " + xmlId);
             return InterType.EDITORIAL;
         } else if (inter != null) {
-            logger.debug("Found authorial for id " + xmlId);
             return InterType.AUTHORIAL;
         } else {
-            logger.debug("Found virtual for id " + xmlId);
             return InterType.VIRTUAL;
         }
     }

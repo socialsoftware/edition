@@ -27,7 +27,7 @@ public class LdoDInterface {
 
     private void removeAll(VirtualEditionInter vei) {
         for (VirtualEditionInter vi : vei.getIsUsedBySet()) {
-            removeAll(vi); // ask if this approach is the best for this relation
+            removeAll(vi);
         }
         vei.remove();
     }

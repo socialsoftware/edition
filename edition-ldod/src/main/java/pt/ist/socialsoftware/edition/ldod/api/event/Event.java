@@ -3,8 +3,7 @@ package pt.ist.socialsoftware.edition.ldod.api.event;
 public class Event {
 
     public enum EventType {
-        FRAG_INTER_REMOVE,
-        FRAGMENT_REMOVE
+        FRAG_INTER_REMOVE
     }
 
     EventType type;
@@ -17,7 +16,7 @@ public class Event {
     }
 
     public EventType getType() {
-        return type;
+        return this.type;
     }
 
     public void setType(EventType type) {
@@ -25,7 +24,7 @@ public class Event {
     }
 
     public String getIdentifier() {
-        return identifier;
+        return this.identifier;
     }
 
     public void setIdentifier(String identifier) {
