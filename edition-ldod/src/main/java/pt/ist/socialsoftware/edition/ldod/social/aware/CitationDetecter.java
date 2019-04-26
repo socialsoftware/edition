@@ -72,6 +72,8 @@ public class CitationDetecter {
         this.logger.debug("STARTED REMOVING TWEETS WITHOUT CITATIONS!!!");
         removeTweetsWithoutCitationsWithInfoRange();
         this.logger.debug("FINISHED REMOVING TWEETS WITHOUT CITATIONS!!!");
+
+        printNumberOfCitationsWithInfoRanges();
     }
 
     @Atomic(mode = TxMode.WRITE)
@@ -123,25 +125,25 @@ public class CitationDetecter {
         return lastFileName;
     }
 
-    private void fileCitationDetection(File fileEntry) throws FileNotFoundException, IOException {
+    private void fileCitationDetection(File fileEntry) throws IOException {
         this.logger.debug("JSON file name: " + fileEntry.getName());
 
-        try {
-            JSONObject obj = new JSONObject();
-            String line = null;
+        JSONObject obj = new JSONObject();
+        String line = null;
 
-            BufferedReader bufferedReader = new BufferedReader(new FileReader(fileEntry));
+        BufferedReader bufferedReader = new BufferedReader(new FileReader(fileEntry));
 
-            // criar um tempMaxID que guarda o valor de
-            // LdoD.getInstance().getLastTwitterID()
-            // pq é preciso darmos set na base de dados do valor antes do while, pq vem logo
-            // na primeira linha
-            long tempMaxID = getLastTwitterId(fileEntry);
+        // criar um tempMaxID que guarda o valor de
+        // LdoD.getInstance().getLastTwitterID()
+        // pq é preciso darmos set na base de dados do valor antes do while, pq vem logo
+        // na primeira linha
+        long tempMaxID = getLastTwitterId(fileEntry);
 
-            int lineNum = 0;
-            while ((line = bufferedReader.readLine()) != null) {
-                // logger.debug(line);
+        int lineNum = 0;
+        while ((line = bufferedReader.readLine()) != null) {
+            // logger.debug(line);
 
+            try {
                 obj = (JSONObject) new JSONParser().parse(line);
 
                 if (lineNum == 0) {
@@ -165,18 +167,16 @@ public class CitationDetecter {
                 } else {
                     break;
                 }
+            } catch (ParseException |
+                    org.apache.lucene.queryparser.classic.ParseException |
+                    org.json.simple.parser.ParseException e) {
+                e.printStackTrace();
             }
-            bufferedReader.close();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        } catch (org.apache.lucene.queryparser.classic.ParseException e) {
-            e.printStackTrace();
-        } catch (org.json.simple.parser.ParseException e) {
-            e.printStackTrace();
         }
+        bufferedReader.close();
     }
 
-    public void searchQueryParserJSON(String query, JSONObject obj)
+    private void searchQueryParserJSON(String query, JSONObject obj)
             throws ParseException, org.apache.lucene.queryparser.classic.ParseException, IOException {
         Query parsedQuery = this.queryParser.parse(QueryParser.escape(query)); // escape foi a solução porque ele
         // stressava
@@ -200,7 +200,7 @@ public class CitationDetecter {
     }
 
     @Atomic(mode = TxMode.WRITE)
-    public void searchIndexAndDisplayResultsJSON(Query query, JSONObject obj) {
+    private void searchIndexAndDisplayResultsJSON(Query query, JSONObject obj) {
         try {
             int hitsPerPage = 5;
             Directory directory = new NIOFSDirectory(this.docDir);
@@ -242,12 +242,15 @@ public class CitationDetecter {
 
                         Matcher matcher = pattern.matcher(tweetTextWithoutHttp);
                         String cleanTweetText = matcher.replaceAll("");
+                        cleanTweetText = removeEmojiAndSymbolFromString(cleanTweetText);
 
                         matcher = pattern.matcher((String) obj.get("location"));
                         String cleanTeeetLocation = matcher.replaceAll("");
+                        cleanTeeetLocation = removeEmojiAndSymbolFromString(cleanTeeetLocation);
 
                         matcher = pattern.matcher((String) obj.get("country"));
                         String cleanTeeetCountry = matcher.replaceAll("");
+                        cleanTeeetCountry = removeEmojiAndSymbolFromString(cleanTeeetCountry);
 
                         new TwitterCitation(fragment, (String) obj.get("tweetURL"), (String) obj.get("date"),
                                 d.get(this.TEXT), cleanTweetText, (long) obj.get("tweetID"), cleanTeeetLocation,
@@ -281,6 +284,25 @@ public class CitationDetecter {
             tweetTextWithoutHttp = tweetText.substring(0, httpIndex);
         }
         return tweetTextWithoutHttp;
+    }
+
+    private String removeEmojiAndSymbolFromString(String content) throws UnsupportedEncodingException {
+        String utf8tweet = "";
+
+        byte[] utf8Bytes = content.getBytes("UTF-8");
+        utf8tweet = new String(utf8Bytes, "UTF-8");
+
+        Pattern unicodeOutliers =
+                Pattern.compile(
+                        "[\ud83c\udc00-\ud83c\udfff]|[\ud83d\udc00-\ud83d\udfff]|[\u2600-\u27ff]",
+                        Pattern.UNICODE_CASE |
+                                Pattern.CANON_EQ |
+                                Pattern.CASE_INSENSITIVE
+                );
+        Matcher unicodeOutlierMatcher = unicodeOutliers.matcher(utf8tweet);
+
+        utf8tweet = unicodeOutlierMatcher.replaceAll(" ");
+        return utf8tweet;
     }
 
     @Atomic
@@ -367,13 +389,13 @@ public class CitationDetecter {
         return htmlTransc;
     }
 
-    public boolean startBiggerThanEnd(int htmlStart, int htmlEnd, int numOfPStart, int numOfPEnd) {
+    boolean startBiggerThanEnd(int htmlStart, int htmlEnd, int numOfPStart, int numOfPEnd) {
         return htmlStart > htmlEnd && numOfPStart == numOfPEnd;
     }
 
     public String convertFirstCharToUpperCaseInSentence(String str) {
         // Create a char array of given String
-        char ch[] = str.toCharArray();
+        char[] ch = str.toCharArray();
         for (int i = 0; i < str.length(); i++) {
 
             // If first character of a word is found
@@ -400,7 +422,7 @@ public class CitationDetecter {
         return st;
     }
 
-    public String cleanTweetText(String originalTweetText) {
+    String cleanTweetText(String originalTweetText) {
         String result = originalTweetText.toLowerCase().replaceAll("[\"*«»“”()';]", "");
         result = result.replace("\\n", " ");
         result = result.replace("...", " ");
@@ -421,11 +443,11 @@ public class CitationDetecter {
         return result;
     }
 
-    public String capitalizeFirstWord(String sentence) {
+    private String capitalizeFirstWord(String sentence) {
         return sentence.substring(0, 1).toUpperCase() + sentence.substring(1);
     }
 
-    public List<String> patternFinding(String text, String tweet) {
+    List<String> patternFinding(String text, String tweet) {
 //		logger.debug("------------------------------ PATTERN FINDING ALGORITHM-------------------------");
 //		logger.debug("ORIGINAL TWEET TEXT: " + tweet);
 
@@ -632,7 +654,7 @@ public class CitationDetecter {
         return result;
     }
 
-    public int lastIndexOfCapitalLetter(String str, int auxPos) {
+    int lastIndexOfCapitalLetter(String str, int auxPos) {
         for (int i = auxPos; i >= 0; i--) {
             if (Character.isUpperCase(str.charAt(i))) {
                 return i;
@@ -649,7 +671,7 @@ public class CitationDetecter {
 
     // returns max jaro value between a word in the pattern and every word in the
     // text
-    public List<String> maxJaroValue(String text, String wordToFind) {
+    List<String> maxJaroValue(String text, String wordToFind) {
         JaroWinklerDistance jaro = new JaroWinklerDistance();
         double maxJaroValue = 0.0;
         String wordFound = "";
@@ -669,7 +691,7 @@ public class CitationDetecter {
         return info;
     }
 
-    public String cleanCharFromString(char charToClean, String s, int position, int lastCharPos) {
+    private String cleanCharFromString(char charToClean, String s, int position, int lastCharPos) {
         // limpar hífenes que tenham espaços em branco à esquerda ou à direita
         if (charToClean == '-') {
             s = replaceChar(s, position, lastCharPos);
@@ -734,7 +756,7 @@ public class CitationDetecter {
         return s;
     }
 
-    public void searchQueryParser(String query)
+    private void searchQueryParser(String query)
             throws ParseException, org.apache.lucene.queryparser.classic.ParseException, IOException {
         Query parsedQuery = this.queryParser.parse(QueryParser.escape(query)); // escape foi a solução porque ele
         // stressava
@@ -742,7 +764,7 @@ public class CitationDetecter {
         searchIndexAndDisplayResults(parsedQuery);
     }
 
-    public void searchIndexAndDisplayResults(Query query) {
+    private void searchIndexAndDisplayResults(Query query) {
         try {
             int hitsPerPage = 5;
             Directory directory = new NIOFSDirectory(this.docDir);
@@ -813,7 +835,7 @@ public class CitationDetecter {
         searchIndexAndDisplayResults(termQuery);
     }
 
-    public int countOccurencesOfSubstring(final String string, final String substring, final int subsStartPos) {
+    int countOccurencesOfSubstring(String string, String substring, int subsStartPos) {
         int count = 0;
         int idx = 0;
 
