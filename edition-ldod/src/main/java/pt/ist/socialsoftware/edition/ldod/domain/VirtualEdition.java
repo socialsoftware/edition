@@ -154,7 +154,7 @@ public class VirtualEdition extends VirtualEdition_Base {
     // determines if the fragment can have more interpretations for this virtual
     // edition, deals with the the case of a fragment having two interpretations
     // for the same expert edition
-    Boolean canAddFragInter(FragInter addInter) {
+    public Boolean canAddFragInter(FragInter addInter) {
         Fragment fragment = addInter.getFragment();
         FragInter usedAddInter = addInter.getLastUsed();
         for (VirtualEditionInter inter : fragment.getVirtualEditionInters(this)) {
@@ -185,11 +185,11 @@ public class VirtualEdition extends VirtualEdition_Base {
         return addExpertEdition != expertEdition;
     }
 
-    private boolean atLeastOneIsSourceInterpretation(FragInter usedAddInter, FragInter usedInter) {
+    public boolean atLeastOneIsSourceInterpretation(FragInter usedAddInter, FragInter usedInter) {
         return usedInter instanceof SourceInter || usedAddInter instanceof SourceInter;
     }
 
-    private boolean isSameInterpretation(FragInter usedAddInter, FragInter usedInter) {
+    public boolean isSameInterpretation(FragInter usedAddInter, FragInter usedInter) {
         return usedAddInter == usedInter;
     }
 
@@ -469,7 +469,7 @@ public class VirtualEdition extends VirtualEdition_Base {
     }
 
     @Atomic(mode = TxMode.WRITE)
-    private Section createSection(String title, int number) {
+    public Section createSection(String title, int number) {
         Section section = new Section(this, title, number);
         return section;
     }
@@ -669,7 +669,7 @@ public class VirtualEdition extends VirtualEdition_Base {
         return recommendedEdition;
     }
 
-    private Set<Category> getAllDepthCategories() {
+    public Set<Category> getAllDepthCategories() {
         Set<Category> result = new HashSet<>(getTaxonomy().getCategoriesSet());
 
         Edition usedEdition = getUses();
@@ -687,7 +687,7 @@ public class VirtualEdition extends VirtualEdition_Base {
     }
 
     // Foi alterado por causa das human annotations
-    private List<HumanAnnotation> getAnnotationList() {
+    public List<HumanAnnotation> getAnnotationList() {
         return getAllDepthVirtualEditionInters().stream().flatMap(i -> i.getAnnotationSet().stream())
                 .filter(HumanAnnotation.class::isInstance).map(HumanAnnotation.class::cast)
                 .collect(Collectors.toList());
@@ -737,7 +737,7 @@ public class VirtualEdition extends VirtualEdition_Base {
         return false;
     }
 
-    private MediaSource getMediaSource() {
+    public MediaSource getMediaSource() {
         for (SocialMediaCriteria criteria : this.getCriteriaSet()) {
             if (criteria instanceof MediaSource) {
                 return (MediaSource) criteria;
@@ -746,7 +746,7 @@ public class VirtualEdition extends VirtualEdition_Base {
         return null;
     }
 
-    TimeWindow getTimeWindow() {
+    public TimeWindow getTimeWindow() {
         for (SocialMediaCriteria criteria : this.getCriteriaSet()) {
             if (criteria instanceof TimeWindow) {
                 return (TimeWindow) criteria;
@@ -755,7 +755,7 @@ public class VirtualEdition extends VirtualEdition_Base {
         return null;
     }
 
-    private GeographicLocation getGeographicLocation() {
+    public GeographicLocation getGeographicLocation() {
         for (SocialMediaCriteria criteria : this.getCriteriaSet()) {
             if (criteria instanceof GeographicLocation) {
                 return (GeographicLocation) criteria;
