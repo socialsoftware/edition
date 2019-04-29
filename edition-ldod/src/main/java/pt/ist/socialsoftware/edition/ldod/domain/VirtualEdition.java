@@ -781,7 +781,7 @@ public class VirtualEdition extends VirtualEdition_Base {
         }
         return false;
     }
-    
+
     public MediaSource getMediaSource() {
         for (SocialMediaCriteria criteria : this.getCriteriaSet()) {
             if (criteria instanceof MediaSource) {
