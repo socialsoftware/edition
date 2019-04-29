@@ -112,9 +112,9 @@ public class RecommendationTest {
 
         String[] frags = res.split(";");
         System.out.println(res);
-        assertEquals(3, frags.length);
+        assertEquals(4, frags.length);
         ObjectMapper mapper = new ObjectMapper();
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 4; i++) {
             InterIdDistancePairDto pair = mapper.readValue(frags[i], InterIdDistancePairDto.class);
             if (pair.getInterId().equals(vi.getExternalId())) {
                 assertEquals(1.0, pair.getDistance());

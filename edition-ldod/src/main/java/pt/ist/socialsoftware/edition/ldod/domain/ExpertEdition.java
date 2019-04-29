@@ -43,7 +43,6 @@ public class ExpertEdition extends ExpertEdition_Base implements Comparable<Expe
             default:
                 assert false : "Nome de editor com erros: " + editor;
         }
-
         setText4Expert(text);
     }
 
@@ -83,6 +82,7 @@ public class ExpertEdition extends ExpertEdition_Base implements Comparable<Expe
         }
     }
 
+
     public String getEditorShortName() {
         if (getEditor().equals(COELHO_EDITION_NAME)) {
             return "Coelho";
@@ -91,6 +91,7 @@ public class ExpertEdition extends ExpertEdition_Base implements Comparable<Expe
         } else if (getEditor().equals(ZENITH_EDITION_NAME)) {
             return "Zenith";
         } else if (getEditor().equals(PIZARRO_EDITION_NAME)) {
+
             return "Pizarro";
         } else {
             assert false;
@@ -100,6 +101,7 @@ public class ExpertEdition extends ExpertEdition_Base implements Comparable<Expe
 
     public List<ExpertEditionInter> getSortedInter4Frag(Fragment fragment) {
         List<ExpertEditionInter> interps = new ArrayList<>();
+
 
         for (ScholarInter inter : fragment.getScholarInterSet()) {
             if (inter.isExpertInter()
@@ -144,7 +146,6 @@ public class ExpertEdition extends ExpertEdition_Base implements Comparable<Expe
         return interps.get(0);
     }
 
-
     public Set<ExpertEditionInter> getIntersSet() {
         return new HashSet<>(getExpertEditionIntersSet());
     }
@@ -181,14 +182,16 @@ public class ExpertEdition extends ExpertEdition_Base implements Comparable<Expe
 
         List<InterIdDistancePairDto> recommendedEdition = new ArrayList<>();
 
-        recommendedEdition.add(new InterIdDistancePairDto(expertEditionInter.getExternalId(), 1.0d));
         List<Property> properties = weights.getProperties();
         for (ExpertEditionInter inter : inters) {
             recommendedEdition.add(new InterIdDistancePairDto(inter.getExternalId(),
                     recommender.calculateSimilarity(expertEditionInter, inter, properties)));
         }
 
-        return recommendedEdition.stream().sorted(Comparator.comparing(InterIdDistancePairDto::getDistance).reversed()).collect(Collectors.toList());
+        recommendedEdition = recommendedEdition.stream().sorted(Comparator.comparing(InterIdDistancePairDto::getDistance).reversed()).collect(Collectors.toList());
+        recommendedEdition.add(new InterIdDistancePairDto(expertEditionInter.getExternalId(), 1.0d));
+
+        return recommendedEdition;
     }
 
 

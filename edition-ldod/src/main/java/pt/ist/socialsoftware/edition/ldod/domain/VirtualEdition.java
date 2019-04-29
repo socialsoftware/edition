@@ -211,6 +211,7 @@ public class VirtualEdition extends VirtualEdition_Base {
     public int getMaxFragNumber() {
         int max = 0;
         for (VirtualEditionInter inter : getAllDepthVirtualEditionInters()) {
+
             max = inter.getNumber() > max ? inter.getNumber() : max;
         }
 
@@ -371,6 +372,7 @@ public class VirtualEdition extends VirtualEdition_Base {
         for (String temp : fragInterList) {
             ScholarInter inter = FenixFramework.getDomainObject(temp);
 
+
             // logger.debug("updateVirtualEditionInters temp:{} interLastUsed:{}
             // interTitle:{} interSourceType:{}", temp,
             // inter.getLastUsed().getExternalId(), inter.getTitle(),
@@ -414,6 +416,7 @@ public class VirtualEdition extends VirtualEdition_Base {
             if (!actualFragList.contains(fragInter)) {
                 System.out.println("V5 " + fragInter);
                 ScholarInter inter = FenixFramework.getDomainObject(fragInter);
+
                 createVirtualEditionInter(inter, i + 1);
                 System.out.println("V6 " + fragInter);
             }
@@ -491,7 +494,6 @@ public class VirtualEdition extends VirtualEdition_Base {
                 virtualInter = new VirtualEditionInter(section, inter, number);
             }
         }
-
         return virtualInter;
     }
 
@@ -510,6 +512,7 @@ public class VirtualEdition extends VirtualEdition_Base {
 
     @Atomic(mode = TxMode.WRITE)
     public Section createSection(String title, int number) {
+
         Section section = new Section(this, title, number);
         return section;
     }
@@ -683,13 +686,18 @@ public class VirtualEdition extends VirtualEdition_Base {
         List<InterIdDistancePairDto> recommendedEdition = new ArrayList<>();
 
         recommendedEdition.add(new InterIdDistancePairDto(virtualEditionInter.getExternalId(), 1.0d));
+
         List<Property> properties = weights.getProperties(virtualEditionInter.getVirtualEdition());
         for (VirtualEditionInter inter : inters) {
             recommendedEdition.add(new InterIdDistancePairDto(inter.getExternalId(),
                     recommender.calculateSimilarity(virtualEditionInter, inter, properties)));
         }
 
-        return recommendedEdition.stream().sorted(Comparator.comparing(InterIdDistancePairDto::getDistance).reversed()).collect(Collectors.toList());
+        recommendedEdition = recommendedEdition.stream().sorted(Comparator.comparing(InterIdDistancePairDto::getDistance).reversed()).collect(Collectors.toList());
+
+        recommendedEdition.add(0, new InterIdDistancePairDto(virtualEditionInter.getExternalId(), 1.0d));
+
+        return recommendedEdition;
     }
 
     public List<VirtualEditionInter> generateRecommendation(VirtualEditionInter inter,
@@ -774,6 +782,7 @@ public class VirtualEdition extends VirtualEdition_Base {
         return false;
     }
 
+
     public MediaSource getMediaSource() {
         for (SocialMediaCriteria criteria : this.getCriteriaSet()) {
             if (criteria instanceof MediaSource) {
@@ -818,5 +827,4 @@ public class VirtualEdition extends VirtualEdition_Base {
     public boolean isLdoDEdition() {
         return getAcronym().equals(ExpertEdition.ARCHIVE_EDITION_ACRONYM);
     }
-
 }

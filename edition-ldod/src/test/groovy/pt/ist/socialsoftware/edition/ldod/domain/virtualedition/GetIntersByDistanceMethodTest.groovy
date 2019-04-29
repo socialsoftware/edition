@@ -52,7 +52,7 @@ class GetIntersByDistanceMethodTest extends SpockRollbackTestAbstractClass {
         def results = virtualEdition.getIntersByDistance(virtualEditionInter, weights)
 
         then: 'all different'
-        results.size() == 5
+        results.size() == 6
         results.stream().map({ r -> r.getDistance() }).collect(Collectors.toSet()).size() == 5
 
         results.stream().forEach({ r -> logger.debug('{}: {}', r.getInterId(), r.getDistance()) })
@@ -73,7 +73,7 @@ class GetIntersByDistanceMethodTest extends SpockRollbackTestAbstractClass {
         def results = virtualEdition.getIntersByDistance(virtualEditionInter, weights)
 
         then: 'all different'
-        results.size() == 5
+        results.size() == 6
         results.stream().map({ r -> r.getDistance() }).collect(Collectors.toSet()).size() == 5
 
         results.stream().forEach({ r -> logger.debug('{}: {}', r.getInterId(), r.getDistance()) })
@@ -94,7 +94,7 @@ class GetIntersByDistanceMethodTest extends SpockRollbackTestAbstractClass {
         def results = virtualEdition.getIntersByDistance(virtualEditionInter, weights)
 
         then:
-        results.size() == 5
+        results.size() == 6
         results.stream().map({ r -> r.getDistance() }).collect(Collectors.toSet()).size() == 3
 
         results.stream().forEach({ r -> logger.debug('{}: {}', r.getInterId(), r.getDistance()) })
@@ -113,7 +113,7 @@ class GetIntersByDistanceMethodTest extends SpockRollbackTestAbstractClass {
         def results = virtualEdition.getIntersByDistance(virtualEditionInter, weights)
 
         then:
-        results.size() == 5
+        results.size() == 6
         results.stream().map({ r -> r.getDistance() }).collect(Collectors.toSet()).size() == 1
 
         results.stream().forEach({ r -> logger.debug('{}: {}', r.getInterId(), r.getDistance()) })
@@ -129,7 +129,7 @@ class GetIntersByDistanceMethodTest extends SpockRollbackTestAbstractClass {
         def results = virtualEdition.getIntersByDistance(virtualEditionInter, weights)
 
         then:
-        results.size() == 5
+        results.size() == 6
         results.stream().map({ r -> r.getDistance() }).collect(Collectors.toSet()).size() == 2
 
         results.stream().forEach({ r -> logger.debug('{}: {}', r.getInterId(), r.getDistance()) })
@@ -153,7 +153,7 @@ class GetIntersByDistanceMethodTest extends SpockRollbackTestAbstractClass {
         def results = virtualEdition.getIntersByDistance(virtualEditionInter, weights)
 
         then: 'all different'
-        results.size() == 5
+        results.size() == 6
         results.stream().map({ r -> r.getDistance() }).collect(Collectors.toSet()).size() == 2
 
         results.stream().forEach({ r -> logger.debug('{}: {}', r.getInterId(), r.getDistance()) })
@@ -178,7 +178,7 @@ class GetIntersByDistanceMethodTest extends SpockRollbackTestAbstractClass {
         def results = virtualEdition.getIntersByDistance(virtualEditionInter, weights)
 
         then: 'all different'
-        results.size() == 5
+        results.size() == 6
         results.stream().map({ r -> r.getDistance() }).collect(Collectors.toSet()).size() == 4
 
         results.stream().forEach({ r -> logger.debug('{}: {}', r.getInterId(), r.getDistance()) })
@@ -192,7 +192,7 @@ class GetIntersByDistanceMethodTest extends SpockRollbackTestAbstractClass {
         def results = virtualEdition.getIntersByDistance(virtualEditionInter, weights)
 
         then:
-        results.size() == 5
+        results.size() == 6
         results.stream().map({ r -> r.getDistance() }).collect(Collectors.toSet()).size() == 1
 
         results.stream().forEach({ r -> logger.debug('{}: {}', r.getInterId(), r.getDistance()) })
@@ -208,7 +208,7 @@ class GetIntersByDistanceMethodTest extends SpockRollbackTestAbstractClass {
         def results = virtualEdition.getIntersByDistance(virtualEditionInter, weights)
 
         then:
-        results.size() == 5
+        results.size() == 6
         results.stream().map({ r -> r.getDistance() }).collect(Collectors.toSet()).size() == 2
 
         results.stream().forEach({ r -> logger.debug('{}: {}', r.getInterId(), r.getDistance()) })
@@ -222,7 +222,7 @@ class GetIntersByDistanceMethodTest extends SpockRollbackTestAbstractClass {
         def results = virtualEdition.getIntersByDistance(virtualEditionInter, weights)
 
         then:
-        results.size() == 5
+        results.size() == 6
         results.stream().map({ r -> r.getDistance() }).collect(Collectors.toSet()).size() == 1
 
         results.stream().forEach({ r -> logger.debug('{}: {}', r.getInterId(), r.getDistance()) })
