@@ -175,6 +175,7 @@ public class VirtualEdition extends VirtualEdition_Base {
     // edition, deals with the the case of a fragment having two interpretations
     // for the same expert edition
     public boolean canAddFragInter(ScholarInter addInter) {
+
         Fragment fragment = addInter.getFragment();
 
         for (VirtualEditionInter inter : getVirtualEditionInterSetForFragment(fragment)) {
@@ -512,7 +513,6 @@ public class VirtualEdition extends VirtualEdition_Base {
 
     @Atomic(mode = TxMode.WRITE)
     public Section createSection(String title, int number) {
-
         Section section = new Section(this, title, number);
         return section;
     }
@@ -781,8 +781,7 @@ public class VirtualEdition extends VirtualEdition_Base {
         }
         return false;
     }
-
-
+    
     public MediaSource getMediaSource() {
         for (SocialMediaCriteria criteria : this.getCriteriaSet()) {
             if (criteria instanceof MediaSource) {
