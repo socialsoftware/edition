@@ -36,9 +36,7 @@ public class TweetFactory {
         String[] sources = {LastTwitterID.FP_CITATIONS, LastTwitterID.LIVRO_CITATIONS, LastTwitterID.BERNARDO_CITATIONS, LastTwitterID.VICENTE_CITATIONS};
 
         for (String source : sources) {
-            String lastFileName = LdoD.getInstance().getLastTwitterID().getLastParsedFile(source) != null
-                    ? LdoD.getInstance().getLastTwitterID().getLastParsedFile(source)
-                    : "";
+            String lastFileName = getLastProcessedFileName(source);
 
             List<File> sourceFiles = Arrays.stream(files)
                     .filter(f -> f.getName().contains(source) && f.getName().compareTo(lastFileName) >= 0)
@@ -47,7 +45,7 @@ public class TweetFactory {
             for (File fileEntry : sourceFiles) {
                 logger.debug("JSON file name: " + fileEntry.getName());
                 fileTweetCreation(fileEntry);
-                LdoD.getInstance().getLastTwitterID().updateLastParsedFile(fileEntry.getName());
+                updateLastProcessedFileName(fileEntry);
             }
         }
 
@@ -58,6 +56,18 @@ public class TweetFactory {
         LdoD.deleteTweetsWithoutCitation();
 
         logger.debug("FINISHED TWEET FACTORY!!!");
+    }
+
+    @Atomic(mode = TxMode.WRITE)
+    private void updateLastProcessedFileName(File fileEntry) {
+        LdoD.getInstance().getLastTwitterID().updateLastParsedFile(fileEntry.getName());
+    }
+
+    @Atomic(mode = TxMode.READ)
+    private String getLastProcessedFileName(String source) {
+        return LdoD.getInstance().getLastTwitterID().getLastParsedFile(source) != null
+                ? LdoD.getInstance().getLastTwitterID().getLastParsedFile(source)
+                : "";
     }
 
     private void fileTweetCreation(File fileEntry) throws FileNotFoundException, IOException {
