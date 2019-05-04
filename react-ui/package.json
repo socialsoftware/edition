@@ -2,7 +2,7 @@
     "name": "react-ldod",
     "dependencies": {
         "bootstrap": "^4.1.0",
-        "jquery": "^3.3.1",
+        "jquery": "^3.4.1",
         "popper.js": "^1.14.3",
         "prop-types": "^15.6.1",
         "react": "^15.5.4",
@@ -20,7 +20,7 @@
     "author": "Miguel Cruz",
     "devDependencies": {
         "autoprefixer": "^7.1.1",
-        "babel-core": "^6.24.1",
+        "babel-core": "^6.26.3",
         "babel-eslint": "^7.2.3",
         "babel-loader": "^7.0.0",
         "babel-plugin-react-intl": "^2.4.0",
