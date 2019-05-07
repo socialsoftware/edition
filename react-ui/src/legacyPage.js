@@ -6,11 +6,11 @@ import customHTMLParser from './customHTMLParser';
 
 class LegacyPage extends React.Component {
 
-    static baseURL = 'http://1.1.1.10:8080';
+    static baseURL = 'http://localhost:8080';
 
     constructor(props) {
         super(props);
-        const langConst = `/?lang=${props.intl.locale.split(/[_-]+/)[0]}`;
+        const langConst = `?lang=${props.intl.locale.split(/[_-]+/)[0]}`;
         this.state = {
             error: null,
             isLoaded: false,
@@ -48,7 +48,7 @@ class LegacyPage extends React.Component {
     componentWillReceiveProps(nextProps) {
         const state = this.state;
         state.url = LegacyPage.baseURL + nextProps.url;
-        state.lang = `/?lang=${nextProps.intl.locale.split(/[_-]+/)[0]}`;
+        state.lang = `?lang=${nextProps.intl.locale.split(/[_-]+/)[0]}`;
         this.htmlRequest(state.url + state.lang);
         this.setState(state);
         window.scrollTo(0, 0);
