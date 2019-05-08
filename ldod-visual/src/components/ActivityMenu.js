@@ -454,7 +454,7 @@ class ConnectedActivityMenu extends Component {
         <br/>
 
         <p align="center">
-          <b>Atividades a partir do fragmento actual:</b>
+          <b>Atividades a partir do fragmento atual:</b>
         </p>
 
         <div className="cardsContainerActivity">
