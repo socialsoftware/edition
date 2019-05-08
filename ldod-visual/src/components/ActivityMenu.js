@@ -393,12 +393,18 @@ class ConnectedActivityMenu extends Component {
 
         {instructions}
 
+        <br/>
+
+        <p align="center">
+          <b>Atividades a partir da edição escolhida:</b>
+        </p>
+
         <div className="cardsContainerActivity">
 
           <div className="cardActivity">
             <div className="containerActivity">
               <img src={picSquare} onClick={this.toggleSquareGridEditionOrder} className="cardsActivityImage" alt="Avatar" style={{
-                  width: "100%"
+                  width: "80%"
                 }}/>
               <p align="center">
                 <b>Explorar os fragmentos por ordem desta edição</b>
@@ -414,7 +420,7 @@ class ConnectedActivityMenu extends Component {
           <div className="cardActivity">
             <div className="containerActivity">
               <img src={datesImage} onClick={datesButtonFunction} className="cardsActivityImage" alt="Avatar" style={{
-                  width: "100%"
+                  width: "80%"
                 }}/>
               <p align="center">
                 <b>{datesButtonMessage}</b>
@@ -429,8 +435,34 @@ class ConnectedActivityMenu extends Component {
 
           <div className="cardActivity">
             <div className="containerActivity">
+              <img src={categoryImage} onClick={this.toggleWordCloudTaxonomy} className="cardsActivityImage" alt="Avatar" style={{
+                  width: "80%"
+                }}/>
+              <p align="center">
+                <b>{categoryButtonMessage}</b>
+              </p>
+              <div className="welcomeButtonActivity">
+                <Button bsStyle={categoryButtonStyle} bsSize="small" onClick={this.toggleWordCloudTaxonomy}>
+                  {categoryButtonBotMessage + " [T]"}
+                </Button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <br/>
+
+        <p align="center">
+          <b>Atividades a partir do fragmento actual:</b>
+        </p>
+
+        <div className="cardsContainerActivity">
+
+          <div className="cardActivity">
+            <div className="containerActivity">
               <img src={datesSimilarImage} onClick={this.toggleActivityMyHistoryDate} className="cardsActivityImage" alt="Avatar" style={{
-                  width: "100%"
+                  width: "80%"
                 }}/>
               <p align="center">
                 <b>{datesSimilarButtonMessage}</b>
@@ -445,15 +477,15 @@ class ConnectedActivityMenu extends Component {
 
           <div className="cardActivity">
             <div className="containerActivity">
-              <img src={categoryImage} onClick={this.toggleWordCloudTaxonomy} className="cardsActivityImage" alt="Avatar" style={{
-                  width: "100%"
+              <img src={picNetgraph} onClick={this.toggleActivityNetworkGraphTextSimilarity} className="cardsActivityImage" alt="Avatar" style={{
+                  width: "80%"
                 }}/>
               <p align="center">
-                <b>{categoryButtonMessage}</b>
+                <b>Ler fragmentos semelhantes a este por semelhança de texto</b>
               </p>
               <div className="welcomeButtonActivity">
-                <Button bsStyle={categoryButtonStyle} bsSize="small" onClick={this.toggleWordCloudTaxonomy}>
-                  {categoryButtonBotMessage + " [T]"}
+                <Button bsStyle="default" bsSize="small" onClick={this.toggleActivityNetworkGraphTextSimilarity}>
+                  Escolher atividade [X]
                 </Button>
               </div>
             </div>
@@ -462,7 +494,7 @@ class ConnectedActivityMenu extends Component {
           <div className="cardActivity">
             <div className="containerActivity">
               <img src={wordCloudSingleFragmentImage} onClick={this.toggleWordCloudTaxonomySingleFragment} className="cardsActivityImage" alt="Avatar" style={{
-                  width: "100%"
+                  width: "80%"
                 }}/>
               <p align="center">
                 <b>{wordCloudSingleFragmentMessage}</b>
@@ -478,7 +510,7 @@ class ConnectedActivityMenu extends Component {
           <div className="cardActivity">
             <div className="containerActivity">
               <img src={networkGraphTaxonomyImage} onClick={this.toggleActivityNetworkGraphTaxonomy} className="cardsActivityImage" alt="Avatar" style={{
-                  width: "100%"
+                  width: "80%"
                 }}/>
               <p align="center">
                 <b>{networkGraphTaxonomyMessage}</b>
@@ -493,24 +525,8 @@ class ConnectedActivityMenu extends Component {
 
           <div className="cardActivity">
             <div className="containerActivity">
-              <img src={picNetgraph} onClick={this.toggleActivityNetworkGraphTextSimilarity} className="cardsActivityImage" alt="Avatar" style={{
-                  width: "100%"
-                }}/>
-              <p align="center">
-                <b>Ler fragmentos semelhantes a este por semelhança de texto</b>
-              </p>
-              <div className="welcomeButtonActivity">
-                <Button bsStyle="default" bsSize="small" onClick={this.toggleActivityNetworkGraphTextSimilarity}>
-                  Escolher atividade [X]
-                </Button>
-              </div>
-            </div>
-          </div>
-
-          <div className="cardActivity">
-            <div className="containerActivity">
               <img src={heteronymImage} onClick={this.toggleSquareGridHeteronym} className="cardsActivityImage" alt="Avatar" style={{
-                  width: "100%"
+                  width: "80%"
                 }}/>
               <p align="center">
                 <b>Explorar mais fragmentos assinados pelo mesmo heterónimo deste fragmento ({myHeteronym})</b>
