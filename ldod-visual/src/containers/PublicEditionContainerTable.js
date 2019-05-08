@@ -285,6 +285,9 @@ class ConnectedPublicEditionContainerTable extends React.Component {
 
       const columns = [
         {
+          Header: '',
+          accessor: 'navButton'
+        }, {
           Header: 'Título',
           accessor: 'title', // String-based value accessors!
           filterable: true,
@@ -350,9 +353,6 @@ class ConnectedPublicEditionContainerTable extends React.Component {
           style: {
             textAlign: "center"
           }
-        }, {
-          Header: '',
-          accessor: 'navButton'
         }
 
       ]
