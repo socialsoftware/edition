@@ -62,6 +62,8 @@ class LegacyPage extends React.Component {
         } else if (!isLoaded) {
             return <div>Loading LdoD...</div>;
         }
+        console.log(html);
+        console.log(parsedHTML);
         return (
             <div className={'container ldod-default'}>
                 <Helmet>

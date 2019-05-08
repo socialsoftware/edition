@@ -15,6 +15,9 @@
     "topBar.about.contact" : "Contacto",
     "topBar.about.copyright" : "Copyright",
     "topBar.reading.title" : "Leitura",
+    "topBar.reading.reading" : "Sequências de Leitura",
+    "topBar.reading.visual" : "Livro Visual",
+    "topBar.reading.citations" : "Citações no Twitter",
     "topBar.documents.title" : "Documentos",
     "topBar.documents.witnesses" : "Testemunhos",
     "topBar.documents.fragments" : "Fragmentos Codificados",
@@ -23,6 +26,8 @@
     "topBar.search.simple" : "Pesquisa Simples",
     "topBar.search.advanced" : "Pesquisa Avançada",
     "topBar.virtual.title" : "Virtual",
+    "topBar.virtual.editions" : "Edições Virtuais",
+    "topBar.virtual.game" : "Jogo de Classificação",
     "lang" : "?lang=pt"
   },
   "en" : {
@@ -41,6 +46,9 @@
     "topBar.about.contact" : "Contact Us",
     "topBar.about.copyright" : "Copyright",
     "topBar.reading.title" : "Reading",
+    "topBar.reading.reading" : "Reading Sequences",
+    "topBar.reading.visual" : "Visual Book",
+    "topBar.reading.citations" : "Citations on Twitter",
     "topBar.documents.title" : "Documents",
     "topBar.documents.witnesses" : "Witnesses",
     "topBar.documents.fragments" : "Fragments",
@@ -49,6 +57,8 @@
     "topBar.search.simple" : "Simple Search",
     "topBar.search.advanced" : "Advanced Search",
     "topBar.virtual.title" : "Virtual",
+    "topBar.virtual.editions" : "Virtual Editions",
+    "topBar.virtual.game" : "Classification Game",
     "lang" : "?lang=en"
   },
   "es" : {
@@ -67,6 +77,9 @@
     "topBar.about.contact" : "Contacto",
     "topBar.about.copyright" : "Copyright",
     "topBar.reading.title" : "Lectura",
+    "topBar.reading.reading" : "Secuencias de Lectura",
+    "topBar.reading.visual" : "Libro Visual",
+    "topBar.reading.citations" : "Citas en Twitter",
     "topBar.documents.title" : "Documentos",
     "topBar.documents.witnesses" : "Testimonios",
     "topBar.documents.fragments" : "Fragmentos Codificados",
@@ -75,6 +88,8 @@
     "topBar.search.simple" : "Búsqueda Sencilla",
     "topBar.search.advanced" : "Búsqueda Avanzada",
     "topBar.virtual.title" : "Virtual",
+    "topBar.virtual.editions" : "Ediciones Virtuales",
+    "topBar.virtual.game" : "Juego de Classificación",
     "lang" : "?lang=es"
   }
 }

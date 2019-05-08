@@ -76,7 +76,13 @@ function TopBarList() {
                             { title: <FormattedMessage id={'topBar.about.copyright'} />, link: 'copyright' },
                         ]} />
                     {/* Reading */}
-                    <TopBarElement title={<FormattedMessage id={'topBar.reading.title'} />} baseLink={'reading'} />
+                    <TopBarElement
+                        title={<FormattedMessage id={'topBar.reading.title'} />}
+                        subsections={[
+                        { title: <FormattedMessage id={'topBar.reading.reading'} />, link: 'reading' },
+                        { title: <FormattedMessage id={'topBar.reading.visual'} />, link: 'ldod-visual' },
+                        { title: <FormattedMessage id={'topBar.reading.citations'} />, link: 'citations' },
+                        ]} />
                     {/* Documents */}
                     <TopBarElement
                         title={<FormattedMessage id={'topBar.documents.title'} />}
@@ -95,7 +101,9 @@ function TopBarList() {
                             { title: 'Jerónimo Pizarro', link: 'acronym/JP' },
                             { title: 'Arquivo LdoD', link: 'acronym/LdoD-Arquivo' },
                             { title: 'LdoD-JPC-ANOT', link: 'acronym/JPC-anot' },
+                            { title: 'LdoD-JOGO-CLASS', link: 'acronym/LdoD-Jogo-Class' },
                             { title: 'LdoD-MALLET', link: 'acronym/LdoD-Mallet' },
+                            { title: 'LdoD-TWITTER', link: 'acronym/LdoD-Twitter' },
                         ]}
                         division={5} />
                     {/* Search */}
@@ -107,7 +115,12 @@ function TopBarList() {
                             { title: <FormattedMessage id={'topBar.search.advanced'} />, link: 'advanced' },
                         ]} />
                     {/* Virtual */}
-                    <TopBarElement title={<FormattedMessage id={'topBar.virtual.title'} />} baseLink={'virtualeditions'} />
+                    <TopBarElement
+                        title={<FormattedMessage id={'topBar.virtual.title'} />}
+                        subsections={[
+                        { title: <FormattedMessage id={'topBar.virtual.editions'} />, link: 'virtualeditions' },
+                        { title: <FormattedMessage id={'topBar.virtual.game'} />, link: 'classificationGames' },
+                        ]} />
                     {/* Lang */}
                     <LanguageToggle />
                 </ul>
