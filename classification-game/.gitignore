@@ -22,3 +22,5 @@ yarn-error.log*
 src/social/Config.js
  
 node
+
+package-lock.json
