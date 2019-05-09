@@ -277,9 +277,11 @@ class ConnectedApp extends Component {
   }
 
   toggleShowReadingMenuInstructions() {
-    this.setState({
-      showReadingMenuIntructions: !this.state.showReadingMenuIntructions
-    });
+    if (!this.state.showReadingMenuIntructions) {
+      this.setState({showReadingMenuIntructions: true, inReadingMenu: false});
+    } else {
+      this.setState({showReadingMenuIntructions: false, inReadingMenu: true});
+    }
   }
 
   toggleInstructions() {
@@ -425,10 +427,15 @@ class ConnectedApp extends Component {
   _onIdle(e) {
     // console.log('user is idle', e)
     // console.log('last active', this.idleTimer.getLastActiveTime())
-    if (this.state.mouseOverMenuButtons) {
-      this.setState({opacity: this.opacityShow, hiddenFromIdle: false})
-    } else {
-      this.setState({opacity: this.opacityBarelyVisible, hiddenFromIdle: true});
+
+    if (this.state.inReadingMenu) {
+
+      if (this.state.mouseOverMenuButtons) {
+        this.setState({opacity: this.opacityShow, hiddenFromIdle: false})
+      } else {
+        this.setState({opacity: this.opacityBarelyVisible, hiddenFromIdle: true});
+      }
+
     }
 
   }

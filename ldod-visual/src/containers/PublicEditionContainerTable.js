@@ -285,6 +285,11 @@ class ConnectedPublicEditionContainerTable extends React.Component {
 
       const columns = [
         {
+          Header: '',
+          accessor: 'navButton',
+          resizable: false,
+          minWidth: 70
+        }, {
           Header: 'Título',
           accessor: 'title', // String-based value accessors!
           filterable: true,
@@ -304,6 +309,7 @@ class ConnectedPublicEditionContainerTable extends React.Component {
         }, {
           Header: 'Acrónimo',
           accessor: 'acronym',
+          resizable: false,
           filterable: true,
           filterMethod: (filter, row, column) => {
             const id = filter.pivotId || filter.id
@@ -347,12 +353,10 @@ class ConnectedPublicEditionContainerTable extends React.Component {
         }, {
           Header: 'Número de fragmentos',
           accessor: 'nrFragments',
+          resizable: false,
           style: {
             textAlign: "center"
           }
-        }, {
-          Header: '',
-          accessor: 'navButton'
         }
 
       ]
