@@ -1,10 +1,11 @@
 import React from 'react';
 import ReactHTMLParser, { convertNodeToElement } from 'react-html-parser';
 import { Link } from 'react-router-dom';
-import Helmet from 'react-helmet';
 
 
-function transform(node) {
+function transform(node) { // TODO: prevent render of head
+    if (node.name === 'head' || node.name === 'nav') { return null; }
+
     if (node.type === 'tag' && node.name === 'a' && node.attribs.href && node.class !== 'infobutton') {
         if (node.attribs.href !== '#') {
             return (<Link
@@ -14,6 +15,7 @@ function transform(node) {
         }
         // eslint disable because of eval
         /*eslint-disable */
+        console.log(node);
         return (
             <a
                 className={node.attribs.class}
@@ -23,33 +25,10 @@ function transform(node) {
         );
         /*eslint-enable */
     }
-    if (node.name === 'script') {
-        if (node.attribs.src) {
-            return (
-                <Helmet>
-                    <script src={node.attribs.src} />
-                </Helmet>
-            );
-        }
-        return (
-            <Helmet>
-                <script type={node.attribs.type}>
-                    {node.children[0].data}
-                </script>
-            </Helmet>
-        );
-    }
-    if (node.name === 'link') {
-        return (
-            <Helmet>
-                <link rel={node.attribs.rel} type={node.attribs.type} href={node.attribs.href} />
-            </Helmet>
-        );
-    }
     return undefined;
 }
 
 export default function customHTMLParser(html) {
     const options = { transform };
-    return ReactHTMLParser(html, options)[0];
+    return ReactHTMLParser(html, options)[1];
 }

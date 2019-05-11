@@ -1,6 +1,5 @@
 import React from 'react';
 import { injectIntl } from 'react-intl';
-import Helmet from 'react-helmet';
 import customHTMLParser from './customHTMLParser';
 
 
@@ -62,17 +61,10 @@ class LegacyPage extends React.Component {
         } else if (!isLoaded) {
             return <div>Loading LdoD...</div>;
         }
-        console.log(html);
-        console.log(parsedHTML);
+        console.log(parsedHTML.props.children[1]);
         return (
             <div className={'container ldod-default'}>
-                <Helmet>
-                    <script src={'resources/js/jquery-3.3.1.min.js'} />
-                </Helmet>
-                <Helmet>
-                    <script src={'resources/js/bootstrap.min.js'} />
-                </Helmet>
-                {parsedHTML.props.children}
+                {parsedHTML.props.children[1].props.children}
             </div>
         );
     }

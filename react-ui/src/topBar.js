@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { NavDropdown, MenuItem } from 'react-bootstrap';
+import { NavDropdown, MenuItem, NavItem } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import { FormattedMessage } from 'react-intl';
 import LanguageToggle from './languageToggle';
@@ -47,7 +47,7 @@ function TopBarElement(props) {
 
     return (
         <NavDropdown key={props.baseLink} title={props.title} id={'Navigation Menu'}>
-            <div className={'dropdown-menu-bg'} />
+            <NavItem className={'dropdown-menu-bg'} />
             {subsecs}
         </NavDropdown>
     );
