@@ -61,7 +61,6 @@ class LegacyPage extends React.Component {
         } else if (!isLoaded) {
             return <div>Loading LdoD...</div>;
         }
-        console.log(parsedHTML.props.children[1]);
         return (
             <div className={'container ldod-default'}>
                 {parsedHTML.props.children[1].props.children}
