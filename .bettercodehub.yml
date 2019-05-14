@@ -9,3 +9,5 @@ exclude:
   - .*/webapp/resources/.*
   - .*/webapp/classification-game/.*
   - .*/webapp/ldod-visual/.*
+  - .*/classification-game/.*
+  - .*/ldod-visual/.*
