@@ -5,22 +5,17 @@ import { Helmet } from 'react-helmet';
 
 
 function transform(node) { // TODO: prevent tbody being placed as child of thead, see what is happening.
-    if (node.name === 'head' || node.name === 'nav') { return null; }
+    if (node.name === 'nav' || node.name === 'link' || node.name === 'style'
+          || node.name === 'meta' || node.name === 'title') { return null; }
 
-    if (node.name === 'script') {
+    if (node.name === 'script' && node.attribs.src == null) {
         return (
             <Helmet>
-                <script type={node.attribs.type}>
+                <script type="text/javascript">
                     {node.children[0].data}
                 </script>
             </Helmet>
         );
-    }
-
-    if (node.name === 'a') {
-        if (hasTrParent(node)) {
-            console.log(node.attribs.href);
-        }
     }
 
     if (node.type === 'tag' && node.name === 'a' && node.attribs.href && node.class !== 'infobutton') {
@@ -32,7 +27,6 @@ function transform(node) { // TODO: prevent tbody being placed as child of thead
         }
         // eslint disable because of eval
         /*eslint-disable */
-        console.log(node);
         return (
             <a
                 className={node.attribs.class}
@@ -45,14 +39,14 @@ function transform(node) { // TODO: prevent tbody being placed as child of thead
     return undefined;
 }
 
-function hasTrParent(node) {
+/* function hasTdParent(node) {
     let aux = node;
     while (aux != null) {
-        if (aux.parent && aux.parent.name === 'tr') { return true; }
+        if (aux.parent && aux.parent.name === 'td') { return true; }
         aux = aux.parent;
     }
     return false;
-}
+} */
 
 export default function customHTMLParser(html) {
     const options = { transform };

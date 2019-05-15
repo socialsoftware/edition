@@ -61,9 +61,12 @@ class LegacyPage extends React.Component {
         } else if (!isLoaded) {
             return <div>Loading LdoD...</div>;
         }
+        const remaining = parsedHTML.props.children.splice(1, parsedHTML.props.children.length);
+        console.log(remaining);
         return (
             <div className={'container ldod-default'}>
-                {parsedHTML.props.children[1].props.children}
+                {parsedHTML.props.children[0].props.children.filter(e => e != null)}
+                {remaining}
             </div>
         );
     }
