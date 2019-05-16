@@ -837,3 +837,58 @@ relation ClassificationGameParticipantInGameRounds {
 	ClassificationGameParticipant playsRole classificationGameParticipant {multiplicity 1..1;}
 	ClassificationGameRound playsRole classificationGameRound {multiplicity 0..*;}
 }
+
+// React composable application related changes
+
+class Module {
+    String name;
+}
+
+class UiComponent;
+
+class Menu{
+    String name;
+}
+
+class Option {
+    String link;
+}
+
+relation DomainRootHasModules {
+    .pt.ist.fenixframework.DomainRoot playsRole root {
+        multiplicity 1..1;
+    }
+    Module playsRole module {
+        multiplicity 0..*;
+    }
+}
+
+relation ModuleHasUiComponent {
+    Module playsRole module {
+        multiplicity 1..1;
+    }
+
+    UiComponent playsRole uiComponent {
+        multiplicity 1..1;
+    }
+}
+
+relation UiComponentHasMenu {
+    UiComponent playsRole uiComponent {
+        multiplicity 1..1;
+    }
+
+    Menu playsRole menu {
+        multiplicity 0..*;
+    }
+}
+
+relation MenuHasOption {
+    Menu playsRole menu {
+        multiplicity 1..1;
+    }
+
+    Option playsRole option {
+        multiplicity 0..*;
+    }
+}

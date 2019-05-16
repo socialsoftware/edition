@@ -8,6 +8,7 @@ import org.springframework.web.WebApplicationInitializer;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
+import pt.ist.socialsoftware.edition.ldod.domain.Module;
 import pt.ist.socialsoftware.edition.ldod.domain.Role.RoleType;
 import pt.ist.socialsoftware.edition.ldod.recommendation.VSMFragmentRecommender;
 import pt.ist.socialsoftware.edition.ldod.recommendation.properties.*;
@@ -56,6 +57,32 @@ public class Bootstrap implements WebApplicationInitializer {
         } else {
             loadRecommendationCache();
         }
+
+        createModules();
+    }
+
+    public static void createModules() {
+        // TODO: Only defined for main edition-ldod module. Should be decomposed into its submodules
+
+        Module module = new Module("edition-ldod");
+        UiComponent uiComponent = new UiComponent(module);
+
+        String[] menuNames = {"About", "Reading", "Documents", "Editions","Search","Virtual"};
+        String[][] optionLinks = {{"/archive", "/videos", "/faq", "/encoding", "/articles", "/conduct", "/privacy", "/team", "/acknowledgements", "/contact", "/copyright"},
+                {"/reading", "/ldod-visual", "/citations"}, {"/source/list", "/fragments"},
+                {"/edition/acronym/JPC", "/edition/acronym/TSC", "/edition/acronym/rz", "/edition/acronym/JP", "/edition/acronym/LdoD-Arquivo",
+                        "/edition/acronym/LdoD-JPC-anot", "/edition/acronym/LdoD-Jogo-Class", "/edition/acronym/LdoD-Mallet", "/edition/acronym/LdoD-Twitter"},
+                {"/search/simple", "/search/advanced"},
+                {"/virtualeditions", "/classificationGames"}
+        };
+
+        for (int i = 0; i < menuNames.length; i++) {
+            Menu menu = new Menu(uiComponent, menuNames[i]);
+            for (String link : optionLinks[i]) {
+                new Option(menu, link);
+            }
+        }
+
     }
 
     public static void cleanCorpusRepository() {
