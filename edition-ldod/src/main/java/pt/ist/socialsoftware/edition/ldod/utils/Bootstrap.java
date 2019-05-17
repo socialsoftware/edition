@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.WebApplicationInitializer;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
+import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.domain.Module;
 import pt.ist.socialsoftware.edition.ldod.domain.Role.RoleType;
@@ -58,7 +59,9 @@ public class Bootstrap implements WebApplicationInitializer {
             loadRecommendationCache();
         }
 
-        createModules();
+        if (FenixFramework.getDomainRoot().getModuleSet().isEmpty()) {
+            createModules();
+        }
     }
 
     public static void createModules() {

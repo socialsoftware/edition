@@ -64,7 +64,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/admin/**").hasAuthority(RoleType.ROLE_ADMIN.name()).and().sessionManagement()
 				.maximumSessions(2).sessionRegistry(sessionRegistry());
 
-		http.cors().and().authorizeRequests().antMatchers("/api/user/**", "/api/services/**").authenticated().and()
+		http.cors().and().authorizeRequests().antMatchers("/api/services/frontend/**").permitAll().and()
+				.authorizeRequests().antMatchers("/api/user/**", "/api/services/**").authenticated().and()
 				.exceptionHandling().authenticationEntryPoint(this.unauthorizedHandler).and()
 				.addFilter(new JWTAuthorizationFilter(authenticationManager()));// .sessionManagement()
 		// .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
