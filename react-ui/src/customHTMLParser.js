@@ -50,6 +50,5 @@ function transform(node) { // TODO: prevent tbody being placed as child of thead
 
 export default function customHTMLParser(html) {
     const options = { transform };
-    console.log(html);
     return ReactHTMLParser(html, options)[1];
 }

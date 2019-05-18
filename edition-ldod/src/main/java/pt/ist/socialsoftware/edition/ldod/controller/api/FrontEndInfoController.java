@@ -12,14 +12,13 @@ import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.domain.Module;
 
 import java.util.*;
-import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/services/frontend")
 public class FrontEndInfoController {
 
-    // /api/services/frontend/module-info TODO: fix not being able to access api without being logged in
+    // /api/services/frontend/module-info
     @GetMapping(value = "/module-info", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<?> getModuleInfo() {
         Set<Module> moduleSet =  FenixFramework.getDomainRoot().getModuleSet();

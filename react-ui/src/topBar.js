@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { NavDropdown, MenuItem, NavItem } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
@@ -129,10 +130,96 @@ function TopBarList() {
     );
 }
 
-export default function TopBar() {
-    fetch('http://localhost:8080/api/services/frontend/module-info')
-        .then(response => response.json())
-        .then(response => console.log(response));
+export default class TopBar extends React.Component {
+
+    static baseURL = 'http://localhost:8080';
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            moduleInfo: null,
+            isLoaded: false,
+        };
+    }
+
+    retrieveModuleInfoData() {
+        axios.get('http://localhost:8080/api/services/frontend/module-info')
+            .then((result) => {
+                this.setState({
+                    moduleInfo: result.data,
+                    isLoaded: true,
+                });
+            },
+                  (result) => {
+                      console.log(`Failed to load moduleInfo. Status code ${result.status}`);
+                  });
+    }
+
+    componentDidMount() {
+        this.retrieveModuleInfoData();
+    }
+
+    render() {
+        if (this.state.isLoaded) {
+            console.log('Got module info from server');
+            console.log(this.state.moduleInfo);
+
+            const moduleNames = Object.keys(this.state.moduleInfo);
+
+            const topBarComponents = [];
+
+            for (let i = 0; i < moduleNames.length; i++) {
+                console.log(moduleNames[i]);
+
+                const menus = Object.keys(this.state.moduleInfo[moduleNames[i]]);
+
+                for (let j = 0; j < menus.length; j++) {
+                    const options = this.state.moduleInfo[moduleNames[i]][menus[j]];
+
+                    const menuJson = [];
+
+                    for (let k = 0; k < options.length; k++) {
+                        menuJson.push({ title: <FormattedMessage id={options[k].key} />,
+                            link: TopBar.baseURL + options[k].value });
+                    }
+
+                    const element = (<TopBarElement
+                        title={<FormattedMessage id={menus[j]} />}
+                        subsections={menuJson} />);
+                    topBarComponents.push(element);
+                }
+            }
+
+            console.log(topBarComponents);
+
+            return (
+                <nav className={'ldod-navbar navbar navbar-default navbar-fixed-top'}>
+                    <TopBarStatic />
+
+                    <div className={'container'}>
+                        <div className={'collapse navbar-collapse'}>
+                            <ul className={'nav navbar-nav navbar-nav-flex'}>
+                                {topBarComponents}
+                                <LanguageToggle />
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+            );
+        } console.log('Info not loaded');
+
+        return (
+            <nav className={'ldod-navbar navbar navbar-default navbar-fixed-top'}>
+                <TopBarStatic />
+                <TopBarList />
+            </nav>
+        );
+    }
+
+}
+
+
+/* export default function TopBar() {
 
     return (
         <nav className={'ldod-navbar navbar navbar-default navbar-fixed-top'}>
@@ -140,4 +227,4 @@ export default function TopBar() {
             <TopBarList />
         </nav>
     );
-}
+} */
