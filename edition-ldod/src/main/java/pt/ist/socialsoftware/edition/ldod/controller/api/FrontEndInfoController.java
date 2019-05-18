@@ -1,5 +1,6 @@
 package pt.ist.socialsoftware.edition.ldod.controller.api;
 
+import javafx.util.Pair;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +12,7 @@ import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.domain.Module;
 
 import java.util.*;
+import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
 @RestController
@@ -22,12 +24,14 @@ public class FrontEndInfoController {
     public ResponseEntity<?> getModuleInfo() {
         Set<Module> moduleSet =  FenixFramework.getDomainRoot().getModuleSet();
 
-        Map<String, Map<String, List<String>>> results = new HashMap<>();
+        Map<String, Map<String, List<Pair<String,String>>>> results = new HashMap<>();
+
 
         for (Module module: moduleSet){
-            Map<String, List<String>> temp = new HashMap<>();
+            Map<String, List<Pair<String,String>>> temp = new HashMap<>();
             for (Menu menu : module.getUiComponent().getMenuSet()) {
-                List<String> links = menu.getOptionSet().stream().map(Option::getLink).collect(Collectors.toList());
+                List<Pair<String,String>> links = menu.getOptionSet().stream()
+                        .map(option -> new Pair<>(option.getName(),option.getLink())).collect(Collectors.toList());
                 temp.put(menu.getName(),links);
             }
             results.put(module.getName(), temp);

@@ -70,7 +70,19 @@ public class Bootstrap implements WebApplicationInitializer {
         Module module = new Module("edition-ldod");
         UiComponent uiComponent = new UiComponent(module);
 
-        String[] menuNames = {"About", "Reading", "Documents", "Editions","Search","Virtual"};
+        String[] menuNames = {"topBar.about.title", "topBar.reading.title", "topBar.documents.title", "topBar.editions.title",
+                "topBar.search.title","topBar.virtual.title"};
+        String[][] optionNames = {{"topBar.about.archive", "topBar.about.videos", "topBar.about.faq", "topBar.about.encoding",
+                    "topBar.about.articles", "topBar.about.conduct", "topBar.about.privacy", "topBar.about.team",
+                    "topBar.about.acknowledgements", "topBar.about.contact", "topBar.about.copyright"},
+                {"topBar.reading.reading", "topBar.reading.visual", "topBar.reading.citations"},
+                {"topBar.documents.witnesses", "topBar.documents.fragments"},
+                {"Jacinto do Prado Coelho", "Teresa Sobral Cunha", "Richard Zenith", "Jerónimo Pizarro", "Arquivo LdoD",
+                        "LdoD-JPC-ANOT", "LdoD-JOGO-CLASS", "LdoD-MALLET", "LdoD-TWITTER"},
+                {"topBar.search.simple", "topBar.search.advanced"},
+                {"topBar.virtual.editions", "topBar.virtual.game"}
+        };
+
         String[][] optionLinks = {{"/archive", "/videos", "/faq", "/encoding", "/articles", "/conduct", "/privacy", "/team", "/acknowledgements", "/contact", "/copyright"},
                 {"/reading", "/ldod-visual", "/citations"}, {"/source/list", "/fragments"},
                 {"/edition/acronym/JPC", "/edition/acronym/TSC", "/edition/acronym/rz", "/edition/acronym/JP", "/edition/acronym/LdoD-Arquivo",
@@ -81,8 +93,8 @@ public class Bootstrap implements WebApplicationInitializer {
 
         for (int i = 0; i < menuNames.length; i++) {
             Menu menu = new Menu(uiComponent, menuNames[i]);
-            for (String link : optionLinks[i]) {
-                new Option(menu, link);
+            for (int j = 0; j < optionNames[i].length; j++) {
+                new Option(menu,optionNames[i][j],optionLinks[i][j]);
             }
         }
 

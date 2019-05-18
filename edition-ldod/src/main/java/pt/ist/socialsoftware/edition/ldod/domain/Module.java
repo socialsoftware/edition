@@ -12,6 +12,7 @@ public class Module extends Module_Base {
     public void remove(){
         getUiComponent().remove();
         setRoot(null);
+        deleteDomainObject();
     }
     
 }

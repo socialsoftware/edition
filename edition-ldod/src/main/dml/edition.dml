@@ -851,6 +851,7 @@ class Menu{
 }
 
 class Option {
+    String name;
     String link;
 }
 

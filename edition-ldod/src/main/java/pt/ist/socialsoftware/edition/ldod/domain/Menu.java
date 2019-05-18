@@ -10,5 +10,6 @@ public class Menu extends Menu_Base {
     public void remove(){
         getOptionSet().forEach(Option::remove);
         setUiComponent(null);
+        deleteDomainObject();
     }
 }

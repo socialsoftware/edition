@@ -9,6 +9,7 @@ public class UiComponent extends UiComponent_Base {
     public void remove() {
         getMenuSet().forEach(Menu::remove);
         setModule(null);
+        deleteDomainObject();
     }
     
 }

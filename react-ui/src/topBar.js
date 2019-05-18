@@ -130,6 +130,10 @@ function TopBarList() {
 }
 
 export default function TopBar() {
+    fetch('http://localhost:8080/api/services/frontend/module-info')
+        .then(response => response.json())
+        .then(response => console.log(response));
+
     return (
         <nav className={'ldod-navbar navbar navbar-default navbar-fixed-top'}>
             <TopBarStatic />
