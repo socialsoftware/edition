@@ -1,6 +1,8 @@
 package pt.ist.socialsoftware.edition.ldod.controller.api;
 
 import javafx.util.Pair;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -17,13 +19,14 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/services/frontend")
 public class FrontEndInfoController {
+    private static Logger logger = LoggerFactory.getLogger(FrontEndInfoController.class);
 
     // /api/services/frontend/module-info
     @GetMapping(value = "/module-info", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<?> getModuleInfo() {
         Set<Module> moduleSet =  FenixFramework.getDomainRoot().getModuleSet();
 
-        Map<String, Map<String, List<Pair<String,String>>>> results = new HashMap<>();
+        Map<String, Map<String, List<Pair<String,String>>>> results = new LinkedHashMap<>();
 
 
         for (Module module: moduleSet){
@@ -35,6 +38,8 @@ public class FrontEndInfoController {
             }
             results.put(module.getName(), temp);
         }
+
+        //logger.debug(results.toString());
 
         return new ResponseEntity<>(results, HttpStatus.OK);
     }

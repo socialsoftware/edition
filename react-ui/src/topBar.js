@@ -32,14 +32,10 @@ function TopBarElement(props) {
         );
     }
 
-    let baseLink = '';
-    if (props.baseLink) {
-        baseLink = `/${props.baseLink}`;
-    }
-    const subsecs = props.subsections.map(subsection =>
-        (<LinkContainer key={subsection.link} to={`${baseLink}/${subsection.link}`}>
-            <MenuItem key={subsection.link}>{subsection.title}</MenuItem>
-        </LinkContainer>),
+
+    const subsecs = props.subsections.map(subsection => (<LinkContainer key={subsection.link} to={`${subsection.link}`}>
+        <MenuItem key={subsection.link}>{subsection.title}</MenuItem>
+    </LinkContainer>),
     );
 
     if (props.division) {
@@ -180,7 +176,7 @@ export default class TopBar extends React.Component {
 
                     for (let k = 0; k < options.length; k++) {
                         menuJson.push({ title: <FormattedMessage id={options[k].key} />,
-                            link: TopBar.baseURL + options[k].value });
+                            link: options[k].value });
                     }
 
                     const element = (<TopBarElement

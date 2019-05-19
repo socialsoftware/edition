@@ -83,7 +83,8 @@ public class Bootstrap implements WebApplicationInitializer {
                 {"topBar.virtual.editions", "topBar.virtual.game"}
         };
 
-        String[][] optionLinks = {{"/archive", "/videos", "/faq", "/encoding", "/articles", "/conduct", "/privacy", "/team", "/acknowledgements", "/contact", "/copyright"},
+        String[][] optionLinks = {{"/about/archive", "/about/videos", "/about/faq", "/about/encoding", "/about/articles",
+                "/about/conduct", "/about/privacy", "/about/team", "/about/acknowledgements", "/about/contact", "/about/copyright"},
                 {"/reading", "/ldod-visual", "/citations"}, {"/source/list", "/fragments"},
                 {"/edition/acronym/JPC", "/edition/acronym/TSC", "/edition/acronym/rz", "/edition/acronym/JP", "/edition/acronym/LdoD-Arquivo",
                         "/edition/acronym/LdoD-JPC-anot", "/edition/acronym/LdoD-Jogo-Class", "/edition/acronym/LdoD-Mallet", "/edition/acronym/LdoD-Twitter"},
