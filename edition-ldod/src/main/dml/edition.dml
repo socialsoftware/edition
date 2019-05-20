@@ -848,11 +848,13 @@ class UiComponent;
 
 class Menu{
     String name;
+    int position;
 }
 
 class Option {
     String name;
     String link;
+    int position;
 }
 
 relation DomainRootHasModules {

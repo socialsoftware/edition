@@ -165,11 +165,11 @@ export default class TopBar extends React.Component {
             const topBarComponents = [];
 
             for (let i = 0; i < moduleNames.length; i++) {
-                console.log(moduleNames[i]);
-
                 const menus = Object.keys(this.state.moduleInfo[moduleNames[i]]);
 
                 for (let j = 0; j < menus.length; j++) {
+                    //if (menus[j] === 'topBar.virtual.title') continue;
+
                     const options = this.state.moduleInfo[moduleNames[i]][menus[j]];
 
                     const menuJson = [];
@@ -202,7 +202,9 @@ export default class TopBar extends React.Component {
                     </div>
                 </nav>
             );
-        } console.log('Info not loaded');
+        }
+
+        console.log('Info not loaded');
 
         return (
             <nav className={'ldod-navbar navbar navbar-default navbar-fixed-top'}>

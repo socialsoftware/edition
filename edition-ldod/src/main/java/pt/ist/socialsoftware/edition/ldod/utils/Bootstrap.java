@@ -59,13 +59,15 @@ public class Bootstrap implements WebApplicationInitializer {
             loadRecommendationCache();
         }
 
-        if (FenixFramework.getDomainRoot().getModuleSet().isEmpty()) {
-            createModules();
-        }
+        cleanAndCreateModules();
     }
 
-    public static void createModules() {
+    public static void cleanAndCreateModules() {
         // TODO: Only defined for main edition-ldod module. Should be decomposed into its submodules
+
+        // clean existing module info.
+        FenixFramework.getDomainRoot().getModuleSet().forEach(Module::remove);
+
 
         Module module = new Module("edition-ldod");
         UiComponent uiComponent = new UiComponent(module);
@@ -93,9 +95,9 @@ public class Bootstrap implements WebApplicationInitializer {
         };
 
         for (int i = 0; i < menuNames.length; i++) {
-            Menu menu = new Menu(uiComponent, menuNames[i]);
+            Menu menu = new Menu(uiComponent, menuNames[i],i);
             for (int j = 0; j < optionNames[i].length; j++) {
-                new Option(menu,optionNames[i][j],optionLinks[i][j]);
+                new Option(menu,optionNames[i][j],optionLinks[i][j],j);
             }
         }
 

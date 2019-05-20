@@ -30,16 +30,17 @@ public class FrontEndInfoController {
 
 
         for (Module module: moduleSet){
-            Map<String, List<Pair<String,String>>> temp = new HashMap<>();
-            for (Menu menu : module.getUiComponent().getMenuSet()) {
-                List<Pair<String,String>> links = menu.getOptionSet().stream()
+            Map<String, List<Pair<String,String>>> temp = new LinkedHashMap<>();
+            for (Menu menu : module.getUiComponent().getMenuSet().stream().sorted(Comparator.comparingInt(Menu::getPosition)).collect(Collectors.toList())) {
+                logger.debug(menu.getName());
+                List<Pair<String,String>> links = menu.getOptionSet().stream().sorted(Comparator.comparingInt(Option::getPosition))
                         .map(option -> new Pair<>(option.getName(),option.getLink())).collect(Collectors.toList());
                 temp.put(menu.getName(),links);
             }
             results.put(module.getName(), temp);
         }
 
-        //logger.debug(results.toString());
+        logger.debug(results.toString());
 
         return new ResponseEntity<>(results, HttpStatus.OK);
     }
