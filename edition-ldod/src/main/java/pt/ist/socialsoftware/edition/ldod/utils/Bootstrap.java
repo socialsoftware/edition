@@ -59,15 +59,18 @@ public class Bootstrap implements WebApplicationInitializer {
             loadRecommendationCache();
         }
 
-        cleanAndCreateModules();
-    }
-
-    public static void cleanAndCreateModules() {
-        // TODO: Only defined for main edition-ldod module. Should be decomposed into its submodules
-
         // clean existing module info.
         FenixFramework.getDomainRoot().getModuleSet().forEach(Module::remove);
 
+        //createEditionLdoDModuleInfo();
+        createEditionTextModuleInfo();
+        createEditionUserModuleInfo();
+        createEditionSearchModuleInfo();
+        createEditionVirtualModuleInfo();
+    }
+
+    public static void createEditionLdoDModuleInfo() {
+        // TODO: Only defined for main edition-ldod module. Should be decomposed into its submodules
 
         Module module = new Module("edition-ldod");
         UiComponent uiComponent = new UiComponent(module);
@@ -94,13 +97,85 @@ public class Bootstrap implements WebApplicationInitializer {
                 {"/virtualeditions", "/classificationGames"}
         };
 
+        createModuleInfo(uiComponent, menuNames, optionNames, optionLinks);
+
+    }
+
+    public static void createEditionTextModuleInfo() {
+        Module module = new Module("edition-text");
+        UiComponent uiComponent = new UiComponent(module);
+
+        String[] menuNames = {"topBar.about.title", "topBar.reading.title", "topBar.documents.title", "topBar.editions.title"};
+        String[][] optionNames = {{"topBar.about.archive", "topBar.about.videos", "topBar.about.faq", "topBar.about.encoding",
+                "topBar.about.articles", "topBar.about.conduct", "topBar.about.privacy", "topBar.about.team",
+                "topBar.about.acknowledgements", "topBar.about.contact", "topBar.about.copyright"},
+                {"topBar.reading.reading", "topBar.reading.visual", "topBar.reading.citations"},
+                {"topBar.documents.witnesses", "topBar.documents.fragments"},
+                {"Jacinto do Prado Coelho", "Teresa Sobral Cunha", "Richard Zenith", "Jerónimo Pizarro"}
+        };
+
+        String[][] optionLinks = {{"/about/archive", "/about/videos", "/about/faq", "/about/encoding", "/about/articles",
+                "/about/conduct", "/about/privacy", "/about/team", "/about/acknowledgements", "/about/contact", "/about/copyright"},
+                {"/reading", "/ldod-visual", "/citations"}, {"/source/list", "/fragments"},
+                {"/edition/acronym/JPC", "/edition/acronym/TSC", "/edition/acronym/rz", "/edition/acronym/JP"}
+        };
+
+        createModuleInfo(uiComponent, menuNames, optionNames, optionLinks);
+    }
+
+    public static void createEditionUserModuleInfo() {
+
+        Module module = new Module("edition-user");
+        UiComponent uiComponent = new UiComponent(module);
+
+        String[] menuNames = {};
+        String[][] optionNames = {};
+
+        String[][] optionLinks = {};
+
+        createModuleInfo(uiComponent, menuNames, optionNames, optionLinks);
+
+    }
+
+    public static void createEditionSearchModuleInfo() {
+
+        Module module = new Module("edition-search");
+        UiComponent uiComponent = new UiComponent(module);
+
+        String[] menuNames = {"topBar.search.title"};
+        String[][] optionNames = {{"topBar.search.simple", "topBar.search.advanced"}};
+
+        String[][] optionLinks = {{"/search/simple", "/search/advanced"}};
+
+        createModuleInfo(uiComponent, menuNames, optionNames, optionLinks);
+
+    }
+
+    public static void createEditionVirtualModuleInfo() {
+        Module module = new Module("edition-virtual");
+        UiComponent uiComponent = new UiComponent(module);
+
+        String[] menuNames = {"topBar.editions.title", "topBar.virtual.title"};
+        String[][] optionNames = {{"Arquivo LdoD", "LdoD-JPC-ANOT", "LdoD-JOGO-CLASS", "LdoD-MALLET", "LdoD-TWITTER"},
+                {"topBar.virtual.editions", "topBar.virtual.game"}
+        };
+
+        String[][] optionLinks = {{"/edition/acronym/LdoD-Arquivo", "/edition/acronym/LdoD-JPC-anot",
+                "/edition/acronym/LdoD-Jogo-Class", "/edition/acronym/LdoD-Mallet", "/edition/acronym/LdoD-Twitter"},
+                {"/virtualeditions", "/classificationGames"}
+        };
+
+        createModuleInfo(uiComponent, menuNames, optionNames, optionLinks);
+
+    }
+
+    private static void createModuleInfo(UiComponent uiComponent, String[] menuNames, String[][] optionNames, String[][] optionLinks) {
         for (int i = 0; i < menuNames.length; i++) {
             Menu menu = new Menu(uiComponent, menuNames[i],i);
             for (int j = 0; j < optionNames[i].length; j++) {
                 new Option(menu,optionNames[i][j],optionLinks[i][j],j);
             }
         }
-
     }
 
     public static void cleanCorpusRepository() {

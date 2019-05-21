@@ -6,17 +6,24 @@ import { LinkContainer } from 'react-router-bootstrap';
 import { FormattedMessage } from 'react-intl';
 import LanguageToggle from './languageToggle';
 
-function TopBarStatic() {
+function TopBarStatic(props) {
+    let loginToggle = null;
+
+    if (props.userExists) {
+        loginToggle = (<ul className={'nav navbar-nav navbar-right hidden-xs'}>
+            <li>
+                <a><FormattedMessage id={'login'} /></a>
+            </li>
+        </ul>);
+    }
+
+
     return (
         <div className={'container-fluid'}>
             <div className={'container'}>
                 <div className={'navbar-header'}>
                     <Link to={'/'} className={'navbar-brand'}><FormattedMessage id={'appName'} /></Link>
-                    <ul className={'nav navbar-nav navbar-right hidden-xs'}>
-                        <li>
-                            <a><FormattedMessage id={'login'} /></a>
-                        </li>
-                    </ul>
+                    {loginToggle}
                 </div>
             </div>
         </div>
@@ -157,27 +164,44 @@ export default class TopBar extends React.Component {
 
     render() {
         if (this.state.isLoaded) {
-            console.log('Got module info from server');
-            console.log(this.state.moduleInfo);
-
             const moduleNames = Object.keys(this.state.moduleInfo);
 
             const topBarComponents = [];
 
+            let userExists = false;
+
             for (let i = 0; i < moduleNames.length; i++) {
+                if (moduleNames[i] === 'edition-user') { userExists = true; }
+
                 const menus = Object.keys(this.state.moduleInfo[moduleNames[i]]);
 
                 for (let j = 0; j < menus.length; j++) {
-                    //if (menus[j] === 'topBar.virtual.title') continue;
+                    // if (menus[j] === 'topBar.virtual.title') continue;
 
                     const options = this.state.moduleInfo[moduleNames[i]][menus[j]];
 
-                    const menuJson = [];
+                    let menuJson = [];
 
                     for (let k = 0; k < options.length; k++) {
                         menuJson.push({ title: <FormattedMessage id={options[k].key} />,
                             link: options[k].value });
                     }
+
+                    let foundDuplicate = false;
+
+                    for (let k = 0; k < topBarComponents.length; k++) {
+                        if (topBarComponents[k].props.title.props.id === menus[j]) {
+                            menuJson = topBarComponents[k].props.title.props.subsections.concat(menuJson);
+                            topBarComponents.splice(k, 1);
+                            topBarComponents.splice(k, 0, (<TopBarElement
+                                title={<FormattedMessage id={menus[j]} />}
+                                subsections={menuJson} />));
+                            foundDuplicate = true;
+                            break;
+                        }
+                    }
+
+                    if (foundDuplicate) break;
 
                     const element = (<TopBarElement
                         title={<FormattedMessage id={menus[j]} />}
@@ -190,7 +214,7 @@ export default class TopBar extends React.Component {
 
             return (
                 <nav className={'ldod-navbar navbar navbar-default navbar-fixed-top'}>
-                    <TopBarStatic />
+                    <TopBarStatic userExists={userExists} />
 
                     <div className={'container'}>
                         <div className={'collapse navbar-collapse'}>
@@ -204,11 +228,9 @@ export default class TopBar extends React.Component {
             );
         }
 
-        console.log('Info not loaded');
-
         return (
             <nav className={'ldod-navbar navbar navbar-default navbar-fixed-top'}>
-                <TopBarStatic />
+                <TopBarStatic userExists />
                 <TopBarList />
             </nav>
         );
