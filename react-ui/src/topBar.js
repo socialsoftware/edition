@@ -191,7 +191,7 @@ export default class TopBar extends React.Component {
 
                     for (let k = 0; k < topBarComponents.length; k++) {
                         if (topBarComponents[k].props.title.props.id === menus[j]) {
-                            menuJson = topBarComponents[k].props.title.props.subsections.concat(menuJson);
+                            menuJson = topBarComponents[k].props.subsections.concat(menuJson);
                             topBarComponents.splice(k, 1);
                             topBarComponents.splice(k, 0, (<TopBarElement
                                 title={<FormattedMessage id={menus[j]} />}
@@ -201,7 +201,7 @@ export default class TopBar extends React.Component {
                         }
                     }
 
-                    if (foundDuplicate) break;
+                    if (foundDuplicate) continue;
 
                     const element = (<TopBarElement
                         title={<FormattedMessage id={menus[j]} />}
