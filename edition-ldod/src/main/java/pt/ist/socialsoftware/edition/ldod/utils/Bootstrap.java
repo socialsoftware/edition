@@ -108,14 +108,14 @@ public class Bootstrap implements WebApplicationInitializer {
         String[] menuNames = {"topBar.about.title", "topBar.reading.title", "topBar.documents.title", "topBar.editions.title"};
         String[][] optionNames = {{"topBar.about.archive", "topBar.about.videos", "topBar.about.faq", "topBar.about.encoding",
                 "topBar.about.articles", "topBar.about.conduct", "topBar.about.privacy", "topBar.about.team",
-                "topBar.about.acknowledgements", "topBar.about.contact", "topBar.about.copyright","TEMP"},
+                "topBar.about.acknowledgements", "topBar.about.contact", "topBar.about.copyright"},
                 {"topBar.reading.reading", "topBar.reading.visual", "topBar.reading.citations"},
                 {"topBar.documents.witnesses", "topBar.documents.fragments"},
                 {"Jacinto do Prado Coelho", "Teresa Sobral Cunha", "Richard Zenith", "Jerónimo Pizarro"}
         };
 
         String[][] optionLinks = {{"/about/archive", "/about/videos", "/about/faq", "/about/encoding", "/about/articles",
-                "/about/conduct", "/about/privacy", "/about/team", "/about/acknowledgements", "/about/contact", "/about/copyright", "/fragments/fragment/Fr001"},
+                "/about/conduct", "/about/privacy", "/about/team", "/about/acknowledgements", "/about/contact", "/about/copyright"},
                 {"/reading", "/ldod-visual", "/citations"}, {"/source/list", "/fragments"},
                 {"/edition/acronym/JPC", "/edition/acronym/TSC", "/edition/acronym/rz", "/edition/acronym/JP"}
         };

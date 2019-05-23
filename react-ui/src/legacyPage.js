@@ -10,9 +10,6 @@ class LegacyPage extends React.Component {
     constructor(props) {
         super(props);
         const langConst = `?lang=${props.intl.locale.split(/[_-]+/)[0]}`;
-
-        console.log(props);
-
         this.state = {
             error: null,
             isLoaded: false,
@@ -65,9 +62,11 @@ class LegacyPage extends React.Component {
             return <div>Loading LdoD...</div>;
         }
         const remaining = parsedHTML.props.children.splice(1, parsedHTML.props.children.length);
+        const scripts = remaining.splice(1, remaining.length);
         return (
             <div className={'container ldod-default'}>
                 {remaining[0].props.children}
+                {scripts}
             </div>
         );
     }

@@ -13,7 +13,7 @@ function App() {
                 <div>
                     <TopBar />
                     <Switch>
-                        <Route path="fragments/fragment/:fragId" component={FragmentMain} />
+                        <Route path="/fragments/fragment/:fragId" component={FragmentMain} />
                         <Route exact path={'/'} render={() => <LegacyPage url={'/'} />} />
                         <Route render={props => <LegacyPage url={props.location.pathname} />} />
                     </Switch>
