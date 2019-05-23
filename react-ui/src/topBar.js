@@ -210,8 +210,6 @@ export default class TopBar extends React.Component {
                 }
             }
 
-            console.log(topBarComponents);
-
             return (
                 <nav className={'ldod-navbar navbar navbar-default navbar-fixed-top'}>
                     <TopBarStatic userExists={userExists} />

@@ -28,6 +28,7 @@ module.exports = function (env) {
         output: {
             path: path.resolve(__dirname, 'build'),
             filename: 'static/js/[name].[hash].js',
+            publicPath: '/',
         },
 
         module: {
@@ -187,6 +188,7 @@ module.exports = function (env) {
                     changeOrigin: true,
                 },
             },
+            historyApiFallback: true,
         },
         // 为压缩以后的代码提供 source map 方便调试
         // https://webpack.js.org/configuration/devtool/

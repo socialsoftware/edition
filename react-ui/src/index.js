@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 import TopBar from './topBar';
 import LegacyPage from './legacyPage';
 import UpdatableIntlProvider from './updatableIntlProvider';
-
+import { FragmentMain } from './components/FragmentMain';
 
 function App() {
     return (
@@ -13,6 +13,7 @@ function App() {
                 <div>
                     <TopBar />
                     <Switch>
+                        <Route path="fragments/fragment/:fragId" component={FragmentMain} />
                         <Route exact path={'/'} render={() => <LegacyPage url={'/'} />} />
                         <Route render={props => <LegacyPage url={props.location.pathname} />} />
                     </Switch>
