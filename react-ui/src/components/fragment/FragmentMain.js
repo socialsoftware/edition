@@ -1,4 +1,5 @@
 import React from 'react';
+import { InterAuthorial } from './InterAuthorial';
 
 export class FragmentMain extends React.Component {
     constructor(props) {
@@ -11,7 +12,9 @@ export class FragmentMain extends React.Component {
     }
 
     render() {
-        return <div>Hello world {this.state.fragmentId}</div>;
+        return (
+            <InterAuthorial fragmentId={this.state.fragmentId} />
+        );
     }
 
 }

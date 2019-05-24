@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 import TopBar from './topBar';
 import LegacyPage from './legacyPage';
 import UpdatableIntlProvider from './updatableIntlProvider';
-import { FragmentMain } from './components/FragmentMain';
+import { FragmentMain } from './components/fragment/FragmentMain';
 
 function App() {
     return (

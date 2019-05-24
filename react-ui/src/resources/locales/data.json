@@ -28,7 +28,19 @@
     "topBar.virtual.title" : "Virtual",
     "topBar.virtual.editions" : "Edições Virtuais",
     "topBar.virtual.game" : "Jogo de Classificação",
-    "lang" : "?lang=pt"
+    "lang" : "?lang=pt",
+    "fragment.tt.additions"           : "Real\\u00E7a texto inserido por Fernando Pessoa ",
+    "fragment.tt.deletions"           : "Mostra texto apagado por Fernando Pessoa ",
+    "fragment.tt.highlights"          : "Real\\u00E7a varia\\u00E7\\u00F5es entre as transcri\\u00E7\\u00F5es em compara\\u00E7\\u00E3o",
+    "fragment.tt.image"               : "Imagem dos documentos originais",
+    "fragment.tt.information"         : "Mostra a informa\\u00E7\\u00E3o sobre as fontes das transcri\\u00E7\\u00F5es ",
+    "fragment.tt.substitution"        : "Real\\u00E7a texto apagado e substitu\\u00EDdo por Fernando Pessoa",
+    "fragment.highlightdifferences"   : "Real\u00E7ar Diferen\u00E7as",
+    "fragment.highlightinserted"      : "Real\u00E7ar Inseridos",
+    "fragment.highlightsubstitutions" : "Real\u00E7ar Substitui\u00E7\u00F5es",
+    "fragment.showdeleted"            : "Mostrar Apagados",
+    "fragment.showfacs"               : "Fac-s\u00EDmile",
+    "fragment.shownotes"              : "Mostrar Notas"
   },
   "en" : {
     "appName" : "LdoD Archive",
@@ -59,7 +71,19 @@
     "topBar.virtual.title" : "Virtual",
     "topBar.virtual.editions" : "Virtual Editions",
     "topBar.virtual.game" : "Classification Game",
-    "lang" : "?lang=en"
+    "lang" : "?lang=en",
+    "fragment.tt.additions"           : "Highlights additions by Fernando Pessoa",
+    "fragment.tt.deletions"           : "Shows deletions by Fernando Pessoa",
+    "fragment.tt.highlights"          : "Highlights variations in compared transcriptions",
+    "fragment.tt.image"               : "Image of the original documents",
+    "fragment.tt.information"         : "Shows information about transcription sources",
+    "fragment.tt.substitution"        : "Highlights passages deleted for substitution by Fernando Pessoa",
+    "fragment.highlightdifferences"   : "Highlight Differences",
+    "fragment.highlightinserted"      : "Highlight Inserted",
+    "fragment.highlightsubstitutions" : "Highlight Substitutions",
+    "fragment.showdeleted"            : "Show Deleted",
+    "fragment.showfacs"               : "Facsimile",
+    "fragment.shownotes"              : "Show Notes"
   },
   "es" : {
     "appName" : "Archivo LdoD",
@@ -90,7 +114,19 @@
     "topBar.virtual.title" : "Virtual",
     "topBar.virtual.editions" : "Ediciones Virtuales",
     "topBar.virtual.game" : "Juego de Classificación",
-    "lang" : "?lang=es"
+    "lang" : "?lang=es",
+    "fragment.tt.additions"           : "Realza texto a\\u00F1adido por Fernando Pessoa",
+    "fragment.tt.deletions"           : "Muestra texto eliminado por Fernando Pessoa",
+    "fragment.tt.highlights"          : "Realza variaciones entre las transcripciones en comparaci\\u00F3n",
+    "fragment.tt.image"               : "Imagen de los documentos originales",
+    "fragment.tt.information"         : "Muestra la informaci\\u00F3n sobre las fuentes de las transcripciones",
+    "fragment.tt.substitution"        : "Realza texto eliminado y substituido por Fernando Pessoa",
+    "fragment.highlightdifferences"   : "Realzar Diferencias",
+    "fragment.highlightinserted"      : "Realzar Acrecentados",
+    "fragment.highlightsubstitutions" : "Realzar Sustituciones",
+    "fragment.showdeleted"            : "Mostrar Eliminados",
+    "fragment.showfacs"               : "Facsimile",
+    "fragment.shownotes"              : "Mostrar Notas"
   }
 }
 
