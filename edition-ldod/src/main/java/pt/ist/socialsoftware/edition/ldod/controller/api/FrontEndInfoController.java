@@ -8,6 +8,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
@@ -40,5 +41,78 @@ public class FrontEndInfoController {
         }
 
         return new ResponseEntity<>(results, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/frag-info",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<?> getFragmentInfo(@RequestParam String xmlId){
+
+        Fragment fragment = Text.getInstance().getFragmentByXmlId(xmlId);
+
+        if(fragment == null)
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+        Map<String,String> fragInfo = new LinkedHashMap<>();
+
+        fragInfo.put("xmlId", fragment.getXmlId());
+        fragInfo.put("title", fragment.getTitle());
+
+        return new ResponseEntity<>(fragInfo,HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/expert-inter",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<?> getFragmentExpertInterInfo(@RequestParam String xmlId){
+
+        Fragment fragment = Text.getInstance().getFragmentByXmlId(xmlId);
+
+        if(fragment == null)
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+        List<ExpertEditionInter> expertEditionInters = fragment.getExpertEditionInterSet().stream().sorted().collect(Collectors.toList());
+
+        Map<String,Map<String,String>> interInfo = new LinkedHashMap<>();
+
+        for(ExpertEditionInter expertEditionInter : expertEditionInters){
+            Map<String,String> info = new LinkedHashMap<>();
+            info.put("xmlId", expertEditionInter.getXmlId());
+            info.put("title", expertEditionInter.getTitle());
+            info.put("number", Integer.toString(expertEditionInter.getNumber()));
+            info.put("urlId", expertEditionInter.getUrlId());
+            info.put("externalId", expertEditionInter.getExternalId());
+
+            interInfo.put(expertEditionInter.getExpertEdition().getAcronym(),info);
+        }
+
+        return new ResponseEntity<>(interInfo,HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/source-inter",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<?> getFragmentSourceInterInfo(@RequestParam String xmlId){
+
+        Fragment fragment = Text.getInstance().getFragmentByXmlId(xmlId);
+
+        if(fragment == null)
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+        Set<Map<String,String>> interInfo = new LinkedHashSet<>();
+
+        for(SourceInter sourceInter : fragment.getSortedSourceInter()){
+            Map<String,String> info = new LinkedHashMap<>();
+            info.put("xmlId", sourceInter.getXmlId());
+            info.put("shortName", sourceInter.getShortName());
+            info.put("urlId", sourceInter.getUrlId());
+            info.put("externalId", sourceInter.getExternalId());
+
+            interInfo.add(info);
+        }
+
+        return new ResponseEntity<>(interInfo,HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/expert-edition",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<?> getExpertEditionInfo(){
+        List<Pair<String,String>> expertEditionInfo = Text.getInstance().getSortedExpertEdition().stream()
+                .map(expertEdition -> new Pair<>(expertEdition.getAcronym(), expertEdition.getEditor())).collect(Collectors.toList());
+
+        return new ResponseEntity<>(expertEditionInfo,HttpStatus.OK);
     }
 }

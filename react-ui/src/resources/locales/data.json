@@ -40,7 +40,10 @@
     "fragment.highlightsubstitutions" : "Real\u00E7ar Substitui\u00E7\u00F5es",
     "fragment.showdeleted"            : "Mostrar Apagados",
     "fragment.showfacs"               : "Fac-s\u00EDmile",
-    "fragment.shownotes"              : "Mostrar Notas"
+    "fragment.shownotes"              : "Mostrar Notas",
+    "authorial.source"                : "Testemunhos",
+    "edition.experts"                 : "Edi\u00E7\u00F5es dos Peritos",
+    "info.experts"                    : "O mesmo testemunho pode ser interpretado como mais do que um texto pelos editores. Estas varia\u00E7\u00F5es na divis\u00E3o de fragmentos baseiam-se quer em marca\u00E7\u00F5es aut\u00F3grafas (tra\u00E7os horizontais ou espa\u00E7os entre blocos de texto), quer em interpreta\u00E7\u00F5es sobre a proximidade sem\u00E2ntica dos blocos textuais."
   },
   "en" : {
     "appName" : "LdoD Archive",
@@ -83,7 +86,11 @@
     "fragment.highlightsubstitutions" : "Highlight Substitutions",
     "fragment.showdeleted"            : "Show Deleted",
     "fragment.showfacs"               : "Facsimile",
-    "fragment.shownotes"              : "Show Notes"
+    "fragment.shownotes"              : "Show Notes",
+    "authorial.source"                : "Witnesses",
+    "edition.experts"                 : "Expert Editions",
+    "info.experts"                    : "The same witness can be interpreted as more than one text by the editors. Variations in fragment division are based either upon autograph marks (such as horizontal rulers or spaces between text blocks) or upon interpretations about semantic relations between text blocks."
+
   },
   "es" : {
     "appName" : "Archivo LdoD",
@@ -126,7 +133,11 @@
     "fragment.highlightsubstitutions" : "Realzar Sustituciones",
     "fragment.showdeleted"            : "Mostrar Eliminados",
     "fragment.showfacs"               : "Facsimile",
-    "fragment.shownotes"              : "Mostrar Notas"
+    "fragment.shownotes"              : "Mostrar Notas",
+    "authorial.source"                : "Testimonios",
+    "edition.experts"                 : "Ediciones de los Especialistas",
+    "info.experts"                    : "El mismo testimonio puede ser interpretado como m\\u00E1s de un texto seg\\u00FAn los editores. Estas variaciones en la divisi\\u00F3n de los fragmentos se basan bien en marcaciones aut\\u00F3grafas (trazos horizontales o espacios entre bloques del texto), bien en interpretaciones sobre la proximidad sem\\u00E1ntica de los bloques textuales."
+
   }
 }
 

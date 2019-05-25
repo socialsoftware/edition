@@ -150,7 +150,7 @@ export default class TopBar extends React.Component {
             .then((result) => {
                 this.setState({
                     moduleInfo: result.data,
-                    isLoaded: true,
+                    isEditionLoaded: true,
                 });
             },
                   (result) => {
@@ -163,7 +163,7 @@ export default class TopBar extends React.Component {
     }
 
     render() {
-        if (this.state.isLoaded) {
+        if (this.state.isEditionLoaded) {
             const moduleNames = Object.keys(this.state.moduleInfo);
 
             const topBarComponents = [];

@@ -55,7 +55,7 @@ export class InterAuthorial extends React.Component {
                                         className="btn"
                                         name="ins"
                                         value="Yes"
-                                        checked />
+                                        defaultChecked />
                                 </div>
                                 <div className="checkbox tip">
                                     <label htmlFor="subCheck">
@@ -78,7 +78,7 @@ export class InterAuthorial extends React.Component {
                                         className="btn"
                                         name="notes"
                                         value="Yes"
-                                        checked />
+                                        defaultChecked />
                                 </div>
                                 <div className="checkbox tip">
                                     <label htmlFor="facsCheck">
