@@ -163,7 +163,7 @@ public class FragmentTest {
 
         TextInterface textInterface = new TextInterface();
         ScholarInter fragInter = textInterface.getFragmentByXmlId("Fr001")
-                .getFragInterByUrlId("Fr001_WIT_MS_Fr001a_1");
+                .getScholarInterByUrlId("Fr001_WIT_MS_Fr001a_1");
 
         this.mockMvc.perform(get("/fragments/fragment/inter/editorial")
                 .param("interp[]", fragInter.getExternalId())
@@ -182,7 +182,7 @@ public class FragmentTest {
 
         TextInterface textInterface = new TextInterface();
         ScholarInter fragInter = textInterface.getFragmentByXmlId("Fr001")
-                .getFragInterByUrlId("Fr001_WIT_MS_Fr001a_1");
+                .getScholarInterByUrlId("Fr001_WIT_MS_Fr001a_1");
 
         this.mockMvc.perform(get("/fragments/fragment/inter/authorial")
                 .param("interp[]", fragInter.getExternalId())
@@ -211,7 +211,7 @@ public class FragmentTest {
 
         TextInterface textInterface = new TextInterface();
         ScholarInter fragInter = textInterface.getFragmentByXmlId("Fr001")
-                .getFragInterByUrlId("Fr001_WIT_MS_Fr001a_1");
+                .getScholarInterByUrlId("Fr001_WIT_MS_Fr001a_1");
 
         this.mockMvc.perform(get("/fragments/fragment/inter/authorial")
                 .param("interp[]", fragInter.getExternalId())
@@ -240,10 +240,10 @@ public class FragmentTest {
 
         TextInterface textInterface = new TextInterface();
         ScholarInter fragInterOne = (ScholarInter) textInterface.getFragmentByXmlId("Fr001")
-                .getFragInterByUrlId("Fr001_WIT_ED_CRIT_SC");
+                .getScholarInterByUrlId("Fr001_WIT_ED_CRIT_SC");
 
         ScholarInter fragInterTwo = (ScholarInter) textInterface.getFragmentByXmlId("Fr001")
-                .getFragInterByUrlId("Fr001_WIT_ED_CRIT_Z");
+                .getScholarInterByUrlId("Fr001_WIT_ED_CRIT_Z");
 
         String[] inters = {fragInterOne.getExternalId(), fragInterTwo.getExternalId()};
 

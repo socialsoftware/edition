@@ -1,6 +1,8 @@
 /* eslint-env jquery */
 
 import React from 'react';
+import axios from 'axios';
+import ReactHTMLParser from 'react-html-parser';
 import { FormattedMessage } from 'react-intl';
 
 export class InterEditorial extends React.Component {
@@ -9,10 +11,40 @@ export class InterEditorial extends React.Component {
 
         this.state = {
             fragmentId: props.fragmentId,
+            interId: props.interId,
+            title: props.title,
+            transcription: '',
+            isLoaded: false,
         };
     }
 
+    getInterTranscription() {
+        axios.get('http://localhost:8080/api/services/frontend/inter-writer', {
+            params: {
+                xmlId: this.state.fragmentId,
+                urlId: this.state.interId,
+            },
+        }).then((result) => {
+            this.setState({
+                transcription: result.data,
+                isLoaded: true,
+            });
+        });
+    }
+
+    componentDidMount() {
+        this.getInterTranscription();
+    }
+
     render() {
+        if (!this.state.isLoaded) {
+            return (
+                <div>Loading inter info</div>
+            );
+        }
+
+        const transcription = ReactHTMLParser(this.state.transcription)[1];
+
         return (
             <div>
                 <script type="text/javascript" src="../scripts/EditorialScript.js" />
@@ -33,7 +65,17 @@ export class InterEditorial extends React.Component {
                         </div>
                     </form>
                     <br />
-                   TRANSCRIPTION GOES HERE
+                    <div id="fragmentTranscription">
+                        <h4 className="text-center">
+                            {this.state.title}
+                            <a
+                                href=""><span className="glyphicon glyphicon-eye-open" /></a>
+                        </h4>
+                        <br />
+                        <div className="well" style={{ fontFamily: 'georgia', fontSize: 'medium' }}>
+                            <p>{transcription}</p>
+                        </div>
+                    </div>
 
                     <br />
                     <div className="well">

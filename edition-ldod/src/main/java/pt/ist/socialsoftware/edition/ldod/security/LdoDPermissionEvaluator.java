@@ -128,7 +128,7 @@ public class LdoDPermissionEvaluator implements PermissionEvaluator {
             return false;
         }
 
-        ScholarInter scholarInter = fragment.getFragInterByUrlId(targetType);
+        ScholarInter scholarInter = fragment.getScholarInterByUrlId(targetType);
         if (scholarInter != null) {
             return true;
         }

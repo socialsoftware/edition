@@ -51,7 +51,7 @@ public class ReadingController {
 			return "redirect:/error";
 		}
 
-		ExpertEditionInter expertEditionInter = (ExpertEditionInter) fragment.getFragInterByUrlId(urlId);
+		ExpertEditionInter expertEditionInter = (ExpertEditionInter) fragment.getScholarInterByUrlId(urlId);
 		if (expertEditionInter == null) {
 			return "redirect:/error";
 		}
@@ -97,7 +97,7 @@ public class ReadingController {
 			return "redirect:/error";
 		}
 
-		ExpertEditionInter expertEditionInter = (ExpertEditionInter) fragment.getFragInterByUrlId(urlId);
+		ExpertEditionInter expertEditionInter = (ExpertEditionInter) fragment.getScholarInterByUrlId(urlId);
 		if (expertEditionInter == null) {
 			return "redirect:/error";
 		}
@@ -118,7 +118,7 @@ public class ReadingController {
 			return "redirect:/error";
 		}
 
-		ExpertEditionInter expertEditionInter = (ExpertEditionInter) fragment.getFragInterByUrlId(urlId);
+		ExpertEditionInter expertEditionInter = (ExpertEditionInter) fragment.getScholarInterByUrlId(urlId);
 		if (expertEditionInter == null) {
 			return "redirect:/error";
 		}
@@ -138,7 +138,7 @@ public class ReadingController {
 			return "redirect:/error";
 		}
 
-		ExpertEditionInter expertEditionInter = (ExpertEditionInter) fragment.getFragInterByUrlId(urlId);
+		ExpertEditionInter expertEditionInter = (ExpertEditionInter) fragment.getScholarInterByUrlId(urlId);
 		if (expertEditionInter == null) {
 			return "redirect:/error";
 		}

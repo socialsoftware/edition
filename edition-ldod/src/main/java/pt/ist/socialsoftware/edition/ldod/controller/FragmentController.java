@@ -81,7 +81,7 @@ public class FragmentController {
         }
 
         PlainHtmlWriter4OneInter writer;
-        ScholarInter scholarInter = fragment.getFragInterByUrlId(urlId);
+        ScholarInter scholarInter = fragment.getScholarInterByUrlId(urlId);
         if (scholarInter != null) {
             List<ScholarInter> inters = new ArrayList<>();
             writer = new PlainHtmlWriter4OneInter(scholarInter);
@@ -189,7 +189,7 @@ public class FragmentController {
             return "redirect:/error";
         }
 
-        ExpertEditionInter inter = (ExpertEditionInter) fragment.getFragInterByUrlId(urlId);
+        ExpertEditionInter inter = (ExpertEditionInter) fragment.getScholarInterByUrlId(urlId);
         if (inter != null) {
             inter = inter.getNextNumberInter();
 
@@ -215,7 +215,7 @@ public class FragmentController {
             return "redirect:/error";
         }
 
-        ExpertEditionInter inter = (ExpertEditionInter) fragment.getFragInterByUrlId(urlId);
+        ExpertEditionInter inter = (ExpertEditionInter) fragment.getScholarInterByUrlId(urlId);
         if (inter != null) {
             inter = inter.getPrevNumberInter();
 

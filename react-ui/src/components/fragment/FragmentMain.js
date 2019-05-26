@@ -1,16 +1,18 @@
 import React from 'react';
 import axios from 'axios';
 import { Navigation } from './Navigation';
-import { InterAuthorial } from './InterAuthorial';
+import { InterEmpty } from './InterEmpty';
+import { InterEditorial } from './InterEditorial';
 
 export class FragmentMain extends React.Component {
     constructor(props) {
-        console.log(props);
+        console.log(props.match);
 
         super(props);
         this.state = {
             fragmentId: props.match.params.fragId,
             fragInfo: null,
+            interId: props.match.params.interId,
             isLoaded: false,
         };
     }
@@ -38,9 +40,22 @@ export class FragmentMain extends React.Component {
                 <div>Loading fragment info....</div>
             );
         }
+
+        let inter = <InterEmpty fragmentId={this.state.fragmentId} title={this.state.fragInfo.title} />;
+
+        if (this.state.interId) { //TODO: AUTHORIAL
+            inter = (
+                <InterEditorial
+                    fragmentId={this.state.fragmentId}
+                    title={this.state.fragInfo.title}
+                    interId={this.state.interId} />
+            );
+        }
+
+
         return (
             <div>
-                <InterAuthorial fragmentId={this.state.fragmentId} title={this.state.fragInfo.title} />
+                {inter}
                 <Navigation fragId={this.state.fragmentId} />
             </div>
         );

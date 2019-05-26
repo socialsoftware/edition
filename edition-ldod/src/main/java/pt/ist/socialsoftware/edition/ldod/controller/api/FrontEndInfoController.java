@@ -10,9 +10,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import pt.ist.fenixframework.DomainObject;
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.domain.Module;
+import pt.ist.socialsoftware.edition.ldod.generators.PlainHtmlWriter4OneInter;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -114,5 +116,27 @@ public class FrontEndInfoController {
                 .map(expertEdition -> new Pair<>(expertEdition.getAcronym(), expertEdition.getEditor())).collect(Collectors.toList());
 
         return new ResponseEntity<>(expertEditionInfo,HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/inter-writer", produces = MediaType.TEXT_HTML_VALUE)
+    public ResponseEntity<?> getInterWriterResult(@RequestParam String xmlId, @RequestParam String urlId){
+
+        Fragment fragment = Text.getInstance().getFragmentByXmlId(xmlId);
+
+        ScholarInter scholarInter = fragment.getScholarInterByUrlId(urlId);
+
+        PlainHtmlWriter4OneInter writer;
+
+        if(scholarInter != null)
+            writer = new PlainHtmlWriter4OneInter(scholarInter);
+        else {
+            VirtualEditionInter virtualEditionInter = LdoD.getInstance().getVirtualEditionInterByUrlId(urlId);
+            if (virtualEditionInter == null)
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            writer = new PlainHtmlWriter4OneInter(virtualEditionInter.getLastUsed());
+        }
+
+        writer.write(false);
+        return new ResponseEntity<>(writer.getTranscription(),HttpStatus.OK);
     }
 }
