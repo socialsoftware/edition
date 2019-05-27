@@ -43,6 +43,8 @@ export class InterEditorial extends React.Component {
             );
         }
 
+        console.log(ReactHTMLParser(this.state.transcription));
+
         const transcription = ReactHTMLParser(this.state.transcription)[1];
 
         return (

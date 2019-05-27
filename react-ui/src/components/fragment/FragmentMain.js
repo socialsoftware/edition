@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Navigation } from './Navigation';
 import { InterEmpty } from './InterEmpty';
 import { InterEditorial } from './InterEditorial';
+import { InterAuthorial } from './InterAuthorial';
 
 export class FragmentMain extends React.Component {
     constructor(props) {
@@ -43,13 +44,24 @@ export class FragmentMain extends React.Component {
 
         let inter = <InterEmpty fragmentId={this.state.fragmentId} title={this.state.fragInfo.title} />;
 
-        if (this.state.interId) { //TODO: AUTHORIAL
-            inter = (
-                <InterEditorial
-                    fragmentId={this.state.fragmentId}
-                    title={this.state.fragInfo.title}
-                    interId={this.state.interId} />
-            );
+        console.log(this.state);
+
+        if (this.state.interId) { // TODO: AUTHORIAL
+            if (this.state.interId.includes('CRIT')) {
+                inter = (
+                    <InterEditorial
+                        fragmentId={this.state.fragmentId}
+                        title={this.state.fragInfo.title}
+                        interId={this.state.interId} />
+                );
+            } else {
+                inter = (
+                    <InterAuthorial
+                        fragmentId={this.state.fragmentId}
+                        title={this.state.fragInfo.title}
+                        interId={this.state.interId} />
+                );
+            }
         }
 
 

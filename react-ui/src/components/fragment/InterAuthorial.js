@@ -1,5 +1,7 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
+import axios from 'axios';
+import ReactHTMLParser from 'react-html-parser';
 
 export class InterAuthorial extends React.Component {
     constructor(props) {
@@ -7,15 +9,48 @@ export class InterAuthorial extends React.Component {
 
         this.state = {
             fragmentId: props.fragmentId,
+            interId: props.interId,
+            title: props.title,
+            isLoaded: false,
         };
+    }
+
+    getInterTranscription() {
+        axios.get('http://localhost:8080/api/services/frontend/inter-writer', {
+            params: {
+                xmlId: this.state.fragmentId,
+                urlId: this.state.interId,
+            },
+        }).then((result) => {
+            this.setState({
+                transcription: result.data,
+                isLoaded: true,
+            });
+        });
+    }
+
+
+    componentDidMount() {
+        this.getInterTranscription();
     }
 
     render() {
         // TODO : figure out a way to add titles back to divs containing the checkboxes
 
+        if (!this.state.isLoaded) {
+            return (
+                <div>Loading inter info</div>
+            );
+        }
+
+        console.log(ReactHTMLParser(this.state.transcription));
+
+
+        const transcription = ReactHTMLParser(this.state.transcription)[1];
+
         return (
             <div>
-                <script type="text/javascript" src="../scripts/EditorialScript.js" />
+                <script type="text/javascript" src="../scripts/AuthorialScript.js" />
                 <div id="fragmentInter" className="row">
                     <form className="form-inline">
                         <div className="form-group">
@@ -96,7 +131,15 @@ export class InterAuthorial extends React.Component {
                     </form>
 
                     <br />
-                    TRANSCRIPTION GOES HERE
+                    <div id="fragmentTranscription">
+                        <h4 className="text-center">
+                            {this.state.title}
+                        </h4>
+                        <br />
+                        <div className="well" style={{ fontFamily: 'courier' }}>
+                            <p>{transcription}</p>
+                        </div>
+                    </div>
 
                     <br />
                     <div className="well">
