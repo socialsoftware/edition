@@ -12,12 +12,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import pt.ist.fenixframework.DomainObject;
 import pt.ist.fenixframework.FenixFramework;
+import pt.ist.socialsoftware.edition.ldod.api.ui.UiInterface;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.domain.Module;
 import pt.ist.socialsoftware.edition.ldod.generators.PlainHtmlWriter4OneInter;
 
 import java.util.*;
 import java.util.stream.Collectors;
+
+import static pt.ist.socialsoftware.edition.ldod.api.ui.UiInterface.InterType.AUTHORIAL;
+import static pt.ist.socialsoftware.edition.ldod.api.ui.UiInterface.InterType.EDITORIAL;
+import static pt.ist.socialsoftware.edition.ldod.domain.Source.SourceType.MANUSCRIPT;
+import static pt.ist.socialsoftware.edition.ldod.domain.Source.SourceType.PRINTED;
 
 @RestController
 @RequestMapping("/api/services/frontend")
@@ -123,6 +129,10 @@ public class FrontEndInfoController {
 
         Fragment fragment = Text.getInstance().getFragmentByXmlId(xmlId);
 
+        if(fragment == null)
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+
         ScholarInter scholarInter = fragment.getScholarInterByUrlId(urlId);
 
         PlainHtmlWriter4OneInter writer;
@@ -138,5 +148,148 @@ public class FrontEndInfoController {
 
         writer.write(false);
         return new ResponseEntity<>(writer.getTranscription(),HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/meta-info", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<?> getInterMetaInfo(@RequestParam String xmlId, @RequestParam String urlId) {
+
+        Fragment fragment = Text.getInstance().getFragmentByXmlId(xmlId);
+
+        if(fragment == null)
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+        ScholarInter scholarInter = fragment.getScholarInterByUrlId(urlId);
+
+        if(scholarInter == null)
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+
+        Map<String, Object> metaInfo = new LinkedHashMap<>();
+
+        UiInterface uiInterface = new UiInterface();
+
+        boolean isEditorial = uiInterface.getSourceTypeOfInter(urlId.replace("_", ".")).equals(EDITORIAL);
+        boolean isManuscript = uiInterface.getSourceTypeOfInter(urlId.replace("_", ".")).equals(AUTHORIAL)
+                                && ((SourceInter) scholarInter).getSource().getType().equals(MANUSCRIPT);
+        boolean isPublication = uiInterface.getSourceTypeOfInter(urlId.replace("_", ".")).equals(AUTHORIAL)
+                                && ((SourceInter) scholarInter).getSource().getType().equals(PRINTED);
+
+        if(isEditorial)
+            metaInfo.put("title", scholarInter.getTitle());
+        else if (isPublication){
+            PrintedSource source = (PrintedSource) ((SourceInter) scholarInter).getSource();
+            metaInfo.put("title", source.getTitle());
+        }
+        else
+            metaInfo.put("title", "");
+
+
+        if(isManuscript){
+            ManuscriptSource source = (ManuscriptSource) ((SourceInter) scholarInter).getSource();
+            metaInfo.put("idno", source.getIdno());
+        }
+
+
+        metaInfo.put("heteronym", scholarInter.getHeteronym().getName());
+
+        if(isManuscript) {
+            ManuscriptSource source = (ManuscriptSource) ((SourceInter) scholarInter).getSource();
+
+            String dimension = source.getDimensionsSet().stream().map(dimensions -> dimensions.getHeight() + "x" + dimensions.getWidth())
+                    .collect(Collectors.joining(";"));
+            logger.debug(dimension);
+            metaInfo.put("dimension",dimension);
+
+            metaInfo.put("material", source.getMaterial());
+
+            metaInfo.put("columns", source.getColumns());
+
+            metaInfo.put("ldoDKey",((ManuscriptSource) ((SourceInter) scholarInter).getSource()).getHasLdoDLabel());
+
+            List<Pair<String, String>> handNotes = source.getHandNoteSet().stream().map(handNote ->
+                    new Pair<>((handNote.getMedium() != null ? handNote.getMedium().getDesc() : ""), handNote.getNote())).collect(Collectors.toList());
+
+            metaInfo.put("handNotes", handNotes);
+
+            List<Pair<String, String>> typeNotes = source.getTypeNoteSet().stream().map(typeNote ->
+                    new Pair<>((typeNote.getMedium() != null ? typeNote.getMedium().getDesc() : ""), typeNote.getNote())).collect(Collectors.toList());
+
+            metaInfo.put("typeNotes", typeNotes);
+        }
+
+        if(isEditorial) {
+            metaInfo.put("volume", ((ExpertEditionInter) scholarInter).getVolume());
+        }
+
+        if (isPublication) {
+            PrintedSource source = (PrintedSource) ((SourceInter) scholarInter).getSource();
+            metaInfo.put("journal", source.getJournal());
+        }
+
+
+        if(isEditorial) {
+            metaInfo.put("number", ((ExpertEditionInter) scholarInter).getCompleteNumber());
+        }
+        else if (isPublication) {
+            PrintedSource source = (PrintedSource) ((SourceInter) scholarInter).getSource();
+            metaInfo.put("number", source.getIssue());
+        }
+        else {
+            metaInfo.put("number", "");
+        }
+
+        if(isEditorial) {
+            metaInfo.put("startPage", ((ExpertEditionInter) scholarInter).getStartPage());
+            metaInfo.put("endPage", ((ExpertEditionInter) scholarInter).getEndPage());
+        }
+        else if (isPublication) {
+            PrintedSource source = (PrintedSource) ((SourceInter) scholarInter).getSource();
+            metaInfo.put("startPage", source.getStartPage());
+            metaInfo.put("endPage", source.getEndPage());
+        }
+        else {
+            metaInfo.put("startPage", 0);
+        }
+
+        if (isPublication) {
+            PrintedSource source = (PrintedSource) ((SourceInter) scholarInter).getSource();
+            metaInfo.put("pubPlace", source.getPubPlace());
+        }
+
+        if(isEditorial) {
+            LdoDDate ldoDDate = scholarInter.getLdoDDate();
+            metaInfo.put("date", (ldoDDate != null ? ldoDDate.print() : ""));
+            if( ldoDDate != null && ldoDDate.getPrecision() != null)
+                metaInfo.put("datePrecision", ldoDDate.getPrecision().getDesc());
+        }
+        else {
+            LdoDDate ldoDDate = ((SourceInter) scholarInter).getSource().getLdoDDate();
+            metaInfo.put("date", (ldoDDate != null ? ldoDDate.print() : ""));
+            if(ldoDDate != null && ldoDDate.getPrecision() != null)
+                metaInfo.put("datePrecision", ldoDDate.getPrecision().getDesc());
+        }
+
+        if(isEditorial) {
+            metaInfo.put("notes", ((ExpertEditionInter) scholarInter).getNotes());
+        }
+        else if (isManuscript) {
+            ManuscriptSource source = (ManuscriptSource) ((SourceInter) scholarInter).getSource();
+            metaInfo.put("notes", source.getNotes());
+        }
+        else {
+            metaInfo.put("notes", "");
+        }
+
+        List<String> notes = scholarInter.getSortedAnnexNote().stream().map(annexNote -> annexNote.getNoteText().generatePresentationText())
+                .collect(Collectors.toList());
+        metaInfo.put("annexNotes",notes);
+
+        if (isManuscript || isPublication){
+            Source source = ((SourceInter) scholarInter).getSource();
+            List<Pair<String, String>> surfaces = source.getFacsimile().getSurfaces().stream().map(surface -> new Pair<>("/facs/" + surface.getGraphic(), source.getAltIdentifier())).collect(Collectors.toList());
+            metaInfo.put("surfaces", surfaces);
+        }
+
+        return new ResponseEntity<>(metaInfo, HttpStatus.OK);
     }
 }

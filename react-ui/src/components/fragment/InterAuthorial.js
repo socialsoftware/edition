@@ -148,5 +148,7 @@ export class InterAuthorial extends React.Component {
                 </div>
             </div>
         );
+
+        // TODO : get meta-info, decide what needs to be included in it.
     }
 }

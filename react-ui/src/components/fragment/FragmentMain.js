@@ -46,7 +46,7 @@ export class FragmentMain extends React.Component {
 
         console.log(this.state);
 
-        if (this.state.interId) { // TODO: AUTHORIAL
+        if (this.state.interId) {
             if (this.state.interId.includes('CRIT')) {
                 inter = (
                     <InterEditorial
