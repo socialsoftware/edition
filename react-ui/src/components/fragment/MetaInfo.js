@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import { FormattedMessage } from 'react-intl';
 
 export class MetaInfo extends React.Component {
 
@@ -35,9 +36,96 @@ export class MetaInfo extends React.Component {
     // TODO : get and do something with meta-info from backend
 
     render() {
-        if (this.state.isLoaded) { console.log(this.state.metaInfo); }
+        if (!this.state.isLoaded) { return <strong>Loading Meta info</strong>; }
 
+        console.log(this.state.metaInfo);
 
-        return <strong>Valid meta info should go here</strong>;
+        const metaComponents = [];
+
+        if (this.state.metaInfo.title !== '') {
+            metaComponents.push(<strong><FormattedMessage id={'general.title'} />:</strong>);
+            metaComponents.push(` ${this.state.metaInfo.title}`);
+            metaComponents.push(<br />);
+        }
+
+        if (this.state.metaInfo.idno) {
+            metaComponents.push(<strong><FormattedMessage id={'general.identification'} />:</strong>);
+            metaComponents.push(` ${this.state.metaInfo.idno}`);
+            metaComponents.push(<br />);
+        }
+
+        metaComponents.push(<strong><FormattedMessage id={'general.heteronym'} />: </strong>);
+        if (this.state.metaInfo.heteronym !== 'não atribuído') { // default for null heteronym
+            metaComponents.push(` ${this.state.metaInfo.heteronym}`);
+        } else {
+            metaComponents.push(<FormattedMessage id={'general.heteronym.notassigned'} />);
+        }
+        metaComponents.push(<br />);
+
+        if (this.state.metaInfo.dimension) {
+            metaComponents.push(<strong><FormattedMessage id={'general.format'} />: </strong>);
+            metaComponents.push(<FormattedMessage id={'general.leaf'} />);
+            const dim = this.state.metaInfo.dimension.split('x');
+            metaComponents.push(<small>` (${dim[0]}cm X ${dim[1]}cm)`</small>);
+            metaComponents.push(<br />);
+        }
+
+        if (this.state.metaInfo.material === 'PAPER') {
+            metaComponents.push(<strong><FormattedMessage id={'general.material'} />: </strong>);
+            metaComponents.push(<FormattedMessage id={'general.paper'} />);
+            metaComponents.push(<br />);
+        }
+
+        if (this.state.metaInfo.columns !== 0) {
+            metaComponents.push(<strong><FormattedMessage id={'general.columns'} />: </strong>);
+            metaComponents.push(` ${this.state.metaInfo.columns}`);
+            metaComponents.push(<br />);
+        }
+
+        metaComponents.push(<strong>LdoD Mark: </strong>);
+        if (this.state.metaInfo.ldoDKey === true) {
+            metaComponents.push(<FormattedMessage id={'search.ldod.with'} />);
+        } else if (this.state.metaInfo.ldoDKey) {
+            metaComponents.push(<FormattedMessage id={'search.ldod.without'} />);
+        }
+        metaComponents.push(<br />);
+
+        if (this.state.metaInfo.handNotes){
+            for (let i = 0; i < this.state.metaInfo.handNotes.length; i++) {
+                const note = this.state.metaInfo.handNotes[i];
+                metaComponents.push(<strong><FormattedMessage id={'general.manuscript'} />: </strong>);
+                metaComponents.push(<em>{note['key']}</em>);
+                metaComponents.push(<strong>:</strong>);
+                metaComponents.push(` ${note['value']}`);
+                metaComponents.push(<br />);
+            }
+        }
+
+        if (this.state.metaInfo.typeNotes){
+            for (let i = 0; i < this.state.metaInfo.typeNotes.length; i++) {
+                const note = this.state.metaInfo.typeNotes[i];
+                metaComponents.push(<strong><FormattedMessage id={'general.typescript'} />: </strong>);
+                metaComponents.push(<em>{note['key']}</em>);
+                metaComponents.push(<strong>:</strong>);
+                metaComponents.push(` ${note['value']}`);
+                metaComponents.push(<br />);
+            }
+        }
+
+        if(this.state.metaInfo.volume) {
+            metaComponents.push(<strong><FormattedMessage id={'tableofcontents.volume'} />:</strong>);
+            metaComponents.push(` ${this.state.metaInfo.volume}`);
+            metaComponents.push(<br />);
+        }
+
+        if(this.state.metaInfo.journal) {
+            metaComponents.push(<strong><FormattedMessage id={'general.journal'} />:</strong>);
+            metaComponents.push(` ${this.state.metaInfo.journal}`);
+            metaComponents.push(<br />);
+        }
+
+        //TODO: add the rest of the meta info.
+
+        return <div className="well">{metaComponents}</div>;
     }
 }

@@ -44,10 +44,7 @@ export class InterAuthorial extends React.Component {
             );
         }
 
-        console.log(ReactHTMLParser(this.state.transcription));
-
-
-        const transcription = ReactHTMLParser(this.state.transcription)[1];
+        const transcription = ReactHTMLParser(this.state.transcription);
 
         return (
             <div>
@@ -143,9 +140,7 @@ export class InterAuthorial extends React.Component {
                     </div>
 
                     <br />
-                    <div className="well">
-                        <MetaInfo fragId={this.state.fragmentId} interId={this.state.interId} />
-                    </div>
+                    <MetaInfo fragId={this.state.fragmentId} interId={this.state.interId} />
                 </div>
             </div>
         );

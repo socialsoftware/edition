@@ -7,8 +7,6 @@ import { InterAuthorial } from './InterAuthorial';
 
 export class FragmentMain extends React.Component {
     constructor(props) {
-        console.log(props.match);
-
         super(props);
         this.state = {
             fragmentId: props.match.params.fragId,
@@ -43,8 +41,6 @@ export class FragmentMain extends React.Component {
         }
 
         let inter = <InterEmpty fragmentId={this.state.fragmentId} title={this.state.fragInfo.title} />;
-
-        console.log(this.state);
 
         if (this.state.interId) {
             if (this.state.interId.includes('CRIT')) {
