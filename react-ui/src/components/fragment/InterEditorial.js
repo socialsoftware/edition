@@ -4,6 +4,7 @@ import React from 'react';
 import axios from 'axios';
 import ReactHTMLParser from 'react-html-parser';
 import { FormattedMessage } from 'react-intl';
+import { MetaInfo } from './MetaInfo';
 
 export class InterEditorial extends React.Component {
     constructor(props) {
@@ -81,7 +82,7 @@ export class InterEditorial extends React.Component {
 
                     <br />
                     <div className="well">
-                             META INFO GOES HERE
+                        <MetaInfo fragId={this.state.fragmentId} interId={this.state.interId} />
                     </div>
                 </div>
             </div>
