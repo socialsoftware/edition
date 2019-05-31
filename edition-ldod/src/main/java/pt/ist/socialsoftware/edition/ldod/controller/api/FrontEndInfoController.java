@@ -292,4 +292,37 @@ public class FrontEndInfoController {
 
         return new ResponseEntity<>(metaInfo, HttpStatus.OK);
     }
+
+    @GetMapping(value = "/source-writer", produces = MediaType.TEXT_HTML_VALUE)
+    public ResponseEntity<?> getSourceWriterWithOptions(@RequestParam String xmlId, @RequestParam String urlId, @RequestParam boolean diff,
+                                                        @RequestParam boolean del, @RequestParam boolean ins,
+                                                        @RequestParam boolean subst, @RequestParam boolean notes,
+                                                        @RequestParam boolean facs) {
+
+        Fragment fragment = Text.getInstance().getFragmentByXmlId(xmlId);
+
+        if (fragment == null) {
+            logger.debug("Could find frag");
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        SourceInter inter = fragment.getSortedSourceInter().stream().filter(sourceInter -> sourceInter.getUrlId().equals(urlId)).findFirst().orElse(null);
+
+        if (inter == null){
+            logger.debug("Could not find inter");
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        PlainHtmlWriter4OneInter writer = new PlainHtmlWriter4OneInter(inter);
+
+        if(facs){
+            //TODO : support facsimile display
+            logger.debug("Facs not supported");
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        writer.write(diff,del,ins,subst,notes,facs,null);
+
+        return new ResponseEntity<>(writer.getTranscription(),HttpStatus.OK);
+    }
 }

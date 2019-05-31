@@ -2,6 +2,7 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import axios from 'axios';
 import ReactHTMLParser from 'react-html-parser';
+import ReactDOM from 'react-dom';
 import { MetaInfo } from './MetaInfo';
 
 export class InterAuthorial extends React.Component {
@@ -12,6 +13,7 @@ export class InterAuthorial extends React.Component {
             fragmentId: props.fragmentId,
             interId: props.interId,
             title: props.title,
+            checkBoxes: [],
             isLoaded: false,
         };
     }
@@ -33,6 +35,33 @@ export class InterAuthorial extends React.Component {
 
     componentDidMount() {
         this.getInterTranscription();
+    }
+
+    changeDisplayOptions() {
+        const selDiff = this.state.checkBoxes[0].checked;
+        const selDel = this.state.checkBoxes[1].checked;
+        const selIns = this.state.checkBoxes[2].checked;
+        const selSubst = this.state.checkBoxes[3].checked;
+        const selNotes = this.state.checkBoxes[4].checked;
+        const selFacs = this.state.checkBoxes[5].checked;
+
+        axios.get('http://localhost:8080/api/services/frontend/source-writer', {
+            params: {
+                xmlId: this.state.fragmentId,
+                urlId: this.state.interId,
+                diff: selDiff,
+                del: selDel,
+                ins: selIns,
+                subst: selSubst,
+                notes: selNotes,
+                facs: selFacs,
+            },
+        }).then((res) => {
+            console.log(res.data);
+            const transcription = ReactHTMLParser(res.data);
+            console.log(transcription);
+            ReactDOM.render(<p>{transcription}</p>, document.getElementById('transcriptionDiv'));
+        });
     }
 
     render() {
@@ -65,7 +94,9 @@ export class InterAuthorial extends React.Component {
                                         type="checkbox"
                                         className="btn"
                                         name="diff"
-                                        value="Yes" />
+                                        value="Yes"
+                                        ref={node => this.state.checkBoxes.push(node)}
+                                        onClick={event => this.changeDisplayOptions(event)} />
                                 </div>
                                 <div className="checkbox tip">
                                     <label htmlFor="deletedCheck">
@@ -76,7 +107,9 @@ export class InterAuthorial extends React.Component {
                                         type="checkbox"
                                         className="btn"
                                         name="del"
-                                        value="Yes" />
+                                        value="Yes"
+                                        ref={node => this.state.checkBoxes.push(node)}
+                                        onClick={event => this.changeDisplayOptions(event)} />
                                 </div>
                                 <div className="checkbox tip">
                                     <label htmlFor="insertedCheck">
@@ -88,7 +121,9 @@ export class InterAuthorial extends React.Component {
                                         className="btn"
                                         name="ins"
                                         value="Yes"
-                                        defaultChecked />
+                                        defaultChecked
+                                        ref={node => this.state.checkBoxes.push(node)}
+                                        onClick={event => this.changeDisplayOptions(event)} />
                                 </div>
                                 <div className="checkbox tip">
                                     <label htmlFor="subCheck">
@@ -99,7 +134,9 @@ export class InterAuthorial extends React.Component {
                                         type="checkbox"
                                         className="btn"
                                         name="subst"
-                                        value="Yes" />
+                                        value="Yes"
+                                        ref={node => this.state.checkBoxes.push(node)}
+                                        onClick={event => this.changeDisplayOptions(event)} />
                                 </div>
                                 <div className="checkbox tip">
                                     <label htmlFor="noteCheck">
@@ -111,7 +148,9 @@ export class InterAuthorial extends React.Component {
                                         className="btn"
                                         name="notes"
                                         value="Yes"
-                                        defaultChecked />
+                                        defaultChecked
+                                        ref={node => this.state.checkBoxes.push(node)}
+                                        onClick={event => this.changeDisplayOptions(event)} />
                                 </div>
                                 <div className="checkbox tip">
                                     <label htmlFor="facsCheck">
@@ -122,7 +161,9 @@ export class InterAuthorial extends React.Component {
                                         type="checkbox"
                                         className="btn"
                                         name="facs"
-                                        value="Yes" />
+                                        value="Yes"
+                                        ref={node => this.state.checkBoxes.push(node)}
+                                        onClick={event => this.changeDisplayOptions(event)} />
                                 </div>
                             </div>
                         </div>
@@ -134,8 +175,8 @@ export class InterAuthorial extends React.Component {
                             {this.state.title}
                         </h4>
                         <br />
-                        <div className="well" style={{ fontFamily: 'courier' }}>
-                            <p>{transcription}</p>
+                        <div id="transcriptionDiv" className="well" style={{ fontFamily: 'courier' }}>
+                            {transcription}
                         </div>
                     </div>
 

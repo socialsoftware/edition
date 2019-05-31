@@ -53,7 +53,7 @@ export class Navigation extends React.Component {
 
     render() {
         if (!this.state.isEditionLoaded || !this.state.isExpertLoaded || !this.state.isSourceLoaded) {
-            return <div>Loading Expert Edition Info</div>;
+            return <div>Loading Edition Info</div>;
         }
         const sourceRow = [];
 
