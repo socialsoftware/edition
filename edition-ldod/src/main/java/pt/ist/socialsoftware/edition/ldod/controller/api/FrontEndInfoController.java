@@ -325,4 +325,30 @@ public class FrontEndInfoController {
 
         return new ResponseEntity<>(writer.getTranscription(),HttpStatus.OK);
     }
+
+    @GetMapping(value = "/expert-writer", produces = MediaType.TEXT_HTML_VALUE)
+    public ResponseEntity<?> getExpertWriterWithOptions(@RequestParam String xmlId, @RequestParam String urlId,
+                                                        @RequestParam boolean diff) {
+
+        Fragment fragment = Text.getInstance().getFragmentByXmlId(xmlId);
+
+        if (fragment == null) {
+            logger.debug("Could find frag");
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        ExpertEditionInter inter = fragment.getExpertEditionInterSet().stream().filter(sourceInter -> sourceInter.getUrlId().equals(urlId)).findFirst().orElse(null);
+
+        if (inter == null){
+            logger.debug("Could not find inter");
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        PlainHtmlWriter4OneInter writer = new PlainHtmlWriter4OneInter(inter);
+
+        writer.write(diff);
+
+        return new ResponseEntity<>(writer.getTranscription(),HttpStatus.OK);
+    }
+
 }

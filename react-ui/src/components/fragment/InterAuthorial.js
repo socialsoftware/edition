@@ -57,15 +57,14 @@ export class InterAuthorial extends React.Component {
                 facs: selFacs,
             },
         }).then((res) => {
-            console.log(res.data);
             const transcription = ReactHTMLParser(res.data);
-            console.log(transcription);
+
             ReactDOM.render(<p>{transcription}</p>, document.getElementById('transcriptionDiv'));
         });
     }
 
     render() {
-        // TODO : figure out a way to add titles back to divs containing the checkboxes
+        // TODO : figure out a way to add titles back to divs containing the checkBoxes
 
         if (!this.state.isLoaded) {
             return (

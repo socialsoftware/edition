@@ -4,6 +4,7 @@ import React from 'react';
 import axios from 'axios';
 import ReactHTMLParser from 'react-html-parser';
 import { FormattedMessage } from 'react-intl';
+import ReactDOM from 'react-dom';
 import { MetaInfo } from './MetaInfo';
 
 export class InterEditorial extends React.Component {
@@ -15,6 +16,7 @@ export class InterEditorial extends React.Component {
             interId: props.interId,
             title: props.title,
             transcription: '',
+            checkBoxes: [],
             isLoaded: false,
         };
     }
@@ -35,6 +37,26 @@ export class InterEditorial extends React.Component {
 
     componentDidMount() {
         this.getInterTranscription();
+    }
+
+    changeDisplayOptions() {
+        const selDiff = this.state.checkBoxes[0].checked;
+
+        console.log(selDiff);
+
+        // TODO: add get call after adding method to controller
+
+        axios.get('http://localhost:8080/api/services/frontend/expert-writer', {
+            params: {
+                xmlId: this.state.fragmentId,
+                urlId: this.state.interId,
+                diff: selDiff,
+            },
+        }).then((res) => {
+            const transcription = ReactHTMLParser(res.data);
+            
+            ReactDOM.render(<p>{transcription}</p>, document.getElementById('transcriptionDiv'));
+        });
     }
 
     render() {
@@ -61,7 +83,13 @@ export class InterEditorial extends React.Component {
                                     <label htmlFor="diffBox">
                                         <FormattedMessage id={'fragment.highlightdifferences'} />
                                     </label>
-                                    <input id="diffBox" type="checkbox" name="diff" value="Yes" />
+                                    <input
+                                        id="diffBox"
+                                        type="checkbox"
+                                        name="diff"
+                                        value="Yes"
+                                        ref={node => this.state.checkBoxes.push(node)}
+                                        onClick={event => this.changeDisplayOptions(event)} />
                                 </div>
                             </div>
                         </div>
@@ -74,8 +102,8 @@ export class InterEditorial extends React.Component {
                                 href=""><span className="glyphicon glyphicon-eye-open" /></a>
                         </h4>
                         <br />
-                        <div className="well" style={{ fontFamily: 'georgia', fontSize: 'medium' }}>
-                            <p>{transcription}</p>
+                        <div id="transcriptionDiv" className="well" style={{ fontFamily: 'georgia', fontSize: 'medium' }}>
+                            {transcription}
                         </div>
                     </div>
 
