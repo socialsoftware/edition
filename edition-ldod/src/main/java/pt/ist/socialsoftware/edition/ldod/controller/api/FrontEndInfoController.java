@@ -344,4 +344,27 @@ public class FrontEndInfoController {
         return new ResponseEntity<>(writer.getTranscription(),HttpStatus.OK);
     }
 
+    @GetMapping(value = "/fac-urls", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<?> getFacsForSourceInter(@RequestParam String xmlId, @RequestParam String urlId,
+                                                   @RequestParam(required = false) String pbTextID){
+
+        Fragment fragment = Text.getInstance().getFragmentByXmlId(xmlId);
+
+        if (fragment == null) {
+            logger.debug("Could find frag");
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        SourceInter inter = fragment.getSortedSourceInter().stream().filter(sourceInter -> sourceInter.getUrlId().equals(urlId)).findFirst().orElse(null);
+
+        if (inter == null){
+            logger.debug("Could not find inter");
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        List<String> urls = inter.getSource().getFacsimile().getSurfaces().stream().map(Surface::getGraphic).collect(Collectors.toList());
+
+        return new ResponseEntity<>(urls,HttpStatus.OK);
+    }
+
 }
