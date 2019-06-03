@@ -54,7 +54,7 @@ export class InterEditorial extends React.Component {
             },
         }).then((res) => {
             const transcription = ReactHTMLParser(res.data);
-            
+
             ReactDOM.render(<p>{transcription}</p>, document.getElementById('transcriptionDiv'));
         });
     }

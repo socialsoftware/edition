@@ -296,8 +296,7 @@ public class FrontEndInfoController {
     @GetMapping(value = "/source-writer", produces = MediaType.TEXT_HTML_VALUE)
     public ResponseEntity<?> getSourceWriterWithOptions(@RequestParam String xmlId, @RequestParam String urlId, @RequestParam boolean diff,
                                                         @RequestParam boolean del, @RequestParam boolean ins,
-                                                        @RequestParam boolean subst, @RequestParam boolean notes,
-                                                        @RequestParam boolean facs) {
+                                                        @RequestParam boolean subst, @RequestParam boolean notes) {
 
         Fragment fragment = Text.getInstance().getFragmentByXmlId(xmlId);
 
@@ -315,13 +314,7 @@ public class FrontEndInfoController {
 
         PlainHtmlWriter4OneInter writer = new PlainHtmlWriter4OneInter(inter);
 
-        if(facs){
-            //TODO : support facsimile display
-            logger.debug("Facs not supported");
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-
-        writer.write(diff,del,ins,subst,notes,facs,null);
+        writer.write(diff,del,ins,subst,notes,false,null);
 
         return new ResponseEntity<>(writer.getTranscription(),HttpStatus.OK);
     }

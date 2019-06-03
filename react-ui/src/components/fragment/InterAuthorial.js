@@ -3,6 +3,7 @@ import { FormattedMessage } from 'react-intl';
 import axios from 'axios';
 import ReactHTMLParser from 'react-html-parser';
 import ReactDOM from 'react-dom';
+import OpenSeadragon from 'openseadragon';
 import { MetaInfo } from './MetaInfo';
 
 export class InterAuthorial extends React.Component {
@@ -14,6 +15,7 @@ export class InterAuthorial extends React.Component {
             interId: props.interId,
             title: props.title,
             checkBoxes: [],
+            showFac: false,
             isLoaded: false,
         };
     }
@@ -35,6 +37,30 @@ export class InterAuthorial extends React.Component {
 
     componentDidMount() {
         this.getInterTranscription();
+
+        console.log(document.getElementById('fac'));
+    }
+
+    componentDidUpdate() {
+        // TODO : get and use image urls from backend.
+
+        if (document.getElementById('fac') != null) {
+            const viewer = OpenSeadragon({
+                id: 'fac',
+                prefixUrl: '/resources/img/openseadragon/images/',
+                autoHideControls: false,
+                visibilityRatio: 1.0,
+                constrainDuringPan: true,
+                showNavigator: true,
+                sequenceMode: true,
+                tileSources: [
+                    { type: 'image', url: '/resources/img/openseadragon/images/next_rest.png' },
+                    { type: 'image', url: '/resources/img/openseadragon/images/previous_rest.png' },
+                ],
+            });
+
+            console.log(viewer);
+        }
     }
 
     changeDisplayOptions() {
@@ -54,13 +80,26 @@ export class InterAuthorial extends React.Component {
                 ins: selIns,
                 subst: selSubst,
                 notes: selNotes,
-                facs: selFacs,
             },
         }).then((res) => {
             const transcription = ReactHTMLParser(res.data);
 
             ReactDOM.render(<p>{transcription}</p>, document.getElementById('transcriptionDiv'));
         });
+
+        if (selFacs) {
+            console.log('Selected show facsimiles');
+
+            this.setState({
+                showFac: true,
+            });
+        }
+
+        if (!selFacs && document.getElementById('fac') != null) {
+            this.setState({
+                showFac: false,
+            });
+        }
     }
 
     render() {
@@ -167,6 +206,8 @@ export class InterAuthorial extends React.Component {
                             </div>
                         </div>
                     </form>
+
+                    {this.state.showFac && <div id="fac" style={{ width: '100%', height: '554px' }} />}
 
                     <br />
                     <div id="fragmentTranscription">
