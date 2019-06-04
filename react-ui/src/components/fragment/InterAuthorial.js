@@ -16,6 +16,7 @@ export class InterAuthorial extends React.Component {
             title: props.title,
             checkBoxes: [],
             showFac: false,
+            facUrls: null,
             isLoaded: false,
         };
     }
@@ -45,6 +46,17 @@ export class InterAuthorial extends React.Component {
         // TODO : get and use image urls from backend.
 
         if (document.getElementById('fac') != null) {
+            const sources = [];
+
+            for (let i = 0; i < this.state.facUrls.length; i++) {
+                const url = this.state.facUrls[i];
+                sources.push({ type: 'image', url: `/facs/${url}` });
+            }
+
+            // TODO: remove these temp images before finishing
+            sources.push({ type: 'image', url: '/resources/img/openseadragon/images/next_rest.png' });
+            sources.push({ type: 'image', url: '/resources/img/openseadragon/images/previous_rest.png' });
+
             const viewer = OpenSeadragon({
                 id: 'fac',
                 prefixUrl: '/resources/img/openseadragon/images/',
@@ -53,10 +65,7 @@ export class InterAuthorial extends React.Component {
                 constrainDuringPan: true,
                 showNavigator: true,
                 sequenceMode: true,
-                tileSources: [
-                    { type: 'image', url: '/resources/img/openseadragon/images/next_rest.png' },
-                    { type: 'image', url: '/resources/img/openseadragon/images/previous_rest.png' },
-                ],
+                tileSources: sources,
             });
 
             console.log(viewer);
@@ -88,10 +97,17 @@ export class InterAuthorial extends React.Component {
         });
 
         if (selFacs) {
-            console.log('Selected show facsimiles');
-
-            this.setState({
-                showFac: true,
+            axios.get('http://localhost:8080/api/services/frontend/fac-urls', {
+                params: {
+                    xmlId: this.state.fragmentId,
+                    urlId: this.state.interId,
+                    // TODO : where do the pbIds come from????
+                },
+            }).then((res) => {
+                this.setState({
+                    facUrls: res.data,
+                    showFac: true,
+                });
             });
         }
 
