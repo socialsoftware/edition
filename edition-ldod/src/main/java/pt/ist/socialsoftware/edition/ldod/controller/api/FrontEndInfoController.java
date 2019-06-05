@@ -77,7 +77,7 @@ public class FrontEndInfoController {
 
         List<ExpertEditionInter> expertEditionInters = fragment.getExpertEditionInterSet().stream().sorted().collect(Collectors.toList());
 
-        Map<String,Map<String,String>> interInfo = new LinkedHashMap<>();
+        Map<String,List<Map<String,String>>> interInfo = new LinkedHashMap<>();
 
         for(ExpertEditionInter expertEditionInter : expertEditionInters){
             Map<String,String> info = new LinkedHashMap<>();
@@ -87,7 +87,14 @@ public class FrontEndInfoController {
             info.put("urlId", expertEditionInter.getUrlId());
             info.put("externalId", expertEditionInter.getExternalId());
 
-            interInfo.put(expertEditionInter.getExpertEdition().getAcronym(),info);
+            if(interInfo.containsKey(expertEditionInter.getExpertEdition().getAcronym())){
+                interInfo.get(expertEditionInter.getExpertEdition().getAcronym()).add(info);
+            }
+            else {
+                List<Map<String,String>> infoList = new ArrayList<>();
+                infoList.add(info);
+                interInfo.put(expertEditionInter.getExpertEdition().getAcronym(), infoList);
+            }
         }
 
         return new ResponseEntity<>(interInfo,HttpStatus.OK);
@@ -367,4 +374,37 @@ public class FrontEndInfoController {
         return new ResponseEntity<>(urls,HttpStatus.OK);
     }
 
+
+    @GetMapping(value = "virtual-inter", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<?> getFragmentVirtualInterInfo(@RequestParam String xmlId) {
+
+        Fragment fragment = Text.getInstance().getFragmentByXmlId(xmlId);
+
+        if(fragment == null)
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+        Map<String,List<Map<String,String>>> interInfo = new LinkedHashMap<>();
+
+        Set<VirtualEdition> virtualEditions = LdoDUser.getAuthenticatedUser() != null ? LdoDUser.getAuthenticatedUser().getSelectedVirtualEditionsSet() : new LinkedHashSet<>();
+
+        virtualEditions.add(LdoD.getInstance().getArchiveEdition());
+
+        for(VirtualEdition virtualEdition : virtualEditions){
+            Set<VirtualEditionInter> editionInters = virtualEdition.getVirtualEditionInterSetForFragment(fragment);
+
+            List<Map<String,String>> data = new ArrayList<>();
+            for(VirtualEditionInter vei : editionInters){
+                Map<String,String> info = new LinkedHashMap<>();
+                info.put("xmlId", vei.getXmlId());
+                info.put("title", vei.getTitle());
+                info.put("number", Integer.toString(vei.getNumber()));
+                info.put("urlId", vei.getUrlId());
+                info.put("externalId", vei.getExternalId());
+                data.add(info);
+            }
+            interInfo.put(virtualEdition.getAcronym(),data);
+        }
+
+        return new ResponseEntity<>(interInfo,HttpStatus.OK);
+    }
 }

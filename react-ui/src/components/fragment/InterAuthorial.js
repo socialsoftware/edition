@@ -43,8 +43,6 @@ export class InterAuthorial extends React.Component {
     }
 
     componentDidUpdate() {
-        // TODO : get and use image urls from backend.
-
         if (document.getElementById('fac') != null) {
             const sources = [];
 

@@ -89,7 +89,38 @@ export class Navigation extends React.Component {
 
             if (!interInfo) { continue; }
 
-            const ref = `http://localhost:9000/fragments/fragment/${this.state.fragId}/inter/${interInfo.urlId}`;
+            const navOptions = [];
+
+            for (let j = 0; j < interInfo.length; j++) {
+                const interData = interInfo[j];
+
+                const ref = `http://localhost:9000/fragments/fragment/${this.state.fragId}/inter/${interData.urlId}`;
+
+                navOptions.push(
+                    (
+                        <tr>
+                            <td />
+                            <td>
+                                <input
+                                    type="checkbox"
+                                    name={interData.externalId}
+                                    value={interData.externalId} />
+                            </td>
+
+                            <td><a
+                                href={`${ref}/prev`}><span
+                                    className="glyphicon glyphicon-chevron-left" /></a></td>
+                            <td><a
+                                href={ref}>{interData.number}</a>
+                            </td>
+                            <td><a
+                                href={`${ref}/next`}><span
+                                    className="glyphicon glyphicon-chevron-right" /></a></td>
+                            <td />
+                        </tr>
+                    ),
+                );
+            }
 
             expertRow.push(
                 (
@@ -112,26 +143,7 @@ export class Navigation extends React.Component {
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td />
-                                    <td>
-                                        <input
-                                            type="checkbox"
-                                            name={interInfo.externalId}
-                                            value={interInfo.externalId} />
-                                    </td>
-
-                                    <td><a
-                                        href={`${ref}/prev`}><span
-                                            className="glyphicon glyphicon-chevron-left" /></a></td>
-                                    <td><a
-                                        href={ref}>{interInfo.number}</a>
-                                    </td>
-                                    <td><a
-                                        href={`${ref}/next`}><span
-                                            className="glyphicon glyphicon-chevron-right" /></a></td>
-                                    <td />
-                                </tr>
+                                {navOptions}
                             </tbody>
                         </table>
                     </div>
