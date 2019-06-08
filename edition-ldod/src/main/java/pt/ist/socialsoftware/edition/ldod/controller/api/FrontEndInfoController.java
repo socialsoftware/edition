@@ -16,6 +16,7 @@ import pt.ist.socialsoftware.edition.ldod.api.ui.UiInterface;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.domain.Module;
 import pt.ist.socialsoftware.edition.ldod.generators.PlainHtmlWriter4OneInter;
+import pt.ist.socialsoftware.edition.ldod.session.LdoDSession;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -385,7 +386,7 @@ public class FrontEndInfoController {
 
         Map<String,List<Map<String,String>>> interInfo = new LinkedHashMap<>();
 
-        Set<VirtualEdition> virtualEditions = LdoDUser.getAuthenticatedUser() != null ? LdoDUser.getAuthenticatedUser().getSelectedVirtualEditionsSet() : new LinkedHashSet<>();
+        Set<VirtualEdition> virtualEditions = new LinkedHashSet<>(LdoDSession.getLdoDSession().materializeVirtualEditions());
 
         virtualEditions.add(LdoD.getInstance().getArchiveEdition());
 
@@ -406,5 +407,31 @@ public class FrontEndInfoController {
         }
 
         return new ResponseEntity<>(interInfo,HttpStatus.OK);
+    }
+
+    @GetMapping(value = "virtual-edition", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<?> getFragmentVirtualInterInfo(@RequestParam String xmlId, @RequestParam String urlId) {
+
+        Fragment fragment = Text.getInstance().getFragmentByXmlId(xmlId);
+
+        if (fragment == null) {
+            logger.debug("Could find frag");
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        VirtualEditionInter inter = LdoD.getInstance().getVirtualEditionInterSet(fragment).stream()
+                .filter(virtualEditionInter -> virtualEditionInter.getUrlId().equals(urlId)).findFirst().orElse(null);
+
+        if (inter == null){
+            logger.debug("Could not find inter");
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        Map<String,String> editionInfo = new LinkedHashMap<>();
+
+        editionInfo.put("editionTitle", inter.getEdition().getTitle());
+        editionInfo.put("usesTitle", inter.getLastUsed().getTitle());
+
+        return new ResponseEntity<>(editionInfo,HttpStatus.OK);
     }
 }

@@ -42,8 +42,6 @@ export class InterEditorial extends React.Component {
     changeDisplayOptions() {
         const selDiff = this.state.checkBoxes[0].checked;
 
-        console.log(selDiff);
-
         // TODO: add get call after adding method to controller
 
         axios.get('http://localhost:8080/api/services/frontend/expert-writer', {

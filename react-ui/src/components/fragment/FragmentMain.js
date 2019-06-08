@@ -4,6 +4,7 @@ import { Navigation } from './Navigation';
 import { InterEmpty } from './InterEmpty';
 import { InterEditorial } from './InterEditorial';
 import { InterAuthorial } from './InterAuthorial';
+import { InterVirtual } from './InterVirtual';
 
 export class FragmentMain extends React.Component {
     constructor(props) {
@@ -46,6 +47,13 @@ export class FragmentMain extends React.Component {
             if (this.state.interId.includes('CRIT')) {
                 inter = (
                     <InterEditorial
+                        fragmentId={this.state.fragmentId}
+                        title={this.state.fragInfo.title}
+                        interId={this.state.interId} />
+                );
+            } else if (this.state.interId.includes('VIRT')) {
+                inter = (
+                    <InterVirtual
                         fragmentId={this.state.fragmentId}
                         title={this.state.fragInfo.title}
                         interId={this.state.interId} />

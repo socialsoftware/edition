@@ -10,9 +10,11 @@ export class Navigation extends React.Component {
             expertEditions: null,
             expertInterInfo: null,
             sourceInterInfo: null,
+            virtualInterInfo: null,
             isEditionLoaded: false,
             isExpertLoaded: false,
             isSourceLoaded: false,
+            isVirtualLoaded: false,
         };
     }
 
@@ -45,6 +47,17 @@ export class Navigation extends React.Component {
                 isSourceLoaded: true,
             });
         });
+
+        axios.get('http://localhost:8080/api/services/frontend/virtual-inter', {
+            params: {
+                xmlId: this.state.fragId,
+            },
+        }).then((result) => {
+            this.setState({
+                virtualInterInfo: result.data,
+                isVirtualLoaded: true,
+            });
+        });
     }
 
     componentDidMount() {
@@ -52,11 +65,12 @@ export class Navigation extends React.Component {
     }
 
     render() {
-        if (!this.state.isEditionLoaded || !this.state.isExpertLoaded || !this.state.isSourceLoaded) {
+        if (!this.state.isEditionLoaded || !this.state.isExpertLoaded || !this.state.isSourceLoaded || !this.state.isVirtualLoaded) {
             return <div>Loading Edition Info</div>;
         }
-        const sourceRow = [];
 
+        // Build source inter options
+        const sourceRow = [];
         for (let i = 0; i < this.state.sourceInterInfo.length; i++) {
             const sourceInfo = this.state.sourceInterInfo[i];
 
@@ -81,8 +95,8 @@ export class Navigation extends React.Component {
             );
         }
 
+        // Build expert inter options
         const expertRow = [];
-
         for (let i = 0; i < this.state.expertEditions.length; i++) {
             const info = this.state.expertEditions[i];
             const interInfo = this.state.expertInterInfo[info.key];
@@ -151,6 +165,77 @@ export class Navigation extends React.Component {
             );
         }
 
+        // Build virtual inter options.
+
+        const virtualRow = [];
+
+        const editionNames = Object.keys(this.state.virtualInterInfo);
+
+        for (let i = 0; i < editionNames.length; i++) {
+            const interInfo = this.state.virtualInterInfo[editionNames[i]];
+
+            const navOptions = [];
+
+            for (let j = 0; j < interInfo.length; j++) {
+                const interData = interInfo[j];
+
+                const ref = `http://localhost:9000/fragments/fragment/${this.state.fragId}/inter/${interData.urlId}`;
+
+                navOptions.push(
+                    (
+                        <tr>
+                            <td />
+                            <td>
+                                <input
+                                    type="checkbox"
+                                    name={interData.externalId}
+                                    value={interData.externalId} />
+                            </td>
+
+                            <td><a
+                                href={`${ref}/prev`}><span
+                                    className="glyphicon glyphicon-chevron-left" /></a></td>
+                            <td><a
+                                href={ref}>{interData.number}</a>
+                            </td>
+                            <td><a
+                                href={`${ref}/next`}><span
+                                    className="glyphicon glyphicon-chevron-right" /></a></td>
+                            <td />
+                        </tr>
+                    ),
+                );
+            }
+
+            virtualRow.push(
+                (
+                    <div className="text-center">
+                        <table width="100%">
+                            <caption className="text-center">
+                                <a
+                                    href="">
+                                    {editionNames[i]}
+                                </a>
+                            </caption>
+                            <thead>
+                                <tr>
+                                    <th style={{ width: '10%' }} />
+                                    <th style={{ width: '10%' }} />
+                                    <th style={{ width: '25%' }} />
+                                    <th style={{ width: '10%' }} />
+                                    <th style={{ width: '25%' }} />
+                                    <th style={{ width: '20%' }} />
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {navOptions}
+                            </tbody>
+                        </table>
+                    </div>
+                ),
+            );
+        }
+
         return (
             <div>
                 <div id="fragment" className="row">
@@ -193,6 +278,22 @@ export class Navigation extends React.Component {
                     {expertRow}
                 </div>
                 <br /> <br />
+
+                <div id="virtualinter" data-toggle="checkbox">
+                    <h5 className="text-center">
+                        <FormattedMessage id={'virtual.editions'} />
+                        <a
+                            id="infovirtualeditions"
+                            data-placement="bottom"
+                            className="infobutton"
+                            role="button"
+                            data-toggle="popover"
+                            data-content="TODO"> <span
+                                className="glyphicon glyphicon-info-sign" />
+                        </a>
+                    </h5>
+                    {virtualRow}
+                </div>
             </div>
         );
     }
