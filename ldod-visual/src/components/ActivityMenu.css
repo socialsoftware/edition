@@ -24,6 +24,7 @@
   flex-grow: 0;
   flex-shrink: 1;
   flex-basis: 260px;
+  font-size: 13px;
 }
 
 .cardActivity:hover {
@@ -47,6 +48,9 @@
 
 .cardsActivityImage {
   cursor: pointer;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .vis-item-content:hover {

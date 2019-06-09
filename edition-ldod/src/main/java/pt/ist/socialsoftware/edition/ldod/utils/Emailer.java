@@ -1,6 +1,7 @@
 package pt.ist.socialsoftware.edition.ldod.utils;
 
-import java.util.Properties;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -9,51 +10,49 @@ import javax.mail.Transport;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.Properties;
 
 public class Emailer {
-	private static Logger logger = LoggerFactory.getLogger(Emailer.class);
+    private static final Logger logger = LoggerFactory.getLogger(Emailer.class);
 
-	public static void sendEmail(String to, String subject, String msg, String from)
-			throws AddressException, MessagingException {
-		Properties properties = setMailProperties();
+    public static void sendEmail(String to, String subject, String msg, String from)
+            throws AddressException, MessagingException {
+        Properties properties = setMailProperties();
 
-		Session getMailSession = Session.getDefaultInstance(properties, null);
+        Session getMailSession = Session.getDefaultInstance(properties, null);
 
-		Message generateMailMessage = createMessage(from, to, subject, msg, getMailSession);
+        Message generateMailMessage = createMessage(from, to, subject, msg, getMailSession);
 
-		sendMessage(getMailSession, generateMailMessage);
-	}
+        sendMessage(getMailSession, generateMailMessage);
+    }
 
-	private static void sendMessage(Session getMailSession, Message generateMailMessage) throws MessagingException {
-		Transport transport = getMailSession.getTransport("smtp");
-		transport.connect((String) PropertiesManager.getProperties().get("registration.confirmation.mail.smtp.host"),
-				(String) PropertiesManager.getProperties().get("registration.confirmation.email.user"),
-				(String) PropertiesManager.getProperties().get("registration.confirmation.email.password"));
-		transport.sendMessage(generateMailMessage, generateMailMessage.getAllRecipients());
-		transport.close();
-	}
+    private static void sendMessage(Session getMailSession, Message generateMailMessage) throws MessagingException {
+        Transport transport = getMailSession.getTransport("smtp");
+        transport.connect((String) PropertiesManager.getProperties().get("registration.confirmation.mail.smtp.host"),
+                (String) PropertiesManager.getProperties().get("registration.confirmation.email.user"),
+                (String) PropertiesManager.getProperties().get("registration.confirmation.email.password"));
+        transport.sendMessage(generateMailMessage, generateMailMessage.getAllRecipients());
+        transport.close();
+    }
 
-	private static Message createMessage(String from, String to, String subject, String msg, Session getMailSession)
-			throws MessagingException, AddressException {
-		Message generateMailMessage = new MimeMessage(getMailSession);
-		generateMailMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
-		generateMailMessage.addRecipient(Message.RecipientType.BCC, new InternetAddress(from));
-		generateMailMessage.setSubject(subject);
-		generateMailMessage.setContent(msg, "text/html");
-		return generateMailMessage;
-	}
+    private static Message createMessage(String from, String to, String subject, String msg, Session getMailSession)
+            throws MessagingException, AddressException {
+        Message generateMailMessage = new MimeMessage(getMailSession);
+        generateMailMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
+        generateMailMessage.addRecipient(Message.RecipientType.BCC, new InternetAddress(from));
+        generateMailMessage.setSubject(subject);
+        generateMailMessage.setContent(msg, "text/html");
+        return generateMailMessage;
+    }
 
-	private static Properties setMailProperties() {
-		Properties properties = new Properties();
-		properties.put("mail.smtp.auth", "true");
-		properties.put("mail.smtp.starttls.enable", "true");
-		properties.put("mail.smtp.host",
-				PropertiesManager.getProperties().get("registration.confirmation.mail.smtp.host"));
-		properties.put("mail.smtp.port",
-				PropertiesManager.getProperties().get("registration.confirmation.mail.smtp.port"));
-		return properties;
-	}
+    private static Properties setMailProperties() {
+        Properties properties = new Properties();
+        properties.put("mail.smtp.auth", "true");
+        properties.put("mail.smtp.starttls.enable", "true");
+        properties.put("mail.smtp.host",
+                PropertiesManager.getProperties().get("registration.confirmation.mail.smtp.host"));
+        properties.put("mail.smtp.port",
+                PropertiesManager.getProperties().get("registration.confirmation.mail.smtp.port"));
+        return properties;
+    }
 }

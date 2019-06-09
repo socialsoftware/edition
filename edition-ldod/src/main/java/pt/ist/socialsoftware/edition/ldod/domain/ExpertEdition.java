@@ -189,7 +189,7 @@ public class ExpertEdition extends ExpertEdition_Base implements Comparable<Expe
         }
 
         recommendedEdition = recommendedEdition.stream().sorted(Comparator.comparing(InterIdDistancePairDto::getDistance).reversed()).collect(Collectors.toList());
-        recommendedEdition.add(new InterIdDistancePairDto(expertEditionInter.getExternalId(), 1.0d));
+        recommendedEdition.add(0, new InterIdDistancePairDto(expertEditionInter.getExternalId(), 1.0d));
 
         return recommendedEdition;
     }
