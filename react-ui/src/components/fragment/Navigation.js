@@ -109,6 +109,8 @@ export class Navigation extends React.Component {
                 const interData = interInfo[j];
 
                 const ref = `http://localhost:9000/fragments/fragment/${this.state.fragId}/inter/${interData.urlId}`;
+                const nextRef = `http://localhost:9000/fragments/fragment/${interData.nextXmlId}/inter/${interData.nextUrlId}`;
+                const prevRef = `http://localhost:9000/fragments/fragment/${interData.prevXmlId}/inter/${interData.prevUrlId}`;
 
                 navOptions.push(
                     (
@@ -122,13 +124,13 @@ export class Navigation extends React.Component {
                             </td>
 
                             <td><a
-                                href={`${ref}/prev`}><span
+                                href={prevRef}><span
                                     className="glyphicon glyphicon-chevron-left" /></a></td>
                             <td><a
                                 href={ref}>{interData.number}</a>
                             </td>
                             <td><a
-                                href={`${ref}/next`}><span
+                                href={nextRef}><span
                                     className="glyphicon glyphicon-chevron-right" /></a></td>
                             <td />
                         </tr>
@@ -180,6 +182,8 @@ export class Navigation extends React.Component {
                 const interData = interInfo[j];
 
                 const ref = `http://localhost:9000/fragments/fragment/${this.state.fragId}/inter/${interData.urlId}`;
+                const nextRef = `http://localhost:9000/fragments/fragment/${interData.nextXmlId}/inter/${interData.nextUrlId}`;
+                const prevRef = `http://localhost:9000/fragments/fragment/${interData.prevXmlId}/inter/${interData.prevUrlId}`;
 
                 navOptions.push(
                     (
@@ -193,13 +197,13 @@ export class Navigation extends React.Component {
                             </td>
 
                             <td><a
-                                href={`${ref}/prev`}><span
+                                href={prevRef}><span
                                     className="glyphicon glyphicon-chevron-left" /></a></td>
                             <td><a
                                 href={ref}>{interData.number}</a>
                             </td>
                             <td><a
-                                href={`${ref}/next`}><span
+                                href={nextRef}><span
                                     className="glyphicon glyphicon-chevron-right" /></a></td>
                             <td />
                         </tr>

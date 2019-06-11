@@ -87,6 +87,10 @@ public class FrontEndInfoController {
             info.put("number", Integer.toString(expertEditionInter.getNumber()));
             info.put("urlId", expertEditionInter.getUrlId());
             info.put("externalId", expertEditionInter.getExternalId());
+            info.put("nextXmlId", expertEditionInter.getNextNumberInter().getFragment().getXmlId());
+            info.put("nextUrlId", expertEditionInter.getNextNumberInter().getUrlId());
+            info.put("prevXmlId", expertEditionInter.getPrevNumberInter().getFragment().getXmlId());
+            info.put("prevUrlId", expertEditionInter.getPrevNumberInter().getUrlId());
 
             if(interInfo.containsKey(expertEditionInter.getExpertEdition().getAcronym())){
                 interInfo.get(expertEditionInter.getExpertEdition().getAcronym()).add(info);
@@ -401,6 +405,10 @@ public class FrontEndInfoController {
                 info.put("number", Integer.toString(vei.getNumber()));
                 info.put("urlId", vei.getUrlId());
                 info.put("externalId", vei.getExternalId());
+                info.put("nextXmlId", vei.getNextNumberInter().getFragment().getXmlId());
+                info.put("nextUrlId", vei.getNextNumberInter().getUrlId());
+                info.put("prevXmlId", vei.getPrevNumberInter().getFragment().getXmlId());
+                info.put("prevUrlId", vei.getPrevNumberInter().getUrlId());
                 data.add(info);
             }
             interInfo.put(virtualEdition.getAcronym(),data);
