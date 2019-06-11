@@ -241,7 +241,7 @@ export class Navigation extends React.Component {
         }
 
         return (
-            <div>
+            <div className="col-md-3">
                 <div id="fragment" className="row">
                     <div id="Fr001" />
 
