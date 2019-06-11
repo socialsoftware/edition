@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import pt.ist.fenixframework.DomainObject;
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.ldod.api.ui.UiInterface;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
@@ -438,7 +437,17 @@ public class FrontEndInfoController {
         Map<String,String> editionInfo = new LinkedHashMap<>();
 
         editionInfo.put("editionTitle", inter.getEdition().getTitle());
-        editionInfo.put("usesTitle", inter.getLastUsed().getTitle());
+
+        if(inter.getUses() != null){
+            editionInfo.put("editionReference", inter.getUses().getEdition().getReference());
+            editionInfo.put("interReference", inter.getUses().getReference());
+        }
+        else {
+            editionInfo.put("editionReference", inter.getLastUsed().getEdition().getReference());
+            editionInfo.put("interReference", inter.getLastUsed().getReference());
+        }
+
+        logger.debug(editionInfo.toString());
 
         return new ResponseEntity<>(editionInfo,HttpStatus.OK);
     }

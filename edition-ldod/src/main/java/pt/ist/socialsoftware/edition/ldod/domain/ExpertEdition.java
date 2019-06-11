@@ -162,6 +162,7 @@ public class ExpertEdition extends ExpertEdition_Base implements Comparable<Expe
         return getIntersSet().stream().filter(i -> i.getXmlId().equals(xmlId)).findFirst().orElse(null);
     }
 
+    @Override
     public String getReference() {
         return getEditor();
     }

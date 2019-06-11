@@ -117,6 +117,7 @@ public class ExpertEditionInter extends ExpertEditionInter_Base implements Compa
         return getExpertEdition();
     }
 
+    @Override
     public String getReference() {
         return Integer.toString(getNumber());
     }

@@ -29,6 +29,8 @@ public abstract class ScholarInter extends ScholarInter_Base {
 
     public abstract ScholarInter getLastUsed();
 
+    public abstract String getReference();
+
     public void remove() {
 
         setFragment(null);

@@ -1,5 +1,8 @@
 import React from 'react';
 import axios from 'axios';
+import { FormattedMessage } from 'react-intl';
+import { Helmet } from 'react-helmet';
+import ReactHTMLParser from 'react-html-parser';
 
 export class InterVirtual extends React.Component {
     constructor(props) {
@@ -60,9 +63,34 @@ export class InterVirtual extends React.Component {
             );
         }
 
+        const transcription = ReactHTMLParser(this.state.transcription);
+
         return (
             <div>
-                A virtual inter page will be displayed here
+                <Helmet>
+                    <meta charSet="utf-8" />
+                </Helmet>
+                <div
+                    id="fragmentInter"
+                    className="row"
+                    style={{ marginLeft: 0, marginRight: 0 }}>
+                    <h4>{this.state.editionInfo.editionTitle}
+                         -
+                        <FormattedMessage id={'general.uses'} />
+                        {this.state.editionInfo.editionReference}({this.state.editionInfo.interReference})
+                    </h4>
+
+                    <div className="row" id="content">
+                        <h4 className="text-center">
+                            {this.state.title}
+                        </h4>
+                        <br />
+                        <div id="transcriptionDiv" className="well" style={{ fontFamily: 'courier' }}>
+                            {transcription}
+                        </div>
+                    </div>
+                    PUT TAXONOMY INFO HERE
+                </div>
             </div>
         );
     }

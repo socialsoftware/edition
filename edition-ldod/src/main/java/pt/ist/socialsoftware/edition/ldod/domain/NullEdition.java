@@ -19,6 +19,7 @@ public class NullEdition extends NullEdition_Base {
         return new HashSet<>();
     }
 
+    @Override
     public String getReference() {
         return "";
     }

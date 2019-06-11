@@ -103,6 +103,7 @@ public class SourceInter extends SourceInter_Base implements Comparable<SourceIn
         return Text.getInstance().getNullEdition();
     }
 
+    @Override
     public String getReference() {
         logger.debug("Got name " + getShortName());
         return getShortName();

@@ -65,7 +65,8 @@
     "general.date"                    : "Data",
     "general.note"                    : "Nota",
     "general.facsimiles"              : "Fac-s\u00EDmiles",
-    "virtual.editions"                : "Edi\u00E7\u00F5es Virtuais"
+    "virtual.editions"                : "Edi\u00E7\u00F5es Virtuais",
+    "general.uses"                    : "Usa"
   },
   "en" : {
     "appName" : "LdoD Archive",
@@ -133,7 +134,8 @@
     "general.date"                    : "Date",
     "general.note"                    : "Note",
     "general.facsimiles"              : "Facsimiles",
-    "virtual.editions"                : "Virtual Editions"
+    "virtual.editions"                : "Virtual Editions",
+    "general.uses"                    : "Uses"
   },
   "es" : {
     "appName" : "Archivo LdoD",
@@ -201,7 +203,8 @@
     "general.date"                    : "Fecha",
     "general.note"                    : "Nota",
     "general.facsimiles"              : "Facsimiles",
-    "virtual.editions"                : "Edici\u00F3nes Virtuales"
+    "virtual.editions"                : "Edici\u00F3nes Virtuales",
+    "general.uses"                    : "Usa"
   }
 }
 
