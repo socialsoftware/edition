@@ -95,10 +95,10 @@ export class MetaInfo extends React.Component {
                 const note = this.state.metaInfo.handNotes[i];
                 metaComponents.push(<strong><FormattedMessage id={'general.manuscript'} />: </strong>);
                 metaComponents.push('(');
-                metaComponents.push(<em>{note.key}</em>);
+                metaComponents.push(<em>{Object.keys(note)[0]}</em>);
                 metaComponents.push(')');
                 metaComponents.push(<strong>:</strong>);
-                metaComponents.push(` ${note.value}`);
+                metaComponents.push(` ${note[Object.keys(note)[0]]}`);
                 metaComponents.push(<br />);
             }
         }
@@ -108,10 +108,10 @@ export class MetaInfo extends React.Component {
                 const note = this.state.metaInfo.typeNotes[i];
                 metaComponents.push(<strong><FormattedMessage id={'general.typescript'} />: </strong>);
                 metaComponents.push('(');
-                metaComponents.push(<em>{note.key}</em>);
+                metaComponents.push(<em>{Object.keys(note)[0]}</em>);
                 metaComponents.push(')');
                 metaComponents.push(<strong> : </strong>);
-                metaComponents.push(`${note.value}`);
+                metaComponents.push(`${note[Object.keys(note)[0]]}`);
                 metaComponents.push(<br />);
             }
         }
@@ -177,7 +177,7 @@ export class MetaInfo extends React.Component {
             metaComponents.push(<strong><FormattedMessage id={'general.facsimiles'} />:</strong>);
             for (let i = 0; i < this.state.metaInfo.surfaces.length; i++) {
                 const surface = this.state.metaInfo.surfaces[i];
-                metaComponents.push(<a href={surface.key}>{` ${surface.value}.${i + 1}`}</a>);
+                metaComponents.push(<a href={Object.keys(surface)[0]}>{` ${surface[Object.keys(surface)[0]]}.${i + 1}`}</a>);
             }
             metaComponents.push(<br />);
         }

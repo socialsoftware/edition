@@ -183,8 +183,9 @@ export default class TopBar extends React.Component {
                     let menuJson = [];
 
                     for (let k = 0; k < options.length; k++) {
-                        menuJson.push({ title: <FormattedMessage id={options[k].key} />,
-                            link: options[k].value });
+                        const name = Object.keys(options[k])[0];
+                        menuJson.push({ title: <FormattedMessage id={name} />,
+                            link: options[k][name] });
                     }
 
                     let foundDuplicate = false;

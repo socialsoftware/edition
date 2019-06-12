@@ -221,7 +221,11 @@ export class InterAuthorial extends React.Component {
                         </div>
                     </form>
 
-                    {this.state.showFac && <div id="fac" style={{ width: '100%', height: '554px' }} />}
+                    {this.state.showFac && <div id="facsimileTranscription" className="row" style={{ marginRight: 0 }}>
+                        <div className="col-md-6">
+                            <div className="item" id="fac" style={{ width: 100, height: 554 }} />
+                        </div>
+                    </div>}
 
                     <br />
                     <div id="fragmentTranscription">

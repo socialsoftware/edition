@@ -1,6 +1,5 @@
 package pt.ist.socialsoftware.edition.ldod.controller.api;
 
-import javafx.util.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -35,14 +34,14 @@ public class FrontEndInfoController {
     public ResponseEntity<?> getModuleInfo() {
         Set<Module> moduleSet =  FenixFramework.getDomainRoot().getModuleSet();
 
-        Map<String, Map<String, List<Pair<String,String>>>> results = new LinkedHashMap<>();
+        Map<String, Map<String, List<AbstractMap.SimpleEntry<String,String>>>> results = new LinkedHashMap<>();
 
 
         for (Module module: moduleSet){
-            Map<String, List<Pair<String,String>>> temp = new LinkedHashMap<>();
+            Map<String, List<AbstractMap.SimpleEntry<String,String>>> temp = new LinkedHashMap<>();
             for (Menu menu : module.getUiComponent().getMenuSet().stream().sorted(Comparator.comparingInt(Menu::getPosition)).collect(Collectors.toList())) {
-                List<Pair<String,String>> links = menu.getOptionSet().stream().sorted(Comparator.comparingInt(Option::getPosition))
-                        .map(option -> new Pair<>(option.getName(),option.getLink())).collect(Collectors.toList());
+                List<AbstractMap.SimpleEntry<String,String>> links = menu.getOptionSet().stream().sorted(Comparator.comparingInt(Option::getPosition))
+                        .map(option -> new AbstractMap.SimpleEntry<>(option.getName(),option.getLink())).collect(Collectors.toList());
                 temp.put(menu.getName(),links);
             }
             results.put(module.getName(), temp);
@@ -129,8 +128,8 @@ public class FrontEndInfoController {
 
     @GetMapping(value = "/expert-edition",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<?> getExpertEditionInfo(){
-        List<Pair<String,String>> expertEditionInfo = Text.getInstance().getSortedExpertEdition().stream()
-                .map(expertEdition -> new Pair<>(expertEdition.getAcronym(), expertEdition.getEditor())).collect(Collectors.toList());
+        List<AbstractMap.SimpleEntry<String,String>> expertEditionInfo = Text.getInstance().getSortedExpertEdition().stream()
+                .map(expertEdition -> new AbstractMap.SimpleEntry<>(expertEdition.getAcronym(), expertEdition.getEditor())).collect(Collectors.toList());
 
         return new ResponseEntity<>(expertEditionInfo,HttpStatus.OK);
     }
@@ -217,13 +216,13 @@ public class FrontEndInfoController {
 
             metaInfo.put("ldoDKey",((ManuscriptSource) ((SourceInter) scholarInter).getSource()).getHasLdoDLabel());
 
-            List<Pair<String, String>> handNotes = source.getHandNoteSet().stream().map(handNote ->
-                    new Pair<>((handNote.getMedium() != null ? handNote.getMedium().getDesc() : ""), handNote.getNote())).collect(Collectors.toList());
+            List<AbstractMap.SimpleEntry<String, String>> handNotes = source.getHandNoteSet().stream().map(handNote ->
+                    new AbstractMap.SimpleEntry<>((handNote.getMedium() != null ? handNote.getMedium().getDesc() : ""), handNote.getNote())).collect(Collectors.toList());
 
             metaInfo.put("handNotes", handNotes);
 
-            List<Pair<String, String>> typeNotes = source.getTypeNoteSet().stream().map(typeNote ->
-                    new Pair<>((typeNote.getMedium() != null ? typeNote.getMedium().getDesc() : ""), typeNote.getNote())).collect(Collectors.toList());
+            List<AbstractMap.SimpleEntry<String, String>> typeNotes = source.getTypeNoteSet().stream().map(typeNote ->
+                    new AbstractMap.SimpleEntry<>((typeNote.getMedium() != null ? typeNote.getMedium().getDesc() : ""), typeNote.getNote())).collect(Collectors.toList());
 
             metaInfo.put("typeNotes", typeNotes);
         }
@@ -297,7 +296,8 @@ public class FrontEndInfoController {
 
         if (isManuscript || isPublication){
             Source source = ((SourceInter) scholarInter).getSource();
-            List<Pair<String, String>> surfaces = source.getFacsimile().getSurfaces().stream().map(surface -> new Pair<>("/facs/" + surface.getGraphic(), source.getAltIdentifier())).collect(Collectors.toList());
+            List<AbstractMap.SimpleEntry<String, String>> surfaces = source.getFacsimile().getSurfaces().stream()
+                    .map(surface -> new AbstractMap.SimpleEntry<>("/facs/" + surface.getGraphic(), source.getAltIdentifier())).collect(Collectors.toList());
             metaInfo.put("surfaces", surfaces);
         }
 

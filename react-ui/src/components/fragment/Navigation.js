@@ -99,7 +99,7 @@ export class Navigation extends React.Component {
         const expertRow = [];
         for (let i = 0; i < this.state.expertEditions.length; i++) {
             const info = this.state.expertEditions[i];
-            const interInfo = this.state.expertInterInfo[info.key];
+            const interInfo = this.state.expertInterInfo[Object.keys(info)[0]];
 
             if (!interInfo) { continue; }
 
@@ -145,7 +145,7 @@ export class Navigation extends React.Component {
                             <caption className="text-center">
                                 <a
                                     href="">
-                                    {info.value}
+                                    {info[Object.keys(info)[0]]}
                                 </a>
                             </caption>
                             <thead>
