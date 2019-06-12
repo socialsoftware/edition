@@ -2,6 +2,7 @@ package pt.ist.socialsoftware.edition.ldod.api.text;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import pt.ist.socialsoftware.edition.ldod.api.text.dto.HeteronymDto;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
 
@@ -19,11 +20,11 @@ public class TextInterface {
                 .filter(Objects::nonNull).findFirst().orElse(null);
     }
 
-    public Heteronym getScholarInterHeteronym(String id) {
+    public HeteronymDto getScholarInterHeteronym(String id) {
         return Text.getInstance().getFragmentsSet().stream()
                 .filter(fragment -> fragment.getScholarInterByXmlId(id) != null)
                 .map(fragment -> fragment.getScholarInterByXmlId(id).getHeteronym())
-                .filter(Objects::nonNull).findFirst().orElse(null);
+                .filter(Objects::nonNull).map(HeteronymDto::new).findFirst().orElse(null);
     }
 
     public LdoDDate getScholarInterDate(String id) {

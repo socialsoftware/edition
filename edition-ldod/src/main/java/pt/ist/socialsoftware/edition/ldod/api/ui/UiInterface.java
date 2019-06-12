@@ -4,7 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pt.ist.socialsoftware.edition.ldod.api.ldod.LdoDInterface;
 import pt.ist.socialsoftware.edition.ldod.api.text.TextInterface;
-import pt.ist.socialsoftware.edition.ldod.domain.Heteronym;
+import pt.ist.socialsoftware.edition.ldod.api.text.dto.HeteronymDto;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
 import pt.ist.socialsoftware.edition.ldod.domain.ScholarInter;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
@@ -57,7 +57,7 @@ public class UiInterface {
 
     public String getHetetronymName(String xmlId) {
         TextInterface textInterface = new TextInterface();
-        Heteronym heteronym = textInterface.getScholarInterHeteronym(xmlId);
+        HeteronymDto heteronym = textInterface.getScholarInterHeteronym(xmlId);
         if (heteronym != null) {
             return heteronym.getName();
         }
