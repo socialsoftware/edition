@@ -379,7 +379,7 @@ public class FrontEndInfoController {
     }
 
 
-    @GetMapping(value = "virtual-inter", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping(value = "/virtual-inter", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<?> getFragmentVirtualInterInfo(@RequestParam String xmlId) {
 
         Fragment fragment = Text.getInstance().getFragmentByXmlId(xmlId);
@@ -416,7 +416,7 @@ public class FrontEndInfoController {
         return new ResponseEntity<>(interInfo,HttpStatus.OK);
     }
 
-    @GetMapping(value = "virtual-edition", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping(value = "/virtual-edition", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<?> getFragmentVirtualInterInfo(@RequestParam String xmlId, @RequestParam String urlId) {
 
         Fragment fragment = Text.getInstance().getFragmentByXmlId(xmlId);
@@ -450,5 +450,49 @@ public class FrontEndInfoController {
         logger.debug(editionInfo.toString());
 
         return new ResponseEntity<>(editionInfo,HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/taxonomy", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<?> getTaxonomyForInter(@RequestParam String xmlId, @RequestParam String urlId){
+
+        Fragment fragment = Text.getInstance().getFragmentByXmlId(xmlId);
+
+        if (fragment == null) {
+            logger.debug("Could find frag");
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        VirtualEditionInter inter = LdoD.getInstance().getVirtualEditionInterSet(fragment).stream()
+                .filter(virtualEditionInter -> virtualEditionInter.getUrlId().equals(urlId)).findFirst().orElse(null);
+
+        if (inter == null){
+            logger.debug("Could not find inter");
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        List<Map<String,Object>> categoryInfo = new ArrayList<>();
+
+        for (Category category : inter.getAssignedCategories()){
+            Map<String, Object> infoMap = new LinkedHashMap<>();
+            infoMap.put("interExternal", inter.getExternalId());
+            infoMap.put("acronym", category.getTaxonomy().getEdition().getAcronym());
+            infoMap.put("urlId", category.getUrlId());
+            infoMap.put("name", category.getNameInEditionContext(inter.getEdition().getTaxonomy().getEdition()));
+            infoMap.put("categoryExternal", category.getExternalId());
+
+            List<Map<String,String>> userList = new ArrayList<>();
+            for (LdoDUser user : inter.getContributorSet(category)){
+                Map<String,String> userInfo = new LinkedHashMap<>();
+                userInfo.put("username", user.getUsername());
+                userInfo.put("firstName", user.getFirstName());
+                userInfo.put("lastName", user.getLastName());
+                userList.add(userInfo);
+            }
+            infoMap.put("users", userList);
+
+            categoryInfo.add(infoMap);
+        }
+
+        return new ResponseEntity<>(categoryInfo, HttpStatus.OK);
     }
 }

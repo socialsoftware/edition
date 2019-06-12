@@ -3,6 +3,7 @@ import axios from 'axios';
 import { FormattedMessage } from 'react-intl';
 import { Helmet } from 'react-helmet';
 import ReactHTMLParser from 'react-html-parser';
+import { Taxonomy } from './Taxnonomy';
 
 export class InterVirtual extends React.Component {
     constructor(props) {
@@ -89,7 +90,7 @@ export class InterVirtual extends React.Component {
                             {transcription}
                         </div>
                     </div>
-                    PUT TAXONOMY INFO HERE
+                    <Taxonomy fragmentId={this.state.fragmentId} interId={this.state.interId} />
                 </div>
             </div>
         );
