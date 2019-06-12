@@ -5,7 +5,7 @@
   "homepage": "/classification-game",
   "dependencies": {
     "ajv": "^6.10.0",
-    "antd": "^3.19.2",
+    "antd": "^3.19.3",
     "bootstrap-social": "^5.1.1",
     "customize-cra": "^0.2.13",
     "font-awesome": "^4.7.0",
@@ -18,7 +18,7 @@
     "react-dom": "^16.8.6",
     "react-router-dom": "^4.3.1",
     "react-scripts": "^3.0.1",
-    "react-stomp": "^4.1.0",
+    "react-stomp": "^4.1.1",
     "typescript": "^3.5.1"
   },
   "scripts": {
