@@ -55,7 +55,7 @@ public class UiInterface {
         }
     }
 
-    public String getHetetronymName(String xmlId) {
+    public String getHeteronymName(String xmlId) {
         TextInterface textInterface = new TextInterface();
         HeteronymDto heteronym = textInterface.getScholarInterHeteronym(xmlId);
         if (heteronym != null) {
