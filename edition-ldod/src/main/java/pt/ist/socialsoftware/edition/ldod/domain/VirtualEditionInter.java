@@ -8,6 +8,7 @@ import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.socialsoftware.edition.ldod.api.text.TextInterface;
 import pt.ist.socialsoftware.edition.ldod.api.text.dto.HeteronymDto;
+import pt.ist.socialsoftware.edition.ldod.api.text.dto.LdoDDateDto;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
 import pt.ist.socialsoftware.edition.ldod.utils.CategoryDTO;
 import pt.ist.socialsoftware.edition.ldod.utils.RangeJson;
@@ -39,7 +40,7 @@ public class VirtualEditionInter extends VirtualEditionInter_Base implements Com
         return textInterface.getScholarInterHeteronym(this.getUsesFragInter());
     }
 
-    public LdoDDate getLdoDDate() {
+    public LdoDDateDto getLdoDDate() {
         //return super.getLdoDDate();
 
         if (getUses() != null) {
