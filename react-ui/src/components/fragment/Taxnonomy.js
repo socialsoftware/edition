@@ -55,9 +55,9 @@ export class Taxonomy extends React.Component {
                 userRow.push(<a href={ref}>{userInfo.firstName} {userInfo.lastName} ({userInfo.username})</a>);
             }
 
-            const ref = `http://localhost:8080/edition/acronym/${taxInfo.acronym}/category/${taxInfo.urlId}`;
+            const ref = `http://localhost:9000/edition/acronym/${taxInfo.acronym}/category/${taxInfo.urlId}`;
 
-            const removeRef = `http://localhost:8080/virtualeditions/restricted/fraginter/${taxInfo.interExternal}/tag/dissociate/${taxInfo.categoryExternal}`;
+            const removeRef = `http://localhost:9000/virtualeditions/restricted/fraginter/${taxInfo.interExternal}/tag/dissociate/${taxInfo.categoryExternal}`;
 
             taxRows.push(
                 <tr>

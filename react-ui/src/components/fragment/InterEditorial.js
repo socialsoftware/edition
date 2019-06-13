@@ -68,7 +68,7 @@ export class InterEditorial extends React.Component {
         const transcription = ReactHTMLParser(this.state.transcription);
 
         return (
-            <div>
+            <div className="col-md-9">
                 <script type="text/javascript" src="../scripts/EditorialScript.js" />
                 <div id="fragmentInter" className="row">
                     <form className="form-inline">

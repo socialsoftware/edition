@@ -63,7 +63,7 @@ export class InterVirtual extends React.Component {
         const transcription = ReactHTMLParser(this.state.transcription);
 
         return (
-            <div>
+            <div className="col-md-9">
                 <Helmet>
                     <meta charSet="utf-8" />
                 </Helmet>

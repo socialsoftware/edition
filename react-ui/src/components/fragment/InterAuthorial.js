@@ -17,6 +17,7 @@ export class InterAuthorial extends React.Component {
             checkBoxes: [],
             showFac: false,
             facUrls: null,
+            transcriptionClass: 'well',
             isLoaded: false,
         };
     }
@@ -104,6 +105,7 @@ export class InterAuthorial extends React.Component {
             }).then((res) => {
                 this.setState({
                     facUrls: res.data,
+                    transcriptionClass: 'well col-md-6',
                     showFac: true,
                 });
             });
@@ -111,6 +113,7 @@ export class InterAuthorial extends React.Component {
 
         if (!selFacs && document.getElementById('fac') != null) {
             this.setState({
+                transcriptionClass: 'well',
                 showFac: false,
             });
         }
@@ -128,7 +131,7 @@ export class InterAuthorial extends React.Component {
         const transcription = ReactHTMLParser(this.state.transcription);
 
         return (
-            <div>
+            <div className="col-md-9">
                 <script type="text/javascript" src="../scripts/AuthorialScript.js" />
                 <div id="fragmentInter" className="row">
                     <form className="form-inline">
@@ -221,20 +224,25 @@ export class InterAuthorial extends React.Component {
                         </div>
                     </form>
 
-                    {this.state.showFac && <div id="facsimileTranscription" className="row" style={{ marginRight: 0 }}>
-                        <div className="col-md-6">
-                            <div className="item" id="fac" style={{ width: 100, height: 554 }} />
-                        </div>
-                    </div>}
-
                     <br />
                     <div id="fragmentTranscription">
                         <h4 className="text-center">
                             {this.state.title}
                         </h4>
                         <br />
-                        <div id="transcriptionDiv" className="well" style={{ fontFamily: 'courier' }}>
-                            {transcription}
+
+                        <div id="facsimileTranscription" className="row" style={{ marginRight: 0 }}>
+
+                            {this.state.showFac &&
+                            <div className="col-md-6">
+                                <div className="item" id="fac" style={{ width: 100, height: 554 }} />
+                            </div>
+                        }
+
+                            <div id="transcriptionDiv" className={this.state.transcriptionClass} style={{ fontFamily: 'courier' }}>
+                                {transcription}
+                            </div>
+
                         </div>
                     </div>
 
