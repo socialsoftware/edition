@@ -27,8 +27,6 @@ export class InterVirtual extends React.Component {
                 urlId: this.state.interId,
             },
         }).then((result) => {
-            console.log(result.data);
-
             this.setState({
                 transcription: result.data,
                 isLoaded: true,
@@ -43,8 +41,6 @@ export class InterVirtual extends React.Component {
                 urlId: this.state.interId,
             },
         }).then((result) => {
-            console.log(result.data);
-
             this.setState({
                 editionInfo: result.data,
                 isVirtualLoaded: true,
