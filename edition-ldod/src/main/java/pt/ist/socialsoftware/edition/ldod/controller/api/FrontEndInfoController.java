@@ -9,10 +9,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import pt.ist.fenixframework.DomainObject;
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.ldod.api.ui.UiInterface;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.domain.Module;
+import pt.ist.socialsoftware.edition.ldod.generators.HtmlWriter2CompInters;
+import pt.ist.socialsoftware.edition.ldod.generators.HtmlWriter4Variations;
 import pt.ist.socialsoftware.edition.ldod.generators.PlainHtmlWriter4OneInter;
 import pt.ist.socialsoftware.edition.ldod.session.LdoDSession;
 
@@ -494,5 +497,57 @@ public class FrontEndInfoController {
         }
 
         return new ResponseEntity<>(categoryInfo, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "multiple-writer", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> getMultipleInterWriter(@RequestParam String[] interIds){
+
+        List<ScholarInter> inters = new ArrayList<>();
+
+        for (String id : interIds){
+            logger.debug(id);
+            ScholarInter inter = FenixFramework.getDomainObject(id);
+            if(inter != null)
+                inters.add(inter);
+        }
+
+        boolean lineByLine = false;
+
+        if(inters.size() > 2){
+            lineByLine = true;
+        }
+
+        HtmlWriter2CompInters writer = new HtmlWriter2CompInters(inters);
+
+        Map<String,Object> results = new LinkedHashMap<>();
+
+        writer.write(lineByLine,false);
+
+        if(!lineByLine)
+            for(ScholarInter inter : inters)
+                results.put(inter.getExternalId(), writer.getTranscription(inter));
+        else
+            results.put("transcription", writer.getTranscriptionLineByLine());
+
+        List<AppText> apps = new ArrayList<>();
+        inters.get(0).getFragment().getTextPortion().putAppTextWithVariations(apps, inters);
+        Collections.reverse(apps);
+
+        Map<String, List<String>> variations = new HashMap<>();
+
+        for (ScholarInter scholarInter : inters){
+            List<String> interVariation = new ArrayList<>();
+            for (AppText app : apps) {
+                for (ScholarInter inter : inters) {
+                    HtmlWriter4Variations writer4Variations =  new HtmlWriter4Variations(inter);
+                    interVariation.add(writer4Variations.getAppTranscription(app));
+                }
+            }
+            variations.put(scholarInter.getShortName() + "#" + scholarInter.getTitle(), interVariation);
+        }
+
+        results.put("variations",variations);
+
+        return new ResponseEntity<>(results,HttpStatus.OK);
     }
 }
