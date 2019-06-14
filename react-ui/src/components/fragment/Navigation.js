@@ -7,6 +7,8 @@ export class Navigation extends React.Component {
         super(props);
         this.state = {
             fragId: props.fragId,
+            interId: props.interId,
+            checkBoxes: [],
             expertEditions: null,
             expertInterInfo: null,
             sourceInterInfo: null,
@@ -60,6 +62,24 @@ export class Navigation extends React.Component {
         });
     }
 
+    selectedInter(event) {
+        const selectedInters = [];
+
+        console.log(event);
+
+        for (let i = 0; i < this.state.checkBoxes.length; i++) {
+            if (this.state.checkBoxes[i].checked) {
+                selectedInters.push(this.state.checkBoxes[i].value);
+            }
+        }
+
+        console.log(this.state.checkBoxes);
+
+        console.log(selectedInters);
+
+        console.log(document.getElementById('interDiv'));
+    }
+
     componentDidMount() {
         this.getFragExpertSourceInfo();
     }
@@ -76,15 +96,29 @@ export class Navigation extends React.Component {
 
             const ref = `http://localhost:9000/fragments/fragment/${this.state.fragId}/inter/${sourceInfo.urlId}`;
 
+            const checkBox = this.state.interId === sourceInfo.urlId ? (
+                <input
+                    type="checkbox"
+                    name={sourceInfo.externalId}
+                    value={sourceInfo.externalId}
+                    ref={node => this.state.checkBoxes.push(node)}
+                    onClick={event => this.selectedInter(event)}
+                    defaultChecked />
+            ) : (
+                <input
+                    type="checkbox"
+                    name={sourceInfo.externalId}
+                    value={sourceInfo.externalId}
+                    ref={node => this.state.checkBoxes.push(node)}
+                    onClick={event => this.selectedInter(event)} />
+            );
+
             sourceRow.push(
                 (
                     <tr>
                         <td />
                         <td>
-                            <input
-                                type="checkbox"
-                                name={sourceInfo.externalId}
-                                value={sourceInfo.externalId} />
+                            {checkBox}
                         </td>
                         <td><a
                             href={ref}>{sourceInfo.shortName}</a>
@@ -112,15 +146,29 @@ export class Navigation extends React.Component {
                 const nextRef = `http://localhost:9000/fragments/fragment/${interData.nextXmlId}/inter/${interData.nextUrlId}`;
                 const prevRef = `http://localhost:9000/fragments/fragment/${interData.prevXmlId}/inter/${interData.prevUrlId}`;
 
+                const checkBox = this.state.interId === interData.urlId ? (
+                    <input
+                        type="checkbox"
+                        name={interData.externalId}
+                        value={interData.externalId}
+                        ref={node => this.state.checkBoxes.push(node)}
+                        onClick={event => this.selectedInter(event)}
+                        defaultChecked />
+                ) : (
+                    <input
+                        type="checkbox"
+                        name={interData.externalId}
+                        value={interData.externalId}
+                        ref={node => this.state.checkBoxes.push(node)}
+                        onClick={event => this.selectedInter(event)} />
+                );
+
                 navOptions.push(
                     (
                         <tr>
                             <td />
                             <td>
-                                <input
-                                    type="checkbox"
-                                    name={interData.externalId}
-                                    value={interData.externalId} />
+                                {checkBox}
                             </td>
 
                             <td><a
@@ -185,15 +233,29 @@ export class Navigation extends React.Component {
                 const nextRef = `http://localhost:9000/fragments/fragment/${interData.nextXmlId}/inter/${interData.nextUrlId}`;
                 const prevRef = `http://localhost:9000/fragments/fragment/${interData.prevXmlId}/inter/${interData.prevUrlId}`;
 
+                const checkBox = this.state.interId === interData.urlId ? (
+                    <input
+                        type="checkbox"
+                        name={interData.externalId}
+                        value={interData.externalId}
+                        ref={node => this.state.checkBoxes.push(node)}
+                        onClick={event => this.selectedInter(event)}
+                        defaultChecked />
+                ) : (
+                    <input
+                        type="checkbox"
+                        name={interData.externalId}
+                        value={interData.externalId}
+                        ref={node => this.state.checkBoxes.push(node)}
+                        onClick={event => this.selectedInter(event)} />
+                );
+
                 navOptions.push(
                     (
                         <tr>
                             <td />
                             <td>
-                                <input
-                                    type="checkbox"
-                                    name={interData.externalId}
-                                    value={interData.externalId} />
+                                {checkBox}
                             </td>
 
                             <td><a

@@ -73,8 +73,10 @@ export class FragmentMain extends React.Component {
             <div id="fragmentBody">
                 <div className="container">
                     <div className="row" style={{ marginLeft: 0, marginRight: 0 }}>
-                        {inter}
-                        <Navigation fragId={this.state.fragmentId} />
+                        <div id="interDiv">
+                            {inter}
+                        </div>
+                        <Navigation fragId={this.state.fragmentId} interId={this.state.interId} />
                     </div>
                 </div>
             </div>
