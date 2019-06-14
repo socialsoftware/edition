@@ -39,8 +39,6 @@ export class InterAuthorial extends React.Component {
 
     componentDidMount() {
         this.getInterTranscription();
-
-        console.log(document.getElementById('fac'));
     }
 
     componentDidUpdate() {
@@ -56,6 +54,7 @@ export class InterAuthorial extends React.Component {
             sources.push({ type: 'image', url: '/resources/img/openseadragon/images/next_rest.png' });
             sources.push({ type: 'image', url: '/resources/img/openseadragon/images/previous_rest.png' });
 
+            /*eslint-disable */
             const viewer = OpenSeadragon({
                 id: 'fac',
                 prefixUrl: '/resources/img/openseadragon/images/',
@@ -66,8 +65,7 @@ export class InterAuthorial extends React.Component {
                 sequenceMode: true,
                 tileSources: sources,
             });
-
-            console.log(viewer);
+            /*eslint-enable */
         }
     }
 

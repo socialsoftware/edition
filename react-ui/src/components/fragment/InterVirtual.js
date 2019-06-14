@@ -1,7 +1,6 @@
 import React from 'react';
 import axios from 'axios';
 import { FormattedMessage } from 'react-intl';
-import { Helmet } from 'react-helmet';
 import ReactHTMLParser from 'react-html-parser';
 import { Taxonomy } from './Taxnonomy';
 
@@ -64,9 +63,10 @@ export class InterVirtual extends React.Component {
 
         return (
             <div className="col-md-9">
-                <Helmet>
-                    <meta charSet="utf-8" />
-                </Helmet>
+                <link
+                    href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/css/select2.min.css"
+                    rel="stylesheet" />
+                <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/js/select2.min.js" />
                 <div
                     id="fragmentInter"
                     className="row"

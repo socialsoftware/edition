@@ -12,8 +12,10 @@ export class InterEmpty extends React.Component {
 
     render() {
         return (
-            <div id="fragmentInter" className="row">
-                <h4 className="text-center">{this.state.title}</h4>
+            <div className="col-md-9">
+                <div id="fragmentInter" className="row">
+                    <h4 className="text-center">{this.state.title}</h4>
+                </div>
             </div>
         );
     }

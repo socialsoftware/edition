@@ -87,6 +87,7 @@
       ]
     }],
     "no-plusplus": [2, { "allowForLoopAfterthoughts": true }],
+    "no-param-reassign" : ["off"],
     "no-continue" : ["off"],
     "jsx-a11y/img-has-alt": ["off"],
     "jsx-a11y/no-static-element-interactions": ["off"]

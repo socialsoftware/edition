@@ -20,8 +20,6 @@ export class Taxonomy extends React.Component {
                 urlId: this.state.interId,
             },
         }).then((result) => {
-            console.log(result.data);
-
             this.setState({
                 taxonomy: result.data,
                 isLoaded: true,
@@ -74,8 +72,6 @@ export class Taxonomy extends React.Component {
 
             );
         }
-
-        console.log(taxRows);
 
         return (
             <div className="row" id="taxonomy">
