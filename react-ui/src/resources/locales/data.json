@@ -66,7 +66,10 @@
     "general.note"                    : "Nota",
     "general.facsimiles"              : "Fac-s\u00EDmiles",
     "virtual.editions"                : "Edi\u00E7\u00F5es Virtuais",
-    "general.uses"                    : "Usa"
+    "general.uses"                    : "Usa",
+    "fragment.alignspace"             : "Alinhar Espa\u00E7os",
+    "fragment.linebyline"             : "Linha-a-linha",
+    "fragment.variationstable"        : "Tabela de Varia\u00E7\u00F5es"
   },
   "en" : {
     "appName" : "LdoD Archive",
@@ -135,7 +138,10 @@
     "general.note"                    : "Note",
     "general.facsimiles"              : "Facsimiles",
     "virtual.editions"                : "Virtual Editions",
-    "general.uses"                    : "Uses"
+    "general.uses"                    : "Uses",
+    "fragment.alignspace"             : "Align Spaces",
+    "fragment.linebyline"             : "Line-by-line",
+    "fragment.variationstable"        : "Variations Table"
   },
   "es" : {
     "appName" : "Archivo LdoD",
@@ -204,7 +210,10 @@
     "general.note"                    : "Nota",
     "general.facsimiles"              : "Facsimiles",
     "virtual.editions"                : "Edici\u00F3nes Virtuales",
-    "general.uses"                    : "Usa"
+    "general.uses"                    : "Usa",
+    "fragment.alignspace"             : "Alinear Espacios",
+    "fragment.linebyline"             : "L\u00EDnea a l\u00EDnea",
+    "fragment.variationstable"        : "Tabla de Variaciones"
   }
 }
 

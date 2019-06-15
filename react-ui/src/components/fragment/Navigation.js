@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import { FormattedMessage } from 'react-intl';
 import ReactDOM from 'react-dom';
-import { InterEmpty } from './InterEmpty';
+import { Inter2Compare } from './Inter2Compare';
 
 export class Navigation extends React.Component {
     constructor(props) {
@@ -106,13 +106,13 @@ export class Navigation extends React.Component {
         this.state.expertCheckBoxes.forEach(ele => ele.checked = false);
         this.state.sourceCheckBoxes.forEach(ele => ele.checked = false);
 
-        this.renderMultipleInters(selectedInters);
+        // this.renderMultipleInters(selectedInters);
     }
 
     renderMultipleInters(selectedInters) {
         console.log(selectedInters);
 
-        ReactDOM.render(<InterEmpty fragmentId="Test" title="It works!" />, document.getElementById('interDiv'));
+        ReactDOM.createPortal(<Inter2Compare ids={selectedInters} />, document.getElementById('interDiv'));
     }
 
     componentDidMount() {

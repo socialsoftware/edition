@@ -499,7 +499,7 @@ public class FrontEndInfoController {
         return new ResponseEntity<>(categoryInfo, HttpStatus.OK);
     }
 
-    @GetMapping(value = "multiple-writer", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/multiple-writer", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getMultipleInterWriter(@RequestParam String[] interIds){
 
         List<ScholarInter> inters = new ArrayList<>();
@@ -512,6 +512,13 @@ public class FrontEndInfoController {
         }
 
         boolean lineByLine = false;
+
+        if(inters.size() == 1){
+            ScholarInter inter = inters.get(0);
+            PlainHtmlWriter4OneInter writer4One = new PlainHtmlWriter4OneInter(inter.getLastUsed());
+            writer4One.write(false);
+            return new ResponseEntity<>(writer4One.getTranscription(),HttpStatus.OK);
+        }
 
         if(inters.size() > 2){
             lineByLine = true;
