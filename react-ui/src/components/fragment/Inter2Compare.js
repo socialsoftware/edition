@@ -1,12 +1,12 @@
 import React from 'react';
 import axios from 'axios';
 import { FormattedMessage } from 'react-intl';
+import ReactHTMLParser from 'react-html-parser';
+import { MetaInfo } from './MetaInfo';
 
 export class Inter2Compare extends React.Component {
     constructor(props) {
         super(props);
-
-        console.log('created comparer');
 
         this.state = {
             ids: props.ids,
@@ -38,6 +38,53 @@ export class Inter2Compare extends React.Component {
     render() {
         if (!this.state.isLoaded) { return <div>Loading inter compare info</div>; }
 
+        const transcriptions = [];
+        const metaInfos = [];
+        const variationHeads = [];
+        const variationRows = [];
+
+        if (this.state.compareData[this.state.ids[0]]) {
+            for (let i = 0; i < this.state.ids.length; i++) {
+                const interData = this.state.compareData[this.state.ids[i]];
+                const transcription = ReactHTMLParser(interData.transcription);
+
+                transcriptions.push( // TODO: add a transcription font option showspaces = monospace
+                    <div id="fragmentTranscription" className="col-md-6">
+                        <h4>{this.state.compareData.title}</h4>
+                        <div className="well">
+                            <p style={{ fontFamily: 'georgia' }}>{transcription}</p>
+                        </div>
+                    </div>,
+                );
+
+                metaInfos.push(
+                    <div id="interMeta" className="col-md-6">
+                        <div className="well">
+                            <MetaInfo fragId={interData.fragId} interId={interData.urlId} />
+                        </div>
+                    </div>,
+                );
+            }
+        } else if (this.state.compareData.transcription) {
+            // TODO: line by line comparison is still missing
+        }
+
+        const variationKeys = Object.keys(this.state.compareData.variations);
+
+        for (let i = 0; i < variationKeys.length; i++) {
+            const varHead = variationKeys[i].split('#');
+            variationHeads.push(<th>{varHead[0]} <br /> {varHead[1]}</th>);
+        }
+
+        for (let i = 0; i < this.state.compareData.variations[variationKeys[0]].length; i++) {
+            const variationDowns = [];
+
+            for (let j = 0; j < variationKeys.length; j++) {
+                variationDowns.push(<td>{this.state.compareData.variations[variationKeys[j]][i]}</td>);
+            }
+
+            variationRows.push(<tr>{variationDowns}</tr>);
+        }
 
         return (
             <div id="fragmentInter" className="row col-md-9">
@@ -73,7 +120,17 @@ export class Inter2Compare extends React.Component {
                     </form>
                 </div>
                 <br />
-                    Transcription here
+                <div
+                    id="fragmentComparison"
+                    className="row"
+                    style={{ marginLeft: 0, marginRight: 0 }}>
+                    <div className="row">
+                        {transcriptions}
+                    </div>
+                    <div className="row">
+                        {metaInfos}
+                    </div>
+                </div>
                 <div>
                     <h4>
                         <FormattedMessage id={'fragment.variationstable'} />(Apps Size goes here)
@@ -81,13 +138,11 @@ export class Inter2Compare extends React.Component {
                     <table className="table table-condensed">
                         <thead>
                             <tr>
-                                <th> Short Name <br /> Title</th>
+                                {variationHeads}
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>Variations</td>
-                            </tr>
+                            {variationRows}
                         </tbody>
 
                     </table>

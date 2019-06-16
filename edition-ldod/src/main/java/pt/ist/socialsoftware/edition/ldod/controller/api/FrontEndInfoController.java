@@ -531,8 +531,13 @@ public class FrontEndInfoController {
         writer.write(lineByLine,false);
 
         if(!lineByLine)
-            for(ScholarInter inter : inters)
-                results.put(inter.getExternalId(), writer.getTranscription(inter));
+            for(ScholarInter inter : inters) {
+                Map<String, String> interInfo = new LinkedHashMap<>();
+                interInfo.put("transcription", writer.getTranscription(inter));
+                interInfo.put("urlId", inter.getUrlId());
+                interInfo.put("fragId", inter.getFragment().getXmlId());
+                results.put(inter.getExternalId(),interInfo);
+            }
         else
             results.put("transcription", writer.getTranscriptionLineByLine());
 
@@ -545,15 +550,16 @@ public class FrontEndInfoController {
         for (ScholarInter scholarInter : inters){
             List<String> interVariation = new ArrayList<>();
             for (AppText app : apps) {
-                for (ScholarInter inter : inters) {
-                    HtmlWriter4Variations writer4Variations =  new HtmlWriter4Variations(inter);
-                    interVariation.add(writer4Variations.getAppTranscription(app));
-                }
+                HtmlWriter4Variations writer4Variations =  new HtmlWriter4Variations(scholarInter);
+                interVariation.add(writer4Variations.getAppTranscription(app));
+
             }
             variations.put(scholarInter.getShortName() + "#" + scholarInter.getTitle(), interVariation);
         }
 
         results.put("variations",variations);
+        results.put("title",inters.get(0).getTitle());
+        results.put("lineByLine", lineByLine);
 
         return new ResponseEntity<>(results,HttpStatus.OK);
     }
