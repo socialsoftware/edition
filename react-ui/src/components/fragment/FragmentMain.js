@@ -5,14 +5,20 @@ import { InterEmpty } from './InterEmpty';
 import { InterEditorial } from './InterEditorial';
 import { InterAuthorial } from './InterAuthorial';
 import { InterVirtual } from './InterVirtual';
+import { Inter2Compare } from './Inter2Compare';
 
 export class FragmentMain extends React.Component {
     constructor(props) {
         super(props);
+
+        this.navigationUpdate = this.navigationUpdate.bind(this);
+
         this.state = {
             fragmentId: props.match.params.fragId,
             fragInfo: null,
             interId: props.match.params.interId,
+            compareIds: null,
+            type: null,
             isLoaded: false,
         };
     }
@@ -34,6 +40,13 @@ export class FragmentMain extends React.Component {
         this.getFragmentInfo();
     }
 
+    navigationUpdate(ids, type) {
+        this.setState({
+            compareIds: ids,
+            type,
+        });
+    }
+
     render() {
         if (!this.state.isEditionLoaded) {
             return (
@@ -43,7 +56,14 @@ export class FragmentMain extends React.Component {
 
         let inter = <InterEmpty fragmentId={this.state.fragmentId} title={this.state.fragInfo.title} />;
 
-        if (this.state.interId) {
+        if (this.state.compareIds) {
+            if (this.state.type === 'EXPERT') {
+                console.log('render again');
+                inter = (
+                    <Inter2Compare ids={this.state.compareIds} />
+                );
+            }
+        } else if (this.state.interId) {
             if (this.state.interId.includes('CRIT')) {
                 inter = (
                     <InterEditorial
@@ -73,10 +93,8 @@ export class FragmentMain extends React.Component {
             <div id="fragmentBody">
                 <div className="container">
                     <div className="row" style={{ marginLeft: 0, marginRight: 0 }}>
-                        <div id="interDiv">
-                            {inter}
-                        </div>
-                        <Navigation fragId={this.state.fragmentId} interId={this.state.interId} />
+                        {inter}
+                        <Navigation fragId={this.state.fragmentId} interId={this.state.interId} callBack={this.navigationUpdate} />
                     </div>
                 </div>
             </div>

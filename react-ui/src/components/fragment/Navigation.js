@@ -1,8 +1,6 @@
 import React from 'react';
 import axios from 'axios';
 import { FormattedMessage } from 'react-intl';
-import ReactDOM from 'react-dom';
-import { Inter2Compare } from './Inter2Compare';
 
 export class Navigation extends React.Component {
     constructor(props) {
@@ -10,6 +8,7 @@ export class Navigation extends React.Component {
         this.state = {
             fragId: props.fragId,
             interId: props.interId,
+            callBack: props.callBack,
             sourceCheckBoxes: [],
             expertCheckBoxes: [],
             virtualCheckBoxes: [],
@@ -69,12 +68,15 @@ export class Navigation extends React.Component {
     selectedSourceInter() {
         const selectedInters = [];
 
+        this.state.sourceCheckBoxes = this.state.sourceCheckBoxes.filter(e => e != null);
+
         for (let i = 0; i < this.state.sourceCheckBoxes.length; i++) {
             if (this.state.sourceCheckBoxes[i].checked) {
                 selectedInters.push(this.state.sourceCheckBoxes[i].value);
             }
         }
 
+        this.state.expertCheckBoxes = this.state.expertCheckBoxes.filter(e => e != null);
         this.state.virtualCheckBoxes.forEach(ele => ele.checked = false);
 
         this.renderMultipleInters(selectedInters);
@@ -83,11 +85,18 @@ export class Navigation extends React.Component {
     selectedExpertInter() {
         const selectedInters = [];
 
+        this.state.expertCheckBoxes = this.state.expertCheckBoxes.filter(e => e != null);
+
+        console.log(this.state.expertCheckBoxes);
+
         for (let i = 0; i < this.state.expertCheckBoxes.length; i++) {
             if (this.state.expertCheckBoxes[i].checked) {
                 selectedInters.push(this.state.expertCheckBoxes[i].value);
             }
         }
+
+        this.state.virtualCheckBoxes = this.state.virtualCheckBoxes.filter(e => e != null);
+        this.state.sourceCheckBoxes = this.state.sourceCheckBoxes.filter(e => e != null);
 
         this.state.virtualCheckBoxes.forEach(ele => ele.checked = false);
 
@@ -96,15 +105,22 @@ export class Navigation extends React.Component {
 
     selectedVirtualInter() {
         const selectedInters = [];
+        this.state.virtualCheckBoxes = this.state.virtualCheckBoxes.filter(e => e != null);
+
 
         for (let i = 0; i < this.state.virtualCheckBoxes.length; i++) {
             if (this.state.virtualCheckBoxes[i].checked) {
                 selectedInters.push(this.state.virtualCheckBoxes[i].value);
             }
         }
+        this.state.expertCheckBoxes = this.state.expertCheckBoxes.filter(e => e != null);
+        this.state.sourceCheckBoxes = this.state.sourceCheckBoxes.filter(e => e != null);
+
 
         this.state.expertCheckBoxes.forEach(ele => ele.checked = false);
         this.state.sourceCheckBoxes.forEach(ele => ele.checked = false);
+
+        console.log(selectedInters);
 
         // this.renderMultipleInters(selectedInters);
     }
@@ -112,7 +128,7 @@ export class Navigation extends React.Component {
     renderMultipleInters(selectedInters) {
         console.log(selectedInters);
 
-        ReactDOM.createPortal(<Inter2Compare ids={selectedInters} />, document.getElementById('interDiv'));
+        this.state.callBack(selectedInters, 'EXPERT');
     }
 
     componentDidMount() {
@@ -123,6 +139,10 @@ export class Navigation extends React.Component {
         if (!this.state.isEditionLoaded || !this.state.isExpertLoaded || !this.state.isSourceLoaded || !this.state.isVirtualLoaded) {
             return <div>Loading Edition Info</div>;
         }
+
+        this.state.expertCheckBoxes = [];
+        this.state.sourceCheckBoxes = [];
+        this.state.virtualCheckBoxes = [];
 
         // Build source inter options
         const sourceRow = [];

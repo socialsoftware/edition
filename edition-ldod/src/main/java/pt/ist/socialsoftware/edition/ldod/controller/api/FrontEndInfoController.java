@@ -499,12 +499,12 @@ public class FrontEndInfoController {
         return new ResponseEntity<>(categoryInfo, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/multiple-writer", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/multiple-writer", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<?> getMultipleInterWriter(@RequestParam String[] interIds){
 
         List<ScholarInter> inters = new ArrayList<>();
 
-        for (String id : interIds){
+        for (String id : interIds[0].split("%2C")){
             logger.debug(id);
             ScholarInter inter = FenixFramework.getDomainObject(id);
             if(inter != null)

@@ -6,6 +6,8 @@ export class Inter2Compare extends React.Component {
     constructor(props) {
         super(props);
 
+        console.log('created comparer');
+
         this.state = {
             ids: props.ids,
             isLoaded: false,
@@ -36,8 +38,9 @@ export class Inter2Compare extends React.Component {
     render() {
         if (!this.state.isLoaded) { return <div>Loading inter compare info</div>; }
 
+
         return (
-            <div id="fragmentInter" className="row">
+            <div id="fragmentInter" className="row col-md-9">
                 <div>
                     <form className="form-horizontal">
                         <div className="control-group">
