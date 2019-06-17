@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import { FormattedMessage } from 'react-intl';
 import ReactHTMLParser from 'react-html-parser';
+import ReactDOM from 'react-dom';
 import { MetaInfo } from './MetaInfo';
 
 export class Inter2Compare extends React.Component {
@@ -10,6 +11,7 @@ export class Inter2Compare extends React.Component {
 
         this.state = {
             ids: props.ids,
+            checkBoxes: [],
             isLoaded: false,
         };
     }
@@ -29,6 +31,59 @@ export class Inter2Compare extends React.Component {
 
     componentDidMount() {
         this.getCompareForIds();
+    }
+
+    customRender() {
+        const lineByLine = this.state.checkBoxes.length === 2 ? this.state.checkBoxes[0].checked : false;
+        const showSpaces = this.state.checkBoxes.length === 2 ? this.state.checkBoxes[1].checked : this.state.checkBoxes[0].checked;
+
+        axios.get('http://localhost:8080/api/services/frontend/multiple-writer', {
+            params: {
+                interIds: encodeURIComponent(this.state.ids),
+                lineByLine,
+                showSpaces,
+            },
+        }).then((result) => {
+            const transcriptions = [];
+            const font = result.data.showSpaces === 'true' ? 'monospace' : 'georgia';
+
+            if (result.data[this.state.ids[0]]) {
+                for (let i = 0; i < this.state.ids.length; i++) {
+                    const interData = result.data[this.state.ids[i]];
+                    const transcription = ReactHTMLParser(interData.transcription);
+
+                    transcriptions.push( // TODO: add a transcription font option showspaces = monospace
+                        <div id="fragmentTranscription" className="col-md-6">
+                            <h4>{result.data.title}</h4>
+                            <div className="well">
+                                <p style={{ fontFamily: font }}>{transcription}</p>
+                            </div>
+                        </div>,
+                    );
+                }
+            } else if (result.data.transcription) {
+                const transcription = ReactHTMLParser(result.data.transcription);
+
+                transcriptions.push(
+                    <div id="transcription">
+                        <h4>{result.data.title}
+                            <a
+                                id="infohighlight"
+                                className="infobutton"
+                                role="button"
+                                data-toggle="popover"
+                                data-content="THIS SHOULD BE A MSG info.highlighting">
+                                <span className="glyphicon glyphicon-info-sign" /></a>
+                        </h4>
+                        <div className="well">
+                            <p style={{ fontFamily: font }}>{transcription}</p>
+                        </div>
+                    </div>,
+                );
+            }
+
+            ReactDOM.render(transcriptions, document.getElementById('transcriptionDiv'));
+        });
     }
 
 
@@ -123,7 +178,9 @@ export class Inter2Compare extends React.Component {
                                         type="checkbox"
                                         className="btn"
                                         name="line"
-                                        value="Yes" />
+                                        value="Yes"
+                                        ref={node => this.state.checkBoxes.push(node)}
+                                        onClick={event => this.customRender(event)} />
                                     }
 
                                     <label htmlFor="alignCheck" className="checkbox" style={{ paddingTop: 0, minHeight: 0, fontWeight: 'normal' }}>
@@ -134,7 +191,9 @@ export class Inter2Compare extends React.Component {
                                         type="checkbox"
                                         className="btn"
                                         name="spaces"
-                                        value="Yes" />
+                                        value="Yes"
+                                        ref={node => this.state.checkBoxes.push(node)}
+                                        onClick={event => this.customRender(event)} />
                                 </div>
                             </div>
                         </div>
@@ -145,7 +204,7 @@ export class Inter2Compare extends React.Component {
                     id="fragmentComparison"
                     className="row"
                     style={{ marginLeft: 0, marginRight: 0 }}>
-                    <div className="row">
+                    <div id="transcriptionDiv" className="row">
                         {transcriptions}
                     </div>
                     {metaInfos.length !== 0 &&
@@ -156,7 +215,7 @@ export class Inter2Compare extends React.Component {
                 </div>
                 <div>
                     <h4>
-                        <FormattedMessage id={'fragment.variationstable'} />(Apps Size goes here)
+                        <FormattedMessage id={'fragment.variationstable'} /> ({this.state.compareData.variations[variationKeys[0]].length})
                     </h4>
                     <table className="table table-condensed">
                         <thead>
