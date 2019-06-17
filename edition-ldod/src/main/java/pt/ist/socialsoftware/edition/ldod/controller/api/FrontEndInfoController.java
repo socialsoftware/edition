@@ -210,7 +210,6 @@ public class FrontEndInfoController {
 
             String dimension = source.getDimensionsSet().stream().map(dimensions -> dimensions.getHeight() + "x" + dimensions.getWidth())
                     .collect(Collectors.joining(";"));
-            logger.debug(dimension);
             metaInfo.put("dimension",dimension);
 
             metaInfo.put("material", source.getMaterial());
@@ -392,9 +391,17 @@ public class FrontEndInfoController {
 
         Map<String,List<Map<String,String>>> interInfo = new LinkedHashMap<>();
 
-        Set<VirtualEdition> virtualEditions = new LinkedHashSet<>(LdoDSession.getLdoDSession().materializeVirtualEditions());
+
+        //TODO : delete the following assignment and uncomment the following lines when login capabilities are added to react frontend.
+        Set<VirtualEdition> virtualEditions = LdoD.getInstance().getVirtualEditionsSet();
+
+        /*Set<VirtualEdition> virtualEditions = new LinkedHashSet<>(LdoDSession.getLdoDSession().materializeVirtualEditions());
+
+        virtualEditions.addAll((LdoDUser.getAuthenticatedUser() != null ? LdoDUser.getAuthenticatedUser().getSelectedVirtualEditionsSet() : new LinkedHashSet<>()));
 
         virtualEditions.add(LdoD.getInstance().getArchiveEdition());
+
+        logger.debug(String.valueOf(virtualEditions.size()));*/
 
         for(VirtualEdition virtualEdition : virtualEditions){
             Set<VirtualEditionInter> editionInters = virtualEdition.getVirtualEditionInterSetForFragment(fragment);
@@ -449,8 +456,6 @@ public class FrontEndInfoController {
             editionInfo.put("editionReference", inter.getLastUsed().getEdition().getReference());
             editionInfo.put("interReference", inter.getLastUsed().getReference());
         }
-
-        logger.debug(editionInfo.toString());
 
         return new ResponseEntity<>(editionInfo,HttpStatus.OK);
     }
@@ -507,7 +512,6 @@ public class FrontEndInfoController {
         List<ScholarInter> inters = new ArrayList<>();
 
         for (String id : interIds[0].split("%2C")){
-            logger.debug(id);
             ScholarInter inter = FenixFramework.getDomainObject(id);
             if(inter != null)
                 inters.add(inter);

@@ -86,7 +86,7 @@ export class Navigation extends React.Component {
 
         this.state.virtualCheckBoxes.forEach(ele => ele.checked = false);
 
-        this.renderMultipleInters(selectedInters);
+        this.state.callBack(selectedInters, 'EXPERT');
     }
 
     selectedExpertInter() {
@@ -113,7 +113,7 @@ export class Navigation extends React.Component {
 
         this.state.virtualCheckBoxes.forEach(ele => ele.checked = false);
 
-        this.renderMultipleInters(selectedInters);
+        this.state.callBack(selectedInters, 'EXPERT');
     }
 
     selectedVirtualInter() {
@@ -133,13 +133,7 @@ export class Navigation extends React.Component {
         this.state.expertCheckBoxes.forEach(ele => ele.checked = false);
         this.state.sourceCheckBoxes.forEach(ele => ele.checked = false);
 
-        console.log(selectedInters);
-
-        // this.renderMultipleInters(selectedInters);
-    }
-
-    renderMultipleInters(selectedInters) {
-        this.state.callBack(selectedInters, 'EXPERT');
+        this.state.callBack(selectedInters, 'VIRTUAL');
     }
 
     componentDidMount() {

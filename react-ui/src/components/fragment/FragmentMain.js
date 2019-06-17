@@ -6,6 +6,7 @@ import { InterEditorial } from './InterEditorial';
 import { InterAuthorial } from './InterAuthorial';
 import { InterVirtual } from './InterVirtual';
 import { Inter2Compare } from './Inter2Compare';
+import { Virtual2Compare } from './Virtual2Compare';
 
 export class FragmentMain extends React.Component {
     constructor(props) {
@@ -60,6 +61,10 @@ export class FragmentMain extends React.Component {
             if (this.state.type === 'EXPERT') {
                 inter = (
                     <Inter2Compare ids={this.state.compareIds} key={this.state.compareIds} />
+                );
+            } else if (this.state.type === 'VIRTUAL') {
+                inter = (
+                    <Virtual2Compare ids={this.state.compareIds} key={this.state.compareIds} />
                 );
             }
         } else if (this.state.interId) {
