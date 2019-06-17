@@ -56,11 +56,10 @@ export class FragmentMain extends React.Component {
 
         let inter = <InterEmpty fragmentId={this.state.fragmentId} title={this.state.fragInfo.title} />;
 
-        if (this.state.compareIds) {
+        if (this.state.compareIds && this.state.compareIds.length > 1) {
             if (this.state.type === 'EXPERT') {
-                console.log('render again');
                 inter = (
-                    <Inter2Compare ids={this.state.compareIds} />
+                    <Inter2Compare ids={this.state.compareIds} key={this.state.compareIds} />
                 );
             }
         } else if (this.state.interId) {

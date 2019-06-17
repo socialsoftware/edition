@@ -500,7 +500,9 @@ public class FrontEndInfoController {
     }
 
     @GetMapping(value = "/multiple-writer", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<?> getMultipleInterWriter(@RequestParam String[] interIds){
+    public ResponseEntity<?> getMultipleInterWriter(@RequestParam String[] interIds,
+                                                    @RequestParam(required = false, defaultValue = "false") boolean lineByLine,
+                                                    @RequestParam(required = false, defaultValue = "false") boolean showSpaces){
 
         List<ScholarInter> inters = new ArrayList<>();
 
@@ -510,8 +512,6 @@ public class FrontEndInfoController {
             if(inter != null)
                 inters.add(inter);
         }
-
-        boolean lineByLine = false;
 
         if(inters.size() == 1){
             ScholarInter inter = inters.get(0);
@@ -528,7 +528,7 @@ public class FrontEndInfoController {
 
         Map<String,Object> results = new LinkedHashMap<>();
 
-        writer.write(lineByLine,false);
+        writer.write(lineByLine,showSpaces);
 
         if(!lineByLine)
             for(ScholarInter inter : inters) {
@@ -560,6 +560,7 @@ public class FrontEndInfoController {
         results.put("variations",variations);
         results.put("title",inters.get(0).getTitle());
         results.put("lineByLine", lineByLine);
+        results.put("showSpaces", showSpaces);
 
         return new ResponseEntity<>(results,HttpStatus.OK);
     }

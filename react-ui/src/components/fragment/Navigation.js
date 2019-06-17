@@ -68,6 +68,7 @@ export class Navigation extends React.Component {
     selectedSourceInter() {
         const selectedInters = [];
 
+        this.state.expertCheckBoxes = this.state.expertCheckBoxes.filter(e => e != null);
         this.state.sourceCheckBoxes = this.state.sourceCheckBoxes.filter(e => e != null);
 
         for (let i = 0; i < this.state.sourceCheckBoxes.length; i++) {
@@ -75,8 +76,14 @@ export class Navigation extends React.Component {
                 selectedInters.push(this.state.sourceCheckBoxes[i].value);
             }
         }
+        for (let i = 0; i < this.state.expertCheckBoxes.length; i++) {
+            if (this.state.expertCheckBoxes[i].checked) {
+                selectedInters.push(this.state.expertCheckBoxes[i].value);
+            }
+        }
 
-        this.state.expertCheckBoxes = this.state.expertCheckBoxes.filter(e => e != null);
+        this.state.virtualCheckBoxes = this.state.virtualCheckBoxes.filter(e => e != null);
+
         this.state.virtualCheckBoxes.forEach(ele => ele.checked = false);
 
         this.renderMultipleInters(selectedInters);
@@ -86,8 +93,15 @@ export class Navigation extends React.Component {
         const selectedInters = [];
 
         this.state.expertCheckBoxes = this.state.expertCheckBoxes.filter(e => e != null);
+        this.state.sourceCheckBoxes = this.state.sourceCheckBoxes.filter(e => e != null);
 
         console.log(this.state.expertCheckBoxes);
+
+        for (let i = 0; i < this.state.sourceCheckBoxes.length; i++) {
+            if (this.state.sourceCheckBoxes[i].checked) {
+                selectedInters.push(this.state.sourceCheckBoxes[i].value);
+            }
+        }
 
         for (let i = 0; i < this.state.expertCheckBoxes.length; i++) {
             if (this.state.expertCheckBoxes[i].checked) {
@@ -96,7 +110,6 @@ export class Navigation extends React.Component {
         }
 
         this.state.virtualCheckBoxes = this.state.virtualCheckBoxes.filter(e => e != null);
-        this.state.sourceCheckBoxes = this.state.sourceCheckBoxes.filter(e => e != null);
 
         this.state.virtualCheckBoxes.forEach(ele => ele.checked = false);
 
@@ -126,8 +139,6 @@ export class Navigation extends React.Component {
     }
 
     renderMultipleInters(selectedInters) {
-        console.log(selectedInters);
-
         this.state.callBack(selectedInters, 'EXPERT');
     }
 

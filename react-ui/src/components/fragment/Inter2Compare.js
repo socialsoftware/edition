@@ -20,15 +20,12 @@ export class Inter2Compare extends React.Component {
                 interIds: encodeURIComponent(this.state.ids),
             },
         }).then((result) => {
-            console.log(result.data);
-
             this.setState({
                 compareData: result.data,
                 isLoaded: true,
             });
         });
     }
-
 
     componentDidMount() {
         this.getCompareForIds();
@@ -43,6 +40,10 @@ export class Inter2Compare extends React.Component {
         const variationHeads = [];
         const variationRows = [];
 
+        console.log(this.state.compareData);
+
+        const font = this.state.compareData.showSpaces === 'true' ? 'monospace' : 'georgia';
+
         if (this.state.compareData[this.state.ids[0]]) {
             for (let i = 0; i < this.state.ids.length; i++) {
                 const interData = this.state.compareData[this.state.ids[i]];
@@ -52,7 +53,7 @@ export class Inter2Compare extends React.Component {
                     <div id="fragmentTranscription" className="col-md-6">
                         <h4>{this.state.compareData.title}</h4>
                         <div className="well">
-                            <p style={{ fontFamily: 'georgia' }}>{transcription}</p>
+                            <p style={{ fontFamily: font }}>{transcription}</p>
                         </div>
                     </div>,
                 );
@@ -66,7 +67,24 @@ export class Inter2Compare extends React.Component {
                 );
             }
         } else if (this.state.compareData.transcription) {
-            // TODO: line by line comparison is still missing
+            const transcription = ReactHTMLParser(this.state.compareData.transcription);
+
+            transcriptions.push(
+                <div id="transcription">
+                    <h4>{this.state.compareData.title}
+                        <a
+                            id="infohighlight"
+                            className="infobutton"
+                            role="button"
+                            data-toggle="popover"
+                            data-content="THIS SHOULD BE A MSG info.highlighting">
+                            <span className="glyphicon glyphicon-info-sign" /></a>
+                    </h4>
+                    <div className="well">
+                        <p style={{ fontFamily: font }}>{transcription}</p>
+                    </div>
+                </div>,
+           );
         }
 
         const variationKeys = Object.keys(this.state.compareData.variations);
@@ -80,7 +98,7 @@ export class Inter2Compare extends React.Component {
             const variationDowns = [];
 
             for (let j = 0; j < variationKeys.length; j++) {
-                variationDowns.push(<td>{this.state.compareData.variations[variationKeys[j]][i]}</td>);
+                variationDowns.push(<td>{ReactHTMLParser(this.state.compareData.variations[variationKeys[j]][i])}</td>);
             }
 
             variationRows.push(<tr>{variationDowns}</tr>);
@@ -95,15 +113,18 @@ export class Inter2Compare extends React.Component {
                                 <div
                                     id="visualisation-properties-comparison"
                                     data-toggle="checkbox">
+                                    {this.state.ids.length === 2 &&
                                     <label htmlFor="lineCheck" className="checkbox" style={{ paddingTop: 0, minHeight: 0, fontWeight: 'normal' }}>
                                         <FormattedMessage id={'fragment.linebyline'} />
-                                    </label>
+                                    </label> }
+                                    {this.state.ids.length === 2 &&
                                     <input
                                         id="lineCheck"
                                         type="checkbox"
                                         className="btn"
                                         name="line"
                                         value="Yes" />
+                                    }
 
                                     <label htmlFor="alignCheck" className="checkbox" style={{ paddingTop: 0, minHeight: 0, fontWeight: 'normal' }}>
                                         <FormattedMessage id={'fragment.alignspace'} />
@@ -127,9 +148,11 @@ export class Inter2Compare extends React.Component {
                     <div className="row">
                         {transcriptions}
                     </div>
-                    <div className="row">
-                        {metaInfos}
-                    </div>
+                    {metaInfos.length !== 0 &&
+                        <div className="row">
+                            {metaInfos}
+                        </div>
+                    }
                 </div>
                 <div>
                     <h4>
