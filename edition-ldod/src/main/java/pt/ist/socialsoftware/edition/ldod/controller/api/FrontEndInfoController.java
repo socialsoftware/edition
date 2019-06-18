@@ -568,4 +568,73 @@ public class FrontEndInfoController {
 
         return new ResponseEntity<>(results,HttpStatus.OK);
     }
+
+    @GetMapping(value = "/multiple-virtual", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<?> getMultipleVirtualInfo(@RequestParam String[] interIds) {
+
+        List<VirtualEditionInter> inters = new ArrayList<>();
+
+        for (String id : interIds){
+            VirtualEditionInter vei = FenixFramework.getDomainObject(id);
+            if (vei != null)
+                inters.add(vei);
+        }
+
+        Map<String, Object> results = new LinkedHashMap<>();
+
+        for (VirtualEditionInter inter : inters) {
+            Map<String,Object> info = new LinkedHashMap<>();
+
+            info.put("reference", inter.getEdition().getReference());
+
+            List<Object> tags = new ArrayList<>();
+            for(Tag tag : inter.getTagsCompleteInter()){
+                Map<String,String> tagInfo = new LinkedHashMap<>();
+                tagInfo.put("username", tag.getContributor().getUsername());
+                tagInfo.put("acronym", tag.getCategory().getTaxonomy().getEdition().getAcronym());
+                tagInfo.put("urlId", tag.getCategory().getUrlId());
+                tagInfo.put("name", tag.getCategory().getNameInEditionContext(inter.getEdition()));
+                tags.add(tagInfo);
+            }
+            info.put("tags", tags);
+
+            List<Object> annotations = new ArrayList<>();
+
+            for (Annotation annotation : inter.getAllDepthAnnotations()){
+                Map<String,Object> annotationInfo = new LinkedHashMap<>();
+                annotationInfo.put("quote", annotation.getQuote());
+
+                if(annotation.isHumanAnnotation()) {
+                    annotationInfo.put("text", annotation.getText());
+
+                    List<Object> annotationTags = new ArrayList<>();
+                    for(Tag tag : ((HumanAnnotation) annotation).getTagSet()){
+                        Map<String,String> tagInfo = new LinkedHashMap<>();
+                        tagInfo.put("acronym", tag.getCategory().getTaxonomy().getEdition().getAcronym());
+                        tagInfo.put("urlId", tag.getCategory().getUrlId());
+                        tagInfo.put("name", tag.getCategory().getNameInEditionContext(inter.getEdition()));
+                        annotationTags.add(tagInfo);
+                    }
+
+                    annotationInfo.put("tags", annotationTags);
+                }
+                else {
+                    annotationInfo.put("source", ((AwareAnnotation) annotation).getSourceLink());
+                    annotationInfo.put("profile", ((AwareAnnotation) annotation).getProfileURL());
+                    annotationInfo.put("date", ((AwareAnnotation) annotation).getDate());
+                    annotationInfo.put("country", ((AwareAnnotation) annotation).getCountry());
+                }
+
+                annotationInfo.put("username", annotation.getUser().getUsername());
+
+                annotations.add(annotationInfo);
+            }
+
+            info.put("annotations", annotations);
+
+            results.put(inter.getExternalId(), info);
+        }
+
+        return new ResponseEntity<>(results, HttpStatus.OK);
+    }
 }
