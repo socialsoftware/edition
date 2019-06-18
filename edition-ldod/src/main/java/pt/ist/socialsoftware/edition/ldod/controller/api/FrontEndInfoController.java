@@ -574,7 +574,7 @@ public class FrontEndInfoController {
 
         List<VirtualEditionInter> inters = new ArrayList<>();
 
-        for (String id : interIds){
+        for (String id : interIds[0].split("%2C")){
             VirtualEditionInter vei = FenixFramework.getDomainObject(id);
             if (vei != null)
                 inters.add(vei);

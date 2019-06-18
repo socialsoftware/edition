@@ -69,7 +69,13 @@
     "general.uses"                    : "Usa",
     "fragment.alignspace"             : "Alinhar Espa\u00E7os",
     "fragment.linebyline"             : "Linha-a-linha",
-    "fragment.variationstable"        : "Tabela de Varia\u00E7\u00F5es"
+    "fragment.variationstable"        : "Tabela de Varia\u00E7\u00F5es",
+    "virtualcompare.comment"          : "Coment\u00E1rio",
+    "virtualcompare.quote"            : "Cita\u00E7\u00E3o",
+    "virtualcompare.title"            : "Compara\u00E7\u00E3o de anota\u00E7\u00F5es de edi\u00E7\u00F5es virtuais",
+    "virtualcompare.user"             : "Utilizador",
+    "general.edition"                 : "Edi\u00E7\u00E3o",
+    "general.tags"                    : "Etiquetas"
   },
   "en" : {
     "appName" : "LdoD Archive",
@@ -141,7 +147,13 @@
     "general.uses"                    : "Uses",
     "fragment.alignspace"             : "Align Spaces",
     "fragment.linebyline"             : "Line-by-line",
-    "fragment.variationstable"        : "Variations Table"
+    "fragment.variationstable"        : "Variations Table",
+    "virtualcompare.comment"          : "Comment",
+    "virtualcompare.quote"            : "Quote",
+    "virtualcompare.title"            : "Comparison of virtual editions' annotations",
+    "virtualcompare.user"             : "User",
+    "general.edition"                 : "Edition",
+    "general.tags"                    : "Tags"
   },
   "es" : {
     "appName" : "Archivo LdoD",
@@ -213,7 +225,13 @@
     "general.uses"                    : "Usa",
     "fragment.alignspace"             : "Alinear Espacios",
     "fragment.linebyline"             : "L\u00EDnea a l\u00EDnea",
-    "fragment.variationstable"        : "Tabla de Variaciones"
+    "fragment.variationstable"        : "Tabla de Variaciones",
+    "virtualcompare.comment"          : "Comentario",
+    "virtualcompare.quote"            : "Cita",
+    "virtualcompare.title"            : "Comparaci\\u00F3n de anotaciones de ediciones virtuales",
+    "virtualcompare.user"             : "Usuario",
+    "general.edition"                 : "Edici\u00F3n",
+    "general.tags"                    : "Etiquetas"
   }
 }
 
