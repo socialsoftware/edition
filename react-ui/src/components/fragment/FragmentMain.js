@@ -42,10 +42,17 @@ export class FragmentMain extends React.Component {
     }
 
     navigationUpdate(ids, type) {
-        this.setState({
-            compareIds: ids,
-            type,
-        });
+        if (ids.length === 1) {
+            this.setState({
+                interId: ids[0],
+                compareIds: null,
+            });
+        } else {
+            this.setState({
+                compareIds: ids,
+                type,
+            });
+        }
     }
 
     render() {
@@ -67,7 +74,7 @@ export class FragmentMain extends React.Component {
                     <Virtual2Compare ids={this.state.compareIds} key={this.state.compareIds} />
                 );
             }
-        } else if (this.state.interId) {
+        } else if (this.state.interId && (!this.state.compareIds || (this.state.compareIds && this.state.compareIds === 1))) {
             if (this.state.interId.includes('CRIT')) {
                 inter = (
                     <InterEditorial

@@ -71,20 +71,29 @@ export class Navigation extends React.Component {
         this.state.expertCheckBoxes = this.state.expertCheckBoxes.filter(e => e != null);
         this.state.sourceCheckBoxes = this.state.sourceCheckBoxes.filter(e => e != null);
 
+        let urlId = null;
+
         for (let i = 0; i < this.state.sourceCheckBoxes.length; i++) {
             if (this.state.sourceCheckBoxes[i].checked) {
                 selectedInters.push(this.state.sourceCheckBoxes[i].value);
+                urlId = this.state.sourceCheckBoxes[i].name;
             }
         }
         for (let i = 0; i < this.state.expertCheckBoxes.length; i++) {
             if (this.state.expertCheckBoxes[i].checked) {
                 selectedInters.push(this.state.expertCheckBoxes[i].value);
+                urlId = this.state.expertCheckBoxes[i].name;
             }
         }
 
         this.state.virtualCheckBoxes = this.state.virtualCheckBoxes.filter(e => e != null);
 
         this.state.virtualCheckBoxes.forEach(ele => ele.checked = false);
+
+        if (selectedInters.length === 1) {
+            selectedInters.pop();
+            selectedInters.push(urlId);
+        }
 
         this.state.callBack(selectedInters, 'EXPERT');
     }
@@ -95,23 +104,30 @@ export class Navigation extends React.Component {
         this.state.expertCheckBoxes = this.state.expertCheckBoxes.filter(e => e != null);
         this.state.sourceCheckBoxes = this.state.sourceCheckBoxes.filter(e => e != null);
 
-        console.log(this.state.expertCheckBoxes);
+        let urlId = null;
 
         for (let i = 0; i < this.state.sourceCheckBoxes.length; i++) {
             if (this.state.sourceCheckBoxes[i].checked) {
                 selectedInters.push(this.state.sourceCheckBoxes[i].value);
+                urlId = this.state.sourceCheckBoxes[i].name;
             }
         }
 
         for (let i = 0; i < this.state.expertCheckBoxes.length; i++) {
             if (this.state.expertCheckBoxes[i].checked) {
                 selectedInters.push(this.state.expertCheckBoxes[i].value);
+                urlId = this.state.expertCheckBoxes[i].name;
             }
         }
 
         this.state.virtualCheckBoxes = this.state.virtualCheckBoxes.filter(e => e != null);
 
         this.state.virtualCheckBoxes.forEach(ele => ele.checked = false);
+
+        if (selectedInters.length === 1) {
+            selectedInters.pop();
+            selectedInters.push(urlId);
+        }
 
         this.state.callBack(selectedInters, 'EXPERT');
     }
@@ -120,10 +136,12 @@ export class Navigation extends React.Component {
         const selectedInters = [];
         this.state.virtualCheckBoxes = this.state.virtualCheckBoxes.filter(e => e != null);
 
+        let urlId = null;
 
         for (let i = 0; i < this.state.virtualCheckBoxes.length; i++) {
             if (this.state.virtualCheckBoxes[i].checked) {
                 selectedInters.push(this.state.virtualCheckBoxes[i].value);
+                urlId = this.state.virtualCheckBoxes[i].name;
             }
         }
         this.state.expertCheckBoxes = this.state.expertCheckBoxes.filter(e => e != null);
@@ -132,6 +150,11 @@ export class Navigation extends React.Component {
 
         this.state.expertCheckBoxes.forEach(ele => ele.checked = false);
         this.state.sourceCheckBoxes.forEach(ele => ele.checked = false);
+
+        if (selectedInters.length === 1) {
+            selectedInters.pop();
+            selectedInters.push(urlId);
+        }
 
         this.state.callBack(selectedInters, 'VIRTUAL');
     }
@@ -159,7 +182,7 @@ export class Navigation extends React.Component {
             const checkBox = this.state.interId === sourceInfo.urlId ? (
                 <input
                     type="checkbox"
-                    name={sourceInfo.externalId}
+                    name={sourceInfo.urlId}
                     value={sourceInfo.externalId}
                     ref={node => this.state.sourceCheckBoxes.push(node)}
                     onClick={event => this.selectedSourceInter(event)}
@@ -167,7 +190,7 @@ export class Navigation extends React.Component {
             ) : (
                 <input
                     type="checkbox"
-                    name={sourceInfo.externalId}
+                    name={sourceInfo.urlId}
                     value={sourceInfo.externalId}
                     ref={node => this.state.sourceCheckBoxes.push(node)}
                     onClick={event => this.selectedSourceInter(event)} />
@@ -209,7 +232,7 @@ export class Navigation extends React.Component {
                 const checkBox = this.state.interId === interData.urlId ? (
                     <input
                         type="checkbox"
-                        name={interData.externalId}
+                        name={interData.urlId}
                         value={interData.externalId}
                         ref={node => this.state.expertCheckBoxes.push(node)}
                         onClick={event => this.selectedExpertInter(event)}
@@ -217,7 +240,7 @@ export class Navigation extends React.Component {
                 ) : (
                     <input
                         type="checkbox"
-                        name={interData.externalId}
+                        name={interData.urlId}
                         value={interData.externalId}
                         ref={node => this.state.expertCheckBoxes.push(node)}
                         onClick={event => this.selectedExpertInter(event)} />
@@ -296,7 +319,7 @@ export class Navigation extends React.Component {
                 const checkBox = this.state.interId === interData.urlId ? (
                     <input
                         type="checkbox"
-                        name={interData.externalId}
+                        name={interData.urlId}
                         value={interData.externalId}
                         ref={node => this.state.virtualCheckBoxes.push(node)}
                         onClick={event => this.selectedVirtualInter(event)}
@@ -304,7 +327,7 @@ export class Navigation extends React.Component {
                 ) : (
                     <input
                         type="checkbox"
-                        name={interData.externalId}
+                        name={interData.urlId}
                         value={interData.externalId}
                         ref={node => this.state.virtualCheckBoxes.push(node)}
                         onClick={event => this.selectedVirtualInter(event)} />
