@@ -2,6 +2,70 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import axios from 'axios';
 
+function TagEntry(data) {
+    data = data.data;
+
+    const userRef = `http://localhost:8080/edition/user/${data.username}`;
+    const editionRef = `http://localhost:8080/edition/acronym/${data.acronym}/category/${data.urlId}`;
+
+    return (
+        <tr>
+            <td>---</td>
+            <td>---</td>
+            <td><span className="glyphicon glyphicon-user" /> <a
+                href={userRef}>{data.username}</a>
+            </td>
+            <td><span className="glyphicon glyphicon-tag" /> <a
+                href={editionRef}>{data.name}</a>
+            </td>
+        </tr>
+    );
+}
+
+function AnnotationEntry(data) {
+    data = data.data;
+
+    const annotationInfo = [];
+
+    annotationInfo.push(<td>{data.quote}</td>);
+
+    // TODO: COUNTRY INFO
+
+    if (data.source) {
+        annotationInfo.push(
+            <td><a href={data.source}>tweet</a>
+                <br />
+                <a href={data.profile}>profile</a>
+                <br />
+                {data.date}
+                ADD COUNTRY INFO
+            </td>);
+    } else {
+        annotationInfo.push(<td>{data.text}</td>);
+    }
+
+    const userRef = `http://localhost:8080/edition/user/${data.username}`;
+
+    annotationInfo.push(<td><span className="glyphicon glyphicon-user" /> <a
+        href={userRef}>{data.username}</a></td>);
+
+    if (data.tags) {
+        const tagRows = [];
+
+        for (let i = 0; i < data.tags.length; i++) {
+            const tagInfo = data.tags[i];
+            const tagRef = `http://localhost:8080/edition/acronym/${tagInfo.acronym}/category/${tagInfo.urlId}`;
+
+            tagRows.push(<span className="glyphicon glyphicon-tag" />);
+            tagRows.push(<a href={tagRef}> {tagInfo.name}</a>);
+        }
+
+        annotationInfo.push(<td>{tagRows}</td>);
+    }
+
+    return annotationInfo;
+}
+
 export class Virtual2Compare extends React.Component {
     constructor(props) {
         super(props);
@@ -41,6 +105,17 @@ export class Virtual2Compare extends React.Component {
         for (let i = 0; i < ids.length; i++) {
             const data = this.state.compareData[ids[i]];
 
+            const tagRows = [];
+            const annotationRows = [];
+
+            for (let j = 0; j < data.tags.length; j++) {
+                tagRows.push(<TagEntry data={data.tags[j]} />);
+            }
+
+            for (let j = 0; j < data.annotations.length; j++) {
+                annotationRows.push(<tr><AnnotationEntry data={data.annotations[j]} /></tr>);
+            }
+
             tables.push(<div className="row col-md-12">
                 <h5>
                     <strong><FormattedMessage id="general.edition" /> : </strong>
@@ -63,18 +138,22 @@ export class Virtual2Compare extends React.Component {
                             </th>
                         </tr>
                     </thead>
-                    <tbody />
+                    <tbody>
+                        {tagRows}
+                        {annotationRows}
+                    </tbody>
                 </table>
             </div>);
         }
 
-        return (<div id="fragmentInter" className="row">
-            <h4 className="text-center">
-                <FormattedMessage id="virtualcompare.title" />
-            </h4>
-            <br />
-            {tables}
-        </div>
+        return (
+            <div id="fragmentInter" className="row col-md-9">
+                <h4 className="text-center">
+                    <FormattedMessage id="virtualcompare.title" />
+                </h4>
+                <br />
+                {tables}
+            </div>
         );
     }
 }
