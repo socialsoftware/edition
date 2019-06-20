@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import { FormattedMessage } from 'react-intl';
 
 export class Taxonomy extends React.Component {
     constructor(props) {
@@ -73,7 +74,7 @@ export class Taxonomy extends React.Component {
             );
         }
 
-        return (
+        return ([
             <div className="row" id="taxonomy">
                 <link
                     href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/css/select2.min.css"
@@ -96,7 +97,71 @@ export class Taxonomy extends React.Component {
                         {taxRows}
                     </tbody>
                 </table>
-            </div>
+            </div>,
+
+            <div className="modal fade" id="myModal" tabIndex="-1" role="dialog">
+                <div className="modal-dialog">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <button
+                                type="button"
+                                className="close"
+                                data-dismiss="modal"
+                                aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <h4 className="modal-title">THIS IS A TITLE</h4>
+                        </div>
+                        <div className="modal-body">
+                            <div className="row text-center">
+                                <form
+                                    className="form"
+                                    method="POST"
+                                    action="/virtualeditions/restricted/tag/associate">
+                                    <input
+                                        type="hidden"
+                                        name="THIS SHOULD BE A VALID NAME"
+                                        value="THIS SHOULD BE A VAILD TOKEN" />
+                                    <div className="form-group">
+                                        <div className="hidden">
+                                            <input
+                                                type="hidden"
+                                                name="fragInterId"
+                                                className="form-control"
+                                                value="external id" />
+                                        </div>
+                                    </div>
+                                    <div className="form-group">
+                                        <select
+                                            name="categories[]"
+                                            id="category-select"
+                                            className="form-control"
+                                            style={{ width: '75%' }}
+                                            multiple="true">
+                                            <option
+                                                value="TEMP">NON ASSIGNED CATEGORIES</option>
+                                            <option
+                                                value="temp"
+                                                selected="selected">ASSIGNED CATEGORIES</option>
+                                        </select>
+                                    </div>
+                                    <div className="form-group">
+                                        <button type="submit" className="btn btn-sm btn-primary">
+                                            <FormattedMessage id={'general.associate'} />
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-default" data-dismiss="modal">
+                                <FormattedMessage id={'general.close'} />
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>,
+        ]
         );
     }
 }

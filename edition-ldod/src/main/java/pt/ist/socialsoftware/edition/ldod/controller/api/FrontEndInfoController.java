@@ -19,6 +19,7 @@ import pt.ist.socialsoftware.edition.ldod.generators.HtmlWriter4Variations;
 import pt.ist.socialsoftware.edition.ldod.generators.PlainHtmlWriter4OneInter;
 import pt.ist.socialsoftware.edition.ldod.session.LdoDSession;
 
+import javax.print.attribute.standard.Media;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -502,6 +503,47 @@ public class FrontEndInfoController {
         }
 
         return new ResponseEntity<>(categoryInfo, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/categories", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<?> getCategoriesForInter(@RequestParam String xmlId, @RequestParam String urlId){
+
+        Fragment fragment = Text.getInstance().getFragmentByXmlId(xmlId);
+
+        if (fragment == null) {
+            logger.debug("Could find frag");
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        VirtualEditionInter inter = LdoD.getInstance().getVirtualEditionInterSet(fragment).stream()
+                .filter(virtualEditionInter -> virtualEditionInter.getUrlId().equals(urlId)).findFirst().orElse(null);
+
+        if (inter == null){
+            logger.debug("Could not find inter");
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        Map<String,Object> catInfo = new LinkedHashMap<>();
+
+        //TODO: temp solution to get some category info for frontend display. Should be replaced with some sort of login
+        // info usage
+        LdoDUser user = LdoD.getInstance().getUser("ars");
+
+        List<String> assignedInfo = new ArrayList<>();
+        for (Category category : inter.getAssignedCategories(user)){
+            assignedInfo.add(category.getNameInEditionContext(inter.getEdition()));
+        }
+
+        catInfo.put("assigned", assignedInfo);
+
+        List<String> nonAssignedInfo = new ArrayList<>();
+        for (Category category : inter.getNonAssignedCategories(user)){
+            nonAssignedInfo.add(category.getNameInEditionContext(inter.getEdition()));
+        }
+
+        catInfo.put("nonAssigned", nonAssignedInfo);
+
+        return new ResponseEntity<>(catInfo, HttpStatus.OK);
     }
 
     @GetMapping(value = "/multiple-writer", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)

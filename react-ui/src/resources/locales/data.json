@@ -75,7 +75,9 @@
     "virtualcompare.title"            : "Compara\u00E7\u00E3o de anota\u00E7\u00F5es de edi\u00E7\u00F5es virtuais",
     "virtualcompare.user"             : "Utilizador",
     "general.edition"                 : "Edi\u00E7\u00E3o",
-    "general.tags"                    : "Etiquetas"
+    "general.tags"                    : "Etiquetas",
+    "general.associate"               : "Associar",
+    "general.close"                   : "Fechar"
   },
   "en" : {
     "appName" : "LdoD Archive",
@@ -153,7 +155,9 @@
     "virtualcompare.title"            : "Comparison of virtual editions' annotations",
     "virtualcompare.user"             : "User",
     "general.edition"                 : "Edition",
-    "general.tags"                    : "Tags"
+    "general.tags"                    : "Tags",
+    "general.associate"               : "Associate",
+    "general.close"                   : "Close"
   },
   "es" : {
     "appName" : "Archivo LdoD",
@@ -231,7 +235,9 @@
     "virtualcompare.title"            : "Comparaci\\u00F3n de anotaciones de ediciones virtuales",
     "virtualcompare.user"             : "Usuario",
     "general.edition"                 : "Edici\u00F3n",
-    "general.tags"                    : "Etiquetas"
+    "general.tags"                    : "Etiquetas",
+    "general.associate"               : "Asociar",
+    "general.close"                   : "Cerrar"
   }
 }
 
