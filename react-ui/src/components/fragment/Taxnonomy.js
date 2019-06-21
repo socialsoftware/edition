@@ -11,6 +11,8 @@ export class Taxonomy extends React.Component {
             interId: props.interId,
             taxonomy: null,
             isLoaded: false,
+            categories: null,
+            isCatLoaded: false,
         };
     }
 
@@ -26,6 +28,18 @@ export class Taxonomy extends React.Component {
                 isLoaded: true,
             });
         });
+
+        axios.get('http://localhost:8080/api/services/frontend/categories', {
+            params: {
+                xmlId: this.state.fragmentId,
+                urlId: this.state.interId,
+            },
+        }).then((result) => {
+            this.setState({
+                categories: result.data,
+                isCatLoaded: true,
+            });
+        });
     }
 
     componentDidMount() {
@@ -33,7 +47,7 @@ export class Taxonomy extends React.Component {
     }
 
     render() {
-        if (!this.state.isLoaded) {
+        if (!this.state.isLoaded || !this.state.isCatLoaded) {
             return (
                 <div>Loading taxonomy info</div>
             );
@@ -73,6 +87,21 @@ export class Taxonomy extends React.Component {
 
             );
         }
+
+        const assignedOptions = [];
+        const nonAssignedOptions = [];
+
+        for (let i = 0; i < this.state.categories.assigned.length; i++) {
+            assignedOptions.push(<option
+                value={this.state.categories.assigned[i]}
+                selected="selected">{this.state.categories.assigned[i]}</option>);
+        }
+
+        for (let i = 0; i < this.state.categories.nonAssigned.length; i++) {
+            nonAssignedOptions.push(<option
+                value={this.state.categories.nonAssigned[i]}>{this.state.categories.nonAssigned[i]}</option>);
+        }
+
 
         return ([
             <div className="row" id="taxonomy">
@@ -137,12 +166,9 @@ export class Taxonomy extends React.Component {
                                             id="category-select"
                                             className="form-control"
                                             style={{ width: '75%' }}
-                                            multiple="true">
-                                            <option
-                                                value="TEMP">NON ASSIGNED CATEGORIES</option>
-                                            <option
-                                                value="temp"
-                                                selected="selected">ASSIGNED CATEGORIES</option>
+                                            multiple>
+                                            {nonAssignedOptions}
+                                            {assignedOptions}
                                         </select>
                                     </div>
                                     <div className="form-group">
