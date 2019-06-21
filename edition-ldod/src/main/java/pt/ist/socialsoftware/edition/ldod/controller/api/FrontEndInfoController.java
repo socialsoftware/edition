@@ -448,6 +448,7 @@ public class FrontEndInfoController {
         Map<String,String> editionInfo = new LinkedHashMap<>();
 
         editionInfo.put("editionTitle", inter.getEdition().getTitle());
+        editionInfo.put("externalId", inter.getExternalId());
 
         if(inter.getUses() != null){
             editionInfo.put("editionReference", inter.getUses().getEdition().getReference());

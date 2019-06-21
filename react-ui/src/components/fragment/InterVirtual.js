@@ -86,7 +86,11 @@ export class InterVirtual extends React.Component {
                             {transcription}
                         </div>
                     </div>
-                    <Taxonomy fragmentId={this.state.fragmentId} interId={this.state.interId} />
+                    <Taxonomy
+                        fragmentId={this.state.fragmentId}
+                        interId={this.state.interId}
+                        externalId={this.state.editionInfo.externalId}
+                        title={this.state.title} />
                 </div>
             </div>
         );

@@ -9,6 +9,8 @@ export class Taxonomy extends React.Component {
         this.state = {
             fragmentId: props.fragmentId,
             interId: props.interId,
+            externalId: props.externalId,
+            title: props.title,
             taxonomy: null,
             isLoaded: false,
             categories: null,
@@ -139,7 +141,7 @@ export class Taxonomy extends React.Component {
                                 aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
-                            <h4 className="modal-title">THIS IS A TITLE</h4>
+                            <h4 className="modal-title">{this.state.title}</h4>
                         </div>
                         <div className="modal-body">
                             <div className="row text-center">
@@ -157,7 +159,7 @@ export class Taxonomy extends React.Component {
                                                 type="hidden"
                                                 name="fragInterId"
                                                 className="form-control"
-                                                value="external id" />
+                                                value={this.state.externalId} />
                                         </div>
                                     </div>
                                     <div className="form-group">
