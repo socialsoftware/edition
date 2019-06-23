@@ -6,7 +6,7 @@ import { createStore } from 'redux';
 import TopBar from './TopBar';
 import LegacyPage from './legacyPage';
 import UpdatableIntlProvider from './updatableIntlProvider';
-import { FragmentMain } from './components/fragment/FragmentMain';
+import FragmentMain from './components/fragment/FragmentMain';
 import rootReducer from './reducers/reducers';
 
 function App() {

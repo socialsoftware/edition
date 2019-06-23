@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
+import { setCompareIdsType, setInterId } from '../../actions/actions';
 
 const mapStateToProps = (state) => {
     const config = Object.keys(state.moduleConfig);
@@ -15,7 +16,6 @@ class Navigation extends React.Component {
         this.state = {
             fragId: props.fragId,
             interId: props.interId,
-            callBack: props.callBack,
             sourceCheckBoxes: [],
             expertCheckBoxes: [],
             virtualCheckBoxes: [],
@@ -100,11 +100,8 @@ class Navigation extends React.Component {
         this.state.virtualCheckBoxes.forEach(ele => ele.checked = false);
 
         if (selectedInters.length === 1) {
-            selectedInters.pop();
-            selectedInters.push(urlId);
-        }
-
-        this.state.callBack(selectedInters, 'EXPERT');
+            this.props.setInterId(urlId);
+        } else { this.props.setCompareIdsType(selectedInters, 'EXPERT'); }
     }
 
     selectedExpertInter() {
@@ -134,11 +131,8 @@ class Navigation extends React.Component {
         this.state.virtualCheckBoxes.forEach(ele => ele.checked = false);
 
         if (selectedInters.length === 1) {
-            selectedInters.pop();
-            selectedInters.push(urlId);
-        }
-
-        this.state.callBack(selectedInters, 'EXPERT');
+            this.props.setInterId(urlId);
+        } else { this.props.setCompareIdsType(selectedInters, 'EXPERT'); }
     }
 
     selectedVirtualInter() {
@@ -161,11 +155,8 @@ class Navigation extends React.Component {
         this.state.sourceCheckBoxes.forEach(ele => ele.checked = false);
 
         if (selectedInters.length === 1) {
-            selectedInters.pop();
-            selectedInters.push(urlId);
-        }
-
-        this.state.callBack(selectedInters, 'VIRTUAL');
+            this.props.setInterId(urlId);
+        } else { this.props.setCompareIdsType(selectedInters, 'VIRTUAL'); }
     }
 
     componentDidMount() {
@@ -175,10 +166,8 @@ class Navigation extends React.Component {
     render() {
         if (!this.state.isEditionLoaded || !this.state.isExpertLoaded || !this.state.isSourceLoaded
             || !(this.state.isVirtualLoaded || !this.props.config.includes('edition-virtual'))) {
-            return <div>Loading Edition Info</div>;
+            return <div>Loading Navigation Info</div>;
         }
-
-        console.log(this.props);
 
         this.state.expertCheckBoxes = [];
         this.state.sourceCheckBoxes = [];
@@ -463,4 +452,4 @@ class Navigation extends React.Component {
     }
 }
 
-export default connect(mapStateToProps)(Navigation);
+export default connect(mapStateToProps, { setCompareIdsType, setInterId })(Navigation);
