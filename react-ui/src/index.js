@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
-import TopBar from './topBar';
+import TopBar from './TopBar';
 import LegacyPage from './legacyPage';
 import UpdatableIntlProvider from './updatableIntlProvider';
 import { FragmentMain } from './components/fragment/FragmentMain';
@@ -13,6 +13,8 @@ function App() {
     const store = createStore(rootReducer);
 
     console.log(store.getState());
+
+    store.subscribe(() => console.log(store.getState()));
 
     return (
         <Provider store={store}>

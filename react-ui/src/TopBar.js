@@ -4,7 +4,9 @@ import { Link } from 'react-router-dom';
 import { NavDropdown, MenuItem, NavItem } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import { FormattedMessage } from 'react-intl';
+import { connect } from 'react-redux';
 import LanguageToggle from './languageToggle';
+import { setModuleConfig } from './actions/actions';
 
 function TopBarStatic(props) {
     let loginToggle = null;
@@ -133,7 +135,7 @@ function TopBarList() {
     );
 }
 
-export default class TopBar extends React.Component {
+class TopBar extends React.Component {
 
     static baseURL = 'http://localhost:8080';
 
@@ -148,6 +150,8 @@ export default class TopBar extends React.Component {
     retrieveModuleInfoData() {
         axios.get('http://localhost:8080/api/services/frontend/module-info')
             .then((result) => {
+                this.props.setModuleConfig(result.data);
+
                 this.setState({
                     moduleInfo: result.data,
                     isEditionLoaded: true,
@@ -237,6 +241,7 @@ export default class TopBar extends React.Component {
 
 }
 
+export default connect(null, { setModuleConfig })(TopBar);
 
 /* export default function TopBar() {
 
