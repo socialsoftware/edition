@@ -1,8 +1,15 @@
 import React from 'react';
 import axios from 'axios';
 import { FormattedMessage } from 'react-intl';
+import { connect } from 'react-redux';
 
-export class Navigation extends React.Component {
+const mapStateToProps = (state) => {
+    const config = Object.keys(state.moduleConfig);
+
+    return { config };
+};
+
+class Navigation extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -23,7 +30,7 @@ export class Navigation extends React.Component {
         };
     }
 
-    getFragExpertSourceInfo() {
+    getFragNavigationInfo() {
         axios.get('http://localhost:8080/api/services/frontend/expert-edition')
             .then((result) => {
                 this.setState({
@@ -53,16 +60,18 @@ export class Navigation extends React.Component {
             });
         });
 
-        axios.get('http://localhost:8080/api/services/frontend/virtual-inter', {
-            params: {
-                xmlId: this.state.fragId,
-            },
-        }).then((result) => {
-            this.setState({
-                virtualInterInfo: result.data,
-                isVirtualLoaded: true,
+        if (this.props.config.includes('edition-virtual')) {
+            axios.get('http://localhost:8080/api/services/frontend/virtual-inter', {
+                params: {
+                    xmlId: this.state.fragId,
+                },
+            }).then((result) => {
+                this.setState({
+                    virtualInterInfo: result.data,
+                    isVirtualLoaded: true,
+                });
             });
-        });
+        }
     }
 
     selectedSourceInter() {
@@ -160,13 +169,16 @@ export class Navigation extends React.Component {
     }
 
     componentDidMount() {
-        this.getFragExpertSourceInfo();
+        this.getFragNavigationInfo();
     }
 
     render() {
-        if (!this.state.isEditionLoaded || !this.state.isExpertLoaded || !this.state.isSourceLoaded || !this.state.isVirtualLoaded) {
+        if (!this.state.isEditionLoaded || !this.state.isExpertLoaded || !this.state.isSourceLoaded
+            || !(this.state.isVirtualLoaded || !this.props.config.includes('edition-virtual'))) {
             return <div>Loading Edition Info</div>;
         }
+
+        console.log(this.props);
 
         this.state.expertCheckBoxes = [];
         this.state.sourceCheckBoxes = [];
@@ -302,94 +314,95 @@ export class Navigation extends React.Component {
 
         const virtualRow = [];
 
-        const editionNames = Object.keys(this.state.virtualInterInfo);
+        if (this.props.config.includes('edition-virtual')) {
+            const editionNames = Object.keys(this.state.virtualInterInfo);
 
-        for (let i = 0; i < editionNames.length; i++) {
-            const interInfo = this.state.virtualInterInfo[editionNames[i]];
+            for (let i = 0; i < editionNames.length; i++) {
+                const interInfo = this.state.virtualInterInfo[editionNames[i]];
 
-            const navOptions = [];
+                const navOptions = [];
 
-            for (let j = 0; j < interInfo.length; j++) {
-                const interData = interInfo[j];
+                for (let j = 0; j < interInfo.length; j++) {
+                    const interData = interInfo[j];
 
-                const ref = `http://localhost:9000/fragments/fragment/${this.state.fragId}/inter/${interData.urlId}`;
-                const nextRef = `http://localhost:9000/fragments/fragment/${interData.nextXmlId}/inter/${interData.nextUrlId}`;
-                const prevRef = `http://localhost:9000/fragments/fragment/${interData.prevXmlId}/inter/${interData.prevUrlId}`;
+                    const ref = `http://localhost:9000/fragments/fragment/${this.state.fragId}/inter/${interData.urlId}`;
+                    const nextRef = `http://localhost:9000/fragments/fragment/${interData.nextXmlId}/inter/${interData.nextUrlId}`;
+                    const prevRef = `http://localhost:9000/fragments/fragment/${interData.prevXmlId}/inter/${interData.prevUrlId}`;
 
-                const checkBox = this.state.interId === interData.urlId ? (
-                    <input
-                        type="checkbox"
-                        name={interData.urlId}
-                        value={interData.externalId}
-                        ref={node => this.state.virtualCheckBoxes.push(node)}
-                        onClick={event => this.selectedVirtualInter(event)}
-                        defaultChecked />
-                ) : (
-                    <input
-                        type="checkbox"
-                        name={interData.urlId}
-                        value={interData.externalId}
-                        ref={node => this.state.virtualCheckBoxes.push(node)}
-                        onClick={event => this.selectedVirtualInter(event)} />
-                );
+                    const checkBox = this.state.interId === interData.urlId ? (
+                        <input
+                            type="checkbox"
+                            name={interData.urlId}
+                            value={interData.externalId}
+                            ref={node => this.state.virtualCheckBoxes.push(node)}
+                            onClick={event => this.selectedVirtualInter(event)}
+                            defaultChecked />
+                    ) : (
+                        <input
+                            type="checkbox"
+                            name={interData.urlId}
+                            value={interData.externalId}
+                            ref={node => this.state.virtualCheckBoxes.push(node)}
+                            onClick={event => this.selectedVirtualInter(event)} />
+                    );
 
-                navOptions.push(
+                    navOptions.push(
+                        (
+                            <tr>
+                                <td />
+                                <td>
+                                    {checkBox}
+                                </td>
+
+                                <td><a
+                                    href={prevRef}><span
+                                        className="glyphicon glyphicon-chevron-left" /></a></td>
+                                <td><a
+                                    href={ref}>{interData.number}</a>
+                                </td>
+                                <td><a
+                                    href={nextRef}><span
+                                        className="glyphicon glyphicon-chevron-right" /></a></td>
+                                <td />
+                            </tr>
+                        ),
+                    );
+                }
+
+                virtualRow.push(
                     (
-                        <tr>
-                            <td />
-                            <td>
-                                {checkBox}
-                            </td>
-
-                            <td><a
-                                href={prevRef}><span
-                                    className="glyphicon glyphicon-chevron-left" /></a></td>
-                            <td><a
-                                href={ref}>{interData.number}</a>
-                            </td>
-                            <td><a
-                                href={nextRef}><span
-                                    className="glyphicon glyphicon-chevron-right" /></a></td>
-                            <td />
-                        </tr>
+                        <div className="text-center">
+                            <table width="100%">
+                                <caption className="text-center">
+                                    <a
+                                        href="">
+                                        {editionNames[i]}
+                                    </a>
+                                </caption>
+                                <thead>
+                                    <tr>
+                                        <th style={{ width: '10%' }} />
+                                        <th style={{ width: '10%' }} />
+                                        <th style={{ width: '25%' }} />
+                                        <th style={{ width: '10%' }} />
+                                        <th style={{ width: '25%' }} />
+                                        <th style={{ width: '20%' }} />
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {navOptions}
+                                </tbody>
+                            </table>
+                        </div>
                     ),
                 );
             }
-
-            virtualRow.push(
-                (
-                    <div className="text-center">
-                        <table width="100%">
-                            <caption className="text-center">
-                                <a
-                                    href="">
-                                    {editionNames[i]}
-                                </a>
-                            </caption>
-                            <thead>
-                                <tr>
-                                    <th style={{ width: '10%' }} />
-                                    <th style={{ width: '10%' }} />
-                                    <th style={{ width: '25%' }} />
-                                    <th style={{ width: '10%' }} />
-                                    <th style={{ width: '25%' }} />
-                                    <th style={{ width: '20%' }} />
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {navOptions}
-                            </tbody>
-                        </table>
-                    </div>
-                ),
-            );
         }
 
         return (
             <div className="col-md-3">
                 <div id="fragment" className="row">
-                    <div id="Fr001" />
-
+                    <div id={this.state.fragId} />
                     <div
                         className="btn-group"
                         id="baseinter"
@@ -428,22 +441,26 @@ export class Navigation extends React.Component {
                 </div>
                 <br /> <br />
 
-                <div id="virtualinter" data-toggle="checkbox">
-                    <h5 className="text-center">
-                        <FormattedMessage id={'virtual.editions'} />
-                        <a
-                            id="infovirtualeditions"
-                            data-placement="bottom"
-                            className="infobutton"
-                            role="button"
-                            data-toggle="popover"
-                            data-content="TODO"> <span
-                                className="glyphicon glyphicon-info-sign" />
-                        </a>
-                    </h5>
-                    {virtualRow}
-                </div>
+                {this.props.config.includes('edition-virtual') &&
+                    <div id="virtualinter" data-toggle="checkbox">
+                        <h5 className="text-center">
+                            <FormattedMessage id={'virtual.editions'} />
+                            <a
+                                id="infovirtualeditions"
+                                data-placement="bottom"
+                                className="infobutton"
+                                role="button"
+                                data-toggle="popover"
+                                data-content="TODO"> <span
+                                    className="glyphicon glyphicon-info-sign" />
+                            </a>
+                        </h5>
+                        {virtualRow}
+                    </div>
+                }
             </div>
         );
     }
 }
+
+export default connect(mapStateToProps)(Navigation);

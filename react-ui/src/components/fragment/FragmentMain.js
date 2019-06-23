@@ -1,12 +1,12 @@
 import React from 'react';
 import axios from 'axios';
-import { Navigation } from './Navigation';
 import { InterEmpty } from './InterEmpty';
 import { InterEditorial } from './InterEditorial';
 import { InterAuthorial } from './InterAuthorial';
 import { InterVirtual } from './InterVirtual';
 import { Inter2Compare } from './Inter2Compare';
 import { Virtual2Compare } from './Virtual2Compare';
+import Navigation from './Navigation';
 
 export class FragmentMain extends React.Component {
     constructor(props) {
