@@ -20,6 +20,7 @@ import pt.ist.socialsoftware.edition.ldod.topicmodeling.TopicModeler;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import java.io.*;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -68,14 +69,13 @@ public class Bootstrap implements WebApplicationInitializer {
         loadModuleInfoFromFiles();
 
         //createEditionLdoDModuleInfo();
-        createEditionTextModuleInfo();
+        /*createEditionTextModuleInfo();
         createEditionUserModuleInfo();
         createEditionSearchModuleInfo();
-        createEditionVirtualModuleInfo();
+        createEditionVirtualModuleInfo();*/
     }
 
     public static void loadModuleInfoFromFiles() {
-        //TODO: the files are being looked up and read but they are currently empty
 
         String moduleConfigFilePath = PropertiesManager.getProperties().getProperty("module.files.dir");
 
@@ -88,24 +88,38 @@ public class Bootstrap implements WebApplicationInitializer {
 
             String st;
             while ((st = reader.readLine()) != null){
-                logger.debug(st);
+
+                Module module = new Module(st.replace(".txt", ""));
+                UiComponent uiComponent = new UiComponent(module);
 
                 File file = new File(directory, st);
 
-                BufferedReader br = new BufferedReader(new FileReader(file));
+                BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
+
+                ArrayList<String> menuNames = new ArrayList<>();
+                ArrayList<String[]> optionNames = new ArrayList<>();
+                ArrayList<String[]> optionLinks = new ArrayList<>();
 
                 String entry;
-
                 while ((entry = br.readLine()) != null) {
                     String[] menuEntry = entry.split(" : ");
-                    logger.debug(Arrays.toString(menuEntry));
+                    menuNames.add(menuEntry[0]);
 
                     String[] menuOptions = menuEntry[1].split(", ");
 
+                    ArrayList<String> optionMenuNames = new ArrayList<>();
+                    ArrayList<String> optionLinkNames = new ArrayList<>();
+
                     for(String option : menuOptions){
-                        logger.debug(option);
+                        String[] optionEntry = option.split("#");
+                        optionMenuNames.add(optionEntry[0]);
+                        optionLinkNames.add(optionEntry[1]);
                     }
+
+                    optionNames.add(optionMenuNames.toArray(new String[0]));
+                    optionLinks.add(optionLinkNames.toArray(new String[0]));
                 }
+                createModuleInfo(uiComponent, menuNames.toArray(new String[0]), optionNames.toArray(new String[0][]), optionLinks.toArray(new String[0][]));
             }
         } catch (IOException e) {
             throw new LdoDException("loadModuleInfoFromFiles could not read module config files");
