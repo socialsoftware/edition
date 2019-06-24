@@ -19,9 +19,9 @@ import pt.ist.socialsoftware.edition.ldod.topicmodeling.TopicModeler;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
@@ -59,14 +59,57 @@ public class Bootstrap implements WebApplicationInitializer {
             loadRecommendationCache();
         }
 
+        //TODO : temporary way of loading module info into database. Should be loaded using a config file/s or another
+        // more elegant way
+
         // clean existing module info.
         FenixFramework.getDomainRoot().getModuleSet().forEach(Module::remove);
+
+        loadModuleInfoFromFiles();
 
         //createEditionLdoDModuleInfo();
         createEditionTextModuleInfo();
         createEditionUserModuleInfo();
         createEditionSearchModuleInfo();
         createEditionVirtualModuleInfo();
+    }
+
+    public static void loadModuleInfoFromFiles() {
+        //TODO: the files are being looked up and read but they are currently empty
+
+        String moduleConfigFilePath = PropertiesManager.getProperties().getProperty("module.files.dir");
+
+        File directory = new File(moduleConfigFilePath);
+
+        File configFile = new File(directory, "modules.txt");
+
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(configFile));
+
+            String st;
+            while ((st = reader.readLine()) != null){
+                logger.debug(st);
+
+                File file = new File(directory, st);
+
+                BufferedReader br = new BufferedReader(new FileReader(file));
+
+                String entry;
+
+                while ((entry = br.readLine()) != null) {
+                    String[] menuEntry = entry.split(" : ");
+                    logger.debug(Arrays.toString(menuEntry));
+
+                    String[] menuOptions = menuEntry[1].split(", ");
+
+                    for(String option : menuOptions){
+                        logger.debug(option);
+                    }
+                }
+            }
+        } catch (IOException e) {
+            throw new LdoDException("loadModuleInfoFromFiles could not read module config files");
+        }
     }
 
     public static void createEditionLdoDModuleInfo() {
@@ -117,7 +160,7 @@ public class Bootstrap implements WebApplicationInitializer {
         String[][] optionLinks = {{"/about/archive", "/about/videos", "/about/faq", "/about/encoding", "/about/articles",
                 "/about/conduct", "/about/privacy", "/about/team", "/about/acknowledgements", "/about/contact", "/about/copyright"},
                 {"/reading", "/ldod-visual", "/citations"}, {"/source/list", "/fragments"},
-                {"/edition/acronym/JPC", "/edition/acronym/TSC", "/edition/acronym/rz", "/edition/acronym/JP"}
+                {"/edition/acronym/JPC", "/edition/acronym/TSC", "/edition/acronym/RZ", "/edition/acronym/JP"}
         };
 
         createModuleInfo(uiComponent, menuNames, optionNames, optionLinks);

@@ -1,0 +1,4 @@
+topBar.about.title : topBar.about.archive#/about/archive, topBar.about.videos#/about/videos, topBar.about.faq#/about/faq, topBar.about.encoding#/about/encoding, topBar.about.articles#/about/articles, topBar.about.conduct#/about/conduct, topBar.about.privacy#/about/privacy, topBar.about.team#/about/team, topBar.about.acknowledgements#/about/acknowledgements, topBar.about.contact#/about/contact, topBar.about.copyright#/about/copyright
+topBar.reading.title : topBar.reading.reading#/reading, topBar.reading.visual#/ldod-visual, topBar.reading.citations#/citations
+topBar.documents.title : topBar.documents.witnesses#/source/list, topBar.documents.fragments#/fragments
+topBar.editions.title : Jacinto do Prado Coelho#/edition/acronym/JPC, Teresa Sobral Cunha#/edition/acronym/TSC, Richard Zenith#/edition/acronym/RZ, Jerónimo Pizarro#/edition/acronym/JP
