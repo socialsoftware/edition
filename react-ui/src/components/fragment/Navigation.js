@@ -74,37 +74,7 @@ class Navigation extends React.Component {
         }
     }
 
-    selectedSourceInter() {
-        const selectedInters = [];
-
-        this.state.expertCheckBoxes = this.state.expertCheckBoxes.filter(e => e != null);
-        this.state.sourceCheckBoxes = this.state.sourceCheckBoxes.filter(e => e != null);
-
-        let urlId = null;
-
-        for (let i = 0; i < this.state.sourceCheckBoxes.length; i++) {
-            if (this.state.sourceCheckBoxes[i].checked) {
-                selectedInters.push(this.state.sourceCheckBoxes[i].value);
-                urlId = this.state.sourceCheckBoxes[i].name;
-            }
-        }
-        for (let i = 0; i < this.state.expertCheckBoxes.length; i++) {
-            if (this.state.expertCheckBoxes[i].checked) {
-                selectedInters.push(this.state.expertCheckBoxes[i].value);
-                urlId = this.state.expertCheckBoxes[i].name;
-            }
-        }
-
-        this.state.virtualCheckBoxes = this.state.virtualCheckBoxes.filter(e => e != null);
-
-        this.state.virtualCheckBoxes.forEach(ele => ele.checked = false);
-
-        if (selectedInters.length === 1) {
-            this.props.setInterId(urlId);
-        } else { this.props.setCompareIdsType(selectedInters, 'EXPERT'); }
-    }
-
-    selectedExpertInter() {
+    selectedScholarInter() {
         const selectedInters = [];
 
         this.state.expertCheckBoxes = this.state.expertCheckBoxes.filter(e => e != null);
@@ -186,7 +156,7 @@ class Navigation extends React.Component {
                     name={sourceInfo.urlId}
                     value={sourceInfo.externalId}
                     ref={node => this.state.sourceCheckBoxes.push(node)}
-                    onClick={event => this.selectedSourceInter(event)}
+                    onClick={event => this.selectedScholarInter(event)}
                     defaultChecked />
             ) : (
                 <input
@@ -194,7 +164,7 @@ class Navigation extends React.Component {
                     name={sourceInfo.urlId}
                     value={sourceInfo.externalId}
                     ref={node => this.state.sourceCheckBoxes.push(node)}
-                    onClick={event => this.selectedSourceInter(event)} />
+                    onClick={event => this.selectedScholarInter(event)} />
             );
 
             sourceRow.push(
@@ -236,7 +206,7 @@ class Navigation extends React.Component {
                         name={interData.urlId}
                         value={interData.externalId}
                         ref={node => this.state.expertCheckBoxes.push(node)}
-                        onClick={event => this.selectedExpertInter(event)}
+                        onClick={event => this.selectedScholarInter(event)}
                         defaultChecked />
                 ) : (
                     <input
@@ -244,7 +214,7 @@ class Navigation extends React.Component {
                         name={interData.urlId}
                         value={interData.externalId}
                         ref={node => this.state.expertCheckBoxes.push(node)}
-                        onClick={event => this.selectedExpertInter(event)} />
+                        onClick={event => this.selectedScholarInter(event)} />
                 );
 
                 navOptions.push(
