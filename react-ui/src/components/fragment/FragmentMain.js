@@ -9,6 +9,7 @@ import { InterVirtual } from './InterVirtual';
 import { Inter2Compare } from './Inter2Compare';
 import { Virtual2Compare } from './Virtual2Compare';
 import Navigation from './Navigation';
+import { SERVER_URL } from '../../utils/Constants';
 
 const mapStateToProps = state => ({ ids: state.compareIds, type: state.type, interId: state.interId, config: Object.keys(state.moduleConfig) });
 
@@ -25,7 +26,7 @@ class FragmentMain extends React.Component {
     }
 
     getFragmentInfo() {
-        axios.get('http://localhost:8080/api/services/frontend/frag-info', {
+        axios.get(`${SERVER_URL}/api/services/frontend/frag-info`, {
             params: {
                 xmlId: this.state.fragmentId,
             },

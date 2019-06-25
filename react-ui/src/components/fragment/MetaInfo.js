@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { FormattedMessage } from 'react-intl';
+import { SERVER_URL } from '../../utils/Constants';
 
 export class MetaInfo extends React.Component {
 
@@ -16,7 +17,7 @@ export class MetaInfo extends React.Component {
     }
 
     getMetaInfo() {
-        axios.get('http://localhost:8080/api/services/frontend/meta-info', {
+        axios.get(`${SERVER_URL}/api/services/frontend/meta-info`, {
             params: {
                 xmlId: this.state.fragId,
                 urlId: this.state.interId,

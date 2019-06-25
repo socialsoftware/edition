@@ -1,11 +1,12 @@
 import React from 'react';
 import { injectIntl } from 'react-intl';
 import customHTMLParser from './customHTMLParser';
+import { SERVER_URL } from './utils/Constants';
 
 
 class LegacyPage extends React.Component {
 
-    static baseURL = 'http://localhost:8080';
+    static baseURL = SERVER_URL;
 
     constructor(props) {
         super(props);

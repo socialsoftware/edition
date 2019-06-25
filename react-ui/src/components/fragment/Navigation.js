@@ -3,6 +3,7 @@ import axios from 'axios';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import { setCompareIdsType, setInterId } from '../../actions/actions';
+import { SERVER_URL } from '../../utils/Constants';
 
 const mapStateToProps = (state) => {
     const config = Object.keys(state.moduleConfig);
@@ -31,14 +32,14 @@ class Navigation extends React.Component {
     }
 
     getFragNavigationInfo() {
-        axios.get('http://localhost:8080/api/services/frontend/expert-edition')
+        axios.get(`${SERVER_URL}/api/services/frontend/expert-edition`)
             .then((result) => {
                 this.setState({
                     expertEditions: result.data,
                     isEditionLoaded: true,
                 });
             });
-        axios.get('http://localhost:8080/api/services/frontend/expert-inter', {
+        axios.get(`${SERVER_URL}/api/services/frontend/expert-inter`, {
             params: {
                 xmlId: this.state.fragId,
             },
@@ -49,7 +50,7 @@ class Navigation extends React.Component {
             });
         });
 
-        axios.get('http://localhost:8080/api/services/frontend/source-inter', {
+        axios.get(`${SERVER_URL}/api/services/frontend/source-inter`, {
             params: {
                 xmlId: this.state.fragId,
             },
@@ -61,7 +62,7 @@ class Navigation extends React.Component {
         });
 
         if (this.props.config.includes('edition-virtual')) {
-            axios.get('http://localhost:8080/api/services/frontend/virtual-inter', {
+            axios.get(`${SERVER_URL}/api/services/frontend/virtual-inter`, {
                 params: {
                     xmlId: this.state.fragId,
                 },

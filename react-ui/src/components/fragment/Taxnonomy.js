@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { FormattedMessage } from 'react-intl';
+import { SERVER_URL } from '../../utils/Constants';
 
 export class Taxonomy extends React.Component {
     constructor(props) {
@@ -19,7 +20,7 @@ export class Taxonomy extends React.Component {
     }
 
     getTaxonomyInfo() {
-        axios.get('http://localhost:8080/api/services/frontend/taxonomy', {
+        axios.get(`${SERVER_URL}/api/services/frontend/taxonomy`, {
             params: {
                 xmlId: this.state.fragmentId,
                 urlId: this.state.interId,
@@ -31,7 +32,7 @@ export class Taxonomy extends React.Component {
             });
         });
 
-        axios.get('http://localhost:8080/api/services/frontend/categories', {
+        axios.get(`${SERVER_URL}/api/services/frontend/categories`, {
             params: {
                 xmlId: this.state.fragmentId,
                 urlId: this.state.interId,
@@ -65,7 +66,7 @@ export class Taxonomy extends React.Component {
             for (let j = 0; j < taxInfo.users.length; j++) {
                 const userInfo = taxInfo.users[j];
 
-                const ref = `http://localhost:8080/edition/user/${userInfo.username}`;
+                const ref = `${SERVER_URL}/edition/user/${userInfo.username}`;
 
                 userRow.push(<a href={ref}>{userInfo.firstName} {userInfo.lastName} ({userInfo.username})</a>);
             }

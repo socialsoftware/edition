@@ -4,6 +4,7 @@ import { FormattedMessage } from 'react-intl';
 import ReactHTMLParser from 'react-html-parser';
 import ReactDOM from 'react-dom';
 import { MetaInfo } from './MetaInfo';
+import { SERVER_URL } from '../../utils/Constants';
 
 export class Inter2Compare extends React.Component {
     constructor(props) {
@@ -17,7 +18,7 @@ export class Inter2Compare extends React.Component {
     }
 
     getCompareForIds() {
-        axios.get('http://localhost:8080/api/services/frontend/multiple-writer', {
+        axios.get(`${SERVER_URL}/api/services/frontend/multiple-writer`, {
             params: {
                 interIds: encodeURIComponent(this.state.ids),
             },
@@ -37,7 +38,7 @@ export class Inter2Compare extends React.Component {
         const lineByLine = this.state.checkBoxes.length === 2 ? this.state.checkBoxes[0].checked : false;
         const showSpaces = this.state.checkBoxes.length === 2 ? this.state.checkBoxes[1].checked : this.state.checkBoxes[0].checked;
 
-        axios.get('http://localhost:8080/api/services/frontend/multiple-writer', {
+        axios.get(`${SERVER_URL}/api/services/frontend/multiple-writer`, {
             params: {
                 interIds: encodeURIComponent(this.state.ids),
                 lineByLine,

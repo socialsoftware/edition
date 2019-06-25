@@ -5,6 +5,7 @@ import ReactHTMLParser from 'react-html-parser';
 import ReactDOM from 'react-dom';
 import OpenSeadragon from 'openseadragon';
 import { MetaInfo } from './MetaInfo';
+import { SERVER_URL } from '../../utils/Constants';
 
 export class InterAuthorial extends React.Component {
     constructor(props) {
@@ -23,7 +24,7 @@ export class InterAuthorial extends React.Component {
     }
 
     getInterTranscription() {
-        axios.get('http://localhost:8080/api/services/frontend/inter-writer', {
+        axios.get(`${SERVER_URL}/api/services/frontend/inter-writer`, {
             params: {
                 xmlId: this.state.fragmentId,
                 urlId: this.state.interId,
@@ -77,7 +78,7 @@ export class InterAuthorial extends React.Component {
         const selNotes = this.state.checkBoxes[4].checked;
         const selFacs = this.state.checkBoxes[5].checked;
 
-        axios.get('http://localhost:8080/api/services/frontend/source-writer', {
+        axios.get(`${SERVER_URL}/api/services/frontend/source-writer`, {
             params: {
                 xmlId: this.state.fragmentId,
                 urlId: this.state.interId,
@@ -94,7 +95,7 @@ export class InterAuthorial extends React.Component {
         });
 
         if (selFacs) {
-            axios.get('http://localhost:8080/api/services/frontend/fac-urls', {
+            axios.get(`${SERVER_URL}/api/services/frontend/fac-urls`, {
                 params: {
                     xmlId: this.state.fragmentId,
                     urlId: this.state.interId,

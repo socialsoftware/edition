@@ -3,6 +3,7 @@ import axios from 'axios';
 import { FormattedMessage } from 'react-intl';
 import ReactHTMLParser from 'react-html-parser';
 import { Taxonomy } from './Taxnonomy';
+import { SERVER_URL } from '../../utils/Constants';
 
 export class InterVirtual extends React.Component {
     constructor(props) {
@@ -20,7 +21,7 @@ export class InterVirtual extends React.Component {
     }
 
     getInterTranscription() {
-        axios.get('http://localhost:8080/api/services/frontend/inter-writer', {
+        axios.get(`${SERVER_URL}/api/services/frontend/inter-writer`, {
             params: {
                 xmlId: this.state.fragmentId,
                 urlId: this.state.interId,
@@ -34,7 +35,7 @@ export class InterVirtual extends React.Component {
     }
 
     getUsesInfo() {
-        axios.get('http://localhost:8080/api/services/frontend/virtual-edition', {
+        axios.get(`${SERVER_URL}/api/services/frontend/virtual-edition`, {
             params: {
                 xmlId: this.state.fragmentId,
                 urlId: this.state.interId,

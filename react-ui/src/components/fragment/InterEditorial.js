@@ -6,6 +6,7 @@ import ReactHTMLParser from 'react-html-parser';
 import { FormattedMessage } from 'react-intl';
 import ReactDOM from 'react-dom';
 import { MetaInfo } from './MetaInfo';
+import { SERVER_URL } from '../../utils/Constants';
 
 export class InterEditorial extends React.Component {
     constructor(props) {
@@ -22,7 +23,7 @@ export class InterEditorial extends React.Component {
     }
 
     getInterTranscription() {
-        axios.get('http://localhost:8080/api/services/frontend/inter-writer', {
+        axios.get(`${SERVER_URL}/api/services/frontend/inter-writer`, {
             params: {
                 xmlId: this.state.fragmentId,
                 urlId: this.state.interId,
@@ -42,9 +43,7 @@ export class InterEditorial extends React.Component {
     changeDisplayOptions() {
         const selDiff = this.state.checkBoxes[0].checked;
 
-        // TODO: add get call after adding method to controller
-
-        axios.get('http://localhost:8080/api/services/frontend/expert-writer', {
+        axios.get(`${SERVER_URL}/api/services/frontend/expert-writer`, {
             params: {
                 xmlId: this.state.fragmentId,
                 urlId: this.state.interId,

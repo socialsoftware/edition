@@ -1,12 +1,13 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import axios from 'axios';
+import { SERVER_URL } from '../../utils/Constants';
 
 function TagEntry(data) {
     data = data.data;
 
-    const userRef = `http://localhost:8080/edition/user/${data.username}`;
-    const editionRef = `http://localhost:8080/edition/acronym/${data.acronym}/category/${data.urlId}`;
+    const userRef = `${SERVER_URL}/edition/user/${data.username}`;
+    const editionRef = `${SERVER_URL}/edition/acronym/${data.acronym}/category/${data.urlId}`;
 
     return (
         <tr>
@@ -44,7 +45,7 @@ function AnnotationEntry(data) {
         annotationInfo.push(<td>{data.text}</td>);
     }
 
-    const userRef = `http://localhost:8080/edition/user/${data.username}`;
+    const userRef = `${SERVER_URL}/edition/user/${data.username}`;
 
     annotationInfo.push(<td><span className="glyphicon glyphicon-user" /> <a
         href={userRef}>{data.username}</a></td>);
@@ -54,7 +55,7 @@ function AnnotationEntry(data) {
 
         for (let i = 0; i < data.tags.length; i++) {
             const tagInfo = data.tags[i];
-            const tagRef = `http://localhost:8080/edition/acronym/${tagInfo.acronym}/category/${tagInfo.urlId}`;
+            const tagRef = `${SERVER_URL}/edition/acronym/${tagInfo.acronym}/category/${tagInfo.urlId}`;
 
             tagRows.push(<span className="glyphicon glyphicon-tag" />);
             tagRows.push(<a href={tagRef}> {tagInfo.name}</a>);
@@ -77,7 +78,7 @@ export class Virtual2Compare extends React.Component {
     }
 
     getCompareForIds() {
-        axios.get('http://localhost:8080/api/services/frontend/multiple-virtual', {
+        axios.get(`${SERVER_URL}/api/services/frontend/multiple-virtual`, {
             params: {
                 interIds: encodeURIComponent(this.state.ids),
             },

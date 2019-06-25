@@ -7,6 +7,7 @@ import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import LanguageToggle from './languageToggle';
 import { setModuleConfig } from './actions/actions';
+import { SERVER_URL } from './utils/Constants';
 
 function TopBarStatic(props) {
     let loginToggle = null;
@@ -137,7 +138,7 @@ function TopBarList() {
 
 class TopBar extends React.Component {
 
-    static baseURL = 'http://localhost:8080';
+    static baseURL = SERVER_URL;
 
     constructor(props) {
         super(props);
@@ -148,7 +149,7 @@ class TopBar extends React.Component {
     }
 
     retrieveModuleInfoData() {
-        axios.get('http://localhost:8080/api/services/frontend/module-info')
+        axios.get(`${SERVER_URL}/api/services/frontend/module-info`)
             .then((result) => {
                 this.props.setModuleConfig(result.data);
 
