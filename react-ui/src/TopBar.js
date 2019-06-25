@@ -15,7 +15,7 @@ function TopBarStatic(props) {
     if (props.userExists) {
         loginToggle = (<ul className={'nav navbar-nav navbar-right hidden-xs'}>
             <li>
-                <a><FormattedMessage id={'login'} /></a>
+                <a href="/signin"><FormattedMessage id={'login'} /></a>
             </li>
         </ul>);
     }

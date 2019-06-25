@@ -8,6 +8,7 @@ import LegacyPage from './legacyPage';
 import UpdatableIntlProvider from './updatableIntlProvider';
 import FragmentMain from './components/fragment/FragmentMain';
 import rootReducer from './reducers/reducers';
+import Login from './components/Login';
 
 function App() {
     const store = createStore(rootReducer);
@@ -23,6 +24,7 @@ function App() {
                     <div>
                         <TopBar />
                         <Switch>
+                            <Route exact path="/signin" component={Login} />
                             <Route exact path="/fragments/fragment/:fragId/inter/:interId" component={FragmentMain} />
                             <Route exact path="/fragments/fragment/:fragId" component={FragmentMain} />
                             <Route exact path={'/'} render={() => <LegacyPage url={'/'} />} />
