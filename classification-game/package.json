@@ -7,7 +7,7 @@
     "ajv": "^6.10.0",
     "antd": "^3.19.3",
     "bootstrap-social": "^5.1.1",
-    "customize-cra": "^0.2.13",
+    "customize-cra": "^0.2.14",
     "font-awesome": "^4.7.0",
     "kleur": "^3.0.3",
     "less": "^3.9.0",
@@ -19,7 +19,7 @@
     "react-router-dom": "^4.3.1",
     "react-scripts": "^3.0.1",
     "react-stomp": "^4.1.1",
-    "typescript": "^3.5.1"
+    "typescript": "^3.5.2"
   },
   "scripts": {
     "start": "react-app-rewired start",
