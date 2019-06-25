@@ -10,7 +10,6 @@ import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.ldod.api.text.TextInterface;
-import pt.ist.socialsoftware.edition.ldod.dto.FragmentDto;
 import pt.ist.socialsoftware.edition.ldod.dto.InterIdDistancePairDto;
 import pt.ist.socialsoftware.edition.ldod.dto.WeightsDto;
 import pt.ist.socialsoftware.edition.ldod.recommendation.VSMVirtualEditionInterRecommender;
@@ -21,8 +20,6 @@ import pt.ist.socialsoftware.edition.ldod.utils.PropertiesManager;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -741,31 +738,6 @@ public class VirtualEdition extends VirtualEdition_Base {
     public List<String> getAnnotationTextList() {
         return getAnnotationList().stream().filter(a -> a.getText() != null && !a.getText().isEmpty())
                 .map(a -> a.getText()).sorted().collect(Collectors.toList());
-    }
-
-    /**
-     * Utility method that builds for this Virtual Edition it's corresponding List
-     * of DTO fragments. Adapdted from VEController
-     *
-     * @return List of FragmentDTO of the Virtual Edition
-     */
-    public List<FragmentDto> buildEditionDTO() {
-        List<FragmentDto> fragments = new ArrayList<>();
-        String intersFilesPath = PropertiesManager.getProperties().getProperty("inters.dir");
-        for (VirtualEditionInter inter : this.getAllDepthVirtualEditionInters()) {
-            ScholarInter lastInter = inter.getLastUsed();
-            String text;
-            try {
-                text = new String(Files.readAllBytes(Paths.get(intersFilesPath + lastInter.getExternalId() + ".txt")));
-            } catch (IOException e) {
-                throw new LdoDException("VirtualEditionController::getTranscriptions IOException");
-            }
-
-            FragmentDto fragment = new FragmentDto(inter, text);
-
-            fragments.add(fragment);
-        }
-        return fragments;
     }
 
     public boolean isSAVE() {
