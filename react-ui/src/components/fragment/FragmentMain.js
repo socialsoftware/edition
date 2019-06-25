@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 import { InterEmpty } from './InterEmpty';
 import { InterEditorial } from './InterEditorial';
 import { InterAuthorial } from './InterAuthorial';
@@ -9,7 +10,7 @@ import { Inter2Compare } from './Inter2Compare';
 import { Virtual2Compare } from './Virtual2Compare';
 import Navigation from './Navigation';
 
-const mapStateToProps = state => ({ ids: state.compareIds, type: state.type, interId: state.interId });
+const mapStateToProps = state => ({ ids: state.compareIds, type: state.type, interId: state.interId, config: Object.keys(state.moduleConfig) });
 
 class FragmentMain extends React.Component {
     constructor(props) {
@@ -70,6 +71,12 @@ class FragmentMain extends React.Component {
                         interId={interId} />
                 );
             } else if (interId.includes('VIRT')) {
+                if (!this.props.config.includes('edition-virtual')) {
+                    return (
+                        <Redirect to="/error" />
+                    );
+                }
+
                 inter = (
                     <InterVirtual
                         fragmentId={this.state.fragmentId}
