@@ -9,17 +9,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import pt.ist.fenixframework.DomainObject;
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.ldod.api.ui.UiInterface;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
-import pt.ist.socialsoftware.edition.ldod.domain.Module;
+import pt.ist.socialsoftware.edition.ldod.domain.EditionModule;
 import pt.ist.socialsoftware.edition.ldod.generators.HtmlWriter2CompInters;
 import pt.ist.socialsoftware.edition.ldod.generators.HtmlWriter4Variations;
 import pt.ist.socialsoftware.edition.ldod.generators.PlainHtmlWriter4OneInter;
-import pt.ist.socialsoftware.edition.ldod.session.LdoDSession;
 
-import javax.print.attribute.standard.Media;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -36,12 +33,12 @@ public class FrontEndInfoController {
     // /api/services/frontend/module-info
     @GetMapping(value = "/module-info", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<?> getModuleInfo() {
-        Set<Module> moduleSet =  FenixFramework.getDomainRoot().getModuleSet();
+        Set<EditionModule> moduleSet =  FenixFramework.getDomainRoot().getModuleSet();
 
         Map<String, Map<String, List<AbstractMap.SimpleEntry<String,String>>>> results = new LinkedHashMap<>();
 
 
-        for (Module module: moduleSet){
+        for (EditionModule module: moduleSet){
             Map<String, List<AbstractMap.SimpleEntry<String,String>>> temp = new LinkedHashMap<>();
             for (Menu menu : module.getUiComponent().getMenuSet().stream().sorted(Comparator.comparingInt(Menu::getPosition)).collect(Collectors.toList())) {
                 List<AbstractMap.SimpleEntry<String,String>> links = menu.getOptionSet().stream().sorted(Comparator.comparingInt(Option::getPosition))

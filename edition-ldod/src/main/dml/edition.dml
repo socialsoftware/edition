@@ -840,7 +840,7 @@ relation ClassificationGameParticipantInGameRounds {
 
 // React composable application related changes
 
-class Module {
+class EditionModule {
     String name;
 }
 
@@ -857,17 +857,17 @@ class Option {
     int position;
 }
 
-relation DomainRootHasModules {
+relation DomainRootHasEditionModules {
     .pt.ist.fenixframework.DomainRoot playsRole root {
         multiplicity 1..1;
     }
-    Module playsRole module {
+    EditionModule playsRole module {
         multiplicity 0..*;
     }
 }
 
-relation ModuleHasUiComponent {
-    Module playsRole module {
+relation EditionModuleHasUiComponent {
+    EditionModule playsRole module {
         multiplicity 1..1;
     }
 

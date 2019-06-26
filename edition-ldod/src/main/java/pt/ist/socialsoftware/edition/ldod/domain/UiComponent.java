@@ -2,7 +2,7 @@ package pt.ist.socialsoftware.edition.ldod.domain;
 
 public class UiComponent extends UiComponent_Base {
     
-    public UiComponent(Module module) {
+    public UiComponent(EditionModule module) {
         setModule(module);
     }
 

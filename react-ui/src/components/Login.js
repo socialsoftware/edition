@@ -1,6 +1,8 @@
 import React from 'react';
+import axios from 'axios';
 import { FormattedMessage } from 'react-intl';
 import { Form } from 'react-bootstrap';
+import { SERVER_URL } from '../utils/Constants';
 
 class LoginForm extends React.Component {
     constructor(props) {
@@ -22,7 +24,20 @@ class LoginForm extends React.Component {
         console.log('I am the login event handler');
         console.log(this.state);
 
-        // TODO : actually use the info from the form to login the user on the backend
+        const loginInfo = Object.assign({}, this.state);
+
+        console.log('==========');
+        console.log(loginInfo);
+
+        axios.post(`${SERVER_URL}/api/auth/signin`, loginInfo)
+            .then((result) => {
+                console.log('Login successful');
+                console.log(result);
+            })
+            .catch(((reason) => {
+                console.log('Login failed');
+                console.log(reason);
+            }));
     }
 
     handleUsernameChange(event) {

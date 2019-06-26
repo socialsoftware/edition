@@ -9,7 +9,7 @@ import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
-import pt.ist.socialsoftware.edition.ldod.domain.Module;
+import pt.ist.socialsoftware.edition.ldod.domain.EditionModule;
 import pt.ist.socialsoftware.edition.ldod.domain.Role.RoleType;
 import pt.ist.socialsoftware.edition.ldod.recommendation.VSMFragmentRecommender;
 import pt.ist.socialsoftware.edition.ldod.recommendation.properties.*;
@@ -20,9 +20,7 @@ import pt.ist.socialsoftware.edition.ldod.topicmodeling.TopicModeler;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import java.io.*;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
@@ -64,7 +62,7 @@ public class Bootstrap implements WebApplicationInitializer {
         // more elegant way
 
         // clean existing module info.
-        FenixFramework.getDomainRoot().getModuleSet().forEach(Module::remove);
+        FenixFramework.getDomainRoot().getModuleSet().forEach(EditionModule::remove);
 
         loadModuleInfoFromFiles();
 
@@ -89,7 +87,7 @@ public class Bootstrap implements WebApplicationInitializer {
             String st;
             while ((st = reader.readLine()) != null){
 
-                Module module = new Module(st.replace(".txt", ""));
+                EditionModule module = new EditionModule(st.replace(".txt", ""));
                 UiComponent uiComponent = new UiComponent(module);
 
                 File file = new File(directory, st);
@@ -129,7 +127,7 @@ public class Bootstrap implements WebApplicationInitializer {
     public static void createEditionLdoDModuleInfo() {
         // TODO: Only defined for main edition-ldod module. Should be decomposed into its submodules
 
-        Module module = new Module("edition-ldod");
+        EditionModule module = new EditionModule("edition-ldod");
         UiComponent uiComponent = new UiComponent(module);
 
         String[] menuNames = {"topBar.about.title", "topBar.reading.title", "topBar.documents.title", "topBar.editions.title",
@@ -159,7 +157,7 @@ public class Bootstrap implements WebApplicationInitializer {
     }
 
     public static void createEditionTextModuleInfo() {
-        Module module = new Module("edition-text");
+        EditionModule module = new EditionModule("edition-text");
         UiComponent uiComponent = new UiComponent(module);
 
         String[] menuNames = {"topBar.about.title", "topBar.reading.title", "topBar.documents.title", "topBar.editions.title"};
@@ -182,7 +180,7 @@ public class Bootstrap implements WebApplicationInitializer {
 
     public static void createEditionUserModuleInfo() {
 
-        Module module = new Module("edition-user");
+        EditionModule module = new EditionModule("edition-user");
         UiComponent uiComponent = new UiComponent(module);
 
         String[] menuNames = {};
@@ -196,7 +194,7 @@ public class Bootstrap implements WebApplicationInitializer {
 
     public static void createEditionSearchModuleInfo() {
 
-        Module module = new Module("edition-search");
+        EditionModule module = new EditionModule("edition-search");
         UiComponent uiComponent = new UiComponent(module);
 
         String[] menuNames = {"topBar.search.title"};
@@ -209,7 +207,7 @@ public class Bootstrap implements WebApplicationInitializer {
     }
 
     public static void createEditionVirtualModuleInfo() {
-        Module module = new Module("edition-virtual");
+        EditionModule module = new EditionModule("edition-virtual");
         UiComponent uiComponent = new UiComponent(module);
 
         String[] menuNames = {"topBar.editions.title", "topBar.virtual.title"};
