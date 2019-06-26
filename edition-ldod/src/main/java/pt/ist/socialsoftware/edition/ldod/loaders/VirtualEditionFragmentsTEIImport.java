@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.socialsoftware.edition.ldod.api.text.TextInterface;
+import pt.ist.socialsoftware.edition.ldod.api.text.dto.ScholarInterDto;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDLoadException;
 import pt.ist.socialsoftware.edition.ldod.utils.RangeJson;
@@ -99,7 +100,7 @@ public class VirtualEditionFragmentsTEIImport {
 
                 logger.debug("importWitnesses id: {}, source: {}", interXmlId, wit.getAttributeValue("source"));
                 virtualEdition.createVirtualEditionInter(
-                        fragment.getScholarInterByXmlId(wit.getAttributeValue("source").substring(1)),
+                        new ScholarInterDto(wit.getAttributeValue("source").substring(1)),
                         Integer.parseInt(wit.getChild("num", this.namespace).getAttributeValue("value")));
             }
         }
@@ -200,7 +201,7 @@ public class VirtualEditionFragmentsTEIImport {
 
     // TODO: else if aware - done
     // novo import annotation
-    private void importAnnotation(Element note, VirtualEditionInter inter) {
+    private void importAnnotation(Element note, VirtualEditionInter virtualEditionInter) {
         String text = StringEscapeUtils.escapeHtml(note.getText().trim());
         Element quoteElement = note.getChild("quote", this.namespace);
         String from = quoteElement.getAttributeValue("from");
@@ -228,11 +229,11 @@ public class VirtualEditionFragmentsTEIImport {
                 String tag = catRef.getAttributeValue("target").substring(1);
                 tagList.add(tag);
             }
-            inter.createHumanAnnotation(quote, text, this.ldoD.getUser(username), rangeList, tagList);
+            virtualEditionInter.createHumanAnnotation(quote, text, this.ldoD.getUser(username), rangeList, tagList);
         } else if (note.getAttributeValue("type").equals("aware")) {
             long tweetID = Long.parseLong(note.getAttributeValue("citationId"));
-            Citation citation = inter.getFragment().getCitationById(tweetID);
-            inter.createAwareAnnotation(quote, text, citation, rangeList);
+            Citation citation = getFragment(virtualEditionInter).getCitationById(tweetID);
+            virtualEditionInter.createAwareAnnotation(quote, text, citation, rangeList);
         }
     }
 
@@ -349,4 +350,10 @@ public class VirtualEditionFragmentsTEIImport {
             participant.setScore(score);
         }
     }
+
+    // TODO: to be addressed when the awareness becomes a module on its own
+    private Fragment getFragment(VirtualEditionInter virtualEditionInter) {
+        return Text.getInstance().getFragmentByXmlId(virtualEditionInter.getFragmentXmlId());
+    }
+
 }

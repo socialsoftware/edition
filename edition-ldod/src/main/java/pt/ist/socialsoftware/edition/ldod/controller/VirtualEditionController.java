@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import pt.ist.fenixframework.DomainObject;
 import pt.ist.fenixframework.FenixFramework;
+import pt.ist.socialsoftware.edition.ldod.api.text.dto.ScholarInterDto;
 import pt.ist.socialsoftware.edition.ldod.api.ui.UiInterface;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.domain.Member.MemberRole;
@@ -257,7 +258,7 @@ public class VirtualEditionController {
     @PreAuthorize("hasPermission(#externalId, 'virtualedition.public')")
     public String toggleSelectedVirtualEdition(Model model, @ModelAttribute("ldoDSession") LdoDSession ldoDSession,
                                                @RequestParam("externalId") String externalId) {
-        final VirtualEdition virtualEdition = FenixFramework.getDomainObject(externalId);
+        VirtualEdition virtualEdition = FenixFramework.getDomainObject(externalId);
 
         if (virtualEdition == null) {
             return "redirect:/error";
@@ -319,7 +320,7 @@ public class VirtualEditionController {
 
                 virtualEdition.getAllDepthVirtualEditionInters().stream().sorted(Comparator.comparing(VirtualEditionInter::getTitle))
                         .forEach(inter -> {
-                            PlainHtmlWriter4OneInter writer = new PlainHtmlWriter4OneInter(inter.getLastUsed());
+                            PlainHtmlWriter4OneInter writer = new PlainHtmlWriter4OneInter(inter.getLastUsed().getXmlId());
                             writer.write(false);
                             FragmentDto fragment = new FragmentDto(inter, writer.getTranscription());
 
@@ -350,7 +351,7 @@ public class VirtualEditionController {
         if (domainObject == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } else if (domainObject instanceof VirtualEditionInter) {
-            scholarInter = ((VirtualEditionInter) domainObject).getLastUsed();
+            scholarInter = Text.getInstance().getScholarInterByXmlId(((VirtualEditionInter) domainObject).getLastUsed().getXmlId());
         } else if (domainObject instanceof ScholarInter) {
             scholarInter = (ScholarInter) domainObject;
         } else {
@@ -380,7 +381,7 @@ public class VirtualEditionController {
             List<TranscriptionDto> transcriptions = new ArrayList<>();
 
             virtualEdition.getIntersSet().stream().sorted(Comparator.comparing(VirtualEditionInter::getTitle)).forEach(inter -> {
-                ScholarInter lastInter = inter.getLastUsed();
+                ScholarInter lastInter = Text.getInstance().getScholarInterByXmlId(inter.getLastUsed().getXmlId());
                 String title = lastInter.getTitle();
                 String text;
                 try {
@@ -597,7 +598,7 @@ public class VirtualEditionController {
         VirtualEditionInter addInter;
 
         if (inter instanceof ScholarInter) {
-            addInter = virtualEdition.createVirtualEditionInter((ScholarInter) inter,
+            addInter = virtualEdition.createVirtualEditionInter(new ScholarInterDto(((ScholarInter) inter).getXmlId()),
                     virtualEdition.getMaxFragNumber() + 1);
         } else {
             addInter = virtualEdition.createVirtualEditionInter((VirtualEditionInter) inter,
@@ -885,7 +886,7 @@ public class VirtualEditionController {
     @PreAuthorize("hasPermission(#taxonomyId, 'taxonomy.taxonomy')")
     public String mergeCategories(Model model, @RequestParam("taxonomyId") String taxonomyId,
                                   @RequestParam("type") String type,
-                                  @RequestParam(value = "categories[]", required = false) String categoriesIds[]) {
+                                  @RequestParam(value = "categories[]", required = false) String[] categoriesIds) {
         Taxonomy taxonomy = FenixFramework.getDomainObject(taxonomyId);
         if (taxonomy == null) {
             return "redirect:/error";
@@ -930,7 +931,7 @@ public class VirtualEditionController {
     @RequestMapping(method = RequestMethod.POST, value = "/restricted/category/extract")
     @PreAuthorize("hasPermission(#categoryId, 'category.taxonomy')")
     public String extractCategory(Model model, @RequestParam("categoryId") String categoryId,
-                                  @RequestParam(value = "inters[]", required = false) String interIds[]) {
+                                  @RequestParam(value = "inters[]", required = false) String[] interIds) {
         Category category = FenixFramework.getDomainObject(categoryId);
         if (category == null) {
             return "redirect:/error";

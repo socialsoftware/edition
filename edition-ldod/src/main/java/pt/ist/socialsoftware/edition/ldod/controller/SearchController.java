@@ -9,6 +9,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import pt.ist.socialsoftware.edition.ldod.api.text.TextInterface;
+import pt.ist.socialsoftware.edition.ldod.api.text.dto.HeteronymDto;
+import pt.ist.socialsoftware.edition.ldod.api.text.dto.LdoDDateDto;
+import pt.ist.socialsoftware.edition.ldod.api.text.dto.ScholarInterDto;
 import pt.ist.socialsoftware.edition.ldod.api.ui.UiInterface;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.domain.ManuscriptSource.Medium;
@@ -213,18 +216,21 @@ public class SearchController {
 
         TextInterface textInterface = new TextInterface();
 
-        ExpertEdition edition = textInterface.getExpertEdition(acronym);
+        List<ScholarInterDto> scholarInterDtos = textInterface.getExpertEditionScholarInterDtoList(acronym);
 
         Map<String, String> heteronyms = new HashMap<>();
         LocalDate beginDate = null;
         LocalDate endDate = null;
-        for (ExpertEditionInter expertEditionInter : edition.getIntersSet()) {
-            if (!heteronyms.containsKey(expertEditionInter.getHeteronym().getName())) {
-                heteronyms.put(expertEditionInter.getHeteronym().getName(), expertEditionInter.getHeteronym().getXmlId());
+        for (ScholarInterDto scholarInterDto : scholarInterDtos) {
+            HeteronymDto heteronymDto = scholarInterDto.getHeteronym();
+            if (!heteronyms.containsKey(heteronymDto.getName())) {
+                heteronyms.put(heteronymDto.getName(), heteronymDto.getXmlId());
             }
-            if (expertEditionInter.getLdoDDate() != null) {
-                beginDate = getIsBeforeDate(beginDate, expertEditionInter.getLdoDDate().getDate());
-                endDate = getIsAfterDate(endDate, expertEditionInter.getLdoDDate().getDate());
+
+            LdoDDateDto ldoDDateDto = scholarInterDto.getLdoDDate();
+            if (ldoDDateDto != null) {
+                beginDate = getIsBeforeDate(beginDate, ldoDDateDto.getDate());
+                endDate = getIsAfterDate(endDate, ldoDDateDto.getDate());
             }
         }
         EditionJson editionJson = new EditionJson(acronym);

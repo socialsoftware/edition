@@ -56,7 +56,7 @@ public class Search {
                         .flatMap(f -> f.getScholarInterSet().stream()).map(scholarInter ->
                                 new SearchableElement(SearchableElement.Type.SCHOLAR_INTER, scholarInter.getXmlId(), scholarInter.getTitle(), scholarInter.getFragment().getXmlId(), scholarInter.getUrlId(), scholarInter.getShortName(), scholarInter.getXmlId()))
                 , LdoD.getInstance().getVirtualEditionInterSet().stream().map(virtualEditionInter ->
-                        new SearchableElement(SearchableElement.Type.VIRTUAL_INTER, virtualEditionInter.getXmlId(), virtualEditionInter.getTitle(), virtualEditionInter.getFragment().getXmlId(), virtualEditionInter.getUrlId(), virtualEditionInter.getShortName(), virtualEditionInter.getUsesFragInter()))
+                        new SearchableElement(SearchableElement.Type.VIRTUAL_INTER, virtualEditionInter.getXmlId(), virtualEditionInter.getTitle(), virtualEditionInter.getFragmentXmlId(), virtualEditionInter.getUrlId(), virtualEditionInter.getShortName(), virtualEditionInter.getUsesFragInter()))
         );
         for (SearchOption searchOption : searchOptions) {
             for (SearchableElement inter : searchOption.search(searchableElements).collect(Collectors.toList())) {
@@ -77,7 +77,7 @@ public class Search {
                         .flatMap(f -> f.getScholarInterSet().stream()).map(scholarInter ->
                                 new SearchableElement(SearchableElement.Type.SCHOLAR_INTER, scholarInter.getXmlId(), scholarInter.getTitle(), scholarInter.getFragment().getXmlId(), scholarInter.getUrlId(), scholarInter.getShortName(), scholarInter.getXmlId()))
                 , LdoD.getInstance().getVirtualEditionInterSet().stream().map(virtualEditionInter ->
-                        new SearchableElement(SearchableElement.Type.VIRTUAL_INTER, virtualEditionInter.getXmlId(), virtualEditionInter.getTitle(), virtualEditionInter.getFragment().getXmlId(), virtualEditionInter.getUrlId(), virtualEditionInter.getShortName(), virtualEditionInter.getUsesFragInter())))
+                        new SearchableElement(SearchableElement.Type.VIRTUAL_INTER, virtualEditionInter.getXmlId(), virtualEditionInter.getTitle(), virtualEditionInter.getFragmentXmlId(), virtualEditionInter.getUrlId(), virtualEditionInter.getShortName(), virtualEditionInter.getUsesFragInter())))
                 .collect(Collectors.toList());
 
         Stream<SearchableElement> selectedElements = searchableElements.stream();
@@ -135,10 +135,10 @@ public class Search {
                                SearchOption searchOption) {
         // no entry to fragment
         TextInterface textInterface = new TextInterface();
-        Fragment fragment = textInterface.getFragmentByInterXmlId(inter.getXmlId());
+        Fragment fragment = textInterface.getFragmentByInterXmlId(inter.getXmlId()).orElse(null);
         if (fragment == null) {
-			fragment = LdoD.getInstance().getVirtualEditionInterByXmlId(inter.getXmlId()).getFragment();
-		}
+            fragment = textInterface.getFragmentByXmlId(LdoD.getInstance().getVirtualEditionInterByXmlId(inter.getXmlId()).getFragmentXmlId());
+        }
 
         if (matchSet.get(fragment) == null) {
             matchSet.put(fragment, new HashMap<>());

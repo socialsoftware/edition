@@ -50,9 +50,9 @@ public class VirtualEditionFragmentsTEIExportTest extends TestWithFragmentsLoadi
                 String fragmentTEI = export.exportFragment(fragment);
                 logger(fragmentTEI);
 
-                int numberOfInters = LdoD.getInstance().getVirtualEditionInterSet(fragment).size();
+                int numberOfInters = LdoD.getInstance().getVirtualEditionInterSet(fragment.getXmlId()).size();
 
-                for (VirtualEditionInter inter : LdoD.getInstance().getVirtualEditionInterSet(fragment)) {
+                for (VirtualEditionInter inter : LdoD.getInstance().getVirtualEditionInterSet(fragment.getXmlId())) {
                     inter.remove();
                 }
                 fragment.getCitationSet().forEach(citation -> citation.remove());
@@ -62,7 +62,7 @@ public class VirtualEditionFragmentsTEIExportTest extends TestWithFragmentsLoadi
 
                 System.out.println(export.exportFragment(fragment));
 
-                assertEquals(numberOfInters, LdoD.getInstance().getVirtualEditionInterSet(fragment).size());
+                assertEquals(numberOfInters, LdoD.getInstance().getVirtualEditionInterSet(fragment.getXmlId()).size());
 
                 assertEquals(Arrays.stream(fragmentTEI.split("\\r?\\n")).sorted().collect(Collectors.joining("\\n")),
                         Arrays.stream(export.exportFragment(fragment).split("\\r?\\n")).sorted()
@@ -82,7 +82,7 @@ public class VirtualEditionFragmentsTEIExportTest extends TestWithFragmentsLoadi
 
         // Saving value for assert
         int numOfCitations = fragment.getCitationSet().size();
-        int numberOfInters = LdoD.getInstance().getVirtualEditionInterSet(fragment).size();
+        int numberOfInters = LdoD.getInstance().getVirtualEditionInterSet(fragment.getXmlId()).size();
 
         int numOfInfoRanges = 0;
         for (ScholarInter scholarInter : fragment.getScholarInterSet()) {
@@ -104,7 +104,7 @@ public class VirtualEditionFragmentsTEIExportTest extends TestWithFragmentsLoadi
         assertEquals(numOfInfoRanges, altNumOfInfoRanges);
 
         // Clean
-        for (VirtualEditionInter inter : LdoD.getInstance().getVirtualEditionInterSet(fragment)) {
+        for (VirtualEditionInter inter : LdoD.getInstance().getVirtualEditionInterSet(fragment.getXmlId())) {
             inter.remove();
         }
         fragment.getCitationSet().forEach(citation -> citation.remove());
@@ -117,7 +117,7 @@ public class VirtualEditionFragmentsTEIExportTest extends TestWithFragmentsLoadi
 
         //TODO: add way to load citations independently from frag
         //assertEquals(numOfCitations, fragment.getCitationSet().size());
-        assertEquals(numberOfInters, LdoD.getInstance().getVirtualEditionInterSet(fragment).size());
+        assertEquals(numberOfInters, LdoD.getInstance().getVirtualEditionInterSet(fragment.getXmlId()).size());
         int numOfInfoRangesAfterImport = 0;
         for (ScholarInter scholarInter : fragment.getScholarInterSet()) {
             numOfInfoRangesAfterImport += scholarInter.getInfoRangeSet().size();

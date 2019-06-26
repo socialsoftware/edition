@@ -2,10 +2,7 @@ package pt.ist.socialsoftware.edition.ldod.recommendation.properties;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import pt.ist.socialsoftware.edition.ldod.domain.ExpertEditionInter;
-import pt.ist.socialsoftware.edition.ldod.domain.Fragment;
-import pt.ist.socialsoftware.edition.ldod.domain.RecommendationWeights;
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
+import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.recommendation.StoredVectors;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.EXISTING_PROPERTY, property = "type")
@@ -81,7 +78,7 @@ public abstract class Property {
 
     public final double[] loadProperty(VirtualEditionInter virtualEditionInter) {
         if (this.cached.equals(PropertyCache.ON)) {
-            String externalId = virtualEditionInter.getFragment().getExternalId();
+            String externalId = getLastUsedScholarEditionInter(virtualEditionInter).getExternalId();
             double[] vector = StoredVectors.getInstance().get(this, externalId);
             if (vector == null) {
                 vector = extractVector(virtualEditionInter);
@@ -109,4 +106,15 @@ public abstract class Property {
     public double getWeight() {
         return this.weight;
     }
+
+    // TODO: to be addressed when the recommendations become a module on their own
+    protected Fragment getFragment(VirtualEditionInter virtualEditionInter) {
+        return Text.getInstance().getFragmentByXmlId(virtualEditionInter.getFragmentXmlId());
+    }
+
+    // TODO: to be addressed when the recommendations become a module on their own
+    protected ScholarInter getLastUsedScholarEditionInter(VirtualEditionInter virtualEditionInter) {
+        return Text.getInstance().getScholarInterByXmlId(virtualEditionInter.getLastUsed().getXmlId());
+    }
+
 }

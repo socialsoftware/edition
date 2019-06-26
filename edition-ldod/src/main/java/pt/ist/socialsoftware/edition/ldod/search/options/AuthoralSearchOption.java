@@ -32,10 +32,10 @@ public abstract class AuthoralSearchOption extends SearchOption {
             ManuscriptSource source = (ManuscriptSource) textInterface.getSourceOfInter(inter.getXmlId());
             if (isOfDocumentType(source) && this.dateSearchOption.verifiesSearchOption(inter)) {
                 if (this.hasLdoD.equals(ALL) || (this.hasLdoD.equals("true") && source.getHasLdoDLabel())) {
-					return true;
-				} else if (this.hasLdoD.equals("false") && !source.getHasLdoDLabel()) {
-					return true;
-				}
+                    return true;
+                } else if (this.hasLdoD.equals("false") && !source.getHasLdoDLabel()) {
+                    return true;
+                }
             }
         }
         return false;

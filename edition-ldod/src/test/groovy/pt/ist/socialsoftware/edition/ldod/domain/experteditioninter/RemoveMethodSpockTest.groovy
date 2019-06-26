@@ -1,53 +1,53 @@
 package pt.ist.socialsoftware.edition.ldod.domain.experteditioninter
 
+import pt.ist.socialsoftware.edition.ldod.SpockRollbackTestAbstractClass
+import pt.ist.socialsoftware.edition.ldod.api.text.dto.ScholarInterDto
 import pt.ist.socialsoftware.edition.ldod.domain.*
 
-import pt.ist.socialsoftware.edition.ldod.SpockRollbackTestAbstractClass
+class RemoveMethodSpockTest extends SpockRollbackTestAbstractClass {
+    def ldoD
+    def text
+    def user
+    def expertEdition
+    def virtualEditionOne
+    def virtualEditionTwo
+    def fragment
+    def expertInter
+    def virtualInter
+    def sourceInter
 
-class RemoveMethodSpockTest extends SpockRollbackTestAbstractClass  {
-	def ldoD
-	def text
-	def user
-	def expertEdition
-	def virtualEditionOne
-	def virtualEditionTwo
-	def fragment
-	def expertInter
-	def virtualInter
-	def sourceInter
-	
-	def populate4Test() {
-		ldoD = LdoD.getInstance();
-		text = Text.getInstance()
-		
-		fragment = new Fragment(text, "Title", "xmlId")
+    def populate4Test() {
+        ldoD = LdoD.getInstance();
+        text = Text.getInstance()
 
-		expertEdition = text.getJPCEdition()
-		
-		user = new LdoDUser(ldoD, "username", "password", "firstName", "lastName", "email")
-	}
+        fragment = new Fragment(text, "Title", "xmlId")
 
-	def 'delete expert inter'() {
-		given: 'an expert interpretation'
-		expertInter = new ExpertEditionInter()
-		expertInter.setFragment(fragment)
-		expertInter.setExpertEdition(expertEdition)
-		expertInter.setXmlId("xmlId")
-		and: 'a virtual edition containing another interpretation'
-		virtualEditionOne = new VirtualEdition(ldoD, user, "test1", "test1", null, true, expertEdition.getAcronym())
-		and: 'another virtual edition using the previous virtual edition'
-		virtualEditionTwo = new VirtualEdition(ldoD, user, "test2", "test2", null, true, virtualEditionOne.getAcronym())
-		
-		when: 'the expert edition interpretation is removed'
-		expertInter.remove()
+        expertEdition = text.getJPCEdition()
 
-		then: 'the three interpretations are removed from the fragment'
-		fragment.getScholarInterSet().size() == 0
-		and: 'from each of the editions'
-		expertEdition.getIntersSet().size() == 0
-		virtualEditionOne.getAllDepthVirtualEditionInters().size() == 0
-		virtualEditionTwo.getAllDepthVirtualEditionInters().size() == 0
-	}
+        user = new LdoDUser(ldoD, "username", "password", "firstName", "lastName", "email")
+    }
+
+    def 'delete expert inter'() {
+        given: 'an expert interpretation'
+        expertInter = new ExpertEditionInter()
+        expertInter.setFragment(fragment)
+        expertInter.setExpertEdition(expertEdition)
+        expertInter.setXmlId("xmlId")
+        and: 'a virtual edition containing another interpretation'
+        virtualEditionOne = new VirtualEdition(ldoD, user, "test1", "test1", null, true, expertEdition.getAcronym())
+        and: 'another virtual edition using the previous virtual edition'
+        virtualEditionTwo = new VirtualEdition(ldoD, user, "test2", "test2", null, true, virtualEditionOne.getAcronym())
+
+        when: 'the expert edition interpretation is removed'
+        expertInter.remove()
+
+        then: 'the three interpretations are removed from the fragment'
+        fragment.getScholarInterSet().size() == 0
+        and: 'from each of the editions'
+        expertEdition.getIntersSet().size() == 0
+        virtualEditionOne.getAllDepthVirtualEditionInters().size() == 0
+        virtualEditionTwo.getAllDepthVirtualEditionInters().size() == 0
+    }
 
     def 'delete source inter'() {
         given: 'an source interpretation'
@@ -56,7 +56,7 @@ class RemoveMethodSpockTest extends SpockRollbackTestAbstractClass  {
         sourceInter.setXmlId("sssId")
         and: 'a virtual edition containing another interpretation'
         virtualEditionOne = new VirtualEdition(ldoD, user, "test1", "test1", null, true, null)
-        virtualInter =  virtualEditionOne.createVirtualEditionInter(sourceInter,1)
+        virtualInter = virtualEditionOne.createVirtualEditionInter(new ScholarInterDto(sourceInter.getXmlId()), 1)
         and: 'another virtual edition using the previous virtual edition'
         virtualEditionTwo = new VirtualEdition(ldoD, user, "test2", "test2", null, true, virtualEditionOne.getAcronym())
 

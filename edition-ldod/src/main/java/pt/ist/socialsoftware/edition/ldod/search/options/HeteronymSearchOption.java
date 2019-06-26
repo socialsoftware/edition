@@ -34,18 +34,18 @@ public final class HeteronymSearchOption extends SearchOption {
         if (ALL.equals(this.xmlId4Heteronym)) {
             // all are selected
             return true;
-        } else if (this.xmlId4Heteronym == null && textInterface.getHeteronymId(inter.getXmlId()) == null) {
+        } else if (this.xmlId4Heteronym == null && textInterface.getHeteronymXmlId(inter.getXmlId()) == null) {
             // Searching for fragments with no authors and fragment has no
             // author
             return true;
-        } else if ((this.xmlId4Heteronym != null && textInterface.getHeteronymId(inter.getXmlId()) == null)
-                || (this.xmlId4Heteronym == null && textInterface.getHeteronymId(inter.getXmlId()) != null)) {
+        } else if ((this.xmlId4Heteronym != null && textInterface.getHeteronymXmlId(inter.getXmlId()) == null)
+                || (this.xmlId4Heteronym == null && textInterface.getHeteronymXmlId(inter.getXmlId()) != null)) {
             // Searching for fragment with author and fragment has no author or
             // searching for fragment with no author and fragment has author and
             return false;
         } else {
             // the interpretation has the expected correct heteronym assignment
-            return this.xmlId4Heteronym.equals(textInterface.getHeteronymId(inter.getXmlId()));
+            return this.xmlId4Heteronym.equals(textInterface.getHeteronymXmlId(inter.getXmlId()));
         }
     }
 

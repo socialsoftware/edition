@@ -9,6 +9,7 @@ import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.socialsoftware.edition.ldod.api.text.TextInterface;
 import pt.ist.socialsoftware.edition.ldod.api.text.dto.HeteronymDto;
 import pt.ist.socialsoftware.edition.ldod.api.text.dto.LdoDDateDto;
+import pt.ist.socialsoftware.edition.ldod.api.text.dto.ScholarInterDto;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
 import pt.ist.socialsoftware.edition.ldod.utils.CategoryDTO;
 import pt.ist.socialsoftware.edition.ldod.utils.RangeJson;
@@ -25,31 +26,15 @@ public class VirtualEditionInter extends VirtualEditionInter_Base implements Com
 
     @Override
     public String getXmlId() {
-        return getFragment().getXmlId() + ".WIT.ED.VIRT." + getVirtualEdition().getAcronym() + "." + super.getXmlId();
+        return getFragmentXmlId() + ".WIT.ED.VIRT." + getVirtualEdition().getAcronym() + "." + super.getXmlId();
     }
 
     public HeteronymDto getHeteronym() {
-        //return super.getHeteronym();
-
-        if (getUses() != null) {
-            return getUses().getHeteronym();
-        }
-
-        TextInterface textInterface = new TextInterface();
-
-        return textInterface.getScholarInterHeteronym(this.getUsesFragInter());
+        return getLastUsed().getHeteronym();
     }
 
     public LdoDDateDto getLdoDDate() {
-        //return super.getLdoDDate();
-
-        if (getUses() != null) {
-            return getUses().getLdoDDate();
-        }
-
-        TextInterface textInterface = new TextInterface();
-
-        return textInterface.getScholarInterDate(this.getUsesFragInter());
+        return getLastUsed().getLdoDDate();
     }
 
     public VirtualEditionInter(Section section, VirtualEditionInter inter, int number) {
@@ -60,19 +45,19 @@ public class VirtualEditionInter extends VirtualEditionInter_Base implements Com
         setNumber(number);
         // needs to store the number of interpretations in this fragment for this
         // edition
-        setXmlId(Integer.toString(getVirtualEdition().getVirtualEditionInterSetForFragment(getFragment()).size()));
+        setXmlId(Integer.toString(getVirtualEdition().getVirtualEditionInterSetForFragment(getFragmentXmlId()).size()));
     }
 
-    public VirtualEditionInter(Section section, ScholarInter inter, int number) {
+    public VirtualEditionInter(Section section, ScholarInterDto scholarInterDto, int number) {
         setUses(null);
-        setUsesFragInter(inter.getXmlId());
+        setUsesFragInter(scholarInterDto.getXmlId());
 
 
         setSection(section);
         setNumber(number);
         // needs to store the number of interpretations in this fragment for this
         // edition
-        setXmlId(Integer.toString(getVirtualEdition().getVirtualEditionInterSetForFragment(getFragment()).size()));
+        setXmlId(Integer.toString(getVirtualEdition().getVirtualEditionInterSetForFragment(getFragmentXmlId()).size()));
     }
 
     public void remove() {
@@ -123,8 +108,8 @@ public class VirtualEditionInter extends VirtualEditionInter_Base implements Com
 
     }
 
-    public ScholarInter getLastUsed() {
-        return getUses() != null ? getUses().getLastUsed() : (new TextInterface()).getScholarInterUsed(this.getUsesFragInter());
+    public ScholarInterDto getLastUsed() {
+        return getUses() != null ? getUses().getLastUsed() : (new TextInterface()).getScholarInterUsed(getUsesFragInter());
     }
 
     public VirtualEdition getEdition() {
@@ -432,19 +417,16 @@ public class VirtualEditionInter extends VirtualEditionInter_Base implements Com
         return getUses() != null ? getUses().getUsesDepth() + 1 : 1;
     }
 
-    // Is it this way? (this method doesn't take into account the retweets)
     public int getNumberOfTimesCited() {
-        return this.getLastUsed().getInfoRangeSet().size();
+        TextInterface textInterface = new TextInterface();
+
+        return getLastUsed().getNumberOfTimesCited();
     }
 
-    // this methods takes into account the number of retweets
     public int getNumberOfTimesCitedIncludingRetweets() {
-        Set<InfoRange> infoRanges = this.getLastUsed().getInfoRangeSet();
-        int count = infoRanges.size();
-        for (InfoRange infoRange : infoRanges) {
-            count += infoRange.getCitation().getNumberOfRetweets();
-        }
-        return count;
+        TextInterface textInterface = new TextInterface();
+
+        return getLastUsed().getNumberOfTimesCitedIncludingRetweets();
     }
 
     public Set<VirtualEditionInter> getIsUsedByDepthSet() {
@@ -455,14 +437,8 @@ public class VirtualEditionInter extends VirtualEditionInter_Base implements Com
         return isUsedBy;
     }
 
-    public Fragment getFragment() {
-
-        if (getUses() != null) {
-            return getUses().getFragment();
-        }
-
-        TextInterface textInterface = new TextInterface();
-        return textInterface.getFragmentByInterXmlId(this.getUsesFragInter());
+    public String getFragmentXmlId() {
+        return getLastUsed().getFragmentXmlId();
     }
 
 
@@ -494,5 +470,11 @@ public class VirtualEditionInter extends VirtualEditionInter_Base implements Com
             }
         }
         return interps.get(0);
+    }
+
+    // TODO: to be removed when all references to fragment were removed
+    public Fragment getFragment() {
+        TextInterface textInterface = new TextInterface();
+        return textInterface.getFragmentByInterXmlId(getLastUsed().getXmlId()).get();
     }
 }

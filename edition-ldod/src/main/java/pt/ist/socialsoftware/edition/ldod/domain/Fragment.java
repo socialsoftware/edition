@@ -36,11 +36,6 @@ public class Fragment extends Fragment_Base implements Comparable<Fragment> {
 
         getTextPortion().remove();
 
-        // remove virtual edition interpretations first
-        for (VirtualEditionInter inter : LdoD.getInstance().getVirtualEditionInterSet(this)) {
-            inter.remove();
-        }
-
         for (ScholarInter inter : getScholarInterSet()) {
             inter.remove();
         }

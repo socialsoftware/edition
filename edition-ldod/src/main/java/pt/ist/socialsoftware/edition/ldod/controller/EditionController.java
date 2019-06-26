@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import pt.ist.fenixframework.DomainObject;
 import pt.ist.fenixframework.FenixFramework;
-import pt.ist.socialsoftware.edition.ldod.api.text.TextInterface;
 import pt.ist.socialsoftware.edition.ldod.api.ui.UiInterface;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.dto.EditionDto;
@@ -39,15 +38,12 @@ public class EditionController {
     @RequestMapping(method = RequestMethod.GET, value = "/acronym/{acronym}")
     @PreAuthorize("hasPermission(#acronym, 'editionacronym.public')")
     public String getEditionTableOfContentsbyAcronym(Model model, @PathVariable String acronym) {
+        ExpertEdition expertEdition = Text.getInstance().getExpertEdition(acronym);
 
-        TextInterface textInterface = new TextInterface();
-
-        ExpertEdition edition = textInterface.getExpertEdition(acronym);
-
-        if (edition != null) {
+        if (expertEdition != null) {
             model.addAttribute("heteronym", null);
-            model.addAttribute("edition", edition);
-            model.addAttribute("editionDto", new EditionDto(edition));
+            model.addAttribute("edition", expertEdition);
+            model.addAttribute("editionDto", new EditionDto(expertEdition));
             model.addAttribute("uiInterface", new UiInterface());
             return "edition/tableOfContents";
         }

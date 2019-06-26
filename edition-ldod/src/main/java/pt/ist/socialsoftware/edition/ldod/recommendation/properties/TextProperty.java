@@ -45,7 +45,7 @@ public class TextProperty extends Property {
 
     @Override
     public void prepareToLoadProperty(VirtualEditionInter inter1, VirtualEditionInter inter2) {
-        prepareToLoadProperty(inter1.getFragment(), inter2.getFragment());
+        prepareToLoadProperty(getFragment(inter1), getFragment(inter2));
     }
 
     @Override
@@ -82,7 +82,7 @@ public class TextProperty extends Property {
 
     @Override
     protected double[] extractVector(VirtualEditionInter virtualEditionInter) {
-        return getFromVectorsCache(virtualEditionInter.getFragment());
+        return getFromVectorsCache(getFragment(virtualEditionInter));
     }
 
     @Override
@@ -144,4 +144,5 @@ public class TextProperty extends Property {
     public void userWeight(RecommendationWeights recommendationWeights) {
         recommendationWeights.setTextWeight(getWeight());
     }
+
 }

@@ -9,6 +9,7 @@ import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.socialsoftware.edition.ldod.TestLoadUtils;
 import pt.ist.socialsoftware.edition.ldod.TestWithFragmentsLoading;
+import pt.ist.socialsoftware.edition.ldod.api.text.TextInterface;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.recommendation.properties.*;
 import pt.ist.socialsoftware.edition.ldod.search.Indexer;
@@ -31,6 +32,8 @@ public class VSMVirtualEditionInterRecomenderTest extends TestWithFragmentsLoadi
     private static final Logger logger = LoggerFactory.getLogger(VSMVirtualEditionInterRecomenderTest.class);
 
     private static VSMRecommender<VirtualEditionInter> recommender;
+
+    private final TextInterface textInterface = new TextInterface();
 
     private VirtualEdition virtualEdition;
 
@@ -92,7 +95,7 @@ public class VSMVirtualEditionInterRecomenderTest extends TestWithFragmentsLoadi
                 .getIntersSet().stream().map(VirtualEditionInter.class::cast).collect(Collectors.toSet())), properties);
 
         assertTrue(virtualEditionInter != result);
-        assertEquals(virtualEditionInter.getLastUsed().getHeteronym(), result.getLastUsed().getHeteronym());
+        assertEquals(virtualEditionInter.getLastUsed().getHeteronym().getXmlId(), result.getLastUsed().getHeteronym().getXmlId());
     }
 
     @Test
@@ -101,7 +104,7 @@ public class VSMVirtualEditionInterRecomenderTest extends TestWithFragmentsLoadi
         VirtualEdition virtualEdition = LdoD.getInstance().getVirtualEdition(ACRONYM);
         VirtualEditionInter virtualEditionInter = null;
         for (VirtualEditionInter inter : virtualEdition.getIntersSet()) {
-            if (inter.getLastUsed().getHeteronym() == NullHeteronym.getNullHeteronym()) {
+            if (getLastUsedScholarEditionInter(inter).getHeteronym() == NullHeteronym.getNullHeteronym()) {
                 virtualEditionInter = inter;
                 break;
             }
@@ -114,7 +117,7 @@ public class VSMVirtualEditionInterRecomenderTest extends TestWithFragmentsLoadi
                 .getIntersSet().stream().map(VirtualEditionInter.class::cast).collect(Collectors.toSet())), properties);
 
         assertTrue(virtualEditionInter != result);
-        assertEquals(NullHeteronym.getNullHeteronym(), result.getLastUsed().getHeteronym());
+        assertEquals(NullHeteronym.getNullHeteronym().getXmlId(), result.getLastUsed().getHeteronym().getXmlId());
     }
 
     @Test
@@ -195,7 +198,7 @@ public class VSMVirtualEditionInterRecomenderTest extends TestWithFragmentsLoadi
         Indexer indexer = Indexer.getIndexer();
 
         for (VirtualEditionInter inter : virtualEdition.getIntersSet()) {
-            if (indexer.getTFIDFTerms(inter.getFragment(), TextProperty.NUMBER_OF_TERMS).contains("cadeira")) {
+            if (indexer.getTFIDFTerms(getFragment(inter), TextProperty.NUMBER_OF_TERMS).contains("cadeira")) {
                 virtualEditionInter = inter;
                 break;
             }
@@ -208,8 +211,8 @@ public class VSMVirtualEditionInterRecomenderTest extends TestWithFragmentsLoadi
                 .getIntersSet().stream().map(VirtualEditionInter.class::cast).collect(Collectors.toSet())), properties);
 
         assertTrue(virtualEditionInter != result);
-        assertTrue(indexer.getTFIDFTerms(virtualEditionInter.getFragment(), TextProperty.NUMBER_OF_TERMS).stream()
-                .anyMatch(indexer.getTFIDFTerms(result.getFragment(), TextProperty.NUMBER_OF_TERMS)::contains));
+        assertTrue(indexer.getTFIDFTerms(getFragment(virtualEditionInter), TextProperty.NUMBER_OF_TERMS).stream()
+                .anyMatch(indexer.getTFIDFTerms(getFragment(result), TextProperty.NUMBER_OF_TERMS)::contains));
     }
 
     @Test
@@ -220,7 +223,7 @@ public class VSMVirtualEditionInterRecomenderTest extends TestWithFragmentsLoadi
         Indexer indexer = Indexer.getIndexer();
 
         for (VirtualEditionInter inter : virtualEdition.getIntersSet()) {
-            if (indexer.getTFIDFTerms(inter.getFragment(), TextProperty.NUMBER_OF_TERMS).contains("cadeira")) {
+            if (indexer.getTFIDFTerms(getFragment(inter), TextProperty.NUMBER_OF_TERMS).contains("cadeira")) {
                 virtualEditionInter = inter;
                 break;
             }
@@ -236,14 +239,22 @@ public class VSMVirtualEditionInterRecomenderTest extends TestWithFragmentsLoadi
                 .getIntersSet().stream().map(VirtualEditionInter.class::cast).collect(Collectors.toSet())), properties);
 
         assertTrue(virtualEditionInter != result);
-        assertEquals(virtualEditionInter.getLastUsed().getHeteronym(), result.getLastUsed().getHeteronym());
+        assertEquals(virtualEditionInter.getLastUsed().getHeteronym().getXmlId(), result.getLastUsed().getHeteronym().getXmlId());
         assertEquals(virtualEditionInter.getLastUsed().getLdoDDate().getDate().getYear(),
                 result.getLastUsed().getLdoDDate().getDate().getYear());
         assertFalse(virtualEditionInter.getTagSet().stream().map(t -> t.getCategory())
                 .anyMatch(result.getTagSet().stream().map(t -> t.getCategory()).collect(Collectors.toSet())::contains));
-        assertFalse(indexer.getTFIDFTerms(virtualEditionInter.getFragment(), TextProperty.NUMBER_OF_TERMS).stream()
-                .anyMatch(indexer.getTFIDFTerms(result.getFragment(), TextProperty.NUMBER_OF_TERMS)::contains));
+        assertFalse(indexer.getTFIDFTerms(getFragment(virtualEditionInter), TextProperty.NUMBER_OF_TERMS).stream()
+                .anyMatch(indexer.getTFIDFTerms(getFragment(result), TextProperty.NUMBER_OF_TERMS)::contains));
     }
 
+
+    private Fragment getFragment(VirtualEditionInter virtualEditionInter) {
+        return this.textInterface.getFragmentByInterXmlId(virtualEditionInter.getLastUsed().getXmlId()).get();
+    }
+
+    private ScholarInter getLastUsedScholarEditionInter(VirtualEditionInter virtualEditionInter) {
+        return Text.getInstance().getScholarInterByXmlId(virtualEditionInter.getLastUsed().getXmlId());
+    }
 
 }

@@ -5,6 +5,21 @@ import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
 
 public class FragInterDto {
 
+    public enum InterType {
+        AUTHORIAL("authorial"), EDITORIAL("editorial"), VIRTUAL("virtual");
+
+        private final String desc;
+
+        InterType(String desc) {
+            this.desc = desc;
+        }
+
+        public String getDesc() {
+            return this.desc;
+        }
+    }
+
+    private InterType type;
     private String fragmentXmlId;
     private String urlId;
     private String shortName;
@@ -12,17 +27,27 @@ public class FragInterDto {
 
 
     public FragInterDto(VirtualEditionInter uses) {
-        setFragmentXmlId(uses.getFragment().getXmlId());
+        setType(InterType.VIRTUAL);
+        setFragmentXmlId(uses.getFragmentXmlId());
         setUrlId(uses.getUrlId());
         setShortName(uses.getShortName());
         setExternalId(uses.getExternalId());
     }
 
     public FragInterDto(ScholarInter uses) {
+        setType(uses.isExpertInter() ? InterType.EDITORIAL : InterType.AUTHORIAL);
         setFragmentXmlId(uses.getFragment().getXmlId());
         setUrlId(uses.getUrlId());
         setShortName(uses.getShortName());
         setExternalId(uses.getExternalId());
+    }
+
+    public InterType getType() {
+        return this.type;
+    }
+
+    public void setType(InterType type) {
+        this.type = type;
     }
 
     public String getFragmentXmlId() {

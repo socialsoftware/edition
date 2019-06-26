@@ -24,6 +24,7 @@ import pt.ist.socialsoftware.edition.ldod.utils.AnnotationSearchJson;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 @SessionAttributes({"ldoDSession"})
@@ -39,12 +40,11 @@ public class FragmentController {
     @RequestMapping(method = RequestMethod.GET)
     public String getFragmentsList(Model model) {
         logger.debug("getFragmentsList");
-        TextInterface textInterface = new TextInterface();
-        model.addAttribute("jpcEdition", textInterface.getExpertEdition(ExpertEdition.COELHO_EDITION_ACRONYM));
-        model.addAttribute("tscEdition", textInterface.getExpertEdition(ExpertEdition.CUNHA_EDITION_ACRONYM));
-        model.addAttribute("rzEdition", textInterface.getExpertEdition(ExpertEdition.ZENITH_EDITION_ACRONYM));
-        model.addAttribute("jpEdition", textInterface.getExpertEdition(ExpertEdition.PIZARRO_EDITION_ACRONYM));
-        model.addAttribute("fragments", textInterface.getFragmentsSet());
+        model.addAttribute("jpcEdition", Text.getInstance().getExpertEdition(ExpertEdition.COELHO_EDITION_ACRONYM));
+        model.addAttribute("tscEdition", Text.getInstance().getExpertEdition(ExpertEdition.CUNHA_EDITION_ACRONYM));
+        model.addAttribute("rzEdition", Text.getInstance().getExpertEdition(ExpertEdition.ZENITH_EDITION_ACRONYM));
+        model.addAttribute("jpEdition", Text.getInstance().getExpertEdition(ExpertEdition.PIZARRO_EDITION_ACRONYM));
+        model.addAttribute("fragments", Text.getInstance().getFragmentsSet());
 
         return "fragment/list";
     }
@@ -66,6 +66,9 @@ public class FragmentController {
             model.addAttribute("uiInterface", new UiInterface());
             return "fragment/main";
         }
+    }
+
+    public FragmentController() {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/fragment/{xmlId}/inter/{urlId}")
@@ -93,7 +96,7 @@ public class FragmentController {
             if (virtualEditionInter == null) {
                 return "redirect:/error";
             }
-            writer = new PlainHtmlWriter4OneInter(virtualEditionInter.getLastUsed());
+            writer = new PlainHtmlWriter4OneInter(virtualEditionInter.getLastUsed().getXmlId());
             inters.add(virtualEditionInter);
             model.addAttribute("inters", inters);
 
@@ -143,7 +146,7 @@ public class FragmentController {
             return "redirect:/fragments/fragment/" + scholarInter.getFragment().getXmlId() + "/inter/" + scholarInter.getUrlId();
         } else {
             VirtualEditionInter virtualEditionInter = (VirtualEditionInter) inter;
-            return "redirect:/fragments/fragment/" + virtualEditionInter.getFragment().getXmlId() + "/inter/" + virtualEditionInter.getUrlId();
+            return "redirect:/fragments/fragment/" + virtualEditionInter.getFragmentXmlId() + "/inter/" + virtualEditionInter.getUrlId();
         }
     }
 
@@ -200,7 +203,7 @@ public class FragmentController {
         if (virtualEditionInter != null) {
             virtualEditionInter = virtualEditionInter.getNextNumberInter();
 
-            return "redirect:/fragments/fragment/" + virtualEditionInter.getFragment().getXmlId() + "/inter/" + virtualEditionInter.getUrlId();
+            return "redirect:/fragments/fragment/" + virtualEditionInter.getFragmentXmlId() + "/inter/" + virtualEditionInter.getUrlId();
         }
         return "redirect:/error";
 
@@ -226,7 +229,7 @@ public class FragmentController {
         if (virtualEditionInter != null) {
             virtualEditionInter = virtualEditionInter.getPrevNumberInter();
 
-            return "redirect:/fragments/fragment/" + virtualEditionInter.getFragment().getXmlId() + "/inter/" + virtualEditionInter.getUrlId();
+            return "redirect:/fragments/fragment/" + virtualEditionInter.getFragmentXmlId() + "/inter/" + virtualEditionInter.getUrlId();
         }
         return "redirect:/error";
     }
@@ -234,13 +237,14 @@ public class FragmentController {
     @RequestMapping(method = RequestMethod.GET, value = "/fragment/inter")
     public String getInter(Model model, @RequestParam(value = "fragment", required = true) String externalId,
                            @RequestParam(value = "inters[]", required = false) String[] intersID) {
+        logger.debug("getInter externalId: {}, inters: {}", externalId, intersID);
 
         Fragment fragment = FenixFramework.getDomainObject(externalId);
 
-        List<ScholarInter> inters = new ArrayList<>();
+        List<VirtualEditionInter> inters = new ArrayList<>();
         if (intersID != null) {
             for (String interID : intersID) {
-                ScholarInter inter = FenixFramework.getDomainObject(interID);
+                VirtualEditionInter inter = FenixFramework.getDomainObject(interID);
                 if (inter != null) {
                     inters.add(inter);
                 }
@@ -254,25 +258,27 @@ public class FragmentController {
         model.addAttribute("inters", inters);
         model.addAttribute("uiInterface", new UiInterface());
 
-        if (inters.size() == 1) {
-            ScholarInter inter = inters.get(0);
-            PlainHtmlWriter4OneInter writer4One = new PlainHtmlWriter4OneInter(inter.getLastUsed());
+        List<ScholarInter> scholarInters = inters.stream().map(virtualEditionInter -> Text.getInstance().getScholarInterByXmlId(virtualEditionInter.getLastUsed().getXmlId())).collect(Collectors.toList());
+
+        if (scholarInters.size() == 1) {
+            ScholarInter inter = scholarInters.get(0);
+            PlainHtmlWriter4OneInter writer4One = new PlainHtmlWriter4OneInter(inter);
             writer4One.write(false);
             model.addAttribute("writer", writer4One);
-        } else if (inters.size() > 1) {
-            HtmlWriter2CompInters writer = new HtmlWriter2CompInters(inters);
+        } else if (scholarInters.size() > 1) {
+            HtmlWriter2CompInters writer = new HtmlWriter2CompInters(scholarInters);
             Boolean lineByLine = false;
-            if (inters.size() > 2) {
+            if (scholarInters.size() > 2) {
                 lineByLine = true;
             }
 
             Map<ScholarInter, HtmlWriter4Variations> variations = new HashMap<>();
-            for (ScholarInter inter : inters) {
+            for (ScholarInter inter : scholarInters) {
                 variations.put(inter, new HtmlWriter4Variations(inter));
             }
 
             List<AppText> apps = new ArrayList<>();
-            inters.get(0).getFragment().getTextPortion().putAppTextWithVariations(apps, inters);
+            inters.get(0).getFragment().getTextPortion().putAppTextWithVariations(apps, scholarInters);
             Collections.reverse(apps);
 
             writer.write(lineByLine, false);
@@ -363,7 +369,7 @@ public class FragmentController {
             if (inter instanceof ScholarInter) {
                 inters.add((ScholarInter) inter);
             } else {
-                inters.add(((VirtualEditionInter) inter).getLastUsed());
+                inters.add(Text.getInstance().getScholarInterByXmlId(((VirtualEditionInter) inter).getLastUsed().getXmlId()));
             }
         }
 
@@ -410,7 +416,7 @@ public class FragmentController {
     @RequestMapping(method = RequestMethod.POST, value = "/fragment/annotations")
     public @ResponseBody
     ResponseEntity<AnnotationDTO> createAnnotation(Model model,
-                                                   @RequestBody final AnnotationDTO annotationJson, HttpServletRequest request) {
+                                                   @RequestBody AnnotationDTO annotationJson, HttpServletRequest request) {
         VirtualEditionInter inter = FenixFramework.getDomainObject(annotationJson.getUri());
         VirtualEdition virtualEdition = (VirtualEdition) inter.getEdition();
         LdoDUser user = LdoDUser.getAuthenticatedUser();
@@ -443,7 +449,7 @@ public class FragmentController {
     @RequestMapping(method = RequestMethod.PUT, value = "/fragment/annotations/{id}")
     public @ResponseBody
     ResponseEntity<AnnotationDTO> updateAnnotation(Model model, @PathVariable String id,
-                                                   @RequestBody final AnnotationDTO annotationJson) {
+                                                   @RequestBody AnnotationDTO annotationJson) {
 
         HumanAnnotation annotation = FenixFramework.getDomainObject(id);
         LdoDUser user = LdoDUser.getAuthenticatedUser();
@@ -464,7 +470,7 @@ public class FragmentController {
     @RequestMapping(method = RequestMethod.DELETE, value = "/fragment/annotations/{id}")
     public @ResponseBody
     ResponseEntity<AnnotationDTO> deleteAnnotation(Model model, @PathVariable String id,
-                                                   @RequestBody final AnnotationDTO annotationJson) {
+                                                   @RequestBody AnnotationDTO annotationJson) {
 
         HumanAnnotation annotation = FenixFramework.getDomainObject(id);
         LdoDUser user = LdoDUser.getAuthenticatedUser();

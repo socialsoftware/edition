@@ -74,7 +74,7 @@ public class AwareAnnotationFactory {
     private InfoRange getInfoRangeByVirtualEditionInter(VirtualEditionInter vei, TwitterCitation tc) {
 
         // used scholarinter
-        ScholarInter lastUsed = vei.getLastUsed();
+        ScholarInter lastUsed = getLastUsedScholarEditionInter(vei);
 
         InfoRange infoRange = null;
         for (InfoRange ir : tc.getInfoRangeSet()) {
@@ -99,7 +99,7 @@ public class AwareAnnotationFactory {
     private Set<TwitterCitation> getTotalTwitterCitationsByInterAndCriteria(VirtualEditionInter inter,
                                                                             Set<SocialMediaCriteria> criteria) {
         Set<TwitterCitation> totalTwitterCitations = new HashSet<>();
-        for (Citation tc : inter.getFragment().getCitationSet()) {
+        for (Citation tc : getFragment(inter).getCitationSet()) {
             if (tc instanceof TwitterCitation && getInfoRangeByVirtualEditionInter(inter, (TwitterCitation) tc) != null
                     & validateCriteria(tc, criteria)) {
                 totalTwitterCitations.add((TwitterCitation) tc);
@@ -160,6 +160,16 @@ public class AwareAnnotationFactory {
         }
 
         return isValid;
+    }
+
+    // TODO: to be addressed when the awareness become a module on their own
+    protected Fragment getFragment(VirtualEditionInter virtualEditionInter) {
+        return Text.getInstance().getFragmentByXmlId(virtualEditionInter.getFragmentXmlId());
+    }
+
+    // TODO: to be addressed when the awareness become a module on their own
+    protected ScholarInter getLastUsedScholarEditionInter(VirtualEditionInter virtualEditionInter) {
+        return Text.getInstance().getScholarInterByXmlId(virtualEditionInter.getLastUsed().getXmlId());
     }
 
 }

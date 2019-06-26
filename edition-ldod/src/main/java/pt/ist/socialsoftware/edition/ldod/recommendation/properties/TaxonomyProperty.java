@@ -42,7 +42,7 @@ public class TaxonomyProperty extends Property {
     public double[] extractVector(Fragment fragment) {
         double[] vector = getDefaultVector();
         for (VirtualEditionInter inter : this.taxonomy.getEdition().getAllDepthVirtualEditionInters()) {
-            if (inter.getFragment() == fragment) {
+            if (getFragment(inter) == fragment) {
                 for (Category category : inter.getCategories()) {
                     if (this.sortedCategories.contains(category)) {
                         vector[this.sortedCategories.indexOf(category)] = 1.0;

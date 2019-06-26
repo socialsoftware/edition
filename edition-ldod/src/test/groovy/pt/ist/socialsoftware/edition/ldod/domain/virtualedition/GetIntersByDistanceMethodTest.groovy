@@ -30,8 +30,8 @@ class GetIntersByDistanceMethodTest extends SpockRollbackTestAbstractClass {
 
         // set all null
         for (def virtualInter : virtualEdition.getAllDepthVirtualEditionInters()) {
-            virtualInter.getLastUsed().getSource().setLdoDDate(null)
-            virtualInter.getLastUsed().getSource().setHeteronym(NullHeteronym.getNullHeteronym())
+            getLastUsedScholarEditionInter(virtualInter).getSource().setLdoDDate(null)
+            getLastUsedScholarEditionInter(virtualInter).getSource().setHeteronym(NullHeteronym.getNullHeteronym())
         }
 
         weights = new WeightsDto()
@@ -45,7 +45,7 @@ class GetIntersByDistanceMethodTest extends SpockRollbackTestAbstractClass {
         and: 'set dates to source inters'
         for (def virtualInter : virtualEdition.getAllDepthVirtualEditionInters()) {
             def date_pos = count.incrementAndGet() % dates.length
-            virtualInter.getLastUsed().getSource().setLdoDDate(new LdoDDate(dates[date_pos], Fragment.PrecisionType.HIGH))
+            getLastUsedScholarEditionInter(virtualInter).getSource().setLdoDDate(new LdoDDate(dates[date_pos], Fragment.PrecisionType.HIGH))
         }
 
         when:
@@ -66,7 +66,7 @@ class GetIntersByDistanceMethodTest extends SpockRollbackTestAbstractClass {
         and: 'set dates to source inters'
         for (def virtualInter : virtualEdition.getAllDepthVirtualEditionInters()) {
             def date_pos = count.incrementAndGet() % dates.length
-            virtualInter.getLastUsed().getSource().setLdoDDate(new LdoDDate(dates[date_pos], Fragment.PrecisionType.HIGH))
+            getLastUsedScholarEditionInter(virtualInter).getSource().setLdoDDate(new LdoDDate(dates[date_pos], Fragment.PrecisionType.HIGH))
         }
 
         when:
@@ -87,7 +87,7 @@ class GetIntersByDistanceMethodTest extends SpockRollbackTestAbstractClass {
         and: 'set dates to source inters'
         for (def virtualInter : virtualEdition.getAllDepthVirtualEditionInters()) {
             def date_pos = count.incrementAndGet() % dates.length
-            virtualInter.getLastUsed().getSource().setLdoDDate(new LdoDDate(dates[date_pos], Fragment.PrecisionType.HIGH))
+            getLastUsedScholarEditionInter(virtualInter).getSource().setLdoDDate(new LdoDDate(dates[date_pos], Fragment.PrecisionType.HIGH))
         }
 
         when:
@@ -106,7 +106,7 @@ class GetIntersByDistanceMethodTest extends SpockRollbackTestAbstractClass {
         and: 'set different dates'
         and: 'set dates to source inters'
         for (def virtualInter : virtualEdition.getAllDepthVirtualEditionInters()) {
-            virtualInter.getLastUsed().getSource().setLdoDDate(new LdoDDate("1913-12-12", Fragment.PrecisionType.HIGH))
+            getLastUsedScholarEditionInter(virtualInter).getSource().setLdoDDate(new LdoDDate("1913-12-12", Fragment.PrecisionType.HIGH))
         }
 
         when:
@@ -123,7 +123,7 @@ class GetIntersByDistanceMethodTest extends SpockRollbackTestAbstractClass {
         given: 'a date property'
         weights.setDateWeight(1.0)
         and:
-        virtualEditionInter.getLastUsed().getSource().setLdoDDate(new LdoDDate('1923-12-12', Fragment.PrecisionType.HIGH))
+        getLastUsedScholarEditionInter(virtualEditionInter).getSource().setLdoDDate(new LdoDDate('1923-12-12', Fragment.PrecisionType.HIGH))
 
         when:
         def results = virtualEdition.getIntersByDistance(virtualEditionInter, weights)
@@ -143,10 +143,10 @@ class GetIntersByDistanceMethodTest extends SpockRollbackTestAbstractClass {
         and: 'set dates to source inters'
         for (def virtualInter : virtualEdition.getAllDepthVirtualEditionInters()) {
             def date_pos = count.incrementAndGet() % dates.length
-            virtualInter.getLastUsed().getSource().setLdoDDate(new LdoDDate(dates[date_pos], Fragment.PrecisionType.HIGH))
+            getLastUsedScholarEditionInter(virtualInter).getSource().setLdoDDate(new LdoDDate(dates[date_pos], Fragment.PrecisionType.HIGH))
         }
         and: 'virtualEditionInter has no date'
-        virtualEditionInter.getLastUsed().getSource().setLdoDDate(null)
+        getLastUsedScholarEditionInter(virtualEditionInter).getSource().setLdoDDate(null)
 
 
         when:
@@ -168,10 +168,10 @@ class GetIntersByDistanceMethodTest extends SpockRollbackTestAbstractClass {
         def date_pos = 0
         for (def virtualInter : virtualEdition.getAllDepthVirtualEditionInters()) {
             if (virtualInter != virtualEditionInter && date_pos < 2)
-                virtualInter.getLastUsed().getSource().setLdoDDate(new LdoDDate(dates[date_pos++], Fragment.PrecisionType.HIGH))
+                getLastUsedScholarEditionInter(virtualInter).getSource().setLdoDDate(new LdoDDate(dates[date_pos++], Fragment.PrecisionType.HIGH))
         }
         and: 'virtualEditionInter has no date'
-        virtualEditionInter.getLastUsed().getSource().setLdoDDate(new LdoDDate("1923-12-12", Fragment.PrecisionType.HIGH))
+        getLastUsedScholarEditionInter(virtualEditionInter).getSource().setLdoDDate(new LdoDDate("1923-12-12", Fragment.PrecisionType.HIGH))
 
 
         when:
@@ -202,7 +202,7 @@ class GetIntersByDistanceMethodTest extends SpockRollbackTestAbstractClass {
         given: 'a heteronym property'
         weights.setHeteronymWeight(1.0)
         and:
-        virtualEditionInter.getLastUsed().getSource().setHeteronym(new Heteronym(Text.getInstance(), 'Bernardo Soares'))
+        getLastUsedScholarEditionInter(virtualEditionInter).getSource().setHeteronym(new Heteronym(Text.getInstance(), 'Bernardo Soares'))
 
         when:
         def results = virtualEdition.getIntersByDistance(virtualEditionInter, weights)
@@ -226,6 +226,12 @@ class GetIntersByDistanceMethodTest extends SpockRollbackTestAbstractClass {
         results.stream().map({ r -> r.getDistance() }).collect(Collectors.toSet()).size() == 1
 
         results.stream().forEach({ r -> logger.debug('{}: {}', r.getInterId(), r.getDistance()) })
+    }
+
+
+    // TODO: to be addressed when the recommendations become a module on their own
+    protected ScholarInter getLastUsedScholarEditionInter(VirtualEditionInter virtualEditionInter) {
+        return Text.getInstance().getScholarInterByXmlId(virtualEditionInter.getLastUsed().getXmlId());
     }
 
 

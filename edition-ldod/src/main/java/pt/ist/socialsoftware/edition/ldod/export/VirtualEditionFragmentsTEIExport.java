@@ -49,13 +49,13 @@ public class VirtualEditionFragmentsTEIExport {
         id = new Attribute("id", fragment.getXmlId() + ".WIT.ED.VIRT", Namespace.XML_NAMESPACE);
         witnesses.setAttribute(id);
         sourceDesc.addContent(witnesses);
-        for (VirtualEditionInter virtualEditionInter : LdoD.getInstance().getVirtualEditionInterSet(fragment)) {
+        for (VirtualEditionInter virtualEditionInter : LdoD.getInstance().getVirtualEditionInterSet(fragment.getXmlId())) {
             exportVirtualEditionInterWitness(witnesses, virtualEditionInter);
         }
 
         Element profileDesc = new Element("profileDesc", this.xmlns);
         teiHeader.addContent(profileDesc);
-        for (VirtualEditionInter virtualEditionInter : LdoD.getInstance().getVirtualEditionInterSet(fragment)) {
+        for (VirtualEditionInter virtualEditionInter : LdoD.getInstance().getVirtualEditionInterSet(fragment.getXmlId())) {
             Element textClass = new Element("textClass", this.xmlns);
             textClass.setAttribute("source", "#" + virtualEditionInter.getXmlId());
             profileDesc.addContent(textClass);
@@ -137,7 +137,7 @@ public class VirtualEditionFragmentsTEIExport {
 //
 //			// discutir também utilidade destes atributos
 //			// fragInterXmlId seria necessário para descobrir o fragInter ao importar
-//			infoRangeElement.setAttribute("fragInterXmlId", infoRange.getFragInter().getXmlId());
+//			infoRangeElement.setAttribute("fragInterXmlId", infoRange.getFragInterDto().getXmlId());
 //			infoRangeElement.setAttribute("citationId", Long.toString(infoRange.getCitation().getId()));
 //		}
 //	}

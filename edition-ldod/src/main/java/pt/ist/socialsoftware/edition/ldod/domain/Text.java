@@ -84,4 +84,9 @@ public class Text extends Text_Base {
         return getFragmentsSet().stream().map(f -> f.getRepresentativeSourceInter()).collect(Collectors.toSet());
     }
 
+    public ScholarInter getScholarInterByXmlId(String scholarInterId) {
+        return getFragmentsSet().stream().filter(fragment -> fragment.getScholarInterByXmlId(scholarInterId) != null)
+                .map(fragment -> fragment.getScholarInterByXmlId(scholarInterId)).findAny().orElse(null);
+    }
+
 }

@@ -5,8 +5,8 @@ import org.slf4j.LoggerFactory;
 import pt.ist.socialsoftware.edition.ldod.api.ldod.LdoDInterface;
 import pt.ist.socialsoftware.edition.ldod.api.text.TextInterface;
 import pt.ist.socialsoftware.edition.ldod.api.text.dto.HeteronymDto;
+import pt.ist.socialsoftware.edition.ldod.api.text.dto.ScholarInterDto;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
-import pt.ist.socialsoftware.edition.ldod.domain.ScholarInter;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
 
 import java.util.ArrayList;
@@ -15,20 +15,6 @@ import java.util.List;
 public class UiInterface {
     private static final Logger logger = LoggerFactory.getLogger(UiInterface.class);
 
-    public enum InterType {
-        AUTHORIAL("authorial"), EDITORIAL("editorial"), VIRTUAL("virtual");
-
-        private final String desc;
-
-        InterType(String desc) {
-            this.desc = desc;
-        }
-
-        public String getDesc() {
-            return this.desc;
-        }
-    }
-
     public List<FragInterDto> getFragInterUsed(VirtualEditionInter inter) {
         List<FragInterDto> fragInterList = new ArrayList<>();
         while (inter.getUses() != null) {
@@ -36,22 +22,19 @@ public class UiInterface {
             inter = inter.getUses();
         }
         TextInterface textInterface = new TextInterface();
-        ScholarInter scholarInterUsed = textInterface.getScholarInterUsed(inter.getUsesFragInter());
 
-        fragInterList.add(0, new FragInterDto(scholarInterUsed));
+        fragInterList.add(0, textInterface.getFragInterDto(textInterface.getScholarInterUsed(inter.getUsesFragInter()).getXmlId()));
 
         return fragInterList;
     }
 
-    public InterType getSourceTypeOfInter(String xmlId) {
+    public FragInterDto.InterType getSourceTypeOfInter(String xmlId) {
         TextInterface textInterface = new TextInterface();
-        ScholarInter inter = textInterface.getScholarInterUsed(xmlId);
-        if (inter != null && inter.isExpertInter()) {
-            return InterType.EDITORIAL;
-        } else if (inter != null) {
-            return InterType.AUTHORIAL;
+        ScholarInterDto scholarInterDto = textInterface.getScholarInterUsed(xmlId);
+        if (scholarInterDto != null) {
+            return scholarInterDto.getType();
         } else {
-            return InterType.VIRTUAL;
+            return FragInterDto.InterType.VIRTUAL;
         }
     }
 
@@ -68,7 +51,7 @@ public class UiInterface {
     public boolean isExpertEdition(String acronym) {
         TextInterface textInterface = new TextInterface();
 
-        return textInterface.getExpertEdition(acronym) != null;
+        return textInterface.isExpertEdition(acronym);
     }
 
     public boolean isVirtualEdition(String acronym) {

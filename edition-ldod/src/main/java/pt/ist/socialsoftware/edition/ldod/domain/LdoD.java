@@ -8,6 +8,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.fenixframework.FenixFramework;
+import pt.ist.socialsoftware.edition.ldod.api.text.TextInterface;
+import pt.ist.socialsoftware.edition.ldod.api.text.dto.ScholarInterDto;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser.SocialMediaService;
 import pt.ist.socialsoftware.edition.ldod.domain.Role.RoleType;
 import pt.ist.socialsoftware.edition.ldod.session.LdoDSession;
@@ -178,8 +180,8 @@ public class LdoD extends LdoD_Base {
         return getVirtualEditionsSet().stream().flatMap(virtualEdition -> virtualEdition.getAllDepthVirtualEditionInters().stream()).collect(Collectors.toSet());
     }
 
-    public Set<VirtualEditionInter> getVirtualEditionInterSet(Fragment fragment) {
-        return getVirtualEditionInterSet().stream().filter(virtualEditionInter -> virtualEditionInter.getFragment() == fragment).collect(Collectors.toSet());
+    public Set<VirtualEditionInter> getVirtualEditionInterSet(String fragmentXmlId) {
+        return getVirtualEditionInterSet().stream().filter(virtualEditionInter -> virtualEditionInter.getFragmentXmlId().equals(fragmentXmlId)).collect(Collectors.toSet());
     }
 
     @Atomic(mode = TxMode.WRITE)
@@ -320,13 +322,13 @@ public class LdoD extends LdoD_Base {
         LocalDateTime editionBeginDateTime = LocalDateTime.of(editionBeginDateJoda.getYear(),
                 editionBeginDateJoda.getMonthOfYear(), editionBeginDateJoda.getDayOfMonth(), 0, 0);
         int number = 0;
-        for (ExpertEditionInter inter : Text.getInstance().getRZEdition().getExpertEditionIntersSet().stream()
-                .filter(inter -> inter.getNumberOfTwitterCitationsSince(editionBeginDateTime) > 0)
-                .sorted((inter1,
-                         inter2) -> Math.toIntExact(inter2.getNumberOfTwitterCitationsSince(editionBeginDateTime)
-                        - inter1.getNumberOfTwitterCitationsSince(editionBeginDateTime)))
-                .collect(Collectors.toList())) {
-            twitterEdition.createVirtualEditionInter(inter, ++number);
+
+        TextInterface textInterface = new TextInterface();
+
+        textInterface.getScholarInterDtoListTwitterEdition(editionBeginDateTime);
+
+        for (ScholarInterDto scholarInterDto : textInterface.getScholarInterDtoListTwitterEdition(editionBeginDateTime)) {
+            twitterEdition.createVirtualEditionInter(scholarInterDto, ++number);
         }
     }
 

@@ -3,6 +3,7 @@ package pt.ist.socialsoftware.edition.ldod.recommendation.properties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import pt.ist.socialsoftware.edition.ldod.api.text.dto.ScholarInterDto;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
 
 import java.util.HashSet;
@@ -42,7 +43,7 @@ public class DateProperty extends Property {
     }
 
     private double[] buildVector(Set<Integer> dates) {
-        double vector[] = getDefaultVector();
+        double[] vector = getDefaultVector();
 
         if (dates.isEmpty()) {
             vector[vector.length - 1] = 1.0;
@@ -68,9 +69,9 @@ public class DateProperty extends Property {
     @Override
     double[] extractVector(VirtualEditionInter virtualEditionInter) {
         Set<Integer> dates = new HashSet<>();
-        ScholarInter scholarInter = virtualEditionInter.getLastUsed();
-        if (scholarInter.getLdoDDate() != null) {
-            dates.add(scholarInter.getLdoDDate().getDate().getYear());
+        ScholarInterDto scholarInterDto = virtualEditionInter.getLastUsed();
+        if (scholarInterDto.getLdoDDate() != null) {
+            dates.add(scholarInterDto.getLdoDDate().getDate().getYear());
         }
         return buildVector(dates);
     }
