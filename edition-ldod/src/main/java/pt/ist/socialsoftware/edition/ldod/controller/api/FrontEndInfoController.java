@@ -31,12 +31,12 @@ public class FrontEndInfoController {
     // /api/services/frontend/module-info
     @GetMapping(value = "/module-info", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<?> getModuleInfo() {
-        Set<Module> moduleSet = FenixFramework.getDomainRoot().getModuleSet();
+        Set<EditionModule> moduleSet = FenixFramework.getDomainRoot().getModuleSet();
 
         Map<String, Map<String, List<AbstractMap.SimpleEntry<String, String>>>> results = new LinkedHashMap<>();
 
 
-        for (Module module : moduleSet) {
+        for (EditionModule module : moduleSet) {
             Map<String, List<AbstractMap.SimpleEntry<String, String>>> temp = new LinkedHashMap<>();
             for (Menu menu : module.getUiComponent().getMenuSet().stream().sorted(Comparator.comparingInt(Menu::getPosition)).collect(Collectors.toList())) {
                 List<AbstractMap.SimpleEntry<String, String>> links = menu.getOptionSet().stream().sorted(Comparator.comparingInt(Option::getPosition))
@@ -304,7 +304,8 @@ public class FrontEndInfoController {
     }
 
     @GetMapping(value = "/source-writer", produces = MediaType.TEXT_HTML_VALUE)
-    public ResponseEntity<?> getSourceWriterWithOptions(@RequestParam String xmlId, @RequestParam String urlId, @RequestParam boolean diff,
+    public ResponseEntity<?> getSourceWriterWithOptions(@RequestParam String xmlId, @RequestParam String urlId,
+                                                        @RequestParam boolean diff,
                                                         @RequestParam boolean del, @RequestParam boolean ins,
                                                         @RequestParam boolean subst, @RequestParam boolean notes) {
 

@@ -77,7 +77,11 @@
     "general.edition"                 : "Edi\u00E7\u00E3o",
     "general.tags"                    : "Etiquetas",
     "general.associate"               : "Associar",
-    "general.close"                   : "Fechar"
+    "general.close"                   : "Fechar",
+    "header.title"                    : "Arquivo LdoD",
+    "login.password"                  : "Senha",
+    "login.username"                  : "Nome de utilizador",
+    "general.signin"                  : "Entrar"
   },
   "en" : {
     "appName" : "LdoD Archive",
@@ -157,7 +161,11 @@
     "general.edition"                 : "Edition",
     "general.tags"                    : "Tags",
     "general.associate"               : "Associate",
-    "general.close"                   : "Close"
+    "general.close"                   : "Close",
+    "header.title"                    : "LdoD Archive",
+    "login.password"                  : "Password",
+    "login.username"                  : "Username",
+    "general.signin"                  : "Sign in"
   },
   "es" : {
     "appName" : "Archivo LdoD",
@@ -237,7 +245,11 @@
     "general.edition"                 : "Edici\u00F3n",
     "general.tags"                    : "Etiquetas",
     "general.associate"               : "Asociar",
-    "general.close"                   : "Cerrar"
+    "general.close"                   : "Cerrar",
+    "header.title"                    : "Archivo LdoD",
+    "login.password"                  : "Contrase\u00F1a",
+    "login.username"                  : "Nombre de usuario",
+    "general.signin"                  : "Ingresar"
   }
 }
 

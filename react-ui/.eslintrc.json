@@ -74,7 +74,6 @@
       "extensions": [".jsx", ".js"]
     }],
     "react/jsx-closing-bracket-location": ["error", "after-props"],
-    "react/prefer-stateless-function": ["error", { "ignorePureComponents": true }],
     "react/sort-comp": ["off", {
       "order": [
         "static-methods",
@@ -89,6 +88,8 @@
     "no-plusplus": [2, { "allowForLoopAfterthoughts": true }],
     "no-param-reassign" : ["off"],
     "no-continue" : ["off"],
+    "react/no-multi-comp": ["off"],
+    "react/prefer-stateless-function": ["off"],
     "jsx-a11y/img-has-alt": ["off"],
     "jsx-a11y/no-static-element-interactions": ["off"]
   }

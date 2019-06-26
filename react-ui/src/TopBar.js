@@ -6,16 +6,24 @@ import { LinkContainer } from 'react-router-bootstrap';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import LanguageToggle from './languageToggle';
-import { setModuleConfig } from './actions/actions';
+import { setAccessToken, setModuleConfig } from './actions/actions';
 import { SERVER_URL } from './utils/Constants';
+
+const mapStateToProps = state => ({ token: state.token });
 
 function TopBarStatic(props) {
     let loginToggle = null;
 
-    if (props.userExists) {
+    if (props.userExists && props.token === '') {
         loginToggle = (<ul className={'nav navbar-nav navbar-right hidden-xs'}>
             <li>
-                <a><FormattedMessage id={'login'} /></a>
+                <a href="/signin"><FormattedMessage id={'login'} /></a>
+            </li>
+        </ul>);
+    } else if (props.userExists) {
+        loginToggle = (<ul className={'nav navbar-nav navbar-right hidden-xs'}>
+            <li>
+                <a onClick={props.logout}>Logged in</a>
             </li>
         </ul>);
     }
@@ -142,6 +150,9 @@ class TopBar extends React.Component {
 
     constructor(props) {
         super(props);
+
+        this.logoutUser = this.logoutUser.bind(this);
+
         this.state = {
             moduleInfo: null,
             isLoaded: false,
@@ -161,6 +172,12 @@ class TopBar extends React.Component {
                   (result) => {
                       console.log(`Failed to load moduleInfo. Status code ${result.status}`);
                   });
+    }
+
+    logoutUser(event) {
+        event.preventDefault();
+        this.props.setAccessToken('');
+        console.log(this.props);
     }
 
     componentDidMount() {
@@ -218,7 +235,7 @@ class TopBar extends React.Component {
 
             return (
                 <nav className={'ldod-navbar navbar navbar-default navbar-fixed-top'}>
-                    <TopBarStatic userExists={userExists} />
+                    <TopBarStatic userExists={userExists} token={this.props.token} logout={this.logoutUser} />
 
                     <div className={'container'}>
                         <div className={'collapse navbar-collapse'}>
@@ -234,7 +251,7 @@ class TopBar extends React.Component {
 
         return (
             <nav className={'ldod-navbar navbar navbar-default navbar-fixed-top'}>
-                <TopBarStatic userExists />
+                <TopBarStatic />
                 <TopBarList />
             </nav>
         );
@@ -242,7 +259,7 @@ class TopBar extends React.Component {
 
 }
 
-export default connect(null, { setModuleConfig })(TopBar);
+export default connect(mapStateToProps, { setModuleConfig, setAccessToken })(TopBar);
 
 /* export default function TopBar() {
 

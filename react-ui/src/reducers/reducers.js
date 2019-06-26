@@ -1,10 +1,11 @@
-import { SET_COMPARE_IDS_TYPE, SET_INTER_ID, SET_MODULE_CONFIG } from '../constants/actionTypes';
+import { SET_ACCESS_TOKEN, SET_COMPARE_IDS_TYPE, SET_INTER_ID, SET_MODULE_CONFIG } from '../constants/actionTypes';
 
 const initialState = {
     moduleConfig: {},
     interId: null,
     compareIds: null,
     type: null,
+    token: '',
 };
 
 function rootReducer(state = initialState, action) {
@@ -22,6 +23,10 @@ function rootReducer(state = initialState, action) {
             return Object.assign({}, state, {
                 interId: action.id,
                 compareIds: null,
+            });
+        case SET_ACCESS_TOKEN:
+            return Object.assign({}, state, {
+                token: action.token,
             });
         default:
             return state;
