@@ -3,8 +3,11 @@ import axios from 'axios';
 import { FormattedMessage } from 'react-intl';
 import { Form } from 'react-bootstrap';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 import { SERVER_URL } from '../utils/Constants';
-import { setAccessToken } from '../actions/actions';
+import { setAccessToken, setUserInfo } from '../actions/actions';
+
+const mapStateToProps = state => ({ token: state.token });
 
 class Login extends React.Component {
     constructor(props) {
@@ -28,9 +31,15 @@ class Login extends React.Component {
 
         axios.post(`${SERVER_URL}/api/auth/signin`, loginInfo)
             .then((result) => {
-                console.log('Login successful');
+                console.log(result.data);
                 this.props.setAccessToken(result.data.accessToken);
                 this.props.history.push('/');
+
+                axios.get(`${SERVER_URL}/api/user`, {
+                    headers: { Authorization: `Bearer ${result.data.accessToken}` },
+                }).then((res) => {
+                    this.props.setUserInfo(res.data);
+                });
             },
                   (result) => {
                       console.log('Login rejected');
@@ -55,6 +64,10 @@ class Login extends React.Component {
     }
 
     render() {
+        if (this.props.token !== '') {
+            return <Redirect to="/" />;
+        }
+
         return (
             <div className="row">
                 <div className="login-form">
@@ -100,4 +113,4 @@ class Login extends React.Component {
     }
 }
 
-export default connect(null, { setAccessToken })(Login);
+export default connect(mapStateToProps, { setAccessToken, setUserInfo })(Login);

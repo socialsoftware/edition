@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -13,9 +14,13 @@ import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.ldod.api.ui.FragInterDto;
 import pt.ist.socialsoftware.edition.ldod.api.ui.UiInterface;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
+import pt.ist.socialsoftware.edition.ldod.domain.EditionModule;
+import pt.ist.socialsoftware.edition.ldod.dto.LdoDUserDto;
 import pt.ist.socialsoftware.edition.ldod.generators.HtmlWriter2CompInters;
 import pt.ist.socialsoftware.edition.ldod.generators.HtmlWriter4Variations;
 import pt.ist.socialsoftware.edition.ldod.generators.PlainHtmlWriter4OneInter;
+import pt.ist.socialsoftware.edition.ldod.security.LdoDUserDetails;
+import pt.ist.socialsoftware.edition.ldod.session.LdoDSession;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -680,5 +685,18 @@ public class FrontEndInfoController {
         }
 
         return new ResponseEntity<>(results, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/user-info", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<?> getAuthenticatedUserInfo(){
+
+        LdoDUser user = LdoDUser.getAuthenticatedUser();
+
+        if(user == null)
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+
+        LdoDUserDto dto = new LdoDUserDto(user);
+
+        return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 }

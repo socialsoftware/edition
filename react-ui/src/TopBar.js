@@ -9,7 +9,7 @@ import LanguageToggle from './languageToggle';
 import { setAccessToken, setModuleConfig } from './actions/actions';
 import { SERVER_URL } from './utils/Constants';
 
-const mapStateToProps = state => ({ token: state.token });
+const mapStateToProps = state => ({ token: state.token, info: state.info });
 
 function TopBarStatic(props) {
     let loginToggle = null;
@@ -23,7 +23,7 @@ function TopBarStatic(props) {
     } else if (props.userExists) {
         loginToggle = (<ul className={'nav navbar-nav navbar-right hidden-xs'}>
             <li>
-                <a onClick={props.logout}>Logged in</a>
+                <a onClick={props.logout}>{props.name}</a>
             </li>
         </ul>);
     }
@@ -68,12 +68,12 @@ function TopBarElement(props) {
     );
 }
 
-function TopBarList() {
+/* function TopBarList() {
     return (
         <div className={'container'}>
             <div className={'collapse navbar-collapse'}>
                 <ul className={'nav navbar-nav navbar-nav-flex'}>
-                    {/* About */}
+                    {/!* About *!/}
                     <TopBarElement
                         title={<FormattedMessage id={'topBar.about.title'} />}
                         baseLink={'about'}
@@ -90,7 +90,7 @@ function TopBarList() {
                             { title: <FormattedMessage id={'topBar.about.contact'} />, link: 'contact' },
                             { title: <FormattedMessage id={'topBar.about.copyright'} />, link: 'copyright' },
                         ]} />
-                    {/* Reading */}
+                    {/!* Reading *!/}
                     <TopBarElement
                         title={<FormattedMessage id={'topBar.reading.title'} />}
                         subsections={[
@@ -98,14 +98,14 @@ function TopBarList() {
                         { title: <FormattedMessage id={'topBar.reading.visual'} />, link: 'ldod-visual' },
                         { title: <FormattedMessage id={'topBar.reading.citations'} />, link: 'citations' },
                         ]} />
-                    {/* Documents */}
+                    {/!* Documents *!/}
                     <TopBarElement
                         title={<FormattedMessage id={'topBar.documents.title'} />}
                         subsections={[
                             { title: <FormattedMessage id={'topBar.documents.witnesses'} />, link: 'source/list' },
                             { title: <FormattedMessage id={'topBar.documents.fragments'} />, link: 'fragments' },
                         ]} />
-                    {/* Editions */}
+                    {/!* Editions *!/}
                     <TopBarElement
                         title={<FormattedMessage id={'topBar.editions.title'} />}
                         baseLink={'edition'}
@@ -121,7 +121,7 @@ function TopBarList() {
                             { title: 'LdoD-TWITTER', link: 'acronym/LdoD-Twitter' },
                         ]}
                         division={5} />
-                    {/* Search */}
+                    {/!* Search *!/}
                     <TopBarElement
                         title={<FormattedMessage id={'topBar.search.title'} />}
                         baseLink={'search'}
@@ -129,20 +129,20 @@ function TopBarList() {
                             { title: <FormattedMessage id={'topBar.search.simple'} />, link: 'simple' },
                             { title: <FormattedMessage id={'topBar.search.advanced'} />, link: 'advanced' },
                         ]} />
-                    {/* Virtual */}
+                    {/!* Virtual *!/}
                     <TopBarElement
                         title={<FormattedMessage id={'topBar.virtual.title'} />}
                         subsections={[
                         { title: <FormattedMessage id={'topBar.virtual.editions'} />, link: 'virtualeditions' },
                         { title: <FormattedMessage id={'topBar.virtual.game'} />, link: 'classificationGames' },
                         ]} />
-                    {/* Lang */}
+                    {/!* Lang *!/}
                     <LanguageToggle />
                 </ul>
             </div>
         </div>
     );
-}
+} */
 
 class TopBar extends React.Component {
 
@@ -233,9 +233,15 @@ class TopBar extends React.Component {
                 }
             }
 
+            const name = this.props.info !== null ? `${this.props.info.firstName} ${this.props.info.lastName} ` : <FormattedMessage id={'login'} />;
+
             return (
                 <nav className={'ldod-navbar navbar navbar-default navbar-fixed-top'}>
-                    <TopBarStatic userExists={userExists} token={this.props.token} logout={this.logoutUser} />
+                    <TopBarStatic
+                        userExists={userExists}
+                        token={this.props.token}
+                        logout={this.logoutUser}
+                        name={name} />
 
                     <div className={'container'}>
                         <div className={'collapse navbar-collapse'}>
@@ -252,7 +258,6 @@ class TopBar extends React.Component {
         return (
             <nav className={'ldod-navbar navbar navbar-default navbar-fixed-top'}>
                 <TopBarStatic />
-                <TopBarList />
             </nav>
         );
     }
