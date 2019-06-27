@@ -90,6 +90,14 @@ public class VirtualEditionInter extends VirtualEditionInter_Base implements Com
         return getUses() != null ? getUses().getTitle() : (new TextInterface()).getScholarInterTitle(getUsesFragInter());
     }
 
+    public String getUsesXmlId() {
+        if (getUses() == null) {
+            return getUsesFragInter();
+        } else {
+            return getUses().getXmlId();
+        }
+    }
+
     @Override
     public int compareTo(VirtualEditionInter other) {
         if (this.getVirtualEdition() == other.getVirtualEdition()) {
@@ -109,7 +117,7 @@ public class VirtualEditionInter extends VirtualEditionInter_Base implements Com
     }
 
     public ScholarInterDto getLastUsed() {
-        return getUses() != null ? getUses().getLastUsed() : (new TextInterface()).getScholarInterUsed(getUsesFragInter());
+        return getUses() != null ? getUses().getLastUsed() : (new TextInterface()).getScholarInter(getUsesFragInter());
     }
 
     public VirtualEdition getEdition() {

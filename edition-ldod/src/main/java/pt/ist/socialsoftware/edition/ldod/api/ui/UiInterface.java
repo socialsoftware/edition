@@ -23,14 +23,14 @@ public class UiInterface {
         }
         TextInterface textInterface = new TextInterface();
 
-        fragInterList.add(0, textInterface.getFragInterDto(textInterface.getScholarInterUsed(inter.getUsesFragInter()).getXmlId()));
+        fragInterList.add(0, textInterface.getFragInterDto(textInterface.getScholarInter(inter.getUsesFragInter()).getXmlId()));
 
         return fragInterList;
     }
 
     public FragInterDto.InterType getSourceTypeOfInter(String xmlId) {
         TextInterface textInterface = new TextInterface();
-        ScholarInterDto scholarInterDto = textInterface.getScholarInterUsed(xmlId);
+        ScholarInterDto scholarInterDto = textInterface.getScholarInter(xmlId);
         if (scholarInterDto != null) {
             return scholarInterDto.getType();
         } else {

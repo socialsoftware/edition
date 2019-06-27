@@ -249,7 +249,18 @@ public class VirtualEditionController {
             return "redirect:/error";
         }
 
-        virtualEdition.updateVirtualEditionInters(fraginters);
+        List<String> fragIntersXmlIds = new ArrayList<>();
+        for (String interExternalId : Arrays.stream(fraginters.trim().split(";")).map(item -> item.trim())
+                .filter(item -> !item.equals("")).collect(Collectors.toList())) {
+            DomainObject domainObject = FenixFramework.getDomainObject(interExternalId);
+            if (domainObject instanceof ScholarInter) {
+                fragIntersXmlIds.add(((ScholarInter) domainObject).getXmlId());
+            } else {
+                fragIntersXmlIds.add(((VirtualEditionInter) domainObject).getXmlId());
+            }
+        }
+
+        virtualEdition.updateVirtualEditionInters(fragIntersXmlIds);
 
         return "redirect:/virtualeditions";
     }

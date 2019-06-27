@@ -8,7 +8,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
-import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.ldod.api.text.TextInterface;
 import pt.ist.socialsoftware.edition.ldod.api.text.dto.ScholarInterDto;
 import pt.ist.socialsoftware.edition.ldod.dto.InterIdDistancePairDto;
@@ -359,100 +358,51 @@ public class VirtualEdition extends VirtualEdition_Base {
     }
 
     @Atomic(mode = TxMode.WRITE)
-    public void updateVirtualEditionInters(String fraginters) {
-        // logger.debug("updateVirtualEditionInters fragintters:{}", fraginters);
-
-        List<String> fragInterList = Arrays.stream(fraginters.trim().split(";")).map(item -> item.trim())
-                .filter(item -> !item.equals("")).collect(Collectors.toList());
-        List<String> newFragList = new ArrayList<>();
-        List<String> actualFragList = new ArrayList<>();
-
-        // inicializa lista de frags
-        for (String temp : fragInterList) {
-            VirtualEditionInter virtualEditionInter = FenixFramework.getDomainObject(temp);
-
-
-            // logger.debug("updateVirtualEditionInters temp:{} interLastUsed:{}
-            // interTitle:{} interSourceType:{}", temp,
-            // virtualEditionInter.getLastUsed().getExternalId(), virtualEditionInter.getTitle(),
-            // virtualEditionInter.getSourceType());
-
-            newFragList.add(virtualEditionInter.getLastUsed().getXmlId());
+    public void updateVirtualEditionInters(List<String> fragIntersXmlIds) {
+        // create list of current used xmlIds
+        List<String> currentUsedXmlIds = new ArrayList<>();
+        for (VirtualEditionInter inter : getAllDepthVirtualEditionInters()) {
+            currentUsedXmlIds.add(inter.getUsesXmlId());
         }
 
-        String fragVirtualInterId = "";
         // remove fragments that are not in the list
         for (VirtualEditionInter inter : getAllDepthVirtualEditionInters()) {
-
-            System.out.println(inter.getExternalId() + " " + inter.getLastUsed().getXmlId() + " "
-                    + inter.getTitle() + " " + inter.getNumber());
-
-            // fragVirtualInterId = inter.getFragment().getExternalId();
-
-            System.out.println("V1");
-            String id = inter.getLastUsed().getXmlId();
-            System.out.println("V2");
-            actualFragList.add(id);
-
-            if (!newFragList.contains(id)) {
+            if (!fragIntersXmlIds.contains(inter.getUsesXmlId())) {
                 inter.remove();
             }
         }
 
-        // adicionar os novos fragmentos
-        /*
-         * int i = 0; for (String fragId : newFragList) { if
-         * (!actualFragList.contains(fragId)) { FragInter inter =
-         * FenixFramework.getDomainObject(fragInterList .get(i)); VirtualEditionInter
-         * addInter = createVirtualEditionInter(inter, i); } i++; }
-         */
-
-        System.out.println("V3");
-
-        int i = 0;
-        for (String fragInter : newFragList) {
-            System.out.println("V4 " + fragInter);
-            if (!actualFragList.contains(fragInter)) {
-                System.out.println("V5 " + fragInter);
-                ScholarInterDto inter = new ScholarInterDto(fragInter);
-
-                createVirtualEditionInter(inter, i + 1);
-                System.out.println("V6 " + fragInter);
+        // add new virtual edition interpretations
+        TextInterface textInterface = new TextInterface();
+        int number = 0;
+        for (String interXmlId : fragIntersXmlIds) {
+            if (!currentUsedXmlIds.contains(interXmlId)) {
+                ScholarInterDto scholarInterDto = textInterface.getScholarInter(interXmlId);
+                if (scholarInterDto != null) {
+                    createVirtualEditionInter(scholarInterDto, number + 1);
+                } else {
+                    VirtualEditionInter virtualEditionInter = LdoD.getInstance().getVirtualEditionInterByXmlId(interXmlId);
+                    if (virtualEditionInter != null) {
+                        createVirtualEditionInter(virtualEditionInter, number + 1);
+                    } else {
+                        throw new LdoDException("the xmlId does not have an associated interpretation in manual virtual edition reordering for xmlId " + interXmlId);
+                    }
+                }
             }
-            i++;
+            number++;
         }
 
-        System.out.println("VirtualEditionInter INDEX UPDATE -----------------");
-        // actualiza indices dos fragmentos da edicao virtual
-        int n = 0;
+        // redefine the global order
         for (VirtualEditionInter inter : getAllDepthVirtualEditionInters()) {
-
-            fragVirtualInterId = inter.getLastUsed().getXmlId();
-
-            if (newFragList.contains(fragVirtualInterId)) {
-                n = newFragList.indexOf(fragVirtualInterId) + 1;
-                inter.setNumber(n);
-                System.out.println(inter.getTitle() + " " + n);
+            String usedXmlId = inter.getUsesXmlId();
+            if (fragIntersXmlIds.contains(usedXmlId)) {
+                number = fragIntersXmlIds.indexOf(usedXmlId) + 1;
+                inter.setNumber(number);
             } else {
-                System.out.println("NOT " + inter.getTitle() + " " + inter.getNumber());
+                throw new LdoDException("error in manual virtual edition reordering for xmlId " + usedXmlId);
             }
 
         }
-
-        System.out.println("UPDATE2");
-
-        /*
-         * int i = 1;
-         *
-         * StringTokenizer st = new StringTokenizer(fraginters, ";"); while
-         * (st.hasMoreElements()) { String fraginterId = st.nextElement().toString(); if
-         * (fraginterId.length() > 0) { FragInter inter =
-         * FenixFramework.getDomainObject(fraginterId); VirtualEditionInter addInter =
-         * createVirtualEditionInter(inter, i); i++; }
-         *
-         * }
-         */
-
     }
 
     // Default section
@@ -675,7 +625,8 @@ public class VirtualEdition extends VirtualEdition_Base {
         return false;
     }
 
-    public List<InterIdDistancePairDto> getIntersByDistance(VirtualEditionInter virtualEditionInter, WeightsDto weights) {
+    public List<InterIdDistancePairDto> getIntersByDistance(VirtualEditionInter virtualEditionInter, WeightsDto
+            weights) {
         List<VirtualEditionInter> inters = getAllDepthVirtualEditionInters();
         VSMVirtualEditionInterRecommender recommender = new VSMVirtualEditionInterRecommender();
 
@@ -792,7 +743,8 @@ public class VirtualEdition extends VirtualEdition_Base {
     }
 
     @Atomic(mode = TxMode.WRITE)
-    public void createClassificationGame(String description, DateTime date, VirtualEditionInter inter, LdoDUser user) {
+    public void createClassificationGame(String description, DateTime date, VirtualEditionInter inter, LdoDUser
+            user) {
         new ClassificationGame(this, description, date, inter, user);
     }
 

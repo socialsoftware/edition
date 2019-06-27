@@ -46,7 +46,7 @@ public class TextInterface {
         return getScholarInterByXmlId(scholarInterId).orElseThrow(LdoDException::new).getNumber();
     }
 
-    public ScholarInterDto getScholarInterUsed(String scholarInterId) {
+    public ScholarInterDto getScholarInter(String scholarInterId) {
         return getScholarInterByXmlId(scholarInterId).map(ScholarInterDto::new).orElse(null);
     }
 
