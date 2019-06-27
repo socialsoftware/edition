@@ -1,9 +1,12 @@
 import React from 'react';
 import axios from 'axios';
+import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import { SERVER_URL } from '../../utils/Constants';
 
-export class Taxonomy extends React.Component {
+const mapStateToProps = state => ({ token: state.token });
+
+class Taxonomy extends React.Component {
     constructor(props) {
         super(props);
 
@@ -81,7 +84,7 @@ export class Taxonomy extends React.Component {
                         href={ref}>{taxInfo.name}</a>
                         <a
                             href={removeRef}>
-                            <span className="glyphicon glyphicon-remove" /></a>
+                            {this.props.token && <span className="glyphicon glyphicon-remove" />}</a>
                     </td>
                     <td>
                         {userRow}
@@ -112,12 +115,12 @@ export class Taxonomy extends React.Component {
                     href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/css/select2.min.css"
                     rel="stylesheet" />
                 <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/js/select2.min.js" />
-                <button
+                {this.props.token && <button
                     className="btn btn-primary pull-right"
                     data-toggle="modal"
                     data-target="#myModal">
                     <span className="glyphicon glyphicon-plus" />
-                </button>
+                </button>}
                 <table className="table table-hover">
                     <thead>
                         <tr>
@@ -150,10 +153,6 @@ export class Taxonomy extends React.Component {
                                     className="form"
                                     method="POST"
                                     action="/virtualeditions/restricted/tag/associate">
-                                    <input
-                                        type="hidden"
-                                        name="THIS SHOULD BE A VALID NAME"
-                                        value="THIS SHOULD BE A VAILD TOKEN" />
                                     <div className="form-group">
                                         <div className="hidden">
                                             <input
@@ -194,3 +193,5 @@ export class Taxonomy extends React.Component {
         );
     }
 }
+
+export default connect(mapStateToProps)(Taxonomy);

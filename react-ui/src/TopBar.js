@@ -180,6 +180,17 @@ class TopBar extends React.Component {
         console.log(this.props);
     }
 
+    componentDidUpdate() {
+        if (this.props.token) {
+            axios.get(`${SERVER_URL}/api/user`, {
+                headers: { Authorization: `Bearer ${this.props.token}` },
+            }).then((result) => {
+                console.log('Got user data');
+                console.log(result.data);
+            });
+        }
+    }
+
     componentDidMount() {
         this.retrieveModuleInfoData();
     }

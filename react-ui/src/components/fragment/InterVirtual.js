@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import { FormattedMessage } from 'react-intl';
 import ReactHTMLParser from 'react-html-parser';
-import { Taxonomy } from './Taxnonomy';
+import Taxonomy from './Taxnonomy';
 import { SERVER_URL } from '../../utils/Constants';
 
 export class InterVirtual extends React.Component {
