@@ -21,11 +21,24 @@ function TopBarStatic(props) {
             </li>
         </ul>);
     } else if (props.userExists) {
-        loginToggle = (<ul className={'nav navbar-nav navbar-right hidden-xs'}>
-            <li>
-                <a onClick={props.logout}>{props.name}</a>
-            </li>
-        </ul>);
+        loginToggle = (
+            <ul className={'nav navbar-nav navbar-right hidden-xs'}>
+                <li className="dropdown login logged-in visible-xs">
+                    <a className="dropdown-toggle" data-toggle="dropdown">
+                        {props.name}
+                        <span className="caret" />
+                    </a>
+
+                    <ul className="dropdown-menu">
+                        <li><a>
+                            <FormattedMessage id={'user.password'} />
+                        </a></li>
+                        <li><a onClick={props.logout}>
+                            <FormattedMessage id={'header.logout'} />
+                        </a></li>
+                    </ul>
+                </li>
+            </ul>);
     }
 
 

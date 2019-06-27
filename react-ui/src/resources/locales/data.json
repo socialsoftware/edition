@@ -81,7 +81,9 @@
     "header.title"                    : "Arquivo LdoD",
     "login.password"                  : "Senha",
     "login.username"                  : "Nome de utilizador",
-    "general.signin"                  : "Entrar"
+    "general.signin"                  : "Entrar",
+    "user.password"                   : "Alterar Senha",
+    "header.logout"                   : "Sair"
   },
   "en" : {
     "appName" : "LdoD Archive",
@@ -165,7 +167,9 @@
     "header.title"                    : "LdoD Archive",
     "login.password"                  : "Password",
     "login.username"                  : "Username",
-    "general.signin"                  : "Sign in"
+    "general.signin"                  : "Sign in",
+    "user.password"                   : "Change Password",
+    "header.logout"                   : "Logout"
   },
   "es" : {
     "appName" : "Archivo LdoD",
@@ -249,7 +253,10 @@
     "header.title"                    : "Archivo LdoD",
     "login.password"                  : "Contrase\u00F1a",
     "login.username"                  : "Nombre de usuario",
-    "general.signin"                  : "Ingresar"
+    "general.signin"                  : "Ingresar",
+    "user.password"                   : "Cambiar la Contrase\u00F1a",
+    "header.logout"                   : "Cerrar"
+
   }
 }
 
