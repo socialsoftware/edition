@@ -15,30 +15,29 @@ function TopBarStatic(props) {
     let loginToggle = null;
 
     if (props.userExists && props.token === '') {
-        loginToggle = (<ul className={'nav navbar-nav navbar-right hidden-xs'}>
+        loginToggle = (
             <li>
                 <a href="/signin"><FormattedMessage id={'login'} /></a>
             </li>
-        </ul>);
+        );
     } else if (props.userExists) {
         loginToggle = (
-            <ul className={'nav navbar-nav navbar-right hidden-xs'}>
-                <li className="dropdown login logged-in visible-xs">
-                    <a className="dropdown-toggle" data-toggle="dropdown">
-                        {props.name}
-                        <span className="caret" />
-                    </a>
+            <li className=" dropdown login logged-in ">
+                <a href="#" className="dropdown-toggle" data-toggle="dropdown">
+                    {props.name}
+                    <span className="caret" />
+                </a>
 
-                    <ul className="dropdown-menu">
-                        <li><a>
-                            <FormattedMessage id={'user.password'} />
-                        </a></li>
-                        <li><a onClick={props.logout}>
-                            <FormattedMessage id={'header.logout'} />
-                        </a></li>
-                    </ul>
-                </li>
-            </ul>);
+                <ul className="dropdown-menu">
+                    <li><a href="#">
+                        <FormattedMessage id={'user.password'} />
+                    </a></li>
+                    <li><a href="#" onClick={props.logout}>
+                        <FormattedMessage id={'header.logout'} />
+                    </a></li>
+                </ul>
+            </li>
+        );
     }
 
 
@@ -47,7 +46,9 @@ function TopBarStatic(props) {
             <div className={'container'}>
                 <div className={'navbar-header'}>
                     <Link to={'/'} className={'navbar-brand'}><FormattedMessage id={'appName'} /></Link>
-                    {loginToggle}
+                    <ul className={'nav navbar-nav navbar-right hidden-xs'}>
+                        {loginToggle}
+                    </ul>
                 </div>
             </div>
         </div>
