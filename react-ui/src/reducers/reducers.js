@@ -6,7 +6,7 @@ import {
     SET_USER_INFO,
 } from '../constants/actionTypes';
 
-const initialState = {
+export const initialState = {
     moduleConfig: {},
     interId: null,
     compareIds: null,

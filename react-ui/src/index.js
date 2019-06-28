@@ -7,15 +7,18 @@ import TopBar from './TopBar';
 import LegacyPage from './legacyPage';
 import UpdatableIntlProvider from './updatableIntlProvider';
 import FragmentMain from './components/fragment/FragmentMain';
-import rootReducer from './reducers/reducers';
+import rootReducer, { initialState } from './reducers/reducers';
 import Login from './components/Login';
 
 function App() {
-    const store = createStore(rootReducer);
+    const store = createStore(rootReducer, loadState());
 
     console.log(store.getState());
 
-    store.subscribe(() => console.log(store.getState()));
+    store.subscribe(() => {
+        console.log(store.getState());
+        saveState(store.getState());
+    });
 
     return (
         <Provider store={store}>
@@ -35,6 +38,29 @@ function App() {
             </UpdatableIntlProvider>
         </Provider>
     );
+}
+
+function saveState(state) {
+    try {
+        const stateString = JSON.stringify(state);
+        sessionStorage.setItem('state', stateString);
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+function loadState() {
+    try {
+        const stateString = sessionStorage.getItem('state');
+
+        if (stateString === null) {
+            return initialState;
+        }
+
+        return JSON.parse(stateString);
+    } catch (e) {
+        return initialState;
+    }
 }
 
 

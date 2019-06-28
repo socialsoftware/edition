@@ -10,12 +10,16 @@ import { Inter2Compare } from './Inter2Compare';
 import { Virtual2Compare } from './Virtual2Compare';
 import Navigation from './Navigation';
 import { SERVER_URL } from '../../utils/Constants';
+import { setCompareIdsType, setInterId } from '../../actions/actions';
 
 const mapStateToProps = state => ({ ids: state.compareIds, type: state.type, interId: state.interId, config: Object.keys(state.moduleConfig) });
 
 class FragmentMain extends React.Component {
     constructor(props) {
         super(props);
+
+        this.props.setCompareIdsType(null, null);
+        this.props.setInterId(null);
 
         this.state = {
             fragmentId: props.match.params.fragId,
@@ -108,4 +112,4 @@ class FragmentMain extends React.Component {
     }
 }
 
-export default connect(mapStateToProps)(FragmentMain);
+export default connect(mapStateToProps, { setCompareIdsType, setInterId })(FragmentMain);
