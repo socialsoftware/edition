@@ -103,9 +103,11 @@ class Taxonomy extends React.Component {
                 selected="selected">{this.state.categories.assigned[i]}</option>);
         }
 
-        for (let i = 0; i < this.state.categories.nonAssigned.length; i++) {
-            nonAssignedOptions.push(<option
-                value={this.state.categories.nonAssigned[i]}>{this.state.categories.nonAssigned[i]}</option>);
+        if (this.state.categories.nonAssigned) {
+            for (let i = 0; i < this.state.categories.nonAssigned.length; i++) {
+                nonAssignedOptions.push(<option
+                    value={this.state.categories.nonAssigned[i]}>{this.state.categories.nonAssigned[i]}</option>);
+            }
         }
 
 

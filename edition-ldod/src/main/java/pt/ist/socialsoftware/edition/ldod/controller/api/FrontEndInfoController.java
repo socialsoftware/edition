@@ -396,7 +396,8 @@ public class FrontEndInfoController {
         Map<String, List<Map<String, String>>> interInfo = new LinkedHashMap<>();
 
 
-        //TODO : delete the following assignment and uncomment the following lines when login capabilities are added to react frontend.
+        //TODO : delete the following assignment and uncomment the following lines when
+        // login capabilities are added to react frontend and a way to select virtual editions is possible
         Set<VirtualEdition> virtualEditions = LdoD.getInstance().getVirtualEditionsSet();
 
         /*Set<VirtualEdition> virtualEditions = new LinkedHashSet<>(LdoDSession.getLdoDSession().materializeVirtualEditions());
@@ -530,23 +531,31 @@ public class FrontEndInfoController {
 
         Map<String, Object> catInfo = new LinkedHashMap<>();
 
-        //TODO: temp solution to get some category info for frontend display. Should be replaced with some sort of login
-        // info usage
-        LdoDUser user = LdoD.getInstance().getUser("ars");
+        LdoDUser user = LdoDUser.getAuthenticatedUser();
 
-        List<String> assignedInfo = new ArrayList<>();
-        for (Category category : inter.getAssignedCategories(user)) {
-            assignedInfo.add(category.getNameInEditionContext(inter.getEdition()));
+        if (user == null){
+            List<String> assignedInfo = new ArrayList<>();
+            for (Category category : inter.getAssignedCategories()) {
+                assignedInfo.add(category.getNameInEditionContext(inter.getEdition()));
+            }
+
+            catInfo.put("assigned", assignedInfo);
         }
+        else {
+            List<String> assignedInfo = new ArrayList<>();
+            for (Category category : inter.getAssignedCategories(user)) {
+                assignedInfo.add(category.getNameInEditionContext(inter.getEdition()));
+            }
 
-        catInfo.put("assigned", assignedInfo);
+            catInfo.put("assigned", assignedInfo);
 
-        List<String> nonAssignedInfo = new ArrayList<>();
-        for (Category category : inter.getNonAssignedCategories(user)) {
-            nonAssignedInfo.add(category.getNameInEditionContext(inter.getEdition()));
+            List<String> nonAssignedInfo = new ArrayList<>();
+            for (Category category : inter.getNonAssignedCategories(user)) {
+                nonAssignedInfo.add(category.getNameInEditionContext(inter.getEdition()));
+            }
+
+            catInfo.put("nonAssigned", nonAssignedInfo);
         }
-
-        catInfo.put("nonAssigned", nonAssignedInfo);
 
         return new ResponseEntity<>(catInfo, HttpStatus.OK);
     }
@@ -687,16 +696,38 @@ public class FrontEndInfoController {
         return new ResponseEntity<>(results, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/user-info", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<?> getAuthenticatedUserInfo(){
+    @GetMapping("/associate-category")
+    public ResponseEntity<?> associateCategoriesToInter(@RequestParam String externalId, @RequestParam String[] categories){
+
+        VirtualEditionInter inter = FenixFramework.getDomainObject(externalId);
+
+        if (inter == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
 
         LdoDUser user = LdoDUser.getAuthenticatedUser();
 
-        if(user == null)
+        if (user == null || !inter.getEdition().checkAccess()){
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
 
-        LdoDUserDto dto = new LdoDUserDto(user);
+        inter.associate(LdoDUser.getAuthenticatedUser(),Arrays.stream(categories).collect(Collectors.toSet()));
 
-        return new ResponseEntity<>(dto, HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("/dissociate-category")
+    public ResponseEntity<?> dissociateCategoryFromInter(@RequestParam String externalId, @RequestParam String categoryId){
+        VirtualEditionInter inter = FenixFramework.getDomainObject(externalId);
+
+        Category category = FenixFramework.getDomainObject(categoryId);
+
+        if (inter == null || category == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        inter.dissociate(LdoDUser.getAuthenticatedUser(), category);
+
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
