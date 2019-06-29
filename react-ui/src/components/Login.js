@@ -35,6 +35,8 @@ class Login extends React.Component {
                 this.props.setAccessToken(result.data.accessToken);
                 this.props.history.push('/');
 
+                sessionStorage.setItem('TOKEN', result.data.accessToken);
+
                 axios.get(`${SERVER_URL}/api/user`, {
                     headers: { Authorization: `Bearer ${result.data.accessToken}` },
                 }).then((res) => {

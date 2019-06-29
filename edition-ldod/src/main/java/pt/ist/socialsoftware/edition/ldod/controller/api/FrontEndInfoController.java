@@ -707,11 +707,23 @@ public class FrontEndInfoController {
 
         LdoDUser user = LdoDUser.getAuthenticatedUser();
 
+        logger.debug("BEFORE ASSOCIATE");
+        for(Category category : inter.getAssignedCategories(user)){
+            logger.debug(category.getName());
+            logger.debug(category.getExternalId());
+        }
+
         if (user == null || !inter.getEdition().checkAccess()){
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
 
         inter.associate(LdoDUser.getAuthenticatedUser(),Arrays.stream(categories).collect(Collectors.toSet()));
+
+        logger.debug("AFTER ASSOCIATE");
+        for(Category category : inter.getAssignedCategories(user)){
+            logger.debug(category.getName());
+            logger.debug(category.getExternalId());
+        }
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -728,7 +740,19 @@ public class FrontEndInfoController {
 
         VirtualEditionInter inter = (VirtualEditionInter) object;
 
+        logger.debug("BEFORE");
+        for(Category categoryLog : inter.getAssignedCategories(LdoDUser.getAuthenticatedUser())){
+            logger.debug(categoryLog.getName());
+            logger.debug(categoryLog.getExternalId());
+        }
+
         inter.dissociate(LdoDUser.getAuthenticatedUser(), category);
+
+        logger.debug("AFTER");
+        for(Category categoryLog : inter.getAssignedCategories(LdoDUser.getAuthenticatedUser())){
+            logger.debug(categoryLog.getName());
+            logger.debug(categoryLog.getExternalId());
+        }
 
         return new ResponseEntity<>(HttpStatus.OK);
     }

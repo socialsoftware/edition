@@ -10,6 +10,8 @@ class Taxonomy extends React.Component {
     constructor(props) {
         super(props);
 
+        this.removeCategory = this.removeCategory.bind(this);
+
         this.state = {
             fragmentId: props.fragmentId,
             interId: props.interId,
@@ -48,6 +50,23 @@ class Taxonomy extends React.Component {
         });
     }
 
+    removeCategory(interId, catId) {
+        console.log(interId);
+        console.log(catId);
+        console.log(this.state);
+
+        axios.post(`${SERVER_URL}/api/services/frontend/restricted/dissociate-category`, null, {
+            params: {
+                externalId: interId,
+                categoryId: catId,
+            },
+            headers: { Authorization: `Bearer ${sessionStorage.getItem('TOKEN')}` },
+        }).then((res) => {
+            console.log(res);
+            this.getTaxonomyInfo();
+        });
+    }
+
     componentDidMount() {
         this.getTaxonomyInfo();
     }
@@ -76,15 +95,13 @@ class Taxonomy extends React.Component {
 
             const ref = `http://localhost:9000/edition/acronym/${taxInfo.acronym}/category/${taxInfo.urlId}`;
 
-            const removeRef = `http://localhost:9000/virtualeditions/restricted/fraginter/${taxInfo.interExternal}/tag/dissociate/${taxInfo.categoryExternal}`;
-
             taxRows.push(
                 <tr>
                     <td><a
                         href={ref}>{taxInfo.name}</a>
-                        <a
-                            href={removeRef}>
-                            {this.props.token && <span className="glyphicon glyphicon-remove" />}</a>
+                        {this.props.token && <a
+                            onClick={() => this.removeCategory(taxInfo.interExternal, taxInfo.categoryExternal)}>
+                            <span className="glyphicon glyphicon-remove" /></a>}
                     </td>
                     <td>
                         {userRow}
