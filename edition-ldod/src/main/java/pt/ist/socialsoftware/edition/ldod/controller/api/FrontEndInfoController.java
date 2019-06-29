@@ -6,10 +6,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import pt.ist.fenixframework.DomainObject;
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.ldod.api.ui.FragInterDto;
 import pt.ist.socialsoftware.edition.ldod.api.ui.UiInterface;
@@ -696,14 +694,16 @@ public class FrontEndInfoController {
         return new ResponseEntity<>(results, HttpStatus.OK);
     }
 
-    @GetMapping("/associate-category")
+    @PostMapping("/restricted/associate-category")
     public ResponseEntity<?> associateCategoriesToInter(@RequestParam String externalId, @RequestParam String[] categories){
 
-        VirtualEditionInter inter = FenixFramework.getDomainObject(externalId);
+        DomainObject object = FenixFramework.getDomainObject(externalId);
 
-        if (inter == null){
+        if (!(object instanceof VirtualEditionInter)){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+
+        VirtualEditionInter inter = (VirtualEditionInter) object;
 
         LdoDUser user = LdoDUser.getAuthenticatedUser();
 
@@ -716,15 +716,17 @@ public class FrontEndInfoController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping("/dissociate-category")
+    @PostMapping("/restricted/dissociate-category")
     public ResponseEntity<?> dissociateCategoryFromInter(@RequestParam String externalId, @RequestParam String categoryId){
-        VirtualEditionInter inter = FenixFramework.getDomainObject(externalId);
+        DomainObject object = FenixFramework.getDomainObject(externalId);
 
         Category category = FenixFramework.getDomainObject(categoryId);
 
-        if (inter == null || category == null){
+        if (!(object instanceof VirtualEditionInter) || category == null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+
+        VirtualEditionInter inter = (VirtualEditionInter) object;
 
         inter.dissociate(LdoDUser.getAuthenticatedUser(), category);
 
