@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
+import { Form } from 'react-bootstrap';
 import { SERVER_URL } from '../../utils/Constants';
 
 const mapStateToProps = state => ({ token: state.token });
@@ -11,6 +12,9 @@ class Taxonomy extends React.Component {
         super(props);
 
         this.removeCategory = this.removeCategory.bind(this);
+        this.changedCategory = this.changedCategory.bind(this);
+        this.addCategory = this.addCategory.bind(this);
+
 
         this.state = {
             fragmentId: props.fragmentId,
@@ -18,6 +22,7 @@ class Taxonomy extends React.Component {
             externalId: props.externalId,
             title: props.title,
             taxonomy: null,
+            selectedCats: [],
             isLoaded: false,
             categories: null,
             isCatLoaded: false,
@@ -53,6 +58,26 @@ class Taxonomy extends React.Component {
                 });
             });
         }
+    }
+
+    changedCategory(event) {
+        const options = event.target.options;
+        const values = [];
+        for (let i = 0; i < options.length; i++) {
+            if (options[i].selected) {
+                values.push(options[i].value);
+            }
+        }
+
+        this.setState({
+            selectedCats: values,
+        });
+    }
+
+    addCategory(event) {
+        event.preventDefault();
+
+        console.log(this.state.selectedCats);
     }
 
     removeCategory(interId, catId) {
@@ -169,10 +194,9 @@ class Taxonomy extends React.Component {
                         </div>
                         <div className="modal-body">
                             <div className="row text-center">
-                                <form
-                                    className="form"
-                                    method="POST"
-                                    action="/virtualeditions/restricted/tag/associate">
+                                <Form
+                                    onSubmit={this.addCategory}
+                                    className="form">
                                     <div className="form-group">
                                         <div className="hidden">
                                             <input
@@ -184,6 +208,7 @@ class Taxonomy extends React.Component {
                                     </div>
                                     <div className="form-group">
                                         <select
+                                            onChange={this.changedCategory}
                                             name="categories[]"
                                             id="category-select"
                                             className="form-control"
@@ -198,7 +223,7 @@ class Taxonomy extends React.Component {
                                             <FormattedMessage id={'general.associate'} />
                                         </button>
                                     </div>
-                                </form>
+                                </Form>
                             </div>
                         </div>
                         <div className="modal-footer">
