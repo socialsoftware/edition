@@ -77,7 +77,20 @@ class Taxonomy extends React.Component {
     addCategory(event) {
         event.preventDefault();
 
-        console.log(this.state.selectedCats);
+        const categories = this.state.categories.assigned.concat(this.state.selectedCats.filter(
+            x => !this.state.categories.assigned.includes(x)),
+        );
+
+        axios.post(`${SERVER_URL}/api/services/frontend/restricted/associate-category`, null, {
+            params: {
+                externalId: this.state.externalId,
+                categories: encodeURIComponent(categories),
+            },
+            headers: { Authorization: `Bearer ${sessionStorage.getItem('TOKEN')}` },
+        }).then((res) => {
+            console.log(res);
+            this.getTaxonomyInfo();
+        });
     }
 
     removeCategory(interId, catId) {

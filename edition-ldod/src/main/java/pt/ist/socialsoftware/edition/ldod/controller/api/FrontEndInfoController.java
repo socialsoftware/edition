@@ -709,7 +709,9 @@ public class FrontEndInfoController {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
 
-        inter.associate(LdoDUser.getAuthenticatedUser(),Arrays.stream(categories).collect(Collectors.toSet()));
+        String[] names = categories[0].split("%2C");
+
+        inter.associate(LdoDUser.getAuthenticatedUser(),Arrays.stream(names).collect(Collectors.toSet()));
 
         logger.debug("AFTER ASSOCIATE");
         for(Category category : inter.getAssignedCategories(user)){
