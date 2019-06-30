@@ -531,15 +531,7 @@ public class FrontEndInfoController {
 
         LdoDUser user = LdoDUser.getAuthenticatedUser();
 
-        if (user == null){
-            List<String> assignedInfo = new ArrayList<>();
-            for (Category category : inter.getAssignedCategories()) {
-                assignedInfo.add(category.getNameInEditionContext(inter.getEdition()));
-            }
-
-            catInfo.put("assigned", assignedInfo);
-        }
-        else {
+        if (user != null){
             List<String> assignedInfo = new ArrayList<>();
             for (Category category : inter.getAssignedCategories(user)) {
                 assignedInfo.add(category.getNameInEditionContext(inter.getEdition()));

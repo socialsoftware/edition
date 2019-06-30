@@ -191,6 +191,7 @@ class TopBar extends React.Component {
     logoutUser(event) {
         event.preventDefault();
         this.props.setAccessToken('');
+        sessionStorage.removeItem('TOKEN');
         console.log(this.props);
     }
 

@@ -37,24 +37,25 @@ class Taxonomy extends React.Component {
             });
         });
 
-        axios.get(`${SERVER_URL}/api/services/frontend/categories`, {
-            params: {
-                xmlId: this.state.fragmentId,
-                urlId: this.state.interId,
-            },
-        }).then((result) => {
-            this.setState({
-                categories: result.data,
-                isCatLoaded: true,
+        const token = sessionStorage.getItem('TOKEN');
+
+        if (token !== null) {
+            axios.get(`${SERVER_URL}/api/services/frontend/categories`, {
+                params: {
+                    xmlId: this.state.fragmentId,
+                    urlId: this.state.interId,
+                },
+                headers: { Authorization: `Bearer ${token}` },
+            }).then((result) => {
+                this.setState({
+                    categories: result.data,
+                    isCatLoaded: true,
+                });
             });
-        });
+        }
     }
 
     removeCategory(interId, catId) {
-        console.log(interId);
-        console.log(catId);
-        console.log(this.state);
-
         axios.post(`${SERVER_URL}/api/services/frontend/restricted/dissociate-category`, null, {
             params: {
                 externalId: interId,
@@ -72,7 +73,7 @@ class Taxonomy extends React.Component {
     }
 
     render() {
-        if (!this.state.isLoaded || !this.state.isCatLoaded) {
+        if (!this.state.isLoaded || (sessionStorage.getItem('TOKEN') != null && !this.state.isCatLoaded)) {
             return (
                 <div>Loading taxonomy info</div>
             );
@@ -114,13 +115,13 @@ class Taxonomy extends React.Component {
         const assignedOptions = [];
         const nonAssignedOptions = [];
 
-        for (let i = 0; i < this.state.categories.assigned.length; i++) {
-            assignedOptions.push(<option
-                value={this.state.categories.assigned[i]}
-                selected="selected">{this.state.categories.assigned[i]}</option>);
-        }
+        if (this.state.categories) {
+            for (let i = 0; i < this.state.categories.assigned.length; i++) {
+                assignedOptions.push(<option
+                    value={this.state.categories.assigned[i]}
+                    selected="selected">{this.state.categories.assigned[i]}</option>);
+            }
 
-        if (this.state.categories.nonAssigned) {
             for (let i = 0; i < this.state.categories.nonAssigned.length; i++) {
                 nonAssignedOptions.push(<option
                     value={this.state.categories.nonAssigned[i]}>{this.state.categories.nonAssigned[i]}</option>);
