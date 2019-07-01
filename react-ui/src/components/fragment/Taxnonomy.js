@@ -3,6 +3,8 @@ import axios from 'axios';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import { Form } from 'react-bootstrap';
+import Select from 'react-select';
+import 'react-select/dist/react-select.css';
 import { SERVER_URL } from '../../utils/Constants';
 
 const mapStateToProps = state => ({ token: state.token });
@@ -52,8 +54,15 @@ class Taxonomy extends React.Component {
                 },
                 headers: { Authorization: `Bearer ${token}` },
             }).then((result) => {
+                const defaultValues = [];
+
+                for (let i = 0; i < result.data.assigned.length; i++) {
+                    defaultValues.push(result.data.assigned[i]);
+                }
+
                 this.setState({
                     categories: result.data,
+                    selectedCats: defaultValues,
                     isCatLoaded: true,
                 });
             });
@@ -61,16 +70,16 @@ class Taxonomy extends React.Component {
     }
 
     changedCategory(event) {
-        const options = event.target.options;
+       /* const options = event.target.options;
         const values = [];
         for (let i = 0; i < options.length; i++) {
             if (options[i].selected) {
                 values.push(options[i].value);
             }
-        }
+        } */
 
         this.setState({
-            selectedCats: values,
+            selectedCats: event.map(x => x.value),
         });
     }
 
@@ -150,22 +159,17 @@ class Taxonomy extends React.Component {
             );
         }
 
-        const assignedOptions = [];
-        const nonAssignedOptions = [];
+        const allValues = [];
 
         if (this.state.categories) {
             for (let i = 0; i < this.state.categories.assigned.length; i++) {
-                assignedOptions.push(<option
-                    value={this.state.categories.assigned[i]}
-                    selected="selected">{this.state.categories.assigned[i]}</option>);
+                allValues.push({ value: this.state.categories.assigned[i], label: this.state.categories.assigned[i] });
             }
 
             for (let i = 0; i < this.state.categories.nonAssigned.length; i++) {
-                nonAssignedOptions.push(<option
-                    value={this.state.categories.nonAssigned[i]}>{this.state.categories.nonAssigned[i]}</option>);
+                allValues.push({ value: this.state.categories.nonAssigned[i], label: this.state.categories.nonAssigned[i] });
             }
         }
-
 
         return ([
             <div className="row" id="taxonomy">
@@ -220,7 +224,7 @@ class Taxonomy extends React.Component {
                                         </div>
                                     </div>
                                     <div className="form-group">
-                                        <select
+                                        {/* <select
                                             onChange={this.changedCategory}
                                             name="categories[]"
                                             id="category-select"
@@ -229,7 +233,12 @@ class Taxonomy extends React.Component {
                                             multiple>
                                             {nonAssignedOptions}
                                             {assignedOptions}
-                                        </select>
+                                        </select> */}
+                                        <Select
+                                            multi
+                                            options={allValues}
+                                            value={this.state.selectedCats}
+                                            onChange={this.changedCategory} />
                                     </div>
                                     <div className="form-group">
                                         <button type="submit" className="btn btn-sm btn-primary">
