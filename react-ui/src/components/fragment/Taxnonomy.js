@@ -79,21 +79,17 @@ class Taxonomy extends React.Component {
         } */
 
         this.setState({
-            selectedCats: event.map(x => x.value),
+            selectedCats: event,
         });
     }
 
     addCategory(event) {
         event.preventDefault();
 
-        const categories = this.state.categories.assigned.concat(this.state.selectedCats.filter(
-            x => !this.state.categories.assigned.includes(x)),
-        );
-
         axios.post(`${SERVER_URL}/api/services/frontend/restricted/associate-category`, null, {
             params: {
                 externalId: this.state.externalId,
-                categories: encodeURIComponent(categories),
+                categories: encodeURIComponent(this.state.selectedCats.map(x => x.value)),
             },
             headers: { Authorization: `Bearer ${sessionStorage.getItem('TOKEN')}` },
         }).then((res) => {
@@ -141,7 +137,7 @@ class Taxonomy extends React.Component {
                 userRow.push(<a href={ref}>{userInfo.firstName} {userInfo.lastName} ({userInfo.username})</a>);
             }
 
-            const ref = `http://localhost:9000/edition/acronym/${taxInfo.acronym}/category/${taxInfo.urlId}`;
+            const ref = `${SERVER_URL}/edition/acronym/${taxInfo.acronym}/category/${taxInfo.urlId}`;
 
             taxRows.push(
                 <tr>
@@ -224,17 +220,7 @@ class Taxonomy extends React.Component {
                                         </div>
                                     </div>
                                     <div className="form-group">
-                                        {/* <select
-                                            onChange={this.changedCategory}
-                                            name="categories[]"
-                                            id="category-select"
-                                            className="form-control"
-                                            style={{ width: '75%' }}
-                                            multiple>
-                                            {nonAssignedOptions}
-                                            {assignedOptions}
-                                        </select> */}
-                                        <Select
+                                        <Select.Creatable
                                             multi
                                             options={allValues}
                                             value={this.state.selectedCats}
