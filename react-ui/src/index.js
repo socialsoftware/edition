@@ -9,6 +9,7 @@ import UpdatableIntlProvider from './updatableIntlProvider';
 import FragmentMain from './components/fragment/FragmentMain';
 import rootReducer, { initialState } from './reducers/reducers';
 import Login from './components/Login';
+import ChangePassword from './components/ChangePassword';
 
 function App() {
     const store = createStore(rootReducer, loadState());
@@ -27,6 +28,7 @@ function App() {
                     <div>
                         <TopBar />
                         <Switch>
+                            <Route exact path="/user/changePassword" component={ChangePassword} />
                             <Route exact path="/signin" component={Login} />
                             <Route exact path="/fragments/fragment/:fragId/inter/:interId" component={FragmentMain} />
                             <Route exact path="/fragments/fragment/:fragId" component={FragmentMain} />

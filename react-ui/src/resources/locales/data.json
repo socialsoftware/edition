@@ -83,7 +83,11 @@
     "login.username"                  : "Nome de utilizador",
     "general.signin"                  : "Entrar",
     "user.password"                   : "Alterar Senha",
-    "header.logout"                   : "Sair"
+    "header.logout"                   : "Sair",
+    "user.password.current"           : "Senha atual",
+    "user.password.new"               : "Nova senha",
+    "user.password.retype"            : "Digite novamente a senha",
+    "general.update"                  : "Atualizar"
   },
   "en" : {
     "appName" : "LdoD Archive",
@@ -169,7 +173,11 @@
     "login.username"                  : "Username",
     "general.signin"                  : "Sign in",
     "user.password"                   : "Change Password",
-    "header.logout"                   : "Logout"
+    "header.logout"                   : "Logout",
+    "user.password.current"           : "Current password",
+    "user.password.new"               : "New password",
+    "user.password.retype"            : "Retype password",
+    "general.update"                  : "Update"
   },
   "es" : {
     "appName" : "Archivo LdoD",
@@ -255,7 +263,11 @@
     "login.username"                  : "Nombre de usuario",
     "general.signin"                  : "Ingresar",
     "user.password"                   : "Cambiar la Contrase\u00F1a",
-    "header.logout"                   : "Cerrar"
+    "header.logout"                   : "Cerrar",
+    "user.password.current"           : "Contrase\u00F1a actual",
+    "user.password.new"               : "Nueva contrase\u00F1a",
+    "user.password.retype"            : "Vuelva a escribir la contrase\u00F1a",
+    "general.update"                  : "Actualizar"
 
   }
 }

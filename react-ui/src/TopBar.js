@@ -32,7 +32,7 @@ function TopBarStatic(props) {
                 </a>
 
                 <ul className="dropdown-menu">
-                    <li><a href="#">
+                    <li><a href="/user/changePassword">
                         <FormattedMessage id={'user.password'} />
                     </a></li>
                     <li><a href="#" onClick={props.logout}>
