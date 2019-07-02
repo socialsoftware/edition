@@ -6,15 +6,17 @@ import { LinkContainer } from 'react-router-bootstrap';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import LanguageToggle from './languageToggle';
-import { setAccessToken, setModuleConfig } from './actions/actions';
+import { setLoginStatus, setModuleConfig } from './actions/actions';
 import { SERVER_URL } from './utils/Constants';
 
-const mapStateToProps = state => ({ token: state.token, info: state.info });
+const mapStateToProps = state => ({ status: state.status, info: state.info });
 
 function TopBarStatic(props) {
     let loginToggle = null;
 
-    if (props.userExists && props.token === '') {
+    console.log(props.userExists && !props.status);
+
+    if (props.userExists && !props.status) {
         loginToggle = (
             <li>
                 <a href="/signin"><FormattedMessage id={'login'} /></a>
@@ -190,9 +192,8 @@ class TopBar extends React.Component {
 
     logoutUser(event) {
         event.preventDefault();
-        this.props.setAccessToken('');
+        this.props.setLoginStatus(false);
         sessionStorage.removeItem('TOKEN');
-        console.log(this.props);
     }
 
     componentDidMount() {
@@ -254,7 +255,7 @@ class TopBar extends React.Component {
                 <nav className={'ldod-navbar navbar navbar-default navbar-fixed-top'}>
                     <TopBarStatic
                         userExists={userExists}
-                        token={this.props.token}
+                        status={this.props.status}
                         logout={this.logoutUser}
                         name={name} />
 
@@ -279,7 +280,7 @@ class TopBar extends React.Component {
 
 }
 
-export default connect(mapStateToProps, { setModuleConfig, setAccessToken })(TopBar);
+export default connect(mapStateToProps, { setModuleConfig, setLoginStatus })(TopBar);
 
 /* export default function TopBar() {
 

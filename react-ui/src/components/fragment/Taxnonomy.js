@@ -7,7 +7,7 @@ import Select from 'react-select';
 import 'react-select/dist/react-select.css';
 import { SERVER_URL } from '../../utils/Constants';
 
-const mapStateToProps = state => ({ token: state.token });
+const mapStateToProps = state => ({ status: state.status });
 
 class Taxonomy extends React.Component {
     constructor(props) {
@@ -44,15 +44,13 @@ class Taxonomy extends React.Component {
             });
         });
 
-        const token = sessionStorage.getItem('TOKEN');
-
-        if (token !== null) {
+        if (this.props.status) {
             axios.get(`${SERVER_URL}/api/services/frontend/categories`, {
                 params: {
                     xmlId: this.state.fragmentId,
                     urlId: this.state.interId,
                 },
-                headers: { Authorization: `Bearer ${token}` },
+                headers: { Authorization: `Bearer ${sessionStorage.getItem('TOKEN')}` },
             }).then((result) => {
                 const defaultValues = [];
 
@@ -116,7 +114,7 @@ class Taxonomy extends React.Component {
     }
 
     render() {
-        if (!this.state.isLoaded || (sessionStorage.getItem('TOKEN') != null && !this.state.isCatLoaded)) {
+        if (!this.state.isLoaded || (this.props.status && !this.state.isCatLoaded)) {
             return (
                 <div>Loading taxonomy info</div>
             );
@@ -143,7 +141,7 @@ class Taxonomy extends React.Component {
                 <tr>
                     <td><a
                         href={ref}>{taxInfo.name}</a>
-                        {this.props.token && <a
+                        {this.props.status && <a
                             onClick={() => this.removeCategory(taxInfo.interExternal, taxInfo.categoryExternal)}>
                             <span className="glyphicon glyphicon-remove" /></a>}
                     </td>
@@ -173,7 +171,7 @@ class Taxonomy extends React.Component {
                     href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/css/select2.min.css"
                     rel="stylesheet" />
                 <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/js/select2.min.js" />
-                {this.props.token && <button
+                {this.props.status && <button
                     className="btn btn-primary pull-right"
                     data-toggle="modal"
                     data-target="#myModal">

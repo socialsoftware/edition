@@ -5,9 +5,9 @@ import { Form } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { SERVER_URL } from '../utils/Constants';
-import { setAccessToken, setUserInfo } from '../actions/actions';
+import { setLoginStatus, setUserInfo } from '../actions/actions';
 
-const mapStateToProps = state => ({ token: state.token });
+const mapStateToProps = state => ({ status: state.status });
 
 class Login extends React.Component {
     constructor(props) {
@@ -32,7 +32,7 @@ class Login extends React.Component {
         axios.post(`${SERVER_URL}/api/auth/signin`, loginInfo)
             .then((result) => {
                 console.log(result.data);
-                this.props.setAccessToken(result.data.accessToken);
+                this.props.setLoginStatus(true);
                 this.props.history.push('/');
 
                 sessionStorage.setItem('TOKEN', result.data.accessToken);
@@ -66,7 +66,7 @@ class Login extends React.Component {
     }
 
     render() {
-        if (this.props.token !== '') {
+        if (this.props.status) {
             return <Redirect to="/" />;
         }
 
@@ -115,4 +115,4 @@ class Login extends React.Component {
     }
 }
 
-export default connect(mapStateToProps, { setAccessToken, setUserInfo })(Login);
+export default connect(mapStateToProps, { setLoginStatus, setUserInfo })(Login);

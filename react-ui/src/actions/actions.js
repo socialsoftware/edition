@@ -1,7 +1,6 @@
 import {
-    SET_ACCESS_TOKEN,
     SET_COMPARE_IDS_TYPE,
-    SET_INTER_ID,
+    SET_INTER_ID, SET_LOGIN_STATUS,
     SET_MODULE_CONFIG,
     SET_USER_INFO,
 } from '../constants/actionTypes';
@@ -12,6 +11,6 @@ export const setCompareIdsType = (ids, compareType) => ({ type: SET_COMPARE_IDS_
 
 export const setInterId = id => ({ type: SET_INTER_ID, id });
 
-export const setAccessToken = token => ({ type: SET_ACCESS_TOKEN, token });
+export const setLoginStatus = status => ({ type: SET_LOGIN_STATUS, status });
 
 export const setUserInfo = info => ({ type: SET_USER_INFO, info });
