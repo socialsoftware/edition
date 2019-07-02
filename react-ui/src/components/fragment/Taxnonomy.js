@@ -6,6 +6,7 @@ import { Form } from 'react-bootstrap';
 import Select from 'react-select';
 import 'react-select/dist/react-select.css';
 import { SERVER_URL } from '../../utils/Constants';
+import { getToken } from '../../utils/StorageUtils';
 
 const mapStateToProps = state => ({ status: state.status });
 
@@ -50,7 +51,7 @@ class Taxonomy extends React.Component {
                     xmlId: this.state.fragmentId,
                     urlId: this.state.interId,
                 },
-                headers: { Authorization: `Bearer ${sessionStorage.getItem('TOKEN')}` },
+                headers: { Authorization: `Bearer ${getToken()}` },
             }).then((result) => {
                 const defaultValues = [];
 
@@ -89,7 +90,7 @@ class Taxonomy extends React.Component {
                 externalId: this.state.externalId,
                 categories: encodeURIComponent(this.state.selectedCats.map(x => x.value)),
             },
-            headers: { Authorization: `Bearer ${sessionStorage.getItem('TOKEN')}` },
+            headers: { Authorization: `Bearer ${getToken()}` },
         }).then((res) => {
             console.log(res);
             this.getTaxonomyInfo();
@@ -102,7 +103,7 @@ class Taxonomy extends React.Component {
                 externalId: interId,
                 categoryId: catId,
             },
-            headers: { Authorization: `Bearer ${sessionStorage.getItem('TOKEN')}` },
+            headers: { Authorization: `Bearer ${getToken()}` },
         }).then((res) => {
             console.log(res);
             this.getTaxonomyInfo();

@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 import LanguageToggle from './languageToggle';
 import { setLoginStatus, setModuleConfig } from './actions/actions';
 import { SERVER_URL } from './utils/Constants';
+import { deleteToken } from './utils/StorageUtils';
 
 const mapStateToProps = state => ({ status: state.status, info: state.info });
 
@@ -193,7 +194,7 @@ class TopBar extends React.Component {
     logoutUser(event) {
         event.preventDefault();
         this.props.setLoginStatus(false);
-        sessionStorage.removeItem('TOKEN');
+        deleteToken();
     }
 
     componentDidMount() {

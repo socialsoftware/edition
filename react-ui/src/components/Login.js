@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { SERVER_URL } from '../utils/Constants';
 import { setLoginStatus, setUserInfo } from '../actions/actions';
+import { saveToken } from '../utils/StorageUtils';
 
 const mapStateToProps = state => ({ status: state.status });
 
@@ -35,7 +36,7 @@ class Login extends React.Component {
                 this.props.setLoginStatus(true);
                 this.props.history.push('/');
 
-                sessionStorage.setItem('TOKEN', result.data.accessToken);
+                saveToken(result.data.accessToken);
 
                 axios.get(`${SERVER_URL}/api/user`, {
                     headers: { Authorization: `Bearer ${result.data.accessToken}` },
