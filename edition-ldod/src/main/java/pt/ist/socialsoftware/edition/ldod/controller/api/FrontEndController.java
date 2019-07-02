@@ -5,7 +5,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import pt.ist.fenixframework.DomainObject;
 import pt.ist.fenixframework.FenixFramework;
@@ -13,12 +12,9 @@ import pt.ist.socialsoftware.edition.ldod.api.ui.FragInterDto;
 import pt.ist.socialsoftware.edition.ldod.api.ui.UiInterface;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.domain.EditionModule;
-import pt.ist.socialsoftware.edition.ldod.dto.LdoDUserDto;
 import pt.ist.socialsoftware.edition.ldod.generators.HtmlWriter2CompInters;
 import pt.ist.socialsoftware.edition.ldod.generators.HtmlWriter4Variations;
 import pt.ist.socialsoftware.edition.ldod.generators.PlainHtmlWriter4OneInter;
-import pt.ist.socialsoftware.edition.ldod.security.LdoDUserDetails;
-import pt.ist.socialsoftware.edition.ldod.session.LdoDSession;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -28,8 +24,8 @@ import static pt.ist.socialsoftware.edition.ldod.domain.Source.SourceType.PRINTE
 
 @RestController
 @RequestMapping("/api/services/frontend")
-public class FrontEndInfoController {
-    private static final Logger logger = LoggerFactory.getLogger(FrontEndInfoController.class);
+public class FrontEndController {
+    private static final Logger logger = LoggerFactory.getLogger(FrontEndController.class);
 
     // /api/services/frontend/module-info
     @GetMapping(value = "/module-info", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
