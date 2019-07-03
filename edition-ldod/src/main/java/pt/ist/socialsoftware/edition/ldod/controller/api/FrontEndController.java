@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import pt.ist.fenixframework.DomainObject;
 import pt.ist.fenixframework.FenixFramework;
@@ -16,6 +17,7 @@ import pt.ist.socialsoftware.edition.ldod.generators.HtmlWriter2CompInters;
 import pt.ist.socialsoftware.edition.ldod.generators.HtmlWriter4Variations;
 import pt.ist.socialsoftware.edition.ldod.generators.PlainHtmlWriter4OneInter;
 
+import javax.inject.Inject;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -26,6 +28,9 @@ import static pt.ist.socialsoftware.edition.ldod.domain.Source.SourceType.PRINTE
 @RequestMapping("/api/services/frontend")
 public class FrontEndController {
     private static final Logger logger = LoggerFactory.getLogger(FrontEndController.class);
+
+    @Inject
+    private PasswordEncoder passwordEncoder;
 
     // /api/services/frontend/module-info
     @GetMapping(value = "/module-info", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -743,6 +748,26 @@ public class FrontEndController {
             logger.debug(categoryLog.getName());
             logger.debug(categoryLog.getExternalId());
         }
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping("/restricted/change-password")
+    public ResponseEntity<?> changeUserPassword(@RequestParam String username, @RequestParam String currentPassword,
+                                                @RequestParam String newPassword, @RequestParam String retypedPassword){
+
+        if (username == null || currentPassword == null || newPassword == null || retypedPassword == null)
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+        if(!newPassword.equals(retypedPassword))
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+        LdoDUser user = LdoD.getInstance().getUser(username);
+
+        if(!passwordEncoder.matches(currentPassword, user.getPassword()))
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+        user.updatePassword(passwordEncoder, currentPassword, newPassword);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }

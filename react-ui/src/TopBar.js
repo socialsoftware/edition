@@ -15,8 +15,6 @@ const mapStateToProps = state => ({ status: state.status, info: state.info });
 function TopBarStatic(props) {
     let loginToggle = null;
 
-    console.log(props.userExists && !props.status);
-
     if (props.userExists && !props.status) {
         loginToggle = (
             <li>

@@ -40,7 +40,7 @@ export default class ChangePassword extends React.Component {
         event.preventDefault();
         console.log(this.state);
 
-        //TODO : send the request to change the password to the backend
+        // TODO : send the request to change the password to the backend
     }
 
     render() {
