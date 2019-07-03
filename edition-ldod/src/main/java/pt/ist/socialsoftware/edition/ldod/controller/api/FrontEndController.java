@@ -552,13 +552,13 @@ public class FrontEndController {
     }
 
     @GetMapping(value = "/multiple-writer", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<?> getMultipleInterWriter(@RequestParam String[] interIds,
+    public ResponseEntity<?> getMultipleInterWriter(@RequestParam String interIds,
                                                     @RequestParam(required = false, defaultValue = "false") boolean lineByLine,
                                                     @RequestParam(required = false, defaultValue = "false") boolean showSpaces) {
 
         List<ScholarInter> inters = new ArrayList<>();
 
-        for (String id : interIds[0].split("%2C")) {
+        for (String id : interIds.split("%2C")) {
             ScholarInter inter = FenixFramework.getDomainObject(id);
             if (inter != null) {
                 inters.add(inter);
@@ -619,11 +619,11 @@ public class FrontEndController {
     }
 
     @GetMapping(value = "/multiple-virtual", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<?> getMultipleVirtualInfo(@RequestParam String[] interIds) {
+    public ResponseEntity<?> getMultipleVirtualInfo(@RequestParam String interIds) {
 
         List<VirtualEditionInter> inters = new ArrayList<>();
 
-        for (String id : interIds[0].split("%2C")) {
+        for (String id : interIds.split("%2C")) {
             VirtualEditionInter vei = FenixFramework.getDomainObject(id);
             if (vei != null) {
                 inters.add(vei);
@@ -688,7 +688,7 @@ public class FrontEndController {
     }
 
     @PostMapping("/restricted/associate-category")
-    public ResponseEntity<?> associateCategoriesToInter(@RequestParam String externalId, @RequestParam String[] categories){
+    public ResponseEntity<?> associateCategoriesToInter(@RequestParam String externalId, @RequestParam String categories){
 
         DomainObject object = FenixFramework.getDomainObject(externalId);
 
@@ -700,25 +700,13 @@ public class FrontEndController {
 
         LdoDUser user = LdoDUser.getAuthenticatedUser();
 
-        logger.debug("BEFORE ASSOCIATE");
-        for(Category category : inter.getAssignedCategories(user)){
-            logger.debug(category.getName());
-            logger.debug(category.getExternalId());
-        }
-
         if (user == null || !inter.getEdition().checkAccess()){
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
 
-        String[] names = categories[0].split("%2C");
+        String[] names = categories.split("%2C");
 
         inter.associate(LdoDUser.getAuthenticatedUser(),Arrays.stream(names).collect(Collectors.toSet()));
-
-        logger.debug("AFTER ASSOCIATE");
-        for(Category category : inter.getAssignedCategories(user)){
-            logger.debug(category.getName());
-            logger.debug(category.getExternalId());
-        }
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -735,19 +723,7 @@ public class FrontEndController {
 
         VirtualEditionInter inter = (VirtualEditionInter) object;
 
-        logger.debug("BEFORE");
-        for(Category categoryLog : inter.getAssignedCategories(LdoDUser.getAuthenticatedUser())){
-            logger.debug(categoryLog.getName());
-            logger.debug(categoryLog.getExternalId());
-        }
-
         inter.dissociate(LdoDUser.getAuthenticatedUser(), category);
-
-        logger.debug("AFTER");
-        for(Category categoryLog : inter.getAssignedCategories(LdoDUser.getAuthenticatedUser())){
-            logger.debug(categoryLog.getName());
-            logger.debug(categoryLog.getExternalId());
-        }
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
