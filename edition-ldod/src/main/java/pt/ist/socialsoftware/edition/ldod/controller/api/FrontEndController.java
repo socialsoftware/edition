@@ -759,7 +759,7 @@ public class FrontEndController {
         if (username == null || currentPassword == null || newPassword == null || retypedPassword == null)
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
-        if(!newPassword.equals(retypedPassword))
+        if(newPassword.length() < 6 || retypedPassword.length() < 6 || !newPassword.equals(retypedPassword))
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
         LdoDUser user = LdoD.getInstance().getUser(username);

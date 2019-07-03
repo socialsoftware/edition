@@ -1,8 +1,14 @@
 import React from 'react';
+import axios from 'axios';
 import { FormattedMessage } from 'react-intl';
 import { Form } from 'react-bootstrap';
+import { connect } from 'react-redux';
+import { SERVER_URL } from '../utils/Constants';
+import { getToken } from '../utils/StorageUtils';
 
-export default class ChangePassword extends React.Component {
+const mapStateToProps = state => ({ info: state.info });
+
+class ChangePassword extends React.Component {
     constructor(props) {
         super(props);
 
@@ -40,7 +46,29 @@ export default class ChangePassword extends React.Component {
         event.preventDefault();
         console.log(this.state);
 
+        console.log(this.props.info);
         // TODO : send the request to change the password to the backend
+
+        const username = this.props.info.username;
+
+        axios.post(`${SERVER_URL}/api/services/frontend/restricted/change-password`, null, {
+            params: {
+                username,
+                currentPassword: this.state.currentPassword,
+                newPassword: this.state.newPassword,
+                retypedPassword: this.state.repeatPassword,
+
+            },
+            headers: { Authorization: `Bearer ${getToken()}` },
+        }).then((res) => {
+            console.log(res);
+            alert('Password changed successfully');
+            this.props.history.push('/');
+        },
+                (res) => {
+                    console.log(res);
+                    alert('Error changing password. Please try again');
+                });
     }
 
     render() {
@@ -118,3 +146,5 @@ export default class ChangePassword extends React.Component {
         );
     }
 }
+
+export default connect(mapStateToProps)(ChangePassword);
