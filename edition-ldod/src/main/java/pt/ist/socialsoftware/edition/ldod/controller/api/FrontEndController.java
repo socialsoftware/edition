@@ -16,6 +16,7 @@ import pt.ist.socialsoftware.edition.ldod.domain.EditionModule;
 import pt.ist.socialsoftware.edition.ldod.generators.HtmlWriter2CompInters;
 import pt.ist.socialsoftware.edition.ldod.generators.HtmlWriter4Variations;
 import pt.ist.socialsoftware.edition.ldod.generators.PlainHtmlWriter4OneInter;
+import pt.ist.socialsoftware.edition.ldod.utils.AnnotationDTO;
 
 import javax.inject.Inject;
 import java.util.*;
@@ -746,5 +747,56 @@ public class FrontEndController {
         user.updatePassword(passwordEncoder, currentPassword, newPassword);
 
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping("/restricted/annotations")
+    public ResponseEntity<?> createAnnotation(@RequestBody AnnotationDTO annotationJson){
+        logger.debug("Got annotation for quote:");
+        logger.debug(annotationJson.getQuote());
+
+        VirtualEditionInter inter = FenixFramework.getDomainObject(annotationJson.getUri());
+        VirtualEdition virtualEdition = (VirtualEdition) inter.getEdition();
+        LdoDUser user = LdoDUser.getAuthenticatedUser();
+
+        HumanAnnotation annotation;
+        if (HumanAnnotation.canCreate(virtualEdition, user)) {
+            annotation = inter.createHumanAnnotation(annotationJson.getQuote(), annotationJson.getText(), user,
+                    annotationJson.getRanges(), new ArrayList<>()); //TODO : get tags from dto when tag supported is added to frontend
+
+            annotationJson.setId(annotation.getExternalId());
+
+            return new ResponseEntity<>(new AnnotationDTO(annotation), HttpStatus.CREATED);
+        } else {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+    }
+
+    @GetMapping("/fragment/annotations/{id}")
+    public ResponseEntity<?> getAnnotation(@PathVariable String id){
+
+        HumanAnnotation annotation = FenixFramework.getDomainObject(id);
+        if (annotation != null) {
+            return new ResponseEntity<>(new AnnotationDTO(annotation), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @PutMapping("/fragment/annotations/{id}")
+    public ResponseEntity<?> updateAnnotation(@PathVariable String id, @RequestBody AnnotationDTO annotationJson){
+        
+        HumanAnnotation annotation = FenixFramework.getDomainObject(id);
+        LdoDUser user = LdoDUser.getAuthenticatedUser();
+
+        if (annotation == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        if (annotation.canUpdate(user)) {
+            annotation.update(annotationJson.getText(), annotationJson.getTags());
+            return new ResponseEntity<>(new AnnotationDTO(annotation), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
     }
 }
