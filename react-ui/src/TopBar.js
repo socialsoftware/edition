@@ -6,7 +6,7 @@ import { LinkContainer } from 'react-router-bootstrap';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import LanguageToggle from './languageToggle';
-import { setLoginStatus, setModuleConfig } from './actions/actions';
+import { setLoginStatus, setModuleConfig, setUserInfo } from './actions/actions';
 import { SERVER_URL } from './utils/Constants';
 import { deleteToken } from './utils/StorageUtils';
 
@@ -192,6 +192,7 @@ class TopBar extends React.Component {
     logoutUser(event) {
         event.preventDefault();
         this.props.setLoginStatus(false);
+        this.props.setUserInfo(null);
         deleteToken();
     }
 
@@ -279,7 +280,7 @@ class TopBar extends React.Component {
 
 }
 
-export default connect(mapStateToProps, { setModuleConfig, setLoginStatus })(TopBar);
+export default connect(mapStateToProps, { setModuleConfig, setLoginStatus, setUserInfo })(TopBar);
 
 /* export default function TopBar() {
 

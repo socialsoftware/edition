@@ -1,11 +1,15 @@
 import React from 'react';
 import axios from 'axios';
+import annotator from 'annotator';
+import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import ReactHTMLParser from 'react-html-parser';
 import Taxonomy from './Taxnonomy';
 import { SERVER_URL } from '../../utils/Constants';
 
-export class InterVirtual extends React.Component {
+const mapStateToProps = state => ({ info: state.info });
+
+class InterVirtual extends React.Component {
     constructor(props) {
         super(props);
 
@@ -53,6 +57,33 @@ export class InterVirtual extends React.Component {
         this.getUsesInfo();
     }
 
+    componentDidUpdate() {
+        if (document.getElementById('content') !== null && this.props.info !== null) {
+            const id = this.state.editionInfo.externalId;
+
+            const pageUri = function () {
+                return {
+                    beforeAnnotationCreated: function (ann) {
+                        ann.uri = id;
+                    },
+                };
+            };
+
+            const app = new annotator.App();
+            app.include(annotator.ui.main, {
+                element: document.querySelector('#content'),
+            });
+            app.include(annotator.storage.http, {
+                prefix: `${SERVER_URL}/api/services/frontend/restricted/annotation`,
+            });
+            app.include(pageUri);
+            app.include(annotator.authz.acl);
+            app.start().then(() => {
+                app.ident.identity = this.props.info.username;
+            });
+        }
+    }
+
     render() {
         if (!this.state.isLoaded || !this.state.isVirtualLoaded) {
             return (
@@ -97,3 +128,5 @@ export class InterVirtual extends React.Component {
         );
     }
 }
+
+export default connect(mapStateToProps)(InterVirtual);
