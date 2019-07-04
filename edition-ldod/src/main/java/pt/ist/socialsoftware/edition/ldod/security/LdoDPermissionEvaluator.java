@@ -8,6 +8,8 @@ import org.springframework.stereotype.Component;
 import pt.ist.fenixframework.DomainObject;
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.ldod.api.text.TextInterface;
+import pt.ist.socialsoftware.edition.ldod.api.text.dto.FragmentDto;
+import pt.ist.socialsoftware.edition.ldod.api.text.dto.ScholarInterDto;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
 
 import java.io.Serializable;
@@ -122,14 +124,14 @@ public class LdoDPermissionEvaluator implements PermissionEvaluator {
 
 
         TextInterface textInterface = new TextInterface();
-        Fragment fragment = textInterface.getFragmentByXmlId((String) targetId);
+        FragmentDto fragmentDto = textInterface.getFragmentByXmlId((String) targetId);
 
-        if (fragment == null) {
+        if (fragmentDto == null) {
             return false;
         }
 
-        ScholarInter scholarInter = fragment.getScholarInterByUrlId(targetType);
-        if (scholarInter != null) {
+        ScholarInterDto scholarInterDto = fragmentDto.getScholarInterDtoByUrlId(targetType);
+        if (scholarInterDto != null) {
             return true;
         }
 

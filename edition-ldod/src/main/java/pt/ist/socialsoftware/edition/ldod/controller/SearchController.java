@@ -109,7 +109,7 @@ public class SearchController {
     @RequestMapping(value = "/advanced/result", method = RequestMethod.POST, headers = {
             "Content-type=application/json"})
     public String advancedSearchResultNew(Model model, @RequestBody Search search) {
-        Map<Fragment, Map<SearchableElement, List<SearchOption>>> results = search.search();
+        Map<String, Map<SearchableElement, List<SearchOption>>> results = search.search();
 
         int fragCount = 0;
         int fragCountNotAdded = 0;
@@ -123,7 +123,7 @@ public class SearchController {
         boolean showLdoD = false;
         boolean fragAdd = false;
         boolean showTaxonomy = false;
-        for (Map.Entry<Fragment, Map<SearchableElement, List<SearchOption>>> entry : results.entrySet()) {
+        for (Map.Entry<String, Map<SearchableElement, List<SearchOption>>> entry : results.entrySet()) {
             fragAdd = false;
             for (Map.Entry<SearchableElement, List<SearchOption>> entry2 : entry.getValue().entrySet()) {
                 if (entry2.getValue().size() >= 1) {

@@ -2,6 +2,7 @@ package pt.ist.socialsoftware.edition.ldod.api.text;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import pt.ist.socialsoftware.edition.ldod.api.text.dto.FragmentDto;
 import pt.ist.socialsoftware.edition.ldod.api.text.dto.HeteronymDto;
 import pt.ist.socialsoftware.edition.ldod.api.text.dto.LdoDDateDto;
 import pt.ist.socialsoftware.edition.ldod.api.text.dto.ScholarInterDto;
@@ -71,7 +72,7 @@ public class TextInterface {
     }
 
     public String getRepresentativeSourceInterExternalId(String fragmentXmlId) {
-        return getFragmentByXmlId(fragmentXmlId).getRepresentativeSourceInter().getExternalId();
+        return getFragmentByFragmentXmlId(fragmentXmlId).orElse(null).getRepresentativeSourceInter().getExternalId();
     }
 
     public String getEditionAcronymOfInter(String scholarInterId) {
@@ -125,18 +126,26 @@ public class TextInterface {
         return LdoD.getInstance().getUser(username);
     }
 
+    public FragmentDto getFragmentByXmlId(String xmlId) {
+        return getFragmentByFragmentXmlId(xmlId).map(FragmentDto::new).orElse(null);
+    }
+
+    public FragmentDto getFragmentOfScholarInterDto(ScholarInterDto scholarInterDto) {
+        return getFragmentByInterXmlId(scholarInterDto.getXmlId()).map(FragmentDto::new).orElse(null);
+    }
+
+    public ScholarInterDto getScholarInterDtoByFragmentXmlIdAndUrlId(String fragmentXmlId, String scholarInterUrlId) {
+        ScholarInter scholarInter = getFragmentByFragmentXmlId(fragmentXmlId).orElse(null).getScholarInterByUrlId(scholarInterUrlId);
+        return scholarInter != null ? new ScholarInterDto(scholarInter) : null;
+    }
+
+    public String getFragmentTitle(String xmlId) {
+        return getFragmentByFragmentXmlId(xmlId).map(fragment -> fragment.getTitle()).orElse(null);
+    }
+
     // TODO: Cannot return fragments
     public Set<Fragment> getFragmentsSet() {
         return Text.getInstance().getFragmentsSet();
-    }
-
-    // TODO: Cannot return fragment
-    public Fragment getFragmentByXmlId(String id) {
-        return Text.getInstance().getFragmentByXmlId(id);
-    }
-
-    public String getFragmentXmlId(String scholarInterId) {
-        return getFragmentByInterXmlId(scholarInterId).map(fragment -> fragment.getXmlId()).orElse(null);
     }
 
     private Optional<ScholarInter> getScholarInterByXmlId(String xmlId) {
@@ -144,9 +153,12 @@ public class TextInterface {
                 .filter(fragment -> fragment.getScholarInterByXmlId(xmlId) != null).map(fragment -> fragment.getScholarInterByXmlId(xmlId)).findAny();
     }
 
-    // TODO: Should be private
-    public Optional<Fragment> getFragmentByInterXmlId(String scholarInterId) {
+    private Optional<Fragment> getFragmentByInterXmlId(String scholarInterId) {
         return Text.getInstance().getFragmentsSet().stream().filter(f -> f.getScholarInterByXmlId(scholarInterId) != null).findAny();
+    }
+
+    private Optional<Fragment> getFragmentByFragmentXmlId(String xlmId) {
+        return Text.getInstance().getFragmentsSet().stream().filter(fragment -> fragment.getXmlId().equals(xlmId)).findAny();
     }
 
     private Optional<ExpertEdition> getExpertEditionByAcronym(String acronym) {
@@ -158,5 +170,6 @@ public class TextInterface {
         return Text.getInstance().getExpertEditionsSet().stream().filter(expertEdition -> expertEdition.getFragInterByXmlId(expertEditionInterId) != null)
                 .findAny();
     }
+
 
 }

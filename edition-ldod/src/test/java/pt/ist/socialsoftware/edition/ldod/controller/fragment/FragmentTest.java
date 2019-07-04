@@ -15,7 +15,6 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.socialsoftware.edition.ldod.TestLoadUtils;
-import pt.ist.socialsoftware.edition.ldod.api.text.TextInterface;
 import pt.ist.socialsoftware.edition.ldod.config.Application;
 import pt.ist.socialsoftware.edition.ldod.controller.FragmentController;
 import pt.ist.socialsoftware.edition.ldod.controller.LdoDExceptionHandler;
@@ -141,9 +140,7 @@ public class FragmentTest {
     @Atomic(mode = TxMode.WRITE)
     @WithUserDetails("ars")
     public void getInterTest() throws Exception {
-
-        TextInterface textInterface = new TextInterface();
-        Fragment frag = textInterface.getFragmentByXmlId("Fr001");
+        Fragment frag = Text.getInstance().getFragmentByXmlId("Fr001");
 
         this.mockMvc.perform(get("/fragments/fragment/inter")
                 .param("fragment", frag.getExternalId()))
@@ -160,9 +157,7 @@ public class FragmentTest {
     @Test
     @Atomic(mode = TxMode.WRITE)
     public void getInterEditorialTest() throws Exception {
-
-        TextInterface textInterface = new TextInterface();
-        ScholarInter fragInter = textInterface.getFragmentByXmlId("Fr001")
+        ScholarInter fragInter = Text.getInstance().getFragmentByXmlId("Fr001")
                 .getScholarInterByUrlId("Fr001_WIT_MS_Fr001a_1");
 
         this.mockMvc.perform(get("/fragments/fragment/inter/editorial")
@@ -179,9 +174,7 @@ public class FragmentTest {
     @Test
     @Atomic(mode = TxMode.WRITE)
     public void getInterAuthorialTest() throws Exception {
-
-        TextInterface textInterface = new TextInterface();
-        ScholarInter fragInter = textInterface.getFragmentByXmlId("Fr001")
+        ScholarInter fragInter = Text.getInstance().getFragmentByXmlId("Fr001")
                 .getScholarInterByUrlId("Fr001_WIT_MS_Fr001a_1");
 
         this.mockMvc.perform(get("/fragments/fragment/inter/authorial")
@@ -208,9 +201,7 @@ public class FragmentTest {
     @Test
     @Atomic(mode = TxMode.WRITE)
     public void getInterAuthorialNoFacsTest() throws Exception {
-
-        TextInterface textInterface = new TextInterface();
-        ScholarInter fragInter = textInterface.getFragmentByXmlId("Fr001")
+        ScholarInter fragInter = Text.getInstance().getFragmentByXmlId("Fr001")
                 .getScholarInterByUrlId("Fr001_WIT_MS_Fr001a_1");
 
         this.mockMvc.perform(get("/fragments/fragment/inter/authorial")
@@ -237,12 +228,10 @@ public class FragmentTest {
     @Test
     @Atomic(mode = TxMode.WRITE)
     public void getInterCompareTest() throws Exception {
-
-        TextInterface textInterface = new TextInterface();
-        ScholarInter fragInterOne = (ScholarInter) textInterface.getFragmentByXmlId("Fr001")
+        ScholarInter fragInterOne = Text.getInstance().getFragmentByXmlId("Fr001")
                 .getScholarInterByUrlId("Fr001_WIT_ED_CRIT_SC");
 
-        ScholarInter fragInterTwo = (ScholarInter) textInterface.getFragmentByXmlId("Fr001")
+        ScholarInter fragInterTwo = Text.getInstance().getFragmentByXmlId("Fr001")
                 .getScholarInterByUrlId("Fr001_WIT_ED_CRIT_Z");
 
         String[] inters = {fragInterOne.getExternalId(), fragInterTwo.getExternalId()};

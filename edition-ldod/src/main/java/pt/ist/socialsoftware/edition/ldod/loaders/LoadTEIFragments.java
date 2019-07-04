@@ -10,7 +10,6 @@ import org.jdom2.xpath.XPathFactory;
 import org.slf4j.LoggerFactory;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
-import pt.ist.socialsoftware.edition.ldod.api.text.TextInterface;
 import pt.ist.socialsoftware.edition.ldod.api.text.dto.ScholarInterDto;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.domain.AddText.Place;
@@ -388,7 +387,7 @@ public class LoadTEIFragments {
             case WITNESS:
                 // considers that it only refers to interpretations in the same
                 // fragment
-                ScholarInter inter = (ScholarInter) parent.getFragment().getScholarInterByXmlId(target);
+                ScholarInter inter = parent.getFragment().getScholarInterByXmlId(target);
                 if (inter != null) {
                     refText.setScholarInter(inter);
                 } else {
@@ -397,8 +396,7 @@ public class LoadTEIFragments {
                 }
                 break;
             case FRAGMENT:
-                TextInterface textInterface = new TextInterface();
-                Fragment fragment = textInterface.getFragmentByXmlId(target);
+                Fragment fragment = pt.ist.socialsoftware.edition.ldod.domain.Text.getInstance().getFragmentByXmlId(target);
                 // if (fragment != null) {
                 // if fragment == null is deal in class RefText
                 refText.setRefFrag(fragment);
@@ -1045,8 +1043,7 @@ public class LoadTEIFragments {
                                     putObjectInverseIdMap(target, refText);
                                 }
                             } else if (refType == RefType.FRAGMENT) {
-                                TextInterface textInterface = new TextInterface();
-                                Fragment frag = textInterface.getFragmentByXmlId(target);
+                                Fragment frag = pt.ist.socialsoftware.edition.ldod.domain.Text.getInstance().getFragmentByXmlId(target);
                                 // if (frag != null) {
                                 // it is not verified if frag == null but an
                                 // exception will be raised when accessing the

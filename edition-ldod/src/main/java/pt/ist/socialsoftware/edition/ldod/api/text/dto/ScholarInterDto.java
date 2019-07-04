@@ -38,7 +38,7 @@ public class ScholarInterDto {
     }
 
     public String getFragmentXmlId() {
-        return this.textInterface.getFragmentXmlId(this.xmlId);
+        return this.textInterface.getFragmentOfScholarInterDto(this).getXmlId();
     }
 
     public String getReference() {

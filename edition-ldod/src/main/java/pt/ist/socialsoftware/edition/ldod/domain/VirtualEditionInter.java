@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.socialsoftware.edition.ldod.api.text.TextInterface;
+import pt.ist.socialsoftware.edition.ldod.api.text.dto.FragmentDto;
 import pt.ist.socialsoftware.edition.ldod.api.text.dto.HeteronymDto;
 import pt.ist.socialsoftware.edition.ldod.api.text.dto.LdoDDateDto;
 import pt.ist.socialsoftware.edition.ldod.api.text.dto.ScholarInterDto;
@@ -480,9 +481,9 @@ public class VirtualEditionInter extends VirtualEditionInter_Base implements Com
         return interps.get(0);
     }
 
-    // TODO: to be removed when all references to fragment were removed
-    public Fragment getFragment() {
+    public FragmentDto getFragmentDto() {
         TextInterface textInterface = new TextInterface();
-        return textInterface.getFragmentByInterXmlId(getLastUsed().getXmlId()).get();
+        return textInterface.getFragmentOfScholarInterDto(getLastUsed());
     }
+
 }

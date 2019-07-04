@@ -2,7 +2,6 @@ package pt.ist.socialsoftware.edition.ldod.search.options;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import pt.ist.socialsoftware.edition.ldod.api.text.TextInterface;
-import pt.ist.socialsoftware.edition.ldod.domain.Fragment;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
 import pt.ist.socialsoftware.edition.ldod.search.SearchableElement;
 import pt.ist.socialsoftware.edition.ldod.search.options.SearchOption.Mode;
@@ -31,9 +30,9 @@ public class Search {
         return this.searchOptions;
     }
 
-    public Map<Fragment, Map<SearchableElement, List<SearchOption>>> search() {
+    public Map<String, Map<SearchableElement, List<SearchOption>>> search() {
         Set<SearchOption> options = Arrays.stream(getSearchOptions()).collect(Collectors.toSet());
-        Map<Fragment, Map<SearchableElement, List<SearchOption>>> resultSet = null;
+        Map<String, Map<SearchableElement, List<SearchOption>>> resultSet = null;
 
         if (getMode().equals(Mode.OR)) {
             resultSet = searchOptionsORComposition(options);
@@ -46,8 +45,8 @@ public class Search {
         return resultSet;
     }
 
-    private Map<Fragment, Map<SearchableElement, List<SearchOption>>> searchOptionsORComposition(Set<SearchOption> options) {
-        Map<Fragment, Map<SearchableElement, List<SearchOption>>> resultSet = new LinkedHashMap<>();
+    private Map<String, Map<SearchableElement, List<SearchOption>>> searchOptionsORComposition(Set<SearchOption> options) {
+        Map<String, Map<SearchableElement, List<SearchOption>>> resultSet = new LinkedHashMap<>();
 
         TextInterface textInterface = new TextInterface();
         List<SearchOption> searchOptions = orderTextSearchOptions(options);
@@ -67,8 +66,8 @@ public class Search {
         return resultSet;
     }
 
-    private Map<Fragment, Map<SearchableElement, List<SearchOption>>> searchOptionsANDComposition(Set<SearchOption> options) {
-        Map<Fragment, Map<SearchableElement, List<SearchOption>>> resultSet = new LinkedHashMap<>();
+    private Map<String, Map<SearchableElement, List<SearchOption>>> searchOptionsANDComposition(Set<SearchOption> options) {
+        Map<String, Map<SearchableElement, List<SearchOption>>> resultSet = new LinkedHashMap<>();
 
         TextInterface textInterface = new TextInterface();
         List<SearchOption> searchOptions = orderTextSearchOptions(options);
@@ -98,9 +97,9 @@ public class Search {
         return resultSet;
     }
 
-    private void purgeNonFullyAchievedEntries(Map<Fragment, Map<SearchableElement, List<SearchOption>>> resultSet,
+    private void purgeNonFullyAchievedEntries(Map<String, Map<SearchableElement, List<SearchOption>>> resultSet,
                                               List<SearchOption> searchOptions) {
-        for (Map.Entry<Fragment, Map<SearchableElement, List<SearchOption>>> resultEntry : resultSet.entrySet()) {
+        for (Map.Entry<String, Map<SearchableElement, List<SearchOption>>> resultEntry : resultSet.entrySet()) {
             Set<SearchOption> achievedOptions = new HashSet<>();
             for (Map.Entry<SearchableElement, List<SearchOption>> entry : resultEntry.getValue().entrySet()) {
                 achievedOptions.addAll(entry.getValue());
@@ -131,26 +130,20 @@ public class Search {
         return result;
     }
 
-    private void addToMatchSet(Map<Fragment, Map<SearchableElement, List<SearchOption>>> matchSet, SearchableElement inter,
+    private void addToMatchSet(Map<String, Map<SearchableElement, List<SearchOption>>> matchSet, SearchableElement inter,
                                SearchOption searchOption) {
         // no entry to fragment
-        TextInterface textInterface = new TextInterface();
-        Fragment fragment = textInterface.getFragmentByInterXmlId(inter.getXmlId()).orElse(null);
-        if (fragment == null) {
-            fragment = textInterface.getFragmentByXmlId(LdoD.getInstance().getVirtualEditionInterByXmlId(inter.getXmlId()).getFragmentXmlId());
-        }
-
-        if (matchSet.get(fragment) == null) {
-            matchSet.put(fragment, new HashMap<>());
+        if (matchSet.get(inter.getFragmentXmlId()) == null) {
+            matchSet.put(inter.getFragmentXmlId(), new HashMap<>());
         }
 
         // no entry to fragInter
-        if (matchSet.get(fragment).get(inter) == null) {
-            matchSet.get(fragment).put(inter, new ArrayList<>());
+        if (matchSet.get(inter.getFragmentXmlId()).get(inter) == null) {
+            matchSet.get(inter.getFragmentXmlId()).put(inter, new ArrayList<>());
         }
 
         // insert element
-        matchSet.get(fragment).get(inter).add(searchOption);
+        matchSet.get(inter.getFragmentXmlId()).get(inter).add(searchOption);
     }
 
 }

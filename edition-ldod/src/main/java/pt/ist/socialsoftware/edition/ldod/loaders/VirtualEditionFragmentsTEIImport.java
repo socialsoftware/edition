@@ -14,7 +14,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
-import pt.ist.socialsoftware.edition.ldod.api.text.TextInterface;
 import pt.ist.socialsoftware.edition.ldod.api.text.dto.ScholarInterDto;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDLoadException;
@@ -266,16 +265,13 @@ public class VirtualEditionFragmentsTEIImport {
     // }
 
     private Fragment getFragment(Document doc) {
-        LdoD ldoD = LdoD.getInstance();
-        TextInterface textInterface = new TextInterface();
-
         Namespace namespace = doc.getRootElement().getNamespace();
         XPathFactory xpfac = XPathFactory.instance();
         XPathExpression<Element> xp = xpfac.compile("//def:TEI", Filters.element(), null,
                 Namespace.getNamespace("def", namespace.getURI()));
-        String fragXmlId = xp.evaluate(doc).get(0).getAttributeValue("id", Namespace.XML_NAMESPACE);
+        String xmlId = xp.evaluate(doc).get(0).getAttributeValue("id", Namespace.XML_NAMESPACE);
 
-        return textInterface.getFragmentByXmlId(fragXmlId);
+        return Text.getInstance().getFragmentByXmlId(xmlId);
     }
 
     private void importClassificationGames(Element textClass, VirtualEditionInter inter) {

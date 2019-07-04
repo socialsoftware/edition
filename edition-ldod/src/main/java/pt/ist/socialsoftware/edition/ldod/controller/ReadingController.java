@@ -8,7 +8,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import pt.ist.fenixframework.FenixFramework;
-import pt.ist.socialsoftware.edition.ldod.api.text.TextInterface;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.generators.PlainHtmlWriter4OneInter;
 import pt.ist.socialsoftware.edition.ldod.session.LdoDSession;
@@ -39,8 +38,7 @@ public class ReadingController {
     @RequestMapping(method = RequestMethod.GET, value = "/fragment/{xmlId}/inter/{urlId}")
     public String readInterpretation(Model model, @ModelAttribute("ldoDSession") LdoDSession ldoDSession,
                                      @PathVariable String xmlId, @PathVariable String urlId) {
-        TextInterface textInterface = new TextInterface();
-        Fragment fragment = textInterface.getFragmentByXmlId(xmlId);
+        Fragment fragment = Text.getInstance().getFragmentByXmlId(xmlId);
         if (fragment == null) {
             return "redirect:/error";
         }
@@ -83,8 +81,7 @@ public class ReadingController {
     @RequestMapping(method = RequestMethod.GET, value = "/fragment/{xmlId}/inter/{urlId}/start")
     public String startReadingFromInter(Model model, @ModelAttribute("ldoDSession") LdoDSession ldoDSession,
                                         @PathVariable String xmlId, @PathVariable String urlId) {
-        TextInterface textInterface = new TextInterface();
-        Fragment fragment = textInterface.getFragmentByXmlId(xmlId);
+        Fragment fragment = Text.getInstance().getFragmentByXmlId(xmlId);
         if (fragment == null) {
             return "redirect:/error";
         }
@@ -104,8 +101,7 @@ public class ReadingController {
     @RequestMapping(method = RequestMethod.GET, value = "/fragment/{xmlId}/inter/{urlId}/next")
     public String readNextInterpretation(Model model, @ModelAttribute("ldoDSession") LdoDSession ldoDSession,
                                          @PathVariable String xmlId, @PathVariable String urlId) {
-        TextInterface textInterface = new TextInterface();
-        Fragment fragment = textInterface.getFragmentByXmlId(xmlId);
+        Fragment fragment = Text.getInstance().getFragmentByXmlId(xmlId);
         if (fragment == null) {
             return "redirect:/error";
         }
@@ -124,8 +120,7 @@ public class ReadingController {
     @RequestMapping(method = RequestMethod.GET, value = "/fragment/{xmlId}/inter/{urlId}/prev")
     public String readPrevInterpretation(Model model, @ModelAttribute("ldoDSession") LdoDSession ldoDSession,
                                          @PathVariable String xmlId, @PathVariable String urlId) {
-        TextInterface textInterface = new TextInterface();
-        Fragment fragment = textInterface.getFragmentByXmlId(xmlId);
+        Fragment fragment = Text.getInstance().getFragmentByXmlId(xmlId);
         if (fragment == null) {
             return "redirect:/error";
         }

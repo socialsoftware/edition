@@ -10,7 +10,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import pt.ist.fenixframework.DomainObject;
 import pt.ist.fenixframework.FenixFramework;
-import pt.ist.socialsoftware.edition.ldod.api.text.TextInterface;
 import pt.ist.socialsoftware.edition.ldod.api.ui.UiInterface;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.dto.MainFragmentDto;
@@ -51,8 +50,7 @@ public class FragmentController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/fragment/{xmlId}")
     public String getFragment(Model model, @PathVariable String xmlId) {
-        TextInterface textInterface = new TextInterface();
-        Fragment fragment = textInterface.getFragmentByXmlId(xmlId);
+        Fragment fragment = Text.getInstance().getFragmentByXmlId(xmlId);
 
         if (fragment == null) {
             return "redirect:/error";
@@ -77,8 +75,7 @@ public class FragmentController {
                                                @PathVariable String xmlId, @PathVariable String urlId) {
         logger.debug("getFragmentWithInterForUrlId xmlId:{}, urlId:{} ", xmlId, urlId);
 
-        TextInterface textInterface = new TextInterface();
-        Fragment fragment = textInterface.getFragmentByXmlId(xmlId);
+        Fragment fragment = Text.getInstance().getFragmentByXmlId(xmlId);
         if (fragment == null) {
             return "redirect:/error";
         }
@@ -186,8 +183,7 @@ public class FragmentController {
     @RequestMapping(method = RequestMethod.GET, value = "/fragment/{xmlId}/inter/{urlId}/next")
     @PreAuthorize("hasPermission(#xmlId, #urlId, 'fragInter.public')")
     public String getNextFragmentWithInter(Model model, @PathVariable String xmlId, @PathVariable String urlId) {
-        TextInterface textInterface = new TextInterface();
-        Fragment fragment = textInterface.getFragmentByXmlId(xmlId);
+        Fragment fragment = Text.getInstance().getFragmentByXmlId(xmlId);
         if (fragment == null) {
             return "redirect:/error";
         }
@@ -212,8 +208,7 @@ public class FragmentController {
     @RequestMapping(method = RequestMethod.GET, value = "/fragment/{xmlId}/inter/{urlId}/prev")
     @PreAuthorize("hasPermission(#xmlId, #urlId, 'fragInter.public')")
     public String getPrevFragmentWithInter(Model model, @PathVariable String xmlId, @PathVariable String urlId) {
-        TextInterface textInterface = new TextInterface();
-        Fragment fragment = textInterface.getFragmentByXmlId(xmlId);
+        Fragment fragment = Text.getInstance().getFragmentByXmlId(xmlId);
         if (fragment == null) {
             return "redirect:/error";
         }
@@ -241,12 +236,16 @@ public class FragmentController {
 
         Fragment fragment = FenixFramework.getDomainObject(externalId);
 
-        List<VirtualEditionInter> inters = new ArrayList<>();
+        List<ScholarInter> scholarInters = new ArrayList<>();
+        List<VirtualEditionInter> virtualEditionInters = new ArrayList<>();
         if (intersID != null) {
             for (String interID : intersID) {
-                VirtualEditionInter inter = FenixFramework.getDomainObject(interID);
-                if (inter != null) {
-                    inters.add(inter);
+                Object inter = FenixFramework.getDomainObject(interID);
+                if (inter != null && inter instanceof ScholarInter) {
+                    scholarInters.add((ScholarInter) inter);
+                }
+                if (inter != null && inter instanceof VirtualEditionInter) {
+                    virtualEditionInters.add((VirtualEditionInter) inter);
                 }
             }
         }
@@ -255,10 +254,14 @@ public class FragmentController {
         model.addAttribute("text", Text.getInstance());
         model.addAttribute("user", LdoDUser.getAuthenticatedUser());
         model.addAttribute("fragment", fragment);
-        model.addAttribute("inters", inters);
+        if (scholarInters.size() > 0) {
+            model.addAttribute("inters", scholarInters);
+        } else {
+            model.addAttribute("inters", virtualEditionInters);
+        }
         model.addAttribute("uiInterface", new UiInterface());
 
-        List<ScholarInter> scholarInters = inters.stream().map(virtualEditionInter -> Text.getInstance().getScholarInterByXmlId(virtualEditionInter.getLastUsed().getXmlId())).collect(Collectors.toList());
+        scholarInters = virtualEditionInters.stream().map(virtualEditionInter -> Text.getInstance().getScholarInterByXmlId(virtualEditionInter.getLastUsed().getXmlId())).collect(Collectors.toList());
 
         if (scholarInters.size() == 1) {
             ScholarInter inter = scholarInters.get(0);
@@ -278,7 +281,7 @@ public class FragmentController {
             }
 
             List<AppText> apps = new ArrayList<>();
-            inters.get(0).getFragment().getTextPortion().putAppTextWithVariations(apps, scholarInters);
+            fragment.getTextPortion().putAppTextWithVariations(apps, scholarInters);
             Collections.reverse(apps);
 
             writer.write(lineByLine, false);

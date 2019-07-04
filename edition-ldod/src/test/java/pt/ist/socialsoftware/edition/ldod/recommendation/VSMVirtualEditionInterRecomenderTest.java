@@ -250,7 +250,7 @@ public class VSMVirtualEditionInterRecomenderTest extends TestWithFragmentsLoadi
 
 
     private Fragment getFragment(VirtualEditionInter virtualEditionInter) {
-        return this.textInterface.getFragmentByInterXmlId(virtualEditionInter.getLastUsed().getXmlId()).get();
+        return getLastUsedScholarEditionInter(virtualEditionInter).getFragment();
     }
 
     private ScholarInter getLastUsedScholarEditionInter(VirtualEditionInter virtualEditionInter) {
