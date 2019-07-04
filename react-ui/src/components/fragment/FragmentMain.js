@@ -5,7 +5,7 @@ import { Redirect } from 'react-router-dom';
 import { InterEmpty } from './InterEmpty';
 import { InterEditorial } from './InterEditorial';
 import { InterAuthorial } from './InterAuthorial';
-import { InterVirtual } from './InterVirtual';
+import InterVirtual from './InterVirtual';
 import { Inter2Compare } from './Inter2Compare';
 import { Virtual2Compare } from './Virtual2Compare';
 import Navigation from './Navigation';
