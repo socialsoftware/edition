@@ -32,6 +32,8 @@ import pt.ist.socialsoftware.edition.ldod.security.LdoDSocialUserDetailsService;
 import pt.ist.socialsoftware.edition.ldod.security.LdoDUserDetailsService;
 import pt.ist.socialsoftware.edition.ldod.security.jwt.JWTAuthenticationEntryPoint;
 
+import java.util.Arrays;
+
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -64,7 +66,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/admin/**").hasAuthority(RoleType.ROLE_ADMIN.name()).and().sessionManagement()
 				.maximumSessions(2).sessionRegistry(sessionRegistry());
 
-		http.cors().and().authorizeRequests().antMatchers("/api/services/frontend/restricted/**").authenticated().and()
+		http.cors().and().authorizeRequests().antMatchers("/api/services/frontend/restricted/**").permitAll().and()
 				.authorizeRequests().antMatchers("/api/services/frontend/**").permitAll().and()
 				.authorizeRequests().antMatchers("/api/user/**", "/api/services/**").authenticated().and()
 				.exceptionHandling().authenticationEntryPoint(this.unauthorizedHandler).and()
@@ -92,7 +94,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Bean
 	CorsConfigurationSource corsConfigurationSource() {
 		final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-		source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
+		CorsConfiguration config = new CorsConfiguration().applyPermitDefaultValues();
+		config.setAllowedMethods(Arrays.asList("GET","POST","HEAD", "PUT", "DELETE"));
+		source.registerCorsConfiguration("/**", config);
 		return source;
 	}
 

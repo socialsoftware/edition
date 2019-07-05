@@ -10,6 +10,80 @@ import { getToken } from '../../utils/StorageUtils';
 
 const mapStateToProps = state => ({ info: state.info });
 
+/* function stringifyTags(array) {
+    return array.join(' ');
+} */
+
+function parseTags(string) {
+    console.log(string);
+    string = string.trim();
+    let tags = [];
+    if (string) {
+        tags = string.split(/,/);
+    }
+    return tags;
+}
+
+function editorExtension(e) {
+    function setAnnotationTags(field, annotation) {
+        console.log(document.getElementsByClassName('tagSelector'));
+        annotation.tags = parseTags(document.getElementsByClassName('tagSelector')[0].value);
+    }
+
+    const tagsField = e.addField({
+        load: loadField, // loadField
+        submit: setAnnotationTags, // setAnnotationTags
+    });
+
+
+    function loadField(field, annotation) {
+        if (typeof annotation.id !== 'undefined') {
+            axios.get(`${SERVER_URL}/fragments/fragment/annotation/${annotation.id}/categories`).then((res) => {
+                console.log(res);
+                document.getElementsByClassName('tagSelector')[0].value = res.data;
+
+                const event = document.createEvent('HTMLEvents');
+                event.initEvent('change', true, false);
+                document.getElementsByClassName('tagSelector')[0].dispatchEvent(event);
+            });
+        } else {
+            console.log('no id :(');
+        }
+    }
+
+    const ele = document.getElementById('annotator-field-1');
+
+    const inputElements = ele.getElementsByTagName('input');
+
+    for (let i = 0; i < inputElements.length; i++) {
+        console.log(`Removing ${i}`);
+        inputElements[i].remove();
+    }
+
+    const select = document.createElement('select');
+    select.setAttribute('class', 'tagSelector');
+    select.setAttribute('style', 'width:263px;');
+    tagsField.appendChild(select);
+   /* if ('${inters.get(0).getVirtualEdition().getTaxonomy().getOpenVocabulary()}' == 'true') {
+        $(".tagSelector").select2({
+            multiple: true,
+            data: $.parseJSON('${inters.get(0).getAllDepthCategoriesJSON()}'),
+            tags: true,
+            tokenSeparators: [',', '.']
+        });
+    } else {
+        $(".tagSelector").select2({
+            multiple: true,
+            data: $.parseJSON('${inters.get(0).getAllDepthCategoriesJSON()}'),
+        });
+    }
+    $(".tagSelector").on('select2:open', function (e, data) {
+        $(".select2-dropdown").css({
+            "z-index": "999999"
+        });
+    }); */
+}
+
 class InterVirtual extends React.Component {
     constructor(props) {
         super(props);
@@ -73,6 +147,8 @@ class InterVirtual extends React.Component {
             const app = new annotator.App();
             app.include(annotator.ui.main, {
                 element: document.querySelector('#content'),
+                editorExtensions: [editorExtension],
+                viewerExtensions: [annotator.ui.tags.viewerExtension],
             });
 
             app.include(annotator.storage.http, {
@@ -83,6 +159,11 @@ class InterVirtual extends React.Component {
             app.include(annotator.identity.simple);
             app.start().then(() => {
                 app.ident.identity = this.props.info.username;
+                app.annotations.load({
+                    uri: id,
+                    limit: 0,
+                    all_fields: 1,
+                });
             });
         }
     }
