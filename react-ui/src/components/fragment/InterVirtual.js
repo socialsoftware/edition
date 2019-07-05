@@ -83,6 +83,11 @@ class InterVirtual extends React.Component {
             app.include(annotator.identity.simple);
             app.start().then(() => {
                 app.ident.identity = this.props.info.username;
+                app.annotations.load({
+                    uri: id,
+                    limit: 0,
+                    all_fields: 1,
+                });
             });
         }
     }

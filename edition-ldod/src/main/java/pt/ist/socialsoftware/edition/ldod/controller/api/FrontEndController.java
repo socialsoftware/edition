@@ -17,6 +17,7 @@ import pt.ist.socialsoftware.edition.ldod.generators.HtmlWriter2CompInters;
 import pt.ist.socialsoftware.edition.ldod.generators.HtmlWriter4Variations;
 import pt.ist.socialsoftware.edition.ldod.generators.PlainHtmlWriter4OneInter;
 import pt.ist.socialsoftware.edition.ldod.utils.AnnotationDTO;
+import pt.ist.socialsoftware.edition.ldod.utils.AnnotationSearchJson;
 
 import javax.inject.Inject;
 import java.util.*;
@@ -819,6 +820,21 @@ public class FrontEndController {
         } else {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
+    }
 
+    @GetMapping("/restricted/search")
+    public AnnotationSearchJson searchAnnotations(@RequestParam String uri){
+
+        logger.debug("searchAnnotations uri: " + uri);
+        List<AnnotationDTO> annotations = new ArrayList<>();
+
+        VirtualEditionInter inter = FenixFramework.getDomainObject(uri);
+
+        for (Annotation annotation : inter.getAllDepthAnnotations()) {
+            AnnotationDTO annotationJson = new AnnotationDTO(annotation);
+            annotations.add(annotationJson);
+        }
+
+        return new AnnotationSearchJson(annotations);
     }
 }
