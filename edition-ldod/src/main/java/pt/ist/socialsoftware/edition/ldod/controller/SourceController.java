@@ -1,9 +1,5 @@
 package pt.ist.socialsoftware.edition.ldod.controller;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -11,39 +7,37 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
-import pt.ist.socialsoftware.edition.ldod.api.text.TextInterface;
 import pt.ist.socialsoftware.edition.ldod.domain.Fragment;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
-import pt.ist.socialsoftware.edition.ldod.session.LdoDSession;
 import pt.ist.socialsoftware.edition.ldod.domain.Source;
+import pt.ist.socialsoftware.edition.ldod.domain.Text;
+import pt.ist.socialsoftware.edition.ldod.session.LdoDSession;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 @Controller
 @RequestMapping("/source")
 public class SourceController {
-	private static Logger logger = LoggerFactory.getLogger(SearchController.class);
+    private static final Logger logger = LoggerFactory.getLogger(SearchController.class);
 
-	@ModelAttribute("ldoDSession")
-	public LdoDSession getLdoDSession() {
-		return LdoDSession.getLdoDSession();
-	}
+    @ModelAttribute("ldoDSession")
+    public LdoDSession getLdoDSession() {
+        return LdoDSession.getLdoDSession();
+    }
 
-	@RequestMapping(method = RequestMethod.GET, value = "/list")
-	public String getListOfSources(Model model) {
-		logger.debug("getListOfSources");
+    @RequestMapping(method = RequestMethod.GET, value = "/list")
+    public String getListOfSources(Model model) {
+        logger.debug("getListOfSources");
+        List<Source> sources = new ArrayList<>();
+        for (Fragment frag : Text.getInstance().getFragmentsSet()) {
+            sources.addAll(frag.getSourcesSet());
+        }
 
-		LdoD ldoD = LdoD.getInstance();
-		TextInterface textInterface = new TextInterface();
+        Collections.sort(sources);
 
-		List<Source> sources = new ArrayList<>();
-		for (Fragment frag : textInterface.getFragmentsSet()) {
-			sources.addAll(frag.getSourcesSet());
-		}
+        model.addAttribute("sources", sources);
 
-		Collections.sort(sources);
-
-		model.addAttribute("sources", sources);
-
-		return "source/listSources";
-	}
+        return "source/listSources";
+    }
 }

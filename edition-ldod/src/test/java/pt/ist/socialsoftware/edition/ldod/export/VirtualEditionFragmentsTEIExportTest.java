@@ -5,7 +5,6 @@ import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.core.WriteOnReadError;
 import pt.ist.socialsoftware.edition.ldod.TestLoadUtils;
 import pt.ist.socialsoftware.edition.ldod.TestWithFragmentsLoading;
-import pt.ist.socialsoftware.edition.ldod.api.text.TextInterface;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.loaders.VirtualEditionFragmentsTEIImport;
 
@@ -44,10 +43,9 @@ public class VirtualEditionFragmentsTEIExportTest extends TestWithFragmentsLoadi
     public void test() throws WriteOnReadError, NotSupportedException, SystemException {
         VirtualEditionFragmentsTEIExport export = new VirtualEditionFragmentsTEIExport();
         int count = 0;
-        TextInterface textInterface = new TextInterface();
-        for (Fragment fragment : textInterface.getFragmentsSet()) {
+        for (Fragment fragment : Text.getInstance().getFragmentsSet()) {
             if (count < 15) {
-                String fragmentTEI = export.exportFragment(fragment);
+                String fragmentTEI = export.exportFragment(fragment.getXmlId());
                 logger(fragmentTEI);
 
                 int numberOfInters = LdoD.getInstance().getVirtualEditionInterSet(fragment.getXmlId()).size();
@@ -60,12 +58,12 @@ public class VirtualEditionFragmentsTEIExportTest extends TestWithFragmentsLoadi
                 VirtualEditionFragmentsTEIImport im = new VirtualEditionFragmentsTEIImport();
                 im.importFragmentFromTEI(fragmentTEI);
 
-                System.out.println(export.exportFragment(fragment));
+                System.out.println(export.exportFragment(fragment.getXmlId()));
 
                 assertEquals(numberOfInters, LdoD.getInstance().getVirtualEditionInterSet(fragment.getXmlId()).size());
 
                 assertEquals(Arrays.stream(fragmentTEI.split("\\r?\\n")).sorted().collect(Collectors.joining("\\n")),
-                        Arrays.stream(export.exportFragment(fragment).split("\\r?\\n")).sorted()
+                        Arrays.stream(export.exportFragment(fragment.getXmlId()).split("\\r?\\n")).sorted()
                                 .collect(Collectors.joining("\\n")));
             }
             count++;
@@ -77,7 +75,7 @@ public class VirtualEditionFragmentsTEIExportTest extends TestWithFragmentsLoadi
     // aux method
     private String exportPrintCleanAndImportFragment(Fragment fragment) {
         this.export = new VirtualEditionFragmentsTEIExport();
-        String result = this.export.exportFragment(fragment);
+        String result = this.export.exportFragment(fragment.getXmlId());
         System.out.println(result);
 
         // Saving value for assert
@@ -113,7 +111,7 @@ public class VirtualEditionFragmentsTEIExportTest extends TestWithFragmentsLoadi
         VirtualEditionFragmentsTEIImport im = new VirtualEditionFragmentsTEIImport();
         im.importFragmentFromTEI(result);
 
-        System.out.println(this.export.exportFragment(fragment));
+        System.out.println(this.export.exportFragment(fragment.getXmlId()));
 
         //TODO: add way to load citations independently from frag
         //assertEquals(numOfCitations, fragment.getCitationSet().size());
@@ -142,15 +140,14 @@ public class VirtualEditionFragmentsTEIExportTest extends TestWithFragmentsLoadi
     @Atomic
     public void exportCitationsTest() {
         int count = 0;
-        TextInterface textInterface = new TextInterface();
-        for (Fragment fragment : textInterface.getFragmentsSet()) {
+        for (Fragment fragment : Text.getInstance().getFragmentsSet()) {
             if (count < 20) {
                 new TwitterCitation(fragment, "sourceLink", "date", "fragText", "tweetText", 7777l, "location",
                         "country", "username", "profURL", "profImgURL");
                 String result = exportPrintCleanAndImportFragment(fragment);
                 // Check if it was well exported
                 assertEquals(Arrays.stream(result.split("\\r?\\n")).sorted().collect(Collectors.joining("\\n")),
-                        Arrays.stream(this.export.exportFragment(fragment).split("\\r?\\n")).sorted()
+                        Arrays.stream(this.export.exportFragment(fragment.getXmlId()).split("\\r?\\n")).sorted()
                                 .collect(Collectors.joining("\\n")));
             }
             count++;
@@ -162,8 +159,7 @@ public class VirtualEditionFragmentsTEIExportTest extends TestWithFragmentsLoadi
     @Atomic
     public void exportInfoRangesTest() {
         int count = 0;
-        TextInterface textInterface = new TextInterface();
-        for (Fragment fragment : textInterface.getFragmentsSet()) {
+        for (Fragment fragment : Text.getInstance().getFragmentsSet()) {
             if (count < 15) {
                 TwitterCitation tc = new TwitterCitation(fragment, "sourceLink", "date", "fragText", "tweetText", 7777l,
                         "location", "country", "username", "profURL", "profImgURL");
@@ -176,7 +172,7 @@ public class VirtualEditionFragmentsTEIExportTest extends TestWithFragmentsLoadi
                 String result = exportPrintCleanAndImportFragment(fragment);
                 // Check if it was well exported
                 assertEquals(Arrays.stream(result.split("\\r?\\n")).sorted().collect(Collectors.joining("\\n")),
-                        Arrays.stream(this.export.exportFragment(fragment).split("\\r?\\n")).sorted()
+                        Arrays.stream(this.export.exportFragment(fragment.getXmlId()).split("\\r?\\n")).sorted()
                                 .collect(Collectors.joining("\\n")));
             }
             count++;
@@ -188,8 +184,7 @@ public class VirtualEditionFragmentsTEIExportTest extends TestWithFragmentsLoadi
     @Atomic
     public void exportAwareAnnotationsTest() {
         int count = 0;
-        TextInterface textInterface = new TextInterface();
-        for (Fragment fragment : textInterface.getFragmentsSet()) {
+        for (Fragment fragment : Text.getInstance().getFragmentsSet()) {
             if (count < 15) {
                 TwitterCitation tc = new TwitterCitation(fragment, "sourceLink", "date", "fragText", "tweetText", 7777l,
                         "location", "country", "username", "profURL", "profImgURL");
@@ -210,7 +205,7 @@ public class VirtualEditionFragmentsTEIExportTest extends TestWithFragmentsLoadi
                 String result = exportPrintCleanAndImportFragment(fragment);
                 // Check if it was well exported
                 assertEquals(Arrays.stream(result.split("\\r?\\n")).sorted().collect(Collectors.joining("\\n")),
-                        Arrays.stream(this.export.exportFragment(fragment).split("\\r?\\n")).sorted()
+                        Arrays.stream(this.export.exportFragment(fragment.getXmlId()).split("\\r?\\n")).sorted()
                                 .collect(Collectors.joining("\\n")));
             }
             count++;

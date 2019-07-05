@@ -48,17 +48,12 @@ public class Search {
     private Map<String, Map<SearchableElement, List<SearchOption>>> searchOptionsORComposition(Set<SearchOption> options) {
         Map<String, Map<SearchableElement, List<SearchOption>>> resultSet = new LinkedHashMap<>();
 
-        TextInterface textInterface = new TextInterface();
         List<SearchOption> searchOptions = orderTextSearchOptions(options);
 
-        Stream<SearchableElement> searchableElements = Stream.concat(textInterface.getFragmentsSet().stream()
-                        .flatMap(f -> f.getScholarInterSet().stream()).map(scholarInter ->
-                                new SearchableElement(SearchableElement.Type.SCHOLAR_INTER, scholarInter.getXmlId(), scholarInter.getTitle(), scholarInter.getFragment().getXmlId(), scholarInter.getUrlId(), scholarInter.getShortName(), scholarInter.getXmlId()))
-                , LdoD.getInstance().getVirtualEditionInterSet().stream().map(virtualEditionInter ->
-                        new SearchableElement(SearchableElement.Type.VIRTUAL_INTER, virtualEditionInter.getXmlId(), virtualEditionInter.getTitle(), virtualEditionInter.getFragmentXmlId(), virtualEditionInter.getUrlId(), virtualEditionInter.getShortName(), virtualEditionInter.getUsesFragInter()))
-        );
+        List<SearchableElement> searchableElements = getSearchableElements();
+
         for (SearchOption searchOption : searchOptions) {
-            for (SearchableElement inter : searchOption.search(searchableElements).collect(Collectors.toList())) {
+            for (SearchableElement inter : searchOption.search(searchableElements.stream()).collect(Collectors.toList())) {
                 addToMatchSet(resultSet, inter, searchOption);
             }
         }
@@ -69,15 +64,9 @@ public class Search {
     private Map<String, Map<SearchableElement, List<SearchOption>>> searchOptionsANDComposition(Set<SearchOption> options) {
         Map<String, Map<SearchableElement, List<SearchOption>>> resultSet = new LinkedHashMap<>();
 
-        TextInterface textInterface = new TextInterface();
         List<SearchOption> searchOptions = orderTextSearchOptions(options);
 
-        List<SearchableElement> searchableElements = Stream.concat(textInterface.getFragmentsSet().stream()
-                        .flatMap(f -> f.getScholarInterSet().stream()).map(scholarInter ->
-                                new SearchableElement(SearchableElement.Type.SCHOLAR_INTER, scholarInter.getXmlId(), scholarInter.getTitle(), scholarInter.getFragment().getXmlId(), scholarInter.getUrlId(), scholarInter.getShortName(), scholarInter.getXmlId()))
-                , LdoD.getInstance().getVirtualEditionInterSet().stream().map(virtualEditionInter ->
-                        new SearchableElement(SearchableElement.Type.VIRTUAL_INTER, virtualEditionInter.getXmlId(), virtualEditionInter.getTitle(), virtualEditionInter.getFragmentXmlId(), virtualEditionInter.getUrlId(), virtualEditionInter.getShortName(), virtualEditionInter.getUsesFragInter())))
-                .collect(Collectors.toList());
+        List<SearchableElement> searchableElements = getSearchableElements();
 
         Stream<SearchableElement> selectedElements = searchableElements.stream();
         for (SearchOption searchOption : searchOptions) {
@@ -95,6 +84,17 @@ public class Search {
         purgeNonFullyAchievedEntries(resultSet, searchOptions);
 
         return resultSet;
+    }
+
+    private List<SearchableElement> getSearchableElements() {
+        TextInterface textInterface = new TextInterface();
+
+        return Stream.concat(textInterface.getFragmentDtoSet().stream()
+                        .flatMap(f -> f.getScholarInterDtoSet().stream()).map(scholarInter ->
+                                new SearchableElement(SearchableElement.Type.SCHOLAR_INTER, scholarInter.getXmlId(), scholarInter.getTitle(), scholarInter.getFragmentXmlId(), scholarInter.getUrlId(), scholarInter.getShortName(), scholarInter.getXmlId()))
+                , LdoD.getInstance().getVirtualEditionInterSet().stream().map(virtualEditionInter ->
+                        new SearchableElement(SearchableElement.Type.VIRTUAL_INTER, virtualEditionInter.getXmlId(), virtualEditionInter.getTitle(), virtualEditionInter.getFragmentXmlId(), virtualEditionInter.getUrlId(), virtualEditionInter.getShortName(), virtualEditionInter.getUsesFragInter()))
+        ).collect(Collectors.toList());
     }
 
     private void purgeNonFullyAchievedEntries(Map<String, Map<SearchableElement, List<SearchOption>>> resultSet,

@@ -3,6 +3,8 @@ package pt.ist.socialsoftware.edition.ldod.api.text.dto;
 import pt.ist.socialsoftware.edition.ldod.api.text.TextInterface;
 import pt.ist.socialsoftware.edition.ldod.domain.Fragment;
 
+import java.util.Set;
+
 public class FragmentDto {
     private final TextInterface textInterface = new TextInterface();
 
@@ -26,6 +28,10 @@ public class FragmentDto {
 
     public String getTitle() {
         return this.textInterface.getFragmentTitle(getXmlId());
+    }
+
+    public Set<ScholarInterDto> getScholarInterDtoSet() {
+        return this.textInterface.getScholarInterDto4FragmentXmlId(getXmlId());
     }
 
 }

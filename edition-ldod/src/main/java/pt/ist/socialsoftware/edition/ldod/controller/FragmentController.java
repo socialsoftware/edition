@@ -250,6 +250,9 @@ public class FragmentController {
             }
         }
 
+        logger.debug("getInter scholarInters: {}, virtualEditionInters: {}", scholarInters.size(), virtualEditionInters.size());
+
+
         model.addAttribute("ldoD", LdoD.getInstance());
         model.addAttribute("text", Text.getInstance());
         model.addAttribute("user", LdoDUser.getAuthenticatedUser());
@@ -258,10 +261,9 @@ public class FragmentController {
             model.addAttribute("inters", scholarInters);
         } else {
             model.addAttribute("inters", virtualEditionInters);
+            scholarInters = virtualEditionInters.stream().map(virtualEditionInter -> Text.getInstance().getScholarInterByXmlId(virtualEditionInter.getLastUsed().getXmlId())).collect(Collectors.toList());
         }
         model.addAttribute("uiInterface", new UiInterface());
-
-        scholarInters = virtualEditionInters.stream().map(virtualEditionInter -> Text.getInstance().getScholarInterByXmlId(virtualEditionInter.getLastUsed().getXmlId())).collect(Collectors.toList());
 
         if (scholarInters.size() == 1) {
             ScholarInter inter = scholarInters.get(0);

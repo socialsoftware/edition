@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import pt.ist.fenixframework.FenixFramework;
-import pt.ist.socialsoftware.edition.ldod.api.text.TextInterface;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.domain.Role.RoleType;
 import pt.ist.socialsoftware.edition.ldod.export.ExpertEditionTEIExport;
@@ -171,9 +170,7 @@ public class AdminController {
     @RequestMapping(method = RequestMethod.GET, value = "/fragment/list")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String deleteFragmentsList(Model model) {
-        TextInterface textInterface = new TextInterface();
-
-        model.addAttribute("fragments", textInterface.getFragmentsSet());
+        model.addAttribute("fragments", Text.getInstance().getFragmentsSet());
         return "admin/deleteFragment";
     }
 
@@ -181,10 +178,9 @@ public class AdminController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String deleteFragment(Model model, @RequestParam("externalId") String externalId) {
         Fragment fragment = FenixFramework.getDomainObject(externalId);
-        TextInterface textInterface = new TextInterface();
         if (fragment == null) {
             return "redirect:/error";
-        } else if (textInterface.getFragmentsSet().size() >= 1) {
+        } else if (Text.getInstance().getFragmentsSet().size() >= 1) {
             fragment.remove();
         }
         return "redirect:/admin/fragment/list";
@@ -193,8 +189,7 @@ public class AdminController {
     @RequestMapping(method = RequestMethod.POST, value = "/fragment/deleteAll")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String deleteAllFragments(Model model) {
-        TextInterface textInterface = new TextInterface();
-        for (Fragment fragment : textInterface.getFragmentsSet()) {
+        for (Fragment fragment : Text.getInstance().getFragmentsSet()) {
             fragment.remove();
         }
         return "redirect:/admin/fragment/list";
@@ -327,15 +322,11 @@ public class AdminController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/exportSearch")
     public String exportSearch(Model model, @RequestParam("query") String query) {
-
-        LdoD ldoD = LdoD.getInstance();
-
         List<String> frags = new ArrayList<>();
         int n = 0;
 
         if (query.compareTo("") != 0) {
-            TextInterface textInterface = new TextInterface();
-            for (Fragment frag : textInterface.getFragmentsSet()) {
+            for (Fragment frag : Text.getInstance().getFragmentsSet()) {
                 if (frag.getTitle().contains(query)) {
                     frags.add("<a href=\"/fragments/fragment/" + frag.getExternalId() + "\">"
                             + frag.getTitle().replace(query, "<b><u>" + query + "</u></b>") + "</a>");
@@ -357,9 +348,8 @@ public class AdminController {
         LdoD ldoD = LdoD.getInstance();
 
         Map<Fragment, Set<ScholarInter>> searchResult = new HashMap<>();
-        TextInterface textInterface = new TextInterface();
 
-        for (Fragment frag : textInterface.getFragmentsSet()) {
+        for (Fragment frag : Text.getInstance().getFragmentsSet()) {
             if (frag.getTitle().contains(query)) {
                 Set<ScholarInter> inters = new HashSet<>();
                 for (ScholarInter inter : frag.getScholarInterSet()) {
@@ -389,9 +379,7 @@ public class AdminController {
     public void exportAll(HttpServletResponse response) {
 
         Map<Fragment, Set<ScholarInter>> searchResult = new HashMap<>();
-        TextInterface textInterface = new TextInterface();
-
-        for (Fragment frag : textInterface.getFragmentsSet()) {
+        for (Fragment frag : Text.getInstance().getFragmentsSet()) {
             Set<ScholarInter> inters = new HashSet<>();
 
             for (ScholarInter inter : frag.getScholarInterSet()) {
@@ -420,9 +408,7 @@ public class AdminController {
     public void exportRandom(HttpServletResponse response) {
 
         Map<Fragment, Set<ScholarInter>> searchResult = new HashMap<>();
-        TextInterface textInterface = new TextInterface();
-
-        List<Fragment> fragments = new ArrayList<>(textInterface.getFragmentsSet());
+        List<Fragment> fragments = new ArrayList<>(Text.getInstance().getFragmentsSet());
 
         List<String> fragsRandom = new ArrayList<>();
 

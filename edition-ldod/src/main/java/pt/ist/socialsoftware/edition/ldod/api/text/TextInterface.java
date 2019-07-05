@@ -11,6 +11,7 @@ import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -45,6 +46,14 @@ public class TextInterface {
 
     public int getScholarInterNumber(String scholarInterId) {
         return getScholarInterByXmlId(scholarInterId).orElseThrow(LdoDException::new).getNumber();
+    }
+
+    public String getScholarInterShortName(String scholarInterId) {
+        return getScholarInterByXmlId(scholarInterId).orElseThrow(LdoDException::new).getShortName();
+    }
+
+    public String getScholarInterUrlId(String scholarInterId) {
+        return getScholarInterByXmlId(scholarInterId).orElseThrow(LdoDException::new).getUrlId();
     }
 
     public ScholarInterDto getScholarInter(String scholarInterId) {
@@ -143,9 +152,12 @@ public class TextInterface {
         return getFragmentByFragmentXmlId(xmlId).map(fragment -> fragment.getTitle()).orElse(null);
     }
 
-    // TODO: Cannot return fragments
-    public Set<Fragment> getFragmentsSet() {
-        return Text.getInstance().getFragmentsSet();
+    public Set<FragmentDto> getFragmentDtoSet() {
+        return Text.getInstance().getFragmentsSet().stream().map(FragmentDto::new).collect(Collectors.toSet());
+    }
+
+    public Set<ScholarInterDto> getScholarInterDto4FragmentXmlId(String xmlId) {
+        return getFragmentByFragmentXmlId(xmlId).map(fragment -> fragment.getScholarInterSet()).orElse(new HashSet<>()).stream().map(ScholarInterDto::new).collect(Collectors.toSet());
     }
 
     private Optional<ScholarInter> getScholarInterByXmlId(String xmlId) {

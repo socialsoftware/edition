@@ -9,6 +9,7 @@ import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.socialsoftware.edition.ldod.api.text.TextInterface;
+import pt.ist.socialsoftware.edition.ldod.api.text.dto.FragmentDto;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
 
 public class VirtualEditionFragmentsTEIExport {
@@ -21,20 +22,19 @@ public class VirtualEditionFragmentsTEIExport {
 
         TextInterface textInterface = new TextInterface();
 
-
-        for (Fragment fragment : textInterface.getFragmentsSet()) {
-            exportFragment(fragment);
+        for (FragmentDto fragmentDto : textInterface.getFragmentDtoSet()) {
+            exportFragment(fragmentDto.getXmlId());
         }
     }
 
     @Atomic
-    public String exportFragment(Fragment fragment) {
+    public String exportFragment(String fragmentXmlId) {
         this.jdomDoc = new Document();
         Element rootElement = new Element("teiCorpus");
         rootElement.setNamespace(this.xmlns);
         this.jdomDoc.setRootElement(rootElement);
         Element tei = new Element("TEI", this.xmlns);
-        Attribute id = new Attribute("id", fragment.getXmlId(), Namespace.XML_NAMESPACE);
+        Attribute id = new Attribute("id", fragmentXmlId, Namespace.XML_NAMESPACE);
         tei.setAttribute(id);
         rootElement.addContent(tei);
         Element teiHeader = new Element("teiHeader", this.xmlns);
@@ -46,16 +46,16 @@ public class VirtualEditionFragmentsTEIExport {
         fileDesc.addContent(sourceDesc);
 
         Element witnesses = new Element("listWit", this.xmlns);
-        id = new Attribute("id", fragment.getXmlId() + ".WIT.ED.VIRT", Namespace.XML_NAMESPACE);
+        id = new Attribute("id", fragmentXmlId + ".WIT.ED.VIRT", Namespace.XML_NAMESPACE);
         witnesses.setAttribute(id);
         sourceDesc.addContent(witnesses);
-        for (VirtualEditionInter virtualEditionInter : LdoD.getInstance().getVirtualEditionInterSet(fragment.getXmlId())) {
+        for (VirtualEditionInter virtualEditionInter : LdoD.getInstance().getVirtualEditionInterSet(fragmentXmlId)) {
             exportVirtualEditionInterWitness(witnesses, virtualEditionInter);
         }
 
         Element profileDesc = new Element("profileDesc", this.xmlns);
         teiHeader.addContent(profileDesc);
-        for (VirtualEditionInter virtualEditionInter : LdoD.getInstance().getVirtualEditionInterSet(fragment.getXmlId())) {
+        for (VirtualEditionInter virtualEditionInter : LdoD.getInstance().getVirtualEditionInterSet(fragmentXmlId)) {
             Element textClass = new Element("textClass", this.xmlns);
             textClass.setAttribute("source", "#" + virtualEditionInter.getXmlId());
             profileDesc.addContent(textClass);

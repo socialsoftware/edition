@@ -69,4 +69,16 @@ public class ScholarInterDto {
         return this.textInterface.getNumberOfTimesCitedIncludingRetweets(this.xmlId);
 
     }
+
+    public String getTitle() {
+        return this.textInterface.getScholarInterTitle(this.xmlId);
+    }
+
+    public String getUrlId() {
+        return this.textInterface.getScholarInterUrlId(this.xmlId);
+    }
+
+    public String getShortName() {
+        return this.textInterface.getScholarInterShortName(this.xmlId);
+    }
 }
