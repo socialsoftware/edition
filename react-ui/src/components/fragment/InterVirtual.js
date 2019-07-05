@@ -6,6 +6,7 @@ import { FormattedMessage } from 'react-intl';
 import ReactHTMLParser from 'react-html-parser';
 import Taxonomy from './Taxnonomy';
 import { SERVER_URL } from '../../utils/Constants';
+import { getToken } from '../../utils/StorageUtils';
 
 const mapStateToProps = state => ({ info: state.info });
 
@@ -58,7 +59,7 @@ class InterVirtual extends React.Component {
     }
 
     componentDidUpdate() {
-        if (document.getElementById('content') !== null && this.props.info !== null) {
+        if (document.getElementById('content') !== null) {
             const id = this.state.editionInfo.externalId;
 
             const pageUri = function () {
@@ -73,11 +74,13 @@ class InterVirtual extends React.Component {
             app.include(annotator.ui.main, {
                 element: document.querySelector('#content'),
             });
+
             app.include(annotator.storage.http, {
-                prefix: `${SERVER_URL}/api/services/frontend/restricted/annotation`,
+                prefix: `${SERVER_URL}/api/services/frontend/restricted`,
+                headers: { Authorization: `Bearer ${getToken()}` },
             });
             app.include(pageUri);
-            app.include(annotator.authz.acl);
+            app.include(annotator.identity.simple);
             app.start().then(() => {
                 app.ident.identity = this.props.info.username;
             });
