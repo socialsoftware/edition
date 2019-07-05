@@ -8,15 +8,15 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class Text extends Text_Base {
-    public static Logger logger = LoggerFactory.getLogger(Text.class);
+public class TextModule extends TextModule_Base {
+    public static Logger logger = LoggerFactory.getLogger(TextModule.class);
 
-    public static Text getInstance() {
-        return FenixFramework.getDomainRoot().getText();
+    public static TextModule getInstance() {
+        return FenixFramework.getDomainRoot().getTextModule();
     }
 
-    public Text() {
-        FenixFramework.getDomainRoot().setText(this);
+    public TextModule() {
+        FenixFramework.getDomainRoot().setTextModule(this);
         setNullEdition(new NullEdition());
     }
 

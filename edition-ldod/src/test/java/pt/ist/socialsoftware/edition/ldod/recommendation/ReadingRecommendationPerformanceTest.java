@@ -61,7 +61,7 @@ public class ReadingRecommendationPerformanceTest {
 
         // warm the system in order to create all the caches
         recommender.getMostSimilarItemsAsList(archiveVirtualEditionInters.get(2),
-				new HashSet<>(archiveVirtualEditionInters), properties);
+                new HashSet<>(archiveVirtualEditionInters), properties);
 
     }
 
@@ -75,7 +75,7 @@ public class ReadingRecommendationPerformanceTest {
         recommender.setTextWeight(1.0);
         recommender.setTaxonomyWeight(1.0);
 
-        ExpertEdition pizarroEdition = Text.getInstance().getJPEdition();
+        ExpertEdition pizarroEdition = TextModule.getInstance().getJPEdition();
         ExpertEditionInter inter = pizarroEdition.getExpertEditionIntersSet().stream().collect(Collectors.toList())
                 .get(0);
 

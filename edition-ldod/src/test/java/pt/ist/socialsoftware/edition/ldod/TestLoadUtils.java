@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import pt.ist.socialsoftware.edition.ldod.domain.ExpertEdition;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
-import pt.ist.socialsoftware.edition.ldod.domain.Text;
+import pt.ist.socialsoftware.edition.ldod.domain.TextModule;
 import pt.ist.socialsoftware.edition.ldod.loaders.LoadTEICorpus;
 import pt.ist.socialsoftware.edition.ldod.loaders.LoadTEIFragments;
 import pt.ist.socialsoftware.edition.ldod.loaders.VirtualEditionFragmentsTEIImport;
@@ -20,7 +20,7 @@ import java.io.IOException;
 
 public class TestLoadUtils {
     public static void loadCorpus() throws FileNotFoundException {
-        if (Text.getInstance().getExpertEditionsSet().isEmpty()) {
+        if (TextModule.getInstance().getExpertEditionsSet().isEmpty()) {
             String testFilesDirectory = PropertiesManager.getProperties().getProperty("test.files.dir");
             File directory = new File(testFilesDirectory);
             String filename = "corpus.xml";
@@ -52,7 +52,7 @@ public class TestLoadUtils {
 
     public static void cleanDatabaseButCorpus() {
         LdoD ldoD = LdoD.getInstance();
-        Text text = Text.getInstance();
+        TextModule text = TextModule.getInstance();
         if (ldoD != null) {
             ldoD.getUsersSet().stream()
                     .filter(u -> !(u.getUsername().equals("ars") || u.getUsername().equals("Twitter")))

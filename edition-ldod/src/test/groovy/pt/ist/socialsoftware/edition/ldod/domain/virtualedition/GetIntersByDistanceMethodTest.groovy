@@ -202,7 +202,7 @@ class GetIntersByDistanceMethodTest extends SpockRollbackTestAbstractClass {
         given: 'a heteronym property'
         weights.setHeteronymWeight(1.0)
         and:
-        getLastUsedScholarEditionInter(virtualEditionInter).getSource().setHeteronym(new Heteronym(Text.getInstance(), 'Bernardo Soares'))
+        getLastUsedScholarEditionInter(virtualEditionInter).getSource().setHeteronym(new Heteronym(TextModule.getInstance(), 'Bernardo Soares'))
 
         when:
         def results = virtualEdition.getIntersByDistance(virtualEditionInter, weights)
@@ -231,7 +231,7 @@ class GetIntersByDistanceMethodTest extends SpockRollbackTestAbstractClass {
 
     // TODO: to be addressed when the recommendations become a module on their own
     protected ScholarInter getLastUsedScholarEditionInter(VirtualEditionInter virtualEditionInter) {
-        return Text.getInstance().getScholarInterByXmlId(virtualEditionInter.getLastUsed().getXmlId());
+        return TextModule.getInstance().getScholarInterByXmlId(virtualEditionInter.getLastUsed().getXmlId());
     }
 
 

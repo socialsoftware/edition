@@ -43,7 +43,7 @@ public class VirtualEditionFragmentsTEIExportTest extends TestWithFragmentsLoadi
     public void test() throws WriteOnReadError, NotSupportedException, SystemException {
         VirtualEditionFragmentsTEIExport export = new VirtualEditionFragmentsTEIExport();
         int count = 0;
-        for (Fragment fragment : Text.getInstance().getFragmentsSet()) {
+        for (Fragment fragment : TextModule.getInstance().getFragmentsSet()) {
             if (count < 15) {
                 String fragmentTEI = export.exportFragment(fragment.getXmlId());
                 logger(fragmentTEI);
@@ -140,7 +140,7 @@ public class VirtualEditionFragmentsTEIExportTest extends TestWithFragmentsLoadi
     @Atomic
     public void exportCitationsTest() {
         int count = 0;
-        for (Fragment fragment : Text.getInstance().getFragmentsSet()) {
+        for (Fragment fragment : TextModule.getInstance().getFragmentsSet()) {
             if (count < 20) {
                 new TwitterCitation(fragment, "sourceLink", "date", "fragText", "tweetText", 7777l, "location",
                         "country", "username", "profURL", "profImgURL");
@@ -159,7 +159,7 @@ public class VirtualEditionFragmentsTEIExportTest extends TestWithFragmentsLoadi
     @Atomic
     public void exportInfoRangesTest() {
         int count = 0;
-        for (Fragment fragment : Text.getInstance().getFragmentsSet()) {
+        for (Fragment fragment : TextModule.getInstance().getFragmentsSet()) {
             if (count < 15) {
                 TwitterCitation tc = new TwitterCitation(fragment, "sourceLink", "date", "fragText", "tweetText", 7777l,
                         "location", "country", "username", "profURL", "profImgURL");
@@ -184,7 +184,7 @@ public class VirtualEditionFragmentsTEIExportTest extends TestWithFragmentsLoadi
     @Atomic
     public void exportAwareAnnotationsTest() {
         int count = 0;
-        for (Fragment fragment : Text.getInstance().getFragmentsSet()) {
+        for (Fragment fragment : TextModule.getInstance().getFragmentsSet()) {
             if (count < 15) {
                 TwitterCitation tc = new TwitterCitation(fragment, "sourceLink", "date", "fragText", "tweetText", 7777l,
                         "location", "country", "username", "profURL", "profImgURL");

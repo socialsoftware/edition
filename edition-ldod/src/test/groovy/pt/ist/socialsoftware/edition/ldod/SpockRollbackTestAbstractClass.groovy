@@ -4,7 +4,7 @@ import pt.ist.fenixframework.FenixFramework
 import pt.ist.fenixframework.core.WriteOnReadError
 import pt.ist.socialsoftware.edition.ldod.domain.ExpertEdition
 import pt.ist.socialsoftware.edition.ldod.domain.LdoD
-import pt.ist.socialsoftware.edition.ldod.domain.Text
+import pt.ist.socialsoftware.edition.ldod.domain.TextModule
 import pt.ist.socialsoftware.edition.ldod.loaders.LoadTEICorpus
 import pt.ist.socialsoftware.edition.ldod.loaders.LoadTEIFragments
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDLoadException
@@ -44,7 +44,7 @@ abstract class SpockRollbackTestAbstractClass extends Specification {
     }
 
     def loadCorpus() {
-        if (Text.getInstance().getExpertEditionsSet().isEmpty()) {
+        if (TextModule.getInstance().getExpertEditionsSet().isEmpty()) {
             String testFilesDirectory = PropertiesManager.getProperties().getProperty("test.files.dir");
             File directory = new File(testFilesDirectory);
             String filename = "corpus.xml";
@@ -56,7 +56,7 @@ abstract class SpockRollbackTestAbstractClass extends Specification {
 
     def cleanDatabaseButCorpus() {
         LdoD ldoD = LdoD.getInstance();
-        Text text = Text.getInstance()
+        TextModule text = TextModule.getInstance()
         if (ldoD != null) {
             for (def user : ldoD.getUsersSet()) {
                 if (!(user.getUsername().equals("ars") || user.getUsername().equals("Twitter"))) {

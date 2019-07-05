@@ -1,7 +1,5 @@
 package pt.ist.socialsoftware.edition.ldod.controller.api;
 
-import javax.validation.Valid;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,35 +14,36 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import pt.ist.socialsoftware.edition.ldod.dto.JWTAuthenticationDto;
-import pt.ist.socialsoftware.edition.ldod.dto.LdoDUserDto;
+import pt.ist.socialsoftware.edition.ldod.dto.LdoDUserViewDto;
 import pt.ist.socialsoftware.edition.ldod.security.jwt.JWTTokenProvider;
+
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
-	private static Logger logger = LoggerFactory.getLogger(AuthController.class);
+    private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
 
-	@Autowired
-	AuthenticationManager authenticationManager;
+    @Autowired
+    AuthenticationManager authenticationManager;
 
-	@Autowired
-	JWTTokenProvider tokenProvider;
+    @Autowired
+    JWTTokenProvider tokenProvider;
 
-	@PostMapping("/signin")
-	public ResponseEntity<JWTAuthenticationDto> authenticateUser(@Valid @RequestBody LdoDUserDto loginRequest) {
-		try {
-			Authentication authentication = this.authenticationManager.authenticate(
-					new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
-			SecurityContextHolder.getContext().setAuthentication(authentication);
+    @PostMapping("/signin")
+    public ResponseEntity<JWTAuthenticationDto> authenticateUser(@Valid @RequestBody LdoDUserViewDto loginRequest) {
+        try {
+            Authentication authentication = this.authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
+            SecurityContextHolder.getContext().setAuthentication(authentication);
 
-			String jwt = this.tokenProvider.generateToken(authentication);
-			return new ResponseEntity<JWTAuthenticationDto>(new JWTAuthenticationDto(jwt), HttpStatus.OK);
-		} catch (AuthenticationException e) {
-			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-		}
+            String jwt = this.tokenProvider.generateToken(authentication);
+            return new ResponseEntity<>(new JWTAuthenticationDto(jwt), HttpStatus.OK);
+        } catch (AuthenticationException e) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
 
-	}
+    }
 
 }

@@ -34,4 +34,9 @@ public class FragmentDto {
         return this.textInterface.getScholarInterDto4FragmentXmlId(getXmlId());
     }
 
+    // Only necessary due to manual ordering of virtual edition javascript code
+    public String getExternalId() {
+        return this.textInterface.getFragmentExternalId(getXmlId());
+    }
+
 }

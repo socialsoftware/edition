@@ -11,7 +11,7 @@ public class NullEdition extends NullEdition_Base {
     }
 
     public void remove() {
-        setText4NullEdition(null);
+        setTextModule4NullEdition(null);
         deleteDomainObject();
     }
 

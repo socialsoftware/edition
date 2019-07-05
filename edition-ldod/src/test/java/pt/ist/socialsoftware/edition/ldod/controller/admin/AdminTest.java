@@ -1,14 +1,5 @@
 package pt.ist.socialsoftware.edition.ldod.controller.admin;
 
-import static org.hamcrest.Matchers.*;
-import static org.mockito.ArgumentMatchers.anyList;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -28,19 +19,27 @@ import pt.ist.socialsoftware.edition.ldod.TestLoadUtils;
 import pt.ist.socialsoftware.edition.ldod.config.Application;
 import pt.ist.socialsoftware.edition.ldod.controller.AdminController;
 import pt.ist.socialsoftware.edition.ldod.controller.LdoDExceptionHandler;
-import pt.ist.socialsoftware.edition.ldod.domain.*;
+import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
+import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
+import pt.ist.socialsoftware.edition.ldod.domain.Role;
+import pt.ist.socialsoftware.edition.ldod.domain.TextModule;
 import pt.ist.socialsoftware.edition.ldod.export.UsersXMLExport;
 import pt.ist.socialsoftware.edition.ldod.filters.TransactionFilter;
 import pt.ist.socialsoftware.edition.ldod.forms.EditUserForm;
 import pt.ist.socialsoftware.edition.ldod.loaders.VirtualEditionsTEICorpusImport;
-import pt.ist.socialsoftware.edition.ldod.utils.Bootstrap;
 import pt.ist.socialsoftware.edition.ldod.utils.PropertiesManager;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+
+import static org.hamcrest.Matchers.*;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = Application.class)
@@ -93,8 +92,8 @@ public class AdminTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(view().name("admin/loadForm"))
-                .andExpect(model().attribute("message",nullValue()))
-                .andExpect(model().attribute("error",nullValue()));
+                .andExpect(model().attribute("message", nullValue()))
+                .andExpect(model().attribute("error", nullValue()));
     }
 
     //TODO: find a better way to test corpus load via controller. Removal is problematic
@@ -127,20 +126,20 @@ public class AdminTest {
 
         File directory = new File(PropertiesManager.getProperties().getProperty("test.files.dir"));
 
-        File frag = new File(directory,"001.xml");
+        File frag = new File(directory, "001.xml");
 
         FileInputStream fis = new FileInputStream(frag);
 
-        MockMultipartFile mockFile = new MockMultipartFile("mockFile",fis);
+        MockMultipartFile mockFile = new MockMultipartFile("mockFile", fis);
 
         this.mockMvc.perform(multipart("/admin/load/fragmentsAtOnce")
-                .file("file",mockFile.getBytes())
+                .file("file", mockFile.getBytes())
                 .characterEncoding("UTF-8"))
                 .andDo(print())
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/admin/loadForm"));
 
-        assertNotNull(Text.getInstance().getFragmentByXmlId("Fr001"));
+        assertNotNull(TextModule.getInstance().getFragmentByXmlId("Fr001"));
     }
 
 
@@ -153,24 +152,24 @@ public class AdminTest {
 
         File directory = new File(PropertiesManager.getProperties().getProperty("test.files.dir"));
 
-        File frag1 = new File(directory,"001.xml");
+        File frag1 = new File(directory, "001.xml");
         FileInputStream fis1 = new FileInputStream(frag1);
-        MockMultipartFile mockFile1 = new MockMultipartFile("mockFile1",fis1);
+        MockMultipartFile mockFile1 = new MockMultipartFile("mockFile1", fis1);
 
-        File frag2 = new File(directory,"002.xml");
+        File frag2 = new File(directory, "002.xml");
         FileInputStream fis2 = new FileInputStream(frag2);
-        MockMultipartFile mockFile2 = new MockMultipartFile("mockFile2",fis2);
+        MockMultipartFile mockFile2 = new MockMultipartFile("mockFile2", fis2);
 
         this.mockMvc.perform(multipart("/admin/load/fragmentsStepByStep")
-                .file("files",mockFile1.getBytes())
-                .file("files",mockFile2.getBytes())
+                .file("files", mockFile1.getBytes())
+                .file("files", mockFile2.getBytes())
                 .characterEncoding("UTF-8"))
                 .andDo(print())
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/admin/loadForm"));
 
-        assertNotNull(Text.getInstance().getFragmentByXmlId("Fr001"));
-        assertNotNull(Text.getInstance().getFragmentByXmlId("Fr002"));
+        assertNotNull(TextModule.getInstance().getFragmentByXmlId("Fr001"));
+        assertNotNull(TextModule.getInstance().getFragmentByXmlId("Fr002"));
     }
 
     @Test
@@ -180,7 +179,7 @@ public class AdminTest {
         this.mockMvc.perform(get("/admin/fragment/list")).andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(view().name("admin/deleteFragment"))
-                .andExpect(model().attribute("fragments",notNullValue()));
+                .andExpect(model().attribute("fragments", notNullValue()));
 
     }
 
@@ -192,15 +191,15 @@ public class AdminTest {
         String[] fragments = {"001.xml"};
         TestLoadUtils.loadFragments(fragments);
 
-        String id = Text.getInstance().getFragmentByXmlId("Fr001").getExternalId();
+        String id = TextModule.getInstance().getFragmentByXmlId("Fr001").getExternalId();
 
         this.mockMvc.perform(post("/admin/fragment/delete")
-                .param("externalId",id))
+                .param("externalId", id))
                 .andDo(print())
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/admin/fragment/list"));
 
-        assertNull(Text.getInstance().getFragmentByXmlId("Fr001"));
+        assertNull(TextModule.getInstance().getFragmentByXmlId("Fr001"));
     }
 
     @Test
@@ -208,7 +207,7 @@ public class AdminTest {
     public void deleteFragmentErrorTest() throws Exception {
 
         this.mockMvc.perform(post("/admin/fragment/delete")
-                .param("externalId","ERROR"))
+                .param("externalId", "ERROR"))
                 .andDo(print())
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/error"));
@@ -219,7 +218,7 @@ public class AdminTest {
     public void deleteAllFragmentsTest() throws Exception {
 
         TestLoadUtils.loadCorpus();
-        String[] fragments = {"001.xml","002.xml","003.xml"};
+        String[] fragments = {"001.xml", "002.xml", "003.xml"};
         TestLoadUtils.loadFragments(fragments);
 
 
@@ -228,9 +227,9 @@ public class AdminTest {
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/admin/fragment/list"));
 
-        assertNull(Text.getInstance().getFragmentByXmlId("Fr001"));
-        assertNull(Text.getInstance().getFragmentByXmlId("Fr002"));
-        assertNull(Text.getInstance().getFragmentByXmlId("Fr003"));
+        assertNull(TextModule.getInstance().getFragmentByXmlId("Fr001"));
+        assertNull(TextModule.getInstance().getFragmentByXmlId("Fr002"));
+        assertNull(TextModule.getInstance().getFragmentByXmlId("Fr003"));
     }
 
     @Test
@@ -250,7 +249,7 @@ public class AdminTest {
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void deleteUserSessionsTest() throws Exception {
 
-        when(sessionRegistry.getAllPrincipals()).thenReturn(new ArrayList<>());
+        when(this.sessionRegistry.getAllPrincipals()).thenReturn(new ArrayList<>());
 
         this.mockMvc.perform(post("/admin/sessions/delete"))
                 .andDo(print())
@@ -266,8 +265,8 @@ public class AdminTest {
         this.mockMvc.perform(get("/admin/user/list")).andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(view().name("admin/listUsers"))
-                .andExpect(model().attribute("users",hasSize(2)))
-                .andExpect(model().attribute("sessions",notNullValue()));
+                .andExpect(model().attribute("users", hasSize(2)))
+                .andExpect(model().attribute("sessions", notNullValue()));
 
     }
 
@@ -282,7 +281,7 @@ public class AdminTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(view().name("admin/user/edit"))
-                .andExpect(model().attribute("editUserForm",isA(EditUserForm.class))).andReturn();
+                .andExpect(model().attribute("editUserForm", isA(EditUserForm.class))).andReturn();
 
         EditUserForm form = (EditUserForm) res.getModelAndView().getModel().get("editUserForm");
 
@@ -290,7 +289,7 @@ public class AdminTest {
         assertEquals(user.getLastName(), form.getLastName());
         assertEquals(user.getUsername(), form.getNewUsername());
         assertEquals(user.getUsername(), form.getOldUsername());
-        assertEquals(user.getEmail(),form.getEmail());
+        assertEquals(user.getEmail(), form.getEmail());
 
     }
 
@@ -309,7 +308,7 @@ public class AdminTest {
         temp.addRoles(admin);
 
         this.mockMvc.perform(post("/admin/user/edit")
-                .param("oldUsername","temp")
+                .param("oldUsername", "temp")
                 .param("newUsername", "newtemp")
                 .param("firstName", "Temp")
                 .param("lastName", "Temp")
@@ -336,20 +335,20 @@ public class AdminTest {
         boolean original = ldoDUser.getActive();
 
         this.mockMvc.perform(post("/admin/user/active")
-                .param("externalId",ldoDUser.getExternalId()))
+                .param("externalId", ldoDUser.getExternalId()))
                 .andDo(print())
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/admin/user/list"));
 
-        assertNotEquals(original,ldoDUser.getActive());
+        assertNotEquals(original, ldoDUser.getActive());
 
         this.mockMvc.perform(post("/admin/user/active")
-                .param("externalId",ldoDUser.getExternalId()))
+                .param("externalId", ldoDUser.getExternalId()))
                 .andDo(print())
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/admin/user/list"));
 
-        assertEquals(original,ldoDUser.getActive());
+        assertEquals(original, ldoDUser.getActive());
     }
 
     @Test
@@ -399,9 +398,9 @@ public class AdminTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(view().name("admin/exportForm"))
-                .andExpect(model().attribute("query",is("arte")))
-                .andExpect(model().attribute("nResults",is(1)))
-                .andExpect(model().attribute("frags",hasSize(1)));
+                .andExpect(model().attribute("query", is("arte")))
+                .andExpect(model().attribute("nResults", is(1)))
+                .andExpect(model().attribute("frags", hasSize(1)));
 
     }
 
@@ -413,7 +412,7 @@ public class AdminTest {
         String[] fragments = {"001.xml"};
         TestLoadUtils.loadFragments(fragments);
 
-       this.mockMvc.perform(post("/admin/exportSearchResult")
+        this.mockMvc.perform(post("/admin/exportSearchResult")
                 .param("query", "arte"))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -427,7 +426,7 @@ public class AdminTest {
     public void exportAllFragsTest() throws Exception {
 
         TestLoadUtils.loadCorpus();
-        String[] fragments = {"001.xml","002.xml"};
+        String[] fragments = {"001.xml", "002.xml"};
         TestLoadUtils.loadFragments(fragments);
 
         this.mockMvc.perform(get("/admin/exportAll"))
@@ -443,7 +442,7 @@ public class AdminTest {
     public void exportRandomFragsTest() throws Exception {
 
         TestLoadUtils.loadCorpus();
-        String[] fragments = {"001.xml","002.xml","003.xml","181.xml","593.xml"};
+        String[] fragments = {"001.xml", "002.xml", "003.xml", "181.xml", "593.xml"};
         TestLoadUtils.loadFragments(fragments);
 
         String response = this.mockMvc.perform(get("/admin/exportRandom"))
@@ -492,7 +491,7 @@ public class AdminTest {
         MockMultipartFile mockFile = new MockMultipartFile("import", stream);
 
         this.mockMvc.perform(multipart("/admin/load/users")
-                .file("file",mockFile.getBytes())
+                .file("file", mockFile.getBytes())
                 .characterEncoding("UTF-8"))
                 .andDo(print())
                 .andExpect(status().is3xxRedirection())
@@ -507,9 +506,9 @@ public class AdminTest {
     public void exportVirtualEditionsTest() throws Exception {
 
         this.mockMvc.perform(get("/admin/export/virtualeditions"))
-                    .andDo(print())
-                    .andExpect(status().isOk())
-                    .andExpect(content().contentType("application/zip"));
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().contentType("application/zip"));
     }
 
 
@@ -519,12 +518,12 @@ public class AdminTest {
 
         File directory = new File(PropertiesManager.getProperties().getProperty("test.files.dir"));
 
-        File corpus = new File(directory,"virtual-corpus.xml");
+        File corpus = new File(directory, "virtual-corpus.xml");
         FileInputStream fis1 = new FileInputStream(corpus);
-        MockMultipartFile mockFile1 = new MockMultipartFile("mockFile1",fis1);
+        MockMultipartFile mockFile1 = new MockMultipartFile("mockFile1", fis1);
 
         this.mockMvc.perform(multipart("/admin/load/virtual-corpus")
-                .file("file",mockFile1.getBytes())
+                .file("file", mockFile1.getBytes())
                 .characterEncoding("UTF-8"))
                 .andDo(print())
                 .andExpect(status().is3xxRedirection())
@@ -547,7 +546,7 @@ public class AdminTest {
         File directory = new File(PropertiesManager.getProperties().getProperty("test.files.dir"));
 
         // load corpus file and import
-        File corpus = new File(directory,"virtual-corpus.xml");
+        File corpus = new File(directory, "virtual-corpus.xml");
         FileInputStream fis1 = new FileInputStream(corpus);
 
         VirtualEditionsTEICorpusImport loader = new VirtualEditionsTEICorpusImport();
@@ -557,7 +556,7 @@ public class AdminTest {
         // load virtual fragment for mocking
         File frag1 = new File(directory, "virtual-Fr001.xml");
         FileInputStream fisfrag = new FileInputStream(frag1);
-        MockMultipartFile mockFrag1 = new MockMultipartFile("frag1",fisfrag);
+        MockMultipartFile mockFrag1 = new MockMultipartFile("frag1", fisfrag);
 
         this.mockMvc.perform(multipart("/admin/load/virtual-fragments")
                 .file("files", mockFrag1.getBytes())
@@ -576,7 +575,7 @@ public class AdminTest {
         this.mockMvc.perform(get("/admin/virtual/list")).andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(view().name("admin/listVirtualEditions"))
-                .andExpect(model().attribute("editions",hasSize(1)));
+                .andExpect(model().attribute("editions", hasSize(1)));
 
     }
 
@@ -613,7 +612,7 @@ public class AdminTest {
 
         PasswordEncoder p = new BCryptPasswordEncoder(11);
 
-        when(passwordEncoder.encode(anyString())).thenReturn(p.encode(anyString()));
+        when(this.passwordEncoder.encode(anyString())).thenReturn(p.encode(anyString()));
 
         this.mockMvc.perform(post("/admin/createTestUsers"))
                 .andDo(print())
@@ -650,7 +649,7 @@ public class AdminTest {
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/admin/tweets"));
 
-        assertEquals(0,LdoD.getInstance().getTweetSet().size());
+        assertEquals(0, LdoD.getInstance().getTweetSet().size());
     }
 
 }

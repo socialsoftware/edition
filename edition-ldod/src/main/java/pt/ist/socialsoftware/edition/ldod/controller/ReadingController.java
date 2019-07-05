@@ -29,7 +29,7 @@ public class ReadingController {
     @RequestMapping(method = RequestMethod.GET)
     public String startReading(Model model, @ModelAttribute("ldoDSession") LdoDSession ldoDSession) {
         model.addAttribute("ldoD", LdoD.getInstance());
-        model.addAttribute("text", Text.getInstance());
+        model.addAttribute("text", TextModule.getInstance());
         model.addAttribute("inter", null);
 
         return "reading/readingMain";
@@ -38,7 +38,7 @@ public class ReadingController {
     @RequestMapping(method = RequestMethod.GET, value = "/fragment/{xmlId}/inter/{urlId}")
     public String readInterpretation(Model model, @ModelAttribute("ldoDSession") LdoDSession ldoDSession,
                                      @PathVariable String xmlId, @PathVariable String urlId) {
-        Fragment fragment = Text.getInstance().getFragmentByXmlId(xmlId);
+        Fragment fragment = TextModule.getInstance().getFragmentByXmlId(xmlId);
         if (fragment == null) {
             return "redirect:/error";
         }
@@ -56,7 +56,7 @@ public class ReadingController {
         writer.write(false);
 
         model.addAttribute("ldoD", LdoD.getInstance());
-        model.addAttribute("text", Text.getInstance());
+        model.addAttribute("text", TextModule.getInstance());
         model.addAttribute("inter", expertEditionInter);
         model.addAttribute("recommendations", recommendations);
         model.addAttribute("prevRecom", prevRecom);
@@ -68,7 +68,7 @@ public class ReadingController {
     @RequestMapping(method = RequestMethod.GET, value = "/edition/{acronym}/start")
     public String startReadingEdition(Model model, @ModelAttribute("ldoDSession") LdoDSession ldoDSession,
                                       @PathVariable String acronym) {
-        ExpertEdition expertEdition = Text.getInstance().getExpertEdition(acronym);
+        ExpertEdition expertEdition = TextModule.getInstance().getExpertEdition(acronym);
         ExpertEditionInter expertEditionInter = expertEdition.getFirstInterpretation();
 
         ldoDSession.getRecommendation().clean();
@@ -81,7 +81,7 @@ public class ReadingController {
     @RequestMapping(method = RequestMethod.GET, value = "/fragment/{xmlId}/inter/{urlId}/start")
     public String startReadingFromInter(Model model, @ModelAttribute("ldoDSession") LdoDSession ldoDSession,
                                         @PathVariable String xmlId, @PathVariable String urlId) {
-        Fragment fragment = Text.getInstance().getFragmentByXmlId(xmlId);
+        Fragment fragment = TextModule.getInstance().getFragmentByXmlId(xmlId);
         if (fragment == null) {
             return "redirect:/error";
         }
@@ -101,7 +101,7 @@ public class ReadingController {
     @RequestMapping(method = RequestMethod.GET, value = "/fragment/{xmlId}/inter/{urlId}/next")
     public String readNextInterpretation(Model model, @ModelAttribute("ldoDSession") LdoDSession ldoDSession,
                                          @PathVariable String xmlId, @PathVariable String urlId) {
-        Fragment fragment = Text.getInstance().getFragmentByXmlId(xmlId);
+        Fragment fragment = TextModule.getInstance().getFragmentByXmlId(xmlId);
         if (fragment == null) {
             return "redirect:/error";
         }
@@ -120,7 +120,7 @@ public class ReadingController {
     @RequestMapping(method = RequestMethod.GET, value = "/fragment/{xmlId}/inter/{urlId}/prev")
     public String readPrevInterpretation(Model model, @ModelAttribute("ldoDSession") LdoDSession ldoDSession,
                                          @PathVariable String xmlId, @PathVariable String urlId) {
-        Fragment fragment = Text.getInstance().getFragmentByXmlId(xmlId);
+        Fragment fragment = TextModule.getInstance().getFragmentByXmlId(xmlId);
         if (fragment == null) {
             return "redirect:/error";
         }

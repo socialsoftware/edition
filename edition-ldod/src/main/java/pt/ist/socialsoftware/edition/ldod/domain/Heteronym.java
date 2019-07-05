@@ -2,36 +2,35 @@ package pt.ist.socialsoftware.edition.ldod.domain;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pt.ist.socialsoftware.edition.ldod.domain.Heteronym_Base;
 
 public class Heteronym extends Heteronym_Base implements Comparable<Heteronym> {
-	public static Logger logger = LoggerFactory.getLogger(Heteronym.class);
+    public static Logger logger = LoggerFactory.getLogger(Heteronym.class);
 
-	public Heteronym() {
-		super();
-	}
+    public Heteronym() {
+        super();
+    }
 
-	public Heteronym(Text text, String name) {
-		setText(text);
-		setName(name);
-	}
+    public Heteronym(TextModule text, String name) {
+        setTextModule(text);
+        setName(name);
+    }
 
-	public void remove() {
-		setText(null);
+    public void remove() {
+        setTextModule(null);
 
-		getSourceSet().stream().forEach(s -> removeSource(s));
-		getScholarInterSet().stream().forEach(i -> removeScholarInter(i));
+        getSourceSet().stream().forEach(s -> removeSource(s));
+        getScholarInterSet().stream().forEach(i -> removeScholarInter(i));
 
-		deleteDomainObject();
-	}
+        deleteDomainObject();
+    }
 
-	@Override
-	public int compareTo(Heteronym o) {
-		return this.getXmlId().compareTo(o.getXmlId());
-	}
+    @Override
+    public int compareTo(Heteronym o) {
+        return this.getXmlId().compareTo(o.getXmlId());
+    }
 
-	public boolean isNullHeteronym() {
-		return false;
-	}
+    public boolean isNullHeteronym() {
+        return false;
+    }
 
 }

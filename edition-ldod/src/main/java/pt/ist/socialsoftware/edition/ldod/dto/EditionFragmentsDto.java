@@ -4,26 +4,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EditionFragmentsDto {
-	List<FragmentDto> fragments = new ArrayList<>();
-	private List<String> categories = new ArrayList<>();
+    List<FragmentViewDto> fragments = new ArrayList<>();
+    private List<String> categories = new ArrayList<>();
 
-	public EditionFragmentsDto() {
-	}
+    public EditionFragmentsDto() {
+    }
 
-	public List<FragmentDto> getFragments() {
-		return this.fragments;
-	}
+    public List<FragmentViewDto> getFragments() {
+        return this.fragments;
+    }
 
-	public void setFragments(List<FragmentDto> fragments) {
-		this.fragments = fragments;
-	}
+    public void setFragments(List<FragmentViewDto> fragments) {
+        this.fragments = fragments;
+    }
 
-	public List<String> getCategories() {
-		return categories;
-	}
+    public List<String> getCategories() {
+        return this.categories;
+    }
 
-	public void setCategories(List<String> categories) {
-		this.categories = categories;
-	}
+    public void setCategories(List<String> categories) {
+        this.categories = categories;
+    }
 
 }

@@ -203,7 +203,7 @@ public class SearchController {
     public Map<String, String> getEditions() {
         // LinkedHashMap keeps insertion order.
         Map<String, String> editions = new LinkedHashMap<>();
-        for (ExpertEdition expertEdition : Text.getInstance().getSortedExpertEdition()) {
+        for (ExpertEdition expertEdition : TextModule.getInstance().getSortedExpertEdition()) {
 
             editions.put(expertEdition.getAcronym(), expertEdition.getEditor());
         }
@@ -250,7 +250,7 @@ public class SearchController {
         logger.debug("getPublicationsDates");
         LocalDate beginDate = null;
         LocalDate endDate = null;
-        for (Fragment fragment : Text.getInstance().getFragmentsSet()) {
+        for (Fragment fragment : TextModule.getInstance().getFragmentsSet()) {
             for (Source source : fragment.getSourcesSet()) {
                 if (source.getType().equals(SourceType.PRINTED)) {
                     if (source.getLdoDDate() != null) {
@@ -277,7 +277,7 @@ public class SearchController {
         for (int i = 0; i < values.length; i++) {
             array[i] = values[i].getDesc();
         }
-        for (Fragment frag : Text.getInstance().getFragmentsSet()) {
+        for (Fragment frag : TextModule.getInstance().getFragmentsSet()) {
             for (ScholarInter scholarInter : frag.getScholarInterSet()) {
                 if (!scholarInter.isExpertInter()) {
                     SourceType type = ((SourceInter) scholarInter).getSource().getType();
@@ -324,7 +324,7 @@ public class SearchController {
     @ResponseBody
     public Map<String, String> getHeteronyms() {
         Map<String, String> heteronyms = new HashMap<>();
-        for (Heteronym heteronym : Text.getInstance().getHeteronymsSet()) { //TODO: change this so it gets heteronym info from the interface
+        for (Heteronym heteronym : TextModule.getInstance().getHeteronymsSet()) { //TODO: change this so it gets heteronym info from the interface
             heteronyms.put(heteronym.getName(), heteronym.getXmlId());
         }
         return heteronyms;
@@ -335,7 +335,7 @@ public class SearchController {
     public DatesJson getDates() {
         LocalDate beginDate = null;
         LocalDate endDate = null;
-        for (Fragment fragment : Text.getInstance().getFragmentsSet()) {
+        for (Fragment fragment : TextModule.getInstance().getFragmentsSet()) {
             for (ScholarInter scholarInter : fragment.getScholarInterSet()) {
                 if (scholarInter.getLdoDDate() != null) {
                     beginDate = getIsBeforeDate(beginDate, scholarInter.getLdoDDate().getDate());

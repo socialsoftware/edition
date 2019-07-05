@@ -49,7 +49,7 @@ public class VSMVirtualEditionInterRecomenderTest extends TestWithFragmentsLoadi
     protected void populate4Test() {
 
         LdoD ldoD = LdoD.getInstance();
-        ExpertEdition pizarroEdition = Text.getInstance().getJPEdition();
+        ExpertEdition pizarroEdition = TextModule.getInstance().getJPEdition();
 
         LdoDUser userArs = ldoD.getUser("ars");
         // create virtual edition
@@ -254,7 +254,7 @@ public class VSMVirtualEditionInterRecomenderTest extends TestWithFragmentsLoadi
     }
 
     private ScholarInter getLastUsedScholarEditionInter(VirtualEditionInter virtualEditionInter) {
-        return Text.getInstance().getScholarInterByXmlId(virtualEditionInter.getLastUsed().getXmlId());
+        return TextModule.getInstance().getScholarInterByXmlId(virtualEditionInter.getLastUsed().getXmlId());
     }
 
 }

@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HeteronymProperty extends Property {
-    private static final List<Heteronym> heteronymList = Text.getInstance().getSortedHeteronyms();
+    private static final List<Heteronym> heteronymList = TextModule.getInstance().getSortedHeteronyms();
 
     public HeteronymProperty(double weight) {
         super(weight, PropertyCache.ON);

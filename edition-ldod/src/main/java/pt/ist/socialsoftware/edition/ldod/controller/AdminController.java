@@ -170,7 +170,7 @@ public class AdminController {
     @RequestMapping(method = RequestMethod.GET, value = "/fragment/list")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String deleteFragmentsList(Model model) {
-        model.addAttribute("fragments", Text.getInstance().getFragmentsSet());
+        model.addAttribute("fragments", TextModule.getInstance().getFragmentsSet());
         return "admin/deleteFragment";
     }
 
@@ -180,7 +180,7 @@ public class AdminController {
         Fragment fragment = FenixFramework.getDomainObject(externalId);
         if (fragment == null) {
             return "redirect:/error";
-        } else if (Text.getInstance().getFragmentsSet().size() >= 1) {
+        } else if (TextModule.getInstance().getFragmentsSet().size() >= 1) {
             fragment.remove();
         }
         return "redirect:/admin/fragment/list";
@@ -189,7 +189,7 @@ public class AdminController {
     @RequestMapping(method = RequestMethod.POST, value = "/fragment/deleteAll")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String deleteAllFragments(Model model) {
-        for (Fragment fragment : Text.getInstance().getFragmentsSet()) {
+        for (Fragment fragment : TextModule.getInstance().getFragmentsSet()) {
             fragment.remove();
         }
         return "redirect:/admin/fragment/list";
@@ -326,7 +326,7 @@ public class AdminController {
         int n = 0;
 
         if (query.compareTo("") != 0) {
-            for (Fragment frag : Text.getInstance().getFragmentsSet()) {
+            for (Fragment frag : TextModule.getInstance().getFragmentsSet()) {
                 if (frag.getTitle().contains(query)) {
                     frags.add("<a href=\"/fragments/fragment/" + frag.getExternalId() + "\">"
                             + frag.getTitle().replace(query, "<b><u>" + query + "</u></b>") + "</a>");
@@ -349,7 +349,7 @@ public class AdminController {
 
         Map<Fragment, Set<ScholarInter>> searchResult = new HashMap<>();
 
-        for (Fragment frag : Text.getInstance().getFragmentsSet()) {
+        for (Fragment frag : TextModule.getInstance().getFragmentsSet()) {
             if (frag.getTitle().contains(query)) {
                 Set<ScholarInter> inters = new HashSet<>();
                 for (ScholarInter inter : frag.getScholarInterSet()) {
@@ -379,7 +379,7 @@ public class AdminController {
     public void exportAll(HttpServletResponse response) {
 
         Map<Fragment, Set<ScholarInter>> searchResult = new HashMap<>();
-        for (Fragment frag : Text.getInstance().getFragmentsSet()) {
+        for (Fragment frag : TextModule.getInstance().getFragmentsSet()) {
             Set<ScholarInter> inters = new HashSet<>();
 
             for (ScholarInter inter : frag.getScholarInterSet()) {
@@ -408,7 +408,7 @@ public class AdminController {
     public void exportRandom(HttpServletResponse response) {
 
         Map<Fragment, Set<ScholarInter>> searchResult = new HashMap<>();
-        List<Fragment> fragments = new ArrayList<>(Text.getInstance().getFragmentsSet());
+        List<Fragment> fragments = new ArrayList<>(TextModule.getInstance().getFragmentsSet());
 
         List<String> fragsRandom = new ArrayList<>();
 

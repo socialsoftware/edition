@@ -34,7 +34,7 @@ public class FragmentMetaInfoDto {
 
 
     public FragmentMetaInfoDto(VirtualEditionInter inter) {
-        this(Text.getInstance().getScholarInterByXmlId(inter.getLastUsed().getXmlId()));
+        this(TextModule.getInstance().getScholarInterByXmlId(inter.getLastUsed().getXmlId()));
 
         this.categories = inter.getCategories().stream().map(c -> c.getName()).sorted().collect(Collectors.toList());
     }

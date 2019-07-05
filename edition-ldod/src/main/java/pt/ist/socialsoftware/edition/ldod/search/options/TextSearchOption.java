@@ -38,7 +38,7 @@ public final class TextSearchOption extends SearchOption {
 
     @Override
     public String toString() {
-        return "Text:" + this.text;
+        return "TextModule:" + this.text;
     }
 
     @Override

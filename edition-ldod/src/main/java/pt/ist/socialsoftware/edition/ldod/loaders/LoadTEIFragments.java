@@ -38,7 +38,7 @@ public class LoadTEIFragments {
     private Element ldoDTEI = null;
     private Namespace namespace = null;
     private LdoD ldoD = null;
-    private pt.ist.socialsoftware.edition.ldod.domain.Text text = null;
+    private TextModule text = null;
 
     private Document doc = null;
 
@@ -154,7 +154,7 @@ public class LoadTEIFragments {
         parseTEIFile(file);
 
         this.ldoD = LdoD.getInstance();
-        this.text = pt.ist.socialsoftware.edition.ldod.domain.Text.getInstance();
+        this.text = TextModule.getInstance();
 
         getCorpusXmlIds();
 
@@ -203,7 +203,7 @@ public class LoadTEIFragments {
 
         for (Element element : xp.evaluate(this.doc)) {
             this.ldoD = LdoD.getInstance();
-            this.text = pt.ist.socialsoftware.edition.ldod.domain.Text.getInstance();
+            this.text = TextModule.getInstance();
 
             String xmlId = getFragmentXmlId(element);
             String title = getFragmentTitle(element);
@@ -396,7 +396,7 @@ public class LoadTEIFragments {
                 }
                 break;
             case FRAGMENT:
-                Fragment fragment = pt.ist.socialsoftware.edition.ldod.domain.Text.getInstance().getFragmentByXmlId(target);
+                Fragment fragment = TextModule.getInstance().getFragmentByXmlId(target);
                 // if (fragment != null) {
                 // if fragment == null is deal in class RefText
                 refText.setRefFrag(fragment);
@@ -1043,7 +1043,7 @@ public class LoadTEIFragments {
                                     putObjectInverseIdMap(target, refText);
                                 }
                             } else if (refType == RefType.FRAGMENT) {
-                                Fragment frag = pt.ist.socialsoftware.edition.ldod.domain.Text.getInstance().getFragmentByXmlId(target);
+                                Fragment frag = TextModule.getInstance().getFragmentByXmlId(target);
                                 // if (frag != null) {
                                 // it is not verified if frag == null but an
                                 // exception will be raised when accessing the

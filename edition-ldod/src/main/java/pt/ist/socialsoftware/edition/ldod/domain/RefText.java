@@ -33,7 +33,7 @@ public class RefText extends RefText_Base {
     public Fragment getRefFrag() {
         Fragment fragment = super.getRefFrag();
         if (fragment == null) {
-            fragment = Text.getInstance().getFragmentByXmlId(getTarget());
+            fragment = TextModule.getInstance().getFragmentByXmlId(getTarget());
             atomicWriteRefFrag(fragment);
         }
         return fragment;

@@ -52,7 +52,7 @@ public class VSMVirtualEditionInterRecomenderPerformanceTest {
     @Atomic(mode = TxMode.WRITE)
     protected void setUp() {
         LdoD ldoD = LdoD.getInstance();
-        Text text = Text.getInstance();
+        TextModule text = TextModule.getInstance();
         ExpertEdition pizarroEdition = text.getJPEdition();
         ExpertEdition zenithEdition = text.getRZEdition();
         ExpertEdition cunhaEdition = text.getTSCEdition();

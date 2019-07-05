@@ -14,7 +14,7 @@ import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.ldod.api.ui.UiInterface;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.dto.EditionDto;
-import pt.ist.socialsoftware.edition.ldod.dto.LdoDUserDto;
+import pt.ist.socialsoftware.edition.ldod.dto.LdoDUserViewDto;
 import pt.ist.socialsoftware.edition.ldod.session.LdoDSession;
 
 import java.util.List;
@@ -38,7 +38,7 @@ public class EditionController {
     @RequestMapping(method = RequestMethod.GET, value = "/acronym/{acronym}")
     @PreAuthorize("hasPermission(#acronym, 'editionacronym.public')")
     public String getEditionTableOfContentsbyAcronym(Model model, @PathVariable String acronym) {
-        ExpertEdition expertEdition = Text.getInstance().getExpertEdition(acronym);
+        ExpertEdition expertEdition = TextModule.getInstance().getExpertEdition(acronym);
 
         if (expertEdition != null) {
             model.addAttribute("heteronym", null);
@@ -105,7 +105,7 @@ public class EditionController {
 
         if (user != null) {
             model.addAttribute("user", user);
-            model.addAttribute("userDto", new LdoDUserDto(user));
+            model.addAttribute("userDto", new LdoDUserViewDto(user));
             if (user.getPlayer() != null) {
                 List<ClassificationGame> games = user.getPlayer().getClassificationGameParticipantSet().stream().map
                         (ClassificationGameParticipant::getClassificationGame).collect(Collectors.toList());

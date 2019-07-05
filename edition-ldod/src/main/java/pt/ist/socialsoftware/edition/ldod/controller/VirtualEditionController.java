@@ -58,7 +58,7 @@ public class VirtualEditionController {
     public String listVirtualEdition(Model model, @ModelAttribute("ldoDSession") LdoDSession ldoDSession) {
 
         model.addAttribute("ldod", LdoD.getInstance());
-        model.addAttribute("expertEditions", Text.getInstance().getSortedExpertEdition());
+        model.addAttribute("expertEditions", TextModule.getInstance().getSortedExpertEdition());
         model.addAttribute("virtualEditions",
                 LdoD.getInstance().getVirtualEditions4User(LdoDUser.getAuthenticatedUser(), ldoDSession));
         model.addAttribute("user", LdoDUser.getAuthenticatedUser());
@@ -288,7 +288,7 @@ public class VirtualEditionController {
         logger.debug("getEditions");
 
         List<VirtualEditionInterListDto> result =
-                Stream.concat(Text.getInstance().getExpertEditionsSet().stream().map(expertEdition -> new VirtualEditionInterListDto(expertEdition)),
+                Stream.concat(TextModule.getInstance().getExpertEditionsSet().stream().map(expertEdition -> new VirtualEditionInterListDto(expertEdition)),
                         LdoD.getInstance().getVirtualEditionsSet().stream().filter(virtualEdition -> virtualEdition.getPub())
                                 .map(virtualEdition -> new VirtualEditionInterListDto(virtualEdition, false)))
                         .collect(Collectors.toList());
@@ -303,17 +303,17 @@ public class VirtualEditionController {
         logger.debug("getFragments acronym:{}", acronym);
 
         EditionFragmentsDto editionFragments = new EditionFragmentsDto();
-        ExpertEdition expertEdition = Text.getInstance().getExpertEdition(acronym);
+        ExpertEdition expertEdition = TextModule.getInstance().getExpertEdition(acronym);
         if (expertEdition != null) {
             editionFragments.setCategories(new ArrayList<>());
 
-            List<FragmentDto> fragments = new ArrayList<>();
+            List<FragmentViewDto> fragments = new ArrayList<>();
 
             expertEdition.getExpertEditionIntersSet().stream().sorted(Comparator.comparing(ExpertEditionInter::getTitle))
                     .forEach(inter -> {
                         PlainHtmlWriter4OneInter writer = new PlainHtmlWriter4OneInter(inter);
                         writer.write(false);
-                        FragmentDto fragment = new FragmentDto(inter, writer.getTranscription());
+                        FragmentViewDto fragment = new FragmentViewDto(inter, writer.getTranscription());
 
                         fragments.add(fragment);
                     });
@@ -327,13 +327,13 @@ public class VirtualEditionController {
                 editionFragments.setCategories(virtualEdition.getTaxonomy().getSortedCategories().stream()
                         .map(c -> c.getName()).collect(Collectors.toList()));
 
-                List<FragmentDto> fragments = new ArrayList<>();
+                List<FragmentViewDto> fragments = new ArrayList<>();
 
                 virtualEdition.getAllDepthVirtualEditionInters().stream().sorted(Comparator.comparing(VirtualEditionInter::getTitle))
                         .forEach(inter -> {
                             PlainHtmlWriter4OneInter writer = new PlainHtmlWriter4OneInter(inter.getLastUsed().getXmlId());
                             writer.write(false);
-                            FragmentDto fragment = new FragmentDto(inter, writer.getTranscription());
+                            FragmentViewDto fragment = new FragmentViewDto(inter, writer.getTranscription());
 
                             fragments.add(fragment);
                         });
@@ -362,7 +362,7 @@ public class VirtualEditionController {
         if (domainObject == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } else if (domainObject instanceof VirtualEditionInter) {
-            scholarInter = Text.getInstance().getScholarInterByXmlId(((VirtualEditionInter) domainObject).getLastUsed().getXmlId());
+            scholarInter = TextModule.getInstance().getScholarInterByXmlId(((VirtualEditionInter) domainObject).getLastUsed().getXmlId());
         } else if (domainObject instanceof ScholarInter) {
             scholarInter = (ScholarInter) domainObject;
         } else {
@@ -392,7 +392,7 @@ public class VirtualEditionController {
             List<TranscriptionDto> transcriptions = new ArrayList<>();
 
             virtualEdition.getIntersSet().stream().sorted(Comparator.comparing(VirtualEditionInter::getTitle)).forEach(inter -> {
-                ScholarInter lastInter = Text.getInstance().getScholarInterByXmlId(inter.getLastUsed().getXmlId());
+                ScholarInter lastInter = TextModule.getInstance().getScholarInterByXmlId(inter.getLastUsed().getXmlId());
                 String title = lastInter.getTitle();
                 String text;
                 try {
