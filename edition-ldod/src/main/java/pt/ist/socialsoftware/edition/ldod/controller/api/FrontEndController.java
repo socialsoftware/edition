@@ -26,6 +26,7 @@ import static pt.ist.socialsoftware.edition.ldod.domain.Source.SourceType.MANUSC
 import static pt.ist.socialsoftware.edition.ldod.domain.Source.SourceType.PRINTED;
 
 @RestController
+@CrossOrigin(methods = {RequestMethod.DELETE, RequestMethod.GET, RequestMethod.POST, RequestMethod.OPTIONS, RequestMethod.PUT})
 @RequestMapping("/api/services/frontend")
 public class FrontEndController {
     private static final Logger logger = LoggerFactory.getLogger(FrontEndController.class);
@@ -749,6 +750,8 @@ public class FrontEndController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    //Annotation related methods
+
     @PostMapping("/restricted/annotations")
     public ResponseEntity<?> createAnnotation(@RequestBody AnnotationDTO annotationJson){
         logger.debug("Got annotation for quote:");
@@ -761,7 +764,7 @@ public class FrontEndController {
         HumanAnnotation annotation;
         if (HumanAnnotation.canCreate(virtualEdition, user)) {
             annotation = inter.createHumanAnnotation(annotationJson.getQuote(), annotationJson.getText(), user,
-                    annotationJson.getRanges(), new ArrayList<>()); //TODO : get tags from dto when tag supported is added to frontend
+                    annotationJson.getRanges(), new ArrayList<>()); //TODO : get tags from dto when tag support is added to frontend
 
             annotationJson.setId(annotation.getExternalId());
 
@@ -771,7 +774,7 @@ public class FrontEndController {
         }
     }
 
-    @GetMapping("/fragment/annotations/{id}")
+    @GetMapping("/restricted/annotations/{id}")
     public ResponseEntity<?> getAnnotation(@PathVariable String id){
 
         HumanAnnotation annotation = FenixFramework.getDomainObject(id);
@@ -782,9 +785,9 @@ public class FrontEndController {
         }
     }
 
-    @PutMapping("/fragment/annotations/{id}")
+    @PutMapping("/restricted/annotations/{id}")
     public ResponseEntity<?> updateAnnotation(@PathVariable String id, @RequestBody AnnotationDTO annotationJson){
-        
+
         HumanAnnotation annotation = FenixFramework.getDomainObject(id);
         LdoDUser user = LdoDUser.getAuthenticatedUser();
 
@@ -793,10 +796,29 @@ public class FrontEndController {
         }
 
         if (annotation.canUpdate(user)) {
-            annotation.update(annotationJson.getText(), annotationJson.getTags());
+            annotation.update(annotationJson.getText(), new ArrayList()); //TODO : get tags from dto when tag support is added to frontend
             return new ResponseEntity<>(new AnnotationDTO(annotation), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
+    }
+
+    @DeleteMapping("/restricted/annotations/{id}")
+    public ResponseEntity<?> deleteAnnotation(@PathVariable String id){
+
+        HumanAnnotation annotation = FenixFramework.getDomainObject(id);
+        LdoDUser user = LdoDUser.getAuthenticatedUser();
+
+        if (annotation == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        if (annotation.canDelete(user)) {
+            annotation.remove();
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } else {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+
     }
 }
