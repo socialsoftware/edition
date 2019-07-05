@@ -6,7 +6,6 @@ import pt.ist.socialsoftware.edition.ldod.api.text.dto.FragmentDto;
 import pt.ist.socialsoftware.edition.ldod.api.text.dto.HeteronymDto;
 import pt.ist.socialsoftware.edition.ldod.api.text.dto.LdoDDateDto;
 import pt.ist.socialsoftware.edition.ldod.api.text.dto.ScholarInterDto;
-import pt.ist.socialsoftware.edition.ldod.api.ui.FragInterDto;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
 
@@ -74,10 +73,6 @@ public class TextInterface {
 
     public boolean usesSourceType(String scholarInterId, Source.SourceType type) {
         return getScholarInterByXmlId(scholarInterId).map(SourceInter.class::cast).map(sourceInter -> sourceInter.getSource().getType()).orElseThrow(LdoDException::new) == type;
-    }
-
-    public FragInterDto getFragInterDto(String scholarInterId) {
-        return getScholarInterByXmlId(scholarInterId).map(FragInterDto::new).orElse(null);
     }
 
     public String getRepresentativeSourceInterExternalId(String fragmentXmlId) {
