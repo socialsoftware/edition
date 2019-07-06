@@ -1,5 +1,7 @@
 package pt.ist.socialsoftware.edition.ldod.controller.api;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -16,10 +18,13 @@ import pt.ist.socialsoftware.edition.ldod.domain.EditionModule;
 import pt.ist.socialsoftware.edition.ldod.generators.HtmlWriter2CompInters;
 import pt.ist.socialsoftware.edition.ldod.generators.HtmlWriter4Variations;
 import pt.ist.socialsoftware.edition.ldod.generators.PlainHtmlWriter4OneInter;
+import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
 import pt.ist.socialsoftware.edition.ldod.utils.AnnotationDTO;
 import pt.ist.socialsoftware.edition.ldod.utils.AnnotationSearchJson;
+import pt.ist.socialsoftware.edition.ldod.utils.CategoryDTO;
 
 import javax.inject.Inject;
+import java.lang.annotation.Repeatable;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -752,6 +757,27 @@ public class FrontEndController {
     }
 
     //Annotation related methods
+
+    @GetMapping("/restricted/inter/categories")
+    public ResponseEntity<?> getCategoriesForInter(@RequestParam String id){
+
+        VirtualEditionInter inter = FenixFramework.getDomainObject(id);
+
+        if(inter == null)
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+        ObjectMapper mapper = new ObjectMapper();
+
+        List<CategoryDTO> categories = inter.getAllDepthCategories().stream()
+                .sorted((c1, c2) -> c1.compareInEditionContext(inter.getVirtualEdition(), c2))
+                .map(c -> new CategoryDTO(inter.getVirtualEdition(), c)).collect(Collectors.toList());
+
+        try {
+            return new ResponseEntity<>(mapper.writeValueAsString(categories), HttpStatus.OK);
+        } catch (JsonProcessingException e) {
+            throw new LdoDException("VirtualEditionInter::getAllDepthCategoriesJSON");
+        }
+    }
 
     @PostMapping("/restricted/annotations")
     public ResponseEntity<?> createAnnotation(@RequestBody AnnotationDTO annotationJson){
