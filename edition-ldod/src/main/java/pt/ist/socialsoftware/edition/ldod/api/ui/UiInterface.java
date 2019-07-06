@@ -7,6 +7,7 @@ import pt.ist.socialsoftware.edition.ldod.api.text.TextInterface;
 import pt.ist.socialsoftware.edition.ldod.api.text.dto.HeteronymDto;
 import pt.ist.socialsoftware.edition.ldod.api.text.dto.ScholarInterDto;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
+import pt.ist.socialsoftware.edition.ldod.domain.TextModule;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
 
 import java.util.ArrayList;
@@ -18,12 +19,11 @@ public class UiInterface {
     public List<FragInterDto> getFragInterUsed(VirtualEditionInter inter) {
         List<FragInterDto> fragInterList = new ArrayList<>();
         while (inter.getUses() != null) {
-            fragInterList.add(0, new FragInterDto(inter.getUses()));
+            fragInterList.add(new FragInterDto(inter.getUses()));
             inter = inter.getUses();
         }
-        TextInterface textInterface = new TextInterface();
 
-        fragInterList.add(0, textInterface.getFragInterDto(textInterface.getScholarInter(inter.getUsesFragInter()).getXmlId()));
+        fragInterList.add(new FragInterDto(TextModule.getInstance().getScholarInterByXmlId(inter.getUsesFragInter())));
 
         return fragInterList;
     }

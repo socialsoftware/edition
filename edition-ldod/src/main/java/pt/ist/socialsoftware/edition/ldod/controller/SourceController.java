@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import pt.ist.socialsoftware.edition.ldod.domain.Fragment;
 import pt.ist.socialsoftware.edition.ldod.domain.Source;
-import pt.ist.socialsoftware.edition.ldod.domain.Text;
+import pt.ist.socialsoftware.edition.ldod.domain.TextModule;
 import pt.ist.socialsoftware.edition.ldod.session.LdoDSession;
 
 import java.util.ArrayList;
@@ -30,7 +30,7 @@ public class SourceController {
     public String getListOfSources(Model model) {
         logger.debug("getListOfSources");
         List<Source> sources = new ArrayList<>();
-        for (Fragment frag : Text.getInstance().getFragmentsSet()) {
+        for (Fragment frag : TextModule.getInstance().getFragmentsSet()) {
             sources.addAll(frag.getSourcesSet());
         }
 

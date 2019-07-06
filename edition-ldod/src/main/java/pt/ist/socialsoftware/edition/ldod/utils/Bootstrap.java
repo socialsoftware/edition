@@ -9,7 +9,6 @@ import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
-import pt.ist.socialsoftware.edition.ldod.domain.EditionModule;
 import pt.ist.socialsoftware.edition.ldod.domain.Role.RoleType;
 import pt.ist.socialsoftware.edition.ldod.recommendation.VSMFragmentRecommender;
 import pt.ist.socialsoftware.edition.ldod.recommendation.properties.*;
@@ -41,8 +40,11 @@ public class Bootstrap implements WebApplicationInitializer {
 
     @Atomic(mode = TxMode.WRITE)
     public static void initializeSystem() {
-        if (Text.getInstance() == null) {
-            Text text = new Text();
+        if (TextModule.getInstance() == null) {
+            new TextModule();
+        }
+        if (UserModule.getInstance() == null) {
+            new UserModule();
         }
         if (LdoD.getInstance() == null) {
             LdoD ldoD = new LdoD();
@@ -85,7 +87,7 @@ public class Bootstrap implements WebApplicationInitializer {
             BufferedReader reader = new BufferedReader(new FileReader(configFile));
 
             String st;
-            while ((st = reader.readLine()) != null){
+            while ((st = reader.readLine()) != null) {
 
                 EditionModule module = new EditionModule(st.replace(".txt", ""));
                 UiComponent uiComponent = new UiComponent(module);
@@ -108,7 +110,7 @@ public class Bootstrap implements WebApplicationInitializer {
                     ArrayList<String> optionMenuNames = new ArrayList<>();
                     ArrayList<String> optionLinkNames = new ArrayList<>();
 
-                    for(String option : menuOptions){
+                    for (String option : menuOptions) {
                         String[] optionEntry = option.split("#");
                         optionMenuNames.add(optionEntry[0]);
                         optionLinkNames.add(optionEntry[1]);
@@ -131,10 +133,10 @@ public class Bootstrap implements WebApplicationInitializer {
         UiComponent uiComponent = new UiComponent(module);
 
         String[] menuNames = {"topBar.about.title", "topBar.reading.title", "topBar.documents.title", "topBar.editions.title",
-                "topBar.search.title","topBar.virtual.title"};
+                "topBar.search.title", "topBar.virtual.title"};
         String[][] optionNames = {{"topBar.about.archive", "topBar.about.videos", "topBar.about.faq", "topBar.about.encoding",
-                    "topBar.about.articles", "topBar.about.conduct", "topBar.about.privacy", "topBar.about.team",
-                    "topBar.about.acknowledgements", "topBar.about.contact", "topBar.about.copyright"},
+                "topBar.about.articles", "topBar.about.conduct", "topBar.about.privacy", "topBar.about.team",
+                "topBar.about.acknowledgements", "topBar.about.contact", "topBar.about.copyright"},
                 {"topBar.reading.reading", "topBar.reading.visual", "topBar.reading.citations"},
                 {"topBar.documents.witnesses", "topBar.documents.fragments"},
                 {"Jacinto do Prado Coelho", "Teresa Sobral Cunha", "Richard Zenith", "Jerónimo Pizarro", "Arquivo LdoD",
@@ -226,9 +228,9 @@ public class Bootstrap implements WebApplicationInitializer {
 
     private static void createModuleInfo(UiComponent uiComponent, String[] menuNames, String[][] optionNames, String[][] optionLinks) {
         for (int i = 0; i < menuNames.length; i++) {
-            Menu menu = new Menu(uiComponent, menuNames[i],i);
+            Menu menu = new Menu(uiComponent, menuNames[i], i);
             for (int j = 0; j < optionNames[i].length; j++) {
-                new Option(menu,optionNames[i][j],optionLinks[i][j],j);
+                new Option(menu, optionNames[i][j], optionLinks[i][j], j);
             }
         }
     }
@@ -467,7 +469,7 @@ public class Bootstrap implements WebApplicationInitializer {
 
     @Atomic(mode = TxMode.WRITE)
     public static void loadRecommendationCache() {
-        Set<Fragment> fragments = Text.getInstance().getFragmentsSet(); //TODO: should this use the interface?
+        Set<Fragment> fragments = TextModule.getInstance().getFragmentsSet(); //TODO: should this use the interface?
 
         if (fragments.size() > 500) {
             List<Property> properties = new ArrayList<>();

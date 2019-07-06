@@ -49,7 +49,7 @@ public class PlainHtmlWriter4OneInter implements TextPortionVisitor {
     }
 
     public PlainHtmlWriter4OneInter(String scholarInterXmlId) {
-        this(Text.getInstance().getScholarInterByXmlId(scholarInterXmlId));
+        this(TextModule.getInstance().getScholarInterByXmlId(scholarInterXmlId));
     }
 
     public void write(Boolean highlightDiff) {

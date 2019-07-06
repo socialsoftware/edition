@@ -33,15 +33,14 @@ class LdoD {
 	boolean admin;
 }
 
-class Text {
-
+class TextModule {
 }
 
-relation DomainRootHasTextApplication  {
+relation DomainRootHasTextModule  {
     .pt.ist.fenixframework.DomainRoot playsRole root {
     		multiplicity 1..1;
     }
-    Text playsRole text {
+    TextModule playsRole textModule {
         multiplicity 0..1;
     }
 }
@@ -67,6 +66,18 @@ relation DomainRootHasLdoDApplication {
 		multiplicity 1..1;
 	}
 	LdoD playsRole ldoD {
+		multiplicity 0..1;
+	}
+}
+
+
+class UserModule;
+
+relation DomainRootHasUserModule {
+	.pt.ist.fenixframework.DomainRoot playsRole root {
+		multiplicity 1..1;
+	}
+	UserModule playsRole userModule {
 		multiplicity 0..1;
 	}
 }
@@ -173,13 +184,13 @@ relation VirtualEditionUsesVirtualEdition {
 	VirtualEdition playsRole uses {multiplicity 0..1;}
 }
 
-relation TextHasExpertEditions {
-	Text playsRole text4Expert {multiplicity 1..1;}
+relation TextModule {
+	TextModule playsRole textModule4Expert {multiplicity 1..1;}
 	ExpertEdition playsRole expertEditions {multiplicity 0..*;}
 }
 
-relation TextHasNullEdition {
-	Text playsRole text4NullEdition {multiplicity 1..1;}
+relation TextModuleHasNullEdition {
+	TextModule playsRole textModule4NullEdition {multiplicity 1..1;}
 	NullEdition playsRole nullEdition {multiplicity 0..1;}
 }
 
@@ -239,7 +250,7 @@ class Heteronym {
 class NullHeteronym extends Heteronym;
 
 relation TextHasHeteronyms {
-	Text playsRole text {multiplicity 1..1;}
+	TextModule playsRole textModule {multiplicity 1..1;}
 	Heteronym playsRole heteronyms {multiplicity 0..*;}
 }
 
@@ -249,7 +260,7 @@ class Fragment {
 }
 
 relation TextHasFragments {
-	Text playsRole text {multiplicity 1..1;}
+	TextModule playsRole textModule {multiplicity 1..1;}
 	Fragment playsRole fragments {multiplicity 0..*;}
 }
 

@@ -25,7 +25,7 @@ public class VirtualEditionsTEICorpusExportTest extends TestWithFragmentsLoading
     private VirtualEditionsTEICorpusExport export;
     private VirtualEdition virtualEdition;
     private LdoD ldoD;
-    private Text text;
+    private TextModule text;
     private LdoDUser user;
 
     public static void logger(Object toPrint) {
@@ -40,7 +40,7 @@ public class VirtualEditionsTEICorpusExportTest extends TestWithFragmentsLoading
     @Override
     protected void populate4Test() {
         this.ldoD = LdoD.getInstance();
-        this.text = Text.getInstance();
+        this.text = TextModule.getInstance();
         this.user = new LdoDUser(this.ldoD, "ars1", "ars", "Antonio", "Silva", "a@a.a");
         LocalDate localDate = LocalDate.parse("20018-07-20");
         this.virtualEdition = new VirtualEdition(this.ldoD, this.user, "acronym", "title", localDate, true,

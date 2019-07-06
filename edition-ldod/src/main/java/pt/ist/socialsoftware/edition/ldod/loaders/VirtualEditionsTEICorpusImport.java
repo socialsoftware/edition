@@ -79,7 +79,7 @@ public class VirtualEditionsTEICorpusImport {
 //            String date = tweet.getAttributeValue("date");
 //
 //            Element tweetTextElement = tweet.getChild("tweetText", namespace);
-//            String tweetText = tweetTextElement.getText(); // trim() ?
+//            String tweetText = tweetTextElement.getTextModule(); // trim() ?
 //
 //            long tweetID = Long.parseLong(tweet.getAttributeValue("tweetId"));
 //            String location = tweet.getAttributeValue("location");

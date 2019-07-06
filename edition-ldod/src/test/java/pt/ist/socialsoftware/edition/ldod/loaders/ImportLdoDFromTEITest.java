@@ -21,7 +21,7 @@ public class ImportLdoDFromTEITest extends TestWithFragmentsLoading {
 
     @Override
     protected void populate4Test() {
-        this.fragmentTest = Text.getInstance().getFragmentsSet().stream().findFirst().get();
+        this.fragmentTest = TextModule.getInstance().getFragmentsSet().stream().findFirst().get();
     }
 
     @Override
@@ -33,7 +33,7 @@ public class ImportLdoDFromTEITest extends TestWithFragmentsLoading {
     public void testCorpusIdLoadead() {
 
         LdoD ldoD = LdoD.getInstance();
-        Text text = Text.getInstance();
+        TextModule text = TextModule.getInstance();
 
         checkTitleStmtLoad(ldoD);
         checkListBiblLoad(text);
@@ -81,7 +81,7 @@ public class ImportLdoDFromTEITest extends TestWithFragmentsLoading {
         }
     }
 
-    private void checkHeteronymsLoad(Text text) {
+    private void checkHeteronymsLoad(TextModule text) {
         // includes the NullHeteronym instance
         assertEquals(3, text.getHeteronymsSet().size());
         for (Heteronym heteronym : text.getHeteronymsSet()) {
@@ -90,7 +90,7 @@ public class ImportLdoDFromTEITest extends TestWithFragmentsLoading {
         }
     }
 
-    private void checkListBiblLoad(Text text) {
+    private void checkListBiblLoad(TextModule text) {
         assertEquals(4, text.getExpertEditionsSet().size());
         for (ExpertEdition edition : text.getExpertEditionsSet()) {
             assertEquals("Fernando Pessoa", edition.getAuthor());

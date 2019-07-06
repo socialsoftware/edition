@@ -6,7 +6,7 @@ import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.ldod.domain.ExpertEditionInter;
 import pt.ist.socialsoftware.edition.ldod.domain.Fragment;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
-import pt.ist.socialsoftware.edition.ldod.domain.Text;
+import pt.ist.socialsoftware.edition.ldod.domain.TextModule;
 import pt.ist.socialsoftware.edition.ldod.recommendation.properties.*;
 
 import java.io.Serializable;
@@ -79,12 +79,12 @@ public class ReadingRecommendation implements Serializable {
 
         // if all fragments minus 50 were already suggested clear the first 50
         // recommendations
-        if (readFragments.size() == Text.getInstance().getFragmentsSet().size() - 50) {
+        if (readFragments.size() == TextModule.getInstance().getFragmentsSet().size() - 50) {
             readFragments.subList(0, 50).clear();
             this.read.subList(0, 50).clear();
         }
 
-        Set<Fragment> toBeRecommended = Text.getInstance().getFragmentsSet().stream()
+        Set<Fragment> toBeRecommended = TextModule.getInstance().getFragmentsSet().stream()
                 .filter(f -> !readFragments.contains(f)).collect(Collectors.toSet());
 
         this.read.add(expertEditionInterId);

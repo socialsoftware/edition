@@ -39,24 +39,24 @@ public class FragmentController {
     @RequestMapping(method = RequestMethod.GET)
     public String getFragmentsList(Model model) {
         logger.debug("getFragmentsList");
-        model.addAttribute("jpcEdition", Text.getInstance().getExpertEdition(ExpertEdition.COELHO_EDITION_ACRONYM));
-        model.addAttribute("tscEdition", Text.getInstance().getExpertEdition(ExpertEdition.CUNHA_EDITION_ACRONYM));
-        model.addAttribute("rzEdition", Text.getInstance().getExpertEdition(ExpertEdition.ZENITH_EDITION_ACRONYM));
-        model.addAttribute("jpEdition", Text.getInstance().getExpertEdition(ExpertEdition.PIZARRO_EDITION_ACRONYM));
-        model.addAttribute("fragments", Text.getInstance().getFragmentsSet());
+        model.addAttribute("jpcEdition", TextModule.getInstance().getExpertEdition(ExpertEdition.COELHO_EDITION_ACRONYM));
+        model.addAttribute("tscEdition", TextModule.getInstance().getExpertEdition(ExpertEdition.CUNHA_EDITION_ACRONYM));
+        model.addAttribute("rzEdition", TextModule.getInstance().getExpertEdition(ExpertEdition.ZENITH_EDITION_ACRONYM));
+        model.addAttribute("jpEdition", TextModule.getInstance().getExpertEdition(ExpertEdition.PIZARRO_EDITION_ACRONYM));
+        model.addAttribute("fragments", TextModule.getInstance().getFragmentsSet());
 
         return "fragment/list";
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/fragment/{xmlId}")
     public String getFragment(Model model, @PathVariable String xmlId) {
-        Fragment fragment = Text.getInstance().getFragmentByXmlId(xmlId);
+        Fragment fragment = TextModule.getInstance().getFragmentByXmlId(xmlId);
 
         if (fragment == null) {
             return "redirect:/error";
         } else {
             model.addAttribute("ldoD", LdoD.getInstance());
-            model.addAttribute("text", Text.getInstance());
+            model.addAttribute("text", TextModule.getInstance());
             model.addAttribute("user", LdoDUser.getAuthenticatedUser());
             model.addAttribute("fragment", fragment);
             model.addAttribute("fragmentDto", new MainFragmentDto(fragment));
@@ -75,7 +75,7 @@ public class FragmentController {
                                                @PathVariable String xmlId, @PathVariable String urlId) {
         logger.debug("getFragmentWithInterForUrlId xmlId:{}, urlId:{} ", xmlId, urlId);
 
-        Fragment fragment = Text.getInstance().getFragmentByXmlId(xmlId);
+        Fragment fragment = TextModule.getInstance().getFragmentByXmlId(xmlId);
         if (fragment == null) {
             return "redirect:/error";
         }
@@ -114,7 +114,7 @@ public class FragmentController {
 
 
         model.addAttribute("ldoD", LdoD.getInstance());
-        model.addAttribute("text", Text.getInstance());
+        model.addAttribute("text", TextModule.getInstance());
         model.addAttribute("user", LdoDUser.getAuthenticatedUser());
         model.addAttribute("fragment", fragment);
         model.addAttribute("writer", writer);
@@ -173,7 +173,7 @@ public class FragmentController {
         List<VirtualEditionInter> inters = new ArrayList<>();
         inters.add(inter);
         model.addAttribute("ldoD", LdoD.getInstance());
-        model.addAttribute("text", Text.getInstance());
+        model.addAttribute("text", TextModule.getInstance());
         model.addAttribute("user", LdoDUser.getAuthenticatedUser());
         model.addAttribute("inters", inters);
 
@@ -183,7 +183,7 @@ public class FragmentController {
     @RequestMapping(method = RequestMethod.GET, value = "/fragment/{xmlId}/inter/{urlId}/next")
     @PreAuthorize("hasPermission(#xmlId, #urlId, 'fragInter.public')")
     public String getNextFragmentWithInter(Model model, @PathVariable String xmlId, @PathVariable String urlId) {
-        Fragment fragment = Text.getInstance().getFragmentByXmlId(xmlId);
+        Fragment fragment = TextModule.getInstance().getFragmentByXmlId(xmlId);
         if (fragment == null) {
             return "redirect:/error";
         }
@@ -208,7 +208,7 @@ public class FragmentController {
     @RequestMapping(method = RequestMethod.GET, value = "/fragment/{xmlId}/inter/{urlId}/prev")
     @PreAuthorize("hasPermission(#xmlId, #urlId, 'fragInter.public')")
     public String getPrevFragmentWithInter(Model model, @PathVariable String xmlId, @PathVariable String urlId) {
-        Fragment fragment = Text.getInstance().getFragmentByXmlId(xmlId);
+        Fragment fragment = TextModule.getInstance().getFragmentByXmlId(xmlId);
         if (fragment == null) {
             return "redirect:/error";
         }
@@ -254,14 +254,14 @@ public class FragmentController {
 
 
         model.addAttribute("ldoD", LdoD.getInstance());
-        model.addAttribute("text", Text.getInstance());
+        model.addAttribute("text", TextModule.getInstance());
         model.addAttribute("user", LdoDUser.getAuthenticatedUser());
         model.addAttribute("fragment", fragment);
         if (scholarInters.size() > 0) {
             model.addAttribute("inters", scholarInters);
         } else {
             model.addAttribute("inters", virtualEditionInters);
-            scholarInters = virtualEditionInters.stream().map(virtualEditionInter -> Text.getInstance().getScholarInterByXmlId(virtualEditionInter.getLastUsed().getXmlId())).collect(Collectors.toList());
+            scholarInters = virtualEditionInters.stream().map(virtualEditionInter -> TextModule.getInstance().getScholarInterByXmlId(virtualEditionInter.getLastUsed().getXmlId())).collect(Collectors.toList());
         }
         model.addAttribute("uiInterface", new UiInterface());
 
@@ -308,7 +308,7 @@ public class FragmentController {
         List<ScholarInter> inters = new ArrayList<>();
         inters.add(inter);
         model.addAttribute("ldoD", LdoD.getInstance());
-        model.addAttribute("text", Text.getInstance());
+        model.addAttribute("text", TextModule.getInstance());
         model.addAttribute("inters", inters);
         model.addAttribute("writer", writer);
 
@@ -337,7 +337,7 @@ public class FragmentController {
         inters.add(inter);
         model.addAttribute("inters", inters);
         model.addAttribute("ldoD", LdoD.getInstance());
-        model.addAttribute("text", Text.getInstance());
+        model.addAttribute("text", TextModule.getInstance());
 
         if (showFacs) {
             Surface surface = null;
@@ -374,7 +374,7 @@ public class FragmentController {
             if (inter instanceof ScholarInter) {
                 inters.add((ScholarInter) inter);
             } else {
-                inters.add(Text.getInstance().getScholarInterByXmlId(((VirtualEditionInter) inter).getLastUsed().getXmlId()));
+                inters.add(TextModule.getInstance().getScholarInterByXmlId(((VirtualEditionInter) inter).getLastUsed().getXmlId()));
             }
         }
 
@@ -386,7 +386,7 @@ public class FragmentController {
         writer.write(lineByLine, showSpaces);
 
         model.addAttribute("ldoD", LdoD.getInstance());
-        model.addAttribute("text", Text.getInstance());
+        model.addAttribute("text", TextModule.getInstance());
         model.addAttribute("fragment", inters.get(0).getFragment());
         model.addAttribute("lineByLine", lineByLine);
         model.addAttribute("inters", inters);

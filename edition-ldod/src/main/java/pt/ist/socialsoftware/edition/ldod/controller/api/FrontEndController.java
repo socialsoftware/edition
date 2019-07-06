@@ -14,7 +14,6 @@ import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.ldod.api.ui.FragInterDto;
 import pt.ist.socialsoftware.edition.ldod.api.ui.UiInterface;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
-import pt.ist.socialsoftware.edition.ldod.domain.EditionModule;
 import pt.ist.socialsoftware.edition.ldod.generators.HtmlWriter2CompInters;
 import pt.ist.socialsoftware.edition.ldod.generators.HtmlWriter4Variations;
 import pt.ist.socialsoftware.edition.ldod.generators.PlainHtmlWriter4OneInter;
@@ -64,7 +63,7 @@ public class FrontEndController {
     @GetMapping(value = "/frag-info", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<?> getFragmentInfo(@RequestParam String xmlId) {
 
-        Fragment fragment = Text.getInstance().getFragmentByXmlId(xmlId);
+        Fragment fragment = TextModule.getInstance().getFragmentByXmlId(xmlId);
 
         if (fragment == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -81,7 +80,7 @@ public class FrontEndController {
     @GetMapping(value = "/expert-inter", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<?> getFragmentExpertInterInfo(@RequestParam String xmlId) {
 
-        Fragment fragment = Text.getInstance().getFragmentByXmlId(xmlId);
+        Fragment fragment = TextModule.getInstance().getFragmentByXmlId(xmlId);
 
         if (fragment == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -118,7 +117,7 @@ public class FrontEndController {
     @GetMapping(value = "/source-inter", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<?> getFragmentSourceInterInfo(@RequestParam String xmlId) {
 
-        Fragment fragment = Text.getInstance().getFragmentByXmlId(xmlId);
+        Fragment fragment = TextModule.getInstance().getFragmentByXmlId(xmlId);
 
         if (fragment == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -141,7 +140,7 @@ public class FrontEndController {
 
     @GetMapping(value = "/expert-edition", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<?> getExpertEditionInfo() {
-        List<AbstractMap.SimpleEntry<String, String>> expertEditionInfo = Text.getInstance().getSortedExpertEdition().stream()
+        List<AbstractMap.SimpleEntry<String, String>> expertEditionInfo = TextModule.getInstance().getSortedExpertEdition().stream()
                 .map(expertEdition -> new AbstractMap.SimpleEntry<>(expertEdition.getAcronym(), expertEdition.getEditor())).collect(Collectors.toList());
 
         return new ResponseEntity<>(expertEditionInfo, HttpStatus.OK);
@@ -150,7 +149,7 @@ public class FrontEndController {
     @GetMapping(value = "/inter-writer", produces = MediaType.TEXT_HTML_VALUE)
     public ResponseEntity<?> getInterWriterResult(@RequestParam String xmlId, @RequestParam String urlId) {
 
-        Fragment fragment = Text.getInstance().getFragmentByXmlId(xmlId);
+        Fragment fragment = TextModule.getInstance().getFragmentByXmlId(xmlId);
 
         if (fragment == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -178,7 +177,7 @@ public class FrontEndController {
     @GetMapping(value = "/meta-info", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<?> getInterMetaInfo(@RequestParam String xmlId, @RequestParam String urlId) {
 
-        Fragment fragment = Text.getInstance().getFragmentByXmlId(xmlId);
+        Fragment fragment = TextModule.getInstance().getFragmentByXmlId(xmlId);
 
         if (fragment == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -321,7 +320,7 @@ public class FrontEndController {
                                                         @RequestParam boolean del, @RequestParam boolean ins,
                                                         @RequestParam boolean subst, @RequestParam boolean notes) {
 
-        Fragment fragment = Text.getInstance().getFragmentByXmlId(xmlId);
+        Fragment fragment = TextModule.getInstance().getFragmentByXmlId(xmlId);
 
         if (fragment == null) {
             logger.debug("Could find frag");
@@ -346,7 +345,7 @@ public class FrontEndController {
     public ResponseEntity<?> getExpertWriterWithOptions(@RequestParam String xmlId, @RequestParam String urlId,
                                                         @RequestParam boolean diff) {
 
-        Fragment fragment = Text.getInstance().getFragmentByXmlId(xmlId);
+        Fragment fragment = TextModule.getInstance().getFragmentByXmlId(xmlId);
 
         if (fragment == null) {
             logger.debug("Could find frag");
@@ -371,7 +370,7 @@ public class FrontEndController {
     public ResponseEntity<?> getFacsForSourceInter(@RequestParam String xmlId, @RequestParam String urlId,
                                                    @RequestParam(required = false) String pbTextID) {
 
-        Fragment fragment = Text.getInstance().getFragmentByXmlId(xmlId);
+        Fragment fragment = TextModule.getInstance().getFragmentByXmlId(xmlId);
 
         if (fragment == null) {
             logger.debug("Could find frag");
@@ -394,7 +393,7 @@ public class FrontEndController {
     @GetMapping(value = "/virtual-inter", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<?> getFragmentVirtualInterInfo(@RequestParam String xmlId) {
 
-        Fragment fragment = Text.getInstance().getFragmentByXmlId(xmlId);
+        Fragment fragment = TextModule.getInstance().getFragmentByXmlId(xmlId);
 
         if (fragment == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -442,7 +441,7 @@ public class FrontEndController {
     @GetMapping(value = "/virtual-edition", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<?> getFragmentVirtualInterInfo(@RequestParam String xmlId, @RequestParam String urlId) {
 
-        Fragment fragment = Text.getInstance().getFragmentByXmlId(xmlId);
+        Fragment fragment = TextModule.getInstance().getFragmentByXmlId(xmlId);
 
         if (fragment == null) {
             logger.debug("Could find frag");
@@ -466,7 +465,7 @@ public class FrontEndController {
             editionInfo.put("editionReference", inter.getUses().getEdition().getReference());
             editionInfo.put("interReference", inter.getUses().getReference());
         } else {
-            ScholarInter scholarInter = Text.getInstance().getScholarInterByXmlId(inter.getLastUsed().getXmlId());
+            ScholarInter scholarInter = TextModule.getInstance().getScholarInterByXmlId(inter.getLastUsed().getXmlId());
             editionInfo.put("editionReference", scholarInter.getEdition().getReference());
             editionInfo.put("interReference", scholarInter.getReference());
         }
@@ -477,7 +476,7 @@ public class FrontEndController {
     @GetMapping(value = "/taxonomy", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<?> getTaxonomyForInter(@RequestParam String xmlId, @RequestParam String urlId) {
 
-        Fragment fragment = Text.getInstance().getFragmentByXmlId(xmlId);
+        Fragment fragment = TextModule.getInstance().getFragmentByXmlId(xmlId);
 
         if (fragment == null) {
             logger.debug("Could find frag");
@@ -521,7 +520,7 @@ public class FrontEndController {
     @GetMapping(value = "/categories", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<?> getCategoriesForInter(@RequestParam String xmlId, @RequestParam String urlId) {
 
-        Fragment fragment = Text.getInstance().getFragmentByXmlId(xmlId);
+        Fragment fragment = TextModule.getInstance().getFragmentByXmlId(xmlId);
 
         if (fragment == null) {
             logger.debug("Could find frag");
@@ -540,7 +539,7 @@ public class FrontEndController {
 
         LdoDUser user = LdoDUser.getAuthenticatedUser();
 
-        if (user != null){
+        if (user != null) {
             List<String> assignedInfo = new ArrayList<>();
             for (Category category : inter.getAssignedCategories(user)) {
                 assignedInfo.add(category.getNameInEditionContext(inter.getEdition()));
@@ -696,11 +695,11 @@ public class FrontEndController {
     }
 
     @PostMapping("/restricted/associate-category")
-    public ResponseEntity<?> associateCategoriesToInter(@RequestParam String externalId, @RequestParam String categories){
+    public ResponseEntity<?> associateCategoriesToInter(@RequestParam String externalId, @RequestParam String categories) {
 
         DomainObject object = FenixFramework.getDomainObject(externalId);
 
-        if (!(object instanceof VirtualEditionInter)){
+        if (!(object instanceof VirtualEditionInter)) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
@@ -708,24 +707,24 @@ public class FrontEndController {
 
         LdoDUser user = LdoDUser.getAuthenticatedUser();
 
-        if (user == null || !inter.getEdition().checkAccess()){
+        if (user == null || !inter.getEdition().checkAccess()) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
 
         String[] names = categories.split("%2C");
 
-        inter.associate(LdoDUser.getAuthenticatedUser(),Arrays.stream(names).collect(Collectors.toSet()));
+        inter.associate(LdoDUser.getAuthenticatedUser(), Arrays.stream(names).collect(Collectors.toSet()));
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PostMapping("/restricted/dissociate-category")
-    public ResponseEntity<?> dissociateCategoryFromInter(@RequestParam String externalId, @RequestParam String categoryId){
+    public ResponseEntity<?> dissociateCategoryFromInter(@RequestParam String externalId, @RequestParam String categoryId) {
         DomainObject object = FenixFramework.getDomainObject(externalId);
 
         Category category = FenixFramework.getDomainObject(categoryId);
 
-        if (!(object instanceof VirtualEditionInter) || category == null){
+        if (!(object instanceof VirtualEditionInter) || category == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
@@ -738,20 +737,23 @@ public class FrontEndController {
 
     @PostMapping("/restricted/change-password")
     public ResponseEntity<?> changeUserPassword(@RequestParam String username, @RequestParam String currentPassword,
-                                                @RequestParam String newPassword, @RequestParam String retypedPassword){
+                                                @RequestParam String newPassword, @RequestParam String retypedPassword) {
 
-        if (username == null || currentPassword == null || newPassword == null || retypedPassword == null)
+        if (username == null || currentPassword == null || newPassword == null || retypedPassword == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
 
-        if(newPassword.length() < 6 || retypedPassword.length() < 6 || !newPassword.equals(retypedPassword))
+        if (newPassword.length() < 6 || retypedPassword.length() < 6 || !newPassword.equals(retypedPassword)) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
 
         LdoDUser user = LdoD.getInstance().getUser(username);
 
-        if(!passwordEncoder.matches(currentPassword, user.getPassword()))
+        if (!this.passwordEncoder.matches(currentPassword, user.getPassword())) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
 
-        user.updatePassword(passwordEncoder, currentPassword, newPassword);
+        user.updatePassword(this.passwordEncoder, currentPassword, newPassword);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -780,7 +782,7 @@ public class FrontEndController {
     }
 
     @PostMapping("/restricted/annotations")
-    public ResponseEntity<?> createAnnotation(@RequestBody AnnotationDTO annotationJson){
+    public ResponseEntity<?> createAnnotation(@RequestBody AnnotationDTO annotationJson) {
         logger.debug("Got annotation for quote:");
         logger.debug(annotationJson.getQuote());
 
@@ -801,9 +803,8 @@ public class FrontEndController {
         }
     }
 
-    @GetMapping("/restricted/annotations/{id}")
-    public ResponseEntity<?> getAnnotation(@PathVariable String id){
-
+    @GetMapping("/fragment/annotations/{id}")
+    public ResponseEntity<?> getAnnotation(@PathVariable String id) {
         HumanAnnotation annotation = FenixFramework.getDomainObject(id);
         if (annotation != null) {
             return new ResponseEntity<>(new AnnotationDTO(annotation), HttpStatus.OK);
@@ -812,9 +813,9 @@ public class FrontEndController {
         }
     }
 
-    @PutMapping("/restricted/annotations/{id}")
-    public ResponseEntity<?> updateAnnotation(@PathVariable String id, @RequestBody AnnotationDTO annotationJson){
 
+    @PutMapping("/fragment/annotations/{id}")
+    public ResponseEntity<?> updateAnnotation(@PathVariable String id, @RequestBody AnnotationDTO annotationJson) {
         HumanAnnotation annotation = FenixFramework.getDomainObject(id);
         LdoDUser user = LdoDUser.getAuthenticatedUser();
 
@@ -831,7 +832,7 @@ public class FrontEndController {
     }
 
     @DeleteMapping("/restricted/annotations/{id}")
-    public ResponseEntity<?> deleteAnnotation(@PathVariable String id){
+    public ResponseEntity<?> deleteAnnotation(@PathVariable String id) {
 
         HumanAnnotation annotation = FenixFramework.getDomainObject(id);
         LdoDUser user = LdoDUser.getAuthenticatedUser();
@@ -849,7 +850,7 @@ public class FrontEndController {
     }
 
     @GetMapping("/restricted/search")
-    public AnnotationSearchJson searchAnnotations(@RequestParam String uri){
+    public AnnotationSearchJson searchAnnotations(@RequestParam String uri) {
 
         logger.debug("searchAnnotations uri: " + uri);
         List<AnnotationDTO> annotations = new ArrayList<>();

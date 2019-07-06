@@ -136,10 +136,10 @@ public class VirtualEditionFragmentsTEIImport {
 //                String date = citation.getAttributeValue("date");
 //
 //                Element fragTextElement = citation.getChild("fragText", this.namespace);
-//                String fragText = fragTextElement.getText(); // trim() ?
+//                String fragText = fragTextElement.getTextModule(); // trim() ?
 //
 //                Element tweetTextElement = citation.getChild("tweetText", this.namespace);
-//                String tweetText = tweetTextElement.getText(); // trim() ?
+//                String tweetText = tweetTextElement.getTextModule(); // trim() ?
 //
 //                long tweetID = Long.parseLong(citation.getAttributeValue("tweetId"));
 //                String location = citation.getAttributeValue("location");
@@ -172,10 +172,10 @@ public class VirtualEditionFragmentsTEIImport {
 //            int endOffset = Integer.parseInt(infoRangeElement.getAttributeValue("endOffset"));
 //
 //            Element quoteElement = infoRangeElement.getChild("quote", this.namespace);
-//            String quote = quoteElement.getText(); // trim() ?
+//            String quote = quoteElement.getTextModule(); // trim() ?
 //
 //            Element textElement = infoRangeElement.getChild("text", this.namespace);
-//            String text = textElement.getText(); // trim() ?
+//            String text = textElement.getTextModule(); // trim() ?
 //
 //            FragInter fragInter = fragment.getFragInterByXmlId(infoRangeElement.getAttributeValue("fragInterXmlId"));
 //
@@ -239,13 +239,13 @@ public class VirtualEditionFragmentsTEIImport {
     // original code
     // private void importAnnotation(Element note, VirtualEditionInter inter) {
     // String username = note.getAttributeValue("resp").substring(1);
-    // String text = StringEscapeUtils.escapeHtml(note.getText().trim());
+    // String text = StringEscapeUtils.escapeHtml(note.getTextModule().trim());
     // Element quoteElement = note.getChild("quote", this.namespace);
     // String from = quoteElement.getAttributeValue("from");
     // String to = quoteElement.getAttributeValue("to");
     // String fromOffset = quoteElement.getAttributeValue("fromOffset");
     // String toOffset = quoteElement.getAttributeValue("toOffset");
-    // String quote = quoteElement.getText().trim();
+    // String quote = quoteElement.getTextModule().trim();
     //
     // RangeJson range = new RangeJson();
     // range.setStart(from);
@@ -271,7 +271,7 @@ public class VirtualEditionFragmentsTEIImport {
                 Namespace.getNamespace("def", namespace.getURI()));
         String xmlId = xp.evaluate(doc).get(0).getAttributeValue("id", Namespace.XML_NAMESPACE);
 
-        return Text.getInstance().getFragmentByXmlId(xmlId);
+        return TextModule.getInstance().getFragmentByXmlId(xmlId);
     }
 
     private void importClassificationGames(Element textClass, VirtualEditionInter inter) {
@@ -349,7 +349,7 @@ public class VirtualEditionFragmentsTEIImport {
 
     // TODO: to be addressed when the awareness becomes a module on its own
     private Fragment getFragment(VirtualEditionInter virtualEditionInter) {
-        return Text.getInstance().getFragmentByXmlId(virtualEditionInter.getFragmentXmlId());
+        return TextModule.getInstance().getFragmentByXmlId(virtualEditionInter.getFragmentXmlId());
     }
 
 }

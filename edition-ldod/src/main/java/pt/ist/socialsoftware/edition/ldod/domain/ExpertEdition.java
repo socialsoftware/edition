@@ -20,7 +20,7 @@ public class ExpertEdition extends ExpertEdition_Base implements Comparable<Expe
     public static final String ZENITH_EDITION_NAME = "Richard Zenith";
     public static final String PIZARRO_EDITION_NAME = "Jerónimo Pizarro";
 
-    public ExpertEdition(Text text, String title, String author, String editor, LocalDate date) {
+    public ExpertEdition(TextModule text, String title, String author, String editor, LocalDate date) {
         setTitle(title);
         setAuthor(author);
         setEditor(editor);
@@ -43,12 +43,11 @@ public class ExpertEdition extends ExpertEdition_Base implements Comparable<Expe
             default:
                 assert false : "Nome de editor com erros: " + editor;
         }
-        setText4Expert(text);
+        setTextModule4Expert(text);
     }
 
     public void remove() {
-
-        setText4Expert(null);
+        setTextModule4Expert(null);
         getExpertEditionIntersSet().forEach(i -> i.remove());
         deleteDomainObject();
     }

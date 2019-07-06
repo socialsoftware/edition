@@ -132,7 +132,7 @@ public class VirtualEditionFragmentsTEIExport {
 //			infoRangeElement.addContent(quoteElement);
 //
 //			Element textElement = new Element("text", this.xmlns);
-//			textElement.addContent(infoRange.getText());
+//			textElement.addContent(infoRange.getTextModule());
 //			infoRangeElement.addContent(textElement);
 //
 //			// discutir também utilidade destes atributos

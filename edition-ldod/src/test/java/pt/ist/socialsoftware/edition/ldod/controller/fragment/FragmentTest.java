@@ -140,7 +140,7 @@ public class FragmentTest {
     @Atomic(mode = TxMode.WRITE)
     @WithUserDetails("ars")
     public void getInterTest() throws Exception {
-        Fragment frag = Text.getInstance().getFragmentByXmlId("Fr001");
+        Fragment frag = TextModule.getInstance().getFragmentByXmlId("Fr001");
 
         this.mockMvc.perform(get("/fragments/fragment/inter")
                 .param("fragment", frag.getExternalId()))
@@ -157,7 +157,7 @@ public class FragmentTest {
     @Test
     @Atomic(mode = TxMode.WRITE)
     public void getInterEditorialTest() throws Exception {
-        ScholarInter fragInter = Text.getInstance().getFragmentByXmlId("Fr001")
+        ScholarInter fragInter = TextModule.getInstance().getFragmentByXmlId("Fr001")
                 .getScholarInterByUrlId("Fr001_WIT_MS_Fr001a_1");
 
         this.mockMvc.perform(get("/fragments/fragment/inter/editorial")
@@ -174,7 +174,7 @@ public class FragmentTest {
     @Test
     @Atomic(mode = TxMode.WRITE)
     public void getInterAuthorialTest() throws Exception {
-        ScholarInter fragInter = Text.getInstance().getFragmentByXmlId("Fr001")
+        ScholarInter fragInter = TextModule.getInstance().getFragmentByXmlId("Fr001")
                 .getScholarInterByUrlId("Fr001_WIT_MS_Fr001a_1");
 
         this.mockMvc.perform(get("/fragments/fragment/inter/authorial")
@@ -201,7 +201,7 @@ public class FragmentTest {
     @Test
     @Atomic(mode = TxMode.WRITE)
     public void getInterAuthorialNoFacsTest() throws Exception {
-        ScholarInter fragInter = Text.getInstance().getFragmentByXmlId("Fr001")
+        ScholarInter fragInter = TextModule.getInstance().getFragmentByXmlId("Fr001")
                 .getScholarInterByUrlId("Fr001_WIT_MS_Fr001a_1");
 
         this.mockMvc.perform(get("/fragments/fragment/inter/authorial")
@@ -228,10 +228,10 @@ public class FragmentTest {
     @Test
     @Atomic(mode = TxMode.WRITE)
     public void getInterCompareTest() throws Exception {
-        ScholarInter fragInterOne = Text.getInstance().getFragmentByXmlId("Fr001")
+        ScholarInter fragInterOne = TextModule.getInstance().getFragmentByXmlId("Fr001")
                 .getScholarInterByUrlId("Fr001_WIT_ED_CRIT_SC");
 
-        ScholarInter fragInterTwo = Text.getInstance().getFragmentByXmlId("Fr001")
+        ScholarInter fragInterTwo = TextModule.getInstance().getFragmentByXmlId("Fr001")
                 .getScholarInterByUrlId("Fr001_WIT_ED_CRIT_Z");
 
         String[] inters = {fragInterOne.getExternalId(), fragInterTwo.getExternalId()};
