@@ -470,6 +470,8 @@ public class FrontEndController {
             editionInfo.put("interReference", scholarInter.getReference());
         }
 
+        editionInfo.put("openVocabulary", String.valueOf(inter.getEdition().getTaxonomy().getOpenVocabulary()));
+
         return new ResponseEntity<>(editionInfo, HttpStatus.OK);
     }
 
@@ -760,7 +762,7 @@ public class FrontEndController {
 
     //Annotation related methods
 
-    @GetMapping("/restricted/inter/categories")
+    @GetMapping("/inter/categories")
     public ResponseEntity<?> getCategoriesForInter(@RequestParam String id){
 
         VirtualEditionInter inter = FenixFramework.getDomainObject(id);
