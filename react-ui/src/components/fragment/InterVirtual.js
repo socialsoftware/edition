@@ -4,6 +4,7 @@ import annotator from 'annotator';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import ReactHTMLParser from 'react-html-parser';
+import $ from 'jquery';
 import Taxonomy from './Taxnonomy';
 import { SERVER_URL } from '../../utils/Constants';
 import { getToken } from '../../utils/StorageUtils';
@@ -11,12 +12,12 @@ import { getToken } from '../../utils/StorageUtils';
 const mapStateToProps = state => ({ info: state.info });
 
 function parseTags(string) {
-    console.log(string);
-    string = string.trim();
+    string = $.trim(string);
     let tags = [];
     if (string) {
         tags = string.split(/,/);
     }
+    console.log(tags);
     return tags;
 }
 
@@ -74,8 +75,7 @@ class InterVirtual extends React.Component {
 
     editorExtension(e) {
         function setAnnotationTags(field, annotation) {
-            console.log(document.getElementsByClassName('tagSelector'));
-            annotation.tags = parseTags(document.getElementsByClassName('tagSelector')[0].value);
+            annotation.tags = parseTags($('.tagSelector').val());
         }
 
         const tagsField = e.addField({
@@ -99,40 +99,36 @@ class InterVirtual extends React.Component {
             }
         }
 
-        const ele = document.getElementById('annotator-field-1');
+        $('#annotator-field-1').remove('input');
 
-        const inputElements = ele.getElementsByTagName('input');
+        const select = $('<select>');
+        select.attr('class', 'tagSelector');
+        select.attr('style', 'width:263px;');
+        $(tagsField).append(select);
 
-        for (let i = 0; i < inputElements.length; i++) {
-            console.log(`Removing ${i}`);
-            inputElements[i].remove();
-        }
+        console.log($('.tagSelector'));
 
-        const select = document.createElement('select');
-        select.setAttribute('class', 'tagSelector');
-        select.setAttribute('style', 'width:263px;');
-        tagsField.appendChild(select);
         if (this.state.editionInfo.openVocabulary === 'true') {
             console.log("It's damn true!");
 
-            /*  $(".tagSelector").select2({
-                 multiple: true,
-                 data: $.parseJSON('${inters.get(0).getAllDepthCategoriesJSON()}'),
-                 tags: true,
-                 tokenSeparators: [',', '.']
-             }); */
+            /* $('.tagSelector').select2({
+                multiple: true,
+                data: this.state.annotationCategories,
+                tags: true,
+                tokenSeparators: [',', '.'],
+            }); */
         } else {
             console.log('Actually.....');
-             /* $(".tagSelector").select2({
-                 multiple: true,
-                 data: $.parseJSON('${inters.get(0).getAllDepthCategoriesJSON()}'),
-             }); */
+           /* $('.tagSelector').select2({
+                multiple: true,
+                data: this.state.annotationCategories,
+            }); */
         }
-         /* $(".tagSelector").on('select2:open', function (e, data) {
-             $(".select2-dropdown").css({
-                 "z-index": "999999"
-             });
-         }); */
+        $('.tagSelector').on('select2:open', () => {
+            $('.select2-dropdown').css({
+                'z-index': '999999',
+            });
+        });
     }
 
     componentDidUpdate() {
@@ -153,6 +149,7 @@ class InterVirtual extends React.Component {
                         id,
                     },
                 }).then((res) => {
+                    console.log(res.data);
                     this.setState({
                         annotationCategories: res.data,
                         isCatLoaded: true,
