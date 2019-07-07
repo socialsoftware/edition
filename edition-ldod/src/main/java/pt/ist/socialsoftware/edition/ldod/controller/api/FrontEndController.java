@@ -795,7 +795,7 @@ public class FrontEndController {
         HumanAnnotation annotation;
         if (HumanAnnotation.canCreate(virtualEdition, user)) {
             annotation = inter.createHumanAnnotation(annotationJson.getQuote(), annotationJson.getText(), user,
-                    annotationJson.getRanges(), new ArrayList<>()); //TODO : get tags from dto when tag support is added to frontend
+                    annotationJson.getRanges(), annotationJson.getTags());
 
             annotationJson.setId(annotation.getExternalId());
 
@@ -826,7 +826,7 @@ public class FrontEndController {
         }
 
         if (annotation.canUpdate(user)) {
-            annotation.update(annotationJson.getText(), new ArrayList()); //TODO : get tags from dto when tag support is added to frontend
+            annotation.update(annotationJson.getText(), annotationJson.getTags());
             return new ResponseEntity<>(new AnnotationDTO(annotation), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);

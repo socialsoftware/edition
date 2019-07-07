@@ -4,7 +4,6 @@ import annotator from 'annotator';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import ReactHTMLParser from 'react-html-parser';
-import $ from 'jquery';
 import Taxonomy from './Taxnonomy';
 import { SERVER_URL } from '../../utils/Constants';
 import { getToken } from '../../utils/StorageUtils';
@@ -12,7 +11,7 @@ import { getToken } from '../../utils/StorageUtils';
 const mapStateToProps = state => ({ info: state.info });
 
 function parseTags(string) {
-    string = $.trim(string);
+    string = window.$.trim(string);
     let tags = [];
     if (string) {
         tags = string.split(/,/);
@@ -26,6 +25,7 @@ class InterVirtual extends React.Component {
         super(props);
 
         this.editorExtension = this.editorExtension.bind(this);
+        this.loadAnnotationCats = this.loadAnnotationCats.bind(this);
 
         this.state = {
             fragmentId: props.fragmentId,
@@ -75,7 +75,7 @@ class InterVirtual extends React.Component {
 
     editorExtension(e) {
         function setAnnotationTags(field, annotation) {
-            annotation.tags = parseTags($('.tagSelector').val());
+            annotation.tags = parseTags(window.$('.tagSelector').val());
         }
 
         const tagsField = e.addField({
@@ -87,7 +87,6 @@ class InterVirtual extends React.Component {
         function loadField(field, annotation) {
             if (typeof annotation.id !== 'undefined') {
                 axios.get(`${SERVER_URL}/fragments/fragment/annotation/${annotation.id}/categories`).then((res) => {
-                    console.log(res);
                     document.getElementsByClassName('tagSelector')[0].value = res.data;
 
                     const event = document.createEvent('HTMLEvents');
@@ -99,34 +98,43 @@ class InterVirtual extends React.Component {
             }
         }
 
-        $('#annotator-field-1').remove('input');
+        window.$('#annotator-field-1').remove('input');
 
-        const select = $('<select>');
+        const select = window.$('<select>');
         select.attr('class', 'tagSelector');
         select.attr('style', 'width:263px;');
-        $(tagsField).append(select);
-
-        console.log($('.tagSelector'));
+        window.$(tagsField).append(select);
 
         if (this.state.editionInfo.openVocabulary === 'true') {
-            console.log("It's damn true!");
-
-            /* $('.tagSelector').select2({
+            window.$('.tagSelector').select2({
                 multiple: true,
                 data: this.state.annotationCategories,
                 tags: true,
                 tokenSeparators: [',', '.'],
-            }); */
+            });
         } else {
-            console.log('Actually.....');
-           /* $('.tagSelector').select2({
+            window.$('.tagSelector').select2({
                 multiple: true,
                 data: this.state.annotationCategories,
-            }); */
+            });
         }
-        $('.tagSelector').on('select2:open', () => {
-            $('.select2-dropdown').css({
+        window.$('.tagSelector').on('select2:open', () => {
+            window.$('.select2-dropdown').css({
                 'z-index': '999999',
+            });
+        });
+    }
+
+    loadAnnotationCats(id) {
+        axios.get(`${SERVER_URL}/api/services/frontend/inter/categories`, {
+            params: {
+                id,
+            },
+        }).then((res) => {
+            console.log(res.data);
+            this.setState({
+                annotationCategories: res.data,
+                isCatLoaded: true,
             });
         });
     }
@@ -144,17 +152,7 @@ class InterVirtual extends React.Component {
             };
 
             if (!this.state.isCatLoaded) {
-                axios.get(`${SERVER_URL}/api/services/frontend/inter/categories`, {
-                    params: {
-                        id,
-                    },
-                }).then((res) => {
-                    console.log(res.data);
-                    this.setState({
-                        annotationCategories: res.data,
-                        isCatLoaded: true,
-                    });
-                });
+                this.loadAnnotationCats(id);
             } else {
                 const app = new annotator.App();
                 app.include(annotator.ui.main, {
@@ -219,7 +217,8 @@ class InterVirtual extends React.Component {
                         fragmentId={this.state.fragmentId}
                         interId={this.state.interId}
                         externalId={this.state.editionInfo.externalId}
-                        title={this.state.title} />
+                        title={this.state.title}
+                        annCall={this.loadAnnotationCats} />
                 </div>
             </div>
         );

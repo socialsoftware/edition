@@ -24,6 +24,7 @@ class Taxonomy extends React.Component {
             interId: props.interId,
             externalId: props.externalId,
             title: props.title,
+            annCall: props.annCall,
             taxonomy: null,
             selectedCats: [],
             isLoaded: false,
@@ -69,14 +70,6 @@ class Taxonomy extends React.Component {
     }
 
     changedCategory(event) {
-       /* const options = event.target.options;
-        const values = [];
-        for (let i = 0; i < options.length; i++) {
-            if (options[i].selected) {
-                values.push(options[i].value);
-            }
-        } */
-
         this.setState({
             selectedCats: event,
         });
@@ -94,6 +87,7 @@ class Taxonomy extends React.Component {
         }).then((res) => {
             console.log(res);
             this.getTaxonomyInfo();
+            this.state.annCall(this.state.externalId);
         });
     }
 
@@ -107,6 +101,7 @@ class Taxonomy extends React.Component {
         }).then((res) => {
             console.log(res);
             this.getTaxonomyInfo();
+            this.state.annCall(this.state.externalId);
         });
     }
 
