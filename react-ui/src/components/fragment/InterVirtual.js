@@ -89,8 +89,6 @@ class InterVirtual extends React.Component {
                 axios.get(`${SERVER_URL}/fragments/fragment/annotation/${annotation.id}/categories`).then((res) => {
                     window.$('.tagSelector').val(res.data).trigger('change');
                 });
-            } else {
-                window.$('.tagSelector').val().trigger('change');
             }
         }
 
