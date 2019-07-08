@@ -84,8 +84,8 @@ class Taxonomy extends React.Component {
                 categories: encodeURIComponent(this.state.selectedCats.map(x => x.value)),
             },
             headers: { Authorization: `Bearer ${getToken()}` },
-        }).then((res) => {
-            console.log(res);
+        }).then(() => {
+            window.$('#myModal').modal('hide');
             this.getTaxonomyInfo();
             this.state.annCall(this.state.externalId);
         });
@@ -98,8 +98,7 @@ class Taxonomy extends React.Component {
                 categoryId: catId,
             },
             headers: { Authorization: `Bearer ${getToken()}` },
-        }).then((res) => {
-            console.log(res);
+        }).then(() => {
             this.getTaxonomyInfo();
             this.state.annCall(this.state.externalId);
         });

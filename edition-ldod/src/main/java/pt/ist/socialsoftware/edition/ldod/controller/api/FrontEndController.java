@@ -805,7 +805,7 @@ public class FrontEndController {
         }
     }
 
-    @GetMapping("/fragment/annotations/{id}")
+    @GetMapping("/restricted/annotations/{id}")
     public ResponseEntity<?> getAnnotation(@PathVariable String id) {
         HumanAnnotation annotation = FenixFramework.getDomainObject(id);
         if (annotation != null) {
@@ -816,7 +816,7 @@ public class FrontEndController {
     }
 
 
-    @PutMapping("/fragment/annotations/{id}")
+    @PutMapping("/restricted/annotations/{id}")
     public ResponseEntity<?> updateAnnotation(@PathVariable String id, @RequestBody AnnotationDTO annotationJson) {
         HumanAnnotation annotation = FenixFramework.getDomainObject(id);
         LdoDUser user = LdoDUser.getAuthenticatedUser();

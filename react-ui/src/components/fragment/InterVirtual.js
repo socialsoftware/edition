@@ -79,22 +79,18 @@ class InterVirtual extends React.Component {
         }
 
         const tagsField = e.addField({
-            load: loadField, // loadField
-            submit: setAnnotationTags, // setAnnotationTags
+            load: loadField,
+            submit: setAnnotationTags,
         });
 
 
         function loadField(field, annotation) {
             if (typeof annotation.id !== 'undefined') {
                 axios.get(`${SERVER_URL}/fragments/fragment/annotation/${annotation.id}/categories`).then((res) => {
-                    document.getElementsByClassName('tagSelector')[0].value = res.data;
-
-                    const event = document.createEvent('HTMLEvents');
-                    event.initEvent('change', true, false);
-                    document.getElementsByClassName('tagSelector')[0].dispatchEvent(event);
+                    window.$('.tagSelector').val(res.data).trigger('change');
                 });
             } else {
-                console.log('no id :(');
+                window.$('.tagSelector').val().trigger('change');
             }
         }
 
