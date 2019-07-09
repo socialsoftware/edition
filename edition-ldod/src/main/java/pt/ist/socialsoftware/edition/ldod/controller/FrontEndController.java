@@ -1,4 +1,4 @@
-package pt.ist.socialsoftware.edition.ldod.controller.api;
+package pt.ist.socialsoftware.edition.ldod.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

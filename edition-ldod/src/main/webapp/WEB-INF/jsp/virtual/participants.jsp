@@ -8,7 +8,7 @@
 <%@ include file="/WEB-INF/jsp/common/fixed-top-ldod-header.jsp" %>
 
 <c:set var="user"
-       value='${pageContext.request.userPrincipal.principal.getUser()}'/>
+       value='${pageContext.request.userPrincipal.principal.getUser().getUsername()}'/>
 <c:set var="isAdmin"
        value="${virtualEdition.getAdminSet().contains(user)}"/>
 <c:set var="isMember"
@@ -83,11 +83,13 @@
                        items='${virtualEdition.getActiveMemberSet()}'>
                 <tr>
                     <td><span class="glyphicon glyphicon-user"></span> <a
-                            href="${contextPath}/edition/user/${member.getUser().getUsername()}">${member.getUser().getUsername()}</a>
+                            href="${contextPath}/edition/user/${member.getUser()}">${member.getUser()}</a>
                     </td>
-                    <td>${member.getUser().getFirstName()}</td>
-                    <td>${member.getUser().getLastName()}</td>
-                    <td><a href="mailto:${member.getUser().getEmail()}">${member.getUser().getEmail()}</a></td>
+                    <td>${userInterface.getFirstName(member.getUser())}</td>
+                    <td>${userInterface.getLastName(member.getUser())}</td>
+                    <td>
+                        <a href="mailto:${userInterface.getEmail(member.getUser())}">${userInterface.getEmail(member.getUser())}</a>
+                    </td>
                     <td><c:choose>
                         <c:when
                                 test="${virtualEdition.canSwitchRole(user, member.getUser())}">
@@ -96,7 +98,7 @@
                                 <input type="hidden" name="${_csrf.parameterName}"
                                        value="${_csrf.token}"/> <input type="hidden"
                                                                        name="username"
-                                                                       value="${member.getUser().getUsername()}"/>
+                                                                       value="${member.getUser()}"/>
                                 <button type="submit" class="btn btn-primary btn-sm">
                                     <span class="glyphicon glyphicon-retweet"></span>
                                     <c:choose>
@@ -161,18 +163,20 @@
                        items='${virtualEdition.getPendingMemberSet()}'>
                 <tr>
                     <td><span class="glyphicon glyphicon-user"></span> <a
-                            href="${contextPath}/edition/user/${pending.getUser().getUsername()}">${pending.getUser().getUsername()}</a>
+                            href="${contextPath}/edition/user/${pending.getUser()}">${pending.getUser()}</a>
                     </td>
-                    <td>${pending.getUser().getFirstName()}</td>
-                    <td>${pending.getUser().getLastName()}</td>
-                    <td><a href="mailto:${pending.getUser().getEmail()}">${pending.getUser().getEmail()}</a></td>
+                    <td>${userInterface.getFirstName(pending.getUser())}</td>
+                    <td>${userInterface.getLastName(pending.getUser())}</td>
+                    <td>
+                        <a href="mailto:${userInterface.getEmail(pending.getUser())}">${userInterface.getEmail(pending.getUser())}</a>
+                    </td>
                     <td><c:if test="${isAdmin}">
                         <form class="form-inline" method="POST"
                               action="${contextPath}/virtualeditions/restricted/${virtualEdition.getExternalId()}/participants/approve">
                             <input type="hidden" name="${_csrf.parameterName}"
                                    value="${_csrf.token}"/> <input type="hidden"
                                                                    name="username"
-                                                                   value="${pending.getUser().getUsername()}"/>
+                                                                   value="${pending.getUser()}"/>
                             <button type="submit" class="btn btn-primary btn-sm">
                                 <span class="glyphicon glyphicon-plus"></span>
                                 <spring:message code="general.add"/>

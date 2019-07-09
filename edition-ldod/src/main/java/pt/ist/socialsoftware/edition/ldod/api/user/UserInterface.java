@@ -33,6 +33,10 @@ public class UserInterface {
         return getUserByUsername(username).orElse(null).getActive();
     }
 
+    public String getEmail(String username) {
+        return getUserByUsername(username).orElse(null).getEmail();
+    }
+
     public String getAuthenticatedUser() {
         User user = User.getAuthenticatedUser();
         return user != null ? user.getUsername() : null;

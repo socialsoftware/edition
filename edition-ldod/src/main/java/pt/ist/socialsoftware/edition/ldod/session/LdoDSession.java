@@ -95,16 +95,16 @@ public class LdoDSession implements Serializable {
     }
 
     @Atomic(mode = TxMode.WRITE)
-    public void toggleSelectedVirtualEdition(User user, VirtualEdition virtualEdition) {
+    public void toggleSelectedVirtualEdition(String user, VirtualEdition virtualEdition) {
         if (hasSelectedVE(virtualEdition.getAcronym())) {
             removeSelectedVE(virtualEdition.getAcronym());
             if (user != null) {
-                virtualEdition.removeSelectedByUser(user.getUsername());
+                virtualEdition.removeSelectedByUser(user);
             }
         } else {
             addSelectedVE(virtualEdition);
             if (user != null) {
-                virtualEdition.addSelectedByUser(user.getUsername());
+                virtualEdition.addSelectedByUser(user);
             }
         }
     }

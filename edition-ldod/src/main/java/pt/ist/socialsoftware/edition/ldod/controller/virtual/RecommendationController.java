@@ -1,4 +1,4 @@
-package pt.ist.socialsoftware.edition.ldod.controller;
+package pt.ist.socialsoftware.edition.ldod.controller.virtual;
 
 import org.joda.time.LocalDate;
 import org.slf4j.Logger;
@@ -183,7 +183,7 @@ public class RecommendationController {
         if (errors.size() > 0) {
             throw new LdoDCreateVirtualEditionException(errors, acronym, title, pub,
                     LdoD.getInstance().getVirtualEditionsUserIsParticipant(this.userInterface.getAuthenticatedUser(), ldoDSession),
-                    User.getAuthenticatedUser());
+                    this.userInterface.getAuthenticatedUser());
         }
 
         VirtualEdition virtualEdition = LdoD.getInstance().createVirtualEdition(this.userInterface.getAuthenticatedUser(),

@@ -102,7 +102,7 @@ public class FragmentController {
 
             // if it is a virtual interpretation check access and set session
             VirtualEdition virtualEdition = virtualEditionInter.getEdition();
-            User user = User.getAuthenticatedUser();
+            String user = this.userInterface.getAuthenticatedUser();
             if (virtualEdition.isPublicOrIsParticipant()) {
                 if (!ldoDSession.hasSelectedVE(virtualEdition.getAcronym())) {
                     ldoDSession.toggleSelectedVirtualEdition(user, virtualEdition);
@@ -163,7 +163,7 @@ public class FragmentController {
 
         VirtualEdition virtualEdition = inter.getEdition();
 
-        User user = User.getAuthenticatedUser();
+        String user = this.userInterface.getAuthenticatedUser();
         if (virtualEdition.isPublicOrIsParticipant()) {
             if (!ldoDSession.hasSelectedVE(virtualEdition.getAcronym())) {
                 ldoDSession.toggleSelectedVirtualEdition(user, virtualEdition);

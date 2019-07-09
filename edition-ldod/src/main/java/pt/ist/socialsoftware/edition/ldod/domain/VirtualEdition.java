@@ -629,7 +629,7 @@ public class VirtualEdition extends VirtualEdition_Base {
 
     public boolean canSwitchRole(String actor, String user) {
         Member.MemberRole roleActor = getMemberSet().stream().filter(m -> m.getUser().equals(actor)).map(m -> m.getRole())
-                .findFirst().get();
+                .findAny().get();
 
         if (roleActor.equals(Member.MemberRole.ADMIN) && getAdminMemberSet().size() > 1) {
             return true;

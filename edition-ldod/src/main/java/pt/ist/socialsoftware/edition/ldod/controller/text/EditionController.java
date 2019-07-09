@@ -130,6 +130,7 @@ public class EditionController {
         Taxonomy taxonomy = LdoD.getInstance().getVirtualEdition(acronym).getTaxonomy();
         if (taxonomy != null) {
             model.addAttribute("taxonomy", taxonomy);
+            model.addAttribute("userInterface", this.userInterface);
             return "edition/taxonomyTableOfContents";
         } else {
             return "redirect:/error";

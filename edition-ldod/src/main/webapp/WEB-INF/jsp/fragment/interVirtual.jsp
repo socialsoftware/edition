@@ -125,7 +125,7 @@
             all_fields: 1
         });
     }).then(function () {
-        app.ident.identity = '${user.username}';
+        app.ident.identity = '${user}';
     })
 
     function createAnnotation() {
@@ -153,7 +153,9 @@
 
 
 
+
         ${contextPath}/fragments/fragment/inter/
+
 
 
 

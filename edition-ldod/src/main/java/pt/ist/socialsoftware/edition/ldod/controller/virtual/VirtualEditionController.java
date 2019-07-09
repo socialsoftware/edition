@@ -64,7 +64,7 @@ public class VirtualEditionController {
         model.addAttribute("expertEditions", TextModule.getInstance().getSortedExpertEdition());
         model.addAttribute("virtualEditions",
                 LdoD.getInstance().getVirtualEditionsUserIsParticipant(this.userInterface.getAuthenticatedUser(), ldoDSession));
-        model.addAttribute("user", User.getAuthenticatedUser());
+        model.addAttribute("user", this.userInterface.getAuthenticatedUser());
 
         return "virtual/editions";
     }
@@ -94,7 +94,7 @@ public class VirtualEditionController {
         if (errors.size() > 0) {
             throw new LdoDCreateVirtualEditionException(errors, acronym, title, pub,
                     LdoD.getInstance().getVirtualEditionsUserIsParticipant(this.userInterface.getAuthenticatedUser(), ldoDSession),
-                    User.getAuthenticatedUser());
+                    this.userInterface.getAuthenticatedUser());
         }
 
         try {
@@ -107,7 +107,7 @@ public class VirtualEditionController {
             errors.add("virtualedition.acronym.duplicate");
             throw new LdoDCreateVirtualEditionException(errors, acronym, title, pub,
                     LdoD.getInstance().getVirtualEditionsUserIsParticipant(this.userInterface.getAuthenticatedUser(), ldoDSession),
-                    User.getAuthenticatedUser());
+                    this.userInterface.getAuthenticatedUser());
         }
 
         return "redirect:/virtualeditions";
@@ -144,7 +144,7 @@ public class VirtualEditionController {
             return "redirect:/error";
         } else {
             model.addAttribute("virtualEdition", virtualEdition);
-            model.addAttribute("user", User.getAuthenticatedUser());
+            model.addAttribute("user", this.userInterface.getAuthenticatedUser());
 
             List<String> countriesList = new ArrayList<>();
             countriesList.add("Portugal");
@@ -278,7 +278,7 @@ public class VirtualEditionController {
             return "redirect:/error";
         }
 
-        User user = User.getAuthenticatedUser();
+        String user = this.userInterface.getAuthenticatedUser();
 
         ldoDSession.toggleSelectedVirtualEdition(user, virtualEdition);
 
@@ -457,6 +457,7 @@ public class VirtualEditionController {
             model.addAttribute("errors", errors);
             model.addAttribute("username", username);
             model.addAttribute("virtualEdition", virtualEdition);
+            model.addAttribute("userInterface", this.userInterface);
             return "virtual/participants";
         }
     }
@@ -629,7 +630,8 @@ public class VirtualEditionController {
         } else {
             model.addAttribute("virtualEdition", virtualEdition);
             model.addAttribute("games", virtualEdition.getClassificationGameSet().stream()
-                    .sorted((g1, g2) -> g1.getDateTime().compareTo(g2.getDateTime())).collect(Collectors.toList()));
+                    .sorted(Comparator.comparing(ClassificationGame::getDateTime)).collect(Collectors.toList()));
+            model.addAttribute("userInterface", this.userInterface);
             return "virtual/classificationGame";
         }
     }
@@ -722,6 +724,7 @@ public class VirtualEditionController {
             List<String> errors = (List<String>) model.asMap().get("categoryErrors");
             model.addAttribute("categoryErrors", errors);
             model.addAttribute("virtualEdition", virtualEdition);
+            model.addAttribute("userInterface", this.userInterface);
             return "virtual/taxonomy";
         }
     }
@@ -886,6 +889,7 @@ public class VirtualEditionController {
             List<String> errors = (List<String>) model.asMap().get("errors");
             model.addAttribute("errors", errors);
             model.addAttribute("category", category);
+            model.addAttribute("userInterface", this.userInterface);
             return "virtual/category";
         }
     }

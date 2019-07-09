@@ -269,8 +269,8 @@ public class LdoD extends LdoD_Base {
                 .filter(virtualEditionInter -> virtualEditionInter.getTagSet().stream()
                         .anyMatch(tag -> tag.getContributor().equals(username)));
 
-        return Stream.concat(virtualEditionIntersAnnotated, virtualEditionIntersTagged).
-                sorted(Comparator.comparing(VirtualEditionInter::getTitle)).collect(Collectors.toList());
+        return Stream.concat(virtualEditionIntersAnnotated, virtualEditionIntersTagged).distinct()
+                .sorted(Comparator.comparing(VirtualEditionInter::getTitle)).collect(Collectors.toList());
     }
 
     public List<VirtualEdition> getPublicVirtualEditionsUserIsParticipant(String username) {

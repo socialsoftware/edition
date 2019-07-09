@@ -47,8 +47,8 @@
                 </td>
                 <td><c:forEach var="user"
                                items="${inter.getContributorSet(category)}">
-                    <a href="${contextPath}/edition/user/${user.username}">${user.firstName} ${user.lastName}
-                        (${user.getUsername()})</a>
+                    <a href="${contextPath}/edition/user/${user}">${userInterface.getFirtsName(user)} ${userInterface.getLastName(user)}
+                        (${user})</a>
                     <br>
                 </c:forEach></td>
                 <td><c:forEach var="used" items="${uiInterface.getFragInterUsed(inter)}">-><a

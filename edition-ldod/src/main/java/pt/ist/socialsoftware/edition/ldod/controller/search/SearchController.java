@@ -1,4 +1,4 @@
-package pt.ist.socialsoftware.edition.ldod.controller;
+package pt.ist.socialsoftware.edition.ldod.controller.search;
 
 import org.joda.time.LocalDate;
 import org.slf4j.Logger;
