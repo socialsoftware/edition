@@ -170,6 +170,14 @@ public class VirtualEdition extends VirtualEdition_Base {
         return canAddFragInter(virtualEditionInter.getLastUsed());
     }
 
+    public boolean canAddFragInter(String xmlId) {
+        VirtualEditionInter virtualEditionInter = LdoD.getInstance().getVirtualEditionInterByXmlId(xmlId);
+        if (virtualEditionInter != null) {
+            return canAddFragInter(virtualEditionInter);
+        }
+        return canAddFragInter(new ScholarInterDto(xmlId));
+    }
+
     // determines if the fragment can have more interpretations for this virtual
     // edition, deals with the the case of a fragment having two interpretations
     // for the same expert edition
