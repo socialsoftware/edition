@@ -255,7 +255,6 @@ public class FragmentController {
 
         logger.debug("getInter scholarInters: {}, virtualEditionInters: {}", scholarInters.size(), virtualEditionInters.size());
 
-
         model.addAttribute("ldoD", LdoD.getInstance());
         model.addAttribute("text", TextModule.getInstance());
         model.addAttribute("user", User.getAuthenticatedUser());
@@ -297,7 +296,6 @@ public class FragmentController {
         }
 
         return "fragment/main";
-
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/fragment/inter/editorial")

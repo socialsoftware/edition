@@ -273,9 +273,9 @@ public class LdoD extends LdoD_Base {
                 .sorted(Comparator.comparing(VirtualEditionInter::getTitle)).collect(Collectors.toList());
     }
 
-    public List<VirtualEdition> getPublicVirtualEditionsUserIsParticipant(String username) {
+    public List<VirtualEdition> getPublicVirtualEditionsOrUserIsParticipant(String username) {
         return getVirtualEditionsSet().stream()
-                .filter(virtualEdition -> virtualEdition.getPub() && virtualEdition.getParticipantList().contains(username))
+                .filter(virtualEdition -> virtualEdition.getPub() || virtualEdition.getParticipantList().contains(username))
                 .distinct()
                 .sorted(Comparator.comparing(VirtualEdition::getTitle))
                 .collect(Collectors.toList());

@@ -107,7 +107,7 @@ public class EditionController {
 
         if (userDto != null) {
             model.addAttribute("userDto", userDto);
-            model.addAttribute("publicVirtualEditionsUserIdParticipant", LdoD.getInstance().getPublicVirtualEditionsUserIsParticipant(username));
+            model.addAttribute("publicVirtualEditionsOrUserIsParticipant", LdoD.getInstance().getPublicVirtualEditionsOrUserIsParticipant(username));
             model.addAttribute("virtualEditionIntersUserIsContributor", LdoD.getInstance().getVirtualEditionIntersUserIsContributor(username));
             Player player = LdoD.getInstance().getPlayerByUsername(username);
             if (player != null) {

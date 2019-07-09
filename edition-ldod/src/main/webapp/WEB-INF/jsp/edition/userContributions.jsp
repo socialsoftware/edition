@@ -16,7 +16,7 @@
     <br/>
     <p>
         <strong><spring:message code="header.editions"/>: </strong>
-        <c:forEach var="edition" items="${publicVirtualEditionsUserIdParticipant}"
+        <c:forEach var="edition" items="${publicVirtualEditionsOrUserIsParticipant}"
                    varStatus="loop">
             <a href="${contextPath}/edition/acronym/${edition.getAcronym()}">
                     ${edition.getTitle()}</a><c:if test="${!loop.last}">, </c:if>
