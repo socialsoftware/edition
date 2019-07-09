@@ -10,83 +10,22 @@ import { getToken } from '../../utils/StorageUtils';
 
 const mapStateToProps = state => ({ info: state.info });
 
-/* function stringifyTags(array) {
-    return array.join(' ');
-} */
-
 function parseTags(string) {
-    console.log(string);
-    string = string.trim();
+    string = window.$.trim(string);
     let tags = [];
     if (string) {
         tags = string.split(/,/);
     }
+    console.log(tags);
     return tags;
-}
-
-function editorExtension(e) {
-    function setAnnotationTags(field, annotation) {
-        console.log(document.getElementsByClassName('tagSelector'));
-        annotation.tags = parseTags(document.getElementsByClassName('tagSelector')[0].value);
-    }
-
-    const tagsField = e.addField({
-        load: loadField, // loadField
-        submit: setAnnotationTags, // setAnnotationTags
-    });
-
-
-    function loadField(field, annotation) {
-        if (typeof annotation.id !== 'undefined') {
-            axios.get(`${SERVER_URL}/fragments/fragment/annotation/${annotation.id}/categories`).then((res) => {
-                console.log(res);
-                document.getElementsByClassName('tagSelector')[0].value = res.data;
-
-                const event = document.createEvent('HTMLEvents');
-                event.initEvent('change', true, false);
-                document.getElementsByClassName('tagSelector')[0].dispatchEvent(event);
-            });
-        } else {
-            console.log('no id :(');
-        }
-    }
-
-    const ele = document.getElementById('annotator-field-1');
-
-    const inputElements = ele.getElementsByTagName('input');
-
-    for (let i = 0; i < inputElements.length; i++) {
-        console.log(`Removing ${i}`);
-        inputElements[i].remove();
-    }
-
-    const select = document.createElement('select');
-    select.setAttribute('class', 'tagSelector');
-    select.setAttribute('style', 'width:263px;');
-    tagsField.appendChild(select);
-   /* if ('${inters.get(0).getVirtualEdition().getTaxonomy().getOpenVocabulary()}' == 'true') {
-        $(".tagSelector").select2({
-            multiple: true,
-            data: $.parseJSON('${inters.get(0).getAllDepthCategoriesJSON()}'),
-            tags: true,
-            tokenSeparators: [',', '.']
-        });
-    } else {
-        $(".tagSelector").select2({
-            multiple: true,
-            data: $.parseJSON('${inters.get(0).getAllDepthCategoriesJSON()}'),
-        });
-    }
-    $(".tagSelector").on('select2:open', function (e, data) {
-        $(".select2-dropdown").css({
-            "z-index": "999999"
-        });
-    }); */
 }
 
 class InterVirtual extends React.Component {
     constructor(props) {
         super(props);
+
+        this.editorExtension = this.editorExtension.bind(this);
+        this.loadAnnotationCats = this.loadAnnotationCats.bind(this);
 
         this.state = {
             fragmentId: props.fragmentId,
@@ -94,6 +33,8 @@ class InterVirtual extends React.Component {
             title: props.title,
             editionInfo: null,
             transcription: null,
+            annotationCategories: [],
+            isCatLoaded: false,
             isTransLoaded: false,
             isVirtualLoaded: false,
         };
@@ -132,6 +73,66 @@ class InterVirtual extends React.Component {
         this.getUsesInfo();
     }
 
+    editorExtension(e) {
+        function setAnnotationTags(field, annotation) {
+            annotation.tags = parseTags(window.$('.tagSelector').val());
+        }
+
+        const tagsField = e.addField({
+            load: loadField,
+            submit: setAnnotationTags,
+        });
+
+
+        function loadField(field, annotation) {
+            if (typeof annotation.id !== 'undefined') {
+                axios.get(`${SERVER_URL}/fragments/fragment/annotation/${annotation.id}/categories`).then((res) => {
+                    window.$('.tagSelector').val(res.data).trigger('change');
+                });
+            }
+        }
+
+        window.$('#annotator-field-1').remove('input');
+
+        const select = window.$('<select>');
+        select.attr('class', 'tagSelector');
+        select.attr('style', 'width:263px;');
+        window.$(tagsField).append(select);
+
+        if (this.state.editionInfo.openVocabulary === 'true') {
+            window.$('.tagSelector').select2({
+                multiple: true,
+                data: this.state.annotationCategories,
+                tags: true,
+                tokenSeparators: [',', '.'],
+            });
+        } else {
+            window.$('.tagSelector').select2({
+                multiple: true,
+                data: this.state.annotationCategories,
+            });
+        }
+        window.$('.tagSelector').on('select2:open', () => {
+            window.$('.select2-dropdown').css({
+                'z-index': '999999',
+            });
+        });
+    }
+
+    loadAnnotationCats(id) {
+        axios.get(`${SERVER_URL}/api/services/frontend/inter/categories`, {
+            params: {
+                id,
+            },
+        }).then((res) => {
+            console.log(res.data);
+            this.setState({
+                annotationCategories: res.data,
+                isCatLoaded: true,
+            });
+        });
+    }
+
     componentDidUpdate() {
         if (document.getElementById('content') !== null) {
             const id = this.state.editionInfo.externalId;
@@ -144,27 +145,31 @@ class InterVirtual extends React.Component {
                 };
             };
 
-            const app = new annotator.App();
-            app.include(annotator.ui.main, {
-                element: document.querySelector('#content'),
-                editorExtensions: [editorExtension],
-                viewerExtensions: [annotator.ui.tags.viewerExtension],
-            });
-
-            app.include(annotator.storage.http, {
-                prefix: `${SERVER_URL}/api/services/frontend/restricted`,
-                headers: { Authorization: `Bearer ${getToken()}` },
-            });
-            app.include(pageUri);
-            app.include(annotator.identity.simple);
-            app.start().then(() => {
-                app.ident.identity = this.props.info.username;
-                app.annotations.load({
-                    uri: id,
-                    limit: 0,
-                    all_fields: 1,
+            if (!this.state.isCatLoaded) {
+                this.loadAnnotationCats(id);
+            } else {
+                const app = new annotator.App();
+                app.include(annotator.ui.main, {
+                    element: document.querySelector('#content'),
+                    editorExtensions: [this.editorExtension],
+                    viewerExtensions: [annotator.ui.tags.viewerExtension],
                 });
-            });
+
+                app.include(annotator.storage.http, {
+                    prefix: `${SERVER_URL}/api/services/frontend/restricted`,
+                    headers: { Authorization: `Bearer ${getToken()}` },
+                });
+                app.include(pageUri);
+                app.include(annotator.identity.simple);
+                app.start().then(() => {
+                    app.ident.identity = this.props.info.username;
+                    app.annotations.load({
+                        uri: id,
+                        limit: 0,
+                        all_fields: 1,
+                    });
+                });
+            }
         }
     }
 
@@ -206,7 +211,8 @@ class InterVirtual extends React.Component {
                         fragmentId={this.state.fragmentId}
                         interId={this.state.interId}
                         externalId={this.state.editionInfo.externalId}
-                        title={this.state.title} />
+                        title={this.state.title}
+                        annCall={this.loadAnnotationCats} />
                 </div>
             </div>
         );

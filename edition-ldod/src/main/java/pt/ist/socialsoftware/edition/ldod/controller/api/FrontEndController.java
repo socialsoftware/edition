@@ -1,5 +1,7 @@
 package pt.ist.socialsoftware.edition.ldod.controller.api;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -17,8 +19,10 @@ import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.generators.HtmlWriter2CompInters;
 import pt.ist.socialsoftware.edition.ldod.generators.HtmlWriter4Variations;
 import pt.ist.socialsoftware.edition.ldod.generators.PlainHtmlWriter4OneInter;
+import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
 import pt.ist.socialsoftware.edition.ldod.utils.AnnotationDTO;
 import pt.ist.socialsoftware.edition.ldod.utils.AnnotationSearchJson;
+import pt.ist.socialsoftware.edition.ldod.utils.CategoryDTO;
 
 import javax.inject.Inject;
 import java.util.*;
@@ -469,6 +473,8 @@ public class FrontEndController {
             editionInfo.put("interReference", scholarInter.getReference());
         }
 
+        editionInfo.put("openVocabulary", String.valueOf(inter.getEdition().getTaxonomy().getOpenVocabulary()));
+
         return new ResponseEntity<>(editionInfo, HttpStatus.OK);
     }
 
@@ -759,6 +765,28 @@ public class FrontEndController {
 
     //Annotation related methods
 
+    @GetMapping("/inter/categories")
+    public ResponseEntity<?> getCategoriesForInter(@RequestParam String id) {
+
+        VirtualEditionInter inter = FenixFramework.getDomainObject(id);
+
+        if (inter == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        ObjectMapper mapper = new ObjectMapper();
+
+        List<CategoryDTO> categories = inter.getAllDepthCategories().stream()
+                .sorted((c1, c2) -> c1.compareInEditionContext(inter.getVirtualEdition(), c2))
+                .map(c -> new CategoryDTO(inter.getVirtualEdition(), c)).collect(Collectors.toList());
+
+        try {
+            return new ResponseEntity<>(mapper.writeValueAsString(categories), HttpStatus.OK);
+        } catch (JsonProcessingException e) {
+            throw new LdoDException("VirtualEditionInter::getAllDepthCategoriesJSON");
+        }
+    }
+
     @PostMapping("/restricted/annotations")
     public ResponseEntity<?> createAnnotation(@RequestBody AnnotationDTO annotationJson) {
         logger.debug("Got annotation for quote:");
@@ -772,7 +800,7 @@ public class FrontEndController {
         HumanAnnotation annotation;
         if (HumanAnnotation.canCreate(virtualEdition, user)) {
             annotation = inter.createHumanAnnotation(annotationJson.getQuote(), annotationJson.getText(), user,
-                    annotationJson.getRanges(), new ArrayList<>()); //TODO : get tags from dto when tag support is added to frontend
+                    annotationJson.getRanges(), annotationJson.getTags());
 
             annotationJson.setId(annotation.getExternalId());
 
@@ -782,7 +810,7 @@ public class FrontEndController {
         }
     }
 
-    @GetMapping("/fragment/annotations/{id}")
+    @GetMapping("/restricted/annotations/{id}")
     public ResponseEntity<?> getAnnotation(@PathVariable String id) {
         HumanAnnotation annotation = FenixFramework.getDomainObject(id);
         if (annotation != null) {
@@ -793,7 +821,7 @@ public class FrontEndController {
     }
 
 
-    @PutMapping("/fragment/annotations/{id}")
+    @PutMapping("/restricted/annotations/{id}")
     public ResponseEntity<?> updateAnnotation(@PathVariable String id, @RequestBody AnnotationDTO annotationJson) {
         HumanAnnotation annotation = FenixFramework.getDomainObject(id);
 
@@ -802,7 +830,7 @@ public class FrontEndController {
         }
 
         if (annotation.canUpdate(this.userInterface.getAuthenticatedUser())) {
-            annotation.update(annotationJson.getText(), new ArrayList()); //TODO : get tags from dto when tag support is added to frontend
+            annotation.update(annotationJson.getText(), annotationJson.getTags());
             return new ResponseEntity<>(new AnnotationDTO(annotation), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);

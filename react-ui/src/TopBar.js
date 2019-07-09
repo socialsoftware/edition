@@ -10,7 +10,7 @@ import { setLoginStatus, setModuleConfig, setUserInfo } from './actions/actions'
 import { SERVER_URL } from './utils/Constants';
 import { deleteToken } from './utils/StorageUtils';
 
-const mapStateToProps = state => ({ status: state.status, info: state.info });
+const mapStateToProps = state => ({ config: state.moduleConfig, status: state.status, info: state.info });
 
 function TopBarStatic(props) {
     let loginToggle = null;
@@ -175,18 +175,25 @@ class TopBar extends React.Component {
     }
 
     retrieveModuleInfoData() {
-        axios.get(`${SERVER_URL}/api/services/frontend/module-info`)
-            .then((result) => {
-                this.props.setModuleConfig(result.data);
+        if (this.props.config !== null) {
+            this.setState({
+                moduleInfo: this.props.config,
+                isLoaded: true,
+            });
+        } else {
+            axios.get(`${SERVER_URL}/api/services/frontend/module-info`)
+                .then((result) => {
+                    this.props.setModuleConfig(result.data);
 
-                this.setState({
-                    moduleInfo: result.data,
-                    isEditionLoaded: true,
-                });
-            },
-                  (result) => {
-                      console.log(`Failed to load moduleInfo. Status code ${result.status}`);
-                  });
+                    this.setState({
+                        moduleInfo: result.data,
+                        isLoaded: true,
+                    });
+                },
+                      (result) => {
+                          console.log(`Failed to load moduleInfo. Status code ${result.status}`);
+                      });
+        }
     }
 
     logoutUser(event) {
@@ -201,7 +208,7 @@ class TopBar extends React.Component {
     }
 
     render() {
-        if (this.state.isEditionLoaded) {
+        if (this.state.isLoaded) {
             const moduleNames = Object.keys(this.state.moduleInfo);
 
             const topBarComponents = [];

@@ -6,7 +6,7 @@ import {
 } from '../constants/actionTypes';
 
 export const initialState = {
-    moduleConfig: {},
+    moduleConfig: null,
     interId: null,
     compareIds: null,
     type: null,
