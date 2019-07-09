@@ -11,14 +11,13 @@ public class UsersXMLExport {
 
     @Atomic
     public String export() {
-        LdoD ldoD = LdoD.getInstance();
-        TextModule text = TextModule.getInstance();
+        UserModule userModule = UserModule.getInstance();
 
         Element element = createHeader();
 
-        exportUsers(element, ldoD);
-        exportUserConnections(element, ldoD);
-        exportRegistrationTokens(element, ldoD);
+        exportUsers(element, userModule);
+        exportUserConnections(element, userModule);
+        exportRegistrationTokens(element, userModule);
 
         XMLOutputter xml = new XMLOutputter();
         xml.setFormat(Format.getPrettyFormat());
@@ -35,17 +34,17 @@ public class UsersXMLExport {
         return rootElement;
     }
 
-    private void exportUsers(Element element, LdoD ldoD) {
+    private void exportUsers(Element element, UserModule userModule) {
         Element usersElement = new Element("users");
 
-        for (LdoDUser user : ldoD.getUsersSet()) {
+        for (User user : userModule.getUsersSet()) {
             exportUser(usersElement, user);
         }
 
         element.addContent(usersElement);
     }
 
-    private void exportUser(Element element, LdoDUser user) {
+    private void exportUser(Element element, User user) {
         Element userElement = new Element("user");
         userElement.setAttribute("username", user.getUsername());
         userElement.setAttribute("enabled", exportBoolean(user.getEnabled()));
@@ -71,12 +70,11 @@ public class UsersXMLExport {
         }
 
         exportUserRoles(userElement, user);
-        exportPlayer(userElement, user);
 
         element.addContent(userElement);
     }
 
-    private void exportUserRoles(Element element, LdoDUser user) {
+    private void exportUserRoles(Element element, User user) {
         Element userRolesElement = new Element("roles");
 
         for (Role role : user.getRolesSet()) {
@@ -104,10 +102,10 @@ public class UsersXMLExport {
         }
     }
 
-    private void exportUserConnections(Element element, LdoD ldoD) {
+    private void exportUserConnections(Element element, UserModule userModule) {
         Element userConnectionsElement = new Element("user-connections");
 
-        for (UserConnection userConnection : ldoD.getUserConnectionSet()) {
+        for (UserConnection userConnection : userModule.getUserConnectionSet()) {
             exportUserConnection(userConnectionsElement, userConnection);
         }
 
@@ -140,10 +138,10 @@ public class UsersXMLExport {
         element.addContent(userConnectionElement);
     }
 
-    private void exportRegistrationTokens(Element element, LdoD ldoD) {
+    private void exportRegistrationTokens(Element element, UserModule userModule) {
         Element registrationTokensElement = new Element("registration-tokens");
 
-        for (RegistrationToken registrationToken : ldoD.getTokenSet()) {
+        for (RegistrationToken registrationToken : userModule.getTokenSet()) {
             exportRegistrationToken(registrationTokensElement, registrationToken);
         }
 
@@ -161,12 +159,5 @@ public class UsersXMLExport {
         element.addContent(tokenElement);
     }
 
-    private void exportPlayer(Element userElement, LdoDUser user) {
-        if (user.getPlayer() != null) {
-            Player player = user.getPlayer();
-            Element playerElement = new Element("player");
-            playerElement.setAttribute("score", Double.toString(player.getScore()));
-            userElement.addContent(playerElement);
-        }
-    }
+
 }

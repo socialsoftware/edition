@@ -1,10 +1,5 @@
 package pt.ist.socialsoftware.edition.ldod.controller.classificationgame;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -13,7 +8,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import pt.ist.socialsoftware.edition.ldod.ControllersTestWithFragmentsLoading;
 import pt.ist.socialsoftware.edition.ldod.config.Application;
-import pt.ist.socialsoftware.edition.ldod.controller.ClassificationGameHomeController;
+import pt.ist.socialsoftware.edition.ldod.controller.game.ClassificationGameHomeController;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = Application.class)

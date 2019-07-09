@@ -1,4 +1,4 @@
-package pt.ist.socialsoftware.edition.ldod.controller.api;
+package pt.ist.socialsoftware.edition.ldod.controller.game;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,6 +9,7 @@ import org.springframework.web.socket.messaging.SessionConnectedEvent;
 import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 import org.springframework.web.socket.messaging.SessionSubscribeEvent;
 import org.springframework.web.socket.messaging.SessionUnsubscribeEvent;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,22 +26,21 @@ public class WebSocketEventListener {
     }
 
 
-
     @EventListener
-    public void handleSubscribe(SessionSubscribeEvent event){
+    public void handleSubscribe(SessionSubscribeEvent event) {
         StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(event.getMessage());
         String destination = headerAccessor.getDestination();
         String subId = headerAccessor.getSubscriptionId();
         logger.info("Received a subscribe to: {}, with subId: {}", destination, subId);
-        subscribedUsers.add(subId);
+        this.subscribedUsers.add(subId);
 
-     }
+    }
 
     @EventListener
-    public void handleUnSubscribe(SessionUnsubscribeEvent event){
+    public void handleUnSubscribe(SessionUnsubscribeEvent event) {
         StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(event.getMessage());
-        logger.info("Received a unsubscribe: "+ headerAccessor.getSubscriptionId());
-        subscribedUsers.remove(headerAccessor.getSubscriptionId());
+        logger.info("Received a unsubscribe: " + headerAccessor.getSubscriptionId());
+        this.subscribedUsers.remove(headerAccessor.getSubscriptionId());
 
     }
 
@@ -51,7 +51,7 @@ public class WebSocketEventListener {
     }
 
     public List<String> getSubscribedUsers() {
-        return subscribedUsers;
+        return this.subscribedUsers;
     }
 
     public void setSubscribedUsers(List<String> subscribedUsers) {

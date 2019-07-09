@@ -51,16 +51,15 @@ public class VSMVirtualEditionInterRecomenderTest extends TestWithFragmentsLoadi
         LdoD ldoD = LdoD.getInstance();
         ExpertEdition pizarroEdition = TextModule.getInstance().getJPEdition();
 
-        LdoDUser userArs = ldoD.getUser("ars");
         // create virtual edition
-        this.virtualEdition = ldoD.createVirtualEdition(userArs, ACRONYM, "Name", LocalDate.now(), true,
+        this.virtualEdition = ldoD.createVirtualEdition(User.USER_ARS, ACRONYM, "Name", LocalDate.now(), true,
                 pizarroEdition.getAcronym());
 
         // create taxonomy
         TopicModeler modeler = new TopicModeler();
         TopicListDTO topicListDTO = null;
         try {
-            topicListDTO = modeler.generate(userArs, this.virtualEdition, 50, 6, 11, 10);
+            topicListDTO = modeler.generate(User.USER_ARS, this.virtualEdition, 50, 6, 11, 10);
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

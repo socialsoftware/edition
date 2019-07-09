@@ -1,53 +1,53 @@
 package pt.ist.socialsoftware.edition.ldod.shared.exception;
 
+import pt.ist.socialsoftware.edition.ldod.domain.User;
+import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
-
 public class LdoDCreateVirtualEditionException extends LdoDException {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private List<String> errors = new ArrayList<>();
-	private String acronym = null;
-	private String title = null;
-	private boolean pub = false;
-	private List<VirtualEdition> virtualEditions = null;
-	private LdoDUser user = null;
+    private List<String> errors = new ArrayList<>();
+    private String acronym = null;
+    private String title = null;
+    private boolean pub = false;
+    private List<VirtualEdition> virtualEditions = null;
+    private User user = null;
 
-	public LdoDCreateVirtualEditionException(List<String> errors, String acronym, String title, boolean pub,
-			List<VirtualEdition> virtualEditions, LdoDUser user) {
-		this.errors = errors;
-		this.acronym = acronym;
-		this.title = title;
-		this.pub = pub;
-		this.virtualEditions = virtualEditions;
-		this.user = user;
-	}
+    public LdoDCreateVirtualEditionException(List<String> errors, String acronym, String title, boolean pub,
+											 List<VirtualEdition> virtualEditions, User user) {
+        this.errors = errors;
+        this.acronym = acronym;
+        this.title = title;
+        this.pub = pub;
+        this.virtualEditions = virtualEditions;
+        this.user = user;
+    }
 
-	public List<String> getErrors() {
-		return errors;
-	}
+    public List<String> getErrors() {
+        return this.errors;
+    }
 
-	public String getAcronym() {
-		return acronym;
-	}
+    public String getAcronym() {
+        return this.acronym;
+    }
 
-	public String getTitle() {
-		return title;
-	}
+    public String getTitle() {
+        return this.title;
+    }
 
-	public boolean isPub() {
-		return pub;
-	}
+    public boolean isPub() {
+        return this.pub;
+    }
 
-	public List<VirtualEdition> getVirtualEditions() {
-		return virtualEditions;
-	}
+    public List<VirtualEdition> getVirtualEditions() {
+        return this.virtualEditions;
+    }
 
-	public LdoDUser getUser() {
-		return user;
-	}
+    public User getUser() {
+        return this.user;
+    }
 
 }

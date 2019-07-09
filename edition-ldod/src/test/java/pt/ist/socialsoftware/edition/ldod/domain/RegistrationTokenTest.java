@@ -1,65 +1,64 @@
 package pt.ist.socialsoftware.edition.ldod.domain;
 
-import static org.junit.Assert.assertEquals;
-
 import org.joda.time.DateTime;
 import org.junit.jupiter.api.Test;
-
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.socialsoftware.edition.ldod.TestLoadUtils;
 import pt.ist.socialsoftware.edition.ldod.TestWithFragmentsLoading;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 public class RegistrationTokenTest extends TestWithFragmentsLoading {
 
-	LdoD ldoD;
-	LdoDUser user;
-	private RegistrationToken registration;
+    UserModule userModule;
+    User user;
+    private RegistrationToken registration;
 
-	@Override
-	protected String[] fragmentsToLoad4Test() {
-		String[] fragments = new String[0];
+    @Override
+    protected String[] fragmentsToLoad4Test() {
+        String[] fragments = new String[0];
 
-		return fragments;
-	}
+        return fragments;
+    }
 
-	@Override
-	public void populate4Test() {
-		this.ldoD = LdoD.getInstance();
+    @Override
+    public void populate4Test() {
+        this.userModule = UserModule.getInstance();
 
-		this.user = new LdoDUser(this.ldoD, "ars1", "ars", "Antonio", "Silva", "a@a.a");
-		this.registration = new RegistrationToken("token", this.user);
-	}
+        this.user = new User(this.userModule, "ars1", "ars", "Antonio", "Silva", "a@a.a");
+        this.registration = new RegistrationToken("token", this.user);
+    }
 
-	@Override
-	public void unpopulate4Test() {
-		TestLoadUtils.cleanDatabaseButCorpus();
-	}
+    @Override
+    public void unpopulate4Test() {
+        TestLoadUtils.cleanDatabaseButCorpus();
+    }
 
-	@Test
-	@Atomic(mode = TxMode.WRITE)
-	public void removeOutdatedTokensOne() {
-		int size = this.ldoD.getUsersSet().size();
-		int tokens = this.ldoD.getTokenSet().size();
+    @Test
+    @Atomic(mode = TxMode.WRITE)
+    public void removeOutdatedTokensOne() {
+        int size = this.userModule.getUsersSet().size();
+        int tokens = this.userModule.getTokenSet().size();
 
-		this.ldoD.removeOutdatedUnconfirmedUsers();
+        this.userModule.removeOutdatedUnconfirmedUsers();
 
-		assertEquals(tokens, this.ldoD.getTokenSet().size());
-		assertEquals(size, this.ldoD.getUsersSet().size());
-	}
+        assertEquals(tokens, this.userModule.getTokenSet().size());
+        assertEquals(size, this.userModule.getUsersSet().size());
+    }
 
-	@Test
-	@Atomic(mode = TxMode.WRITE)
-	public void removeOutdatedTokensTwo() {
-		this.user.getToken().setExpireTimeDateTime(new DateTime(2014, 1, 1, 0, 0, 0, 0));
+    @Test
+    @Atomic(mode = TxMode.WRITE)
+    public void removeOutdatedTokensTwo() {
+        this.user.getToken().setExpireTimeDateTime(new DateTime(2014, 1, 1, 0, 0, 0, 0));
 
-		int size = this.ldoD.getUsersSet().size();
-		int tokens = this.ldoD.getTokenSet().size();
+        int size = this.userModule.getUsersSet().size();
+        int tokens = this.userModule.getTokenSet().size();
 
-		this.ldoD.removeOutdatedUnconfirmedUsers();
+        this.userModule.removeOutdatedUnconfirmedUsers();
 
-		assertEquals(tokens - 1, this.ldoD.getTokenSet().size());
-		assertEquals(size - 1, this.ldoD.getUsersSet().size());
-	}
+        assertEquals(tokens - 1, this.userModule.getTokenSet().size());
+        assertEquals(size - 1, this.userModule.getUsersSet().size());
+    }
 
 }

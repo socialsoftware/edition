@@ -10,6 +10,7 @@ import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.socialsoftware.edition.ldod.api.text.TextInterface;
 import pt.ist.socialsoftware.edition.ldod.api.text.dto.ScholarInterDto;
+import pt.ist.socialsoftware.edition.ldod.api.user.dto.UserDto;
 import pt.ist.socialsoftware.edition.ldod.dto.InterIdDistancePairDto;
 import pt.ist.socialsoftware.edition.ldod.dto.WeightsDto;
 import pt.ist.socialsoftware.edition.ldod.recommendation.VSMVirtualEditionInterRecommender;
@@ -73,7 +74,7 @@ public class VirtualEdition extends VirtualEdition_Base {
         return "ED.VIRT." + getAcronym();
     }
 
-    public VirtualEdition(LdoD ldod, LdoDUser participant, String acronym, String title, LocalDate date, Boolean pub,
+    public VirtualEdition(LdoD ldod, String participant, String acronym, String title, LocalDate date, Boolean pub,
                           String acronymOfUsed) {
         setLdoD4Virtual(ldod);
         new Member(this, participant, Member.MemberRole.ADMIN, true);
@@ -124,8 +125,8 @@ public class VirtualEdition extends VirtualEdition_Base {
 
         getCriteriaSet().stream().forEach(c -> c.remove());
 
-        for (LdoDUser user : getSelectedBySet()) {
-            removeSelectedBy(user);
+        for (SelectedBy user : getSelectedBySet()) {
+            user.remove();
         }
 
         for (Section section : getSectionsSet()) {
@@ -146,9 +147,9 @@ public class VirtualEdition extends VirtualEdition_Base {
     @Override
     public void setPub(Boolean pub) {
         if (!pub) {
-            Set<LdoDUser> participants = getParticipantSet();
-            for (LdoDUser user : getSelectedBySet()) {
-                if (!participants.contains(user)) {
+            Set<String> participants = getParticipantSet();
+            for (SelectedBy user : getSelectedBySet()) {
+                if (!participants.contains(user.getUser())) {
                     this.removeSelectedBy(user);
                 }
             }
@@ -446,8 +447,8 @@ public class VirtualEdition extends VirtualEdition_Base {
         return virtualInter;
     }
 
-    public boolean checkAccess() {
-        return getPub() || getParticipantSet().contains(LdoDUser.getAuthenticatedUser());
+    public boolean isPublicOrIsParticipant() {
+        return getPub() || getParticipantSet().contains(User.getAuthenticatedUser());
     }
 
     public List<VirtualEditionInter> getAllDepthVirtualEditionInters() {
@@ -513,26 +514,40 @@ public class VirtualEdition extends VirtualEdition_Base {
         }
     }
 
-    @Atomic(mode = TxMode.WRITE)
-    public void removeMember(LdoDUser user) {
-        getMemberSet().stream().filter(m -> m.getUser() == user).forEach(m -> m.remove());
-        removeSelectedBy(user);
+    public boolean isSelectedBy(String user) {
+        return getSelectedBySet().stream().anyMatch(selectedBy -> selectedBy.getUser().equals(user));
     }
 
-    public Member getMember(LdoDUser user) {
-        return getMemberSet().stream().filter(m -> m.getUser() == user).findFirst().orElse(null);
+    public void addSelectedByUser(String user) {
+        if (!isSelectedBy(user)) {
+            new SelectedBy(this, user);
+        }
+    }
+
+    public void removeSelectedByUser(String user) {
+        getSelectedBySet().stream().filter(selectedBy -> selectedBy.equals(user)).findAny().orElse(null).remove();
     }
 
     @Atomic(mode = TxMode.WRITE)
-    public void addMember(LdoDUser user, Member.MemberRole role, boolean active) {
-        if (!getMemberSet().stream().filter(m -> m.getUser() == user).findFirst().isPresent()) {
+    public void removeMember(String user) {
+        getMemberSet().stream().filter(m -> m.getUser().equals(user)).forEach(m -> m.remove());
+        removeSelectedByUser(user);
+    }
+
+    public Member getMember(String user) {
+        return getMemberSet().stream().filter(m -> m.getUser().equals(user)).findFirst().orElse(null);
+    }
+
+    @Atomic(mode = TxMode.WRITE)
+    public void addMember(String user, Member.MemberRole role, boolean active) {
+        if (!getMemberSet().stream().filter(m -> m.getUser().equals(user)).findAny().isPresent()) {
             new Member(this, user, role, active);
         }
     }
 
     @Atomic(mode = TxMode.WRITE)
-    public void cancelParticipationSubmission(LdoDUser user) {
-        Member member = getMemberSet().stream().filter(m -> !m.getActive() && m.getUser() == user).findFirst()
+    public void cancelParticipationSubmission(String user) {
+        Member member = getMemberSet().stream().filter(m -> !m.getActive() && m.getUser().equals(user)).findAny()
                 .orElse(null);
         if (member != null) {
             member.remove();
@@ -540,8 +555,8 @@ public class VirtualEdition extends VirtualEdition_Base {
     }
 
     @Atomic(mode = TxMode.WRITE)
-    public void addApprove(LdoDUser user) {
-        Member member = getMemberSet().stream().filter(m -> !m.getActive() && m.getUser() == user).findFirst()
+    public void addApprove(String user) {
+        Member member = getMemberSet().stream().filter(m -> !m.getActive() && m.getUser().equals(user)).findAny()
                 .orElse(null);
         if (member != null) {
             member.setActive(true);
@@ -549,8 +564,8 @@ public class VirtualEdition extends VirtualEdition_Base {
     }
 
     @Atomic(mode = TxMode.WRITE)
-    public void switchRole(LdoDUser user) {
-        Member member = getMemberSet().stream().filter(m -> m.getUser() == user).findFirst().orElse(null);
+    public void switchRole(String user) {
+        Member member = getMemberSet().stream().filter(m -> m.getUser().equals(user)).findFirst().orElse(null);
         if (member != null) {
             if (member.getRole().equals(Member.MemberRole.ADMIN)) {
                 member.setRole(Member.MemberRole.MEMBER);
@@ -560,12 +575,12 @@ public class VirtualEdition extends VirtualEdition_Base {
         }
     }
 
-    public Set<LdoDUser> getParticipantSet() {
+    public Set<String> getParticipantSet() {
         return getMemberSet().stream().filter(m -> m.getActive()).map(m -> m.getUser()).collect(Collectors.toSet());
     }
 
-    public List<LdoDUser> getParticipantList() {
-        return getParticipantSet().stream().sorted((u1, u2) -> u1.getFirstName().compareTo(u2.getFirstName()))
+    public List<UserDto> getParticipantList() {
+        return getParticipantSet().stream().map(participant -> new UserDto(participant)).sorted(Comparator.comparing(UserDto::getFirstName))
                 .collect(Collectors.toList());
     }
 
@@ -573,9 +588,11 @@ public class VirtualEdition extends VirtualEdition_Base {
         return getMemberSet().stream().filter(m -> m.getActive()).collect(Collectors.toSet());
     }
 
-    public Set<LdoDUser> getAdminSet() {
-        return getMemberSet().stream().filter(m -> m.getRole().equals(Member.MemberRole.ADMIN) && m.getActive())
-                .map(m -> m.getUser()).collect(Collectors.toSet());
+    public Set<String> getAdminSet() {
+        return getMemberSet().stream()
+                .filter(member -> member.getRole().equals(Member.MemberRole.ADMIN) && member.getActive())
+                .map(member -> member.getUser())
+                .collect(Collectors.toSet());
     }
 
     public Set<Member> getAdminMemberSet() {
@@ -583,42 +600,42 @@ public class VirtualEdition extends VirtualEdition_Base {
                 .collect(Collectors.toSet());
     }
 
-    public Set<LdoDUser> getPendingSet() {
-        return getMemberSet().stream().filter(m -> !m.getActive()).map(m -> m.getUser()).collect(Collectors.toSet());
+    public Set<UserDto> getPendingSet() {
+        return getMemberSet().stream().filter(m -> !m.getActive()).map(m -> new UserDto(m.getUser())).collect(Collectors.toSet());
     }
 
     public Set<Member> getPendingMemberSet() {
         return getMemberSet().stream().filter(m -> !m.getActive()).collect(Collectors.toSet());
     }
 
-    public boolean canRemoveMember(LdoDUser actor, LdoDUser user) {
-        Member.MemberRole roleActor = getMemberSet().stream().filter(m -> m.getUser() == actor).map(m -> m.getRole())
+    public boolean canRemoveMember(String actor, String user) {
+        Member.MemberRole roleActor = getMemberSet().stream().filter(m -> m.getUser().equals(actor)).map(m -> m.getRole())
                 .findFirst().get();
 
         if (roleActor.equals(Member.MemberRole.ADMIN) && getAdminMemberSet().size() > 1) {
             return true;
         }
 
-        if (roleActor.equals(Member.MemberRole.ADMIN) && getAdminMemberSet().size() == 1 && actor != user) {
+        if (roleActor.equals(Member.MemberRole.ADMIN) && getAdminMemberSet().size() == 1 && !actor.equals(user)) {
             return true;
         }
 
-        if (roleActor.equals(Member.MemberRole.MEMBER) && actor == user) {
+        if (roleActor.equals(Member.MemberRole.MEMBER) && actor.equals(user)) {
             return true;
         }
 
         return false;
     }
 
-    public boolean canSwitchRole(LdoDUser actor, LdoDUser user) {
-        Member.MemberRole roleActor = getMemberSet().stream().filter(m -> m.getUser() == actor).map(m -> m.getRole())
+    public boolean canSwitchRole(String actor, String user) {
+        Member.MemberRole roleActor = getMemberSet().stream().filter(m -> m.getUser().equals(actor)).map(m -> m.getRole())
                 .findFirst().get();
 
         if (roleActor.equals(Member.MemberRole.ADMIN) && getAdminMemberSet().size() > 1) {
             return true;
         }
 
-        if (roleActor.equals(Member.MemberRole.ADMIN) && getAdminMemberSet().size() == 1 && actor != user) {
+        if (roleActor.equals(Member.MemberRole.ADMIN) && getAdminMemberSet().size() == 1 && !actor.equals(user)) {
             return true;
         }
 
@@ -662,6 +679,16 @@ public class VirtualEdition extends VirtualEdition_Base {
         recommendedEdition.addAll(recommender.getMostSimilarItemsAsList(inter, inters, properties));
         return recommendedEdition;
     }
+
+    public RecommendationWeights getRecommendationWeightsForUser(String user) {
+        for (RecommendationWeights recommendationWeights : getRecommendationWeightsSet()) {
+            if (recommendationWeights.getUser().equals(user)) {
+                return recommendationWeights;
+            }
+        }
+        return LdoD.getInstance().createRecommendationWeights(user, this);
+    }
+
 
     public Set<Category> getAllDepthCategories() {
         Set<Category> result = new HashSet<>(getTaxonomy().getCategoriesSet());
@@ -743,7 +770,7 @@ public class VirtualEdition extends VirtualEdition_Base {
     }
 
     @Atomic(mode = TxMode.WRITE)
-    public void createClassificationGame(String description, DateTime date, VirtualEditionInter inter, LdoDUser
+    public void createClassificationGame(String description, DateTime date, VirtualEditionInter inter, String
             user) {
         new ClassificationGame(this, description, date, inter, user);
     }
@@ -751,4 +778,6 @@ public class VirtualEdition extends VirtualEdition_Base {
     public boolean isLdoDEdition() {
         return getAcronym().equals(ExpertEdition.ARCHIVE_EDITION_ACRONYM);
     }
+
+
 }

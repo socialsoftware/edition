@@ -1,6 +1,7 @@
 package pt.ist.socialsoftware.edition.ldod.dto;
 
-import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
+import pt.ist.socialsoftware.edition.ldod.api.user.dto.UserDto;
+import pt.ist.socialsoftware.edition.ldod.domain.User;
 
 import javax.validation.constraints.NotBlank;
 
@@ -16,12 +17,21 @@ public class LdoDUserViewDto {
     public LdoDUserViewDto() {
     }
 
-    public LdoDUserViewDto(LdoDUser user) {
+    public LdoDUserViewDto(User user) {
         this.username = user.getUsername();
         this.enabled = user.getEnabled();
         this.active = user.getActive();
         this.firstName = user.getFirstName();
         this.lastName = user.getLastName();
+    }
+
+    public LdoDUserViewDto(String user) {
+        UserDto userDto = new UserDto(user);
+        this.username = user;
+        this.enabled = userDto.isEnabled();
+        this.active = userDto.isActive();
+        this.firstName = userDto.getFirstName();
+        this.lastName = userDto.getLastName();
     }
 
     public String getUsername() {

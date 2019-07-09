@@ -10,7 +10,6 @@ import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pt.ist.socialsoftware.edition.ldod.api.text.TextInterface;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
 import pt.ist.socialsoftware.edition.ldod.domain.Taxonomy;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
@@ -39,7 +38,7 @@ public class TopicModeler {
     private final String corpusFilesPath = PropertiesManager.getProperties().getProperty("corpus.files.dir");
     private final String stopListPath = PropertiesManager.getProperties().getProperty("corpus.stoplist");
 
-    public TopicListDTO generate(LdoDUser user, VirtualEdition edition, int numTopics, int numWords,
+    public TopicListDTO generate(String user, VirtualEdition edition, int numTopics, int numWords,
                                  int thresholdCategories, int numIterations) throws IOException {
         // if a corpus is absent
         File directory = new File(this.corpusFilesPath);
@@ -134,12 +133,12 @@ public class TopicModeler {
         return instances;
     }
 
-    private TopicListDTO createTopicListDTO(LdoDUser user, VirtualEdition edition, ParallelTopicModel model,
+    private TopicListDTO createTopicListDTO(String user, VirtualEdition edition, ParallelTopicModel model,
                                             int numTopics, int numWords, int thresholdCategories, int numIterations, Alphabet dataAlphabet,
                                             int numInstances) {
 
         TopicListDTO topics = new TopicListDTO();
-        topics.setUsername(user.getUsername());
+        topics.setUsername(user);
 
         Taxonomy taxonomy = edition.getTaxonomy();
 

@@ -11,12 +11,12 @@
 <%@ include file="/WEB-INF/jsp/common/fixed-top-ldod-header.jsp" %>
 
 <div class="container">
-    <h3 class="text-center">${user.firstName} ${user.lastName}
-        (${user.username})</h3>
+    <h3 class="text-center">${userDto.firstName} ${userDto.lastName}
+        (${userDto.username})</h3>
     <br/>
     <p>
         <strong><spring:message code="header.editions"/>: </strong>
-        <c:forEach var="edition" items="${user.getPublicEditionList()}"
+        <c:forEach var="edition" items="${publicVirtualEditionsUserIdParticipant}"
                    varStatus="loop">
             <a href="${contextPath}/edition/acronym/${edition.getAcronym()}">
                     ${edition.getTitle()}</a><c:if test="${!loop.last}">, </c:if>
@@ -32,7 +32,7 @@
             </c:forEach>
         </p>
         <p>
-            <strong><spring:message code="general.points"/>: </strong> ${user.getPlayer().getScore()}
+            <strong><spring:message code="general.points"/>: </strong> ${player.getScore()}
         </p>
         <c:if test="${position != -1}">
             <p>
@@ -56,7 +56,7 @@
             <th><spring:message code="tableofcontents.usesEditions"/></th>
         </tr>
         <tbody>
-        <c:forEach var="inter" items='${user.getFragInterSet()}'>
+        <c:forEach var="inter" items='${virtualEditionIntersUserIsContributor}'>
             <tr>
                 <td><a
                         href="${contextPath}/fragments/fragment/${inter.getFragmentXmlId()}/inter/${inter.getUrlId()}">${inter.title}</a>
@@ -65,7 +65,7 @@
                         href="${contextPath}/edition/acronym/${inter.edition.acronym}">${inter.getEdition().getReference()}</a>
                 </td>
                 <td><c:forEach var="category"
-                               items='${inter.getAssignedCategories(user)}'>
+                               items='${inter.getAssignedCategories(userDto.username)}'>
                     <a
                             href="${contextPath}/edition/acronym/${inter.edition.acronym}/category/${category.getUrlId()}">
                             ${category.getNameInEditionContext(inter.getEdition())} </a>

@@ -362,9 +362,10 @@ public class SearchController {
     public Map<String, String> getVirtualEditions(Model model) {
         Stream<VirtualEdition> virtualEditionStream = LdoD.getInstance().getVirtualEditionsSet().stream().filter(virtualEdition -> virtualEdition.getPub());
 
-        LdoDUser user = LdoDUser.getAuthenticatedUser();
+        User user = User.getAuthenticatedUser();
         if (user != null) {
-            virtualEditionStream = Stream.concat(virtualEditionStream, user.getSelectedVirtualEditionsSet().stream()).distinct();
+            virtualEditionStream = Stream.concat(virtualEditionStream,
+                    LdoD.getInstance().getSelectedVirtualEditionsByUser(user.getUsername()).stream()).distinct();
         }
         return virtualEditionStream.collect(Collectors.toMap(VirtualEdition::getAcronym, VirtualEdition::getTitle));
     }

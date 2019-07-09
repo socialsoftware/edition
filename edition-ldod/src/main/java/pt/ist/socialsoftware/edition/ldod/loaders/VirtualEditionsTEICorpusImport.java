@@ -57,6 +57,9 @@ public class VirtualEditionsTEICorpusImport {
     private void processImport(Document doc) {
         LdoD ldoD = LdoD.getInstance();
 
+
+        importPlayers(doc, ldoD);
+
         importVirtualEditions(doc, ldoD);
 
         importTaxonomies(doc, ldoD);
@@ -96,6 +99,20 @@ public class VirtualEditionsTEICorpusImport {
 //        }
 //    }
 
+
+    private void importPlayers(Document doc, LdoD ldoD) {
+        Namespace namespace = doc.getRootElement().getNamespace();
+        XPathFactory xpfac = XPathFactory.instance();
+        XPathExpression<Element> xp = xpfac.compile("//def:player", Filters.element(), null,
+                Namespace.getNamespace("def", namespace.getURI()));
+        for (Element playerElement : xp.evaluate(doc)) {
+            String user = playerElement.getAttributeValue("user");
+            double score = Double.parseDouble(playerElement.getAttributeValue("score"));
+            Player player = new Player(user);
+            player.setScore(score);
+        }
+    }
+
     private void importVirtualEditions(Document doc, LdoD ldoD) {
         Namespace namespace = doc.getRootElement().getNamespace();
         XPathFactory xpfac = XPathFactory.instance();
@@ -110,10 +127,10 @@ public class VirtualEditionsTEICorpusImport {
             String synopsis = bibl.getChildText("synopsis", namespace);
             LocalDate date = LocalDate.parse(bibl.getChild("date", namespace).getAttributeValue("when"));
 
-            LdoDUser owner = null;
+            String owner = null;
             for (Element editor : bibl.getChildren("editor", namespace)) {
                 if (editor.getAttributeValue("role").equals("ADMIN")) {
-                    owner = ldoD.getUser(editor.getAttributeValue("nymRef"));
+                    owner = editor.getAttributeValue("nymRef");
                     // if a virtual edition exists with the same name, it is
                     // deleted
                     virtualEdition = ldoD.getVirtualEdition(acronym);
@@ -128,12 +145,12 @@ public class VirtualEditionsTEICorpusImport {
             }
 
             for (Element editor : bibl.getChildren("editor", namespace)) {
-                LdoDUser user = ldoD.getUser(editor.getAttributeValue("nymRef"));
+                String user = editor.getAttributeValue("nymRef");
                 Member.MemberRole role = Member.MemberRole.valueOf(editor.getAttributeValue("role"));
                 boolean active = editor.getAttributeValue("active").equals("true") ? true : false;
 
                 Member member = null;
-                if (user == owner) {
+                if (user.equals(owner)) {
                     member = virtualEdition.getMember(user);
                 } else {
                     member = new Member(virtualEdition, user, role, active);

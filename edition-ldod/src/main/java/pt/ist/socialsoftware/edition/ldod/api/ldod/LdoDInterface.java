@@ -16,12 +16,36 @@ public class LdoDInterface {
 
     public void notifyEvent(Event event) {
 
-        if (event.getType().equals(Event.EventType.FRAG_INTER_REMOVE)) {
+        if (event.getType().equals(Event.EventType.SCHOLAR_INTER_REMOVE)) {
 
             LdoD.getInstance().getVirtualEditionsSet().stream()
                     .flatMap(virtualEdition -> virtualEdition.getAllDepthVirtualEditionInters().stream())
                     .filter(virtualEditionInter -> virtualEditionInter.getUsesFragInter() != null && virtualEditionInter.getUsesFragInter().equals(event.getIdentifier()))
                     .forEach(this::removeAll);
+        } else if (event.getType().equals(Event.EventType.USER_REMOVE)) {
+            String username = event.getIdentifier();
+            LdoD ldoD = LdoD.getInstance();
+
+            ldoD.getVirtualEditionsSet().stream().flatMap(virtualEdition -> virtualEdition.getMemberSet().stream())
+                    .filter(member -> member.getUser().equals(username))
+                    .forEach(member -> member.remove());
+            ldoD.getVirtualEditionsSet().stream().flatMap(virtualEdition -> virtualEdition.getSelectedBySet().stream())
+                    .filter(selectedBy -> selectedBy.getUser().equals(username))
+                    .forEach(selectedBy -> selectedBy.remove());
+            ldoD.getVirtualEditionsSet().stream().flatMap(virtualEdition -> virtualEdition.getTaxonomy().getCategoriesSet().stream())
+                    .flatMap(category -> category.getTagSet().stream())
+                    .filter(tag -> tag.getContributor().equals(username))
+                    .forEach(tag -> tag.remove());
+            ldoD.getVirtualEditionsSet().stream().flatMap(virtualEdition -> virtualEdition.getAllDepthVirtualEditionInters().stream())
+                    .flatMap(virtualEditionInter -> virtualEditionInter.getAnnotationSet().stream())
+                    .filter(annotation -> annotation.getUser().equals(username))
+                    .forEach(annotation -> annotation.remove());
+            ldoD.getVirtualEditionsSet().stream().flatMap(virtualEdition -> virtualEdition.getRecommendationWeightsSet().stream())
+                    .filter(recommendationWeights -> recommendationWeights.getUser().equals(username))
+                    .forEach(recommendationWeights -> recommendationWeights.remove());
+            ldoD.getPlayerSet().stream().filter(player -> player.getUser().equals(username)).forEach(player -> player.remove());
+            ldoD.getVirtualEditionInterSet().stream().flatMap(virtualEditionInter -> virtualEditionInter.getClassificationGameSet().stream())
+                    .filter(classificationGame -> classificationGame.getResponsible().equals(username)).forEach(classificationGame -> classificationGame.remove());
         }
     }
 

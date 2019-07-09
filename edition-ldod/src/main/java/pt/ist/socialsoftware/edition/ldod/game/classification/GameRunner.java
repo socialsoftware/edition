@@ -11,24 +11,26 @@ import org.springframework.stereotype.Component;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.fenixframework.FenixFramework;
-import pt.ist.socialsoftware.edition.ldod.domain.*;
+import pt.ist.socialsoftware.edition.ldod.domain.ClassificationGame;
 
-import java.util.*;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Component
 @Scope("thread")
-public class GameRunner implements Runnable{
-    private static Logger logger = LoggerFactory.getLogger(GameRunner.class);
+public class GameRunner implements Runnable {
+    private static final Logger logger = LoggerFactory.getLogger(GameRunner.class);
     private String gameId;
     private DateTime startTime;
     private Set<String> playersInGame;
 
     @Autowired
-    private SimpMessagingTemplate broker;
+    private final SimpMessagingTemplate broker;
 
     @Autowired
-    public GameRunner(final SimpMessagingTemplate broker) {
+    public GameRunner(SimpMessagingTemplate broker) {
         this.broker = broker;
     }
 
@@ -39,7 +41,7 @@ public class GameRunner implements Runnable{
     @Override
     public void run() {
         if (canOpenGame()) {
-            while (Instant.now().isBefore(startTime.plusMinutes(1))) {
+            while (Instant.now().isBefore(this.startTime.plusMinutes(1))) {
                 try {
                     Thread.sleep(600);
                 } catch (InterruptedException e) {
@@ -59,8 +61,7 @@ public class GameRunner implements Runnable{
                         }
                     }
                 }
-            }
-            else {
+            } else {
                 abortGame();
             }
         }
@@ -68,7 +69,7 @@ public class GameRunner implements Runnable{
 
     @Atomic(mode = TxMode.WRITE)
     private synchronized boolean canOpenGame() {
-        ClassificationGame game  = FenixFramework.getDomainObject(this.gameId);
+        ClassificationGame game = FenixFramework.getDomainObject(this.gameId);
 
         logger.debug("running game {}", game);
 
@@ -81,8 +82,8 @@ public class GameRunner implements Runnable{
     }
 
     @Atomic(mode = TxMode.READ)
-    private boolean canGameStart(){
-        ClassificationGame game  = FenixFramework.getDomainObject(this.gameId);
+    private boolean canGameStart() {
+        ClassificationGame game = FenixFramework.getDomainObject(this.gameId);
 
         // TODO: inform if the game cannot start
         logger.debug("canGameStart size: {}", game.getClassificationGameParticipantSet().size());
@@ -91,32 +92,32 @@ public class GameRunner implements Runnable{
 
     @Atomic(mode = TxMode.WRITE)
     private void startGame() {
-        ClassificationGame game  = FenixFramework.getDomainObject(this.gameId);
+        ClassificationGame game = FenixFramework.getDomainObject(this.gameId);
         game.setState(ClassificationGame.ClassificationGameState.STARTED);
 
-        playersInGame = game.getClassificationGameParticipantSet().stream().map(p -> p.getPlayer().getUser().getUsername()).collect(Collectors.toSet());
+        this.playersInGame = game.getClassificationGameParticipantSet().stream().map(p -> p.getPlayer().getUser()).collect(Collectors.toSet());
 
         Map<String, String> payload = new LinkedHashMap<>();
-        payload.put("currentUsers", String.valueOf(playersInGame.size()));
+        payload.put("currentUsers", String.valueOf(this.playersInGame.size()));
         payload.put("command", "ready");
-        broker.convertAndSend("/topic/ldod-game/" + this.gameId + "/register", payload.values());
+        this.broker.convertAndSend("/topic/ldod-game/" + this.gameId + "/register", payload.values());
 
     }
 
     @Atomic(mode = TxMode.WRITE)
     private void abortGame() {
-        ClassificationGame game  = FenixFramework.getDomainObject(this.gameId);
+        ClassificationGame game = FenixFramework.getDomainObject(this.gameId);
         game.setState(ClassificationGame.ClassificationGameState.ABORTED);
 
         Map<String, String> payload = new LinkedHashMap<>();
         payload.put("currentUsers", String.valueOf(0));
         payload.put("command", "aborted");
-        broker.convertAndSend("/topic/ldod-game/" + this.gameId + "/register", payload.values());
+        this.broker.convertAndSend("/topic/ldod-game/" + this.gameId + "/register", payload.values());
     }
 
-   @Atomic(mode = TxMode.READ)
+    @Atomic(mode = TxMode.READ)
     private boolean canGameContinue() {
-        ClassificationGame game  = FenixFramework.getDomainObject(this.gameId);
+        ClassificationGame game = FenixFramework.getDomainObject(this.gameId);
         return game.getSync();
     }
 
@@ -125,14 +126,14 @@ public class GameRunner implements Runnable{
         Map<String, String> payload = new LinkedHashMap<>();
         payload.put("command", "continue");
         // Game is continuing so we change to not syncing
-        ClassificationGame game  = FenixFramework.getDomainObject(this.gameId);
+        ClassificationGame game = FenixFramework.getDomainObject(this.gameId);
         game.setSync(false);
-        broker.convertAndSend("/topic/ldod-game/" + this.gameId + "/sync", payload.values());
+        this.broker.convertAndSend("/topic/ldod-game/" + this.gameId + "/sync", payload.values());
     }
 
     @Atomic(mode = TxMode.READ)
     private boolean hasGameEnded() {
-        ClassificationGame game  = FenixFramework.getDomainObject(this.gameId);
+        ClassificationGame game = FenixFramework.getDomainObject(this.gameId);
         return game.getState().equals(ClassificationGame.ClassificationGameState.FINISHED);
     }
 }

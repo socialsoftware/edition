@@ -93,7 +93,7 @@ public class VirtualEditionFragmentsTEIExport {
                 Element catRef = new Element("catRef", this.xmlns);
                 catRef.setAttribute("scheme", "#" + virtualEditionInter.getEdition().getXmlId());
                 catRef.setAttribute("target", "#" + tag.getCategory().getName());
-                catRef.setAttribute("resp", "#" + tag.getContributor().getUsername());
+                catRef.setAttribute("resp", "#" + tag.getContributor());
                 textClass.addContent(catRef);
             }
         }
@@ -199,7 +199,7 @@ public class VirtualEditionFragmentsTEIExport {
 
             if (annotation instanceof HumanAnnotation) {
                 // TODO: set type - done
-                note.setAttribute("resp", "#" + ((HumanAnnotation) annotation).getUser().getUsername());
+                note.setAttribute("resp", "#" + annotation.getUser());
                 note.setAttribute("type", "human");
                 exportAnnotationCategories(virtualEditionInter, (HumanAnnotation) annotation, note);
             } else if (annotation instanceof AwareAnnotation) {
@@ -243,14 +243,14 @@ public class VirtualEditionFragmentsTEIExport {
             gameElement.setAttribute("description", game.getDescription());
             gameElement.setAttribute("dateTime", String.valueOf(game.getDateTime()));
             gameElement.setAttribute("sync", Boolean.toString(game.getSync()));
-            gameElement.setAttribute("responsible", game.getResponsible().getUsername());
+            gameElement.setAttribute("responsible", game.getResponsible());
             if (game.getTag() != null) {
                 gameElement.setAttribute("tag", game.getTag().getCategory().getName());
             }
             ClassificationGameParticipant participant = game.getClassificationGameParticipantSet().stream()
                     .filter(ClassificationGameParticipant::getWinner).findFirst().orElse(null);
             gameElement.setAttribute("winningUser",
-                    participant != null ? participant.getPlayer().getUser().getUsername() : " ");
+                    participant != null ? participant.getPlayer().getUser() : " ");
 
             exportClassificationGameRounds(gameElement, game);
             exportClassificationGameParticipants(gameElement, game);
@@ -270,7 +270,7 @@ public class VirtualEditionFragmentsTEIExport {
             roundElement.setAttribute("vote", Double.toString(round.getVote()));
             roundElement.setAttribute("dateTime", String.valueOf(round.getTime()));
             roundElement.setAttribute("username",
-                    round.getClassificationGameParticipant().getPlayer().getUser().getUsername());
+                    round.getClassificationGameParticipant().getPlayer().getUser());
             classificationRoundList.addContent(roundElement);
         });
         gameElement.addContent(classificationRoundList);
@@ -281,7 +281,7 @@ public class VirtualEditionFragmentsTEIExport {
 
         for (ClassificationGameParticipant participant : game.getClassificationGameParticipantSet()) {
             Element participantElement = new Element("classificationGameParticipant", this.xmlns);
-            participantElement.setAttribute("username", participant.getPlayer().getUser().getUsername());
+            participantElement.setAttribute("username", participant.getPlayer().getUser());
             participantElement.setAttribute("winner", Boolean.toString(participant.getWinner()));
             participantElement.setAttribute("score", Double.toString(participant.getScore()));
             classificationParticipantList.addContent(participantElement);

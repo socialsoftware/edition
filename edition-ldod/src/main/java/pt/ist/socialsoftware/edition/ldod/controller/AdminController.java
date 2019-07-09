@@ -25,7 +25,7 @@ import pt.ist.socialsoftware.edition.ldod.export.UsersXMLExport;
 import pt.ist.socialsoftware.edition.ldod.export.WriteVirtualEditonsToFile;
 import pt.ist.socialsoftware.edition.ldod.forms.EditUserForm;
 import pt.ist.socialsoftware.edition.ldod.loaders.*;
-import pt.ist.socialsoftware.edition.ldod.security.LdoDUserDetails;
+import pt.ist.socialsoftware.edition.ldod.security.UserModuleUserDetails;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDLoadException;
 import pt.ist.socialsoftware.edition.ldod.social.aware.AwareAnnotationFactory;
@@ -200,8 +200,7 @@ public class AdminController {
     public String switchAdminMode() {
         logger.debug("switchAdminMode");
 
-        LdoD ldoD = LdoD.getInstance();
-        ldoD.switchAdmin();
+        UserModule.getInstance().switchAdmin();
 
         return "redirect:/admin/user/list";
     }
@@ -217,14 +216,14 @@ public class AdminController {
         }
 
         for (SessionInformation session : activeSessions) {
-            if (session.getPrincipal() instanceof LdoDUserDetails) {
-                LdoDUser ldoDUser = ((LdoDUserDetails) session.getPrincipal()).getUser();
+            if (session.getPrincipal() instanceof UserModuleUserDetails) {
+                User user = ((UserModuleUserDetails) session.getPrincipal()).getUser();
 
-                if (ldoDUser != LdoDUser.getAuthenticatedUser()) {
+                if (user != User.getAuthenticatedUser()) {
                     session.expireNow();
                 }
                 // if
-                // (!ldoDUser.getRolesSet().contains(Role.getRole(RoleType.ROLE_ADMIN)))
+                // (!user.getRolesSet().contains(Role.getRole(RoleType.ROLE_ADMIN)))
                 // {
                 // session.expireNow();
                 // }
@@ -245,7 +244,7 @@ public class AdminController {
 
         model.addAttribute("ldoD", LdoD.getInstance());
         model.addAttribute("users",
-                LdoD.getInstance().getUsersSet().stream()
+                UserModule.getInstance().getUsersSet().stream()
                         .sorted((u1, u2) -> u1.getFirstName().toLowerCase().compareTo(u2.getFirstName().toLowerCase()))
                         .collect(Collectors.toList()));
         model.addAttribute("sessions", activeSessions.stream()
@@ -259,7 +258,7 @@ public class AdminController {
     public EditUserForm editUserForm(@RequestParam("externalId") String externalId) {
         logger.debug("editUserForm externalId:{}", externalId);
 
-        LdoDUser user = FenixFramework.getDomainObject(externalId);
+        User user = FenixFramework.getDomainObject(externalId);
 
         EditUserForm form = new EditUserForm();
         form.setOldUsername(user.getUsername());
@@ -286,7 +285,7 @@ public class AdminController {
             return null;
         }
 
-        LdoDUser user = LdoD.getInstance().getUser(form.getOldUsername());
+        User user = UserModule.getInstance().getUser(form.getOldUsername());
 
         user.update(this.passwordEncoder, form.getOldUsername(), form.getNewUsername(), form.getFirstName(),
                 form.getLastName(), form.getEmail(), form.getNewPassword(), form.isUser(), form.isAdmin(),
@@ -298,7 +297,7 @@ public class AdminController {
     @Secured({"ROLE_ADMIN"})
     @RequestMapping(method = RequestMethod.POST, value = "/user/active")
     public String activeUser(@RequestParam("externalId") String externalId) {
-        LdoDUser user = FenixFramework.getDomainObject(externalId);
+        User user = FenixFramework.getDomainObject(externalId);
 
         user.switchActive();
 
@@ -308,7 +307,7 @@ public class AdminController {
     @Secured({"ROLE_ADMIN"})
     @RequestMapping(method = RequestMethod.POST, value = "/user/delete")
     public String removeUser(@RequestParam("externalId") String externalId) {
-        LdoDUser user = FenixFramework.getDomainObject(externalId);
+        User user = FenixFramework.getDomainObject(externalId);
 
         user.remove();
 
@@ -588,7 +587,7 @@ public class AdminController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String createTestUsers(Model model) {
         logger.debug("createTestUsers");
-        LdoD.getInstance().createTestUsers(this.passwordEncoder);
+        UserModule.getInstance().createTestUsers(this.passwordEncoder);
         return "redirect:/admin/user/list";
     }
 

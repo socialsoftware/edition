@@ -4,9 +4,10 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
+import pt.ist.socialsoftware.edition.ldod.api.user.UserInterface;
 import pt.ist.socialsoftware.edition.ldod.domain.ExpertEdition;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
+import pt.ist.socialsoftware.edition.ldod.domain.User;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.ldod.recommendation.ReadingRecommendation;
 
@@ -56,10 +57,10 @@ public class LdoDSession implements Serializable {
     }
 
     @Atomic(mode = TxMode.WRITE)
-    public void updateSession(LdoDUser user) {
-        user.getSelectedVirtualEditionsSet().stream().forEach(ve -> addSelectedVE(ve));
+    public void updateSession(User user) {
+        LdoD.getInstance().getSelectedVirtualEditionsByUser(user.getUsername()).stream().forEach(ve -> addSelectedVE(ve));
 
-        user.getSelectedVirtualEditionsSet().addAll(materializeVirtualEditions());
+        LdoD.getInstance().getSelectedVirtualEditionsByUser(user.getUsername()).addAll(materializeVirtualEditions());
     }
 
     public boolean hasSelectedVE(String acronym) {
@@ -94,26 +95,28 @@ public class LdoDSession implements Serializable {
     }
 
     @Atomic(mode = TxMode.WRITE)
-    public void toggleSelectedVirtualEdition(LdoDUser user, VirtualEdition virtualEdition) {
+    public void toggleSelectedVirtualEdition(User user, VirtualEdition virtualEdition) {
         if (hasSelectedVE(virtualEdition.getAcronym())) {
             removeSelectedVE(virtualEdition.getAcronym());
             if (user != null) {
-                user.removeSelectedVirtualEditions(virtualEdition);
+                virtualEdition.removeSelectedByUser(user.getUsername());
             }
         } else {
             addSelectedVE(virtualEdition);
             if (user != null) {
-                user.addSelectedVirtualEditions(virtualEdition);
+                virtualEdition.addSelectedByUser(user.getUsername());
             }
         }
     }
 
-    public void synchronizeSession(LdoDUser user) {
+    public void synchronizeSession(String user) {
+        UserInterface userInterface = new UserInterface();
+
         List<VirtualEdition> selected = materializeVirtualEditions();
 
         clearSession();
-        if (user != null) {
-            user.getSelectedVirtualEditionsSet().stream().forEach(ve -> addSelectedVE(ve));
+        if (userInterface.getUser(user) != null) {
+            LdoD.getInstance().getSelectedVirtualEditionsByUser(user).stream().forEach(ve -> addSelectedVE(ve));
         } else {
             selected.stream().filter(ve -> ve.getPub()).forEach(ve -> addSelectedVE(ve));
         }

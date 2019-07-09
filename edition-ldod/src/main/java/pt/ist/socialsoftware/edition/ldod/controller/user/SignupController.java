@@ -1,4 +1,4 @@
-package pt.ist.socialsoftware.edition.ldod.controller;
+package pt.ist.socialsoftware.edition.ldod.controller.user;
 
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
@@ -17,9 +17,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.request.WebRequest;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
 import pt.ist.socialsoftware.edition.ldod.domain.RegistrationToken;
+import pt.ist.socialsoftware.edition.ldod.domain.User;
+import pt.ist.socialsoftware.edition.ldod.domain.UserModule;
 import pt.ist.socialsoftware.edition.ldod.forms.SignupForm;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
 import pt.ist.socialsoftware.edition.ldod.utils.PropertiesManager;
@@ -42,7 +42,7 @@ public class SignupController {
 
     @Inject
     public SignupController(ConnectionFactoryLocator connectionFactoryLocator,
-							UsersConnectionRepository connectionRepository) {
+                            UsersConnectionRepository connectionRepository) {
         this.providerSignInUtils = new ProviderSignInUtils(connectionFactoryLocator, connectionRepository);
     }
 
@@ -70,7 +70,7 @@ public class SignupController {
 
     @RequestMapping(value = "/signup", method = RequestMethod.POST)
     public String signup(@Valid SignupForm form, BindingResult formBinding, WebRequest request,
-						 HttpServletRequest servletRequest, Model model) {
+                         HttpServletRequest servletRequest, Model model) {
         logger.debug("signup username:{}, firstName:{}, lastName:{}, email:{}, socialMedia:{}, socialId:{}",
                 form.getUsername(), form.getFirstName(), form.getLastName(), form.getEmail(),
                 form.getSocialMediaService(), form.getSocialMediaId());
@@ -82,13 +82,13 @@ public class SignupController {
         if (!form.isConduct()) {
             formBinding.rejectValue("conduct", "header.conduct.error");
         } else {
-            LdoDUser.SocialMediaService socialMediaService = form.getSocialMediaService().equals("") ? null
-                    : LdoDUser.SocialMediaService.valueOf(form.getSocialMediaService().toUpperCase());
+            User.SocialMediaService socialMediaService = form.getSocialMediaService().equals("") ? null
+                    : User.SocialMediaService.valueOf(form.getSocialMediaService().toUpperCase());
 
-            LdoDUser user = null;
+            User user = null;
             RegistrationToken token = null;
             try {
-                user = LdoD.getInstance().createUser(this.passwordEncoder, form.getUsername(), form.getPassword(),
+                user = UserModule.getInstance().createUser(this.passwordEncoder, form.getUsername(), form.getPassword(),
                         form.getFirstName(), form.getLastName(), form.getEmail(), socialMediaService,
                         form.getSocialMediaId());
                 token = user.createRegistrationToken(UUID.randomUUID().toString());
@@ -120,17 +120,16 @@ public class SignupController {
     @RequestMapping(value = "/signup/registrationAuthorization", method = RequestMethod.GET)
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String authorizeRegistration(WebRequest request, HttpServletRequest servletRequest, Model model,
-										@RequestParam("token") String token) {
+                                        @RequestParam("token") String token) {
         logger.debug("authorizeRegistration");
 
-        RegistrationToken registrationToken = LdoD.getInstance().getTokenSet(token);
+        RegistrationToken registrationToken = UserModule.getInstance().getTokenSet(token);
 
         if (registrationToken == null) {
             model.addAttribute("message", "signup.token.invalid");
             return "signin";
         }
 
-        LdoDUser user = registrationToken.getUser();
         if ((registrationToken.getExpireTimeDateTime().getMillis() - DateTime.now().getMillis()) <= 0) {
             model.addAttribute("message", "signup.token.expired");
             return "signin";
@@ -153,7 +152,7 @@ public class SignupController {
     public String confirmRegistration(WebRequest request, Model model, @RequestParam("token") String token) {
         logger.debug("confirmRegistration");
 
-        RegistrationToken registrationToken = LdoD.getInstance().getTokenSet(token);
+        RegistrationToken registrationToken = UserModule.getInstance().getTokenSet(token);
 
         if (registrationToken == null) {
             model.addAttribute("message", "signup.token.invalid");
@@ -165,7 +164,7 @@ public class SignupController {
             return "signin";
         }
 
-        LdoDUser user = registrationToken.getUser();
+        User user = registrationToken.getUser();
         if ((registrationToken.getExpireTimeDateTime().getMillis() - DateTime.now().getMillis()) <= 0) {
             model.addAttribute("message", "signup.token.expired");
             return "signin";

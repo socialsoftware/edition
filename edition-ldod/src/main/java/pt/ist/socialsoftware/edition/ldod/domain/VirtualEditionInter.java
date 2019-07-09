@@ -132,11 +132,11 @@ public class VirtualEditionInter extends VirtualEditionInter_Base implements Com
     }
 
     // Foi alterado por causa das human annotations
-    public Set<LdoDUser> getHumanAnnotationContributorSet() {
-        Set<LdoDUser> contributors = new HashSet<>();
+    public Set<String> getHumanAnnotationContributorSet() {
+        Set<String> contributors = new HashSet<>();
         for (Annotation annotation : getAnnotationSet()) {
             if (annotation instanceof HumanAnnotation) {
-                contributors.add(((HumanAnnotation) annotation).getUser());
+                contributors.add(annotation.getUser());
             }
         }
         return contributors;
@@ -147,7 +147,7 @@ public class VirtualEditionInter extends VirtualEditionInter_Base implements Com
     }
 
     @Atomic(mode = TxMode.WRITE)
-    public HumanAnnotation createHumanAnnotation(String quote, String text, LdoDUser user, List<RangeJson> rangeList,
+    public HumanAnnotation createHumanAnnotation(String quote, String text, String user, List<RangeJson> rangeList,
                                                  List<String> tagList) {
         logger.debug("createHumanAnnotation start:{}, startOffset:{}, end:{}, endOffset:{}",
                 rangeList.get(0).getStart(), rangeList.get(0).getStartOffset(), rangeList.get(0).getEnd(),
@@ -192,7 +192,7 @@ public class VirtualEditionInter extends VirtualEditionInter_Base implements Com
     }
 
     @Atomic(mode = TxMode.WRITE)
-    public void associate(LdoDUser user, Set<String> categoryNames) {
+    public void associate(String user, Set<String> categoryNames) {
         Set<String> purgedCategoryNames = categoryNames.stream().map(n -> Category.purgeName(n)).distinct()
                 .collect(Collectors.toSet());
 
@@ -214,8 +214,8 @@ public class VirtualEditionInter extends VirtualEditionInter_Base implements Com
 
     // Foi alterado por causa das HumanAnnotation
     @Atomic(mode = TxMode.WRITE)
-    public void dissociate(LdoDUser user, Category category) {
-        Set<Tag> tags = getTagSet().stream().filter(t -> t.getCategory() == category && t.getContributor() == user)
+    public void dissociate(String user, Category category) {
+        Set<Tag> tags = getTagSet().stream().filter(t -> t.getCategory() == category && t.getContributor().equals(user))
                 .collect(Collectors.toSet());
         for (Tag tag : tags) {
             tag.remove();
@@ -250,7 +250,7 @@ public class VirtualEditionInter extends VirtualEditionInter_Base implements Com
                 .collect(Collectors.toList());
     }
 
-    public List<Category> getNonAssignedCategories(LdoDUser user) {
+    public List<Category> getNonAssignedCategories(String user) {
         List<Category> interCategories = getAssignedCategories(user);
 
         List<Category> categories = getAllDepthCategories().stream().filter(c -> !interCategories.contains(c))
@@ -260,8 +260,8 @@ public class VirtualEditionInter extends VirtualEditionInter_Base implements Com
         return categories;
     }
 
-    public List<Category> getAssignedCategories(LdoDUser user) {
-        List<Category> categories = getAllDepthTags().stream().filter(t -> t.getContributor() == user)
+    public List<Category> getAssignedCategories(String user) {
+        List<Category> categories = getAllDepthTags().stream().filter(t -> t.getContributor().equals(user))
                 .map(t -> t.getCategory()).distinct()
                 .sorted((c1, c2) -> c1.compareInEditionContext(this.getVirtualEdition(), c2))
                 .collect(Collectors.toList());
@@ -271,7 +271,7 @@ public class VirtualEditionInter extends VirtualEditionInter_Base implements Com
 
     public Set<Category> getAllDepthCategories() {
         Set<Category> categories = null;
-        if (getVirtualEdition().checkAccess()) {
+        if (getVirtualEdition().isPublicOrIsParticipant()) {
             categories = new HashSet<>(getVirtualEdition().getTaxonomy().getCategoriesSet());
         } else {
             categories = new HashSet<>();
@@ -288,7 +288,7 @@ public class VirtualEditionInter extends VirtualEditionInter_Base implements Com
     /*
      * @Override public Set<HumanAnnotation> getAllDepthAnnotations() {
      * Set<HumanAnnotation> annotations = null; if
-     * (getVirtualEdition().checkAccess()) { annotations = new
+     * (getVirtualEdition().isPublicOrIsParticipant()) { annotations = new
      * HashSet<>(getAnnotationSet()); } else { annotations = new HashSet<>(); }
      *
      * annotations.addAll(getUses().getAllDepthAnnotations());
@@ -299,7 +299,7 @@ public class VirtualEditionInter extends VirtualEditionInter_Base implements Com
     // Solução - a funcionar
     public Set<HumanAnnotation> getAllDepthHumanAnnotations() {
         Set<HumanAnnotation> annotations = null;
-        if (getVirtualEdition().checkAccess()) {
+        if (getVirtualEdition().isPublicOrIsParticipant()) {
             annotations = new HashSet<>(getAnnotationSet().stream().filter(HumanAnnotation.class::isInstance)
                     .map(HumanAnnotation.class::cast).collect(Collectors.toSet()));
         } else {
@@ -316,7 +316,7 @@ public class VirtualEditionInter extends VirtualEditionInter_Base implements Com
     // Solução para suportar os dois tipos de annotation
     public Set<Annotation> getAllDepthAnnotations() {
         Set<Annotation> annotations = null;
-        if (getVirtualEdition().checkAccess()) {
+        if (getVirtualEdition().isPublicOrIsParticipant()) {
             annotations = new HashSet<>(getAnnotationSet());
         } else {
             annotations = new HashSet<>();
@@ -332,7 +332,7 @@ public class VirtualEditionInter extends VirtualEditionInter_Base implements Com
     public Set<Tag> getAllDepthTags() {
         Set<Tag> tags = null;
 
-        if (getVirtualEdition().checkAccess()) {
+        if (getVirtualEdition().isPublicOrIsParticipant()) {
             tags = new HashSet<>(getTagSet());
         } else {
             tags = new HashSet<>();
@@ -346,12 +346,12 @@ public class VirtualEditionInter extends VirtualEditionInter_Base implements Com
         return tags;
     }
 
-    public Set<LdoDUser> getContributorSet(Category category) {
+    public Set<String> getContributorSet(Category category) {
         return getAllDepthTags().stream().filter(t -> t.getCategory() == category).map(t -> t.getContributor())
                 .collect(Collectors.toSet());
     }
 
-    public Set<LdoDUser> getContributorSet() {
+    public Set<String> getContributorSet() {
         return getAllDepthTags().stream().map(t -> t.getContributor()).collect(Collectors.toSet());
     }
 
@@ -369,7 +369,7 @@ public class VirtualEditionInter extends VirtualEditionInter_Base implements Com
         }
     }
 
-    private void createTag(LdoDUser user, String categoryName, HumanAnnotation annotation) {
+    private void createTag(String user, String categoryName, HumanAnnotation annotation) {
         if (categoryName.contains(".")) {
             String[] values = categoryName.split("\\.");
             VirtualEdition edition = LdoD.getInstance().getVirtualEdition(values[0]);

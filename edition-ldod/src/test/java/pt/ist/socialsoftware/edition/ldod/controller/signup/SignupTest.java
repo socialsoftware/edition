@@ -1,19 +1,8 @@
 package pt.ist.socialsoftware.edition.ldod.controller.signup;
 
-import static org.hamcrest.Matchers.*;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -26,15 +15,17 @@ import pt.ist.fenixframework.Atomic;
 import pt.ist.socialsoftware.edition.ldod.ControllersTestWithFragmentsLoading;
 import pt.ist.socialsoftware.edition.ldod.config.Application;
 import pt.ist.socialsoftware.edition.ldod.controller.LdoDExceptionHandler;
-import pt.ist.socialsoftware.edition.ldod.controller.SignupController;
+import pt.ist.socialsoftware.edition.ldod.controller.user.SignupController;
 import pt.ist.socialsoftware.edition.ldod.domain.RegistrationToken;
 import pt.ist.socialsoftware.edition.ldod.filters.TransactionFilter;
-import pt.ist.socialsoftware.edition.ldod.forms.SignupForm;
-import pt.ist.socialsoftware.edition.ldod.utils.Emailer;
 
-import javax.mail.MessagingException;
-import javax.servlet.http.HttpServletRequest;
 import java.io.FileNotFoundException;
+
+import static org.hamcrest.Matchers.notNullValue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = Application.class)
@@ -69,7 +60,6 @@ public class SignupTest extends ControllersTestWithFragmentsLoading {
     protected String[] fragmentsToLoad4Test() {
         return new String[0];
     }
-
 
 
     @Override
@@ -123,7 +113,7 @@ public class SignupTest extends ControllersTestWithFragmentsLoading {
 */
 
         // Just here so this test actually does something :)
-        assertEquals(1,1);
+        assertEquals(1, 1);
     }
 
 }

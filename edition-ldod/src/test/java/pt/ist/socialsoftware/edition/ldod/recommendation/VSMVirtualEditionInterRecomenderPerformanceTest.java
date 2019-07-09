@@ -57,9 +57,8 @@ public class VSMVirtualEditionInterRecomenderPerformanceTest {
         ExpertEdition zenithEdition = text.getRZEdition();
         ExpertEdition cunhaEdition = text.getTSCEdition();
 
-        LdoDUser userArs = ldoD.getUser("ars");
         // create pizarro virtual edition
-        pizarroVirtualEdition = ldoD.createVirtualEdition(userArs, "TestPizarroRecommendations",
+        pizarroVirtualEdition = ldoD.createVirtualEdition(User.USER_ARS, "TestPizarroRecommendations",
                 "TestPizarroRecommendations", LocalDate.now(), true, pizarroEdition.getAcronym());
         pizarroVirtualEditionInters = pizarroVirtualEdition.getIntersSet().stream().map(VirtualEditionInter.class::cast)
                 .collect(Collectors.toSet());
@@ -68,7 +67,7 @@ public class VSMVirtualEditionInterRecomenderPerformanceTest {
         TopicModeler modeler = new TopicModeler();
         TopicListDTO topicListDTO = null;
         try {
-            topicListDTO = modeler.generate(userArs, pizarroVirtualEdition, 50, 6, 11, 100);
+            topicListDTO = modeler.generate(User.USER_ARS, pizarroVirtualEdition, 50, 6, 11, 100);
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -77,13 +76,13 @@ public class VSMVirtualEditionInterRecomenderPerformanceTest {
 
         // create zenith virtual edition
 
-        zenithVirtualEdition = ldoD.createVirtualEdition(userArs, "TestZenithRecommendations",
+        zenithVirtualEdition = ldoD.createVirtualEdition(User.USER_ARS, "TestZenithRecommendations",
                 "TestZenithRecommendations", LocalDate.now(), true, zenithEdition.getAcronym());
         zenithVirtualEditionInters = zenithVirtualEdition.getIntersSet().stream().map(VirtualEditionInter.class::cast)
                 .collect(Collectors.toSet());
 
         // create cunha virtual edition
-        cunhaVirtualEdition = ldoD.createVirtualEdition(userArs, "TestCunhaRecommendations", "TestCunhaRecommendations",
+        cunhaVirtualEdition = ldoD.createVirtualEdition(User.USER_ARS, "TestCunhaRecommendations", "TestCunhaRecommendations",
                 LocalDate.now(), true, cunhaEdition.getAcronym());
         cunhaVirtualEditionInters = cunhaVirtualEdition.getIntersSet().stream().map(VirtualEditionInter.class::cast)
                 .collect(Collectors.toSet());

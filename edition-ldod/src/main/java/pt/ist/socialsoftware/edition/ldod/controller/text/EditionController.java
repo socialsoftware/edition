@@ -1,4 +1,4 @@
-package pt.ist.socialsoftware.edition.ldod.controller;
+package pt.ist.socialsoftware.edition.ldod.controller.text;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,9 +12,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import pt.ist.fenixframework.DomainObject;
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.ldod.api.ui.UiInterface;
+import pt.ist.socialsoftware.edition.ldod.api.user.UserInterface;
+import pt.ist.socialsoftware.edition.ldod.api.user.dto.UserDto;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.dto.EditionDto;
-import pt.ist.socialsoftware.edition.ldod.dto.LdoDUserViewDto;
 import pt.ist.socialsoftware.edition.ldod.session.LdoDSession;
 
 import java.util.List;
@@ -24,6 +25,8 @@ import java.util.stream.Collectors;
 @RequestMapping("/edition")
 public class EditionController {
     private static final Logger logger = LoggerFactory.getLogger(EditionController.class);
+
+    private final UserInterface userInterface = new UserInterface();
 
     @ModelAttribute("ldoDSession")
     public LdoDSession getLdoDSession() {
@@ -100,17 +103,19 @@ public class EditionController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/user/{username}")
     public String getUserContributions(Model model, @PathVariable String username) {
+        UserDto userDto = this.userInterface.getUser(username);
 
-        LdoDUser user = LdoD.getInstance().getUser(username);
-
-        if (user != null) {
-            model.addAttribute("user", user);
-            model.addAttribute("userDto", new LdoDUserViewDto(user));
-            if (user.getPlayer() != null) {
-                List<ClassificationGame> games = user.getPlayer().getClassificationGameParticipantSet().stream().map
+        if (userDto != null) {
+            model.addAttribute("userDto", userDto);
+            model.addAttribute("publicVirtualEditionsUserIdParticipant", LdoD.getInstance().getPublicVirtualEditionsUserIsParticipant(username));
+            model.addAttribute("virtualEditionIntersUserIsContributor", LdoD.getInstance().getVirtualEditionIntersUserIsContributor(username));
+            Player player = LdoD.getInstance().getPlayerByUsername(username);
+            if (player != null) {
+                model.addAttribute("player", player);
+                List<ClassificationGame> games = player.getClassificationGameParticipantSet().stream().map
                         (ClassificationGameParticipant::getClassificationGame).collect(Collectors.toList());
                 model.addAttribute("games", games);
-                model.addAttribute("position", LdoD.getInstance().getOverallUserPosition(user.getUsername()));
+                model.addAttribute("position", LdoD.getInstance().getOverallUserPosition(username));
             }
             model.addAttribute("uiInterface", new UiInterface());
             return "edition/userContributions";

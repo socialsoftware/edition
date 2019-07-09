@@ -2,14 +2,16 @@ package pt.ist.socialsoftware.edition.ldod.domain;
 
 public class ClassificationGameParticipant extends ClassificationGameParticipant_Base {
 
-    public ClassificationGameParticipant(ClassificationGame classificationGame, LdoDUser user) {
+    public ClassificationGameParticipant(ClassificationGame classificationGame, String user) {
         setClassificationGame(classificationGame);
 
-        if (user.getPlayer() == null){
-            new Player(user);
+        Player player = LdoD.getInstance().getPlayerByUsername(user);
+
+        if (player == null) {
+            player = new Player(user);
         }
 
-        setPlayer(user.getPlayer());
+        setPlayer(player);
     }
 
     public void remove() {

@@ -1,14 +1,5 @@
 package pt.ist.socialsoftware.edition.ldod.controller.signin;
 
-import static org.hamcrest.Matchers.*;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -21,10 +12,15 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import pt.ist.socialsoftware.edition.ldod.ControllersTestWithFragmentsLoading;
 import pt.ist.socialsoftware.edition.ldod.config.Application;
 import pt.ist.socialsoftware.edition.ldod.controller.LdoDExceptionHandler;
-import pt.ist.socialsoftware.edition.ldod.controller.SigninController;
+import pt.ist.socialsoftware.edition.ldod.controller.user.SigninController;
 import pt.ist.socialsoftware.edition.ldod.filters.TransactionFilter;
 
 import java.io.FileNotFoundException;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = Application.class)

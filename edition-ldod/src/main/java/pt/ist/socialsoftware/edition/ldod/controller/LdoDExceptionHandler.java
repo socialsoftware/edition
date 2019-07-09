@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
 import pt.ist.socialsoftware.edition.ldod.domain.TextModule;
+import pt.ist.socialsoftware.edition.ldod.domain.User;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -39,7 +39,7 @@ public class LdoDExceptionHandler {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("errors", ex.getErrors());
         modelAndView.addObject("virtualEdition", ex.getVirtualEdition());
-        modelAndView.addObject("user", LdoDUser.getAuthenticatedUser());
+        modelAndView.addObject("user", User.getAuthenticatedUser());
         modelAndView.setViewName("virtual/manage");
         return modelAndView;
     }

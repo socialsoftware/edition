@@ -1,4 +1,4 @@
-package pt.ist.socialsoftware.edition.ldod.controller.api;
+package pt.ist.socialsoftware.edition.ldod.controller.user;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
+import pt.ist.socialsoftware.edition.ldod.domain.User;
+import pt.ist.socialsoftware.edition.ldod.domain.UserModule;
 import pt.ist.socialsoftware.edition.ldod.dto.LdoDUserViewDto;
-import pt.ist.socialsoftware.edition.ldod.security.LdoDUserDetails;
+import pt.ist.socialsoftware.edition.ldod.security.UserModuleUserDetails;
 
 
 @RestController
@@ -26,7 +26,7 @@ public class APIUserController {
     private SimpMessagingTemplate messagingTemplate;
 
     @GetMapping
-    public ResponseEntity<LdoDUserViewDto> getCurrentUser(@AuthenticationPrincipal LdoDUserDetails currentUser) {
+    public ResponseEntity<LdoDUserViewDto> getCurrentUser(@AuthenticationPrincipal UserModuleUserDetails currentUser) {
         logger.debug("getCurrentUser {}", currentUser == null ? "null" : currentUser.getUsername());
         if (currentUser != null) {
             LdoDUserViewDto userDTO = new LdoDUserViewDto(currentUser.getUser());
@@ -39,7 +39,7 @@ public class APIUserController {
     @GetMapping(value = "/{username}")
     public ResponseEntity<LdoDUserViewDto> getUserProfile(@PathVariable(value = "username") String username) {
         logger.debug("getUserProfile");
-        LdoDUser user = LdoD.getInstance().getUser(username);
+        User user = UserModule.getInstance().getUser(username);
         if (user != null) {
             LdoDUserViewDto userDTO = new LdoDUserViewDto(user);
             return new ResponseEntity<>(userDTO, HttpStatus.OK);

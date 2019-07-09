@@ -2,9 +2,7 @@ package pt.ist.socialsoftware.edition.ldod;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import pt.ist.socialsoftware.edition.ldod.domain.ExpertEdition;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
-import pt.ist.socialsoftware.edition.ldod.domain.TextModule;
+import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.loaders.LoadTEICorpus;
 import pt.ist.socialsoftware.edition.ldod.loaders.LoadTEIFragments;
 import pt.ist.socialsoftware.edition.ldod.loaders.VirtualEditionFragmentsTEIImport;
@@ -51,15 +49,16 @@ public class TestLoadUtils {
     }
 
     public static void cleanDatabaseButCorpus() {
-        LdoD ldoD = LdoD.getInstance();
         TextModule text = TextModule.getInstance();
-        if (ldoD != null) {
-            ldoD.getUsersSet().stream()
-                    .filter(u -> !(u.getUsername().equals("ars") || u.getUsername().equals("Twitter")))
+        UserModule userModule = UserModule.getInstance();
+        LdoD ldoD = LdoD.getInstance();
+        if (userModule != null) {
+            userModule.getUsersSet().stream()
+                    .filter(u -> !(u.getUsername().equals(User.USER_ARS) || u.getUsername().equals(User.USER_TWITTER)))
                     .forEach(u -> u.remove());
             ldoD.getCitationSet().forEach(c -> c.remove());
-            ldoD.getUserConnectionSet().forEach(uc -> uc.remove());
-            ldoD.getTokenSet().forEach(t -> t.remove());
+            userModule.getUserConnectionSet().forEach(uc -> uc.remove());
+            userModule.getTokenSet().forEach(t -> t.remove());
             ldoD.getVirtualEditionsSet().stream().filter(ve -> !ve.getAcronym().equals(ExpertEdition.ARCHIVE_EDITION_ACRONYM))
                     .forEach(ve -> ve.remove());
             ldoD.getTweetSet().forEach(t -> t.remove());

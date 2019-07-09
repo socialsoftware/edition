@@ -29,14 +29,14 @@ public class LdoDPermissionEvaluator implements PermissionEvaluator {
     public boolean hasPermission(Authentication authentication, Object targetDomainObject, Object permission) {
         boolean hasPermission = false;
 
-        LdoDUser loggedUser = LdoDUser.getAuthenticatedUser();
+        User loggedUser = User.getAuthenticatedUser();
 
         String[] permissions = ((String) permission).split("\\.");
 
         log.debug("hasPermission {}, {}, {}", targetDomainObject, permissions[0], permissions[1]);
 
         VirtualEdition virtualEdition = null;
-        LdoDUser user = null;
+        User user = null;
         if (targetDomainObject instanceof String) {
             switch (permissions[0]) {
                 case "edition":
@@ -85,7 +85,7 @@ public class LdoDPermissionEvaluator implements PermissionEvaluator {
                     }
                     break;
                 case "user":
-                    user = LdoD.getInstance().getUser((String) targetDomainObject);
+                    user = UserModule.getInstance().getUser((String) targetDomainObject);
                     break;
                 default:
                     assert false;
@@ -94,20 +94,20 @@ public class LdoDPermissionEvaluator implements PermissionEvaluator {
             if (virtualEdition == null) {
                 hasPermission = true;
             } else if (permissions[1].equals(ADMIN)) {
-                hasPermission = virtualEdition.getAdminSet().contains(loggedUser);
+                hasPermission = virtualEdition.getAdminSet().contains(loggedUser.getUsername());
             } else if (permissions[1].equals(PARTICIPANT)) {
-                hasPermission = virtualEdition.getParticipantSet().contains(loggedUser);
+                hasPermission = virtualEdition.getParticipantSet().contains(loggedUser.getUsername());
             } else if (permissions[1].equals(PUBLIC)) {
-                hasPermission = virtualEdition.checkAccess();
+                hasPermission = virtualEdition.isPublicOrIsParticipant();
             } else if (permissions[1].equals(ANNOTATION)) {
-                hasPermission = virtualEdition.getTaxonomy().canManipulateAnnotation(loggedUser);
+                hasPermission = virtualEdition.getTaxonomy().canManipulateAnnotation(loggedUser.getUsername());
             } else if (permissions[1].equals(TAXONOMY)) {
-                hasPermission = virtualEdition.getTaxonomy().canManipulateTaxonomy(loggedUser);
+                hasPermission = virtualEdition.getTaxonomy().canManipulateTaxonomy(loggedUser.getUsername());
             }
 
             if (user != null) {
                 if (permissions[1].equals(LOGGED)) {
-                    hasPermission = loggedUser == user;
+                    hasPermission = loggedUser.equals(user.getUsername());
                 }
             }
         }
@@ -137,7 +137,7 @@ public class LdoDPermissionEvaluator implements PermissionEvaluator {
 
         VirtualEditionInter virtualEditionInter = LdoD.getInstance().getVirtualEditionInterByUrlId(targetType);
         if (virtualEditionInter != null) {
-            return virtualEditionInter.getEdition().checkAccess();
+            return virtualEditionInter.getEdition().isPublicOrIsParticipant();
         } else {
             return false;
         }

@@ -5,9 +5,9 @@ import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.core.WriteOnReadError;
 import pt.ist.socialsoftware.edition.ldod.TestLoadUtils;
 import pt.ist.socialsoftware.edition.ldod.TestWithFragmentsLoading;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
 import pt.ist.socialsoftware.edition.ldod.domain.RegistrationToken;
+import pt.ist.socialsoftware.edition.ldod.domain.User;
+import pt.ist.socialsoftware.edition.ldod.domain.UserModule;
 import pt.ist.socialsoftware.edition.ldod.loaders.UsersXMLImport;
 
 import javax.transaction.NotSupportedException;
@@ -39,32 +39,32 @@ public class UsersXMLExportTest extends TestWithFragmentsLoading {
         UsersXMLExport export = new UsersXMLExport();
         String usersXML = export.export();
 
-        int numOfUsers = LdoD.getInstance().getUsersSet().size();
-        int numOfUserConnections = LdoD.getInstance().getUserConnectionSet().size();
-        int numOfRegistrationTokens = LdoD.getInstance().getTokenSet().size();
+        int numOfUsers = UserModule.getInstance().getUsersSet().size();
+        int numOfUserConnections = UserModule.getInstance().getUserConnectionSet().size();
+        int numOfRegistrationTokens = UserModule.getInstance().getTokenSet().size();
 
-        LdoD.getInstance().getUsersSet().stream().forEach(u -> u.remove());
-        LdoD.getInstance().getUserConnectionSet().stream().forEach(u -> u.remove());
-        LdoD.getInstance().getTokenSet().stream().forEach(u -> u.remove());
+        UserModule.getInstance().getUsersSet().stream().forEach(u -> u.remove());
+        UserModule.getInstance().getUserConnectionSet().stream().forEach(u -> u.remove());
+        UserModule.getInstance().getTokenSet().stream().forEach(u -> u.remove());
 
-        assertTrue(LdoD.getInstance().getUsersSet().size() == 0);
-        assertTrue(LdoD.getInstance().getUserConnectionSet().size() == 0);
-        assertTrue(LdoD.getInstance().getTokenSet().size() == 0);
+        assertTrue(UserModule.getInstance().getUsersSet().size() == 0);
+        assertTrue(UserModule.getInstance().getUserConnectionSet().size() == 0);
+        assertTrue(UserModule.getInstance().getTokenSet().size() == 0);
 
         UsersXMLImport load = new UsersXMLImport();
         load.importUsers(usersXML);
 
-        assertEquals(numOfUsers, LdoD.getInstance().getUsersSet().size());
-        assertEquals(numOfUserConnections, LdoD.getInstance().getUserConnectionSet().size());
-        assertEquals(numOfRegistrationTokens, LdoD.getInstance().getTokenSet().size());
+        assertEquals(numOfUsers, UserModule.getInstance().getUsersSet().size());
+        assertEquals(numOfUserConnections, UserModule.getInstance().getUserConnectionSet().size());
+        assertEquals(numOfRegistrationTokens, UserModule.getInstance().getTokenSet().size());
 
-        for (LdoDUser user : LdoD.getInstance().getUsersSet()) {
+        for (User user : UserModule.getInstance().getUsersSet()) {
             if (!user.getUsername().equals("Twitter")) {
                 assertTrue(user.getRolesSet().size() != 0);
             }
         }
 
-        for (RegistrationToken token : LdoD.getInstance().getTokenSet()) {
+        for (RegistrationToken token : UserModule.getInstance().getTokenSet()) {
             assertNotNull(token.getUser());
         }
     }

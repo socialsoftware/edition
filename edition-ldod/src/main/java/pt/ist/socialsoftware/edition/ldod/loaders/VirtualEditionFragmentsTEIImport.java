@@ -195,7 +195,7 @@ public class VirtualEditionFragmentsTEIImport {
         String username = catRef.getAttributeValue("resp").substring(1);
         String tag = catRef.getAttributeValue("target").substring(1);
 
-        inter.getVirtualEdition().getTaxonomy().createTag(inter, tag, null, this.ldoD.getUser(username));
+        inter.getVirtualEdition().getTaxonomy().createTag(inter, tag, null, username);
     }
 
     // TODO: else if aware - done
@@ -228,7 +228,7 @@ public class VirtualEditionFragmentsTEIImport {
                 String tag = catRef.getAttributeValue("target").substring(1);
                 tagList.add(tag);
             }
-            virtualEditionInter.createHumanAnnotation(quote, text, this.ldoD.getUser(username), rangeList, tagList);
+            virtualEditionInter.createHumanAnnotation(quote, text, username, rangeList, tagList);
         } else if (note.getAttributeValue("type").equals("aware")) {
             long tweetID = Long.parseLong(note.getAttributeValue("citationId"));
             Citation citation = getFragment(virtualEditionInter).getCitationById(tweetID);
@@ -285,8 +285,8 @@ public class VirtualEditionFragmentsTEIImport {
             String description = gameElement.getAttributeValue("description");
             DateTime dateTime = new DateTime(DateTime.parse(gameElement.getAttributeValue("dateTime")));
             boolean sync = Boolean.parseBoolean(gameElement.getAttributeValue("sync"));
-            LdoDUser responsible = LdoD.getInstance().getUser(gameElement.getAttributeValue("responsible"));
-            LdoDUser winner = LdoD.getInstance().getUser(gameElement.getAttributeValue("winningUser"));
+            String responsible = gameElement.getAttributeValue("responsible");
+            String winner = gameElement.getAttributeValue("winningUser");
 
             ClassificationGame game = new ClassificationGame(inter.getVirtualEdition(), description, dateTime, inter,
                     responsible);
@@ -294,10 +294,10 @@ public class VirtualEditionFragmentsTEIImport {
             game.setState(state);
             game.setSync(sync);
 
-            if (winner != null) {
+            if (winner != null && winner.trim().length() != 0) {
                 Tag tag = inter.getTagSet().stream()
                         .filter(t -> t.getCategory().getName().equals(gameElement.getAttributeValue("tag"))
-                                && t.getContributor() == winner)
+                                && t.getContributor().equals(winner))
                         .findFirst().get();
                 game.setTag(tag);
             }
@@ -324,10 +324,8 @@ public class VirtualEditionFragmentsTEIImport {
             gameRound.setVote(vote);
             gameRound.setTime(dateTime);
 
-            // TODO FIXME
-            LdoDUser user = LdoD.getInstance().getUser(username);
             ClassificationGameParticipant participant = game.getClassificationGameParticipantSet().stream()
-                    .filter(p -> p.getPlayer().getUser() == user).findFirst().get();
+                    .filter(p -> p.getPlayer().getUser().equals(username)).findFirst().get();
             gameRound.setClassificationGameParticipant(participant);
         }
 
@@ -339,9 +337,8 @@ public class VirtualEditionFragmentsTEIImport {
             String username = participantElement.getAttributeValue("username");
             boolean winner = Boolean.parseBoolean(participantElement.getAttributeValue("winner"));
             double score = Double.parseDouble(participantElement.getAttributeValue("score"));
-            LdoDUser user = LdoD.getInstance().getUser(username);
 
-            ClassificationGameParticipant participant = new ClassificationGameParticipant(game, user);
+            ClassificationGameParticipant participant = new ClassificationGameParticipant(game, username);
             participant.setWinner(winner);
             participant.setScore(score);
         }

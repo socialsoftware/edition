@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import pt.ist.fenixframework.DomainObject;
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.ldod.api.ui.UiInterface;
+import pt.ist.socialsoftware.edition.ldod.api.user.UserInterface;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.dto.InterIdDistancePairDto;
 import pt.ist.socialsoftware.edition.ldod.dto.WeightsDto;
@@ -29,6 +30,8 @@ import java.util.stream.Collectors;
 @RequestMapping("/recommendation")
 public class RecommendationController {
     private static final Logger logger = LoggerFactory.getLogger(RecommendationController.class);
+
+    private final UserInterface userInterface = new UserInterface();
 
     /*
      * Sets all the empty boxes to null instead of the empty string ""
@@ -51,8 +54,7 @@ public class RecommendationController {
             // virtualEdition.getSectionsSet().stream().map(s ->
             // s.print(1)).collect(Collectors.joining()));
 
-            RecommendationWeights recommendationWeights = LdoDUser.getAuthenticatedUser()
-                    .getRecommendationWeights(virtualEdition);
+            RecommendationWeights recommendationWeights = virtualEdition.getRecommendationWeightsForUser(this.userInterface.getAuthenticatedUser());
 
             recommendationWeights.setWeightsZero();
 
@@ -123,8 +125,7 @@ public class RecommendationController {
 
         VirtualEdition virtualEdition = LdoD.getInstance().getVirtualEdition(params.getAcronym());
 
-        LdoDUser user = LdoDUser.getAuthenticatedUser();
-        RecommendationWeights recommendationWeights = user.getRecommendationWeights(virtualEdition);
+        RecommendationWeights recommendationWeights = virtualEdition.getRecommendationWeightsForUser(this.userInterface.getAuthenticatedUser());
         recommendationWeights.setWeights(params.getProperties());
 
         if (params.getId() != null && !params.getId().equals("")) {
@@ -181,11 +182,11 @@ public class RecommendationController {
 
         if (errors.size() > 0) {
             throw new LdoDCreateVirtualEditionException(errors, acronym, title, pub,
-                    LdoD.getInstance().getVirtualEditions4User(LdoDUser.getAuthenticatedUser(), ldoDSession),
-                    LdoDUser.getAuthenticatedUser());
+                    LdoD.getInstance().getVirtualEditionsUserIsParticipant(this.userInterface.getAuthenticatedUser(), ldoDSession),
+                    User.getAuthenticatedUser());
         }
 
-        VirtualEdition virtualEdition = LdoD.getInstance().createVirtualEdition(LdoDUser.getAuthenticatedUser(),
+        VirtualEdition virtualEdition = LdoD.getInstance().createVirtualEdition(this.userInterface.getAuthenticatedUser(),
                 VirtualEdition.ACRONYM_PREFIX + acronym, title, new LocalDate(), pub, null);
         VirtualEditionInter virtualInter;
         for (int i = 0; i < inters.length; i++) {

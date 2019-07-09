@@ -1,7 +1,5 @@
 package pt.ist.socialsoftware.edition.ldod.config;
 
-import javax.inject.Inject;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,109 +22,109 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-
 import pt.ist.socialsoftware.edition.ldod.domain.Role.RoleType;
 import pt.ist.socialsoftware.edition.ldod.filters.JWTAuthorizationFilter;
-import pt.ist.socialsoftware.edition.ldod.security.LdoDAuthenticationSuccessHandler;
-import pt.ist.socialsoftware.edition.ldod.security.LdoDSocialUserDetailsService;
-import pt.ist.socialsoftware.edition.ldod.security.LdoDUserDetailsService;
+import pt.ist.socialsoftware.edition.ldod.security.UserModuleAuthenticationSuccessHandler;
+import pt.ist.socialsoftware.edition.ldod.security.UserModuleSocialUserDetailsService;
+import pt.ist.socialsoftware.edition.ldod.security.UserModuleUserDetailsService;
 import pt.ist.socialsoftware.edition.ldod.security.jwt.JWTAuthenticationEntryPoint;
 
+import javax.inject.Inject;
 import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-	private static Logger log = LoggerFactory.getLogger(WebSecurityConfig.class);
+    private static final Logger log = LoggerFactory.getLogger(WebSecurityConfig.class);
 
-	@Inject
-	Environment environment;
+    @Inject
+    Environment environment;
 
-	@Autowired
-	private JWTAuthenticationEntryPoint unauthorizedHandler;
+    @Autowired
+    private JWTAuthenticationEntryPoint unauthorizedHandler;
 
-	@Override
-	public void configure(WebSecurity web) throws Exception {
-		web.ignoring().antMatchers("/resources/**");
-	}
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring().antMatchers("/resources/**");
+    }
 
-	@Override
-	protected void configure(HttpSecurity http) throws Exception {
-		log.debug("configure");
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        log.debug("configure");
 
-		// to make accessible for unregistered users comment
-		// .anyRequest().authenticated() after .antMatchers("/", "/auth/**",
-		// "/signin/**", "/signup/**").permitAll()
+        // to make accessible for unregistered users comment
+        // .anyRequest().authenticated() after .antMatchers("/", "/auth/**",
+        // "/signin/**", "/signup/**").permitAll()
 
-		http.csrf().disable().formLogin().loginPage("/signin").successHandler(ldoDAuthenticationSuccessHandler())
-				.loginProcessingUrl("/signin/authenticate").failureUrl("/signin?param.error=bad_credentials").and()
-				.logout().logoutUrl("/signout").deleteCookies("JSESSIONID").invalidateHttpSession(true).and()
-				.authorizeRequests().antMatchers("/virtualeditions/restricted/**", "/user/**").authenticated()
-				.antMatchers("/admin/**").hasAuthority(RoleType.ROLE_ADMIN.name()).and().sessionManagement()
-				.maximumSessions(2).sessionRegistry(sessionRegistry());
+        http.csrf().disable().formLogin().loginPage("/signin").successHandler(UserModuleAuthenticationSuccessHandler())
+                .loginProcessingUrl("/signin/authenticate").failureUrl("/signin?param.error=bad_credentials").and()
+                .logout().logoutUrl("/signout").deleteCookies("JSESSIONID").invalidateHttpSession(true).and()
+                .authorizeRequests().antMatchers("/virtualeditions/restricted/**", "/user/**").authenticated()
+                .antMatchers("/admin/**").hasAuthority(RoleType.ROLE_ADMIN.name()).and().sessionManagement()
+                .maximumSessions(2).sessionRegistry(sessionRegistry());
 
-		http.cors().and().authorizeRequests().antMatchers("/api/services/frontend/restricted/**").permitAll().and()
-				.authorizeRequests().antMatchers("/api/services/frontend/**").permitAll().and()
-				.authorizeRequests().antMatchers("/api/user/**", "/api/services/**").authenticated().and()
-				.exceptionHandling().authenticationEntryPoint(this.unauthorizedHandler).and()
-				.addFilter(new JWTAuthorizationFilter(authenticationManager()));// .sessionManagement()
-		// .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-	}
+        http.cors().and().authorizeRequests().antMatchers("/api/services/frontend/restricted/**").permitAll().and()
+                .authorizeRequests().antMatchers("/api/services/frontend/**").permitAll().and()
+                .authorizeRequests().antMatchers("/api/user/**", "/api/services/**").authenticated().and()
+                .exceptionHandling().authenticationEntryPoint(this.unauthorizedHandler).and()
+                .addFilter(new JWTAuthorizationFilter(authenticationManager()));// .sessionManagement()
+        // .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+    }
 
-	@Bean
-	public SessionRegistry sessionRegistry() {
-		return new SessionRegistryImpl();
-	}
+    @Bean
+    public SessionRegistry sessionRegistry() {
+        return new SessionRegistryImpl();
+    }
 
-	@Bean
-	public LdoDAuthenticationSuccessHandler ldoDAuthenticationSuccessHandler() {
-		return new LdoDAuthenticationSuccessHandler();
-	}
+    @Bean
+    public UserModuleAuthenticationSuccessHandler UserModuleAuthenticationSuccessHandler() {
+        return new UserModuleAuthenticationSuccessHandler();
+    }
 
-	@Inject
-	public void registerAuthentication(AuthenticationManagerBuilder auth) throws Exception {
-		log.debug("registerAuthentication");
+    @Inject
+    public void registerAuthentication(AuthenticationManagerBuilder auth) throws Exception {
+        log.debug("registerAuthentication");
 
-		auth.userDetailsService(ldoDUserDetailsService()).passwordEncoder(passwordEncoder());
-	}
+        auth.userDetailsService(userModuleUserDetailsService()).passwordEncoder(passwordEncoder());
+    }
 
-	@Bean
-	CorsConfigurationSource corsConfigurationSource() {
-		final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-		CorsConfiguration config = new CorsConfiguration().applyPermitDefaultValues();
-		config.setAllowedMethods(Arrays.asList("GET","POST","HEAD", "PUT", "DELETE"));
-		source.registerCorsConfiguration("/**", config);
-		return source;
-	}
+    @Bean
+    CorsConfigurationSource corsConfigurationSource() {
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        CorsConfiguration config = new CorsConfiguration().applyPermitDefaultValues();
+        config.setAllowedMethods(Arrays.asList("GET", "POST", "HEAD", "PUT", "DELETE"));
+        source.registerCorsConfiguration("/**", config);
+        return source;
+    }
 
-	@Override
-	@Bean
-	public AuthenticationManager authenticationManagerBean() throws Exception {
-		return super.authenticationManagerBean();
-	}
+    @Override
+    @Bean
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
+    }
 
-	@Bean
-	public PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder(11);
-	}
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder(11);
+    }
 
-	@Bean
-	public TextEncryptor textEncryptor() {
-		return Encryptors.noOpText();
-		// return
-		// Encryptors.text(environment.getProperty("spring.encryption.password"),
-		// KeyGenerators.string().generateKey());
-	}
+    @Bean
+    public TextEncryptor textEncryptor() {
+        return Encryptors.noOpText();
+        // return
+        // Encryptors.text(environment.getProperty("spring.encryption.password"),
+        // KeyGenerators.string().generateKey());
+    }
 
-	@Bean
-	public LdoDUserDetailsService ldoDUserDetailsService() {
-		return new LdoDUserDetailsService();
-	}
+    @Bean
+    public UserModuleUserDetailsService userModuleUserDetailsService() {
+        return new UserModuleUserDetailsService();
+    }
 
-	@Bean
-	public LdoDSocialUserDetailsService ldoDSocialUserDetailsService() {
-		return new LdoDSocialUserDetailsService(ldoDUserDetailsService());
-	}
+    @Bean
+    public UserModuleSocialUserDetailsService userModuleSocialUserDetailsService() {
+        return new UserModuleSocialUserDetailsService(userModuleUserDetailsService());
+    }
 
 }

@@ -1,4 +1,4 @@
-package pt.ist.socialsoftware.edition.ldod.controller;
+package pt.ist.socialsoftware.edition.ldod.controller.text;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import pt.ist.fenixframework.DomainObject;
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.ldod.api.ui.UiInterface;
+import pt.ist.socialsoftware.edition.ldod.api.user.UserInterface;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.dto.MainFragmentDto;
 import pt.ist.socialsoftware.edition.ldod.generators.HtmlWriter2CompInters;
@@ -30,6 +31,8 @@ import java.util.stream.Collectors;
 @RequestMapping("/fragments")
 public class FragmentController {
     private static final Logger logger = LoggerFactory.getLogger(FragmentController.class);
+
+    private final UserInterface userInterface = new UserInterface();
 
     @ModelAttribute("ldoDSession")
     public LdoDSession getLdoDSession() {
@@ -57,7 +60,7 @@ public class FragmentController {
         } else {
             model.addAttribute("ldoD", LdoD.getInstance());
             model.addAttribute("text", TextModule.getInstance());
-            model.addAttribute("user", LdoDUser.getAuthenticatedUser());
+            model.addAttribute("user", User.getAuthenticatedUser());
             model.addAttribute("fragment", fragment);
             model.addAttribute("fragmentDto", new MainFragmentDto(fragment));
             model.addAttribute("inters", new ArrayList<ScholarInter>());
@@ -99,8 +102,8 @@ public class FragmentController {
 
             // if it is a virtual interpretation check access and set session
             VirtualEdition virtualEdition = virtualEditionInter.getEdition();
-            LdoDUser user = LdoDUser.getAuthenticatedUser();
-            if (virtualEdition.checkAccess()) {
+            User user = User.getAuthenticatedUser();
+            if (virtualEdition.isPublicOrIsParticipant()) {
                 if (!ldoDSession.hasSelectedVE(virtualEdition.getAcronym())) {
                     ldoDSession.toggleSelectedVirtualEdition(user, virtualEdition);
                 }
@@ -115,7 +118,7 @@ public class FragmentController {
 
         model.addAttribute("ldoD", LdoD.getInstance());
         model.addAttribute("text", TextModule.getInstance());
-        model.addAttribute("user", LdoDUser.getAuthenticatedUser());
+        model.addAttribute("user", User.getAuthenticatedUser());
         model.addAttribute("fragment", fragment);
         model.addAttribute("writer", writer);
         model.addAttribute("uiInterface", new UiInterface());
@@ -160,8 +163,8 @@ public class FragmentController {
 
         VirtualEdition virtualEdition = inter.getEdition();
 
-        LdoDUser user = LdoDUser.getAuthenticatedUser();
-        if (virtualEdition.checkAccess()) {
+        User user = User.getAuthenticatedUser();
+        if (virtualEdition.isPublicOrIsParticipant()) {
             if (!ldoDSession.hasSelectedVE(virtualEdition.getAcronym())) {
                 ldoDSession.toggleSelectedVirtualEdition(user, virtualEdition);
             }
@@ -174,7 +177,7 @@ public class FragmentController {
         inters.add(inter);
         model.addAttribute("ldoD", LdoD.getInstance());
         model.addAttribute("text", TextModule.getInstance());
-        model.addAttribute("user", LdoDUser.getAuthenticatedUser());
+        model.addAttribute("user", User.getAuthenticatedUser());
         model.addAttribute("inters", inters);
 
         return "fragment/taxonomy";
@@ -255,7 +258,7 @@ public class FragmentController {
 
         model.addAttribute("ldoD", LdoD.getInstance());
         model.addAttribute("text", TextModule.getInstance());
-        model.addAttribute("user", LdoDUser.getAuthenticatedUser());
+        model.addAttribute("user", User.getAuthenticatedUser());
         model.addAttribute("fragment", fragment);
         if (scholarInters.size() > 0) {
             model.addAttribute("inters", scholarInters);
@@ -424,7 +427,7 @@ public class FragmentController {
                                                    @RequestBody AnnotationDTO annotationJson, HttpServletRequest request) {
         VirtualEditionInter inter = FenixFramework.getDomainObject(annotationJson.getUri());
         VirtualEdition virtualEdition = (VirtualEdition) inter.getEdition();
-        LdoDUser user = LdoDUser.getAuthenticatedUser();
+        String user = this.userInterface.getAuthenticatedUser();
 
         HumanAnnotation annotation;
         if (HumanAnnotation.canCreate(virtualEdition, user)) {
@@ -457,7 +460,7 @@ public class FragmentController {
                                                    @RequestBody AnnotationDTO annotationJson) {
 
         HumanAnnotation annotation = FenixFramework.getDomainObject(id);
-        LdoDUser user = LdoDUser.getAuthenticatedUser();
+        String user = this.userInterface.getAuthenticatedUser();
 
         if (annotation == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -478,7 +481,7 @@ public class FragmentController {
                                                    @RequestBody AnnotationDTO annotationJson) {
 
         HumanAnnotation annotation = FenixFramework.getDomainObject(id);
-        LdoDUser user = LdoDUser.getAuthenticatedUser();
+        String user = this.userInterface.getAuthenticatedUser();
 
         if (annotation == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

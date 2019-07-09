@@ -21,7 +21,7 @@ public class HumanAnnotation extends HumanAnnotation_Base {
     }
 
     public HumanAnnotation(VirtualEditionInter inter, SimpleText startText, SimpleText endText, String quote,
-                           String text, LdoDUser user) {
+                           String text, String user) {
         super.init(inter, quote, text);
         // setVirtualEditionInter(inter);
         setStartText(startText);
@@ -53,16 +53,16 @@ public class HumanAnnotation extends HumanAnnotation_Base {
                 .collect(Collectors.toList());
     }
 
-    public static boolean canCreate(VirtualEdition virtualEdition, LdoDUser user) {
+    public static boolean canCreate(VirtualEdition virtualEdition, String user) {
         return virtualEdition.getTaxonomy().canManipulateAnnotation(user);
     }
 
-    public boolean canUpdate(LdoDUser user) {
-        return getVirtualEditionInter().getVirtualEdition().getParticipantSet().contains(user) && getUser() == user;
+    public boolean canUpdate(String user) {
+        return getVirtualEditionInter().getVirtualEdition().getParticipantSet().contains(user) && getUser().equals(user);
     }
 
-    public boolean canDelete(LdoDUser user) {
-        return getUser() == user;
+    public boolean canDelete(String user) {
+        return getUser().equals(user);
     }
 
     public boolean existsTag(String tag, VirtualEdition virtualEdition) {

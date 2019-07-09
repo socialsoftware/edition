@@ -1,4 +1,4 @@
-package pt.ist.socialsoftware.edition.ldod.controller;
+package pt.ist.socialsoftware.edition.ldod.controller.text;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import pt.ist.socialsoftware.edition.ldod.controller.SearchController;
 import pt.ist.socialsoftware.edition.ldod.domain.Fragment;
 import pt.ist.socialsoftware.edition.ldod.domain.Source;
 import pt.ist.socialsoftware.edition.ldod.domain.TextModule;

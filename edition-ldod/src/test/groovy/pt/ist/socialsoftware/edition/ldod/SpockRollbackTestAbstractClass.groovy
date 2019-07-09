@@ -5,6 +5,7 @@ import pt.ist.fenixframework.core.WriteOnReadError
 import pt.ist.socialsoftware.edition.ldod.domain.ExpertEdition
 import pt.ist.socialsoftware.edition.ldod.domain.LdoD
 import pt.ist.socialsoftware.edition.ldod.domain.TextModule
+import pt.ist.socialsoftware.edition.ldod.domain.UserModule
 import pt.ist.socialsoftware.edition.ldod.loaders.LoadTEICorpus
 import pt.ist.socialsoftware.edition.ldod.loaders.LoadTEIFragments
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDLoadException
@@ -55,10 +56,11 @@ abstract class SpockRollbackTestAbstractClass extends Specification {
     }
 
     def cleanDatabaseButCorpus() {
-        LdoD ldoD = LdoD.getInstance();
         TextModule text = TextModule.getInstance()
+        UserModule userModule = UserModule.getInstance();
+        LdoD ldoD = LdoD.getInstance();
         if (ldoD != null) {
-            for (def user : ldoD.getUsersSet()) {
+            for (def user : userModule.getUsersSet()) {
                 if (!(user.getUsername().equals("ars") || user.getUsername().equals("Twitter"))) {
                     user.remove();
                 }
@@ -70,10 +72,10 @@ abstract class SpockRollbackTestAbstractClass extends Specification {
                 cit.remove();
         }
         for (def uc :
-                ldoD.getUserConnectionSet()) {
+                userModule.getUserConnectionSet()) {
             uc.remove()
         }
-        for (def t : ldoD.getTokenSet()) {
+        for (def t : userModule.getTokenSet()) {
             t.remove();
         }
         for (def ve : ldoD.getVirtualEditionsSet()) {

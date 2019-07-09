@@ -19,10 +19,7 @@ import pt.ist.socialsoftware.edition.ldod.TestLoadUtils;
 import pt.ist.socialsoftware.edition.ldod.config.Application;
 import pt.ist.socialsoftware.edition.ldod.controller.AdminController;
 import pt.ist.socialsoftware.edition.ldod.controller.LdoDExceptionHandler;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
-import pt.ist.socialsoftware.edition.ldod.domain.Role;
-import pt.ist.socialsoftware.edition.ldod.domain.TextModule;
+import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.export.UsersXMLExport;
 import pt.ist.socialsoftware.edition.ldod.filters.TransactionFilter;
 import pt.ist.socialsoftware.edition.ldod.forms.EditUserForm;
@@ -236,13 +233,13 @@ public class AdminTest {
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void switchAdminTest() throws Exception {
 
-        boolean original = LdoD.getInstance().getAdmin();
+        boolean original = UserModule.getInstance().getAdmin();
 
         this.mockMvc.perform(post("/admin/switch")).andDo(print())
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/admin/user/list"));
 
-        assertNotEquals(original, LdoD.getInstance().getAdmin());
+        assertNotEquals(original, UserModule.getInstance().getAdmin());
     }
 
     @Test
@@ -274,7 +271,7 @@ public class AdminTest {
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void getEditUserFormTest() throws Exception {
 
-        LdoDUser user = LdoD.getInstance().getUser("ars");
+        User user = UserModule.getInstance().getUser("ars");
 
         MvcResult res = this.mockMvc.perform(get("/admin/user/edit")
                 .param("externalId", user.getExternalId()))
@@ -300,7 +297,7 @@ public class AdminTest {
         Role user = Role.getRole(Role.RoleType.ROLE_USER);
         Role admin = Role.getRole(Role.RoleType.ROLE_ADMIN);
 
-        LdoDUser temp = new LdoDUser(LdoD.getInstance(), "temp", "$2a$11$FqP6hxx1OzHeP/MHm8Ccier/ZQjEY5opPTih37DR6nQE1XFc0lzqW",
+        User temp = new User(UserModule.getInstance(), "temp", "$2a$11$FqP6hxx1OzHeP/MHm8Ccier/ZQjEY5opPTih37DR6nQE1XFc0lzqW",
                 "Temp", "Temp", "temp@temp.temp");
 
         temp.setEnabled(true);
@@ -318,11 +315,11 @@ public class AdminTest {
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/admin/user/list"));
 
-        assertNull(LdoD.getInstance().getUser("temp"));
-        assertNotNull(LdoD.getInstance().getUser("newtemp"));
+        assertNull(UserModule.getInstance().getUser("temp"));
+        assertNotNull(UserModule.getInstance().getUser("newtemp"));
 
 
-        LdoD.getInstance().getUser("newtemp").remove();
+        UserModule.getInstance().getUser("newtemp").remove();
 
     }
 
@@ -330,25 +327,25 @@ public class AdminTest {
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void switchActiveTest() throws Exception {
 
-        LdoDUser ldoDUser = LdoD.getInstance().getUser("ars");
+        User user = UserModule.getInstance().getUser("ars");
 
-        boolean original = ldoDUser.getActive();
+        boolean original = user.getActive();
 
         this.mockMvc.perform(post("/admin/user/active")
-                .param("externalId", ldoDUser.getExternalId()))
+                .param("externalId", user.getExternalId()))
                 .andDo(print())
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/admin/user/list"));
 
-        assertNotEquals(original, ldoDUser.getActive());
+        assertNotEquals(original, user.getActive());
 
         this.mockMvc.perform(post("/admin/user/active")
-                .param("externalId", ldoDUser.getExternalId()))
+                .param("externalId", user.getExternalId()))
                 .andDo(print())
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/admin/user/list"));
 
-        assertEquals(original, ldoDUser.getActive());
+        assertEquals(original, user.getActive());
     }
 
     @Test
@@ -358,7 +355,7 @@ public class AdminTest {
         Role user = Role.getRole(Role.RoleType.ROLE_USER);
         Role admin = Role.getRole(Role.RoleType.ROLE_ADMIN);
 
-        LdoDUser temp = new LdoDUser(LdoD.getInstance(), "temp", "$2a$11$FqP6hxx1OzHeP/MHm8Ccier/ZQjEY5opPTih37DR6nQE1XFc0lzqW",
+        User temp = new User(UserModule.getInstance(), "temp", "$2a$11$FqP6hxx1OzHeP/MHm8Ccier/ZQjEY5opPTih37DR6nQE1XFc0lzqW",
                 "Temp", "Temp", "temp@temp.temp");
 
         temp.setEnabled(true);
@@ -371,7 +368,7 @@ public class AdminTest {
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/admin/user/list"));
 
-        assertNull(LdoD.getInstance().getUser("temp"));
+        assertNull(UserModule.getInstance().getUser("temp"));
     }
 
     @Test
@@ -497,8 +494,8 @@ public class AdminTest {
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/admin/loadForm"));
 
-        assertNotNull(LdoD.getInstance().getUser("ars"));
-        assertNotNull(LdoD.getInstance().getUser("Twitter"));
+        assertNotNull(UserModule.getInstance().getUser("ars"));
+        assertNotNull(UserModule.getInstance().getUser("Twitter"));
     }
 
     @Test
@@ -622,7 +619,7 @@ public class AdminTest {
         for (int i = 0; i < 6; i++) {
             String username = "zuser" + Integer.toString(i + 1);
 
-            assertNotNull(LdoD.getInstance().getUser(username));
+            assertNotNull(UserModule.getInstance().getUser(username));
         }
 
     }

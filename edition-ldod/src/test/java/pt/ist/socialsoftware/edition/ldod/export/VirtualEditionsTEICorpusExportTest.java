@@ -26,7 +26,8 @@ public class VirtualEditionsTEICorpusExportTest extends TestWithFragmentsLoading
     private VirtualEdition virtualEdition;
     private LdoD ldoD;
     private TextModule text;
-    private LdoDUser user;
+    private UserModule userModule;
+    private User user;
 
     public static void logger(Object toPrint) {
         System.out.println(toPrint);
@@ -39,11 +40,12 @@ public class VirtualEditionsTEICorpusExportTest extends TestWithFragmentsLoading
 
     @Override
     protected void populate4Test() {
-        this.ldoD = LdoD.getInstance();
         this.text = TextModule.getInstance();
-        this.user = new LdoDUser(this.ldoD, "ars1", "ars", "Antonio", "Silva", "a@a.a");
+        this.userModule = UserModule.getInstance();
+        this.ldoD = LdoD.getInstance();
+        this.user = new User(this.userModule, "ars1", "ars", "Antonio", "Silva", "a@a.a");
         LocalDate localDate = LocalDate.parse("20018-07-20");
-        this.virtualEdition = new VirtualEdition(this.ldoD, this.user, "acronym", "title", localDate, true,
+        this.virtualEdition = new VirtualEdition(this.ldoD, this.user.getUsername(), "acronym", "title", localDate, true,
                 this.text.getRZEdition().getAcronym());
     }
 
@@ -66,9 +68,9 @@ public class VirtualEditionsTEICorpusExportTest extends TestWithFragmentsLoading
 
         this.virtualEdition.remove();
         this.user.remove();
-        this.user = new LdoDUser(this.ldoD, "ars1", "ars", "Antonio", "Silva", "a@a.a");
+        this.user = new User(this.userModule, "ars1", "ars", "Antonio", "Silva", "a@a.a");
         LocalDate localDate = LocalDate.parse("20018-07-20");
-        this.virtualEdition = new VirtualEdition(this.ldoD, this.user, "acronym", "title", localDate, true,
+        this.virtualEdition = new VirtualEdition(this.ldoD, this.user.getUsername(), "acronym", "title", localDate, true,
                 this.text.getRZEdition().getAcronym());
 
         VirtualEditionsTEICorpusImport im = new VirtualEditionsTEICorpusImport();
@@ -97,9 +99,9 @@ public class VirtualEditionsTEICorpusExportTest extends TestWithFragmentsLoading
         LdoD.getInstance().getTweetSet().forEach(t -> t.remove());
         this.virtualEdition.remove();
         this.user.remove();
-        this.user = new LdoDUser(this.ldoD, "ars1", "ars", "Antonio", "Silva", "a@a.a");
+        this.user = new User(this.userModule, "ars1", "ars", "Antonio", "Silva", "a@a.a");
         LocalDate localDate = LocalDate.parse("20018-07-20");
-        this.virtualEdition = new VirtualEdition(this.ldoD, this.user, "acronym", "title", localDate, true,
+        this.virtualEdition = new VirtualEdition(this.ldoD, this.user.getUsername(), "acronym", "title", localDate, true,
                 this.text.getRZEdition().getAcronym());
 
         // Import

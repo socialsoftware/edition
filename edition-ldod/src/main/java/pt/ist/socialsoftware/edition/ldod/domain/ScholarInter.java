@@ -41,7 +41,7 @@ public abstract class ScholarInter extends ScholarInter_Base {
         }
 
         EventInterface eventInterface = new EventInterface();
-        eventInterface.publish(new Event(Event.EventType.FRAG_INTER_REMOVE, this.getXmlId()));
+        eventInterface.publish(new Event(Event.EventType.SCHOLAR_INTER_REMOVE, this.getXmlId()));
 
         for (RdgText rdg : getRdgSet()) {
             removeRdg(rdg);

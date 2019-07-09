@@ -10,7 +10,7 @@ import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.socialsoftware.edition.ldod.ControllersTestWithFragmentsLoading;
 import pt.ist.socialsoftware.edition.ldod.config.Application;
-import pt.ist.socialsoftware.edition.ldod.controller.EditionController;
+import pt.ist.socialsoftware.edition.ldod.controller.text.EditionController;
 import pt.ist.socialsoftware.edition.ldod.domain.ExpertEdition;
 import pt.ist.socialsoftware.edition.ldod.domain.TextModule;
 

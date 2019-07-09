@@ -4,21 +4,18 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.ldod.api.text.TextInterface;
 import pt.ist.socialsoftware.edition.ldod.api.text.dto.ScholarInterDto;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser.SocialMediaService;
-import pt.ist.socialsoftware.edition.ldod.domain.Role.RoleType;
 import pt.ist.socialsoftware.edition.ldod.session.LdoDSession;
-import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDDuplicateUsernameException;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class LdoD extends LdoD_Base {
     private static final Logger log = LoggerFactory.getLogger(LdoD.class);
@@ -33,12 +30,9 @@ public class LdoD extends LdoD_Base {
     }
 
     public void remove() {
-        getRolesSet().forEach(r -> r.remove());
-        getUsersSet().forEach(u -> u.remove());
-        getTokenSet().forEach(t -> t.remove());
+        getPlayerSet().stream().forEach(player -> player.remove());
         getCitationSet().forEach(c -> c.remove());
         getPublicClassificationGames().forEach(g -> g.remove());
-        getUserConnectionSet().forEach(c -> c.remove());
         getTweetSet().forEach(t -> t.remove());
         getVirtualEditionsSet().forEach(v -> v.remove());
         getLastTwitterID().remove();
@@ -57,16 +51,8 @@ public class LdoD extends LdoD_Base {
         return null;
     }
 
-    public LdoDUser getUser(String username) {
-        for (LdoDUser user : getUsersSet()) {
-            if (user.getUsername().equals(username)) {
-                return user;
-            }
-        }
-        return null;
-    }
-
-    public List<VirtualEdition> getVirtualEditions4User(LdoDUser user, LdoDSession session) {
+    public List<VirtualEdition> getVirtualEditionsUserIsParticipant(
+            String user, LdoDSession session) {
         List<VirtualEdition> manageVE = new ArrayList<>();
         List<VirtualEdition> selectedVE = new ArrayList<>();
         List<VirtualEdition> mineVE = new ArrayList<>();
@@ -79,7 +65,8 @@ public class LdoD extends LdoD_Base {
         }
 
         for (VirtualEdition virtualEdition : getVirtualEditionsSet()) {
-            if (user != null && virtualEdition.getSelectedBySet().contains(user)) {
+            if (user != null
+                    && virtualEdition.getSelectedBySet().stream().anyMatch(selectedBy -> selectedBy.getUser().equals(user))) {
                 selectedVE.add(virtualEdition);
             } else if (virtualEdition.getParticipantSet().contains(user)) {
                 mineVE.add(virtualEdition);
@@ -96,65 +83,15 @@ public class LdoD extends LdoD_Base {
     }
 
     @Atomic(mode = TxMode.WRITE)
-    public VirtualEdition createVirtualEdition(LdoDUser user, String acronym, String title, LocalDate date, boolean pub,
+    public VirtualEdition createVirtualEdition(String user, String acronym, String title, LocalDate date, boolean pub,
                                                String acronymOfUsed) {
-        log.debug("createVirtualEdition user:{}, acronym:{}, title:{}", user.getUsername(), acronym, title);
+        log.debug("createVirtualEdition user:{}, acronym:{}, title:{}", user, acronym, title);
         return new VirtualEdition(this, user, acronym, title, date, pub, acronymOfUsed);
     }
 
     @Atomic(mode = TxMode.WRITE)
-    public RecommendationWeights createRecommendationWeights(LdoDUser user, VirtualEdition virtualEdition) {
+    public RecommendationWeights createRecommendationWeights(String user, VirtualEdition virtualEdition) {
         return new RecommendationWeights(user, virtualEdition);
-    }
-
-    @Atomic(mode = TxMode.WRITE)
-    public void switchAdmin() {
-        setAdmin(!getAdmin());
-    }
-
-    @Atomic(mode = TxMode.WRITE)
-    public LdoDUser createUser(PasswordEncoder passwordEncoder, String username, String password, String firstName,
-                               String lastName, String email, SocialMediaService socialMediaService, String socialMediaId) {
-
-        removeOutdatedUnconfirmedUsers();
-
-        if (getUser(username) == null) {
-            LdoDUser user = new LdoDUser(this, username, passwordEncoder.encode(password), firstName, lastName, email);
-            user.setSocialMediaService(socialMediaService);
-            user.setSocialMediaId(socialMediaId);
-
-            Role userRole = Role.getRole(RoleType.ROLE_USER);
-            user.addRoles(userRole);
-
-            return user;
-        } else {
-            throw new LdoDDuplicateUsernameException(username);
-        }
-    }
-
-    public UserConnection getUserConnection(String userId, String providerId, String providerUserId) {
-        return getUserConnectionSet().stream().filter(uc -> uc.getUserId().equals(userId)
-                && uc.getProviderId().equals(providerId) && uc.getProviderUserId().equals(providerUserId)).findFirst()
-                .orElse(null);
-    }
-
-    @Atomic(mode = TxMode.WRITE)
-    public void createUserConnection(String userId, String providerId, String providerUserId, int rank,
-                                     String displayName, String profileUrl, String imageUrl, String accessToken, String secret,
-                                     String refreshToken, Long expireTime) {
-
-        new UserConnection(this, userId, providerId, providerUserId, rank, displayName, profileUrl, imageUrl,
-                accessToken, secret, refreshToken, expireTime);
-    }
-
-    public void removeOutdatedUnconfirmedUsers() {
-        DateTime now = DateTime.now();
-        getTokenSet().stream().filter(t -> t.getExpireTimeDateTime().isBefore(now)).map(t -> t.getUser())
-                .forEach(u -> u.remove());
-    }
-
-    public RegistrationToken getTokenSet(String token) {
-        return getTokenSet().stream().filter(t -> t.getToken().equals(token)).findFirst().orElse(null);
     }
 
     public VirtualEdition getArchiveEdition() {
@@ -182,27 +119,6 @@ public class LdoD extends LdoD_Base {
 
     public Set<VirtualEditionInter> getVirtualEditionInterSet(String fragmentXmlId) {
         return getVirtualEditionInterSet().stream().filter(virtualEditionInter -> virtualEditionInter.getFragmentXmlId().equals(fragmentXmlId)).collect(Collectors.toSet());
-    }
-
-    @Atomic(mode = TxMode.WRITE)
-    public void createTestUsers(PasswordEncoder passwordEncoder) {
-        LdoD ldod = LdoD.getInstance();
-
-        Role userRole = Role.getRole(RoleType.ROLE_USER);
-        Role admin = Role.getRole(RoleType.ROLE_ADMIN);
-
-        // the bcrypt generator
-        // https://www.dailycred.com/blog/12/bcrypt-calculator
-        for (int i = 0; i < 6; i++) {
-            String username = "zuser" + Integer.toString(i + 1);
-            if (LdoD.getInstance().getUser(username) == null) {
-                LdoDUser user = new LdoDUser(ldod, username, passwordEncoder.encode(username), "zuser", "zuser",
-                        "zuser" + Integer.toString(i + 1) + "@teste.pt");
-
-                user.setEnabled(true);
-                user.addRoles(userRole);
-            }
-        }
     }
 
     public Set<TwitterCitation> getAllTwitterCitation() {
@@ -332,12 +248,44 @@ public class LdoD extends LdoD_Base {
         }
     }
 
-    public List<VirtualEdition> getVirtualEditions4User(String username) {
-        LdoDUser user = getUser(username);
-        return LdoD.getInstance().getVirtualEditionsSet().stream()
-                .filter(virtualEdition -> virtualEdition.getParticipantList().contains(user))
+    public List<VirtualEdition> getVirtualEditionsUserIsParticipant(String username) {
+        return getVirtualEditionsSet().stream()
+                .filter(virtualEdition -> virtualEdition.getParticipantList().contains(username))
                 .collect(Collectors.toList());
+    }
 
+    public List<VirtualEditionInter> getVirtualEditionIntersUserIsContributor(String username) {
+        Set<VirtualEditionInter> virtualEditionIntersPublicAndParticipant =
+                getVirtualEditionsSet().stream()
+                        .filter(virtualEdition -> virtualEdition.getPub() || virtualEdition.getParticipantSet().contains(username))
+                        .flatMap(virtualEdition -> virtualEdition.getAllDepthVirtualEditionInters().stream())
+                        .collect(Collectors.toSet());
+
+        Stream<VirtualEditionInter> virtualEditionIntersAnnotated = virtualEditionIntersPublicAndParticipant.stream()
+                .filter(virtualEditionInter -> virtualEditionInter.getAnnotationSet().stream()
+                        .anyMatch(annotation -> annotation.getUser().equals(username)));
+
+        Stream<VirtualEditionInter> virtualEditionIntersTagged = virtualEditionIntersPublicAndParticipant.stream()
+                .filter(virtualEditionInter -> virtualEditionInter.getTagSet().stream()
+                        .anyMatch(tag -> tag.getContributor().equals(username)));
+
+        return Stream.concat(virtualEditionIntersAnnotated, virtualEditionIntersTagged).
+                sorted(Comparator.comparing(VirtualEditionInter::getTitle)).collect(Collectors.toList());
+    }
+
+    public List<VirtualEdition> getPublicVirtualEditionsUserIsParticipant(String username) {
+        return getVirtualEditionsSet().stream()
+                .filter(virtualEdition -> virtualEdition.getPub() && virtualEdition.getParticipantList().contains(username))
+                .distinct()
+                .sorted(Comparator.comparing(VirtualEdition::getTitle))
+                .collect(Collectors.toList());
+    }
+
+    public Set<VirtualEdition> getSelectedVirtualEditionsByUser(String username) {
+        return getVirtualEditionsSet().stream()
+                .filter(virtualEdition -> virtualEdition.getSelectedBySet().stream().
+                        anyMatch(selectedBy -> selectedBy.getUser().equals(username)))
+                .collect(Collectors.toSet());
     }
 
     public Set<ClassificationGame> getPublicClassificationGames() {
@@ -346,7 +294,7 @@ public class LdoD extends LdoD_Base {
     }
 
     public Set<ClassificationGame> getActiveGames4User(String username) {
-        Set<VirtualEdition> virtualEditions4User = new HashSet<>(getVirtualEditions4User(username));
+        Set<VirtualEdition> virtualEditions4User = new HashSet<>(getVirtualEditionsUserIsParticipant(username));
         Set<ClassificationGame> classificationGamesOfUser = virtualEditions4User.stream()
                 .flatMap(virtualEdition -> virtualEdition.getClassificationGameSet().stream()
                         .filter(ClassificationGame::isActive))
@@ -355,7 +303,10 @@ public class LdoD extends LdoD_Base {
         Set<ClassificationGame> allClassificationGames4User = new HashSet<>(getPublicClassificationGames());
         allClassificationGames4User.addAll(classificationGamesOfUser);
         return allClassificationGames4User;
+    }
 
+    public Player getPlayerByUsername(String user) {
+        return getPlayerSet().stream().filter(player -> player.getUser().equals(user)).findAny().orElse(null);
     }
 
     public Map<String, Double> getOverallLeaderboard() {
@@ -387,7 +338,6 @@ public class LdoD extends LdoD_Base {
 
     @Atomic(mode = TxMode.WRITE)
     public static void manageDailyClassificationGames(DateTime initialDate) {
-        LdoDUser ars = LdoD.getInstance().getUser("ars");
         VirtualEdition virtualEdition = LdoD.getInstance().getVirtualEdition("LdoD-Jogo-Class");
 
         // generate daily games
@@ -402,7 +352,7 @@ public class LdoD extends LdoD_Base {
             String formatedDate = java.time.LocalDateTime.of(date.getYear(), date.getMonthOfYear(),
                     date.getDayOfMonth(), date.getHourOfDay(), date.getMinuteOfHour()).format(formatter);
 
-            virtualEdition.createClassificationGame("Jogo " + formatedDate, date, inter, ars);
+            virtualEdition.createClassificationGame("Jogo " + formatedDate, date, inter, User.USER_ARS);
         }
 
         // delete non-played games
@@ -413,4 +363,5 @@ public class LdoD extends LdoD_Base {
         }
 
     }
+
 }

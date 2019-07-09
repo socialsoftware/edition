@@ -16,8 +16,8 @@ import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.socialsoftware.edition.ldod.TestLoadUtils;
 import pt.ist.socialsoftware.edition.ldod.config.Application;
-import pt.ist.socialsoftware.edition.ldod.controller.FragmentController;
 import pt.ist.socialsoftware.edition.ldod.controller.LdoDExceptionHandler;
+import pt.ist.socialsoftware.edition.ldod.controller.text.FragmentController;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.filters.TransactionFilter;
 import pt.ist.socialsoftware.edition.ldod.utils.AnnotationDTO;
@@ -292,9 +292,8 @@ public class FragmentTest {
 
         // create permissionDTO
         VirtualEdition ve = ldod.getArchiveEdition();
-        LdoDUser user = ldod.getUser("ars");
 
-        PermissionDTO permissionDTO = new PermissionDTO(ve, user);
+        PermissionDTO permissionDTO = new PermissionDTO(ve, User.USER_ARS);
 
         // create annotationDTO
 
@@ -473,8 +472,6 @@ public class FragmentTest {
 
         VirtualEditionInter fragInter = frags.get(0);
 
-        LdoDUser user = LdoD.getInstance().getUser("ars");
-
         RangeJson rj = new RangeJson();
         rj.setStart("/div[1]/div[1]/p[3]");
         rj.setStartOffset(3);
@@ -484,7 +481,7 @@ public class FragmentTest {
         List<RangeJson> list = new ArrayList<>();
         list.add(rj);
 
-        fragInter.createHumanAnnotation("A arte é um esquivar-se a agir", "Interesting", user,
+        fragInter.createHumanAnnotation("A arte é um esquivar-se a agir", "Interesting", User.USER_ARS,
                 list, Arrays.asList("tag1", "tag2"));
 
     }

@@ -11,6 +11,8 @@ import pt.ist.fenixframework.DomainObject;
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.ldod.api.ui.FragInterDto;
 import pt.ist.socialsoftware.edition.ldod.api.ui.UiInterface;
+import pt.ist.socialsoftware.edition.ldod.api.user.UserInterface;
+import pt.ist.socialsoftware.edition.ldod.api.user.dto.UserDto;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.generators.HtmlWriter2CompInters;
 import pt.ist.socialsoftware.edition.ldod.generators.HtmlWriter4Variations;
@@ -30,6 +32,8 @@ import static pt.ist.socialsoftware.edition.ldod.domain.Source.SourceType.PRINTE
 @RequestMapping("/api/services/frontend")
 public class FrontEndController {
     private static final Logger logger = LoggerFactory.getLogger(FrontEndController.class);
+
+    private final UserInterface userInterface = new UserInterface();
 
     @Inject
     private PasswordEncoder passwordEncoder;
@@ -403,7 +407,7 @@ public class FrontEndController {
 
         /*Set<VirtualEdition> virtualEditions = new LinkedHashSet<>(LdoDSession.getLdoDSession().materializeVirtualEditions());
 
-        virtualEditions.addAll((LdoDUser.getAuthenticatedUser() != null ? LdoDUser.getAuthenticatedUser().getSelectedVirtualEditionsSet() : new LinkedHashSet<>()));
+        virtualEditions.addAll((User.getAuthenticatedUser() != null ? User.getAuthenticatedUser().getSelectedVirtualEditionsSet() : new LinkedHashSet<>()));
 
         virtualEditions.add(LdoD.getInstance().getArchiveEdition());
 
@@ -497,13 +501,13 @@ public class FrontEndController {
             infoMap.put("categoryExternal", category.getExternalId());
 
             List<Map<String, String>> userList = new ArrayList<>();
-            for (LdoDUser user : inter.getContributorSet(category)) {
+            inter.getContributorSet(category).stream().map(UserDto::new).forEach(userDto -> {
                 Map<String, String> userInfo = new LinkedHashMap<>();
-                userInfo.put("username", user.getUsername());
-                userInfo.put("firstName", user.getFirstName());
-                userInfo.put("lastName", user.getLastName());
+                userInfo.put("username", userDto.getUsername());
+                userInfo.put("firstName", userDto.getFirstName());
+                userInfo.put("lastName", userDto.getLastName());
                 userList.add(userInfo);
-            }
+            });
             infoMap.put("users", userList);
 
             categoryInfo.add(infoMap);
@@ -532,9 +536,9 @@ public class FrontEndController {
 
         Map<String, Object> catInfo = new LinkedHashMap<>();
 
-        LdoDUser user = LdoDUser.getAuthenticatedUser();
+        String user = this.userInterface.getAuthenticatedUser();
 
-        if (user != null) {
+        if (this.userInterface.getUser(user) != null) {
             List<String> assignedInfo = new ArrayList<>();
             for (Category category : inter.getAssignedCategories(user)) {
                 assignedInfo.add(category.getNameInEditionContext(inter.getEdition()));
@@ -642,7 +646,7 @@ public class FrontEndController {
             List<Object> tags = new ArrayList<>();
             for (Tag tag : inter.getTagsCompleteInter()) {
                 Map<String, String> tagInfo = new LinkedHashMap<>();
-                tagInfo.put("username", tag.getContributor().getUsername());
+                tagInfo.put("username", tag.getContributor());
                 tagInfo.put("acronym", tag.getCategory().getTaxonomy().getEdition().getAcronym());
                 tagInfo.put("urlId", tag.getCategory().getUrlId());
                 tagInfo.put("name", tag.getCategory().getNameInEditionContext(inter.getEdition()));
@@ -676,7 +680,7 @@ public class FrontEndController {
                     annotationInfo.put("country", ((AwareAnnotation) annotation).getCountry());
                 }
 
-                annotationInfo.put("username", annotation.getUser().getUsername());
+                annotationInfo.put("username", annotation.getUser());
 
                 annotations.add(annotationInfo);
             }
@@ -700,15 +704,15 @@ public class FrontEndController {
 
         VirtualEditionInter inter = (VirtualEditionInter) object;
 
-        LdoDUser user = LdoDUser.getAuthenticatedUser();
+        User user = User.getAuthenticatedUser();
 
-        if (user == null || !inter.getEdition().checkAccess()) {
+        if (user == null || !inter.getEdition().isPublicOrIsParticipant()) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
 
         String[] names = categories.split("%2C");
 
-        inter.associate(LdoDUser.getAuthenticatedUser(), Arrays.stream(names).collect(Collectors.toSet()));
+        inter.associate(this.userInterface.getAuthenticatedUser(), Arrays.stream(names).collect(Collectors.toSet()));
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -725,7 +729,7 @@ public class FrontEndController {
 
         VirtualEditionInter inter = (VirtualEditionInter) object;
 
-        inter.dissociate(LdoDUser.getAuthenticatedUser(), category);
+        inter.dissociate(this.userInterface.getAuthenticatedUser(), category);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -742,7 +746,7 @@ public class FrontEndController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        LdoDUser user = LdoD.getInstance().getUser(username);
+        User user = UserModule.getInstance().getUser(username);
 
         if (!this.passwordEncoder.matches(currentPassword, user.getPassword())) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -761,8 +765,9 @@ public class FrontEndController {
         logger.debug(annotationJson.getQuote());
 
         VirtualEditionInter inter = FenixFramework.getDomainObject(annotationJson.getUri());
-        VirtualEdition virtualEdition = (VirtualEdition) inter.getEdition();
-        LdoDUser user = LdoDUser.getAuthenticatedUser();
+        VirtualEdition virtualEdition = inter.getEdition();
+
+        String user = this.userInterface.getAuthenticatedUser();
 
         HumanAnnotation annotation;
         if (HumanAnnotation.canCreate(virtualEdition, user)) {
@@ -791,13 +796,12 @@ public class FrontEndController {
     @PutMapping("/fragment/annotations/{id}")
     public ResponseEntity<?> updateAnnotation(@PathVariable String id, @RequestBody AnnotationDTO annotationJson) {
         HumanAnnotation annotation = FenixFramework.getDomainObject(id);
-        LdoDUser user = LdoDUser.getAuthenticatedUser();
 
         if (annotation == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        if (annotation.canUpdate(user)) {
+        if (annotation.canUpdate(this.userInterface.getAuthenticatedUser())) {
             annotation.update(annotationJson.getText(), new ArrayList()); //TODO : get tags from dto when tag support is added to frontend
             return new ResponseEntity<>(new AnnotationDTO(annotation), HttpStatus.OK);
         } else {
@@ -809,13 +813,12 @@ public class FrontEndController {
     public ResponseEntity<?> deleteAnnotation(@PathVariable String id) {
 
         HumanAnnotation annotation = FenixFramework.getDomainObject(id);
-        LdoDUser user = LdoDUser.getAuthenticatedUser();
 
         if (annotation == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        if (annotation.canDelete(user)) {
+        if (annotation.canDelete(this.userInterface.getAuthenticatedUser())) {
             annotation.remove();
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } else {

@@ -31,7 +31,7 @@ public class CriteriaTests extends TestWithFragmentsLoading {
     // rule: Class cannot be mocked
     Class<?> clazz;
 
-    private LdoDUser user;
+    private User user;
 
     @Override
     protected String[] fragmentsToLoad4Test() {
@@ -44,11 +44,11 @@ public class CriteriaTests extends TestWithFragmentsLoading {
     @Atomic(mode = TxMode.WRITE)
     public void populate4Test() {
         LdoD ldoD = LdoD.getInstance();
-        this.user = new LdoDUser(ldoD, "ars1", "ars", "Antonio", "Silva", "a@a.a");
+        this.user = new User(UserModule.getInstance(), "ars1", "ars", "Antonio", "Silva", "a@a.a");
         LocalDate localDate = LocalDate.parse("20018-07-20");
         ExpertEdition expertEdition = TextModule.getInstance().getRZEdition();
 
-        this.virtualEdition = new VirtualEdition(ldoD, this.user, "acronym", "title", localDate, true, expertEdition.getAcronym());
+        this.virtualEdition = new VirtualEdition(ldoD, this.user.getUsername(), "acronym", "title", localDate, true, expertEdition.getAcronym());
         this.clazz = pt.ist.socialsoftware.edition.ldod.domain.MediaSource.class;
     }
 
