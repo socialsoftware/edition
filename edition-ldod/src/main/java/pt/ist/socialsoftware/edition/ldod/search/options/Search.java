@@ -93,7 +93,7 @@ public class Search {
                         .flatMap(f -> f.getScholarInterDtoSet().stream()).map(scholarInter ->
                                 new SearchableElement(SearchableElement.Type.SCHOLAR_INTER, scholarInter.getXmlId(), scholarInter.getTitle(), scholarInter.getFragmentXmlId(), scholarInter.getUrlId(), scholarInter.getShortName(), scholarInter.getXmlId()))
                 , LdoD.getInstance().getVirtualEditionInterSet().stream().map(virtualEditionInter ->
-                        new SearchableElement(SearchableElement.Type.VIRTUAL_INTER, virtualEditionInter.getXmlId(), virtualEditionInter.getTitle(), virtualEditionInter.getFragmentXmlId(), virtualEditionInter.getUrlId(), virtualEditionInter.getShortName(), virtualEditionInter.getUsesFragInter()))
+                        new SearchableElement(SearchableElement.Type.VIRTUAL_INTER, virtualEditionInter.getXmlId(), virtualEditionInter.getTitle(), virtualEditionInter.getFragmentXmlId(), virtualEditionInter.getUrlId(), virtualEditionInter.getShortName(), virtualEditionInter.getUsesScholarInterId()))
         ).collect(Collectors.toList());
     }
 

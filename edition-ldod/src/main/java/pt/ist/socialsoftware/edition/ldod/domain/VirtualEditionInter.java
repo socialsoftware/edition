@@ -40,7 +40,7 @@ public class VirtualEditionInter extends VirtualEditionInter_Base implements Com
 
     public VirtualEditionInter(Section section, VirtualEditionInter inter, int number) {
         setUses(inter);
-        setUsesFragInter(null);
+        setUsesScholarInterId(null);
 
         setSection(section);
         setNumber(number);
@@ -51,7 +51,7 @@ public class VirtualEditionInter extends VirtualEditionInter_Base implements Com
 
     public VirtualEditionInter(Section section, ScholarInterDto scholarInterDto, int number) {
         setUses(null);
-        setUsesFragInter(scholarInterDto.getXmlId());
+        setUsesScholarInterId(scholarInterDto.getXmlId());
 
 
         setSection(section);
@@ -65,7 +65,7 @@ public class VirtualEditionInter extends VirtualEditionInter_Base implements Com
 
         for (VirtualEditionInter inter : getIsUsedBySet()) {
             inter.setUses(getUses());
-            inter.setUsesFragInter(getUsesFragInter()); // set usesfraginter so that first level vei can now the fraginter they point too
+            inter.setUsesScholarInterId(getUsesScholarInterId()); // set usesfraginter so that first level vei can now the fraginter they point too
         }
 
         setSection(null);
@@ -90,12 +90,12 @@ public class VirtualEditionInter extends VirtualEditionInter_Base implements Com
     }
 
     public String getTitle() {
-        return getUses() != null ? getUses().getTitle() : (new TextInterface()).getScholarInterTitle(getUsesFragInter());
+        return getUses() != null ? getUses().getTitle() : (new TextInterface()).getScholarInterTitle(getUsesScholarInterId());
     }
 
     public String getUsesXmlId() {
         if (getUses() == null) {
-            return getUsesFragInter();
+            return getUsesScholarInterId();
         } else {
             return getUses().getXmlId();
         }
@@ -120,7 +120,7 @@ public class VirtualEditionInter extends VirtualEditionInter_Base implements Com
     }
 
     public ScholarInterDto getLastUsed() {
-        return getUses() != null ? getUses().getLastUsed() : (new TextInterface()).getScholarInter(getUsesFragInter());
+        return getUses() != null ? getUses().getLastUsed() : (new TextInterface()).getScholarInter(getUsesScholarInterId());
     }
 
     public VirtualEdition getEdition() {

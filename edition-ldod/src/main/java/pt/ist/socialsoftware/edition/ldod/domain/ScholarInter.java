@@ -32,16 +32,15 @@ public abstract class ScholarInter extends ScholarInter_Base {
     public abstract String getReference();
 
     public void remove() {
-
+        EventInterface eventInterface = new EventInterface();
+        eventInterface.publish(new Event(Event.EventType.SCHOLAR_INTER_REMOVE, this.getXmlId()));
+        
         setFragment(null);
         setHeteronym(null);
 
         if (getLdoDDate() != null) {
             getLdoDDate().remove();
         }
-
-        EventInterface eventInterface = new EventInterface();
-        eventInterface.publish(new Event(Event.EventType.SCHOLAR_INTER_REMOVE, this.getXmlId()));
 
         for (RdgText rdg : getRdgSet()) {
             removeRdg(rdg);
@@ -63,7 +62,7 @@ public abstract class ScholarInter extends ScholarInter_Base {
             ref.setScholarInter(null);
         }
 
-        // adicionado recentemente, testar
+        // TODO: it does not belong to this model
         getInfoRangeSet().forEach(infoRange -> infoRange.remove());
 
         deleteDomainObject();

@@ -15,12 +15,15 @@ public class LdoDInterface {
     private static final Logger logger = LoggerFactory.getLogger(LdoDInterface.class);
 
     public void notifyEvent(Event event) {
-
-        if (event.getType().equals(Event.EventType.SCHOLAR_INTER_REMOVE)) {
-
+        if (event.getType().equals(Event.EventType.FRAGMENT_REMOVE)) {
             LdoD.getInstance().getVirtualEditionsSet().stream()
                     .flatMap(virtualEdition -> virtualEdition.getAllDepthVirtualEditionInters().stream())
-                    .filter(virtualEditionInter -> virtualEditionInter.getUsesFragInter() != null && virtualEditionInter.getUsesFragInter().equals(event.getIdentifier()))
+                    .filter(virtualEditionInter -> virtualEditionInter.getUsesScholarInterId() != null && virtualEditionInter.getFragmentXmlId().equals(event.getIdentifier()))
+                    .forEach(this::removeAll);
+        } else if (event.getType().equals(Event.EventType.SCHOLAR_INTER_REMOVE)) {
+            LdoD.getInstance().getVirtualEditionsSet().stream()
+                    .flatMap(virtualEdition -> virtualEdition.getAllDepthVirtualEditionInters().stream())
+                    .filter(virtualEditionInter -> virtualEditionInter.getUsesScholarInterId() != null && virtualEditionInter.getUsesScholarInterId().equals(event.getIdentifier()))
                     .forEach(this::removeAll);
         } else if (event.getType().equals(Event.EventType.USER_REMOVE)) {
             String username = event.getIdentifier();

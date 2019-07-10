@@ -23,7 +23,7 @@ public class UiInterface {
             inter = inter.getUses();
         }
 
-        fragInterList.add(new FragInterDto(TextModule.getInstance().getScholarInterByXmlId(inter.getUsesFragInter())));
+        fragInterList.add(new FragInterDto(TextModule.getInstance().getScholarInterByXmlId(inter.getUsesScholarInterId())));
 
         return fragInterList;
     }

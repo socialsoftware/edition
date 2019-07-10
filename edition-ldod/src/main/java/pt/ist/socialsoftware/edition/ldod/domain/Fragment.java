@@ -4,6 +4,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
+import pt.ist.socialsoftware.edition.ldod.api.event.Event;
+import pt.ist.socialsoftware.edition.ldod.api.event.EventInterface;
 
 import java.util.*;
 
@@ -32,6 +34,9 @@ public class Fragment extends Fragment_Base implements Comparable<Fragment> {
 
     @Atomic(mode = TxMode.WRITE)
     public void remove() {
+        EventInterface eventInterface = new EventInterface();
+        eventInterface.publish(new Event(Event.EventType.FRAGMENT_REMOVE, this.getXmlId()));
+
         setTextModule(null);
 
         getTextPortion().remove();
@@ -49,6 +54,7 @@ public class Fragment extends Fragment_Base implements Comparable<Fragment> {
             ref.remove();
         }
 
+        // TODO: it does not belong to this model
         getCitationSet().stream().forEach(c -> c.remove());
 
         deleteDomainObject();

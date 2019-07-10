@@ -79,7 +79,7 @@ public class VirtualEditionFragmentsTEIExport {
         Element witness = new Element("witness", this.xmlns);
         Attribute id = new Attribute("id", virtualEditionInter.getXmlId(), Namespace.XML_NAMESPACE);
         witness.setAttribute(id);
-        witness.setAttribute("source", "#" + (virtualEditionInter.getUses() != null ? virtualEditionInter.getUses().getXmlId() : virtualEditionInter.getUsesFragInter()));
+        witness.setAttribute("source", "#" + (virtualEditionInter.getUses() != null ? virtualEditionInter.getUses().getXmlId() : virtualEditionInter.getUsesScholarInterId()));
         witnesses.addContent(witness);
 
         Element number = new Element("num", this.xmlns);

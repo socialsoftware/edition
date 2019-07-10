@@ -305,7 +305,7 @@ class ExpertEditionInter extends ScholarInter {
 
 class VirtualEditionInter {
 	String xmlId;
-    String usesFragInter;
+    String usesScholarInterId;
 	int number;
 
 }
