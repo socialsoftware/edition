@@ -51,14 +51,14 @@ public class VSMVirtualEditionInterRecomenderPerformanceTest {
     @BeforeEach
     @Atomic(mode = TxMode.WRITE)
     protected void setUp() {
-        LdoD ldoD = LdoD.getInstance();
+        VirtualModule virtualModule = VirtualModule.getInstance();
         TextModule text = TextModule.getInstance();
         ExpertEdition pizarroEdition = text.getJPEdition();
         ExpertEdition zenithEdition = text.getRZEdition();
         ExpertEdition cunhaEdition = text.getTSCEdition();
 
         // create pizarro virtual edition
-        pizarroVirtualEdition = ldoD.createVirtualEdition(User.USER_ARS, "TestPizarroRecommendations",
+        pizarroVirtualEdition = virtualModule.createVirtualEdition(User.USER_ARS, "TestPizarroRecommendations",
                 "TestPizarroRecommendations", LocalDate.now(), true, pizarroEdition.getAcronym());
         pizarroVirtualEditionInters = pizarroVirtualEdition.getIntersSet().stream().map(VirtualEditionInter.class::cast)
                 .collect(Collectors.toSet());
@@ -76,13 +76,13 @@ public class VSMVirtualEditionInterRecomenderPerformanceTest {
 
         // create zenith virtual edition
 
-        zenithVirtualEdition = ldoD.createVirtualEdition(User.USER_ARS, "TestZenithRecommendations",
+        zenithVirtualEdition = virtualModule.createVirtualEdition(User.USER_ARS, "TestZenithRecommendations",
                 "TestZenithRecommendations", LocalDate.now(), true, zenithEdition.getAcronym());
         zenithVirtualEditionInters = zenithVirtualEdition.getIntersSet().stream().map(VirtualEditionInter.class::cast)
                 .collect(Collectors.toSet());
 
         // create cunha virtual edition
-        cunhaVirtualEdition = ldoD.createVirtualEdition(User.USER_ARS, "TestCunhaRecommendations", "TestCunhaRecommendations",
+        cunhaVirtualEdition = virtualModule.createVirtualEdition(User.USER_ARS, "TestCunhaRecommendations", "TestCunhaRecommendations",
                 LocalDate.now(), true, cunhaEdition.getAcronym());
         cunhaVirtualEditionInters = cunhaVirtualEdition.getIntersSet().stream().map(VirtualEditionInter.class::cast)
                 .collect(Collectors.toSet());

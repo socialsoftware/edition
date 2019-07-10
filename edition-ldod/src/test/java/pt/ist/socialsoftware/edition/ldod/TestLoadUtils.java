@@ -51,17 +51,17 @@ public class TestLoadUtils {
     public static void cleanDatabaseButCorpus() {
         TextModule text = TextModule.getInstance();
         UserModule userModule = UserModule.getInstance();
-        LdoD ldoD = LdoD.getInstance();
+        VirtualModule virtualModule = VirtualModule.getInstance();
         if (userModule != null) {
             userModule.getUsersSet().stream()
                     .filter(u -> !(u.getUsername().equals(User.USER_ARS) || u.getUsername().equals(User.USER_TWITTER)))
                     .forEach(u -> u.remove());
-            ldoD.getCitationSet().forEach(c -> c.remove());
+            virtualModule.getCitationSet().forEach(c -> c.remove());
             userModule.getUserConnectionSet().forEach(uc -> uc.remove());
             userModule.getTokenSet().forEach(t -> t.remove());
-            ldoD.getVirtualEditionsSet().stream().filter(ve -> !ve.getAcronym().equals(ExpertEdition.ARCHIVE_EDITION_ACRONYM))
+            virtualModule.getVirtualEditionsSet().stream().filter(ve -> !ve.getAcronym().equals(ExpertEdition.ARCHIVE_EDITION_ACRONYM))
                     .forEach(ve -> ve.remove());
-            ldoD.getTweetSet().forEach(t -> t.remove());
+            virtualModule.getTweetSet().forEach(t -> t.remove());
         }
         if (text != null) {
             text.getFragmentsSet().forEach(f -> f.remove());
@@ -94,6 +94,6 @@ public class TestLoadUtils {
     }
 
     public static void deleteTestVirtualEdition() {
-        LdoD.getInstance().getVirtualEdition("LdoD-Teste").remove();
+        VirtualModule.getInstance().getVirtualEdition("LdoD-Teste").remove();
     }
 }

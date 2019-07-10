@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 public class VirtualEdition extends VirtualEdition_Base {
     private static final Logger logger = LoggerFactory.getLogger(VirtualEdition.class);
 
-    public static final String ARCHIVE_EDITION_NAME = "Edição do Arquivo LdoD";
+    public static final String ARCHIVE_EDITION_NAME = "Edição do Arquivo VirtualModule";
     public static String ACRONYM_PREFIX = "LdoD-";
 
     @Override
@@ -58,7 +58,7 @@ public class VirtualEdition extends VirtualEdition_Base {
                     throw new LdoDDuplicateAcronymException();
                 }
 
-                for (VirtualEdition edition : LdoD.getInstance().getVirtualEditionsSet()) {
+                for (VirtualEdition edition : VirtualModule.getInstance().getVirtualEditionsSet()) {
                     if (edition.getAcronym() != null && acronym.toUpperCase().equals(edition.getAcronym().toUpperCase())) {
                         throw new LdoDDuplicateAcronymException();
                     }
@@ -74,9 +74,9 @@ public class VirtualEdition extends VirtualEdition_Base {
         return "ED.VIRT." + getAcronym();
     }
 
-    public VirtualEdition(LdoD ldod, String participant, String acronym, String title, LocalDate date, Boolean pub,
+    public VirtualEdition(VirtualModule virtualModule, String participant, String acronym, String title, LocalDate date, Boolean pub,
                           String acronymOfUsed) {
-        setLdoD4Virtual(ldod);
+        setVirtualModule4Virtual(virtualModule);
         new Member(this, participant, Member.MemberRole.ADMIN, true);
         setXmlId("ED.VIRT." + acronym);
         setAcronym(acronym);
@@ -86,7 +86,7 @@ public class VirtualEdition extends VirtualEdition_Base {
         setTaxonomy(new Taxonomy());
         createSection(Section.DEFAULT, 0);
         if (acronymOfUsed != null) {
-            VirtualEdition virtualEdition = LdoD.getInstance().getVirtualEdition(acronymOfUsed);
+            VirtualEdition virtualEdition = VirtualModule.getInstance().getVirtualEdition(acronymOfUsed);
             if (virtualEdition != null) {
                 for (VirtualEditionInter inter : virtualEdition.getIntersSet()) {
                     createVirtualEditionInter(inter, inter.getNumber());
@@ -115,7 +115,7 @@ public class VirtualEdition extends VirtualEdition_Base {
             }
         }
 
-        setLdoD4Virtual(null);
+        setVirtualModule4Virtual(null);
 
         getClassificationGameSet().stream().forEach(g -> g.remove());
 
@@ -171,7 +171,7 @@ public class VirtualEdition extends VirtualEdition_Base {
     }
 
     public boolean canAddFragInter(String xmlId) {
-        VirtualEditionInter virtualEditionInter = LdoD.getInstance().getVirtualEditionInterByXmlId(xmlId);
+        VirtualEditionInter virtualEditionInter = VirtualModule.getInstance().getVirtualEditionInterByXmlId(xmlId);
         if (virtualEditionInter != null) {
             return canAddFragInter(virtualEditionInter);
         }
@@ -390,7 +390,7 @@ public class VirtualEdition extends VirtualEdition_Base {
                 if (scholarInterDto != null) {
                     createVirtualEditionInter(scholarInterDto, number + 1);
                 } else {
-                    VirtualEditionInter virtualEditionInter = LdoD.getInstance().getVirtualEditionInterByXmlId(interXmlId);
+                    VirtualEditionInter virtualEditionInter = VirtualModule.getInstance().getVirtualEditionInterByXmlId(interXmlId);
                     if (virtualEditionInter != null) {
                         createVirtualEditionInter(virtualEditionInter, number + 1);
                     } else {
@@ -694,7 +694,7 @@ public class VirtualEdition extends VirtualEdition_Base {
                 return recommendationWeights;
             }
         }
-        return LdoD.getInstance().createRecommendationWeights(user, this);
+        return VirtualModule.getInstance().createRecommendationWeights(user, this);
     }
 
 

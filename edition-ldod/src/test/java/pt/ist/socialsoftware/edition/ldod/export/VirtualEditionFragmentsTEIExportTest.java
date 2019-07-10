@@ -48,9 +48,9 @@ public class VirtualEditionFragmentsTEIExportTest extends TestWithFragmentsLoadi
                 String fragmentTEI = export.exportFragment(fragment.getXmlId());
                 logger(fragmentTEI);
 
-                int numberOfInters = LdoD.getInstance().getVirtualEditionInterSet(fragment.getXmlId()).size();
+                int numberOfInters = VirtualModule.getInstance().getVirtualEditionInterSet(fragment.getXmlId()).size();
 
-                for (VirtualEditionInter inter : LdoD.getInstance().getVirtualEditionInterSet(fragment.getXmlId())) {
+                for (VirtualEditionInter inter : VirtualModule.getInstance().getVirtualEditionInterSet(fragment.getXmlId())) {
                     inter.remove();
                 }
                 fragment.getCitationSet().forEach(citation -> citation.remove());
@@ -60,7 +60,7 @@ public class VirtualEditionFragmentsTEIExportTest extends TestWithFragmentsLoadi
 
                 System.out.println(export.exportFragment(fragment.getXmlId()));
 
-                assertEquals(numberOfInters, LdoD.getInstance().getVirtualEditionInterSet(fragment.getXmlId()).size());
+                assertEquals(numberOfInters, VirtualModule.getInstance().getVirtualEditionInterSet(fragment.getXmlId()).size());
 
                 assertEquals(Arrays.stream(fragmentTEI.split("\\r?\\n")).sorted().collect(Collectors.joining("\\n")),
                         Arrays.stream(export.exportFragment(fragment.getXmlId()).split("\\r?\\n")).sorted()
@@ -69,7 +69,7 @@ public class VirtualEditionFragmentsTEIExportTest extends TestWithFragmentsLoadi
             count++;
         }
         // debug
-        // logger("original test size: " + LdoD.getInstance().getFragmentsSet().size());
+        // logger("original test size: " + VirtualModule.getInstance().getFragmentsSet().size());
     }
 
     // aux method
@@ -80,7 +80,7 @@ public class VirtualEditionFragmentsTEIExportTest extends TestWithFragmentsLoadi
 
         // Saving value for assert
         int numOfCitations = fragment.getCitationSet().size();
-        int numberOfInters = LdoD.getInstance().getVirtualEditionInterSet(fragment.getXmlId()).size();
+        int numberOfInters = VirtualModule.getInstance().getVirtualEditionInterSet(fragment.getXmlId()).size();
 
         int numOfInfoRanges = 0;
         for (ScholarInter scholarInter : fragment.getScholarInterSet()) {
@@ -102,7 +102,7 @@ public class VirtualEditionFragmentsTEIExportTest extends TestWithFragmentsLoadi
         assertEquals(numOfInfoRanges, altNumOfInfoRanges);
 
         // Clean
-        for (VirtualEditionInter inter : LdoD.getInstance().getVirtualEditionInterSet(fragment.getXmlId())) {
+        for (VirtualEditionInter inter : VirtualModule.getInstance().getVirtualEditionInterSet(fragment.getXmlId())) {
             inter.remove();
         }
         fragment.getCitationSet().forEach(citation -> citation.remove());
@@ -115,7 +115,7 @@ public class VirtualEditionFragmentsTEIExportTest extends TestWithFragmentsLoadi
 
         //TODO: add way to load citations independently from frag
         //assertEquals(numOfCitations, fragment.getCitationSet().size());
-        assertEquals(numberOfInters, LdoD.getInstance().getVirtualEditionInterSet(fragment.getXmlId()).size());
+        assertEquals(numberOfInters, VirtualModule.getInstance().getVirtualEditionInterSet(fragment.getXmlId()).size());
         int numOfInfoRangesAfterImport = 0;
         for (ScholarInter scholarInter : fragment.getScholarInterSet()) {
             numOfInfoRangesAfterImport += scholarInter.getInfoRangeSet().size();
@@ -194,7 +194,7 @@ public class VirtualEditionFragmentsTEIExportTest extends TestWithFragmentsLoadi
                     new InfoRange(tc, fragment.getScholarInterByXmlId(num + ".WIT.ED.CRIT.Z"), "/div[1]/div[1]/p[3]", 10,
                             "/div[1]/div[1]/p[3]", 20, "quoteExample", "textExample");
                 }
-				/*FragInter fragInter = fragment.getScholarInterByXmlId("Fr023.WIT.ED.VIRT.LdoD-Duarte.1");
+				/*FragInter fragInter = fragment.getScholarInterByXmlId("Fr023.WIT.ED.VIRT.VirtualModule-Duarte.1");
 				if (fragInter != null && fragInter instanceof VirtualEditionInter) {
 					VirtualEditionInter vei = (VirtualEditionInter) fragInter;
 					AwareAnnotation annot = new AwareAnnotation(vei, "quoteAnnotationExample", "textAnnotationExample",

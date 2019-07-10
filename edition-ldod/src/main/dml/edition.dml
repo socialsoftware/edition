@@ -23,7 +23,7 @@ enum NoteText.NoteType as NoteType;
 enum RefText.RefType as RefType;
 enum ClassificationGame.ClassificationGameState as ClassificationGameState;
 
-class LdoD {
+class VirtualModule {
 	String title;
 	String author;
 	String editor;
@@ -55,16 +55,16 @@ class LastTwitterID {
 	long vicenteLastTwitterID;
 }
 
-relation LdoDHasLastTwitterID {
-	LdoD playsRole ldoD {multiplicity 1..1;}
+relation VirtualModuleHasLastTwitterID {
+	VirtualModule playsRole virtualModule {multiplicity 1..1;}
 	LastTwitterID playsRole lastTwitterID {multiplicity 0..1;}
 }
 
-relation DomainRootHasLdoDApplication {
+relation DomainRootHasVirtualModule {
 	.pt.ist.fenixframework.DomainRoot playsRole root {
 		multiplicity 1..1;
 	}
-	LdoD playsRole ldoD {
+	VirtualModule playsRole virtualModule {
 		multiplicity 0..1;
 	}
 }
@@ -194,8 +194,8 @@ relation TextModuleHasNullEdition {
 	NullEdition playsRole nullEdition {multiplicity 0..1;}
 }
 
-relation LdoDHasVirtualEditions {
-	LdoD playsRole ldoD4Virtual {multiplicity 1..1;}
+relation VirtualModuleHasVirtualEditions {
+	VirtualModule playsRole virtualModule4Virtual {multiplicity 1..1;}
 	VirtualEdition playsRole virtualEditions {multiplicity 0..*;}
 }
 
@@ -769,8 +769,8 @@ relation TwitterCitationHasTweets {
 	Tweet playsRole tweet {multiplicity 0..*;}
 }
 
-relation LdoDHasTweets {
-	LdoD playsRole ldoD {multiplicity 1..1;}
+relation VirtualModuleHasTweets {
+	VirtualModule playsRole virtualModule {multiplicity 1..1;}
 	Tweet playsRole tweet {multiplicity 0..*;}
 }
 
@@ -787,8 +787,8 @@ class Player {
 	double score;
 }
 
-relation LdoDHasPlayers {
-	LdoD playsRole ldoD {multiplicity 1..1;}
+relation VirtualModuleHasPlayers {
+	VirtualModule playsRole virtualModule {multiplicity 1..1;}
 	Player playsRole player {multiplicity 0..*;}
 }
 

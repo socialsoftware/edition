@@ -58,7 +58,7 @@ public class FragmentController {
         if (fragment == null) {
             return "redirect:/error";
         } else {
-            model.addAttribute("ldoD", LdoD.getInstance());
+            model.addAttribute("ldoD", VirtualModule.getInstance());
             model.addAttribute("text", TextModule.getInstance());
             model.addAttribute("user", User.getAuthenticatedUser());
             model.addAttribute("fragment", fragment);
@@ -92,7 +92,7 @@ public class FragmentController {
             model.addAttribute("inters", inters);
         } else {
             List<VirtualEditionInter> inters = new ArrayList<>();
-            VirtualEditionInter virtualEditionInter = LdoD.getInstance().getVirtualEditionInterByUrlId(urlId);
+            VirtualEditionInter virtualEditionInter = VirtualModule.getInstance().getVirtualEditionInterByUrlId(urlId);
             if (virtualEditionInter == null) {
                 return "redirect:/error";
             }
@@ -116,7 +116,7 @@ public class FragmentController {
         writer.write(false);
 
 
-        model.addAttribute("ldoD", LdoD.getInstance());
+        model.addAttribute("ldoD", VirtualModule.getInstance());
         model.addAttribute("text", TextModule.getInstance());
         model.addAttribute("user", User.getAuthenticatedUser());
         model.addAttribute("fragment", fragment);
@@ -175,7 +175,7 @@ public class FragmentController {
 
         List<VirtualEditionInter> inters = new ArrayList<>();
         inters.add(inter);
-        model.addAttribute("ldoD", LdoD.getInstance());
+        model.addAttribute("ldoD", VirtualModule.getInstance());
         model.addAttribute("text", TextModule.getInstance());
         model.addAttribute("user", User.getAuthenticatedUser());
         model.addAttribute("inters", inters);
@@ -198,7 +198,7 @@ public class FragmentController {
             return "redirect:/fragments/fragment/" + inter.getFragment().getXmlId() + "/inter/" + inter.getUrlId();
         }
 
-        VirtualEditionInter virtualEditionInter = LdoD.getInstance().getVirtualEditionInterByUrlId(urlId);
+        VirtualEditionInter virtualEditionInter = VirtualModule.getInstance().getVirtualEditionInterByUrlId(urlId);
         if (virtualEditionInter != null) {
             virtualEditionInter = virtualEditionInter.getNextNumberInter();
 
@@ -223,7 +223,7 @@ public class FragmentController {
             return "redirect:/fragments/fragment/" + inter.getFragment().getXmlId() + "/inter/" + inter.getUrlId();
         }
 
-        VirtualEditionInter virtualEditionInter = LdoD.getInstance().getVirtualEditionInterByUrlId(urlId);
+        VirtualEditionInter virtualEditionInter = VirtualModule.getInstance().getVirtualEditionInterByUrlId(urlId);
         if (virtualEditionInter != null) {
             virtualEditionInter = virtualEditionInter.getPrevNumberInter();
 
@@ -255,7 +255,7 @@ public class FragmentController {
 
         logger.debug("getInter scholarInters: {}, virtualEditionInters: {}", scholarInters.size(), virtualEditionInters.size());
 
-        model.addAttribute("ldoD", LdoD.getInstance());
+        model.addAttribute("ldoD", VirtualModule.getInstance());
         model.addAttribute("text", TextModule.getInstance());
         model.addAttribute("user", User.getAuthenticatedUser());
         model.addAttribute("fragment", fragment);
@@ -308,7 +308,7 @@ public class FragmentController {
 
         List<ScholarInter> inters = new ArrayList<>();
         inters.add(inter);
-        model.addAttribute("ldoD", LdoD.getInstance());
+        model.addAttribute("ldoD", VirtualModule.getInstance());
         model.addAttribute("text", TextModule.getInstance());
         model.addAttribute("inters", inters);
         model.addAttribute("writer", writer);
@@ -337,7 +337,7 @@ public class FragmentController {
         List<ScholarInter> inters = new ArrayList<>();
         inters.add(inter);
         model.addAttribute("inters", inters);
-        model.addAttribute("ldoD", LdoD.getInstance());
+        model.addAttribute("ldoD", VirtualModule.getInstance());
         model.addAttribute("text", TextModule.getInstance());
 
         if (showFacs) {
@@ -386,7 +386,7 @@ public class FragmentController {
         }
         writer.write(lineByLine, showSpaces);
 
-        model.addAttribute("ldoD", LdoD.getInstance());
+        model.addAttribute("ldoD", VirtualModule.getInstance());
         model.addAttribute("text", TextModule.getInstance());
         model.addAttribute("fragment", inters.get(0).getFragment());
         model.addAttribute("lineByLine", lineByLine);

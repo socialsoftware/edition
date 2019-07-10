@@ -15,10 +15,10 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.socialsoftware.edition.ldod.ControllersTestWithFragmentsLoading;
 import pt.ist.socialsoftware.edition.ldod.config.Application;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
 import pt.ist.socialsoftware.edition.ldod.domain.Role;
 import pt.ist.socialsoftware.edition.ldod.domain.User;
 import pt.ist.socialsoftware.edition.ldod.domain.UserModule;
+import pt.ist.socialsoftware.edition.ldod.domain.VirtualModule;
 import pt.ist.socialsoftware.edition.ldod.forms.ChangePasswordForm;
 import pt.ist.socialsoftware.edition.ldod.utils.Bootstrap;
 
@@ -78,7 +78,7 @@ public class UserTest extends ControllersTestWithFragmentsLoading {
         // Temp user for use in changePasswordTest
         // Must be created in static beforeAll context due to requirements of the WithUserDetails annotation
 
-        if (LdoD.getInstance() == null) {
+        if (VirtualModule.getInstance() == null) {
             Bootstrap.initializeSystem();
         }
 

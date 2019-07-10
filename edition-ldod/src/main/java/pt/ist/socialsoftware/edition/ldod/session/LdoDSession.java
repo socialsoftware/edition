@@ -6,9 +6,9 @@ import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.socialsoftware.edition.ldod.api.user.UserInterface;
 import pt.ist.socialsoftware.edition.ldod.domain.ExpertEdition;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
 import pt.ist.socialsoftware.edition.ldod.domain.User;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
+import pt.ist.socialsoftware.edition.ldod.domain.VirtualModule;
 import pt.ist.socialsoftware.edition.ldod.recommendation.ReadingRecommendation;
 
 import javax.servlet.http.HttpServletRequest;
@@ -32,19 +32,19 @@ public class LdoDSession implements Serializable {
         LdoDSession ldoDSession = null;
         if (request.getSession().getAttribute("ldoDSession") == null) {
             ldoDSession = new LdoDSession();
-            VirtualEdition virtualEdition = LdoD.getInstance().getVirtualEdition("LdoD-JPC-anot");
+            VirtualEdition virtualEdition = VirtualModule.getInstance().getVirtualEdition("VirtualModule-JPC-anot");
             if (virtualEdition != null) {
                 ldoDSession.addSelectedVE(virtualEdition);
             }
-            virtualEdition = LdoD.getInstance().getVirtualEdition("LdoD-Mallet");
+            virtualEdition = VirtualModule.getInstance().getVirtualEdition("VirtualModule-Mallet");
             if (virtualEdition != null) {
                 ldoDSession.addSelectedVE(virtualEdition);
             }
-            virtualEdition = LdoD.getInstance().getVirtualEdition("LdoD-Twitter");
+            virtualEdition = VirtualModule.getInstance().getVirtualEdition("VirtualModule-Twitter");
             if (virtualEdition != null) {
                 ldoDSession.addSelectedVE(virtualEdition);
             }
-            virtualEdition = LdoD.getInstance().getVirtualEdition("LdoD-Jogo-Class");
+            virtualEdition = VirtualModule.getInstance().getVirtualEdition("VirtualModule-Jogo-Class");
             if (virtualEdition != null) {
                 ldoDSession.addSelectedVE(virtualEdition);
             }
@@ -58,9 +58,9 @@ public class LdoDSession implements Serializable {
 
     @Atomic(mode = TxMode.WRITE)
     public void updateSession(User user) {
-        LdoD.getInstance().getSelectedVirtualEditionsByUser(user.getUsername()).stream().forEach(ve -> addSelectedVE(ve));
+        VirtualModule.getInstance().getSelectedVirtualEditionsByUser(user.getUsername()).stream().forEach(ve -> addSelectedVE(ve));
 
-        LdoD.getInstance().getSelectedVirtualEditionsByUser(user.getUsername()).addAll(materializeVirtualEditions());
+        VirtualModule.getInstance().getSelectedVirtualEditionsByUser(user.getUsername()).addAll(materializeVirtualEditions());
     }
 
     public boolean hasSelectedVE(String acronym) {
@@ -83,9 +83,9 @@ public class LdoDSession implements Serializable {
     }
 
     public List<VirtualEdition> materializeVirtualEditions() {
-        LdoD ldoD = LdoD.getInstance();
+        VirtualModule virtualModule = VirtualModule.getInstance();
 
-        return this.selectedVEAcr.stream().map(acr -> ldoD.getVirtualEdition(acr)).filter(e -> e != null)
+        return this.selectedVEAcr.stream().map(acr -> virtualModule.getVirtualEdition(acr)).filter(e -> e != null)
                 .map(VirtualEdition.class::cast).collect(Collectors.toList());
 
     }
@@ -116,7 +116,7 @@ public class LdoDSession implements Serializable {
 
         clearSession();
         if (userInterface.getUser(user) != null) {
-            LdoD.getInstance().getSelectedVirtualEditionsByUser(user).stream().forEach(ve -> addSelectedVE(ve));
+            VirtualModule.getInstance().getSelectedVirtualEditionsByUser(user).stream().forEach(ve -> addSelectedVE(ve));
         } else {
             selected.stream().filter(ve -> ve.getPub()).forEach(ve -> addSelectedVE(ve));
         }

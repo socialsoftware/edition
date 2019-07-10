@@ -5,7 +5,7 @@ public class ClassificationGameParticipant extends ClassificationGameParticipant
     public ClassificationGameParticipant(ClassificationGame classificationGame, String user) {
         setClassificationGame(classificationGame);
 
-        Player player = LdoD.getInstance().getPlayerByUsername(user);
+        Player player = VirtualModule.getInstance().getPlayerByUsername(user);
 
         if (player == null) {
             player = new Player(user);

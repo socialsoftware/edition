@@ -55,24 +55,24 @@ public class VirtualEditionsTEICorpusImport {
 
     @Atomic(mode = TxMode.WRITE)
     private void processImport(Document doc) {
-        LdoD ldoD = LdoD.getInstance();
+        VirtualModule virtualModule = VirtualModule.getInstance();
 
 
-        importPlayers(doc, ldoD);
+        importPlayers(doc, virtualModule);
 
-        importVirtualEditions(doc, ldoD);
+        importVirtualEditions(doc, virtualModule);
 
-        importTaxonomies(doc, ldoD);
+        importTaxonomies(doc, virtualModule);
 
-        importSocialMediaCriteria(doc, ldoD);
+        importSocialMediaCriteria(doc, virtualModule);
 
         // IMPORT THEM FROM THE FILES IN DISK
-        //	importTweets(doc, ldoD);
+        //	importTweets(doc, virtualModule);
     }
 
     // TODO: o construtor recebe a TwitterCitation a null pq ainda não sabe qual é
     // só no import Twitter Citation da outra classe é q é feita esta ligação
-//    private void importTweets(Document doc, LdoD ldoD) {
+//    private void importTweets(Document doc, VirtualModule ldoD) {
 //        Namespace namespace = doc.getRootElement().getNamespace();
 //        XPathFactory xpfac = XPathFactory.instance();
 //        XPathExpression<Element> xp = xpfac.compile("//def:tweet", Filters.element(), null,
@@ -100,7 +100,7 @@ public class VirtualEditionsTEICorpusImport {
 //    }
 
 
-    private void importPlayers(Document doc, LdoD ldoD) {
+    private void importPlayers(Document doc, VirtualModule virtualModule) {
         Namespace namespace = doc.getRootElement().getNamespace();
         XPathFactory xpfac = XPathFactory.instance();
         XPathExpression<Element> xp = xpfac.compile("//def:player", Filters.element(), null,
@@ -113,7 +113,7 @@ public class VirtualEditionsTEICorpusImport {
         }
     }
 
-    private void importVirtualEditions(Document doc, LdoD ldoD) {
+    private void importVirtualEditions(Document doc, VirtualModule virtualModule) {
         Namespace namespace = doc.getRootElement().getNamespace();
         XPathFactory xpfac = XPathFactory.instance();
         XPathExpression<Element> xp = xpfac.compile("//def:bibl", Filters.element(), null,
@@ -133,12 +133,12 @@ public class VirtualEditionsTEICorpusImport {
                     owner = editor.getAttributeValue("nymRef");
                     // if a virtual edition exists with the same name, it is
                     // deleted
-                    virtualEdition = ldoD.getVirtualEdition(acronym);
+                    virtualEdition = virtualModule.getVirtualEdition(acronym);
                     if (virtualEdition != null) {
                         virtualEdition.remove();
                         virtualEdition = null;
                     }
-                    virtualEdition = ldoD.createVirtualEdition(owner, acronym, title, date, pub, null);
+                    virtualEdition = virtualModule.createVirtualEdition(owner, acronym, title, date, pub, null);
                     virtualEdition.setSynopsis(synopsis);
                     break;
                 }
@@ -162,7 +162,7 @@ public class VirtualEditionsTEICorpusImport {
         }
     }
 
-    private void importTaxonomies(Document doc, LdoD ldoD) {
+    private void importTaxonomies(Document doc, VirtualModule virtualModule) {
         Namespace namespace = doc.getRootElement().getNamespace();
         XPathFactory xpfac = XPathFactory.instance();
         XPathExpression<Element> xp = xpfac.compile("//def:taxonomy", Filters.element(), null,
@@ -170,8 +170,8 @@ public class VirtualEditionsTEICorpusImport {
         for (Element tax : xp.evaluate(doc)) {
             String xmlId = tax.getAttributeValue("source").substring(1);
             System.out.println(xmlId);
-            System.out.println(LdoD.getInstance().getVirtualEditionByXmlId(xmlId));
-            Taxonomy taxonomy = LdoD.getInstance().getVirtualEditionByXmlId(xmlId).getTaxonomy();
+            System.out.println(VirtualModule.getInstance().getVirtualEditionByXmlId(xmlId));
+            Taxonomy taxonomy = VirtualModule.getInstance().getVirtualEditionByXmlId(xmlId).getTaxonomy();
 
             for (Element item : tax.getChild("desc", namespace).getChild("list", namespace).getChildren("item",
                     namespace)) {
@@ -196,7 +196,7 @@ public class VirtualEditionsTEICorpusImport {
         }
     }
 
-    private void importSocialMediaCriteria(Document doc, LdoD ldoD) {
+    private void importSocialMediaCriteria(Document doc, VirtualModule virtualModule) {
         Namespace namespace = doc.getRootElement().getNamespace();
         XPathFactory xpfac = XPathFactory.instance();
         XPathExpression<Element> xp = xpfac.compile("//def:editionCriteria", Filters.element(), null,
@@ -204,9 +204,9 @@ public class VirtualEditionsTEICorpusImport {
         for (Element editionCriteria : xp.evaluate(doc)) {
             String xmlId = editionCriteria.getAttributeValue("source").substring(1);
             System.out.println(xmlId);
-            System.out.println(LdoD.getInstance().getVirtualEditionByXmlId(xmlId));
+            System.out.println(VirtualModule.getInstance().getVirtualEditionByXmlId(xmlId));
 
-            VirtualEdition virtualEdition = LdoD.getInstance().getVirtualEditionByXmlId(xmlId);
+            VirtualEdition virtualEdition = VirtualModule.getInstance().getVirtualEditionByXmlId(xmlId);
 
             Element mediaSource = editionCriteria.getChild("mediaSource", namespace);
             if (mediaSource != null) {

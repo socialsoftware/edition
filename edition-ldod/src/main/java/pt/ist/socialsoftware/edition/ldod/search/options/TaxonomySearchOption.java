@@ -1,7 +1,7 @@
 package pt.ist.socialsoftware.edition.ldod.search.options;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import pt.ist.socialsoftware.edition.ldod.api.ldod.LdoDInterface;
+import pt.ist.socialsoftware.edition.ldod.api.virtual.VirtualInterface;
 import pt.ist.socialsoftware.edition.ldod.search.SearchableElement;
 
 import java.util.Arrays;
@@ -22,9 +22,9 @@ public class TaxonomySearchOption extends SearchOption {
     }
 
     public boolean verifiesSearchOption(SearchableElement inter) {
-        LdoDInterface ldoDInterface = new LdoDInterface();
+        VirtualInterface virtualInterface = new VirtualInterface();
 
-        return Arrays.stream(this.tags).allMatch(tt -> ldoDInterface.getTagsForVei(inter.getXmlId()).stream()
+        return Arrays.stream(this.tags).allMatch(tt -> virtualInterface.getTagsForVei(inter.getXmlId()).stream()
                 .filter(t -> t.getCategory().getName().equals(tt)).findAny().isPresent());
     }
 

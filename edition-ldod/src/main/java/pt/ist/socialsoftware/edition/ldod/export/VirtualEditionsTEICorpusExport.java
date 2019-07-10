@@ -30,28 +30,28 @@ public class VirtualEditionsTEICorpusExport {
 
         // NOT NECESSARY THEY CAN BE LOADED FROM THE FILES
 //		Element tweetList = generateTweetList(teiHeader);
-//		for (Tweet tweet : LdoD.getInstance().getTweetSet()) {
+//		for (Tweet tweet : VirtualModule.getInstance().getTweetSet()) {
 //			exportTweet(tweetList, tweet);
 //		}
 
 
         Element listPlayer = generatePlayerList(teiHeader);
-        for (Player player : LdoD.getInstance().getPlayerSet()) {
+        for (Player player : VirtualModule.getInstance().getPlayerSet()) {
             exportPlayer(listPlayer, player);
         }
 
         Element listBibl = generateFileDesc(teiHeader);
-        for (VirtualEdition virtualEdition : LdoD.getInstance().getVirtualEditionsSet()) {
+        for (VirtualEdition virtualEdition : VirtualModule.getInstance().getVirtualEditionsSet()) {
             exportVirtualEditionBibl(listBibl, virtualEdition);
         }
 
         Element classDecl = generateEncodingDesc(teiHeader);
-        for (VirtualEdition virtualEdition : LdoD.getInstance().getVirtualEditionsSet()) {
+        for (VirtualEdition virtualEdition : VirtualModule.getInstance().getVirtualEditionsSet()) {
             exportVirtualEditionTaxonomy(classDecl, virtualEdition);
         }
 
         Element socialMediaCriteria = generateSocialMediaCriteria(teiHeader);
-        for (VirtualEdition virtualEdition : LdoD.getInstance().getVirtualEditionsSet()) {
+        for (VirtualEdition virtualEdition : VirtualModule.getInstance().getVirtualEditionsSet()) {
             exportVirtualEditionSocialMediaCriteria(socialMediaCriteria, virtualEdition);
         }
 

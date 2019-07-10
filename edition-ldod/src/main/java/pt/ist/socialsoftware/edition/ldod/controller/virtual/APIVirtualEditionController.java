@@ -8,9 +8,9 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import pt.ist.socialsoftware.edition.ldod.api.user.UserInterface;
 import pt.ist.socialsoftware.edition.ldod.api.user.dto.UserDto;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
+import pt.ist.socialsoftware.edition.ldod.domain.VirtualModule;
 import pt.ist.socialsoftware.edition.ldod.dto.VirtualEditionInterDto;
 import pt.ist.socialsoftware.edition.ldod.dto.VirtualEditionInterListDto;
 import pt.ist.socialsoftware.edition.ldod.session.LdoDSession;
@@ -29,7 +29,7 @@ public class APIVirtualEditionController {
     ResponseEntity<VirtualEditionInterListDto> getVirtualEditionIndex(
             @PathVariable(value = "acronym") String acronym) {
         logger.debug("getVirtualEditionIndex acronym:{}", acronym);
-        VirtualEdition virtualEdition = LdoD.getInstance().getVirtualEdition(acronym);
+        VirtualEdition virtualEdition = VirtualModule.getInstance().getVirtualEdition(acronym);
 
         if (virtualEdition == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -46,7 +46,7 @@ public class APIVirtualEditionController {
     ResponseEntity<VirtualEditionInterDto> getVirtualEditionInterText(
             @PathVariable(value = "acronym") String acronym, @PathVariable(value = "urlId") String urlId) {
         logger.debug("getVirtualEditionInterText acronym:{} urlId:{}", acronym, urlId);
-        VirtualEdition virtualEdition = LdoD.getInstance().getVirtualEdition(acronym);
+        VirtualEdition virtualEdition = VirtualModule.getInstance().getVirtualEdition(acronym);
         if (virtualEdition == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
@@ -70,7 +70,7 @@ public class APIVirtualEditionController {
         UserDto userDto = userInterface.getUser(username);
 
         if (userDto != null) {
-            List<VirtualEdition> virtualEditionList = LdoD.getInstance().getVirtualEditionsUserIsParticipant(username,
+            List<VirtualEdition> virtualEditionList = VirtualModule.getInstance().getVirtualEditionsUserIsParticipant(username,
                     LdoDSession.getLdoDSession());
             List<VirtualEditionInterListDto> result = virtualEditionList.stream()
                     .filter(virtualEdition -> virtualEdition.getParticipantSet().contains(username))
@@ -89,7 +89,7 @@ public class APIVirtualEditionController {
         UserDto userDto = userInterface.getUser(username);
 
         if (userDto != null) {
-            List<VirtualEditionInterListDto> result = LdoD.getInstance().getVirtualEditionsSet().stream().filter(
+            List<VirtualEditionInterListDto> result = VirtualModule.getInstance().getVirtualEditionsSet().stream().filter(
                     virtualEdition -> virtualEdition.getParticipantList().contains(username) && virtualEdition.getPub())
                     .map(ve -> new VirtualEditionInterListDto(ve, true)).collect(Collectors.toList());
 

@@ -2,7 +2,7 @@ package pt.ist.socialsoftware.edition.ldod.search.options;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import pt.ist.socialsoftware.edition.ldod.api.text.TextInterface;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
+import pt.ist.socialsoftware.edition.ldod.domain.VirtualModule;
 import pt.ist.socialsoftware.edition.ldod.search.SearchableElement;
 import pt.ist.socialsoftware.edition.ldod.search.options.SearchOption.Mode;
 
@@ -92,7 +92,7 @@ public class Search {
         return Stream.concat(textInterface.getFragmentDtoSet().stream()
                         .flatMap(f -> f.getScholarInterDtoSet().stream()).map(scholarInter ->
                                 new SearchableElement(SearchableElement.Type.SCHOLAR_INTER, scholarInter.getXmlId(), scholarInter.getTitle(), scholarInter.getFragmentXmlId(), scholarInter.getUrlId(), scholarInter.getShortName(), scholarInter.getXmlId()))
-                , LdoD.getInstance().getVirtualEditionInterSet().stream().map(virtualEditionInter ->
+                , VirtualModule.getInstance().getVirtualEditionInterSet().stream().map(virtualEditionInter ->
                         new SearchableElement(SearchableElement.Type.VIRTUAL_INTER, virtualEditionInter.getXmlId(), virtualEditionInter.getTitle(), virtualEditionInter.getFragmentXmlId(), virtualEditionInter.getUrlId(), virtualEditionInter.getShortName(), virtualEditionInter.getUsesScholarInterId()))
         ).collect(Collectors.toList());
     }

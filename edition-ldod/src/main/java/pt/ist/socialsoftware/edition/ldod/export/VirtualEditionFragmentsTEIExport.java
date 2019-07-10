@@ -49,13 +49,13 @@ public class VirtualEditionFragmentsTEIExport {
         id = new Attribute("id", fragmentXmlId + ".WIT.ED.VIRT", Namespace.XML_NAMESPACE);
         witnesses.setAttribute(id);
         sourceDesc.addContent(witnesses);
-        for (VirtualEditionInter virtualEditionInter : LdoD.getInstance().getVirtualEditionInterSet(fragmentXmlId)) {
+        for (VirtualEditionInter virtualEditionInter : VirtualModule.getInstance().getVirtualEditionInterSet(fragmentXmlId)) {
             exportVirtualEditionInterWitness(witnesses, virtualEditionInter);
         }
 
         Element profileDesc = new Element("profileDesc", this.xmlns);
         teiHeader.addContent(profileDesc);
-        for (VirtualEditionInter virtualEditionInter : LdoD.getInstance().getVirtualEditionInterSet(fragmentXmlId)) {
+        for (VirtualEditionInter virtualEditionInter : VirtualModule.getInstance().getVirtualEditionInterSet(fragmentXmlId)) {
             Element textClass = new Element("textClass", this.xmlns);
             textClass.setAttribute("source", "#" + virtualEditionInter.getXmlId());
             profileDesc.addContent(textClass);

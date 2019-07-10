@@ -48,11 +48,11 @@ public class VSMVirtualEditionInterRecomenderTest extends TestWithFragmentsLoadi
     @Override
     protected void populate4Test() {
 
-        LdoD ldoD = LdoD.getInstance();
+        VirtualModule virtualModule = VirtualModule.getInstance();
         ExpertEdition pizarroEdition = TextModule.getInstance().getJPEdition();
 
         // create virtual edition
-        this.virtualEdition = ldoD.createVirtualEdition(User.USER_ARS, ACRONYM, "Name", LocalDate.now(), true,
+        this.virtualEdition = virtualModule.createVirtualEdition(User.USER_ARS, ACRONYM, "Name", LocalDate.now(), true,
                 pizarroEdition.getAcronym());
 
         // create taxonomy
@@ -78,7 +78,7 @@ public class VSMVirtualEditionInterRecomenderTest extends TestWithFragmentsLoadi
     @Test
     @Atomic
     public void testGetMostSimilarItemForHeteronym() {
-        VirtualEdition virtualEdition = LdoD.getInstance().getVirtualEdition(ACRONYM);
+        VirtualEdition virtualEdition = VirtualModule.getInstance().getVirtualEdition(ACRONYM);
         VirtualEditionInter virtualEditionInter = null;
         for (VirtualEditionInter inter : virtualEdition.getIntersSet()) {
             if (inter.getLastUsed().getHeteronym() != null) {
@@ -100,7 +100,7 @@ public class VSMVirtualEditionInterRecomenderTest extends TestWithFragmentsLoadi
     @Test
     @Atomic
     public void testGetMostSimilarItemForNoHeteronym() {
-        VirtualEdition virtualEdition = LdoD.getInstance().getVirtualEdition(ACRONYM);
+        VirtualEdition virtualEdition = VirtualModule.getInstance().getVirtualEdition(ACRONYM);
         VirtualEditionInter virtualEditionInter = null;
         for (VirtualEditionInter inter : virtualEdition.getIntersSet()) {
             if (getLastUsedScholarEditionInter(inter).getHeteronym() == NullHeteronym.getNullHeteronym()) {
@@ -122,7 +122,7 @@ public class VSMVirtualEditionInterRecomenderTest extends TestWithFragmentsLoadi
     @Test
     @Atomic
     public void testGetMostSimilarItemForDate() {
-        VirtualEdition virtualEdition = LdoD.getInstance().getVirtualEdition(ACRONYM);
+        VirtualEdition virtualEdition = VirtualModule.getInstance().getVirtualEdition(ACRONYM);
         VirtualEditionInter virtualEditionInter = null;
         for (VirtualEditionInter inter : virtualEdition.getIntersSet()) {
             if ((inter.getLastUsed()).getLdoDDate() != null
@@ -146,7 +146,7 @@ public class VSMVirtualEditionInterRecomenderTest extends TestWithFragmentsLoadi
     @Test
     @Atomic(mode = TxMode.WRITE)
     public void testGetMostSimilarItemForNoDate() {
-        VirtualEdition virtualEdition = LdoD.getInstance().getVirtualEdition(ACRONYM);
+        VirtualEdition virtualEdition = VirtualModule.getInstance().getVirtualEdition(ACRONYM);
         VirtualEditionInter virtualEditionInter = null;
         for (VirtualEditionInter inter : virtualEdition.getIntersSet()) {
             if ((inter.getLastUsed()).getLdoDDate() == null) {
@@ -169,7 +169,7 @@ public class VSMVirtualEditionInterRecomenderTest extends TestWithFragmentsLoadi
     @Test
     @Atomic
     public void testGetMostSimilarItemForTaxonomy() {
-        VirtualEdition virtualEdition = LdoD.getInstance().getVirtualEdition(ACRONYM);
+        VirtualEdition virtualEdition = VirtualModule.getInstance().getVirtualEdition(ACRONYM);
         VirtualEditionInter virtualEditionInter = null;
         for (VirtualEditionInter inter : virtualEdition.getIntersSet()) {
             if (!(inter).getTagSet().isEmpty()) {
@@ -192,7 +192,7 @@ public class VSMVirtualEditionInterRecomenderTest extends TestWithFragmentsLoadi
     @Test
     @Atomic
     public void testGetMostSimilarItemForText() throws IOException, ParseException {
-        VirtualEdition virtualEdition = LdoD.getInstance().getVirtualEdition(ACRONYM);
+        VirtualEdition virtualEdition = VirtualModule.getInstance().getVirtualEdition(ACRONYM);
         VirtualEditionInter virtualEditionInter = null;
         Indexer indexer = Indexer.getIndexer();
 
@@ -217,7 +217,7 @@ public class VSMVirtualEditionInterRecomenderTest extends TestWithFragmentsLoadi
     @Test
     @Atomic
     public void testGetMostSimilarItemForAll() throws IOException, ParseException {
-        VirtualEdition virtualEdition = LdoD.getInstance().getVirtualEdition(ACRONYM);
+        VirtualEdition virtualEdition = VirtualModule.getInstance().getVirtualEdition(ACRONYM);
         VirtualEditionInter virtualEditionInter = null;
         Indexer indexer = Indexer.getIndexer();
 

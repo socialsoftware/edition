@@ -53,8 +53,8 @@ public class Bootstrap implements WebApplicationInitializer {
             UserModule.getInstance().setAdmin(true);
             createUsersAndRoles();
         }
-        if (LdoD.getInstance() == null) {
-            new LdoD();
+        if (VirtualModule.getInstance() == null) {
+            new VirtualModule();
             cleanTopicModeler();
             cleanLucene();
             createVirtualEditionsForTest();
@@ -142,8 +142,8 @@ public class Bootstrap implements WebApplicationInitializer {
                 "topBar.about.acknowledgements", "topBar.about.contact", "topBar.about.copyright"},
                 {"topBar.reading.reading", "topBar.reading.visual", "topBar.reading.citations"},
                 {"topBar.documents.witnesses", "topBar.documents.fragments"},
-                {"Jacinto do Prado Coelho", "Teresa Sobral Cunha", "Richard Zenith", "Jerónimo Pizarro", "Arquivo LdoD",
-                        "LdoD-JPC-ANOT", "LdoD-JOGO-CLASS", "LdoD-MALLET", "LdoD-TWITTER"},
+                {"Jacinto do Prado Coelho", "Teresa Sobral Cunha", "Richard Zenith", "Jerónimo Pizarro", "Arquivo VirtualModule",
+                        "VirtualModule-JPC-ANOT", "VirtualModule-JOGO-CLASS", "VirtualModule-MALLET", "VirtualModule-TWITTER"},
                 {"topBar.search.simple", "topBar.search.advanced"},
                 {"topBar.virtual.editions", "topBar.virtual.game"}
         };
@@ -151,8 +151,8 @@ public class Bootstrap implements WebApplicationInitializer {
         String[][] optionLinks = {{"/about/archive", "/about/videos", "/about/faq", "/about/encoding", "/about/articles",
                 "/about/conduct", "/about/privacy", "/about/team", "/about/acknowledgements", "/about/contact", "/about/copyright"},
                 {"/reading", "/ldod-visual", "/citations"}, {"/source/list", "/fragments"},
-                {"/edition/acronym/JPC", "/edition/acronym/TSC", "/edition/acronym/rz", "/edition/acronym/JP", "/edition/acronym/LdoD-Arquivo",
-                        "/edition/acronym/LdoD-JPC-anot", "/edition/acronym/LdoD-Jogo-Class", "/edition/acronym/LdoD-Mallet", "/edition/acronym/LdoD-Twitter"},
+                {"/edition/acronym/JPC", "/edition/acronym/TSC", "/edition/acronym/rz", "/edition/acronym/JP", "/edition/acronym/VirtualModule-Arquivo",
+                        "/edition/acronym/VirtualModule-JPC-anot", "/edition/acronym/VirtualModule-Jogo-Class", "/edition/acronym/VirtualModule-Mallet", "/edition/acronym/VirtualModule-Twitter"},
                 {"/search/simple", "/search/advanced"},
                 {"/virtualeditions", "/classificationGames"}
         };
@@ -216,12 +216,12 @@ public class Bootstrap implements WebApplicationInitializer {
         UiComponent uiComponent = new UiComponent(module);
 
         String[] menuNames = {"topBar.editions.title", "topBar.virtual.title"};
-        String[][] optionNames = {{"Arquivo LdoD", "LdoD-JPC-ANOT", "LdoD-JOGO-CLASS", "LdoD-MALLET", "LdoD-TWITTER"},
+        String[][] optionNames = {{"Arquivo VirtualModule", "VirtualModule-JPC-ANOT", "VirtualModule-JOGO-CLASS", "VirtualModule-MALLET", "VirtualModule-TWITTER"},
                 {"topBar.virtual.editions", "topBar.virtual.game"}
         };
 
-        String[][] optionLinks = {{"/edition/acronym/LdoD-Arquivo", "/edition/acronym/LdoD-JPC-anot",
-                "/edition/acronym/LdoD-Jogo-Class", "/edition/acronym/LdoD-Mallet", "/edition/acronym/LdoD-Twitter"},
+        String[][] optionLinks = {{"/edition/acronym/VirtualModule-Arquivo", "/edition/acronym/VirtualModule-JPC-anot",
+                "/edition/acronym/VirtualModule-Jogo-Class", "/edition/acronym/VirtualModule-Mallet", "/edition/acronym/VirtualModule-Twitter"},
                 {"/virtualeditions", "/classificationGames"}
         };
 
@@ -397,7 +397,7 @@ public class Bootstrap implements WebApplicationInitializer {
         // User osvaldo = ldod.getUser("osvaldo");
         // User jose = ldod.getUser("jose");
         //
-        // VirtualEdition classX = new VirtualEdition(ldod, ars, "LdoD-ClassX", "LdoD
+        // VirtualEdition classX = new VirtualEdition(ldod, ars, "VirtualModule-ClassX", "VirtualModule
         // Edition of Class X", new LocalDate(),
         // false, null);
         // classX.addMember(luis, MemberRole.ADMIN, true);
@@ -424,7 +424,7 @@ public class Bootstrap implements WebApplicationInitializer {
         // osvaldo.addSelectedVirtualEditions(classX);
         // jose.addSelectedVirtualEditions(classX);
         //
-        // VirtualEdition classY = new VirtualEdition(ldod, ars, "LdoD-ClassY", "LdoD
+        // VirtualEdition classY = new VirtualEdition(ldod, ars, "VirtualModule-ClassY", "VirtualModule
         // Edition of Class Y", new LocalDate(),
         // false, null);
         // classY.addMember(luis, MemberRole.ADMIN, true);
@@ -439,7 +439,7 @@ public class Bootstrap implements WebApplicationInitializer {
         // tiago.addSelectedVirtualEditions(classY);
         // nuno.addSelectedVirtualEditions(classY);
         //
-        // VirtualEdition classW = new VirtualEdition(ldod, ars, "LdoD-ClassW", "LdoD
+        // VirtualEdition classW = new VirtualEdition(ldod, ars, "VirtualModule-ClassW", "VirtualModule
         // Edition of Class W", new LocalDate(),
         // false, null);
         // classW.addMember(diego, MemberRole.ADMIN, true);
@@ -456,7 +456,7 @@ public class Bootstrap implements WebApplicationInitializer {
     }
 
     private static void createLdoDArchiveVirtualEdition() {
-        VirtualEdition ldoDArchiveEdition = new VirtualEdition(LdoD.getInstance(), ARS, ExpertEdition.ARCHIVE_EDITION_ACRONYM,
+        VirtualEdition ldoDArchiveEdition = new VirtualEdition(VirtualModule.getInstance(), ARS, ExpertEdition.ARCHIVE_EDITION_ACRONYM,
                 VirtualEdition.ARCHIVE_EDITION_NAME, new LocalDate(), true, null);
 
         ldoDArchiveEdition.addMember(ARS, Member.MemberRole.ADMIN, true);
@@ -471,7 +471,7 @@ public class Bootstrap implements WebApplicationInitializer {
             properties.add(new TextProperty(1.0));
             properties.add(new HeteronymProperty(1.0));
             properties.add(new DateProperty(1.0));
-            properties.add(new TaxonomyProperty(1.0, LdoD.getInstance().getArchiveEdition().getTaxonomy(),
+            properties.add(new TaxonomyProperty(1.0, VirtualModule.getInstance().getArchiveEdition().getTaxonomy(),
                     Property.PropertyCache.ON));
 
             VSMFragmentRecommender recommender = new VSMFragmentRecommender();

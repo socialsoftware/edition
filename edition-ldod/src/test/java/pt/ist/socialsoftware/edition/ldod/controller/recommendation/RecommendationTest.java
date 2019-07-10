@@ -20,7 +20,7 @@ import pt.ist.socialsoftware.edition.ldod.config.Application;
 import pt.ist.socialsoftware.edition.ldod.controller.LdoDExceptionHandler;
 import pt.ist.socialsoftware.edition.ldod.controller.virtual.RecommendationController;
 import pt.ist.socialsoftware.edition.ldod.domain.ExpertEdition;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
+import pt.ist.socialsoftware.edition.ldod.domain.VirtualModule;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
 import pt.ist.socialsoftware.edition.ldod.dto.InterIdDistancePairDto;
 import pt.ist.socialsoftware.edition.ldod.dto.WeightsDto;
@@ -73,7 +73,7 @@ public class RecommendationTest {
     @WithUserDetails("ars")
     public void getRecommendationTest() throws Exception {
 
-        String id = LdoD.getInstance().getArchiveEdition().getExternalId();
+        String id = VirtualModule.getInstance().getArchiveEdition().getExternalId();
 
         this.mockMvc.perform(get("/recommendation/restricted/{externalId}", id))
                 .andDo(print())
@@ -91,7 +91,7 @@ public class RecommendationTest {
     @WithUserDetails("ars")
     public void getIntersByDistanceTest() throws Exception {
 
-        VirtualEditionInter vi = LdoD.getInstance().getArchiveEdition()
+        VirtualEditionInter vi = VirtualModule.getInstance().getArchiveEdition()
                 .getAllDepthVirtualEditionInters().get(1);
 
         WeightsDto dto = new WeightsDto();
@@ -148,7 +148,7 @@ public class RecommendationTest {
     @WithUserDetails("ars")
     public void setLinearTest() throws Exception {
 
-        VirtualEditionInter vi = LdoD.getInstance().getArchiveEdition()
+        VirtualEditionInter vi = VirtualModule.getInstance().getArchiveEdition()
                 .getAllDepthVirtualEditionInters().get(1);
 
         RecommendVirtualEditionParam paramn = new RecommendVirtualEditionParam(ExpertEdition.ARCHIVE_EDITION_ACRONYM,
@@ -174,7 +174,7 @@ public class RecommendationTest {
                 .andDo(print())
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/recommendation/restricted/" +
-                        LdoD.getInstance().getArchiveEdition().getExternalId()));
+                        VirtualModule.getInstance().getArchiveEdition().getExternalId()));
     }
 
     @Test

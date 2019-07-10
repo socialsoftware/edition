@@ -46,14 +46,14 @@ public class RegistrationToken extends RegistrationToken_Base {
         String recipientAddress = PropertiesManager.getProperties()
                 .getProperty("registration.authorization.email.address");
 
-        String subject = "LdoD - Autorização de Registo";
+        String subject = "VirtualModule - Autorização de Registo";
 
         String path = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
                 + request.getContextPath();
         String authorizationUrl = path + "/signup/registrationAuthorization?token=" + getToken();
 
         Emailer.sendEmail(recipientAddress, subject,
-                "Autorize o registo no arquivo do LdoD do utilizador " + getUser().getFirstName() + " "
+                "Autorize o registo no arquivo do VirtualModule do utilizador " + getUser().getFirstName() + " "
                         + getUser().getLastName() + " com username " + getUser().getUsername()
                         + " com o endereço de email " + getUser().getEmail() + " nesta ligação <a href=\""
                         + authorizationUrl + "\">" + authorizationUrl + "</a>",
@@ -63,14 +63,14 @@ public class RegistrationToken extends RegistrationToken_Base {
     public void requestConfirmation(HttpServletRequest request) throws AddressException, MessagingException {
         String recipientAddress = getUser().getEmail();
 
-        String subject = "LdoD - Confirmação de Registo";
+        String subject = "VirtualModule - Confirmação de Registo";
 
         String path = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
                 + request.getContextPath();
         String confirmationUrl = path + "/signup/registrationConfirm?token=" + getToken();
 
         Emailer.sendEmail(recipientAddress, subject,
-                "Confirme o registo no arquivo do LdoD do utilizador " + getUser().getUsername()
+                "Confirme o registo no arquivo do VirtualModule do utilizador " + getUser().getUsername()
                         + " com o endereço de email " + getUser().getEmail() + " nesta ligação <a href=\""
                         + confirmationUrl + "\">" + confirmationUrl + "</a>",
                 PropertiesManager.getProperties().getProperty("registration.confirmation.email.address"));

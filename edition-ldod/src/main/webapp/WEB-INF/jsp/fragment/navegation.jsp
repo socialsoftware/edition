@@ -157,7 +157,7 @@
             </a>
         </h5>
         <!-- ARCHIVE VIRTUAL EDITION -->
-        <c:set var="archiveEdition" value="${ldoD.getArchiveEdition()}"/>
+        <c:set var="archiveEdition" value="${virtualModule.getArchiveEdition()}"/>
         <div class="text-center">
             <div class="text-center" style="padding: 8px">
                 <a

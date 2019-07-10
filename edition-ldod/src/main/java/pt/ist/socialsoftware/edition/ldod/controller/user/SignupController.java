@@ -56,7 +56,7 @@ public class SignupController {
                     // new Message(MessageType.INFO,
                     // "Your " + StringUtils.capitalize(
                     // connection.getKey().getProviderId())
-                    // + " account is not associated with a LdoD Archive
+                    // + " account is not associated with a VirtualModule Archive
                     // account. If you're new, please sign up."),
                     WebRequest.SCOPE_REQUEST);
             request.setAttribute("account", StringUtils.capitalize(connection.getKey().getProviderId()),

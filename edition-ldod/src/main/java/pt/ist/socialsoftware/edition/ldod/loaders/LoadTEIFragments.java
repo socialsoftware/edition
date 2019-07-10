@@ -1,7 +1,6 @@
 package pt.ist.socialsoftware.edition.ldod.loaders;
 
 import org.jdom2.*;
-import org.jdom2.Text;
 import org.jdom2.Content.CType;
 import org.jdom2.filter.Filters;
 import org.jdom2.input.SAXBuilder;
@@ -37,7 +36,7 @@ public class LoadTEIFragments {
 
     private Element ldoDTEI = null;
     private Namespace namespace = null;
-    private LdoD ldoD = null;
+    private VirtualModule virtualModule = null;
     private TextModule text = null;
 
     private Document doc = null;
@@ -153,7 +152,7 @@ public class LoadTEIFragments {
 
         parseTEIFile(file);
 
-        this.ldoD = LdoD.getInstance();
+        this.virtualModule = VirtualModule.getInstance();
         this.text = TextModule.getInstance();
 
         getCorpusXmlIds();
@@ -202,7 +201,7 @@ public class LoadTEIFragments {
                 Namespace.getNamespace("def", this.namespace.getURI()));
 
         for (Element element : xp.evaluate(this.doc)) {
-            this.ldoD = LdoD.getInstance();
+            this.virtualModule = VirtualModule.getInstance();
             this.text = TextModule.getInstance();
 
             String xmlId = getFragmentXmlId(element);
@@ -280,7 +279,7 @@ public class LoadTEIFragments {
             }
         }
 
-        VirtualEdition archiveEdition = this.ldoD.getArchiveEdition();
+        VirtualEdition archiveEdition = this.virtualModule.getArchiveEdition();
         // if the representative fragment interpretation is not in
         // the archive edition we have to add it
         if (archiveEdition != null
@@ -1411,7 +1410,7 @@ public class LoadTEIFragments {
         }
 
         Element additions = physDesc.getChild("additions", this.namespace);
-        if (additions.getTextTrim().equals("LdoD")) {
+        if (additions.getTextTrim().equals("VirtualModule")) {
             manuscript.setHasLdoDLabel(true);
         }
 

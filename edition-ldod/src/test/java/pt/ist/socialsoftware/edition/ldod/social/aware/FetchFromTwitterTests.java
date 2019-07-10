@@ -53,7 +53,7 @@ public class FetchFromTwitterTests extends TestWithFragmentsLoading {
 
     @Override
     protected void unpopulate4Test() {
-        // LdoD.getInstance().getCitationSet().forEach(c -> c.remove());
+        // VirtualModule.getInstance().getCitationSet().forEach(c -> c.remove());
     }
 
     // invocações sobre o stauts dão null pointer exception

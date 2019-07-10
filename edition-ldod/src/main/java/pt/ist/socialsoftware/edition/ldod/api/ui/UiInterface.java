@@ -2,13 +2,13 @@ package pt.ist.socialsoftware.edition.ldod.api.ui;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pt.ist.socialsoftware.edition.ldod.api.ldod.LdoDInterface;
 import pt.ist.socialsoftware.edition.ldod.api.text.TextInterface;
 import pt.ist.socialsoftware.edition.ldod.api.text.dto.HeteronymDto;
 import pt.ist.socialsoftware.edition.ldod.api.text.dto.ScholarInterDto;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
+import pt.ist.socialsoftware.edition.ldod.api.virtual.VirtualInterface;
 import pt.ist.socialsoftware.edition.ldod.domain.TextModule;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
+import pt.ist.socialsoftware.edition.ldod.domain.VirtualModule;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +44,7 @@ public class UiInterface {
         if (heteronym != null) {
             return heteronym.getName();
         }
-        VirtualEditionInter vei = LdoD.getInstance().getVirtualEditionInterByXmlId(xmlId);
+        VirtualEditionInter vei = VirtualModule.getInstance().getVirtualEditionInterByXmlId(xmlId);
         return vei.getHeteronym().getName();
     }
 
@@ -55,8 +55,8 @@ public class UiInterface {
     }
 
     public boolean isVirtualEdition(String acronym) {
-        LdoDInterface ldoDInterface = new LdoDInterface();
+        VirtualInterface virtualInterface = new VirtualInterface();
 
-        return ldoDInterface.getVirtualEdition(acronym) != null;
+        return virtualInterface.getVirtualEdition(acronym) != null;
     }
 }

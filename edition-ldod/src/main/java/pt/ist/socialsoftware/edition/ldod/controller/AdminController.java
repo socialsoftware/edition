@@ -344,7 +344,7 @@ public class AdminController {
     @RequestMapping(method = RequestMethod.POST, value = "/exportSearchResult")
     public void exportSearchResult(HttpServletResponse response, Model model, @RequestParam("query") String query) {
 
-        LdoD ldoD = LdoD.getInstance();
+        VirtualModule virtualModule = VirtualModule.getInstance();
 
         Map<Fragment, Set<ScholarInter>> searchResult = new HashMap<>();
 
@@ -565,7 +565,7 @@ public class AdminController {
     @RequestMapping(method = RequestMethod.GET, value = "/virtual/list")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String manageVirtualEditions(Model model) {
-        model.addAttribute("editions", LdoD.getInstance().getVirtualEditionsSet().stream()
+        model.addAttribute("editions", VirtualModule.getInstance().getVirtualEditionsSet().stream()
                 .sorted((v1, v2) -> v1.getAcronym().compareTo(v2.getAcronym())).collect(Collectors.toList()));
 
         return "admin/listVirtualEditions";
@@ -598,12 +598,12 @@ public class AdminController {
 
         DateTimeFormatter formater = DateTimeFormatter.ofPattern("dd-MMM-yyyy HH:mm:ss");
         model.addAttribute("citations",
-                LdoD.getInstance().getAllTwitterCitation().stream()
+                VirtualModule.getInstance().getAllTwitterCitation().stream()
                         .sorted((c1, c2) -> java.time.LocalDateTime.parse(c2.getDate(), formater)
                                 .compareTo(java.time.LocalDateTime.parse(c1.getDate(), formater)))
                         .collect(Collectors.toList()));
-        model.addAttribute("tweets", LdoD.getInstance().getTweetSet());
-        model.addAttribute("numberOfCitationsWithInfoRange", LdoD.getInstance().getNumberOfCitationsWithInfoRanges());
+        model.addAttribute("tweets", VirtualModule.getInstance().getTweetSet());
+        model.addAttribute("numberOfCitationsWithInfoRange", VirtualModule.getInstance().getNumberOfCitationsWithInfoRanges());
         return "admin/manageTweets";
     }
 
@@ -611,7 +611,7 @@ public class AdminController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String removeTweets(Model model) {
         logger.debug("removeTweets");
-        LdoD.getInstance().removeTweets();
+        VirtualModule.getInstance().removeTweets();
         return "redirect:/admin/tweets";
     }
 
@@ -628,7 +628,7 @@ public class AdminController {
         AwareAnnotationFactory awareFactory = new AwareAnnotationFactory();
         awareFactory.generate();
 
-        LdoD.dailyRegenerateTwitterCitationEdition();
+        VirtualModule.dailyRegenerateTwitterCitationEdition();
 
         // Repeat to update edition
         awareFactory.generate();

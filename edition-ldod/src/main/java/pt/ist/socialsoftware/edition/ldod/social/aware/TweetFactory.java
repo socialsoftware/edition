@@ -10,9 +10,9 @@ import org.slf4j.LoggerFactory;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.socialsoftware.edition.ldod.domain.LastTwitterID;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
 import pt.ist.socialsoftware.edition.ldod.domain.Tweet;
 import pt.ist.socialsoftware.edition.ldod.domain.TwitterCitation;
+import pt.ist.socialsoftware.edition.ldod.domain.VirtualModule;
 import pt.ist.socialsoftware.edition.ldod.utils.PropertiesManager;
 
 import java.io.*;
@@ -50,23 +50,23 @@ public class TweetFactory {
         }
 
         logger.debug("DELETE CITATIONS WITHOUT INFO RANGE");
-        LdoD.deleteTweetCitationsWithoutInfoRangeOrTweet();
+        VirtualModule.deleteTweetCitationsWithoutInfoRangeOrTweet();
 
         logger.debug("DELETE TWEETS WITHOUT CITATION");
-        LdoD.deleteTweetsWithoutCitation();
+        VirtualModule.deleteTweetsWithoutCitation();
 
         logger.debug("FINISHED TWEET FACTORY!!!");
     }
 
     @Atomic(mode = TxMode.WRITE)
     private void updateLastProcessedFileName(File fileEntry) {
-        LdoD.getInstance().getLastTwitterID().updateLastParsedFile(fileEntry.getName());
+        VirtualModule.getInstance().getLastTwitterID().updateLastParsedFile(fileEntry.getName());
     }
 
     @Atomic(mode = TxMode.READ)
     private String getLastProcessedFileName(String source) {
-        return LdoD.getInstance().getLastTwitterID().getLastParsedFile(source) != null
-                ? LdoD.getInstance().getLastTwitterID().getLastParsedFile(source)
+        return VirtualModule.getInstance().getLastTwitterID().getLastParsedFile(source) != null
+                ? VirtualModule.getInstance().getLastTwitterID().getLastParsedFile(source)
                 : "";
     }
 
@@ -104,11 +104,11 @@ public class TweetFactory {
 
     @Atomic(mode = TxMode.WRITE)
     private void createTweet(String line) throws ParseException {
-        LdoD ldoD = LdoD.getInstance();
+        VirtualModule virtualModule = VirtualModule.getInstance();
         JSONObject obj = (JSONObject) new JSONParser().parse(line);
 
         // if tweets set does not contain current tweet in json file
-        if (!ldoD.checkIfTweetExists((long) obj.get("tweetID"))) {
+        if (!virtualModule.checkIfTweetExists((long) obj.get("tweetID"))) {
             // remove emojis, etc
             String regex = "[^\\p{L}\\p{N}\\p{P}\\p{Z}]";
             Pattern pattern = Pattern.compile(regex, Pattern.UNICODE_CHARACTER_CLASS);
@@ -132,17 +132,17 @@ public class TweetFactory {
                     isRetweet = (boolean) obj.get("isRetweet");
                     // tweet is a retweet
                     if (isRetweet) {
-                        twitterCitation = ldoD.getTwitterCitationByTweetID((long) obj.get("originalTweetID"));
+                        twitterCitation = virtualModule.getTwitterCitationByTweetID((long) obj.get("originalTweetID"));
 
                     }
                     // tweet is not a retweet
                     else {
-                        twitterCitation = ldoD.getTwitterCitationByTweetID((long) obj.get("tweetID"));
+                        twitterCitation = virtualModule.getTwitterCitationByTweetID((long) obj.get("tweetID"));
                     }
                 }
                 // old JSON files
                 else {
-                    twitterCitation = ldoD.getTwitterCitationByTweetID((long) obj.get("tweetID"));
+                    twitterCitation = virtualModule.getTwitterCitationByTweetID((long) obj.get("tweetID"));
                 }
 
                 // we only create Tweets that have a Twitter Citation with InfoRange associated
@@ -154,7 +154,7 @@ public class TweetFactory {
                     matcher = pattern.matcher((String) obj.get("country"));
                     String cleanTweetCountry = matcher.replaceAll("");
 
-                    new Tweet(ldoD, (String) obj.get("tweetURL"), (String) obj.get("date"), tweetTextSubstring,
+                    new Tweet(virtualModule, (String) obj.get("tweetURL"), (String) obj.get("date"), tweetTextSubstring,
                             (long) obj.get("tweetID"), cleanTweetLocation, cleanTweetCountry,
                             (String) obj.get("username"), (String) obj.get("profURL"), (String) obj.get("profImg"),
                             originalTweetID, isRetweet, twitterCitation);

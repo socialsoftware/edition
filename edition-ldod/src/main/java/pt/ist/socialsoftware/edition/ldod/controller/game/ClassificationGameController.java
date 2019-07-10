@@ -19,7 +19,7 @@ import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.ldod.domain.ClassificationGame;
 import pt.ist.socialsoftware.edition.ldod.domain.ClassificationGameParticipant;
 import pt.ist.socialsoftware.edition.ldod.domain.ClassificationGameRound;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
+import pt.ist.socialsoftware.edition.ldod.domain.VirtualModule;
 import pt.ist.socialsoftware.edition.ldod.dto.ClassificationGameDto;
 
 import java.util.*;
@@ -44,7 +44,7 @@ public class ClassificationGameController {
             @PathVariable(value = "username") String username) {
         // logger.debug("getActiveGames: {}", username);
 
-        List<ClassificationGameDto> result = LdoD.getInstance().getActiveGames4User(username).stream()
+        List<ClassificationGameDto> result = VirtualModule.getInstance().getActiveGames4User(username).stream()
                 .map(ClassificationGameDto::new).sorted(Comparator.comparingLong(ClassificationGameDto::getDateTime))
                 .collect(Collectors.toList());
 
@@ -79,7 +79,7 @@ public class ClassificationGameController {
 
         List<Object> response = new ArrayList<>();
 
-        Map<String, Double> overallLeaderboard = LdoD.getInstance().getOverallLeaderboard();
+        Map<String, Double> overallLeaderboard = VirtualModule.getInstance().getOverallLeaderboard();
         List<String> users = overallLeaderboard.entrySet().stream()
                 .sorted(Collections.reverseOrder(Map.Entry.comparingByValue())).map(Map.Entry::getKey)
                 .collect(Collectors.toList());

@@ -166,7 +166,7 @@ public class FrontEndController {
         if (scholarInter != null) {
             writer = new PlainHtmlWriter4OneInter(scholarInter);
         } else {
-            VirtualEditionInter virtualEditionInter = LdoD.getInstance().getVirtualEditionInterByUrlId(urlId);
+            VirtualEditionInter virtualEditionInter = VirtualModule.getInstance().getVirtualEditionInterByUrlId(urlId);
             if (virtualEditionInter == null) {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
@@ -407,13 +407,13 @@ public class FrontEndController {
 
         //TODO : delete the following assignment and uncomment the following lines when
         // login capabilities are added to react frontend and a way to select virtual editions is possible
-        Set<VirtualEdition> virtualEditions = LdoD.getInstance().getVirtualEditionsSet();
+        Set<VirtualEdition> virtualEditions = VirtualModule.getInstance().getVirtualEditionsSet();
 
         /*Set<VirtualEdition> virtualEditions = new LinkedHashSet<>(LdoDSession.getLdoDSession().materializeVirtualEditions());
 
         virtualEditions.addAll((User.getAuthenticatedUser() != null ? User.getAuthenticatedUser().getSelectedVirtualEditionsSet() : new LinkedHashSet<>()));
 
-        virtualEditions.add(LdoD.getInstance().getArchiveEdition());
+        virtualEditions.add(VirtualModule.getInstance().getArchiveEdition());
 
         logger.debug(String.valueOf(virtualEditions.size()));*/
 
@@ -451,7 +451,7 @@ public class FrontEndController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        VirtualEditionInter inter = LdoD.getInstance().getVirtualEditionInterSet(fragment.getXmlId()).stream()
+        VirtualEditionInter inter = VirtualModule.getInstance().getVirtualEditionInterSet(fragment.getXmlId()).stream()
                 .filter(virtualEditionInter -> virtualEditionInter.getUrlId().equals(urlId)).findFirst().orElse(null);
 
         if (inter == null) {
@@ -488,7 +488,7 @@ public class FrontEndController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        VirtualEditionInter inter = LdoD.getInstance().getVirtualEditionInterSet(fragment.getXmlId()).stream()
+        VirtualEditionInter inter = VirtualModule.getInstance().getVirtualEditionInterSet(fragment.getXmlId()).stream()
                 .filter(virtualEditionInter -> virtualEditionInter.getUrlId().equals(urlId)).findFirst().orElse(null);
 
         if (inter == null) {
@@ -532,7 +532,7 @@ public class FrontEndController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        VirtualEditionInter inter = LdoD.getInstance().getVirtualEditionInterSet(fragment.getXmlId()).stream()
+        VirtualEditionInter inter = VirtualModule.getInstance().getVirtualEditionInterSet(fragment.getXmlId()).stream()
                 .filter(virtualEditionInter -> virtualEditionInter.getUrlId().equals(urlId)).findFirst().orElse(null);
 
         if (inter == null) {

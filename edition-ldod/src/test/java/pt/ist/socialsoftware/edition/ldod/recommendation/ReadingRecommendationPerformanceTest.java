@@ -45,9 +45,9 @@ public class ReadingRecommendationPerformanceTest {
     @Atomic(mode = TxMode.WRITE)
     protected void setUp() {
 
-        LdoD ldoD = LdoD.getInstance();
+        VirtualModule virtualModule = VirtualModule.getInstance();
 
-        VirtualEdition archiveEdition = ldoD.getArchiveEdition();
+        VirtualEdition archiveEdition = virtualModule.getArchiveEdition();
         List<VirtualEditionInter> archiveVirtualEditionInters = archiveEdition.getIntersSet().stream()
                 .map(VirtualEditionInter.class::cast).collect(Collectors.toList());
 

@@ -19,8 +19,8 @@ import pt.ist.socialsoftware.edition.ldod.TestLoadUtils;
 import pt.ist.socialsoftware.edition.ldod.config.Application;
 import pt.ist.socialsoftware.edition.ldod.controller.LdoDExceptionHandler;
 import pt.ist.socialsoftware.edition.ldod.domain.ExpertEdition;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
+import pt.ist.socialsoftware.edition.ldod.domain.VirtualModule;
 import pt.ist.socialsoftware.edition.ldod.filters.TransactionFilter;
 
 import java.io.FileNotFoundException;
@@ -79,7 +79,7 @@ public class VirtualEditionTest {
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void manageVirtualEditionsTest() throws Exception {
 
-        String id = LdoD.getInstance().getArchiveEdition().getExternalId();
+        String id = VirtualModule.getInstance().getArchiveEdition().getExternalId();
 
         this.mockMvc.perform(get("/virtualeditions/restricted/manage/{externalId}", id)).andDo(print())
                 .andExpect(status().isOk()).andExpect(view().name("virtual/manage"))
@@ -100,7 +100,7 @@ public class VirtualEditionTest {
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void editFormVirtualEditionTest() throws Exception {
 
-        VirtualEdition ve = LdoD.getInstance().getArchiveEdition();
+        VirtualEdition ve = VirtualModule.getInstance().getArchiveEdition();
 
         this.mockMvc.perform(get("/virtualeditions/restricted/editForm/{externalId}", ve.getExternalId()))
                 .andDo(print()).andExpect(status().isOk()).andExpect(view().name("virtual/edition"))
@@ -121,7 +121,7 @@ public class VirtualEditionTest {
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void showTaxonomyTest() throws Exception {
 
-        VirtualEdition ve = LdoD.getInstance().getArchiveEdition();
+        VirtualEdition ve = VirtualModule.getInstance().getArchiveEdition();
 
         this.mockMvc.perform(get("/virtualeditions/restricted/{externalId}/taxonomy", ve.getExternalId()))
                 .andDo(print()).andExpect(status().isOk()).andExpect(view().name("virtual/taxonomy"))
@@ -139,7 +139,7 @@ public class VirtualEditionTest {
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void showFragInterTest() throws Exception {
 
-        String id = LdoD.getInstance().getVirtualEditionInterByXmlId("Fr001.WIT.ED.VIRT.LdoD-Arquivo.1")
+        String id = VirtualModule.getInstance().getVirtualEditionInterByXmlId("Fr001.WIT.ED.VIRT.LdoD-Arquivo.1")
                 .getExternalId();
 
         this.mockMvc.perform(get("/virtualeditions/restricted/fraginter/{fragInterId}", id)).andDo(print())
@@ -164,7 +164,7 @@ public class VirtualEditionTest {
                         .param("pub", "true").param("use", "no"))
                 .andDo(print()).andExpect(status().is3xxRedirection()).andExpect(redirectedUrl("/virtualeditions"));
 
-        VirtualEdition testEdition = LdoD.getInstance().getVirtualEdition(VirtualEdition.ACRONYM_PREFIX + "Test");
+        VirtualEdition testEdition = VirtualModule.getInstance().getVirtualEdition(VirtualEdition.ACRONYM_PREFIX + "Test");
 
         assertEquals("Test", testEdition.getShortAcronym());
         assertEquals("Test", testEdition.getTitle());
@@ -179,14 +179,14 @@ public class VirtualEditionTest {
                         .param("pub", "true").param("use", "no"))
                 .andDo(print()).andExpect(status().is3xxRedirection()).andExpect(redirectedUrl("/virtualeditions"));
 
-        VirtualEdition testEdition = LdoD.getInstance().getVirtualEdition(VirtualEdition.ACRONYM_PREFIX + "Test");
+        VirtualEdition testEdition = VirtualModule.getInstance().getVirtualEdition(VirtualEdition.ACRONYM_PREFIX + "Test");
 
         String id = testEdition.getExternalId();
 
         this.mockMvc.perform(post("/virtualeditions/restricted/delete").param("externalId", id)).andDo(print())
                 .andExpect(status().is3xxRedirection()).andExpect(redirectedUrl("/virtualeditions"));
 
-        assertNull(LdoD.getInstance().getVirtualEdition(VirtualEdition.ACRONYM_PREFIX + "Test"));
+        assertNull(VirtualModule.getInstance().getVirtualEdition(VirtualEdition.ACRONYM_PREFIX + "Test"));
     }
 
     @Test
@@ -202,7 +202,7 @@ public class VirtualEditionTest {
     @WithUserDetails("ars")
     public void toggleVirtualEditionTest() throws Exception {
 
-        String id = LdoD.getInstance().getArchiveEdition().getExternalId();
+        String id = VirtualModule.getInstance().getArchiveEdition().getExternalId();
 
         this.mockMvc.perform(post("/virtualeditions/toggleselection").param("externalId", id)).andDo(print())
                 .andExpect(status().is3xxRedirection()).andExpect(redirectedUrl("/virtualeditions"));
@@ -222,7 +222,7 @@ public class VirtualEditionTest {
     @WithUserDetails("ars")
     public void reorderVirtualEditionTest() throws Exception {
 
-        String id = LdoD.getInstance().getArchiveEdition().getExternalId();
+        String id = VirtualModule.getInstance().getArchiveEdition().getExternalId();
 
         this.mockMvc.perform(post("/virtualeditions/restricted/reorder/{externalId}", id).param("fraginters", ""))
                 .andDo(print()).andExpect(status().is3xxRedirection()).andExpect(redirectedUrl("/virtualeditions"));
@@ -278,7 +278,7 @@ public class VirtualEditionTest {
     @WithUserDetails("ars")
     public void showParticipantsTest() throws Exception {
 
-        VirtualEdition ve = LdoD.getInstance().getArchiveEdition();
+        VirtualEdition ve = VirtualModule.getInstance().getArchiveEdition();
 
         this.mockMvc.perform(get("/virtualeditions/restricted/{externalId}/participants", ve.getExternalId()))
                 .andDo(print()).andExpect(status().isOk()).andExpect(view().name("virtual/participants"))
@@ -299,7 +299,7 @@ public class VirtualEditionTest {
     @WithUserDetails("ars")
     public void submitParticipantTest() throws Exception {
 
-        String id = LdoD.getInstance().getArchiveEdition().getExternalId();
+        String id = VirtualModule.getInstance().getArchiveEdition().getExternalId();
 
         this.mockMvc.perform(post("/virtualeditions/restricted/{externalId}/participants/submit", id)).andDo(print())
                 .andExpect(status().is3xxRedirection()).andExpect(redirectedUrl("/virtualeditions"));
@@ -319,7 +319,7 @@ public class VirtualEditionTest {
     @WithUserDetails("ars")
     public void cancelParticipantTest() throws Exception {
 
-        String id = LdoD.getInstance().getArchiveEdition().getExternalId();
+        String id = VirtualModule.getInstance().getArchiveEdition().getExternalId();
 
         this.mockMvc.perform(post("/virtualeditions/restricted/{externalId}/participants/cancel", id)).andDo(print())
                 .andExpect(status().is3xxRedirection()).andExpect(redirectedUrl("/virtualeditions"));
@@ -339,7 +339,7 @@ public class VirtualEditionTest {
     @WithUserDetails("ars")
     public void getTaxonomyTest() throws Exception {
 
-        String id = LdoD.getInstance().getArchiveEdition().getExternalId();
+        String id = VirtualModule.getInstance().getArchiveEdition().getExternalId();
 
         this.mockMvc.perform(get("/virtualeditions/restricted/{externalId}/taxonomy", id)).andDo(print())
                 .andExpect(status().isOk()).andExpect(view().name("virtual/taxonomy"))
@@ -362,7 +362,7 @@ public class VirtualEditionTest {
     @WithUserDetails("ars")
     public void deleteTaxonomyTest() throws Exception {
 
-        VirtualEdition ve = LdoD.getInstance().getArchiveEdition();
+        VirtualEdition ve = VirtualModule.getInstance().getArchiveEdition();
 
         this.mockMvc
                 .perform(post("/virtualeditions/restricted/{externalId}/taxonomy/clean", ve.getExternalId())
@@ -376,7 +376,7 @@ public class VirtualEditionTest {
     @WithUserDetails("ars")
     public void deleteErrorTaxonomyTest() throws Exception {
 
-        VirtualEdition ve = LdoD.getInstance().getArchiveEdition();
+        VirtualEdition ve = VirtualModule.getInstance().getArchiveEdition();
 
         this.mockMvc
                 .perform(post("/virtualeditions/restricted/{externalId}/taxonomy/clean", ve.getExternalId())
@@ -389,7 +389,7 @@ public class VirtualEditionTest {
     @WithUserDetails("ars")
     public void createCategoryTest() throws Exception {
 
-        VirtualEdition ve = LdoD.getInstance().getArchiveEdition();
+        VirtualEdition ve = VirtualModule.getInstance().getArchiveEdition();
 
         this.mockMvc
                 .perform(post("/virtualeditions/restricted/category/create").param("externalId", ve.getExternalId())
@@ -403,7 +403,7 @@ public class VirtualEditionTest {
     @WithUserDetails("ars")
     public void createCategoryErrorTest() throws Exception {
 
-        VirtualEdition ve = LdoD.getInstance().getArchiveEdition();
+        VirtualEdition ve = VirtualModule.getInstance().getArchiveEdition();
 
         this.mockMvc
                 .perform(post("/virtualeditions/restricted/category/create").param("externalId", "ERROR").param("name",

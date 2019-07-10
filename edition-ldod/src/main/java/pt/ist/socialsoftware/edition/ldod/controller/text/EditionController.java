@@ -51,7 +51,7 @@ public class EditionController {
             return "edition/tableOfContents";
         }
 
-        VirtualEdition virtualEdition = LdoD.getInstance().getVirtualEdition(acronym);
+        VirtualEdition virtualEdition = VirtualModule.getInstance().getVirtualEdition(acronym);
 
         if (virtualEdition == null) {
             return "redirect:/error";
@@ -107,15 +107,15 @@ public class EditionController {
 
         if (userDto != null) {
             model.addAttribute("userDto", userDto);
-            model.addAttribute("publicVirtualEditionsOrUserIsParticipant", LdoD.getInstance().getPublicVirtualEditionsOrUserIsParticipant(username));
-            model.addAttribute("virtualEditionIntersUserIsContributor", LdoD.getInstance().getVirtualEditionIntersUserIsContributor(username));
-            Player player = LdoD.getInstance().getPlayerByUsername(username);
+            model.addAttribute("publicVirtualEditionsOrUserIsParticipant", VirtualModule.getInstance().getPublicVirtualEditionsOrUserIsParticipant(username));
+            model.addAttribute("virtualEditionIntersUserIsContributor", VirtualModule.getInstance().getVirtualEditionIntersUserIsContributor(username));
+            Player player = VirtualModule.getInstance().getPlayerByUsername(username);
             if (player != null) {
                 model.addAttribute("player", player);
                 List<ClassificationGame> games = player.getClassificationGameParticipantSet().stream().map
                         (ClassificationGameParticipant::getClassificationGame).collect(Collectors.toList());
                 model.addAttribute("games", games);
-                model.addAttribute("position", LdoD.getInstance().getOverallUserPosition(username));
+                model.addAttribute("position", VirtualModule.getInstance().getOverallUserPosition(username));
             }
             model.addAttribute("uiInterface", new UiInterface());
             return "edition/userContributions";
@@ -127,7 +127,7 @@ public class EditionController {
     @RequestMapping(method = RequestMethod.GET, value = "/acronym/{acronym}/taxonomy")
     @PreAuthorize("hasPermission(#acronym, 'editionacronym.public')")
     public String getTaxonomyTableOfContents(Model model, @PathVariable String acronym) {
-        Taxonomy taxonomy = LdoD.getInstance().getVirtualEdition(acronym).getTaxonomy();
+        Taxonomy taxonomy = VirtualModule.getInstance().getVirtualEdition(acronym).getTaxonomy();
         if (taxonomy != null) {
             model.addAttribute("taxonomy", taxonomy);
             model.addAttribute("userInterface", this.userInterface);
@@ -141,7 +141,7 @@ public class EditionController {
     @PreAuthorize("hasPermission(#acronym, 'editionacronym.public')")
     public String getCategoryTableOfContents(Model model, @PathVariable String acronym, @PathVariable String urlId) {
 
-        VirtualEdition virtualEdition = LdoD.getInstance().getVirtualEdition(acronym);
+        VirtualEdition virtualEdition = VirtualModule.getInstance().getVirtualEdition(acronym);
         if (virtualEdition == null) {
             return "redirect:/error";
         }

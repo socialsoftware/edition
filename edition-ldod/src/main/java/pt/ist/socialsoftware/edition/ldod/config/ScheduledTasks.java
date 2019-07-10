@@ -1,21 +1,15 @@
 package pt.ist.socialsoftware.edition.ldod.config;
 
-import java.io.IOException;
-import java.util.Comparator;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.socialsoftware.edition.ldod.domain.ClassificationGame;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
+import pt.ist.socialsoftware.edition.ldod.domain.VirtualModule;
 import pt.ist.socialsoftware.edition.ldod.export.WriteVirtualEditonsToFile;
 import pt.ist.socialsoftware.edition.ldod.game.classification.GameRunner;
 import pt.ist.socialsoftware.edition.ldod.social.aware.AwareAnnotationFactory;
@@ -23,75 +17,80 @@ import pt.ist.socialsoftware.edition.ldod.social.aware.CitationDetecter;
 import pt.ist.socialsoftware.edition.ldod.social.aware.FetchCitationsFromTwitter;
 import pt.ist.socialsoftware.edition.ldod.social.aware.TweetFactory;
 
+import java.io.IOException;
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Component
 public class ScheduledTasks {
-	private static Logger logger = LoggerFactory.getLogger(ScheduledTasks.class);
+    private static final Logger logger = LoggerFactory.getLogger(ScheduledTasks.class);
 
-	@Autowired
-	GameRunner gameRunner;
+    @Autowired
+    GameRunner gameRunner;
 
-	@Scheduled(cron = "0 * * * * *")
-	public void scheduleGames() throws IOException {
-		logger.debug("scheduleGames starting");
-		List<String> gameIds = getGames();
-		for (String id : gameIds) {
-			logger.debug("scheduleGames id {}", id);
-			this.gameRunner.setGameId(id);
-			new Thread(this.gameRunner).start();
-		}
-	}
+    @Scheduled(cron = "0 * * * * *")
+    public void scheduleGames() throws IOException {
+        logger.debug("scheduleGames starting");
+        List<String> gameIds = getGames();
+        for (String id : gameIds) {
+            logger.debug("scheduleGames id {}", id);
+            this.gameRunner.setGameId(id);
+            new Thread(this.gameRunner).start();
+        }
+    }
 
-	@Atomic(mode = TxMode.READ)
-	private List<String> getGames() {
-		DateTime now = DateTime.now();
+    @Atomic(mode = TxMode.READ)
+    private List<String> getGames() {
+        DateTime now = DateTime.now();
 
-		return LdoD.getInstance().getVirtualEditionsSet().stream()
-				.flatMap(virtualEdition -> virtualEdition.getClassificationGameSet().stream())
-				.filter(g -> g.getState().equals(ClassificationGame.ClassificationGameState.CREATED)
-						&& g.getDateTime().isAfter(now) && g.getDateTime().isBefore(now.plusMinutes(2)))
-				.sorted(Comparator.comparing(ClassificationGame::getDateTime)).map(g -> g.getExternalId())
-				.collect(Collectors.toList());
-	}
+        return VirtualModule.getInstance().getVirtualEditionsSet().stream()
+                .flatMap(virtualEdition -> virtualEdition.getClassificationGameSet().stream())
+                .filter(g -> g.getState().equals(ClassificationGame.ClassificationGameState.CREATED)
+                        && g.getDateTime().isAfter(now) && g.getDateTime().isBefore(now.plusMinutes(2)))
+                .sorted(Comparator.comparing(ClassificationGame::getDateTime)).map(g -> g.getExternalId())
+                .collect(Collectors.toList());
+    }
 
-	@Scheduled(cron = "0 0 1 * * *")
-	public void generateTwitterCitations() throws IOException {
-		FetchCitationsFromTwitter fetch = new FetchCitationsFromTwitter();
-		fetch.fetch();
+    @Scheduled(cron = "0 0 1 * * *")
+    public void generateTwitterCitations() throws IOException {
+        FetchCitationsFromTwitter fetch = new FetchCitationsFromTwitter();
+        fetch.fetch();
 
-		CitationDetecter detecter = new CitationDetecter();
-		detecter.detect();
+        CitationDetecter detecter = new CitationDetecter();
+        detecter.detect();
 
-		TweetFactory tweetFactory = new TweetFactory();
-		tweetFactory.create();
+        TweetFactory tweetFactory = new TweetFactory();
+        tweetFactory.create();
 
-		AwareAnnotationFactory awareFactory = new AwareAnnotationFactory();
-		awareFactory.generate();
+        AwareAnnotationFactory awareFactory = new AwareAnnotationFactory();
+        awareFactory.generate();
 
-		LdoD.dailyRegenerateTwitterCitationEdition();
+        VirtualModule.dailyRegenerateTwitterCitationEdition();
 
-		// Repeat to update edition
-		awareFactory.generate();
-	}
+        // Repeat to update edition
+        awareFactory.generate();
+    }
 
-	@Scheduled(cron = "0 0 5 * * *")
-	public void lucenePerformance() throws IOException {
-		// LucenePerformance lucenePerformance = new LucenePerformance();
-		// lucenePerformance.runLivro();
-		// lucenePerformance.runBernardo();
-		// lucenePerformance.runFP();
-		// lucenePerformance.runVicente();
-	}
+    @Scheduled(cron = "0 0 5 * * *")
+    public void lucenePerformance() throws IOException {
+        // LucenePerformance lucenePerformance = new LucenePerformance();
+        // lucenePerformance.runLivro();
+        // lucenePerformance.runBernardo();
+        // lucenePerformance.runFP();
+        // lucenePerformance.runVicente();
+    }
 
-	@Scheduled(cron = "0 0 10,18 * * *")
-	public void reportCurrentTime() throws IOException {
-		WriteVirtualEditonsToFile write = new WriteVirtualEditonsToFile();
-		write.export();
-	}
+    @Scheduled(cron = "0 0 10,18 * * *")
+    public void reportCurrentTime() throws IOException {
+        WriteVirtualEditonsToFile write = new WriteVirtualEditonsToFile();
+        write.export();
+    }
 
-	@Scheduled(cron = "0 0 12 * * *")
-	public void generateGames() throws IOException {
-		logger.debug("generateGames");
-		LdoD.manageDailyClassificationGames(DateTime.now());
-	}
+    @Scheduled(cron = "0 0 12 * * *")
+    public void generateGames() throws IOException {
+        logger.debug("generateGames");
+        VirtualModule.manageDailyClassificationGames(DateTime.now());
+    }
 
 }

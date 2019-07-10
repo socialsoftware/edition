@@ -123,7 +123,7 @@ public class RecommendationController {
                                 + p.getWeight())
                         .collect(Collectors.joining(";")));
 
-        VirtualEdition virtualEdition = LdoD.getInstance().getVirtualEdition(params.getAcronym());
+        VirtualEdition virtualEdition = VirtualModule.getInstance().getVirtualEdition(params.getAcronym());
 
         RecommendationWeights recommendationWeights = virtualEdition.getRecommendationWeightsForUser(this.userInterface.getAuthenticatedUser());
         recommendationWeights.setWeights(params.getProperties());
@@ -149,7 +149,7 @@ public class RecommendationController {
                                            @RequestParam(value = "inter[]", required = false) String[] inters) {
         // logger.debug("saveLinearVirtualEdition");
 
-        LdoD ldod = LdoD.getInstance();
+        VirtualModule ldod = VirtualModule.getInstance();
 
         VirtualEdition virtualEdition = ldod.getVirtualEdition(acronym);
         if (inters != null) {
@@ -182,11 +182,11 @@ public class RecommendationController {
 
         if (errors.size() > 0) {
             throw new LdoDCreateVirtualEditionException(errors, acronym, title, pub,
-                    LdoD.getInstance().getVirtualEditionsUserIsParticipant(this.userInterface.getAuthenticatedUser(), ldoDSession),
+                    VirtualModule.getInstance().getVirtualEditionsUserIsParticipant(this.userInterface.getAuthenticatedUser(), ldoDSession),
                     this.userInterface.getAuthenticatedUser());
         }
 
-        VirtualEdition virtualEdition = LdoD.getInstance().createVirtualEdition(this.userInterface.getAuthenticatedUser(),
+        VirtualEdition virtualEdition = VirtualModule.getInstance().createVirtualEdition(this.userInterface.getAuthenticatedUser(),
                 VirtualEdition.ACRONYM_PREFIX + acronym, title, new LocalDate(), pub, null);
         VirtualEditionInter virtualInter;
         for (int i = 0; i < inters.length; i++) {

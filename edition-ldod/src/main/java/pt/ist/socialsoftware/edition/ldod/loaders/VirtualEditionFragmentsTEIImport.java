@@ -29,7 +29,7 @@ import java.util.List;
 public class VirtualEditionFragmentsTEIImport {
     private static final Logger logger = LoggerFactory.getLogger(VirtualEditionFragmentsTEIImport.class);
 
-    private LdoD ldoD = null;
+    private VirtualModule virtualModule = null;
     private Namespace namespace = null;
 
     public String importFragmentFromTEI(InputStream inputStream) {
@@ -66,7 +66,7 @@ public class VirtualEditionFragmentsTEIImport {
 
     @Atomic(mode = TxMode.WRITE)
     private String processImport(Document doc) {
-        this.ldoD = LdoD.getInstance();
+        this.virtualModule = VirtualModule.getInstance();
         this.namespace = doc.getRootElement().getNamespace();
 
         Fragment fragment = getFragment(doc);
@@ -95,7 +95,7 @@ public class VirtualEditionFragmentsTEIImport {
                 String interXmlId = wit.getAttributeValue("id", Namespace.XML_NAMESPACE);
                 String editionAcronym = interXmlId.substring(interXmlId.lastIndexOf("VIRT.") + "VIRT.".length(),
                         interXmlId.lastIndexOf('.'));
-                VirtualEdition virtualEdition = this.ldoD.getVirtualEdition(editionAcronym);
+                VirtualEdition virtualEdition = this.virtualModule.getVirtualEdition(editionAcronym);
 
                 logger.debug("importWitnesses id: {}, source: {}", interXmlId, wit.getAttributeValue("source"));
                 virtualEdition.createVirtualEditionInter(
@@ -111,7 +111,7 @@ public class VirtualEditionFragmentsTEIImport {
                 Namespace.getNamespace("def", this.namespace.getURI()));
 
         for (Element textClass : xp.evaluate(doc)) {
-            VirtualEditionInter inter = LdoD.getInstance().getVirtualEditionInterByXmlId(textClass.getAttributeValue("source").substring(1));
+            VirtualEditionInter inter = VirtualModule.getInstance().getVirtualEditionInterByXmlId(textClass.getAttributeValue("source").substring(1));
 
             for (Element catRef : textClass.getChildren("catRef", this.namespace)) {
                 importTag(catRef, inter);
@@ -185,7 +185,7 @@ public class VirtualEditionFragmentsTEIImport {
 
 //    private void setTwitterCitation(Element citation, TwitterCitation twitterCitation) {
 //        for (Element tweetElement : citation.getChild("tweets", this.namespace).getChildren()) {
-//            Tweet tweet = LdoD.getInstance()
+//            Tweet tweet = VirtualModule.getInstance()
 //                    .getTweetByTweetID(Long.parseLong(tweetElement.getAttributeValue("tweetId")));
 //            tweet.setCitation(twitterCitation);
 //        }
@@ -260,7 +260,7 @@ public class VirtualEditionFragmentsTEIImport {
     // }
     // List<RangeJson> rangeList = new ArrayList<>();
     // rangeList.add(range);
-    // inter.createAnnotation(quote, text, this.ldoD.getUser(username), rangeList,
+    // inter.createAnnotation(quote, text, this.virtualModule.getUser(username), rangeList,
     // tagList);
     // }
 

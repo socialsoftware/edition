@@ -22,7 +22,7 @@ public class AwareAnnotationFactory {
     public void generate() throws IOException {
         logger.debug("BEGINNIG OF AWARE FACTORY");
 
-        for (VirtualEdition ve : LdoD.getInstance().getVirtualEditionsSet()) {
+        for (VirtualEdition ve : VirtualModule.getInstance().getVirtualEditionsSet()) {
             if (ve.isSAVE()) {
                 searchForAwareAnnotations(ve);
             }

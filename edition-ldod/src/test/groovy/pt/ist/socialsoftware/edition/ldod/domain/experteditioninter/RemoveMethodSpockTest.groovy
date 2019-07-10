@@ -18,7 +18,7 @@ class RemoveMethodSpockTest extends SpockRollbackTestAbstractClass {
 
     def populate4Test() {
         text = TextModule.getInstance()
-        ldoD = LdoD.getInstance();
+        ldoD = VirtualModule.getInstance();
 
         fragment = new Fragment(text, "Title", "xmlId")
 

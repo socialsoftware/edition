@@ -360,12 +360,12 @@ public class SearchController {
     @RequestMapping(value = "/getVirtualEditions")
     @ResponseBody
     public Map<String, String> getVirtualEditions(Model model) {
-        Stream<VirtualEdition> virtualEditionStream = LdoD.getInstance().getVirtualEditionsSet().stream().filter(virtualEdition -> virtualEdition.getPub());
+        Stream<VirtualEdition> virtualEditionStream = VirtualModule.getInstance().getVirtualEditionsSet().stream().filter(virtualEdition -> virtualEdition.getPub());
 
         User user = User.getAuthenticatedUser();
         if (user != null) {
             virtualEditionStream = Stream.concat(virtualEditionStream,
-                    LdoD.getInstance().getSelectedVirtualEditionsByUser(user.getUsername()).stream()).distinct();
+                    VirtualModule.getInstance().getSelectedVirtualEditionsByUser(user.getUsername()).stream()).distinct();
         }
         return virtualEditionStream.collect(Collectors.toMap(VirtualEdition::getAcronym, VirtualEdition::getTitle));
     }

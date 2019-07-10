@@ -24,7 +24,7 @@ class GetIntersByDistanceMethodTest extends SpockRollbackTestAbstractClass {
         String[] fragments = ['001.xml', '002.xml', '003.xml', '181.xml', '593.xml']
         loadFragments(fragments)
 
-        virtualEdition = LdoD.getInstance().getVirtualEdition(ExpertEdition.ARCHIVE_EDITION_ACRONYM)
+        virtualEdition = VirtualModule.getInstance().getVirtualEdition(ExpertEdition.ARCHIVE_EDITION_ACRONYM)
 
         virtualEditionInter = virtualEdition.getAllDepthVirtualEditionInters().stream().findFirst().get()
 

@@ -48,7 +48,7 @@ public class LdoDPermissionEvaluator implements PermissionEvaluator {
                     }
                     break;
                 case "editionacronym":
-                    edition = LdoD.getInstance().getVirtualEdition((String) targetDomainObject);
+                    edition = VirtualModule.getInstance().getVirtualEdition((String) targetDomainObject);
                     if (edition instanceof VirtualEdition) {
                         virtualEdition = (VirtualEdition) edition;
                     } else {
@@ -135,7 +135,7 @@ public class LdoDPermissionEvaluator implements PermissionEvaluator {
             return true;
         }
 
-        VirtualEditionInter virtualEditionInter = LdoD.getInstance().getVirtualEditionInterByUrlId(targetType);
+        VirtualEditionInter virtualEditionInter = VirtualModule.getInstance().getVirtualEditionInterByUrlId(targetType);
         if (virtualEditionInter != null) {
             return virtualEditionInter.getEdition().isPublicOrIsParticipant();
         } else {

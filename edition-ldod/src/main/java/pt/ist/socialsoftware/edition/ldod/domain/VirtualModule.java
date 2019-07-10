@@ -17,15 +17,15 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class LdoD extends LdoD_Base {
-    private static final Logger log = LoggerFactory.getLogger(LdoD.class);
+public class VirtualModule extends VirtualModule_Base {
+    private static final Logger log = LoggerFactory.getLogger(VirtualModule.class);
 
-    public static LdoD getInstance() {
-        return FenixFramework.getDomainRoot().getLdoD();
+    public static VirtualModule getInstance() {
+        return FenixFramework.getDomainRoot().getVirtualModule();
     }
 
-    public LdoD() {
-        FenixFramework.getDomainRoot().setLdoD(this);
+    public VirtualModule() {
+        FenixFramework.getDomainRoot().setVirtualModule(this);
         setLastTwitterID(new LastTwitterID()); // check if this is supposed to be here
     }
 
@@ -96,7 +96,7 @@ public class LdoD extends LdoD_Base {
 
     public VirtualEdition getArchiveEdition() {
         return getVirtualEditionsSet().stream().filter(ve -> ve.getAcronym().equals(ExpertEdition.ARCHIVE_EDITION_ACRONYM))
-                .findFirst().orElse(null);
+                .findAny().orElse(null);
     }
 
     public VirtualEdition getVirtualEditionByXmlId(String xmlId) {
@@ -130,13 +130,13 @@ public class LdoD extends LdoD_Base {
 
     @Atomic(mode = TxMode.WRITE)
     public static void deleteTweetCitationsWithoutInfoRangeOrTweet() {
-        LdoD.getInstance().getAllTwitterCitation().stream()
+        VirtualModule.getInstance().getAllTwitterCitation().stream()
                 .filter(c -> c.getInfoRangeSet().isEmpty() || c.getTweetSet().isEmpty()).forEach(c -> c.remove());
     }
 
     @Atomic(mode = TxMode.WRITE)
     public static void deleteTweetsWithoutCitation() {
-        LdoD.getInstance().getTweetSet().stream().filter(t -> t.getCitation() == null).forEach(t -> t.remove());
+        VirtualModule.getInstance().getTweetSet().stream().filter(t -> t.getCitation() == null).forEach(t -> t.remove());
     }
 
     public TwitterCitation getTwitterCitationByTweetID(long id) {
@@ -194,7 +194,7 @@ public class LdoD extends LdoD_Base {
     public List<Citation> getCitationsWithInfoRanges() {
         DateTimeFormatter formater = DateTimeFormatter.ofPattern("dd-MMM-yyyy HH:mm:ss");
 
-        return LdoD.getInstance().getCitationSet().stream().filter(c -> !c.getInfoRangeSet().isEmpty())
+        return VirtualModule.getInstance().getCitationSet().stream().filter(c -> !c.getInfoRangeSet().isEmpty())
                 .sorted((c1, c2) -> java.time.LocalDateTime.parse(c2.getDate(), formater)
                         .compareTo(java.time.LocalDateTime.parse(c1.getDate(), formater)))
                 .collect(Collectors.toList());
@@ -219,12 +219,12 @@ public class LdoD extends LdoD_Base {
         });
     }
 
-    public static String TWITTER_EDITION_ACRONYM = "LdoD-Twitter";
+    public static String TWITTER_EDITION_ACRONYM = "VirtualModule-Twitter";
     public static int TWITTER_EDITION_DAYS = 30;
 
     @Atomic(mode = TxMode.WRITE)
     public static void dailyRegenerateTwitterCitationEdition() {
-        VirtualEdition twitterEdition = LdoD.getInstance().getVirtualEdition(TWITTER_EDITION_ACRONYM);
+        VirtualEdition twitterEdition = VirtualModule.getInstance().getVirtualEdition(TWITTER_EDITION_ACRONYM);
 
         twitterEdition.getAllDepthVirtualEditionInters().stream().forEach(inter -> inter.remove());
 
@@ -310,7 +310,7 @@ public class LdoD extends LdoD_Base {
     }
 
     public Map<String, Double> getOverallLeaderboard() {
-        List<Map<String, Double>> collect = LdoD.getInstance().getVirtualEditionsSet().stream()
+        List<Map<String, Double>> collect = VirtualModule.getInstance().getVirtualEditionsSet().stream()
                 .flatMap(v -> v.getClassificationGameSet().stream().map(g -> g.getLeaderboard()))
                 .collect(Collectors.toList());
         Map<String, Double> result = new LinkedHashMap<>();
@@ -338,7 +338,7 @@ public class LdoD extends LdoD_Base {
 
     @Atomic(mode = TxMode.WRITE)
     public static void manageDailyClassificationGames(DateTime initialDate) {
-        VirtualEdition virtualEdition = LdoD.getInstance().getVirtualEdition("LdoD-Jogo-Class");
+        VirtualEdition virtualEdition = VirtualModule.getInstance().getVirtualEdition("VirtualModule-Jogo-Class");
 
         // generate daily games
         for (int i = 0; i < 96; i++) {

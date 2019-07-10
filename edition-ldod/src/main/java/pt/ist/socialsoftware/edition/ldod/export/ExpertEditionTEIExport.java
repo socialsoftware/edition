@@ -126,7 +126,7 @@ public class ExpertEditionTEIExport {
 
         Element authorElement = new Element("author", this.xmlns);
         titleStmtElement.addContent(authorElement);
-        authorElement.addContent(LdoD.getInstance().getAuthor());
+        authorElement.addContent(VirtualModule.getInstance().getAuthor());
 
         Element respStmtElement = new Element("respStmt", this.xmlns);
         titleStmtElement.addContent(respStmtElement);
@@ -282,7 +282,7 @@ public class ExpertEditionTEIExport {
             additionsElement = new Element("additions", this.xmlns);
 
             if (manuscript.getHasLdoDLabel()) {
-                additionsElement.addContent("LdoD");
+                additionsElement.addContent("VirtualModule");
             }
             physDescElement.addContent(additionsElement);
 

@@ -3,9 +3,9 @@ package pt.ist.socialsoftware.edition.ldod
 import pt.ist.fenixframework.FenixFramework
 import pt.ist.fenixframework.core.WriteOnReadError
 import pt.ist.socialsoftware.edition.ldod.domain.ExpertEdition
-import pt.ist.socialsoftware.edition.ldod.domain.LdoD
 import pt.ist.socialsoftware.edition.ldod.domain.TextModule
 import pt.ist.socialsoftware.edition.ldod.domain.UserModule
+import pt.ist.socialsoftware.edition.ldod.domain.VirtualModule
 import pt.ist.socialsoftware.edition.ldod.loaders.LoadTEICorpus
 import pt.ist.socialsoftware.edition.ldod.loaders.LoadTEIFragments
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDLoadException
@@ -58,7 +58,7 @@ abstract class SpockRollbackTestAbstractClass extends Specification {
     def cleanDatabaseButCorpus() {
         TextModule text = TextModule.getInstance()
         UserModule userModule = UserModule.getInstance();
-        LdoD ldoD = LdoD.getInstance();
+        VirtualModule ldoD = VirtualModule.getInstance();
         if (ldoD != null) {
             for (def user : userModule.getUsersSet()) {
                 if (!(user.getUsername().equals("ars") || user.getUsername().equals("Twitter"))) {

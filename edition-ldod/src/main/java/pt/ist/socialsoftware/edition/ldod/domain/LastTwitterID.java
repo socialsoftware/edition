@@ -79,7 +79,7 @@ public class LastTwitterID extends LastTwitterID_Base {
     }
 
     public void remove() {
-        setLdoD(null);
+        setVirtualModule(null);
         deleteDomainObject();
     }
 

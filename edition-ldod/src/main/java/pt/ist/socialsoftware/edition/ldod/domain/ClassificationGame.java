@@ -100,7 +100,7 @@ public class ClassificationGame extends ClassificationGame_Base {
 
         /*
          * Set<User> users = players.keySet().stream().map(p ->
-         * LdoD.getInstance().getUser(p)).collect(Collectors.toSet());
+         * VirtualModule.getInstance().getUser(p)).collect(Collectors.toSet());
          *
          * for (User user : users) { if (user.getPlayer() == null) { new
          * Player(user); }

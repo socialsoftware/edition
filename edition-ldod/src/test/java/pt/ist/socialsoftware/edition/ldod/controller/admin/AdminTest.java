@@ -43,6 +43,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 public class AdminTest {
 
+    public static final String LDOD_TESTE = "LdoD-Teste";
+
     @Mock
     SessionRegistry sessionRegistry;
 
@@ -480,8 +482,8 @@ public class AdminTest {
 
         String usersXml = exporter.export();
 
-       /* LdoD.getInstance().getUser("ars").remove();
-        LdoD.getInstance().getUser("Twitter").remove();*/
+       /* VirtualModule.getInstance().getUser("ars").remove();
+        VirtualModule.getInstance().getUser("Twitter").remove();*/
 
         InputStream stream = new ByteArrayInputStream(usersXml.getBytes(StandardCharsets.UTF_8));
 
@@ -526,7 +528,7 @@ public class AdminTest {
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/admin/loadForm"));
 
-        assertNotNull(LdoD.getInstance().getVirtualEdition("LdoD-Teste"));
+        assertNotNull(VirtualModule.getInstance().getVirtualEdition(LDOD_TESTE));
 
     }
 
@@ -562,7 +564,7 @@ public class AdminTest {
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/admin/loadForm"));
 
-        assertNotEquals(0, LdoD.getInstance().getVirtualEdition("LdoD-Teste").getIntersSet().size());
+        assertNotEquals(0, VirtualModule.getInstance().getVirtualEdition(LDOD_TESTE).getIntersSet().size());
     }
 
     @Test
@@ -581,12 +583,12 @@ public class AdminTest {
     public void deleteVirtualEditionTest() throws Exception {
 
         this.mockMvc.perform(post("/admin/virtual/delete")
-                .param("externalId", LdoD.getInstance().getArchiveEdition().getExternalId()))
+                .param("externalId", VirtualModule.getInstance().getArchiveEdition().getExternalId()))
                 .andDo(print())
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/admin/virtual/list"));
 
-        assertNull(LdoD.getInstance().getArchiveEdition());
+        assertNull(VirtualModule.getInstance().getArchiveEdition());
 
     }
 
@@ -646,7 +648,7 @@ public class AdminTest {
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/admin/tweets"));
 
-        assertEquals(0, LdoD.getInstance().getTweetSet().size());
+        assertEquals(0, VirtualModule.getInstance().getTweetSet().size());
     }
 
 }

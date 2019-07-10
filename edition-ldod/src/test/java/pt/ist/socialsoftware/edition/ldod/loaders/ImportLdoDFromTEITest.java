@@ -32,10 +32,10 @@ public class ImportLdoDFromTEITest extends TestWithFragmentsLoading {
     @Atomic(mode = TxMode.READ)
     public void testCorpusIdLoadead() {
 
-        LdoD ldoD = LdoD.getInstance();
+        VirtualModule virtualModule = VirtualModule.getInstance();
         TextModule text = TextModule.getInstance();
 
-        checkTitleStmtLoad(ldoD);
+        checkTitleStmtLoad(virtualModule);
         checkListBiblLoad(text);
         checkHeteronymsLoad(text);
     }
@@ -101,13 +101,13 @@ public class ImportLdoDFromTEITest extends TestWithFragmentsLoading {
         }
     }
 
-    private void checkTitleStmtLoad(LdoD ldoD) {
-        assertEquals("O Livro do Desassossego", ldoD.getTitle());
-        assertEquals("Fernando Pessoa", ldoD.getAuthor());
-        assertEquals("Project: Nenhum Problema tem Solução", ldoD.getEditor());
-        assertEquals("", ldoD.getSponsor());
-        assertEquals("FCT", ldoD.getFunder());
-        assertEquals("Manuel Portela", ldoD.getPrincipal());
+    private void checkTitleStmtLoad(VirtualModule virtualModule) {
+        assertEquals("O Livro do Desassossego", virtualModule.getTitle());
+        assertEquals("Fernando Pessoa", virtualModule.getAuthor());
+        assertEquals("Project: Nenhum Problema tem Solução", virtualModule.getEditor());
+        assertEquals("", virtualModule.getSponsor());
+        assertEquals("FCT", virtualModule.getFunder());
+        assertEquals("Manuel Portela", virtualModule.getPrincipal());
     }
 
 }

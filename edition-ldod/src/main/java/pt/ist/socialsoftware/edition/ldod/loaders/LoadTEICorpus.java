@@ -11,8 +11,8 @@ import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.socialsoftware.edition.ldod.domain.ExpertEdition;
 import pt.ist.socialsoftware.edition.ldod.domain.Heteronym;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
 import pt.ist.socialsoftware.edition.ldod.domain.TextModule;
+import pt.ist.socialsoftware.edition.ldod.domain.VirtualModule;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDLoadException;
 import pt.ist.socialsoftware.edition.ldod.utils.DateUtils;
 
@@ -29,7 +29,7 @@ public class LoadTEICorpus {
 
     private Element ldoDTEI = null;
     private Namespace namespace = null;
-    private LdoD ldoD = null;
+    private VirtualModule virtualModule = null;
     private TextModule text = null;
 
     private Document doc = null;
@@ -81,7 +81,7 @@ public class LoadTEICorpus {
     public void loadTEICorpus(InputStream file) {
         parseTEIFile(file);
 
-        this.ldoD = LdoD.getInstance();
+        this.virtualModule = VirtualModule.getInstance();
         this.text = TextModule.getInstance();
 
         loadTitleStmt();
@@ -163,12 +163,12 @@ public class LoadTEICorpus {
         Element corpusHeaderTitleStmt = this.ldoDTEI.getChild("teiHeader", this.namespace)
                 .getChild("fileDesc", this.namespace).getChild("titleStmt", this.namespace);
 
-        this.ldoD.setTitle(corpusHeaderTitleStmt.getChild("title", this.namespace).getText());
-        this.ldoD.setAuthor(corpusHeaderTitleStmt.getChild("author", this.namespace).getText());
-        this.ldoD.setEditor(corpusHeaderTitleStmt.getChild("editor", this.namespace).getText());
-        this.ldoD.setSponsor(corpusHeaderTitleStmt.getChild("sponsor", this.namespace).getText());
-        this.ldoD.setFunder(corpusHeaderTitleStmt.getChild("funder", this.namespace).getText());
-        this.ldoD.setPrincipal(corpusHeaderTitleStmt.getChild("principal", this.namespace).getText());
+        this.virtualModule.setTitle(corpusHeaderTitleStmt.getChild("title", this.namespace).getText());
+        this.virtualModule.setAuthor(corpusHeaderTitleStmt.getChild("author", this.namespace).getText());
+        this.virtualModule.setEditor(corpusHeaderTitleStmt.getChild("editor", this.namespace).getText());
+        this.virtualModule.setSponsor(corpusHeaderTitleStmt.getChild("sponsor", this.namespace).getText());
+        this.virtualModule.setFunder(corpusHeaderTitleStmt.getChild("funder", this.namespace).getText());
+        this.virtualModule.setPrincipal(corpusHeaderTitleStmt.getChild("principal", this.namespace).getText());
     }
 
 }

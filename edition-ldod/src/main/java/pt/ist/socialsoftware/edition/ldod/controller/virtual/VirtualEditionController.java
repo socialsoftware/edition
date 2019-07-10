@@ -60,10 +60,10 @@ public class VirtualEditionController {
     @RequestMapping(method = RequestMethod.GET)
     public String listVirtualEdition(Model model, @ModelAttribute("ldoDSession") LdoDSession ldoDSession) {
 
-        model.addAttribute("ldod", LdoD.getInstance());
+        model.addAttribute("ldod", VirtualModule.getInstance());
         model.addAttribute("expertEditions", TextModule.getInstance().getSortedExpertEdition());
         model.addAttribute("virtualEditions",
-                LdoD.getInstance().getVirtualEditionsUserIsParticipant(this.userInterface.getAuthenticatedUser(), ldoDSession));
+                VirtualModule.getInstance().getVirtualEditionsUserIsParticipant(this.userInterface.getAuthenticatedUser(), ldoDSession));
         model.addAttribute("user", this.userInterface.getAuthenticatedUser());
 
         return "virtual/editions";
@@ -93,20 +93,20 @@ public class VirtualEditionController {
 
         if (errors.size() > 0) {
             throw new LdoDCreateVirtualEditionException(errors, acronym, title, pub,
-                    LdoD.getInstance().getVirtualEditionsUserIsParticipant(this.userInterface.getAuthenticatedUser(), ldoDSession),
+                    VirtualModule.getInstance().getVirtualEditionsUserIsParticipant(this.userInterface.getAuthenticatedUser(), ldoDSession),
                     this.userInterface.getAuthenticatedUser());
         }
 
         try {
             String usedAcronym = usedEdition == null ? null : ((usedEdition instanceof ScholarEdition) ? ((ScholarEdition) usedEdition).getAcronym()
                     : ((VirtualEdition) usedEdition).getAcronym());
-            virtualEdition = LdoD.getInstance().createVirtualEdition(this.userInterface.getAuthenticatedUser(),
+            virtualEdition = VirtualModule.getInstance().createVirtualEdition(this.userInterface.getAuthenticatedUser(),
                     VirtualEdition.ACRONYM_PREFIX + acronym, title, date, pub, usedAcronym);
 
         } catch (LdoDDuplicateAcronymException ex) {
             errors.add("virtualedition.acronym.duplicate");
             throw new LdoDCreateVirtualEditionException(errors, acronym, title, pub,
-                    LdoD.getInstance().getVirtualEditionsUserIsParticipant(this.userInterface.getAuthenticatedUser(), ldoDSession),
+                    VirtualModule.getInstance().getVirtualEditionsUserIsParticipant(this.userInterface.getAuthenticatedUser(), ldoDSession),
                     this.userInterface.getAuthenticatedUser());
         }
 
@@ -292,7 +292,7 @@ public class VirtualEditionController {
 
         List<VirtualEditionInterListDto> result =
                 Stream.concat(TextModule.getInstance().getExpertEditionsSet().stream().map(expertEdition -> new VirtualEditionInterListDto(expertEdition)),
-                        LdoD.getInstance().getVirtualEditionsSet().stream().filter(virtualEdition -> virtualEdition.getPub())
+                        VirtualModule.getInstance().getVirtualEditionsSet().stream().filter(virtualEdition -> virtualEdition.getPub())
                                 .map(virtualEdition -> new VirtualEditionInterListDto(virtualEdition, false)))
                         .collect(Collectors.toList());
 
@@ -325,7 +325,7 @@ public class VirtualEditionController {
 
             return new ResponseEntity<>(editionFragments, HttpStatus.OK);
         } else {
-            VirtualEdition virtualEdition = LdoD.getInstance().getVirtualEdition(acronym);
+            VirtualEdition virtualEdition = VirtualModule.getInstance().getVirtualEdition(acronym);
             if (virtualEdition != null) {
                 editionFragments.setCategories(virtualEdition.getTaxonomy().getSortedCategories().stream()
                         .map(c -> c.getName()).collect(Collectors.toList()));
@@ -386,7 +386,7 @@ public class VirtualEditionController {
                                                                @PathVariable String acronym) {
         logger.debug("getTranscriptions acronym:{}", acronym);
 
-        VirtualEdition virtualEdition = LdoD.getInstance().getVirtualEdition(acronym);
+        VirtualEdition virtualEdition = VirtualModule.getInstance().getVirtualEdition(acronym);
 
         if (virtualEdition == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -419,7 +419,7 @@ public class VirtualEditionController {
                                                                   @PathVariable String acronym, @PathVariable String category) {
         logger.debug("getTranscriptionsTag acronym:{}, category:{}", acronym, category);
 
-        VirtualEdition virtualEdition = LdoD.getInstance().getVirtualEdition(acronym);
+        VirtualEdition virtualEdition = VirtualModule.getInstance().getVirtualEdition(acronym);
 
         if (virtualEdition == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

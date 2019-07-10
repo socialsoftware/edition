@@ -28,7 +28,7 @@ public class ReadingController {
 
     @RequestMapping(method = RequestMethod.GET)
     public String startReading(Model model, @ModelAttribute("ldoDSession") LdoDSession ldoDSession) {
-        model.addAttribute("ldoD", LdoD.getInstance());
+        model.addAttribute("ldoD", VirtualModule.getInstance());
         model.addAttribute("text", TextModule.getInstance());
         model.addAttribute("inter", null);
 
@@ -55,7 +55,7 @@ public class ReadingController {
         PlainHtmlWriter4OneInter writer = new PlainHtmlWriter4OneInter(expertEditionInter);
         writer.write(false);
 
-        model.addAttribute("ldoD", LdoD.getInstance());
+        model.addAttribute("ldoD", VirtualModule.getInstance());
         model.addAttribute("text", TextModule.getInstance());
         model.addAttribute("inter", expertEditionInter);
         model.addAttribute("recommendations", recommendations);

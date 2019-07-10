@@ -24,7 +24,7 @@ public class VirtualEditionsTEICorpusExportTest extends TestWithFragmentsLoading
 
     private VirtualEditionsTEICorpusExport export;
     private VirtualEdition virtualEdition;
-    private LdoD ldoD;
+    private VirtualModule virtualModule;
     private TextModule text;
     private UserModule userModule;
     private User user;
@@ -42,10 +42,10 @@ public class VirtualEditionsTEICorpusExportTest extends TestWithFragmentsLoading
     protected void populate4Test() {
         this.text = TextModule.getInstance();
         this.userModule = UserModule.getInstance();
-        this.ldoD = LdoD.getInstance();
+        this.virtualModule = VirtualModule.getInstance();
         this.user = new User(this.userModule, "ars1", "ars", "Antonio", "Silva", "a@a.a");
         LocalDate localDate = LocalDate.parse("20018-07-20");
-        this.virtualEdition = new VirtualEdition(this.ldoD, this.user.getUsername(), "acronym", "title", localDate, true,
+        this.virtualEdition = new VirtualEdition(this.virtualModule, this.user.getUsername(), "acronym", "title", localDate, true,
                 this.text.getRZEdition().getAcronym());
     }
 
@@ -64,19 +64,19 @@ public class VirtualEditionsTEICorpusExportTest extends TestWithFragmentsLoading
         String virtualEditionsCorpus = export.export();
         System.out.println(virtualEditionsCorpus);
 
-        int numOfVirtualEditions = LdoD.getInstance().getVirtualEditionsSet().size();
+        int numOfVirtualEditions = VirtualModule.getInstance().getVirtualEditionsSet().size();
 
         this.virtualEdition.remove();
         this.user.remove();
         this.user = new User(this.userModule, "ars1", "ars", "Antonio", "Silva", "a@a.a");
         LocalDate localDate = LocalDate.parse("20018-07-20");
-        this.virtualEdition = new VirtualEdition(this.ldoD, this.user.getUsername(), "acronym", "title", localDate, true,
+        this.virtualEdition = new VirtualEdition(this.virtualModule, this.user.getUsername(), "acronym", "title", localDate, true,
                 this.text.getRZEdition().getAcronym());
 
         VirtualEditionsTEICorpusImport im = new VirtualEditionsTEICorpusImport();
         im.importVirtualEditionsCorpus(virtualEditionsCorpus);
 
-        assertEquals(numOfVirtualEditions, LdoD.getInstance().getVirtualEditionsSet().size());
+        assertEquals(numOfVirtualEditions, VirtualModule.getInstance().getVirtualEditionsSet().size());
 
         System.out.println(export.export());
 
@@ -93,15 +93,15 @@ public class VirtualEditionsTEICorpusExportTest extends TestWithFragmentsLoading
 
         // Saving value for assert
         int numOfCriteria = this.virtualEdition.getCriteriaSet().size();
-        int numOfTweets = this.ldoD.getTweetSet().size();
+        int numOfTweets = this.virtualModule.getTweetSet().size();
 
         // Clean
-        LdoD.getInstance().getTweetSet().forEach(t -> t.remove());
+        VirtualModule.getInstance().getTweetSet().forEach(t -> t.remove());
         this.virtualEdition.remove();
         this.user.remove();
         this.user = new User(this.userModule, "ars1", "ars", "Antonio", "Silva", "a@a.a");
         LocalDate localDate = LocalDate.parse("20018-07-20");
-        this.virtualEdition = new VirtualEdition(this.ldoD, this.user.getUsername(), "acronym", "title", localDate, true,
+        this.virtualEdition = new VirtualEdition(this.virtualModule, this.user.getUsername(), "acronym", "title", localDate, true,
                 this.text.getRZEdition().getAcronym());
 
         // Import
@@ -110,9 +110,9 @@ public class VirtualEditionsTEICorpusExportTest extends TestWithFragmentsLoading
 
         System.out.println(this.export.export());
 
-        assertEquals(numOfCriteria, this.ldoD.getVirtualEdition("acronym").getCriteriaSet().size());
+        assertEquals(numOfCriteria, this.virtualModule.getVirtualEdition("acronym").getCriteriaSet().size());
         //TODO: add way to load citations independently from frag
-        //assertEquals(numOfTweets, this.ldoD.getTweetSet().size());
+        //assertEquals(numOfTweets, this.virtualModule.getTweetSet().size());
 
         return result;
     }
@@ -120,9 +120,9 @@ public class VirtualEditionsTEICorpusExportTest extends TestWithFragmentsLoading
     @Test
     @Atomic
     public void exportTweetsTest() {
-        new Tweet(this.ldoD, "sourceLink", "date", "tweetText", 1111l, "location", "country", "username", "profURL",
+        new Tweet(this.virtualModule, "sourceLink", "date", "tweetText", 1111l, "location", "country", "username", "profURL",
                 "profImgURL", 9999l, true, null);
-        new Tweet(this.ldoD, "sourceLink", "date", "tweetText", 1111l, "location", "country", "username", "profURL",
+        new Tweet(this.virtualModule, "sourceLink", "date", "tweetText", 1111l, "location", "country", "username", "profURL",
                 "profImgURL", -1l, false, null);
         String result = exportPrintCleanAndImport();
         // Check if it was well exported

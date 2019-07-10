@@ -5,8 +5,8 @@ import org.slf4j.LoggerFactory;
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.ldod.domain.ExpertEditionInter;
 import pt.ist.socialsoftware.edition.ldod.domain.Fragment;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
 import pt.ist.socialsoftware.edition.ldod.domain.TextModule;
+import pt.ist.socialsoftware.edition.ldod.domain.VirtualModule;
 import pt.ist.socialsoftware.edition.ldod.recommendation.properties.*;
 
 import java.io.Serializable;
@@ -52,7 +52,7 @@ public class ReadingRecommendation implements Serializable {
         }
         if (this.taxonomyWeight > 0.0) {
             properties.add(new TaxonomyProperty(this.taxonomyWeight,
-                    LdoD.getInstance().getArchiveEdition().getTaxonomy(), Property.PropertyCache.ON));
+                    VirtualModule.getInstance().getArchiveEdition().getTaxonomy(), Property.PropertyCache.ON));
         }
         return properties;
     }

@@ -78,18 +78,18 @@ public class CitationDetecter {
 
     @Atomic(mode = TxMode.WRITE)
     private void removeTweetsWithoutCitationsWithInfoRange() {
-        LdoD.getInstance().removeTweetsWithoutCitationsWithInfoRange();
+        VirtualModule.getInstance().removeTweetsWithoutCitationsWithInfoRange();
     }
 
     @Atomic
     private void printNumberOfCitationsWithInfoRanges() {
         this.logger.debug(
-                "Number of Citations with Info Ranges: " + LdoD.getInstance().getNumberOfCitationsWithInfoRanges());
+                "Number of Citations with Info Ranges: " + VirtualModule.getInstance().getNumberOfCitationsWithInfoRanges());
     }
 
     @Atomic(mode = TxMode.WRITE)
     private void resetLastTwitterIds() {
-        LdoD.getInstance().getLastTwitterID().resetTwitterIDS();
+        VirtualModule.getInstance().getLastTwitterID().resetTwitterIDS();
     }
 
     private void citationDetection() throws IOException, FileNotFoundException {
@@ -119,8 +119,8 @@ public class CitationDetecter {
 
     @Atomic
     private String getLastFilenameForSource(String source) {
-        String lastFileName = LdoD.getInstance().getLastTwitterID().getLastParsedFile(source) != null
-                ? LdoD.getInstance().getLastTwitterID().getLastParsedFile(source)
+        String lastFileName = VirtualModule.getInstance().getLastTwitterID().getLastParsedFile(source) != null
+                ? VirtualModule.getInstance().getLastTwitterID().getLastParsedFile(source)
                 : "";
         return lastFileName;
     }
@@ -134,7 +134,7 @@ public class CitationDetecter {
         BufferedReader bufferedReader = new BufferedReader(new FileReader(fileEntry));
 
         // criar um tempMaxID que guarda o valor de
-        // LdoD.getInstance().getLastTwitterID()
+        // VirtualModule.getInstance().getLastTwitterID()
         // pq é preciso darmos set na base de dados do valor antes do while, pq vem logo
         // na primeira linha
         long tempMaxID = getLastTwitterId(fileEntry);
@@ -218,7 +218,7 @@ public class CitationDetecter {
                     // FetchCitationsFromTwitter class
                     // check if twitter ID already exists in the list of Citations
                     // if it does idExists=true, therefore we don't create a citation for it!
-                    Set<TwitterCitation> allTwitterCitations = LdoD.getInstance().getCitationSet().stream()
+                    Set<TwitterCitation> allTwitterCitations = VirtualModule.getInstance().getCitationSet().stream()
                             .filter(TwitterCitation.class::isInstance).map(TwitterCitation.class::cast)
                             .collect(Collectors.toSet());
                     boolean twitterIDExists = false;
@@ -269,8 +269,8 @@ public class CitationDetecter {
 
     @Atomic(mode = TxMode.WRITE)
     private void updateLastTwitterId(File fileEntry, JSONObject obj) {
-        if ((long) obj.get("tweetID") > LdoD.getInstance().getLastTwitterID().getLastTwitterID(fileEntry.getName())) {
-            LdoD.getInstance().getLastTwitterID().updateLastTwitterID(fileEntry.getName(), (long) obj.get("tweetID"));
+        if ((long) obj.get("tweetID") > VirtualModule.getInstance().getLastTwitterID().getLastTwitterID(fileEntry.getName())) {
+            VirtualModule.getInstance().getLastTwitterID().updateLastTwitterID(fileEntry.getName(), (long) obj.get("tweetID"));
         }
     }
 
@@ -307,19 +307,19 @@ public class CitationDetecter {
 
     @Atomic
     private void printLastTwitterIdsAndFiles() {
-        this.logger.debug("LdoD Book:{}, {}", LdoD.getInstance().getLastTwitterID().getLastBookParsedFile(),
-                LdoD.getInstance().getLastTwitterID().getBookLastTwitterID());
-        this.logger.debug("LdoD Bernardo:{}, {}", LdoD.getInstance().getLastTwitterID().getLastBernardoParsedFile(),
-                LdoD.getInstance().getLastTwitterID().getBernardoLastTwitterID());
-        this.logger.debug("LdoD Vicente:{}, {}", LdoD.getInstance().getLastTwitterID().getLastVicenteParsedFile(),
-                LdoD.getInstance().getLastTwitterID().getVicenteLastTwitterID());
-        this.logger.debug("LdoD Pessoa:{}, {}", LdoD.getInstance().getLastTwitterID().getLastPessoaParsedFile(),
-                LdoD.getInstance().getLastTwitterID().getPessoaLastTwitterID());
+        this.logger.debug("VirtualModule Book:{}, {}", VirtualModule.getInstance().getLastTwitterID().getLastBookParsedFile(),
+                VirtualModule.getInstance().getLastTwitterID().getBookLastTwitterID());
+        this.logger.debug("VirtualModule Bernardo:{}, {}", VirtualModule.getInstance().getLastTwitterID().getLastBernardoParsedFile(),
+                VirtualModule.getInstance().getLastTwitterID().getBernardoLastTwitterID());
+        this.logger.debug("VirtualModule Vicente:{}, {}", VirtualModule.getInstance().getLastTwitterID().getLastVicenteParsedFile(),
+                VirtualModule.getInstance().getLastTwitterID().getVicenteLastTwitterID());
+        this.logger.debug("VirtualModule Pessoa:{}, {}", VirtualModule.getInstance().getLastTwitterID().getLastPessoaParsedFile(),
+                VirtualModule.getInstance().getLastTwitterID().getPessoaLastTwitterID());
     }
 
     @Atomic(mode = TxMode.WRITE)
     private void createInfoRanges() {
-        for (Citation citation : LdoD.getInstance().getCitationSet()) {
+        for (Citation citation : VirtualModule.getInstance().getCitationSet()) {
             if (citation.getInfoRangeSet().isEmpty()) {
                 Fragment citationFragment = citation.getFragment();
                 Set<ScholarInter> inters = new HashSet<>(citationFragment.getScholarInterSet());
@@ -665,7 +665,7 @@ public class CitationDetecter {
 
     @Atomic
     private long getLastTwitterId(File fileEntry) {
-        long tempMaxID = LdoD.getInstance().getLastTwitterID().getLastTwitterID(fileEntry.getName());
+        long tempMaxID = VirtualModule.getInstance().getLastTwitterID().getLastTwitterID(fileEntry.getName());
         return tempMaxID;
     }
 

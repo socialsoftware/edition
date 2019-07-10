@@ -43,12 +43,12 @@ public class CriteriaTests extends TestWithFragmentsLoading {
     @Override
     @Atomic(mode = TxMode.WRITE)
     public void populate4Test() {
-        LdoD ldoD = LdoD.getInstance();
+        VirtualModule virtualModule = VirtualModule.getInstance();
         this.user = new User(UserModule.getInstance(), "ars1", "ars", "Antonio", "Silva", "a@a.a");
         LocalDate localDate = LocalDate.parse("20018-07-20");
         ExpertEdition expertEdition = TextModule.getInstance().getRZEdition();
 
-        this.virtualEdition = new VirtualEdition(ldoD, this.user.getUsername(), "acronym", "title", localDate, true, expertEdition.getAcronym());
+        this.virtualEdition = new VirtualEdition(virtualModule, this.user.getUsername(), "acronym", "title", localDate, true, expertEdition.getAcronym());
         this.clazz = pt.ist.socialsoftware.edition.ldod.domain.MediaSource.class;
     }
 

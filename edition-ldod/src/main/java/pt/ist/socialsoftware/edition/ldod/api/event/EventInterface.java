@@ -1,11 +1,11 @@
 package pt.ist.socialsoftware.edition.ldod.api.event;
 
-import pt.ist.socialsoftware.edition.ldod.api.ldod.LdoDInterface;
+import pt.ist.socialsoftware.edition.ldod.api.virtual.VirtualInterface;
 
 public class EventInterface {
-    private final LdoDInterface ldoDInterface = new LdoDInterface();
+    private final VirtualInterface virtualInterface = new VirtualInterface();
 
     public void publish(Event event) {
-        this.ldoDInterface.notifyEvent(event);
+        this.virtualInterface.notifyEvent(event);
     }
 }

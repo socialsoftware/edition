@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
 <!--
-This example contains a TEI condification proposal for Pessoa'a Book of Disquiet (LdoD - Livro do Desassossego)
+This example contains a TEI condification proposal for Pessoa'a Book of Disquiet (VirtualModule - Livro do Desassossego)
 
-The example highlights the issues considered relevant (challenging) for the codification of LdoD, the Corpus and a Fragment. Therefore it does not intend to contain a complete codification.
+The example highlights the issues considered relevant (challenging) for the codification of VirtualModule, the Corpus and a Fragment. Therefore it does not intend to contain a complete codification.
 Moreover, the open issues are also higlighted. 
 
 This codification proposal is based in a previous proposal by Timothy Thompson <timathom@gmail.com>
@@ -50,7 +50,7 @@ This codification proposal is based in a previous proposal by Timothy Thompson <
             </availability>
             <date when="2016" />
          </publicationStmt>
-         <!-- RELEVANT: Here we codify the 4 existing editions of LdoD -->
+         <!-- RELEVANT: Here we codify the 4 existing editions of VirtualModule -->
          <sourceDesc>
             <listBibl xml:id="ED.CRIT">
                <!-- RELEVANT: Each edition contains -->
