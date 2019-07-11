@@ -8,15 +8,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
-import pt.ist.socialsoftware.edition.ldod.api.text.TextInterface;
-import pt.ist.socialsoftware.edition.ldod.api.text.dto.ScholarInterDto;
-import pt.ist.socialsoftware.edition.ldod.api.user.dto.UserDto;
 import pt.ist.socialsoftware.edition.ldod.dto.InterIdDistancePairDto;
 import pt.ist.socialsoftware.edition.ldod.dto.WeightsDto;
 import pt.ist.socialsoftware.edition.ldod.recommendation.VSMVirtualEditionInterRecommender;
 import pt.ist.socialsoftware.edition.ldod.recommendation.properties.Property;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDDuplicateAcronymException;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
+import pt.ist.socialsoftware.edition.ldod.text.api.TextProvidesInterface;
+import pt.ist.socialsoftware.edition.ldod.text.api.dto.ScholarInterDto;
+import pt.ist.socialsoftware.edition.ldod.user.api.dto.UserDto;
 import pt.ist.socialsoftware.edition.ldod.utils.PropertiesManager;
 
 import java.io.File;
@@ -52,9 +52,9 @@ public class VirtualEdition extends VirtualEdition_Base {
             // cannot change acronym of the archive edition
             if (getAcronym() == null || !getAcronym().equals(ExpertEdition.ARCHIVE_EDITION_ACRONYM)) {
 
-                TextInterface textInterface = new TextInterface();
+                TextProvidesInterface textProvidesInterface = new TextProvidesInterface();
 
-                if (textInterface.acronymExists(acronym)) {
+                if (textProvidesInterface.acronymExists(acronym)) {
                     throw new LdoDDuplicateAcronymException();
                 }
 
@@ -92,8 +92,8 @@ public class VirtualEdition extends VirtualEdition_Base {
                     createVirtualEditionInter(inter, inter.getNumber());
                 }
             } else {
-                TextInterface textInterface = new TextInterface();
-                List<ScholarInterDto> scholarInterDtos = textInterface.getExpertEditionScholarInterDtoList(acronymOfUsed);
+                TextProvidesInterface textProvidesInterface = new TextProvidesInterface();
+                List<ScholarInterDto> scholarInterDtos = textProvidesInterface.getExpertEditionScholarInterDtoList(acronymOfUsed);
                 for (ScholarInterDto scholarInterDto : scholarInterDtos) {
                     createVirtualEditionInter(scholarInterDto, scholarInterDto.getNumber());
                 }
@@ -382,11 +382,11 @@ public class VirtualEdition extends VirtualEdition_Base {
         }
 
         // add new virtual edition interpretations
-        TextInterface textInterface = new TextInterface();
+        TextProvidesInterface textProvidesInterface = new TextProvidesInterface();
         int number = 0;
         for (String interXmlId : fragIntersXmlIds) {
             if (!currentUsedXmlIds.contains(interXmlId)) {
-                ScholarInterDto scholarInterDto = textInterface.getScholarInter(interXmlId);
+                ScholarInterDto scholarInterDto = textProvidesInterface.getScholarInter(interXmlId);
                 if (scholarInterDto != null) {
                     createVirtualEditionInter(scholarInterDto, number + 1);
                 } else {

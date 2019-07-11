@@ -1,8 +1,8 @@
 package pt.ist.socialsoftware.edition.ldod.domain.experteditioninter
 
 import pt.ist.socialsoftware.edition.ldod.SpockRollbackTestAbstractClass
-import pt.ist.socialsoftware.edition.ldod.api.text.dto.ScholarInterDto
 import pt.ist.socialsoftware.edition.ldod.domain.*
+import pt.ist.socialsoftware.edition.ldod.text.api.dto.ScholarInterDto
 
 class RemoveMethodSpockTest extends SpockRollbackTestAbstractClass {
     def ldoD

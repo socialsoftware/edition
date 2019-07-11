@@ -24,10 +24,10 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import pt.ist.socialsoftware.edition.ldod.domain.Role.RoleType;
 import pt.ist.socialsoftware.edition.ldod.filters.JWTAuthorizationFilter;
-import pt.ist.socialsoftware.edition.ldod.security.UserModuleAuthenticationSuccessHandler;
-import pt.ist.socialsoftware.edition.ldod.security.UserModuleSocialUserDetailsService;
-import pt.ist.socialsoftware.edition.ldod.security.UserModuleUserDetailsService;
-import pt.ist.socialsoftware.edition.ldod.security.jwt.JWTAuthenticationEntryPoint;
+import pt.ist.socialsoftware.edition.ldod.user.feature.security.UserModuleAuthenticationSuccessHandler;
+import pt.ist.socialsoftware.edition.ldod.user.feature.security.UserModuleSocialUserDetailsService;
+import pt.ist.socialsoftware.edition.ldod.user.feature.security.UserModuleUserDetailsService;
+import pt.ist.socialsoftware.edition.ldod.user.feature.security.jwt.JWTAuthenticationEntryPoint;
 
 import javax.inject.Inject;
 import java.util.Arrays;

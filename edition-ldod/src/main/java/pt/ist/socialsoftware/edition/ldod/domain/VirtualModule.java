@@ -7,9 +7,9 @@ import org.slf4j.LoggerFactory;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.fenixframework.FenixFramework;
-import pt.ist.socialsoftware.edition.ldod.api.text.TextInterface;
-import pt.ist.socialsoftware.edition.ldod.api.text.dto.ScholarInterDto;
 import pt.ist.socialsoftware.edition.ldod.session.LdoDSession;
+import pt.ist.socialsoftware.edition.ldod.text.api.TextProvidesInterface;
+import pt.ist.socialsoftware.edition.ldod.text.api.dto.ScholarInterDto;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -239,11 +239,11 @@ public class VirtualModule extends VirtualModule_Base {
                 editionBeginDateJoda.getMonthOfYear(), editionBeginDateJoda.getDayOfMonth(), 0, 0);
         int number = 0;
 
-        TextInterface textInterface = new TextInterface();
+        TextProvidesInterface textProvidesInterface = new TextProvidesInterface();
 
-        textInterface.getScholarInterDtoListTwitterEdition(editionBeginDateTime);
+        textProvidesInterface.getScholarInterDtoListTwitterEdition(editionBeginDateTime);
 
-        for (ScholarInterDto scholarInterDto : textInterface.getScholarInterDtoListTwitterEdition(editionBeginDateTime)) {
+        for (ScholarInterDto scholarInterDto : textProvidesInterface.getScholarInterDtoListTwitterEdition(editionBeginDateTime)) {
             twitterEdition.createVirtualEditionInter(scholarInterDto, ++number);
         }
     }

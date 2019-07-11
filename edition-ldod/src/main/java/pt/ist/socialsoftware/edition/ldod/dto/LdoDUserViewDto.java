@@ -1,7 +1,7 @@
 package pt.ist.socialsoftware.edition.ldod.dto;
 
-import pt.ist.socialsoftware.edition.ldod.api.user.dto.UserDto;
 import pt.ist.socialsoftware.edition.ldod.domain.User;
+import pt.ist.socialsoftware.edition.ldod.user.api.dto.UserDto;
 
 import javax.validation.constraints.NotBlank;
 

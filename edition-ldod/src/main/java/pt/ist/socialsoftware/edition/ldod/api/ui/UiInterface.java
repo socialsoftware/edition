@@ -2,13 +2,13 @@ package pt.ist.socialsoftware.edition.ldod.api.ui;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pt.ist.socialsoftware.edition.ldod.api.text.TextInterface;
-import pt.ist.socialsoftware.edition.ldod.api.text.dto.HeteronymDto;
-import pt.ist.socialsoftware.edition.ldod.api.text.dto.ScholarInterDto;
-import pt.ist.socialsoftware.edition.ldod.api.virtual.VirtualInterface;
 import pt.ist.socialsoftware.edition.ldod.domain.TextModule;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualModule;
+import pt.ist.socialsoftware.edition.ldod.text.api.TextProvidesInterface;
+import pt.ist.socialsoftware.edition.ldod.text.api.dto.HeteronymDto;
+import pt.ist.socialsoftware.edition.ldod.text.api.dto.ScholarInterDto;
+import pt.ist.socialsoftware.edition.ldod.virtual.api.VirtualProvidesInterface;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,8 +29,8 @@ public class UiInterface {
     }
 
     public FragInterDto.InterType getSourceTypeOfInter(String xmlId) {
-        TextInterface textInterface = new TextInterface();
-        ScholarInterDto scholarInterDto = textInterface.getScholarInter(xmlId);
+        TextProvidesInterface textProvidesInterface = new TextProvidesInterface();
+        ScholarInterDto scholarInterDto = textProvidesInterface.getScholarInter(xmlId);
         if (scholarInterDto != null) {
             return scholarInterDto.getType();
         } else {
@@ -39,8 +39,8 @@ public class UiInterface {
     }
 
     public String getHeteronymName(String xmlId) {
-        TextInterface textInterface = new TextInterface();
-        HeteronymDto heteronym = textInterface.getScholarInterHeteronym(xmlId);
+        TextProvidesInterface textProvidesInterface = new TextProvidesInterface();
+        HeteronymDto heteronym = textProvidesInterface.getScholarInterHeteronym(xmlId);
         if (heteronym != null) {
             return heteronym.getName();
         }
@@ -49,14 +49,14 @@ public class UiInterface {
     }
 
     public boolean isExpertEdition(String acronym) {
-        TextInterface textInterface = new TextInterface();
+        TextProvidesInterface textProvidesInterface = new TextProvidesInterface();
 
-        return textInterface.isExpertEdition(acronym);
+        return textProvidesInterface.isExpertEdition(acronym);
     }
 
     public boolean isVirtualEdition(String acronym) {
-        VirtualInterface virtualInterface = new VirtualInterface();
+        VirtualProvidesInterface virtualProvidesInterface = new VirtualProvidesInterface();
 
-        return virtualInterface.getVirtualEdition(acronym) != null;
+        return virtualProvidesInterface.getVirtualEdition(acronym) != null;
     }
 }

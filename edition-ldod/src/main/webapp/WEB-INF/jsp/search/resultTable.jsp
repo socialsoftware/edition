@@ -47,14 +47,14 @@
                     <c:when test="${ fragInterEntry.value.size()>0 }">
                         <tr>
                             <td><a
-                                    href="/fragments/fragment/${fragmentEntry.key}">${textInterface.getFragmentTitle(fragmentEntry.key)}</a>
+                                    href="/fragments/fragment/${fragmentEntry.key}">${frontendRequiresInterface.getFragmentTitle(fragmentEntry.key)}</a>
                             </td>
 
 
                             <c:choose>
                                 <c:when
-                                        test="${ textInterface.isSourceInter(fragInterEntry.key) &&
-										textInterface.isSourceInter(fragInterEntry.key) == 'MANUSCRIPT'}">
+                                        test="${ textProvidesInterface.isSourceInter(fragInterEntry.key) &&
+										textProvidesInterface.isSourceInter(fragInterEntry.key) == 'MANUSCRIPT'}">
                                     <td><a
                                             href="/fragments/fragment/${fragInterEntry.key.getFragmentXmlId()}/inter/${fragInterEntry.key.getUrlId()}">${fragInterEntry.key.getShortName()}</a>
                                     </td>
@@ -66,6 +66,20 @@
                                 </c:otherwise>
                             </c:choose>
 
+                                <%--                            <c:choose>--%>
+                                <%--                                <c:when--%>
+                                <%--                                        test="${fragInterEntry.getType() =='EDITORIAL'}">--%>
+                                <%--                                    <td><a--%>
+                                <%--                                            href="/fragments/fragment/${fragInterEntry.getFragmentXmlId()}/inter/${fragInterEntry.getUrlId()}">${fragInterEntry.getTitle()}--%>
+                                <%--                                        (${fragInterEntry.getEditionReference()})</a>--%>
+                                <%--                                    </td>--%>
+                                <%--                                </c:when>--%>
+                                <%--                                <c:otherwise>--%>
+                                <%--                                    <td><a--%>
+                                <%--                                            href="/fragments/fragment/${fragInterEntry.getFragmentXmlId()}/inter/${fragInterEntry.getUrlId()}">${fragInterEntry.getShortName()}</a>--%>
+                                <%--                                    </td>--%>
+                                <%--                                </c:otherwise>--%>
+                                <%--                            </c:choose>--%>
 
                             <c:forEach items="${search }" var="searchOption">
                                 <%
@@ -90,25 +104,25 @@
 
                             <c:if test="${showSourceType}">
                                 <td><c:if
-                                        test="${textInterface.isSourceInter(fragInterEntry.key) &&
-												textInterface.getInterSourceType(fragInterEntry.key) == 'MANUSCRIPT' &&
-												!textInterface.getSourceOfInter(fragInterEntry.key).getTypeNoteSet().isEmpty() }">
+                                        test="${textProvidesInterface.isSourceInter(fragInterEntry.key) &&
+												textProvidesInterface.getInterSourceType(fragInterEntry.key) == 'MANUSCRIPT' &&
+												!textProvidesInterface.getSourceOfInter(fragInterEntry.key).getTypeNoteSet().isEmpty() }">
                                     <spring:message code="general.typescript"/>
                                 </c:if> <c:if
-                                        test="${textInterface.isSourceInter(fragInterEntry.key) &&
-												textInterface.getInterSourceType(fragInterEntry.key)== 'MANUSCRIPT' &&
-												!textInterface.getSourceOfInter(fragInterEntry.key).getHandNoteSet().isEmpty() }">
+                                        test="${textProvidesInterface.isSourceInter(fragInterEntry.key) &&
+												textProvidesInterface.getInterSourceType(fragInterEntry.key)== 'MANUSCRIPT' &&
+												!textProvidesInterface.getSourceOfInter(fragInterEntry.key).getHandNoteSet().isEmpty() }">
                                     <spring:message code="general.manuscript"/>
                                 </c:if></td>
                             </c:if>
 
                             <c:if test="${showLdoD}">
                                 <td><c:if
-                                        test="${textInterface.isSourceInter(fragInterEntry.key) &&
-												textInterface.getInterSourceType(fragInterEntry.key) == 'MANUSCRIPT' }">
+                                        test="${textProvidesInterface.isSourceInter(fragInterEntry.key) &&
+												textProvidesInterface.getInterSourceType(fragInterEntry.key) == 'MANUSCRIPT' }">
                                     <c:choose>
                                         <c:when
-                                                test="${textInterface.getSourceOfInter(fragInterEntry.key).getHasLdoDLabel()}">
+                                                test="${textProvidesInterface.getSourceOfInter(fragInterEntry.key).getHasLdoDLabel()}">
                                             <spring:message code="general.yes"/>
                                         </c:when>
                                         <c:otherwise>
@@ -121,9 +135,9 @@
                             <c:if test="${showPubPlace}">
                                 <c:choose>
                                     <c:when
-                                            test="${ textInterface.isSourceInter(fragInterEntry.key) &&
-												textInterface.getInterSourceType(fragInterEntry.key) == 'PRINTED' }">
-                                        <td>${textInterface.getSourceOfInter(fragInterEntry.key).getTitle()}</td>
+                                            test="${ textProvidesInterface.isSourceInter(fragInterEntry.key) &&
+												textProvidesInterface.getInterSourceType(fragInterEntry.key) == 'PRINTED' }">
+                                        <td>${textProvidesInterface.getSourceOfInter(fragInterEntry.key).getTitle()}</td>
                                     </c:when>
                                     <c:otherwise>
                                         <td></td>
@@ -134,8 +148,8 @@
                             <c:if test="${showEdition}">
                                 <c:choose>
                                     <c:when
-                                            test="${textInterface.isExpertInter(fragInterEntry.key)}">
-                                        <td>${textInterface.getExpertEditionEditor(fragInterEntry.key)}</td>
+                                            test="${textProvidesInterface.isExpertInter(fragInterEntry.key)}">
+                                        <td>${textProvidesInterface.getExpertEditionEditor(fragInterEntry.key)}</td>
                                     </c:when>
                                     <c:otherwise>
                                         <td></td>
@@ -156,13 +170,13 @@
                             <c:if test="${showDate}">
                                 <c:choose>
                                     <c:when
-                                            test="${textInterface.isSourceInter(fragInterEntry.key) &&
-										 textInterface.getInterSourceType(fragInterEntry.key) == 'MANUSCRIPT' }">
-                                        <td>${textInterface.getSourceOfInter(fragInterEntry.key).getLdoDDate().print()}</td>
+                                            test="${textProvidesInterface.isSourceInter(fragInterEntry.key) &&
+										 textProvidesInterface.getInterSourceType(fragInterEntry.key) == 'MANUSCRIPT' }">
+                                        <td>${textProvidesInterface.getSourceOfInter(fragInterEntry.key).getLdoDDate().print()}</td>
                                     </c:when>
                                     <c:when
-                                            test="${showDate && textInterface.isExpertInter(fragInterEntry.key)}">
-                                        <td>${textInterface.getScholarInterDate(fragInterEntry.key).print()}</td>
+                                            test="${showDate && textProvidesInterface.isExpertInter(fragInterEntry.key)}">
+                                        <td>${textProvidesInterface.getScholarInterDate(fragInterEntry.key).print()}</td>
                                     </c:when>
                                     <c:otherwise>
                                         <td></td>
@@ -172,11 +186,8 @@
                         </tr>
                     </c:when>
                 </c:choose>
-
             </c:forEach>
         </c:forEach>
-
-
         </tbody>
     </table>
 </div>

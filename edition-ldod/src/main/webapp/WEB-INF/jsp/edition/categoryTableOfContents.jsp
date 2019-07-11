@@ -47,7 +47,7 @@
                 </td>
                 <td><c:forEach var="user"
                                items="${inter.getContributorSet(category)}">
-                    <a href="${contextPath}/edition/user/${user}">${userInterface.getFirtsName(user)} ${userInterface.getLastName(user)}
+                    <a href="${contextPath}/edition/user/${user}">${userProvidesInterface.getFirtsName(user)} ${userProvidesInterface.getLastName(user)}
                         (${user})</a>
                     <br>
                 </c:forEach></td>

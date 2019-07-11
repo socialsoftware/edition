@@ -15,9 +15,9 @@ import pt.ist.fenixframework.Atomic;
 import pt.ist.socialsoftware.edition.ldod.ControllersTestWithFragmentsLoading;
 import pt.ist.socialsoftware.edition.ldod.config.Application;
 import pt.ist.socialsoftware.edition.ldod.controller.LdoDExceptionHandler;
-import pt.ist.socialsoftware.edition.ldod.controller.user.SignupController;
 import pt.ist.socialsoftware.edition.ldod.domain.RegistrationToken;
 import pt.ist.socialsoftware.edition.ldod.filters.TransactionFilter;
+import pt.ist.socialsoftware.edition.ldod.user.controller.SignupController;
 
 import java.io.FileNotFoundException;
 
@@ -97,7 +97,7 @@ public class SignupTest extends ControllersTestWithFragmentsLoading {
         /*when(passwordEncoder.matches(anyString(),anyString())).thenReturn(true);
         when(passwordEncoder.encode(anyString())).thenReturn("$2a$11$wd.49aU2FkZMJyk6Ac4KsOaosd4YSAm/etVT3aIKOw6zpUI2bzS7K");
 
-        this.mockMvc.perform(post("/signup")
+        this.mockMvcJsp.perform(post("/signup")
                 .param("username", "temp")
                 .param("password", "123456")
                 .param("firstName","Temp")

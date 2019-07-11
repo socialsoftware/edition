@@ -13,13 +13,13 @@ import pt.ist.fenixframework.DomainObject;
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.ldod.api.ui.FragInterDto;
 import pt.ist.socialsoftware.edition.ldod.api.ui.UiInterface;
-import pt.ist.socialsoftware.edition.ldod.api.user.UserInterface;
-import pt.ist.socialsoftware.edition.ldod.api.user.dto.UserDto;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.generators.HtmlWriter2CompInters;
 import pt.ist.socialsoftware.edition.ldod.generators.HtmlWriter4Variations;
 import pt.ist.socialsoftware.edition.ldod.generators.PlainHtmlWriter4OneInter;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
+import pt.ist.socialsoftware.edition.ldod.user.api.UserProvidesInterface;
+import pt.ist.socialsoftware.edition.ldod.user.api.dto.UserDto;
 import pt.ist.socialsoftware.edition.ldod.utils.AnnotationDTO;
 import pt.ist.socialsoftware.edition.ldod.utils.AnnotationSearchJson;
 import pt.ist.socialsoftware.edition.ldod.utils.CategoryDTO;
@@ -37,7 +37,7 @@ import static pt.ist.socialsoftware.edition.ldod.domain.Source.SourceType.PRINTE
 public class FrontEndController {
     private static final Logger logger = LoggerFactory.getLogger(FrontEndController.class);
 
-    private final UserInterface userInterface = new UserInterface();
+    private final UserProvidesInterface userProvidesInterface = new UserProvidesInterface();
 
     @Inject
     private PasswordEncoder passwordEncoder;
@@ -542,9 +542,9 @@ public class FrontEndController {
 
         Map<String, Object> catInfo = new LinkedHashMap<>();
 
-        String user = this.userInterface.getAuthenticatedUser();
+        String user = this.userProvidesInterface.getAuthenticatedUser();
 
-        if (this.userInterface.getUser(user) != null) {
+        if (this.userProvidesInterface.getUser(user) != null) {
             List<String> assignedInfo = new ArrayList<>();
             for (Category category : inter.getAssignedCategories(user)) {
                 assignedInfo.add(category.getNameInEditionContext(inter.getEdition()));
@@ -718,7 +718,7 @@ public class FrontEndController {
 
         String[] names = categories.split("%2C");
 
-        inter.associate(this.userInterface.getAuthenticatedUser(), Arrays.stream(names).collect(Collectors.toSet()));
+        inter.associate(this.userProvidesInterface.getAuthenticatedUser(), Arrays.stream(names).collect(Collectors.toSet()));
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -735,7 +735,7 @@ public class FrontEndController {
 
         VirtualEditionInter inter = (VirtualEditionInter) object;
 
-        inter.dissociate(this.userInterface.getAuthenticatedUser(), category);
+        inter.dissociate(this.userProvidesInterface.getAuthenticatedUser(), category);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -795,7 +795,7 @@ public class FrontEndController {
         VirtualEditionInter inter = FenixFramework.getDomainObject(annotationJson.getUri());
         VirtualEdition virtualEdition = inter.getEdition();
 
-        String user = this.userInterface.getAuthenticatedUser();
+        String user = this.userProvidesInterface.getAuthenticatedUser();
 
         HumanAnnotation annotation;
         if (HumanAnnotation.canCreate(virtualEdition, user)) {
@@ -829,7 +829,7 @@ public class FrontEndController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        if (annotation.canUpdate(this.userInterface.getAuthenticatedUser())) {
+        if (annotation.canUpdate(this.userProvidesInterface.getAuthenticatedUser())) {
             annotation.update(annotationJson.getText(), annotationJson.getTags());
             return new ResponseEntity<>(new AnnotationDTO(annotation), HttpStatus.OK);
         } else {
@@ -846,7 +846,7 @@ public class FrontEndController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        if (annotation.canDelete(this.userInterface.getAuthenticatedUser())) {
+        if (annotation.canDelete(this.userProvidesInterface.getAuthenticatedUser())) {
             annotation.remove();
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } else {

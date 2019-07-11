@@ -1,11 +1,11 @@
 package pt.ist.socialsoftware.edition.ldod.api.event;
 
-import pt.ist.socialsoftware.edition.ldod.api.virtual.VirtualInterface;
+import pt.ist.socialsoftware.edition.ldod.virtual.api.VirtualRequiresInterface;
 
 public class EventInterface {
-    private final VirtualInterface virtualInterface = new VirtualInterface();
+    private final VirtualRequiresInterface virtualRequiresInterface = new VirtualRequiresInterface();
 
     public void publish(Event event) {
-        this.virtualInterface.notifyEvent(event);
+        this.virtualRequiresInterface.notifyEvent(event);
     }
 }

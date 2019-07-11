@@ -28,8 +28,8 @@ import org.springframework.social.linkedin.api.LinkedIn;
 import org.springframework.social.linkedin.connect.LinkedInConnectionFactory;
 import org.springframework.social.twitter.api.Twitter;
 import org.springframework.social.twitter.connect.TwitterConnectionFactory;
-import pt.ist.socialsoftware.edition.ldod.security.UserModuleSignInAdapter;
-import pt.ist.socialsoftware.edition.ldod.security.UserModuleUsersConnectionRepository;
+import pt.ist.socialsoftware.edition.ldod.user.feature.security.UserModuleSignInAdapter;
+import pt.ist.socialsoftware.edition.ldod.user.feature.security.UserModuleUsersConnectionRepository;
 
 import javax.inject.Inject;
 

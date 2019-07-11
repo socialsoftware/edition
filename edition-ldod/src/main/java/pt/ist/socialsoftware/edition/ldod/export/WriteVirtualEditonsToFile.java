@@ -2,8 +2,8 @@ package pt.ist.socialsoftware.edition.ldod.export;
 
 import org.apache.commons.io.IOUtils;
 import pt.ist.fenixframework.Atomic;
-import pt.ist.socialsoftware.edition.ldod.api.text.TextInterface;
-import pt.ist.socialsoftware.edition.ldod.api.text.dto.FragmentDto;
+import pt.ist.socialsoftware.edition.ldod.text.api.TextProvidesInterface;
+import pt.ist.socialsoftware.edition.ldod.text.api.dto.FragmentDto;
 import pt.ist.socialsoftware.edition.ldod.utils.PropertiesManager;
 
 import java.io.*;
@@ -33,8 +33,8 @@ public class WriteVirtualEditonsToFile {
         copyToZipStream(zos, in);
         zos.closeEntry();
 
-        TextInterface textInterface = new TextInterface();
-        for (FragmentDto fragmentDto : textInterface.getFragmentDtoSet()) {
+        TextProvidesInterface textProvidesInterface = new TextProvidesInterface();
+        for (FragmentDto fragmentDto : textProvidesInterface.getFragmentDtoSet()) {
             zos.putNextEntry(new ZipEntry(fragmentDto.getXmlId() + ".xml"));
             in = generateFragmentInputStream(fragmentDto.getXmlId());
             copyToZipStream(zos, in);

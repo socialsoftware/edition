@@ -9,10 +9,10 @@ import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.socialsoftware.edition.ldod.TestLoadUtils;
 import pt.ist.socialsoftware.edition.ldod.TestWithFragmentsLoading;
-import pt.ist.socialsoftware.edition.ldod.api.text.TextInterface;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.recommendation.properties.*;
-import pt.ist.socialsoftware.edition.ldod.search.Indexer;
+import pt.ist.socialsoftware.edition.ldod.text.api.TextProvidesInterface;
+import pt.ist.socialsoftware.edition.ldod.text.feature.indexer.Indexer;
 import pt.ist.socialsoftware.edition.ldod.topicmodeling.TopicModeler;
 import pt.ist.socialsoftware.edition.ldod.utils.TopicListDTO;
 
@@ -22,9 +22,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class VSMVirtualEditionInterRecomenderTest extends TestWithFragmentsLoading {
     private static final String ACRONYM = "TestRecommendations";
@@ -33,7 +33,7 @@ public class VSMVirtualEditionInterRecomenderTest extends TestWithFragmentsLoadi
 
     private static VSMRecommender<VirtualEditionInter> recommender;
 
-    private final TextInterface textInterface = new TextInterface();
+    private final TextProvidesInterface textProvidesInterface = new TextProvidesInterface();
 
     private VirtualEdition virtualEdition;
 

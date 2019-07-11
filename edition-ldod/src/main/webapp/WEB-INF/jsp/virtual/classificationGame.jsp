@@ -95,15 +95,15 @@
                         <c:forEach var="participant" items='${game.getClassificationGameParticipantSet()}'
                                    varStatus="loop">
                         <a
-                                href="${contextPath}/edition/user/${participant.getPlayer().getUser()}">${userInterface.getFirstName(participant.getPlayer().getUser())}
-                                ${userInterface.getLastName(participant.getPlayer().getUser())}</a>
+                                href="${contextPath}/edition/user/${participant.getPlayer().getUser()}">${userProvidesInterface.getFirstName(participant.getPlayer().getUser())}
+                                ${userProvidesInterface.getLastName(participant.getPlayer().getUser())}</a>
                         <c:if test="${!loop.last}">, </c:if>
                         </c:forEach>
                     <td><c:if
-                            test="${game.getTag().getContributor()}">${userInterface.getFirstName(game.getTag().getContributor())}
-                        ${userInterface.getLastName(game.getTag().getContributor())}</c:if></td>
-                    <td>${userInterface.getFirstName(game.getResponsible())}
-                            ${userInterface.getLastName(game.getResponsible())}</td>
+                            test="${game.getTag().getContributor()}">${userProvidesInterface.getFirstName(game.getTag().getContributor())}
+                        ${userProvidesInterface.getLastName(game.getTag().getContributor())}</c:if></td>
+                    <td>${userProvidesInterface.getFirstName(game.getResponsible())}
+                            ${userProvidesInterface.getLastName(game.getResponsible())}</td>
                     <td><c:if test="${isAdmin && game.canBeRemoved()}">
                         <form class="form-inline" method="POST"
                               action="${contextPath}/virtualeditions/restricted/${virtualEdition.externalId}/classificationGame/${game.externalId}/remove">

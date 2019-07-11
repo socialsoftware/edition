@@ -4,12 +4,12 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
-import pt.ist.socialsoftware.edition.ldod.api.user.UserInterface;
 import pt.ist.socialsoftware.edition.ldod.domain.ExpertEdition;
 import pt.ist.socialsoftware.edition.ldod.domain.User;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualModule;
 import pt.ist.socialsoftware.edition.ldod.recommendation.ReadingRecommendation;
+import pt.ist.socialsoftware.edition.ldod.user.api.UserProvidesInterface;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
@@ -110,12 +110,12 @@ public class LdoDSession implements Serializable {
     }
 
     public void synchronizeSession(String user) {
-        UserInterface userInterface = new UserInterface();
+        UserProvidesInterface userProvidesInterface = new UserProvidesInterface();
 
         List<VirtualEdition> selected = materializeVirtualEditions();
 
         clearSession();
-        if (userInterface.getUser(user) != null) {
+        if (userProvidesInterface.getUser(user) != null) {
             VirtualModule.getInstance().getSelectedVirtualEditionsByUser(user).stream().forEach(ve -> addSelectedVE(ve));
         } else {
             selected.stream().filter(ve -> ve.getPub()).forEach(ve -> addSelectedVE(ve));

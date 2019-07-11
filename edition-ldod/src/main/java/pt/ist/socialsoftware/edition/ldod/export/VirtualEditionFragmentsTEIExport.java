@@ -8,9 +8,9 @@ import org.jdom2.Namespace;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 import pt.ist.fenixframework.Atomic;
-import pt.ist.socialsoftware.edition.ldod.api.text.TextInterface;
-import pt.ist.socialsoftware.edition.ldod.api.text.dto.FragmentDto;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
+import pt.ist.socialsoftware.edition.ldod.text.api.TextProvidesInterface;
+import pt.ist.socialsoftware.edition.ldod.text.api.dto.FragmentDto;
 
 public class VirtualEditionFragmentsTEIExport {
     Namespace xmlns = Namespace.getNamespace("http://www.tei-c.org/ns/1.0");
@@ -20,9 +20,9 @@ public class VirtualEditionFragmentsTEIExport {
     @Atomic
     public void export() {
 
-        TextInterface textInterface = new TextInterface();
+        TextProvidesInterface textProvidesInterface = new TextProvidesInterface();
 
-        for (FragmentDto fragmentDto : textInterface.getFragmentDtoSet()) {
+        for (FragmentDto fragmentDto : textProvidesInterface.getFragmentDtoSet()) {
             exportFragment(fragmentDto.getXmlId());
         }
     }

@@ -6,12 +6,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
-import pt.ist.socialsoftware.edition.ldod.api.text.TextInterface;
-import pt.ist.socialsoftware.edition.ldod.api.text.dto.FragmentDto;
-import pt.ist.socialsoftware.edition.ldod.api.text.dto.HeteronymDto;
-import pt.ist.socialsoftware.edition.ldod.api.text.dto.LdoDDateDto;
-import pt.ist.socialsoftware.edition.ldod.api.text.dto.ScholarInterDto;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
+import pt.ist.socialsoftware.edition.ldod.text.api.TextProvidesInterface;
+import pt.ist.socialsoftware.edition.ldod.text.api.dto.FragmentDto;
+import pt.ist.socialsoftware.edition.ldod.text.api.dto.HeteronymDto;
+import pt.ist.socialsoftware.edition.ldod.text.api.dto.LdoDDateDto;
+import pt.ist.socialsoftware.edition.ldod.text.api.dto.ScholarInterDto;
 import pt.ist.socialsoftware.edition.ldod.utils.CategoryDTO;
 import pt.ist.socialsoftware.edition.ldod.utils.RangeJson;
 
@@ -90,7 +90,7 @@ public class VirtualEditionInter extends VirtualEditionInter_Base implements Com
     }
 
     public String getTitle() {
-        return getUses() != null ? getUses().getTitle() : (new TextInterface()).getScholarInterTitle(getUsesScholarInterId());
+        return getUses() != null ? getUses().getTitle() : (new TextProvidesInterface()).getScholarInterTitle(getUsesScholarInterId());
     }
 
     public String getUsesXmlId() {
@@ -120,7 +120,7 @@ public class VirtualEditionInter extends VirtualEditionInter_Base implements Com
     }
 
     public ScholarInterDto getLastUsed() {
-        return getUses() != null ? getUses().getLastUsed() : (new TextInterface()).getScholarInter(getUsesScholarInterId());
+        return getUses() != null ? getUses().getLastUsed() : (new TextProvidesInterface()).getScholarInter(getUsesScholarInterId());
     }
 
     public VirtualEdition getEdition() {
@@ -429,13 +429,13 @@ public class VirtualEditionInter extends VirtualEditionInter_Base implements Com
     }
 
     public int getNumberOfTimesCited() {
-        TextInterface textInterface = new TextInterface();
+        TextProvidesInterface textProvidesInterface = new TextProvidesInterface();
 
         return getLastUsed().getNumberOfTimesCited();
     }
 
     public int getNumberOfTimesCitedIncludingRetweets() {
-        TextInterface textInterface = new TextInterface();
+        TextProvidesInterface textProvidesInterface = new TextProvidesInterface();
 
         return getLastUsed().getNumberOfTimesCitedIncludingRetweets();
     }
@@ -484,8 +484,8 @@ public class VirtualEditionInter extends VirtualEditionInter_Base implements Com
     }
 
     public FragmentDto getFragmentDto() {
-        TextInterface textInterface = new TextInterface();
-        return textInterface.getFragmentOfScholarInterDto(getLastUsed());
+        TextProvidesInterface textProvidesInterface = new TextProvidesInterface();
+        return textProvidesInterface.getFragmentOfScholarInterDto(getLastUsed());
     }
 
 }

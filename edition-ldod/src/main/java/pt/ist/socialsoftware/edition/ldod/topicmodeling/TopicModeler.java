@@ -9,11 +9,11 @@ import cc.mallet.types.InstanceList;
 import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pt.ist.socialsoftware.edition.ldod.api.text.TextInterface;
 import pt.ist.socialsoftware.edition.ldod.domain.Taxonomy;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
+import pt.ist.socialsoftware.edition.ldod.text.api.TextProvidesInterface;
 import pt.ist.socialsoftware.edition.ldod.utils.PropertiesManager;
 import pt.ist.socialsoftware.edition.ldod.utils.TopicDTO;
 import pt.ist.socialsoftware.edition.ldod.utils.TopicInterPercentageDTO;
@@ -178,7 +178,7 @@ public class TopicModeler {
         }
 
         // associate categories with fragment interpretations
-        TextInterface textInterface = new TextInterface();
+        TextProvidesInterface textProvidesInterface = new TextProvidesInterface();
         for (int instance = 0; instance < numInstances; instance++) {
 
             String fileName = model.getData().get(instance).instance.getName().toString();
@@ -186,7 +186,7 @@ public class TopicModeler {
             String externalId = subs[subs.length - 2];
             VirtualEditionInter fragInter = null;
             for (VirtualEditionInter virtualEditionInter : edition.getAllDepthVirtualEditionInters()) {
-                if (textInterface.getRepresentativeSourceInterExternalId(virtualEditionInter.getFragmentXmlId()).equals(externalId)) {
+                if (textProvidesInterface.getRepresentativeSourceInterExternalId(virtualEditionInter.getFragmentXmlId()).equals(externalId)) {
                     fragInter = virtualEditionInter;
                     break;
                 }
@@ -261,11 +261,11 @@ public class TopicModeler {
     class EditionFilter implements FileFilter {
         private final Set<String> filenames = new HashSet<>();
 
-        TextInterface textInterface = new TextInterface();
+        TextProvidesInterface textProvidesInterface = new TextProvidesInterface();
 
         public EditionFilter(VirtualEdition edition) {
             for (VirtualEditionInter virtualEditionInter : edition.getAllDepthVirtualEditionInters()) {
-                this.filenames.add(this.textInterface.getRepresentativeSourceInterExternalId(virtualEditionInter.getFragmentXmlId()) + ".txt");
+                this.filenames.add(this.textProvidesInterface.getRepresentativeSourceInterExternalId(virtualEditionInter.getFragmentXmlId()) + ".txt");
             }
         }
 

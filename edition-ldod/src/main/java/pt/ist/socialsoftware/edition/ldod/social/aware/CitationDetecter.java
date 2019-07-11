@@ -24,7 +24,7 @@ import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.generators.PlainHtmlWriter4OneInter;
-import pt.ist.socialsoftware.edition.ldod.search.IgnoreDiacriticsAnalyzer;
+import pt.ist.socialsoftware.edition.ldod.text.feature.indexer.IgnoreDiacriticsAnalyzer;
 import pt.ist.socialsoftware.edition.ldod.utils.PropertiesManager;
 
 import java.io.*;
@@ -800,8 +800,8 @@ public class CitationDetecter {
         searchIndexAndDisplayResults(query);
     }
 
-    // Fuzzy Search - Pesquisa tem de ser exata
-    // Search for fragments with a set of words similar to input
+    // Fuzzy SearchProcessor - Pesquisa tem de ser exata
+    // SearchProcessor for fragments with a set of words similar to input
     // Fuzzy set for a minimum edition edition of 1
     public void fuzzySearch(String words)
             throws ParseException, org.apache.lucene.queryparser.classic.ParseException, IOException {
@@ -816,7 +816,7 @@ public class CitationDetecter {
         searchQueryParser(query);
     }
 
-    // Search for fragments with a set of equal to inputs
+    // SearchProcessor for fragments with a set of equal to inputs
     private String absoluteSearch(String words) {
         String[] split = words.split("\\s+");
         String query = "" + split[0];

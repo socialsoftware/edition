@@ -8,7 +8,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.stereotype.Component;
-import pt.ist.socialsoftware.edition.ldod.security.UserModuleUserDetailsService;
+import pt.ist.socialsoftware.edition.ldod.user.feature.security.UserModuleUserDetailsService;
 import pt.ist.socialsoftware.edition.ldod.utils.PropertiesManager;
 
 import javax.servlet.FilterChain;

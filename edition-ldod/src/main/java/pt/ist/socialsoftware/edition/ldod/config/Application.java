@@ -13,7 +13,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
 import org.springframework.social.connect.web.SignInAdapter;
 import org.springframework.web.filter.CommonsRequestLoggingFilter;
-import pt.ist.socialsoftware.edition.ldod.security.UserModuleSignInAdapter;
+import pt.ist.socialsoftware.edition.ldod.user.feature.security.UserModuleSignInAdapter;
 import pt.ist.socialsoftware.edition.ldod.utils.Bootstrap;
 
 import javax.servlet.http.HttpServletRequest;

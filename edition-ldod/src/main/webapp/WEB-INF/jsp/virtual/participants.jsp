@@ -85,10 +85,10 @@
                     <td><span class="glyphicon glyphicon-user"></span> <a
                             href="${contextPath}/edition/user/${member.getUser()}">${member.getUser()}</a>
                     </td>
-                    <td>${userInterface.getFirstName(member.getUser())}</td>
-                    <td>${userInterface.getLastName(member.getUser())}</td>
+                    <td>${userProvidesInterface.getFirstName(member.getUser())}</td>
+                    <td>${userProvidesInterface.getLastName(member.getUser())}</td>
                     <td>
-                        <a href="mailto:${userInterface.getEmail(member.getUser())}">${userInterface.getEmail(member.getUser())}</a>
+                        <a href="mailto:${userProvidesInterface.getEmail(member.getUser())}">${userProvidesInterface.getEmail(member.getUser())}</a>
                     </td>
                     <td><c:choose>
                         <c:when
@@ -165,10 +165,10 @@
                     <td><span class="glyphicon glyphicon-user"></span> <a
                             href="${contextPath}/edition/user/${pending.getUser()}">${pending.getUser()}</a>
                     </td>
-                    <td>${userInterface.getFirstName(pending.getUser())}</td>
-                    <td>${userInterface.getLastName(pending.getUser())}</td>
+                    <td>${userProvidesInterface.getFirstName(pending.getUser())}</td>
+                    <td>${userProvidesInterface.getLastName(pending.getUser())}</td>
                     <td>
-                        <a href="mailto:${userInterface.getEmail(pending.getUser())}">${userInterface.getEmail(pending.getUser())}</a>
+                        <a href="mailto:${userProvidesInterface.getEmail(pending.getUser())}">${userProvidesInterface.getEmail(pending.getUser())}</a>
                     </td>
                     <td><c:if test="${isAdmin}">
                         <form class="form-inline" method="POST"

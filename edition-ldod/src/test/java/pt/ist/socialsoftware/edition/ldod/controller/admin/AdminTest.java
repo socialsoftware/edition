@@ -17,7 +17,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.socialsoftware.edition.ldod.TestLoadUtils;
 import pt.ist.socialsoftware.edition.ldod.config.Application;
-import pt.ist.socialsoftware.edition.ldod.controller.AdminController;
+import pt.ist.socialsoftware.edition.ldod.frontend.serverside.AdminController;
 import pt.ist.socialsoftware.edition.ldod.controller.LdoDExceptionHandler;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.export.UsersXMLExport;
@@ -108,7 +108,7 @@ public class AdminTest {
 
         MockMultipartFile mockFile = new MockMultipartFile("mockFile",fis);
 
-        this.mockMvc.perform(multipart("/admin/load/corpus")
+        this.mockMvcJsp.perform(multipart("/admin/load/corpus")
                 .file("file",mockFile.getBytes())
                 .characterEncoding("UTF-8"))
                 .andDo(print())
