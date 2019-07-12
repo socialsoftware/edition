@@ -78,7 +78,7 @@
                                     String result = "";
                                 %>
                                 <c:forEach items="${ fragInterEntry.value }" var="option">
-                                    <c:if test="${option == searchOption}">
+                                    <c:if test="${option.equals(searchOption['class'].simpleName)}">
                                         <%
                                             result = "X";
                                         %>

@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class SearchProcessor {
     private static final Logger logger = LoggerFactory.getLogger(SearchController.class);
@@ -131,10 +132,18 @@ public class SearchProcessor {
             }
         }
 
+        Map<String, Map<SearchableElementDto, List<String>>> resultsDto = results.entrySet().stream()
+                .collect(Collectors.toMap(Map.Entry::getKey, ev -> ev.getValue().entrySet().stream()
+                        .collect(Collectors.toMap(Map.Entry::getKey, ev2 -> ev2.getValue().stream()
+                                .map(SearchOption::getClass)
+                                .map(Class::getSimpleName)
+                                .map(s -> s + "Dto")
+                                .collect(Collectors.toList())))));
+
         logger.debug("AdvancedSearchResultDto {}", results.entrySet().size());
 
         return new AdvancedSearchResultDto(showEdition, showHeteronym, showDate, showLdoD, showSource, showSourceType,
-                showTaxonomy, fragCount, interCount, fragCountNotAdded, interCountNotAdded, results);
+                showTaxonomy, fragCount, interCount, fragCountNotAdded, interCountNotAdded, resultsDto);
     }
 
 }
