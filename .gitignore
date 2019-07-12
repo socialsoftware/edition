@@ -24,6 +24,7 @@ jmeter.log
 userpasswords.txt
 
 ldod-visual/package-lock.json
+classification-game/package-lock.json
 package-lock.json
 
 *.DS_Store
