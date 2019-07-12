@@ -1,6 +1,5 @@
 package pt.ist.socialsoftware.edition.ldod.search.api;
 
-import pt.ist.socialsoftware.edition.ldod.domain.Source;
 import pt.ist.socialsoftware.edition.ldod.text.api.TextProvidesInterface;
 import pt.ist.socialsoftware.edition.ldod.text.api.dto.FragmentDto;
 import pt.ist.socialsoftware.edition.ldod.text.api.dto.LdoDDateDto;
@@ -23,15 +22,15 @@ public class SearchRequiresInterface {
     }
 
     public boolean isSourceInter(String xmlId) {
-        return this.textProvidesInterface.isSourceInter(xmlId);
+        return !this.textProvidesInterface.isExpertInter(xmlId);
     }
 
-    public boolean getSourceType(String xmlId, Source.SourceType manuscript) {
-        return this.textProvidesInterface.getSourceType(xmlId, manuscript);
+    public SourceDto getSourceOfSourceInter(String xmlId) {
+        return this.textProvidesInterface.getSourceOfSourceInter(xmlId);
     }
 
-    public SourceDto getSourceOfInter(String xmlId) {
-        return this.textProvidesInterface.getSourceOfInter(xmlId);
+    public String getSourceInterType(String xmlId) {
+        return this.textProvidesInterface.getSourceInterType(xmlId);
     }
 
     public LdoDDateDto getScholarInterDate(String xmlId) {

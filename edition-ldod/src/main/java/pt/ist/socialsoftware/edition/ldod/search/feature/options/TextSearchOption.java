@@ -5,7 +5,7 @@ import org.apache.lucene.queryparser.classic.QueryParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pt.ist.socialsoftware.edition.ldod.search.api.SearchRequiresInterface;
-import pt.ist.socialsoftware.edition.ldod.search.feature.SearchableElement;
+import pt.ist.socialsoftware.edition.ldod.search.api.dto.SearchableElementDto;
 import pt.ist.socialsoftware.edition.ldod.text.api.dto.ScholarInterDto;
 
 import java.util.ArrayList;
@@ -37,7 +37,7 @@ public final class TextSearchOption extends SearchOption {
     }
 
     @Override
-    public Stream<SearchableElement> search(Stream<SearchableElement> inters) {
+    public Stream<SearchableElementDto> search(Stream<SearchableElementDto> inters) {
         Set<ScholarInterDto> searchResult = new HashSet<>(search());
         Set<String> resultIds = searchResult.stream().map(scholarInterDto -> scholarInterDto.getXmlId()).collect(Collectors.toSet());
         return inters.filter(i -> resultIds.contains(i.getXmlId()));

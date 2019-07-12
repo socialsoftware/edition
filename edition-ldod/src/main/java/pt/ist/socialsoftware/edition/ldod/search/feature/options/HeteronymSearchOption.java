@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pt.ist.socialsoftware.edition.ldod.search.api.SearchRequiresInterface;
-import pt.ist.socialsoftware.edition.ldod.search.feature.SearchableElement;
+import pt.ist.socialsoftware.edition.ldod.search.api.dto.SearchableElementDto;
 
 import java.util.stream.Stream;
 
@@ -24,11 +24,11 @@ public final class HeteronymSearchOption extends SearchOption {
     }
 
     @Override
-    public Stream<SearchableElement> search(Stream<SearchableElement> inters) {
+    public Stream<SearchableElementDto> search(Stream<SearchableElementDto> inters) {
         return inters.filter(i -> verifiesSearchOption(i));
     }
 
-    public boolean verifiesSearchOption(SearchableElement inter) {
+    public boolean verifiesSearchOption(SearchableElementDto inter) {
         SearchRequiresInterface searchRequiresInterface = new SearchRequiresInterface();
 
         if (ALL.equals(this.xmlId4Heteronym)) {

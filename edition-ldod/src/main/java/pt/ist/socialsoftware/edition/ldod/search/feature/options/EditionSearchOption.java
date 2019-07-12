@@ -3,7 +3,7 @@ package pt.ist.socialsoftware.edition.ldod.search.feature.options;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import pt.ist.socialsoftware.edition.ldod.search.api.SearchRequiresInterface;
-import pt.ist.socialsoftware.edition.ldod.search.feature.SearchableElement;
+import pt.ist.socialsoftware.edition.ldod.search.api.dto.SearchableElementDto;
 
 import java.util.stream.Stream;
 
@@ -35,12 +35,12 @@ public final class EditionSearchOption extends SearchOption {
     }
 
     @Override
-    public Stream<SearchableElement> search(Stream<SearchableElement> inters) {
-        return inters.filter(searchableElement -> searchableElement.getType() == SearchableElement.Type.SCHOLAR_INTER)
+    public Stream<SearchableElementDto> search(Stream<SearchableElementDto> inters) {
+        return inters.filter(searchableElement -> searchableElement.getType() == SearchableElementDto.Type.SCHOLAR_INTER)
                 .filter(i -> verifiesSearchOption(i));
     }
 
-    private boolean verifiesSearchOption(SearchableElement inter) {
+    private boolean verifiesSearchOption(SearchableElementDto inter) {
         SearchRequiresInterface searchRequiresInterface = new SearchRequiresInterface();
         if (searchRequiresInterface.isExpertInter(inter.getXmlId()) && this.inclusion) {
             if (this.edition.equals(ALL)) {

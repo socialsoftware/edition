@@ -3,7 +3,7 @@ package pt.ist.socialsoftware.edition.ldod.search.feature.options;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import pt.ist.socialsoftware.edition.ldod.search.feature.SearchableElement;
+import pt.ist.socialsoftware.edition.ldod.search.api.dto.SearchableElementDto;
 
 import java.util.stream.Stream;
 
@@ -47,7 +47,7 @@ public abstract class SearchOption {
         }
     }
 
-    public abstract Stream<SearchableElement> search(Stream<SearchableElement> inters);
+    public abstract Stream<SearchableElementDto> search(Stream<SearchableElementDto> inters);
 
     @Override
     public abstract String toString();

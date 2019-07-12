@@ -4,15 +4,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pt.ist.socialsoftware.edition.ldod.domain.TextModule;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualModule;
 import pt.ist.socialsoftware.edition.ldod.text.api.TextProvidesInterface;
-import pt.ist.socialsoftware.edition.ldod.text.api.dto.HeteronymDto;
 import pt.ist.socialsoftware.edition.ldod.text.api.dto.ScholarInterDto;
 import pt.ist.socialsoftware.edition.ldod.virtual.api.VirtualProvidesInterface;
 
 import java.util.ArrayList;
 import java.util.List;
 
+// TO BE REMOVED SHOULD BE IN THE FRONTEND REQUIRES INTERFACES
 public class UiInterface {
     private static final Logger logger = LoggerFactory.getLogger(UiInterface.class);
 
@@ -36,16 +35,6 @@ public class UiInterface {
         } else {
             return FragInterDto.InterType.VIRTUAL;
         }
-    }
-
-    public String getHeteronymName(String xmlId) {
-        TextProvidesInterface textProvidesInterface = new TextProvidesInterface();
-        HeteronymDto heteronym = textProvidesInterface.getScholarInterHeteronym(xmlId);
-        if (heteronym != null) {
-            return heteronym.getName();
-        }
-        VirtualEditionInter vei = VirtualModule.getInstance().getVirtualEditionInterByXmlId(xmlId);
-        return vei.getHeteronym().getName();
     }
 
     public boolean isExpertEdition(String acronym) {

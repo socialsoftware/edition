@@ -1,6 +1,8 @@
 package pt.ist.socialsoftware.edition.ldod.text.api.dto;
 
+import org.joda.time.LocalDate;
 import pt.ist.socialsoftware.edition.ldod.domain.ManuscriptSource;
+import pt.ist.socialsoftware.edition.ldod.domain.PrintedSource;
 import pt.ist.socialsoftware.edition.ldod.domain.Source;
 import pt.ist.socialsoftware.edition.ldod.domain.TextModule;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
@@ -20,6 +22,14 @@ public class SourceDto {
 
     public void setXmlId(String xmlId) {
         this.xmlId = xmlId;
+    }
+
+    public String getTitle() {
+        return getSourceByXmlId(this.xmlId)
+                .filter(PrintedSource.class::isInstance)
+                .map(PrintedSource.class::cast)
+                .map(printedSource -> printedSource.getTitle())
+                .orElseThrow(LdoDException::new);
     }
 
     public boolean hasLdoDLabel() {
@@ -46,6 +56,13 @@ public class SourceDto {
                 .orElseThrow(LdoDException::new);
     }
 
+    public LocalDate getLdoDDate() {
+        return getSourceByXmlId(this.xmlId)
+                .filter(ManuscriptSource.class::isInstance)
+                .map(ManuscriptSource.class::cast)
+                .map(manuscriptSource -> manuscriptSource.getLdoDDate().getDate())
+                .orElseThrow(LdoDException::new);
+    }
 
     private Optional<Source> getSourceByXmlId(String xmlId) {
         return TextModule.getInstance().getFragmentsSet().stream()

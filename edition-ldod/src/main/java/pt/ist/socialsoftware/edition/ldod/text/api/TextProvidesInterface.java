@@ -57,20 +57,16 @@ public class TextProvidesInterface {
         return getScholarInterByXmlId(scholarInterId).map(ScholarInterDto::new).orElse(null);
     }
 
-    public Boolean isSourceInter(String scholarInterId) {
-        return getScholarInterByXmlId(scholarInterId).map(scholarInter -> !scholarInter.isExpertInter()).orElse(null);
-    }
-
     public boolean isExpertInter(String scholarInterId) {
         return getScholarInterByXmlId(scholarInterId).orElseThrow(LdoDException::new).isExpertInter();
     }
 
-    public SourceDto getSourceOfInter(String scholarInterId) {
+    public SourceDto getSourceOfSourceInter(String scholarInterId) {
         return getScholarInterByXmlId(scholarInterId).map(SourceInter.class::cast).map(SourceInter::getSource).map(SourceDto::new).orElseThrow(LdoDException::new);
     }
 
-    public boolean getSourceType(String scholarInterId, Source.SourceType type) {
-        return getScholarInterByXmlId(scholarInterId).map(SourceInter.class::cast).map(sourceInter -> sourceInter.getSource().getType()).orElseThrow(LdoDException::new) == type;
+    public String getSourceInterType(String scholarInterId) {
+        return getScholarInterByXmlId(scholarInterId).map(SourceInter.class::cast).map(sourceInter -> sourceInter.getSource().getType().toString()).orElseThrow(LdoDException::new);
     }
 
     public String getRepresentativeSourceInterExternalId(String fragmentXmlId) {
@@ -79,10 +75,6 @@ public class TextProvidesInterface {
 
     public String getEditionAcronymOfInter(String scholarInterId) {
         return getScholarInterByXmlId(scholarInterId).map(scholarInter -> scholarInter.getEdition().getAcronym()).orElse(null);
-    }
-
-    public String getInterSourceType(String scholarInterId) {
-        return getScholarInterByXmlId(scholarInterId).map(SourceInter.class::cast).map(sourceInter -> sourceInter.getSource().getType().toString()).orElseThrow(LdoDException::new);
     }
 
     public String getExpertEditionAcronym(String scholarInterId) {

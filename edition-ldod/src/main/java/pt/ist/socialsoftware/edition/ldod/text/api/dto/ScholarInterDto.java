@@ -55,7 +55,7 @@ public class ScholarInterDto {
     }
 
     public boolean isSourceInter() {
-        return this.textProvidesInterface.isSourceInter(this.xmlId);
+        return !this.textProvidesInterface.isExpertInter(this.xmlId);
     }
 
     public String getExpertEditionAcronym() {

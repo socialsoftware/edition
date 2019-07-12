@@ -3,7 +3,7 @@ package pt.ist.socialsoftware.edition.ldod.search.feature.options;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import pt.ist.socialsoftware.edition.ldod.domain.Source.SourceType;
 import pt.ist.socialsoftware.edition.ldod.search.api.SearchRequiresInterface;
-import pt.ist.socialsoftware.edition.ldod.search.feature.SearchableElement;
+import pt.ist.socialsoftware.edition.ldod.search.api.dto.SearchableElementDto;
 import pt.ist.socialsoftware.edition.ldod.text.api.dto.SourceDto;
 
 import java.util.stream.Stream;
@@ -20,16 +20,16 @@ public abstract class AuthoralSearchOption extends SearchOption {
     }
 
     @Override
-    public Stream<SearchableElement> search(Stream<SearchableElement> inters) {
-        return inters.filter(searchableElement -> searchableElement.getType() == SearchableElement.Type.SCHOLAR_INTER)
+    public Stream<SearchableElementDto> search(Stream<SearchableElementDto> inters) {
+        return inters.filter(searchableElement -> searchableElement.getType() == SearchableElementDto.Type.SCHOLAR_INTER)
                 .filter(i -> verifiesSearchOption(i));
     }
 
-    private boolean verifiesSearchOption(SearchableElement inter) {
+    private boolean verifiesSearchOption(SearchableElementDto inter) {
         SearchRequiresInterface searchRequiresInterface = new SearchRequiresInterface();
 
-        if (searchRequiresInterface.isSourceInter(inter.getXmlId()) && searchRequiresInterface.getSourceType(inter.getXmlId(), SourceType.MANUSCRIPT)) {
-            SourceDto source = searchRequiresInterface.getSourceOfInter(inter.getXmlId());
+        if (searchRequiresInterface.isSourceInter(inter.getXmlId()) && searchRequiresInterface.getSourceInterType(inter.getXmlId()).equals(SourceType.MANUSCRIPT.name())) {
+            SourceDto source = searchRequiresInterface.getSourceOfSourceInter(inter.getXmlId());
             if (isOfDocumentType(source) && this.dateSearchOption.verifiesSearchOption(inter)) {
                 if (this.hasLdoD.equals(ALL) || (this.hasLdoD.equals("true") && source.hasLdoDLabel())) {
                     return true;

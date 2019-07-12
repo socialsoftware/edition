@@ -1,6 +1,5 @@
 package pt.ist.socialsoftware.edition.ldod.search.api.dto;
 
-import pt.ist.socialsoftware.edition.ldod.search.feature.SearchableElement;
 import pt.ist.socialsoftware.edition.ldod.search.feature.options.SearchOption;
 
 import java.util.List;
@@ -18,12 +17,12 @@ public class AdvancedSearchResultDto {
     private final int interCount;
     private final int fragCountNotAdded;
     private final int interCountNotAdded;
-    private final Map<String, Map<SearchableElement, List<SearchOption>>> results;
+    private final Map<String, Map<SearchableElementDto, List<SearchOption>>> results;
 
     public AdvancedSearchResultDto(boolean showEdition, boolean showHeteronym, boolean showDate, boolean showLdoD,
                                    boolean showSource, boolean showSourceType, boolean showTaxonomy, int fragCount,
                                    int interCount, int fragCountNotAdded,
-                                   int interCountNotAdded, Map<String, Map<SearchableElement, List<SearchOption>>> results) {
+                                   int interCountNotAdded, Map<String, Map<SearchableElementDto, List<SearchOption>>> results) {
         this.showEdition = showEdition;
         this.showHeteronym = showHeteronym;
         this.showDate = showDate;
@@ -82,7 +81,7 @@ public class AdvancedSearchResultDto {
         return this.interCountNotAdded;
     }
 
-    public Map<String, Map<SearchableElement, List<SearchOption>>> getResults() {
+    public Map<String, Map<SearchableElementDto, List<SearchOption>>> getResults() {
         return this.results;
     }
 

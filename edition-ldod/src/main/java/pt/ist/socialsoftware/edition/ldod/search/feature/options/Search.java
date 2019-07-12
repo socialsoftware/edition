@@ -2,7 +2,7 @@ package pt.ist.socialsoftware.edition.ldod.search.feature.options;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import pt.ist.socialsoftware.edition.ldod.search.api.SearchRequiresInterface;
-import pt.ist.socialsoftware.edition.ldod.search.feature.SearchableElement;
+import pt.ist.socialsoftware.edition.ldod.search.api.dto.SearchableElementDto;
 import pt.ist.socialsoftware.edition.ldod.search.feature.options.SearchOption.Mode;
 
 import java.util.*;
@@ -29,9 +29,9 @@ public class Search {
         return this.searchOptions;
     }
 
-    public Map<String, Map<SearchableElement, List<SearchOption>>> search() {
+    public Map<String, Map<SearchableElementDto, List<SearchOption>>> search() {
         Set<SearchOption> options = Arrays.stream(getSearchOptions()).collect(Collectors.toSet());
-        Map<String, Map<SearchableElement, List<SearchOption>>> resultSet = null;
+        Map<String, Map<SearchableElementDto, List<SearchOption>>> resultSet = null;
 
         if (getMode().equals(Mode.OR)) {
             resultSet = searchOptionsORComposition(options);
@@ -44,15 +44,15 @@ public class Search {
         return resultSet;
     }
 
-    private Map<String, Map<SearchableElement, List<SearchOption>>> searchOptionsORComposition(Set<SearchOption> options) {
-        Map<String, Map<SearchableElement, List<SearchOption>>> resultSet = new LinkedHashMap<>();
+    private Map<String, Map<SearchableElementDto, List<SearchOption>>> searchOptionsORComposition(Set<SearchOption> options) {
+        Map<String, Map<SearchableElementDto, List<SearchOption>>> resultSet = new LinkedHashMap<>();
 
         List<SearchOption> searchOptions = orderTextSearchOptions(options);
 
-        List<SearchableElement> searchableElements = getSearchableElements();
+        List<SearchableElementDto> searchableElementDtos = getSearchableElements();
 
         for (SearchOption searchOption : searchOptions) {
-            for (SearchableElement inter : searchOption.search(searchableElements.stream()).collect(Collectors.toList())) {
+            for (SearchableElementDto inter : searchOption.search(searchableElementDtos.stream()).collect(Collectors.toList())) {
                 addToMatchSet(resultSet, inter, searchOption);
             }
         }
@@ -60,24 +60,24 @@ public class Search {
         return resultSet;
     }
 
-    private Map<String, Map<SearchableElement, List<SearchOption>>> searchOptionsANDComposition(Set<SearchOption> options) {
-        Map<String, Map<SearchableElement, List<SearchOption>>> resultSet = new LinkedHashMap<>();
+    private Map<String, Map<SearchableElementDto, List<SearchOption>>> searchOptionsANDComposition(Set<SearchOption> options) {
+        Map<String, Map<SearchableElementDto, List<SearchOption>>> resultSet = new LinkedHashMap<>();
 
         List<SearchOption> searchOptions = orderTextSearchOptions(options);
 
-        List<SearchableElement> searchableElements = getSearchableElements();
+        List<SearchableElementDto> searchableElementDtos = getSearchableElements();
 
-        Stream<SearchableElement> selectedElements = searchableElements.stream();
+        Stream<SearchableElementDto> selectedElements = searchableElementDtos.stream();
         for (SearchOption searchOption : searchOptions) {
-            List<SearchableElement> inters = searchOption.search(selectedElements).collect(Collectors.toList());
+            List<SearchableElementDto> inters = searchOption.search(selectedElements).collect(Collectors.toList());
 
-            for (SearchableElement inter : inters) {
+            for (SearchableElementDto inter : inters) {
                 addToMatchSet(resultSet, inter, searchOption);
             }
 
             Set<String> fragmentXmlIds = inters.stream().map(searchableElement -> searchableElement.getFragmentXmlId()).collect(Collectors.toSet());
 
-            selectedElements = searchableElements.stream().filter(searchableElement -> fragmentXmlIds.contains(searchableElement.getFragmentXmlId()));
+            selectedElements = searchableElementDtos.stream().filter(searchableElement -> fragmentXmlIds.contains(searchableElement.getFragmentXmlId()));
         }
 
         purgeNonFullyAchievedEntries(resultSet, searchOptions);
@@ -85,22 +85,22 @@ public class Search {
         return resultSet;
     }
 
-    private List<SearchableElement> getSearchableElements() {
+    private List<SearchableElementDto> getSearchableElements() {
         SearchRequiresInterface searchRequiresInterface = new SearchRequiresInterface();
 
         return Stream.concat(searchRequiresInterface.getFragmentDtoSet().stream()
                         .flatMap(f -> f.getScholarInterDtoSet().stream()).map(scholarInter ->
-                                new SearchableElement(SearchableElement.Type.SCHOLAR_INTER, scholarInter.getXmlId(), scholarInter.getTitle(), scholarInter.getFragmentXmlId(), scholarInter.getUrlId(), scholarInter.getShortName(), scholarInter.getXmlId()))
+                                new SearchableElementDto(SearchableElementDto.Type.SCHOLAR_INTER, scholarInter.getXmlId(), scholarInter.getTitle(), scholarInter.getFragmentXmlId(), scholarInter.getUrlId(), scholarInter.getShortName(), scholarInter.getXmlId()))
                 , searchRequiresInterface.getVirtualEditionInterSet().stream().map(virtualEditionInter ->
-                        new SearchableElement(SearchableElement.Type.VIRTUAL_INTER, virtualEditionInter.getXmlId(), virtualEditionInter.getTitle(), virtualEditionInter.getFragmentXmlId(), virtualEditionInter.getUrlId(), virtualEditionInter.getShortName(), virtualEditionInter.getUsesScholarInterId()))
+                        new SearchableElementDto(SearchableElementDto.Type.VIRTUAL_INTER, virtualEditionInter.getXmlId(), virtualEditionInter.getTitle(), virtualEditionInter.getFragmentXmlId(), virtualEditionInter.getUrlId(), virtualEditionInter.getShortName(), virtualEditionInter.getUsesScholarInterId()))
         ).collect(Collectors.toList());
     }
 
-    private void purgeNonFullyAchievedEntries(Map<String, Map<SearchableElement, List<SearchOption>>> resultSet,
+    private void purgeNonFullyAchievedEntries(Map<String, Map<SearchableElementDto, List<SearchOption>>> resultSet,
                                               List<SearchOption> searchOptions) {
-        for (Map.Entry<String, Map<SearchableElement, List<SearchOption>>> resultEntry : resultSet.entrySet()) {
+        for (Map.Entry<String, Map<SearchableElementDto, List<SearchOption>>> resultEntry : resultSet.entrySet()) {
             Set<SearchOption> achievedOptions = new HashSet<>();
-            for (Map.Entry<SearchableElement, List<SearchOption>> entry : resultEntry.getValue().entrySet()) {
+            for (Map.Entry<SearchableElementDto, List<SearchOption>> entry : resultEntry.getValue().entrySet()) {
                 achievedOptions.addAll(entry.getValue());
             }
             if (achievedOptions.size() != searchOptions.size()) {
@@ -129,7 +129,7 @@ public class Search {
         return result;
     }
 
-    private void addToMatchSet(Map<String, Map<SearchableElement, List<SearchOption>>> matchSet, SearchableElement inter,
+    private void addToMatchSet(Map<String, Map<SearchableElementDto, List<SearchOption>>> matchSet, SearchableElementDto inter,
                                SearchOption searchOption) {
         // no entry to fragment
         if (matchSet.get(inter.getFragmentXmlId()) == null) {

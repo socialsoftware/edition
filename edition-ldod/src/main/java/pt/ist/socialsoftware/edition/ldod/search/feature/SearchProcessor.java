@@ -1,6 +1,7 @@
 package pt.ist.socialsoftware.edition.ldod.search.feature;
 
 import pt.ist.socialsoftware.edition.ldod.search.api.dto.AdvancedSearchResultDto;
+import pt.ist.socialsoftware.edition.ldod.search.api.dto.SearchableElementDto;
 import pt.ist.socialsoftware.edition.ldod.search.feature.options.*;
 import pt.ist.socialsoftware.edition.ldod.text.api.dto.ScholarInterDto;
 
@@ -51,7 +52,8 @@ public class SearchProcessor {
     }
 
     public AdvancedSearchResultDto advancedSearch(Search search) {
-        Map<String, Map<SearchableElement, List<SearchOption>>> results = search.search();
+        Map<String, Map<SearchableElementDto, List<SearchOption>>> results = search.search();
+
         int fragCount = 0;
         int fragCountNotAdded = 0;
         int interCount = 0;
@@ -65,9 +67,9 @@ public class SearchProcessor {
         boolean fragAdd = false;
         boolean showTaxonomy = false;
 
-        for (Map.Entry<String, Map<SearchableElement, List<SearchOption>>> entry : results.entrySet()) {
+        for (Map.Entry<String, Map<SearchableElementDto, List<SearchOption>>> entry : results.entrySet()) {
             fragAdd = false;
-            for (Map.Entry<SearchableElement, List<SearchOption>> entry2 : entry.getValue().entrySet()) {
+            for (Map.Entry<SearchableElementDto, List<SearchOption>> entry2 : entry.getValue().entrySet()) {
                 if (entry2.getValue().size() >= 1) {
                     interCount++;
                     fragAdd = true;

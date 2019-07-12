@@ -84,13 +84,13 @@ public class SearchController {
 
         AdvancedSearchResultDto advancedSearchResultDto = this.frontendRequiresInterface.advancedSearch(search);
 
-        model.addAttribute("isShowEdition", advancedSearchResultDto.isShowEdition());
-        model.addAttribute("isShowHeteronym", advancedSearchResultDto.isShowHeteronym());
-        model.addAttribute("isShowDate", advancedSearchResultDto.isShowDate());
-        model.addAttribute("isShowLdoD", advancedSearchResultDto.isShowLdoD());
-        model.addAttribute("isShowSource", advancedSearchResultDto.isShowSource());
-        model.addAttribute("isShowSourceType", advancedSearchResultDto.isShowSourceType());
-        model.addAttribute("isShowTaxonomy", advancedSearchResultDto.isShowTaxonomy());
+        model.addAttribute("showEdition", advancedSearchResultDto.isShowEdition());
+        model.addAttribute("showHeteronym", advancedSearchResultDto.isShowHeteronym());
+        model.addAttribute("showDate", advancedSearchResultDto.isShowDate());
+        model.addAttribute("showLdoD", advancedSearchResultDto.isShowLdoD());
+        model.addAttribute("showSource", advancedSearchResultDto.isShowSource());
+        model.addAttribute("showSourceType", advancedSearchResultDto.isShowSourceType());
+        model.addAttribute("showTaxonomy", advancedSearchResultDto.isShowTaxonomy());
         model.addAttribute("fragCount", advancedSearchResultDto.getFragCount());
         model.addAttribute("interCount", advancedSearchResultDto.getInterCount());
         model.addAttribute("fragCountNotAdded", advancedSearchResultDto.getFragCountNotAdded());

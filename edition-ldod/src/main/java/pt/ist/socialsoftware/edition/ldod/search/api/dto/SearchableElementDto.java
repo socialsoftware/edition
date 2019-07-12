@@ -1,6 +1,6 @@
-package pt.ist.socialsoftware.edition.ldod.search.feature;
+package pt.ist.socialsoftware.edition.ldod.search.api.dto;
 
-public class SearchableElement {
+public class SearchableElementDto {
     public enum Type {
         SCHOLAR_INTER,
         VIRTUAL_INTER
@@ -20,7 +20,7 @@ public class SearchableElement {
 
     private String lastUsedId;
 
-    public SearchableElement(Type type, String xmlId, String title, String fragmentXmlId, String urlId, String shortName, String lastUsedId) {
+    public SearchableElementDto(Type type, String xmlId, String title, String fragmentXmlId, String urlId, String shortName, String lastUsedId) {
         this.type = type;
         this.xmlId = xmlId;
         this.title = title;
