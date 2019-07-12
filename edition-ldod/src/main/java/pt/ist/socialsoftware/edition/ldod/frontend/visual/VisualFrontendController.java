@@ -1,4 +1,4 @@
-package pt.ist.socialsoftware.edition.ldod.controller.visual;
+package pt.ist.socialsoftware.edition.ldod.frontend.visual;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import pt.ist.socialsoftware.edition.ldod.session.LdoDSession;
 
 @Controller
-public class LdodVisualController {
+public class VisualFrontendController {
 
     @ModelAttribute("ldoDSession")
     public LdoDSession getLdoDSession() {

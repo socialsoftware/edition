@@ -17,12 +17,12 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.socialsoftware.edition.ldod.TestLoadUtils;
 import pt.ist.socialsoftware.edition.ldod.config.Application;
-import pt.ist.socialsoftware.edition.ldod.frontend.serverside.AdminController;
 import pt.ist.socialsoftware.edition.ldod.controller.LdoDExceptionHandler;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.export.UsersXMLExport;
 import pt.ist.socialsoftware.edition.ldod.filters.TransactionFilter;
 import pt.ist.socialsoftware.edition.ldod.forms.EditUserForm;
+import pt.ist.socialsoftware.edition.ldod.frontend.AdminController;
 import pt.ist.socialsoftware.edition.ldod.loaders.VirtualEditionsTEICorpusImport;
 import pt.ist.socialsoftware.edition.ldod.utils.PropertiesManager;
 

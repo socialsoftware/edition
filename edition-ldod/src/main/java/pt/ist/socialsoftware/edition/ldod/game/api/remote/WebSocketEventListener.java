@@ -1,4 +1,4 @@
-package pt.ist.socialsoftware.edition.ldod.controller.game;
+package pt.ist.socialsoftware.edition.ldod.game.api.remote;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

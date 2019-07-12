@@ -1,4 +1,4 @@
-package pt.ist.socialsoftware.edition.ldod.frontend.serverside.search.dto;
+package pt.ist.socialsoftware.edition.ldod.frontend.search.dto;
 
 
 public class AuthoralJson {

@@ -1,22 +1,21 @@
-package pt.ist.socialsoftware.edition.ldod.frontend.serverside.search;
+package pt.ist.socialsoftware.edition.ldod.text.api.remote;
 
 import org.joda.time.LocalDate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
-import pt.ist.socialsoftware.edition.ldod.frontend.serverside.search.dto.AuthoralJson;
-import pt.ist.socialsoftware.edition.ldod.frontend.serverside.search.dto.DatesJson;
-import pt.ist.socialsoftware.edition.ldod.search.api.dto.AdvancedSearchResultDto;
-import pt.ist.socialsoftware.edition.ldod.search.api.dto.SearchDto;
-import pt.ist.socialsoftware.edition.ldod.search.api.dto.SearchOptionDto;
+import pt.ist.socialsoftware.edition.ldod.frontend.search.SearchFrontendRequiresInterface;
+import pt.ist.socialsoftware.edition.ldod.frontend.search.dto.AuthoralJson;
+import pt.ist.socialsoftware.edition.ldod.frontend.search.dto.DatesJson;
 import pt.ist.socialsoftware.edition.ldod.search.feature.options.ManuscriptSearchOption;
 import pt.ist.socialsoftware.edition.ldod.search.feature.options.TypescriptSearchOption;
-import pt.ist.socialsoftware.edition.ldod.session.LdoDSession;
 import pt.ist.socialsoftware.edition.ldod.text.api.dto.ExpertEditionDto;
 import pt.ist.socialsoftware.edition.ldod.text.api.dto.HeteronymDto;
 import pt.ist.socialsoftware.edition.ldod.text.api.dto.LdoDDateDto;
@@ -26,21 +25,14 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Controller
 @RequestMapping("/search")
-public class SearchController {
-    private static final Logger logger = LoggerFactory.getLogger(SearchController.class);
+public class TextProvidesSearchController {
+    private static final Logger logger = LoggerFactory.getLogger(TextProvidesSearchController.class);
 
     SearchFrontendRequiresInterface frontendRequiresInterface = new SearchFrontendRequiresInterface();
 
-
-    @ModelAttribute("ldoDSession")
-    public LdoDSession getLdoDSession() {
-        return LdoDSession.getLdoDSession();
-    }
 
     /*
      * EditionController Sets all the empty boxes to null instead of the empty string ""
@@ -50,60 +42,6 @@ public class SearchController {
         binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
     }
 
-    // Simple search
-    @RequestMapping(method = RequestMethod.GET, value = "/simple")
-    public String simpleSearch(Model model) {
-        return "search/simple";
-    }
-
-    @RequestMapping(value = "/simple/result", method = RequestMethod.POST, headers = {
-            "Content-type=text/plain;charset=UTF-8"})
-    public String simpleSearchResult(Model model, @RequestBody String params) {
-        logger.debug("simpleSearchResult params:{}", params);
-
-        Map<String, List<ScholarInterDto>> results = this.frontendRequiresInterface.getSimpleSearch(params);
-
-        model.addAttribute("fragCount", results.size());
-        model.addAttribute("interCount", results.values().stream().mapToInt(List::size).sum());
-        model.addAttribute("results", results);
-        model.addAttribute("frontendRequiresInterface", new SearchFrontendRequiresInterface());
-        return "search/simpleResultTable";
-    }
-
-    // Advanced SearchProcessor
-    @RequestMapping(method = RequestMethod.GET, value = "/advanced")
-    public String advancedSearch(Model model) {
-        logger.debug("advancedSearch");
-        return "search/advanced";
-    }
-
-    @RequestMapping(value = "/advanced/result", method = RequestMethod.POST, headers = {
-            "Content-type=application/json"})
-    public String advancedSearchResultNew(Model model, @RequestBody SearchDto search) {
-        logger.debug("advancedSearchResultNew");
-
-        AdvancedSearchResultDto advancedSearchResultDto = this.frontendRequiresInterface.advancedSearch(search);
-
-        model.addAttribute("showEdition", advancedSearchResultDto.isShowEdition());
-        model.addAttribute("showHeteronym", advancedSearchResultDto.isShowHeteronym());
-        model.addAttribute("showDate", advancedSearchResultDto.isShowDate());
-        model.addAttribute("showLdoD", advancedSearchResultDto.isShowLdoD());
-        model.addAttribute("showSource", advancedSearchResultDto.isShowSource());
-        model.addAttribute("showSourceType", advancedSearchResultDto.isShowSourceType());
-        model.addAttribute("showTaxonomy", advancedSearchResultDto.isShowTaxonomy());
-        model.addAttribute("fragCount", advancedSearchResultDto.getFragCount());
-        model.addAttribute("interCount", advancedSearchResultDto.getInterCount());
-        model.addAttribute("fragCountNotAdded", advancedSearchResultDto.getFragCountNotAdded());
-        model.addAttribute("interCountNotAdded", advancedSearchResultDto.getInterCountNotAdded());
-        model.addAttribute("results", advancedSearchResultDto.getResults());
-
-        SearchOptionDto[] searchOptions = search.getSearchOptions();
-
-        model.addAttribute("search", searchOptions);
-        model.addAttribute("searchLenght", searchOptions.length);
-        model.addAttribute("frontendRequiresInterface", new SearchFrontendRequiresInterface());
-        return "search/resultTable";
-    }
 
     @RequestMapping(value = "/getEditions")
     @ResponseBody
@@ -260,19 +198,6 @@ public class SearchController {
             dates.setEndDate(endDate.getYear());
         }
         return dates;
-    }
-
-    @RequestMapping(value = "/getVirtualEditions")
-    @ResponseBody
-    public Map<String, String> getVirtualEditions(Model model) {
-        Stream<VirtualEdition> virtualEditionStream = VirtualModule.getInstance().getVirtualEditionsSet().stream().filter(virtualEdition -> virtualEdition.getPub());
-
-        User user = User.getAuthenticatedUser();
-        if (user != null) {
-            virtualEditionStream = Stream.concat(virtualEditionStream,
-                    VirtualModule.getInstance().getSelectedVirtualEditionsByUser(user.getUsername()).stream()).distinct();
-        }
-        return virtualEditionStream.collect(Collectors.toMap(VirtualEdition::getAcronym, VirtualEdition::getTitle));
     }
 
     private LocalDate getIsBeforeDate(LocalDate date1, LocalDate date2) {

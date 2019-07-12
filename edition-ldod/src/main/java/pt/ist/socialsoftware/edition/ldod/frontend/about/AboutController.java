@@ -1,4 +1,4 @@
-package pt.ist.socialsoftware.edition.ldod.frontend.serverside.about;
+package pt.ist.socialsoftware.edition.ldod.frontend.about;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

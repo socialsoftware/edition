@@ -1,4 +1,4 @@
-package pt.ist.socialsoftware.edition.ldod.controller.game;
+package pt.ist.socialsoftware.edition.ldod.frontend.game;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import pt.ist.socialsoftware.edition.ldod.session.LdoDSession;
 
 @Controller
-public class ClassificationGameHomeController {
-    private static final Logger logger = LoggerFactory.getLogger(ClassificationGameHomeController.class);
+public class GameFrontendController {
+    private static final Logger logger = LoggerFactory.getLogger(GameFrontendController.class);
 
     @ModelAttribute("ldoDSession")
     public LdoDSession getLdoDSession() {

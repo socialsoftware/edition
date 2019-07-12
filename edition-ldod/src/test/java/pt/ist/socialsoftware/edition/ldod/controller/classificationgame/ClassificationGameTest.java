@@ -8,7 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import pt.ist.socialsoftware.edition.ldod.ControllersTestWithFragmentsLoading;
 import pt.ist.socialsoftware.edition.ldod.config.Application;
-import pt.ist.socialsoftware.edition.ldod.controller.game.ClassificationGameHomeController;
+import pt.ist.socialsoftware.edition.ldod.frontend.game.GameFrontendController;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -21,12 +21,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class ClassificationGameTest extends ControllersTestWithFragmentsLoading {
 
     @InjectMocks
-    ClassificationGameHomeController classificationGameHomeController;
+    GameFrontendController gameFrontendController;
 
 
     @Override
     protected Object getController() {
-        return this.classificationGameHomeController;
+        return this.gameFrontendController;
     }
 
     @Override

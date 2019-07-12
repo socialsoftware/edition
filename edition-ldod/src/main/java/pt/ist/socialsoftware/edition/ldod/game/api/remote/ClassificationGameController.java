@@ -1,4 +1,4 @@
-package pt.ist.socialsoftware.edition.ldod.controller.game;
+package pt.ist.socialsoftware.edition.ldod.game.api.remote;
 
 import org.joda.time.DateTime;
 import org.slf4j.Logger;

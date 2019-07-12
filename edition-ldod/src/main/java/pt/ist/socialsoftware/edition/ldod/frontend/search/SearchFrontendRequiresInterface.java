@@ -1,8 +1,7 @@
-package pt.ist.socialsoftware.edition.ldod.frontend.serverside.search;
+package pt.ist.socialsoftware.edition.ldod.frontend.search;
 
 import org.joda.time.LocalDate;
 import pt.ist.socialsoftware.edition.ldod.api.ui.FragInterDto;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoDDate;
 import pt.ist.socialsoftware.edition.ldod.search.api.SearchProvidesInterface;
 import pt.ist.socialsoftware.edition.ldod.search.api.dto.AdvancedSearchResultDto;
 import pt.ist.socialsoftware.edition.ldod.search.api.dto.SearchDto;

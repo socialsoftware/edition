@@ -1,4 +1,4 @@
-package pt.ist.socialsoftware.edition.ldod.frontend.serverside;
+package pt.ist.socialsoftware.edition.ldod.frontend;
 
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;

@@ -1,4 +1,4 @@
-package pt.ist.socialsoftware.edition.ldod.frontend.clientside;
+package pt.ist.socialsoftware.edition.ldod.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -34,8 +34,8 @@ import static pt.ist.socialsoftware.edition.ldod.domain.Source.SourceType.PRINTE
 @RestController
 @CrossOrigin(methods = {RequestMethod.DELETE, RequestMethod.GET, RequestMethod.POST, RequestMethod.OPTIONS, RequestMethod.PUT})
 @RequestMapping("/api/services/frontend")
-public class FrontEndController {
-    private static final Logger logger = LoggerFactory.getLogger(FrontEndController.class);
+public class ReactUiController {
+    private static final Logger logger = LoggerFactory.getLogger(ReactUiController.class);
 
     private final UserProvidesInterface userProvidesInterface = new UserProvidesInterface();
 
