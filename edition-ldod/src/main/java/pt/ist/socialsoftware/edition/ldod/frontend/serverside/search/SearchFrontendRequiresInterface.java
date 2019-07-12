@@ -2,11 +2,13 @@ package pt.ist.socialsoftware.edition.ldod.frontend.serverside.search;
 
 import org.joda.time.LocalDate;
 import pt.ist.socialsoftware.edition.ldod.api.ui.FragInterDto;
+import pt.ist.socialsoftware.edition.ldod.domain.LdoDDate;
 import pt.ist.socialsoftware.edition.ldod.search.api.SearchProvidesInterface;
 import pt.ist.socialsoftware.edition.ldod.search.api.dto.AdvancedSearchResultDto;
 import pt.ist.socialsoftware.edition.ldod.search.api.dto.SearchDto;
 import pt.ist.socialsoftware.edition.ldod.text.api.TextProvidesInterface;
 import pt.ist.socialsoftware.edition.ldod.text.api.dto.HeteronymDto;
+import pt.ist.socialsoftware.edition.ldod.text.api.dto.LdoDDateDto;
 import pt.ist.socialsoftware.edition.ldod.text.api.dto.ScholarInterDto;
 import pt.ist.socialsoftware.edition.ldod.text.api.dto.SourceDto;
 
@@ -50,7 +52,8 @@ public class SearchFrontendRequiresInterface {
     }
 
     public LocalDate getScholarInterDate(String xmlId) {
-        return this.textProvidesInterface.getScholarInterDate(xmlId).getDate();
+        LdoDDateDto date = this.textProvidesInterface.getScholarInterDate(xmlId);
+        return date != null ? date.getDate() : null;
     }
 
     public FragInterDto.InterType getTypeOfFragInter(String xmlId) {

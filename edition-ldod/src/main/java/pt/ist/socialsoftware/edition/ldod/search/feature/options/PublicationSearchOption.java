@@ -11,7 +11,7 @@ public final class PublicationSearchOption extends SearchOption {
     private final DateSearchOption dateSearchOption;
 
     public PublicationSearchOption(PublicationSearchOptionDto publicationSearchOptionDto) {
-        this.dateSearchOption = publicationSearchOptionDto.getDateSearchOption();
+        this.dateSearchOption = publicationSearchOptionDto.getDateSearchOption().createSearchOption();
     }
 
     @Override

@@ -60,8 +60,8 @@ public class SourceDto {
         return getSourceByXmlId(this.xmlId)
                 .filter(ManuscriptSource.class::isInstance)
                 .map(ManuscriptSource.class::cast)
-                .map(manuscriptSource -> manuscriptSource.getLdoDDate().getDate())
-                .orElseThrow(LdoDException::new);
+                .map(manuscriptSource -> manuscriptSource.getLdoDDate() != null ? manuscriptSource.getLdoDDate().getDate() : null)
+                .orElse(null);
     }
 
     private Optional<Source> getSourceByXmlId(String xmlId) {

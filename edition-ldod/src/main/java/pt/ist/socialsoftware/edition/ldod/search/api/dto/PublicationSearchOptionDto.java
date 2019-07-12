@@ -6,9 +6,9 @@ import pt.ist.socialsoftware.edition.ldod.search.feature.options.PublicationSear
 
 public final class PublicationSearchOptionDto extends SearchOptionDto {
 
-    private final DateSearchOption dateSearchOption;
+    private final DateSearchOptionDto dateSearchOption;
 
-    public PublicationSearchOptionDto(@JsonProperty("date") DateSearchOption date) {
+    public PublicationSearchOptionDto(@JsonProperty("date") DateSearchOptionDto date) {
         this.dateSearchOption = date;
     }
 
@@ -17,7 +17,7 @@ public final class PublicationSearchOptionDto extends SearchOptionDto {
         return new PublicationSearchOption(this);
     }
 
-    public DateSearchOption getDateSearchOption() {
+    public DateSearchOptionDto getDateSearchOption() {
         return this.dateSearchOption;
     }
 }
