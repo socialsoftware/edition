@@ -1,8 +1,8 @@
-package pt.ist.socialsoftware.edition.ldod.frontend.serverside.search.dto;
+package pt.ist.socialsoftware.edition.ldod.text.api.dto;
 
 import java.util.Map;
 
-public class EditionJson {
+public class ExpertEditionDto {
 
     private String editor;
     private final String acronym;
@@ -10,11 +10,11 @@ public class EditionJson {
     private String beginDate;
     private String endDate;
 
-    public EditionJson(String acronym) {
+    public ExpertEditionDto(String acronym) {
         this.acronym = acronym;
     }
 
-    public EditionJson(String acronym, String editor) {
+    public ExpertEditionDto(String acronym, String editor) {
         this.acronym = acronym;
         this.editor = editor;
     }

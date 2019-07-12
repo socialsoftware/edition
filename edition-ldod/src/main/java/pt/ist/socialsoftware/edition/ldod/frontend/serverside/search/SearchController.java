@@ -11,13 +11,13 @@ import org.springframework.web.bind.annotation.*;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.frontend.serverside.search.dto.AuthoralJson;
 import pt.ist.socialsoftware.edition.ldod.frontend.serverside.search.dto.DatesJson;
-import pt.ist.socialsoftware.edition.ldod.frontend.serverside.search.dto.EditionJson;
 import pt.ist.socialsoftware.edition.ldod.search.api.dto.AdvancedSearchResultDto;
+import pt.ist.socialsoftware.edition.ldod.search.api.dto.SearchDto;
+import pt.ist.socialsoftware.edition.ldod.search.api.dto.SearchOptionDto;
 import pt.ist.socialsoftware.edition.ldod.search.feature.options.ManuscriptSearchOption;
-import pt.ist.socialsoftware.edition.ldod.search.feature.options.Search;
-import pt.ist.socialsoftware.edition.ldod.search.feature.options.SearchOption;
 import pt.ist.socialsoftware.edition.ldod.search.feature.options.TypescriptSearchOption;
 import pt.ist.socialsoftware.edition.ldod.session.LdoDSession;
+import pt.ist.socialsoftware.edition.ldod.text.api.dto.ExpertEditionDto;
 import pt.ist.socialsoftware.edition.ldod.text.api.dto.HeteronymDto;
 import pt.ist.socialsoftware.edition.ldod.text.api.dto.LdoDDateDto;
 import pt.ist.socialsoftware.edition.ldod.text.api.dto.ScholarInterDto;
@@ -79,7 +79,7 @@ public class SearchController {
 
     @RequestMapping(value = "/advanced/result", method = RequestMethod.POST, headers = {
             "Content-type=application/json"})
-    public String advancedSearchResultNew(Model model, @RequestBody Search search) {
+    public String advancedSearchResultNew(Model model, @RequestBody SearchDto search) {
         logger.debug("advancedSearchResultNew");
 
         AdvancedSearchResultDto advancedSearchResultDto = this.frontendRequiresInterface.advancedSearch(search);
@@ -97,7 +97,7 @@ public class SearchController {
         model.addAttribute("interCountNotAdded", advancedSearchResultDto.getInterCountNotAdded());
         model.addAttribute("results", advancedSearchResultDto.getResults());
 
-        SearchOption[] searchOptions = search.getSearchOptions();
+        SearchOptionDto[] searchOptions = search.getSearchOptions();
 
         model.addAttribute("search", searchOptions);
         model.addAttribute("searchLenght", searchOptions.length);
@@ -119,7 +119,7 @@ public class SearchController {
 
     @RequestMapping(value = "/getEdition")
     @ResponseBody
-    public EditionJson getEdition(@RequestParam(value = "edition", required = true) String acronym) {
+    public ExpertEditionDto getEdition(@RequestParam(value = "edition", required = true) String acronym) {
         logger.debug("getEdition");
         List<ScholarInterDto> scholarInterDtos = this.frontendRequiresInterface.getExpertEditionScholarInterDtoList(acronym);
 
@@ -138,15 +138,15 @@ public class SearchController {
                 endDate = getIsAfterDate(endDate, ldoDDateDto.getDate());
             }
         }
-        EditionJson editionJson = new EditionJson(acronym);
+        ExpertEditionDto expertEditionDto = new ExpertEditionDto(acronym);
         if (heteronyms.size() > 0) {
-            editionJson.setHeteronyms(heteronyms);
+            expertEditionDto.setHeteronyms(heteronyms);
         }
         if (endDate != null && beginDate != null) {
-            editionJson.setBeginDate(beginDate.getYear());
-            editionJson.setEndDate(endDate.getYear());
+            expertEditionDto.setBeginDate(beginDate.getYear());
+            expertEditionDto.setEndDate(endDate.getYear());
         }
-        return editionJson;
+        return expertEditionDto;
     }
 
     @RequestMapping(value = "/getPublicationsDates")

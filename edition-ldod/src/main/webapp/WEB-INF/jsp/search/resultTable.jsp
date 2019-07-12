@@ -152,7 +152,7 @@
                                 </c:choose>
                             </c:if>
                             <c:choose>
-                                <c:when test="${showHeteronym}">
+                                <c:when test="${showHeteronym && fragInterEntry.key.type == 'SCHOLAR_INTER'}">
                                     <td>${frontendRequiresInterface.getHeteronymName(fragInterEntry.key.getXmlId())}</td>
                                 </c:when>
                                 <c:otherwise>

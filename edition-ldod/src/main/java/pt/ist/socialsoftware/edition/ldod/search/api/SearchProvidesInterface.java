@@ -1,8 +1,8 @@
 package pt.ist.socialsoftware.edition.ldod.search.api;
 
 import pt.ist.socialsoftware.edition.ldod.search.api.dto.AdvancedSearchResultDto;
+import pt.ist.socialsoftware.edition.ldod.search.api.dto.SearchDto;
 import pt.ist.socialsoftware.edition.ldod.search.feature.SearchProcessor;
-import pt.ist.socialsoftware.edition.ldod.search.feature.options.Search;
 import pt.ist.socialsoftware.edition.ldod.text.api.dto.ScholarInterDto;
 
 import java.util.List;
@@ -14,7 +14,7 @@ public class SearchProvidesInterface {
         return new SearchProcessor().simpleSearch(params);
     }
 
-    public AdvancedSearchResultDto advancedSearch(Search search) {
+    public AdvancedSearchResultDto advancedSearch(SearchDto search) {
         return new SearchProcessor().advancedSearch(search);
     }
 }

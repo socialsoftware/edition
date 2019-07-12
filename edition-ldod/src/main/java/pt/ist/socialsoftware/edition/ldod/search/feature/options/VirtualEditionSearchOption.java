@@ -1,8 +1,8 @@
 package pt.ist.socialsoftware.edition.ldod.search.feature.options;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import pt.ist.socialsoftware.edition.ldod.search.api.SearchRequiresInterface;
 import pt.ist.socialsoftware.edition.ldod.search.api.dto.SearchableElementDto;
+import pt.ist.socialsoftware.edition.ldod.search.api.dto.VirtualEditionSearchOptionDto;
 import pt.ist.socialsoftware.edition.ldod.virtual.api.dto.VirtualEditionDto;
 
 import java.util.Set;
@@ -10,18 +10,12 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public final class VirtualEditionSearchOption extends SearchOption {
-
     private final String virtualEditionAcronym;
     private final boolean inclusion;
 
-    public VirtualEditionSearchOption(@JsonProperty("inclusion") String inclusion,
-                                      @JsonProperty("edition") String virtualEditionAcronym) {
-        if (inclusion.equals("in")) {
-            this.inclusion = true;
-        } else {
-            this.inclusion = false;
-        }
-        this.virtualEditionAcronym = virtualEditionAcronym;
+    public VirtualEditionSearchOption(VirtualEditionSearchOptionDto virtualEditionSearchOptionDto) {
+        this.inclusion = virtualEditionSearchOptionDto.isInclusion();
+        this.virtualEditionAcronym = virtualEditionSearchOptionDto.getVirtualEditionAcronym();
     }
 
     @Override
@@ -57,11 +51,6 @@ public final class VirtualEditionSearchOption extends SearchOption {
             }
         }
         return false;
-    }
-
-    @Override
-    public String toString() {
-        return null;
     }
 
 }

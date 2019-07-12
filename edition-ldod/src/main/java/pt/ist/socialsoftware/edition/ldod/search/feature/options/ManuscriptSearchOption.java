@@ -1,6 +1,7 @@
 package pt.ist.socialsoftware.edition.ldod.search.feature.options;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import pt.ist.socialsoftware.edition.ldod.search.api.dto.ManuscriptSearchOptionDto;
 import pt.ist.socialsoftware.edition.ldod.text.api.dto.SourceDto;
 
 public final class ManuscriptSearchOption extends AuthoralSearchOption {
@@ -11,14 +12,13 @@ public final class ManuscriptSearchOption extends AuthoralSearchOption {
         super(hasLdoD, date);
     }
 
-    @Override
-    protected boolean isOfDocumentType(SourceDto source) {
-        return source.hasHandNoteSet();
+    public ManuscriptSearchOption(ManuscriptSearchOptionDto manuscriptSearchOptionDto) {
+        super(manuscriptSearchOptionDto.getHasLdoD(), manuscriptSearchOptionDto.getDateSearchOption().createSearchOption());
     }
 
     @Override
-    protected String getDocumentType() {
-        return MANUSCRIPTID;
+    protected boolean isOfDocumentType(SourceDto source) {
+        return source.hasHandNoteSet();
     }
 
 }

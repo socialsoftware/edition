@@ -2,11 +2,9 @@ package pt.ist.socialsoftware.edition.ldod.frontend.serverside.search;
 
 import org.joda.time.LocalDate;
 import pt.ist.socialsoftware.edition.ldod.api.ui.FragInterDto;
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualModule;
 import pt.ist.socialsoftware.edition.ldod.search.api.SearchProvidesInterface;
 import pt.ist.socialsoftware.edition.ldod.search.api.dto.AdvancedSearchResultDto;
-import pt.ist.socialsoftware.edition.ldod.search.feature.options.Search;
+import pt.ist.socialsoftware.edition.ldod.search.api.dto.SearchDto;
 import pt.ist.socialsoftware.edition.ldod.text.api.TextProvidesInterface;
 import pt.ist.socialsoftware.edition.ldod.text.api.dto.HeteronymDto;
 import pt.ist.socialsoftware.edition.ldod.text.api.dto.ScholarInterDto;
@@ -55,8 +53,6 @@ public class SearchFrontendRequiresInterface {
         return this.textProvidesInterface.getScholarInterDate(xmlId).getDate();
     }
 
-
-    // Requires from Text and Virtual Modules
     public FragInterDto.InterType getTypeOfFragInter(String xmlId) {
         TextProvidesInterface textProvidesInterface = new TextProvidesInterface();
         ScholarInterDto scholarInterDto = textProvidesInterface.getScholarInter(xmlId);
@@ -68,13 +64,11 @@ public class SearchFrontendRequiresInterface {
     }
 
     public String getHeteronymName(String xmlId) {
-        TextProvidesInterface textProvidesInterface = new TextProvidesInterface();
-        HeteronymDto heteronym = textProvidesInterface.getScholarInterHeteronym(xmlId);
+        HeteronymDto heteronym = this.textProvidesInterface.getScholarInterHeteronym(xmlId);
         if (heteronym != null) {
             return heteronym.getName();
         }
-        VirtualEditionInter vei = VirtualModule.getInstance().getVirtualEditionInterByXmlId(xmlId);
-        return vei.getHeteronym().getName();
+        return null;
     }
 
 
@@ -85,7 +79,7 @@ public class SearchFrontendRequiresInterface {
         return this.searchProvidesInterface.simpleSearch(params);
     }
 
-    public AdvancedSearchResultDto advancedSearch(Search search) {
+    public AdvancedSearchResultDto advancedSearch(SearchDto search) {
         return this.searchProvidesInterface.advancedSearch(search);
     }
 }

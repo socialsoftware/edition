@@ -1,9 +1,9 @@
 package pt.ist.socialsoftware.edition.ldod.search.feature.options;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pt.ist.socialsoftware.edition.ldod.search.api.SearchRequiresInterface;
+import pt.ist.socialsoftware.edition.ldod.search.api.dto.HeteronymSearchOptionDto;
 import pt.ist.socialsoftware.edition.ldod.search.api.dto.SearchableElementDto;
 
 import java.util.stream.Stream;
@@ -13,14 +13,8 @@ public final class HeteronymSearchOption extends SearchOption {
 
     private final String xmlId4Heteronym;
 
-    public HeteronymSearchOption(@JsonProperty("heteronym") String xmlId) {
-        logger.debug("HeteronymSearchOption xmlId: {}", xmlId);
-        this.xmlId4Heteronym = xmlId.equals("null") ? null : xmlId;
-    }
-
-    @Override
-    public String toString() {
-        return "heteronym:" + this.xmlId4Heteronym;
+    public HeteronymSearchOption(HeteronymSearchOptionDto heteronymSearchOptionDto) {
+        this.xmlId4Heteronym = heteronymSearchOptionDto.getXmlId4Heteronym();
     }
 
     @Override

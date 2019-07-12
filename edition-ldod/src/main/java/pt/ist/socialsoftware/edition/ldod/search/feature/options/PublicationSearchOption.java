@@ -1,23 +1,17 @@
 package pt.ist.socialsoftware.edition.ldod.search.feature.options;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import pt.ist.socialsoftware.edition.ldod.domain.Source;
 import pt.ist.socialsoftware.edition.ldod.search.api.SearchRequiresInterface;
+import pt.ist.socialsoftware.edition.ldod.search.api.dto.PublicationSearchOptionDto;
 import pt.ist.socialsoftware.edition.ldod.search.api.dto.SearchableElementDto;
 
 import java.util.stream.Stream;
 
 public final class PublicationSearchOption extends SearchOption {
-
     private final DateSearchOption dateSearchOption;
 
-    public PublicationSearchOption(@JsonProperty("date") DateSearchOption date) {
-        this.dateSearchOption = date;
-    }
-
-    @Override
-    public String toString() {
-        return "publication:" + this.dateSearchOption;
+    public PublicationSearchOption(PublicationSearchOptionDto publicationSearchOptionDto) {
+        this.dateSearchOption = publicationSearchOptionDto.getDateSearchOption();
     }
 
     @Override

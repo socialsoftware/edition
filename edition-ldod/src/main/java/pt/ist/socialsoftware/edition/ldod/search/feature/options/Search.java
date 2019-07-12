@@ -1,7 +1,7 @@
 package pt.ist.socialsoftware.edition.ldod.search.feature.options;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import pt.ist.socialsoftware.edition.ldod.search.api.SearchRequiresInterface;
+import pt.ist.socialsoftware.edition.ldod.search.api.dto.SearchDto;
 import pt.ist.socialsoftware.edition.ldod.search.api.dto.SearchableElementDto;
 import pt.ist.socialsoftware.edition.ldod.search.feature.options.SearchOption.Mode;
 
@@ -10,16 +10,17 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Search {
-    private static final String OPTIONS = "options";
-    private static final String MODE = "mode";
+    public static final String OPTIONS = "options";
+    public static final String MODE = "mode";
 
     private final Mode mode;
     private final SearchOption[] searchOptions;
 
-    public Search(@JsonProperty(Search.MODE) String mode, @JsonProperty(Search.OPTIONS) SearchOption[] searchOptions) {
-        this.mode = mode.equals(Mode.AND.getMode()) ? Mode.AND : Mode.OR;
-        this.searchOptions = searchOptions;
+    public Search(SearchDto searchDto) {
+        this.mode = searchDto.getMode();
+        this.searchOptions = Arrays.stream(searchDto.getSearchOptions()).map(searchOptionDto -> searchOptionDto.createSearchOption()).toArray(SearchOption[]::new);
     }
+
 
     public Mode getMode() {
         return this.mode;

@@ -1,6 +1,11 @@
 package pt.ist.socialsoftware.edition.ldod.search.feature;
 
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import pt.ist.socialsoftware.edition.ldod.frontend.serverside.search.SearchController;
 import pt.ist.socialsoftware.edition.ldod.search.api.dto.AdvancedSearchResultDto;
+import pt.ist.socialsoftware.edition.ldod.search.api.dto.SearchDto;
 import pt.ist.socialsoftware.edition.ldod.search.api.dto.SearchableElementDto;
 import pt.ist.socialsoftware.edition.ldod.search.feature.options.*;
 import pt.ist.socialsoftware.edition.ldod.text.api.dto.ScholarInterDto;
@@ -11,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 public class SearchProcessor {
+    private static final Logger logger = LoggerFactory.getLogger(SearchController.class);
 
     public Map<String, List<ScholarInterDto>> simpleSearch(String params) {
         String split;
@@ -51,8 +57,10 @@ public class SearchProcessor {
         return results;
     }
 
-    public AdvancedSearchResultDto advancedSearch(Search search) {
-        Map<String, Map<SearchableElementDto, List<SearchOption>>> results = search.search();
+    public AdvancedSearchResultDto advancedSearch(SearchDto searchDto) {
+        logger.debug("AdvancedSearchResultDto");
+
+        Map<String, Map<SearchableElementDto, List<SearchOption>>> results = new Search(searchDto).search();
 
         int fragCount = 0;
         int fragCountNotAdded = 0;
@@ -122,6 +130,9 @@ public class SearchProcessor {
                 fragCountNotAdded++;
             }
         }
+
+        logger.debug("AdvancedSearchResultDto {}", results.entrySet().size());
+
         return new AdvancedSearchResultDto(showEdition, showHeteronym, showDate, showLdoD, showSource, showSourceType,
                 showTaxonomy, fragCount, interCount, fragCountNotAdded, interCountNotAdded, results);
     }

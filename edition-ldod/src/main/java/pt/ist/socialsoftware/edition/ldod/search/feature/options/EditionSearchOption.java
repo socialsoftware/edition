@@ -1,8 +1,7 @@
 package pt.ist.socialsoftware.edition.ldod.search.feature.options;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import pt.ist.socialsoftware.edition.ldod.search.api.SearchRequiresInterface;
+import pt.ist.socialsoftware.edition.ldod.search.api.dto.EditionSearchOptionDto;
 import pt.ist.socialsoftware.edition.ldod.search.api.dto.SearchableElementDto;
 
 import java.util.stream.Stream;
@@ -14,24 +13,12 @@ public final class EditionSearchOption extends SearchOption {
     private final HeteronymSearchOption heteronymSearchOption;
     private final DateSearchOption dateSearchOption;
 
-    @JsonCreator
-    public EditionSearchOption(@JsonProperty("inclusion") String inclusion, @JsonProperty("edition") String edition,
-                               @JsonProperty("heteronym") HeteronymSearchOption heteronym, @JsonProperty("date") DateSearchOption date) {
-
-        if (inclusion.equals("in")) {
-            this.inclusion = true;
-        } else {
-            this.inclusion = false;
-        }
-
-        this.edition = edition;
-        this.heteronymSearchOption = heteronym;
-        this.dateSearchOption = date;
-    }
-
-    @Override
-    public String toString() {
-        return "edition:" + this.edition + "\ninclusion:" + this.inclusion + "\n" + this.heteronymSearchOption + "\n" + this.dateSearchOption;
+    public EditionSearchOption(EditionSearchOptionDto editionSearchOptionDto) {
+        this.inclusion = editionSearchOptionDto.isInclusion();
+        this.edition = editionSearchOptionDto.getEdition();
+        this.heteronymSearchOption = editionSearchOptionDto.getHeteronymSearchOption() != null ?
+                editionSearchOptionDto.getHeteronymSearchOption().createSearchOption() : null;
+        this.dateSearchOption = editionSearchOptionDto.getDateSearchOption() != null ? editionSearchOptionDto.getDateSearchOption().createSearchOption() : null;
     }
 
     @Override

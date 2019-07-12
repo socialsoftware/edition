@@ -1,8 +1,8 @@
 package pt.ist.socialsoftware.edition.ldod.search.feature.options;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import pt.ist.socialsoftware.edition.ldod.domain.Source.SourceType;
 import pt.ist.socialsoftware.edition.ldod.search.api.SearchRequiresInterface;
+import pt.ist.socialsoftware.edition.ldod.search.api.dto.AuthoralSearchOptionDto;
 import pt.ist.socialsoftware.edition.ldod.search.api.dto.SearchableElementDto;
 import pt.ist.socialsoftware.edition.ldod.text.api.dto.SourceDto;
 
@@ -13,10 +13,15 @@ public abstract class AuthoralSearchOption extends SearchOption {
     private final String hasLdoD;
     private final DateSearchOption dateSearchOption;
 
-    public AuthoralSearchOption(@JsonProperty("hasLdoDMark") String hasLdoD,
-                                @JsonProperty("date") DateSearchOption date) {
+    public AuthoralSearchOption(String hasLdoD,
+                                DateSearchOption date) {
         this.hasLdoD = hasLdoD;
         this.dateSearchOption = date;
+    }
+
+    public AuthoralSearchOption(AuthoralSearchOptionDto authoralSearchOptionDto) {
+        this.hasLdoD = authoralSearchOptionDto.getHasLdoD();
+        this.dateSearchOption = authoralSearchOptionDto.getDateSearchOption().createSearchOption();
     }
 
     @Override
@@ -42,13 +47,6 @@ public abstract class AuthoralSearchOption extends SearchOption {
     }
 
     protected abstract boolean isOfDocumentType(SourceDto source);
-
-    protected abstract String getDocumentType();
-
-    @Override
-    public String toString() {
-        return getDocumentType() + ": hasLdoDMark:" + this.hasLdoD + "\n" + this.dateSearchOption;
-    }
 
     public boolean hasDate() {
         return this.dateSearchOption == null ? false : this.dateSearchOption.hasDate();

@@ -1,11 +1,10 @@
 package pt.ist.socialsoftware.edition.ldod.search.feature.options;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import org.apache.lucene.queryparser.classic.QueryParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pt.ist.socialsoftware.edition.ldod.search.api.SearchRequiresInterface;
 import pt.ist.socialsoftware.edition.ldod.search.api.dto.SearchableElementDto;
+import pt.ist.socialsoftware.edition.ldod.search.api.dto.TextSearchOptionDto;
 import pt.ist.socialsoftware.edition.ldod.text.api.dto.ScholarInterDto;
 
 import java.util.ArrayList;
@@ -20,20 +19,17 @@ public final class TextSearchOption extends SearchOption {
 
     private final String text;
 
-    public TextSearchOption(@JsonProperty("text") String text) {
-        text = purgeSearchText(text);
-        text = QueryParser.escape(text);
-        this.text = text.equals("null") || text.equals("") ? null : text.trim();
+    public TextSearchOption(TextSearchOptionDto textSearchOptionDto) {
+        this.text = textSearchOptionDto.getText();
+    }
+
+    public TextSearchOption(String search) {
+        this.text = search;
     }
 
     public static String purgeSearchText(String text) {
         text = text.replaceAll("[^\\p{L}0-9\\-\\s]+", "");
         return text;
-    }
-
-    @Override
-    public String toString() {
-        return "TextModule:" + this.text;
     }
 
     @Override

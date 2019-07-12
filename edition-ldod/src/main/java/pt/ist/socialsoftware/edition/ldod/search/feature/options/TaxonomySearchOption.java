@@ -1,18 +1,17 @@
 package pt.ist.socialsoftware.edition.ldod.search.feature.options;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import pt.ist.socialsoftware.edition.ldod.search.api.SearchRequiresInterface;
 import pt.ist.socialsoftware.edition.ldod.search.api.dto.SearchableElementDto;
+import pt.ist.socialsoftware.edition.ldod.search.api.dto.TaxonomySearchOptionDto;
 
 import java.util.Arrays;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class TaxonomySearchOption extends SearchOption {
     private final String[] tags;
 
-    public TaxonomySearchOption(@JsonProperty("tags") String tags) {
-        this.tags = tags.trim().split("\\s+");
+    public TaxonomySearchOption(TaxonomySearchOptionDto taxonomySearchOptionDto) {
+        this.tags = taxonomySearchOptionDto.getTags();
     }
 
     @Override
@@ -27,11 +26,6 @@ public class TaxonomySearchOption extends SearchOption {
         return Arrays.stream(this.tags)
                 .allMatch(tt -> searchRequiresInterface.getTagsForVirtualEditionInter(inter.getXmlId())
                         .stream().anyMatch(t -> t.equals(tt)));
-    }
-
-    @Override
-    public String toString() {
-        return "Taxonomy :" + Arrays.stream(this.tags).collect(Collectors.joining(" "));
     }
 
 }
