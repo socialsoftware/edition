@@ -62,7 +62,7 @@
                                 <c:when
                                         test="${ fragInterEntry.key.getClass().getSimpleName().equals('ExpertEditionInter')}">
                                     <td>
-                                        <a href="/fragments/fragment/${fragInterEntry.key.getFragmentXmlId()}/inter/${fragInterEntry.key.getUrlId()}">${fragInterEntry.key.getShortName()}
+                                        <a href="/fragments/fragment/${fragInterEntry.key.getFragment().getXmlId()}/inter/${fragInterEntry.key.getUrlId()}">${fragInterEntry.key.getTitle()}
                                             (${fragInterEntry.key.getEdition().getEditor()})</a>
                                     </td>
                                 </c:when> <c:otherwise>
