@@ -3,19 +3,16 @@ package pt.ist.socialsoftware.edition.ldod.text.api.remote;
 import org.joda.time.LocalDate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
-import pt.ist.socialsoftware.edition.ldod.frontend.search.SearchFrontendRequiresInterface;
 import pt.ist.socialsoftware.edition.ldod.frontend.search.dto.AuthoralJson;
 import pt.ist.socialsoftware.edition.ldod.frontend.search.dto.DatesJson;
 import pt.ist.socialsoftware.edition.ldod.search.feature.options.ManuscriptSearchOption;
 import pt.ist.socialsoftware.edition.ldod.search.feature.options.TypescriptSearchOption;
+import pt.ist.socialsoftware.edition.ldod.text.api.TextProvidesInterface;
 import pt.ist.socialsoftware.edition.ldod.text.api.dto.ExpertEditionDto;
 import pt.ist.socialsoftware.edition.ldod.text.api.dto.HeteronymDto;
 import pt.ist.socialsoftware.edition.ldod.text.api.dto.LdoDDateDto;
@@ -31,24 +28,15 @@ import java.util.Map;
 public class TextProvidesSearchController {
     private static final Logger logger = LoggerFactory.getLogger(TextProvidesSearchController.class);
 
-    SearchFrontendRequiresInterface frontendRequiresInterface = new SearchFrontendRequiresInterface();
-
-
-    /*
-     * EditionController Sets all the empty boxes to null instead of the empty string ""
-     */
-    @InitBinder
-    public void initBinder(WebDataBinder binder) {
-        binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
-    }
-
+    TextProvidesInterface textProvidesInterface = new TextProvidesInterface();
 
     @RequestMapping(value = "/getEditions")
     @ResponseBody
     public Map<String, String> getEditions() {
-        // LinkedHashMap keeps insertion order.
         Map<String, String> editions = new LinkedHashMap<>();
-        for (ExpertEdition expertEdition : TextModule.getInstance().getSortedExpertEdition()) {
+
+        logger.debug("XXXXXXXXXXXXXX{}", this.textProvidesInterface.getSortedExpertEditionsDto().size());
+        for (ExpertEditionDto expertEdition : this.textProvidesInterface.getSortedExpertEditionsDto()) {
 
             editions.put(expertEdition.getAcronym(), expertEdition.getEditor());
         }
@@ -59,7 +47,7 @@ public class TextProvidesSearchController {
     @ResponseBody
     public ExpertEditionDto getEdition(@RequestParam(value = "edition", required = true) String acronym) {
         logger.debug("getEdition");
-        List<ScholarInterDto> scholarInterDtos = this.frontendRequiresInterface.getExpertEditionScholarInterDtoList(acronym);
+        List<ScholarInterDto> scholarInterDtos = this.textProvidesInterface.getExpertEditionScholarInterDtoList(acronym);
 
         Map<String, String> heteronyms = new HashMap<>();
         LocalDate beginDate = null;

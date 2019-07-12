@@ -150,6 +150,10 @@ public class TextProvidesInterface {
         return indexer.search(words).stream().map(ScholarInterDto::new).collect(Collectors.toList());
     }
 
+    public List<ExpertEditionDto> getSortedExpertEditionsDto() {
+        return TextModule.getInstance().getSortedExpertEdition().stream().map(ExpertEditionDto::new).collect(Collectors.toList());
+    }
+
     private Optional<ScholarInter> getScholarInterByXmlId(String xmlId) {
         return TextModule.getInstance().getFragmentsSet().stream()
                 .filter(fragment -> fragment.getScholarInterByXmlId(xmlId) != null).map(fragment -> fragment.getScholarInterByXmlId(xmlId)).findAny();
@@ -172,5 +176,6 @@ public class TextProvidesInterface {
         return TextModule.getInstance().getExpertEditionsSet().stream().filter(expertEdition -> expertEdition.getFragInterByXmlId(expertEditionInterId) != null)
                 .findAny();
     }
+
 
 }

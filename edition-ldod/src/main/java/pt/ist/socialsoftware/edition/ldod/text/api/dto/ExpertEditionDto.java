@@ -1,5 +1,7 @@
 package pt.ist.socialsoftware.edition.ldod.text.api.dto;
 
+import pt.ist.socialsoftware.edition.ldod.domain.ExpertEdition;
+
 import java.util.Map;
 
 public class ExpertEditionDto {
@@ -17,6 +19,11 @@ public class ExpertEditionDto {
     public ExpertEditionDto(String acronym, String editor) {
         this.acronym = acronym;
         this.editor = editor;
+    }
+
+    public ExpertEditionDto(ExpertEdition expertEdition) {
+        this.acronym = expertEdition.getAcronym();
+        this.editor = expertEdition.getEditor();
     }
 
     public String getEditor() {
