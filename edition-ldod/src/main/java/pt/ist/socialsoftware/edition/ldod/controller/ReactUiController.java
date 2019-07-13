@@ -46,7 +46,8 @@ public class ReactUiController {
     public ResponseEntity<?> getModuleInfo() {
 
         List<String> moduleNames = FenixFramework.getDomainRoot().getModuleSet()
-                .stream().map(EditionModule::getName).collect(Collectors.toList());
+                .stream().filter(editionModule -> !editionModule.getName().equals("Custom"))
+                .map(EditionModule::getName).collect(Collectors.toList());
 
         return new ResponseEntity<>(moduleNames, HttpStatus.OK);
     }
@@ -58,15 +59,28 @@ public class ReactUiController {
 
         List<Map<String, List<AbstractMap.SimpleEntry<String, String>>>> results = new ArrayList<>();
 
+        EditionModule customModule = FenixFramework.getDomainRoot().getModuleSet().stream()
+                .filter(editionModule -> editionModule.getName().equals("Custom")).findAny().orElse(null);
 
-        for (EditionModule module : moduleSet) {
+        if(customModule != null){
             Map<String, List<AbstractMap.SimpleEntry<String, String>>> temp = new LinkedHashMap<>();
-            for (Menu menu : module.getUiComponent().getMenuSet().stream().sorted(Comparator.comparingInt(Menu::getPosition)).collect(Collectors.toList())) {
+            for (Menu menu : customModule.getUiComponent().getMenuSet().stream().sorted(Comparator.comparingInt(Menu::getPosition)).collect(Collectors.toList())) {
                 List<AbstractMap.SimpleEntry<String, String>> links = menu.getOptionSet().stream().sorted(Comparator.comparingInt(Option::getPosition))
                         .map(option -> new AbstractMap.SimpleEntry<>(option.getName(), option.getLink())).collect(Collectors.toList());
                 temp.put(menu.getName(), links);
             }
             results.add(temp);
+        }
+        else {
+            for (EditionModule module : moduleSet) {
+                Map<String, List<AbstractMap.SimpleEntry<String, String>>> temp = new LinkedHashMap<>();
+                for (Menu menu : module.getUiComponent().getMenuSet().stream().sorted(Comparator.comparingInt(Menu::getPosition)).collect(Collectors.toList())) {
+                    List<AbstractMap.SimpleEntry<String, String>> links = menu.getOptionSet().stream().sorted(Comparator.comparingInt(Option::getPosition))
+                            .map(option -> new AbstractMap.SimpleEntry<>(option.getName(), option.getLink())).collect(Collectors.toList());
+                    temp.put(menu.getName(), links);
+                }
+                results.add(temp);
+            }
         }
 
         return new ResponseEntity<>(results, HttpStatus.OK);
