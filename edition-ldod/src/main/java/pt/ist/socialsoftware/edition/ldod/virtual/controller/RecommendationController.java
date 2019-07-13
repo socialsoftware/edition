@@ -21,7 +21,7 @@ import pt.ist.socialsoftware.edition.ldod.recommendation.dto.RecommendVirtualEdi
 import pt.ist.socialsoftware.edition.ldod.session.LdoDSession;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDCreateVirtualEditionException;
 import pt.ist.socialsoftware.edition.ldod.user.api.UserProvidesInterface;
-import pt.ist.socialsoftware.edition.ldod.validator.VirtualEditionValidator;
+import pt.ist.socialsoftware.edition.ldod.virtual.controller.validator.VirtualEditionValidator;
 
 import java.util.List;
 import java.util.stream.Collectors;

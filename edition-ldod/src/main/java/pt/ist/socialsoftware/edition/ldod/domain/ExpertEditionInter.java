@@ -1,7 +1,7 @@
 package pt.ist.socialsoftware.edition.ldod.domain;
 
 import pt.ist.socialsoftware.edition.ldod.text.feature.indexer.Indexer;
-import pt.ist.socialsoftware.edition.ldod.topicmodeling.TopicModeler;
+import pt.ist.socialsoftware.edition.ldod.virtual.feature.topicmodeling.TopicModeler;
 
 import java.util.*;
 

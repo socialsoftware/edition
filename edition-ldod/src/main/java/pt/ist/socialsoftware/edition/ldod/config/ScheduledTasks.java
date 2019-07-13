@@ -10,12 +10,12 @@ import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.socialsoftware.edition.ldod.domain.ClassificationGame;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualModule;
-import pt.ist.socialsoftware.edition.ldod.export.WriteVirtualEditonsToFile;
 import pt.ist.socialsoftware.edition.ldod.game.classification.GameRunner;
-import pt.ist.socialsoftware.edition.ldod.social.aware.AwareAnnotationFactory;
-import pt.ist.socialsoftware.edition.ldod.social.aware.CitationDetecter;
-import pt.ist.socialsoftware.edition.ldod.social.aware.FetchCitationsFromTwitter;
-import pt.ist.socialsoftware.edition.ldod.social.aware.TweetFactory;
+import pt.ist.socialsoftware.edition.ldod.virtual.feature.inout.WriteVirtualEditonsToFile;
+import pt.ist.socialsoftware.edition.ldod.virtual.feature.socialaware.AwareAnnotationFactory;
+import pt.ist.socialsoftware.edition.ldod.virtual.feature.socialaware.CitationDetecter;
+import pt.ist.socialsoftware.edition.ldod.virtual.feature.socialaware.FetchCitationsFromTwitter;
+import pt.ist.socialsoftware.edition.ldod.virtual.feature.socialaware.TweetFactory;
 
 import java.io.IOException;
 import java.util.Comparator;

@@ -6,9 +6,9 @@ import pt.ist.socialsoftware.edition.ldod.domain.ExpertEdition
 import pt.ist.socialsoftware.edition.ldod.domain.TextModule
 import pt.ist.socialsoftware.edition.ldod.domain.UserModule
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualModule
-import pt.ist.socialsoftware.edition.ldod.loaders.LoadTEICorpus
-import pt.ist.socialsoftware.edition.ldod.loaders.LoadTEIFragments
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDLoadException
+import pt.ist.socialsoftware.edition.ldod.text.feature.loaders.LoadTEICorpus
+import pt.ist.socialsoftware.edition.ldod.text.feature.loaders.LoadTEIFragments
 import pt.ist.socialsoftware.edition.ldod.utils.Bootstrap
 import pt.ist.socialsoftware.edition.ldod.utils.PropertiesManager
 import spock.lang.Specification

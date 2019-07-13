@@ -3,13 +3,13 @@ package pt.ist.socialsoftware.edition.ldod;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
-import pt.ist.socialsoftware.edition.ldod.loaders.LoadTEICorpus;
-import pt.ist.socialsoftware.edition.ldod.loaders.LoadTEIFragments;
-import pt.ist.socialsoftware.edition.ldod.loaders.VirtualEditionFragmentsTEIImport;
-import pt.ist.socialsoftware.edition.ldod.loaders.VirtualEditionsTEICorpusImport;
-import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDLoadException;
+import pt.ist.socialsoftware.edition.ldod.text.feature.inout.LoadTEICorpus;
+import pt.ist.socialsoftware.edition.ldod.text.feature.inout.LoadTEIFragments;
 import pt.ist.socialsoftware.edition.ldod.utils.Bootstrap;
 import pt.ist.socialsoftware.edition.ldod.utils.PropertiesManager;
+import pt.ist.socialsoftware.edition.ldod.utils.exception.LdoDLoadException;
+import pt.ist.socialsoftware.edition.ldod.virtual.feature.inout.VirtualEditionFragmentsTEIImport;
+import pt.ist.socialsoftware.edition.ldod.virtual.feature.inout.VirtualEditionsTEICorpusImport;
 
 import java.io.File;
 import java.io.FileInputStream;

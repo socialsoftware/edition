@@ -9,9 +9,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
-import pt.ist.socialsoftware.edition.ldod.generators.PlainHtmlWriter4OneInter;
 import pt.ist.socialsoftware.edition.ldod.session.LdoDSession;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
+import pt.ist.socialsoftware.edition.ldod.text.feature.generators.PlainHtmlWriter4OneInter;
 
 import java.util.Set;
 

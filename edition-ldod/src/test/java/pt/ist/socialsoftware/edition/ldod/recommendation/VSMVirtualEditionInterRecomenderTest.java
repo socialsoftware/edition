@@ -13,8 +13,8 @@ import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.recommendation.properties.*;
 import pt.ist.socialsoftware.edition.ldod.text.api.TextProvidesInterface;
 import pt.ist.socialsoftware.edition.ldod.text.feature.indexer.Indexer;
-import pt.ist.socialsoftware.edition.ldod.topicmodeling.TopicModeler;
 import pt.ist.socialsoftware.edition.ldod.utils.TopicListDTO;
+import pt.ist.socialsoftware.edition.ldod.virtual.feature.topicmodeling.TopicModeler;
 
 import java.io.IOException;
 import java.util.ArrayList;

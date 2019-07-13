@@ -9,8 +9,8 @@ import pt.ist.socialsoftware.edition.ldod.TestLoadUtils;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.recommendation.properties.*;
 import pt.ist.socialsoftware.edition.ldod.recommendation.properties.Property.PropertyCache;
-import pt.ist.socialsoftware.edition.ldod.topicmodeling.TopicModeler;
 import pt.ist.socialsoftware.edition.ldod.utils.TopicListDTO;
+import pt.ist.socialsoftware.edition.ldod.virtual.feature.topicmodeling.TopicModeler;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;

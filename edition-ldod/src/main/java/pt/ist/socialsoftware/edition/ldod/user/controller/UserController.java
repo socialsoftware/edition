@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import pt.ist.socialsoftware.edition.ldod.domain.User;
 import pt.ist.socialsoftware.edition.ldod.domain.UserModule;
-import pt.ist.socialsoftware.edition.ldod.forms.ChangePasswordForm;
-import pt.ist.socialsoftware.edition.ldod.validator.ChangePasswordValidator;
+import pt.ist.socialsoftware.edition.ldod.user.controller.forms.ChangePasswordForm;
+import pt.ist.socialsoftware.edition.ldod.user.controller.validator.ChangePasswordValidator;
 
 import javax.inject.Inject;
 import javax.validation.Valid;

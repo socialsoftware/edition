@@ -6,7 +6,8 @@ import pt.ist.fenixframework.core.WriteOnReadError;
 import pt.ist.socialsoftware.edition.ldod.TestLoadUtils;
 import pt.ist.socialsoftware.edition.ldod.TestWithFragmentsLoading;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
-import pt.ist.socialsoftware.edition.ldod.loaders.VirtualEditionFragmentsTEIImport;
+import pt.ist.socialsoftware.edition.ldod.virtual.feature.inout.VirtualEditionFragmentsTEIExport;
+import pt.ist.socialsoftware.edition.ldod.virtual.feature.inout.VirtualEditionFragmentsTEIImport;
 
 import javax.transaction.NotSupportedException;
 import javax.transaction.SystemException;

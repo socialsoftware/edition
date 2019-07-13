@@ -14,12 +14,11 @@ import pt.ist.socialsoftware.edition.ldod.recommendation.VSMFragmentRecommender;
 import pt.ist.socialsoftware.edition.ldod.recommendation.properties.*;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
 import pt.ist.socialsoftware.edition.ldod.text.feature.indexer.Indexer;
-import pt.ist.socialsoftware.edition.ldod.topicmodeling.TopicModeler;
+import pt.ist.socialsoftware.edition.ldod.virtual.feature.topicmodeling.TopicModeler;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import java.io.*;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -129,8 +128,9 @@ public class Bootstrap implements WebApplicationInitializer {
                     optionNumbers.add(optionOrder.toArray(new Integer[0]));
                 }
 
-                for(Integer[] numbers : optionNumbers)
-                logger.debug(Arrays.toString(numbers));
+                for (Integer[] numbers : optionNumbers) {
+                    logger.debug(Arrays.toString(numbers));
+                }
 
                 createModuleInfo(uiComponent, menuNames.toArray(new String[0]), optionNames.toArray(new String[0][]),
                         optionLinks.toArray(new String[0][]), optionNumbers.toArray(new Integer[0][]));
@@ -241,7 +241,7 @@ public class Bootstrap implements WebApplicationInitializer {
     }*/
 
     private static void createModuleInfo(UiComponent uiComponent, String[] menuNames, String[][] optionNames, String[][] optionLinks,
-                                            Integer[][] optionNumbers) {
+                                         Integer[][] optionNumbers) {
         for (int i = 0; i < menuNames.length; i++) {
             Menu menu = new Menu(uiComponent, menuNames[i], i);
             for (int j = 0; j < optionNames[i].length; j++) {

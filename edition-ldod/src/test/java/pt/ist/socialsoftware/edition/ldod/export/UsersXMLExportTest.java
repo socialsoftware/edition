@@ -8,7 +8,8 @@ import pt.ist.socialsoftware.edition.ldod.TestWithFragmentsLoading;
 import pt.ist.socialsoftware.edition.ldod.domain.RegistrationToken;
 import pt.ist.socialsoftware.edition.ldod.domain.User;
 import pt.ist.socialsoftware.edition.ldod.domain.UserModule;
-import pt.ist.socialsoftware.edition.ldod.loaders.UsersXMLImport;
+import pt.ist.socialsoftware.edition.ldod.user.feature.inout.UsersXMLExport;
+import pt.ist.socialsoftware.edition.ldod.user.feature.inout.UsersXMLImport;
 
 import javax.transaction.NotSupportedException;
 import javax.transaction.SystemException;

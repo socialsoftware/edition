@@ -2,7 +2,7 @@ package pt.ist.socialsoftware.edition.ldod.domain;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
-import pt.ist.socialsoftware.edition.ldod.generators.TextPortionVisitor;
+import pt.ist.socialsoftware.edition.ldod.text.feature.generators.TextPortionVisitor;
 
 public class RefText extends RefText_Base {
 

@@ -1,7 +1,7 @@
 package pt.ist.socialsoftware.edition.ldod.dto;
 
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
-import pt.ist.socialsoftware.edition.ldod.generators.PlainHtmlWriter4OneInter;
+import pt.ist.socialsoftware.edition.ldod.text.feature.generators.PlainHtmlWriter4OneInter;
 
 public class VirtualEditionInterDto {
     private String fragmentId;

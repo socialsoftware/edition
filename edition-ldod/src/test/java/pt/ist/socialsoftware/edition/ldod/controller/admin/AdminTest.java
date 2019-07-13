@@ -19,12 +19,12 @@ import pt.ist.socialsoftware.edition.ldod.TestLoadUtils;
 import pt.ist.socialsoftware.edition.ldod.config.Application;
 import pt.ist.socialsoftware.edition.ldod.controller.LdoDExceptionHandler;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
-import pt.ist.socialsoftware.edition.ldod.export.UsersXMLExport;
 import pt.ist.socialsoftware.edition.ldod.filters.TransactionFilter;
-import pt.ist.socialsoftware.edition.ldod.forms.EditUserForm;
 import pt.ist.socialsoftware.edition.ldod.frontend.AdminController;
-import pt.ist.socialsoftware.edition.ldod.loaders.VirtualEditionsTEICorpusImport;
+import pt.ist.socialsoftware.edition.ldod.user.controller.forms.EditUserForm;
+import pt.ist.socialsoftware.edition.ldod.user.feature.inout.UsersXMLExport;
 import pt.ist.socialsoftware.edition.ldod.utils.PropertiesManager;
+import pt.ist.socialsoftware.edition.ldod.virtual.feature.inout.VirtualEditionsTEICorpusImport;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
