@@ -163,8 +163,7 @@
                             <c:if test="${showDate}">
                                 <c:choose>
                                     <c:when test="${fragInterEntry.key.type == 'SCHOLAR_INTER' &&
-                                        !frontendRequiresInterface.isExpertInter(fragInterEntry.key.getXmlId()) &&
-                                        frontendRequiresInterface.getSourceInterType(fragInterEntry.key.getXmlId()) == 'MANUSCRIPT'}">
+                                        !frontendRequiresInterface.isExpertInter(fragInterEntry.key.getXmlId())}">
                                         <td>${frontendRequiresInterface.getSourceOfSourceInter(fragInterEntry.key.getXmlId()).getLdoDDate()}</td>
                                     </c:when>
                                     <c:when

@@ -39,4 +39,7 @@ public class FragmentDto {
         return this.textProvidesInterface.getFragmentExternalId(getXmlId());
     }
 
+    public Set<SourceDto> getSourcesSet() {
+        return this.textProvidesInterface.getFragmentSourceSet(this.xmlId);
+    }
 }

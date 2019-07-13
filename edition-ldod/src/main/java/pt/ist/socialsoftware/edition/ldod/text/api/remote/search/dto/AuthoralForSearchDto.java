@@ -1,10 +1,10 @@
-package pt.ist.socialsoftware.edition.ldod.frontend.search.dto;
+package pt.ist.socialsoftware.edition.ldod.text.api.remote.search.dto;
 
 
-public class AuthoralJson {
+public class AuthoralForSearchDto {
 
     private String[] mediums;
-    private DatesJson dates;
+    private DatesForSearchDto dates;
 
     public String[] getMediums() {
         return this.mediums;
@@ -14,11 +14,11 @@ public class AuthoralJson {
         this.mediums = mediums;
     }
 
-    public DatesJson getDates() {
+    public DatesForSearchDto getDates() {
         return this.dates;
     }
 
-    public void setDates(DatesJson dates) {
+    public void setDates(DatesForSearchDto dates) {
         this.dates = dates;
     }
 }

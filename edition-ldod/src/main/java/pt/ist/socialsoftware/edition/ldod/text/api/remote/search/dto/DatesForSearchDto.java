@@ -1,6 +1,6 @@
-package pt.ist.socialsoftware.edition.ldod.frontend.search.dto;
+package pt.ist.socialsoftware.edition.ldod.text.api.remote.search.dto;
 
-public class DatesJson {
+public class DatesForSearchDto {
     private String beginDate;
     private String endDate;
 

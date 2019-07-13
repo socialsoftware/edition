@@ -1,22 +1,23 @@
-package pt.ist.socialsoftware.edition.ldod.text.api.remote;
+package pt.ist.socialsoftware.edition.ldod.text.api.remote.search;
 
 import org.joda.time.LocalDate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
-import pt.ist.socialsoftware.edition.ldod.frontend.search.dto.AuthoralJson;
-import pt.ist.socialsoftware.edition.ldod.frontend.search.dto.DatesJson;
 import pt.ist.socialsoftware.edition.ldod.search.feature.options.ManuscriptSearchOption;
 import pt.ist.socialsoftware.edition.ldod.search.feature.options.TypescriptSearchOption;
 import pt.ist.socialsoftware.edition.ldod.text.api.TextProvidesInterface;
-import pt.ist.socialsoftware.edition.ldod.text.api.dto.ExpertEditionDto;
-import pt.ist.socialsoftware.edition.ldod.text.api.dto.HeteronymDto;
-import pt.ist.socialsoftware.edition.ldod.text.api.dto.LdoDDateDto;
-import pt.ist.socialsoftware.edition.ldod.text.api.dto.ScholarInterDto;
+import pt.ist.socialsoftware.edition.ldod.text.api.dto.*;
+import pt.ist.socialsoftware.edition.ldod.text.api.remote.search.dto.AuthoralForSearchDto;
+import pt.ist.socialsoftware.edition.ldod.text.api.remote.search.dto.DatesForSearchDto;
+import pt.ist.socialsoftware.edition.ldod.text.api.remote.search.dto.ExpertEditionForSearchDto;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -30,12 +31,19 @@ public class TextProvidesSearchController {
 
     TextProvidesInterface textProvidesInterface = new TextProvidesInterface();
 
+    /*
+     * EditionController Sets all the empty boxes to null instead of the empty string ""
+     */
+    @InitBinder
+    public void initBinder(WebDataBinder binder) {
+        binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
+    }
+
     @RequestMapping(value = "/getEditions")
     @ResponseBody
     public Map<String, String> getEditions() {
         Map<String, String> editions = new LinkedHashMap<>();
 
-        logger.debug("XXXXXXXXXXXXXX{}", this.textProvidesInterface.getSortedExpertEditionsDto().size());
         for (ExpertEditionDto expertEdition : this.textProvidesInterface.getSortedExpertEditionsDto()) {
 
             editions.put(expertEdition.getAcronym(), expertEdition.getEditor());
@@ -45,7 +53,7 @@ public class TextProvidesSearchController {
 
     @RequestMapping(value = "/getEdition")
     @ResponseBody
-    public ExpertEditionDto getEdition(@RequestParam(value = "edition", required = true) String acronym) {
+    public ExpertEditionForSearchDto getEdition(@RequestParam(value = "edition", required = true) String acronym) {
         logger.debug("getEdition");
         List<ScholarInterDto> scholarInterDtos = this.textProvidesInterface.getExpertEditionScholarInterDtoList(acronym);
 
@@ -64,43 +72,43 @@ public class TextProvidesSearchController {
                 endDate = getIsAfterDate(endDate, ldoDDateDto.getDate());
             }
         }
-        ExpertEditionDto expertEditionDto = new ExpertEditionDto(acronym);
+        ExpertEditionForSearchDto expertEditionForSearchDto = new ExpertEditionForSearchDto(acronym);
         if (heteronyms.size() > 0) {
-            expertEditionDto.setHeteronyms(heteronyms);
+            expertEditionForSearchDto.setHeteronyms(heteronyms);
         }
         if (endDate != null && beginDate != null) {
-            expertEditionDto.setBeginDate(beginDate.getYear());
-            expertEditionDto.setEndDate(endDate.getYear());
+            expertEditionForSearchDto.setBeginDate(beginDate.getYear());
+            expertEditionForSearchDto.setEndDate(endDate.getYear());
         }
-        return expertEditionDto;
+        return expertEditionForSearchDto;
     }
 
     @RequestMapping(value = "/getPublicationsDates")
     @ResponseBody
-    public DatesJson getPublicationsDates() {
+    public DatesForSearchDto getPublicationsDates() {
         logger.debug("getPublicationsDates");
         LocalDate beginDate = null;
         LocalDate endDate = null;
-        for (Fragment fragment : TextModule.getInstance().getFragmentsSet()) {
-            for (Source source : fragment.getSourcesSet()) {
+        for (FragmentDto fragment : this.textProvidesInterface.getFragmentDtoSet()) {
+            for (SourceDto source : fragment.getSourcesSet()) {
                 if (source.getType().equals(Source.SourceType.PRINTED)) {
                     if (source.getLdoDDate() != null) {
-                        beginDate = getIsBeforeDate(beginDate, source.getLdoDDate().getDate());
-                        endDate = getIsAfterDate(endDate, source.getLdoDDate().getDate());
+                        beginDate = getIsBeforeDate(beginDate, source.getLdoDDate());
+                        endDate = getIsAfterDate(endDate, source.getLdoDDate());
                     }
                 }
             }
         }
-        DatesJson datesJson = new DatesJson();
+        DatesForSearchDto datesForSearchDto = new DatesForSearchDto();
         if (endDate != null && beginDate != null) {
-            datesJson.setBeginDate(beginDate.getYear());
-            datesJson.setEndDate(endDate.getYear());
+            datesForSearchDto.setBeginDate(beginDate.getYear());
+            datesForSearchDto.setEndDate(endDate.getYear());
         }
-        return datesJson;
+        return datesForSearchDto;
     }
 
-    private AuthoralJson getAuthoralDates(String mode) {
-        AuthoralJson json = new AuthoralJson();
+    private AuthoralForSearchDto getAuthoralDates(String mode) {
+        AuthoralForSearchDto json = new AuthoralForSearchDto();
         LocalDate beginDate = null;
         LocalDate endDate = null;
         ManuscriptSource.Medium[] values = ManuscriptSource.Medium.values();
@@ -129,7 +137,7 @@ public class TextProvidesSearchController {
             }
         }
         json.setMediums(array);
-        DatesJson dates = new DatesJson();
+        DatesForSearchDto dates = new DatesForSearchDto();
         if (endDate != null && beginDate != null) {
             dates.setBeginDate(beginDate.getYear());
             dates.setEndDate(endDate.getYear());
@@ -140,14 +148,14 @@ public class TextProvidesSearchController {
 
     @RequestMapping(value = "/getManuscriptsDates")
     @ResponseBody
-    public AuthoralJson getManuscript() {
+    public AuthoralForSearchDto getManuscript() {
         logger.debug("getManuscript");
         return getAuthoralDates(ManuscriptSearchOption.MANUSCRIPTID);
     }
 
     @RequestMapping(value = "/getDactiloscriptsDates")
     @ResponseBody
-    public AuthoralJson getDatiloscript() {
+    public AuthoralForSearchDto getDatiloscript() {
         return getAuthoralDates(TypescriptSearchOption.TYPESCRIPT);
     }
 
@@ -163,7 +171,7 @@ public class TextProvidesSearchController {
 
     @RequestMapping(value = "/getDates")
     @ResponseBody
-    public DatesJson getDates() {
+    public DatesForSearchDto getDates() {
         LocalDate beginDate = null;
         LocalDate endDate = null;
         for (Fragment fragment : TextModule.getInstance().getFragmentsSet()) {
@@ -180,7 +188,7 @@ public class TextProvidesSearchController {
                 }
             }
         }
-        DatesJson dates = new DatesJson();
+        DatesForSearchDto dates = new DatesForSearchDto();
         if (endDate != null && beginDate != null && endDate != beginDate) {
             dates.setBeginDate(beginDate.getYear());
             dates.setEndDate(endDate.getYear());

@@ -58,10 +58,12 @@ public class SourceDto {
 
     public LocalDate getLdoDDate() {
         return getSourceByXmlId(this.xmlId)
-                .filter(ManuscriptSource.class::isInstance)
-                .map(ManuscriptSource.class::cast)
-                .map(manuscriptSource -> manuscriptSource.getLdoDDate() != null ? manuscriptSource.getLdoDDate().getDate() : null)
+                .map(source -> source.getLdoDDate() != null ? source.getLdoDDate().getDate() : null)
                 .orElse(null);
+    }
+
+    public Source.SourceType getType() {
+        return getSourceByXmlId(this.xmlId).map(source -> source.getType()).orElse(null);
     }
 
     private Optional<Source> getSourceByXmlId(String xmlId) {
@@ -70,6 +72,5 @@ public class SourceDto {
                 .filter(source -> source.getXmlId().equals(xmlId))
                 .findAny();
     }
-
 
 }

@@ -47,7 +47,7 @@ public class SearchFrontendRequiresInterface {
     }
 
     public String getExpertEditionEditor(String xmlId) {
-        return this.textProvidesInterface.getExpertEditionEditor(xmlId);
+        return this.textProvidesInterface.getExpertEditionEditorByScholarInter(xmlId);
     }
 
     public LocalDate getScholarInterDate(String xmlId) {

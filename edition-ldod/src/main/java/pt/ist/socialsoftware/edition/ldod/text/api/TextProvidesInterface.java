@@ -81,7 +81,7 @@ public class TextProvidesInterface {
         return getExpertEditionByExpertEditionInterId(scholarInterId).map(expertEdition -> expertEdition.getAcronym()).orElse(null);
     }
 
-    public String getExpertEditionEditor(String scholarInterId) {
+    public String getExpertEditionEditorByScholarInter(String scholarInterId) {
         return getExpertEditionByExpertEditionInterId(scholarInterId).map(expertEdition -> expertEdition.getEditor()).orElse(null);
     }
 
@@ -123,6 +123,10 @@ public class TextProvidesInterface {
         return getFragmentByInterXmlId(scholarInterDto.getXmlId()).map(FragmentDto::new).orElse(null);
     }
 
+    public Set<SourceDto> getFragmentSourceSet(String xmlId) {
+        return getFragmentByFragmentXmlId(xmlId).orElse(null).getSourcesSet().stream().map(SourceDto::new).collect(Collectors.toSet());
+    }
+
     public ScholarInterDto getScholarInterDtoByFragmentXmlIdAndUrlId(String fragmentXmlId, String scholarInterUrlId) {
         ScholarInter scholarInter = getFragmentByFragmentXmlId(fragmentXmlId).orElse(null).getScholarInterByUrlId(scholarInterUrlId);
         return scholarInter != null ? new ScholarInterDto(scholarInter) : null;
@@ -154,6 +158,10 @@ public class TextProvidesInterface {
         return TextModule.getInstance().getSortedExpertEdition().stream().map(ExpertEditionDto::new).collect(Collectors.toList());
     }
 
+    public String getExpertEditionEditorByEditionAcronym(String acronym) {
+        return getExpertEditionByAcronym(acronym).map(expertEdition -> expertEdition.getEditor()).orElse(null);
+    }
+
     private Optional<ScholarInter> getScholarInterByXmlId(String xmlId) {
         return TextModule.getInstance().getFragmentsSet().stream()
                 .filter(fragment -> fragment.getScholarInterByXmlId(xmlId) != null).map(fragment -> fragment.getScholarInterByXmlId(xmlId)).findAny();
@@ -176,6 +184,5 @@ public class TextProvidesInterface {
         return TextModule.getInstance().getExpertEditionsSet().stream().filter(expertEdition -> expertEdition.getFragInterByXmlId(expertEditionInterId) != null)
                 .findAny();
     }
-
 
 }
