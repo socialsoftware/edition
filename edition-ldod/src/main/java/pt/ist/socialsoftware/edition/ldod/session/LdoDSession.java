@@ -8,8 +8,8 @@ import pt.ist.socialsoftware.edition.ldod.domain.ExpertEdition;
 import pt.ist.socialsoftware.edition.ldod.domain.User;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualModule;
-import pt.ist.socialsoftware.edition.ldod.recommendation.ReadingRecommendation;
 import pt.ist.socialsoftware.edition.ldod.user.api.UserProvidesInterface;
+import pt.ist.socialsoftware.edition.ldod.virtual.feature.recommendation.ReadingRecommendation;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;

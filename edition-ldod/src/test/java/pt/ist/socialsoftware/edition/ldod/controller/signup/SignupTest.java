@@ -14,10 +14,10 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.socialsoftware.edition.ldod.ControllersTestWithFragmentsLoading;
 import pt.ist.socialsoftware.edition.ldod.config.Application;
-import pt.ist.socialsoftware.edition.ldod.controller.LdoDExceptionHandler;
 import pt.ist.socialsoftware.edition.ldod.domain.RegistrationToken;
 import pt.ist.socialsoftware.edition.ldod.filters.TransactionFilter;
 import pt.ist.socialsoftware.edition.ldod.frontend.user.SignupController;
+import pt.ist.socialsoftware.edition.ldod.utils.controller.LdoDExceptionHandler;
 
 import java.io.FileNotFoundException;
 

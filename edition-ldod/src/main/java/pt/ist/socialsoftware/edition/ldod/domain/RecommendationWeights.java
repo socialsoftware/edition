@@ -2,7 +2,7 @@ package pt.ist.socialsoftware.edition.ldod.domain;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
-import pt.ist.socialsoftware.edition.ldod.recommendation.properties.*;
+import pt.ist.socialsoftware.edition.ldod.virtual.feature.recommendation.properties.*;
 
 import java.util.ArrayList;
 import java.util.List;

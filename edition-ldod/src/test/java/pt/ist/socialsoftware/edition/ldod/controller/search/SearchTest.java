@@ -17,11 +17,11 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.socialsoftware.edition.ldod.TestLoadUtils;
 import pt.ist.socialsoftware.edition.ldod.config.Application;
-import pt.ist.socialsoftware.edition.ldod.controller.LdoDExceptionHandler;
 import pt.ist.socialsoftware.edition.ldod.domain.ExpertEdition;
 import pt.ist.socialsoftware.edition.ldod.filters.TransactionFilter;
 import pt.ist.socialsoftware.edition.ldod.frontend.search.SearchFrontendController;
 import pt.ist.socialsoftware.edition.ldod.text.api.remote.search.TextProvidesSearchController;
+import pt.ist.socialsoftware.edition.ldod.utils.controller.LdoDExceptionHandler;
 import pt.ist.socialsoftware.edition.ldod.virtual.api.remote.VirtualProvidesSearchController;
 
 import java.io.FileNotFoundException;

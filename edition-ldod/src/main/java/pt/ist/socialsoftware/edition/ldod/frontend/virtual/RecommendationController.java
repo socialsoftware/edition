@@ -18,10 +18,10 @@ import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.dto.InterIdDistancePairDto;
 import pt.ist.socialsoftware.edition.ldod.dto.WeightsDto;
 import pt.ist.socialsoftware.edition.ldod.frontend.virtual.validator.VirtualEditionValidator;
-import pt.ist.socialsoftware.edition.ldod.recommendation.dto.RecommendVirtualEditionParam;
 import pt.ist.socialsoftware.edition.ldod.session.LdoDSession;
 import pt.ist.socialsoftware.edition.ldod.user.api.UserProvidesInterface;
 import pt.ist.socialsoftware.edition.ldod.utils.exception.LdoDCreateVirtualEditionException;
+import pt.ist.socialsoftware.edition.ldod.virtual.feature.recommendation.dto.RecommendVirtualEditionParam;
 
 import java.util.List;
 import java.util.stream.Collectors;

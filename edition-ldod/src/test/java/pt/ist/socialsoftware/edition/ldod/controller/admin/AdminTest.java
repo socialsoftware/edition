@@ -17,13 +17,15 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.socialsoftware.edition.ldod.TestLoadUtils;
 import pt.ist.socialsoftware.edition.ldod.config.Application;
-import pt.ist.socialsoftware.edition.ldod.controller.LdoDExceptionHandler;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.filters.TransactionFilter;
-import pt.ist.socialsoftware.edition.ldod.frontend.AdminController;
+import pt.ist.socialsoftware.edition.ldod.frontend.text.TextAdminController;
+import pt.ist.socialsoftware.edition.ldod.frontend.user.UserAdminController;
 import pt.ist.socialsoftware.edition.ldod.frontend.user.forms.EditUserForm;
+import pt.ist.socialsoftware.edition.ldod.frontend.virtual.VirtualAdminController;
 import pt.ist.socialsoftware.edition.ldod.user.feature.inout.UsersXMLExport;
 import pt.ist.socialsoftware.edition.ldod.utils.PropertiesManager;
+import pt.ist.socialsoftware.edition.ldod.utils.controller.LdoDExceptionHandler;
 import pt.ist.socialsoftware.edition.ldod.virtual.feature.inout.VirtualEditionsTEICorpusImport;
 
 import java.io.*;
@@ -52,9 +54,17 @@ public class AdminTest {
     PasswordEncoder passwordEncoder;
 
     @InjectMocks
-    AdminController adminController;
+    TextAdminController textAdminController;
 
-    protected MockMvc mockMvc;
+    @InjectMocks
+    UserAdminController userAdminController;
+
+    @InjectMocks
+    VirtualAdminController virtualAdminController;
+
+    protected MockMvc textMockMvc;
+    protected MockMvc userMockMvc;
+    protected MockMvc virtualMockMvc;
 
     @BeforeAll
     @Atomic(mode = Atomic.TxMode.WRITE)
@@ -70,7 +80,11 @@ public class AdminTest {
     @BeforeEach
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void setUp() throws FileNotFoundException {
-        this.mockMvc = MockMvcBuilders.standaloneSetup(this.adminController)
+        this.textMockMvc = MockMvcBuilders.standaloneSetup(this.textAdminController)
+                .setControllerAdvice(new LdoDExceptionHandler()).addFilters(new TransactionFilter()).build();
+        this.userMockMvc = MockMvcBuilders.standaloneSetup(this.userAdminController)
+                .setControllerAdvice(new LdoDExceptionHandler()).addFilters(new TransactionFilter()).build();
+        this.virtualMockMvc = MockMvcBuilders.standaloneSetup(this.virtualAdminController)
                 .setControllerAdvice(new LdoDExceptionHandler()).addFilters(new TransactionFilter()).build();
 
         TestLoadUtils.cleanDatabaseButCorpus();
@@ -87,7 +101,7 @@ public class AdminTest {
     @Test
     public void getLoadFormTest() throws Exception {
 
-        this.mockMvc.perform(get("/admin/loadForm"))
+        this.textMockMvc.perform(get("/admin/loadForm"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(view().name("admin/loadForm"))
@@ -131,7 +145,7 @@ public class AdminTest {
 
         MockMultipartFile mockFile = new MockMultipartFile("mockFile", fis);
 
-        this.mockMvc.perform(multipart("/admin/load/fragmentsAtOnce")
+        this.textMockMvc.perform(multipart("/admin/load/fragmentsAtOnce")
                 .file("file", mockFile.getBytes())
                 .characterEncoding("UTF-8"))
                 .andDo(print())
@@ -159,7 +173,7 @@ public class AdminTest {
         FileInputStream fis2 = new FileInputStream(frag2);
         MockMultipartFile mockFile2 = new MockMultipartFile("mockFile2", fis2);
 
-        this.mockMvc.perform(multipart("/admin/load/fragmentsStepByStep")
+        this.textMockMvc.perform(multipart("/admin/load/fragmentsStepByStep")
                 .file("files", mockFile1.getBytes())
                 .file("files", mockFile2.getBytes())
                 .characterEncoding("UTF-8"))
@@ -175,7 +189,7 @@ public class AdminTest {
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void getFragmentDeleteListTest() throws Exception {
 
-        this.mockMvc.perform(get("/admin/fragment/list")).andDo(print())
+        this.textMockMvc.perform(get("/admin/fragment/list")).andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(view().name("admin/deleteFragment"))
                 .andExpect(model().attribute("fragments", notNullValue()));
@@ -192,7 +206,7 @@ public class AdminTest {
 
         String id = TextModule.getInstance().getFragmentByXmlId("Fr001").getExternalId();
 
-        this.mockMvc.perform(post("/admin/fragment/delete")
+        this.textMockMvc.perform(post("/admin/fragment/delete")
                 .param("externalId", id))
                 .andDo(print())
                 .andExpect(status().is3xxRedirection())
@@ -205,7 +219,7 @@ public class AdminTest {
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void deleteFragmentErrorTest() throws Exception {
 
-        this.mockMvc.perform(post("/admin/fragment/delete")
+        this.textMockMvc.perform(post("/admin/fragment/delete")
                 .param("externalId", "ERROR"))
                 .andDo(print())
                 .andExpect(status().is3xxRedirection())
@@ -221,7 +235,7 @@ public class AdminTest {
         TestLoadUtils.loadFragments(fragments);
 
 
-        this.mockMvc.perform(post("/admin/fragment/deleteAll"))
+        this.textMockMvc.perform(post("/admin/fragment/deleteAll"))
                 .andDo(print())
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/admin/fragment/list"));
@@ -237,7 +251,7 @@ public class AdminTest {
 
         boolean original = UserModule.getInstance().getAdmin();
 
-        this.mockMvc.perform(post("/admin/switch")).andDo(print())
+        this.userMockMvc.perform(post("/admin/switch")).andDo(print())
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/admin/user/list"));
 
@@ -250,7 +264,7 @@ public class AdminTest {
 
         when(this.sessionRegistry.getAllPrincipals()).thenReturn(new ArrayList<>());
 
-        this.mockMvc.perform(post("/admin/sessions/delete"))
+        this.userMockMvc.perform(post("/admin/sessions/delete"))
                 .andDo(print())
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/admin/user/list"));
@@ -261,7 +275,7 @@ public class AdminTest {
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void getUserListTest() throws Exception {
 
-        this.mockMvc.perform(get("/admin/user/list")).andDo(print())
+        this.userMockMvc.perform(get("/admin/user/list")).andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(view().name("admin/listUsers"))
                 .andExpect(model().attribute("users", hasSize(2)))
@@ -275,7 +289,7 @@ public class AdminTest {
 
         User user = UserModule.getInstance().getUser("ars");
 
-        MvcResult res = this.mockMvc.perform(get("/admin/user/edit")
+        MvcResult res = this.userMockMvc.perform(get("/admin/user/edit")
                 .param("externalId", user.getExternalId()))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -306,7 +320,7 @@ public class AdminTest {
         temp.addRoles(user);
         temp.addRoles(admin);
 
-        this.mockMvc.perform(post("/admin/user/edit")
+        this.userMockMvc.perform(post("/admin/user/edit")
                 .param("oldUsername", "temp")
                 .param("newUsername", "newtemp")
                 .param("firstName", "Temp")
@@ -333,7 +347,7 @@ public class AdminTest {
 
         boolean original = user.getActive();
 
-        this.mockMvc.perform(post("/admin/user/active")
+        this.userMockMvc.perform(post("/admin/user/active")
                 .param("externalId", user.getExternalId()))
                 .andDo(print())
                 .andExpect(status().is3xxRedirection())
@@ -341,7 +355,7 @@ public class AdminTest {
 
         assertNotEquals(original, user.getActive());
 
-        this.mockMvc.perform(post("/admin/user/active")
+        this.userMockMvc.perform(post("/admin/user/active")
                 .param("externalId", user.getExternalId()))
                 .andDo(print())
                 .andExpect(status().is3xxRedirection())
@@ -364,7 +378,7 @@ public class AdminTest {
         temp.addRoles(user);
         temp.addRoles(admin);
 
-        this.mockMvc.perform(post("/admin/user/delete")
+        this.userMockMvc.perform(post("/admin/user/delete")
                 .param("externalId", temp.getExternalId()))
                 .andDo(print())
                 .andExpect(status().is3xxRedirection())
@@ -377,7 +391,7 @@ public class AdminTest {
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void getExportFormTest() throws Exception {
 
-        this.mockMvc.perform(get("/admin/exportForm"))
+        this.textMockMvc.perform(get("/admin/exportForm"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(view().name("admin/exportForm"));
@@ -392,7 +406,7 @@ public class AdminTest {
         String[] fragments = {"001.xml"};
         TestLoadUtils.loadFragments(fragments);
 
-        this.mockMvc.perform(post("/admin/exportSearch")
+        this.textMockMvc.perform(post("/admin/exportSearch")
                 .param("query", "arte"))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -411,7 +425,7 @@ public class AdminTest {
         String[] fragments = {"001.xml"};
         TestLoadUtils.loadFragments(fragments);
 
-        this.mockMvc.perform(post("/admin/exportSearchResult")
+        this.textMockMvc.perform(post("/admin/exportSearchResult")
                 .param("query", "arte"))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -428,7 +442,7 @@ public class AdminTest {
         String[] fragments = {"001.xml", "002.xml"};
         TestLoadUtils.loadFragments(fragments);
 
-        this.mockMvc.perform(get("/admin/exportAll"))
+        this.textMockMvc.perform(get("/admin/exportAll"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/tei+xml"))
@@ -444,7 +458,7 @@ public class AdminTest {
         String[] fragments = {"001.xml", "002.xml", "003.xml", "181.xml", "593.xml"};
         TestLoadUtils.loadFragments(fragments);
 
-        String response = this.mockMvc.perform(get("/admin/exportRandom"))
+        String response = this.textMockMvc.perform(get("/admin/exportRandom"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/tei+xml"))
@@ -466,7 +480,7 @@ public class AdminTest {
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void exportUsersTest() throws Exception {
 
-        this.mockMvc.perform(get("/admin/export/users"))
+        this.userMockMvc.perform(get("/admin/export/users"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/xml"))
@@ -489,7 +503,7 @@ public class AdminTest {
 
         MockMultipartFile mockFile = new MockMultipartFile("import", stream);
 
-        this.mockMvc.perform(multipart("/admin/load/users")
+        this.userMockMvc.perform(multipart("/admin/load/users")
                 .file("file", mockFile.getBytes())
                 .characterEncoding("UTF-8"))
                 .andDo(print())
@@ -504,7 +518,7 @@ public class AdminTest {
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void exportVirtualEditionsTest() throws Exception {
 
-        this.mockMvc.perform(get("/admin/export/virtualeditions"))
+        this.virtualMockMvc.perform(get("/admin/export/virtualeditions"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/zip"));
@@ -521,7 +535,7 @@ public class AdminTest {
         FileInputStream fis1 = new FileInputStream(corpus);
         MockMultipartFile mockFile1 = new MockMultipartFile("mockFile1", fis1);
 
-        this.mockMvc.perform(multipart("/admin/load/virtual-corpus")
+        this.virtualMockMvc.perform(multipart("/admin/load/virtual-corpus")
                 .file("file", mockFile1.getBytes())
                 .characterEncoding("UTF-8"))
                 .andDo(print())
@@ -557,7 +571,7 @@ public class AdminTest {
         FileInputStream fisfrag = new FileInputStream(frag1);
         MockMultipartFile mockFrag1 = new MockMultipartFile("frag1", fisfrag);
 
-        this.mockMvc.perform(multipart("/admin/load/virtual-fragments")
+        this.virtualMockMvc.perform(multipart("/admin/load/virtual-fragments")
                 .file("files", mockFrag1.getBytes())
                 .characterEncoding("UTF-8"))
                 .andDo(print())
@@ -571,7 +585,7 @@ public class AdminTest {
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void manageVirtualEditionsTest() throws Exception {
 
-        this.mockMvc.perform(get("/admin/virtual/list")).andDo(print())
+        this.virtualMockMvc.perform(get("/admin/virtual/list")).andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(view().name("admin/listVirtualEditions"))
                 .andExpect(model().attribute("editions", hasSize(1)));
@@ -582,7 +596,7 @@ public class AdminTest {
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void deleteVirtualEditionTest() throws Exception {
 
-        this.mockMvc.perform(post("/admin/virtual/delete")
+        this.virtualMockMvc.perform(post("/admin/virtual/delete")
                 .param("externalId", VirtualModule.getInstance().getArchiveEdition().getExternalId()))
                 .andDo(print())
                 .andExpect(status().is3xxRedirection())
@@ -596,7 +610,7 @@ public class AdminTest {
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void deleteVirtualEditionErrorTest() throws Exception {
 
-        this.mockMvc.perform(post("/admin/virtual/delete")
+        this.virtualMockMvc.perform(post("/admin/virtual/delete")
                 .param("externalId", "ERROR"))
                 .andDo(print())
                 .andExpect(status().is3xxRedirection())
@@ -613,7 +627,7 @@ public class AdminTest {
 
         when(this.passwordEncoder.encode(anyString())).thenReturn(p.encode(anyString()));
 
-        this.mockMvc.perform(post("/admin/createTestUsers"))
+        this.userMockMvc.perform(post("/admin/createTestUsers"))
                 .andDo(print())
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/admin/user/list"));
@@ -631,7 +645,7 @@ public class AdminTest {
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void manageTweetsTest() throws Exception {
 
-        this.mockMvc.perform(get("/admin/tweets")).andDo(print())
+        this.virtualMockMvc.perform(get("/admin/tweets")).andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(view().name("admin/manageTweets"))
                 .andExpect(model().attribute("citations", notNullValue()))
@@ -643,7 +657,7 @@ public class AdminTest {
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void deleteTweetsTest() throws Exception {
 
-        this.mockMvc.perform(post("/admin/tweets/removeTweets"))
+        this.virtualMockMvc.perform(post("/admin/tweets/removeTweets"))
                 .andDo(print())
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/admin/tweets"));
