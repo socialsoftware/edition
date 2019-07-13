@@ -96,45 +96,6 @@ public class TextProvidesSearchController {
         return datesForSearchDto;
     }
 
-    private AuthoralForSearchDto getAuthoralDates(String mode) {
-        AuthoralForSearchDto json = new AuthoralForSearchDto();
-        LocalDate beginDate = null;
-        LocalDate endDate = null;
-        ManuscriptSource.Medium[] values = ManuscriptSource.Medium.values();
-        String[] array = new String[values.length];
-        for (int i = 0; i < values.length; i++) {
-            array[i] = values[i].getDesc();
-        }
-        for (Fragment frag : TextModule.getInstance().getFragmentsSet()) {
-            for (ScholarInter scholarInter : frag.getScholarInterSet()) {
-                if (!scholarInter.isExpertInter()) {
-                    Source.SourceType type = ((SourceInter) scholarInter).getSource().getType();
-                    if (type.equals(Source.SourceType.MANUSCRIPT)) {
-                        ManuscriptSource source = (ManuscriptSource) ((SourceInter) scholarInter).getSource();
-                        if (mode.equals(ManuscriptSearchOption.MANUSCRIPTID)
-                                && source.getHandNoteSet().isEmpty()
-                                || (mode.equals(TypescriptSearchOption.TYPESCRIPT)
-                                && source.getTypeNoteSet().isEmpty())) {
-                            break;
-                        }
-                        if (source.getLdoDDate() != null) {
-                            beginDate = getIsBeforeDate(beginDate, source.getLdoDDate().getDate());
-                            endDate = getIsAfterDate(endDate, source.getLdoDDate().getDate());
-                        }
-                    }
-                }
-            }
-        }
-        json.setMediums(array);
-        DatesForSearchDto dates = new DatesForSearchDto();
-        if (endDate != null && beginDate != null) {
-            dates.setBeginDate(beginDate.getYear());
-            dates.setEndDate(endDate.getYear());
-        }
-        json.setDates(dates);
-        return json;
-    }
-
     @RequestMapping(value = "/getManuscriptsDates")
     @ResponseBody
     public AuthoralForSearchDto getManuscript() {
@@ -146,6 +107,45 @@ public class TextProvidesSearchController {
     @ResponseBody
     public AuthoralForSearchDto getDatiloscript() {
         return getAuthoralDates(TypescriptSearchOption.TYPESCRIPT);
+    }
+
+    private AuthoralForSearchDto getAuthoralDates(String mode) {
+        AuthoralForSearchDto authoralForSearchDto = new AuthoralForSearchDto();
+        LocalDate beginDate = null;
+        LocalDate endDate = null;
+        ManuscriptSource.Medium[] values = ManuscriptSource.Medium.values();
+        String[] array = new String[values.length];
+        for (int i = 0; i < values.length; i++) {
+            array[i] = values[i].getDesc();
+        }
+        for (FragmentDto frag : this.textProvidesInterface.getFragmentDtoSet()) {
+            for (ScholarInterDto scholarInter : frag.getScholarInterDtoSet()) {
+                if (scholarInter.isSourceInter()) {
+                    Source.SourceType type = scholarInter.getSourceDto().getType();
+                    if (type.equals(Source.SourceType.MANUSCRIPT)) {
+                        SourceDto source = scholarInter.getSourceDto();
+                        if (mode.equals(ManuscriptSearchOption.MANUSCRIPTID)
+                                && !source.hasHandNoteSet()
+                                || (mode.equals(TypescriptSearchOption.TYPESCRIPT)
+                                && !source.hasTypeNoteSet())) {
+                            break;
+                        }
+                        if (source.getLdoDDate() != null) {
+                            beginDate = getIsBeforeDate(beginDate, source.getLdoDDate());
+                            endDate = getIsAfterDate(endDate, source.getLdoDDate());
+                        }
+                    }
+                }
+            }
+        }
+        authoralForSearchDto.setMediums(array);
+        DatesForSearchDto dates = new DatesForSearchDto();
+        if (endDate != null && beginDate != null) {
+            dates.setBeginDate(beginDate.getYear());
+            dates.setEndDate(endDate.getYear());
+        }
+        authoralForSearchDto.setDates(dates);
+        return authoralForSearchDto;
     }
 
     @RequestMapping(value = "/getHeteronyms")

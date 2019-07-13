@@ -58,6 +58,10 @@ public class ScholarInterDto {
         return !this.textProvidesInterface.isExpertInter(this.xmlId);
     }
 
+    public SourceDto getSourceDto() {
+        return this.textProvidesInterface.getSourceOfSourceInter(this.xmlId);
+    }
+
     public String getExpertEditionAcronym() {
         return this.textProvidesInterface.getExpertEditionAcronym(this.xmlId);
     }
