@@ -1,11 +1,11 @@
-package pt.ist.socialsoftware.edition.ldod.user.controller.validator;
+package pt.ist.socialsoftware.edition.ldod.frontend.user.validator;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 import pt.ist.socialsoftware.edition.ldod.domain.UserModule;
-import pt.ist.socialsoftware.edition.ldod.user.controller.forms.EditUserForm;
+import pt.ist.socialsoftware.edition.ldod.frontend.user.forms.EditUserForm;
 
 public class EditUserValidator implements Validator {
     private static final Logger logger = LoggerFactory.getLogger(EditUserValidator.class);

@@ -1,4 +1,4 @@
-package pt.ist.socialsoftware.edition.ldod.user.controller.forms;
+package pt.ist.socialsoftware.edition.ldod.frontend.user.forms;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;

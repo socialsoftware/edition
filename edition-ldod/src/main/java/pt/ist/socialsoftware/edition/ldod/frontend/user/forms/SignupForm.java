@@ -1,4 +1,4 @@
-package pt.ist.socialsoftware.edition.ldod.user.controller.forms;
+package pt.ist.socialsoftware.edition.ldod.frontend.user.forms;
 
 import org.springframework.social.connect.UserProfile;
 

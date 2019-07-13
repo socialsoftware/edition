@@ -1,4 +1,4 @@
-package pt.ist.socialsoftware.edition.ldod.game.classification;
+package pt.ist.socialsoftware.edition.ldod.game.feature.classification;
 
 import org.joda.time.DateTime;
 import org.joda.time.Instant;

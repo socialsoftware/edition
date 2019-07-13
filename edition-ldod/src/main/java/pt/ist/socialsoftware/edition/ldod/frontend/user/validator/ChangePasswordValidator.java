@@ -1,4 +1,4 @@
-package pt.ist.socialsoftware.edition.ldod.user.controller.validator;
+package pt.ist.socialsoftware.edition.ldod.frontend.user.validator;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -7,7 +7,7 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 import pt.ist.socialsoftware.edition.ldod.domain.User;
 import pt.ist.socialsoftware.edition.ldod.domain.UserModule;
-import pt.ist.socialsoftware.edition.ldod.user.controller.forms.ChangePasswordForm;
+import pt.ist.socialsoftware.edition.ldod.frontend.user.forms.ChangePasswordForm;
 
 public class ChangePasswordValidator implements Validator {
     private static final Logger logger = LoggerFactory.getLogger(ChangePasswordValidator.class);

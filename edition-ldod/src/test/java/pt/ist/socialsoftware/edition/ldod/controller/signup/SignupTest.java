@@ -17,7 +17,7 @@ import pt.ist.socialsoftware.edition.ldod.config.Application;
 import pt.ist.socialsoftware.edition.ldod.controller.LdoDExceptionHandler;
 import pt.ist.socialsoftware.edition.ldod.domain.RegistrationToken;
 import pt.ist.socialsoftware.edition.ldod.filters.TransactionFilter;
-import pt.ist.socialsoftware.edition.ldod.user.controller.SignupController;
+import pt.ist.socialsoftware.edition.ldod.frontend.user.SignupController;
 
 import java.io.FileNotFoundException;
 

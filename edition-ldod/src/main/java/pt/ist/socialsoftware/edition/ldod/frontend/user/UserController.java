@@ -1,4 +1,4 @@
-package pt.ist.socialsoftware.edition.ldod.user.controller;
+package pt.ist.socialsoftware.edition.ldod.frontend.user;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import pt.ist.socialsoftware.edition.ldod.domain.User;
 import pt.ist.socialsoftware.edition.ldod.domain.UserModule;
-import pt.ist.socialsoftware.edition.ldod.user.controller.forms.ChangePasswordForm;
-import pt.ist.socialsoftware.edition.ldod.user.controller.validator.ChangePasswordValidator;
+import pt.ist.socialsoftware.edition.ldod.frontend.user.forms.ChangePasswordForm;
+import pt.ist.socialsoftware.edition.ldod.frontend.user.validator.ChangePasswordValidator;
 
 import javax.inject.Inject;
 import javax.validation.Valid;

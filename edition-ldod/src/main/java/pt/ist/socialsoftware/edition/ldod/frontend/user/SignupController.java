@@ -1,4 +1,4 @@
-package pt.ist.socialsoftware.edition.ldod.user.controller;
+package pt.ist.socialsoftware.edition.ldod.frontend.user;
 
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
@@ -20,7 +20,7 @@ import org.springframework.web.context.request.WebRequest;
 import pt.ist.socialsoftware.edition.ldod.domain.RegistrationToken;
 import pt.ist.socialsoftware.edition.ldod.domain.User;
 import pt.ist.socialsoftware.edition.ldod.domain.UserModule;
-import pt.ist.socialsoftware.edition.ldod.user.controller.forms.SignupForm;
+import pt.ist.socialsoftware.edition.ldod.frontend.user.forms.SignupForm;
 import pt.ist.socialsoftware.edition.ldod.utils.PropertiesManager;
 import pt.ist.socialsoftware.edition.ldod.utils.exception.LdoDException;
 

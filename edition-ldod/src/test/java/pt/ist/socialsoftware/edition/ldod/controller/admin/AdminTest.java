@@ -21,7 +21,7 @@ import pt.ist.socialsoftware.edition.ldod.controller.LdoDExceptionHandler;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.filters.TransactionFilter;
 import pt.ist.socialsoftware.edition.ldod.frontend.AdminController;
-import pt.ist.socialsoftware.edition.ldod.user.controller.forms.EditUserForm;
+import pt.ist.socialsoftware.edition.ldod.frontend.user.forms.EditUserForm;
 import pt.ist.socialsoftware.edition.ldod.user.feature.inout.UsersXMLExport;
 import pt.ist.socialsoftware.edition.ldod.utils.PropertiesManager;
 import pt.ist.socialsoftware.edition.ldod.virtual.feature.inout.VirtualEditionsTEICorpusImport;

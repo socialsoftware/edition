@@ -10,7 +10,7 @@ import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.socialsoftware.edition.ldod.domain.ClassificationGame;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualModule;
-import pt.ist.socialsoftware.edition.ldod.game.classification.GameRunner;
+import pt.ist.socialsoftware.edition.ldod.game.feature.classification.GameRunner;
 import pt.ist.socialsoftware.edition.ldod.virtual.feature.inout.WriteVirtualEditonsToFile;
 import pt.ist.socialsoftware.edition.ldod.virtual.feature.socialaware.AwareAnnotationFactory;
 import pt.ist.socialsoftware.edition.ldod.virtual.feature.socialaware.CitationDetecter;

@@ -19,8 +19,8 @@ import pt.ist.socialsoftware.edition.ldod.domain.Role;
 import pt.ist.socialsoftware.edition.ldod.domain.User;
 import pt.ist.socialsoftware.edition.ldod.domain.UserModule;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualModule;
-import pt.ist.socialsoftware.edition.ldod.user.controller.UserController;
-import pt.ist.socialsoftware.edition.ldod.user.controller.forms.ChangePasswordForm;
+import pt.ist.socialsoftware.edition.ldod.frontend.user.UserController;
+import pt.ist.socialsoftware.edition.ldod.frontend.user.forms.ChangePasswordForm;
 import pt.ist.socialsoftware.edition.ldod.utils.Bootstrap;
 
 import java.io.FileNotFoundException;
