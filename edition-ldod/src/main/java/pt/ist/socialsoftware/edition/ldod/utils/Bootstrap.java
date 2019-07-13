@@ -19,7 +19,9 @@ import pt.ist.socialsoftware.edition.ldod.topicmodeling.TopicModeler;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import java.io.*;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
@@ -102,6 +104,7 @@ public class Bootstrap implements WebApplicationInitializer {
                 ArrayList<String> menuNames = new ArrayList<>();
                 ArrayList<String[]> optionNames = new ArrayList<>();
                 ArrayList<String[]> optionLinks = new ArrayList<>();
+                ArrayList<Integer[]> optionNumbers = new ArrayList<>();
 
                 String entry;
                 while ((entry = br.readLine()) != null) {
@@ -112,24 +115,32 @@ public class Bootstrap implements WebApplicationInitializer {
 
                     ArrayList<String> optionMenuNames = new ArrayList<>();
                     ArrayList<String> optionLinkNames = new ArrayList<>();
+                    ArrayList<Integer> optionOrder = new ArrayList<>();
 
                     for (String option : menuOptions) {
                         String[] optionEntry = option.split("#");
                         optionMenuNames.add(optionEntry[0]);
                         optionLinkNames.add(optionEntry[1]);
+                        optionOrder.add(Integer.valueOf(optionEntry[2]));
                     }
 
                     optionNames.add(optionMenuNames.toArray(new String[0]));
                     optionLinks.add(optionLinkNames.toArray(new String[0]));
+                    optionNumbers.add(optionOrder.toArray(new Integer[0]));
                 }
-                createModuleInfo(uiComponent, menuNames.toArray(new String[0]), optionNames.toArray(new String[0][]), optionLinks.toArray(new String[0][]));
+
+                for(Integer[] numbers : optionNumbers)
+                logger.debug(Arrays.toString(numbers));
+
+                createModuleInfo(uiComponent, menuNames.toArray(new String[0]), optionNames.toArray(new String[0][]),
+                        optionLinks.toArray(new String[0][]), optionNumbers.toArray(new Integer[0][]));
             }
         } catch (IOException e) {
             throw new LdoDException("loadModuleInfoFromFiles could not read module config files");
         }
     }
 
-    public static void createEditionLdoDModuleInfo() {
+    /*public static void createEditionLdoDModuleInfo() {
         // TODO: Only defined for main edition-ldod module. Should be decomposed into its submodules
 
         EditionModule module = new EditionModule("edition-ldod");
@@ -227,13 +238,14 @@ public class Bootstrap implements WebApplicationInitializer {
 
         createModuleInfo(uiComponent, menuNames, optionNames, optionLinks);
 
-    }
+    }*/
 
-    private static void createModuleInfo(UiComponent uiComponent, String[] menuNames, String[][] optionNames, String[][] optionLinks) {
+    private static void createModuleInfo(UiComponent uiComponent, String[] menuNames, String[][] optionNames, String[][] optionLinks,
+                                            Integer[][] optionNumbers) {
         for (int i = 0; i < menuNames.length; i++) {
             Menu menu = new Menu(uiComponent, menuNames[i], i);
             for (int j = 0; j < optionNames[i].length; j++) {
-                new Option(menu, optionNames[i][j], optionLinks[i][j], j);
+                new Option(menu, optionNames[i][j], optionLinks[i][j], optionNumbers[i][j]);
             }
         }
     }

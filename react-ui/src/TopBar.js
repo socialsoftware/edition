@@ -170,30 +170,33 @@ class TopBar extends React.Component {
 
         this.state = {
             moduleInfo: null,
+            isConfigLoaded: false,
             isLoaded: false,
         };
     }
 
     retrieveModuleInfoData() {
-        if (this.props.config !== null) {
-            this.setState({
-                moduleInfo: this.props.config,
-                isLoaded: true,
-            });
-        } else {
-            axios.get(`${SERVER_URL}/api/services/frontend/module-info`)
-                .then((result) => {
-                    this.props.setModuleConfig(result.data);
+        axios.get(`${SERVER_URL}/api/services/frontend/module-info`)
+            .then((result) => {
+                this.props.setModuleConfig(result.data);
 
-                    this.setState({
-                        moduleInfo: result.data,
-                        isLoaded: true,
-                    });
-                },
-                      (result) => {
-                          console.log(`Failed to load moduleInfo. Status code ${result.status}`);
-                      });
-        }
+                this.setState({
+                    isConfigLoaded: true,
+                });
+            },
+                  (result) => {
+                      console.log(`Failed to load moduleInfo. Status code ${result.status}`);
+                  });
+        axios.get(`${SERVER_URL}/api/services/frontend/topbar-config`)
+            .then((result) => {
+                this.setState({
+                    moduleInfo: result.data,
+                    isLoaded: true,
+                });
+            },
+                  (result) => {
+                      console.log(`Failed to load topBar config. Status code ${result.status}`);
+                  });
     }
 
     logoutUser(event) {
@@ -208,22 +211,14 @@ class TopBar extends React.Component {
     }
 
     render() {
-        if (this.state.isLoaded) {
-            const moduleNames = Object.keys(this.state.moduleInfo);
-
+        if (this.state.isLoaded && this.state.isConfigLoaded) {
             const topBarComponents = [];
 
-            let userExists = false;
-
-            for (let i = 0; i < moduleNames.length; i++) {
-                if (moduleNames[i] === 'edition-user') { userExists = true; }
-
-                const menus = Object.keys(this.state.moduleInfo[moduleNames[i]]);
+            for (let i = 0; i < this.state.moduleInfo.length; i++) {
+                const menus = Object.keys(this.state.moduleInfo[i]);
 
                 for (let j = 0; j < menus.length; j++) {
-                    // if (menus[j] === 'topBar.virtual.title') continue;
-
-                    const options = this.state.moduleInfo[moduleNames[i]][menus[j]];
+                    const options = this.state.moduleInfo[i][menus[j]];
 
                     let menuJson = [];
 
@@ -261,7 +256,7 @@ class TopBar extends React.Component {
             return (
                 <nav className={'ldod-navbar navbar navbar-default navbar-fixed-top'}>
                     <TopBarStatic
-                        userExists={userExists}
+                        userExists={this.props.config.includes('edition-user')}
                         status={this.props.status}
                         logout={this.logoutUser}
                         name={name} />
