@@ -1,11 +1,11 @@
-package pt.ist.socialsoftware.edition.ldod.shared.exception;
+package pt.ist.socialsoftware.edition.ldod.utils.exception;
 
 public class LdoDDuplicateUsernameException extends LdoDException {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public LdoDDuplicateUsernameException(String message) {
-		super(message);
-	}
+    public LdoDDuplicateUsernameException(String message) {
+        super(message);
+    }
 
 }

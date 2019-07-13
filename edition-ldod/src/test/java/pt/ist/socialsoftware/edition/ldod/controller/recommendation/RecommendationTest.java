@@ -24,8 +24,8 @@ import pt.ist.socialsoftware.edition.ldod.domain.VirtualModule;
 import pt.ist.socialsoftware.edition.ldod.dto.InterIdDistancePairDto;
 import pt.ist.socialsoftware.edition.ldod.dto.WeightsDto;
 import pt.ist.socialsoftware.edition.ldod.filters.TransactionFilter;
+import pt.ist.socialsoftware.edition.ldod.frontend.virtual.RecommendationController;
 import pt.ist.socialsoftware.edition.ldod.recommendation.dto.RecommendVirtualEditionParam;
-import pt.ist.socialsoftware.edition.ldod.virtual.controller.RecommendationController;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;

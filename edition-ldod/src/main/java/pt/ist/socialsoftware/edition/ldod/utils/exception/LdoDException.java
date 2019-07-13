@@ -1,24 +1,24 @@
-package pt.ist.socialsoftware.edition.ldod.shared.exception;
+package pt.ist.socialsoftware.edition.ldod.utils.exception;
 
 import java.io.Serializable;
 
 public class LdoDException extends RuntimeException implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	protected String message;
+    protected String message;
 
-	public LdoDException() {
-		this.message = "";
-	}
+    public LdoDException() {
+        this.message = "";
+    }
 
-	public LdoDException(String message) {
-		this.message = message;
-	}
+    public LdoDException(String message) {
+        this.message = message;
+    }
 
-	@Override
-	public String getMessage() {
-		return message;
-	}
+    @Override
+    public String getMessage() {
+        return this.message;
+    }
 
 }

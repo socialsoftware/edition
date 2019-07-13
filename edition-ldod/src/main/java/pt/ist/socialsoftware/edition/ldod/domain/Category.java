@@ -2,8 +2,8 @@ package pt.ist.socialsoftware.edition.ldod.domain;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
-import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDDuplicateNameException;
-import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
+import pt.ist.socialsoftware.edition.ldod.utils.exception.LdoDDuplicateNameException;
+import pt.ist.socialsoftware.edition.ldod.utils.exception.LdoDException;
 
 import java.text.Normalizer;
 import java.util.ArrayList;

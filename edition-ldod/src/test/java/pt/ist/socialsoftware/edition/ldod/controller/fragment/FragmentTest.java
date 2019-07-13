@@ -19,7 +19,7 @@ import pt.ist.socialsoftware.edition.ldod.config.Application;
 import pt.ist.socialsoftware.edition.ldod.controller.LdoDExceptionHandler;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.filters.TransactionFilter;
-import pt.ist.socialsoftware.edition.ldod.text.controller.FragmentController;
+import pt.ist.socialsoftware.edition.ldod.frontend.text.FragmentController;
 import pt.ist.socialsoftware.edition.ldod.utils.AnnotationDTO;
 import pt.ist.socialsoftware.edition.ldod.utils.PermissionDTO;
 import pt.ist.socialsoftware.edition.ldod.utils.RangeJson;

@@ -1,6 +1,6 @@
 package pt.ist.socialsoftware.edition.ldod.domain;
 
-import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
+import pt.ist.socialsoftware.edition.ldod.utils.exception.LdoDException;
 
 public class Tweet extends Tweet_Base {
 

@@ -8,8 +8,8 @@ import pt.ist.socialsoftware.edition.ldod.domain.ExpertEditionInter;
 import pt.ist.socialsoftware.edition.ldod.domain.Fragment;
 import pt.ist.socialsoftware.edition.ldod.domain.RecommendationWeights;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
-import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
 import pt.ist.socialsoftware.edition.ldod.text.feature.indexer.Indexer;
+import pt.ist.socialsoftware.edition.ldod.utils.exception.LdoDException;
 
 import java.io.IOException;
 import java.util.ArrayList;

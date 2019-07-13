@@ -12,12 +12,12 @@ import org.slf4j.LoggerFactory;
 import pt.ist.socialsoftware.edition.ldod.domain.Taxonomy;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
-import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
 import pt.ist.socialsoftware.edition.ldod.text.api.TextProvidesInterface;
 import pt.ist.socialsoftware.edition.ldod.utils.PropertiesManager;
 import pt.ist.socialsoftware.edition.ldod.utils.TopicDTO;
 import pt.ist.socialsoftware.edition.ldod.utils.TopicInterPercentageDTO;
 import pt.ist.socialsoftware.edition.ldod.utils.TopicListDTO;
+import pt.ist.socialsoftware.edition.ldod.utils.exception.LdoDException;
 
 import java.io.File;
 import java.io.FileFilter;

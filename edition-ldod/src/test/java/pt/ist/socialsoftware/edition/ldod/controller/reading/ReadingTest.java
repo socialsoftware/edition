@@ -18,7 +18,7 @@ import pt.ist.socialsoftware.edition.ldod.config.Application;
 import pt.ist.socialsoftware.edition.ldod.controller.LdoDExceptionHandler;
 import pt.ist.socialsoftware.edition.ldod.domain.ExpertEdition;
 import pt.ist.socialsoftware.edition.ldod.filters.TransactionFilter;
-import pt.ist.socialsoftware.edition.ldod.virtual.controller.ReadingController;
+import pt.ist.socialsoftware.edition.ldod.frontend.virtual.ReadingController;
 
 import java.io.FileNotFoundException;
 

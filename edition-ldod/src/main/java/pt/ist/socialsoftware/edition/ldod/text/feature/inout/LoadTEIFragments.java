@@ -19,10 +19,10 @@ import pt.ist.socialsoftware.edition.ldod.domain.ManuscriptSource.Medium;
 import pt.ist.socialsoftware.edition.ldod.domain.RefText.RefType;
 import pt.ist.socialsoftware.edition.ldod.domain.SpaceText.SpaceDim;
 import pt.ist.socialsoftware.edition.ldod.domain.SpaceText.SpaceUnit;
-import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
-import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDLoadException;
 import pt.ist.socialsoftware.edition.ldod.text.api.dto.ScholarInterDto;
 import pt.ist.socialsoftware.edition.ldod.text.feature.indexer.Indexer;
+import pt.ist.socialsoftware.edition.ldod.utils.exception.LdoDException;
+import pt.ist.socialsoftware.edition.ldod.utils.exception.LdoDLoadException;
 import pt.ist.socialsoftware.edition.ldod.virtual.feature.topicmodeling.CorpusGenerator;
 
 import java.io.FileNotFoundException;

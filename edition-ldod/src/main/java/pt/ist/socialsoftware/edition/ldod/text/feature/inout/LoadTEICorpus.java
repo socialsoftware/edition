@@ -13,8 +13,8 @@ import pt.ist.socialsoftware.edition.ldod.domain.ExpertEdition;
 import pt.ist.socialsoftware.edition.ldod.domain.Heteronym;
 import pt.ist.socialsoftware.edition.ldod.domain.TextModule;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualModule;
-import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDLoadException;
 import pt.ist.socialsoftware.edition.ldod.utils.DateUtils;
+import pt.ist.socialsoftware.edition.ldod.utils.exception.LdoDLoadException;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;

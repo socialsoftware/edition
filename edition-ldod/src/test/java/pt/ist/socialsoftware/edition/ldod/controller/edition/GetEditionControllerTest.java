@@ -12,7 +12,7 @@ import pt.ist.socialsoftware.edition.ldod.ControllersTestWithFragmentsLoading;
 import pt.ist.socialsoftware.edition.ldod.config.Application;
 import pt.ist.socialsoftware.edition.ldod.domain.ExpertEdition;
 import pt.ist.socialsoftware.edition.ldod.domain.TextModule;
-import pt.ist.socialsoftware.edition.ldod.text.controller.EditionController;
+import pt.ist.socialsoftware.edition.ldod.frontend.text.EditionController;
 
 import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;

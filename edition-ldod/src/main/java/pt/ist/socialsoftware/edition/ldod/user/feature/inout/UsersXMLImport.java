@@ -13,8 +13,8 @@ import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.domain.Role.RoleType;
 import pt.ist.socialsoftware.edition.ldod.domain.User.SocialMediaService;
-import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
-import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDLoadException;
+import pt.ist.socialsoftware.edition.ldod.utils.exception.LdoDException;
+import pt.ist.socialsoftware.edition.ldod.utils.exception.LdoDLoadException;
 
 import java.io.*;
 import java.nio.charset.Charset;

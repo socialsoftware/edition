@@ -5,12 +5,12 @@ import org.slf4j.LoggerFactory;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.fenixframework.FenixFramework;
-import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
 import pt.ist.socialsoftware.edition.ldod.user.api.UserProvidesInterface;
 import pt.ist.socialsoftware.edition.ldod.user.api.dto.UserDto;
 import pt.ist.socialsoftware.edition.ldod.utils.TopicDTO;
 import pt.ist.socialsoftware.edition.ldod.utils.TopicInterPercentageDTO;
 import pt.ist.socialsoftware.edition.ldod.utils.TopicListDTO;
+import pt.ist.socialsoftware.edition.ldod.utils.exception.LdoDException;
 
 import java.util.*;
 import java.util.stream.Collectors;

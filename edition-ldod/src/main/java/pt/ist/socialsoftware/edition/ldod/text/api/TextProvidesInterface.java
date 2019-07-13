@@ -3,9 +3,9 @@ package pt.ist.socialsoftware.edition.ldod.text.api;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
-import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
 import pt.ist.socialsoftware.edition.ldod.text.api.dto.*;
 import pt.ist.socialsoftware.edition.ldod.text.feature.indexer.Indexer;
+import pt.ist.socialsoftware.edition.ldod.utils.exception.LdoDException;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;

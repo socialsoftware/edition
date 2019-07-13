@@ -5,7 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
-import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
+import pt.ist.socialsoftware.edition.ldod.utils.exception.LdoDException;
 
 import java.util.*;
 import java.util.stream.Collectors;

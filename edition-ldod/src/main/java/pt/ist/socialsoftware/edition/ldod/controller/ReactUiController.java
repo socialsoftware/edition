@@ -14,7 +14,6 @@ import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.ldod.api.ui.FragInterDto;
 import pt.ist.socialsoftware.edition.ldod.api.ui.UiInterface;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
-import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
 import pt.ist.socialsoftware.edition.ldod.text.feature.generators.HtmlWriter2CompInters;
 import pt.ist.socialsoftware.edition.ldod.text.feature.generators.HtmlWriter4Variations;
 import pt.ist.socialsoftware.edition.ldod.text.feature.generators.PlainHtmlWriter4OneInter;
@@ -23,6 +22,7 @@ import pt.ist.socialsoftware.edition.ldod.user.api.dto.UserDto;
 import pt.ist.socialsoftware.edition.ldod.utils.AnnotationDTO;
 import pt.ist.socialsoftware.edition.ldod.utils.AnnotationSearchJson;
 import pt.ist.socialsoftware.edition.ldod.utils.CategoryDTO;
+import pt.ist.socialsoftware.edition.ldod.utils.exception.LdoDException;
 
 import javax.inject.Inject;
 import java.util.*;

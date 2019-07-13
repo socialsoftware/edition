@@ -20,9 +20,9 @@ import org.springframework.web.context.request.WebRequest;
 import pt.ist.socialsoftware.edition.ldod.domain.RegistrationToken;
 import pt.ist.socialsoftware.edition.ldod.domain.User;
 import pt.ist.socialsoftware.edition.ldod.domain.UserModule;
-import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
 import pt.ist.socialsoftware.edition.ldod.user.controller.forms.SignupForm;
 import pt.ist.socialsoftware.edition.ldod.utils.PropertiesManager;
+import pt.ist.socialsoftware.edition.ldod.utils.exception.LdoDException;
 
 import javax.inject.Inject;
 import javax.mail.MessagingException;

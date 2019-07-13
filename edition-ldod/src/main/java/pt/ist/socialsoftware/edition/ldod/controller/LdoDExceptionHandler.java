@@ -11,7 +11,7 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import pt.ist.socialsoftware.edition.ldod.domain.TextModule;
 import pt.ist.socialsoftware.edition.ldod.domain.User;
-import pt.ist.socialsoftware.edition.ldod.shared.exception.*;
+import pt.ist.socialsoftware.edition.ldod.utils.exception.*;
 
 import javax.servlet.http.HttpServletRequest;
 

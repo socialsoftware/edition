@@ -6,7 +6,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
-import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
 import pt.ist.socialsoftware.edition.ldod.text.api.TextProvidesInterface;
 import pt.ist.socialsoftware.edition.ldod.text.api.dto.FragmentDto;
 import pt.ist.socialsoftware.edition.ldod.text.api.dto.HeteronymDto;
@@ -14,6 +13,7 @@ import pt.ist.socialsoftware.edition.ldod.text.api.dto.LdoDDateDto;
 import pt.ist.socialsoftware.edition.ldod.text.api.dto.ScholarInterDto;
 import pt.ist.socialsoftware.edition.ldod.utils.CategoryDTO;
 import pt.ist.socialsoftware.edition.ldod.utils.RangeJson;
+import pt.ist.socialsoftware.edition.ldod.utils.exception.LdoDException;
 
 import java.util.*;
 import java.util.stream.Collectors;

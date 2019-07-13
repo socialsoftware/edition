@@ -11,7 +11,7 @@ import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.socialsoftware.edition.ldod.MockitoExtension;
 import pt.ist.socialsoftware.edition.ldod.TestLoadUtils;
 import pt.ist.socialsoftware.edition.ldod.TestWithFragmentsLoading;
-import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
+import pt.ist.socialsoftware.edition.ldod.utils.exception.LdoDException;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;

@@ -5,7 +5,7 @@ import pt.ist.socialsoftware.edition.ldod.domain.ManuscriptSource;
 import pt.ist.socialsoftware.edition.ldod.domain.PrintedSource;
 import pt.ist.socialsoftware.edition.ldod.domain.Source;
 import pt.ist.socialsoftware.edition.ldod.domain.TextModule;
-import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
+import pt.ist.socialsoftware.edition.ldod.utils.exception.LdoDException;
 
 import java.util.Optional;
 

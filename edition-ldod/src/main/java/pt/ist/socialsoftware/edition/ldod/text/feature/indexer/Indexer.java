@@ -24,9 +24,9 @@ import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.ldod.domain.Fragment;
 import pt.ist.socialsoftware.edition.ldod.domain.ScholarInter;
 import pt.ist.socialsoftware.edition.ldod.domain.SourceInter;
-import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
 import pt.ist.socialsoftware.edition.ldod.text.feature.generators.PlainTextFragmentWriter;
 import pt.ist.socialsoftware.edition.ldod.utils.PropertiesManager;
+import pt.ist.socialsoftware.edition.ldod.utils.exception.LdoDException;
 
 import java.io.File;
 import java.io.IOException;

@@ -7,7 +7,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.fenixframework.FenixFramework;
-import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDDuplicateUsernameException;
+import pt.ist.socialsoftware.edition.ldod.utils.exception.LdoDDuplicateUsernameException;
 
 public class UserModule extends UserModule_Base {
     public static Logger logger = LoggerFactory.getLogger(UserModule.class);

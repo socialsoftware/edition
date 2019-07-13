@@ -1,4 +1,4 @@
-package pt.ist.socialsoftware.edition.ldod.virtual.controller;
+package pt.ist.socialsoftware.edition.ldod.frontend.virtual;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.*;
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.session.LdoDSession;
-import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
 import pt.ist.socialsoftware.edition.ldod.text.feature.generators.PlainHtmlWriter4OneInter;
+import pt.ist.socialsoftware.edition.ldod.utils.exception.LdoDException;
 
 import java.util.Set;
 

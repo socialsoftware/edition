@@ -1,4 +1,4 @@
-package pt.ist.socialsoftware.edition.ldod.virtual.controller;
+package pt.ist.socialsoftware.edition.ldod.frontend.virtual;
 
 import org.apache.lucene.queryparser.classic.ParseException;
 import org.joda.time.DateTime;
@@ -22,8 +22,8 @@ import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.domain.Member.MemberRole;
 import pt.ist.socialsoftware.edition.ldod.dto.*;
 import pt.ist.socialsoftware.edition.ldod.frontend.game.validator.ClassificationGameValidator;
+import pt.ist.socialsoftware.edition.ldod.frontend.virtual.validator.VirtualEditionValidator;
 import pt.ist.socialsoftware.edition.ldod.session.LdoDSession;
-import pt.ist.socialsoftware.edition.ldod.shared.exception.*;
 import pt.ist.socialsoftware.edition.ldod.text.api.dto.ScholarInterDto;
 import pt.ist.socialsoftware.edition.ldod.text.feature.generators.PlainHtmlWriter4OneInter;
 import pt.ist.socialsoftware.edition.ldod.text.feature.indexer.Indexer;
@@ -32,7 +32,7 @@ import pt.ist.socialsoftware.edition.ldod.user.api.dto.UserDto;
 import pt.ist.socialsoftware.edition.ldod.user.feature.security.UserModuleUserDetails;
 import pt.ist.socialsoftware.edition.ldod.utils.PropertiesManager;
 import pt.ist.socialsoftware.edition.ldod.utils.TopicListDTO;
-import pt.ist.socialsoftware.edition.ldod.virtual.controller.validator.VirtualEditionValidator;
+import pt.ist.socialsoftware.edition.ldod.utils.exception.*;
 import pt.ist.socialsoftware.edition.ldod.virtual.feature.socialaware.AwareAnnotationFactory;
 import pt.ist.socialsoftware.edition.ldod.virtual.feature.topicmodeling.TopicModeler;
 

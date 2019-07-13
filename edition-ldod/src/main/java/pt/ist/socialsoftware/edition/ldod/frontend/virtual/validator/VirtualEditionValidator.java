@@ -1,4 +1,4 @@
-package pt.ist.socialsoftware.edition.ldod.virtual.controller.validator;
+package pt.ist.socialsoftware.edition.ldod.frontend.virtual.validator;
 
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.ldod.utils.validator.AbstractLdoDValidator;
