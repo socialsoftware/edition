@@ -5,11 +5,7 @@ import { connect } from 'react-redux';
 import { setCompareIdsType, setInterId } from '../../actions/actions';
 import { SERVER_URL } from '../../utils/Constants';
 
-const mapStateToProps = (state) => {
-    const config = Object.keys(state.moduleConfig);
-
-    return { config };
-};
+const mapStateToProps = state => ({ config: state.moduleConfig });
 
 class Navigation extends React.Component {
     constructor(props) {

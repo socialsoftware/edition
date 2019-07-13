@@ -42,12 +42,21 @@ public class ReactUiController {
     @Inject
     private PasswordEncoder passwordEncoder;
 
-    // /api/services/frontend/module-info
     @GetMapping(value = "/module-info", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<?> getModuleInfo() {
+
+        List<String> moduleNames = FenixFramework.getDomainRoot().getModuleSet()
+                .stream().map(EditionModule::getName).collect(Collectors.toList());
+
+        return new ResponseEntity<>(moduleNames, HttpStatus.OK);
+    }
+
+    // /api/services/frontend/module-info
+    @GetMapping(value = "/topbar-config", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<?> getTopBarConfig() {
         Set<EditionModule> moduleSet = FenixFramework.getDomainRoot().getModuleSet();
 
-        Map<String, Map<String, List<AbstractMap.SimpleEntry<String, String>>>> results = new LinkedHashMap<>();
+        List<Map<String, List<AbstractMap.SimpleEntry<String, String>>>> results = new ArrayList<>();
 
 
         for (EditionModule module : moduleSet) {
@@ -57,7 +66,7 @@ public class ReactUiController {
                         .map(option -> new AbstractMap.SimpleEntry<>(option.getName(), option.getLink())).collect(Collectors.toList());
                 temp.put(menu.getName(), links);
             }
-            results.put(module.getName(), temp);
+            results.add(temp);
         }
 
         return new ResponseEntity<>(results, HttpStatus.OK);
