@@ -7,7 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import pt.ist.socialsoftware.edition.ldod.domain.*;
+import pt.ist.socialsoftware.edition.ldod.domain.ManuscriptSource;
+import pt.ist.socialsoftware.edition.ldod.domain.Source;
 import pt.ist.socialsoftware.edition.ldod.search.feature.options.ManuscriptSearchOption;
 import pt.ist.socialsoftware.edition.ldod.search.feature.options.TypescriptSearchOption;
 import pt.ist.socialsoftware.edition.ldod.text.api.TextProvidesInterface;
@@ -152,7 +153,7 @@ public class TextProvidesSearchController {
     @ResponseBody
     public Map<String, String> getHeteronyms() {
         Map<String, String> heteronyms = new HashMap<>();
-        for (Heteronym heteronym : TextModule.getInstance().getHeteronymsSet()) { //TODO: change this so it gets heteronym info from the interface
+        for (HeteronymDto heteronym : this.textProvidesInterface.getHeteronymDtoSet()) {
             heteronyms.put(heteronym.getName(), heteronym.getXmlId());
         }
         return heteronyms;
@@ -163,17 +164,17 @@ public class TextProvidesSearchController {
     public DatesForSearchDto getDates() {
         LocalDate beginDate = null;
         LocalDate endDate = null;
-        for (Fragment fragment : TextModule.getInstance().getFragmentsSet()) {
-            for (ScholarInter scholarInter : fragment.getScholarInterSet()) {
+        for (FragmentDto fragment : this.textProvidesInterface.getFragmentDtoSet()) {
+            for (ScholarInterDto scholarInter : fragment.getScholarInterDtoSet()) {
                 if (scholarInter.getLdoDDate() != null) {
                     beginDate = getIsBeforeDate(beginDate, scholarInter.getLdoDDate().getDate());
                     endDate = getIsAfterDate(endDate, scholarInter.getLdoDDate().getDate());
                 }
             }
-            for (Source source : fragment.getSourcesSet()) {
+            for (SourceDto source : fragment.getSourcesSet()) {
                 if (source.getLdoDDate() != null) {
-                    beginDate = getIsBeforeDate(beginDate, source.getLdoDDate().getDate());
-                    endDate = getIsAfterDate(endDate, source.getLdoDDate().getDate());
+                    beginDate = getIsBeforeDate(beginDate, source.getLdoDDate());
+                    endDate = getIsAfterDate(endDate, source.getLdoDDate());
                 }
             }
         }

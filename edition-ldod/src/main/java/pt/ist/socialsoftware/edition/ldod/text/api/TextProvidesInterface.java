@@ -25,6 +25,10 @@ public class TextProvidesInterface {
         return getScholarInterByXmlId(scholarInterId).map(scholarInter -> scholarInter.getHeteronym().getXmlId()).orElse(null);
     }
 
+    public Set<HeteronymDto> getHeteronymDtoSet() {
+        return TextModule.getInstance().getHeteronymsSet().stream().map(HeteronymDto::new).collect(Collectors.toSet());
+    }
+
     public String getScholarInterTitle(String scholarInterId) {
         return getScholarInterByXmlId(scholarInterId).map(scholarInter -> scholarInter.getTitle()).orElse(null);
     }
