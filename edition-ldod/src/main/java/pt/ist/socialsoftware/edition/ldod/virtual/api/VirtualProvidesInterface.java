@@ -72,10 +72,18 @@ public class VirtualProvidesInterface {
                 .orElse(new HashSet<>());
     }
 
+    public String getVirtualEditionTitleByAcronym(String acronym) {
+        return getVirtualEditionByAcronym(acronym).map(virtualEdition -> virtualEdition.getTitle()).orElse(null);
+    }
+
     private Optional<VirtualEditionInter> getVirtualEditionInterByXmlId(String xmlId) {
         return VirtualModule.getInstance().getVirtualEditionInterSet().stream()
                 .filter(virtualEditionInter -> virtualEditionInter.getXmlId().equals(xmlId)).findAny();
     }
 
+    private Optional<VirtualEdition> getVirtualEditionByAcronym(String acronym) {
+        return VirtualModule.getInstance().getVirtualEditionsSet().stream()
+                .filter(virtualEdition -> virtualEdition.getAcronym().equals(acronym)).findAny();
+    }
 
 }

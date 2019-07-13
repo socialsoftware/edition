@@ -3,10 +3,7 @@ package pt.ist.socialsoftware.edition.ldod.text.api.remote.search;
 import org.joda.time.LocalDate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -30,14 +27,6 @@ public class TextProvidesSearchController {
     private static final Logger logger = LoggerFactory.getLogger(TextProvidesSearchController.class);
 
     TextProvidesInterface textProvidesInterface = new TextProvidesInterface();
-
-    /*
-     * EditionController Sets all the empty boxes to null instead of the empty string ""
-     */
-    @InitBinder
-    public void initBinder(WebDataBinder binder) {
-        binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
-    }
 
     @RequestMapping(value = "/getEditions")
     @ResponseBody
