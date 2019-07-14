@@ -16,6 +16,7 @@ import pt.ist.socialsoftware.edition.ldod.user.api.dto.UserDto;
 import pt.ist.socialsoftware.edition.ldod.utils.PropertiesManager;
 import pt.ist.socialsoftware.edition.ldod.utils.exception.LdoDDuplicateAcronymException;
 import pt.ist.socialsoftware.edition.ldod.utils.exception.LdoDException;
+import pt.ist.socialsoftware.edition.ldod.virtual.api.VirtualRequiresInterface;
 import pt.ist.socialsoftware.edition.ldod.virtual.feature.recommendation.VSMVirtualEditionInterRecommender;
 import pt.ist.socialsoftware.edition.ldod.virtual.feature.recommendation.properties.Property;
 
@@ -27,7 +28,7 @@ import java.util.stream.Collectors;
 public class VirtualEdition extends VirtualEdition_Base {
     private static final Logger logger = LoggerFactory.getLogger(VirtualEdition.class);
 
-    public static final String ARCHIVE_EDITION_NAME = "Edição do Arquivo VirtualModule";
+    public static final String ARCHIVE_EDITION_NAME = "Arquivo LdoD";
     public static String ACRONYM_PREFIX = "LdoD-";
 
     @Override
@@ -456,7 +457,9 @@ public class VirtualEdition extends VirtualEdition_Base {
     }
 
     public boolean isPublicOrIsParticipant() {
-        return getPub() || getParticipantSet().contains(User.getAuthenticatedUser());
+        VirtualRequiresInterface virtualRequiresInterface = new VirtualRequiresInterface();
+
+        return getPub() || getParticipantSet().contains(virtualRequiresInterface.getAuthenticatedUser());
     }
 
     public List<VirtualEditionInter> getAllDepthVirtualEditionInters() {

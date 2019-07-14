@@ -90,7 +90,7 @@ public class APIVirtualEditionController {
 
         if (userDto != null) {
             List<VirtualEditionInterListDto> result = VirtualModule.getInstance().getVirtualEditionsSet().stream().filter(
-                    virtualEdition -> virtualEdition.getParticipantList().contains(username) && virtualEdition.getPub())
+                    virtualEdition -> virtualEdition.getParticipantSet().contains(username) && virtualEdition.getPub())
                     .map(ve -> new VirtualEditionInterListDto(ve, true)).collect(Collectors.toList());
 
             return new ResponseEntity<>(result, HttpStatus.OK);

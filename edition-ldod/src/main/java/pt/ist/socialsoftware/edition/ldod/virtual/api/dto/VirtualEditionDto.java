@@ -22,4 +22,8 @@ public class VirtualEditionDto {
         return this.acronym;
     }
 
+    public String getTitle() {
+        return this.virtualProvidesInterface.getVirtualEditionTitleByAcronym(this.acronym);
+    }
+
 }
