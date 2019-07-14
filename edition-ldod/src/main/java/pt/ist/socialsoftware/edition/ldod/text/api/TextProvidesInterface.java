@@ -141,6 +141,10 @@ public class TextProvidesInterface {
         return getFragmentByFragmentXmlId(xmlId).map(fragment -> fragment.getExternalId()).orElse(null);
     }
 
+    public String getScholarInterExternalId(String xmlId) {
+        return getScholarInterByXmlId(xmlId).map(scholarInter -> scholarInter.getExternalId()).orElse(null);
+    }
+
     public Set<FragmentDto> getFragmentDtoSet() {
         return TextModule.getInstance().getFragmentsSet().stream().map(FragmentDto::new).collect(Collectors.toSet());
     }

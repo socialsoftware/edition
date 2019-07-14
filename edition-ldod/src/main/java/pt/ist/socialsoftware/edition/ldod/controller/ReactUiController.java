@@ -14,6 +14,9 @@ import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.ldod.api.ui.FragInterDto;
 import pt.ist.socialsoftware.edition.ldod.api.ui.UiInterface;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
+import pt.ist.socialsoftware.edition.ldod.text.api.TextProvidesInterface;
+import pt.ist.socialsoftware.edition.ldod.text.api.dto.FragmentDto;
+import pt.ist.socialsoftware.edition.ldod.text.api.dto.ScholarInterDto;
 import pt.ist.socialsoftware.edition.ldod.text.feature.generators.HtmlWriter2CompInters;
 import pt.ist.socialsoftware.edition.ldod.text.feature.generators.HtmlWriter4Variations;
 import pt.ist.socialsoftware.edition.ldod.text.feature.generators.PlainHtmlWriter4OneInter;
@@ -38,6 +41,7 @@ public class ReactUiController {
     private static final Logger logger = LoggerFactory.getLogger(ReactUiController.class);
 
     private final UserProvidesInterface userProvidesInterface = new UserProvidesInterface();
+    private final TextProvidesInterface textProvidesInterface = new TextProvidesInterface();
 
     @Inject
     private PasswordEncoder passwordEncoder;
@@ -52,7 +56,6 @@ public class ReactUiController {
         return new ResponseEntity<>(moduleNames, HttpStatus.OK);
     }
 
-    // /api/services/frontend/module-info
     @GetMapping(value = "/topbar-config", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<?> getTopBarConfig() {
         Set<EditionModule> moduleSet = FenixFramework.getDomainRoot().getModuleSet();
@@ -89,7 +92,7 @@ public class ReactUiController {
     @GetMapping(value = "/frag-info", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<?> getFragmentInfo(@RequestParam String xmlId) {
 
-        Fragment fragment = TextModule.getInstance().getFragmentByXmlId(xmlId);
+        FragmentDto fragment = this.textProvidesInterface.getFragmentByXmlId(xmlId);
 
         if (fragment == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -143,7 +146,7 @@ public class ReactUiController {
     @GetMapping(value = "/source-inter", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<?> getFragmentSourceInterInfo(@RequestParam String xmlId) {
 
-        Fragment fragment = TextModule.getInstance().getFragmentByXmlId(xmlId);
+        FragmentDto fragment = this.textProvidesInterface.getFragmentByXmlId(xmlId);
 
         if (fragment == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -151,7 +154,11 @@ public class ReactUiController {
 
         Set<Map<String, String>> interInfo = new LinkedHashSet<>();
 
-        for (SourceInter sourceInter : fragment.getSortedSourceInter()) {
+        Set<ScholarInterDto> sourceDtos = fragment.getScholarInterDtoSet().stream()
+                .filter(ScholarInterDto::isSourceInter).collect(Collectors.toSet());
+
+
+        for (ScholarInterDto sourceInter : sourceDtos) {
             Map<String, String> info = new LinkedHashMap<>();
             info.put("xmlId", sourceInter.getXmlId());
             info.put("shortName", sourceInter.getShortName());
@@ -166,7 +173,7 @@ public class ReactUiController {
 
     @GetMapping(value = "/expert-edition", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<?> getExpertEditionInfo() {
-        List<AbstractMap.SimpleEntry<String, String>> expertEditionInfo = TextModule.getInstance().getSortedExpertEdition().stream()
+        List<AbstractMap.SimpleEntry<String, String>> expertEditionInfo = this.textProvidesInterface.getSortedExpertEditionsDto().stream()
                 .map(expertEdition -> new AbstractMap.SimpleEntry<>(expertEdition.getAcronym(), expertEdition.getEditor())).collect(Collectors.toList());
 
         return new ResponseEntity<>(expertEditionInfo, HttpStatus.OK);
