@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * @author ars
@@ -64,19 +65,10 @@ public class Bootstrap implements WebApplicationInitializer {
             loadRecommendationCache();
         }
 
-        //TODO : temporary way of loading module info into database. Should be loaded using a config file/s or another
-        // more elegant way
-
         // clean existing module info.
         FenixFramework.getDomainRoot().getModuleSet().forEach(EditionModule::remove);
 
         loadModuleInfoFromFiles();
-
-        //createEditionLdoDModuleInfo();
-        /*createEditionTextModuleInfo();
-        createEditionUserModuleInfo();
-        createEditionSearchModuleInfo();
-        createEditionVirtualModuleInfo();*/
     }
 
     public static void loadModuleInfoFromFiles() {
@@ -100,145 +92,61 @@ public class Bootstrap implements WebApplicationInitializer {
 
                 BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
 
-                ArrayList<String> menuNames = new ArrayList<>();
-                ArrayList<String[]> optionNames = new ArrayList<>();
-                ArrayList<String[]> optionLinks = new ArrayList<>();
-                ArrayList<Integer[]> optionNumbers = new ArrayList<>();
+                readModuleConfig(uiComponent, br);
+            }
 
-                String entry;
-                while ((entry = br.readLine()) != null) {
-                    String[] menuEntry = entry.split(" : ");
-                    menuNames.add(menuEntry[0]);
+            String customName = FenixFramework.getDomainRoot().getModuleSet().stream().map(EditionModule::getName)
+                    .map(s -> s.replace("edition-", "")).collect(Collectors.joining("-"));
 
-                    String[] menuOptions = menuEntry[1].split(", ");
+            logger.debug(customName);
 
-                    ArrayList<String> optionMenuNames = new ArrayList<>();
-                    ArrayList<String> optionLinkNames = new ArrayList<>();
-                    ArrayList<Integer> optionOrder = new ArrayList<>();
+            if(Arrays.asList(directory.list()).contains(customName + ".txt")){ //custom config specified.
+                EditionModule module = new EditionModule("Custom");
+                UiComponent uiComponent = new UiComponent(module);
 
-                    for (String option : menuOptions) {
-                        String[] optionEntry = option.split("#");
-                        optionMenuNames.add(optionEntry[0]);
-                        optionLinkNames.add(optionEntry[1]);
-                        optionOrder.add(Integer.valueOf(optionEntry[2]));
-                    }
+                File file = new File(directory, customName + ".txt");
 
-                    optionNames.add(optionMenuNames.toArray(new String[0]));
-                    optionLinks.add(optionLinkNames.toArray(new String[0]));
-                    optionNumbers.add(optionOrder.toArray(new Integer[0]));
-                }
+                BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
 
-                for (Integer[] numbers : optionNumbers) {
-                    logger.debug(Arrays.toString(numbers));
-                }
-
-                createModuleInfo(uiComponent, menuNames.toArray(new String[0]), optionNames.toArray(new String[0][]),
-                        optionLinks.toArray(new String[0][]), optionNumbers.toArray(new Integer[0][]));
+                readModuleConfig(uiComponent, br);
             }
         } catch (IOException e) {
             throw new LdoDException("loadModuleInfoFromFiles could not read module config files");
         }
     }
 
-    /*public static void createEditionLdoDModuleInfo() {
-        // TODO: Only defined for main edition-ldod module. Should be decomposed into its submodules
+    private static void readModuleConfig(UiComponent uiComponent, BufferedReader br) throws IOException {
+        ArrayList<String> menuNames = new ArrayList<>();
+        ArrayList<String[]> optionNames = new ArrayList<>();
+        ArrayList<String[]> optionLinks = new ArrayList<>();
+        ArrayList<Integer[]> optionNumbers = new ArrayList<>();
 
-        EditionModule module = new EditionModule("edition-ldod");
-        UiComponent uiComponent = new UiComponent(module);
+        String entry;
+        while ((entry = br.readLine()) != null) {
+            String[] menuEntry = entry.split(" : ");
+            menuNames.add(menuEntry[0]);
 
-        String[] menuNames = {"topBar.about.title", "topBar.reading.title", "topBar.documents.title", "topBar.editions.title",
-                "topBar.search.title", "topBar.virtual.title"};
-        String[][] optionNames = {{"topBar.about.archive", "topBar.about.videos", "topBar.about.faq", "topBar.about.encoding",
-                "topBar.about.articles", "topBar.about.conduct", "topBar.about.privacy", "topBar.about.team",
-                "topBar.about.acknowledgements", "topBar.about.contact", "topBar.about.copyright"},
-                {"topBar.reading.reading", "topBar.reading.visual", "topBar.reading.citations"},
-                {"topBar.documents.witnesses", "topBar.documents.fragments"},
-                {"Jacinto do Prado Coelho", "Teresa Sobral Cunha", "Richard Zenith", "Jerónimo Pizarro", "Arquivo VirtualModule",
-                        "VirtualModule-JPC-ANOT", "VirtualModule-JOGO-CLASS", "VirtualModule-MALLET", "VirtualModule-TWITTER"},
-                {"topBar.search.simple", "topBar.search.advanced"},
-                {"topBar.virtual.editions", "topBar.virtual.game"}
-        };
+            String[] menuOptions = menuEntry[1].split(", ");
 
-        String[][] optionLinks = {{"/about/archive", "/about/videos", "/about/faq", "/about/encoding", "/about/articles",
-                "/about/conduct", "/about/privacy", "/about/team", "/about/acknowledgements", "/about/contact", "/about/copyright"},
-                {"/reading", "/ldod-visual", "/citations"}, {"/source/list", "/fragments"},
-                {"/edition/acronym/JPC", "/edition/acronym/TSC", "/edition/acronym/rz", "/edition/acronym/JP", "/edition/acronym/VirtualModule-Arquivo",
-                        "/edition/acronym/VirtualModule-JPC-anot", "/edition/acronym/VirtualModule-Jogo-Class", "/edition/acronym/VirtualModule-Mallet", "/edition/acronym/VirtualModule-Twitter"},
-                {"/search/simple", "/search/advanced"},
-                {"/virtualeditions", "/classificationGames"}
-        };
+            ArrayList<String> optionMenuNames = new ArrayList<>();
+            ArrayList<String> optionLinkNames = new ArrayList<>();
+            ArrayList<Integer> optionOrder = new ArrayList<>();
 
-        createModuleInfo(uiComponent, menuNames, optionNames, optionLinks);
+            for (String option : menuOptions) {
+                String[] optionEntry = option.split("#");
+                optionMenuNames.add(optionEntry[0]);
+                optionLinkNames.add(optionEntry[1]);
+                optionOrder.add(Integer.valueOf(optionEntry[2]));
+            }
 
+            optionNames.add(optionMenuNames.toArray(new String[0]));
+            optionLinks.add(optionLinkNames.toArray(new String[0]));
+            optionNumbers.add(optionOrder.toArray(new Integer[0]));
+        }
+
+        createModuleInfo(uiComponent, menuNames.toArray(new String[0]), optionNames.toArray(new String[0][]),
+                optionLinks.toArray(new String[0][]), optionNumbers.toArray(new Integer[0][]));
     }
-
-    public static void createEditionTextModuleInfo() {
-        EditionModule module = new EditionModule("edition-text");
-        UiComponent uiComponent = new UiComponent(module);
-
-        String[] menuNames = {"topBar.about.title", "topBar.reading.title", "topBar.documents.title", "topBar.editions.title"};
-        String[][] optionNames = {{"topBar.about.archive", "topBar.about.videos", "topBar.about.faq", "topBar.about.encoding",
-                "topBar.about.articles", "topBar.about.conduct", "topBar.about.privacy", "topBar.about.team",
-                "topBar.about.acknowledgements", "topBar.about.contact", "topBar.about.copyright"},
-                {"topBar.reading.reading", "topBar.reading.visual", "topBar.reading.citations"},
-                {"topBar.documents.witnesses", "topBar.documents.fragments"},
-                {"Jacinto do Prado Coelho", "Teresa Sobral Cunha", "Richard Zenith", "Jerónimo Pizarro"}
-        };
-
-        String[][] optionLinks = {{"/about/archive", "/about/videos", "/about/faq", "/about/encoding", "/about/articles",
-                "/about/conduct", "/about/privacy", "/about/team", "/about/acknowledgements", "/about/contact", "/about/copyright"},
-                {"/reading", "/ldod-visual", "/citations"}, {"/source/list", "/fragments"},
-                {"/edition/acronym/JPC", "/edition/acronym/TSC", "/edition/acronym/RZ", "/edition/acronym/JP"}
-        };
-
-        createModuleInfo(uiComponent, menuNames, optionNames, optionLinks);
-    }
-
-    public static void createEditionUserModuleInfo() {
-
-        EditionModule module = new EditionModule("edition-user");
-        UiComponent uiComponent = new UiComponent(module);
-
-        String[] menuNames = {};
-        String[][] optionNames = {};
-
-        String[][] optionLinks = {};
-
-        createModuleInfo(uiComponent, menuNames, optionNames, optionLinks);
-
-    }
-
-    public static void createEditionSearchModuleInfo() {
-
-        EditionModule module = new EditionModule("edition-search");
-        UiComponent uiComponent = new UiComponent(module);
-
-        String[] menuNames = {"topBar.search.title"};
-        String[][] optionNames = {{"topBar.search.simple", "topBar.search.advanced"}};
-
-        String[][] optionLinks = {{"/search/simple", "/search/advanced"}};
-
-        createModuleInfo(uiComponent, menuNames, optionNames, optionLinks);
-
-    }
-
-    public static void createEditionVirtualModuleInfo() {
-        EditionModule module = new EditionModule("edition-virtual");
-        UiComponent uiComponent = new UiComponent(module);
-
-        String[] menuNames = {"topBar.editions.title", "topBar.virtual.title"};
-        String[][] optionNames = {{"Arquivo VirtualModule", "VirtualModule-JPC-ANOT", "VirtualModule-JOGO-CLASS", "VirtualModule-MALLET", "VirtualModule-TWITTER"},
-                {"topBar.virtual.editions", "topBar.virtual.game"}
-        };
-
-        String[][] optionLinks = {{"/edition/acronym/VirtualModule-Arquivo", "/edition/acronym/VirtualModule-JPC-anot",
-                "/edition/acronym/VirtualModule-Jogo-Class", "/edition/acronym/VirtualModule-Mallet", "/edition/acronym/VirtualModule-Twitter"},
-                {"/virtualeditions", "/classificationGames"}
-        };
-
-        createModuleInfo(uiComponent, menuNames, optionNames, optionLinks);
-
-    }*/
 
     private static void createModuleInfo(UiComponent uiComponent, String[] menuNames, String[][] optionNames, String[][] optionLinks,
                                          Integer[][] optionNumbers) {
