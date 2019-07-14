@@ -22,7 +22,7 @@ import pt.ist.socialsoftware.edition.ldod.filters.TransactionFilter;
 import pt.ist.socialsoftware.edition.ldod.frontend.search.SearchFrontendController;
 import pt.ist.socialsoftware.edition.ldod.text.api.remote.search.TextProvidesSearchController;
 import pt.ist.socialsoftware.edition.ldod.utils.controller.LdoDExceptionHandler;
-import pt.ist.socialsoftware.edition.ldod.virtual.api.remote.VirtualProvidesSearchController;
+import pt.ist.socialsoftware.edition.ldod.virtual.api.remote.search.VirtualProvidesSearchController;
 
 import java.io.FileNotFoundException;
 

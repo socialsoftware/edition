@@ -1,4 +1,4 @@
-package pt.ist.socialsoftware.edition.ldod.virtual.api.remote;
+package pt.ist.socialsoftware.edition.ldod.virtual.api.remote.search;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,6 +1,5 @@
 package pt.ist.socialsoftware.edition.ldod.frontend.virtual;
 
-import org.apache.lucene.queryparser.classic.ParseException;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
@@ -20,29 +19,23 @@ import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.ldod.api.ui.UiInterface;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.domain.Member.MemberRole;
-import pt.ist.socialsoftware.edition.ldod.dto.*;
+import pt.ist.socialsoftware.edition.ldod.dto.EditionTranscriptionsDto;
+import pt.ist.socialsoftware.edition.ldod.dto.TranscriptionDto;
 import pt.ist.socialsoftware.edition.ldod.frontend.game.validator.ClassificationGameValidator;
 import pt.ist.socialsoftware.edition.ldod.frontend.virtual.validator.VirtualEditionValidator;
 import pt.ist.socialsoftware.edition.ldod.session.LdoDSession;
 import pt.ist.socialsoftware.edition.ldod.text.api.dto.ScholarInterDto;
-import pt.ist.socialsoftware.edition.ldod.text.feature.generators.PlainHtmlWriter4OneInter;
-import pt.ist.socialsoftware.edition.ldod.text.feature.indexer.Indexer;
 import pt.ist.socialsoftware.edition.ldod.user.api.UserProvidesInterface;
 import pt.ist.socialsoftware.edition.ldod.user.api.dto.UserDto;
 import pt.ist.socialsoftware.edition.ldod.user.feature.security.UserModuleUserDetails;
-import pt.ist.socialsoftware.edition.ldod.utils.PropertiesManager;
 import pt.ist.socialsoftware.edition.ldod.utils.TopicListDTO;
 import pt.ist.socialsoftware.edition.ldod.utils.exception.*;
 import pt.ist.socialsoftware.edition.ldod.virtual.feature.socialaware.AwareAnnotationFactory;
 import pt.ist.socialsoftware.edition.ldod.virtual.feature.topicmodeling.TopicModeler;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.*;
-import java.util.Map.Entry;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Controller
 @SessionAttributes({"ldoDSession"})
@@ -283,133 +276,6 @@ public class VirtualEditionController {
         ldoDSession.toggleSelectedVirtualEdition(user, virtualEdition);
 
         return "redirect:/virtualeditions";
-    }
-
-    @GetMapping("/public")
-    public @ResponseBody
-    ResponseEntity<List<VirtualEditionInterListDto>> getEditions() {
-        logger.debug("getEditions");
-
-        List<VirtualEditionInterListDto> result =
-                Stream.concat(TextModule.getInstance().getExpertEditionsSet().stream().map(expertEdition -> new VirtualEditionInterListDto(expertEdition)),
-                        VirtualModule.getInstance().getVirtualEditionsSet().stream().filter(virtualEdition -> virtualEdition.getPub())
-                                .map(virtualEdition -> new VirtualEditionInterListDto(virtualEdition, false)))
-                        .collect(Collectors.toList());
-
-        return new ResponseEntity<>(result, HttpStatus.OK);
-    }
-
-    @RequestMapping(method = RequestMethod.GET, value = "/acronym/{acronym}/fragments")
-    @PreAuthorize("hasPermission(#acronym, 'editionacronym.public')")
-    public @ResponseBody
-    ResponseEntity<EditionFragmentsDto> getFragments(@PathVariable String acronym) {
-        logger.debug("getFragments acronym:{}", acronym);
-
-        EditionFragmentsDto editionFragments = new EditionFragmentsDto();
-        ExpertEdition expertEdition = TextModule.getInstance().getExpertEdition(acronym);
-        if (expertEdition != null) {
-            editionFragments.setCategories(new ArrayList<>());
-
-            List<FragmentViewDto> fragments = new ArrayList<>();
-
-            expertEdition.getExpertEditionIntersSet().stream().sorted(Comparator.comparing(ExpertEditionInter::getTitle))
-                    .forEach(inter -> {
-                        PlainHtmlWriter4OneInter writer = new PlainHtmlWriter4OneInter(inter);
-                        writer.write(false);
-                        FragmentViewDto fragment = new FragmentViewDto(inter, writer.getTranscription());
-
-                        fragments.add(fragment);
-                    });
-
-            editionFragments.setFragments(fragments);
-
-            return new ResponseEntity<>(editionFragments, HttpStatus.OK);
-        } else {
-            VirtualEdition virtualEdition = VirtualModule.getInstance().getVirtualEdition(acronym);
-            if (virtualEdition != null) {
-                editionFragments.setCategories(virtualEdition.getTaxonomy().getSortedCategories().stream()
-                        .map(c -> c.getName()).collect(Collectors.toList()));
-
-                List<FragmentViewDto> fragments = new ArrayList<>();
-
-                virtualEdition.getAllDepthVirtualEditionInters().stream().sorted(Comparator.comparing(VirtualEditionInter::getTitle))
-                        .forEach(inter -> {
-                            PlainHtmlWriter4OneInter writer = new PlainHtmlWriter4OneInter(inter.getLastUsed().getXmlId());
-                            writer.write(false);
-                            FragmentViewDto fragment = new FragmentViewDto(inter, writer.getTranscription());
-
-                            fragments.add(fragment);
-                        });
-
-                editionFragments.setFragments(fragments);
-
-                return new ResponseEntity<>(editionFragments, HttpStatus.OK);
-            }
-
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-
-    }
-
-    @RequestMapping(method = RequestMethod.GET, value = "/acronym/{acronym}/interId/{interId}/tfidf")
-    @PreAuthorize("hasPermission(#acronym, 'editionacronym.public')")
-    public @ResponseBody
-    ResponseEntity<List<Entry<String, Double>>> getInterIdTFIDFTerms(
-            @PathVariable String acronym, @PathVariable String interId) throws IOException, ParseException {
-        logger.debug("getInterIdTFIDFTerms acronym:{}", acronym);
-
-        DomainObject domainObject = FenixFramework.getDomainObject(interId);
-        ScholarInter scholarInter;
-
-
-        if (domainObject == null) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        } else if (domainObject instanceof VirtualEditionInter) {
-            scholarInter = TextModule.getInstance().getScholarInterByXmlId(((VirtualEditionInter) domainObject).getLastUsed().getXmlId());
-        } else if (domainObject instanceof ScholarInter) {
-            scholarInter = (ScholarInter) domainObject;
-        } else {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-
-        List<Entry<String, Double>> result = Indexer.getIndexer()
-                .getTermFrequency(scholarInter).entrySet().stream()
-                .sorted(Comparator.comparing(Map.Entry::getValue)).collect(Collectors.toList());
-
-        return new ResponseEntity<>(result, HttpStatus.OK);
-    }
-
-    @RequestMapping(method = RequestMethod.GET, value = "/acronym/{acronym}/transcriptions")
-    @PreAuthorize("hasPermission(#acronym, 'editionacronym.public')")
-    public @ResponseBody
-    ResponseEntity<EditionTranscriptionsDto> getTranscriptions(Model model,
-                                                               @PathVariable String acronym) {
-        logger.debug("getTranscriptions acronym:{}", acronym);
-
-        VirtualEdition virtualEdition = VirtualModule.getInstance().getVirtualEdition(acronym);
-
-        if (virtualEdition == null) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        } else {
-            String intersFilesPath = PropertiesManager.getProperties().getProperty("inters.dir");
-            List<TranscriptionDto> transcriptions = new ArrayList<>();
-
-            virtualEdition.getIntersSet().stream().sorted(Comparator.comparing(VirtualEditionInter::getTitle)).forEach(inter -> {
-                ScholarInter lastInter = TextModule.getInstance().getScholarInterByXmlId(inter.getLastUsed().getXmlId());
-                String title = lastInter.getTitle();
-                String text;
-                try {
-                    text = new String(
-                            Files.readAllBytes(Paths.get(intersFilesPath + lastInter.getExternalId() + ".txt")));
-                } catch (IOException e) {
-                    throw new LdoDException("VirtualEditionController::getTranscriptions IOException");
-                }
-
-                transcriptions.add(new TranscriptionDto(title, text));
-            });
-
-            return new ResponseEntity<>(new EditionTranscriptionsDto(transcriptions), HttpStatus.OK);
-        }
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/acronym/{acronym}/{category}/transcriptions")

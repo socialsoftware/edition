@@ -6,6 +6,7 @@ import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.text.api.dto.*;
 import pt.ist.socialsoftware.edition.ldod.text.feature.indexer.Indexer;
 import pt.ist.socialsoftware.edition.ldod.utils.exception.LdoDException;
+import pt.ist.socialsoftware.edition.ldod.visual.api.dto.EditionInterListDto;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -164,6 +165,11 @@ public class TextProvidesInterface {
 
     public String getExpertEditionEditorByEditionAcronym(String acronym) {
         return getExpertEditionByAcronym(acronym).map(expertEdition -> expertEdition.getEditor()).orElse(null);
+    }
+
+    public List<EditionInterListDto> getEditionInterListDto() {
+        return TextModule.getInstance().getExpertEditionsSet().stream()
+                .map(expertEdition -> new EditionInterListDto(expertEdition)).collect(Collectors.toList());
     }
 
     private Optional<ScholarInter> getScholarInterByXmlId(String xmlId) {

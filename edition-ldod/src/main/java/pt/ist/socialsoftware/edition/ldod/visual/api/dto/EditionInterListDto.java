@@ -1,14 +1,17 @@
-package pt.ist.socialsoftware.edition.ldod.dto;
+package pt.ist.socialsoftware.edition.ldod.visual.api.dto;
 
 import pt.ist.socialsoftware.edition.ldod.domain.ExpertEdition;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
+import pt.ist.socialsoftware.edition.ldod.dto.LdoDUserViewDto;
+import pt.ist.socialsoftware.edition.ldod.dto.TaxonomyDto;
+import pt.ist.socialsoftware.edition.ldod.dto.VirtualEditionInterDto;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class VirtualEditionInterListDto {
+public class EditionInterListDto {
     private List<VirtualEditionInterDto> virtualEditionInterList = new ArrayList<>();
     private String title;
     private String acronym;
@@ -18,10 +21,7 @@ public class VirtualEditionInterListDto {
     private TaxonomyDto taxonomy;
     private List<LdoDUserViewDto> members;
 
-    public VirtualEditionInterListDto() {
-    }
-
-    public VirtualEditionInterListDto(ExpertEdition expertEdition) {
+    public EditionInterListDto(ExpertEdition expertEdition) {
         this.setTitle(expertEdition.getTitle() + ", Edição de " + expertEdition.getEditor());
         this.setAcronym(expertEdition.getAcronym());
         this.type = "perito";
@@ -32,7 +32,7 @@ public class VirtualEditionInterListDto {
         this.taxonomy = taxonomyDto;
     }
 
-    public VirtualEditionInterListDto(VirtualEdition virtualEdition, boolean deep) {
+    public EditionInterListDto(VirtualEdition virtualEdition, boolean deep) {
         if (deep) {
             this.setVirtualEditionInterList(virtualEdition.getIntersSet().stream().sorted()
                     .map(i -> new VirtualEditionInterDto(

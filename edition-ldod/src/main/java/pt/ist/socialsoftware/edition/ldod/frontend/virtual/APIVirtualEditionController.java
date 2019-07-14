@@ -10,10 +10,10 @@ import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualModule;
 import pt.ist.socialsoftware.edition.ldod.dto.VirtualEditionInterDto;
-import pt.ist.socialsoftware.edition.ldod.dto.VirtualEditionInterListDto;
 import pt.ist.socialsoftware.edition.ldod.session.LdoDSession;
 import pt.ist.socialsoftware.edition.ldod.user.api.UserProvidesInterface;
 import pt.ist.socialsoftware.edition.ldod.user.api.dto.UserDto;
+import pt.ist.socialsoftware.edition.ldod.visual.api.dto.EditionInterListDto;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -26,7 +26,7 @@ public class APIVirtualEditionController {
     @GetMapping("/edition/{acronym}/index")
     @PreAuthorize("hasPermission(#acronym, 'editionacronym.public')")
     public @ResponseBody
-    ResponseEntity<VirtualEditionInterListDto> getVirtualEditionIndex(
+    ResponseEntity<EditionInterListDto> getVirtualEditionIndex(
             @PathVariable(value = "acronym") String acronym) {
         logger.debug("getVirtualEditionIndex acronym:{}", acronym);
         VirtualEdition virtualEdition = VirtualModule.getInstance().getVirtualEdition(acronym);
@@ -34,7 +34,7 @@ public class APIVirtualEditionController {
         if (virtualEdition == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } else {
-            VirtualEditionInterListDto result = new VirtualEditionInterListDto(virtualEdition, true);
+            EditionInterListDto result = new EditionInterListDto(virtualEdition, true);
             return new ResponseEntity<>(result, HttpStatus.OK);
         }
 
@@ -64,7 +64,7 @@ public class APIVirtualEditionController {
     @GetMapping("/{username}/restricted/virtualeditions")
     @PreAuthorize("hasPermission(#username, 'user.logged')")
     public @ResponseBody
-    ResponseEntity<List<VirtualEditionInterListDto>> getVirtualEditions4User(
+    ResponseEntity<List<EditionInterListDto>> getVirtualEditions4User(
             @PathVariable(value = "username") String username) {
         UserProvidesInterface userProvidesInterface = new UserProvidesInterface();
         UserDto userDto = userProvidesInterface.getUser(username);
@@ -72,9 +72,9 @@ public class APIVirtualEditionController {
         if (userDto != null) {
             List<VirtualEdition> virtualEditionList = VirtualModule.getInstance().getVirtualEditionsUserIsParticipant(username,
                     LdoDSession.getLdoDSession());
-            List<VirtualEditionInterListDto> result = virtualEditionList.stream()
+            List<EditionInterListDto> result = virtualEditionList.stream()
                     .filter(virtualEdition -> virtualEdition.getParticipantSet().contains(username))
-                    .map(ve -> new VirtualEditionInterListDto(ve, true)).collect(Collectors.toList());
+                    .map(ve -> new EditionInterListDto(ve, true)).collect(Collectors.toList());
 
             return new ResponseEntity<>(result, HttpStatus.OK);
         }
@@ -83,15 +83,15 @@ public class APIVirtualEditionController {
 
     @GetMapping("/{username}/public/virtualeditions")
     public @ResponseBody
-    ResponseEntity<List<VirtualEditionInterListDto>> getPublicVirtualEditions4User(
+    ResponseEntity<List<EditionInterListDto>> getPublicVirtualEditions4User(
             @PathVariable(value = "username") String username) {
         UserProvidesInterface userProvidesInterface = new UserProvidesInterface();
         UserDto userDto = userProvidesInterface.getUser(username);
 
         if (userDto != null) {
-            List<VirtualEditionInterListDto> result = VirtualModule.getInstance().getVirtualEditionsSet().stream().filter(
+            List<EditionInterListDto> result = VirtualModule.getInstance().getVirtualEditionsSet().stream().filter(
                     virtualEdition -> virtualEdition.getParticipantSet().contains(username) && virtualEdition.getPub())
-                    .map(ve -> new VirtualEditionInterListDto(ve, true)).collect(Collectors.toList());
+                    .map(ve -> new EditionInterListDto(ve, true)).collect(Collectors.toList());
 
             return new ResponseEntity<>(result, HttpStatus.OK);
         }

@@ -7,8 +7,10 @@ import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualModule;
 import pt.ist.socialsoftware.edition.ldod.virtual.api.dto.VirtualEditionDto;
 import pt.ist.socialsoftware.edition.ldod.virtual.api.dto.VirtualEditionInterDto;
+import pt.ist.socialsoftware.edition.ldod.visual.api.dto.EditionInterListDto;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -28,6 +30,10 @@ public class VirtualProvidesInterface {
         }
 
         return null;
+    }
+
+    public Set<VirtualEditionDto> getPublicVirtualEditionSet() {
+        return VirtualModule.getInstance().getVirtualEditionsSet().stream().filter(virtualEdition -> virtualEdition.getPub()).map(VirtualEditionDto::new).collect(Collectors.toSet());
     }
 
     public Set<VirtualEditionDto> getPublicVirtualEditionsOrUserIsParticipant(String username) {
@@ -74,6 +80,13 @@ public class VirtualProvidesInterface {
 
     public String getVirtualEditionTitleByAcronym(String acronym) {
         return getVirtualEditionByAcronym(acronym).map(virtualEdition -> virtualEdition.getTitle()).orElse(null);
+    }
+
+    public List<EditionInterListDto> getPublicVirtualEditionInterListDto() {
+        return VirtualModule.getInstance().getVirtualEditionsSet().stream()
+                .filter(virtualEdition -> virtualEdition.getPub())
+                .map(virtualEdition -> new EditionInterListDto(virtualEdition, false))
+                .collect(Collectors.toList());
     }
 
     private Optional<VirtualEditionInter> getVirtualEditionInterByXmlId(String xmlId) {
