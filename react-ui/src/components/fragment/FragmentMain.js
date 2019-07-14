@@ -12,7 +12,7 @@ import Navigation from './Navigation';
 import { SERVER_URL } from '../../utils/Constants';
 import { setCompareIdsType, setInterId } from '../../actions/actions';
 
-const mapStateToProps = state => ({ ids: state.compareIds, type: state.type, interId: state.interId, config: Object.keys(state.moduleConfig) });
+const mapStateToProps = state => ({ ids: state.compareIds, type: state.type, interId: state.interId, config: state.moduleConfig });
 
 class FragmentMain extends React.Component {
     constructor(props) {
@@ -56,6 +56,8 @@ class FragmentMain extends React.Component {
         let inter = <InterEmpty fragmentId={this.state.fragmentId} title={this.state.fragInfo.title} />;
 
         const interId = this.props.interId != null ? this.props.interId : this.state.interId;
+
+        console.log(this.props);
 
         if (this.props.ids && this.props.ids.length > 1) {
             if (this.props.type === 'EXPERT') {

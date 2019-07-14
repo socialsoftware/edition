@@ -189,6 +189,7 @@ public class ReactUiController {
         FragmentDto fragment = this.textProvidesInterface.getFragmentByXmlId(xmlId);
 
         if (fragment == null) {
+            logger.debug("Fragment not found");
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
@@ -202,6 +203,7 @@ public class ReactUiController {
             VirtualEditionInterDto virtualEditionInter = this.virtualProvidesInterface.getVirtualEditionInterSet().stream()
                     .filter(dto -> dto.getUrlId().equals(urlId)).findAny().orElse(null);
             if (virtualEditionInter == null) {
+                logger.debug("Inter not found");
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
             result = this.textProvidesInterface.getScholarInterTranscription(virtualEditionInter.getUsesScholarInterId());
