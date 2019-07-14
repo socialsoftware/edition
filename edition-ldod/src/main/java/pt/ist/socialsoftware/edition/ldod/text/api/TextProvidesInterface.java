@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.text.api.dto.*;
+import pt.ist.socialsoftware.edition.ldod.text.feature.generators.PlainHtmlWriter4OneInter;
 import pt.ist.socialsoftware.edition.ldod.text.feature.indexer.Indexer;
 import pt.ist.socialsoftware.edition.ldod.utils.exception.LdoDException;
 
@@ -149,6 +150,16 @@ public class TextProvidesInterface {
         return getScholarInterByXmlId(xmlId).map(scholarInter -> scholarInter.getExternalId()).orElse(null);
     }
 
+    public ScholarInterDto getNextScholarInter(String xmlId){
+        return getScholarInterByXmlId(xmlId).map(ExpertEditionInter.class::cast)
+                .map(ExpertEditionInter::getNextNumberInter).map(ScholarInterDto::new).orElse(null);
+    }
+
+    public ScholarInterDto getPrevScholarInter(String xmlId){
+        return getScholarInterByXmlId(xmlId).map(ExpertEditionInter.class::cast)
+                .map(ExpertEditionInter::getNextNumberInter).map(ScholarInterDto::new).orElse(null);
+    }
+
     public Set<FragmentDto> getFragmentDtoSet() {
         return TextModule.getInstance().getFragmentsSet().stream().map(FragmentDto::new).collect(Collectors.toSet());
     }
@@ -170,6 +181,13 @@ public class TextProvidesInterface {
         return getExpertEditionByAcronym(acronym).map(expertEdition -> expertEdition.getEditor()).orElse(null);
     }
 
+    public String getScholarInterTranscription(String xmlId) {
+       ScholarInter inter = getScholarInterByXmlId(xmlId).orElse(null);
+       PlainHtmlWriter4OneInter writer = new PlainHtmlWriter4OneInter(inter);
+       writer.write(false);
+       return writer.getTranscription();
+    }
+
     private Optional<ScholarInter> getScholarInterByXmlId(String xmlId) {
         return TextModule.getInstance().getFragmentsSet().stream()
                 .filter(fragment -> fragment.getScholarInterByXmlId(xmlId) != null).map(fragment -> fragment.getScholarInterByXmlId(xmlId)).findAny();
@@ -179,8 +197,8 @@ public class TextProvidesInterface {
         return TextModule.getInstance().getFragmentsSet().stream().filter(f -> f.getScholarInterByXmlId(scholarInterId) != null).findAny();
     }
 
-    private Optional<Fragment> getFragmentByFragmentXmlId(String xlmId) {
-        return TextModule.getInstance().getFragmentsSet().stream().filter(fragment -> fragment.getXmlId().equals(xlmId)).findAny();
+    private Optional<Fragment> getFragmentByFragmentXmlId(String xmlId) {
+        return TextModule.getInstance().getFragmentsSet().stream().filter(fragment -> fragment.getXmlId().equals(xmlId)).findAny();
     }
 
     private Optional<ExpertEdition> getExpertEditionByAcronym(String acronym) {

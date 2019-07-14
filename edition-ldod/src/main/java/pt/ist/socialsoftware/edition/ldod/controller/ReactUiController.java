@@ -26,6 +26,8 @@ import pt.ist.socialsoftware.edition.ldod.utils.AnnotationDTO;
 import pt.ist.socialsoftware.edition.ldod.utils.AnnotationSearchJson;
 import pt.ist.socialsoftware.edition.ldod.utils.CategoryDTO;
 import pt.ist.socialsoftware.edition.ldod.utils.exception.LdoDException;
+import pt.ist.socialsoftware.edition.ldod.virtual.api.VirtualProvidesInterface;
+import pt.ist.socialsoftware.edition.ldod.virtual.api.dto.VirtualEditionInterDto;
 
 import javax.inject.Inject;
 import java.util.*;
@@ -42,6 +44,7 @@ public class ReactUiController {
 
     private final UserProvidesInterface userProvidesInterface = new UserProvidesInterface();
     private final TextProvidesInterface textProvidesInterface = new TextProvidesInterface();
+    private final VirtualProvidesInterface virtualProvidesInterface = new VirtualProvidesInterface();
 
     @Inject
     private PasswordEncoder passwordEncoder;
@@ -109,34 +112,35 @@ public class ReactUiController {
     @GetMapping(value = "/expert-inter", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<?> getFragmentExpertInterInfo(@RequestParam String xmlId) {
 
-        Fragment fragment = TextModule.getInstance().getFragmentByXmlId(xmlId);
+        FragmentDto fragment = this.textProvidesInterface.getFragmentByXmlId(xmlId);
 
         if (fragment == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        List<ExpertEditionInter> expertEditionInters = fragment.getExpertEditionInterSet().stream().sorted().collect(Collectors.toList());
+        List<ScholarInterDto> expertEditionInters = fragment.getScholarInterDtoSet().stream()
+                .filter(scholarInterDto -> !scholarInterDto.isSourceInter()).collect(Collectors.toList());
 
         Map<String, List<Map<String, String>>> interInfo = new LinkedHashMap<>();
 
-        for (ExpertEditionInter expertEditionInter : expertEditionInters) {
+        for (ScholarInterDto expertEditionInter : expertEditionInters) {
             Map<String, String> info = new LinkedHashMap<>();
             info.put("xmlId", expertEditionInter.getXmlId());
             info.put("title", expertEditionInter.getTitle());
             info.put("number", Integer.toString(expertEditionInter.getNumber()));
             info.put("urlId", expertEditionInter.getUrlId());
             info.put("externalId", expertEditionInter.getExternalId());
-            info.put("nextXmlId", expertEditionInter.getNextNumberInter().getFragment().getXmlId());
-            info.put("nextUrlId", expertEditionInter.getNextNumberInter().getUrlId());
-            info.put("prevXmlId", expertEditionInter.getPrevNumberInter().getFragment().getXmlId());
-            info.put("prevUrlId", expertEditionInter.getPrevNumberInter().getUrlId());
+            info.put("nextXmlId", expertEditionInter.getNextScholarInter().getFragmentDto().getXmlId());
+            info.put("nextUrlId", expertEditionInter.getNextScholarInter().getUrlId());
+            info.put("prevXmlId", expertEditionInter.getPrevScholarInter().getFragmentDto().getXmlId());
+            info.put("prevUrlId", expertEditionInter.getPrevScholarInter().getUrlId());
 
-            if (interInfo.containsKey(expertEditionInter.getExpertEdition().getAcronym())) {
-                interInfo.get(expertEditionInter.getExpertEdition().getAcronym()).add(info);
+            if (interInfo.containsKey(expertEditionInter.getExpertEditionAcronym())) {
+                interInfo.get(expertEditionInter.getExpertEditionAcronym()).add(info);
             } else {
                 List<Map<String, String>> infoList = new ArrayList<>();
                 infoList.add(info);
-                interInfo.put(expertEditionInter.getExpertEdition().getAcronym(), infoList);
+                interInfo.put(expertEditionInter.getExpertEditionAcronym(), infoList);
             }
         }
 
@@ -182,29 +186,28 @@ public class ReactUiController {
     @GetMapping(value = "/inter-writer", produces = MediaType.TEXT_HTML_VALUE)
     public ResponseEntity<?> getInterWriterResult(@RequestParam String xmlId, @RequestParam String urlId) {
 
-        Fragment fragment = TextModule.getInstance().getFragmentByXmlId(xmlId);
+        FragmentDto fragment = this.textProvidesInterface.getFragmentByXmlId(xmlId);
 
         if (fragment == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
+        ScholarInterDto scholarInter = fragment.getScholarInterDtoByUrlId(urlId);
 
-        ScholarInter scholarInter = fragment.getScholarInterByUrlId(urlId);
-
-        PlainHtmlWriter4OneInter writer;
+        String result;
 
         if (scholarInter != null) {
-            writer = new PlainHtmlWriter4OneInter(scholarInter);
+            result = this.textProvidesInterface.getScholarInterTranscription(scholarInter.getXmlId());
         } else {
-            VirtualEditionInter virtualEditionInter = VirtualModule.getInstance().getVirtualEditionInterByUrlId(urlId);
+            VirtualEditionInterDto virtualEditionInter = this.virtualProvidesInterface.getVirtualEditionInterSet().stream()
+                    .filter(dto -> dto.getUrlId().equals(urlId)).findAny().orElse(null);
             if (virtualEditionInter == null) {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
-            writer = new PlainHtmlWriter4OneInter(virtualEditionInter.getLastUsed().getXmlId());
+            result = this.textProvidesInterface.getScholarInterTranscription(virtualEditionInter.getUsesScholarInterId());
         }
 
-        writer.write(false);
-        return new ResponseEntity<>(writer.getTranscription(), HttpStatus.OK);
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @GetMapping(value = "/meta-info", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -356,7 +359,7 @@ public class ReactUiController {
         Fragment fragment = TextModule.getInstance().getFragmentByXmlId(xmlId);
 
         if (fragment == null) {
-            logger.debug("Could find frag");
+            logger.debug("Could not find frag");
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 

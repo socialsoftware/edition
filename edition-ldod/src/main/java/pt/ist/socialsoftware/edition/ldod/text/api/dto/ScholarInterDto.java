@@ -93,4 +93,12 @@ public class ScholarInterDto {
     public String getExternalId() {
         return this.textProvidesInterface.getScholarInterExternalId(this.xmlId);
     }
+
+    public ScholarInterDto getNextScholarInter() {
+        return this.textProvidesInterface.getNextScholarInter(this.xmlId);
+    }
+
+    public ScholarInterDto getPrevScholarInter() {
+        return this.textProvidesInterface.getPrevScholarInter(this.xmlId);
+    }
 }
