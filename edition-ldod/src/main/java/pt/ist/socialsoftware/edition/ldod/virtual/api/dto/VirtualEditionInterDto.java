@@ -43,8 +43,21 @@ public class VirtualEditionInterDto {
 
     public String getUsesScholarInterId() {
         return this.virtualProvidesInterface.getUsesVirtualEditionInterId(this.xmlId);
-
     }
 
+    public String getExternalId(){
+        return this.virtualProvidesInterface.getVirtualEditionInterExternalId(this.xmlId);
+    }
 
+    public int getNumber(){
+        return this.virtualProvidesInterface.getVirtualEditionInterNumber(this.xmlId);
+    }
+
+    public VirtualEditionInterDto getNextInter(){
+        return this.virtualProvidesInterface.getNextVirtualInter(this.xmlId);
+    }
+
+    public VirtualEditionInterDto getPrevInter(){
+        return this.virtualProvidesInterface.getPrevVirtualInter(this.xmlId);
+    }
 }

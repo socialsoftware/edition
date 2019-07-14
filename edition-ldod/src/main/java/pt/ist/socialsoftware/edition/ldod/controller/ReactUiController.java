@@ -358,71 +358,66 @@ public class ReactUiController {
                                                         @RequestParam boolean del, @RequestParam boolean ins,
                                                         @RequestParam boolean subst, @RequestParam boolean notes) {
 
-        Fragment fragment = TextModule.getInstance().getFragmentByXmlId(xmlId);
+        FragmentDto fragment = this.textProvidesInterface.getFragmentByXmlId(xmlId);
 
         if (fragment == null) {
             logger.debug("Could not find frag");
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        SourceInter inter = fragment.getSortedSourceInter().stream().filter(sourceInter -> sourceInter.getUrlId().equals(urlId)).findFirst().orElse(null);
+        ScholarInterDto inter = fragment.getScholarInterDtoByUrlId(urlId);
 
-        if (inter == null) {
+        if (inter == null || !inter.isSourceInter()) {
             logger.debug("Could not find inter");
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        PlainHtmlWriter4OneInter writer = new PlainHtmlWriter4OneInter(inter);
+        String result = this.textProvidesInterface.getSourceInterTranscription(inter.getXmlId(),diff, del, ins, subst, notes);
 
-        writer.write(diff, del, ins, subst, notes, false, null);
-
-        return new ResponseEntity<>(writer.getTranscription(), HttpStatus.OK);
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @GetMapping(value = "/expert-writer", produces = MediaType.TEXT_HTML_VALUE)
     public ResponseEntity<?> getExpertWriterWithOptions(@RequestParam String xmlId, @RequestParam String urlId,
                                                         @RequestParam boolean diff) {
 
-        Fragment fragment = TextModule.getInstance().getFragmentByXmlId(xmlId);
+        FragmentDto fragment = this.textProvidesInterface.getFragmentByXmlId(xmlId);
 
         if (fragment == null) {
-            logger.debug("Could find frag");
+            logger.debug("Could not find frag");
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        ExpertEditionInter inter = fragment.getExpertEditionInterSet().stream().filter(sourceInter -> sourceInter.getUrlId().equals(urlId)).findFirst().orElse(null);
+        ScholarInterDto inter = fragment.getScholarInterDtoByUrlId(urlId);
 
-        if (inter == null) {
+        if (inter == null || inter.isSourceInter()) {
             logger.debug("Could not find inter");
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        PlainHtmlWriter4OneInter writer = new PlainHtmlWriter4OneInter(inter);
+        String result = this.textProvidesInterface.getExpertInterTranscription(inter.getXmlId(), diff);
 
-        writer.write(diff);
-
-        return new ResponseEntity<>(writer.getTranscription(), HttpStatus.OK);
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @GetMapping(value = "/fac-urls", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<?> getFacsForSourceInter(@RequestParam String xmlId, @RequestParam String urlId,
-                                                   @RequestParam(required = false) String pbTextID) {
+    public ResponseEntity<?> getFacsForSourceInter(@RequestParam String xmlId, @RequestParam String urlId) {
 
-        Fragment fragment = TextModule.getInstance().getFragmentByXmlId(xmlId);
+        FragmentDto fragment = this.textProvidesInterface.getFragmentByXmlId(xmlId);
 
         if (fragment == null) {
             logger.debug("Could find frag");
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        SourceInter inter = fragment.getSortedSourceInter().stream().filter(sourceInter -> sourceInter.getUrlId().equals(urlId)).findFirst().orElse(null);
+        ScholarInterDto inter = fragment.getScholarInterDtoByUrlId(urlId);
 
-        if (inter == null) {
+        if (inter == null || !inter.isSourceInter()) {
             logger.debug("Could not find inter");
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        List<String> urls = inter.getSource().getFacsimile().getSurfaces().stream().map(Surface::getGraphic).collect(Collectors.toList());
+        List<String> urls = this.textProvidesInterface.getSourceInterFacUrls(inter.getXmlId());
 
         return new ResponseEntity<>(urls, HttpStatus.OK);
     }

@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
+import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter_Base;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualModule;
 import pt.ist.socialsoftware.edition.ldod.virtual.api.dto.VirtualEditionDto;
 import pt.ist.socialsoftware.edition.ldod.virtual.api.dto.VirtualEditionInterDto;
@@ -74,6 +75,25 @@ public class VirtualProvidesInterface {
 
     public String getVirtualEditionTitleByAcronym(String acronym) {
         return getVirtualEditionByAcronym(acronym).map(virtualEdition -> virtualEdition.getTitle()).orElse(null);
+    }
+
+    public int getVirtualEditionInterNumber(String xmlId){
+        return getVirtualEditionInterByXmlId(xmlId).map(VirtualEditionInter::getNumber).orElse(null);
+    }
+
+    public String getVirtualEditionInterExternalId(String xmlId){
+        return getVirtualEditionInterByXmlId(xmlId).map(virtualEditionInter -> virtualEditionInter.getExternalId())
+                .orElse(null);
+    }
+
+    public VirtualEditionInterDto getNextVirtualInter(String xmlId){
+        return getVirtualEditionInterByXmlId(xmlId).map(VirtualEditionInter.class::cast)
+                .map(VirtualEditionInter::getNextNumberInter).map(VirtualEditionInterDto::new).orElse(null);
+    }
+
+    public VirtualEditionInterDto getPrevVirtualInter(String xmlId){
+        return getVirtualEditionInterByXmlId(xmlId).map(VirtualEditionInter.class::cast)
+                .map(VirtualEditionInter::getPrevNumberInter).map(VirtualEditionInterDto::new).orElse(null);
     }
 
     private Optional<VirtualEditionInter> getVirtualEditionInterByXmlId(String xmlId) {
