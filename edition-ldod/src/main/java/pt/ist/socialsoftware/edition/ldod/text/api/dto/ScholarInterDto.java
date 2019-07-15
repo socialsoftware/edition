@@ -93,5 +93,12 @@ public class ScholarInterDto {
     public String getShortName() {
         return this.textProvidesInterface.getScholarInterShortName(this.xmlId);
     }
+    
+    public ScholarInterDto getNextScholarInter() {
+        return this.textProvidesInterface.getNextScholarInter(this.xmlId);
+    }
 
+    public ScholarInterDto getPrevScholarInter() {
+        return this.textProvidesInterface.getPrevScholarInter(this.xmlId);
+    }
 }

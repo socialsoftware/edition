@@ -50,11 +50,25 @@ public class VirtualEditionInterDto {
 
     public ScholarInterDto getLastUsed() {
         return this.virtualProvidesInterface.getVirtualEditionLastUsedScholarInter(this.xmlId);
+    }
 
+    public String getUsesScholarInterId() {
+        return getLastUsed().getXmlId();
     }
 
     public List<String> getCategorySet() {
         return this.virtualProvidesInterface.getVirtualEditionInterCategoryList(this.xmlId);
     }
 
+    public int getNumber() {
+        return this.virtualProvidesInterface.getVirtualEditionInterNumber(this.xmlId);
+    }
+
+    public VirtualEditionInterDto getNextInter() {
+        return this.virtualProvidesInterface.getNextVirtualInter(this.xmlId);
+    }
+
+    public VirtualEditionInterDto getPrevInter() {
+        return this.virtualProvidesInterface.getPrevVirtualInter(this.xmlId);
+    }
 }

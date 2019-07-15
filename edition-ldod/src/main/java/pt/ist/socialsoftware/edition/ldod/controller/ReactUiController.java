@@ -14,6 +14,9 @@ import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.ldod.api.ui.FragInterDto;
 import pt.ist.socialsoftware.edition.ldod.api.ui.UiInterface;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
+import pt.ist.socialsoftware.edition.ldod.text.api.TextProvidesInterface;
+import pt.ist.socialsoftware.edition.ldod.text.api.dto.FragmentDto;
+import pt.ist.socialsoftware.edition.ldod.text.api.dto.ScholarInterDto;
 import pt.ist.socialsoftware.edition.ldod.text.feature.generators.HtmlWriter2CompInters;
 import pt.ist.socialsoftware.edition.ldod.text.feature.generators.HtmlWriter4Variations;
 import pt.ist.socialsoftware.edition.ldod.text.feature.generators.PlainHtmlWriter4OneInter;
@@ -23,6 +26,8 @@ import pt.ist.socialsoftware.edition.ldod.utils.AnnotationDTO;
 import pt.ist.socialsoftware.edition.ldod.utils.AnnotationSearchJson;
 import pt.ist.socialsoftware.edition.ldod.utils.CategoryDTO;
 import pt.ist.socialsoftware.edition.ldod.utils.exception.LdoDException;
+import pt.ist.socialsoftware.edition.ldod.virtual.api.VirtualProvidesInterface;
+import pt.ist.socialsoftware.edition.ldod.virtual.api.dto.VirtualEditionInterDto;
 
 import javax.inject.Inject;
 import java.util.*;
@@ -38,6 +43,8 @@ public class ReactUiController {
     private static final Logger logger = LoggerFactory.getLogger(ReactUiController.class);
 
     private final UserProvidesInterface userProvidesInterface = new UserProvidesInterface();
+    private final TextProvidesInterface textProvidesInterface = new TextProvidesInterface();
+    private final VirtualProvidesInterface virtualProvidesInterface = new VirtualProvidesInterface();
 
     @Inject
     private PasswordEncoder passwordEncoder;
@@ -52,7 +59,6 @@ public class ReactUiController {
         return new ResponseEntity<>(moduleNames, HttpStatus.OK);
     }
 
-    // /api/services/frontend/module-info
     @GetMapping(value = "/topbar-config", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<?> getTopBarConfig() {
         Set<EditionModule> moduleSet = FenixFramework.getDomainRoot().getModuleSet();
@@ -89,7 +95,7 @@ public class ReactUiController {
     @GetMapping(value = "/frag-info", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<?> getFragmentInfo(@RequestParam String xmlId) {
 
-        Fragment fragment = TextModule.getInstance().getFragmentByXmlId(xmlId);
+        FragmentDto fragment = this.textProvidesInterface.getFragmentByXmlId(xmlId);
 
         if (fragment == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -106,34 +112,35 @@ public class ReactUiController {
     @GetMapping(value = "/expert-inter", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<?> getFragmentExpertInterInfo(@RequestParam String xmlId) {
 
-        Fragment fragment = TextModule.getInstance().getFragmentByXmlId(xmlId);
+        FragmentDto fragment = this.textProvidesInterface.getFragmentByXmlId(xmlId);
 
         if (fragment == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        List<ExpertEditionInter> expertEditionInters = fragment.getExpertEditionInterSet().stream().sorted().collect(Collectors.toList());
+        List<ScholarInterDto> expertEditionInters = fragment.getScholarInterDtoSet().stream()
+                .filter(scholarInterDto -> !scholarInterDto.isSourceInter()).collect(Collectors.toList());
 
         Map<String, List<Map<String, String>>> interInfo = new LinkedHashMap<>();
 
-        for (ExpertEditionInter expertEditionInter : expertEditionInters) {
+        for (ScholarInterDto expertEditionInter : expertEditionInters) {
             Map<String, String> info = new LinkedHashMap<>();
             info.put("xmlId", expertEditionInter.getXmlId());
             info.put("title", expertEditionInter.getTitle());
             info.put("number", Integer.toString(expertEditionInter.getNumber()));
             info.put("urlId", expertEditionInter.getUrlId());
             info.put("externalId", expertEditionInter.getExternalId());
-            info.put("nextXmlId", expertEditionInter.getNextNumberInter().getFragment().getXmlId());
-            info.put("nextUrlId", expertEditionInter.getNextNumberInter().getUrlId());
-            info.put("prevXmlId", expertEditionInter.getPrevNumberInter().getFragment().getXmlId());
-            info.put("prevUrlId", expertEditionInter.getPrevNumberInter().getUrlId());
+            info.put("nextXmlId", expertEditionInter.getNextScholarInter().getFragmentDto().getXmlId());
+            info.put("nextUrlId", expertEditionInter.getNextScholarInter().getUrlId());
+            info.put("prevXmlId", expertEditionInter.getPrevScholarInter().getFragmentDto().getXmlId());
+            info.put("prevUrlId", expertEditionInter.getPrevScholarInter().getUrlId());
 
-            if (interInfo.containsKey(expertEditionInter.getExpertEdition().getAcronym())) {
-                interInfo.get(expertEditionInter.getExpertEdition().getAcronym()).add(info);
+            if (interInfo.containsKey(expertEditionInter.getExpertEditionAcronym())) {
+                interInfo.get(expertEditionInter.getExpertEditionAcronym()).add(info);
             } else {
                 List<Map<String, String>> infoList = new ArrayList<>();
                 infoList.add(info);
-                interInfo.put(expertEditionInter.getExpertEdition().getAcronym(), infoList);
+                interInfo.put(expertEditionInter.getExpertEditionAcronym(), infoList);
             }
         }
 
@@ -143,7 +150,7 @@ public class ReactUiController {
     @GetMapping(value = "/source-inter", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<?> getFragmentSourceInterInfo(@RequestParam String xmlId) {
 
-        Fragment fragment = TextModule.getInstance().getFragmentByXmlId(xmlId);
+        FragmentDto fragment = this.textProvidesInterface.getFragmentByXmlId(xmlId);
 
         if (fragment == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -151,7 +158,11 @@ public class ReactUiController {
 
         Set<Map<String, String>> interInfo = new LinkedHashSet<>();
 
-        for (SourceInter sourceInter : fragment.getSortedSourceInter()) {
+        Set<ScholarInterDto> sourceDtos = fragment.getScholarInterDtoSet().stream()
+                .filter(ScholarInterDto::isSourceInter).collect(Collectors.toSet());
+
+
+        for (ScholarInterDto sourceInter : sourceDtos) {
             Map<String, String> info = new LinkedHashMap<>();
             info.put("xmlId", sourceInter.getXmlId());
             info.put("shortName", sourceInter.getShortName());
@@ -166,7 +177,7 @@ public class ReactUiController {
 
     @GetMapping(value = "/expert-edition", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<?> getExpertEditionInfo() {
-        List<AbstractMap.SimpleEntry<String, String>> expertEditionInfo = TextModule.getInstance().getSortedExpertEdition().stream()
+        List<AbstractMap.SimpleEntry<String, String>> expertEditionInfo = this.textProvidesInterface.getSortedExpertEditionsDto().stream()
                 .map(expertEdition -> new AbstractMap.SimpleEntry<>(expertEdition.getAcronym(), expertEdition.getEditor())).collect(Collectors.toList());
 
         return new ResponseEntity<>(expertEditionInfo, HttpStatus.OK);
@@ -175,29 +186,30 @@ public class ReactUiController {
     @GetMapping(value = "/inter-writer", produces = MediaType.TEXT_HTML_VALUE)
     public ResponseEntity<?> getInterWriterResult(@RequestParam String xmlId, @RequestParam String urlId) {
 
-        Fragment fragment = TextModule.getInstance().getFragmentByXmlId(xmlId);
+        FragmentDto fragment = this.textProvidesInterface.getFragmentByXmlId(xmlId);
 
         if (fragment == null) {
+            logger.debug("Fragment not found");
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
+        ScholarInterDto scholarInter = fragment.getScholarInterDtoByUrlId(urlId);
 
-        ScholarInter scholarInter = fragment.getScholarInterByUrlId(urlId);
-
-        PlainHtmlWriter4OneInter writer;
+        String result;
 
         if (scholarInter != null) {
-            writer = new PlainHtmlWriter4OneInter(scholarInter);
+            result = this.textProvidesInterface.getScholarInterTranscription(scholarInter.getXmlId());
         } else {
-            VirtualEditionInter virtualEditionInter = VirtualModule.getInstance().getVirtualEditionInterByUrlId(urlId);
+            VirtualEditionInterDto virtualEditionInter = this.virtualProvidesInterface.getVirtualEditionInterSet().stream()
+                    .filter(dto -> dto.getUrlId().equals(urlId)).findAny().orElse(null);
             if (virtualEditionInter == null) {
+                logger.debug("Inter not found");
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
-            writer = new PlainHtmlWriter4OneInter(virtualEditionInter.getLastUsed().getXmlId());
+            result = this.textProvidesInterface.getScholarInterTranscription(virtualEditionInter.getUsesScholarInterId());
         }
 
-        writer.write(false);
-        return new ResponseEntity<>(writer.getTranscription(), HttpStatus.OK);
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @GetMapping(value = "/meta-info", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -346,71 +358,66 @@ public class ReactUiController {
                                                         @RequestParam boolean del, @RequestParam boolean ins,
                                                         @RequestParam boolean subst, @RequestParam boolean notes) {
 
-        Fragment fragment = TextModule.getInstance().getFragmentByXmlId(xmlId);
+        FragmentDto fragment = this.textProvidesInterface.getFragmentByXmlId(xmlId);
 
         if (fragment == null) {
-            logger.debug("Could find frag");
+            logger.debug("Could not find frag");
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        SourceInter inter = fragment.getSortedSourceInter().stream().filter(sourceInter -> sourceInter.getUrlId().equals(urlId)).findFirst().orElse(null);
+        ScholarInterDto inter = fragment.getScholarInterDtoByUrlId(urlId);
 
-        if (inter == null) {
+        if (inter == null || !inter.isSourceInter()) {
             logger.debug("Could not find inter");
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        PlainHtmlWriter4OneInter writer = new PlainHtmlWriter4OneInter(inter);
+        String result = this.textProvidesInterface.getSourceInterTranscription(inter.getXmlId(),diff, del, ins, subst, notes);
 
-        writer.write(diff, del, ins, subst, notes, false, null);
-
-        return new ResponseEntity<>(writer.getTranscription(), HttpStatus.OK);
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @GetMapping(value = "/expert-writer", produces = MediaType.TEXT_HTML_VALUE)
     public ResponseEntity<?> getExpertWriterWithOptions(@RequestParam String xmlId, @RequestParam String urlId,
                                                         @RequestParam boolean diff) {
 
-        Fragment fragment = TextModule.getInstance().getFragmentByXmlId(xmlId);
+        FragmentDto fragment = this.textProvidesInterface.getFragmentByXmlId(xmlId);
 
         if (fragment == null) {
-            logger.debug("Could find frag");
+            logger.debug("Could not find frag");
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        ExpertEditionInter inter = fragment.getExpertEditionInterSet().stream().filter(sourceInter -> sourceInter.getUrlId().equals(urlId)).findFirst().orElse(null);
+        ScholarInterDto inter = fragment.getScholarInterDtoByUrlId(urlId);
 
-        if (inter == null) {
+        if (inter == null || inter.isSourceInter()) {
             logger.debug("Could not find inter");
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        PlainHtmlWriter4OneInter writer = new PlainHtmlWriter4OneInter(inter);
+        String result = this.textProvidesInterface.getExpertInterTranscription(inter.getXmlId(), diff);
 
-        writer.write(diff);
-
-        return new ResponseEntity<>(writer.getTranscription(), HttpStatus.OK);
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @GetMapping(value = "/fac-urls", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<?> getFacsForSourceInter(@RequestParam String xmlId, @RequestParam String urlId,
-                                                   @RequestParam(required = false) String pbTextID) {
+    public ResponseEntity<?> getFacsForSourceInter(@RequestParam String xmlId, @RequestParam String urlId) {
 
-        Fragment fragment = TextModule.getInstance().getFragmentByXmlId(xmlId);
+        FragmentDto fragment = this.textProvidesInterface.getFragmentByXmlId(xmlId);
 
         if (fragment == null) {
             logger.debug("Could find frag");
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        SourceInter inter = fragment.getSortedSourceInter().stream().filter(sourceInter -> sourceInter.getUrlId().equals(urlId)).findFirst().orElse(null);
+        ScholarInterDto inter = fragment.getScholarInterDtoByUrlId(urlId);
 
-        if (inter == null) {
+        if (inter == null || !inter.isSourceInter()) {
             logger.debug("Could not find inter");
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        List<String> urls = inter.getSource().getFacsimile().getSurfaces().stream().map(Surface::getGraphic).collect(Collectors.toList());
+        List<String> urls = this.textProvidesInterface.getSourceInterFacUrls(inter.getXmlId());
 
         return new ResponseEntity<>(urls, HttpStatus.OK);
     }

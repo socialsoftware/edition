@@ -4,15 +4,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.text.api.dto.*;
+import pt.ist.socialsoftware.edition.ldod.text.feature.generators.PlainHtmlWriter4OneInter;
 import pt.ist.socialsoftware.edition.ldod.text.feature.indexer.Indexer;
 import pt.ist.socialsoftware.edition.ldod.utils.exception.LdoDException;
 import pt.ist.socialsoftware.edition.ldod.visual.api.dto.EditionInterListDto;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class TextProvidesInterface {
@@ -151,6 +149,16 @@ public class TextProvidesInterface {
         return getFragmentByFragmentXmlId(xmlId).map(fragment -> fragment.getExternalId()).orElse(null);
     }
 
+    public ScholarInterDto getNextScholarInter(String xmlId) {
+        return getScholarInterByXmlId(xmlId).map(ExpertEditionInter.class::cast)
+                .map(ExpertEditionInter::getNextNumberInter).map(ScholarInterDto::new).orElse(null);
+    }
+
+    public ScholarInterDto getPrevScholarInter(String xmlId) {
+        return getScholarInterByXmlId(xmlId).map(ExpertEditionInter.class::cast)
+                .map(ExpertEditionInter::getNextNumberInter).map(ScholarInterDto::new).orElse(null);
+    }
+
     public Set<FragmentDto> getFragmentDtoSet() {
         return TextModule.getInstance().getFragmentsSet().stream().map(FragmentDto::new).collect(Collectors.toSet());
     }
@@ -176,9 +184,38 @@ public class TextProvidesInterface {
         return getExpertEditionByAcronym(acronym).map(expertEdition -> expertEdition.getEditor()).orElse(null);
     }
 
+
     public List<EditionInterListDto> getEditionInterListDto() {
         return TextModule.getInstance().getExpertEditionsSet().stream()
                 .map(expertEdition -> new EditionInterListDto(expertEdition)).collect(Collectors.toList());
+    }
+
+    public String getScholarInterTranscription(String xmlId) {
+        ScholarInter inter = getScholarInterByXmlId(xmlId).orElse(null);
+        PlainHtmlWriter4OneInter writer = new PlainHtmlWriter4OneInter(inter);
+        writer.write(false);
+        return writer.getTranscription();
+    }
+
+    public String getSourceInterTranscription(String xmlId, boolean diff, boolean del, boolean ins,
+                                              boolean subst, boolean notes) {
+        ScholarInter inter = getScholarInterByXmlId(xmlId).orElse(null);
+        PlainHtmlWriter4OneInter writer = new PlainHtmlWriter4OneInter(inter);
+        writer.write(diff, del, ins, subst, notes, false, null);
+        return writer.getTranscription();
+    }
+
+    public String getExpertInterTranscription(String xmlId, boolean diff) {
+        ScholarInter inter = getScholarInterByXmlId(xmlId).orElse(null);
+        PlainHtmlWriter4OneInter writer = new PlainHtmlWriter4OneInter(inter);
+        writer.write(diff);
+        return writer.getTranscription();
+    }
+
+    public List<String> getSourceInterFacUrls(String xmlId) {
+        List<Surface> surfaces = getScholarInterByXmlId(xmlId).map(SourceInter.class::cast).map(SourceInter::getSource)
+                .map(Source::getFacsimile).map(Facsimile::getSurfaces).orElse(null);
+        return surfaces != null ? surfaces.stream().map(Surface::getGraphic).collect(Collectors.toList()) : new ArrayList<>();
     }
 
     private Optional<ScholarInter> getScholarInterByXmlId(String xmlId) {
@@ -190,8 +227,8 @@ public class TextProvidesInterface {
         return TextModule.getInstance().getFragmentsSet().stream().filter(f -> f.getScholarInterByXmlId(scholarInterId) != null).findAny();
     }
 
-    private Optional<Fragment> getFragmentByFragmentXmlId(String xlmId) {
-        return TextModule.getInstance().getFragmentsSet().stream().filter(fragment -> fragment.getXmlId().equals(xlmId)).findAny();
+    private Optional<Fragment> getFragmentByFragmentXmlId(String xmlId) {
+        return TextModule.getInstance().getFragmentsSet().stream().filter(fragment -> fragment.getXmlId().equals(xmlId)).findAny();
     }
 
     private Optional<ExpertEdition> getExpertEditionByAcronym(String acronym) {

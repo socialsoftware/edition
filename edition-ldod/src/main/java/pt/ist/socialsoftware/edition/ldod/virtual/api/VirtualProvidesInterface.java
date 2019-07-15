@@ -114,6 +114,20 @@ public class VirtualProvidesInterface {
                 .map(VirtualEditionInterDto::new).collect(Collectors.toSet());
     }
 
+    public int getVirtualEditionInterNumber(String xmlId) {
+        return getVirtualEditionInterByXmlId(xmlId).map(VirtualEditionInter::getNumber).orElse(null);
+    }
+
+    public VirtualEditionInterDto getNextVirtualInter(String xmlId) {
+        return getVirtualEditionInterByXmlId(xmlId).map(VirtualEditionInter.class::cast)
+                .map(VirtualEditionInter::getNextNumberInter).map(VirtualEditionInterDto::new).orElse(null);
+    }
+
+    public VirtualEditionInterDto getPrevVirtualInter(String xmlId) {
+        return getVirtualEditionInterByXmlId(xmlId).map(VirtualEditionInter.class::cast)
+                .map(VirtualEditionInter::getPrevNumberInter).map(VirtualEditionInterDto::new).orElse(null);
+    }
+
     private Optional<VirtualEditionInter> getVirtualEditionInterByXmlId(String xmlId) {
         return VirtualModule.getInstance().getVirtualEditionInterSet().stream()
                 .filter(virtualEditionInter -> virtualEditionInter.getXmlId().equals(xmlId)).findAny();
