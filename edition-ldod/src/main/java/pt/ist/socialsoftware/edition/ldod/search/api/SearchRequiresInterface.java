@@ -1,10 +1,7 @@
 package pt.ist.socialsoftware.edition.ldod.search.api;
 
 import pt.ist.socialsoftware.edition.ldod.text.api.TextProvidesInterface;
-import pt.ist.socialsoftware.edition.ldod.text.api.dto.FragmentDto;
-import pt.ist.socialsoftware.edition.ldod.text.api.dto.LdoDDateDto;
-import pt.ist.socialsoftware.edition.ldod.text.api.dto.ScholarInterDto;
-import pt.ist.socialsoftware.edition.ldod.text.api.dto.SourceDto;
+import pt.ist.socialsoftware.edition.ldod.text.api.dto.*;
 import pt.ist.socialsoftware.edition.ldod.user.api.UserProvidesInterface;
 import pt.ist.socialsoftware.edition.ldod.virtual.api.VirtualProvidesInterface;
 import pt.ist.socialsoftware.edition.ldod.virtual.api.dto.VirtualEditionDto;
@@ -49,6 +46,10 @@ public class SearchRequiresInterface {
         return this.textProvidesInterface.getHeteronymXmlId(xmlId);
     }
 
+    public Set<HeteronymDto> getHeteronymDtoSet() {
+        return this.textProvidesInterface.getHeteronymDtoSet();
+    }
+
     public List<ScholarInterDto> searchScholarInterForWords(String words) {
         return this.textProvidesInterface.searchScholarInterForWords(words);
     }
@@ -57,8 +58,16 @@ public class SearchRequiresInterface {
         return this.textProvidesInterface.getFragmentTitle(xmlId);
     }
 
+    public List<ExpertEditionDto> getSortedExpertEditionsDto() {
+        return this.textProvidesInterface.getSortedExpertEditionsDto();
+    }
 
-    // Requires from Virtual Module
+    public List<ScholarInterDto> getExpertEditionScholarInterDtoList(String acronym) {
+        return this.textProvidesInterface.getExpertEditionScholarInterDtoList(acronym);
+    }
+
+
+    // Requires from User Module
     private final UserProvidesInterface userProvidesInterface = new UserProvidesInterface();
 
     public String getAuthenticatedUser() {
@@ -88,4 +97,5 @@ public class SearchRequiresInterface {
     public Set<VirtualEditionDto> getPublicVirtualEditionsOrUserIsParticipant(String username) {
         return this.virtualProvidesInterface.getPublicVirtualEditionsOrUserIsParticipant(username);
     }
+
 }

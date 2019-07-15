@@ -10,15 +10,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import pt.ist.socialsoftware.edition.ldod.domain.ManuscriptSource;
 import pt.ist.socialsoftware.edition.ldod.domain.Source;
+import pt.ist.socialsoftware.edition.ldod.search.api.SearchRequiresInterface;
 import pt.ist.socialsoftware.edition.ldod.search.api.dto.AuthoralForSearchDto;
 import pt.ist.socialsoftware.edition.ldod.search.api.dto.DatesForSearchDto;
 import pt.ist.socialsoftware.edition.ldod.search.api.dto.ExpertEditionForSearchDto;
 import pt.ist.socialsoftware.edition.ldod.search.feature.options.ManuscriptSearchOption;
 import pt.ist.socialsoftware.edition.ldod.search.feature.options.TypescriptSearchOption;
-import pt.ist.socialsoftware.edition.ldod.text.api.TextProvidesInterface;
 import pt.ist.socialsoftware.edition.ldod.text.api.dto.*;
-import pt.ist.socialsoftware.edition.ldod.virtual.api.VirtualProvidesInterface;
-import pt.ist.socialsoftware.edition.ldod.virtual.api.VirtualRequiresInterface;
 import pt.ist.socialsoftware.edition.ldod.virtual.api.dto.VirtualEditionDto;
 
 import java.util.HashMap;
@@ -32,16 +30,14 @@ import java.util.stream.Collectors;
 public class SearchProvidesController {
     private static final Logger logger = LoggerFactory.getLogger(SearchProvidesController.class);
 
-    TextProvidesInterface textProvidesInterface = new TextProvidesInterface();
-    VirtualProvidesInterface virtualProvidesInterface = new VirtualProvidesInterface();
-    VirtualRequiresInterface virtualRequiresInterface = new VirtualRequiresInterface();
+    SearchRequiresInterface searchRequiresInterface = new SearchRequiresInterface();
 
     @RequestMapping(value = "/getEditions")
     @ResponseBody
     public Map<String, String> getEditions() {
         Map<String, String> editions = new LinkedHashMap<>();
 
-        for (ExpertEditionDto expertEdition : this.textProvidesInterface.getSortedExpertEditionsDto()) {
+        for (ExpertEditionDto expertEdition : this.searchRequiresInterface.getSortedExpertEditionsDto()) {
 
             editions.put(expertEdition.getAcronym(), expertEdition.getEditor());
         }
@@ -51,7 +47,7 @@ public class SearchProvidesController {
     @RequestMapping(value = "/getVirtualEditions")
     @ResponseBody
     public Map<String, String> getVirtualEditions(Model model) {
-        return this.virtualProvidesInterface.getPublicVirtualEditionsOrUserIsParticipant(this.virtualRequiresInterface.getAuthenticatedUser()).stream()
+        return this.searchRequiresInterface.getPublicVirtualEditionsOrUserIsParticipant(this.searchRequiresInterface.getAuthenticatedUser()).stream()
                 .collect(Collectors.toMap(VirtualEditionDto::getAcronym, VirtualEditionDto::getTitle));
     }
 
@@ -59,7 +55,7 @@ public class SearchProvidesController {
     @ResponseBody
     public ExpertEditionForSearchDto getEdition(@RequestParam(value = "edition", required = true) String acronym) {
         logger.debug("getEdition");
-        List<ScholarInterDto> scholarInterDtos = this.textProvidesInterface.getExpertEditionScholarInterDtoList(acronym);
+        List<ScholarInterDto> scholarInterDtos = this.searchRequiresInterface.getExpertEditionScholarInterDtoList(acronym);
 
         Map<String, String> heteronyms = new HashMap<>();
         LocalDate beginDate = null;
@@ -93,7 +89,7 @@ public class SearchProvidesController {
         logger.debug("getPublicationsDates");
         LocalDate beginDate = null;
         LocalDate endDate = null;
-        for (FragmentDto fragment : this.textProvidesInterface.getFragmentDtoSet()) {
+        for (FragmentDto fragment : this.searchRequiresInterface.getFragmentDtoSet()) {
             for (SourceDto source : fragment.getSourcesSet()) {
                 if (source.getType().equals(Source.SourceType.PRINTED)) {
                     if (source.getLdoDDate() != null) {
@@ -133,7 +129,7 @@ public class SearchProvidesController {
         for (int i = 0; i < values.length; i++) {
             array[i] = values[i].getDesc();
         }
-        for (FragmentDto frag : this.textProvidesInterface.getFragmentDtoSet()) {
+        for (FragmentDto frag : this.searchRequiresInterface.getFragmentDtoSet()) {
             for (ScholarInterDto scholarInter : frag.getScholarInterDtoSet()) {
                 if (scholarInter.isSourceInter()) {
                     Source.SourceType type = scholarInter.getSourceDto().getType();
@@ -167,7 +163,7 @@ public class SearchProvidesController {
     @ResponseBody
     public Map<String, String> getHeteronyms() {
         Map<String, String> heteronyms = new HashMap<>();
-        for (HeteronymDto heteronym : this.textProvidesInterface.getHeteronymDtoSet()) {
+        for (HeteronymDto heteronym : this.searchRequiresInterface.getHeteronymDtoSet()) {
             heteronyms.put(heteronym.getName(), heteronym.getXmlId());
         }
         return heteronyms;
@@ -178,7 +174,7 @@ public class SearchProvidesController {
     public DatesForSearchDto getDates() {
         LocalDate beginDate = null;
         LocalDate endDate = null;
-        for (FragmentDto fragment : this.textProvidesInterface.getFragmentDtoSet()) {
+        for (FragmentDto fragment : this.searchRequiresInterface.getFragmentDtoSet()) {
             for (ScholarInterDto scholarInter : fragment.getScholarInterDtoSet()) {
                 if (scholarInter.getLdoDDate() != null) {
                     beginDate = getIsBeforeDate(beginDate, scholarInter.getLdoDDate().getDate());

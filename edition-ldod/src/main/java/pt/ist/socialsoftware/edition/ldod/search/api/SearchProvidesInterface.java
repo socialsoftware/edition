@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 public class SearchProvidesInterface {
+    private final SearchRequiresInterface searchRequiresInterface = new SearchRequiresInterface();
 
     public Map<String, List<ScholarInterDto>> simpleSearch(String params) {
         return new SearchProcessor().simpleSearch(params);
@@ -17,4 +18,5 @@ public class SearchProvidesInterface {
     public AdvancedSearchResultDto advancedSearch(SearchDto search) {
         return new SearchProcessor().advancedSearch(search);
     }
+
 }
