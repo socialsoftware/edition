@@ -4,19 +4,14 @@ import org.joda.time.LocalDate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
-import pt.ist.fenixframework.DomainObject;
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.ldod.api.ui.UiInterface;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
-import pt.ist.socialsoftware.edition.ldod.dto.InterIdDistancePairDto;
-import pt.ist.socialsoftware.edition.ldod.dto.WeightsDto;
 import pt.ist.socialsoftware.edition.ldod.frontend.virtual.validator.VirtualEditionValidator;
 import pt.ist.socialsoftware.edition.ldod.session.LdoDSession;
 import pt.ist.socialsoftware.edition.ldod.user.api.UserProvidesInterface;
@@ -80,38 +75,6 @@ public class RecommendationController {
 
             return "recommendation/tableOfContents";
         }
-    }
-
-    @RequestMapping(method = RequestMethod.POST, value = "/{externalId}/intersByDistance")
-    @PreAuthorize("hasPermission(#externalId, 'fragInter.public')")
-    public @ResponseBody
-    ResponseEntity<InterIdDistancePairDto[]> getIntersByDistance(Model model,
-                                                                 @PathVariable String externalId, @RequestBody WeightsDto weights) {
-        logger.debug("getIntersByDistance externalId: {}, weights: {}", externalId,
-                "(" + weights.getHeteronymWeight() + "," + weights.getTextWeight() + "," + weights.getDateWeight() + ","
-                        + weights.getTaxonomyWeight() + ")");
-
-        DomainObject object = FenixFramework.getDomainObject(externalId);
-        if (object == null) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-
-        List<InterIdDistancePairDto> intersByDistance;
-
-        if (object instanceof VirtualEditionInter) {
-            VirtualEditionInter virtualEditionInter = (VirtualEditionInter) object;
-            intersByDistance = virtualEditionInter.getVirtualEdition()
-                    .getIntersByDistance(virtualEditionInter, weights);
-        } else if (object instanceof ExpertEditionInter) {
-            ExpertEditionInter expertEditionInter = (ExpertEditionInter) object;
-            intersByDistance = expertEditionInter.getExpertEdition()
-                    .getIntersByDistance(expertEditionInter, weights);
-        } else {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-
-        return new ResponseEntity<>(intersByDistance.stream()
-                .toArray(size -> new InterIdDistancePairDto[size]), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/linear", method = RequestMethod.POST, headers = {

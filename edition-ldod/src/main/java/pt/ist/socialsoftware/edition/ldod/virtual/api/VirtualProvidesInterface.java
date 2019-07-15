@@ -2,10 +2,14 @@ package pt.ist.socialsoftware.edition.ldod.virtual.api;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import pt.ist.fenixframework.DomainObject;
+import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.ldod.domain.Category;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualModule;
+import pt.ist.socialsoftware.edition.ldod.dto.InterIdDistancePairDto;
+import pt.ist.socialsoftware.edition.ldod.dto.WeightsDto;
 import pt.ist.socialsoftware.edition.ldod.text.api.dto.ScholarInterDto;
 import pt.ist.socialsoftware.edition.ldod.virtual.api.dto.VirtualEditionDto;
 import pt.ist.socialsoftware.edition.ldod.virtual.api.dto.VirtualEditionInterDto;
@@ -47,6 +51,16 @@ public class VirtualProvidesInterface {
 
     public Set<VirtualEditionInterDto> getVirtualEditionInterSet() {
         return VirtualModule.getInstance().getVirtualEditionInterSet().stream().map(VirtualEditionInterDto::new).collect(Collectors.toSet());
+    }
+
+    public ScholarInterDto getScholarInterbyExternalId(String interId) {
+        DomainObject domainObject = FenixFramework.getDomainObject(interId);
+
+        if (domainObject instanceof VirtualEditionInter) {
+            return ((VirtualEditionInter) domainObject).getLastUsed();
+        }
+
+        return null;
     }
 
     public String getVirtualEditionInterTitle(String xmlId) {
@@ -128,6 +142,26 @@ public class VirtualProvidesInterface {
                 .map(VirtualEditionInter::getPrevNumberInter).map(VirtualEditionInterDto::new).orElse(null);
     }
 
+    public List<InterIdDistancePairDto> getIntersByDistance(VirtualEditionInterDto virtualEditionInterDto, WeightsDto weights) {
+        VirtualEditionInter virtualEditionInter = getVirtualEditionInterByXmlId(virtualEditionInterDto.getXmlId()).orElse(null);
+
+        if (virtualEditionInter != null) {
+            return virtualEditionInter.getVirtualEdition().getIntersByDistance(virtualEditionInter, weights);
+        }
+
+        return null;
+    }
+
+    public VirtualEditionInterDto getVirtualEditionInterByExternalId(String externalId) {
+        DomainObject domainObject = FenixFramework.getDomainObject(externalId);
+
+        if (domainObject instanceof VirtualEditionInter) {
+            return new VirtualEditionInterDto((VirtualEditionInter) domainObject);
+        }
+
+        return null;
+    }
+
     private Optional<VirtualEditionInter> getVirtualEditionInterByXmlId(String xmlId) {
         return VirtualModule.getInstance().getVirtualEditionInterSet().stream()
                 .filter(virtualEditionInter -> virtualEditionInter.getXmlId().equals(xmlId)).findAny();
@@ -137,5 +171,6 @@ public class VirtualProvidesInterface {
         return VirtualModule.getInstance().getVirtualEditionsSet().stream()
                 .filter(virtualEdition -> virtualEdition.getAcronym().equals(acronym)).findAny();
     }
+
 
 }

@@ -4,6 +4,7 @@ import org.joda.time.LocalDate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -16,18 +17,24 @@ import pt.ist.socialsoftware.edition.ldod.search.feature.options.ManuscriptSearc
 import pt.ist.socialsoftware.edition.ldod.search.feature.options.TypescriptSearchOption;
 import pt.ist.socialsoftware.edition.ldod.text.api.TextProvidesInterface;
 import pt.ist.socialsoftware.edition.ldod.text.api.dto.*;
+import pt.ist.socialsoftware.edition.ldod.virtual.api.VirtualProvidesInterface;
+import pt.ist.socialsoftware.edition.ldod.virtual.api.VirtualRequiresInterface;
+import pt.ist.socialsoftware.edition.ldod.virtual.api.dto.VirtualEditionDto;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/search")
-public class TextProvidesSearchController {
-    private static final Logger logger = LoggerFactory.getLogger(TextProvidesSearchController.class);
+public class SearchProvidesController {
+    private static final Logger logger = LoggerFactory.getLogger(SearchProvidesController.class);
 
     TextProvidesInterface textProvidesInterface = new TextProvidesInterface();
+    VirtualProvidesInterface virtualProvidesInterface = new VirtualProvidesInterface();
+    VirtualRequiresInterface virtualRequiresInterface = new VirtualRequiresInterface();
 
     @RequestMapping(value = "/getEditions")
     @ResponseBody
@@ -39,6 +46,13 @@ public class TextProvidesSearchController {
             editions.put(expertEdition.getAcronym(), expertEdition.getEditor());
         }
         return editions;
+    }
+
+    @RequestMapping(value = "/getVirtualEditions")
+    @ResponseBody
+    public Map<String, String> getVirtualEditions(Model model) {
+        return this.virtualProvidesInterface.getPublicVirtualEditionsOrUserIsParticipant(this.virtualRequiresInterface.getAuthenticatedUser()).stream()
+                .collect(Collectors.toMap(VirtualEditionDto::getAcronym, VirtualEditionDto::getTitle));
     }
 
     @RequestMapping(value = "/getEdition")

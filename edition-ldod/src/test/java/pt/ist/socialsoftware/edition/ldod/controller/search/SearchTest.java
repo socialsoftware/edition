@@ -20,8 +20,7 @@ import pt.ist.socialsoftware.edition.ldod.config.Application;
 import pt.ist.socialsoftware.edition.ldod.domain.ExpertEdition;
 import pt.ist.socialsoftware.edition.ldod.filters.TransactionFilter;
 import pt.ist.socialsoftware.edition.ldod.frontend.search.SearchFrontendController;
-import pt.ist.socialsoftware.edition.ldod.search.api.remote.TextProvidesSearchController;
-import pt.ist.socialsoftware.edition.ldod.search.api.remote.VirtualProvidesSearchController;
+import pt.ist.socialsoftware.edition.ldod.search.api.remote.SearchProvidesController;
 import pt.ist.socialsoftware.edition.ldod.utils.controller.LdoDExceptionHandler;
 
 import java.io.FileNotFoundException;
@@ -45,14 +44,11 @@ public class SearchTest {
     SearchFrontendController searchFrontEndController;
 
     @InjectMocks
-    TextProvidesSearchController textProvidesSearchController;
+    SearchProvidesController searchProvidesController;
 
-    @InjectMocks
-    VirtualProvidesSearchController virtualProvidesSearchController;
 
     protected MockMvc mockMvcFrontend;
-    protected MockMvc mockMvcText;
-    protected MockMvc mockMvcVirtual;
+    protected MockMvc mockMvcSearch;
 
     @BeforeAll
     @Atomic(mode = Atomic.TxMode.WRITE)
@@ -73,9 +69,7 @@ public class SearchTest {
     public void setUp() throws FileNotFoundException {
         this.mockMvcFrontend = MockMvcBuilders.standaloneSetup(this.searchFrontEndController)
                 .setControllerAdvice(new LdoDExceptionHandler()).addFilters(new TransactionFilter()).build();
-        this.mockMvcText = MockMvcBuilders.standaloneSetup(this.textProvidesSearchController)
-                .setControllerAdvice(new LdoDExceptionHandler()).addFilters(new TransactionFilter()).build();
-        this.mockMvcVirtual = MockMvcBuilders.standaloneSetup(this.virtualProvidesSearchController)
+        this.mockMvcSearch = MockMvcBuilders.standaloneSetup(this.searchProvidesController)
                 .setControllerAdvice(new LdoDExceptionHandler()).addFilters(new TransactionFilter()).build();
     }
 
@@ -132,7 +126,7 @@ public class SearchTest {
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void getEditionsTest() throws Exception {
 
-        String body = this.mockMvcText.perform(get("/search/getEditions")).andDo(print())
+        String body = this.mockMvcSearch.perform(get("/search/getEditions")).andDo(print())
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
 
@@ -146,7 +140,7 @@ public class SearchTest {
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void getEditionTest() throws Exception {
 
-        String body = this.mockMvcText.perform(get("/search/getEdition")
+        String body = this.mockMvcSearch.perform(get("/search/getEdition")
                 .param("edition", ExpertEdition.PIZARRO_EDITION_ACRONYM))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -162,7 +156,7 @@ public class SearchTest {
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void getPublicationDatesTest() throws Exception {
 
-        String body = this.mockMvcText.perform(get("/search/getPublicationsDates"))
+        String body = this.mockMvcSearch.perform(get("/search/getPublicationsDates"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
@@ -178,7 +172,7 @@ public class SearchTest {
     @WithUserDetails("ars")
     public void getVirtualEditionsTest() throws Exception {
 
-        String body = this.mockMvcVirtual.perform(get("/search/getVirtualEditions"))
+        String body = this.mockMvcSearch.perform(get("/search/getVirtualEditions"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();

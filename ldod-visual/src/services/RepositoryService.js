@@ -51,7 +51,7 @@ export class RepositoryService {
     }
 
     getIntersByDistance(interId, heteronym, text, date, taxonomy) {
-        return this.axios.post('/recommendation/' + interId + '/intersByDistance', {
+        return this.axios.post('/visual/editions/' + interId + '/intersByDistance', {
             'heteronymWeight': heteronym,
             'textWeight': text,
             'dateWeight': date,

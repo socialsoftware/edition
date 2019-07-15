@@ -1,14 +1,20 @@
 package pt.ist.socialsoftware.edition.ldod.text.api;
 
+import org.apache.lucene.queryparser.classic.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import pt.ist.fenixframework.DomainObject;
+import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
+import pt.ist.socialsoftware.edition.ldod.dto.InterIdDistancePairDto;
+import pt.ist.socialsoftware.edition.ldod.dto.WeightsDto;
 import pt.ist.socialsoftware.edition.ldod.text.api.dto.*;
 import pt.ist.socialsoftware.edition.ldod.text.feature.generators.PlainHtmlWriter4OneInter;
 import pt.ist.socialsoftware.edition.ldod.text.feature.indexer.Indexer;
 import pt.ist.socialsoftware.edition.ldod.utils.exception.LdoDException;
 import pt.ist.socialsoftware.edition.ldod.visual.api.dto.EditionInterListDto;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -216,6 +222,41 @@ public class TextProvidesInterface {
         List<Surface> surfaces = getScholarInterByXmlId(xmlId).map(SourceInter.class::cast).map(SourceInter::getSource)
                 .map(Source::getFacsimile).map(Facsimile::getSurfaces).orElse(null);
         return surfaces != null ? surfaces.stream().map(Surface::getGraphic).collect(Collectors.toList()) : new ArrayList<>();
+    }
+
+    public List<Map.Entry<String, Double>> getScholarInterTermFrequency(ScholarInterDto scholarInterDto) {
+        ScholarInter scholarInter = getScholarInterByXmlId(scholarInterDto.getXmlId()).orElseThrow(LdoDException::new);
+
+        try {
+            return Indexer.getIndexer().getTermFrequency(scholarInter).entrySet().stream()
+                    .sorted(Comparator.comparing(Map.Entry::getValue)).collect(Collectors.toList());
+        } catch (IOException | ParseException e) {
+            new LdoDException("Indexer IOException or ParseException");
+        }
+
+        return null;
+    }
+
+    public ScholarInterDto getScholarInterbyExternalId(String interId) {
+        DomainObject domainObject = FenixFramework.getDomainObject(interId);
+
+        if (domainObject instanceof ScholarInter) {
+            return new ScholarInterDto((ScholarInter) domainObject);
+        }
+
+        return null;
+    }
+
+    public List<InterIdDistancePairDto> getIntersByDistance(ScholarInterDto scholarInterDto, WeightsDto weights) {
+        ScholarInter scholarInter = getScholarInterByXmlId(scholarInterDto.getXmlId()).orElse(null);
+
+        if (scholarInter != null && scholarInter instanceof ExpertEditionInter) {
+            ExpertEditionInter expertEditionInter = (ExpertEditionInter) scholarInter;
+            return expertEditionInter.getExpertEdition()
+                    .getIntersByDistance(expertEditionInter, weights);
+        }
+
+        return null;
     }
 
     private Optional<ScholarInter> getScholarInterByXmlId(String xmlId) {

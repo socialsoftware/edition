@@ -7,22 +7,17 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import pt.ist.fenixframework.DomainObject;
-import pt.ist.fenixframework.FenixFramework;
-import pt.ist.socialsoftware.edition.ldod.domain.ScholarInter;
-import pt.ist.socialsoftware.edition.ldod.domain.TextModule;
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
-import pt.ist.socialsoftware.edition.ldod.text.feature.indexer.Indexer;
+import pt.ist.socialsoftware.edition.ldod.dto.InterIdDistancePairDto;
+import pt.ist.socialsoftware.edition.ldod.dto.WeightsDto;
 import pt.ist.socialsoftware.edition.ldod.visual.api.VisualProvidesInterface;
 import pt.ist.socialsoftware.edition.ldod.visual.api.dto.EditionFragmentsDto;
 import pt.ist.socialsoftware.edition.ldod.visual.api.dto.EditionInterListDto;
 
 import java.io.IOException;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Controller
 @SessionAttributes({"ldoDSession"})
@@ -31,9 +26,6 @@ public class VisualProvidesController {
     private static final Logger logger = LoggerFactory.getLogger(VisualProvidesController.class);
 
     private final VisualProvidesInterface visualProvidesInterface = new VisualProvidesInterface();
-
-
-    // SHOULD ALSO INCLUDE return this.axios.post('/recommendation/' + interId + '/intersByDistance',
 
     @GetMapping("/public")
     public @ResponseBody
@@ -68,25 +60,34 @@ public class VisualProvidesController {
             @PathVariable String acronym, @PathVariable String interId) throws IOException, ParseException {
         logger.debug("getInterIdTFIDFTerms acronym:{}", acronym);
 
-        DomainObject domainObject = FenixFramework.getDomainObject(interId);
-        ScholarInter scholarInter;
+        List<Map.Entry<String, Double>> result = this.visualProvidesInterface.getInterTFIDFTerms(interId);
 
-
-        if (domainObject == null) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        } else if (domainObject instanceof VirtualEditionInter) {
-            scholarInter = TextModule.getInstance().getScholarInterByXmlId(((VirtualEditionInter) domainObject).getLastUsed().getXmlId());
-        } else if (domainObject instanceof ScholarInter) {
-            scholarInter = (ScholarInter) domainObject;
-        } else {
+        if (result == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        List<Map.Entry<String, Double>> result = Indexer.getIndexer()
-                .getTermFrequency(scholarInter).entrySet().stream()
-                .sorted(Comparator.comparing(Map.Entry::getValue)).collect(Collectors.toList());
-
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/{externalId}/intersByDistance")
+    @PreAuthorize("hasPermission(#externalId, 'fragInter.public')")
+    public @ResponseBody
+    ResponseEntity<InterIdDistancePairDto[]> getIntersByDistance(Model model,
+                                                                 @PathVariable String externalId, @RequestBody WeightsDto weights) {
+        logger.debug("getIntersByDistance externalId: {}, weights: {}", externalId,
+                "(" + weights.getHeteronymWeight() + "," + weights.getTextWeight() + "," + weights.getDateWeight() + ","
+                        + weights.getTaxonomyWeight() + ")");
+
+
+        List<InterIdDistancePairDto> interIdDistancePairDtos = this.visualProvidesInterface.getIntersByDistance(externalId, weights);
+
+        if (interIdDistancePairDtos != null) {
+            return new ResponseEntity<>(interIdDistancePairDtos.stream()
+                    .toArray(size -> new InterIdDistancePairDto[size]), HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+
 
 }

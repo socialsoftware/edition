@@ -1,5 +1,7 @@
 package pt.ist.socialsoftware.edition.ldod.visual.api;
 
+import pt.ist.socialsoftware.edition.ldod.dto.InterIdDistancePairDto;
+import pt.ist.socialsoftware.edition.ldod.dto.WeightsDto;
 import pt.ist.socialsoftware.edition.ldod.text.api.dto.ExpertEditionDto;
 import pt.ist.socialsoftware.edition.ldod.text.api.dto.ScholarInterDto;
 import pt.ist.socialsoftware.edition.ldod.text.feature.generators.PlainHtmlWriter4OneInter;
@@ -12,6 +14,7 @@ import pt.ist.socialsoftware.edition.ldod.visual.api.dto.FragmentDto;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 
 public class VisualProvidesInterface {
     private final VisualRequiresInterface visualRequiresInterface = new VisualRequiresInterface();
@@ -66,6 +69,16 @@ public class VisualProvidesInterface {
             }
             return null;
         }
+    }
+
+    public List<Map.Entry<String, Double>> getInterTFIDFTerms(String interId) {
+        ScholarInterDto scholarInterDto = this.visualRequiresInterface.getScholarInterByExternalIdOfInter(interId);
+
+        return this.visualRequiresInterface.getScholarInterTermFrequency(scholarInterDto);
+    }
+
+    public List<InterIdDistancePairDto> getIntersByDistance(String externalId, WeightsDto weights) {
+        return this.visualRequiresInterface.getIntersByDistance(externalId, weights);
     }
 
 }
