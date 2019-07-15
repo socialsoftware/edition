@@ -60,6 +60,10 @@ public class VirtualEditionInterDto {
         return this.virtualProvidesInterface.getVirtualEditionInterCategoryList(this.xmlId);
     }
 
+    public String getReference(){
+        return this.virtualProvidesInterface.getVirtualEditionInterReference(this.xmlId);
+    }
+
     public int getNumber() {
         return this.virtualProvidesInterface.getVirtualEditionInterNumber(this.xmlId);
     }
