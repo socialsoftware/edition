@@ -1,4 +1,4 @@
-package pt.ist.socialsoftware.edition.ldod.text.api.remote.search.dto;
+package pt.ist.socialsoftware.edition.ldod.search.api.dto;
 
 
 public class AuthoralForSearchDto {

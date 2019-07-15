@@ -30,6 +30,11 @@ public class TextProvidesInterface {
         return TextModule.getInstance().getHeteronymsSet().stream().map(HeteronymDto::new).collect(Collectors.toSet());
     }
 
+    // Due to Visual Module
+    public String getScholarInterExternalId(String scholarInterId) {
+        return getScholarInterByXmlId(scholarInterId).map(scholarInter -> scholarInter.getExternalId()).orElse(null);
+    }
+
     public String getScholarInterTitle(String scholarInterId) {
         return getScholarInterByXmlId(scholarInterId).map(scholarInter -> scholarInter.getTitle()).orElse(null);
     }
@@ -157,6 +162,10 @@ public class TextProvidesInterface {
     public List<ScholarInterDto> searchScholarInterForWords(String words) {
         Indexer indexer = Indexer.getIndexer();
         return indexer.search(words).stream().map(ScholarInterDto::new).collect(Collectors.toList());
+    }
+
+    public ExpertEditionDto getExpertEditionDto(String acronym) {
+        return getExpertEditionByAcronym(acronym).map(ExpertEditionDto::new).orElse(null);
     }
 
     public List<ExpertEditionDto> getSortedExpertEditionsDto() {

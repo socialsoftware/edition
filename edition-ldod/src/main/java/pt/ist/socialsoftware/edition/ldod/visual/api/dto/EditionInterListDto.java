@@ -2,7 +2,6 @@ package pt.ist.socialsoftware.edition.ldod.visual.api.dto;
 
 import pt.ist.socialsoftware.edition.ldod.domain.ExpertEdition;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
 import pt.ist.socialsoftware.edition.ldod.dto.LdoDUserViewDto;
 import pt.ist.socialsoftware.edition.ldod.dto.TaxonomyDto;
 import pt.ist.socialsoftware.edition.ldod.dto.VirtualEditionInterDto;
@@ -36,7 +35,7 @@ public class EditionInterListDto {
         if (deep) {
             this.setVirtualEditionInterList(virtualEdition.getIntersSet().stream().sorted()
                     .map(i -> new VirtualEditionInterDto(
-                            (VirtualEditionInter) virtualEdition.getFragInterByUrlId(i.getUrlId())))
+                            virtualEdition.getFragInterByUrlId(i.getUrlId())))
                     .collect(Collectors.toList()));
         }
         this.setTitle(virtualEdition.getTitle());

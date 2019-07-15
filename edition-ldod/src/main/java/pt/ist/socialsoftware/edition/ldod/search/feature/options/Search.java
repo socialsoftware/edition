@@ -91,9 +91,13 @@ public class Search {
 
         return Stream.concat(searchRequiresInterface.getFragmentDtoSet().stream()
                         .flatMap(f -> f.getScholarInterDtoSet().stream()).map(scholarInter ->
-                                new SearchableElementDto(SearchableElementDto.Type.SCHOLAR_INTER, scholarInter.getXmlId(), scholarInter.getTitle(), scholarInter.getFragmentXmlId(), scholarInter.getUrlId(), scholarInter.getShortName(), scholarInter.getXmlId()))
+                                new SearchableElementDto(SearchableElementDto.Type.SCHOLAR_INTER, scholarInter.getXmlId(),
+                                        scholarInter.getTitle(), scholarInter.getFragmentXmlId(), scholarInter.getUrlId(),
+                                        scholarInter.getShortName(), scholarInter.getXmlId()))
                 , searchRequiresInterface.getVirtualEditionInterSet().stream().map(virtualEditionInter ->
-                        new SearchableElementDto(SearchableElementDto.Type.VIRTUAL_INTER, virtualEditionInter.getXmlId(), virtualEditionInter.getTitle(), virtualEditionInter.getFragmentXmlId(), virtualEditionInter.getUrlId(), virtualEditionInter.getShortName(), virtualEditionInter.getUsesScholarInterId()))
+                        new SearchableElementDto(SearchableElementDto.Type.VIRTUAL_INTER, virtualEditionInter.getXmlId(),
+                                virtualEditionInter.getTitle(), virtualEditionInter.getFragmentXmlId(), virtualEditionInter.getUrlId(),
+                                virtualEditionInter.getShortName(), virtualEditionInter.getLastUsed().getXmlId()))
         ).collect(Collectors.toList());
     }
 

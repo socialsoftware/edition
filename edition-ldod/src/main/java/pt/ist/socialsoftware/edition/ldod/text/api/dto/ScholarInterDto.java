@@ -26,6 +26,10 @@ public class ScholarInterDto {
         this.xmlId = xmlId;
     }
 
+    public String getExternalId() {
+        return this.textProvidesInterface.getScholarInterExternalId(this.xmlId);
+    }
+
     public LdoDDateDto getLdoDDate() {
         return this.textProvidesInterface.getScholarInterDate(this.xmlId);
     }
@@ -89,4 +93,5 @@ public class ScholarInterDto {
     public String getShortName() {
         return this.textProvidesInterface.getScholarInterShortName(this.xmlId);
     }
+
 }

@@ -3,32 +3,18 @@ import {RepositoryService} from "../services/RepositoryService";
 import {
     addFragment,
     setAllFragmentsLoaded,
+    setCategories,
     setfragmentsHashMap,
+    setFragmentsSortedByDate,
+    setPotentialSemanticCriteriaData,
     setRecommendationArray,
     setRecommendationLoaded,
-    setSemanticCriteriaData,
-    setPotentialSemanticCriteriaData,
-    setFragmentsSortedByDate,
-    setCategories
+    setSemanticCriteriaData
 } from "../actions/index";
 import {connect} from "react-redux";
-import HashMap from "hashmap";
-import {
-    VIS_SQUARE_GRID,
-    VIS_NETWORK_GRAPH,
-    VIS_WORD_CLOUD,
-    BY_SQUAREGRID_EDITIONORDER,
-    CRIT_EDITION_ORDER,
-    CRIT_CHRONOLOGICAL_ORDER,
-    CRIT_TEXT_SIMILARITY,
-    CRIT_HETERONYM,
-    CRIT_TAXONOMY,
-    CRIT_WORD_RELEVANCE
-} from "../constants/history-transitions";
-import {Button, ButtonToolbar, Modal} from "react-bootstrap";
-import ReactHtmlParser, {processNodes, convertNodeToElement, htmlparser2} from 'react-html-parser';
+import {Button} from "react-bootstrap";
+import ReactHtmlParser from 'react-html-parser';
 import loadingGif from '../assets/loading.gif'
-import loadingFragmentsGif from '../assets/fragmentload.gif'
 import "./PublicEditionContainer.css";
 import ldodIcon from '../assets/ldod-icon.png';
 
@@ -84,7 +70,7 @@ class ConnectedPublicEditionContainer extends React.Component {
         const service = new RepositoryService();
 
         service.getPublicEditions().then(response => {
-            this.setState({editions: response[0].data.concat(response[1].data), editionsReceived: true});
+            this.setState({editions: response.data, editionsReceived: true});
             this.props.onChange();
 
         });

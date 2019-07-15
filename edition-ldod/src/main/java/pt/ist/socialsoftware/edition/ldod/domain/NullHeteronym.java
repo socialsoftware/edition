@@ -1,6 +1,7 @@
 package pt.ist.socialsoftware.edition.ldod.domain;
 
 public class NullHeteronym extends NullHeteronym_Base {
+    public static String NULL_NAME = "não atribuído";
 
     public static NullHeteronym getNullHeteronym() {
         for (Heteronym heteronym : TextModule.getInstance().getHeteronymsSet()) {
@@ -22,7 +23,7 @@ public class NullHeteronym extends NullHeteronym_Base {
 
     @Override
     public String getName() {
-        return "não atribuído";
+        return NULL_NAME;
     }
 
 }

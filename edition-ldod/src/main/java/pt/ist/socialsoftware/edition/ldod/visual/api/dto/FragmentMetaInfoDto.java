@@ -1,6 +1,9 @@
-package pt.ist.socialsoftware.edition.ldod.dto;
+package pt.ist.socialsoftware.edition.ldod.visual.api.dto;
 
-import pt.ist.socialsoftware.edition.ldod.domain.*;
+import pt.ist.socialsoftware.edition.ldod.domain.Source;
+import pt.ist.socialsoftware.edition.ldod.text.api.dto.ScholarInterDto;
+import pt.ist.socialsoftware.edition.ldod.text.api.dto.SourceDto;
+import pt.ist.socialsoftware.edition.ldod.virtual.api.dto.VirtualEditionInterDto;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,8 +16,8 @@ public class FragmentMetaInfoDto {
     private boolean hasLdoDLabel;
     private List<String> categories = new ArrayList<>();
 
-    public FragmentMetaInfoDto(ScholarInter inter) {
-        this.title = inter.getFragment().getTitle();
+    public FragmentMetaInfoDto(ScholarInterDto inter) {
+        this.title = inter.getFragmentDto().getTitle();
 
         if (inter.getLdoDDate() != null) {
             this.date = inter.getLdoDDate().getDate().toString();
@@ -24,19 +27,18 @@ public class FragmentMetaInfoDto {
             this.heteronym = inter.getHeteronym().getName();
         }
 
-        if (!inter.isExpertInter()) {
-            SourceInter sourceInter = (SourceInter) inter;
-            if (sourceInter.getSource().getType() == Source.SourceType.MANUSCRIPT) {
-                this.hasLdoDLabel = ((ManuscriptSource) sourceInter.getSource()).getHasLdoDLabel();
+        if (inter.isSourceInter()) {
+            SourceDto sourceDto = inter.getSourceDto();
+            if (sourceDto.getType() == Source.SourceType.MANUSCRIPT) {
+                this.hasLdoDLabel = sourceDto.hasLdoDLabel();
             }
         }
     }
 
+    public FragmentMetaInfoDto(VirtualEditionInterDto inter) {
+        this(inter.getLastUsed());
 
-    public FragmentMetaInfoDto(VirtualEditionInter inter) {
-        this(TextModule.getInstance().getScholarInterByXmlId(inter.getLastUsed().getXmlId()));
-
-        this.categories = inter.getCategories().stream().map(c -> c.getName()).sorted().collect(Collectors.toList());
+        this.categories = inter.getCategorySet().stream().sorted().collect(Collectors.toList());
     }
 
     public String getTitle() {

@@ -1,20 +1,20 @@
-package pt.ist.socialsoftware.edition.ldod.dto;
+package pt.ist.socialsoftware.edition.ldod.visual.api.dto;
 
-import pt.ist.socialsoftware.edition.ldod.domain.ExpertEditionInter;
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
+import pt.ist.socialsoftware.edition.ldod.text.api.dto.ScholarInterDto;
+import pt.ist.socialsoftware.edition.ldod.virtual.api.dto.VirtualEditionInterDto;
 
-public class FragmentViewDto {
+public class FragmentDto {
     private String interId;
     private FragmentMetaInfoDto meta;
     String text;
 
-    public FragmentViewDto(ExpertEditionInter inter, String text) {
+    public FragmentDto(ScholarInterDto inter, String text) {
         this.interId = inter.getExternalId();
         this.meta = new FragmentMetaInfoDto(inter);
         this.text = text;
     }
 
-    public FragmentViewDto(VirtualEditionInter inter, String text) {
+    public FragmentDto(VirtualEditionInterDto inter, String text) {
         this.interId = inter.getExternalId();
         this.meta = new FragmentMetaInfoDto(inter);
         this.text = text;

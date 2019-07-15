@@ -1,4 +1,4 @@
-package pt.ist.socialsoftware.edition.ldod.text.api.remote.search;
+package pt.ist.socialsoftware.edition.ldod.search.api.remote;
 
 import org.joda.time.LocalDate;
 import org.slf4j.Logger;
@@ -9,13 +9,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import pt.ist.socialsoftware.edition.ldod.domain.ManuscriptSource;
 import pt.ist.socialsoftware.edition.ldod.domain.Source;
+import pt.ist.socialsoftware.edition.ldod.search.api.dto.AuthoralForSearchDto;
+import pt.ist.socialsoftware.edition.ldod.search.api.dto.DatesForSearchDto;
+import pt.ist.socialsoftware.edition.ldod.search.api.dto.ExpertEditionForSearchDto;
 import pt.ist.socialsoftware.edition.ldod.search.feature.options.ManuscriptSearchOption;
 import pt.ist.socialsoftware.edition.ldod.search.feature.options.TypescriptSearchOption;
 import pt.ist.socialsoftware.edition.ldod.text.api.TextProvidesInterface;
 import pt.ist.socialsoftware.edition.ldod.text.api.dto.*;
-import pt.ist.socialsoftware.edition.ldod.text.api.remote.search.dto.AuthoralForSearchDto;
-import pt.ist.socialsoftware.edition.ldod.text.api.remote.search.dto.DatesForSearchDto;
-import pt.ist.socialsoftware.edition.ldod.text.api.remote.search.dto.ExpertEditionForSearchDto;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;

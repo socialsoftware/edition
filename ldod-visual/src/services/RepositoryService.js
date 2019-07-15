@@ -39,18 +39,15 @@ export class RepositoryService {
     }
 
     getPublicEditions() {
-        return Promise.all([
-            axios.get("/text/visual/editions/expert/"),
-            axios.get("/virtual/visual/editions/public/")
-        ]);
+        return axios.get("/visual/editions/public/");
     }
 
     getFragments() {
-        return this.axios.get("/text/visual/editions/acronym/" + this.setAcronym + "/fragments");
+        return this.axios.get("/visual/editions/acronym/" + this.setAcronym + "/fragments");
     }
 
-    getTranscriptions() {
-        return this.axios.get("/text/visual/editions/acronym/" + this.setAcronym + "/transcriptions");
+    getFragmentTfIdf(interId) {
+        return this.axios.get("/visual/editions/acronym/" + this.setAcronym + "/interId/" + interId + "/tfidf");
     }
 
     getIntersByDistance(interId, heteronym, text, date, taxonomy) {
@@ -60,10 +57,6 @@ export class RepositoryService {
             'dateWeight': date,
             'taxonomyWeight': taxonomy
         });
-    }
-
-    getFragmentTfIdf(interId) {
-        return this.axios.get("/text/visual/editions/acronym/" + this.setAcronym + "/interId/" + interId + "/tfidf");
     }
 
 }

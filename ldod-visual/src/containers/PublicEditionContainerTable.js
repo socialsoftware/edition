@@ -136,11 +136,10 @@ class ConnectedPublicEditionContainerTable extends React.Component {
     }
 
     componentDidMount() {
-
         const service = new RepositoryService();
 
         service.getPublicEditions().then(response => {
-            this.setState({editions: response[0].data.concat(<response></response>.data), editionsReceived: true});
+            this.setState({editions: response.data, editionsReceived: true});
             this.addFilterPlaceholder();
             this.props.onChange();
 

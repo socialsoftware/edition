@@ -17,7 +17,6 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.socialsoftware.edition.ldod.TestLoadUtils;
 import pt.ist.socialsoftware.edition.ldod.config.Application;
-import pt.ist.socialsoftware.edition.ldod.domain.ExpertEdition;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualModule;
 import pt.ist.socialsoftware.edition.ldod.filters.TransactionFilter;
@@ -236,42 +235,6 @@ public class VirtualEditionTest {
 
         this.mockMvc.perform(post("/virtualeditions/restricted/reorder/{externalId}", "ERROR").param("fraginters", ""))
                 .andDo(print()).andExpect(status().is3xxRedirection()).andExpect(redirectedUrl("/error"));
-    }
-
-    @Test
-    @Atomic(mode = Atomic.TxMode.WRITE)
-    @WithUserDetails("ars")
-    public void getFragmentsTest() throws Exception {
-
-        this.mockMvc.perform(get("/virtualeditions/acronym/{acronym}/fragments", ExpertEdition.ARCHIVE_EDITION_ACRONYM))
-                .andDo(print()).andExpect(status().isOk()).andExpect(content().string(notNullValue()));
-    }
-
-    @Test
-    @Atomic(mode = Atomic.TxMode.WRITE)
-    @WithUserDetails("ars")
-    public void getFragmentsErrorTest() throws Exception {
-
-        this.mockMvc.perform(get("/virtualeditions/acronym/{acronym}/fragments", "ERROR")).andDo(print())
-                .andExpect(status().is4xxClientError()).andExpect(content().string(""));
-    }
-
-    @Test
-    @Atomic(mode = Atomic.TxMode.WRITE)
-    @WithUserDetails("ars")
-    public void getTranscriptionsTest() throws Exception {
-
-        this.mockMvc.perform(get("/virtualeditions/acronym/{acronym}/transcriptions", ExpertEdition.ARCHIVE_EDITION_ACRONYM))
-                .andDo(print()).andExpect(status().isOk()).andExpect(content().string(notNullValue()));
-    }
-
-    @Test
-    @Atomic(mode = Atomic.TxMode.WRITE)
-    @WithUserDetails("ars")
-    public void getTranscriptionsErrorTest() throws Exception {
-
-        this.mockMvc.perform(get("/virtualeditions/acronym/{acronym}/transcriptions", "ERROR")).andDo(print())
-                .andExpect(status().is4xxClientError()).andExpect(content().string(""));
     }
 
     @Test

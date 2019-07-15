@@ -5,8 +5,6 @@ import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -19,8 +17,6 @@ import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.ldod.api.ui.UiInterface;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.domain.Member.MemberRole;
-import pt.ist.socialsoftware.edition.ldod.dto.EditionTranscriptionsDto;
-import pt.ist.socialsoftware.edition.ldod.dto.TranscriptionDto;
 import pt.ist.socialsoftware.edition.ldod.frontend.game.validator.ClassificationGameValidator;
 import pt.ist.socialsoftware.edition.ldod.frontend.virtual.validator.VirtualEditionValidator;
 import pt.ist.socialsoftware.edition.ldod.session.LdoDSession;
@@ -276,39 +272,6 @@ public class VirtualEditionController {
         ldoDSession.toggleSelectedVirtualEdition(user, virtualEdition);
 
         return "redirect:/virtualeditions";
-    }
-
-    @RequestMapping(method = RequestMethod.GET, value = "/acronym/{acronym}/{category}/transcriptions")
-    @PreAuthorize("hasPermission(#acronym, 'editionacronym.public')")
-    public @ResponseBody
-    ResponseEntity<EditionTranscriptionsDto> getTranscriptionsTag(Model model,
-                                                                  @PathVariable String acronym, @PathVariable String category) {
-        logger.debug("getTranscriptionsTag acronym:{}, category:{}", acronym, category);
-
-        VirtualEdition virtualEdition = VirtualModule.getInstance().getVirtualEdition(acronym);
-
-        if (virtualEdition == null) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        } else {
-            List<TranscriptionDto> transcriptions = new ArrayList<>();
-
-            Category categoryObject = virtualEdition.getTaxonomy().getCategory(category);
-
-            if (categoryObject == null) {
-                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-            }
-
-            for (Tag tag : categoryObject.getTagSet()) {
-                if (tag.getAnnotation() != null) {
-                    String title = tag.getInter().getTitle();
-                    String text = tag.getAnnotation().getQuote();
-
-                    transcriptions.add(new TranscriptionDto(title, text));
-                }
-            }
-
-            return new ResponseEntity<>(new EditionTranscriptionsDto(transcriptions), HttpStatus.OK);
-        }
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/restricted/{externalId}/participants")

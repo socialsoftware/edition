@@ -1,7 +1,10 @@
 package pt.ist.socialsoftware.edition.ldod.virtual.api.dto;
 
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
+import pt.ist.socialsoftware.edition.ldod.text.api.dto.ScholarInterDto;
 import pt.ist.socialsoftware.edition.ldod.virtual.api.VirtualProvidesInterface;
+
+import java.util.List;
 
 
 public class VirtualEditionInterDto {
@@ -25,6 +28,10 @@ public class VirtualEditionInterDto {
         this.xmlId = xmlId;
     }
 
+    public String getExternalId() {
+        return this.virtualProvidesInterface.getVirtualEditionInterExternalId(this.xmlId);
+    }
+
     public String getTitle() {
         return this.virtualProvidesInterface.getVirtualEditionInterTitle(this.xmlId);
     }
@@ -41,10 +48,13 @@ public class VirtualEditionInterDto {
         return this.virtualProvidesInterface.getVirtualEditionInterShortName(this.xmlId);
     }
 
-    public String getUsesScholarInterId() {
-        return this.virtualProvidesInterface.getUsesVirtualEditionInterId(this.xmlId);
+    public ScholarInterDto getLastUsed() {
+        return this.virtualProvidesInterface.getVirtualEditionLastUsedScholarInter(this.xmlId);
 
     }
 
+    public List<String> getCategorySet() {
+        return this.virtualProvidesInterface.getVirtualEditionInterCategoryList(this.xmlId);
+    }
 
 }

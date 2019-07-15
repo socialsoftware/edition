@@ -1,6 +1,7 @@
 package pt.ist.socialsoftware.edition.ldod.text.api.dto;
 
 import pt.ist.socialsoftware.edition.ldod.domain.Heteronym;
+import pt.ist.socialsoftware.edition.ldod.domain.NullHeteronym;
 
 public class HeteronymDto {
     private String name;
@@ -28,4 +29,7 @@ public class HeteronymDto {
         this.xmlId = xmlId;
     }
 
+    public boolean isNullHeteronym() {
+        return this.name.equals(NullHeteronym.NULL_NAME);
+    }
 }

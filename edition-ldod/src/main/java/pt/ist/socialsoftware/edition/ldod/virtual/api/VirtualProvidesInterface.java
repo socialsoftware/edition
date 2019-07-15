@@ -2,17 +2,16 @@ package pt.ist.socialsoftware.edition.ldod.virtual.api;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import pt.ist.socialsoftware.edition.ldod.domain.Category;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualModule;
+import pt.ist.socialsoftware.edition.ldod.text.api.dto.ScholarInterDto;
 import pt.ist.socialsoftware.edition.ldod.virtual.api.dto.VirtualEditionDto;
 import pt.ist.socialsoftware.edition.ldod.virtual.api.dto.VirtualEditionInterDto;
 import pt.ist.socialsoftware.edition.ldod.visual.api.dto.EditionInterListDto;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class VirtualProvidesInterface {
@@ -54,6 +53,17 @@ public class VirtualProvidesInterface {
         return getVirtualEditionInterByXmlId(xmlId).map(VirtualEditionInter::getTitle).orElse(null);
     }
 
+    public List<String> getVirtualEditionInterCategoryList(String xmlId) {
+        return getVirtualEditionInterByXmlId(xmlId)
+                .map(virtualEditionInter -> virtualEditionInter.getCategories().stream()
+                        .map(Category::getName).collect(Collectors.toList()))
+                .orElse(new ArrayList<>());
+    }
+
+    public String getVirtualEditionInterExternalId(String xmlId) {
+        return getVirtualEditionInterByXmlId(xmlId).map(VirtualEditionInter::getExternalId).orElse(null);
+    }
+
     public String getFragmentXmlIdVirtualEditionInter(String xmlId) {
         return getVirtualEditionInterByXmlId(xmlId).map(VirtualEditionInter::getFragmentXmlId).orElse(null);
     }
@@ -66,8 +76,8 @@ public class VirtualProvidesInterface {
         return getVirtualEditionInterByXmlId(xmlId).map(VirtualEditionInter::getShortName).orElse(null);
     }
 
-    public String getUsesVirtualEditionInterId(String xmlId) {
-        return getVirtualEditionInterByXmlId(xmlId).map(VirtualEditionInter::getUsesXmlId).orElse(null);
+    public ScholarInterDto getVirtualEditionLastUsedScholarInter(String xmlId) {
+        return getVirtualEditionInterByXmlId(xmlId).map(VirtualEditionInter::getLastUsed).orElse(null);
     }
 
     public Set<String> getTagsForVirtualEditionInter(String xmlId) {
@@ -87,6 +97,21 @@ public class VirtualProvidesInterface {
                 .filter(virtualEdition -> virtualEdition.getPub())
                 .map(virtualEdition -> new EditionInterListDto(virtualEdition, false))
                 .collect(Collectors.toList());
+    }
+
+    public List<String> getVirtualEditionSortedCategoryList(String acronym) {
+        return VirtualModule.getInstance()
+                .getVirtualEdition(acronym)
+                .getTaxonomy()
+                .getCategoriesSet().stream()
+                .map(Category::getName)
+                .sorted()
+                .collect(Collectors.toList());
+    }
+
+    public Set<VirtualEditionInterDto> getVirtualEditionInterDtoSet(String acronym) {
+        return VirtualModule.getInstance().getVirtualEdition(acronym).getAllDepthVirtualEditionInters().stream()
+                .map(VirtualEditionInterDto::new).collect(Collectors.toSet());
     }
 
     private Optional<VirtualEditionInter> getVirtualEditionInterByXmlId(String xmlId) {

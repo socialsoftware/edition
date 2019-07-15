@@ -3,6 +3,9 @@ package pt.ist.socialsoftware.edition.ldod.virtual.api.dto;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.ldod.virtual.api.VirtualProvidesInterface;
 
+import java.util.List;
+import java.util.Set;
+
 public class VirtualEditionDto {
     private final VirtualProvidesInterface virtualProvidesInterface = new VirtualProvidesInterface();
 
@@ -26,4 +29,11 @@ public class VirtualEditionDto {
         return this.virtualProvidesInterface.getVirtualEditionTitleByAcronym(this.acronym);
     }
 
+    public List<String> getSortedCategorySet() {
+        return this.virtualProvidesInterface.getVirtualEditionSortedCategoryList(this.acronym);
+    }
+
+    public Set<VirtualEditionInterDto> getVirtualEditionInterDtoSet() {
+        return this.virtualProvidesInterface.getVirtualEditionInterDtoSet(this.acronym);
+    }
 }
